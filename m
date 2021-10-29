@@ -2,50 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 486BC4403CF
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 22:07:22 +0200 (CEST)
-Received: from localhost ([::1]:35354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B99AB4403B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 22:02:05 +0200 (CEST)
+Received: from localhost ([::1]:52808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgY9p-0008Vz-1w
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 16:07:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56716)
+	id 1mgY4i-0001GK-Ke
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 16:02:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1mgXWk-00017G-6D; Fri, 29 Oct 2021 15:26:58 -0400
-Received: from [201.28.113.2] (port=50092 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <luis.pires@eldorado.org.br>)
- id 1mgXWi-0000Ch-5k; Fri, 29 Oct 2021 15:26:57 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Fri, 29 Oct 2021 16:24:22 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id DC292800B36;
- Fri, 29 Oct 2021 16:24:21 -0300 (-03)
-From: Luis Pires <luis.pires@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Subject: [PATCH v5 14/15] target/ppc: Move dct{dp, qpq}, dr{sp, dpq}, dc{f,
- t}fix[q], dxex[q] to decodetree
-Date: Fri, 29 Oct 2021 16:24:16 -0300
-Message-Id: <20211029192417.400707-15-luis.pires@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211029192417.400707-1-luis.pires@eldorado.org.br>
-References: <20211029192417.400707-1-luis.pires@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mgXaL-0000kp-Ot
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 15:30:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36273)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mgXaF-0000wJ-Pc
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 15:30:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635535834;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sfO0VKqzcRFqY1a29Th6RwkPa/sPCyJ1y11Mk0K9dEA=;
+ b=L9NPMBBNGg4ZO60Uc5IXi28OgFUG9IkPUo9uVFAfCcODGjZpi/6ilGb9y+AgvRTrAVGOZL
+ E3b7IsEc+KOpn66E4wARrRJUfssXmTpwJPila3YyeCr1YoJariWJjNwF2OS5WCgmEYYtDs
+ L28NT81uJxYL2a77eoz+qOA0EGAC3/k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-590-uUiajox_MkavgYB4Z9tAtA-1; Fri, 29 Oct 2021 15:30:29 -0400
+X-MC-Unique: uUiajox_MkavgYB4Z9tAtA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D856A10A8E04;
+ Fri, 29 Oct 2021 19:30:28 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 550A2100EBBF;
+ Fri, 29 Oct 2021 19:30:17 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E0F9811380AA; Fri, 29 Oct 2021 21:30:15 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 1/9] qapi: New special feature flag "unstable"
+Date: Fri, 29 Oct 2021 21:30:07 +0200
+Message-Id: <20211029193015.1312198-2-armbru@redhat.com>
+In-Reply-To: <20211029193015.1312198-1-armbru@redhat.com>
+References: <20211029193015.1312198-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 29 Oct 2021 19:24:22.0165 (UTC)
- FILETIME=[93A4A450:01D7CCFA]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=luis.pires@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,319 +78,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Luis Pires <luis.pires@eldorado.org.br>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- richard.henderson@linaro.org, groug@kaod.org, david@gibson.dropbear.id.au
+Cc: John Snow <jsnow@redhat.com>, richard.henderson@linaro.org,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the following instructions to decodetree:
-dctdp:   DFP Convert To DFP Long
-dctqpq:  DFP Convert To DFP Extended
-drsp:    DFP Round To DFP Short
-drdpq:   DFP Round To DFP Long
-dcffix:  DFP Convert From Fixed
-dcffixq: DFP Convert From Fixed Quad
-dctfix:  DFP Convert To Fixed
-dctfixq: DFP Convert To Fixed Quad
-dxex:    DFP Extract Biased Exponent
-dxexq:   DFP Extract Biased Exponent Quad
+By convention, names starting with "x-" are experimental.  The parts
+of external interfaces so named may be withdrawn or changed
+incompatibly in future releases.
 
-Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+The naming convention makes unstable interfaces easy to recognize.
+Promoting something from experimental to stable involves a name
+change.  Client code needs to be updated.  Occasionally bothersome.
+
+Worse, the convention is not universally observed:
+
+* QOM type "input-barrier" has properties "x-origin", "y-origin".
+  Looks accidental, but it's ABI since 4.2.
+
+* QOM types "memory-backend-file", "memory-backend-memfd",
+  "memory-backend-ram", and "memory-backend-epc" have a property
+  "x-use-canonical-path-for-ramblock-id" that is documented to be
+  stable despite its name.
+
+We could document these exceptions, but documentation helps only
+humans.  We want to recognize "unstable" in code, like "deprecated".
+
+So support recognizing it the same way: introduce new special feature
+flag "unstable".  It will be treated specially by the QAPI generator,
+like the existing feature flag "deprecated", and unlike regular
+feature flags.
+
+This commit updates documentation and prepares tests.  The next commit
+updates the QAPI schema.  The remaining patches update the QAPI
+generator and wire up -compat policy checking.
+
+Management applications can then use query-qmp-schema and -compat to
+manage or guard against use of unstable interfaces the same way as for
+deprecated interfaces.
+
+docs/devel/qapi-code-gen.txt no longer mandates the naming convention.
+Using it anyway might help writers of programs that aren't
+full-fledged management applications.  Not using it can save us
+bothersome renames.  We'll see how that shakes out.
+
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Message-Id: <20211028102520.747396-2-armbru@redhat.com>
 ---
- target/ppc/dfp_helper.c             | 20 +++++------
- target/ppc/helper.h                 | 20 +++++------
- target/ppc/insn32.decode            | 23 ++++++++++++
- target/ppc/translate/dfp-impl.c.inc | 54 ++++++++++++++---------------
- target/ppc/translate/dfp-ops.c.inc  | 22 ------------
- 5 files changed, 69 insertions(+), 70 deletions(-)
+ docs/devel/qapi-code-gen.rst            | 9 ++++++---
+ tests/qapi-schema/qapi-schema-test.json | 7 +++++--
+ tests/qapi-schema/qapi-schema-test.out  | 5 +++++
+ 3 files changed, 16 insertions(+), 5 deletions(-)
 
-diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
-index a50a73d3c0..d950d0d3fc 100644
---- a/target/ppc/dfp_helper.c
-+++ b/target/ppc/dfp_helper.c
-@@ -885,7 +885,7 @@ static void RINTN_PPs(struct PPC_DFP *dfp)
- DFP_HELPER_RINT(DRINTN, RINTN_PPs, 64)
- DFP_HELPER_RINT(DRINTNQ, RINTN_PPs, 128)
+diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
+index 4071c9074a..38f2d7aad3 100644
+--- a/docs/devel/qapi-code-gen.rst
++++ b/docs/devel/qapi-code-gen.rst
+@@ -713,6 +713,10 @@ member as deprecated.  It is not supported elsewhere so far.
+ Interfaces so marked may be withdrawn in future releases in accordance
+ with QEMU's deprecation policy.
  
--void helper_dctdp(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
-+void helper_DCTDP(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
- {
-     struct PPC_DFP dfp;
-     ppc_vsr_t vb;
-@@ -901,7 +901,7 @@ void helper_dctdp(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
-     dfp_set_FPRF_from_FRT(&dfp);
- }
- 
--void helper_dctqpq(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
-+void helper_DCTQPQ(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
- {
-     struct PPC_DFP dfp;
-     ppc_vsr_t vb;
-@@ -916,7 +916,7 @@ void helper_dctqpq(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
-     set_dfp128(t, &dfp.vt);
- }
- 
--void helper_drsp(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
-+void helper_DRSP(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
- {
-     struct PPC_DFP dfp;
-     uint32_t t_short = 0;
-@@ -934,7 +934,7 @@ void helper_drsp(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
-     set_dfp64(t, &vt);
- }
- 
--void helper_drdpq(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
-+void helper_DRDPQ(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
- {
-     struct PPC_DFP dfp;
-     dfp_prepare_decimal128(&dfp, 0, b, env);
-@@ -972,8 +972,8 @@ static void CFFIX_PPs(struct PPC_DFP *dfp)
-     dfp_check_for_XX(dfp);
- }
- 
--DFP_HELPER_CFFIX(dcffix, 64)
--DFP_HELPER_CFFIX(dcffixq, 128)
-+DFP_HELPER_CFFIX(DCFFIX, 64)
-+DFP_HELPER_CFFIX(DCFFIXQ, 128)
- 
- void helper_DCFFIXQQ(CPUPPCState *env, ppc_fprp_t *t, ppc_avr_t *b)
- {
-@@ -1022,8 +1022,8 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)              \
-     set_dfp64(t, &dfp.vt);                                                    \
- }
- 
--DFP_HELPER_CTFIX(dctfix, 64)
--DFP_HELPER_CTFIX(dctfixq, 128)
-+DFP_HELPER_CTFIX(DCTFIX, 64)
-+DFP_HELPER_CTFIX(DCTFIXQ, 128)
- 
- void helper_DCTFIXQQ(CPUPPCState *env, ppc_avr_t *t, ppc_fprp_t *b)
- {
-@@ -1233,8 +1233,8 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b) \
-     }                                                          \
- }
- 
--DFP_HELPER_XEX(dxex, 64)
--DFP_HELPER_XEX(dxexq, 128)
-+DFP_HELPER_XEX(DXEX, 64)
-+DFP_HELPER_XEX(DXEXQ, 128)
- 
- static void dfp_set_raw_exp_64(ppc_vsr_t *t, uint64_t raw)
- {
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index cb05cc168c..4c2a349ce6 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -728,22 +728,22 @@ DEF_HELPER_5(DRINTX, void, env, fprp, fprp, i32, i32)
- DEF_HELPER_5(DRINTXQ, void, env, fprp, fprp, i32, i32)
- DEF_HELPER_5(DRINTN, void, env, fprp, fprp, i32, i32)
- DEF_HELPER_5(DRINTNQ, void, env, fprp, fprp, i32, i32)
--DEF_HELPER_3(dctdp, void, env, fprp, fprp)
--DEF_HELPER_3(dctqpq, void, env, fprp, fprp)
--DEF_HELPER_3(drsp, void, env, fprp, fprp)
--DEF_HELPER_3(drdpq, void, env, fprp, fprp)
--DEF_HELPER_3(dcffix, void, env, fprp, fprp)
--DEF_HELPER_3(dcffixq, void, env, fprp, fprp)
-+DEF_HELPER_3(DCTDP, void, env, fprp, fprp)
-+DEF_HELPER_3(DCTQPQ, void, env, fprp, fprp)
-+DEF_HELPER_3(DRSP, void, env, fprp, fprp)
-+DEF_HELPER_3(DRDPQ, void, env, fprp, fprp)
-+DEF_HELPER_3(DCFFIX, void, env, fprp, fprp)
-+DEF_HELPER_3(DCFFIXQ, void, env, fprp, fprp)
- DEF_HELPER_3(DCFFIXQQ, void, env, fprp, avr)
--DEF_HELPER_3(dctfix, void, env, fprp, fprp)
--DEF_HELPER_3(dctfixq, void, env, fprp, fprp)
-+DEF_HELPER_3(DCTFIX, void, env, fprp, fprp)
-+DEF_HELPER_3(DCTFIXQ, void, env, fprp, fprp)
- DEF_HELPER_3(DCTFIXQQ, void, env, avr, fprp)
- DEF_HELPER_4(ddedpd, void, env, fprp, fprp, i32)
- DEF_HELPER_4(ddedpdq, void, env, fprp, fprp, i32)
- DEF_HELPER_4(denbcd, void, env, fprp, fprp, i32)
- DEF_HELPER_4(denbcdq, void, env, fprp, fprp, i32)
--DEF_HELPER_3(dxex, void, env, fprp, fprp)
--DEF_HELPER_3(dxexq, void, env, fprp, fprp)
-+DEF_HELPER_3(DXEX, void, env, fprp, fprp)
-+DEF_HELPER_3(DXEXQ, void, env, fprp, fprp)
- DEF_HELPER_4(DIEX, void, env, fprp, fprp, fprp)
- DEF_HELPER_4(DIEXQ, void, env, fprp, fprp, fprp)
- DEF_HELPER_4(dscri, void, env, fprp, fprp, i32)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 86dbdada47..2ce8b0ab95 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -47,6 +47,15 @@
- 
- @X_tp_a_bp_rc   ...... ....0 ra:5 ....0 .......... rc:1         &X_rc rt=%x_frtp rb=%x_frbp
- 
-+&X_tb_rc        rt rb rc:bool
-+@X_tb_rc        ...... rt:5 ..... rb:5 .......... rc:1          &X_tb_rc
++Feature "unstable" marks a command, event, enum value, or struct
++member as unstable.  It is not supported elsewhere so far.  Interfaces
++so marked may be withdrawn or changed incompatibly in future releases.
 +
-+@X_tbp_rc       ...... ....0 ..... ....0 .......... rc:1        &X_tb_rc rt=%x_frtp rb=%x_frbp
+ 
+ Naming rules and reserved names
+ -------------------------------
+@@ -746,9 +750,8 @@ Member name ``u`` and names starting with ``has-`` or ``has_`` are reserved
+ for the generator, which uses them for unions and for tracking
+ optional members.
+ 
+-Any name (command, event, type, member, or enum value) beginning with
+-``x-`` is marked experimental, and may be withdrawn or changed
+-incompatibly in a future release.
++Names beginning with ``x-`` used to signify "experimental".  This
++convention has been replaced by special feature "unstable".
+ 
+ Pragmas ``command-name-exceptions`` and ``member-name-exceptions`` let
+ you violate naming rules.  Use for new code is strongly discouraged. See
+diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
+index b677ab861d..43b8697002 100644
+--- a/tests/qapi-schema/qapi-schema-test.json
++++ b/tests/qapi-schema/qapi-schema-test.json
+@@ -273,7 +273,7 @@
+   'data': { 'foo': { 'type': 'int', 'features': [ 'deprecated' ] } },
+   'features': [ 'feature1' ] }
+ { 'struct': 'FeatureStruct2',
+-  'data': { 'foo': 'int' },
++  'data': { 'foo': { 'type': 'int', 'features': [ 'unstable' ] } },
+   'features': [ { 'name': 'feature1' } ] }
+ { 'struct': 'FeatureStruct3',
+   'data': { 'foo': 'int' },
+@@ -331,7 +331,7 @@
+ { 'command': 'test-command-features1',
+   'features': [ 'deprecated' ] }
+ { 'command': 'test-command-features3',
+-  'features': [ 'feature1', 'feature2' ] }
++  'features': [ 'unstable', 'feature1', 'feature2' ] }
+ 
+ { 'command': 'test-command-cond-features1',
+   'features': [ { 'name': 'feature1', 'if': 'TEST_IF_FEATURE_1'} ] }
+@@ -348,3 +348,6 @@
+ 
+ { 'event': 'TEST_EVENT_FEATURES1',
+   'features': [ 'deprecated' ] }
 +
-+@X_tp_b_rc      ...... ....0 ..... rb:5 .......... rc:1         &X_tb_rc rt=%x_frtp
-+
-+@X_t_bp_rc      ...... rt:5 ..... ....0 .......... rc:1         &X_tb_rc rb=%x_frbp
-+
- &X_bi           rt bi
- @X_bi           ...... rt:5 bi:5 ----- .......... -     &X_bi
- 
-@@ -233,11 +242,25 @@ DRINTNQ         111111 ..... ---- . ..... .. 11100011 . @Z23_tbp
- 
- ### Decimal Floating-Point Conversion Instructions
- 
-+DCTDP           111011 ..... ----- ..... 0100000010 .   @X_tb_rc
-+DCTQPQ          111111 ..... ----- ..... 0100000010 .   @X_tp_b_rc
-+
-+DRSP            111011 ..... ----- ..... 1100000010 .   @X_tb_rc
-+DRDPQ           111111 ..... ----- ..... 1100000010 .   @X_tbp_rc
-+
-+DCFFIX          111011 ..... ----- ..... 1100100010 .   @X_tb_rc
-+DCFFIXQ         111111 ..... ----- ..... 1100100010 .   @X_tp_b_rc
- DCFFIXQQ        111111 ..... 00000 ..... 1111100010 -   @X_frtp_vrb
-+
-+DCTFIX          111011 ..... ----- ..... 0100100010 .   @X_tb_rc
-+DCTFIXQ         111111 ..... ----- ..... 0100100010 .   @X_t_bp_rc
- DCTFIXQQ        111111 ..... 00001 ..... 1111100010 -   @X_vrt_frbp
- 
- ### Decimal Floating-Point Format Instructions
- 
-+DXEX            111011 ..... ----- ..... 0101100010 .   @X_tb_rc
-+DXEXQ           111111 ..... ----- ..... 0101100010 .   @X_t_bp_rc
-+
- DIEX            111011 ..... ..... ..... 1101100010 .   @X_rc
- DIEXQ           111111 ..... ..... ..... 1101100010 .   @X_tp_a_bp_rc
- 
-diff --git a/target/ppc/translate/dfp-impl.c.inc b/target/ppc/translate/dfp-impl.c.inc
-index 30d65ffb46..736292584c 100644
---- a/target/ppc/translate/dfp-impl.c.inc
-+++ b/target/ppc/translate/dfp-impl.c.inc
-@@ -106,23 +106,22 @@ static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a)   \
-     return true;                                             \
- }
- 
--#define GEN_DFP_T_B_Rc(name)                     \
--static void gen_##name(DisasContext *ctx)        \
--{                                                \
--    TCGv_ptr rt, rb;                             \
--    if (unlikely(!ctx->fpu_enabled)) {           \
--        gen_exception(ctx, POWERPC_EXCP_FPU);    \
--        return;                                  \
--    }                                            \
--    rt = gen_fprp_ptr(rD(ctx->opcode));          \
--    rb = gen_fprp_ptr(rB(ctx->opcode));          \
--    gen_helper_##name(cpu_env, rt, rb);          \
--    if (unlikely(Rc(ctx->opcode) != 0)) {        \
--        gen_set_cr1_from_fpscr(ctx);             \
--    }                                            \
--    tcg_temp_free_ptr(rt);                       \
--    tcg_temp_free_ptr(rb);                       \
--    }
-+#define TRANS_DFP_T_B_Rc(NAME)                               \
-+static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a)   \
-+{                                                            \
-+    TCGv_ptr rt, rb;                                         \
-+    REQUIRE_INSNS_FLAGS2(ctx, DFP);                          \
-+    REQUIRE_FPU(ctx);                                        \
-+    rt = gen_fprp_ptr(a->rt);                                \
-+    rb = gen_fprp_ptr(a->rb);                                \
-+    gen_helper_##NAME(cpu_env, rt, rb);                      \
-+    if (unlikely(a->rc)) {                                   \
-+        gen_set_cr1_from_fpscr(ctx);                         \
-+    }                                                        \
-+    tcg_temp_free_ptr(rt);                                   \
-+    tcg_temp_free_ptr(rb);                                   \
-+    return true;                                             \
-+}
- 
- #define GEN_DFP_T_FPR_I32_Rc(name, fprfld, i32fld) \
- static void gen_##name(DisasContext *ctx)          \
-@@ -177,20 +176,20 @@ TRANS_DFP_T_B_U32_U32_Rc(DRINTX, r, rmc)
- TRANS_DFP_T_B_U32_U32_Rc(DRINTXQ, r, rmc)
- TRANS_DFP_T_B_U32_U32_Rc(DRINTN, r, rmc)
- TRANS_DFP_T_B_U32_U32_Rc(DRINTNQ, r, rmc)
--GEN_DFP_T_B_Rc(dctdp)
--GEN_DFP_T_B_Rc(dctqpq)
--GEN_DFP_T_B_Rc(drsp)
--GEN_DFP_T_B_Rc(drdpq)
--GEN_DFP_T_B_Rc(dcffix)
--GEN_DFP_T_B_Rc(dcffixq)
--GEN_DFP_T_B_Rc(dctfix)
--GEN_DFP_T_B_Rc(dctfixq)
-+TRANS_DFP_T_B_Rc(DCTDP)
-+TRANS_DFP_T_B_Rc(DCTQPQ)
-+TRANS_DFP_T_B_Rc(DRSP)
-+TRANS_DFP_T_B_Rc(DRDPQ)
-+TRANS_DFP_T_B_Rc(DCFFIX)
-+TRANS_DFP_T_B_Rc(DCFFIXQ)
-+TRANS_DFP_T_B_Rc(DCTFIX)
-+TRANS_DFP_T_B_Rc(DCTFIXQ)
- GEN_DFP_T_FPR_I32_Rc(ddedpd, rB, SP)
- GEN_DFP_T_FPR_I32_Rc(ddedpdq, rB, SP)
- GEN_DFP_T_FPR_I32_Rc(denbcd, rB, SP)
- GEN_DFP_T_FPR_I32_Rc(denbcdq, rB, SP)
--GEN_DFP_T_B_Rc(dxex)
--GEN_DFP_T_B_Rc(dxexq)
-+TRANS_DFP_T_B_Rc(DXEX)
-+TRANS_DFP_T_B_Rc(DXEXQ)
- TRANS_DFP_T_A_B_Rc(DIEX)
- TRANS_DFP_T_A_B_Rc(DIEXQ)
- GEN_DFP_T_FPR_I32_Rc(dscli, rA, DCM)
-@@ -198,7 +197,6 @@ GEN_DFP_T_FPR_I32_Rc(dscliq, rA, DCM)
- GEN_DFP_T_FPR_I32_Rc(dscri, rA, DCM)
- GEN_DFP_T_FPR_I32_Rc(dscriq, rA, DCM)
- 
--#undef GEN_DFP_T_B_Rc
- #undef GEN_DFP_T_FPR_I32_Rc
- 
- static bool trans_DCFFIXQQ(DisasContext *ctx, arg_DCFFIXQQ *a)
-diff --git a/target/ppc/translate/dfp-ops.c.inc b/target/ppc/translate/dfp-ops.c.inc
-index 3e0dfae796..e29c4b2194 100644
---- a/target/ppc/translate/dfp-ops.c.inc
-+++ b/target/ppc/translate/dfp-ops.c.inc
-@@ -12,18 +12,6 @@ GEN_HANDLER_E(name, 0x3F, op1, op2, mask, PPC_NONE, PPC2_DFP)
- GEN_HANDLER_E(name, 0x3F, op1, 0x00 | op2, mask, PPC_NONE, PPC2_DFP), \
- GEN_HANDLER_E(name, 0x3F, op1, 0x10 | op2, mask, PPC_NONE, PPC2_DFP)
- 
--#define GEN_DFP_T_B_Rc(name, op1, op2) \
--_GEN_DFP_LONG(name, op1, op2, 0x001F0000)
--
--#define GEN_DFP_Tp_Bp_Rc(name, op1, op2) \
--_GEN_DFP_QUAD(name, op1, op2, 0x003F0800)
--
--#define GEN_DFP_Tp_B_Rc(name, op1, op2) \
--_GEN_DFP_QUAD(name, op1, op2, 0x003F0000)
--
--#define GEN_DFP_T_Bp_Rc(name, op1, op2) \
--_GEN_DFP_QUAD(name, op1, op2, 0x001F0800)
--
- #define GEN_DFP_SP_T_B_Rc(name, op1, op2) \
- _GEN_DFP_LONG(name, op1, op2, 0x00070000)
- 
-@@ -42,20 +30,10 @@ _GEN_DFP_LONGx2(name, op1, op2, 0x00000000)
- #define GEN_DFP_Tp_Ap_SH_Rc(name, op1, op2) \
- _GEN_DFP_QUADx2(name, op1, op2, 0x00210000)
- 
--GEN_DFP_T_B_Rc(dctdp, 0x02, 0x08),
--GEN_DFP_Tp_B_Rc(dctqpq, 0x02, 0x08),
--GEN_DFP_T_B_Rc(drsp, 0x02, 0x18),
--GEN_DFP_Tp_Bp_Rc(drdpq, 0x02, 0x18),
--GEN_DFP_T_B_Rc(dcffix, 0x02, 0x19),
--GEN_DFP_Tp_B_Rc(dcffixq, 0x02, 0x19),
--GEN_DFP_T_B_Rc(dctfix, 0x02, 0x09),
--GEN_DFP_T_Bp_Rc(dctfixq, 0x02, 0x09),
- GEN_DFP_SP_T_B_Rc(ddedpd, 0x02, 0x0a),
- GEN_DFP_SP_Tp_Bp_Rc(ddedpdq, 0x02, 0x0a),
- GEN_DFP_S_T_B_Rc(denbcd, 0x02, 0x1a),
- GEN_DFP_S_Tp_Bp_Rc(denbcdq, 0x02, 0x1a),
--GEN_DFP_T_B_Rc(dxex, 0x02, 0x0b),
--GEN_DFP_T_Bp_Rc(dxexq, 0x02, 0x0b),
- GEN_DFP_T_A_SH_Rc(dscli, 0x02, 0x02),
- GEN_DFP_Tp_Ap_SH_Rc(dscliq, 0x02, 0x02),
- GEN_DFP_T_A_SH_Rc(dscri, 0x02, 0x03),
++{ 'event': 'TEST_EVENT_FEATURES2',
++  'features': [ 'unstable' ] }
+diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qapi-schema-test.out
+index 16846dbeb8..1f9585fa9b 100644
+--- a/tests/qapi-schema/qapi-schema-test.out
++++ b/tests/qapi-schema/qapi-schema-test.out
+@@ -308,6 +308,7 @@ object FeatureStruct1
+     feature feature1
+ object FeatureStruct2
+     member foo: int optional=False
++        feature unstable
+     feature feature1
+ object FeatureStruct3
+     member foo: int optional=False
+@@ -373,6 +374,7 @@ command test-command-features1 None -> None
+     feature deprecated
+ command test-command-features3 None -> None
+     gen=True success_response=True boxed=False oob=False preconfig=False
++    feature unstable
+     feature feature1
+     feature feature2
+ command test-command-cond-features1 None -> None
+@@ -394,6 +396,9 @@ event TEST_EVENT_FEATURES0 FeatureStruct1
+ event TEST_EVENT_FEATURES1 None
+     boxed=False
+     feature deprecated
++event TEST_EVENT_FEATURES2 None
++    boxed=False
++    feature unstable
+ module include/sub-module.json
+ include sub-sub-module.json
+ object SecondArrayRef
 -- 
-2.25.1
+2.31.1
 
 
