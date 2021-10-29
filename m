@@ -2,88 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7838E43F519
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 04:55:41 +0200 (CEST)
-Received: from localhost ([::1]:41002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 208EF43F546
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 05:13:25 +0200 (CEST)
+Received: from localhost ([::1]:45894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgI3Q-0004y1-3t
-	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 22:55:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35096)
+	id 1mgIKZ-0000Wm-P5
+	for lists+qemu-devel@lfdr.de; Thu, 28 Oct 2021 23:13:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mgI1I-0004CN-JW
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 22:53:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58356)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mgIIr-0008Gu-HP
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 23:11:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mgI1E-00078C-Jb
- for qemu-devel@nongnu.org; Thu, 28 Oct 2021 22:53:27 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mgIIn-0008Qh-GC
+ for qemu-devel@nongnu.org; Thu, 28 Oct 2021 23:11:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635476000;
+ s=mimecast20190719; t=1635477091;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2PBnghD5A92d9V/EXsB8wlxmUegvFaNrQoKFpKqztVY=;
- b=UOIvIKsDN8B38HFjmWGMZ7GIKwmjLZQ3TXfEJIrTsntTEzhdbYhJzbjH3yUizgUt3WPeNw
- PbVlM7bEZ1lrWCkWIlTo9FD2k+rG0DK+q7y0uXAN6k1tu7ko6JG/afd27rOd0We2D82twB
- j3Q6YoJNam9LyzTgbeAX7GoPxGGh9QQ=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-ZUiE6gdrMvW33ghTjx8jzw-1; Thu, 28 Oct 2021 22:53:16 -0400
-X-MC-Unique: ZUiE6gdrMvW33ghTjx8jzw-1
-Received: by mail-pl1-f199.google.com with SMTP id
- w12-20020a170902d70c00b0014028fd6402so3650246ply.6
- for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 19:53:16 -0700 (PDT)
+ bh=8Az0i/SgEZIeg2AYiA0nZUSUHPDIpR4ZMZRDGBoYE6E=;
+ b=grk9aBxZcqpCScz8FuhZKZoaQXxhh0v9dlkHhojCpvuB2K6nlsI2c5C7/+H7+GFvAND7d9
+ HzCY+iiAG9JW2lZB1W/fEg8KJ2h6BY3mfFvCbhw1LGJqVGJAd+p568PZ39GLGGrWEp3Boo
+ 8umO+Jqoq6ee/qcDfHHT8RMKJF80WhI=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-115-Z3ex18msM7OX1yT1FVldHQ-1; Thu, 28 Oct 2021 23:11:30 -0400
+X-MC-Unique: Z3ex18msM7OX1yT1FVldHQ-1
+Received: by mail-pg1-f199.google.com with SMTP id
+ d6-20020a63d646000000b00268d368ead8so4371962pgj.6
+ for <qemu-devel@nongnu.org>; Thu, 28 Oct 2021 20:11:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=2PBnghD5A92d9V/EXsB8wlxmUegvFaNrQoKFpKqztVY=;
- b=mtgfUXB4rdqbnRP/1xmlt1uRO9OkiDrtPf+I57UZAVrp7D0NpyA/V/j/8eXhheGYvh
- LFJjFouQQEHzgGoMtrzJu/jlATQg7dWDDeAypmERoGu0+Qphf9n7K5MQqunSYAENmTQU
- fF+CL1lNyvoN1hI3a+VCjMqttu3nNb7Ha1U+s4Uluy623uL1dVmYRzxAk0225E9xr9zF
- Tenz0E3ik/S5AqykJksf55wNdaWji5ovYiLdor6QC0RIvvsTCOuRxAgVmEkn9WeI0dbX
- Hc+Ovxypx3Fg7WXgx5iKqxvS7IrRTXrsWwDX5gZ1BMEdeKqgEEfh1xW53pVh0PZ9XDq0
- KiWg==
-X-Gm-Message-State: AOAM532QxNTJNaCLberrOJ4lKAD3gz2Oot2PJR1D53D7q+NLlScvNLmI
- Dw1lJqwF9bkzeo5KlE9kw9WBD6HMESVPSmfv12X42BVcU8l9uW6IhXKeLouTDP0JNcvWw8Eh9DP
- HfJGQcOmiUIh7E0w=
-X-Received: by 2002:a17:90b:3846:: with SMTP id
- nl6mr8711982pjb.53.1635475995062; 
- Thu, 28 Oct 2021 19:53:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzjD63D6X37rDt0vr0xp0j4SwzCALB+bHjJHftfr/43IpQ60xXLXHaCV8zo5qJ0ukdtTL5lEA==
-X-Received: by 2002:a17:90b:3846:: with SMTP id
- nl6mr8711940pjb.53.1635475994778; 
- Thu, 28 Oct 2021 19:53:14 -0700 (PDT)
-Received: from xz-m1.local ([191.101.132.51])
- by smtp.gmail.com with ESMTPSA id y13sm3950565pgc.46.2021.10.28.19.53.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Oct 2021 19:53:13 -0700 (PDT)
-Date: Fri, 29 Oct 2021 10:53:07 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH v2 5/5] pc/q35: Add pre-plug hook for x86-iommu
-Message-ID: <YXtiE9iInfHcTLwm@xz-m1.local>
-References: <20211028043129.38871-1-peterx@redhat.com>
- <20211028043129.38871-6-peterx@redhat.com>
- <20211028085242.770a9dde.alex.williamson@redhat.com>
- <YXrDgeembpIiJ0BE@xz-m1.local>
- <20211028101135.72672e80.alex.williamson@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=8Az0i/SgEZIeg2AYiA0nZUSUHPDIpR4ZMZRDGBoYE6E=;
+ b=rvoKPWWCk0Lp2dCfqOi2BuEblhgi1FXzVGpKVsQdBJL48SBBuNCO/mkPduIhghdro9
+ E+z+p/mWlwpholMi4P634nemd3VDNd+nOyOCyCkTlc0v1ct6Bvs8bsdZOTo0bukw23pK
+ YfoJCb4PIlDB7QwqJzZbdjWjk+TW26Au8lm6g40uogwB06tIzIX+jxNtPYSfqDDUNbUO
+ sqE218YHXfUHbGp9JG0a5XdQF2ulKIFvgHtQlICkjfraFCa+SFKQ1hL2bjDzeD4OYFwr
+ mESriAiY8WmpYv7dDrSgz+tKO+B7jdP7nkkBUOCaacy9sTr2mjnYpbWt2fFAyaXH/8dh
+ FOyg==
+X-Gm-Message-State: AOAM531pHrF/WJM5XqaMWQcesHAF6U1lXqKOSRNCVSqkLLwcz2rS6hgH
+ GHWlsqJLR7UNTbzHtzBNQROd3r43XHgbqMF5X3ox15YvFcEfB/bPOwPViTAGqd5RFLmbbolgq7A
+ nBygZaBYKIbgBMWM=
+X-Received: by 2002:a17:90b:3504:: with SMTP id
+ ls4mr8660774pjb.111.1635477089081; 
+ Thu, 28 Oct 2021 20:11:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzqzwR42NXij6hfUMWlllbINUadaDADlV32fjGWPOb/nZWR+8icjWLTU6FMeeKOMK8n21A2rw==
+X-Received: by 2002:a17:90b:3504:: with SMTP id
+ ls4mr8660733pjb.111.1635477088588; 
+ Thu, 28 Oct 2021 20:11:28 -0700 (PDT)
+Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id b10sm5079527pfl.200.2021.10.28.20.11.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Oct 2021 20:11:28 -0700 (PDT)
+Subject: Re: [PATCH V5 1/3] net/filter: Optimize transfer protocol for
+ filter-mirror/redirector
+To: Zhang Chen <chen.zhang@intel.com>
+References: <20211028090556.3168043-1-chen.zhang@intel.com>
+ <20211028090556.3168043-2-chen.zhang@intel.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <c603b048-1cee-1396-811d-8be857aa932b@redhat.com>
+Date: Fri, 29 Oct 2021 11:11:23 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211028101135.72672e80.alex.williamson@redhat.com>
+In-Reply-To: <20211028090556.3168043-2-chen.zhang@intel.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-2.847, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,72 +103,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- Jason Wang <jasowang@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-dev <qemu-devel@nongnu.org>, Li Zhijian <lizhijian@cn.fujitsu.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 28, 2021 at 10:11:35AM -0600, Alex Williamson wrote:
-> Better.  Like the class layering proposal, a downside is that the
-> driver needs to be aware that it's imposing this requirement to be able
-> to mark it in the class init function rather than some automatic means,
-> like an "as_object_consumed" flag set automatically on the device
-> structure via accessors like pci_device_iommu_address_space().  Thanks,
 
-Do you mean something like this?
+ÔÚ 2021/10/28 ÏÂÎç5:05, Zhang Chen Ð´µÀ:
+> Make the vnet header a necessary part of filter transfer protocol.
+> It make other modules(like another filter-redirector,colo-compare...)
+> know how to parse net packet correctly. If local device is not the
+> virtio-net-pci, vnet_hdr_len will be 0.
+>
+> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> ---
+>   net/filter-mirror.c | 34 ++++++++++++++++------------------
+>   1 file changed, 16 insertions(+), 18 deletions(-)
+>
+> diff --git a/net/filter-mirror.c b/net/filter-mirror.c
+> index f20240cc9f..24d3e498e9 100644
+> --- a/net/filter-mirror.c
+> +++ b/net/filter-mirror.c
+> @@ -39,6 +39,7 @@ struct MirrorState {
+>       CharBackend chr_in;
+>       CharBackend chr_out;
+>       SocketReadState rs;
+> +    /* Keep compatibility for the management layer */
+>       bool vnet_hdr;
+>   };
+>   
+> @@ -48,7 +49,7 @@ static int filter_send(MirrorState *s,
+>   {
+>       NetFilterState *nf = NETFILTER(s);
+>       int ret = 0;
+> -    ssize_t size = 0;
+> +    ssize_t size = 0, vnet_hdr_len = 0;
+>       uint32_t len = 0;
+>       char *buf;
+>   
+> @@ -63,21 +64,18 @@ static int filter_send(MirrorState *s,
+>           goto err;
+>       }
+>   
+> -    if (s->vnet_hdr) {
+> -        /*
+> -         * If vnet_hdr = on, we send vnet header len to make other
+> -         * module(like colo-compare) know how to parse net
+> -         * packet correctly.
+> -         */
+> -        ssize_t vnet_hdr_len;
+> -
+> -        vnet_hdr_len = nf->netdev->vnet_hdr_len;
+> +    /*
+> +     * The vnet header is the necessary part of filter transfer protocol.
+> +     * It make other module(like colo-compare) know how to parse net
+> +     * packet correctly. If device is not the virtio-net-pci,
+> +     * vnet_hdr_len will be 0.
+> +     */
+> +    vnet_hdr_len = nf->netdev->vnet_hdr_len;
+>   
+> -        len = htonl(vnet_hdr_len);
+> -        ret = qemu_chr_fe_write_all(&s->chr_out, (uint8_t *)&len, sizeof(len));
+> -        if (ret != sizeof(len)) {
+> -            goto err;
+> -        }
+> +    len = htonl(vnet_hdr_len);
+> +    ret = qemu_chr_fe_write_all(&s->chr_out, (uint8_t *)&len, sizeof(len));
 
----8<---
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 258290f4eb..969f4c85fd 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -2729,6 +2729,10 @@ AddressSpace *pci_device_iommu_address_space(PCIDevice *dev)
-     PCIBus *iommu_bus = bus;
-     uint8_t devfn = dev->devfn;
 
-+    if (!dev->address_space_consumed) {
-+        dev->address_space_consumed = true;
-+    }
-+
-     while (iommu_bus && !iommu_bus->iommu_fn && iommu_bus->parent_dev) {
-         PCIBus *parent_bus = pci_get_bus(iommu_bus->parent_dev);
+I wonder if we need to introduce new parameter, e.g force_vnet_hdr here, 
+then we can always send vnet_hdr when it is enabled.
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 6813f128e0..704c9bdc6e 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -268,6 +268,13 @@ typedef struct PCIReqIDCache PCIReqIDCache;
- struct PCIDevice {
-     DeviceState qdev;
-     bool partially_hotplugged;
-+    /*
-+     * This will be set after the 1st time the device implementation fetches
-+     * its dma address space from pci_device_iommu_address_space().  It's used
-+     * as a sanity check for platform devices like vIOMMU to detect incorrect
-+     * ordering of device realization.
-+     */
-+    bool address_space_consumed;
+Otherwise the "vnet_hdr_support" seems meaningless.
 
-     /* PCI config space */
-     uint8_t *config;
----8<---
+Thanks
 
-Then sanity check in pre-plug of vIOMMU.
 
-The flag will be a bit more "misterious" than the previous approach, imho, as
-the name of it will be even further from the problem it's going to solve.
-However it looks at least clean on the changeset and it looks working too.
-
-Thanks,
-
--- 
-Peter Xu
+> +    if (ret != sizeof(len)) {
+> +        goto err;
+>       }
+>   
+>       buf = g_malloc(size);
+> @@ -252,7 +250,7 @@ static void filter_redirector_setup(NetFilterState *nf, Error **errp)
+>           }
+>       }
+>   
+> -    net_socket_rs_init(&s->rs, redirector_rs_finalize, s->vnet_hdr);
+> +    net_socket_rs_init(&s->rs, redirector_rs_finalize, true);
+>   
+>       if (s->indev) {
+>           chr = qemu_chr_find(s->indev);
+> @@ -406,14 +404,14 @@ static void filter_mirror_init(Object *obj)
+>   {
+>       MirrorState *s = FILTER_MIRROR(obj);
+>   
+> -    s->vnet_hdr = false;
+> +    s->vnet_hdr = true;
+>   }
+>   
+>   static void filter_redirector_init(Object *obj)
+>   {
+>       MirrorState *s = FILTER_REDIRECTOR(obj);
+>   
+> -    s->vnet_hdr = false;
+> +    s->vnet_hdr = true;
+>   }
+>   
+>   static void filter_mirror_fini(Object *obj)
 
 
