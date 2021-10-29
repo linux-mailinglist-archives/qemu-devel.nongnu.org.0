@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA67043FA9A
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 12:19:07 +0200 (CEST)
-Received: from localhost ([::1]:58940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 974FF43FAA2
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Oct 2021 12:20:54 +0200 (CEST)
+Received: from localhost ([::1]:36004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgOyY-0004mv-QO
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 06:19:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36038)
+	id 1mgP0H-0008IC-CA
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 06:20:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mgNnK-0008EM-9o
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 05:03:26 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:42935)
+ id 1mgNnS-0008Vl-3t
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 05:03:34 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:39892)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mgNnG-0006fS-0i
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 05:03:25 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- nn3-20020a17090b38c300b001a03bb6c4ebso6931819pjb.1
- for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 02:03:21 -0700 (PDT)
+ id 1mgNnJ-0006g7-Ta
+ for qemu-devel@nongnu.org; Fri, 29 Oct 2021 05:03:33 -0400
+Received: by mail-pl1-x633.google.com with SMTP id t21so6403820plr.6
+ for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 02:03:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=E1ozsGpUYk5C8kuWugGPIckjkJ1AyXps0Wulk51YZ2k=;
- b=XfDlmf4UEUqyo7bvEzgIisxnI7A0driyGxSUUiGkQ0OfwD3YZSSZMiCrvCEwIA786a
- /zmR80MW2BiL2lnKEoka6zrboxJX67oedPXl36V6jGInKlt0vGYZ7Mr+Z62KM+vNR5kG
- U+ikDydH9FvNVuFELXhkbrxOPPoQ2CbCbW83LTIHgxX/iSV7nYkDg4KcunF/xi1HOQfl
- QGXPVzG2YKdiZvtHPX6JhWx/jvRsM/cc6K1rGKNy47YRg6J/XpeKDRj9ZgGN5T2CzQFl
- 40nWAysvsnxnnbVtv2ggVLTw9TIE/wvPXweXs6LT1PRVK3m06paWfHDeO58rGrmH97Aw
- KT2Q==
+ bh=o0nx1GS5VJeyp1k+FZKT7OR4BKO1ppBtW8r1Zc85MPM=;
+ b=H7BriBTXyzxQUxoVT5RCBXTwHFvTPzoTvjd2tS5q5FVotBm95VvdOtuhncXxndwu+K
+ poHV5oBrr+hICU3ccziheHN4lAZILxTir0klPb1+EJII1+Y2EQySjIi83JbBEKL1IATM
+ /mcjAkLxkv3uXxv37JWJHYg+R+yGNrmv4kA04kAHdOpbapyjHahim+Q/IDa9ruzrctQj
+ GvR+5kzGQvaomdDWs1u576HtXSeRZh+oCrcIZQXdr/zntAF0bR8whu9axomLqWNhMm/5
+ DBIRgD3u2kRWdR+Kb5xHJ0Rtb/KYg0sWl4cOCi/GEaJsPbXq6FTEJ/EYTF0HTOBBIf7o
+ L2eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=E1ozsGpUYk5C8kuWugGPIckjkJ1AyXps0Wulk51YZ2k=;
- b=MUK0gn9aRunA7XEvTWoFrpLT5OzsL2UqAxhPybGoR44zYWghaQ1so91R2T8ye8/WPZ
- +RXjiPTgqtQQKOaX0g0ZutvBQ0BZiKYTWlcVaS+izNFxW/V2nkh6nsUtI0orNhbfzL1B
- OSqqCDSQUbQ4JOo2Bh0ZbjFqkTSlozVIE41cv+gIN5CaPnYLgrm1jLIMB2bzy1lNhW87
- 9ReW76sCn0OChR+Mb9ibRoAkXY201G45fzzbSfB4eNvyyAUf3YGE/LuiIwkOA1ZmB66t
- 1N38VFHhiogrzHsWdIYqlsYf5fYRJ41DzG7i3my+dIgIW+O1F/Qr5n8nTLDzDIw28HIV
- KrsA==
-X-Gm-Message-State: AOAM5321apVqptOFzIk4jf+dEkwe9eBy5ti65aqIDXiA1bjMMt0YhimZ
- a6/0UK8tnMQhtrDSTh/loCBHcGnzeGaeZmU2
-X-Google-Smtp-Source: ABdhPJwBpE+WV5bYiJWoOK3b3a3b2e1ftG/bsXc5CIDpCEHywHD9+08VuROWFjzZeJHNVauzhImiPA==
-X-Received: by 2002:a17:90b:390b:: with SMTP id
- ob11mr10086156pjb.217.1635498200501; 
- Fri, 29 Oct 2021 02:03:20 -0700 (PDT)
+ bh=o0nx1GS5VJeyp1k+FZKT7OR4BKO1ppBtW8r1Zc85MPM=;
+ b=j7rjWxhkPw2uovre1nxiY+ypY3b5khDLwkJoeOepwyhpQuYwjHCXfOa8F7U5NVCYoQ
+ mSWw4wv3/aBvaEWn6eYvpS0xygGyhI0n9RdSkvukm9PTo/IBA1IWDvF25K9ZgDo8cFxJ
+ mJAnJC4Lr/Gk8YmZlREGbJzvG/8aHcUCRO4d9YLcMRJX2kOiXdpIbnJUHK4ylmgdaEi4
+ wpyTxSiNlIl4nT5w3fzFN7yG9oDwxnPlEZarglBOLXK14lwxCjwdoX8xR9jOUyiafwl9
+ EtzWddgoUmPPi7ebBLnGTb5x2lam8nImJ6rQ2mzX2yPYj1gaemw8X0eRXiP8CHzy33cw
+ pX2w==
+X-Gm-Message-State: AOAM530ZDe1TIxablqeUQH/xDPibAwQz6pNfqfKwRtidj7tZ6Dr8vFpg
+ Rrmp4YU8uSDI4MdKA5VJLlLsYh8iduh7SP0T
+X-Google-Smtp-Source: ABdhPJyptHz0jkVw8eXcggYicp6IHHY1Ez7ia4bpqfdllWn0aPQiCNR7zajWFQ7emIj0d71NgAUpJQ==
+X-Received: by 2002:a17:90b:3b52:: with SMTP id
+ ot18mr18347439pjb.77.1635498204567; 
+ Fri, 29 Oct 2021 02:03:24 -0700 (PDT)
 Received: from localhost.localdomain ([2402:7500:46b:ce55:983b:6962:38ac:e1b9])
- by smtp.gmail.com with ESMTPSA id t13sm5081477pgn.94.2021.10.29.02.03.18
+ by smtp.gmail.com with ESMTPSA id t13sm5081477pgn.94.2021.10.29.02.03.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Oct 2021 02:03:20 -0700 (PDT)
+ Fri, 29 Oct 2021 02:03:24 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 59/76] target/riscv: rvv-1.0: floating-point min/max
- instructions
-Date: Fri, 29 Oct 2021 16:59:04 +0800
-Message-Id: <20211029085922.255197-60-frank.chang@sifive.com>
+Subject: [PATCH v9 60/76] target/riscv: introduce floating-point rounding mode
+ enum
+Date: Fri, 29 Oct 2021 16:59:05 +0800
+Message-Id: <20211029085922.255197-61-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211029085922.255197-1-frank.chang@sifive.com>
 References: <20211029085922.255197-1-frank.chang@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=frank.chang@sifive.com; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,7 +88,7 @@ Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
  Bin Meng <bin.meng@windriver.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+ Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -98,54 +97,150 @@ From: Frank Chang <frank.chang@sifive.com>
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/vector_helper.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ target/riscv/fpu_helper.c               | 12 ++++++------
+ target/riscv/insn_trans/trans_rvv.c.inc | 18 +++++++++---------
+ target/riscv/internals.h                |  9 +++++++++
+ 3 files changed, 24 insertions(+), 15 deletions(-)
 
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index aed230e1ad8..cc95b692558 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -3387,28 +3387,28 @@ GEN_VEXT_V_ENV(vfsqrt_v_w, 4, 4)
- GEN_VEXT_V_ENV(vfsqrt_v_d, 8, 8)
+diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
+index 388e23ca670..dec39d4a9ed 100644
+--- a/target/riscv/fpu_helper.c
++++ b/target/riscv/fpu_helper.c
+@@ -55,23 +55,23 @@ void helper_set_rounding_mode(CPURISCVState *env, uint32_t rm)
+ {
+     int softrm;
  
- /* Vector Floating-Point MIN/MAX Instructions */
--RVVCALL(OPFVV2, vfmin_vv_h, OP_UUU_H, H2, H2, H2, float16_minnum)
--RVVCALL(OPFVV2, vfmin_vv_w, OP_UUU_W, H4, H4, H4, float32_minnum)
--RVVCALL(OPFVV2, vfmin_vv_d, OP_UUU_D, H8, H8, H8, float64_minnum)
-+RVVCALL(OPFVV2, vfmin_vv_h, OP_UUU_H, H2, H2, H2, float16_minimum_number)
-+RVVCALL(OPFVV2, vfmin_vv_w, OP_UUU_W, H4, H4, H4, float32_minimum_number)
-+RVVCALL(OPFVV2, vfmin_vv_d, OP_UUU_D, H8, H8, H8, float64_minimum_number)
- GEN_VEXT_VV_ENV(vfmin_vv_h, 2, 2)
- GEN_VEXT_VV_ENV(vfmin_vv_w, 4, 4)
- GEN_VEXT_VV_ENV(vfmin_vv_d, 8, 8)
--RVVCALL(OPFVF2, vfmin_vf_h, OP_UUU_H, H2, H2, float16_minnum)
--RVVCALL(OPFVF2, vfmin_vf_w, OP_UUU_W, H4, H4, float32_minnum)
--RVVCALL(OPFVF2, vfmin_vf_d, OP_UUU_D, H8, H8, float64_minnum)
-+RVVCALL(OPFVF2, vfmin_vf_h, OP_UUU_H, H2, H2, float16_minimum_number)
-+RVVCALL(OPFVF2, vfmin_vf_w, OP_UUU_W, H4, H4, float32_minimum_number)
-+RVVCALL(OPFVF2, vfmin_vf_d, OP_UUU_D, H8, H8, float64_minimum_number)
- GEN_VEXT_VF(vfmin_vf_h, 2, 2)
- GEN_VEXT_VF(vfmin_vf_w, 4, 4)
- GEN_VEXT_VF(vfmin_vf_d, 8, 8)
+-    if (rm == 7) {
++    if (rm == RISCV_FRM_DYN) {
+         rm = env->frm;
+     }
+     switch (rm) {
+-    case 0:
++    case RISCV_FRM_RNE:
+         softrm = float_round_nearest_even;
+         break;
+-    case 1:
++    case RISCV_FRM_RTZ:
+         softrm = float_round_to_zero;
+         break;
+-    case 2:
++    case RISCV_FRM_RDN:
+         softrm = float_round_down;
+         break;
+-    case 3:
++    case RISCV_FRM_RUP:
+         softrm = float_round_up;
+         break;
+-    case 4:
++    case RISCV_FRM_RMM:
+         softrm = float_round_ties_away;
+         break;
+     default:
+diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+index 1ce5a10b6a8..047be5d5c47 100644
+--- a/target/riscv/insn_trans/trans_rvv.c.inc
++++ b/target/riscv/insn_trans/trans_rvv.c.inc
+@@ -2088,7 +2088,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
+             gen_helper_##NAME##_d,                                 \
+         };                                                         \
+         TCGLabel *over = gen_new_label();                          \
+-        gen_set_rm(s, 7);                                          \
++        gen_set_rm(s, RISCV_FRM_DYN);                              \
+         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
+                                                                    \
+         data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
+@@ -2167,7 +2167,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)            \
+             gen_helper_##NAME##_w,                                \
+             gen_helper_##NAME##_d,                                \
+         };                                                        \
+-        gen_set_rm(s, 7);                                         \
++        gen_set_rm(s, RISCV_FRM_DYN);                             \
+         data = FIELD_DP32(data, VDATA, VM, a->vm);                \
+         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);            \
+         return opfvf_trans(a->rd, a->rs1, a->rs2, data,           \
+@@ -2199,7 +2199,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)           \
+             gen_helper_##NAME##_h, gen_helper_##NAME##_w,        \
+         };                                                       \
+         TCGLabel *over = gen_new_label();                        \
+-        gen_set_rm(s, 7);                                        \
++        gen_set_rm(s, RISCV_FRM_DYN);                            \
+         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);        \
+                                                                  \
+         data = FIELD_DP32(data, VDATA, VM, a->vm);               \
+@@ -2236,7 +2236,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)           \
+         static gen_helper_opfvf *const fns[2] = {                \
+             gen_helper_##NAME##_h, gen_helper_##NAME##_w,        \
+         };                                                       \
+-        gen_set_rm(s, 7);                                        \
++        gen_set_rm(s, RISCV_FRM_DYN);                            \
+         data = FIELD_DP32(data, VDATA, VM, a->vm);               \
+         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);           \
+         return opfvf_trans(a->rd, a->rs1, a->rs2, data,          \
+@@ -2266,7 +2266,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
+             gen_helper_##NAME##_h, gen_helper_##NAME##_w,          \
+         };                                                         \
+         TCGLabel *over = gen_new_label();                          \
+-        gen_set_rm(s, 7);                                          \
++        gen_set_rm(s, RISCV_FRM_DYN);                              \
+         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
+                                                                    \
+         data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
+@@ -2303,7 +2303,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)           \
+         static gen_helper_opfvf *const fns[2] = {                \
+             gen_helper_##NAME##_h, gen_helper_##NAME##_w,        \
+         };                                                       \
+-        gen_set_rm(s, 7);                                        \
++        gen_set_rm(s, RISCV_FRM_DYN);                            \
+         data = FIELD_DP32(data, VDATA, VM, a->vm);               \
+         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);           \
+         return opfvf_trans(a->rd, a->rs1, a->rs2, data,          \
+@@ -2380,7 +2380,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
+             gen_helper_##NAME##_d,                                 \
+         };                                                         \
+         TCGLabel *over = gen_new_label();                          \
+-        gen_set_rm(s, 7);                                          \
++        gen_set_rm(s, RISCV_FRM_DYN);                              \
+         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
+                                                                    \
+         data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
+@@ -2526,7 +2526,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
+             gen_helper_##NAME##_w,                                 \
+         };                                                         \
+         TCGLabel *over = gen_new_label();                          \
+-        gen_set_rm(s, 7);                                          \
++        gen_set_rm(s, RISCV_FRM_DYN);                              \
+         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
+                                                                    \
+         data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
+@@ -2574,7 +2574,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
+             gen_helper_##NAME##_w,                                 \
+         };                                                         \
+         TCGLabel *over = gen_new_label();                          \
+-        gen_set_rm(s, 7);                                          \
++        gen_set_rm(s, RISCV_FRM_DYN);                              \
+         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
+                                                                    \
+         data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
+diff --git a/target/riscv/internals.h b/target/riscv/internals.h
+index ac062dc0b4e..db105d4d640 100644
+--- a/target/riscv/internals.h
++++ b/target/riscv/internals.h
+@@ -36,6 +36,15 @@ target_ulong fclass_d(uint64_t frs1);
+ extern const VMStateDescription vmstate_riscv_cpu;
+ #endif
  
--RVVCALL(OPFVV2, vfmax_vv_h, OP_UUU_H, H2, H2, H2, float16_maxnum)
--RVVCALL(OPFVV2, vfmax_vv_w, OP_UUU_W, H4, H4, H4, float32_maxnum)
--RVVCALL(OPFVV2, vfmax_vv_d, OP_UUU_D, H8, H8, H8, float64_maxnum)
-+RVVCALL(OPFVV2, vfmax_vv_h, OP_UUU_H, H2, H2, H2, float16_maximum_number)
-+RVVCALL(OPFVV2, vfmax_vv_w, OP_UUU_W, H4, H4, H4, float32_maximum_number)
-+RVVCALL(OPFVV2, vfmax_vv_d, OP_UUU_D, H8, H8, H8, float64_maximum_number)
- GEN_VEXT_VV_ENV(vfmax_vv_h, 2, 2)
- GEN_VEXT_VV_ENV(vfmax_vv_w, 4, 4)
- GEN_VEXT_VV_ENV(vfmax_vv_d, 8, 8)
--RVVCALL(OPFVF2, vfmax_vf_h, OP_UUU_H, H2, H2, float16_maxnum)
--RVVCALL(OPFVF2, vfmax_vf_w, OP_UUU_W, H4, H4, float32_maxnum)
--RVVCALL(OPFVF2, vfmax_vf_d, OP_UUU_D, H8, H8, float64_maxnum)
-+RVVCALL(OPFVF2, vfmax_vf_h, OP_UUU_H, H2, H2, float16_maximum_number)
-+RVVCALL(OPFVF2, vfmax_vf_w, OP_UUU_W, H4, H4, float32_maximum_number)
-+RVVCALL(OPFVF2, vfmax_vf_d, OP_UUU_D, H8, H8, float64_maximum_number)
- GEN_VEXT_VF(vfmax_vf_h, 2, 2)
- GEN_VEXT_VF(vfmax_vf_w, 4, 4)
- GEN_VEXT_VF(vfmax_vf_d, 8, 8)
++enum {
++    RISCV_FRM_RNE = 0,  /* Round to Nearest, ties to Even */
++    RISCV_FRM_RTZ = 1,  /* Round towards Zero */
++    RISCV_FRM_RDN = 2,  /* Round Down */
++    RISCV_FRM_RUP = 3,  /* Round Up */
++    RISCV_FRM_RMM = 4,  /* Round to Nearest, ties to Max Magnitude */
++    RISCV_FRM_DYN = 7,  /* Dynamic rounding mode */
++};
++
+ static inline uint64_t nanbox_s(float32 f)
+ {
+     return f | MAKE_64BIT_MASK(32, 32);
 -- 
 2.25.1
 
