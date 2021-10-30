@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFA23440ADA
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 20:01:01 +0200 (CEST)
-Received: from localhost ([::1]:48200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E80A7440ADE
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 20:03:30 +0200 (CEST)
+Received: from localhost ([::1]:55356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgsf6-0007oJ-PN
-	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 14:01:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58014)
+	id 1mgshW-0004G6-2A
+	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 14:03:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgryl-0002Lm-0X
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:17:15 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:45926)
+ id 1mgryU-0002DY-RG
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:17:00 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:37628)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgryi-0000EP-Bm
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:17:14 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- ls14-20020a17090b350e00b001a00e2251c8so9585298pjb.4
- for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:17:11 -0700 (PDT)
+ id 1mgryO-000095-Sh
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:16:58 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id y20so1544404pfi.4
+ for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:16:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8ZM/9TjmIZZ72copbPvsL/6T35TidGs+EyZyHS5h5dE=;
- b=F1qcW3PTTHPZ4hGJbfU0qm8QqjflT9PZ2e72sU6WAiEE2n+niTdxa3e/YyPbRjdhPq
- FHJ0up9Kl73Gauh3Gt+PR2oI6P0B1ZDYFJD1csxnriKubBa4bARmIcnj5CKqoItz8oc8
- tyUoxKwNeIrKmmopC6tRAT5fkFAPS4FhV8KA5dC2IfNWrH7LCSo+4lYwciPS6anloMGF
- Ufp7VxNsYF4tx/72Di0k7VBkE96QE/PU7s5D+rdqvmslj+Jy9ZR4LcKH0vIerLYUl/1z
- NbO3lQ0RrY8p0hGFk+tAvKlvXc2DmjIAD/SEbaeKveckKUfAW6psf9dhC/G8V+FeZtxK
- LKYQ==
+ bh=gSr02Sd1ztBN32tTKGrZscSunLegESBnCl09IIG3Qgg=;
+ b=hdvxRhN9/MmKPfvGfh1+/FXOKxtpLNrLFFuwTDTPwDY7Nh8MS0TnLMpv7zBjd0gwGU
+ 9Ks7LQF3Mzvx+Mwckf2v4CPQMtAl6JOvcR2HW+YelQ8Em0T57MHBoYY1SIlO9t0NGbWf
+ LD+6HJnQvjNEjhaiA8Ya7W2hgCKMf3Kw3q55WzFST4fiY7Ei+D/XAudzH4zB2LU3SUUm
+ 3wbK2z/7x9+zWX6aHgex33o6OTaWUBdpVrRzVILXHGgJUhHIJSTZzfq8A3NuaEhXrsi/
+ d63CDCaUTFMWHK5S2o/GZ5DqAOHK74v5jkedLDctl/7IEsDcSa4MKVnfXLnwH9Cqr6D9
+ 2bOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8ZM/9TjmIZZ72copbPvsL/6T35TidGs+EyZyHS5h5dE=;
- b=moH8hxv/v/LbCnPjZcFy5avm4yN00vxDARPzaWCyd4ZpbsZ3nCHzfsWUdLHKO5LiZi
- CO6zK9BfZNHDmNymx6K9Hm9UVWBtvmsxlQJvFE5vlXaru9m5mCTl2Vje4naNlIEf+g4Z
- JS3fFeNVxF2+YZ53rkXV/lFf1B+YhQoa0pROJDzXSuJoy0y41Hy8V4mwCNP5uZgQfmkf
- Tcquxyb2UZRJotkOiXukopDLrhdl5iYX6GxBWXeSzv1zfE4n/DOCIGH+a5K74Y5VBrky
- n7mFicjgPGyi/4p9fo7CFxV//mo6I1kQm1sCb43us932TlkcDsOcZteaopxn7yvvKcjs
- EPuw==
-X-Gm-Message-State: AOAM532zhIUIIrWA5kGWsm5gCYXUQqSnAn92uPJwHPHcfcSmCK7MWUAw
- UW/iFZfOUJrcWlXqWKMrlCyVnmWQYnUErA==
-X-Google-Smtp-Source: ABdhPJzqECkDRzuy37oJQ0G8MIm3z7eo9MATvpp1+Q+Yqp+UCQQSIiSCmfAxclJLlDhiViXCIfHA3w==
-X-Received: by 2002:a17:90a:718b:: with SMTP id
- i11mr27866736pjk.22.1635614231133; 
- Sat, 30 Oct 2021 10:17:11 -0700 (PDT)
+ bh=gSr02Sd1ztBN32tTKGrZscSunLegESBnCl09IIG3Qgg=;
+ b=wdHsU4u6epNsS+BTuhgCoi1bMKhQdAi4yR9OqHyWCkBqJoYvWrqoSkYgwzSuUkyxhp
+ XfcwtUpAXDix/12HDNDVBtheCVpNMR7mB72Bs8GEibuworto5tD5raDpiT8vK97R54gN
+ f+KPXK7ThLBc1tWjIUkuBrnMPoLSB8OPz0XNIKVJNDB0Ym1j58RwkVOv+SFFRVRa/QHL
+ IfHSDMhUaVmAX52I3Mh3PYKutSRurniIoF2/psroY64aZPCZk3KLtnQqQWua9qyXdAe6
+ Ko4O5Az0br6M3Ekxi/LwMPeaJi5YHLSbJFYU9l68/93o/BMBHwjAb54KvLR2m5DEv+OV
+ npug==
+X-Gm-Message-State: AOAM5322QKH9Cl3VNJ3WFSZJs9/a/Zl80nDmKW1OQLLBGrHx+gZqpmya
+ WWWLxgzAROE1NvaHvK0cdrTIRfpdyAsBQg==
+X-Google-Smtp-Source: ABdhPJyIE9YerlcY4WIyYo6zOqsS/d2QxCa8wYVmwccZqiAoLw5NDkJwSZ4VJBdZSePJewAFfkAiYQ==
+X-Received: by 2002:a65:6ab0:: with SMTP id x16mr13890226pgu.181.1635614211619; 
+ Sat, 30 Oct 2021 10:16:51 -0700 (PDT)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id nv4sm3111943pjb.17.2021.10.30.10.17.10
+ by smtp.gmail.com with ESMTPSA id nv4sm3111943pjb.17.2021.10.30.10.16.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Oct 2021 10:17:10 -0700 (PDT)
+ Sat, 30 Oct 2021 10:16:51 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 38/66] target/sh4: Make sh4_cpu_tlb_fill sysemu only
-Date: Sat, 30 Oct 2021 10:16:07 -0700
-Message-Id: <20211030171635.1689530-39-richard.henderson@linaro.org>
+Subject: [PATCH v6 16/66] target/arm: Fixup comment re handle_cpu_signal
+Date: Sat, 30 Oct 2021 10:15:45 -0700
+Message-Id: <20211030171635.1689530-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211030171635.1689530-1-richard.henderson@linaro.org>
 References: <20211030171635.1689530-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,111 +88,29 @@ Cc: alex.bennee@linaro.org, laurent@vivier.eu, imp@bsdimp.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The fallback code in cpu_loop_exit_sigsegv is sufficient
-for sh4 linux-user.
+The named function no longer exists.
+Refer to host_signal_handler instead.
 
-Remove the code from cpu_loop that raised SIGSEGV.
-
+Reviewed-by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/sh4/cpu.h          | 6 +++---
- linux-user/sh4/cpu_loop.c | 8 --------
- target/sh4/cpu.c          | 2 +-
- target/sh4/helper.c       | 9 +--------
- 4 files changed, 5 insertions(+), 20 deletions(-)
+ target/arm/sve_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
-index dc81406646..4cfb109f56 100644
---- a/target/sh4/cpu.h
-+++ b/target/sh4/cpu.h
-@@ -213,12 +213,12 @@ void superh_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
-                                     uintptr_t retaddr) QEMU_NORETURN;
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index dab5f1d1cd..07be55b7e1 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -6118,7 +6118,7 @@ DO_LDN_2(4, dd, MO_64)
+  * linux-user/ in its get_user/put_user macros.
+  *
+  * TODO: Construct some helpers, written in assembly, that interact with
+- * handle_cpu_signal to produce memory ops which can properly report errors
++ * host_signal_handler to produce memory ops which can properly report errors
+  * without racing.
+  */
  
- void sh4_translate_init(void);
-+void sh4_cpu_list(void);
-+
-+#if !defined(CONFIG_USER_ONLY)
- bool superh_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                          MMUAccessType access_type, int mmu_idx,
-                          bool probe, uintptr_t retaddr);
--
--void sh4_cpu_list(void);
--#if !defined(CONFIG_USER_ONLY)
- void superh_cpu_do_interrupt(CPUState *cpu);
- bool superh_cpu_exec_interrupt(CPUState *cpu, int int_req);
- void cpu_sh4_invalidate_tlb(CPUSH4State *s);
-diff --git a/linux-user/sh4/cpu_loop.c b/linux-user/sh4/cpu_loop.c
-index 65b8972e3c..ac9b01840c 100644
---- a/linux-user/sh4/cpu_loop.c
-+++ b/linux-user/sh4/cpu_loop.c
-@@ -65,14 +65,6 @@ void cpu_loop(CPUSH4State *env)
-             info.si_code = TARGET_TRAP_BRKPT;
-             queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-             break;
--        case 0xa0:
--        case 0xc0:
--            info.si_signo = TARGET_SIGSEGV;
--            info.si_errno = 0;
--            info.si_code = TARGET_SEGV_MAPERR;
--            info._sifields._sigfault._addr = env->tea;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
--            break;
-         case EXCP_ATOMIC:
-             cpu_exec_step_atomic(cs);
-             arch_interrupt = false;
-diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-index 2047742d03..06b2691dc4 100644
---- a/target/sh4/cpu.c
-+++ b/target/sh4/cpu.c
-@@ -236,9 +236,9 @@ static const struct SysemuCPUOps sh4_sysemu_ops = {
- static const struct TCGCPUOps superh_tcg_ops = {
-     .initialize = sh4_translate_init,
-     .synchronize_from_tb = superh_cpu_synchronize_from_tb,
--    .tlb_fill = superh_cpu_tlb_fill,
- 
- #ifndef CONFIG_USER_ONLY
-+    .tlb_fill = superh_cpu_tlb_fill,
-     .cpu_exec_interrupt = superh_cpu_exec_interrupt,
-     .do_interrupt = superh_cpu_do_interrupt,
-     .do_unaligned_access = superh_cpu_do_unaligned_access,
-diff --git a/target/sh4/helper.c b/target/sh4/helper.c
-index 53cb9c3b63..6a620e36fc 100644
---- a/target/sh4/helper.c
-+++ b/target/sh4/helper.c
-@@ -796,8 +796,6 @@ bool superh_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-     return false;
- }
- 
--#endif /* !CONFIG_USER_ONLY */
--
- bool superh_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                          MMUAccessType access_type, int mmu_idx,
-                          bool probe, uintptr_t retaddr)
-@@ -806,11 +804,6 @@ bool superh_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     CPUSH4State *env = &cpu->env;
-     int ret;
- 
--#ifdef CONFIG_USER_ONLY
--    ret = (access_type == MMU_DATA_STORE ? MMU_DTLB_VIOLATION_WRITE :
--           access_type == MMU_INST_FETCH ? MMU_ITLB_VIOLATION :
--           MMU_DTLB_VIOLATION_READ);
--#else
-     target_ulong physical;
-     int prot;
- 
-@@ -829,7 +822,6 @@ bool superh_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     if (ret != MMU_DTLB_MULTIPLE && ret != MMU_ITLB_MULTIPLE) {
-         env->pteh = (env->pteh & PTEH_ASID_MASK) | (address & PTEH_VPN_MASK);
-     }
--#endif
- 
-     env->tea = address;
-     switch (ret) {
-@@ -868,3 +860,4 @@ bool superh_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     }
-     cpu_loop_exit_restore(cs, retaddr);
- }
-+#endif /* !CONFIG_USER_ONLY */
 -- 
 2.25.1
 
