@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5398F44094D
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 15:58:10 +0200 (CEST)
-Received: from localhost ([::1]:33310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29A81440935
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 15:57:35 +0200 (CEST)
+Received: from localhost ([::1]:58292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgos5-00046K-Cw
-	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 09:58:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55214)
+	id 1mgorV-0001xO-O7
+	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 09:57:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mgopX-0007Yx-Cw; Sat, 30 Oct 2021 09:55:33 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:42829)
+ id 1mgopf-0007ZP-67; Sat, 30 Oct 2021 09:55:42 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:43959)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mgopQ-0000bC-SL; Sat, 30 Oct 2021 09:55:26 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id m14so11959236pfc.9;
- Sat, 30 Oct 2021 06:55:23 -0700 (PDT)
+ id 1mgopX-0000eD-Fw; Sat, 30 Oct 2021 09:55:38 -0400
+Received: by mail-pg1-x536.google.com with SMTP id b4so5618662pgh.10;
+ Sat, 30 Oct 2021 06:55:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=o5AG5IlfD5i8gdj+03F3hZLSxXusazdbA0hkZzTXBnk=;
- b=BrBuZqBCPoxxZN0sREgxGQMoQ6oMZbaiS3lGNA1IL9C8K7cdx7AHX1CFuWLkfM0CAo
- dRVKmTp/gQsMqPyWJo+S70ZDQ6jCSUPqlkBXIslZe2B/C/8GBiV2ae8xCUab9gAKvJh1
- ug8lWLATmB0WvkKKm6gZcNwK5Q1HD42i1CP50BebmWIyX090IU0PHbX4uxXH5ubQPXYt
- xw7jxbc+l/KVwrarlcUSheskmXOajmDGESYhwvB/Fj0lhIorqRKOMCIV8BjvDRlBd2Az
- 2uN5W2gDwrEUSz+fh0Ui0DeoLpo0DxJGBUYt97fq1zJxUcDIsAQAoMFHpGfFz6KUMl5y
- qB3A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=pmLuHzlvcb9WcoNLmfNdT+VYLFfi+YqVA0HLjJbSjzU=;
+ b=TGAEvS+mR2N/PY11Pzet140i7MLxASlkFQcTC/2rmhEnu1oJqgFPupMyY64ljSrV81
+ TRuBBBWOw3Mrs+hV7OdkYS+kkSczb8T+aTw6NmHjIYjGmFMS+zH/p33ATJ+KHoOfz4lJ
+ tYenbHvzuprUl7CfgtLsKeXQRZptwHvCM9Sh97ARj5WBluf5P/ZukRXylmJOUSjER8+u
+ QYEs6+OvhviEx9PzGKqFoiERdO2g8UtA2/8PQcBnPS21+oDhtdKfekibDppnxMe6SZhG
+ KD780C4AlUUoaois3L4gDwkSPkEPuDMg12fjHbp6g6a0bPw+1XbIx27ncumb5A9VERFK
+ qSDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=o5AG5IlfD5i8gdj+03F3hZLSxXusazdbA0hkZzTXBnk=;
- b=ZZhfMaBD+Asy5L86jssRpFTv2qCBLjcCTEjqGY4r7G5T6aXOSmv7vxusaIidPsE/KN
- +fAJNcGDtWG1T0Qc1Oc2SQLANjQAoEJ3WvhIWzawQVAmUzID9YleCn20hPR2vDYtAoba
- 3U1VJazB+xu+UqyXyMkKyXkt4R89XPbQJm70QWAFtYxhBqaKIvR7pm2auJvjWYPrQ9nJ
- VeaQ0FAeETGk0eQxUlPaD7qhM41e6g/jZfHfX5lMOhtFu5MDiZJcR0SJekCo+TWayvbS
- TJT2oEgXM9zg+alYLPnREyLAfNqG4gf28oqqX1fC/KOJcdfbTRPmfsHLnVO3EsElEzkQ
- AEAA==
-X-Gm-Message-State: AOAM533lTHXtLelFVN2Xo0VikMZeMz8hIsuGVf0t+IPM0F0Kg4MgfR+8
- 2cVKL8DCmjL7J/Inb0Ki6WM=
-X-Google-Smtp-Source: ABdhPJyyflh5mde0roA1nSlAlzIsnbuZtVLvxGpzq/0S1r5q9z0CHd7NMmTL31gB3prjKPHw9DcDSg==
-X-Received: by 2002:a62:1b86:0:b0:47b:d112:96d4 with SMTP id
- b128-20020a621b86000000b0047bd11296d4mr17499056pfb.52.1635602122484; 
- Sat, 30 Oct 2021 06:55:22 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=pmLuHzlvcb9WcoNLmfNdT+VYLFfi+YqVA0HLjJbSjzU=;
+ b=eiCGryYMuoFO8jTSWhpUidW4Z0Le1n9wb99HrzJVnhQWUEFdMcEvOpvKCHxkQ4b2by
+ G8ZpRSw+7mfCpt/YRY7dV82ZNfMgjP0XA7px9kq8LFY9NddBh2+MpZO35+vUDGDoH1Dq
+ p9QF+OTBw2ceLf38KCnBAM/ymB0f4xexzzf3pP8FeIKixfmfVYjjivRUKGUNKy/HDrc3
+ df7OZ9sGT9B27FGrHpkQIYZggWyB8hWI5YY+H53611/GMwdlB8UoNyAi8FTKb/19T4tT
+ kw+ik6y2UPKbN1AWwh339neSSm0OL0hoZXHVnFxBXzLA8Jt12De3j/CYLJbwppcYZGR2
+ CF/w==
+X-Gm-Message-State: AOAM533jGCPipCWxusLRMdUMvkXaE4iX4LaHJjMYFJPh2JniYfRQFAtH
+ 2A6U2g/dfiAeyQn6Gvciham6UglUlm4=
+X-Google-Smtp-Source: ABdhPJwi61T7xbSjMeoy3ZZNnPVh/Jo2alySGef9chh3I4Myl52i7HdTXZXCG7SRk8cuCZ11yoLtfQ==
+X-Received: by 2002:aa7:96f8:0:b0:47b:eb13:e0b6 with SMTP id
+ i24-20020aa796f8000000b0047beb13e0b6mr17488645pfq.27.1635602127035; 
+ Sat, 30 Oct 2021 06:55:27 -0700 (PDT)
 Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
  [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id f19sm3645911pfc.72.2021.10.30.06.55.20
+ by smtp.gmail.com with ESMTPSA id f19sm3645911pfc.72.2021.10.30.06.55.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Oct 2021 06:55:21 -0700 (PDT)
+ Sat, 30 Oct 2021 06:55:26 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 X-Google-Original-From: Bin Meng <bin.meng@windriver.com>
 To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Subject: [PATCH v2 0/7] target/riscv: Initial support for native debug feature
- via M-mode CSRs
-Date: Sat, 30 Oct 2021 21:55:06 +0800
-Message-Id: <20211030135513.18517-1-bin.meng@windriver.com>
+Subject: [PATCH v2 2/7] target/riscv: machine: Add debug state description
+Date: Sat, 30 Oct 2021 21:55:08 +0800
+Message-Id: <20211030135513.18517-3-bin.meng@windriver.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211030135513.18517-1-bin.meng@windriver.com>
+References: <20211030135513.18517-1-bin.meng@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FREEMAIL_REPLY=1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,47 +88,69 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add a subsection to machine.c to migrate debug CSR state.
 
-This adds initial support for the native debug via the Trigger Module,
-as defined in the RISC-V Debug Specification [1].
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-Only "Address / Data Match" trigger (type 2) is implemented as of now,
-which is mainly used for hardware breakpoint and watchpoint. The number
-of type 2 triggers implemented is 2, which is the number that we can
-find in the SiFive U54/U74 cores.
-
-[1] https://github.com/riscv/riscv-debug-spec/raw/master/riscv-debug-stable.pdf
-
-Based-on: 20211030030606.32297-1-bmeng.cn@gmail.com
+---
 
 Changes in v2:
 - new patch: add debug state description
-- use 0 instead of GETPC()
-- change the config option to 'disabled' by default
-- new patch: enable native debug feature on virt and sifive_u CPUs
 
-Bin Meng (7):
-  target/riscv: Add initial support for native debug
-  target/riscv: machine: Add debug state description
-  target/riscv: debug: Implement debug related TCGCPUOps
-  target/riscv: cpu: Add a config option for native debug
-  target/riscv: csr: Hook debug CSR read/write
-  target/riscv: cpu: Enable native debug feature on virt and sifive_u
-    CPUs
-  hw/core: tcg-cpu-ops.h: Update comments of debug_check_watchpoint()
+ target/riscv/machine.c | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
- include/hw/core/tcg-cpu-ops.h |   1 +
- target/riscv/cpu.h            |   7 +
- target/riscv/debug.h          | 114 +++++++++
- target/riscv/cpu.c            |  18 ++
- target/riscv/csr.c            |  57 +++++
- target/riscv/debug.c          | 441 ++++++++++++++++++++++++++++++++++
- target/riscv/machine.c        |  33 +++
- target/riscv/meson.build      |   1 +
- 8 files changed, 672 insertions(+)
- create mode 100644 target/riscv/debug.h
- create mode 100644 target/riscv/debug.c
-
+diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+index ad8248ebfd..25aa3b38f7 100644
+--- a/target/riscv/machine.c
++++ b/target/riscv/machine.c
+@@ -164,6 +164,38 @@ static const VMStateDescription vmstate_pointermasking = {
+     }
+ };
+ 
++static bool debug_needed(void *opaque)
++{
++    RISCVCPU *cpu = opaque;
++    CPURISCVState *env = &cpu->env;
++
++    return riscv_feature(env, RISCV_FEATURE_DEBUG);
++}
++
++static const VMStateDescription vmstate_debug_type2 = {
++    .name = "cpu/debug/type2",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINTTL(mcontrol, trigger_type2_t),
++        VMSTATE_UINTTL(maddress, trigger_type2_t),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static const VMStateDescription vmstate_debug = {
++    .name = "cpu/debug",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = debug_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINTTL(env.trigger_cur, RISCVCPU),
++        VMSTATE_STRUCT_ARRAY(env.trigger_type2, RISCVCPU, TRIGGER_TYPE2_NUM,
++                             0, vmstate_debug_type2, trigger_type2_t),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ const VMStateDescription vmstate_riscv_cpu = {
+     .name = "cpu",
+     .version_id = 3,
+@@ -218,6 +250,7 @@ const VMStateDescription vmstate_riscv_cpu = {
+         &vmstate_hyper,
+         &vmstate_vector,
+         &vmstate_pointermasking,
++        &vmstate_debug,
+         NULL
+     }
+ };
 -- 
 2.25.1
 
