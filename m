@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06803440C21
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Oct 2021 00:31:25 +0200 (CEST)
-Received: from localhost ([::1]:42302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE82440C28
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Oct 2021 00:32:52 +0200 (CEST)
+Received: from localhost ([::1]:45204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgwsm-00041a-2X
-	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 18:31:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51126)
+	id 1mgwuB-000624-Nc
+	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 18:32:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgwr3-0002pI-Qj
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 18:29:37 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:38610)
+ id 1mgwsf-0004Qt-1z
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 18:31:17 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:39792)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgwr1-0004dQ-S3
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 18:29:37 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- x33-20020a17090a6c2400b001a63ef25836so3818645pjj.3
- for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 15:29:35 -0700 (PDT)
+ id 1mgwsd-0004o8-3B
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 18:31:16 -0400
+Received: by mail-pg1-x534.google.com with SMTP id g184so13479344pgc.6
+ for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 15:31:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wn2H+nP9gIckscwOnNfuJj1KsRRzQMxGTBJQgnm7Z9A=;
- b=L9g8xsN+eWTrXwOeOmJgFnFsStvqtRlokPqqs+ZCTDBWD55/yzWrN9qiMr3vv9mZD3
- q6vqqxV1T9i9Q4CdIAmmxUZrYVkXEhFEfyWfp6wPkX4acs6wEX/YRHUWO6nIg1s2KTYf
- L4Fnc714LxB5Ji92A1AmR1KkUzCdtBDzjLUr1EIk7TTdnBYr3owZjXz1CDmG+bNZeQw+
- criogav3bHFNbBlAP1+vCZemSLPhC4NLIBTNQmVqkdonrIVgaCXLI1dp111R1VUENpVy
- PXIPFOO5/VI/683a3dOedSdtLmRAj80TNQPk3XiokUf+i9kJXzVBSkKBJzDxy53mX6yt
- bX9Q==
+ bh=ROHzv5FYrhvk6ujjV/2+uXInEu89okt4/B45DhyZD+Q=;
+ b=BHSluY1QQy+D8y2OvA89UJkUrNQYhkUG3Kajte4F08tpwiON/Obict+8v1vVTJtxA0
+ m4s+K5qB2wN1AEt2grKlHsZ+9hdffwTZL0DnWKV3uBatcR/14kvV+ZrescobyrLmkkGs
+ CtXJYu8a23ZVc5fwFcUPSESs76ZL5NfYUilbZL8d1ooX/x5Wt/WuywuC1wCpCH95Mu+3
+ Bg/LomqcyianTC9hw+S9ly+Kwa9iXwdxE7+8V2n2AS4jGpmRbu1igEM2b53uHVavcprx
+ G5/KtrnNQFHWLhLXcKYrMRmqYIdqkOXkpTp4U7+4d/dpk9oaAUgbU4Ydd+fMVRli62y1
+ jlVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=wn2H+nP9gIckscwOnNfuJj1KsRRzQMxGTBJQgnm7Z9A=;
- b=U1w/lUjXllVn8vRNQIcEjV25kyb4pnGzMtW+g1OVm+BkQg6eVqVubSJNp6xJ1ZX2aD
- rBmdbGszxb3oGkA8ZI1RfM2yjc8tlZxScU0q6zatdWcCN/fjbPFaevIig6CuO5v4yTT5
- gGS5wkRCBYDJqlOG/8Ru46ZYThWA2TRVCkKbrnx02WgTeamNew6zCUvsnRitLhK+nL0c
- kVkNcnJRVIefNZhylSXZ5ze0pt8xgb6C0vZ5vWAeBYj7IzJjeCZoO1Hv9nmiLNQK4Y7c
- Fe9U8GxDEUbTg2E7GaZ4cHwdBdUYc/qaabtkr26A3/9FTOGAgtddvYcfP9tAIjsaixL2
- RA5A==
-X-Gm-Message-State: AOAM533Oyf3y1FTaAk47qppQZI/WFHKAhXDxc7bAk9AJpv2uCrdEKPhi
- 68KEruq50uByaKZxTtEqKhEjrE144Dtgng==
-X-Google-Smtp-Source: ABdhPJxdbD1ZmLdzRGM6ZcH68CYLgYqgihyUhvOJ51Jwxutt7RARS5/ab5Un2Gkc0P+GXg2Q3nYx0w==
-X-Received: by 2002:a17:90a:650:: with SMTP id
- q16mr28740334pje.72.1635632974438; 
- Sat, 30 Oct 2021 15:29:34 -0700 (PDT)
+ bh=ROHzv5FYrhvk6ujjV/2+uXInEu89okt4/B45DhyZD+Q=;
+ b=Hn8iLGLzYkwnzIcFFRCt4Vx8iwIrM3Np4f5CtQU7GlpVRKMeEpmmC5db8sVYnliFbT
+ /iObrqHIIUcCNMiHBjAKu0tGASGhUKEwdnmD8jnWptGnBKktsflJXkV25YdGNOeYOyb1
+ jHlF9Xe99vF3+HAbTWxODv53T9BST/LiVPJYQSFuEtaey11VrbphjGcva1Lmelu7390Y
+ eiScJNOx4+QQOeHQwveDifcTUhrF8RYw0n+34coJZLs6n1ovdfT2CVStlnRgpTaOxqZ/
+ EW7+9ZuqU8tF3kqXBdbhTb0CL5suVJqAUY2gy1DsJb6IG2kx1zFyoQvKNoKc0Mpfl5yp
+ 0Tzw==
+X-Gm-Message-State: AOAM533emSs1tPOeRmulaYl2h0a6t9YJ1+lAOu30pPQ28tws4tTNUcSK
+ cQUuO7JdYM9vLM2qVNeU4SNMYw==
+X-Google-Smtp-Source: ABdhPJwmoEVvDdR8qQRdV04HOFngocUMKJO1eCA5/JG9568jPZwHlfaQhyHCIPM6FHWK/LDN6YfNbQ==
+X-Received: by 2002:a65:530d:: with SMTP id m13mr14654496pgq.128.1635633073650; 
+ Sat, 30 Oct 2021 15:31:13 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id f4sm8998406pgn.93.2021.10.30.15.29.33
+ by smtp.gmail.com with ESMTPSA id w7sm11587714pfu.147.2021.10.30.15.31.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 30 Oct 2021 15:29:34 -0700 (PDT)
-Subject: Re: [PATCH v2 19/34] target/ppc: Implement Vector Extract Double to
- VSR using GPR index insns
+ Sat, 30 Oct 2021 15:31:13 -0700 (PDT)
+Subject: Re: [PATCH v2 21/34] target/ppc: receive high/low as argument in
+ get/set_cpu_vsr
 To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <20211029202424.175401-1-matheus.ferst@eldorado.org.br>
- <20211029202424.175401-20-matheus.ferst@eldorado.org.br>
+ <20211029202424.175401-22-matheus.ferst@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ab1581a2-ffef-4fd5-5d5a-e68944c04d80@linaro.org>
-Date: Sat, 30 Oct 2021 15:29:32 -0700
+Message-ID: <70f549e5-380a-2e12-2020-b92fd165d3ab@linaro.org>
+Date: Sat, 30 Oct 2021 15:31:10 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211029202424.175401-20-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20211029202424.175401-22-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -44
 X-Spam_score: -4.5
 X-Spam_bar: ----
@@ -98,31 +96,18 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 10/29/21 1:24 PM, matheus.ferst@eldorado.org.br wrote:
 > From: Matheus Ferst<matheus.ferst@eldorado.org.br>
 > 
-> Implement the following PowerISA v3.1 instructions:
-> vextdubvlx: Vector Extract Double Unsigned Byte to VSR using
->              GPR-specified Left-Index
-> vextduhvlx: Vector Extract Double Unsigned Halfword to VSR using
->              GPR-specified Left-Index
-> vextduwvlx: Vector Extract Double Unsigned Word to VSR using
->              GPR-specified Left-Index
-> vextddvlx: Vector Extract Double Doubleword to VSR using
->             GPR-specified Left-Index
-> vextdubvrx: Vector Extract Double Unsigned Byte to VSR using
->              GPR-specified Right-Index
-> vextduhvrx: Vector Extract Double Unsigned Halfword to VSR using
->              GPR-specified Right-Index
-> vextduwvrx: Vector Extract Double Unsigned Word to VSR using
->              GPR-specified Right-Index
-> vextddvrx: Vector Extract Double Doubleword to VSR using
->             GPR-specified Right-Index
+> Changes get_cpu_vsr to receive a new argument indicating whether the
+> high or low part of the register is being accessed. This change improves
+> consistency between the interfaces used to access Vector and VSX
+> registers and helps to handle endianness in some cases.
 > 
-> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
-> Signed-off-by: Luis Pires<luis.pires@eldorado.org.br>
 > Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
 > ---
-> v2:
-> - Simplified helper
+> New in v2. Will be used in the next patch to address the problems in the
+> v1 implementation of stxv/lxv.
 > ---
+>   target/ppc/translate/vsx-impl.c.inc | 317 +++++++++++++---------------
+>   1 file changed, 146 insertions(+), 171 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
