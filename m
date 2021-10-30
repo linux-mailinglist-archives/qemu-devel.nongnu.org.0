@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A67B440B44
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 20:33:05 +0200 (CEST)
-Received: from localhost ([::1]:49710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8D6440B4F
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 20:39:36 +0200 (CEST)
+Received: from localhost ([::1]:34192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgtA8-0005l4-KJ
-	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 14:33:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58602)
+	id 1mgtGR-000637-Kc
+	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 14:39:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgs1l-0001RE-9A
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:20:22 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:34523)
+ id 1mgs1n-0001SP-3i
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:20:25 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:41653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgs1h-00029G-0K
+ id 1mgs1h-00029L-LX
  for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:20:21 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id 127so12335592pfu.1
- for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:20:16 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id z11so8912639plg.8
+ for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:20:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vGec2V7sqBlJXZFFOVGa4jSeCFBEP3Km3jAuCBMCplk=;
- b=TEcgx0ZuLk0mVfx3LHzcdtCguBL8HUedrt7ayH8FU7IeY5TySv/aQ4/hVlFBJKV7ef
- aeTD3/pTFrHfsNzBL2mohx73VAoFCpaY95HP8qJRvWeRFvvuuAZ3gfh1qne2BZr0lAf+
- KGykZnUhFcP4+AjJsDi7xfN3sgS9beQyIblV2sQQQehsYfj7Hu+FWmEqPJcbBmzvq+iA
- 9xFrGwoagJ2TIkbmQIzPgEP9kzyT4gepOLki+p1xQjKtFFQxlAyNcB/28lgzvnKhKOIs
- JsKjISFm8oByM388BzjdH//WT/iAMvJGZu/9Foj+2FZsbWZCyFcq1oBeM8awjs/axilB
- /Nng==
+ bh=1Ep7pHHg1zb1sPSHGpQ1/FF+Txy5JMnbD431/U5MPag=;
+ b=t5T8Q7bXCnjztyyeSXIMeTShRPqGze7C5CDko58XZl/h3aHchf+onWiIA2t75Hk1Jc
+ dBB8gfQKH97Uzn7/ACDuHGpLETiauncVjVjoYe5z5XaeiVM+FZM82bE3LrGg45BcT3gL
+ ZLJZVsU9ecaFdsowHkYHIwQuYijq9gni/v6MDzVabt4VpTOVo4dQ+qd2tAB5PsBbQVE8
+ xxwYiInPR3T9wABxk6AMfvUMaWkj5Bpek4+dFInrjY2aJ1FAMBT3+2QZ8OYxMsQY30qQ
+ INtGz3v4rxuTTbmc1390wj2P1KUAgUdS1+XiRN4KvRK6+KFIQByvQtlQ1h2TB0Hax3MF
+ +oTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vGec2V7sqBlJXZFFOVGa4jSeCFBEP3Km3jAuCBMCplk=;
- b=Szu12UtD3sSrWUhofXZ9Tq8/e5IVujF+WmRacJTGQqzqwmfUixTkAKuuZS8bejoacp
- cl1UCLCxbxuqeedWMo2OEQtwBZJGafp4G8KbTAkY/E/7nvRepb05XDp4WLx8uyL3raSv
- souwViyvIiC8aGhOcnW3S695QQNVHt1Q5i//VTo6fygj2JnNvSrieXYsPQxCmJ07oFcs
- 6rFYTKTEhp84mPcjOZC0qrcttt11duedc/3QaMxZK+xeBwj701P1yaM60SQk2pzAYpPd
- FPRmN3HtKaPlWLuo5XouAqIvzuYstxuK8fHSqT0Se5gGuKMALdYOIr9wpLZ7CNVfeUTZ
- VHow==
-X-Gm-Message-State: AOAM533xaQ8imB/5ojFSOFEL7e+BzJQlOE8a04IaN7ugeHvhlT+8/oKe
- m3fLzsRrOSGqcGrnw0cEJIy7AnXbj5CvMw==
-X-Google-Smtp-Source: ABdhPJxXridwUano5oqeE2ZLa+MAEU0u8vqhv+FaMExc0g4NotOmMN/jfNu+weqDd4B2l9maXbeF5g==
-X-Received: by 2002:a05:6a00:1ac9:b0:47c:236d:65f1 with SMTP id
- f9-20020a056a001ac900b0047c236d65f1mr18567124pfv.3.1635614415708; 
- Sat, 30 Oct 2021 10:20:15 -0700 (PDT)
+ bh=1Ep7pHHg1zb1sPSHGpQ1/FF+Txy5JMnbD431/U5MPag=;
+ b=GXVQkTOVlQFnZz9nXGe2ceHIInq6CMMyqjMGej7F09jVMmKNb4AvipITZKt0P2F56d
+ XXRUiwMfgP24f9fJOFD+1wnu0vekHNTlKr0I6IV8eM7vSGTCgid9ReoY/smZfhUYbbhS
+ srs+X+LS/Qw5KhVBxFOBQbNEj/haHSIxGGpZHF3HwxTCAjS0RuiuxDgS8aw8xwHXPKhd
+ YeS11SmiRbLw4Fwzgr0XrrWHEC/pj0ZHOxI4/8mvMX25IZyTymtBsPy1j2mgS+Dk//Ob
+ DaH/ofqcVCdOkCMwQDYQwNfCzhlG9Pd9gzpXsorg4WlOzkbRmRVvruZWUl273pbgwPzF
+ PS0Q==
+X-Gm-Message-State: AOAM533TDY9fCBlAfu4KzXGkdAgiqTl3KWeYukogaQZsOipNU1Zqnips
+ hP2ML9eQUuCX7ldAJDqUBvVy2VN6GCUmxw==
+X-Google-Smtp-Source: ABdhPJzkqg/YL3aezG6E1cYJK5Oz/HZOOrNDuXp+9oADr3ONpYTS2TretgMR/qBbV74+Dw1q2vmVQg==
+X-Received: by 2002:a17:902:7892:b0:141:b34e:d884 with SMTP id
+ q18-20020a170902789200b00141b34ed884mr8734584pll.87.1635614416385; 
+ Sat, 30 Oct 2021 10:20:16 -0700 (PDT)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
  by smtp.gmail.com with ESMTPSA id k14sm9584798pji.45.2021.10.30.10.20.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Oct 2021 10:20:15 -0700 (PDT)
+ Sat, 30 Oct 2021 10:20:16 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 42/66] hw/core: Add TCGCPUOps.record_sigbus
-Date: Sat, 30 Oct 2021 10:16:11 -0700
-Message-Id: <20211030171635.1689530-43-richard.henderson@linaro.org>
+Subject: [PATCH v6 43/66] linux-user: Add cpu_loop_exit_sigbus
+Date: Sat, 30 Oct 2021 10:16:12 -0700
+Message-Id: <20211030171635.1689530-44-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211030171635.1689530-1-richard.henderson@linaro.org>
 References: <20211030171635.1689530-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,50 +88,67 @@ Cc: alex.bennee@linaro.org, laurent@vivier.eu, imp@bsdimp.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new user-only interface for updating cpu state before
-raising a signal.  This will take the place of do_unaligned_access
-for user-only and should result in less boilerplate for each guest.
+This is a new interface to be provided by the os emulator for
+raising SIGBUS on fault.  Use the new record_sigbus target hook.
 
 Reviewed-by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/core/tcg-cpu-ops.h | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ include/exec/exec-all.h | 14 ++++++++++++++
+ linux-user/signal.c     | 14 ++++++++++++++
+ 2 files changed, 28 insertions(+)
 
-diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
-index 8eadd404c8..e13898553a 100644
---- a/include/hw/core/tcg-cpu-ops.h
-+++ b/include/hw/core/tcg-cpu-ops.h
-@@ -135,6 +135,29 @@ struct TCGCPUOps {
-     void (*record_sigsegv)(CPUState *cpu, vaddr addr,
-                            MMUAccessType access_type,
-                            bool maperr, uintptr_t ra);
-+    /**
-+     * record_sigbus:
-+     * @cpu: cpu context
-+     * @addr: misaligned guest address
-+     * @access_type: access was read/write/execute
-+     * @ra: host pc for unwinding
-+     *
-+     * We are about to raise SIGBUS with si_code BUS_ADRALN,
-+     * and si_addr set for @addr.  Record anything further needed
-+     * for the signal ucontext_t.
-+     *
-+     * If the emulated kernel does not provide the signal handler with
-+     * anything besides the user context registers, and the siginfo_t,
-+     * then this hook need do nothing and may be omitted.
-+     * Otherwise, record the data and return; the caller will raise
-+     * the signal, unwind the cpu state, and return to the main loop.
-+     *
-+     * If it is simpler to re-use the sysemu do_unaligned_access code,
-+     * @ra is provided so that a "normal" cpu exception can be raised.
-+     * In this case, the signal must be raised by the architecture cpu_loop.
-+     */
-+    void (*record_sigbus)(CPUState *cpu, vaddr addr,
-+                          MMUAccessType access_type, uintptr_t ra);
- #endif /* CONFIG_SOFTMMU */
- #endif /* NEED_CPU_H */
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index f74578500c..6bb2a0f7ec 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -700,6 +700,20 @@ void QEMU_NORETURN cpu_loop_exit_sigsegv(CPUState *cpu, target_ulong addr,
+                                          MMUAccessType access_type,
+                                          bool maperr, uintptr_t ra);
  
++/**
++ * cpu_loop_exit_sigbus:
++ * @cpu: the cpu context
++ * @addr: the guest address of the alignment fault
++ * @access_type: access was read/write/execute
++ * @ra: host pc for unwinding
++ *
++ * Use the TCGCPUOps hook to record cpu state, do guest operating system
++ * specific things to raise SIGBUS, and jump to the main cpu loop.
++ */
++void QEMU_NORETURN cpu_loop_exit_sigbus(CPUState *cpu, target_ulong addr,
++                                        MMUAccessType access_type,
++                                        uintptr_t ra);
++
+ #else
+ static inline void mmap_lock(void) {}
+ static inline void mmap_unlock(void) {}
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index 9d60abc038..df2c8678d0 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -706,6 +706,20 @@ void cpu_loop_exit_sigsegv(CPUState *cpu, target_ulong addr,
+     cpu_loop_exit_restore(cpu, ra);
+ }
+ 
++void cpu_loop_exit_sigbus(CPUState *cpu, target_ulong addr,
++                          MMUAccessType access_type, uintptr_t ra)
++{
++    const struct TCGCPUOps *tcg_ops = CPU_GET_CLASS(cpu)->tcg_ops;
++
++    if (tcg_ops->record_sigbus) {
++        tcg_ops->record_sigbus(cpu, addr, access_type, ra);
++    }
++
++    force_sig_fault(TARGET_SIGBUS, TARGET_BUS_ADRALN, addr);
++    cpu->exception_index = EXCP_INTERRUPT;
++    cpu_loop_exit_restore(cpu, ra);
++}
++
+ /* abort execution with signal */
+ static void QEMU_NORETURN dump_core_and_abort(int target_sig)
+ {
 -- 
 2.25.1
 
