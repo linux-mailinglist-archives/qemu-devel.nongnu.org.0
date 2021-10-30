@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6EB440A76
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 19:13:10 +0200 (CEST)
-Received: from localhost ([::1]:44620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08337440A7E
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 19:17:27 +0200 (CEST)
+Received: from localhost ([::1]:53328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgrun-00037b-GZ
-	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 13:13:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55810)
+	id 1mgryw-0000d6-0X
+	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 13:17:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgroP-00020k-NU
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:06:33 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:43892)
+ id 1mgroS-000272-3E
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:06:36 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45956)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgroL-0004eq-Eh
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:06:33 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- 67-20020a1c1946000000b0030d4c90fa87so9008929wmz.2
- for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:06:29 -0700 (PDT)
+ id 1mgroP-0004fh-8u
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:06:35 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id o14so21540461wra.12
+ for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:06:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hJX9zCA8DTcTUjzRizQBLBEcIIn7qoqplVdvTY+sO00=;
- b=Zb2UlHcA99qgWvIpsliDUE7ZFUJs3xWQwko1vvu8VO7jadDiGGhLnGOzp4ZBFU5H8H
- 2QHxLzaHi21dqB8Z3yT+I35Zv0nhS0dPpJnHXJ0LRwITILm1vq2bbzHSzxCWxJ9P5rsZ
- JqYOFNw3LhKLioFg741XqDb/JOgR5eln+zJcMsMSh6wgWAk0ROd7QNDXqmxqpLU6uJE+
- Dc8Jk13+rnpqJuUollrxh8bk/zBZMni4lAwTUIH9YJT6lcLaVz3h9f+RHyykPzKnPmFF
- EyGU9s5zSE3xatEnFPCBon5tj7H29LqldjeNgBhMYAAgz8J2nx/HCK3apu+Wb6GbMTnR
- 3B7Q==
+ bh=mnJli2K7A3XP3Zj9vfuwjCNKXpaOP/CMKyZ79KxBM6M=;
+ b=gcKut/dB2l8QGrWJV/7JJDB+KY3r1uGCLghQIUVu24j3Dtos+cjQVpR9/Qn0Mufy/6
+ +FwQVFAHW/J4MPTwW3kvW3em/Hn/SER5wAHyAho8pTKCnQphDM/ciXjkfFGFxFBjGsOe
+ D1egl4co8SqUPfvumr/+lhDWI2wzlFaXjtidNf7gj/YvKVqy+9FqzdD0N+ZI5iGkAwe4
+ X12+XShHtI1/qf6gJ3vVZXv+BmMmv0HewVfWfmMZzDuBwcjQiLMkasxPMQrRG6j70zFT
+ +pTG2BWpAbodRj+BTdO77R4nwEL/HaO8RJFHrEiN4vqPUb81zIx11ckeNJgUU8GdQhqO
+ YU6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=hJX9zCA8DTcTUjzRizQBLBEcIIn7qoqplVdvTY+sO00=;
- b=bMbSV3nDSqiKxgawC2EZLxBctEQh7MlPDozqrdAKTscb3vi09CZaUZ7X/cWT4bQnOC
- 6zBkPu7yUB6ChVPyCziKQfYg1O1tugGz9pfFdeoGX/i3d7662W4I/Bu9x8NjLqigjYpE
- 9ALenhXNf2MKYt4Fl4u6oJ0FY1buSdQwrHl3bc+w+ijTEUIRev2n+GgYMyMcgiWMAk9Z
- E3LiUXezKlsLWdNao6XLMy0Z6Hrj2muX1zu3qY2edwcBBQa6maC+O/1Q6E4mJm7ghhc2
- fTo5IKC4QP6x+tKCgTy312u9X+nVWr0grArdqYj/cnFmQkSuxHN93o+f4hm1qd3uzTSQ
- zTqA==
-X-Gm-Message-State: AOAM533XnBOFtWlQXrKCDp36PxgEoliqgUl902A6Os50DP7QtNpMStsw
- AyQFZiGKketHPu47fgztjjIzR8fpCl8=
-X-Google-Smtp-Source: ABdhPJxNt4V3N6PEbHrD8on8BOK+9wO8Tc1SOMvImjIA3hHoh/bAlAOym/aXzlF3zRWfB2p33h4jaA==
-X-Received: by 2002:a1c:a905:: with SMTP id s5mr3379305wme.150.1635613587083; 
- Sat, 30 Oct 2021 10:06:27 -0700 (PDT)
+ bh=mnJli2K7A3XP3Zj9vfuwjCNKXpaOP/CMKyZ79KxBM6M=;
+ b=3NsctDpe/9SkDUXBSnYZqui6m6uuwvjvO4Rzy9Rq9GKE2gWlv310ESmbZsNnCi5vY0
+ iAkIfFss/R6EoiCq4LsbIK7IsaElHw3eodzhcTcc8lRGnj1dDbxyo7ALrS5l2yzFNBYM
+ HU4/3h5XM2Wy5pFvEs+nxAtRiqINyzsnflVnNVTrZvRq2ECSplBxahO5jcz0HCk5ufZR
+ npL9IqjqzGafarTkOiUN19K6KZzLe8bAklFtmK3YxUPcF9bFXXLiAZNFDcXgPmVYbRCf
+ QHezOj3a2NDthVIsxRpfjSvaJOZ41hfU9zbxdA/4ZLery91CVONIlUH0Fu6h0kik37KN
+ 5CwA==
+X-Gm-Message-State: AOAM530WXs/Z3fs+TPTfzlM0QpY7uG7Sq2cEViOoB8tiIveIx5cGRFHv
+ hlk34vwv4jTfppVAt7vnCYPmr6y+I30=
+X-Google-Smtp-Source: ABdhPJxr3a1DLyfat9bKQPxoXj4JlONVO7KFfbR3vjGYDmbB4avXOhRxWerjEy6lOTOdFHtR307ndg==
+X-Received: by 2002:adf:e8c1:: with SMTP id k1mr14256127wrn.257.1635613591605; 
+ Sat, 30 Oct 2021 10:06:31 -0700 (PDT)
 Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
  by smtp.gmail.com with ESMTPSA id
- w14sm7548162wmi.37.2021.10.30.10.06.26
+ z2sm7896932wmk.19.2021.10.30.10.06.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Oct 2021 10:06:26 -0700 (PDT)
+ Sat, 30 Oct 2021 10:06:31 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/30] hw/sh4: Coding style: Fix multi-line comments
-Date: Sat, 30 Oct 2021 19:05:47 +0200
-Message-Id: <20211030170615.2636436-3-f4bug@amsat.org>
+Subject: [PULL 03/30] hw/sh4: Coding style: White space fixes
+Date: Sat, 30 Oct 2021 19:05:48 +0200
+Message-Id: <20211030170615.2636436-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211030170615.2636436-1-f4bug@amsat.org>
 References: <20211030170615.2636436-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -99,912 +98,590 @@ From: BALATON Zoltan <balaton@eik.bme.hu>
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-Message-Id: <3f192c699f4e5949ec0fcc436e5610f50afe2dbf.1635541329.git.balaton@eik.bme.hu>
+Message-Id: <91698c54fa493a4cfe93546211206439787d4b78.1635541329.git.balaton@eik.bme.hu>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sh4/sh7750_regs.h | 500 +++++++++++++++++++++----------------------
- hw/char/sh_serial.c  |   6 +-
- hw/intc/sh_intc.c    |   9 +-
- hw/sh4/r2d.c         |   6 +-
- hw/sh4/sh7750.c      |  22 +-
- hw/sh4/shix.c        |  10 +-
- hw/timer/sh_timer.c  |   7 +-
- 7 files changed, 284 insertions(+), 276 deletions(-)
+ hw/sh4/sh7750_regs.h     | 18 +++++++++---------
+ include/hw/sh4/sh.h      | 10 +++++-----
+ hw/char/sh_serial.c      | 23 ++++++++++-------------
+ hw/intc/sh_intc.c        | 39 +++++++++++++++++++++++----------------
+ hw/pci-host/sh_pci.c     | 10 ++++------
+ hw/sh4/r2d.c             | 39 ++++++++++++++++++++-------------------
+ hw/sh4/sh7750.c          | 26 +++++++++++++-------------
+ hw/sh4/sh7750_regnames.c |  5 +++--
+ hw/sh4/shix.c            |  2 +-
+ hw/timer/sh_timer.c      | 22 ++++++++++++++++------
+ 10 files changed, 104 insertions(+), 90 deletions(-)
 
 diff --git a/hw/sh4/sh7750_regs.h b/hw/sh4/sh7750_regs.h
-index fd1050646f2..bd12b0532d0 100644
+index bd12b0532d0..beb571d5e9b 100644
 --- a/hw/sh4/sh7750_regs.h
 +++ b/hw/sh4/sh7750_regs.h
-@@ -43,8 +43,7 @@
-  * All register has 2 addresses: in 0xff000000 - 0xffffffff (P4 address)  and
-  * in 0x1f000000 - 0x1fffffff (area 7 address)
+@@ -1015,7 +1015,7 @@
   */
--#define SH7750_P4_BASE       0xff000000 /* Accessible only in
--                                           privileged mode */
-+#define SH7750_P4_BASE       0xff000000 /* Accessible only in privileged mode */
- #define SH7750_A7_BASE       0x1f000000 /* Accessible only using TLB */
  
- #define SH7750_P4_REG32(ofs) (SH7750_P4_BASE + (ofs))
-@@ -81,24 +80,24 @@
- #define SH7750_PTEL_PR_RWPO   0x00000020 /*   read-write in priv mode */
- #define SH7750_PTEL_PR_ROPU   0x00000040 /*   read-only in priv or user mode */
- #define SH7750_PTEL_PR_RWPU   0x00000060 /*   read-write in priv or user mode */
--#define SH7750_PTEL_C         0x00000008 /* Cacheability
--                                              (0 - page not cacheable) */
--#define SH7750_PTEL_D         0x00000004 /* Dirty bit (1 - write has been
--                                              performed to a page) */
--#define SH7750_PTEL_SH        0x00000002 /* Share Status bit (1 - page are
--                                              shared by processes) */
--#define SH7750_PTEL_WT        0x00000001 /* Write-through bit, specifies the
--                                              cache write mode:
--                                              0 - Copy-back mode
--                                              1 - Write-through mode */
-+#define SH7750_PTEL_C         0x00000008 /* Cacheability */
-+                                         /*   (0 - page not cacheable) */
-+#define SH7750_PTEL_D         0x00000004 /* Dirty bit (1 - write has been */
-+                                         /*   performed to a page) */
-+#define SH7750_PTEL_SH        0x00000002 /* Share Status bit (1 - page are */
-+                                         /*   shared by processes) */
-+#define SH7750_PTEL_WT        0x00000001 /* Write-through bit, specifies the */
-+                                         /*   cache write mode: */
-+                                         /*     0 - Copy-back mode */
-+                                         /*     1 - Write-through mode */
+ /* DMA Source Address Register - SAR0, SAR1, SAR2, SAR3 */
+-#define SH7750_SAR_REGOFS(n)  (0xA00000 + ((n)*16)) /* offset */
++#define SH7750_SAR_REGOFS(n)  (0xA00000 + ((n) * 16)) /* offset */
+ #define SH7750_SAR(n)         SH7750_P4_REG32(SH7750_SAR_REGOFS(n))
+ #define SH7750_SAR_A7(n)      SH7750_A7_REG32(SH7750_SAR_REGOFS(n))
+ #define SH7750_SAR0           SH7750_SAR(0)
+@@ -1028,7 +1028,7 @@
+ #define SH7750_SAR3_A7        SH7750_SAR_A7(3)
  
- /* Page Table Entry Assistance register - PTEA */
- #define SH7750_PTEA_REGOFS    0x000034 /* offset */
- #define SH7750_PTEA           SH7750_P4_REG32(SH7750_PTEA_REGOFS)
- #define SH7750_PTEA_A7        SH7750_A7_REG32(SH7750_PTEA_REGOFS)
--#define SH7750_PTEA_TC        0x00000008 /* Timing Control bit
--                                              0 - use area 5 wait states
--                                              1 - use area 6 wait states */
-+#define SH7750_PTEA_TC        0x00000008 /* Timing Control bit */
-+                                         /*   0 - use area 5 wait states */
-+                                         /*   1 - use area 6 wait states */
- #define SH7750_PTEA_SA        0x00000007 /* Space Attribute bits: */
- #define SH7750_PTEA_SA_UNDEF  0x00000000 /*   0 - undefined */
- #define SH7750_PTEA_SA_IOVAR  0x00000001 /*   1 - variable-size I/O space */
-@@ -150,13 +149,13 @@
- #define SH7750_CCR_A7         SH7750_A7_REG32(SH7750_CCR_REGOFS)
+ /* DMA Destination Address Register - DAR0, DAR1, DAR2, DAR3 */
+-#define SH7750_DAR_REGOFS(n)  (0xA00004 + ((n)*16)) /* offset */
++#define SH7750_DAR_REGOFS(n)  (0xA00004 + ((n) * 16)) /* offset */
+ #define SH7750_DAR(n)         SH7750_P4_REG32(SH7750_DAR_REGOFS(n))
+ #define SH7750_DAR_A7(n)      SH7750_A7_REG32(SH7750_DAR_REGOFS(n))
+ #define SH7750_DAR0           SH7750_DAR(0)
+@@ -1041,7 +1041,7 @@
+ #define SH7750_DAR3_A7        SH7750_DAR_A7(3)
  
- #define SH7750_CCR_IIX      0x00008000 /* IC index enable bit */
--#define SH7750_CCR_ICI      0x00000800 /* IC invalidation bit:
--                                           set it to clear IC */
-+#define SH7750_CCR_ICI      0x00000800 /* IC invalidation bit: */
-+                                       /*  set it to clear IC */
- #define SH7750_CCR_ICE      0x00000100 /* IC enable bit */
- #define SH7750_CCR_OIX      0x00000080 /* OC index enable bit */
--#define SH7750_CCR_ORA      0x00000020 /* OC RAM enable bit
--                                           if you set OCE = 0,
--                                           you should set ORA = 0 */
-+#define SH7750_CCR_ORA      0x00000020 /* OC RAM enable bit */
-+                                       /*  if you set OCE = 0, */
-+                                       /*  you should set ORA = 0 */
- #define SH7750_CCR_OCI      0x00000008 /* OC invalidation bit */
- #define SH7750_CCR_CB       0x00000004 /* Copy-back bit for P1 area */
- #define SH7750_CCR_WT       0x00000002 /* Write-through bit for P0,U0,P3 area */
-@@ -213,21 +212,22 @@
- /* General exception category */
- #define SH7750_EVT_USER_BREAK          0x1E0 /* User break */
- #define SH7750_EVT_IADDR_ERR           0x0E0 /* Instruction address error */
--#define SH7750_EVT_TLB_READ_MISS       0x040 /* ITLB miss exception /
--                                                   DTLB miss exception (read) */
--#define SH7750_EVT_TLB_READ_PROTV      0x0A0 /* ITLB protection violation /
--                                                   DTLB protection violation (read) */
--#define SH7750_EVT_ILLEGAL_INSTR       0x180 /* General Illegal Instruction
--                                                   exception */
--#define SH7750_EVT_SLOT_ILLEGAL_INSTR  0x1A0 /* Slot Illegal Instruction
--                                                   exception */
-+#define SH7750_EVT_TLB_READ_MISS       0x040 /* ITLB miss exception / */
-+                                             /*    DTLB miss exception (read) */
-+#define SH7750_EVT_TLB_READ_PROTV      0x0A0 /* ITLB protection violation, */
-+                                             /* DTLB protection violation */
-+                                             /*    (read) */
-+#define SH7750_EVT_ILLEGAL_INSTR       0x180 /* General Illegal Instruction */
-+                                             /*    exception */
-+#define SH7750_EVT_SLOT_ILLEGAL_INSTR  0x1A0 /* Slot Illegal Instruction */
-+                                             /*    exception */
- #define SH7750_EVT_FPU_DISABLE         0x800 /* General FPU disable exception */
- #define SH7750_EVT_SLOT_FPU_DISABLE    0x820 /* Slot FPU disable exception */
- #define SH7750_EVT_DATA_READ_ERR       0x0E0 /* Data address error (read) */
- #define SH7750_EVT_DATA_WRITE_ERR      0x100 /* Data address error (write) */
- #define SH7750_EVT_DTLB_WRITE_MISS     0x060 /* DTLB miss exception (write) */
--#define SH7750_EVT_DTLB_WRITE_PROTV    0x0C0 /* DTLB protection violation
--                                                   exception (write) */
-+#define SH7750_EVT_DTLB_WRITE_PROTV    0x0C0 /* DTLB protection violation */
-+                                             /*    exception (write) */
- #define SH7750_EVT_FPU_EXCEPTION       0x120 /* FPU exception */
- #define SH7750_EVT_INITIAL_PGWRITE     0x080 /* Initial Page Write exception */
- #define SH7750_EVT_TRAPA               0x160 /* Unconditional trap (TRAPA) */
-@@ -268,14 +268,14 @@
- #define SH7750_EVT_SCI_TEI             0x540 /* Transmit End */
+ /* DMA Transfer Count Register - DMATCR0, DMATCR1, DMATCR2, DMATCR3 */
+-#define SH7750_DMATCR_REGOFS(n)  (0xA00008 + ((n)*16)) /* offset */
++#define SH7750_DMATCR_REGOFS(n)  (0xA00008 + ((n) * 16)) /* offset */
+ #define SH7750_DMATCR(n)      SH7750_P4_REG32(SH7750_DMATCR_REGOFS(n))
+ #define SH7750_DMATCR_A7(n)   SH7750_A7_REG32(SH7750_DMATCR_REGOFS(n))
+ #define SH7750_DMATCR0_P4     SH7750_DMATCR(0)
+@@ -1054,7 +1054,7 @@
+ #define SH7750_DMATCR3_A7     SH7750_DMATCR_A7(3)
  
- /* Peripheral Module Interrupts - Watchdog Timer (WDT) */
--#define SH7750_EVT_WDT_ITI             0x560 /* Interval Timer Interrupt
--                                                   (used when WDT operates in
--                                                   interval timer mode) */
-+#define SH7750_EVT_WDT_ITI             0x560 /* Interval Timer Interrupt */
-+                                             /*    (used when WDT operates in */
-+                                             /*    interval timer mode) */
+ /* DMA Channel Control Register - CHCR0, CHCR1, CHCR2, CHCR3 */
+-#define SH7750_CHCR_REGOFS(n)  (0xA0000C + ((n)*16)) /* offset */
++#define SH7750_CHCR_REGOFS(n)  (0xA0000C + ((n) * 16)) /* offset */
+ #define SH7750_CHCR(n)        SH7750_P4_REG32(SH7750_CHCR_REGOFS(n))
+ #define SH7750_CHCR_A7(n)     SH7750_A7_REG32(SH7750_CHCR_REGOFS(n))
+ #define SH7750_CHCR0          SH7750_CHCR(0)
+@@ -1208,9 +1208,9 @@
+ #define SH7750_PCTRA_A7       SH7750_A7_REG32(SH7750_PCTRA_REGOFS)
  
- /* Peripheral Module Interrupts - Memory Refresh Unit (REF) */
- #define SH7750_EVT_REF_RCMI            0x580 /* Compare-match Interrupt */
--#define SH7750_EVT_REF_ROVI            0x5A0 /* Refresh Counter Overflow
--                                                   interrupt */
-+#define SH7750_EVT_REF_ROVI            0x5A0 /* Refresh Counter Overflow */
-+                                             /*    interrupt */
+ #define SH7750_PCTRA_PBPUP(n) 0 /* Bit n is pulled up */
+-#define SH7750_PCTRA_PBNPUP(n) (1 << ((n)*2+1)) /* Bit n is not pulled up */
++#define SH7750_PCTRA_PBNPUP(n) (1 << ((n) * 2 + 1)) /* Bit n is not pulled up */
+ #define SH7750_PCTRA_PBINP(n) 0 /* Bit n is an input */
+-#define SH7750_PCTRA_PBOUT(n) (1 << ((n)*2)) /* Bit n is an output */
++#define SH7750_PCTRA_PBOUT(n) (1 << ((n) * 2)) /* Bit n is an output */
  
- /* Peripheral Module Interrupts - Hitachi User Debug Interface (H-UDI) */
- #define SH7750_EVT_HUDI                0x600 /* UDI interrupt */
-@@ -290,11 +290,10 @@
- #define SH7750_EVT_DMAC_DMTE3          0x6A0 /* DMAC 3 Transfer End Interrupt */
- #define SH7750_EVT_DMAC_DMAE           0x6C0 /* DMAC Address Error Interrupt */
+ /* Port Data Register A - PDTRA(half) */
+ #define SH7750_PDTRA_REGOFS   0x800030 /* offset */
+@@ -1225,16 +1225,16 @@
+ #define SH7750_PCTRB_A7       SH7750_A7_REG32(SH7750_PCTRB_REGOFS)
  
--/* Peripheral Module Interrupts - Serial Communication Interface with FIFO */
--/*                                                                  (SCIF) */
-+/* Peripheral Module Interrupts Serial Communication Interface w/ FIFO (SCIF) */
- #define SH7750_EVT_SCIF_ERI            0x700 /* Receive Error */
--#define SH7750_EVT_SCIF_RXI            0x720 /* Receive FIFO Data Full or
--                                                   Receive Data ready interrupt */
-+#define SH7750_EVT_SCIF_RXI            0x720 /* Receive FIFO Data Full or */
-+                                             /* Receive Data ready interrupt */
- #define SH7750_EVT_SCIF_BRI            0x740 /* Break or overrun error */
- #define SH7750_EVT_SCIF_TXI            0x760 /* Transmit FIFO Data Empty */
+ #define SH7750_PCTRB_PBPUP(n) 0 /* Bit n is pulled up */
+-#define SH7750_PCTRB_PBNPUP(n) (1 << ((n-16)*2+1)) /* Bit n is not pulled up */
++#define SH7750_PCTRB_PBNPUP(n) (1 << ((n - 16) * 2 + 1)) /* Bit n is not pulled up */
+ #define SH7750_PCTRB_PBINP(n) 0 /* Bit n is an input */
+-#define SH7750_PCTRB_PBOUT(n) (1 << ((n-16)*2)) /* Bit n is an output */
++#define SH7750_PCTRB_PBOUT(n) (1 << ((n - 16) * 2)) /* Bit n is an output */
  
-@@ -305,13 +304,13 @@
- #define SH7750_STBCR          SH7750_P4_REG32(SH7750_STBCR_REGOFS)
- #define SH7750_STBCR_A7       SH7750_A7_REG32(SH7750_STBCR_REGOFS)
+ /* Port Data Register B - PDTRB(half) */
+ #define SH7750_PDTRB_REGOFS   0x800044 /* offset */
+ #define SH7750_PDTRB          SH7750_P4_REG32(SH7750_PDTRB_REGOFS)
+ #define SH7750_PDTRB_A7       SH7750_A7_REG32(SH7750_PDTRB_REGOFS)
  
--#define SH7750_STBCR_STBY     0x80 /* Specifies a transition to standby mode:
--                                        0 - Transition to SLEEP mode on SLEEP
--                                        1 - Transition to STANDBY mode on SLEEP */
--#define SH7750_STBCR_PHZ      0x40 /* State of peripheral module pins in
--                                        standby mode:
--                                        0 - normal state
--                                        1 - high-impendance state */
-+#define SH7750_STBCR_STBY     0x80 /* Specifies a transition to standby mode: */
-+                                   /*   0 Transition to SLEEP mode on SLEEP */
-+                                   /*   1 Transition to STANDBY mode on SLEEP */
-+#define SH7750_STBCR_PHZ      0x40 /* State of peripheral module pins in */
-+                                   /* standby mode: */
-+                                   /*   0 normal state */
-+                                   /*   1 high-impendance state */
+-#define SH7750_PDTRB_BIT(n) (1 << ((n)-16))
++#define SH7750_PDTRB_BIT(n) (1 << ((n) - 16))
  
- #define SH7750_STBCR_PPU      0x20 /* Peripheral module pins pull-up controls */
- #define SH7750_STBCR_MSTP4    0x10 /* Stopping the clock supply to DMAC */
-@@ -332,16 +331,16 @@
- #define SH7750_STBCR2         SH7750_P4_REG32(SH7750_STBCR2_REGOFS)
- #define SH7750_STBCR2_A7      SH7750_A7_REG32(SH7750_STBCR2_REGOFS)
+ /* GPIO Interrupt Control Register - GPIOIC(half) */
+ #define SH7750_GPIOIC_REGOFS  0x800048 /* offset */
+diff --git a/include/hw/sh4/sh.h b/include/hw/sh4/sh.h
+index 3d5ba598d0d..366cedcda04 100644
+--- a/include/hw/sh4/sh.h
++++ b/include/hw/sh4/sh.h
+@@ -44,14 +44,14 @@ typedef struct {
+     uint16_t portbmask_trigger;
+     /* Return 0 if no action was taken */
+     int (*port_change_cb) (uint16_t porta, uint16_t portb,
+-                           uint16_t * periph_pdtra,
+-                           uint16_t * periph_portdira,
+-                           uint16_t * periph_pdtrb,
+-                           uint16_t * periph_portdirb);
++                           uint16_t *periph_pdtra,
++                           uint16_t *periph_portdira,
++                           uint16_t *periph_pdtrb,
++                           uint16_t *periph_portdirb);
+ } sh7750_io_device;
  
--#define SH7750_STBCR2_DSLP    0x80 /* Specifies transition to deep sleep mode:
--                                        0 - transition to sleep or standby mode
--                                        as it is specified in STBY bit
--                                        1 - transition to deep sleep mode on
--                                        execution of SLEEP instruction */
--#define SH7750_STBCR2_MSTP6   0x02 /* Stopping the clock supply to Store Queue
--                                        in the cache controller */
-+#define SH7750_STBCR2_DSLP    0x80 /* Specifies transition to deep sleep mode */
-+                                   /*   0 transition to sleep or standby mode */
-+                                   /*     as it is specified in STBY bit */
-+                                   /*   1 transition to deep sleep mode on */
-+                                   /*     execution of SLEEP instruction */
-+#define SH7750_STBCR2_MSTP6   0x02 /* Stopping the clock supply to the */
-+                                   /*   Store Queue in the cache controller */
- #define SH7750_STBCR2_SQ_STP  SH7750_STBCR2_MSTP6
--#define SH7750_STBCR2_MSTP5   0x01 /* Stopping the clock supply to the User
--                                        Break Controller (UBC) */
-+#define SH7750_STBCR2_MSTP5   0x01 /* Stopping the clock supply to the  */
-+                                   /*   User Break Controller (UBC) */
- #define SH7750_STBCR2_UBC_STP SH7750_STBCR2_MSTP5
+ int sh7750_register_io_device(struct SH7750State *s,
+-                              sh7750_io_device * device);
++                              sh7750_io_device *device);
  
- /*
-@@ -351,9 +350,9 @@
- #define SH7750_FRQCR          SH7750_P4_REG32(SH7750_FRQCR_REGOFS)
- #define SH7750_FRQCR_A7       SH7750_A7_REG32(SH7750_FRQCR_REGOFS)
- 
--#define SH7750_FRQCR_CKOEN    0x0800 /* Clock Output Enable
--                                           0 - CKIO pin goes to HiZ/pullup
--                                           1 - Clock is output from CKIO */
-+#define SH7750_FRQCR_CKOEN    0x0800 /* Clock Output Enable */
-+                                     /*    0 - CKIO pin goes to HiZ/pullup */
-+                                     /*    1 - Clock is output from CKIO */
- #define SH7750_FRQCR_PLL1EN   0x0400 /* PLL circuit 1 enable */
- #define SH7750_FRQCR_PLL2EN   0x0200 /* PLL circuit 2 enable */
- 
-@@ -373,8 +372,8 @@
- #define SH7750_FRQCR_BFCDIV6  0x0020 /*    4 - * 1/6 */
- #define SH7750_FRQCR_BFCDIV8  0x0028 /*    5 - * 1/8 */
- 
--#define SH7750_FRQCR_PFC      0x0007 /* Peripheral module clock frequency
--                                           division ratio: */
-+#define SH7750_FRQCR_PFC      0x0007 /* Peripheral module clock frequency */
-+                                     /*    division ratio: */
- #define SH7750_FRQCR_PFCDIV2  0x0000 /*    0 - * 1/2 */
- #define SH7750_FRQCR_PFCDIV3  0x0001 /*    1 - * 1/3 */
- #define SH7750_FRQCR_PFCDIV4  0x0002 /*    2 - * 1/4 */
-@@ -389,17 +388,15 @@
- #define SH7750_WTCNT_REGOFS   0xC00008 /* offset */
- #define SH7750_WTCNT          SH7750_P4_REG32(SH7750_WTCNT_REGOFS)
- #define SH7750_WTCNT_A7       SH7750_A7_REG32(SH7750_WTCNT_REGOFS)
--#define SH7750_WTCNT_KEY      0x5A00 /* When WTCNT byte register written,
--                                           you have to set the upper byte to
--                                           0x5A */
-+#define SH7750_WTCNT_KEY      0x5A00 /* When WTCNT byte register written, you */
-+                                     /* have to set the upper byte to 0x5A */
- 
- /* Watchdog Timer Control/Status register - WTCSR */
- #define SH7750_WTCSR_REGOFS   0xC0000C /* offset */
- #define SH7750_WTCSR          SH7750_P4_REG32(SH7750_WTCSR_REGOFS)
- #define SH7750_WTCSR_A7       SH7750_A7_REG32(SH7750_WTCSR_REGOFS)
--#define SH7750_WTCSR_KEY      0xA500 /* When WTCSR byte register written,
--                                           you have to set the upper byte to
--                                           0xA5 */
-+#define SH7750_WTCSR_KEY      0xA500 /* When WTCSR byte register written, you */
-+                                     /* have to set the upper byte to 0xA5 */
- #define SH7750_WTCSR_TME      0x80 /* Timer enable (1-upcount start) */
- #define SH7750_WTCSR_MODE     0x40 /* Timer Mode Select: */
- #define SH7750_WTCSR_MODE_WT  0x40 /*    Watchdog Timer Mode */
-@@ -540,10 +537,10 @@
- #define SH7750_RCR2_RTCEN      0x08 /* RTC Crystal Oscillator is Operated */
- #define SH7750_RCR2_ADJ        0x04 /* 30-Second Adjastment */
- #define SH7750_RCR2_RESET      0x02 /* Frequency divider circuits are reset */
--#define SH7750_RCR2_START      0x01 /* 0 - sec, min, hr, day-of-week, month,
--                                           year counters are stopped
--                                       1 - sec, min, hr, day-of-week, month,
--                                           year counters operate normally */
-+#define SH7750_RCR2_START      0x01 /* 0 - sec, min, hr, day-of-week, month, */
-+                                    /*     year counters are stopped */
-+                                    /* 1 - sec, min, hr, day-of-week, month, */
-+                                    /*     year counters operate normally */
- /*
-  * Bus State Controller - BSC
-  */
-@@ -554,96 +551,98 @@
- #define SH7750_BCR1_ENDIAN    0x80000000 /* Endianness (1 - little endian) */
- #define SH7750_BCR1_MASTER    0x40000000 /* Master/Slave mode (1-master) */
- #define SH7750_BCR1_A0MPX     0x20000000 /* Area 0 Memory Type (0-SRAM,1-MPX) */
--#define SH7750_BCR1_IPUP      0x02000000 /* Input Pin Pull-up Control:
--                                              0 - pull-up resistor is on for
--                                                  control input pins
--                                              1 - pull-up resistor is off */
--#define SH7750_BCR1_OPUP      0x01000000 /* Output Pin Pull-up Control:
--                                              0 - pull-up resistor is on for
--                                                  control output pins
--                                              1 - pull-up resistor is off */
--#define SH7750_BCR1_A1MBC     0x00200000 /* Area 1 SRAM Byte Control Mode:
--                                              0 - Area 1 SRAM is set to
--                                                  normal mode
--                                              1 - Area 1 SRAM is set to byte
--                                                  control mode */
--#define SH7750_BCR1_A4MBC     0x00100000 /* Area 4 SRAM Byte Control Mode:
--                                              0 - Area 4 SRAM is set to
--                                                  normal mode
--                                              1 - Area 4 SRAM is set to byte
--                                                  control mode */
--#define SH7750_BCR1_BREQEN    0x00080000 /* BREQ Enable:
--                                              0 - External requests are  not
--                                                  accepted
--                                              1 - External requests are
--                                                  accepted */
--#define SH7750_BCR1_PSHR      0x00040000 /* Partial Sharing Bit:
--                                              0 - Master Mode
--                                              1 - Partial-sharing Mode */
--#define SH7750_BCR1_MEMMPX    0x00020000 /* Area 1 to 6 MPX Interface:
--                                              0 - SRAM/burst ROM interface
--                                              1 - MPX interface */
--#define SH7750_BCR1_HIZMEM    0x00008000 /* High Impendance Control. Specifies
--                                              the state of A[25:0], BS\, CSn\,
--                                              RD/WR\, CE2A\, CE2B\ in standby
--                                              mode and when bus is released:
--                                              0 - signals go to High-Z mode
--                                              1 - signals driven */
--#define SH7750_BCR1_HIZCNT    0x00004000 /* High Impendance Control. Specifies
--                                              the state of the RAS\, RAS2\, WEn\,
--                                              CASn\, DQMn, RD\, CASS\, FRAME\,
--                                              RD2\ signals in standby mode and
--                                              when bus is released:
--                                              0 - signals go to High-Z mode
--                                              1 - signals driven */
-+#define SH7750_BCR1_IPUP      0x02000000 /* Input Pin Pull-up Control: */
-+                                         /*   0 - pull-up resistor is on for */
-+                                         /*       control input pins */
-+                                         /*   1 - pull-up resistor is off */
-+#define SH7750_BCR1_OPUP      0x01000000 /* Output Pin Pull-up Control: */
-+                                         /*   0 - pull-up resistor is on for */
-+                                         /*       control output pins */
-+                                         /*   1 - pull-up resistor is off */
-+#define SH7750_BCR1_A1MBC     0x00200000 /* Area 1 SRAM Byte Control Mode: */
-+                                         /*   0 - Area 1 SRAM is set to */
-+                                         /*       normal mode */
-+                                         /*   1 - Area 1 SRAM is set to byte */
-+                                         /*       control mode */
-+#define SH7750_BCR1_A4MBC     0x00100000 /* Area 4 SRAM Byte Control Mode: */
-+                                         /*   0 - Area 4 SRAM is set to */
-+                                         /*       normal mode */
-+                                         /*   1 - Area 4 SRAM is set to byte */
-+                                         /*       control mode */
-+#define SH7750_BCR1_BREQEN    0x00080000 /* BREQ Enable: */
-+                                         /*   0 - External requests are  not */
-+                                         /*       accepted */
-+                                         /*   1 - External requests are */
-+                                         /*       accepted */
-+#define SH7750_BCR1_PSHR      0x00040000 /* Partial Sharing Bit: */
-+                                         /*   0 - Master Mode */
-+                                         /*   1 - Partial-sharing Mode */
-+#define SH7750_BCR1_MEMMPX    0x00020000 /* Area 1 to 6 MPX Interface: */
-+                                         /*   0 - SRAM/burst ROM interface */
-+                                         /*   1 - MPX interface */
-+#define SH7750_BCR1_HIZMEM    0x00008000 /* High Impendance Control. */
-+                                         /*   Specifies the state of A[25:0], */
-+                                         /*   BS\, CSn\, RD/WR\, CE2A\, CE2B\ */
-+                                         /*   in standby mode and when bus is */
-+                                         /*   released: */
-+                                         /*   0 - signals go to High-Z mode */
-+                                         /*   1 - signals driven */
-+#define SH7750_BCR1_HIZCNT    0x00004000 /* High Impendance Control. */
-+                                         /*   Specifies the state of the */
-+                                         /*   RAS\, RAS2\, WEn\, CASn\, DQMn, */
-+                                         /*   RD\, CASS\, FRAME\, RD2\ */
-+                                         /*   signals in standby mode and */
-+                                         /* when bus is released: */
-+                                         /*   0 - signals go to High-Z mode */
-+                                         /*   1 - signals driven */
- #define SH7750_BCR1_A0BST     0x00003800 /* Area 0 Burst ROM Control */
- #define SH7750_BCR1_A0BST_SRAM    0x0000 /*   Area 0 accessed as SRAM i/f */
--#define SH7750_BCR1_A0BST_ROM4    0x0800 /*   Area 0 accessed as burst ROM
--                                                   interface, 4 cosequtive access */
--#define SH7750_BCR1_A0BST_ROM8    0x1000 /*   Area 0 accessed as burst ROM
--                                                   interface, 8 cosequtive access */
--#define SH7750_BCR1_A0BST_ROM16   0x1800 /*   Area 0 accessed as burst ROM
--                                                   interface, 16 cosequtive access */
--#define SH7750_BCR1_A0BST_ROM32   0x2000 /*   Area 0 accessed as burst ROM
--                                                   interface, 32 cosequtive access */
-+#define SH7750_BCR1_A0BST_ROM4    0x0800 /*   Area 0 accessed as burst ROM */
-+                                         /*   interface, 4 cosequtive access */
-+#define SH7750_BCR1_A0BST_ROM8    0x1000 /*   Area 0 accessed as burst ROM */
-+                                         /*   interface, 8 cosequtive access */
-+#define SH7750_BCR1_A0BST_ROM16   0x1800 /*   Area 0 accessed as burst ROM */
-+                                         /*   interface, 16 cosequtive access */
-+#define SH7750_BCR1_A0BST_ROM32   0x2000 /*   Area 0 accessed as burst ROM */
-+                                         /*   interface, 32 cosequtive access */
- 
- #define SH7750_BCR1_A5BST     0x00000700 /* Area 5 Burst ROM Control */
- #define SH7750_BCR1_A5BST_SRAM    0x0000 /*   Area 5 accessed as SRAM i/f */
--#define SH7750_BCR1_A5BST_ROM4    0x0100 /*   Area 5 accessed as burst ROM
--                                                   interface, 4 cosequtive access */
--#define SH7750_BCR1_A5BST_ROM8    0x0200 /*   Area 5 accessed as burst ROM
--                                                   interface, 8 cosequtive access */
--#define SH7750_BCR1_A5BST_ROM16   0x0300 /*   Area 5 accessed as burst ROM
--                                                   interface, 16 cosequtive access */
--#define SH7750_BCR1_A5BST_ROM32   0x0400 /*   Area 5 accessed as burst ROM
--                                                   interface, 32 cosequtive access */
-+#define SH7750_BCR1_A5BST_ROM4    0x0100 /*   Area 5 accessed as burst ROM */
-+                                         /*   interface, 4 cosequtive access */
-+#define SH7750_BCR1_A5BST_ROM8    0x0200 /*   Area 5 accessed as burst ROM */
-+                                         /*   interface, 8 cosequtive access */
-+#define SH7750_BCR1_A5BST_ROM16   0x0300 /*   Area 5 accessed as burst ROM */
-+                                         /*   interface, 16 cosequtive access */
-+#define SH7750_BCR1_A5BST_ROM32   0x0400 /*   Area 5 accessed as burst ROM */
-+                                         /*   interface, 32 cosequtive access */
- 
- #define SH7750_BCR1_A6BST     0x000000E0 /* Area 6 Burst ROM Control */
- #define SH7750_BCR1_A6BST_SRAM    0x0000 /*   Area 6 accessed as SRAM i/f */
--#define SH7750_BCR1_A6BST_ROM4    0x0020 /*   Area 6 accessed as burst ROM
--                                                   interface, 4 cosequtive access */
--#define SH7750_BCR1_A6BST_ROM8    0x0040 /*   Area 6 accessed as burst ROM
--                                                   interface, 8 cosequtive access */
--#define SH7750_BCR1_A6BST_ROM16   0x0060 /*   Area 6 accessed as burst ROM
--                                                   interface, 16 cosequtive access */
--#define SH7750_BCR1_A6BST_ROM32   0x0080 /*   Area 6 accessed as burst ROM
--                                                   interface, 32 cosequtive access */
-+#define SH7750_BCR1_A6BST_ROM4    0x0020 /*   Area 6 accessed as burst ROM */
-+                                         /*   interface, 4 cosequtive access */
-+#define SH7750_BCR1_A6BST_ROM8    0x0040 /*   Area 6 accessed as burst ROM */
-+                                         /*   interface, 8 cosequtive access */
-+#define SH7750_BCR1_A6BST_ROM16   0x0060 /*   Area 6 accessed as burst ROM */
-+                                         /*   interface, 16 cosequtive access */
-+#define SH7750_BCR1_A6BST_ROM32   0x0080 /*   Area 6 accessed as burst ROM */
-+                                         /*   interface, 32 cosequtive access */
- 
- #define SH7750_BCR1_DRAMTP        0x001C /* Area 2 and 3 Memory Type */
--#define SH7750_BCR1_DRAMTP_2SRAM_3SRAM   0x0000 /* Area 2 and 3 are SRAM or MPX
--                                                   interface. */
--#define SH7750_BCR1_DRAMTP_2SRAM_3SDRAM  0x0008 /* Area 2 - SRAM/MPX, Area 3 -
--                                                   synchronous DRAM */
--#define SH7750_BCR1_DRAMTP_2SDRAM_3SDRAM 0x000C /* Area 2 and 3 are synchronous
--                                                   DRAM interface */
--#define SH7750_BCR1_DRAMTP_2SRAM_3DRAM   0x0010 /* Area 2 - SRAM/MPX, Area 3 -
--                                                   DRAM interface */
--#define SH7750_BCR1_DRAMTP_2DRAM_3DRAM   0x0014 /* Area 2 and 3 are DRAM
--                                                   interface */
-+#define SH7750_BCR1_DRAMTP_2SRAM_3SRAM   0x0000 /* Area 2 and 3 are SRAM or */
-+                                                /* MPX interface. */
-+#define SH7750_BCR1_DRAMTP_2SRAM_3SDRAM  0x0008 /* Area 2 - SRAM/MPX, Area 3 */
-+                                                /* synchronous DRAM */
-+#define SH7750_BCR1_DRAMTP_2SDRAM_3SDRAM 0x000C /* Area 2 and 3 are */
-+                                                /* synchronous DRAM interface */
-+#define SH7750_BCR1_DRAMTP_2SRAM_3DRAM   0x0010 /* Area 2 - SRAM/MPX, Area 3 */
-+                                                /* DRAM interface */
-+#define SH7750_BCR1_DRAMTP_2DRAM_3DRAM   0x0014 /* Area 2 and 3 are DRAM */
-+                                                /* interface */
- 
--#define SH7750_BCR1_A56PCM    0x00000001 /* Area 5 and 6 Bus Type:
--                                                   0 - SRAM interface
--                                                   1 - PCMCIA interface */
-+#define SH7750_BCR1_A56PCM    0x00000001 /* Area 5 and 6 Bus Type: */
-+                                         /*   0 - SRAM interface */
-+                                         /*   1 - PCMCIA interface */
- 
- /* Bus Control Register 2 (half) - BCR2 */
- #define SH7750_BCR2_REGOFS    0x800004 /* offset */
-@@ -668,16 +667,16 @@
- #define SH7750_BCR2_SZ_8      1 /* 8 bits */
- #define SH7750_BCR2_SZ_16     2 /* 16 bits */
- #define SH7750_BCR2_SZ_32     3 /* 32 bits */
--#define SH7750_BCR2_PORTEN    0x0001 /* Port Function Enable :
--                                        0 - D51-D32 are not used as a port
--                                        1 - D51-D32 are used as a port */
-+#define SH7750_BCR2_PORTEN    0x0001 /* Port Function Enable */
-+                                     /* 0 - D51-D32 are not used as a port */
-+                                     /* 1 - D51-D32 are used as a port */
- 
- /* Wait Control Register 1 - WCR1 */
- #define SH7750_WCR1_REGOFS    0x800008 /* offset */
- #define SH7750_WCR1           SH7750_P4_REG32(SH7750_WCR1_REGOFS)
- #define SH7750_WCR1_A7        SH7750_A7_REG32(SH7750_WCR1_REGOFS)
--#define SH7750_WCR1_DMAIW     0x70000000 /* DACK Device Inter-Cycle Idle
--                                                   specification */
-+#define SH7750_WCR1_DMAIW     0x70000000 /* DACK Device Inter-Cycle Idle */
-+                                         /*   specification */
- #define SH7750_WCR1_DMAIW_S   28
- #define SH7750_WCR1_A6IW      0x07000000 /* Area 6 Inter-Cycle Idle spec. */
- #define SH7750_WCR1_A6IW_S    24
-@@ -794,8 +793,8 @@
- #define SH7750_MCR_RASD       0x80000000 /* RAS Down mode */
- #define SH7750_MCR_MRSET      0x40000000 /* SDRAM Mode Register Set */
- #define SH7750_MCR_PALL       0x00000000 /* SDRAM Precharge All cmd. Mode */
--#define SH7750_MCR_TRC        0x38000000 /* RAS Precharge Time at End of
--                                            Refresh: */
-+#define SH7750_MCR_TRC        0x38000000 /* RAS Precharge Time at End of */
-+                                         /* Refresh: */
- #define SH7750_MCR_TRC_0      0x00000000 /*    0 */
- #define SH7750_MCR_TRC_3      0x08000000 /*    3 */
- #define SH7750_MCR_TRC_6      0x10000000 /*    6 */
-@@ -809,10 +808,10 @@
- #define SH7750_MCR_TCAS_1     0x00000000 /*    1 */
- #define SH7750_MCR_TCAS_2     0x00800000 /*    2 */
- 
--#define SH7750_MCR_TPC        0x00380000 /* DRAM: RAS Precharge Period
--                                            SDRAM: minimum number of cycles
--                                            until the next bank active cmd
--                                            is output after precharging */
-+#define SH7750_MCR_TPC        0x00380000 /* DRAM: RAS Precharge Period */
-+                                         /* SDRAM: minimum number of cycles */
-+                                         /* until the next bank active cmd */
-+                                         /* is output after precharging */
- #define SH7750_MCR_TPC_S      19
- #define SH7750_MCR_TPC_SDRAM_1 0x00000000 /* 1 cycle */
- #define SH7750_MCR_TPC_SDRAM_2 0x00080000 /* 2 cycles */
-@@ -823,9 +822,10 @@
- #define SH7750_MCR_TPC_SDRAM_7 0x00300000 /* 7 cycles */
- #define SH7750_MCR_TPC_SDRAM_8 0x00380000 /* 8 cycles */
- 
--#define SH7750_MCR_RCD        0x00030000 /* DRAM: RAS-CAS Assertion Delay time
--                                            SDRAM: bank active-read/write cmd
--                                            delay time */
-+#define SH7750_MCR_RCD         0x00030000 /* DRAM: RAS-CAS Assertion Delay */
-+                                          /*   time */
-+                                          /* SDRAM: bank active-read/write */
-+                                          /*   command delay time */
- #define SH7750_MCR_RCD_DRAM_2  0x00000000 /* DRAM delay 2 clocks */
- #define SH7750_MCR_RCD_DRAM_3  0x00010000 /* DRAM delay 3 clocks */
- #define SH7750_MCR_RCD_DRAM_4  0x00020000 /* DRAM delay 4 clocks */
-@@ -841,10 +841,10 @@
- #define SH7750_MCR_TRWL_4     0x00006000 /* 4 */
- #define SH7750_MCR_TRWL_5     0x00008000 /* 5 */
- 
--#define SH7750_MCR_TRAS       0x00001C00 /* DRAM: CAS-Before-RAS Refresh RAS
--                                            asserting period
--                                            SDRAM: Command interval after
--                                            synchronous DRAM refresh */
-+#define SH7750_MCR_TRAS       0x00001C00 /* DRAM: CAS-Before-RAS Refresh RAS */
-+                                         /* asserting period */
-+                                         /* SDRAM: Command interval after */
-+                                         /* synchronous DRAM refresh */
- #define SH7750_MCR_TRAS_DRAM_2         0x00000000 /* 2 */
- #define SH7750_MCR_TRAS_DRAM_3         0x00000400 /* 3 */
- #define SH7750_MCR_TRAS_DRAM_4         0x00000800 /* 4 */
-@@ -898,30 +898,30 @@
- #define SH7750_PCR            SH7750_P4_REG32(SH7750_PCR_REGOFS)
- #define SH7750_PCR_A7         SH7750_A7_REG32(SH7750_PCR_REGOFS)
- 
--#define SH7750_PCR_A5PCW      0xC000 /* Area 5 PCMCIA Wait - Number of wait
--                                        states to be added to the number of
--                                        waits specified by WCR2 in a low-speed
--                                        PCMCIA wait cycle */
-+#define SH7750_PCR_A5PCW      0xC000 /* Area 5 PCMCIA Wait - Number of wait */
-+                                     /* states to be added to the number of */
-+                                     /* waits specified by WCR2 in a */
-+                                     /* low-speed PCMCIA wait cycle */
- #define SH7750_PCR_A5PCW_0    0x0000 /*    0 waits inserted */
- #define SH7750_PCR_A5PCW_15   0x4000 /*    15 waits inserted */
- #define SH7750_PCR_A5PCW_30   0x8000 /*    30 waits inserted */
- #define SH7750_PCR_A5PCW_50   0xC000 /*    50 waits inserted */
- 
--#define SH7750_PCR_A6PCW      0x3000 /* Area 6 PCMCIA Wait - Number of wait
--                                        states to be added to the number of
--                                        waits specified by WCR2 in a low-speed
--                                        PCMCIA wait cycle */
-+#define SH7750_PCR_A6PCW      0x3000 /* Area 6 PCMCIA Wait - Number of wait */
-+                                     /* states to be added to the number of */
-+                                     /* waits specified by WCR2 in a */
-+                                     /* low-speed PCMCIA wait cycle */
- #define SH7750_PCR_A6PCW_0    0x0000 /*    0 waits inserted */
- #define SH7750_PCR_A6PCW_15   0x1000 /*    15 waits inserted */
- #define SH7750_PCR_A6PCW_30   0x2000 /*    30 waits inserted */
- #define SH7750_PCR_A6PCW_50   0x3000 /*    50 waits inserted */
- 
--#define SH7750_PCR_A5TED      0x0E00 /* Area 5 Address-OE\/WE\ Assertion Delay,
--                                        delay time from address output to
--                                        OE\/WE\ assertion on the connected
--                                        PCMCIA interface */
-+#define SH7750_PCR_A5TED      0x0E00 /* Area 5 Addr-OE\/WE\ Assertion Delay */
-+                                     /* delay time from address output to */
-+                                     /* OE\/WE\ assertion on the connected */
-+                                     /* PCMCIA interface */
- #define SH7750_PCR_A5TED_S    9
--#define SH7750_PCR_A6TED      0x01C0 /* Area 6 Address-OE\/WE\ Assertion Delay */
-+#define SH7750_PCR_A6TED      0x01C0 /* Area 6 Addr-OE\/WE\ Assertion Delay */
- #define SH7750_PCR_A6TED_S    6
- 
- #define SH7750_PCR_TED_0WS    0 /* 0 Waits inserted */
-@@ -933,10 +933,10 @@
- #define SH7750_PCR_TED_12WS   6 /* 12 Waits inserted */
- #define SH7750_PCR_TED_15WS   7 /* 15 Waits inserted */
- 
--#define SH7750_PCR_A5TEH      0x0038 /* Area 5 OE\/WE\ Negation Address delay,
--                                        address hold delay time from OE\/WE\
--                                        negation in a write on the connected
--                                        PCMCIA interface */
-+#define SH7750_PCR_A5TEH      0x0038 /* Area 5 OE\/WE\ Negation Addr delay, */
-+                                     /* address hold delay time from OE\/WE\ */
-+                                     /* negation in a write on the connected */
-+                                     /* PCMCIA interface */
- #define SH7750_PCR_A5TEH_S    3
- 
- #define SH7750_PCR_A6TEH      0x0007 /* Area 6 OE\/WE\ Negation Address delay */
-@@ -957,9 +957,9 @@
- #define SH7750_RTCSR_A7       SH7750_A7_REG32(SH7750_RTCSR_REGOFS)
- 
- #define SH7750_RTCSR_KEY      0xA500 /* RTCSR write key */
--#define SH7750_RTCSR_CMF      0x0080 /* Compare-Match Flag (indicates a
--                                        match between the refresh timer
--                                        counter and refresh time constant) */
-+#define SH7750_RTCSR_CMF      0x0080 /* Compare-Match Flag (indicates a */
-+                                     /* match between the refresh timer */
-+                                     /* counter and refresh time constant) */
- #define SH7750_RTCSR_CMIE     0x0040 /* Compare-Match Interrupt Enable */
- #define SH7750_RTCSR_CKS      0x0038 /* Refresh Counter Clock Selects */
- #define SH7750_RTCSR_CKS_DIS          0x0000 /* Clock Input Disabled */
-@@ -972,8 +972,8 @@
- #define SH7750_RTCSR_CKS_CKIO_DIV4096 0x0038 /* Bus Clock / 4096 */
- 
- #define SH7750_RTCSR_OVF      0x0004 /* Refresh Count Overflow Flag */
--#define SH7750_RTCSR_OVIE     0x0002 /* Refresh Count Overflow Interrupt
--                                        Enable */
-+#define SH7750_RTCSR_OVIE     0x0002 /* Refresh Count Overflow Interrupt */
-+                                     /*   Enable */
- #define SH7750_RTCSR_LMTS     0x0001 /* Refresh Count Overflow Limit Select */
- #define SH7750_RTCSR_LMTS_1024 0x0000 /* Count Limit is 1024 */
- #define SH7750_RTCSR_LMTS_512  0x0001 /* Count Limit is 512 */
-@@ -1076,9 +1076,9 @@
- #define SH7750_CHCR_SSA_AMEM8   0xC0000000 /* 8-bit attribute memory space */
- #define SH7750_CHCR_SSA_AMEM16  0xE0000000 /* 16-bit attribute memory space */
- 
--#define SH7750_CHCR_STC       0x10000000 /* Source Address Wait Control Select,
--                                                   specifies CS5 or CS6 space wait
--                                                   control for PCMCIA access */
-+#define SH7750_CHCR_STC       0x10000000 /* Source Addr Wait Control Select */
-+                                         /*   specifies CS5 or CS6 space wait */
-+                                         /*   control for PCMCIA access */
- 
- #define SH7750_CHCR_DSA       0x0E000000 /* Source Address Space Attribute */
- #define SH7750_CHCR_DSA_PCMCIA  0x00000000 /* Reserved in PCMCIA access */
-@@ -1090,10 +1090,10 @@
- #define SH7750_CHCR_DSA_AMEM8   0x0C000000 /* 8-bit attribute memory space */
- #define SH7750_CHCR_DSA_AMEM16  0x0E000000 /* 16-bit attribute memory space */
- 
--#define SH7750_CHCR_DTC       0x01000000 /* Destination Address Wait Control
--                                              Select, specifies CS5 or CS6
--                                              space wait control for PCMCIA
--                                              access */
-+#define SH7750_CHCR_DTC       0x01000000 /* Destination Address Wait Control */
-+                                         /*   Select, specifies CS5 or CS6 */
-+                                         /*   space wait control for PCMCIA */
-+                                         /*   access */
- 
- #define SH7750_CHCR_DS        0x00080000 /* DREQ\ Select : */
- #define SH7750_CHCR_DS_LOWLVL 0x00000000 /*   Low Level Detection */
-@@ -1122,49 +1122,49 @@
- #define SH7750_CHCR_SM_DEC    0x00002000 /*   Source Addr Decremented */
- 
- #define SH7750_CHCR_RS        0x00000F00 /* Request Source Select: */
--#define SH7750_CHCR_RS_ER_DA_EA_TO_EA   0x000 /* External Request, Dual Address
--                                                   Mode (External Addr Space->
--                                                   External Addr Space) */
--#define SH7750_CHCR_RS_ER_SA_EA_TO_ED   0x200 /* External Request, Single
--                                                   Address Mode (External Addr
--                                                   Space -> External Device) */
--#define SH7750_CHCR_RS_ER_SA_ED_TO_EA   0x300 /* External Request, Single
--                                                   Address Mode, (External
--                                                   Device -> External Addr
--                                                   Space) */
--#define SH7750_CHCR_RS_AR_EA_TO_EA      0x400 /* Auto-Request (External Addr
--                                                   Space -> External Addr Space) */
-+#define SH7750_CHCR_RS_ER_DA_EA_TO_EA   0x000 /* External Request, Dual Addr */
-+                                              /*   Mode, External Addr Space */
-+                                              /*   -> External Addr Space) */
-+#define SH7750_CHCR_RS_ER_SA_EA_TO_ED   0x200 /* External Request, Single */
-+                                              /*   Address Mode (Ext. Addr */
-+                                              /*   Space -> External Device) */
-+#define SH7750_CHCR_RS_ER_SA_ED_TO_EA   0x300 /* External Request, Single */
-+                                              /*   Address Mode, (External */
-+                                              /*   Device -> External Addr */
-+                                              /*   Space) */
-+#define SH7750_CHCR_RS_AR_EA_TO_EA      0x400 /* Auto-Request (External Addr */
-+                                              /*   Space -> Ext. Addr Space) */
- 
--#define SH7750_CHCR_RS_AR_EA_TO_OCP     0x500 /* Auto-Request (External Addr
--                                                   Space -> On-chip Peripheral
--                                                   Module) */
--#define SH7750_CHCR_RS_AR_OCP_TO_EA     0x600 /* Auto-Request (On-chip
--                                                   Peripheral Module ->
--                                                   External Addr Space */
--#define SH7750_CHCR_RS_SCITX_EA_TO_SC   0x800 /* SCI Transmit-Data-Empty intr
--                                                   transfer request (external
--                                                   address space -> SCTDR1) */
--#define SH7750_CHCR_RS_SCIRX_SC_TO_EA   0x900 /* SCI Receive-Data-Full intr
--                                                   transfer request (SCRDR1 ->
--                                                   External Addr Space) */
--#define SH7750_CHCR_RS_SCIFTX_EA_TO_SC  0xA00 /* SCIF Transmit-Data-Empty intr
--                                                   transfer request (external
--                                                   address space -> SCFTDR1) */
--#define SH7750_CHCR_RS_SCIFRX_SC_TO_EA  0xB00 /* SCIF Receive-Data-Full intr
--                                                   transfer request (SCFRDR2 ->
--                                                   External Addr Space) */
--#define SH7750_CHCR_RS_TMU2_EA_TO_EA    0xC00 /* TMU Channel 2 (input capture
--                                                   interrupt), (external address
--                                                   space -> external address
--                                                   space) */
--#define SH7750_CHCR_RS_TMU2_EA_TO_OCP   0xD00 /* TMU Channel 2 (input capture
--                                                   interrupt), (external address
--                                                   space -> on-chip peripheral
--                                                   module) */
--#define SH7750_CHCR_RS_TMU2_OCP_TO_EA   0xE00 /* TMU Channel 2 (input capture
--                                                   interrupt), (on-chip
--                                                   peripheral module -> external
--                                                   address space) */
-+#define SH7750_CHCR_RS_AR_EA_TO_OCP     0x500 /* Auto-Request (External Addr */
-+                                              /*   Space -> On-chip */
-+                                              /*   Peripheral Module) */
-+#define SH7750_CHCR_RS_AR_OCP_TO_EA     0x600 /* Auto-Request (On-chip */
-+                                              /*   Peripheral Module -> */
-+                                              /*   External Addr Space */
-+#define SH7750_CHCR_RS_SCITX_EA_TO_SC   0x800 /* SCI Transmit-Data-Empty intr */
-+                                              /*   transfer request (external */
-+                                              /*   address space -> SCTDR1) */
-+#define SH7750_CHCR_RS_SCIRX_SC_TO_EA   0x900 /* SCI Receive-Data-Full intr */
-+                                              /*   transfer request (SCRDR1 */
-+                                              /*   -> External Addr Space) */
-+#define SH7750_CHCR_RS_SCIFTX_EA_TO_SC  0xA00 /* SCIF TX-Data-Empty intr */
-+                                              /*   transfer request (external */
-+                                              /*   address space -> SCFTDR1) */
-+#define SH7750_CHCR_RS_SCIFRX_SC_TO_EA  0xB00 /* SCIF Receive-Data-Full intr */
-+                                              /*   transfer request (SCFRDR2 */
-+                                              /*   -> External Addr Space) */
-+#define SH7750_CHCR_RS_TMU2_EA_TO_EA    0xC00 /* TMU Channel 2 (input capture */
-+                                              /*   interrupt), (external */
-+                                              /*   address space -> external */
-+                                              /*   address space) */
-+#define SH7750_CHCR_RS_TMU2_EA_TO_OCP   0xD00 /* TMU Channel 2 (input capture */
-+                                              /*   interrupt), (external */
-+                                              /*   address space -> on-chip */
-+                                              /*   peripheral module) */
-+#define SH7750_CHCR_RS_TMU2_OCP_TO_EA   0xE00 /* TMU Channel 2 (input capture */
-+                                              /*   interrupt), (on-chip */
-+                                              /*   peripheral module -> */
-+                                              /*   external address space) */
- 
- #define SH7750_CHCR_TM        0x00000080 /* Transmit mode: */
- #define SH7750_CHCR_TM_CSTEAL 0x00000000 /*     Cycle Steal Mode */
-@@ -1255,22 +1255,22 @@
- #define SH7750_ICR_MAI        0x4000 /* NMI Interrupt Mask */
- 
- #define SH7750_ICR_NMIB       0x0200 /* NMI Block Mode: */
--#define SH7750_ICR_NMIB_BLK   0x0000 /*   NMI requests held pending while
--                                           SR.BL bit is set to 1 */
--#define SH7750_ICR_NMIB_NBLK  0x0200 /*   NMI requests detected when SR.BL bit
--                                           set to 1 */
-+#define SH7750_ICR_NMIB_BLK   0x0000 /*   NMI requests held pending while */
-+                                     /*     SR.BL bit is set to 1 */
-+#define SH7750_ICR_NMIB_NBLK  0x0200 /*   NMI requests detected when SR.BL */
-+                                     /*     bit set to 1 */
- 
- #define SH7750_ICR_NMIE       0x0100 /* NMI Edge Select: */
--#define SH7750_ICR_NMIE_FALL  0x0000 /*   Interrupt request detected on falling
--                                           edge of NMI input */
--#define SH7750_ICR_NMIE_RISE  0x0100 /*   Interrupt request detected on rising
--                                           edge of NMI input */
-+#define SH7750_ICR_NMIE_FALL  0x0000 /*   Interrupt request detected on */
-+                                     /*     falling edge of NMI input */
-+#define SH7750_ICR_NMIE_RISE  0x0100 /*   Interrupt request detected on */
-+                                     /*     rising edge of NMI input */
- 
- #define SH7750_ICR_IRLM       0x0080 /* IRL Pin Mode: */
--#define SH7750_ICR_IRLM_ENC   0x0000 /*   IRL\ pins used as a level-encoded
--                                           interrupt requests */
--#define SH7750_ICR_IRLM_RAW   0x0080 /*   IRL\ pins used as a four independent
--                                           interrupt requests */
-+#define SH7750_ICR_IRLM_ENC   0x0000 /*   IRL\ pins used as a level-encoded */
-+                                     /*     interrupt requests */
-+#define SH7750_ICR_IRLM_RAW   0x0080 /*   IRL\ pins used as a four */
-+                                     /*     independent interrupt requests */
- 
- /*
-  * User Break Controller registers
+ /* sh_serial.c */
+ #define SH_SERIAL_FEAT_SCIF (1 << 0)
 diff --git a/hw/char/sh_serial.c b/hw/char/sh_serial.c
-index 167f4d8cb90..05ae8e84ce7 100644
+index 05ae8e84ce7..3fdb9f9a99d 100644
 --- a/hw/char/sh_serial.c
 +++ b/hw/char/sh_serial.c
-@@ -115,8 +115,10 @@ static void sh_serial_write(void *opaque, hwaddr offs,
-     case 0x0c: /* FTDR / TDR */
-         if (qemu_chr_fe_backend_connected(&s->chr)) {
-             ch = val;
--            /* XXX this blocks entire thread. Rewrite to use
--             * qemu_chr_fe_write and background I/O callbacks */
-+            /*
-+             * XXX this blocks entire thread. Rewrite to use
-+             * qemu_chr_fe_write and background I/O callbacks
-+             */
-             qemu_chr_fe_write_all(&s->chr, &ch, 1);
+@@ -75,7 +75,7 @@ typedef struct {
+     qemu_irq bri;
+ } sh_serial_state;
+ 
+-static void sh_serial_clear_fifo(sh_serial_state * s)
++static void sh_serial_clear_fifo(sh_serial_state *s)
+ {
+     memset(s->rx_fifo, 0, SH_RX_FIFO_LENGTH);
+     s->rx_cnt = 0;
+@@ -93,7 +93,7 @@ static void sh_serial_write(void *opaque, hwaddr offs,
+     printf("sh_serial: write offs=0x%02x val=0x%02x\n",
+            offs, val);
+ #endif
+-    switch(offs) {
++    switch (offs) {
+     case 0x00: /* SMR */
+         s->smr = val & ((s->feat & SH_SERIAL_FEAT_SCIF) ? 0x7b : 0xff);
+         return;
+@@ -131,7 +131,7 @@ static void sh_serial_write(void *opaque, hwaddr offs,
+ #endif
+     }
+     if (s->feat & SH_SERIAL_FEAT_SCIF) {
+-        switch(offs) {
++        switch (offs) {
+         case 0x10: /* FSR */
+             if (!(val & (1 << 6)))
+                 s->flags &= ~SH_SERIAL_FLAG_TEND;
+@@ -178,9 +178,8 @@ static void sh_serial_write(void *opaque, hwaddr offs,
+         case 0x24: /* LSR */
+             return;
          }
-         s->dr = val;
+-    }
+-    else {
+-        switch(offs) {
++    } else {
++        switch (offs) {
+ #if 0
+         case 0x0c:
+             ret = s->dr;
+@@ -207,7 +206,7 @@ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
+     uint32_t ret = ~0;
+ 
+ #if 0
+-    switch(offs) {
++    switch (offs) {
+     case 0x00:
+         ret = s->smr;
+         break;
+@@ -223,7 +222,7 @@ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
+     }
+ #endif
+     if (s->feat & SH_SERIAL_FEAT_SCIF) {
+-        switch(offs) {
++        switch (offs) {
+         case 0x00: /* SMR */
+             ret = s->smr;
+             break;
+@@ -270,9 +269,8 @@ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
+             ret = 0;
+             break;
+         }
+-    }
+-    else {
+-        switch(offs) {
++    } else {
++        switch (offs) {
+ #if 0
+         case 0x0c:
+             ret = s->dr;
+@@ -397,8 +395,7 @@ void sh_serial_init(MemoryRegion *sysmem,
+ 
+     if (feat & SH_SERIAL_FEAT_SCIF) {
+         s->fcr = 0;
+-    }
+-    else {
++    } else {
+         s->dr = 0xff;
+     }
+ 
 diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
-index a269b8fbd4b..84eec7d4ba4 100644
+index 84eec7d4ba4..67005081e36 100644
 --- a/hw/intc/sh_intc.c
 +++ b/hw/intc/sh_intc.c
-@@ -450,8 +450,7 @@ int sh_intc_init(MemoryRegion *sysmem,
-     desc->nr_mask_regs = nr_mask_regs;
-     desc->prio_regs = prio_regs;
-     desc->nr_prio_regs = nr_prio_regs;
--    /* Allocate 4 MemoryRegions per register (2 actions * 2 aliases).
--     **/
-+    /* Allocate 4 MemoryRegions per register (2 actions * 2 aliases) */
-     desc->iomem_aliases = g_new0(MemoryRegion,
-                                  (nr_mask_regs + nr_prio_regs) * 4);
- 
-@@ -498,8 +497,10 @@ int sh_intc_init(MemoryRegion *sysmem,
-     return 0;
+@@ -71,18 +71,18 @@ void sh_intc_toggle_source(struct intc_source *source,
+                    enable_changed == -1 ? "disabled " : "",
+                    source->pending ? "pending" : "");
+ #endif
+-  }
++    }
  }
  
--/* Assert level <n> IRL interrupt. 
--   0:deassert. 1:lowest priority,... 15:highest priority. */
-+/*
-+ * Assert level <n> IRL interrupt.
-+ * 0:deassert. 1:lowest priority,... 15:highest priority
-+ */
- void sh_intc_set_irl(void *opaque, int n, int level)
+-static void sh_intc_set_irq (void *opaque, int n, int level)
++static void sh_intc_set_irq(void *opaque, int n, int level)
  {
-     struct intc_source *s = opaque;
-diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
-index 8f0d373b09f..46f1fae48ce 100644
---- a/hw/sh4/r2d.c
-+++ b/hw/sh4/r2d.c
-@@ -352,8 +352,10 @@ static void r2d_init(MachineState *machine)
+-  struct intc_desc *desc = opaque;
+-  struct intc_source *source = &(desc->sources[n]);
++    struct intc_desc *desc = opaque;
++    struct intc_source *source = &(desc->sources[n]);
+ 
+-  if (level && !source->asserted)
+-    sh_intc_toggle_source(source, 0, 1);
+-  else if (!level && source->asserted)
+-    sh_intc_toggle_source(source, 0, -1);
++    if (level && !source->asserted)
++      sh_intc_toggle_source(source, 0, 1);
++    else if (!level && source->asserted)
++      sh_intc_toggle_source(source, 0, -1);
+ }
+ 
+ int sh_intc_get_pending_vector(struct intc_desc *desc, int imask)
+@@ -236,7 +236,7 @@ static uint64_t sh_intc_read(void *opaque, hwaddr offset,
+     printf("sh_intc_read 0x%lx\n", (unsigned long) offset);
+ #endif
+ 
+-    sh_intc_locate(desc, (unsigned long)offset, &valuep, 
++    sh_intc_locate(desc, (unsigned long)offset, &valuep,
+                    &enum_ids, &first, &width, &mode);
+     return *valuep;
+ }
+@@ -257,14 +257,20 @@ static void sh_intc_write(void *opaque, hwaddr offset,
+     printf("sh_intc_write 0x%lx 0x%08x\n", (unsigned long) offset, value);
+ #endif
+ 
+-    sh_intc_locate(desc, (unsigned long)offset, &valuep, 
++    sh_intc_locate(desc, (unsigned long)offset, &valuep,
+                    &enum_ids, &first, &width, &mode);
+ 
+     switch (mode) {
+-    case INTC_MODE_ENABLE_REG | INTC_MODE_IS_PRIO: break;
+-    case INTC_MODE_DUAL_SET: value |= *valuep; break;
+-    case INTC_MODE_DUAL_CLR: value = *valuep & ~value; break;
+-    default: abort();
++    case INTC_MODE_ENABLE_REG | INTC_MODE_IS_PRIO:
++        break;
++    case INTC_MODE_DUAL_SET:
++        value |= *valuep;
++        break;
++    case INTC_MODE_DUAL_CLR:
++        value = *valuep & ~value;
++        break;
++    default:
++        abort();
      }
  
-     if (kernel_cmdline) {
--        /* I see no evidence that this .kernel_cmdline buffer requires
--           NUL-termination, so using strncpy should be ok. */
-+        /*
-+         * I see no evidence that this .kernel_cmdline buffer requires
-+         * NUL-termination, so using strncpy should be ok.
-+         */
-         strncpy(boot_params.kernel_cmdline, kernel_cmdline,
-                 sizeof(boot_params.kernel_cmdline));
+     for (k = 0; k <= first; k++) {
+@@ -465,7 +471,7 @@ int sh_intc_init(MemoryRegion *sysmem,
      }
+ 
+     desc->irqs = qemu_allocate_irqs(sh_intc_set_irq, desc, nr_sources);
+- 
++
+     memory_region_init_io(&desc->iomem, NULL, &sh_intc_ops, desc,
+                           "interrupt-controller", 0x100000000ULL);
+ 
+@@ -507,7 +513,8 @@ void sh_intc_set_irl(void *opaque, int n, int level)
+     int i, irl = level ^ 15;
+     for (i = 0; (s = sh_intc_source(s->parent, s->next_enum_id)); i++) {
+         if (i == irl)
+-            sh_intc_toggle_source(s, s->enable_count?0:1, s->asserted?0:1);
++            sh_intc_toggle_source(s, s->enable_count ? 0 : 1,
++                                  s->asserted ? 0 : 1);
+         else
+             if (s->asserted)
+                 sh_intc_toggle_source(s, 0, -1);
+diff --git a/hw/pci-host/sh_pci.c b/hw/pci-host/sh_pci.c
+index 08c1562e228..719d6ca2a6d 100644
+--- a/hw/pci-host/sh_pci.c
++++ b/hw/pci-host/sh_pci.c
+@@ -49,13 +49,12 @@ struct SHPCIState {
+     uint32_t iobr;
+ };
+ 
+-static void sh_pci_reg_write (void *p, hwaddr addr, uint64_t val,
+-                              unsigned size)
++static void sh_pci_reg_write(void *p, hwaddr addr, uint64_t val, unsigned size)
+ {
+     SHPCIState *pcic = p;
+     PCIHostState *phb = PCI_HOST_BRIDGE(pcic);
+ 
+-    switch(addr) {
++    switch (addr) {
+     case 0 ... 0xfc:
+         stl_le_p(pcic->dev->config + addr, val);
+         break;
+@@ -75,13 +74,12 @@ static void sh_pci_reg_write (void *p, hwaddr addr, uint64_t val,
+     }
+ }
+ 
+-static uint64_t sh_pci_reg_read (void *p, hwaddr addr,
+-                                 unsigned size)
++static uint64_t sh_pci_reg_read(void *p, hwaddr addr, unsigned size)
+ {
+     SHPCIState *pcic = p;
+     PCIHostState *phb = PCI_HOST_BRIDGE(pcic);
+ 
+-    switch(addr) {
++    switch (addr) {
+     case 0 ... 0xfc:
+         return ldl_le_p(pcic->dev->config + addr);
+     case 0x1c0:
+diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
+index 46f1fae48ce..216d6e24a1c 100644
+--- a/hw/sh4/r2d.c
++++ b/hw/sh4/r2d.c
+@@ -96,19 +96,19 @@ enum r2d_fpga_irq {
+ };
+ 
+ static const struct { short irl; uint16_t msk; } irqtab[NR_IRQS] = {
+-    [CF_IDE] =   {  1, 1<<9 },
+-    [CF_CD] =    {  2, 1<<8 },
+-    [PCI_INTA] = {  9, 1<<14 },
+-    [PCI_INTB] = { 10, 1<<13 },
+-    [PCI_INTC] = {  3, 1<<12 },
+-    [PCI_INTD] = {  0, 1<<11 },
+-    [SM501] =    {  4, 1<<10 },
+-    [KEY] =      {  5, 1<<6 },
+-    [RTC_A] =    {  6, 1<<5 },
+-    [RTC_T] =    {  7, 1<<4 },
+-    [SDCARD] =   {  8, 1<<7 },
+-    [EXT] =      { 11, 1<<0 },
+-    [TP] =       { 12, 1<<15 },
++    [CF_IDE] =   {  1, 1 << 9 },
++    [CF_CD] =    {  2, 1 << 8 },
++    [PCI_INTA] = {  9, 1 << 14 },
++    [PCI_INTB] = { 10, 1 << 13 },
++    [PCI_INTC] = {  3, 1 << 12 },
++    [PCI_INTD] = {  0, 1 << 11 },
++    [SM501] =    {  4, 1 << 10 },
++    [KEY] =      {  5, 1 << 6 },
++    [RTC_A] =    {  6, 1 << 5 },
++    [RTC_T] =    {  7, 1 << 4 },
++    [SDCARD] =   {  8, 1 << 7 },
++    [EXT] =      { 11, 1 << 0 },
++    [TP] =       { 12, 1 << 15 },
+ };
+ 
+ static void update_irl(r2d_fpga_t *fpga)
+@@ -306,7 +306,7 @@ static void r2d_init(MachineState *machine)
+     /* NIC: rtl8139 on-board, and 2 slots. */
+     for (i = 0; i < nb_nics; i++)
+         pci_nic_init_nofail(&nd_table[i], pci_bus,
+-                            "rtl8139", i==0 ? "2" : NULL);
++                            "rtl8139", i == 0 ? "2" : NULL);
+ 
+     /* USB keyboard */
+     usb_create_simple(usb_bus_find(-1), "usb-kbd");
+@@ -321,8 +321,8 @@ static void r2d_init(MachineState *machine)
+                                           SDRAM_BASE + LINUX_LOAD_OFFSET,
+                                           INITRD_LOAD_OFFSET - LINUX_LOAD_OFFSET);
+         if (kernel_size < 0) {
+-          fprintf(stderr, "qemu: could not load kernel '%s'\n", kernel_filename);
+-          exit(1);
++            fprintf(stderr, "qemu: could not load kernel '%s'\n", kernel_filename);
++            exit(1);
+         }
+ 
+         /* initialization which should be done by firmware */
+@@ -330,7 +330,8 @@ static void r2d_init(MachineState *machine)
+                           MEMTXATTRS_UNSPECIFIED, NULL); /* cs3 SDRAM */
+         address_space_stw(&address_space_memory, SH7750_BCR2, 3 << (3 * 2),
+                           MEMTXATTRS_UNSPECIFIED, NULL); /* cs3 32bit */
+-        reset_info->vector = (SDRAM_BASE + LINUX_LOAD_OFFSET) | 0xa0000000; /* Start from P2 area */
++        /* Start from P2 area */
++        reset_info->vector = (SDRAM_BASE + LINUX_LOAD_OFFSET) | 0xa0000000;
+     }
+ 
+     if (initrd_filename) {
+@@ -341,8 +342,8 @@ static void r2d_init(MachineState *machine)
+                                           SDRAM_SIZE - INITRD_LOAD_OFFSET);
+ 
+         if (initrd_size < 0) {
+-          fprintf(stderr, "qemu: could not load initrd '%s'\n", initrd_filename);
+-          exit(1);
++            fprintf(stderr, "qemu: could not load initrd '%s'\n", initrd_filename);
++            exit(1);
+         }
+ 
+         /* initialization which should be done by firmware */
 diff --git a/hw/sh4/sh7750.c b/hw/sh4/sh7750.c
-index 2a175bfa74f..2539924b002 100644
+index 2539924b002..1e61f9f1c81 100644
 --- a/hw/sh4/sh7750.c
 +++ b/hw/sh4/sh7750.c
-@@ -82,9 +82,10 @@ static inline int has_bcr3_and_bcr4(SH7750State * s)
+@@ -78,7 +78,7 @@ typedef struct SH7750State {
+     struct intc_desc intc;
+ } SH7750State;
+ 
+-static inline int has_bcr3_and_bcr4(SH7750State * s)
++static inline int has_bcr3_and_bcr4(SH7750State *s)
  {
      return s->cpu->env.features & SH_FEATURE_BCR3_AND_BCR4;
  }
--/**********************************************************************
-- I/O ports
--**********************************************************************/
-+
-+/*
-+ * I/O ports
-+ */
+@@ -87,7 +87,7 @@ static inline int has_bcr3_and_bcr4(SH7750State * s)
+  * I/O ports
+  */
  
- int sh7750_register_io_device(SH7750State * s, sh7750_io_device * device)
+-int sh7750_register_io_device(SH7750State * s, sh7750_io_device * device)
++int sh7750_register_io_device(SH7750State *s, sh7750_io_device *device)
  {
-@@ -194,9 +195,9 @@ static void portb_changed(SH7750State * s, uint16_t prev)
+     int i;
+ 
+@@ -102,7 +102,7 @@ int sh7750_register_io_device(SH7750State * s, sh7750_io_device * device)
+ 
+ static uint16_t portdir(uint32_t v)
+ {
+-#define EVENPORTMASK(n) ((v & (1<<((n)<<1))) >> (n))
++#define EVENPORTMASK(n) ((v & (1 << ((n) << 1))) >> (n))
+     return
+         EVENPORTMASK(15) | EVENPORTMASK(14) | EVENPORTMASK(13) |
+         EVENPORTMASK(12) | EVENPORTMASK(11) | EVENPORTMASK(10) |
+@@ -114,7 +114,7 @@ static uint16_t portdir(uint32_t v)
+ 
+ static uint16_t portpullup(uint32_t v)
+ {
+-#define ODDPORTMASK(n) ((v & (1<<(((n)<<1)+1))) >> (n))
++#define ODDPORTMASK(n) ((v & (1 << (((n) << 1) + 1))) >> (n))
+     return
+         ODDPORTMASK(15) | ODDPORTMASK(14) | ODDPORTMASK(13) |
+         ODDPORTMASK(12) | ODDPORTMASK(11) | ODDPORTMASK(10) |
+@@ -123,26 +123,26 @@ static uint16_t portpullup(uint32_t v)
+         ODDPORTMASK(1) | ODDPORTMASK(0);
+ }
+ 
+-static uint16_t porta_lines(SH7750State * s)
++static uint16_t porta_lines(SH7750State *s)
+ {
+     return (s->portdira & s->pdtra) | /* CPU */
+         (s->periph_portdira & s->periph_pdtra) | /* Peripherals */
+         (~(s->portdira | s->periph_portdira) & s->portpullupa); /* Pullups */
+ }
+ 
+-static uint16_t portb_lines(SH7750State * s)
++static uint16_t portb_lines(SH7750State *s)
+ {
+     return (s->portdirb & s->pdtrb) | /* CPU */
+         (s->periph_portdirb & s->periph_pdtrb) | /* Peripherals */
+         (~(s->portdirb | s->periph_portdirb) & s->portpullupb); /* Pullups */
+ }
+ 
+-static void gen_port_interrupts(SH7750State * s)
++static void gen_port_interrupts(SH7750State *s)
+ {
+     /* XXXXX interrupts not generated */
+ }
+ 
+-static void porta_changed(SH7750State * s, uint16_t prev)
++static void porta_changed(SH7750State *s, uint16_t prev)
+ {
+     uint16_t currenta, changes;
+     int i, r = 0;
+@@ -171,7 +171,7 @@ static void porta_changed(SH7750State * s, uint16_t prev)
          gen_port_interrupts(s);
  }
  
--/**********************************************************************
-- Memory
--**********************************************************************/
-+/*
-+ * Memory
-+ */
- 
- static void error_access(const char *kind, hwaddr addr)
+-static void portb_changed(SH7750State * s, uint16_t prev)
++static void portb_changed(SH7750State *s, uint16_t prev)
  {
-@@ -491,7 +492,8 @@ static const MemoryRegionOps sh7750_mem_ops = {
-     .endianness = DEVICE_NATIVE_ENDIAN,
+     uint16_t currentb, changes;
+     int i, r = 0;
+@@ -228,7 +228,7 @@ static uint32_t sh7750_mem_readw(void *opaque, hwaddr addr)
+     case SH7750_BCR2_A7:
+         return s->bcr2;
+     case SH7750_BCR3_A7:
+-        if(!has_bcr3_and_bcr4(s))
++        if (!has_bcr3_and_bcr4(s))
+             error_access("word read", addr);
+         return s->bcr3;
+     case SH7750_FRQCR_A7:
+@@ -263,7 +263,7 @@ static uint32_t sh7750_mem_readl(void *opaque, hwaddr addr)
+     case SH7750_BCR1_A7:
+         return s->bcr1;
+     case SH7750_BCR4_A7:
+-        if(!has_bcr3_and_bcr4(s))
++        if (!has_bcr3_and_bcr4(s))
+             error_access("long read", addr);
+         return s->bcr4;
+     case SH7750_WCR1_A7:
+@@ -332,7 +332,7 @@ static void sh7750_mem_writew(void *opaque, hwaddr addr,
+         s->bcr2 = mem_value;
+         return;
+     case SH7750_BCR3_A7:
+-        if(!has_bcr3_and_bcr4(s))
++        if (!has_bcr3_and_bcr4(s))
+             error_access("word write", addr);
+         s->bcr3 = mem_value;
+         return;
+@@ -384,7 +384,7 @@ static void sh7750_mem_writel(void *opaque, hwaddr addr,
+         s->bcr1 = mem_value;
+         return;
+     case SH7750_BCR4_A7:
+-        if(!has_bcr3_and_bcr4(s))
++        if (!has_bcr3_and_bcr4(s))
+             error_access("long write", addr);
+         s->bcr4 = mem_value;
+         return;
+diff --git a/hw/sh4/sh7750_regnames.c b/hw/sh4/sh7750_regnames.c
+index b1f112df3e0..37b3acd6204 100644
+--- a/hw/sh4/sh7750_regnames.c
++++ b/hw/sh4/sh7750_regnames.c
+@@ -81,14 +81,15 @@ static regname_t regnames[] = {
+     REGNAME(SH7750_BCR3_A7)
+     REGNAME(SH7750_BCR4_A7)
+     REGNAME(SH7750_SDMR2_A7)
+-    REGNAME(SH7750_SDMR3_A7) {(uint32_t) - 1, NULL}
++    REGNAME(SH7750_SDMR3_A7)
++    { (uint32_t)-1, NULL }
  };
  
--/* sh775x interrupt controller tables for sh_intc.c
-+/*
-+ * sh775x interrupt controller tables for sh_intc.c
-  * stolen from linux/arch/sh/kernel/cpu/sh4/setup-sh7750.c
-  */
+ const char *regname(uint32_t addr)
+ {
+     unsigned int i;
  
-@@ -642,9 +644,9 @@ static struct intc_group groups_irl[] = {
-         IRL_7, IRL_8, IRL_9, IRL_A, IRL_B, IRL_C, IRL_D, IRL_E),
- };
- 
--/**********************************************************************
-- Memory mapped cache and TLB
--**********************************************************************/
-+/*
-+ * Memory mapped cache and TLB
-+ */
- 
- #define MM_REGION_MASK   0x07000000
- #define MM_ICACHE_ADDR   (0)
+-    for (i = 0; regnames[i].regaddr != (uint32_t) - 1; i++) {
++    for (i = 0; regnames[i].regaddr != (uint32_t)-1; i++) {
+         if (regnames[i].regaddr == addr)
+             return regnames[i].regname;
+     }
 diff --git a/hw/sh4/shix.c b/hw/sh4/shix.c
-index b0579aa0f10..6b39de417fa 100644
+index 6b39de417fa..aa812512f0c 100644
 --- a/hw/sh4/shix.c
 +++ b/hw/sh4/shix.c
-@@ -22,11 +22,11 @@
-  * THE SOFTWARE.
-  */
- /*
--   Shix 2.0 board by Alexis Polti, described at
--   https://web.archive.org/web/20070917001736/perso.enst.fr/~polti/realisations/shix20
--
--   More information in target/sh4/README.sh4
--*/
-+ * Shix 2.0 board by Alexis Polti, described at
-+ * https://web.archive.org/web/20070917001736/perso.enst.fr/~polti/realisations/shix20
-+ *
-+ * More information in target/sh4/README.sh4
-+ */
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "cpu.h"
+@@ -48,7 +48,7 @@ static void shix_init(MachineState *machine)
+     MemoryRegion *rom = g_new(MemoryRegion, 1);
+     MemoryRegion *sdram = g_new(MemoryRegion, 2);
+     const char *bios_name = machine->firmware ?: BIOS_FILENAME;
+-    
++
+     cpu = SUPERH_CPU(cpu_create(machine->cpu_type));
+ 
+     /* Allocate memory space */
 diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
-index 58af1a1edbd..4f765b339b7 100644
+index 4f765b339b7..01afcbd2b0e 100644
 --- a/hw/timer/sh_timer.c
 +++ b/hw/timer/sh_timer.c
-@@ -104,9 +104,10 @@ static void sh_timer_write(void *opaque, hwaddr offset,
-     case OFFSET_TCR:
-         ptimer_transaction_begin(s->timer);
-         if (s->enabled) {
--            /* Pause the timer if it is running.  This may cause some
--               inaccuracy dure to rounding, but avoids a whole lot of other
--               messyness.  */
-+            /*
-+             * Pause the timer if it is running. This may cause some inaccuracy
-+             * dure to rounding, but avoids a whole lot of other messyness
-+             */
-             ptimer_stop(s->timer);
-         }
+@@ -55,7 +55,7 @@ static void sh_timer_update(sh_timer_state *s)
+     int new_level = s->int_level && (s->tcr & TIMER_TCR_UNIE);
+ 
+     if (new_level != s->old_level)
+-      qemu_set_irq (s->irq, new_level);
++        qemu_set_irq(s->irq, new_level);
+ 
+     s->old_level = s->int_level;
+     s->int_level = new_level;
+@@ -113,11 +113,21 @@ static void sh_timer_write(void *opaque, hwaddr offset,
          freq = s->freq;
+         /* ??? Need to recalculate expiry time after changing divisor.  */
+         switch (value & TIMER_TCR_TPSC) {
+-        case 0: freq >>= 2; break;
+-        case 1: freq >>= 4; break;
+-        case 2: freq >>= 6; break;
+-        case 3: freq >>= 8; break;
+-        case 4: freq >>= 10; break;
++        case 0:
++            freq >>= 2;
++            break;
++        case 1:
++            freq >>= 4;
++            break;
++        case 2:
++            freq >>= 6;
++            break;
++        case 3:
++            freq >>= 8;
++            break;
++        case 4:
++            freq >>= 10;
++            break;
+         case 6:
+         case 7:
+             if (s->feat & TIMER_FEAT_EXTCLK) {
 -- 
 2.31.1
 
