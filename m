@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DBF8440951
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 15:59:34 +0200 (CEST)
-Received: from localhost ([::1]:36152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 947BE44094C
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 15:57:46 +0200 (CEST)
+Received: from localhost ([::1]:59512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgotN-0005xa-3t
-	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 09:59:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55288)
+	id 1mgorh-0002kv-KF
+	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 09:57:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mgoph-0007ZT-20; Sat, 30 Oct 2021 09:55:42 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:43914)
+ id 1mgopk-0007bN-Px; Sat, 30 Oct 2021 09:55:45 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:35404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mgopb-0000iO-8x; Sat, 30 Oct 2021 09:55:40 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id y1so8689897plk.10;
- Sat, 30 Oct 2021 06:55:32 -0700 (PDT)
+ id 1mgopf-0000tC-2d; Sat, 30 Oct 2021 09:55:43 -0400
+Received: by mail-pl1-x629.google.com with SMTP id n18so8720521plc.2;
+ Sat, 30 Oct 2021 06:55:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=m/EL/5IeIfZtcKl68A4SvFzBb7yrmJRRf3J6MnZmVv8=;
- b=ayAoNt1kjIzpaKU7ZFOaZuJyVAu/055zC5Lae+zz4hlsmt0ekX9Khp8Q8QVs4yNK5M
- CIH9pIT+CAZyysG6iHQxRBfOVyB0ODcrbdtXTlvgcq/60VrHqgI8yhtD5CkQLm7u4q3v
- iQbKbEYAtw0HKDoZNIaz9LWmc9S1RIBW++d2pR+5shUEPcED3Xj0sNzvNPb/rAT+RQmJ
- ZT9mP2WnUzlOISYc1mRxHFWUIlF93wpqzK3tW3MVcSsvtkw9gmZdbYvkIF3f4ndCGpdH
- s6EyGPeRTtWXUEpWTx3rY9meAHz3Fx/YgCW4wU4CC6szZjNAODfDGTFjPKG7crmb0bOQ
- l/wQ==
+ bh=+5qBDsm0HSeypgcWR5fXXbdqYJxVroc0DuPQz42Qsh4=;
+ b=MzZYKSAjHgaQkcTHe2i79OBrO/X67nZmxpE2OhLUt16yPrLJGHPsWoEgDEK3u0jpCO
+ Mce2Om6937iTJ7SsSkskP/5nqzwCqaBilJULctvxgdEaaWpLTAjJRnu/1rXfr4NOmPUv
+ pfaA7zXhF8KfqvDLMFKWZ1cKNKbpv2mhgM7Z7uFHfvg6KJt40rPg0/L1E9BlEWq7LxyD
+ D2Vnv/xy2TanM3zXyiSo+19vPnQDA6V+BZOei33mqaFIGMt6sIVPLeLlYNwKh6V0oKJV
+ YyCWHLHPZV/P3iVkhrUdEIqNck5uF1BELmUvCPJMfi4ViRPSh+EZ+Fx5joU6wB/amZVL
+ So9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=m/EL/5IeIfZtcKl68A4SvFzBb7yrmJRRf3J6MnZmVv8=;
- b=QnlXwbRppxQ6gbqUbpHnGM/HR76IW1BrOV09GS8TtsahzLv5T3l1UqXwRBkkgtXUXe
- 9DIrtI4j6Pw2TV22FxXj3sDj3p+azr8Lkq7zvI8jvhAtm9jWxN8RuEyow4mMJ4dYj53W
- swlogJyB1ypvwmwmHhvP5H3fPSjl2MCVD/+HmKzlrOpTBahG0BDD39NW7C2eQs3MwAaT
- jO8VKdz9MtO0igHsmbKqFwf8KlVLPHcvnmQdDBNZGXAt/uAyKy39nhIyvLcRG1HsYjr6
- 0yuwHTo8yBqilaxQ1+Rhz6uY8ezXlFvYdapb6Surs4aw2IrlhfikmE13gRQykGQpapth
- O6XA==
-X-Gm-Message-State: AOAM532an5XZGEl2n8P7YqrjvzQ55gzEt29lxRh0rD928XfZXV0A1nFH
- YhG8GH8yEnTeuHcFjXMagg4v8wnpr5A=
-X-Google-Smtp-Source: ABdhPJzvaFiExvLXOfIzlU9b2cqBx+A/DmkmK+Ygb8raD6tlgPiFriCFP8S88sbd6NQ4i/g3GCygiA==
-X-Received: by 2002:a17:90a:de0b:: with SMTP id
- m11mr18102021pjv.90.1635602131405; 
- Sat, 30 Oct 2021 06:55:31 -0700 (PDT)
+ bh=+5qBDsm0HSeypgcWR5fXXbdqYJxVroc0DuPQz42Qsh4=;
+ b=xGAyzYj53ozoj2tsxQPoQT4oDrlz+B2dmIN3LLwXHvpJgBR0a6Im+T1y40jvCv6Zhh
+ FP/z2ZEqhYK/KFltYqvKnAWRdRPrzJftABBXVVlWoS0tnFCAyi1OsP4m2pIsmj1cUw6V
+ CQK2tAGLdHx6Hcfz0fmByIhxjAfocR6aMHu8vkuXaoEpL9cNUWLu+AL1jj4tpMLCL89y
+ GZ8wm901GmlfJ0ZBy1vjNwmwJKsw9RnYwMOTbv+nYA0du+Teawoxk+kCv+OBnBm6i8Qn
+ v0Ew8GOvQ3aACYjnW7csaU9keR5UnhGjX/J2pMyCNHr25cWZ4GpIellqRKEqaUw1yp7f
+ vl1Q==
+X-Gm-Message-State: AOAM530JB/r9wPlmoGHlv42sE7QqnWu2JzFczOBLQdxIYX/4foQ22bVO
+ NeZryv52hgfE5obFhODcIK3CnD4urlY=
+X-Google-Smtp-Source: ABdhPJyn417d0jCPE6w3KMLQNfGQ4mV2NGzGrRV3NCkrfESiPaWDfG6HOjo3VLw+MuGkvoh+0lMBrg==
+X-Received: by 2002:a17:90b:1e4a:: with SMTP id
+ pi10mr18294138pjb.142.1635602135889; 
+ Sat, 30 Oct 2021 06:55:35 -0700 (PDT)
 Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
  [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id f19sm3645911pfc.72.2021.10.30.06.55.29
+ by smtp.gmail.com with ESMTPSA id f19sm3645911pfc.72.2021.10.30.06.55.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Oct 2021 06:55:31 -0700 (PDT)
+ Sat, 30 Oct 2021 06:55:35 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 X-Google-Original-From: Bin Meng <bin.meng@windriver.com>
 To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Subject: [PATCH v2 4/7] target/riscv: cpu: Add a config option for native debug
-Date: Sat, 30 Oct 2021 21:55:10 +0800
-Message-Id: <20211030135513.18517-5-bin.meng@windriver.com>
+Subject: [PATCH v2 6/7] target/riscv: cpu: Enable native debug feature on virt
+ and sifive_u CPUs
+Date: Sat, 30 Oct 2021 21:55:12 +0800
+Message-Id: <20211030135513.18517-7-bin.meng@windriver.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211030135513.18517-1-bin.meng@windriver.com>
 References: <20211030135513.18517-1-bin.meng@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,63 +89,54 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a config option to enable support for native M-mode debug.
-This is disabled by default and can be enabled with 'debug=true'.
+Turn on native debug feature on virt and sifive_u CPUs.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
 ---
 
 Changes in v2:
-- change the config option to 'disabled' by default
+- new patch: enable native debug feature on virt and sifive_u CPUs
 
- target/riscv/cpu.h | 2 ++
- target/riscv/cpu.c | 5 +++++
- 2 files changed, 7 insertions(+)
+ target/riscv/cpu.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 1fb13e8b94..b2301425c2 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -75,6 +75,7 @@ enum {
-     RISCV_FEATURE_MMU,
-     RISCV_FEATURE_PMP,
-     RISCV_FEATURE_EPMP,
-+    RISCV_FEATURE_DEBUG,
-     RISCV_FEATURE_MISA
- };
- 
-@@ -327,6 +328,7 @@ struct RISCVCPU {
-         bool mmu;
-         bool pmp;
-         bool epmp;
-+        bool debug;
-         uint64_t resetvec;
-     } cfg;
- };
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 7061ae05fb..84116768ce 100644
+index 6f69ef4f50..b4d3c58dea 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -448,6 +448,10 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         }
-     }
+@@ -153,6 +153,7 @@ static void rv64_base_cpu_init(Object *obj)
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+     /* We set this in the realise function */
+     set_misa(env, MXL_RV64, 0);
++    qdev_prop_set_bit(DEVICE(obj), "debug", true);
+ }
  
-+    if (cpu->cfg.debug) {
-+        set_feature(env, RISCV_FEATURE_DEBUG);
-+    }
-+
-     set_resetvec(env, cpu->cfg.resetvec);
+ static void rv64_sifive_u_cpu_init(Object *obj)
+@@ -160,6 +161,7 @@ static void rv64_sifive_u_cpu_init(Object *obj)
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+     set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
+     set_priv_version(env, PRIV_VERSION_1_10_0);
++    qdev_prop_set_bit(DEVICE(obj), "debug", true);
+ }
  
-     /* Validate that MISA_MXL is set properly. */
-@@ -631,6 +635,7 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-+    DEFINE_PROP_BOOL("debug", RISCVCPU, cfg.debug, false),
+ static void rv64_sifive_e_cpu_init(Object *obj)
+@@ -175,6 +177,7 @@ static void rv32_base_cpu_init(Object *obj)
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+     /* We set this in the realise function */
+     set_misa(env, MXL_RV32, 0);
++    qdev_prop_set_bit(DEVICE(obj), "debug", true);
+ }
  
-     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
+ static void rv32_sifive_u_cpu_init(Object *obj)
+@@ -182,6 +185,7 @@ static void rv32_sifive_u_cpu_init(Object *obj)
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+     set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
+     set_priv_version(env, PRIV_VERSION_1_10_0);
++    qdev_prop_set_bit(DEVICE(obj), "debug", true);
+ }
  
+ static void rv32_sifive_e_cpu_init(Object *obj)
 -- 
 2.25.1
 
