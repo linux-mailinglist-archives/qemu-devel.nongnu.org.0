@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 730D4440AD7
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 20:00:36 +0200 (CEST)
-Received: from localhost ([::1]:46844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F198440AA9
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 19:39:08 +0200 (CEST)
+Received: from localhost ([::1]:53534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgseh-0006ue-6M
-	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 14:00:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57718)
+	id 1mgsJv-0006Ba-7u
+	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 13:39:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgryV-0002Dg-Ak
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:17:00 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:42669)
+ id 1mgryX-0002Ee-7Q
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:17:02 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:50844)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgryS-00009u-Af
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:16:59 -0400
-Received: by mail-pg1-x533.google.com with SMTP id t7so12991214pgl.9
- for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:16:55 -0700 (PDT)
+ id 1mgryV-0000AJ-8J
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:17:00 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id gn3so9425018pjb.0
+ for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:16:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=p8GaNWW3vnRejpH0QBiQY2hh87QfB4bhIFphc+bCE2U=;
- b=tFHQGAzBSohwn8NtlCyzQcv+8qj2sS17Vbg+fqXl5pidyxn5rtIzOB9bWfIgoSJ7bY
- NXMzasflqC4s4W1ECEuuKzDLaQROZI70iECFPf/vT+U7s/FoDpSaUWZs97SVtqmxcWuS
- q2zyNMUYCWOxC+OxS31uUaZthr8LrPcxNV1x2dLvUSuSpEX23EuC5qYkzO8ux2b3E0Cu
- AorVuFG+mFoxdrEbCI85s0aywvA3FOCBAiWBQtGV9++pmQF/7L+fQ9aBN88MY2qXFJcb
- 1hb6lZ/02w8M+sKLh7kktiYwVTXAMaK/toY1LutaT2UObd/voMcKeIcbpSplJwGU6IUU
- iAGw==
+ bh=fofFGJJJzbXM7L3Ibz3JhPAmpo8LElJ1YWB6iIwHWsU=;
+ b=fm7voBt4LmR1MWoGh7sSn58zbwlF2SC5pppux4q31e1/8qO6MYm8s5PzzMFE3gkqvz
+ JpnmG8HMRw60SDiZJEm9EdScJij5PvV9m0IsHl29uNCUVnii7g6eyi8StxY4+3N0azn8
+ 9CGQwegZFX5ECo8mTyKshzzCXnetZo9DKAFSpifaO/qYlNHy0h/4BZUeuM+rlaAhNR0w
+ 3l/tUbb6CN/bMUU478CxJ+MsN0O65cuyKbMFFY1Roegb2Wf8UyoVMtKzujtOdyDTe7U2
+ Mh8MxtM9vHNJ3+ydHjzIQX/VKfioNuYXyavdtV1uZCbSYibIa7IF7prDJbULt9JDbdTV
+ jXzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=p8GaNWW3vnRejpH0QBiQY2hh87QfB4bhIFphc+bCE2U=;
- b=XIm1SSLJ2eHPXnMRFinwn0xw5LNgAPjADPud9eeONB1a56wiWHy4LbJc7XmwO29CXI
- 1CxV1iTvi+LaMjwZYGdJGhi8A4zXypdjToqd/y6+5pVVVWZ+70YLjwGCU/iM5bsMSQ6O
- MMVM6WM9/bjKE+85ZLxp9iCJaA4aARAnmqpQMvfHqY0Q1BPN1SNWf5prY2rFgC9wsu9c
- kjwofluhOKVlktsmkkkNn5ZVQW3PugHkaQYq+5coYes4/O0HoF1bvPjilHNskOB4v3tJ
- opr02zPFJ+bCPjcwKR+bgWgdPRkUVJDcEpO4rePDUbWPkuA2P433dQa9zXFE6Qnd7eOt
- YQqQ==
-X-Gm-Message-State: AOAM530v3k4B+qcjuvuybpMOJwPcINgbcmlHRAT5r4IDsVjQn7RihlfX
- BGK9h4UXeLxXe3ELcxrLWh09/wHpNMUh4A==
-X-Google-Smtp-Source: ABdhPJwSGCMK51l8bSst9hVE4c3Iy8ahY+SJoBhRG9IVaLcPKOrGAtAGvB6YghOvl0Yx9Or2UXAnJg==
-X-Received: by 2002:a63:b145:: with SMTP id g5mr13514504pgp.355.1635614215080; 
- Sat, 30 Oct 2021 10:16:55 -0700 (PDT)
+ bh=fofFGJJJzbXM7L3Ibz3JhPAmpo8LElJ1YWB6iIwHWsU=;
+ b=21gZgq2h1DwrzIwbcm2ZpFN9DUG2odIaZaAz4Ry1VF4py8jFF6kGhnEcNIVeI0bayO
+ AlcJQaW/K7ckvROy4ocatinvqjPbO/oXTp7buI9hwGJweiVQBGToH7Zfc70tteqs5Hzb
+ xsr2OrgFblvPZb0xKxKCOK+qLbVP12JszGtnjT1jEjLblHQHgctNzpXygucAad2Zev1c
+ TG7OYi5JhTf7m46+BmBT/x0WHwdHFTEmfGDUfq4Uqmw8ytoYiS3IVuEqdDOG40/rGVHb
+ kDEjqr0qdu3XmpGJyERAV1lXeMIJvsuSPFQW7zsaPQqVY4IFtDOLlcyO6Cy0Q4kn1Z+D
+ /qbQ==
+X-Gm-Message-State: AOAM533/RcKYZ5bLNd0+hkAWSdWTMRzdESoEVunAIkCS9XII598e/yQv
+ wiqBVIjltJsohUiXMbpqzwoBRghulkqe2A==
+X-Google-Smtp-Source: ABdhPJyPCqnXbcvT4LTlb5RbMTg1y3FWQpOGVZT2SMa+l5P19FpjnMX+BwgvnkXP6AsMH+GTGloXww==
+X-Received: by 2002:a17:90b:fd3:: with SMTP id
+ gd19mr2649234pjb.218.1635614217944; 
+ Sat, 30 Oct 2021 10:16:57 -0700 (PDT)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id nv4sm3111943pjb.17.2021.10.30.10.16.53
+ by smtp.gmail.com with ESMTPSA id nv4sm3111943pjb.17.2021.10.30.10.16.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Oct 2021 10:16:54 -0700 (PDT)
+ Sat, 30 Oct 2021 10:16:57 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 19/66] hw/core: Add TCGCPUOps.record_sigsegv
-Date: Sat, 30 Oct 2021 10:15:48 -0700
-Message-Id: <20211030171635.1689530-20-richard.henderson@linaro.org>
+Subject: [PATCH v6 22/66] target/arm: Use cpu_loop_exit_sigsegv for mte tag
+ lookup
+Date: Sat, 30 Oct 2021 10:15:51 -0700
+Message-Id: <20211030171635.1689530-23-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211030171635.1689530-1-richard.henderson@linaro.org>
 References: <20211030171635.1689530-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,53 +90,33 @@ Cc: alex.bennee@linaro.org, laurent@vivier.eu, imp@bsdimp.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new user-only interface for updating cpu state before
-raising a signal.  This will replace tlb_fill for user-only
-and should result in less boilerplate for each guest.
+Use the new os interface for raising the exception,
+rather than calling arm_cpu_tlb_fill directly.
 
+Reviewed-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/core/tcg-cpu-ops.h | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ target/arm/mte_helper.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
-index 6cbe17f2e6..41718b695b 100644
---- a/include/hw/core/tcg-cpu-ops.h
-+++ b/include/hw/core/tcg-cpu-ops.h
-@@ -111,6 +111,32 @@ struct TCGCPUOps {
-      */
-     bool (*io_recompile_replay_branch)(CPUState *cpu,
-                                        const TranslationBlock *tb);
-+#else
-+    /**
-+     * record_sigsegv:
-+     * @cpu: cpu context
-+     * @addr: faulting guest address
-+     * @access_type: access was read/write/execute
-+     * @maperr: true for invalid page, false for permission fault
-+     * @ra: host pc for unwinding
-+     *
-+     * We are about to raise SIGSEGV with si_code set for @maperr,
-+     * and si_addr set for @addr.  Record anything further needed
-+     * for the signal ucontext_t.
-+     *
-+     * If the emulated kernel does not provide anything to the signal
-+     * handler with anything besides the user context registers, and
-+     * the siginfo_t, then this hook need do nothing and may be omitted.
-+     * Otherwise, record the data and return; the caller will raise
-+     * the signal, unwind the cpu state, and return to the main loop.
-+     *
-+     * If it is simpler to re-use the sysemu tlb_fill code, @ra is provided
-+     * so that a "normal" cpu exception can be raised.  In this case,
-+     * the signal must be raised by the architecture cpu_loop.
-+     */
-+    void (*record_sigsegv)(CPUState *cpu, vaddr addr,
-+                           MMUAccessType access_type,
-+                           bool maperr, uintptr_t ra);
- #endif /* CONFIG_SOFTMMU */
- #endif /* NEED_CPU_H */
+diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
+index 724175210b..e09b7e46a2 100644
+--- a/target/arm/mte_helper.c
++++ b/target/arm/mte_helper.c
+@@ -84,10 +84,8 @@ static uint8_t *allocation_tag_mem(CPUARMState *env, int ptr_mmu_idx,
+     uintptr_t index;
  
+     if (!(flags & (ptr_access == MMU_DATA_STORE ? PAGE_WRITE_ORG : PAGE_READ))) {
+-        /* SIGSEGV */
+-        arm_cpu_tlb_fill(env_cpu(env), ptr, ptr_size, ptr_access,
+-                         ptr_mmu_idx, false, ra);
+-        g_assert_not_reached();
++        cpu_loop_exit_sigsegv(env_cpu(env), ptr, ptr_access,
++                              !(flags & PAGE_VALID), ra);
+     }
+ 
+     /* Require both MAP_ANON and PROT_MTE for the page. */
 -- 
 2.25.1
 
