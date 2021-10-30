@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BE19440AC3
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 19:52:43 +0200 (CEST)
-Received: from localhost ([::1]:48820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA3AF440AB2
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 19:43:53 +0200 (CEST)
+Received: from localhost ([::1]:57166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgsX4-00061n-AZ
-	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 13:52:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57484)
+	id 1mgsOW-0000Lg-Tu
+	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 13:43:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgryL-0001vc-OI
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:16:50 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:39796)
+ id 1mgryN-0001wN-Dj
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:16:51 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:33755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgryF-00005m-7B
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:16:49 -0400
-Received: by mail-pg1-x532.google.com with SMTP id g184so12991458pgc.6
- for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:16:42 -0700 (PDT)
+ id 1mgryH-000062-Gr
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:16:51 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ x1-20020a17090a530100b001a1efa4ebe6so9058025pjh.0
+ for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:16:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dyOAbtDEe2hsdPtG2fphhVCPp8pp4Epcy5WbMT+mT+o=;
- b=UMBzhAOKiFhR5sShCZxGxtjwH2dabVRQDzgUja23CUN6uIGKg8G3t+8Z/Vzj44UyjV
- 98u+h13DGcLF+z7TcpuwRdj0RJaGcmGXKzoRK1Lf3xNntPdImJRKBPJcq70xiYcI3q6/
- QZiCn8Z/jqbgE2aMaR2i+JEBca3aE7g7hV2CWW0O9wNDanGpLModoG2heOdR1+h2fjVg
- l0FFcobXdtX5jyZ2YD3EwNivn5NctgJZ7CQ2w2n5DO8aiqasc0m405NG17jU+vwpQ6h3
- PeO5pf1sFqwec3tbBvslPdMOajSavYPYWNSYSsrI0w+Y7Yv6vpaTmPSrSztbf3Vwd9Xo
- y2JQ==
+ bh=A9mkVrBs8KkxTXk1PYgQKfRHS5p1nm/1r22NtGvkuhs=;
+ b=jJAIlxa9NtETcDg0nognJseQVbKUnHUR+EtritS5mmpggeecsXHrv/jxOTWAbCvs7v
+ Zk7KqH6DURCNybSgHk07AKCANL7neveYz5Q8XtnKQFc4I4r93AlNQjkvAw7x00PjOmEG
+ D4R2P5jXXyO/F+fX490pOYhU1v55ojcjE6Uijdu6X9usmkie+cMhU3lNAS1EC0lSrANS
+ dbsxsyDpwKbaL8lJ22ssK5DvA59hpwSns8XPwdf7Cs1pv9UGx3J6RtxIlkXSg5fG5CgZ
+ bLOBgUZofS1Dqd6GtDta72RJT1xxTrrojhghbOyN0QFYI90Mo+3CTP8iOS6chQme99l3
+ zVLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dyOAbtDEe2hsdPtG2fphhVCPp8pp4Epcy5WbMT+mT+o=;
- b=XF4MMw7FeiI3NUwrepDk0XXAWJPDEfEU7Y8BczmXPf9o7XZINEd2q2tY5+2Lui8uWq
- p7vvZ2/FFTZX2EtDMqRs44bHaHBemuWZne2oDjKQkaqBdETb12DIEixAKz+NgQXHmi8c
- Ztq5al5c3cwBLUZfW3nRiPYSYlL7wGi6nOUmFedGArN7/7LWxDLMju2ADAokpqAOWJY1
- zYclaIAXTBqmjNjnJzjbcXWzyH15gr9+zYCJCh50G992pUJrXlEpOohEdMJ2jXFOtsBN
- 5wyzGZISVz7CCurpkHvOekNs3sc3DhkmqQEqrF2SbIGKzI2CAbeYfrbvc2zxt2RDk0h8
- lBcg==
-X-Gm-Message-State: AOAM533SfrJWi5vnMmYRQ5r8W5GrFmzERkx8bIrxYPOIZoZlruqIHiCI
- y5Fp1aoYyjLHQhQmCxh/9htSuFpf1fmKhA==
-X-Google-Smtp-Source: ABdhPJxAegXJJDYQbbJUCLKQ4pQjBHDucyxWBD6bix9O4ASuIZ9gNJn0/1uF/LQNWAhggL6qlFFroQ==
-X-Received: by 2002:a05:6a00:1ac9:b0:47c:236d:65f1 with SMTP id
- f9-20020a056a001ac900b0047c236d65f1mr18552662pfv.3.1635614201790; 
- Sat, 30 Oct 2021 10:16:41 -0700 (PDT)
+ bh=A9mkVrBs8KkxTXk1PYgQKfRHS5p1nm/1r22NtGvkuhs=;
+ b=Eu893p7NqcqD4d5u/KSXOYt9K2ZYU1nr7wdjDxRHkGMR41g7bRYEogWoZLyycwMiVi
+ RsAw8r5mDWoPXfsesejDteIWMolqohYulsFM4pB5nZYS2vNaeA9yBusLMHnoqWaGOU5T
+ b9uH+dE36m+z+UPqVrz+F5a4RrwquKKr3pa+96UDGJXgdHr4XPXBQcqEaTP0J4kHYmmH
+ 6OYXotPPBiWWilHyQb0P7WQVuT+QCRN9fHHOg3hd6pv4kcekt6cRU8N5G5/H6QQY51c/
+ sDnhnsF2Ficq5ds3mEKZrWUQZUv3Gi9hjgAaWo9OLagQLcXtPPON9tvUQQCW8HJfOlYg
+ 7zKQ==
+X-Gm-Message-State: AOAM530l4Qxh4b0jwOUX9IEGYUwP3KqRI+thtvySBeQR84DBHogb3M2J
+ 8f6jgchGhSUGp2pM/5YZRSuXgxPSpk8+Yg==
+X-Google-Smtp-Source: ABdhPJw9xK7xEvWdrX5U/H2xBbeUQ+gBhA3RsnM7buHb9YdidJOraBj5Znh6eB6X9Iv8Ms0BirJ9Mw==
+X-Received: by 2002:a17:90a:f182:: with SMTP id
+ bv2mr1874678pjb.139.1635614203057; 
+ Sat, 30 Oct 2021 10:16:43 -0700 (PDT)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id nv4sm3111943pjb.17.2021.10.30.10.16.41
+ by smtp.gmail.com with ESMTPSA id nv4sm3111943pjb.17.2021.10.30.10.16.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Oct 2021 10:16:41 -0700 (PDT)
+ Sat, 30 Oct 2021 10:16:42 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 05/66] configure: Merge riscv32 and riscv64 host
- architectures
-Date: Sat, 30 Oct 2021 10:15:34 -0700
-Message-Id: <20211030171635.1689530-6-richard.henderson@linaro.org>
+Subject: [PATCH v6 06/66] linux-user: Reorg handling for SIGSEGV
+Date: Sat, 30 Oct 2021 10:15:35 -0700
+Message-Id: <20211030171635.1689530-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211030171635.1689530-1-richard.henderson@linaro.org>
 References: <20211030171635.1689530-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,112 +91,288 @@ Cc: Alistair Francis <alistair.francis@wdc.com>, alex.bennee@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The existing code for safe-syscall.inc.S will compile
-without change for riscv32 and riscv64.  We may also
-drop the meson.build stanza that merges them for tcg/.
+Add stub host-signal.h for all linux-user hosts.
+Add new code replacing cpu_signal_handler.
+Full migration will happen one host at a time.
 
 Reviewed-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- configure                                             |  8 ++------
- meson.build                                           |  4 +---
- linux-user/host/{riscv64 => riscv}/hostdep.h          |  4 ++--
- linux-user/host/riscv32/hostdep.h                     | 11 -----------
- linux-user/host/{riscv64 => riscv}/safe-syscall.inc.S |  0
- 5 files changed, 5 insertions(+), 22 deletions(-)
- rename linux-user/host/{riscv64 => riscv}/hostdep.h (94%)
- delete mode 100644 linux-user/host/riscv32/hostdep.h
- rename linux-user/host/{riscv64 => riscv}/safe-syscall.inc.S (100%)
+ linux-user/host/aarch64/host-signal.h |   1 +
+ linux-user/host/arm/host-signal.h     |   1 +
+ linux-user/host/i386/host-signal.h    |   1 +
+ linux-user/host/mips/host-signal.h    |   1 +
+ linux-user/host/ppc/host-signal.h     |   1 +
+ linux-user/host/ppc64/host-signal.h   |   1 +
+ linux-user/host/riscv/host-signal.h   |   1 +
+ linux-user/host/s390/host-signal.h    |   1 +
+ linux-user/host/s390x/host-signal.h   |   1 +
+ linux-user/host/sparc/host-signal.h   |   1 +
+ linux-user/host/sparc64/host-signal.h |   1 +
+ linux-user/host/x32/host-signal.h     |   1 +
+ linux-user/host/x86_64/host-signal.h  |   1 +
+ linux-user/signal.c                   | 109 ++++++++++++++++++++++----
+ 14 files changed, 106 insertions(+), 16 deletions(-)
+ create mode 100644 linux-user/host/aarch64/host-signal.h
+ create mode 100644 linux-user/host/arm/host-signal.h
+ create mode 100644 linux-user/host/i386/host-signal.h
+ create mode 100644 linux-user/host/mips/host-signal.h
+ create mode 100644 linux-user/host/ppc/host-signal.h
+ create mode 100644 linux-user/host/ppc64/host-signal.h
+ create mode 100644 linux-user/host/riscv/host-signal.h
+ create mode 100644 linux-user/host/s390/host-signal.h
+ create mode 100644 linux-user/host/s390x/host-signal.h
+ create mode 100644 linux-user/host/sparc/host-signal.h
+ create mode 100644 linux-user/host/sparc64/host-signal.h
+ create mode 100644 linux-user/host/x32/host-signal.h
+ create mode 100644 linux-user/host/x86_64/host-signal.h
 
-diff --git a/configure b/configure
-index 039467c04b..d57ad58342 100755
---- a/configure
-+++ b/configure
-@@ -570,11 +570,7 @@ elif check_define __s390__ ; then
-     cpu="s390"
-   fi
- elif check_define __riscv ; then
--  if check_define _LP64 ; then
--    cpu="riscv64"
--  else
--    cpu="riscv32"
--  fi
-+  cpu="riscv"
- elif check_define __arm__ ; then
-   cpu="arm"
- elif check_define __aarch64__ ; then
-@@ -587,7 +583,7 @@ ARCH=
- # Normalise host CPU name and set ARCH.
- # Note that this case should only have supported host CPUs, not guests.
- case "$cpu" in
--  ppc|ppc64|s390x|sparc64|x32|riscv32|riscv64)
-+  ppc|ppc64|s390x|sparc64|x32|riscv)
-   ;;
-   ppc64le)
-     ARCH="ppc64"
-diff --git a/meson.build b/meson.build
-index 2c5b53cbe2..90e3e85f20 100644
---- a/meson.build
-+++ b/meson.build
-@@ -55,7 +55,7 @@ have_block = have_system or have_tools
- python = import('python').find_installation()
+diff --git a/linux-user/host/aarch64/host-signal.h b/linux-user/host/aarch64/host-signal.h
+new file mode 100644
+index 0000000000..f4b4d65031
+--- /dev/null
++++ b/linux-user/host/aarch64/host-signal.h
+@@ -0,0 +1 @@
++#define HOST_SIGNAL_PLACEHOLDER
+diff --git a/linux-user/host/arm/host-signal.h b/linux-user/host/arm/host-signal.h
+new file mode 100644
+index 0000000000..f4b4d65031
+--- /dev/null
++++ b/linux-user/host/arm/host-signal.h
+@@ -0,0 +1 @@
++#define HOST_SIGNAL_PLACEHOLDER
+diff --git a/linux-user/host/i386/host-signal.h b/linux-user/host/i386/host-signal.h
+new file mode 100644
+index 0000000000..f4b4d65031
+--- /dev/null
++++ b/linux-user/host/i386/host-signal.h
+@@ -0,0 +1 @@
++#define HOST_SIGNAL_PLACEHOLDER
+diff --git a/linux-user/host/mips/host-signal.h b/linux-user/host/mips/host-signal.h
+new file mode 100644
+index 0000000000..f4b4d65031
+--- /dev/null
++++ b/linux-user/host/mips/host-signal.h
+@@ -0,0 +1 @@
++#define HOST_SIGNAL_PLACEHOLDER
+diff --git a/linux-user/host/ppc/host-signal.h b/linux-user/host/ppc/host-signal.h
+new file mode 100644
+index 0000000000..f4b4d65031
+--- /dev/null
++++ b/linux-user/host/ppc/host-signal.h
+@@ -0,0 +1 @@
++#define HOST_SIGNAL_PLACEHOLDER
+diff --git a/linux-user/host/ppc64/host-signal.h b/linux-user/host/ppc64/host-signal.h
+new file mode 100644
+index 0000000000..f4b4d65031
+--- /dev/null
++++ b/linux-user/host/ppc64/host-signal.h
+@@ -0,0 +1 @@
++#define HOST_SIGNAL_PLACEHOLDER
+diff --git a/linux-user/host/riscv/host-signal.h b/linux-user/host/riscv/host-signal.h
+new file mode 100644
+index 0000000000..f4b4d65031
+--- /dev/null
++++ b/linux-user/host/riscv/host-signal.h
+@@ -0,0 +1 @@
++#define HOST_SIGNAL_PLACEHOLDER
+diff --git a/linux-user/host/s390/host-signal.h b/linux-user/host/s390/host-signal.h
+new file mode 100644
+index 0000000000..f4b4d65031
+--- /dev/null
++++ b/linux-user/host/s390/host-signal.h
+@@ -0,0 +1 @@
++#define HOST_SIGNAL_PLACEHOLDER
+diff --git a/linux-user/host/s390x/host-signal.h b/linux-user/host/s390x/host-signal.h
+new file mode 100644
+index 0000000000..f4b4d65031
+--- /dev/null
++++ b/linux-user/host/s390x/host-signal.h
+@@ -0,0 +1 @@
++#define HOST_SIGNAL_PLACEHOLDER
+diff --git a/linux-user/host/sparc/host-signal.h b/linux-user/host/sparc/host-signal.h
+new file mode 100644
+index 0000000000..f4b4d65031
+--- /dev/null
++++ b/linux-user/host/sparc/host-signal.h
+@@ -0,0 +1 @@
++#define HOST_SIGNAL_PLACEHOLDER
+diff --git a/linux-user/host/sparc64/host-signal.h b/linux-user/host/sparc64/host-signal.h
+new file mode 100644
+index 0000000000..f4b4d65031
+--- /dev/null
++++ b/linux-user/host/sparc64/host-signal.h
+@@ -0,0 +1 @@
++#define HOST_SIGNAL_PLACEHOLDER
+diff --git a/linux-user/host/x32/host-signal.h b/linux-user/host/x32/host-signal.h
+new file mode 100644
+index 0000000000..f4b4d65031
+--- /dev/null
++++ b/linux-user/host/x32/host-signal.h
+@@ -0,0 +1 @@
++#define HOST_SIGNAL_PLACEHOLDER
+diff --git a/linux-user/host/x86_64/host-signal.h b/linux-user/host/x86_64/host-signal.h
+new file mode 100644
+index 0000000000..f4b4d65031
+--- /dev/null
++++ b/linux-user/host/x86_64/host-signal.h
+@@ -0,0 +1 @@
++#define HOST_SIGNAL_PLACEHOLDER
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index 14d8fdfde1..6900acb122 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -19,6 +19,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/bitops.h"
+ #include "exec/gdbstub.h"
++#include "hw/core/tcg-cpu-ops.h"
  
- supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
--supported_cpus = ['ppc', 'ppc64', 's390x', 'riscv32', 'riscv64', 'x86', 'x86_64',
-+supported_cpus = ['ppc', 'ppc64', 's390x', 'riscv', 'x86', 'x86_64',
-   'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
+ #include <sys/ucontext.h>
+ #include <sys/resource.h>
+@@ -29,6 +30,7 @@
+ #include "loader.h"
+ #include "trace.h"
+ #include "signal-common.h"
++#include "host-signal.h"
  
- cpu = host_machine.cpu_family()
-@@ -351,8 +351,6 @@ if not get_option('tcg').disabled()
-     tcg_arch = 'i386'
-   elif config_host['ARCH'] == 'ppc64'
-     tcg_arch = 'ppc'
--  elif config_host['ARCH'] in ['riscv32', 'riscv64']
--    tcg_arch = 'riscv'
-   endif
-   add_project_arguments('-iquote', meson.current_source_dir() / 'tcg' / tcg_arch,
-                         language: ['c', 'cpp', 'objc'])
-diff --git a/linux-user/host/riscv64/hostdep.h b/linux-user/host/riscv/hostdep.h
-similarity index 94%
-rename from linux-user/host/riscv64/hostdep.h
-rename to linux-user/host/riscv/hostdep.h
-index 865f0fb9ff..2ba07456ae 100644
---- a/linux-user/host/riscv64/hostdep.h
-+++ b/linux-user/host/riscv/hostdep.h
-@@ -5,8 +5,8 @@
-  * See the COPYING file in the top-level directory.
-  */
+ static struct target_sigaction sigact_table[TARGET_NSIG];
  
--#ifndef RISCV64_HOSTDEP_H
--#define RISCV64_HOSTDEP_H
-+#ifndef RISCV_HOSTDEP_H
-+#define RISCV_HOSTDEP_H
+@@ -769,41 +771,116 @@ static inline void rewind_if_in_safe_syscall(void *puc)
+ }
+ #endif
  
- /* We have a safe-syscall.inc.S */
- #define HAVE_SAFE_SYSCALL
-diff --git a/linux-user/host/riscv32/hostdep.h b/linux-user/host/riscv32/hostdep.h
-deleted file mode 100644
-index adf9edbf2d..0000000000
---- a/linux-user/host/riscv32/hostdep.h
-+++ /dev/null
-@@ -1,11 +0,0 @@
--/*
-- * hostdep.h : things which are dependent on the host architecture
-- *
-- * This work is licensed under the terms of the GNU GPL, version 2 or later.
-- * See the COPYING file in the top-level directory.
-- */
+-static void host_signal_handler(int host_signum, siginfo_t *info,
+-                                void *puc)
++static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
+ {
+     CPUArchState *env = thread_cpu->env_ptr;
+     CPUState *cpu = env_cpu(env);
+     TaskState *ts = cpu->opaque;
 -
--#ifndef RISCV32_HOSTDEP_H
--#define RISCV32_HOSTDEP_H
+-    int sig;
+     target_siginfo_t tinfo;
+     ucontext_t *uc = puc;
+     struct emulated_sigtable *k;
++    int guest_sig;
+ 
++#ifdef HOST_SIGNAL_PLACEHOLDER
+     /* the CPU emulator uses some host signals to detect exceptions,
+        we forward to it some signals */
+-    if ((host_signum == SIGSEGV || host_signum == SIGBUS)
++    if ((host_sig == SIGSEGV || host_sig == SIGBUS)
+         && info->si_code > 0) {
+-        if (cpu_signal_handler(host_signum, info, puc))
++        if (cpu_signal_handler(host_sig, info, puc)) {
+             return;
++        }
+     }
++#else
++    uintptr_t pc = 0;
++    bool sync_sig = false;
++
++    /*
++     * Non-spoofed SIGSEGV and SIGBUS are synchronous, and need special
++     * handling wrt signal blocking and unwinding.
++     */
++    if ((host_sig == SIGSEGV || host_sig == SIGBUS) && info->si_code > 0) {
++        MMUAccessType access_type;
++        uintptr_t host_addr;
++        abi_ptr guest_addr;
++        bool is_write;
++
++        host_addr = (uintptr_t)info->si_addr;
++
++        /*
++         * Convert forcefully to guest address space: addresses outside
++         * reserved_va are still valid to report via SEGV_MAPERR.
++         */
++        guest_addr = h2g_nocheck(host_addr);
++
++        pc = host_signal_pc(uc);
++        is_write = host_signal_write(info, uc);
++        access_type = adjust_signal_pc(&pc, is_write);
++
++        if (host_sig == SIGSEGV) {
++            const struct TCGCPUOps *tcg_ops;
++
++            if (info->si_code == SEGV_ACCERR && h2g_valid(host_addr)) {
++                /* If this was a write to a TB protected page, restart. */
++                if (is_write &&
++                    handle_sigsegv_accerr_write(cpu, &uc->uc_sigmask,
++                                                pc, guest_addr)) {
++                    return;
++                }
++
++                /*
++                 * With reserved_va, the whole address space is PROT_NONE,
++                 * which means that we may get ACCERR when we want MAPERR.
++                 */
++                if (page_get_flags(guest_addr) & PAGE_VALID) {
++                    /* maperr = false; */
++                } else {
++                    info->si_code = SEGV_MAPERR;
++                }
++            }
++
++            sigprocmask(SIG_SETMASK, &uc->uc_sigmask, NULL);
++
++            tcg_ops = CPU_GET_CLASS(cpu)->tcg_ops;
++            tcg_ops->tlb_fill(cpu, guest_addr, 0, access_type,
++                              MMU_USER_IDX, false, pc);
++            g_assert_not_reached();
++        } else {
++            sigprocmask(SIG_SETMASK, &uc->uc_sigmask, NULL);
++        }
++
++        sync_sig = true;
++    }
++#endif
+ 
+     /* get target signal number */
+-    sig = host_to_target_signal(host_signum);
+-    if (sig < 1 || sig > TARGET_NSIG)
++    guest_sig = host_to_target_signal(host_sig);
++    if (guest_sig < 1 || guest_sig > TARGET_NSIG) {
+         return;
+-    trace_user_host_signal(env, host_signum, sig);
++    }
++    trace_user_host_signal(env, host_sig, guest_sig);
++
++    host_to_target_siginfo_noswap(&tinfo, info);
++    k = &ts->sigtab[guest_sig - 1];
++    k->info = tinfo;
++    k->pending = guest_sig;
++    ts->signal_pending = 1;
++
++#ifndef HOST_SIGNAL_PLACEHOLDER
++    /*
++     * For synchronous signals, unwind the cpu state to the faulting
++     * insn and then exit back to the main loop so that the signal
++     * is delivered immediately.
++     */
++    if (sync_sig) {
++        cpu->exception_index = EXCP_INTERRUPT;
++        cpu_loop_exit_restore(cpu, pc);
++    }
++#endif
+ 
+     rewind_if_in_safe_syscall(puc);
+ 
+-    host_to_target_siginfo_noswap(&tinfo, info);
+-    k = &ts->sigtab[sig - 1];
+-    k->info = tinfo;
+-    k->pending = sig;
+-    ts->signal_pending = 1;
 -
--#endif
-diff --git a/linux-user/host/riscv64/safe-syscall.inc.S b/linux-user/host/riscv/safe-syscall.inc.S
-similarity index 100%
-rename from linux-user/host/riscv64/safe-syscall.inc.S
-rename to linux-user/host/riscv/safe-syscall.inc.S
+-    /* Block host signals until target signal handler entered. We
++    /*
++     * Block host signals until target signal handler entered. We
+      * can't block SIGSEGV or SIGBUS while we're executing guest
+      * code in case the guest code provokes one in the window between
+      * now and it getting out to the main loop. Signals will be
 -- 
 2.25.1
 
