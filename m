@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9229440AA5
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 19:35:18 +0200 (CEST)
-Received: from localhost ([::1]:44864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED490440A8E
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 19:21:45 +0200 (CEST)
+Received: from localhost ([::1]:37938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgsGD-0000G8-VM
-	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 13:35:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56232)
+	id 1mgs37-0001Bk-1t
+	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 13:21:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgrq6-0004jn-8r
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:08:18 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:37777)
+ id 1mgrqA-0004zy-HX
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:08:22 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:56177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgrq4-0004tr-3Z
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:08:17 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- y84-20020a1c7d57000000b00330cb84834fso4878071wmc.2
- for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:08:15 -0700 (PDT)
+ id 1mgrq8-0004vD-Kf
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:08:22 -0400
+Received: by mail-wm1-x332.google.com with SMTP id v127so10395464wme.5
+ for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:08:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zdtWOhzx37PNAX2KAYyhiLp1hBth6UjYAyx1ff21Cv8=;
- b=R52H7jJy2pHfllcwQ1+jWeD1l1PAWASXMbQGcvlOu9MARomTNmKwtO/IK5z1/puKui
- m7972ywHBi+NgzdELSHMO5vo1/EssLS1aZnrk45EVMMTnw7dvqtMrl6XIP6Wo0+qhOl1
- saxIKl3GSTEyEUqEAb78nRnFC4Cy8Nu3TrFEVsweN1/VnR91d/cOL6JCeuhHjnYToBpV
- Bl5BHFFwqxCojoEerKFdrbb++9Jg8ti6Mg+jq0gG0qIMvI3jiUBmNbtai6qF4a83PRGk
- AB8s9qqNbDM1o68RyJBUsuppbX5FhpWCp4riopLWLcwho3uuWuyRmsunEqUvEEL6yS5O
- Uocg==
+ bh=tPUCl6tyAoq5QzQAt9TOrxU0VGP68fsKRioKfeBbEdE=;
+ b=kodKVMZzC5LndVlOuevg09xzswPaRI9W66cxRR9HEY2emjmSnXtav68kydRdR26O69
+ BrNFH1quZIKqeVIwyi67CA/CsiY/M7XiFv7y5FL0DxXflblSBqYT5O2sdQkii5yS+f8Q
+ p8IX5VLh2ngHc/J7v4+awy+LCTvutlEtsfmDLQzHQKVuTUuA12M8z2EYZGrwktl3QR3K
+ m2N6E9yNqxrhYE4tcz+Y6QyvzWXuaDTvEbbH+kmvLqrpATHDStrNiMfzk8ZgKvoIGjiw
+ 0dH4i7OzKBFnrEUP+KYW1ixBfql6hDq7K76gOQsm2WybBOaDVCPbVmHRNlgyyDGhcVQ0
+ me6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zdtWOhzx37PNAX2KAYyhiLp1hBth6UjYAyx1ff21Cv8=;
- b=m3KlewsfispGHkUzd9QZ+f8HaRbF7CmkhCZge1JqgOGEf6vVSxBx0EfztYf6ID9r6h
- MGS+s7jJvPAlAqYqkAfjSEBKfzhLXtYcwvDHGHxkLddmdrsf6NjJIQY0adDOCoMeFwb3
- ao4+WauuIzsQ/90KAi47CtZPxJf2LQR6Bsz8c4kyPH6XzI77XSzNkzzxQii8lny3wQ6b
- 4Px78sTDXpsQOOhaglR6rRJibA2DxQc1mjbdTVnDR/Tli7c7n2tltkAP0Sz7q/6HLJ9Q
- a4mLaOI2WpMeWdu+4N2uZvmBQWmFQj2iOkhv2K8LlkJYJOeLvMmhPR/tsSvgOHnAh1gj
- Rs1w==
-X-Gm-Message-State: AOAM533yZ5dHoL1ABg3w3p77cXq7BSj7OTjNEAa1iearUUU4v02HHHVx
- Uda5IoPbKtZv7BLOrGCH+3ZbmQIj6Gg=
-X-Google-Smtp-Source: ABdhPJyhkkylZxro1fulKkXwxR0jhFZipuNBIKD/XYK8pSUjnOuz3Xx0E+Wcpjx/xDNMYPFtnOP7pg==
-X-Received: by 2002:a7b:c442:: with SMTP id l2mr27643535wmi.131.1635613694485; 
- Sat, 30 Oct 2021 10:08:14 -0700 (PDT)
+ bh=tPUCl6tyAoq5QzQAt9TOrxU0VGP68fsKRioKfeBbEdE=;
+ b=c9hY9bs49qvr+5ZNDP3MncH/K339wGMhj41GvPvHtWc0hRkfhJXxBkFcbnrnKmMAHB
+ DYB2sOddDE0MARAaaNMAPrIOu2HF0fZ8m4et/STJZdpf4BkHvZ7ihQdhlbHrSGmRFBAg
+ yKJMlaskmkq0MiDQlCCmDO40p5AN6STXHS8QCgd8e52IJGkf8Rp9JpfzUkEdIaU6mDkI
+ /9avg4IIwmjQXIQZ1nl8NFbLvlKDSvRDdNrPzPpBUcoDgoepZPHYUcCKTaKikaKpJa0Z
+ 4WidSpDIHpFYwplsJuXyE47wmCg7Vs5RllvA/feb5hri6bXVLDiWTtd0ZPd+nJ/kiorO
+ O4iA==
+X-Gm-Message-State: AOAM532nBwiwI9gx1westy9OfJ7RWZeNyGTyIINjMDMj3orXIG5sdACT
+ aztyq0jlicw5smfyGjE4vAvJrVS3fYc=
+X-Google-Smtp-Source: ABdhPJwWED5OUCAdtYAG3SpY6yFSmMPplLL3SpG3F/pZn1/NkkeS0iRUvQuHeYOUk/WgmCLPGnCBmA==
+X-Received: by 2002:a7b:cf18:: with SMTP id l24mr19264754wmg.39.1635613699175; 
+ Sat, 30 Oct 2021 10:08:19 -0700 (PDT)
 Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
  by smtp.gmail.com with ESMTPSA id
- y6sm8469908wrh.18.2021.10.30.10.08.13
+ p3sm8571633wrs.10.2021.10.30.10.08.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Oct 2021 10:08:13 -0700 (PDT)
+ Sat, 30 Oct 2021 10:08:18 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/30] hw/intc/sh_intc: Avoid using continue in loops
-Date: Sat, 30 Oct 2021 19:06:09 +0200
-Message-Id: <20211030170615.2636436-25-f4bug@amsat.org>
+Subject: [PULL 25/30] hw/intc/sh_intc: Simplify allocating sources array
+Date: Sat, 30 Oct 2021 19:06:10 +0200
+Message-Id: <20211030170615.2636436-26-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211030170615.2636436-1-f4bug@amsat.org>
 References: <20211030170615.2636436-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -88,7 +87,6 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
  Magnus Damm <magnus.damm@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
@@ -97,99 +95,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-Instead of if !expr continue else do something it is more straight
-forward to say if expr then do something, especially if the action is
-just a few lines. Remove such uses of continue to make the code easier
-to follow.
+Use g_new0 instead of g_malloc0 and avoid some unneeded temporary
+variable assignments.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <0efaa5e7a1a3ee11f82b3bb1942c287576c67f8b.1635541329.git.balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <72efc4f2c4ff8b96848d03dca08e4541ee4076f6.1635541329.git.balaton@eik.bme.hu>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/intc/sh_intc.c | 44 ++++++++++++++++++++------------------------
- 1 file changed, 20 insertions(+), 24 deletions(-)
+ hw/intc/sh_intc.c | 15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
 
 diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
-index a0db742d75d..1a363d49622 100644
+index 1a363d49622..3356b422022 100644
 --- a/hw/intc/sh_intc.c
 +++ b/hw/intc/sh_intc.c
-@@ -139,15 +139,14 @@ static void sh_intc_locate(struct intc_desc *desc,
+@@ -399,21 +399,14 @@ int sh_intc_init(MemoryRegion *sysmem,
+     /* Allocate 4 MemoryRegions per register (2 actions * 2 aliases) */
+     desc->iomem_aliases = g_new0(MemoryRegion,
+                                  (nr_mask_regs + nr_prio_regs) * 4);
+-
+-    j = 0;
+-    i = sizeof(struct intc_source) * nr_sources;
+-    desc->sources = g_malloc0(i);
+-
+-    for (i = 0; i < desc->nr_sources; i++) {
+-        struct intc_source *source = &desc->sources[i];
+-
+-        source->parent = desc;
++    desc->sources = g_new0(struct intc_source, nr_sources);
++    for (i = 0; i < nr_sources; i++) {
++        desc->sources[i].parent = desc;
+     }
+-
+     desc->irqs = qemu_allocate_irqs(sh_intc_set_irq, desc, nr_sources);
+     memory_region_init_io(&desc->iomem, NULL, &sh_intc_ops, desc, "intc",
+                           0x100000000ULL);
+-
++    j = 0;
+     if (desc->mask_regs) {
+         for (i = 0; i < desc->nr_mask_regs; i++) {
              struct intc_mask_reg *mr = &desc->mask_regs[i];
- 
-             mode = sh_intc_mode(address, mr->set_reg, mr->clr_reg);
--            if (mode == INTC_MODE_NONE) {
--                continue;
-+            if (mode != INTC_MODE_NONE) {
-+                *modep = mode;
-+                *datap = &mr->value;
-+                *enums = mr->enum_ids;
-+                *first = mr->reg_width - 1;
-+                *width = 1;
-+                return;
-             }
--            *modep = mode;
--            *datap = &mr->value;
--            *enums = mr->enum_ids;
--            *first = mr->reg_width - 1;
--            *width = 1;
--            return;
-         }
-     }
- 
-@@ -156,15 +155,14 @@ static void sh_intc_locate(struct intc_desc *desc,
-             struct intc_prio_reg *pr = &desc->prio_regs[i];
- 
-             mode = sh_intc_mode(address, pr->set_reg, pr->clr_reg);
--            if (mode == INTC_MODE_NONE) {
--                continue;
-+            if (mode != INTC_MODE_NONE) {
-+                *modep = mode | INTC_MODE_IS_PRIO;
-+                *datap = &pr->value;
-+                *enums = pr->enum_ids;
-+                *first = pr->reg_width / pr->field_width - 1;
-+                *width = pr->field_width;
-+                return;
-             }
--            *modep = mode | INTC_MODE_IS_PRIO;
--            *datap = &pr->value;
--            *enums = pr->enum_ids;
--            *first = pr->reg_width / pr->field_width - 1;
--            *width = pr->field_width;
--            return;
-         }
-     }
-     g_assert_not_reached();
-@@ -245,10 +243,9 @@ static void sh_intc_write(void *opaque, hwaddr offset,
-         mask = (1 << width) - 1;
-         mask <<= (first - k) * width;
- 
--        if ((*valuep & mask) == (value & mask)) {
--            continue;
-+        if ((*valuep & mask) != (value & mask)) {
-+            sh_intc_toggle_mask(desc, enum_ids[k], value & mask, 0);
-         }
--        sh_intc_toggle_mask(desc, enum_ids[k], value & mask, 0);
-     }
- 
-     *valuep = value;
-@@ -341,12 +338,11 @@ void sh_intc_register_sources(struct intc_desc *desc,
-             s->next_enum_id = gr->enum_ids[0];
- 
-             for (k = 1; k < ARRAY_SIZE(gr->enum_ids); k++) {
--                if (!gr->enum_ids[k]) {
--                    continue;
-+                if (gr->enum_ids[k]) {
-+                    id = gr->enum_ids[k - 1];
-+                    s = &desc->sources[id];
-+                    s->next_enum_id = gr->enum_ids[k];
-                 }
--                id = gr->enum_ids[k - 1];
--                s = &desc->sources[id];
--                s->next_enum_id = gr->enum_ids[k];
-             }
-             trace_sh_intc_register("group", gr->enum_id, 0xffff,
-                                    s->enable_count, s->enable_max);
 -- 
 2.31.1
 
