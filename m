@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 532F0440AA7
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 19:36:37 +0200 (CEST)
-Received: from localhost ([::1]:48298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73D09440AB1
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 19:43:02 +0200 (CEST)
+Received: from localhost ([::1]:56376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgsHU-0002an-DQ
-	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 13:36:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56400)
+	id 1mgsNh-0008BI-H0
+	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 13:43:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgrqX-0006KY-W2
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:08:46 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:56174)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mgryG-0001r0-OJ
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:16:45 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:45915)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgrqW-0004yF-9k
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:08:45 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id v127so10395926wme.5
- for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:08:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=4GsX7ujibAVB1FOlsAotPgTfAySJiSfKMFDwh7bY+6E=;
- b=fy60szucdv+blTBwDwG+A0O85Ft8AqXWS2b4kWqvmuH6/YBLXItzI5un2W+vhOZ/YG
- 4rR3UwJ43tN06JWCnHQKHkaOoafrTRGCr8X34JCQgU1Kv4bUk3Ky83aZ1d7nse9dusQt
- McJU4n+5/O3zT66RjcB9aX65oaZ5HAFPdS+QrZYEcvZFI1UKW5A807CVslTjZ0mK2Rbm
- z+nPTlQuyMH4i5TcNoWr1YMo8ztXfoz63OdlOWEWg+//Lu09q+WlEdwAhnwoFZOBU4Rl
- 0HW+gqDZ5AUx4DR5vv3APwcxhOIxN6TJ6RnAmb65yx4nGIgm/Z50TAvZY/wMODLKILhc
- SaYQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mgryB-0008U4-T1
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:16:43 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id f8so8895810plo.12
+ for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:16:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XYBTQz0O06/jxG2oAEJsQdv+Vwded42i82x6LaFE6fU=;
+ b=KFSISj9oyV1LR9a4tYwwnVuAl3S4gueiORGph8uDkeX3wsLLGYUP/wbXk/5F35JVyv
+ ygSp880N2W/pGxbu+2QhEqUm1w/TVaQ4mRwtneLYBKc/i3t9U+srKROshpj/FulzxJys
+ YY8fnH7BQU4lmqFqa0NvjqIYjU6WGGiA3EShriZLjGX1UOF82ZZ/Hpn1w0Yx+qveglfn
+ ETKd51ldPiTBX36sq8LyRXEezOPn6VVT3XWO2lAh/JYTdO6Xbdg7/8g0bSw6GCcS2mX8
+ mOfilMBjRbXDaAm6Pzp3/FvzDj6XDa1JTTVA+JLogfq1xmNnv2Ypt/qoq/AMTuPPcM9j
+ F6rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=4GsX7ujibAVB1FOlsAotPgTfAySJiSfKMFDwh7bY+6E=;
- b=RJ1WPio85C1jgKvQWUZv5m2FxzNlHE76VrKM0AbkQpuFob/iQuJWnjEcKj6kU43vvg
- LBdLg/k2Z2qeUkGkCJs/9+nLHHtt95IiY7ZLwpFvvrV2mpnPuWRDo7rRtdzepL+su5rp
- xaAccf4d2PqTodDuxf1FBf4AzeslGM0H9L8GP3tnMCF9dCI4kNi11GpGbmbCP4fjQLBh
- fVx3g0E2Vux/6xczMW5LgTFJCTSGt9OIDfvmVCKJUs0vYDlLk3wroUabfos6tiS8EHoI
- rDlMI/P1tIBu8puelP6Ddz7WyDmIpG+Dlx53ew+QUypU144fh1j/rzfynErkB9JxEuUL
- jiwA==
-X-Gm-Message-State: AOAM532/K8XdzMfZAIWYwmAtPiTj31l9fR7rXNxB5ZNaOqts+3pRBOy6
- Q+vILWaonH6Kc6IB/YwHU3iOozwzjHs=
-X-Google-Smtp-Source: ABdhPJxUZ/hHcaYhwQDE/vBXcYFvBLzltqA5HHV6iYTJqs9sjP+YhGf7k0wI3gA6W6atPfVv+2/YYw==
-X-Received: by 2002:a05:600c:3581:: with SMTP id
- p1mr27163472wmq.34.1635613722764; 
- Sat, 30 Oct 2021 10:08:42 -0700 (PDT)
-Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id
- r15sm10003784wru.9.2021.10.30.10.08.41
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XYBTQz0O06/jxG2oAEJsQdv+Vwded42i82x6LaFE6fU=;
+ b=xA5n6ZE/jXLh0fxbqiMWUNzHNe4EeMEiGX4dn8lEecHD/PKFytI15u5JjxJJkrpLW5
+ 36T3bV2K25HWvTp+mXKLseJ+nN01+uI75r8Ys3E+XqfOuZFa0X2s2gRj0CLMd3fHyZ5Z
+ 1eY+ap78CEcHoQ6aPO4Dg8lfnybiVmRy32GA17HHuALESyLOlju+lSBSwQU+VeZQtLD6
+ QUj8qRWxykggJ182Kw2+MihiDq0JKRmn0Y/xrXjgC/EvZUthR04QbC5X/LjEgOhGSsAw
+ fDFfVSlQ+U5qCojN8bH1QOt8f31ea8aJ4ONykJIW9S0tVwOTqyss1wK5iiJBmcjj7bIe
+ 5m8g==
+X-Gm-Message-State: AOAM531eFvrrCrQ2cyOK/vc7GVruf3Ps503sTH+CHztHj6mzkf2MlHm9
+ OiPGmEPSKXQfyeusg0DyOssQSa1mUKELGw==
+X-Google-Smtp-Source: ABdhPJwZbFcNwMsEc63xRt7VgyRUeYEAx97pTHpqH1braK4jQjE9BNSrj9psPhJIQUVvc7FNBJpOrw==
+X-Received: by 2002:a17:902:c94c:b0:140:4dad:404d with SMTP id
+ i12-20020a170902c94c00b001404dad404dmr16042968pla.72.1635614197557; 
+ Sat, 30 Oct 2021 10:16:37 -0700 (PDT)
+Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
+ [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id nv4sm3111943pjb.17.2021.10.30.10.16.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Oct 2021 10:08:42 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Sat, 30 Oct 2021 10:16:36 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/30] hw/timer/sh_timer: Remove use of hw_error
-Date: Sat, 30 Oct 2021 19:06:15 +0200
-Message-Id: <20211030170615.2636436-31-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211030170615.2636436-1-f4bug@amsat.org>
-References: <20211030170615.2636436-1-f4bug@amsat.org>
+Subject: [PATCH v6 00/66] user-only: Cleanup SIGSEGV and SIGBUS handling
+Date: Sat, 30 Oct 2021 10:15:29 -0700
+Message-Id: <20211030171635.1689530-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,158 +83,292 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
- Magnus Damm <magnus.damm@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: alex.bennee@linaro.org, laurent@vivier.eu, imp@bsdimp.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: BALATON Zoltan <balaton@eik.bme.hu>
+Changes for v6:
+  Rebase and apply some patch review (phil)
 
-The hw_error function calls abort and is not meant to be used by
-devices. Use qemu_log_mask instead to log and ignore invalid accesses.
-Also fix format strings to allow dropping type casts of hwaddr and use
-__func__ instead of hard coding function name in the message which
-were wrong in two cases.
+Changes for v5:
+  I've combined the sigsegv and sigbus patch sets, because they're
+  so very closely modelled.  We've got user-only hooks named
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <f818dc3dd2ac8c3b3d53067f316a716d7f9683d8.1635541329.git.balaton@eik.bme.hu>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/timer/sh_timer.c | 40 +++++++++++++++++++++++++---------------
- 1 file changed, 25 insertions(+), 15 deletions(-)
+    record_sigsegv
+    record_sigbus
 
-diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
-index 587fa9414aa..c72c327bfaf 100644
---- a/hw/timer/sh_timer.c
-+++ b/hw/timer/sh_timer.c
-@@ -10,7 +10,7 @@
- 
- #include "qemu/osdep.h"
- #include "exec/memory.h"
--#include "hw/hw.h"
-+#include "qemu/log.h"
- #include "hw/irq.h"
- #include "hw/sh4/sh.h"
- #include "hw/timer/tmu012.h"
-@@ -75,11 +75,10 @@ static uint32_t sh_timer_read(void *opaque, hwaddr offset)
-         if (s->feat & TIMER_FEAT_CAPT) {
-             return s->tcpr;
-         }
--        /* fall through */
--    default:
--        hw_error("sh_timer_read: Bad offset %x\n", (int)offset);
--        return 0;
-     }
-+    qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx "\n",
-+                  __func__, offset);
-+    return 0;
- }
- 
- static void sh_timer_write(void *opaque, hwaddr offset, uint32_t value)
-@@ -134,7 +133,8 @@ static void sh_timer_write(void *opaque, hwaddr offset, uint32_t value)
-             }
-             /* fallthrough */
-         default:
--            hw_error("sh_timer_write: Reserved TPSC value\n");
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "%s: Reserved TPSC value\n", __func__);
-         }
-         switch ((value & TIMER_TCR_CKEG) >> 3) {
-         case 0:
-@@ -147,7 +147,8 @@ static void sh_timer_write(void *opaque, hwaddr offset, uint32_t value)
-             }
-             /* fallthrough */
-         default:
--            hw_error("sh_timer_write: Reserved CKEG value\n");
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "%s: Reserved CKEG value\n", __func__);
-         }
-         switch ((value & TIMER_TCR_ICPE) >> 6) {
-         case 0:
-@@ -159,7 +160,8 @@ static void sh_timer_write(void *opaque, hwaddr offset, uint32_t value)
-             }
-             /* fallthrough */
-         default:
--            hw_error("sh_timer_write: Reserved ICPE value\n");
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "%s: Reserved ICPE value\n", __func__);
-         }
-         if ((value & TIMER_TCR_UNF) == 0) {
-             s->int_level = 0;
-@@ -168,13 +170,15 @@ static void sh_timer_write(void *opaque, hwaddr offset, uint32_t value)
-         value &= ~TIMER_TCR_UNF;
- 
-         if ((value & TIMER_TCR_ICPF) && (!(s->feat & TIMER_FEAT_CAPT))) {
--            hw_error("sh_timer_write: Reserved ICPF value\n");
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "%s: Reserved ICPF value\n", __func__);
-         }
- 
-         value &= ~TIMER_TCR_ICPF; /* capture not supported */
- 
-         if (value & TIMER_TCR_RESERVED) {
--            hw_error("sh_timer_write: Reserved TCR bits set\n");
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "%s: Reserved TCR bits set\n", __func__);
-         }
-         s->tcr = value;
-         ptimer_set_limit(s->timer, s->tcor, 0);
-@@ -192,7 +196,8 @@ static void sh_timer_write(void *opaque, hwaddr offset, uint32_t value)
-         }
-         /* fallthrough */
-     default:
--        hw_error("sh_timer_write: Bad offset %x\n", (int)offset);
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: Bad offset 0x%" HWADDR_PRIx "\n", __func__, offset);
-     }
-     sh_timer_update(s);
- }
-@@ -262,7 +267,9 @@ static uint64_t tmu012_read(void *opaque, hwaddr offset, unsigned size)
-     trace_sh_timer_read(offset);
-     if (offset >= 0x20) {
-         if (!(s->feat & TMU012_FEAT_3CHAN)) {
--            hw_error("tmu012_write: Bad channel offset %x\n", (int)offset);
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "%s: Bad channel offset 0x%" HWADDR_PRIx "\n",
-+                          __func__, offset);
-         }
-         return sh_timer_read(s->timer[2], offset - 0x20);
-     }
-@@ -280,7 +287,8 @@ static uint64_t tmu012_read(void *opaque, hwaddr offset, unsigned size)
-         return s->tocr;
-     }
- 
--    hw_error("tmu012_write: Bad offset %x\n", (int)offset);
-+    qemu_log_mask(LOG_GUEST_ERROR,
-+                  "%s: Bad offset 0x%" HWADDR_PRIx "\n", __func__, offset);
-     return 0;
- }
- 
-@@ -292,7 +300,9 @@ static void tmu012_write(void *opaque, hwaddr offset,
-     trace_sh_timer_write(offset, value);
-     if (offset >= 0x20) {
-         if (!(s->feat & TMU012_FEAT_3CHAN)) {
--            hw_error("tmu012_write: Bad channel offset %x\n", (int)offset);
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "%s: Bad channel offset 0x%" HWADDR_PRIx "\n",
-+                          __func__, offset);
-         }
-         sh_timer_write(s->timer[2], offset - 0x20, value);
-         return;
-@@ -315,7 +325,7 @@ static void tmu012_write(void *opaque, hwaddr offset,
-             sh_timer_start_stop(s->timer[2], value & (1 << 2));
-         } else {
-             if (value & (1 << 2)) {
--                hw_error("tmu012_write: Bad channel\n");
-+                qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad channel\n", __func__);
-             }
-         }
- 
+  While the tlb_fill hook becomes sysemu only, the corresponding
+  do_unaligned_access hook was always sysemu only and stays that way.
+
+  The actual tcg backend patches to enable proper delivery of the
+  unaligned accesses have been delayed until another patch set, as
+  this is quite large enough -- I'm mostly restricting this to the
+  user-only interface (though there are some extra patches that are
+  included to make sure things build properly).
+
+Patches lacking review:
+  21-target-alpha-Implement-alpha_cpu_record_sigsegv.patch
+  26-target-hppa-Make-hppa_cpu_tlb_fill-sysemu-only.patch
+  29-target-microblaze-Make-mb_cpu_tlb_fill-sysemu-onl.patch
+  32-linux-user-openrisc-Abort-for-EXCP_RANGE-EXCP_FPE.patch
+  36-target-s390x-Use-probe_access_flags-in-s390_probe.patch
+  38-target-sh4-Make-sh4_cpu_tlb_fill-sysemu-only.patch
+  46-linux-user-hppa-Remove-EXCP_UNALIGN-handling.patch
+  51-linux-user-ppc-Remove-POWERPC_EXCP_ALIGN-handling.patch
+  61-linux-user-Split-out-do_prctl-and-subroutines.patch
+  62-linux-user-Disable-more-prctl-subcodes.patch
+  64-target-alpha-Implement-prctl_unalign_sigbus.patch
+  65-target-hppa-Implement-prctl_unalign_sigbus.patch
+  66-target-sh4-Implement-prctl_unalign_sigbus.patch
+
+
+r~
+
+
+Richard Henderson (66):
+  accel/tcg: Split out adjust_signal_pc
+  accel/tcg: Move clear_helper_retaddr to cpu loop
+  accel/tcg: Split out handle_sigsegv_accerr_write
+  accel/tcg: Fold cpu_exit_tb_from_sighandler into caller
+  configure: Merge riscv32 and riscv64 host architectures
+  linux-user: Reorg handling for SIGSEGV
+  linux-user/host/x86: Populate host_signal.h
+  linux-user/host/ppc: Populate host_signal.h
+  linux-user/host/alpha: Populate host_signal.h
+  linux-user/host/sparc: Populate host_signal.h
+  linux-user/host/arm: Populate host_signal.h
+  linux-user/host/aarch64: Populate host_signal.h
+  linux-user/host/s390: Populate host_signal.h
+  linux-user/host/mips: Populate host_signal.h
+  linux-user/host/riscv: Populate host_signal.h
+  target/arm: Fixup comment re handle_cpu_signal
+  linux-user/host/riscv: Improve host_signal_write
+  linux-user/signal: Drop HOST_SIGNAL_PLACEHOLDER
+  hw/core: Add TCGCPUOps.record_sigsegv
+  linux-user: Add cpu_loop_exit_sigsegv
+  target/alpha: Implement alpha_cpu_record_sigsegv
+  target/arm: Use cpu_loop_exit_sigsegv for mte tag lookup
+  target/arm: Implement arm_cpu_record_sigsegv
+  target/cris: Make cris_cpu_tlb_fill sysemu only
+  target/hexagon: Remove hexagon_cpu_tlb_fill
+  target/hppa: Make hppa_cpu_tlb_fill sysemu only
+  target/i386: Implement x86_cpu_record_sigsegv
+  target/m68k: Make m68k_cpu_tlb_fill sysemu only
+  target/microblaze: Make mb_cpu_tlb_fill sysemu only
+  target/mips: Make mips_cpu_tlb_fill sysemu only
+  target/nios2: Implement nios2_cpu_record_sigsegv
+  linux-user/openrisc: Abort for EXCP_RANGE, EXCP_FPE
+  target/openrisc: Make openrisc_cpu_tlb_fill sysemu only
+  target/ppc: Implement ppc_cpu_record_sigsegv
+  target/riscv: Make riscv_cpu_tlb_fill sysemu only
+  target/s390x: Use probe_access_flags in s390_probe_access
+  target/s390x: Implement s390_cpu_record_sigsegv
+  target/sh4: Make sh4_cpu_tlb_fill sysemu only
+  target/sparc: Make sparc_cpu_tlb_fill sysemu only
+  target/xtensa: Make xtensa_cpu_tlb_fill sysemu only
+  accel/tcg: Restrict TCGCPUOps::tlb_fill() to sysemu
+  hw/core: Add TCGCPUOps.record_sigbus
+  linux-user: Add cpu_loop_exit_sigbus
+  target/alpha: Implement alpha_cpu_record_sigbus
+  target/arm: Implement arm_cpu_record_sigbus
+  linux-user/hppa: Remove EXCP_UNALIGN handling
+  target/microblaze: Do not set MO_ALIGN for user-only
+  target/ppc: Move SPR_DSISR setting to powerpc_excp
+  target/ppc: Set fault address in ppc_cpu_do_unaligned_access
+  target/ppc: Restrict ppc_cpu_do_unaligned_access to sysemu
+  linux-user/ppc: Remove POWERPC_EXCP_ALIGN handling
+  target/s390x: Implement s390x_cpu_record_sigbus
+  target/sh4: Set fault address in superh_cpu_do_unaligned_access
+  target/sparc: Remove DEBUG_UNALIGNED
+  target/sparc: Split out build_sfsr
+  target/sparc: Set fault address in sparc_cpu_do_unaligned_access
+  accel/tcg: Report unaligned atomics for user-only
+  accel/tcg: Report unaligned load/store for user-only
+  tcg: Add helper_unaligned_{ld,st} for user-only sigbus
+  linux-user: Handle BUS_ADRALN in host_signal_handler
+  linux-user: Split out do_prctl and subroutines
+  linux-user: Disable more prctl subcodes
+  linux-user: Add code for PR_GET/SET_UNALIGN
+  target/alpha: Implement prctl_unalign_sigbus
+  target/hppa: Implement prctl_unalign_sigbus
+  target/sh4: Implement prctl_unalign_sigbus
+
+ configure                                     |   8 +-
+ meson.build                                   |   4 +-
+ include/exec/exec-all.h                       |  55 +-
+ include/hw/core/cpu.h                         |   3 +
+ include/hw/core/tcg-cpu-ops.h                 |  71 +-
+ include/tcg/tcg-ldst.h                        |   5 +
+ linux-user/aarch64/target_prctl.h             | 160 ++++
+ linux-user/aarch64/target_syscall.h           |  23 -
+ linux-user/alpha/target_prctl.h               |   1 +
+ linux-user/arm/target_prctl.h                 |   1 +
+ linux-user/cris/target_prctl.h                |   1 +
+ linux-user/generic/target_prctl_unalign.h     |  27 +
+ linux-user/hexagon/target_prctl.h             |   1 +
+ linux-user/host/aarch64/host-signal.h         |  73 ++
+ linux-user/host/alpha/host-signal.h           |  41 +
+ linux-user/host/arm/host-signal.h             |  29 +
+ linux-user/host/i386/host-signal.h            |  24 +
+ linux-user/host/mips/host-signal.h            |  61 ++
+ linux-user/host/ppc/host-signal.h             |  24 +
+ linux-user/host/ppc64/host-signal.h           |   1 +
+ linux-user/host/riscv/host-signal.h           |  57 ++
+ linux-user/host/{riscv64 => riscv}/hostdep.h  |   4 +-
+ linux-user/host/riscv32/hostdep.h             |  11 -
+ linux-user/host/s390/host-signal.h            |  92 ++
+ linux-user/host/s390x/host-signal.h           |   1 +
+ linux-user/host/sparc/host-signal.h           |  53 ++
+ linux-user/host/sparc64/host-signal.h         |   1 +
+ linux-user/host/x32/host-signal.h             |   1 +
+ linux-user/host/x86_64/host-signal.h          |  24 +
+ linux-user/hppa/target_prctl.h                |   1 +
+ linux-user/i386/target_prctl.h                |   1 +
+ linux-user/m68k/target_prctl.h                |   1 +
+ linux-user/microblaze/target_prctl.h          |   1 +
+ linux-user/mips/target_prctl.h                |  88 ++
+ linux-user/mips/target_syscall.h              |   6 -
+ linux-user/mips64/target_prctl.h              |   1 +
+ linux-user/mips64/target_syscall.h            |   6 -
+ linux-user/nios2/target_prctl.h               |   1 +
+ linux-user/openrisc/target_prctl.h            |   1 +
+ linux-user/ppc/target_prctl.h                 |   1 +
+ linux-user/riscv/target_prctl.h               |   1 +
+ linux-user/s390x/target_prctl.h               |   1 +
+ linux-user/sh4/target_prctl.h                 |   1 +
+ linux-user/sparc/target_prctl.h               |   1 +
+ linux-user/x86_64/target_prctl.h              |   1 +
+ linux-user/xtensa/target_prctl.h              |   1 +
+ target/alpha/cpu.h                            |  26 +-
+ target/arm/internals.h                        |   8 +
+ target/cris/cpu.h                             |   8 +-
+ target/hppa/cpu.h                             |   7 +-
+ target/i386/tcg/helper-tcg.h                  |   6 +
+ target/microblaze/cpu.h                       |   8 +-
+ target/mips/tcg/tcg-internal.h                |   7 +-
+ target/nios2/cpu.h                            |   6 +
+ target/openrisc/cpu.h                         |   7 +-
+ target/ppc/cpu.h                              |   3 -
+ target/ppc/internal.h                         |  17 +-
+ target/s390x/s390x-internal.h                 |   9 +
+ target/sh4/cpu.h                              |  10 +-
+ target/xtensa/cpu.h                           |   2 +-
+ accel/tcg/cpu-exec.c                          |   3 +-
+ accel/tcg/user-exec.c                         | 861 ++----------------
+ cpu.c                                         |  20 +-
+ linux-user/aarch64/cpu_loop.c                 |  12 +-
+ linux-user/alpha/cpu_loop.c                   |  15 -
+ linux-user/arm/cpu_loop.c                     |  30 +-
+ linux-user/cris/cpu_loop.c                    |  10 -
+ linux-user/hexagon/cpu_loop.c                 |  24 +-
+ linux-user/hppa/cpu_loop.c                    |  23 -
+ linux-user/m68k/cpu_loop.c                    |  10 -
+ linux-user/microblaze/cpu_loop.c              |  10 -
+ linux-user/mips/cpu_loop.c                    |  11 -
+ linux-user/openrisc/cpu_loop.c                |  25 +-
+ linux-user/ppc/cpu_loop.c                     |   8 -
+ linux-user/riscv/cpu_loop.c                   |   7 -
+ linux-user/s390x/cpu_loop.c                   |  13 +-
+ linux-user/sh4/cpu_loop.c                     |   8 -
+ linux-user/signal.c                           | 133 ++-
+ linux-user/sparc/cpu_loop.c                   |  25 -
+ linux-user/syscall.c                          | 490 +++++-----
+ linux-user/xtensa/cpu_loop.c                  |   9 -
+ target/alpha/cpu.c                            |   7 +-
+ target/alpha/helper.c                         |  39 +-
+ target/alpha/mem_helper.c                     |  30 +-
+ target/alpha/translate.c                      |  31 +-
+ target/arm/cpu.c                              |   7 +-
+ target/arm/cpu_tcg.c                          |   7 +-
+ target/arm/mte_helper.c                       |   6 +-
+ target/arm/sve_helper.c                       |   2 +-
+ target/arm/tlb_helper.c                       |  42 +-
+ target/cris/cpu.c                             |   4 +-
+ target/cris/helper.c                          |  18 -
+ target/hexagon/cpu.c                          |  23 -
+ target/hppa/cpu.c                             |   2 +-
+ target/hppa/mem_helper.c                      |  15 -
+ target/hppa/translate.c                       |  19 +-
+ target/i386/tcg/tcg-cpu.c                     |   3 +-
+ target/i386/tcg/user/excp_helper.c            |  23 +-
+ target/m68k/cpu.c                             |   2 +-
+ target/m68k/helper.c                          |   6 +-
+ target/microblaze/cpu.c                       |   2 +-
+ target/microblaze/helper.c                    |  13 +-
+ target/microblaze/translate.c                 |  16 +
+ target/mips/cpu.c                             |   2 +-
+ target/mips/tcg/user/tlb_helper.c             |  59 --
+ target/nios2/cpu.c                            |   6 +-
+ target/nios2/helper.c                         |   7 +-
+ target/openrisc/cpu.c                         |   2 +-
+ target/openrisc/mmu.c                         |   9 -
+ target/ppc/cpu_init.c                         |   6 +-
+ target/ppc/excp_helper.c                      |  41 +-
+ target/ppc/user_only_helper.c                 |  15 +-
+ target/riscv/cpu.c                            |   2 +-
+ target/riscv/cpu_helper.c                     |  21 +-
+ target/s390x/cpu.c                            |   7 +-
+ target/s390x/tcg/excp_helper.c                |  45 +-
+ target/s390x/tcg/mem_helper.c                 |  18 +-
+ target/sh4/cpu.c                              |   2 +-
+ target/sh4/helper.c                           |   9 +-
+ target/sh4/op_helper.c                        |   5 +
+ target/sh4/translate.c                        |  50 +-
+ target/sparc/cpu.c                            |   2 +-
+ target/sparc/ldst_helper.c                    |  22 -
+ target/sparc/mmu_helper.c                     | 115 ++-
+ target/xtensa/cpu.c                           |   2 +-
+ target/xtensa/helper.c                        |  22 +-
+ .../{riscv64 => riscv}/safe-syscall.inc.S     |   0
+ target/cris/meson.build                       |   7 +-
+ target/hppa/meson.build                       |   6 +-
+ target/mips/tcg/meson.build                   |   3 -
+ target/mips/tcg/user/meson.build              |   3 -
+ target/openrisc/meson.build                   |   2 +-
+ target/sparc/meson.build                      |   2 +-
+ 133 files changed, 1860 insertions(+), 1791 deletions(-)
+ create mode 100644 linux-user/aarch64/target_prctl.h
+ create mode 100644 linux-user/alpha/target_prctl.h
+ create mode 100644 linux-user/arm/target_prctl.h
+ create mode 100644 linux-user/cris/target_prctl.h
+ create mode 100644 linux-user/generic/target_prctl_unalign.h
+ create mode 100644 linux-user/hexagon/target_prctl.h
+ create mode 100644 linux-user/host/aarch64/host-signal.h
+ create mode 100644 linux-user/host/alpha/host-signal.h
+ create mode 100644 linux-user/host/arm/host-signal.h
+ create mode 100644 linux-user/host/i386/host-signal.h
+ create mode 100644 linux-user/host/mips/host-signal.h
+ create mode 100644 linux-user/host/ppc/host-signal.h
+ create mode 100644 linux-user/host/ppc64/host-signal.h
+ create mode 100644 linux-user/host/riscv/host-signal.h
+ rename linux-user/host/{riscv64 => riscv}/hostdep.h (94%)
+ delete mode 100644 linux-user/host/riscv32/hostdep.h
+ create mode 100644 linux-user/host/s390/host-signal.h
+ create mode 100644 linux-user/host/s390x/host-signal.h
+ create mode 100644 linux-user/host/sparc/host-signal.h
+ create mode 100644 linux-user/host/sparc64/host-signal.h
+ create mode 100644 linux-user/host/x32/host-signal.h
+ create mode 100644 linux-user/host/x86_64/host-signal.h
+ create mode 100644 linux-user/hppa/target_prctl.h
+ create mode 100644 linux-user/i386/target_prctl.h
+ create mode 100644 linux-user/m68k/target_prctl.h
+ create mode 100644 linux-user/microblaze/target_prctl.h
+ create mode 100644 linux-user/mips/target_prctl.h
+ create mode 100644 linux-user/mips64/target_prctl.h
+ create mode 100644 linux-user/nios2/target_prctl.h
+ create mode 100644 linux-user/openrisc/target_prctl.h
+ create mode 100644 linux-user/ppc/target_prctl.h
+ create mode 100644 linux-user/riscv/target_prctl.h
+ create mode 100644 linux-user/s390x/target_prctl.h
+ create mode 100644 linux-user/sh4/target_prctl.h
+ create mode 100644 linux-user/sparc/target_prctl.h
+ create mode 100644 linux-user/x86_64/target_prctl.h
+ create mode 100644 linux-user/xtensa/target_prctl.h
+ delete mode 100644 target/mips/tcg/user/tlb_helper.c
+ rename linux-user/host/{riscv64 => riscv}/safe-syscall.inc.S (100%)
+ delete mode 100644 target/mips/tcg/user/meson.build
+
 -- 
-2.31.1
+2.25.1
 
 
