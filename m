@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5D6F440A96
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 19:26:30 +0200 (CEST)
-Received: from localhost ([::1]:51402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E0EF440A9B
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 19:29:06 +0200 (CEST)
+Received: from localhost ([::1]:59824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgs7h-0002BM-Oo
-	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 13:26:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56290)
+	id 1mgsAD-00082m-IA
+	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 13:29:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgrqF-0005HH-Fe
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:08:27 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:44945)
+ id 1mgrqJ-0005WZ-Ow
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:08:31 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:52198)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgrqD-0004vs-97
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:08:27 -0400
-Received: by mail-wr1-x433.google.com with SMTP id d13so21605368wrf.11
- for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:08:24 -0700 (PDT)
+ id 1mgrqI-0004w8-5G
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:08:31 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id z200so9572630wmc.1
+ for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:08:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZLUlGGCAE4OsJnGPcZDW1ai5vTzjA4RoqtmCsvfI3/w=;
- b=oWUqQNFnlr9G+lJOmX8G0cck0hbbWiF6Wkj0vbqW/86RBWHjibhtA1pofbQbfFys5M
- z/E8pmPvrBsEsuC1eDQ71Ii7Z8AOShXaay3MH2fydGrNAM45dOyTLe43MBOY5siWas3O
- tWWyVmkub1+jxMor7kTplLSScuGtJhxbZv3Ky/H7HKxeDe4vVXKJaN325n7cMM0xMcBt
- /BuT7zsDjyzDKNSS6KqxUc0z/TY0DD2XMUyswrYy4HbP5XoXRapBw/Ln5L3E2lnzKVv5
- Bw+becQAaFcHtxnU1dcAo2DWtb3nncfWY7j8VSKBCJTXXWUir24JVSSQTMQiEF0O6LRg
- jQuw==
+ bh=YSsZNkyD3Zes1gnfTeUQlqwahoB1RipDt5E4DXFrMSg=;
+ b=l6fP6LUeWn5DwLqP0DQJjBS74Xu4NGi/97c946kOlYutRcfHZCthjeu6WpcuSCsVh6
+ zjuV+b8aoVFhHgsCkhXrDG3dLJkcjx9Qo92E5AUDy05DBpMsfVdjMoGPZjXkyT8ccepp
+ fEUTfLY1B0UGTGMM3OnI29aTH2LVNMtu/B8VTHs+6wHROuJkozbU2xCXbYSuIQ0PVzYo
+ G5AQJsUHYYz8nV33KoDraU/05uoGo9FSL8JHN4JqYmkbXjvkHcRiQxJVAt4n7pyKkbKM
+ daWf0r2XpLD+c/GJZf3Z/S9A3a7XMpYZ9bY3TkpupYdlQeeDf62/BrhEeY0HT/1aAdgv
+ 9yxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ZLUlGGCAE4OsJnGPcZDW1ai5vTzjA4RoqtmCsvfI3/w=;
- b=iHQWM2pX2JjnsZ5AbyNz/E614Ec7WBZu6oEccgetAiImtEJ2uUA341//YS1Udcfz3F
- pxFG5cPWu8gi5tZAQrJfSr6U+ZepO0wViGaz98agyNGPvL3BB6nNIAV4K33Kl1PvRnHB
- YiLvWzINWptQBJI0iAuR4aRu3d2Ly1LbriQtl7bHlqw9n5oyHUqUxcXhzxYPdtlMtDrj
- PDG7/F/AhvE1MWuCS7Xg3QP/X9Cqk+0E5pE9icze+TjdNDLYX2kzmTmSdU1rmqWOFZHy
- nNUwRds6rT2YmjXmajV2B2wdW/Dndjj2I2WthuF2AZwxgTWrZoOyndjPGxUe7VzoGwdR
- 3/1A==
-X-Gm-Message-State: AOAM530dTzaoq44bSuIlJAJIkN1jQI2l/ZYHGNEhhW/p7D1kY9oDOajA
- 0yLyq9RU+O7vxCqoLhtnay4lrGfIuKw=
-X-Google-Smtp-Source: ABdhPJw7zHuyZWXW96vheHANmloQ+ut3j/8wK8/m+nG1F58xAYAoBrskH9Dc4vFGP1D1a0GxTnByFQ==
-X-Received: by 2002:a05:6000:1689:: with SMTP id
- y9mr23771532wrd.52.1635613703902; 
- Sat, 30 Oct 2021 10:08:23 -0700 (PDT)
+ bh=YSsZNkyD3Zes1gnfTeUQlqwahoB1RipDt5E4DXFrMSg=;
+ b=OaqQZZZ37OcnaHZ+0FcI2MqKWojoBUvZIscflQaUwaNbdtRc4XUv+ib0+vesq2CbHp
+ v7J23PSLF6QZh7/orQKWXoNnvP+TXKbTiKAfkn7sz12ua+po0DFsXrS0jPaCH/Lv7Lil
+ y2lr/3bfKwG4EYN+PZXB+V9ZrXtglBmwsAuUhiahE+CJeYqixV0dCTww80ekylc+rEBK
+ KvrXHhK9JDaQbrgNkua2yJlUjRUjR8oUsYg09LOpPFEbRVXQfp3i71zkO7kE8dln0Gum
+ Lu7xxBPEmvvIxfSRy5q2SSuJTZ7XNddN/Qy+rN6JQb6ITXSOcp5XLMIaM+WWj/9qAcWd
+ b9CA==
+X-Gm-Message-State: AOAM531dGhaQOzvbGQxKTYELoXQRSd45LU6lcEFI5AQ5qAtfrEaQ/Bkh
+ 47Zg/iib3eyxg/bp2SWjjGa3jInOgXY=
+X-Google-Smtp-Source: ABdhPJxtUifmFzB+p5EnMCGiL6gJBZVC9fMiYRcnghK00s/WKHKWTl9P/cMcza4mgN8IgftkIq3Zag==
+X-Received: by 2002:a1c:f30a:: with SMTP id q10mr28314483wmq.62.1635613708762; 
+ Sat, 30 Oct 2021 10:08:28 -0700 (PDT)
 Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
  by smtp.gmail.com with ESMTPSA id
- h18sm3031789wre.46.2021.10.30.10.08.22
+ q14sm8680327wrr.28.2021.10.30.10.08.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Oct 2021 10:08:23 -0700 (PDT)
+ Sat, 30 Oct 2021 10:08:28 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/30] hw/intc/sh_intc: Remove unneeded local variable
- initialisers
-Date: Sat, 30 Oct 2021 19:06:11 +0200
-Message-Id: <20211030170615.2636436-27-f4bug@amsat.org>
+Subject: [PULL 27/30] hw/timer/sh_timer: Rename sh_timer_state to SHTimerState
+Date: Sat, 30 Oct 2021 19:06:12 +0200
+Message-Id: <20211030170615.2636436-28-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211030170615.2636436-1-f4bug@amsat.org>
 References: <20211030170615.2636436-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -97,59 +95,97 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-The sh_intc_locate function will either init these or not return so no
-need to initialise them.
+According to coding style types should be camel case, also remove
+unneded casts from void *.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <15e04aa665c68ab5df47bbf505346d413be2fc1c.1635541329.git.balaton@eik.bme.hu>
+Message-Id: <d9a9d160c1153a583397e366ab06477f5a31c507.1635541329.git.balaton@eik.bme.hu>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/intc/sh_intc.c | 21 ++++++++++-----------
- 1 file changed, 10 insertions(+), 11 deletions(-)
+ hw/timer/sh_timer.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
-index 3356b422022..c9b0b0c1ecc 100644
---- a/hw/intc/sh_intc.c
-+++ b/hw/intc/sh_intc.c
-@@ -195,14 +195,13 @@ static void sh_intc_toggle_mask(struct intc_desc *desc, intc_enum id,
-     }
+diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
+index e1b6145df82..2038adfb0a8 100644
+--- a/hw/timer/sh_timer.c
++++ b/hw/timer/sh_timer.c
+@@ -45,11 +45,11 @@ typedef struct {
+     int feat;
+     int enabled;
+     qemu_irq irq;
+-} sh_timer_state;
++} SHTimerState;
+ 
+ /* Check all active timers, and schedule the next timer interrupt. */
+ 
+-static void sh_timer_update(sh_timer_state *s)
++static void sh_timer_update(SHTimerState *s)
+ {
+     int new_level = s->int_level && (s->tcr & TIMER_TCR_UNIE);
+ 
+@@ -62,7 +62,7 @@ static void sh_timer_update(sh_timer_state *s)
+ 
+ static uint32_t sh_timer_read(void *opaque, hwaddr offset)
+ {
+-    sh_timer_state *s = (sh_timer_state *)opaque;
++    SHTimerState *s = opaque;
+ 
+     switch (offset >> 2) {
+     case OFFSET_TCOR:
+@@ -85,7 +85,7 @@ static uint32_t sh_timer_read(void *opaque, hwaddr offset)
+ static void sh_timer_write(void *opaque, hwaddr offset,
+                             uint32_t value)
+ {
+-    sh_timer_state *s = (sh_timer_state *)opaque;
++    SHTimerState *s = opaque;
+     int freq;
+ 
+     switch (offset >> 2) {
+@@ -200,7 +200,7 @@ static void sh_timer_write(void *opaque, hwaddr offset,
+ 
+ static void sh_timer_start_stop(void *opaque, int enable)
+ {
+-    sh_timer_state *s = (sh_timer_state *)opaque;
++    SHTimerState *s = opaque;
+ 
+     trace_sh_timer_start_stop(enable, s->enabled);
+     ptimer_transaction_begin(s->timer);
+@@ -216,14 +216,14 @@ static void sh_timer_start_stop(void *opaque, int enable)
+ 
+ static void sh_timer_tick(void *opaque)
+ {
+-    sh_timer_state *s = (sh_timer_state *)opaque;
++    SHTimerState *s = opaque;
+     s->int_level = s->enabled;
+     sh_timer_update(s);
  }
  
--static uint64_t sh_intc_read(void *opaque, hwaddr offset,
--                             unsigned size)
-+static uint64_t sh_intc_read(void *opaque, hwaddr offset, unsigned size)
+ static void *sh_timer_init(uint32_t freq, int feat, qemu_irq irq)
  {
-     struct intc_desc *desc = opaque;
--    intc_enum *enum_ids = NULL;
--    unsigned int first = 0;
--    unsigned int width = 0;
--    unsigned int mode = 0;
-+    intc_enum *enum_ids;
-+    unsigned int first;
-+    unsigned int width;
-+    unsigned int mode;
-     unsigned long *valuep;
+-    sh_timer_state *s;
++    SHTimerState *s;
  
-     sh_intc_locate(desc, (unsigned long)offset, &valuep,
-@@ -215,12 +214,12 @@ static void sh_intc_write(void *opaque, hwaddr offset,
-                           uint64_t value, unsigned size)
+     s = g_malloc0(sizeof(*s));
+     s->freq = freq;
+@@ -259,7 +259,7 @@ typedef struct {
+ static uint64_t tmu012_read(void *opaque, hwaddr offset,
+                             unsigned size)
  {
-     struct intc_desc *desc = opaque;
--    intc_enum *enum_ids = NULL;
--    unsigned int first = 0;
--    unsigned int width = 0;
--    unsigned int mode = 0;
--    unsigned int k;
-+    intc_enum *enum_ids;
-+    unsigned int first;
-+    unsigned int width;
-+    unsigned int mode;
-     unsigned long *valuep;
-+    unsigned int k;
-     unsigned long mask;
+-    tmu012_state *s = (tmu012_state *)opaque;
++    tmu012_state *s = opaque;
  
-     trace_sh_intc_write(size, (uint64_t)offset, value);
+     trace_sh_timer_read(offset);
+     if (offset >= 0x20) {
+@@ -289,7 +289,7 @@ static uint64_t tmu012_read(void *opaque, hwaddr offset,
+ static void tmu012_write(void *opaque, hwaddr offset,
+                         uint64_t value, unsigned size)
+ {
+-    tmu012_state *s = (tmu012_state *)opaque;
++    tmu012_state *s = opaque;
+ 
+     trace_sh_timer_write(offset, value);
+     if (offset >= 0x20) {
 -- 
 2.31.1
 
