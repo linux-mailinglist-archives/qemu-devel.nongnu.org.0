@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD95440A8F
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 19:21:58 +0200 (CEST)
-Received: from localhost ([::1]:39106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BD27440A7F
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 19:17:37 +0200 (CEST)
+Received: from localhost ([::1]:53864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgs3J-00020V-Rt
-	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 13:21:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56060)
+	id 1mgrz6-0000yx-CV
+	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 13:17:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgrpJ-00034w-7Q
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:07:29 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:43691)
+ id 1mgrpN-0003E4-99
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:07:33 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:45968)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgrpG-0004pw-Vo
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:07:28 -0400
-Received: by mail-wr1-x433.google.com with SMTP id p14so21572671wrd.10
- for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:07:26 -0700 (PDT)
+ id 1mgrpL-0004qS-Ov
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:07:33 -0400
+Received: by mail-wr1-x433.google.com with SMTP id o14so21542882wra.12
+ for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:07:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ohXc7eYpDMugIP0Bb3hBeNgUAK1r4bs/uM2nEOBJZ3Q=;
- b=kkErw6C7RE1dh2N29B3XfAcd1BfqRHNcL529e41nDjsYr6XGoedjbabktVCHynaptN
- qD+Pu63ONKsXAZPS+3u96tOYFFeQE1vUatAdSj/WaffX4zNiEhmg/oO5HsoqEwS9UqCi
- 6Gpo/mSLLhxlwzIsv0IBxMRgqvNHrXRyeTq5/HMCeL7rad8qUOz6P2uXPXC68jhJmEf7
- 3YAmzFfxZL3UA8I0Pj9AKPjWXi5WNEhQVz0ghNguX1JRuFbCDfkvvbgnGEOJ3k4Dgyun
- nlUiAGcgFIQspCYHza01m0uFNK+JXhbOyLYxypfD3xMTJOW9TBDmY0eyjjirCUlvKj0W
- P+dQ==
+ bh=Xz1TQ6s9Qh5Fab/EMDxpOyuPBUhPeAKpgU6YR6kckS8=;
+ b=KzcUfbfcv6Fbp4VB+2bH1yX+hVrRXIFr85cQbFWx6yUZ1c/TWuT8g/L3h5lypwjIOp
+ mEtrpGAyypmAvUvITMj0nxaw6onOq+l2MP25nMcLRX/HT6JSjQEOng6xTMRv5eXoRSS7
+ t83q1bH3rxf2Wl2tujH82e7EvjHC4Nrbtr7EtCvcKs+++O1xW78sK5CEmBrIGA7I4i/o
+ Eni3+uVl2gT2L426YsnWeVmJjJhlOoMj3YdNTFdYbEaoW3sTvTkzOTyA4lGAuqVxFcNM
+ Ykowy+hlIzJ+TwGLQoyI/7/QTmfqKS9AxsePF3j0lesSfeR+BOusYrgnyhXUkxQqtuGN
+ XA0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ohXc7eYpDMugIP0Bb3hBeNgUAK1r4bs/uM2nEOBJZ3Q=;
- b=zLJ6iaUfOWrxfD9hmbKP3KIYseIsqj2uud2XfqDJ4W7ENlPifSiGTENueG6q8pUS4N
- 791Z2rOF5kvvhMcZofGi2c9VxfrJU8Pf7Ef+MxOg3fkfmui+LbQxpjr0xU3Vql9QOOG4
- X7z7M1Rz7osxU9pKzVpsXxSKHxheWkMYJDaHK2KXIKyBDjlf+LePZM1Znt2dLYReK99v
- gVmSgd83GJt0R5NE0bmN2pjk9qybocfpFx08XAewIAj6CIdEngOeGGndVAqKQW4PIFtD
- faz3MFX7bXkaXjVdVdVqYU55S2E2/I2LB4D/WMw9CBqAKjyj3EOEjU4Z8mLdtQkznAVF
- aRsg==
-X-Gm-Message-State: AOAM530rBasAtl8r0ly1/BVuzxEaZpzmaQ4VBvmHN6bqEtgPFqcztxka
- hjmq18V1QvQ7HI+IAFL5xsKf417r7tQ=
-X-Google-Smtp-Source: ABdhPJywl9usLV5/wHPBYUBrykxA2pDlIQhZo1blVpnwa6Ny2VW/8eWOQimvNlbjXwaI3ppbWNGauA==
-X-Received: by 2002:a5d:460d:: with SMTP id t13mr20401825wrq.44.1635613645462; 
- Sat, 30 Oct 2021 10:07:25 -0700 (PDT)
+ bh=Xz1TQ6s9Qh5Fab/EMDxpOyuPBUhPeAKpgU6YR6kckS8=;
+ b=FCo+bDZ2MPgD0zHtwN4+cWG+E16ebo31SoU6NrFOsbZmgEhcCi/O40xg+P+iT46RUB
+ s1vwTGiaysvc8pLL/XTDIfVpnwUCw8xdCCz2uUL7VbqVMDvBztVNGXRvk7PFuqbDA877
+ AiXOCVTL4oVqygXaO89pI9yYKRPIW1A0GbjCgtqEal+1pkFlBijMyzx0TGV2i9erZ99B
+ TeuUemfLf/vVrzH8eWN7nEujmlauAJoShJkvbh2DX2dMm1W1Rn3DsPZN2YvFH3fGVz5j
+ ik+HycmfjBu7fi1v3ILzISPrXMd8bDqWu7YQZO4S6o3LLHSISe33XYbYb4aEovLiw8Rk
+ o8DQ==
+X-Gm-Message-State: AOAM5314Pczwbitw8kld5274f7PG/mBSfzNYW/bqxECz9QwO4GDjZKYt
+ DyJvV6kvkLRy1nXeUAD0j7zIuSN795g=
+X-Google-Smtp-Source: ABdhPJxYwcr8HWG5s5h0KnJoWog4qaf9vP2INgmSnx9EyiNh7rh95guNsl5/Xfl3AYvHgxmILGezCw==
+X-Received: by 2002:a5d:64a5:: with SMTP id m5mr14344263wrp.281.1635613650261; 
+ Sat, 30 Oct 2021 10:07:30 -0700 (PDT)
 Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
  by smtp.gmail.com with ESMTPSA id
- l6sm7700883wmq.17.2021.10.30.10.07.24
+ v4sm8623593wrs.86.2021.10.30.10.07.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Oct 2021 10:07:24 -0700 (PDT)
+ Sat, 30 Oct 2021 10:07:29 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/30] hw/char/sh_serial: Add device id to trace output
-Date: Sat, 30 Oct 2021 19:05:59 +0200
-Message-Id: <20211030170615.2636436-15-f4bug@amsat.org>
+Subject: [PULL 15/30] hw/intc/sh_intc: Use existing macro instead of local one
+Date: Sat, 30 Oct 2021 19:06:00 +0200
+Message-Id: <20211030170615.2636436-16-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211030170615.2636436-1-f4bug@amsat.org>
 References: <20211030170615.2636436-1-f4bug@amsat.org>
@@ -96,65 +96,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-Normally there are at least two sh_serial instances. Add device id to
-trace messages to make it clear which instance they belong to
-otherwise its not possible to tell which serial device is accessed.
+The INTC_A7 local macro does the same as the A7ADDR from
+include/sh/sh.h so use the latter and drop the local macro definition.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <cc1f9ff9f4259ae799750e452f8871849c7a104c.1635541329.git.balaton@eik.bme.hu>
+Message-Id: <53f033477c73b7c9b021d36033c590416d6199c7.1635541329.git.balaton@eik.bme.hu>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/char/sh_serial.c  | 6 ++++--
- hw/char/trace-events | 4 ++--
- 2 files changed, 6 insertions(+), 4 deletions(-)
+ hw/intc/sh_intc.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/hw/char/sh_serial.c b/hw/char/sh_serial.c
-index 808d4ebae70..355886ee3a1 100644
---- a/hw/char/sh_serial.c
-+++ b/hw/char/sh_serial.c
-@@ -94,9 +94,10 @@ static void sh_serial_write(void *opaque, hwaddr offs,
-                             uint64_t val, unsigned size)
+diff --git a/hw/intc/sh_intc.c b/hw/intc/sh_intc.c
+index 673606b24b3..a98953d665f 100644
+--- a/hw/intc/sh_intc.c
++++ b/hw/intc/sh_intc.c
+@@ -16,8 +16,6 @@
+ #include "hw/sh4/sh.h"
+ #include "trace.h"
+ 
+-#define INTC_A7(x) ((x) & 0x1fffffff)
+-
+ void sh_intc_toggle_source(struct intc_source *source,
+                            int enable_adj, int assert_adj)
  {
-     SHSerialState *s = opaque;
-+    DeviceState *d = DEVICE(s);
-     unsigned char ch;
- 
--    trace_sh_serial_write(size, offs, val);
-+    trace_sh_serial_write(d->id, size, offs, val);
-     switch (offs) {
-     case 0x00: /* SMR */
-         s->smr = val & ((s->feat & SH_SERIAL_FEAT_SCIF) ? 0x7b : 0xff);
-@@ -212,6 +213,7 @@ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
-                                unsigned size)
+@@ -112,12 +110,12 @@ int sh_intc_get_pending_vector(struct intc_desc *desc, int imask)
+ static unsigned int sh_intc_mode(unsigned long address,
+                                  unsigned long set_reg, unsigned long clr_reg)
  {
-     SHSerialState *s = opaque;
-+    DeviceState *d = DEVICE(s);
-     uint32_t ret = UINT32_MAX;
+-    if ((address != INTC_A7(set_reg)) &&
+-        (address != INTC_A7(clr_reg)))
++    if ((address != A7ADDR(set_reg)) &&
++        (address != A7ADDR(clr_reg)))
+         return INTC_MODE_NONE;
  
- #if 0
-@@ -304,7 +306,7 @@ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
-             break;
-         }
-     }
--    trace_sh_serial_read(size, offs, ret);
-+    trace_sh_serial_read(d->id, size, offs, ret);
+     if (set_reg && clr_reg) {
+-        if (address == INTC_A7(set_reg)) {
++        if (address == A7ADDR(set_reg)) {
+             return INTC_MODE_DUAL_SET;
+         } else {
+             return INTC_MODE_DUAL_CLR;
+@@ -297,11 +295,11 @@ static unsigned int sh_intc_register(MemoryRegion *sysmem,
  
-     if (ret > UINT16_MAX) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-diff --git a/hw/char/trace-events b/hw/char/trace-events
-index 4a92e7674a2..2ecb36232e9 100644
---- a/hw/char/trace-events
-+++ b/hw/char/trace-events
-@@ -103,5 +103,5 @@ exynos_uart_rx_timeout(uint32_t channel, uint32_t stat, uint32_t intsp) "UART%d:
- cadence_uart_baudrate(unsigned baudrate) "baudrate %u"
+ #define SH_INTC_IOMEM_FORMAT "interrupt-controller-%s-%s-%s"
+     snprintf(name, sizeof(name), SH_INTC_IOMEM_FORMAT, type, action, "p4");
+-    memory_region_init_alias(iomem_p4, NULL, name, iomem, INTC_A7(address), 4);
++    memory_region_init_alias(iomem_p4, NULL, name, iomem, A7ADDR(address), 4);
+     memory_region_add_subregion(sysmem, P4ADDR(address), iomem_p4);
  
- # sh_serial.c
--sh_serial_read(unsigned size, uint64_t offs, uint64_t val) " size %d offs 0x%02" PRIx64 " -> 0x%02" PRIx64
--sh_serial_write(unsigned size, uint64_t offs, uint64_t val) "size %d offs 0x%02" PRIx64 " <- 0x%02" PRIx64
-+sh_serial_read(char *id, unsigned size, uint64_t offs, uint64_t val) " %s size %d offs 0x%02" PRIx64 " -> 0x%02" PRIx64
-+sh_serial_write(char *id, unsigned size, uint64_t offs, uint64_t val) "%s size %d offs 0x%02" PRIx64 " <- 0x%02" PRIx64
+     snprintf(name, sizeof(name), SH_INTC_IOMEM_FORMAT, type, action, "a7");
+-    memory_region_init_alias(iomem_a7, NULL, name, iomem, INTC_A7(address), 4);
++    memory_region_init_alias(iomem_a7, NULL, name, iomem, A7ADDR(address), 4);
+     memory_region_add_subregion(sysmem, A7ADDR(address), iomem_a7);
+ #undef SH_INTC_IOMEM_FORMAT
+ 
 -- 
 2.31.1
 
