@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1675A440AFA
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 20:28:23 +0200 (CEST)
-Received: from localhost ([::1]:43368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5070A440AF7
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 20:24:26 +0200 (CEST)
+Received: from localhost ([::1]:36120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgt5a-0001Zm-3P
-	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 14:28:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58734)
+	id 1mgt1k-00052i-A2
+	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 14:24:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgs1s-0001UY-6j
+ id 1mgs1s-0001UX-6O
  for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:20:28 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:35512)
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:36831)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgs1o-0002C3-1v
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:20:25 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id s5so753007pfg.2
- for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:20:22 -0700 (PDT)
+ id 1mgs1o-0002CG-3k
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:20:26 -0400
+Received: by mail-pf1-x433.google.com with SMTP id m26so12324323pff.3
+ for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:20:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hDIIDmSt3XkX7dozNp8YyanBuOQiSpBj16JErrhb+ZE=;
- b=lrdYcKbzQ0c+F3yUg3gPnHdd01mr+Zsevis/Hpk6OAGdzCnjHeHgZDjjBKuAgUgLuZ
- x+sio0YitJs9t7SbbuGirw48WVgAZntqXU+zXzeIadwZjuhz99q5kXIK9dv9NtCTnqvP
- nRo8oPvg6H2ujVWC7IZDPydxlIz7lsFqz7joHIJ1MrYn3RuvUuec9wBQnNZJbWUE1XA/
- rxKl0KbYUg2Bvonb3bKkFRklpY3SqunsQDVn+dwVE9jUA6FoBFZMEopBGeVyHI/NNP7s
- 4sMdiESoiT3YdkIfD2dDgDs6SkTOZycahkSyMDTfRPwrXSmE50bjlYlxa4QKFrK26j+F
- kUXQ==
+ bh=O2Pwh8dMK2GW2V5gEng3hQsybzKfwzmJDjUzbvltEB4=;
+ b=nqrF955v9kb7EQxVqymq9d1/c8X+v7cVJQSpwUXgu73Vozq4D+PfC+T9P/SktMWf94
+ sHeDyWGYE045aJO3JpAmQCp8MAOC/4UzfxdHZFHrHmeemht8Uf6+bGYFI5H4aNMJV10E
+ tt3vazMguDgzRXwByvw2u5wcGgNoA9GmYMNRPNjuFiLXclBrgGFj1CoAIeD66R9kj2Df
+ zT2bWBvgBdJAui1IJet3KUDjN47Pkh10Te3lHu9yL9SLfd+0UDMxF8FUb/sA13NK8q7K
+ CBYvUOPzCxAdHRfZBqmmAY6APfXIfC/qoiMbCT1/+XA7GUJWghXrNNlyBc4I0bvCcCsZ
+ wTnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hDIIDmSt3XkX7dozNp8YyanBuOQiSpBj16JErrhb+ZE=;
- b=4ES7mHGrtUAKMDMZDs+1uQ80w9jpmkGAM66ne2aerKX7uu55ugsSwglbRGrFKhQp/V
- qxn6u+vEFa8q8ic3osoGicx7YBjg1948zev/tW/4MI9Tbwn8xw6OC7I4uCv4EtDho9Gt
- QacTdq3YvPYgNDHuuboJiXnbWcpIGJqkQfSTSvSg+RMVvRz8xXidnqjoiP+y4/+pXo5l
- FglDwYFa5NzMLgCwl5kXoTTib/6QBW0xn7SRTj9+GaILb/YuQyXvA482WVaPgC600674
- v78qLAy2ZUjuhAI/pww+0ZZK1QqFqrJ3vdY7YOjDhYPgjoufF0yJF5uznMHiAA5JKyfR
- x8Mw==
-X-Gm-Message-State: AOAM533HrIccwWp4F6RFcOpHUKRrkT/ouBL8xTmPc00D5G/XFnzF+pn0
- 4NdK/bBu9IpPhXsvG8JorB3KbeSa2oZSPg==
-X-Google-Smtp-Source: ABdhPJxkfzS/EGK4MQLC2fo0Ek06uyWpr5cP1cXzqu4pTjUjtlnrco7OeSuey0Gp+woDP5ExxbalGw==
-X-Received: by 2002:a62:5304:0:b0:44c:719c:a2c with SMTP id
- h4-20020a625304000000b0044c719c0a2cmr17729993pfb.13.1635614421984; 
- Sat, 30 Oct 2021 10:20:21 -0700 (PDT)
+ bh=O2Pwh8dMK2GW2V5gEng3hQsybzKfwzmJDjUzbvltEB4=;
+ b=K+CRg1wrDKQr+haatITe1CrQ8EDNRHVC12Sn4GProODGTBC56jRBdIvUC7t8ZG7n5Z
+ HlSO50zFkfCa/GxjygXt6CVkZfsoTPefyECltiMNm51Onohsz5/CEq4OaPgif8eQGYo0
+ 332Pfb9CEHZXJHt3eoFjPdt0pbVImgwGQVVdpW7PuPxKQA1+C8XZh9RkrlKReu3bpS81
+ Qe2+xUVUrB1mHTuq7+oWCIWEYy4wbY269wWfCiCel8Cb1aX1w01bTaSl+D94yojrcsLv
+ fhIxsjef9lJC5RqH1yXbbVmdjs0YS9+VPUDG0A2bD1PtUAxKAJt7ga4p3mBnCwe8BUcV
+ GF3g==
+X-Gm-Message-State: AOAM533Sy3d7GTgMK+Cw2SPExVSxzKRjN3ZlUlzZYCzG2xHnmgUkRiV2
+ Me6t8aOXJ6Hpe8526I4aBbD2M7ofMJ+KiA==
+X-Google-Smtp-Source: ABdhPJxzjWx7hiKOGnVuE6bUVBsTA2Q/WpwedKbN7Ix9wE1wqetW8a3SYpwwiRdsMSxQflrkOyvSJg==
+X-Received: by 2002:a63:b519:: with SMTP id y25mr13535863pge.237.1635614422858; 
+ Sat, 30 Oct 2021 10:20:22 -0700 (PDT)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id k14sm9584798pji.45.2021.10.30.10.20.21
+ by smtp.gmail.com with ESMTPSA id k14sm9584798pji.45.2021.10.30.10.20.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Oct 2021 10:20:21 -0700 (PDT)
+ Sat, 30 Oct 2021 10:20:22 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 49/66] target/ppc: Set fault address in
- ppc_cpu_do_unaligned_access
-Date: Sat, 30 Oct 2021 10:16:18 -0700
-Message-Id: <20211030171635.1689530-50-richard.henderson@linaro.org>
+Subject: [PATCH v6 50/66] target/ppc: Restrict ppc_cpu_do_unaligned_access to
+ sysemu
+Date: Sat, 30 Oct 2021 10:16:19 -0700
+Message-Id: <20211030171635.1689530-51-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211030171635.1689530-1-richard.henderson@linaro.org>
 References: <20211030171635.1689530-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,47 +85,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, laurent@vivier.eu,
- f4bug@amsat.org, qemu-ppc@nongnu.org, alex.bennee@linaro.org, imp@bsdimp.com
+Cc: alex.bennee@linaro.org, laurent@vivier.eu, imp@bsdimp.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We ought to have been recording the virtual address for reporting
-to the guest trap handler.
+This is not used by, nor required by, user-only.
 
-Cc: qemu-ppc@nongnu.org
 Reviewed-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/excp_helper.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ target/ppc/internal.h    | 8 +++-----
+ target/ppc/excp_helper.c | 8 +++-----
+ 2 files changed, 6 insertions(+), 10 deletions(-)
 
+diff --git a/target/ppc/internal.h b/target/ppc/internal.h
+index 339974b7d8..6aa9484f34 100644
+--- a/target/ppc/internal.h
++++ b/target/ppc/internal.h
+@@ -211,11 +211,6 @@ void helper_compute_fprf_float16(CPUPPCState *env, float16 arg);
+ void helper_compute_fprf_float32(CPUPPCState *env, float32 arg);
+ void helper_compute_fprf_float128(CPUPPCState *env, float128 arg);
+ 
+-/* Raise a data fault alignment exception for the specified virtual address */
+-void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+-                                 MMUAccessType access_type, int mmu_idx,
+-                                 uintptr_t retaddr) QEMU_NORETURN;
+-
+ /* translate.c */
+ 
+ int ppc_fixup_cpu(PowerPCCPU *cpu);
+@@ -291,6 +286,9 @@ void ppc_cpu_record_sigsegv(CPUState *cs, vaddr addr,
+ bool ppc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                       MMUAccessType access_type, int mmu_idx,
+                       bool probe, uintptr_t retaddr);
++void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
++                                 MMUAccessType access_type, int mmu_idx,
++                                 uintptr_t retaddr) QEMU_NORETURN;
+ #endif
+ 
+ #endif /* PPC_INTERNAL_H */
 diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 88a8de4b80..e568a54536 100644
+index e568a54536..17607adbe4 100644
 --- a/target/ppc/excp_helper.c
 +++ b/target/ppc/excp_helper.c
-@@ -1465,6 +1465,20 @@ void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
- {
-     CPUPPCState *env = cs->env_ptr;
+@@ -1454,11 +1454,8 @@ void helper_book3s_msgsndp(CPUPPCState *env, target_ulong rb)
  
-+    switch (env->mmu_model) {
-+    case POWERPC_MMU_SOFT_4xx:
-+    case POWERPC_MMU_SOFT_4xx_Z:
-+        env->spr[SPR_40x_DEAR] = vaddr;
-+        break;
-+    case POWERPC_MMU_BOOKE:
-+    case POWERPC_MMU_BOOKE206:
-+        env->spr[SPR_BOOKE_DEAR] = vaddr;
-+        break;
-+    default:
-+        env->spr[SPR_DAR] = vaddr;
-+        break;
-+    }
-+
-     cs->exception_index = POWERPC_EXCP_ALIGN;
+     book3s_msgsnd_common(pir, PPC_INTERRUPT_DOORBELL);
+ }
+-#endif
+-#endif /* CONFIG_TCG */
+-#endif
++#endif /* TARGET_PPC64 */
+ 
+-#ifdef CONFIG_TCG
+ void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+                                  MMUAccessType access_type,
+                                  int mmu_idx, uintptr_t retaddr)
+@@ -1483,4 +1480,5 @@ void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
      env->error_code = 0;
      cpu_loop_exit_restore(cs, retaddr);
+ }
+-#endif
++#endif /* CONFIG_TCG */
++#endif /* !CONFIG_USER_ONLY */
 -- 
 2.25.1
 
