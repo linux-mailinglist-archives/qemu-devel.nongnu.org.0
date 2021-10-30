@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48F3E4406F9
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 04:48:49 +0200 (CEST)
-Received: from localhost ([::1]:51302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 356CB440709
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 05:07:44 +0200 (CEST)
+Received: from localhost ([::1]:55724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgeQK-0002xx-EQ
-	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 22:48:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53822)
+	id 1mgeic-00078X-Pr
+	for lists+qemu-devel@lfdr.de; Fri, 29 Oct 2021 23:07:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mgeOt-00025t-I8
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 22:47:19 -0400
-Received: from mail-ua1-x92b.google.com ([2607:f8b0:4864:20::92b]:42908)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mgehG-000647-AC; Fri, 29 Oct 2021 23:06:18 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:52052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mgeOr-0006Od-LM
- for qemu-devel@nongnu.org; Fri, 29 Oct 2021 22:47:19 -0400
-Received: by mail-ua1-x92b.google.com with SMTP id v20so21600271uaj.9
- for <qemu-devel@nongnu.org>; Fri, 29 Oct 2021 19:47:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=23aDLnrAl9Rtt/hDLk6KxCjf8FxkkW+q8wT4umMWt6w=;
- b=D8OBSK1tADFGH5uwWpMtIasm0ZCCXEzRC7AAyHUzrYbeWtYqZHqALHmU1g/bk2z8ru
- n1gVXzcVNi6Z8NEyZwn28tAOKYSe2k4zvTNXcuUiooUPTJ5evjN+VWPUl5ejGuO5BVd8
- eVJUEhY4xv5p9MKsvgX7uwSF9Wr6q62ggncCB1ec1UDL0kgAtKvOGH6mliskChI63Tc+
- RrhT6HFrtIiSn606i6/ARBNRp2IpmYNyxtU7jyBZMPqgis8S1CtSucI6HImfZewdGeuE
- 0TU/3OOi4f45gdOdUanyhXAuROxKLyoJqeaSNlEDIDRV3C2IB92RtS8iMDCfIteNIgxg
- dSyA==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mgehE-0008G0-KO; Fri, 29 Oct 2021 23:06:18 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id gt5so192039pjb.1;
+ Fri, 29 Oct 2021 20:06:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ur+cd/ZWO6v2nMgeeV4dKfNp4+YjQPLBBGcy6MiOmjk=;
+ b=N7HAWwZxFGMIXYzLVwjDdjz7zMfLyvvJw1St3xdguk1bmni1BjFdmjcoogwprusrvC
+ mbnE/sntvKfe/sHrW1zAUBaso5KX1nYmH2HcwC0cDmVFP3eEW28Cw1CIkdaphiNsOOi7
+ XeyXHMDm+k6UQxzirgpKuedkVYZ2e3+zW0IM57OGtsn/iWZktQN/1ZbSL5wqiEFfPdkF
+ XCCpqVbAqJoixsWA92WbHLfLwly4C+rClxBr6wNsNKOEKWMyfRIwCXTz8DRFBBHa4cdd
+ a5BFmWMBcrfJlHvfqkaIrGhyHQWRyuCCy6Sxc291a731YSEPYquRowAkJZ9F1pJzBr1y
+ qXIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=23aDLnrAl9Rtt/hDLk6KxCjf8FxkkW+q8wT4umMWt6w=;
- b=ptzQGV2Pcwicw2VgnnXZdPptFcQcbpOVTTaOklCJWRDC3CT2VY728qglRomTI+kmAp
- Um+eWD7B6/uo/bWc5bZd0H4uVX5fG5zBT5yOvfLxkyysW7CIIfghllVx0aGUsECNdjEi
- LiKhDDA/Pj//tkBKMqASTAv29ynL5i7DTNCai9PcDKVYV3vg0VeWlU2PddQuqE++WJt5
- bpL1o6kpLAdBHovSL3AeqHd5pE7gEHPMTlZ+8rbrOa5ZGpT/4hcMQQK9rmFZ0DAYDR+B
- Q8llDkvAl1GniJcKJ6yIL3Z00/8Q55bFOxq9fBuRmLwAsUdPc8UTY5zSx3A69jsVcl+O
- Vm3A==
-X-Gm-Message-State: AOAM530Jxw08+kL4ZnMwyeTCZR+dBGSD9OtyqfWLolhvs/zvAyTj7UD8
- Lt/e95UncH43Hvaa2EaUbzLBWsyMiwAZGRu3bi3qSA==
-X-Google-Smtp-Source: ABdhPJzhzVrF1sv8LcIWGqEbu2KiM5NooITQ4HAfyq5FVWfSpJbj16+S6m9BiJSi7+I8OQxti1h71FrReRmftvU0yqg=
-X-Received: by 2002:a05:6102:5494:: with SMTP id
- bk20mr17572175vsb.6.1635562036414; 
- Fri, 29 Oct 2021 19:47:16 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ur+cd/ZWO6v2nMgeeV4dKfNp4+YjQPLBBGcy6MiOmjk=;
+ b=sp0yhtFGJ8sWeyLtkmU09JSLKukyyquH/3UztqmtsBpHNjQWeb6vnzJ+y5FvxZCRjO
+ n3y6bl6kLccbd5yq5fb0DaexgcfuSW/clkejYH8h+tYQEs4tsJmz7t80kfKgEkpYZcdX
+ iRBYrwD/gfx1jJOp4AdcFwUE6MrS1/kLEiwshMuD6GIs1ygWlUk7kt9GOIejtesUvRGJ
+ k/HLZUj0tEJ51yjJDBP2YFS0JLgNvdH4lzUIe4UcQedLF4jc9/3I8DQPwNvsVZCVZFfy
+ 6CsJj4/vwDLDepgiyRcyrcp8qzsuFVcIfKvptAzp2BM+LYbGZNl58VsEL5LoWssBoqmY
+ 57VA==
+X-Gm-Message-State: AOAM5321by4G2MvYyXB2S+uaagbgjCa5ngIpZo0kCb5SJ/C9i3NDVnfY
+ UafP9uPQCDhY8bj7C2CV9stNmYZQppQ=
+X-Google-Smtp-Source: ABdhPJzQ4dT2LzxW5AwGBvA25TumwhXs8nWzosFqOya8wpvCXZs1ko0rxkV/0lhFu/e3ITu+ZtHkrA==
+X-Received: by 2002:a17:903:11c9:b0:13f:f28f:f77 with SMTP id
+ q9-20020a17090311c900b0013ff28f0f77mr13146910plh.79.1635563174946; 
+ Fri, 29 Oct 2021 20:06:14 -0700 (PDT)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id l17sm9172071pfc.94.2021.10.29.20.06.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Oct 2021 20:06:14 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Subject: [PATCH] target/riscv: machine: Sort the .subsections
+Date: Sat, 30 Oct 2021 11:06:06 +0800
+Message-Id: <20211030030606.32297-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20211019164447.16359-1-imp@bsdimp.com>
- <20211019164447.16359-21-imp@bsdimp.com>
- <446e589d-7c49-f5fc-3891-195ba5a37c0f@linaro.org>
- <CANCZdfoHStsykaxrbUJceBujmAajzmeN_x3ar-cj01SEUM8j4Q@mail.gmail.com>
-In-Reply-To: <CANCZdfoHStsykaxrbUJceBujmAajzmeN_x3ar-cj01SEUM8j4Q@mail.gmail.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Fri, 29 Oct 2021 20:47:07 -0600
-Message-ID: <CANCZdfqbmpjHWUCyZB9YkhJzpCVigGP8e0fdNYcFajW8-NjrVQ@mail.gmail.com>
-Subject: Re: [PATCH 20/24] bsd-user/arm/target_arch_signal.h: arm
- set_sigtramp_args
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000003067b305cf88f636"
-Received-SPF: none client-ip=2607:f8b0:4864:20::92b;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,81 +81,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stacey Son <sson@freebsd.org>, QEMU Trivial <qemu-trivial@nongnu.org>,
- Kyle Evans <kevans@freebsd.org>, Michael Tokarev <mjt@tls.msk.ru>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003067b305cf88f636
-Content-Type: text/plain; charset="UTF-8"
+From: Bin Meng <bin.meng@windriver.com>
 
-On Thu, Oct 28, 2021 at 4:41 PM Warner Losh <imp@bsdimp.com> wrote:
+Move the codes around so that the order of .subsections matches
+the one they are referenced in vmstate_riscv_cpu.
 
->
->
-> On Thu, Oct 28, 2021 at 11:25 AM Richard Henderson <
-> richard.henderson@linaro.org> wrote:
->
->> On 10/19/21 9:44 AM, Warner Losh wrote:
->> > +    regs->regs[TARGET_REG_PC] = ka->_sa_handler;
->>
->> Surely there should be some handling of thumb addresses here.
->>
->
-> Yes. I've added code to do this, but haven't run it through (a) our normal
-> test suite and (b) don't think I have any code that's normal mode with a
-> thumb mode signal handler to test it with... It will be in the next
-> iteration
-> I send out.
->
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
 
-FYI: I've fixed it in  the patch stream. I wrote 4 test programs: one in
-a32 mode,
-one in T32 mode, one starts in A32 and gets a signal in T32 mode and a final
-one that starts in T32 and signals in A32 mode. They all work now. Before
-all but the A32 one failed.
+ target/riscv/machine.c | 92 +++++++++++++++++++++---------------------
+ 1 file changed, 46 insertions(+), 46 deletions(-)
 
-And the test suite runs about the same as before. I'll have to add these 4
-programs
-to the test suite :)... So good call. Thanks on this and the other
-difficult ones you
-flagged.
+diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+index 7b4c739564..ad8248ebfd 100644
+--- a/target/riscv/machine.c
++++ b/target/riscv/machine.c
+@@ -76,20 +76,50 @@ static bool hyper_needed(void *opaque)
+     return riscv_has_ext(env, RVH);
+ }
+ 
+-static bool vector_needed(void *opaque)
+-{
+-    RISCVCPU *cpu = opaque;
+-    CPURISCVState *env = &cpu->env;
++static const VMStateDescription vmstate_hyper = {
++    .name = "cpu/hyper",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = hyper_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINTTL(env.hstatus, RISCVCPU),
++        VMSTATE_UINTTL(env.hedeleg, RISCVCPU),
++        VMSTATE_UINTTL(env.hideleg, RISCVCPU),
++        VMSTATE_UINTTL(env.hcounteren, RISCVCPU),
++        VMSTATE_UINTTL(env.htval, RISCVCPU),
++        VMSTATE_UINTTL(env.htinst, RISCVCPU),
++        VMSTATE_UINTTL(env.hgatp, RISCVCPU),
++        VMSTATE_UINT64(env.htimedelta, RISCVCPU),
+ 
+-    return riscv_has_ext(env, RVV);
+-}
++        VMSTATE_UINT64(env.vsstatus, RISCVCPU),
++        VMSTATE_UINTTL(env.vstvec, RISCVCPU),
++        VMSTATE_UINTTL(env.vsscratch, RISCVCPU),
++        VMSTATE_UINTTL(env.vsepc, RISCVCPU),
++        VMSTATE_UINTTL(env.vscause, RISCVCPU),
++        VMSTATE_UINTTL(env.vstval, RISCVCPU),
++        VMSTATE_UINTTL(env.vsatp, RISCVCPU),
+ 
+-static bool pointermasking_needed(void *opaque)
++        VMSTATE_UINTTL(env.mtval2, RISCVCPU),
++        VMSTATE_UINTTL(env.mtinst, RISCVCPU),
++
++        VMSTATE_UINTTL(env.stvec_hs, RISCVCPU),
++        VMSTATE_UINTTL(env.sscratch_hs, RISCVCPU),
++        VMSTATE_UINTTL(env.sepc_hs, RISCVCPU),
++        VMSTATE_UINTTL(env.scause_hs, RISCVCPU),
++        VMSTATE_UINTTL(env.stval_hs, RISCVCPU),
++        VMSTATE_UINTTL(env.satp_hs, RISCVCPU),
++        VMSTATE_UINT64(env.mstatus_hs, RISCVCPU),
++
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static bool vector_needed(void *opaque)
+ {
+     RISCVCPU *cpu = opaque;
+     CPURISCVState *env = &cpu->env;
+ 
+-    return riscv_has_ext(env, RVJ);
++    return riscv_has_ext(env, RVV);
+ }
+ 
+ static const VMStateDescription vmstate_vector = {
+@@ -108,6 +138,14 @@ static const VMStateDescription vmstate_vector = {
+         }
+ };
+ 
++static bool pointermasking_needed(void *opaque)
++{
++    RISCVCPU *cpu = opaque;
++    CPURISCVState *env = &cpu->env;
++
++    return riscv_has_ext(env, RVJ);
++}
++
+ static const VMStateDescription vmstate_pointermasking = {
+     .name = "cpu/pointer_masking",
+     .version_id = 1,
+@@ -126,44 +164,6 @@ static const VMStateDescription vmstate_pointermasking = {
+     }
+ };
+ 
+-static const VMStateDescription vmstate_hyper = {
+-    .name = "cpu/hyper",
+-    .version_id = 1,
+-    .minimum_version_id = 1,
+-    .needed = hyper_needed,
+-    .fields = (VMStateField[]) {
+-        VMSTATE_UINTTL(env.hstatus, RISCVCPU),
+-        VMSTATE_UINTTL(env.hedeleg, RISCVCPU),
+-        VMSTATE_UINTTL(env.hideleg, RISCVCPU),
+-        VMSTATE_UINTTL(env.hcounteren, RISCVCPU),
+-        VMSTATE_UINTTL(env.htval, RISCVCPU),
+-        VMSTATE_UINTTL(env.htinst, RISCVCPU),
+-        VMSTATE_UINTTL(env.hgatp, RISCVCPU),
+-        VMSTATE_UINT64(env.htimedelta, RISCVCPU),
+-
+-        VMSTATE_UINT64(env.vsstatus, RISCVCPU),
+-        VMSTATE_UINTTL(env.vstvec, RISCVCPU),
+-        VMSTATE_UINTTL(env.vsscratch, RISCVCPU),
+-        VMSTATE_UINTTL(env.vsepc, RISCVCPU),
+-        VMSTATE_UINTTL(env.vscause, RISCVCPU),
+-        VMSTATE_UINTTL(env.vstval, RISCVCPU),
+-        VMSTATE_UINTTL(env.vsatp, RISCVCPU),
+-
+-        VMSTATE_UINTTL(env.mtval2, RISCVCPU),
+-        VMSTATE_UINTTL(env.mtinst, RISCVCPU),
+-
+-        VMSTATE_UINTTL(env.stvec_hs, RISCVCPU),
+-        VMSTATE_UINTTL(env.sscratch_hs, RISCVCPU),
+-        VMSTATE_UINTTL(env.sepc_hs, RISCVCPU),
+-        VMSTATE_UINTTL(env.scause_hs, RISCVCPU),
+-        VMSTATE_UINTTL(env.stval_hs, RISCVCPU),
+-        VMSTATE_UINTTL(env.satp_hs, RISCVCPU),
+-        VMSTATE_UINT64(env.mstatus_hs, RISCVCPU),
+-
+-        VMSTATE_END_OF_LIST()
+-    }
+-};
+-
+ const VMStateDescription vmstate_riscv_cpu = {
+     .name = "cpu",
+     .version_id = 3,
+-- 
+2.25.1
 
-Warner
-
---0000000000003067b305cf88f636
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 28, 2021 at 4:41 PM Warne=
-r Losh &lt;<a href=3D"mailto:imp@bsdimp.com">imp@bsdimp.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"=
-><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr"=
- class=3D"gmail_attr">On Thu, Oct 28, 2021 at 11:25 AM Richard Henderson &l=
-t;<a href=3D"mailto:richard.henderson@linaro.org" target=3D"_blank">richard=
-.henderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">On 10/19/21 9:44 AM, Warner Losh wrote:<br>
-&gt; +=C2=A0 =C2=A0 regs-&gt;regs[TARGET_REG_PC] =3D ka-&gt;_sa_handler;<br=
->
-<br>
-Surely there should be some handling of thumb addresses here.<br></blockquo=
-te><div><br></div><div>Yes. I&#39;ve added code to do this, but haven&#39;t=
- run it through (a) our normal</div><div>test suite and (b) don&#39;t think=
- I have any code that&#39;s normal mode with a</div><div>thumb mode signal =
-handler to test it with... It will be in the next iteration</div><div>I sen=
-d out.</div></div></div></blockquote><div><br></div><div>FYI: I&#39;ve fixe=
-d it in=C2=A0 the patch stream. I wrote 4 test programs: one in a32 mode,</=
-div><div>one in T32 mode, one starts in A32 and gets a signal in T32 mode a=
-nd a final</div><div>one that starts in T32 and signals in A32 mode. They a=
-ll work now. Before</div><div>all but the A32 one failed.</div><div><br></d=
-iv><div>And the test suite runs about the same as before. I&#39;ll have to =
-add these 4 programs</div><div>to the test suite :)... So good call. Thanks=
- on this and the other difficult ones you</div><div>flagged.<br></div><div>=
-<br></div><div>Warner<br></div></div></div>
-
---0000000000003067b305cf88f636--
 
