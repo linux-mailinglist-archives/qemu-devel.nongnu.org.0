@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E1B2440AE9
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 20:10:58 +0200 (CEST)
-Received: from localhost ([::1]:40502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFD90440AED
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 20:15:38 +0200 (CEST)
+Received: from localhost ([::1]:49178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgsoh-0004pV-PK
-	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 14:10:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57816)
+	id 1mgstG-0002M1-0A
+	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 14:15:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgryZ-0002GK-Gc
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:17:04 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:36685)
+ id 1mgrya-0002GL-45
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:17:05 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:44868)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgryV-0000Ad-UN
+ id 1mgryX-0000Az-JA
  for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:17:03 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- o10-20020a17090a3d4a00b001a6555878a8so1587366pjf.1
- for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:16:59 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id t11so8901750plq.11
+ for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:17:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1wBL44wFnTfFr75B1K0GW+FHLyxttBDILq0ZVE67hOM=;
- b=OG3zrhz0UehGCyVvm7AX8lNez8YH9R8/uXDqQW3e5GVZQRQsOBL0V+5RpI6zZ/eE3o
- 47vq4Ya5xqjK2RkPZon/R4NpK/w4zflzz+kjD7lNr929jxYeQgS03oyIi23NlmN/vvcJ
- isLP1TUf30tvza8EgLHw+2gZ0aNrByYblVAkBXnSuh385kpTKur8hQ+jBv1NBpvX1qbT
- lVX5NHEb+1wHJSzt1HVBgg8g1ozTQJYKbXY/TR2zZhY/fFLlBAF6ijF9jCYO5OFADInQ
- gEFNu/YLTeaA13pEqcrP7Tp8HxsWT06+npJEeIIKjU3PiduIWasOy5w6LeYHsb4/pDjq
- XG2g==
+ bh=z8ecs4LTwGjkTaIMjFwaDU18rjRNxTTeFlYdhpfOXR8=;
+ b=LAMJRfu4dQi3C1J44DOR9pDRtXrzeGIGxMVyg2LssK1eCdDLsXhtawTVC6rzzHD35h
+ pgZoc06LIIzAb7WvuRI+jfCT7OM9JTRULe6n7dep3IBhBZByDcc4rTgssCcqhKtMKZdz
+ w4GMHwjJAP0/73KCQZCtmQwtsP90PPMn/3NOLzJJnNcJmKScLVaRVFWEHFSR12820jcq
+ iBDvsaOg8mmg23s7RqFTfb1cTAAs9w31rg9CP52p90zRSiBsZx/qRzaDr9WIafZ+h5an
+ 5bzVKBC5/hXc1iGjl8SfoSAgZvwtIjIcnfmILcDAREzVmoDHo53draGn36njIrZLz3os
+ d6qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1wBL44wFnTfFr75B1K0GW+FHLyxttBDILq0ZVE67hOM=;
- b=5kHoIxmo0SqXcMtbJrCm7WGpdrahwXHZYlww8V38MV8pT4QBtH+p9KtoxSn6Q6sJIU
- pswdr+81cFdIwxsICz7RzN02fgkS+30n+A+YKFiIfrJ98vu0M8YtMTQb6kvfz0l7/EkU
- IEyJKO+xCxnpsQdJeU6BJQ7K2dalYU6m7k3AYC0dsZt4JbENHJRZUxSbRUrb8ErPvMoP
- pIHInwp0bo0JlvaUfQj926wWkKwIuT4QiEJiKwUUMPprzNKLTwtuPydY1wRDRH4Udu4X
- U+gQRMeKJkA7utKLBD5Yyb0iMgSEpCFD8dpaa6IGHzAX7WWzl/QeLRsfqzGmp+SKBAqy
- z/yA==
-X-Gm-Message-State: AOAM5329TEq3+u+fH+8c2UsxHCZS9nX9NYMO9KFyhnA6L4sBdIhsBIy0
- TlcFjzqbgwIvcmvuvZwkUV+IVkAENb0bsQ==
-X-Google-Smtp-Source: ABdhPJzsJLX4u/TwVcpMNyg3w1lzN1pFoeDzauJOXXXQvYzk6ePnS5I4ja2bmbw8+R5EhsEy1/NLCg==
-X-Received: by 2002:a17:90a:c85:: with SMTP id
- v5mr27626756pja.47.1635614218781; 
- Sat, 30 Oct 2021 10:16:58 -0700 (PDT)
+ bh=z8ecs4LTwGjkTaIMjFwaDU18rjRNxTTeFlYdhpfOXR8=;
+ b=2wmZCyHrZDxbynvbyFl6zJ3v6xQZ5GavSTmvxrcyy2vPYpXYRgYegqv9RFEVcasKhd
+ GebJExW0vLPqgLvU/mTH7xmVy7+zcIGVZksQdeREAId/Z7Eu2srwsRT3/755KV3oFs2q
+ oCeIeBu76QZdU0I0B+IDnCmUN17jtmbxxq8xnXOqle138AIT0H6hlq79oUQvo1SF7ocP
+ 601uSdip8oVaKF9i3TYJJkxym+sGJdTssRj8/Ar7sHlRCuL6nSqsyn4cDP6nN3O+/lzP
+ p6+DruoQdBgoCvR5OqTWjrZG9+8lIRfJkKKPayXdICVDkSpy//0on+kZuVkFYU+W0lgV
+ wyUg==
+X-Gm-Message-State: AOAM533a8vFcAOQFU8mYiqa4ez/00y4e5pTPGFV+rz2aytTKHwlL60OU
+ 6U46m21nu5oVpv/+baYBkklKLuAzfxPgHg==
+X-Google-Smtp-Source: ABdhPJwNn7FG60VPLxqW+W6qPffoG/5mAhJAqPU5cRXZ49L8SAT4o8fYbktzUuy3E0fpsU/zq84eVg==
+X-Received: by 2002:a17:903:1111:b0:13f:d1d7:fb5c with SMTP id
+ n17-20020a170903111100b0013fd1d7fb5cmr16057481plh.47.1635614220318; 
+ Sat, 30 Oct 2021 10:17:00 -0700 (PDT)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id nv4sm3111943pjb.17.2021.10.30.10.16.58
+ by smtp.gmail.com with ESMTPSA id nv4sm3111943pjb.17.2021.10.30.10.16.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Oct 2021 10:16:58 -0700 (PDT)
+ Sat, 30 Oct 2021 10:16:59 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 23/66] target/arm: Implement arm_cpu_record_sigsegv
-Date: Sat, 30 Oct 2021 10:15:52 -0700
-Message-Id: <20211030171635.1689530-24-richard.henderson@linaro.org>
+Subject: [PATCH v6 25/66] target/hexagon: Remove hexagon_cpu_tlb_fill
+Date: Sat, 30 Oct 2021 10:15:54 -0700
+Message-Id: <20211030171635.1689530-26-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211030171635.1689530-1-richard.henderson@linaro.org>
 References: <20211030171635.1689530-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,144 +84,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, laurent@vivier.eu, imp@bsdimp.com, f4bug@amsat.org
+Cc: Taylor Simpson <tsimpson@quicinc.com>, alex.bennee@linaro.org,
+ laurent@vivier.eu, imp@bsdimp.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Because of the complexity of setting ESR, continue to use
-arm_deliver_fault.  This means we cannot remove the code
-within cpu_loop that decodes EXCP_DATA_ABORT and
-EXCP_PREFETCH_ABORT.
+The fallback code in cpu_loop_exit_sigsegv is sufficient
+for hexagon linux-user.
 
-But using the new hook means that we don't have to do the
-page_get_flags check manually, and we'll be able to restrict
-the tlb_fill hook to sysemu later.
+Remove the code from cpu_loop that raises SIGSEGV.
 
-Reviewed-by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/internals.h  |  6 ++++++
- target/arm/cpu.c        |  6 ++++--
- target/arm/cpu_tcg.c    |  6 ++++--
- target/arm/tlb_helper.c | 36 +++++++++++++++++++-----------------
- 4 files changed, 33 insertions(+), 21 deletions(-)
+ linux-user/hexagon/cpu_loop.c | 24 +-----------------------
+ target/hexagon/cpu.c          | 23 -----------------------
+ 2 files changed, 1 insertion(+), 46 deletions(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 3612107ab2..5a7aaf0f51 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -544,9 +544,15 @@ static inline bool arm_extabort_type(MemTxResult result)
-     return result != MEMTX_DECODE_ERROR;
- }
- 
-+#ifdef CONFIG_USER_ONLY
-+void arm_cpu_record_sigsegv(CPUState *cpu, vaddr addr,
-+                            MMUAccessType access_type,
-+                            bool maperr, uintptr_t ra);
-+#else
- bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                       MMUAccessType access_type, int mmu_idx,
-                       bool probe, uintptr_t retaddr);
-+#endif
- 
- static inline int arm_to_core_mmu_idx(ARMMMUIdx mmu_idx)
+diff --git a/linux-user/hexagon/cpu_loop.c b/linux-user/hexagon/cpu_loop.c
+index bee2a9e4ea..6b24cbaba9 100644
+--- a/linux-user/hexagon/cpu_loop.c
++++ b/linux-user/hexagon/cpu_loop.c
+@@ -28,8 +28,7 @@
+ void cpu_loop(CPUHexagonState *env)
  {
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 641a8c2d3d..7a18a58ca0 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2031,10 +2031,12 @@ static const struct SysemuCPUOps arm_sysemu_ops = {
- static const struct TCGCPUOps arm_tcg_ops = {
-     .initialize = arm_translate_init,
-     .synchronize_from_tb = arm_cpu_synchronize_from_tb,
--    .tlb_fill = arm_cpu_tlb_fill,
-     .debug_excp_handler = arm_debug_excp_handler,
+     CPUState *cs = env_cpu(env);
+-    int trapnr, signum, sigcode;
+-    target_ulong sigaddr;
++    int trapnr;
+     target_ulong syscallnum;
+     target_ulong ret;
  
--#if !defined(CONFIG_USER_ONLY)
-+#ifdef CONFIG_USER_ONLY
-+    .record_sigsegv = arm_cpu_record_sigsegv,
-+#else
-+    .tlb_fill = arm_cpu_tlb_fill,
-     .cpu_exec_interrupt = arm_cpu_exec_interrupt,
-     .do_interrupt = arm_cpu_do_interrupt,
-     .do_transaction_failed = arm_cpu_do_transaction_failed,
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index 0d5adccf1a..7b3bea2fbb 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -898,10 +898,12 @@ static void pxa270c5_initfn(Object *obj)
- static const struct TCGCPUOps arm_v7m_tcg_ops = {
-     .initialize = arm_translate_init,
-     .synchronize_from_tb = arm_cpu_synchronize_from_tb,
--    .tlb_fill = arm_cpu_tlb_fill,
-     .debug_excp_handler = arm_debug_excp_handler,
+@@ -39,10 +38,6 @@ void cpu_loop(CPUHexagonState *env)
+         cpu_exec_end(cs);
+         process_queued_cpu_work(cs);
  
--#if !defined(CONFIG_USER_ONLY)
-+#ifdef CONFIG_USER_ONLY
-+    .record_sigsegv = arm_cpu_record_sigsegv,
-+#else
-+    .tlb_fill = arm_cpu_tlb_fill,
-     .cpu_exec_interrupt = arm_v7m_cpu_exec_interrupt,
-     .do_interrupt = arm_v7m_cpu_do_interrupt,
-     .do_transaction_failed = arm_cpu_do_transaction_failed,
-diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
-index 3107f9823e..dc5860180f 100644
---- a/target/arm/tlb_helper.c
-+++ b/target/arm/tlb_helper.c
-@@ -147,28 +147,12 @@ void arm_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
-     arm_deliver_fault(cpu, addr, access_type, mmu_idx, &fi);
- }
- 
--#endif /* !defined(CONFIG_USER_ONLY) */
+-        signum = 0;
+-        sigcode = 0;
+-        sigaddr = 0;
 -
- bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                       MMUAccessType access_type, int mmu_idx,
-                       bool probe, uintptr_t retaddr)
- {
-     ARMCPU *cpu = ARM_CPU(cs);
-     ARMMMUFaultInfo fi = {};
+         switch (trapnr) {
+         case EXCP_INTERRUPT:
+             /* just indicate that signals should be handled asap */
+@@ -65,12 +60,6 @@ void cpu_loop(CPUHexagonState *env)
+                 env->gpr[0] = ret;
+             }
+             break;
+-        case HEX_EXCP_FETCH_NO_UPAGE:
+-        case HEX_EXCP_PRIV_NO_UREAD:
+-        case HEX_EXCP_PRIV_NO_UWRITE:
+-            signum = TARGET_SIGSEGV;
+-            sigcode = TARGET_SEGV_MAPERR;
+-            break;
+         case EXCP_ATOMIC:
+             cpu_exec_step_atomic(cs);
+             break;
+@@ -79,17 +68,6 @@ void cpu_loop(CPUHexagonState *env)
+                      trapnr);
+             exit(EXIT_FAILURE);
+         }
 -
--#ifdef CONFIG_USER_ONLY
--    int flags = page_get_flags(useronly_clean_ptr(address));
--    if (flags & PAGE_VALID) {
--        fi.type = ARMFault_Permission;
--    } else {
--        fi.type = ARMFault_Translation;
--    }
--    fi.level = 3;
+-        if (signum) {
+-            target_siginfo_t info = {
+-                .si_signo = signum,
+-                .si_errno = 0,
+-                .si_code = sigcode,
+-                ._sifields._sigfault._addr = sigaddr
+-            };
+-            queue_signal(env, info.si_signo, QEMU_SI_KILL, &info);
+-        }
 -
--    /* now we have a real cpu fault */
--    cpu_restore_state(cs, retaddr, true);
--    arm_deliver_fault(cpu, address, access_type, mmu_idx, &fi);
--#else
-     hwaddr phys_addr;
-     target_ulong page_size;
-     int prot, ret;
-@@ -210,5 +194,23 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-         cpu_restore_state(cs, retaddr, true);
-         arm_deliver_fault(cpu, address, access_type, mmu_idx, &fi);
+         process_pending_signals(env);
      }
--#endif
  }
-+#else
-+void arm_cpu_record_sigsegv(CPUState *cs, vaddr addr,
-+                            MMUAccessType access_type,
-+                            bool maperr, uintptr_t ra)
-+{
-+    ARMMMUFaultInfo fi = {
-+        .type = maperr ? ARMFault_Translation : ARMFault_Permission,
-+        .level = 3,
-+    };
-+    ARMCPU *cpu = ARM_CPU(cs);
-+
-+    /*
-+     * We report both ESR and FAR to signal handlers.
-+     * For now, it's easiest to deliver the fault normally.
-+     */
-+    cpu_restore_state(cs, ra, true);
-+    arm_deliver_fault(cpu, addr, access_type, MMU_USER_IDX, &fi);
-+}
-+#endif /* !defined(CONFIG_USER_ONLY) */
+diff --git a/target/hexagon/cpu.c b/target/hexagon/cpu.c
+index 3338365c16..160a46a3d5 100644
+--- a/target/hexagon/cpu.c
++++ b/target/hexagon/cpu.c
+@@ -245,34 +245,11 @@ static void hexagon_cpu_init(Object *obj)
+     qdev_property_add_static(DEVICE(obj), &hexagon_lldb_stack_adjust_property);
+ }
+ 
+-static bool hexagon_tlb_fill(CPUState *cs, vaddr address, int size,
+-                             MMUAccessType access_type, int mmu_idx,
+-                             bool probe, uintptr_t retaddr)
+-{
+-#ifdef CONFIG_USER_ONLY
+-    switch (access_type) {
+-    case MMU_INST_FETCH:
+-        cs->exception_index = HEX_EXCP_FETCH_NO_UPAGE;
+-        break;
+-    case MMU_DATA_LOAD:
+-        cs->exception_index = HEX_EXCP_PRIV_NO_UREAD;
+-        break;
+-    case MMU_DATA_STORE:
+-        cs->exception_index = HEX_EXCP_PRIV_NO_UWRITE;
+-        break;
+-    }
+-    cpu_loop_exit_restore(cs, retaddr);
+-#else
+-#error System mode not implemented for Hexagon
+-#endif
+-}
+-
+ #include "hw/core/tcg-cpu-ops.h"
+ 
+ static const struct TCGCPUOps hexagon_tcg_ops = {
+     .initialize = hexagon_translate_init,
+     .synchronize_from_tb = hexagon_cpu_synchronize_from_tb,
+-    .tlb_fill = hexagon_tlb_fill,
+ };
+ 
+ static void hexagon_cpu_class_init(ObjectClass *c, void *data)
 -- 
 2.25.1
 
