@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73D09440AB1
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 19:43:02 +0200 (CEST)
-Received: from localhost ([::1]:56376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B85F440AB5
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 19:45:56 +0200 (CEST)
+Received: from localhost ([::1]:60082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgsNh-0008BI-H0
-	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 13:43:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57330)
+	id 1mgsQV-0002aA-7J
+	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 13:45:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgryG-0001r0-OJ
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:16:45 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:45915)
+ id 1mgryK-0001un-Uh
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:16:49 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:37847)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgryB-0008U4-T1
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:16:43 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id f8so8895810plo.12
- for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:16:38 -0700 (PDT)
+ id 1mgryB-0008UZ-VA
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:16:48 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ t5-20020a17090a4e4500b001a0a284fcc2so13074203pjl.2
+ for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:16:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=XYBTQz0O06/jxG2oAEJsQdv+Vwded42i82x6LaFE6fU=;
- b=KFSISj9oyV1LR9a4tYwwnVuAl3S4gueiORGph8uDkeX3wsLLGYUP/wbXk/5F35JVyv
- ygSp880N2W/pGxbu+2QhEqUm1w/TVaQ4mRwtneLYBKc/i3t9U+srKROshpj/FulzxJys
- YY8fnH7BQU4lmqFqa0NvjqIYjU6WGGiA3EShriZLjGX1UOF82ZZ/Hpn1w0Yx+qveglfn
- ETKd51ldPiTBX36sq8LyRXEezOPn6VVT3XWO2lAh/JYTdO6Xbdg7/8g0bSw6GCcS2mX8
- mOfilMBjRbXDaAm6Pzp3/FvzDj6XDa1JTTVA+JLogfq1xmNnv2Ypt/qoq/AMTuPPcM9j
- F6rQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=IKLMeO+3mWomlul9GD0bgra/twuVZxh+Vxqn0acqDpE=;
+ b=yv/Hd+pzFAYspSSHurdxOu8V+3E5AKU4yDzRMlBFkTg0vUGtRmieo7H3kkrAEBEM3n
+ HMi08ImSf0J1TDXp1CPitvL+zijMHvQAutB4Y+BCYUUu1HbdRFSh1HB/H3LOqXzvhf4U
+ ibBkkzOpfV/M7wXg2l5jHUyND9Yk6xY4iUMJ2SS4gDOYlT47D6O3WtXtzC4o4Ue/tImn
+ /t2APtK8NgbDuXA67tzW1jIZKSO4CBzL6oTD3SedqWPCreuB5DWJU2Pg2Wi1lDoc5fns
+ N7LcRFh04GjxA/37ADd2ecMtN4sjyfxH32ioFgglV+KB1Cjg6KprbucgeXnCnZZ0IcnS
+ 3ZSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=XYBTQz0O06/jxG2oAEJsQdv+Vwded42i82x6LaFE6fU=;
- b=xA5n6ZE/jXLh0fxbqiMWUNzHNe4EeMEiGX4dn8lEecHD/PKFytI15u5JjxJJkrpLW5
- 36T3bV2K25HWvTp+mXKLseJ+nN01+uI75r8Ys3E+XqfOuZFa0X2s2gRj0CLMd3fHyZ5Z
- 1eY+ap78CEcHoQ6aPO4Dg8lfnybiVmRy32GA17HHuALESyLOlju+lSBSwQU+VeZQtLD6
- QUj8qRWxykggJ182Kw2+MihiDq0JKRmn0Y/xrXjgC/EvZUthR04QbC5X/LjEgOhGSsAw
- fDFfVSlQ+U5qCojN8bH1QOt8f31ea8aJ4ONykJIW9S0tVwOTqyss1wK5iiJBmcjj7bIe
- 5m8g==
-X-Gm-Message-State: AOAM531eFvrrCrQ2cyOK/vc7GVruf3Ps503sTH+CHztHj6mzkf2MlHm9
- OiPGmEPSKXQfyeusg0DyOssQSa1mUKELGw==
-X-Google-Smtp-Source: ABdhPJwZbFcNwMsEc63xRt7VgyRUeYEAx97pTHpqH1braK4jQjE9BNSrj9psPhJIQUVvc7FNBJpOrw==
-X-Received: by 2002:a17:902:c94c:b0:140:4dad:404d with SMTP id
- i12-20020a170902c94c00b001404dad404dmr16042968pla.72.1635614197557; 
- Sat, 30 Oct 2021 10:16:37 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=IKLMeO+3mWomlul9GD0bgra/twuVZxh+Vxqn0acqDpE=;
+ b=INQ3yIprm3O/R7v8PKTqBkeKnhR4V7W1r5lwprTJ/U8Kt7eBxIo7JHSrtkPUGuDO8R
+ fNCyeRS9A5CFq6VNISbnu9fxPLFpwukDzlp99pfxE0QLzYmV0f6HIrM/Gaq8Gs9/F+zF
+ RRqv5viN2sQudWZkEW9k+W72HfDaBOCkCocZBcXnv8Eg47jAlqJY1/ZdV3aUrgzMWdpH
+ F4KOFVT3j4uxFPs7WfEc0szFi5CLRkDF0gE5nSQlp/briOcpyCsTqZUrEzP8YwTVwPHu
+ vnBjufz14XME17omgxCcaodw/5x5J2NFYJsz2RifJuj2mAjSjzR7ZuPQ/diZZeP9wG4P
+ P+oA==
+X-Gm-Message-State: AOAM5326x2vSpMrb6KzYcFaVVN/y3fAN+v5prW+RCO2bQFfLZ3egNG7B
+ Knn83pYHfm7t73SojvOOM1TsM/g3A/i1IQ==
+X-Google-Smtp-Source: ABdhPJyGAnuear3wlZ+Aiylo5dvQQbvrbEPwqrRGd57TGsgoQ/yJGzrgw11tsnq5QuYIoqIEy9fGcQ==
+X-Received: by 2002:a17:902:778a:b0:13f:672c:103a with SMTP id
+ o10-20020a170902778a00b0013f672c103amr16420218pll.55.1635614198270; 
+ Sat, 30 Oct 2021 10:16:38 -0700 (PDT)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id nv4sm3111943pjb.17.2021.10.30.10.16.36
+ by smtp.gmail.com with ESMTPSA id nv4sm3111943pjb.17.2021.10.30.10.16.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Oct 2021 10:16:36 -0700 (PDT)
+ Sat, 30 Oct 2021 10:16:37 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 00/66] user-only: Cleanup SIGSEGV and SIGBUS handling
-Date: Sat, 30 Oct 2021 10:15:29 -0700
-Message-Id: <20211030171635.1689530-1-richard.henderson@linaro.org>
+Subject: [PATCH v6 01/66] accel/tcg: Split out adjust_signal_pc
+Date: Sat, 30 Oct 2021 10:15:30 -0700
+Message-Id: <20211030171635.1689530-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211030171635.1689530-1-richard.henderson@linaro.org>
+References: <20211030171635.1689530-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,287 +90,117 @@ Cc: alex.bennee@linaro.org, laurent@vivier.eu, imp@bsdimp.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes for v6:
-  Rebase and apply some patch review (phil)
+Split out a function to adjust the raw signal pc into a
+value that could be passed to cpu_restore_state.
 
-Changes for v5:
-  I've combined the sigsegv and sigbus patch sets, because they're
-  so very closely modelled.  We've got user-only hooks named
+Reviewed-by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+v2: Adjust pc in place; return MMUAccessType.
+---
+ include/exec/exec-all.h | 10 ++++++++++
+ accel/tcg/user-exec.c   | 41 +++++++++++++++++++++++++----------------
+ 2 files changed, 35 insertions(+), 16 deletions(-)
 
-    record_sigsegv
-    record_sigbus
-
-  While the tlb_fill hook becomes sysemu only, the corresponding
-  do_unaligned_access hook was always sysemu only and stays that way.
-
-  The actual tcg backend patches to enable proper delivery of the
-  unaligned accesses have been delayed until another patch set, as
-  this is quite large enough -- I'm mostly restricting this to the
-  user-only interface (though there are some extra patches that are
-  included to make sure things build properly).
-
-Patches lacking review:
-  21-target-alpha-Implement-alpha_cpu_record_sigsegv.patch
-  26-target-hppa-Make-hppa_cpu_tlb_fill-sysemu-only.patch
-  29-target-microblaze-Make-mb_cpu_tlb_fill-sysemu-onl.patch
-  32-linux-user-openrisc-Abort-for-EXCP_RANGE-EXCP_FPE.patch
-  36-target-s390x-Use-probe_access_flags-in-s390_probe.patch
-  38-target-sh4-Make-sh4_cpu_tlb_fill-sysemu-only.patch
-  46-linux-user-hppa-Remove-EXCP_UNALIGN-handling.patch
-  51-linux-user-ppc-Remove-POWERPC_EXCP_ALIGN-handling.patch
-  61-linux-user-Split-out-do_prctl-and-subroutines.patch
-  62-linux-user-Disable-more-prctl-subcodes.patch
-  64-target-alpha-Implement-prctl_unalign_sigbus.patch
-  65-target-hppa-Implement-prctl_unalign_sigbus.patch
-  66-target-sh4-Implement-prctl_unalign_sigbus.patch
-
-
-r~
-
-
-Richard Henderson (66):
-  accel/tcg: Split out adjust_signal_pc
-  accel/tcg: Move clear_helper_retaddr to cpu loop
-  accel/tcg: Split out handle_sigsegv_accerr_write
-  accel/tcg: Fold cpu_exit_tb_from_sighandler into caller
-  configure: Merge riscv32 and riscv64 host architectures
-  linux-user: Reorg handling for SIGSEGV
-  linux-user/host/x86: Populate host_signal.h
-  linux-user/host/ppc: Populate host_signal.h
-  linux-user/host/alpha: Populate host_signal.h
-  linux-user/host/sparc: Populate host_signal.h
-  linux-user/host/arm: Populate host_signal.h
-  linux-user/host/aarch64: Populate host_signal.h
-  linux-user/host/s390: Populate host_signal.h
-  linux-user/host/mips: Populate host_signal.h
-  linux-user/host/riscv: Populate host_signal.h
-  target/arm: Fixup comment re handle_cpu_signal
-  linux-user/host/riscv: Improve host_signal_write
-  linux-user/signal: Drop HOST_SIGNAL_PLACEHOLDER
-  hw/core: Add TCGCPUOps.record_sigsegv
-  linux-user: Add cpu_loop_exit_sigsegv
-  target/alpha: Implement alpha_cpu_record_sigsegv
-  target/arm: Use cpu_loop_exit_sigsegv for mte tag lookup
-  target/arm: Implement arm_cpu_record_sigsegv
-  target/cris: Make cris_cpu_tlb_fill sysemu only
-  target/hexagon: Remove hexagon_cpu_tlb_fill
-  target/hppa: Make hppa_cpu_tlb_fill sysemu only
-  target/i386: Implement x86_cpu_record_sigsegv
-  target/m68k: Make m68k_cpu_tlb_fill sysemu only
-  target/microblaze: Make mb_cpu_tlb_fill sysemu only
-  target/mips: Make mips_cpu_tlb_fill sysemu only
-  target/nios2: Implement nios2_cpu_record_sigsegv
-  linux-user/openrisc: Abort for EXCP_RANGE, EXCP_FPE
-  target/openrisc: Make openrisc_cpu_tlb_fill sysemu only
-  target/ppc: Implement ppc_cpu_record_sigsegv
-  target/riscv: Make riscv_cpu_tlb_fill sysemu only
-  target/s390x: Use probe_access_flags in s390_probe_access
-  target/s390x: Implement s390_cpu_record_sigsegv
-  target/sh4: Make sh4_cpu_tlb_fill sysemu only
-  target/sparc: Make sparc_cpu_tlb_fill sysemu only
-  target/xtensa: Make xtensa_cpu_tlb_fill sysemu only
-  accel/tcg: Restrict TCGCPUOps::tlb_fill() to sysemu
-  hw/core: Add TCGCPUOps.record_sigbus
-  linux-user: Add cpu_loop_exit_sigbus
-  target/alpha: Implement alpha_cpu_record_sigbus
-  target/arm: Implement arm_cpu_record_sigbus
-  linux-user/hppa: Remove EXCP_UNALIGN handling
-  target/microblaze: Do not set MO_ALIGN for user-only
-  target/ppc: Move SPR_DSISR setting to powerpc_excp
-  target/ppc: Set fault address in ppc_cpu_do_unaligned_access
-  target/ppc: Restrict ppc_cpu_do_unaligned_access to sysemu
-  linux-user/ppc: Remove POWERPC_EXCP_ALIGN handling
-  target/s390x: Implement s390x_cpu_record_sigbus
-  target/sh4: Set fault address in superh_cpu_do_unaligned_access
-  target/sparc: Remove DEBUG_UNALIGNED
-  target/sparc: Split out build_sfsr
-  target/sparc: Set fault address in sparc_cpu_do_unaligned_access
-  accel/tcg: Report unaligned atomics for user-only
-  accel/tcg: Report unaligned load/store for user-only
-  tcg: Add helper_unaligned_{ld,st} for user-only sigbus
-  linux-user: Handle BUS_ADRALN in host_signal_handler
-  linux-user: Split out do_prctl and subroutines
-  linux-user: Disable more prctl subcodes
-  linux-user: Add code for PR_GET/SET_UNALIGN
-  target/alpha: Implement prctl_unalign_sigbus
-  target/hppa: Implement prctl_unalign_sigbus
-  target/sh4: Implement prctl_unalign_sigbus
-
- configure                                     |   8 +-
- meson.build                                   |   4 +-
- include/exec/exec-all.h                       |  55 +-
- include/hw/core/cpu.h                         |   3 +
- include/hw/core/tcg-cpu-ops.h                 |  71 +-
- include/tcg/tcg-ldst.h                        |   5 +
- linux-user/aarch64/target_prctl.h             | 160 ++++
- linux-user/aarch64/target_syscall.h           |  23 -
- linux-user/alpha/target_prctl.h               |   1 +
- linux-user/arm/target_prctl.h                 |   1 +
- linux-user/cris/target_prctl.h                |   1 +
- linux-user/generic/target_prctl_unalign.h     |  27 +
- linux-user/hexagon/target_prctl.h             |   1 +
- linux-user/host/aarch64/host-signal.h         |  73 ++
- linux-user/host/alpha/host-signal.h           |  41 +
- linux-user/host/arm/host-signal.h             |  29 +
- linux-user/host/i386/host-signal.h            |  24 +
- linux-user/host/mips/host-signal.h            |  61 ++
- linux-user/host/ppc/host-signal.h             |  24 +
- linux-user/host/ppc64/host-signal.h           |   1 +
- linux-user/host/riscv/host-signal.h           |  57 ++
- linux-user/host/{riscv64 => riscv}/hostdep.h  |   4 +-
- linux-user/host/riscv32/hostdep.h             |  11 -
- linux-user/host/s390/host-signal.h            |  92 ++
- linux-user/host/s390x/host-signal.h           |   1 +
- linux-user/host/sparc/host-signal.h           |  53 ++
- linux-user/host/sparc64/host-signal.h         |   1 +
- linux-user/host/x32/host-signal.h             |   1 +
- linux-user/host/x86_64/host-signal.h          |  24 +
- linux-user/hppa/target_prctl.h                |   1 +
- linux-user/i386/target_prctl.h                |   1 +
- linux-user/m68k/target_prctl.h                |   1 +
- linux-user/microblaze/target_prctl.h          |   1 +
- linux-user/mips/target_prctl.h                |  88 ++
- linux-user/mips/target_syscall.h              |   6 -
- linux-user/mips64/target_prctl.h              |   1 +
- linux-user/mips64/target_syscall.h            |   6 -
- linux-user/nios2/target_prctl.h               |   1 +
- linux-user/openrisc/target_prctl.h            |   1 +
- linux-user/ppc/target_prctl.h                 |   1 +
- linux-user/riscv/target_prctl.h               |   1 +
- linux-user/s390x/target_prctl.h               |   1 +
- linux-user/sh4/target_prctl.h                 |   1 +
- linux-user/sparc/target_prctl.h               |   1 +
- linux-user/x86_64/target_prctl.h              |   1 +
- linux-user/xtensa/target_prctl.h              |   1 +
- target/alpha/cpu.h                            |  26 +-
- target/arm/internals.h                        |   8 +
- target/cris/cpu.h                             |   8 +-
- target/hppa/cpu.h                             |   7 +-
- target/i386/tcg/helper-tcg.h                  |   6 +
- target/microblaze/cpu.h                       |   8 +-
- target/mips/tcg/tcg-internal.h                |   7 +-
- target/nios2/cpu.h                            |   6 +
- target/openrisc/cpu.h                         |   7 +-
- target/ppc/cpu.h                              |   3 -
- target/ppc/internal.h                         |  17 +-
- target/s390x/s390x-internal.h                 |   9 +
- target/sh4/cpu.h                              |  10 +-
- target/xtensa/cpu.h                           |   2 +-
- accel/tcg/cpu-exec.c                          |   3 +-
- accel/tcg/user-exec.c                         | 861 ++----------------
- cpu.c                                         |  20 +-
- linux-user/aarch64/cpu_loop.c                 |  12 +-
- linux-user/alpha/cpu_loop.c                   |  15 -
- linux-user/arm/cpu_loop.c                     |  30 +-
- linux-user/cris/cpu_loop.c                    |  10 -
- linux-user/hexagon/cpu_loop.c                 |  24 +-
- linux-user/hppa/cpu_loop.c                    |  23 -
- linux-user/m68k/cpu_loop.c                    |  10 -
- linux-user/microblaze/cpu_loop.c              |  10 -
- linux-user/mips/cpu_loop.c                    |  11 -
- linux-user/openrisc/cpu_loop.c                |  25 +-
- linux-user/ppc/cpu_loop.c                     |   8 -
- linux-user/riscv/cpu_loop.c                   |   7 -
- linux-user/s390x/cpu_loop.c                   |  13 +-
- linux-user/sh4/cpu_loop.c                     |   8 -
- linux-user/signal.c                           | 133 ++-
- linux-user/sparc/cpu_loop.c                   |  25 -
- linux-user/syscall.c                          | 490 +++++-----
- linux-user/xtensa/cpu_loop.c                  |   9 -
- target/alpha/cpu.c                            |   7 +-
- target/alpha/helper.c                         |  39 +-
- target/alpha/mem_helper.c                     |  30 +-
- target/alpha/translate.c                      |  31 +-
- target/arm/cpu.c                              |   7 +-
- target/arm/cpu_tcg.c                          |   7 +-
- target/arm/mte_helper.c                       |   6 +-
- target/arm/sve_helper.c                       |   2 +-
- target/arm/tlb_helper.c                       |  42 +-
- target/cris/cpu.c                             |   4 +-
- target/cris/helper.c                          |  18 -
- target/hexagon/cpu.c                          |  23 -
- target/hppa/cpu.c                             |   2 +-
- target/hppa/mem_helper.c                      |  15 -
- target/hppa/translate.c                       |  19 +-
- target/i386/tcg/tcg-cpu.c                     |   3 +-
- target/i386/tcg/user/excp_helper.c            |  23 +-
- target/m68k/cpu.c                             |   2 +-
- target/m68k/helper.c                          |   6 +-
- target/microblaze/cpu.c                       |   2 +-
- target/microblaze/helper.c                    |  13 +-
- target/microblaze/translate.c                 |  16 +
- target/mips/cpu.c                             |   2 +-
- target/mips/tcg/user/tlb_helper.c             |  59 --
- target/nios2/cpu.c                            |   6 +-
- target/nios2/helper.c                         |   7 +-
- target/openrisc/cpu.c                         |   2 +-
- target/openrisc/mmu.c                         |   9 -
- target/ppc/cpu_init.c                         |   6 +-
- target/ppc/excp_helper.c                      |  41 +-
- target/ppc/user_only_helper.c                 |  15 +-
- target/riscv/cpu.c                            |   2 +-
- target/riscv/cpu_helper.c                     |  21 +-
- target/s390x/cpu.c                            |   7 +-
- target/s390x/tcg/excp_helper.c                |  45 +-
- target/s390x/tcg/mem_helper.c                 |  18 +-
- target/sh4/cpu.c                              |   2 +-
- target/sh4/helper.c                           |   9 +-
- target/sh4/op_helper.c                        |   5 +
- target/sh4/translate.c                        |  50 +-
- target/sparc/cpu.c                            |   2 +-
- target/sparc/ldst_helper.c                    |  22 -
- target/sparc/mmu_helper.c                     | 115 ++-
- target/xtensa/cpu.c                           |   2 +-
- target/xtensa/helper.c                        |  22 +-
- .../{riscv64 => riscv}/safe-syscall.inc.S     |   0
- target/cris/meson.build                       |   7 +-
- target/hppa/meson.build                       |   6 +-
- target/mips/tcg/meson.build                   |   3 -
- target/mips/tcg/user/meson.build              |   3 -
- target/openrisc/meson.build                   |   2 +-
- target/sparc/meson.build                      |   2 +-
- 133 files changed, 1860 insertions(+), 1791 deletions(-)
- create mode 100644 linux-user/aarch64/target_prctl.h
- create mode 100644 linux-user/alpha/target_prctl.h
- create mode 100644 linux-user/arm/target_prctl.h
- create mode 100644 linux-user/cris/target_prctl.h
- create mode 100644 linux-user/generic/target_prctl_unalign.h
- create mode 100644 linux-user/hexagon/target_prctl.h
- create mode 100644 linux-user/host/aarch64/host-signal.h
- create mode 100644 linux-user/host/alpha/host-signal.h
- create mode 100644 linux-user/host/arm/host-signal.h
- create mode 100644 linux-user/host/i386/host-signal.h
- create mode 100644 linux-user/host/mips/host-signal.h
- create mode 100644 linux-user/host/ppc/host-signal.h
- create mode 100644 linux-user/host/ppc64/host-signal.h
- create mode 100644 linux-user/host/riscv/host-signal.h
- rename linux-user/host/{riscv64 => riscv}/hostdep.h (94%)
- delete mode 100644 linux-user/host/riscv32/hostdep.h
- create mode 100644 linux-user/host/s390/host-signal.h
- create mode 100644 linux-user/host/s390x/host-signal.h
- create mode 100644 linux-user/host/sparc/host-signal.h
- create mode 100644 linux-user/host/sparc64/host-signal.h
- create mode 100644 linux-user/host/x32/host-signal.h
- create mode 100644 linux-user/host/x86_64/host-signal.h
- create mode 100644 linux-user/hppa/target_prctl.h
- create mode 100644 linux-user/i386/target_prctl.h
- create mode 100644 linux-user/m68k/target_prctl.h
- create mode 100644 linux-user/microblaze/target_prctl.h
- create mode 100644 linux-user/mips/target_prctl.h
- create mode 100644 linux-user/mips64/target_prctl.h
- create mode 100644 linux-user/nios2/target_prctl.h
- create mode 100644 linux-user/openrisc/target_prctl.h
- create mode 100644 linux-user/ppc/target_prctl.h
- create mode 100644 linux-user/riscv/target_prctl.h
- create mode 100644 linux-user/s390x/target_prctl.h
- create mode 100644 linux-user/sh4/target_prctl.h
- create mode 100644 linux-user/sparc/target_prctl.h
- create mode 100644 linux-user/x86_64/target_prctl.h
- create mode 100644 linux-user/xtensa/target_prctl.h
- delete mode 100644 target/mips/tcg/user/tlb_helper.c
- rename linux-user/host/{riscv64 => riscv}/safe-syscall.inc.S (100%)
- delete mode 100644 target/mips/tcg/user/meson.build
-
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 9d5987ba04..e54f8e5d65 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -663,6 +663,16 @@ static inline tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env,
+     return addr;
+ }
+ 
++/**
++ * adjust_signal_pc:
++ * @pc: raw pc from the host signal ucontext_t.
++ * @is_write: host memory operation was write, or read-modify-write.
++ *
++ * Alter @pc as required for unwinding.  Return the type of the
++ * guest memory access -- host reads may be for guest execution.
++ */
++MMUAccessType adjust_signal_pc(uintptr_t *pc, bool is_write);
++
+ /**
+  * cpu_signal_handler
+  * @signum: host signal number
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index e6bb29b42d..c02d509ec6 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -57,18 +57,11 @@ static void QEMU_NORETURN cpu_exit_tb_from_sighandler(CPUState *cpu,
+     cpu_loop_exit_noexc(cpu);
+ }
+ 
+-/* 'pc' is the host PC at which the exception was raised. 'address' is
+-   the effective address of the memory exception. 'is_write' is 1 if a
+-   write caused the exception and otherwise 0'. 'old_set' is the
+-   signal set which should be restored */
+-static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
+-                                    int is_write, sigset_t *old_set)
++/*
++ * Adjust the pc to pass to cpu_restore_state; return the memop type.
++ */
++MMUAccessType adjust_signal_pc(uintptr_t *pc, bool is_write)
+ {
+-    CPUState *cpu = current_cpu;
+-    CPUClass *cc;
+-    unsigned long address = (unsigned long)info->si_addr;
+-    MMUAccessType access_type = is_write ? MMU_DATA_STORE : MMU_DATA_LOAD;
+-
+     switch (helper_retaddr) {
+     default:
+         /*
+@@ -77,7 +70,7 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
+          * pointer into the generated code that will unwind to the
+          * correct guest pc.
+          */
+-        pc = helper_retaddr;
++        *pc = helper_retaddr;
+         break;
+ 
+     case 0:
+@@ -97,7 +90,7 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
+          * Therefore, adjust to compensate for what will be done later
+          * by cpu_restore_state_from_tb.
+          */
+-        pc += GETPC_ADJ;
++        *pc += GETPC_ADJ;
+         break;
+ 
+     case 1:
+@@ -113,12 +106,28 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
+          *
+          * Like tb_gen_code, release the memory lock before cpu_loop_exit.
+          */
+-        pc = 0;
+-        access_type = MMU_INST_FETCH;
+         mmap_unlock();
+-        break;
++        *pc = 0;
++        return MMU_INST_FETCH;
+     }
+ 
++    return is_write ? MMU_DATA_STORE : MMU_DATA_LOAD;
++}
++
++/*
++ * 'pc' is the host PC at which the exception was raised.
++ * 'address' is the effective address of the memory exception.
++ * 'is_write' is 1 if a write caused the exception and otherwise 0.
++ * 'old_set' is the signal set which should be restored.
++ */
++static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
++                                    int is_write, sigset_t *old_set)
++{
++    CPUState *cpu = current_cpu;
++    CPUClass *cc;
++    unsigned long address = (unsigned long)info->si_addr;
++    MMUAccessType access_type = adjust_signal_pc(&pc, is_write);
++
+     /* For synchronous signals we expect to be coming from the vCPU
+      * thread (so current_cpu should be valid) and either from running
+      * code or during translation which can fault as we cross pages.
 -- 
 2.25.1
 
