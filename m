@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B85F440AB5
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 19:45:56 +0200 (CEST)
-Received: from localhost ([::1]:60082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CDE8440A98
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 19:28:01 +0200 (CEST)
+Received: from localhost ([::1]:56332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgsQV-0002aA-7J
-	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 13:45:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57446)
+	id 1mgs9A-0005hO-Ci
+	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 13:28:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgryK-0001un-Uh
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:16:49 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:37847)
+ id 1mgryH-0001sh-Ob
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:16:45 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:35779)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgryB-0008UZ-VA
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:16:48 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- t5-20020a17090a4e4500b001a0a284fcc2so13074203pjl.2
- for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:16:39 -0700 (PDT)
+ id 1mgryE-0008V1-27
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:16:45 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ n11-20020a17090a2bcb00b001a1e7a0a6a6so13109531pje.0
+ for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:16:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IKLMeO+3mWomlul9GD0bgra/twuVZxh+Vxqn0acqDpE=;
- b=yv/Hd+pzFAYspSSHurdxOu8V+3E5AKU4yDzRMlBFkTg0vUGtRmieo7H3kkrAEBEM3n
- HMi08ImSf0J1TDXp1CPitvL+zijMHvQAutB4Y+BCYUUu1HbdRFSh1HB/H3LOqXzvhf4U
- ibBkkzOpfV/M7wXg2l5jHUyND9Yk6xY4iUMJ2SS4gDOYlT47D6O3WtXtzC4o4Ue/tImn
- /t2APtK8NgbDuXA67tzW1jIZKSO4CBzL6oTD3SedqWPCreuB5DWJU2Pg2Wi1lDoc5fns
- N7LcRFh04GjxA/37ADd2ecMtN4sjyfxH32ioFgglV+KB1Cjg6KprbucgeXnCnZZ0IcnS
- 3ZSQ==
+ bh=xXlHj7GOOQFwxbMfswRsUIWuGeJ1kP2ehgRt9eaYqEQ=;
+ b=s0S/jWRu8Pj5oWxf7M0nEyC716sKfzTEa0Sr9mUwr2ga0dI74xTwqSGOGzXlrtrp/j
+ BPyW3fTkyXDD7n1W/cidvNWmmVQwtj4DOpgVfjV9CHmrLBsR6YZ8NOmE5YB2pQxUjzYq
+ 3NAB/2ElwpkuWN6QsWua8Bf59dwQ0eOlDXZvX7ys8mf6Er/TPpV2Cci99GUq0vfZVNNx
+ jL6uNTlkm3/KMQM4sUHniTwXLIYv9LgoZmHCGxghgdJBjpVlGDYvgfLOP/8NBCx9u3DB
+ tIkWoAZn9afHGwgR5C8nvx5OE/XGTSWgtFSV6rkiYFZvTYsEyiYba23rLDy95H8DaTK4
+ vx1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IKLMeO+3mWomlul9GD0bgra/twuVZxh+Vxqn0acqDpE=;
- b=INQ3yIprm3O/R7v8PKTqBkeKnhR4V7W1r5lwprTJ/U8Kt7eBxIo7JHSrtkPUGuDO8R
- fNCyeRS9A5CFq6VNISbnu9fxPLFpwukDzlp99pfxE0QLzYmV0f6HIrM/Gaq8Gs9/F+zF
- RRqv5viN2sQudWZkEW9k+W72HfDaBOCkCocZBcXnv8Eg47jAlqJY1/ZdV3aUrgzMWdpH
- F4KOFVT3j4uxFPs7WfEc0szFi5CLRkDF0gE5nSQlp/briOcpyCsTqZUrEzP8YwTVwPHu
- vnBjufz14XME17omgxCcaodw/5x5J2NFYJsz2RifJuj2mAjSjzR7ZuPQ/diZZeP9wG4P
- P+oA==
-X-Gm-Message-State: AOAM5326x2vSpMrb6KzYcFaVVN/y3fAN+v5prW+RCO2bQFfLZ3egNG7B
- Knn83pYHfm7t73SojvOOM1TsM/g3A/i1IQ==
-X-Google-Smtp-Source: ABdhPJyGAnuear3wlZ+Aiylo5dvQQbvrbEPwqrRGd57TGsgoQ/yJGzrgw11tsnq5QuYIoqIEy9fGcQ==
-X-Received: by 2002:a17:902:778a:b0:13f:672c:103a with SMTP id
- o10-20020a170902778a00b0013f672c103amr16420218pll.55.1635614198270; 
- Sat, 30 Oct 2021 10:16:38 -0700 (PDT)
+ bh=xXlHj7GOOQFwxbMfswRsUIWuGeJ1kP2ehgRt9eaYqEQ=;
+ b=HaWVOaT+0DfYCUeI8h0eU7YuYUwBuqcPinyOV7V20lg0i9ZsECLkQiW1pbI2lN3GmL
+ jE2wapn5lVG0DNv6fQrc+kIsy/I3JK0Zi+O4VOmpZbGmfGr9LNrFvxvR1g/DqqSuczAF
+ Ht3SFp+/u8WLeKvV9udR8WP88xXcEFIepIZSfwZ/jcL8iBhtaMzaEn0UlgMAtKjXFl32
+ rvDeCK/os4NoYd+7jrZN4A/0mC+KCq0kEzk/Qc3rKgDSpASjV6vmgWgbbkE95ZxBPvDT
+ fK1AqY6J06gVRPRI48b8w7fAyUgNzw+IP2RgKrrQPj39owTQyK0yUWnly/P2sIjl6Sfb
+ dB8w==
+X-Gm-Message-State: AOAM53237y9GU4qXmWnH1RdersUFTHAvpK2A1R4dyjt7wL8N5tqgK+j9
+ Kn6SroJ7lAYBMVfIx3iqjtRnFV2RxY+czA==
+X-Google-Smtp-Source: ABdhPJxRcpm6ziSRKI5pcxPN7JfOfbR7x3JWMBXebUATuIiW5k53RP+SrOzmQ6jpkYexCt6p2337fQ==
+X-Received: by 2002:a17:90b:1c02:: with SMTP id
+ oc2mr19358731pjb.52.1635614199066; 
+ Sat, 30 Oct 2021 10:16:39 -0700 (PDT)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id nv4sm3111943pjb.17.2021.10.30.10.16.37
+ by smtp.gmail.com with ESMTPSA id nv4sm3111943pjb.17.2021.10.30.10.16.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Oct 2021 10:16:37 -0700 (PDT)
+ Sat, 30 Oct 2021 10:16:38 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 01/66] accel/tcg: Split out adjust_signal_pc
-Date: Sat, 30 Oct 2021 10:15:30 -0700
-Message-Id: <20211030171635.1689530-2-richard.henderson@linaro.org>
+Subject: [PATCH v6 02/66] accel/tcg: Move clear_helper_retaddr to cpu loop
+Date: Sat, 30 Oct 2021 10:15:31 -0700
+Message-Id: <20211030171635.1689530-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211030171635.1689530-1-richard.henderson@linaro.org>
 References: <20211030171635.1689530-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,117 +89,64 @@ Cc: alex.bennee@linaro.org, laurent@vivier.eu, imp@bsdimp.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split out a function to adjust the raw signal pc into a
-value that could be passed to cpu_restore_state.
+Currently there are only two places that require we reset this
+value before exiting to the main loop, but that will change.
 
 Reviewed-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Adjust pc in place; return MMUAccessType.
----
- include/exec/exec-all.h | 10 ++++++++++
- accel/tcg/user-exec.c   | 41 +++++++++++++++++++++++++----------------
- 2 files changed, 35 insertions(+), 16 deletions(-)
+ accel/tcg/cpu-exec.c  | 3 ++-
+ accel/tcg/user-exec.c | 2 --
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 9d5987ba04..e54f8e5d65 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -663,6 +663,16 @@ static inline tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env,
-     return addr;
- }
- 
-+/**
-+ * adjust_signal_pc:
-+ * @pc: raw pc from the host signal ucontext_t.
-+ * @is_write: host memory operation was write, or read-modify-write.
-+ *
-+ * Alter @pc as required for unwinding.  Return the type of the
-+ * guest memory access -- host reads may be for guest execution.
-+ */
-+MMUAccessType adjust_signal_pc(uintptr_t *pc, bool is_write);
-+
- /**
-  * cpu_signal_handler
-  * @signum: host signal number
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index e6bb29b42d..c02d509ec6 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -57,18 +57,11 @@ static void QEMU_NORETURN cpu_exit_tb_from_sighandler(CPUState *cpu,
-     cpu_loop_exit_noexc(cpu);
- }
- 
--/* 'pc' is the host PC at which the exception was raised. 'address' is
--   the effective address of the memory exception. 'is_write' is 1 if a
--   write caused the exception and otherwise 0'. 'old_set' is the
--   signal set which should be restored */
--static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
--                                    int is_write, sigset_t *old_set)
-+/*
-+ * Adjust the pc to pass to cpu_restore_state; return the memop type.
-+ */
-+MMUAccessType adjust_signal_pc(uintptr_t *pc, bool is_write)
- {
--    CPUState *cpu = current_cpu;
--    CPUClass *cc;
--    unsigned long address = (unsigned long)info->si_addr;
--    MMUAccessType access_type = is_write ? MMU_DATA_STORE : MMU_DATA_LOAD;
--
-     switch (helper_retaddr) {
-     default:
-         /*
-@@ -77,7 +70,7 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
-          * pointer into the generated code that will unwind to the
-          * correct guest pc.
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index c9764c1325..bba4672632 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -462,6 +462,7 @@ void cpu_exec_step_atomic(CPUState *cpu)
+          * memory.
           */
--        pc = helper_retaddr;
-+        *pc = helper_retaddr;
-         break;
- 
-     case 0:
-@@ -97,7 +90,7 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
-          * Therefore, adjust to compensate for what will be done later
-          * by cpu_restore_state_from_tb.
-          */
--        pc += GETPC_ADJ;
-+        *pc += GETPC_ADJ;
-         break;
- 
-     case 1:
-@@ -113,12 +106,28 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
-          *
-          * Like tb_gen_code, release the memory lock before cpu_loop_exit.
-          */
--        pc = 0;
--        access_type = MMU_INST_FETCH;
-         mmap_unlock();
--        break;
-+        *pc = 0;
-+        return MMU_INST_FETCH;
+ #ifndef CONFIG_SOFTMMU
++        clear_helper_retaddr();
+         tcg_debug_assert(!have_mmap_lock());
+ #endif
+         if (qemu_mutex_iothread_locked()) {
+@@ -471,7 +472,6 @@ void cpu_exec_step_atomic(CPUState *cpu)
+         qemu_plugin_disable_mem_helpers(cpu);
      }
  
-+    return is_write ? MMU_DATA_STORE : MMU_DATA_LOAD;
-+}
-+
-+/*
-+ * 'pc' is the host PC at which the exception was raised.
-+ * 'address' is the effective address of the memory exception.
-+ * 'is_write' is 1 if a write caused the exception and otherwise 0.
-+ * 'old_set' is the signal set which should be restored.
-+ */
-+static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
-+                                    int is_write, sigset_t *old_set)
-+{
-+    CPUState *cpu = current_cpu;
-+    CPUClass *cc;
-+    unsigned long address = (unsigned long)info->si_addr;
-+    MMUAccessType access_type = adjust_signal_pc(&pc, is_write);
-+
-     /* For synchronous signals we expect to be coming from the vCPU
-      * thread (so current_cpu should be valid) and either from running
-      * code or during translation which can fault as we cross pages.
+-
+     /*
+      * As we start the exclusive region before codegen we must still
+      * be in the region if we longjump out of either the codegen or
+@@ -916,6 +916,7 @@ int cpu_exec(CPUState *cpu)
+ #endif
+ 
+ #ifndef CONFIG_SOFTMMU
++        clear_helper_retaddr();
+         tcg_debug_assert(!have_mmap_lock());
+ #endif
+         if (qemu_mutex_iothread_locked()) {
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index c02d509ec6..3f3e793b7b 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -175,7 +175,6 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
+              * currently executing TB was modified and must be exited
+              * immediately.  Clear helper_retaddr for next execution.
+              */
+-            clear_helper_retaddr();
+             cpu_exit_tb_from_sighandler(cpu, old_set);
+             /* NORETURN */
+ 
+@@ -193,7 +192,6 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
+      * an exception.  Undo signal and retaddr state prior to longjmp.
+      */
+     sigprocmask(SIG_SETMASK, old_set, NULL);
+-    clear_helper_retaddr();
+ 
+     cc = CPU_GET_CLASS(cpu);
+     cc->tcg_ops->tlb_fill(cpu, address, 0, access_type,
 -- 
 2.25.1
 
