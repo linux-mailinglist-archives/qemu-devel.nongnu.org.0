@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A23B440A90
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 19:23:27 +0200 (CEST)
-Received: from localhost ([::1]:42852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2159D440A95
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 19:26:28 +0200 (CEST)
+Received: from localhost ([::1]:51142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgs4j-0004dw-Ps
-	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 13:23:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55956)
+	id 1mgs7f-00020w-72
+	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 13:26:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgrou-0002fV-Vr
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:07:05 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:45009)
+ id 1mgrp1-0002i1-7k
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:07:12 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:53773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mgros-0004mr-Se
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:07:04 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- c71-20020a1c9a4a000000b0032cdcc8cbafso6168917wme.3
- for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:07:02 -0700 (PDT)
+ id 1mgroy-0004nL-CT
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:07:10 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id y196so1227244wmc.3
+ for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:07:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mev2rN/XVuF94j5tb2jzkwFTcZr7GILqfegam3Rooig=;
- b=X4bkxevQp1qVNSLDKijoS5etUK2yO9DbNHQxV+IRn7+tvi4GtL9jITLcxKo/nh8YvF
- nLxTzDFgGjlctynVB0FgXccrKJOyy/amR0VtojyZej6H3rJpBrSEZpVlGjeZnyBbCUZM
- /6enAlhyEPDBu4yEXeu3HKVB/82eWjZOHRbBOMLQ3yxcdFl7qMaZf+Pgn3jGX5fzpK8x
- pzjCnlym9msw7LpAbsVA7JD5+FsuOV92VStaSsznc7cJZnK2Xcp1ijlCBMV7OUBJgQyS
- rMOqTCH5QK9LEzy2Veuyd6L7bpzy4yzElZ529gx+GS5WOeOxUy3yVrtd5+0+XWuyns8x
- IbZA==
+ bh=TSjS4mG+FduSZwcDdM9xHRv0BrOwT/zdGTxWqIBFem0=;
+ b=jJEhm6kwb2z2zrN9JANcMv4Jak/IWaoqUmkegotqlwWx4q4wb2N4f53iaZqCyKjlrz
+ IRHJhCML5Ya3Ns3c83LlzK7Ka836x4LqxSQTKQyA8uwvGYr66qXV8U6dHwbNXV8iw/of
+ Iz7hcZ5bq2D0AoKRjeJt4lAmOEJKXKRAvTMXI0pUJD+2bZiSK59eO7rfEO3sKspDX63J
+ 483Nn4vT4ql2pFyCuYEAFd7w/6xSlvzQ7E26I7X4fAsc3sG6BxJ/Iyct/lYWs2n3yEsG
+ nJN4IwlMbDTL96ijzTvjt7QlxpN9q1D/Rv4o0A1qhaQT15xUkFuIaDQdZNaZZfh3OT4I
+ zdSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=mev2rN/XVuF94j5tb2jzkwFTcZr7GILqfegam3Rooig=;
- b=rAkOnbe3NJ0g6FwnXxleRLrAmDT2R1glyzk7Hm8q7tJYHqAfFVZBwNvV75YRSzak9Q
- 6NmKZpeSQOe6eON0MhfvVk4v1rMyyqG0CXcRMO9V8HMYw2CzGGlPfrpgDF00F8hWrM1C
- 3TapVh5nJHrBWExz+HrWDPA7IvX6BjWx32DQ6PS4Dx4Y4cN/ua5CGHptEct80K38qtzu
- pBpEV4fu1SSx1qooRc4s7gdA4maicZhSqmt6xR4PgtUwF7siYOYP7o2EVS6Dp43SBEAB
- miu5+HtQP4hxWdyM3NI97oMw6bsKhE6ckOWKk8gUp0xRjAztO1IiJCLdb41Ls+EunGG/
- JR2g==
-X-Gm-Message-State: AOAM533rHmu6xtwWikiKY4jBXTZNtenayXXH1OdGiyPdmRJEtvH66VWG
- 7ifcmtPlIVktvD6DNVgrUYv8i4XtPN8=
-X-Google-Smtp-Source: ABdhPJxbGY3ehZMq18vijfDTlE0lfDICWPlYKUq1ZrWEwduyIbB9Ih4PHJz4Uyxxceojuldg+2xIxQ==
-X-Received: by 2002:a1c:7ed3:: with SMTP id z202mr8720087wmc.110.1635613620964; 
- Sat, 30 Oct 2021 10:07:00 -0700 (PDT)
+ bh=TSjS4mG+FduSZwcDdM9xHRv0BrOwT/zdGTxWqIBFem0=;
+ b=WwL/HA7PSQqUVYwVaDG6ScEipC4PQbQXBeK0tflWntGEnHiogbJ0ichuPBn+K4ekhQ
+ fvQluEyuY7dxkFymNUwws7m7CZkTGcCG4Q+hvAEv0M0Tzd8mXdwJZSeGVltrCh3VDKvl
+ tGBfO/Sgdx2oM+0a11ut3jjU9g8Yv02jREt5tzuZLr6IF3IaUKmTPDPJIndRpda5wA17
+ 3LaPQoI//NZkK2UWcBdPGZSm4eh+et6yGn33x3icgXt0tazZKqx4x5b6bJSntUYD+Onu
+ BQ1HvEeecNY6iM0QbzW6W8GaPt9MzbLynIogOUIxwI30jIji0FTO/vnoK3NeO3teUI24
+ 4S0A==
+X-Gm-Message-State: AOAM5310w+evw+I4S9Eo1SrP8m4xge8IhDR43j6pPdipUSgOnWpPIoQT
+ XyLpNpB3hsNoHzQeUSEgb50MukOC+p0=
+X-Google-Smtp-Source: ABdhPJwjpDk5OHkfkQWoIB/C/xVYCfB8be/gwCkBfm+3hIw99WjX06/J7lEVfbz141yDYafIVPQL4A==
+X-Received: by 2002:a1c:a711:: with SMTP id q17mr9718680wme.158.1635613625952; 
+ Sat, 30 Oct 2021 10:07:05 -0700 (PDT)
 Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
  by smtp.gmail.com with ESMTPSA id
- i7sm3793802wmb.20.2021.10.30.10.06.59
+ h27sm2841146wmc.43.2021.10.30.10.07.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Oct 2021 10:07:00 -0700 (PDT)
+ Sat, 30 Oct 2021 10:07:05 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/30] hw/char/sh_serial: Do not abort on invalid access
-Date: Sat, 30 Oct 2021 19:05:54 +0200
-Message-Id: <20211030170615.2636436-10-f4bug@amsat.org>
+Subject: [PULL 10/30] hw/char/sh_serial: Rename type sh_serial_state to
+ SHSerialState
+Date: Sat, 30 Oct 2021 19:05:55 +0200
+Message-Id: <20211030170615.2636436-11-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211030170615.2636436-1-f4bug@amsat.org>
 References: <20211030170615.2636436-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,8 +87,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
- Magnus Damm <magnus.damm@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
@@ -97,73 +97,111 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-Replace fprintf with qemu_log_mask LOG_GUEST_ERROR as the intention is
-to handle valid accesses in these functions so if we get to these
-errors then it's an invalid access. Do not abort as that would allow
-the guest to crash QEMU and the practice in other devices is to not do
-that just log and ignore the invalid access. While at it also simplify
-the complex bit ops to check if a return value was set which can be
-done much simpler and clearer.
+Coding style says types should be camel case.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <6b46045141d6d9cc32e17c223896fa1116384796.1635541329.git.balaton@eik.bme.hu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <0f185653528c99eeeb2b4e4afb8b818d93298c20.1635541329.git.balaton@eik.bme.hu>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/char/sh_serial.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ hw/char/sh_serial.c | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
 
 diff --git a/hw/char/sh_serial.c b/hw/char/sh_serial.c
-index 053f45e1a62..2d6ea0042ed 100644
+index 2d6ea0042ed..bc5e0c44048 100644
 --- a/hw/char/sh_serial.c
 +++ b/hw/char/sh_serial.c
-@@ -31,6 +31,7 @@
- #include "chardev/char-fe.h"
- #include "qapi/error.h"
- #include "qemu/timer.h"
-+#include "qemu/log.h"
- #include "trace.h"
+@@ -73,9 +73,9 @@ typedef struct {
+     qemu_irq txi;
+     qemu_irq tei;
+     qemu_irq bri;
+-} sh_serial_state;
++} SHSerialState;
  
- #define SH_SERIAL_FLAG_TEND (1 << 0)
-@@ -195,17 +196,16 @@ static void sh_serial_write(void *opaque, hwaddr offs,
-             return;
-         }
-     }
--
--    fprintf(stderr, "sh_serial: unsupported write to 0x%02"
--            HWADDR_PRIx "\n", offs);
--    abort();
-+    qemu_log_mask(LOG_GUEST_ERROR,
-+                  "%s: unsupported write to 0x%02" HWADDR_PRIx "\n",
-+                  __func__, offs);
- }
+-static void sh_serial_clear_fifo(sh_serial_state *s)
++static void sh_serial_clear_fifo(SHSerialState *s)
+ {
+     memset(s->rx_fifo, 0, SH_RX_FIFO_LENGTH);
+     s->rx_cnt = 0;
+@@ -86,7 +86,7 @@ static void sh_serial_clear_fifo(sh_serial_state *s)
+ static void sh_serial_write(void *opaque, hwaddr offs,
+                             uint64_t val, unsigned size)
+ {
+-    sh_serial_state *s = opaque;
++    SHSerialState *s = opaque;
+     unsigned char ch;
  
+     trace_sh_serial_write(size, offs, val);
+@@ -204,7 +204,7 @@ static void sh_serial_write(void *opaque, hwaddr offs,
  static uint64_t sh_serial_read(void *opaque, hwaddr offs,
                                 unsigned size)
  {
-     sh_serial_state *s = opaque;
--    uint32_t ret = ~0;
-+    uint32_t ret = UINT32_MAX;
+-    sh_serial_state *s = opaque;
++    SHSerialState *s = opaque;
+     uint32_t ret = UINT32_MAX;
  
  #if 0
-     switch (offs) {
-@@ -299,10 +299,11 @@ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
-     }
-     trace_sh_serial_read(size, offs, ret);
- 
--    if (ret & ~((1 << 16) - 1)) {
--        fprintf(stderr, "sh_serial: unsupported read from 0x%02"
--                HWADDR_PRIx "\n", offs);
--        abort();
-+    if (ret > UINT16_MAX) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: unsupported read from 0x%02" HWADDR_PRIx "\n",
-+                      __func__, offs);
-+        ret = 0;
-     }
- 
+@@ -309,12 +309,12 @@ static uint64_t sh_serial_read(void *opaque, hwaddr offs,
      return ret;
+ }
+ 
+-static int sh_serial_can_receive(sh_serial_state *s)
++static int sh_serial_can_receive(SHSerialState *s)
+ {
+     return s->scr & (1 << 4);
+ }
+ 
+-static void sh_serial_receive_break(sh_serial_state *s)
++static void sh_serial_receive_break(SHSerialState *s)
+ {
+     if (s->feat & SH_SERIAL_FEAT_SCIF) {
+         s->sr |= (1 << 4);
+@@ -323,13 +323,13 @@ static void sh_serial_receive_break(sh_serial_state *s)
+ 
+ static int sh_serial_can_receive1(void *opaque)
+ {
+-    sh_serial_state *s = opaque;
++    SHSerialState *s = opaque;
+     return sh_serial_can_receive(s);
+ }
+ 
+ static void sh_serial_timeout_int(void *opaque)
+ {
+-    sh_serial_state *s = opaque;
++    SHSerialState *s = opaque;
+ 
+     s->flags |= SH_SERIAL_FLAG_RDF;
+     if (s->scr & (1 << 6) && s->rxi) {
+@@ -339,7 +339,7 @@ static void sh_serial_timeout_int(void *opaque)
+ 
+ static void sh_serial_receive1(void *opaque, const uint8_t *buf, int size)
+ {
+-    sh_serial_state *s = opaque;
++    SHSerialState *s = opaque;
+ 
+     if (s->feat & SH_SERIAL_FEAT_SCIF) {
+         int i;
+@@ -369,7 +369,7 @@ static void sh_serial_receive1(void *opaque, const uint8_t *buf, int size)
+ 
+ static void sh_serial_event(void *opaque, QEMUChrEvent event)
+ {
+-    sh_serial_state *s = opaque;
++    SHSerialState *s = opaque;
+     if (event == CHR_EVENT_BREAK) {
+         sh_serial_receive_break(s);
+     }
+@@ -390,9 +390,7 @@ void sh_serial_init(MemoryRegion *sysmem,
+                     qemu_irq tei_source,
+                     qemu_irq bri_source)
+ {
+-    sh_serial_state *s;
+-
+-    s = g_malloc0(sizeof(sh_serial_state));
++    SHSerialState *s = g_malloc0(sizeof(*s));
+ 
+     s->feat = feat;
+     s->flags = SH_SERIAL_FLAG_TEND | SH_SERIAL_FLAG_TDE;
 -- 
 2.31.1
 
