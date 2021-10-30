@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D11EC440BB1
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 23:20:01 +0200 (CEST)
-Received: from localhost ([::1]:49100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5DA5440BE3
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 23:36:19 +0200 (CEST)
+Received: from localhost ([::1]:52544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgvlh-0002y3-01
-	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 17:20:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40824)
+	id 1mgw1S-00069s-IU
+	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 17:36:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgvjn-0001F4-UG
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 17:18:03 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:56120)
+ id 1mgw05-0005KV-TR
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 17:34:53 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:39825)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgvjj-0005Y4-GN
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 17:18:03 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id om14so9617363pjb.5
- for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 14:17:58 -0700 (PDT)
+ id 1mgw00-0004Hb-FA
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 17:34:53 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ y14-20020a17090a2b4e00b001a5824f4918so6539955pjc.4
+ for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 14:34:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=GmlwuQGAwfhDRi2M2wGN7Pkpi1bbLs62V/cSC2FB/B8=;
- b=ZPw+I8IOreJ0wLSYnXmM6X+osgyJtMqIqipN1hXton0tiUWXvtIUotp0GEjS0Wlql4
- lupULO+Oj1dKHOQ1VBtxNZwrEELNGQ/2tkTFUTIdEzhpWddfSqvDEwE0IQAd4SQNyra3
- QqYpE84AGrmJQC8dB4n6IZ4j99J/cdYPME5LrUv2W15yjZ4TPAgUFNbQRVObj1yg1trO
- jS+uGQXKwljC4+RV283TA3fVifJ8uwsjrXFYV0wbu00Ce37fYJHbZci5z+9/v4AReNpn
- EExN6e6exhAaJOwDphnL2TMH42eEc+gQ45+9CAxpfyiVqvk/bnmZNB+zEL6eqvE368mF
- tA3Q==
+ bh=WfzcLQikIhmXVskSOY+5e7RUOZO//igy37JkvEXSubA=;
+ b=mKeSvbkBXWPhlSjjlPt4uVwKh/8ad+H8i6iqFOaVYZ7cw87Ha7lQAgHyzn60MgnJQI
+ lCNPkAPrrAN3xKDfgWUc08x2d2GQsYGzwFf/KiDgWy+K9gvPNaefGBPkl8Ti0YuNnTPf
+ yn6aiCBKi9KUk/2SFrwJNBjAY/nTqXtEfU2yrQKjyVma83Bg7cq3b4Wb8665sEsOnXkJ
+ TZ4pMI8AO6Zf+xvi7FQC99aLLmR3P5573N6d0pBVdHrtJNRBzYSf4/pemCa5cgdKTcLD
+ LPdCDZoR56MS0OIHs8cI/NLffH0bJ7ZhrnZiU/A0eTPKbHBS4OzjdB0x7lpA4KwgVD0s
+ koOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=GmlwuQGAwfhDRi2M2wGN7Pkpi1bbLs62V/cSC2FB/B8=;
- b=lzCDfTANwRX+CYZSj7xyiKQo09gUPNTq99AhosIKQsMWTLRkFO6FoOikiaePFjaHdS
- BPD02y0ogZlTtQvByW88VwkWmXbK7+EN+CCfRVIXHq7r7RxTf70yhDw59Tj0NAlY6RDr
- 4gcmC9Gd8YaQk0KGMjU1seirg7p7otY6L9HX0yO6xuPLL5r62CyLMzAsoVuuae7Hszww
- ELWGZgshclzih+utq/SkadU7CA1t1zw89WE8vQR6Xbz74KNAnSvvtb2aWGVoJgkhJu5N
- FnScfsYPWjJGFFZ7JNEc0svR2O+tVYcMIsI/Sijnc9K81j2uRyKgsuFevSKuEOzVXDJw
- oIgw==
-X-Gm-Message-State: AOAM532fWVTwmhmVfR2KxjXsb/x3bfa5niXAQnwJTOTnhj52fO/bDNhX
- YG3VJy4YOxxihsyKJiYTqZarY00/xd0dkA==
-X-Google-Smtp-Source: ABdhPJxrNqVkQuBJRMYUpP21ugHl6Lpmom+TdU503FrI8Q9W4JAxEePWvR36nDma9HURm0j/giz9bQ==
-X-Received: by 2002:a17:903:11cc:b0:13f:ecf7:22c7 with SMTP id
- q12-20020a17090311cc00b0013fecf722c7mr16779474plh.5.1635628678072; 
- Sat, 30 Oct 2021 14:17:58 -0700 (PDT)
+ bh=WfzcLQikIhmXVskSOY+5e7RUOZO//igy37JkvEXSubA=;
+ b=W01wW3NR6PAzScdaSq91UUCIBSDRiLuzx4e0W7MGkVgQcWNcWV69iKyH8Oa0kF3r64
+ +GywiHXj0iZh4pkUnEETX1YDOcAd6owLsvZFuZgxPIRTImIKP5vHN0xDzjXpt+PF/gge
+ TZWRdzAQ7QLpXqszfZeu4MVjhPEj6gnAw/UzfhSyvtOApSnVuUDQAUE2bq+SzbV4uK+D
+ uh+fxBgM1iAWb0F3aPypbNHE3nFYiWjAohUqbsz/MxHxvbwigaTxuKSp2ckSae0x1Hw+
+ QeGP1sYpigkOcnaNO5l2KoK2ijZfev+k4ditBDFtLhIdUrHCBhD5UkdguVmjLXq7TtYE
+ IGSA==
+X-Gm-Message-State: AOAM5323ggACg3KMsOGBxzM8rPkf41SwLX2TZipb8AVj1hJGrlJggZEP
+ mASsfzUzDCp84Q8v7JfMvEgM2Q==
+X-Google-Smtp-Source: ABdhPJwwPPohJb4KIdKOFYemEyGoLHaOFP4zySvU4LSL1z2oC/HBxPoc/cI1fXBOTbS6L3ZS4Dq87w==
+X-Received: by 2002:a17:90a:fd13:: with SMTP id
+ cv19mr1318567pjb.54.1635629686880; 
+ Sat, 30 Oct 2021 14:34:46 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id v22sm10544854pff.93.2021.10.30.14.17.57
+ by smtp.gmail.com with ESMTPSA id n29sm6337149pfv.29.2021.10.30.14.34.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 30 Oct 2021 14:17:57 -0700 (PDT)
-Subject: Re: [PATCH v2 08/34] target/ppc: Implement cnttzdm
+ Sat, 30 Oct 2021 14:34:46 -0700 (PDT)
+Subject: Re: [PATCH v2 12/34] target/ppc: Implement vclzdm/vctzdm instructions
 To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <20211029202424.175401-1-matheus.ferst@eldorado.org.br>
- <20211029202424.175401-9-matheus.ferst@eldorado.org.br>
+ <20211029202424.175401-13-matheus.ferst@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8d0ba16d-1a6b-55d6-85a7-958e3874b2c9@linaro.org>
-Date: Sat, 30 Oct 2021 14:17:56 -0700
+Message-ID: <96ba5484-809b-4d44-d5d2-2b0c02dea742@linaro.org>
+Date: Sat, 30 Oct 2021 14:34:44 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211029202424.175401-9-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20211029202424.175401-13-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -44
 X-Spam_score: -4.5
 X-Spam_bar: ----
@@ -93,22 +94,23 @@ Cc: lucas.castro@eldorado.org.br, luis.pires@eldorado.org.br, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/29/21 1:23 PM, matheus.ferst@eldorado.org.br wrote:
-> From: Luis Pires<luis.pires@eldorado.org.br>
+On 10/29/21 1:24 PM, matheus.ferst@eldorado.org.br wrote:
+> From: Matheus Ferst<matheus.ferst@eldorado.org.br>
 > 
-> Implement the following PowerISA v3.1 instruction:
-> cnttzdm: Count Trailing Zeros Doubleword Under Bit Mask
+> The signature of do_cntzdm is changed to allow reuse as GVecGen3i.fni8.
+> The method is also moved out of #ifdef TARGET_PPC64, as PowerISA doesn't
+> say vclzdm and vctzdm are 64-bit only.
 > 
-> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
 > Signed-off-by: Luis Pires<luis.pires@eldorado.org.br>
 > Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
 > ---
 > v2:
-> - Inline implementation of cnttzdm
+> - Inline implementation of cntlzdm/cnttzdm
 > ---
->   target/ppc/insn32.decode                   |  1 +
->   target/ppc/translate/fixedpoint-impl.c.inc | 28 ++++++++++++++++++----
->   2 files changed, 25 insertions(+), 4 deletions(-)
+>   target/ppc/insn32.decode                   |  2 ++
+>   target/ppc/translate/fixedpoint-impl.c.inc |  4 +--
+>   target/ppc/translate/vmx-impl.c.inc        | 32 ++++++++++++++++++++++
+>   3 files changed, 35 insertions(+), 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
