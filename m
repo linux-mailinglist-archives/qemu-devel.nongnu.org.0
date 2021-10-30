@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14845440ABC
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 19:49:13 +0200 (CEST)
-Received: from localhost ([::1]:36704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2222440AC0
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Oct 2021 19:51:46 +0200 (CEST)
+Received: from localhost ([::1]:44996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgsTf-00060O-UO
-	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 13:49:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57528)
+	id 1mgsW9-0003KE-Uo
+	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 13:51:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgryN-0001xB-LH
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:16:51 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:42832)
+ id 1mgryO-00020S-P7
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:16:52 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:41792)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgryK-00007E-Ll
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:16:51 -0400
-Received: by mail-pf1-x432.google.com with SMTP id m14so12286299pfc.9
- for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:16:47 -0700 (PDT)
+ id 1mgryK-00007T-ME
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 13:16:52 -0400
+Received: by mail-pg1-x536.google.com with SMTP id n23so2348787pgh.8
+ for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 10:16:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JRfWyXLb4RxsKriS/H5VXElUeDZuAf/HaA29wXvInaU=;
- b=ogGNEduXUMHDHm7DuuLgv8UXo6KxBLa8rfTsFF0BQxogHuivClzGgpAqCz1/0wNf2/
- jhi5Jd9En3eF621J9eJ1BK2gXGswGM3/TEXPraN8tZkyjLy9XbAqAXW+/SKYY3cWwoBd
- uo4q6E9jdTWM43rvkAW9NSGXToekdUWaA9RiKC7t81czWz8m0ZC9+YXWTRVw/Esbdo1B
- Dxce9LJNPRfxDGg69YdvZ5FQ9AdJlA6P/QogAMt7Mf23ENwLV4RME2ertQjIGFM8olT5
- HH0B8mWt8kNjmVDxVRLSHtqdGL2CfZRyju6dgmCEqAdgofAMX0MQWJw0/f8Pauw33J8y
- giKQ==
+ bh=M+c0oxO/KqkWahATCsn/ry8zft6rVGU+nYtnuTkgrVg=;
+ b=EC7dLdOfmVdUrgDhCF7NCut2nPF9drNieXhjzbdmwjJtMSUhyHk6wBgilcaRgLz26k
+ Sqnl4BHPnCjXc6wxraxYeC6FO1VcCXbHs9/O3z1z5l9fZSOI/q1+3ZdI8kUyEzFiUMW1
+ cqj9eq4wU3m3EOYMc8pdQRKPFSbcpzDQxZr7bhNLMFUG5r/QVkp13yrinF46aP7EkUVu
+ tgMiGejv7oAD5216lse38mQfVGptBhF5dBla0EVaRUXJVxeZPSpSEjRrTbRcLiaKBLjU
+ bEQFFZ7FOqj1fr9Sw9XQrrjvy2LUee2A1C/4AqZPD7pPUCBpGnPs64keX1KraMFKfr1h
+ GTUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JRfWyXLb4RxsKriS/H5VXElUeDZuAf/HaA29wXvInaU=;
- b=8J4X/PoJ9lVTVZ9tUldc4ZzeGxSFDLNCjUL1io862Cgs6koxAcesHowQE9CqIdwoRd
- W/C/vFh2TUdAz6XH+ldV06V3x4WSTcTPaM5cc4BIhzTCB3nOq2MmniEfOUnaWzcMCwfp
- +OzP9X1j1hQr32p19F5+yODR3TtxBK5IyZuxggzISfrRgZ5VvFtxL9tM7dRniMEAMQqX
- CCDJRVGVoGF/K6FogPApkrfwHdnyJjHtJwLodaQyYskGWB3pjHgn5DsAyHAJ1xr3BHTv
- sfVpRjWCimr4V/QpXiP7Sv/TRcSbokFX3yaOI0nOkQAgwFFk5JYZ5ZSTuOwIk7+eJfc8
- g+/g==
-X-Gm-Message-State: AOAM533CKCo34H3i8bDXfrqZRKBugwMGcnhK5ssrgfDbnkLip61TOW71
- 91ZUwdQie0e02VzirrpqfxvCP9dpqlQ97w==
-X-Google-Smtp-Source: ABdhPJzESBbWRyhX+RlP4kVUTyjsy0murKNt5pX1DnXfe89vC56KMWH5KFjcT2by7MowZn9QmvEF7g==
-X-Received: by 2002:a63:af07:: with SMTP id w7mr13761650pge.202.1635614206481; 
- Sat, 30 Oct 2021 10:16:46 -0700 (PDT)
+ bh=M+c0oxO/KqkWahATCsn/ry8zft6rVGU+nYtnuTkgrVg=;
+ b=UaiOYfZNLZLeoNPgTCMw8reRj5ZoH+EPsGuZ/V+oofwNFzHLL/1hIrYXDLmoMD1dBS
+ bfDNoCauvg64GJTi/+tv1snLQ33gy4ilz53kdz+VKONtci/gWKpD3QTmTiegnsBwa0yM
+ SQa9N0mv53JWYqq59txygJGDptTNZtOH8unQoZ0gwcF3SuVMYef7bWy9ONb85oKw84hb
+ hqGJrI7SXBeMpXfyXEusyT82mZsS7ylQkYC250F3V+zzQ+QzLqBzOnWqulnc5pm2gotU
+ j24p2qI4Ia7zAFvRcxE8QWI1aikyJXRhR2CKeUiQ5Vnl4J94+4AOUkv7uLe5QsGULZXW
+ WYnA==
+X-Gm-Message-State: AOAM531hXQS3Yf95JjKnYECL1/dW5ADa9gmCpmr4Uc9ltlZHUbsjiHZj
+ oIC3Vq76+RzouoS1kD7yLAvh/qYrWm8hlQ==
+X-Google-Smtp-Source: ABdhPJwJVQVE83PLrjWmfdNxq8BdKRXH+VsC3XT2JDGlaL7k3/Ta+D+BtG3gBgPYE7kI0PBgZ2Ne0g==
+X-Received: by 2002:a65:4942:: with SMTP id q2mr10938836pgs.405.1635614207305; 
+ Sat, 30 Oct 2021 10:16:47 -0700 (PDT)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id nv4sm3111943pjb.17.2021.10.30.10.16.45
+ by smtp.gmail.com with ESMTPSA id nv4sm3111943pjb.17.2021.10.30.10.16.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sat, 30 Oct 2021 10:16:46 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 10/66] linux-user/host/sparc: Populate host_signal.h
-Date: Sat, 30 Oct 2021 10:15:39 -0700
-Message-Id: <20211030171635.1689530-11-richard.henderson@linaro.org>
+Subject: [PATCH v6 11/66] linux-user/host/arm: Populate host_signal.h
+Date: Sat, 30 Oct 2021 10:15:40 -0700
+Message-Id: <20211030171635.1689530-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211030171635.1689530-1-richard.henderson@linaro.org>
 References: <20211030171635.1689530-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,21 +90,20 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Split host_signal_pc and host_signal_write out of user-exec.c.
 Drop the *BSD code, to be re-created under bsd-user/ later.
-Drop the Solaris code as completely unused.
 
 Reviewed-by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/host/sparc/host-signal.h   | 54 ++++++++++++++++++++++-
- linux-user/host/sparc64/host-signal.h |  2 +-
- accel/tcg/user-exec.c                 | 62 +--------------------------
- 3 files changed, 55 insertions(+), 63 deletions(-)
+ linux-user/host/arm/host-signal.h | 30 ++++++++++++++++++++-
+ accel/tcg/user-exec.c             | 45 +------------------------------
+ 2 files changed, 30 insertions(+), 45 deletions(-)
 
-diff --git a/linux-user/host/sparc/host-signal.h b/linux-user/host/sparc/host-signal.h
-index f4b4d65031..232943a1db 100644
---- a/linux-user/host/sparc/host-signal.h
-+++ b/linux-user/host/sparc/host-signal.h
-@@ -1 +1,53 @@
+diff --git a/linux-user/host/arm/host-signal.h b/linux-user/host/arm/host-signal.h
+index f4b4d65031..6932224c1c 100644
+--- a/linux-user/host/arm/host-signal.h
++++ b/linux-user/host/arm/host-signal.h
+@@ -1 +1,29 @@
 -#define HOST_SIGNAL_PLACEHOLDER
 +/*
 + * host-signal.h: signal info dependent on the host architecture
@@ -114,130 +114,82 @@ index f4b4d65031..232943a1db 100644
 + * See the COPYING file in the top-level directory.
 + */
 +
-+#ifndef SPARC_HOST_SIGNAL_H
-+#define SPARC_HOST_SIGNAL_H
++#ifndef ARM_HOST_SIGNAL_H
++#define ARM_HOST_SIGNAL_H
 +
 +static inline uintptr_t host_signal_pc(ucontext_t *uc)
 +{
-+#ifdef __arch64__
-+    return uc->uc_mcontext.mc_gregs[MC_PC];
-+#else
-+    return uc->uc_mcontext.gregs[REG_PC];
-+#endif
++    return uc->uc_mcontext.arm_pc;
 +}
 +
 +static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
 +{
-+    uint32_t insn = *(uint32_t *)host_signal_pc(uc);
-+
-+    if ((insn >> 30) == 3) {
-+        switch ((insn >> 19) & 0x3f) {
-+        case 0x05: /* stb */
-+        case 0x15: /* stba */
-+        case 0x06: /* sth */
-+        case 0x16: /* stha */
-+        case 0x04: /* st */
-+        case 0x14: /* sta */
-+        case 0x07: /* std */
-+        case 0x17: /* stda */
-+        case 0x0e: /* stx */
-+        case 0x1e: /* stxa */
-+        case 0x24: /* stf */
-+        case 0x34: /* stfa */
-+        case 0x27: /* stdf */
-+        case 0x37: /* stdfa */
-+        case 0x26: /* stqf */
-+        case 0x36: /* stqfa */
-+        case 0x25: /* stfsr */
-+        case 0x3c: /* casa */
-+        case 0x3e: /* casxa */
-+            return true;
-+        }
-+    }
-+    return false;
++    /*
++     * In the FSR, bit 11 is WnR, assuming a v6 or
++     * later processor.  On v5 we will always report
++     * this as a read, which will fail later.
++     */
++    uint32_t fsr = uc->uc_mcontext.error_code;
++    return extract32(fsr, 11, 1);
 +}
 +
 +#endif
-diff --git a/linux-user/host/sparc64/host-signal.h b/linux-user/host/sparc64/host-signal.h
-index f4b4d65031..1191fe2d40 100644
---- a/linux-user/host/sparc64/host-signal.h
-+++ b/linux-user/host/sparc64/host-signal.h
-@@ -1 +1 @@
--#define HOST_SIGNAL_PLACEHOLDER
-+#include "../sparc/host-signal.h"
 diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index e9b6eb696f..694eff7f04 100644
+index 694eff7f04..fabc8855a9 100644
 --- a/accel/tcg/user-exec.c
 +++ b/accel/tcg/user-exec.c
-@@ -253,67 +253,7 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
+@@ -253,50 +253,7 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
      return size ? g2h(env_cpu(env), addr) : NULL;
  }
  
--#if defined(__sparc__)
+-#if defined(__arm__)
+-
+-#if defined(__NetBSD__)
+-#include <ucontext.h>
+-#include <sys/siginfo.h>
+-#endif
 -
 -int cpu_signal_handler(int host_signum, void *pinfo,
 -                       void *puc)
 -{
 -    siginfo_t *info = pinfo;
--    int is_write;
--    uint32_t insn;
--#if !defined(__arch64__) || defined(CONFIG_SOLARIS)
--    uint32_t *regs = (uint32_t *)(info + 1);
--    void *sigmask = (regs + 20);
--    /* XXX: is there a standard glibc define ? */
--    unsigned long pc = regs[1];
--#else
--#ifdef __linux__
--    struct sigcontext *sc = puc;
--    unsigned long pc = sc->sigc_regs.tpc;
--    void *sigmask = (void *)sc->sigc_mask;
--#elif defined(__OpenBSD__)
--    struct sigcontext *uc = puc;
--    unsigned long pc = uc->sc_pc;
--    void *sigmask = (void *)(long)uc->sc_mask;
--#elif defined(__NetBSD__)
+-#if defined(__NetBSD__)
 -    ucontext_t *uc = puc;
--    unsigned long pc = _UC_MACHINE_PC(uc);
--    void *sigmask = (void *)&uc->uc_sigmask;
+-    siginfo_t *si = pinfo;
+-#else
+-    ucontext_t *uc = puc;
 -#endif
+-    unsigned long pc;
+-    uint32_t fsr;
+-    int is_write;
+-
+-#if defined(__NetBSD__)
+-    pc = uc->uc_mcontext.__gregs[_REG_R15];
+-#elif defined(__GLIBC__) && (__GLIBC__ < 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ <= 3))
+-    pc = uc->uc_mcontext.gregs[R15];
+-#else
+-    pc = uc->uc_mcontext.arm_pc;
 -#endif
 -
--    /* XXX: need kernel patch to get write flag faster */
--    is_write = 0;
--    insn = *(uint32_t *)pc;
--    if ((insn >> 30) == 3) {
--        switch ((insn >> 19) & 0x3f) {
--        case 0x05: /* stb */
--        case 0x15: /* stba */
--        case 0x06: /* sth */
--        case 0x16: /* stha */
--        case 0x04: /* st */
--        case 0x14: /* sta */
--        case 0x07: /* std */
--        case 0x17: /* stda */
--        case 0x0e: /* stx */
--        case 0x1e: /* stxa */
--        case 0x24: /* stf */
--        case 0x34: /* stfa */
--        case 0x27: /* stdf */
--        case 0x37: /* stdfa */
--        case 0x26: /* stqf */
--        case 0x36: /* stqfa */
--        case 0x25: /* stfsr */
--        case 0x3c: /* casa */
--        case 0x3e: /* casxa */
--            is_write = 1;
--            break;
--        }
--    }
--    return handle_cpu_signal(pc, info, is_write, sigmask);
+-#ifdef __NetBSD__
+-    fsr = si->si_trap;
+-#else
+-    fsr = uc->uc_mcontext.error_code;
+-#endif
+-    /*
+-     * In the FSR, bit 11 is WnR, assuming a v6 or
+-     * later processor.  On v5 we will always report
+-     * this as a read, which will fail later.
+-     */
+-    is_write = extract32(fsr, 11, 1);
+-    return handle_cpu_signal(pc, info, is_write, &uc->uc_sigmask);
 -}
 -
--#elif defined(__arm__)
-+#if defined(__arm__)
+-#elif defined(__aarch64__)
++#if defined(__aarch64__)
  
  #if defined(__NetBSD__)
- #include <ucontext.h>
+ 
 -- 
 2.25.1
 
