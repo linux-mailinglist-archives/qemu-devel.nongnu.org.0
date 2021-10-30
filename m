@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D63440C4E
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Oct 2021 01:15:45 +0200 (CEST)
-Received: from localhost ([::1]:55140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5BD4440C56
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Oct 2021 01:28:19 +0200 (CEST)
+Received: from localhost ([::1]:34114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mgxZg-0006nh-0L
-	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 19:15:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57190)
+	id 1mgxlq-00041E-9t
+	for lists+qemu-devel@lfdr.de; Sat, 30 Oct 2021 19:28:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgxXp-0005Wg-Jf
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 19:13:49 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:37771)
+ id 1mgxkx-0003Be-VU
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 19:27:23 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:47023)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mgxXn-0006Or-FC
- for qemu-devel@nongnu.org; Sat, 30 Oct 2021 19:13:49 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- t5-20020a17090a4e4500b001a0a284fcc2so13431222pjl.2
- for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 16:13:46 -0700 (PDT)
+ id 1mgxkv-0004qQ-TX
+ for qemu-devel@nongnu.org; Sat, 30 Oct 2021 19:27:23 -0400
+Received: by mail-pg1-x534.google.com with SMTP id m21so13521180pgu.13
+ for <qemu-devel@nongnu.org>; Sat, 30 Oct 2021 16:27:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/JqYVSP5A/JyT3RDFy4+AU+ipw7nyvoGdcmJGp4x7wo=;
- b=TLjyzpvEaI18YXhfY5z8dD9VmnmdN/uTiIxbEMyzAMezUxtZVgs7Nq1sYBeFf4jicq
- 6qhqFxU+uQjiVo0OmM7cOMl2ctothoFh1IV0eLlC06Bil6b+zBbLjdA02hMd14T/lsYn
- 5N1VOnv4U7d80yh1E9n8v2F4N9ZdseCaIFJ0bGU6BDDh7XWl5Ut/KlScVnKISy/hsWhx
- ld+pEp/rXrtm7WFEh/u/1etVG25uV5azxtbccgnLMsphvqT+zfFYjNjFhK+SGCMTtsiN
- AVoGleD+8yu+Pfx2tfsWrewBSVtq/QetJ2EaFLtc1NLFr5/GsPcimcy78hKhULlxqvmH
- 5L4w==
+ bh=VHRgKjy6BjaxoI/tufj7hntwvK8TzDJIrBcGbB5cwcg=;
+ b=n5A5+TCLJuSM5Oz7LQifhSB6OCtMKg6uV6nsnbd6l9aEjmxjEjIjrS7yZ7FnZUhGcL
+ 4yXehrMM+VXs4Tv7j2Osv88sMKUl0u4ac73NsjiIJTs3JJWH3RprwgoPH9CgLhhdfRDJ
+ oZGLy1xlqlupFGMlT5xhLIBHtEXo1cVc8LuBnPMzjplfnrL14g4BQjFqkKF7ORiC7/aj
+ d5wzeq/bA5TR16gcqrKNYkL55NIa+3h77RtUMdJj0dGdTtNnIKydd9q6skoiKaXGo3ER
+ +WDfsgQ0v+JzdkzWYw5l+ds5ECN5h+y+Zw+VXn3OZ8pj7GPQDpfniBuu8z6MsSGiWl0n
+ xyAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/JqYVSP5A/JyT3RDFy4+AU+ipw7nyvoGdcmJGp4x7wo=;
- b=iC9fkoZ944CJzK8tWBItNaViJMGN/oIJ8JiGFM8ZKflhlJDudf8izGhlvil5+4S5+w
- 75Xmi8b/a+aGcMsLmEInmoCX2Kxxxij6IYI1j+LOwE1eSq/MiZGpqonrhpFeIg8UAl30
- lUTVLiubh+k+Z7LfTaoGyi9ZBOeeqRe2k5GYrfBSEcQjVvC4e21N0S8pZ0CnlPUKf+H1
- CLOiHlOApqQC2UescUNE3A/kCr6AXfhT0R209vTUurvEHTDUObmdIWoOKBbUaUVOSJeU
- rfDePo0rSktU766xlyV97TbTDegRXPfUIeSad78w7rn8jIjX4b97VSeAGfz8q2eClrKf
- d2Ow==
-X-Gm-Message-State: AOAM53350eo7lwfoVQCHzHCeoO+V1GLyyF8At4XXu6ZYAHJdl8OzYXTI
- +eOHwV26taUAnJv5ZZaF8j0NGg==
-X-Google-Smtp-Source: ABdhPJyW2KkF+g8tSnQOwwUqqljlINJ5XkIJvQ/dxBQLPY0TrmsmqyuUqLz1i4CZYI1tCWW/1fAmIQ==
-X-Received: by 2002:a17:90b:1c09:: with SMTP id
- oc9mr28458895pjb.33.1635635625193; 
- Sat, 30 Oct 2021 16:13:45 -0700 (PDT)
+ bh=VHRgKjy6BjaxoI/tufj7hntwvK8TzDJIrBcGbB5cwcg=;
+ b=hft/2PCs8Rt3m/doFJbHxagJkzusoqDGReuHoM6UUdAHXU7ay28LWWRP9jzeMCU68X
+ HhXGwqyeqqhkF2++2LdimvJq5QO4dyhhtyO0emycQ3aheTCuyzmrHA7zRNgyi16NjIcL
+ 3WxToCfOyvCYMxQwgZjHUsMrV+grgwg4zehS2EKQ8BMnLP6ML7fn3MMMMA3mUSDe2x5h
+ Eymlt3ZjWtI0YwsSlPVYeabQg8sf16fiShiphIRiRXB2i93oVeu8i+Le0sSZ19cUv3Qy
+ 3Vt7vsJEqyLRVRMwggYjW5JLXw1VoH9SzACAJwH+N06uLYjrry1+mSZqh7FrRlAjGSXM
+ M2Lg==
+X-Gm-Message-State: AOAM533k5nGHmgCfi1Ay2MCBERrmlY/ddp0aT+qvw8bTyYYTEOsm0u0s
+ TYX8DKLTCkB2rwMVhjUGXbh3Ug==
+X-Google-Smtp-Source: ABdhPJw1QJfTM4gHTLVL93Aeny+frpbkV64Kpj/MfHcfJ1q55xaZFYoH6mJYO5S6Xzspot8S0iQMtQ==
+X-Received: by 2002:a05:6a00:2171:b0:47f:d231:25f6 with SMTP id
+ r17-20020a056a00217100b0047fd23125f6mr8310630pff.4.1635636440095; 
+ Sat, 30 Oct 2021 16:27:20 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id l11sm6640055pfu.129.2021.10.30.16.13.43
+ by smtp.gmail.com with ESMTPSA id k14sm9165205pga.65.2021.10.30.16.27.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 30 Oct 2021 16:13:44 -0700 (PDT)
-Subject: Re: [PATCH v2 24/34] target/ppc: added the instructions LXVP and STXVP
+ Sat, 30 Oct 2021 16:27:19 -0700 (PDT)
+Subject: Re: [PATCH v2 30/34] target/ppc: implemented XXSPLTI32DX
 To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <20211029202424.175401-1-matheus.ferst@eldorado.org.br>
- <20211029202424.175401-25-matheus.ferst@eldorado.org.br>
+ <20211029202424.175401-31-matheus.ferst@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2a244309-0f85-a4b7-4f56-0b152563099a@linaro.org>
-Date: Sat, 30 Oct 2021 16:13:42 -0700
+Message-ID: <1ac0f24d-bfbd-1b88-bf3a-12afe0037a62@linaro.org>
+Date: Sat, 30 Oct 2021 16:27:17 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211029202424.175401-25-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20211029202424.175401-31-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -44
 X-Spam_score: -4.5
 X-Spam_bar: ----
@@ -89,26 +88,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lucas.castro@eldorado.org.br, luis.pires@eldorado.org.br, groug@kaod.org,
- david@gibson.dropbear.id.au
+Cc: lucas.castro@eldorado.org.br,
+ "Bruno Larsen \(billionai\)" <bruno.larsen@eldorado.org.br>,
+ luis.pires@eldorado.org.br, groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/29/21 1:24 PM, matheus.ferst@eldorado.org.br wrote:
-> From: "Lucas Mateus Castro (alqotel)"<lucas.castro@eldorado.org.br>
+> From: "Bruno Larsen (billionai)"<bruno.larsen@eldorado.org.br>
 > 
-> Implemented the instructions lxvp and stxvp using decodetree
+> Implemented XXSPLTI32DX emulation using decodetree
 > 
-> Signed-off-by: Luis Pires<luis.pires@eldorado.org.br>
-> Signed-off-by: Lucas Mateus Castro (alqotel)<lucas.castro@eldorado.org.br>
+> Signed-off-by: Bruno Larsen (billionai)<bruno.larsen@eldorado.org.br>
 > Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
 > ---
 > v2:
-> - Do not access EA+24 first in LE.
+> - 8RR_D si field is now unsigned
+> - Implemented with two tcg_gen_st_i32
 > ---
->   target/ppc/insn32.decode            |  5 +++
->   target/ppc/translate/vsx-impl.c.inc | 55 ++++++++++++++++++++++-------
->   2 files changed, 48 insertions(+), 12 deletions(-)
+>   target/ppc/insn64.decode            | 11 +++++++++++
+>   target/ppc/translate/vsx-impl.c.inc | 17 +++++++++++++++++
+>   2 files changed, 28 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
