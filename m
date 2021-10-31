@@ -2,85 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58DCF441114
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Oct 2021 22:48:32 +0100 (CET)
-Received: from localhost ([::1]:48486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25138441175
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 00:37:56 +0100 (CET)
+Received: from localhost ([::1]:52728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhIgo-0001Ey-UH
-	for lists+qemu-devel@lfdr.de; Sun, 31 Oct 2021 17:48:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41114)
+	id 1mhKOg-00048m-Np
+	for lists+qemu-devel@lfdr.de; Sun, 31 Oct 2021 19:37:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mhIft-0000WH-DQ
- for qemu-devel@nongnu.org; Sun, 31 Oct 2021 17:47:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33916)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mhIfq-0008Ah-Jc
- for qemu-devel@nongnu.org; Sun, 31 Oct 2021 17:47:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635716849;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LXovAYmHA1oe1JJIAEz0nS9/LP36HKIDgizKbDLEf08=;
- b=WCP22aMBljdo++yFLKwNvsO3gs4exPMna5tCjDjgKB6F2bccvM794OT8FEUt0OC4rhdYDS
- b6e7kgfV3BgSJHEeR8DZb4wrE8tyXxBkwYXnHhZTmkxbs8Qq1S5XchJsx15PtPKdwH2K9h
- 17tf5H3MuxgT3Hc7x/VRpPOa3BC1CXQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-e1a09i5BOoqy699KXu4BEg-1; Sun, 31 Oct 2021 17:47:27 -0400
-X-MC-Unique: e1a09i5BOoqy699KXu4BEg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- y9-20020a1c7d09000000b003316e18949bso2470891wmc.5
- for <qemu-devel@nongnu.org>; Sun, 31 Oct 2021 14:47:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mhKMh-0003Bd-JL; Sun, 31 Oct 2021 19:35:51 -0400
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:46819)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mhKMf-0004Oh-Vm; Sun, 31 Oct 2021 19:35:51 -0400
+Received: by mail-io1-xd32.google.com with SMTP id i14so19485059ioa.13;
+ Sun, 31 Oct 2021 16:35:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TUeeh/2B96sxOuEpU+hPnPFZ7zI/j5Btpy5swcS0LAg=;
+ b=XU+jWVX3Ifyw5yUYlktevurHl9cNo8gaQcz16XbCU0NhKxUl8GjZw/y6Ud2/GsyjdR
+ NSQFgl4GTLBeX1LugwQNbQ1n+8VzxY0Tb1muGyp7MHi/xyzJNqRo7+/8yWL7oqotP9h2
+ Tvx9TTiLrKykX5E/ZUIh7LtgnArBIM+B/ykNiKcNF+2AQ5VLiiNL1LTLg7HK4tBwcW9H
+ KCwnVc97VafRqeUVq/Ycsbqhvuzkzvb0inEQD27kWx0+WEBWxmIrPCmvfxwNdiZroXUR
+ jqD3t3XH7HYmZEnLlRx9TItkgEGXjwBFY58trKm48UxpxqLaQimi8Wl+iWpq7hlF0IaA
+ uhGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=LXovAYmHA1oe1JJIAEz0nS9/LP36HKIDgizKbDLEf08=;
- b=eYz38ciQkxY+wGrtJUu/mbsVfiNM8D1QYJt/2hKkezJuzx2UviQ2DbVCnn+sLgDJx7
- b/bpCkV2Vp4yZHkrA1eSlcxlYv93KZerRBNMsd7RMG/zjqmg3qBksNUfbif5NpVgCF9U
- KlkRuVCMqr7G73W2oTipLGNqWJXQ+8TYXDvokgYAdh79H4KfWI2vYoy8WtywkUODUgps
- 6AJK2/NQNoOF+706Zv3cRyohYkW5TvZSU7GKZ78cguoscjWOcAdL3J077NAleReu/JT0
- fFrmL09czQAWrXBfEzEvFzBfd7rixnAyOGWIV99Vr6MQZv/0bnSPcKJSEDqer22a6it6
- eA8Q==
-X-Gm-Message-State: AOAM533UFxriunrsekquffYSBYNBtrOmMS0KK/ahL2hqikSpZgFvB1m+
- RkgNW2rJZu7o/KjxJdpoSghAaFkmEM6IcbVBKNJrDLnhoRHe3j8JgR/cdv1+6vBR7M4WvXiDNVV
- YunGBa7OQspf1Y1Q=
-X-Received: by 2002:a5d:6a89:: with SMTP id s9mr13922850wru.123.1635716846402; 
- Sun, 31 Oct 2021 14:47:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw0dbmHtMSwWcu7I6pnOKumjRhY0x+u4BY/4kPc5LD0KGQsODw6Kt5zQbpQh9vRWnvP7D3xzA==
-X-Received: by 2002:a5d:6a89:: with SMTP id s9mr13922837wru.123.1635716846230; 
- Sun, 31 Oct 2021 14:47:26 -0700 (PDT)
-Received: from redhat.com ([2.55.132.220])
- by smtp.gmail.com with ESMTPSA id h13sm7846685wrx.82.2021.10.31.14.47.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 Oct 2021 14:47:25 -0700 (PDT)
-Date: Sun, 31 Oct 2021 17:47:22 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
-Subject: Re: [PATCH] vhost: Fix last queue index of devices with no cvq
-Message-ID: <20211031174635-mutt-send-email-mst@kernel.org>
-References: <20211029141608.1728855-1-eperezma@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TUeeh/2B96sxOuEpU+hPnPFZ7zI/j5Btpy5swcS0LAg=;
+ b=gHNCe6YIC/gfPD0awlK76m3QYk3iKOo4PahvZiNDetYJ+uSXXSR0zbvWr5XQ41bfJ7
+ irkUNR6d2vQH01ZfCRsNC/a4kmw4Rd+FolKS/jRFiV6wsmMfL//KzFi+RbH0ZFlf33Hz
+ u/S39CYxZ6Rngj4/mgYI5JvK74IafnO4IXWU0aQWrvBZkLXTsESgAxX26I0jVK06xB1x
+ NFAi7qX2T0BmY5FN4DvnR7tvFFl0J0AQC2MUugpxP4PrSRS/+ezbHhPDKccL9tkfhaJI
+ GkfAWJGYnOKclRXBcspmunqf2VvKZvwVdOQFat1Ej7+r2Rx4zqXYVSYwgxPsLocIEG3x
+ klYQ==
+X-Gm-Message-State: AOAM5338MaHGmw0QOA9/4NoGAtw7zdRlDzKSANuq9GNNRiu05CeV4QGR
+ KqljXLsh10dHzj+0S61dbRkFNuJgplKFx62UJH0=
+X-Google-Smtp-Source: ABdhPJyTquI9XMHhNDbDaXJYjv8uEqgZUgd6nA5NV9jN7KzcJ9aHPzhRW9d7EDeecK5d+evnNT1zj3bssFTiaPnMtHE=
+X-Received: by 2002:a6b:a19:: with SMTP id z25mr16217162ioi.57.1635723347235; 
+ Sun, 31 Oct 2021 16:35:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211029141608.1728855-1-eperezma@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.736,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20211026064227.2014502-1-anup.patel@wdc.com>
+ <20211026064227.2014502-5-anup.patel@wdc.com>
+In-Reply-To: <20211026064227.2014502-5-anup.patel@wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 1 Nov 2021 09:35:21 +1000
+Message-ID: <CAKmqyKP45N2+FEG5eMqocv7XbO2ZmAWJAiKy3-mf2AnCYdW_UA@mail.gmail.com>
+Subject: Re: [PATCH v4 04/22] target/riscv: Improve delivery of guest external
+ interrupts
+To: Anup Patel <anup.patel@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd32.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,40 +77,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 29, 2021 at 04:16:08PM +0200, Eugenio Pérez wrote:
-> The -1 assumes that all devices with no cvq have an spare vq allocated
-> for them, but with no offer of VIRTIO_NET_F_CTRL_VQ. This may not be the
-> case, and the device may have a pair number of queues.
-> 
-> To fix this, just resort to the lower even number of queues.
-> 
-> Fixes: 049eb15b5fc9 ("vhost: record the last virtqueue index for the virtio device")
-> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+On Tue, Oct 26, 2021 at 5:41 PM Anup Patel <anup.patel@wdc.com> wrote:
+>
+> The guest external interrupts from an interrupt controller are
+> delivered only when the Guest/VM is running (i.e. V=1). This means
+> any guest external interrupt which is triggered while the Guest/VM
+> is not running (i.e. V=0) will be missed on QEMU resulting in Guest
+> with sluggish response to serial console input and other I/O events.
+>
+> To solve this, we check and inject interrupt after setting V=1.
+>
+> Signed-off-by: Anup Patel <anup.patel@wdc.com>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
->  hw/net/vhost_net.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> index 0d888f29a6..edf56a597f 100644
-> --- a/hw/net/vhost_net.c
-> +++ b/hw/net/vhost_net.c
-> @@ -330,7 +330,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
->      NetClientState *peer;
->  
->      if (!cvq) {
-> -        last_index -= 1;
-> +        last_index &= ~1ULL;
+>  target/riscv/cpu_helper.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+>
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index bb7ac9890b..04df3792a8 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -287,6 +287,19 @@ void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable)
 >      }
->  
->      if (!k->set_guest_notifiers) {
-
-could this code be made clearer?
-
-> -- 
-> 2.27.0
-
+>
+>      env->virt = set_field(env->virt, VIRT_ONOFF, enable);
+> +
+> +    if (enable) {
+> +       /*
+> +        * The guest external interrupts from an interrupt controller are
+> +        * delivered only when the Guest/VM is running (i.e. V=1). This means
+> +        * any guest external interrupt which is triggered while the Guest/VM
+> +        * is not running (i.e. V=0) will be missed on QEMU resulting in guest
+> +        * with sluggish response to serial console input and other I/O events.
+> +        *
+> +        * To solve this, we check and inject interrupt after setting V=1.
+> +        */
+> +        riscv_cpu_update_mip(env_archcpu(env), 0, 0);
+> +    }
+>  }
+>
+>  bool riscv_cpu_force_hs_excep_enabled(CPURISCVState *env)
+> --
+> 2.25.1
+>
+>
 
