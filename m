@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6CC744201A
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 19:35:30 +0100 (CET)
-Received: from localhost ([::1]:58442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ED86442057
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 19:54:17 +0100 (CET)
+Received: from localhost ([::1]:49204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhc9a-00022O-20
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 14:35:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60824)
+	id 1mhcRk-00033p-GW
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 14:54:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mhbB4-0003qm-Cu
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:32:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53396)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mhbBd-0005aY-Aa
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:33:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mhbB2-0002Up-4C
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:32:58 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mhbBb-0002dE-47
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:33:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635787975;
+ s=mimecast20190719; t=1635788009;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Vt9quG6WaMVVLqkNRaT61HzcN6diBu8/L0zD0RtXTtc=;
- b=dkf/ScbJ8W85RKph6DxhCH/VTDBGup/pmHGKWd6hzRLsfKSUgLoBtTdfhxtczTn3fTCVKv
- IyUqSVLAcb5rxnf7boLVt1ruoa8eJ8poacCsgTvvKoVbySF8R46eoRHjpUhKFIR36Wdn+S
- p8tRSxCWSsdIKPGDN0ksaL7pqEjsupk=
+ bh=+lRJZDdCs6ETP0b6RYTKCKDDCsMWJU1ViGY8raNiFNI=;
+ b=hYVA46l9PUzjNjDOKsd3N31mPwvNiqJm6evZ57eshtx3zqNCfHiadaBTjhHiztVtF0wDCZ
+ 2vXUXYhzpFMsIPU/itCugQ8PWdsR7FsPQArJobP4jJvgsD8O8QSEB7MFR6eqKokYU2sl7k
+ GCtmdls7GWTJeFWdMyYqBY+ycK2Tt14=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-156-lzw83j65P0uijcU8xTq50g-1; Mon, 01 Nov 2021 13:32:52 -0400
-X-MC-Unique: lzw83j65P0uijcU8xTq50g-1
+ us-mta-224-ODFA44m9MMCgTe4zq1Mjkg-1; Mon, 01 Nov 2021 13:33:26 -0400
+X-MC-Unique: ODFA44m9MMCgTe4zq1Mjkg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6F798F508;
- Mon,  1 Nov 2021 17:32:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 112571926DA4;
+ Mon,  1 Nov 2021 17:33:25 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A4F6A19C79;
- Mon,  1 Nov 2021 17:32:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 909CD19C79;
+ Mon,  1 Nov 2021 17:32:51 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/22] iotests/297: refactor run_[mypy|pylint] as generic
- execution shim
-Date: Mon,  1 Nov 2021 13:29:51 -0400
-Message-Id: <20211101173006.656673-8-jsnow@redhat.com>
+Subject: [PULL 08/22] iotests/297: Change run_linter() to raise an exception
+ on failure
+Date: Mon,  1 Nov 2021 13:29:52 -0400
+Message-Id: <20211101173006.656673-9-jsnow@redhat.com>
 In-Reply-To: <20211101173006.656673-1-jsnow@redhat.com>
 References: <20211101173006.656673-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -90,80 +90,73 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There's virtually nothing special here anymore; we can combine these
-into a single, rather generic function.
+Instead of using a process return code as the python function return
+value (or just not returning anything at all), allow run_linter() to
+raise an exception instead.
+
+The responsibility for printing output on error shifts from the function
+itself to the caller, who will know best how to present/format that
+information. (Also, "suppress_output" is now a lot more accurate of a
+parameter name.)
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-Message-id: 20211019144918.3159078-8-jsnow@redhat.com
+Message-id: 20211019144918.3159078-9-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/297 | 42 ++++++++++++++++++++++--------------------
- 1 file changed, 22 insertions(+), 20 deletions(-)
+ tests/qemu-iotests/297 | 24 ++++++++++++++----------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
 
 diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
-index 189bcaf5f94..d21673a2929 100755
+index d21673a2929..76d6a23f531 100755
 --- a/tests/qemu-iotests/297
 +++ b/tests/qemu-iotests/297
-@@ -61,27 +61,29 @@ def get_test_files() -> List[str]:
-     return list(filter(is_python_file, check_tests))
+@@ -70,22 +70,18 @@ def run_linter(
+     """
+     Run a python-based linting tool.
  
+-    If suppress_output is True, capture stdout/stderr of the child
+-    process and only print that information back to stdout if the child
+-    process's return code was non-zero.
++    :param suppress_output: If True, suppress all stdout/stderr output.
++    :raise CalledProcessError: If the linter process exits with failure.
+     """
+-    p = subprocess.run(
++    subprocess.run(
+         ('python3', '-m', tool, *args),
+         env=env,
+-        check=False,
++        check=True,
+         stdout=subprocess.PIPE if suppress_output else None,
+         stderr=subprocess.STDOUT if suppress_output else None,
+         universal_newlines=True,
+     )
  
--def run_pylint(
--    files: List[str],
--    env: Optional[Mapping[str, str]] = None,
-+def run_linter(
-+        tool: str,
-+        args: List[str],
-+        env: Optional[Mapping[str, str]] = None,
-+        suppress_output: bool = False,
- ) -> None:
-+    """
-+    Run a python-based linting tool.
- 
--    subprocess.run(('python3', '-m', 'pylint', *files),
--                   env=env, check=False)
-+    If suppress_output is True, capture stdout/stderr of the child
-+    process and only print that information back to stdout if the child
-+    process's return code was non-zero.
-+    """
-+    p = subprocess.run(
-+        ('python3', '-m', tool, *args),
-+        env=env,
-+        check=False,
-+        stdout=subprocess.PIPE if suppress_output else None,
-+        stderr=subprocess.STDOUT if suppress_output else None,
-+        universal_newlines=True,
-+    )
- 
+-    if suppress_output and p.returncode != 0:
+-        print(p.stdout)
 -
--def run_mypy(
--    files: List[str],
--    env: Optional[Mapping[str, str]] = None,
--) -> None:
--    p = subprocess.run(('python3', '-m', 'mypy', *files),
--                       env=env,
--                       check=False,
--                       stdout=subprocess.PIPE,
--                       stderr=subprocess.STDOUT,
--                       universal_newlines=True)
--
--    if p.returncode != 0:
-+    if suppress_output and p.returncode != 0:
-         print(p.stdout)
  
- 
-@@ -100,11 +102,11 @@ def main() -> None:
+ def main() -> None:
+     for linter in ('pylint-3', 'mypy'):
+@@ -102,11 +98,19 @@ def main() -> None:
  
      print('=== pylint ===')
      sys.stdout.flush()
--    run_pylint(files, env=env)
-+    run_linter('pylint', files, env=env)
+-    run_linter('pylint', files, env=env)
++    try:
++        run_linter('pylint', files, env=env)
++    except subprocess.CalledProcessError:
++        # pylint failure will be caught by diffing the IO.
++        pass
  
      print('=== mypy ===')
      sys.stdout.flush()
--    run_mypy(files, env=env)
-+    run_linter('mypy', files, env=env, suppress_output=True)
+-    run_linter('mypy', files, env=env, suppress_output=True)
++    try:
++        run_linter('mypy', files, env=env, suppress_output=True)
++    except subprocess.CalledProcessError as exc:
++        if exc.output:
++            print(exc.output)
  
  
  iotests.script_main(main)
