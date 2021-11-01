@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1735441D71
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 16:32:44 +0100 (CET)
-Received: from localhost ([::1]:34852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2085E441D88
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 16:43:49 +0100 (CET)
+Received: from localhost ([::1]:41594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhZIh-0007W2-C7
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 11:32:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59536)
+	id 1mhZTO-0004a5-TC
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 11:43:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhZHT-0006ed-Bl
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 11:31:27 -0400
-Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834]:46921)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhZHP-0000cD-Lw
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 11:31:26 -0400
-Received: by mail-qt1-x834.google.com with SMTP id s1so14767354qta.13
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 08:31:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZQTpF83tMKfnveNBLXnXgJTprnpVbSC46DeBc3/Pxno=;
- b=JqFzphJieRh0MhwvbffcYU0D5Igox5fzh7tPqSp3dppbLkzvrBXMBsHH9FKB1FB1k8
- rDi/GaT4u+Wb5E5x+6mH4BXFynDK4QhLZGIJE1GSkq1jYYZV+zbizd2my+5bc17Bs3vv
- 66Ah8Zw4rUfTNJUFLnVeiAzmYJnCzTPAw4MrNZoOkSark09/0B4Cy3JiU+EB7qCwaIVU
- RzXcgHXJef3r0mgcr6gc17nJw8Nt+IS9qjJavlGvQ/iw0pku348SsFfsLSbxzuebFi3l
- JEWGBtURdKzgl3kQPBwujfgYbo5rEoa0kHKBybPvxKLHAvt9NvdnPqzllE/7JP6fcY8s
- nq9A==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mhZSN-0003qV-ER
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 11:42:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41705)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mhZSJ-0003Wj-Rr
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 11:42:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635781358;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NRgxRkhnNlJip694lx1uE29yW3HTEaldikOTkZLBW0c=;
+ b=EaGN1ALH8cqB2MRAKkDJk4O/MFKfG2HjboszM7sQA5v/A4AwTXcqdzPi2GlbYB0Vd2Fctg
+ VuKYVHZq3fzSUCljkXdGu89AbwOVJjYey6RCD/21kQJUDn4Rz6xK845FYNPXFzIwm2VVCZ
+ gpfLODkVCbNTC1sUGn0vIaMYR7gi+8M=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-27-xt4llyMBMemXK4jfL95bWg-1; Mon, 01 Nov 2021 11:42:37 -0400
+X-MC-Unique: xt4llyMBMemXK4jfL95bWg-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ ib13-20020a0562141c8d00b003958b43bcf2so10511914qvb.1
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 08:42:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZQTpF83tMKfnveNBLXnXgJTprnpVbSC46DeBc3/Pxno=;
- b=DpkPZST48e4QHxFKZcsc9toQs5ZbAzeHa3o9bG63GpMOqzixXTyUxU6QpMnvSt+SqA
- HOjKIV+xiUscfiRd8t8rElMhDQ/cxRByFLk/GHXf0VxUs5JSXsvPVHvuvAdpSHvAdPkY
- Fgt2xVsiMn0Ozi6XmXngdl2Sv+YbxRbeyK0G83yQrn6MrJ+AlPADjNXuFEa6ub9HGZpY
- BaS2NQYTJjup6EmhVsxLw+X4/+J9pXKR9W8Oc4FkrAMrlCATPAkinduRIKrQS+syAEnF
- f4Teu9cXY3P6MhYifcL5dhGBfvFKkUejXzxoO586MWmFf1Fxccba4w9OZA4MtqZ8Owmg
- dqFg==
-X-Gm-Message-State: AOAM530vi4quIadfMgd6hZZnPTCfBx6RFHoOQ9MP1ONgd4KBYOskcUi0
- la/3OpPIFAo8GhHrrX0soPJ/ww==
-X-Google-Smtp-Source: ABdhPJxi+8lB7BQ18Ge2IxnndH6j2pwlOHbS5NdaUQ+US6EUOoPqJt50JZK9UWX4kBmrk6SsCVPqww==
-X-Received: by 2002:ac8:5a11:: with SMTP id n17mr26706598qta.210.1635780681923; 
- Mon, 01 Nov 2021 08:31:21 -0700 (PDT)
-Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
- [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id n19sm10865053qta.22.2021.11.01.08.31.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Nov 2021 08:31:21 -0700 (PDT)
-Subject: Re: [PULL 6/6] hw/input/lasips2: QOM'ify the Lasi PS/2
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20211101082747.2524909-1-laurent@vivier.eu>
- <20211101082747.2524909-7-laurent@vivier.eu>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <04704da8-24c5-25d6-85e1-6f9901f00b24@linaro.org>
-Date: Mon, 1 Nov 2021 11:31:19 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=NRgxRkhnNlJip694lx1uE29yW3HTEaldikOTkZLBW0c=;
+ b=GlJG9TXAXg0PxrKno80JoVLrachOeN7UYb0d4dS2mEXGCM3W5HBhscnmO9gKqkqNx1
+ xkectr2p7AY1f+ngVN8NW6arcuwY1HXCuf0yzfTYv3nVrKtJuCynKX4mveXIOLD2Te5b
+ o+8w/93yJIsHu7iyxxViD4Yi2zYYxAPtB20S1WW3n/nYh3MeMNe1x7F7myP/SqJBpH0a
+ eZsOrbF7uHs29xt6iCDWAkXmBxmWGMlF0PlXlQxPZj22SwF6u1cUnmfcDfletHu8BNf/
+ 94zcrlniXozlAajipPoCWCFHQFr0z/ewyoyVR//D1RJkDSUVzQ+rOZjyPnf50scbB/lb
+ EgWg==
+X-Gm-Message-State: AOAM532ETfwp5jeM/iR/02K84QP8dYppKNTu8NbmIzzn3WlJ/y8V3cHW
+ 60QxtBVOlTIyTdd88FWnrZ1CPU6AWhu+cgcZkxMWD+2CI8+NRRvfz48dB+P+icYmqghk4MhK5Vw
+ 4aRExag9k8ItD7LCKMZk98ypyqhUxQ98=
+X-Received: by 2002:a0c:80e4:: with SMTP id 91mr28652683qvb.57.1635781357170; 
+ Mon, 01 Nov 2021 08:42:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy4imJJMcJo8vh27GC33cMndX50TWRQCEIATzWWyvWC+zFXShm8HH2FbFjwTNmLdCLg49nagRnwgq3dD1b6KPo=
+X-Received: by 2002:a0c:80e4:: with SMTP id 91mr28652653qvb.57.1635781356833; 
+ Mon, 01 Nov 2021 08:42:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211101082747.2524909-7-laurent@vivier.eu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x834.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+References: <20211029141608.1728855-1-eperezma@redhat.com>
+ <CACGkMEss8Xq8WYUkDkLaYx-XBW6GADDAjH1mwmpBdxKc2wsRAQ@mail.gmail.com>
+ <CAJaqyWcsbtOoLGkCW6J_9M8qR1-yvbQmWq1rU0y+8Y=BhPeRWw@mail.gmail.com>
+In-Reply-To: <CAJaqyWcsbtOoLGkCW6J_9M8qR1-yvbQmWq1rU0y+8Y=BhPeRWw@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 1 Nov 2021 16:42:01 +0100
+Message-ID: <CAJaqyWdBMCeFZ4yARpezqmZSSoiLKBStNDm_CLJPrZRDx7X4wg@mail.gmail.com>
+Subject: Re: [PATCH] vhost: Fix last queue index of devices with no cvq
+To: Jason Wang <jasowang@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.14,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,41 +92,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Damien Hedde <damien.hedde@greensocs.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/1/21 4:27 AM, Laurent Vivier wrote:
-> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
-> Message-Id: <20210920064048.2729397-4-f4bug@amsat.org>
-> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-> ---
->   hw/hppa/lasi.c             | 10 +++++++++-
->   hw/input/lasips2.c         | 38 ++++++++++++++++++++++++++++----------
->   include/hw/input/lasips2.h | 17 +++++++++++++----
->   3 files changed, 50 insertions(+), 15 deletions(-)
+On Mon, Nov 1, 2021 at 9:58 AM Eugenio Perez Martin <eperezma@redhat.com> w=
+rote:
+>
+> On Mon, Nov 1, 2021 at 4:34 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> > On Fri, Oct 29, 2021 at 10:16 PM Eugenio P=C3=A9rez <eperezma@redhat.co=
+m> wrote:
+> > >
+> > > The -1 assumes that all devices with no cvq have an spare vq allocate=
+d
+> > > for them, but with no offer of VIRTIO_NET_F_CTRL_VQ. This may not be =
+the
+> > > case, and the device may have a pair number of queues.
+> > >
+> > > To fix this, just resort to the lower even number of queues.
+> > >
+> > > Fixes: 049eb15b5fc9 ("vhost: record the last virtqueue index for the =
+virtio device")
+> > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > ---
+> > >  hw/net/vhost_net.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> > > index 0d888f29a6..edf56a597f 100644
+> > > --- a/hw/net/vhost_net.c
+> > > +++ b/hw/net/vhost_net.c
+> > > @@ -330,7 +330,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientS=
+tate *ncs,
+> > >      NetClientState *peer;
+> > >
+> > >      if (!cvq) {
+> > > -        last_index -=3D 1;
+> > > +        last_index &=3D ~1ULL;
+> > >      }
+> >
+> > The math here looks correct but we need to fix vhost_vdpa_dev_start() i=
+nstead?
+> >
+> > if (dev->vq_index + dev->nvqs - 1 !=3D dev->last_index) {
+> > ...
+> > }
+> >
+>
+> If we just do that, devices that offer an odd number of queues but do
+> not offer ctrl vq would never enable the last vq pair, isn't it?
+>
 
-This has broken the qtest-hppa device-introspection test:
+To expand the issue,
 
-ERROR:../src/qom/object.c:2011:object_get_canonical_path_component: code should not be reached
-Broken pipe
-Aborted (core dumped)
+With that condition it is not possible to make vp_vdpa work on devices
+with no cvq. If I set the L0 guest's device with no cvq (with -device
+virtio-net-pci,...,ctrl_vq=3Doff,mq=3Doff). The nested VM will enter that
+conditional in vhost_net_start, and will mark last_index=3D1, making it
+impossible to start a vhost_vdpa device.
 
-Also, the previous patch 5 does not compile on its own:
+However, re-reading the standard:
 
-In file included from ../src/hw/input/lasips2.c:28:0:
-/home/richard.henderson/qemu/src/include/hw/input/lasips2.h:17:18: error: field ‘reg’ has 
-incomplete type
-      MemoryRegion reg;
-                   ^~~
-ninja: build stopped: subcommand failed.
+controlq only exists if VIRTIO_NET_F_CTRL_VQ set.
 
-Reverting to patch 4 builds, and passes the introspection test.
+So the code is actually handling an invalid device: The device set
+VIRTIO_NET_F_CTRL_VQ but offered an odd number of VQs.
+
+Do we have an example of such a device? It's not the case on qemu
+virtio-net, with or without vhost-net in L0 device. The operation &=3D
+~1ULL is an intended noop in case the queues are already even. I'm
+fine to keep making last_index even, so we have that safety net, with
+further clarifications as MST said, just in case the device is not
+behaving well. But maybe it's even better just to delete that
+conditional entirely?
+
+Thanks!
 
 
-r~
+
+
+> Also, I would say that the right place for the solution of this
+> problem should not be virtio/vhost-vdpa: This is highly dependent on
+> having cvq, and this implies a knowledge about the use of each
+> virtqueue. Another kind of device could have an odd number of
+> virtqueues naturally, and that (-1) would not work for them, isn't it?
+>
+> Thanks!
+>
+> > Thanks
+> >
+> > >
+> > >      if (!k->set_guest_notifiers) {
+> > > --
+> > > 2.27.0
+> > >
+> >
+
 
