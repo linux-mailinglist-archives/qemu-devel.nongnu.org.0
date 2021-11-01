@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51AA1442048
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 19:49:26 +0100 (CET)
-Received: from localhost ([::1]:37752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D299044203C
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 19:44:19 +0100 (CET)
+Received: from localhost ([::1]:50756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhcN3-0002m8-DY
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 14:49:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34294)
+	id 1mhcI6-00083e-Vq
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 14:44:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mhbFq-0005DU-8q
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:37:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56290)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mhbGB-00069x-EF
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:38:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58816)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mhbFo-0004qw-Hm
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:37:53 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mhbG9-0004u5-La
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:38:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635788272;
+ s=mimecast20190719; t=1635788293;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LapaOwRyJl286w7mivCvTLv8Eq1zcuBnlNOO17+2BS0=;
- b=bHz8esM1n/n4A74RdCraoTcgTqBUk42UD3ka7Zdzy5Dn2+6s/FS4JTqaESDqEo6zhL/CIY
- MnxgeaBm4zbiPUuGjqKvnMyrC8uNrVfDUb3MJQylKRhk3frn6M5Gq93PnTlkHBN4vmMegm
- ohYgCXugYl6dDRqWtj8ZC5vMF0f/Rbk=
+ bh=BnywYymkfvQbwW9WfZ/X0bSZkpmKwupdobXI+tiVyVQ=;
+ b=Mj8QpyVNipAaQFBgzsB+n0xjDa6oJ7rDVu+9eLI/aDAqp3MTXqFRlitEYdhEYk4HvD31p9
+ E6P+dZZbYX/GXElLYz0hxTF4kEnXHfs1kYAvZzgemlZQhcNSQRNAMopKjDeAeOIffWTW13
+ hgW43UEkGnXdhYiDVNCDRMNOf0feiUw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-515-YPCKyWg1Nb6T_lfIrmc_Lw-1; Mon, 01 Nov 2021 13:37:49 -0400
-X-MC-Unique: YPCKyWg1Nb6T_lfIrmc_Lw-1
+ us-mta-20-SKEfSxySMr6dTIDiMWQWFg-1; Mon, 01 Nov 2021 13:38:09 -0400
+X-MC-Unique: SKEfSxySMr6dTIDiMWQWFg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF8959126B;
- Mon,  1 Nov 2021 17:37:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CD46802682;
+ Mon,  1 Nov 2021 17:38:07 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DD62619C79;
- Mon,  1 Nov 2021 17:37:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E161019C79;
+ Mon,  1 Nov 2021 17:37:47 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/22] iotests: Conditionally silence certain AQMP errors
-Date: Mon,  1 Nov 2021 13:30:03 -0400
-Message-Id: <20211101173006.656673-20-jsnow@redhat.com>
+Subject: [PULL 20/22] iotests/300: avoid abnormal shutdown race condition
+Date: Mon,  1 Nov 2021 13:30:04 -0400
+Message-Id: <20211101173006.656673-21-jsnow@redhat.com>
 In-Reply-To: <20211101173006.656673-1-jsnow@redhat.com>
 References: <20211101173006.656673-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,108 +89,56 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-AQMP likes to be very chatty about errors it encounters. In general,
-this is good because it allows us to get good diagnostic information for
-otherwise complex async failures.
+Wait for the destination VM to close itself instead of racing to shut it
+down first, which produces different error log messages from AQMP
+depending on precisely when we tried to shut it down.
 
-For example, during a failed QMP connection attempt, we might see:
+(For example: We may try to issue 'quit' immediately prior to the target
+VM closing its QMP socket, which will cause an ECONNRESET error to be
+logged. Waiting for the VM to exit itself avoids the race on shutdown
+behavior.)
 
-+ERROR:qemu.aqmp.qmp_client.qemub-2536319:Negotiation failed: EOFError
-+ERROR:qemu.aqmp.qmp_client.qemub-2536319:Failed to establish session: EOFError
-
-This might be nice in iotests output, because failure scenarios
-involving the new QMP library will be spelled out plainly in the output
-diffs.
-
-For tests that are intentionally causing this scenario though, filtering
-that log output could be a hassle. For now, add a context manager that
-simply lets us toggle this output off during a critical region.
-
-(Additionally, a forthcoming patch allows the use of either legacy or
-async QMP to be toggled with an environment variable. In this
-circumstance, we can't amend the iotest output to just always expect the
-error message, either. Just suppress it for now. More rigorous log
-filtering can be investigated later if/when it is deemed safe to
-permanently replace the legacy QMP library.)
-
+Reported-by: Hanna Reitz <hreitz@redhat.com>
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Message-id: 20211026175612.4127598-6-jsnow@redhat.com
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+Message-id: 20211026175612.4127598-7-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/iotests.py             | 20 +++++++++++++++++++-
- tests/qemu-iotests/tests/mirror-top-perms | 12 ++++++++----
- 2 files changed, 27 insertions(+), 5 deletions(-)
+ tests/qemu-iotests/300 | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index e5fff6ddcfc..e2f9d873ada 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -30,7 +30,7 @@
- import subprocess
- import sys
- import time
--from typing import (Any, Callable, Dict, Iterable,
-+from typing import (Any, Callable, Dict, Iterable, Iterator,
-                     List, Optional, Sequence, TextIO, Tuple, Type, TypeVar)
- import unittest
+diff --git a/tests/qemu-iotests/300 b/tests/qemu-iotests/300
+index 10f9f2a8da6..dbd28384ec3 100755
+--- a/tests/qemu-iotests/300
++++ b/tests/qemu-iotests/300
+@@ -24,8 +24,6 @@ import random
+ import re
+ from typing import Dict, List, Optional
  
-@@ -114,6 +114,24 @@
- sample_img_dir = os.environ['SAMPLE_IMG_DIR']
- 
- 
-+@contextmanager
-+def change_log_level(
-+        logger_name: str, level: int = logging.CRITICAL) -> Iterator[None]:
-+    """
-+    Utility function for temporarily changing the log level of a logger.
-+
-+    This can be used to silence errors that are expected or uninteresting.
-+    """
-+    _logger = logging.getLogger(logger_name)
-+    current_level = _logger.level
-+    _logger.setLevel(level)
-+
-+    try:
-+        yield
-+    finally:
-+        _logger.setLevel(current_level)
-+
-+
- def unarchive_sample_image(sample, fname):
-     sample_fname = os.path.join(sample_img_dir, sample + '.bz2')
-     with bz2.open(sample_fname) as f_in, open(fname, 'wb') as f_out:
-diff --git a/tests/qemu-iotests/tests/mirror-top-perms b/tests/qemu-iotests/tests/mirror-top-perms
-index a2d5c269d7a..0a51a613f39 100755
---- a/tests/qemu-iotests/tests/mirror-top-perms
-+++ b/tests/qemu-iotests/tests/mirror-top-perms
-@@ -26,7 +26,7 @@ from qemu.machine import machine
- from qemu.qmp import QMPConnectError
- 
+-from qemu.machine import machine
+-
  import iotests
--from iotests import qemu_img
-+from iotests import change_log_level, qemu_img
  
  
- image_size = 1 * 1024 * 1024
-@@ -100,9 +100,13 @@ class TestMirrorTopPerms(iotests.QMPTestCase):
-         self.vm_b.add_blockdev(f'file,node-name=drive0,filename={source}')
-         self.vm_b.add_device('virtio-blk,drive=drive0,share-rw=on')
-         try:
--            self.vm_b.launch()
--            print('ERROR: VM B launched successfully, this should not have '
--                  'happened')
-+            # Silence AQMP errors temporarily.
-+            # TODO: Remove this and just allow the errors to be logged when
-+            # AQMP fully replaces QMP.
-+            with change_log_level('qemu.aqmp'):
-+                self.vm_b.launch()
-+                print('ERROR: VM B launched successfully, '
-+                      'this should not have happened')
-         except (QMPConnectError, ConnectError):
-             assert 'Is another process using the image' in self.vm_b.get_log()
+@@ -461,12 +459,11 @@ class TestBlockBitmapMappingErrors(TestDirtyBitmapMigration):
+                       f"'{self.src_node_name}': Name is longer than 255 bytes",
+                       log)
  
+-        # Expect abnormal shutdown of the destination VM because of
+-        # the failed migration
+-        try:
+-            self.vm_b.shutdown()
+-        except machine.AbnormalShutdown:
+-            pass
++        # Destination VM will terminate w/ error of its own accord
++        # due to the failed migration.
++        self.vm_b.wait()
++        rc = self.vm_b.exitcode()
++        assert rc is not None and rc > 0
+ 
+     def test_aliased_bitmap_name_too_long(self) -> None:
+         # Longer than the maximum for bitmap names
 -- 
 2.31.1
 
