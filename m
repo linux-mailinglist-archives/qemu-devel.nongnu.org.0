@@ -2,75 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E95D0441DA0
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 16:59:46 +0100 (CET)
-Received: from localhost ([::1]:54720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5101441DB1
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 17:06:41 +0100 (CET)
+Received: from localhost ([::1]:40828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhZis-0006VJ-27
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 11:59:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37454)
+	id 1mhZpY-00083Y-JV
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 12:06:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mhZi4-0005p7-8L
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 11:58:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39380)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1mhZlN-0001LY-K4
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 12:02:21 -0400
+Received: from relay64.bu.edu ([128.197.228.104]:45703)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mhZi0-0000QV-Sl
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 11:58:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635782332;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ypYwbyToF9bsJJI0FbQ9meqgUXQyO2CrBolqt8VEG9M=;
- b=RBi7As7iUUolQ4MjgRma3xFlBmze9CnFAGaxyQt7L5Dt/G5IWKje7qrqLzn2HQz1TobjGg
- O1ZYMOQL/88zOhoeg3kHIWyxfgAkjLOk+nIc830m2jf5lnaU7kmjlQWKzgsW77ei9AYMQ2
- q/K1G7ExjNxNrVd8PMjyT2dn8TBxT1Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-7mZtnrcMPcO7MQK2bG8mPw-1; Mon, 01 Nov 2021 11:58:47 -0400
-X-MC-Unique: 7mZtnrcMPcO7MQK2bG8mPw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B0E4802682;
- Mon,  1 Nov 2021 15:58:45 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.164])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C28A100EB3D;
- Mon,  1 Nov 2021 15:58:41 +0000 (UTC)
-Date: Mon, 1 Nov 2021 15:58:38 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v4 22/22] qapi: introduce x-query-opcount QMP command
-Message-ID: <YYAOrh2b7kdCFMUz@redhat.com>
-References: <20211028155457.967291-1-berrange@redhat.com>
- <20211028155457.967291-23-berrange@redhat.com>
- <b67dc308-acb3-c88d-b3d3-3ce612b27137@redhat.com>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1mhZlK-00011G-T2
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 12:02:21 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 1A1G15JJ019982
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Mon, 1 Nov 2021 12:01:13 -0400
+Date: Mon, 1 Nov 2021 12:01:05 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Qiuhao Li <Qiuhao.Li@outlook.com>
+Subject: Re: Possible reward for fuzzer bug fixes? Secure Open Source Rewards
+ Program
+Message-ID: <20211101160105.j4qmgkbi6ux6heva@mozz.bu.edu>
+References: <20211028144822.jjbw7ypkkman7sow@mozz.bu.edu>
+ <PN0PR01MB63525F90A1E456E26D536225FC879@PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-In-Reply-To: <b67dc308-acb3-c88d-b3d3-3ce612b27137@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+In-Reply-To: <PN0PR01MB63525F90A1E456E26D536225FC879@PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM>
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.562, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,66 +56,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Cornelia Huck <cohuck@redhat.com>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Darren Kenny <darren.kenny@oracle.com>, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 28, 2021 at 07:08:13PM +0200, Philippe Mathieu-Daudé wrote:
-> On 10/28/21 17:54, Daniel P. Berrangé wrote:
-> > This is a counterpart to the HMP "info opcount" command. It is being
-> > added with an "x-" prefix because this QMP command is intended as an
-> > ad hoc debugging tool and will thus not be modelled in QAPI as fully
-> > structured data, nor will it have long term guaranteed stability.
-> > The existing HMP command is rewritten to call the QMP command.
-> > 
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > ---
-> >  accel/tcg/cpu-exec.c       | 14 ++++++++++++++
-> >  accel/tcg/hmp.c            |  7 +------
-> >  accel/tcg/translate-all.c  |  4 ++--
-> >  include/exec/cpu-all.h     |  2 +-
-> >  include/tcg/tcg.h          |  2 +-
-> >  qapi/machine.json          | 13 +++++++++++++
-> >  tcg/tcg.c                  | 10 +++++-----
-> >  tests/qtest/qmp-cmd-test.c |  1 +
-> >  8 files changed, 38 insertions(+), 15 deletions(-)
-> > 
-> > diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> > index 4212645cb6..7a7e813207 100644
-> > --- a/accel/tcg/cpu-exec.c
-> > +++ b/accel/tcg/cpu-exec.c
-> > @@ -1066,4 +1066,18 @@ HumanReadableText *qmp_x_query_jit(Error **errp)
-> >      return human_readable_text_from_str(buf);
-> >  }
-> >  
-> > +HumanReadableText *qmp_x_query_opcount(Error **errp)
-> > +{
-> > +    g_autoptr(GString) buf = g_string_new("");
-> > +
-> > +    if (!tcg_enabled()) {
-> > +        error_setg(errp, "JIT information is only available with accel=tcg");
+On 211029 0853, Qiuhao Li wrote:
+> Sounds great. How about mentioning this program on the Security
+> Process web page [1]? Hackers who report vulnerabilities may be
+> interested in fixing bugs.
+
+Sounds like a good idea to me.
+
 > 
-> s/JIT/Opcode count/ ? Otherwise,
+> Just curious. Why didn't those bugs [2] get fixed before disclosure? It seems SD and virtio-9p are maintained now.
+I'll double check that these have reports/reproducers on gitlab. For the
+9p bugs, they seem to be specific to the "synth" backend which is only
+used for testing AFAIK.
 
-Opps, yes.
-
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+> 
+> [1] https://www.qemu.org/contribute/security-process/
+> [2] https://bugs.chromium.org/p/oss-fuzz/issues/list?sort=-reported&q=Type%3DBug-Security%20label%3ADeadline-Exceeded%20qemu&can=2
+> 
+> ________________________________
+> From: Alexander Bulekov <alxndr@bu.edu>
+> Sent: Thursday, October 28, 2021 22:48
+> To: qemu-devel@nongnu.org <qemu-devel@nongnu.org>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>; Bandan Das <bsd@redhat.com>; Stefan Hajnoczi <stefanha@redhat.com>; Thomas Huth <thuth@redhat.com>; Darren Kenny <darren.kenny@oracle.com>; Qiuhao Li <Qiuhao.Li@outlook.com>
+> Subject: Possible reward for fuzzer bug fixes? Secure Open Source Rewards Program
+> 
+> Recently a pilot for the Secure Open Source Rewards program was
+> announced [1]. Currently this program is run by the Linux Foundation and
+> sponsored by the Google Open Source Security Team.
+> 
+> The page mentions that patches for issues discovered by OSS-Fuzz may be
+> eligible for rewards. This seems like it could be a good incentive for
+> fixing fuzzer bugs.
+> 
+> A couple notes:
+>  * The program also rewards contributions besides fuzzer-bug fixes.
+>    Check out the page for full details.
+>  * It seems that QEMU would qualify for this program. The page mentions
+>    that the project should have a greater than 0.6 OpenSSF Criticality
+>    Score [2]. This score factors in statistics collected from github
+>    (sic!). QEMU's score is currently 0.81078
+>  * Not limited to individual contributors. Vendors can also qualify for
+>    rewards.
+>  * Work completed before Oct 1, 2021 does not qualify.
+>  * Individuals in some sanctioned countries are not eligible.
+>  * The process seems to be:
+>     1. Send a fix upstream
+>     2. Get it accepted
+>     3. Fill out a form to apply for a reward
+> 
+> Any thoughts about this? Should this be something we document/advertise
+> somewhere, so developers are aware of this opportunity?
+> 
+> [1] https://sos.dev/
+> [2] https://github.com/ossf/criticality_score
+> 
+> -Alex
 
