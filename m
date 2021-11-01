@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23E38441FA7
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 18:54:43 +0100 (CET)
-Received: from localhost ([::1]:50908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0A8441F98
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 18:52:36 +0100 (CET)
+Received: from localhost ([::1]:41290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhbW6-0005TT-98
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 13:54:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58906)
+	id 1mhbU3-0007Wc-L0
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 13:52:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhb6C-0003nz-3o
+ id 1mhb6D-0003o9-4q
  for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:27:57 -0400
-Received: from mail-qv1-xf33.google.com ([2607:f8b0:4864:20::f33]:33556)
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:39599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhb63-0000el-Le
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:27:55 -0400
-Received: by mail-qv1-xf33.google.com with SMTP id bu11so3795098qvb.0
+ id 1mhb64-0000ew-34
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:27:56 -0400
+Received: by mail-qk1-x72e.google.com with SMTP id bk22so10495235qkb.6
  for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 10:27:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Bcv7+vrfVWDaxhREKP7oW3QycojCjuZf0xWMtNuZYi8=;
- b=tUJ6NGEblY1X7fQsccxxNFdG+BN5St0p4hy0u7ZjpCx48TysS2noEhwRFPlFISx/qx
- ODh/Q/F5NGu4sUkW7i8MGd4KvJeWjm0f4dBgWVK+EMgln4oD4TO7nr9Fya8arKgS2SXt
- pfHFBQT/K/NYosND2rekydk/ViwRbtKAw5ibiBd2fr7tCqmHoXoC24zFWqQsKpI/9Z7L
- s1rC0qqWLLICpD+fUgBmkkM+Big51F4RO2/T8tM6GIguY7VJ3FWxk/frtXhmKLy91d6n
- Q+pKImJFz5JSZQlUEqC4U7ZTLxHJHu0Q/roaXnUSM22RfLrlWsqXCvPFNwWYiKzDu5ij
- Em9g==
+ bh=/utnMsLyouv7LilvnHYZPxrZ8zRoC/jZ7xS1qGJE894=;
+ b=uMRuFyoHe3DFWXikZOF+KRdmMfIB3Xycz61+QfhjHQoQ9H0+wWW/XS1qeDi3UBFGoR
+ YbE9GSDJ7G4YjZfILJGQlaCKSL5r3rHFvH+u0MGaG1DYMsElpBaxqKW4PU0V6OGSGFUq
+ q38fump4Pf5i3wUFwxmLs+5DNBodPvC7f9AhEGY5oycL0NGix8rFh+WlXds2uPUHCrpW
+ pbIRz7wZkXeE00rP1vP1FIoF+6k/Wm/OjAIBYviSMfd1PeDUomb6aOneTTZ0y9MjDgE6
+ ls+k+BQP8nfRj/VCzAfP5eZUN+MLtH/V4p3GJ/6YH4KVsxWmw/mwBj/mKSgUqpGynOhQ
+ MHhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Bcv7+vrfVWDaxhREKP7oW3QycojCjuZf0xWMtNuZYi8=;
- b=r2tfH6ja7cYLUUlV3Yy71i5BChFVNRSsv7DuhmV67keve8OX4gLIjPeP+NnXAtdf50
- BbGL0tgET7tatENFKhAQ1fiAplbI2zbvERJKBvm3sMDDxK7vu2+YOytzrmUug598ORdw
- 1qyCZdE8i/ayZZW+Y5SyXQMr7IDM+U1EwhH/aDu6pVddBuSbmC9XWYjPrImN5bBrTqzE
- 06HKt79UPLrGCQUSbVgTnGg7Hy1/ax6fFKS9QxYTcozEwtGVrKeObjdeRxzd2pPamHgy
- chv8tnuAeLorx+xYSdLBwEUadr4fJPt8Xg2a2We+mchx+H/Gk6/2hqtKsjYgGfpqMh3E
- lFYw==
-X-Gm-Message-State: AOAM5323Tk3LKzukB9gPm7zSkMrZx5a8R/vGfsPP+3cfZzK0Z7j+Z0OK
- vh73iuA4jEzteyiuSFq7NHInZp7kVJlG+Q==
-X-Google-Smtp-Source: ABdhPJz+lGjHPps9x2w8LvJOi4jAUci5DV8fO590cPVHse79ZaICbGsk+MRguhiYu/CasafLNaNnlw==
-X-Received: by 2002:a05:6214:234d:: with SMTP id
- hu13mr19723826qvb.7.1635787666724; 
- Mon, 01 Nov 2021 10:27:46 -0700 (PDT)
+ bh=/utnMsLyouv7LilvnHYZPxrZ8zRoC/jZ7xS1qGJE894=;
+ b=XOxn4ADpvbq6oQ9QD4w0y2LMzgNls6UW8CDGgJQArE4MSrza9LdBdj7vXR0FLikz2U
+ SjA8quIrl+r9JM4K0BfKfDxoSKOUi7GZ68gaq5xA/ub6+AMQ4fJmnexCR+XUls/HxhlH
+ 4z2hBrLIg+Qsj9WumDksvS5mpzVBLTVqksVkOJqF9tcbgISzPDSjbvT19IdKCn2jtFm9
+ oGVzBHAk0z3YzyoucPDQD6wBJ65WA+RsFdAO3ukSCY/jEKvnEbyJQJEDGKf+jzv3h54A
+ p/xlqFv4bAF+2WZj/sLx8A1repYbBO79jGDvZpt6SaIhcBXKl/U9h1G4YfV8xX4t6Fh1
+ oPSQ==
+X-Gm-Message-State: AOAM530hZWKF2yFoEGHp+R9Yw8+fcf+D13qxfR5PyR81KjGxnhFq6No5
+ moJqz9f/EBwtcZsEFL/Ufyo3K4M8qcfxBw==
+X-Google-Smtp-Source: ABdhPJwFFfl4rfAOS9fq1xYD1JzgjZr6MU5GmsyL2WSLvI2bHlSJD6Nh/dyGv96HF8iquS7rWZSlUg==
+X-Received: by 2002:a05:620a:2545:: with SMTP id
+ s5mr23473450qko.323.1635787667281; 
+ Mon, 01 Nov 2021 10:27:47 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-172-254-253-57.nyc.biz.rr.com.
  [172.254.253.57])
  by smtp.gmail.com with ESMTPSA id t5sm6075331qkf.34.2021.11.01.10.27.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Nov 2021 10:27:46 -0700 (PDT)
+ Mon, 01 Nov 2021 10:27:47 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 27/60] target/i386: Implement x86_cpu_record_sigsegv
-Date: Mon,  1 Nov 2021 13:26:56 -0400
-Message-Id: <20211101172729.23149-28-richard.henderson@linaro.org>
+Subject: [PATCH v7 28/60] target/m68k: Make m68k_cpu_tlb_fill sysemu only
+Date: Mon,  1 Nov 2021 13:26:57 -0400
+Message-Id: <20211101172729.23149-29-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211101172729.23149-1-richard.henderson@linaro.org>
 References: <20211101172729.23149-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f33;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf33.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,98 +89,90 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Record cr2, error_code, and exception_index.  That last means
-that we must exit to cpu_loop ourselves, instead of letting
-exception_index being overwritten.
+The fallback code in cpu_loop_exit_sigsegv is sufficient
+for m68k linux-user.
 
-Use the maperr parameter to properly set PG_ERROR_P_MASK.
+Remove the code from cpu_loop that handled EXCP_ACCESS.
 
-Reviewed by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/helper-tcg.h       |  6 ++++++
- target/i386/tcg/tcg-cpu.c          |  3 ++-
- target/i386/tcg/user/excp_helper.c | 23 +++++++++++++++++------
- 3 files changed, 25 insertions(+), 7 deletions(-)
+ linux-user/m68k/cpu_loop.c | 10 ----------
+ target/m68k/cpu.c          |  2 +-
+ target/m68k/helper.c       |  6 +-----
+ 3 files changed, 2 insertions(+), 16 deletions(-)
 
-diff --git a/target/i386/tcg/helper-tcg.h b/target/i386/tcg/helper-tcg.h
-index 60ca09e95e..0a4401e917 100644
---- a/target/i386/tcg/helper-tcg.h
-+++ b/target/i386/tcg/helper-tcg.h
-@@ -43,9 +43,15 @@ bool x86_cpu_exec_interrupt(CPUState *cpu, int int_req);
- #endif
+diff --git a/linux-user/m68k/cpu_loop.c b/linux-user/m68k/cpu_loop.c
+index ebf32be78f..790bd558c3 100644
+--- a/linux-user/m68k/cpu_loop.c
++++ b/linux-user/m68k/cpu_loop.c
+@@ -90,16 +90,6 @@ void cpu_loop(CPUM68KState *env)
+         case EXCP_INTERRUPT:
+             /* just indicate that signals should be handled asap */
+             break;
+-        case EXCP_ACCESS:
+-            {
+-                info.si_signo = TARGET_SIGSEGV;
+-                info.si_errno = 0;
+-                /* XXX: check env->error_code */
+-                info.si_code = TARGET_SEGV_MAPERR;
+-                info._sifields._sigfault._addr = env->mmu.ar;
+-                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+-            }
+-            break;
+         case EXCP_DEBUG:
+             info.si_signo = TARGET_SIGTRAP;
+             info.si_errno = 0;
+diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
+index 66d22d1189..c7aeb7da9c 100644
+--- a/target/m68k/cpu.c
++++ b/target/m68k/cpu.c
+@@ -515,9 +515,9 @@ static const struct SysemuCPUOps m68k_sysemu_ops = {
  
- /* helper.c */
-+#ifdef CONFIG_USER_ONLY
-+void x86_cpu_record_sigsegv(CPUState *cs, vaddr addr,
-+                            MMUAccessType access_type,
-+                            bool maperr, uintptr_t ra);
-+#else
- bool x86_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                       MMUAccessType access_type, int mmu_idx,
-                       bool probe, uintptr_t retaddr);
-+#endif
+ static const struct TCGCPUOps m68k_tcg_ops = {
+     .initialize = m68k_tcg_init,
+-    .tlb_fill = m68k_cpu_tlb_fill,
  
- void breakpoint_handler(CPUState *cs);
- 
-diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
-index 3ecfae34cb..6fdfdf9598 100644
---- a/target/i386/tcg/tcg-cpu.c
-+++ b/target/i386/tcg/tcg-cpu.c
-@@ -72,10 +72,11 @@ static const struct TCGCPUOps x86_tcg_ops = {
-     .synchronize_from_tb = x86_cpu_synchronize_from_tb,
-     .cpu_exec_enter = x86_cpu_exec_enter,
-     .cpu_exec_exit = x86_cpu_exec_exit,
--    .tlb_fill = x86_cpu_tlb_fill,
- #ifdef CONFIG_USER_ONLY
-     .fake_user_interrupt = x86_cpu_do_interrupt,
-+    .record_sigsegv = x86_cpu_record_sigsegv,
- #else
-+    .tlb_fill = x86_cpu_tlb_fill,
-     .do_interrupt = x86_cpu_do_interrupt,
-     .cpu_exec_interrupt = x86_cpu_exec_interrupt,
-     .debug_excp_handler = breakpoint_handler,
-diff --git a/target/i386/tcg/user/excp_helper.c b/target/i386/tcg/user/excp_helper.c
-index a89b5228fd..cd507e2a1b 100644
---- a/target/i386/tcg/user/excp_helper.c
-+++ b/target/i386/tcg/user/excp_helper.c
-@@ -22,18 +22,29 @@
- #include "exec/exec-all.h"
- #include "tcg/helper-tcg.h"
- 
--bool x86_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
--                      MMUAccessType access_type, int mmu_idx,
--                      bool probe, uintptr_t retaddr)
-+void x86_cpu_record_sigsegv(CPUState *cs, vaddr addr,
-+                            MMUAccessType access_type,
-+                            bool maperr, uintptr_t ra)
- {
-     X86CPU *cpu = X86_CPU(cs);
-     CPUX86State *env = &cpu->env;
- 
-+    /*
-+     * The error_code that hw reports as part of the exception frame
-+     * is copied to linux sigcontext.err.  The exception_index is
-+     * copied to linux sigcontext.trapno.  Short of inventing a new
-+     * place to store the trapno, we cannot let our caller raise the
-+     * signal and set exception_index to EXCP_INTERRUPT.
-+     */
-     env->cr[2] = addr;
--    env->error_code = (access_type == MMU_DATA_STORE) << PG_ERROR_W_BIT;
--    env->error_code |= PG_ERROR_U_MASK;
-+    env->error_code = ((access_type == MMU_DATA_STORE) << PG_ERROR_W_BIT)
-+                    | (maperr ? 0 : PG_ERROR_P_MASK)
-+                    | PG_ERROR_U_MASK;
-     cs->exception_index = EXCP0E_PAGE;
-+
-+    /* Disable do_interrupt_user. */
-     env->exception_is_int = 0;
-     env->exception_next_eip = -1;
--    cpu_loop_exit_restore(cs, retaddr);
-+
-+    cpu_loop_exit_restore(cs, ra);
+ #ifndef CONFIG_USER_ONLY
++    .tlb_fill = m68k_cpu_tlb_fill,
+     .cpu_exec_interrupt = m68k_cpu_exec_interrupt,
+     .do_interrupt = m68k_cpu_do_interrupt,
+     .do_transaction_failed = m68k_cpu_transaction_failed,
+diff --git a/target/m68k/helper.c b/target/m68k/helper.c
+index 137a3e1a3d..5728e48585 100644
+--- a/target/m68k/helper.c
++++ b/target/m68k/helper.c
+@@ -978,16 +978,12 @@ void m68k_set_irq_level(M68kCPU *cpu, int level, uint8_t vector)
+     }
  }
+ 
+-#endif
+-
+ bool m68k_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                        MMUAccessType qemu_access_type, int mmu_idx,
+                        bool probe, uintptr_t retaddr)
+ {
+     M68kCPU *cpu = M68K_CPU(cs);
+     CPUM68KState *env = &cpu->env;
+-
+-#ifndef CONFIG_USER_ONLY
+     hwaddr physical;
+     int prot;
+     int access_type;
+@@ -1051,12 +1047,12 @@ bool m68k_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     if (!(access_type & ACCESS_STORE)) {
+         env->mmu.ssw |= M68K_RW_040;
+     }
+-#endif
+ 
+     cs->exception_index = EXCP_ACCESS;
+     env->mmu.ar = address;
+     cpu_loop_exit_restore(cs, retaddr);
+ }
++#endif /* !CONFIG_USER_ONLY */
+ 
+ uint32_t HELPER(bitrev)(uint32_t x)
+ {
 -- 
 2.25.1
 
