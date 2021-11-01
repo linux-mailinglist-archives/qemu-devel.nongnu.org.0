@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 456D2442126
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 20:57:46 +0100 (CET)
-Received: from localhost ([::1]:60832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC6D44219A
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 21:21:36 +0100 (CET)
+Received: from localhost ([::1]:49152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhdRA-0005CE-TK
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 15:57:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60154)
+	id 1mhdoC-0002SR-4x
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 16:21:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mhcWu-0006vL-81
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 14:59:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47782)
+ id 1mhceg-0001sQ-3l
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 15:07:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mhcWq-0002F4-8o
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 14:59:35 -0400
+ id 1mhceY-0005un-In
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 15:07:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635793170;
+ s=mimecast20190719; t=1635793649;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qjCfgUuM7riP3j0CjLK3Jx+RvDbRzI6kQxUKdEYPO3E=;
- b=AQ4qGPujBcK2MWEdLmmwP9ZquQP7V7wvAMsZHH3vx16nm1ZOUHK6ZrJfDwCvS4zomP0wDe
- 5wev7rbIQ+QuGJXHFt6qHBgWbwUoReOWPg7OX1jPuW0GA0slFvQDc74j5pzm5b42ggLdKk
- K05N1HAjl2OW88FyBvJf5eDRnTX6lSs=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-290-AhF_YP4NMbe52H7F8Xj4vA-1; Mon, 01 Nov 2021 14:59:28 -0400
-X-MC-Unique: AhF_YP4NMbe52H7F8Xj4vA-1
-Received: by mail-pj1-f69.google.com with SMTP id
- y22-20020a17090a6c9600b001a38db472c0so9474006pjj.7
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 11:59:28 -0700 (PDT)
+ bh=Zj+Am4AZyndJH748Ly37KOSkK/B2qx2FzmN3ymN6P2U=;
+ b=JESxliRmMOyETiE2ilRRRQR6Kn2t+BqcQFYpS91cSnPGJPIS8NIMSO7z9nrD56CD0jYGll
+ dBc97s5A/HncocKefp6l/zBnuXNkgKnhlI+FGvWoesxBq9rKH1+gl5XZ1GfAf5QyJB36fx
+ au6KooPGRbxgAQCtRxr4J9khT0CHKWg=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-480-AxSVj5sUM_CrPm59NcN5yA-1; Mon, 01 Nov 2021 15:07:28 -0400
+X-MC-Unique: AxSVj5sUM_CrPm59NcN5yA-1
+Received: by mail-pl1-f197.google.com with SMTP id
+ g20-20020a170902869400b0014002b0f5bcso6353655plo.18
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 12:07:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=qjCfgUuM7riP3j0CjLK3Jx+RvDbRzI6kQxUKdEYPO3E=;
- b=UZc/D3xEM74x20Il6lC5MLObaVC6XOTTUWE9/lABue1mZp9b+TrIzldJ3JB95XINl4
- IuxIbvkc8qzBtJgz6KRQ9KOIPYjfS6TU/6YpSBR5H54y9dcB3+pdTMF46gyXHO4sB3T5
- nbw3sedQhWT/CRlY/UuEEJW5de5s1kYKkZehQf+caIk95TgkjnfCf50RCGLK6suZg3fe
- nIOY9QRp6p7fdI8lL4Kzm3/cNIamBbfH65YhI9Fh26WDkkiQiyO64yMxwN/e7CXoIYuh
- Aj9vtkrCnVXQ3qAoZwga81oA5kpPYqNOl5RqqpWidEYcQwKjI3PXfqhgOvqIrhWPFOej
- F0ig==
-X-Gm-Message-State: AOAM531uFRQM/e84iWyxIXFMjzB+2qFTxua84rB7f8GwsEtoELgN6VN2
- SwDi9C1syIhbGm50OMEqu5xE2p/by16UiZZHwfpMuakdcB51vnY6MLkjaflrwWmsx8RU7fWNNOP
- O/C0dtUTqtEiGD8wCI2RWsIV425Nwj+U=
-X-Received: by 2002:aa7:8b56:0:b0:44c:10a:4ee9 with SMTP id
- i22-20020aa78b56000000b0044c010a4ee9mr31084384pfd.46.1635793167166; 
- Mon, 01 Nov 2021 11:59:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwnek0Lnexlt+dacyhiZAeOIqpp+je3ChhxC2RtK79LZVfhnm5kRSiq9u2bKN5Rr/axUON3JJtId2To4cY6tDU=
-X-Received: by 2002:aa7:8b56:0:b0:44c:10a:4ee9 with SMTP id
- i22-20020aa78b56000000b0044c010a4ee9mr31084349pfd.46.1635793166884; Mon, 01
- Nov 2021 11:59:26 -0700 (PDT)
+ bh=Zj+Am4AZyndJH748Ly37KOSkK/B2qx2FzmN3ymN6P2U=;
+ b=oEV9yDd1WH/wnxEYWMI6tjrFlYtweQJO+3KsUmBLQhlOeyqd4c0FIK33yE6JQsHzOd
+ hrFQuVpfVQohtq4AQlSmiXPg2/8/DfG/ihoBavmKfYiCYnzAa05Xk21oR7Eia+AzB0iq
+ k8bGxth/4ibpzf1XrSbro7u+Oi8suLT4ZwiIzJeYysv3YnPHGdxC+KrlBPmjc7MrmB01
+ VF4B5nm2KJpTvGXmE9o0wc+XMEwduLZmDppKXkpeKAL/LXp+5MzQ1LdL42fZhXqrsofJ
+ PO66WV4oB6R0LUSTFjJQF/ivVwc7B09xRiHKfwSDV7f6eZ5/gXsCpKAd01q/EgrFkLDM
+ xVKA==
+X-Gm-Message-State: AOAM530vFUrXQ4Tazpe90lFrGw8jGq4zIlqF3iglJhE/NsUFTCXOPYaO
+ VUc2ItK9rokpNBp+HX3imJvwKDgyBwbrGsVCC0ysHQFxG+qTTDT2uAqR3tWNiyJjA5eqmqQukdD
+ e2Z7/8pl+sH7T5B3tuSSraKb5aTMHJ1U=
+X-Received: by 2002:a63:b204:: with SMTP id x4mr22762548pge.212.1635793647473; 
+ Mon, 01 Nov 2021 12:07:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzxB87jQ3mXWcdglMNiwnNiA9m5cQ6+2ddRPVhEEtwqEVC8qdGSIZvrsZ8wJdqRFyjQbIec4lr5+2gY1R6sLP0=
+X-Received: by 2002:a63:b204:: with SMTP id x4mr22762529pge.212.1635793647203; 
+ Mon, 01 Nov 2021 12:07:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210927163116.1998349-1-f4bug@amsat.org>
- <20210927163116.1998349-4-f4bug@amsat.org>
-In-Reply-To: <20210927163116.1998349-4-f4bug@amsat.org>
+ <20210927163116.1998349-5-f4bug@amsat.org>
+In-Reply-To: <20210927163116.1998349-5-f4bug@amsat.org>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 1 Nov 2021 15:59:00 -0300
-Message-ID: <CAKJDGDZhVX96L2ncsMHVc=zLi0xfwmF6XmqnqAxsekv=7wR9pQ@mail.gmail.com>
-Subject: Re: [PATCH v4 3/6] tests/acceptance: Introduce QemuUserTest base class
+Date: Mon, 1 Nov 2021 16:07:01 -0300
+Message-ID: <CAKJDGDZRxMnw-vEkCg7N=yVUY3myWqr=eT+PPMwDrU=bhw3+rw@mail.gmail.com>
+Subject: Re: [PATCH v4 4/6] tests/acceptance: Share useful helpers from
+ virtiofs_submounts test
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
@@ -103,71 +102,17 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Mon, Sep 27, 2021 at 1:31 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
 g> wrote:
 >
-> Similarly to the 'System' Test base class with methods for testing
-> system emulation, the QemuUserTest class contains methods useful to
-> test user-mode emulation.
+> Move the useful has_cmd()/has_cmds() helpers from the virtiofs
+> test to the avocado_qemu public class.
 >
 > Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  tests/acceptance/avocado_qemu/__init__.py | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
+>  tests/acceptance/avocado_qemu/__init__.py | 57 ++++++++++++++++++++++
+>  tests/acceptance/virtiofs_submounts.py    | 59 +----------------------
+>  2 files changed, 59 insertions(+), 57 deletions(-)
 >
-> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance=
-/avocado_qemu/__init__.py
-> index 2b9b5dd27fe..2f59e171e49 100644
-> --- a/tests/acceptance/avocado_qemu/__init__.py
-> +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -20,6 +20,7 @@
->  from avocado.utils import cloudinit
->  from avocado.utils import datadrainer
->  from avocado.utils import network
-> +from avocado.utils import process
->  from avocado.utils import ssh
->  from avocado.utils import vmimage
->  from avocado.utils.path import find_command
-> @@ -300,6 +301,23 @@ def tearDown(self):
->          self._sd =3D None
->
->
-> +class QemuUserTest(QemuBaseTest):
-> +    """Facilitates user-mode emulation tests."""
-> +
-> +    def setUp(self):
-> +        self._ldpath =3D []
-> +        super(QemuUserTest, self).setUp('qemu-')
-
-Consider using PEP3135,
-
-super().setUp('qemu-')
-
-> +
-> +    def add_ldpath(self, ldpath):
-> +        self._ldpath +=3D [os.path.abspath(ldpath)]
-
-The use of the append method is more common here:
-
-self._ldpath.append(os.path.abspath(ldpath))
-
-> +
-> +    def run(self, bin_path, args=3D[]):
-> +        qemu_args =3D " ".join(["-L %s" % ldpath for ldpath in self._ldp=
-ath])
-> +        bin_args =3D " ".join(args)
-> +        return process.run("%s %s %s %s" % (self.qemu_bin, qemu_args,
-> +                                            bin_path, bin_args))
-> +
-> +
->  class LinuxSSHMixIn:
->      """Contains utility methods for interacting with a guest via SSH."""
-
-Besides some Python related suggestions, the code looks good.
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-
->
-> --
-> 2.31.1
->
 
 
