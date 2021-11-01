@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49FED44207B
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 20:06:05 +0100 (CET)
-Received: from localhost ([::1]:50620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13219442087
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 20:09:52 +0100 (CET)
+Received: from localhost ([::1]:59230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhcdA-0006Rd-6S
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 15:06:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42242)
+	id 1mhcgp-0003wA-3d
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 15:09:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhbp7-000316-Ot
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 14:14:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30143)
+ id 1mhbq2-0003xH-1R
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 14:15:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33024)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhbp1-0004KY-MB
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 14:14:20 -0400
+ id 1mhbpu-0004ba-It
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 14:15:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635790454;
+ s=mimecast20190719; t=1635790509;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=7R/kR14X8PsFo0l9pBTljKkTXvjKsWSfMcXjFKYkg4Q=;
- b=NWF0s9bZOoECvt7VTsJQWvCau5PK6otLe/RT9uIIfa73cfLlTGM0em0/0oDltevI8OvrxG
- +zpFjRiQMfMSM9mkXJAcYdrV1xCQth1kkta2WUE+g7dO3XZbxc0UuZK7aDO4MVWR+vtGDd
- il4ohujWeGDfijcbK5TBL6AxF5dMyhk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-550-Or_Fo9rLPBmEQrFF4dBERg-1; Mon, 01 Nov 2021 14:14:13 -0400
-X-MC-Unique: Or_Fo9rLPBmEQrFF4dBERg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- q17-20020adfcd91000000b0017bcb12ad4fso3675031wrj.12
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 11:14:12 -0700 (PDT)
+ bh=wF1DRhe//0XFKERyIb9nQ5JXHMO49S0s+6Pu79C6bxY=;
+ b=JA932h/kK/+P79VL1Qg13yJ5Tt1/B/OdiMDmiDuQuIO6rF0bcX2ogGhYzFIxg3D2rQ5b9D
+ yI4wP/3Bv4JuAmsKK6rHaLpzSNX8+x55u5P9zxWrgHb78nuZUXX9orBjzBWLWgUVNO8Bp+
+ zIt/pZ0OWv4DSylKdYv6SLm4wbkSEnk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-424-21gpWBwWNxqhMK2sOl277A-1; Mon, 01 Nov 2021 14:15:06 -0400
+X-MC-Unique: 21gpWBwWNxqhMK2sOl277A-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ d13-20020adfa34d000000b00160aa1cc5f1so6502483wrb.14
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 11:15:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version;
- bh=7R/kR14X8PsFo0l9pBTljKkTXvjKsWSfMcXjFKYkg4Q=;
- b=mV4t3OXwAZOKAObnu9yvwDTsZSHfGg0j6Ig3vFnJEHKi1A7FKf6KP24m8vzwySgBts
- xNcIG5lEyiQzy6g5Vx5RkN7z7eNFIJqMtWI09UmHI8+V0vK9jSyKndeGnr+1zNzmBUDK
- XNMzQkIn6X60X+IuQzltqjmlXq/RkUch3h9VSL/XarkP3F9PqAsqCw7+3jOMYQqPTEfB
- z1ANImUGSVh8bXKIVCNxoF3Ry42+JPRZnd+1wCWjn9MiU3znwpUqKNybonX+pFp1QlBW
- 1QwZ7SNfymFPnNPFBVPSTY1ue23Cvfur0BklsOdreFxU/1OvrVR5rItiIystWHJPmPJn
- 0vcg==
-X-Gm-Message-State: AOAM532/hLRbYaoE9n9lYFuErBInKxvMvCbO68KrYa3vEQQFby1qj4ez
- LKpUw+2p7HmxdxDV56jbAEQORk1IBQ9fPykmmxQh10tLvsvlgkfC6GKDSvt8lUt1z0FVy1tAvYb
- fzRPEV5fE+dcwJwo=
-X-Received: by 2002:a05:600c:5101:: with SMTP id
- o1mr565352wms.81.1635790451915; 
- Mon, 01 Nov 2021 11:14:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwRG9BpatwRwL3zAYC6yTQkZivcVZV1SOXvg2CuwDixQb8jqPEkL6+gJXeQCS55FqDha7GidQ==
-X-Received: by 2002:a05:600c:5101:: with SMTP id
- o1mr565328wms.81.1635790451648; 
- Mon, 01 Nov 2021 11:14:11 -0700 (PDT)
+ bh=wF1DRhe//0XFKERyIb9nQ5JXHMO49S0s+6Pu79C6bxY=;
+ b=bnHesewatzAviAnvXmfrFtWB/emWsDmFv8dkcxi2i2oZSquY1HXnEkvYB72Fsld/Rs
+ aW8uwMdTd+RI6OQEQBeSBBHTTbKhWYU3j9IVbj3jbRGW5X6X428kAVDzrfZKEm++W8PJ
+ q0dSIuo0uVNpJ2hGbeU6XcUgndPlSf74Vo4/t0CeQNKD+DHFLZwTUcnXkiMW1EXj1xtA
+ A4Q6tXourYn0dV0CkrtleUnBcICwLu/G5ezHdjMvsJLRiwzz4vCrm2dG1k6+Ka44u5HJ
+ y5y7MsxkitJfbc4UlIva6tvwz1ypc5Esb51q+UgQ/F3vtNiDWomeR5ET0kvSVXO0fiIy
+ a4Yg==
+X-Gm-Message-State: AOAM533+l+xDwP2UdF8CGNUvbF13DmhF535/Kxrs7fMAAfmck5KuayHA
+ 8VeBabGnBqtBGsXs60WlrbPtkIJgGHhl/eEBwkU+/A/ncaNj9w3vL7tBTPzXQhlwG1t12JFBpzA
+ VEU32UhxM0nj0EgA=
+X-Received: by 2002:adf:efc6:: with SMTP id i6mr15899510wrp.428.1635790505644; 
+ Mon, 01 Nov 2021 11:15:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzNsO0ph43FpXPnzTufLJIQngdXXsfwI4ktmKuq1qY750SzaOys7qkvHxfy/0IzaEzyROntLg==
+X-Received: by 2002:adf:efc6:: with SMTP id i6mr15899476wrp.428.1635790505459; 
+ Mon, 01 Nov 2021 11:15:05 -0700 (PDT)
 Received: from localhost ([178.139.231.243])
- by smtp.gmail.com with ESMTPSA id n32sm242579wms.1.2021.11.01.11.14.10
+ by smtp.gmail.com with ESMTPSA id h16sm8674361wrm.27.2021.11.01.11.15.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Nov 2021 11:14:11 -0700 (PDT)
+ Mon, 01 Nov 2021 11:15:05 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v1 4/9] migration/ram: Handle RAMBlocks with a
- RamDiscardManager on the migration source
-In-Reply-To: <20211011175346.15499-5-david@redhat.com> (David Hildenbrand's
- message of "Mon, 11 Oct 2021 19:53:41 +0200")
+Subject: Re: [PATCH v1 5/9] virtio-mem: Drop precopy notifier
+In-Reply-To: <20211011175346.15499-6-david@redhat.com> (David Hildenbrand's
+ message of "Mon, 11 Oct 2021 19:53:42 +0200")
 References: <20211011175346.15499-1-david@redhat.com>
- <20211011175346.15499-5-david@redhat.com>
+ <20211011175346.15499-6-david@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Mon, 01 Nov 2021 19:14:09 +0100
-Message-ID: <8735ofu4jy.fsf@secure.mitica>
+Date: Mon, 01 Nov 2021 19:15:03 +0100
+Message-ID: <87y267spy0.fsf@secure.mitica>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
@@ -79,12 +76,13 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,40 +110,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 David Hildenbrand <david@redhat.com> wrote:
-> We don't want to migrate memory that corresponds to discarded ranges as
-> managed by a RamDiscardManager responsible for the mapped memory region of
-> the RAMBlock. The content of these pages is essentially stale and
-> without any guarantees for the VM ("logically unplugged").
+> Migration code now properly handles RAMBlocks which are indirectly managed
+> by a RamDiscardManager. No need for manual handling via the free page
+> optimization interface, let's get rid of it.
 >
-> Depending on the underlying memory type, even reading memory might populate
-> memory on the source, resulting in an undesired memory consumption. Of
-> course, on the destination, even writing a zeropage consumes memory,
-> which we also want to avoid (similar to free page hinting).
->
-> Currently, virtio-mem tries achieving that goal (not migrating "unplugged"
-> memory that was discarded) by going via qemu_guest_free_page_hint() - but
-> it's hackish and incomplete.
->
-> For example, background snapshots still end up reading all memory, as
-> they don't do bitmap syncs. Postcopy recovery code will re-add
-> previously cleared bits to the dirty bitmap and migrate them.
->
-> Let's consult the RamDiscardManager after setting up our dirty bitmap
-> initially and when postcopy recovery code reinitializes it: clear
-> corresponding bits in the dirty bitmaps (e.g., of the RAMBlock and inside
-> KVM). It's important to fixup the dirty bitmap *after* our initial bitmap
-> sync, such that the corresponding dirty bits in KVM are actually cleared.
->
-> As colo is incompatible with discarding of RAM and inhibits it, we don't
-> have to bother.
->
-> Note: if a misbehaving guest would use discarded ranges after migration
-> started we would still migrate that memory: however, then we already
-> populated that memory on the migration source.
->
-> Reviewed-by: Peter Xu <peterx@redhat.com>
+> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+> Acked-by: Peter Xu <peterx@redhat.com>
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
+
+Good, good, good.
 
 
