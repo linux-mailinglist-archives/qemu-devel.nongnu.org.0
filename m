@@ -2,83 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D060A441F15
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 18:18:51 +0100 (CET)
-Received: from localhost ([::1]:42606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99859441F1C
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 18:21:02 +0100 (CET)
+Received: from localhost ([::1]:48642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhaxO-0000hN-Ne
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 13:18:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52722)
+	id 1mhazV-0004h9-P5
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 13:21:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhao8-0003mD-3E
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:12:09 -0400
-Received: from mail-qt1-x82d.google.com ([2607:f8b0:4864:20::82d]:33527)
+ id 1mhatB-00043a-Gy
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:14:34 -0400
+Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:34687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhanx-0004VK-79
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:09:13 -0400
-Received: by mail-qt1-x82d.google.com with SMTP id h16so12045059qtk.0
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 10:08:10 -0700 (PDT)
+ id 1mhaqy-0005lY-Ur
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:14:15 -0400
+Received: by mail-qt1-x829.google.com with SMTP id v17so16491170qtp.1
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 10:09:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/GSdll4Fw99FelC5qAZLj2qabGCWJDaztkcdRfdRaBU=;
- b=uEsFI04hqcoktVKXa/Fo1b+7vdMwTP9fUYr5L23nkqXcRM7Z4jqjtFLiBc9yrxBv76
- RjJ4fGfLxHgMOjB3iTXK625YaoNmiA3kg4tGoi2tln0cBuYSR5cU74IfBgs9QAWgbFQC
- 8KyxVFQ7HCs3RgUNo6ajvHJ9itBjm05IELgyM4FuK8+Z/cEiCFn8XLnMuAN+5fXUa5PG
- dDvkDS71bUFCCwQGuFp79QX7+QDDDytLok9jt9zKjLIWmo+S2Q/FrCPE3cM5m2T+4Fm1
- iXs7dmxq5wBXBfIgO3zpJaDxXPrplSND7yClTNpOSv5mgFDoTl/fNIAPWE+8NTnW0zob
- wTYQ==
+ bh=QKmjFMzhXqIkyFtEorbaU1b9LnT4HKrwQB0tuHu+0XI=;
+ b=IumvoRzSBSqeaFeW3rPtXnSB6TlShk9Putekt2sGH5W0kq41tO8dpaoXMGYaNYt2e6
+ 26AY2t8cWWKmOtzcMTJPvKNQklWaC6zfRM+eIFq05A+E8Z4/OUybG77i5bs40a/ZvzoL
+ 2FO0pQ8RA6rDKeUsjtIZWc+O+3ttZXVNV0UWNhi5y2E9zLzAwvRmTiSNBoBsRQAORHuX
+ X4n6utBkXxVG+UmQMKqQNzg8ERMb2icm7LrDYjEFh4JliYMCAAGae91aikpyG2b+nWo9
+ Z7AoaeKXkT/+cn4W56raSVoflkATxAqeQmpIjXvcD1v95ueWPHAiH0XcOw7RSUdBMc10
+ iPvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/GSdll4Fw99FelC5qAZLj2qabGCWJDaztkcdRfdRaBU=;
- b=Bs4pOlcDwY2uOwrEugDx066fdRt6OYl0Kpwu5V59UD9eRAtTKv6nRWMPqo+4HKkcOH
- bDwCF/VY9z87JUuripctzANrT5ukmJthoRDTHBF2wc6zfnefFkpTcto5n2fc3o2wQzFR
- m9NBA/cldJRKj3f2THSH65vkRiY7AZtrtBrVi8oBRL2s/kGMFRehdunjwXs0XACcoAW/
- s5FpyTTnZUWog4qKs9i2ijEKsEsmDdr3d0zhrT6BEYa75sBGUka06XBfS3UcKDEfQJ6i
- v9xz+8pqnULvxVNWD7B1YepRdLQKAt2n8WvjsDpNAHRzQRLzr7KpLkNeV34rBEux+u1r
- 0pBg==
-X-Gm-Message-State: AOAM5318ns/soR7G+U6FAZ35KtoKnVMWGTZTFY3+cBKlVV8NY4o9sJyl
- aEiH6zYBc4m93IYj+f5Xf9KIhg==
-X-Google-Smtp-Source: ABdhPJzlp4CHWYyiGx1wBJbz1KmZw4Zt8wELgYu70npRHeVoZGiKBOTBkCvGvCalA46fK7A5L6WFuw==
-X-Received: by 2002:a05:622a:1810:: with SMTP id
- t16mr31367600qtc.29.1635786487191; 
- Mon, 01 Nov 2021 10:08:07 -0700 (PDT)
+ bh=QKmjFMzhXqIkyFtEorbaU1b9LnT4HKrwQB0tuHu+0XI=;
+ b=GOxXi1bm6r5+uN8LcOjzhKaC/FnAVmBnAl9km4o/pwUVm/z0ZgH1FhU/HijVEgecRy
+ QOY04OrroK8V3y8hdLX3ZzCyDXgPtqek71RxNhBT5tA+aP6m8tkd/sufli3pUnfnKqy1
+ GqB0ffWYQ/Ty7vrl7LAe+U07AL2Co/UlD1W7rleUhh6cCjaf2WdIWZQp/pSSBv/I66S+
+ Q/4eI3GhtU8QplFAcVAcnIOmeNz2ugYyIditRxxHgZQCyMNgZBY4L9nfxeNI+d24veoI
+ HFQ9YD9yXkFS6VHCzX/r4yuYrHH4m/atLeu3O71/MbAZ5OpHcGooF/9+0SG+p64Y9E7b
+ hHEg==
+X-Gm-Message-State: AOAM532G9DGoQ1sDx8z+06ldCXpRgX7NYiFG4izIXsAxA5JzK7eHdqT0
+ cJjLkAMTWsnxyTtfBgCaC87yZw==
+X-Google-Smtp-Source: ABdhPJyM10CE7oosdAQ200yXjaUJLVb9O8ppXbn44S9mmes53YQZub1QZrDToF9TBzXFNwOgAyYQ/w==
+X-Received: by 2002:ac8:7e93:: with SMTP id w19mr31450738qtj.192.1635786585466; 
+ Mon, 01 Nov 2021 10:09:45 -0700 (PDT)
 Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
  [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id s7sm9404355qta.3.2021.11.01.10.08.06
+ by smtp.gmail.com with ESMTPSA id f39sm8292964qtb.20.2021.11.01.10.09.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Nov 2021 10:08:06 -0700 (PDT)
-Subject: Re: [PATCH v6 13/66] linux-user/host/s390: Populate host_signal.h
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+ Mon, 01 Nov 2021 10:09:44 -0700 (PDT)
+Subject: Re: [PATCH v6 23/66] target/arm: Implement arm_cpu_record_sigsegv
+To: Peter Maydell <peter.maydell@linaro.org>
 References: <20211030171635.1689530-1-richard.henderson@linaro.org>
- <20211030171635.1689530-14-richard.henderson@linaro.org>
- <d9cb104f-741c-e85d-5e29-c2b37d641a25@redhat.com>
+ <20211030171635.1689530-24-richard.henderson@linaro.org>
+ <CAFEAcA-h7xhKFTjOKgOw22Le2wQPUaT2VxtFcNFMP=xHs2stFQ@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <6b204fb9-69b3-37e5-5ce6-b1a2629dc9f4@linaro.org>
-Date: Mon, 1 Nov 2021 13:08:05 -0400
+Message-ID: <c194f037-87dd-0b6a-2776-0724aef4b223@linaro.org>
+Date: Mon, 1 Nov 2021 13:09:43 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <d9cb104f-741c-e85d-5e29-c2b37d641a25@redhat.com>
+In-Reply-To: <CAFEAcA-h7xhKFTjOKgOw22Le2wQPUaT2VxtFcNFMP=xHs2stFQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82d;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82d.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.14,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
-X-Spam_action: no action
+Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x829.google.com
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,19 +81,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, laurent@vivier.eu, imp@bsdimp.com, f4bug@amsat.org
+Cc: f4bug@amsat.org, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+ imp@bsdimp.com, Laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/1/21 12:10 PM, Thomas Huth wrote:
-> Since you moved code around, should this file also bear the original copyright statement?
+On 11/1/21 12:30 PM, Peter Maydell wrote:
+> We seem to be restricting tlb_fill to sysemu already.
 
-Probably.
+Not true:
 
-> License changes from LGPL to GPL - intended? (I personally don't mind, I just wanted to 
-> check whether this was on purpose or by accident)
-
-Not really intentional; I just boilerplated the move.
+> -#endif /* !defined(CONFIG_USER_ONLY) */
+> -
+>  bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>                        MMUAccessType access_type, int mmu_idx,
+>                        bool probe, uintptr_t retaddr)
+>  {
+>      ARMCPU *cpu = ARM_CPU(cs);
+>      ARMMMUFaultInfo fi = {};
+> -
+> -#ifdef CONFIG_USER_ONLY
 
 
 r~
