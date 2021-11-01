@@ -2,72 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EBC6441CB3
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 15:34:39 +0100 (CET)
-Received: from localhost ([::1]:40520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1A42441CC2
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 15:39:11 +0100 (CET)
+Received: from localhost ([::1]:46880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhYOU-00044J-EW
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 10:34:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44654)
+	id 1mhYSs-0008Tk-E8
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 10:39:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mhYMa-0002gd-FW
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 10:32:40 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:44787)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mhYMY-0008M9-5t
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 10:32:40 -0400
-Received: by mail-wr1-x436.google.com with SMTP id d13so28431912wrf.11
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 07:32:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=bl9SHcwX3ZRKbW/WS7G6XvB2J6vRDwRcdsGfauYH+UY=;
- b=RJIxOx7rr5QpyIhlp4DjX4fal4DdZ7gcmH6nCdqrkxGUufYWTxGBmU7IyqNOT8OTRz
- RWEvdVKzUaiHIb6dhyUOQ5HLYs53wTgL61SHtPWQe8YGoqOGjar03KH+DjrCvxXf2OKY
- PsLhoH8mditMTIraRmcjYYmcfygxz3UwJhu6w3cZfdVfOBsgVO84B1go3jVteYE/BvYd
- ALHfIkuHwbAT+BD9GjuO+miELR/aDAC/JbkzBQrVaCxl/K4UR0YI+v4+qHFc73KiC9E+
- u9r5SHFcD9dA8nE664fpjU1pa3BNDpGYPcpoz1uuGfHDRhtm81OIsTvfRpfay9+nSUna
- gwUQ==
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1mhYRr-0007lp-VV
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 10:38:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29447)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1mhYRo-0001PL-Un
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 10:38:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635777481;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JQnicrQ5bFOXGQoxQ6aRz2rQLPQLpiDbIGNC4fxE/ic=;
+ b=cp1qylBIg/0yGrhPe/fz0AkDIZnLxzF+OkQcLpcm7d6qZ3pcZcrHhBiC9bqxfyeD+D7vGx
+ MMORf86xs4ZeqvYk/sL5tIhiGlVZB8amZI7xYX7kKrgzQW+xOUt1eeYe8aPDBuM30cMVrR
+ vpglQmwkWQxoX7KXlZcP515jXZqavtU=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-321-sgkx28m4M_qUbDGngV2m0Q-1; Mon, 01 Nov 2021 10:38:00 -0400
+X-MC-Unique: sgkx28m4M_qUbDGngV2m0Q-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ o22-20020a056402439600b003dd4f228451so15721449edc.16
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 07:38:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=bl9SHcwX3ZRKbW/WS7G6XvB2J6vRDwRcdsGfauYH+UY=;
- b=GzhsWO1JcPENXYiWxHPjR4/wSdsX6LRYLsaSYrcyzWiZWy00a3WawUeQuR+Gqg1Zh9
- o/BD6UareQsK1slmedmkr1Cbddc4Py7Q8/mewVggJskuJ1KJi2i4rQPnyqRWt2VVJyYR
- 0uC3H7oCZ7G1psDRH85szlfx6tIvmpHINlIkjUN5YZCq3H6UQsOI0Ne26kDmgbBVm8U0
- 07OU/5KDboYiCL8zMpESBmek/RcXdX2u2XiHnKIpXlPBpw9fFctgiqEDEwBWDRkHvO6h
- DemzyPLkELB2ICfJ4+hS00pRaaz1Ipksr7RhxHPhxNVo5folPpZ55QxMTf/NLnMs0KsG
- l+xw==
-X-Gm-Message-State: AOAM532KyBxMnjduG1hbN5Yl4eWXrmoUUuElZ9gtUJIu7JJPBB0ypJ5I
- SHipNcQevIrYxwD2p/buuvimTp2iwuty5RBNBNoTjA==
-X-Google-Smtp-Source: ABdhPJzyrIAXj44XzrFwBdZnoOQS7NdOUhOOm+MhApwBdpUwfMx8IMEJq6UU6MeTsMw+s/mWm9S6FQskvkJUd4LZap0=
-X-Received: by 2002:adf:e984:: with SMTP id h4mr34542905wrm.149.1635777156027; 
- Mon, 01 Nov 2021 07:32:36 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=JQnicrQ5bFOXGQoxQ6aRz2rQLPQLpiDbIGNC4fxE/ic=;
+ b=7x3S55iNQ7hV35yo0yLCbLVQ41FLGuVXBWhAE7pR4BVmPhZkwBdU5Xdgm/upbBPF3w
+ kObvt37vcvdJSK2gbnk1oCiUZIdfwHRHnq9JJyxGwHtRbJGUkPfY5oObpkS1BqLYdhvf
+ P5kRegw6QEyhYfTmaIYaNQxDrFpaiy39VCMDX/uSb57eJ4rKeCsnPBZc1ek20RQbOFti
+ VYHk1qAdW1yYqX2k9WdnOYiEkmBIfN/ib4a10NK+77xuw8qzYKdrDKfOqHZ0hf9/xejg
+ f0fiNqxq+DcM51/k5s9618TDuI+4vIeLOQe/davymZkJTpaauW7RRD/TpiLEa1kskhLn
+ 3z1g==
+X-Gm-Message-State: AOAM530olbvkEPr+JPiKxUZ2pJ3Shh+Rns3SlXUOBxEneJK1OPrbd/g9
+ UJXGdYqscQXhAWXMYPeaFIG+6jpjQXpCyXLYnlDJGqoOqBUtb+R4Ai05QjJLpZGuQonoQrRCHxw
+ KjriwlehvZQMO+6JJmh3VjT9D12BlbSb6aB8xaSKk8vAsXTj/QPzIpahtE5T65tWUGHw=
+X-Received: by 2002:a50:e183:: with SMTP id k3mr42148463edl.22.1635777479249; 
+ Mon, 01 Nov 2021 07:37:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzdzDE06AIcGGd6DpdJBJdh7gYBSYyzQ0kUOhOg3IpTtoSKICI3VREU4kjlBfK0q1QMLsf4OQ==
+X-Received: by 2002:a50:e183:: with SMTP id k3mr42148430edl.22.1635777478979; 
+ Mon, 01 Nov 2021 07:37:58 -0700 (PDT)
+Received: from [10.43.2.27] (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id m15sm9878982edd.5.2021.11.01.07.37.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Nov 2021 07:37:58 -0700 (PDT)
+Subject: Re: [PATCH] qmp: Stabilize preconfig
+To: Markus Armbruster <armbru@redhat.com>
+References: <b31f442d28920447690a6b8cee865bdbacde1283.1635160056.git.mprivozn@redhat.com>
+ <87bl3dfg9v.fsf@dusky.pond.sub.org>
+From: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
+Message-ID: <bb896561-9d0c-6c6c-4bdb-5e7ef5ed71d5@redhat.com>
+Date: Mon, 1 Nov 2021 15:37:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20211014162938.430211-1-pbonzini@redhat.com>
- <20211014162938.430211-4-pbonzini@redhat.com>
-In-Reply-To: <20211014162938.430211-4-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Nov 2021 14:32:25 +0000
-Message-ID: <CAFEAcA9-ct1_MngSTeaAwii6SQjx_ode0brH0nE4gW0K51s5Jg@mail.gmail.com>
-Subject: Re: [PULL 03/26] configure,
- meson: move audio driver detection to Meson
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <87bl3dfg9v.fsf@dusky.pond.sub.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mprivozn@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mprivozn@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.14, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,88 +99,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Volker_R=C3=BCmelin?= <vr_qemu@t-online.de>, qemu-devel@nongnu.org,
- Gerd Hoffman <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 14 Oct 2021 at 17:37, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> This brings a change that makes audio drivers more similar to all
-> other modules.  All drivers are built by default, while
-> --audio-drv-list only governs the default choice of the audio driver.
->
-> Meson options are added to disable the drivers, and the next patches
-> will fix the help messages and command line options, and especially
-> make the non-default drivers available via -audiodev.
->
-> Cc: Gerd Hoffman <kraxel@redhat.com>
-> Cc: Volker R=C3=BCmelin <vr_qemu@t-online.de>
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Message-Id: <20211007130630.632028-4-pbonzini@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On 10/25/21 2:19 PM, Markus Armbruster wrote:
+> Michal Privoznik <mprivozn@redhat.com> writes:
+> 
+>> The -preconfig option and exit-preconfig command are around for
+>> quite some time now. However, they are still marked as unstable.
+>> This is suboptimal because it may block some upper layer in
+>> consuming it. In this specific case - Libvirt avoids using
+>> experimental features.
+>>
+>> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+> 
+> If I remember correctly, the motivation for -preconfig was NUMA
+> configuration via QMP.  More uses may have appeared since.
+> 
+> Back then, I questioned the need for yet another option and yet another
+> state: why not -S?
+> 
+> The answer boiled down to
+> 
+> 0. Yes, having just one would be a simpler and cleaner interface, but
+> 
+> 1. the godawful mess QEMU startup has become makes -S unsuitable for
+>    some things we want to do, so we need -preconfig,
+> 
+> 2. which is in turn unsuitable for other things we want to do, so we
+>    still need -S".
+> 
+> 3. Cleaning up the mess to the point where "simpler and cleaner" becomes
+>    viable again is not in the cards right now.
 
-Hi; this change seems to have caused meson to produce new
-WARNING messages on OSX host:
+I see a difference between the two. -preconfig starts QEMU in such a way
+that its configuration can still be changed (in my particular use case
+vCPUs can be assigned to NUMA nodes), while -S does not allow that. If
+we had one state for both, then some commands must be forbidden from
+executing as soon as 'cont' is issued. Moreover, those commands would
+need to do much more than they are doing now (e.g. regenerate ACPI table
+after each run). Subsequently, validating configuration would need to be
+postponed until the first 'cont' because with just one state QEMU can't
+know when the last config command was issued.
 
-Library rados found: NO
-Has header "rbd/librbd.h" : NO
-Run-time dependency glusterfs-api found: NO (tried pkgconfig)
-Has header "bzlib.h" : YES
-Library bz2 found: YES
-Has header "lzfse.h" : NO
-Has header "sys/soundcard.h" : NO
-../../meson.build:928: WARNING: OSS not found, disabling
-Run-time dependency appleframeworks found: YES (CoreAudio)
-../../meson.build:964: WARNING: CoreAudio not found, disabling
-Run-time dependency gnutls found: YES 3.6.15
-Run-time dependency libpng found: YES 1.6.37
+Having said all of that, I'm not sure if -preconfig is the way to go or
+we want to go the other way. I don't have a strong opinion.
 
-"I didn't find some optional thing" should not be emitting
-warning messages.
+Michal
 
-Also, the CoreAudio test seems to be broken (never detects
-CoreAudio). According to meson.log we do this:
-
-Run-time dependency appleframeworks found: YES (CoreAudio)
-Running compile:
-Working directory:
-/Users/pm215/src/qemu-for-merges/build/all/meson-private/tmp7k9rfdt5
-Command line:  cc
-/Users/pm215/src/qemu-for-merges/build/all/meson-private/tmp7k9rfdt5/testfi=
-le.c
--o /Users/pm215/src/qemu-for-merges/build/all/meson-private/tmp7k9rfdt5/out=
-put.exe
--O0 -Werror=3Dimplicit-function-declaration -std=3Dgnu11
-
-Code:
-
-    #include <CoreAudio/CoreAudio.h>
-    int main(void)
-    {
-      return (int)AudioGetCurrentHostTime();
-    }
-Compiler stdout:
-
-Compiler stderr:
- Undefined symbols for architecture x86_64:
-  "_AudioGetCurrentHostTime", referenced from:
-      _main in testfile-96e6d2.o
-ld: symbol(s) not found for architecture x86_64
-clang: error: linker command failed with exit code 1 (use -v to see invocat=
-ion)
-
-../../meson.build:964: WARNING: CoreAudio not found, disabling
-
-which is to say, we try to link the test program but
-we have forgotten to say "and we need to link
-against coreaudio" when doing so. In the old configure
-version this was done using
-   if compile_prog "" "$coreaudio_libs" ; then
-thus passing "-framework CoreAudio" to the compiler;
-I don't know what the meson equivalent is.
-
-thanks
--- PMM
 
