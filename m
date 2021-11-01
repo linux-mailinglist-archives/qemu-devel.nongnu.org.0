@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99859441F1C
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 18:21:02 +0100 (CET)
-Received: from localhost ([::1]:48642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FA85441F2C
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 18:23:46 +0100 (CET)
+Received: from localhost ([::1]:58298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhazV-0004h9-P5
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 13:21:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53692)
+	id 1mhb29-0002m7-E1
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 13:23:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhatB-00043a-Gy
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:14:34 -0400
-Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:34687)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mhauh-0005fD-NH
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:16:03 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:43748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhaqy-0005lY-Ur
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:14:15 -0400
-Received: by mail-qt1-x829.google.com with SMTP id v17so16491170qtp.1
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 10:09:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mhaue-0006ob-Nj
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:16:03 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id t30so4280046wra.10
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 10:16:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QKmjFMzhXqIkyFtEorbaU1b9LnT4HKrwQB0tuHu+0XI=;
- b=IumvoRzSBSqeaFeW3rPtXnSB6TlShk9Putekt2sGH5W0kq41tO8dpaoXMGYaNYt2e6
- 26AY2t8cWWKmOtzcMTJPvKNQklWaC6zfRM+eIFq05A+E8Z4/OUybG77i5bs40a/ZvzoL
- 2FO0pQ8RA6rDKeUsjtIZWc+O+3ttZXVNV0UWNhi5y2E9zLzAwvRmTiSNBoBsRQAORHuX
- X4n6utBkXxVG+UmQMKqQNzg8ERMb2icm7LrDYjEFh4JliYMCAAGae91aikpyG2b+nWo9
- Z7AoaeKXkT/+cn4W56raSVoflkATxAqeQmpIjXvcD1v95ueWPHAiH0XcOw7RSUdBMc10
- iPvA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nFa1gXjSxM9Z1kTYtlHHNqkwm2zp5HC7+2V+Wud23qU=;
+ b=MQne79CyTjrNtV8iZk5w4JoylwxeBnwdJMqhTeLZA2q/McYOrL1ue+INOhXDLhD0zw
+ 1ZMyWtvKzGIDz2kUcqsb1V4MNsn7nssl/Xof47WT+pok4Aq2gZ6kUxzrv3ppH5pGYw/u
+ dRWc64+RYeiaZY/nimrfF0elz4/bCHkKm90BxU9F5l83rSqxvr01+cmFU30xHnpQk6sx
+ DntT4ZhNcknANQycPai5sY6QH0nqK19x13qPCOuGucvl1V+yD5bCoLyOeDsmE5KOyyWW
+ sXCs86L2sjD+HLq/wIqceKMVXf9P5aw1oudixnyI3oSQlps3cbQJA845Gv/QZsE+w5aZ
+ r54g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QKmjFMzhXqIkyFtEorbaU1b9LnT4HKrwQB0tuHu+0XI=;
- b=GOxXi1bm6r5+uN8LcOjzhKaC/FnAVmBnAl9km4o/pwUVm/z0ZgH1FhU/HijVEgecRy
- QOY04OrroK8V3y8hdLX3ZzCyDXgPtqek71RxNhBT5tA+aP6m8tkd/sufli3pUnfnKqy1
- GqB0ffWYQ/Ty7vrl7LAe+U07AL2Co/UlD1W7rleUhh6cCjaf2WdIWZQp/pSSBv/I66S+
- Q/4eI3GhtU8QplFAcVAcnIOmeNz2ugYyIditRxxHgZQCyMNgZBY4L9nfxeNI+d24veoI
- HFQ9YD9yXkFS6VHCzX/r4yuYrHH4m/atLeu3O71/MbAZ5OpHcGooF/9+0SG+p64Y9E7b
- hHEg==
-X-Gm-Message-State: AOAM532G9DGoQ1sDx8z+06ldCXpRgX7NYiFG4izIXsAxA5JzK7eHdqT0
- cJjLkAMTWsnxyTtfBgCaC87yZw==
-X-Google-Smtp-Source: ABdhPJyM10CE7oosdAQ200yXjaUJLVb9O8ppXbn44S9mmes53YQZub1QZrDToF9TBzXFNwOgAyYQ/w==
-X-Received: by 2002:ac8:7e93:: with SMTP id w19mr31450738qtj.192.1635786585466; 
- Mon, 01 Nov 2021 10:09:45 -0700 (PDT)
-Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
- [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id f39sm8292964qtb.20.2021.11.01.10.09.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Nov 2021 10:09:44 -0700 (PDT)
-Subject: Re: [PATCH v6 23/66] target/arm: Implement arm_cpu_record_sigsegv
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20211030171635.1689530-1-richard.henderson@linaro.org>
- <20211030171635.1689530-24-richard.henderson@linaro.org>
- <CAFEAcA-h7xhKFTjOKgOw22Le2wQPUaT2VxtFcNFMP=xHs2stFQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c194f037-87dd-0b6a-2776-0724aef4b223@linaro.org>
-Date: Mon, 1 Nov 2021 13:09:43 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nFa1gXjSxM9Z1kTYtlHHNqkwm2zp5HC7+2V+Wud23qU=;
+ b=rMQ6hZvOHK3aBHBDBTDw0vJhzhLKhQsUygQH/PuNOaa9afxSIPSUqNGZpF7xYXfFuk
+ 7gG9oT6AK+a64Fyw142j3wFVnA2we/yFwxgbxGMMU4dBEdK+kqnvb6quXhbZfEhsJ3Bm
+ 1mn2u7G2sflcyPKYgR41xQmc3jdXN2tq4cyBujAoIbdnhjTfRTOvKD+pKD8ReDs+o/eN
+ PUjBjFoMOML36C4c/gW9Rp3ZWKPmWPNjXv5l6oLHZX92dIWg9qr4pTJn8aC7AtHbWcdT
+ ftzpqyYpWrws4TKIon8zDYHCXgufiV4PF1msYjtdGv8AkUHP1UqIgFfAMfGfF5Tn/WVH
+ T/wg==
+X-Gm-Message-State: AOAM533sXjHeaDHiAbmjHeMz7u93mcO3WIBiamGm1LVUqjQ14+z0Hj90
+ OaWv2cR/smFM5BCmuWtmd4SjObivRL4sM6v7CvwU8w==
+X-Google-Smtp-Source: ABdhPJyICRAy3Be7eXC1tBTh4gA1fLMdUTgetcAFhxiJrEjVESRn6pZtmOUrEETXcYLAt9tjSdRwcshmf02/ek4yx5U=
+X-Received: by 2002:adf:c40f:: with SMTP id v15mr29968881wrf.302.1635786958861; 
+ Mon, 01 Nov 2021 10:15:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-h7xhKFTjOKgOw22Le2wQPUaT2VxtFcNFMP=xHs2stFQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x829.google.com
+References: <20211008002628.1958285-1-wuhaotsh@google.com>
+ <20211008002628.1958285-3-wuhaotsh@google.com>
+In-Reply-To: <20211008002628.1958285-3-wuhaotsh@google.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Nov 2021 17:15:47 +0000
+Message-ID: <CAFEAcA8NRJQDcfXf8DTOL=XXQWUrn1Ud1mY_WVNRCBhsLHWXnA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] hw/arm: Add Nuvoton SD module to board
+To: Hao Wu <wuhaotsh@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,27 +77,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: f4bug@amsat.org, alex.bennee@linaro.org, qemu-devel@nongnu.org,
- imp@bsdimp.com, Laurent@vivier.eu
+Cc: qemu-block@nongnu.org, venture@google.com, Shengtan Mao <stmao@google.com>,
+ bin.meng@windriver.com, hskinnemoen@google.com, qemu-devel@nongnu.org,
+ kfting@nuvoton.com, qemu-arm@nongnu.org, Avi.Fishman@nuvoton.com,
+ maoshengtan2011@gmail.com, Chris Rauer <crauer@google.com>, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/1/21 12:30 PM, Peter Maydell wrote:
-> We seem to be restricting tlb_fill to sysemu already.
+On Fri, 8 Oct 2021 at 01:26, Hao Wu <wuhaotsh@google.com> wrote:
+>
+> From: Shengtan Mao <stmao@google.com>
+>
+> Signed-off-by: Shengtan Mao <stmao@google.com>
+> Reviewed-by: Hao Wu <wuhaotsh@google.com>
+> Reviewed-by: Chris Rauer <crauer@google.com>
+> Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
+> Signed-off-by: Hao Wu <wuhaotsh@google.com>
 
-Not true:
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-> -#endif /* !defined(CONFIG_USER_ONLY) */
-> -
->  bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->                        MMUAccessType access_type, int mmu_idx,
->                        bool probe, uintptr_t retaddr)
->  {
->      ARMCPU *cpu = ARM_CPU(cs);
->      ARMMMUFaultInfo fi = {};
-> -
-> -#ifdef CONFIG_USER_ONLY
-
-
-r~
+thanks
+-- PMM
 
