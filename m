@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 507A444197F
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 11:09:37 +0100 (CET)
-Received: from localhost ([::1]:33766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C3F7441973
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 11:06:58 +0100 (CET)
+Received: from localhost ([::1]:53388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhUG0-0000jz-F5
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 06:09:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56608)
+	id 1mhUDR-0003LD-JQ
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 06:06:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mhU7I-0006pm-GH
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 06:00:36 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:54344 helo=loongson.cn)
+ id 1mhTzm-0005ub-Mh
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 05:52:50 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:50950 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mhU7G-0001KK-1X
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 06:00:36 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1mhTzi-0008E1-EW
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 05:52:50 -0400
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn2u3uH9hbKIjAA--.55994S25; 
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn2u3uH9hbKIjAA--.55994S26; 
  Mon, 01 Nov 2021 17:52:30 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 23/29] linux-user: Add host dependency for LoongArch 64-bit
-Date: Mon,  1 Nov 2021 17:51:45 +0800
-Message-Id: <1635760311-20015-24-git-send-email-gaosong@loongson.cn>
+Subject: [PATCH v8 24/29] default-configs: Add loongarch linux-user support
+Date: Mon,  1 Nov 2021 17:51:46 +0800
+Message-Id: <1635760311-20015-25-git-send-email-gaosong@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1635760311-20015-1-git-send-email-gaosong@loongson.cn>
 References: <1635760311-20015-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9Dxn2u3uH9hbKIjAA--.55994S25
-X-Coremail-Antispam: 1UD129KBjvdXoWrZry3Cw47WFWxAryxKFW3Wrg_yoW3ZFc_ua
- yIqry8Gr4UGa1kZa4FqrnrA34fCa1xAF1fZFyxJr47Z3W7Kw4ft34xZr9rZr13KFs5ur9x
- Aw4kCw1F9w40qjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+X-CM-TRANSID: AQAAf9Dxn2u3uH9hbKIjAA--.55994S26
+X-Coremail-Antispam: 1UD129KBjvdXoWrur48ZrW5uF4DurWUGFyrXrb_yoW3Crg_uF
+ y3Jr4kKFWUZryUCw10v3y5Ar4ru3W8AF1ruF4DKw4xXwsrXr43tw1vva18Za4ay393urnx
+ XrWkJr1rCr10qjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
  9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUUUUUUU
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -63,30 +63,25 @@ Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@loongson.cn,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This patch adds loongarch64 linux-user default configs file.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 ---
- linux-user/host/loongarch64/hostdep.h | 11 +++++++++++
- 1 file changed, 11 insertions(+)
- create mode 100644 linux-user/host/loongarch64/hostdep.h
+ configs/targets/loongarch64-linux-user.mak | 3 +++
+ 1 file changed, 3 insertions(+)
+ create mode 100644 configs/targets/loongarch64-linux-user.mak
 
-diff --git a/linux-user/host/loongarch64/hostdep.h b/linux-user/host/loongarch64/hostdep.h
+diff --git a/configs/targets/loongarch64-linux-user.mak b/configs/targets/loongarch64-linux-user.mak
 new file mode 100644
-index 0000000..4e55695
+index 0000000..5b0acfa
 --- /dev/null
-+++ b/linux-user/host/loongarch64/hostdep.h
-@@ -0,0 +1,11 @@
-+/*
-+ * hostdep.h : things which are dependent on the host architecture
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef LOONGARCH64_HOSTDEP_H
-+#define LOONGARCH64_HOSTDEP_H
-+
-+#endif
++++ b/configs/targets/loongarch64-linux-user.mak
+@@ -0,0 +1,3 @@
++# Default configuration for loongson64-linux-user
++TARGET_ARCH=loongarch64
++TARGET_BASE_ARCH=loongarch
 -- 
 1.8.3.1
 
