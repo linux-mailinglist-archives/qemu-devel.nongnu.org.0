@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA7F0442166
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 21:07:11 +0100 (CET)
-Received: from localhost ([::1]:54488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB89442107
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 20:45:03 +0100 (CET)
+Received: from localhost ([::1]:36878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhdaJ-0003M2-1X
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 16:07:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56780)
+	id 1mhdEs-0005Fy-Mc
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 15:45:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mhcHc-0000f0-3r
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 14:43:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57678)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mhcHf-0000nj-SC
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 14:43:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54099)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mhcHY-0008Rr-2e
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 14:43:47 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mhcHe-0008Sq-6f
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 14:43:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635792223;
+ s=mimecast20190719; t=1635792228;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0YpUHkH8QkEwzNTR61Yyssu2TGxSWXI2GUicTQR5x2E=;
- b=dW3S/xsW3Nhpx9gJyz2xjOv/aeZPIyPLnBdq3+AY2EhEZ/NVx82qu5laWDcJWxXGdp6Q1H
- DJYcDPN9c0naamF7s3/6o8hvYBvYDSNe4WA1P752NkkZs2NdJN6FS1CLlY+ZG+kdJTaPHI
- KW7xnyqwZn2w8ehdmDyoXRXXfxjigcY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-0pdbgbrtO16suM8e0oqAuw-1; Mon, 01 Nov 2021 14:43:42 -0400
-X-MC-Unique: 0pdbgbrtO16suM8e0oqAuw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- l187-20020a1c25c4000000b0030da46b76daso43108wml.9
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 11:43:42 -0700 (PDT)
+ bh=wrRJbxTfXKoNE9RhSD+9rCBC0L1fCrHGd+SeOdkp/14=;
+ b=Wl6vIytR1dLYwH7oMrX8MdoM05i1HhKrwF8uh7mIjgF1X7UJ/LJnoxFHzRkGpaOU1fEP0I
+ Pkbm/zLJhDqvTUzqHd2tnpG+UIUIIcrWklQaCOlzWg1qGK50LTNRS6TEDQWCclPd21Ovxm
+ i8hcScd/amiC3Jed4uajZb7JltKB7l0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-52-ASYS9H9nOkmiZ-KBvDwl-g-1; Mon, 01 Nov 2021 14:43:47 -0400
+X-MC-Unique: ASYS9H9nOkmiZ-KBvDwl-g-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ z5-20020a5d6405000000b00182083d7d2aso2097177wru.13
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 11:43:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0YpUHkH8QkEwzNTR61Yyssu2TGxSWXI2GUicTQR5x2E=;
- b=QL8lodMtcPZ+j7/1O7RaUeJFnaZhX1fhvn/bhO0G/bu9a+zNg8zmOno1CKIEbcBK6J
- 3ollROquHzgFispE4NNOELc7IBWlcnbVDzDWGgUYdpsnEGX4UWJBohmWbbHdh8u/k5mK
- /s468vej6mpPm3eKQBgVAOphZ+o8uWZMPW3f6pyUeTg/rZFKPQnS9st7yx6dLAhZkPyl
- MU64ixxvnr8OttC4VIURHXK3Hc0u7P8+VxcyNaXAH1yGrdXXGifknmtxIMXARCys6jdu
- jzV1xJeb8ZvKzNFqEIxwC3xirn4+X8nriI79CiVSuIkCnLIjXKmnRMbjvbwU3Nvku62E
- t5cQ==
-X-Gm-Message-State: AOAM531rZJlbh60ELRdL0u4oNwtq0PATwrySggMYuU2ou+Z9O4eTQVR+
- XHN1UHRl5vDFvUur3SU7sa6TMN2Jn20Q1sD2aeioKhckFy8J+rWlX/LbPr4Bdc+7FEIE/u7rgeT
- cvRCymfXmX7NBkJStSFv10vavsWfydZlFpo2nrd3QxAsu+G2jJb3ilXtINOI699VM
-X-Received: by 2002:a5d:4a46:: with SMTP id v6mr39073539wrs.262.1635792221222; 
- Mon, 01 Nov 2021 11:43:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy96s9T2qC8MqXugO/zZLgnIT6dX4xTBLgmQxzVTNY8vxctATLUEnprd1PTV1LM4aY6TbGxnA==
-X-Received: by 2002:a5d:4a46:: with SMTP id v6mr39073499wrs.262.1635792220987; 
- Mon, 01 Nov 2021 11:43:40 -0700 (PDT)
+ bh=wrRJbxTfXKoNE9RhSD+9rCBC0L1fCrHGd+SeOdkp/14=;
+ b=NjHiMtIoK5S7jhBYCLhtsmk2RBoBRro/VchvyJ7V8svEWatZqZiqqsdfVd+0HJUSMy
+ r49lylAoOsp2KqlgZNEj5R9ZKbOfzVjucMJz7ZHCHXVT+Goouw4kpu0n9MpRh08ixyPK
+ F0eUs/27WVXUsf1wQY/S0Oc6iPXzNyD4HoqdfaqaA1BebgVyhtvg1mYQN/10FhaitKhQ
+ J+juLqmkV7CkMamdQWkTCtOLGG7Ol0DNAC6LktZwKUdmbyvUSMiKw3V85ruoN9B7T0lp
+ hyefsiRgDusDUtyxwqxVvDOmKl9qqDHRSCZt4JXo8GiANGttk7+ZZyGNKTPLl3VKYrVY
+ aklw==
+X-Gm-Message-State: AOAM531xoNZo846YN1QRo77jtpQIa/cV84Q+QlRBkkrtERKBkJQFJA9w
+ n4Zr8JX2BG2djlREzh8d8PIeTRwGP6Vt3X0Qpf71y0X7P6NAhiCrJjHk5D+Rb6rIwzlsf/v1KBK
+ ZrosmWJJ7B4abBL2O8c70N9rvx+hPSmq0GFlAscxZQaOfxrzDvhKiVAjYZJ2eiyhl
+X-Received: by 2002:a5d:6a4d:: with SMTP id t13mr11122625wrw.104.1635792225774; 
+ Mon, 01 Nov 2021 11:43:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz2utyBz54X2ezIzxsjFjSLvMDAbTQkGqrOuc8GVm1HB/EpzH9jSQ7tuQC1VbotVp26ooV79w==
+X-Received: by 2002:a5d:6a4d:: with SMTP id t13mr11122591wrw.104.1635792225597; 
+ Mon, 01 Nov 2021 11:43:45 -0700 (PDT)
 Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
  by smtp.gmail.com with ESMTPSA id
- j40sm286137wms.16.2021.11.01.11.43.40
+ u16sm275280wmc.21.2021.11.01.11.43.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Nov 2021 11:43:40 -0700 (PDT)
+ Mon, 01 Nov 2021 11:43:45 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/10] machine: add device_type_is_dynamic_sysbus function
-Date: Mon,  1 Nov 2021 19:42:57 +0100
-Message-Id: <20211101184259.2859090-9-philmd@redhat.com>
+Subject: [PULL 09/10] qdev-monitor: Check sysbus device type before creating it
+Date: Mon,  1 Nov 2021 19:42:58 +0100
+Message-Id: <20211101184259.2859090-10-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211101184259.2859090-1-philmd@redhat.com>
 References: <20211101184259.2859090-1-philmd@redhat.com>
@@ -73,7 +73,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -105,86 +105,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Damien Hedde <damien.hedde@greensocs.com>
 
-Right now the allowance check for adding a sysbus device using
--device cli option (or device_add qmp command) is done well after
-the device has been created. It is done during the machine init done
-notifier: machine_init_notify() in hw/core/machine.c
+Add an early check to test if the requested sysbus device type
+is allowed by the current machine before creating the device. This
+impacts both -device cli option and device_add qmp command.
 
-This new function will allow us to do the check at the right time and
-issue an error if it fails.
-
-Also make device_is_dynamic_sysbus() use the new function.
+Before this patch, the check was done well after the device has
+been created (in a machine init done notifier). We can now report
+the error right away.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Acked-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20211029142258.484907-2-damien.hedde@greensocs.com>
+Message-Id: <20211029142258.484907-3-damien.hedde@greensocs.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/boards.h | 15 +++++++++++++++
- hw/core/machine.c   | 13 ++++++++++---
- 2 files changed, 25 insertions(+), 3 deletions(-)
+ softmmu/qdev-monitor.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index e36fc7d8615..602993bd5ab 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -52,6 +52,21 @@ void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp);
-  */
- void machine_class_allow_dynamic_sysbus_dev(MachineClass *mc, const char *type);
+diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+index 4851de51a5c..e49d9773d2d 100644
+--- a/softmmu/qdev-monitor.c
++++ b/softmmu/qdev-monitor.c
+@@ -42,6 +42,7 @@
+ #include "qemu/cutils.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/clock.h"
++#include "hw/boards.h"
  
-+/**
-+ * device_type_is_dynamic_sysbus: Check if type is an allowed sysbus device
-+ * type for the machine class.
-+ * @mc: Machine class
-+ * @type: type to check (should be a subtype of TYPE_SYS_BUS_DEVICE)
-+ *
-+ * Returns: true if @type is a type in the machine's list of
-+ * dynamically pluggable sysbus devices; otherwise false.
-+ *
-+ * Check if the QOM type @type is in the list of allowed sysbus device
-+ * types (see machine_class_allowed_dynamic_sysbus_dev()).
-+ * Note that if @type has a parent type in the list, it is allowed too.
-+ */
-+bool device_type_is_dynamic_sysbus(MachineClass *mc, const char *type);
-+
- /**
-  * device_is_dynamic_sysbus: test whether device is a dynamic sysbus device
-  * @mc: Machine class
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index dc15f5f9e5c..7c4004ac5a0 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -548,18 +548,25 @@ void machine_class_allow_dynamic_sysbus_dev(MachineClass *mc, const char *type)
- 
- bool device_is_dynamic_sysbus(MachineClass *mc, DeviceState *dev)
- {
--    bool allowed = false;
--    strList *wl;
-     Object *obj = OBJECT(dev);
- 
-     if (!object_dynamic_cast(obj, TYPE_SYS_BUS_DEVICE)) {
-         return false;
+ /*
+  * Aliases were a bad idea from the start.  Let's keep them
+@@ -254,6 +255,16 @@ static DeviceClass *qdev_get_device_class(const char **driver, Error **errp)
+         return NULL;
      }
  
-+    return device_type_is_dynamic_sysbus(mc, object_get_typename(obj));
-+}
++    if (object_class_dynamic_cast(oc, TYPE_SYS_BUS_DEVICE)) {
++        /* sysbus devices need to be allowed by the machine */
++        MachineClass *mc = MACHINE_CLASS(object_get_class(qdev_get_machine()));
++        if (!device_type_is_dynamic_sysbus(mc, *driver)) {
++            error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "driver",
++                       "a dynamic sysbus device type for the machine");
++            return NULL;
++        }
++    }
 +
-+bool device_type_is_dynamic_sysbus(MachineClass *mc, const char *type)
-+{
-+    bool allowed = false;
-+    strList *wl;
-+    ObjectClass *klass = object_class_by_name(type);
-+
-     for (wl = mc->allowed_dynamic_sysbus_devices;
-          !allowed && wl;
-          wl = wl->next) {
--        allowed |= !!object_dynamic_cast(obj, wl->value);
-+        allowed |= !!object_class_dynamic_cast(klass, wl->value);
-     }
+     return dc;
+ }
  
-     return allowed;
 -- 
 2.31.1
 
