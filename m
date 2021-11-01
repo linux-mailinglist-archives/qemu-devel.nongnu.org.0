@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E9A3441D3B
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 16:14:23 +0100 (CET)
-Received: from localhost ([::1]:52400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9347D441D5B
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 16:21:50 +0100 (CET)
+Received: from localhost ([::1]:57236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhZ0w-0007kr-D5
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 11:14:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55154)
+	id 1mhZ88-0002xK-OW
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 11:21:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mhZ01-0006r5-P4
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 11:13:25 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:45801)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mhYzz-0006MU-Qa
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 11:13:25 -0400
-Received: by mail-wr1-x433.google.com with SMTP id o14so28511059wra.12
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 08:13:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=nYUa+dBsj0I9rT98PP8O/lh/lW8QAI7b1M9uO1VKdD0=;
- b=FWHQjrP2aUZFIhgoGhi0ZXO5msZ3MuXy+nE838b1kEk9S2jVoa//zimdPYtIVdyPU+
- E/Kxc+o6kKY5TjMo0LBb+XwGEA9cTP0yWKxIpylKWmWGurV7MjrCULrU8X0jJixY/WhE
- Yc/7fhBxK2+xfb5jYPWyvs3SgPK82f94869azjxXNGqryUBI76RF/o9uRMZAuNnsBDBa
- PcvcN7YfQfErmfU6cuBDGJOUWFrrs6iqtGqk5k9JIeBPxwhLuucPezqpbVAqKg/JkmxH
- VUphLvDCLBV1KnUtca5yD6LHMcc150mZ5hqINB/19h4/rxUjHy1CHZM72hIstb7g9jTC
- GyVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=nYUa+dBsj0I9rT98PP8O/lh/lW8QAI7b1M9uO1VKdD0=;
- b=1cblahNLUecMB8vzwWF2JeamywY0hfwIwaJQ5lwBrlujUSA5TQZRlWik7IjQ3lJ0nk
- hewIxz7KFe4G9B1BkZPZ4Dp/b+Hrytn9YEGhv6tWMSwBjxwd0JspE+wvlM6+56EsheeO
- B0L0IEs7SzPXx741VYM0ZEUWm4pHBHeQyiagWiqlK3gSfqZwWGWWLwdpvcCegaToTE7v
- oIKnfUpOr4xur8eryLRlOIi+jMPSv7isJRjDNw1NhQEDekdKQI7jkTQJy5PVnxx5sfZg
- cvY3hkDd/VmEeQPpkf7AIgbipT6Up/dPKI+ClW0WZSSuCRLFRf3zlWq6dW9+02Whpy+k
- qGLg==
-X-Gm-Message-State: AOAM532sHOHrICZf64Ag3jqLZ28SvBaiRRXwB3PmZSbOxsYLxO8nnFVe
- cwFm2KBXAC3bpedItV6PD8qe3mGYaOdKK28U5Sewvg==
-X-Google-Smtp-Source: ABdhPJyT4wSOUFakmIAz/dMtClGs6Cx4RF+7+LLEUqGiiTLPWxsoP66pCVXPTvaTkt5pOmmdsfgKcEWgRbZnWLtSBww=
-X-Received: by 2002:a5d:6151:: with SMTP id y17mr30587886wrt.275.1635779602166; 
- Mon, 01 Nov 2021 08:13:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mhZ6X-00020I-7j
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 11:20:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54439)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mhZ6T-0007K0-Sh
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 11:20:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635780004;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=poEdaomnTQ+yVAwYpi2f2pVSlNjVBEp1V9Ea9cuKK/0=;
+ b=Ghuh1Lpyz5YHBYXT5yd8NkFrH30uPgoqju+7CaMYAFuaUPa3tUWY+4ocX72u6FBM+YJSLg
+ /Sw4yd/732FiiP0G6krXQiEWbiKCp+j5iZZ52thztlcl7wP1PooD2oAK+ctgVVL63YVHFG
+ azXDhsmq1hNvotI9LJLnnwwFY15kj7k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-167-ioGBLlyUMcOpmkztmpMB_g-1; Mon, 01 Nov 2021 11:20:01 -0400
+X-MC-Unique: ioGBLlyUMcOpmkztmpMB_g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D176C8E2189;
+ Mon,  1 Nov 2021 15:19:43 +0000 (UTC)
+Received: from localhost (unknown [10.22.33.246])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F7F25D9D5;
+ Mon,  1 Nov 2021 15:19:41 +0000 (UTC)
+Date: Mon, 1 Nov 2021 11:18:08 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Damien Hedde <damien.hedde@greensocs.com>
+Subject: Re: [PATCH v3 0/3] Dynamic sysbus device check error report
+Message-ID: <20211101151808.mqckuwjufad3jlzb@habkost.net>
+References: <20211029142258.484907-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
-References: <CAFEAcA_UiCrYEkv3uC_6VD9mY3jzKY+ziKTxSE4ydDbHd4U5vw@mail.gmail.com>
- <YYACktMpIIswE9Zi@redhat.com>
-In-Reply-To: <YYACktMpIIswE9Zi@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Nov 2021 15:13:10 +0000
-Message-ID: <CAFEAcA8eND_knYS23YDyX6ZboXJxn-0FYiQ3kq2gAMot14ZkaA@mail.gmail.com>
-Subject: Re: meson complains about "broken python installation"
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211029142258.484907-1-damien.hedde@greensocs.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,40 +77,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ mark.burton@greensocs.com, qemu-devel@nongnu.org, edgari@xilinx.com,
+ mirela.grujic@greensocs.com, Alistair Francis <alistair.francis@wdc.com>,
+ Ani Sinha <ani@anisinha.ca>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 1 Nov 2021 at 15:07, Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
-wrote:
->
-> On Mon, Nov 01, 2021 at 02:53:44PM +0000, Peter Maydell wrote:
-> > At some point in the last month a meson change landed, and now
-> > when meson runs it complains:
-> >
-> >  WARNING: Broken python installation detected. Python files installed
-> >  by Meson might not be found by python interpreter.
+On Fri, Oct 29, 2021 at 04:22:55PM +0200, Damien Hedde wrote:
+> Hi,
+> 
+> Dynamic sysbus devices are allowed by a per-machine basis.
+> Right now, the allowance check is done during an machine_init_done
+> notifier, well after such devices are created.
+> 
+> This series move the check at the right place (during the handling
+> of a QMP device_add command or -device CLI option) so that we can
+> report the error right away.
+> 
+> This was initially part of my RFC (hence the v3) about allowing to
+> create devices during the machine initialized phase (link is below).
+> But it seems to me these patches make sense already as a standalone
+> cleanup.
+> 
+> Only patch 1 miss a review.
+> 
+> Thanks,
+> Damien
+> 
+> v3:
+>  + standalone series
+>  + minor tweaks
+> 
+> v2 was part of:
+> https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg05683.html
 
-> > Any idea what meson is complaning about ?
->
-> The source code emitting this warning message has a comment
-> pointing to:
->
->   https://github.com/mesonbuild/meson/issues/8739
->
-> It seems that there is something broken about Python on Debian but
-> can't say i especially understand the bug report discussion there.
+Acked-by: Eduardo Habkost <ehabkost@redhat.com>
 
-Me neither. The warning is pretty unhelpful (in the sense that it
-does not clearly describe what/where the problem is or how it might be
-fixed) and seems mostly likely to cause our users who run Ubuntu or
-Debian to come and complain at us about something that's not under
-our control.
+-- 
+Eduardo
 
-Also, Debian have been shipping Python for years and years and
-years with nothing obviously being badly wrong with it.
-
-thanks
--- PMM
 
