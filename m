@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2CB944196B
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 11:06:10 +0100 (CET)
-Received: from localhost ([::1]:50606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0F13441974
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 11:07:10 +0100 (CET)
+Received: from localhost ([::1]:53474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhUCf-0001OU-Pd
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 06:06:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54312)
+	id 1mhUDe-0003Or-0p
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 06:07:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mhTzo-00060J-6G
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 05:52:52 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:51034 helo=loongson.cn)
+ id 1mhTzn-0005wK-AC
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 05:52:51 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:51054 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mhTzl-0008EL-3k
+ (envelope-from <gaosong@loongson.cn>) id 1mhTzl-0008EQ-2u
  for qemu-devel@nongnu.org; Mon, 01 Nov 2021 05:52:51 -0400
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn2u3uH9hbKIjAA--.55994S30; 
- Mon, 01 Nov 2021 17:52:32 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn2u3uH9hbKIjAA--.55994S31; 
+ Mon, 01 Nov 2021 17:52:33 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 28/29] accel/tcg/user-exec: Implement CPU-specific signal
- handler for loongarch64 hosts
-Date: Mon,  1 Nov 2021 17:51:50 +0800
-Message-Id: <1635760311-20015-29-git-send-email-gaosong@loongson.cn>
+Subject: [PATCH v8 29/29] linux-user: Add safe syscall handling for
+ loongarch64 hosts
+Date: Mon,  1 Nov 2021 17:51:51 +0800
+Message-Id: <1635760311-20015-30-git-send-email-gaosong@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1635760311-20015-1-git-send-email-gaosong@loongson.cn>
 References: <1635760311-20015-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9Dxn2u3uH9hbKIjAA--.55994S30
-X-Coremail-Antispam: 1UD129KBjvJXoW7tw43Wr1rCrWfGw47ur4rZrb_yoW8Kw4Upr
- nrtr4rGr4kXr9xJrs3JrWkJwn8KFn7AF4DJryxKFs8uF1jgw15J3y5GrWUKr90gryUuFyS
- grW7Xr1ruF1jyaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf9Dxn2u3uH9hbKIjAA--.55994S31
+X-Coremail-Antispam: 1UD129KBjvJXoWxWr13CrWUGw13CFy3CFW3ZFb_yoWrCFWrpa
+ s3Cw15Kr48GFn7Cr9rXw4UKFyfZr4fJF1Ykr4SvFZYyrZrJr9Yqr1qga4vyF13CrnFkFWj
+ vF40y398uF4DWaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -64,89 +64,133 @@ Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@loongson.cn,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Base-on: <20210925173032.2434906-30-git@xen0n.name>
+Base-on: <20210925173032.2434906-29-git@xen0n.name>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 ---
- accel/tcg/user-exec.c | 64 ++++++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 61 insertions(+), 3 deletions(-)
+ linux-user/host/loongarch64/hostdep.h          | 23 ++++++++
+ linux-user/host/loongarch64/safe-syscall.inc.S | 80 ++++++++++++++++++++++++++
+ 2 files changed, 103 insertions(+)
+ create mode 100644 linux-user/host/loongarch64/safe-syscall.inc.S
 
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index 7604b0a..ec887c4 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -811,10 +811,68 @@ int cpu_signal_handler(int host_signum, void *pinfo,
-     siginfo_t *info = pinfo;
-     ucontext_t *uc = puc;
-     greg_t pc = uc->uc_mcontext.__pc;
--    int is_write;
-+    uint32_t insn = *(uint32_t *)pc;
-+    int is_write = 0;
+diff --git a/linux-user/host/loongarch64/hostdep.h b/linux-user/host/loongarch64/hostdep.h
+index 4e55695..e3d5fa7 100644
+--- a/linux-user/host/loongarch64/hostdep.h
++++ b/linux-user/host/loongarch64/hostdep.h
+@@ -8,4 +8,27 @@
+ #ifndef LOONGARCH64_HOSTDEP_H
+ #define LOONGARCH64_HOSTDEP_H
+ 
++/* We have a safe-syscall.inc.S */
++#define HAVE_SAFE_SYSCALL
 +
-+    /* Detect store by reading the instruction at the program counter. */
-+    switch ((insn >> 26) & 0b111111) {
-+    case 0b001000: /* {ll,sc}.[wd] */
-+        switch ((insn >> 24) & 0b11) {
-+        case 0b01: /* sc.w */
-+        case 0b11: /* sc.d */
-+            is_write = 1;
-+            break;
-+        }
-+        break;
-+    case 0b001001: /* {ld,st}ox4.[wd] ({ld,st}ptr.[wd]) */
-+        switch ((insn >> 24) & 0b11) {
-+        case 0b01: /* stox4.w (stptr.w) */
-+        case 0b11: /* stox4.d (stptr.d) */
-+            is_write = 1;
-+            break;
-+        }
-+        break;
-+    case 0b001010: /* {ld,st}.* family */
-+        switch ((insn >> 22) & 0b1111) {
-+        case 0b0100: /* st.b */
-+        case 0b0101: /* st.h */
-+        case 0b0110: /* st.w */
-+        case 0b0111: /* st.d */
-+        case 0b1101: /* fst.s */
-+        case 0b1111: /* fst.d */
-+            is_write = 1;
-+            break;
-+        }
-+        break;
-+    case 0b001110: /* indexed, atomic, bounds-checking memory operations */
-+        uint32_t sel = (insn >> 15) & 0b11111111111;
++#ifndef __ASSEMBLER__
 +
-+        switch (sel) {
-+        case 0b00000100000: /* stx.b */
-+        case 0b00000101000: /* stx.h */
-+        case 0b00000110000: /* stx.w */
-+        case 0b00000111000: /* stx.d */
-+        case 0b00001110000: /* fstx.s */
-+        case 0b00001111000: /* fstx.d */
-+        case 0b00011101100: /* fstgt.s */
-+        case 0b00011101101: /* fstgt.d */
-+        case 0b00011101110: /* fstle.s */
-+        case 0b00011101111: /* fstle.d */
-+        case 0b00011111000: /* stgt.b */
-+        case 0b00011111001: /* stgt.h */
-+        case 0b00011111010: /* stgt.w */
-+        case 0b00011111011: /* stgt.d */
-+        case 0b00011111100: /* stle.b */
-+        case 0b00011111101: /* stle.h */
-+        case 0b00011111110: /* stle.w */
-+        case 0b00011111111: /* stle.d */
-+        case 0b00011000000 ... 0b00011100011: /* am* insns */
-+            is_write = 1;
-+            break;
-+        }
-+        break;
++/* These are defined by the safe-syscall.inc.S file */
++extern char safe_syscall_start[];
++extern char safe_syscall_end[];
++
++/* Adjust the signal context to rewind out of safe-syscall if we're in it */
++static inline void rewind_if_in_safe_syscall(void *puc)
++{
++    ucontext_t *uc = puc;
++    unsigned long long *pcreg = &uc->uc_mcontext.__pc;
++
++    if (*pcreg > (uintptr_t)safe_syscall_start
++        && *pcreg < (uintptr_t)safe_syscall_end) {
++        *pcreg = (uintptr_t)safe_syscall_start;
 +    }
- 
--    /* XXX: compute is_write */
--    is_write = 0;
-     return handle_cpu_signal(pc, info, is_write, &uc->uc_sigmask);
- }
- 
++}
++
++#endif /* __ASSEMBLER__ */
++
+ #endif
+diff --git a/linux-user/host/loongarch64/safe-syscall.inc.S b/linux-user/host/loongarch64/safe-syscall.inc.S
+new file mode 100644
+index 0000000..bb53024
+--- /dev/null
++++ b/linux-user/host/loongarch64/safe-syscall.inc.S
+@@ -0,0 +1,80 @@
++/*
++ * safe-syscall.inc.S : host-specific assembly fragment
++ * to handle signals occurring at the same time as system calls.
++ * This is intended to be included by linux-user/safe-syscall.S
++ *
++ * Ported to LoongArch by WANG Xuerui <git@xen0n.name>
++ *
++ * Based on safe-syscall.inc.S code for every other architecture,
++ * originally written by Richard Henderson <rth@twiddle.net>
++ * Copyright (C) 2018 Linaro, Inc.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++	.global safe_syscall_base
++	.global safe_syscall_start
++	.global safe_syscall_end
++	.type	safe_syscall_base, @function
++	.type	safe_syscall_start, @function
++	.type	safe_syscall_end, @function
++
++	/*
++	 * This is the entry point for making a system call. The calling
++	 * convention here is that of a C varargs function with the
++	 * first argument an 'int *' to the signal_pending flag, the
++	 * second one the system call number (as a 'long'), and all further
++	 * arguments being syscall arguments (also 'long').
++	 * We return a long which is the syscall's return value, which
++	 * may be negative-errno on failure. Conversion to the
++	 * -1-and-errno-set convention is done by the calling wrapper.
++	 */
++safe_syscall_base:
++	.cfi_startproc
++	/*
++	 * The syscall calling convention is nearly the same as C:
++	 * we enter with a0 == *signal_pending
++	 *               a1 == syscall number
++	 *               a2 ... a7 == syscall arguments
++	 *               and return the result in a0
++	 * and the syscall instruction needs
++	 *               a7 == syscall number
++	 *               a0 ... a5 == syscall arguments
++	 *               and returns the result in a0
++	 * Shuffle everything around appropriately.
++	 */
++	move	$t0, $a0	/* signal_pending pointer */
++	move	$t1, $a1	/* syscall number */
++	move	$a0, $a2	/* syscall arguments */
++	move	$a1, $a3
++	move	$a2, $a4
++	move	$a3, $a5
++	move	$a4, $a6
++	move	$a5, $a7
++	move	$a7, $t1
++
++	/*
++	 * This next sequence of code works in conjunction with the
++	 * rewind_if_safe_syscall_function(). If a signal is taken
++	 * and the interrupted PC is anywhere between 'safe_syscall_start'
++	 * and 'safe_syscall_end' then we rewind it to 'safe_syscall_start'.
++	 * The code sequence must therefore be able to cope with this, and
++	 * the syscall instruction must be the final one in the sequence.
++	 */
++safe_syscall_start:
++	/* If signal_pending is non-zero, don't do the call */
++	ld.w	$t1, $t0, 0
++	bnez	$t1, 0f
++	syscall	0
++safe_syscall_end:
++	/* code path for having successfully executed the syscall */
++	jr	$ra
++
++0:
++	/* code path when we didn't execute the syscall */
++	li.w	$a0, -TARGET_ERESTARTSYS
++	jr	$ra
++	.cfi_endproc
++
++	.size	safe_syscall_base, .-safe_syscall_base
 -- 
 1.8.3.1
 
