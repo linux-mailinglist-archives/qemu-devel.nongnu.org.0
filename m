@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C149B44154E
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 09:30:08 +0100 (CET)
-Received: from localhost ([::1]:41030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B234441558
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 09:33:00 +0100 (CET)
+Received: from localhost ([::1]:47450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhShj-0000ei-U5
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 04:30:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36626)
+	id 1mhSkV-0005A7-76
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 04:32:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mhSfg-000600-4f; Mon, 01 Nov 2021 04:28:00 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:43127)
+ id 1mhSfp-0006TX-76; Mon, 01 Nov 2021 04:28:09 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:36767)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mhSfe-00086V-4B; Mon, 01 Nov 2021 04:27:59 -0400
+ id 1mhSfl-00087e-GR; Mon, 01 Nov 2021 04:28:08 -0400
 Received: from quad ([82.142.14.190]) by mrelayeu.kundenserver.de (mreue012
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MVJZv-1mFAad44Qh-00SMER; Mon, 01
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1N6bHC-1mhvtv2LBG-0182lq; Mon, 01
  Nov 2021 09:27:53 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/6] hw/input/lasips2: Move LASIPS2State declaration to
- 'hw/input/lasips2.h'
-Date: Mon,  1 Nov 2021 09:27:46 +0100
-Message-Id: <20211101082747.2524909-6-laurent@vivier.eu>
+Subject: [PULL 6/6] hw/input/lasips2: QOM'ify the Lasi PS/2
+Date: Mon,  1 Nov 2021 09:27:47 +0100
+Message-Id: <20211101082747.2524909-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211101082747.2524909-1-laurent@vivier.eu>
 References: <20211101082747.2524909-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:RpkfCmiRDLupRVEyYLVHr4RnyDj8zP76pJckPtOT2vzxwq2jrCV
- w4PO3ofsWHLJXVaXFPSH28mA9rhzGhWY3IUybl6Z9v4552kGroGewROHTBP+KAoOKHm6OBk
- cY4JRQM/0MkFrqIrVB605GBnCtGiLuqye0rkNao4z5HsELKTBB4Y3jWTJW12amVtb1BqubU
- 1lJ3+OSdnsFWNwTxqkKjw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zpQAy5oH68k=:LuyMKKjYxjBz2vn6YhepFb
- GxX7wDAlhmPsGz0anMF09aCqNqrpmLv4q7mBx6L+RVcrqBd4UvDZpK1hqLIPHQs08OBZD+5mK
- Jm/IOFEI+adCK8rZIFD7x4PRKqD1M2+VVol4lcsByQ5I7z4bUnYLc5Kkb0ZcTloeNhQsLgMW3
- vDG9HqGleVK4VLSoO/rHiiMZzN+mbLcBpg5ktLQJagQNHxZtl2aYdYWQQq7/z6KJpOOdcIDs7
- 9Kaq+0U2dVTHk4ogCNBsMgQzOeJeLSBh/UdF4Bto3caSZ7Qi4uRPLeaXWEqK0EkbAAsHj1FHz
- kBy4uUEDYQcJ/kqhq+dL5ifmrNy1ETe146+/DbBudeQ45cAcZLchcIRWrg+DCzpM4DUA4pUfQ
- OtdDoEmJZufnkuVVofj4lE74w6kP0HAH+X2KaMpr+q6KL3o1m6cKcybLCUDAZxzrTm58GXI5N
- nuG2gBELR9JIs0IdSRCoAMVFc9CfEK33svqFbKHiEeMWYtPRj4kkOVjwF8sNrQrgRhIELBlsB
- bsw0Aa1Wx0miJhvlvAz+yRnoqPie9xyPcnFX9PHyZ51Pa/pMcNgDkRnP5rjOW3ATYpWitmIzO
- KXO9IDe0j9lA3HQJPHjIkspkXv9/pw+kcgXVH2nC6WoCccqIKpp4zq9KGTlwhSzDv05S4nPRP
- +Tx/9/ZVwgDy8wLQSfK4as208KpEILtwW1kLxDr3rRVKMFtLsbGfXDM7/PRDjQwXXHh4=
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:vTRIRl9dsWwAtgu7Ui2dNw36goyA8bCbs2YTQGdBdTg2LuUphR7
+ aBiA6GbwT8735AEbnyHvLfszB90joxxZMUGsWNZivxvLirBjQNe6meLTaamo7LZcf3tJ0BP
+ xTmsp8S1qxKCIXzHyArO5w3AOQKqFncJfS4kHsjLt3wuOnXX0hMiAtBtv7uX3yh01cKCZRM
+ Nm7NMWtMy422r5iD90eyw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:oWYh5lWFiSM=:xdW6SZ1WAFZbp9rlrPYEnc
+ LG7ykr8Suqx7lJ7ok5QIc5VjgvwAmL5LhBK9YoODFKjwA77TopvX7S3Z+EvwRtPwHDH59s67P
+ cj2L7DLX8qk3ggiXXOGkMtHgsmLkQuY/Wbf2XovAUaCHhWo9wcMFeBtTdP89k1guqSl+BZaPH
+ wGbtL9RBAl993lniH9HpNOxY9U6u+KsKhugGhDMTIdoqB1THitz1qKPgJDKnjdKgdiuo8N51f
+ PGfYkdY2mtQ5emXfe9rUEM/campEl1L89Vrc9Uyzsl9SUwv/G33kgXqtHbxR7vt/b5qo+30pe
+ LWB7lkgN05U6h1VYl6a1/c8Szc4Czt+skzicQVkrzJt7MZHCTAAaDaZyMv2lhBBtIWECyMvry
+ cdYus7wkdDlE1avKOBVJhzR3r5NiuHa6LB0ebl/5ZKsG/6IY8TrB0vszJ2dL2BvAz3nxBM2lj
+ QiFyMt/sLVGVIwgOLQJtKA1CZTYkK0IFX6K7ExckZ/dXM6KrWHS+JrtQ1cX+kucw53Logv2H3
+ ws9UakWuZrmUuhlDBlToh4GsopFA6w9b54ynmCtCz/0Xj2p9pEa+Ox2k/e5Q0mh8kyOq05VnP
+ ijlW5W8lbtq70gsWshSjhHgTmApk+cFUgU0jqFC/zRqoj56agm/LrAWwkDcHAaAyaL59UUerJ
+ bMI9JyXMvDCqulNjlB9H9n+/fAKGqty5AQuJXCkHUzmr0CGHxMfbZPR9iCnL068SM0hM=
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,77 +74,146 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-We want to use the OBJECT_DECLARE_SIMPLE_TYPE() macro to QOM'ify
-this device in the next commit. To make its review simpler, as a
-first step move the LASIPS2State and LASIPS2Port declarations to
-'hw/input/lasips2.h'
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
-Message-Id: <20210920064048.2729397-3-f4bug@amsat.org>
+Message-Id: <20210920064048.2729397-4-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/input/lasips2.c         | 18 ------------------
- include/hw/input/lasips2.h | 18 ++++++++++++++++++
- 2 files changed, 18 insertions(+), 18 deletions(-)
+ hw/hppa/lasi.c             | 10 +++++++++-
+ hw/input/lasips2.c         | 38 ++++++++++++++++++++++++++++----------
+ include/hw/input/lasips2.h | 17 +++++++++++++----
+ 3 files changed, 50 insertions(+), 15 deletions(-)
 
+diff --git a/hw/hppa/lasi.c b/hw/hppa/lasi.c
+index 88c3791eb683..91414748b70d 100644
+--- a/hw/hppa/lasi.c
++++ b/hw/hppa/lasi.c
+@@ -297,6 +297,7 @@ static int lasi_get_irq(unsigned long hpa)
+ DeviceState *lasi_init(MemoryRegion *address_space)
+ {
+     DeviceState *dev;
++    SysBusDevice *sbd;
+     LasiState *s;
+ 
+     dev = qdev_new(TYPE_LASI_CHIP);
+@@ -340,7 +341,14 @@ DeviceState *lasi_init(MemoryRegion *address_space)
+     /* PS/2 Keyboard/Mouse */
+     qemu_irq ps2kbd_irq = qemu_allocate_irq(lasi_set_irq, s,
+             lasi_get_irq(LASI_PS2KBD_HPA));
+-    lasips2_init(address_space, LASI_PS2KBD_HPA,  ps2kbd_irq);
++
++    sbd = SYS_BUS_DEVICE(qdev_new(TYPE_LASIPS2));
++    sysbus_realize_and_unref(sbd, &error_fatal);
++    memory_region_add_subregion(address_space, LASI_PS2KBD_HPA,
++                                sysbus_mmio_get_region(sbd, 0));
++    memory_region_add_subregion(address_space, LASI_PS2MOU_HPA,
++                                sysbus_mmio_get_region(sbd, 1));
++    sysbus_connect_irq(sbd, 0, ps2kbd_irq);
+ 
+     return dev;
+ }
 diff --git a/hw/input/lasips2.c b/hw/input/lasips2.c
-index 68d741d34215..0f8362f17bc1 100644
+index 0f8362f17bc1..46cd32316dac 100644
 --- a/hw/input/lasips2.c
 +++ b/hw/input/lasips2.c
-@@ -33,24 +33,6 @@
- #include "hw/irq.h"
+@@ -243,28 +243,46 @@ static void ps2dev_update_irq(void *opaque, int level)
+     lasips2_update_irq(port->parent);
+ }
  
+-void lasips2_init(MemoryRegion *address_space,
+-                  hwaddr base, qemu_irq irq)
++static void lasips2_init(Object *obj)
+ {
+-    LASIPS2State *s;
++    LASIPS2State *s = LASIPS2(obj);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
  
--struct LASIPS2State;
--typedef struct LASIPS2Port {
--    struct LASIPS2State *parent;
--    MemoryRegion reg;
--    void *dev;
--    uint8_t id;
--    uint8_t control;
--    uint8_t buf;
--    bool loopback_rbne;
--    bool irq;
--} LASIPS2Port;
+-    s = g_malloc0(sizeof(LASIPS2State));
 -
--typedef struct LASIPS2State {
--    LASIPS2Port kbd;
--    LASIPS2Port mouse;
--    qemu_irq irq;
--} LASIPS2State;
+-    s->irq = irq;
++    sysbus_init_irq(sbd, &s->irq);
+     s->mouse.id = 1;
+     s->kbd.parent = s;
+     s->mouse.parent = s;
+ 
+-    vmstate_register(NULL, base, &vmstate_lasips2, s);
 -
- static const VMStateDescription vmstate_lasips2 = {
-     .name = "lasips2",
-     .version_id = 0,
+     s->kbd.dev = ps2_kbd_init(ps2dev_update_irq, &s->kbd);
+     s->mouse.dev = ps2_mouse_init(ps2dev_update_irq, &s->mouse);
+ 
+     memory_region_init_io(&s->kbd.reg, NULL, &lasips2_reg_ops, &s->kbd,
+                           "lasips2-kbd", 0x100);
+-    memory_region_add_subregion(address_space, base, &s->kbd.reg);
++    sysbus_init_mmio(sbd, &s->kbd.reg);
+ 
+     memory_region_init_io(&s->mouse.reg, NULL, &lasips2_reg_ops, &s->mouse,
+                           "lasips2-mouse", 0x100);
+-    memory_region_add_subregion(address_space, base + 0x100, &s->mouse.reg);
++    sysbus_init_mmio(sbd, &s->mouse.reg);
++}
++
++static void lasips2_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++
++    dc->vmsd = &vmstate_lasips2;
+ }
++
++static const TypeInfo lasips2_info = {
++    .name          = TYPE_LASIPS2,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(LASIPS2State),
++    .instance_init = lasips2_init,
++    .class_init    = lasips2_class_init,
++};
++
++static void lasips2_register_types(void)
++{
++    type_register_static(&lasips2_info);
++}
++
++type_init(lasips2_register_types)
 diff --git a/include/hw/input/lasips2.h b/include/hw/input/lasips2.h
-index 0cd7b59064a9..c88f1700162a 100644
+index c88f1700162a..834b6d867d9d 100644
 --- a/include/hw/input/lasips2.h
 +++ b/include/hw/input/lasips2.h
-@@ -11,6 +11,24 @@
+@@ -7,11 +7,11 @@
+ #ifndef HW_INPUT_LASIPS2_H
+ #define HW_INPUT_LASIPS2_H
+ 
+-#include "exec/hwaddr.h"
++#include "hw/sysbus.h"
  
  #define TYPE_LASIPS2 "lasips2"
++OBJECT_DECLARE_SIMPLE_TYPE(LASIPS2State, LASIPS2)
  
-+struct LASIPS2State;
-+typedef struct LASIPS2Port {
-+    struct LASIPS2State *parent;
-+    MemoryRegion reg;
-+    void *dev;
-+    uint8_t id;
-+    uint8_t control;
-+    uint8_t buf;
-+    bool loopback_rbne;
-+    bool irq;
-+} LASIPS2Port;
-+
-+typedef struct LASIPS2State {
-+    LASIPS2Port kbd;
-+    LASIPS2Port mouse;
-+    qemu_irq irq;
-+} LASIPS2State;
-+
- void lasips2_init(MemoryRegion *address_space, hwaddr base, qemu_irq irq);
+-struct LASIPS2State;
+ typedef struct LASIPS2Port {
+     struct LASIPS2State *parent;
+     MemoryRegion reg;
+@@ -23,12 +23,21 @@ typedef struct LASIPS2Port {
+     bool irq;
+ } LASIPS2Port;
  
++/*
++ * QEMU interface:
++ *  + sysbus MMIO region 0 is the keyboard port interface
++ *  + sysbus MMIO region 1 is the mouse port interface
++ *  + sysbus IRQ 0 is the interrupt line shared between
++ *    keyboard and mouse ports
++ */
+ typedef struct LASIPS2State {
++    /*< private >*/
++    SysBusDevice parent_obj;
++
++    /*< public >*/
+     LASIPS2Port kbd;
+     LASIPS2Port mouse;
+     qemu_irq irq;
+ } LASIPS2State;
+ 
+-void lasips2_init(MemoryRegion *address_space, hwaddr base, qemu_irq irq);
+-
  #endif /* HW_INPUT_LASIPS2_H */
 -- 
 2.31.1
