@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9347D441D5B
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 16:21:50 +0100 (CET)
-Received: from localhost ([::1]:57236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1735441D71
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 16:32:44 +0100 (CET)
+Received: from localhost ([::1]:34852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhZ88-0002xK-OW
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 11:21:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56784)
+	id 1mhZIh-0007W2-C7
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 11:32:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mhZ6X-00020I-7j
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 11:20:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54439)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mhZ6T-0007K0-Sh
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 11:20:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635780004;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=poEdaomnTQ+yVAwYpi2f2pVSlNjVBEp1V9Ea9cuKK/0=;
- b=Ghuh1Lpyz5YHBYXT5yd8NkFrH30uPgoqju+7CaMYAFuaUPa3tUWY+4ocX72u6FBM+YJSLg
- /Sw4yd/732FiiP0G6krXQiEWbiKCp+j5iZZ52thztlcl7wP1PooD2oAK+ctgVVL63YVHFG
- azXDhsmq1hNvotI9LJLnnwwFY15kj7k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-ioGBLlyUMcOpmkztmpMB_g-1; Mon, 01 Nov 2021 11:20:01 -0400
-X-MC-Unique: ioGBLlyUMcOpmkztmpMB_g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D176C8E2189;
- Mon,  1 Nov 2021 15:19:43 +0000 (UTC)
-Received: from localhost (unknown [10.22.33.246])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2F7F25D9D5;
- Mon,  1 Nov 2021 15:19:41 +0000 (UTC)
-Date: Mon, 1 Nov 2021 11:18:08 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Damien Hedde <damien.hedde@greensocs.com>
-Subject: Re: [PATCH v3 0/3] Dynamic sysbus device check error report
-Message-ID: <20211101151808.mqckuwjufad3jlzb@habkost.net>
-References: <20211029142258.484907-1-damien.hedde@greensocs.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mhZHT-0006ed-Bl
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 11:31:27 -0400
+Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834]:46921)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mhZHP-0000cD-Lw
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 11:31:26 -0400
+Received: by mail-qt1-x834.google.com with SMTP id s1so14767354qta.13
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 08:31:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ZQTpF83tMKfnveNBLXnXgJTprnpVbSC46DeBc3/Pxno=;
+ b=JqFzphJieRh0MhwvbffcYU0D5Igox5fzh7tPqSp3dppbLkzvrBXMBsHH9FKB1FB1k8
+ rDi/GaT4u+Wb5E5x+6mH4BXFynDK4QhLZGIJE1GSkq1jYYZV+zbizd2my+5bc17Bs3vv
+ 66Ah8Zw4rUfTNJUFLnVeiAzmYJnCzTPAw4MrNZoOkSark09/0B4Cy3JiU+EB7qCwaIVU
+ RzXcgHXJef3r0mgcr6gc17nJw8Nt+IS9qjJavlGvQ/iw0pku348SsFfsLSbxzuebFi3l
+ JEWGBtURdKzgl3kQPBwujfgYbo5rEoa0kHKBybPvxKLHAvt9NvdnPqzllE/7JP6fcY8s
+ nq9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZQTpF83tMKfnveNBLXnXgJTprnpVbSC46DeBc3/Pxno=;
+ b=DpkPZST48e4QHxFKZcsc9toQs5ZbAzeHa3o9bG63GpMOqzixXTyUxU6QpMnvSt+SqA
+ HOjKIV+xiUscfiRd8t8rElMhDQ/cxRByFLk/GHXf0VxUs5JSXsvPVHvuvAdpSHvAdPkY
+ Fgt2xVsiMn0Ozi6XmXngdl2Sv+YbxRbeyK0G83yQrn6MrJ+AlPADjNXuFEa6ub9HGZpY
+ BaS2NQYTJjup6EmhVsxLw+X4/+J9pXKR9W8Oc4FkrAMrlCATPAkinduRIKrQS+syAEnF
+ f4Teu9cXY3P6MhYifcL5dhGBfvFKkUejXzxoO586MWmFf1Fxccba4w9OZA4MtqZ8Owmg
+ dqFg==
+X-Gm-Message-State: AOAM530vi4quIadfMgd6hZZnPTCfBx6RFHoOQ9MP1ONgd4KBYOskcUi0
+ la/3OpPIFAo8GhHrrX0soPJ/ww==
+X-Google-Smtp-Source: ABdhPJxi+8lB7BQ18Ge2IxnndH6j2pwlOHbS5NdaUQ+US6EUOoPqJt50JZK9UWX4kBmrk6SsCVPqww==
+X-Received: by 2002:ac8:5a11:: with SMTP id n17mr26706598qta.210.1635780681923; 
+ Mon, 01 Nov 2021 08:31:21 -0700 (PDT)
+Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
+ [172.254.253.57])
+ by smtp.gmail.com with ESMTPSA id n19sm10865053qta.22.2021.11.01.08.31.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Nov 2021 08:31:21 -0700 (PDT)
+Subject: Re: [PULL 6/6] hw/input/lasips2: QOM'ify the Lasi PS/2
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20211101082747.2524909-1-laurent@vivier.eu>
+ <20211101082747.2524909-7-laurent@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <04704da8-24c5-25d6-85e1-6f9901f00b24@linaro.org>
+Date: Mon, 1 Nov 2021 11:31:19 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211029142258.484907-1-damien.hedde@greensocs.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+In-Reply-To: <20211101082747.2524909-7-laurent@vivier.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x834.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.14,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,45 +88,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- mark.burton@greensocs.com, qemu-devel@nongnu.org, edgari@xilinx.com,
- mirela.grujic@greensocs.com, Alistair Francis <alistair.francis@wdc.com>,
- Ani Sinha <ani@anisinha.ca>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-trivial@nongnu.org, Damien Hedde <damien.hedde@greensocs.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 29, 2021 at 04:22:55PM +0200, Damien Hedde wrote:
-> Hi,
+On 11/1/21 4:27 AM, Laurent Vivier wrote:
+> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > 
-> Dynamic sysbus devices are allowed by a per-machine basis.
-> Right now, the allowance check is done during an machine_init_done
-> notifier, well after such devices are created.
-> 
-> This series move the check at the right place (during the handling
-> of a QMP device_add command or -device CLI option) so that we can
-> report the error right away.
-> 
-> This was initially part of my RFC (hence the v3) about allowing to
-> create devices during the machine initialized phase (link is below).
-> But it seems to me these patches make sense already as a standalone
-> cleanup.
-> 
-> Only patch 1 miss a review.
-> 
-> Thanks,
-> Damien
-> 
-> v3:
->  + standalone series
->  + minor tweaks
-> 
-> v2 was part of:
-> https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg05683.html
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+> Message-Id: <20210920064048.2729397-4-f4bug@amsat.org>
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> ---
+>   hw/hppa/lasi.c             | 10 +++++++++-
+>   hw/input/lasips2.c         | 38 ++++++++++++++++++++++++++++----------
+>   include/hw/input/lasips2.h | 17 +++++++++++++----
+>   3 files changed, 50 insertions(+), 15 deletions(-)
 
-Acked-by: Eduardo Habkost <ehabkost@redhat.com>
+This has broken the qtest-hppa device-introspection test:
 
--- 
-Eduardo
+ERROR:../src/qom/object.c:2011:object_get_canonical_path_component: code should not be reached
+Broken pipe
+Aborted (core dumped)
 
+Also, the previous patch 5 does not compile on its own:
+
+In file included from ../src/hw/input/lasips2.c:28:0:
+/home/richard.henderson/qemu/src/include/hw/input/lasips2.h:17:18: error: field ‘reg’ has 
+incomplete type
+      MemoryRegion reg;
+                   ^~~
+ninja: build stopped: subcommand failed.
+
+Reverting to patch 4 builds, and passes the introspection test.
+
+
+r~
 
