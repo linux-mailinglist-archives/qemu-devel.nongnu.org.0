@@ -2,73 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B6AA441982
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 11:10:11 +0100 (CET)
-Received: from localhost ([::1]:36570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1117F44199D
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 11:13:44 +0100 (CET)
+Received: from localhost ([::1]:49364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhUGY-0002ai-Og
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 06:10:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55022)
+	id 1mhUJz-00034r-0K
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 06:13:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mhU3V-0008H3-Vq
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 05:56:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41604)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mhU8f-0001Uy-9v; Mon, 01 Nov 2021 06:02:01 -0400
+Received: from out28-1.mail.aliyun.com ([115.124.28.1]:40546)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mhU3L-0000X5-Js
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 05:56:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635760590;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vnJOlH6eKEUDgkeEhZBZgJbIBkRpOxoMla3L2OTOKzA=;
- b=Bd0MCWX2C7Nf+sfgY8U5kXim1rBhIHm0wRgCV20bUyHSwp1A8M/d85OtIa4DamDT/mGJMh
- avDFFIbVZ4YtLiObxv5obQehJj6ZSyWtkzKekYqpZA9N0qJQo3U9sPEZjYSRVxKmEcD9nB
- TpmG/lZVDtyNiGgmUMYgEa7HgoQQonI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-2pHQ7dyHPJucetySUs3Eqg-1; Mon, 01 Nov 2021 05:56:28 -0400
-X-MC-Unique: 2pHQ7dyHPJucetySUs3Eqg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67C5310A8E0B;
- Mon,  1 Nov 2021 09:56:27 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.186])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 82CD05BB06;
- Mon,  1 Nov 2021 09:56:09 +0000 (UTC)
-Date: Mon, 1 Nov 2021 09:56:08 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jag Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v3 02/12] vfio-user: build library
-Message-ID: <YX+5uDLo82yB1xDx@stefanha-x1.localdomain>
-References: <cover.1633929457.git.jag.raman@oracle.com>
- <48b1ca2b5070f3655075e02966c40786028dbfd9.1633929457.git.jag.raman@oracle.com>
- <YXltdeUNi1JPuyB7@stefanha-x1.localdomain>
- <9A1823A8-DA30-4665-93CD-349F058A52CA@oracle.com>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mhU8a-0001Te-DW; Mon, 01 Nov 2021 06:02:00 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1456845|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.00722336-0.00039027-0.992386;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047187; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.LlcGtUT_1635760905; 
+Received: from roman-VirtualBox.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.LlcGtUT_1635760905)
+ by smtp.aliyun-inc.com(10.147.43.230);
+ Mon, 01 Nov 2021 18:01:46 +0800
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH 00/13] Support UXL filed in xstatus.  
+Date: Mon,  1 Nov 2021 18:01:30 +0800
+Message-Id: <20211101100143.44356-1-zhiwei_liu@c-sky.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <9A1823A8-DA30-4665-93CD-349F058A52CA@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="FZtkyrUNeqL7iMiu"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.736,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=115.124.28.1; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-1.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,71 +54,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John Johnson <john.g.johnson@oracle.com>,
- "thuth@redhat.com" <thuth@redhat.com>,
- "swapnil.ingle@nutanix.com" <swapnil.ingle@nutanix.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>,
- "philmd@redhat.com" <philmd@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>
+Cc: palmer@dabbelt.com, richard.henderson@linaro.org, bin.meng@windriver.com,
+ Alistair.Francis@wdc.com, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---FZtkyrUNeqL7iMiu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In this patch set, we process the pc reigsters writes,
+gdb reads and writes, and address calculation under
+different UXLEN settings.
 
-On Fri, Oct 29, 2021 at 02:17:43PM +0000, Jag Raman wrote:
-> Hi Stefan,
->=20
-> > On Oct 27, 2021, at 11:17 AM, Stefan Hajnoczi <stefanha@redhat.com> wro=
-te:
-> >=20
-> > On Mon, Oct 11, 2021 at 01:31:07AM -0400, Jagannathan Raman wrote:
-> >> diff --git a/hw/remote/Kconfig b/hw/remote/Kconfig
-> >> index 08c16e235f..f9e512d44a 100644
-> >> --- a/hw/remote/Kconfig
-> >> +++ b/hw/remote/Kconfig
-> >> @@ -1,4 +1,9 @@
-> >> +config VFIO_USER_SERVER
-> >> +    bool
-> >> +    default n
-> >=20
-> > Does VFIO_USER_SERVER depend on MULTIPROCESS?
->=20
-> Yes, VFIO_USER_SERVER presently depends on MULTIPROCESS.
->=20
-> This is because it needs some object and functions implemented by multipr=
-ocess
-> such as TYPE_REMOTE_MACHINE and TYPE_REMOTE_PCIHOST.
+LIU Zhiwei (13):
+  target/riscv: Sign extend pc for different ol
+  target/riscv: Extend pc for runtime pc write
+  target/riscv: Ignore the pc bits above XLEN
+  target/riscv: Use gdb xml according to max mxlen
+  target/riscv: Calculate address according to ol
+  target/riscv: Adjust vsetvl according to ol
+  target/riscv: Ajdust vector atomic check with ol
+  target/riscv: Fix check range for first fault only
+  target/riscv: Adjust vector address with ol
+  target/riscv: Adjust scalar reg in vector with ol
+  target/riscv: Switch context in exception return
+  target/riscv: Don't save pc when exception return
+  target/riscv: Enable uxl field write
 
-I wonder if it's necessary to specify that dependency in the Kconfig
-file? If someone disables MULTIPROCESS but enables VFIO_USER_SERVER then
-there should probably be an error (or MULTIPROCESS becomes enabled again
-automatically).
+ target/riscv/cpu.c                            | 20 ++++-
+ target/riscv/cpu.h                            |  4 +
+ target/riscv/cpu_helper.c                     |  4 +-
+ target/riscv/csr.c                            |  6 +-
+ target/riscv/gdbstub.c                        | 73 ++++++++++++-----
+ target/riscv/helper.h                         |  7 +-
+ target/riscv/insn_trans/trans_privileged.c.inc|  9 +--
+ target/riscv/insn_trans/trans_rvd.c.inc       | 20 ++---
+ target/riscv/insn_trans/trans_rvf.c.inc       | 21 ++---
+ target/riscv/insn_trans/trans_rvi.c.inc       | 23 +++---
+ target/riscv/insn_trans/trans_rvv.c.inc       | 19 +++--
+ target/riscv/internals.h                      |  1 +
+ target/riscv/op_helper.c                      | 30 ++++++-
+ target/riscv/translate.c                      | 23 +++++-
+ target/riscv/vector_helper.c                  | 81 +++++++++++++------
+ 15 files changed, 233 insertions(+), 108 deletions(-)
 
-Stefan
-
---FZtkyrUNeqL7iMiu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmF/ubUACgkQnKSrs4Gr
-c8jtUAf/R3X+HWjCII3G+u+VDMtzm5KCvkSmkV6FTpn8SOSj6ITp65hFjzfp23Ep
-lysG78GNB+dVPB5Ps/nvW/DikSPhUJr4EGz3+SxjGRfmiXcB+mIVtUiKp/ytllSe
-wh6CQOzpSY3ozoKYcBr/xhj5Q5PHGHNHB+ZS4j4ZF2wsveKkL+Z/Q0craAeRrJA/
-8hsiDudmLRayb7ShhODb7ghypmr2lWo4gCtPoSOmk1AEd8nM5DB0rc/MKWm3yMTi
-I7AQG7UTfpCDOnFWnVxrT3Ciz/0wTRuLBLXjQh8X0e4dN7oFNhEilwGViU925z/O
-VHM2HZZ8vKB6mYWggA+lKzf1jzEc2A==
-=uM09
------END PGP SIGNATURE-----
-
---FZtkyrUNeqL7iMiu--
+-- 
+2.25.1
 
 
