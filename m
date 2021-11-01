@@ -2,82 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C6044180B
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 10:40:22 +0100 (CET)
-Received: from localhost ([::1]:53916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F0A944190A
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 10:54:00 +0100 (CET)
+Received: from localhost ([::1]:39024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhTnh-0006pY-Ac
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 05:40:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51718)
+	id 1mhU0t-00082s-Fg
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 05:53:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mhTmg-00068S-Rw
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 05:39:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40087)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mhTmd-0001aA-6x
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 05:39:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635759553;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DLRAzjRTsSSovksMnXQtC1p0c7YsanaOIeQPjPe/F38=;
- b=f1T7PPUQKkHfvNAZmX9x7hzGgibCuk2EB0s0WFhd+vtXkqovGCJ/qiMXgSdAWxslJroPRN
- kkA89w0iJpP4LJuQb7ECY9XIO1++rzN8ENCfy4AjpYED1JxZNVykoCjoUcDB6ko9Gs6dhb
- 8rB5BKDfRGyUgAYBSuYmhKMCZx/Ps0s=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-553-Gq2HQPPBOzSYxE8c1NBaLA-1; Mon, 01 Nov 2021 05:39:10 -0400
-X-MC-Unique: Gq2HQPPBOzSYxE8c1NBaLA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- z138-20020a1c7e90000000b003319c5f9164so2518708wmc.7
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 02:39:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=DLRAzjRTsSSovksMnXQtC1p0c7YsanaOIeQPjPe/F38=;
- b=N7cRVhK6icTs2oUXT4lbKuSGvp/tvoC/lViVynj9u3t5lStXA9cNoV2iwFVIK+RLx8
- QWaPyiHYABI2I7G4eL7Y7ZxGGUxwFCe1Z3DLDtaOtp3lqu1THo+QVOywLei/ApdX/Up0
- Atzx/ZxUUccGSRLYQrU4zpjEBBFtQZzkGgL6WMOWjc9GBVbxE0BIQ+eForsblqTAHbsc
- /1SRsUS6RlxifBVxU8vWjKel3XdcYKOvyzn5uV+0G2CqDnD8jcu1o/hWmABOaFSw6J61
- Viw8xJz7eczk3n2GvpULWA2m0JzVhzixLSJy/TJmtU69LpT0SaaEou9rA71GzVR3orM2
- Mbog==
-X-Gm-Message-State: AOAM532GqSqymuPmxD1PVST1dWG7F6A3DTB0a/jaFCsqswTkE5xF68G7
- RQrtIFsHgB0NWp5Q15lXwNF3zIJjw99sHcKn0GFmkP+ptsbqjD0jdMzkymkj2A853sa/F/XDxc1
- D0x85An0n6Km4ddk=
-X-Received: by 2002:a7b:cbd1:: with SMTP id n17mr7141165wmi.145.1635759548738; 
- Mon, 01 Nov 2021 02:39:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx7E8pgGiVvHlxGSnpL9Habpg8GWbgCSamgG/plKrvMAoXMEBNIOW0+Mg5TLCsEcavyb9ohJA==
-X-Received: by 2002:a7b:cbd1:: with SMTP id n17mr7141139wmi.145.1635759548469; 
- Mon, 01 Nov 2021 02:39:08 -0700 (PDT)
-Received: from redhat.com ([2a03:c5c0:107f:7087:907d:ff12:1534:78b7])
- by smtp.gmail.com with ESMTPSA id l22sm8172545wmp.34.2021.11.01.02.39.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Nov 2021 02:39:07 -0700 (PDT)
-Date: Mon, 1 Nov 2021 05:39:04 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH v2] failover: specify an alternate MAC address
-Message-ID: <20211101053105-mutt-send-email-mst@kernel.org>
-References: <20211027095945.86710-1-lvivier@redhat.com>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1mhTzD-0005Fi-FH
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 05:52:15 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:50114 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1mhTz9-00089V-Vo
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 05:52:15 -0400
+Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn2u3uH9hbKIjAA--.55994S2; 
+ Mon, 01 Nov 2021 17:51:51 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v8 00/29] Add LoongArch linux-user emulation support
+Date: Mon,  1 Nov 2021 17:51:22 +0800
+Message-Id: <1635760311-20015-1-git-send-email-gaosong@loongson.cn>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <20211027095945.86710-1-lvivier@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.736,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dxn2u3uH9hbKIjAA--.55994S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3Ww45Ww4DZFWktFy5Kr1kAFb_yoWDGr18pr
+ Wfur15Gr48JrZ7Jrsaga45Zrn5Xa1xGr42g3WSq3s5ArWxZryfZFn5KasxKFy3X3W0gryI
+ qFnYkw1UWF4UXa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,198 +55,222 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@loongson.cn,
+ philmd@redhat.com, i.qemu@xen0n.name, richard.henderson@linaro.org,
+ laurent@vivier.eu, peterx@redhat.com, f4bug@amsat.org,
+ yangxiaojuan@loongson.cn, alistair.francis@wdc.com, maobibo@loongson.cn,
+ pbonzini@redhat.com, bmeng.cn@gmail.com, alex.bennee@linaro.org,
+ gaosong@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 27, 2021 at 11:59:45AM +0200, Laurent Vivier wrote:
-> If the guest driver doesn't support the STANDBY feature, by default
-> we keep the virtio-net device and don't hotplug the VFIO device,
-> but in some cases, user can prefer to use the VFIO device rather
-> than the virtio-net one. We can't unplug the virtio-net device
-> (because on migration it is expected on the destination side) but
-> we can keep both interfaces if the MAC addresses are different
-> (to have the same MAC address can cause kernel crash with old
-> kernel). The VFIO device will be unplugged before the migration
-> like in the normal failover migration but without a failover device.
-> 
-> This patch adds a new property to the virtio-net device:
-> "failover-legacy-mac"
-> 
-> If an alternate MAC address is provided with "failover-legacy-mac" and
-> the STANDBY feature is not supported, both interfaces are plugged
-> but the standby interface (virtio-net) MAC address is set to the
-> value provided by the "failover-legacy-mac" parameter.
-> 
-> If the STANDBY feature is supported by guest and QEMU, the virtio-net
-> failover acts as usual.
-> 
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Hi all,
 
-Wait a second. What if config is read before features are set?
-Are we going to provide a legacy or a new mac?
-I guess current guests do not do this, but the spec does allow this,
-and then the mac will apparently change for the guests.
+This series only support linux-user emulation.
+More about LoongArch at: https://github.com/loongson/
 
-It might be cleaner to just add a PRIMARY_MAC feature -
-would need guest work though ...
+The latest kernel:
+  * https://github.com/loongson/linux/tree/loongarch-next
+
+Patches need review:
+  * 0002-target-loongarch-Add-core-definition.patch
+  * 0016-target-loongarch-Add-disassembler.patch
+  * 0017-linux-user-Add-LoongArch-generic-header-files.patch
+  * 0018-linux-user-Add-LoongArch-specific-structures.patch
+  * 0019-linux-user-Add-LoongArch-signal-support.patch
+  * 0020-linux-user-Add-LoongArch-elf-support.patch
+  * 0021-linux-user-Add-LoongArch-syscall-support.patch
+  * 0022-linux-user-Add-LoongArch-cpu_loop-support.patch
+  * 0023-linux-user-Add-host-dependency-for-LoongArch-64-bit.patch
+  * 0028-accel-tcg-user-exec-Implement-CPU-specific-signal-ha.patch
+  * 0029-linux-user-Add-safe-syscall-handling-for-loongarch64.patch
 
 
-> ---
-> 
-> Notes:
->     v2: rename alt-mac to failover-legacy-mac
->         update doc with text provided by MST
-> 
->  docs/system/virtio-net-failover.rst | 10 ++++++
->  hw/net/virtio-net.c                 | 48 +++++++++++++++++++++++------
->  include/hw/virtio/virtio-net.h      |  6 ++++
->  3 files changed, 55 insertions(+), 9 deletions(-)
-> 
-> diff --git a/docs/system/virtio-net-failover.rst b/docs/system/virtio-net-failover.rst
-> index 6002dc5d96e4..99f21cd55ef7 100644
-> --- a/docs/system/virtio-net-failover.rst
-> +++ b/docs/system/virtio-net-failover.rst
-> @@ -51,6 +51,16 @@ Usage
->    is only for pairing the devices within QEMU. The guest kernel module
->    net_failover will match devices with identical MAC addresses.
->  
-> +  For legacy guests (including bios/EUFI) not supporting VIRTIO_NET_F_STANDBY,
-> +  two options exist:
-> +
-> +  1. if failover-legacy-mac has not been configured (default)
-> +     only the standby virtio-net device is visible to the guest
-> +
-> +  2. if failover-legacy-mac has been configured, virtio and vfio devices will
-> +     be presented to guest as two NIC devices, with virtio using the
-> +     failover-legacy-mac address.
-> +
->  Hotplug
->  -------
->  
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index f2014d5ea0b3..0d47d287de14 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -45,6 +45,9 @@
->  #include "net_rx_pkt.h"
->  #include "hw/virtio/vhost.h"
->  
-> +/* zero MAC address to check with */
-> +static const MACAddr zero = { .a = { 0, 0, 0, 0, 0, 0 } };
-> +
->  #define VIRTIO_NET_VM_VERSION    11
->  
->  #define MAC_TABLE_ENTRIES    64
-> @@ -126,7 +129,6 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
->      VirtIONet *n = VIRTIO_NET(vdev);
->      struct virtio_net_config netcfg;
->      NetClientState *nc = qemu_get_queue(n->nic);
-> -    static const MACAddr zero = { .a = { 0, 0, 0, 0, 0, 0 } };
->  
->      int ret = 0;
->      memset(&netcfg, 0 , sizeof(struct virtio_net_config));
-> @@ -871,10 +873,21 @@ static void failover_add_primary(VirtIONet *n, Error **errp)
->      error_propagate(errp, err);
->  }
->  
-> +static void failover_plug_primary(VirtIONet *n)
-> +{
-> +    Error *err = NULL;
-> +
-> +    qapi_event_send_failover_negotiated(n->netclient_name);
-> +    qatomic_set(&n->failover_primary_hidden, false);
-> +    failover_add_primary(n, &err);
-> +    if (err) {
-> +        warn_report_err(err);
-> +    }
-> +}
-> +
->  static void virtio_net_set_features(VirtIODevice *vdev, uint64_t features)
->  {
->      VirtIONet *n = VIRTIO_NET(vdev);
-> -    Error *err = NULL;
->      int i;
->  
->      if (n->mtu_bypass_backend &&
-> @@ -921,12 +934,22 @@ static void virtio_net_set_features(VirtIODevice *vdev, uint64_t features)
->          memset(n->vlans, 0xff, MAX_VLAN >> 3);
->      }
->  
-> -    if (virtio_has_feature(features, VIRTIO_NET_F_STANDBY)) {
-> -        qapi_event_send_failover_negotiated(n->netclient_name);
-> -        qatomic_set(&n->failover_primary_hidden, false);
-> -        failover_add_primary(n, &err);
-> -        if (err) {
-> -            warn_report_err(err);
-> +    if (n->failover) {
-> +        if (virtio_has_feature(features, VIRTIO_NET_F_STANDBY)) {
-> +            if (memcmp(&n->legacy_mac, &zero, sizeof(zero)) != 0 &&
-> +                memcmp(n->mac, &n->legacy_mac, ETH_ALEN) == 0) {
-> +                /*
-> +                 * set_features can be called twice, without & with F_STANDBY,
-> +                 * so restore original MAC address
+Changes for v8:
+  * Use the FIELD functions to define cpucfg[i].
+  * Re-use the decodetree to disassembler description. 
+  * Split v7 patch(0017-LoongArch-Linux-User-Emulation.patch).
 
-Restore can be confusing. Let's just say that we set it to XX.
+Changes for v7:
+  * scripts/gensyscalls.sh support loongarch64
+    if we use gensyscalls.sh, we need disable __BITS_PER_LONG at arch/loongarch/include/uapi/asm/bitsperlong.h
 
-> +                 */
-> +                memcpy(n->mac, &n->nic->conf->macaddr, sizeof(n->mac));
-> +                qemu_format_nic_info_str(qemu_get_queue(n->nic), n->mac);
-> +            }
-> +            failover_plug_primary(n);
-> +        } else if (memcmp(&n->legacy_mac, &zero, sizeof(zero)) != 0) {
+Changes for v6:
+  * Resolve patch10 and patch6 code issues.
 
-add a comment here too?
+Changes for v5:
+  * Follow Richard's code review comments [1].
+  * Use force_sig_fault().
+  * Implement setup_sigtramp.
 
-> +            memcpy(n->mac, &n->legacy_mac, ETH_ALEN);
-> +            qemu_format_nic_info_str(qemu_get_queue(n->nic), n->mac);
-> +            failover_plug_primary(n);
->          }
->      }
->  }
-> @@ -3595,9 +3618,15 @@ static bool primary_unplug_pending(void *opaque)
->      VirtIODevice *vdev = VIRTIO_DEVICE(dev);
->      VirtIONet *n = VIRTIO_NET(vdev);
->  
-> -    if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_STANDBY)) {
-> +    if (!n->failover) {
->          return false;
->      }
-> +
-> +    if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_STANDBY) &&
-> +        memcmp(&n->legacy_mac, &zero, sizeof(zero)) == 0) {
-> +        return false;
-> +    }
-> +
->      primary = failover_find_primary_device(n);
->      return primary ? primary->pending_deleted_event : false;
->  }
-> @@ -3672,6 +3701,7 @@ static Property virtio_net_properties[] = {
->      DEFINE_PROP_UINT32("rsc_interval", VirtIONet, rsc_timeout,
->                         VIRTIO_NET_RSC_DEFAULT_INTERVAL),
->      DEFINE_NIC_PROPERTIES(VirtIONet, nic_conf),
-> +    DEFINE_PROP_MACADDR("failover-legacy-mac",  VirtIONet, legacy_mac),
->      DEFINE_PROP_UINT32("x-txtimer", VirtIONet, net_conf.txtimer,
->                         TX_TIMER_INTERVAL),
->      DEFINE_PROP_INT32("x-txburst", VirtIONet, net_conf.txburst, TX_BURST),
-> diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
-> index eb87032627d2..4b9523def5fb 100644
-> --- a/include/hw/virtio/virtio-net.h
-> +++ b/include/hw/virtio/virtio-net.h
-> @@ -213,6 +213,12 @@ struct VirtIONet {
->      QDict *primary_opts;
->      bool primary_opts_from_json;
->      Notifier migration_state;
-> +    /*
-> +     * failover: to provide an alternate MAC address allows to keep both
-> +     * cards, primary and stand-by, if the STANDBY feature is not supported
-> +     * by the guest
-> +     */
-> +    MACAddr legacy_mac;
->      VirtioNetRssData rss_data;
->      struct NetRxPkt *rx_pkt;
->      struct EBPFRSSContext ebpf_rss;
-> -- 
-> 2.31.1
+    [1]: https://patchew.org/QEMU/1630586467-22463-1-git-send-email-gaosong@loongson.cn/
+
+Changes for v4:
+  * Update README，add LoongArch linux-user emulation Introduction.
+  * Add 'make check-tcg' support(patch 20).
+  * Add binfmt config(patch 21).
+  * Fix bugs when running loongarch basic commands.
+Changes for v3:
+  * Split trans.inc.c.
+  * Remove csr registers.
+  * Delete patchs 2, 4, 5.
+  * Follow Richard's code review comments [1].
+  * Follow Richard's riscv patches [2].
+
+    [1]: https://patchew.org/QEMU/1626861198-6133-1-git-send-email-gaosong@loongson.cn/
+    [2]: https://patchew.org/QEMU/20210823195529.560295-1-richard.henderson@linaro.org/
+
+Changes for v2:
+  * Patch 1, remove unnecessary introduction;
+  * Patch 3, follow the ARM/AVR pattern to add new CPU features;
+  * Patch 6, remove decode_lsx();
+  * Patches 7-18, delete opcode definition, modify translation function;
+  * Patches 20-22, split V1 patch20 to V2 patch20-22.
+
+v7: https://patchew.org/QEMU/1634561247-25499-1-git-send-email-gaosong@loongson.cn/
+V6: https://patchew.org/QEMU/1631866380-31017-1-git-send-email-gaosong@loongson.cn/
+V5: https://patchew.org/QEMU/1631624431-30658-1-git-send-email-gaosong@loongson.cn/
+V4: https://patchew.org/QEMU/1630586467-22463-1-git-send-email-gaosong@loongson.cn/
+V3: https://patchew.org/QEMU/1630048494-2143-1-git-send-email-gaosong@loongson.cn/
+V2: https://patchew.org/QEMU/1626861198-6133-1-git-send-email-gaosong@loongson.cn/
+V1: https://patchew.org/QEMU/1624881885-31692-1-git-send-email-gaosong@loongson.cn/
+
+Please review!
+
+Thanks.
+
+
+Song Gao (29):
+  target/loongarch: Add README
+  target/loongarch: Add core definition
+  target/loongarch: Add main translation routines
+  target/loongarch: Add fixed point arithmetic instruction translation
+  target/loongarch: Add fixed point shift instruction translation
+  target/loongarch: Add fixed point bit instruction translation
+  target/loongarch: Add fixed point load/store instruction translation
+  target/loongarch: Add fixed point atomic instruction translation
+  target/loongarch: Add fixed point extra instruction translation
+  target/loongarch: Add floating point arithmetic instruction
+    translation
+  target/loongarch: Add floating point comparison instruction
+    translation
+  target/loongarch: Add floating point conversion instruction
+    translation
+  target/loongarch: Add floating point move instruction translation
+  target/loongarch: Add floating point load/store instruction
+    translation
+  target/loongarch: Add branch instruction translation
+  target/loongarch: Add disassembler
+  linux-user: Add LoongArch generic header files
+  linux-user: Add LoongArch specific structures
+  linux-user: Add LoongArch signal support
+  linux-user: Add LoongArch elf support
+  linux-user: Add LoongArch syscall support
+  linux-user: Add LoongArch cpu_loop support
+  linux-user: Add host dependency for LoongArch 64-bit
+  default-configs: Add loongarch linux-user support
+  target/loongarch: Add target build suport
+  target/loongarch: 'make check-tcg' support
+  scripts: add loongarch64 binfmt config
+  accel/tcg/user-exec: Implement CPU-specific signal handler for
+    loongarch64 hosts
+  linux-user: Add safe syscall handling for loongarch64 hosts
+
+ MAINTAINERS                                    |   5 +
+ accel/tcg/user-exec.c                          |  73 ++
+ configs/targets/loongarch64-linux-user.mak     |   3 +
+ configure                                      |   5 +
+ include/disas/dis-asm.h                        |   2 +
+ include/elf.h                                  |   2 +
+ linux-user/elfload.c                           |  58 ++
+ linux-user/host/loongarch64/hostdep.h          |  34 +
+ linux-user/host/loongarch64/safe-syscall.inc.S |  80 +++
+ linux-user/loongarch64/cpu_loop.c              |  98 +++
+ linux-user/loongarch64/signal.c                | 163 +++++
+ linux-user/loongarch64/sockbits.h              |   1 +
+ linux-user/loongarch64/syscall_nr.h            | 312 +++++++++
+ linux-user/loongarch64/target_cpu.h            |  35 +
+ linux-user/loongarch64/target_elf.h            |  14 +
+ linux-user/loongarch64/target_errno_defs.h     |   7 +
+ linux-user/loongarch64/target_fcntl.h          |  12 +
+ linux-user/loongarch64/target_signal.h         |  30 +
+ linux-user/loongarch64/target_structs.h        |  49 ++
+ linux-user/loongarch64/target_syscall.h        |  46 ++
+ linux-user/loongarch64/termbits.h              |   1 +
+ linux-user/syscall_defs.h                      |  10 +-
+ meson.build                                    |   3 +-
+ scripts/gensyscalls.sh                         |   1 +
+ scripts/qemu-binfmt-conf.sh                    |   6 +-
+ target/loongarch/README                        |  76 ++
+ target/loongarch/cpu-param.h                   |  19 +
+ target/loongarch/cpu.c                         | 353 ++++++++++
+ target/loongarch/cpu.h                         | 254 +++++++
+ target/loongarch/disas.c                       | 919 +++++++++++++++++++++++++
+ target/loongarch/fpu_helper.c                  | 865 +++++++++++++++++++++++
+ target/loongarch/helper.h                      |  97 +++
+ target/loongarch/insn_trans/trans_arith.c      | 322 +++++++++
+ target/loongarch/insn_trans/trans_atomic.c     | 133 ++++
+ target/loongarch/insn_trans/trans_bit.c        | 255 +++++++
+ target/loongarch/insn_trans/trans_branch.c     |  85 +++
+ target/loongarch/insn_trans/trans_extra.c      |  87 +++
+ target/loongarch/insn_trans/trans_farith.c     | 108 +++
+ target/loongarch/insn_trans/trans_fcmp.c       |  59 ++
+ target/loongarch/insn_trans/trans_fcnv.c       |  36 +
+ target/loongarch/insn_trans/trans_fmemory.c    | 187 +++++
+ target/loongarch/insn_trans/trans_fmov.c       | 153 ++++
+ target/loongarch/insn_trans/trans_memory.c     | 235 +++++++
+ target/loongarch/insn_trans/trans_shift.c      | 131 ++++
+ target/loongarch/insns.decode                  | 480 +++++++++++++
+ target/loongarch/internals.h                   |  29 +
+ target/loongarch/meson.build                   |  19 +
+ target/loongarch/op_helper.c                   |  85 +++
+ target/loongarch/translate.c                   | 288 ++++++++
+ target/loongarch/translate.h                   |  46 ++
+ target/meson.build                             |   1 +
+ tests/tcg/configure.sh                         |   1 +
+ 52 files changed, 6367 insertions(+), 6 deletions(-)
+ create mode 100644 configs/targets/loongarch64-linux-user.mak
+ create mode 100644 linux-user/host/loongarch64/hostdep.h
+ create mode 100644 linux-user/host/loongarch64/safe-syscall.inc.S
+ create mode 100644 linux-user/loongarch64/cpu_loop.c
+ create mode 100644 linux-user/loongarch64/signal.c
+ create mode 100644 linux-user/loongarch64/sockbits.h
+ create mode 100644 linux-user/loongarch64/syscall_nr.h
+ create mode 100644 linux-user/loongarch64/target_cpu.h
+ create mode 100644 linux-user/loongarch64/target_elf.h
+ create mode 100644 linux-user/loongarch64/target_errno_defs.h
+ create mode 100644 linux-user/loongarch64/target_fcntl.h
+ create mode 100644 linux-user/loongarch64/target_signal.h
+ create mode 100644 linux-user/loongarch64/target_structs.h
+ create mode 100644 linux-user/loongarch64/target_syscall.h
+ create mode 100644 linux-user/loongarch64/termbits.h
+ create mode 100644 target/loongarch/README
+ create mode 100644 target/loongarch/cpu-param.h
+ create mode 100644 target/loongarch/cpu.c
+ create mode 100644 target/loongarch/cpu.h
+ create mode 100644 target/loongarch/disas.c
+ create mode 100644 target/loongarch/fpu_helper.c
+ create mode 100644 target/loongarch/helper.h
+ create mode 100644 target/loongarch/insn_trans/trans_arith.c
+ create mode 100644 target/loongarch/insn_trans/trans_atomic.c
+ create mode 100644 target/loongarch/insn_trans/trans_bit.c
+ create mode 100644 target/loongarch/insn_trans/trans_branch.c
+ create mode 100644 target/loongarch/insn_trans/trans_extra.c
+ create mode 100644 target/loongarch/insn_trans/trans_farith.c
+ create mode 100644 target/loongarch/insn_trans/trans_fcmp.c
+ create mode 100644 target/loongarch/insn_trans/trans_fcnv.c
+ create mode 100644 target/loongarch/insn_trans/trans_fmemory.c
+ create mode 100644 target/loongarch/insn_trans/trans_fmov.c
+ create mode 100644 target/loongarch/insn_trans/trans_memory.c
+ create mode 100644 target/loongarch/insn_trans/trans_shift.c
+ create mode 100644 target/loongarch/insns.decode
+ create mode 100644 target/loongarch/internals.h
+ create mode 100644 target/loongarch/meson.build
+ create mode 100644 target/loongarch/op_helper.c
+ create mode 100644 target/loongarch/translate.c
+ create mode 100644 target/loongarch/translate.h
+
+-- 
+1.8.3.1
 
 
