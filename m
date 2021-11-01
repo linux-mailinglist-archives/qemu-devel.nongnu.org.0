@@ -2,70 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E95624421F9
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 21:51:53 +0100 (CET)
-Received: from localhost ([::1]:55586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3B82442212
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 21:54:57 +0100 (CET)
+Received: from localhost ([::1]:35048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mheHZ-00043Y-3E
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 16:51:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58496)
+	id 1mheKW-0000wy-Jl
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 16:54:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <francois.ozog@linaro.org>)
- id 1mheBT-0006CM-K6
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 16:45:35 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:34515)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <francois.ozog@linaro.org>)
- id 1mheBQ-0000gR-Ab
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 16:45:34 -0400
-Received: by mail-ed1-x534.google.com with SMTP id g10so68201967edj.1
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 13:45:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=y5L4ZTu7Gt/FwyfX5ISXCiv+p7aofmdqhnwu+iOBfFU=;
- b=LSZ5XacAke3+84An62+npc+BgsmLu8cPdrVtvABkmEhWVVsqfNTRWAIuXB9OsKVSno
- WWKeJguAIKAigl5RfSWfpOx5XKSBRIeJjq/WMCm1fq9cGxkTIifOe3WTVljx94vt4yET
- +NB5AtOCX1/SDjlKR87N5m5MOmQpde8JOPJ38yjQv9iXUP3nedwhM8t0doBeT1OnoDiB
- gb+mi+pMhJoWGRsE3RU9RWi15Y7Na2kHHMUta0jtndgluLKgLAOq9vdrlGv6yqXUAVUd
- 6Qb4hBfpqVzYKyQxu1zivAQ+UxUADomebw1g7QnXQcZ+jk2b8sQxtf2vxXVaQW9AD/kW
- JpCg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mheEc-0002hi-MJ
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 16:48:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33316)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mheEY-0001K4-As
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 16:48:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635799720;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mfnCH1Yv8ONG1dYNOq8GGWpZcVm2IeQhFxzS+ihGJiM=;
+ b=ZU1IEfdLsUlVMSenOzyW4jq7ZO2cPEsHPpd7CYQ8vY0hJFOH/R27pPibaYG/WiiqE74UST
+ bFGHNst8HgzbpRltELhfVF/6aaXtqAUvCTWgqbntyCDv9ZDDC+8kv+8MUkrB0p7jUxGmMM
+ kGbSStwYwjRq9jywgh9YEsLEUzz/mZc=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-42-T0oC4Q7QNDKeLKDSMhictw-1; Mon, 01 Nov 2021 16:48:38 -0400
+X-MC-Unique: T0oC4Q7QNDKeLKDSMhictw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ v9-20020a50d849000000b003dcb31eabaaso16799502edj.13
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 13:48:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=y5L4ZTu7Gt/FwyfX5ISXCiv+p7aofmdqhnwu+iOBfFU=;
- b=WD0OJj6sYxHmple2z1xVuic8whp/2F0b5ol2NpdBB6MAcV5io9GAa2+WvsEIvFlzPq
- Kw7/H5oRZfiG6azydF4WgcBuOmly4Btj9ArII0vP/LY95JvRnHJs+zHI4ENLFYr0g3kk
- TpjA/6zt1eDXEqsndDqdJOA81ghi4swI+gRpHSF0tXibJVtcgva0SsuF3A4FVJbBaOWY
- VfcAKMN2MIJMKp+UkggR0YW4GlgaT1Dx8kSAEFj1GUkCSKnwOSk7FH2TxzzpOH/2I1vp
- 4VSQm1xg5kDrHLawTlzYrYslYowpgjQxWF+M6cCKTZ+jYfmPVMdcXMdzG86vj+3EKPEl
- 7zbQ==
-X-Gm-Message-State: AOAM531EM+wEqrEnGm0K3kPNIlNDFjiCodAwk2yypFOq8qcgreBifDZD
- /WZBy/DKHQ6hB9sr6ggf4o/+loXXB6brbPK2WbOiLg==
-X-Google-Smtp-Source: ABdhPJzJq9Uz3jFDKxOzxtn3g6CQxqMf1GVepYO4d1qa5VCgnBMV571NwDoKjKfdk3LksCgBboIf9nbdI4cJhI2huxY=
-X-Received: by 2002:a17:906:5d11:: with SMTP id
- g17mr39594561ejt.175.1635799530463; 
- Mon, 01 Nov 2021 13:45:30 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=mfnCH1Yv8ONG1dYNOq8GGWpZcVm2IeQhFxzS+ihGJiM=;
+ b=BZAcByrSnc5bO87yRVE7Yvtp/uorxFY8+E1QNk150LFybBQZWYGOJX2V/mntaObhKn
+ bGqJITz0qXO+qt5i5Bo3n6CUsgYMyzj7+xiBVvLA+fK4DyWdGn4QiTFHrC6Z3oIl8YsX
+ G/DD+UOlHUlyPSxj9cCU8qYKtpxsW1KKs3fbkRd6rkJ0+Vzy1SV1aYsPt1l9W0Sdm+X/
+ kv4ebW+Dixaw7bdxDJWRxR/Km5uDecGhqL4YfCa36bTf62DyIxyBMUc+mBv/Abt0zhLa
+ Pv3oabmWtN/GZ55HLEMiyRQ1IM0MdKJIuDwmAGNGp32X5+TREK71O2mbPo42TgW51/vj
+ TKIA==
+X-Gm-Message-State: AOAM532tg9LE7Yhx4Twz0NgL63VoRVPMwyA5NeN9NZiW7YcHVO8oWctB
+ n2PoK0BcDz6O1EnvCRB1zmQhe/4sSpcVJZb+0z34VbEI2tZkP9OrDCswCGQkAIqmCrSVh9WxMfu
+ yXBrj5lBBdJZNTSw=
+X-Received: by 2002:a50:bf07:: with SMTP id f7mr44639237edk.288.1635799717679; 
+ Mon, 01 Nov 2021 13:48:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyVlDUPCJrauSFTKKetKSz+t38qymmw99jmnRBWDP2N9Idx98n9PTgs/34cpQqigDd8Z14UGg==
+X-Received: by 2002:a50:bf07:: with SMTP id f7mr44639224edk.288.1635799717472; 
+ Mon, 01 Nov 2021 13:48:37 -0700 (PDT)
+Received: from redhat.com ([2.55.156.42])
+ by smtp.gmail.com with ESMTPSA id h10sm9761664edk.41.2021.11.01.13.48.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Nov 2021 13:48:36 -0700 (PDT)
+Date: Mon, 1 Nov 2021 16:48:32 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Subject: Re: [PATCH] vhost: Fix last queue index of devices with no cvq
+Message-ID: <20211101164749-mutt-send-email-mst@kernel.org>
+References: <20211029141608.1728855-1-eperezma@redhat.com>
+ <CACGkMEss8Xq8WYUkDkLaYx-XBW6GADDAjH1mwmpBdxKc2wsRAQ@mail.gmail.com>
+ <CAJaqyWcsbtOoLGkCW6J_9M8qR1-yvbQmWq1rU0y+8Y=BhPeRWw@mail.gmail.com>
+ <CAJaqyWdBMCeFZ4yARpezqmZSSoiLKBStNDm_CLJPrZRDx7X4wg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20211101011734.1614781-1-sjg@chromium.org>
- <CAHFG_=X1DeBFkzwFBkirMkmHB0_OSa9OkQj+CvpG6dT5HZEWBA@mail.gmail.com>
- <d3caa60fcbd1a482@bloch.sibelius.xs4all.nl>
-In-Reply-To: <d3caa60fcbd1a482@bloch.sibelius.xs4all.nl>
-From: =?UTF-8?Q?Fran=C3=A7ois_Ozog?= <francois.ozog@linaro.org>
-Date: Mon, 1 Nov 2021 21:45:19 +0100
-Message-ID: <CAHFG_=WNHyhHj+RCJOMz89wEW50grYv_veKTfnGTRG0ZEKQ4oA@mail.gmail.com>
-Subject: Re: [PATCH 00/31] passage: Define a standard for firmware data flow
-To: Mark Kettenis <mark.kettenis@xs4all.nl>
-Content-Type: multipart/alternative; boundary="000000000000f007c205cfc041e8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=francois.ozog@linaro.org; helo=mail-ed1-x534.google.com
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) BAYES_50=0.8, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_FONT_LOW_CONTRAST=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CAJaqyWdBMCeFZ4yARpezqmZSSoiLKBStNDm_CLJPrZRDx7X4wg@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,201 +97,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marex@denx.de, albert.u.boot@aribaud.net, trini@konsulko.com,
- yamada.masahiro@socionext.com, xypron.glpk@gmx.de, bill.mills@linaro.org,
- ilias.apalodimas@linaro.org, qemu-devel@nongnu.org, u-boot@lists.denx.de,
- vanbaren@cideas.com, sjg@chromium.org, bmeng.cn@gmail.com,
- morpheus.ibis@gmail.com
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f007c205cfc041e8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon, Nov 01, 2021 at 04:42:01PM +0100, Eugenio Perez Martin wrote:
+> On Mon, Nov 1, 2021 at 9:58 AM Eugenio Perez Martin <eperezma@redhat.com> wrote:
+> >
+> > On Mon, Nov 1, 2021 at 4:34 AM Jason Wang <jasowang@redhat.com> wrote:
+> > >
+> > > On Fri, Oct 29, 2021 at 10:16 PM Eugenio Pérez <eperezma@redhat.com> wrote:
+> > > >
+> > > > The -1 assumes that all devices with no cvq have an spare vq allocated
+> > > > for them, but with no offer of VIRTIO_NET_F_CTRL_VQ. This may not be the
+> > > > case, and the device may have a pair number of queues.
+> > > >
+> > > > To fix this, just resort to the lower even number of queues.
+> > > >
+> > > > Fixes: 049eb15b5fc9 ("vhost: record the last virtqueue index for the virtio device")
+> > > > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+> > > > ---
+> > > >  hw/net/vhost_net.c | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> > > > index 0d888f29a6..edf56a597f 100644
+> > > > --- a/hw/net/vhost_net.c
+> > > > +++ b/hw/net/vhost_net.c
+> > > > @@ -330,7 +330,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+> > > >      NetClientState *peer;
+> > > >
+> > > >      if (!cvq) {
+> > > > -        last_index -= 1;
+> > > > +        last_index &= ~1ULL;
+> > > >      }
+> > >
+> > > The math here looks correct but we need to fix vhost_vdpa_dev_start() instead?
+> > >
+> > > if (dev->vq_index + dev->nvqs - 1 != dev->last_index) {
+> > > ...
+> > > }
+> > >
+> >
+> > If we just do that, devices that offer an odd number of queues but do
+> > not offer ctrl vq would never enable the last vq pair, isn't it?
+> >
+> 
+> To expand the issue,
+> 
+> With that condition it is not possible to make vp_vdpa work on devices
+> with no cvq. If I set the L0 guest's device with no cvq (with -device
+> virtio-net-pci,...,ctrl_vq=off,mq=off). The nested VM will enter that
+> conditional in vhost_net_start, and will mark last_index=1, making it
+> impossible to start a vhost_vdpa device.
+> 
+> However, re-reading the standard:
+> 
+> controlq only exists if VIRTIO_NET_F_CTRL_VQ set.
+> 
+> So the code is actually handling an invalid device: The device set
+> VIRTIO_NET_F_CTRL_VQ but offered an odd number of VQs.
+> 
+> Do we have an example of such a device? It's not the case on qemu
+> virtio-net, with or without vhost-net in L0 device. The operation &=
+> ~1ULL is an intended noop in case the queues are already even. I'm
+> fine to keep making last_index even, so we have that safety net, with
+> further clarifications as MST said, just in case the device is not
+> behaving well. But maybe it's even better just to delete that
+> conditional entirely?
+> 
+> Thanks!
+> 
 
-Hi Mark,
+For sure, no need to handle an invalid configuration.
+Do you have a patch in mind? It'd be easier to discuss
+things with a specific patch rather than theoretically.
 
-Le lun. 1 nov. 2021 =C3=A0 19:19, Mark Kettenis <mark.kettenis@xs4all.nl> a
-=C3=A9crit :
+> 
+> 
+> > Also, I would say that the right place for the solution of this
+> > problem should not be virtio/vhost-vdpa: This is highly dependent on
+> > having cvq, and this implies a knowledge about the use of each
+> > virtqueue. Another kind of device could have an odd number of
+> > virtqueues naturally, and that (-1) would not work for them, isn't it?
+> >
+> > Thanks!
+> >
+> > > Thanks
+> > >
+> > > >
+> > > >      if (!k->set_guest_notifiers) {
+> > > > --
+> > > > 2.27.0
+> > > >
+> > >
 
-> > From: Fran=C3=A7ois Ozog <francois.ozog@linaro.org>
-> > Date: Mon, 1 Nov 2021 09:53:40 +0100
->
-> [...]
->
-> > We could further leverage Passage to pass Operating Systems parameters
-> that
-> > could be removed from device tree (migration of /chosen to Passage).
-> Memory
-> > inventory would still be in DT but allocations for CMA or GPUs would be
-> in
-> > Passage. This idea is to reach a point where  device tree is a "pristin=
-e"
-> > hardware description.
->
-> I wanted to react on something you said in an earlier thread, but this
-> discussion seems to be appropriate as well:
->
-> The notion that device trees only describe the hardware isn't really
-> correct.  Device trees have always been used to configure firmware
-> options (through the /options node) and between firmware and the OS
-> (through the /chosen node) and to describe firmware interfaces
-> (e.g. OpenFirmware calls, PSCI (on ARM), RTAS (on POWER)).  This was
-> the case on the original Open Firmware systems, and is still done on
-> PowerNV systems that use flattened device trees.
-
-
-> I understand and agree with the above.
-Yet, PSCI is different from /options and /chosen: those are platform
-services made available to the OS when the boot firmware code has been
-unloaded/neutralized.
-
-What I (not just myself but let=E2=80=99s simplify) am trying to decouple t=
-he
-supply chain: loosely coupled platform provider (ODM), the firmware
-provider, OS provider, application provider. So it is not to prevent
-presence of those existing nodes, it is to be able introduce some
-rationalization in their use:
-
-Platform interfaces such as PSCI: The question is =E2=80=9Cwho=E2=80=9D inj=
-ects them in the
-DT (build time or runtime). There is no single good answer and you may want
-the authoritative entity that implements the service to actually inject
-itself in the DT passed to the OS. I know some platforms are using SMC
-calls from U-Boot to know what to inject in the DT. I see those as the same
-nature of DIMM sensing and injection in the DT.
-
-/chosen:  a must have when you do not have UEFI but not necessary with UEFI=
-.
-
-/options: it should be possible for the end customer to make the decision
-of integration: at build time or at runtime based on a separate flattened
-device tree file.
-
-This decoupling should result for instance, in the long run, in adjustable
-memory layouts without headaches. changing the secure dram size is simple
-from hardware perspective but a massive issue from a firmware perspective:
-multiple firmware projects sources need to be adjusted, making manual
-calculations on explicit constants or =E2=80=9Chidden=E2=80=9D ones. It sho=
-uld even be
-possible to adjust it at runtime on the field (user selected firmware
-parameter).
-
-
-> I don't see what the benefits are from using Passage instead.  It
-> would only fragment things even more.
->
---=20
-Fran=C3=A7ois-Fr=C3=A9d=C3=A9ric Ozog | *Director Business Development*
-T: +33.67221.6485
-francois.ozog@linaro.org | Skype: ffozog
-
---000000000000f007c205cfc041e8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Hi Mark,</div><div style=3D"background-color:rgba(0,0,0,0=
-)!important;border-color:rgb(0,0,0)!important;color:rgb(0,0,0)!important"><=
-br><div class=3D"gmail_quote" style=3D"background-color:rgba(0,0,0,0)!impor=
-tant;border-color:rgb(0,0,0)!important;color:rgb(0,0,0)!important"><div dir=
-=3D"ltr" class=3D"gmail_attr">Le=C2=A0lun. 1 nov. 2021 =C3=A0 19:19, Mark K=
-ettenis &lt;<a href=3D"mailto:mark.kettenis@xs4all.nl">mark.kettenis@xs4all=
-.nl</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:s=
-olid;padding-left:1ex;border-left-color:rgb(204,204,204)">&gt; From: Fran=
-=C3=A7ois Ozog &lt;<a href=3D"mailto:francois.ozog@linaro.org" target=3D"_b=
-lank">francois.ozog@linaro.org</a>&gt;<br>
-&gt; Date: Mon, 1 Nov 2021 09:53:40 +0100<br>
-<br>
-[...]<br>
-<br>
-&gt; We could further leverage Passage to pass Operating Systems parameters=
- that<br>
-&gt; could be removed from device tree (migration of /chosen to Passage). M=
-emory<br>
-&gt; inventory would still be in DT but allocations for CMA or GPUs would b=
-e in<br>
-&gt; Passage. This idea is to reach a point where=C2=A0 device tree is a &q=
-uot;pristine&quot;<br>
-&gt; hardware description.<br>
-<br>
-I wanted to react on something you said in an earlier thread, but this<br>
-discussion seems to be appropriate as well:<br>
-<br>
-The notion that device trees only describe the hardware isn&#39;t really<br=
->
-correct.=C2=A0 Device trees have always been used to configure firmware<br>
-options (through the /options node) and between firmware and the OS<br>
-(through the /chosen node) and to describe firmware interfaces<br>
-(e.g. OpenFirmware calls, PSCI (on ARM), RTAS (on POWER)).=C2=A0 This was<b=
-r>
-the case on the original Open Firmware systems, and is still done on<br>
-PowerNV systems that use flattened device trees.</blockquote><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px=
-;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204=
-)" dir=3D"auto"><br>
-</blockquote><div dir=3D"auto">I understand and agree with the above.=C2=A0=
-</div><div dir=3D"auto" style=3D"background-color:rgba(0,0,0,0)!important;b=
-order-color:rgb(0,0,0)!important;color:rgb(0,0,0)!important"><div dir=3D"au=
-to" style=3D"border-color:rgb(0,0,0)!important;color:rgb(0,0,0)!important;b=
-ackground-color:rgba(0,0,0,0)!important"><span style=3D"background-color:rg=
-ba(0,0,0,0);border-color:rgb(0,0,0)"><font style=3D"border-color:rgb(0,0,0)=
-;color:rgb(0,0,0)">Yet,=C2=A0</font></span><span>PSCI is different from /op=
-tions and /chosen: those are platform services made available to the OS whe=
-n the boot firmware code has been unloaded/neutralized.</span></div><div di=
-r=3D"auto" style=3D"border-color:rgb(0,0,0)"><span><br></span></div><div di=
-r=3D"auto" style=3D"border-color:rgb(0,0,0)">What I (not just myself but le=
-t=E2=80=99s simplify) am trying to decouple the supply chain: loosely coupl=
-ed platform provider (ODM), the firmware provider, OS provider, application=
- provider. So it is not to prevent presence of those existing nodes, it is =
-to be able introduce some rationalization in their use:</div><div><br></div=
-><div dir=3D"auto"><span style=3D"border-color:rgb(0,0,0)">Platform interfa=
-ces such as PSCI: The question is =E2=80=9Cwho=E2=80=9D injects them in the=
- DT (build time or runtime). There is no single good answer and you may wan=
-t the authoritative entity that implements the service to actually inject i=
-tself in the DT passed to the OS. I know some platforms are using SMC calls=
- from U-Boot to know what to inject in the DT. I see those as the same natu=
-re of DIMM sensing and injection in the DT.</span><br></div><div dir=3D"aut=
-o"><span style=3D"border-color:rgb(0,0,0)"><br></span></div></div><div dir=
-=3D"auto">/chosen: =C2=A0a must have when you do not have UEFI but not nece=
-ssary with UEFI.<br></div><div dir=3D"auto"><br></div><div dir=3D"auto">/op=
-tions: it should be possible for the end customer to make the decision of i=
-ntegration: at build time or at runtime based on a separate flattened devic=
-e tree file.</div><div dir=3D"auto"><br></div><div dir=3D"auto">This decoup=
-ling should result for instance, in the long run, in adjustable memory layo=
-uts without headaches. changing the secure dram size is simple from hardwar=
-e perspective but a massive issue from a firmware perspective: multiple fir=
-mware projects sources need to be adjusted, making manual calculations on e=
-xplicit constants or =E2=80=9Chidden=E2=80=9D ones. It should even be possi=
-ble to adjust it at runtime on the field (user selected firmware parameter)=
-.</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;=
-padding-left:1ex;border-left-color:rgb(204,204,204)"><br>
-I don&#39;t see what the benefits are from using Passage instead.=C2=A0 It<=
-br>
-would only fragment things even more.<br>
-</blockquote></div></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature" =
-data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><=
-div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div =
-dir=3D"ltr"><div><div dir=3D"ltr"><div><div><div><div dir=3D"ltr"><div dir=
-=3D"ltr"><div dir=3D"ltr"><table style=3D"font-size:small" border=3D"0" cel=
-lpadding=3D"0" cellspacing=3D"0"><tbody><tr><td style=3D"padding-right:10px=
-" valign=3D"top"><img src=3D"https://static.linaro.org/common/images/linaro=
--logo-web.png"></td><td valign=3D"top"><table border=3D"0" cellpadding=3D"0=
-" cellspacing=3D"0"><tbody><tr><td style=3D"font-family:Arial,Helvetica,&qu=
-ot;Sans Serif&quot;;white-space:nowrap;font-size:9pt;padding-top:0px;color:=
-rgb(87,87,87)" valign=3D"top"><span style=3D"font-weight:bold">Fran=C3=A7oi=
-s-Fr=C3=A9d=C3=A9ric Ozog</span>=C2=A0<span style=3D"color:rgb(161,161,161)=
-">|</span>=C2=A0<i>Director Business Development</i></td></tr><tr><td style=
-=3D"font-family:Arial,Helvetica,&quot;Sans Serif&quot;;white-space:nowrap;f=
-ont-size:9pt;padding-top:2px;color:rgb(87,87,87)" valign=3D"top">T:=C2=A0<a=
- value=3D"+393384075993" style=3D"color:rgb(17,85,204)">+33.67221.6485</a><=
-br><a href=3D"mailto:francois.ozog@linaro.org" style=3D"color:rgb(87,87,87)=
-;text-decoration:none" target=3D"_blank">francois.ozog@linaro.org</a>=C2=A0=
-<span style=3D"color:rgb(161,161,161)">|</span>=C2=A0Skype:=C2=A0ffozog</td=
-></tr></tbody></table></td></tr></tbody></table></div></div></div></div></d=
-iv><div><div><br style=3D"font-size:small"></div></div></div></div></div></=
-div></div></div></div></div></div></div></div></div></div></div></div>
-
---000000000000f007c205cfc041e8--
 
