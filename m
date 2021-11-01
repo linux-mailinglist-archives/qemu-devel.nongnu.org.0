@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65798441956
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 11:03:48 +0100 (CET)
-Received: from localhost ([::1]:42380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60DA944199B
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 11:13:30 +0100 (CET)
+Received: from localhost ([::1]:47950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhUAN-0004GX-E3
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 06:03:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54298)
+	id 1mhUJl-00027I-Gg
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 06:13:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mhTzn-0005uw-0Q
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 05:52:51 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:50988 helo=loongson.cn)
+ id 1mhU7I-0006pt-JD
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 06:00:36 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:54340 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mhTzj-0008EB-J0
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 05:52:50 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1mhU7G-0001KL-4O
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 06:00:36 -0400
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn2u3uH9hbKIjAA--.55994S28; 
- Mon, 01 Nov 2021 17:52:31 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn2u3uH9hbKIjAA--.55994S29; 
+ Mon, 01 Nov 2021 17:52:32 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 26/29] target/loongarch: 'make check-tcg' support
-Date: Mon,  1 Nov 2021 17:51:48 +0800
-Message-Id: <1635760311-20015-27-git-send-email-gaosong@loongson.cn>
+Subject: [PATCH v8 27/29] scripts: add loongarch64 binfmt config
+Date: Mon,  1 Nov 2021 17:51:49 +0800
+Message-Id: <1635760311-20015-28-git-send-email-gaosong@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1635760311-20015-1-git-send-email-gaosong@loongson.cn>
 References: <1635760311-20015-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9Dxn2u3uH9hbKIjAA--.55994S28
-X-Coremail-Antispam: 1UD129KBjvdXoWrur48ZrW5uF4Dtr4ktF1fZwb_yoW3uFX_A3
- WSkr1kCF4Yyr1xGr18WFn5Gr15W3y7Zr1agF1DJ3WfX3y2van8ta1xAFsrWF15Zw15urnI
- qaykAw4I9w18AjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUUUUUUU
+X-CM-TRANSID: AQAAf9Dxn2u3uH9hbKIjAA--.55994S29
+X-Coremail-Antispam: 1UD129KBjvJXoW7WFWDWw1kCFW5Aw1DXr45Awb_yoW8WF4Dpr
+ 15A3W8CF4jg3WUA3WkXw13Gr1DJr1Ykas7Xr43tr1UAF15tw1rZr1fJr18J3WDJF4UJF1j
+ 9F95Ja1DJF4IkF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+X-Spam_score_int: 0
+X-Spam_score: -0.0
+X-Spam_bar: /
+X-Spam_report: (-0.0 / 5.0 requ) SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,21 +67,33 @@ Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 ---
- tests/tcg/configure.sh | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/qemu-binfmt-conf.sh | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 1f985cc..d8f677d 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -51,6 +51,7 @@ fi
- : ${cross_cc_cflags_armeb="-mbig-endian"}
- : ${cross_cc_hexagon="hexagon-unknown-linux-musl-clang"}
- : ${cross_cc_cflags_hexagon="-mv67 -O2 -static"}
-+: ${cross_cc_loongarch64="loongarch64-unknown-linux-gnu-gcc"}
- : ${cross_cc_hppa="hppa-linux-gnu-gcc"}
- : ${cross_cc_i386="i686-linux-gnu-gcc"}
- : ${cross_cc_cflags_i386="-m32"}
+diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
+index 7de996d..da6a937 100755
+--- a/scripts/qemu-binfmt-conf.sh
++++ b/scripts/qemu-binfmt-conf.sh
+@@ -4,7 +4,7 @@
+ qemu_target_list="i386 i486 alpha arm armeb sparc sparc32plus sparc64 \
+ ppc ppc64 ppc64le m68k mips mipsel mipsn32 mipsn32el mips64 mips64el \
+ sh4 sh4eb s390x aarch64 aarch64_be hppa riscv32 riscv64 xtensa xtensaeb \
+-microblaze microblazeel or1k x86_64 hexagon"
++microblaze microblazeel or1k x86_64 hexagon loongarch64"
+ 
+ i386_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x03\x00'
+ i386_mask='\xff\xff\xff\xff\xff\xfe\xfe\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
+@@ -140,6 +140,10 @@ hexagon_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x
+ hexagon_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
+ hexagon_family=hexagon
+ 
++loongarch64_magic='\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x02\x01'
++loongarch64_mask='\xff\xff\xff\xff\xff\xff\xff\xfc\x00\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
++loongarch64_family=loongarch
++
+ qemu_get_family() {
+     cpu=${HOST_ARCH:-$(uname -m)}
+     case "$cpu" in
 -- 
 1.8.3.1
 
