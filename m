@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44371441FC9
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 19:06:35 +0100 (CET)
-Received: from localhost ([::1]:34776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B063441FC1
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 19:01:43 +0100 (CET)
+Received: from localhost ([::1]:48484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhbhZ-00078Z-7h
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 14:06:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59026)
+	id 1mhbcs-0005tW-KZ
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 14:01:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhb6G-0003w4-J7
+ id 1mhb6G-0003vf-EQ
  for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:28:05 -0400
-Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:38670)
+Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835]:45992)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhb69-0000fr-Hv
+ id 1mhb6A-0000fv-RO
  for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:28:00 -0400
-Received: by mail-qk1-x72e.google.com with SMTP id bi29so17217108qkb.5
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 10:27:51 -0700 (PDT)
+Received: by mail-qt1-x835.google.com with SMTP id r2so15235257qtw.12
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 10:27:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HtawaHYSfgiYXorLPYx7eO4JeOJDito5IEpdHHHLhLI=;
- b=dJj+mSSFptQx4/Lvl+mjYuEtJkxG+nE6EeioTsZC/eLGjtDKLHEU2M9HfeE7wrZSCM
- J0IvhhDLKxWzOP01vJyueUlhwuu/z/ouKHmWwYGxsS5AgKfAKgNkOmKW3FxJc5QSfQcf
- p6pfKxYhm5x5AJM7yvyGDmu2bG8hY3Llm2wH5IWPtBm4V9cYMsWtpdq93y0ljLnsWkcH
- f/c6BfNbYHjU1yDNzdXJIK9hEanvBSwpjkkfM0AqTYLvWfOOje17uQfk5T6nnHtdmJ9y
- 9hf9iAP+hzxsYl9iQAOfnxW/8aydBboEiPYtIrZ0633+YVlch/j1tKhBsE7WD1qrJ2Qd
- 1/lQ==
+ bh=Ky6yY478j1xSRIHIN9BTjrdKe+bHyugXQSySqll0teU=;
+ b=MKhXscidvPb6EqsDTUo+4VxlspmHziy39kEabPo2fRWtR+jkuQ9ijJFzNkjRZAmR/s
+ /keFdev5nObKAF+mVowNz6+MiT9u7gj3kygbhNl24ae7eWZ8kwrXkeoDFvSnIJIibjFX
+ JYb8zgKAaVdWDkEi9sz0e+I6YrpvXCXt1cVU+Xo8X2glZcA2+mQIGymXQ0JZ4F+kxDfw
+ FooTcdUF97CbNDXyQEOsD4WrU/xdiG9jtbJlFqf9Oqblr/jaMv3hrpu9ujvMlV5ubM0x
+ DPdL4ghGz2YSCPYjH4EbfqpWrkQNqk3igGhHLuh0607JqYn8Gzdta5rVLRTPJhEgQua8
+ rtdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HtawaHYSfgiYXorLPYx7eO4JeOJDito5IEpdHHHLhLI=;
- b=oOdGOOYJqaEAP5KEJTba4ap3bElGUW3YAZ2tgZpO0TRw3GitIm1NM1nZamDpA671FN
- dQzpGxFsLhx/5nyPcXx7/wjEN8+hoYabhN+o3F4adRV1nhFqHsOJlWn+zz+Chsysy6+c
- bXTVUGlf+3HM6oMbJJRUfszlrUPG0EQPYjl0Cmp32Ub+eRFWkwE+P5iOXWrAXZodTDMt
- mr/hJ8bx+4SltJQE6GkxM9R3clvM2NxQ8994vKNBKpWfN1Ht/2sluq3Y+hXdLiBFjiyh
- ZpPx+IWsPychvG8bpeID13NXZhFHUBDP2ND58wPvJGQcNPMIz+3azsHTKA3Lm24Jwe/Y
- 74Tg==
-X-Gm-Message-State: AOAM531VCITZKiATj+lG4pf7DIQndQGIcMLTLeIFE8d1GX+tKl7oyn7h
- rOCD6M5d9IS53+dPEPtlUj6YolgfhRDCfg==
-X-Google-Smtp-Source: ABdhPJxariVysMo/oa1V4vQeBWSnVMUz0fyEkd2wOsygfUq3NuiSJnkSP29h2cORvpNE6UHTk9VdyA==
-X-Received: by 2002:a05:620a:254f:: with SMTP id
- s15mr23849778qko.397.1635787671220; 
+ bh=Ky6yY478j1xSRIHIN9BTjrdKe+bHyugXQSySqll0teU=;
+ b=oE0r/Qwbfl67if8bbazyxlfJ6T1U+AHdqvaFI9WohGNE8D1QKnFKckUQsrzIye4rR3
+ NhenT3M5qa6UbDoW+Y9DgWOeO1UJIQh+te7LGaUU8JjIeJ28cALWZYyTh4bU0LLJQUl0
+ T4DHtrzQIDznNVVg6JTdsYQXQtGkO8RsbiEMDmB9cOmsBCk/EDVPa1joKlwKJz1o1uMz
+ TvuovG0dKRCAqbRySUIiJFylFPXbodkRo9vtFa6DDS6YK+jVJ7hLBmhFXE7zKIvEYk54
+ f86x0o15Q5dtD5EQ64C9w+vdsqZJAl//a3AINq0IZF/AO7SG1pJVC89YQ7PxjwuG+KCO
+ ue6w==
+X-Gm-Message-State: AOAM5305TUe3BBO7Tp7RSiKjRonWy9ZSlDQJg4VR4lDAc8MNAXE83omP
+ FnvWsQY2G83wxefulvAgtbLrS/Yx949O1w==
+X-Google-Smtp-Source: ABdhPJwE7HPG31GIm3xWOxMEBRpodfGOFg4KLx87b7PKn+hI3lzsBTZ33EmOd0rm5gRM2L9maXDCmg==
+X-Received: by 2002:ac8:5f0c:: with SMTP id x12mr32094388qta.309.1635787671889; 
  Mon, 01 Nov 2021 10:27:51 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-172-254-253-57.nyc.biz.rr.com.
  [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id t5sm6075331qkf.34.2021.11.01.10.27.50
+ by smtp.gmail.com with ESMTPSA id t5sm6075331qkf.34.2021.11.01.10.27.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Nov 2021 10:27:50 -0700 (PDT)
+ Mon, 01 Nov 2021 10:27:51 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 35/60] target/riscv: Make riscv_cpu_tlb_fill sysemu only
-Date: Mon,  1 Nov 2021 13:27:04 -0400
-Message-Id: <20211101172729.23149-36-richard.henderson@linaro.org>
+Subject: [PATCH v7 36/60] target/s390x: Use probe_access_flags in
+ s390_probe_access
+Date: Mon,  1 Nov 2021 13:27:05 -0400
+Message-Id: <20211101172729.23149-37-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211101172729.23149-1-richard.henderson@linaro.org>
 References: <20211101172729.23149-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::835;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x835.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,107 +84,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Warner Losh <imp@bsdimp.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The fallback code in cpu_loop_exit_sigsegv is sufficient
-for riscv linux-user.
+Not sure why the user-only code wasn't rewritten to use
+probe_access_flags at the same time that the sysemu code
+was converted.  For the purpose of user-only, this is an
+exact replacement.
 
-Remove the code from cpu_loop that raised SIGSEGV.
-
-Reviewed-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/riscv/cpu_loop.c |  7 -------
- target/riscv/cpu.c          |  2 +-
- target/riscv/cpu_helper.c   | 21 +--------------------
- 3 files changed, 2 insertions(+), 28 deletions(-)
+ target/s390x/tcg/mem_helper.c | 18 +++++-------------
+ 1 file changed, 5 insertions(+), 13 deletions(-)
 
-diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
-index e5bb6d908a..b301dac802 100644
---- a/linux-user/riscv/cpu_loop.c
-+++ b/linux-user/riscv/cpu_loop.c
-@@ -87,13 +87,6 @@ void cpu_loop(CPURISCVState *env)
-             sigcode = TARGET_TRAP_BRKPT;
-             sigaddr = env->pc;
-             break;
--        case RISCV_EXCP_INST_PAGE_FAULT:
--        case RISCV_EXCP_LOAD_PAGE_FAULT:
--        case RISCV_EXCP_STORE_PAGE_FAULT:
--            signum = TARGET_SIGSEGV;
--            sigcode = TARGET_SEGV_MAPERR;
--            sigaddr = env->badaddr;
--            break;
-         case RISCV_EXCP_SEMIHOST:
-             env->gpr[xA0] = do_common_semihosting(cs);
-             env->pc += 4;
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 7d53125dbc..f812998123 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -694,9 +694,9 @@ static const struct SysemuCPUOps riscv_sysemu_ops = {
- static const struct TCGCPUOps riscv_tcg_ops = {
-     .initialize = riscv_translate_init,
-     .synchronize_from_tb = riscv_cpu_synchronize_from_tb,
--    .tlb_fill = riscv_cpu_tlb_fill,
- 
- #ifndef CONFIG_USER_ONLY
-+    .tlb_fill = riscv_cpu_tlb_fill,
-     .cpu_exec_interrupt = riscv_cpu_exec_interrupt,
-     .do_interrupt = riscv_cpu_do_interrupt,
-     .do_transaction_failed = riscv_cpu_do_transaction_failed,
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index f30ff672f8..9eeed38c7e 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -814,7 +814,6 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-                             riscv_cpu_two_stage_lookup(mmu_idx);
-     riscv_raise_exception(env, cs->exception_index, retaddr);
- }
--#endif /* !CONFIG_USER_ONLY */
- 
- bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                         MMUAccessType access_type, int mmu_idx,
-@@ -822,7 +821,6 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
+index 17e3f83641..362a30d99e 100644
+--- a/target/s390x/tcg/mem_helper.c
++++ b/target/s390x/tcg/mem_helper.c
+@@ -141,20 +141,12 @@ static int s390_probe_access(CPUArchState *env, target_ulong addr, int size,
+                              MMUAccessType access_type, int mmu_idx,
+                              bool nonfault, void **phost, uintptr_t ra)
  {
-     RISCVCPU *cpu = RISCV_CPU(cs);
-     CPURISCVState *env = &cpu->env;
--#ifndef CONFIG_USER_ONLY
-     vaddr im_address;
-     hwaddr pa = 0;
-     int prot, prot2, prot_pmp;
-@@ -954,25 +952,8 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     }
++#if defined(CONFIG_USER_ONLY)
++    return probe_access_flags(env, addr, access_type, mmu_idx,
++                              nonfault, phost, ra);
++#else
+     int flags;
  
-     return true;
--
--#else
--    switch (access_type) {
--    case MMU_INST_FETCH:
--        cs->exception_index = RISCV_EXCP_INST_PAGE_FAULT;
--        break;
--    case MMU_DATA_LOAD:
--        cs->exception_index = RISCV_EXCP_LOAD_PAGE_FAULT;
--        break;
--    case MMU_DATA_STORE:
--        cs->exception_index = RISCV_EXCP_STORE_PAGE_FAULT;
--        break;
--    default:
--        g_assert_not_reached();
+-#if defined(CONFIG_USER_ONLY)
+-    flags = page_get_flags(addr);
+-    if (!(flags & (access_type == MMU_DATA_LOAD ?  PAGE_READ : PAGE_WRITE_ORG))) {
+-        env->__excp_addr = addr;
+-        flags = (flags & PAGE_VALID) ? PGM_PROTECTION : PGM_ADDRESSING;
+-        if (nonfault) {
+-            return flags;
+-        }
+-        tcg_s390_program_interrupt(env, flags, ra);
 -    }
--    env->badaddr = address;
--    cpu_loop_exit_restore(cs, retaddr);
+-    *phost = g2h(env_cpu(env), addr);
+-#else
+     /*
+      * For !CONFIG_USER_ONLY, we cannot rely on TLB_INVALID_MASK or haddr==NULL
+      * to detect if there was an exception during tlb_fill().
+@@ -173,8 +165,8 @@ static int s390_probe_access(CPUArchState *env, target_ulong addr, int size,
+                              (access_type == MMU_DATA_STORE
+                               ? BP_MEM_WRITE : BP_MEM_READ), ra);
+     }
 -#endif
+     return 0;
++#endif
  }
-+#endif /* !CONFIG_USER_ONLY */
  
- /*
-  * Handle Traps
+ static int access_prepare_nf(S390Access *access, CPUS390XState *env,
 -- 
 2.25.1
 
