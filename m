@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C6F0441F91
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 18:50:00 +0100 (CET)
-Received: from localhost ([::1]:58428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA74441F9E
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 18:52:46 +0100 (CET)
+Received: from localhost ([::1]:42306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhbRX-0008KC-Oj
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 13:49:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58760)
+	id 1mhbUD-0008E0-Cx
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 13:52:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhb63-0003iB-ST
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:27:47 -0400
-Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f]:40615)
+ id 1mhb6B-0003ns-6i
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:27:57 -0400
+Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:43685)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhb5x-0000c9-70
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:27:47 -0400
-Received: by mail-qt1-x82f.google.com with SMTP id 19so14949679qtt.7
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 10:27:40 -0700 (PDT)
+ id 1mhb5y-0000cM-Qu
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:27:54 -0400
+Received: by mail-qk1-x729.google.com with SMTP id bp7so11991747qkb.10
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 10:27:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gSr02Sd1ztBN32tTKGrZscSunLegESBnCl09IIG3Qgg=;
- b=TxSSZ2rzDd1MVzTpsbz7nMhyU05MyChncIz43o3/9/6dugeMJgZwQLAbl4wU+NAGjp
- 8voqhRgSMa6xAfe2ps1sREiwNdcwOGw8W0z8eP56tG8UC6t3ebdx5xBIki2S6+YYmvJA
- koUMpA+VfBBRgXbgFA2G0uWRCn6tn9cCOwieyZNY/3Beg4WD8o6jj+k9uA1iLosdEt9V
- U4PN41FD5vmLw/bVsC3kkfds5+gxbcEgapUUcObKPRTHDKWDT7OpMs+HnLpHVqbOXeqy
- d/0YV0RHMwfM3OscC+QNXeP0Exopjr3JkgdNw9SrhvDp75Bg5Hv6238yy3DmWUOggzuK
- WYJA==
+ bh=aVqSiCZ8VIDZCZNfC7lcfLdqkY20k4N+WRPXdiuKsNc=;
+ b=A+qfkBKj6zishRfu8BOJ07T7mTZpqTd2ChOut5mEyB4VBSTtDSXdkIONUDGfK7ZzSR
+ Q2Bpv7pBncB9HUwrPy/4puqjsXHvWnDm9zPJEXuz4D5Fvr3DMU04wg3dFJnEKLsuf+12
+ IjQ4/BMEHuMgu0fzx65wzeVkWSTBkgyg48ENh0AiPJe/ZCrJsRrlDxsT71JUeBLtZBRC
+ c68TQUpsO2VCKttk1c6nl6n5vPdWPym0DlefSKdrs7fPfJYkEQgKSLTwPZtHaBIwZCiu
+ qW2+MRcNgTFOz9MLTOvtIvV/vlwrRapx7oeXRssYQwwbu2zDDHk88m1CTYMTkFH+JKc0
+ fhUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gSr02Sd1ztBN32tTKGrZscSunLegESBnCl09IIG3Qgg=;
- b=a8mt3xbxV4FyHKV97TvqarOV9O7/eGwsJCBflqQ0aXt5xWvGduSMxgnduMQF4nj82U
- F3nd1O/K5UyJeUvloqyQpgwbcNFYhXHMSt3jtB+C/eOYqFVVfn5IGo+NtcWa5Tzh2JMR
- BnwJTfIw2kdRAG6sSt4B0dpGz0m/xiAAcVJm3Iyv0+XltTQXkGH61GzaZByhCONORkYu
- 9oePfbBvzueRHer3cd7w6IAt0qpeUcF8kAwt2Qu6q8UNWXDucdbBS3sa17hpUbPKDfjD
- zzq39IyXAZzYQ5nakSjiCAMpwslQim6GFeConFnhR8yWBB2TNHWOPwAldcF9FOLa49X8
- xRYQ==
-X-Gm-Message-State: AOAM5301K+JRrREo6xh6RvDcGIxuk6l7I2x38opoJv9T0TuniWFPQy3d
- xg2BBoa5vYcjP6WskhgGb0PlTkyY0y5YyA==
-X-Google-Smtp-Source: ABdhPJyd6seCk5vJVNrDexaNdtSYinZmMaFWnfJLR6/8basJEY2zZZOhNitUs17H4oTBusokASVf8w==
-X-Received: by 2002:ac8:7fd3:: with SMTP id b19mr3530483qtk.235.1635787660353; 
+ bh=aVqSiCZ8VIDZCZNfC7lcfLdqkY20k4N+WRPXdiuKsNc=;
+ b=Xfwu7YKQF9OI8cpsRJeSs7zPHCuIgDZE0vonrFlD/U+igWWRvxQbvYu3j3vzn5+PaH
+ SE37gJvNmQAGYZjyLSlnGFqkQKF/nFp0mVDDiwBzCG+g1EdiZfa8aUvYwH8ZoDq+PUmQ
+ 4bXxsF8u1FJuqF3YUTAjllRXu87rWYC/cS0ANP+19vegGddpTbdeffHrih8TF/jghike
+ Ij0B1HXJ9k5PfWqJYIBBuQAx7oWiEf8mrun514DHY96CA8oDtwHxJOWe9ZWpG8fRl7pt
+ SP9pTcig6F3rgqVq5UxNUfTU669ai8+WBz3EjDZMQlofIOzBQPRzyUHpbzRt0Ul2NHB3
+ vFog==
+X-Gm-Message-State: AOAM531mQ+tS+R/v69+koZ9phaWK4ZfVgnGNIJMPDd6TYoZKi5X4Sxsh
+ 4GUHvlHaNKIJb19lTW/srPT1J3TH+DX0mw==
+X-Google-Smtp-Source: ABdhPJzJVV3jSr5aFo8P4hu4Fc5YC5L4OUPqWCke27KHKnIcoAM1RzHamfoAujvOv1VFGXvNDBt9Ew==
+X-Received: by 2002:a05:620a:89e:: with SMTP id
+ b30mr24680349qka.154.1635787660936; 
  Mon, 01 Nov 2021 10:27:40 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-172-254-253-57.nyc.biz.rr.com.
  [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id t5sm6075331qkf.34.2021.11.01.10.27.39
+ by smtp.gmail.com with ESMTPSA id t5sm6075331qkf.34.2021.11.01.10.27.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 01 Nov 2021 10:27:40 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 16/60] target/arm: Fixup comment re handle_cpu_signal
-Date: Mon,  1 Nov 2021 13:26:45 -0400
-Message-Id: <20211101172729.23149-17-richard.henderson@linaro.org>
+Subject: [PATCH v7 17/60] linux-user/host/riscv: Improve host_signal_write
+Date: Mon,  1 Nov 2021 13:26:46 -0400
+Message-Id: <20211101172729.23149-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211101172729.23149-1-richard.henderson@linaro.org>
 References: <20211101172729.23149-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82f;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x729.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,34 +83,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Warner Losh <imp@bsdimp.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The named function no longer exists.
-Refer to host_signal_handler instead.
+Do not read 4 bytes before we determine the size of the insn.
+Simplify triple switches in favor of checking major opcodes.
+Include the missing cases of compact fsd and fsdsp.
 
-Reviewed-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/sve_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ linux-user/host/riscv/host-signal.h | 83 ++++++++++-------------------
+ 1 file changed, 28 insertions(+), 55 deletions(-)
 
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index dab5f1d1cd..07be55b7e1 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -6118,7 +6118,7 @@ DO_LDN_2(4, dd, MO_64)
-  * linux-user/ in its get_user/put_user macros.
-  *
-  * TODO: Construct some helpers, written in assembly, that interact with
-- * handle_cpu_signal to produce memory ops which can properly report errors
-+ * host_signal_handler to produce memory ops which can properly report errors
-  * without racing.
-  */
+diff --git a/linux-user/host/riscv/host-signal.h b/linux-user/host/riscv/host-signal.h
+index df145b1527..3b168cb58b 100644
+--- a/linux-user/host/riscv/host-signal.h
++++ b/linux-user/host/riscv/host-signal.h
+@@ -18,65 +18,38 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
  
+ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+ {
+-    uint32_t insn = *(uint32_t *)host_signal_pc(uc);
+-
+     /*
+-     * Detect store by reading the instruction at the program
+-     * counter. Note: we currently only generate 32-bit
+-     * instructions so we thus only detect 32-bit stores
++     * Detect store by reading the instruction at the program counter.
++     * Do not read more than 16 bits, because we have not yet determined
++     * the size of the instruction.
+      */
+-    switch (((insn >> 0) & 0b11)) {
+-    case 3:
+-        switch (((insn >> 2) & 0b11111)) {
+-        case 8:
+-            switch (((insn >> 12) & 0b111)) {
+-            case 0: /* sb */
+-            case 1: /* sh */
+-            case 2: /* sw */
+-            case 3: /* sd */
+-            case 4: /* sq */
+-                return true;
+-            default:
+-                break;
+-            }
+-            break;
+-        case 9:
+-            switch (((insn >> 12) & 0b111)) {
+-            case 2: /* fsw */
+-            case 3: /* fsd */
+-            case 4: /* fsq */
+-                return true;
+-            default:
+-                break;
+-            }
+-            break;
+-        default:
+-            break;
+-        }
++    const uint16_t *pinsn = (const uint16_t *)host_signal_pc(uc);
++    uint16_t insn = pinsn[0];
++
++    /* 16-bit instructions */
++    switch (insn & 0xe003) {
++    case 0xa000: /* c.fsd */
++    case 0xc000: /* c.sw */
++    case 0xe000: /* c.sd (rv64) / c.fsw (rv32) */
++    case 0xa002: /* c.fsdsp */
++    case 0xc002: /* c.swsp */
++    case 0xe002: /* c.sdsp (rv64) / c.fswsp (rv32) */
++        return true;
+     }
+ 
+-    /* Check for compressed instructions */
+-    switch (((insn >> 13) & 0b111)) {
+-    case 7:
+-        switch (insn & 0b11) {
+-        case 0: /*c.sd */
+-        case 2: /* c.sdsp */
+-            return true;
+-        default:
+-            break;
+-        }
+-        break;
+-    case 6:
+-        switch (insn & 0b11) {
+-        case 0: /* c.sw */
+-        case 3: /* c.swsp */
+-            return true;
+-        default:
+-            break;
+-        }
+-        break;
+-    default:
+-        break;
++    /* 32-bit instructions, major opcodes */
++    switch (insn & 0x7f) {
++    case 0x23: /* store */
++    case 0x27: /* store-fp */
++        return true;
++    case 0x2f: /* amo */
++        /*
++         * The AMO function code is in bits 25-31, unread as yet.
++         * The AMO functions are LR (read), SC (write), and the
++         * rest are all read-modify-write.
++         */
++        insn = pinsn[1];
++        return (insn >> 11) != 2; /* LR */
+     }
+ 
+     return false;
 -- 
 2.25.1
 
