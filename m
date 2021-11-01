@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92FE844245F
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 00:53:36 +0100 (CET)
-Received: from localhost ([::1]:57826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2387D44247F
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 01:08:06 +0100 (CET)
+Received: from localhost ([::1]:50498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhh7P-00062q-6j
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 19:53:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45410)
+	id 1mhhLQ-0003c0-Uu
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 20:08:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mhgyx-00023Y-PV
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 19:44:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57403)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mhgz0-00024V-0i
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 19:44:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26253)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mhgys-0004Gu-8P
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 19:44:51 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mhgyx-0004HN-6K
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 19:44:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635810285;
+ s=mimecast20190719; t=1635810288;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=87si2iofmNbSxccGunRxGUaDXwE4hg4UwpFbhmuRxZ0=;
- b=f0ReRC6cEGafJdXpu4J7UG1BU8su5W8JeHjts+sDNcWnyp1MLb0lLE7R7BkQcWPvEdWWYV
- cpgZozfgVVdHpW0tcWsq0eUU+SwwwntYo6wJoT568rY/UYbn8P7ZVXiDnCQsSEMbyKz056
- VdyTlg5dRdp36N2FAbtiH06RiNEKuYc=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-Adw1jrjrMe-gIyADtn9f3w-1; Mon, 01 Nov 2021 19:44:44 -0400
-X-MC-Unique: Adw1jrjrMe-gIyADtn9f3w-1
-Received: by mail-ed1-f71.google.com with SMTP id
- v9-20020a50d849000000b003dcb31eabaaso17145584edj.13
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 16:44:44 -0700 (PDT)
+ bh=F4ZtjMfzkzyBWN2bg+JD6SzX6fqnOcm/U8VVQqdvDT8=;
+ b=YkIOExOewYsBNsq0oxl9dseyqsMHODydpchu2S5XJl7vxfqY6L46ojhOTogvGk9jdX2sLE
+ sENB9YPIXV5smAWjjmHnLeD2rO0gzjE6pFDkPu3U3b5aTH3Lvuj/UfYLi13oK1WoGfmXWx
+ SDqOPydsAkJgw+qIQ7tpRUM2o9Q7sAw=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-337-RlQUVO45PeyzvV7JKiG1rA-1; Mon, 01 Nov 2021 19:44:47 -0400
+X-MC-Unique: RlQUVO45PeyzvV7JKiG1rA-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ i9-20020a508709000000b003dd4b55a3caso17101033edb.19
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 16:44:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=87si2iofmNbSxccGunRxGUaDXwE4hg4UwpFbhmuRxZ0=;
- b=nbd8SU+ky8G2Jh5/KJ0cNY3usU+mt8Eo0P7DXQrWWHBNpu8nnU55Mp4oKo5PydNGOk
- vXm4YR2dLlQTPd/Wm7azhzKZyxYxY+flHC8FqDdUWc/8yMNrTCc2x7gX8Qgzdksnmp0U
- RE7mLipc28W47DST/GCokMPCKNOLZ2S1rCgm/T8d9BQcnWhpj/Zwo2BzSSJUmsLpjPec
- hhlrFVK4dPScqqPDJHBNWaNtqkRRJGzz8EvEtm2KqGnxox/W+S04XIbMCaoq3Vo42o76
- qEkLlLeGWpNK7u25mJfEFsaRGL9hwL51M8fdEZiMl6wPw+lAmu5KLqSwQQRIUaxeMz44
- Qu4Q==
-X-Gm-Message-State: AOAM531ZYYPJ8rY8SYxF7Rx2OHRPJvm6eP9x93T9YQFLdq/CF7n26oXl
- jLbqo5aFGPzJgB00/DZGInT6mcI0vk8qAVoDC3h0zv1It5+q3/ibGV4I7DfLPQK/qVwUw9dcJtv
- DK/U4BJ+w8cK7thVzBQC9GpJ5s2pSGbhEzSKnfMBsTiKZ1tN0RheVJyNWKRE3
-X-Received: by 2002:a50:ee01:: with SMTP id g1mr18447025eds.389.1635810283123; 
- Mon, 01 Nov 2021 16:44:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyP98rN7GBUGQx4nvmyvbrARnwtsVmN+v2WulGcuvBKfQE4Gsqep3W8sHo6Q/YiBiL3Kwsi1g==
-X-Received: by 2002:a50:ee01:: with SMTP id g1mr18446992eds.389.1635810282941; 
- Mon, 01 Nov 2021 16:44:42 -0700 (PDT)
+ bh=F4ZtjMfzkzyBWN2bg+JD6SzX6fqnOcm/U8VVQqdvDT8=;
+ b=mpB7F/WNZzCc3G9HBc+SS3YxdW7ejwn65WpsSyKk01DTFuGGTPu2HgxnlHJVXeLQw2
+ jAtZCfflP6EaB5NODHg7tQ0ZTI/0Fe3XI6YPZ3ncydr5C/KBf7z4vdSl4MdzrdK82Sox
+ uAb+bob0lQJglkXzQLHp2ZFFU9XiJ5qUh8PBLY6OnXmoCmU+xKPhEEfnGw0m70dvnWC7
+ oSr9xeqbHN4HUKDqbMNQICTGJ7Jz6cvNgiH4vUtfcfIpBvgNbTfMs55I6NiSyDpCBPO8
+ lied++h8ajnWL0GI1gITAihqhik2fVKXcjy+fHAy4b7l7Zex7NRIc2481C+4hdR9vNtQ
+ KIKw==
+X-Gm-Message-State: AOAM530/wovOJMM43R5Pj64er/4NvKdkJaqSG8YlhduY5ccCVT+6hvoB
+ bu3+jrtetaZTy43Ckr+5RG/Kzl0/LH1uAB0HoS++e7HYyM4CIy7k0/4ODaaLFfkn1IM+nimv4Qt
+ eyem6eFrdrVvo8jioJHmK5zoIlsm5dnfhiKuHMM9AdbNR6l+CmMpvrYrXCrm0
+X-Received: by 2002:a17:907:ea0:: with SMTP id
+ ho32mr11792581ejc.191.1635810286354; 
+ Mon, 01 Nov 2021 16:44:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzV4ULqIeU5AMd3bmn/W7gMbtX/QpgqCSa8YVbbaL9cRv0XMFuuO0fy/Z9BW67w0NKG08vi6Q==
+X-Received: by 2002:a17:907:ea0:: with SMTP id
+ ho32mr11792555ejc.191.1635810286113; 
+ Mon, 01 Nov 2021 16:44:46 -0700 (PDT)
 Received: from redhat.com ([2.55.156.42])
- by smtp.gmail.com with ESMTPSA id o12sm9584008edw.84.2021.11.01.16.44.40
+ by smtp.gmail.com with ESMTPSA id e22sm10048998edu.35.2021.11.01.16.44.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Nov 2021 16:44:42 -0700 (PDT)
-Date: Mon, 1 Nov 2021 19:44:38 -0400
+ Mon, 01 Nov 2021 16:44:45 -0700 (PDT)
+Date: Mon, 1 Nov 2021 19:44:43 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 6/9] hw/i386/pc: Allow instantiating a virtio-iommu device
-Message-ID: <20211101234358.582487-7-mst@redhat.com>
+Subject: [PULL 7/9] pci: Define pci_bus_dev_fn/pci_bus_fn/pci_bus_ret_fn
+Message-ID: <20211101234358.582487-8-mst@redhat.com>
 References: <20211101234358.582487-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211101234358.582487-1-mst@redhat.com>
@@ -94,133 +96,134 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>
+ Eric Auger <eric.auger@redhat.com>, Peter Xu <peterx@redhat.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+From: Peter Xu <peterx@redhat.com>
 
-Allow instantiating a virtio-iommu device by adding an ACPI Virtual I/O
-Translation table (VIOT), which describes the relation between the
-virtio-iommu and the endpoints it manages.
+They're used in quite a few places of pci.[ch] and also in the rest of the code
+base.  Define them so that it doesn't need to be defined all over the places.
 
-Add a hotplug handler for virtio-iommu on x86 and set the necessary
-reserved region property. On x86, the [0xfee00000, 0xfeefffff] DMA
-region is reserved for MSIs. DMA transactions to this range either
-trigger IRQ remapping in the IOMMU or bypasses IOMMU translation.
+The pci_bus_fn is similar to pci_bus_dev_fn that only takes a PCIBus* and an
+opaque.  The pci_bus_ret_fn is similar to pci_bus_fn but it allows to return a
+void* pointer.
 
-Although virtio-iommu does not support IRQ remapping it must be informed
-of the reserved region so that it can forward DMA transactions targeting
-this region.
-
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Tested-by: Eric Auger <eric.auger@redhat.com>
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Message-Id: <20211026182024.2642038-5-jean-philippe@linaro.org>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20211028043129.38871-2-peterx@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/acpi-build.c | 10 +++++++++-
- hw/i386/pc.c         | 16 +++++++++++++++-
- hw/i386/Kconfig      |  1 +
- 3 files changed, 25 insertions(+), 2 deletions(-)
+ include/hw/pci/pci.h | 19 +++++++++----------
+ hw/pci/pci.c         | 20 ++++++--------------
+ 2 files changed, 15 insertions(+), 24 deletions(-)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index ab49e799ff..3ca6cc8118 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -68,9 +68,11 @@
- #include "qom/qom-qobject.h"
- #include "hw/i386/amd_iommu.h"
- #include "hw/i386/intel_iommu.h"
-+#include "hw/virtio/virtio-iommu.h"
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index 7fc90132cf..4a8740b76b 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -401,6 +401,10 @@ typedef PCIINTxRoute (*pci_route_irq_fn)(void *opaque, int pin);
+ OBJECT_DECLARE_TYPE(PCIBus, PCIBusClass, PCI_BUS)
+ #define TYPE_PCIE_BUS "PCIE"
  
- #include "hw/acpi/ipmi.h"
- #include "hw/acpi/hmat.h"
-+#include "hw/acpi/viot.h"
++typedef void (*pci_bus_dev_fn)(PCIBus *b, PCIDevice *d, void *opaque);
++typedef void (*pci_bus_fn)(PCIBus *b, void *opaque);
++typedef void *(*pci_bus_ret_fn)(PCIBus *b, void *opaque);
++
+ bool pci_bus_is_express(PCIBus *bus);
  
- /* These are used to size the ACPI tables for -M pc-i440fx-1.7 and
-  * -M pc-i440fx-2.0.  Even if the actual amount of AML generated grows
-@@ -2488,7 +2490,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
-     PCMachineState *pcms = PC_MACHINE(machine);
-     PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
-     X86MachineState *x86ms = X86_MACHINE(machine);
--    X86IOMMUState *iommu = x86_iommu_get_default();
-+    DeviceState *iommu = pcms->iommu;
-     GArray *table_offsets;
-     unsigned facs, dsdt, rsdt, fadt;
-     AcpiPmInfo pm;
-@@ -2613,6 +2615,12 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
-         acpi_add_table(table_offsets, tables_blob);
-         build_dmar_q35(tables_blob, tables->linker, x86ms->oem_id,
-                        x86ms->oem_table_id);
-+    } else if (object_dynamic_cast(OBJECT(iommu), TYPE_VIRTIO_IOMMU_PCI)) {
-+        PCIDevice *pdev = PCI_DEVICE(iommu);
-+
-+        acpi_add_table(table_offsets, tables_blob);
-+        build_viot(machine, tables_blob, tables->linker, pci_get_bdf(pdev),
-+                   x86ms->oem_id, x86ms->oem_table_id);
-     }
-     if (machine->nvdimms_state->is_enabled) {
-         nvdimm_build_acpi(table_offsets, tables_blob, tables->linker,
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 7b1c4f41cd..e99017e662 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -83,6 +83,7 @@
- #include "hw/i386/intel_iommu.h"
- #include "hw/net/ne2000-isa.h"
- #include "standard-headers/asm-x86/bootparam.h"
-+#include "hw/virtio/virtio-iommu.h"
- #include "hw/virtio/virtio-pmem-pci.h"
- #include "hw/virtio/virtio-mem-pci.h"
- #include "hw/mem/memory-device.h"
-@@ -1330,7 +1331,19 @@ static void pc_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
-                object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-         pc_virtio_md_pci_pre_plug(hotplug_dev, dev, errp);
--    } else if (object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE)) {
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
-+        /* Declare the APIC range as the reserved MSI region */
-+        char *resv_prop_str = g_strdup_printf("0xfee00000:0xfeefffff:%d",
-+                                              VIRTIO_IOMMU_RESV_MEM_T_MSI);
-+
-+        object_property_set_uint(OBJECT(dev), "len-reserved-regions", 1, errp);
-+        object_property_set_str(OBJECT(dev), "reserved-regions[0]",
-+                                resv_prop_str, errp);
-+        g_free(resv_prop_str);
-+    }
-+
-+    if (object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE) ||
-+        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
-         PCMachineState *pcms = PC_MACHINE(hotplug_dev);
+ void pci_root_bus_init(PCIBus *bus, size_t bus_size, DeviceState *parent,
+@@ -458,23 +462,18 @@ static inline int pci_dev_bus_num(const PCIDevice *dev)
  
-         if (pcms->iommu) {
-@@ -1394,6 +1407,7 @@ static HotplugHandler *pc_get_hotplug_handler(MachineState *machine,
-         object_dynamic_cast(OBJECT(dev), TYPE_CPU) ||
-         object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
-         object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI) ||
-+        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI) ||
-         object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE)) {
-         return HOTPLUG_HANDLER(machine);
-     }
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index 962d2c981b..d22ac4a4b9 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -59,6 +59,7 @@ config PC_ACPI
-     select ACPI_X86
-     select ACPI_CPU_HOTPLUG
-     select ACPI_MEMORY_HOTPLUG
-+    select ACPI_VIOT
-     select SMBUS_EEPROM
-     select PFLASH_CFI01
-     depends on ACPI_SMBUS
+ int pci_bus_numa_node(PCIBus *bus);
+ void pci_for_each_device(PCIBus *bus, int bus_num,
+-                         void (*fn)(PCIBus *bus, PCIDevice *d, void *opaque),
++                         pci_bus_dev_fn fn,
+                          void *opaque);
+ void pci_for_each_device_reverse(PCIBus *bus, int bus_num,
+-                                 void (*fn)(PCIBus *bus, PCIDevice *d,
+-                                            void *opaque),
++                                 pci_bus_dev_fn fn,
+                                  void *opaque);
+-void pci_for_each_bus_depth_first(PCIBus *bus,
+-                                  void *(*begin)(PCIBus *bus, void *parent_state),
+-                                  void (*end)(PCIBus *bus, void *state),
+-                                  void *parent_state);
++void pci_for_each_bus_depth_first(PCIBus *bus, pci_bus_ret_fn begin,
++                                  pci_bus_fn end, void *parent_state);
+ PCIDevice *pci_get_function_0(PCIDevice *pci_dev);
+ 
+ /* Use this wrapper when specific scan order is not required. */
+ static inline
+-void pci_for_each_bus(PCIBus *bus,
+-                      void (*fn)(PCIBus *bus, void *opaque),
+-                      void *opaque)
++void pci_for_each_bus(PCIBus *bus, pci_bus_fn fn, void *opaque)
+ {
+     pci_for_each_bus_depth_first(bus, NULL, fn, opaque);
+ }
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 186758ee11..17e59cb3a3 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -1655,9 +1655,7 @@ static const pci_class_desc pci_class_descriptions[] =
+ };
+ 
+ static void pci_for_each_device_under_bus_reverse(PCIBus *bus,
+-                                                  void (*fn)(PCIBus *b,
+-                                                             PCIDevice *d,
+-                                                             void *opaque),
++                                                  pci_bus_dev_fn fn,
+                                                   void *opaque)
+ {
+     PCIDevice *d;
+@@ -1672,8 +1670,7 @@ static void pci_for_each_device_under_bus_reverse(PCIBus *bus,
+ }
+ 
+ void pci_for_each_device_reverse(PCIBus *bus, int bus_num,
+-                         void (*fn)(PCIBus *b, PCIDevice *d, void *opaque),
+-                         void *opaque)
++                                 pci_bus_dev_fn fn, void *opaque)
+ {
+     bus = pci_find_bus_nr(bus, bus_num);
+ 
+@@ -1683,9 +1680,7 @@ void pci_for_each_device_reverse(PCIBus *bus, int bus_num,
+ }
+ 
+ static void pci_for_each_device_under_bus(PCIBus *bus,
+-                                          void (*fn)(PCIBus *b, PCIDevice *d,
+-                                                     void *opaque),
+-                                          void *opaque)
++                                          pci_bus_dev_fn fn, void *opaque)
+ {
+     PCIDevice *d;
+     int devfn;
+@@ -1699,8 +1694,7 @@ static void pci_for_each_device_under_bus(PCIBus *bus,
+ }
+ 
+ void pci_for_each_device(PCIBus *bus, int bus_num,
+-                         void (*fn)(PCIBus *b, PCIDevice *d, void *opaque),
+-                         void *opaque)
++                         pci_bus_dev_fn fn, void *opaque)
+ {
+     bus = pci_find_bus_nr(bus, bus_num);
+ 
+@@ -2078,10 +2072,8 @@ static PCIBus *pci_find_bus_nr(PCIBus *bus, int bus_num)
+     return NULL;
+ }
+ 
+-void pci_for_each_bus_depth_first(PCIBus *bus,
+-                                  void *(*begin)(PCIBus *bus, void *parent_state),
+-                                  void (*end)(PCIBus *bus, void *state),
+-                                  void *parent_state)
++void pci_for_each_bus_depth_first(PCIBus *bus, pci_bus_ret_fn begin,
++                                  pci_bus_fn end, void *parent_state)
+ {
+     PCIBus *sec;
+     void *state;
 -- 
 MST
 
