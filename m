@@ -2,111 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13CC0441582
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 09:42:20 +0100 (CET)
-Received: from localhost ([::1]:59848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9826C44159B
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 09:46:02 +0100 (CET)
+Received: from localhost ([::1]:35432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhStX-0005Sf-8O
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 04:42:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38472)
+	id 1mhSx7-0008Al-GH
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 04:46:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuemingl@nvidia.com>)
- id 1mhSqb-0001Bi-BH; Mon, 01 Nov 2021 04:39:17 -0400
-Received: from mail-bn7nam10on2071.outbound.protection.outlook.com
- ([40.107.92.71]:64993 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mhSvw-0007IY-T3
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 04:44:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54390)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuemingl@nvidia.com>)
- id 1mhSqJ-0002CL-Tj; Mon, 01 Nov 2021 04:39:14 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F21LEoAzpQ5PInOQQQFd2DxFhVbtzlaRH+CepRZy6SRZscQgGJd/f0d5NshTqplbHDssOrkGO8/Y8ullI73RhCRghLpvl9s2DIB1lA5+KAAo4xtZCkiWqVPcKJmHLzuA8rGlZZLkxl/vijBkWyrvAHpOMj41g7SV/hM73JxI9t0lO2XH016lBovbpvpIt6AGwT6NTVniR7vnvfnvIcYiEpGLDDfFIDY0cHuSyUNQqugOkjRDcd5uxrPN+WOUmNKDFRBZD7za4ejabYTRrtNgc3H+LmGJKcUGECVvgWx3JNSrVO6Dkr2a/614hksMoQfeXaNAuTtF/4VPIEFSTllRKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MsyFKZo4zUCM5OqxMJi9JIdPvY9mgO1KrWUbzMeFkmA=;
- b=PXjlN3zygHJ7kDqeWuzE09w5ibknWtoz7ydpTrlPhmobGerVFGFNNzwSlkdVixOlfPzb97eEx2bGX4I0cCgrND9RdpP3MF0v7xihDMG3oks1qdsYfAO11+0OW46tA9ATR5xGBGvl5KzpZc/k7tLhliWzXZkggHAdSlJOBf2gZ0Oc5p9E7QHkb5BKt6v445qNaTowsHieDnAHlLCzenlbuEfERrfoi64qXrLTNCMonihX3Fh0OfRhZuV6wPmabGai6Z4jjnykGJhTM9521UHMWyJwkc3RrxKeX7TR5UgqY5u9Ab8UNhEuhX8H+GgFcd9Ecok77i35TWMHvzYLuofnwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=bytedance.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MsyFKZo4zUCM5OqxMJi9JIdPvY9mgO1KrWUbzMeFkmA=;
- b=iNzU60smnFOz2XVElAoPtPPEuSb3wOet0x5hJmAO3agK4s14E0JY6q/OFBEHmanDKFOYUBSkT0GOj80bd8rNczSYLcRlPpGL1nYjuhP53V/l/CYQdMUsKQtrKAgtxo+n4PCjs0oOUCgUlIwCxwBTBXbBE9f5yCC0SugsyPkW+lnmXwkzxiITewhYi4C9qvsW6q9R9iHHcJglEvvqzQ7Ae9EHXCzLD4TUUu6lm7l6plyj+yk8fad12Hr7B/PkskQjAy7ZA52LWHV+C/mbYDL+MhgbHp7pA4aZMsUCBcAV0AFquX68F2aS2+hSLqY20DGpuwyUexAvOpjBvp6D6fL28w==
-Received: from MW4PR03CA0324.namprd03.prod.outlook.com (2603:10b6:303:dd::29)
- by CH2PR12MB5004.namprd12.prod.outlook.com (2603:10b6:610:62::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.13; Mon, 1 Nov
- 2021 08:38:51 +0000
-Received: from CO1NAM11FT029.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:dd:cafe::5f) by MW4PR03CA0324.outlook.office365.com
- (2603:10b6:303:dd::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14 via Frontend
- Transport; Mon, 1 Nov 2021 08:38:51 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; bytedance.com; dkim=none (message not signed)
- header.d=none;bytedance.com; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- CO1NAM11FT029.mail.protection.outlook.com (10.13.174.214) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4649.14 via Frontend Transport; Mon, 1 Nov 2021 08:38:51 +0000
-Received: from nvidia.com (172.20.187.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Mon, 1 Nov
- 2021 08:38:49 +0000
-From: Xueming Li <xuemingl@nvidia.com>
-To: <qemu-devel@nongnu.org>
-CC: <xuemingl@nvidia.com>, <qemu-stable@nongnu.org>, Yuwei Zhang
- <zhangyuwei.9149@bytedance.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Subject: [PATCH v6 2/2] vhost-user: fix VirtQ notifier cleanup
-Date: Mon, 1 Nov 2021 16:38:13 +0800
-Message-ID: <20211101083813.1224522-3-xuemingl@nvidia.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211101083813.1224522-1-xuemingl@nvidia.com>
-References: <20211101083813.1224522-1-xuemingl@nvidia.com>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mhSvm-00075P-UU
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 04:44:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635756277;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vuAH9C5mXgfFyNY3dgoTMQxTHok2EhE+UpMJ7rCc/Ag=;
+ b=O9nz4SgB0UqcQdZzZtyOfJ8qaulibMZ68Ij6rmEXqAxnMcH+XXZCg9kFuPBbZPY+1Hwn18
+ nVk6OvRpTJSyjO8wjNPQnftynUlRi7J631a+Fu+nu/d2dg/z3SaBR7eBFNiQOOImBN8A0e
+ 0EK4MKFoO3kbXSIO3tfj8CUJEIVfNCs=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-499-LCknSTH3PZea0xGg9vDe3w-1; Mon, 01 Nov 2021 04:44:34 -0400
+X-MC-Unique: LCknSTH3PZea0xGg9vDe3w-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ i9-20020a508709000000b003dd4b55a3caso14937364edb.19
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 01:44:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=vuAH9C5mXgfFyNY3dgoTMQxTHok2EhE+UpMJ7rCc/Ag=;
+ b=CLuwmR4cUUmR4grZvhZHJv7oH+HoHrHJaLm141Sqb6xGoadkFhKV3JJZtBGDOl7lZu
+ aDmXWvZ89w/NI8Oth3ss6yJOGNLfZpMDBItGHGbaJL2Q6bx+B+EOBjgecTyvGc6Db4hp
+ YRoRyKdPbJT8nhqlhKxirbOlWSG13q9bQs5qYDUqJ+nDveIn3FcnKxoYnyXwcJJURzAL
+ Vr91XslBhvuWEVo7iJLJsLbdH+dvo+F+BCWxF7La/fg3IG16ZlVCeZjGhlfsjNtm6fB/
+ irtafnaA0yOd2NvUSb93x7svg5inrimcGAfOnIfvpZofSRXPJ/NlK8AXfYElqPW7nFU5
+ rUdA==
+X-Gm-Message-State: AOAM533+9YKymxYPXwEqVZR7Yijp9bv63ocG7n3cXdRgQPmO6LCsxP+1
+ U9tPuJlOwBwZqusmHYteCkF+5ZavFtdywaUrEPR5QreRfkWaOpqnrJ1G78B5V3RMvZaNDgT8gHn
+ a6w9BoPLOXKJphoQ=
+X-Received: by 2002:a17:906:f24d:: with SMTP id
+ gy13mr14617232ejb.282.1635756273680; 
+ Mon, 01 Nov 2021 01:44:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz2vH/pNM1pj6fwGIhhl4KGNrf8AS73jYLBUNqT1wTvv43kHP0t/hiIf5v3aKqjQAo8B+GeLA==
+X-Received: by 2002:a17:906:f24d:: with SMTP id
+ gy13mr14617200ejb.282.1635756273371; 
+ Mon, 01 Nov 2021 01:44:33 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id v10sm8369424edt.24.2021.11.01.01.44.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Nov 2021 01:44:32 -0700 (PDT)
+Date: Mon, 1 Nov 2021 09:44:31 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gavin Shan <gshan@redhat.com>
+Subject: Re: [PATCH v2] hw/arm/virt: Expose empty NUMA nodes through ACPI
+Message-ID: <20211101094431.71e1a50a@redhat.com>
+In-Reply-To: <fecb9351-ae78-8fcd-e377-623243ef80df@redhat.com>
+References: <20211027052958.280741-1-gshan@redhat.com>
+ <20211027174028.1f16fcfb@redhat.com>
+ <fecb9351-ae78-8fcd-e377-623243ef80df@redhat.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.20.187.6]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 595fc0ef-94cf-4e28-0f40-08d99d13081c
-X-MS-TrafficTypeDiagnostic: CH2PR12MB5004:
-X-Microsoft-Antispam-PRVS: <CH2PR12MB500443F98E22B8B9F23C6A74A18A9@CH2PR12MB5004.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:39;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Cd4PlXOwH30d5U54qdZnlVIrG8+SAcSVSKA2I5S0gtirS0+eCm2MAtL9LXDJgnPB5Q1okYls2jGm1QOZnVnaH6DJqhdFpFsBJ13C4XjIa4uZ8J27osQpKFCL4RlYElaPnf2Y45C14m8BEsq8oEgihRHUnwnLHPTb6WxDEFp78KdyJkij2+cSn64f2WNCda+wwbjF1N6g3GvDaorujIUdpUjHb9o6RrBPT/JtzErypBDbhJXm0RQjzUPincJLt0zmYBlhkeCAGJ6ZJiHTMHCXBJEm/C4Yb2OEroWpPMpyxkBSfRsG/qrRWWj5bV7z9DtuO8khnhux9eqtcxJOJUerASnG87RrMBMZ4TqFIJvK9OCwosiSwc9ot975YFjbmEHvqV0E3OcKaFgSSS6Fgtfy6euytSJLtASQF+r9CwOYNxtN3vPRLmY/jFjRMgMZvAND17zldrIkAWcn5SgurjGBMhfXteSGGmsXWfoVj7t6E9A9/6hw9Gvu0C9e1vdSTmAuqps+PQ61WVlKb7gFNPfGlhUKHTM/DmONW5fBeCVtBIT3TDefHn/QP3XtdtMh3TcWRGBCRE5WFbBRy/G+9HtdpTtgWcglpL5Zum2F1j3GXKzXGaKaL8Za/AkgIcfLwbadmG3ThXeTMmxKhEIjj6mvvcXUQ8k18bIEUwvIYewJ/VKslrK8QuF9Wc+jWZ7foj+NEQuXZdB/nsIjcBDq5HIAUw==
-X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(36840700001)(46966006)(5660300002)(83380400001)(8676002)(6666004)(186003)(36860700001)(336012)(82310400003)(86362001)(1076003)(70206006)(55016002)(2906002)(7636003)(36756003)(26005)(508600001)(16526019)(6916009)(36906005)(2616005)(7696005)(426003)(6286002)(70586007)(8936002)(54906003)(316002)(356005)(4326008)(47076005);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2021 08:38:51.4472 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 595fc0ef-94cf-4e28-0f40-08d99d13081c
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT029.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB5004
-Received-SPF: softfail client-ip=40.107.92.71;
- envelope-from=xuemingl@nvidia.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.736,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.736,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FORGED_SPF_HELO=1.598, SPF_HELO_PASS=-0.001,
- T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -119,149 +99,238 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, ehabkost@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ shan.gavin@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When vhost-user device cleanup is executed and un-mmaps notifier
-address, VM cpu thread writing the notifier fails by accessing invalid
-address error.
+On Thu, 28 Oct 2021 22:32:09 +1100
+Gavin Shan <gshan@redhat.com> wrote:
 
-To avoid this concurrent issue, call RCU and wait for a memory flatview
-update, then un-mmap notifiers in callback.
+> On 10/28/21 2:40 AM, Igor Mammedov wrote:
+> > On Wed, 27 Oct 2021 13:29:58 +0800
+> > Gavin Shan <gshan@redhat.com> wrote:
+> >   
+> >> The empty NUMA nodes, where no memory resides, aren't exposed
+> >> through ACPI SRAT table. It's not user preferred behaviour because
+> >> the corresponding memory node devices are missed from the guest
+> >> kernel as the following example shows. It means the guest kernel
+> >> doesn't have the node information as user specifies. However,
+> >> memory can be still hot added to these empty NUMA nodes when
+> >> they're not exposed.
+> >>
+> >>    /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
+> >>    -accel kvm -machine virt,gic-version=host               \
+> >>    -cpu host -smp 4,sockets=2,cores=2,threads=1            \
+> >>    -m 1024M,slots=16,maxmem=64G                            \
+> >>    -object memory-backend-ram,id=mem0,size=512M            \
+> >>    -object memory-backend-ram,id=mem1,size=512M            \
+> >>    -numa node,nodeid=0,cpus=0-1,memdev=mem0                \
+> >>    -numa node,nodeid=1,cpus=2-3,memdev=mem1                \
+> >>    -numa node,nodeid=2                                     \
+> >>    -numa node,nodeid=3                                     \
+> >>       :
+> >>    guest# ls /sys/devices/system/node | grep node
+> >>    node0
+> >>    node1
+> >>    (qemu) object_add memory-backend-ram,id=hp-mem0,size=1G
+> >>    (qemu) device_add pc-dimm,id=hp-dimm0,node=3,memdev=hp-mem0
+> >>    guest# ls /sys/devices/system/node | grep node
+> >>    node0
+> >>    node1
+> >>    node2
+> >>    guest# cat /sys/devices/system/node/node2/meminfo | grep MemTotal
+> >>    Node 2 MemTotal:    1048576 kB
+> >>
+> >> This exposes these empty NUMA nodes through ACPI SRAT table. With
+> >> this applied, the corresponding memory node devices can be found
+> >> from the guest. Note that the hotpluggable capability is explicitly
+> >> given to these empty NUMA nodes for sake of completeness.
+> >>
+> >>    guest# ls /sys/devices/system/node | grep node
+> >>    node0
+> >>    node1
+> >>    node2
+> >>    node3
+> >>    guest# cat /sys/devices/system/node/node3/meminfo | grep MemTotal
+> >>    Node 3 MemTotal:    0 kB
+> >>    (qemu) object_add memory-backend-ram,id=hp-mem0,size=1G
+> >>    (qemu) device_add pc-dimm,id=hp-dimm0,node=3,memdev=hp-mem0
+> >>    guest# cat /sys/devices/system/node/node3/meminfo | grep MemTotal
+> >>    Node 3 MemTotal:    1048576 kB  
+> > 
+> > I'm still not sure why this is necessary and if it's a good idea,
+> > is there a real hardware that have such nodes?
+> > 
+> > SRAT is used to assign resources to nodes, I haven't seen it being
+> > used  as means to describe an empty node anywhere in the spec.
+> > (perhaps we should not allow empty nodes on QEMU CLI at all).
+> > 
+> > Then if we really need this, why it's done for ARM only
+> > and not for x86?
+> >   
+> 
+> I think this case exists in real hardware where the memory DIMM
+> isn't plugged, but the node is still probed.
+Then please, provide SRAT table from such hw
+(a lot of them (to justify it as defacto 'standard')?
+since such hw firmware could be buggy as well).
 
-Fixes: 44866521bd6e ("vhost-user: support registering external host notifiers")
-Cc: qemu-stable@nongnu.org
-Cc: Yuwei Zhang <zhangyuwei.9149@bytedance.com>
-Signed-off-by: Xueming Li <xuemingl@nvidia.com>
----
- hw/virtio/vhost-user.c         | 50 +++++++++++++++++++++-------------
- include/hw/virtio/vhost-user.h |  2 ++
- 2 files changed, 33 insertions(+), 19 deletions(-)
+BTW, fake memory node doesn't have to be present to make guest
+notice an existing numa node. it can be represented by affinity
+entries as well (see chapter:System Resource Affinity Table (SRAT)
+in the spec).
 
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index c671719e9b..5adad4d029 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -25,6 +25,7 @@
- #include "migration/migration.h"
- #include "migration/postcopy-ram.h"
- #include "trace.h"
-+#include "exec/ramblock.h"
- 
- #include <sys/ioctl.h>
- #include <sys/socket.h>
-@@ -1143,15 +1144,27 @@ static int vhost_user_set_vring_num(struct vhost_dev *dev,
-     return vhost_set_vring(dev, VHOST_USER_SET_VRING_NUM, ring);
- }
- 
--static void vhost_user_host_notifier_remove(struct vhost_dev *dev,
--                                            int queue_idx)
-+static void vhost_user_host_notifier_free(VhostUserHostNotifier *n)
- {
--    struct vhost_user *u = dev->opaque;
--    VhostUserHostNotifier *n = &u->user->notifier[queue_idx];
--    VirtIODevice *vdev = dev->vdev;
-+    assert(n && n->old_addr);
-+    munmap(n->old_addr, qemu_real_host_page_size);
-+    n->old_addr = NULL;
-+}
-+
-+static void vhost_user_host_notifier_remove(VhostUserState *user,
-+                                            VirtIODevice *vdev, int queue_idx)
-+{
-+    VhostUserHostNotifier *n = &user->notifier[queue_idx];
- 
-     if (n->addr) {
--        virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
-+        if (vdev) {
-+            virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
-+        }
-+        assert(n->addr);
-+        assert(!n->old_addr);
-+        n->old_addr = n->addr;
-+        n->addr = NULL;
-+        call_rcu(n, vhost_user_host_notifier_free, rcu);
-     }
- }
- 
-@@ -1190,8 +1203,9 @@ static int vhost_user_get_vring_base(struct vhost_dev *dev,
-         .payload.state = *ring,
-         .hdr.size = sizeof(msg.payload.state),
-     };
-+    struct vhost_user *u = dev->opaque;
- 
--    vhost_user_host_notifier_remove(dev, ring->index);
-+    vhost_user_host_notifier_remove(u->user, dev->vdev, ring->index);
- 
-     if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
-         return -1;
-@@ -1486,12 +1500,7 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
- 
-     n = &user->notifier[queue_idx];
- 
--    if (n->addr) {
--        virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
--        object_unparent(OBJECT(&n->mr));
--        munmap(n->addr, page_size);
--        n->addr = NULL;
--    }
-+    vhost_user_host_notifier_remove(user, vdev, queue_idx);
- 
-     if (area->u64 & VHOST_USER_VRING_NOFD_MASK) {
-         return 0;
-@@ -1510,9 +1519,12 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
- 
-     name = g_strdup_printf("vhost-user/host-notifier@%p mmaps[%d]",
-                            user, queue_idx);
--    if (!n->mr.ram) /* Don't init again after suspend. */
-+    if (!n->mr.ram) { /* Don't init again after suspend. */
-         memory_region_init_ram_device_ptr(&n->mr, OBJECT(vdev), name,
-                                           page_size, addr);
-+    } else {
-+        n->mr.ram_block->host = addr;
-+    }
-     g_free(name);
- 
-     if (virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, true)) {
-@@ -2460,17 +2472,17 @@ bool vhost_user_init(VhostUserState *user, CharBackend *chr, Error **errp)
- void vhost_user_cleanup(VhostUserState *user)
- {
-     int i;
-+    VhostUserHostNotifier *n;
- 
-     if (!user->chr) {
-         return;
-     }
-     memory_region_transaction_begin();
-     for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
--        if (user->notifier[i].addr) {
--            object_unparent(OBJECT(&user->notifier[i].mr));
--            munmap(user->notifier[i].addr, qemu_real_host_page_size);
--            user->notifier[i].addr = NULL;
--        }
-+        n = &user->notifier[i];
-+        assert(!n->addr);
-+        vhost_user_host_notifier_remove(user, NULL, i);
-+        object_unparent(OBJECT(&n->mr));
-     }
-     memory_region_transaction_commit();
-     user->chr = NULL;
-diff --git a/include/hw/virtio/vhost-user.h b/include/hw/virtio/vhost-user.h
-index f6012b2078..03aa22d450 100644
---- a/include/hw/virtio/vhost-user.h
-+++ b/include/hw/virtio/vhost-user.h
-@@ -12,8 +12,10 @@
- #include "hw/virtio/virtio.h"
- 
- typedef struct VhostUserHostNotifier {
-+    struct rcu_head rcu;
-     MemoryRegion mr;
-     void *addr;
-+    void *old_addr;
- } VhostUserHostNotifier;
- 
- typedef struct VhostUserState {
--- 
-2.33.0
+At the moment, I'm totally unconvinced that empty numa nodes
+are valid to provide.
+
+
+> Besides, this patch
+> addresses two issues:
+> 
+> (1) To make the information contained in guest kernel consistent
+>      to the command line as the user expects. It means the sysfs
+>      entries for these empty NUMA nodes in guest kernel reflects
+>      what user provided.
+-numa/SRAT describe boot time configuration.
+So if you do not specify empty nodes on CLI, then number of nodes
+would be consistent.
+
+> (2) Without this patch, the node number can be twisted from user's
+>      perspective. As the example included in the commit log, node3
+>      should be created, but node2 is actually created. The patch
+>      reserves the NUMA node IDs in advance to avoid the issue.
+> 
+>      /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
+>         :
+>      -numa node,nodeid=0,cpus=0-1,memdev=mem0                \
+>      -numa node,nodeid=1,cpus=2-3,memdev=mem1                \
+>      -numa node,nodeid=2                                     \
+>      -numa node,nodeid=3                                     \
+>      guest# ls /sys/devices/system/node | grep node
+>      node0  node1
+>      (qemu) object_add memory-backend-ram,id=hp-mem0,size=1G
+>      (qemu) device_add pc-dimm,id=hp-dimm0,node=3,memdev=hp-mem0
+>      guest# ls /sys/devices/system/node | grep node
+>      node0  node1  node2
+
+The same node numbering on guest side and QEMU CLI works only
+by accident not by design. In short numbers may not match
+(in linux kernel case it depends on the order the nodes
+are enumerated), if you really want numbers to match then fix
+guest kernel to use proximity domain for numbering.
+
+The important thing here is that resources are grouped
+together, according to proximity domain.
+
+> We definitely need empty NUMA nodes from QEMU CLI. One case I heard
+> of is kdump developer specify NUMA nodes and corresponding pc-dimm
+> objects for memory hot-add and test the memory usability.
+
+Question is if the node has to be absolutely empty for this?
+It should be possible to use a node that has CPUs assigned to it.
+
+Or add pc-dimm at runtime, which should dynamically create
+a numa node for it if the node wasn't described before.
+
+> I'm not
+> familiar with ACPI specification, but linux kernel fetches NUMA
+> node IDs from the following ACPI tables on ARM64. It's possible
+> the empty NUMA node IDs are parsed from GENERIC_AFFINITY or SLIT
+> tables if they exist in the corresponding ACPI tables.
+> 
+>      ACPI_SRAT_TYPE_MEMORY_AFFINITY
+>      ACPI_SRAT_TYPE_GENERIC_AFFINITY
+any possible entry type can be a source for numa node,
+if guest doesn't do this it's guest's bug to fix.
+
+>      ACPI_SIG_SLIT                          # if it exists
+that's a recent addition tied to [1].
+1) https://www.mail-archive.com/qemu-devel@nongnu.org/msg843453.html
+If I recall correctly, related QEMU patch was dropped.
+
+> So I think other architectures including x86 needs similar mechanism
+> to expose NUMA node IDs through ACPI table. If you agree, I can post
+> additional patches to do this after this one is settled and merged.
+
+I do not agree to bogus entries approach at all.
+Sometimes, we merge 'out of spec' changes but that should be
+baked by 'must have' justification and tested with wide
+range of guest OSes (if Windows (with its more strict ACPI impl.)
+boots on virt-arm machine it should be tested as well).
+
+So far I don't see 'must have' aspect in bogus nodes,
+only a convenience one (with 'works by accident' caveat).
+
+I'm sorry for being stingy about out of spec things,
+but that is typical source of regressions on ACPI side
+which is noticed too late when users come back with broken
+guest after release.
+
+> >> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> >> Reviewed-by: Andrew Jones <drjones@redhat.com>
+> >> ---
+> >> v2: Improved commit log as suggested by Drew and Igor.
+> >> ---
+> >>   hw/arm/virt-acpi-build.c | 14 +++++++++-----
+> >>   1 file changed, 9 insertions(+), 5 deletions(-)
+> >>
+> >> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> >> index 674f902652..a4c95b2f64 100644
+> >> --- a/hw/arm/virt-acpi-build.c
+> >> +++ b/hw/arm/virt-acpi-build.c
+> >> @@ -526,6 +526,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+> >>       const CPUArchIdList *cpu_list = mc->possible_cpu_arch_ids(ms);
+> >>       AcpiTable table = { .sig = "SRAT", .rev = 3, .oem_id = vms->oem_id,
+> >>                           .oem_table_id = vms->oem_table_id };
+> >> +    MemoryAffinityFlags flags;
+> >>   
+> >>       acpi_table_begin(&table, table_data);
+> >>       build_append_int_noprefix(table_data, 1, 4); /* Reserved */
+> >> @@ -547,12 +548,15 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+> >>   
+> >>       mem_base = vms->memmap[VIRT_MEM].base;
+> >>       for (i = 0; i < ms->numa_state->num_nodes; ++i) {
+> >> -        if (ms->numa_state->nodes[i].node_mem > 0) {
+> >> -            build_srat_memory(table_data, mem_base,
+> >> -                              ms->numa_state->nodes[i].node_mem, i,
+> >> -                              MEM_AFFINITY_ENABLED);
+> >> -            mem_base += ms->numa_state->nodes[i].node_mem;
+> >> +        if (ms->numa_state->nodes[i].node_mem) {
+> >> +            flags = MEM_AFFINITY_ENABLED;
+> >> +        } else {
+> >> +            flags = MEM_AFFINITY_ENABLED | MEM_AFFINITY_HOTPLUGGABLE;
+> >>           }
+> >> +
+> >> +        build_srat_memory(table_data, mem_base,
+> >> +                          ms->numa_state->nodes[i].node_mem, i, flags);  
+> > that will create 0 length memory range, which is "Enabled",
+> > I'm not sure it's safe thing to do.
+> > 
+> > As side effect this will also create empty ranges for memory-less
+> > nodes that have only CPUs, where it's not necessary.
+> > 
+> > I'd really try avoid adding empty ranges unless it hard requirement,
+> > described somewhere or fixes a bug that can't be fixed elsewhere.
+> >   
+> 
+> It's safe to Linux at least as I tested on ARM64. The (zero) memory
+> block doesn't affect anything. Besides, the memory block which has
+> been marked as hotpluggable won't be handled in Linux on ARM64
+> actually.
+> 
+> Yes, the empty NUMA nodes are meaningless to CPUs until memory is
+> hot added into them.
+> 
+> >> +        mem_base += ms->numa_state->nodes[i].node_mem;
+> >>       }
+> >>   
+> >>       if (ms->nvdimms_state->is_enabled) {  
+> >   
+> 
+> Thanks,
+> Gavin
+> 
 
 
