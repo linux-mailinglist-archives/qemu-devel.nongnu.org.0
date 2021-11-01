@@ -2,88 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17004441279
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 04:48:03 +0100 (CET)
-Received: from localhost ([::1]:54564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69A0C4412CC
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 05:42:26 +0100 (CET)
+Received: from localhost ([::1]:34484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhOIj-0008T0-Ox
-	for lists+qemu-devel@lfdr.de; Sun, 31 Oct 2021 23:48:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39214)
+	id 1mhP9M-0008Ou-Uq
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 00:42:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mhOH8-0007lI-99
- for qemu-devel@nongnu.org; Sun, 31 Oct 2021 23:46:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24995)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mhP6D-0006l4-DI; Mon, 01 Nov 2021 00:39:09 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:51429)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mhOH5-0002uP-DK
- for qemu-devel@nongnu.org; Sun, 31 Oct 2021 23:46:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635738377;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=evYzcyjk3seqPK2YKuLI0HaIAFIsPnoDBP3F8Cy9/Y0=;
- b=F4sqR+p/DwpzvW/5b5NHRHN3pdY3x2bm96O2nydtpPhfuC9KMsHjSj3wzDjzGdouu2Qcls
- 8on7OmZDXFSR/1AywAf5UIROSuA3e37Dc41rU578A9MTE+wXfBT41MwEcvWQeaGZf5jHq2
- X4CJRfCyqis5naPubi7CV9ps5xNLwvs=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-211-2JbsW8lROLaNnVMnZDlHEg-1; Sun, 31 Oct 2021 23:46:16 -0400
-X-MC-Unique: 2JbsW8lROLaNnVMnZDlHEg-1
-Received: by mail-lj1-f200.google.com with SMTP id
- m11-20020a2e97cb000000b00212f89f3888so1922112ljj.21
- for <qemu-devel@nongnu.org>; Sun, 31 Oct 2021 20:46:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=evYzcyjk3seqPK2YKuLI0HaIAFIsPnoDBP3F8Cy9/Y0=;
- b=5EaVSQmONTE9aXzCN/F0o1f6vy1MW2+YH6AY3eZy3+q3zx2RF5Mzx46ULJ2PcWwxqm
- z7oiEAFEcTTC3K/l14GLxr6rMqzcYnJBj/+8gqdww6XpryTLiEwC2HSH5F10p1rvTTe+
- 9SlTbxLViU6Sno0WJ1SfSYlrinD8qaJNmxaBVuu/cPSKH+ecR4n1G4b9buRE6JJuy1M+
- XkYaH7g9WtJ8NZP/DOSSpywifcG0dgIRS3ZLpwy35pQY6dAJDR5vEJp6DxWeJy9ZYQg5
- XjBlSjYRhcps7TBKWrR+ugECfnNmXZJsekta1LuQZQpIcb/zV36AnDtijMBXstutXvYY
- n3vg==
-X-Gm-Message-State: AOAM531Ht2g/C9xLGm+KyOtu5t7/z3G5bJhIUpJdl/ynwoK1R8n9qRc8
- UdWVw4zbwvGe2mppW8M2OVBp+dOYyScR4MAHY5NWrIGlu9YtXzK/6pqMc4F7Ql+93Hg7U4EsTl3
- vVL7XaW+sGFmQu8JU7y49wdivUADTXlM=
-X-Received: by 2002:a05:6512:3d0b:: with SMTP id
- d11mr10844974lfv.481.1635738374685; 
- Sun, 31 Oct 2021 20:46:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwF9Vi0StfwCxVKLJleuxJA5SVgB0gJhKMAvREzfHfqAahEhuh5khak0X6azEkVG8ZyzvgzZcsRiLret1rd1l4=
-X-Received: by 2002:a05:6512:3d0b:: with SMTP id
- d11mr10844957lfv.481.1635738374420; 
- Sun, 31 Oct 2021 20:46:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mhP68-000406-MU; Mon, 01 Nov 2021 00:39:09 -0400
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4HjL003rWgz4xbG; Mon,  1 Nov 2021 15:38:56 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1635741536;
+ bh=50QEQmT84k+wBReTRS5B5C9BFLuvLBC24RwK/0Os4Yg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pNKuFRd9G6BywDDeWOcnf8eYRGYNDiqsrW5BTs3iNOHijGbk83f3mpMGODbv8dgui
+ /bURyu3I58jAgg2laQPGmB2/ZtDbEjM6/0DzFFgOyzCZIAxbUXeL8hXSfw34v5FX6t
+ UeMYhbGfTpXbMUGqlFTQLwD4JgyFBWFyDb9cfUZI=
+Date: Mon, 1 Nov 2021 15:38:41 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v4 05/15] target/ppc: introduce PMU events
+Message-ID: <YX9vUZeh0sAfBdNw@yekko>
+References: <20211018010133.315842-1-danielhb413@gmail.com>
+ <20211018010133.315842-6-danielhb413@gmail.com>
 MIME-Version: 1.0
-References: <20211028090556.3168043-1-chen.zhang@intel.com>
- <20211028090556.3168043-2-chen.zhang@intel.com>
- <c603b048-1cee-1396-811d-8be857aa932b@redhat.com>
- <MWHPR11MB0031A0311824C3DF060B64E39B879@MWHPR11MB0031.namprd11.prod.outlook.com>
-In-Reply-To: <MWHPR11MB0031A0311824C3DF060B64E39B879@MWHPR11MB0031.namprd11.prod.outlook.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 1 Nov 2021 11:46:03 +0800
-Message-ID: <CACGkMEsjn0nz4N+O4s9Y0m0gEYXu9WKstP9LHE4F=m5mOR3dcA@mail.gmail.com>
-Subject: Re: [PATCH V5 1/3] net/filter: Optimize transfer protocol for
- filter-mirror/redirector
-To: "Zhang, Chen" <chen.zhang@intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.736,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="CohbugHrVCUq87Uk"
+Content-Disposition: inline
+In-Reply-To: <20211018010133.315842-6-danielhb413@gmail.com>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,158 +58,291 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-dev <qemu-devel@nongnu.org>, Li Zhijian <lizhijian@cn.fujitsu.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: richard.henderson@linaro.org, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, matheus.ferst@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 29, 2021 at 4:08 PM Zhang, Chen <chen.zhang@intel.com> wrote:
->
->
->
-> > -----Original Message-----
-> > From: Jason Wang <jasowang@redhat.com>
-> > Sent: Friday, October 29, 2021 11:11 AM
-> > To: Zhang, Chen <chen.zhang@intel.com>
-> > Cc: qemu-dev <qemu-devel@nongnu.org>; Markus Armbruster
-> > <armbru@redhat.com>; Li Zhijian <lizhijian@cn.fujitsu.com>
-> > Subject: Re: [PATCH V5 1/3] net/filter: Optimize transfer protocol for =
-filter-
-> > mirror/redirector
-> >
-> >
-> > =E5=9C=A8 2021/10/28 =E4=B8=8B=E5=8D=885:05, Zhang Chen =E5=86=99=E9=81=
-=93:
-> > > Make the vnet header a necessary part of filter transfer protocol.
-> > > It make other modules(like another filter-redirector,colo-compare...)
-> > > know how to parse net packet correctly. If local device is not the
-> > > virtio-net-pci, vnet_hdr_len will be 0.
-> > >
-> > > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-> > > ---
-> > >   net/filter-mirror.c | 34 ++++++++++++++++------------------
-> > >   1 file changed, 16 insertions(+), 18 deletions(-)
-> > >
-> > > diff --git a/net/filter-mirror.c b/net/filter-mirror.c index
-> > > f20240cc9f..24d3e498e9 100644
-> > > --- a/net/filter-mirror.c
-> > > +++ b/net/filter-mirror.c
-> > > @@ -39,6 +39,7 @@ struct MirrorState {
-> > >       CharBackend chr_in;
-> > >       CharBackend chr_out;
-> > >       SocketReadState rs;
-> > > +    /* Keep compatibility for the management layer */
-> > >       bool vnet_hdr;
-> > >   };
-> > >
-> > > @@ -48,7 +49,7 @@ static int filter_send(MirrorState *s,
-> > >   {
-> > >       NetFilterState *nf =3D NETFILTER(s);
-> > >       int ret =3D 0;
-> > > -    ssize_t size =3D 0;
-> > > +    ssize_t size =3D 0, vnet_hdr_len =3D 0;
-> > >       uint32_t len =3D 0;
-> > >       char *buf;
-> > >
-> > > @@ -63,21 +64,18 @@ static int filter_send(MirrorState *s,
-> > >           goto err;
-> > >       }
-> > >
-> > > -    if (s->vnet_hdr) {
-> > > -        /*
-> > > -         * If vnet_hdr =3D on, we send vnet header len to make other
-> > > -         * module(like colo-compare) know how to parse net
-> > > -         * packet correctly.
-> > > -         */
-> > > -        ssize_t vnet_hdr_len;
-> > > -
-> > > -        vnet_hdr_len =3D nf->netdev->vnet_hdr_len;
-> > > +    /*
-> > > +     * The vnet header is the necessary part of filter transfer prot=
-ocol.
-> > > +     * It make other module(like colo-compare) know how to parse net
-> > > +     * packet correctly. If device is not the virtio-net-pci,
-> > > +     * vnet_hdr_len will be 0.
-> > > +     */
-> > > +    vnet_hdr_len =3D nf->netdev->vnet_hdr_len;
-> > >
-> > > -        len =3D htonl(vnet_hdr_len);
-> > > -        ret =3D qemu_chr_fe_write_all(&s->chr_out, (uint8_t *)&len,
-> > sizeof(len));
-> > > -        if (ret !=3D sizeof(len)) {
-> > > -            goto err;
-> > > -        }
-> > > +    len =3D htonl(vnet_hdr_len);
-> > > +    ret =3D qemu_chr_fe_write_all(&s->chr_out, (uint8_t *)&len,
-> > > + sizeof(len));
-> >
-> >
-> > I wonder if we need to introduce new parameter, e.g force_vnet_hdr here=
-,
-> > then we can always send vnet_hdr when it is enabled.
-> >
-> > Otherwise the "vnet_hdr_support" seems meaningless.
->
-> Yes, Current "vnet_hdr_support"  default enabled, and vnet_hdr_len alread=
-y forced from attached nf->netdev.
-> Maybe we can introduce a new parameter "force_no_vnet_hdr" here to make t=
-he vnet_hdr_len always keep 0.
-> If you think OK, I will update it in next version.
 
-Let me explain, if I was not wrong:
+--CohbugHrVCUq87Uk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-"vnet_hdr_support" means whether or not to send vnet header length. If
-vnet_hdr_support=3Dfalse, we won't send the vnet header. This looks the
-same as you "force_no_vent_hdr" above.
+On Sun, Oct 17, 2021 at 10:01:23PM -0300, Daniel Henrique Barboza wrote:
+> This patch starts an IBM Power8+ compatible PMU implementation by adding
+> the representation of PMU events that we are going to sample, PMUEvent.
+> This struct represents a Perf event, determined by the PMUEventType
+> enum, that is being sampled by a specific counter 'sprn'. PMUEvent also
+> contains an overflow timer that will be used to trigger cycle overflows
+> when cycle events are being sampled. This timer will call
+> cpu_ppc_pmu_timer_cb(), which in turn calls fire_PMC_interrupt(). Both
+> functions are stubs that will be implemented later on when EBB support
+> is added.
+>=20
+> The PMU has 6 PMUEvents all the time, one for each counter. Events that
+> aren't available (i.e. the counter isn't running) will be of type
+> 'PMU_EVENT_INVALID'. Other types added in this patch are
+> PMU_EVENT_CYCLES and PMU_EVENT_INSTRUCTIONS. More types will be added
+> later on.
+>=20
+> Two new helper files are created to host this new logic.
+> cpu_ppc_pmu_init() will init all PMUEvents during CPU init time.
+>=20
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-And my "force_vnet_hdr" seems duplicated with vnet_hdr_support=3Dtrue.
-So it looks to me we can leave the mirror code as is and just change
-the compare? (depends on the mgmt to set a correct vnet_hdr_support)
+Ah, sorry, this isn't quite what I had in mind.
 
-Thanks
+> ---
+>  hw/ppc/spapr_cpu_core.c |  6 ++++
+>  target/ppc/cpu.h        | 22 ++++++++++++
+>  target/ppc/meson.build  |  1 +
+>  target/ppc/power8-pmu.c | 75 +++++++++++++++++++++++++++++++++++++++++
+>  target/ppc/power8-pmu.h | 25 ++++++++++++++
+>  5 files changed, 129 insertions(+)
+>  create mode 100644 target/ppc/power8-pmu.c
+>  create mode 100644 target/ppc/power8-pmu.h
+>=20
+> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+> index 58e7341cb7..45abffd891 100644
+> --- a/hw/ppc/spapr_cpu_core.c
+> +++ b/hw/ppc/spapr_cpu_core.c
+> @@ -20,6 +20,7 @@
+>  #include "target/ppc/kvm_ppc.h"
+>  #include "hw/ppc/ppc.h"
+>  #include "target/ppc/mmu-hash64.h"
+> +#include "target/ppc/power8-pmu.h"
+>  #include "sysemu/numa.h"
+>  #include "sysemu/reset.h"
+>  #include "sysemu/hw_accel.h"
+> @@ -266,6 +267,11 @@ static bool spapr_realize_vcpu(PowerPCCPU *cpu, Spap=
+rMachineState *spapr,
+>          return false;
+>      }
+> =20
+> +    /* Init PMU interrupt timer (TCG only) */
+> +    if (!kvm_enabled()) {
+> +        cpu_ppc_pmu_init(env);
+> +    }
+> +
+>      if (!sc->pre_3_0_migration) {
+>          vmstate_register(NULL, cs->cpu_index, &vmstate_spapr_cpu_state,
+>                           cpu->machine_data);
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 33e3a91f6f..21591ec725 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -296,6 +296,26 @@ typedef struct ppc_v3_pate_t {
+>      uint64_t dw1;
+>  } ppc_v3_pate_t;
+> =20
+> +/* PMU related structs and defines */
+> +#define PMU_EVENTS_NUM 6
+> +typedef enum {
+> +    PMU_EVENT_INVALID =3D 0,
+> +    PMU_EVENT_CYCLES,
+> +    PMU_EVENT_INSTRUCTIONS,
+> +} PMUEventType;
+> +
 
->
-> Thanks
-> Chen
->
-> >
-> > Thanks
-> >
-> >
-> > > +    if (ret !=3D sizeof(len)) {
-> > > +        goto err;
-> > >       }
-> > >
-> > >       buf =3D g_malloc(size);
-> > > @@ -252,7 +250,7 @@ static void filter_redirector_setup(NetFilterStat=
-e
-> > *nf, Error **errp)
-> > >           }
-> > >       }
-> > >
-> > > -    net_socket_rs_init(&s->rs, redirector_rs_finalize, s->vnet_hdr);
-> > > +    net_socket_rs_init(&s->rs, redirector_rs_finalize, true);
-> > >
-> > >       if (s->indev) {
-> > >           chr =3D qemu_chr_find(s->indev); @@ -406,14 +404,14 @@ stat=
-ic
-> > > void filter_mirror_init(Object *obj)
-> > >   {
-> > >       MirrorState *s =3D FILTER_MIRROR(obj);
-> > >
-> > > -    s->vnet_hdr =3D false;
-> > > +    s->vnet_hdr =3D true;
-> > >   }
-> > >
-> > >   static void filter_redirector_init(Object *obj)
-> > >   {
-> > >       MirrorState *s =3D FILTER_REDIRECTOR(obj);
-> > >
-> > > -    s->vnet_hdr =3D false;
-> > > +    s->vnet_hdr =3D true;
-> > >   }
-> > >
-> > >   static void filter_mirror_fini(Object *obj)
->
+PMUEventType *is* basically what I had in mind..
 
+> +typedef struct PMUEvent {
+> +    int sprn;
+> +    PMUEventType type;
+> +
+> +    /*
+> +     * Timer used to fire performance monitor alerts
+> +     * when counting cycles.
+> +     */
+> +    QEMUTimer *cyc_overflow_timer;
+> +
+> +} PMUEvent;
+
+=2E. but I don't think the PMUEvent structure is particularly useful.
+
+What I was thinking was essentially a function which takes PMC number
+and returns PMUEventType.  That will be pretty complex and messy.  It
+would always return CYCLES or INSTRUCTIONS for PMC 5 & 6, for PMC 1..4
+it will look at MMCR*, apply whatever sprn specific log it needs to
+and come up with an answer (or INVALID, of course).
+
+The messy sprn specific logic is inevitable given the hardware, but
+the idea is that this will localize it to one place.  Once you have
+that function you can for example just loop through each PMC, get its
+event type and do the right things based on that.
+
+> +
+>  /***********************************************************************=
+******/
+>  /* Machine state register bits definition                               =
+     */
+>  #define MSR_SF   63 /* Sixty-four-bit mode                            hf=
+lags */
+> @@ -1190,6 +1210,8 @@ struct CPUPPCState {
+>      uint32_t tm_vscr;
+>      uint64_t tm_dscr;
+>      uint64_t tm_tar;
+> +
+> +    PMUEvent pmu_events[PMU_EVENTS_NUM];
+
+Nor storing this information here persistently.
+
+>  };
+> =20
+>  #define SET_FIT_PERIOD(a_, b_, c_, d_)          \
+> diff --git a/target/ppc/meson.build b/target/ppc/meson.build
+> index b85f295703..a49a8911e0 100644
+> --- a/target/ppc/meson.build
+> +++ b/target/ppc/meson.build
+> @@ -51,6 +51,7 @@ ppc_softmmu_ss.add(when: 'TARGET_PPC64', if_true: files(
+>    'mmu-book3s-v3.c',
+>    'mmu-hash64.c',
+>    'mmu-radix64.c',
+> +  'power8-pmu.c',
+>  ))
+> =20
+>  target_arch +=3D {'ppc': ppc_ss}
+> diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
+> new file mode 100644
+> index 0000000000..42452b5870
+> --- /dev/null
+> +++ b/target/ppc/power8-pmu.c
+> @@ -0,0 +1,75 @@
+> +/*
+> + * PMU emulation helpers for TCG IBM POWER chips
+> + *
+> + *  Copyright IBM Corp. 2021
+> + *
+> + * Authors:
+> + *  Daniel Henrique Barboza      <danielhb413@gmail.com>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +
+> +#include "power8-pmu.h"
+> +#include "cpu.h"
+> +#include "helper_regs.h"
+> +#include "exec/exec-all.h"
+> +#include "exec/helper-proto.h"
+> +#include "qemu/error-report.h"
+> +#include "qemu/main-loop.h"
+> +#include "hw/ppc/ppc.h"
+> +
+> +#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
+> +
+> +static void fire_PMC_interrupt(PowerPCCPU *cpu)
+> +{
+> +    CPUPPCState *env =3D &cpu->env;
+> +
+> +    if (!(env->spr[SPR_POWER_MMCR0] & MMCR0_EBE)) {
+> +        return;
+> +    }
+> +
+> +    /* PMC interrupt not implemented yet */
+> +    return;
+> +}
+> +
+> +static void cpu_ppc_pmu_timer_cb(void *opaque)
+> +{
+> +    PowerPCCPU *cpu =3D opaque;
+> +
+> +    fire_PMC_interrupt(cpu);
+> +}
+> +
+> +void cpu_ppc_pmu_init(CPUPPCState *env)
+> +{
+> +    PowerPCCPU *cpu =3D env_archcpu(env);
+> +    int i;
+> +
+> +    /*
+> +     * PMC1 event first, PMC2 second and so on. PMC5 and PMC6
+> +     * PMUEvent are always the same regardless of MMCR1.
+> +     */
+> +    for (i =3D 0; i < PMU_EVENTS_NUM; i++) {
+> +        PMUEvent *event =3D &env->pmu_events[i];
+> +
+> +        event->sprn =3D SPR_POWER_PMC1 + i;
+> +        event->type =3D PMU_EVENT_INVALID;
+> +
+> +        if (event->sprn =3D=3D SPR_POWER_PMC5) {
+> +            event->type =3D PMU_EVENT_INSTRUCTIONS;
+> +            continue;
+> +        }
+> +
+> +        if (event->sprn =3D=3D SPR_POWER_PMC6) {
+> +            event->type =3D PMU_EVENT_CYCLES;
+> +        }
+> +
+> +        event->cyc_overflow_timer =3D  timer_new_ns(QEMU_CLOCK_VIRTUAL,
+> +                                                  &cpu_ppc_pmu_timer_cb,
+> +                                                  cpu);
+> +    }
+> +}
+> +
+> +#endif /* defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY) */
+> diff --git a/target/ppc/power8-pmu.h b/target/ppc/power8-pmu.h
+> new file mode 100644
+> index 0000000000..49a813a443
+> --- /dev/null
+> +++ b/target/ppc/power8-pmu.h
+> @@ -0,0 +1,25 @@
+> +/*
+> + * PMU emulation helpers for TCG IBM POWER chips
+> + *
+> + *  Copyright IBM Corp. 2021
+> + *
+> + * Authors:
+> + *  Daniel Henrique Barboza      <danielhb413@gmail.com>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#ifndef POWER8_PMU
+> +#define POWER8_PMU
+> +
+> +#include "qemu/osdep.h"
+> +#include "cpu.h"
+> +#include "exec/exec-all.h"
+> +#include "exec/helper-proto.h"
+> +#include "qemu/error-report.h"
+> +#include "qemu/main-loop.h"
+> +
+> +void cpu_ppc_pmu_init(CPUPPCState *env);
+> +
+> +#endif
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--CohbugHrVCUq87Uk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmF/b08ACgkQbDjKyiDZ
+s5Jzuw//RCdl/ju6Pg5c/2q6bq/2+4iUaJq+QlGN76ofye1W21zDCP9K9FGlymJO
+mutqde7QQ97RxHx00o5ssaBbxM8ArSeZEYBlFZinS29Chw8lAeu7D/pGBSdkK30X
+isArzDbn3aRG5xZ2xmRf9OYT37zzTNUFy4aNN5vfF8vnlOi2wSE4EKC3LfWAw9S7
+q/pH6qjaZarHkvD2/L5TH8DX5uy+73kDhre/Hx1mW45poP8GVvB/wh39vUq4kWit
+f4qiXEOeP2TOcf4w61IqRxhrXBNbPk07GbSeuM38kK0aOez+UTeVLkK+TLvh32i1
+Ot3onQDtc2nF6oZsqdbOycROm9p93//lWO6/5XaJNxVUiWF/JI7Pb4WUKgNr0ZeF
+3Y9AniSKc8LRCLXX8IfiJLtZQNYZH1jxCpLgQHYjvhoRx9VffgfUu618o3QQyFwk
+y2bIGlKGz2EWxe3kifilpbTZg6h/XkCDb9I3nRj9bPgM62FmPLJYd+H8IU73/cZA
+gCA6niYSSnH+yjdamwMaUCGmcVS50iFqxsm1q95CLCZLUjwk6c0r9XXFhGLGYobR
+9BAxh1aJ5QkD3ym7qUnQvf/gnYaNh43vsxuTLbrE/nJSqJ9oHvCDyhdsq/BzbLhe
+d5mYqKHfXEzXVw+x+U652FjdGvpJU20kOgPShawTQMoFQ/rDwmo=
+=OXCP
+-----END PGP SIGNATURE-----
+
+--CohbugHrVCUq87Uk--
 
