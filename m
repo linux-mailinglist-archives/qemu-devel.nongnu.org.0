@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DDE6441FDB
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 19:16:25 +0100 (CET)
-Received: from localhost ([::1]:51918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78058441FE8
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 19:20:21 +0100 (CET)
+Received: from localhost ([::1]:60320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhbr6-0002FA-GQ
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 14:16:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59960)
+	id 1mhbuu-0000Mu-JQ
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 14:20:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhb9B-0007rO-7J
+ id 1mhb9B-0007tr-TY
  for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:31:01 -0400
-Received: from mail-qk1-x734.google.com ([2607:f8b0:4864:20::734]:45709)
+Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:34328)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhb98-0001C6-T0
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:31:00 -0400
-Received: by mail-qk1-x734.google.com with SMTP id n15so3743886qkp.12
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 10:30:58 -0700 (PDT)
+ id 1mhb99-0001CN-K6
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:31:01 -0400
+Received: by mail-qt1-x829.google.com with SMTP id v17so16553948qtp.1
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 10:30:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QdBbkxzZXl4V2J/0UdfvZmZe+nM+srroKJ9DSgm4Qw8=;
- b=S/z3RdXmXNm63qXWjIjgSWqUioV7hvmM8EBv4Gc+BNIJLbjRLCXAGjiShg1XAfWHeS
- igVoCWZhqwTh0VpFVrYPchSbtqq+WwPiANE5lQneYDGTRvPIsdaU/IWMIHt3sNVZ/rmA
- 0Enjg/TK2p3WDlwlUewJ6LCC9rBIde9qDW9b46CYldAtktODVphyCT4gK7JnLDsRW6Dp
- aI+e6IylQQ1HiAUOCU76xa+xIQ/hcjU3FKriGbtyUE23VgYVos1oDTJ01vgVoxUVrS8l
- p3R1T+hJ2caLekBsbnDUHeh+/XdSJk8veJXYdxVEx+w+2m6ue8Qx9dR4Ot6V57ecm59v
- 3KhQ==
+ bh=mTKdaHiEpe60z+ThGKt8c3K8jQRQXSW+5obPKHUiPMs=;
+ b=RwYtp+HJ0qo3kSBV6JhaZvb76eRw5Yq8Hkhu/Zpo0GcvsPan/2mj2+fDdL9EbDKbiW
+ HgAset2upzR3bL52CHTmSyPs4iG/FBU+FbkqiKk5MnRVpw3lt7WfyVMtMq6v1Q//8Itt
+ TnZoPfj/7spT0J1zRevlM0fm352gnjSLZgPW6oQSlj3vcLzngheGT2qlN7kp1sHNzB+k
+ W8WH5Z3wotvPF8XLm+jZUax89aOYgwH/o5GLcS5bhrGSnhnFirfaCrHQeZ0Tuaf6tAaR
+ /gdHHl4U9mkX9qozpDIXGjgqw5vyYHhq0fvULiOiFbF1XkI061gBZRAzQfTiGttqY7tt
+ O98Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QdBbkxzZXl4V2J/0UdfvZmZe+nM+srroKJ9DSgm4Qw8=;
- b=NiZBp7CstAwlHqPBGWQrNxYim8RkjFIdJEhiYG8aF9J+xTSLba19YyYiAklCN9Et92
- u8FuU6XMPx9mynN5P/g+dOJ8GH3XlwLnQv7k3ZKIsCTK8ZDhq1yyHFjRMaDg6NQ5df5P
- OZphDnt07LRUjsKIllFSBo/k6mihLDS9i/GIBdbDH4TgCKL0CjNPH3gozHj2kqVKc2Lr
- 29GvH3qF3FQanYk8ujvoaHvVyHV2/OPBTQIOfk2H01DTE6+TEmbQWq3eVat+W79UPkom
- 3ghlr5IFYHRvO6RoDO96J5OOsJIbn4hybnDlQGOClHoyiiOXjQbZCE/VX/vgfk5EcvJU
- A6YA==
-X-Gm-Message-State: AOAM530xmC7MBTtBmMNNclzqNJ7/+jztVNxmu2vmAL9bjo5Fs6F4Ageo
- PiAaVzCmTjOyXKBvptP4KnV3CJVbBGCBUA==
-X-Google-Smtp-Source: ABdhPJwmM1iz9xMNfo3gxjMOFrYVWIPRf2o1kUV2frusBHDh9tvR+Yc4MOLj09aeTFPbXhjle/odoA==
-X-Received: by 2002:a37:b3c3:: with SMTP id
- c186mr24279874qkf.464.1635787858044; 
+ bh=mTKdaHiEpe60z+ThGKt8c3K8jQRQXSW+5obPKHUiPMs=;
+ b=kHS6kgXihJqVGzb0VT6ikaLkmPvuPmVpXTc4IWD7wToXrKePN/UVTpunKSGBdVKjdb
+ F6dVqFaTsOxFQsGHuzcaYk8JL01JFxeH046vxM763DQi0vSCV5J0XPZPDyon6ic+3T0w
+ AwO/n/rNGRs9IeFgfi4oopj/m/5W8/yaXUzBLcTNqWl9QYoEdmZ17TfoXI+kHB6CPIjM
+ +y25yccunpP8e5NeKHHjFHwKzQp4f8/hKamTHMd9FRaBA3OfPBsisU/+vs3Na+Dt6Hgx
+ aWCGSBE3SWGI5nmRDvrchHS27BBImGxQ+RduxZVz2XG4GJaABEFj6kspn5n702MAjubI
+ 9rQg==
+X-Gm-Message-State: AOAM531k6TzJGMHspQyDX0+VxeLt3G2RqgaTXLzk+hQQQNAZQ07Douks
+ Z7BcUVZtL5LTZ5cna0BNXF9uq3eUMf4LBw==
+X-Google-Smtp-Source: ABdhPJwjrfHgPH+jmAUW3Wqmep4WCmLU0unWjH4nJbRIEuBmas9w2OPEz8B/e0f+dLeLWE3jOu2Cjg==
+X-Received: by 2002:a05:622a:52:: with SMTP id
+ y18mr18468744qtw.177.1635787858678; 
  Mon, 01 Nov 2021 10:30:58 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-172-254-253-57.nyc.biz.rr.com.
  [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id 13sm1222289qkc.40.2021.11.01.10.30.57
+ by smtp.gmail.com with ESMTPSA id 13sm1222289qkc.40.2021.11.01.10.30.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Nov 2021 10:30:57 -0700 (PDT)
+ Mon, 01 Nov 2021 10:30:58 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 46/60] linux-user/hppa: Remove EXCP_UNALIGN handling
-Date: Mon,  1 Nov 2021 13:27:15 -0400
-Message-Id: <20211101172729.23149-47-richard.henderson@linaro.org>
+Subject: [PATCH v7 47/60] target/microblaze: Do not set MO_ALIGN for user-only
+Date: Mon,  1 Nov 2021 13:27:16 -0400
+Message-Id: <20211101172729.23149-48-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211101172729.23149-1-richard.henderson@linaro.org>
 References: <20211101172729.23149-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::734;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x734.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x829.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,36 +84,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will raise SIGBUS directly from cpu_loop_exit_sigbus.
+The kernel will fix up unaligned accesses, so emulate that
+by allowing unaligned accesses to succeed.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/hppa/cpu_loop.c | 7 -------
- 1 file changed, 7 deletions(-)
+ target/microblaze/translate.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/linux-user/hppa/cpu_loop.c b/linux-user/hppa/cpu_loop.c
-index e0a62deeb9..375576c8f0 100644
---- a/linux-user/hppa/cpu_loop.c
-+++ b/linux-user/hppa/cpu_loop.c
-@@ -144,13 +144,6 @@ void cpu_loop(CPUHPPAState *env)
-             env->iaoq_f = env->gr[31];
-             env->iaoq_b = env->gr[31] + 4;
-             break;
--        case EXCP_UNALIGN:
--            info.si_signo = TARGET_SIGBUS;
--            info.si_errno = 0;
--            info.si_code = 0;
--            info._sifields._sigfault._addr = env->cr[CR_IOR];
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
--            break;
-         case EXCP_ILL:
-         case EXCP_PRIV_OPR:
-         case EXCP_PRIV_REG:
+diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
+index 437bbed6d6..2561b904b9 100644
+--- a/target/microblaze/translate.c
++++ b/target/microblaze/translate.c
+@@ -722,6 +722,7 @@ static TCGv compute_ldst_addr_ea(DisasContext *dc, int ra, int rb)
+ }
+ #endif
+ 
++#ifndef CONFIG_USER_ONLY
+ static void record_unaligned_ess(DisasContext *dc, int rd,
+                                  MemOp size, bool store)
+ {
+@@ -734,6 +735,7 @@ static void record_unaligned_ess(DisasContext *dc, int rd,
+ 
+     tcg_set_insn_start_param(dc->insn_start, 1, iflags);
+ }
++#endif
+ 
+ static bool do_load(DisasContext *dc, int rd, TCGv addr, MemOp mop,
+                     int mem_index, bool rev)
+@@ -755,12 +757,19 @@ static bool do_load(DisasContext *dc, int rd, TCGv addr, MemOp mop,
+         }
+     }
+ 
++    /*
++     * For system mode, enforce alignment if the cpu configuration
++     * requires it.  For user-mode, the Linux kernel will have fixed up
++     * any unaligned access, so emulate that by *not* setting MO_ALIGN.
++     */
++#ifndef CONFIG_USER_ONLY
+     if (size > MO_8 &&
+         (dc->tb_flags & MSR_EE) &&
+         dc->cfg->unaligned_exceptions) {
+         record_unaligned_ess(dc, rd, size, false);
+         mop |= MO_ALIGN;
+     }
++#endif
+ 
+     tcg_gen_qemu_ld_i32(reg_for_write(dc, rd), addr, mem_index, mop);
+ 
+@@ -901,12 +910,19 @@ static bool do_store(DisasContext *dc, int rd, TCGv addr, MemOp mop,
+         }
+     }
+ 
++    /*
++     * For system mode, enforce alignment if the cpu configuration
++     * requires it.  For user-mode, the Linux kernel will have fixed up
++     * any unaligned access, so emulate that by *not* setting MO_ALIGN.
++     */
++#ifndef CONFIG_USER_ONLY
+     if (size > MO_8 &&
+         (dc->tb_flags & MSR_EE) &&
+         dc->cfg->unaligned_exceptions) {
+         record_unaligned_ess(dc, rd, size, true);
+         mop |= MO_ALIGN;
+     }
++#endif
+ 
+     tcg_gen_qemu_st_i32(reg_for_read(dc, rd), addr, mem_index, mop);
+ 
 -- 
 2.25.1
 
