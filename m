@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FADE442305
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 23:07:46 +0100 (CET)
-Received: from localhost ([::1]:40630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4257444232F
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 23:13:03 +0100 (CET)
+Received: from localhost ([::1]:47484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhfSz-0004qf-41
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 18:07:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53302)
+	id 1mhfY6-0001Fr-25
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 18:13:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mhfPZ-0002sH-D5
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 18:04:13 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:43710)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mhfPU-0008Bi-2a
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 18:04:13 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- 67-20020a1c1946000000b0030d4c90fa87so732276wmz.2
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 15:04:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=XupQSTm2K4VlC+FrUb7XbaO2acsGsTXsWvde+V5kim8=;
- b=nmZRwz7LIzVP623j0rEleDaJ/M2Vx/02mRZQFUiLigM/oUCnHK2KuCj1pGQA8YEQOi
- pICgQuD4awTnVoSbeUIuY4nO3jc4qaRJxS1L5UHtnRdAhd4nlfIGpcBDiOw1ibju/RGS
- +glDqgYueE/m/5P7lO5fBJGVpsfteW7H2p3ZewIcX23PsB39X3ZeqGvFNysyRjtgeIiH
- UuDgK5/nS0mDRxPzowvKbI5LdM6oLpjjANxYsCXgawMKpQZHCVKmDarm4rARRLpG57EQ
- ljdQ3y57/l4VmmMorTCzzRy29keTE/4VjHfaMNmoIdKl6T8pkC/lpKIi4ajPeyAxADxj
- bXFg==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mhfUa-0006q2-K0
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 18:09:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44759)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mhfUW-0000Xq-7L
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 18:09:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635804558;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=UcUIBTO6A2A6Mr3DNTGimCFNhmnrVDJGDlnfgcY6wsE=;
+ b=AbbEtOqV5+v9HxPUyMgPaJBRNs5rFG57PZzamI8JbU1O28Ar0ZkzItmo8wX5JeyGJ3lnfM
+ 6ZAgG+yyzP+ddHGZOCA83YZz5N+JN7TW2hZJSjZ3Kq4bgxYYlaN/RvPO0KYMg3KrVofEC3
+ lWZlhKYK0/WNgQbTqg7phKFYVD95YNo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-399-8NwEf14bPbasAfS6DYwaTQ-1; Mon, 01 Nov 2021 18:09:15 -0400
+X-MC-Unique: 8NwEf14bPbasAfS6DYwaTQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ z138-20020a1c7e90000000b003319c5f9164so169918wmc.7
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 15:09:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=XupQSTm2K4VlC+FrUb7XbaO2acsGsTXsWvde+V5kim8=;
- b=r83cRBH1f8k8zkM6GC6AaaRrAmYWpJXImm3oglM/bW3K4KT0Bd0bLcJx3sGRIDxflH
- UH6LMPXuuatePXJrkkWpu4pCZnP81QMrMN6CZiNNuLI0HcUNXhC4KCqaitBNdmWSxBj8
- LP0TOE6lXHD23YPQMZzUCwVYf7BX8Gu3DTAM3sZH3ooRhtRd+PhkQ0Dge2f9xno8SlnM
- vsG+1eM1io/3kbyHlX7vamUqvF9L4GOXOhyXkpHiF/pYl7VYJ4clrvuV3wCRSt9UHZTo
- S7jTvx931Fr4fhKwjsFtCYut5WpXVhHmaSUYCy0FVBkhS0WXBdd3cKievrl1uTWkZ03b
- 4w2A==
-X-Gm-Message-State: AOAM5322jfhJugWOHRUKj+WwJHiBPipn+SOf5BMkX9YwYpOwN8CO09HV
- Sr+LF4NqAbsrjPuntxF8HoA=
-X-Google-Smtp-Source: ABdhPJxHGpyvxzJ/eAZsZfEmfDFgGUjvB6P9N1yGkOQYeYRCn/prSGh7ACoVhesjAWHs15P34ac4ew==
-X-Received: by 2002:a1c:a9c6:: with SMTP id s189mr1991659wme.38.1635804246501; 
- Mon, 01 Nov 2021 15:04:06 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id d3sm17757432wrb.36.2021.11.01.15.04.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Nov 2021 15:04:06 -0700 (PDT)
-Message-ID: <78b6efd1-9fc5-6bed-19bd-14a882e5db04@amsat.org>
-Date: Mon, 1 Nov 2021 23:04:04 +0100
+ bh=mg126+9me9ZhZB/Tacp08IAkZeaGvGDXykNGOzkIohU=;
+ b=IXbmMQO8vdnb+9whJSdPsaKURnMotkEI0DP6I6rfWfNPv4J8HGJsomk/b9KaMSO5Dn
+ FXlYD0PGlUeb/ZkDFuwKTBUde/a3ibu5E5fRo0c4woxZsfQHDXnw8sp2JPwbqBCNFO4x
+ dS6bp6TlaFTTXagpPTDAMtH0iWgFZLoOjO6qXJjfnH6cb80HNE6NLFLlwJun13YxRFCm
+ 3XBUwWzptJrRkLstc1O9vAgmwwS81IT3nTrAR0TmTL3P0uR0NTYzNGHMbFOJr3kmwhNg
+ X2tRvObfJCmLl5MCC8a0FprTj7gtScyPVhXd77PpjnBK5iazLz3goiLbIMVZMEwnvIIm
+ R/QA==
+X-Gm-Message-State: AOAM532FkRNhSYSiInMALiDu9KPfFozYiC0GlY/s/0speVtUy9csGRLl
+ 4B1LBmuGNYOwK9ZMwznrZBo7OMzh08O6IsASPqu24lmjyOp3wfq1PGK/49mDOt2CAcd4Xr8zUDZ
+ Fr/VvOcNcztEpO1iaUTJI6Qt0NAdF95sKGZil1aMr1hnYVMGzgTsdpyeUOWQ2KI9RA1M=
+X-Received: by 2002:a5d:6e8c:: with SMTP id k12mr40207245wrz.401.1635804554392; 
+ Mon, 01 Nov 2021 15:09:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwiYqS6XG9xwq0Xi+0IIDYOMlQDxPDwjRqxs0xc44YT7VvgO+jFUiosfcGK1mj6k1mDxUBPBw==
+X-Received: by 2002:a5d:6e8c:: with SMTP id k12mr40207187wrz.401.1635804554086; 
+ Mon, 01 Nov 2021 15:09:14 -0700 (PDT)
+Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
+ [188.86.86.233])
+ by smtp.gmail.com with ESMTPSA id i15sm630121wmb.20.2021.11.01.15.09.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Nov 2021 15:09:13 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/20] Migration 20211031 patches
+Date: Mon,  1 Nov 2021 23:08:52 +0100
+Message-Id: <20211101220912.10039-1-quintela@redhat.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] Revert "elf: Relax MIPS' elf_check_arch() to accept
- EM_NANOMIPS too"
-Content-Language: en-US
-To: Vince Del Vecchio <Vince.DelVecchio@mediatek.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20211101114800.2692157-1-f4bug@amsat.org>
- <PSAPR03MB527055869102C6798B291CEBE28A9@PSAPR03MB5270.apcprd03.prod.outlook.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <PSAPR03MB527055869102C6798B291CEBE28A9@PSAPR03MB5270.apcprd03.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.14,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,84 +93,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno <aurelien@aurel32.net>,
- Petar Jovanovic <petar.jovanovic@syrmia.com>
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ David Hildenbrand <david@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Paul Durrant <paul@xen.org>, Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/1/21 22:40, Vince Del Vecchio wrote:
-> Philippe said:
-> 
->> So far QEMU only support the MIPS o32 / n32 / n64 ABIs. The p32 ABI is not implemented, therefore we can not run any nanoMIPS binary.
-> 
-> We use it internally to run nanoMIPS binaries every day.  I had thought everything relevant was completed and upstreamed, but perhaps there is a gap somewhere.  Let us investigate a little and get back to you.
+The following changes since commit af531756d25541a1b3b3d9a14e72e7fedd941a2e=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/philmd/tags/renesas-20211030' into =
+staging (2021-10-30 11:31:41 -0700)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  https://github.com/juanquintela/qemu.git tags/migration-20211031-pull-req=
+uest=0D
+=0D
+for you to fetch changes up to 826b8bc80cb191557a4ce7cf0e155b436d2d1afa:=0D
+=0D
+  migration/dirtyrate: implement dirty-bitmap dirtyrate calculation (2021-1=
+1-01 22:56:44 +0100)=0D
+=0D
+----------------------------------------------------------------=0D
+Migration Pull request=0D
+=0D
+Hi=0D
+=0D
+this includes pending bits of migration patches.=0D
+=0D
+- virtio-mem support by David Hildenbrand=0D
+- dirtyrate improvements by Hyman Huang=0D
+- fix rdma wrid by Li Zhijian=0D
+- dump-guest-memory fixes by Peter Xu=0D
+=0D
+Pleas apply.=0D
+=0D
+Thanks, Juan.=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+David Hildenbrand (8):=0D
+  memory: Introduce replay_discarded callback for RamDiscardManager=0D
+  virtio-mem: Implement replay_discarded RamDiscardManager callback=0D
+  migration/ram: Handle RAMBlocks with a RamDiscardManager on the=0D
+    migration source=0D
+  virtio-mem: Drop precopy notifier=0D
+  migration/postcopy: Handle RAMBlocks with a RamDiscardManager on the=0D
+    destination=0D
+  migration: Simplify alignment and alignment checks=0D
+  migration/ram: Factor out populating pages readable in=0D
+    ram_block_populate_pages()=0D
+  migration/ram: Handle RAMBlocks with a RamDiscardManager on background=0D
+    snapshots=0D
+=0D
+Hyman Huang(=C3=A9=C2=BB=E2=80=9E=C3=A5=E2=80=B9=E2=80=A1) (6):=0D
+  KVM: introduce dirty_pages and kvm_dirty_ring_enabled=0D
+  memory: make global_dirty_tracking a bitmask=0D
+  migration/dirtyrate: introduce struct and adjust DirtyRateStat=0D
+  migration/dirtyrate: adjust order of registering thread=0D
+  migration/dirtyrate: move init step of calculation to main thread=0D
+  migration/dirtyrate: implement dirty-ring dirtyrate calculation=0D
+=0D
+Hyman Huang(=E9=BB=84=E5=8B=87) (2):=0D
+  memory: introduce total_dirty_pages to stat dirty pages=0D
+  migration/dirtyrate: implement dirty-bitmap dirtyrate calculation=0D
+=0D
+Li Zhijian (1):=0D
+  migration/rdma: Fix out of order wrid=0D
+=0D
+Peter Xu (3):=0D
+  migration: Make migration blocker work for snapshots too=0D
+  migration: Add migrate_add_blocker_internal()=0D
+  dump-guest-memory: Block live migration=0D
+=0D
+ qapi/migration.json            |  48 ++++-=0D
+ include/exec/memory.h          |  41 +++-=0D
+ include/exec/ram_addr.h        |  13 +-=0D
+ include/hw/core/cpu.h          |   1 +=0D
+ include/hw/virtio/virtio-mem.h |   3 -=0D
+ include/migration/blocker.h    |  16 ++=0D
+ include/sysemu/kvm.h           |   1 +=0D
+ migration/dirtyrate.h          |  21 +-=0D
+ migration/ram.h                |   1 +=0D
+ accel/kvm/kvm-all.c            |   7 +=0D
+ accel/stubs/kvm-stub.c         |   5 +=0D
+ dump/dump.c                    |  19 ++=0D
+ hw/i386/xen/xen-hvm.c          |   4 +-=0D
+ hw/virtio/virtio-mem.c         |  92 ++++++---=0D
+ migration/dirtyrate.c          | 367 ++++++++++++++++++++++++++++++---=0D
+ migration/migration.c          |  30 +--=0D
+ migration/postcopy-ram.c       |  40 +++-=0D
+ migration/ram.c                | 180 ++++++++++++++--=0D
+ migration/rdma.c               | 138 +++++++++----=0D
+ softmmu/memory.c               |  43 +++-=0D
+ hmp-commands.hx                |   8 +-=0D
+ migration/trace-events         |   2 +=0D
+ softmmu/trace-events           |   1 +=0D
+ 23 files changed, 909 insertions(+), 172 deletions(-)=0D
+=0D
+--=20=0D
+2.33.1=0D
+=0D
 
-I could wait few days until QEMU hard freeze and queue this patch as a
-bug fix, but I doubt there is much you can do in that time frame, since
-tomorrow is the soft freeze deadline.
-
-Here I am simply changing the code to reject p32 binaries to avoid
-users to waste their time trying to run a nanoMIPS binary. I am not
-removing any of the nanoMIPS emulation code.
-
-> Were you trying to run a bare metal executable or was it linux?
-
-While I tested both toolchains (bare metal and musl/linux), here I am
-only referring to the musl/linux one, since it is related to user-mode
-emulation (files under linux-user/ directory).
-
-The system emulation part is left unchanged (you can still boot a
-nanoMIPS kernel if you select the proper CPU type).
-
-> -----Original Message-----
-> From: Qemu-devel <qemu-devel-bounces+vince.delvecchio=mediatek.com@nongnu.org> On Behalf Of Philippe Mathieu-Daudé
-> Sent: Monday, November 1, 2021 7:48 AM
-> To: qemu-devel@nongnu.org
-> Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>; Richard Henderson <richard.henderson@linaro.org>; Laurent Vivier <laurent@vivier.eu>; Philippe Mathieu-Daudé <f4bug@amsat.org>; Petar Jovanovic <petar.jovanovic@syrmia.com>; Aurelien Jarno <aurelien@aurel32.net>
-> Subject: [PATCH] Revert "elf: Relax MIPS' elf_check_arch() to accept EM_NANOMIPS too"
-> 
-> Per the "P32 Porting Guide" (rev 1.2) [1], chapter 2:
-> 
->   p32 ABI Overview
->   ----------------
-> 
->   The Application Binary Interface, or ABI, is the set of rules
->   that all binaries must follow in order to run on a nanoMIPS
->   system. This includes, for example, object file format,
->   instruction set, data layout, subroutine calling convention,
->   and system call numbers. The ABI is one part of the mechanism
->   that maintains binary compatibility across all nanoMIPS platforms.
-> 
->   p32 improves on o32 to provide an ABI that is efficient in both
->   code density and performance. p32 is required for the nanoMIPS
->   architecture.
-> 
-> So far QEMU only support the MIPS o32 / n32 / n64 ABIs. The p32 ABI is not implemented, therefore we can not run any nanoMIPS binary.
-> 
-> Revert commit f72541f3a59 ("elf: Relax MIPS' elf_check_arch() to accept EM_NANOMIPS too").
-> 
-> See also the "ELF ABI Supplement" [2].
-> 
-> [1] http://codescape.mips.com/components/toolchain/nanomips/2019.03-01/docs/MIPS_nanoMIPS_p32_ABI_Porting_Guide_01_02_DN00184.pdf
-> [2] http://codescape.mips.com/components/toolchain/nanomips/2019.03-01/docs/MIPS_nanoMIPS_ABI_supplement_01_03_DN00179.pdf
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  linux-user/elfload.c | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/linux-user/elfload.c b/linux-user/elfload.c index f9b82616920..5da8c02d082 100644
-> --- a/linux-user/elfload.c
-> +++ b/linux-user/elfload.c
-> @@ -925,8 +925,6 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs, const CPUPPCState *en  #endif
->  #define ELF_ARCH    EM_MIPS
->  
-> -#define elf_check_arch(x) ((x) == EM_MIPS || (x) == EM_NANOMIPS)
-> -
->  #ifdef TARGET_ABI_MIPSN32
->  #define elf_check_abi(x) ((x) & EF_MIPS_ABI2)  #else
-> --
-> 2.31.1
 
