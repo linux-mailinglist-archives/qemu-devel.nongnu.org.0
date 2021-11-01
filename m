@@ -2,67 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 590FF4415BB
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 10:01:55 +0100 (CET)
-Received: from localhost ([::1]:44910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C613F44141F
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 08:25:44 +0100 (CET)
+Received: from localhost ([::1]:46258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhTCS-0006av-0i
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 05:01:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42434)
+	id 1mhRhP-0004bW-GD
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 03:25:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mhTA1-0004du-UW; Mon, 01 Nov 2021 04:59:21 -0400
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:37562)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mhT9z-0005FW-1k; Mon, 01 Nov 2021 04:59:21 -0400
-Received: by mail-yb1-xb2b.google.com with SMTP id d204so42897167ybb.4;
- Mon, 01 Nov 2021 01:59:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Te13DGIcy1aGp3eHDRMCeD23kvRA1qid/+2R26IZqvU=;
- b=T4cCbegjaou9UKtkccAB5II6AUOjCkvkQ35wPJQMsVHrcfJ7ygQlL2Xr/TtfHIqnMA
- 50NuNCqmGVhBueILi6wjBL0X9cbibWjrzefuK+5617SF5k6uTdZRBjjPgzaswl4rjF/X
- C/6fhABWqfWH7mFuaTBsfeZEoTENWR8Ef/6ph4z5quLG0+KC4M3tTqUJjYVse9zkIEjy
- fI3IbJxm5kj4Se77WNxU7569S+Kh3MPXhbpuplqIIdCyYgBAOLM9+FaQwO02Yo4yEvzm
- FQXRv0xp05P0anTmrLSBx0NYgthXpi5I8teqk0RBuQckjOXXZorbEbhgCbya2iouX9iX
- EYYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Te13DGIcy1aGp3eHDRMCeD23kvRA1qid/+2R26IZqvU=;
- b=0IaSj/NcdjjtEBlE8b1NAuOmmK7FLJh34XWVq3v0Ku+lQSFCy6g6XUaaD5evrp7lEL
- 6JZ82oVz0ECrvl250cxsy0S2IMnCjjAlDSI0cDpPta75g0d3NVBzlWgt0MByuP+5vM7l
- 800bkxxyZ67ClmqdHqseM9NUoa6Xfv4t1/ElUEiqR8Ezzz9gAVFjfiT9zUb+dyvOnF0y
- Q9CW6YFfu08pGdXnqw5eQBu8t7MXzol7d3f8nGPDeYyxsFC3Wsink0kF16KU+rBOvhzD
- PIobW/qJ/tpK29hXtDXKSgcN8HwHCNcTEfno5LLxrfSXlkH48GQHXEyBlJVUx05hkqF7
- ewoA==
-X-Gm-Message-State: AOAM533y9UcHHU/25R5mlwdH/dICNFuQ58fmXYfwSXCUbbPUAeYPWMt5
- 6xJvHQgLPabMH1jHi0S4xvmi98u5xt1YL9lOuGQ=
-X-Google-Smtp-Source: ABdhPJzCd+xa1QsOLv0mK6rbMY5PNDxbnq/mtbKf2sqX3ePDtgmQm1KsnHl+EdZyTyY1t2XEKzbRGXZ2VmihvodTTpk=
-X-Received: by 2002:a25:258c:: with SMTP id l134mr4812984ybl.40.1635757157866; 
- Mon, 01 Nov 2021 01:59:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1mhRg5-0002j5-9h
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 03:24:21 -0400
+Received: from mga17.intel.com ([192.55.52.151]:18003)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1mhRg2-000280-Vh
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 03:24:20 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10154"; a="211729004"
+X-IronPort-AV: E=Sophos;i="5.87,198,1631602800"; d="scan'208";a="211729004"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Nov 2021 00:24:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,198,1631602800"; d="scan'208";a="448855909"
+Received: from icx.bj.intel.com ([10.240.192.117])
+ by orsmga006.jf.intel.com with ESMTP; 01 Nov 2021 00:24:13 -0700
+From: Yang Zhong <yang.zhong@intel.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/5] SGX NUMA support plus vepc reset
+Date: Mon,  1 Nov 2021 12:20:04 -0400
+Message-Id: <20211101162009.62161-1-yang.zhong@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20211026064227.2014502-1-anup.patel@wdc.com>
- <20211026064227.2014502-2-anup.patel@wdc.com>
-In-Reply-To: <20211026064227.2014502-2-anup.patel@wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 1 Nov 2021 16:59:06 +0800
-Message-ID: <CAEUhbmWOwJw8RoNaKXQQWWSnNLGMqhz8DXSCO+bMBR3qD9-fAQ@mail.gmail.com>
-Subject: Re: [PATCH v4 01/22] target/riscv: Fix trap cause for RV32 HS-mode
- CSR access from RV64 HS-mode
-To: Anup Patel <anup.patel@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2b.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=yang.zhong@intel.com;
+ helo=mga17.intel.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_FUTURE_06_12=1.947,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,27 +56,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: yang.zhong@intel.com, pbonzini@redhat.com, jarkko@kernel.org,
+ eblake@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 26, 2021 at 2:43 PM Anup Patel <anup.patel@wdc.com> wrote:
->
-> We should be returning illegal instruction trap when RV64 HS-mode tries
-> to access RV32 HS-mode CSR.
->
-> Fixes: d6f20dacea51 ("target/riscv: Fix 32-bit HS mode access permissions")
-> Signed-off-by: Anup Patel <anup.patel@wdc.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/csr.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
+The basic SGX patches were merged into Qemu release, the left NUMA
+function for SGX should be enabled. The patch1 implemented the SGX NUMA
+ACPI to enable NUMA in the SGX guest. Since Libvirt need detailed host
+SGX EPC sections info to decide how to allocate EPC sections for SGX NUMA
+guest, the SGXEPCSection list is introduced to show detailed sections info
+in the monitor or HMP interface.
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+This version also plus the vEPC reset support because the related kernel
+patches were merged into tip tree master branch, please ref below link:
+https://lore.kernel.org/all/20211021201155.1523989-1-pbonzini@redhat.com/
+or the tip tree master branch.
+
+Thanks!
+
+Yang
+
+
+Changes from V2:
+- Updated the reset patch(patch 5), reduced to 2 pass.(Paolo)
+
+Changes from V1:
+- added documents for new members.(Eric)
+- changed the "index" to "node" in struct SGXEPCSection.(Eric, Paolo)
+- squashed the previous patch 4 and patch 5 into patch 3.(Paolo)
+- added reset patch(patch 5) into this version.
+
+Yang Zhong (5):
+  numa: Enable numa for SGX EPC sections
+  monitor: Support 'info numa' command
+  numa: Support SGX numa in the monitor and Libvirt interfaces
+  doc: Add the SGX numa description
+  sgx: Reset the vEPC regions during VM reboot
+
+ docs/system/i386/sgx.rst  |  31 +++++++--
+ qapi/machine.json         |  10 ++-
+ qapi/misc-target.json     |  19 +++++-
+ include/hw/i386/sgx-epc.h |   3 +
+ include/hw/i386/x86.h     |   1 +
+ linux-headers/linux/kvm.h |   6 ++
+ hw/core/numa.c            |   6 ++
+ hw/i386/acpi-build.c      |   4 ++
+ hw/i386/sgx-epc.c         |   3 +
+ hw/i386/sgx.c             | 137 +++++++++++++++++++++++++++++++++++---
+ hw/i386/x86.c             |   4 ++
+ monitor/hmp-cmds.c        |   1 +
+ qemu-options.hx           |   4 +-
+ 13 files changed, 211 insertions(+), 18 deletions(-)
+
 
