@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 649B3441DB7
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 17:08:06 +0100 (CET)
-Received: from localhost ([::1]:43904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A728441DBB
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 17:08:56 +0100 (CET)
+Received: from localhost ([::1]:45714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhZqu-0001fe-UH
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 12:08:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38918)
+	id 1mhZrj-0002rh-HP
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 12:08:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mhZnh-0006LK-1E
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 12:04:45 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44713)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mhZq8-00017l-4q
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 12:07:17 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45831)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mhZnb-0001EF-M6
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 12:04:41 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id d13so28818847wrf.11
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 09:04:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=j9BjVxvpbqA+GnjOJfPUlZZl3rcN+UbWEbMo/gVEwe4=;
- b=FBJMasdREXWFMEcO/Og733/w8H8FcDros9ovHYSCIzhjF108BvniQpK20iFNFlxTAx
- a3+T8P3N6+GErpjZn5c/NfW5yU0rOMtIlKsUw9qugF4+noGmnkIJa3m2KM4xsdXZKgq5
- 83qKSbW3n1FUYwur06D41a2jjKRe1g15AmE3d0F9sezuClAnrO3pQWZI/SJXhp1b3uSt
- cIH8/tqYiBLYK3U8BkItqPV/5VdBCPaQ+FLmbnn0QjCujviHE7MId7sv6CZOE1fOLIYW
- sG2ZifbRui6tX5rZe7O5j+fQOq0gvdyG2dIycggEb8SuzYCBi7wnfQToekO8Ak3lYg1E
- +P8g==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mhZq5-00027w-4m
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 12:07:15 -0400
+Received: by mail-wr1-x430.google.com with SMTP id o14so28738866wra.12
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 09:07:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=D4Ma94RHb7aBegGzLcpoWHwFS512gxrmnFZPO9tY97U=;
+ b=ilvVEfOFQkYaayjnTyGzG622xLRMmXwdBSxHYEV6vrNz7lbYCfW4vBvv+ADkPxSlHl
+ E2WuwJZASzJo/CW9Lf7oh0EeL6sI4JYXHQ8d2vhLGuU/YkwqHNYDHUXW0Vyj4uK2f01P
+ SElMSoJDZw2cJFL7DXI0ROhsrT7uPNhxAbFBqfgwgB6aOrX/e59sJftIsl6TcjukXcrd
+ fOxkmvLZ9KrDV7c8zHeiqvoSrl1AX2+FaeHmF95xsWCzYBCX7I+WTc92KswkkGWrPPgl
+ WbyW372nIeVrb2h0XB8GyzyqKS7BLwwrDqclI7I5y0ucew/LFZ5YnKRMCP6eu9W8EFqf
+ C9+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=j9BjVxvpbqA+GnjOJfPUlZZl3rcN+UbWEbMo/gVEwe4=;
- b=GwMGLO2Nw0Y0eKupNebkhr4h5AvaDQPjq1iBWBcLfIdngi14VhAdIEpYGtojy2E8ei
- Vc8/EzSf3dsWsB3R5N2+QXW11LEgkwSIsibwA2THJ0nEhokj/i4NuObVPwGoWM0C5oKO
- btPySTQDv5W75IO2LNzOQ4jom5IM8ieVG7JRXM5I7MeO6LR3ZFeAny97pm9OWfyuqCPM
- ny40RsLx/EyZpTQ0G7k1RNPcKgjrC7uR3QMcydfqi9R4rLwtvEeIUU+2m9WLbpeT8kD5
- KT8mfegMY9llSo513Xr2VqaxfvYPm54u8WqlJjoI7Av98EFFSGhW8IHgp/HBQW/aVRuw
- qxdA==
-X-Gm-Message-State: AOAM531uxP63Xn2AENtA6voFgfMYe3Lm7duILZUX56bTaFHGyFVRw47H
- WAKdd4lflonp3sjnOASbeEMcPq50KMB5IZE41NJ0Tg==
-X-Google-Smtp-Source: ABdhPJxHgWLXInhJer7Ml4beDBZZnu0tx7ew3vMAbAnUjh4EC45SIcQ+1a6sNQ8bDNQBevLRu4CdAub9OG9D+ydrE/U=
-X-Received: by 2002:adf:e984:: with SMTP id h4mr35166102wrm.149.1635782677891; 
- Mon, 01 Nov 2021 09:04:37 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=D4Ma94RHb7aBegGzLcpoWHwFS512gxrmnFZPO9tY97U=;
+ b=tQoCC9l9jEbVp8K8S7jT1AcWVDD47Mk2qRGGoSHFUV+Mg91ooidIhip1tZ1K0MUkDo
+ SaLFxFfHIxgnw2rjOp3uJwrkmKaCgSR6ybubaqgNDTAznlQDO+dHD296MAcSj1IU0/sh
+ QoEK7DKu7SRPeyIshgaeRqS8/N6adSma3Rp2gb2/iefICpGOEum6ApvgsZV3sz1x5KeN
+ BOnlFDF+U8gDJRsSuwuR3DhMqZZEsKlo9zjieJg0vmPxEvw1GBZWvNum5zM2A/lvnhb1
+ HEMOp2tjS3FswrbP2gCMEv8NbI90hHAf+zGVu0BOjoOqbBq2H/bGdWBK310QetOS4+R6
+ Jpdw==
+X-Gm-Message-State: AOAM533/8+rUncU+GW6TtpOJbgcz0s+hfZ7mBvVFtqYrWg/JWq8yHyEB
+ to+R2zathwXH0xzhxqRnjAzodWp8Hjo=
+X-Google-Smtp-Source: ABdhPJx6CM03X0edqSBQ26X6UeKcqRy9BjQSRekGVU8KxWhFz8tB44cZiJ7o41CKzzhv05+bIrqtRg==
+X-Received: by 2002:a5d:5651:: with SMTP id j17mr15790036wrw.166.1635782830314; 
+ Mon, 01 Nov 2021 09:07:10 -0700 (PDT)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id y10sm1821407wrd.84.2021.11.01.09.07.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Nov 2021 09:07:09 -0700 (PDT)
+Message-ID: <8cd9ea9c-7a3b-6e60-9311-4593f769c2f9@amsat.org>
+Date: Mon, 1 Nov 2021 17:07:08 +0100
 MIME-Version: 1.0
-References: <20210920122535.269988-1-eric.auger@redhat.com>
- <CAFEAcA-8497+XS0PU3RAkGsrf7PGVm=oGymuHznE3iuopMHbKg@mail.gmail.com>
-In-Reply-To: <CAFEAcA-8497+XS0PU3RAkGsrf7PGVm=oGymuHznE3iuopMHbKg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Nov 2021 16:04:26 +0000
-Message-ID: <CAFEAcA8tbJ3jbHghvqk3hmUOZmQEzYva2Qqbq49i4dC93bQXCA@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/rtc/pl031: Send RTC_CHANGE QMP event
-To: Eric Auger <eric.auger@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: gitlab-ci: clang-user job failed with run-tcg-tests-sh4-linux-user
+Content-Language: en-US
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: qemu-devel <qemu-devel@nongnu.org>
+References: <e27941cc-2622-cb01-4c93-b9ff344bdddb@amsat.org>
+In-Reply-To: <e27941cc-2622-cb01-4c93-b9ff344bdddb@amsat.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.14,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,39 +89,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Gavin Shan <gshan@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Auger <eric.auger.pro@gmail.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 Sept 2021 at 14:29, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Mon, 20 Sept 2021 at 13:25, Eric Auger <eric.auger@redhat.com> wrote:
-> >
-> > The PL031 currently is not able to report guest RTC change to the QMP
-> > monitor as opposed to mc146818 or spapr RTCs. This patch adds the call
-> > to qapi_event_send_rtc_change() when the Load Register is written. The
-> > value which is reported corresponds to the difference between the guest
-> > reference time and the reference time kept in softmmu/rtc.c.
-> >
-> > For instance adding 20s to the guest RTC value will report 20. Adding
-> > an extra 20s to the guest RTC value will report 20 + 20 = 40.
-> >
-> > The inclusion of qapi/qapi-types-misc-target.h in hw/rtl/pl031.c
-> > require to compile the PL031 with specific_ss.add() to avoid
-> > ./qapi/qapi-types-misc-target.h:18:13: error: attempt to use poisoned
-> > "TARGET_<ARCH>".
-> >
-> > Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
->
-> Thanks. This looks plausible to me (well, it would ;-)) but
-> I would appreciate review from Paolo or somebody else who
-> understands the rtc_change feature and handling.
+On 11/1/21 11:27, Philippe Mathieu-Daudé wrote:
+> Build failed running the 'clang-user' job:
+> 
+>   TEST    linux-test on sh4
+> ../linux-user/syscall.c:10373:34: runtime error: member access within
+> misaligned address 0x00000048af34 for type 'struct linux_dirent64',
+> which requires 8 byte alignment
+> 0x00000048af34: note: pointer points here
+>   00 00 00 00 00 40 0c 00  00 00 00 00 7b e2 f5 de  fc d8 a1 3a 20 00 0a
+> 66  69 6c 65 33 00 00 00 00
+>               ^
+> make[2]: *** [../Makefile.target:158: run-linux-test] Error 1
+> make[1]: *** [/builds/philmd/qemu/tests/tcg/Makefile.qemu:102:
+> run-guest-tests] Error 2
+> make: *** [/builds/philmd/qemu/tests/Makefile.include:63:
+> run-tcg-tests-sh4-linux-user] Error 2
+> 
+> https://gitlab.com/philmd/qemu/-/jobs/1733066358
+> 
 
-Ping? Review from somebody who understands rtc_change would
-still be nice...
-
--- PMM
+Created issue with local reproducer:
+https://gitlab.com/qemu-project/qemu/-/issues/704
 
