@@ -2,73 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD79C441D3F
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 16:16:53 +0100 (CET)
-Received: from localhost ([::1]:54580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E9A3441D3B
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 16:14:23 +0100 (CET)
+Received: from localhost ([::1]:52400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhZ3M-0000vT-9s
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 11:16:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55878)
+	id 1mhZ0w-0007kr-D5
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 11:14:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mhZ26-00009A-0a
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 11:15:34 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:39440)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mhZ01-0006r5-P4
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 11:13:25 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:45801)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mhZ23-0006n2-M5
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 11:15:33 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id d27so10649954wrb.6
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 08:15:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mhYzz-0006MU-Qa
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 11:13:25 -0400
+Received: by mail-wr1-x433.google.com with SMTP id o14so28511059wra.12
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 08:13:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=hoAyoe+Sz8IvNfs5J0dhvB/o+FhyOKNNcTJmRJYo1H8=;
- b=zsWX9ZOT19OwOgrXGo13PaSHs940Vgf58dpFgUXAgEL+pa6EyqCSnnaVTAVrGSrvbv
- MUrotmeOk3SJQngRenSagFvWuDrned0OhvI4CaW0dwcP+0CO7braCTtQigcyg2LLb1w8
- k8YI6dWvx6Y7JtZu0TI9yL+z24MTUdZHmLhuRSEJPVFsGOPnVppqcFm98HE01f55xVfx
- 74byW5R0tzKo9WMLbkluCZ9a6JxGdP9lDJr54cVjD0Ae62fubjs9mTNgff/WXzDlAHrR
- M8Cou0D9RuaMXJE5w9jrssihg73tsC7XWApUfT1KmonhJ2XpR9zeIYmz/yz+u+2JpKzk
- UKFg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=nYUa+dBsj0I9rT98PP8O/lh/lW8QAI7b1M9uO1VKdD0=;
+ b=FWHQjrP2aUZFIhgoGhi0ZXO5msZ3MuXy+nE838b1kEk9S2jVoa//zimdPYtIVdyPU+
+ E/Kxc+o6kKY5TjMo0LBb+XwGEA9cTP0yWKxIpylKWmWGurV7MjrCULrU8X0jJixY/WhE
+ Yc/7fhBxK2+xfb5jYPWyvs3SgPK82f94869azjxXNGqryUBI76RF/o9uRMZAuNnsBDBa
+ PcvcN7YfQfErmfU6cuBDGJOUWFrrs6iqtGqk5k9JIeBPxwhLuucPezqpbVAqKg/JkmxH
+ VUphLvDCLBV1KnUtca5yD6LHMcc150mZ5hqINB/19h4/rxUjHy1CHZM72hIstb7g9jTC
+ GyVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=hoAyoe+Sz8IvNfs5J0dhvB/o+FhyOKNNcTJmRJYo1H8=;
- b=SP791zWKIcp4Tcm10TfCVyo/4NVGCfCNI0+hT9NER6JNXcOj6WQtK9QgntZJgMDvN5
- Tfi0VOAzWz1L8i6WsXRCSnZBmK0jYQlccUc0LhvFqkRwv+9iBkyUUyNuxQNSQJk9B1gX
- HBRY2sD0qD17wnX2cxv2iWkvT+ZJmbTvfy6ECXfQSuIfSYuwhtAYAYce+WXNqZhxLJjj
- u7kIjwejL06oIf45c2MMkelLn0nyb8oRYiQAwqyjL2zN5382P1AyM38HqnpM/xHgHtTP
- 7ceISOgkq0K+jzq+vlB+E+86ROUl8UFddBHcfQ5KomejPHfwZAJbuKAmPrs1+vhmqrsb
- KzKw==
-X-Gm-Message-State: AOAM530UUBwpera/iKhlBk1njETpNfw371kM5+kaQzIX9nOM0+K07/Pz
- lFe4N/sETM33rE3qTimwEzwshw==
-X-Google-Smtp-Source: ABdhPJwHY884Kc7zCwOWKO11VRWEnwPo5B5wXNDCu2YtCShgumRbdesmz/q4K05Pa7JuZjtKZagKIQ==
-X-Received: by 2002:adf:df0b:: with SMTP id y11mr14512456wrl.181.1635779730011; 
- Mon, 01 Nov 2021 08:15:30 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h27sm8150357wmc.43.2021.11.01.08.15.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Nov 2021 08:15:29 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 624361FF96;
- Mon,  1 Nov 2021 15:15:28 +0000 (GMT)
-References: <20211026102234.3961636-1-alex.bennee@linaro.org>
- <20211026102234.3961636-11-alex.bennee@linaro.org>
- <270fd718-14aa-dae9-d72b-71b9607ab374@linaro.org>
-User-agent: mu4e 1.7.4; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v1 10/28] tests/docker: allow non-unique userid
-Date: Mon, 01 Nov 2021 15:10:29 +0000
-In-reply-to: <270fd718-14aa-dae9-d72b-71b9607ab374@linaro.org>
-Message-ID: <87fssflxf3.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nYUa+dBsj0I9rT98PP8O/lh/lW8QAI7b1M9uO1VKdD0=;
+ b=1cblahNLUecMB8vzwWF2JeamywY0hfwIwaJQ5lwBrlujUSA5TQZRlWik7IjQ3lJ0nk
+ hewIxz7KFe4G9B1BkZPZ4Dp/b+Hrytn9YEGhv6tWMSwBjxwd0JspE+wvlM6+56EsheeO
+ B0L0IEs7SzPXx741VYM0ZEUWm4pHBHeQyiagWiqlK3gSfqZwWGWWLwdpvcCegaToTE7v
+ oIKnfUpOr4xur8eryLRlOIi+jMPSv7isJRjDNw1NhQEDekdKQI7jkTQJy5PVnxx5sfZg
+ cvY3hkDd/VmEeQPpkf7AIgbipT6Up/dPKI+ClW0WZSSuCRLFRf3zlWq6dW9+02Whpy+k
+ qGLg==
+X-Gm-Message-State: AOAM532sHOHrICZf64Ag3jqLZ28SvBaiRRXwB3PmZSbOxsYLxO8nnFVe
+ cwFm2KBXAC3bpedItV6PD8qe3mGYaOdKK28U5Sewvg==
+X-Google-Smtp-Source: ABdhPJyT4wSOUFakmIAz/dMtClGs6Cx4RF+7+LLEUqGiiTLPWxsoP66pCVXPTvaTkt5pOmmdsfgKcEWgRbZnWLtSBww=
+X-Received: by 2002:a5d:6151:: with SMTP id y17mr30587886wrt.275.1635779602166; 
+ Mon, 01 Nov 2021 08:13:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <CAFEAcA_UiCrYEkv3uC_6VD9mY3jzKY+ziKTxSE4ydDbHd4U5vw@mail.gmail.com>
+ <YYACktMpIIswE9Zi@redhat.com>
+In-Reply-To: <YYACktMpIIswE9Zi@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Nov 2021 15:13:10 +0000
+Message-ID: <CAFEAcA8eND_knYS23YDyX6ZboXJxn-0FYiQ3kq2gAMot14ZkaA@mail.gmail.com>
+Subject: Re: meson complains about "broken python installation"
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,45 +79,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- pbonzini@redhat.com, aaron@os.amperecomputing.com, qemu-devel@nongnu.org,
- robhenry@microsoft.com, f4bug@amsat.org,
- Willian Rampazzo <willianr@redhat.com>, mahmoudabdalghany@outlook.com,
- minyihh@uci.edu, cota@braap.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, stefanha@redhat.com,
- crosa@redhat.com, kuhn.chenqun@huawei.com, ma.mandourr@gmail.com,
- aurelien@aurel32.net
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> On 10/26/21 3:22 AM, Alex Benn=C3=A9e wrote:
->> This is a bit of a band-aid against hand-built images that have been
->> accidentally polluted by a user build. All images pulled from the
->> registry shouldn't have the user defined.
+On Mon, 1 Nov 2021 at 15:07, Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
+wrote:
 >
-> I believe that I've fixed the images currently uploaded.
->
-> I think we ought to totally rewrite now we add users to images.  I
-> don't think we can reasonably layer one image upon another without
-> getting the user added at an intermediate image.
+> On Mon, Nov 01, 2021 at 02:53:44PM +0000, Peter Maydell wrote:
+> > At some point in the last month a meson change landed, and now
+> > when meson runs it complains:
+> >
+> >  WARNING: Broken python installation detected. Python files installed
+> >  by Meson might not be found by python interpreter.
 
-We could just force NOUSER=3D1 on the base images. The only images users
-will actually want with their IDs are the final ones anyway. I'll drop
-this patch from the upcoming PR and see if I can rework stuff.
-
-> At present the only
-> way to do this is NOCACHE=3D1 NOUSER=3D1, so that all of the intermediate
-> images are also rebuilt, and also force nouser.
+> > Any idea what meson is complaning about ?
 >
-> Does this patch really help in the meantime?
+> The source code emitting this warning message has a comment
+> pointing to:
 >
+>   https://github.com/mesonbuild/meson/issues/8739
 >
-> r~
+> It seems that there is something broken about Python on Debian but
+> can't say i especially understand the bug report discussion there.
 
+Me neither. The warning is pretty unhelpful (in the sense that it
+does not clearly describe what/where the problem is or how it might be
+fixed) and seems mostly likely to cause our users who run Ubuntu or
+Debian to come and complain at us about something that's not under
+our control.
 
---=20
-Alex Benn=C3=A9e
+Also, Debian have been shipping Python for years and years and
+years with nothing obviously being badly wrong with it.
+
+thanks
+-- PMM
 
