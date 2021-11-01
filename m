@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C2EC441FE7
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 19:20:06 +0100 (CET)
-Received: from localhost ([::1]:59392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97047441FF5
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 19:22:40 +0100 (CET)
+Received: from localhost ([::1]:35416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhbuf-00089I-Q0
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 14:20:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60100)
+	id 1mhbx9-0002fu-NW
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 14:22:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhb9F-000866-KK
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:31:05 -0400
-Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:39766)
+ id 1mhb9G-00087Z-29
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:31:06 -0400
+Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f]:40640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhb9D-0001FG-Rw
+ id 1mhb9E-0001FV-9s
  for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:31:05 -0400
-Received: by mail-qt1-x833.google.com with SMTP id t40so16520396qtc.6
+Received: by mail-qt1-x82f.google.com with SMTP id 19so14959868qtt.7
  for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 10:31:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=P+LiSx7CkE3blKbhg5ALaxOT08dtFOhalcqlNc9ibvc=;
- b=V2lTA/Y0SyqkI3F/CVO9xLOPxUcBsX96fctV4MaXRrmuy/GFlWThtW+eIMBiBLzJ1Q
- k0fNssuOgFT7FW/qtw1Giww7NalQV9OKG21SkYCghWbjWY5Pch6FQWlD9PdGZSlliCG8
- FC+nnJehUVwsWXceiPNTcXyxozB4Nb0+/w5mEauCG/LRUHX6wJueHgiazK20hx39OrjT
- KQPIWgXWcAKE77sFe20QIFECq3JZAwLpWZjbKC7Liae961MFjfJCQZ2PDTw5O8+UUBsX
- cLJq32is9OSkPzjlA92PMPltDq3dSamMLogjEOL51W+vCL2nAaAgu75nwtJgjbsHpntd
- JZqA==
+ bh=fVhlPoABQmS8wc89+ovGDAnkicIV2MZx6WAeJyRD9lM=;
+ b=g3a3YzkCrQ0FDH+4E6/7l84PYcgf7XRqHalyloB5YOnTK1uZ0uSMgRWJEu8+0dS9z0
+ pgI1ce5loLXKU2Llfw8pqUvsbhV80dgLkM0s6EXD97TF50BHvvNa2f13D1fofdUloLm2
+ QYPIliZwEQwlc7YEJb+CnRtHlia2iLCQD/WfRZ8uCLRRpkmXLvvtyF5+dq2+x50TS1ZP
+ 1cK83TURr8BA6L/Vk7SwnRgun6hmzw6uFzfHm81q7YH6PCSkdkt6j71uf4GB11u2aJLX
+ ErMgTRh2fQyFuYWao0UtLH8Xw8hOZPHdsD71cW0PvuW0EkLe6t3L6wGNvIIzw5VlSxUJ
+ 7QIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=P+LiSx7CkE3blKbhg5ALaxOT08dtFOhalcqlNc9ibvc=;
- b=k9GU40NemSbWa1ApSlthFpXl34KXP6hJGU23qQ5Ermnr3pQTbP5GAzMbjcig0frUs2
- IBkjNzzZR+bavTE74Uyu7aaXaXcdxtpFFz+mpd291QSspSDy1jvet+DVDNt4Hu1KnYQD
- u//Z7xI441nx/lr3nXqROPpIBg1GUfpw0DuGi1kmQ/zUMnrYErT6U9pzpCp/RQbt7siC
- sS/jJwhMFx/pubDds/pj74W9K0HJvptc/md3jbAc2jbJnpHlOHG3uXnegfiegArp9jqS
- 30lw4DkX5i92jbqXoiET0f7jydHhVKluOzPdqkSaUcyvhM5DNpqeKNt1hywweHiyMDy9
- xnog==
-X-Gm-Message-State: AOAM530Mn1oDsAaFTSZUDVtvPmxYNSVUpp+fS+j5KA1jHqswp6rm/+u3
- 2BBq5NGRO8KfYGbN6X+JpZlfuc/yqe35iw==
-X-Google-Smtp-Source: ABdhPJx5xUg+zkzQto13rFD6lj1i35sQPUPQjrEgHUbwtqbhe7+6eDk9DjBAjEIv7ovm6wjmSqcj4A==
-X-Received: by 2002:a05:622a:1305:: with SMTP id
- v5mr31970764qtk.62.1635787862856; 
- Mon, 01 Nov 2021 10:31:02 -0700 (PDT)
+ bh=fVhlPoABQmS8wc89+ovGDAnkicIV2MZx6WAeJyRD9lM=;
+ b=tMW+57j/jO8weTMs/zanweRgWBok/zJNbcjztzNAzOE7NQ6TG5mk7aE8cWM133pzga
+ f61fi/V1SEqkNbwlR2mZeT27xmWREsFZvPoGo5pYsIK5LdRiEAmrY6jBa7irGgQ0CZ+u
+ HlefZysPWM0AhmXwfoJOKcwmzHvP+LLUiQQxECeCfQmZRcMpdfBUiRMsxx4UFYDqlEsh
+ RgT/LhWhpx7wgx7zOWwx3kr1bxMf03hQQ7zdhZSZqnzw9DpPRVOHq34Fm6wG3zHUVG6j
+ SjGBOpklwHxntz/6HgWcINU4BRk13tMmorOFPtXIzsFsNMN48F4Dz9LNgeFsu05XC0tH
+ g+Lg==
+X-Gm-Message-State: AOAM532Mi9cO56ub+DFlVK6MX6bW/oPqgEfG2sP+O3E66ZVNTigKAxOs
+ iBaE/bgIoq4wTdhkQZXZPdhhvLFBgR11Kw==
+X-Google-Smtp-Source: ABdhPJzEcX8Gy/zLRRaGWFNuoQKQ9Cy0h5ddTW2GZn84mfAj9ajktxgrs3hn6G8GBWVQDD6znp6U8A==
+X-Received: by 2002:a05:622a:4d4:: with SMTP id
+ q20mr4789192qtx.142.1635787863378; 
+ Mon, 01 Nov 2021 10:31:03 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-172-254-253-57.nyc.biz.rr.com.
  [172.254.253.57])
  by smtp.gmail.com with ESMTPSA id 13sm1222289qkc.40.2021.11.01.10.31.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Nov 2021 10:31:02 -0700 (PDT)
+ Mon, 01 Nov 2021 10:31:03 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 54/60] target/sparc: Remove DEBUG_UNALIGNED
-Date: Mon,  1 Nov 2021 13:27:23 -0400
-Message-Id: <20211101172729.23149-55-richard.henderson@linaro.org>
+Subject: [PATCH v7 55/60] target/sparc: Split out build_sfsr
+Date: Mon,  1 Nov 2021 13:27:24 -0400
+Message-Id: <20211101172729.23149-56-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211101172729.23149-1-richard.henderson@linaro.org>
 References: <20211101172729.23149-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x833.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,59 +84,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The printf should have been qemu_log_mask, the parameters
-themselves no longer compile, and because this is placed
-before unwinding the PC is actively wrong.
-
-We get better (and correct) logging on the other side of
-raising the exception, in sparc_cpu_do_interrupt.
-
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/sparc/ldst_helper.c | 9 ---------
- 1 file changed, 9 deletions(-)
+ target/sparc/mmu_helper.c | 72 +++++++++++++++++++++++++--------------
+ 1 file changed, 46 insertions(+), 26 deletions(-)
 
-diff --git a/target/sparc/ldst_helper.c b/target/sparc/ldst_helper.c
-index bbf3601cb1..0549b6adf1 100644
---- a/target/sparc/ldst_helper.c
-+++ b/target/sparc/ldst_helper.c
-@@ -27,7 +27,6 @@
+diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
+index 2ad47391d0..014601e701 100644
+--- a/target/sparc/mmu_helper.c
++++ b/target/sparc/mmu_helper.c
+@@ -502,16 +502,60 @@ static inline int ultrasparc_tag_match(SparcTLBEntry *tlb,
+     return 0;
+ }
  
- //#define DEBUG_MMU
- //#define DEBUG_MXCC
--//#define DEBUG_UNALIGNED
- //#define DEBUG_UNASSIGNED
- //#define DEBUG_ASI
- //#define DEBUG_CACHE_CONTROL
-@@ -364,10 +363,6 @@ static void do_check_align(CPUSPARCState *env, target_ulong addr,
-                            uint32_t align, uintptr_t ra)
++static uint64_t build_sfsr(CPUSPARCState *env, int mmu_idx, int rw)
++{
++    uint64_t sfsr = SFSR_VALID_BIT;
++
++    switch (mmu_idx) {
++    case MMU_PHYS_IDX:
++        sfsr |= SFSR_CT_NOTRANS;
++        break;
++    case MMU_USER_IDX:
++    case MMU_KERNEL_IDX:
++        sfsr |= SFSR_CT_PRIMARY;
++        break;
++    case MMU_USER_SECONDARY_IDX:
++    case MMU_KERNEL_SECONDARY_IDX:
++        sfsr |= SFSR_CT_SECONDARY;
++        break;
++    case MMU_NUCLEUS_IDX:
++        sfsr |= SFSR_CT_NUCLEUS;
++        break;
++    default:
++        g_assert_not_reached();
++    }
++
++    if (rw == 1) {
++        sfsr |= SFSR_WRITE_BIT;
++    } else if (rw == 4) {
++        sfsr |= SFSR_NF_BIT;
++    }
++
++    if (env->pstate & PS_PRIV) {
++        sfsr |= SFSR_PR_BIT;
++    }
++
++    if (env->dmmu.sfsr & SFSR_VALID_BIT) { /* Fault status register */
++        sfsr |= SFSR_OW_BIT; /* overflow (not read before another fault) */
++    }
++
++    /* FIXME: ASI field in SFSR must be set */
++
++    return sfsr;
++}
++
+ static int get_physical_address_data(CPUSPARCState *env, hwaddr *physical,
+                                      int *prot, MemTxAttrs *attrs,
+                                      target_ulong address, int rw, int mmu_idx)
  {
-     if (addr & align) {
--#ifdef DEBUG_UNALIGNED
--        printf("Unaligned access to 0x" TARGET_FMT_lx " from 0x" TARGET_FMT_lx
--               "\n", addr, env->pc);
--#endif
-         cpu_raise_exception_ra(env, TT_UNALIGNED, ra);
-     }
- }
-@@ -1968,10 +1963,6 @@ void QEMU_NORETURN sparc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-     SPARCCPU *cpu = SPARC_CPU(cs);
-     CPUSPARCState *env = &cpu->env;
+     CPUState *cs = env_cpu(env);
+     unsigned int i;
++    uint64_t sfsr;
+     uint64_t context;
+-    uint64_t sfsr = 0;
+     bool is_user = false;
  
--#ifdef DEBUG_UNALIGNED
--    printf("Unaligned access to 0x" TARGET_FMT_lx " from 0x" TARGET_FMT_lx
--           "\n", addr, env->pc);
--#endif
-     cpu_raise_exception_ra(env, TT_UNALIGNED, retaddr);
- }
- #endif
++    sfsr = build_sfsr(env, mmu_idx, rw);
++
+     switch (mmu_idx) {
+     case MMU_PHYS_IDX:
+         g_assert_not_reached();
+@@ -520,29 +564,18 @@ static int get_physical_address_data(CPUSPARCState *env, hwaddr *physical,
+         /* fallthru */
+     case MMU_KERNEL_IDX:
+         context = env->dmmu.mmu_primary_context & 0x1fff;
+-        sfsr |= SFSR_CT_PRIMARY;
+         break;
+     case MMU_USER_SECONDARY_IDX:
+         is_user = true;
+         /* fallthru */
+     case MMU_KERNEL_SECONDARY_IDX:
+         context = env->dmmu.mmu_secondary_context & 0x1fff;
+-        sfsr |= SFSR_CT_SECONDARY;
+         break;
+-    case MMU_NUCLEUS_IDX:
+-        sfsr |= SFSR_CT_NUCLEUS;
+-        /* FALLTHRU */
+     default:
+         context = 0;
+         break;
+     }
+ 
+-    if (rw == 1) {
+-        sfsr |= SFSR_WRITE_BIT;
+-    } else if (rw == 4) {
+-        sfsr |= SFSR_NF_BIT;
+-    }
+-
+     for (i = 0; i < 64; i++) {
+         /* ctx match, vaddr match, valid? */
+         if (ultrasparc_tag_match(&env->dtlb[i], address, context, physical)) {
+@@ -592,22 +625,9 @@ static int get_physical_address_data(CPUSPARCState *env, hwaddr *physical,
+                 return 0;
+             }
+ 
+-            if (env->dmmu.sfsr & SFSR_VALID_BIT) { /* Fault status register */
+-                sfsr |= SFSR_OW_BIT; /* overflow (not read before
+-                                        another fault) */
+-            }
+-
+-            if (env->pstate & PS_PRIV) {
+-                sfsr |= SFSR_PR_BIT;
+-            }
+-
+-            /* FIXME: ASI field in SFSR must be set */
+-            env->dmmu.sfsr = sfsr | SFSR_VALID_BIT;
+-
++            env->dmmu.sfsr = sfsr;
+             env->dmmu.sfar = address; /* Fault address register */
+-
+             env->dmmu.tag_access = (address & ~0x1fffULL) | context;
+-
+             return 1;
+         }
+     }
 -- 
 2.25.1
 
