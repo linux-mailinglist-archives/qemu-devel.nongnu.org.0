@@ -2,88 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3390442396
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 23:48:55 +0100 (CET)
-Received: from localhost ([::1]:57418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FE6D442397
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 23:48:57 +0100 (CET)
+Received: from localhost ([::1]:57396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhg6o-0005Km-Q5
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 18:48:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59692)
+	id 1mhg6q-0005K8-E4
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 18:48:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mhfrF-0006qv-K5
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 18:32:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24674)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mhfrD-0000TF-VN
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 18:32:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635805967;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lSjWElxRcx23/d0nb2Eu8vOPj+3TJ9xNFCzK4HtKMdw=;
- b=KEg0tcGRIYd5/l1amDwvErQGOmmIMPbwCx4uDD676vmBKAi9PzhCo/Rg/v/tHvqcqeEDRI
- OCYeq1b3llYb2yCw4s2jwB4IIJFqKKEny6Gf4jNctz9NB5RsTfJHxtLXfG7ZVM4gg+Z1lL
- 3yrQ34RtobctNSsnwVTaMQER9CIL7Ao=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-325-aXjn8pMVNECH1lpt0C4M8w-1; Mon, 01 Nov 2021 18:32:46 -0400
-X-MC-Unique: aXjn8pMVNECH1lpt0C4M8w-1
-Received: by mail-ed1-f69.google.com with SMTP id
- z20-20020a05640240d400b003dce046ab51so16898909edb.14
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 15:32:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mhfzZ-0007DE-UB; Mon, 01 Nov 2021 18:41:29 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:39726)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mhfzX-0003yG-MG; Mon, 01 Nov 2021 18:41:25 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ b2-20020a1c8002000000b0032fb900951eso353170wmd.4; 
+ Mon, 01 Nov 2021 15:41:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=YCDN8hX0eJ9691xshWbdNdL9gWLZu+BIoeWwjTQ1UCk=;
+ b=awy/se/RCEymyzTaJQIl2evv0jqUCnZTe91gL3krnjLuLNNwBfjOr9/V09AA8DAhRL
+ yfJBy+UQaeTaOdCh4gibSFLz2hpfZ0WLOQVukmDh1JNKsQnQ9DLmSfQZrH/UqCGCQyzR
+ SbxdtDrOsAHH2PMmIk8sOAUykMlnKOca5wR1aL5MnL0eOQfrhxa35jDURyjoNYrXB582
+ UH0v7YFAb19NqAj2A3rKZcx19oOpMX+b8qED5MJYMgYm6mHtJkn2n70GBNyZbRTYsUbq
+ 8wxhvl6sXwRJmGITIu1UPhlRyzD/P2AqU+0LdjLtC5IoKPKeY+mlBVyXAtu/B2EBwswQ
+ vjHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=lSjWElxRcx23/d0nb2Eu8vOPj+3TJ9xNFCzK4HtKMdw=;
- b=wsINm8NKv7M+p/5qb/n/LP6q1hqcqsGXWFFE/0nT3qUTpSoa+aq2HhtoSsbeRSZC74
- U1JTnw9I1d5Fj1Lt3TX1Yj106sqO4eQ2ayOQRJ7GxgIs4Xj1rMP291hsdKgZiziHL731
- t2Xwfdv26BOH/2etb21UkIFRjRO6iR/WJvPy1vqo5nbNQK4AOdHZlRotIxYq6U4FYrCn
- EI7xhGwHOzOsRZR0Ms8Coi4hbTlFAG9rYJd2r5JTM5cCxFuya84I8BfzTg7G6Qup/kmS
- L/+Hggka2fJVVfV/FuwexFteY4O7PH/puB9mYtGfdR0ArgQB+BR7aj6+0N8TgZJndmUS
- 9jag==
-X-Gm-Message-State: AOAM533FGdz5SnJvC7bc8i8SWBTS/mBfQvckYxwLIlskQN4SAFuF/NGW
- 23GDD875n85gSS/FyyDLCRbFS3oimcjS6+ejbQuBC80zerWDc51+R34b2jUhgsRL+0HPB4D8ogq
- 3oAcLu5WWFAygD0M=
-X-Received: by 2002:a17:907:6e26:: with SMTP id
- sd38mr22936644ejc.90.1635805964978; 
- Mon, 01 Nov 2021 15:32:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwKduudjy9Anu0+fWC4EwRoxWsXIjIK9tdF36MYktwz71m6B262KA1nITt/3Nz3c1FyrYdXjQ==
-X-Received: by 2002:a17:907:6e26:: with SMTP id
- sd38mr22936606ejc.90.1635805964783; 
- Mon, 01 Nov 2021 15:32:44 -0700 (PDT)
-Received: from redhat.com ([2.55.156.42])
- by smtp.gmail.com with ESMTPSA id qf9sm850185ejc.18.2021.11.01.15.32.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Nov 2021 15:32:44 -0700 (PDT)
-Date: Mon, 1 Nov 2021 18:32:40 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v3 0/3] pc: Support configuration of SMBIOS entry point
- type
-Message-ID: <20211101183224-mutt-send-email-mst@kernel.org>
-References: <20211026151100.1691925-1-ehabkost@redhat.com>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=YCDN8hX0eJ9691xshWbdNdL9gWLZu+BIoeWwjTQ1UCk=;
+ b=GWFKBeLKTO30iDbLmVNoPq5s/ZsLhI+NkDiddmxDFpvKAkGvYNAdqRIWPqTlPY0tWO
+ jcsoNx5TC45UUm8bvVE26YW1wRuXld14eqYbuJ+G9Shjlh5mKJ1Tp4MKgbk6w/GkH8x9
+ Vho2uPoIKFywh+xs8386iiwPuSWfhQOkcVt+fgjC1A0FsLUHtbgg8eOamtic26V0Cx+U
+ aBI8GsSRyugVGGufyAJd3DrAe2mhBsYlZ/9Czqn5Ehbw+yzhwet1ouSFmLlQeGOcZFhL
+ FBBP+w3IUw89wJfrIu1LnQIdWNK0miDKmmVwhe6au2UObvTv9kGpUfjDlgDurgTt+Oen
+ jRfA==
+X-Gm-Message-State: AOAM530Zod7n75qus37+eDyIRfuudfbcxdsbpAP+3ngg1S9BAR/PmYAr
+ 04NeluM9MwmrgzK7/9yzzXU=
+X-Google-Smtp-Source: ABdhPJzr8igDmSHadr3AxamGZsmUIqhKANzoILc66cBQQK7KvNqNAEweX8rhTAnRhnAyZ/yxV2dYsA==
+X-Received: by 2002:a1c:7c02:: with SMTP id x2mr2047337wmc.165.1635806481074; 
+ Mon, 01 Nov 2021 15:41:21 -0700 (PDT)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id n8sm14256355wrp.95.2021.11.01.15.41.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Nov 2021 15:41:20 -0700 (PDT)
+Message-ID: <481299ee-a0db-1b2c-1ef3-e25d8a7bba38@amsat.org>
+Date: Mon, 1 Nov 2021 23:41:18 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211026151100.1691925-1-ehabkost@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v4 1/6] tests/acceptance: Extract QemuBaseTest from Test
+Content-Language: en-US
+To: Willian Rampazzo <wrampazz@redhat.com>
+References: <20210927163116.1998349-1-f4bug@amsat.org>
+ <20210927163116.1998349-2-f4bug@amsat.org>
+ <CAKJDGDZ0S1f26T3J6ajJ++5cGBNCQveisVvqf2WhXCy8EPsnCA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <CAKJDGDZ0S1f26T3J6ajJ++5cGBNCQveisVvqf2WhXCy8EPsnCA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.14,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,58 +90,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Eric Blake <eblake@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Laurent Vivier <laurent@vivier.eu>, qemu-arm <qemu-arm@nongnu.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Warner Losh <imp@bsdimp.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 26, 2021 at 11:10:57AM -0400, Eduardo Habkost wrote:
-> This includes code previously submitted[1] by Daniel P. Berrang�
-> to add a "smbios-ep" machine property on PC.
+On 11/1/21 19:01, Willian Rampazzo wrote:
+> On Mon, Sep 27, 2021 at 1:31 PM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> The Avocado Test::fetch_asset() is handy to download artifacts
+>> before running tests. The current class is named Test but only
+>> tests system emulation. As we want to test user emulation,
+>> refactor the common code as QemuBaseTest.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>  tests/acceptance/avocado_qemu/__init__.py | 72 +++++++++++++----------
+>>  1 file changed, 41 insertions(+), 31 deletions(-)
+>>
+>> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+>> index 2c4fef3e149..8fcbed74849 100644
+>> --- a/tests/acceptance/avocado_qemu/__init__.py
+>> +++ b/tests/acceptance/avocado_qemu/__init__.py
+>> @@ -175,7 +175,7 @@ def exec_command_and_wait_for_pattern(test, command,
+>>      """
+>>      _console_interaction(test, success_message, failure_message, command + '\r')
+>>
+>> -class Test(avocado.Test):
+>> +class QemuBaseTest(avocado.Test):
+>>      def _get_unique_tag_val(self, tag_name):
+>>          """
+>>          Gets a tag value, if unique for a key
+>> @@ -185,6 +185,46 @@ def _get_unique_tag_val(self, tag_name):
+>>              return vals.pop()
+>>          return None
+>>
+>> +    def setUp(self):
+>> +        self.arch = self.params.get('arch',
+>> +                                    default=self._get_unique_tag_val('arch'))
+>> +
+>> +        self.cpu = self.params.get('cpu',
+>> +                                   default=self._get_unique_tag_val('cpu'))
+>> +
+>> +        default_qemu_bin = pick_default_qemu_bin(arch=self.arch)
+>> +        self.qemu_bin = self.params.get('qemu_bin',
+>> +                                        default=default_qemu_bin)
+>> +        if self.qemu_bin is None:
+>> +            self.cancel("No QEMU binary defined or found in the build tree")
+>> +
+>> +    def fetch_asset(self, name,
+>> +                    asset_hash=None, algorithm=None,
+>> +                    locations=None, expire=None,
+>> +                    find_only=False, cancel_on_missing=True):
+>> +        return super(QemuBaseTest, self).fetch_asset(name,
 > 
-> SMBIOS 3.0 is necessary to support more than ~720 VCPUs, as a
-> large number of VCPUs can easily hit the table size limit of
-> SMBIOS 2.1 entry points.
+> It is preferable to use the PEP3135
+> (https://www.python.org/dev/peps/pep-3135/) when calling `super` as
+> linter are complaining about it:
+> 
+> return super().fetch_asset(name,
+> 
+> And after reading through the patch I noticed it was a method move,
+> so, feel free to take the suggestion or ignore it for now.
 
+This series was sent before commit  14f02d8a9ec ("Merge
+'integration-testing-20210927' into staging") :/
 
-We need acks from QAPI supporters on this.
-
-> Changes from v2:
-> * Renamed option to "smbios-entry-point-type" for clarity
-> * Renamed option values to "32" and "64", for two reasons:
->   * The option is not about reporting an exact SMBIOS
->     version, but just the entry point format.
->     FWIW, the SMBIOS specification uses the phrases "32-bit entry
->     point" and "64-bit entry point" more often than "2.1 entry
->     point" and "3.0 entry point".
->   * QAPI doesn't allow us to use enum member names with dots
->     or underscores
-> 
-> [1] https://lore.kernel.org/qemu-devel/20200908165438.1008942-5-berrange@redhat.com
->     https://lore.kernel.org/qemu-devel/20200908165438.1008942-6-berrange@redhat.com
-> 
-> Eduardo Habkost (3):
->   smbios: Rename SMBIOS_ENTRY_POINT_* enums
->   hw/smbios: Use qapi for SmbiosEntryPointType
->   hw/i386: expose a "smbios-entry-point-type" PC machine property
-> 
->  include/hw/firmware/smbios.h | 10 ++--------
->  include/hw/i386/pc.h         |  4 ++++
->  hw/arm/virt.c                |  2 +-
->  hw/i386/pc.c                 | 26 ++++++++++++++++++++++++++
->  hw/i386/pc_piix.c            |  2 +-
->  hw/i386/pc_q35.c             |  2 +-
->  hw/smbios/smbios.c           |  8 ++++----
->  qapi/machine.json            | 12 ++++++++++++
->  8 files changed, 51 insertions(+), 15 deletions(-)
-> 
-> -- 
-> 2.32.0
-
+I'll modify, thanks.
 
