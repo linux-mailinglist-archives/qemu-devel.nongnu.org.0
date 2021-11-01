@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13113441A0F
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 11:41:10 +0100 (CET)
-Received: from localhost ([::1]:35880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0ADE441A0B
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 11:38:58 +0100 (CET)
+Received: from localhost ([::1]:59070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhUkX-0002DM-7L
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 06:41:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37382)
+	id 1mhUiQ-0007Dq-3S
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 06:38:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhUfO-0003eK-QK
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 06:35:50 -0400
-Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831]:43764)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhUfM-0003mO-96
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 06:35:50 -0400
-Received: by mail-qt1-x831.google.com with SMTP id v29so14021367qtc.10
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 03:35:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=NIOEmJMXFSVvT6/HSMYdC+jxaCT+NWrSKzzLgEdMcWk=;
- b=FNZWXDScSsvzOsdJr9bdzI2Uh5bQJ+GeV6Ww7UAo5j/jZOtJVVlI+oWE4FBLbID3bw
- IgKHHQB6RtI4iRHO6J5b+SF3j8Xhr9NMUH/XouD+5uQ6skjVlSZ36BSUFolERMuzo0fb
- 8iCSwOxVRky2tFK3gniDHwY8r/KVVfiSnoyLy+QlMUK1GOU0q76AZZMKlp/bM4Kzza1h
- O8NCpqdO8BCyGVpJ+Mm0Ys1mJqAgUxJEWOKJiWOMeXI+i3rQp5LY1icIVw2D1IPkRgAX
- Hs8qiSmu5l4R9h6rrYdBkjW16jtsm8PGoU61lYt2FNLhv54xJrBh3xlltwSayBTWyp+i
- Mc/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=NIOEmJMXFSVvT6/HSMYdC+jxaCT+NWrSKzzLgEdMcWk=;
- b=tC3mHDSW69J4WYKKOWMj2zPjKrqOpaKLqig4SHhd3KsHu3PQ4cMCwPV91tj8MDxggy
- OuMve/MH56KCmyvt8+QOdjPOM6DF1XoUAai8lnx8bfj4rHhXa55NN2P9wAwj+3gty/1p
- EbPxhzUZkZdNgwgx85/Xs+s8/mJ40dFZs6rlpCJAgI3HxjgYYZweSULFTRzROcmOtAZV
- oHCCG1TXf0zaOouyjSYDXf4GjFTR7hoXNW7iMTcVYTNhshIxYcdzB6ANovew7o4hU7DV
- XuU8TRV7NSndpCUKYUOCpmR31/lFJ3XKT8oPNsKRchLV8xGD+Nwi/GZ22rzwIwg9MSoE
- F/DA==
-X-Gm-Message-State: AOAM531CDwNyuvVu9h/Fc5uqdAj4Dx2b7zODY/tUc0O3WPtSnXSOsXQ6
- P2NRlm1ngK9vaXzvvFTWaXxDCA==
-X-Google-Smtp-Source: ABdhPJyO46ADAFw1DWGnaDMhvUaJ4DeW2ARvc9Dt8dzU1amUi+H9bRTXZfoGVLBZ0e9rJpddsWnk5w==
-X-Received: by 2002:ac8:4e8d:: with SMTP id 13mr8186714qtp.414.1635762947273; 
- Mon, 01 Nov 2021 03:35:47 -0700 (PDT)
-Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
- [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id h68sm9912364qkf.126.2021.11.01.03.35.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Nov 2021 03:35:47 -0700 (PDT)
-Subject: Re: [PATCH 03/13] target/riscv: Ignore the pc bits above XLEN
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211101100143.44356-1-zhiwei_liu@c-sky.com>
- <20211101100143.44356-4-zhiwei_liu@c-sky.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5c98ffca-202d-2c16-fcae-201003c05849@linaro.org>
-Date: Mon, 1 Nov 2021 06:35:45 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mhUft-0004Mo-5x
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 06:36:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32737)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mhUfq-0003qA-PX
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 06:36:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635762977;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SSArX8L69y2mgC3qWuWgLZei7wVh74A6XUNXsaKVMio=;
+ b=f7PanSOOr4X4Y0p+BoX+oXPhME5CgAwTPl4tiTyfAqk79jyhYif0U/sK9+9BbuGSg4n0F+
+ fFcuxowgOhCXqn5m1IQPiP/XB14Vj/ad9sADkey+HLmpRSosNF+zS16vw/YnavLYTSNQt9
+ 5FpnvCEieEu6ikLmOdLmDxKbtJ3Tfj8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-260-PGiGJHeWMUSic5Z90cnqLQ-1; Mon, 01 Nov 2021 06:36:14 -0400
+X-MC-Unique: PGiGJHeWMUSic5Z90cnqLQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1565E362FA;
+ Mon,  1 Nov 2021 10:36:13 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.186])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7CFEE1017E35;
+ Mon,  1 Nov 2021 10:35:57 +0000 (UTC)
+Date: Mon, 1 Nov 2021 10:35:56 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jag Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v3 04/12] vfio-user: instantiate vfio-user context
+Message-ID: <YX/DDFyf3/5348R0@stefanha-x1.localdomain>
+References: <cover.1633929457.git.jag.raman@oracle.com>
+ <82b00867c07020fcf71749627414a80ef6b691cb.1633929457.git.jag.raman@oracle.com>
+ <YXl3dzdzNZZZWLOS@stefanha-x1.localdomain>
+ <093B71B9-46AF-442D-80A6-49EF27874618@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20211101100143.44356-4-zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x831.google.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.592,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <093B71B9-46AF-442D-80A6-49EF27874618@oracle.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="xSk1zFIdYfwcHYVY"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.736,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,23 +81,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John Johnson <john.g.johnson@oracle.com>,
+ "thuth@redhat.com" <thuth@redhat.com>,
+ "swapnil.ingle@nutanix.com" <swapnil.ingle@nutanix.com>,
+ "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ "philmd@redhat.com" <philmd@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/1/21 6:01 AM, LIU Zhiwei wrote:
-> The read from PC for translation is in cpu_get_tb_cpu_state, before translation.
-> 
-> Signed-off-by: LIU Zhiwei<zhiwei_liu@c-sky.com>
-> ---
->   target/riscv/cpu_helper.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+--xSk1zFIdYfwcHYVY
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Fri, Oct 29, 2021 at 02:59:02PM +0000, Jag Raman wrote:
+>=20
+>=20
+> > On Oct 27, 2021, at 11:59 AM, Stefan Hajnoczi <stefanha@redhat.com> wro=
+te:
+> >=20
+> > On Mon, Oct 11, 2021 at 01:31:09AM -0400, Jagannathan Raman wrote:
+> >> @@ -94,9 +101,31 @@ static void vfu_object_set_device(Object *obj, con=
+st char *str, Error **errp)
+> >>     trace_vfu_prop("device", str);
+> >> }
+> >>=20
+> >> +/*
+> >> + * vfio-user-server depends on the availability of the 'socket' and '=
+device'
+> >> + * properties. It also depends on devices instantiated in QEMU. These
+> >> + * dependencies are not available during the instance_init phase of t=
+his
+> >> + * object's life-cycle. As such, the server is initialized after the
+> >> + * machine is setup. machine_init_done_notifier notifies vfio-user-se=
+rver
+> >> + * when the machine is setup, and the dependencies are available.
+> >> + */
+> >> +static void vfu_object_machine_done(Notifier *notifier, void *data)
+> >> +{
+> >> +    VfuObject *o =3D container_of(notifier, VfuObject, machine_done);
+> >=20
+> > Was there a check for non-NULL o->socket before this? Maybe it's not
+> > needed because QAPI treats 'socket' as a required field and refuses to
+> > create the SocketAddress if it's missing?
+>=20
+> Yes,  =E2=80=9Csocket=E2=80=9D is a required option. The server will not =
+launch without that option.
 
-Could perhaps be sorted to patch 2, then riscv_cpu_synchronize_from_tb and 
-restore_state_to_opc could assert that the pc is properly extended.
+Thanks for confirming!
 
+> I believe optional parameters are defined within =E2=80=98[=E2=80=98 and =
+=E2=80=98]=E2=80=99 braces in "./qapi/qom.json"
 
-r~
+Optional parameters have the asterisk ('*'). Block quotes are for lists.
+
+Stefan
+
+--xSk1zFIdYfwcHYVY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmF/wwwACgkQnKSrs4Gr
+c8gJ/Qf+KnfthuLQKMRIwhyO0VwYzv3Hs6pMtp2BlXmKhqQKKzt/Yq9kufdhaRk3
+nIvvKl0mtCCHd28lUywkEEYLZtjmH0zVeSZVW8+KKyVDqws2ZA2g2ql7VSma1KQ+
+EnrEk5vj25DZK84yKrNoCUMySaMYOI9XNrRn+d94vK2QW1FDkyTb7JKAboizi9nX
+VlyqFl79Zq2hgsHueGBsw553Z2WwVETlriCMglr+VlB9yAGEu2uDgE8zoH7iu4Gk
+qe+7Pq3akRWPclX7YLLKVsO+G/Rn/np2tn4tKKzOS1W5ux3fc8m4AZBjtqlPhh3f
+pYFgifgRszh87AWsgtwHZh1axKIFoA==
+=E6sH
+-----END PGP SIGNATURE-----
+
+--xSk1zFIdYfwcHYVY--
+
 
