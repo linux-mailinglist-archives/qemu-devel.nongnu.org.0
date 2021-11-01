@@ -2,82 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D68DC441A46
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 11:54:45 +0100 (CET)
-Received: from localhost ([::1]:51320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE351441A47
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 11:56:01 +0100 (CET)
+Received: from localhost ([::1]:54442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhUxg-0005aQ-WC
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 06:54:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41450)
+	id 1mhUyv-0007nD-4s
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 06:56:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhUwE-0004kb-7P
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 06:53:14 -0400
-Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831]:45721)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mhUwp-0005Ko-3d
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 06:53:51 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:37664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhUwC-0006yC-KK
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 06:53:13 -0400
-Received: by mail-qt1-x831.google.com with SMTP id r2so14092544qtw.12
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 03:53:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mhUwm-00072p-Qp
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 06:53:50 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ y84-20020a1c7d57000000b00330cb84834fso7591205wmc.2
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 03:53:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rXvxx5QqIsO5g6wQYkPmDEnA7Kg3/aj5PNhv2LTthu8=;
- b=cX1dkjSzaBgmFZtg6vvsT+PRUHdr63swtZzMLLZm1jeONOZxqHkspLRdsMlWCQFvKN
- T+G3oTyHvYtHSB1vnpS231JAkxxqRZDLM8XsQTigYeQvSLBsDGRuEqc85Y7sq/z3qFTK
- vEA9dwRor6lQJ+sNovxvritJ8bSeiug+gv1m0mqF4UqzBDoT63kmT1w/8ttyD82UlFsV
- x8bgtCdf2VxdacTLGjTKor77Z4V34/vkoX0Z1gQnyI3nqa5t81ptbxSeHXLCTjcFXwBl
- 1y+A/3jqxkSdDZheYFlASIOajgqYxZwJDYVzh+0coNgWFpyeZDfSunnaLoTob4Liu8a/
- OOiQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nS58yJo50/PL+h/20vNh1AAHKjecfY5jYTesVVpLtss=;
+ b=WS/MLQbGr02ZStMqkkrey/nzMJdZOlQagvG0w6AemqziIZIyRyfMXp6Vn0/kA4YyYT
+ InCKutM6pUwAq7cBjyK3HiEI95B+h6Z1R0t7DcLDjHgJNDJR11WnnC7UaQyZv/C6/8Rb
+ gEtTGj1UHmLad69ukNl1VfWVAegQnNRKHO7498K5Nqm9gBSBIl/uL/PUQdgbLWvZCte/
+ K27EC8ZW2qg/oFg423y0CaITKeWaIL8gZMKx64bnWvC5JrDO8yo1C+67APuM6zHWARCg
+ Rvya8CuL2cGlyHJB3kZ1WxaCLRsuTyzZYh+lrZi/2LMRZc7lkPocR10PNbqvplOJzDCp
+ UVkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=rXvxx5QqIsO5g6wQYkPmDEnA7Kg3/aj5PNhv2LTthu8=;
- b=m6MmhgvP4IC0yXNOyTnm2MjXjWYFTIANuqWR16Dxrr65wOdkkDjbnbi71iE0j7ykgW
- InI8J/5eQm7ubMfS41KJtp5IwV2xiKdCt4tCQx8JxBMGRKr2bO09L2UIAt77EU7cy1UK
- DAA151MS83v7+QsPrWBR4nRJMApqWwwwKRhEFE7sfcLAoEhdN7xmXwJcdbnDD8TlMTuF
- Md5/b40p6d74+gLbYFCEezes4xLv0T6og7+5SR/e1rT3mBrHuCwuUejSv0kCnmd5A+Be
- zCW/z+/mzfaehGUkSZAHr7y1x2Jw2rbJ5Qwjs+uy5I5/+gRiRFWSbApjpzngzx0dXnZy
- bSlA==
-X-Gm-Message-State: AOAM5320+4g5O1pCgxHWRTLXuzqVvjI/CabOoFkv4OfMhi3eYBhivc1b
- oHqMNsFQT/uCOQqSCsZO8cAxxSUBIFbdcg==
-X-Google-Smtp-Source: ABdhPJwHMLfB9Zj2BCpU1ubJl/Wz2TVC2Y+m8nQ3BXn7dc7X3E0gowxNXE23VMlHz3fGexJvMC4Zvw==
-X-Received: by 2002:a05:622a:290:: with SMTP id
- z16mr28980898qtw.358.1635763991345; 
- Mon, 01 Nov 2021 03:53:11 -0700 (PDT)
-Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
- [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id r5sm1964380qkp.131.2021.11.01.03.53.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Nov 2021 03:53:11 -0700 (PDT)
-Subject: Re: [PATCH 06/13] target/riscv: Adjust vsetvl according to ol
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211101100143.44356-1-zhiwei_liu@c-sky.com>
- <20211101100143.44356-7-zhiwei_liu@c-sky.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <28818784-9f70-20d4-5670-ed5677deef76@linaro.org>
-Date: Mon, 1 Nov 2021 06:53:09 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nS58yJo50/PL+h/20vNh1AAHKjecfY5jYTesVVpLtss=;
+ b=zMfPl3D/S0vSOWisJS+qOBrHbLjjvGF2kM4FqAz1vZNAh9Dd3JagkEIVk/W4WZ1R6W
+ gJ5to+RpT2OD+lRbQeAUW4S0im6XJ3ejHAmFpOG0JytG2UUhMCGWkMZTfWHL0jqTwByf
+ hdoD5Mt85e6iV+oqmE1NwHU+0PD++TaN7nBqCpf3NjdnjOPzCiQwed64vzBQnEtjxYyR
+ YsNZ1JAvH5zNkfuf4uKm+HFc1BNkXNBe/vDy0V1wXT8JhJJVEHREzGgurM3gCaHIimQh
+ Ho53gI7z2ev6uJosVyT6//Ti0HgAwhwlTPdjph0qjdaAwzzuaBfR+zbV3W/pqrClxxTJ
+ dIew==
+X-Gm-Message-State: AOAM531rqV53VrnlvteSDo9uLzDCGN3HGZov9BogZSQMrgTlbYJY4u9b
+ /5DN0AX4cheacPWCc/W+gOf+O8Flyrj9zse4iSNYpA==
+X-Google-Smtp-Source: ABdhPJyTaIHt6mQPoEbHrdGmUF4EK2WhQOhfRGuBSow5PEBDj432zqFQaffRAPpzLob/okJyfA/XccOEV0luIqEOYSM=
+X-Received: by 2002:a1c:e906:: with SMTP id q6mr38912149wmc.126.1635764027264; 
+ Mon, 01 Nov 2021 03:53:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211101100143.44356-7-zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x831.google.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+References: <20211026140311.158151-1-damien.hedde@greensocs.com>
+In-Reply-To: <20211026140311.158151-1-damien.hedde@greensocs.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Nov 2021 10:53:36 +0000
+Message-ID: <CAFEAcA_SbBqvPdEsqCVoKGOqwL_a26xn0b6nuniqOA3+Fi3Ezg@mail.gmail.com>
+Subject: Re: [PATCH v2] generic-loader: check that binary file target location
+ exists
+To: Damien Hedde <damien.hedde@greensocs.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.592,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,32 +78,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
+Cc: Alistair Francis <alistair23@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/1/21 6:01 AM, LIU Zhiwei wrote:
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -37,7 +37,7 @@ static bool trans_vsetvl(DisasContext *ctx, arg_vsetvl *a)
->       } else {
->           s1 = get_gpr(ctx, a->rs1, EXT_ZERO);
->       }
-> -    gen_helper_vsetvl(dst, cpu_env, s1, s2);
-> +    gen_helper_vsetvl(dst, cpu_env, s1, s2, tcg_constant_tl(get_olen(ctx)));
+On Tue, 26 Oct 2021 at 15:11, Damien Hedde <damien.hedde@greensocs.com> wrote:
+>
+> When loading a binary file, we only check if it is smaller than the
+> ram_size. It does not really check if the file will be loaded at an
+> existing location (if there is nothing at the target address, it will
+> "fail" silently later). It prevents loading a binary blob bigger than
+> ram_size too even if the target location is big enough.
+>
+> Replace this check by looking for the target memory region size and
+> prevent loading a bigger file than the available space.
+>
+> Get rid of "hw/boards.h" include, since we needed it only to access
+> `current_machine`.
+>
+> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> ---
+>
+> Hi,
+>
+> This is an updated version implementing what we discussed in v1.
+>
+> This can be tested easily, eg, using opentitan machine which has a 64K ram
+> located at 0x10000000.
+>
+> the following works (we a blob corresponding to the whole ram)
+> | $ dd bs=1K count=64 if=/dev/zero of=blob.bin
+> | $ qemu-system-riscv32 -display none -M opentitan -device loader,addr=0x10000000,file=blob.bin
+>
+> but this command fails because we load a blob which is too big
+> | $ dd bs=1K count=64 if=/dev/zero of=blob.bin
+> | $ qemu-system-riscv32 -display none -M opentitan -device loader,addr=0x10001000,file=blob.bin
+> | qemu-system-riscv32: -device loader,addr=0x10001000,file=blob.bin: Cannot load specified image blob.bin
+>
+> and this command fails too (we load a blob at an unmapped location)
+> | $ dd bs=1K count=64 if=/dev/zero of=blob.bin
+> | $ qemu-system-riscv32 -display none -M opentitan -device loader,addr=0x0,file=blob.bin
+> | qemu-system-riscv32: -device loader,addr=0x0,file=blob.bin: Address 0x0 does not exists
+>
+> Thanks,
+> Damien
+>
+> v2:
+>  + instead of disabling the ram_size check, look for the target
+>
+> v1: https://lists.nongnu.org/archive/html/qemu-devel/2021-10/msg01077.html
+>
+> See also the original discussion about generic-loader:
+> https://lists.gnu.org/archive/html/qemu-devel/2016-02/msg04668.html
+> https://lists.gnu.org/archive/html/qemu-devel/2016-02/msg04681.html
+> ---
+>  hw/core/generic-loader.c | 20 +++++++++++++++++---
+>  1 file changed, 17 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/core/generic-loader.c b/hw/core/generic-loader.c
+> index d14f932eea..88d3f9fd56 100644
+> --- a/hw/core/generic-loader.c
+> +++ b/hw/core/generic-loader.c
+> @@ -34,7 +34,6 @@
+>  #include "hw/core/cpu.h"
+>  #include "sysemu/dma.h"
+>  #include "sysemu/reset.h"
+> -#include "hw/boards.h"
+>  #include "hw/loader.h"
+>  #include "hw/qdev-properties.h"
+>  #include "qapi/error.h"
+> @@ -153,8 +152,23 @@ static void generic_loader_realize(DeviceState *dev, Error **errp)
+>          }
+>
+>          if (size < 0 || s->force_raw) {
+> -            /* Default to the maximum size being the machine's ram size */
+> -            size = load_image_targphys_as(s->file, s->addr, current_machine->ram_size, as);
+> +            MemoryRegion *root = as ? as->root : get_system_memory();
+> +            MemoryRegionSection mrs;
+> +            uint64_t avail = 0;
+> +
+> +            mrs = memory_region_find(root, s->addr, 1);
+> +
+> +            if (mrs.mr) {
+> +                avail = int128_get64(mrs.mr->size) - mrs.offset_within_region;
+> +                memory_region_unref(mrs.mr);
+> +            } else {
+> +                error_setg(errp, "Address 0x%" PRIx64 " does not exists",
+> +                           s->addr);
+> +                return;
+> +            }
 
-XLEN not OLEN.
+Won't this break the case of loading a file that spans two
+consecutive-but-different memory regions ? I think if we want
+to catch "we tried to load something to an address not backed
+by something" we should do that by making load_image_targetphys_as()
+correctly handle errors from the memory accesses it makes and
+propagate an error-return to the caller.
 
-> +        if (olen < TARGET_LONG_BITS) {
-> +            env->vtype = FIELD_DP64(0, VTYPE, VILL_OLEN32, 1);
-> +        } else {
-> +            env->vtype = FIELD_DP64(0, VTYPE, VILL, 1);
-> +        }
-
-This looks like an excellent reason to split VILL out of VTYPE and create a separate 
-env->vill field.  Re-assemble it when reading the CSR, much like we do for misa.mxl.  That 
-would want to be a separate patch, of course.
-
-
-r~
+-- PMM
 
