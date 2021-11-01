@@ -2,80 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9812E4419CE
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 11:26:41 +0100 (CET)
-Received: from localhost ([::1]:59834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4A3C4419E9
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 11:31:27 +0100 (CET)
+Received: from localhost ([::1]:38882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhUWT-00057D-OU
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 06:26:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33512)
+	id 1mhUb8-0001vH-Pa
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 06:31:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mhURk-0007H7-JA; Mon, 01 Nov 2021 06:21:44 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:36588)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mhURf-00072D-VP; Mon, 01 Nov 2021 06:21:44 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- z11-20020a1c7e0b000000b0030db7b70b6bso16783553wmc.1; 
- Mon, 01 Nov 2021 03:21:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=26QzzUiifrh6jwU9IPlvYsbYrk9DFgqfk6wy49xTl2w=;
- b=QoZcwoZv5a5DtN6bQR83BOY5IYF/8OQ14p1wcm7aVTVBGlunNyDRMmK9gTHFTCAumV
- Hg6dRC+IgIDZfe5MAXTRrW2AZoNQts90iwc8NjXMKV7q+w9Ki/Gk0dv+fOr+CgxKGlLq
- 50HwJhthrcKn7YKXiNfEqtmZI73IslhORNJJTWCn++WyFt58rFlAu8j5s5DJ8uWNP/Id
- S7/ipiXSzAjyaXM1W7UVVXlkdsqDovMCrwZyaWo3UD1LLqimW8d2Crt2mvEd60AjU/CQ
- oN2uK2uatIoGde3TNcEXrr1q02+8BvoFXIlh5hxK7T9vbHTvXfG4vXZwHVHMinTzxwDF
- ALrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=26QzzUiifrh6jwU9IPlvYsbYrk9DFgqfk6wy49xTl2w=;
- b=YplUvDiGSTgwAsy/olfSlZzkzode3lPfMfdEFTpolF7K5KrUAQCR4fdaWvOz1NsVfy
- ElgaKmO+sSO1jsGLiS5F1qTXa/wYqplgGI/K51LwZ4fCpQc8OWNcln9isxwPUBLEZL51
- 2E5cwFLYpu5OhrpCsUFPUiFFFWZtc8FGOp1Iv1vEFeRLLn60798cm/iRn/fN2ZE5/zN3
- VCQsZcVlY4jfx2z5azE8TEdiujyt/QBhIyCWGh0sZb3GQZUK5rj0L19M/gQkaN/oZuCB
- Ylfza9LDC33SewZIc8HmYAOO6XcGq1o6N45RIJYMCY/UG9gBngok9KNupoqAFI/xt9M6
- U6+g==
-X-Gm-Message-State: AOAM530jZ8YdW8raaD5Km1HYAt4SY8P+TiQYhbeuYC4KOQdlfMSzX766
- L8eg3/5MYySid8dM8QD9uVH0Zql9j4M=
-X-Google-Smtp-Source: ABdhPJwHBA65wxgwjWJJG4MVu7Br1pSP8Ak1gzYuNlzCRey9yOUiwzZzqkvIipVc8h9xmA1R9kMe6A==
-X-Received: by 2002:a7b:ce0f:: with SMTP id m15mr1606806wmc.149.1635762096787; 
- Mon, 01 Nov 2021 03:21:36 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id t1sm14891640wre.32.2021.11.01.03.21.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Nov 2021 03:21:35 -0700 (PDT)
-Message-ID: <48a73d96-e8f3-902f-86fa-6d744cdf5e37@amsat.org>
-Date: Mon, 1 Nov 2021 11:21:33 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2] hw: Add a 'Sensor devices' qdev category
-Content-Language: en-US
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mhUS2-0007VK-Ak
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 06:22:02 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59396)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mhURz-0008Bd-7A
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 06:22:01 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A16qUC0012841; 
+ Mon, 1 Nov 2021 10:21:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=GloZAaFv1U/ThzXH7QyimqOQhOmdxmSOq3+sDvm1Z4k=;
+ b=WKy7ibGj0kezrRNzoVWvQNIGnW2N2ngOKmF1k6H4l1WQ2Nm0WCDLoICm8LXMnKXKjTz8
+ q8cbcuZerXNRePfl73C/4+qN3SJrHzAe5s6QSyJIrMOdQKs6WFUftwBEEUIr7+yhVrT+
+ ikmNDiqVf6JjWt4j6j7/Zrob3nidAl0IcHZJ0xYQqf9UEv4iJmmnb2pjGry/UgylfKp5
+ IuJi4kwZEDLpJKATyfxEcRlsb6kJWepmihNPPiq3dnPF9RBe+tJRwsB8hYpf9NcbMrSQ
+ a6ceTY5tWaVK7L2WBDKs2v4IMsHYKNQBZsbV8qOj7kugd2/hXtK9nmwx/SAAF/iM0WZt Nw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3c2bbtudtk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 01 Nov 2021 10:21:54 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1A1AKb93019160;
+ Mon, 1 Nov 2021 10:21:54 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3c2bbtudta-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 01 Nov 2021 10:21:54 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1A1AInEB030572;
+ Mon, 1 Nov 2021 10:21:53 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma02dal.us.ibm.com with ESMTP id 3c22tr2cbv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 01 Nov 2021 10:21:53 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1A1ALprV51773736
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 1 Nov 2021 10:21:51 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 909A36A04D;
+ Mon,  1 Nov 2021 10:21:51 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D95266A051;
+ Mon,  1 Nov 2021 10:21:50 +0000 (GMT)
+Received: from amdrome3.watson.ibm.com (unknown [9.2.130.16])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon,  1 Nov 2021 10:21:50 +0000 (GMT)
+From: Dov Murik <dovmurik@linux.ibm.com>
 To: qemu-devel@nongnu.org
-References: <20211027050625.1265828-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211027050625.1265828-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=UTF-8
+Subject: [PATCH 1/3] sev/i386: Allow launching with -kernel if no OVMF hashes
+ table found
+Date: Mon,  1 Nov 2021 10:21:34 +0000
+Message-Id: <20211101102136.1706421-2-dovmurik@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211101102136.1706421-1-dovmurik@linux.ibm.com>
+References: <20211101102136.1706421-1-dovmurik@linux.ibm.com>
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.592,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: qcOFJP9J6Zg0GsNwCGhaUP7bdjXYUg_T
+X-Proofpoint-ORIG-GUID: rgy3izbJveaupbhAUGS1jhjtp7qeU4gB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-01_04,2021-11-01_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ priorityscore=1501 spamscore=0 impostorscore=0 bulkscore=0 mlxlogscore=972
+ malwarescore=0 mlxscore=0 phishscore=0 clxscore=1015 suspectscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2111010058
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,136 +110,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Titus Rwantare <titusr@google.com>,
- Hao Wu <wuhaotsh@google.com>, qemu-trivial@nongnu.org,
- John Wang <wangzhiqiang.bj@bytedance.com>, Joel Stanley <joel@jms.id.au>,
- qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping?
+Commit cff03145ed3c ("sev/i386: Introduce sev_add_kernel_loader_hashes
+for measured linux boot", 2021-09-30) introduced measured direct boot
+with -kernel, using an OVMF-designated hashes table which QEMU fills.
 
-On 10/27/21 07:06, Philippe Mathieu-Daudé wrote:
-> Sensors models are listed in the 'Misc devices' category.
-> Move them to their own category.
-> 
-> Reviewed-by: Cédric Le Goater <clg@kaod.org>
-> Reviewed-by: Hao Wu <wuhaotsh@google.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> v2: Only include hw/sensor/, removed AER915 device from hw/arm/z2.c
-> ---
->  include/hw/qdev-core.h | 1 +
->  hw/sensor/adm1272.c    | 1 +
->  hw/sensor/dps310.c     | 1 +
->  hw/sensor/emc141x.c    | 1 +
->  hw/sensor/max34451.c   | 2 ++
->  hw/sensor/tmp105.c     | 1 +
->  hw/sensor/tmp421.c     | 1 +
->  softmmu/qdev-monitor.c | 1 +
->  8 files changed, 9 insertions(+)
-> 
-> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> index 1bad07002df..2fd6b73bd8b 100644
-> --- a/include/hw/qdev-core.h
-> +++ b/include/hw/qdev-core.h
-> @@ -26,6 +26,7 @@ typedef enum DeviceCategory {
->      DEVICE_CATEGORY_SOUND,
->      DEVICE_CATEGORY_MISC,
->      DEVICE_CATEGORY_CPU,
-> +    DEVICE_CATEGORY_SENSOR,
->      DEVICE_CATEGORY_MAX
->  } DeviceCategory;
->  
-> diff --git a/hw/sensor/adm1272.c b/hw/sensor/adm1272.c
-> index 7310c769be2..2942ac75f90 100644
-> --- a/hw/sensor/adm1272.c
-> +++ b/hw/sensor/adm1272.c
-> @@ -518,6 +518,7 @@ static void adm1272_class_init(ObjectClass *klass, void *data)
->      DeviceClass *dc = DEVICE_CLASS(klass);
->      PMBusDeviceClass *k = PMBUS_DEVICE_CLASS(klass);
->  
-> +    set_bit(DEVICE_CATEGORY_SENSOR, dc->categories);
->      dc->desc = "Analog Devices ADM1272 Hot Swap controller";
->      dc->vmsd = &vmstate_adm1272;
->      k->write_data = adm1272_write_data;
-> diff --git a/hw/sensor/dps310.c b/hw/sensor/dps310.c
-> index d60a18ac41b..1e24a499b38 100644
-> --- a/hw/sensor/dps310.c
-> +++ b/hw/sensor/dps310.c
-> @@ -208,6 +208,7 @@ static void dps310_class_init(ObjectClass *klass, void *data)
->      k->send = dps310_tx;
->      dc->reset = dps310_reset;
->      dc->vmsd = &vmstate_dps310;
-> +    set_bit(DEVICE_CATEGORY_SENSOR, dc->categories);
->  }
->  
->  static const TypeInfo dps310_info = {
-> diff --git a/hw/sensor/emc141x.c b/hw/sensor/emc141x.c
-> index 7ce8f4e9794..4202d8f185a 100644
-> --- a/hw/sensor/emc141x.c
-> +++ b/hw/sensor/emc141x.c
-> @@ -270,6 +270,7 @@ static void emc141x_class_init(ObjectClass *klass, void *data)
->      DeviceClass *dc = DEVICE_CLASS(klass);
->      I2CSlaveClass *k = I2C_SLAVE_CLASS(klass);
->  
-> +    set_bit(DEVICE_CATEGORY_SENSOR, dc->categories);
->      dc->reset = emc141x_reset;
->      k->event = emc141x_event;
->      k->recv = emc141x_rx;
-> diff --git a/hw/sensor/max34451.c b/hw/sensor/max34451.c
-> index a91d8bd487c..8300bf4ff43 100644
-> --- a/hw/sensor/max34451.c
-> +++ b/hw/sensor/max34451.c
-> @@ -751,6 +751,8 @@ static void max34451_class_init(ObjectClass *klass, void *data)
->      ResettableClass *rc = RESETTABLE_CLASS(klass);
->      DeviceClass *dc = DEVICE_CLASS(klass);
->      PMBusDeviceClass *k = PMBUS_DEVICE_CLASS(klass);
-> +
-> +    set_bit(DEVICE_CATEGORY_SENSOR, dc->categories);
->      dc->desc = "Maxim MAX34451 16-Channel V/I monitor";
->      dc->vmsd = &vmstate_max34451;
->      k->write_data = max34451_write_data;
-> diff --git a/hw/sensor/tmp105.c b/hw/sensor/tmp105.c
-> index 20564494899..43d79b9eeec 100644
-> --- a/hw/sensor/tmp105.c
-> +++ b/hw/sensor/tmp105.c
-> @@ -305,6 +305,7 @@ static void tmp105_class_init(ObjectClass *klass, void *data)
->      DeviceClass *dc = DEVICE_CLASS(klass);
->      I2CSlaveClass *k = I2C_SLAVE_CLASS(klass);
->  
-> +    set_bit(DEVICE_CATEGORY_SENSOR, dc->categories);
->      dc->realize = tmp105_realize;
->      k->event = tmp105_event;
->      k->recv = tmp105_rx;
-> diff --git a/hw/sensor/tmp421.c b/hw/sensor/tmp421.c
-> index a3db57dcb5a..c328978af9c 100644
-> --- a/hw/sensor/tmp421.c
-> +++ b/hw/sensor/tmp421.c
-> @@ -343,6 +343,7 @@ static void tmp421_class_init(ObjectClass *klass, void *data)
->      I2CSlaveClass *k = I2C_SLAVE_CLASS(klass);
->      TMP421Class *sc = TMP421_CLASS(klass);
->  
-> +    set_bit(DEVICE_CATEGORY_SENSOR, dc->categories);
->      dc->realize = tmp421_realize;
->      k->event = tmp421_event;
->      k->recv = tmp421_rx;
-> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-> index 4851de51a5c..a411af03c5c 100644
-> --- a/softmmu/qdev-monitor.c
-> +++ b/softmmu/qdev-monitor.c
-> @@ -164,6 +164,7 @@ static void qdev_print_devinfos(bool show_no_user)
->          [DEVICE_CATEGORY_SOUND]   = "Sound",
->          [DEVICE_CATEGORY_MISC]    = "Misc",
->          [DEVICE_CATEGORY_CPU]     = "CPU",
-> +        [DEVICE_CATEGORY_SENSOR]  = "Sensor",
->          [DEVICE_CATEGORY_MAX]     = "Uncategorized",
->      };
->      GSList *list, *elt;
-> 
+However, if OVMF doesn't designate such an area, QEMU would completely
+abort the VM launch.  This breaks launching with -kernel using older
+OVMF images which don't publish the SEV_HASH_TABLE_RV_GUID.
+
+Instead, just warn the user that -kernel was supplied by OVMF doesn't
+specify the GUID for the hashes table.  The following warning will be
+displayed during VM launch:
+
+    qemu-system-x86_64: warning: SEV: kernel specified but OVMF has no hash table guid
+
+Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+Reported-by: Tom Lendacky <thomas.lendacky@amd.com>
+---
+ target/i386/sev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index eede07f11d..682b8ccf6c 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -1204,7 +1204,7 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
+     int aligned_len;
+ 
+     if (!pc_system_ovmf_table_find(SEV_HASH_TABLE_RV_GUID, &data, NULL)) {
+-        error_setg(errp, "SEV: kernel specified but OVMF has no hash table guid");
++        warn_report("SEV: kernel specified but OVMF has no hash table guid");
+         return false;
+     }
+     area = (SevHashTableDescriptor *)data;
+-- 
+2.25.1
+
 
