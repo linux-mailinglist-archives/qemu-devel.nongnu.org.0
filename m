@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C8644232E
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 23:13:02 +0100 (CET)
-Received: from localhost ([::1]:47388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D477442341
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 23:16:50 +0100 (CET)
+Received: from localhost ([::1]:56136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhfY5-0001Bl-6Y
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 18:13:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54528)
+	id 1mhfbi-00072X-On
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 18:16:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhfUa-0006pw-DK
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 18:09:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25458)
+ id 1mhfUg-0006wV-H3
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 18:09:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23858)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhfUW-0000YG-Av
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 18:09:23 -0400
+ id 1mhfUY-0000Ze-0X
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 18:09:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635804559;
+ s=mimecast20190719; t=1635804561;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hSQaBGBpJWy0B8DIEKBqKdfykrzA4ow4TzC1HWV6kH0=;
- b=hNSNMXU2Y/ryCTwvF3V47yRHi+POxwBr4glDBEfYK0S0Ns5en9qYlDbeWezXQMwMhHb6MF
- OWKSfyUcZnxqlywL8QICTVFh9cuj2k3GFG93i+t2kCnnKwFJvGDewoZ3tDcjlv9S0F5Y0s
- PZGrDGd+EHen92OgTkJja7gRK8dXI8U=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-585-XeH5F6KwMQ2ayrEM2U6wBA-1; Mon, 01 Nov 2021 18:09:19 -0400
-X-MC-Unique: XeH5F6KwMQ2ayrEM2U6wBA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- q5-20020a5d5745000000b00178abb72486so4821848wrw.9
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 15:09:18 -0700 (PDT)
+ bh=mNV0USCJ0bTE7YbxR+SPvyYXWmDPBQ41R9sCmOpsXYk=;
+ b=YP1w/pD0tmnXzYUmwg1kAxzgEk6iHvlWdcX0cBVPuVxq4oK93ZGZ8JDjzH8VuSf4QwZfaq
+ Fvpxnyj8mA0vsAHUrTJTIZ1moclt8Xa2wbLcnwxE7hIEoIJX7eVxxMWT8WgSGisVGRLJc1
+ +9RCYzgK4QpBvTV5u34epnPPaJPL4w0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-257-65lJBqpHMQWiUZpROXkCNw-1; Mon, 01 Nov 2021 18:09:20 -0400
+X-MC-Unique: 65lJBqpHMQWiUZpROXkCNw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ a2-20020a5d4d42000000b0017b3bcf41b9so4041769wru.23
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 15:09:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hSQaBGBpJWy0B8DIEKBqKdfykrzA4ow4TzC1HWV6kH0=;
- b=6ov6LqNCqLH569kWLBcebUUNUJUh5OWmGWFO74CJD/ZlT4dYu45XW4r65BKdBXOpVM
- SYzc6aWMiUpNNWx2TP/GVeiQwZgPkr5MR0vl91jbDGJtA0KOC+lAd0278Ma1g/C6QE+1
- WfqnSkaVAglGrZ6keoTzUJ0m5Ke09s1cBnKdYFz7qR0g7OTVoP5NYOPFIDWIzS3wHEam
- 5cd/7q96C9JbFR0y1WTS8ZCyZ1GMboWpJQfuBVw1VlDvisPl/PBQdG9NhLdzOQqWf41a
- 1wmwXENiZ0Qeks2h1hucAcXZBjtU4pChlsy1867thVR3xIGwGkZfvdzGxeed37rHNhr4
- u2Bw==
-X-Gm-Message-State: AOAM530BKF0RcqlpwRdzM4MoexAWFX9pbEaye9NIwb7dGSnTeVle21jG
- o2kEDkVEbrDIF8EJKJKHed3ml21qmYTBX24gxkeNu5L6DS1bS5ktvKnlvd5q4cqOLJMentKtnHa
- O90kb+9yDdKGNklM92/Nb3CjAtCOqLd1jjtWn/qvBYTgR2CCKdk+MwPJmoBz5yluEjHQ=
-X-Received: by 2002:adf:a78a:: with SMTP id j10mr42370758wrc.105.1635804557543; 
- Mon, 01 Nov 2021 15:09:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzHSBNKTiLO5JlEV3iFexkub7waHAM8W6BpiJr+wCxnuH8FeGBZ5Ook1cyDpaRUcX/w/4yrnA==
-X-Received: by 2002:adf:a78a:: with SMTP id j10mr42370691wrc.105.1635804557180; 
- Mon, 01 Nov 2021 15:09:17 -0700 (PDT)
+ bh=mNV0USCJ0bTE7YbxR+SPvyYXWmDPBQ41R9sCmOpsXYk=;
+ b=lUebPsy20JqqGz7jhc1sKSK/dWIo9kGrs+aeR0ERLeo+QB4sXyHiI4kkpQXUFzXv8A
+ ZMGtFtxLCRZzbZWYupmT5+N+3yMf4OPUHOsJB8/yKuf7k0ge1rtVV1j0CelU3jIuZxOs
+ BB7rxKoneVzjglNFbD8lW533wgig4kACjo5J9wHpXDegiZ5TTq1acZ7dbAzxVED7MHks
+ SYXF0qcTm0OtLOXQQsDn5rUj64CW2C3+qxOdaV+4ICp/GNo5GXEV3xJ7jKW3nJQ2pIOx
+ +Kw7qXqTBHWAzrkWiPQeK8DNVN1z1CbkFLGF6YHoiDFK8BUGvoi6fxi5uScmPdTtbZx9
+ 5yBg==
+X-Gm-Message-State: AOAM532IBSJOFuywcAc692x2d7XD0s1jMoXJe3VM2djoYQlH3Tj1XLmH
+ kl8X1LLLHbz2gMh6Rji2bP8MPedcWKMuo5r3iE8ru2Dl7fvLUg/PHy9H+0I6bqh7gvHzt7fg00C
+ QIE+xV6aCiPLYqteC6ntjdYy0E3mqE8wAVAk+A2vKL8+mrLeJdpN99eUwedQ4G2YrjFE=
+X-Received: by 2002:a5d:658c:: with SMTP id q12mr16674253wru.34.1635804558873; 
+ Mon, 01 Nov 2021 15:09:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz7l2Vftm7DMc/eD2Pbw7jBZVxT3bmH28cxDkkzkMDwNXV8YPCcpluT9gBfpkvFnsLHKLEoAQ==
+X-Received: by 2002:a5d:658c:: with SMTP id q12mr16674187wru.34.1635804558501; 
+ Mon, 01 Nov 2021 15:09:18 -0700 (PDT)
 Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
  [188.86.86.233])
- by smtp.gmail.com with ESMTPSA id r1sm726567wmr.36.2021.11.01.15.09.16
+ by smtp.gmail.com with ESMTPSA id c79sm643941wme.43.2021.11.01.15.09.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Nov 2021 15:09:16 -0700 (PDT)
+ Mon, 01 Nov 2021 15:09:18 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/20] KVM: introduce dirty_pages and kvm_dirty_ring_enabled
-Date: Mon,  1 Nov 2021 23:08:54 +0100
-Message-Id: <20211101220912.10039-3-quintela@redhat.com>
+Subject: [PULL 03/20] memory: make global_dirty_tracking a bitmask
+Date: Mon,  1 Nov 2021 23:08:55 +0100
+Message-Id: <20211101220912.10039-4-quintela@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211101220912.10039-1-quintela@redhat.com>
 References: <20211101220912.10039-1-quintela@redhat.com>
@@ -77,12 +77,12 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) DKIMWL_WL_HIGH=-0.734, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,94 +115,276 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(é»„å‹‡) <huangy81@chinatelecom.cn>
 
-dirty_pages is used to calculate dirtyrate via dirty ring, when
-enabled, kvm-reaper will increase the dirty pages after gfns
-being dirtied.
+since dirty ring has been introduced, there are two methods
+to track dirty pages of vm. it seems that "logging" has
+a hint on the method, so rename the global_dirty_log to
+global_dirty_tracking would make description more accurate.
 
-kvm_dirty_ring_enabled shows if kvm-reaper is working. dirtyrate
-thread could use it to check if measurement can base on dirty
-ring feature.
+dirty rate measurement may start or stop dirty tracking during
+calculation. this conflict with migration because stop dirty
+tracking make migration leave dirty pages out then that'll be
+a problem.
+
+make global_dirty_tracking a bitmask can let both migration and
+dirty rate measurement work fine. introduce GLOBAL_DIRTY_MIGRATION
+and GLOBAL_DIRTY_DIRTY_RATE to distinguish what current dirty
+tracking aims for, migration or dirty rate.
 
 Signed-off-by: Hyman Huang(é»„å‹‡) <huangy81@chinatelecom.cn>
-Message-Id: <fee5fb2ab17ec2159405fc54a3cff8e02322f816.1624040308.git.huangy81@chinatelecom.cn>
+Message-Id: <9c9388657cfa0301bd2c1cfa36e7cf6da4aeca19.1624040308.git.huangy81@chinatelecom.cn>
 Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- include/hw/core/cpu.h  | 1 +
- include/sysemu/kvm.h   | 1 +
- accel/kvm/kvm-all.c    | 7 +++++++
- accel/stubs/kvm-stub.c | 5 +++++
- 4 files changed, 14 insertions(+)
+ include/exec/memory.h   | 20 +++++++++++++++++---
+ include/exec/ram_addr.h |  4 ++--
+ hw/i386/xen/xen-hvm.c   |  4 ++--
+ migration/ram.c         | 15 +++++++++++----
+ softmmu/memory.c        | 32 +++++++++++++++++++++-----------
+ softmmu/trace-events    |  1 +
+ 6 files changed, 54 insertions(+), 22 deletions(-)
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 1a10497af3..e948e81f1a 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -381,6 +381,7 @@ struct CPUState {
-     struct kvm_run *kvm_run;
-     struct kvm_dirty_gfn *kvm_dirty_gfns;
-     uint32_t kvm_fetch_index;
-+    uint64_t dirty_pages;
- 
-     /* Used for events with 'vcpu' and *without* the 'disabled' properties */
-     DECLARE_BITMAP(trace_dstate_delayed, CPU_TRACE_DSTATE_MAX_EVENTS);
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index a1ab1ee12d..7b22aeb6ae 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -547,4 +547,5 @@ bool kvm_cpu_check_are_resettable(void);
- 
- bool kvm_arch_cpu_check_are_resettable(void);
- 
-+bool kvm_dirty_ring_enabled(void);
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index a185b6dcb8..04280450c9 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -61,7 +61,17 @@ static inline void fuzz_dma_read_cb(size_t addr,
+ }
  #endif
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index db8d83b137..eecd8031cf 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -469,6 +469,7 @@ int kvm_init_vcpu(CPUState *cpu, Error **errp)
-     cpu->kvm_fd = ret;
-     cpu->kvm_state = s;
-     cpu->vcpu_dirty = true;
-+    cpu->dirty_pages = 0;
  
-     mmap_size = kvm_ioctl(s, KVM_GET_VCPU_MMAP_SIZE, 0);
-     if (mmap_size < 0) {
-@@ -743,6 +744,7 @@ static uint32_t kvm_dirty_ring_reap_one(KVMState *s, CPUState *cpu)
-         count++;
+-extern bool global_dirty_log;
++/* Possible bits for global_dirty_log_{start|stop} */
++
++/* Dirty tracking enabled because migration is running */
++#define GLOBAL_DIRTY_MIGRATION  (1U << 0)
++
++/* Dirty tracking enabled because measuring dirty rate */
++#define GLOBAL_DIRTY_DIRTY_RATE (1U << 1)
++
++#define GLOBAL_DIRTY_MASK  (0x3)
++
++extern unsigned int global_dirty_tracking;
+ 
+ typedef struct MemoryRegionOps MemoryRegionOps;
+ 
+@@ -2388,13 +2398,17 @@ void memory_listener_unregister(MemoryListener *listener);
+ 
+ /**
+  * memory_global_dirty_log_start: begin dirty logging for all regions
++ *
++ * @flags: purpose of starting dirty log, migration or dirty rate
+  */
+-void memory_global_dirty_log_start(void);
++void memory_global_dirty_log_start(unsigned int flags);
+ 
+ /**
+  * memory_global_dirty_log_stop: end dirty logging for all regions
++ *
++ * @flags: purpose of stopping dirty log, migration or dirty rate
+  */
+-void memory_global_dirty_log_stop(void);
++void memory_global_dirty_log_stop(unsigned int flags);
+ 
+ void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled);
+ 
+diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
+index 551876bed0..45c913264a 100644
+--- a/include/exec/ram_addr.h
++++ b/include/exec/ram_addr.h
+@@ -369,7 +369,7 @@ static inline void cpu_physical_memory_set_dirty_lebitmap(unsigned long *bitmap,
+ 
+                     qatomic_or(&blocks[DIRTY_MEMORY_VGA][idx][offset], temp);
+ 
+-                    if (global_dirty_log) {
++                    if (global_dirty_tracking) {
+                         qatomic_or(
+                                 &blocks[DIRTY_MEMORY_MIGRATION][idx][offset],
+                                 temp);
+@@ -392,7 +392,7 @@ static inline void cpu_physical_memory_set_dirty_lebitmap(unsigned long *bitmap,
+     } else {
+         uint8_t clients = tcg_enabled() ? DIRTY_CLIENTS_ALL : DIRTY_CLIENTS_NOCODE;
+ 
+-        if (!global_dirty_log) {
++        if (!global_dirty_tracking) {
+             clients &= ~(1 << DIRTY_MEMORY_MIGRATION);
+         }
+ 
+diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
+index e3d3d5cf89..482be95415 100644
+--- a/hw/i386/xen/xen-hvm.c
++++ b/hw/i386/xen/xen-hvm.c
+@@ -1613,8 +1613,8 @@ void xen_hvm_modified_memory(ram_addr_t start, ram_addr_t length)
+ void qmp_xen_set_global_dirty_log(bool enable, Error **errp)
+ {
+     if (enable) {
+-        memory_global_dirty_log_start();
++        memory_global_dirty_log_start(GLOBAL_DIRTY_MIGRATION);
+     } else {
+-        memory_global_dirty_log_stop();
++        memory_global_dirty_log_stop(GLOBAL_DIRTY_MIGRATION);
      }
-     cpu->kvm_fetch_index = fetch;
-+    cpu->dirty_pages += count;
+ }
+diff --git a/migration/ram.c b/migration/ram.c
+index bb908822d5..ae2601bf3b 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -2216,7 +2216,14 @@ static void ram_save_cleanup(void *opaque)
+         /* caller have hold iothread lock or is in a bh, so there is
+          * no writing race against the migration bitmap
+          */
+-        memory_global_dirty_log_stop();
++        if (global_dirty_tracking & GLOBAL_DIRTY_MIGRATION) {
++            /*
++             * do not stop dirty log without starting it, since
++             * memory_global_dirty_log_stop will assert that
++             * memory_global_dirty_log_start/stop used in pairs
++             */
++            memory_global_dirty_log_stop(GLOBAL_DIRTY_MIGRATION);
++        }
+     }
  
-     return count;
- }
-@@ -2296,6 +2298,11 @@ bool kvm_vcpu_id_is_valid(int vcpu_id)
-     return vcpu_id >= 0 && vcpu_id < kvm_max_vcpu_id(s);
+     RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+@@ -2678,7 +2685,7 @@ static void ram_init_bitmaps(RAMState *rs)
+         ram_list_init_bitmaps();
+         /* We don't use dirty log with background snapshots */
+         if (!migrate_background_snapshot()) {
+-            memory_global_dirty_log_start();
++            memory_global_dirty_log_start(GLOBAL_DIRTY_MIGRATION);
+             migration_bitmap_sync_precopy(rs);
+         }
+     }
+@@ -3434,7 +3441,7 @@ void colo_incoming_start_dirty_log(void)
+             /* Discard this dirty bitmap record */
+             bitmap_zero(block->bmap, block->max_length >> TARGET_PAGE_BITS);
+         }
+-        memory_global_dirty_log_start();
++        memory_global_dirty_log_start(GLOBAL_DIRTY_MIGRATION);
+     }
+     ram_state->migration_dirty_pages = 0;
+     qemu_mutex_unlock_ramlist();
+@@ -3446,7 +3453,7 @@ void colo_release_ram_cache(void)
+ {
+     RAMBlock *block;
+ 
+-    memory_global_dirty_log_stop();
++    memory_global_dirty_log_stop(GLOBAL_DIRTY_MIGRATION);
+     RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+         g_free(block->bmap);
+         block->bmap = NULL;
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index e5826faa0c..f2ac0d2e89 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -39,7 +39,7 @@
+ static unsigned memory_region_transaction_depth;
+ static bool memory_region_update_pending;
+ static bool ioeventfd_update_pending;
+-bool global_dirty_log;
++unsigned int global_dirty_tracking;
+ 
+ static QTAILQ_HEAD(, MemoryListener) memory_listeners
+     = QTAILQ_HEAD_INITIALIZER(memory_listeners);
+@@ -1821,7 +1821,7 @@ uint8_t memory_region_get_dirty_log_mask(MemoryRegion *mr)
+     uint8_t mask = mr->dirty_log_mask;
+     RAMBlock *rb = mr->ram_block;
+ 
+-    if (global_dirty_log && ((rb && qemu_ram_is_migratable(rb)) ||
++    if (global_dirty_tracking && ((rb && qemu_ram_is_migratable(rb)) ||
+                              memory_region_is_iommu(mr))) {
+         mask |= (1 << DIRTY_MEMORY_MIGRATION);
+     }
+@@ -2760,14 +2760,18 @@ void memory_global_after_dirty_log_sync(void)
+ 
+ static VMChangeStateEntry *vmstate_change;
+ 
+-void memory_global_dirty_log_start(void)
++void memory_global_dirty_log_start(unsigned int flags)
+ {
+     if (vmstate_change) {
+         qemu_del_vm_change_state_handler(vmstate_change);
+         vmstate_change = NULL;
+     }
+ 
+-    global_dirty_log = true;
++    assert(flags && !(flags & (~GLOBAL_DIRTY_MASK)));
++    assert(!(global_dirty_tracking & flags));
++    global_dirty_tracking |= flags;
++
++    trace_global_dirty_changed(global_dirty_tracking);
+ 
+     MEMORY_LISTENER_CALL_GLOBAL(log_global_start, Forward);
+ 
+@@ -2777,9 +2781,13 @@ void memory_global_dirty_log_start(void)
+     memory_region_transaction_commit();
  }
  
-+bool kvm_dirty_ring_enabled(void)
-+{
-+    return kvm_state->kvm_dirty_ring_size ? true : false;
-+}
+-static void memory_global_dirty_log_do_stop(void)
++static void memory_global_dirty_log_do_stop(unsigned int flags)
+ {
+-    global_dirty_log = false;
++    assert(flags && !(flags & (~GLOBAL_DIRTY_MASK)));
++    assert((global_dirty_tracking & flags) == flags);
++    global_dirty_tracking &= ~flags;
 +
- static int kvm_init(MachineState *ms)
++    trace_global_dirty_changed(global_dirty_tracking);
+ 
+     /* Refresh DIRTY_MEMORY_MIGRATION bit.  */
+     memory_region_transaction_begin();
+@@ -2792,8 +2800,9 @@ static void memory_global_dirty_log_do_stop(void)
+ static void memory_vm_change_state_handler(void *opaque, bool running,
+                                            RunState state)
  {
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
-diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
-index 5b1d00a222..5319573e00 100644
---- a/accel/stubs/kvm-stub.c
-+++ b/accel/stubs/kvm-stub.c
-@@ -147,4 +147,9 @@ bool kvm_arm_supports_user_irq(void)
- {
-     return false;
++    unsigned int flags = (unsigned int)(uintptr_t)opaque;
+     if (running) {
+-        memory_global_dirty_log_do_stop();
++        memory_global_dirty_log_do_stop(flags);
+ 
+         if (vmstate_change) {
+             qemu_del_vm_change_state_handler(vmstate_change);
+@@ -2802,18 +2811,19 @@ static void memory_vm_change_state_handler(void *opaque, bool running,
+     }
  }
-+
-+bool kvm_dirty_ring_enabled(void)
-+{
-+    return false;
-+}
- #endif
+ 
+-void memory_global_dirty_log_stop(void)
++void memory_global_dirty_log_stop(unsigned int flags)
+ {
+     if (!runstate_is_running()) {
+         if (vmstate_change) {
+             return;
+         }
+         vmstate_change = qemu_add_vm_change_state_handler(
+-                                memory_vm_change_state_handler, NULL);
++                                memory_vm_change_state_handler,
++                                (void *)(uintptr_t)flags);
+         return;
+     }
+ 
+-    memory_global_dirty_log_do_stop();
++    memory_global_dirty_log_do_stop(flags);
+ }
+ 
+ static void listener_add_address_space(MemoryListener *listener,
+@@ -2825,7 +2835,7 @@ static void listener_add_address_space(MemoryListener *listener,
+     if (listener->begin) {
+         listener->begin(listener);
+     }
+-    if (global_dirty_log) {
++    if (global_dirty_tracking) {
+         if (listener->log_global_start) {
+             listener->log_global_start(listener);
+         }
+diff --git a/softmmu/trace-events b/softmmu/trace-events
+index bf1469990e..9c88887b3c 100644
+--- a/softmmu/trace-events
++++ b/softmmu/trace-events
+@@ -19,6 +19,7 @@ memory_region_sync_dirty(const char *mr, const char *listener, int global) "mr '
+ flatview_new(void *view, void *root) "%p (root %p)"
+ flatview_destroy(void *view, void *root) "%p (root %p)"
+ flatview_destroy_rcu(void *view, void *root) "%p (root %p)"
++global_dirty_changed(unsigned int bitmask) "bitmask 0x%"PRIx32
+ 
+ # softmmu.c
+ vm_stop_flush_all(int ret) "ret %d"
 -- 
 2.33.1
 
