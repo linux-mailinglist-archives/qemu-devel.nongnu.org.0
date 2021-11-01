@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFE66441C85
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 15:21:04 +0100 (CET)
-Received: from localhost ([::1]:47942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57184441C93
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 15:25:29 +0100 (CET)
+Received: from localhost ([::1]:56438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhYBM-0006W2-2j
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 10:21:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41758)
+	id 1mhYFb-0003tH-W5
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 10:25:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mhY9e-0005fr-BU
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 10:19:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26652)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mhY9Y-00060E-9o
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 10:19:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635776351;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ooN5nd/cn5eHYFH9oip9AmJzuCC6nPmlTK/y4lENJ14=;
- b=f0KWTxj5M2fo35e7I9VAekrS5J+h7qb2npxZ9CdIWGhknkH48xLUKz5KGmltMYkKrKO0Sr
- CIxl1oWpZdx+ONEJJjkSqLKQxAs7iAYOwbIX8jFtBNMGTmkzgLazBDymPbyjS6Ch+km5KL
- IXMI0mc2gMWldJGN2H14635dwGXBwp4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-oA6oTD4pMLW2w5k9K_aKZw-1; Mon, 01 Nov 2021 10:19:05 -0400
-X-MC-Unique: oA6oTD4pMLW2w5k9K_aKZw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D42F95A095;
- Mon,  1 Nov 2021 14:19:03 +0000 (UTC)
-Received: from redhat.com (ovpn-112-232.phx2.redhat.com [10.3.112.232])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F02657086C;
- Mon,  1 Nov 2021 14:19:02 +0000 (UTC)
-Date: Mon, 1 Nov 2021 09:19:01 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v3 2/4] qemu-img: make --block-size optional for compare
- --stat
-Message-ID: <20211101141901.uf5jkohlb3sfzxfc@redhat.com>
-References: <20211028102441.1878668-1-vsementsov@virtuozzo.com>
- <20211028102441.1878668-3-vsementsov@virtuozzo.com>
- <20211029203257.zzu7rzzdlg6tdhwe@redhat.com>
- <d6babcfa-9208-7267-3937-b3ade4fd635c@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mhYEP-0002Gf-Aq
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 10:24:13 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:45778)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mhYEN-0006hr-JF
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 10:24:12 -0400
+Received: by mail-wr1-x429.google.com with SMTP id o14so28305629wra.12
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 07:24:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=e2O2dzk0vmPrHDw0tCUgOrb5w3SvbzaPB0p43Tr/T6E=;
+ b=YPl+7tm14/5AxZMR7y0yDA4AKAvAUeUaMGn9Iox32ysa77jbBsg6X0EDeMxhJFNnNN
+ AlnYAD/poY/5Itfsp2iRV130La11/ORCI/UjYcMzHJ63lOijebhZKNJyWPUKwXpob26t
+ Lm/50N+bQUHBECWMamGGbRtQojdrbP9z5XfGTdygO2YiQBH/Ikt+RPr8bvHvcLiAAzWl
+ 1zFhiYGPQujSTazfjtDviFIGXrVwZp3Gn/ft/oNZDhfHVprHeVOkmcR0gXTr5x1gQRES
+ +Q7xAClgNrq4RLVAT6H9A43BfTnXM5Oq/sc7oUvlFYG9yaexNLUQDBlOsSdPxKipaf6c
+ svmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=e2O2dzk0vmPrHDw0tCUgOrb5w3SvbzaPB0p43Tr/T6E=;
+ b=CAgWLGGR8FLkfFIY5ZKmXHPW4Nd82xuNmOhp5tCJ6narPI78tzzPC1DRyaTvM8W2kE
+ 9k4sz8EYTZP/+ZEZiFnlLvC0TnLmH/diSWoigsbHiarG9rhW29qqPiCSE6wzGn5crR2v
+ Aue4U1LGa9+hiBlNPLMg2B2upOqS+WEfRkihTM1HFE0/BDBexdc6ftOC06m8WQp9hWUA
+ SCHufDaBAZpQWPzsgfpLsfPWp2nfJtJp04eCH68y4cVLjFosqkgVvXNloYHVi8yQjKcK
+ 21y9ASNoifPW48usQvStcHptMufMM0mM8xHV0llD3twyVdNq0kDDdlNUIX81X3TU3UWA
+ CbuA==
+X-Gm-Message-State: AOAM532kBbYUre2RsdeMBBJpymYaH70cppqcMe1hqCxd5d4jDd7G/e1L
+ S++W35zeCtBgROToQN3xL+kx36OCj0AZmWJrL/81UQ==
+X-Google-Smtp-Source: ABdhPJzQvTql3hCddlCgu+z5R74IXE1W2/bU2Tg5kptRhT57ochenROZcWV9+yC70v40ojfrQ47dwkS+eVHxvEGm0nY=
+X-Received: by 2002:a5d:64ee:: with SMTP id g14mr38451554wri.376.1635776649905; 
+ Mon, 01 Nov 2021 07:24:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <d6babcfa-9208-7267-3937-b3ade4fd635c@virtuozzo.com>
-User-Agent: NeoMutt/20211022
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+References: <20211021042027.345405-1-david@gibson.dropbear.id.au>
+ <20211021042027.345405-15-david@gibson.dropbear.id.au>
+In-Reply-To: <20211021042027.345405-15-david@gibson.dropbear.id.au>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Nov 2021 14:23:58 +0000
+Message-ID: <CAFEAcA_Jj4diaUQTjUjrAUy+rR-UPDxYUXXX+NPAbo_yj1-2dg@mail.gmail.com>
+Subject: Re: [PULL 14/25] ppc/pegasos2: Warn when using VOF but no kernel is
+ specified
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,72 +78,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, nikita.lapshin@virtuozzo.com,
- qemu-devel@nongnu.org, nsoffer@redhat.com, hreitz@redhat.com, den@openvz.org,
- jsnow@redhat.com
+Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 01, 2021 at 11:03:22AM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> 29.10.2021 23:32, Eric Blake wrote:
-> > On Thu, Oct 28, 2021 at 12:24:39PM +0200, Vladimir Sementsov-Ogievskiy wrote:
-> > > Let's detect block-size automatically if not specified by user:
-> > > 
-> > >   If both files define cluster-size, use minimum to be more precise.
-> > >   If both files don't specify cluster-size, use default of 64K
-> > >   If only one file specify cluster-size, just use it.
-> > > 
-> > > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> > > ---
-> > >   docs/tools/qemu-img.rst |  7 +++-
-> > >   qemu-img.c              | 71 +++++++++++++++++++++++++++++++++++++----
-> > >   qemu-img-cmds.hx        |  4 +--
-> > >   3 files changed, 72 insertions(+), 10 deletions(-)
-> > > 
-> > 
-> > Reviewed-by: Eric Blake <eblake@redhat.com>
-> > 
-> > > +    if (cluster_size1 > 0 && cluster_size2 > 0) {
-> > > +        if (cluster_size1 == cluster_size2) {
-> > > +            block_size = cluster_size1;
-> > > +        } else {
-> > > +            block_size = MIN(cluster_size1, cluster_size2);
-> > > +            qprintf(quiet, "%s and %s have different cluster sizes: %d and %d "
-> > > +                    "respectively. Using minimum as block-size for "
-> > > +                    "accuracy: %d. %s\n",
-> > > +                    fname1, fname2, cluster_size1,
-> > > +                    cluster_size2, block_size, note);
-> > 
-> > Results in a long line; I don't know if it's worth trying to wrap it
-> > (if we had a generic utility function that took arbitrary text, then
-> > outputs it wrapped to the user's current terminal column width, I'd
-> > suggest using that instead - but that's NOT something I expect you to
-> > write, and I don't know if glib has such a utility).
-> > 
-> 
-> Hmm. But long lines printed to the terminal are wrapped by terminal automatically, so we don't need to wrap to terminal width by hand..
+On Thu, 21 Oct 2021 at 05:20, David Gibson <david@gibson.dropbear.id.au> wrote:
+>
+> From: BALATON Zoltan <balaton@eik.bme.hu>
+>
+> Issue a warning when using VOF (which is the default) but no -kernel
+> option given to let users know that it will likely fail as the guest
+> has nothing to run. It is not a hard error because it may still be
+> useful to start the machine without further options for testing or
+> inspecting it from monitor without actually booting it.
+>
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> Message-Id: <a4ec9a900df772b91e9f69ca7a0799d8ae293e5a.1634241019.git.balaton@eik.bme.hu>
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> ---
+>  hw/ppc/pegasos2.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+> index 474cfdeabf..a1dd1f6752 100644
+> --- a/hw/ppc/pegasos2.c
+> +++ b/hw/ppc/pegasos2.c
+> @@ -194,7 +194,10 @@ static void pegasos2_init(MachineState *machine)
+>          if (!pm->vof) {
+>              warn_report("Option -kernel may be ineffective with -bios.");
+>          }
+> +    } else if (pm->vof) {
+> +        warn_report("Using Virtual OpenFirmware but no -kernel option.");
+>      }
+> +
 
-/me using a short line length in the next paragraph on purpose...
+Hi; this change seems to have introduced new "warning" messages
+during "make check":
 
-There's a difference between the ter
-minal wrapping when you hit the maxi
-mum length, and in intelligent
-wrapping the prefers natural word
-breaks.
+MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+QTEST_QEMU_IMG=./qemu-img
+G_TEST_DBUS_DAEMON=/home/qemu/qemu-test.3HLBcg/src/test
+s/dbus-vmstate-daemon.sh QTEST_QEMU_BINARY=./qemu-system-ppc
+tests/qtest/qom-test --tap -k
+PASS 1 qtest-ppc/qom-test /ppc/qom/virtex-ml507
+PASS 2 qtest-ppc/qom-test /ppc/qom/mac99
+PASS 3 qtest-ppc/qom-test /ppc/qom/ppce500
+PASS 4 qtest-ppc/qom-test /ppc/qom/sam460ex
+qemu-system-ppc: warning: Using Virtual OpenFirmware but no -kernel option.
+PASS 5 qtest-ppc/qom-test /ppc/qom/pegasos2
+PASS 6 qtest-ppc/qom-test /ppc/qom/none
+PASS 7 qtest-ppc/qom-test /ppc/qom/bamboo
+PASS 8 qtest-ppc/qom-test /ppc/qom/40p
+PASS 9 qtest-ppc/qom-test /ppc/qom/ref405ep
+PASS 10 qtest-ppc/qom-test /ppc/qom/g3beige
+PASS 11 qtest-ppc/qom-test /ppc/qom/mpc8544ds
+PASS 12 qtest-ppc/qom-test /ppc/qom/taihu
 
-There are programs out there that do intelligent wrapping (for
-example, the mutt mailer), but I'm not sure if those wrapping routines
-are available through glib.  At any rate, I do NOT want to reimplement
-intelligent wrapping from scratch (Unicode specifies a rather complex
-algorithm for getting sane wrapping in the presence of various Unicode
-characters, and it is not trivial https://unicode.org/reports/tr14/).
-So unless someone knows of an easy-to-use library that does wrapping,
-you are right that leaving long lines for the terminal to output, even
-when that output has awkward mid-word breaks, is tolerable.
+(similarly for ppc64).
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+Could we suppress it for qtest tests, please?
 
+thanks
+-- PMM
 
