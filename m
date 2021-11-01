@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69DD14420AD
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 20:19:18 +0100 (CET)
-Received: from localhost ([::1]:47596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2EC4442103
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 20:42:56 +0100 (CET)
+Received: from localhost ([::1]:60340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhcpw-00071t-Pb
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 15:19:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34080)
+	id 1mhdCq-0001dG-3G
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 15:42:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhbFP-0003lm-1N
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:37:27 -0400
-Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:37626)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mhbJB-0008K4-2Q
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:41:23 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:36851)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhbFN-0004mn-6K
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:37:26 -0400
-Received: by mail-qt1-x836.google.com with SMTP id o12so5792841qtv.4
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 10:37:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mhbJ8-00077n-NM
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:41:20 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ z11-20020a1c7e0b000000b0030db7b70b6bso17737536wmc.1
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 10:41:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=UrMPL+t0RHs2F8DgflLkrPkspn1ngV5yUBMYYHb8yiQ=;
- b=jcKuimBtMG0SupljgS6D2EbCud8HV3w7jaxh7kbCRwOvw1nUcy1CkpW1/gHghwv5XL
- JGO2VoVgdAAVWsL+KrRVJh27w7DEaCdtPTvC1U0oNmf/tqIuShD5Dk8hAtM8GJoXDBp8
- LG1jjGEt0ZZwsFGf/DvZclwRWhl3UM8Gq2bYDUjGRBzEYCPCeHw1iZZuJCpKIPfFHkmg
- jjHM6RXzU2sShyth54zzo3JigH9wEcyF7+CQWtui0hyqRXaTXtSwdSxctyPt5SOe0sjN
- QYP22TXAQaUQMaEASiH8NaT16GV9eSfUXEvCQ+Phk64NRysWRhxGsofCFc95HpY3rfzL
- 4fGQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=m1nG2KOKvk6PUZFwMv38E+byTjYzdGsIoHrs4BaKLf4=;
+ b=ThuqwX8Nw3lYMBbmsO9FseDu2oTCUUdoXXdIMfMYNP5YwatkpJH7CLzchJ8Bi5AoyV
+ 73MCdsiouxEzq3a4E6JNYwzCSr1fUTYnia4JJk/y1zKYqtowFtVeutVwEzQIS24fY5zR
+ TeoH8s07xGuvODgccByr1E6pnwvGxb8DOz0V1mU6T8N9XNc0Hq9EXwjKytnJ+hqBCfvy
+ KfuJLQyLyaIp8YkPjuxac0l85qo0LlIbnBlbUsSZ89Ibrs2/7NB+mZUxSU6ONWO4SYwy
+ se+IyoxLA9Lx+gsmYQEwxza6Ks0tX8OS6UPFqmhfC6p1o1YF6aoyprCmPtJzj/glkaUc
+ nw0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=UrMPL+t0RHs2F8DgflLkrPkspn1ngV5yUBMYYHb8yiQ=;
- b=3SQQ9zkYMLJiKxAxPQ76/emyuCXf625g3tTqLvIPHNDuyHoMF1qJLYyfV6UhgSUfpb
- 4b2w1v28n7DdCNvlyDSwTYjjwgRdwZNjXkC8b8ZtlEmSzncRA1mFtAmcGtEqQLoTxrtx
- iOq2zjULk3VWKKoLBWckIVUTzL8KCFMLvy26kvLwg44dLwxs/eIG33qB7qf78+2wkSIn
- M4LxP8CxqkHcj2OcAQsW3lyAiqbNwBq0qhJejc1iZ8G5MwB0GcNs02uM18OazgZ16zxS
- EOtniG7SJ8tdu/NKkR1sFCJTq9aRNk2irMGhYkNOIV9UtlwqNWTLHN3P9bFOpv4CuR4Q
- ai4w==
-X-Gm-Message-State: AOAM531syHMf6iRpOXD8ulSXwKHwUQ5Mu5d6saT0pcKDcQkqdlNIJAcI
- Pw1dMRUCLGKtgfVcWnKT61JuEA==
-X-Google-Smtp-Source: ABdhPJzNZNCIHhMAZqHmcWEByvhjbJ78XruSTzcZZ0JQYVbuTQc5a26iUm0qb+h+zFaaAU73Vq9EMQ==
-X-Received: by 2002:ac8:7d0c:: with SMTP id g12mr30264967qtb.187.1635788244083; 
- Mon, 01 Nov 2021 10:37:24 -0700 (PDT)
-Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
- [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id o2sm11100077qtw.17.2021.11.01.10.37.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Nov 2021 10:37:23 -0700 (PDT)
-Subject: Re: [PATCH v2 1/5] hw/sd: add nuvoton MMC
-To: Peter Maydell <peter.maydell@linaro.org>, Hao Wu <wuhaotsh@google.com>
-References: <20211008002628.1958285-1-wuhaotsh@google.com>
- <20211008002628.1958285-2-wuhaotsh@google.com>
- <CAFEAcA_TcKcSsx5J+QqK1AM+ZwCvbSrSPgSD9XA35vVwJah9hA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <037d0f9b-b0f1-020c-8163-1fefeb357882@linaro.org>
-Date: Mon, 1 Nov 2021 13:37:22 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=m1nG2KOKvk6PUZFwMv38E+byTjYzdGsIoHrs4BaKLf4=;
+ b=D4qKJqa2q9s2aubVJgXmB8o/zO4GjuFVM25XcDIsnNuG/NzHGGDCXWMQ+nHak85ego
+ fdRviTE+MSTpz85xMUwqYCDYScx0R0SgPcKaYQFhW8MMXIRBZVzktYffnrCWVUzcYmiY
+ OH7Q/hXp6gFfHiXLsJMfSQp8ZLpu5li+krTwX2Q7m4O94734sHI9Kj9uBQTBg3LO7W8u
+ JQQ6jS0dnug9j4lSyKmxpAURue3Tlzy4bka6WrOGX8CGkzm7H6a5CSKJxYry1MDsx23C
+ +tCb75ketvTs81GlNi2EmutnrzLxJIkzj+NZrBTwwvGEBYXk3U5RQ+NUGrDRsZE1WXNU
+ asqQ==
+X-Gm-Message-State: AOAM5324ZzyMjm7bSqTNJrEBKbj0EoeBRa62ldOgHUTekXqCiKPBdiPq
+ Yp1WRzU0ow4DQw6efRkewxIc5w7CEWTZy/YgRS+JdQ==
+X-Google-Smtp-Source: ABdhPJwieeJcgclg9wvkdh+kZ5JBDOSLhSBKLyGbsA+z0lkBU5CqRoS5dfhQd8Mf/YsFCp5ByHfsMWr3MMdHUpSV1yI=
+X-Received: by 2002:a05:600c:198d:: with SMTP id
+ t13mr380801wmq.21.1635788477273; 
+ Mon, 01 Nov 2021 10:41:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_TcKcSsx5J+QqK1AM+ZwCvbSrSPgSD9XA35vVwJah9hA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x836.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.14,
+References: <20211021183956.920822-1-wuhaotsh@google.com>
+ <20211021183956.920822-6-wuhaotsh@google.com>
+In-Reply-To: <20211021183956.920822-6-wuhaotsh@google.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Nov 2021 17:41:06 +0000
+Message-ID: <CAFEAcA8mwXkPSMubBjmqzFkK6ghmyW_ngz9AejeoF-GKkqSL6A@mail.gmail.com>
+Subject: Re: [PATCH v2 5/7] hw/nvram: Update at24c EEPROM init function in
+ NPCM7xx boards
+To: Hao Wu <wuhaotsh@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,53 +80,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, venture@google.com, Shengtan Mao <stmao@google.com>,
- bin.meng@windriver.com, hskinnemoen@google.com, qemu-devel@nongnu.org,
- kfting@nuvoton.com, qemu-arm@nongnu.org, Avi.Fishman@nuvoton.com,
- maoshengtan2011@gmail.com, Chris Rauer <crauer@google.com>, f4bug@amsat.org
+Cc: venture@google.com, hskinnemoen@google.com, qemu-devel@nongnu.org,
+ kfting@nuvoton.com, qemu-arm@nongnu.org, Avi.Fishman@nuvoton.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/1/21 1:18 PM, Peter Maydell wrote:
-> On Fri, 8 Oct 2021 at 01:26, Hao Wu <wuhaotsh@google.com> wrote:
->>
->> From: Shengtan Mao <stmao@google.com>
->>
->> Signed-off-by: Shengtan Mao <stmao@google.com>
->> Reviewed-by: Hao Wu <wuhaotsh@google.com>
->> Reviewed-by: Chris Rauer <crauer@google.com>
->> Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
->> Signed-off-by:  Hao Wu <wuhaotsh@google.com>
->> ---
-> 
->> +    default:
->> +        qemu_log_mask(LOG_GUEST_ERROR, "SDHCI read of nonexist reg: 0x%02"
-> 
-> "nonexistent"
-> 
->> +                      HWADDR_PRIx, addr);
->> +        break;
->> +    }
->> +
->> +    return val;
->> +}
->> +
->> +static void npcm7xx_sdhci_write(void *opaque, hwaddr addr, uint64_t val,
->> +                                unsigned int size)
->> +{
->> +    NPCM7xxSDHCIState *s = opaque;
->> +
->> +    switch (addr) {
->> +    case NPCM7XX_BOOTTOCTRL:
->> +        s->regs.boottoctrl = val;
->> +        break;
->> +    default:
->> +        qemu_log_mask(LOG_GUEST_ERROR, "SDHCI write of nonexist reg: 0x%02"
-> 
-> ditto
+On Thu, 21 Oct 2021 at 19:40, Hao Wu <wuhaotsh@google.com> wrote:
+>
+> We made 3 changes to the at24c_eeprom_init function in
+> npcm7xx_boards.c:
+>
+> 1. We allow the function to take a I2CBus* as parameter. This allows
+>    us to attach an EEPROM device behind an I2C mux which is not
+>    possible with the old method.
+>
+> 2. We make at24c EEPROMs are backed by drives so that we can
+>    specify the content of the EEPROMs.
+>
+> 3. Instead of using i2c address as unit number, This patch assigns
+>    unique unit numbers for each eeproms in each board. This avoids
+>    conflict in providing multiple eeprom contents with the same address.
+>    In the old method if we specify two drives with the same unit number,
+>    the following error will occur: `Device with id 'none85' exists`.
+>
+> Signed-off-by: Hao Wu <wuhaotsh@google.com>
+> ---
+>  hw/arm/npcm7xx_boards.c | 15 ++++++++++-----
+>  1 file changed, 10 insertions(+), 5 deletions(-)
+>
+> diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
+> index a656169f61..cdb52b9922 100644
+> --- a/hw/arm/npcm7xx_boards.c
+> +++ b/hw/arm/npcm7xx_boards.c
+> @@ -107,13 +107,18 @@ static I2CBus *npcm7xx_i2c_get_bus(NPCM7xxState *soc, uint32_t num)
+>      return I2C_BUS(qdev_get_child_bus(DEVICE(&soc->smbus[num]), "i2c-bus"));
+>  }
+>
+> -static void at24c_eeprom_init(NPCM7xxState *soc, int bus, uint8_t addr,
+> -                              uint32_t rsize)
+> +static void at24c_eeprom_init(I2CBus *i2c_bus, int bus, uint8_t addr,
+> +                              uint32_t rsize, int unit_number)
+>  {
+> -    I2CBus *i2c_bus = npcm7xx_i2c_get_bus(soc, bus);
+>      I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", addr);
+>      DeviceState *dev = DEVICE(i2c_dev);
+> +    BlockInterfaceType type = IF_NONE;
 
-Fixed while applying.
+Why make this a variable? We only use it in one place...
 
-
-r~
+-- PMM
 
