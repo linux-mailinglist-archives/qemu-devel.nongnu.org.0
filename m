@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E55D442471
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 00:59:18 +0100 (CET)
-Received: from localhost ([::1]:41932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DB59442464
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 00:55:12 +0100 (CET)
+Received: from localhost ([::1]:60346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhhCu-0006B0-QE
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 19:59:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45292)
+	id 1mhh8x-0007lc-CC
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 19:55:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mhgyg-0001z5-Ea
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 19:44:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48795)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mhgyb-0004EB-9O
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mhgye-0001xL-HC
  for qemu-devel@nongnu.org; Mon, 01 Nov 2021 19:44:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24327)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mhgyb-0004EN-PW
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 19:44:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635810267;
+ s=mimecast20190719; t=1635810268;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=MfAqzJ8Cwjtb/trVT40Vb20veQ+48E5tu21PtHNnX00=;
- b=QIuu0Fs/hKjBaag528rUd3JPsfRc1Y3NcIwxATU3r91GgJNq/aDhg3XC9XekNx5BFP4Uhr
- x0/LVxmL0EcF2vzvreKSzxwIUEVaTksP7EMWfaFk/xSh/JSO05M/DfjoQU3PsZ7MrXglgy
- tJS/kZuwhFNUNuCv1YuO0Di88nG4Edk=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-3DLZJDJ8Mj-MFY9MurmYOw-1; Mon, 01 Nov 2021 19:44:24 -0400
-X-MC-Unique: 3DLZJDJ8Mj-MFY9MurmYOw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- y20-20020a056402359400b003e28c9bc02cso4090953edc.9
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 16:44:24 -0700 (PDT)
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=t0CVIufzFIccsDBoCkRGFq3WYs0bvTA+xkE09ZtdLKA=;
+ b=DqhffrW8+ky2qPu+5qn38WFiKaSQIGAQ9ZhaBoldRJhmpAeJ4d7g0pz6NwtFcUQgtbBQcg
+ P58pv1Gx4uZmEie+KhFrOC+2a5mf23y2xUdbHHT8MiCu32pZzExyLjlDzsyLZm5j/EOEdY
+ llJjFbD9xHMMTLosGxb3dYEsQOa2Iyw=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-440-EkCow1UtPqKBD2PLGWkYUw-1; Mon, 01 Nov 2021 19:44:27 -0400
+X-MC-Unique: EkCow1UtPqKBD2PLGWkYUw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ h16-20020a05640250d000b003dd8167857aso17112962edb.0
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 16:44:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=MfAqzJ8Cwjtb/trVT40Vb20veQ+48E5tu21PtHNnX00=;
- b=UX+Jrv5Ruj6lvXbjVWNcyEokA/MovcFeAZYeWZoTHHtadfWoy/8QqT+ki++luXroVo
- D3aTFmv+BPLrAfgO5LuafifOq7gYRKfF1MjZuxsqjNvyZoqxFqRBPuSw6Xtlwj8SNPqy
- VFbs+SafEHpQyK1VCG0WxSPdEiTEEhYnvYLZ935+kpx+Me0NwJhlDli0qKOLdoENU9vQ
- EM9GrzfOJvAiJiul0njkOToA+gd9XhHfASHszFcjkypgK+3KH02gouMFkmfS3hnvCVsY
- LbLYO6PhWrBzCKRVV9UhmBgsd7wQwBwTUhNlJLZvmgsXs3plU6ER2dhyAA5xKVxRuwVi
- BvVg==
-X-Gm-Message-State: AOAM5301Gc3SXJNJEGlrhOIAAkCUgzzdYq51oOZtmKtAR5hcAOynePk9
- lVWskjqdRRWbOrPQ/OP9FPhy08qX7f0YTG9ySysmwM1TOyyvdqYVLCEiIDYJ57bWnqfL/1+rY5S
- 8ls6rHYDhKZX16H5rwEQtLr0242C7RJhVfBJZ9zRSmXlw8p8PRINlTixVaMpD
-X-Received: by 2002:a05:6402:203:: with SMTP id
- t3mr47612007edv.69.1635810262370; 
- Mon, 01 Nov 2021 16:44:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyYGcmufta0D85Scxl6g6+HZH2eSOsMYNncabwtdGQ3GV2t7PXW24UYbCRa1ljcxb6iTJkKZQ==
-X-Received: by 2002:a05:6402:203:: with SMTP id
- t3mr47611972edv.69.1635810262159; 
- Mon, 01 Nov 2021 16:44:22 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=t0CVIufzFIccsDBoCkRGFq3WYs0bvTA+xkE09ZtdLKA=;
+ b=5+LdFwu2HXx3BEg4Kot2r0O1KpV+MFk3DDfBRoaLTZgr4qR1PtXXmWL8JpkLw+IUgs
+ ehw+53Z6CSumQEWLk1jM85ooDl954YugjCaquIS5m3JoxRUJjqB9MIwrJkd3I2ICIJzH
+ eIb/GRTiuUKO3J5SEThUmjjUS3sq1+jOSt8Hj09orcr7B7STTcuQGDp1uxktbhRjn8l0
+ 4Qo4+rK9mjYQLRu7MS+CthkXn1Pl09uy4AV6OLZalrQrZKyzMfTik5tPhWjtasOl/QDx
+ mvRBsuxRQ+yWYJj7u572QedRuCc3Dyvm4yHzbGVly369ShmC2OXc6ruk63HOtR8boahE
+ ojyw==
+X-Gm-Message-State: AOAM532ZfMlNErZsnjNzBntaMBSlbz9BmX3ezDpHaajF95udyaJexsAU
+ aiTFR4ESypGaif2pj1/W/M7BVDDgJyIy/fizrGrxJCyslZ2XIP51GcQFeWVkEQgSvsBkKcBaCRa
+ /JzXC1z1LPJlhAy/O3WdVJMKjWc7B9Fn/felhVCgb5YHwnqIZquPt/K4WVifj
+X-Received: by 2002:a17:906:ce2c:: with SMTP id
+ sd12mr13166088ejb.45.1635810266076; 
+ Mon, 01 Nov 2021 16:44:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyHPdCyXKSaC/rhWYPjAOVeprUaR2M4VBO/GnFqT6hLqc3HLYkUgPCAtZCQFsHd/k5Bc/eUNw==
+X-Received: by 2002:a17:906:ce2c:: with SMTP id
+ sd12mr13166059ejb.45.1635810265834; 
+ Mon, 01 Nov 2021 16:44:25 -0700 (PDT)
 Received: from redhat.com ([2.55.156.42])
- by smtp.gmail.com with ESMTPSA id gt11sm256205ejc.13.2021.11.01.16.44.20
+ by smtp.gmail.com with ESMTPSA id e11sm3252010ejs.86.2021.11.01.16.44.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Nov 2021 16:44:21 -0700 (PDT)
-Date: Mon, 1 Nov 2021 19:44:19 -0400
+ Mon, 01 Nov 2021 16:44:25 -0700 (PDT)
+Date: Mon, 1 Nov 2021 19:44:22 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/9] pc,pci,virtio: features, fixes
-Message-ID: <20211101234358.582487-1-mst@redhat.com>
+Subject: [PULL 1/9] qtest: fix 'expression is always false' build failure in
+ qtest_has_accel()
+Message-ID: <20211101234358.582487-2-mst@redhat.com>
+References: <20211101234358.582487-1-mst@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20211101234358.582487-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
@@ -71,7 +75,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -92,76 +96,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Jason Andryuk <jandryuk@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzinni@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit af531756d25541a1b3b3d9a14e72e7fedd941a2e:
+From: Igor Mammedov <imammedo@redhat.com>
 
-  Merge remote-tracking branch 'remotes/philmd/tags/renesas-20211030' into staging (2021-10-30 11:31:41 -0700)
+If KVM is disabled or not present, qtest library build
+may fail with:
+   libqtest.c: In function 'qtest_has_accel':
+      comparison of unsigned expression < 0 is always false
+      [-Werror=type-limits]
+         for (i = 0; i < ARRAY_SIZE(targets); i++) {
 
-are available in the Git repository at:
+due to empty 'targets' array.
+Fix it by making sure that CONFIG_KVM_TARGETS isn't empty.
 
-  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-
-for you to fetch changes up to d99e8b5fcb138b19f751c027ed5599224f9b5036:
-
-  hw/i386: fix vmmouse registration (2021-11-01 19:36:11 -0400)
-
-----------------------------------------------------------------
-pc,pci,virtio: features, fixes
-
-virtio-iommu support for x86/ACPI.
-Fixes, cleanups all over the place.
-
+Fixes: e741aff0f43343 ("tests: qtest: add qtest_has_accel() to check if tested binary supports accelerator")
+Reported-by: Jason Andryuk <jandryuk@gmail.com>
+Suggested-by: "Michael S. Tsirkin" <mst@redhat.com>
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20211027151012.2639284-1-imammedo@redhat.com>
+Tested-by: Jason Andryuk <jandryuk@gmail.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-----------------------------------------------------------------
-David Hildenbrand (1):
-      vhost-vdpa: Set discarding of RAM broken when initializing the backend
-
-Igor Mammedov (1):
-      qtest: fix 'expression is always false' build failure in qtest_has_accel()
-
-Jean-Philippe Brucker (4):
-      hw/acpi: Add VIOT table
-      hw/i386/pc: Remove x86_iommu_get_type()
-      hw/i386/pc: Move IOMMU singleton into PCMachineState
-      hw/i386/pc: Allow instantiating a virtio-iommu device
-
-Pavel Dovgalyuk (1):
-      hw/i386: fix vmmouse registration
-
-Peter Xu (2):
-      pci: Define pci_bus_dev_fn/pci_bus_fn/pci_bus_ret_fn
-      pci: Export pci_for_each_device_under_bus*()
-
- hw/acpi/viot.h              |  13 +++++
- include/hw/i386/pc.h        |   1 +
- include/hw/i386/x86-iommu.h |  12 -----
- include/hw/pci/pci.h        |  24 ++++++----
- hw/acpi/viot.c              | 114 ++++++++++++++++++++++++++++++++++++++++++++
- hw/i386/acpi-build.c        |  33 +++++++------
- hw/i386/amd_iommu.c         |   2 -
- hw/i386/intel_iommu.c       |   3 --
- hw/i386/pc.c                |  26 +++++++++-
- hw/i386/vmmouse.c           |   1 +
- hw/i386/x86-iommu-stub.c    |   5 --
- hw/i386/x86-iommu.c         |  31 ++++--------
- hw/pci/pci.c                |  26 ++++------
- hw/pci/pcie.c               |   4 +-
- hw/ppc/spapr_pci.c          |  12 ++---
- hw/ppc/spapr_pci_nvlink2.c  |   7 ++-
- hw/ppc/spapr_pci_vfio.c     |   4 +-
- hw/s390x/s390-pci-bus.c     |   5 +-
- hw/virtio/vhost-vdpa.c      |  13 +++++
- hw/xen/xen_pt.c             |   4 +-
- hw/acpi/Kconfig             |   4 ++
- hw/acpi/meson.build         |   1 +
- hw/i386/Kconfig             |   1 +
- meson.build                 |   2 +-
- 24 files changed, 239 insertions(+), 109 deletions(-)
- create mode 100644 hw/acpi/viot.h
- create mode 100644 hw/acpi/viot.c
+diff --git a/meson.build b/meson.build
+index b092728397..ab4a5723f0 100644
+--- a/meson.build
++++ b/meson.build
+@@ -75,7 +75,7 @@ else
+   kvm_targets = []
+ endif
+ 
+-kvm_targets_c = ''
++kvm_targets_c = '""'
+ if not get_option('kvm').disabled() and targetos == 'linux'
+   kvm_targets_c = '"' + '" ,"'.join(kvm_targets) + '"'
+ endif
+-- 
+MST
 
 
