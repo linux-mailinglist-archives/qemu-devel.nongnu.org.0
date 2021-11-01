@@ -2,75 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9602442041
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 19:47:15 +0100 (CET)
-Received: from localhost ([::1]:58742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 437FE441FCE
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 19:10:06 +0100 (CET)
+Received: from localhost ([::1]:43326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhcKv-0005rZ-Dc
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 14:47:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60262)
+	id 1mhbkz-0004WW-AZ
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 14:10:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhb9W-0000Wz-IJ
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:31:22 -0400
-Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:37865)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhb9H-0001GO-9U
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:31:22 -0400
-Received: by mail-qk1-x736.google.com with SMTP id r8so3415539qkp.4
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 10:31:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=7lLZzifCuDAFtBOJRXRut8iWPXEYL/L2LC9pwY/6QWY=;
- b=Apt32m2gVLDak4Y+MuMtozXIIfonDVj5IwrO1VkBi+rBJ9jpg4W3DNcYEP5jaYboPH
- t3t1tvFa0cXUfnY8qAK/7J4RrOTYZE878N2QNACZ7LGfNthBO9owfqVEZjwvE5po5OMU
- 0F63iUApzxQLf+OwAG9RSGnGO8B1lQLk40T3oW5vMDkIYrKu5ONO++CpFWztBDWxDjaH
- 937aQTqK0ZxJJi4nUz2FWdqFQCYQtoTUJJh/DyMk6SyUaMbq907sfRTMMBkzukYkAFxF
- XVfSkCgKGUXvt2Bhb11wmXiM6f1xOu/SkZ449C+tD12kc7T62ahpLSg4UZ40LEYDLO5m
- qB+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=7lLZzifCuDAFtBOJRXRut8iWPXEYL/L2LC9pwY/6QWY=;
- b=KwPMCOB+CuM7bSjR0i+eIx7rNa2iPax+e1+r/202+FljTy/TdcjEmXxfadkz6U0V8h
- xkEP3hA+CSf0dr0k9v6ecWXe/QytXz1FVFYhYJdIAQ9WsoGHQz7COZJmRZypokQ7dYAb
- 4bCvN1qqZvumiotdIf/ur7URd7qWWydJ8bgY8j1dDsi01W9pB+bIxxff9uyG4tVIEsf4
- l9WVoVYV4kF/EejUdno85VoCSX/pbbMUwfOH5MpSKQHzUvK+jXPB/xYRauMDhCEa9fvR
- pfFTVV8P5b39l5S9qoMgYM5aTpEk4fIMFEYsZXgK8vl+cgQFmDxu7NPYbjD2VeFrAQti
- qcKw==
-X-Gm-Message-State: AOAM532td1QaSX3Q9D4MdEjowxj8M3sOc7LB4g0L/zzBggj1zXA1sqNa
- A4gmFUJDjoZ/ewuwIO5AxDqa9BlO8wdHjg==
-X-Google-Smtp-Source: ABdhPJz6EbPMSjjJR12O73DY51uKibIKg6P2kUgslPE9ltBTMbY93TBOZJLDvSICOm6zdNe++wzcEA==
-X-Received: by 2002:a37:b147:: with SMTP id a68mr25092790qkf.157.1635787866355; 
- Mon, 01 Nov 2021 10:31:06 -0700 (PDT)
-Received: from localhost.localdomain (rrcs-172-254-253-57.nyc.biz.rr.com.
- [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id 13sm1222289qkc.40.2021.11.01.10.31.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Nov 2021 10:31:06 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mhb99-0007lm-AP
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:30:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21220)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mhb95-0001Ax-7J
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:30:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635787853;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6FGn7kYJ8VtNsK9DPrVM2c2XkauyMqlasmvHdEO3EtQ=;
+ b=HzzJ2p6/EXJLCEO75YsDbWWtDMbuxFnV1xd0WJUffS/UmMVUxRUS+FgDM+Yxxn/kWJ5IW1
+ CPOBotpClE7bzPwpm9mPiMa7SBDW8P3fWdNkss0fCkez/Awox3lvgUx3M++K1wJ+h9nAex
+ SLWP+1BpkVe7+6c0++FzgbtgXJbj3DE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-159-IfmKNcywMaexBa14_FVxRA-1; Mon, 01 Nov 2021 13:30:50 -0400
+X-MC-Unique: IfmKNcywMaexBa14_FVxRA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE63019253C6;
+ Mon,  1 Nov 2021 17:30:48 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.11.188])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 431FD19C79;
+ Mon,  1 Nov 2021 17:30:11 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 60/60] linux-user: Handle BUS_ADRALN in host_signal_handler
-Date: Mon,  1 Nov 2021 13:27:29 -0400
-Message-Id: <20211101172729.23149-61-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211101172729.23149-1-richard.henderson@linaro.org>
-References: <20211101172729.23149-1-richard.henderson@linaro.org>
+Subject: [PULL 00/22] Python patches
+Date: Mon,  1 Nov 2021 13:29:44 -0400
+Message-Id: <20211101173006.656673-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x736.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,34 +73,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel Berrange <berrange@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Handle BUS_ADRALN via cpu_loop_exit_sigbus, but allow other SIGBUS
-si_codes to continue into the host-to-guest signal conversion code.
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- linux-user/signal.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index df2c8678d0..81c45bfce9 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -860,6 +860,9 @@ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
-             cpu_loop_exit_sigsegv(cpu, guest_addr, access_type, maperr, pc);
-         } else {
-             sigprocmask(SIG_SETMASK, &uc->uc_sigmask, NULL);
-+            if (info->si_code == BUS_ADRALN) {
-+                cpu_loop_exit_sigbus(cpu, guest_addr, access_type, pc);
-+            }
-         }
- 
-         sync_sig = true;
--- 
-2.25.1
+The following changes since commit af531756d25541a1b3b3d9a14e72e7fedd941a2e=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/philmd/tags/renesas-20211030' into =
+staging (2021-10-30 11:31:41 -0700)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  https://gitlab.com/jsnow/qemu.git tags/python-pull-request=0D
+=0D
+for you to fetch changes up to 76cd358671e6b8e7c435ec65b1c44200254514a9:=0D
+=0D
+  python, iotests: replace qmp with aqmp (2021-11-01 11:54:59 -0400)=0D
+=0D
+----------------------------------------------------------------=0D
+Pull request=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+John Snow (22):=0D
+  iotests/297: Move pylint config into pylintrc=0D
+  iotests/297: Split mypy configuration out into mypy.ini=0D
+  iotests/297: Add get_files() function=0D
+  iotests/297: Create main() function=0D
+  iotests/297: Don't rely on distro-specific linter binaries=0D
+  iotests/297: Split run_linters apart into run_pylint and run_mypy=0D
+  iotests/297: refactor run_[mypy|pylint] as generic execution shim=0D
+  iotests/297: Change run_linter() to raise an exception on failure=0D
+  iotests/297: update tool availability checks=0D
+  iotests/297: split test into sub-cases=0D
+  iotests: split linters.py out from 297=0D
+  iotests/linters: Add entry point for linting via Python CI=0D
+  iotests/linters: Add workaround for mypy bug #9852=0D
+  python: Add iotest linters to test suite=0D
+  python/machine: remove has_quit argument=0D
+  python/machine: Handle QMP errors on close more meticulously=0D
+  python/aqmp: Remove scary message=0D
+  iotests: Accommodate async QMP Exception classes=0D
+  iotests: Conditionally silence certain AQMP errors=0D
+  iotests/300: avoid abnormal shutdown race condition=0D
+  python/aqmp: Create sync QMP wrapper for iotests=0D
+  python, iotests: replace qmp with aqmp=0D
+=0D
+ python/qemu/aqmp/__init__.py              |  12 --=0D
+ python/qemu/aqmp/legacy.py                | 138 ++++++++++++++++++++++=0D
+ python/qemu/machine/machine.py            |  85 +++++++++----=0D
+ python/tests/iotests-mypy.sh              |   4 +=0D
+ python/tests/iotests-pylint.sh            |   4 +=0D
+ scripts/simplebench/bench_block_job.py    |   3 +-=0D
+ tests/qemu-iotests/040                    |   7 +-=0D
+ tests/qemu-iotests/218                    |   2 +-=0D
+ tests/qemu-iotests/255                    |   2 +-=0D
+ tests/qemu-iotests/297                    | 103 +++++++---------=0D
+ tests/qemu-iotests/300                    |  13 +-=0D
+ tests/qemu-iotests/iotests.py             |  20 +++-=0D
+ tests/qemu-iotests/linters.py             | 105 ++++++++++++++++=0D
+ tests/qemu-iotests/mypy.ini               |  12 ++=0D
+ tests/qemu-iotests/pylintrc               |  16 +++=0D
+ tests/qemu-iotests/tests/mirror-top-perms |  17 ++-=0D
+ 16 files changed, 424 insertions(+), 119 deletions(-)=0D
+ create mode 100644 python/qemu/aqmp/legacy.py=0D
+ create mode 100755 python/tests/iotests-mypy.sh=0D
+ create mode 100755 python/tests/iotests-pylint.sh=0D
+ create mode 100644 tests/qemu-iotests/linters.py=0D
+ create mode 100644 tests/qemu-iotests/mypy.ini=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
