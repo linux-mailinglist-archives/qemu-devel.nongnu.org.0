@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 106E7441D01
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 15:59:00 +0100 (CET)
-Received: from localhost ([::1]:36346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B3E6441D07
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 16:01:01 +0100 (CET)
+Received: from localhost ([::1]:39102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhYm3-0004ZI-4L
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 10:58:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50702)
+	id 1mhYo0-0006ZO-2Z
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 11:01:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mhYkk-00038K-Fg
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 10:57:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39061)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mhYkf-00075r-LQ
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 10:57:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635778651;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4Mblxb1wh+KnaolodSOSGzXWbSArklFFsPhh6HXS3i0=;
- b=A4K4aV+g938ZvZGy5ak5d2srIjMzzqoxG1T5QLYQrpkwrCG2aT7blncxKTVd0AuSkQn1l/
- xiZbwUZbRtUxfnRWExFilAZEd3BjocudJ+xcxk9K4SDVfMbNJxo1I27MzFRhNaNKrwTuS6
- iWeN/0w/X4S0ApdoxJKDxiNq5h0dL20=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-283-Yy_WdHpYMpShM5dRUhoCHw-1; Mon, 01 Nov 2021 10:57:23 -0400
-X-MC-Unique: Yy_WdHpYMpShM5dRUhoCHw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A2AE872FF1
- for <qemu-devel@nongnu.org>; Mon,  1 Nov 2021 14:57:22 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.164])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AD7875C1CF;
- Mon,  1 Nov 2021 14:57:20 +0000 (UTC)
-Date: Mon, 1 Nov 2021 14:57:17 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Michal =?utf-8?B?UHLDrXZvem7DrWs=?= <mprivozn@redhat.com>
-Subject: Re: [PATCH] qmp: Stabilize preconfig
-Message-ID: <YYAATW1JQmzpDPhu@redhat.com>
-References: <b31f442d28920447690a6b8cee865bdbacde1283.1635160056.git.mprivozn@redhat.com>
- <87bl3dfg9v.fsf@dusky.pond.sub.org>
- <bb896561-9d0c-6c6c-4bdb-5e7ef5ed71d5@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mhYl8-00049S-18
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 10:58:02 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:51740)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mhYl5-00079B-05
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 10:58:01 -0400
+Received: by mail-wm1-x336.google.com with SMTP id z200so12651380wmc.1
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 07:57:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xFPfbKPygkpzz0T1y1/2uxk+aU50Ktnft1tY5SeGrdA=;
+ b=TITv8CjiaBNrYZUU2+Z8abaj0gZtbVc1tUT+3YuV76pwYfoYjy403bHZDHZIVgCr3o
+ tEisrZQuUzHvy5M+1ML4ZQQPkhxp7yIFHs5CRLDk9skTf2QgDNdW7e2JT6EmQa6f4eom
+ rfV7xkmKUBKO8m6B6FHPm6sfTH9vA6PTLhgTohbasOeE+dPGHU2S48L1fKLoRBT4iisW
+ UrprtV7kckysS8oVCmmv4zF8HgT09hC/PRfqOieiX4cZT7W29mw7DE0baoJKl6m9YAgV
+ EyXMO5+My0UuuPdEwOihTpg2BH5DswthVGlmVrV/5Z845jCO7FXsAThiBa8MkqEqtil+
+ KUng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xFPfbKPygkpzz0T1y1/2uxk+aU50Ktnft1tY5SeGrdA=;
+ b=HLi2YNaPUa+C/Oz3ZUvCU9a6DVdvTYK0LI1M7jFYJgmKcmk3SMHqPLwRqNc+ke/ikG
+ WttLHGc+CrS+bVCOg57cmoAxV3EALHiK1FG8Dezd1IXNZcqYuDbJ6Q7Wor9AfqdkXakB
+ 9h770aaU8ru7w3F5GCQsh8d7zqp5TZBdsTEcfDyVE25gRoHUnujDKAqkTM+vNPB/GRYg
+ H3x1EGAT70uZtekvfbL4nToOFxfRNkKBQkgqrFiTYPmDo8bqMqLLerrBdD+raSLbmZM0
+ wKtdTMp+PJ+2eiEeTDCm5fXZUy36Du599gv3aPAukgig3Ag3UPH6y7MdyXKHXhkq8Yzs
+ jN1Q==
+X-Gm-Message-State: AOAM530M4GxvoQFW67K+5XYUI84228UjTqY4MBuzYl9ZKIS/8grehTX1
+ PFhJDuSVJEkW0TDvKQMij68bEDdwMNTeh0nw4xTqKDERcrg=
+X-Google-Smtp-Source: ABdhPJxHuXpKKlrnyGYAt8j/QP/VJAu5MUl7ApiuwLJ2yGwi8qZ/wPnmy4q5x3J2/eoayMjMvQJGlIdboy0M3HrXpC4=
+X-Received: by 2002:a7b:c389:: with SMTP id s9mr20444949wmj.133.1635778677544; 
+ Mon, 01 Nov 2021 07:57:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <bb896561-9d0c-6c6c-4bdb-5e7ef5ed71d5@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20211019090344.3054300-1-kchamart@redhat.com>
+ <20211019090344.3054300-7-kchamart@redhat.com>
+In-Reply-To: <20211019090344.3054300-7-kchamart@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Nov 2021 14:57:46 +0000
+Message-ID: <CAFEAcA9qLe9dZmPQjm=eA-VFYnR8Hks0kmMNnyDpQF6mJg+RvA@mail.gmail.com>
+Subject: Re: [PATCH v2 6/6] docs/devel: Update the rST index file
+To: Kashyap Chamarthy <kchamart@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,95 +77,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
+ Eric Blake <eblake@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
+ Laurent Vivier <Laurent@vivier.eu>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 01, 2021 at 03:37:58PM +0100, Michal Prívozník wrote:
-> On 10/25/21 2:19 PM, Markus Armbruster wrote:
-> > Michal Privoznik <mprivozn@redhat.com> writes:
-> > 
-> >> The -preconfig option and exit-preconfig command are around for
-> >> quite some time now. However, they are still marked as unstable.
-> >> This is suboptimal because it may block some upper layer in
-> >> consuming it. In this specific case - Libvirt avoids using
-> >> experimental features.
-> >>
-> >> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
-> > 
-> > If I remember correctly, the motivation for -preconfig was NUMA
-> > configuration via QMP.  More uses may have appeared since.
-> > 
-> > Back then, I questioned the need for yet another option and yet another
-> > state: why not -S?
-> > 
-> > The answer boiled down to
-> > 
-> > 0. Yes, having just one would be a simpler and cleaner interface, but
-> > 
-> > 1. the godawful mess QEMU startup has become makes -S unsuitable for
-> >    some things we want to do, so we need -preconfig,
-> > 
-> > 2. which is in turn unsuitable for other things we want to do, so we
-> >    still need -S".
-> > 
-> > 3. Cleaning up the mess to the point where "simpler and cleaner" becomes
-> >    viable again is not in the cards right now.
-> 
-> I see a difference between the two. -preconfig starts QEMU in such a way
-> that its configuration can still be changed (in my particular use case
-> vCPUs can be assigned to NUMA nodes), while -S does not allow that. If
-> we had one state for both, then some commands must be forbidden from
-> executing as soon as 'cont' is issued. Moreover, those commands would
-> need to do much more than they are doing now (e.g. regenerate ACPI table
-> after each run). Subsequently, validating configuration would need to be
-> postponed until the first 'cont' because with just one state QEMU can't
-> know when the last config command was issued.
-> 
-> Having said all of that, I'm not sure if -preconfig is the way to go or
-> we want to go the other way. I don't have a strong opinion.
+On Tue, 19 Oct 2021 at 10:04, Kashyap Chamarthy <kchamart@redhat.com> wrote:
+>
+> Add the entries for contributing-related rSTified wiki docs.
+>
+> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
+> ---
+>  docs/devel/index.rst | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+> index f95df10b3e..f7bec644f3 100644
+> --- a/docs/devel/index.rst
+> +++ b/docs/devel/index.rst
+> @@ -45,3 +45,8 @@ modifying QEMU's source code.
+>     vfio-migration
+>     qapi-code-gen
+>     writing-qmp-commands
+> +   trivial-patches
+> +   spell-check
+> +   key-signing-party
+> +   submitting-a-pull-request
+> +   submitting-a-patch
 
-It feels like the scenario here is really just a specialization of the
-more general problem we want to be able to solve. Namely, we want to be
-able to start a bare QEMU and configure it entirely on the fly. IOW, we
-are really targetting for -preconfig to be able to do /all/ configuration,
-and with a new ELF binary, at which point -preconfig wouldn't exist, it
-would be the implicit default.
+You should update the index.rst in the same patch in which you
+add the new .rst file. Otherwise Sphinx will complain about
+orphan files if you do a build at the commit where the file
+was added but before the index.rst was updated.
 
-Libvirt primarily uses -S because it needs to query various aspects of
-QEMU's config before CPUs start executing, while QEMU can still be
-considered trustworthy (as it hasn't executed untrusted guest code 
-yet). eg we query vCPU PIDs so that we can apply CPU pinning to them. 
-We query the CPU model features so we can reflect what exact CPU 
-features we got from KVM. There are various other examples.
-
-I don't see this as inherantly tied to the -S option from a conceptual
-POV. We do have some ordering constraints, but they are not as crude
-as -preconfig / -S.  For querying vCPU PIDs, we have a constraint that
-the accelerator and machine objects must have been created. For querying
-CPU models, we have a similar constraint.  IOW, libvirt should be fine
-with doing /everything/ in a hypothetical -preconfig state, provided
-that we know about the ordering constraints wrt object creation.
-
-
-The secondary reason we use -S is that sometimes the mgmt app does
-not actually want the guest CPUs to start running - they actively
-want it in a paused state initially and will manually start CPUs
-later. One reason is to enable them to open the serial console
-backend before CPUs start, to guarantee that no console output is
-lost in that small startup window.  This is really the original
-purpose of -S.  This doesn't imply a need for -S. I'd say that
--preconfig should essentially imply -S by default. If you're
-already doing lots of things via QMP, being required to issue
-a 'cont' command is no hardship.
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+-- PMM
 
