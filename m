@@ -2,69 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 509D8441D25
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 16:08:29 +0100 (CET)
-Received: from localhost ([::1]:45566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF8D441D36
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 16:12:42 +0100 (CET)
+Received: from localhost ([::1]:48428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhYvD-0002q7-QT
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 11:08:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53468)
+	id 1mhYzK-00054U-2D
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 11:12:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mhYu0-0002An-9k
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 11:07:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27766)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mhYxG-0003lD-6d; Mon, 01 Nov 2021 11:10:36 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:50073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mhYtw-0003AL-Ah
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 11:07:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635779227;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=tCFRTnjI9NcCz38ozhwvHEBDZZo7P4BbBzK4j65LG/s=;
- b=cxf6Rwgn4G2iq+oHDj96HF2ebVlDDhSRdFNXnKLKOzfaS0upNsrvk5bYxDi9f4MyNW+hLZ
- rbNIQYS9UBRyCJlpyntwCaw0PN8WD72+ylUJIhYA5iBjg1G1T+NGZWoA8avFWY8am3T9Zb
- Q/7r78/8wqZh732sv1gRyXdpSHZEdWA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295--f1tN5hRP9WaKZ9bNDpdcA-1; Mon, 01 Nov 2021 11:07:03 -0400
-X-MC-Unique: -f1tN5hRP9WaKZ9bNDpdcA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E1F0BD520;
- Mon,  1 Nov 2021 15:07:02 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.164])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0769E60C17;
- Mon,  1 Nov 2021 15:07:00 +0000 (UTC)
-Date: Mon, 1 Nov 2021 15:06:58 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: meson complains about "broken python installation"
-Message-ID: <YYACktMpIIswE9Zi@redhat.com>
-References: <CAFEAcA_UiCrYEkv3uC_6VD9mY3jzKY+ziKTxSE4ydDbHd4U5vw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mhYxB-0004lv-LX; Mon, 01 Nov 2021 11:10:31 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 1B62D75604C;
+ Mon,  1 Nov 2021 16:10:24 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id F0D02748F5A; Mon,  1 Nov 2021 16:10:23 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH] ppc/pegasos2: Suppress warning when qtest enabled
+Date: Mon, 01 Nov 2021 16:08:31 +0100
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_UiCrYEkv3uC_6VD9mY3jzKY+ziKTxSE4ydDbHd4U5vw@mail.gmail.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To: qemu-devel@nongnu.org,
+    qemu-ppc@nongnu.org
+Message-Id: <20211101151023.F0D02748F5A@zero.eik.bme.hu>
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,58 +51,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 01, 2021 at 02:53:44PM +0000, Peter Maydell wrote:
-> At some point in the last month a meson change landed, and now
-> when meson runs it complains:
-> 
->  WARNING: Broken python installation detected. Python files installed
->  by Meson might not be found by python interpreter.
-> 
-> There's nothing in the meson log here that says what it's
-> complaining about:
-> 
-> 
-> Build machine cpu: x86_64
-> Host machine cpu family: x86_64
-> Host machine cpu: x86_64
-> Target machine cpu family: x86_64
-> Target machine cpu: x86_64
-> Program sh found: YES (/bin/sh)
-> Program python3 found: YES (/usr/bin/python3)
-> WARNING: Broken python installation detected. Python files installed
-> by Meson might not be found by python interpreter.
-> Program bzip2 found: YES (/bin/bzip2)
-> Sanity testing C++ compiler: c++ -m64 -mcx16
-> Is cross compiler: False.
-> 
-> I didn't pass any --python option to configure, and this is
-> a fresh build in a newly created build directory. Host is
-> x86-64 Ubuntu 18.04.6 LTS (bionic). /usr/bin/python is
-> Python 2.7.17 (which we do not use) and /usr/bin/python3
-> is Python 3.6.9.
-> 
-> Any idea what meson is complaning about ?
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/ppc/pegasos2.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-The source code emitting this warning message has a comment
-pointing to:
-
-  https://github.com/mesonbuild/meson/issues/8739
-
-It seems that there is something broken about Python on Debian but
-can't say i especially understand the bug report discussion there.
-
-
-Regards,
-Daniel
+diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+index e427ac2fe0..298e6b93e2 100644
+--- a/hw/ppc/pegasos2.c
++++ b/hw/ppc/pegasos2.c
+@@ -23,6 +23,7 @@
+ #include "hw/qdev-properties.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
++#include "sysemu/qtest.h"
+ #include "hw/boards.h"
+ #include "hw/loader.h"
+ #include "hw/fw-path-provider.h"
+@@ -199,7 +200,7 @@ static void pegasos2_init(MachineState *machine)
+         if (!pm->vof) {
+             warn_report("Option -kernel may be ineffective with -bios.");
+         }
+-    } else if (pm->vof) {
++    } else if (pm->vof && !qtest_enabled()) {
+         warn_report("Using Virtual OpenFirmware but no -kernel option.");
+     }
+ 
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.21.4
 
 
