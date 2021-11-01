@@ -2,49 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31BB84411D8
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 02:38:43 +0100 (CET)
-Received: from localhost ([::1]:47524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE904411CE
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 02:19:21 +0100 (CET)
+Received: from localhost ([::1]:58676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhMHZ-0002bv-5h
-	for lists+qemu-devel@lfdr.de; Sun, 31 Oct 2021 21:38:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44744)
+	id 1mhLyq-0007Nv-A3
+	for lists+qemu-devel@lfdr.de; Sun, 31 Oct 2021 21:19:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mhM7I-0004Wp-KK; Sun, 31 Oct 2021 21:28:04 -0400
-Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:49287)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mhM76-0001kE-OD; Sun, 31 Oct 2021 21:28:04 -0400
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HjFlM6ypWz4xbw; Mon,  1 Nov 2021 12:27:43 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1635730063;
- bh=cT0ATujkCxa+OkeeQ1CvMaXkEdRK8K1tRO2yI2VHAB8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MN/Zlp4alTZ2z6H3bb6tGCwxKEPJcVVIU+pDFIzdz386tKhLP24dC9SQfZXtv/I57
- okjJflFX5uJl3NDoakpApvDtp5Mh466IuKxTHuOjKETZZlDMYsKtX9yL2u/ojCIAaO
- PYFS9wxdPLvAXmXaVTRSNd0OO7hA/SLtdt6JFcpo=
-Date: Mon, 1 Nov 2021 11:24:11 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Luis Pires <luis.pires@eldorado.org.br>
-Subject: Re: [PATCH v5 00/15] target/ppc: DFP instructions using decodetree
-Message-ID: <YX8zq+XFYuDFCbp5@yekko>
-References: <20211029192417.400707-1-luis.pires@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <sjg@chromium.org>) id 1mhLxQ-00064e-1g
+ for qemu-devel@nongnu.org; Sun, 31 Oct 2021 21:17:52 -0400
+Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:38636)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <sjg@chromium.org>) id 1mhLxN-00051M-88
+ for qemu-devel@nongnu.org; Sun, 31 Oct 2021 21:17:51 -0400
+Received: by mail-io1-xd30.google.com with SMTP id v65so19709214ioe.5
+ for <qemu-devel@nongnu.org>; Sun, 31 Oct 2021 18:17:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aHQCKbgdBi/VpqRMvZvRmQBf96l2TrMFAgEVLDV/9Fc=;
+ b=L/fpr8qsFmkmGl9qwHVOuXFOwZm3gCWLN7dLULbgZq6tlel78ICYWUyT+RO7zY4vfm
+ P0CS9xHOAZu/3H8e1qk4WbTif1DsL5t2FnvjTbZ9DD0D+KHIKUrreFwc54gukOxg9N5n
+ HT143h6foDAuub+UV34YW56hFeF6E4vZBQN44=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aHQCKbgdBi/VpqRMvZvRmQBf96l2TrMFAgEVLDV/9Fc=;
+ b=cUi2egNaHCLAQR4Q9+aqs5k2QnWYFe7N+tZDN1n9M66yCre1fQlpqFNGG3RKD6tfwb
+ 9WMC8wdcYkWpldx6b3i7LMSa2FMB7gPld3ecPVKw++34fzYMW+A55C6T10Cce3fQbque
+ SgIHuDYVNGULMBW4JYyAWA4BNRm4NRIIBdhjHzZyrs13w2IzH3ogmS4+91Ud4kd2xZ2M
+ ufdY/5X8rVeehJHAZdHzSMh1kazAT/93JMXNmX35mAXc/p4bkxOxFzA+uQDb35fBrX3J
+ nXn/YjAg7qgArF1YoCw/RE24+ggtBbnVY4RQx9vQ1ig69l6ZPlDEXM9/wCZKFRy70yDF
+ 5MSA==
+X-Gm-Message-State: AOAM531rCBqkTdg8gNH75YJCY1PPrRVHaRKFguWe02tCSM+fDET4Xp3i
+ Kkq0jEvH4fWKkBctyv2YiGFfFA==
+X-Google-Smtp-Source: ABdhPJzvpwgZ3Rxq+XU7vJ4PELhglUb5r/MMAIWOoYHbz2m0PCagdeBJjSlLTH6/9FfEkd+TMc99VA==
+X-Received: by 2002:a05:6602:3281:: with SMTP id
+ d1mr19027660ioz.84.1635729466680; 
+ Sun, 31 Oct 2021 18:17:46 -0700 (PDT)
+Received: from kiwi.bld.corp.google.com (c-67-190-101-114.hsd1.co.comcast.net.
+ [67.190.101.114])
+ by smtp.gmail.com with ESMTPSA id f11sm4351109ilu.82.2021.10.31.18.17.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 31 Oct 2021 18:17:45 -0700 (PDT)
+From: Simon Glass <sjg@chromium.org>
+To: U-Boot Mailing List <u-boot@lists.denx.de>
+Subject: [PATCH 00/31] passage: Define a standard for firmware data flow
+Date: Sun, 31 Oct 2021 19:17:02 -0600
+Message-Id: <20211101011734.1614781-1-sjg@chromium.org>
+X-Mailer: git-send-email 2.33.1.1089.g2158813163f-goog
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="PRVKGcy0jM2cn9xf"
-Content-Disposition: inline
-In-Reply-To: <20211029192417.400707-1-luis.pires@eldorado.org.br>
-Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: 1
-X-Spam_score: 0.1
-X-Spam_bar: /
-X-Spam_report: (0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
+ envelope-from=sjg@chromium.org; helo=mail-io1-xd30.google.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.736,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,135 +78,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- groug@kaod.org
+Cc: Marek Vasut <marex@denx.de>, Tom Rini <trini@konsulko.com>,
+ Albert Aribaud <albert.u.boot@aribaud.net>,
+ =?UTF-8?q?Fran=C3=A7ois=20Ozog?= <francois.ozog@linaro.org>,
+ Heinrich Schuchardt <xypron.glpk@gmx.de>, Bill Mills <bill.mills@linaro.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, qemu-devel@nongnu.org,
+ Masahiro Yamada <yamada.masahiro@socionext.com>,
+ Jerry Van Baren <vanbaren@cideas.com>,
+ Pavel Herrmann <morpheus.ibis@gmail.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Simon Glass <sjg@chromium.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---PRVKGcy0jM2cn9xf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This series adds a standard way of passing information between different
+firmware phases. This already exists in U-Boot at a very basic level, in
+the form of a bloblist containing an spl_handoff structure, but the intent
+here is to define something useful across projects.
 
-On Fri, Oct 29, 2021 at 04:24:02PM -0300, Luis Pires wrote:
-> This series moves all existing DFP instructions to decodetree and
-> implements the 2 new instructions (dcffixqq and dctfixqq) from
-> Power ISA 3.1.
->=20
-> In order to implement dcffixqq, divu128/divs128 were modified to
-> support 128-bit quotients (previously, they were limited to 64-bit
-> quotients), along with adjustments being made to their existing callers.
-> libdecnumber was also expanded to allow creating decimal numbers from
-> 128-bit integers.
->=20
-> Similarly, for dctfixqq, mulu128 (host-utils) and decNumberIntegralToInt1=
-28
-> (libdecnumber) were introduced to support 128-bit integers.
->=20
-> The remaining patches of this series move all of the already existing
-> DFP instructions to decodetree, and end up removing dfp-ops.c.inc, which
-> is no longer needed.
+The need for this is growing as firmware fragments into multiple binaries
+each with its own purpose. Without any run-time connection, we must rely
+on build-time settings which are brittle and painful to keep in sync.
 
-Applied to ppc-for-6.2, thanks.
+This feature is named 'standard passage' since the name is more unique
+than many others that could be chosen, it is a passage in the sense that
+information is flowing from one place to another and it is standard,
+because that is what we want to create.
 
->=20
-> ---
->=20
-> I'm resending this series because I missed adding a R-b tag on one
-> of the commits in v4. I also dropped patches that were already applied and
-> rebased against master.
->=20
-> All of these patches are reviewed and ready to be applied.
->=20
-> Changes in v5:
-> - Rebased against master
-> - Skipped patches that were already applied (v4 1-4)
->=20
-> Changes in v4:
-> - Rebased against dgibson/ppc-for-6.2
-> - Skipped patches that were already applied (v3 1-4)
-> - Changed divu128/divs128 to return the remainder (rth)
-> - Moved changes that drop nip updates to a separate patch (rth)
->=20
-> Changes in v3:
-> - Split the uabs64 patch in 2
-> - Included patch to fix missing zero-extension in divs128
-> - Folded divisor =3D=3D 0 into the dhi =3D=3D 0 case in divu128
-> - Moved udiv_qrnnd from softfloat-macros.h to host-utils.h
-> - Used udiv_qrnnd in divu128
-> - Replaced int with bool in divs128
-> - Added unit test to check the divisor normalization in divu128
-> - Removed 'inline' from times_* functions in ppc/translate.c
-> - Used uadd64_overflow in mulu128
-> - Removed unnecessary 'else' from decNumberIntegralToInt128
->=20
-> Changes in v2:
-> - Renamed abs64() to uabs64()
->=20
-> Bruno Larsen (1):
->   target/ppc: Move REQUIRE_ALTIVEC/VECTOR to translate.c
->=20
-> Fernando Valle (1):
->   target/ppc: Introduce REQUIRE_FPU
->=20
-> Luis Pires (13):
->   libdecnumber: introduce decNumberFrom[U]Int128
->   target/ppc: Implement DCFFIXQQ
->   host-utils: Introduce mulu128
->   libdecnumber: Introduce decNumberIntegralToInt128
->   target/ppc: Implement DCTFIXQQ
->   target/ppc: Do not update nip on DFP instructions
->   target/ppc: Move dtstdc[q]/dtstdg[q] to decodetree
->   target/ppc: Move d{add,sub,mul,div,iex}[q] to decodetree
->   target/ppc: Move dcmp{u,o}[q],dts{tex,tsf,tsfi}[q] to decodetree
->   target/ppc: Move dquai[q], drint{x,n}[q] to decodetree
->   target/ppc: Move dqua[q], drrnd[q] to decodetree
->   target/ppc: Move dct{dp,qpq},dr{sp,dpq},dc{f,t}fix[q],dxex[q] to
->     decodetree
->   target/ppc: Move ddedpd[q],denbcd[q],dscli[q],dscri[q] to decodetree
->=20
->  include/libdecnumber/decNumber.h       |   4 +
->  include/libdecnumber/decNumberLocal.h  |   2 +-
->  include/qemu/host-utils.h              |  36 +++
->  libdecnumber/decContext.c              |   7 +-
->  libdecnumber/decNumber.c               | 131 ++++++++
->  target/ppc/dfp_helper.c                | 168 +++++++---
->  target/ppc/helper.h                    | 106 ++++---
->  target/ppc/insn32.decode               | 171 ++++++++++
->  target/ppc/translate.c                 |  23 +-
->  target/ppc/translate/dfp-impl.c.inc    | 419 ++++++++++++-------------
->  target/ppc/translate/dfp-ops.c.inc     | 165 ----------
->  target/ppc/translate/vector-impl.c.inc |  10 +-
->  12 files changed, 747 insertions(+), 495 deletions(-)
->  delete mode 100644 target/ppc/translate/dfp-ops.c.inc
->=20
+The implementation is simply a pointer to a bloblist in a register, with
+an extra register to point to a devicetree, for more complex data, if one
+is present in the bloblist. This should cover all cases (small memory
+footprint as well as complex data flow) and be easy enough to implement on
+all architectures.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+The core bloblist code is relicensed to BSD-3-Clause in case it is useful
+in non-GPL projects but there is no requirement to use the same code.
 
---PRVKGcy0jM2cn9xf
-Content-Type: application/pgp-signature; name="signature.asc"
+This series includes tweaks to the bloblist implementation in U-Boot to
+make it more suitable for the task, including:
 
------BEGIN PGP SIGNATURE-----
+   - Allocate tags explicitly in the enum
+   - Put the magic number first
+   - Define a process for adding tags
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmF/M6sACgkQbDjKyiDZ
-s5Ld4xAAh7V8vM0Q8pfhu9zTjFoD9hPFmywbYUiCF0IyzZJiBFCFqw0GP7rgwuuv
-NMmqbaXFGav/q9iRlNhLKWwyyo+FcC+AXFMTNMLGd47p4Lup1U5tC+r6QXYVe8F9
-qV6ml5+TLkM3URniqDlP3qkGhzjPAgDwcS9vhnzOl83p4sD0SOof7zdd6cjFGOlE
-dUyLml+YPC+VUDnXYk7cPi2z1lOdFacAubFMDnTYqisG4QVD+lZ9v0ns7YDcefB2
-OjRbuBH9+ObQk2eKKn4N6NiggRNwTsUtvwztMMFAa+3cBXEzdyBdrJD5fYNUA0pQ
-n5pYqH2pgpcAPTCRvj6d2tGw7rlGu4LnNjiJiUomERha35xgNLIivx9oh8i7DtqB
-hiGgc01QhtNeQUshb+pGKb2Heq3J8cbrpuOm92El/TQSSHZhV/5oZF/YMxUzECD2
-n5LuzLfUY8jTnM9tMGM/TgnetFDk2t25IwN//pSzXzkBjn6EniZdaIZc9SH7DT5a
-YA288KNOGONSOP26jNm+YEnLDWJvISF4+KdezeCdl2xIbawN7ipbwW+/OF3ogjjl
-8X+sNR9A89i6MZo3silCzAzHDmsCMFA10wXEG6MF7KlxmRhyv4xBLVZlo9TR7wTe
-iZZI8ofcES8o1yB/aR1ctP35gZnM0SDlAsP/qttf9uHj3vCcuwo=
-=hCh9
------END PGP SIGNATURE-----
+The emphasis is on enabling open communcation between binaries, not
+enabling passage of secret, undocumented data, although this is possible
+in a private environment.
 
---PRVKGcy0jM2cn9xf--
+This series is built on the OF_BOARD series It is available at
+u-boot-dm/pass-working or:
+
+https://source.denx.de/u-boot/custodians/u-boot-dm/-/commit/073b5c156f222c69a98b8ebcaa563d1ff10eb217
+
+
+Simon Glass (31):
+  Makefile: Correct TPL rule for OF_REAL
+  kconfig: Add support for conditional values
+  dm: core: Allow getting some basic stats
+  stddef: Avoid warning with clang with offsetof()
+  fdt: Drop SPL_BUILD macro
+  bloblist: Put the magic number first
+  bloblist: Rename the SPL tag
+  bloblist: Drop unused tags
+  bloblist: Use explicit numbering for the tags
+  bloblist: Support allocating the bloblist
+  bloblist: Use LOG_CATEGORY to simply logging
+  bloblist: Use 'phase' consistently for bloblists
+  bloblist: Refactor Kconfig to support alloc or fixed
+  arm: qemu: Add an SPL build
+  bloblist: Add functions to obtain base address and size
+  passage: Support an incoming passage
+  passage: Support a control devicetree
+  passage: arm: Accept a passage from the previous phase
+  passage: spl: Support adding the dtb to the passage bloblist
+  passage: spl: Support passing the passage to U-Boot
+  passage: Record where the devicetree came from
+  passage: Report the devicetree source
+  passage: Add a qemu test for ARM
+  bloblist: doc: Bring in the API documentation
+  bloblist: Relicense to allow BSD-3-Clause
+  sandbox: Add a way of checking structs for standard passage
+  passage: Add documentation
+  passage: Add docs for spl_handoff
+  x86: Move Intel GNVS file into the common include directory
+  passage: Add checks for pre-existing blobs
+  WIP: RFC: Add a gitlab test
+
+ .gitlab-ci.yml                                |   6 +
+ MAINTAINERS                                   |  10 +
+ Makefile                                      |   2 +-
+ arch/arm/cpu/armv7/start.S                    |   7 +-
+ arch/arm/dts/qemu-arm-u-boot.dtsi             |  22 ++
+ arch/arm/lib/crt0.S                           |   4 +
+ arch/arm/mach-qemu/Kconfig                    |   9 +
+ arch/sandbox/cpu/spl.c                        |   2 +-
+ arch/x86/cpu/apollolake/acpi.c                |   2 +-
+ arch/x86/cpu/broadwell/cpu_from_spl.c         |   4 +-
+ arch/x86/cpu/intel_common/acpi.c              |   2 +-
+ .../include/asm/arch-apollolake/global_nvs.h  |   2 +-
+ arch/x86/lib/spl.c                            |   2 +-
+ arch/x86/lib/tpl.c                            |   2 +-
+ board/emulation/qemu-arm/Kconfig              |  23 +-
+ board/emulation/qemu-arm/MAINTAINERS          |   1 +
+ board/emulation/qemu-arm/Makefile             |   1 +
+ board/emulation/qemu-arm/spl.c                |  27 ++
+ board/google/chromebook_coral/coral.c         |   2 +-
+ board/sandbox/Makefile                        |   3 +-
+ board/sandbox/stdpass_check.c                 | 107 ++++++
+ cmd/bdinfo.c                                  |   2 +
+ common/Kconfig                                | 161 ++++++++-
+ common/bloblist.c                             | 124 +++++--
+ common/board_f.c                              |  48 ++-
+ common/board_r.c                              |  18 +
+ common/spl/spl.c                              |  74 +++-
+ configs/qemu_arm_spl_defconfig                |  78 +++++
+ doc/board/emulation/qemu-arm.rst              |  38 +++
+ doc/develop/bloblist.rst                      |  28 +-
+ doc/develop/index.rst                         |   1 +
+ doc/develop/std_passage.rst                   | 319 ++++++++++++++++++
+ drivers/core/device.c                         |  11 +
+ drivers/core/root.c                           |   7 +
+ drivers/core/uclass.c                         |  13 +
+ drivers/serial/serial-uclass.c                |   3 +-
+ dts/Kconfig                                   |  12 +
+ include/asm-generic/global_data.h             |  35 ++
+ include/bloblist.h                            | 175 +++++++---
+ include/dm/device.h                           |  11 +-
+ include/dm/root.h                             |   8 +
+ include/dm/uclass-internal.h                  |   7 +
+ include/fdtdec.h                              |  40 ++-
+ include/handoff.h                             |   8 +-
+ .../x86/include/asm => include}/intel_gnvs.h  |   0
+ include/linux/kconfig.h                       |  18 +
+ include/linux/stddef.h                        |   8 +-
+ include/spl.h                                 |  15 +
+ include/stdpass/README                        |   4 +
+ include/stdpass/tpm2_eventlog.h               |  42 +++
+ include/stdpass/vboot_ctx.h                   | 267 +++++++++++++++
+ lib/asm-offsets.c                             |   5 +
+ lib/fdtdec.c                                  |  65 +++-
+ scripts/config_whitelist.txt                  |   1 +
+ test/bloblist.c                               |  21 +-
+ test/dm/core.c                                |  41 +++
+ test/py/tests/test_passage.py                 |  11 +
+ 57 files changed, 1798 insertions(+), 161 deletions(-)
+ create mode 100644 arch/arm/dts/qemu-arm-u-boot.dtsi
+ create mode 100644 board/emulation/qemu-arm/spl.c
+ create mode 100644 board/sandbox/stdpass_check.c
+ create mode 100644 configs/qemu_arm_spl_defconfig
+ create mode 100644 doc/develop/std_passage.rst
+ rename {arch/x86/include/asm => include}/intel_gnvs.h (100%)
+ create mode 100644 include/stdpass/README
+ create mode 100644 include/stdpass/tpm2_eventlog.h
+ create mode 100644 include/stdpass/vboot_ctx.h
+ create mode 100644 test/py/tests/test_passage.py
+
+-- 
+2.33.1.1089.g2158813163f-goog
+
 
