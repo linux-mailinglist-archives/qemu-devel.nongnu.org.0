@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E63A441FDF
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 19:18:13 +0100 (CET)
-Received: from localhost ([::1]:55182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 491BE44203B
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 19:44:05 +0100 (CET)
+Received: from localhost ([::1]:50354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhbsp-0004sO-Qj
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 14:18:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60082)
+	id 1mhcHs-0007jP-At
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 14:44:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mhb9E-000832-TF
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:31:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53343)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mhb9N-0008VB-15
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:31:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60919)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mhb9C-0001DW-LY
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:31:04 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mhb9L-0001HF-5Q
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:31:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635787861;
+ s=mimecast20190719; t=1635787870;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QhUXOoOWxzPAZji1INAECdkm15KNkMJuh/rHhC/QTMs=;
- b=aq6883vRWZJWwcmQGexMqHkoL/fr/Sx0DsGnWeoUnxgf3CS+JYuvsbs8RS/QmiSFc/vQva
- z6B6EISoSmGC23yCvIIpWy5Mc2BLk2DgSuriJ6eJK8wyDrCqYbQ1RorIfGD0jqnKVjH3Iv
- MlLQYMwbk9ooJJWEiIGseaqHr1ZyEDQ=
+ bh=5/CzatqaI60Qc34fOp18eWhW5bFEc2LB3IPyDH6H9j0=;
+ b=RCtZ5idXlzXMC6Yy3g/V6s+sGX4zBYw2nhtT7/ayvlxBAvvKmeiTu4O+2FThw87mOUnUtZ
+ AMbnZHgC4JSu3onMg6HRTzPMZ36/95X5H2Afst2fb0aO2jULPnldXruNHpicb3pm7pqy+C
+ vgPBGt0vPdJqspI0fRHrMbu78n7tbZ0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-oNjJJJ95Mkqf3TpWy1oIGQ-1; Mon, 01 Nov 2021 13:30:58 -0400
-X-MC-Unique: oNjJJJ95Mkqf3TpWy1oIGQ-1
+ us-mta-243-wDh55ZfdNkawM3RMh9oadQ-1; Mon, 01 Nov 2021 13:31:07 -0400
+X-MC-Unique: wDh55ZfdNkawM3RMh9oadQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F8A78C7AC0;
- Mon,  1 Nov 2021 17:30:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D2F58C7AC0;
+ Mon,  1 Nov 2021 17:31:06 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6A99C19C79;
- Mon,  1 Nov 2021 17:30:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9B47619C79;
+ Mon,  1 Nov 2021 17:30:57 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/22] iotests/297: Move pylint config into pylintrc
-Date: Mon,  1 Nov 2021 13:29:45 -0400
-Message-Id: <20211101173006.656673-2-jsnow@redhat.com>
+Subject: [PULL 02/22] iotests/297: Split mypy configuration out into mypy.ini
+Date: Mon,  1 Nov 2021 13:29:46 -0400
+Message-Id: <20211101173006.656673-3-jsnow@redhat.com>
 In-Reply-To: <20211101173006.656673-1-jsnow@redhat.com>
 References: <20211101173006.656673-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,62 +89,61 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move --score=n and --notes=XXX,FIXME into pylintrc. This pulls
-configuration out of code, which I think is probably a good thing in
-general.
+More separation of code and configuration.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-Message-id: 20211019144918.3159078-2-jsnow@redhat.com
+Message-id: 20211019144918.3159078-3-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/297      |  4 +---
- tests/qemu-iotests/pylintrc | 16 ++++++++++++++++
- 2 files changed, 17 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/297      | 14 +-------------
+ tests/qemu-iotests/mypy.ini | 12 ++++++++++++
+ 2 files changed, 13 insertions(+), 13 deletions(-)
+ create mode 100644 tests/qemu-iotests/mypy.ini
 
 diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
-index 91ec34d9521..bc3a0ceb2aa 100755
+index bc3a0ceb2aa..b8101e6024a 100755
 --- a/tests/qemu-iotests/297
 +++ b/tests/qemu-iotests/297
-@@ -65,10 +65,8 @@ def run_linters():
-     print('=== pylint ===')
+@@ -73,19 +73,7 @@ def run_linters():
      sys.stdout.flush()
  
--    # Todo notes are fine, but fixme's or xxx's should probably just be
--    # fixed (in tests, at least)
-     env = os.environ.copy()
--    subprocess.run(('pylint-3', '--score=n', '--notes=FIXME,XXX', *files),
-+    subprocess.run(('pylint-3', *files),
-                    env=env, check=False)
- 
-     print('=== mypy ===')
-diff --git a/tests/qemu-iotests/pylintrc b/tests/qemu-iotests/pylintrc
-index 8cb4e1d6a6d..32ab77b8bb9 100644
---- a/tests/qemu-iotests/pylintrc
-+++ b/tests/qemu-iotests/pylintrc
-@@ -31,6 +31,22 @@ disable=invalid-name,
-         too-many-statements,
-         consider-using-f-string,
- 
-+
-+[REPORTS]
-+
-+# Activate the evaluation score.
-+score=no
-+
-+
-+[MISCELLANEOUS]
-+
-+# List of note tags to take in consideration, separated by a comma.
-+# TODO notes are fine, but FIXMEs or XXXs should probably just be
-+# fixed (in tests, at least).
-+notes=FIXME,
-+      XXX,
-+
-+
- [FORMAT]
- 
- # Maximum number of characters on a single line.
+     env['MYPYPATH'] = env['PYTHONPATH']
+-    p = subprocess.run(('mypy',
+-                        '--warn-unused-configs',
+-                        '--disallow-subclassing-any',
+-                        '--disallow-any-generics',
+-                        '--disallow-incomplete-defs',
+-                        '--disallow-untyped-decorators',
+-                        '--no-implicit-optional',
+-                        '--warn-redundant-casts',
+-                        '--warn-unused-ignores',
+-                        '--no-implicit-reexport',
+-                        '--namespace-packages',
+-                        '--scripts-are-modules',
+-                        *files),
++    p = subprocess.run(('mypy', *files),
+                        env=env,
+                        check=False,
+                        stdout=subprocess.PIPE,
+diff --git a/tests/qemu-iotests/mypy.ini b/tests/qemu-iotests/mypy.ini
+new file mode 100644
+index 00000000000..4c0339f5589
+--- /dev/null
++++ b/tests/qemu-iotests/mypy.ini
+@@ -0,0 +1,12 @@
++[mypy]
++disallow_any_generics = True
++disallow_incomplete_defs = True
++disallow_subclassing_any = True
++disallow_untyped_decorators = True
++implicit_reexport = False
++namespace_packages = True
++no_implicit_optional = True
++scripts_are_modules = True
++warn_redundant_casts = True
++warn_unused_configs = True
++warn_unused_ignores = True
 -- 
 2.31.1
 
