@@ -2,90 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 584C2441F31
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 18:26:00 +0100 (CET)
-Received: from localhost ([::1]:34496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 035ED441F65
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 18:36:06 +0100 (CET)
+Received: from localhost ([::1]:33732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhb4J-0005lS-FB
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 13:25:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56888)
+	id 1mhbE4-0007it-SY
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 13:36:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mhazm-0007KC-UY
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:21:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31186)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mhazj-0007x7-5o
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:21:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635787273;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=E2yb7hCaOv8jKdPCnGkYTg4LQDZQEqkVxNmrI49Gu40=;
- b=Mcmfqt/LwdItlgMnVcfKp0Y1N1waJB3VduYZjOSvz3qom87uPIgsZfXA8jVT8SkYd9pImC
- nH4s6yr8ragoGiYoqlSxc9zhWZhH91GJCnoj0UORiiZnXLcbpj5jkw0GSrcdSpnaSfCMBb
- IZzudFp36OnRgOOpeRgpNIp04dQNp2s=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-574-rRqKUrmVN-Wkr4Cd4ACc0Q-1; Mon, 01 Nov 2021 13:21:10 -0400
-X-MC-Unique: rRqKUrmVN-Wkr4Cd4ACc0Q-1
-Received: by mail-wm1-f71.google.com with SMTP id
- v5-20020a1cac05000000b0032ccf04ba2cso4924435wme.2
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 10:21:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mhb4F-0007oC-UU
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:25:58 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:51038)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mhb4E-0000BB-0R
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:25:55 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id 133so4616453wme.0
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 10:25:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iCOy8g6b3t+MALRPgEdqc+YQil4cDAdNbp3gsrEXZX8=;
+ b=QCTLEfK95GCgbUJzR9hIP5wAS5G8a8yFO/MrwxmGpDpoh2gCa1RAD5ZF/GIqv0qZov
+ ulvM0j9QCQe+Tc/rUsMMKhZBFRLBb8HoDq2C1NwMwlSmNAdTdJhhiHPGg0hQkIP9PjBd
+ 5TB8mpOq4Hx/URJEMP4TxAstpOD4Lt7VXFpprkcBJ2PFJ2LuWLDpsiSsxdCGOGzRc+CI
+ 3WGmrNScNCTIAn863OSdS8JRRpqnz+dmaY3NJZ3wNI9mz99UpNX46+fad6NPHyAN/Fy3
+ bRLFMh4Cu6/nxzM8X1j/HRc3n/3WBLxElCmhz3J53v6mPocldV+6XJAqSNDUksbahQXS
+ BCnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=E2yb7hCaOv8jKdPCnGkYTg4LQDZQEqkVxNmrI49Gu40=;
- b=u6eTf7svW+DAPQ6iY7cgdk7qmwDdoBL4Lqa+vVenMrmJoPB9+HUV53Z14yVp4eE/RM
- AQGGUQBNdduGZ+vuRIg/u/NHMWiGSf5mibTab7MctuRRNd6S3eNgqm+j7x3k55fuGWR7
- MUwePfJJ+dmiUlFncnJRC81LBeYWi9ADmN5/MCahWZltj/KvoAxk53GEhU5umRHxI+vy
- ZpZaU7xWnc7JBUUqwmUNV5mCA6G+ZWHOTveWdqFQ8WcR2t2uCbH0B45nfkCT6NTJhSWJ
- H1SuRFEd2UlKJMBzd9drU+ZpeyzEQsNQw3NG3abHQyyX0oNuaIXMKtypkWQ7eItQuGSi
- OOPw==
-X-Gm-Message-State: AOAM5337s+lWuUyMnFE0uUG9CljYxgn4t91mHUM3WOld4PC9/UfXfD79
- 4Cn6ScLAngPCYoTI/Ri9gHBAR5b7yyPGMf8xRa+it+Jf7mKw9y6gDkjfREEH9WuQG6qa5LBnsIZ
- AeE8PVSj4W6+HIc0=
-X-Received: by 2002:a5d:42cc:: with SMTP id t12mr37988800wrr.129.1635787268858; 
- Mon, 01 Nov 2021 10:21:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzgLcYjF2LMZaBdvGPQgxvI6yk8DWLyQOMEF54BlrCPgD9+Ysfbkf184rsEkJJBG8qImgFPpg==
-X-Received: by 2002:a5d:42cc:: with SMTP id t12mr37988774wrr.129.1635787268687; 
- Mon, 01 Nov 2021 10:21:08 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id b9sm8317058wrx.24.2021.11.01.10.21.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Nov 2021 10:21:08 -0700 (PDT)
-Message-ID: <8eefc43b-97f4-0608-ee79-9296de44b433@redhat.com>
-Date: Mon, 1 Nov 2021 18:21:07 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iCOy8g6b3t+MALRPgEdqc+YQil4cDAdNbp3gsrEXZX8=;
+ b=tjnx538vGaXoHkdpJKz1nohleCSBEkNyVssFxjxD4/h77bwxNKwhvklO7qs+SSCCWQ
+ 1bUyORjBX0bWgtnIV8bdJK4bvRwh9m7/PyOr3w2/eXkSblFoG5xPdeXPqocGbqUKMp9k
+ y+S7b12iyJixUyXC8aes1TRLJMME2XhvOjYw77hSsGJcschYfZDzNYn40ouloG6BHHry
+ a7tGw3waIaMN1BFSn1NPy/IUeAVDi/1T6ZYx4fMtt0rjP2TN/7UAMF2uakqoZaMnFHgc
+ cZgxEKkdS5jNgs7Stq8g/qcFaRNeYZLzphbT0LJhE2mzILAx2kvRzIRiLACfdTnY2UoQ
+ XmYQ==
+X-Gm-Message-State: AOAM533ytJSJhb7NNwkf731mzG9STOWpVfJMoNAM+Dg38yNm5tRHbL3o
+ B8ofLJM1kzaq6N97eE/kFjWxLHClGuj4HUpEbfC7jg==
+X-Google-Smtp-Source: ABdhPJxJ0QzYpQZPd8LdnjxbdPoQnW3GurrP4YIr/ewtGCc/V4IpsaXpyy1htvD0j9PTEw9AmNU68KQ1rhM8iiKThBA=
+X-Received: by 2002:a05:600c:198d:: with SMTP id
+ t13mr287912wmq.21.1635787551079; 
+ Mon, 01 Nov 2021 10:25:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2 for-6.2] target/arm: Advertise MVE to gdb when present
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20211101160814.5103-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211101160814.5103-1-peter.maydell@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.14, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211030171635.1689530-1-richard.henderson@linaro.org>
+ <20211030171635.1689530-24-richard.henderson@linaro.org>
+ <CAFEAcA-h7xhKFTjOKgOw22Le2wQPUaT2VxtFcNFMP=xHs2stFQ@mail.gmail.com>
+ <c194f037-87dd-0b6a-2776-0724aef4b223@linaro.org>
+In-Reply-To: <c194f037-87dd-0b6a-2776-0724aef4b223@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Nov 2021 17:25:40 +0000
+Message-ID: <CAFEAcA9wTNNdSzMNV5jyzNCOgJV26uvHQQb8MAG8_ane8kc1zA@mail.gmail.com>
+Subject: Re: [PATCH v6 23/66] target/arm: Implement arm_cpu_record_sigsegv
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,38 +80,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: f4bug@amsat.org, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+ imp@bsdimp.com, Laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/1/21 17:08, Peter Maydell wrote:
-> Cortex-M CPUs with MVE should advertise this fact to gdb, using the
-> org.gnu.gdb.arm.m-profile-mve XML feature, which defines the VPR
-> register.  Presence of this feature also tells gdb to create
-> pseudo-registers Q0..Q7, so we do not need to tell gdb about them
-> separately.
-> 
-> Note that unless you have a very recent GDB that includes this fix:
-> http://patches-tcwg.linaro.org/patch/58133/ gdb will mis-print the
-> individual fields of the VPR register as zero (but showing the whole
-> thing as hex, eg with "print /x $vpr" will give the correct value).
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-> Reposting this unchanged except to remove the 'RFC' tag, as
-> the gdb patches have now gone upstream and the XML layout is
-> therefore finalized.
-> ---
->  configs/targets/aarch64-softmmu.mak  |  2 +-
->  configs/targets/arm-linux-user.mak   |  2 +-
->  configs/targets/arm-softmmu.mak      |  2 +-
->  configs/targets/armeb-linux-user.mak |  2 +-
->  target/arm/gdbstub.c                 | 25 +++++++++++++++++++++++++
->  gdb-xml/arm-m-profile-mve.xml        | 19 +++++++++++++++++++
->  6 files changed, 48 insertions(+), 4 deletions(-)
->  create mode 100644 gdb-xml/arm-m-profile-mve.xml
+On Mon, 1 Nov 2021 at 17:09, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 11/1/21 12:30 PM, Peter Maydell wrote:
+> > We seem to be restricting tlb_fill to sysemu already.
+>
+> Not true:
+>
+> > -#endif /* !defined(CONFIG_USER_ONLY) */
+> > -
+> >  bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> >                        MMUAccessType access_type, int mmu_idx,
+> >                        bool probe, uintptr_t retaddr)
+> >  {
+> >      ARMCPU *cpu = ARM_CPU(cs);
+> >      ARMMMUFaultInfo fi = {};
+> > -
+> > -#ifdef CONFIG_USER_ONLY
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Yes, that's restricting tlb_fill to sysemu only now (in this patch),
+not "later", right ?
 
+-- PMM
 
