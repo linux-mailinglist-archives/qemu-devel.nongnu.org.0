@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B32F6441DC4
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 17:11:59 +0100 (CET)
-Received: from localhost ([::1]:50194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B04441DC6
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 17:12:32 +0100 (CET)
+Received: from localhost ([::1]:51642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhZug-0005vt-Re
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 12:11:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39662)
+	id 1mhZvD-0006zx-TP
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 12:12:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mhZrA-0003Ca-O1
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 12:08:20 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:40873)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mhZr7-0002F2-Pz
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 12:08:20 -0400
-Received: by mail-wr1-x434.google.com with SMTP id r8so16014993wra.7
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 09:08:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Lz0bed1C0VkGRnr0JjHV0yoHub3q8oPcfjfRG+4+a0U=;
- b=pEVpmAN9n6H7Nd04ZbjP5f20Wc3UK3PS67ccc+cWQtnH3E3vM9h+qOdS7grzHuj2PQ
- CGji7PquGWmhpe6e7ubRekQMW3d26MP+VSjZSxI6efmP6NTWbwCqqujYmFhjyDPUChRl
- iWRHQUNpBUUj811DkC3/klNpZoM/006LTR2RUNaJd8cbzAS4FhO1y8ziMrDX/rtQj9Ug
- jiqsc8mQiaBN3MYgZtmy7JrFx3fPX80MAvgXSb4W1R0MPkmJQbdLlrN0sSijrwc/cVKc
- Q3FoWElC4m3C24fhZjEuRYDwcW4ZpEMnJp0y4o9d4L69tbqpDT+rXWSVcXCKIwXAg9g+
- SdNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Lz0bed1C0VkGRnr0JjHV0yoHub3q8oPcfjfRG+4+a0U=;
- b=vn4tWOusi9bK2im/WeOJRcnA+3Sk/w7lA/C/ShFwgHE9XoTTMMP/Adhar679YzAZQi
- eqek3y40N02/VXenP8hSfzGmRLoYJuhm1Wz1xfsS8W/sIedisdxPQvLbdl5Tqe7q18Nw
- vyjDBRjxUNmyjSure5bebhQPpSi5lnNDZE63y9qPp2QVWMZ4w6rMyV9UsZE3FaCsATwT
- c+ggF2QLLeAQSvUwiqeBU/dk7dLU1hwMRNYEQ+Fc2bKBmxT8A29xuaEThlmrK7jrzQS5
- I92m7HDUPPqOspbCZC+DLEU4+KnptXlM2JzxReQ6H4NofIrCbvcJL1YaPyNt6oldQ7iR
- P9+w==
-X-Gm-Message-State: AOAM531eeumOmIKBFutOICVPMBHJ6TTbEF1e8lt/M2aYU2zYsvnPc/mF
- bps8sJb0B3USS5clg1upgXVMSBcnKTJilA==
-X-Google-Smtp-Source: ABdhPJye+duJRTy01JBXvDIVp8+NG5odjKiXXUPfaLTIwktfJ5IxgmTIi5koUkJXHuj2wQu2eXse3Q==
-X-Received: by 2002:adf:ee0c:: with SMTP id y12mr36351072wrn.82.1635782896392; 
- Mon, 01 Nov 2021 09:08:16 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id w1sm16212935wmc.19.2021.11.01.09.08.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Nov 2021 09:08:16 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2 for-6.2] target/arm: Advertise MVE to gdb when present
-Date: Mon,  1 Nov 2021 16:08:14 +0000
-Message-Id: <20211101160814.5103-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mhZth-0005Um-BM
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 12:10:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45854)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mhZtb-0002gL-2E
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 12:10:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635783049;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iqRSp32kT9+Rn5scolYRJteN2uODx7kmsHiPi+N0+y8=;
+ b=fIfd4NAGnAtwTh+8zXlBy4YQYYV6vCGMztCyiriqEM9XMmqmWQgTHHOSgr359vno5d3Fti
+ WHKzrHt/U1KBgVSnOWdaq4u0+emNxK4DZy0WuUDQ+ir7dJEkplq+GT6f/1iMD/uya4Gb45
+ 6hDN9AxxNHps14fhQ/cthblPfCzArD4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-26-x4My6o_LNKOaIpeB32F7Mw-1; Mon, 01 Nov 2021 12:10:48 -0400
+X-MC-Unique: x4My6o_LNKOaIpeB32F7Mw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48B1C18460F6;
+ Mon,  1 Nov 2021 16:10:08 +0000 (UTC)
+Received: from [10.39.192.86] (unknown [10.39.192.86])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A8CD46418A;
+ Mon,  1 Nov 2021 16:10:06 +0000 (UTC)
+Message-ID: <d9cb104f-741c-e85d-5e29-c2b37d641a25@redhat.com>
+Date: Mon, 1 Nov 2021 17:10:05 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v6 13/66] linux-user/host/s390: Populate host_signal.h
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20211030171635.1689530-1-richard.henderson@linaro.org>
+ <20211030171635.1689530-14-richard.henderson@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20211030171635.1689530-14-richard.henderson@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.14, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,151 +80,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: alex.bennee@linaro.org, laurent@vivier.eu, imp@bsdimp.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cortex-M CPUs with MVE should advertise this fact to gdb, using the
-org.gnu.gdb.arm.m-profile-mve XML feature, which defines the VPR
-register.  Presence of this feature also tells gdb to create
-pseudo-registers Q0..Q7, so we do not need to tell gdb about them
-separately.
+On 30/10/2021 19.15, Richard Henderson wrote:
+> Split host_signal_pc and host_signal_write out of user-exec.c.
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   linux-user/host/s390/host-signal.h  | 93 ++++++++++++++++++++++++++++-
+>   linux-user/host/s390x/host-signal.h |  2 +-
+>   accel/tcg/user-exec.c               | 88 +--------------------------
+>   3 files changed, 94 insertions(+), 89 deletions(-)
+> 
+> diff --git a/linux-user/host/s390/host-signal.h b/linux-user/host/s390/host-signal.h
+> index f4b4d65031..21f59b612a 100644
+> --- a/linux-user/host/s390/host-signal.h
+> +++ b/linux-user/host/s390/host-signal.h
+> @@ -1 +1,92 @@
+> -#define HOST_SIGNAL_PLACEHOLDER
+> +/*
+> + * host-signal.h: signal info dependent on the host architecture
+> + *
+> + * Copyright (C) 2021 Linaro Limited
 
-Note that unless you have a very recent GDB that includes this fix:
-http://patches-tcwg.linaro.org/patch/58133/ gdb will mis-print the
-individual fields of the VPR register as zero (but showing the whole
-thing as hex, eg with "print /x $vpr" will give the correct value).
+Since you moved code around, should this file also bear the original 
+copyright statement?
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
-Reposting this unchanged except to remove the 'RFC' tag, as
-the gdb patches have now gone upstream and the XML layout is
-therefore finalized.
----
- configs/targets/aarch64-softmmu.mak  |  2 +-
- configs/targets/arm-linux-user.mak   |  2 +-
- configs/targets/arm-softmmu.mak      |  2 +-
- configs/targets/armeb-linux-user.mak |  2 +-
- target/arm/gdbstub.c                 | 25 +++++++++++++++++++++++++
- gdb-xml/arm-m-profile-mve.xml        | 19 +++++++++++++++++++
- 6 files changed, 48 insertions(+), 4 deletions(-)
- create mode 100644 gdb-xml/arm-m-profile-mve.xml
+OTOH, if I've got that right, the code has change locations a couple of 
+times already, so the original statement might not match the code anyway.
 
-diff --git a/configs/targets/aarch64-softmmu.mak b/configs/targets/aarch64-softmmu.mak
-index 13d40b55e6d..d489e6da830 100644
---- a/configs/targets/aarch64-softmmu.mak
-+++ b/configs/targets/aarch64-softmmu.mak
-@@ -1,5 +1,5 @@
- TARGET_ARCH=aarch64
- TARGET_BASE_ARCH=arm
- TARGET_SUPPORTS_MTTCG=y
--TARGET_XML_FILES= gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
-+TARGET_XML_FILES= gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml gdb-xml/arm-m-profile-mve.xml
- TARGET_NEED_FDT=y
-diff --git a/configs/targets/arm-linux-user.mak b/configs/targets/arm-linux-user.mak
-index acecc339e38..3e10d6b15d5 100644
---- a/configs/targets/arm-linux-user.mak
-+++ b/configs/targets/arm-linux-user.mak
-@@ -1,6 +1,6 @@
- TARGET_ARCH=arm
- TARGET_SYSTBL_ABI=common,oabi
- TARGET_SYSTBL=syscall.tbl
--TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
-+TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml gdb-xml/arm-m-profile-mve.xml
- TARGET_HAS_BFLT=y
- CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
-diff --git a/configs/targets/arm-softmmu.mak b/configs/targets/arm-softmmu.mak
-index f6c95ba07a4..92c8349b964 100644
---- a/configs/targets/arm-softmmu.mak
-+++ b/configs/targets/arm-softmmu.mak
-@@ -1,4 +1,4 @@
- TARGET_ARCH=arm
- TARGET_SUPPORTS_MTTCG=y
--TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
-+TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml gdb-xml/arm-m-profile-mve.xml
- TARGET_NEED_FDT=y
-diff --git a/configs/targets/armeb-linux-user.mak b/configs/targets/armeb-linux-user.mak
-index 662c73d8fbd..f81e5bf1fe4 100644
---- a/configs/targets/armeb-linux-user.mak
-+++ b/configs/targets/armeb-linux-user.mak
-@@ -2,6 +2,6 @@ TARGET_ARCH=arm
- TARGET_SYSTBL_ABI=common,oabi
- TARGET_SYSTBL=syscall.tbl
- TARGET_WORDS_BIGENDIAN=y
--TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
-+TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml gdb-xml/arm-m-profile-mve.xml
- TARGET_HAS_BFLT=y
- CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
-diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
-index e0dcb33e325..134da0d0ae3 100644
---- a/target/arm/gdbstub.c
-+++ b/target/arm/gdbstub.c
-@@ -199,6 +199,27 @@ static int vfp_gdb_set_sysreg(CPUARMState *env, uint8_t *buf, int reg)
-     return 0;
- }
- 
-+static int mve_gdb_get_reg(CPUARMState *env, GByteArray *buf, int reg)
-+{
-+    switch (reg) {
-+    case 0:
-+        return gdb_get_reg32(buf, env->v7m.vpr);
-+    default:
-+        return 0;
-+    }
-+}
-+
-+static int mve_gdb_set_reg(CPUARMState *env, uint8_t *buf, int reg)
-+{
-+    switch (reg) {
-+    case 0:
-+        env->v7m.vpr = ldl_p(buf);
-+        return 4;
-+    default:
-+        return 0;
-+    }
-+}
-+
- /**
-  * arm_get/set_gdb_*: get/set a gdb register
-  * @env: the CPU state
-@@ -468,6 +489,10 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
-                                      2, "arm-vfp-sysregs.xml", 0);
-         }
-     }
-+    if (cpu_isar_feature(aa32_mve, cpu)) {
-+        gdb_register_coprocessor(cs, mve_gdb_get_reg, mve_gdb_set_reg,
-+                                 1, "arm-m-profile-mve.xml", 0);
-+    }
-     gdb_register_coprocessor(cs, arm_gdb_get_sysreg, arm_gdb_set_sysreg,
-                              arm_gen_dynamic_sysreg_xml(cs, cs->gdb_num_regs),
-                              "system-registers.xml", 0);
-diff --git a/gdb-xml/arm-m-profile-mve.xml b/gdb-xml/arm-m-profile-mve.xml
-new file mode 100644
-index 00000000000..cba664c4c5b
---- /dev/null
-+++ b/gdb-xml/arm-m-profile-mve.xml
-@@ -0,0 +1,19 @@
-+<?xml version="1.0"?>
-+<!-- Copyright (C) 2021 Free Software Foundation, Inc.
-+
-+     Copying and distribution of this file, with or without modification,
-+     are permitted in any medium without royalty provided the copyright
-+     notice and this notice are preserved.  -->
-+
-+<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-+<feature name="org.gnu.gdb.arm.m-profile-mve">
-+  <flags id="vpr_reg" size="4">
-+    <!-- ARMv8.1-M and MVE: Unprivileged and privileged Access.  -->
-+    <field name="P0" start="0" end="15"/>
-+    <!-- ARMv8.1-M: Privileged Access only.  -->
-+    <field name="MASK01" start="16" end="19"/>
-+    <!-- ARMv8.1-M: Privileged Access only.  -->
-+    <field name="MASK23" start="20" end="23"/>
-+  </flags>
-+  <reg name="vpr" bitsize="32" type="vpr_reg"/>
-+</feature>
--- 
-2.20.1
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+
+License changes from LGPL to GPL - intended? (I personally don't mind, I 
+just wanted to check whether this was on purpose or by accident)
+
+  Thomas
 
 
