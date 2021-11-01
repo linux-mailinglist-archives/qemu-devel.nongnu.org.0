@@ -2,79 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E199441ABE
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 12:36:25 +0100 (CET)
-Received: from localhost ([::1]:46860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23924441AE0
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 12:49:09 +0100 (CET)
+Received: from localhost ([::1]:53114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhVbz-0008BV-Vf
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 07:36:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51138)
+	id 1mhVoK-0005nu-8h
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 07:49:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhVar-0007M8-Od
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 07:35:13 -0400
-Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:36533)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mhVk6-0003Zy-On
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 07:44:47 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:40588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhVap-0006qy-U2
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 07:35:13 -0400
-Received: by mail-qt1-x82e.google.com with SMTP id h14so14671763qtb.3
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 04:35:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rVh2VCjsyTw9/ZX1LsrhG/pPTtaUWvB5vvOgz0sgsg8=;
- b=xq8tUtJz1vho6uZVy23OThXP6KGf97+mrQiKvYg+naJCJwI5hfhgOsyfiMlLkRdl8I
- Q3d9YM0cADrv5W2rCCwW2/tobp7CzjSMU2E+m7on7MhYz34II+okGXJstp0HYL7auo4V
- 1kJWCxxjneZwBrUXduyK6W53s6GStrCHbahEEZJ90KZvemXIw0thzXP0LKy5gd9wubX6
- 7SFcyZvnfUQWxU72tHsBHbnsq6BnKcBvKMoVK9MKVeKFNvFjJjuRIb0DQZwsSI+m+FFe
- LqZD3ufFpMegJ58ylGgiYInfNiJMrU972NdELgRSBPdjWvypu2dAG3szIwPlVr4ZfNp5
- wo+Q==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mhVk4-00024y-C0
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 07:44:46 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ j128-20020a1c2386000000b003301a98dd62so8574973wmj.5
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 04:44:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=SWeGR6xU2TyWWP4ySDcHNWGUbnPJsnaq3OHaEczYm9I=;
+ b=puBxso7D8ToJ5LX65yrmghJPNxI334S6uUH3ywsLVSs63d2rLo6IRGBU+LhMVYfDvF
+ tc+ZYAsArQTlWkm2HGqZ62AgxXyYWy9dInrE3j1UdxNqgJ68WU8gXa+UyXiDU65K7OVt
+ BAeL2qXWElNu/uDAvrLhfuC3FILaaBGPSnKafUK7Yviq6uZPkrYLTSbfWRLCkA3WeMq5
+ TJi3bfEeVl9Wqq9iYJYhiKFFZ/XxsufbjAS41yz8kDmXiJPSnXbXAF8mKG4Gx5yjnijj
+ y3FsMl3kgsjcXAzYxgoAPqlW3QIfOF7KjnhHJbpRziJrV/4n1p6vwFlS4q+lmj6SfSj3
+ N4yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=rVh2VCjsyTw9/ZX1LsrhG/pPTtaUWvB5vvOgz0sgsg8=;
- b=yTba15HuJC+rWxG56sRRdaUEZCl720gWYPo6/Vt7oZH17Y17RjqvV/Fn3JLiNdu9Br
- tBwtGY7WTjJYGvri95d5o2rnqisLaXdPsgKGcb6C1vLz22AcAvwL1Jk/KY2uu57tmMl7
- QzMxahPlYFKr+0ty0rsMgM6E5/nTPASCXvRzBVmPkA6bwt2Ptm8R2Ts2GSsQgDQnk4A+
- kgXXWdmwnEqcUpkv7YEVsR6BYJ6+RTEiLR808zOnpNzhPhcjtDQOqcZ74wFQ+PPYLLyR
- dzmAufxfgIjB9YANa0XmdHNzOSOljixf+5V8i0zS04f6fteSjMM39xwETvksC9s7TYPB
- it8w==
-X-Gm-Message-State: AOAM533G2LMdHWP6DVq+2+azmOM3zcL+Duv/AhhxHEAnlWGCsxeD5lWj
- UCr5NsgD/TeclecdqG75Td246A==
-X-Google-Smtp-Source: ABdhPJymRfTOujxbn29T/a4VJ8fxTC5obmeDKJz2SWeWuYKeyusN/3A5iy4ThlZOi5PbKbFrynXNIQ==
-X-Received: by 2002:ac8:7f94:: with SMTP id z20mr29596256qtj.85.1635766510592; 
- Mon, 01 Nov 2021 04:35:10 -0700 (PDT)
-Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
- [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id bs33sm10057422qkb.130.2021.11.01.04.35.09
+ bh=SWeGR6xU2TyWWP4ySDcHNWGUbnPJsnaq3OHaEczYm9I=;
+ b=XNXOBnmGIAq4Lw0EVoE9/sAmtD+ACTcu3s4mEhbpS5N3GWp7o+APfPVuYMWFFQmI06
+ OEjRi6c9qSUmBYKDBLyvqWmw4o5bKwl6QbI22UDYjutmf4uDT6hApWWlUyZ4WVngFUqD
+ S/efaPZsmO31xv2mQHEa9Y8w4oyZUINkLwMwSyEfLIs4fC8ZzmDz2lyRkTXDQFt04Ps2
+ RUJtlDvcZhKQkUGD19I7vxbtme291nUHkqTFWoJX8FA6iVGPc8boxe6tV2aV3Chg+PIS
+ 7xVJNtojc5CQbldCGDDVVr4OWblZw68/ZeUvPX0HAD7uHMUQN7wgTmhVgOz80Lk1e9D5
+ OWHA==
+X-Gm-Message-State: AOAM531u5Wnuln4Z8XYs8cxTtzpMHvnGHYtlkBEtPTPywC7HkADKJPLe
+ zUkoBzmfdAAq4QCL19/4wGVUer5/wfA=
+X-Google-Smtp-Source: ABdhPJw2GRSfo9wxzVQiBC51TnoDlyBGe5eiBn6Yqm2N8vzhrNK4q45Tu9+5aCKaGSRckg5dv4KTAA==
+X-Received: by 2002:a05:600c:198d:: with SMTP id
+ t13mr38836831wmq.21.1635767082524; 
+ Mon, 01 Nov 2021 04:44:42 -0700 (PDT)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id c17sm13991907wmk.23.2021.11.01.04.44.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Nov 2021 04:35:10 -0700 (PDT)
-Subject: Re: [PATCH 09/13] target/riscv: Adjust vector address with ol
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org, Alexey Baturo <baturo.alexey@gmail.com>
-References: <20211101100143.44356-1-zhiwei_liu@c-sky.com>
- <20211101100143.44356-10-zhiwei_liu@c-sky.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <851481b9-e973-b3e1-1722-73db47edb772@linaro.org>
-Date: Mon, 1 Nov 2021 07:35:08 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Mon, 01 Nov 2021 04:44:41 -0700 (PDT)
+Message-ID: <68b77c6f-ebf5-4bb5-e004-aad7d40fe686@amsat.org>
+Date: Mon, 1 Nov 2021 12:44:40 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211101100143.44356-10-zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2 4/4] MAINTAINERS: Agree to maintain nanoMIPS TCG
+ frontend
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82e.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.14,
+To: qemu-devel@nongnu.org, "Daniel P . Berrange" <berrange@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
+References: <20211027041416.1237433-1-f4bug@amsat.org>
+ <20211027041416.1237433-5-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20211027041416.1237433-5-f4bug@amsat.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.14,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,151 +94,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
+Cc: libvir-list@redhat.com, Vince Del Vecchio <Vince.DelVecchio@mediatek.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paul Burton <paulburton@kernel.org>,
+ Petar Jovanovic <petar.jovanovic@syrmia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/1/21 6:01 AM, LIU Zhiwei wrote:
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> ---
->   target/riscv/insn_trans/trans_rvv.c.inc |  8 ++++
->   target/riscv/internals.h                |  1 +
->   target/riscv/vector_helper.c            | 54 +++++++++++++++++--------
->   3 files changed, 46 insertions(+), 17 deletions(-)
+On 10/27/21 06:14, Philippe Mathieu-Daudé wrote:
+> As of this commit, the nanoMIPS toolchains haven't been merged
+> in mainstream projects. However MediaTek provides a toolchain:
+> https://github.com/MediaTek-Labs/nanomips-gnu-toolchain/releases/tag/nanoMIPS-2021.02-01
 > 
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index ed042f7bb9..5cd9b802df 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -233,6 +233,7 @@ static bool ld_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t seq)
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
->       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->       data = FIELD_DP32(data, VDATA, NF, a->nf);
-> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->       return ldst_us_trans(a->rd, a->rs1, data, fn, s);
->   }
->   
-> @@ -286,6 +287,7 @@ static bool st_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t seq)
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
->       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->       data = FIELD_DP32(data, VDATA, NF, a->nf);
-> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->       return ldst_us_trans(a->rd, a->rs1, data, fn, s);
->   }
->   
-> @@ -365,6 +367,7 @@ static bool ld_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
->       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->       data = FIELD_DP32(data, VDATA, NF, a->nf);
-> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->       return ldst_stride_trans(a->rd, a->rs1, a->rs2, data, fn, s);
->   }
->   
-> @@ -404,6 +407,7 @@ static bool st_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
->       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->       data = FIELD_DP32(data, VDATA, NF, a->nf);
-> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->       fn =  fns[seq][s->sew];
->       if (fn == NULL) {
->           return false;
-> @@ -490,6 +494,7 @@ static bool ld_index_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
->       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->       data = FIELD_DP32(data, VDATA, NF, a->nf);
-> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s);
->   }
->   
-> @@ -542,6 +547,7 @@ static bool st_index_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
->       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->       data = FIELD_DP32(data, VDATA, NF, a->nf);
-> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s);
->   }
->   
-> @@ -617,6 +623,7 @@ static bool ldff_op(DisasContext *s, arg_r2nfvm *a, uint8_t seq)
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
->       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->       data = FIELD_DP32(data, VDATA, NF, a->nf);
-> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->       return ldff_trans(a->rd, a->rs1, data, fn, s);
->   }
->   
-> @@ -724,6 +731,7 @@ static bool amo_op(DisasContext *s, arg_rwdvm *a, uint8_t seq)
->       data = FIELD_DP32(data, VDATA, VM, a->vm);
->       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->       data = FIELD_DP32(data, VDATA, WD, a->wd);
-> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->       return amo_trans(a->rd, a->rs1, a->rs2, data, fn, s);
->   }
->   /*
-> diff --git a/target/riscv/internals.h b/target/riscv/internals.h
-> index b15ad394bb..f74b8291e4 100644
-> --- a/target/riscv/internals.h
-> +++ b/target/riscv/internals.h
-> @@ -27,6 +27,7 @@ FIELD(VDATA, VM, 8, 1)
->   FIELD(VDATA, LMUL, 9, 2)
->   FIELD(VDATA, NF, 11, 4)
->   FIELD(VDATA, WD, 11, 1)
-> +FIELD(VDATA, OL, 15, 2)
->   
->   /* float point classify helpers */
->   target_ulong fclass_h(uint64_t frs1);
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index 535420ee66..451688c328 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -112,6 +112,11 @@ static uint32_t vext_wd(uint32_t desc)
->       return (simd_data(desc) >> 11) & 0x1;
->   }
->   
-> +static inline uint32_t vext_ol(uint32_t desc)
-> +{
-> +    return FIELD_EX32(simd_data(desc), VDATA, OL);
-> +}
+> QEMU deprecation policy schedules code for removal. If we don't
+> need / want to remove, we should un-deprecated [*].
+> 
+> Since I now have spent more time with the ISA, I agree to maintain
+> it along with the other MIPS ISA. Therefore remove its deprecation
+> notice.
+> 
+> For historical notes, see commit a60442eb8 ("Deprecate nanoMIPS ISA").
+> 
+> [*] https://lore.kernel.org/qemu-devel/YVx7YGqUENP83vNF@redhat.com/
+> 
+> Cc: Vince Del Vecchio <Vince.DelVecchio@mediatek.com>
+> Cc: Petar Jovanovic <petar.jovanovic@syrmia.com>
+> Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+> v2: un-deprecate (danpb)
+> ---
+>  docs/about/deprecated.rst | 23 -----------------------
+>  MAINTAINERS               |  6 +-----
+>  2 files changed, 1 insertion(+), 28 deletions(-)
 
-XLEN not OLEN.
+I tried to add nanoMIPS testing using the Codescape toolchain
+suggested by MediaTek [*], unfortunately QEMU user-mode is not
+able to run any nanoMIPS binary. Various pieces are missing.
+In particular, mainstream QEMU doesn't implement the p32 ABI,
+ELF binaries are handled as o32 and the syscall table doesn't
+match anything correct.
 
-> @@ -123,6 +128,14 @@ static inline uint32_t vext_maxsz(uint32_t desc)
->       return simd_maxsz(desc) << vext_lmul(desc);
->   }
->   
-> +static inline target_ulong adjust_addr(target_ulong addr, uint32_t olen)
-> +{
-> +    if (olen < TARGET_LONG_BITS) {
-> +        addr &= UINT32_MAX;
-> +    }
-> +    return addr;
-> +}
+I am sorry but I can not proceed further with this patch.
 
-Here's where I'm unsure.  This looks a lot like the changes that are required to support 
-pointer-masking in vectors, which Alexey said he was going to look at.
-
-(1) Do we need to pass anything in VEXT at all?
-     We do have CPURISCVState, so we could just use cpu_get_ml,
-     which we would also need for env->mmte etc for pointer masking.
-
-(2) Do we try to streamline the "normal" case with a simple bit in VEXT
-     that indicates if the address needs modification at all?  I.e. the
-     bit is set if UXLEN < TARGET_LONG_BITS or if PM_ENABLED?
-
-(3) Do we try to streamline the computation by passing down composite
-     mask and base parameters.  This way we don't need to do complex
-     examination of ENV to determine execution mode, and instead always
-     compute
-
-        addr = (addr & mask) | base;
-
-     where mask = -1, base = 0 for "normal" addressing, and when
-     UXLEN == 32, mask <= UINT32_MAX.
-
-(4) Do we in fact want to pre-compute these into known slots on ENV,
-     so that we don't have to pass these around as separate parameters?
-     We would adjust these values during PM CSR changes and when
-     changing privilege levels.
-
-
-r~
+[*]
+https://github.com/MediaTek-Labs/nanomips-gnu-toolchain/releases/tag/nanoMIPS-2021.02-01
 
