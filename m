@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95B4544206D
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 20:01:26 +0100 (CET)
-Received: from localhost ([::1]:40698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53B3E442085
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 20:08:35 +0100 (CET)
+Received: from localhost ([::1]:57086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhcYf-00081E-M7
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 15:01:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39086)
+	id 1mhcfa-0002Us-EV
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 15:08:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mhbeT-0002zF-KN
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 14:03:21 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:41975)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mhbeR-0001dX-PG
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 14:03:21 -0400
-Received: by mail-wr1-x436.google.com with SMTP id d3so29273956wrh.8
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 11:03:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fpqW03ZRRzE3ngMKZP0HTZzE1s99xwb5qVR+pvlBmpc=;
- b=zTfU1Yq4byxzZjVsEI8+NdnGsyQYQqNt12yGwnQQ+32iUNzbcm3dv4yWl6RDa4qS08
- +kxHZPQc4nqEp5JW6AmE5OwIvqcrTYDGf6IHs7VSGcv5XOZ/959UIVZxSp7hQw3yBamU
- sjiroLKDycBdaCvNodZRLaRNSovWm5V8eEzgbM2LDIa7EOJZOWzfY+xS/EwsUULAe9IJ
- n5qNEbNXgcdrkiPhwcdZpCNvkYb5J8qut7cgQDKSOs8d3L/Ec9shn8Um2cED4aioQV/6
- RGZ8INMUzUNNk2GHKhnBLGZD5Fja6zMP7HE4/0aMyJAY9coo6Fy8e3+an2FTQVmCRHTx
- Acjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fpqW03ZRRzE3ngMKZP0HTZzE1s99xwb5qVR+pvlBmpc=;
- b=0zz3bIxzbl+d0WvtIAKtDsr9pGd8dzoqHgHSLOP3Qbzh9xeYk3gzqBYvu/MvrMEvbe
- uskZXLn0H5pPYXIkOV/rckPlEc52hu4y9JZOKi+LgVLNW+FwTJKK9oEQBiVPp97G3Xk6
- nwmEVYMYzW1hfPdpRh48dXFOuxq/0ZzOuO6pcO75bEbIl25h1K5XupY2tzbR93n5vkqy
- q+gMuC3pSos8Xd6kq+fT4UXVvm78Qv3TFFR6vucAC7/8u5x1bxA3HGu/vufgOCH3iGyZ
- UxRbpfXvYqyYaqv6EhqQYHwX719nUZ364/oUxHnp72TyBcDpt004pWgI1tK5sknEZD/O
- 6PBg==
-X-Gm-Message-State: AOAM533pez6frjXeFIQPibXjDH2DpLP6E2Fq7uEnO0SDFLRoQCMqjdm6
- kB+oE7xH787ihzhQkywVmdZYzIyZrETnZ5oBvHKpug==
-X-Google-Smtp-Source: ABdhPJwZGPJs7H8s3KQPyy3Y5W4rLPyOpKaerxTNikyBKfN64TzjMSxzfLgLHUKoHwx4YC9HSvgEcb/OGiyY1fiEg5c=
-X-Received: by 2002:a5d:6151:: with SMTP id y17mr31774773wrt.275.1635789798259; 
- Mon, 01 Nov 2021 11:03:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mhbEW-0002X4-Qr
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:36:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57648)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mhbEU-0003nY-Ki
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:36:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635788190;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Y4sSoBFZezLBtoGV5lwWO+TDpCmaxAMN92BP93BZNGs=;
+ b=a5tx6u313ToP2UEpErFiKW2ktnLc+O11/wR++bRfA4a90U+gmBeYU0gbikwpEP2w0QJxX6
+ cNXHqUdM6crUkoWSICh9nRBU1Pv0obWZGLL/LuoHxaS5Cd+jSkWU/DQ6splaBDHfcmns1U
+ JCGHTvZq0SiTWKjj7SEZQ/18ynqWBsY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-461-bfXdBPQEMPWqPP1K92fv4A-1; Mon, 01 Nov 2021 13:36:27 -0400
+X-MC-Unique: bfXdBPQEMPWqPP1K92fv4A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5BF48066F7;
+ Mon,  1 Nov 2021 17:36:25 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.11.188])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 45BE319C79;
+ Mon,  1 Nov 2021 17:36:05 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 14/22] python: Add iotest linters to test suite
+Date: Mon,  1 Nov 2021 13:29:58 -0400
+Message-Id: <20211101173006.656673-15-jsnow@redhat.com>
+In-Reply-To: <20211101173006.656673-1-jsnow@redhat.com>
+References: <20211101173006.656673-1-jsnow@redhat.com>
 MIME-Version: 1.0
-References: <13a13852-4fb4-a0f8-6740-354c8054aed1@linaro.org>
- <27B816F7-3670-428C-AA42-95BC7DD635CC@csgraf.de>
- <8373048b-e930-6c69-54cd-aca33338cb76@linaro.org>
-In-Reply-To: <8373048b-e930-6c69-54cd-aca33338cb76@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Nov 2021 18:03:07 +0000
-Message-ID: <CAFEAcA-2jAy=5UzVq6OkfkmHrspwog49+2t6PfH5r4gQeotdFA@mail.gmail.com>
-Subject: Re: [PATCH v2] hvf: arm: Ignore cache operations on MMIO
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,40 +76,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kettenis@openbsd.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Cameron Esfahani <dirty@apple.com>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel Berrange <berrange@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 26 Oct 2021 at 18:46, Richard Henderson
-<richard.henderson@linaro.org> wrote:
-> Ah hah.  From 0487G.a, page D13-3191:
->
-> # For other faults reported in ESR_EL2, ISV is 0 except
-> # for the following stage 2 aborts...
->
-> (which incidentally sounds like documenting around a historic chip bug, since both EL1 and
-> EL3 do get ISV set).
+Run mypy and pylint on the iotests files directly from the Python CI
+test infrastructure. This ensures that any accidental breakages to the
+qemu.[qmp|aqmp|machine|utils] packages will be caught by that test
+suite.
 
-Nope, you have that the wrong way around: EL1 and EL3 get ISV=0 for
-almost all cases -- only the FEAT_LS64 ST64BV/ST64BV0/ST64B/LD64B insns
-cause a fault with ISV=1. For EL2, in addition to the FEAT_LS64 stuff,
-you also get ISV=1 for the loads and stores which are emulatable
-without having to load and decode the instruction word by hand,
-because all the information you need to emulate them is in the ISS
-fields. So you don't get ISV=1 for load/store pair because the ISS
-doesn't have fields for more than one transfer register, and you
-don't get ISV=1 for instructions doing register writeback because
-that's not something the ISS gives you enough information to do, and so on.
-And the reason that you only get this extra ISV=1 information for
-these faults at EL2 is that the assumption is that only a hypervisor
-needs to be doing this kind of emulate-and-continue of a data abort,
-so the architecture absolves non-EL2 implementations of the need to
-do all this work to track and report the information relating to the
-insn that provoked the fault.
+It also ensures that these linters are run with well-known versions and
+test against a wide variety of python versions, which helps to find
+accidental cross-version python compatibility issues.
 
--- PMM
+Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+Message-id: 20211019144918.3159078-15-jsnow@redhat.com
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ python/tests/iotests-mypy.sh   | 4 ++++
+ python/tests/iotests-pylint.sh | 4 ++++
+ 2 files changed, 8 insertions(+)
+ create mode 100755 python/tests/iotests-mypy.sh
+ create mode 100755 python/tests/iotests-pylint.sh
+
+diff --git a/python/tests/iotests-mypy.sh b/python/tests/iotests-mypy.sh
+new file mode 100755
+index 00000000000..ee764708199
+--- /dev/null
++++ b/python/tests/iotests-mypy.sh
+@@ -0,0 +1,4 @@
++#!/bin/sh -e
++
++cd ../tests/qemu-iotests/
++python3 -m linters --mypy
+diff --git a/python/tests/iotests-pylint.sh b/python/tests/iotests-pylint.sh
+new file mode 100755
+index 00000000000..4cae03424b4
+--- /dev/null
++++ b/python/tests/iotests-pylint.sh
+@@ -0,0 +1,4 @@
++#!/bin/sh -e
++
++cd ../tests/qemu-iotests/
++python3 -m linters --pylint
+-- 
+2.31.1
+
 
