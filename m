@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5EEE442008
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 19:28:56 +0100 (CET)
-Received: from localhost ([::1]:49610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03B18442030
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 19:40:35 +0100 (CET)
+Received: from localhost ([::1]:41272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhc3C-00048u-Bv
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 14:28:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32992)
+	id 1mhcEU-0001BI-47
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 14:40:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhbBt-0006AR-Im
+ (Exim 4.90_1) (envelope-from <francois.ozog@linaro.org>)
+ id 1mhbBt-0006AT-JI
  for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:33:49 -0400
-Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:45590)
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:44548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhbBr-0002fe-7H
+ (Exim 4.90_1) (envelope-from <francois.ozog@linaro.org>)
+ id 1mhbBr-0002fc-Fb
  for qemu-devel@nongnu.org; Mon, 01 Nov 2021 13:33:49 -0400
-Received: by mail-yb1-xb2a.google.com with SMTP id s186so22277831yba.12
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 10:33:46 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id j21so43976808edt.11
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 10:33:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mNOnMb6zRoGFHmrcwv7GaRkCv9qiP7ZEe4AjNcesU1g=;
- b=fnbdV+PI0nh+rnDJkb+lJ0BK5OPJA25BzqW8kVHC9+nIJFwejoQhy/DfRhfNetfMSh
- C+CAN3qZMhJQW3pLacYABW7Kof0xB9A3XKXIS/0qzMlJHrbHVw2slzcAxz8vBo5206Wt
- 5mo2ToqOXo+gZEGBecXyAkVJgo13094B0C5H40af5FXyNROLUCU9LSiMWUBNwq0QYvMI
- RLOS6R93dr2O8ZkYE/IzWPOjVHIk5SOHNiWtmR9QZa9TWIMGJ3J8sTB2ktu18eeHm6hQ
- 2djpzpzEq292ymSzQAzhHpO1tXIc16uY4pMP3VDbaBlSM46GhXq1jFLtuxKesO2kRI6A
- WZqA==
+ :cc; bh=qNs+TidmQbrODkIyLVZFdZIg4ZB0UO355QpDXag/uaI=;
+ b=WR5KYQI6hhJr4xSpFAbIJZlufAPvne4/4QG1mRjeFsw3EPnxBUZrW1/1YU3aH95pQa
+ +Wpid8/VQDxp+5m/fGeNt3un30okBL3TuA3uULJeKsZWDaVSzOyHHMnGsu+ZhpsqhOlu
+ X2uQxdgYkYODOkN/H6JY1mK634JJ06+oI7Dj/Zg5z9cGXOlYCtqiyIMM2CONaNmtzF3Y
+ 1RiIFIt0fVG6ShSbFSTM2b/jbeA+1ImKPYXgO1qqxMngDk0+uxJExrumgq3wPYNxTq2I
+ IOvjlvlycTE65VW2u9cLWWK8sfRDgcrL+D4tc7P/gYLrt6G87QDwcjaQ+ruyvzNP0aq9
+ TMZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=mNOnMb6zRoGFHmrcwv7GaRkCv9qiP7ZEe4AjNcesU1g=;
- b=0la28Ey2cSLXInAlvc2dECPzgE0oRmFImXhT0949XOap09eMt3HsyELZEAtgEY9GUZ
- +jYq80YKhCkorzr+BN84Ypb09uIL30Eako2vdYGXCFiUgzFrwGQd3s9PENvlXv9XMA9p
- BBiN4psQlwV5p8BX6tSy0zbDdffIQW0sHS1R2igdZL3JuNkgMFxRgOLt9Vb0XAv5b0La
- Yjxohf4BjxidKHoC9/kZm/YVANsno//Ek3M0bXkX1tPm17WrX/f9Yhxdemr7IJGwp9KT
- OXMmuhBmp0tz9OTgOF7R1OaZODvgD9odsNGoeR7ukiPdjv3WvN/KHD0nyMHPIfWUUD5O
- 7wEw==
-X-Gm-Message-State: AOAM533Q/IGSmfV2WvN8ix8gl3vNqY/zyv9mlDUeE3rC4fp3DE+eZYKQ
- eO6MEuUp142IHtpmk3aM+fvSPPJK3mRQ8LGT1FlaZg==
-X-Google-Smtp-Source: ABdhPJyJ/XWfF+Ypn3FeLZSHHQybQw8MeLYJI//tqLgPZD94NSpr0o4hHOp1M7M7EVi1qMX9E+o/M1YsoVFO87j+/44=
-X-Received: by 2002:a25:2391:: with SMTP id
- j139mr29318342ybj.382.1635788026157; 
- Mon, 01 Nov 2021 10:33:46 -0700 (PDT)
+ bh=qNs+TidmQbrODkIyLVZFdZIg4ZB0UO355QpDXag/uaI=;
+ b=y0shvald5YmfUvgNmEJdhGX42JFDd/vd/oD65hXY7VcLCrgLJMdCBs41QBfXBexPsK
+ MFPZZjpAxHxTwpbRoL5jM39BJSqGQ3a7gABw0u9lAHhERVdBBocL002yqS6bb03B2oLp
+ MZFZUbX7fQuBqDo9YDcTgk8T7QZN5nsk86snDjw9hhe8a7+hww8nEbSITqwsjsyMJPpq
+ hxMlXRu1RijTtonOM1W3X3E+8LXqomuYthQuQ24H8tYRi9VlZFGr+gL8jDTSm+xJqOH2
+ 9FUvz1qKLtnyJ7Ne6Lv+cUPMnSA7uxIv4SpzINwCQs5/M4AEQ3NWadrgyC+tr55+vNgw
+ h9YQ==
+X-Gm-Message-State: AOAM530b6CrLv1Vmo+AKwts8MCaJuSpIbPJDVUmvXB3dSJkTroOsqygY
+ pvArqA93sDwSldxbKiCgyOq3aBz483IROw7W3sXtoQ==
+X-Google-Smtp-Source: ABdhPJzCB40rnhXAmZqE3YeALy86A/NDv/W59q0WhEBOhsvlSKBfwgXTlEE1tye0Db+A8EyXBtMNRqOrPIXwEKNpOQU=
+X-Received: by 2002:a17:907:7803:: with SMTP id
+ la3mr38663343ejc.235.1635788025872; 
+ Mon, 01 Nov 2021 10:33:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210311180855.149764-1-wuhaotsh@google.com>
-In-Reply-To: <20210311180855.149764-1-wuhaotsh@google.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Date: Mon, 1 Nov 2021 13:33:34 -0400
-Message-ID: <CAFXwXrnm2yveebfyq0cPPZBAeW33_sVu0jrkpbNQNUDBRBFQUQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] hw/arm: Add NPCM7XX Tachometer Device
-To: Hao Wu <wuhaotsh@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
- envelope-from=richard.henderson@linaro.org; helo=mail-yb1-xb2a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+References: <20211026002344.405160-1-sjg@chromium.org>
+ <20211026002344.405160-7-sjg@chromium.org>
+ <CAFEAcA-UukuQXT3ebcboiVOSn0J+88w-kzoH8jE1JVxQnoeuvQ@mail.gmail.com>
+ <CAPnjgZ2C8okdUMcgKjuLgV8JdPexYY0=9NtbSOHO81dN7=2RCg@mail.gmail.com>
+In-Reply-To: <CAPnjgZ2C8okdUMcgKjuLgV8JdPexYY0=9NtbSOHO81dN7=2RCg@mail.gmail.com>
+From: =?UTF-8?Q?Fran=C3=A7ois_Ozog?= <francois.ozog@linaro.org>
+Date: Mon, 1 Nov 2021 18:33:35 +0100
+Message-ID: <CAHFG_=XWc+Fb=m=SHC6=y4KeF533yqCNk=Ae088oAZyjOULPaw@mail.gmail.com>
+Subject: Re: [PATCH v5 06/26] arm: qemu: Add a devicetree file for qemu_arm64
+To: Simon Glass <sjg@chromium.org>
+Content-Type: multipart/alternative; boundary="00000000000035de0205cfbd94b4"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=francois.ozog@linaro.org; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,56 +80,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, venture@google.com, hskinnemoen@google.com,
- qemu-devel@nongnu.org, kfting@nuvoton.com, qemu-arm@nongnu.org,
- Avi.Fishman@nuvoton.com, dje@google.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Albert Aribaud <albert.u.boot@aribaud.net>,
+ U-Boot Mailing List <u-boot@lists.denx.de>,
+ Heinrich Schuchardt <xypron.glpk@gmx.de>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Sean Anderson <seanga2@gmail.com>,
+ Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>, Tom Rini <trini@konsulko.com>,
+ Mark Kettenis <mark.kettenis@xs4all.nl>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Mar 2021 at 13:11, Hao Wu <wuhaotsh@google.com> wrote:
->
-> This patch set implements the Tachometer (a.k.a Multi Functional Timer/MFT)
-> device in NPCM7XX SoC. This device is used by NPCM7XX boards to measure
-> the RPM of PWM fans.
->
-> To provide the RPM of a certain fan, since RPM = MAX_RPM * duty_percentage.
-> We convert the duty output in NPCM7XX PWM module into GPIOs and feed them
-> into the MFT module.
->
-> The connection of PWM modules and fan modules are derived from their specific
-> Linux device trees and coded in hw/arm/npcm7xx_boards.c.
->
-> We amend the QTest for the PWM module to include verifying the reading from
-> the Tachometer is correct.
->
-> Changes since v1:
-> - Split implementation of device and addition to board file to separate patches
-> - Adapt to new Clock API and address conflicts
-> - Use the new clock_ns_to_ticks API to calculate tachometer counts
->
-> Hao Wu (5):
->   hw/misc: Add GPIOs for duty in NPCM7xx PWM
->   hw/misc: Add NPCM7XX MFT Module
->   hw/arm: Add MFT device to NPCM7xx Soc
->   hw/arm: Connect PWM fans in NPCM7XX boards
->   tests/qtest: Test PWM fan RPM using MFT in PWM test
->
->  docs/system/arm/nuvoton.rst    |   2 +-
->  hw/arm/npcm7xx.c               |  45 ++-
->  hw/arm/npcm7xx_boards.c        |  99 ++++++
->  hw/misc/meson.build            |   1 +
->  hw/misc/npcm7xx_mft.c          | 540 +++++++++++++++++++++++++++++++++
->  hw/misc/npcm7xx_pwm.c          |   4 +
->  hw/misc/trace-events           |   8 +
->  include/hw/arm/npcm7xx.h       |  13 +-
->  include/hw/misc/npcm7xx_mft.h  |  70 +++++
->  include/hw/misc/npcm7xx_pwm.h  |   4 +-
->  tests/qtest/npcm7xx_pwm-test.c | 205 ++++++++++++-
->  11 files changed, 974 insertions(+), 17 deletions(-)
->  create mode 100644 hw/misc/npcm7xx_mft.c
->  create mode 100644 include/hw/misc/npcm7xx_mft.h
+--00000000000035de0205cfbd94b4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks, queued to target-arm.next.
+Hi Simon
 
-r~
+Le lun. 1 nov. 2021 =C3=A0 17:58, Simon Glass <sjg@chromium.org> a =C3=A9cr=
+it :
+
+> Hi Peter,
+>
+> On Mon, 1 Nov 2021 at 04:48, Peter Maydell <peter.maydell@linaro.org>
+> wrote:
+> >
+> > On Tue, 26 Oct 2021 at 01:33, Simon Glass <sjg@chromium.org> wrote:
+> > >
+> > > Add this file, generated from qemu, so there is a reference devicetre=
+e
+> > > in the U-Boot tree.
+> > >
+> > > Signed-off-by: Simon Glass <sjg@chromium.org>
+> >
+> > Note that the dtb you get from QEMU is only guaranteed to work if:
+> >  1) you run it on the exact same QEMU version you generated it with
+> >  2) you pass QEMU the exact same command line arguments you used
+> >     when you generated it
+>
+> Yes, I certainly understand that. In general this is not safe, but in
+> practice it works well enough for development and CI.
+
+You recognize that you hijack a product directory with development hack
+facility. There is a test directory to keep things clear. There can be a
+dev-dts or something similar for Dev time tools.
+I have only seen push back on those fake dts files in the dts directory: I
+guess that unless someone strongly favors a continuation of the discussion,
+you may consider re-shaping the proposal to address concerns.
+
+> I am able to use
+> QEMU versions that differ by two years, partly because I am not trying
+> to do anything clever.
+>
+> I have sent a patch to add an indication of where the devicetree came
+> from, to help with visibility on this.
+>
+> Regards,
+> Simon
+>
+--=20
+Fran=C3=A7ois-Fr=C3=A9d=C3=A9ric Ozog | *Director Business Development*
+T: +33.67221.6485
+francois.ozog@linaro.org | Skype: ffozog
+
+--00000000000035de0205cfbd94b4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Hi Simon</div><div><br><div class=3D"gmail_quote"><div di=
+r=3D"ltr" class=3D"gmail_attr">Le=C2=A0lun. 1 nov. 2021 =C3=A0 17:58, Simon=
+ Glass &lt;<a href=3D"mailto:sjg@chromium.org">sjg@chromium.org</a>&gt; a =
+=C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Hi Peter,<br>
+<br>
+On Mon, 1 Nov 2021 at 04:48, Peter Maydell &lt;<a href=3D"mailto:peter.mayd=
+ell@linaro.org" target=3D"_blank">peter.maydell@linaro.org</a>&gt; wrote:<b=
+r>
+&gt;<br>
+&gt; On Tue, 26 Oct 2021 at 01:33, Simon Glass &lt;<a href=3D"mailto:sjg@ch=
+romium.org" target=3D"_blank">sjg@chromium.org</a>&gt; wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; Add this file, generated from qemu, so there is a reference devic=
+etree<br>
+&gt; &gt; in the U-Boot tree.<br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Simon Glass &lt;<a href=3D"mailto:sjg@chromium.org=
+" target=3D"_blank">sjg@chromium.org</a>&gt;<br>
+&gt;<br>
+&gt; Note that the dtb you get from QEMU is only guaranteed to work if:<br>
+&gt;=C2=A0 1) you run it on the exact same QEMU version you generated it wi=
+th<br>
+&gt;=C2=A0 2) you pass QEMU the exact same command line arguments you used<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0when you generated it<br>
+<br>
+Yes, I certainly understand that. In general this is not safe, but in<br>
+practice it works well enough for development and CI. </blockquote><div dir=
+=3D"auto">You recognize that you hijack a product directory with developmen=
+t hack facility. There is a test directory to keep things clear. There can =
+be a dev-dts or something similar for Dev time tools.=C2=A0</div><div dir=
+=3D"auto">I have only seen push back on those fake dts files in the dts dir=
+ectory: I guess that unless someone strongly favors a continuation of the d=
+iscussion, you may consider re-shaping the proposal to address concerns.</d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex" dir=3D"auto">I am able to use<br>
+QEMU versions that differ by two years, partly because I am not trying<br>
+to do anything clever.<br>
+<br>
+I have sent a patch to add an indication of where the devicetree came<br>
+from, to help with visibility on this.<br>
+<br>
+Regards,<br>
+Simon<br>
+</blockquote></div></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature" =
+data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><=
+div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div =
+dir=3D"ltr"><div><div dir=3D"ltr"><div><div><div><div dir=3D"ltr"><div dir=
+=3D"ltr"><div dir=3D"ltr"><table style=3D"font-size:small" border=3D"0" cel=
+lpadding=3D"0" cellspacing=3D"0"><tbody><tr><td style=3D"padding-right:10px=
+" valign=3D"top"><img src=3D"https://static.linaro.org/common/images/linaro=
+-logo-web.png"></td><td valign=3D"top"><table border=3D"0" cellpadding=3D"0=
+" cellspacing=3D"0"><tbody><tr><td style=3D"font-family:Arial,Helvetica,&qu=
+ot;Sans Serif&quot;;white-space:nowrap;font-size:9pt;padding-top:0px;color:=
+rgb(87,87,87)" valign=3D"top"><span style=3D"font-weight:bold">Fran=C3=A7oi=
+s-Fr=C3=A9d=C3=A9ric Ozog</span>=C2=A0<span style=3D"color:rgb(161,161,161)=
+">|</span>=C2=A0<i>Director Business Development</i></td></tr><tr><td style=
+=3D"font-family:Arial,Helvetica,&quot;Sans Serif&quot;;white-space:nowrap;f=
+ont-size:9pt;padding-top:2px;color:rgb(87,87,87)" valign=3D"top">T:=C2=A0<a=
+ value=3D"+393384075993" style=3D"color:rgb(17,85,204)">+33.67221.6485</a><=
+br><a href=3D"mailto:francois.ozog@linaro.org" style=3D"color:rgb(87,87,87)=
+;text-decoration:none" target=3D"_blank">francois.ozog@linaro.org</a>=C2=A0=
+<span style=3D"color:rgb(161,161,161)">|</span>=C2=A0Skype:=C2=A0ffozog</td=
+></tr></tbody></table></td></tr></tbody></table></div></div></div></div></d=
+iv><div><div><br style=3D"font-size:small"></div></div></div></div></div></=
+div></div></div></div></div></div></div></div></div></div></div></div>
+
+--00000000000035de0205cfbd94b4--
 
