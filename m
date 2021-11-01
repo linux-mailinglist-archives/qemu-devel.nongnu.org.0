@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 737004420B0
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 20:19:27 +0100 (CET)
-Received: from localhost ([::1]:48028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 133D34420C5
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 20:24:12 +0100 (CET)
+Received: from localhost ([::1]:56884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhcq6-0007Jb-1V
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 15:19:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38586)
+	id 1mhcuh-0004zH-0B
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 15:24:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhbbv-0005YL-4j
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 14:00:43 -0400
-Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:43849)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhbbq-00018z-69
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 14:00:41 -0400
-Received: by mail-qt1-x82e.google.com with SMTP id v29so15294323qtc.10
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 11:00:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1fyyxoqDUI3rZmhiTObFw0m434oRIlXxGc8uowmY0qU=;
- b=NaFw9MwQuYhRXtu6iPd3s37rWpcWWmnvpuJQtwQ+KKlbg2GfcWBSHGCgWe/pX1/wZM
- Qf1jvOkdBoe219TuaDvSsCixLwwt2kQ8jR+PwSXUhJtiJANoQzWvIiJlDZdBu0e1Rv9l
- rTEPMY1ljI5d9/1FLZt6X78U9D4usV2YiigfpVpY7oO3mia8Nj47NtIp0BKoWb0NkayT
- K90cfKnrrBw5dQD+0/4Ky5vr6mCkdv1yYPDXNvP38xIU0ofQwXQ9RGWWQ2VpBX7Fgw1T
- hSiBDI5NmORAc569jZaLASukm7tglNR2ckxuYQ1sYK6feux4xfxX9BdFVDdY3x5K7BV+
- p27Q==
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1mhbd0-0008FA-4Q
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 14:01:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51562)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1mhbcw-0001Tr-2h
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 14:01:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635789704;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ksSclwanCZfaR0gMdqRD5SAuV2HJqaeQ0LJ3h7gB0lQ=;
+ b=Pf7wsh8K9eusHCXbP0sGrb9VLkmluEGqEvUr3De1QWxLmK3dc3ywiMoNlLV+14I5vIvVMX
+ PtMNtrZ9xQ4X54oz4ulqdw4iFCz4l44DlvDkT5ZJFhsllj1X+73eqv73/qzVzoIcg5RN1o
+ J8PGnTVbcNXTYU76M+Uni5+FFyPs/Xo=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-585-Tx66IL1KNEaXbeCL1VnYuQ-1; Mon, 01 Nov 2021 14:01:42 -0400
+X-MC-Unique: Tx66IL1KNEaXbeCL1VnYuQ-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ x13-20020a17090a1f8d00b001a285b9f2cbso9685903pja.6
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 11:01:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1fyyxoqDUI3rZmhiTObFw0m434oRIlXxGc8uowmY0qU=;
- b=K2KYyebL1oPDRFjsPQlAXlpz/A7b0+C5IZQv05wfHVABHbI7Xlef6+2CyTCamBaK29
- Hum5eZm3cwotIGYL7U4pj9CMClHdUL1BDDjXUqqZFKjoCi1ur94renIGun7f92qmeQ7t
- Qohp9YCu/ixh2rM4oa7skB6SZvDd9PrLhkE90wVglMrnPLjjW0KC2RfY7WPLgPB6ggAM
- vK476EF4xoC4wXonLJIVEMNaNnGvnPfMPEnbansyVV+mV1dfW/W0Do2GGLfMwcNqxOjL
- GgFyX+dXhaMsK6MGd9k46CSTDKSFti3Pz8xAoSa+pWCehNdfPkLD0nw8yHYeoCTSa8WF
- 93VA==
-X-Gm-Message-State: AOAM533Ym+q7xZ25EBkgQgdeRkTMQWYS6pChBNpO0PNa9UYI5kT9sQM2
- wGS+IRkXinG12NIGxfRau9UCYg==
-X-Google-Smtp-Source: ABdhPJz7TqN0K8Ru1P4Mq9thgU05YfLHuv/MBEocY60Jgg007YfG/kENP+o8rDFzcHq1xgROlcCSwg==
-X-Received: by 2002:a05:622a:1708:: with SMTP id
- h8mr8404816qtk.198.1635789637113; 
- Mon, 01 Nov 2021 11:00:37 -0700 (PDT)
-Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
- [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id c24sm11298194qkp.43.2021.11.01.11.00.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Nov 2021 11:00:36 -0700 (PDT)
-Subject: Re: gitlab-ci: clang-user job failed with run-tcg-tests-sh4-linux-user
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel <qemu-devel@nongnu.org>
-References: <e27941cc-2622-cb01-4c93-b9ff344bdddb@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <875ced1d-35ec-f777-f642-db9679082af5@linaro.org>
-Date: Mon, 1 Nov 2021 14:00:35 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ksSclwanCZfaR0gMdqRD5SAuV2HJqaeQ0LJ3h7gB0lQ=;
+ b=eWsKBDeFDbyH15K7dStpwhK2IfrZdgEQHKiPfJ84q2cQQRykDydfgOgbHw9UrMDAP6
+ CpS3pp3am/bPdqXoYtukZYVPhh7GTOFZV9bVfIZ5j75QTbkqI4qwbMxV+tpgCNSSsHyz
+ Sc8Ya1CSOSPhvvyeei/Y5gIiJFR3S0OnFMM9Dae/xntNTJxVsLUmXnSD7rSkbtm3vsM4
+ JnR9gSpbLvWDMAJr3L9ADPEueZtNGE+eNqg3day4SYsngjdqeTJuPeLf2Qq07b8Wqyk/
+ exwGTBybzSiEwHulw0KkrRjpDPzmeKuMHve7cAXraTKNv+Mvoog2J2ZZXCd3Ru1HHUkR
+ DrSQ==
+X-Gm-Message-State: AOAM533z+qHIiV2RmE0hyaVWGh3C3JD2smKRN1Zcb3oPDq4JtiqLPvXO
+ AoyhXCQ2XvFZBDyCCwDZB+DAZ7kUy5h9dYLpXdocvpVOGclp16q9Cki5P/CElH0UNksDGnvAt9N
+ i3u6KyOqWtfjZFZZ59mSD0TLGu5IqIX0=
+X-Received: by 2002:a17:90a:d515:: with SMTP id
+ t21mr478611pju.123.1635789701533; 
+ Mon, 01 Nov 2021 11:01:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzQ2XZgTAA8UzB5ZRQCyFuMsC/yyilKYe6MGdnf1YhoTmIAqns3TQbeJ15+B3LaeGHwU0KnfsZaDsNfetHnlUg=
+X-Received: by 2002:a17:90a:d515:: with SMTP id
+ t21mr478556pju.123.1635789701154; 
+ Mon, 01 Nov 2021 11:01:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <e27941cc-2622-cb01-4c93-b9ff344bdddb@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82e.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+References: <20210927163116.1998349-1-f4bug@amsat.org>
+ <20210927163116.1998349-2-f4bug@amsat.org>
+In-Reply-To: <20210927163116.1998349-2-f4bug@amsat.org>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Mon, 1 Nov 2021 15:01:15 -0300
+Message-ID: <CAKJDGDZ0S1f26T3J6ajJ++5cGBNCQveisVvqf2WhXCy8EPsnCA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/6] tests/acceptance: Extract QemuBaseTest from Test
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.14,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,34 +93,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+Cc: Warner Losh <imp@bsdimp.com>, qemu-arm <qemu-arm@nongnu.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/1/21 6:27 AM, Philippe Mathieu-Daudé wrote:
-> Build failed running the 'clang-user' job:
-> 
->    TEST    linux-test on sh4
-> ../linux-user/syscall.c:10373:34: runtime error: member access within
-> misaligned address 0x00000048af34 for type 'struct linux_dirent64',
-> which requires 8 byte alignment
-> 0x00000048af34: note: pointer points here
->    00 00 00 00 00 40 0c 00  00 00 00 00 7b e2 f5 de  fc d8 a1 3a 20 00 0a
-> 66  69 6c 65 33 00 00 00 00
->                ^
-> make[2]: *** [../Makefile.target:158: run-linux-test] Error 1
-> make[1]: *** [/builds/philmd/qemu/tests/tcg/Makefile.qemu:102:
-> run-guest-tests] Error 2
-> make: *** [/builds/philmd/qemu/tests/Makefile.include:63:
-> run-tcg-tests-sh4-linux-user] Error 2
-> 
-> https://gitlab.com/philmd/qemu/-/jobs/1733066358
+On Mon, Sep 27, 2021 at 1:31 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> The Avocado Test::fetch_asset() is handy to download artifacts
+> before running tests. The current class is named Test but only
+> tests system emulation. As we want to test user emulation,
+> refactor the common code as QemuBaseTest.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  tests/acceptance/avocado_qemu/__init__.py | 72 +++++++++++++----------
+>  1 file changed, 41 insertions(+), 31 deletions(-)
+>
+> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance=
+/avocado_qemu/__init__.py
+> index 2c4fef3e149..8fcbed74849 100644
+> --- a/tests/acceptance/avocado_qemu/__init__.py
+> +++ b/tests/acceptance/avocado_qemu/__init__.py
+> @@ -175,7 +175,7 @@ def exec_command_and_wait_for_pattern(test, command,
+>      """
+>      _console_interaction(test, success_message, failure_message, command=
+ + '\r')
+>
+> -class Test(avocado.Test):
+> +class QemuBaseTest(avocado.Test):
+>      def _get_unique_tag_val(self, tag_name):
+>          """
+>          Gets a tag value, if unique for a key
+> @@ -185,6 +185,46 @@ def _get_unique_tag_val(self, tag_name):
+>              return vals.pop()
+>          return None
+>
+> +    def setUp(self):
+> +        self.arch =3D self.params.get('arch',
+> +                                    default=3Dself._get_unique_tag_val('=
+arch'))
+> +
+> +        self.cpu =3D self.params.get('cpu',
+> +                                   default=3Dself._get_unique_tag_val('c=
+pu'))
+> +
+> +        default_qemu_bin =3D pick_default_qemu_bin(arch=3Dself.arch)
+> +        self.qemu_bin =3D self.params.get('qemu_bin',
+> +                                        default=3Ddefault_qemu_bin)
+> +        if self.qemu_bin is None:
+> +            self.cancel("No QEMU binary defined or found in the build tr=
+ee")
+> +
+> +    def fetch_asset(self, name,
+> +                    asset_hash=3DNone, algorithm=3DNone,
+> +                    locations=3DNone, expire=3DNone,
+> +                    find_only=3DFalse, cancel_on_missing=3DTrue):
+> +        return super(QemuBaseTest, self).fetch_asset(name,
 
-Interesting.  It's being skipped on master.  Also, this must have some sort of sanitizer 
-enabled to get that warning?
+It is preferable to use the PEP3135
+(https://www.python.org/dev/peps/pep-3135/) when calling `super` as
+linter are complaining about it:
 
+return super().fetch_asset(name,
 
-r~
+And after reading through the patch I noticed it was a method move,
+so, feel free to take the suggestion or ignore it for now.
+
+> +                        asset_hash=3Dasset_hash,
+> +                        algorithm=3Dalgorithm,
+> +                        locations=3Dlocations,
+> +                        expire=3Dexpire,
+> +                        find_only=3Dfind_only,
+> +                        cancel_on_missing=3Dcancel_on_missing)
+> +
+> +
+> +class Test(QemuBaseTest):
+> +    """Facilitates system emulation tests.
+> +
+> +    TODO: Rename this class as `QemuSystemTest`.
+> +    """
+> +
+> +    def setUp(self):
+> +        self._vms =3D {}
+> +
+> +        super(Test, self).setUp()
+
+Same from previous comment:
+
+super().setUp()
+
+> +
+> +        self.machine =3D self.params.get('machine',
+> +                                       default=3Dself._get_unique_tag_va=
+l('machine'))
+> +
+>      def require_accelerator(self, accelerator):
+>          """
+>          Requires an accelerator to be available for the test to continue
+> @@ -207,24 +247,6 @@ def require_accelerator(self, accelerator):
+>              self.cancel("%s accelerator does not seem to be "
+>                          "available" % accelerator)
+>
+> -    def setUp(self):
+> -        self._vms =3D {}
+> -
+> -        self.arch =3D self.params.get('arch',
+> -                                    default=3Dself._get_unique_tag_val('=
+arch'))
+> -
+> -        self.cpu =3D self.params.get('cpu',
+> -                                   default=3Dself._get_unique_tag_val('c=
+pu'))
+> -
+> -        self.machine =3D self.params.get('machine',
+> -                                       default=3Dself._get_unique_tag_va=
+l('machine'))
+> -
+> -        default_qemu_bin =3D pick_default_qemu_bin(arch=3Dself.arch)
+> -        self.qemu_bin =3D self.params.get('qemu_bin',
+> -                                        default=3Ddefault_qemu_bin)
+> -        if self.qemu_bin is None:
+> -            self.cancel("No QEMU binary defined or found in the build tr=
+ee")
+> -
+>      def _new_vm(self, name, *args):
+>          self._sd =3D tempfile.TemporaryDirectory(prefix=3D"avo_qemu_sock=
+_")
+>          vm =3D QEMUMachine(self.qemu_bin, base_temp_dir=3Dself.workdir,
+> @@ -277,18 +299,6 @@ def tearDown(self):
+>              vm.shutdown()
+>          self._sd =3D None
+>
+> -    def fetch_asset(self, name,
+> -                    asset_hash=3DNone, algorithm=3DNone,
+> -                    locations=3DNone, expire=3DNone,
+> -                    find_only=3DFalse, cancel_on_missing=3DTrue):
+> -        return super(Test, self).fetch_asset(name,
+> -                        asset_hash=3Dasset_hash,
+> -                        algorithm=3Dalgorithm,
+> -                        locations=3Dlocations,
+> -                        expire=3Dexpire,
+> -                        find_only=3Dfind_only,
+> -                        cancel_on_missing=3Dcancel_on_missing)
+> -
+>
+>  class LinuxSSHMixIn:
+>      """Contains utility methods for interacting with a guest via SSH."""
+> --
+> 2.31.1
+>
+
+Except for one (or two, if you consider the first) small comment,
+looks good to me, so
+
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+
 
