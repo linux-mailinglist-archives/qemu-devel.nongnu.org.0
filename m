@@ -2,89 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C222442378
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 23:33:21 +0100 (CET)
-Received: from localhost ([::1]:33800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED6D844236A
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 23:28:47 +0100 (CET)
+Received: from localhost ([::1]:53346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhfrj-0005HO-TS
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 18:33:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54900)
+	id 1mhfnK-0007pP-NY
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 18:28:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhfUw-0007Tl-HZ
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 18:09:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59507)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhfUu-0000fB-Bb
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 18:09:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635804583;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jP/I5apHpfB9miqWjOSmHHOjh4FLTnrs+cMqC3xHGrM=;
- b=UJ5ZYR8tosx+CzcwON4T+X4Pi1p9fiytMUwu6K59IdAOrEjcL6tYOckZh6mWgAEMaWzGNb
- GJsPqHbPkym0ee8SwOdKSLQXidEtiXVZUgTjkyK+QblnVNU4R9BH13RooVy4Fcax8pQ/jC
- Gf+M7G/GN81pNH1GLN9S/L/bL4GtVqg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-51-LjsS96F1Np2tpZd60xWU-A-1; Mon, 01 Nov 2021 18:09:42 -0400
-X-MC-Unique: LjsS96F1Np2tpZd60xWU-A-1
-Received: by mail-wr1-f72.google.com with SMTP id
- d7-20020a5d6447000000b00186a113463dso1199093wrw.10
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 15:09:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mhfYU-0004Nf-Rm
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 18:13:26 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:52861)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mhfYT-0001Cf-2L
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 18:13:26 -0400
+Received: by mail-wm1-x330.google.com with SMTP id b71so2714443wmd.2
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 15:13:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=RXZtkQsrl6/1KOZB6PDQ73AUll24wlnDfzJB+Py6/vg=;
+ b=W7yPW30QOR6pZAvm3NqZJX9cKlVSV2dVgDfvFyqul5votVpoO1dJ7ecMAq42RdMJvt
+ 10YSlBuWkNBQkN8JxGD+qy5mA6S9BtFUgpbqkyT1z7oD40PRxSnjzo7HwLLrcRGPZd0D
+ CjpwKCtr+QRnfgsq6wl38Xb8QG0l+AXcZMkmWp7XhRMjV2yfiBbyFyuuE2zuqBjAJ33j
+ Y6pkVt8oT/YwZDKUYo/I8+SiVIUYJLulqbxWHAO38mWTdDdQXttHLA0cSJ2bntoQpv4m
+ ooO/amWGfSzeddMcNfAUKMekT5MLsFZfH0CDbSwo6AlIr7jD3xhkgBsQwGje/C5SwIJQ
+ BeEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=jP/I5apHpfB9miqWjOSmHHOjh4FLTnrs+cMqC3xHGrM=;
- b=P360gSJsO/E+4ioLm0bU2QV37whdIdjIHpv+rJSR4gxKYSUNwcaaCvtg8I4MvlADSL
- sS0xsBPP9mIsYjVtclckUUFZ87+F/ifV3jObnsPUDoZL8xqhd3cCh9t/4JSZaf/NpoBa
- Ei1g4ROES8tJykvecCujnMjSCvlZBWddkyuGfwenxg2psZ1Hcj4e7dJiznIi5LykxT8f
- NAs364+aWalfoGmTXexTad+in82q57v5d95k002OXScQSQgqjLvwhQSTFgYoStDDNCG9
- mic8iY1kMiQ7kI0SQtigmwMrAOy930H4bmyvxo1xEGqF6tRKLL4VURLMox6ACTU3gpAZ
- Iv7A==
-X-Gm-Message-State: AOAM531qMD4gM2SaB4Gm/nTFwcf7jnbeoRMSzgQBPDhqMjKksAG2pnEM
- hMgBPynaUrAxY/9VwbBBou/cmucDKjyqsKGG9GJNvLMXxNfTEGeC3uexOHzgShZE05oBTDzRmmg
- e0D38qpynzXu87jMBM3kSZY0XzRviPB67SZ+VGopkBlZbWcLj1pmhTzPk3fxm32tO0BM=
-X-Received: by 2002:a5d:69ca:: with SMTP id s10mr17619050wrw.312.1635804581309; 
- Mon, 01 Nov 2021 15:09:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwekiY665T3KtWYk+MojmKh2E8nDk/brzhW8Smm/r4bdKRN1BvOX4dI3pL5wzRW0aYS3i58/A==
-X-Received: by 2002:a5d:69ca:: with SMTP id s10mr17619009wrw.312.1635804581077; 
- Mon, 01 Nov 2021 15:09:41 -0700 (PDT)
-Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
- [188.86.86.233])
- by smtp.gmail.com with ESMTPSA id k8sm688985wms.41.2021.11.01.15.09.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Nov 2021 15:09:40 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 20/20] migration/dirtyrate: implement dirty-bitmap dirtyrate
- calculation
-Date: Mon,  1 Nov 2021 23:09:12 +0100
-Message-Id: <20211101220912.10039-21-quintela@redhat.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211101220912.10039-1-quintela@redhat.com>
-References: <20211101220912.10039-1-quintela@redhat.com>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=RXZtkQsrl6/1KOZB6PDQ73AUll24wlnDfzJB+Py6/vg=;
+ b=bufHxcL9P7S7nXxs0yF0XTYgXoaVIREt53tbZEi5B0EVLMv0HpZ82hzFxRu9/kRF1c
+ UlUStmZTrtvYGC1eZNz0S8ar6xd3yOHcxJZ15vO5qhI1EVZ2ndwpK4aDrzidawROzBJi
+ MKxPXya4vHv4F6n25B3NK+2vQQOBOTB7Iu21Q+qdDhM5pyEz4tgzGTehHjX1/rBqCpos
+ +3U844zkwwZTs0GE3sc2iQ0xB9RzuXp3zEQcSWNhWLmJ2RFeoRrHtyA/0SZDVNBXR9aU
+ Cqq3OkJ6Cv5LFl5S43rJ3A68qrfMfHnaVBvcCDIPtw0isOrmnL/Opcxmpfum6Ko5wSgJ
+ rXFw==
+X-Gm-Message-State: AOAM533iwx3mpUlwse/DN/rqIk+zAYelz/SRr/EJMcz5KteSpCZq4i2S
+ d2hUNnO7bq0eqqtM2/DXIIU=
+X-Google-Smtp-Source: ABdhPJwkh9rWKPrTY6NXFR/eIYCqdtFGNu0V8Q6svSEsk+Y39Q+F35RhkBMGY4GyZIohNWDuQmVQkQ==
+X-Received: by 2002:a7b:cb07:: with SMTP id u7mr1941931wmj.178.1635804803596; 
+ Mon, 01 Nov 2021 15:13:23 -0700 (PDT)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id t6sm715663wmq.31.2021.11.01.15.13.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Nov 2021 15:13:23 -0700 (PDT)
+Message-ID: <d5b99e12-342c-25cd-bed7-cdbd663bb36a@amsat.org>
+Date: Mon, 1 Nov 2021 23:13:21 +0100
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: gitlab-ci: clang-user job failed with run-tcg-tests-sh4-linux-user
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>
+References: <e27941cc-2622-cb01-4c93-b9ff344bdddb@amsat.org>
+ <875ced1d-35ec-f777-f642-db9679082af5@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <875ced1d-35ec-f777-f642-db9679082af5@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.14,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,249 +91,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
- =?UTF-8?q?Hyman=20Huang=28=E9=BB=84=E5=8B=87=29?=
- <huangy81@chinatelecom.cn>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Paul Durrant <paul@xen.org>, Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Eric Blake <eblake@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+On 11/1/21 19:00, Richard Henderson wrote:
+> On 11/1/21 6:27 AM, Philippe Mathieu-Daudé wrote:
+>> Build failed running the 'clang-user' job:
+>>
+>>    TEST    linux-test on sh4
+>> ../linux-user/syscall.c:10373:34: runtime error: member access within
+>> misaligned address 0x00000048af34 for type 'struct linux_dirent64',
+>> which requires 8 byte alignment
+>> 0x00000048af34: note: pointer points here
+>>    00 00 00 00 00 40 0c 00  00 00 00 00 7b e2 f5 de  fc d8 a1 3a 20 00 0a
+>> 66  69 6c 65 33 00 00 00 00
+>>                ^
+>> make[2]: *** [../Makefile.target:158: run-linux-test] Error 1
+>> make[1]: *** [/builds/philmd/qemu/tests/tcg/Makefile.qemu:102:
+>> run-guest-tests] Error 2
+>> make: *** [/builds/philmd/qemu/tests/Makefile.include:63:
+>> run-tcg-tests-sh4-linux-user] Error 2
+>>
+>> https://gitlab.com/philmd/qemu/-/jobs/1733066358
+> 
+> Interesting.  It's being skipped on master.  Also, this must have some
+> sort of sanitizer enabled to get that warning?
 
-introduce dirty-bitmap mode as the third method of calc-dirty-rate.
-implement dirty-bitmap dirtyrate calculation, which can be used
-to measuring dirtyrate in the absence of dirty-ring.
-
-introduce "dirty_bitmap:-b" option in hmp calc_dirty_rate to
-indicate dirty bitmap method should be used for calculation.
-
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- qapi/migration.json   |   6 ++-
- migration/dirtyrate.c | 112 ++++++++++++++++++++++++++++++++++++++----
- hmp-commands.hx       |   9 ++--
- 3 files changed, 112 insertions(+), 15 deletions(-)
-
-diff --git a/qapi/migration.json b/qapi/migration.json
-index fae4bc608c..87146ceea2 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1770,13 +1770,15 @@
- #
- # @page-sampling: calculate dirtyrate by sampling pages.
- #
--# @dirty-ring: calculate dirtyrate by via dirty ring.
-+# @dirty-ring: calculate dirtyrate by dirty ring.
-+#
-+# @dirty-bitmap: calculate dirtyrate by dirty bitmap.
- #
- # Since: 6.1
- #
- ##
- { 'enum': 'DirtyRateMeasureMode',
--  'data': ['page-sampling', 'dirty-ring'] }
-+  'data': ['page-sampling', 'dirty-ring', 'dirty-bitmap'] }
- 
- ##
- # @DirtyRateInfo:
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index 17b3d2cbb5..d65e744af9 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -15,6 +15,7 @@
- #include "qapi/error.h"
- #include "cpu.h"
- #include "exec/ramblock.h"
-+#include "exec/ram_addr.h"
- #include "qemu/rcu_queue.h"
- #include "qemu/main-loop.h"
- #include "qapi/qapi-commands-migration.h"
-@@ -118,6 +119,10 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
-             }
-             info->vcpu_dirty_rate = head;
-         }
-+
-+        if (dirtyrate_mode == DIRTY_RATE_MEASURE_MODE_DIRTY_BITMAP) {
-+            info->sample_pages = 0;
-+        }
-     }
- 
-     trace_query_dirty_rate_info(DirtyRateStatus_str(CalculatingState));
-@@ -429,6 +434,79 @@ static int64_t do_calculate_dirtyrate_vcpu(DirtyPageRecord dirty_pages)
-     return memory_size_MB / time_s;
- }
- 
-+static inline void record_dirtypages_bitmap(DirtyPageRecord *dirty_pages,
-+                                            bool start)
-+{
-+    if (start) {
-+        dirty_pages->start_pages = total_dirty_pages;
-+    } else {
-+        dirty_pages->end_pages = total_dirty_pages;
-+    }
-+}
-+
-+static void do_calculate_dirtyrate_bitmap(DirtyPageRecord dirty_pages)
-+{
-+    DirtyStat.dirty_rate = do_calculate_dirtyrate_vcpu(dirty_pages);
-+}
-+
-+static inline void dirtyrate_manual_reset_protect(void)
-+{
-+    RAMBlock *block = NULL;
-+
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        RAMBLOCK_FOREACH_MIGRATABLE(block) {
-+            memory_region_clear_dirty_bitmap(block->mr, 0,
-+                                             block->used_length);
-+        }
-+    }
-+}
-+
-+static void calculate_dirtyrate_dirty_bitmap(struct DirtyRateConfig config)
-+{
-+    int64_t msec = 0;
-+    int64_t start_time;
-+    DirtyPageRecord dirty_pages;
-+
-+    qemu_mutex_lock_iothread();
-+    memory_global_dirty_log_start(GLOBAL_DIRTY_DIRTY_RATE);
-+
-+    /*
-+     * 1'round of log sync may return all 1 bits with
-+     * KVM_DIRTY_LOG_INITIALLY_SET enable
-+     * skip it unconditionally and start dirty tracking
-+     * from 2'round of log sync
-+     */
-+    memory_global_dirty_log_sync();
-+
-+    /*
-+     * reset page protect manually and unconditionally.
-+     * this make sure kvm dirty log be cleared if
-+     * KVM_DIRTY_LOG_MANUAL_PROTECT_ENABLE cap is enabled.
-+     */
-+    dirtyrate_manual_reset_protect();
-+    qemu_mutex_unlock_iothread();
-+
-+    record_dirtypages_bitmap(&dirty_pages, true);
-+
-+    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-+    DirtyStat.start_time = start_time / 1000;
-+
-+    msec = config.sample_period_seconds * 1000;
-+    msec = set_sample_page_period(msec, start_time);
-+    DirtyStat.calc_time = msec / 1000;
-+
-+    /*
-+     * dirtyrate_global_dirty_log_stop do two things.
-+     * 1. fetch dirty bitmap from kvm
-+     * 2. stop dirty tracking
-+     */
-+    dirtyrate_global_dirty_log_stop();
-+
-+    record_dirtypages_bitmap(&dirty_pages, false);
-+
-+    do_calculate_dirtyrate_bitmap(dirty_pages);
-+}
-+
- static void calculate_dirtyrate_dirty_ring(struct DirtyRateConfig config)
- {
-     CPUState *cpu;
-@@ -514,7 +592,9 @@ out:
- 
- static void calculate_dirtyrate(struct DirtyRateConfig config)
- {
--    if (config.mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) {
-+    if (config.mode == DIRTY_RATE_MEASURE_MODE_DIRTY_BITMAP) {
-+        calculate_dirtyrate_dirty_bitmap(config);
-+    } else if (config.mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) {
-         calculate_dirtyrate_dirty_ring(config);
-     } else {
-         calculate_dirtyrate_sample_vm(config);
-@@ -597,12 +677,15 @@ void qmp_calc_dirty_rate(int64_t calc_time,
- 
-     /*
-      * dirty ring mode only works when kvm dirty ring is enabled.
-+     * on the contrary, dirty bitmap mode is not.
-      */
--    if ((mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) &&
--        !kvm_dirty_ring_enabled()) {
--        error_setg(errp, "dirty ring is disabled, use sample-pages method "
--                         "or remeasure later.");
--        return;
-+    if (((mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) &&
-+        !kvm_dirty_ring_enabled()) ||
-+        ((mode == DIRTY_RATE_MEASURE_MODE_DIRTY_BITMAP) &&
-+         kvm_dirty_ring_enabled())) {
-+        error_setg(errp, "mode %s is not enabled, use other method instead.",
-+                         DirtyRateMeasureMode_str(mode));
-+         return;
-     }
- 
-     /*
-@@ -678,9 +761,8 @@ void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict)
-     int64_t sample_pages = qdict_get_try_int(qdict, "sample_pages_per_GB", -1);
-     bool has_sample_pages = (sample_pages != -1);
-     bool dirty_ring = qdict_get_try_bool(qdict, "dirty_ring", false);
--    DirtyRateMeasureMode mode =
--        (dirty_ring ? DIRTY_RATE_MEASURE_MODE_DIRTY_RING :
--         DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING);
-+    bool dirty_bitmap = qdict_get_try_bool(qdict, "dirty_bitmap", false);
-+    DirtyRateMeasureMode mode = DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
-     Error *err = NULL;
- 
-     if (!sec) {
-@@ -688,6 +770,18 @@ void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict)
-         return;
-     }
- 
-+    if (dirty_ring && dirty_bitmap) {
-+        monitor_printf(mon, "Either dirty ring or dirty bitmap "
-+                       "can be specified!\n");
-+        return;
-+    }
-+
-+    if (dirty_bitmap) {
-+        mode = DIRTY_RATE_MEASURE_MODE_DIRTY_BITMAP;
-+    } else if (dirty_ring) {
-+        mode = DIRTY_RATE_MEASURE_MODE_DIRTY_RING;
-+    }
-+
-     qmp_calc_dirty_rate(sec, has_sample_pages, sample_pages, true,
-                         mode, &err);
-     if (err) {
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index b6d47bd03f..3a5aeba3fe 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1737,9 +1737,10 @@ ERST
- 
-     {
-         .name       = "calc_dirty_rate",
--        .args_type  = "dirty_ring:-r,second:l,sample_pages_per_GB:l?",
--        .params     = "[-r] second [sample_pages_per_GB]",
--        .help       = "start a round of guest dirty rate measurement (using -d to"
--                      "\n\t\t\t specify dirty ring as the method of calculation)",
-+        .args_type  = "dirty_ring:-r,dirty_bitmap:-b,second:l,sample_pages_per_GB:l?",
-+        .params     = "[-r] [-b] second [sample_pages_per_GB]",
-+        .help       = "start a round of guest dirty rate measurement (using -r to"
-+                      "\n\t\t\t specify dirty ring as the method of calculation and"
-+                      "\n\t\t\t -b to specify dirty bitmap as method of calculation)",
-         .cmd        = hmp_calc_dirty_rate,
-     },
--- 
-2.33.1
-
+Oh good point, I'm including "tests/tcg: Fix some targets default
+cross compiler path" which re-enable alpha/mips/riscv64/sh4:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg846281.html
 
