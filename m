@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C17144126B
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 04:35:06 +0100 (CET)
-Received: from localhost ([::1]:52110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17004441279
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 04:48:03 +0100 (CET)
+Received: from localhost ([::1]:54564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhO6C-0005tz-UP
-	for lists+qemu-devel@lfdr.de; Sun, 31 Oct 2021 23:35:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36926)
+	id 1mhOIj-0008T0-Ox
+	for lists+qemu-devel@lfdr.de; Sun, 31 Oct 2021 23:48:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mhO5Q-0005EZ-F8
- for qemu-devel@nongnu.org; Sun, 31 Oct 2021 23:34:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39475)
+ id 1mhOH8-0007lI-99
+ for qemu-devel@nongnu.org; Sun, 31 Oct 2021 23:46:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mhO5M-0000lj-L0
- for qemu-devel@nongnu.org; Sun, 31 Oct 2021 23:34:14 -0400
+ id 1mhOH5-0002uP-DK
+ for qemu-devel@nongnu.org; Sun, 31 Oct 2021 23:46:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635737650;
+ s=mimecast20190719; t=1635738377;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tegdXbIqPRLZhLqVzvjPUDB1wc4779t/qdXKyvykph0=;
- b=Qv4wk04SxKRwy89uaXN2bQgOPilbCG5iOVV3gJXbfqTZzL/kleYOoXALSRw5d7mlecLGsn
- M1Ir96CG+SNBkO3TD/iQln+FGs6NA1gvqE6MU0+LJ68RjAAnBEhzJpWnfqN8cYIPP8PWDI
- N5vcl3MDzjt7scLYKUALIGe4qeP7gXk=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-603-ULSiRXT8OheFGB_MU5SMxw-1; Sun, 31 Oct 2021 23:34:09 -0400
-X-MC-Unique: ULSiRXT8OheFGB_MU5SMxw-1
-Received: by mail-lj1-f198.google.com with SMTP id
- n9-20020a2e9049000000b00212acec7473so5007903ljg.22
- for <qemu-devel@nongnu.org>; Sun, 31 Oct 2021 20:34:08 -0700 (PDT)
+ bh=evYzcyjk3seqPK2YKuLI0HaIAFIsPnoDBP3F8Cy9/Y0=;
+ b=F4sqR+p/DwpzvW/5b5NHRHN3pdY3x2bm96O2nydtpPhfuC9KMsHjSj3wzDjzGdouu2Qcls
+ 8on7OmZDXFSR/1AywAf5UIROSuA3e37Dc41rU578A9MTE+wXfBT41MwEcvWQeaGZf5jHq2
+ X4CJRfCyqis5naPubi7CV9ps5xNLwvs=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-211-2JbsW8lROLaNnVMnZDlHEg-1; Sun, 31 Oct 2021 23:46:16 -0400
+X-MC-Unique: 2JbsW8lROLaNnVMnZDlHEg-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ m11-20020a2e97cb000000b00212f89f3888so1922112ljj.21
+ for <qemu-devel@nongnu.org>; Sun, 31 Oct 2021 20:46:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=tegdXbIqPRLZhLqVzvjPUDB1wc4779t/qdXKyvykph0=;
- b=LEmIuNH4u7YwDNGJ2ewuMaHsRJKrxXYSKMzcWAA1usny59pnvIV92PAFHXruHcLN83
- ei+yUMFZ8E/GKgY1Zd00wRUO/3VBCagjeVbNi6OoMeb3CWEWLTCz2mS/D3J05ZqKollh
- Yb/EEJdE9Cei/v4mFh4f2RaK1iz+ra71jHr8QhB4UPfGqkwTFlSO/IKDiKxhW43ddCbW
- YoL8U46hSxJA9EbnyvPgUySofjkR5o3ackWN17vutvPyAHZpf37kubXbxZ1gxoyX0/7m
- u0QOkuYO/g1qZLgsVLMync2F6Oo+Nbcw/drQCH20OXSaK+R65LOR/mZMOxiovykMV9EZ
- Ck2A==
-X-Gm-Message-State: AOAM532vgWp9eBXAVXyMNwvTv36Um9DPvzQmv2VoiEmabW1wLbRY9gvz
- kdH0EvkoQ3k+fJgq71whzavZ66v0MjHt1Pf7z1YnZNOBpjaTdg+jcDVTbo26KTl/H+W7WDn5iLn
- eB2aJqM5R953lYgGlodT8lVyk5CG0WqI=
-X-Received: by 2002:a05:6512:1291:: with SMTP id
- u17mr26236900lfs.84.1635737647614; 
- Sun, 31 Oct 2021 20:34:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzpVVKQd0OnoJwJwzmId3p9Pz1+PV9QE6626qzRH1UTCiHAQadIxrQk9pGMDXTfHMqqlxLb9rwQvdzDXykBwNQ=
-X-Received: by 2002:a05:6512:1291:: with SMTP id
- u17mr26236871lfs.84.1635737647232; 
- Sun, 31 Oct 2021 20:34:07 -0700 (PDT)
+ bh=evYzcyjk3seqPK2YKuLI0HaIAFIsPnoDBP3F8Cy9/Y0=;
+ b=5EaVSQmONTE9aXzCN/F0o1f6vy1MW2+YH6AY3eZy3+q3zx2RF5Mzx46ULJ2PcWwxqm
+ z7oiEAFEcTTC3K/l14GLxr6rMqzcYnJBj/+8gqdww6XpryTLiEwC2HSH5F10p1rvTTe+
+ 9SlTbxLViU6Sno0WJ1SfSYlrinD8qaJNmxaBVuu/cPSKH+ecR4n1G4b9buRE6JJuy1M+
+ XkYaH7g9WtJ8NZP/DOSSpywifcG0dgIRS3ZLpwy35pQY6dAJDR5vEJp6DxWeJy9ZYQg5
+ XjBlSjYRhcps7TBKWrR+ugECfnNmXZJsekta1LuQZQpIcb/zV36AnDtijMBXstutXvYY
+ n3vg==
+X-Gm-Message-State: AOAM531Ht2g/C9xLGm+KyOtu5t7/z3G5bJhIUpJdl/ynwoK1R8n9qRc8
+ UdWVw4zbwvGe2mppW8M2OVBp+dOYyScR4MAHY5NWrIGlu9YtXzK/6pqMc4F7Ql+93Hg7U4EsTl3
+ vVL7XaW+sGFmQu8JU7y49wdivUADTXlM=
+X-Received: by 2002:a05:6512:3d0b:: with SMTP id
+ d11mr10844974lfv.481.1635738374685; 
+ Sun, 31 Oct 2021 20:46:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwF9Vi0StfwCxVKLJleuxJA5SVgB0gJhKMAvREzfHfqAahEhuh5khak0X6azEkVG8ZyzvgzZcsRiLret1rd1l4=
+X-Received: by 2002:a05:6512:3d0b:: with SMTP id
+ d11mr10844957lfv.481.1635738374420; 
+ Sun, 31 Oct 2021 20:46:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211029141608.1728855-1-eperezma@redhat.com>
-In-Reply-To: <20211029141608.1728855-1-eperezma@redhat.com>
+References: <20211028090556.3168043-1-chen.zhang@intel.com>
+ <20211028090556.3168043-2-chen.zhang@intel.com>
+ <c603b048-1cee-1396-811d-8be857aa932b@redhat.com>
+ <MWHPR11MB0031A0311824C3DF060B64E39B879@MWHPR11MB0031.namprd11.prod.outlook.com>
+In-Reply-To: <MWHPR11MB0031A0311824C3DF060B64E39B879@MWHPR11MB0031.namprd11.prod.outlook.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 1 Nov 2021 11:33:56 +0800
-Message-ID: <CACGkMEss8Xq8WYUkDkLaYx-XBW6GADDAjH1mwmpBdxKc2wsRAQ@mail.gmail.com>
-Subject: Re: [PATCH] vhost: Fix last queue index of devices with no cvq
-To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
+Date: Mon, 1 Nov 2021 11:46:03 +0800
+Message-ID: <CACGkMEsjn0nz4N+O4s9Y0m0gEYXu9WKstP9LHE4F=m5mOR3dcA@mail.gmail.com>
+Subject: Re: [PATCH V5 1/3] net/filter: Optimize transfer protocol for
+ filter-mirror/redirector
+To: "Zhang, Chen" <chen.zhang@intel.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -92,52 +96,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-dev <qemu-devel@nongnu.org>, Li Zhijian <lizhijian@cn.fujitsu.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 29, 2021 at 10:16 PM Eugenio P=C3=A9rez <eperezma@redhat.com> w=
-rote:
+On Fri, Oct 29, 2021 at 4:08 PM Zhang, Chen <chen.zhang@intel.com> wrote:
 >
-> The -1 assumes that all devices with no cvq have an spare vq allocated
-> for them, but with no offer of VIRTIO_NET_F_CTRL_VQ. This may not be the
-> case, and the device may have a pair number of queues.
 >
-> To fix this, just resort to the lower even number of queues.
 >
-> Fixes: 049eb15b5fc9 ("vhost: record the last virtqueue index for the virt=
-io device")
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> ---
->  hw/net/vhost_net.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> > -----Original Message-----
+> > From: Jason Wang <jasowang@redhat.com>
+> > Sent: Friday, October 29, 2021 11:11 AM
+> > To: Zhang, Chen <chen.zhang@intel.com>
+> > Cc: qemu-dev <qemu-devel@nongnu.org>; Markus Armbruster
+> > <armbru@redhat.com>; Li Zhijian <lizhijian@cn.fujitsu.com>
+> > Subject: Re: [PATCH V5 1/3] net/filter: Optimize transfer protocol for =
+filter-
+> > mirror/redirector
+> >
+> >
+> > =E5=9C=A8 2021/10/28 =E4=B8=8B=E5=8D=885:05, Zhang Chen =E5=86=99=E9=81=
+=93:
+> > > Make the vnet header a necessary part of filter transfer protocol.
+> > > It make other modules(like another filter-redirector,colo-compare...)
+> > > know how to parse net packet correctly. If local device is not the
+> > > virtio-net-pci, vnet_hdr_len will be 0.
+> > >
+> > > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> > > ---
+> > >   net/filter-mirror.c | 34 ++++++++++++++++------------------
+> > >   1 file changed, 16 insertions(+), 18 deletions(-)
+> > >
+> > > diff --git a/net/filter-mirror.c b/net/filter-mirror.c index
+> > > f20240cc9f..24d3e498e9 100644
+> > > --- a/net/filter-mirror.c
+> > > +++ b/net/filter-mirror.c
+> > > @@ -39,6 +39,7 @@ struct MirrorState {
+> > >       CharBackend chr_in;
+> > >       CharBackend chr_out;
+> > >       SocketReadState rs;
+> > > +    /* Keep compatibility for the management layer */
+> > >       bool vnet_hdr;
+> > >   };
+> > >
+> > > @@ -48,7 +49,7 @@ static int filter_send(MirrorState *s,
+> > >   {
+> > >       NetFilterState *nf =3D NETFILTER(s);
+> > >       int ret =3D 0;
+> > > -    ssize_t size =3D 0;
+> > > +    ssize_t size =3D 0, vnet_hdr_len =3D 0;
+> > >       uint32_t len =3D 0;
+> > >       char *buf;
+> > >
+> > > @@ -63,21 +64,18 @@ static int filter_send(MirrorState *s,
+> > >           goto err;
+> > >       }
+> > >
+> > > -    if (s->vnet_hdr) {
+> > > -        /*
+> > > -         * If vnet_hdr =3D on, we send vnet header len to make other
+> > > -         * module(like colo-compare) know how to parse net
+> > > -         * packet correctly.
+> > > -         */
+> > > -        ssize_t vnet_hdr_len;
+> > > -
+> > > -        vnet_hdr_len =3D nf->netdev->vnet_hdr_len;
+> > > +    /*
+> > > +     * The vnet header is the necessary part of filter transfer prot=
+ocol.
+> > > +     * It make other module(like colo-compare) know how to parse net
+> > > +     * packet correctly. If device is not the virtio-net-pci,
+> > > +     * vnet_hdr_len will be 0.
+> > > +     */
+> > > +    vnet_hdr_len =3D nf->netdev->vnet_hdr_len;
+> > >
+> > > -        len =3D htonl(vnet_hdr_len);
+> > > -        ret =3D qemu_chr_fe_write_all(&s->chr_out, (uint8_t *)&len,
+> > sizeof(len));
+> > > -        if (ret !=3D sizeof(len)) {
+> > > -            goto err;
+> > > -        }
+> > > +    len =3D htonl(vnet_hdr_len);
+> > > +    ret =3D qemu_chr_fe_write_all(&s->chr_out, (uint8_t *)&len,
+> > > + sizeof(len));
+> >
+> >
+> > I wonder if we need to introduce new parameter, e.g force_vnet_hdr here=
+,
+> > then we can always send vnet_hdr when it is enabled.
+> >
+> > Otherwise the "vnet_hdr_support" seems meaningless.
 >
-> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> index 0d888f29a6..edf56a597f 100644
-> --- a/hw/net/vhost_net.c
-> +++ b/hw/net/vhost_net.c
-> @@ -330,7 +330,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientState=
- *ncs,
->      NetClientState *peer;
->
->      if (!cvq) {
-> -        last_index -=3D 1;
-> +        last_index &=3D ~1ULL;
->      }
+> Yes, Current "vnet_hdr_support"  default enabled, and vnet_hdr_len alread=
+y forced from attached nf->netdev.
+> Maybe we can introduce a new parameter "force_no_vnet_hdr" here to make t=
+he vnet_hdr_len always keep 0.
+> If you think OK, I will update it in next version.
 
-The math here looks correct but we need to fix vhost_vdpa_dev_start() inste=
-ad?
+Let me explain, if I was not wrong:
 
-if (dev->vq_index + dev->nvqs - 1 !=3D dev->last_index) {
-...
-}
+"vnet_hdr_support" means whether or not to send vnet header length. If
+vnet_hdr_support=3Dfalse, we won't send the vnet header. This looks the
+same as you "force_no_vent_hdr" above.
+
+And my "force_vnet_hdr" seems duplicated with vnet_hdr_support=3Dtrue.
+So it looks to me we can leave the mirror code as is and just change
+the compare? (depends on the mgmt to set a correct vnet_hdr_support)
 
 Thanks
 
 >
->      if (!k->set_guest_notifiers) {
-> --
-> 2.27.0
+> Thanks
+> Chen
+>
+> >
+> > Thanks
+> >
+> >
+> > > +    if (ret !=3D sizeof(len)) {
+> > > +        goto err;
+> > >       }
+> > >
+> > >       buf =3D g_malloc(size);
+> > > @@ -252,7 +250,7 @@ static void filter_redirector_setup(NetFilterStat=
+e
+> > *nf, Error **errp)
+> > >           }
+> > >       }
+> > >
+> > > -    net_socket_rs_init(&s->rs, redirector_rs_finalize, s->vnet_hdr);
+> > > +    net_socket_rs_init(&s->rs, redirector_rs_finalize, true);
+> > >
+> > >       if (s->indev) {
+> > >           chr =3D qemu_chr_find(s->indev); @@ -406,14 +404,14 @@ stat=
+ic
+> > > void filter_mirror_init(Object *obj)
+> > >   {
+> > >       MirrorState *s =3D FILTER_MIRROR(obj);
+> > >
+> > > -    s->vnet_hdr =3D false;
+> > > +    s->vnet_hdr =3D true;
+> > >   }
+> > >
+> > >   static void filter_redirector_init(Object *obj)
+> > >   {
+> > >       MirrorState *s =3D FILTER_REDIRECTOR(obj);
+> > >
+> > > -    s->vnet_hdr =3D false;
+> > > +    s->vnet_hdr =3D true;
+> > >   }
+> > >
+> > >   static void filter_mirror_fini(Object *obj)
 >
 
 
