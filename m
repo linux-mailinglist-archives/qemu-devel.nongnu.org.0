@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62A7E441A00
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 11:35:59 +0100 (CET)
-Received: from localhost ([::1]:52038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6144441A07
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Nov 2021 11:37:41 +0100 (CET)
+Received: from localhost ([::1]:55210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhUfW-0002OF-Hz
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 06:35:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36836)
+	id 1mhUhA-0004an-Tf
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 06:37:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mhUd8-00085R-23
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 06:33:30 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:43005)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mhUdN-0008Oo-Hv
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 06:33:46 -0400
+Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:39501)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mhUd6-0003LA-3R
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 06:33:29 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id v17so27436228wrv.9
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 03:33:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=mckMPTkCyS4Zk3UbqEVoxVZHUCeSUmL0hEXx+XAMNhk=;
- b=jU8QIqQxVbtRTCCqOzxmTgkSonv9r+kQ4Cfk10z3FiLTpV+OyXyGByZHVBBfVA0g5Q
- 0DV1X7A7aq/rfydbix217HyJvcQvAaV0aSEQ8L3oxTNVn0lvteUmde6I8o27IY1Ugy4h
- M78/n74O+i4sC1hqBDkaeQ//YEh68KDl9wtfgjpjMkUuFpn8fpUBIpYmOuM0Y+DtN2WY
- 3voZvkL6Mikf0/lNbC0EWPU2UyXYZ7ugUDo53+t9fFfxiwA0H/HTiMTVt8SHrcDR4dqT
- mj6QdkSRnpI6dbsFEE5yQrfdOJFuYweT9j2Rj571g0Sa+MoJH7+RvWhX1GLmBDFc/LbT
- Ai2g==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mhUdL-0003Np-Fw
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 06:33:45 -0400
+Received: by mail-qk1-x730.google.com with SMTP id bk22so9300294qkb.6
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 03:33:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=XqTwYgWfqqdBL8jR9kDUhoTZjuVxGgC6hjG+4cnotaw=;
+ b=nUnbkHk9O4lHsrUIeUy3vaI2tTnjCqTLQLqYyAXqEq/tuy51cTRd4P15Er9HEyKvUI
+ GZbTkbcKO3ih6GpDWy3ELuWaW4D3MfE+RG8hj2Qf7qeEIToX0MsOiKaVYhlQjmWb2ob8
+ DfazOhblDRsnQgYf+Qqktvz3MAAM2o4yMDLcYBnsYqBvfxMMpUStZtUdevrKdcah++o7
+ HyQKZvU4lLawZC80NWFH1Kv/CrgBoFpbeDhO2FCxjOxWZ5Bfok0i2HLT1++WSNN6jLaO
+ HxhpLHgFS6UP4rUctxwkeXk2kTieGbYWt+bla3jE2Zej+7+sbc+nB5OkTkNoxgGoXG9u
+ IAEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=mckMPTkCyS4Zk3UbqEVoxVZHUCeSUmL0hEXx+XAMNhk=;
- b=Xqxw3lh1I2Sn5beATTyw8HHtXPS7TPx9yqlque/wM/c+2r7L4KgNUeOMZo0PuSVk60
- Q78ikEY1Wmh5lOkccUFmJg563BpGeZ61J8tEN6CGXuPk7VGlxw131nyIaa2ypDSpvtwD
- crIqZKJmj+Z1tmDAsD5uA86x67XH5FUripNBnaxMsUQ7yaaAZ3mYDlYWwccngg0mMQVA
- bCQ4VhArOuez53IWcSVTzUhyV/OSJSnZRSfYf+o5h7QNOO2omK1wB8Qa15S19dhtMW4F
- aV7MsXcXSrOrfrSf10rCnbkGXNYAXzOcRrFs5luvnvRxwAPlBFQU+c9O/jqkN2/tFfiM
- LSQg==
-X-Gm-Message-State: AOAM531e0Bdu4oKY1hQztLww0CEROTahig6CEqHJ9pEipPWJz0IZzUrY
- 55wN2BXSqKQ7Ac8QQgCjBmM=
-X-Google-Smtp-Source: ABdhPJw9e7gNMVtGoIR/HDdtwaKmfiVhePsBDQHIqGuBsY6UNCUhDw6VM7vD8R1kYK4e6XeFVvCUZw==
-X-Received: by 2002:a5d:5504:: with SMTP id b4mr27276969wrv.307.1635762806461; 
- Mon, 01 Nov 2021 03:33:26 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id z8sm7370009wrh.54.2021.11.01.03.33.25
+ bh=XqTwYgWfqqdBL8jR9kDUhoTZjuVxGgC6hjG+4cnotaw=;
+ b=JnFz4oQcHKK7gc3ASgSUr/QV0HIK+ZkVtYUD/HHV8HLL1TA9BIiv9JMJ02y1ZvO+5i
+ 14nssoWU/rlBwBufni4LrOeflJMt1uMj+bm4bszOd8IoFB6Ivnl+eh1q4VP7jPLGvz9h
+ 7ddg7IQnfg1f6HiBiNjNZ1gE1Ihna5U9o1k61yJWbHfh3S72li6+8lrjl/gOkYoUw6xB
+ OmbAJQkLiJKl2bKYAuDJZ/DiJPgcO3sW7OyQXYPPyzaTa3+/aEMH/1AJb0zW3cm4qmZx
+ 8Sa5DVbwHZ8ID0xpzgyyy3RzTMOIxMdSk5ypJKDpm/MRDoyTAyHx0kEh1Kh8IED83XJX
+ utyQ==
+X-Gm-Message-State: AOAM531FGcLSH7Vlj0OlFOrXNA4gdFQf1RB656ZTv8GUN9VO9Fg8AlrZ
+ CTK3p1e87Q9C+2vduWqgBBmisg==
+X-Google-Smtp-Source: ABdhPJx4xCIt9AnbzQfInVQ1+a230bJd5LmoJHQm23z7mmzbj6elVQFVTvXuPojhPpcVpoOrMI/vJw==
+X-Received: by 2002:a37:ae41:: with SMTP id x62mr22224402qke.241.1635762822452; 
+ Mon, 01 Nov 2021 03:33:42 -0700 (PDT)
+Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
+ [172.254.253.57])
+ by smtp.gmail.com with ESMTPSA id c3sm2893973qtx.53.2021.11.01.03.33.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Nov 2021 03:33:25 -0700 (PDT)
-Message-ID: <e1d3d003-f287-7f82-d604-6f43b0d9c55c@amsat.org>
-Date: Mon, 1 Nov 2021 11:33:24 +0100
+ Mon, 01 Nov 2021 03:33:42 -0700 (PDT)
+Subject: Re: [PATCH 02/13] target/riscv: Extend pc for runtime pc write
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20211101100143.44356-1-zhiwei_liu@c-sky.com>
+ <20211101100143.44356-3-zhiwei_liu@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <03cbb2ba-3fc0-e904-6bf6-56ece9cf46b9@linaro.org>
+Date: Mon, 1 Nov 2021 06:33:40 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PULL 28/30] Hexagon HVX (tests/tcg/hexagon) hvx_misc test
+In-Reply-To: <20211101100143.44356-3-zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <1635698589-31849-1-git-send-email-tsimpson@quicinc.com>
- <1635698589-31849-29-git-send-email-tsimpson@quicinc.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <1635698589-31849-29-git-send-email-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x730.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.592,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.592,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,70 +89,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org
+Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/31/21 17:43, Taylor Simpson wrote:
-> Tests for
->     packet semantics
->     vector loads (aligned and unaligned)
->     vector stores (aligned and unaligned)
->     vector masked stores
->     vector new value store
->     maximum HVX temps in a packet
->     vector operations
+On 11/1/21 6:01 AM, LIU Zhiwei wrote:
+> In some cases, we must restore the guest PC to the address of the start of
+> the TB, such as when the instruction counter hit zero. So extend pc register
+> according to current xlen for these cases.
 > 
-> Acked-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 > ---
->  tests/tcg/hexagon/hvx_misc.c      | 469 ++++++++++++++++++++++++++++++++++++++
->  tests/tcg/hexagon/Makefile.target |   2 +
->  2 files changed, 471 insertions(+)
->  create mode 100644 tests/tcg/hexagon/hvx_misc.c
-
-> +static void test_load_tmp(void)
-> +{
-> +    void *p0 = buffer0;
-> +    void *p1 = buffer1;
-> +    void *pout = output;
+>   target/riscv/cpu.c        | 20 +++++++++++++++++---
+>   target/riscv/cpu.h        |  2 ++
+>   target/riscv/cpu_helper.c |  2 +-
+>   3 files changed, 20 insertions(+), 4 deletions(-)
+> 
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 7d53125dbc..7eefd4f6a6 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -319,7 +319,12 @@ static void riscv_cpu_set_pc(CPUState *cs, vaddr value)
+>   {
+>       RISCVCPU *cpu = RISCV_CPU(cs);
+>       CPURISCVState *env = &cpu->env;
+> -    env->pc = value;
 > +
-> +    for (int i = 0; i < BUFSIZE; i++) {
-> +        /*
-> +         * Load into v12 as .tmp, then use it in the next packet
-> +         * Should get the new value within the same packet and
-> +         * the old value in the next packet
-> +         */
-> +        asm("v3 = vmem(%0 + #0)\n\t"
-> +            "r1 = #1\n\t"
-> +            "v12 = vsplat(r1)\n\t"
-> +            "{\n\t"
-> +            "    v12.tmp = vmem(%1 + #0)\n\t"
-> +            "    v4.w = vadd(v12.w, v3.w)\n\t"
-> +            "}\n\t"
-> +            "v4.w = vadd(v4.w, v12.w)\n\t"
-> +            "vmem(%2 + #0) = v4\n\t"
-> +            : : "r"(p0), "r"(p1), "r"(pout)
-> +            : "r1", "v12", "v3", "v4", "v6", "memory");
-> +        p0 += sizeof(MMVector);
-> +        p1 += sizeof(MMVector);
-> +        pout += sizeof(MMVector);
-> +
-> +        for (int j = 0; j < MAX_VEC_SIZE_BYTES / 4; j++) {
-> +            expect[i].w[j] = buffer0[i].w[j] + buffer1[i].w[j] + 1;
-> +        }
+> +    if (cpu_get_xl(env) == MXL_RV32) {
+> +        env->pc = (int32_t)value;
+> +    } else {
+> +        env->pc = value;
 > +    }
+>   }
+>   
+
+Good.
+
+>   static void riscv_cpu_synchronize_from_tb(CPUState *cs,
+> @@ -327,7 +332,12 @@ static void riscv_cpu_synchronize_from_tb(CPUState *cs,
+>   {
+>       RISCVCPU *cpu = RISCV_CPU(cs);
+>       CPURISCVState *env = &cpu->env;
+> -    env->pc = tb->pc;
 > +
-> +    check_output_w(__LINE__, BUFSIZE);
-> +}
+> +    if (cpu_get_xl(env) == MXL_RV32) {
+> +        env->pc = (int32_t)tb->pc;
+> +    } else {
+> +        env->pc = tb->pc;
+> +    }
 
-This test fails guest-tests:
+Bad, since TB->PC should be extended properly.
+Though this waits on a change to cpu_get_tb_cpu_state.
 
-tests/tcg/hexagon/hvx_misc.c:111:21: error: unknown register name 'v12'
-in asm
-            : "r1", "v12", "v3", "v4", "v6", "memory");
-                    ^
-tests/tcg/hexagon/hvx_misc.c:362:9: note: expanded from macro 'TEST_VEC_OP2'
-        VEC_OP2(ASM, EL, p0, p1, pout); \
-        ^
+> @@ -348,7 +358,11 @@ static bool riscv_cpu_has_work(CPUState *cs)
+>   void restore_state_to_opc(CPURISCVState *env, TranslationBlock *tb,
+>                             target_ulong *data)
+>   {
+> -    env->pc = data[0];
+> +   if (cpu_get_xl(env) == MXL_RV32) {
+> +        env->pc = (int32_t)data[0];
+> +    } else {
+> +        env->pc = data[0];
+> +    }
+
+Likewise.
+
+
+r~
 
