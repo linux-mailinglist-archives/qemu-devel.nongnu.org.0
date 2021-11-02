@@ -2,147 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A020442EF5
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 14:17:14 +0100 (CET)
-Received: from localhost ([::1]:49628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0365D442EF3
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 14:15:32 +0100 (CET)
+Received: from localhost ([::1]:44852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhtf6-0006E5-P5
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 09:17:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50462)
+	id 1mhtdS-0002xT-S8
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 09:15:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mhtWg-0002ty-M0; Tue, 02 Nov 2021 09:08:30 -0400
-Received: from mail-db8eur05on2126.outbound.protection.outlook.com
- ([40.107.20.126]:60512 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mhtbR-0000hy-9i
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:13:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33461)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mhtWZ-0008Ji-Vv; Tue, 02 Nov 2021 09:08:25 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i19QGgNFVLI/ROMp9tYQPgqrttoRa+Ag52wRcTr4siq2zAVBt0iKz4Vq0C8FcrQhOMgZ5uNz4PWCN0w1Vk4RWEQLkYCZAH4GPq3pI731pL1Uj8XDE057QexPHVaEAhcgodPkIENvRwT63/cSTWZ8LR2P5OtRugy5oQhOqfWteeJqgKYdWJYZp4rGqWexlpnsxQBoXURv6/jT55Wj16s8j2GpdKCG9IRWxZxgIlZLcYyzMT+HelJE0g136K/lDWL7WJxokOuneH9bskD1grO4DnJGYJUpOf/iNQmo+LAk4vhM4GqT4PSPUguc9+FCHkA1ouGhBbqJ7YXLi1LEEqhK8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7P43yePMd7Zd71uSQT2BwNXjmDpGma4NcW9fK2+nMDM=;
- b=hepghHpZP0urzTLtTim53JrLmXXQQgdjU6w9LNUj018XMFsZaAO6vmgiLV6mprgy5ubFUhqVMN3reWIMhLn7JPhBn5GOoq/wNon369CAeszSyzhAxZ+tCPJRMqcjVa5jhoBGRVJ4zexaG1/J3Lkn6IZxmnX4DebRSRIdISbS0a9lUcya2hBfV4hDZ0rarnUTi/UeH0SWuZho7fygceImkXSR9L5JIKKNST6l90XpABVPlhSFAYdWqMP9aIDDZd9DOl8PAivAL4LUERXp6XM/JgoezgWnwNro0Dbjo1FxrupXSyBzHheTUCEBoH8417RGS3W74/wQpqbJEu1haGdvEA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7P43yePMd7Zd71uSQT2BwNXjmDpGma4NcW9fK2+nMDM=;
- b=AHxlsoUWGNetAj3F72JX+anYs7oXuWBlY+m8UEt7Lc3MvdG83g7C0y3/DRlIcHPZhJ4ISKlNdWA0iSfpTN5tX63ib9KcP2/Ek08B7j7/1AV0GVLIwDnv9FU3Rq6Xxjie7JM4lsS5bcZ42G8+u9TIvOyF5e5DrlWQQe7IsQ18JoA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3031.eurprd08.prod.outlook.com (2603:10a6:209:45::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14; Tue, 2 Nov
- 2021 13:08:20 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a994:9f7c:53a5:84bc]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a994:9f7c:53a5:84bc%5]) with mapi id 15.20.4649.020; Tue, 2 Nov 2021
- 13:08:20 +0000
-Message-ID: <dd430e7e-d45c-038f-d571-9be2a0823ee2@virtuozzo.com>
-Date: Tue, 2 Nov 2021 16:08:18 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [RFC PATCH 00/15] job: replace AioContext lock with job_mutex
-Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-References: <20211029163914.4044794-1-eesposit@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-In-Reply-To: <20211029163914.4044794-1-eesposit@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS8PR04CA0036.eurprd04.prod.outlook.com
- (2603:10a6:20b:312::11) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mhtbM-0000nm-7A
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:13:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635858798;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=NbZlonIEVXaiiv7ng77jnWb9CCM4PXuPvIsJJLnSGRY=;
+ b=BXGgW8JcXKxRHBuL75apWhzqm60Gvdk2kzJRuZrOiCW/2bFK/ZN6x+EFKKZ+nyxznIr+tD
+ 2AGLgmN0AaZq+9PDSbjcM1z4iKg4pfkHkY30BX+4lHmomuu97kkpBS6aIN34icTPfIsKba
+ lobVbm/5cmo7uKWcUc1rCtKfM1GNTf8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-464-zlauypLeNQ-pztjUDoqYAg-1; Tue, 02 Nov 2021 09:13:17 -0400
+X-MC-Unique: zlauypLeNQ-pztjUDoqYAg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ k5-20020a7bc3050000b02901e081f69d80so6932963wmj.8
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 06:13:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=NbZlonIEVXaiiv7ng77jnWb9CCM4PXuPvIsJJLnSGRY=;
+ b=60SA2fpiGd+oEBJlohuzoOMNHqIVBMeRHMC+q8FjJVPIrYv3U+Eeyr8wSs++C/MJWg
+ XZAHiYvacJV90TFFG6M3jqWM0wuzFM+ggZeSMXJbCqMRO0RrgusHkssDUGviyVBCZRRa
+ AC1Uh6MyAZi4ewFy43qtFlvn/Ri0OArbKKVc81rj0mZmX3OOzivaw81S7qOpZFlunIIq
+ ubmNdVCrQp+ItbMznB0xcfuSb3w2hXxJy8SbWs0q7tGwwPWuBX21GWVkyexJSCgHYQN7
+ san+aYEcwyhxfVEM/qtyp4NWC7MiFIRyI2ASrAWrtcr2+D65TqYk/teHt0+LI210sINl
+ EjZg==
+X-Gm-Message-State: AOAM531kriZFf7CIv+2WEBtSw62CU3yFx1ECGqeZItrHfdNn5U8VIO4e
+ em9L/NW7kOIsF/niWmnRFw8E3EB5YCOV3G1rw9PzEK0b1j0ytf6FxmJrw8tmsbBxfyEgsBpztHG
+ 3TosrvCTyFMTvyb4=
+X-Received: by 2002:a05:600c:6d2:: with SMTP id
+ b18mr7254206wmn.98.1635858796624; 
+ Tue, 02 Nov 2021 06:13:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw1dSxgM8Nwgu9foQ61zjZmJbwuvKmhcTGvjYG/9YoM9FLS1T12yQuBXBjO37EkSD5SI8LXAQ==
+X-Received: by 2002:a05:600c:6d2:: with SMTP id
+ b18mr7254149wmn.98.1635858796317; 
+ Tue, 02 Nov 2021 06:13:16 -0700 (PDT)
+Received: from localhost ([188.26.219.212])
+ by smtp.gmail.com with ESMTPSA id c15sm16692204wrs.19.2021.11.02.06.13.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Nov 2021 06:13:15 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Leonardo Bras <leobras@redhat.com>
+Subject: Re: [PATCH v4 2/3] QIOChannelSocket: Implement io_writev_zerocopy &
+ io_flush_zerocopy for CONFIG_LINUX
+In-Reply-To: <20211009075612.230283-3-leobras@redhat.com> (Leonardo Bras's
+ message of "Sat, 9 Oct 2021 04:56:12 -0300")
+References: <20211009075612.230283-1-leobras@redhat.com>
+ <20211009075612.230283-3-leobras@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Tue, 02 Nov 2021 14:13:14 +0100
+Message-ID: <87o872k8et.fsf@secure.mitica>
 MIME-Version: 1.0
-Received: from [192.168.100.10] (185.215.60.243) by
- AS8PR04CA0036.eurprd04.prod.outlook.com (2603:10a6:20b:312::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.10 via Frontend
- Transport; Tue, 2 Nov 2021 13:08:19 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d506c695-e70d-49ee-32d1-08d99e01d7d9
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3031:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB30311376366C9A54E3BBE137C18B9@AM6PR08MB3031.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LzzUBJdHSN+Hi9MszwwTM/NFp0W7YRu8RPlR5N9Mg+p1Jstf6fR16m3k/N3kloLVTtCPTWMJuYv1urNpQ7PcrMJoT1859aXNnPFBSd5qQ6u8wOYr9gYhIIVSJnbNsYTW5Hr2z/f1fgwjbgHevM4HhTAeaLaD35BGgLc86byruLPAtPV5M4btmmDgZedAY5pjcMYSHG1ZaoEkGQKpfjHI1g9g5l31gU0eypB5dqSgMwIYs8ZHYWlfIxNOEvnGPjbyKYYwBsDRicSdU7NgpVZ38KjcyiUCtAeLEJPVVP9NCy2pq9jnG+y9VphR+zOLnMekf6JkRkDpdCGMCmt/v5w0O8GEkAp183mYWEhv4Q+qwqvx+zk5Exzb7idy0mlpXJCRwfxgJvmcqKYs+tu7NvztJTJCNEolxtEtJIi+bIzs+A6kzmcJwG5BfFj3TY2m17Dhdv46MsYBvpTvGCJjmHSrWE0tMcw/pHnevL2MwszWrz9Pc+bprqsHHfMel9pC109AFnK+swXtreJTBh8kAMFxIIiXc3G/Ix+Fjs88JvMSl/78osUinAuuI04fiR8mRUqOdL8YQ9xPBTB0a52ddgmu0Rr3BhsgKGs/TcaD1DmOJyWjgr8x65QrqWItW4pO445zVtAOsWYvWGDEBxXZxgOLdp4XR01CDlVeItruQJ4Bu089R+9Mqbcp7FWk+dM4ocUfM77gFl/rUr0erA8mNABDrkNHffng7yQxTOnyogQgMT8N/pQXSAcw+a+r1wYX/eombH9tJSCH7F56z9hMRyHqPQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(31696002)(316002)(54906003)(16576012)(2616005)(956004)(8676002)(83380400001)(7416002)(8936002)(6486002)(508600001)(186003)(52116002)(38350700002)(5660300002)(66946007)(66556008)(2906002)(66476007)(26005)(36756003)(4326008)(86362001)(38100700002)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SjZxZUtDeUFLRXVqVm45M2lkN296ZGsySVBKZWFYaXJHZ1JGbXR3MGFBVkF1?=
- =?utf-8?B?ZFBUL3hya3hQeXBYdmpmMDh3S3F3dC82QXBBYVVXOEZ5Y1VldEk4eXJ0aE1a?=
- =?utf-8?B?cVRuSFF3L1FxYUlOM0djWWRNdHA2VFZBZWZFdG1LZU9IakFqbHh6b0VNY251?=
- =?utf-8?B?eCsyNFZhY0VRWmY5bi9aRmx1d2IySWRjcjd0MThCbTgrdlVlcVJSQXJzZjZs?=
- =?utf-8?B?VTNhQnV6NUU5Q3VwSjl5b09xcXBHSldGNXQ2QXdvK0ErdWFNejE0VUFtbzJ6?=
- =?utf-8?B?YThxYjVlRkdCS0ZJcm1nM2ZZMGdlZS9MS3liaUZweGtmQ0NvamlSemQ3TW9T?=
- =?utf-8?B?eDU4ZE1KU2lWWHNlaFl3MWZaZmlWb2lscU9jaDdkTlIyaGUyUnBTRk0yUExU?=
- =?utf-8?B?SkJiQnZockpIYy9QeE8zUHBZWGREbm5BWENTcVh4cjJualN3eERQTVdoVXVI?=
- =?utf-8?B?YUxOUk4wWUVEY1JFL0JQQy9IanJrZjVpZ2ZlNHA2T2s1MngxWTJzb2ZKK1Ja?=
- =?utf-8?B?L3FJd1IwYnVCK1liZ2dvNjc0M0ZtS2pvTEdzd2psd3hTL28vYSswWlBlQStR?=
- =?utf-8?B?OGduRW5LOFkwN3pCbXZIMk90MkNOcHdWQlJjMWNtb1JESGtwMm95QktGWVVk?=
- =?utf-8?B?cjBYN3dkVWRSdEhybXJEaXhBMG1ZU2lJTnJxckgzcXVxdndRNUkvNHNqTk9I?=
- =?utf-8?B?N0xCZ0EyYmdsYmlQdnloWS9FR2lFdnNIZ1h1TWFFUTFDZG1JbFNURHBJTml0?=
- =?utf-8?B?NE1lS3pvOXlObkxTNnFXbzBybWlhd3V2ZUtYSHYxL0xLT2c3aGhOaDEvbkdH?=
- =?utf-8?B?SE0zYmVHUU1JZzdpNUxZU1ZrU0F4RFNpdDZBMlQ1S3ZzOUdVY3BKbVZCNTVp?=
- =?utf-8?B?THdBdmdZdmw5bFBNZFZ6Sm01bk45WmhGYmt1cGhGU1ZSOWFNZ3RkalhRZmln?=
- =?utf-8?B?WEpSb2lQdjR2K1ZxSmF0eU1TbThTbC9ieHhycWFNU0F0VEVsQlF0OEZtUUoz?=
- =?utf-8?B?allXNTREZlpvU0hleW1naUx3SnpRVkJUd0kwMytac25xMHp6VWdDb2pNL2NH?=
- =?utf-8?B?K0E5dGlnVlNGeTg3UFNZTGpqbGw4NXhmWFZlZXhaU0xEbUVhWjRIVXNZRUlu?=
- =?utf-8?B?aW1GMm1DV3EvUWJXTmk2ak9QVk1YK2pwK2RGMGpsRHNiU3NYRWhXQ1F0cEdO?=
- =?utf-8?B?enBTVW9BVStEL3laMXBqeno1OTQvc04rU2tva3ZPWm1CaHRuekh4N3FOSHM4?=
- =?utf-8?B?OHJ0ZjFVeHpoeS8vRG1Oc0NjaURJblhXbHVPZ2prbUtRQldLZXlJQ3lRMjZR?=
- =?utf-8?B?eE52bDY0RFhGQkpjNzBTYmlnenpQa3QyYkVGeEZWY2JnL3ZFL3pHaXl6RVE1?=
- =?utf-8?B?eTJKa0tRSzNRZ3lZeXIyMHdPVE5nSEQ0emNadU1RTXpLRUVEQzZPL2hRa0Nv?=
- =?utf-8?B?aFJ4YVZVVE9TN3d1WkpPTkVzRDFVaGd0VExockdwS21UblZVR2NNeGZQZ2lx?=
- =?utf-8?B?VzhxdVlweGlTZmxId2Y3cWZXYXNHRkh0UTlrZVpKdnUva2wxZ1hkbzJvYTFu?=
- =?utf-8?B?VGRiSmxlL2dNdi8ycXhtVnE0d1c3N0MzNWttR2cvUXZ5Wk8yb25OWUJ4L1Fh?=
- =?utf-8?B?TDEvVzIxZXcydG9FMlJjUS9Bdk8zbUZuZ0hwWDRBRW9lem1JTldFN0htVDYy?=
- =?utf-8?B?TnVUdXRITFErditGU1pNYllEd3dSNURNTWN3bW5Ud25kRXpHNHRtNmVtdGhS?=
- =?utf-8?B?ZFl2YVNodXhZUTQxRTFmZjlrcHJheTlocU10QzRUMkdjVWR6NlFQSXZxRFl5?=
- =?utf-8?B?VDJFODNac041NGR6YzVtR2l3cm1RSCt6ckZMQldYdEloWm9VUUwrVGUwR1FQ?=
- =?utf-8?B?Q3pPdGV2NE5yZXVQUEM3S3NjeWRWODdaRUt4Y1c0NTdZbnM1U1l0RWxwdzdH?=
- =?utf-8?B?c3dnbjRlNmQ4NkhlWjVlbUFBMDNnVVd5R2cyek5MWklpelhkb0JjaGJRcEY0?=
- =?utf-8?B?WGFCUHdjUFFMUVJSMVJIYUw4ZHBtbUhJVlJmUzduK3JaT0g3ZHRhUWNSQTJD?=
- =?utf-8?B?VlhDcWg4SVY0YUNZYlljKzFtVjJ3ZFJRYnFMVDY3d1d0MGlYVTkrT3Z3NFN4?=
- =?utf-8?B?VGM5U25qUS9nQllwdGhZT1B5YUd4WGJTQUlBeFl6elhtN1FaM3JPVWV6ODV6?=
- =?utf-8?B?QitLcW9kaUFJVjRIVUx1MHBFNkRkVW9PZ01DTWxUKzFwRW1ZN3dFNnFOWnpW?=
- =?utf-8?Q?faNAMaewRWBCgxnE7Ptvzx9Ybo4+tgXx7DJihiZnBQ=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d506c695-e70d-49ee-32d1-08d99e01d7d9
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2021 13:08:20.4113 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RvBHmSu2RuTctkoKP6z6IOeL0AVJIgkvE7YWR9EolT+l/DqadAH5Q2YT06nurwkD46wLJrhknMwqzyp5yU2YZvBRT/myqo8RHODrK69KIfc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3031
-Received-SPF: pass client-ip=40.107.20.126;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-2.549, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -156,50 +98,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
+Cc: "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>, "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-29.10.2021 19:38, Emanuele Giuseppe Esposito wrote:
-> In this series, we want to remove the AioContext lock and instead
-> use the already existent job_mutex to protect the job structures
-> and list. This is part of the work to get rid of AioContext lock
-> usage in favour of smaller granularity locks.
-> 
-> In patches 1-3-5-6-7, we split the job API in two headers:
-> job-driver.h and job-monitor.h.
-> As explained in job.c, job-monitor are the functions mainly used
-> by the monitor, and require consistency between the search of
-> a specific job (job_get) and the actual operation/action on it
-> (e.g. job_user_cancel). Therefore job-monitor API assume that
-> the job mutex lock is always held by the caller.
-> 
-> job-driver, on the other side, is the collection of functions
-> that are used by the job drivers or core block layer. These
-> functions are not aware of the job mutex, and delegate the
-> locking to the callee instead.
-> 
-> We also have job-common.h contains the job struct definition
-> and common functions that are not part of monitor or driver APIs.
-> job.h is left for legacy and to avoid changing all files that
-> include it.
+Leonardo Bras <leobras@redhat.com> wrote:
+> For CONFIG_LINUX, implement the new optional callbacks io_write_zerocopy and
+> io_flush_zerocopy on QIOChannelSocket, but enables it only when MSG_ZEROCOPY
+> feature is available in the host kernel, which is checked on
+> qio_channel_socket_connect_sync()
+>
+> qio_channel_socket_writev() contents were moved to a helper function
+> qio_channel_socket_writev_flags() which accepts an extra argument for flags.
+> (This argument is passed directly to sendmsg().
+>
+> The above helper function is used to implement qio_channel_socket_writev(),
+> with flags = 0, keeping it's behavior unchanged, and
+> qio_channel_socket_writev_zerocopy() with flags = MSG_ZEROCOPY.
+>
+> qio_channel_socket_flush_zerocopy() was implemented by counting how many times
+> sendmsg(...,MSG_ZEROCOPY) was sucessfully called, and then reading the
+> socket's error queue, in order to find how many of them finished sending.
+> Flush will loop until those counters are the same, or until some error ocurs.
+>
+> A new function qio_channel_socket_poll() was also created in order to avoid
+> busy-looping recvmsg() in qio_channel_socket_flush_zerocopy() while waiting for
+> updates in socket's error queue.
+>
+> Notes on using writev_zerocopy():
+> 1: Buffer
+> - As MSG_ZEROCOPY tells the kernel to use the same user buffer to avoid copying,
+> some caution is necessary to avoid overwriting any buffer before it's sent.
+> If something like this happen, a newer version of the buffer may be sent instead.
+> - If this is a problem, it's recommended to call flush_zerocopy() before freeing
+> or re-using the buffer.
+>
+> 2: Locked memory
+> - When using MSG_ZERCOCOPY, the buffer memory will be locked after queued, and
+> unlocked after it's sent.
+> - Depending on the size of each buffer, and how often it's sent, it may require
+> a larger amount of locked memory than usually available to non-root user.
+> - If the required amount of locked memory is not available, writev_zerocopy
+> will return an error, which can abort an operation like migration,
+> - Because of this, when an user code wants to add zerocopy as a feature, it
+> requires a mechanism to disable it, so it can still be acessible to less
+> privileged users.
+>
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+
+I think this patch would be easier to review if you split in:
+- add the flags parameter left and right
+- add the meat of what you do with the flags.
+
+> +++ b/include/io/channel-socket.h
+> @@ -47,6 +47,8 @@ struct QIOChannelSocket {
+>      socklen_t localAddrLen;
+>      struct sockaddr_storage remoteAddr;
+>      socklen_t remoteAddrLen;
+> +    ssize_t zerocopy_queued;
+> +    ssize_t zerocopy_sent;
+
+I am not sure if this is good/bad to put it inside
+
+#ifdef CONFIG_LINUX
+
+basically everything else uses it.
+
+> +#ifdef CONFIG_LINUX
+> +    ret = qemu_setsockopt(fd, SOL_SOCKET, SO_ZEROCOPY, &v, sizeof(v));
+> +    if (ret < 0) {
+> +        /* Zerocopy not available on host */
+> +        return 0;
+> +    }
+> +
+> +    qio_channel_set_feature(QIO_CHANNEL(ioc),
+> +                            QIO_CHANNEL_FEATURE_WRITE_ZEROCOPY);
+
+As Peter said, you shouldn't fail if the feature is not there.
+
+But on the other hand, on patch 3, you don't check that this feature
+exist when you allow to enable multifd_zerocopy.
+
+> +#endif
+> +
+>      return 0;
+>  }
 
 
-Honestly, I don't really like the idea of splitting:
+>          error_setg_errno(errp, errno,
+>                           "Unable to write to socket");
 
-1. It's not a functional split: for some functions we have a locked version in one header and unlocked in the other. But actually they are the same function. I'd prefer such wrappers to live together. All the declarations in the headers are about one thing: Job.
+Why do you split this in two lines?
 
-I think, splitting make sense when we really split things, split objects into some separate entities. But here you just use different header to group functions by some criteria not related to their action. I don't like it.
+Yes, I know that this file is not consistent either on how the do with
+this, sometimes one line, otherwise more.
 
-I think, it's enough to specify in a comment above the function, does it need locking or not ("foo_locked" naming helps too), and different headers doesn't help to understand code but make it more difficult.
+I don't know how ZEROCPY works at kernel level to comment on rest of the
+patch.
 
+Later, Juan.
 
-2. I don't like file names:
-
-"job-driver" for me sounds like something about JobDriver struct. "job-monitor" - unclear. You define job-monitor as functions mainly used by the monitor. But actually they are used by other code paths as well.. Also, jobs don't directly relate to monitor, they are abstract, so no reason to establish such a relation in file names.
-
-
-
--- 
-Best regards,
-Vladimir
 
