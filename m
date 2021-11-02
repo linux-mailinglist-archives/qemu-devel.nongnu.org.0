@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E024428B1
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 08:38:21 +0100 (CET)
-Received: from localhost ([::1]:39868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDBBB4428BC
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 08:41:15 +0100 (CET)
+Received: from localhost ([::1]:44312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhoNA-0008DH-R4
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 03:38:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43806)
+	id 1mhoPz-00032k-4Z
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 03:41:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhoL2-0006XJ-VW
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 03:36:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53948)
+ id 1mhoOZ-00028d-EW
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 03:39:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhoL0-0000JQ-Dr
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 03:36:07 -0400
+ id 1mhoOX-0000dd-BR
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 03:39:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635838565;
+ s=mimecast20190719; t=1635838781;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IQzo864IFt7dEBP6wGwA3RJDk6TUSht/jAIHHjiI+Ec=;
- b=Y3lG8vEMtuQ4b7Hp/oguoB5vs8lVu8aQRWlJ8c1d5iERgwpnKkdmdVnsWKa2vlrEHbJ7K+
- 8tt/BCAxWS7yO5jwaFsKESwyWvyB9yb4mau4AWgtOyQ1F6K1RT/Z/tJoxxvHSAXWmlqh02
- qS7y8Pw7wsa8tS9WHNdtY+y5eoo1dC4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-u_-LL0e9MAC33W3yjmIWcQ-1; Tue, 02 Nov 2021 03:36:04 -0400
-X-MC-Unique: u_-LL0e9MAC33W3yjmIWcQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- k8-20020a5d5248000000b001763e7c9ce5so6083073wrc.22
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 00:36:04 -0700 (PDT)
+ bh=iYJ+rzPHjNuYUW6zXStopClVVMx1ShvzWhMFsee97fE=;
+ b=iGEbYaf/cXKiuvYWLuwkJjj1z7/F2+1vhYl3bs1pEkM3eN9yuMj8b7suMMkN5lIwV1ekru
+ F2aNiytjO1M8okiQ0hMi//e9oDAqq9FW3l2TUOcgCzjXFpdXIWVIySI0+XQQwnssU9zQ5K
+ RxvRwdD7Vk2ayadSJq0cI+SynINKaK8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-189-ft7f9AdvN4iotTNSUfzbEg-1; Tue, 02 Nov 2021 03:39:40 -0400
+X-MC-Unique: ft7f9AdvN4iotTNSUfzbEg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ y9-20020a1c7d09000000b003316e18949bso3747840wmc.5
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 00:39:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version
  :content-transfer-encoding;
- bh=IQzo864IFt7dEBP6wGwA3RJDk6TUSht/jAIHHjiI+Ec=;
- b=NrGiByBBqgZUcARwJ56lh/ABGHEYiq1zleSgxuM/yjyzIhIsyUwJXPH2BePV2wArQ1
- 8g/NnlmGUS0tw+4JigR3nuQqQnEsvnfOAVKJVXnq2n9hMpkXy44zm8jaQ05C4Q5AGyzv
- qczxO9/xRqXsrGPNXNl8JTz62f8HQZFIElsxIl69ZV1X2W2FO+03+vD21LaZoXjMtSVt
- zCSZLdKXwl5NJoQK3kEiSzgn2KvgidDLH1gqBnnprIqFZTneNSFRR9zGNcYRadof1Nwe
- /Br6+c3YI7d5v8N5KBAwgKw3n8ZKDh5p05O9IIKD7Q1V0U31Ug+53QQaKcFtzV7Bn9eY
- NJ0A==
-X-Gm-Message-State: AOAM531slaggH/glsfMOfDZcgRz70R6PkFJfXMw0+iH+ZFdBxxPwK5a4
- 6+eRAcENkejEuEe2jLqKyzA5OUiy3mlL8CZEu4kI5ORJcm7/43TUMj93+79tB+wLotf06uXwG5z
- Cf50OvJhyozBBDnM=
-X-Received: by 2002:a05:600c:3b82:: with SMTP id
- n2mr4995534wms.50.1635838563778; 
- Tue, 02 Nov 2021 00:36:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxlC5PEpMXZBCOB3RsoO+aySl0IYlS7ZRwG0VEohOsNKNAVbr4GiARf3aVMBI7AHgzYCtROMg==
-X-Received: by 2002:a05:600c:3b82:: with SMTP id
- n2mr4995487wms.50.1635838563555; 
- Tue, 02 Nov 2021 00:36:03 -0700 (PDT)
+ bh=rvM+Poc8HmK0BbG3MONenb/GbOeLn0E+m/VzqR43GaU=;
+ b=yOpasLXpG2UymS6ikq5EdNz8wVyoQS3IFySZlr0Jr2tyJsutRxrIGaNsfBGfNvizDC
+ 4uDOrGXDlCBXkdptcvVL+1o2ReD0+W3KwJuTln4ohCQWcBkUGCmNfJjut2VU/3dux2lv
+ tkh9hCp11D0CQCPibMr/Tb3EiDYBUVBisJQXrw57dXnTdV750V1cRXv8N3ugMF/sXHEN
+ XvF/n0W9KDpp1di5lF/JtDBLm2RSYrPWHIV4lsyXTmdO/E3SOBuvBehixZACREkf6LLm
+ ihU6yp9CV11RoBt9Tmh9AcMatMVercSQQWVxPhcu4Ph0ld7wdbMAoADntYaIgfchgjut
+ 6zSw==
+X-Gm-Message-State: AOAM533X1L/mtTfR8g0yktG21xx4toCKY2EKzyxhOfG1dBQRpc3Mh+EH
+ v/DSv3LE8j3WPnGrPSZKGO9cdDtm2ToVUr8/1Goz0JpehnVcPgr/SibGaEViyjX5Vdm0C/m4mzZ
+ ff3A0TtnxOwlmlnI=
+X-Received: by 2002:a5d:5144:: with SMTP id u4mr38439771wrt.91.1635838779357; 
+ Tue, 02 Nov 2021 00:39:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxy+z3nFQGpQaDjuMoiWl0dWnpUbkeD+0o1Qxrj5xdUgGO0aNAPyIJ6uswMVBNtDdR+HtpFSg==
+X-Received: by 2002:a5d:5144:: with SMTP id u4mr38439734wrt.91.1635838779151; 
+ Tue, 02 Nov 2021 00:39:39 -0700 (PDT)
 Received: from localhost ([188.26.219.88])
- by smtp.gmail.com with ESMTPSA id o40sm1570108wms.10.2021.11.02.00.36.02
+ by smtp.gmail.com with ESMTPSA id e12sm535754wrq.20.2021.11.02.00.39.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 00:36:03 -0700 (PDT)
+ Tue, 02 Nov 2021 00:39:38 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
-To: Eugenio =?utf-8?Q?P=C3=A9rez?= <eperezma@redhat.com>
-Subject: Re: [RFC PATCH v5 05/26] vhost: Add x-vhost-set-shadow-vq qmp
-In-Reply-To: <20211029183525.1776416-6-eperezma@redhat.com> ("Eugenio
- =?utf-8?Q?P=C3=A9rez=22's?=
- message of "Fri, 29 Oct 2021 20:35:04 +0200")
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [RFC PATCH v5 02/26] vhost: Fix last queue index of devices
+ with no cvq
+In-Reply-To: <20211102033023-mutt-send-email-mst@kernel.org> (Michael
+ S. Tsirkin's message of "Tue, 2 Nov 2021 03:32:32 -0400")
 References: <20211029183525.1776416-1-eperezma@redhat.com>
- <20211029183525.1776416-6-eperezma@redhat.com>
+ <20211029183525.1776416-3-eperezma@redhat.com>
+ <87a6inow7s.fsf@secure.mitica>
+ <20211102033023-mutt-send-email-mst@kernel.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Tue, 02 Nov 2021 08:36:02 +0100
-Message-ID: <87zgqnnh5p.fsf@secure.mitica>
+Date: Tue, 02 Nov 2021 08:39:37 +0100
+Message-ID: <87v91bngzq.fsf@secure.mitica>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
@@ -104,9 +104,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: quintela@redhat.com
 Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
  Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eugenio =?utf-8?Q?P=C3=A9rez?= <eperezma@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Xiao W Wang <xiao.w.wang@intel.com>,
  Harpreet Singh Anand <hanand@xilinx.com>, Eli Cohen <eli@mellanox.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
@@ -115,20 +116,32 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eugenio P=C3=A9rez <eperezma@redhat.com> wrote:
-> Command to set shadow virtqueue mode.
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
+> On Tue, Nov 02, 2021 at 08:25:27AM +0100, Juan Quintela wrote:
+>> Eugenio P=C3=A9rez <eperezma@redhat.com> wrote:
+>> > The -1 assumes that all devices with no cvq have an spare vq allocated
+>> > for them, but with no offer of VIRTIO_NET_F_CTRL_VQ. This may not be t=
+he
+>> > case, and the device may have a pair number of queues.
+>>                                   ^^^^
+>> even
+>>=20
+>> I know, I know, I am Spanish myself O:-)
 >
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> Nobody expects the Spanish ;)
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+O:-)
 
-You need to keep care of:
+>> int main(void)
+>> {
+>> =09int i =3D 7;
+>> =09i &=3D -1ULL;
+>
+> Stefano's patch has ~1ULL , not -1ULL here.
+>
 
- Markus Armbruster      ] [PATCH v2 0/9] Configurable policy for handling u=
-nstable interfaces
+Stupid eyes.
 
-When this hit the tree, you need to drop the x- and mark it as unstable.
-
-Later, Juan.
+Thanks, Juan.
 
 
