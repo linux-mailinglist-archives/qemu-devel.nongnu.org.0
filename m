@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F52E443960
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 00:14:02 +0100 (CET)
-Received: from localhost ([::1]:48102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0857443992
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 00:23:06 +0100 (CET)
+Received: from localhost ([::1]:43476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mi2yf-0006IO-O8
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 19:14:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44938)
+	id 1mi37R-0005TD-3f
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 19:23:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mi2f5-0007XE-B7
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mi2f5-0007XG-BR
  for qemu-devel@nongnu.org; Tue, 02 Nov 2021 18:53:47 -0400
-Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:39631)
+Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:38833)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mi2f0-0002s8-SX
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mi2f1-0002sX-Np
  for qemu-devel@nongnu.org; Tue, 02 Nov 2021 18:53:46 -0400
-Received: by mail-io1-xd2b.google.com with SMTP id h81so582152iof.6
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 15:53:42 -0700 (PDT)
+Received: by mail-io1-xd2d.google.com with SMTP id v65so584918ioe.5
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 15:53:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FEuU61Uh+4EG3ZU8JoveHONnvV/xarjms4F54HGX8Uo=;
- b=C8zF1FxZcfPL5gs6X+o6Ch6SRVNM+soRDtSVqQmH9TSWmZfzClag66Ose5MpFUtxWy
- VnAHbBj/0g6LsBTGim+NJBDE6DvkKgVeLR2d7/2Cc4sydX2YmhGfoTrZ2ScnOSpauN/H
- PIYV8JI3H4A0s1mRlr3jE6ZeP/0CTjroMPDFxGdvTKtI5VmekmNji/rXUwntzBtcH6fp
- v9zlx7x10owydZVoi/ANn+j3BoFncj2dT2Kr1rAADISM77IxozaPc1Hl/bM41Qq72zzd
- LE3RmwKx70FthA1Q+3p8ZfqQCzdHa0GmMjTSwUKsH7koy99DQMBB2y3xq+XP156JUGTf
- RL0g==
+ bh=z1Wl9T8L67x7bSGj83CIsbFNGgACyBDJDUbwpvxuohI=;
+ b=YKxiVfyqx92Al9EOD//eWmoDlwcHD2a7uNpaN4JH/gscWMTJj0AYcW+0KAKksa4Sed
+ /9B+6/YKyEZauAZh9cWdGvFZ3fHav9H/S4DkcNc0//PnEDclCU2JJGqOc/uNoM/h6q+Z
+ XJH1UqLLVrF8g0Sxma4tlpXaELufMUxKthcTWo8bLmBOt0dhhoFVZ/m5Y7/LobxBjVJB
+ aP9LIgH8DOarAGGHswacrCLE5lpOnuj4dNj9SpYAmwcMpg3yH+YViWuDuKAoWZ2jEg3I
+ ue0XW36S51RYJMksYLAFPCvl5jswccfg7vkFjdmb0WFhndhRhrjA0V9n42CLUuIdudFp
+ W4xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FEuU61Uh+4EG3ZU8JoveHONnvV/xarjms4F54HGX8Uo=;
- b=6Trze0LbBAkR6Q3P4zAj40YX1p0mC/wfKI3r0Py4/JiTV6N5Dj49gU47NzTZS7V6bk
- +jzMaWe78ryJ4J/gkqg5WPmb72WYBDTNgNYIePM08h0bIlAX6EJagcEsAopuF4qJugBS
- Eio5zGfmwIXnQf66pSpol5JM191eTsZl8ySosLZB/5yDq2koeNOK+gQuEXi90nZ/2rss
- ef5Mrnt4LUdVF+HsGKWbJ5Qp8hfBTP1dxFTQh6yKyKu2Qb3wDNpfhjZWyPvhvEkQSlHz
- ca3uWai1RCWF3kzGpWZEUuF43prcZtk4kBpy3hEMAufcyrlBupCuQ2NdJBxUlrhfkFGn
- 5SpQ==
-X-Gm-Message-State: AOAM530/Lyu/2fIF+cgIAZjMm6bsE6QfW5wA+QS2BhO7v6VDP+GMZS+M
- kzyKJ4TFvy0bZZV6cwEQDcCsiVFTY4Dtzg==
-X-Google-Smtp-Source: ABdhPJyR1CMVeZvbTfwS3TaVEje4oR+EdfxM3Vxd9z5Av7/vwk9Xf4erDKsDMEy8s6ZDVhMWu8cCtA==
-X-Received: by 2002:a6b:6b08:: with SMTP id g8mr4204941ioc.150.1635893621720; 
- Tue, 02 Nov 2021 15:53:41 -0700 (PDT)
+ bh=z1Wl9T8L67x7bSGj83CIsbFNGgACyBDJDUbwpvxuohI=;
+ b=DUyij2trxZyuKPTrgiYanm3wknn+MNEAWDp2AjmjgZ9j0koXGtmIQai5qqGwDLQRVr
+ mTVXzeLS1fUXb0fPLC/OIZl7SZJPljMExva9rpuL6MG31UT/pC/55QQcokhoKcwdgJDZ
+ FtJu2eQ6dEqzH8+elNgvbT3sH0GMzsQiY92Z1h3zBF61zNFjUQkJhDfXPOzYC+5KIFK5
+ ZoBG4bZ2mJ5nP4rdzV7xzUCnJ89ffmp1iHlbMwurs78kW/5B1FfjQh60MuEsq2zH+lKp
+ 4S39SLqWZp2PoF9Jjdkk+8YOtOPPFObczawWEiu8S2nBpcAPAuiGhmL7AzD6KrZ9iNrc
+ HL1g==
+X-Gm-Message-State: AOAM530F7ZMg0mqATyg68zSwf2z9LhUs/qUn/aXRl5ffZoDuVEnLwDa0
+ Efn39y+oK6iau7/SvfCBpsqfm23enR4oiQ==
+X-Google-Smtp-Source: ABdhPJy/s4GnIXvCoV0Af6f51xFUMtjGtgZc6P9QgVo1Kwd3cBL2y3OOl5KcgiIzX+6hmminh8x+7Q==
+X-Received: by 2002:a05:6602:15d3:: with SMTP id
+ f19mr17319677iow.14.1635893622540; 
+ Tue, 02 Nov 2021 15:53:42 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id h14sm205427ils.75.2021.11.02.15.53.40
+ by smtp.gmail.com with ESMTPSA id h14sm205427ils.75.2021.11.02.15.53.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 15:53:41 -0700 (PDT)
+ Tue, 02 Nov 2021 15:53:42 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 21/30] bsd-user/arm/target_arch_signal.h: arm user context
- and trapframe for signals
-Date: Tue,  2 Nov 2021 16:52:39 -0600
-Message-Id: <20211102225248.52999-22-imp@bsdimp.com>
+Subject: [PATCH v2 22/30] bsd-user/arm/target_arch_signal.h: arm
+ set_sigtramp_args
+Date: Tue,  2 Nov 2021 16:52:40 -0600
+Message-Id: <20211102225248.52999-23-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211102225248.52999-1-imp@bsdimp.com>
 References: <20211102225248.52999-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2b;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2b.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2d;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,30 +91,69 @@ Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Arm specific user context structures for signal handling and the closely
-related trap frame.
+Implement set_sigtramp_args to setup the arguments to the sigtramp
+calls.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/arm/target_arch_signal.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ bsd-user/arm/target_arch_signal.h | 47 +++++++++++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
 
 diff --git a/bsd-user/arm/target_arch_signal.h b/bsd-user/arm/target_arch_signal.h
-index 3aaced474b..4bdfcbb8d7 100644
+index 4bdfcbb8d7..61440b51b4 100644
 --- a/bsd-user/arm/target_arch_signal.h
 +++ b/bsd-user/arm/target_arch_signal.h
-@@ -74,4 +74,12 @@ typedef struct target_mcontext {
-     abi_int     mc_spare[33];
- } target_mcontext_t;
+@@ -82,4 +82,51 @@ struct target_sigframe {
+     target_mcontext_vfp_t sf_vfp; /* actual saved VFP context */
+ };
  
-+#include "target_os_ucontext.h"
++/*
++ * Compare to arm/arm/machdep.c sendsig()
++ * Assumes that target stack frame memory is locked.
++ */
++static inline abi_long
++set_sigtramp_args(CPUARMState *env, int sig, struct target_sigframe *frame,
++    abi_ulong frame_addr, struct target_sigaction *ka)
++{
++    abi_ulong cpsr;
 +
-+struct target_sigframe {
-+    target_siginfo_t    sf_si;  /* saved siginfo */
-+    target_ucontext_t   sf_uc;  /* saved ucontext */
-+    target_mcontext_vfp_t sf_vfp; /* actual saved VFP context */
-+};
++    /*
++     * Arguments to signal handler:
++     *  r0 = signal number
++     *  r1 = siginfo pointer
++     *  r2 = ucontext pointer
++     *  r5 = ucontext pointer
++     *  pc = signal handler pointer
++     *  sp = sigframe struct pointer
++     *  lr = sigtramp at base of user stack
++     */
++
++    env->regs[0] = sig;
++    env->regs[1] = frame_addr +
++        offsetof(struct target_sigframe, sf_si);
++    env->regs[2] = frame_addr +
++        offsetof(struct target_sigframe, sf_uc);
++
++    /* the trampoline uses r5 as the uc address */
++    env->regs[5] = frame_addr +
++        offsetof(struct target_sigframe, sf_uc);
++    env->regs[TARGET_REG_PC] = ka->_sa_handler & ~1;
++    env->regs[TARGET_REG_SP] = frame_addr;
++    env->regs[TARGET_REG_LR] = TARGET_PS_STRINGS - TARGET_SZSIGCODE;
++    /*
++     * Low bit indicates whether or not we're entering thumb mode.
++     */
++    cpsr = cpsr_read(env);
++    if (ka->_sa_handler & 1) {
++        cpsr |= CPSR_T;
++    } else {
++        cpsr &= ~CPSR_T;
++    }
++    cpsr_write(env, cpsr, CPSR_T, CPSRWriteByInstr);
++
++    return 0;
++}
 +
  #endif /* !_TARGET_ARCH_SIGNAL_H_ */
 -- 
