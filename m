@@ -2,75 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B08D443937
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 00:00:59 +0100 (CET)
-Received: from localhost ([::1]:38380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3AEF443994
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 00:23:41 +0100 (CET)
+Received: from localhost ([::1]:46976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mi2m2-0005jP-OI
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 19:00:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44678)
+	id 1mi380-0007sg-Sj
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 19:23:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mi2ev-00071J-6r
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 18:53:37 -0400
-Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:35565)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mi2es-0002pd-Tr
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 18:53:36 -0400
-Received: by mail-io1-xd2d.google.com with SMTP id 62so606174iou.2
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 15:53:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=F9IbbLGjnRnokIuDKxQfCzJoAx075CoGnpnzgfUmRKo=;
- b=vy6e8tNZROOdFDQyZxG2MTR1EPgOBt/EBLKpWF+ANbjnjCZLZ1vpw+TvuwivPjRe1g
- fkrzvYbpKXf1PP4mbLPwcs94afw5Ay3MOEEqI67KVMcYoZzpABPmqtLDFu7AejM5KNjw
- TwYjbiRde+0Iu1xgtZ9Dm8y4+lxsT9fWyos+cYdmTDIU6G2Ij3hoLsc3GOsG82DJstEq
- SWSwx839DdjTMmr97OeLYvLvInlg/OfljJfg+8Z7sQ3fUy/MpzYieNl+XYGlJqFwC+bQ
- 7IOeM+JC+yb7oPtZScmZ9/Zq5kEl+6OFh94KPkVQqpmIURJ6WSULm1Hm3Q30OKDDH91u
- CaZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=F9IbbLGjnRnokIuDKxQfCzJoAx075CoGnpnzgfUmRKo=;
- b=72Z6OXfRcPye3+Z91rW0lhW6DUEpVhGk2wWHQwB56xjcQDvspUTERuYHoi02BcGFUJ
- 8cskBnvUQ8dZG9jMpO7grWWy5WGtIZTZlXq5xsM7NI2ZEupm0g2EpwvCSJUSBowUAWuf
- kLEwQhNXRf3kWDxlmL/oHi8UOEAI8kZgyXLcMCaMEWZlIupQg8GdDlB9vJ7xcsaoxPCz
- ozTKbEfxZvsnOSnEKdG+OXkyShC2s8AvKuYUPiQ52g9g7HcwNp/t34l0ENYMQWrcLx/4
- 1WfgMESUuri8nEMRdA3RXZyAbbohjg5lDGjsHLbpkjbrVh8pje/nQzquxXXK+PpfnDAE
- 2Dkg==
-X-Gm-Message-State: AOAM533MRYMXNim+xbjC1uWvogCloyZDsUVxTTasYVuMQ1qIM4ilN+99
- PHyUZW6pU2G+ZBYWZcSqZpWa/y+eC/AGTw==
-X-Google-Smtp-Source: ABdhPJxtfAMNPTpfIwWljKAQYxdyJ57+wlchjUyznx7567i0U3qrmLb+O96wlBDgOiQTh1BREFWoVw==
-X-Received: by 2002:a05:6638:29b:: with SMTP id
- c27mr13148859jaq.67.1635893611933; 
- Tue, 02 Nov 2021 15:53:31 -0700 (PDT)
-Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
- [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id h14sm205427ils.75.2021.11.02.15.53.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 15:53:31 -0700 (PDT)
-From: Warner Losh <imp@bsdimp.com>
+ (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
+ id 1mi2lW-0005xF-Lm
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 19:00:26 -0400
+Received: from mga05.intel.com ([192.55.52.43]:37799)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
+ id 1mi2lU-0004fS-1p
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 19:00:25 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="317590684"
+X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="317590684"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2021 16:00:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="577405033"
+Received: from dongwonk-z390-aorus-ultra-intel-gfx.fm.intel.com
+ ([10.105.129.122])
+ by FMSMGA003.fm.intel.com with ESMTP; 02 Nov 2021 16:00:14 -0700
+From: Dongwon Kim <dongwon.kim@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/30] bsd-user/arm/target_arch_sigtramp.h: Signal
- Trampoline for arm
-Date: Tue,  2 Nov 2021 16:52:31 -0600
-Message-Id: <20211102225248.52999-14-imp@bsdimp.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211102225248.52999-1-imp@bsdimp.com>
-References: <20211102225248.52999-1-imp@bsdimp.com>
+Subject: [PATCH v2 1/4] ui/gtk-egl: un-tab and re-tab should destroy egl
+ surface and context
+Date: Tue,  2 Nov 2021 15:36:29 -0700
+Message-Id: <20211102223632.20466-1-dongwon.kim@intel.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20211102133750.2s5elsswxtkfbn5y@sirius.home.kraxel.org>
+References: <20211102133750.2s5elsswxtkfbn5y@sirius.home.kraxel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2d;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=192.55.52.43; envelope-from=dongwon.kim@intel.com;
+ helo=mga05.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,82 +59,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org,
- Kyle Evans <kevans@FreeBSD.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe Mathieu-Daude <f4bug@amsat.org>, Laurent Vivier <laurent@vivier.eu>,
- Michael Tokarev <mjt@tls.msk.ru>, Warner Losh <imp@bsdimp.com>
+Cc: Khairul Anuar Romli <khairul.anuar.romli@intel.com>,
+ Dongwon Kim <dongwon.kim@intel.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Copy of the signal trampoline code for arm, as well as setup_sigtramp to
-write it to the stack.
+An old esurface should be destroyed and set to be NULL when doing
+un-tab and re-tab so that a new esurface an context can be created
+for the window widget that those will be bound to.
 
-Signed-off-by: Stacey Son <sson@FreeBSD.org>
-Signed-off-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+v2: enabling opengl specific routines only when CONFIG_OPENGL is set
+
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+Signed-off-by: Khairul Anuar Romli <khairul.anuar.romli@intel.com>
 ---
- bsd-user/arm/target_arch_sigtramp.h | 49 +++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
- create mode 100644 bsd-user/arm/target_arch_sigtramp.h
+ ui/gtk.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/bsd-user/arm/target_arch_sigtramp.h b/bsd-user/arm/target_arch_sigtramp.h
-new file mode 100644
-index 0000000000..5d434a9e7e
---- /dev/null
-+++ b/bsd-user/arm/target_arch_sigtramp.h
-@@ -0,0 +1,49 @@
-+/*
-+ *  arm sysarch() system call emulation
-+ *
-+ *  Copyright (c) 2013 Stacey D. Son
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef _TARGET_ARCH_SIGTRAMP_H_
-+#define _TARGET_ARCH_SIGTRAMP_H_
-+
-+/* Compare to arm/arm/locore.S ENTRY_NP(sigcode) */
-+static inline abi_long setup_sigtramp(abi_ulong offset, unsigned sigf_uc,
-+        unsigned sys_sigreturn)
-+{
-+    int i;
-+    uint32_t sys_exit = TARGET_FREEBSD_NR_exit;
-+    uint32_t sigtramp_code[] = {
-+    /* 1 */ 0xE1A0000D,                  /* mov r0, sp */
-+    /* 2 */ 0xE2800000 + sigf_uc,        /* add r0, r0, #SIGF_UC */
-+    /* 3 */ 0xE59F700C,                  /* ldr r7, [pc, #12] */
-+    /* 4 */ 0xEF000000 + sys_sigreturn,  /* swi (SYS_sigreturn) */
-+    /* 5 */ 0xE59F7008,                  /* ldr r7, [pc, #8] */
-+    /* 6 */ 0xEF000000 + sys_exit,       /* swi (SYS_exit)*/
-+    /* 7 */ 0xEAFFFFFA,                  /* b . -16 */
-+    /* 8 */ sys_sigreturn,
-+    /* 9 */ sys_exit
-+    };
-+
-+    G_STATIC_ASSERT(sizeof(sigtramp_code) == TARGET_SZSIGCODE);
-+
-+    for (i = 0; i < 9; i++) {
-+        tswap32s(&sigtramp_code[i]);
+diff --git a/ui/gtk.c b/ui/gtk.c
+index b0564d80c1..8da673c18c 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -1242,6 +1242,16 @@ static gboolean gd_tab_window_close(GtkWidget *widget, GdkEvent *event,
+                                     vc->tab_item, vc->label);
+     gtk_widget_destroy(vc->window);
+     vc->window = NULL;
++#if defined(CONFIG_OPENGL)
++    if (vc->gfx.esurface) {
++        eglDestroySurface(qemu_egl_display, vc->gfx.esurface);
++        vc->gfx.esurface = NULL;
 +    }
-+
-+    return memcpy_to_target(offset, sigtramp_code, TARGET_SZSIGCODE);
-+}
-+#endif /* _TARGET_ARCH_SIGTRAMP_H_ */
++    if (vc->gfx.ectx) {
++        eglDestroyContext(qemu_egl_display, vc->gfx.ectx);
++        vc->gfx.ectx = NULL;
++    }
++#endif
+     return TRUE;
+ }
+ 
+@@ -1271,6 +1281,16 @@ static void gd_menu_untabify(GtkMenuItem *item, void *opaque)
+     if (!vc->window) {
+         gtk_widget_set_sensitive(vc->menu_item, false);
+         vc->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
++#if defined(CONFIG_OPENGL)
++        if (vc->gfx.esurface) {
++            eglDestroySurface(qemu_egl_display, vc->gfx.esurface);
++            vc->gfx.esurface = NULL;
++        }
++        if (vc->gfx.esurface) {
++            eglDestroyContext(qemu_egl_display, vc->gfx.ectx);
++            vc->gfx.ectx = NULL;
++        }
++#endif
+         gd_widget_reparent(s->notebook, vc->window, vc->tab_item);
+ 
+         g_signal_connect(vc->window, "delete-event",
 -- 
-2.33.0
+2.30.2
 
 
