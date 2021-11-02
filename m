@@ -2,92 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2447544309E
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:40:01 +0100 (CET)
-Received: from localhost ([::1]:57410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA4444307C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:34:36 +0100 (CET)
+Received: from localhost ([::1]:39680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhuxE-00080k-1y
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:40:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41340)
+	id 1mhurz-0004YP-40
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:34:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhuTV-0004aw-BN
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:09:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46217)
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1mhuXK-0005S5-CC
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:13:14 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:48008)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhuTR-0004WY-FS
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:09:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635862152;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ctmu+0Ps34o9dKPDYQWMMQd1gF0dlJoeUKE3PDEh2QI=;
- b=OEv0VndUCNu/1FWLo9RhSXNu4XkE7sd2YkyMd9hPiigT92K4SNrtGoTVfdO5uOZY3ejuYt
- 8t9yC+mV2/cCnp9ARYbWH86nLr1AijsYIWrXLa0LReTKnxeA8qrb6ilh/8Gyn7F7dRnCe8
- Ff1GbzNGJD/CleRulGTMvZZRCKDmgOk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-514-qq5VXqXsMpGb3IoYMpuViA-1; Tue, 02 Nov 2021 10:09:10 -0400
-X-MC-Unique: qq5VXqXsMpGb3IoYMpuViA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- a2-20020a5d4d42000000b0017b3bcf41b9so4726637wru.23
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 07:09:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ctmu+0Ps34o9dKPDYQWMMQd1gF0dlJoeUKE3PDEh2QI=;
- b=CCerUS7tVzjcdUYK6aoFGYn30yvAFdINiZRqmJrYDVXg3UldHmYRsV6ZuXlE8S4J4u
- D6VLHzxAcdQDFjrOIbn/cwB6G/4WL6sTgmp12EZ4mcH9zQDpOgaqCyclpNHxPq1bYcXv
- TcYRrA1GGQZ0uiJJ5/iUCNAH9Akgm/j6Fmm1sBW/Cqe5l+Og4W8IXTnoFxNweZsipeCv
- LUst4YtbMvkRxDhD9wGlv9BCi4xdOq94AF+HYz+JuIDwVIq10KBqisut97Tww5WtD6lg
- Xbf0EtjzQrFM1pnuHnWFv1rH1Tf4LWeFiPU0rPD5KDv5sDyWt3MmAFDm91+OveTQmMJb
- gFcA==
-X-Gm-Message-State: AOAM533gmaCxUTkkuNL/7mdseGu4Oxcsndl7R0wYatRlJsn9Hxh4EcAK
- cmd14uw07uT6RtQhKdzuZ5WQuqytBX2ZJyRzyAfGAyw39Xnn15q4o0nru0U+Xq3FHDLgD3j5GnL
- 4gt6l5JTNDimL7ZI=
-X-Received: by 2002:adf:f9d2:: with SMTP id w18mr14329079wrr.303.1635862149619; 
- Tue, 02 Nov 2021 07:09:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxyuOP0+yeI7bhRocu9X/YJDTObPwn80QViNBih/n/fxfDp8EhHO5i6j+mqGPDyvS3uFIicWA==
-X-Received: by 2002:adf:f9d2:: with SMTP id w18mr14329040wrr.303.1635862149421; 
- Tue, 02 Nov 2021 07:09:09 -0700 (PDT)
-Received: from localhost ([188.26.219.212])
- by smtp.gmail.com with ESMTPSA id f81sm2859279wmf.22.2021.11.02.07.09.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 07:09:08 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Eugenio =?utf-8?Q?P=C3=A9rez?= <eperezma@redhat.com>
-Subject: Re: [PATCH v2 1/1] vhost: Fix last queue index of devices with no cvq
-In-Reply-To: <20211102114059.1917341-2-eperezma@redhat.com> ("Eugenio
- =?utf-8?Q?P=C3=A9rez=22's?=
- message of "Tue, 2 Nov 2021 12:40:59 +0100")
-References: <20211102114059.1917341-1-eperezma@redhat.com>
- <20211102114059.1917341-2-eperezma@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Tue, 02 Nov 2021 15:09:07 +0100
-Message-ID: <87k0hqk5to.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1mhuXF-0005BW-TP
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:13:12 -0400
+Received: from vla1-a78d115f8d22.qloud-c.yandex.net
+ (vla1-a78d115f8d22.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0d:2906:0:640:a78d:115f])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 6F1C02E12A5
+ for <qemu-devel@nongnu.org>; Tue,  2 Nov 2021 17:13:04 +0300 (MSK)
+Received: from vla1-81430ab5870b.qloud-c.yandex.net
+ (vla1-81430ab5870b.qloud-c.yandex.net [2a02:6b8:c0d:35a1:0:640:8143:ab5])
+ by vla1-a78d115f8d22.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ J5vurPcbXC-D4sqUPkJ; Tue, 02 Nov 2021 17:13:04 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1635862384; bh=XPhsjR6riRL7H7btC01mik4++GfSu5d8T44vC0CPDvs=;
+ h=In-Reply-To:Date:References:To:From:Subject:Message-ID;
+ b=M9NDlD4DQ2zo8slLxE1ZC2eR5ywfBeuy+yJqsaNAWVDHb/6CMojQ6OqxHN1Qi6LXv
+ o9VMCWR5cJAU9qyi1xn6lCfDUr1ULs3oJogqzjT9SGzJTkh68EUOdBGjkTXuvUREkZ
+ HlovRnYFW1xe/abe9yjYAMotPU3T74HbwHD3ejy8=
+Authentication-Results: vla1-a78d115f8d22.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from [IPv6:2a02:6b8:b081:8010::1:3a] (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:8010::1:3a])
+ by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPS id
+ kcX3wvvB98-D4xSDZ6u; Tue, 02 Nov 2021 17:13:04 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 2
+Subject: Re: [PATCH v0] vl: flush all task from rcu queue before exiting
+From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+To: qemu-devel@nongnu.org
+References: <20211102133901.286027-1-den-plotnikov@yandex-team.ru>
+Message-ID: <01a5d04b-06c4-7e41-79cb-acbc450aa884@yandex-team.ru>
+Date: Tue, 2 Nov 2021 17:13:03 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211102133901.286027-1-den-plotnikov@yandex-team.ru>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.549,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,29 +78,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org, "Michael S.
- Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eugenio P=C3=A9rez <eperezma@redhat.com> wrote:
-Y> The -1 assumes that all devices with no cvq have an spare vq allocated
-> for them, but with no offer of VIRTIO_NET_F_CTRL_VQ. This is an invalid
-> device by the standard, so just stick to the right number of device
-> models.
->
-> This is not a problem to vhost-net, but it is to vhost-vdpa, which
-> device model trust to reach the last index to finish starting the
-> device.
->
-> Tested with vp_vdpa with host's vhost=3Don and vhost=3Doff.
->
-> Fixes: 049eb15b5fc9 ("vhost: record the last virtqueue index for the
-> virtio device")
-> Reviewed-by: Juan Quintela <quintela@redhat.com>
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 
-Much clearer, thanks.
-
+On 02.11.2021 16:39, Denis Plotnikov wrote:
+> The device destruction may superimpose over qemu shutdown.
+> In this case some management layer, requested a device unplug and
+> waiting for DEVICE_DELETED event, may never get this event.
+>
+> This happens because device_finalize() may never be called on qemu shutdown
+> for some devices using address_space_destroy(). The later is called from
+> the rcu thread.
+> On qemu shutdown, not all rcu callbacks may be called because the rcu thread
+> may not have enough time to converge before qemu main thread exit.
+>
+> To resolve this issue this patch makes rcu thread to finish all its callbacks
+> explicitly by calling a new rcu intreface function right before
+> qemu main thread exit.
+>
+> Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+> ---
+>   include/qemu/rcu.h |  1 +
+>   softmmu/runstate.c |  3 +++
+>   util/rcu.c         | 12 ++++++++++++
+>   3 files changed, 16 insertions(+)
+>
+> diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
+> index 515d327cf11c..f7fbdc3781e5 100644
+> --- a/include/qemu/rcu.h
+> +++ b/include/qemu/rcu.h
+> @@ -134,6 +134,7 @@ struct rcu_head {
+>   
+>   extern void call_rcu1(struct rcu_head *head, RCUCBFunc *func);
+>   extern void drain_call_rcu(void);
+> +extern void flush_rcu(void);
+>   
+>   /* The operands of the minus operator must have the same type,
+>    * which must be the one that we specify in the cast.
+> diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+> index 10d9b7365aa7..28f319a97a2b 100644
+> --- a/softmmu/runstate.c
+> +++ b/softmmu/runstate.c
+> @@ -822,5 +822,8 @@ void qemu_cleanup(void)
+actually, flush_rcu() should be here before monitor_cleanup to send 
+DEVICE_DELETED
+>       monitor_cleanup();
+>       qemu_chr_cleanup();
+>       user_creatable_cleanup();
+> +
+> +    /* finish all the tasks from rcu queue before exiting */
+> +    flush_rcu();
+>       /* TODO: unref root container, check all devices are ok */
+>   }
+> diff --git a/util/rcu.c b/util/rcu.c
+> index 13ac0f75cb2a..f047f8ee8d16 100644
+> --- a/util/rcu.c
+> +++ b/util/rcu.c
+> @@ -348,6 +348,18 @@ void drain_call_rcu(void)
+>   
+>   }
+>   
+> +/*
+> + * This function drains rcu queue until there are no tasks to do left
+> + * and aims to the cases when one needs to ensure that no work hang
+> + * in rcu thread before proceeding, e.g. on qemu shutdown.
+> + */
+> +void flush_rcu(void)
+> +{
+> +    while (qatomic_read(&rcu_call_count) > 0) {
+> +        drain_call_rcu();
+> +    }
+> +}
+> +
+>   void rcu_register_thread(void)
+>   {
+>       assert(rcu_reader.ctr == 0);
 
