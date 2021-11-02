@@ -2,93 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 194124428BD
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 08:41:39 +0100 (CET)
-Received: from localhost ([::1]:45720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E24564428CA
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 08:46:55 +0100 (CET)
+Received: from localhost ([::1]:50842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhoQM-0003zv-84
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 03:41:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44640)
+	id 1mhoVS-0007md-Uh
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 03:46:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhoP4-0002Z7-8R
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 03:40:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44759)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mhoUD-00077m-WA
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 03:45:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhoP2-0000wy-3I
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 03:40:17 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mhoUC-0002ci-Fr
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 03:45:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635838815;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1635839135;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rPu+TEWex7DM2XBPyMWNsPrFrpctl7ejYlHuF04HTQA=;
- b=L2vKuj03Z7X7FZRQ5vZfDV7Ap3r68moOKooTjNyV0d3dPAjnl2Vgou/7Fhjr77YCkgbUhz
- oIfbmvtSqjYjIFFXBD9sbpfAEMl9qlusEMRpaPuaWN2LmGnlwJr/vCClnsyxDWOo6j1LoE
- csFUXXyEkhXWfT80FcfVaSfOzihXg50=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-530-kd0HupqvPeOyq_r664Zg5A-1; Tue, 02 Nov 2021 03:40:14 -0400
-X-MC-Unique: kd0HupqvPeOyq_r664Zg5A-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 144-20020a1c0496000000b003305ac0e03aso704968wme.8
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 00:40:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version
- :content-transfer-encoding;
- bh=rPu+TEWex7DM2XBPyMWNsPrFrpctl7ejYlHuF04HTQA=;
- b=3w3QLkQkogQhwGOBjgq+ed3NJ8M37DHPFrhNbzfNzZ/UvPHURzLkmoTO2vCldPQUZT
- 7pfHIu5XWlGgfYmsD/IWvGgsKEBbyGCOOl6Vf29TXlT+3NK4Ee5fk0HodZUqAb7NNhX6
- 7RDo2rZN6F3f3xz/DkurzPHPkOilxIi8iZalSxHkiw6uNWP0VPHBBWatQbMxnmeK4glM
- jOA8R5ZnwX5ovdt+cqRSO1c9hkkcbgZLl14r4eyiVT8BsuX925ZU6Lr1DZqFE/MtxT8q
- 4wcLDNarW5QiRHjS2xfInqFDRgFCwHeTl/15KxZ3Qg9Gpd9TFPfLG72Z0ojOu4Z+Lfw7
- KiYA==
-X-Gm-Message-State: AOAM5304Ej5sH11GVig4HtHoBH3DPuhmqQ+bKNSMNUZIdxKKiq+zm76H
- 9vTL5uobo4hWbTPw19SdrO5pZMeGFAPreLYt4xxZdLohbvoXfKmree8s6FZRIgpq3ecBPctfmfA
- /8KyhZ8h4MOAMSzU=
-X-Received: by 2002:a7b:c303:: with SMTP id k3mr5030188wmj.44.1635838813083;
- Tue, 02 Nov 2021 00:40:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxDXjZ2/S+Zu4EmMWCEIeewzQXHCc0CYy7LGlLuQHKmQa056kHgEW9fPc0Xyhggtn8VOI4Tew==
-X-Received: by 2002:a7b:c303:: with SMTP id k3mr5030164wmj.44.1635838812943;
- Tue, 02 Nov 2021 00:40:12 -0700 (PDT)
-Received: from localhost ([188.26.219.88])
- by smtp.gmail.com with ESMTPSA id u16sm1547759wmc.21.2021.11.02.00.40.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 00:40:12 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Eugenio =?utf-8?Q?P=C3=A9rez?= <eperezma@redhat.com>
-Subject: Re: [RFC PATCH v5 02/26] vhost: Fix last queue index of devices
- with no cvq
-In-Reply-To: <20211029183525.1776416-3-eperezma@redhat.com> ("Eugenio
- =?utf-8?Q?P=C3=A9rez=22's?=
- message of "Fri, 29 Oct 2021 20:35:01 +0200")
-References: <20211029183525.1776416-1-eperezma@redhat.com>
- <20211029183525.1776416-3-eperezma@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Tue, 02 Nov 2021 08:40:11 +0100
-Message-ID: <87mtmnngys.fsf@secure.mitica>
+ bh=jP1XRppwu1wZ8mIiAbchoWmhyNn6MBSdrDmNIrtTdtQ=;
+ b=Wa7y37KdlaYlzppzow0RbvjXYziH2nrsGkI/vSj5TkXbLqImL0N153V4b5itgxuMKOHfCl
+ laNJ6U3jG5LvzdTx5A2Pfx6zOWCmErTGv/mX4TNIN5bhSY48Rd6hDfL0uforcYP4dWPW90
+ FADB8DE7KWo4yj5P+1QxlWe7YgK+I8s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-84-V8UgP1FaNFuVMkOjGFfkgA-1; Tue, 02 Nov 2021 03:45:30 -0400
+X-MC-Unique: V8UgP1FaNFuVMkOjGFfkgA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A9D79126B
+ for <qemu-devel@nongnu.org>; Tue,  2 Nov 2021 07:45:29 +0000 (UTC)
+Received: from [10.39.192.88] (unknown [10.39.192.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 878CD60C82;
+ Tue,  2 Nov 2021 07:45:25 +0000 (UTC)
+Message-ID: <cf1775ed-6655-9f88-ea84-62ae912e1cc4@redhat.com>
+Date: Tue, 2 Nov 2021 08:45:24 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] meson.build: Allow to disable OSS again
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+References: <20211029071318.1780098-1-thuth@redhat.com>
+ <21ebce18-cd60-3fa9-4b0a-97acc7fbc7c2@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <21ebce18-cd60-3fa9-4b0a-97acc7fbc7c2@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.14, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,30 +81,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Eli Cohen <eli@mellanox.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Eric Blake <eblake@redhat.com>, virtualization@lists.linux-foundation.org,
- Parav Pandit <parav@mellanox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eugenio P=C3=A9rez <eperezma@redhat.com> wrote:
-> The -1 assumes that all devices with no cvq have an spare vq allocated
-> for them, but with no offer of VIRTIO_NET_F_CTRL_VQ. This may not be the
-> case, and the device may have a pair number of queues.
->
-> To fix this, just resort to the lower even number of queues.
->
-> Fixes: 049eb15b5fc9 ("vhost: record the last virtqueue index for the
-> virtio device")
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+On 29/10/2021 11.32, Philippe Mathieu-Daudé wrote:
+> On 10/29/21 09:13, Thomas Huth wrote:
+>> If sys/soundcard.h is available, it is currently not possible to
+>> disable OSS with the --disable-oss or --without-default-features
+>> configure switches. Improve the check in meson.build to fix this.
+>>
+>> Fixes: 87430d5b13 ("configure, meson: move audio driver detection to Meson")
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   meson.build | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+>>   oss = not_found
+>> -if not get_option('oss').auto() or have_system
+>> +if get_option('oss').enabled() or (get_option('oss').auto() and have_system)
+> 
+> Shouldn't this be 'if have_system and (enabled or auto)' ?
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+It depends whether we want to allow "--disable-system --enable-oss" or not, 
+I guess ;-)
+
+Honestly, I don't have a preference. But maybe we could also simply use 'if 
+have_system and not disabled' instead, which would then be the shortest 
+solution?
+
+  Thomas
+
 
 
