@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A20442CBF
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 12:37:20 +0100 (CET)
-Received: from localhost ([::1]:45040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B283442D04
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 12:44:18 +0100 (CET)
+Received: from localhost ([::1]:53566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhs6S-0002Gy-0D
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 07:37:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44454)
+	id 1mhsDA-00089V-Nk
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 07:44:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhrh7-0001C2-Up
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:11:09 -0400
-Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:43617)
+ id 1mhrh9-0001LM-R8
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:11:11 -0400
+Received: from mail-qv1-xf30.google.com ([2607:f8b0:4864:20::f30]:40671)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhrh6-0001uQ-AV
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:11:09 -0400
-Received: by mail-qk1-x731.google.com with SMTP id bp7so13985271qkb.10
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 04:11:07 -0700 (PDT)
+ id 1mhrh6-0001vR-OM
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:11:11 -0400
+Received: by mail-qv1-xf30.google.com with SMTP id b11so9636718qvm.7
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 04:11:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1Ep7pHHg1zb1sPSHGpQ1/FF+Txy5JMnbD431/U5MPag=;
- b=MQMc9UQVF+oJp0CFP4SP5f5cysFZzMzv1FVu3vZPjgrJ94zLCmfnNcaYxwsaVMi4K0
- rRD0bZB1FODVLejNbFxgTqjHBJyz91O7uDY/GE1mQHfwn/ez4t6JQXWq9VVD7L/X+uQn
- UHLdh0NACzcdItTfq6ixdsx2Tb1eO05DvApWSsvbTxDbe51U2glnVoKkQLJg3p8qNtex
- 0vPiT62/SZhJgm3B1mi3OT82672OU5TlNgY8Hzw2MAifpwFI1roWXGhW0Wn2oaevFRO+
- i5dt70jwEBbv0xsTU/+BbhIoE15F0x2CNq3a5m0WgsXHVKKtcJsH+tcNBUe1/HHXNZSe
- 0V8Q==
+ bh=lCTWBHg3yAPeLZcM1I7LLlGr7M38G+m6NQblxbcjKCQ=;
+ b=ygL+JwzcnQXrPBY2UEo3CTtFx8eia8lQsuQ3t85CspfP1A6ipne1h+0PZDMI5Np/zH
+ yS/qYabeHL6hoIbqOw4OHcg2gSpOGshe5Hnl+1mezsnADaA6Ae16GV6BYREbXZ7/arr9
+ npV2GnF6E36jvrQZ6m3u4VSsykOu3pBSxlm6JVUqZMwj74Iqv0/0pOc5ohmhxpmd8uKt
+ 7KZOlVhO3VK95WM0vG0Zvz84waoR1OPENtOC5thWrL9DtqBwxQKkey9WkbVSBuSfqeXM
+ L5WvHcUymNQzkBxi/D548X0AJ+MOwjFHnB200B79mv6ISGqDGnoy1BhSbNc7HV0Fi19/
+ mY5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1Ep7pHHg1zb1sPSHGpQ1/FF+Txy5JMnbD431/U5MPag=;
- b=uL9l3UBD2ZLH1qECoA4TeCMCK+OVkp+rbCoU5OBkrqaK1YHYZddDTIHUY8iPfJtj8K
- /lzO9zP6+GeKaKjjp1HWNp64UrH2x6YDO22jgswTHzvemqp/f40XdIjMy0eYRb0H765/
- /lOtGJrrrTQmTUwi4G1kTk+no7fCjiM28lgzKRnVuhQSUCXfATcs1AvDrPmGmwqzXLWm
- MrTJxDorpYfEz98m2P9CFt4qfaCqiiCkVv/hwILzWGtB/awEw+CdQl5pSWnP6xT+JZN7
- QGgBNg9x1mGYP+kOYZLQp9DmIUAHtzxoBR1KyaMDOy1D3SrbY+xm7XD2ufG478tvok04
- 93hQ==
-X-Gm-Message-State: AOAM533p6xgeLisETsjnasHv90Xk5WDDbrLJF/otqQipgot+vmecAWkW
- nJ+MDD2w6oXBMx9uN7gDjbYR6KtYlulztw==
-X-Google-Smtp-Source: ABdhPJwQ+EJbdKwZt+9xrrMYiEuR9yJSfSr1X9UeX/AJxcPsdd7c29uOo9qn3FVEQ4kwMTe9aOMz1w==
-X-Received: by 2002:a37:2c86:: with SMTP id
- s128mr27348650qkh.516.1635851467423; 
+ bh=lCTWBHg3yAPeLZcM1I7LLlGr7M38G+m6NQblxbcjKCQ=;
+ b=rozDFYVazA+r32ZCJAsYG+hmmfG+ftftKHo5ALfOGLI25wFNDYhy143bd8dgp7khMf
+ i38jj7v+7UtngjJON7CqG491HT2bRj4rbIGw8gxEwLWQs+rEf9JtNJ6frF2iwtR9KLX+
+ Oh1kSijtYvhdP8XtGQ0Mqh3EamotFJo3qu4bBU6UQ1q0/a8lFDUWDUX3XXHDKPJI/i90
+ vPBZ7W/qlOlpgCXsjnOV3J0rdd8xhyIxj5Koq0/+Q9XC8OxxXp2J0rIXPZ2ttn9HZUNS
+ U7tVozDh6DkfZHvYVBH/tHPjT7a+iLRWI8IqfPpdGglIK2PzSknezAyvgu/KMLundHUd
+ I6Fg==
+X-Gm-Message-State: AOAM533ndWkKyFePu6P3OT5/l4oAP8ViZOpyci0vq9MNmeMn7+Od/uIY
+ /KCN6cUbSUumUQoxJ6LE3VLzZwUBD+ePoA==
+X-Google-Smtp-Source: ABdhPJxLMZwj1Vr86ZyKeCG7BvE3i+NWvgQeoy884GKk+Ue6SofXjid8sG9h1klEbg1TEJwqEyNKMw==
+X-Received: by 2002:a0c:c702:: with SMTP id w2mr34490446qvi.24.1635851467919; 
  Tue, 02 Nov 2021 04:11:07 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-172-254-253-57.nyc.biz.rr.com.
  [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id bm25sm12730854qkb.4.2021.11.02.04.11.06
+ by smtp.gmail.com with ESMTPSA id bm25sm12730854qkb.4.2021.11.02.04.11.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 02 Nov 2021 04:11:07 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 43/60] linux-user: Add cpu_loop_exit_sigbus
-Date: Tue,  2 Nov 2021 07:07:23 -0400
-Message-Id: <20211102110740.215699-44-richard.henderson@linaro.org>
+Subject: [PULL 44/60] target/alpha: Implement alpha_cpu_record_sigbus
+Date: Tue,  2 Nov 2021 07:07:24 -0400
+Message-Id: <20211102110740.215699-45-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211102110740.215699-1-richard.henderson@linaro.org>
 References: <20211102110740.215699-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x731.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f30;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf30.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,72 +84,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Warner Losh <imp@bsdimp.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a new interface to be provided by the os emulator for
-raising SIGBUS on fault.  Use the new record_sigbus target hook.
+Record trap_arg{0,1,2} for the linux-user signal frame.
 
-Reviewed-by: Warner Losh <imp@bsdimp.com>
+Raise SIGBUS directly from cpu_loop_exit_sigbus, which means
+we can remove the code for EXCP_UNALIGN in cpu_loop.
+
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/exec-all.h | 14 ++++++++++++++
- linux-user/signal.c     | 14 ++++++++++++++
- 2 files changed, 28 insertions(+)
+ target/alpha/cpu.h          |  8 +++++---
+ linux-user/alpha/cpu_loop.c |  7 -------
+ target/alpha/cpu.c          |  1 +
+ target/alpha/mem_helper.c   | 30 ++++++++++++++++++++++--------
+ 4 files changed, 28 insertions(+), 18 deletions(-)
 
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index f74578500c..6bb2a0f7ec 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -700,6 +700,20 @@ void QEMU_NORETURN cpu_loop_exit_sigsegv(CPUState *cpu, target_ulong addr,
-                                          MMUAccessType access_type,
-                                          bool maperr, uintptr_t ra);
+diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
+index d49cc36d07..afd975c878 100644
+--- a/target/alpha/cpu.h
++++ b/target/alpha/cpu.h
+@@ -282,9 +282,6 @@ void alpha_cpu_dump_state(CPUState *cs, FILE *f, int flags);
+ hwaddr alpha_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+ int alpha_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+ int alpha_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+-void alpha_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+-                                   MMUAccessType access_type, int mmu_idx,
+-                                   uintptr_t retaddr) QEMU_NORETURN;
  
-+/**
-+ * cpu_loop_exit_sigbus:
-+ * @cpu: the cpu context
-+ * @addr: the guest address of the alignment fault
-+ * @access_type: access was read/write/execute
-+ * @ra: host pc for unwinding
-+ *
-+ * Use the TCGCPUOps hook to record cpu state, do guest operating system
-+ * specific things to raise SIGBUS, and jump to the main cpu loop.
-+ */
-+void QEMU_NORETURN cpu_loop_exit_sigbus(CPUState *cpu, target_ulong addr,
-+                                        MMUAccessType access_type,
-+                                        uintptr_t ra);
-+
+ #define cpu_list alpha_cpu_list
+ 
+@@ -451,10 +448,15 @@ void cpu_alpha_store_gr(CPUAlphaState *env, unsigned reg, uint64_t val);
+ void alpha_cpu_record_sigsegv(CPUState *cs, vaddr address,
+                               MMUAccessType access_type,
+                               bool maperr, uintptr_t retaddr);
++void alpha_cpu_record_sigbus(CPUState *cs, vaddr address,
++                             MMUAccessType access_type, uintptr_t retaddr);
  #else
- static inline void mmap_lock(void) {}
- static inline void mmap_unlock(void) {}
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 9d60abc038..df2c8678d0 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -706,6 +706,20 @@ void cpu_loop_exit_sigsegv(CPUState *cpu, target_ulong addr,
-     cpu_loop_exit_restore(cpu, ra);
- }
+ bool alpha_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                         MMUAccessType access_type, int mmu_idx,
+                         bool probe, uintptr_t retaddr);
++void alpha_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
++                                   MMUAccessType access_type, int mmu_idx,
++                                   uintptr_t retaddr) QEMU_NORETURN;
+ void alpha_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+                                      vaddr addr, unsigned size,
+                                      MMUAccessType access_type,
+diff --git a/linux-user/alpha/cpu_loop.c b/linux-user/alpha/cpu_loop.c
+index 4cc8e0a55c..4029849d5c 100644
+--- a/linux-user/alpha/cpu_loop.c
++++ b/linux-user/alpha/cpu_loop.c
+@@ -54,13 +54,6 @@ void cpu_loop(CPUAlphaState *env)
+             fprintf(stderr, "External interrupt. Exit\n");
+             exit(EXIT_FAILURE);
+             break;
+-        case EXCP_UNALIGN:
+-            info.si_signo = TARGET_SIGBUS;
+-            info.si_errno = 0;
+-            info.si_code = TARGET_BUS_ADRALN;
+-            info._sifields._sigfault._addr = env->trap_arg0;
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+-            break;
+         case EXCP_OPCDEC:
+         do_sigill:
+             info.si_signo = TARGET_SIGILL;
+diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
+index 69f32c3078..a8990d401b 100644
+--- a/target/alpha/cpu.c
++++ b/target/alpha/cpu.c
+@@ -221,6 +221,7 @@ static const struct TCGCPUOps alpha_tcg_ops = {
  
-+void cpu_loop_exit_sigbus(CPUState *cpu, target_ulong addr,
-+                          MMUAccessType access_type, uintptr_t ra)
-+{
-+    const struct TCGCPUOps *tcg_ops = CPU_GET_CLASS(cpu)->tcg_ops;
-+
-+    if (tcg_ops->record_sigbus) {
-+        tcg_ops->record_sigbus(cpu, addr, access_type, ra);
-+    }
-+
-+    force_sig_fault(TARGET_SIGBUS, TARGET_BUS_ADRALN, addr);
-+    cpu->exception_index = EXCP_INTERRUPT;
-+    cpu_loop_exit_restore(cpu, ra);
+ #ifdef CONFIG_USER_ONLY
+     .record_sigsegv = alpha_cpu_record_sigsegv,
++    .record_sigbus = alpha_cpu_record_sigbus,
+ #else
+     .tlb_fill = alpha_cpu_tlb_fill,
+     .cpu_exec_interrupt = alpha_cpu_exec_interrupt,
+diff --git a/target/alpha/mem_helper.c b/target/alpha/mem_helper.c
+index 75e72bc337..47283a0612 100644
+--- a/target/alpha/mem_helper.c
++++ b/target/alpha/mem_helper.c
+@@ -23,18 +23,12 @@
+ #include "exec/exec-all.h"
+ #include "exec/cpu_ldst.h"
+ 
+-/* Softmmu support */
+-#ifndef CONFIG_USER_ONLY
+-void alpha_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+-                                   MMUAccessType access_type,
+-                                   int mmu_idx, uintptr_t retaddr)
++static void do_unaligned_access(CPUAlphaState *env, vaddr addr, uintptr_t retaddr)
+ {
+-    AlphaCPU *cpu = ALPHA_CPU(cs);
+-    CPUAlphaState *env = &cpu->env;
+     uint64_t pc;
+     uint32_t insn;
+ 
+-    cpu_restore_state(cs, retaddr, true);
++    cpu_restore_state(env_cpu(env), retaddr, true);
+ 
+     pc = env->pc;
+     insn = cpu_ldl_code(env, pc);
+@@ -42,6 +36,26 @@ void alpha_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+     env->trap_arg0 = addr;
+     env->trap_arg1 = insn >> 26;                /* opcode */
+     env->trap_arg2 = (insn >> 21) & 31;         /* dest regno */
 +}
 +
- /* abort execution with signal */
- static void QEMU_NORETURN dump_core_and_abort(int target_sig)
- {
++#ifdef CONFIG_USER_ONLY
++void alpha_cpu_record_sigbus(CPUState *cs, vaddr addr,
++                             MMUAccessType access_type, uintptr_t retaddr)
++{
++    AlphaCPU *cpu = ALPHA_CPU(cs);
++    CPUAlphaState *env = &cpu->env;
++
++    do_unaligned_access(env, addr, retaddr);
++}
++#else
++void alpha_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
++                                   MMUAccessType access_type,
++                                   int mmu_idx, uintptr_t retaddr)
++{
++    AlphaCPU *cpu = ALPHA_CPU(cs);
++    CPUAlphaState *env = &cpu->env;
++
++    do_unaligned_access(env, addr, retaddr);
+     cs->exception_index = EXCP_UNALIGN;
+     env->error_code = 0;
+     cpu_loop_exit(cs);
 -- 
 2.25.1
 
