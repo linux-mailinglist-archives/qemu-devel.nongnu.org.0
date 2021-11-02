@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 859B5443596
+	by mail.lfdr.de (Postfix) with ESMTPS id 36B00443595
 	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 19:29:14 +0100 (CET)
-Received: from localhost ([::1]:51616 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:51560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhyX3-0008SA-Lo
+	id 1mhyX3-0008Pv-2k
 	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 14:29:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38632)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhyTO-0005ff-Hg
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 14:25:26 -0400
-Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830]:40685)
+ id 1mhyTO-0005fr-UX
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 14:25:27 -0400
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:46922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhyTK-0004DH-67
+ id 1mhyTM-0004DR-26
  for qemu-devel@nongnu.org; Tue, 02 Nov 2021 14:25:26 -0400
-Received: by mail-qt1-x830.google.com with SMTP id 19so72135qtt.7
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 11:25:21 -0700 (PDT)
+Received: by mail-qk1-x72e.google.com with SMTP id bl12so6235417qkb.13
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 11:25:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=R3Zw5SkKkRqQw+OjvhJOUwlZRrn68fgFrPkNLpbWJ7U=;
- b=odkByrtO+GujnQnRAaWYi2rERaYqG/IcvU3jHp28lEGFF8jCehvDGZhN2R3vNgp6kI
- nvTqI66JxUE8UIXd0wKYqGcPt6Mi5Dkz51xt3INIDy5BuSLRGN3YHW1XMlCh0HuS/0Wj
- 81TQpOFgXQPqVwtS62qvYqD67LRaoUsU1lfLeqfbh3m9ZCZCgZkCZj856VKnz45B0yYC
- Uw590mdQvvqvF6AKe+67Prh4pUbqYfe7mYJeBzkjZRQOE4oRT7DbIGcOyLq+cNenoE4S
- 9GzCSgIW2LiUwsmGhYgUnbTk6O/lod7mcHEe2tE/csOVHilhaNgS85FJgxxp4mKzciFb
- eNZw==
+ bh=XZ8jbPHuutNMQo4+y79myRiaCVlrVDNnYi0kShgMey4=;
+ b=zXoBjf0Zv0Hadizg7WxjlWvcX5Pb2gq6evr8Mi3VJNtVIU0+xTzuUON6/NLuKzH4An
+ KoEHHyU1uvRql+XR09JLbBdl5OuUY+diGoa9jdRMizIarnlwy4TfE8RUvXZbHmVWdHTF
+ BBp88gRdKwCUcYl8c7PTCZUPjieXO5cSKfhbaqZs3eBHTcHJXehmHZQqJa229Odx8s41
+ yF1oEaJyuMQoSSQb3SZW1c61B+kx7hEaVvW4LAKqDJP5uWGW+DIgEBnX6TpT8TLT8FLc
+ qa5zKuMB5NpSaSCUIJBvBHOZy0HNfk19m8sgXjdEA7oQuoQD1cUN1ze7mkWnPdKoRc+d
+ 2xaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=R3Zw5SkKkRqQw+OjvhJOUwlZRrn68fgFrPkNLpbWJ7U=;
- b=TVpSEODXcrkeLPbGHwUJnV8TtjU8PQmVhz5sWpIz6VFbvKk4YQe0gl1l1OJKeiayh6
- rITb5Cq8ay0UL62Bb8RC46nZ9JVRtooYL+1lKJ+VGMm7evbj3/0d0OD1pDZMNMEDGugs
- zsmq0zXJ8GFr7JV8AfxrXqPYeVXSTxhfF84VhJY46ByKcja3d6PcbckVBM1cz+lbMpMc
- ZRocbSVbXj9sQBvETNfCcAXrL461eSTZBBWt3o1Wtua3Mvv6PPXOUiLKgxIukEEbKVWN
- 8QNR8FrFxYi9R4pi+8LesOu0e0udI8QHUz1TwCoN7gI0dsC6JryWgzhJJbQ9yPTWKoq2
- y1eQ==
-X-Gm-Message-State: AOAM531h+pJXlhqC2AL0ChJhBnzr6s9pKmkwIzIU2fV29jCSTZhLIHjR
- zoOLfxKlniPcMclNwrNdub97xEh8DlxwBg==
-X-Google-Smtp-Source: ABdhPJxIzB8+dWg/ERnYRo+zRxX46MYhWpNvR/8DBUet3ozqJeOdffI+ZhovZZ1vNlsZuh49FU9kOw==
-X-Received: by 2002:ac8:18c:: with SMTP id x12mr39520110qtf.378.1635877521363; 
- Tue, 02 Nov 2021 11:25:21 -0700 (PDT)
+ bh=XZ8jbPHuutNMQo4+y79myRiaCVlrVDNnYi0kShgMey4=;
+ b=XLS6c9BM3LGPhADBvXcxNOiOFyaAijz9VAB/LQWQb4xG2dN3Q7EaPPmlwebu8Q/h4q
+ 9WvL/VsOY7w4e39EzOB2HLlPtAUKLBd6GSNI5l2MguZj82vTKg3XgmRoSimzelIs/CSO
+ XYOFcDj8QT+M61ytFu3qJbHINFLZuh3d4s+6sFvlQHlhgSEKWQwRVntoEvrAU5VFP02V
+ ZFupcoQvppM7AvBqGBXQXoeKColpE/KsEvYP/Pl1dMnKHmmF6ga4ksf26uzMM0iBQmL+
+ rMqKs5I73Fp7WZu9Vn38trsAI0kzmEeDI7HH66zVNFQiSOstEaDWFFqHYYucRCYW1DXF
+ 0vIw==
+X-Gm-Message-State: AOAM530Af6m4v+C05i4UWhvJLE1TFLMYAjkhhPNYlg6VtWmLf72BPgoE
+ IiukkMnDMqe26bhf0cMCkRq7UyGTfHl3sw==
+X-Google-Smtp-Source: ABdhPJzNIEvMtg5/5e/9BANVnEPKH0WCj+IZpk+jVuCKxPbTQXE1sWlufI5v9RBXnxyRWuelCa5JEg==
+X-Received: by 2002:a05:620a:4550:: with SMTP id
+ u16mr10148328qkp.112.1635877522033; 
+ Tue, 02 Nov 2021 11:25:22 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-172-254-253-57.nyc.biz.rr.com.
  [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id y9sm13701081qko.74.2021.11.02.11.25.20
+ by smtp.gmail.com with ESMTPSA id y9sm13701081qko.74.2021.11.02.11.25.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 02 Nov 2021 11:25:21 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 01/12] hw/sd: add nuvoton MMC
-Date: Tue,  2 Nov 2021 14:25:08 -0400
-Message-Id: <20211102182519.320319-2-richard.henderson@linaro.org>
+Subject: [PULL v2 02/12] hw/arm: Add Nuvoton SD module to board
+Date: Tue,  2 Nov 2021 14:25:09 -0400
+Message-Id: <20211102182519.320319-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211102182519.320319-1-richard.henderson@linaro.org>
 References: <20211102182519.320319-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x830.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,286 +98,84 @@ Reviewed-by: Hao Wu <wuhaotsh@google.com>
 Reviewed-by: Chris Rauer <crauer@google.com>
 Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20211008002628.1958285-2-wuhaotsh@google.com>
-[rth: Fix typos of "nonexistent"]
+Message-Id: <20211008002628.1958285-3-wuhaotsh@google.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/sd/npcm7xx_sdhci.h |  65 ++++++++++++
- hw/sd/npcm7xx_sdhci.c         | 182 ++++++++++++++++++++++++++++++++++
- hw/sd/meson.build             |   1 +
- 3 files changed, 248 insertions(+)
- create mode 100644 include/hw/sd/npcm7xx_sdhci.h
- create mode 100644 hw/sd/npcm7xx_sdhci.c
+ include/hw/arm/npcm7xx.h |  2 ++
+ hw/arm/npcm7xx.c         | 12 +++++++++++-
+ 2 files changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/sd/npcm7xx_sdhci.h b/include/hw/sd/npcm7xx_sdhci.h
-new file mode 100644
-index 0000000000..d728f0a40d
---- /dev/null
-+++ b/include/hw/sd/npcm7xx_sdhci.h
-@@ -0,0 +1,65 @@
-+/*
-+ * NPCM7xx SD-3.0 / eMMC-4.51 Host Controller
-+ *
-+ * Copyright (c) 2021 Google LLC
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms of the GNU General Public License as published by the
-+ * Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-+ * for more details.
-+ */
-+
-+#ifndef NPCM7XX_SDHCI_H
-+#define NPCM7XX_SDHCI_H
-+
-+#include "hw/sd/sdhci.h"
-+#include "qom/object.h"
-+
-+#define TYPE_NPCM7XX_SDHCI "npcm7xx.sdhci"
-+#define NPCM7XX_PRSTVALS_SIZE 6
-+#define NPCM7XX_PRSTVALS 0x60
-+#define NPCM7XX_PRSTVALS_0 0x0
-+#define NPCM7XX_PRSTVALS_1 0x2
-+#define NPCM7XX_PRSTVALS_2 0x4
-+#define NPCM7XX_PRSTVALS_3 0x6
-+#define NPCM7XX_PRSTVALS_4 0x8
-+#define NPCM7XX_PRSTVALS_5 0xA
-+#define NPCM7XX_BOOTTOCTRL 0x10
-+#define NPCM7XX_SDHCI_REGSIZE 0x20
-+
-+#define NPCM7XX_PRSNTS_RESET 0x04A00000
-+#define NPCM7XX_BLKGAP_RESET 0x80
-+#define NPCM7XX_CAPAB_RESET 0x0100200161EE0399
-+#define NPCM7XX_MAXCURR_RESET 0x0000000000000005
-+#define NPCM7XX_HCVER_RESET 0x1002
-+
-+#define NPCM7XX_PRSTVALS_0_RESET 0x0040
-+#define NPCM7XX_PRSTVALS_1_RESET 0x0001
-+#define NPCM7XX_PRSTVALS_3_RESET 0x0001
-+
-+OBJECT_DECLARE_SIMPLE_TYPE(NPCM7xxSDHCIState, NPCM7XX_SDHCI)
-+
-+typedef struct NPCM7xxRegs {
-+    /* Preset Values Register Field, read-only */
-+    uint16_t prstvals[NPCM7XX_PRSTVALS_SIZE];
-+    /* Boot Timeout Control Register, read-write */
-+    uint32_t boottoctrl;
-+} NPCM7xxRegisters;
-+
-+typedef struct NPCM7xxSDHCIState {
-+    SysBusDevice parent;
-+
-+    MemoryRegion container;
-+    MemoryRegion iomem;
-+    BusState *bus;
-+    NPCM7xxRegisters regs;
-+
-+    SDHCIState sdhci;
-+} NPCM7xxSDHCIState;
-+
-+#endif /* NPCM7XX_SDHCI_H */
-diff --git a/hw/sd/npcm7xx_sdhci.c b/hw/sd/npcm7xx_sdhci.c
-new file mode 100644
-index 0000000000..ef503365df
---- /dev/null
-+++ b/hw/sd/npcm7xx_sdhci.c
-@@ -0,0 +1,182 @@
-+/*
-+ * NPCM7xx SD-3.0 / eMMC-4.51 Host Controller
-+ *
-+ * Copyright (c) 2021 Google LLC
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms of the GNU General Public License as published by the
-+ * Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-+ * for more details.
-+ */
-+
-+#include "qemu/osdep.h"
-+
+diff --git a/include/hw/arm/npcm7xx.h b/include/hw/arm/npcm7xx.h
+index 61ecc57ab9..ce593235d9 100644
+--- a/include/hw/arm/npcm7xx.h
++++ b/include/hw/arm/npcm7xx.h
+@@ -35,6 +35,7 @@
+ #include "hw/usb/hcd-ehci.h"
+ #include "hw/usb/hcd-ohci.h"
+ #include "target/arm/cpu.h"
 +#include "hw/sd/npcm7xx_sdhci.h"
-+#include "migration/vmstate.h"
-+#include "sdhci-internal.h"
-+#include "qemu/log.h"
+ 
+ #define NPCM7XX_MAX_NUM_CPUS    (2)
+ 
+@@ -103,6 +104,7 @@ typedef struct NPCM7xxState {
+     OHCISysBusState     ohci;
+     NPCM7xxFIUState     fiu[2];
+     NPCM7xxEMCState     emc[2];
++    NPCM7xxSDHCIState   mmc;
+ } NPCM7xxState;
+ 
+ #define TYPE_NPCM7XX    "npcm7xx"
+diff --git a/hw/arm/npcm7xx.c b/hw/arm/npcm7xx.c
+index 2ab0080e0b..878c2208e0 100644
+--- a/hw/arm/npcm7xx.c
++++ b/hw/arm/npcm7xx.c
+@@ -63,6 +63,8 @@
+ #define NPCM7XX_ROM_BA          (0xffff0000)
+ #define NPCM7XX_ROM_SZ          (64 * KiB)
+ 
++/* SDHCI Modules */
++#define NPCM7XX_MMC_BA          (0xf0842000)
+ 
+ /* Clock configuration values to be fixed up when bypassing bootloader */
+ 
+@@ -83,6 +85,7 @@ enum NPCM7xxInterrupt {
+     NPCM7XX_UART3_IRQ,
+     NPCM7XX_EMC1RX_IRQ          = 15,
+     NPCM7XX_EMC1TX_IRQ,
++    NPCM7XX_MMC_IRQ             = 26,
+     NPCM7XX_TIMER0_IRQ          = 32,   /* Timer Module 0 */
+     NPCM7XX_TIMER1_IRQ,
+     NPCM7XX_TIMER2_IRQ,
+@@ -443,6 +446,8 @@ static void npcm7xx_init(Object *obj)
+     for (i = 0; i < ARRAY_SIZE(s->emc); i++) {
+         object_initialize_child(obj, "emc[*]", &s->emc[i], TYPE_NPCM7XX_EMC);
+     }
 +
-+static uint64_t npcm7xx_sdhci_read(void *opaque, hwaddr addr, unsigned int size)
-+{
-+    NPCM7xxSDHCIState *s = opaque;
-+    uint64_t val = 0;
++    object_initialize_child(obj, "mmc", &s->mmc, TYPE_NPCM7XX_SDHCI);
+ }
+ 
+ static void npcm7xx_realize(DeviceState *dev, Error **errp)
+@@ -707,6 +712,12 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
+                            &error_abort);
+     memory_region_add_subregion(get_system_memory(), NPCM7XX_ROM_BA, &s->irom);
+ 
++    /* SDHCI */
++    sysbus_realize(SYS_BUS_DEVICE(&s->mmc), &error_abort);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->mmc), 0, NPCM7XX_MMC_BA);
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->mmc), 0,
++            npcm7xx_irq(s, NPCM7XX_MMC_IRQ));
 +
-+    switch (addr) {
-+    case NPCM7XX_PRSTVALS_0:
-+    case NPCM7XX_PRSTVALS_1:
-+    case NPCM7XX_PRSTVALS_2:
-+    case NPCM7XX_PRSTVALS_3:
-+    case NPCM7XX_PRSTVALS_4:
-+    case NPCM7XX_PRSTVALS_5:
-+        val = s->regs.prstvals[(addr - NPCM7XX_PRSTVALS_0) / 2];
-+        break;
-+    case NPCM7XX_BOOTTOCTRL:
-+        val = s->regs.boottoctrl;
-+        break;
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "SDHCI read of nonexistent reg: 0x%02"
-+                      HWADDR_PRIx, addr);
-+        break;
-+    }
-+
-+    return val;
-+}
-+
-+static void npcm7xx_sdhci_write(void *opaque, hwaddr addr, uint64_t val,
-+                                unsigned int size)
-+{
-+    NPCM7xxSDHCIState *s = opaque;
-+
-+    switch (addr) {
-+    case NPCM7XX_BOOTTOCTRL:
-+        s->regs.boottoctrl = val;
-+        break;
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "SDHCI write of nonexistent reg: 0x%02"
-+                      HWADDR_PRIx, addr);
-+        break;
-+    }
-+}
-+
-+static bool npcm7xx_sdhci_check_mem_op(void *opaque, hwaddr addr,
-+                                       unsigned size, bool is_write,
-+                                       MemTxAttrs attrs)
-+{
-+    switch (addr) {
-+    case NPCM7XX_PRSTVALS_0:
-+    case NPCM7XX_PRSTVALS_1:
-+    case NPCM7XX_PRSTVALS_2:
-+    case NPCM7XX_PRSTVALS_3:
-+    case NPCM7XX_PRSTVALS_4:
-+    case NPCM7XX_PRSTVALS_5:
-+        /* RO Word */
-+        return !is_write && size == 2;
-+    case NPCM7XX_BOOTTOCTRL:
-+        /* R/W Dword */
-+        return size == 4;
-+    default:
-+        return false;
-+    }
-+}
-+
-+static const MemoryRegionOps npcm7xx_sdhci_ops = {
-+    .read = npcm7xx_sdhci_read,
-+    .write = npcm7xx_sdhci_write,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .valid = {
-+        .min_access_size = 1,
-+        .max_access_size = 4,
-+        .unaligned = false,
-+        .accepts = npcm7xx_sdhci_check_mem_op,
-+    },
-+};
-+
-+static void npcm7xx_sdhci_realize(DeviceState *dev, Error **errp)
-+{
-+    NPCM7xxSDHCIState *s = NPCM7XX_SDHCI(dev);
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-+    SysBusDevice *sbd_sdhci = SYS_BUS_DEVICE(&s->sdhci);
-+
-+    memory_region_init(&s->container, OBJECT(s),
-+                       "npcm7xx.sdhci-container", 0x1000);
-+    sysbus_init_mmio(sbd, &s->container);
-+
-+    memory_region_init_io(&s->iomem, OBJECT(s), &npcm7xx_sdhci_ops, s,
-+                          TYPE_NPCM7XX_SDHCI, NPCM7XX_SDHCI_REGSIZE);
-+    memory_region_add_subregion_overlap(&s->container, NPCM7XX_PRSTVALS,
-+                                        &s->iomem, 1);
-+
-+    sysbus_realize(sbd_sdhci, errp);
-+    memory_region_add_subregion(&s->container, 0,
-+                                sysbus_mmio_get_region(sbd_sdhci, 0));
-+
-+    /* propagate irq and "sd-bus" from generic-sdhci */
-+    sysbus_pass_irq(sbd, sbd_sdhci);
-+    s->bus = qdev_get_child_bus(DEVICE(sbd_sdhci), "sd-bus");
-+
-+    /* Set the read only preset values. */
-+    memset(s->regs.prstvals, 0, sizeof(s->regs.prstvals));
-+    s->regs.prstvals[0] = NPCM7XX_PRSTVALS_0_RESET;
-+    s->regs.prstvals[1] = NPCM7XX_PRSTVALS_1_RESET;
-+    s->regs.prstvals[3] = NPCM7XX_PRSTVALS_3_RESET;
-+}
-+
-+static void npcm7xx_sdhci_reset(DeviceState *dev)
-+{
-+    NPCM7xxSDHCIState *s = NPCM7XX_SDHCI(dev);
-+    device_cold_reset(DEVICE(&s->sdhci));
-+    s->regs.boottoctrl = 0;
-+
-+    s->sdhci.prnsts = NPCM7XX_PRSNTS_RESET;
-+    s->sdhci.blkgap = NPCM7XX_BLKGAP_RESET;
-+    s->sdhci.capareg = NPCM7XX_CAPAB_RESET;
-+    s->sdhci.maxcurr = NPCM7XX_MAXCURR_RESET;
-+    s->sdhci.version = NPCM7XX_HCVER_RESET;
-+}
-+
-+static const VMStateDescription vmstate_npcm7xx_sdhci = {
-+    .name = TYPE_NPCM7XX_SDHCI,
-+    .version_id = 0,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32(regs.boottoctrl, NPCM7xxSDHCIState),
-+        VMSTATE_END_OF_LIST(),
-+    },
-+};
-+
-+static void npcm7xx_sdhci_class_init(ObjectClass *classp, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(classp);
-+
-+    dc->desc = "NPCM7xx SD/eMMC Host Controller";
-+    dc->realize = npcm7xx_sdhci_realize;
-+    dc->reset = npcm7xx_sdhci_reset;
-+    dc->vmsd = &vmstate_npcm7xx_sdhci;
-+}
-+
-+static void npcm7xx_sdhci_instance_init(Object *obj)
-+{
-+    NPCM7xxSDHCIState *s = NPCM7XX_SDHCI(obj);
-+
-+    object_initialize_child(OBJECT(s), "generic-sdhci", &s->sdhci,
-+                            TYPE_SYSBUS_SDHCI);
-+}
-+
-+static TypeInfo npcm7xx_sdhci_info = {
-+    .name = TYPE_NPCM7XX_SDHCI,
-+    .parent = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(NPCM7xxSDHCIState),
-+    .instance_init = npcm7xx_sdhci_instance_init,
-+    .class_init = npcm7xx_sdhci_class_init,
-+};
-+
-+static void npcm7xx_sdhci_register_types(void)
-+{
-+    type_register_static(&npcm7xx_sdhci_info);
-+}
-+
-+type_init(npcm7xx_sdhci_register_types)
-diff --git a/hw/sd/meson.build b/hw/sd/meson.build
-index f1ce357a3b..807ca07b7c 100644
---- a/hw/sd/meson.build
-+++ b/hw/sd/meson.build
-@@ -9,4 +9,5 @@ softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_mmci.c'))
- softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_sdhost.c'))
- softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_sdhci.c'))
- softmmu_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-sdhost.c'))
-+softmmu_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_sdhci.c'))
- softmmu_ss.add(when: 'CONFIG_CADENCE_SDHCI', if_true: files('cadence_sdhci.c'))
+     create_unimplemented_device("npcm7xx.shm",          0xc0001000,   4 * KiB);
+     create_unimplemented_device("npcm7xx.vdmx",         0xe0800000,   4 * KiB);
+     create_unimplemented_device("npcm7xx.pcierc",       0xe1000000,  64 * KiB);
+@@ -736,7 +747,6 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
+     create_unimplemented_device("npcm7xx.usbd[8]",      0xf0838000,   4 * KiB);
+     create_unimplemented_device("npcm7xx.usbd[9]",      0xf0839000,   4 * KiB);
+     create_unimplemented_device("npcm7xx.sd",           0xf0840000,   8 * KiB);
+-    create_unimplemented_device("npcm7xx.mmc",          0xf0842000,   8 * KiB);
+     create_unimplemented_device("npcm7xx.pcimbx",       0xf0848000, 512 * KiB);
+     create_unimplemented_device("npcm7xx.aes",          0xf0858000,   4 * KiB);
+     create_unimplemented_device("npcm7xx.des",          0xf0859000,   4 * KiB);
 -- 
 2.25.1
 
