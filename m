@@ -2,88 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE4C7442D8D
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 13:11:08 +0100 (CET)
-Received: from localhost ([::1]:48780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07AF5442DAD
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 13:17:56 +0100 (CET)
+Received: from localhost ([::1]:57428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhsd4-0004Bd-44
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 08:11:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51880)
+	id 1mhsjj-000260-3z
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 08:17:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mhs5w-0003lD-Op
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:36:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53280)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mhs6I-0004Ai-Mw
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:37:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mhs5u-0006iX-Rm
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:36:48 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mhs6E-0006lE-Jk
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:37:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635853005;
+ s=mimecast20190719; t=1635853026;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BJT9NpPkO7S4wp+T1GWIa6j460Km9pcGxBKHKJxk3mE=;
- b=Dkj9nJPWSoQBCaTNJfhYFiJVLkTFJLgcempT26tf4+I0S2JX/B3Di3LgnIqIOeBkUIwKYT
- N86CKgYrx0q/FDCBSxWafzeKJq5b2624zbUIJunw4StbyaaftxdqFNMwMViCnYt9PikXwK
- Qyjy6uLTE/LGh+RcwNP2iWJn9oLCvKU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-573-F4smMYPSO4-W_JyQ_0VmrA-1; Tue, 02 Nov 2021 07:36:44 -0400
-X-MC-Unique: F4smMYPSO4-W_JyQ_0VmrA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- j25-20020a05600c1c1900b00332372c252dso753505wms.1
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 04:36:44 -0700 (PDT)
+ bh=zg0pMQHu/Bm8vrv7VoacfnaUBlOHYg2tawfmdswsGY0=;
+ b=Jxjfe3nHaVMIGLnxG7v4WL+/VwUTi/hlqBgbvITALjL7H/wADfXJIdKqr94XaEAVMFX3tW
+ x9unmlIZA0R3mBBtTY73S2XM0G5LCYtP0bMsdLhM1ZszG/Z8Ij/2mpxvsG1BAW3rpYgPUy
+ OOSWNbjYU61dBOXIlNjntY8OVQ3qFYk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-466-GmseDPOzOnSA6cO9n1IWSg-1; Tue, 02 Nov 2021 07:37:01 -0400
+X-MC-Unique: GmseDPOzOnSA6cO9n1IWSg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ k6-20020a7bc306000000b0030d92a6bdc7so754087wmj.3
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 04:37:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=BJT9NpPkO7S4wp+T1GWIa6j460Km9pcGxBKHKJxk3mE=;
- b=D4MetSIi9YPtq9XG0k6ckfgFSmi13zgwqvLabdhN4YCufnfdW1kAxKp6eMVXU3OJf/
- zKJafk1BXFAKJ5SAIaK6KzQOi5MnOXTiZ8QbjdvEQ9nr9FhZcISxl04+T/EMP1Fcfzep
- xf5HIjI7aTP17JHFdGe4oNJr0H+CjG0ihuyaTfnmkMmnxc6vXOaItS3HPlcQ+7+qZyeF
- MYG+rZ9XI+AnVzp43euebhujCBwyTAUKWY3488UqOuDJhJDXZHd3cUVgNguGDjHOqOpZ
- luwWXwej+pqoEzRwpHJuFQVvoeqlRUoj11+ri76D3Ah18Ew765yvOCqxsAFtFeQJpj7H
- 5UbQ==
-X-Gm-Message-State: AOAM533TAq1btu9pQvAb7Jx+1CHyztO7PMEIKzMxro03WcJeIaPFgo+L
- bHt4MtQIHHqpXaQfpIZaJI/XtEL92hC5iDkIzkIKZ/n3JktgItbeSpWyEni6u1A8zaf9B+2VPrG
- lt1OEdkENWUkv3RU=
-X-Received: by 2002:adf:f0c5:: with SMTP id x5mr18926493wro.320.1635853003067; 
- Tue, 02 Nov 2021 04:36:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJybQL+LMOuyPg4LZJqN1GmfxYXUjjB0NWcTUVmO5Bo4+EG9CVmkP1lFSWnXT24HZG6TdM2pWA==
-X-Received: by 2002:adf:f0c5:: with SMTP id x5mr18926461wro.320.1635853002867; 
- Tue, 02 Nov 2021 04:36:42 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id n184sm589633wme.2.2021.11.02.04.36.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 04:36:42 -0700 (PDT)
-Date: Tue, 2 Nov 2021 11:36:40 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Dov Murik <dovmurik@linux.ibm.com>
-Subject: Re: [PATCH 3/3] sev/i386: Perform padding calculations at compile-time
-Message-ID: <YYEiyJ73TCg2AFOl@work-vm>
-References: <20211101102136.1706421-1-dovmurik@linux.ibm.com>
- <20211101102136.1706421-4-dovmurik@linux.ibm.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=zg0pMQHu/Bm8vrv7VoacfnaUBlOHYg2tawfmdswsGY0=;
+ b=PNm8uD+C/uPLqoDrkqko1dtgviNSf7m/027kCHrWNQcdLVyvkRP/qbmdrG9YB3glwN
+ 5jD6a3pCg+uPLL04HlTvQco6jd+PprFUupvlcjr3kViOC9YGFlnliUc/uINgNTKQimLa
+ cqbMsBb2Bm7KQAFhWJYY8BGBQlCSJqAM7k4aeGaY/PEfw0QTbDcE2mN0XA+j8vXQpdtp
+ ozZ5sTAK+rT4gdsrp+LcA+jJnP2H1rFDI/IC6nvIW5b+Gd4yaef4lcLar8SKfHoLVK3Z
+ 0Jx94zfevpgLwGLMJvdGpx8hwQuFNmJg56OtUAuAbrAoJr80Rh9s/dBFDHV3N1mTwToS
+ a++Q==
+X-Gm-Message-State: AOAM532PuxlJLEhuukRrsacr7gADWajixO8f+b3LpWzs/KT4a5QNrE+T
+ bgYlCufY+hPweLVyGQQ8xNivHGAaVPXurXZzO1vE/FTmWGs6QfSJYNu70SKaYSaOr4sKpUwHLM4
+ 1so1JyBmiqIWVX7U=
+X-Received: by 2002:adf:ded0:: with SMTP id i16mr41569358wrn.335.1635853019994; 
+ Tue, 02 Nov 2021 04:36:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwAHA8RUVYh3P1O9Po7neJKqLlmXgKfwqd5vchSb7u3SLJRSnqaOfdoT3ti6KMuWg6I5jdEcw==
+X-Received: by 2002:adf:ded0:: with SMTP id i16mr41569322wrn.335.1635853019726; 
+ Tue, 02 Nov 2021 04:36:59 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id g3sm20595821wri.45.2021.11.02.04.36.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Nov 2021 04:36:59 -0700 (PDT)
+Message-ID: <d0ca6025-4e09-520a-e5d8-e1ff232f7fe7@redhat.com>
+Date: Tue, 2 Nov 2021 12:36:58 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211101102136.1706421-4-dovmurik@linux.ibm.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 2/4] Move the l2tpv3 test from configure to meson.build
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20211028185910.1729744-1-thuth@redhat.com>
+ <20211028185910.1729744-3-thuth@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20211028185910.1729744-3-thuth@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+X-Spam_score_int: -60
+X-Spam_score: -6.1
+X-Spam_bar: ------
+X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.549, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,109 +100,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Dov Murik (dovmurik@linux.ibm.com) wrote:
-> In sev_add_kernel_loader_hashes, the sizes of structs are known at
-> compile-time, so calculate needed padding at compile-time.
+On 28/10/21 20:59, Thomas Huth wrote:
+> And while we're at it, also provide a proper entry for this feature
+> in meson_options.txt, so that people who don't need it have a knob
+> to disable this feature.
 > 
-> No functional change intended.
-> 
-> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
-
-
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  target/i386/sev.c | 28 ++++++++++++++++++----------
->  1 file changed, 18 insertions(+), 10 deletions(-)
+>   configure                     | 17 -----------------
+>   meson.build                   |  8 ++++++++
+>   meson_options.txt             |  2 ++
+>   net/meson.build               |  4 +++-
+>   scripts/meson-buildoptions.sh |  3 +++
+>   5 files changed, 16 insertions(+), 18 deletions(-)
 > 
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index a20ddb545e..c09de9c6f0 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -109,9 +109,19 @@ typedef struct QEMU_PACKED SevHashTable {
->      SevHashTableEntry cmdline;
->      SevHashTableEntry initrd;
->      SevHashTableEntry kernel;
-> -    uint8_t padding[];
->  } SevHashTable;
->  
-> +/*
-> + * Data encrypted by sev_encrypt_flash() must be padded to a multiple of
-> + * 16 bytes.
-> + */
-> +typedef struct QEMU_PACKED PaddedSevHashTable {
-> +    SevHashTable ht;
-> +    uint8_t padding[ROUND_UP(sizeof(SevHashTable), 16) - sizeof(SevHashTable)];
-> +} PaddedSevHashTable;
+> diff --git a/configure b/configure
+> index 8fe03b6230..170b1b237a 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1907,20 +1907,6 @@ if test -z "$want_tools"; then
+>       fi
+>   fi
+>   
+> -##########################################
+> -# L2TPV3 probe
+> -
+> -cat > $TMPC <<EOF
+> -#include <sys/socket.h>
+> -#include <linux/ip.h>
+> -int main(void) { return sizeof(struct mmsghdr); }
+> -EOF
+> -if compile_prog "" "" ; then
+> -  l2tpv3=yes
+> -else
+> -  l2tpv3=no
+> -fi
+> -
+>   #########################################
+>   # vhost interdependencies and host support
+>   
+> @@ -3544,9 +3530,6 @@ if test "$slirp_smbd" = "yes" ; then
+>     echo "CONFIG_SLIRP_SMBD=y" >> $config_host_mak
+>     echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
+>   fi
+> -if test "$l2tpv3" = "yes" ; then
+> -  echo "CONFIG_L2TPV3=y" >> $config_host_mak
+> -fi
+>   if test "$gprof" = "yes" ; then
+>     echo "CONFIG_GPROF=y" >> $config_host_mak
+>   fi
+> diff --git a/meson.build b/meson.build
+> index 2c5b53cbe2..5bb6b901b0 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -1678,6 +1678,13 @@ config_host_data.set('HAVE_MLOCKALL', cc.links(gnu_source_prefix + '''
+>       return mlockall(MCL_FUTURE);
+>     }'''))
+>   
+> +have_l2tpv3 = false
+> +if not get_option('l2tpv3').disabled() and have_system
+> +  have_l2tpv3 = (cc.has_header_symbol('sys/socket.h', 'struct mmsghdr')
+> +                 and cc.has_header('linux/ip.h'))
+> +endif
+> +config_host_data.set('CONFIG_L2TPV3', have_l2tpv3)
 > +
-> +QEMU_BUILD_BUG_ON(sizeof(PaddedSevHashTable) % 16 != 0);
-> +
->  static SevGuestState *sev_guest;
->  static Error *sev_mig_blocker;
->  
-> @@ -1196,19 +1206,19 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
->      uint8_t *data;
->      SevHashTableDescriptor *area;
->      SevHashTable *ht;
-> +    PaddedSevHashTable *padded_ht;
->      uint8_t cmdline_hash[HASH_SIZE];
->      uint8_t initrd_hash[HASH_SIZE];
->      uint8_t kernel_hash[HASH_SIZE];
->      uint8_t *hashp;
->      size_t hash_len = HASH_SIZE;
-> -    int aligned_len = ROUND_UP(sizeof(SevHashTable), 16);
->  
->      if (!pc_system_ovmf_table_find(SEV_HASH_TABLE_RV_GUID, &data, NULL)) {
->          warn_report("SEV: kernel specified but OVMF has no hash table guid");
->          return false;
->      }
->      area = (SevHashTableDescriptor *)data;
-> -    if (!area->base || area->size < aligned_len) {
-> +    if (!area->base || area->size < sizeof(PaddedSevHashTable)) {
->          warn_report("SEV: OVMF's hashes table area is invalid (base=0x%x size=0x%x)",
->                      area->base, area->size);
->          return false;
-> @@ -1253,7 +1263,8 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
->       * Populate the hashes table in the guest's memory at the OVMF-designated
->       * area for the SEV hashes table
->       */
-> -    ht = qemu_map_ram_ptr(NULL, area->base);
-> +    padded_ht = qemu_map_ram_ptr(NULL, area->base);
-> +    ht = &padded_ht->ht;
->  
->      ht->guid = sev_hash_table_header_guid;
->      ht->len = sizeof(*ht);
-> @@ -1270,13 +1281,10 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
->      ht->kernel.len = sizeof(ht->kernel);
->      memcpy(ht->kernel.hash, kernel_hash, sizeof(ht->kernel.hash));
->  
-> -    /* When calling sev_encrypt_flash, the length has to be 16 byte aligned */
-> -    if (aligned_len != ht->len) {
-> -        /* zero the excess data so the measurement can be reliably calculated */
-> -        memset(ht->padding, 0, aligned_len - ht->len);
-> -    }
-> +    /* zero the excess data so the measurement can be reliably calculated */
-> +    memset(padded_ht->padding, 0, sizeof(padded_ht->padding));
->  
-> -    if (sev_encrypt_flash((uint8_t *)ht, aligned_len, errp) < 0) {
-> +    if (sev_encrypt_flash((uint8_t *)padded_ht, sizeof(*padded_ht), errp) < 0) {
->          return false;
->      }
->  
-> -- 
-> 2.25.1
+>   have_netmap = false
+>   if not get_option('netmap').disabled() and have_system
+>     have_netmap = cc.compiles('''
+> @@ -3394,6 +3401,7 @@ summary_info += {'JACK support':      jack}
+>   summary_info += {'brlapi support':    brlapi}
+>   summary_info += {'vde support':       vde}
+>   summary_info += {'netmap support':    have_netmap}
+> +summary_info += {'l2tpv3 support':    have_l2tpv3}
+>   summary_info += {'Linux AIO support': libaio}
+>   summary_info += {'Linux io_uring support': linux_io_uring}
+>   summary_info += {'ATTR/XATTR support': libattr}
+> diff --git a/meson_options.txt b/meson_options.txt
+> index 4ab4570125..e740dce2a5 100644
+> --- a/meson_options.txt
+> +++ b/meson_options.txt
+> @@ -141,6 +141,8 @@ option('u2f', type : 'feature', value : 'auto',
+>          description: 'U2F emulation support')
+>   option('usb_redir', type : 'feature', value : 'auto',
+>          description: 'libusbredir support')
+> +option('l2tpv3', type : 'feature', value : 'auto',
+> +       description: 'l2tpv3 network backend support')
+>   option('netmap', type : 'feature', value : 'auto',
+>          description: 'netmap network backend support')
+>   option('vde', type : 'feature', value : 'auto',
+> diff --git a/net/meson.build b/net/meson.build
+> index 94383e7460..847bc2ac85 100644
+> --- a/net/meson.build
+> +++ b/net/meson.build
+> @@ -18,7 +18,9 @@ softmmu_ss.add(files(
+>   
+>   softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('filter-replay.c'))
+>   
+> -softmmu_ss.add(when: 'CONFIG_L2TPV3', if_true: files('l2tpv3.c'))
+> +if have_l2tpv3
+> +  softmmu_ss.add(files('l2tpv3.c'))
+> +endif
+>   softmmu_ss.add(when: slirp, if_true: files('slirp.c'))
+>   softmmu_ss.add(when: vde, if_true: files('vde.c'))
+>   if have_netmap
+> diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+> index c795a13020..55b8a78560 100644
+> --- a/scripts/meson-buildoptions.sh
+> +++ b/scripts/meson-buildoptions.sh
+> @@ -49,6 +49,7 @@ meson_options_help() {
+>     printf "%s\n" '  iconv           Font glyph conversion support'
+>     printf "%s\n" '  jack            JACK sound support'
+>     printf "%s\n" '  kvm             KVM acceleration support'
+> +  printf "%s\n" '  l2tpv3          l2tpv3 network backend support'
+>     printf "%s\n" '  libdaxctl       libdaxctl support'
+>     printf "%s\n" '  libiscsi        libiscsi userspace initiator'
+>     printf "%s\n" '  libnfs          libnfs block device driver'
+> @@ -166,6 +167,8 @@ _meson_option_parse() {
+>       --disable-jack) printf "%s" -Djack=disabled ;;
+>       --enable-kvm) printf "%s" -Dkvm=enabled ;;
+>       --disable-kvm) printf "%s" -Dkvm=disabled ;;
+> +    --enable-l2tpv3) printf "%s" -Dl2tpv3=enabled ;;
+> +    --disable-l2tpv3) printf "%s" -Dl2tpv3=disabled ;;
+>       --enable-libdaxctl) printf "%s" -Dlibdaxctl=enabled ;;
+>       --disable-libdaxctl) printf "%s" -Dlibdaxctl=disabled ;;
+>       --enable-libiscsi) printf "%s" -Dlibiscsi=enabled ;;
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
+Queued, thanks.
+
+Paolo
 
 
