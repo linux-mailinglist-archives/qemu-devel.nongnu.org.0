@@ -2,91 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55364442D5C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 13:00:59 +0100 (CET)
-Received: from localhost ([::1]:47374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9821442D95
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 13:12:12 +0100 (CET)
+Received: from localhost ([::1]:49190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhsTK-0000wz-E7
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 08:00:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46256)
+	id 1mhseC-0004Tu-0q
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 08:12:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mhrmP-000309-RA
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:16:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39907)
+ (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
+ id 1mhroF-0005xE-AG
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:18:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mhrmI-0004Wh-NQ
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:16:36 -0400
+ (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
+ id 1mhroB-0004tt-QD
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:18:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635851788;
+ s=mimecast20190719; t=1635851906;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x4aB1tDISQ5VLT3FZXUqnx5+jKAJUMTjQxjpx3IGWs4=;
- b=Q0tkJ5zMW2PFNjX0jYPq+VPdsAByniqzWIXFEqwm+nr0XbryeH6oN52dTsahRX012/6zbp
- pNb5byzw/45w7gPbPhKMmbht4S91XdZ2V+cjx704zTmPNbQiLha4G7Zzg7jT78PSrZqa0U
- WqrWpxXKk1MeHPdMJcKILW7wjGrAcso=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-586-wYppxfoBM2iqvha9lug_TA-1; Tue, 02 Nov 2021 07:16:27 -0400
-X-MC-Unique: wYppxfoBM2iqvha9lug_TA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 69-20020a1c0148000000b0033214e5b021so380508wmb.3
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 04:16:27 -0700 (PDT)
+ bh=XXCD/y+EIIpD27UrY6lZoLmfoZFyT8+831AZbU0+UZI=;
+ b=RkMurpklxHNlDMYRRay3ZH7q8I+0Bj3G6tiKukB7J1so4K6kOW35OnsoaPTOVkm4NMl1dm
+ oze1fABmSYlX2rFS9Gg/mUBjUL7Zs+pcApCZzqStrJGXuGof/29nnU0AKWXgIxrWHNda+a
+ 9eNJMKBp7t+5L/m62H8zKwvWRFHvO0k=
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-554-zHMvhxfAMqumSveiz8pmEA-1; Tue, 02 Nov 2021 07:17:18 -0400
+X-MC-Unique: zHMvhxfAMqumSveiz8pmEA-1
+Received: by mail-ot1-f71.google.com with SMTP id
+ f5-20020a056830056500b00553e1fde941so9110228otc.5
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 04:17:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=x4aB1tDISQ5VLT3FZXUqnx5+jKAJUMTjQxjpx3IGWs4=;
- b=VWmOLxB0tixxOmqicTj9syW2t6VBdWTJDAJtsKYmBnMETajxKe9arN/Bkv+akU5Srw
- yyb5Yc3lgj/sokS1Ym6ZOOy+O+vaB7qWE2UMRWeUyHe+F4xMs6ltMEW6n77qLt/zhXnj
- jtOgWdXPO+Is8uUHj2LLNI+6RL/FueZwgJhMS2wEDtxyFLfhtGSm5n/N5fXli53kabRv
- YHWZxk/ec8FKQe9bnaRNdnLBlnmjRiHsIH3mlvBdNtfyaDvS2HLxnnQrk7Xuuc9qq9yz
- K+kABW/sFKDBA+EfhmyHuQOlSrRqDRrORkf/mH4MQEKAuycBGRWk8dVQ8p2f+q3a1/cV
- vWHg==
-X-Gm-Message-State: AOAM531GhbrZV1WAbx9DW6QLOniSg8fl1lZ5/6YAtn9sfwgXIU/5hchf
- iH9c3l0ZEt/rBNxg5AfAMxELCA5pC3Gshpbk4bgcZtU5Fe2oHwzAyrxfWdPEeDL95mO+qbqhevS
- kWlHLKwdjHG/JQVk=
-X-Received: by 2002:a5d:4909:: with SMTP id x9mr42747321wrq.313.1635851786228; 
- Tue, 02 Nov 2021 04:16:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwLI6MzOHv2iBMWPT/YEe9ENVaAb8hQhuvxRIg1mEtACdIxFyUz+KtLMGNNF2te0yeDjtJ6Fg==
-X-Received: by 2002:a5d:4909:: with SMTP id x9mr42747291wrq.313.1635851785962; 
- Tue, 02 Nov 2021 04:16:25 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id k8sm2404881wms.41.2021.11.02.04.16.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Nov 2021 04:16:25 -0700 (PDT)
-Message-ID: <7ec62eaf-d8e6-a27c-d6cd-64d09d17cb58@redhat.com>
-Date: Tue, 2 Nov 2021 12:16:24 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=XXCD/y+EIIpD27UrY6lZoLmfoZFyT8+831AZbU0+UZI=;
+ b=UoeI44SuIF938Hg/gjCYcLD7piFZOsqK5FE6EDWk28xyH2p+jMJZnwc5K6APFcgzBw
+ cr6tRGIyYzDzakec1MpQWGWEW07xClSSAp6g9MAmpd6jlsvqwyMvFtLWPOp3K+aymMUf
+ owd88JdkQ1Pyu43qVvGj8IhNVkwLB5bLcB8iTFPjCkZp5zBXgi6yfJYmxhC7u6/RYkKI
+ ftqakN1Ytj2ETdGLWwoQNC4js7amHeIqdYrV4/PRaOIWZIOubuRjXmDuc911EaqxKyj5
+ PVo7Cr5M73HCxRxlfzk2cwZqQ/0eWpiel4M2eWYvptpc11u6MEo0i5x/5GLqBDX1XKbb
+ TubA==
+X-Gm-Message-State: AOAM5333lcQaixdiBIbRkFNwRoDuhtiOb1yCqhegtgUeDVJkcJPh/KL5
+ R7sciItAQgytRoorOw0K7VRHB3UFv9lyrNR4d9GKLIWt5pyoSC84v3nDgm7uaGh1+CVnKOxZqNT
+ UKUN8Ww3w10EJRI1rU97eWE0ZcJuP44g=
+X-Received: by 2002:a05:6808:1827:: with SMTP id
+ bh39mr4471576oib.142.1635851838235; 
+ Tue, 02 Nov 2021 04:17:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyFTdbcjIKNzMUMViWnusXpyfZ4iD5Jq/omP/wQrIjWJS6KfUBAgrpQmxrQjrnodp/Cg761vzAhjiGQ5WHFbYs=
+X-Received: by 2002:a05:6808:1827:: with SMTP id
+ bh39mr4471555oib.142.1635851838008; 
+ Tue, 02 Nov 2021 04:17:18 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v2] meson.build: Allow to disable OSS again
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20211102105822.773131-1-thuth@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20211102105822.773131-1-thuth@redhat.com>
+References: <20210803205043.165034-1-mst@redhat.com>
+ <20210803205043.165034-2-mst@redhat.com>
+ <YVGP9vdTtu5sRVpl@redhat.com> <20210927053932-mutt-send-email-mst@kernel.org>
+ <YYEDqJGe8qdKHgfh@redhat.com>
+In-Reply-To: <YYEDqJGe8qdKHgfh@redhat.com>
+From: Julia Suvorova <jusual@redhat.com>
+Date: Tue, 2 Nov 2021 12:17:06 +0100
+Message-ID: <CAMDeoFXTLuESR1X04TDGfuX18soGJtxFXFCfEK4oWNFye8oBUQ@mail.gmail.com>
+Subject: Re: [PULL 1/5] hw/pcie-root-port: Fix hotplug for PCI devices
+ requiring IO
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsuvorov@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsuvorov@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -60
-X-Spam_score: -6.1
-X-Spam_bar: ------
-X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.549, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,40 +96,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: Marcel Apfelbaum <marcel@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Igor Mammedov <imammedo@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/11/21 11:58, Thomas Huth wrote:
-> If sys/soundcard.h is available, it is currently not possible to
-> disable OSS with the --disable-oss or --without-default-features
-> configure switches. Improve the check in meson.build to fix this.
-> 
-> Fixes: 87430d5b13 ("configure, meson: move audio driver detection to Meson")
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   v2: Only ever look for OSS if we also have system emulation enabled
-> 
->   meson.build | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meson.build b/meson.build
-> index 6dec5dd5cc..2848917602 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -915,7 +915,7 @@ if liblzfse.found() and not cc.links('''
->   endif
->   
->   oss = not_found
-> -if not get_option('oss').auto() or have_system
-> +if have_system and not get_option('oss').disabled()
->     if not cc.has_header('sys/soundcard.h')
->       # not found
->     elif targetos == 'netbsd'
-> 
+On Tue, Nov 2, 2021 at 10:26 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> On Mon, Sep 27, 2021 at 05:49:15AM -0400, Michael S. Tsirkin wrote:
+> > On Mon, Sep 27, 2021 at 10:33:42AM +0100, Daniel P. Berrang=C3=A9 wrote=
+:
+> > > On Tue, Aug 03, 2021 at 04:52:03PM -0400, Michael S. Tsirkin wrote:
+> > > > From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> > > >
+> > > > Q35 has now ACPI hotplug enabled by default for PCI(e) devices.
+> > > > As opposed to native PCIe hotplug, guests like Fedora 34
+> > > > will not assign IO range to pcie-root-ports not supporting
+> > > > native hotplug, resulting into a regression.
+> > > >
+> > > > Reproduce by:
+> > > >     qemu-bin -M q35 -device pcie-root-port,id=3Dp1 -monitor stdio
+> > > >     device_add e1000,bus=3Dp1
+> > > > In the Guest OS the respective pcie-root-port will have the IO rang=
+e
+> > > > disabled.
+> > > >
+> > > > Fix it by setting the "reserve-io" hint capability of the
+> > > > pcie-root-ports so the firmware will allocate the IO range instead.
+> > > >
+> > > > Acked-by: Igor Mammedov <imammedo@redhat.com>
+> > > > Signed-off-by: Marcel Apfelbaum <marcel@redhat.com>
+> > > > Message-Id: <20210802090057.1709775-1-marcel@redhat.com>
+> > > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > > > ---
+> > > >  hw/pci-bridge/gen_pcie_root_port.c | 5 +++++
+> > > >  1 file changed, 5 insertions(+)
+> > >
+> > > This change, when combined with the switch to ACPI based hotplug by
+> > > default, is responsible for a significant regression in QEMU 6.1.0
+> > >
+> > > It is no longer possible to have more than 15 pcie-root-port devices
+> > > added to a q35 VM in 6.1.0.  Before this I've had as many as 80+ devi=
+ces
+> > > present before I stopped trying to add more.
+> > >
+> > >   https://gitlab.com/qemu-project/qemu/-/issues/641
+> > >
+> > > This regression is significant, because it has broken the out of the
+> > > box default configuration that OpenStack uses for booting all VMs.
+> > > They add 16 pcie-root-ports by defalt to allow empty slots for device
+> > > hotplug under q35 [1].
+> >
+> >
+> > Indeed, oops. Thanks for the report!
+>
+> We're at soft freeze now and this is still broken in git master.
+> I don't recall seeing a fix for this problem on list and no one has
+> commented on the bug report.
+>
+> Is anyone actively working on a fix for this release ?
 
-Queued, thanks.
+Yes, I'm working on a fix, going to send it soon.
 
-Paolo
+Best regards, Julia Suvorova.
+
+> If not, I'm going to post a patch to revert to PCI native
+> hotplug, because this was a significant regression in 6.1 that
+> breaks openstack out of the box and we can't leave it broken
+> again for 6.2.
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
+>
 
 
