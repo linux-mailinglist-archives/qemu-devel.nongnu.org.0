@@ -2,86 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CCF74431ED
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 16:41:25 +0100 (CET)
-Received: from localhost ([::1]:47622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF284431FB
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 16:46:55 +0100 (CET)
+Received: from localhost ([::1]:58164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhvud-0000D0-N3
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 11:41:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44306)
+	id 1mhvzx-0007Mr-IS
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 11:46:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhvsg-0006F9-OK
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 11:39:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32592)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhvsc-0000at-Mn
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 11:39:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635867556;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=qQnhIRslxfdIgJRZ89rx6HzbRqC4dvozWfRRfJmzTWI=;
- b=ZEOawykjcwhD8mqTwCrg987DhpVBm2kUsbmIYU1DpxofFXE/MHmRkn1q0+neveMQftRysM
- JR2ZsUxxmxLIKTVOVrPa0E/CwocEwDSiD2NUIyHhBTGD7wQHhz7p9S2dHjWiYlS+UGpgEH
- z/dfIviUSBqr6/x1NEAB5VGr+Poy8qY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-5bo_NL3_OjqO9IVvGPfY1Q-1; Tue, 02 Nov 2021 11:39:15 -0400
-X-MC-Unique: 5bo_NL3_OjqO9IVvGPfY1Q-1
-Received: by mail-wr1-f72.google.com with SMTP id
- v13-20020adfe28d000000b00186c47ee9e3so284270wri.3
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 08:39:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mhvy6-0005sm-W1
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 11:44:59 -0400
+Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830]:34341)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mhvy4-0002yY-LF
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 11:44:58 -0400
+Received: by mail-qt1-x830.google.com with SMTP id u7so836434qtc.1
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 08:44:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=dna/UH4yg89my5SsQkkPpca8BrkzXNFTI/oIwKQLjBU=;
+ b=cY9ZEriJpfQrcElN/HX++JiLgLgt9ztNdUQLpm3As5yu2dV6wq0icYJ7Rv4Cxe/bUX
+ 2h4bqqzlCtgqd/dIqXtwMZXxUFJNAMem8LPKn0fddYDa3uP3FUgi8WFAbq6rESjbPkhI
+ tNtGhNv4kU6fWOGOBDL5bzQIikIw7WHnyC18NnlUxIWRp/YsWOeBKOP5Ie90hA5CQ5xS
+ DFziGpwtM+wGaD+EIoIG+ZjPtbomc1T78ylkc6J1DaLvWa0uEjjzpaLSEE5k7qjgsCLf
+ kVUjjKiUs4D2zbPvQfcObYD+gK4uLKB1NgyuFGpKq1fA2I9UiL57eEJwuVk/ofJ4mDTL
+ S1JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=qQnhIRslxfdIgJRZ89rx6HzbRqC4dvozWfRRfJmzTWI=;
- b=hPWm8fwU/fKTCT526F0NWMn740y2gejsgowUo2+mBV7II1WAFxMz0VF4r/3a1svY/u
- O3JCPYu/7wEaGWNS681Rn6v1SzDDlBDR2wxDeQ35cAG2doIfukllutyzaFvJrGFXEied
- xQUwbWl14quVkAonW0jFRIOa1TE0Zux3cx6syJdzTSvETiK6kOUCYTAW1yR7FmrCI/Wo
- joDXJJ5w57ROIE+Y88urv975vkJ8HP0EFZFsYE10ujG330XCiCxO16oV95eX29hUM4Fl
- fCM01ceQc+m/0kjC2ALapIXbnOlBDZNSM2BoaRHI8oqhZHn70VDU9VOuiPjrBoROz+RP
- qeUQ==
-X-Gm-Message-State: AOAM532GTOt76ZIn1zIsMELtyAh3sp0ZPk8VUXzmxCYnpGQySYfmx/r7
- 98hbWlZPsKp+o+YOsFwMom92d1+fSpTbt+BKkwvdTYdGhm5wqq4UKMxh2QsVtXLUkby8JzJL9+Q
- Kq0geqbEDnwc7Cd4=
-X-Received: by 2002:adf:e292:: with SMTP id v18mr46627851wri.369.1635867554480; 
- Tue, 02 Nov 2021 08:39:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxoxVFDRW8bxHmBEtHB6gtID7qG7S7PJHY4ckR3jRO1csz4bVz3E/bbBRFdhNdzNCuuIxtFGw==
-X-Received: by 2002:adf:e292:: with SMTP id v18mr46627828wri.369.1635867554328; 
- Tue, 02 Nov 2021 08:39:14 -0700 (PDT)
-Received: from localhost ([188.26.219.212])
- by smtp.gmail.com with ESMTPSA id n13sm12684427wrt.44.2021.11.02.08.39.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 08:39:13 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: yuxiating <yuxiating@huawei.com>
-Subject: Re: [PATCH] migration: initialise compression_counters for a new
- migration
-In-Reply-To: <20210902115117.5633-1-yuxiating@huawei.com>
- (yuxiating@huawei.com's message of "Thu, 2 Sep 2021 19:51:17 +0800")
-References: <20210902115117.5633-1-yuxiating@huawei.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Tue, 02 Nov 2021 16:39:12 +0100
-Message-ID: <87ee7yin33.fsf@secure.mitica>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dna/UH4yg89my5SsQkkPpca8BrkzXNFTI/oIwKQLjBU=;
+ b=b7pVMJcUNJ3ggs2q3mUkBKb1ot5tmLZU5oUXv+t9i/de4EHrQa9DYpSyspMTI1IuVk
+ c5NFiucIC7PmzUdCi3wIJBZG9Ogxuz+WgE1Y7dxnT7i5VMQRcfWXFeefnNyumZ5Y3KzA
+ frzT8KBMUPAsoAVvmMLmZce1sokQH5TXVJuTwD2N1h1YzO8N3nF0QtiBJcqbyzt6rs9o
+ Lv4RHoiDOkq5+H8GOxYm4vwENd9Vd6ogfFL4l/727Y6TEINKozOkrBaEERrXCZHjW/o1
+ uIF5YTV7SgOx2eMjhd1sL6CyQHh9Q5g+6VIM37ZWOl/b4hPiNTNR3UVl4daibT7Mc1h7
+ 6Brw==
+X-Gm-Message-State: AOAM5320vMnEHreEMm6yk3zESbH3j6QlH4HiN+3PmrHpATMPq1FNGmTI
+ dXI3tfnf5reFMJyUYvoBPTyjUg==
+X-Google-Smtp-Source: ABdhPJzFAly6i05tDQoaCmIQ4EbU/t3UlL1J9UYrevMWMhKziW5qNLUYdOcUggOurys/hhBh+0pAKw==
+X-Received: by 2002:ac8:7d89:: with SMTP id c9mr29660413qtd.88.1635867895502; 
+ Tue, 02 Nov 2021 08:44:55 -0700 (PDT)
+Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
+ [172.254.253.57])
+ by smtp.gmail.com with ESMTPSA id d18sm2569175qtb.70.2021.11.02.08.44.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Nov 2021 08:44:55 -0700 (PDT)
+Subject: Re: [RFC 2/6] target/riscv: rvk: add implementation of instructions
+ for Zbk* - reuse partial instructions of Zbb/Zbc extensions - add brev8
+ packh, unzip, zip, etc.
+To: liweiwei <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20211102031128.17296-1-liweiwei@iscas.ac.cn>
+ <20211102031128.17296-3-liweiwei@iscas.ac.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <5523b929-316e-a119-af1a-2a4aba4ee86d@linaro.org>
+Date: Tue, 2 Nov 2021 11:44:53 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20211102031128.17296-3-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x830.google.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.549,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,42 +92,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: eric.fangyi@huawei.com, dgilbert@redhat.com, qemu-devel@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, luruibo2000@163.com,
+ lustrew@foxmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-yuxiating <yuxiating@huawei.com> wrote:
-> If the compression migration fails or is canceled, the query for the value of
-> compression_counters during the next compression migration is wrong.
->
-> Signed-off-by: yuxiating <yuxiating@huawei.com>
-> ---
->  migration/migration.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/migration/migration.c b/migration/migration.c
-> index bb909781b7..f20bc560e5 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -2252,10 +2252,11 @@ static bool migrate_prepare(MigrationState *s, bool blk, bool blk_inc,
->  
->      migrate_init(s);
->      /*
-> -     * set ram_counters memory to zero for a
-> +     * set ram_counters compression_counters memory to zero for a
->       * new migration
->       */
->      memset(&ram_counters, 0, sizeof(ram_counters));
-> +    memset(&compression_counters, 0, sizeof(compression_counters));
->  
->      return true;
->  }
+On 11/1/21 11:11 PM, liweiwei wrote:
+> Signed-off-by: liweiwei <liweiwei@iscas.ac.cn>
+> Signed-off-by: wangjunqiang <wangjunqiang@iscas.ac.cn>
 
-Once here, we are not initializing them on qemu_savevm_state() either.
+You managed to get the whole patch description into the subject line.
+Please break it up.
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+> +target_ulong HELPER(grev)(target_ulong rs1, target_ulong rs2)
+> +{
+> +    return do_grev(rs1, rs2, TARGET_LONG_BITS);
+> +}
 
-queue.
+Are we expecting to see the full grev instruction at any point?  If not, we can certainly 
+implement Zbk with a simpler implementation.
 
+> +target_ulong HELPER(xperm)(target_ulong rs1, target_ulong rs2, uint32_t sz_log2)
+> +{
+> +    target_ulong r = 0;
+> +    target_ulong sz = 1LL << sz_log2;
+> +    target_ulong mask = (1LL << sz) - 1;
+> +    for (int i = 0; i < TARGET_LONG_BITS; i += sz) {
+> +        target_ulong pos = ((rs2 >> i) & mask) << sz_log2;
+> +        if (pos < sizeof(target_ulong) * 8) {
+> +            r |= ((rs1 >> pos) & mask) << i;
+> +        }
+> +    }
+> +    return r;
+> +}
+
+This could become a static inline do_xperm, and provide two specific xperm4 and xperm8 
+helpers; the compiler would fold all of the sz_log2 stuff into a more efficient 
+implementation.
+
+> +target_ulong HELPER(unshfl)(target_ulong rs1,
+> +                            target_ulong rs2)
+> +{
+> +    target_ulong x = rs1;
+> +    int i, shift;
+> +    int bits = TARGET_LONG_BITS >> 1;
+> +    for (i = 0, shift = 1; shift < bits; i++, shift <<= 1) {
+> +        if (rs2 & shift) {
+> +            x = do_shuf_stage(x, shuf_masks[i], shuf_masks[i] >> shift, shift);
+> +        }
+> +    }
+> +    return x;
+> +}
+> +
+> +target_ulong HELPER(shfl)(target_ulong rs1,
+> +                          target_ulong rs2)
+> +{
+> +    target_ulong x = rs1;
+> +    int i, shift;
+> +    shift = TARGET_LONG_BITS >> 2;
+> +    i = (shift == 8) ? 3 : 4;
+> +    for (; i >= 0; i--, shift >>= 1) {
+> +        if (rs2 & shift) {
+> +            x = do_shuf_stage(x, shuf_masks[i], shuf_masks[i] >> shift, shift);
+> +        }
+> +    }
+> +    return x;
+> +}
+
+Similar comment as for grev.
+
+> +# The encoding for zext.h differs between RV32 and RV64.
+> +# zext_h_32 denotes the RV32 variant.
+> +{
+> +  zext_h_32  0000100 00000 ..... 100 ..... 0110011 @r2
+> +  pack       0000100 ..... ..... 100 ..... 0110011 @r
+> +}
+
+Note to self: improve tcg_gen_deposit to notice zeros, so that the more general pack 
+compiles to zero-extension.
+
+> @@ -556,6 +563,81 @@ static bool gen_unary_per_ol(DisasContext *ctx, arg_r2 *a, DisasExtend ext,
+>       return gen_unary(ctx, a, ext, f_tl);
+>   }
+>   
+> +static bool gen_xperm(DisasContext *ctx, arg_r *a, int32_t size)
+> +{
+> +    TCGv dest = dest_gpr(ctx, a->rd);
+> +    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
+> +    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
+> +
+> +    TCGv_i32 sz = tcg_const_i32(size);
+> +    gen_helper_xperm(dest, src1, src2, sz);
+> +
+> +    gen_set_gpr(ctx, a->rd, dest);
+> +    tcg_temp_free_i32(sz);
+> +    return true;
+> +}
+> +
+> +static bool gen_grevi(DisasContext *ctx, arg_r2 *a, int shamt)
+> +{
+> +    TCGv dest = dest_gpr(ctx, a->rd);
+> +    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
+> +
+> +    if (shamt == (TARGET_LONG_BITS - 8)) {
+> +        /* rev8, byte swaps */
+> +        tcg_gen_bswap_tl(dest, src1);
+> +    } else {
+> +        TCGv src2 = tcg_temp_new();
+> +        tcg_gen_movi_tl(src2, shamt);
+> +        gen_helper_grev(dest, src1, src2);
+> +        tcg_temp_free(src2);
+> +    }
+> +
+> +    gen_set_gpr(ctx, a->rd, dest);
+> +    return true;
+> +}
+> +
+> +static void gen_pack(TCGv ret, TCGv src1, TCGv src2)
+> +{
+> +    tcg_gen_deposit_tl(ret, src1, src2,
+> +                       TARGET_LONG_BITS / 2,
+> +                       TARGET_LONG_BITS / 2);
+> +}
+> +
+> +static void gen_packh(TCGv ret, TCGv src1, TCGv src2)
+> +{
+> +    TCGv t = tcg_temp_new();
+> +    tcg_gen_ext8u_tl(t, src2);
+> +    tcg_gen_deposit_tl(ret, src1, t, 8, TARGET_LONG_BITS - 8);
+> +    tcg_temp_free(t);
+> +}
+> +
+> +static void gen_packw(TCGv ret, TCGv src1, TCGv src2)
+> +{
+> +    TCGv t = tcg_temp_new();
+> +    tcg_gen_ext16s_tl(t, src2);
+> +    tcg_gen_deposit_tl(ret, src1, t, 16, 48);
+> +    tcg_temp_free(t);
+> +}
+> +
+> +static bool gen_shufi(DisasContext *ctx, arg_r2 *a, int shamt,
+> +                       void(*func)(TCGv, TCGv, TCGv))
+> +{
+> +    if (shamt >= TARGET_LONG_BITS / 2) {
+> +        return false;
+> +    }
+> +
+> +    TCGv dest = dest_gpr(ctx, a->rd);
+> +    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
+> +    TCGv src2 = tcg_temp_new();
+> +
+> +    tcg_gen_movi_tl(src2, shamt);
+> +    (*func)(dest, src1, src2);
+> +
+> +    gen_set_gpr(ctx, a->rd, dest);
+> +    tcg_temp_free(src2);
+> +    return true;
+> +}
+
+All of the gen functions belong in insn_trans/trans_rvb.c.inc.
+
+
+r~
 
