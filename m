@@ -2,85 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7D144314C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 16:11:13 +0100 (CET)
-Received: from localhost ([::1]:47342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F37A443133
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 16:02:54 +0100 (CET)
+Received: from localhost ([::1]:56410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhvRQ-00016Y-Lg
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 11:11:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50524)
+	id 1mhvJN-00052q-Gk
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 11:02:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mhusZ-0000cx-6X; Tue, 02 Nov 2021 10:35:11 -0400
-Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:38181)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1mhuvm-0007Rg-6e
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:38:30 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:51438)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mhusX-0007km-01; Tue, 02 Nov 2021 10:35:10 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id 487B02B0134C;
- Tue,  2 Nov 2021 10:35:06 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Tue, 02 Nov 2021 10:35:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=BvXE6AwDywBqAvXqsznMc8Pa5eF
- Q+nsRLJ0Jx2m57gM=; b=jGFTRtjt1MmaVpO0RvGvNhRFWk2JMHWks/oTThPe+WW
- MdEF1Zh5ZgZlOcLefL1CJQ1evuhIkkPvfEjqoiBPU/2EBLM2CufyPrNc2iO/pCN2
- 6XrOymx/aGoZLUFQLOZofUikmBvZeE+30ZfJbCgRYh/SXVJpqDPjcel7BIiGScT5
- a9HKoIW8pmRVDGJY2HAlQif8jFxt0fT7ukFQhOWk2ydH0yaeFu2x4C11xU+sVY3s
- fa+xHbsf8MVTlxnVASKAMsU3LNkG9Et8zPjxndwYQZZ/HDYY6Lqq18QzDgALlDHL
- tCJRL1n/60VgZW2cJZ1mBXROzzjNlrNUKPhrK/vVffw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=BvXE6A
- wDywBqAvXqsznMc8Pa5eFQ+nsRLJ0Jx2m57gM=; b=RQ7h+GuJ+whc3EizDcz4iW
- d/H9GtgQnyVBcUnLXrghDMgmpArfdRds4mHIsIvzrNx3ldTUevubgkSssrRq7ulw
- xSqlYTEOtw+3B2xMxTpUeX3qxLqKPcHYNCFt26kE/P5IDNAvRcg7xBEf01tgZUXb
- efix8PN3gpDCs3J2uivmD/1wr40K1KyE6swn2mAliHyRhSkUpL7/p2uw788nRICP
- fnXCkgXZM755C/D0fbVrPButiOvgHvdorQrET5D7u88XEhf4Ub3w3r+WlbyxdM4C
- RZ6aAC/trd0IYdllsN4BE5a0EoDnMCQvEXEvQH+wRGjIJd2S2TfkgvOS1gURzgjw
- ==
-X-ME-Sender: <xms:mUyBYXCtEclsHASjkpvQFMEoyAw72Ti0AdYb-HrviAtzPYq3NiCQ1A>
- <xme:mUyBYdiUj8lyxBEnIsEFl6mpCWkDiCBfw4K7oj5LHcNKB59zTCeBSX2_-oAiw2khw
- 88D9AXFhvEJvbH1RfI>
-X-ME-Received: <xmr:mUyBYSnIXFCAgrzzJ0GtXPE9xgW39dYGpNsUJbfT21Y3RX-1U8WsznVr3jWNGk20VhsRytzpQahkxyiXfXR2_6xZ-HuAG3lT7cDq1h6viERUne2lBg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrtddtgdegtdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtroertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepueeuffeihffggfetheejieevleduhfetfffhheeigfehteejieetvddtgedvhedt
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
- esihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:mUyBYZx7BewFWrGSO6eSV3gb9vL39YJZriqf5OwVM5IrTNFl6UIi_A>
- <xmx:mUyBYcSNd-P1iaCiGi_e3FFZFOwkln93YCquKqHlwUCXuRIxk_wvfA>
- <xmx:mUyBYcYQ3Gxdfvjfc_PwgFkWh4F4u8vUGMPLLpqhd3LkyG1dCJ19tA>
- <xmx:mUyBYV-7IJhBiwSSaN21VsSaHwzKemn99-djxK5hNCmrsA6Ee4mcf2_gouo>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 2 Nov 2021 10:35:03 -0400 (EDT)
-Date: Tue, 2 Nov 2021 15:35:01 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Lukasz Maniak <lukasz.maniak@linux.intel.com>
-Subject: Re: [PATCH 07/15] hw/nvme: Add support for Secondary Controller List
-Message-ID: <YYFMlRXGDaLIiVNF@apples.localdomain>
-References: <20211007162406.1920374-1-lukasz.maniak@linux.intel.com>
- <20211007162406.1920374-8-lukasz.maniak@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1mhuvi-0008NN-7q
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:38:28 -0400
+Received: from [IPV6:2a01:cb16:2036:6b82:ab3b:b2e8:37cb:ab58]
+ (pop.92-184-102-40.mobile.abo.orange.fr [92.184.102.40])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id AFD2420780;
+ Tue,  2 Nov 2021 14:38:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1635863904;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=I2bInac/4/YRFutu5nJPDwldNidI/1cifIM92ulCdMw=;
+ b=g6dHK3ykGZXgbvQsWpIZ/LbGWF6OR1xYE98mgKkIJVWK5IUdkBvclRzthonB5yR3wihAXJ
+ eyuKpm0X9JiNWHxyTkpB8ezt9OLOE8b9b3vhBEy6WfgzRSgw7B5KiUeYHa58b+KJIPFDyy
+ YrV1m10ZWVR6ZyoB/zIgaLCzg6IQ7J8=
+Message-ID: <024819b5-6108-9d08-6cbc-be3394b57548@greensocs.com>
+Date: Tue, 2 Nov 2021 15:38:23 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="OE0EV4FEB53Ntavo"
-Content-Disposition: inline
-In-Reply-To: <20211007162406.1920374-8-lukasz.maniak@linux.intel.com>
-Received-SPF: pass client-ip=64.147.123.27; envelope-from=its@irrelevant.dk;
- helo=wnew2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.2
+Subject: Re: [PATCH v2] generic-loader: check that binary file target location
+ exists
+Content-Language: en-US-large
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20211026140311.158151-1-damien.hedde@greensocs.com>
+ <CAFEAcA_SbBqvPdEsqCVoKGOqwL_a26xn0b6nuniqOA3+Fi3Ezg@mail.gmail.com>
+ <090eac13-0b75-8b7f-d90c-8d1bcd8981a5@greensocs.com>
+ <CAFEAcA8WbkD_HiAeykSyFPwoGLmOJce_gqFSmF9q9kXvNtsB4Q@mail.gmail.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
+In-Reply-To: <CAFEAcA8WbkD_HiAeykSyFPwoGLmOJce_gqFSmF9q9kXvNtsB4Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.549,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,54 +70,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org,
- =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
- qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Alistair Francis <alistair23@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---OE0EV4FEB53Ntavo
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Oct  7 18:23, Lukasz Maniak wrote:
-> Introduce handling for Secondary Controller List (Identify command with
-> CNS value of 15h).
->=20
-> Secondary controller ids are unique in the subsystem, hence they are
-> reserved by it upon initialization of the primary controller to the
-> number of sriov_max_vfs.
->=20
-> ID reservation requires the addition of an intermediate controller slot
-> state, so the reserved controller has the address 0xFFFF.
-> A secondary controller is in the reserved state when it has no virtual
-> function assigned, but its primary controller is realized.
-> Secondary controller reservations are released to NULL when its primary
-> controller is unregistered.
->=20
+On 11/2/21 15:15, Peter Maydell wrote:
+> On Tue, 2 Nov 2021 at 14:04, Damien Hedde <damien.hedde@greensocs.com> wrote:
+>>
+>>
+>>
+>> On 11/1/21 11:53, Peter Maydell wrote:
+>>> Won't this break the case of loading a file that spans two
+>>> consecutive-but-different memory regions ?
+>>
+>> yes. I did not thought about that.
+>>
+>>>                                             I think if we want
+>>> to catch "we tried to load something to an address not backed
+>>> by something" we should do that by making load_image_targetphys_as()
+>>> correctly handle errors from the memory accesses it makes and
+>>> propagate an error-return to the caller.
+>>>
+>>
+>> The problem is that load_image_targetphys_as() just uses rom_load_...().
+>> And these macros/functions only put some "rom to load" objects in a list
+>> without doing any real accesses.
+> 
+> Oh yes, I'd forgotten that this was all using the rom blob
+> mechanism underneath.
+> 
+> I think in that case that whatever we do we should aim
+> to be consistent between the different load-image functions;
+> we shouldn't add a check to load_image_targetphys_as() which
+> we don't do in eg load_elf_as(). That probably means we should
+> only be looking to warn or error at the point where we actually
+> load the ROM blobs into memory.
+> 
+> -- PMM
+> 
 
-If I understood correctly, you want to change the callback thing in v2,
-so I'll wait for v2 with my review on this.
+I'll look into that.
 
---OE0EV4FEB53Ntavo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmGBTJQACgkQTeGvMW1P
-DekK0ggAj0aMRsZmsBQrIZhiAIyp5AKt0VUbzHcOvRFUHVv/khXG65cJiNGM2ge7
-SUFfAt9gcHKIlMexo6iHrUaambnyvut5sy9znsiD91HwV2QiOlCn5X6tiidYlKv9
-AV0R0sdPycr5Dco4Fv+YEn9depTJsV8k9nMAvzkmenmexfAi+BuRY1tj3pQBUWzH
-6E+rBM5TwP4ABhmS8ETNfxvRGaNKzDEJyB1QfA2Ms57Ox3QSgIWXYzurQ+KSptNx
-1OdkD0IZ2zCvyWGvt0Iq4Plh8CqLNqBpqkG2yAsUyzrg8njb4IZdnCOhj3Rr2xiU
-afVtX45C2WKKdhbznIYCpVRQIsqu1w==
-=wda+
------END PGP SIGNATURE-----
-
---OE0EV4FEB53Ntavo--
+Thanks,
+Damien
 
