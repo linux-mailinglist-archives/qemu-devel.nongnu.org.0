@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27FFE442C5A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 12:18:25 +0100 (CET)
-Received: from localhost ([::1]:41712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D498D442C7B
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 12:25:28 +0100 (CET)
+Received: from localhost ([::1]:33290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhro8-0003jP-8w
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 07:18:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43046)
+	id 1mhruy-0000LZ-0O
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 07:25:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhrdq-0003cO-Ce
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:07:46 -0400
-Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:35366)
+ id 1mhrdt-0003hR-Ow
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:07:49 -0400
+Received: from mail-qv1-xf2a.google.com ([2607:f8b0:4864:20::f2a]:39471)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhrdo-0000rF-GC
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:07:46 -0400
-Received: by mail-qt1-x836.google.com with SMTP id n2so18482472qta.2
+ id 1mhrdq-0000rT-7g
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:07:48 -0400
+Received: by mail-qv1-xf2a.google.com with SMTP id k29so13012856qve.6
  for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 04:07:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jNnLCcJOHvXqFRNx4ivHlyFLW3vo/pqpN29drgRbLjE=;
- b=yvYzfsniw4jwUycH+nacUZQFPP59LTxmD+vlvlqksRp4fc5zGcJycMIfSBrRBRGYBf
- DvpQ1o084lcDDJr+yjy+vf4LNcJyyzuRyLbsTjXjUG/k8DuLT8h5W56hFqKu9SrhMKWc
- KrCc7gHbJ5X5VwNJdzH5d2LFfPcu5k3uemdlUDKc7RXoopPjAWZZssefL5yBtYuTL76E
- 1DYwanUxxNziJbbQzhQSY+znyJ9RNjxaSEWIzoJhDpqYp+QiN30/WewjOlwsqIIpQjF8
- f+umoF34ktXgcA8exYLIoUiWs99RImEALqoiakg3qjPjcnnvS9kofU5vU+oJ0qcww5sI
- /Flw==
+ bh=dyOAbtDEe2hsdPtG2fphhVCPp8pp4Epcy5WbMT+mT+o=;
+ b=ubnsuYS/0j6S4B/eh3xJJe+kVKMcVaVdJcMnzHcKn3mAno3LsHxaFOtAUPOTLgkYl1
+ szZY4WXHuWoOE4o4aKALcxSUuOv+s0Q6JWRjqR94snLA3d0QOPzJlTNv7qTTiPXK1gBe
+ d7HG3xDLpiGNRVfb14XSPv92WALIdlQ29lZQQoBwHvMkyu1BXldonvEjPDnQ4ReBfU1Y
+ TsY4IE46+aIyRRZTx1rr9i2BAecXtRCDj+XkDYOVG1Od4t/RqOF70DGwNXYI7/SUunMo
+ mCapZhof3aH+I+KxSXqPZKTRXwPKZIVhV2V6xlTXxU/jvZCJEcsWNp+1jvRW4jhRhPHR
+ PWnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jNnLCcJOHvXqFRNx4ivHlyFLW3vo/pqpN29drgRbLjE=;
- b=IcxAH2mgDBTvFqYuYP8BS3tcvOZP0H83rvUUQPvI1HKVPx8UkJW8UJ4V110WRQLkhx
- Xb9Wu3MiuoTiA94wJ/DOAP6w1QyCPIM4o2V+Ss7DphjQxNwx6CbQw9qUrdFCa6xBbPzj
- BO7Vc8QqoxG4VrQ9rNOgtJxo7uRrUNnhfGj/Z4+Fozy0KzUMcvIXE66TWSEuGUurno8q
- A8/TGbWrIELqwauuuhx4FedyICvleWnFCeuzNFj048e72XOp5P43bkr1IHHaGDXqQU1Q
- GZWn3vxILND3U/7qJJajGXNqrrKTEr+aUHAw8Tjc/ziwsvH+OldSyXnB9g5PlJAK0KWU
- NxSQ==
-X-Gm-Message-State: AOAM5316/1hHyFwdW6h4nDIoEKGDalpJK4h/5n5Gb1ht8RV+ZUGx9ZFv
- YTw1u9DymVoYLTNyLBeDOypRgHrVI7D3LA==
-X-Google-Smtp-Source: ABdhPJyK3xFxmK+VluKwFDHKQDI4LM/EwHEh3vO+tDjrF9gKh/GtHtoCeL5RiAtya9O8C9t3rpHHgw==
-X-Received: by 2002:a05:622a:3:: with SMTP id x3mr5103195qtw.133.1635851263624; 
- Tue, 02 Nov 2021 04:07:43 -0700 (PDT)
+ bh=dyOAbtDEe2hsdPtG2fphhVCPp8pp4Epcy5WbMT+mT+o=;
+ b=Er4QnjPLaKPmx0+DwKyv7ZGpuOyLPOLwbYDtZGTNJkA29iHC45z+3+gA9bsbng5KWM
+ J2xRs4+s/olOjtg1LvGNW8PXy0coT01lNUT3NjzS9JKORoUXHo96RIQmNH8zHTvfWRJq
+ FVlciBzDdtTj7is4DW6idrnYqdLGt0lDTJZuPxwzCucpu8YXjMwy0r+WyLA/xNjROXtK
+ H7zz/gmRZhQxqhZu43qKa+xGYHW2RZYtuf18n74dmR2Qn8+ztQIr+Cu42i7kwiUSdGQJ
+ 5fEfztjqfgRHTcvPOAiFlz84TdO/A2EjgSZWoscY4wwMm2cm/Eni5K+OqU4XUoiOaToS
+ bWuw==
+X-Gm-Message-State: AOAM532lnfiO22FHZ4ZhRqrUMInmlzv6eeRRIJ/tmSg3qSmgcZ24PT3E
+ vwSsldiVf7SvqTFtbvVJ3JsK5cHeVZe4vA==
+X-Google-Smtp-Source: ABdhPJzUXNHckFdxxtL4nBRM+gog3BqQqDNs8k25qEcB/+pdo/Ndb8I35KkUH6tTogJLpPAOXxh3yA==
+X-Received: by 2002:a0c:9c0f:: with SMTP id v15mr34742043qve.8.1635851264274; 
+ Tue, 02 Nov 2021 04:07:44 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-172-254-253-57.nyc.biz.rr.com.
  [172.254.253.57])
  by smtp.gmail.com with ESMTPSA id bm7sm3568612qkb.86.2021.11.02.04.07.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 04:07:43 -0700 (PDT)
+ Tue, 02 Nov 2021 04:07:44 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/60] accel/tcg: Fold cpu_exit_tb_from_sighandler into caller
-Date: Tue,  2 Nov 2021 07:06:44 -0400
-Message-Id: <20211102110740.215699-5-richard.henderson@linaro.org>
+Subject: [PULL 05/60] configure: Merge riscv32 and riscv64 host architectures
+Date: Tue,  2 Nov 2021 07:06:45 -0400
+Message-Id: <20211102110740.215699-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211102110740.215699-1-richard.henderson@linaro.org>
 References: <20211102110740.215699-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x836.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,52 +84,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Warner Losh <imp@bsdimp.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the comment about siglongjmp.  We do use sigsetjmp
-in the main cpu loop, but we do not save the signal mask
-as most exits from the cpu loop do not require them.
+The existing code for safe-syscall.inc.S will compile
+without change for riscv32 and riscv64.  We may also
+drop the meson.build stanza that merges them for tcg/.
 
 Reviewed-by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/user-exec.c | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
+ configure                                             |  8 ++------
+ meson.build                                           |  4 +---
+ linux-user/host/{riscv64 => riscv}/hostdep.h          |  4 ++--
+ linux-user/host/riscv32/hostdep.h                     | 11 -----------
+ linux-user/host/{riscv64 => riscv}/safe-syscall.inc.S |  0
+ 5 files changed, 5 insertions(+), 22 deletions(-)
+ rename linux-user/host/{riscv64 => riscv}/hostdep.h (94%)
+ delete mode 100644 linux-user/host/riscv32/hostdep.h
+ rename linux-user/host/{riscv64 => riscv}/safe-syscall.inc.S (100%)
 
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index b83f8d12f4..b1183aa4b3 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -46,17 +46,6 @@ __thread uintptr_t helper_retaddr;
+diff --git a/configure b/configure
+index 039467c04b..d57ad58342 100755
+--- a/configure
++++ b/configure
+@@ -570,11 +570,7 @@ elif check_define __s390__ ; then
+     cpu="s390"
+   fi
+ elif check_define __riscv ; then
+-  if check_define _LP64 ; then
+-    cpu="riscv64"
+-  else
+-    cpu="riscv32"
+-  fi
++  cpu="riscv"
+ elif check_define __arm__ ; then
+   cpu="arm"
+ elif check_define __aarch64__ ; then
+@@ -587,7 +583,7 @@ ARCH=
+ # Normalise host CPU name and set ARCH.
+ # Note that this case should only have supported host CPUs, not guests.
+ case "$cpu" in
+-  ppc|ppc64|s390x|sparc64|x32|riscv32|riscv64)
++  ppc|ppc64|s390x|sparc64|x32|riscv)
+   ;;
+   ppc64le)
+     ARCH="ppc64"
+diff --git a/meson.build b/meson.build
+index 2c5b53cbe2..90e3e85f20 100644
+--- a/meson.build
++++ b/meson.build
+@@ -55,7 +55,7 @@ have_block = have_system or have_tools
+ python = import('python').find_installation()
  
- //#define DEBUG_SIGNAL
+ supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
+-supported_cpus = ['ppc', 'ppc64', 's390x', 'riscv32', 'riscv64', 'x86', 'x86_64',
++supported_cpus = ['ppc', 'ppc64', 's390x', 'riscv', 'x86', 'x86_64',
+   'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
  
--/* exit the current TB from a signal handler. The host registers are
--   restored in a state compatible with the CPU emulator
-- */
--static void QEMU_NORETURN cpu_exit_tb_from_sighandler(CPUState *cpu,
--                                                      sigset_t *old_set)
--{
--    /* XXX: use siglongjmp ? */
--    sigprocmask(SIG_SETMASK, old_set, NULL);
--    cpu_loop_exit_noexc(cpu);
--}
--
- /*
-  * Adjust the pc to pass to cpu_restore_state; return the memop type.
+ cpu = host_machine.cpu_family()
+@@ -351,8 +351,6 @@ if not get_option('tcg').disabled()
+     tcg_arch = 'i386'
+   elif config_host['ARCH'] == 'ppc64'
+     tcg_arch = 'ppc'
+-  elif config_host['ARCH'] in ['riscv32', 'riscv64']
+-    tcg_arch = 'riscv'
+   endif
+   add_project_arguments('-iquote', meson.current_source_dir() / 'tcg' / tcg_arch,
+                         language: ['c', 'cpp', 'objc'])
+diff --git a/linux-user/host/riscv64/hostdep.h b/linux-user/host/riscv/hostdep.h
+similarity index 94%
+rename from linux-user/host/riscv64/hostdep.h
+rename to linux-user/host/riscv/hostdep.h
+index 865f0fb9ff..2ba07456ae 100644
+--- a/linux-user/host/riscv64/hostdep.h
++++ b/linux-user/host/riscv/hostdep.h
+@@ -5,8 +5,8 @@
+  * See the COPYING file in the top-level directory.
   */
-@@ -153,7 +142,8 @@ bool handle_sigsegv_accerr_write(CPUState *cpu, sigset_t *old_set,
-          * Fault caused by protection of cached translation, and the
-          * currently executing TB was modified and must be exited immediately.
-          */
--        cpu_exit_tb_from_sighandler(cpu, old_set);
-+        sigprocmask(SIG_SETMASK, old_set, NULL);
-+        cpu_loop_exit_noexc(cpu);
-         /* NORETURN */
-     default:
-         g_assert_not_reached();
+ 
+-#ifndef RISCV64_HOSTDEP_H
+-#define RISCV64_HOSTDEP_H
++#ifndef RISCV_HOSTDEP_H
++#define RISCV_HOSTDEP_H
+ 
+ /* We have a safe-syscall.inc.S */
+ #define HAVE_SAFE_SYSCALL
+diff --git a/linux-user/host/riscv32/hostdep.h b/linux-user/host/riscv32/hostdep.h
+deleted file mode 100644
+index adf9edbf2d..0000000000
+--- a/linux-user/host/riscv32/hostdep.h
++++ /dev/null
+@@ -1,11 +0,0 @@
+-/*
+- * hostdep.h : things which are dependent on the host architecture
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#ifndef RISCV32_HOSTDEP_H
+-#define RISCV32_HOSTDEP_H
+-
+-#endif
+diff --git a/linux-user/host/riscv64/safe-syscall.inc.S b/linux-user/host/riscv/safe-syscall.inc.S
+similarity index 100%
+rename from linux-user/host/riscv64/safe-syscall.inc.S
+rename to linux-user/host/riscv/safe-syscall.inc.S
 -- 
 2.25.1
 
