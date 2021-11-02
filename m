@@ -2,89 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C454442A23
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 10:13:09 +0100 (CET)
-Received: from localhost ([::1]:46858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE4CA442A39
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 10:18:05 +0100 (CET)
+Received: from localhost ([::1]:49012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhpqu-0007bw-9S
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 05:13:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39116)
+	id 1mhpvf-0000kf-SH
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 05:18:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhppc-0006pQ-K8
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 05:11:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51503)
+ (Exim 4.90_1) (envelope-from <kamil@netbsd.org>) id 1mhpqN-0007j5-Ae
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 05:12:35 -0400
+Received: from mail.netbsd.org ([199.233.217.200]:61038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhppM-0001jU-A7
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 05:11:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635844287;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=ED6n21h0qeeLKpspZfBjrPkxLZXV9j7rahpiw35FfxM=;
- b=bYIdNw0BU1xpiR6/h9e1MVUsxII/z0G0WexztqRHXbw/DdGQyyEoW/ezPWNyXY/nQtaRmb
- CRQLIP/n3jvHru8YAB5B2nXYY4DjCks/gEstIbWfBf+CYHQNtB9/SugHg5ZwsmSRodkdpL
- lMPS2RtyisxZCOUmhNF0BmPnDaT8vQU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-518-EHwqtdWnMNm112U6zaO-hA-1; Tue, 02 Nov 2021 05:11:26 -0400
-X-MC-Unique: EHwqtdWnMNm112U6zaO-hA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- v5-20020a1cac05000000b0032ccf04ba2cso810072wme.2
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 02:11:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=ED6n21h0qeeLKpspZfBjrPkxLZXV9j7rahpiw35FfxM=;
- b=33civjTG+bvxsb//WHOBinYR3LTDwobHp6ssFVrgt5FoGBtrtFtw/A0H3WvQD6ismc
- j5U2mn94FaBZjXXRKO6p+vPwPf3rX3TeZN4YQCphCcGlUrTQYwl/ujSFnHYarI3hhJ+z
- tqk8B95Lu2vDt+V+6D5TDoppWG6nHzsaDYPkZcF37Vl4xo3SaTzaYRuOw+HsG4i9znaC
- opYsjhhGunl1YBegLlGf4Bb2YQ6DTChARn5rvJx5BSEMFV8C1HTHiftnKimItxIWKH51
- qnYsA5HwpdZFGWu6An0MBtFiHHbFtyxQUAQzzRJj+7fKRJgVBCAZGaaeULUTsbvwACml
- C97Q==
-X-Gm-Message-State: AOAM531OR/tO7jH3bUoW6wqJgFPeHtfyj3T4cacx/SWU8WzPi+00PhJF
- QEKf+586syXADQo9GzUQqPx9gI/7TJStajq+bDgBgkDNJhpyNxgRdOzXWFzbfyQzUDiEsmvSr6b
- 9Mbs6eCLt8vImpQA=
-X-Received: by 2002:a05:6000:18ac:: with SMTP id
- b12mr5839824wri.355.1635844285153; 
- Tue, 02 Nov 2021 02:11:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy0B+Zq1jBnIwepcMal+rdTMvl5enbMHbso2iXAOapmKigf0YPynXi5c4WUwsKpuJp9vDYPXQ==
-X-Received: by 2002:a05:6000:18ac:: with SMTP id
- b12mr5839779wri.355.1635844284842; 
- Tue, 02 Nov 2021 02:11:24 -0700 (PDT)
-Received: from localhost ([188.26.219.88])
- by smtp.gmail.com with ESMTPSA id q14sm16163737wrr.28.2021.11.02.02.11.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 02:11:24 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH v1 1/2] migration: block-dirty-bitmap: add missing
- qemu_mutex_lock_iothread
-In-Reply-To: <20211005080751.3797161-2-eesposit@redhat.com> (Emanuele Giuseppe
- Esposito's message of "Tue, 5 Oct 2021 04:07:50 -0400")
-References: <20211005080751.3797161-1-eesposit@redhat.com>
- <20211005080751.3797161-2-eesposit@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Tue, 02 Nov 2021 10:11:23 +0100
-Message-ID: <87a6imncqs.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <kamil@netbsd.org>) id 1mhpqK-0001vl-HH
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 05:12:34 -0400
+Received: from [IPv6:::1] (localhost [127.0.0.1])
+ by mail.netbsd.org (Postfix) with ESMTP id 7E4A484F01;
+ Tue,  2 Nov 2021 09:12:28 +0000 (UTC)
+Subject: Re: [PATCH] nvmm: Fix support for stable version
+To: nia <nia@NetBSD.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <YWblCe2J8GwCaV9U@homeworld.netbsd.org>
+From: Kamil Rytarowski <kamil@netbsd.org>
+Message-ID: <e0e46321-86d8-349a-2850-b82cd8e716a2@netbsd.org>
+Date: Tue, 2 Nov 2021 10:12:28 +0100
+User-Agent: Mozilla/5.0 (X11; NetBSD amd64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <YWblCe2J8GwCaV9U@homeworld.netbsd.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=199.233.217.200; envelope-from=kamil@netbsd.org;
+ helo=mail.netbsd.org
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.14,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,29 +54,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Eric Blake <eblake@redhat.com>, "Dr. David
- Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: kamil@netbsd.org, reinoud@netbsd.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Emanuele Giuseppe Esposito <eesposit@redhat.com> wrote:
-> init_dirty_bitmap_migration assumes the iothread lock (BQL)
-> to be held, but instead it isn't.
->
-> Instead of adding the lock to qemu_savevm_state_setup(),
-> follow the same pattern as the other ->save_setup callbacks
-> and lock+unlock inside dirty_bitmap_save_setup().
->
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Kamil Rytarowski <kamil@netbsd.org>
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Paolo, could you please merge it?
 
-queued.
+On 13.10.2021 15:54, nia wrote:
+> NVMM user version 1 is the version being shipped with netbsd-9,
+> which is the most recent stable branch of NetBSD. This makes it
+> possible to use the NVMM accelerator on the most recent NetBSD
+> release, 9.2, which lacks nvmm_cpu_stop.
+> 
+> (CC'ing maintainers)
+> 
+> Signed-off-by: Nia Alarie <nia@NetBSD.org>
+> ---
+>  meson.build                 |  4 +---
+>  target/i386/nvmm/nvmm-all.c | 10 ++++++++++
+>  2 files changed, 11 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meson.build b/meson.build
+> index 15ef4d3c41..6e4d9b919a 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -244,9 +244,7 @@ if not get_option('hax').disabled()
+>    endif
+>  endif
+>  if targetos == 'netbsd'
+> -  if cc.has_header_symbol('nvmm.h', 'nvmm_cpu_stop', required: get_option('nvmm'))
+> -    nvmm = cc.find_library('nvmm', required: get_option('nvmm'))
+> -  endif
+> +  nvmm = cc.find_library('nvmm', required: get_option('nvmm'))
+>    if nvmm.found()
+>      accelerators += 'CONFIG_NVMM'
+>    endif
+> diff --git a/target/i386/nvmm/nvmm-all.c b/target/i386/nvmm/nvmm-all.c
+> index a488b00e90..4a10412427 100644
+> --- a/target/i386/nvmm/nvmm-all.c
+> +++ b/target/i386/nvmm/nvmm-all.c
+> @@ -750,7 +750,11 @@ nvmm_vcpu_loop(CPUState *cpu)
+>          nvmm_vcpu_pre_run(cpu);
+>  
+>          if (qatomic_read(&cpu->exit_request)) {
+> +#if NVMM_USER_VERSION >= 2
+>              nvmm_vcpu_stop(vcpu);
+> +#else
+> +            qemu_cpu_kick_self();
+> +#endif
+>          }
+>  
+>          /* Read exit_request before the kernel reads the immediate exit flag */
+> @@ -767,6 +771,7 @@ nvmm_vcpu_loop(CPUState *cpu)
+>          switch (exit->reason) {
+>          case NVMM_VCPU_EXIT_NONE:
+>              break;
+> +#if NVMM_USER_VERSION >= 2
+>          case NVMM_VCPU_EXIT_STOPPED:
+>              /*
+>               * The kernel cleared the immediate exit flag; cpu->exit_request
+> @@ -775,6 +780,7 @@ nvmm_vcpu_loop(CPUState *cpu)
+>              smp_wmb();
+>              qcpu->stop = true;
+>              break;
+> +#endif
+>          case NVMM_VCPU_EXIT_MEMORY:
+>              ret = nvmm_handle_mem(mach, vcpu);
+>              break;
+> @@ -888,8 +894,12 @@ nvmm_ipi_signal(int sigcpu)
+>  {
+>      if (current_cpu) {
+>          struct qemu_vcpu *qcpu = get_qemu_vcpu(current_cpu);
+> +#if NVMM_USER_VERSION >= 2
+>          struct nvmm_vcpu *vcpu = &qcpu->vcpu;
+>          nvmm_vcpu_stop(vcpu);
+> +#else
+> +        qcpu->stop = true;
+> +#endif
+>      }
+>  }
+>  
+> 
 
 
