@@ -2,72 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B1CD4430B4
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:44:17 +0100 (CET)
-Received: from localhost ([::1]:44722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9190443099
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:38:37 +0100 (CET)
+Received: from localhost ([::1]:53968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhv1M-0001XG-7L
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:44:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43614)
+	id 1mhuvs-0005iT-5D
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:38:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mhuZX-0004uc-AP
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:15:31 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42846)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mhucf-00073A-FK
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:18:45 -0400
+Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:40698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mhuZS-0005cg-OD
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:15:28 -0400
-Received: by mail-wr1-x435.google.com with SMTP id c4so3585362wrd.9
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 07:15:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mhucb-0000F1-Oo
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:18:44 -0400
+Received: by mail-qt1-x833.google.com with SMTP id 19so17380831qtt.7
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 07:18:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0lhUOnEUlKyJ0+/rRaeQi6sKpRtrnQAkPQtOF1Hw1z8=;
- b=A73ytFru2ckxUR0qXk0OAuZ2igcdD2kYikw93gcXn3M2kWVV2XSWBdOlRyEkxwT77n
- 26ORpLZupHARa44tRCcBHMDI/Kg08FatZvlKbx+DpWoQb3qkEArso5Gr5c2xjrm43ikS
- rs75WvVX9b+4U1/tuAXRyzoJopn2K2l+e2voqp3ivSy5S7JSUVZySq1ulhYGk1lNmSxW
- IgWskHyMLmOZukcGDptu7c+JKDqHBYY3RMB+NXgCi6i3+fXPK8baEYporly//XtM0l2+
- c01w0LBG3HwbiodkZ5CqPy/2r24f9y5zBvwdw9ANj4Qtj0i1zQRVdjDYMIRx1QgcK7yN
- G7Rw==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Kd2SPiXASBwKXl86rw6IF5tG3+g34jyaFFEDoAq8G6k=;
+ b=s3n76GHLGAMxMka4QLwNPASd13Jlt1IDI3rr5aoG8CdvitiyfXgd+wWVNo8MBNxq0Z
+ uAcKpKpMfgVYsZYx3IgixMh/Up9tRVJjNIAJJVb48lr5ZRT2BtfxNUMYP2RS4fx8rqbP
+ qwOEGTjVivWx9Bes8vRpEZpYkfEopmEHjqqMRFOnYRfeqRPCOkyUtiETftjieNivci56
+ /7xtJzZeIhLEbD3Wb+44PJRdikfkXSLBBU81sIURu0PMnkQTYm9PhHFwqmp/XfLbJUeh
+ 3HzyyhYXgKk1TBF2hDxCYnac6AxDvHfR/H/yVA+VpB161wZ0klP0GKAJA1soYF5mCfCp
+ 9eVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0lhUOnEUlKyJ0+/rRaeQi6sKpRtrnQAkPQtOF1Hw1z8=;
- b=NjjMtFIcNVZiAo7OZHuukYUaxDZthRRGmY65tCsUD+8cg5X1D6yk/wqNrrnygwiXah
- +mGieRkL2xYdTQYLhlnAhZfFqtPm4XEut9/cUKg9lXIHuSmQg8S6lz8M1HFdcHcqxm4z
- pGhKIGIQV+wP+OqEB2H0+WghSAJR4FbwqA/Nxi/UgVY6im5wAK6pznfbrNM8ge4Z/RN4
- 3ivSPjR4rNBwtZZf6mtQAesfT603pyxF6g7MCrI2US3i7mszkBgUfINAS/uNVhd4Wver
- u53Zbh4tKct0TSziOikmuQx57vRR5vO2pHYGDIVsnJcvsSw30+zL5qunbd72epEZP0jc
- uVIQ==
-X-Gm-Message-State: AOAM531oupnI1MmI9UKS+T0CHku5oZ15rNUpn1g6A0Q11Pl/Fv3fbX3W
- y4tHNsCsXOzpCuGSJXMjTLHqED441OgiGbeBC0elaw==
-X-Google-Smtp-Source: ABdhPJyfM4hZFBUUBuX124dZt6XnEhxlKpRfwc9Q2KRNPqFiIZIr2hqUj0cg3rjKX5zcQDAfvsMC+A9PZzJ/0XyhgWA=
-X-Received: by 2002:a05:6000:18ae:: with SMTP id
- b14mr47361780wri.263.1635862524073; 
- Tue, 02 Nov 2021 07:15:24 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Kd2SPiXASBwKXl86rw6IF5tG3+g34jyaFFEDoAq8G6k=;
+ b=SH30xiFOTE+DAICY8XSchPnr4AGpgYbHaGmEX90B+5UCMDGS0XLglIZk+WRjWvL8VF
+ 1Hc5MF0lfF6ElF9rSV1g8hm/AQEaCo5onjaNKCyNEPpIBr1d3JBCsUxkTi26oS/btE9F
+ JOwLO5vrVdY8NsNkw2n55JNf4aeduW+VITt8sEGpOWOoKCQtqdEv/2oYtRJXdv0hK0pK
+ 37358LQ92n9/CVNHL/jNMMHVKZPCBlhiv5apygDPhGohlkZxn1gazgyFdLGX7GqWtUmt
+ o8/AhYTKE9XPrSyEzPh2hVOj1sfPefXZ7NCLS8UAtTcMp+o7ACl7BdPgftoBSm9xx2WZ
+ ofqw==
+X-Gm-Message-State: AOAM5327Qc/gAuqt//xojVCe37PIG6heQL+B/TtMEsPrf3yS0E9saf3V
+ 2W9RQ2KsdYWJREZ1sqEBRGFKZg==
+X-Google-Smtp-Source: ABdhPJwTeEdoYD+8Tq7Abhq4so8MVDrc8G+V0HqLRONUjuhqNCiYJ3f9VsLAdTlGWgdLUGYfSfzTBA==
+X-Received: by 2002:ac8:7d4f:: with SMTP id h15mr17139440qtb.336.1635862720685; 
+ Tue, 02 Nov 2021 07:18:40 -0700 (PDT)
+Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
+ [172.254.253.57])
+ by smtp.gmail.com with ESMTPSA id h14sm8293710qth.23.2021.11.02.07.18.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Nov 2021 07:18:40 -0700 (PDT)
+Subject: Re: [RFC 1/6] target/riscv: rvk: add flag support for Zbk[bcx]
+To: liweiwei <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20211102031128.17296-1-liweiwei@iscas.ac.cn>
+ <20211102031128.17296-2-liweiwei@iscas.ac.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <97624133-30f2-fdc4-4f3c-0cc843f0768c@linaro.org>
+Date: Tue, 2 Nov 2021 10:18:38 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20211026140311.158151-1-damien.hedde@greensocs.com>
- <CAFEAcA_SbBqvPdEsqCVoKGOqwL_a26xn0b6nuniqOA3+Fi3Ezg@mail.gmail.com>
- <090eac13-0b75-8b7f-d90c-8d1bcd8981a5@greensocs.com>
-In-Reply-To: <090eac13-0b75-8b7f-d90c-8d1bcd8981a5@greensocs.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 Nov 2021 14:15:12 +0000
-Message-ID: <CAFEAcA8WbkD_HiAeykSyFPwoGLmOJce_gqFSmF9q9kXvNtsB4Q@mail.gmail.com>
-Subject: Re: [PATCH v2] generic-loader: check that binary file target location
- exists
-To: Damien Hedde <damien.hedde@greensocs.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <20211102031128.17296-2-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x833.google.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.549,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,42 +90,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, luruibo2000@163.com,
+ lustrew@foxmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2 Nov 2021 at 14:04, Damien Hedde <damien.hedde@greensocs.com> wrote:
->
->
->
-> On 11/1/21 11:53, Peter Maydell wrote:
-> > Won't this break the case of loading a file that spans two
-> > consecutive-but-different memory regions ?
->
-> yes. I did not thought about that.
->
-> >                                            I think if we want
-> > to catch "we tried to load something to an address not backed
-> > by something" we should do that by making load_image_targetphys_as()
-> > correctly handle errors from the memory accesses it makes and
-> > propagate an error-return to the caller.
-> >
->
-> The problem is that load_image_targetphys_as() just uses rom_load_...().
-> And these macros/functions only put some "rom to load" objects in a list
-> without doing any real accesses.
+On 11/1/21 11:11 PM, liweiwei wrote:
+> +++ b/target/riscv/cpu.c
+> @@ -472,15 +472,15 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>               error_setg(errp,
+>                          "I and E extensions are incompatible");
+>                          return;
+> -       }
+> +        }
+>   
+>           if (!cpu->cfg.ext_i && !cpu->cfg.ext_e) {
+>               error_setg(errp,
+>                          "Either I or E extension must be set");
+>                          return;
+> -       }
+> +        }
+>   
+> -       if (cpu->cfg.ext_g && !(cpu->cfg.ext_i & cpu->cfg.ext_m &
+> +        if (cpu->cfg.ext_g && !(cpu->cfg.ext_i & cpu->cfg.ext_m &
+>                                  cpu->cfg.ext_a & cpu->cfg.ext_f &
+>                                  cpu->cfg.ext_d)) {
+>               warn_report("Setting G will also set IMAFD");
 
-Oh yes, I'd forgotten that this was all using the rom blob
-mechanism underneath.
+This re-indentation should not be happening.
 
-I think in that case that whatever we do we should aim
-to be consistent between the different load-image functions;
-we shouldn't add a check to load_image_targetphys_as() which
-we don't do in eg load_elf_as(). That probably means we should
-only be looking to warn or error at the point where we actually
-load the ROM blobs into memory.
 
--- PMM
+> +    DEFINE_PROP_BOOL("x-zbkb", RISCVCPU, cfg.ext_zbkb, false),
+> +    DEFINE_PROP_BOOL("x-zbkc", RISCVCPU, cfg.ext_zbkc, false),
+> +    DEFINE_PROP_BOOL("x-zbkx", RISCVCPU, cfg.ext_zbkx, false),
+
+The properties cannot be exposed until the end.
+
+>          bool ext_zbb;
+>          bool ext_zbc;
+>          bool ext_zbs;
+> +        bool ext_zbkb;
+> +        bool ext_zbkc;
+> +        bool ext_zbkx;
+
+Better to keep them alphabetical: zbk* < zbs.
+
+
+r~
 
