@@ -2,65 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5B0A442C02
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 12:00:56 +0100 (CET)
-Received: from localhost ([::1]:55202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCA94442C21
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 12:05:33 +0100 (CET)
+Received: from localhost ([::1]:35258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhrXD-0007KZ-42
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 07:00:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40512)
+	id 1mhrbg-0004jP-Hr
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 07:05:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mhrV0-0005V3-0G
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:58:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26766)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mhrUw-0006iO-HA
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:58:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635850712;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Fr+QIaJD4b5Nrncrki0+tL8d0z2VE3qKT4h3HcW3Azw=;
- b=O/RJQdRkafEgNVbFvvDwL92HTzc67G59egt7B+A6OVpDQkypZKlNp5vMRV/it92hnoMapH
- jpIO0qhuRiwgGisO4Qb/z1yG1sTl9U/6tkfSiyHDZ6N/qgnLvW15bvCJ4O4/pZNFX5pla0
- 2dj/ToDeyEzg53wuAT7lK5tEjIGEplk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259-qPndTVaXOlqLWR8aMMq1Ew-1; Tue, 02 Nov 2021 06:58:28 -0400
-X-MC-Unique: qPndTVaXOlqLWR8aMMq1Ew-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C0B180A5EC;
- Tue,  2 Nov 2021 10:58:27 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AAF536784C;
- Tue,  2 Nov 2021 10:58:26 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2] meson.build: Allow to disable OSS again
-Date: Tue,  2 Nov 2021 11:58:22 +0100
-Message-Id: <20211102105822.773131-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mhrVy-0007El-ES
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:59:38 -0400
+Received: from mail-qv1-xf2b.google.com ([2607:f8b0:4864:20::f2b]:46620)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mhrVw-0006qW-9h
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:59:37 -0400
+Received: by mail-qv1-xf2b.google.com with SMTP id g25so11996307qvf.13
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 03:59:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HqN9D7OPzlH4DWRjrX/K/Ecj743aqTLSstUkg57nIfk=;
+ b=SqttlrML831U3QgHGaltrWi+Jt3DPC+47pZCDRtNGvr+UgNwRyPOMD4lJs5Y2hHGOn
+ jHBktaUKJFjLd8u0l1UgtZkfndaVr0C1HLqfnKP+8H6m1EE3OiOTatPqd77Vq/37CmSJ
+ 1BfF2iKG7qWw1HLjj7aOJXCiMNAf+sxwGR/wh4gzZO4rDJ8x/MSzsC9WDsGSH4eOETrF
+ JK3dA+fYT07mJ+8Fo32/wI676cdm0cu6luFVpBA1lIF0pfYjgapBeFk2LXVJNrVCK6M8
+ lnjYmNQrN/15iP2jyGMb5oY5bGUSUHQMqri7QgwB60lfHrZvdZTjj3NlyyfYViO//4oH
+ v2FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HqN9D7OPzlH4DWRjrX/K/Ecj743aqTLSstUkg57nIfk=;
+ b=sCOGuAr4KxXLVRRCJ3PZu4jeGb262MI+Jmf6TsAOh6kynRIEPONcA3ELOmlhUS78CC
+ +AGczCqs73WhDCPx1joXValaWcVSEDqWIEIABBmiOYPKn0QN8Z4Tef/Ny9c+tZTQxsN5
+ F+zB5vmrSAtO3iu5E2GiMxPyd7L4EgQnRBA/E5PY+SKXn6mehpnr9LZN8/kIknWIrcqe
+ 64jRyIxRaSmf3EP++0nBF91cvriGPWr1BTxvw6Eg3hYp6Zq6R12l50k1mqas9L0hhNNK
+ wX1Gxb54dOgXt7XezPaPo2+c4ATWFtK3Drr2jDyH22N8JV0Z3d7hSSwe+GAMEJuwUL4k
+ HGFg==
+X-Gm-Message-State: AOAM531A836Zp14/HSIqDGeTQUoYqwAhfezAO7eVga9zlps1bzFgaAY5
+ VeRk8rbfbr9p0ymVOIgjZoX5Xm8ANrO4tQ==
+X-Google-Smtp-Source: ABdhPJz/Az4i2OKVQEdHurxotuUsRZ/6KKglKhA7rlR+5WgXbluJTTN8QX4IJunKkEVMMjPTsJo2Cg==
+X-Received: by 2002:ad4:5422:: with SMTP id g2mr31198278qvt.19.1635850775057; 
+ Tue, 02 Nov 2021 03:59:35 -0700 (PDT)
+Received: from localhost.localdomain (rrcs-172-254-253-57.nyc.biz.rr.com.
+ [172.254.253.57])
+ by smtp.gmail.com with ESMTPSA id z26sm11789510qko.13.2021.11.02.03.59.34
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Nov 2021 03:59:34 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/12] target/arm patch queue
+Date: Tue,  2 Nov 2021 06:59:22 -0400
+Message-Id: <20211102105934.214596-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,36 +83,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If sys/soundcard.h is available, it is currently not possible to
-disable OSS with the --disable-oss or --without-default-features
-configure switches. Improve the check in meson.build to fix this.
+The following changes since commit dd61b91c080cdfba1360a5ea1e4693fffb3445b0:
 
-Fixes: 87430d5b13 ("configure, meson: move audio driver detection to Meson")
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- v2: Only ever look for OSS if we also have system emulation enabled
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2021-10-29' into staging (2021-10-29 19:42:36 -0700)
 
- meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+are available in the Git repository at:
 
-diff --git a/meson.build b/meson.build
-index 6dec5dd5cc..2848917602 100644
---- a/meson.build
-+++ b/meson.build
-@@ -915,7 +915,7 @@ if liblzfse.found() and not cc.links('''
- endif
- 
- oss = not_found
--if not get_option('oss').auto() or have_system
-+if have_system and not get_option('oss').disabled()
-   if not cc.has_header('sys/soundcard.h')
-     # not found
-   elif targetos == 'netbsd'
--- 
-2.27.0
+  https://gitlab.com/rth7680/qemu.git tags/pull-arm-20211102
 
+for you to fetch changes up to 1d3e21e25399367714518d389f3cbc956d27dddf:
+
+  hw/arm/virt: Rename default_bus_bypass_iommu (2021-11-01 13:45:26 -0400)
+
+----------------------------------------------------------------
+Add nuvoton sd module for NPCM7XX
+Add gdb-xml for MVE
+More uses of tcg_constant_* in target/arm
+Fix parameter naming for default-bus-bypass-iommu
+
+----------------------------------------------------------------
+Jean-Philippe Brucker (1):
+      hw/arm/virt: Rename default_bus_bypass_iommu
+
+Peter Maydell (1):
+      target/arm: Advertise MVE to gdb when present
+
+Philippe Mathieu-Daudé (5):
+      target/arm: Use tcg_constant_i32() in op_smlad()
+      target/arm: Introduce store_cpu_field_constant() helper
+      target/arm: Use the constant variant of store_cpu_field() when possible
+      target/arm: Use tcg_constant_i64() in do_sat_addsub_64()
+      target/arm: Use tcg_constant_i32() in gen_rev16()
+
+Shengtan Mao (5):
+      hw/sd: add nuvoton MMC
+      hw/arm: Add Nuvoton SD module to board
+      hw/arm: Attach MMC to quanta-gbs-bmc
+      tests/qtest/libqos: add SDHCI commands
+      tests/qtest: add qtests for npcm7xx sdhci
+
+ configs/targets/aarch64-softmmu.mak  |   2 +-
+ configs/targets/arm-linux-user.mak   |   2 +-
+ configs/targets/arm-softmmu.mak      |   2 +-
+ configs/targets/armeb-linux-user.mak |   2 +-
+ include/hw/arm/npcm7xx.h             |   2 +
+ include/hw/sd/npcm7xx_sdhci.h        |  65 +++++++++++
+ target/arm/translate-a32.h           |   3 +
+ tests/qtest/libqos/sdhci-cmd.h       |  70 ++++++++++++
+ hw/arm/npcm7xx.c                     |  12 +-
+ hw/arm/npcm7xx_boards.c              |  20 ++++
+ hw/arm/virt.c                        |   4 +-
+ hw/sd/npcm7xx_sdhci.c                | 182 ++++++++++++++++++++++++++++++
+ target/arm/gdbstub.c                 |  25 +++++
+ target/arm/translate-sve.c           |  17 ++-
+ target/arm/translate.c               |  27 ++---
+ tests/qtest/libqos/sdhci-cmd.c       | 116 +++++++++++++++++++
+ tests/qtest/npcm7xx_sdhci-test.c     | 209 +++++++++++++++++++++++++++++++++++
+ gdb-xml/arm-m-profile-mve.xml        |  19 ++++
+ hw/sd/meson.build                    |   1 +
+ tests/qtest/libqos/meson.build       |   1 +
+ tests/qtest/meson.build              |   1 +
+ 21 files changed, 747 insertions(+), 35 deletions(-)
+ create mode 100644 include/hw/sd/npcm7xx_sdhci.h
+ create mode 100644 tests/qtest/libqos/sdhci-cmd.h
+ create mode 100644 hw/sd/npcm7xx_sdhci.c
+ create mode 100644 tests/qtest/libqos/sdhci-cmd.c
+ create mode 100644 tests/qtest/npcm7xx_sdhci-test.c
+ create mode 100644 gdb-xml/arm-m-profile-mve.xml
 
