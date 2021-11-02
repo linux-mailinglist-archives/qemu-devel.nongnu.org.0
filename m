@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46C5D443131
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 16:02:51 +0100 (CET)
-Received: from localhost ([::1]:55916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B6F544312C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 16:02:06 +0100 (CET)
+Received: from localhost ([::1]:53730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhvJJ-0004i1-W1
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 11:02:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49862)
+	id 1mhvIa-00036W-IF
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 11:02:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mhuqq-00045t-TO; Tue, 02 Nov 2021 10:33:25 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:44777)
+ id 1mhurb-0005VU-02; Tue, 02 Nov 2021 10:34:11 -0400
+Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:60007)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mhuqo-0003q9-BN; Tue, 02 Nov 2021 10:33:24 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id AD8373201C16;
- Tue,  2 Nov 2021 10:33:19 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 02 Nov 2021 10:33:20 -0400
+ id 1mhurZ-0007E8-3w; Tue, 02 Nov 2021 10:34:10 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id A68842B012E5;
+ Tue,  2 Nov 2021 10:34:06 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Tue, 02 Nov 2021 10:34:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=+LDaXwMQgw4pA7Ff61L4CvFVFHS
- +FGKrwe4njvG+9Lk=; b=dUhneUovZqM8gHERKV6pBDLkYGxH0CENw4HtTYRTvh8
- grbTzvdGi/UuHfJ+OjoIkCBwL1aIo9uUuXrE45OdJl8FWTDCMtNUHtJD9I6x0qY3
- NFSCL3dCqPKQNvIoeSY00aMVjnwb6SPv6xnZGqgeOTykw/zSNEJFeL6pIt9ALZJX
- 9vCeZPk/9v4AuKSSm7Q1HzQ8MSYD3/rQkeKJeFHKmo1cNTlmikwny8b+NCgcFdHf
- WByZFWiZG91+XxFHbvMGnG1trF1rQgMJV5CsyLhq8X4AjwN7jAz5M67zxdmFauqs
- AYoz0lzt5d6Cq4GrTi9XUm6WPO0JaGLaffSkXXOhXAQ==
+ :content-type:in-reply-to; s=fm1; bh=RigQeV4bjx08MCd9U7ZvKtXu4cy
+ 4OKp5vNGdaZMLZRo=; b=gj4SGCc21wpAaI3EI3QBAGXsvqH2PCUQ60HYEOkQ1tW
+ m6+RcwhItGNvjYn28xqhJcjR6l6HkBsJpe85TFFrhnj7gKsp5Q3wLPvCKP+/zk6c
+ DSnMPa1uVhMWCFV0veA4NM5XCAiF+a82beaEIO8pJtE7Den8bCIgS1bUTPgyw4gH
+ jHx18uzEpCKq3weAimOTWW1DrzPHf7ALzi1CiSCb7yrMABzyK6Kakpzbg9kiMeuC
+ CbLToksDRFM04CtOwZs+U6LjXjWlHIuQ0MGOE3IvIux6LUJluSRJU3NlQLn/ktVz
+ SD/D9eM2wm+XCnkemELGunwNnvcXegWdIE0PmvbsxBA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=+LDaXw
- MQgw4pA7Ff61L4CvFVFHS+FGKrwe4njvG+9Lk=; b=jvZqUDSLGptV3rc41ZSqq+
- yhgyXLqzTiyDjC9IqrGAaEUWI/jynz/ZmKMARUHY8/pz3OX4mdW00ZQQS63swhB5
- NqQOtquBHuq60dR6/jlauYar3HjefnWv88ayoa4sRx+867fWqe/2G1iIfgEO0Boy
- wW8LVHbNHXHlzmBkKlzEcTjOWSD/84d7W0uuZswltLsZR0aVOSEG+6hOr8VWvO78
- PoRY12YYY2qGOId5iuQK7DXNfvRnzYXA8W3U6wrh8uYRRqSoMSI1xJcUZGLJy/Y2
- VqRwf/2YgcE1wHNd4N1bsEF2O6gew36Wh+Ap468amHHGheXCvP4GCZdLP6SYMoIA
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=RigQeV
+ 4bjx08MCd9U7ZvKtXu4cy4OKp5vNGdaZMLZRo=; b=IcjEPHCsYCFbPfKrOqCrvH
+ 3M3PwnASHCxRAjkEyUWrb/m4JGc4IOLst+k9gATDxE30+W3Sql6xazy/dND2/nwH
+ reZ59i18CTJlV4LQUqZSUPIgn596smIx6Ubcqekw03eC5rabfoCNl+PA3CxbG3dE
+ cElMstcHiCZhV+lDXFtImImrMTp/hheu9YOHljqVaHlsRvpPsjILmXpI8AZBJvpy
+ ys7Qh5P+fztcNzL9QAg5Ho2P+53iZFtqdUUHvUTxkpHK/nW7XfGYqYW/zCyiZdGW
+ +Uip9BrnQZYqyCYBzOffR1/FDSjeNhYtanPlOxQz8OAFuKyChVgnBnxapjhabrGQ
  ==
-X-ME-Sender: <xms:LkyBYWER0MOYo6G6RYlUh8BWrNgv_tj6rgcSc3MyuduRORQEXdI8qQ>
- <xme:LkyBYXWolrqDLrhf6kKwy-kbGfVZvvLVGHBboyJ61PdptB4yPKmSUOiCTsJpVzERW
- OLflY-vvMjUy2AK4ZQ>
-X-ME-Received: <xmr:LkyBYQIwu4aIDOsbI2DaVjHGljCCrnMJ_HoqtxjdD7JlR0QEkrgtmY-bo2mpfN7OwYIZwJQlR4EOjKMYOfeXJONZ9_7Fs-la6jGzNxPGnmFr4TKdKw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrtddtgdeflecutefuodetggdotefrodftvf
+X-ME-Sender: <xms:XUyBYWLvp193Mgw0SfgO3HwHtunf8pFAuFarbWfGddhIY6adUPqykA>
+ <xme:XUyBYeIU4Y2kHKNmqWiw3UtYE0PfYNevmo0Zw_CLjLgI2f_KlcHzJ14KCoSML6laO
+ DKwowwREqTSWBsu9iI>
+X-ME-Received: <xmr:XUyBYWtIUdUSyErdh_gvsHs43iC2x-scYO84G7y-AWXE7eXV6bwC0U0VKKxEChjkK46sW9NnkwnBZ_CrwhxhjIQbsXRywuPRZSbeYcHh_U9H9xKvmg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrtddtgdegtdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
@@ -54,32 +54,33 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrtddtgdeflecutefuodetggdote
  hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
  necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
  esihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:LkyBYQGpkM0EiOUcAmoeUDJFqC0Rh7LaMynA9PM3jGw8Tnxm7q38VQ>
- <xmx:LkyBYcWfnmWh7NlFKmT2K_DFwrPMqsQxyyXbIcPY_U_-dhot84ltSw>
- <xmx:LkyBYTOhl2gfEJf1ielootZRNF9rAeWZZBbMdCXqVNC571ldc_q8pw>
- <xmx:L0yBYeKQWEMRnqH6GIlZu83yDpaXU51PgBaGdvgjgE6F9IhxBMqRQQ>
+X-ME-Proxy: <xmx:XUyBYbZjM6zgS7HXHWngN6s_0LzxYSMF50P4aKrPuUYeN5RrEmE0lA>
+ <xmx:XUyBYda8gnlE1oqcdgNITF-UhNJKe0a_SgUxZyhKP3I-UyhJk6FTuQ>
+ <xmx:XUyBYXBHgVwRTSg5PUaumH52QZ71yFQ01x69t7NcjknDzYeaCgeHXQ>
+ <xmx:XkyBYfndYKsx2QaAc1eOCQco5Gl8lKK59QJSM3xJ2V19uTZT4b18HVCseHg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 2 Nov 2021 10:33:17 -0400 (EDT)
-Date: Tue, 2 Nov 2021 15:33:15 +0100
+ 2 Nov 2021 10:34:03 -0400 (EDT)
+Date: Tue, 2 Nov 2021 15:34:02 +0100
 From: Klaus Jensen <its@irrelevant.dk>
 To: Lukasz Maniak <lukasz.maniak@linux.intel.com>
-Subject: Re: [PATCH 05/15] hw/nvme: Add support for SR-IOV
-Message-ID: <YYFMK3z1iAY52hp6@apples.localdomain>
+Subject: Re: [PATCH 06/15] hw/nvme: Add support for Primary Controller
+ Capabilities
+Message-ID: <YYFMWnmsaMx++NLE@apples.localdomain>
 References: <20211007162406.1920374-1-lukasz.maniak@linux.intel.com>
- <20211007162406.1920374-6-lukasz.maniak@linux.intel.com>
+ <20211007162406.1920374-7-lukasz.maniak@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="5b5dSlPfSwsSvyht"
+ protocol="application/pgp-signature"; boundary="VZ119HrEPvuXZfjz"
 Content-Disposition: inline
-In-Reply-To: <20211007162406.1920374-6-lukasz.maniak@linux.intel.com>
-Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
- helo=wout1-smtp.messagingengine.com
+In-Reply-To: <20211007162406.1920374-7-lukasz.maniak@linux.intel.com>
+Received-SPF: pass client-ip=64.147.123.27; envelope-from=its@irrelevant.dk;
+ helo=wnew2-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,78 +94,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org,
  =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
- qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---5b5dSlPfSwsSvyht
+--VZ119HrEPvuXZfjz
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 On Oct  7 18:23, Lukasz Maniak wrote:
-> This patch implements initial support for Single Root I/O Virtualization
-> on an NVMe device.
+> Implementation of Primary Controller Capabilities data
+> structure (Identify command with CNS value of 14h).
 >=20
-> Essentially, it allows to define the maximum number of virtual functions
-> supported by the NVMe controller via sriov_max_vfs parameter.
+> Currently, the command returns only ID of a primary controller.
+> Handling of remaining fields are added in subsequent patches
+> implementing virtualization enhancements.
 >=20
-> Passing a non-zero value to sriov_max_vfs triggers reporting of SR-IOV
-> capability by a physical controller and ARI capability by both the
-> physical and virtual function devices.
->=20
-> NVMe controllers created via virtual functions mirror functionally
-> the physical controller, which may not entirely be the case, thus
-> consideration would be needed on the way to limit the capabilities of
-> the VF.
->=20
-> NVMe subsystem is required for the use of SR-IOV.
->=20
-> Signed-off-by: Lukasz Maniak <lukasz.maniak@linux.intel.com>
-> ---
->  hw/nvme/ctrl.c           | 74 ++++++++++++++++++++++++++++++++++++++--
->  hw/nvme/nvme.h           |  1 +
->  include/hw/pci/pci_ids.h |  1 +
->  3 files changed, 73 insertions(+), 3 deletions(-)
->=20
-> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index 6a571d18cf..ad79ff0c00 100644
-> --- a/hw/nvme/ctrl.c
-> +++ b/hw/nvme/ctrl.c
-> @@ -6361,8 +6406,12 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *p=
-ci_dev, Error **errp)
->                            n->reg_size);
->      memory_region_add_subregion(&n->bar0, 0, &n->iomem);
-> =20
-> -    pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY |
-> -                     PCI_BASE_ADDRESS_MEM_TYPE_64, &n->bar0);
-> +    if (pci_is_vf(pci_dev)) {
-> +        pcie_sriov_vf_register_bar(pci_dev, 0, &n->bar0);
-> +    } else {
-> +        pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY |
-> +                         PCI_BASE_ADDRESS_MEM_TYPE_64, &n->bar0);
-> +    }
 
-I assume that the assert we are seeing means that the pci_register_bars
-in nvme_init_cmb and nvme_init_pmr must be changed similarly to this.
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 
---5b5dSlPfSwsSvyht
+--VZ119HrEPvuXZfjz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmGBTCkACgkQTeGvMW1P
-DekhfAf/c2mfHXu50NMgCmoZR7lW+J9D3qwIIFyxNCwTRCVmcexpNhwklwut17g2
-KKb2LoQMz8Omj0OurnKlv83EOe1hCIOKsV8KOmiXnybxEJkrXyLyWiPFuCF+P423
-fQQ+66f9ROJ1ZjspYeAgoQ8rwWYa61CCEQDUuPizgwhn+qRW4DJpJOO5tYx/piw+
-bUTS4L65wX8BipUxnJVeJoDufJ2Raj8qeN2dm9ammh6EKv8QkkzeqfWA7NoZrVvr
-w/EEIQeMWVq8brb09vClfR4edgNvvmcH6W6AxHD0VXS6AM8/gfm0f9HZ6/eicH1E
-QmSrzv6ABXV8xY+2NbhU/0EkYWsnGw==
-=aXen
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmGBTFgACgkQTeGvMW1P
+DenQfQgAmKuyVpGMW0/4J5dNfgvqxCX7prv9sYjlPur6O72STajQ4JKgbiVMc5K5
+1juaeqbLd3gSXef23yjcAbKVd6CPj5ACcBOM+RoP/5ik60oWofdwKbVwCTpVkXnF
+h3qM5KFs2+4MmeayQXUsnHf8nDb2E5MluWXij1KwtF5VJfEI/+f/ox7bhsUDYfsP
+DXkVhh/hbmLEmPH3CLhDpqeVusccnB2WmUEt0Z5xo134gwDB0JcVzAYNkGf2xsiN
+O+Ajh1vmTOtksfdujG8ccw0/kXE5vKnyfHyFy4hOPm6OE9gQ+h5GklqsVsL4NF7a
+jLQywspQDIKJNW2+6eFef15SEujjiQ==
+=U3Nn
 -----END PGP SIGNATURE-----
 
---5b5dSlPfSwsSvyht--
+--VZ119HrEPvuXZfjz--
 
