@@ -2,92 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 028774434E4
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 18:52:53 +0100 (CET)
-Received: from localhost ([::1]:39072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00D624434E7
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 18:53:36 +0100 (CET)
+Received: from localhost ([::1]:41252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhxxs-00035n-4X
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 13:52:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58144)
+	id 1mhxyZ-0004YG-5n
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 13:53:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mhxwl-0001rg-MH
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 13:51:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37354)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mhxxV-0003CI-I8
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 13:52:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mhxwj-0005X0-94
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 13:51:42 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mhxxT-00068N-Fw
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 13:52:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635875500;
+ s=mimecast20190719; t=1635875546;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8ehC67Es+ci6JwGoKaIHjS2cuH89CaMCXQ0p4lUDQro=;
- b=iwsB+i9ZjgI5oQPCU/m2sKsmBTHnJ6OJvZEQHByXGjGTSDU1U8YmpcduNGHfGT7XAbNq8k
- sKWDe0ArTsLcbrHqu2cQh4XL0aI/HYCfTdUx226syefWJ9Gl44RinTskvmjUbr/cEGX4dA
- ZVlDnkhBHDWcveAsBR9hM9bTIE7QMFI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-482-X2QtX9cWP7q967bwwWlhAw-1; Tue, 02 Nov 2021 13:51:38 -0400
-X-MC-Unique: X2QtX9cWP7q967bwwWlhAw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 67-20020a1c0046000000b0032cd88916e5so5639895wma.6
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 10:51:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=8ehC67Es+ci6JwGoKaIHjS2cuH89CaMCXQ0p4lUDQro=;
- b=Sa2I8ObBiUIRMcokjMdvTc2ww68oN3gqgyO5b2BYp2j0mBcn+10/o78AWErK6sOKDB
- Y4xGNMJeyoz/VEffgrzZindAF48sb6mIwKOkizFUaK8k8kQREztkxEjRdH/BWXmk05Q/
- FaH0RTFZka0BlV98Oba3+4InXOAuryOX8noPPH7oa6mGDOxGxub82Bc5vqSdagC7l1Z3
- MxkXA39MhdpsE8Aqk+Wpsm8GOGauiXWRBGN1CZhe4jKX0rZvAp7BRXPkh+tl5A+25lgQ
- Jn8MSNc/9IeRDG6UspsHdyj0r3x4XgzY/+HaGaGaXHyBnZa+b/KcMpNRFlwlvNSjUkWS
- Y2qA==
-X-Gm-Message-State: AOAM533+m+T8EDhtw92Tqeb/SRU/JdqGD0LmFgCcd8tXD/qRA4Q7lUPx
- RmXoEqKOVd+P4qFJ0VhkPQNEXrU8Za9XxWYQ5SkIIbitmYpBUdNavrrMzW13zt4tZdG5JV9ufsn
- cTJjHdxcGawbxOl8=
-X-Received: by 2002:a05:6000:2a2:: with SMTP id
- l2mr15250333wry.110.1635875497664; 
- Tue, 02 Nov 2021 10:51:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwY3dc+vCNOV9Q2EHByRVy7W71saG17OVb3DP949dZSA8ZTxosxvP3NuF7n4fdcNYFNVo4U+g==
-X-Received: by 2002:a05:6000:2a2:: with SMTP id
- l2mr15250295wry.110.1635875497441; 
- Tue, 02 Nov 2021 10:51:37 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id i15sm3098757wmb.20.2021.11.02.10.51.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Nov 2021 10:51:37 -0700 (PDT)
-Message-ID: <587337e1-61ce-d90f-8d1e-8650bfb3d72b@redhat.com>
-Date: Tue, 2 Nov 2021 18:51:36 +0100
+ bh=BMamS7gJ5gQ0+cfP1XJh/T2aBbHKsN1Bj+Oid6LqpxY=;
+ b=Ux326UW95FYft5PPFuoAKkRLioNGPMwUXtoYcKSnohPgVEOPO54SvrIdddnzmkJgU4hkTK
+ s6EVBdxUR2B10jQF09f3Cso+OL25pMlougehA9Kk3BmSffvHqUwPDY0ip0nnqmsnby9GaX
+ 0GLUwXCGl/dLG3ttU7KNI7FrpAhdTPU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-300-C5fKbMRCOuCOHWBle-Da1g-1; Tue, 02 Nov 2021 13:52:24 -0400
+X-MC-Unique: C5fKbMRCOuCOHWBle-Da1g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF363100B700;
+ Tue,  2 Nov 2021 17:52:22 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4792219D9F;
+ Tue,  2 Nov 2021 17:52:02 +0000 (UTC)
+Date: Tue, 2 Nov 2021 18:52:00 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH] softmmu/qdev-monitor: fix use-after-free in qdev_set_id()
+Message-ID: <YYF6wINW6RzhtmjJ@redhat.com>
+References: <20211102163342.31162-1-stefanha@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] vhost-vdpa: fix memory leak in
- vhost_vdpa_get_max_queue_pairs()
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20211102163905.33798-1-stefanha@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211102163905.33798-1-stefanha@redhat.com>
+In-Reply-To: <20211102163342.31162-1-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -60
-X-Spam_score: -6.1
-X-Spam_bar: ------
-X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.549, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,36 +75,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/2/21 17:39, Stefan Hajnoczi wrote:
-> Reported by Coverity (CID 1465228).
+Am 02.11.2021 um 17:33 hat Stefan Hajnoczi geschrieben:
+> Reported by Coverity (CID 1465222).
 > 
-> Fixes: 402378407dbdce79ce745a13f5c84815f929cfdd ("vhost-vdpa: multiqueue support")
-> Cc: Jason Wang <jasowang@redhat.com>
+> Fixes: 4a1d937796de0fecd8b22d7dbebf87f38e8282fd ("softmmu/qdev-monitor: add error handling in qdev_set_id")
+> Cc: Damien Hedde <damien.hedde@greensocs.com>
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
 > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  net/vhost-vdpa.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index 49ab322511..373b706b90 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -214,7 +214,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
->  static int vhost_vdpa_get_max_queue_pairs(int fd, int *has_cvq, Error **errp)
->  {
->      unsigned long config_size = offsetof(struct vhost_vdpa_config, buf);
-> -    struct vhost_vdpa_config *config;
-> +    g_autofree struct vhost_vdpa_config *config = NULL;
->      __virtio16 *max_queue_pairs;
->      uint64_t features;
->      int ret;
-> 
 
-Stefano sent the same fix few minutes before you ;)
-https://lore.kernel.org/qemu-devel/20211102155157.241034-1-sgarzare@redhat.com/
+Oops, this is an embarrassing one. Sorry, my fault, not Damien's.
+
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 
 
