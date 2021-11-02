@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CA30443067
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:28:19 +0100 (CET)
-Received: from localhost ([::1]:49378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21627442FCD
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:08:04 +0100 (CET)
+Received: from localhost ([::1]:44996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhulu-0000NB-0D
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:28:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35086)
+	id 1mhuSJ-0007R7-8n
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:08:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mhu6w-0005R7-Sa
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:45:58 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33525)
+ id 1mhu70-0005e9-6v
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:46:02 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:45937)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mhu6t-0006Tr-KS
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:45:58 -0400
-Received: by mail-wr1-x435.google.com with SMTP id d24so2827656wra.0
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 06:45:55 -0700 (PDT)
+ id 1mhu6y-0006Vl-8E
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:46:01 -0400
+Received: by mail-wr1-x435.google.com with SMTP id o14so33291492wra.12
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 06:45:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3GPMsZfnn4ZfssdGOMr+SGtI/4dHR+YaPHIAKWs/umE=;
- b=LDyxw8yH/CG3bJ5Viu8sk/v7TzrgApxn7X4WhbnbCFPNpK79B3BX8MiH6NiiIhCWv0
- 9AHUAsCViY9uqS2nW2CIslqKPAbxGE/npYK94mbXzKTsioXxwS0US7/2HLzYkfz747Xt
- YaPIYKSEiE6pRJHQd9VkPxr3HyNg2qlMoovgZHv1Lg/dbYxL/6G0I9XzHQGoahkKdZ4X
- x8RvJmdPIgrMYukY6TnLl9DNi3FA4DHvhxAOasoTrOG0QGoP95Zc2TdD6/AfL/1iL/zi
- 4WdNWkPlW25rlQ2ymKnKw8DWvQyi+LlvPOaTXgyoQrjyc2ufYjQR6W3Je3Qm/SfacQ+G
- oFJg==
+ bh=UPgr2/raxy90/7F3aXd2gpTt47Yic566Ru6PdSvILyI=;
+ b=cntFLM9MCfKJtCX3xVHrA8VfWxeSiVhFfZPch7sfIS9/qVPinFRQJA2h/u7jWPAMXW
+ VE+YvzLCS/L/KydvYTY07/Kw6QinHNbyC72bZiDJfbzsxqyYmlL0bqHGiDTAu6MPH9xx
+ JGs2isGDlRZj4jwwzbbuqKefzuY2krF+82UfRIyzV9uSayy1Wu3JIiv0E71JRYxOSzHT
+ 8lnDdwo+ldpAj2hZW4HyKYFKbRsfmc+h3f1fMywBTRGhkBLjzYGC7EG4DTprWJm2z8sZ
+ 1azWHaUC+Qi+d3pVFJiGQ8HJGoQJIDmhnHCyCKdFeBAeSYApy7PScdQrGOOpxlUMNesI
+ 6KBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=3GPMsZfnn4ZfssdGOMr+SGtI/4dHR+YaPHIAKWs/umE=;
- b=vuLwnTBIlLA2AZlmLwSxwr0OsBHUva3hU8bGWc13fnMSZHdkcbkiXR8Jn+FeDUQ8gz
- wcUXlzVAqL1U6F2g07zoVD69PGRId61S/FYIRTDTv+2CJjol7eUVAdPztwfm6ZvWN59r
- R29lKiNWOJuhuOhm8MHKsHwkjYatEPV7/vhkx7uoCa7pOs7ihcdYvJ2jngyDmQh5X0St
- uHTxOFsGQvN/MhtM2uLpWWBUuEhoQApM8SB1YOLjoEw0nwtXxT5UI3pu57q35tVluKCL
- dQjJwXzCR5GgMLbMIcc86OJANY0k+U8fsEcqFNOnCcAtV8ONqghoQUVwmsimNbory+Ks
- MWeQ==
-X-Gm-Message-State: AOAM532PcR+uUJ9kT+J7LNRsHfsPRFHC65UsJDqi/cI6zc+xtpzitz87
- 8Kb0WAG8cH/swH2L1z3RIO/iCxeAuaI=
-X-Google-Smtp-Source: ABdhPJwEoRphZm/JsjD5xLIu2zrH1++egeiXxJuRGXvFM5CnC4ixGBrK/3RdQd1VaVsdnxSP5mfg8g==
-X-Received: by 2002:a05:6000:2ca:: with SMTP id
- o10mr46156758wry.383.1635860754088; 
- Tue, 02 Nov 2021 06:45:54 -0700 (PDT)
+ bh=UPgr2/raxy90/7F3aXd2gpTt47Yic566Ru6PdSvILyI=;
+ b=TdLoKLIqcClLkCjharCejwgSkw30RX60nCqlwM+PLqtOCVQ2szPGDQF5WMQuXui5SI
+ quJqz+fAUUO1WpQ5B3ib0f18hKYqIiY1qYcT/5wSJ6Cj3oytGMssIL+CLhYJInJN60ta
+ xkAWVdDalouOWLxhIx9FvV5L7rKYI8QaJpK5bzgpgvy+iOZ0/wS3I8jsQtxgisSlQKdd
+ iY7GQdqmI98+B4nwpqGqQQ6U9cAnGuPj+i3oqo//Q30YW/8rVQ5bQcOnIhDJibwejpWt
+ MjlSaUX8A4EGeYewMNebPtLBpfbH9SA0cW/cgWmYEOvc4Azl+RysDd7BqyBlosuw8OAG
+ w9kw==
+X-Gm-Message-State: AOAM5301YJ2B9JNLN3I0JpkFJkJE57R4IAoamaKcEHTJjttCGswiJ1U8
+ Ei1XG3XiWoyXhZ8hkU1q63IVr8OrqqI=
+X-Google-Smtp-Source: ABdhPJyBJyBnU8S/20ugPI9BTfzIE/jr8mYPqPQrEBxaBEjgiCg68I0ImSkLVBcCSTxO5KrxyjOtKg==
+X-Received: by 2002:adf:f904:: with SMTP id b4mr47730038wrr.403.1635860758855; 
+ Tue, 02 Nov 2021 06:45:58 -0700 (PDT)
 Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
  by smtp.gmail.com with ESMTPSA id
- p18sm2628776wmq.4.2021.11.02.06.45.53
+ n32sm915830wms.42.2021.11.02.06.45.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 06:45:53 -0700 (PDT)
+ Tue, 02 Nov 2021 06:45:58 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 40/41] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI
- interrupts
-Date: Tue,  2 Nov 2021 14:42:39 +0100
-Message-Id: <20211102134240.3036524-41-f4bug@amsat.org>
+Subject: [PULL 41/41] Revert "elf: Relax MIPS' elf_check_arch() to accept
+ EM_NANOMIPS too"
+Date: Tue,  2 Nov 2021 14:42:40 +0100
+Message-Id: <20211102134240.3036524-42-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211102134240.3036524-1-f4bug@amsat.org>
 References: <20211102134240.3036524-1-f4bug@amsat.org>
@@ -88,59 +87,59 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+ Richard Henderson <richard.henderson@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: BALATON Zoltan <balaton@eik.bme.hu>
+Per the "P32 Porting Guide" (rev 1.2) [1], chapter 2:
 
-This device is part of a superio/ISA bridge chip and IRQs from it are
-routed to an ISA interrupt set by the Interrupt Line PCI config
-register. Implement this in a vt82c686-uhci-pci specific irq handler
-Using via_isa_set_irq().
+  p32 ABI Overview
+  ----------------
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <8d7ed385e33a847d8ddc669163a68b5ca57f82ce.1635161629.git.balaton@eik.bme.hu>
+  The Application Binary Interface, or ABI, is the set of rules
+  that all binaries must follow in order to run on a nanoMIPS
+  system. This includes, for example, object file format,
+  instruction set, data layout, subroutine calling convention,
+  and system call numbers. The ABI is one part of the mechanism
+  that maintains binary compatibility across all nanoMIPS platforms.
+
+  p32 improves on o32 to provide an ABI that is efficient in both
+  code density and performance. p32 is required for the nanoMIPS
+  architecture.
+
+So far QEMU only support the MIPS o32 / n32 / n64 ABIs. The p32 ABI
+is not implemented, therefore we can not run any nanoMIPS binary.
+
+Revert commit f72541f3a59 ("elf: Relax MIPS' elf_check_arch() to
+accept EM_NANOMIPS too").
+
+See also the "ELF ABI Supplement" [2].
+
+[1] http://codescape.mips.com/components/toolchain/nanomips/2019.03-01/docs/MIPS_nanoMIPS_p32_ABI_Porting_Guide_01_02_DN00184.pdf
+[2] http://codescape.mips.com/components/toolchain/nanomips/2019.03-01/docs/MIPS_nanoMIPS_ABI_supplement_01_03_DN00179.pdf
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20211101114800.2692157-1-f4bug@amsat.org>
 ---
- hw/usb/vt82c686-uhci-pci.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ linux-user/elfload.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
-index ea262e6d709..0bf2b72ff08 100644
---- a/hw/usb/vt82c686-uhci-pci.c
-+++ b/hw/usb/vt82c686-uhci-pci.c
-@@ -1,6 +1,17 @@
- #include "qemu/osdep.h"
-+#include "hw/irq.h"
-+#include "hw/isa/vt82c686.h"
- #include "hcd-uhci.h"
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index f9b82616920..5da8c02d082 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -925,8 +925,6 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs, const CPUPPCState *en
+ #endif
+ #define ELF_ARCH    EM_MIPS
  
-+static void uhci_isa_set_irq(void *opaque, int irq_num, int level)
-+{
-+    UHCIState *s = opaque;
-+    uint8_t irq = pci_get_byte(s->dev.config + PCI_INTERRUPT_LINE);
-+    if (irq > 0 && irq < 15) {
-+        via_isa_set_irq(pci_get_function_0(&s->dev), irq, level);
-+    }
-+}
-+
- static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
- {
-     UHCIState *s = UHCI(dev);
-@@ -14,6 +25,8 @@ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
-     pci_set_long(pci_conf + 0xc0, 0x00002000);
- 
-     usb_uhci_common_realize(dev, errp);
-+    object_unref(s->irq);
-+    s->irq = qemu_allocate_irq(uhci_isa_set_irq, s, 0);
- }
- 
- static UHCIInfo uhci_info[] = {
+-#define elf_check_arch(x) ((x) == EM_MIPS || (x) == EM_NANOMIPS)
+-
+ #ifdef TARGET_ABI_MIPSN32
+ #define elf_check_abi(x) ((x) & EF_MIPS_ABI2)
+ #else
 -- 
 2.31.1
 
