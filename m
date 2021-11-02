@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B910B4430E8
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:55:59 +0100 (CET)
-Received: from localhost ([::1]:46316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 949FA4430BF
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:47:23 +0100 (CET)
+Received: from localhost ([::1]:45940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhvCg-0006G9-Rg
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:55:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49820)
+	id 1mhv4K-0002Lz-RV
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:47:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mhuqi-0003io-Nz
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:33:19 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:44842)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mhuqg-0003SF-D2
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:33:16 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- c71-20020a1c9a4a000000b0032cdcc8cbafso2241307wme.3
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 07:33:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=x8Pfoj9dDViHtuPQvl24yaAbC6mW7YrFQBGIBnOAQC4=;
- b=CgF5LCBkEBtxdii3TEee4i9gIHRX96tNRvvu/SO3wH0Xvw2T+QL+h0/qXfb7KG2j8k
- 3tmKnPCn7JMEYX5xIG1dzuqFi1lmb7ushV30gdcT5l0WjhG8gqxwmCKXTBbYVlQDcktJ
- Bj1LqZyVBYRWH0Exwpk8YhpMmt0kpyn/o8Y7tuG0U2+z/DlJLQ0oIFcf7mak6brnDJJ0
- 7FpKXJMrCGF/J7izLvZ1TYjXda+yMaTFGChsxzlQLvcXCRs30P/JZ6TvEPhL1SrLhvfq
- rbEtcxvjTr+e/0Bfj73jEKoJiAo0tupsO1YrRtj507r479meML16MayLXoAC63s701m0
- IPNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=x8Pfoj9dDViHtuPQvl24yaAbC6mW7YrFQBGIBnOAQC4=;
- b=nSH7iotdtupRFlrNUkcTEJ6iPhUYpscFXWOJX1+Tgbxmiw+2M0f5VVX6OMkhW3ev+8
- gVSdjbOmeAU2VHvq0AsJa9c+IHiLpO2jfbOltijXzuBVTo0ypCQjIVmwZoDNuuSSPjTC
- 2pcJJ6BFUQvChO2G/Y9hrhxtBeXChghSqRQ8WpmZRtfDu+36TA9pdKbkN6QavCD908E1
- eyHe3ItJL/x3ebE/fxzlYlkIq9HmN6YBE5d/Yd2s1k0NkIiOHDvRc8vAEm58DgN3XJjm
- 7s8uvmkpfAFj7cy/7mffbcHXfW1VAjw9i3BaCp6aGC+tT0D9eWjCeaomPAn4Hj67EYw9
- 1H3g==
-X-Gm-Message-State: AOAM532/HEoanQwbrcJohWZaSjUNpCrzPe//xqy9pdX4TA7Qqz85Jf/j
- Sj1Fsc/5He4ymHWZ1DQZzSzkSGaBwMw=
-X-Google-Smtp-Source: ABdhPJwFqgtOWu+C3tixmdaUyJTGTP9FEtMyduFAqKuQNV9Mg8l1hqZAEYyYppdGJWEan2WmvwYX3A==
-X-Received: by 2002:a7b:c8ca:: with SMTP id f10mr7539253wml.6.1635863592462;
- Tue, 02 Nov 2021 07:33:12 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id v191sm2719204wme.36.2021.11.02.07.33.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Nov 2021 07:33:11 -0700 (PDT)
-Message-ID: <f0ac4624-43fe-42f5-02b7-211c2bab0649@amsat.org>
-Date: Tue, 2 Nov 2021 15:33:09 +0100
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mhutI-0001ps-3k; Tue, 02 Nov 2021 10:35:56 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:55891)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mhutG-0007uP-Gk; Tue, 02 Nov 2021 10:35:55 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 5A1703200E82;
+ Tue,  2 Nov 2021 10:35:51 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 02 Nov 2021 10:35:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=4d6lKOyiI273NfeTiqg6SnrzLp+
+ xmhtvSeC3/k2558o=; b=HvFq85HXZgwLRXo/JT0S+vycdgFWcjoNwVnCnELfwWD
+ Wc9iSIUxqdjUO1MKw4Kad9xi833LolOjl6egSUPCW3J89pcs6pkaM0KlywgV+Qhh
+ LDpacGUUPAcz59rI4t61bLZzdJJVm+ip4aMH1pwXmRofJ4UcenwgaqGndZDceu+c
+ DaOxI08Atrdylnq4rCWyOgCal/PwtsU+rANtArMUnyhZx3nfu0cucX7hSA9BCfNC
+ q/UKRR6XiUTRCrTOxUeWLPKvYjeNQkUiwmMXI/yjLaH3tWwV6Jl4+13Hq/uk2Hnz
+ KGcQfu6l2COUVBCK22hdZURGLa8s6mFr8mmdke5MSpw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=4d6lKO
+ yiI273NfeTiqg6SnrzLp+xmhtvSeC3/k2558o=; b=cVy/BAxPb+8AJdU6dTz++R
+ GjsKJNPxKNLyegBFGF/ZluyXGX71yTX9D0oHPEkXau3A+qalDJTZkNRPXXmXeBRl
+ Pw7uR2S6YDhjsN14a25YHd8efGYFwxyUq78sB6KdZ4Pou9GttU6ZJPRdAlgd7dfU
+ RLHTqb9VUc3aJVzK0hDrQkHMwwh8ToARDoIaoCo1bfTzKaK1SjKovS57EVBtQcwN
+ gHcjKP9CRnO+JBCyJtHtC3TJtVDoJS5f48LShCPikn42CsNM8AYKclT9sgX6f35c
+ fik8WQ7cC1K97cfyjaDn4gHmGNyQTppAwHkN0ub6moah1GighoQCphjylCCn1b6A
+ ==
+X-ME-Sender: <xms:xkyBYbH9fvWajI7Rhf0OMWsp0w6Uu7q-YeN_RcOBOJeeCseZKmSQXA>
+ <xme:xkyBYYUmIUQMISQK0OdnC-GwH7s4kIafpYgjE4EixYKBsnfE5Sf2P2VBhQaCjeBTt
+ howyZrOYjen7Z_xsOk>
+X-ME-Received: <xmr:xkyBYdI8tZpBuYmgaU2aL7v-UTxGnm2p7jHgCEK6pY_FfLxtAWKaZmre-ve6gXO8tx-kbg9YTng5x3w-mHxbcAmCVtywwcYIexbgHdEMMXJa1apE5g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrtddtgdegudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
+ esihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:xkyBYZH9SiYnRA3xrX_MKtMSsjOH0LqEvALpMB_1iOBg2WDFbtqkYw>
+ <xmx:xkyBYRUBrmkpblz3AmZtmf0bsTo5b9Y_8S80uERZpjXgxSmzPGpLwA>
+ <xmx:xkyBYUPwUQpB1VjwLvwSu91QQ-n3pqCNfdoCoUu_Uc1OzXexsOL2MA>
+ <xmx:xkyBYXyzDfQ2OYGeELpm9NZyR1AeuUx1FEDBo5Vd03sJRbgb6i4JRw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 2 Nov 2021 10:35:49 -0400 (EDT)
+Date: Tue, 2 Nov 2021 15:35:47 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+Subject: Re: [PATCH 09/15] hw/nvme: Implement the Function Level Reset
+Message-ID: <YYFMw0yYx1dFGd88@apples.localdomain>
+References: <20211007162406.1920374-1-lukasz.maniak@linux.intel.com>
+ <20211007162406.1920374-10-lukasz.maniak@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 2/7] tests/docker: Simplify debian-all-test-cross
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20211014224435.2539547-1-richard.henderson@linaro.org>
- <20211014224435.2539547-3-richard.henderson@linaro.org>
- <87ee8i1u2x.fsf@linaro.org> <1b40cad7-e2f7-c461-6cf5-b1a77b76eae8@amsat.org>
- <871r4i1s9g.fsf@linaro.org> <878ry6lot1.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <878ry6lot1.fsf@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.549,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="sEIzPrjcEGbR8ZNc"
+Content-Disposition: inline
+In-Reply-To: <20211007162406.1920374-10-lukasz.maniak@linux.intel.com>
+Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
+ helo=wout1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,85 +93,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Keith Busch <kbusch@kernel.org>,
+ =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/2/21 13:24, Alex Bennée wrote:
-> Alex Bennée <alex.bennee@linaro.org> writes:
->> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
->>> On 10/18/21 12:54, Alex Bennée wrote:
->>>> Richard Henderson <richard.henderson@linaro.org> writes:
->>>>
->>>>> The base debian10 image contains enough to build qemu;
->>>>> we do not need to repeat that within the new image.
->>>>>
->>>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->>>>> ---
->>>>>  tests/docker/dockerfiles/debian-all-test-cross.docker | 5 -----
->>>>>  1 file changed, 5 deletions(-)
->>>>>
->>>>> diff --git a/tests/docker/dockerfiles/debian-all-test-cross.docker b/tests/docker/dockerfiles/debian-all-test-cross.docker
->>>>> index dedcea58b4..b185b7c15a 100644
->>>>> --- a/tests/docker/dockerfiles/debian-all-test-cross.docker
->>>>> +++ b/tests/docker/dockerfiles/debian-all-test-cross.docker
->>>>> @@ -8,11 +8,6 @@
->>>>>  #
->>>>>  FROM qemu/debian10
->>>>>  
->>>>> -# What we need to build QEMU itself
->>>>> -RUN apt update && \
->>>>> -    DEBIAN_FRONTEND=noninteractive eatmydata \
->>>>> -    apt build-dep -yy qemu
->>>>> -
->>>>>  # Add the foreign architecture we want and install dependencies
->>>>>  RUN DEBIAN_FRONTEND=noninteractive eatmydata \
->>>>>          apt install -y --no-install-recommends \
->>>>
->>>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
->>>
->>> IIUC if we keep --arch-only in the previous step (previous patch),
->>> this step is required here.
->>
->> What for? The --arch-only prevents the attempt to install cross
->> compilers that don't exist on a given host but we install all the cross
->> compilers we need for tests explicitly.
-> 
-> Well patches 1 & 2 have been a cause of hair tearing the last two days. If
-> we replace the previous:
-> 
->  $(apt-get -s build-dep --arch-only qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
-> 
-> which only installs (all) packages with:
-> 
->   apt build-dep -yy --arch-only qemu
-> 
-> it breaks all the cross compiler images that are based on on debian10
-> because suddenly their:
-> 
->   apt build-dep -yy -a $ARCH --arch-only qemu
-> 
-> will fail to build. However this is somewhat hidden by the fact that
-> most people pushing to gitlab would have that effect masked as the
-> images will be based on the older ones in the registry.
-> 
-> Of course I ran into the opposite problem trying to test things as we
-> aggressively used the upstream registry. As a result of the dropped the
-> build-dep in the all-cross but without being based on the new image we
-> end up without enough deps to build stuff.
-> 
-> In short I need to drop the first two patches.
 
-I remember I had to do it this ugly way to simplify the
-rest, and later I came back to it because Peter said it
-was confusing, but I couldn't find a easier way to remove
-this command.
+--sEIzPrjcEGbR8ZNc
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Today I think we shouldn't bother to include intermediate
-Dockerfiles. I'd simply use one plain file and let the
-Docker daemon worry about caching/reusing.
+On Oct  7 18:24, Lukasz Maniak wrote:
+> From: =C5=81ukasz Gieryk <lukasz.gieryk@linux.intel.com>
+>=20
+> This patch implements the FLR, a feature currently not implemented for
+> the Nvme device, while listed as a mandatory ("shall") in the 1.4 spec.
+>=20
+> The implementation reuses FLR-related building blocks defined for the
+> pci-bridge module, and follows the same logic:
+>     - FLR capability is advertised in the PCIE config,
+>     - custom pci_write_config callback detects a write to the trigger
+>       register and performs the PCI reset,
+>     - which, eventually, calls the custom dc->reset handler.
+>=20
+> Depending on reset type, parts of the state should (or should not) be
+> cleared. To distinguish the type of reset, an additional parameter is
+> passed to the reset function.
+>=20
+> This patch also enables advertisement of the Power Management PCI
+> capability. The main reason behind it is to announce the no_soft_reset=3D1
+> bit, to signal SR/IOV support where each VF can be reset individually.
+>=20
+> The implementation purposedly ignores writes to the PMCS.PS register,
+> as even such na=C3=AFve behavior is enough to correctly handle the D3->D0
+> transition.
+>=20
+> It=E2=80=99s worth to note, that the power state transition back to to D3=
+, with
+> all the corresponding side effects, wasn't and stil isn't handled
+> properly.
+>=20
+> Signed-off-by: =C5=81ukasz Gieryk <lukasz.gieryk@linux.intel.com>
 
-But the whole machinery needs some thought since we want
-to be able to use non-x86_64 hosts; and on the CI side
-we want pulled images to be stable.
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+
+--sEIzPrjcEGbR8ZNc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmGBTMIACgkQTeGvMW1P
+DenHSgf/cUX/oJrC1SdGJSm0keuHuqFsBXipncP8oERH/TK5CI8KPFzlUod70cCR
+8tY4BTHlq3JXONoOSrH/DVpKMTv/Adu9MY8jh+NG9C1jGAK2OcF/RRffGCY6Yawh
+bU1usyTVsb8axrK5n2u6LXUiehjwJmiJvbg079k9glmiCGZy5z94Y/ExJVGfUEpX
+0wHTboUkK/9Q5gAf5lwAII0rMuB1LozUm5v2lC6U9C/cQU8Fl6XA8Gz9jIchmZ2R
+wfqgGzpaqu3BLGt8j5IWUEeDXhaYllAueLEbzqLxY5D5itEOeednirSvqTyyDd9d
+FGE2TOwiNd+RguwtdMQYEPU5X6yynw==
+=9yVB
+-----END PGP SIGNATURE-----
+
+--sEIzPrjcEGbR8ZNc--
 
