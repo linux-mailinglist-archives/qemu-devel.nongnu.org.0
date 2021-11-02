@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EC274439D9
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 00:37:29 +0100 (CET)
-Received: from localhost ([::1]:54912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A0CD4439E8
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 00:42:10 +0100 (CET)
+Received: from localhost ([::1]:59264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mi3LM-0007PV-OE
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 19:37:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54362)
+	id 1mi3Ps-0001y9-PA
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 19:42:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mi3Je-0005lM-PZ
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 19:35:42 -0400
-Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:36490)
+ id 1mi3LN-0008SP-DN
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 19:37:29 -0400
+Received: from mail-qv1-xf2b.google.com ([2607:f8b0:4864:20::f2b]:40642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mi3Ja-0002cO-E0
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 19:35:42 -0400
-Received: by mail-qk1-x72d.google.com with SMTP id i9so680119qki.3
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 16:35:37 -0700 (PDT)
+ id 1mi3LK-0002vp-AX
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 19:37:28 -0400
+Received: by mail-qv1-xf2b.google.com with SMTP id b11so727686qvm.7
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 16:37:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Nsqcl4l3KHwgFBY506jG5UfVddHyp7gdgvjCb3K1fW4=;
- b=hbd20D76cUNB0oaY5ALdYO52Va7yiIJuorSqGXM5gZBr+ADcZexla+YH3C5Yw9iTko
- CvIL1oO2yFZWSmA8JHrC4bMZqLbfI5K+Og+26vIxk8BrHSmz+I3WKF7YfPRBTk+KJFZP
- ZCgNcgqfbRVT/IEE6dTFxgr9CKlrIpeTRXbyWH50ZH6mIO9hKOVjzdo8pQ7exISMoSM9
- FfELtxYWPDJZfYxCBRcHYMWcbRxsJULH2n59qdIXZ6yVOb6oXmpAGQDvLQC74hioUY9S
- la7ZBUBnnVyFRvR0dsy1oUgX9hmHIFDRHi5frAKVYC/kGnrsqiQdTQkm2zZ4BR9W5UEC
- Xa7Q==
+ bh=higN3TA3bhO5AwRXdd7DWxRGHM5dSrbbhXXx+VgKykg=;
+ b=xnmcPtRAj8g5wJxu/M9skbLQ+iCUTfiWceTTPEmYukW2GpYZPy89IjEqKI0u/btwfW
+ VgWCgne3gJTl4pJgOV0FrqbuzL5fsfSgM8u7I/jPIxdhlLbANrhLSwiNrO+/50dOeMYs
+ lUvsIJ2KsC3W9Ym1NAgTx5n12H4rTWm4A0JjIVORricM9gR2a1EH24di/atJ3E9UNUK9
+ tqByRKf+QUTsSlSaN/+u78VlZ0DX9H0+7YlYQU4glQVAn1wc1xatdknuFYC7RdjhxabK
+ LsXPZM37Y9QchjumymcYw4fobYaHypCY9r1fI29tRdD8f5RxWSqo/auGixkv1Lr8Zbj7
+ zuLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Nsqcl4l3KHwgFBY506jG5UfVddHyp7gdgvjCb3K1fW4=;
- b=ldQa0pq2/cI9QlUPHIhVp2ZXQdMtrhbNpTd4l2SphYegmYlnOn3YVmtmc/0o/TT5C5
- J/TNmcL4JkUZIq92C1yf21dFBAqDZ5WFu1s+zvpAkp0h/jBMAE9NaJIQCJ3t9bBM1jEJ
- ppFUfokT/1uBDoRgqdDisFKChiQtFckjD0eZhH+JFOBlgZPxrfXzFwGMk2ysH62ESa2H
- NgscVgZq48KH7TkdZrpFKfmotImYz2J6T1C3SToDwjCW/H4YSvA0osFaW6oTVhqBqy8V
- FG1/536G43WXvhnKgeKV9g+ycAtO+2PDXKgZnfWC3zCIyHyfizuyE4lcJF2B3gxQbsr1
- mKRg==
-X-Gm-Message-State: AOAM530En+aRvpciidY9jB59oBzkdo/Q63RX1w/p9H3I1E4c5FpuUeAa
- 3A1epqJgbA5Jh/GmXqm5CI2YksJtxsD/Tw==
-X-Google-Smtp-Source: ABdhPJwAsCc9Dc7YzKyTtB/oFf4oTNG6UXZWtATTbk6dWPFx+3tSiV6p0vzYkf3wiAXGIYzjCxjlgQ==
-X-Received: by 2002:a05:620a:298a:: with SMTP id
- r10mr31325705qkp.84.1635896136870; 
- Tue, 02 Nov 2021 16:35:36 -0700 (PDT)
+ bh=higN3TA3bhO5AwRXdd7DWxRGHM5dSrbbhXXx+VgKykg=;
+ b=T4AtiTBxJwHjmGbW6gIwkjzDiHmfeV9kZy12aYDdxDq/qddmq1IhNsRnmjiLYXlluR
+ /7NZozGwzWtIH5RNfKgZNQT/Njdc3tu0hl76uqNscBF+cZGEK7NdjeZoYcZSkuKiprUZ
+ pIaPVWoN5Pq3TlNRl+M41EoEJOx8Jn77Evp3g7GgsP1ef4EFOZ1PV8ywtVhht7zjyRHR
+ XozICXSVIun9s7iukApOrd4S0X8s/BuUrjeIgdl9IIsoxYtVnbqEalB6REgr2APD1ZEh
+ eYKFne3HXZKy8+eDqLg2c2cxT10+Drzjm6nPn5XACCt6X5YdGDZTjh7Wi+rfcDpoG2iI
+ ZkuA==
+X-Gm-Message-State: AOAM530WQUQjL3bfJy4CAloYZQk2s6wQaRNM3efZ4cqM04EX8/xMoeTm
+ UkEP4Lron+QQxT3TOEDufWwyIw==
+X-Google-Smtp-Source: ABdhPJxyq/qwAQempDIoKWy1ardqK5hn8jzbfJPXqJo/TNn3IP3wHBRNzh58rmYSxFhl0VCs0eY56A==
+X-Received: by 2002:ac8:5f88:: with SMTP id j8mr40963848qta.275.1635896245506; 
+ Tue, 02 Nov 2021 16:37:25 -0700 (PDT)
 Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
  [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id v3sm321960qkd.20.2021.11.02.16.35.36
+ by smtp.gmail.com with ESMTPSA id v7sm311961qkd.41.2021.11.02.16.37.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Nov 2021 16:35:36 -0700 (PDT)
-Subject: Re: [PULL 00/60] accel/tcg patch queue
-To: Warner Losh <imp@bsdimp.com>
-References: <20211102110740.215699-1-richard.henderson@linaro.org>
- <a155ebce-e2ec-974f-355c-6bca26b22c80@linaro.org>
- <B2EB83EC-D491-4C42-91A4-CA95BF50E63B@gmail.com>
+ Tue, 02 Nov 2021 16:37:24 -0700 (PDT)
+Subject: Re: [PATCH v2 01/30] bsd-user: Add stubs for new signal routines
+To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
+References: <20211102225248.52999-1-imp@bsdimp.com>
+ <20211102225248.52999-2-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2838fdfb-017d-504b-d98d-aefd50efbf00@linaro.org>
-Date: Tue, 2 Nov 2021 19:35:35 -0400
+Message-ID: <3a4d91dc-5726-ff89-a837-faefdff45a92@linaro.org>
+Date: Tue, 2 Nov 2021 19:37:23 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <B2EB83EC-D491-4C42-91A4-CA95BF50E63B@gmail.com>
+In-Reply-To: <20211102225248.52999-2-imp@bsdimp.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72d.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2b.google.com
 X-Spam_score_int: -45
 X-Spam_score: -4.6
 X-Spam_bar: ----
@@ -90,20 +88,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Kyle Evans <kevans@freebsd.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, Philippe Mathieu-Daude <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/2/21 7:27 PM, Warner Losh wrote:
-> This breaks bsd-user building. That’s OK, imho, for two reasons: First it only runs ‘hello world’. Second, I’ve updated my patch train which will fix this (message-id 20211019164447.16359-1-imp@bsdimp.com).
+On 11/2/21 6:52 PM, Warner Losh wrote:
+> Until the signal support is merged from the bsd-user fork, we need stubs
+> for cpu_loop_exit_sigsegv and cpu_loop_exit_sigbus to link. These call
+> abort after logging a message. Since singals aren't supported here
+> yet, this is sufficient.
 > 
-> If there’s urgency to this, I can pull patch 1 out and submit it.
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
+> ---
+>   bsd-user/signal.c | 21 +++++++++++++++++++++
+>   1 file changed, 21 insertions(+)
+> 
+> diff --git a/bsd-user/signal.c b/bsd-user/signal.c
+> index 0c1093deb1..05b277c642 100644
+> --- a/bsd-user/signal.c
+> +++ b/bsd-user/signal.c
+> @@ -20,6 +20,11 @@
+>   #include "qemu/osdep.h"
+>   #include "qemu.h"
+>   
+> +/*
+> + * Stubbed out routines until we merge signal support from bsd-user
+> + * fork.
+> + */
+> +
+>   /*
+>    * Queue a signal so that it will be send to the virtual CPU as soon as
+>    * possible.
+> @@ -36,3 +41,19 @@ void signal_init(void)
+>   void process_pending_signals(CPUArchState *cpu_env)
+>   {
+>   }
+> +
+> +void cpu_loop_exit_sigsegv(CPUState *cpu, target_ulong addr,
+> +                           MMUAccessType access_type, bool maperr, uintptr_t ra)
+> +{
+> +    qemu_log_mask(LOG_UNIMP, "No signal support for SIGSEGV\n");
+> +    /* unreachable */
+> +    abort();
+> +}
+> +
+> +void cpu_loop_exit_sigbus(CPUState *cpu, target_ulong addr,
+> +                          MMUAccessType access_type, uintptr_t ra)
+> +{
+> +    qemu_log_mask(LOG_UNIMP, "No signal support for SIGBUS\n");
+> +    /* unreachable */
+> +    abort();
+> +}
+> 
 
-Dangit.  I shouldn't have broken the build, even with signals still disabled in bsd-user. 
-  I let my guard down because the cirrus bsd build has gone wonky, and the shared machine 
-I'm doing other cross-testing on has got some temporary resource conflict.
-
-Let's fix the build asap.
+I'm going to apply this directly to master as a build fix.
+Sorry about that.
 
 
 r~
