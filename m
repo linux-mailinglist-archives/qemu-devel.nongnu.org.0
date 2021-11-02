@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70CFD442D25
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 12:49:50 +0100 (CET)
-Received: from localhost ([::1]:33556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E430442D42
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 12:52:57 +0100 (CET)
+Received: from localhost ([::1]:44428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhsIW-0005UW-SU
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 07:49:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44560)
+	id 1mhsLY-0004Wo-Nb
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 07:52:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhrhA-0001Ov-RH
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:11:12 -0400
-Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:34342)
+ id 1mhrhB-0001Pp-33
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:11:13 -0400
+Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:39526)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhrh9-0001y7-6R
+ id 1mhrh9-0001yT-Km
  for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:11:12 -0400
-Received: by mail-qk1-x72d.google.com with SMTP id bq14so7755137qkb.1
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 04:11:10 -0700 (PDT)
+Received: by mail-qk1-x72d.google.com with SMTP id bk22so12489403qkb.6
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 04:11:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=54O7y5F6cil48JbVjJeuP4tBSWG4MHFPBxntrZflWpI=;
- b=UV1GmcKaWi7JsNo+xvsGQ3x42SkuHFt3TcH5c6MUvKIPtpGwpPELiaiEqsA3h/I+XK
- M779cpi6fDos5n9VSe13JQXff/YwkQrxD38j8YgPzAqBgPifyoEn/Twc0UfMtBoS2Off
- 3n32oUdiEypbw6sle7Bo+m1Cwdn6P8KsIftcFwRXeFiU9n+TM1WxDEN4p8k/2n1XqShD
- xGKmtL3ECFxfcFXDhSzNvaxQP37mzJTq55G0PPZvZfXNJf+aI84xlUfkZRniesOug/qC
- l5HudRzbxjyAN8YJLxW5Py3lAdUw98U3waDa9eGkm2yCmGYDDci2mUDPw1USfC4/rZCA
- ljxg==
+ bh=hDIIDmSt3XkX7dozNp8YyanBuOQiSpBj16JErrhb+ZE=;
+ b=szYdm483ZYIEW9rjhhKgbOHvhrW8GatAFQojoPP/TJRC2xMCLCFHgWmnV32cyhbcg9
+ Ru+Z+9L1w7i8J+RferrqXTmfeFXCIg2FnseFMKU26dJwAXKgDfKQ2FXk7Sx4R6/t4zQY
+ YoHEpjs1Wl/q0d/Kbw3qoS+NZt1P+RW5lO8mDCEAQzASPbCpdQjqvsuF3SY4D7GWAXxG
+ BDva/Jty/okIoVVZhZbdjlCGw+ZYLO2uPyz2bIQ188oDLM4UKAMkyG27ykkorxYaRkuR
+ X5PNju9iXkhCGMuWyxxxmtcaz87KwEDi9KIvg1NqxFSZzf7wfL4KjLONUWydFJlBMCTe
+ mRZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=54O7y5F6cil48JbVjJeuP4tBSWG4MHFPBxntrZflWpI=;
- b=6J9OOGEMIwLtCwlRID+heCiBHtDtruvAUv7Ixfc4/h5UnHHVlNEDEHrhH3ChHjW0wd
- ml8cNEBwb/YQJMuNGP2i1d8xUkAR1LE5qKwnlEuGPO20t4nRP6bZHCSGw/n0oIh/jTzn
- Vs0hsWAs8xgmXPYhRBKGzGqcSa/4vTe6EiCyJ3MmF9FLf2AFF/6/fn/Xh5z2tHQE0UA2
- 7g1L2HzzXmoLh1GaUn87/ITUxncgXkmmxlwv3k0Uf2usBIMqZHbbbSNy6meOyfv11/iq
- oLLSuLeor3b71IzCgPWc4ZcudH9DXO89eWwBfJPCPta4vAThtcty6Ue/uBRwkejg6tah
- v6Bw==
-X-Gm-Message-State: AOAM533L/CHV+2rjORGOAp24ATFQQ3qq+gMeQxM1YIkhV60Dqa7b+gKq
- 3Yjx3HArW/GZb8GJcKXXyGHECDgdwKM+HA==
-X-Google-Smtp-Source: ABdhPJz5qMHSebCncZ8uQCZbir/mzrpu9/TCf7eJTm8HyXB2B78mUNl0o/jYABTdJLGj71qM6Ai9gw==
-X-Received: by 2002:a05:620a:d96:: with SMTP id
- q22mr28577214qkl.219.1635851470234; 
+ bh=hDIIDmSt3XkX7dozNp8YyanBuOQiSpBj16JErrhb+ZE=;
+ b=Kc/nrew/LhRIecfglLLsR08dmdndI2Q3urStZULVqfhlCPQPL54UPdduOM1W19rUBk
+ l/bhe9FNmEQyVJMVE5WjrDOJCBMSvf2taGRGLOkoJvZXQjBGoKV2XeUeLFCZ2xk3ubIL
+ 85cOFmbvjlKKt/XRU4ZJOrHRhdpuBX901Rj35Z4eXjZKbBo6cWwCCQDY7oxwua4/jbTD
+ slkSlr4LDC0p2adtpJthoeMcqbYD4owxX77Ly7EtvdgLWMIen3dcKANEZsyF2fqzFF35
+ qraVfzeMK8bvwEbKttDEXxv4AHmJBNRPXwQ8hFWSJO7clHUwF2Ogai3hDlPjVk8A9R12
+ BX9Q==
+X-Gm-Message-State: AOAM531QN2Y43nCgivSS/JnRUY1tph/UBh3TP6NqAkmOQY7L4HdXibTJ
+ Z7qE2mxB8QzkGF/0pTNqSbuwIfw6wDTaqw==
+X-Google-Smtp-Source: ABdhPJwGWMwx4uEMmMe4xI35VJuKvVUh0iOMVdsx9PM2Ieciqnu7NTd4quAwzCMQs6ie8f1mhw21eA==
+X-Received: by 2002:ae9:eb08:: with SMTP id b8mr1484019qkg.1.1635851470804;
  Tue, 02 Nov 2021 04:11:10 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-172-254-253-57.nyc.biz.rr.com.
  [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id bm25sm12730854qkb.4.2021.11.02.04.11.09
+ by smtp.gmail.com with ESMTPSA id bm25sm12730854qkb.4.2021.11.02.04.11.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 04:11:09 -0700 (PDT)
+ Tue, 02 Nov 2021 04:11:10 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 48/60] target/ppc: Move SPR_DSISR setting to powerpc_excp
-Date: Tue,  2 Nov 2021 07:07:28 -0400
-Message-Id: <20211102110740.215699-49-richard.henderson@linaro.org>
+Subject: [PULL 49/60] target/ppc: Set fault address in
+ ppc_cpu_do_unaligned_access
+Date: Tue,  2 Nov 2021 07:07:29 -0400
+Message-Id: <20211102110740.215699-50-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211102110740.215699-1-richard.henderson@linaro.org>
 References: <20211102110740.215699-1-richard.henderson@linaro.org>
@@ -84,64 +84,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-ppc@nongnu.org,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By doing this while sending the exception, we will have already
-done the unwinding, which makes the ppc_cpu_do_unaligned_access
-code a bit cleaner.
+We ought to have been recording the virtual address for reporting
+to the guest trap handler.
 
-Update the comment about the expected instruction format.
-
+Cc: qemu-ppc@nongnu.org
+Reviewed-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/excp_helper.c | 21 +++++++++------------
- 1 file changed, 9 insertions(+), 12 deletions(-)
+ target/ppc/excp_helper.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
 diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index b7d1767920..88a8de4b80 100644
+index 88a8de4b80..e568a54536 100644
 --- a/target/ppc/excp_helper.c
 +++ b/target/ppc/excp_helper.c
-@@ -454,13 +454,15 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
-         break;
-     }
-     case POWERPC_EXCP_ALIGN:     /* Alignment exception                      */
--        /* Get rS/rD and rA from faulting opcode */
-         /*
--         * Note: the opcode fields will not be set properly for a
--         * direct store load/store, but nobody cares as nobody
--         * actually uses direct store segments.
-+         * Get rS/rD and rA from faulting opcode.
-+         * Note: We will only invoke ALIGN for atomic operations,
-+         * so all instructions are X-form.
-          */
--        env->spr[SPR_DSISR] |= (env->error_code & 0x03FF0000) >> 16;
-+        {
-+            uint32_t insn = cpu_ldl_code(env, env->nip);
-+            env->spr[SPR_DSISR] |= (insn & 0x03FF0000) >> 16;
-+        }
-         break;
-     case POWERPC_EXCP_PROGRAM:   /* Program exception                        */
-         switch (env->error_code & ~0xF) {
-@@ -1462,14 +1464,9 @@ void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
-                                  int mmu_idx, uintptr_t retaddr)
+@@ -1465,6 +1465,20 @@ void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
  {
      CPUPPCState *env = cs->env_ptr;
--    uint32_t insn;
--
--    /* Restore state and reload the insn we executed, for filling in DSISR.  */
--    cpu_restore_state(cs, retaddr, true);
--    insn = cpu_ldl_code(env, env->nip);
  
++    switch (env->mmu_model) {
++    case POWERPC_MMU_SOFT_4xx:
++    case POWERPC_MMU_SOFT_4xx_Z:
++        env->spr[SPR_40x_DEAR] = vaddr;
++        break;
++    case POWERPC_MMU_BOOKE:
++    case POWERPC_MMU_BOOKE206:
++        env->spr[SPR_BOOKE_DEAR] = vaddr;
++        break;
++    default:
++        env->spr[SPR_DAR] = vaddr;
++        break;
++    }
++
      cs->exception_index = POWERPC_EXCP_ALIGN;
--    env->error_code = insn & 0x03FF0000;
--    cpu_loop_exit(cs);
-+    env->error_code = 0;
-+    cpu_loop_exit_restore(cs, retaddr);
- }
- #endif
+     env->error_code = 0;
+     cpu_loop_exit_restore(cs, retaddr);
 -- 
 2.25.1
 
