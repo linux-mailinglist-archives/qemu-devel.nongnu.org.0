@@ -2,54 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B354442552
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 02:51:24 +0100 (CET)
-Received: from localhost ([::1]:53960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2504C442602
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 04:25:47 +0100 (CET)
+Received: from localhost ([::1]:41334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhixP-0008Nt-7E
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 21:51:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45792)
+	id 1mhkQj-0002Lm-NC
+	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 23:25:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mhiuO-0007YW-EV; Mon, 01 Nov 2021 21:48:16 -0400
-Received: from out28-100.mail.aliyun.com ([115.124.28.100]:39849)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mhkJk-0004OE-4U
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 23:18:33 -0400
+Received: from mail.xen0n.name ([115.28.160.31]:58054
+ helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mhiuJ-0002Cc-QX; Mon, 01 Nov 2021 21:48:15 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07584438|-1; CH=green;
- DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.535756-0.000629913-0.463614;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047198; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.LlxuS-d_1635817682; 
-Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.LlxuS-d_1635817682)
- by smtp.aliyun-inc.com(10.147.42.135);
- Tue, 02 Nov 2021 09:48:02 +0800
-Subject: Re: [PATCH 02/13] target/riscv: Extend pc for runtime pc write
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211101100143.44356-1-zhiwei_liu@c-sky.com>
- <20211101100143.44356-3-zhiwei_liu@c-sky.com>
- <03cbb2ba-3fc0-e904-6bf6-56ece9cf46b9@linaro.org>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <e454d42a-4d75-f81e-7d37-c3d81945258e@c-sky.com>
-Date: Tue, 2 Nov 2021 09:48:01 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mhkJf-0007d8-RY
+ for qemu-devel@nongnu.org; Mon, 01 Nov 2021 23:18:31 -0400
+Received: from [100.100.57.93] (unknown [220.248.53.61])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 6B4DD600B0;
+ Tue,  2 Nov 2021 11:18:19 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
+ t=1635823099; bh=kzlVL7JzT+eBgGZQZnMPD/VZ4OVLHEAe0hYICw8jJJY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=WpchOICJ6MY/cH5RyNzgd1BfCpSFiDK0/JL3DpWoEBaoBAgIeEvEItel5XOQg7B33
+ VnlpJMyy8kmYz1MFIZENZlcNqUYdeB1eVe0hX8MQW4fzYUoxO6VB1JmTMup1StFlkE
+ Sp8ShSqrPh3IcY+eZei88uk1e2ouT7sfwfv7YziU=
+Message-ID: <7c90bbea-a3d8-9e0d-25d8-77e47eca4aee@xen0n.name>
+Date: Tue, 2 Nov 2021 11:18:18 +0800
 MIME-Version: 1.0
-In-Reply-To: <03cbb2ba-3fc0-e904-6bf6-56ece9cf46b9@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:95.0)
+ Gecko/20100101 Thunderbird/95.0a1
+Subject: Re: [PATCH v8 28/29] accel/tcg/user-exec: Implement CPU-specific
+ signal handler for loongarch64 hosts
 Content-Language: en-US
-Received-SPF: none client-ip=115.124.28.100; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-100.mail.aliyun.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+To: gaosong <gaosong@loongson.cn>
+References: <1635760311-20015-1-git-send-email-gaosong@loongson.cn>
+ <1635760311-20015-29-git-send-email-gaosong@loongson.cn>
+ <648d74b4-17fe-1f4b-448c-004896b22c17@xen0n.name>
+ <117734f6-94b6-17b7-3ffc-78c62a52c9cd@loongson.cn>
+From: WANG Xuerui <i.qemu@xen0n.name>
+In-Reply-To: <117734f6-94b6-17b7-3ffc-78c62a52c9cd@loongson.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
+ helo=mailbox.box.xen0n.name
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.14,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.14,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,83 +66,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
+Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@loongson.cn,
+ philmd@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ peterx@redhat.com, laurent@vivier.eu, yangxiaojuan@loongson.cn,
+ alistair.francis@wdc.com, maobibo@loongson.cn, pbonzini@redhat.com,
+ bmeng.cn@gmail.com, alex.bennee@linaro.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
-On 2021/11/1 下午6:33, Richard Henderson wrote:
-> On 11/1/21 6:01 AM, LIU Zhiwei wrote:
->> In some cases, we must restore the guest PC to the address of the 
->> start of
->> the TB, such as when the instruction counter hit zero. So extend pc 
->> register
->> according to current xlen for these cases.
->>
->> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
->> ---
->>   target/riscv/cpu.c        | 20 +++++++++++++++++---
->>   target/riscv/cpu.h        |  2 ++
->>   target/riscv/cpu_helper.c |  2 +-
->>   3 files changed, 20 insertions(+), 4 deletions(-)
->>
->> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> index 7d53125dbc..7eefd4f6a6 100644
->> --- a/target/riscv/cpu.c
->> +++ b/target/riscv/cpu.c
->> @@ -319,7 +319,12 @@ static void riscv_cpu_set_pc(CPUState *cs, vaddr 
->> value)
->>   {
->>       RISCVCPU *cpu = RISCV_CPU(cs);
->>       CPURISCVState *env = &cpu->env;
->> -    env->pc = value;
->> +
->> +    if (cpu_get_xl(env) == MXL_RV32) {
->> +        env->pc = (int32_t)value;
->> +    } else {
->> +        env->pc = value;
->> +    }
->>   }
+On 2021/11/1 19:21, gaosong wrote:
+> Hi Xuerui,
 >
-> Good.
+> On 2021/11/1 下午6:45, WANG Xuerui wrote:
+>> While I can see this patch and the next one are clearly from me, my
+>> author info is lost as I didn't spot any "From:" line in the mail body?
+>> Also I don't remember seeing "Base-on" tags in QEMU either.
 >
->>   static void riscv_cpu_synchronize_from_tb(CPUState *cs,
->> @@ -327,7 +332,12 @@ static void 
->> riscv_cpu_synchronize_from_tb(CPUState *cs,
->>   {
->>       RISCVCPU *cpu = RISCV_CPU(cs);
->>       CPURISCVState *env = &cpu->env;
->> -    env->pc = tb->pc;
->> +
->> +    if (cpu_get_xl(env) == MXL_RV32) {
->> +        env->pc = (int32_t)tb->pc;
->> +    } else {
->> +        env->pc = tb->pc;
->> +    }
+> Sorry,  I refer to the commit 35f171a2eb25fcdf1b719c58a61a7da15b4fe078
 >
-> Bad, since TB->PC should be extended properly.
-> Though this waits on a change to cpu_get_tb_cpu_state.
-
-Should the env->pc always hold the sign-extend result? In 
-cpu_get_tb_cpu_state, we just truncate to the XLEN bits.
-
-Thanks,
-Zhiwei
-
+> It seems that the reference is wrong.  I 'll correct it.
+My patch series haven't gone into upstream yet, so I'm pretty sure this
+commit hash would change in the final merged version. I think basing
+your whole series on top of mine should be okay; mine has been
+completely reviewed and IIUC only waiting for a test-purpose Docker
+builder image before it can be merged, so the code should be fairly
+stable and friendly for rebases.
 >
->> @@ -348,7 +358,11 @@ static bool riscv_cpu_has_work(CPUState *cs)
->>   void restore_state_to_opc(CPURISCVState *env, TranslationBlock *tb,
->>                             target_ulong *data)
->>   {
->> -    env->pc = data[0];
->> +   if (cpu_get_xl(env) == MXL_RV32) {
->> +        env->pc = (int32_t)data[0];
->> +    } else {
->> +        env->pc = data[0];
->> +    }
+>> I think you're meaning to include the "Based-on" tags in your cover
+>> letter instead?
 >
-> Likewise.
+> I should take this way,  Sorry Again,
 >
->
-> r~
+Never mind; you could of course use more caution when it comes to Git
+operations later.
 
