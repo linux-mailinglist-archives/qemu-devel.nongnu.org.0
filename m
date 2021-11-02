@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC117442B8F
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 11:22:45 +0100 (CET)
-Received: from localhost ([::1]:41916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1899442B8D
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 11:22:22 +0100 (CET)
+Received: from localhost ([::1]:39604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhqwH-0002N4-2i
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 06:22:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58780)
+	id 1mhqvt-0000os-Qf
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 06:22:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mhqta-0006fV-NW
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:19:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20964)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mhqtX-0007zn-EN
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:19:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635848394;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bvbR4kzU9SDQKDlwckgRwIpCLAawlQ8qF55kUOXDvHE=;
- b=FYUW3p7XX6o+yluMiujrDSMkqK8TQFkrEx7sKUOkuU5FUxR4zaM5yan/SoYBCrJhfpYY3n
- 4WCpSHm4jExpDT6S4erDYaH8mBnopnouLpl76NpNNmrkQAZ9itBrOXHmCj/p8nn9bvi4SO
- 4oSXlGjJ0Y1f78Va4WneNDaKrZ0ZAT8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-7-GHeEfTPgm-VfxeU3isHQ-1; Tue, 02 Nov 2021 06:19:51 -0400
-X-MC-Unique: 7-GHeEfTPgm-VfxeU3isHQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A04DF1808318;
- Tue,  2 Nov 2021 10:19:50 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.234])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C60475D9DC;
- Tue,  2 Nov 2021 10:19:24 +0000 (UTC)
-Date: Tue, 2 Nov 2021 10:19:23 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [RFC PATCH 03/15] job-common.h: categorize fields in struct Job
-Message-ID: <YYEQq2mb3eAcEspz@stefanha-x1.localdomain>
-References: <20211029163914.4044794-1-eesposit@redhat.com>
- <20211029163914.4044794-4-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mhqtw-0006uE-Jt
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:20:20 -0400
+Received: from mail-qv1-xf32.google.com ([2607:f8b0:4864:20::f32]:36461)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mhqtu-00089T-FL
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:20:20 -0400
+Received: by mail-qv1-xf32.google.com with SMTP id d6so12964280qvb.3
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 03:20:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=iw7Ij+qnOccjoW85Ygx9iJ+DvRUGe9n4glwupUo77uI=;
+ b=JuZ5g8jNezCvZqUnuUIflGKhbhVqk/TwmG/yCsG+gia1h4k0LPnzJCVEIixWhAqy2v
+ ajulEx0jQ8o7nlUyRi1I3t7M+t0EZZzpU6OX2yWvJJnMyNoAucFcW1diB6nIZGp5Kh6k
+ ysmsKNZ6/laFezWBEuxYjfnstm+LQdD5oCdYndP5irNFRcIeXN+DtKzwcFvGjROOu94a
+ Nl6bWSRwdo9qcKrPzbSCB33163Ya6se5g8y6AZJKCgA4jVT/F6HpUp2ppxaukqHwZKs4
+ a8MkVaj2UGie/QESNeTy3qlN2Y5p3Z4QtZotNRmferyq9Q8P1xYQMDqY6I15iBalREI2
+ w9mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iw7Ij+qnOccjoW85Ygx9iJ+DvRUGe9n4glwupUo77uI=;
+ b=nUWZKzUGUeDhPze21D3fnghdJ8oWIWD8NQEgQ+2UGxtwn4hrvPfVYZJoheEnV6vFlx
+ WEz18Df5Reb+MSjaqLx1wmUZH8sShyBjyNUXzWOy/n7LdQx3LLGdCDW2xtYK4dqZr5DQ
+ DLWf3ltusggdfp2PSX6TdkaF+U4BaZLHCf7h2tXfXxx969ASNKJLGY4zUnrnasneHhxz
+ zZKBCbTgbDxiSTfeTQhJySL0026P4razjzC62R+UwZH0tS8UD2pSc+YSb5mOGTRjXbdO
+ csjvfbDER84TyywwxgrhjyQPWXuctUwT5D9xwmWWcSBIvhvoqhgwXV/jAfAAj+OtRyCO
+ EAGA==
+X-Gm-Message-State: AOAM530x7SZbBGlyEuBkEjz/gBUuCaeK5kdOLpbSuaVcw1DT7bf38CWl
+ BBmjvj2LdOIVZuZbuGWs0G7Ikw==
+X-Google-Smtp-Source: ABdhPJyIgVlOYFncshZXOm5rI2kP/tRvylLiOSt06EnrhoMwQLSqpSsR7p2LZHaIIcPlvxMZLdOCAg==
+X-Received: by 2002:a05:6214:8f2:: with SMTP id
+ dr18mr31803226qvb.56.1635848416429; 
+ Tue, 02 Nov 2021 03:20:16 -0700 (PDT)
+Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
+ [172.254.253.57])
+ by smtp.gmail.com with ESMTPSA id bs34sm12031156qkb.97.2021.11.02.03.20.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Nov 2021 03:20:16 -0700 (PDT)
+Subject: Re: [PATCH 03/13] target/riscv: Ignore the pc bits above XLEN
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20211101100143.44356-1-zhiwei_liu@c-sky.com>
+ <20211101100143.44356-4-zhiwei_liu@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <8ff63ab8-0576-c1e3-aa33-de52b48cac3f@linaro.org>
+Date: Tue, 2 Nov 2021 06:20:14 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211029163914.4044794-4-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="L4XOtNcW3anNzl1k"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+In-Reply-To: <20211101100143.44356-4-zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f32;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf32.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.14,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,48 +90,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---L4XOtNcW3anNzl1k
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 11/1/21 6:01 AM, LIU Zhiwei wrote:
+> The read from PC for translation is in cpu_get_tb_cpu_state, before translation.
+> 
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> ---
+>   target/riscv/cpu_helper.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 7d0aee6769..eb425d74d2 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -71,7 +71,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+>   {
+>       uint32_t flags = 0;
+>   
+> -    *pc = env->pc;
+> +    *pc = cpu_get_xl(env) == MXL_RV32 ? env->pc & UINT32_MAX : env->pc;
+>       *cs_base = 0;
 
-On Fri, Oct 29, 2021 at 12:39:02PM -0400, Emanuele Giuseppe Esposito wrote:
-> Categorize the fields in struct Job to understand which need
-> to be protected by the job muutex and which not.
+Oh, let's not compute cpu_get_xl twice -- currently we do it at the end of the function 
+when we store into flags.  Move that as necessary.
 
-s/muutex/mutex/
 
-          (__)
-  `\------(oo)
-    ||    (__) .o( moo-tex )
-    ||w--||
-
-BTW "which ones need ... and which don't" reads more naturally.
-
---L4XOtNcW3anNzl1k
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmGBEKsACgkQnKSrs4Gr
-c8jiCggAjz45gDcgET22rSHUtVh+1JqwenMd2NntyAP9Elu3N0KRz7IUd4jxNTZV
-T1wHTwq6GbW8NDAQo8qAt8LCrLUdvuwfThnb23jxNxgdOgHO85ZSBYMeu7XZMbef
-SyTzoBZxwZb1Z8LyHJ/QjnuZfh7EYxrly8v+8s7FtctHaMdhXb5P72g5hKLtGKUY
-izIwcxQAVrkcXR/bJpVLGoSWXLwshLFzCpYQJpeA7ej2iLsdhtVuOih8LYfm0x0/
-vE/8s+Ply778H6Rz9lPCz+iYjt0GFu46fZIhuwgL7KtJiMvppGPXWIQqKUGvsjhW
-nfFAE8RLdNpnnz7RJcYxzzYMEkcq9A==
-=Xc5H
------END PGP SIGNATURE-----
-
---L4XOtNcW3anNzl1k--
-
+r~
 
