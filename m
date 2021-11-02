@@ -2,84 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C440442D87
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 13:07:31 +0100 (CET)
-Received: from localhost ([::1]:40544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55364442D5C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 13:00:59 +0100 (CET)
+Received: from localhost ([::1]:47374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhsZe-00071F-EE
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 08:07:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46172)
+	id 1mhsTK-0000wz-E7
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 08:00:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhrmE-0002P3-1b
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:16:26 -0400
-Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:42882)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhrmB-00045R-RZ
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:16:25 -0400
-Received: by mail-qk1-x730.google.com with SMTP id bm28so4121126qkb.9
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 04:16:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6TlcMPKIxgAcOzhbpuxUmgGUV+AvJ65qkkKScJosyfM=;
- b=eCoi4wlOCgW4drQyg5Cskt1SdLIgVq8hqFP8yMCbnW4KHn7F+9TLUN1olXAX7ZXAVJ
- Kc3EVjwc4NbyuIF/wey8r+ZNpm4ZtBIj2sVpolhRkcpK9R+DCQELTYA34R8thmHeN4XB
- q1PCa/0xgm1Hn8Zq/YC2O0v6yPiQYa3wamYqyEMcmMJ1v8C+MBYZJxkgnO7bxTKuzvTG
- UuuVJGl6iHdCJ5T5qRiFDjhlTWeW/NeeEnMVnh0kBXuL0XEdp4LM08xwj3Se4cCC5kpy
- KJxjGMyFjz737VZRcyfl9/J1aetghELJf4boIl8BK9Q8CWk+jLLcE0HOvqhEa0a7OIL+
- NC9g==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mhrmP-000309-RA
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:16:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39907)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mhrmI-0004Wh-NQ
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:16:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635851788;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=x4aB1tDISQ5VLT3FZXUqnx5+jKAJUMTjQxjpx3IGWs4=;
+ b=Q0tkJ5zMW2PFNjX0jYPq+VPdsAByniqzWIXFEqwm+nr0XbryeH6oN52dTsahRX012/6zbp
+ pNb5byzw/45w7gPbPhKMmbht4S91XdZ2V+cjx704zTmPNbQiLha4G7Zzg7jT78PSrZqa0U
+ WqrWpxXKk1MeHPdMJcKILW7wjGrAcso=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-586-wYppxfoBM2iqvha9lug_TA-1; Tue, 02 Nov 2021 07:16:27 -0400
+X-MC-Unique: wYppxfoBM2iqvha9lug_TA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 69-20020a1c0148000000b0033214e5b021so380508wmb.3
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 04:16:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=6TlcMPKIxgAcOzhbpuxUmgGUV+AvJ65qkkKScJosyfM=;
- b=sInhawEuArx0r2TC33PRsNt6LC99P5/rtRz1+9IMh02pjYccnv94xxFKuEjRjL3pcY
- CvUAOV7dxhwwdLJ5Nmc875RfhhoQ6cPhvK4Uk1IB/mZn/62J+kF64pxmVFMLiYQ+wbFM
- qUDWRKy4iDzo+lHFBQNE9S++FOQUuPlAY2LoDKsTSF3uTRVLpLmMOIDWmrCIBTVjM+ZZ
- 6AO4TOccWNNT5abirjnI8fw4O+8hwhCp0ihnfCyz9UML2T6ZFIwh0ZDiznLDRcg3B3JU
- wuoPkrGgqcWJxnHGd+vyckvoRtOse6qPKm+nYqTbviHkOZsVz/u/u2YAz2oYXbfKpVXu
- F67w==
-X-Gm-Message-State: AOAM533cVu7dlVDW4ZOINhNjINg9oU86qZM5zhc8ArRW1Zsv2yn50PQH
- 5uJ9DT/5+NyIq06b7q90d6g/xQ==
-X-Google-Smtp-Source: ABdhPJzSgkuTZhM50UoMSFQn5YbsOfS8ryf2w+zA6pfrx+JZLoWXxE4BJWYvpQbrPHmmSI1IBAhQ9A==
-X-Received: by 2002:a05:620a:2402:: with SMTP id
- d2mr28063614qkn.202.1635851781915; 
- Tue, 02 Nov 2021 04:16:21 -0700 (PDT)
-Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
- [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id h8sm8126364qkn.17.2021.11.02.04.16.21
+ bh=x4aB1tDISQ5VLT3FZXUqnx5+jKAJUMTjQxjpx3IGWs4=;
+ b=VWmOLxB0tixxOmqicTj9syW2t6VBdWTJDAJtsKYmBnMETajxKe9arN/Bkv+akU5Srw
+ yyb5Yc3lgj/sokS1Ym6ZOOy+O+vaB7qWE2UMRWeUyHe+F4xMs6ltMEW6n77qLt/zhXnj
+ jtOgWdXPO+Is8uUHj2LLNI+6RL/FueZwgJhMS2wEDtxyFLfhtGSm5n/N5fXli53kabRv
+ YHWZxk/ec8FKQe9bnaRNdnLBlnmjRiHsIH3mlvBdNtfyaDvS2HLxnnQrk7Xuuc9qq9yz
+ K+kABW/sFKDBA+EfhmyHuQOlSrRqDRrORkf/mH4MQEKAuycBGRWk8dVQ8p2f+q3a1/cV
+ vWHg==
+X-Gm-Message-State: AOAM531GhbrZV1WAbx9DW6QLOniSg8fl1lZ5/6YAtn9sfwgXIU/5hchf
+ iH9c3l0ZEt/rBNxg5AfAMxELCA5pC3Gshpbk4bgcZtU5Fe2oHwzAyrxfWdPEeDL95mO+qbqhevS
+ kWlHLKwdjHG/JQVk=
+X-Received: by 2002:a5d:4909:: with SMTP id x9mr42747321wrq.313.1635851786228; 
+ Tue, 02 Nov 2021 04:16:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwLI6MzOHv2iBMWPT/YEe9ENVaAb8hQhuvxRIg1mEtACdIxFyUz+KtLMGNNF2te0yeDjtJ6Fg==
+X-Received: by 2002:a5d:4909:: with SMTP id x9mr42747291wrq.313.1635851785962; 
+ Tue, 02 Nov 2021 04:16:25 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id k8sm2404881wms.41.2021.11.02.04.16.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Nov 2021 04:16:21 -0700 (PDT)
-Subject: Re: [PATCH v2 0/5] hw/arm: Add NPCM7XX Tachometer Device
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210311180855.149764-1-wuhaotsh@google.com>
- <CAFXwXrnm2yveebfyq0cPPZBAeW33_sVu0jrkpbNQNUDBRBFQUQ@mail.gmail.com>
- <CAGcCb10wR6sfZCD_1N+jV9gi6f5Vq=0q9mHzky844nDwkzb7yg@mail.gmail.com>
- <3d2a1f82-a32d-a423-ee6c-12a842bbf6c8@linaro.org>
- <CAFEAcA8VnBS=V9BUqGPHg-mXS975SPCsDXQobyJ7P=AwGLeMhQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2e957178-789f-2deb-04b9-86ca251498c5@linaro.org>
-Date: Tue, 2 Nov 2021 07:16:20 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Tue, 02 Nov 2021 04:16:25 -0700 (PDT)
+Message-ID: <7ec62eaf-d8e6-a27c-d6cd-64d09d17cb58@redhat.com>
+Date: Tue, 2 Nov 2021 12:16:24 +0100
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8VnBS=V9BUqGPHg-mXS975SPCsDXQobyJ7P=AwGLeMhQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v2] meson.build: Allow to disable OSS again
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20211102105822.773131-1-thuth@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20211102105822.773131-1-thuth@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x730.google.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.549,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -60
+X-Spam_score: -6.1
+X-Spam_bar: ------
+X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.549, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,29 +99,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: venture@google.com, hskinnemoen@google.com, qemu-devel@nongnu.org,
- Hao Wu <wuhaotsh@google.com>, kfting@nuvoton.com, qemu-arm@nongnu.org,
- Avi.Fishman@nuvoton.com, dje@google.com
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/2/21 6:44 AM, Peter Maydell wrote:
-> On Tue, 2 Nov 2021 at 10:03, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> On 11/1/21 1:50 PM, Hao Wu wrote:
->>> Is this reply to a wrong thread? I thought it was applied a long time ago.
->>
->> Probably.
+On 02/11/21 11:58, Thomas Huth wrote:
+> If sys/soundcard.h is available, it is currently not possible to
+> disable OSS with the --disable-oss or --without-default-features
+> configure switches. Improve the check in meson.build to fix this.
 > 
-> Possibly you meant this 5-patch NPCM7xx series ?
-> https://patchew.org/QEMU/20211008002628.1958285-1-wuhaotsh@google.com/
-> ("[PATCH v2 0/5] hw/arm: Add MMC device for NPCM7XX boards")
+> Fixes: 87430d5b13 ("configure, meson: move audio driver detection to Meson")
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   v2: Only ever look for OSS if we also have system emulation enabled
 > 
-> which has been reviewed and is ready to go in I think.
+>   meson.build | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meson.build b/meson.build
+> index 6dec5dd5cc..2848917602 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -915,7 +915,7 @@ if liblzfse.found() and not cc.links('''
+>   endif
+>   
+>   oss = not_found
+> -if not get_option('oss').auto() or have_system
+> +if have_system and not get_option('oss').disabled()
+>     if not cc.has_header('sys/soundcard.h')
+>       # not found
+>     elif targetos == 'netbsd'
+> 
 
-Yep, that's the one.
+Queued, thanks.
 
+Paolo
 
-r~
 
