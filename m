@@ -2,85 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCC99443397
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 17:45:48 +0100 (CET)
-Received: from localhost ([::1]:47392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A58094433A4
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 17:48:07 +0100 (CET)
+Received: from localhost ([::1]:52726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhwux-0005LH-T1
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 12:45:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36842)
+	id 1mhwxC-0000ea-Qa
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 12:48:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mhws4-0002cf-1o
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 12:42:48 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:33534)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mhws1-0003mD-SG
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 12:42:47 -0400
-Received: by mail-wr1-x430.google.com with SMTP id d24so3688219wra.0
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 09:42:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=j8MK2hLCOXSrAv9KPHQPzZOJI2JFNJjT5VUrqg+Fpoc=;
- b=MngnIxlJB6eyK/ct9+hSTkJNpYy/KO30LF65rEUKC0orB665K/eg31cLg8sVcuL8JH
- RGgwIUseRqx9UXtzUIWQ6O8BS2nXvYIQyXu0SyUrH3mHWAwXxpx4G3ZhE3X5TMlMk6mc
- N0SnC2553paA9Hv4T0FwlWR5VVAxPvHWZduf/AuNANLuYEQF2lR4FRjDieki5GOf1RIQ
- MaVGTLLvpxCu1VqeapejWCtCQ8bINKj5OqWHjeB9OHzf3QVeJqSyp9ABroLVYdF9JsFS
- bw6v/STEPCRG1/xjaic+ja5PUzHVPAqAf0ZiRW5GLG7UdPF+cN9Mz8PikpiYsCy2RQzD
- I3ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=j8MK2hLCOXSrAv9KPHQPzZOJI2JFNJjT5VUrqg+Fpoc=;
- b=hzSdADtFgZ8HgB58kG6X6cif4xGC/xdEwct0twytOWpG17Vu7cRK8uT0vHnzveXU0D
- 8U0gaShYDBJe8TlCw2w3Dhva3HrozT122d7t3rjGHFHBimKr+gSXbLwv6nWiYLOap16u
- 94DcEt64TwrFZuyzfrAi0iaB6S3Ud3lMVcHkQTRWnLpxl6i2ecPzeX4uchIyysYd87g4
- JddFE5f7FkxcThlMi6AfA0S+VA2gNjZhNVN6Xb47cYyfdTd0o37KtXMxD/aCaziGcMEK
- 61T8i2NLq3c1oDVUPkczgx/2Tx8pxtHS5Ggt2eH9GQgmxRJtwMpD2AxE29oKFlQGVHr8
- YVTA==
-X-Gm-Message-State: AOAM533IWPbkiFbrMG11NXuTQBrWkkR2G9HntnnapwroTzJr4gPfivDm
- yccIObOlEzCWhULPEJR6VV4D2w==
-X-Google-Smtp-Source: ABdhPJwh0JIoaOd90kNZ5c/IUhjC5iacCg/PpN2NVaXXFwJJBEU0xkgh4oo4spzwKTHHwMSOT9MDmQ==
-X-Received: by 2002:adf:d091:: with SMTP id y17mr36738002wrh.418.1635871363259; 
- Tue, 02 Nov 2021 09:42:43 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p12sm6581717wrr.10.2021.11.02.09.42.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 09:42:42 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 749641FF96;
- Tue,  2 Nov 2021 16:42:41 +0000 (GMT)
-References: <1635698589-31849-1-git-send-email-tsimpson@quicinc.com>
- <1635698589-31849-29-git-send-email-tsimpson@quicinc.com>
- <e1d3d003-f287-7f82-d604-6f43b0d9c55c@amsat.org>
- <2f35d0c6-0ba7-b911-56db-c1ed9ae4afbc@linaro.org>
- <SN4PR0201MB8808814113CBE84889CD5234DE8A9@SN4PR0201MB8808.namprd02.prod.outlook.com>
- <3e93e507-da92-0a1c-346b-ebfde27168fc@amsat.org>
- <d2395c92-4ece-31a3-8bd6-24345c946780@linaro.org>
- <SN4PR0201MB8808870B218F0DFCE1AE4B20DE8B9@SN4PR0201MB8808.namprd02.prod.outlook.com>
-User-agent: mu4e 1.7.4; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Taylor Simpson <tsimpson@quicinc.com>
-Subject: Re: [PULL 28/30] Hexagon HVX (tests/tcg/hexagon) hvx_misc test
-Date: Tue, 02 Nov 2021 16:41:44 +0000
-In-reply-to: <SN4PR0201MB8808870B218F0DFCE1AE4B20DE8B9@SN4PR0201MB8808.namprd02.prod.outlook.com>
-Message-ID: <87zgqmjypq.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mhwuj-0006cJ-4B
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 12:45:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50485)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mhwuf-0004kE-Ct
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 12:45:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635871528;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CUuuhPL5KFcopdQnu9YE/238JYVStIpO5jZyc0Qk120=;
+ b=Axavd26vIPFhCbIrCfesqiZKuIbwHt7Upy1CYVBeB5fWBiZVtjugoOiJNmuFI8PJhvjFbZ
+ /Re7/tXQ6mJPX2N54G2PBXRz1EQvrqcDt7iq1xfqUNow/FO0Mnaiw7sUG53LoFsibWPYIU
+ S6DCYupylBOT/o2DO4M6pvKl+p85HWE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-165-vY6I6zfWMwGKeibrhrNgrQ-1; Tue, 02 Nov 2021 12:45:25 -0400
+X-MC-Unique: vY6I6zfWMwGKeibrhrNgrQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A9E71006AA7;
+ Tue,  2 Nov 2021 16:45:24 +0000 (UTC)
+Received: from t480s.redhat.com (unknown [10.39.193.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 02DA8100EA05;
+ Tue,  2 Nov 2021 16:44:02 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 1/3] machine: Use host_memory_backend_is_mapped() in
+ machine_consume_memdev()
+Date: Tue,  2 Nov 2021 17:43:15 +0100
+Message-Id: <20211102164317.45658-2-david@redhat.com>
+In-Reply-To: <20211102164317.45658-1-david@redhat.com>
+References: <20211102164317.45658-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,54 +77,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?utf-8?Q?M?= =?utf-8?Q?athieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Peter Xu <peterx@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+memory_region_is_mapped() is the wrong check, we actually want to check
+whether the backend is already marked mapped.
 
-Taylor Simpson <tsimpson@quicinc.com> writes:
+For example, memory regions mapped via an alias, such as NVDIMMs,
+currently don't make memory_region_is_mapped() return "true". As the
+machine is initialized before any memory devices (and thereby before
+NVDIMMs are initialized), this isn't a fix but merely a cleanup.
 
->> -----Original Message-----
->> From: Richard Henderson <richard.henderson@linaro.org>
->> Sent: Monday, November 1, 2021 10:03 AM
->> To: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>; Taylor Simpson
->> <tsimpson@quicinc.com>; qemu-devel@nongnu.org; Alex Benn=C3=A9e
->> <alex.bennee@linaro.org>
->> Cc: peter.maydell@linaro.org
->> Subject: Re: [PULL 28/30] Hexagon HVX (tests/tcg/hexagon) hvx_misc test
->>=20
->> On 11/1/21 10:17 AM, Philippe Mathieu-Daud=C3=A9 wrote:
->> > On 11/1/21 15:09, Taylor Simpson wrote:
->> >> Plan-A should be to update the container with the new toolchain.
->> >
->> > IIUC Richard is going with Plan-A: wait Alex queue get merged, then
->> > retry merging this pull request.
->>=20
->> Correct.
->
-> Agreed.  Just let me know if Alex isn't going to get the new toolchain
-> merged in time, and I can go to plan B.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ hw/core/machine.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The PR has been a pain to get working but it should be in soon. Just
-need to work out why the signals test has broken between master and my
-PR:
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index e24e3e27db..57c82e9473 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -1081,7 +1081,7 @@ MemoryRegion *machine_consume_memdev(MachineState *machine,
+ {
+     MemoryRegion *ret = host_memory_backend_get_memory(backend);
+ 
+-    if (memory_region_is_mapped(ret)) {
++    if (host_memory_backend_is_mapped(backend)) {
+         error_report("memory backend %s can't be used multiple times.",
+                      object_get_canonical_path_component(OBJECT(backend)));
+         exit(EXIT_FAILURE);
+-- 
+2.31.1
 
- https://gitlab.com/qemu-project/qemu/-/jobs/1739288510#L1318
-
-vs
-
- https://gitlab.com/stsquad/qemu/-/jobs/1740048034#L1316
-
-Could it be a toolchain thing?
-
->
-> Thanks,
-> Taylor
-
-
---=20
-Alex Benn=C3=A9e
 
