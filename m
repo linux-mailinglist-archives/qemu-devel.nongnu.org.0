@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18ED2442C2B
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 12:09:20 +0100 (CET)
-Received: from localhost ([::1]:45850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2AC442C44
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 12:12:01 +0100 (CET)
+Received: from localhost ([::1]:54596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhrfL-0003bM-4A
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 07:09:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40928)
+	id 1mhrhw-0001fL-Mr
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 07:12:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhrW3-0007Um-SC
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:59:43 -0400
-Received: from mail-qk1-x734.google.com ([2607:f8b0:4864:20::734]:42772)
+ id 1mhrW4-0007YG-PH
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:59:44 -0400
+Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:39909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhrW2-0006ri-C7
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:59:43 -0400
-Received: by mail-qk1-x734.google.com with SMTP id bm28so4082989qkb.9
+ id 1mhrW3-0006rw-5c
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:59:44 -0400
+Received: by mail-qt1-x829.google.com with SMTP id t40so18431844qtc.6
  for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 03:59:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kgIAZfpBiG9Bp0aRLB9BDRfUW43JbXvDwVrmE2eY/v8=;
- b=Z/NV4hhKqW0tOWm77uZhklFGUZzngF+3cAH2rjx1O4hQQZNufFkaxuuSDCSekf/AuP
- 2XPE2NM1u6OZuMz/gaJ2SrTrO1Xo8ZHX9xw1ZWKHUS40Orgdl7CbiXdDSMcZagKK39Q5
- X3h8vXBC6SvXu0GEwbZvxV4q4milYL4pgyah+00DgpXExStFcyu6qjWA+A667rcOFago
- dqbeC4J9OjD9Fbng4LIhbnQFTBF8VzLBuXx1d+dmZ0G0ZPO3O2z3oZJbj3b0prm/x2Jz
- 7EqZ66Yx1KJGGMKfj9RrzrLwsyIwjjDDCSv8n09mkW9FARVJPyKSDVLjtkx5nDQvx0jf
- OlDw==
+ bh=c0LVKpqK5ZdwRcDR8+puDfp4OkQJywpu1yKfC81QITE=;
+ b=jGy8ufsF9BlJqQg5ys9AI5hUcxHOZlITIFf3AeH1bU+N8OexQ654ptpdWe8L/niPlm
+ c/Gf9rBQu0SYZ+iyraOYbTSnBAd0WU6AKEYuIXjUC9xzAKk9mcTeoImwRoE9dtGMz/fn
+ nLUE865Vnx7Nl8Or34TWpT5D5FVPQaIHVOuTUNyeyx61xqp/UdoznJYTtneciB1lede6
+ lHK93req04x/itHUPYqC4gpDTd7ynmpMKwEJFMBnd48zXDdgjJwAWMZXMocO+FG+XTjr
+ S5N/RFfqMv0tGg3ao0rYKKe8LUXPQyWu8kRd067DJqgiDT+KBM4EUXZB2mr7/H41+Ti/
+ L9wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kgIAZfpBiG9Bp0aRLB9BDRfUW43JbXvDwVrmE2eY/v8=;
- b=SDGc1xWkBjAeEkAfae6z3cbuXd+he+mov2oPbwaHLImbIzT+dcq3HVJKAmtrH0Df1F
- 3zTwsLxoC7wVTOVN9kZMTUKDii8Kem0Wa/54wxohfHRS/guALdGjRHaa1kOybd8OX+sd
- 0YTjvZ7c1tmkScI+OMlx4D+o3BX5XCqtUXAN0jmd8UPPnwfef8xniK0Y247JHFvfuGCb
- NYTUjlgSdzeTY1AhQri8kmM66HJ7ursBvVq3jdjACDEGK1yMqTY+Ts/C9sphGtKD6K5O
- JEHINe6TyucUxlovrp81Ex7O8giTRgTsdEfFOhjcop2sCtFKqNy2kG+/wtIxPUA40JO2
- HSeg==
-X-Gm-Message-State: AOAM531ULP87tmEIpqe1qLFefSVYDGA8fBls/6E5AgjuB0EPH6pSZ+nu
- MzQ+oPyceU2OEQQbw9QaWwZ7b31jWWzVNQ==
-X-Google-Smtp-Source: ABdhPJxba/hCChtj3JW5asj9xBZcZH6U85IDIzSMZ1vwA9Q5JC9aDEYP3Ms+D7cZs36sZIiBxcQ5nQ==
-X-Received: by 2002:a05:620a:103c:: with SMTP id
- a28mr12149541qkk.271.1635850781549; 
- Tue, 02 Nov 2021 03:59:41 -0700 (PDT)
+ bh=c0LVKpqK5ZdwRcDR8+puDfp4OkQJywpu1yKfC81QITE=;
+ b=qkGt5Tb9vJqQJzfWhet8KRsLrNKeDa4AzbOKEv1aIZzcAqMLqjHKtyAqMSpDpvAw3R
+ SbR1GBr/EszJBRVNasgZA76eCh+7Zf5k9yp5mQro9u8GtKLXmkSuiCJAM2XgzXLrEYAB
+ st4tFXXXZoI8z1mxUl7AjIeagOac36SYa2o+32nmXuVG1Bj1UTbHLIDXnQRq5mMGiTzc
+ 25DFkBO6zeuqekQIqKNCCpHsPQckH3eYeQEXiE7VdE8zpTAAFdheoRPmVVSdeKIhf9cm
+ v3NUDScMvG7joaXqZUsbhLIwOFnHwT2oPj9AIVByGOqPuyQYIHmvOBgD1wr0VMaXz0PD
+ qvZw==
+X-Gm-Message-State: AOAM533TnyPiQVPKI37jk5nzvwz/ZuNvlLEi0idgRk8sf8FTZ2kJ1The
+ uVHtIVaCTR01d6Vez4hHGw1CRvejJ3+LVg==
+X-Google-Smtp-Source: ABdhPJx5aCK0vIT0S2ce6ZHKmkCh1KdMr2aGpjTRCGyI6OYhOTe2nCrgZUv3XWXwMhRK0TVnA/EDJQ==
+X-Received: by 2002:ac8:7d52:: with SMTP id h18mr20910290qtb.351.1635850782274; 
+ Tue, 02 Nov 2021 03:59:42 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-172-254-253-57.nyc.biz.rr.com.
  [172.254.253.57])
  by smtp.gmail.com with ESMTPSA id z26sm11789510qko.13.2021.11.02.03.59.41
@@ -55,17 +54,18 @@ Received: from localhost.localdomain (rrcs-172-254-253-57.nyc.biz.rr.com.
  Tue, 02 Nov 2021 03:59:41 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/12] target/arm: Introduce store_cpu_field_constant() helper
-Date: Tue,  2 Nov 2021 06:59:30 -0400
-Message-Id: <20211102105934.214596-9-richard.henderson@linaro.org>
+Subject: [PULL 09/12] target/arm: Use the constant variant of
+ store_cpu_field() when possible
+Date: Tue,  2 Nov 2021 06:59:31 -0400
+Message-Id: <20211102105934.214596-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211102105934.214596-1-richard.henderson@linaro.org>
 References: <20211102105934.214596-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::734;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x734.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x829.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,34 +91,91 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Similarly to the store_cpu_field() helper which takes a TCG
-temporary, store its value to the CPUState, introduce the
-store_cpu_field_constant() helper which store a constant to
-CPUState (without using any TCG temporary).
+When using a constant variable, we can replace the store_cpu_field()
+call by store_cpu_field_constant() which avoid using TCG temporaries.
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211029231834.2476117-3-f4bug@amsat.org>
+Message-Id: <20211029231834.2476117-4-f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-a32.h | 3 +++
- 1 file changed, 3 insertions(+)
+ target/arm/translate.c | 21 ++++++---------------
+ 1 file changed, 6 insertions(+), 15 deletions(-)
 
-diff --git a/target/arm/translate-a32.h b/target/arm/translate-a32.h
-index 88f15df60e..17af8dc95a 100644
---- a/target/arm/translate-a32.h
-+++ b/target/arm/translate-a32.h
-@@ -70,6 +70,9 @@ static inline void store_cpu_offset(TCGv_i32 var, int offset)
- #define store_cpu_field(var, name) \
-     store_cpu_offset(var, offsetof(CPUARMState, name))
- 
-+#define store_cpu_field_constant(val, name) \
-+    tcg_gen_st_i32(tcg_constant_i32(val), cpu_env, offsetof(CPUARMState, name))
-+
- /* Create a new temporary and set it to the value of a CPU register.  */
- static inline TCGv_i32 load_reg(DisasContext *s, int reg)
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 083a6d6ed7..52ba562c96 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -364,8 +364,7 @@ void clear_eci_state(DisasContext *s)
+      * multiple insn executes.
+      */
+     if (s->eci) {
+-        TCGv_i32 tmp = tcg_const_i32(0);
+-        store_cpu_field(tmp, condexec_bits);
++        store_cpu_field_constant(0, condexec_bits);
+         s->eci = 0;
+     }
+ }
+@@ -740,9 +739,8 @@ void gen_set_condexec(DisasContext *s)
  {
+     if (s->condexec_mask) {
+         uint32_t val = (s->condexec_cond << 4) | (s->condexec_mask >> 1);
+-        TCGv_i32 tmp = tcg_temp_new_i32();
+-        tcg_gen_movi_i32(tmp, val);
+-        store_cpu_field(tmp, condexec_bits);
++
++        store_cpu_field_constant(val, condexec_bits);
+     }
+ }
+ 
+@@ -8362,8 +8360,6 @@ static bool trans_BL(DisasContext *s, arg_i *a)
+ 
+ static bool trans_BLX_i(DisasContext *s, arg_BLX_i *a)
+ {
+-    TCGv_i32 tmp;
+-
+     /*
+      * BLX <imm> would be useless on M-profile; the encoding space
+      * is used for other insns from v8.1M onward, and UNDEFs before that.
+@@ -8377,8 +8373,7 @@ static bool trans_BLX_i(DisasContext *s, arg_BLX_i *a)
+         return false;
+     }
+     tcg_gen_movi_i32(cpu_R[14], s->base.pc_next | s->thumb);
+-    tmp = tcg_const_i32(!s->thumb);
+-    store_cpu_field(tmp, thumb);
++    store_cpu_field_constant(!s->thumb, thumb);
+     gen_jmp(s, (read_pc(s) & ~3) + a->imm);
+     return true;
+ }
+@@ -8677,7 +8672,6 @@ static bool trans_LCTP(DisasContext *s, arg_LCTP *a)
+      * doesn't cache branch information, all we need to do is reset
+      * FPSCR.LTPSIZE to 4.
+      */
+-    TCGv_i32 ltpsize;
+ 
+     if (!dc_isar_feature(aa32_lob, s) ||
+         !dc_isar_feature(aa32_mve, s)) {
+@@ -8688,8 +8682,7 @@ static bool trans_LCTP(DisasContext *s, arg_LCTP *a)
+         return true;
+     }
+ 
+-    ltpsize = tcg_const_i32(4);
+-    store_cpu_field(ltpsize, v7m.ltpsize);
++    store_cpu_field_constant(4, v7m.ltpsize);
+     return true;
+ }
+ 
+@@ -9487,9 +9480,7 @@ static void arm_tr_tb_start(DisasContextBase *dcbase, CPUState *cpu)
+     /* Reset the conditional execution bits immediately. This avoids
+        complications trying to do it at the end of the block.  */
+     if (dc->condexec_mask || dc->condexec_cond) {
+-        TCGv_i32 tmp = tcg_temp_new_i32();
+-        tcg_gen_movi_i32(tmp, 0);
+-        store_cpu_field(tmp, condexec_bits);
++        store_cpu_field_constant(0, condexec_bits);
+     }
+ }
+ 
 -- 
 2.25.1
 
