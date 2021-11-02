@@ -2,64 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9322A44320F
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 16:53:20 +0100 (CET)
-Received: from localhost ([::1]:37022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 540F8443217
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 16:53:56 +0100 (CET)
+Received: from localhost ([::1]:38328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhw6B-0003xG-L9
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 11:53:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48648)
+	id 1mhw6l-0004rI-GD
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 11:53:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mhw4R-0002gP-1j
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 11:51:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58385)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mhw4x-0003QH-4K
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 11:52:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56754)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mhw4O-0005KP-4w
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 11:51:29 -0400
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mhw4v-0005SL-O4
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 11:52:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635868286;
+ s=mimecast20190719; t=1635868321;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qIni/00QLB2Ktz8yC1P+kRmHBtTMaJzYcZfRZLIIFXY=;
- b=YGFEmOOddtKmHgmstR1qzZyOKM+jhm2g99P7FX7AvhdpBefx5PeaE78CA7+R88tXg4iXda
- CdW+oEiBYg6LW5pkTb3niHv3K0IHBFpYgkAXeQbdky9qoYl65KNOb+0JOY7vRtj5UfUcIU
- aptd8Rt7XmbY/JS3SZ5y0xcda/KdKnA=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=wm8fbFGPzUUCJoqX9BjblDQm68NG/7R2nHjAWV4gH7s=;
+ b=iyQlOfv/G4HJBIi61OT2N7sbDZadq+9rqrpGorXpXyjrTpPsE0UCz/O/5OfuUpE85lwXVo
+ mD008u92sOftnvQCZ3mPNU358iselbYud+TMGzBoZrjix3LzPeb9WxnlhwF7wBfs/94jQI
+ +o04I+Gp2VHh3bI9lKoGrNRpCajx1PU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-HXGsE5qhPRafhordIKlJUw-1; Tue, 02 Nov 2021 11:51:23 -0400
-X-MC-Unique: HXGsE5qhPRafhordIKlJUw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-480-Bjqt7ycGMKG3QiJihfocCw-1; Tue, 02 Nov 2021 11:51:59 -0400
+X-MC-Unique: Bjqt7ycGMKG3QiJihfocCw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46A00100CD1C;
- Tue,  2 Nov 2021 15:51:22 +0000 (UTC)
-Received: from paraplu (unknown [10.39.195.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DCBFC67849;
- Tue,  2 Nov 2021 15:51:11 +0000 (UTC)
-Date: Tue, 2 Nov 2021 16:51:08 +0100
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 0/6] rSTify contribution-related wiki pages
-Message-ID: <YYFebObSyo6itE/R@paraplu>
-References: <20211019090344.3054300-1-kchamart@redhat.com>
- <CAFEAcA8CHVfAXFaQwfZrQUfJcD9qQNOYAEt9vvpQVtgwtTf80w@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31A2F101F003
+ for <qemu-devel@nongnu.org>; Tue,  2 Nov 2021 15:51:59 +0000 (UTC)
+Received: from steredhat.redhat.com (unknown [10.39.193.188])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 49BD760BE5;
+ Tue,  2 Nov 2021 15:51:58 +0000 (UTC)
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] net/vhost-vdpa: fix memory leak in
+ vhost_vdpa_get_max_queue_pairs()
+Date: Tue,  2 Nov 2021 16:51:57 +0100
+Message-Id: <20211102155157.241034-1-sgarzare@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8CHVfAXFaQwfZrQUfJcD9qQNOYAEt9vvpQVtgwtTf80w@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kchamart@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -80,44 +76,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
- Eric Blake <eblake@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
- Laurent Vivier <Laurent@vivier.eu>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 01, 2021 at 02:56:43PM +0000, Peter Maydell wrote:
-> On Tue, 19 Oct 2021 at 10:04, Kashyap Chamarthy <kchamart@redhat.com> wrote:
-> >
-> > My main motivation was to convert SubmitAPatch[1] based on a chat with
-> > Peter Maydell and Dan Berrangé on #qemu channel (on OFTC).  But the page
-> > also links to a couple of other contribution-related pages, so I
-> > converted them too:
-> >
-> >   - SubmitAPullRequest: https://wiki.qemu.org/Contribute/SubmitAPullRequest
-> >   - KeySigningParty: https://wiki.qemu.org/KeySigningParty
-> >   - SpellCheck: https://wiki.qemu.org/Contribute/SpellCheck
-> >   - TrivialPatches: https://wiki.qemu.org/Contribute/TrivialPatches
-> 
-> I'm not sure that SpellCheck in particular is sufficiently baked
-> to be in the actual docs. I'd rather just drop the reference to it
-> from SubmitAPatch. 
+Use g_autofree to ensure that `config` is freed when
+vhost_vdpa_get_max_queue_pairs() returns.
 
-Sure, will drop.
+Reported-by: Coverity (CID 1465228: RESOURCE_LEAK)
+Fixes: 402378407d ("vhost-vdpa: multiqueue support")
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+---
+ net/vhost-vdpa.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> KeySigningParty I'm on the fence about.
-
-This is linked only from the SubmitAPullRequest page.  If we're
-ambivalent about it, I'll just keep it in for reference.
-
-I'll also fix the index-updating part you caught in your other review.
-
-Thanks for the review.
-
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 49ab322511..373b706b90 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -214,7 +214,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+ static int vhost_vdpa_get_max_queue_pairs(int fd, int *has_cvq, Error **errp)
+ {
+     unsigned long config_size = offsetof(struct vhost_vdpa_config, buf);
+-    struct vhost_vdpa_config *config;
++    g_autofree struct vhost_vdpa_config *config = NULL;
+     __virtio16 *max_queue_pairs;
+     uint64_t features;
+     int ret;
 -- 
-/kashyap
+2.31.1
 
 
