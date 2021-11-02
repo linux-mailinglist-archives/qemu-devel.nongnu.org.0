@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7355444393F
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 00:01:22 +0100 (CET)
-Received: from localhost ([::1]:39918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B08D443937
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 00:00:59 +0100 (CET)
+Received: from localhost ([::1]:38380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mi2mP-0006lr-Ff
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 19:01:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44466)
+	id 1mi2m2-0005jP-OI
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 19:00:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mi2eo-0006el-CV
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 18:53:30 -0400
-Received: from mail-il1-x129.google.com ([2607:f8b0:4864:20::129]:37592)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mi2ev-00071J-6r
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 18:53:37 -0400
+Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:35565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mi2ek-0002m0-EZ
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 18:53:30 -0400
-Received: by mail-il1-x129.google.com with SMTP id h23so665065ila.4
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 15:53:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mi2es-0002pd-Tr
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 18:53:36 -0400
+Received: by mail-io1-xd2d.google.com with SMTP id 62so606174iou.2
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 15:53:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IOY3t4AaHZe80iw8hQcSliA4Md0iNA8hrA2Uy7U0qF8=;
- b=lTpq017Ejx7nCI89/YhtE4NlpT5jMRw/EZO0Ibxsp64jWH4poHGiwtWgHOYy2UrFgk
- SKa4gQYK4baZyX0gwk9G2HlWw0LWOvIhyCWQDtx2Sk3znFsXBggY3++a6fIeiW0PvELK
- ScUt41xG6+7jCdPUhBxWTVIO6mJp+rTlommSwLasOQufRuCtJb8x9oWOIp7jlZUIOMj0
- qaQIaggKOEswIrwJVZgtMPGShbrblQj388W4ENHc0/UHZO4UvxstJaEZIWuYSECE6scw
- P8blTg2TxuHbqJkkYNcKnkIVWiLng27j8Y8zV8uTORaaE5cDkUQl5auKIM1Rt2dtg22h
- iVZA==
+ bh=F9IbbLGjnRnokIuDKxQfCzJoAx075CoGnpnzgfUmRKo=;
+ b=vy6e8tNZROOdFDQyZxG2MTR1EPgOBt/EBLKpWF+ANbjnjCZLZ1vpw+TvuwivPjRe1g
+ fkrzvYbpKXf1PP4mbLPwcs94afw5Ay3MOEEqI67KVMcYoZzpABPmqtLDFu7AejM5KNjw
+ TwYjbiRde+0Iu1xgtZ9Dm8y4+lxsT9fWyos+cYdmTDIU6G2Ij3hoLsc3GOsG82DJstEq
+ SWSwx839DdjTMmr97OeLYvLvInlg/OfljJfg+8Z7sQ3fUy/MpzYieNl+XYGlJqFwC+bQ
+ 7IOeM+JC+yb7oPtZScmZ9/Zq5kEl+6OFh94KPkVQqpmIURJ6WSULm1Hm3Q30OKDDH91u
+ CaZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IOY3t4AaHZe80iw8hQcSliA4Md0iNA8hrA2Uy7U0qF8=;
- b=Bhk2qkAAcxIgrTa2bhAm46PaGGvEkm+/qrNwfdObseIz24908Y/LPsUl9M7oa6/Tge
- pRRvfEPqn5d4/1F0eSZriS1C596Supa9y4EL4fYfnkhb6emegblsPSV0lJ3BJQhDiiQY
- DrkCF1mRnNgQDmn/ybkeUUDOtqRGw2Ho7vNeXAJpni7HeqBTBn6G29DxVBE2ktseB6KC
- 4yfZ48vu3N41Jz+85ZqU7PsfwZ6fxDch899ifDovEj3B0QNKvGNjCyNZ0JNUvD/RmVgF
- yy6v798p1TG3o2f8XNesSSoZmDsLcDtnXqiBk0pjUk2Ojnnr4WoRzr3AKYvadvtG23v8
- cAEw==
-X-Gm-Message-State: AOAM533fiTVSrUdlOmkijFOiEows0dfDKfsH8aW88R1XcEm0fwCeYq86
- 1JheiTRX2WeoIfkFo2SEOG8/AhPI65o15Q==
-X-Google-Smtp-Source: ABdhPJzn0NKXdfVt+SeIVbHGMbNtdA0J64LFw/Ah2iEoqP+iIbLmxm/DAd7dz/jgHpu4W14grPPp9Q==
-X-Received: by 2002:a92:c263:: with SMTP id h3mr14546011ild.322.1635893605238; 
- Tue, 02 Nov 2021 15:53:25 -0700 (PDT)
+ bh=F9IbbLGjnRnokIuDKxQfCzJoAx075CoGnpnzgfUmRKo=;
+ b=72Z6OXfRcPye3+Z91rW0lhW6DUEpVhGk2wWHQwB56xjcQDvspUTERuYHoi02BcGFUJ
+ 8cskBnvUQ8dZG9jMpO7grWWy5WGtIZTZlXq5xsM7NI2ZEupm0g2EpwvCSJUSBowUAWuf
+ kLEwQhNXRf3kWDxlmL/oHi8UOEAI8kZgyXLcMCaMEWZlIupQg8GdDlB9vJ7xcsaoxPCz
+ ozTKbEfxZvsnOSnEKdG+OXkyShC2s8AvKuYUPiQ52g9g7HcwNp/t34l0ENYMQWrcLx/4
+ 1WfgMESUuri8nEMRdA3RXZyAbbohjg5lDGjsHLbpkjbrVh8pje/nQzquxXXK+PpfnDAE
+ 2Dkg==
+X-Gm-Message-State: AOAM533MRYMXNim+xbjC1uWvogCloyZDsUVxTTasYVuMQ1qIM4ilN+99
+ PHyUZW6pU2G+ZBYWZcSqZpWa/y+eC/AGTw==
+X-Google-Smtp-Source: ABdhPJxtfAMNPTpfIwWljKAQYxdyJ57+wlchjUyznx7567i0U3qrmLb+O96wlBDgOiQTh1BREFWoVw==
+X-Received: by 2002:a05:6638:29b:: with SMTP id
+ c27mr13148859jaq.67.1635893611933; 
+ Tue, 02 Nov 2021 15:53:31 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id h14sm205427ils.75.2021.11.02.15.53.24
+ by smtp.gmail.com with ESMTPSA id h14sm205427ils.75.2021.11.02.15.53.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 15:53:24 -0700 (PDT)
+ Tue, 02 Nov 2021 15:53:31 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 06/30] bsd-user/arm/target_arch_cpu.h: Implement
- target_cpu_clone_regs
-Date: Tue,  2 Nov 2021 16:52:24 -0600
-Message-Id: <20211102225248.52999-7-imp@bsdimp.com>
+Subject: [PATCH v2 13/30] bsd-user/arm/target_arch_sigtramp.h: Signal
+ Trampoline for arm
+Date: Tue,  2 Nov 2021 16:52:31 -0600
+Message-Id: <20211102225248.52999-14-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211102225248.52999-1-imp@bsdimp.com>
 References: <20211102225248.52999-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::129;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x129.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2d;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,35 +91,73 @@ Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement target_cpu_clone_regs to clone the resister state on a fork.
+Copy of the signal trampoline code for arm, as well as setup_sigtramp to
+write it to the stack.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/arm/target_arch_cpu.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ bsd-user/arm/target_arch_sigtramp.h | 49 +++++++++++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
+ create mode 100644 bsd-user/arm/target_arch_sigtramp.h
 
-diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch_cpu.h
-index 66215684d6..fa45d9335d 100644
---- a/bsd-user/arm/target_arch_cpu.h
-+++ b/bsd-user/arm/target_arch_cpu.h
-@@ -36,6 +36,14 @@ static inline void target_cpu_init(CPUARMState *env,
-     }
- }
- 
-+static inline void target_cpu_clone_regs(CPUARMState *env, target_ulong newsp)
-+{
-+    if (newsp) {
-+        env->regs[13] = newsp;
-+    }
-+    env->regs[0] = 0;
-+}
+diff --git a/bsd-user/arm/target_arch_sigtramp.h b/bsd-user/arm/target_arch_sigtramp.h
+new file mode 100644
+index 0000000000..5d434a9e7e
+--- /dev/null
++++ b/bsd-user/arm/target_arch_sigtramp.h
+@@ -0,0 +1,49 @@
++/*
++ *  arm sysarch() system call emulation
++ *
++ *  Copyright (c) 2013 Stacey D. Son
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
 +
- static inline void target_cpu_reset(CPUArchState *cpu)
- {
- }
++#ifndef _TARGET_ARCH_SIGTRAMP_H_
++#define _TARGET_ARCH_SIGTRAMP_H_
++
++/* Compare to arm/arm/locore.S ENTRY_NP(sigcode) */
++static inline abi_long setup_sigtramp(abi_ulong offset, unsigned sigf_uc,
++        unsigned sys_sigreturn)
++{
++    int i;
++    uint32_t sys_exit = TARGET_FREEBSD_NR_exit;
++    uint32_t sigtramp_code[] = {
++    /* 1 */ 0xE1A0000D,                  /* mov r0, sp */
++    /* 2 */ 0xE2800000 + sigf_uc,        /* add r0, r0, #SIGF_UC */
++    /* 3 */ 0xE59F700C,                  /* ldr r7, [pc, #12] */
++    /* 4 */ 0xEF000000 + sys_sigreturn,  /* swi (SYS_sigreturn) */
++    /* 5 */ 0xE59F7008,                  /* ldr r7, [pc, #8] */
++    /* 6 */ 0xEF000000 + sys_exit,       /* swi (SYS_exit)*/
++    /* 7 */ 0xEAFFFFFA,                  /* b . -16 */
++    /* 8 */ sys_sigreturn,
++    /* 9 */ sys_exit
++    };
++
++    G_STATIC_ASSERT(sizeof(sigtramp_code) == TARGET_SZSIGCODE);
++
++    for (i = 0; i < 9; i++) {
++        tswap32s(&sigtramp_code[i]);
++    }
++
++    return memcpy_to_target(offset, sigtramp_code, TARGET_SZSIGCODE);
++}
++#endif /* _TARGET_ARCH_SIGTRAMP_H_ */
 -- 
 2.33.0
 
