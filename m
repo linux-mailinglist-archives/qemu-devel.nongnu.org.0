@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BDA14438D8
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 23:56:57 +0100 (CET)
-Received: from localhost ([::1]:53924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA664438D7
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 23:56:31 +0100 (CET)
+Received: from localhost ([::1]:51386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mi2i8-0005Yp-KW
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 18:56:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44330)
+	id 1mi2hi-0003oQ-Be
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 18:56:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mi2ek-0006M5-9G
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mi2ek-0006NU-JY
  for qemu-devel@nongnu.org; Tue, 02 Nov 2021 18:53:26 -0400
-Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c]:37396)
+Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:36835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mi2ef-0002l3-PM
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mi2eg-0002l9-Bx
  for qemu-devel@nongnu.org; Tue, 02 Nov 2021 18:53:26 -0400
-Received: by mail-io1-xd2c.google.com with SMTP id y73so593243iof.4
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 15:53:21 -0700 (PDT)
+Received: by mail-io1-xd36.google.com with SMTP id e144so596108iof.3
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 15:53:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=A3xeQseg7XCe/PHz62qvWhdyf1FsVU4bvG/P2lXDf50=;
- b=U9EAgY2UWzBeUi1+xQbYvftzEOyEAWQOsxTWaLcTdCeXdoEM15G8UQ/U53gemHS0TB
- DfVKFDHGJDBkH1J73sSLWM0Y7oAyklu+AsJK/htnpFnMMp7c52SWaokOJlWwCQD6rh/2
- ky/e1D/7APDbLXPx4E0LeIzmo06DGn+M2HKni7eYmpKWz2+JdlptaTXqMbnOTOmqQzKr
- NxXx/XEYuPhZB51NIff1k7C9bDfQY6s+l51+fszsDDWi1+BjJkN1HoDVMmWVsQZSeS2y
- n1D8+hmdIx7ZA2WYxaXrp789yATsrvtRCvX7sQci4PyvkCd3PPP0NQzi/D7XCWKmBcW2
- qi6g==
+ bh=0zcqxxx9i9efPGyMNGiYlMMaZ7Z90otmzxtyKTD4u1s=;
+ b=D6qFPPZIU468jjMQIJUygb0LIUHmNy+L4BJbJdq5NjGqX2UmI9iG+nmNBo6uWsa6zQ
+ FeqvqO6tPwA4qlDoFvTmbEAF3Ipjeh8++nO6dBLseIGZNWMW1Gtc+dZ65wra48XSWEi9
+ ka3suPGNpzR1OFfAGt/KMVZ8qB0/KSp8ch8oB0JAuF5k2hXOSEmJWNz3kapD6blhMHlC
+ +bZpOCFi73OXCAqOZdOXY+Lw3i1zXpVrFmMLiLckRCdZwIDdE072aPPC7uvqZ+Jgd2eV
+ q2dGvRCaQ+POfoeyZKDPxj5c+N8CQIZbQb9Ss4NreA+5OEBff7UerwZVzw6wvGCxzwLs
+ nAew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=A3xeQseg7XCe/PHz62qvWhdyf1FsVU4bvG/P2lXDf50=;
- b=HBDzk5cGSqIGcLRWXwjBNWYpSgdT9lZiWNyec4+DBSw4c/VQDzXYadJZnfN0ggS94o
- QGoPhwxQS124n9hk+xOFmIjIFj2+Yw8dVZtrQby2KV3O8nvHVKkADv/MCAGI6PdJzjCv
- xxgdLT8+rXJPyae5hlLjAatrLbdCfFLCBLjZNC3Rfp1fqacwswzkkWjies5PukCKMPil
- Hla/99XI/RSOxpXuP4goUo91EqG8kfDg4YHSOaIlzgLf6YSbI9XR9pYteSZna2JI5c+a
- cphJuYtF8FCSCEMKfnx+N9C7vEhPVR4o9i7ISU/6CHMANyR40hT7IpfteaGLEA7bHCIL
- i6jg==
-X-Gm-Message-State: AOAM531j8dza8RnFdJw9OVzZO7W8rllkYbGdc748lbwcOlqGCuTQ0wXi
- rPaMCJUdrWEWvXXCkCyOHUWjITjv8xsBAw==
-X-Google-Smtp-Source: ABdhPJxrOzTswHuhehWPfP+wiSFkMle9PJ8pGFAkQt1fkaYfw+5GOLBfyeGFR9ciwT6gj9fp5Y7fig==
-X-Received: by 2002:a5e:cb0b:: with SMTP id p11mr28233000iom.41.1635893600372; 
- Tue, 02 Nov 2021 15:53:20 -0700 (PDT)
+ bh=0zcqxxx9i9efPGyMNGiYlMMaZ7Z90otmzxtyKTD4u1s=;
+ b=Rqyfyv/hPTfa9maQrZQieW80xKO8SflONs/OMxuG0IUyH2vtNqzlUgOkkraXbDuPSq
+ vp6FLU3lbqb/jGjRaD6KsBb7kw58WyHxTlO3f08ra9rNLqtasXko9GMzfio5cSN2vbXz
+ 8Fj+TQg1csuFzpjELFMbtm0uoY9gnP0yj5r6h8YoyogsYoxWrxHr4s9nbbkvPsfqeE5N
+ ZxjHDHNBuX1svoN8lt4FpHgbw4nW2Jvibr0TUEVVUvvdwNC6lX4p4s679ekPW5Ymdv7O
+ KNwizJxRhyhyUWyAFevNvvG1+hBPvqN0Lf1f3z71YhqOVPKuc5vu6aFpbF27f9sSigk1
+ CB+Q==
+X-Gm-Message-State: AOAM531YoUEk0wEEryDUuTYms+tL8LeLGqBBScOFSXcoPI4WRQQsaEs9
+ 8sm+oKjGv7CVF8SC+3a9uj+DSEUpYt33xA==
+X-Google-Smtp-Source: ABdhPJyryHdSGA64tWMMOW79azozgG6Nt7EquTxcCzKsyjFG/NQs271URl5bG4EYM5XKqTt54Z66Hg==
+X-Received: by 2002:a05:6638:3447:: with SMTP id
+ q7mr5617117jav.136.1635893601149; 
+ Tue, 02 Nov 2021 15:53:21 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id h14sm205427ils.75.2021.11.02.15.53.19
+ by smtp.gmail.com with ESMTPSA id h14sm205427ils.75.2021.11.02.15.53.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 02 Nov 2021 15:53:20 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/30] bsd-user: Add stubs for new signal routines
-Date: Tue,  2 Nov 2021 16:52:19 -0600
-Message-Id: <20211102225248.52999-2-imp@bsdimp.com>
+Subject: [PATCH v2 02/30] bsd-user/arm/target_arch_sysarch.h: Use consistent
+ include guards
+Date: Tue,  2 Nov 2021 16:52:20 -0600
+Message-Id: <20211102225248.52999-3-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211102225248.52999-1-imp@bsdimp.com>
 References: <20211102225248.52999-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2c;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2c.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd36.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,59 +83,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Kyle Evans <kevans@freebsd.org>,
+Cc: qemu-trivial@nongnu.org, Kyle Evans <kevans@FreeBSD.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  Philippe Mathieu-Daude <f4bug@amsat.org>, Laurent Vivier <laurent@vivier.eu>,
  Michael Tokarev <mjt@tls.msk.ru>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Until the signal support is merged from the bsd-user fork, we need stubs
-for cpu_loop_exit_sigsegv and cpu_loop_exit_sigbus to link. These call
-abort after logging a message. Since singals aren't supported here
-yet, this is sufficient.
+As part of upstreaming, the include guards have been made more
+consistent. Update this file to use the new guards.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/signal.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ bsd-user/arm/target_arch_sysarch.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/bsd-user/signal.c b/bsd-user/signal.c
-index 0c1093deb1..05b277c642 100644
---- a/bsd-user/signal.c
-+++ b/bsd-user/signal.c
-@@ -20,6 +20,11 @@
- #include "qemu/osdep.h"
- #include "qemu.h"
+diff --git a/bsd-user/arm/target_arch_sysarch.h b/bsd-user/arm/target_arch_sysarch.h
+index 632a5cd453..8cc6bff207 100644
+--- a/bsd-user/arm/target_arch_sysarch.h
++++ b/bsd-user/arm/target_arch_sysarch.h
+@@ -17,8 +17,8 @@
+  *  along with this program; if not, see <http://www.gnu.org/licenses/>.
+  */
  
-+/*
-+ * Stubbed out routines until we merge signal support from bsd-user
-+ * fork.
-+ */
-+
- /*
-  * Queue a signal so that it will be send to the virtual CPU as soon as
-  * possible.
-@@ -36,3 +41,19 @@ void signal_init(void)
- void process_pending_signals(CPUArchState *cpu_env)
- {
+-#ifndef BSD_USER_ARCH_SYSARCH_H_
+-#define BSD_USER_ARCH_SYSARCH_H_
++#ifndef _TARGET_ARCH_SYSARCH_H_
++#define _TARGET_ARCH_SYSARCH_H_
+ 
+ #include "target_syscall.h"
+ #include "target_arch.h"
+@@ -75,4 +75,4 @@ static inline void do_freebsd_arch_print_sysarch(
+     }
  }
-+
-+void cpu_loop_exit_sigsegv(CPUState *cpu, target_ulong addr,
-+                           MMUAccessType access_type, bool maperr, uintptr_t ra)
-+{
-+    qemu_log_mask(LOG_UNIMP, "No signal support for SIGSEGV\n");
-+    /* unreachable */
-+    abort();
-+}
-+
-+void cpu_loop_exit_sigbus(CPUState *cpu, target_ulong addr,
-+                          MMUAccessType access_type, uintptr_t ra)
-+{
-+    qemu_log_mask(LOG_UNIMP, "No signal support for SIGBUS\n");
-+    /* unreachable */
-+    abort();
-+}
+ 
+-#endif /*!BSD_USER_ARCH_SYSARCH_H_ */
++#endif /*!_TARGET_ARCH_SYSARCH_H_ */
 -- 
 2.33.0
 
