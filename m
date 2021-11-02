@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8461442C83
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 12:27:47 +0100 (CET)
-Received: from localhost ([::1]:40992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD4F6442C87
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 12:27:53 +0100 (CET)
+Received: from localhost ([::1]:41514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhrxD-0005h6-2m
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 07:27:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43196)
+	id 1mhrxI-00065q-PD
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 07:27:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhrdz-0003je-Qf
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:07:59 -0400
-Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:42549)
+ id 1mhre3-0003kD-MR
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:08:01 -0400
+Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c]:38633)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhrdt-0000sh-Nc
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:07:54 -0400
-Received: by mail-qt1-x82b.google.com with SMTP id v22so828099qtk.9
+ id 1mhrdz-0000tU-GR
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:07:57 -0400
+Received: by mail-qk1-x72c.google.com with SMTP id bi29so19207500qkb.5
  for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 04:07:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FKF5pmiX/o7unekmxiUMsGTx/xn7CVdGNA9mcaJJAdI=;
- b=fJYaGTfWKRoKshDBkdO7LuC6mxMyaIBSyJn3ip1eM9u6QlKUtITGJrow+EpbsqwAWF
- +oyZg5jjAk+NcAToWjnN02ZECyNDaA+JBnjE9hpX/LSmtV64zQHtfBLNSt4PwcF0PSM9
- HCvhl9plKAZVo+T5TWZui6Vm1NoI6NgLTrwkMw2YubyWcx1VFi+q7RoVuHL+sPrlwAw1
- nZrgsZW2HZQXgAN1LYyXRGPtsQP4ANhWgc2wXa8d01PMBOmCQWZuBP6BOuyjgtpaTBBl
- z/QbHmpj0sfoKs88WOzRrpiUStAF1fZpfKSer8gI3mt6ybJC4gGvb93aeGcE7vFdBYsC
- kVqw==
+ bh=iCPpn5LVQcjFIXnJdO6By+zwqZwVsISAIj+ezxFmWpI=;
+ b=IuNexV1bmUfejmZfUziZJFSjEUMiFx3BPKrxJ+nb0xk17JFAKy2xhTPtwjCOuWbkro
+ OhN/6otscNa6tH26NVJjFqGxZRIM/Ke48cLX9hKtBimiGJaBL2WQAPkoejoREiotJMYi
+ sA9iBQBXe40qHlYurdmYGne6CXu6BTbmQawGSWkf8A7bGRW0rQ99zs5YaqvjBDRLEFve
+ lztbeG77MvUNRI8bAnnrnUYBHsDtwx2CgUcfLH7CNbG9M7I3ovPoBbWFJgaYVVis9+S4
+ Ew81rFAAr0fCiQT9UacXccNV0WhPCrujkVxJJosaw06CKQOvdWKW82qD7jP5wY0bP/L3
+ Y8KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FKF5pmiX/o7unekmxiUMsGTx/xn7CVdGNA9mcaJJAdI=;
- b=f2O0IjtmYZgfayU9cVkrfgZx0868kAQV3laFFqVUBr9cHx8B5KlHq/IcmwKZ+NkWQq
- /dwL2ymyhL9QcaKwtOTgaxqZS81FhPZ3nNswDi++rq2tab0BJIuvakrvlAu7L5FZ6XrE
- 6N8k3tPM52i7X+/RkW112UdTvAtwa7zKcVLfmSeSje9ho9jaN2KHSJtU9PPoExrecUoc
- /3Oq5pI4FAp6e1SPAd94sbOqHCsQNOKOGaGAW5gMGf3r3nb7uh8omnZhooHodSkO/jzI
- JodsLross8ahm29Qy5gzPWK1g7YTI5vH9x+tqrOMDLqJE+Ixubo3TBkjSAckxoVQdQRN
- 6e6g==
-X-Gm-Message-State: AOAM530VxFUckx8mMDDIIm1Ulj2Jz/1M4P6jyLBx6hE0breQkQvjJaYV
- cyWEQ0vTssCopoh20S6ZO80Ua457NN1H0g==
-X-Google-Smtp-Source: ABdhPJxGGQgngz+bYOhJn1qipR6BhE6m8lkO+ACv0HO7+4341C3ttBPWgpLc1Rz4mJweSDYRcJo8hA==
-X-Received: by 2002:a05:622a:c3:: with SMTP id
- p3mr37708175qtw.161.1635851268819; 
- Tue, 02 Nov 2021 04:07:48 -0700 (PDT)
+ bh=iCPpn5LVQcjFIXnJdO6By+zwqZwVsISAIj+ezxFmWpI=;
+ b=tz2FAtOa0nvI98RzPOln0NahJy4pYFfH1ZJ79FwBzpGcgZHX1wp5vTirqOjvphSPjx
+ Dfzb4XidsYac8oXQ4W9x17Jm+DcKS3NSkjmgGYQHf5i0dD7sBLPpUWVc1l+6xFfdh0xn
+ VbJX+qWBkVthAyXBhNzM7eljuMo5FJjoQgBDpl+gg6p9qBdcjaSKaXVI1g1UyCusF3s0
+ 3YCRbx0jwbz66EoK4DWULr2I4HO9lwn3TwUj56gE0SHNjbMC2WSUYqbcFSvKqECpGIMz
+ tpqV9II4+T2XHgsPhfPqVICutD/QAyF7r/9vjZuCQXnbz7sV7+0t+nmh0tqMxs/63t48
+ pEKw==
+X-Gm-Message-State: AOAM5300XyhHn+53rdFY1Lq34p9SvgSGfFu3DarMfMqIiJ4UVRUAxPFZ
+ RJH98utXZGSqxIWuNI0HncRzoA1T4wPSQA==
+X-Google-Smtp-Source: ABdhPJzKSREyqamnYsAR3ZIKROkJw6ge6vREvgZooSAh8j99Nzlffe+Nz6SftPAbojDUPaH9qIIBoQ==
+X-Received: by 2002:a05:620a:4589:: with SMTP id
+ bp9mr14864366qkb.274.1635851269428; 
+ Tue, 02 Nov 2021 04:07:49 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-172-254-253-57.nyc.biz.rr.com.
  [172.254.253.57])
  by smtp.gmail.com with ESMTPSA id bm7sm3568612qkb.86.2021.11.02.04.07.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 04:07:48 -0700 (PDT)
+ Tue, 02 Nov 2021 04:07:49 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/60] linux-user/host/aarch64: Populate host_signal.h
-Date: Tue,  2 Nov 2021 07:06:52 -0400
-Message-Id: <20211102110740.215699-13-richard.henderson@linaro.org>
+Subject: [PULL 13/60] linux-user/host/s390: Populate host_signal.h
+Date: Tue,  2 Nov 2021 07:06:53 -0400
+Message-Id: <20211102110740.215699-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211102110740.215699-1-richard.henderson@linaro.org>
 References: <20211102110740.215699-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,25 +85,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Warner Losh <imp@bsdimp.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Split host_signal_pc and host_signal_write out of user-exec.c.
-Drop the *BSD code, to be re-created under bsd-user/ later.
 
-Reviewed-by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/host/aarch64/host-signal.h | 75 ++++++++++++++++++++-
- accel/tcg/user-exec.c                 | 94 +--------------------------
- 2 files changed, 75 insertions(+), 94 deletions(-)
+ linux-user/host/s390/host-signal.h  | 94 ++++++++++++++++++++++++++++-
+ linux-user/host/s390x/host-signal.h |  2 +-
+ accel/tcg/user-exec.c               | 88 +--------------------------
+ 3 files changed, 95 insertions(+), 89 deletions(-)
 
-diff --git a/linux-user/host/aarch64/host-signal.h b/linux-user/host/aarch64/host-signal.h
-index f4b4d65031..0c0b08383a 100644
---- a/linux-user/host/aarch64/host-signal.h
-+++ b/linux-user/host/aarch64/host-signal.h
-@@ -1 +1,74 @@
+diff --git a/linux-user/host/s390/host-signal.h b/linux-user/host/s390/host-signal.h
+index f4b4d65031..26990e4893 100644
+--- a/linux-user/host/s390/host-signal.h
++++ b/linux-user/host/s390/host-signal.h
+@@ -1 +1,93 @@
 -#define HOST_SIGNAL_PLACEHOLDER
 +/*
 + * host-signal.h: signal info dependent on the host architecture
@@ -114,175 +117,195 @@ index f4b4d65031..0c0b08383a 100644
 + * See the COPYING file in the top-level directory.
 + */
 +
-+#ifndef AARCH64_HOST_SIGNAL_H
-+#define AARCH64_HOST_SIGNAL_H
-+
-+/* Pre-3.16 kernel headers don't have these, so provide fallback definitions */
-+#ifndef ESR_MAGIC
-+#define ESR_MAGIC 0x45535201
-+struct esr_context {
-+    struct _aarch64_ctx head;
-+    uint64_t esr;
-+};
-+#endif
-+
-+static inline struct _aarch64_ctx *first_ctx(ucontext_t *uc)
-+{
-+    return (struct _aarch64_ctx *)&uc->uc_mcontext.__reserved;
-+}
-+
-+static inline struct _aarch64_ctx *next_ctx(struct _aarch64_ctx *hdr)
-+{
-+    return (struct _aarch64_ctx *)((char *)hdr + hdr->size);
-+}
++#ifndef S390_HOST_SIGNAL_H
++#define S390_HOST_SIGNAL_H
 +
 +static inline uintptr_t host_signal_pc(ucontext_t *uc)
 +{
-+    return uc->uc_mcontext.pc;
++    return uc->uc_mcontext.psw.addr;
 +}
 +
 +static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
 +{
-+    struct _aarch64_ctx *hdr;
-+    uint32_t insn;
-+
-+    /* Find the esr_context, which has the WnR bit in it */
-+    for (hdr = first_ctx(uc); hdr->magic; hdr = next_ctx(hdr)) {
-+        if (hdr->magic == ESR_MAGIC) {
-+            struct esr_context const *ec = (struct esr_context const *)hdr;
-+            uint64_t esr = ec->esr;
-+
-+            /* For data aborts ESR.EC is 0b10010x: then bit 6 is the WnR bit */
-+            return extract32(esr, 27, 5) == 0x12 && extract32(esr, 6, 1) == 1;
-+        }
-+    }
++    uint16_t *pinsn = (uint16_t *)host_signal_pc(uc);
 +
 +    /*
-+     * Fall back to parsing instructions; will only be needed
-+     * for really ancient (pre-3.16) kernels.
++     * ??? On linux, the non-rt signal handler has 4 (!) arguments instead
++     * of the normal 2 arguments.  The 4th argument contains the "Translation-
++     * Exception Identification for DAT Exceptions" from the hardware (aka
++     * "int_parm_long"), which does in fact contain the is_write value.
++     * The rt signal handler, as far as I can tell, does not give this value
++     * at all.  Not that we could get to it from here even if it were.
++     * So fall back to parsing instructions.  Treat read-modify-write ones as
++     * writes, which is not fully correct, but for tracking self-modifying code
++     * this is better than treating them as reads.  Checking si_addr page flags
++     * might be a viable improvement, albeit a racy one.
 +     */
-+    insn = *(uint32_t *)host_signal_pc(uc);
-+
-+    return (insn & 0xbfff0000) == 0x0c000000   /* C3.3.1 */
-+        || (insn & 0xbfe00000) == 0x0c800000   /* C3.3.2 */
-+        || (insn & 0xbfdf0000) == 0x0d000000   /* C3.3.3 */
-+        || (insn & 0xbfc00000) == 0x0d800000   /* C3.3.4 */
-+        || (insn & 0x3f400000) == 0x08000000   /* C3.3.6 */
-+        || (insn & 0x3bc00000) == 0x39000000   /* C3.3.13 */
-+        || (insn & 0x3fc00000) == 0x3d800000   /* ... 128bit */
-+        /* Ignore bits 10, 11 & 21, controlling indexing.  */
-+        || (insn & 0x3bc00000) == 0x38000000   /* C3.3.8-12 */
-+        || (insn & 0x3fe00000) == 0x3c800000   /* ... 128bit */
-+        /* Ignore bits 23 & 24, controlling indexing.  */
-+        || (insn & 0x3a400000) == 0x28000000; /* C3.3.7,14-16 */
++    /* ??? This is not even close to complete.  */
++    switch (pinsn[0] >> 8) {
++    case 0x50: /* ST */
++    case 0x42: /* STC */
++    case 0x40: /* STH */
++    case 0xba: /* CS */
++    case 0xbb: /* CDS */
++        return true;
++    case 0xc4: /* RIL format insns */
++        switch (pinsn[0] & 0xf) {
++        case 0xf: /* STRL */
++        case 0xb: /* STGRL */
++        case 0x7: /* STHRL */
++            return true;
++        }
++        break;
++    case 0xc8: /* SSF format insns */
++        switch (pinsn[0] & 0xf) {
++        case 0x2: /* CSST */
++            return true;
++        }
++        break;
++    case 0xe3: /* RXY format insns */
++        switch (pinsn[2] & 0xff) {
++        case 0x50: /* STY */
++        case 0x24: /* STG */
++        case 0x72: /* STCY */
++        case 0x70: /* STHY */
++        case 0x8e: /* STPQ */
++        case 0x3f: /* STRVH */
++        case 0x3e: /* STRV */
++        case 0x2f: /* STRVG */
++            return true;
++        }
++        break;
++    case 0xeb: /* RSY format insns */
++        switch (pinsn[2] & 0xff) {
++        case 0x14: /* CSY */
++        case 0x30: /* CSG */
++        case 0x31: /* CDSY */
++        case 0x3e: /* CDSG */
++        case 0xe4: /* LANG */
++        case 0xe6: /* LAOG */
++        case 0xe7: /* LAXG */
++        case 0xe8: /* LAAG */
++        case 0xea: /* LAALG */
++        case 0xf4: /* LAN */
++        case 0xf6: /* LAO */
++        case 0xf7: /* LAX */
++        case 0xfa: /* LAAL */
++        case 0xf8: /* LAA */
++            return true;
++        }
++        break;
++    }
++    return false;
 +}
 +
 +#endif
+diff --git a/linux-user/host/s390x/host-signal.h b/linux-user/host/s390x/host-signal.h
+index f4b4d65031..0e83f9358d 100644
+--- a/linux-user/host/s390x/host-signal.h
++++ b/linux-user/host/s390x/host-signal.h
+@@ -1 +1 @@
+-#define HOST_SIGNAL_PLACEHOLDER
++#include "../s390/host-signal.h"
 diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index fabc8855a9..5cdbfab35b 100644
+index 5cdbfab35b..f18f3b2a5c 100644
 --- a/accel/tcg/user-exec.c
 +++ b/accel/tcg/user-exec.c
-@@ -253,99 +253,7 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
+@@ -253,93 +253,7 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
      return size ? g2h(env_cpu(env), addr) : NULL;
  }
  
--#if defined(__aarch64__)
+-#if defined(__s390__)
 -
--#if defined(__NetBSD__)
--
--#include <ucontext.h>
--#include <sys/siginfo.h>
--
--int cpu_signal_handler(int host_signum, void *pinfo, void *puc)
--{
--    ucontext_t *uc = puc;
--    siginfo_t *si = pinfo;
--    unsigned long pc;
--    int is_write;
--    uint32_t esr;
--
--    pc = uc->uc_mcontext.__gregs[_REG_PC];
--    esr = si->si_trap;
--
--    /*
--     * siginfo_t::si_trap is the ESR value, for data aborts ESR.EC
--     * is 0b10010x: then bit 6 is the WnR bit
--     */
--    is_write = extract32(esr, 27, 5) == 0x12 && extract32(esr, 6, 1) == 1;
--    return handle_cpu_signal(pc, si, is_write, &uc->uc_sigmask);
--}
--
--#else
--
--#ifndef ESR_MAGIC
--/* Pre-3.16 kernel headers don't have these, so provide fallback definitions */
--#define ESR_MAGIC 0x45535201
--struct esr_context {
--    struct _aarch64_ctx head;
--    uint64_t esr;
--};
--#endif
--
--static inline struct _aarch64_ctx *first_ctx(ucontext_t *uc)
--{
--    return (struct _aarch64_ctx *)&uc->uc_mcontext.__reserved;
--}
--
--static inline struct _aarch64_ctx *next_ctx(struct _aarch64_ctx *hdr)
--{
--    return (struct _aarch64_ctx *)((char *)hdr + hdr->size);
--}
--
--int cpu_signal_handler(int host_signum, void *pinfo, void *puc)
+-int cpu_signal_handler(int host_signum, void *pinfo,
+-                       void *puc)
 -{
 -    siginfo_t *info = pinfo;
 -    ucontext_t *uc = puc;
--    uintptr_t pc = uc->uc_mcontext.pc;
--    bool is_write;
--    struct _aarch64_ctx *hdr;
--    struct esr_context const *esrctx = NULL;
+-    unsigned long pc;
+-    uint16_t *pinsn;
+-    int is_write = 0;
 -
--    /* Find the esr_context, which has the WnR bit in it */
--    for (hdr = first_ctx(uc); hdr->magic; hdr = next_ctx(hdr)) {
--        if (hdr->magic == ESR_MAGIC) {
--            esrctx = (struct esr_context const *)hdr;
--            break;
+-    pc = uc->uc_mcontext.psw.addr;
+-
+-    /*
+-     * ??? On linux, the non-rt signal handler has 4 (!) arguments instead
+-     * of the normal 2 arguments.  The 4th argument contains the "Translation-
+-     * Exception Identification for DAT Exceptions" from the hardware (aka
+-     * "int_parm_long"), which does in fact contain the is_write value.
+-     * The rt signal handler, as far as I can tell, does not give this value
+-     * at all.  Not that we could get to it from here even if it were.
+-     * So fall back to parsing instructions.  Treat read-modify-write ones as
+-     * writes, which is not fully correct, but for tracking self-modifying code
+-     * this is better than treating them as reads.  Checking si_addr page flags
+-     * might be a viable improvement, albeit a racy one.
+-     */
+-    /* ??? This is not even close to complete.  */
+-    pinsn = (uint16_t *)pc;
+-    switch (pinsn[0] >> 8) {
+-    case 0x50: /* ST */
+-    case 0x42: /* STC */
+-    case 0x40: /* STH */
+-    case 0xba: /* CS */
+-    case 0xbb: /* CDS */
+-        is_write = 1;
+-        break;
+-    case 0xc4: /* RIL format insns */
+-        switch (pinsn[0] & 0xf) {
+-        case 0xf: /* STRL */
+-        case 0xb: /* STGRL */
+-        case 0x7: /* STHRL */
+-            is_write = 1;
 -        }
+-        break;
+-    case 0xc8: /* SSF format insns */
+-        switch (pinsn[0] & 0xf) {
+-        case 0x2: /* CSST */
+-            is_write = 1;
+-        }
+-        break;
+-    case 0xe3: /* RXY format insns */
+-        switch (pinsn[2] & 0xff) {
+-        case 0x50: /* STY */
+-        case 0x24: /* STG */
+-        case 0x72: /* STCY */
+-        case 0x70: /* STHY */
+-        case 0x8e: /* STPQ */
+-        case 0x3f: /* STRVH */
+-        case 0x3e: /* STRV */
+-        case 0x2f: /* STRVG */
+-            is_write = 1;
+-        }
+-        break;
+-    case 0xeb: /* RSY format insns */
+-        switch (pinsn[2] & 0xff) {
+-        case 0x14: /* CSY */
+-        case 0x30: /* CSG */
+-        case 0x31: /* CDSY */
+-        case 0x3e: /* CDSG */
+-        case 0xe4: /* LANG */
+-        case 0xe6: /* LAOG */
+-        case 0xe7: /* LAXG */
+-        case 0xe8: /* LAAG */
+-        case 0xea: /* LAALG */
+-        case 0xf4: /* LAN */
+-        case 0xf6: /* LAO */
+-        case 0xf7: /* LAX */
+-        case 0xfa: /* LAAL */
+-        case 0xf8: /* LAA */
+-            is_write = 1;
+-        }
+-        break;
 -    }
 -
--    if (esrctx) {
--        /* For data aborts ESR.EC is 0b10010x: then bit 6 is the WnR bit */
--        uint64_t esr = esrctx->esr;
--        is_write = extract32(esr, 27, 5) == 0x12 && extract32(esr, 6, 1) == 1;
--    } else {
--        /*
--         * Fall back to parsing instructions; will only be needed
--         * for really ancient (pre-3.16) kernels.
--         */
--        uint32_t insn = *(uint32_t *)pc;
--
--        is_write = ((insn & 0xbfff0000) == 0x0c000000   /* C3.3.1 */
--                    || (insn & 0xbfe00000) == 0x0c800000   /* C3.3.2 */
--                    || (insn & 0xbfdf0000) == 0x0d000000   /* C3.3.3 */
--                    || (insn & 0xbfc00000) == 0x0d800000   /* C3.3.4 */
--                    || (insn & 0x3f400000) == 0x08000000   /* C3.3.6 */
--                    || (insn & 0x3bc00000) == 0x39000000   /* C3.3.13 */
--                    || (insn & 0x3fc00000) == 0x3d800000   /* ... 128bit */
--                    /* Ignore bits 10, 11 & 21, controlling indexing.  */
--                    || (insn & 0x3bc00000) == 0x38000000   /* C3.3.8-12 */
--                    || (insn & 0x3fe00000) == 0x3c800000   /* ... 128bit */
--                    /* Ignore bits 23 & 24, controlling indexing.  */
--                    || (insn & 0x3a400000) == 0x28000000); /* C3.3.7,14-16 */
--    }
 -    return handle_cpu_signal(pc, info, is_write, &uc->uc_sigmask);
 -}
--#endif
 -
--#elif defined(__s390__)
-+#if defined(__s390__)
+-#elif defined(__mips__)
++#if defined(__mips__)
  
- int cpu_signal_handler(int host_signum, void *pinfo,
-                        void *puc)
+ #if defined(__misp16) || defined(__mips_micromips)
+ #error "Unsupported encoding"
 -- 
 2.25.1
 
