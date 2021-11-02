@@ -2,90 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 969A644348F
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 18:27:46 +0100 (CET)
-Received: from localhost ([::1]:34498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F30443490
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 18:29:53 +0100 (CET)
+Received: from localhost ([::1]:37530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhxZZ-0004y4-Aa
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 13:27:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51664)
+	id 1mhxbc-00073H-DP
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 13:29:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhxYL-00048k-NO
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 13:26:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35108)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhxYH-0004X6-GO
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 13:26:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635873984;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=atUMK1w8SF8C2uNJ9v5UNZ/vZlWrgwcRBLQ0G9h0oDo=;
- b=Xl04+HIgXxtDAcBKjFQeA9MWHK8AgND3JBBlbna7IyQtEmvyi7qO8/eric46WHCGMoNiaf
- 0IZasirZ2f+Dmt5qNZcD9X3THD3yGFil92/1LQ0G9XKFk4Gi01HDKR2IDeiAzGqnNJl75d
- S2VQRzpI/5Vu2J9Aj3eKihipUmvsA3Y=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-561-M1f104NBPUuD6zuB2LdcGg-1; Tue, 02 Nov 2021 13:26:22 -0400
-X-MC-Unique: M1f104NBPUuD6zuB2LdcGg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- m13-20020a05600c3b0d00b00332f48bef41so1122776wms.7
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 10:26:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <trini@konsulko.com>)
+ id 1mhxaS-0006Mn-OD
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 13:28:40 -0400
+Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:34729)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <trini@konsulko.com>)
+ id 1mhxaQ-0004p4-JS
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 13:28:40 -0400
+Received: by mail-qk1-x729.google.com with SMTP id bq14so8889553qkb.1
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 10:28:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=WiUjNsKDNIjLUmcFwAoh+THfgb15KURgF5S9D/92Z9c=;
+ b=d9QmkPGKW3q2nhjO7TF0qCf20QZuyuhLFlsXFl3M/gGTMquXsX6rSAE2bgJPmiBuw9
+ 8tTKe6XQzkIuBPvViCa5tuFpeMayjThSh+UCrDrpCBzwgBD0jOrGQzWTJoouovhNtKTJ
+ K/Dd5WlQmitJnZJn/boBM542O7dlFNYhXlP1M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=atUMK1w8SF8C2uNJ9v5UNZ/vZlWrgwcRBLQ0G9h0oDo=;
- b=2UE3sqrRAE6YVoW0wiV9peD45kJitJV+YFPok+LjRSpNnukxXgwvlKvxYMm1+KMhcO
- 2uqjJHabRN4gexS5WGR3kCxJ1+E42TMgTPE2qtec7d4fP+6g7nN4R+yAfCgVSvnBoYK0
- U994Q0DMNFMjFwxhTsNR6Ccxin44kQxBRc72uvKWKkxDDJSwxBLK+r5HKu7m3lvZxlbP
- wA4LlwJVDz/xNjV2XuPFSW1fAdRCoxSP4Wv/9aNMHXhmpVYWiiYQT1e74wsY8U6Tgsly
- 7gGjH8vyuR87VJRao3X1QAZ0csDDMWhlhkrM/P0EE4GCMtcZY2h00BCPkMktC2PSwBpR
- eQSQ==
-X-Gm-Message-State: AOAM531ygb4j2EjyXnQ2QYtRXbSsIhi+aL7AObCKs1F8Bc9Vifdu3SEm
- mrlZ/fwwv7b3ytuPgLHfXWwuRI3mNDOqqBltPVb07lxEx9p1nyzA/tC+/QEXlpVCUWMSsM0cwjO
- J+uxnfiuTiWW6fSo=
-X-Received: by 2002:a7b:cd90:: with SMTP id y16mr8693553wmj.84.1635873981615; 
- Tue, 02 Nov 2021 10:26:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyyY6JepLkCDuCe/rJjvqQzCniAs8MRsaWkP66BZgjrhrRfxKkPnAjrBgTgIcr/QTW9nQq2Gg==
-X-Received: by 2002:a7b:cd90:: with SMTP id y16mr8693524wmj.84.1635873981355; 
- Tue, 02 Nov 2021 10:26:21 -0700 (PDT)
-Received: from localhost ([188.26.219.212])
- by smtp.gmail.com with ESMTPSA id g2sm17233937wrq.62.2021.11.02.10.26.20
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=WiUjNsKDNIjLUmcFwAoh+THfgb15KURgF5S9D/92Z9c=;
+ b=Sc6Mqxj/6sT3ahOwxiJkwtYGbviYbnUGRBMKGIBKkbfev9w9FWC/oxqTKk2Ey0aYRe
+ lj1+A4/i4DHuxvZn/TJVUWFhGEHHcvjM2FEwQ2Iug5jF7qTu5G6yny4NXRryNtY+KU1Z
+ bf6UUd4w8CunnE6btAPk6oDyVV8HhSxSu61uVNXXQl+gbYwfhziLMVYX2TUO91g5UL9Z
+ 93lXqi2ve8I/TFOsqC2W10uYaCjy63s8w+vvVWpBlXKresIagz/rqkUmOSBScBsiwcN8
+ FpEI5b10/FiNqUZn7xjS2MjHNsCyHTTTGZRwPW+4dVUW6AhYjl0TmbgMYPmaMx3gcIN3
+ 3m4w==
+X-Gm-Message-State: AOAM530aLEoCYX5v94sd8zz3bTUpMBaq7FRj07iQ/xaIajvm2lY+fDQi
+ dLd04/UtnT063D83O3mAWdsnpw==
+X-Google-Smtp-Source: ABdhPJwf1Ap4ax4mJfQ3PgUdfvD4lpO5bVh00IFZ1HVWs9l9Ty3OvRjRJNvtFJM+R0n99F4SDGaOLg==
+X-Received: by 2002:a37:a6d8:: with SMTP id p207mr1983615qke.268.1635874117554; 
+ Tue, 02 Nov 2021 10:28:37 -0700 (PDT)
+Received: from bill-the-cat
+ (2603-6081-7b01-cbda-e929-65d4-8978-cf6f.res6.spectrum.com.
+ [2603:6081:7b01:cbda:e929:65d4:8978:cf6f])
+ by smtp.gmail.com with ESMTPSA id s10sm11899135qkp.132.2021.11.02.10.28.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 10:26:20 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH 2/2] failover: don't allow to migrate a paused VM that
- needs PCI unplug
-In-Reply-To: <20211102130811-mutt-send-email-mst@kernel.org> (Michael
- S. Tsirkin's message of "Tue, 2 Nov 2021 13:08:25 -0400")
-References: <20210929144311.1168561-1-lvivier@redhat.com>
- <20210929144311.1168561-3-lvivier@redhat.com>
- <20211102110043-mutt-send-email-mst@kernel.org>
- <5139c0a8-6aa0-48df-f353-84a15ffc4dd1@redhat.com>
- <20211102130811-mutt-send-email-mst@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Tue, 02 Nov 2021 18:26:19 +0100
-Message-ID: <87v91afozo.fsf@secure.mitica>
+ Tue, 02 Nov 2021 10:28:35 -0700 (PDT)
+Date: Tue, 2 Nov 2021 13:28:33 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Simon Glass <sjg@chromium.org>
+Subject: Re: [PATCH v5 06/26] arm: qemu: Add a devicetree file for qemu_arm64
+Message-ID: <20211102172833.GS24579@bill-the-cat>
+References: <20211026002344.405160-1-sjg@chromium.org>
+ <20211026002344.405160-7-sjg@chromium.org>
+ <CAFEAcA-UukuQXT3ebcboiVOSn0J+88w-kzoH8jE1JVxQnoeuvQ@mail.gmail.com>
+ <CAPnjgZ2C8okdUMcgKjuLgV8JdPexYY0=9NtbSOHO81dN7=2RCg@mail.gmail.com>
+ <CAHFG_=XWc+Fb=m=SHC6=y4KeF533yqCNk=Ae088oAZyjOULPaw@mail.gmail.com>
+ <20211101180707.GJ24579@bill-the-cat>
+ <CAPnjgZ0XeFHrXwBuTZ=eoKHCo7cMSuM_gUiTfv-Sqt8o6tPOXw@mail.gmail.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="FvI60RJo/OoThODE"
+Content-Disposition: inline
+In-Reply-To: <CAPnjgZ0XeFHrXwBuTZ=eoKHCo7cMSuM_gUiTfv-Sqt8o6tPOXw@mail.gmail.com>
+X-Clacks-Overhead: GNU Terry Pratchett
+Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
+ envelope-from=trini@konsulko.com; helo=mail-qk1-x729.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,76 +89,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Laurent Vivier <lvivier@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Albert Aribaud <albert.u.boot@aribaud.net>,
+ =?iso-8859-1?Q?Fran=E7ois?= Ozog <francois.ozog@linaro.org>,
+ U-Boot Mailing List <u-boot@lists.denx.de>,
+ Heinrich Schuchardt <xypron.glpk@gmx.de>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Sean Anderson <seanga2@gmail.com>,
+ Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>,
+ Mark Kettenis <mark.kettenis@xs4all.nl>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
-> On Tue, Nov 02, 2021 at 06:06:51PM +0100, Laurent Vivier wrote:
->> On 02/11/2021 16:04, Michael S. Tsirkin wrote:
->> > On Wed, Sep 29, 2021 at 04:43:11PM +0200, Laurent Vivier wrote:
->> > > As the guest OS is paused, we will never receive the unplug event
->> > > from the kernel and the migration cannot continue.
->> > > 
->> > > Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->> > 
->> > Well ... what if user previously did
->> > 
->> > pause
->> > start migration
->> > unpause
->> > 
->> > we are breaking it now for no good reason.
->> > 
->> > Further, how about
->> > 
->> > start migration
->> > pause
->> > 
->> > are we going to break this too? by failing pause?
->> > 
->> > 
->> 
->> TL;DR: This patch only prevents to migrate a VFIO device as failover allows
->> to start a migration with a VFIO device plugged in.
->> 
->> Long Story:
->> 
->> * before this patch:
->> 
->> - pause and start migration and unpause-> fails if we unpause too late
->> because we migrate a VFIO device, works otherwise
->
->
-> confused about this one. can you explain pls?
 
-Pause the guest.
-Start migration.
+--FvI60RJo/OoThODE
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-     if (migration_in_setup(s) && !should_be_hidden) {
-        if (failover_unplug_primary(n, dev)) {
-             vmstate_unregister(VMSTATE_IF(dev), qdev_get_vmsd(dev), dev);
-             qapi_event_send_unplug_primary(dev->id);
+On Tue, Nov 02, 2021 at 09:00:53AM -0600, Simon Glass wrote:
+> Hi Tom,
+>=20
+> On Mon, 1 Nov 2021 at 12:07, Tom Rini <trini@konsulko.com> wrote:
+> >
+> > On Mon, Nov 01, 2021 at 06:33:35PM +0100, Fran=E7ois Ozog wrote:
+> > > Hi Simon
+> > >
+> > > Le lun. 1 nov. 2021 =E0 17:58, Simon Glass <sjg@chromium.org> a =E9cr=
+it :
+> > >
+> > > > Hi Peter,
+> > > >
+> > > > On Mon, 1 Nov 2021 at 04:48, Peter Maydell <peter.maydell@linaro.or=
+g>
+> > > > wrote:
+> > > > >
+> > > > > On Tue, 26 Oct 2021 at 01:33, Simon Glass <sjg@chromium.org> wrot=
+e:
+> > > > > >
+> > > > > > Add this file, generated from qemu, so there is a reference dev=
+icetree
+> > > > > > in the U-Boot tree.
+> > > > > >
+> > > > > > Signed-off-by: Simon Glass <sjg@chromium.org>
+> > > > >
+> > > > > Note that the dtb you get from QEMU is only guaranteed to work if:
+> > > > >  1) you run it on the exact same QEMU version you generated it wi=
+th
+> > > > >  2) you pass QEMU the exact same command line arguments you used
+> > > > >     when you generated it
+> > > >
+> > > > Yes, I certainly understand that. In general this is not safe, but =
+in
+> > > > practice it works well enough for development and CI.
+> > >
+> > > You recognize that you hijack a product directory with development ha=
+ck
+> > > facility. There is a test directory to keep things clear. There can b=
+e a
+> > > dev-dts or something similar for Dev time tools.
+> > > I have only seen push back on those fake dts files in the dts directo=
+ry: I
+> > > guess that unless someone strongly favors a continuation of the discu=
+ssion,
+> > > you may consider re-shaping the proposal to address concerns.
+> >
+> > Yes.  We need to document how to make development easier.  But I'm still
+> > not on board with the notion of including DTS files for platforms where
+> > the source of truth for the DTB is elsewhere.  That's going to bring us
+> > a lot more pain.
+>=20
+> Are you talking about QEMU specifically, or Raspberry Pi?
 
-We send the unplug request, but the guest is paused.
+I was using two of the more common and readily available platforms where
+the source of truth for the DTS/DTB is not (and will not be) U-Boot.
 
-             qatomic_set(&n->failover_primary_hidden, true);
+> How can we get this resolved? I very much want to get to just having
+> OF_SEPARATE and OF_EMBED as the only available build-time options,
+> with OF_BOARD (and perhaps OF_PASSAGE) as something we can enable for
+> runtime support. I feel that separating the build-time and run-time
+> behaviour is very important. Over time perhaps we will have some
+> success in upstreaming bindings, but for now we have what we have.
+> There is still a lot of pushback on U-Boot having things in the
+> devicetree, although I do see that softening somewhat.
 
-callbacks, callbacks, callbacks.
+To reiterate, the uniform bit of feedback on this series has been that
+everyone else disagrees with your notion that we _must_ have a dts
+in-tree.
 
-        while (s->state == MIGRATION_STATUS_WAIT_UNPLUG &&
-               qemu_savevm_state_guest_unplug_pending()) {
-            qemu_sem_timedwait(&s->wait_unplug_sem, 250);
-        }
+> > It is important to make sure our "develop our project" workflow is sane
+> > and relatively pain free.  But that needs to not come by making
+> > sacrifices to the "use our project" outcome.  I would hope for example
+> > that the new Pi zero platform is just dtb changes, as far as the linux
+> > kernel is concerned which means that for rpi_arm64 (which uses run time
+> > dtb) it also just works.  And that's what we want to see.
+>=20
+> So long as OF_BOARD is enabled then the flow should work as you expect.
 
-And we are not able to get out of that loop, because we never get to the
-point where the guest send the unplug command.
+Then we need to get things spun such that we can build the platforms
+where the dtb is given to us, complete and correct, at run time, to not
+require an in-tree dts that's not going to be used.  Documentation
+(another area we have much improved on these past few years and for
+which I am grateful for all of the effort behind!) is how we make the
+developer use-case for those platforms better.
 
-So, the only other thing that I can think of is putting one timeout
-there, but how much?  That is a good question.
+--=20
+Tom
 
-Later, Juan.
+--FvI60RJo/OoThODE
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmGBdT4ACgkQFHw5/5Y0
+tyxekAv/X6Sq0XQCop5h+BKaapq19hLwwZYoPMpf590hN3CxNghHpF0nTb6dESx2
+ufqvlnLjhW8pNLr9GnlLcwjnyZoUQSGiKON1Dm8MbwdDj21otlrpZFCDl6LdW6SL
+MlA7043au7keU52PXnVBaEOqlEHj0GgQSRprpaD+nhVcs411USqW1Q58K6sxZ6X9
+qS+HZhYK7ZGgD08f9JmvOvsFgsT3M+MG49LZlJYJ0rhdHaToUcw1x1owWsOlX4y+
+Ah9r2Sg6JkBIGhzH9YP9yj3xmLXQ4AKzApR1WCHOAB37TIQdKfLMMEwaxy8cq8uV
+zybUbSVjdik2X51f6HK+hZyoB7CxPLIWa5o/LDiGHHywMDj5CxaTAvaN5fzScs+/
+OLyW0Ik4zAni5UaVh1TlUGwecWO4wN10lGQhyaZG9Ju/WgPrdPMaAOiGG3IGv0sm
+HUGwcSUYPHoVGxYS6skWj9VKwCf8GU6bVIZeVqfGcqBS1GIXyQU48ooTah4iLqlQ
+mFu67ECA
+=sIeI
+-----END PGP SIGNATURE-----
+
+--FvI60RJo/OoThODE--
 
