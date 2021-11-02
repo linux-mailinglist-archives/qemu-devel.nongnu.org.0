@@ -2,66 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB2F0443170
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 16:18:48 +0100 (CET)
-Received: from localhost ([::1]:48686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 055824431C9
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 16:36:05 +0100 (CET)
+Received: from localhost ([::1]:35070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhvYl-0004Jl-T7
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 11:18:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35754)
+	id 1mhvpS-0008T6-Vx
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 11:36:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mhvUR-000623-LF
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 11:14:19 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:54784)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mhvUP-0005uq-90
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 11:14:18 -0400
-Received: by mail-wm1-x336.google.com with SMTP id 71so13601125wma.4
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 08:14:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=WtUVyFSBroAAhUV7RVGOXYjdLZ1X3Vzhb9sone+tHLo=;
- b=t2w2sItQLFmIMPoajJaT5KW+SItQ4BTBKw35cBXSxVNOhkxYD6JuwH4RKvYy24IbOW
- Xa6A1g199ToMUVMIBpYbOXxXdWb1Qe4OANbCQkrN6HIqKBTRZEleNRUK3tydSXZDvuWx
- SiJhzVjiBN1OWLgT54iJgtWabXTYhGkgC6PUmUKvGJwJH5bhRn7dMF0zIqu2a51evI/m
- l2GWJ6qjyZ6KeQ/26d28fDCTnnca/gX+SPkaWZx50xWujCNrOrydutMhsZr76v6IFqrr
- Dwqv4BRZ8dJ+vgTA6Up5MnqSh+u0gFvcr/jUs80Wd4o/NNHxRfhW/OK48XJ9PQKX/6Yt
- e1Yw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mhvXk-0003gc-Kj
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 11:17:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26141)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mhvXh-0007GF-Cr
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 11:17:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635866260;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YhzAznkOYfQeC6PTU3d5sXwOvib21XLnYGIJ5EFIMZk=;
+ b=C5RmsRKHZL+YkgKKSHFw0TJFJDSAmSl9UMjnp4q3fDUCk//VXvdYNOryueB935tvPEnCmN
+ +laSjGWnU3emp9APKzA3IpcVE4ijRdzblKR9dnt1nespSWThK6w42tnraMNP6ncfeZ+COO
+ rbLTUF7ABaILDxj8AR6oHZCgbVGta8s=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-258-ouejqXlKPjyi2gJbtjrmPQ-1; Tue, 02 Nov 2021 11:17:38 -0400
+X-MC-Unique: ouejqXlKPjyi2gJbtjrmPQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ k8-20020a5d5248000000b001763e7c9ce5so6432277wrc.22
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 08:17:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=WtUVyFSBroAAhUV7RVGOXYjdLZ1X3Vzhb9sone+tHLo=;
- b=WquJmssbTno3O6uO2RZ48jEY71yKvgNzpbuy6ztR3OzzNhXnnKgXSIfg3z127jeKia
- vh+DXFxfV40RlT/kGkndkS5AZeS64YVxCAJjpJMIzdOxUhz3eSSNilxXuUcObnGaohFg
- 5zIvJheue9vyBe/LBmleKHlH8YhlQxjeDY46OU6Z3SLSj7SeMmlZaqRshzcnl5+lLXhX
- 9HsW1/XhjwwoUZe6livWV43AFfRA4NT0s48NSIwmiXtFzjVXkTfLB7U/IDNUuw/vHQPg
- ov7BXSXOiY8xmJeNJMXg+PRbSzmCWYX4EbbbdwII6gfAN7pqN2sAtK2pqlVHwpr4ElzV
- V0Yw==
-X-Gm-Message-State: AOAM530xBHg7faWkoopY2pfo7EPopQM+DwMYM0JGiFFbCWkAlkRhSa9P
- NrePKWfi4MEI2jcIM6NYwIfNbm13zfWTZaICc7UIaoWpZQlt9Q==
-X-Google-Smtp-Source: ABdhPJxBveW962b23JmzgLoglld2E7gdHYdixJKfc06RtLZPukSbkEAHXppaijAxM8f7GMqqTh0JMOLUgMdpv0p6YE8=
-X-Received: by 2002:a05:600c:198d:: with SMTP id
- t13mr7902984wmq.21.1635866053655; 
- Tue, 02 Nov 2021 08:14:13 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=YhzAznkOYfQeC6PTU3d5sXwOvib21XLnYGIJ5EFIMZk=;
+ b=GIG9lSaIqyHGYEFnace+cCLIRsr0y4u0bPA4Y0lpWYrYehbN+ySsDZPtGDb7A4mNSP
+ 6GbCAyP6tbjts/dS34GgxIJZ1EXBQr/K4stKj2p1Q9YZawEX+alQB3bEeLG/Gs4PHZh/
+ jUkb85msS0S09bZgV+h8xxessFVKZzL+VNliWaKu+I46yfoxjGokZJD8QyLoRwMO3UBy
+ AsQnhGX0fOEeUxU5RymiaSAoKToj7j4G+fEAkduRw6FPO14oGVAS16eCXS6f+PxIr281
+ rBY8r12wpWmUb7pIjh7C3ONOhm5/Gv25GZYFVoPJ0UiPhNZa5AbHQahEGZoGEfJK+KS+
+ zZUg==
+X-Gm-Message-State: AOAM533Mu/DkxfZTHUuPv7WAEefB/lvGRtMjwxU+WH5hmGlvxOzokIjK
+ Plt8nKkUpsvG7X01kd6sOp2xmoufHJlYNWgSeOtcb/yQS84q9/tGKKYrzEe8H1dLSUnmEtkbHP9
+ 1fxVKcls1vPA5AQo=
+X-Received: by 2002:a05:6000:181:: with SMTP id
+ p1mr25846514wrx.292.1635866257630; 
+ Tue, 02 Nov 2021 08:17:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJySFBA00e0Enwx+HzO5zvqXxAWQUhWAQpZSdqMdtYuSdCIssIjG5H2SV91Us2xH/qQfojuszw==
+X-Received: by 2002:a05:6000:181:: with SMTP id
+ p1mr25846471wrx.292.1635866257417; 
+ Tue, 02 Nov 2021 08:17:37 -0700 (PDT)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id g4sm10346387wro.12.2021.11.02.08.17.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Nov 2021 08:17:37 -0700 (PDT)
+Message-ID: <6e7abf1d-2e3b-bdb2-e0f2-367e9da29e0b@redhat.com>
+Date: Tue, 2 Nov 2021 16:17:36 +0100
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 Nov 2021 15:14:02 +0000
-Message-ID: <CAFEAcA9zmPds0+jHm8VY465XEhK6bbVPd+nDob1ruRPaHOua_Q@mail.gmail.com>
-Subject: does drive_get_next(IF_NONE) make sense?
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 5/5] block/nvme: Fix memory leak from nvme_init_queue()
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20211006164931.172349-1-philmd@redhat.com>
+ <20211006164931.172349-6-philmd@redhat.com>
+ <YV72QsbNN3Eb2kLV@stefanha-x1.localdomain>
+ <19edd050-c09f-2039-0c89-50bcae61321f@redhat.com>
+ <YYEwDRCvNpct0BeB@redhat.com>
+ <09f679c0-98e6-e5d5-4a1d-8376c8af51e4@redhat.com>
+ <YYFQPe2cRUE5Dvr+@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <YYFQPe2cRUE5Dvr+@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -60
+X-Spam_score: -6.1
+X-Spam_bar: ------
+X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.549, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,33 +105,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hao Wu <wuhaotsh@google.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Markus Armbruster <armbru@redhat.com>, Qemu-block <qemu-block@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Does it make sense for a device/board to do drive_get_next(IF_NONE) ?
+On 11/2/21 15:50, Kevin Wolf wrote:
+> Am 02.11.2021 um 13:36 hat Philippe Mathieu-Daudé geschrieben:
+>> On 11/2/21 13:33, Kevin Wolf wrote:
 
-At the moment we have exactly one user of this, which is
-hw/misc/sifive_u_otp.c. This is a model of a one-time-programmable
-fuse, and the drive is providing the backing store for the fuse
-contents. Borrowing an IF_NONE for this seems a bit odd, but
-it's not clear any of the other IF_ types is better.
+>>> Should we still merge (parts of) this series for 6.2? Or does this mean
+>>> that we don't want it at all?
+>>
+>> Patches #1-4 are cleanups welcome for 6.2 :) However we do not want #5.
+> 
+> Thanks. Patch 4 doesn't seem to make sense without 5 (and definitely not
+> without rewriting the commit message), but I'm applying patches 1-3.
 
-We also just (this release cycle) added models of the Xilinx
-efuse OTP fuses. Those have been implemented to use IF_PFLASH.
-(This is a somewhat unfortunate inconsistency I guess.)
+Oops indeed. Thank you, that helps.
 
-We also have a patchseries currently in the code review stage
-which uses IF_NONE:
-https://patchew.org/QEMU/20211101232346.1070813-1-wuhaotsh@google.com/20211101232346.1070813-6-wuhaotsh@google.com/
-Here we are trying to provide a drive as backing store for some
-EEPROMs that hang off the i2c buses on some npcm7xx boards.
-
-Are these uses of IF_NONE OK, or should we be doing something
-else (using IF_PFLASH, defining a new IF_*, ???)
-
-thanks
--- PMM
 
