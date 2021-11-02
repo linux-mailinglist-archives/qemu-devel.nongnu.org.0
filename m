@@ -2,67 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00D624434E7
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 18:53:36 +0100 (CET)
-Received: from localhost ([::1]:41252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B094434F8
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 18:58:36 +0100 (CET)
+Received: from localhost ([::1]:45724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhxyZ-0004YG-5n
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 13:53:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58446)
+	id 1mhy3P-0007i9-1C
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 13:58:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mhxxV-0003CI-I8
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 13:52:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58593)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mhxxT-00068N-Fw
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 13:52:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635875546;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BMamS7gJ5gQ0+cfP1XJh/T2aBbHKsN1Bj+Oid6LqpxY=;
- b=Ux326UW95FYft5PPFuoAKkRLioNGPMwUXtoYcKSnohPgVEOPO54SvrIdddnzmkJgU4hkTK
- s6EVBdxUR2B10jQF09f3Cso+OL25pMlougehA9Kk3BmSffvHqUwPDY0ip0nnqmsnby9GaX
- 0GLUwXCGl/dLG3ttU7KNI7FrpAhdTPU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-300-C5fKbMRCOuCOHWBle-Da1g-1; Tue, 02 Nov 2021 13:52:24 -0400
-X-MC-Unique: C5fKbMRCOuCOHWBle-Da1g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF363100B700;
- Tue,  2 Nov 2021 17:52:22 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4792219D9F;
- Tue,  2 Nov 2021 17:52:02 +0000 (UTC)
-Date: Tue, 2 Nov 2021 18:52:00 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] softmmu/qdev-monitor: fix use-after-free in qdev_set_id()
-Message-ID: <YYF6wINW6RzhtmjJ@redhat.com>
-References: <20211102163342.31162-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mhy1K-0006Rx-Ld
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 13:56:30 -0400
+Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831]:34717)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mhy1I-0006h2-Sl
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 13:56:26 -0400
+Received: by mail-qt1-x831.google.com with SMTP id u7so25287qtc.1
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 10:56:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=uPRTxKNCAof5pkoauqCmrFQFol4sBSMUrfjAOsKk1yg=;
+ b=s8UVJKR/WAsgsWSKOPKe4Jxe1adJQh1hxSFI8XWtv96ZgEYScKp0b7pcoOfXP4oF43
+ eyuw3zDzkJ0CLQB6dRJu7u/4JStmJ9HCny0ZGg4YowPAWxR98014JZr6xBCJOfHbMuWF
+ VEpCCtuN7Oz1ZT3vmeD9GTvBCSRcou31fji1ytqzDYks/ltolrQvaAuIGl+nKIY6lFFM
+ 3PA1fpDWosDHJArCOcQlju59KqWsp75a+EJeWiu9MqsmVH8VCLYxGhU+88E2xeJM/pNG
+ xtKVxh3jujKzSjhpQwXLg/+W6W2K541dKCtUR1ddOX1z3Zblww+b3sOMF1PxypeTvxre
+ +ejg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=uPRTxKNCAof5pkoauqCmrFQFol4sBSMUrfjAOsKk1yg=;
+ b=sVC9BCwSaiStMD1pxiVothJJzQudg50Yt3q4LXsihe5qGL8B3xEKOQZ7gUW+Hkpilt
+ bROPShF6VO+AYi2gN1fFSx1TefJzIxkVnWLvjzOIWnIG8zDueULak7YuXrR4ql0Xo+3p
+ TXioLFcoII6oCVlCI6mL9mwR1Q5Uw8PN5bUNOFJ2pi5mi46AppKNIbx4POEPrX1kLWmC
+ E/LRyV2NgFwx93vBkSg7OCbeYl8fuLnimJLTUawI1HRZ7ThoaHidWvUklMnR05vSnKzM
+ ESwLBJU44MYO0C7Y1d92CQ5k9Riioo8Xi7rps6eNVI9KH4SntS3gRun1/UY1PbswQVrx
+ P+Mg==
+X-Gm-Message-State: AOAM532KiuFaN8WMTTWGGEFraSVPeeGpngtF1TkiYplOjMySkMDDfiJn
+ QgALMRqZ5fQzdE99FEjOoIaa+Q==
+X-Google-Smtp-Source: ABdhPJy64sdIXhQ42orOuznS5g4uCrG6YBKwVA22MneaI3zZQkYnl4LSmJjW/FJA+RjxqvZMu7sW9w==
+X-Received: by 2002:a05:622a:19a5:: with SMTP id
+ u37mr17136402qtc.10.1635875783783; 
+ Tue, 02 Nov 2021 10:56:23 -0700 (PDT)
+Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
+ [172.254.253.57])
+ by smtp.gmail.com with ESMTPSA id k16sm8807046qkj.70.2021.11.02.10.56.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Nov 2021 10:56:23 -0700 (PDT)
+Subject: Re: [RFC 3/6] target/riscv: rvk: add flag support for
+ Zk/Zkn/Zknd/Zknd/Zkne/Zknh/Zks/Zksed/Zksh/Zkr
+To: liweiwei <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20211102031128.17296-1-liweiwei@iscas.ac.cn>
+ <20211102031128.17296-4-liweiwei@iscas.ac.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <85f8f249-a54c-0ad6-a3bf-7bc4f072251b@linaro.org>
+Date: Tue, 2 Nov 2021 13:56:21 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211102163342.31162-1-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211102031128.17296-4-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x831.google.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.549,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,24 +92,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, luruibo2000@163.com,
+ lustrew@foxmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 02.11.2021 um 17:33 hat Stefan Hajnoczi geschrieben:
-> Reported by Coverity (CID 1465222).
-> 
-> Fixes: 4a1d937796de0fecd8b22d7dbebf87f38e8282fd ("softmmu/qdev-monitor: add error handling in qdev_set_id")
-> Cc: Damien Hedde <damien.hedde@greensocs.com>
-> Cc: Kevin Wolf <kwolf@redhat.com>
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+On 11/1/21 11:11 PM, liweiwei wrote:
+> +        if (cpu->cfg.ext_zk) {
+> +            cpu->cfg.ext_zbkb = true;
+> +            cpu->cfg.ext_zbkc = true;
+> +            cpu->cfg.ext_zbkx = true;
+> +            cpu->cfg.ext_zknd = true;
+> +            cpu->cfg.ext_zkne = true;
+> +            cpu->cfg.ext_zknh = true;
+> +            cpu->cfg.ext_zkr = true;
+> +        }
 
-Oops, this is an embarrassing one. Sorry, my fault, not Damien's.
+Section 2.12 lists instead the larger Zkn, Zks, Zkt extensions.
+I think it's better to follow that.
 
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 
+r~
 
