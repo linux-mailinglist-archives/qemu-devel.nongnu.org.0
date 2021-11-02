@@ -2,61 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA35C442A5C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 10:26:35 +0100 (CET)
-Received: from localhost ([::1]:56280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29D49442A6E
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 10:31:53 +0100 (CET)
+Received: from localhost ([::1]:58812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhq3v-0006VK-0H
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 05:26:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42810)
+	id 1mhq92-0000N8-1p
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 05:31:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mhq1d-0005gV-9r
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 05:24:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47918)
+ id 1mhq7q-000838-NH
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 05:30:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59280)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mhq1Z-0006dN-9V
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 05:24:10 -0400
+ id 1mhq7o-0007Zu-BS
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 05:30:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635845048;
+ s=mimecast20190719; t=1635845435;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wRbRYWb8MsAMnCKHFtOhh0rAaZgj3JFNywI4tYekwrM=;
- b=PxHIIWX39fAG+REJnLVhL++18By6jcADyWo+0tp28sjX8Gt9dRVYCoJQJusIIdaGqNVcbi
- Pti3SORxJzkdCgVT4Z9NEPfMzSGsWbmljtslS16HdshTlUwrY8tVkKuM6zJudWaxdS2csG
- /vf+jkufCOiTr3DBobInhWXVMDUicTA=
+ bh=fF/SLwzPY1/t8LlMRbBPQ+dh8MspkcNCf743IOT+GHg=;
+ b=JLoVMiMB2jJ4YeFjEArDvf+aVryD6cynUdP1RAVbQQuwWJKVX2AYgZ3tiMjncuqt1/+qbq
+ ARkonAOAsYjCd9mgzrddTg7GWujJPrAQkiMyOVJwx2RuU4PlO7utJbAnUn3gSb8sG74/B8
+ pzOgt+1zkGVFWnn4JG36p092PLaUp/Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-AsiTNBKzMweLEEGZI11CDg-1; Tue, 02 Nov 2021 05:23:59 -0400
-X-MC-Unique: AsiTNBKzMweLEEGZI11CDg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-512-Sdy49ygDNzOc8Rbw3IAbag-1; Tue, 02 Nov 2021 05:30:32 -0400
+X-MC-Unique: Sdy49ygDNzOc8Rbw3IAbag-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DB0281424F;
- Tue,  2 Nov 2021 09:23:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90F151006AA4;
+ Tue,  2 Nov 2021 09:30:31 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.194.194])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3ED671007625;
- Tue,  2 Nov 2021 09:23:56 +0000 (UTC)
-Date: Tue, 2 Nov 2021 09:23:52 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8608460D30;
+ Tue,  2 Nov 2021 09:30:30 +0000 (UTC)
+Date: Tue, 2 Nov 2021 09:30:27 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PULL 1/5] hw/pcie-root-port: Fix hotplug for PCI devices
- requiring IO
-Message-ID: <YYEDqJGe8qdKHgfh@redhat.com>
-References: <20210803205043.165034-1-mst@redhat.com>
- <20210803205043.165034-2-mst@redhat.com>
- <YVGP9vdTtu5sRVpl@redhat.com>
- <20210927053932-mutt-send-email-mst@kernel.org>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH v2] hmp: Add shortcut to stop command to match cont
+Message-ID: <YYEFM6+vOHDeusfG@redhat.com>
+References: <20211030095225.513D4748F48@zero.eik.bme.hu>
 MIME-Version: 1.0
-In-Reply-To: <20210927053932-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20211030095225.513D4748F48@zero.eik.bme.hu>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,67 +82,24 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Marcel Apfelbaum <marcel@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 27, 2021 at 05:49:15AM -0400, Michael S. Tsirkin wrote:
-> On Mon, Sep 27, 2021 at 10:33:42AM +0100, Daniel P. Berrangé wrote:
-> > On Tue, Aug 03, 2021 at 04:52:03PM -0400, Michael S. Tsirkin wrote:
-> > > From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> > > 
-> > > Q35 has now ACPI hotplug enabled by default for PCI(e) devices.
-> > > As opposed to native PCIe hotplug, guests like Fedora 34
-> > > will not assign IO range to pcie-root-ports not supporting
-> > > native hotplug, resulting into a regression.
-> > > 
-> > > Reproduce by:
-> > >     qemu-bin -M q35 -device pcie-root-port,id=p1 -monitor stdio
-> > >     device_add e1000,bus=p1
-> > > In the Guest OS the respective pcie-root-port will have the IO range
-> > > disabled.
-> > > 
-> > > Fix it by setting the "reserve-io" hint capability of the
-> > > pcie-root-ports so the firmware will allocate the IO range instead.
-> > > 
-> > > Acked-by: Igor Mammedov <imammedo@redhat.com>
-> > > Signed-off-by: Marcel Apfelbaum <marcel@redhat.com>
-> > > Message-Id: <20210802090057.1709775-1-marcel@redhat.com>
-> > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > > ---
-> > >  hw/pci-bridge/gen_pcie_root_port.c | 5 +++++
-> > >  1 file changed, 5 insertions(+)
-> > 
-> > This change, when combined with the switch to ACPI based hotplug by
-> > default, is responsible for a significant regression in QEMU 6.1.0
-> > 
-> > It is no longer possible to have more than 15 pcie-root-port devices
-> > added to a q35 VM in 6.1.0.  Before this I've had as many as 80+ devices
-> > present before I stopped trying to add more.
-> > 
-> >   https://gitlab.com/qemu-project/qemu/-/issues/641
-> > 
-> > This regression is significant, because it has broken the out of the
-> > box default configuration that OpenStack uses for booting all VMs.
-> > They add 16 pcie-root-ports by defalt to allow empty slots for device
-> > hotplug under q35 [1].
+On Sat, Oct 30, 2021 at 11:49:37AM +0200, BALATON Zoltan wrote:
+> Some commands such as quit or cont have one letter alternatives but
+> stop is missing that. Add stop|s to match cont|c for consistency and
+> convenience.
 > 
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
+> c2: Fixed typo in commit title
 > 
-> Indeed, oops. Thanks for the report!
+>  hmp-commands.hx | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-We're at soft freeze now and this is still broken in git master.
-I don't recall seeing a fix for this problem on list and no one has
-commented on the bug report.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Is anyone actively working on a fix for this release ?
-
-If not, I'm going to post a patch to revert to PCI native
-hotplug, because this was a significant regression in 6.1 that
-breaks openstack out of the box and we can't leave it broken
-again for 6.2.
 
 Regards,
 Daniel
