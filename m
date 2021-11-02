@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B283442D04
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 12:44:18 +0100 (CET)
-Received: from localhost ([::1]:53566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5F33442D5D
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 13:01:20 +0100 (CET)
+Received: from localhost ([::1]:48346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhsDA-00089V-Nk
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 07:44:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44526)
+	id 1mhsTf-0001fQ-T2
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 08:01:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhrh9-0001LM-R8
+ id 1mhrh9-0001KT-KN
  for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:11:11 -0400
-Received: from mail-qv1-xf30.google.com ([2607:f8b0:4864:20::f30]:40671)
+Received: from mail-qk1-x72a.google.com ([2607:f8b0:4864:20::72a]:34339)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhrh6-0001vR-OM
+ id 1mhrh7-0001wa-9P
  for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:11:11 -0400
-Received: by mail-qv1-xf30.google.com with SMTP id b11so9636718qvm.7
+Received: by mail-qk1-x72a.google.com with SMTP id bq14so7755075qkb.1
  for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 04:11:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lCTWBHg3yAPeLZcM1I7LLlGr7M38G+m6NQblxbcjKCQ=;
- b=ygL+JwzcnQXrPBY2UEo3CTtFx8eia8lQsuQ3t85CspfP1A6ipne1h+0PZDMI5Np/zH
- yS/qYabeHL6hoIbqOw4OHcg2gSpOGshe5Hnl+1mezsnADaA6Ae16GV6BYREbXZ7/arr9
- npV2GnF6E36jvrQZ6m3u4VSsykOu3pBSxlm6JVUqZMwj74Iqv0/0pOc5ohmhxpmd8uKt
- 7KZOlVhO3VK95WM0vG0Zvz84waoR1OPENtOC5thWrL9DtqBwxQKkey9WkbVSBuSfqeXM
- L5WvHcUymNQzkBxi/D548X0AJ+MOwjFHnB200B79mv6ISGqDGnoy1BhSbNc7HV0Fi19/
- mY5w==
+ bh=6E2EHrVXu+fKkNaLcRStkdoJxkkRxYzYfXrw6rxs8+I=;
+ b=Q6XFHrCupXMVTPp9bv4ETF+88jMNQPm3FFr07T/r3ZlW9LfqSGQ2BnW2e5LEvkTl7P
+ KAhI4bTpZiJABaR2UPvlZcnBAfvcWCmSjh4Z3UkK+0n0mL1MgZGb9Z1t2j4qoxkuYkG3
+ 37Rgn1SjlFEP9i/cUJtr1OEfNgilPxO6uxI8IpwAPtLqOYr0MnmJhRLJf8UQ5ZsHm91m
+ L6NDOuHjo6LGlAPwgby3cRcgH4ieF/NB961ioFdUPTBs5XD4MKbCrV46TvIwG6dCOUeg
+ 9mEd+rEHze5Fh19d+S+1hDIz/BiUclnrhXpqVHAFW5p6C0W7rrNzlYBmXzgVDxOZfFpU
+ Vxbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lCTWBHg3yAPeLZcM1I7LLlGr7M38G+m6NQblxbcjKCQ=;
- b=rozDFYVazA+r32ZCJAsYG+hmmfG+ftftKHo5ALfOGLI25wFNDYhy143bd8dgp7khMf
- i38jj7v+7UtngjJON7CqG491HT2bRj4rbIGw8gxEwLWQs+rEf9JtNJ6frF2iwtR9KLX+
- Oh1kSijtYvhdP8XtGQ0Mqh3EamotFJo3qu4bBU6UQ1q0/a8lFDUWDUX3XXHDKPJI/i90
- vPBZ7W/qlOlpgCXsjnOV3J0rdd8xhyIxj5Koq0/+Q9XC8OxxXp2J0rIXPZ2ttn9HZUNS
- U7tVozDh6DkfZHvYVBH/tHPjT7a+iLRWI8IqfPpdGglIK2PzSknezAyvgu/KMLundHUd
- I6Fg==
-X-Gm-Message-State: AOAM533ndWkKyFePu6P3OT5/l4oAP8ViZOpyci0vq9MNmeMn7+Od/uIY
- /KCN6cUbSUumUQoxJ6LE3VLzZwUBD+ePoA==
-X-Google-Smtp-Source: ABdhPJxLMZwj1Vr86ZyKeCG7BvE3i+NWvgQeoy884GKk+Ue6SofXjid8sG9h1klEbg1TEJwqEyNKMw==
-X-Received: by 2002:a0c:c702:: with SMTP id w2mr34490446qvi.24.1635851467919; 
- Tue, 02 Nov 2021 04:11:07 -0700 (PDT)
+ bh=6E2EHrVXu+fKkNaLcRStkdoJxkkRxYzYfXrw6rxs8+I=;
+ b=n99zmtT+rYFeO7IdWtow8BNxBBpjF88/ySkeBZF1nDy9ADrBMZ05ovdUvIeL4kadj+
+ NFMdk8vBZph0tG1l1gXMvFarZEpdebykDS/Mptjv1YgnDXdI1nOFLx5zxp4Bi7eWqDfG
+ xVNTPrPhWoIifDXoY3q0fTd40HciQQi32DreMSIAlMhRdkL/TQDpRGKE0uAbZP+MFJcJ
+ iM1P+PFyXxwAbQqo2+0HRyddRqdG/cmLr4z/Xdgq2F2FT78/6esbmD6ehcsv7a0j1YAa
+ WgTfdBQKLNvXCrZ4MmGLLreeGjZshvz6/VjMWZtjNlJhW1sPZTvEe0gJIPKFj70BgkET
+ LY7A==
+X-Gm-Message-State: AOAM5339Fb4HekRnvUds600bdC5HT+pzcQmyA3HaBG+nVD2ar4emQ49h
+ t9A7KmZ3UD8L3557X31FflwgTlctfzA5eA==
+X-Google-Smtp-Source: ABdhPJw4pgXNVM67twCoz7DBFw8qNnWrwrAhdDqRWD5bex0UPYu+tNRcuGqlX3DW7OcgYcQ0rj2Y9w==
+X-Received: by 2002:a37:b686:: with SMTP id g128mr28723388qkf.68.1635851468409; 
+ Tue, 02 Nov 2021 04:11:08 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-172-254-253-57.nyc.biz.rr.com.
  [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id bm25sm12730854qkb.4.2021.11.02.04.11.07
+ by smtp.gmail.com with ESMTPSA id bm25sm12730854qkb.4.2021.11.02.04.11.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 04:11:07 -0700 (PDT)
+ Tue, 02 Nov 2021 04:11:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 44/60] target/alpha: Implement alpha_cpu_record_sigbus
-Date: Tue,  2 Nov 2021 07:07:24 -0400
-Message-Id: <20211102110740.215699-45-richard.henderson@linaro.org>
+Subject: [PULL 45/60] target/arm: Implement arm_cpu_record_sigbus
+Date: Tue,  2 Nov 2021 07:07:25 -0400
+Message-Id: <20211102110740.215699-46-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211102110740.215699-1-richard.henderson@linaro.org>
 References: <20211102110740.215699-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f30;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,136 +83,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Record trap_arg{0,1,2} for the linux-user signal frame.
+Because of the complexity of setting ESR, re-use the existing
+arm_cpu_do_unaligned_access function.  This means we have to
+handle the exception ourselves in cpu_loop, transforming it
+to the appropriate signal.
 
-Raise SIGBUS directly from cpu_loop_exit_sigbus, which means
-we can remove the code for EXCP_UNALIGN in cpu_loop.
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/alpha/cpu.h          |  8 +++++---
- linux-user/alpha/cpu_loop.c |  7 -------
- target/alpha/cpu.c          |  1 +
- target/alpha/mem_helper.c   | 30 ++++++++++++++++++++++--------
- 4 files changed, 28 insertions(+), 18 deletions(-)
+ target/arm/internals.h        |  2 ++
+ linux-user/aarch64/cpu_loop.c | 12 +++++++++---
+ linux-user/arm/cpu_loop.c     | 30 ++++++++++++++++++++++++++----
+ target/arm/cpu.c              |  1 +
+ target/arm/cpu_tcg.c          |  1 +
+ target/arm/tlb_helper.c       |  6 ++++++
+ 6 files changed, 45 insertions(+), 7 deletions(-)
 
-diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
-index d49cc36d07..afd975c878 100644
---- a/target/alpha/cpu.h
-+++ b/target/alpha/cpu.h
-@@ -282,9 +282,6 @@ void alpha_cpu_dump_state(CPUState *cs, FILE *f, int flags);
- hwaddr alpha_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
- int alpha_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int alpha_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
--void alpha_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
--                                   MMUAccessType access_type, int mmu_idx,
--                                   uintptr_t retaddr) QEMU_NORETURN;
- 
- #define cpu_list alpha_cpu_list
- 
-@@ -451,10 +448,15 @@ void cpu_alpha_store_gr(CPUAlphaState *env, unsigned reg, uint64_t val);
- void alpha_cpu_record_sigsegv(CPUState *cs, vaddr address,
-                               MMUAccessType access_type,
-                               bool maperr, uintptr_t retaddr);
-+void alpha_cpu_record_sigbus(CPUState *cs, vaddr address,
-+                             MMUAccessType access_type, uintptr_t retaddr);
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 5a7aaf0f51..89f7610ebc 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -548,6 +548,8 @@ static inline bool arm_extabort_type(MemTxResult result)
+ void arm_cpu_record_sigsegv(CPUState *cpu, vaddr addr,
+                             MMUAccessType access_type,
+                             bool maperr, uintptr_t ra);
++void arm_cpu_record_sigbus(CPUState *cpu, vaddr addr,
++                           MMUAccessType access_type, uintptr_t ra);
  #else
- bool alpha_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                         MMUAccessType access_type, int mmu_idx,
-                         bool probe, uintptr_t retaddr);
-+void alpha_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
-+                                   MMUAccessType access_type, int mmu_idx,
-+                                   uintptr_t retaddr) QEMU_NORETURN;
- void alpha_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
-                                      vaddr addr, unsigned size,
-                                      MMUAccessType access_type,
-diff --git a/linux-user/alpha/cpu_loop.c b/linux-user/alpha/cpu_loop.c
-index 4cc8e0a55c..4029849d5c 100644
---- a/linux-user/alpha/cpu_loop.c
-+++ b/linux-user/alpha/cpu_loop.c
-@@ -54,13 +54,6 @@ void cpu_loop(CPUAlphaState *env)
-             fprintf(stderr, "External interrupt. Exit\n");
-             exit(EXIT_FAILURE);
+ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                       MMUAccessType access_type, int mmu_idx,
+diff --git a/linux-user/aarch64/cpu_loop.c b/linux-user/aarch64/cpu_loop.c
+index 034b737435..97e0728b67 100644
+--- a/linux-user/aarch64/cpu_loop.c
++++ b/linux-user/aarch64/cpu_loop.c
+@@ -79,7 +79,7 @@
+ void cpu_loop(CPUARMState *env)
+ {
+     CPUState *cs = env_cpu(env);
+-    int trapnr, ec, fsc, si_code;
++    int trapnr, ec, fsc, si_code, si_signo;
+     abi_long ret;
+ 
+     for (;;) {
+@@ -121,20 +121,26 @@ void cpu_loop(CPUARMState *env)
+             fsc = extract32(env->exception.syndrome, 0, 6);
+             switch (fsc) {
+             case 0x04 ... 0x07: /* Translation fault, level {0-3} */
++                si_signo = TARGET_SIGSEGV;
+                 si_code = TARGET_SEGV_MAPERR;
+                 break;
+             case 0x09 ... 0x0b: /* Access flag fault, level {1-3} */
+             case 0x0d ... 0x0f: /* Permission fault, level {1-3} */
++                si_signo = TARGET_SIGSEGV;
+                 si_code = TARGET_SEGV_ACCERR;
+                 break;
+             case 0x11: /* Synchronous Tag Check Fault */
++                si_signo = TARGET_SIGSEGV;
+                 si_code = TARGET_SEGV_MTESERR;
+                 break;
++            case 0x21: /* Alignment fault */
++                si_signo = TARGET_SIGBUS;
++                si_code = TARGET_BUS_ADRALN;
++                break;
+             default:
+                 g_assert_not_reached();
+             }
+-
+-            force_sig_fault(TARGET_SIGSEGV, si_code, env->exception.vaddress);
++            force_sig_fault(si_signo, si_code, env->exception.vaddress);
              break;
--        case EXCP_UNALIGN:
--            info.si_signo = TARGET_SIGBUS;
--            info.si_errno = 0;
--            info.si_code = TARGET_BUS_ADRALN;
--            info._sifields._sigfault._addr = env->trap_arg0;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
--            break;
-         case EXCP_OPCDEC:
-         do_sigill:
-             info.si_signo = TARGET_SIGILL;
-diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
-index 69f32c3078..a8990d401b 100644
---- a/target/alpha/cpu.c
-+++ b/target/alpha/cpu.c
-@@ -221,6 +221,7 @@ static const struct TCGCPUOps alpha_tcg_ops = {
+         case EXCP_DEBUG:
+         case EXCP_BKPT:
+diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
+index ae09adcb95..01cb6eb534 100644
+--- a/linux-user/arm/cpu_loop.c
++++ b/linux-user/arm/cpu_loop.c
+@@ -25,6 +25,7 @@
+ #include "cpu_loop-common.h"
+ #include "signal-common.h"
+ #include "semihosting/common-semi.h"
++#include "target/arm/syndrome.h"
+ 
+ #define get_user_code_u32(x, gaddr, env)                \
+     ({ abi_long __r = get_user_u32((x), (gaddr));       \
+@@ -280,7 +281,7 @@ static bool emulate_arm_fpa11(CPUARMState *env, uint32_t opcode)
+ void cpu_loop(CPUARMState *env)
+ {
+     CPUState *cs = env_cpu(env);
+-    int trapnr;
++    int trapnr, si_signo, si_code;
+     unsigned int n, insn;
+     abi_ulong ret;
+ 
+@@ -423,9 +424,30 @@ void cpu_loop(CPUARMState *env)
+             break;
+         case EXCP_PREFETCH_ABORT:
+         case EXCP_DATA_ABORT:
+-            /* XXX: check env->error_code */
+-            force_sig_fault(TARGET_SIGSEGV, TARGET_SEGV_MAPERR,
+-                            env->exception.vaddress);
++            /* For user-only we don't set TTBCR_EAE, so look at the FSR. */
++            switch (env->exception.fsr & 0x1f) {
++            case 0x1: /* Alignment */
++                si_signo = TARGET_SIGBUS;
++                si_code = TARGET_BUS_ADRALN;
++                break;
++            case 0x3: /* Access flag fault, level 1 */
++            case 0x6: /* Access flag fault, level 2 */
++            case 0x9: /* Domain fault, level 1 */
++            case 0xb: /* Domain fault, level 2 */
++            case 0xd: /* Permision fault, level 1 */
++            case 0xf: /* Permision fault, level 2 */
++                si_signo = TARGET_SIGSEGV;
++                si_code = TARGET_SEGV_ACCERR;
++                break;
++            case 0x5: /* Translation fault, level 1 */
++            case 0x7: /* Translation fault, level 2 */
++                si_signo = TARGET_SIGSEGV;
++                si_code = TARGET_SEGV_MAPERR;
++                break;
++            default:
++                g_assert_not_reached();
++            }
++            force_sig_fault(si_signo, si_code, env->exception.vaddress);
+             break;
+         case EXCP_DEBUG:
+         case EXCP_BKPT:
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 7a18a58ca0..a211804fd3 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -2035,6 +2035,7 @@ static const struct TCGCPUOps arm_tcg_ops = {
  
  #ifdef CONFIG_USER_ONLY
-     .record_sigsegv = alpha_cpu_record_sigsegv,
-+    .record_sigbus = alpha_cpu_record_sigbus,
+     .record_sigsegv = arm_cpu_record_sigsegv,
++    .record_sigbus = arm_cpu_record_sigbus,
  #else
-     .tlb_fill = alpha_cpu_tlb_fill,
-     .cpu_exec_interrupt = alpha_cpu_exec_interrupt,
-diff --git a/target/alpha/mem_helper.c b/target/alpha/mem_helper.c
-index 75e72bc337..47283a0612 100644
---- a/target/alpha/mem_helper.c
-+++ b/target/alpha/mem_helper.c
-@@ -23,18 +23,12 @@
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
+     .tlb_fill = arm_cpu_tlb_fill,
+     .cpu_exec_interrupt = arm_cpu_exec_interrupt,
+diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+index 7b3bea2fbb..13d0e9b195 100644
+--- a/target/arm/cpu_tcg.c
++++ b/target/arm/cpu_tcg.c
+@@ -902,6 +902,7 @@ static const struct TCGCPUOps arm_v7m_tcg_ops = {
  
--/* Softmmu support */
--#ifndef CONFIG_USER_ONLY
--void alpha_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
--                                   MMUAccessType access_type,
--                                   int mmu_idx, uintptr_t retaddr)
-+static void do_unaligned_access(CPUAlphaState *env, vaddr addr, uintptr_t retaddr)
- {
--    AlphaCPU *cpu = ALPHA_CPU(cs);
--    CPUAlphaState *env = &cpu->env;
-     uint64_t pc;
-     uint32_t insn;
- 
--    cpu_restore_state(cs, retaddr, true);
-+    cpu_restore_state(env_cpu(env), retaddr, true);
- 
-     pc = env->pc;
-     insn = cpu_ldl_code(env, pc);
-@@ -42,6 +36,26 @@ void alpha_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-     env->trap_arg0 = addr;
-     env->trap_arg1 = insn >> 26;                /* opcode */
-     env->trap_arg2 = (insn >> 21) & 31;         /* dest regno */
-+}
+ #ifdef CONFIG_USER_ONLY
+     .record_sigsegv = arm_cpu_record_sigsegv,
++    .record_sigbus = arm_cpu_record_sigbus,
+ #else
+     .tlb_fill = arm_cpu_tlb_fill,
+     .cpu_exec_interrupt = arm_v7m_cpu_exec_interrupt,
+diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
+index dc5860180f..12a934e924 100644
+--- a/target/arm/tlb_helper.c
++++ b/target/arm/tlb_helper.c
+@@ -213,4 +213,10 @@ void arm_cpu_record_sigsegv(CPUState *cs, vaddr addr,
+     cpu_restore_state(cs, ra, true);
+     arm_deliver_fault(cpu, addr, access_type, MMU_USER_IDX, &fi);
+ }
 +
-+#ifdef CONFIG_USER_ONLY
-+void alpha_cpu_record_sigbus(CPUState *cs, vaddr addr,
-+                             MMUAccessType access_type, uintptr_t retaddr)
++void arm_cpu_record_sigbus(CPUState *cs, vaddr addr,
++                           MMUAccessType access_type, uintptr_t ra)
 +{
-+    AlphaCPU *cpu = ALPHA_CPU(cs);
-+    CPUAlphaState *env = &cpu->env;
-+
-+    do_unaligned_access(env, addr, retaddr);
++    arm_cpu_do_unaligned_access(cs, addr, access_type, MMU_USER_IDX, ra);
 +}
-+#else
-+void alpha_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-+                                   MMUAccessType access_type,
-+                                   int mmu_idx, uintptr_t retaddr)
-+{
-+    AlphaCPU *cpu = ALPHA_CPU(cs);
-+    CPUAlphaState *env = &cpu->env;
-+
-+    do_unaligned_access(env, addr, retaddr);
-     cs->exception_index = EXCP_UNALIGN;
-     env->error_code = 0;
-     cpu_loop_exit(cs);
+ #endif /* !defined(CONFIG_USER_ONLY) */
 -- 
 2.25.1
 
