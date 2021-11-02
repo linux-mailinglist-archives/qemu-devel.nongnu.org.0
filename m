@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DDAD4432AC
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 17:26:03 +0100 (CET)
-Received: from localhost ([::1]:50990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0631C4432AF
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 17:29:28 +0100 (CET)
+Received: from localhost ([::1]:59086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhwbq-00022K-KC
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 12:26:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53410)
+	id 1mhwf9-0007vr-44
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 12:29:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mhwIb-0007lP-VG
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 12:06:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57625)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mhwId-0007nE-3B
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 12:06:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54261)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mhwIW-0004Jr-Bh
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 12:06:08 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mhwIW-0004K5-Qa
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 12:06:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635869162;
+ s=mimecast20190719; t=1635869164;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iKkOl79dx1hSAtyL6l9dDJUk26EdZlHFnVI3JNXGWRE=;
- b=J7xCUMlhq3QjsRTTKW2HC2FirATrDVrr5WtcsLwqpFoeWlR1yNvCwRdgZ2Fx7TMTrs+UQ+
- VbHrJQ9iIIEguODw/Fg6X8Svc8j7kIIa94Tws2srjT7RVnw1rabo9SizxnXdwkcDo2AHVT
- 5+aqKzH5nkbufq0NprRVZcXyCF2Kky4=
+ bh=cgGTJ/f84lxZ/vwiO/DxnsG/FmLFrXSGA8ZhR7WxWpA=;
+ b=RfX73Rj2zI9oSzvw+bnuUzcwjmUo+2GMKjbc9hAK0v09VZPB5U2XijuHd6BBa4ogFC5Mfh
+ Kk6lYcRQIXzntM93+QOED0YeJ5axIEcevWl2pZbNIJ3NvjnH6tmecLWpNB57S2gHU0LuhZ
+ siDBweMK6iHU06MevwRodTx9kJaxDko=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-205-PPdcLtGOPdG_bkjMdQAgGw-1; Tue, 02 Nov 2021 12:05:57 -0400
-X-MC-Unique: PPdcLtGOPdG_bkjMdQAgGw-1
+ us-mta-177-s91uYTHcNKWPYRw6oLcKKw-1; Tue, 02 Nov 2021 12:05:59 -0400
+X-MC-Unique: s91uYTHcNKWPYRw6oLcKKw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA6901006AA3;
- Tue,  2 Nov 2021 16:05:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08D0219200C1;
+ Tue,  2 Nov 2021 16:05:58 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.193.81])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD9225D9D3;
- Tue,  2 Nov 2021 16:05:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 11C045D9D3;
+ Tue,  2 Nov 2021 16:05:56 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 09/12] block-backend: Silence clang -m32 compiler warning
-Date: Tue,  2 Nov 2021 17:05:25 +0100
-Message-Id: <20211102160528.206766-10-kwolf@redhat.com>
+Subject: [PULL 10/12] block/nvme: Automatically free qemu_memalign() with
+ QEMU_AUTO_VFREE
+Date: Tue,  2 Nov 2021 17:05:26 +0100
+Message-Id: <20211102160528.206766-11-kwolf@redhat.com>
 In-Reply-To: <20211102160528.206766-1-kwolf@redhat.com>
 References: <20211102160528.206766-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -63,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,42 +81,78 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hanna Reitz <hreitz@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Similarly to e7e588d432d31ecebc26358e47201dd108db964c, there is a
-warning in block/block-backend.c that qiov->size <= INT64_MAX is always
-true on machines where size_t is narrower than a uint64_t.  In said
-commit, we silenced this warning by casting to uint64_t.
+Since commit 4d324c0bf65 ("introduce QEMU_AUTO_VFREE") buffers
+allocated by qemu_memalign() can automatically freed when using
+the QEMU_AUTO_VFREE macro. Use it to simplify a bit.
 
-The commit introducing this warning here
-(a93d81c84afa717b0a1a6947524d8d1fbfd6bbf5) anticipated it and so tried
-to address it the same way.  However, it only did so in one of two
-places where this comparison occurs, and so we still need to fix up the
-other one.
-
-Fixes: a93d81c84afa717b0a1a6947524d8d1fbfd6bbf5
-       ("block-backend: convert blk_aio_ functions to int64_t bytes
-       paramter")
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20211026090745.30800-1-hreitz@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20211006164931.172349-2-philmd@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/block-backend.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/nvme.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 39cd99df2b..12ef80ea17 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -1540,7 +1540,7 @@ BlockAIOCB *blk_aio_pwritev(BlockBackend *blk, int64_t offset,
-                             QEMUIOVector *qiov, BdrvRequestFlags flags,
-                             BlockCompletionFunc *cb, void *opaque)
+diff --git a/block/nvme.c b/block/nvme.c
+index 1cc7b62bb4..fefcc04abe 100644
+--- a/block/nvme.c
++++ b/block/nvme.c
+@@ -514,10 +514,10 @@ static bool nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
  {
--    assert(qiov->size <= INT64_MAX);
-+    assert((uint64_t)qiov->size <= INT64_MAX);
-     return blk_aio_prwv(blk, offset, qiov->size, qiov,
-                         blk_aio_write_entry, flags, cb, opaque);
+     BDRVNVMeState *s = bs->opaque;
+     bool ret = false;
+-    union {
++    QEMU_AUTO_VFREE union {
+         NvmeIdCtrl ctrl;
+         NvmeIdNs ns;
+-    } *id;
++    } *id = NULL;
+     NvmeLBAF *lbaf;
+     uint16_t oncs;
+     int r;
+@@ -595,7 +595,6 @@ static bool nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+     s->blkshift = lbaf->ds;
+ out:
+     qemu_vfio_dma_unmap(s->vfio, id);
+-    qemu_vfree(id);
+ 
+     return ret;
+ }
+@@ -1219,7 +1218,7 @@ static int nvme_co_prw(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
+ {
+     BDRVNVMeState *s = bs->opaque;
+     int r;
+-    uint8_t *buf = NULL;
++    QEMU_AUTO_VFREE uint8_t *buf = NULL;
+     QEMUIOVector local_qiov;
+     size_t len = QEMU_ALIGN_UP(bytes, qemu_real_host_page_size);
+     assert(QEMU_IS_ALIGNED(offset, s->page_size));
+@@ -1246,7 +1245,6 @@ static int nvme_co_prw(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
+     if (!r && !is_write) {
+         qemu_iovec_from_buf(qiov, 0, buf, bytes);
+     }
+-    qemu_vfree(buf);
+     return r;
+ }
+ 
+@@ -1365,7 +1363,7 @@ static int coroutine_fn nvme_co_pdiscard(BlockDriverState *bs,
+     BDRVNVMeState *s = bs->opaque;
+     NVMeQueuePair *ioq = s->queues[INDEX_IO(0)];
+     NVMeRequest *req;
+-    NvmeDsmRange *buf;
++    QEMU_AUTO_VFREE NvmeDsmRange *buf = NULL;
+     QEMUIOVector local_qiov;
+     int ret;
+ 
+@@ -1440,7 +1438,6 @@ static int coroutine_fn nvme_co_pdiscard(BlockDriverState *bs,
+     trace_nvme_dsm_done(s, offset, bytes, ret);
+ out:
+     qemu_iovec_destroy(&local_qiov);
+-    qemu_vfree(buf);
+     return ret;
+ 
  }
 -- 
 2.31.1
