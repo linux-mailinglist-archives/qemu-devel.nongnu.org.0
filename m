@@ -2,70 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EA4444307C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:34:36 +0100 (CET)
-Received: from localhost ([::1]:39680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFCC544307E
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:34:54 +0100 (CET)
+Received: from localhost ([::1]:41794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhurz-0004YP-40
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:34:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42752)
+	id 1mhusH-0005yT-Ua
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:34:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1mhuXK-0005S5-CC
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:13:14 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:48008)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mhuXY-0007Ct-S5
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:13:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57122)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1mhuXF-0005BW-TP
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:13:12 -0400
-Received: from vla1-a78d115f8d22.qloud-c.yandex.net
- (vla1-a78d115f8d22.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:2906:0:640:a78d:115f])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 6F1C02E12A5
- for <qemu-devel@nongnu.org>; Tue,  2 Nov 2021 17:13:04 +0300 (MSK)
-Received: from vla1-81430ab5870b.qloud-c.yandex.net
- (vla1-81430ab5870b.qloud-c.yandex.net [2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by vla1-a78d115f8d22.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- J5vurPcbXC-D4sqUPkJ; Tue, 02 Nov 2021 17:13:04 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1635862384; bh=XPhsjR6riRL7H7btC01mik4++GfSu5d8T44vC0CPDvs=;
- h=In-Reply-To:Date:References:To:From:Subject:Message-ID;
- b=M9NDlD4DQ2zo8slLxE1ZC2eR5ywfBeuy+yJqsaNAWVDHb/6CMojQ6OqxHN1Qi6LXv
- o9VMCWR5cJAU9qyi1xn6lCfDUr1ULs3oJogqzjT9SGzJTkh68EUOdBGjkTXuvUREkZ
- HlovRnYFW1xe/abe9yjYAMotPU3T74HbwHD3ejy8=
-Authentication-Results: vla1-a78d115f8d22.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from [IPv6:2a02:6b8:b081:8010::1:3a] (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b081:8010::1:3a])
- by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPS id
- kcX3wvvB98-D4xSDZ6u; Tue, 02 Nov 2021 17:13:04 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-X-Yandex-Fwd: 2
-Subject: Re: [PATCH v0] vl: flush all task from rcu queue before exiting
-From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-To: qemu-devel@nongnu.org
-References: <20211102133901.286027-1-den-plotnikov@yandex-team.ru>
-Message-ID: <01a5d04b-06c4-7e41-79cb-acbc450aa884@yandex-team.ru>
-Date: Tue, 2 Nov 2021 17:13:03 +0300
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mhuXV-0005JX-0N
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:13:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635862402;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RNV8zmJp9qrG0oEyPZ4jt2LUW8JhH2OrvaFQOaH+uSg=;
+ b=Bz8oSnPNGFhtPF1db/GJ8UqG884UKwBOfPNIZLudxW6mOD8bHwP7WZ8rN9JNVaU3PD5svI
+ DjpY5L4kLluNMfs1DXfXNdApS5xJvCXlmqp8VNNsquYArm2wQsNW6pbGhRA3z7EUPaWnH7
+ uH6FiGyFTZLXtHNqWk52FJ58IoGm50U=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-8-HMwsMQssO9unq5yRwIc1dA-1; Tue, 02 Nov 2021 10:13:22 -0400
+X-MC-Unique: HMwsMQssO9unq5yRwIc1dA-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ d11-20020a50cd4b000000b003da63711a8aso18870470edj.20
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 07:13:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RNV8zmJp9qrG0oEyPZ4jt2LUW8JhH2OrvaFQOaH+uSg=;
+ b=mkHjUBv6rLy0hyzfA2W8KepIlJ8HSZwPR4f0EaS8CGZsY9TEOP74Xzg4HMVKl7M8lU
+ fNIS8XSjD0UjmKOYXOIvtZyzOk47DkR/f8c2nRNLqL01Zgpash0kiNodtwU55Uo5iCFr
+ uopX3MnH1QLKBmQkHsMDXukqRTUAfyXjsW9Lzr6gGZrksbzK1aQ+oan4jw+zNCHy1BJF
+ pdK/iOmNqTl7pK9nSecdwTJP8jhNPI969LEH5gV8bxlj2AlwD/2/O9UjtUHBoLlO6kaZ
+ ywavHwOBFC7BtRCoHVHVqf+h7Jp/YOVb/xY45XBQ1Mr9N3GabWeEtrmhcnn9qU1BAHia
+ R5hA==
+X-Gm-Message-State: AOAM533clmNcJYsCv3iN0T4Oj13vMh6qgDtf4baevgulanzM0q9mw62f
+ bsVKT24I0MZ54p6+utiRhTvzyqQ0gQTKxBUxuXRkxNAd2L2Xa2mDKquNmJoTNgL0kekZFWp04B4
+ 287S1Rrsr/W67/CNiS8HACGHvEisABGOLYSPIW7cS9WAA51yU0OK0yT+V0J/QMU2N04E=
+X-Received: by 2002:a17:906:b097:: with SMTP id
+ x23mr45175768ejy.501.1635862400492; 
+ Tue, 02 Nov 2021 07:13:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz/y7bCZ70wO1MMHPwK7MUjISQcCOv0cuOAEdegmAHRqfhXA5zFp4XI45TCxFGipFA5NSQ7kQ==
+X-Received: by 2002:a17:906:b097:: with SMTP id
+ x23mr45175704ejy.501.1635862400010; 
+ Tue, 02 Nov 2021 07:13:20 -0700 (PDT)
+Received: from localhost.localdomain
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id d22sm8476980ejj.47.2021.11.02.07.13.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Nov 2021 07:13:19 -0700 (PDT)
+Subject: Re: [RFC PATCH 00/15] job: replace AioContext lock with job_mutex
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20211029163914.4044794-1-eesposit@redhat.com>
+ <dd430e7e-d45c-038f-d571-9be2a0823ee2@virtuozzo.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Message-ID: <4d2184cf-7e4f-97de-484d-ddc11ae5c6d8@redhat.com>
+Date: Tue, 2 Nov 2021 15:13:18 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20211102133901.286027-1-den-plotnikov@yandex-team.ru>
+In-Reply-To: <dd430e7e-d45c-038f-d571-9be2a0823ee2@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.549,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -60
+X-Spam_score: -6.1
+X-Spam_bar: ------
+X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.549, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,80 +103,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 02.11.2021 16:39, Denis Plotnikov wrote:
-> The device destruction may superimpose over qemu shutdown.
-> In this case some management layer, requested a device unplug and
-> waiting for DEVICE_DELETED event, may never get this event.
->
-> This happens because device_finalize() may never be called on qemu shutdown
-> for some devices using address_space_destroy(). The later is called from
-> the rcu thread.
-> On qemu shutdown, not all rcu callbacks may be called because the rcu thread
-> may not have enough time to converge before qemu main thread exit.
->
-> To resolve this issue this patch makes rcu thread to finish all its callbacks
-> explicitly by calling a new rcu intreface function right before
-> qemu main thread exit.
->
-> Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-> ---
->   include/qemu/rcu.h |  1 +
->   softmmu/runstate.c |  3 +++
->   util/rcu.c         | 12 ++++++++++++
->   3 files changed, 16 insertions(+)
->
-> diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
-> index 515d327cf11c..f7fbdc3781e5 100644
-> --- a/include/qemu/rcu.h
-> +++ b/include/qemu/rcu.h
-> @@ -134,6 +134,7 @@ struct rcu_head {
->   
->   extern void call_rcu1(struct rcu_head *head, RCUCBFunc *func);
->   extern void drain_call_rcu(void);
-> +extern void flush_rcu(void);
->   
->   /* The operands of the minus operator must have the same type,
->    * which must be the one that we specify in the cast.
-> diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-> index 10d9b7365aa7..28f319a97a2b 100644
-> --- a/softmmu/runstate.c
-> +++ b/softmmu/runstate.c
-> @@ -822,5 +822,8 @@ void qemu_cleanup(void)
-actually, flush_rcu() should be here before monitor_cleanup to send 
-DEVICE_DELETED
->       monitor_cleanup();
->       qemu_chr_cleanup();
->       user_creatable_cleanup();
-> +
-> +    /* finish all the tasks from rcu queue before exiting */
-> +    flush_rcu();
->       /* TODO: unref root container, check all devices are ok */
->   }
-> diff --git a/util/rcu.c b/util/rcu.c
-> index 13ac0f75cb2a..f047f8ee8d16 100644
-> --- a/util/rcu.c
-> +++ b/util/rcu.c
-> @@ -348,6 +348,18 @@ void drain_call_rcu(void)
->   
->   }
->   
-> +/*
-> + * This function drains rcu queue until there are no tasks to do left
-> + * and aims to the cases when one needs to ensure that no work hang
-> + * in rcu thread before proceeding, e.g. on qemu shutdown.
-> + */
-> +void flush_rcu(void)
-> +{
-> +    while (qatomic_read(&rcu_call_count) > 0) {
-> +        drain_call_rcu();
-> +    }
-> +}
-> +
->   void rcu_register_thread(void)
->   {
->       assert(rcu_reader.ctr == 0);
+
+On 02/11/2021 14:08, Vladimir Sementsov-Ogievskiy wrote:
+> 29.10.2021 19:38, Emanuele Giuseppe Esposito wrote:
+>> In this series, we want to remove the AioContext lock and instead
+>> use the already existent job_mutex to protect the job structures
+>> and list. This is part of the work to get rid of AioContext lock
+>> usage in favour of smaller granularity locks.
+>>
+>> In patches 1-3-5-6-7, we split the job API in two headers:
+>> job-driver.h and job-monitor.h.
+>> As explained in job.c, job-monitor are the functions mainly used
+>> by the monitor, and require consistency between the search of
+>> a specific job (job_get) and the actual operation/action on it
+>> (e.g. job_user_cancel). Therefore job-monitor API assume that
+>> the job mutex lock is always held by the caller.
+>>
+>> job-driver, on the other side, is the collection of functions
+>> that are used by the job drivers or core block layer. These
+>> functions are not aware of the job mutex, and delegate the
+>> locking to the callee instead.
+>>
+>> We also have job-common.h contains the job struct definition
+>> and common functions that are not part of monitor or driver APIs.
+>> job.h is left for legacy and to avoid changing all files that
+>> include it.
+> 
+> 
+> Honestly, I don't really like the idea of splitting:
+> 
+> 1. It's not a functional split: for some functions we have a locked 
+> version in one header and unlocked in the other. But actually they are 
+> the same function. I'd prefer such wrappers to live together. All the 
+> declarations in the headers are about one thing: Job.
+
+This is something I thought made sense, but I understand that it can be 
+confusing. We can also have both versions in the same API. In the end, 
+remember that we are talking about only 2 functions: job_is_ready_locked 
+and job_early_fail_locked
+
+> 
+> I think, splitting make sense when we really split things, split objects 
+> into some separate entities. But here you just use different header to 
+> group functions by some criteria not related to their action. I don't 
+> like it.
+> 
+> I think, it's enough to specify in a comment above the function, does it 
+> need locking or not ("foo_locked" naming helps too), and different 
+> headers doesn't help to understand code but make it more difficult.
+> 
+
+I think that having a single comment above a group of functions does not 
+help, because one might forget about it (or the function is far below 
+the comment) and insert a new function in the wrong category. Adding the 
+same comment to each function makes it redundant IMO. And btw each of 
+job-monitor functions has the following (redundant) comment:
+
+Called between job_lock and job_unlock.
+
+Splitting an API in two files might force people to notice that there is 
+a physical separation and reason between the two APIs, other than the 
+fact that it will be easier for the reviewer to notice if a function is 
+added to the wrong API.
+
+> 
+> 2. I don't like file names:
+> 
+> "job-driver" for me sounds like something about JobDriver struct. 
+
+Well it is actually related to the JobDriver struct. It is used by the 
+files/function that implement a JobDriver, like mirror, commit, stream ...
+
+> "job-monitor" - unclear. You define job-monitor as functions mainly used 
+> by the monitor. But actually they are used by other code paths as well.. 
+> Also, jobs don't directly relate to monitor, they are abstract, so no 
+> reason to establish such a relation in file names.
+> 
+
+I think you got the reasoning behind those but just in case:
+
+- job-driver.h : used by the "drivers", ie those who implement 
+JobDriver/BlockJobDriver callbacks. Drivers have no knowledge of the job 
+lock, so all functions acquire and release the lock internally.
+
+Yes, in *two* cases I kind of broke this rule when I implemented custom 
+job-driver functions like job_enter_not_paused and 
+job_not_paused_nor_cancelled to avoid TOC/TOU, but I am not even sure 
+whether they are necessary or not.
+
+- job-monitor.h : used by the monitor API, but not only there. The main 
+idea of this category is that the functions assume that the lock is 
+held. Therefore they can used together in the same critical section and 
+avoid TOC/TOU conditions.
+
+Maybe job-driver and job-unlocked?
+Feel free to suggest new names :)
+
+Emanuele
+
 
