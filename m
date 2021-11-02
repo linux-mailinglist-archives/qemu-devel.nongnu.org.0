@@ -2,58 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4F51443163
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 16:17:45 +0100 (CET)
-Received: from localhost ([::1]:44484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FE9A443145
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 16:09:34 +0100 (CET)
+Received: from localhost ([::1]:47500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhvXk-0001XR-5Y
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 11:17:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58714)
+	id 1mhvPp-0001Cg-Eq
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 11:09:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mhvFn-0003MX-EI
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:59:11 -0400
-Received: from mail-ua1-x92a.google.com ([2607:f8b0:4864:20::92a]:38411)
+ (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mhvG5-0003gv-V6
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:59:30 -0400
+Received: from mail-ua1-x92a.google.com ([2607:f8b0:4864:20::92a]:46981)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mhvFk-0003TQ-Iu
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:59:11 -0400
-Received: by mail-ua1-x92a.google.com with SMTP id o26so38478924uab.5
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 07:59:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mhvG2-0003Ug-8C
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:59:29 -0400
+Received: by mail-ua1-x92a.google.com with SMTP id az37so10199673uab.13
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 07:59:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=l+EbGFGzz3cVp1ozeRjMrUo/6U1jb0Ru2emMs911JRU=;
- b=iV5cN8B7YzQ50AE7W19TiZRE2Vs8DnTT4j5D2DU28SjTs5VKDV7xu3oi/RKjVS5Jdy
- xd+IIPmvUKX60g1MoD9CbO0vtg3UIPSUNeBSrkKsC0lgtdwAR8IfLWB3e2mr9SRGN4Ix
- 2Q68tUEo7UNcEgDm7Bm+vWkX6m9dmYpCwRp9w=
+ :cc; bh=84UcpXnrF/7DxTV7XUz9z+1k4+yx0kgp2hlKvsIAwB8=;
+ b=DSFWdn5lv/HRde56jU+7aai4LkjyDufhTN3Blotxd/qiIx3+iBxx2Eu0x4h0QikgEG
+ faal6C07S/ndkg4Jyt2qwXpbdwJN9Qnvj+xZfvu2Sam/d5p6mFgAWN8rb4CF/zLl4+7r
+ 9Sie8gYKs/nc3/iSO7Z+YvpD1tM5aKkXMoPFE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=l+EbGFGzz3cVp1ozeRjMrUo/6U1jb0Ru2emMs911JRU=;
- b=SFIXbzJerHlPdVe5/I/9mFvZh2Wk8o7kbAZnoql7xKtyCol4vdHbAA2LoIWbNdxyfR
- Zn5XjnAe+yQC4FGDq7+JX7oqdxEsWfoH9/cwYAGlzYMHsBaqiBQPzqAO4ezpslr00u2Z
- c6flciRkV5oEfFeRtXKeJMXP12gZKzX3DEqbxINouBkhwrZLcj5AWiGOxdmsiZxyRORI
- SMynKt6FMtdg/QJVqpCNyfW71D42V0Qb9SxcstFiB81OsJTpzGDy0c3RCey5jOuKO8OZ
- N8ffV/uBXacuRWU2w6b00URCZsz4JN8+cgFDPS+eCUh0qaDfyHrsRO/CekB2hI5YwmU/
- sAtg==
-X-Gm-Message-State: AOAM533Isu0NZ/FCOBsTlGIdUR75XSln2lWT328+4Mto3oc1bfPY4CPh
- mXhaf98d6VMLTYbAbbj6zqt/fk17XO/9n6eWrC2m2Q==
-X-Google-Smtp-Source: ABdhPJwXou2r2t6LkydIMRal1bHi41+ZqE9AtwYABgSTL+aAesBsPX7kRkcTQ0upire1JJmqgDrnqx7GY6KQWO9IrFc=
-X-Received: by 2002:a05:6102:b01:: with SMTP id
- b1mr25145128vst.58.1635865146942; 
- Tue, 02 Nov 2021 07:59:06 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=84UcpXnrF/7DxTV7XUz9z+1k4+yx0kgp2hlKvsIAwB8=;
+ b=I6pKMUXCP1Q/SZDzwn5JnBr3yaWMOdBfV6rQT3+YHUXU3uX3c1Wor8Yx1dB3A128Lj
+ 8+ENDR9E6z8FZa2dIokmQ/AE5vhJHY8uJSHQGJz5iYE9ywS0ECHIwmPoCbEsorgjR4eh
+ FInSn9VHoo1R/ORv/AlW/MOhVn/bR44oGciascc8msU/RWchZPeBBAYCEHxAIauy96Bg
+ EmqFHReDgzeNHjTudpLagEw0LMJLMrvK4G8Ub+i6luURGvfid4sqWxNKs2b7KITwIuv8
+ SxQFCuwkFBtlAglfJiUPp4rnDUvWRqWoj8+LsnhE6vSiJM+jciQPn87/bT01z5raOXaS
+ r5nQ==
+X-Gm-Message-State: AOAM532dI+KV/rVEdWv1sfIoELM/Xa0MJsXITo82APGzrhgmAlx2WDr7
+ BWV5qECN9SxRjIEflvsU+NJUOGb+hCkyYWEJUKtSTA==
+X-Google-Smtp-Source: ABdhPJxf3ecvHiyEENbpgSMlAAjjpMJDNokfXCxPFxk7RMhfJsVzzUDoyt1baYaucbX7+nBKoN0OosRJgdaPRyKf4FA=
+X-Received: by 2002:ab0:5b99:: with SMTP id y25mr37874453uae.47.1635865163260; 
+ Tue, 02 Nov 2021 07:59:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211101011734.1614781-1-sjg@chromium.org>
- <CAHFG_=X1DeBFkzwFBkirMkmHB0_OSa9OkQj+CvpG6dT5HZEWBA@mail.gmail.com>
-In-Reply-To: <CAHFG_=X1DeBFkzwFBkirMkmHB0_OSa9OkQj+CvpG6dT5HZEWBA@mail.gmail.com>
+References: <20211013010120.96851-1-sjg@chromium.org>
+ <CAEUhbmWY5gKmqbipurcDQ0DuNJyv8cLWsnyqx5h+tFqeVng8Ag@mail.gmail.com>
+ <20211013013450.GJ7964@bill-the-cat>
+ <CAPnjgZ3D+h1ov2yL73iz_3zmPkJrM4mGrQLhsKL9qu9Ez0-j2A@mail.gmail.com>
+ <CAHFG_=ULjFFcF_BWzknPPw23CeMX=d-Cprhad085nX_r1NhE1g@mail.gmail.com>
+ <CAPnjgZ3+QP3ogPA=zKWHoctkr4C2rSos_yVmJjp_MYZ-O0sKeQ@mail.gmail.com>
+ <20211014145626.GC7964@bill-the-cat>
+ <CAPnjgZ3=evGbgSg-aen6pkOXZ4DCxX8vcX9cn4qswJQRNNSzLQ@mail.gmail.com>
+ <20211014152801.GF7964@bill-the-cat>
+ <CAPnjgZ2Y-uvmhQmhxnBN7Wa+Tz=ZL0bWpnJi6xCW-P8p+C-qCw@mail.gmail.com>
+ <YXekTkeL73NM0UOU@apalos.home>
+ <CAPnjgZ3gQJz2YLhGuj-8RBok7ijc9s-vg2Q2ZDyQx71QfpWd5g@mail.gmail.com>
+ <CAC_iWjLDieo9d9uOVGpxEqEMYn+O=GEzdMwPEYmT2kswMVPi_g@mail.gmail.com>
+In-Reply-To: <CAC_iWjLDieo9d9uOVGpxEqEMYn+O=GEzdMwPEYmT2kswMVPi_g@mail.gmail.com>
 From: Simon Glass <sjg@chromium.org>
-Date: Tue, 2 Nov 2021 08:58:55 -0600
-Message-ID: <CAPnjgZ1we6-nJ1RXz3TK67c7Pj9Znh++rBy-SYtECZURt8bLWw@mail.gmail.com>
-Subject: Re: [PATCH 00/31] passage: Define a standard for firmware data flow
-To: =?UTF-8?Q?Fran=C3=A7ois_Ozog?= <francois.ozog@linaro.org>
+Date: Tue, 2 Nov 2021 08:59:11 -0600
+Message-ID: <CAPnjgZ19ikp4v5dLj=Z+KgFfb1rg12uEBj-N+kHxKGJmWF=_cA@mail.gmail.com>
+Subject: Re: [PATCH 00/16] fdt: Make OF_BOARD a boolean option
+To: Ilias Apalodimas <ilias.apalodimas@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=2607:f8b0:4864:20::92a;
  envelope-from=sjg@google.com; helo=mail-ua1-x92a.google.com
 X-Spam_score_int: -99
@@ -76,287 +84,382 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Tom Rini <trini@konsulko.com>,
- Albert Aribaud <albert.u.boot@aribaud.net>,
- Masahiro Yamada <yamada.masahiro@socionext.com>,
- Heinrich Schuchardt <xypron.glpk@gmx.de>, Bill Mills <bill.mills@linaro.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- U-Boot Mailing List <u-boot@lists.denx.de>,
- Jerry Van Baren <vanbaren@cideas.com>, Bin Meng <bmeng.cn@gmail.com>,
- Pavel Herrmann <morpheus.ibis@gmail.com>
+Cc: Liviu Dudau <Liviu.Dudau@foss.arm.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Bin Meng <bin.meng@windriver.com>,
+ Kever Yang <kever.yang@rock-chips.com>, Sean Anderson <seanga2@gmail.com>,
+ Atish Patra <Atish.Patra@wdc.com>, Zong Li <zong.li@sifive.com>,
+ Stephen Warren <swarren@wwwdotorg.org>, Stefan Roese <sr@denx.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Rainer Boschung <rainer.boschung@hitachi-powergrids.com>,
+ Tom Rini <trini@konsulko.com>, Stephen Warren <swarren@nvidia.com>,
+ Oleksandr Andrushchenko <Oleksandr_Andrushchenko@epam.com>,
+ Heinrich Schuchardt <xypron.glpk@gmx.de>, Niel Fourie <lusus@denx.de>,
+ Michal Simek <michal.simek@xilinx.com>,
+ =?UTF-8?B?TWFyZWsgQmVow7pu?= <marek.behun@nic.cz>,
+ Jerry Van Baren <vanbaren@cideas.com>, Ramon Fried <rfried.dev@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Valentin Longchamp <valentin.longchamp@hitachi-powergrids.com>,
+ Heiko Schocher <hs@denx.de>, Peter Robinson <pbrobinson@gmail.com>,
+ Sinan Akman <sinan@writeme.com>, Thomas Fitzsimmons <fitzsim@fitzsim.org>,
+ Wolfgang Denk <wd@denx.de>,
+ =?UTF-8?Q?Fran=C3=A7ois_Ozog?= <francois.ozog@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Andre Przywara <andre.przywara@arm.com>, Tim Harvey <tharvey@gateworks.com>,
+ Ashok Reddy Soma <ashok.reddy.soma@xilinx.com>, Rick Chen <rick@andestech.com>,
+ Alexander Graf <agraf@csgraf.de>, Green Wan <green.wan@sifive.com>,
+ T Karthik Reddy <t.karthik.reddy@xilinx.com>,
+ Anastasiia Lukianenko <Anastasiia_Lukianenko@epam.com>,
+ Albert Aribaud <albert.u.boot@aribaud.net>, Michal Simek <monstr@monstr.eu>,
+ Matthias Brugger <mbrugger@suse.com>, Leo <ycliang@andestech.com>,
+ Tero Kristo <kristo@kernel.org>, U-Boot Mailing List <u-boot@lists.denx.de>,
+ David Abdurachmanov <david.abdurachmanov@sifive.com>,
+ Priyanka Jain <priyanka.jain@nxp.com>,
+ Christian Hewitt <christianshewitt@gmail.com>,
+ Aaron Williams <awilliams@marvell.com>,
+ Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>,
+ Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+ Tianrui Wei <tianrui-wei@outlook.com>, Bin Meng <bmeng.cn@gmail.com>,
+ =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
+ Dimitri John Ledkov <dimitri.ledkov@canonical.com>,
+ Padmarao Begari <padmarao.begari@microchip.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Fran=C3=A7ois,
+Hi Ilias,
 
-On Mon, 1 Nov 2021 at 02:53, Fran=C3=A7ois Ozog <francois.ozog@linaro.org> =
-wrote:
+On Mon, 1 Nov 2021 at 05:05, Ilias Apalodimas
+<ilias.apalodimas@linaro.org> wrote:
 >
 > Hi Simon,
 >
-> this seems a great endeavor. I'd like to better understand the scope of i=
-t.
+> On Thu, 28 Oct 2021 at 05:51, Simon Glass <sjg@chromium.org> wrote:
+> >
+> > Hi Ilias,
+> >
+> > On Tue, 26 Oct 2021 at 00:46, Ilias Apalodimas
+> > <ilias.apalodimas@linaro.org> wrote:
+> > >
+> > > Hi Simon,
+> > >
+> > > A bit late to the party, sorry!
+> >
+> > (Did you remember the beer?
 >
-> Is it to be used as part of what could become a U-Boot entry ABI scheme? =
-By that I mean giving some fixed aspects
-> to U-Boot entry while letting boards to have flexibility (say for instanc=
-e that the first 5 architecture ABI
-> parameter registers are reserved for U-Boot), and the Passage is about sp=
-ecifying either those reserved registers
-> or one of them?
+> We'll probably need something stronger to sort this out :)
 
-The goal is to provide a standard entry scheme for all firmware
-binaries. Whether it achieves that (or can with some mods) is up for
-discussion.
-
-Re the registers, do you think we need 5?
-
->
-> Thinking entry ABI, here is what I observed on Arm:
->
-> Linux has two entry ABIs:
-> - plain: x0 =3D dtb;
->           command line =3D dtb:/chosen/bootargs; initrd =3D dtb:/chosen/l=
-inux,initrd-*
-> - EFI: x0=3Dhandle, x1=3Dsystemtable, x30=3Dreturn address;
->            dtb =3D EFI_UUID config table; initrd =3D efi:<loadfile2(INITR=
-D vendor media UUID); command line =3D efi: image_protocol::load_options
->
-> U-Boot (proper) has plenty of schemes:
-> - dtb is passed as either x0, x1, fixed memory area (Qemu which is bad in=
- itself), or other registers
-> - additional information passing: board specific register scheme, SMC cal=
-ls
-> - U-Boot for RPI boards implement a Linux shaped entry ABI to be launched=
- by Videocore firmware
->
-> Based on all the above, I would tend to think that RPI scheme is a good i=
-dea but also
-> shall not prevent additional schemes for the boards.
-
-I was not actually considering Linux since I believe/assume its entry
-scheme is fixed and not up for discussion.
-
-I also did not think about the EFI case. As I understand it we cannot
-touch it as it is used by UEFI today. Maybe it is even in the
-standard?
-
-Really I am hoping we can start afresh...?
+Yes I agree!
 
 >
-> What about a U-Boot Arm entry ABI like:
-> - plain: x0=3Ddtb, x1=3D<Passage defined>, x2-x5 =3D <reserved>, other re=
-gisters are per platform, SMC calls allowed too
+> > I am replying to this but I don't think it
+> > is all that helpful for me to reply to a lot of things on this thread,
+> > since I would not be adding much to my cover letter and patches)
+> >
+> > >
+> > > [...]
+> > >
+> > > > >
+> > > > > I really want to see what the binary case looks like since we could then
+> > > > > kill off rpi_{3,3_b,4}_defconfig and I would need to see if we could
+> > > > > then also do a rpi_arm32_defconfig too.
+> > > > >
+> > > > > I want to see less device trees in U-Boot sources, if they can come
+> > > > > functionally correct from the hardware/our caller.
+> > > > >
+> > > > > And I'm not seeing how we make use of "U-Boot /config" if we also don't
+> > > > > use the device tree from build time at run time, ignoring the device
+> > > > > tree provided to us at run time by the caller.
+> > > >
+> > > > Firstly I should say that I find building firmware very messy and
+> > > > confusing these days. Lots of things to build and it's hard to find
+> > > > the instructions. It doesn't have to be that way, but if we carry on
+> > > > as we are, it will continue to be messy and in five years you will
+> > > > need a Ph.D and a lucky charm to boot on any modern board. My
+> > > > objective here is to simplify things, bringing some consistency to the
+> > > > different components. Binman was one effort there. I feel that putting
+> > > > at least the U-Boot house in order, in my role as devicetree
+> > > > maintainer (and as author of devicetree support in U-Boot back in
+> > > > 2011), is the next step.
+> > > >
+> > > > If we set things up correctly and agree on the bindings, devicetree
+> > > > can be the unifying configuration mechanism through the whole of
+> > > > firmware (except for very early bits) and into the OS, this will set
+> > > > us up very well to deal with the complexity that is coming.
+> > > >
+> > > > Anyway, here are the mental steps that I've gone through over the past
+> > > > two months:
+> > > >
+> > > > Step 1: At present, some people think U-Boot is not even allowed to
+> > > > have its own nodes/properties in the DT. It is an abuse of the
+> > > > devicetree standard, like the /chosen node but with less history. We
+> > > > should sacrifice efficiency, expedience and expandability on the altar
+> > > > of 'devicetree is a hardware description'. How do we get over that
+> > > > one? Wel, I just think we need to accept that U-Boot uses devicetree
+> > > > for its own purposes, as well as for booting the OS. I am not saying
+> > > > it always has to have those properties, but with existing features
+> > > > like verified boot, SPL as well as complex firmware images where
+> > > > U-Boot needs to be able to find things in the image, it is essential.
+> > > > So let's just assume that we need this everywhere, since we certainly
+> > > > need it in at least some places.
+> > > >
+> > > > (stop reading here if you disagree, because nothing below will make
+> > > > any sense...you can still use U-Boot v2011.06 which doesn't have
+> > > > OF_CONTROL :-)
+> > >
+> > > Having U-Boot keep it's *internal* config state in DTs is fine.  Adding
+> > > that to the DTs that are copied over from linux isn't imho.  There are
+> > > various reasons for that.  First of all syncing device trees is a huge pain
+> > > and that's probably one of the main reasons our DTs are out of sync for a
+> > > large number of boards.
+> > > The point is this was fine in 2011 were we had SPL only,  but the reality
+> > > today is completely different.  There's previous stage boot loaders (and
+> > > enough cases were vendors prefer those over SPL).  If that bootloader needs
+> > > to use it's own device tree for whatever reason,  imposing restrictions on
+> > > it wrt to the device tree it has to include,  and require them to have
+> > > knowledge of U-Boot and it's internal config mechanism makes no sense not
+> > > to mention it doesn't scale at all.
+> >
+> > I think the solution here may be the binman image packer. It works
+> > from a description of the image (i.e. is data-driver) and can collect
+> > all the pieces together. The U-Boot properties (and the ones required
+> > by TF-A, etc.) can be added at package time.
+>
+> I am not sure I am following you here or why binman is relevant to
+> this discussion.  If the boot process doesn't require a FIP (e.g  SPL
+> + U-Boot proper or SPL -> EL3 -> U-Boot proper or TF-A + U-Boot) then
+> using binman makes a lot of sense.  If the boot process is TF-A ->
+> U-Boot and requires a FIP, TF-A has it's own set of tools for
+> preparing that [1] [2] ,  why would we want to teach binman FIP
+> packaging? And if we do are you willing to keep it up to date with
+> everything they come up with? IOW packaging the firmware is not
+> U-Boot's responsibility, it's the vendors.  Why should he not be able
+> to choose FIP? (ST already changed that in u-boot btw).
 
-Hmm we don't actually need the dtb as it is available in the bloblist.
-But I added an offset to it as a convenience.
+Binman is a firmware packager. It seems to be the one that is used
+last, to produce the final image, although I am not sure as this seems
+quite complicated.
 
-> - EFI: x0=3Dhandle, x1=3Dsystemtable, x30=3Dreturn address;  (when U-Boot=
- is launched as an EFI app)
->        dtb =3D EFI_UUID config table, + Passage =3D Passage UUID config t=
-able
+My view on firmware is that we should build it step by step with
+individual projects but then package it all at the end and Binman is
+designed to do the packaging.
 
-I don't understand the last line. Where is the passage info /
-bloblist? Do you mean it goes in the HOB list with a UUID? I suppose
-that is the most EFI-compatible way.
+https://u-boot.readthedocs.io/en/latest/develop/package/binman.html#motivation
 
-What do you think about the idea of using an offset into the bloblist
-for the dtb? Also, can we make the standard passage ABI a build-time
-option, so it is deterministic?
+So I am not sure what problem FIP solves, or why it was invented, Did
+we need another firmware format?
+
+But if FIP is important, then yes I think support for it should be
+added to Binman. It will make packaging a lot easier.
 
 >
-> We could further leverage Passage to pass Operating Systems parameters th=
-at could be removed from device tree (migration of /chosen to Passage). Mem=
-ory inventory would still be in DT but allocations for CMA or GPUs would be=
- in Passage. This idea is to reach a point where  device tree is a "pristin=
-e" hardware description.
+> >
+> > If you think about it, it doesn't matter what properties are in the DT
+> > that is put into the firmware image. TF-A, for example, is presumably
+> > reading a devicetree from flash, so what does it care if it has some
+> > U-Boot properties in it?
+>
+> It doesn't, but the point here is entirely different.  Today there's a
+> number of U-Boot DTBs that are unable to boot a kernel.  The direction
+> we would like to is have the firmware provide a DTB that's usable for
+> the kernel. Yes I know vendors mess things up and there's a
+> correlation of the DTB and the kernel version, but let's set that
+> aside for a moment. If we want to use a 'generic' DT then we have to
+> make sure that whoever packages it knows what to put in there.  That's
+> why for me, it's very important to only allow *upstreamed only* DT
+> properties for whoever ends up being responsible for the packaging.
+> In that case you can demand TF-A to bundle U-Boot nodes in the DTB it
+> produces if the board is supposed to use U-Boot. If those are internal
+> only to U-Boot and not upstreamed this makes little sense to me and I
+> don't see why people will agree to that.
 
-I'm worried about this becoming a substitute for devicetree. Really my
-intent is to provide a way to pass simple info, whereas what you talk
-about there seems like something that should be DT, just that it might
-need suitable bindings.
-
-As you know I have more expansive views about what should be in DT.
+Well I think all of this is taking too much energy...I have stated my
+position. U-Boot needs its nodes and properties.
 
 >
-> Cheers
+> >
+> > As to syncing, we have solved this using u-boot.dtsi files in U-Boot,
+> > so I think this can be dealt with.
+> >
+> > >
+> > > >
+> > > > Step 2: Assume U-Boot has its own nodes/properties. How do they get
+> > > > there? Well, we have u-boot.dtsi files for that (the 2016 patch
+> > > > "6d427c6b1fa binman: Automatically include a U-Boot .dtsi file"), we
+> > > > have binman definitions, etc. So we need a way to overlay those things
+> > > > into the DT. We already support this for in-tree DTs, so IMO this is
+> > > > easy. Just require every board to have an in-tree DT. It helps with
+> > > > discoverability and documentation, anyway. That is this series.
+> > > >
+> > >
+> > > Again, the board might decide for it's own reason to provide it's own DT.
+> > > IMHO U-Boot must be able to cope with that and asking DTs to be included in
+> > > U-Boot source is not the right way to do that,  not to mention cases were
+> > > that's completely unrealistic (e.g QEMU or a board that reads the DTB from
+> > > it's flash).
+> >
+> > I think you are at step 2. See above for my response.
+> >
+> > >
+> > > > (I think most of us are at the beginning of step 2, unsure about it
+> > > > and worried about step 3)
+> > > >
+> > > > Step 3: Ah, but there are flows (i.e. boards that use a particular
+> > > > flow only, or boards that sometimes use a flow) which need the DT to
+> > > > come from a prior stage. How to handle that? IMO that is only going to
+> > > > grow as every man and his dog get into the write-a-bootloader
+> > > > business.
+> > >
+> > > And that's exactly why we have to come up with something that scales,  without
+> > > having to add a bunch of unusable DTs in U-Boot.
+> >
+> > In what way does this not scale? How are the DTs unusable? If there is
+> > a standard binding, we should be fine.
 >
-> PS: as Ilias mentions, this patch set contains bug fixes, non immediately=
- related additional functions (DM stats). It would be great to carve those =
-out to fast path them and keep this one with the very core of your idea.
+> The keyword here is the definition of 'standard'.  If standard means
+> upstreamed to DT spec, as I said before I don't see any problem. By
+> unusable I was referring to the QEMU DTs you are trying to push into
+> U-Boot  or the RPI one.  It doesn't scale because you have to maintain
+> and upstream all the DTs in the U-Boot tree.  The story so far is
+> merge and forget for a big number of DTs, so I find it hard to believe
+> that everyone will start behaving and sync up their DTs.  I'd much
+> rather prefer having a central repo and force people to use that.
 
-The DM stats is used in 'passage: Report the devicetree source'. I
-know it is sideways but I think it is better to make the output line
-more useful than just reporting the devicetree source.
+Well let's see how it goes. If we can get some validation in place,
+then the picture should get better.
 
-The first patch is indeed unrelated. I will pick it up so we can drop
-it for the next rev.
+>
+> >
+> > >
+> > > > We need a way to provide the U-Boot nodes/properties in a
+> > > > form that the prior stage can consume and integrate with its build
+> > > > system. Is TF-A the only thing being discussed here? If so, let's just
+> > > > do it. We have the u-boot.dtsi and we can use binman to put the image
+> > > > together, for example. Or we can get clever and create some sort of
+> > > > overlay dtb.
+> > > >
+> > > > Step 3a. But I don't want to do that. a) If U-Boot needs this stuff
+> > > > then it will need to build it in and use two devicetrees, one internal
+> > > > and one from the prior stage....well that is not very efficient and it
+> > > > is going to be confusing for people to figure out what U-Boot is
+> > > > actually doing. But we actually already do that in a lot of cases
+> > > > where U-Boot passes a DT to the kernel which is different to the one
+> > > > it uses. So perhaps we have three devicetrees? OMG.
+> > >
+> > > No we don't. That's a moot point. If you separate the DTs U-Boot
+> > > provides the internal one and inherits one 'generic'.  Linux will be able to use
+> > > that.  So the only case were you'll need 3 DTs is if the *vendor* breaks the
+> > > DT across kernel versions,  In which case there's not much you can do to
+> > > begin with and that's already a case we have to deal with.
+> >
+> > Linux actually doesn't care if the U-Boot properties are in the tree,
+> > so long as we have proper bindings. My point here is we only need
+> > either:
+> >
+> > a. one devicetree, shared with Linux and U-Boot (and TF-A?)
+> > b. two devicetrees, one for use in firmware and one for passing to Linux
+> >
+> > We don't need to separate out the U-Boot properties into a second (or
+> > third) devicetree. There just isn't any point.
+>
+> Again if we are talking about bindings that are upstream in the spec,
+> then we agree.  Depending on the SRAM limitation we can even do (a).
+> If the vendor messes up the DT backwards compatibility then we can do
+> (b).  If you expect TF-A and FIP to go pick up the special bindings
+> U-Boot needs, then we disagree.
+
+I would certainly prefer to be talking about bindings that are
+upstreamed, if they can be upstreamed. I sent a patch with a start on
+that and then a PR to the repo here:
+
+https://github.com/devicetree-org/dt-schema/pull/62
+
+So perhaps we should hold off on this and see how progress is in a month or so.
+
+>
+> >
+> > >
+> > > > b) Well then
+> > > > U-Boot can have its own small devicetree with its bits and then U-Boot
+> > > > can merge the two when it starts. Again that is not very efficient. It
+> > > > means that U-Boot cannot be controlled by the prior stage (e.g. to get
+> > > > its public key from there or to enable/disable the console), so
+> > > > unified firmware config is not possible. It will get very confusing,
+> > > > particularly for debugging U-Boot. c) Some other scheme to avoid
+> > > > accepting step 3...please stop!
+> > > >
+> > > > Step 4: Yes, but there is QEMU, which makes the devicetree up out of
+> > > > whole cloth. What about that? Well, we are just going to have to deal
+> > > > with that. We can easily merge in the U-Boot nodes/properties and
+> > > > update the U-Boot CI scripts to do this, as needed, e.g. with
+> > > > qemu-riscv64_spl. It's only one use case, although Xen might do
+> > > > something similar.
+> > > >
+> > > > To my mind, that deals with both the build-time and run-time issues.
+> > > > We have a discoverable DT in U-Boot, which should be considered the
+> > > > source of truth for most boards. We can sync it with Linux
+> > > > automatically with the tooling that I hope Rob Herring will come up
+> > > > with. We can use an empty one where there really is no default,
+> > > > although I'd argue that is making perfect an enemy of the good.
+> > > >
+> > > > Step 5: If we get clever and want to remove them from the U-Boot tree
+> > > > and pick them up from somewhere else, we can do that with sufficient
+> > > > tooling. Perhaps we should set a timeline for that? A year? Two? Six?
+> > >
+> > > We can start slowly migrating boards and see how that works out.
+> > > We could either use 2 device trees as you proposed, or have u-boot merge
+> > > the 'u-boot' DTB and the inherited DTB before DM comes up.  OTOH I'd prefer
+> > > if linux gets handed a clean device tree without the u-boot internals in
+> > > it, so I think 2 discrete DTs is cleaner overall.
+> >
+> > I know you would prefer that, but does it really matter in practice?
+> > What is the objection, actually?
+> >
+> > As I mentioned on the call, I think the prior stage should do any
+> > merging or fixing up. Trying to do that sort of thing in 'early' code
+> > in U-Boot (or any other program, including Linux) is such a pain. With
+> > U-Boot, for example, we don't even have any RAM available to do it
+> > with half the time and it would dramatically increase the amount of
+> > memory needed prior to relocation. It just isn't a very good idea to
+> > try to do this in early code. It is also completely unnecessary, once
+> > you get past the philosophical objections.
+> >
+> > If TF-A wants to be in the picture, let it deal with the implications
+> > and responsibility thus incurred. TF-A has no right to tell U-Boot how
+> > to handle its config. TF-A is 0.5m LOC, i.e. a lot, almost a quarter
+> > of the size of U-Boot. It duplicates loads of things in there. No one
+> > will even *notice* an FDT merge function, which is actually only 70
+> > LOC:
+> >
+>
+> Again I am repeating myself so here's a tl;dr of how I view this:
+> 1. All DT bindings u-boot expect become part of the DT spec -- I am
+> fine with whatever, since at this point it makes sense to say "You are
+> booting u-boot go add whatever it expects, it's part of the spec".
+> The prior stage boot loader can then obviously merge the DT fragments
+> and everyone will be happy.
+> 2. For the bindings that are not upstreamed, I'd prefer having u-boot
+> do the fixup. Alternatively, we could provide fragments that are easy
+> for TF-A to merge? By easy I don't mean read U-Boot code, it's .dts
+> files, find the fragments you need and add them manually...
+
+OK, well then I don't think we have anything of concern here, so long
+as we can get the bindings agreed. Let's see how it goes.
 
 Regards,
 Simon
 
 
+
+
+
 >
-> On Mon, 1 Nov 2021 at 02:17, Simon Glass <sjg@chromium.org> wrote:
->>
->>
->> This series adds a standard way of passing information between different
->> firmware phases. This already exists in U-Boot at a very basic level, in
->> the form of a bloblist containing an spl_handoff structure, but the inte=
-nt
->> here is to define something useful across projects.
->>
->> The need for this is growing as firmware fragments into multiple binarie=
-s
->> each with its own purpose. Without any run-time connection, we must rely
->> on build-time settings which are brittle and painful to keep in sync.
->>
->> This feature is named 'standard passage' since the name is more unique
->> than many others that could be chosen, it is a passage in the sense that
->> information is flowing from one place to another and it is standard,
->> because that is what we want to create.
->>
->> The implementation is simply a pointer to a bloblist in a register, with
->> an extra register to point to a devicetree, for more complex data, if on=
-e
->> is present in the bloblist. This should cover all cases (small memory
->> footprint as well as complex data flow) and be easy enough to implement =
-on
->> all architectures.
->>
->> The core bloblist code is relicensed to BSD-3-Clause in case it is usefu=
-l
->> in non-GPL projects but there is no requirement to use the same code.
->>
->> This series includes tweaks to the bloblist implementation in U-Boot to
->> make it more suitable for the task, including:
->>
->>    - Allocate tags explicitly in the enum
->>    - Put the magic number first
->>    - Define a process for adding tags
->>
->> The emphasis is on enabling open communcation between binaries, not
->> enabling passage of secret, undocumented data, although this is possible
->> in a private environment.
->>
->> This series is built on the OF_BOARD series It is available at
->> u-boot-dm/pass-working or:
->>
->> https://source.denx.de/u-boot/custodians/u-boot-dm/-/commit/073b5c156f22=
-2c69a98b8ebcaa563d1ff10eb217
->>
->>
->> Simon Glass (31):
->>   Makefile: Correct TPL rule for OF_REAL
->>   kconfig: Add support for conditional values
->>   dm: core: Allow getting some basic stats
->>   stddef: Avoid warning with clang with offsetof()
->>   fdt: Drop SPL_BUILD macro
->>   bloblist: Put the magic number first
->>   bloblist: Rename the SPL tag
->>   bloblist: Drop unused tags
->>   bloblist: Use explicit numbering for the tags
->>   bloblist: Support allocating the bloblist
->>   bloblist: Use LOG_CATEGORY to simply logging
->>   bloblist: Use 'phase' consistently for bloblists
->>   bloblist: Refactor Kconfig to support alloc or fixed
->>   arm: qemu: Add an SPL build
->>   bloblist: Add functions to obtain base address and size
->>   passage: Support an incoming passage
->>   passage: Support a control devicetree
->>   passage: arm: Accept a passage from the previous phase
->>   passage: spl: Support adding the dtb to the passage bloblist
->>   passage: spl: Support passing the passage to U-Boot
->>   passage: Record where the devicetree came from
->>   passage: Report the devicetree source
->>   passage: Add a qemu test for ARM
->>   bloblist: doc: Bring in the API documentation
->>   bloblist: Relicense to allow BSD-3-Clause
->>   sandbox: Add a way of checking structs for standard passage
->>   passage: Add documentation
->>   passage: Add docs for spl_handoff
->>   x86: Move Intel GNVS file into the common include directory
->>   passage: Add checks for pre-existing blobs
->>   WIP: RFC: Add a gitlab test
->>
->>  .gitlab-ci.yml                                |   6 +
->>  MAINTAINERS                                   |  10 +
->>  Makefile                                      |   2 +-
->>  arch/arm/cpu/armv7/start.S                    |   7 +-
->>  arch/arm/dts/qemu-arm-u-boot.dtsi             |  22 ++
->>  arch/arm/lib/crt0.S                           |   4 +
->>  arch/arm/mach-qemu/Kconfig                    |   9 +
->>  arch/sandbox/cpu/spl.c                        |   2 +-
->>  arch/x86/cpu/apollolake/acpi.c                |   2 +-
->>  arch/x86/cpu/broadwell/cpu_from_spl.c         |   4 +-
->>  arch/x86/cpu/intel_common/acpi.c              |   2 +-
->>  .../include/asm/arch-apollolake/global_nvs.h  |   2 +-
->>  arch/x86/lib/spl.c                            |   2 +-
->>  arch/x86/lib/tpl.c                            |   2 +-
->>  board/emulation/qemu-arm/Kconfig              |  23 +-
->>  board/emulation/qemu-arm/MAINTAINERS          |   1 +
->>  board/emulation/qemu-arm/Makefile             |   1 +
->>  board/emulation/qemu-arm/spl.c                |  27 ++
->>  board/google/chromebook_coral/coral.c         |   2 +-
->>  board/sandbox/Makefile                        |   3 +-
->>  board/sandbox/stdpass_check.c                 | 107 ++++++
->>  cmd/bdinfo.c                                  |   2 +
->>  common/Kconfig                                | 161 ++++++++-
->>  common/bloblist.c                             | 124 +++++--
->>  common/board_f.c                              |  48 ++-
->>  common/board_r.c                              |  18 +
->>  common/spl/spl.c                              |  74 +++-
->>  configs/qemu_arm_spl_defconfig                |  78 +++++
->>  doc/board/emulation/qemu-arm.rst              |  38 +++
->>  doc/develop/bloblist.rst                      |  28 +-
->>  doc/develop/index.rst                         |   1 +
->>  doc/develop/std_passage.rst                   | 319 ++++++++++++++++++
->>  drivers/core/device.c                         |  11 +
->>  drivers/core/root.c                           |   7 +
->>  drivers/core/uclass.c                         |  13 +
->>  drivers/serial/serial-uclass.c                |   3 +-
->>  dts/Kconfig                                   |  12 +
->>  include/asm-generic/global_data.h             |  35 ++
->>  include/bloblist.h                            | 175 +++++++---
->>  include/dm/device.h                           |  11 +-
->>  include/dm/root.h                             |   8 +
->>  include/dm/uclass-internal.h                  |   7 +
->>  include/fdtdec.h                              |  40 ++-
->>  include/handoff.h                             |   8 +-
->>  .../x86/include/asm =3D> include}/intel_gnvs.h  |   0
->>  include/linux/kconfig.h                       |  18 +
->>  include/linux/stddef.h                        |   8 +-
->>  include/spl.h                                 |  15 +
->>  include/stdpass/README                        |   4 +
->>  include/stdpass/tpm2_eventlog.h               |  42 +++
->>  include/stdpass/vboot_ctx.h                   | 267 +++++++++++++++
->>  lib/asm-offsets.c                             |   5 +
->>  lib/fdtdec.c                                  |  65 +++-
->>  scripts/config_whitelist.txt                  |   1 +
->>  test/bloblist.c                               |  21 +-
->>  test/dm/core.c                                |  41 +++
->>  test/py/tests/test_passage.py                 |  11 +
->>  57 files changed, 1798 insertions(+), 161 deletions(-)
->>  create mode 100644 arch/arm/dts/qemu-arm-u-boot.dtsi
->>  create mode 100644 board/emulation/qemu-arm/spl.c
->>  create mode 100644 board/sandbox/stdpass_check.c
->>  create mode 100644 configs/qemu_arm_spl_defconfig
->>  create mode 100644 doc/develop/std_passage.rst
->>  rename {arch/x86/include/asm =3D> include}/intel_gnvs.h (100%)
->>  create mode 100644 include/stdpass/README
->>  create mode 100644 include/stdpass/tpm2_eventlog.h
->>  create mode 100644 include/stdpass/vboot_ctx.h
->>  create mode 100644 test/py/tests/test_passage.py
->>
->> --
->> 2.33.1.1089.g2158813163f-goog
->>
+> [...]
 >
+> [1] https://wiki.st.com/stm32mpu/wiki/How_to_configure_TF-A_FW_CONFIG
+> [2] https://trustedfirmware-a.readthedocs.io/en/latest/design/trusted-board-boot-build.html
 >
-> --
-> Fran=C3=A7ois-Fr=C3=A9d=C3=A9ric Ozog | Director Business Development
-> T: +33.67221.6485
-> francois.ozog@linaro.org | Skype: ffozog
+> Regards
 >
+> /Ilias
 
