@@ -2,71 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BBE44430AA
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:41:48 +0100 (CET)
-Received: from localhost ([::1]:34726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2447544309E
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:40:01 +0100 (CET)
+Received: from localhost ([::1]:57410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhuyx-0003Js-I8
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:41:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40874)
+	id 1mhuxE-00080k-1y
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:40:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mhuS0-0000Qj-BB
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:07:45 -0400
-Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:46651)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mhuRv-0003Mj-Oy
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:07:43 -0400
-Received: by mail-io1-xd29.google.com with SMTP id i143so1373289ioa.13
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 07:07:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=l6V0W2c76xs63O23tX3vhfV4kcHeEX1s9fXQ89bj7Q8=;
- b=AsPqOT17cPWwSTWFC/Qg8tYYEQ+6Ia5LxpVpmi2YKYqoGDc1+LHV92e6jIu4sgYkHJ
- Zp1gKg/VcJJ3MgESA3z38nYgUNEfESy07HV9QcJ30M5izdgRqqVFBV0RPZa/ZwbnwSIg
- 80wuVxp84tVexhDL/9YhoD5i27hCGCYTsKV+9xZjgWemy0vzIsyes7WMy7aLFBbu+poX
- a0i9YIk5Noya0r/IrDxhWsiyrrDirFrb1PR8GhlGMsRPwoqcirBl0Q7uSiT8E9kJvnHk
- haEINo8L9k7f9MskkmTR66v02/LIxBt2/yOuGc9W17kT7/S2zykA9EWs3JZTpxLAjJiH
- 2mJw==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mhuTV-0004aw-BN
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:09:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46217)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mhuTR-0004WY-FS
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:09:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635862152;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ctmu+0Ps34o9dKPDYQWMMQd1gF0dlJoeUKE3PDEh2QI=;
+ b=OEv0VndUCNu/1FWLo9RhSXNu4XkE7sd2YkyMd9hPiigT92K4SNrtGoTVfdO5uOZY3ejuYt
+ 8t9yC+mV2/cCnp9ARYbWH86nLr1AijsYIWrXLa0LReTKnxeA8qrb6ilh/8Gyn7F7dRnCe8
+ Ff1GbzNGJD/CleRulGTMvZZRCKDmgOk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-514-qq5VXqXsMpGb3IoYMpuViA-1; Tue, 02 Nov 2021 10:09:10 -0400
+X-MC-Unique: qq5VXqXsMpGb3IoYMpuViA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ a2-20020a5d4d42000000b0017b3bcf41b9so4726637wru.23
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 07:09:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=l6V0W2c76xs63O23tX3vhfV4kcHeEX1s9fXQ89bj7Q8=;
- b=PTrkJm0ZwxtPmwjEY3RRNyHQq7mWzJYhJ+z9Q4rmoLU8A6OTIFhsFbYUYd1KUkJmns
- 8YT4nigZPaqlNCrNXpBlswdTqOFg7XtH/D124cnIbslA62SOZZ9b8iJaHji/6NVddy9j
- qE0vN3oARv/bO2N/GOXhxKYlfOlw/iastfP2hOEF9lZTH40faPKdmyPMEwvUVTgNWvOk
- fKs8XFQLhPdLUJd4HGH+jReNI5BE4G4xkWlgaU/qOyAg9Za3qbsw9vCq290ssu78WXPT
- zlMu4rEXmf88ZhfArHXEXLOphWbH8Lbvgzj9w1OzWhedn4W+l2uXako4bhNmBdxo4Y1Y
- eN1g==
-X-Gm-Message-State: AOAM533SQfLRPhhottxVNfNWrZeYZ1DlwE/0ZSAG4ehpo5euea3poqW0
- fVI0le/cP2D1VX06IPXo6m2pLeUx+Reep33HwCQ3GA==
-X-Google-Smtp-Source: ABdhPJyUSeBazosqGq6lPYydjcyhKPjTGnw691zdhysUWCzR5lk5L8gxC0u5z0fLoRz08pQxwyF4f8XX46ZzmgcjZz8=
-X-Received: by 2002:a05:6602:1583:: with SMTP id
- e3mr2997433iow.112.1635862056538; 
- Tue, 02 Nov 2021 07:07:36 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ctmu+0Ps34o9dKPDYQWMMQd1gF0dlJoeUKE3PDEh2QI=;
+ b=CCerUS7tVzjcdUYK6aoFGYn30yvAFdINiZRqmJrYDVXg3UldHmYRsV6ZuXlE8S4J4u
+ D6VLHzxAcdQDFjrOIbn/cwB6G/4WL6sTgmp12EZ4mcH9zQDpOgaqCyclpNHxPq1bYcXv
+ TcYRrA1GGQZ0uiJJ5/iUCNAH9Akgm/j6Fmm1sBW/Cqe5l+Og4W8IXTnoFxNweZsipeCv
+ LUst4YtbMvkRxDhD9wGlv9BCi4xdOq94AF+HYz+JuIDwVIq10KBqisut97Tww5WtD6lg
+ Xbf0EtjzQrFM1pnuHnWFv1rH1Tf4LWeFiPU0rPD5KDv5sDyWt3MmAFDm91+OveTQmMJb
+ gFcA==
+X-Gm-Message-State: AOAM533gmaCxUTkkuNL/7mdseGu4Oxcsndl7R0wYatRlJsn9Hxh4EcAK
+ cmd14uw07uT6RtQhKdzuZ5WQuqytBX2ZJyRzyAfGAyw39Xnn15q4o0nru0U+Xq3FHDLgD3j5GnL
+ 4gt6l5JTNDimL7ZI=
+X-Received: by 2002:adf:f9d2:: with SMTP id w18mr14329079wrr.303.1635862149619; 
+ Tue, 02 Nov 2021 07:09:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxyuOP0+yeI7bhRocu9X/YJDTObPwn80QViNBih/n/fxfDp8EhHO5i6j+mqGPDyvS3uFIicWA==
+X-Received: by 2002:adf:f9d2:: with SMTP id w18mr14329040wrr.303.1635862149421; 
+ Tue, 02 Nov 2021 07:09:09 -0700 (PDT)
+Received: from localhost ([188.26.219.212])
+ by smtp.gmail.com with ESMTPSA id f81sm2859279wmf.22.2021.11.02.07.09.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Nov 2021 07:09:08 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Eugenio =?utf-8?Q?P=C3=A9rez?= <eperezma@redhat.com>
+Subject: Re: [PATCH v2 1/1] vhost: Fix last queue index of devices with no cvq
+In-Reply-To: <20211102114059.1917341-2-eperezma@redhat.com> ("Eugenio
+ =?utf-8?Q?P=C3=A9rez=22's?=
+ message of "Tue, 2 Nov 2021 12:40:59 +0100")
+References: <20211102114059.1917341-1-eperezma@redhat.com>
+ <20211102114059.1917341-2-eperezma@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Tue, 02 Nov 2021 15:09:07 +0100
+Message-ID: <87k0hqk5to.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <20211021162956.2772656-1-frank.chang@sifive.com>
-In-Reply-To: <20211021162956.2772656-1-frank.chang@sifive.com>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Tue, 2 Nov 2021 22:07:25 +0800
-Message-ID: <CAE_xrPi_20tt1w-ZaPU5cGRtQ6PQOeeqwaY7uL=ii86e9Z25SA@mail.gmail.com>
-Subject: Re: [PATCH v5 0/8] target/riscv: support Zfh, Zfhmin extension v0.1
-To: "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair23@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000c82e2805cfced03a"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
- envelope-from=frank.chang@sifive.com; helo=mail-io1-xd29.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,192 +100,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org, "Michael S.
+ Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000c82e2805cfced03a
-Content-Type: text/plain; charset="UTF-8"
+Eugenio P=C3=A9rez <eperezma@redhat.com> wrote:
+Y> The -1 assumes that all devices with no cvq have an spare vq allocated
+> for them, but with no offer of VIRTIO_NET_F_CTRL_VQ. This is an invalid
+> device by the standard, so just stick to the right number of device
+> models.
+>
+> This is not a problem to vhost-net, but it is to vhost-vdpa, which
+> device model trust to reach the last index to finish starting the
+> device.
+>
+> Tested with vp_vdpa with host's vhost=3Don and vhost=3Doff.
+>
+> Fixes: 049eb15b5fc9 ("vhost: record the last virtqueue index for the
+> virtio device")
+> Reviewed-by: Juan Quintela <quintela@redhat.com>
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 
-On Fri, Oct 22, 2021 at 12:30 AM <frank.chang@sifive.com> wrote:
+Much clearer, thanks.
 
-> From: Frank Chang <frank.chang@sifive.com>
->
-> Zfh - Half width floating point
-> Zfhmin - Subset of half width floating point
->
-> Zfh, Zfhmin v0.1 is now in public review period and is required by
-> RVV extension:
->
-> https://groups.google.com/a/groups.riscv.org/g/isa-dev/c/63gDCinXTwE/m/871Wm9XIBQAJ
->
-> Zfh, Zfhmin can be enabled with -cpu option: Zfh=true and Zfhmin=true
-> respectively.
->
-> The port is available at:
-> https://github.com/sifive/qemu/tree/zfh-upstream-v5
->
-> Note: This patchset depends on another patchset listed in Based-on
->       section below so it is not able to be built unless the patchset
->       is applied.
->
-> Changelog:
->
-> v5:
->   * Rebase on riscv-to-apply.next.
->
-> v4:
->   * Spilt Zfh, Zfhmin cpu properties related changes into individual
->     patches.
->
-> v3:
->   * Use the renamed softfloat min/max APIs: *_minimum_number()
->     and *_maximum_number().
->   * Pick softfloat min/max APIs based on CPU privilege spec version.
->   * Add braces for if statements in REQUIRE_ZFH() and
->     REQUIRE_ZFH_OR_ZFHMIN().
->   * Rearrange the positions of Zfh and Zfhmin cpu properties.
->
-> v2:
->   * Use {get,dest}_gpr APIs.
->   * Add Zfhmin extension.
->
-> Based-on: <20211021160847.2748577-1-frank.chang@sifive.com>
->
-> Frank Chang (3):
->   target/riscv: zfh: add Zfh cpu property
->   target/riscv: zfh: implement zfhmin extension
->   target/riscv: zfh: add Zfhmin cpu property
->
-> Kito Cheng (5):
->   target/riscv: zfh: half-precision load and store
->   target/riscv: zfh: half-precision computational
->   target/riscv: zfh: half-precision convert and move
->   target/riscv: zfh: half-precision floating-point compare
->   target/riscv: zfh: half-precision floating-point classify
->
->  target/riscv/cpu.c                        |   2 +
->  target/riscv/cpu.h                        |   2 +
->  target/riscv/fpu_helper.c                 | 180 ++++++++
->  target/riscv/helper.h                     |  29 ++
->  target/riscv/insn32.decode                |  38 ++
->  target/riscv/insn_trans/trans_rvzfh.c.inc | 537 ++++++++++++++++++++++
->  target/riscv/internals.h                  |  16 +
->  target/riscv/translate.c                  |  20 +
->  8 files changed, 824 insertions(+)
->  create mode 100644 target/riscv/insn_trans/trans_rvzfh.c.inc
->
-> --
-> 2.25.1
->
->
-Hi Alistair,
-
-Is this one able to be merged to v6.2.0 as the soft feature freeze is due
-today (2021-11-02).
-I think this series has gotten all Reviewed-by.
-
-Thanks,
-Frank Chang
-
---000000000000c82e2805cfced03a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Fri, Oct 22, 2021 at 12:30 AM &lt;<a h=
-ref=3D"mailto:frank.chang@sifive.com" target=3D"_blank">frank.chang@sifive.=
-com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">From: Frank Chang &lt;<a href=3D"mailto:frank=
-.chang@sifive.com" target=3D"_blank">frank.chang@sifive.com</a>&gt;<br>
-<br>
-Zfh - Half width floating point<br>
-Zfhmin - Subset of half width floating point<br>
-<br>
-Zfh, Zfhmin v0.1 is now in public review period and is required by<br>
-RVV extension:<br>
-<a href=3D"https://groups.google.com/a/groups.riscv.org/g/isa-dev/c/63gDCin=
-XTwE/m/871Wm9XIBQAJ" rel=3D"noreferrer" target=3D"_blank">https://groups.go=
-ogle.com/a/groups.riscv.org/g/isa-dev/c/63gDCinXTwE/m/871Wm9XIBQAJ</a><br>
-<br>
-Zfh, Zfhmin can be enabled with -cpu option: Zfh=3Dtrue and Zfhmin=3Dtrue<b=
-r>
-respectively.<br>
-<br>
-The port is available at:<br>
-<a href=3D"https://github.com/sifive/qemu/tree/zfh-upstream-v5" rel=3D"nore=
-ferrer" target=3D"_blank">https://github.com/sifive/qemu/tree/zfh-upstream-=
-v5</a><br>
-<br>
-Note: This patchset depends on another patchset listed in Based-on<br>
-=C2=A0 =C2=A0 =C2=A0 section below so it is not able to be built unless the=
- patchset<br>
-=C2=A0 =C2=A0 =C2=A0 is applied.<br>
-<br>
-Changelog:<br>
-<br>
-v5:<br>
-=C2=A0 * Rebase on riscv-to-apply.next.<br>
-<br>
-v4:<br>
-=C2=A0 * Spilt Zfh, Zfhmin cpu properties related changes into individual<b=
-r>
-=C2=A0 =C2=A0 patches.<br>
-<br>
-v3:<br>
-=C2=A0 * Use the renamed softfloat min/max APIs: *_minimum_number()<br>
-=C2=A0 =C2=A0 and *_maximum_number().<br>
-=C2=A0 * Pick softfloat min/max APIs based on CPU privilege spec version.<b=
-r>
-=C2=A0 * Add braces for if statements in REQUIRE_ZFH() and<br>
-=C2=A0 =C2=A0 REQUIRE_ZFH_OR_ZFHMIN().<br>
-=C2=A0 * Rearrange the positions of Zfh and Zfhmin cpu properties.<br>
-<br>
-v2:<br>
-=C2=A0 * Use {get,dest}_gpr APIs.<br>
-=C2=A0 * Add Zfhmin extension.<br>
-<br>
-Based-on: &lt;<a href=3D"mailto:20211021160847.2748577-1-frank.chang@sifive=
-.com" target=3D"_blank">20211021160847.2748577-1-frank.chang@sifive.com</a>=
-&gt;<br>
-<br>
-Frank Chang (3):<br>
-=C2=A0 target/riscv: zfh: add Zfh cpu property<br>
-=C2=A0 target/riscv: zfh: implement zfhmin extension<br>
-=C2=A0 target/riscv: zfh: add Zfhmin cpu property<br>
-<br>
-Kito Cheng (5):<br>
-=C2=A0 target/riscv: zfh: half-precision load and store<br>
-=C2=A0 target/riscv: zfh: half-precision computational<br>
-=C2=A0 target/riscv: zfh: half-precision convert and move<br>
-=C2=A0 target/riscv: zfh: half-precision floating-point compare<br>
-=C2=A0 target/riscv: zfh: half-precision floating-point classify<br>
-<br>
-=C2=A0target/riscv/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +<br>
-=C2=A0target/riscv/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +<br>
-=C2=A0target/riscv/fpu_helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| 180 ++++++++<br>
-=C2=A0target/riscv/helper.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 29 ++<br>
-=C2=A0target/riscv/insn32.decode=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 38 ++<br>
-=C2=A0target/riscv/insn_trans/trans_rvzfh.c.inc | 537 +++++++++++++++++++++=
-+<br>
-=C2=A0target/riscv/internals.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 16 +<br>
-=C2=A0target/riscv/translate.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 20 +<br>
-=C2=A08 files changed, 824 insertions(+)<br>
-=C2=A0create mode 100644 target/riscv/insn_trans/trans_rvzfh.c.inc<br>
-<br>
---<br>
-2.25.1<br>
-<br></blockquote><div><br></div><div>Hi Alistair,</div><div><br></div><div>=
-Is this one able to be merged to v6.2.0 as the soft feature freeze is due t=
-oday (2021-11-02).</div><div>I think this series has gotten all Reviewed-by=
-.</div><div><br></div><div>Thanks,</div><div>Frank Chang=C2=A0<br></div></d=
-iv></div>
-
---000000000000c82e2805cfced03a--
 
