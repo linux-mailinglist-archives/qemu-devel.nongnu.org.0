@@ -2,82 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9190443099
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:38:37 +0100 (CET)
-Received: from localhost ([::1]:53968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA53544309D
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:39:49 +0100 (CET)
+Received: from localhost ([::1]:57134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhuvs-0005iT-5D
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:38:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44646)
+	id 1mhux2-0007on-WF
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:39:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhucf-00073A-FK
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:18:45 -0400
-Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:40698)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhucb-0000F1-Oo
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:18:44 -0400
-Received: by mail-qt1-x833.google.com with SMTP id 19so17380831qtt.7
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 07:18:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Kd2SPiXASBwKXl86rw6IF5tG3+g34jyaFFEDoAq8G6k=;
- b=s3n76GHLGAMxMka4QLwNPASd13Jlt1IDI3rr5aoG8CdvitiyfXgd+wWVNo8MBNxq0Z
- uAcKpKpMfgVYsZYx3IgixMh/Up9tRVJjNIAJJVb48lr5ZRT2BtfxNUMYP2RS4fx8rqbP
- qwOEGTjVivWx9Bes8vRpEZpYkfEopmEHjqqMRFOnYRfeqRPCOkyUtiETftjieNivci56
- /7xtJzZeIhLEbD3Wb+44PJRdikfkXSLBBU81sIURu0PMnkQTYm9PhHFwqmp/XfLbJUeh
- 3HzyyhYXgKk1TBF2hDxCYnac6AxDvHfR/H/yVA+VpB161wZ0klP0GKAJA1soYF5mCfCp
- 9eVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Kd2SPiXASBwKXl86rw6IF5tG3+g34jyaFFEDoAq8G6k=;
- b=SH30xiFOTE+DAICY8XSchPnr4AGpgYbHaGmEX90B+5UCMDGS0XLglIZk+WRjWvL8VF
- 1Hc5MF0lfF6ElF9rSV1g8hm/AQEaCo5onjaNKCyNEPpIBr1d3JBCsUxkTi26oS/btE9F
- JOwLO5vrVdY8NsNkw2n55JNf4aeduW+VITt8sEGpOWOoKCQtqdEv/2oYtRJXdv0hK0pK
- 37358LQ92n9/CVNHL/jNMMHVKZPCBlhiv5apygDPhGohlkZxn1gazgyFdLGX7GqWtUmt
- o8/AhYTKE9XPrSyEzPh2hVOj1sfPefXZ7NCLS8UAtTcMp+o7ACl7BdPgftoBSm9xx2WZ
- ofqw==
-X-Gm-Message-State: AOAM5327Qc/gAuqt//xojVCe37PIG6heQL+B/TtMEsPrf3yS0E9saf3V
- 2W9RQ2KsdYWJREZ1sqEBRGFKZg==
-X-Google-Smtp-Source: ABdhPJwTeEdoYD+8Tq7Abhq4so8MVDrc8G+V0HqLRONUjuhqNCiYJ3f9VsLAdTlGWgdLUGYfSfzTBA==
-X-Received: by 2002:ac8:7d4f:: with SMTP id h15mr17139440qtb.336.1635862720685; 
- Tue, 02 Nov 2021 07:18:40 -0700 (PDT)
-Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
- [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id h14sm8293710qth.23.2021.11.02.07.18.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Nov 2021 07:18:40 -0700 (PDT)
-Subject: Re: [RFC 1/6] target/riscv: rvk: add flag support for Zbk[bcx]
-To: liweiwei <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-References: <20211102031128.17296-1-liweiwei@iscas.ac.cn>
- <20211102031128.17296-2-liweiwei@iscas.ac.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <97624133-30f2-fdc4-4f3c-0cc843f0768c@linaro.org>
-Date: Tue, 2 Nov 2021 10:18:38 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mhugM-0005uI-6E
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:22:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49944)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mhugI-00037E-Ss
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:22:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635862950;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PYuZB5NJ4oLzAOc5R6iCgQujrje+VNOcaRxDU8Di9AY=;
+ b=Jsnx81Pxh7kwzm0T2vTjyEsQuwrrDx25hmDufwfhlm467iPbCLGzFYbdWEWhHYm73JvFRf
+ TZEuI1Xl+Bg+gfNLYZyfHL4ITUkkWNcMQKy1PSuWfCvqlMvZwpxOB/zhpb5N5LVCvlbcC1
+ NxrR/FT4odduYbhurDL+6WsbTqflluo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-22-chqcJb1ROzaKpmjI5JG1aA-1; Tue, 02 Nov 2021 10:22:24 -0400
+X-MC-Unique: chqcJb1ROzaKpmjI5JG1aA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0980A1808304;
+ Tue,  2 Nov 2021 14:22:23 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.141])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F7C4100E12D;
+ Tue,  2 Nov 2021 14:22:21 +0000 (UTC)
+From: Hanna Reitz <hreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 0/4] Block patches
+Date: Tue,  2 Nov 2021 15:22:15 +0100
+Message-Id: <20211102142219.697650-1-hreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211102031128.17296-2-liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x833.google.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.549,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,51 +73,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, luruibo2000@163.com,
- lustrew@foxmail.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/1/21 11:11 PM, liweiwei wrote:
-> +++ b/target/riscv/cpu.c
-> @@ -472,15 +472,15 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->               error_setg(errp,
->                          "I and E extensions are incompatible");
->                          return;
-> -       }
-> +        }
->   
->           if (!cpu->cfg.ext_i && !cpu->cfg.ext_e) {
->               error_setg(errp,
->                          "Either I or E extension must be set");
->                          return;
-> -       }
-> +        }
->   
-> -       if (cpu->cfg.ext_g && !(cpu->cfg.ext_i & cpu->cfg.ext_m &
-> +        if (cpu->cfg.ext_g && !(cpu->cfg.ext_i & cpu->cfg.ext_m &
->                                  cpu->cfg.ext_a & cpu->cfg.ext_f &
->                                  cpu->cfg.ext_d)) {
->               warn_report("Setting G will also set IMAFD");
+The following changes since commit 8cb41fda78c7ebde0dd248c6afe1d336efb0de50:
 
-This re-indentation should not be happening.
+  Merge remote-tracking branch 'remotes/philmd/tags/machine-20211101' into staging (2021-11-02 05:53:45 -0400)
 
+are available in the Git repository at:
 
-> +    DEFINE_PROP_BOOL("x-zbkb", RISCVCPU, cfg.ext_zbkb, false),
-> +    DEFINE_PROP_BOOL("x-zbkc", RISCVCPU, cfg.ext_zbkc, false),
-> +    DEFINE_PROP_BOOL("x-zbkx", RISCVCPU, cfg.ext_zbkx, false),
+  https://github.com/XanClic/qemu.git tags/pull-block-2021-11-02
 
-The properties cannot be exposed until the end.
+for you to fetch changes up to 7da9623cc078229caf07c290e16401ccdb9408d2:
 
->          bool ext_zbb;
->          bool ext_zbc;
->          bool ext_zbs;
-> +        bool ext_zbkb;
-> +        bool ext_zbkc;
-> +        bool ext_zbkx;
+  block/vpc: Add a sanity check that fixed-size images have the right type (2021-11-02 12:47:51 +0100)
 
-Better to keep them alphabetical: zbk* < zbs.
+----------------------------------------------------------------
+Emanuele Giuseppe Esposito (1):
+  pylint: fix errors and warnings generated by tests/qemu-iotests/297
 
+Eric Blake (1):
+  qemu-img: Consistent docs for convert -F
 
-r~
+Thomas Huth (1):
+  block/vpc: Add a sanity check that fixed-size images have the right
+    type
+
+Thomas Weißschuh (1):
+  vmdk: allow specification of tools version
+
+ docs/tools/qemu-img.rst                 |  2 +-
+ qapi/block-core.json                    |  3 +++
+ block/vmdk.c                            | 24 ++++++++++++++++++++----
+ block/vpc.c                             |  3 ++-
+ qemu-img-cmds.hx                        |  2 +-
+ tests/qemu-iotests/129                  | 18 +++++++++---------
+ tests/qemu-iotests/310                  | 16 ++++++++--------
+ tests/qemu-iotests/check                | 11 ++++++-----
+ tests/qemu-iotests/iotests.py           |  7 ++++---
+ tests/qemu-iotests/tests/image-fleecing |  4 ++--
+ 10 files changed, 56 insertions(+), 34 deletions(-)
+
+-- 
+2.31.1
+
 
