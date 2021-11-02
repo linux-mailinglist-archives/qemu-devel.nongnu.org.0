@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8504444303C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:22:54 +0100 (CET)
-Received: from localhost ([::1]:60268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18834442FDD
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:09:21 +0100 (CET)
+Received: from localhost ([::1]:49664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhugf-00052r-MM
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:22:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34870)
+	id 1mhuTY-0002Rt-6i
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:09:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mhu6O-0004tt-Ix
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:45:25 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:55210)
+ id 1mhu6V-00050F-T1
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:45:31 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:46914)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mhu6M-0006M9-Ny
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:45:24 -0400
-Received: by mail-wm1-x334.google.com with SMTP id 71so13375011wma.4
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 06:45:22 -0700 (PDT)
+ id 1mhu6R-0006PC-UH
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:45:31 -0400
+Received: by mail-wr1-x434.google.com with SMTP id u1so1805581wru.13
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 06:45:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=I5Etaa8zIcgqaaU17Qo9AH5Dp8AYr3wzcYrvFLqw+7U=;
- b=F+qjG1XNhbAIR0xn75ds+/5R2Is3lLlYOBIZ3IHDQwb8p0sCnJmSn59UrjhWrlof4X
- Zh339WDCwqDhQFyfLJdVEGaTdiZlsQfmFOShvqASR01Qnh8BU+tNHXF07+Hf6UXT6QuZ
- 4Ga7h61pX/tpI8LwvDha7kX5TvqkPt2RzaeyEfkMbUj/hs4P8MUNC2toZxZNG5xB6Yfd
- cXJZiP0V2WBN9p6hPqf50amPZGpTdlYPNxoOt05z0Y3dtebxOHYiugjdxGBhuUTk1r9w
- BE5QbXe4+KdNJ1wZ2Fj8r/NMJLLqK2PH7r6g6UlhHyjn4qlCa9VlFYWZ8F4Tv7qohSSn
- tkeg==
+ bh=mbPpFP9IPA2wXzUBxuHciFVrxDYF6qdrb181+WZfmQs=;
+ b=L3/1I++TwT1CxQEdRc/8VEj/aHwFhzzc423CdOKhlj8U/Il38H3kV0UOxKilB3BDVr
+ RN+jY/0n4eDq1CqwERNnlt61koYIgdIJXgv7CtVADQpksgGy7Ci+r84diHNQyd9y1RiL
+ jdWL4FMs5+sQ0aPBC0nRH5o6zQsdt3oEyByu6ZK4LEzIJjljNTmO2OGaM/gqRGrHj6Bw
+ mOpm778iJXlebX0ETZr+NoOZk7vO5biPiNUvlg7KhOxAjxh48NYEJrtEJihSz9DynS+7
+ wTTrBw6E47zmyV4bVN5ijYiEDHvLYANnXV8U8pAEqJnwjK52IXsEzG30sXh/rCZjCwxK
+ 8qlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=I5Etaa8zIcgqaaU17Qo9AH5Dp8AYr3wzcYrvFLqw+7U=;
- b=yGw0TGoSe4RcQLZPDJWrFgZHvN+Es7u0WIxZjVfLIOeNzwylieRQ6OsVIm1RozBjm8
- psw+W9cWGjDLxpVaFP6m6IKZDXHVVhp5nS1Jr1KcSBXLxIi9B7sHFpV5nU8SiivHIA9z
- ztcMev1a0HFSvCXypjDMRS0ynilrjeLc6w9RU0uzsmmN6VY1DxF84kNkvOMTYjVNnfgS
- GeEgi9/BeXpGAXqaqvSbSMREyUphgyk1jb4iDyHH5BK1xgps32ffYfPKsXVo5dR+WpzR
- o4pWaEFM2PSvfiTvPzODFIOubbuT6HK01lQQAbjUXgcBatDTykVb63MxbL6Wu+2pTCGA
- CpOQ==
-X-Gm-Message-State: AOAM532yTAAZyqHNJibg040pDo0K+nikygCb/SZZRCTGSpCU7jO/Im+L
- Nel1DRuD5+QFxrPVClF8VXzApE1wBRM=
-X-Google-Smtp-Source: ABdhPJxXpVY6CmCg9NFGa8sYZJzj5dZyYftuJ9cfGLdr2WXcOoE4WJ1Oh0CJKpZw9q0IVXETjcttvA==
-X-Received: by 2002:a05:600c:ad0:: with SMTP id
- c16mr6864761wmr.176.1635860721141; 
- Tue, 02 Nov 2021 06:45:21 -0700 (PDT)
+ bh=mbPpFP9IPA2wXzUBxuHciFVrxDYF6qdrb181+WZfmQs=;
+ b=ESHqqibng5OZmc5osIOC02CPVXTjCbeqwHXW1Er5mLLOPk7iSkzJgEfcDJFbbUQrcH
+ l6AUSpgAQigbMENzgONrtQkoRPsN3CeYghbkrnFN+4vmOX2wdTPgDeLsn9aEvvXXJFml
+ uW0vsED9GE6WbvW6zgPEDX0avYTlVF5UZ6zIXEphvazpy5Tl1HOAGWuXkodSPtOLL1zr
+ TH7DyRnkzHhI8NpC4EaMD6arEpL5RbUPiwCE2uvkESy9XJvNB9PuquCQ7YRlNG1VECsN
+ YY7m9Rf0RzdjLF6p1N2risjKOUYaeWSzNW43xqCcruIi3nfAGs2Bl2Fp78vA0BddnknB
+ iZ0w==
+X-Gm-Message-State: AOAM530x5+axTWwgv/y5pWvowb40nzSoZAq21qB7PN+dneSkFIhN/iG2
+ vAObz6f3bXD1+9Uv9RytFRAyo8RtWgE=
+X-Google-Smtp-Source: ABdhPJytiQ3pv+1KR6l9PwquMBmGrXD16wmojFZKFzwZA6jHvjfQGgVDgDOVuv46TucjxmM2Yc7UCQ==
+X-Received: by 2002:a05:6000:1849:: with SMTP id
+ c9mr48646466wri.394.1635860725821; 
+ Tue, 02 Nov 2021 06:45:25 -0700 (PDT)
 Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
  by smtp.gmail.com with ESMTPSA id
- f24sm2476764wmb.33.2021.11.02.06.45.19
+ t8sm16205177wrv.30.2021.11.02.06.45.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 06:45:20 -0700 (PDT)
+ Tue, 02 Nov 2021 06:45:25 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/41] target/mips: Remove generic MSA opcode
-Date: Tue,  2 Nov 2021 14:42:32 +0100
-Message-Id: <20211102134240.3036524-34-f4bug@amsat.org>
+Subject: [PULL 34/41] target/mips: Remove one MSA unnecessary decodetree
+ overlap group
+Date: Tue,  2 Nov 2021 14:42:33 +0100
+Message-Id: <20211102134240.3036524-35-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211102134240.3036524-1-f4bug@amsat.org>
 References: <20211102134240.3036524-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,47 +94,429 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All opcodes have been converted to decodetree. The generic
-MSA handler is now pointless, remove it.
+Only the MSA generic opcode was overlapping with the other
+instructions. Since the previous commit removed it, we can
+now remove the overlap group. The decodetree script forces
+us to re-indent the opcodes.
+
+Diff trivial to review using `git-diff --ignore-all-space`.
 
 Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20211028210843.2120802-31-f4bug@amsat.org>
+Message-Id: <20211028210843.2120802-32-f4bug@amsat.org>
 ---
- target/mips/tcg/msa.decode      | 2 --
- target/mips/tcg/msa_translate.c | 7 -------
- 2 files changed, 9 deletions(-)
+ target/mips/tcg/msa.decode | 398 ++++++++++++++++++-------------------
+ 1 file changed, 198 insertions(+), 200 deletions(-)
 
 diff --git a/target/mips/tcg/msa.decode b/target/mips/tcg/msa.decode
-index a4c7cceb15f..124768132ba 100644
+index 124768132ba..95752891956 100644
 --- a/target/mips/tcg/msa.decode
 +++ b/target/mips/tcg/msa.decode
-@@ -257,6 +257,4 @@ BNZ                 010001 111 .. ..... ................    @bz
+@@ -56,205 +56,203 @@ BNZ_V               010001 01111  ..... ................    @bz_v
+ BZ                  010001 110 .. ..... ................    @bz
+ BNZ                 010001 111 .. ..... ................    @bz
  
-   LD                011110 .......... ..... .....   1000 .. @ldst
-   ST                011110 .......... ..... .....   1001 .. @ldst
--
--  MSA               011110 --------------------------
- }
-diff --git a/target/mips/tcg/msa_translate.c b/target/mips/tcg/msa_translate.c
-index c054a05f8ba..7576b3ed86b 100644
---- a/target/mips/tcg/msa_translate.c
-+++ b/target/mips/tcg/msa_translate.c
-@@ -763,13 +763,6 @@ TRANS(FTINT_U,  trans_msa_2rf, gen_helper_msa_ftint_u_df);
- TRANS(FFINT_S,  trans_msa_2rf, gen_helper_msa_ffint_s_df);
- TRANS(FFINT_U,  trans_msa_2rf, gen_helper_msa_ffint_u_df);
- 
--static bool trans_MSA(DisasContext *ctx, arg_MSA *a)
--{
--    gen_reserved_instruction(ctx);
--
--    return true;
--}
--
- static bool trans_msa_ldst(DisasContext *ctx, arg_msa_i *a,
-                            gen_helper_piv *gen_msa_ldst)
++ANDI                011110 00 ........ ..... .....  000000  @i8
++ORI                 011110 01 ........ ..... .....  000000  @i8
++NORI                011110 10 ........ ..... .....  000000  @i8
++XORI                011110 11 ........ ..... .....  000000  @i8
++BMNZI               011110 00 ........ ..... .....  000001  @i8
++BMZI                011110 01 ........ ..... .....  000001  @i8
++BSELI               011110 10 ........ ..... .....  000001  @i8
++SHF                 011110 .. ........ ..... .....  000010  @i8_df
++
++ADDVI               011110 000 .. ..... ..... ..... 000110  @u5
++SUBVI               011110 001 .. ..... ..... ..... 000110  @u5
++MAXI_S              011110 010 .. ..... ..... ..... 000110  @s5
++MAXI_U              011110 011 .. ..... ..... ..... 000110  @u5
++MINI_S              011110 100 .. ..... ..... ..... 000110  @s5
++MINI_U              011110 101 .. ..... ..... ..... 000110  @u5
++
++CEQI                011110 000 .. ..... ..... ..... 000111  @s5
++CLTI_S              011110 010 .. ..... ..... ..... 000111  @s5
++CLTI_U              011110 011 .. ..... ..... ..... 000111  @u5
++CLEI_S              011110 100 .. ..... ..... ..... 000111  @s5
++CLEI_U              011110 101 .. ..... ..... ..... 000111  @u5
++
++LDI                 011110 110 .. ..........  ..... 000111  @ldi
++
++SLLI                011110 000 ....... ..... .....  001001  @bit
++SRAI                011110 001 ....... ..... .....  001001  @bit
++SRLI                011110 010 ....... ..... .....  001001  @bit
++BCLRI               011110 011 ....... ..... .....  001001  @bit
++BSETI               011110 100 ....... ..... .....  001001  @bit
++BNEGI               011110 101 ....... ..... .....  001001  @bit
++BINSLI              011110 110 ....... ..... .....  001001  @bit
++BINSRI              011110 111 ....... ..... .....  001001  @bit
++
++SAT_S               011110 000 ....... ..... .....  001010  @bit
++SAT_U               011110 001 ....... ..... .....  001010  @bit
++SRARI               011110 010 ....... ..... .....  001010  @bit
++SRLRI               011110 011 ....... ..... .....  001010  @bit
++
++SLL                 011110 000.. ..... ..... .....  001101  @3r
++SRA                 011110 001.. ..... ..... .....  001101  @3r
++SRL                 011110 010.. ..... ..... .....  001101  @3r
++BCLR                011110 011.. ..... ..... .....  001101  @3r
++BSET                011110 100.. ..... ..... .....  001101  @3r
++BNEG                011110 101.. ..... ..... .....  001101  @3r
++BINSL               011110 110.. ..... ..... .....  001101  @3r
++BINSR               011110 111.. ..... ..... .....  001101  @3r
++
++ADDV                011110 000.. ..... ..... .....  001110  @3r
++SUBV                011110 001.. ..... ..... .....  001110  @3r
++MAX_S               011110 010.. ..... ..... .....  001110  @3r
++MAX_U               011110 011.. ..... ..... .....  001110  @3r
++MIN_S               011110 100.. ..... ..... .....  001110  @3r
++MIN_U               011110 101.. ..... ..... .....  001110  @3r
++MAX_A               011110 110.. ..... ..... .....  001110  @3r
++MIN_A               011110 111.. ..... ..... .....  001110  @3r
++
++CEQ                 011110 000.. ..... ..... .....  001111  @3r
++CLT_S               011110 010.. ..... ..... .....  001111  @3r
++CLT_U               011110 011.. ..... ..... .....  001111  @3r
++CLE_S               011110 100.. ..... ..... .....  001111  @3r
++CLE_U               011110 101.. ..... ..... .....  001111  @3r
++
++ADD_A               011110 000.. ..... ..... .....  010000  @3r
++ADDS_A              011110 001.. ..... ..... .....  010000  @3r
++ADDS_S              011110 010.. ..... ..... .....  010000  @3r
++ADDS_U              011110 011.. ..... ..... .....  010000  @3r
++AVE_S               011110 100.. ..... ..... .....  010000  @3r
++AVE_U               011110 101.. ..... ..... .....  010000  @3r
++AVER_S              011110 110.. ..... ..... .....  010000  @3r
++AVER_U              011110 111.. ..... ..... .....  010000  @3r
++
++SUBS_S              011110 000.. ..... ..... .....  010001  @3r
++SUBS_U              011110 001.. ..... ..... .....  010001  @3r
++SUBSUS_U            011110 010.. ..... ..... .....  010001  @3r
++SUBSUU_S            011110 011.. ..... ..... .....  010001  @3r
++ASUB_S              011110 100.. ..... ..... .....  010001  @3r
++ASUB_U              011110 101.. ..... ..... .....  010001  @3r
++
++MULV                011110 000.. ..... ..... .....  010010  @3r
++MADDV               011110 001.. ..... ..... .....  010010  @3r
++MSUBV               011110 010.. ..... ..... .....  010010  @3r
++DIV_S               011110 100.. ..... ..... .....  010010  @3r
++DIV_U               011110 101.. ..... ..... .....  010010  @3r
++MOD_S               011110 110.. ..... ..... .....  010010  @3r
++MOD_U               011110 111.. ..... ..... .....  010010  @3r
++
++DOTP_S              011110 000.. ..... ..... .....  010011  @3r
++DOTP_U              011110 001.. ..... ..... .....  010011  @3r
++DPADD_S             011110 010.. ..... ..... .....  010011  @3r
++DPADD_U             011110 011.. ..... ..... .....  010011  @3r
++DPSUB_S             011110 100.. ..... ..... .....  010011  @3r
++DPSUB_U             011110 101.. ..... ..... .....  010011  @3r
++
++SLD                 011110 000 .. ..... ..... ..... 010100  @3r
++SPLAT               011110 001 .. ..... ..... ..... 010100  @3r
++PCKEV               011110 010 .. ..... ..... ..... 010100  @3r
++PCKOD               011110 011 .. ..... ..... ..... 010100  @3r
++ILVL                011110 100 .. ..... ..... ..... 010100  @3r
++ILVR                011110 101 .. ..... ..... ..... 010100  @3r
++ILVEV               011110 110 .. ..... ..... ..... 010100  @3r
++ILVOD               011110 111 .. ..... ..... ..... 010100  @3r
++
++VSHF                011110 000 .. ..... ..... ..... 010101  @3r
++SRAR                011110 001 .. ..... ..... ..... 010101  @3r
++SRLR                011110 010 .. ..... ..... ..... 010101  @3r
++HADD_S              011110 100.. ..... ..... .....  010101  @3r
++HADD_U              011110 101.. ..... ..... .....  010101  @3r
++HSUB_S              011110 110.. ..... ..... .....  010101  @3r
++HSUB_U              011110 111.. ..... ..... .....  010101  @3r
++
  {
+-  ANDI              011110 00 ........ ..... .....  000000  @i8
+-  ORI               011110 01 ........ ..... .....  000000  @i8
+-  NORI              011110 10 ........ ..... .....  000000  @i8
+-  XORI              011110 11 ........ ..... .....  000000  @i8
+-  BMNZI             011110 00 ........ ..... .....  000001  @i8
+-  BMZI              011110 01 ........ ..... .....  000001  @i8
+-  BSELI             011110 10 ........ ..... .....  000001  @i8
+-  SHF               011110 .. ........ ..... .....  000010  @i8_df
+-
+-  ADDVI             011110 000 .. ..... ..... ..... 000110  @u5
+-  SUBVI             011110 001 .. ..... ..... ..... 000110  @u5
+-  MAXI_S            011110 010 .. ..... ..... ..... 000110  @s5
+-  MAXI_U            011110 011 .. ..... ..... ..... 000110  @u5
+-  MINI_S            011110 100 .. ..... ..... ..... 000110  @s5
+-  MINI_U            011110 101 .. ..... ..... ..... 000110  @u5
+-
+-  CEQI              011110 000 .. ..... ..... ..... 000111  @s5
+-  CLTI_S            011110 010 .. ..... ..... ..... 000111  @s5
+-  CLTI_U            011110 011 .. ..... ..... ..... 000111  @u5
+-  CLEI_S            011110 100 .. ..... ..... ..... 000111  @s5
+-  CLEI_U            011110 101 .. ..... ..... ..... 000111  @u5
+-
+-  LDI               011110 110 .. ..........  ..... 000111  @ldi
+-
+-  SLLI              011110 000 ....... ..... .....  001001  @bit
+-  SRAI              011110 001 ....... ..... .....  001001  @bit
+-  SRLI              011110 010 ....... ..... .....  001001  @bit
+-  BCLRI             011110 011 ....... ..... .....  001001  @bit
+-  BSETI             011110 100 ....... ..... .....  001001  @bit
+-  BNEGI             011110 101 ....... ..... .....  001001  @bit
+-  BINSLI            011110 110 ....... ..... .....  001001  @bit
+-  BINSRI            011110 111 ....... ..... .....  001001  @bit
+-
+-  SAT_S             011110 000 ....... ..... .....  001010  @bit
+-  SAT_U             011110 001 ....... ..... .....  001010  @bit
+-  SRARI             011110 010 ....... ..... .....  001010  @bit
+-  SRLRI             011110 011 ....... ..... .....  001010  @bit
+-
+-  SLL               011110 000.. ..... ..... .....  001101  @3r
+-  SRA               011110 001.. ..... ..... .....  001101  @3r
+-  SRL               011110 010.. ..... ..... .....  001101  @3r
+-  BCLR              011110 011.. ..... ..... .....  001101  @3r
+-  BSET              011110 100.. ..... ..... .....  001101  @3r
+-  BNEG              011110 101.. ..... ..... .....  001101  @3r
+-  BINSL             011110 110.. ..... ..... .....  001101  @3r
+-  BINSR             011110 111.. ..... ..... .....  001101  @3r
+-
+-  ADDV              011110 000.. ..... ..... .....  001110  @3r
+-  SUBV              011110 001.. ..... ..... .....  001110  @3r
+-  MAX_S             011110 010.. ..... ..... .....  001110  @3r
+-  MAX_U             011110 011.. ..... ..... .....  001110  @3r
+-  MIN_S             011110 100.. ..... ..... .....  001110  @3r
+-  MIN_U             011110 101.. ..... ..... .....  001110  @3r
+-  MAX_A             011110 110.. ..... ..... .....  001110  @3r
+-  MIN_A             011110 111.. ..... ..... .....  001110  @3r
+-
+-  CEQ               011110 000.. ..... ..... .....  001111  @3r
+-  CLT_S             011110 010.. ..... ..... .....  001111  @3r
+-  CLT_U             011110 011.. ..... ..... .....  001111  @3r
+-  CLE_S             011110 100.. ..... ..... .....  001111  @3r
+-  CLE_U             011110 101.. ..... ..... .....  001111  @3r
+-
+-  ADD_A             011110 000.. ..... ..... .....  010000  @3r
+-  ADDS_A            011110 001.. ..... ..... .....  010000  @3r
+-  ADDS_S            011110 010.. ..... ..... .....  010000  @3r
+-  ADDS_U            011110 011.. ..... ..... .....  010000  @3r
+-  AVE_S             011110 100.. ..... ..... .....  010000  @3r
+-  AVE_U             011110 101.. ..... ..... .....  010000  @3r
+-  AVER_S            011110 110.. ..... ..... .....  010000  @3r
+-  AVER_U            011110 111.. ..... ..... .....  010000  @3r
+-
+-  SUBS_S            011110 000.. ..... ..... .....  010001  @3r
+-  SUBS_U            011110 001.. ..... ..... .....  010001  @3r
+-  SUBSUS_U          011110 010.. ..... ..... .....  010001  @3r
+-  SUBSUU_S          011110 011.. ..... ..... .....  010001  @3r
+-  ASUB_S            011110 100.. ..... ..... .....  010001  @3r
+-  ASUB_U            011110 101.. ..... ..... .....  010001  @3r
+-
+-  MULV              011110 000.. ..... ..... .....  010010  @3r
+-  MADDV             011110 001.. ..... ..... .....  010010  @3r
+-  MSUBV             011110 010.. ..... ..... .....  010010  @3r
+-  DIV_S             011110 100.. ..... ..... .....  010010  @3r
+-  DIV_U             011110 101.. ..... ..... .....  010010  @3r
+-  MOD_S             011110 110.. ..... ..... .....  010010  @3r
+-  MOD_U             011110 111.. ..... ..... .....  010010  @3r
+-
+-  DOTP_S            011110 000.. ..... ..... .....  010011  @3r
+-  DOTP_U            011110 001.. ..... ..... .....  010011  @3r
+-  DPADD_S           011110 010.. ..... ..... .....  010011  @3r
+-  DPADD_U           011110 011.. ..... ..... .....  010011  @3r
+-  DPSUB_S           011110 100.. ..... ..... .....  010011  @3r
+-  DPSUB_U           011110 101.. ..... ..... .....  010011  @3r
+-
+-  SLD               011110 000 .. ..... ..... ..... 010100  @3r
+-  SPLAT             011110 001 .. ..... ..... ..... 010100  @3r
+-  PCKEV             011110 010 .. ..... ..... ..... 010100  @3r
+-  PCKOD             011110 011 .. ..... ..... ..... 010100  @3r
+-  ILVL              011110 100 .. ..... ..... ..... 010100  @3r
+-  ILVR              011110 101 .. ..... ..... ..... 010100  @3r
+-  ILVEV             011110 110 .. ..... ..... ..... 010100  @3r
+-  ILVOD             011110 111 .. ..... ..... ..... 010100  @3r
+-
+-  VSHF              011110 000 .. ..... ..... ..... 010101  @3r
+-  SRAR              011110 001 .. ..... ..... ..... 010101  @3r
+-  SRLR              011110 010 .. ..... ..... ..... 010101  @3r
+-  HADD_S            011110 100.. ..... ..... .....  010101  @3r
+-  HADD_U            011110 101.. ..... ..... .....  010101  @3r
+-  HSUB_S            011110 110.. ..... ..... .....  010101  @3r
+-  HSUB_U            011110 111.. ..... ..... .....  010101  @3r
+-
+-  {
+-    CTCMSA          011110 0000111110  ..... .....  011001  @elm
+-    SLDI            011110 0000 ...... ..... .....  011001  @elm_df
+-  }
+-  {
+-    CFCMSA          011110 0001111110  ..... .....  011001  @elm
+-    SPLATI          011110 0001 ...... ..... .....  011001  @elm_df
+-  }
+-  {
+-    MOVE_V          011110 0010111110  ..... .....  011001  @elm
+-    COPY_S          011110 0010 ...... ..... .....  011001  @elm_df
+-  }
+-  COPY_U            011110 0011 ...... ..... .....  011001  @elm_df
+-  INSERT            011110 0100 ...... ..... .....  011001  @elm_df
+-  INSVE             011110 0101 ...... ..... .....  011001  @elm_df
+-
+-  FCAF              011110 0000 . ..... ..... ..... 011010  @3rf_w
+-  FCUN              011110 0001 . ..... ..... ..... 011010  @3rf_w
+-  FCEQ              011110 0010 . ..... ..... ..... 011010  @3rf_w
+-  FCUEQ             011110 0011 . ..... ..... ..... 011010  @3rf_w
+-  FCLT              011110 0100 . ..... ..... ..... 011010  @3rf_w
+-  FCULT             011110 0101 . ..... ..... ..... 011010  @3rf_w
+-  FCLE              011110 0110 . ..... ..... ..... 011010  @3rf_w
+-  FCULE             011110 0111 . ..... ..... ..... 011010  @3rf_w
+-  FSAF              011110 1000 . ..... ..... ..... 011010  @3rf_w
+-  FSUN              011110 1001 . ..... ..... ..... 011010  @3rf_w
+-  FSEQ              011110 1010 . ..... ..... ..... 011010  @3rf_w
+-  FSUEQ             011110 1011 . ..... ..... ..... 011010  @3rf_w
+-  FSLT              011110 1100 . ..... ..... ..... 011010  @3rf_w
+-  FSULT             011110 1101 . ..... ..... ..... 011010  @3rf_w
+-  FSLE              011110 1110 . ..... ..... ..... 011010  @3rf_w
+-  FSULE             011110 1111 . ..... ..... ..... 011010  @3rf_w
+-
+-  FADD              011110 0000 . ..... ..... ..... 011011  @3rf_w
+-  FSUB              011110 0001 . ..... ..... ..... 011011  @3rf_w
+-  FMUL              011110 0010 . ..... ..... ..... 011011  @3rf_w
+-  FDIV              011110 0011 . ..... ..... ..... 011011  @3rf_w
+-  FMADD             011110 0100 . ..... ..... ..... 011011  @3rf_w
+-  FMSUB             011110 0101 . ..... ..... ..... 011011  @3rf_w
+-  FEXP2             011110 0111 . ..... ..... ..... 011011  @3rf_w
+-  FEXDO             011110 1000 . ..... ..... ..... 011011  @3rf_w
+-  FTQ               011110 1010 . ..... ..... ..... 011011  @3rf_w
+-  FMIN              011110 1100 . ..... ..... ..... 011011  @3rf_w
+-  FMIN_A            011110 1101 . ..... ..... ..... 011011  @3rf_w
+-  FMAX              011110 1110 . ..... ..... ..... 011011  @3rf_w
+-  FMAX_A            011110 1111 . ..... ..... ..... 011011  @3rf_w
+-
+-  FCOR              011110 0001 . ..... ..... ..... 011100  @3rf_w
+-  FCUNE             011110 0010 . ..... ..... ..... 011100  @3rf_w
+-  FCNE              011110 0011 . ..... ..... ..... 011100  @3rf_w
+-  MUL_Q             011110 0100 . ..... ..... ..... 011100  @3rf_h
+-  MADD_Q            011110 0101 . ..... ..... ..... 011100  @3rf_h
+-  MSUB_Q            011110 0110 . ..... ..... ..... 011100  @3rf_h
+-  FSOR              011110 1001 . ..... ..... ..... 011100  @3rf_w
+-  FSUNE             011110 1010 . ..... ..... ..... 011100  @3rf_w
+-  FSNE              011110 1011 . ..... ..... ..... 011100  @3rf_w
+-  MULR_Q            011110 1100 . ..... ..... ..... 011100  @3rf_h
+-  MADDR_Q           011110 1101 . ..... ..... ..... 011100  @3rf_h
+-  MSUBR_Q           011110 1110 . ..... ..... ..... 011100  @3rf_h
+-
+-  AND_V             011110 00000 ..... ..... .....  011110  @vec
+-  OR_V              011110 00001 ..... ..... .....  011110  @vec
+-  NOR_V             011110 00010 ..... ..... .....  011110  @vec
+-  XOR_V             011110 00011 ..... ..... .....  011110  @vec
+-  BMNZ_V            011110 00100 ..... ..... .....  011110  @vec
+-  BMZ_V             011110 00101 ..... ..... .....  011110  @vec
+-  BSEL_V            011110 00110 ..... ..... .....  011110  @vec
+-  FILL              011110 11000000 .. ..... .....  011110  @2r
+-  PCNT              011110 11000001 .. ..... .....  011110  @2r
+-  NLOC              011110 11000010 .. ..... .....  011110  @2r
+-  NLZC              011110 11000011 .. ..... .....  011110  @2r
+-  FCLASS            011110 110010000 . ..... .....  011110  @2rf
+-  FTRUNC_S          011110 110010001 . ..... .....  011110  @2rf
+-  FTRUNC_U          011110 110010010 . ..... .....  011110  @2rf
+-  FSQRT             011110 110010011 . ..... .....  011110  @2rf
+-  FRSQRT            011110 110010100 . ..... .....  011110  @2rf
+-  FRCP              011110 110010101 . ..... .....  011110  @2rf
+-  FRINT             011110 110010110 . ..... .....  011110  @2rf
+-  FLOG2             011110 110010111 . ..... .....  011110  @2rf
+-  FEXUPL            011110 110011000 . ..... .....  011110  @2rf
+-  FEXUPR            011110 110011001 . ..... .....  011110  @2rf
+-  FFQL              011110 110011010 . ..... .....  011110  @2rf
+-  FFQR              011110 110011011 . ..... .....  011110  @2rf
+-  FTINT_S           011110 110011100 . ..... .....  011110  @2rf
+-  FTINT_U           011110 110011101 . ..... .....  011110  @2rf
+-  FFINT_S           011110 110011110 . ..... .....  011110  @2rf
+-  FFINT_U           011110 110011111 . ..... .....  011110  @2rf
+-
+-  LD                011110 .......... ..... .....   1000 .. @ldst
+-  ST                011110 .......... ..... .....   1001 .. @ldst
++  CTCMSA            011110 0000111110  ..... .....  011001  @elm
++  SLDI              011110 0000 ...... ..... .....  011001  @elm_df
+ }
++{
++  CFCMSA            011110 0001111110  ..... .....  011001  @elm
++  SPLATI            011110 0001 ...... ..... .....  011001  @elm_df
++}
++{
++  MOVE_V            011110 0010111110  ..... .....  011001  @elm
++  COPY_S            011110 0010 ...... ..... .....  011001  @elm_df
++}
++COPY_U              011110 0011 ...... ..... .....  011001  @elm_df
++INSERT              011110 0100 ...... ..... .....  011001  @elm_df
++INSVE               011110 0101 ...... ..... .....  011001  @elm_df
++
++FCAF                011110 0000 . ..... ..... ..... 011010  @3rf_w
++FCUN                011110 0001 . ..... ..... ..... 011010  @3rf_w
++FCEQ                011110 0010 . ..... ..... ..... 011010  @3rf_w
++FCUEQ               011110 0011 . ..... ..... ..... 011010  @3rf_w
++FCLT                011110 0100 . ..... ..... ..... 011010  @3rf_w
++FCULT               011110 0101 . ..... ..... ..... 011010  @3rf_w
++FCLE                011110 0110 . ..... ..... ..... 011010  @3rf_w
++FCULE               011110 0111 . ..... ..... ..... 011010  @3rf_w
++FSAF                011110 1000 . ..... ..... ..... 011010  @3rf_w
++FSUN                011110 1001 . ..... ..... ..... 011010  @3rf_w
++FSEQ                011110 1010 . ..... ..... ..... 011010  @3rf_w
++FSUEQ               011110 1011 . ..... ..... ..... 011010  @3rf_w
++FSLT                011110 1100 . ..... ..... ..... 011010  @3rf_w
++FSULT               011110 1101 . ..... ..... ..... 011010  @3rf_w
++FSLE                011110 1110 . ..... ..... ..... 011010  @3rf_w
++FSULE               011110 1111 . ..... ..... ..... 011010  @3rf_w
++
++FADD                011110 0000 . ..... ..... ..... 011011  @3rf_w
++FSUB                011110 0001 . ..... ..... ..... 011011  @3rf_w
++FMUL                011110 0010 . ..... ..... ..... 011011  @3rf_w
++FDIV                011110 0011 . ..... ..... ..... 011011  @3rf_w
++FMADD               011110 0100 . ..... ..... ..... 011011  @3rf_w
++FMSUB               011110 0101 . ..... ..... ..... 011011  @3rf_w
++FEXP2               011110 0111 . ..... ..... ..... 011011  @3rf_w
++FEXDO               011110 1000 . ..... ..... ..... 011011  @3rf_w
++FTQ                 011110 1010 . ..... ..... ..... 011011  @3rf_w
++FMIN                011110 1100 . ..... ..... ..... 011011  @3rf_w
++FMIN_A              011110 1101 . ..... ..... ..... 011011  @3rf_w
++FMAX                011110 1110 . ..... ..... ..... 011011  @3rf_w
++FMAX_A              011110 1111 . ..... ..... ..... 011011  @3rf_w
++
++FCOR                011110 0001 . ..... ..... ..... 011100  @3rf_w
++FCUNE               011110 0010 . ..... ..... ..... 011100  @3rf_w
++FCNE                011110 0011 . ..... ..... ..... 011100  @3rf_w
++MUL_Q               011110 0100 . ..... ..... ..... 011100  @3rf_h
++MADD_Q              011110 0101 . ..... ..... ..... 011100  @3rf_h
++MSUB_Q              011110 0110 . ..... ..... ..... 011100  @3rf_h
++FSOR                011110 1001 . ..... ..... ..... 011100  @3rf_w
++FSUNE               011110 1010 . ..... ..... ..... 011100  @3rf_w
++FSNE                011110 1011 . ..... ..... ..... 011100  @3rf_w
++MULR_Q              011110 1100 . ..... ..... ..... 011100  @3rf_h
++MADDR_Q             011110 1101 . ..... ..... ..... 011100  @3rf_h
++MSUBR_Q             011110 1110 . ..... ..... ..... 011100  @3rf_h
++
++AND_V               011110 00000 ..... ..... .....  011110  @vec
++OR_V                011110 00001 ..... ..... .....  011110  @vec
++NOR_V               011110 00010 ..... ..... .....  011110  @vec
++XOR_V               011110 00011 ..... ..... .....  011110  @vec
++BMNZ_V              011110 00100 ..... ..... .....  011110  @vec
++BMZ_V               011110 00101 ..... ..... .....  011110  @vec
++BSEL_V              011110 00110 ..... ..... .....  011110  @vec
++FILL                011110 11000000 .. ..... .....  011110  @2r
++PCNT                011110 11000001 .. ..... .....  011110  @2r
++NLOC                011110 11000010 .. ..... .....  011110  @2r
++NLZC                011110 11000011 .. ..... .....  011110  @2r
++FCLASS              011110 110010000 . ..... .....  011110  @2rf
++FTRUNC_S            011110 110010001 . ..... .....  011110  @2rf
++FTRUNC_U            011110 110010010 . ..... .....  011110  @2rf
++FSQRT               011110 110010011 . ..... .....  011110  @2rf
++FRSQRT              011110 110010100 . ..... .....  011110  @2rf
++FRCP                011110 110010101 . ..... .....  011110  @2rf
++FRINT               011110 110010110 . ..... .....  011110  @2rf
++FLOG2               011110 110010111 . ..... .....  011110  @2rf
++FEXUPL              011110 110011000 . ..... .....  011110  @2rf
++FEXUPR              011110 110011001 . ..... .....  011110  @2rf
++FFQL                011110 110011010 . ..... .....  011110  @2rf
++FFQR                011110 110011011 . ..... .....  011110  @2rf
++FTINT_S             011110 110011100 . ..... .....  011110  @2rf
++FTINT_U             011110 110011101 . ..... .....  011110  @2rf
++FFINT_S             011110 110011110 . ..... .....  011110  @2rf
++FFINT_U             011110 110011111 . ..... .....  011110  @2rf
++
++LD                  011110 .......... ..... .....   1000 .. @ldst
++ST                  011110 .......... ..... .....   1001 .. @ldst
 -- 
 2.31.1
 
