@@ -2,90 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAFD14431BC
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 16:30:47 +0100 (CET)
-Received: from localhost ([::1]:52878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CCF74431ED
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 16:41:25 +0100 (CET)
+Received: from localhost ([::1]:47622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhvkN-0001AN-3u
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 11:30:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41056)
+	id 1mhvud-0000D0-N3
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 11:41:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mhvig-0007Py-Nb
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 11:29:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25885)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mhvsg-0006F9-OK
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 11:39:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mhvie-0000wy-Ts
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 11:29:02 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mhvsc-0000at-Mn
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 11:39:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635866940;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Y1kNkGoy6O0U77CuWFweB/WwefDBwVB6K6xvCiSD2Qc=;
- b=ixA/VdqIynGPaYABFkPk4xNtAzSF05otLCyxZZh2RPI4Do1+xVl6VdGFVmdFvNpQp/Hunr
- cJOwY8bSiwyNgw8CqzFPBA13x9rAbmv+4Ht6PqKHyyhAc6qVseH+TOy9TIUQhb6akK2qIS
- eqPLpts287RsLcMklm8EuutaBFuLJ6U=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-0AUG90BEOaO3wjsSwodsFA-1; Tue, 02 Nov 2021 11:28:56 -0400
-X-MC-Unique: 0AUG90BEOaO3wjsSwodsFA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j25-20020a05600c1c1900b00332372c252dso990659wms.1
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 08:28:56 -0700 (PDT)
+ s=mimecast20190719; t=1635867556;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=qQnhIRslxfdIgJRZ89rx6HzbRqC4dvozWfRRfJmzTWI=;
+ b=ZEOawykjcwhD8mqTwCrg987DhpVBm2kUsbmIYU1DpxofFXE/MHmRkn1q0+neveMQftRysM
+ JR2ZsUxxmxLIKTVOVrPa0E/CwocEwDSiD2NUIyHhBTGD7wQHhz7p9S2dHjWiYlS+UGpgEH
+ z/dfIviUSBqr6/x1NEAB5VGr+Poy8qY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-413-5bo_NL3_OjqO9IVvGPfY1Q-1; Tue, 02 Nov 2021 11:39:15 -0400
+X-MC-Unique: 5bo_NL3_OjqO9IVvGPfY1Q-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ v13-20020adfe28d000000b00186c47ee9e3so284270wri.3
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 08:39:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Y1kNkGoy6O0U77CuWFweB/WwefDBwVB6K6xvCiSD2Qc=;
- b=DtrdYfr76ul2oMRO8ulFhu4dDXLe/FPE7RquhAADajGJC01EqmmHhlPpd5zHA7l6jf
- YQ57LXHaxkbuPluHWqFPwF7uPUa3q1116u7PkkoeAPfnzThjFb4bQy897MEYq6SsTEJO
- CpZjQKURFd4R8wNmQPyNnqRlKqmCc4Em+fhB52/doPdgQEwbZCn0hnudLnHXBGpu3y/G
- ddl0TV5VU1iRvt7XW68GHHg4LO7OirCrpvQ8oeKdjROhkY52lnFehDQIhTMW/xhRt5iQ
- Itt3vwfX2a9Mhrf0tl+UZ8SkUfdTl/wVubhNGxmXaApzgZJiItkpzf4BLZ4vFuKdH/hP
- 3mhw==
-X-Gm-Message-State: AOAM530n7gq0CGOuufT8P/wDs31NY7CGga5jomVUuz1pOsxNXpTNrhQN
- 1lTCCIRlKMVuopR3UBks7/4xBw8DAJT/EIlwwNOw4HCHQmkTvTmffgioYm8tqINOJeJA7TbQ4MI
- zgmbBa7aIZvqJFkg=
-X-Received: by 2002:a5d:5144:: with SMTP id u4mr41574222wrt.91.1635866935121; 
- Tue, 02 Nov 2021 08:28:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzjs2N7DnN2y9s2CBAs9rfOeihhfpHx3Hq9Fa11vQn4SJkF8GqtF/x4bVrX/sEiZoGwQXgVkA==
-X-Received: by 2002:a5d:5144:: with SMTP id u4mr41574207wrt.91.1635866934982; 
- Tue, 02 Nov 2021 08:28:54 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id u16sm2731974wmc.21.2021.11.02.08.28.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Nov 2021 08:28:54 -0700 (PDT)
-Message-ID: <b8a77903-0120-526f-c58a-b6ab939d033f@redhat.com>
-Date: Tue, 2 Nov 2021 16:28:53 +0100
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=qQnhIRslxfdIgJRZ89rx6HzbRqC4dvozWfRRfJmzTWI=;
+ b=hPWm8fwU/fKTCT526F0NWMn740y2gejsgowUo2+mBV7II1WAFxMz0VF4r/3a1svY/u
+ O3JCPYu/7wEaGWNS681Rn6v1SzDDlBDR2wxDeQ35cAG2doIfukllutyzaFvJrGFXEied
+ xQUwbWl14quVkAonW0jFRIOa1TE0Zux3cx6syJdzTSvETiK6kOUCYTAW1yR7FmrCI/Wo
+ joDXJJ5w57ROIE+Y88urv975vkJ8HP0EFZFsYE10ujG330XCiCxO16oV95eX29hUM4Fl
+ fCM01ceQc+m/0kjC2ALapIXbnOlBDZNSM2BoaRHI8oqhZHn70VDU9VOuiPjrBoROz+RP
+ qeUQ==
+X-Gm-Message-State: AOAM532GTOt76ZIn1zIsMELtyAh3sp0ZPk8VUXzmxCYnpGQySYfmx/r7
+ 98hbWlZPsKp+o+YOsFwMom92d1+fSpTbt+BKkwvdTYdGhm5wqq4UKMxh2QsVtXLUkby8JzJL9+Q
+ Kq0geqbEDnwc7Cd4=
+X-Received: by 2002:adf:e292:: with SMTP id v18mr46627851wri.369.1635867554480; 
+ Tue, 02 Nov 2021 08:39:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxoxVFDRW8bxHmBEtHB6gtID7qG7S7PJHY4ckR3jRO1csz4bVz3E/bbBRFdhNdzNCuuIxtFGw==
+X-Received: by 2002:adf:e292:: with SMTP id v18mr46627828wri.369.1635867554328; 
+ Tue, 02 Nov 2021 08:39:14 -0700 (PDT)
+Received: from localhost ([188.26.219.212])
+ by smtp.gmail.com with ESMTPSA id n13sm12684427wrt.44.2021.11.02.08.39.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Nov 2021 08:39:13 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: yuxiating <yuxiating@huawei.com>
+Subject: Re: [PATCH] migration: initialise compression_counters for a new
+ migration
+In-Reply-To: <20210902115117.5633-1-yuxiating@huawei.com>
+ (yuxiating@huawei.com's message of "Thu, 2 Sep 2021 19:51:17 +0800")
+References: <20210902115117.5633-1-yuxiating@huawei.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Tue, 02 Nov 2021 16:39:12 +0100
+Message-ID: <87ee7yin33.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: does drive_get_next(IF_NONE) make sense?
-To: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
-References: <CAFEAcA9zmPds0+jHm8VY465XEhK6bbVPd+nDob1ruRPaHOua_Q@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <CAFEAcA9zmPds0+jHm8VY465XEhK6bbVPd+nDob1ruRPaHOua_Q@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -60
-X-Spam_score: -6.1
-X-Spam_bar: ------
-X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.549, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,45 +95,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hao Wu <wuhaotsh@google.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Reply-To: quintela@redhat.com
+Cc: eric.fangyi@huawei.com, dgilbert@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/2/21 16:14, Peter Maydell wrote:
-> Does it make sense for a device/board to do drive_get_next(IF_NONE) ?
-> 
-> At the moment we have exactly one user of this, which is
-> hw/misc/sifive_u_otp.c. This is a model of a one-time-programmable
-> fuse, and the drive is providing the backing store for the fuse
-> contents. Borrowing an IF_NONE for this seems a bit odd, but
-> it's not clear any of the other IF_ types is better.
-> 
-> We also just (this release cycle) added models of the Xilinx
-> efuse OTP fuses. Those have been implemented to use IF_PFLASH.
-> (This is a somewhat unfortunate inconsistency I guess.)
-> 
-> We also have a patchseries currently in the code review stage
-> which uses IF_NONE:
-> https://patchew.org/QEMU/20211101232346.1070813-1-wuhaotsh@google.com/20211101232346.1070813-6-wuhaotsh@google.com/
-> Here we are trying to provide a drive as backing store for some
-> EEPROMs that hang off the i2c buses on some npcm7xx boards.
-> 
-> Are these uses of IF_NONE OK, or should we be doing something
-> else (using IF_PFLASH, defining a new IF_*, ???)
+yuxiating <yuxiating@huawei.com> wrote:
+> If the compression migration fails or is canceled, the query for the value of
+> compression_counters during the next compression migration is wrong.
+>
+> Signed-off-by: yuxiating <yuxiating@huawei.com>
+> ---
+>  migration/migration.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/migration/migration.c b/migration/migration.c
+> index bb909781b7..f20bc560e5 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -2252,10 +2252,11 @@ static bool migrate_prepare(MigrationState *s, bool blk, bool blk_inc,
+>  
+>      migrate_init(s);
+>      /*
+> -     * set ram_counters memory to zero for a
+> +     * set ram_counters compression_counters memory to zero for a
+>       * new migration
+>       */
+>      memset(&ram_counters, 0, sizeof(ram_counters));
+> +    memset(&compression_counters, 0, sizeof(compression_counters));
+>  
+>      return true;
+>  }
 
-IIUC '-drive if=xxx' is deprecated, replaced by '-blockdev'.
+Once here, we are not initializing them on qemu_savevm_state() either.
 
-Personally I expect a BlockInterfaceType to be a bus interface
-and see IF_NONE as a buggy case.
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-See also:
-https://lore.kernel.org/qemu-devel/YDY7KKI1Xme29UlQ@stefanha-x1.localdomain/
-
-I am not sure about the amount of work required to fully leverage
--blockdev and remove -drive. Can it be sugar-expanded from the CLI?
-
-What else is missing to finish the blockdev conversion?
+queue.
 
 
