@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08A3B4429CA
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 09:47:07 +0100 (CET)
-Received: from localhost ([::1]:48792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EA534429C0
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 09:44:49 +0100 (CET)
+Received: from localhost ([::1]:42594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhpRi-0005RX-6h
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 04:47:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60272)
+	id 1mhpPU-0001Iv-AC
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 04:44:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mhpNh-0006qI-Vq
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 04:42:58 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42506)
+ id 1mhpNm-0006zW-S3
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 04:43:02 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42507)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mhpNf-0007ZM-KS
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 04:42:57 -0400
-Received: by mail-wr1-x434.google.com with SMTP id c4so2046989wrd.9
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 01:42:55 -0700 (PDT)
+ id 1mhpNk-0007Zp-AJ
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 04:43:02 -0400
+Received: by mail-wr1-x434.google.com with SMTP id c4so2047309wrd.9
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 01:42:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/GJnQqcSBpzJ9FdoSQJa+0mjU+wATrzkdQ7FymVRsE4=;
- b=L18uFuCDg4ETIcBgozDpwg5ZT8qi3vA8z1r1wFSrnpdIbfilO5GAKPesC5yncSdAbO
- +QBuRtQRq978c4J5VU42IUE4MY0X8z0JvEB4Y+P7LLRylMY/xJCYKNXmXzxrEHRHDb3X
- uXBPYUyxNwBBDVZcH1wjyZGzCPveStyZvf5FOQWUp3gsvxmELn42GDjHT9NdOBsz/1eK
- Ntq7inacRdBsH94LhXWh63kpHLJAY/E8u/f5UpmArP3DX1gOhFeIt6fjHYiYTrIAOalc
- FQLuiWnZPP+y/95M0OPWBwQa1XqXvBWS6BDCcXdKQ8FaGGPzR0+2J3yAzwyz3XQZ1Ne0
- /9LQ==
+ bh=u3NBrJ1OPNK57q3TFtPyewQdz3cOFKEL+wLt+Ik/B6U=;
+ b=lP983CNJ0XXYwWaFqvEi0GzvjGRp/zBLGPL0x+IvzCdznbpVikVnc2ueYp8dXiy/5t
+ CzqETTfSasfs9iP6UP7GUDCz4DlxvmWWQXsQPoXOupMLcs+XGApgofSdmIJRT3RfUkK0
+ v8Cm1a4i14WaLHMwuelk/tzRDIq0kR3jjFzliboS26lZsjkvLkoFLmQdLlQzJX0YwpB4
+ kXqUgASHkLu8cs6lSDyhiqQ5vVHsFTfeXeAjs6Sr+h49aabfcFb9umGPsMFuhFt0UMOS
+ rPmiEvWuuLdSjEEuOz22c6Szd/86ICywSHS3B1GZtYWyd+PXRiwstJvWF5Q04I0Fd3XI
+ HUnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/GJnQqcSBpzJ9FdoSQJa+0mjU+wATrzkdQ7FymVRsE4=;
- b=B8N8+sZYd18nIvx+7P6uqGStUYtDMHE8NGPjBsmvqgEa8OL+ZpC0aP0RTtD9ZVSoRE
- Wp54ONlWfpo84tCopiSrzLWEzEMZFq6OKY0vRofLRGUYdYe1ZgFIYtPwIbHt+7dYBcJp
- RIdw+GnLi0c3XKSi3nryMx3ZslYLjegxAtur6pOUv9mq5PZmftLycoINkKxbytLOM1RW
- HUVG32ck+3L8jCQrBJzrPi8+mPtMgwkKv1zu1FyeEUYnuI/UOhWb+S/rMLWgDw9Mkd3c
- gnDSR8SKVI/Wym3cdBX3RZJkAZRQAaKYR8ANSdACKJpWepVYLB035OPWSNAK99ddmny9
- qy1g==
-X-Gm-Message-State: AOAM532Tk4qAvwPuUZQm68KccVYpLRdqnhtemEh8Q3CtHL9PBzj78Fm0
- VIvvUS/tZfRyEca4fUhVBF3GTKsmjvc=
-X-Google-Smtp-Source: ABdhPJx2bwdYjsWaDJ/lQOKax5vJidZarDIll5wfw9aDr9Nqv9svYQSd7Rwf+wsLJPYU4vvjY6HrmQ==
-X-Received: by 2002:a5d:6d07:: with SMTP id e7mr10471312wrq.311.1635842574127; 
- Tue, 02 Nov 2021 01:42:54 -0700 (PDT)
+ bh=u3NBrJ1OPNK57q3TFtPyewQdz3cOFKEL+wLt+Ik/B6U=;
+ b=539/1xQCtEG+V/HkcSmQ+kr8CGjeU5UqZ1q9HT9jucR3p9YzQdoR9gbn4j5uFQJzcX
+ X3pfuh2sG/tUezAOhSVIoZuP6uO4ajPI42+BEfMLKZlNiNHfkeaENxxNEeGTw7L272XP
+ PN+NCUsVOgztZ6tEls2iF3FzybKLNKRqwtdyIMMhzt2nhF2KNYD1J2KW5uLrDejdSUr9
+ yB1a2XPSMIHI7ysN6qGJBvOl7d5Pt8rPR6bzBppahru4+fVDqjJrmgw+ZK7KAC8qfBgv
+ 763PkQOMAqF77BFdPD5PKjlRPgSGbdaBfIMDrr6nN+Zdi+A+h64yQ2AAs8CfhiCeqkxP
+ AX3Q==
+X-Gm-Message-State: AOAM532lOVf1zh37nmRveXw0CK7TIbQy4tL85TymjG2o399uP6IPzwvi
+ mvTsj81jY3MMPGdFJHHF+NxkKwUf7Nc=
+X-Google-Smtp-Source: ABdhPJyQ8kP6IhzUzumHrCMXjug9Pm6rVrEL3dRu5unacw/jYKdeg2BSaXP5QyvxMcg44fj5yqb4TQ==
+X-Received: by 2002:a05:6000:2a2:: with SMTP id
+ l2mr11264283wry.110.1635842578929; 
+ Tue, 02 Nov 2021 01:42:58 -0700 (PDT)
 Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
  by smtp.gmail.com with ESMTPSA id
- z11sm6429172wrt.58.2021.11.02.01.42.52
+ k8sm1902997wms.41.2021.11.02.01.42.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 01:42:53 -0700 (PDT)
+ Tue, 02 Nov 2021 01:42:58 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 4/6] tests/acceptance: Share useful helpers from
- virtiofs_submounts test
-Date: Tue,  2 Nov 2021 09:42:30 +0100
-Message-Id: <20211102084232.2965062-5-f4bug@amsat.org>
+Subject: [PATCH v5 5/6] tests/acceptance: Add bFLT loader linux-user test
+Date: Tue,  2 Nov 2021 09:42:31 +0100
+Message-Id: <20211102084232.2965062-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211102084232.2965062-1-f4bug@amsat.org>
 References: <20211102084232.2965062-1-f4bug@amsat.org>
@@ -93,166 +93,85 @@ Cc: Willian Rampazzo <willianr@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the useful has_cmd()/has_cmds() helpers from the virtiofs
-test to the avocado_qemu public class.
+Add a very quick test that runs a busybox binary in bFLT format:
 
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+  $ AVOCADO_ALLOW_UNTRUSTED_CODE=1 \
+    avocado --show=app run -t linux_user tests/acceptance/load_bflt.py
+  JOB ID     : db94d5960ce564c50904d666a7e259148c27e88f
+  JOB LOG    : ~/avocado/job-results/job-2019-06-25T10.52-db94d59/job.log
+   (1/1) tests/acceptance/load_bflt.py:LoadBFLT.test_stm32: PASS (0.15 s)
+  RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+  JOB TIME   : 0.54 s
+
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/acceptance/avocado_qemu/__init__.py | 57 ++++++++++++++++++++++
- tests/acceptance/virtiofs_submounts.py    | 59 +----------------------
- 2 files changed, 59 insertions(+), 57 deletions(-)
+v5: Use os.path.join()
+---
+ tests/acceptance/load_bflt.py | 54 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
+ create mode 100644 tests/acceptance/load_bflt.py
 
-diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-index 85bb3519969..0d0478374c3 100644
---- a/tests/acceptance/avocado_qemu/__init__.py
-+++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -11,6 +11,7 @@
- import logging
- import os
- import shutil
+diff --git a/tests/acceptance/load_bflt.py b/tests/acceptance/load_bflt.py
+new file mode 100644
+index 00000000000..bb50cec1ee8
+--- /dev/null
++++ b/tests/acceptance/load_bflt.py
+@@ -0,0 +1,54 @@
++# Test the bFLT loader format
++#
++# Copyright (C) 2019 Philippe Mathieu-Daudé <f4bug@amsat.org>
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
++
++import os
++import bz2
 +import subprocess
- import sys
- import tempfile
- import time
-@@ -41,6 +42,62 @@
-                         tcg_available)
- 
- 
-+def has_cmd(name, args=None):
-+    """
-+    This function is for use in a @avocado.skipUnless decorator, e.g.:
 +
-+        @skipUnless(*has_cmd('sudo -n', ('sudo', '-n', 'true')))
-+        def test_something_that_needs_sudo(self):
-+            ...
-+    """
++from avocado import skipUnless
++from avocado_qemu import QemuUserTest
++from avocado_qemu import has_cmd
 +
-+    if args is None:
-+        args = ('which', name)
 +
-+    try:
-+        _, stderr, exitcode = run_cmd(args)
-+    except Exception as e:
-+        exitcode = -1
-+        stderr = str(e)
++class LoadBFLT(QemuUserTest):
 +
-+    if exitcode != 0:
-+        cmd_line = ' '.join(args)
-+        err = f'{name} required, but "{cmd_line}" failed: {stderr.strip()}'
-+        return (False, err)
-+    else:
-+        return (True, '')
++    def extract_cpio(self, cpio_path):
++        """
++        Extracts a cpio archive into the test workdir
 +
-+def has_cmds(*cmds):
-+    """
-+    This function is for use in a @avocado.skipUnless decorator and
-+    allows checking for the availability of multiple commands, e.g.:
++        :param cpio_path: path to the cpio archive
++        """
++        cwd = os.getcwd()
++        os.chdir(self.workdir)
++        with bz2.open(cpio_path, 'rb') as archive_cpio:
++            subprocess.run(['cpio', '-i'], input=archive_cpio.read(),
++                           stderr=subprocess.DEVNULL)
++        os.chdir(cwd)
 +
-+        @skipUnless(*has_cmds(('cmd1', ('cmd1', '--some-parameter')),
-+                              'cmd2', 'cmd3'))
-+        def test_something_that_needs_cmd1_and_cmd2(self):
-+            ...
-+    """
++    @skipUnless(*has_cmd('cpio'))
++    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
++    def test_stm32(self):
++        """
++        :avocado: tags=arch:arm
++        :avocado: tags=linux_user
++        :avocado: tags=quick
++        """
++        # See https://elinux.org/STM32#User_Space
++        rootfs_url = ('https://elinux.org/images/5/51/'
++                      'Stm32_mini_rootfs.cpio.bz2')
++        rootfs_hash = '9f065e6ba40cce7411ba757f924f30fcc57951e6'
++        rootfs_path_bz2 = self.fetch_asset(rootfs_url, asset_hash=rootfs_hash)
++        busybox_path = os.path.join(self.workdir, "/bin/busybox")
 +
-+    for cmd in cmds:
-+        if isinstance(cmd, str):
-+            cmd = (cmd,)
++        self.extract_cpio(rootfs_path_bz2)
 +
-+        ok, errstr = has_cmd(*cmd)
-+        if not ok:
-+            return (False, errstr)
++        res = self.run(busybox_path)
++        ver = 'BusyBox v1.24.0.git (2015-02-03 22:17:13 CET) multi-call binary.'
++        self.assertIn(ver, res.stdout_text)
 +
-+    return (True, '')
-+
-+def run_cmd(args):
-+    subp = subprocess.Popen(args,
-+                            stdout=subprocess.PIPE,
-+                            stderr=subprocess.PIPE,
-+                            universal_newlines=True)
-+    stdout, stderr = subp.communicate()
-+    ret = subp.returncode
-+
-+    return (stdout, stderr, ret)
-+
- def is_readable_executable_file(path):
-     return os.path.isfile(path) and os.access(path, os.R_OK | os.X_OK)
- 
-diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/virtiofs_submounts.py
-index 21ad7d792e7..e6dc32ffd4e 100644
---- a/tests/acceptance/virtiofs_submounts.py
-+++ b/tests/acceptance/virtiofs_submounts.py
-@@ -6,67 +6,12 @@
- 
- from avocado import skipUnless
- from avocado_qemu import LinuxTest, BUILD_DIR
-+from avocado_qemu import has_cmds
-+from avocado_qemu import run_cmd
- from avocado_qemu import wait_for_console_pattern
- from avocado.utils import ssh
- 
- 
--def run_cmd(args):
--    subp = subprocess.Popen(args,
--                            stdout=subprocess.PIPE,
--                            stderr=subprocess.PIPE,
--                            universal_newlines=True)
--    stdout, stderr = subp.communicate()
--    ret = subp.returncode
--
--    return (stdout, stderr, ret)
--
--def has_cmd(name, args=None):
--    """
--    This function is for use in a @avocado.skipUnless decorator, e.g.:
--
--        @skipUnless(*has_cmd('sudo -n', ('sudo', '-n', 'true')))
--        def test_something_that_needs_sudo(self):
--            ...
--    """
--
--    if args is None:
--        args = ('which', name)
--
--    try:
--        _, stderr, exitcode = run_cmd(args)
--    except Exception as e:
--        exitcode = -1
--        stderr = str(e)
--
--    if exitcode != 0:
--        cmd_line = ' '.join(args)
--        err = f'{name} required, but "{cmd_line}" failed: {stderr.strip()}'
--        return (False, err)
--    else:
--        return (True, '')
--
--def has_cmds(*cmds):
--    """
--    This function is for use in a @avocado.skipUnless decorator and
--    allows checking for the availability of multiple commands, e.g.:
--
--        @skipUnless(*has_cmds(('cmd1', ('cmd1', '--some-parameter')),
--                              'cmd2', 'cmd3'))
--        def test_something_that_needs_cmd1_and_cmd2(self):
--            ...
--    """
--
--    for cmd in cmds:
--        if isinstance(cmd, str):
--            cmd = (cmd,)
--
--        ok, errstr = has_cmd(*cmd)
--        if not ok:
--            return (False, errstr)
--
--    return (True, '')
--
--
- class VirtiofsSubmountsTest(LinuxTest):
-     """
-     :avocado: tags=arch:x86_64
++        res = self.run(busybox_path, ['uname', '-a'])
++        unm = 'armv7l GNU/Linux'
++        self.assertIn(unm, res.stdout_text)
 -- 
 2.31.1
 
