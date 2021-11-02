@@ -2,82 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86012442B8A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 11:19:52 +0100 (CET)
-Received: from localhost ([::1]:34184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC117442B8F
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 11:22:45 +0100 (CET)
+Received: from localhost ([::1]:41916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhqtT-0005WC-GW
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 06:19:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58508)
+	id 1mhqwH-0002N4-2i
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 06:22:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhqsK-0004jk-2Y
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:18:40 -0400
-Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835]:41822)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhqsI-0005MJ-22
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:18:39 -0400
-Received: by mail-qt1-x835.google.com with SMTP id v4so3917388qtw.8
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 03:18:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=aGuJyRMLGOaoUrS0J8K7juHb1bP8i+PWXC3EJVu/I4U=;
- b=AjVb51jehdSOhrZUbyj5ORHN1SHAvOta3OuWzfzaNmyhX0qFSte4a55cRLgTK/M3Rr
- /mswGOa4ywJMqb80lpHsmb2Qd4nzM4BKPU9mF9Y1SRYFSLnPppb8JrAYPSctr5TCAkP1
- HWbQAcBQ9ZotUadcJI7Y34HOp1rY7weVRqvIlM3CxFIG6hdEkdrGg46bKr0eTubiB9oy
- rJdrEq18yWZiSVeUWzFrOnJrau/V0I/NziI1o2RiFevCG3dfHaC00taTA5XxAPeEaIrl
- d3QERL4B0IxXig6PFxjIG9xTDVTTQTSzcgSCnQNf5MiwaAkszcF6s7OejgTeI6xE2bkd
- +xyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=aGuJyRMLGOaoUrS0J8K7juHb1bP8i+PWXC3EJVu/I4U=;
- b=DGNbmiSKDT6oSVuOgwc8geIWBEmCI5NvmQDK+12DT6NKw0vNDfjMQ2MoUgMJZE+We9
- 9Xw0r/oyES1Y5S8B2sm3hh2NRQKVq9WY5AVgp7zImSE7Wu4nzGam/4Isc81nfuGA2oS3
- tRax0iiNd52TW88/4g5OP4zrTr970Pp50g7gqpwKMBJV/vkLAh0QCLAWnovuGCvYdOZ1
- a2GtASUbEqLX7NgKK2SP7e4nVfzXbe6PvMoQ9gt7w8x3XDkDTLDEGIxQZ+aFWUMcMlCj
- EoTR5WLaQl6fI1IgpKswlaCj51D8fBEgcwub/sQH3dMP6sPEXJHFdRQKyJczlXrvMXyf
- TLDg==
-X-Gm-Message-State: AOAM532IIOTTQze0kgukYOrdkNZfHoYkXt1YEKz/+mdCbxx9GnFDvOrp
- Jx4MxZ3oM1BLOP9XegA2ujUhbw==
-X-Google-Smtp-Source: ABdhPJwqj3e1UUOQXvHNrtxqMYvuQtmzBubGxMaieuVDwLImf7Tv/fgAUUbVrDE5d6hqPhdg1L53cA==
-X-Received: by 2002:ac8:7d0f:: with SMTP id g15mr30358600qtb.60.1635848316930; 
- Tue, 02 Nov 2021 03:18:36 -0700 (PDT)
-Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
- [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id d18sm2038079qtb.70.2021.11.02.03.18.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Nov 2021 03:18:36 -0700 (PDT)
-Subject: Re: [PATCH 02/13] target/riscv: Extend pc for runtime pc write
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211101100143.44356-1-zhiwei_liu@c-sky.com>
- <20211101100143.44356-3-zhiwei_liu@c-sky.com>
- <03cbb2ba-3fc0-e904-6bf6-56ece9cf46b9@linaro.org>
- <e454d42a-4d75-f81e-7d37-c3d81945258e@c-sky.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c6f1da58-b8fa-f05c-2b45-5e124b96971f@linaro.org>
-Date: Tue, 2 Nov 2021 06:18:34 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mhqta-0006fV-NW
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:19:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20964)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mhqtX-0007zn-EN
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:19:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635848394;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bvbR4kzU9SDQKDlwckgRwIpCLAawlQ8qF55kUOXDvHE=;
+ b=FYUW3p7XX6o+yluMiujrDSMkqK8TQFkrEx7sKUOkuU5FUxR4zaM5yan/SoYBCrJhfpYY3n
+ 4WCpSHm4jExpDT6S4erDYaH8mBnopnouLpl76NpNNmrkQAZ9itBrOXHmCj/p8nn9bvi4SO
+ 4oSXlGjJ0Y1f78Va4WneNDaKrZ0ZAT8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-206-7-GHeEfTPgm-VfxeU3isHQ-1; Tue, 02 Nov 2021 06:19:51 -0400
+X-MC-Unique: 7-GHeEfTPgm-VfxeU3isHQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A04DF1808318;
+ Tue,  2 Nov 2021 10:19:50 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C60475D9DC;
+ Tue,  2 Nov 2021 10:19:24 +0000 (UTC)
+Date: Tue, 2 Nov 2021 10:19:23 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [RFC PATCH 03/15] job-common.h: categorize fields in struct Job
+Message-ID: <YYEQq2mb3eAcEspz@stefanha-x1.localdomain>
+References: <20211029163914.4044794-1-eesposit@redhat.com>
+ <20211029163914.4044794-4-eesposit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <e454d42a-4d75-f81e-7d37-c3d81945258e@c-sky.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::835;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x835.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+In-Reply-To: <20211029163914.4044794-4-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="L4XOtNcW3anNzl1k"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.14,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,73 +79,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/1/21 9:48 PM, LIU Zhiwei wrote:
-> 
-> On 2021/11/1 下午6:33, Richard Henderson wrote:
->> On 11/1/21 6:01 AM, LIU Zhiwei wrote:
->>> In some cases, we must restore the guest PC to the address of the start of
->>> the TB, such as when the instruction counter hit zero. So extend pc register
->>> according to current xlen for these cases.
->>>
->>> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
->>> ---
->>>   target/riscv/cpu.c        | 20 +++++++++++++++++---
->>>   target/riscv/cpu.h        |  2 ++
->>>   target/riscv/cpu_helper.c |  2 +-
->>>   3 files changed, 20 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->>> index 7d53125dbc..7eefd4f6a6 100644
->>> --- a/target/riscv/cpu.c
->>> +++ b/target/riscv/cpu.c
->>> @@ -319,7 +319,12 @@ static void riscv_cpu_set_pc(CPUState *cs, vaddr value)
->>>   {
->>>       RISCVCPU *cpu = RISCV_CPU(cs);
->>>       CPURISCVState *env = &cpu->env;
->>> -    env->pc = value;
->>> +
->>> +    if (cpu_get_xl(env) == MXL_RV32) {
->>> +        env->pc = (int32_t)value;
->>> +    } else {
->>> +        env->pc = value;
->>> +    }
->>>   }
->>
->> Good.
->>
->>>   static void riscv_cpu_synchronize_from_tb(CPUState *cs,
->>> @@ -327,7 +332,12 @@ static void riscv_cpu_synchronize_from_tb(CPUState *cs,
->>>   {
->>>       RISCVCPU *cpu = RISCV_CPU(cs);
->>>       CPURISCVState *env = &cpu->env;
->>> -    env->pc = tb->pc;
->>> +
->>> +    if (cpu_get_xl(env) == MXL_RV32) {
->>> +        env->pc = (int32_t)tb->pc;
->>> +    } else {
->>> +        env->pc = tb->pc;
->>> +    }
->>
->> Bad, since TB->PC should be extended properly.
->> Though this waits on a change to cpu_get_tb_cpu_state.
-> 
-> Should the env->pc always hold the sign-extend result? In cpu_get_tb_cpu_state, we just 
-> truncate to the XLEN bits.
+--L4XOtNcW3anNzl1k
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Oops, I mis-read patch 3; I thought that sign-extended.  Hmm.
+On Fri, Oct 29, 2021 at 12:39:02PM -0400, Emanuele Giuseppe Esposito wrote:
+> Categorize the fields in struct Job to understand which need
+> to be protected by the job muutex and which not.
 
-I guess we need to zero-extend the pc for patch 3, to get the correct result in translate 
-when we read from memory.  Therefore we need to sign-extend here to get the correct value 
-back in env->pc.
+s/muutex/mutex/
 
-Oh, let's not re-compute cpu_get_xl here, and restore_state_to_opc; it is in
+          (__)
+  `\------(oo)
+    ||    (__) .o( moo-tex )
+    ||w--||
 
-     FIELD_EX32(tb->flags, TB_FLAGS, XL)
+BTW "which ones need ... and which don't" reads more naturally.
 
+--L4XOtNcW3anNzl1k
+Content-Type: application/pgp-signature; name="signature.asc"
 
-r~
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmGBEKsACgkQnKSrs4Gr
+c8jiCggAjz45gDcgET22rSHUtVh+1JqwenMd2NntyAP9Elu3N0KRz7IUd4jxNTZV
+T1wHTwq6GbW8NDAQo8qAt8LCrLUdvuwfThnb23jxNxgdOgHO85ZSBYMeu7XZMbef
+SyTzoBZxwZb1Z8LyHJ/QjnuZfh7EYxrly8v+8s7FtctHaMdhXb5P72g5hKLtGKUY
+izIwcxQAVrkcXR/bJpVLGoSWXLwshLFzCpYQJpeA7ej2iLsdhtVuOih8LYfm0x0/
+vE/8s+Ply778H6Rz9lPCz+iYjt0GFu46fZIhuwgL7KtJiMvppGPXWIQqKUGvsjhW
+nfFAE8RLdNpnnz7RJcYxzzYMEkcq9A==
+=Xc5H
+-----END PGP SIGNATURE-----
+
+--L4XOtNcW3anNzl1k--
+
 
