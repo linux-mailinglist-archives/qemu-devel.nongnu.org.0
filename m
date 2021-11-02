@@ -2,61 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93F1F442A38
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 10:17:45 +0100 (CET)
-Received: from localhost ([::1]:50908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DCA0442A3F
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 10:19:53 +0100 (CET)
+Received: from localhost ([::1]:53758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhpvL-0002Eh-RB
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 05:17:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40718)
+	id 1mhpxQ-0004BD-6Z
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 05:19:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mhptr-00016K-G7
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 05:16:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45651)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mhpto-00012O-6T
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 05:16:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23378)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mhptp-0003Nt-Bx
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 05:16:11 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mhptj-0003Mf-HH
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 05:16:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635844568;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Ad+Z6H6w5PHkl61PFxoSBiv61aXvXOBzp8hV/uMi1iI=;
- b=EyXP4hZ7Z2NOE/Fb6dlTaIjUHDj++1CNpSuVIFZp/pnxMroObqv+Ohsl54+dSMUvY9a2FG
- wNra8bk0Z/wbvIfBN82fZoeX67yPm/d9fGSJtplPLeHaZ9NNHK2FNYceSdE4WkL80D4xwL
- ajBinZiWMA/YE3CBRoyZvpw1Gn+AR/0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-QUcVI7QtOPShKIEfWaLyDg-1; Tue, 02 Nov 2021 05:15:59 -0400
-X-MC-Unique: QUcVI7QtOPShKIEfWaLyDg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AEBD1808304;
- Tue,  2 Nov 2021 09:15:58 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1942269FA2;
- Tue,  2 Nov 2021 09:15:10 +0000 (UTC)
-Date: Tue, 2 Nov 2021 10:15:09 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH 2/9] qapi: Mark unstable QMP parts with feature 'unstable'
-Message-ID: <YYEBnSoSi4Gcs8ki@redhat.com>
-References: <20211025052532.3859634-1-armbru@redhat.com>
- <20211025052532.3859634-3-armbru@redhat.com>
- <20211029130717.fy3t5qqvy5u3iphg@redhat.com>
+ s=mimecast20190719; t=1635844561;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=4BMBY0Aat1sVv7ZXsUkJ5hCzMECuZPQnPcpXetVjtZ4=;
+ b=SfwgmeWKihA+NU6Ppffwft7NyWIz2V2AIV5+38jl93Tr9VPHALiTet/Dp7x8VbTcO/P/f6
+ M+FrZ3sZQ7KSH4x9AbXyEnYGZ311UWhuAEVYOwVAU1k6YesWL3tvooYy9cCrttR4cIQIP8
+ RTEoIG9RiLDP58QsyQoKxl8OpSYuA2w=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-327-m-ZJFKLXOC2baff9yFbgOg-1; Tue, 02 Nov 2021 05:16:00 -0400
+X-MC-Unique: m-ZJFKLXOC2baff9yFbgOg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ l4-20020a05600c1d0400b00332f47a0fa3so604921wms.8
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 02:16:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=4BMBY0Aat1sVv7ZXsUkJ5hCzMECuZPQnPcpXetVjtZ4=;
+ b=pYZxh3tD9dgL2J3DgJcR5gpW3PaepDKdTAEyu4a+e/y+239FHxQzjI2EJmKp5BOa5p
+ zlj+T3PxjueGuwpRACONrM7vxQaBVdrvFD5g5QBZcsVLI9dladICUBEwo0DcXjjNOjw/
+ JcsxxOkZQhFmsVOkBRoo03y/AAzGpp9bcYtM4vY0eTztQZjGimcUNHh54bxqtKVDnKYm
+ VzgsRLrxxzjdEMxMJrCe9BCv4VwsRCvebZaGyeVAjHEhD07C2UfbChW8Zn5y0LaQeO1T
+ b0ihaHZmhX7NkDFf0ZINOj6oNZTzABfGHy7SibXvczZKI6vnZqPQqU+7obYqob/1Z+A7
+ Rq4A==
+X-Gm-Message-State: AOAM533dsH8aFlZAThbj7PVMFYUqoQul033U9m3F4xHpGHq7SheQZyBJ
+ 0hpTByid6pDHGnvAskHyF3dFs6BWUwg6bOxaaT2oWjJyCrfYY7gxOA4JIX1apwWWTT5JfG4G7oZ
+ CG1Foqb5t2F+rdY4=
+X-Received: by 2002:adf:dcd0:: with SMTP id x16mr3791011wrm.229.1635844559653; 
+ Tue, 02 Nov 2021 02:15:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzutZlhxwrMd5f4Rh0g2fZSIija4W5WpQZy7wTWoXvRbptmiiiOiWiY7URYA47WkdcR+/m7kg==
+X-Received: by 2002:adf:dcd0:: with SMTP id x16mr3790989wrm.229.1635844559512; 
+ Tue, 02 Nov 2021 02:15:59 -0700 (PDT)
+Received: from localhost ([188.26.219.88])
+ by smtp.gmail.com with ESMTPSA id h16sm10774906wrm.27.2021.11.02.02.15.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Nov 2021 02:15:59 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH v1 1/2] migration: block-dirty-bitmap: add missing
+ qemu_mutex_lock_iothread
+In-Reply-To: <87a6imncqs.fsf@secure.mitica> (Juan Quintela's message of "Tue, 
+ 02 Nov 2021 10:11:23 +0100")
+References: <20211005080751.3797161-1-eesposit@redhat.com>
+ <20211005080751.3797161-2-eesposit@redhat.com>
+ <87a6imncqs.fsf@secure.mitica>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Tue, 02 Nov 2021 10:15:58 +0100
+Message-ID: <875ytancj5.fsf@secure.mitica>
 MIME-Version: 1.0
-In-Reply-To: <20211029130717.fy3t5qqvy5u3iphg@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -77,63 +97,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- qemu-block@nongnu.org, quintela@redhat.com, qemu-devel@nongnu.org,
- mdroth@linux.vnet.ibm.com, Markus Armbruster <armbru@redhat.com>,
- libvir-list@redhat.com, dgilbert@redhat.com, pbonzini@redhat.com,
- marcandre.lureau@redhat.com, jsnow@redhat.com, libguestfs@redhat.com
+Reply-To: quintela@redhat.com
+Cc: Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Eric Blake <eblake@redhat.com>, "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 29.10.2021 um 15:07 hat Eric Blake geschrieben:
-> On Mon, Oct 25, 2021 at 07:25:25AM +0200, Markus Armbruster wrote:
-> > Add special feature 'unstable' everywhere the name starts with 'x-',
-> > except for InputBarrierProperties member x-origin and
-> > MemoryBackendProperties member x-use-canonical-path-for-ramblock-id,
-> > because these two are actually stable.
-> > 
-> > Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> > ---
-> > @@ -2495,27 +2508,57 @@
-> >  #
-> >  # Properties for throttle-group objects.
-> >  #
-> > -# The options starting with x- are aliases for the same key without x- in
-> > -# the @limits object. As indicated by the x- prefix, this is not a stable
-> > -# interface and may be removed or changed incompatibly in the future. Use
-> > -# @limits for a supported stable interface.
-> > -#
-> >  # @limits: limits to apply for this throttle group
-> >  #
-> > +# Features:
-> > +# @unstable: All members starting with x- are aliases for the same key
-> > +#            without x- in the @limits object.  This is not a stable
-> > +#            interface and may be removed or changed incompatibly in
-> > +#            the future.  Use @limits for a supported stable
-> > +#            interface.
-> > +#
-> >  # Since: 2.11
-> >  ##
-> >  { 'struct': 'ThrottleGroupProperties',
-> >    'data': { '*limits': 'ThrottleLimits',
-> > -            '*x-iops-total' : 'int', '*x-iops-total-max' : 'int',
-> 
-> > +            '*x-iops-total': { 'type': 'int',
-> > +                               'features': [ 'unstable' ] },
-> 
-> This struct has been around since 381bd74 (v6.0); but was not listed
-> as deprecated at the time.  Do we still need it in 6.2, or have we
-> gone enough release cycles with the saner naming without x- that we
-> could drop this?  But that is a question independent of this patch.
+Juan Quintela <quintela@redhat.com> wrote:
+> Emanuele Giuseppe Esposito <eesposit@redhat.com> wrote:
+>> init_dirty_bitmap_migration assumes the iothread lock (BQL)
+>> to be held, but instead it isn't.
+>>
+>> Instead of adding the lock to qemu_savevm_state_setup(),
+>> follow the same pattern as the other ->save_setup callbacks
+>> and lock+unlock inside dirty_bitmap_save_setup().
+>>
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+>
+> Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-There is no reason any more to use the x- options, and I think libvirt
-never used them anyway.
+And I realized that this patch is already on the tree, just not through
+the migration tree.
 
-I actually have a commit in my QAPI object branch that removes these
-properties, but I think it still broke some tests.
+Ignore the noise.
 
-Anyway, something for a separate patch.
-
-Kevin
+Later, Juan.
 
 
