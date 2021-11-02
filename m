@@ -2,60 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D22B443055
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:24:43 +0100 (CET)
-Received: from localhost ([::1]:60068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09A40443069
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:28:58 +0100 (CET)
+Received: from localhost ([::1]:51666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhuiQ-0004sf-IL
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:24:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39786)
+	id 1mhumX-0001vF-5g
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:28:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mhuP7-0000mM-F5
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:04:51 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:50832)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mhuP1-0002kw-Dc
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:04:43 -0400
-Received: from [IPV6:2a01:cb16:2036:6b82:ab3b:b2e8:37cb:ab58]
- (pop.92-184-102-40.mobile.abo.orange.fr [92.184.102.40])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 639E820780;
- Tue,  2 Nov 2021 14:04:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1635861874;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FvuEyZu9fJT8Q2muqZeylFlm/x8KroGmwPb3UnHtOFQ=;
- b=kJg56vYEpENY78GUBje2PgIDWme7hfr7av9F/ze1ayZY5elbgnCcf0Ea1erNn/ZUJHeSP9
- dirxEtP606po+DV6S4lXfegzvd19Of+abZwqdIeHFyX9Nygz9Igc7CYh7uUeaARRYAJkSa
- TljJfIE2JNEZxA40jjvjw6oqBlGFqvM=
-Message-ID: <090eac13-0b75-8b7f-d90c-8d1bcd8981a5@greensocs.com>
-Date: Tue, 2 Nov 2021 15:04:29 +0100
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mhuRK-00078m-81
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:07:02 -0400
+Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:37530)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mhuRG-0003Hq-K2
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:07:00 -0400
+Received: by mail-qt1-x82b.google.com with SMTP id o12so8164144qtv.4
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 07:06:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=EBYPzclCaW71iei0tvVtPlQbCecz13BYYYtj4s6xQ6M=;
+ b=THHeSa1l8XGQGr4+xyfJ22n5u+eq2ajGcmiaRpIY9TDie0CmwpYsm1LwCjo7r+ZJ0A
+ AIHbdvUmaVPwfAMdq59yeAnJBeqsTA6gLKY396m9LyG3y11A3kBH6oV1TSbojo23kERd
+ YL56TRPgljCMnc1zViB2v3j8w9mtiKWYX1a9CG6VIfo71LutfZ4s8grnUmBdi5aMTxpn
+ Fu5m2aZx7pqHW9vpiENmhb/kga7crCSgW4NB7Hjt/hmVlnYK6+R/fg6GQ0E419eBhStu
+ aByU21uTGJu7aH8z2DX/5INur+3yMTiIKWwotvglw1aw2lCLcCyzFuFJwUB7w5U0HyxY
+ X09Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EBYPzclCaW71iei0tvVtPlQbCecz13BYYYtj4s6xQ6M=;
+ b=REIDq0c+Mfz5PTNset136P63tjsxf3eNTRFvTUCNq3zgqnvD9GUbJW7vjern3EtG97
+ FVcFaTc6vwgRu67Pixvrx8j38Es8gQ+n1gI6I/APxVnFNIHXMgB/n7VnrGM7Ys8B63iC
+ DsNK2MV5ebDOPOZ80QcAfNPPyiOTlkvbraz1/ictJtdMxaI8p7cQXV6ceKd6QN3f+OkB
+ Ae46VkxO89xWcCOPUrZ3W8sj5BEaPdYcfIcRTkhW9VwstxfOP7okYql+pG+zuy3NM5pe
+ iv7uJOM9+gWE8lpaXz66VS3u5sh79AwC4/hre3q3BqgTUqicp92Q8X07NZJmClHU6I5A
+ VUYA==
+X-Gm-Message-State: AOAM533QfF1yIG2L1c4gQyGBJDVmI6UVV5EHe54cRXTa2NirfftepEFY
+ aN2RmiE3NbUCX4tJKIudQBXrjGVqKU2xIQ==
+X-Google-Smtp-Source: ABdhPJwgbxuEr4bVGrb/VJROJ384w5tUsR0AU599bpmwIAHw0/qnZM1jmE26OeFGuPtXDD7pJ0yCcg==
+X-Received: by 2002:a05:622a:1647:: with SMTP id
+ y7mr38454992qtj.370.1635862016112; 
+ Tue, 02 Nov 2021 07:06:56 -0700 (PDT)
+Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
+ [172.254.253.57])
+ by smtp.gmail.com with ESMTPSA id y7sm12933194qtj.39.2021.11.02.07.06.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Nov 2021 07:06:55 -0700 (PDT)
+Subject: Re: [PULL 0/1] qemu-openbios queue 20211101
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ peter.maydell@linaro.org, qemu-devel@nongnu.org
+References: <20211101215636.6141-1-mark.cave-ayland@ilande.co.uk>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <f6b79e12-d018-f421-19e1-b81cd6db0d64@linaro.org>
+Date: Tue, 2 Nov 2021 10:06:54 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.2
-Subject: Re: [PATCH v2] generic-loader: check that binary file target location
- exists
-Content-Language: en-US-large
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20211026140311.158151-1-damien.hedde@greensocs.com>
- <CAFEAcA_SbBqvPdEsqCVoKGOqwL_a26xn0b6nuniqOA3+Fi3Ezg@mail.gmail.com>
-From: Damien Hedde <damien.hedde@greensocs.com>
-In-Reply-To: <CAFEAcA_SbBqvPdEsqCVoKGOqwL_a26xn0b6nuniqOA3+Fi3Ezg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20211101215636.6141-1-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82b.google.com
 X-Spam_score_int: -45
 X-Spam_score: -4.6
 X-Spam_bar: ----
 X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.549,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,131 +89,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 11/1/21 11:53, Peter Maydell wrote:
-> On Tue, 26 Oct 2021 at 15:11, Damien Hedde <damien.hedde@greensocs.com> wrote:
->>
->> When loading a binary file, we only check if it is smaller than the
->> ram_size. It does not really check if the file will be loaded at an
->> existing location (if there is nothing at the target address, it will
->> "fail" silently later). It prevents loading a binary blob bigger than
->> ram_size too even if the target location is big enough.
->>
->> Replace this check by looking for the target memory region size and
->> prevent loading a bigger file than the available space.
->>
->> Get rid of "hw/boards.h" include, since we needed it only to access
->> `current_machine`.
->>
->> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
->> ---
->>
->> Hi,
->>
->> This is an updated version implementing what we discussed in v1.
->>
->> This can be tested easily, eg, using opentitan machine which has a 64K ram
->> located at 0x10000000.
->>
->> the following works (we a blob corresponding to the whole ram)
->> | $ dd bs=1K count=64 if=/dev/zero of=blob.bin
->> | $ qemu-system-riscv32 -display none -M opentitan -device loader,addr=0x10000000,file=blob.bin
->>
->> but this command fails because we load a blob which is too big
->> | $ dd bs=1K count=64 if=/dev/zero of=blob.bin
->> | $ qemu-system-riscv32 -display none -M opentitan -device loader,addr=0x10001000,file=blob.bin
->> | qemu-system-riscv32: -device loader,addr=0x10001000,file=blob.bin: Cannot load specified image blob.bin
->>
->> and this command fails too (we load a blob at an unmapped location)
->> | $ dd bs=1K count=64 if=/dev/zero of=blob.bin
->> | $ qemu-system-riscv32 -display none -M opentitan -device loader,addr=0x0,file=blob.bin
->> | qemu-system-riscv32: -device loader,addr=0x0,file=blob.bin: Address 0x0 does not exists
->>
->> Thanks,
->> Damien
->>
->> v2:
->>   + instead of disabling the ram_size check, look for the target
->>
->> v1: https://lists.nongnu.org/archive/html/qemu-devel/2021-10/msg01077.html
->>
->> See also the original discussion about generic-loader:
->> https://lists.gnu.org/archive/html/qemu-devel/2016-02/msg04668.html
->> https://lists.gnu.org/archive/html/qemu-devel/2016-02/msg04681.html
->> ---
->>   hw/core/generic-loader.c | 20 +++++++++++++++++---
->>   1 file changed, 17 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/core/generic-loader.c b/hw/core/generic-loader.c
->> index d14f932eea..88d3f9fd56 100644
->> --- a/hw/core/generic-loader.c
->> +++ b/hw/core/generic-loader.c
->> @@ -34,7 +34,6 @@
->>   #include "hw/core/cpu.h"
->>   #include "sysemu/dma.h"
->>   #include "sysemu/reset.h"
->> -#include "hw/boards.h"
->>   #include "hw/loader.h"
->>   #include "hw/qdev-properties.h"
->>   #include "qapi/error.h"
->> @@ -153,8 +152,23 @@ static void generic_loader_realize(DeviceState *dev, Error **errp)
->>           }
->>
->>           if (size < 0 || s->force_raw) {
->> -            /* Default to the maximum size being the machine's ram size */
->> -            size = load_image_targphys_as(s->file, s->addr, current_machine->ram_size, as);
->> +            MemoryRegion *root = as ? as->root : get_system_memory();
->> +            MemoryRegionSection mrs;
->> +            uint64_t avail = 0;
->> +
->> +            mrs = memory_region_find(root, s->addr, 1);
->> +
->> +            if (mrs.mr) {
->> +                avail = int128_get64(mrs.mr->size) - mrs.offset_within_region;
->> +                memory_region_unref(mrs.mr);
->> +            } else {
->> +                error_setg(errp, "Address 0x%" PRIx64 " does not exists",
->> +                           s->addr);
->> +                return;
->> +            }
+On 11/1/21 5:56 PM, Mark Cave-Ayland wrote:
+> The following changes since commit af531756d25541a1b3b3d9a14e72e7fedd941a2e:
 > 
-> Won't this break the case of loading a file that spans two
-> consecutive-but-different memory regions ?
+>    Merge remote-tracking branch 'remotes/philmd/tags/renesas-20211030' into staging (2021-10-30 11:31:41 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    git://github.com/mcayland/qemu.git tags/qemu-openbios-20211101
+> 
+> for you to fetch changes up to 97a5b35c17f4bcddc7b550ac1f4d7e39f100aec1:
+> 
+>    roms/openbios: update OpenBIOS images to b9062dea built from submodule (2021-11-01 21:50:52 +0000)
+> 
+> ----------------------------------------------------------------
+> qemu-openbios queue
+> 
+> ----------------------------------------------------------------
+> Mark Cave-Ayland (1):
+>        roms/openbios: update OpenBIOS images to b9062dea built from submodule
+> 
+>   pc-bios/openbios-ppc     | Bin 696912 -> 696912 bytes
+>   pc-bios/openbios-sparc32 | Bin 382048 -> 382048 bytes
+>   pc-bios/openbios-sparc64 | Bin 1593408 -> 1593408 bytes
+>   roms/openbios            |   2 +-
+>   4 files changed, 1 insertion(+), 1 deletion(-)
 
-yes. I did not thought about that.
+Applied, thanks.
+Please update the wiki for changes in 6.2.
 
->                                            I think if we want
-> to catch "we tried to load something to an address not backed
-> by something" we should do that by making load_image_targetphys_as()
-> correctly handle errors from the memory accesses it makes and
-> propagate an error-return to the caller.
->
 
-The problem is that load_image_targetphys_as() just uses rom_load_...(). 
-And these macros/functions only put some "rom to load" objects in a list 
-without doing any real accesses.
-
-The list is checked after against overlapping between "rom to load" objects.
-But the real writing is done during reset, and any bad access is 
-silently ignored.
-
-In consequence:
-+ it is possible for the memory structure to be populated (or even 
-changed) between rom_load..() calls and real writing.
-+ we ignore missing parts
-
-I do not know if we make an actual use of these "features".
-
-I'm not sure what will be the best course of action here in order to do 
-the checks in rom_load_...().
-
-Thanks,
-Damien
+r~
 
