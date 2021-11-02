@@ -2,91 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D43DF442E92
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 13:58:02 +0100 (CET)
-Received: from localhost ([::1]:33812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F239442EB4
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 14:01:21 +0100 (CET)
+Received: from localhost ([::1]:42386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhtMV-00016m-KI
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 08:57:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40914)
+	id 1mhtPk-00071o-Iw
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 09:01:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mht67-0006dE-3H
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 08:41:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59012)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mht7p-000845-WB
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 08:42:50 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:56470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mht64-0007Ba-Uw
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 08:41:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635856860;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cNz5RYj3QGRMAORZva7PEmetznfmiYKTyAGL+dmZwHg=;
- b=MK4lhyTq3mR+gp/Tj00nH4YLYUV+tPBtd47UOpKSvYZWxNDxygONs8K+x84rPEFVKQhxZv
- isdhcKV4IpctsPJfnOj8T/ILLIXT2rEpDpyREPCqJ+kjKo2TUfXR3FC2cowYpbpWKjSSq3
- ZyB7cnuBTciMp/GBLi0B0s4CL1mDPmA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-474-n_3LuFUtOcqw26O8NktPjA-1; Tue, 02 Nov 2021 08:40:59 -0400
-X-MC-Unique: n_3LuFUtOcqw26O8NktPjA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- o22-20020a1c7516000000b0030d6f9c7f5fso6906867wmc.1
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 05:40:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=cNz5RYj3QGRMAORZva7PEmetznfmiYKTyAGL+dmZwHg=;
- b=h5nREVKEGBlV7sW199XW3zT/oua6ILOGNGR5013kIuBomenRKTLPIxxIPntgW45BH9
- rWHaR4+bOhD3kXV5kbARPqdBYMzVi6tv0hF9lOd4OoWgT0E13xCzg+Ra8YtWK5QZQj+b
- HHfj7VLNDxeH82eRhEqAEoxL63iHZxta/NQywhiB8Qh0Vh8DyFDColxAh1eqzj4mbW2N
- oTUOXNYFWq3k6Mk/AI5d7ZrKcP75KcBzcizR7LsODwI5XoCt1kzu2ePhXi3gcLpLvcEA
- pV/zgz/axYJ2FybkOJfEnQFRTdLQnP/jn/HrEI8FpWcDdZutqr9OiNy9C1oWbR81DDez
- UgNA==
-X-Gm-Message-State: AOAM533HZYlZr2oKh7F36DrAPqzMKEOlVZTgml5v33kbpsOMEaccJhVv
- 56P5FE1EJK4U4zid5OE9fEXKSEsCtaa2Pywy4suBrhNR/ghkFUMeFkHhMNMX3+wrkIh2fnJok27
- RCvRqCoXx8IJ1eoI=
-X-Received: by 2002:adf:d1c2:: with SMTP id b2mr47101913wrd.73.1635856857914; 
- Tue, 02 Nov 2021 05:40:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwJah3XZUmdBeRAOV+Kn96qbu+ppo+37E4zwW4hkHfNQdehSC7E6URw29qrEB/bFKfQye6/Wg==
-X-Received: by 2002:adf:d1c2:: with SMTP id b2mr47101887wrd.73.1635856857721; 
- Tue, 02 Nov 2021 05:40:57 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id q4sm12046814wrs.56.2021.11.02.05.40.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Nov 2021 05:40:57 -0700 (PDT)
-Message-ID: <4b27891f-5df0-6b65-280e-fee4d55e819f@redhat.com>
-Date: Tue, 2 Nov 2021 13:40:56 +0100
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mht7j-0007aT-Uf
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 08:42:46 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id E846C746353;
+ Tue,  2 Nov 2021 13:42:40 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id C7724746333; Tue,  2 Nov 2021 13:42:40 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id C646B7462D3;
+ Tue,  2 Nov 2021 13:42:40 +0100 (CET)
+Date: Tue, 2 Nov 2021 13:42:40 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v2 0/4] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI
+ interrupts
+In-Reply-To: <20211102123616.f7gmfdtbznjtbgcl@sirius.home.kraxel.org>
+Message-ID: <c78a4ac3-ed70-6c87-9c86-439eaafcbf98@eik.bme.hu>
+References: <cover.1635161629.git.balaton@eik.bme.hu>
+ <6f955022-ba0c-5dbf-05bd-cb73d910a40f@amsat.org>
+ <a1dbf134-d273-85cb-a956-7c2be89f3fa@eik.bme.hu>
+ <20211102123616.f7gmfdtbznjtbgcl@sirius.home.kraxel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v3 1/4] qemu-img: implement compare --stat
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20211028102441.1878668-1-vsementsov@virtuozzo.com>
- <20211028102441.1878668-2-vsementsov@virtuozzo.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20211028102441.1878668-2-vsementsov@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -60
-X-Spam_score: -6.1
-X-Spam_bar: ------
-X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.549, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-1513528196-1635856960=:3828"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,83 +61,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, eblake@redhat.com, qemu-devel@nongnu.org,
- nsoffer@redhat.com, nikita.lapshin@virtuozzo.com, den@openvz.org,
- jsnow@redhat.com
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28.10.21 12:24, Vladimir Sementsov-Ogievskiy wrote:
-> With new option qemu-img compare will not stop at first mismatch, but
-> instead calculate statistics: how many clusters with different data,
-> how many clusters with equal data, how many clusters were unallocated
-> but become data and so on.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--3866299591-1513528196-1635856960=:3828
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+On Tue, 2 Nov 2021, Gerd Hoffmann wrote:
+> On Tue, Nov 02, 2021 at 11:53:18AM +0100, BALATON Zoltan wrote:
+>> Hello,
+>>
+>> On Mon, 25 Oct 2021, Philippe Mathieu-Daud� wrote:
+>>> On 10/25/21 13:33, BALATON Zoltan wrote:
+>>>> This is the same as posted before just omitting the two patches that
+>>>> are optimisations by caching the func0 and avoiding QOM casts which
+>>>> could not be measured to have an effect but these reamaining patches
+>>>> are still needed to fix USB interrupts on pegasos2
+>>>>
+>>>> Gerd, could you please take them?
+>>>>
+>>>> Regards,
+>>>>
+>>>> BALATON Zoltan (4):
+>>>>   usb/uhci: Misc clean up
+>>>>   usb/uhci: Disallow user creating a vt82c686-uhci-pci device
+>>>>   usb/uhci: Replace pci_set_irq with qemu_set_irq
+>>>>   hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI interrupts
+>>>
+>>> Thanks, series applied to mips-next tree.
+>>
+>> According to https://wiki.qemu.org/Planning/6.2 freeze starts today and I
+>> haven't yet seen a pull request with this series. Is it still to come?
 >
-> We compare images chunk by chunk. Chunk size depends on what
-> block_status returns for both images. It may return less than cluster
-> (remember about qcow2 subclusters), it may return more than cluster (if
-> several consecutive clusters share same status). Finally images may
-> have different cluster sizes. This all leads to ambiguity in how to
-> finally compare the data.
->
-> What we can say for sure is that, when we compare two qcow2 images with
-> same cluster size, we should compare clusters with data separately.
-> Otherwise, if we for example compare 10 consecutive clusters of data
-> where only one byte differs we'll report 10 different clusters.
-> Expected result in this case is 1 different cluster and 9 equal ones.
->
-> So, to serve this case and just to have some defined rule let's do the
-> following:
->
-> 1. Select some block-size for compare procedure. In this commit it must
->     be specified by user, next commit will add some automatic logic and
->     make --block-size optional.
->
-> 2. Go chunk-by-chunk using block_status as we do now with only one
->     differency:
->     If block_status() returns DATA region that intersects block-size
->     aligned boundary, crop this region at this boundary.
->
-> This way it's still possible to compare less than cluster and report
-> subcluster-level accuracy, but we newer compare more than one cluster
-> of data.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   docs/tools/qemu-img.rst |  18 +++-
->   qemu-img.c              | 210 +++++++++++++++++++++++++++++++++++++---
->   qemu-img-cmds.hx        |   4 +-
->   3 files changed, 216 insertions(+), 16 deletions(-)
+> Oh, damn, was busy with edk2 stuff and didn't notice the freeze is
+> *that* close already.  Going over pending bits now and prepare a pull
+> req ...
 
-[...]
+I think this series is taken care of by Philippe already so if you have 
+other bits to go over that's fine, maybe you don't have to worry about 
+this one. Was just asking to make sure this won't miss the release.
 
-> diff --git a/qemu-img.c b/qemu-img.c
-> index f036a1d428..0cb7cebe91 100644
-> --- a/qemu-img.c
-> +++ b/qemu-img.c
-
-[...]
-
-> @@ -1465,7 +1602,7 @@ static int img_compare(int argc, char **argv)
->       }
->   
->       while (offset < total_size) {
-> -        int status1, status2;
-> +        block_end = QEMU_ALIGN_UP(offset + 1, block_size);
-
-Without --stat, `block_size` is 0, and then this is a division by zero.
-
-My compiler seems clever enough to skip this division if `stat == NULL`, 
-but when I add a `printf("%li\n", block_size);` after this line and do a 
-compare without --stat, qemu-img aborts.  I don’t think we should rely 
-on the compiler optimization working here.
-
-(Sorry I didn’t notice this in v2, I just noticed it because I was 
-trying to find out whether `block_size` really needs to be a power of 
-two as Eric proposed...  The good news is that I don’t think it needs to 
-be a power of two (still might make sense to require it), but, well, the 
-bad news is that I found this.)
-
-Hanna
-
+Regards,
+BALATON Zoltan
+--3866299591-1513528196-1635856960=:3828--
 
