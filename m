@@ -2,70 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36EA9443336
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 17:39:50 +0100 (CET)
-Received: from localhost ([::1]:35056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E060443405
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 17:53:25 +0100 (CET)
+Received: from localhost ([::1]:35356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhwpB-0005E5-1i
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 12:39:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59884)
+	id 1mhx2K-0008Jc-6q
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 12:53:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mhwci-0006Ow-AW
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 12:26:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57230)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mhwev-0001bt-Rj
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 12:29:14 -0400
+Received: from 2.mo548.mail-out.ovh.net ([178.33.255.19]:34777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mhwcW-0002bY-FL
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 12:26:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635870403;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ss/Hz3Amunh7qd04Lf0rLRk/NM7TeE6BsChzCFgfXdg=;
- b=BadeNDIVhzfcjUzAbTQpauJlhN6EEbriqlw0bZFuPDDoDI/2dc13ehuLJp4uKF5sr7t7u9
- GXId8Tk5S0pZGw5BkkCTalyrv/+vCQcYaqIzK/XVuT2v7Z+I2J7frT++IOl5q5im3VN3vs
- LhJy/MiB++d74gJwZGfl8laEJ+pigVo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-504-M1ROmAkMMRaLOwq8OdQMtQ-1; Tue, 02 Nov 2021 12:26:40 -0400
-X-MC-Unique: M1ROmAkMMRaLOwq8OdQMtQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 972F6100CFB0;
- Tue,  2 Nov 2021 16:26:39 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.194.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 35F38100751A;
- Tue,  2 Nov 2021 16:26:39 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 16A881805CB8; Tue,  2 Nov 2021 17:26:20 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 10/10] usb-storage: tag usb_msd_csw as packed struct
-Date: Tue,  2 Nov 2021 17:26:19 +0100
-Message-Id: <20211102162619.2760593-11-kraxel@redhat.com>
-In-Reply-To: <20211102162619.2760593-1-kraxel@redhat.com>
-References: <20211102162619.2760593-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mhwet-0002uu-JW
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 12:29:13 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.235])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 766AB2068A;
+ Tue,  2 Nov 2021 16:29:08 +0000 (UTC)
+Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Tue, 2 Nov
+ 2021 17:29:07 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G004fe133ecf-49cf-40bb-9cc8-6cb72f7845bb,
+ 5C292F81AE153BA05FA9CE80812C04756C1C1785) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 129.41.46.1
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+Subject: [PATCH] ppc/pnv: Fix check on block device before updating drive
+ contents
+Date: Tue, 2 Nov 2021 17:29:05 +0100
+Message-ID: <20211102162905.762078-1-clg@kaod.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 4920b1b3-7cd1-4c2a-835b-1186713f37d9
+X-Ovh-Tracer-Id: 7445294612128959395
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrtddtgdeifecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefvdeutddvieekkeeuhfekudejjefggffghfetgfelgfevveefgefhvdegtdelveenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=178.33.255.19; envelope-from=clg@kaod.org;
+ helo=2.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,50 +65,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Sergio Lopez <slp@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- libvir-list@redhat.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- vintagepc404@protonmail.com, Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Without this the struct has the wrong size: sizeof() evaluates
-to 16 instead of 13.  In most cases the bug is hidden by the
-fact that guests submits a buffer which is exactly 13 bytes
-long, so the padding added by the compiler is simply ignored.
+Test is wrong and the backend can never updated. It could have led to
+a QEMU crash but since the firmware deactivates flash access if a valid
+layout is not detected, it went unnoticed.
 
-But sometimes guests submit a larger buffer and expect a short
-transfer, which does not work properly with the wrong struct
-size.
-
-Cc: vintagepc404@protonmail.com
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Fixes: a917d384ac0 ("SCSI TCQ support.")
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210906045523.1259629-1-kraxel@redhat.com>
+Reported-by: Coverity CID 1465223
+Fixes: 35dde5766211 ("ppc/pnv: Add a PNOR model")
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/usb/msd.h | 2 +-
+ hw/ppc/pnv_pnor.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/hw/usb/msd.h b/include/hw/usb/msd.h
-index 7538c54569bf..54e9f38bda46 100644
---- a/include/hw/usb/msd.h
-+++ b/include/hw/usb/msd.h
-@@ -17,7 +17,7 @@ enum USBMSDMode {
-     USB_MSDM_CSW /* Command Status.  */
- };
+diff --git a/hw/ppc/pnv_pnor.c b/hw/ppc/pnv_pnor.c
+index 5ef1cf2afbe1..83ecccca28df 100644
+--- a/hw/ppc/pnv_pnor.c
++++ b/hw/ppc/pnv_pnor.c
+@@ -36,7 +36,7 @@ static void pnv_pnor_update(PnvPnor *s, int offset, int size)
+     int offset_end;
+     int ret;
  
--struct usb_msd_csw {
-+struct QEMU_PACKED usb_msd_csw {
-     uint32_t sig;
-     uint32_t tag;
-     uint32_t residue;
+-    if (s->blk) {
++    if (!s->blk || !blk_is_writable(s->blk)) {
+         return;
+     }
+ 
 -- 
 2.31.1
 
