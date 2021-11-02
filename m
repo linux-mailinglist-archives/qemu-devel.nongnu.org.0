@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D1894434FF
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 19:01:25 +0100 (CET)
-Received: from localhost ([::1]:53858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66D1443511
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 19:04:54 +0100 (CET)
+Received: from localhost ([::1]:35736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhy68-0004nq-1I
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 14:01:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59758)
+	id 1mhy9W-0003Bk-1R
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 14:04:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mhy34-0000hr-Tv
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 13:58:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51577)
+ id 1mhy37-0000oV-KM
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 13:58:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50469)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mhy30-0006so-Bq
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 13:58:13 -0400
+ id 1mhy34-0006tF-HY
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 13:58:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635875888;
+ s=mimecast20190719; t=1635875894;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E8xP4TFA+SkUhN43ePFmTDplYC3Z2HmWfReBP8FSBw0=;
- b=XKVbUCe4yel+1g3MhytoQ4A3E6lLSN4eIUwdg6xsHQzYpceIl6oi+Zr05rMXsz3cCijwTO
- f10mFtJebWzSCG8i1c1YbOMRLOvTf0Oe5olFFVvqSfnB93g3oZjwIO+XgiK0m0Mv0FnXf4
- tFRYoDPAEZ+Kd2dG/Dey+OGWtT1YjGA=
+ bh=8ieyetFKmOJ7zZj3YbdFv09S2ASZYpJ6JeLR6YcKFX0=;
+ b=BQin6ECpx25edzWOQHyYG16s/daWNWSLX3nTh0IHSSEXsiHYfQPXraHsMaVK9rM/I0Rn2+
+ zltcVHYzNWzAVqNaHGmyNZTZUNl1Jjzj9OClVeMA/rfvnsbziIKGt8Ks+hQPNwJakRL6g2
+ X0OhEgBpC7nsV1dnIvHpFohv18/X9XY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-540-2nZz00eDOw6TO00UXoxVFw-1; Tue, 02 Nov 2021 13:58:05 -0400
-X-MC-Unique: 2nZz00eDOw6TO00UXoxVFw-1
+ us-mta-601-tcqGFRAFPya53D5vHQTkFg-1; Tue, 02 Nov 2021 13:58:10 -0400
+X-MC-Unique: tcqGFRAFPya53D5vHQTkFg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BF9D8070F0;
- Tue,  2 Nov 2021 17:58:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 987E610247A7;
+ Tue,  2 Nov 2021 17:58:09 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.39.194.194])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DA61019C59;
- Tue,  2 Nov 2021 17:57:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C41B719C59;
+ Tue,  2 Nov 2021 17:58:04 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/18] docs/devel: update error handling guidance for HMP
- commands
-Date: Tue,  2 Nov 2021 17:56:47 +0000
-Message-Id: <20211102175700.1175996-6-berrange@redhat.com>
+Subject: [PULL 06/18] monitor: introduce HumanReadableText and HMP support
+Date: Tue,  2 Nov 2021 17:56:48 +0000
+Message-Id: <20211102175700.1175996-7-berrange@redhat.com>
 In-Reply-To: <20211102175700.1175996-1-berrange@redhat.com>
 References: <20211102175700.1175996-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -92,68 +91,275 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Best practice is to use the 'hmp_handle_error' function, not
-'monitor_printf' or 'error_report_err'. This ensures that the
-message always gets an 'Error: ' prefix, distinguishing it
-from normal command output.
+This provides a foundation on which to convert simple HMP commands to
+use QMP. The QMP implementation will generate formatted text targeted
+for human consumption, returning it in the HumanReadableText data type.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+The HMP command handler will simply print out the formatted string
+within the HumanReadableText data type. Since this will be an entirely
+formulaic action in the case of HMP commands taking no arguments, a
+custom command handler is provided.
+
+Thus instead of registering a 'cmd' callback for the HMP command, a
+'cmd_info_hrt' callback is provided, which will simply be a pointer
+to the QMP implementation.
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- docs/devel/writing-monitor-commands.rst | 19 +++++++------------
- 1 file changed, 7 insertions(+), 12 deletions(-)
+ include/monitor/hmp.h       |  3 +++
+ include/monitor/monitor.h   |  2 ++
+ include/qapi/type-helpers.h | 14 ++++++++++++++
+ monitor/hmp.c               | 32 +++++++++++++++++++++++++++++---
+ monitor/misc.c              | 18 +++++++++++++++++-
+ monitor/monitor-internal.h  |  7 +++++++
+ qapi/common.json            | 11 +++++++++++
+ qapi/meson.build            |  3 +++
+ qapi/qapi-type-helpers.c    | 23 +++++++++++++++++++++++
+ 9 files changed, 109 insertions(+), 4 deletions(-)
+ create mode 100644 include/qapi/type-helpers.h
+ create mode 100644 qapi/qapi-type-helpers.c
 
-diff --git a/docs/devel/writing-monitor-commands.rst b/docs/devel/writing-monitor-commands.rst
-index a973c48f66..a381b52024 100644
---- a/docs/devel/writing-monitor-commands.rst
-+++ b/docs/devel/writing-monitor-commands.rst
-@@ -293,9 +293,7 @@ Here's the implementation of the "hello-world" HMP command::
-      Error *err = NULL;
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index a2cb002a3a..96d014826a 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -15,6 +15,7 @@
+ #define HMP_H
  
-      qmp_hello_world(!!message, message, &err);
--     if (err) {
--         monitor_printf(mon, "%s\n", error_get_pretty(err));
--         error_free(err);
-+     if (hmp_handle_error(mon, err)) {
-          return;
-      }
-  }
-@@ -307,9 +305,10 @@ There are three important points to be noticed:
- 1. The "mon" and "qdict" arguments are mandatory for all HMP functions. The
-    former is the monitor object. The latter is how the monitor passes
-    arguments entered by the user to the command implementation
--2. hmp_hello_world() performs error checking. In this example we just print
--   the error description to the user, but we could do more, like taking
--   different actions depending on the error qmp_hello_world() returns
-+2. hmp_hello_world() performs error checking. In this example we just call
-+   hmp_handle_error() which prints a message to the user, but we could do
-+   more, like taking different actions depending on the error
-+   qmp_hello_world() returns
- 3. The "err" variable must be initialized to NULL before performing the
-    QMP call
+ #include "qemu/readline.h"
++#include "qapi/qapi-types-common.h"
  
-@@ -466,9 +465,7 @@ Here's the HMP counterpart of the query-alarm-clock command::
-      Error *err = NULL;
+ bool hmp_handle_error(Monitor *mon, Error *err);
  
-      clock = qmp_query_alarm_clock(&err);
--     if (err) {
--         monitor_printf(mon, "Could not query alarm clock information\n");
--         error_free(err);
-+     if (hmp_handle_error(mon, err)) {
-          return;
-      }
+@@ -130,5 +131,7 @@ void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
+ void hmp_replay_seek(Monitor *mon, const QDict *qdict);
+ void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict);
+ void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict);
++void hmp_human_readable_text_helper(Monitor *mon,
++                                    HumanReadableText *(*qmp_handler)(Error **));
  
-@@ -607,9 +604,7 @@ has to traverse the list, it's shown below for reference::
-      Error *err = NULL;
+ #endif
+diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
+index 1a8a369b50..12d395d62d 100644
+--- a/include/monitor/monitor.h
++++ b/include/monitor/monitor.h
+@@ -53,5 +53,7 @@ int64_t monitor_fdset_dup_fd_find(int dup_fd);
  
-      method_list = qmp_query_alarm_methods(&err);
--     if (err) {
--         monitor_printf(mon, "Could not query alarm methods\n");
--         error_free(err);
-+     if (hmp_handle_error(mon, err)) {
-          return;
-      }
+ void monitor_register_hmp(const char *name, bool info,
+                           void (*cmd)(Monitor *mon, const QDict *qdict));
++void monitor_register_hmp_info_hrt(const char *name,
++                                   HumanReadableText *(*handler)(Error **errp));
  
+ #endif /* MONITOR_H */
+diff --git a/include/qapi/type-helpers.h b/include/qapi/type-helpers.h
+new file mode 100644
+index 0000000000..be1f181526
+--- /dev/null
++++ b/include/qapi/type-helpers.h
+@@ -0,0 +1,14 @@
++/*
++ * QAPI common helper functions
++ *
++ * This file provides helper functions related to types defined
++ * in the QAPI schema.
++ *
++ * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
++ * See the COPYING.LIB file in the top-level directory.
++ *
++ */
++
++#include "qapi/qapi-types-common.h"
++
++HumanReadableText *human_readable_text_from_str(GString *str);
+diff --git a/monitor/hmp.c b/monitor/hmp.c
+index d50c3124e1..b20737e63c 100644
+--- a/monitor/hmp.c
++++ b/monitor/hmp.c
+@@ -26,6 +26,7 @@
+ #include <dirent.h>
+ #include "hw/qdev-core.h"
+ #include "monitor-internal.h"
++#include "monitor/hmp.h"
+ #include "qapi/error.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qnum.h"
+@@ -1061,6 +1062,31 @@ fail:
+     return NULL;
+ }
+ 
++static void hmp_info_human_readable_text(Monitor *mon,
++                                         HumanReadableText *(*handler)(Error **))
++{
++    Error *err = NULL;
++    g_autoptr(HumanReadableText) info = handler(&err);
++
++    if (hmp_handle_error(mon, err)) {
++        return;
++    }
++
++    monitor_printf(mon, "%s", info->human_readable_text);
++}
++
++static void handle_hmp_command_exec(Monitor *mon,
++                                    const HMPCommand *cmd,
++                                    QDict *qdict)
++{
++    if (cmd->cmd_info_hrt) {
++        hmp_info_human_readable_text(mon,
++                                     cmd->cmd_info_hrt);
++    } else {
++        cmd->cmd(mon, qdict);
++    }
++}
++
+ typedef struct HandleHmpCommandCo {
+     Monitor *mon;
+     const HMPCommand *cmd;
+@@ -1071,7 +1097,7 @@ typedef struct HandleHmpCommandCo {
+ static void handle_hmp_command_co(void *opaque)
+ {
+     HandleHmpCommandCo *data = opaque;
+-    data->cmd->cmd(data->mon, data->qdict);
++    handle_hmp_command_exec(data->mon, data->cmd, data->qdict);
+     monitor_set_cur(qemu_coroutine_self(), NULL);
+     data->done = true;
+ }
+@@ -1089,7 +1115,7 @@ void handle_hmp_command(MonitorHMP *mon, const char *cmdline)
+         return;
+     }
+ 
+-    if (!cmd->cmd) {
++    if (!cmd->cmd && !cmd->cmd_info_hrt) {
+         /* FIXME: is it useful to try autoload modules here ??? */
+         monitor_printf(&mon->common, "Command \"%.*s\" is not available.\n",
+                        (int)(cmdline - cmd_start), cmd_start);
+@@ -1109,7 +1135,7 @@ void handle_hmp_command(MonitorHMP *mon, const char *cmdline)
+     if (!cmd->coroutine) {
+         /* old_mon is non-NULL when called from qmp_human_monitor_command() */
+         Monitor *old_mon = monitor_set_cur(qemu_coroutine_self(), &mon->common);
+-        cmd->cmd(&mon->common, qdict);
++        handle_hmp_command_exec(&mon->common, cmd, qdict);
+         monitor_set_cur(qemu_coroutine_self(), old_mon);
+     } else {
+         HandleHmpCommandCo data = {
+diff --git a/monitor/misc.c b/monitor/misc.c
+index c2d227a07c..0e124044d0 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -1964,7 +1964,7 @@ void monitor_register_hmp(const char *name, bool info,
+ 
+     while (table->name != NULL) {
+         if (strcmp(table->name, name) == 0) {
+-            g_assert(table->cmd == NULL);
++            g_assert(table->cmd == NULL && table->cmd_info_hrt == NULL);
+             table->cmd = cmd;
+             return;
+         }
+@@ -1973,6 +1973,22 @@ void monitor_register_hmp(const char *name, bool info,
+     g_assert_not_reached();
+ }
+ 
++void monitor_register_hmp_info_hrt(const char *name,
++                                   HumanReadableText *(*handler)(Error **errp))
++{
++    HMPCommand *table = hmp_info_cmds;
++
++    while (table->name != NULL) {
++        if (strcmp(table->name, name) == 0) {
++            g_assert(table->cmd == NULL && table->cmd_info_hrt == NULL);
++            table->cmd_info_hrt = handler;
++            return;
++        }
++        table++;
++    }
++    g_assert_not_reached();
++}
++
+ void monitor_init_globals(void)
+ {
+     monitor_init_globals_core();
+diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
+index 9c3a09cb01..3da3f86c6a 100644
+--- a/monitor/monitor-internal.h
++++ b/monitor/monitor-internal.h
+@@ -74,6 +74,13 @@ typedef struct HMPCommand {
+     const char *help;
+     const char *flags; /* p=preconfig */
+     void (*cmd)(Monitor *mon, const QDict *qdict);
++    /*
++     * If implementing a command that takes no arguments and simply
++     * prints formatted data, then leave @cmd NULL, and then set
++     * @cmd_info_hrt to the corresponding QMP handler that returns
++     * the formatted text.
++     */
++    HumanReadableText *(*cmd_info_hrt)(Error **errp);
+     bool coroutine;
+     /*
+      * @sub_table is a list of 2nd level of commands. If it does not exist,
+diff --git a/qapi/common.json b/qapi/common.json
+index 7c976296f0..412cc4f5ae 100644
+--- a/qapi/common.json
++++ b/qapi/common.json
+@@ -197,3 +197,14 @@
+ { 'enum': 'GrabToggleKeys',
+   'data': [ 'ctrl-ctrl', 'alt-alt', 'shift-shift','meta-meta', 'scrolllock',
+             'ctrl-scrolllock' ] }
++
++##
++# @HumanReadableText:
++#
++# @human-readable-text: Formatted output intended for humans.
++#
++# Since: 6.2
++#
++##
++{ 'struct': 'HumanReadableText',
++  'data': { 'human-readable-text': 'str' } }
+diff --git a/qapi/meson.build b/qapi/meson.build
+index c356a385e3..c0c49c15e4 100644
+--- a/qapi/meson.build
++++ b/qapi/meson.build
+@@ -10,6 +10,9 @@ util_ss.add(files(
+   'string-input-visitor.c',
+   'string-output-visitor.c',
+ ))
++if have_system
++  util_ss.add(files('qapi-type-helpers.c'))
++endif
+ if have_system or have_tools
+   util_ss.add(files(
+     'qmp-dispatch.c',
+diff --git a/qapi/qapi-type-helpers.c b/qapi/qapi-type-helpers.c
+new file mode 100644
+index 0000000000..f76b34f647
+--- /dev/null
++++ b/qapi/qapi-type-helpers.c
+@@ -0,0 +1,23 @@
++/*
++ * QAPI common helper functions
++ *
++ * This file provides helper functions related to types defined
++ * in the QAPI schema.
++ *
++ * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
++ * See the COPYING.LIB file in the top-level directory.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "qapi/type-helpers.h"
++
++HumanReadableText *human_readable_text_from_str(GString *str)
++{
++    HumanReadableText *ret = g_new0(HumanReadableText, 1);
++
++    ret->human_readable_text = g_steal_pointer(&str->str);
++
++    return ret;
++}
 -- 
 2.31.1
 
