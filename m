@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2606F4432A8
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 17:24:59 +0100 (CET)
-Received: from localhost ([::1]:48184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 281CA4432AD
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 17:28:26 +0100 (CET)
+Received: from localhost ([::1]:57592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhwao-0000AT-9z
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 12:24:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58468)
+	id 1mhwe9-0006t1-9N
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 12:28:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhwYg-0004sw-KQ
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 12:22:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51363)
+ id 1mhwbv-0004DW-HQ
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 12:26:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhwYY-0001qy-Bj
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 12:22:44 -0400
+ id 1mhwbu-0002Tc-46
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 12:26:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635870157;
+ s=mimecast20190719; t=1635870365;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Z+Qqw2cCw+Gix37xW7e4CylNRMaq4FtsirGaqKhOgPA=;
- b=UZNPoKRHOks80FqnKTY9THgGWVFnK/AIwvGrcARj+SmW/3tTaxQb0B0CUVhs6l7ntwnC1m
- DNzN1vVBQTYH/e2mvqDrSUpl53EG2Rjann3sdYA1+os4nPNIYVNyKOsL4237dR784RrUih
- irr1W9zULKXU0EvbYd1yrTSiU6ugQgY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-O0M2UhZRNOWqLk9FpC-fcQ-1; Tue, 02 Nov 2021 12:22:36 -0400
-X-MC-Unique: O0M2UhZRNOWqLk9FpC-fcQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 145-20020a1c0197000000b0032efc3eb9bcso1412666wmb.0
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 09:22:36 -0700 (PDT)
+ bh=IDezkPMpO8WvNXnSWn+/RVlskolktFY4fSsyMlzqiY0=;
+ b=bmWqNdrAIEvx+UwOUOpPdyP7HuxPVHIelqQUaLamOk2VwVj+QePg+lS/lVuCPLpOL6ySF+
+ dJmtQPUcJ3rZchhVM2EWU/aIuIfZWgaClu+u2jqkDKVeAbyGXJ4IHzwOsuInKmtK+ZVyE0
+ ryugkAAzZ1yl6s4g73WBzZF7grI5pKg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-34-MJ4sIXDcMLKZe28SeLxCDQ-1; Tue, 02 Nov 2021 12:26:04 -0400
+X-MC-Unique: MJ4sIXDcMLKZe28SeLxCDQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ y4-20020adfd084000000b00186b16950f3so966202wrh.14
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 09:26:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version;
- bh=Z+Qqw2cCw+Gix37xW7e4CylNRMaq4FtsirGaqKhOgPA=;
- b=wQxWDNdhy/Tr7BQveV2nPibxebQUB3aMdDKermS8e43LBGxYWyCHhYqupTDBQWf2rc
- nVfffpYVqRO2T3VyWvl7s7tbOy+NmjYQnQsdrYwNAFS2C5ZXpNArT3E3aMvib6KuA2sK
- t0TcUXOyEwzJ89nuy1UdhIxRGobwxuHjXAC8Z6DE7hPD/85PtHluk2NgG4PFtCPWNDF9
- QEmYA3nFQ7VuBa7zV4t47WgHsjC+VVz85ivU52FQ3rqOSxmplzYHWa1nfeLHDKEntWSr
- XXRZJT2lNkRZx5xITrgyCOmYPbsjpibIdAwfD+mPLVl+UexZpsngSRLLzSXll4kr45KT
- Tp+A==
-X-Gm-Message-State: AOAM530XmJT1nV9LZf+8rowD/i+r4zuvS8UW/eYf/FzxZiFpgeRWAItd
- LSSQ8eVqvs7PmXRna/XTaS1prq1QBkz6Rok8D2/kl/9LGbsiiuAFNe4/vq+gd5T/HCOuORU5W04
- QF9sBXvBxPYkJtuA=
-X-Received: by 2002:a5d:6501:: with SMTP id x1mr20027250wru.390.1635870155485; 
- Tue, 02 Nov 2021 09:22:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxdHYpVU/9dP2MRtB9JRhMDsqIP115YDGd407ycJiQfPniGNUUChuUMcHgF36U9QU4zlVW3RQ==
-X-Received: by 2002:a5d:6501:: with SMTP id x1mr20027222wru.390.1635870155283; 
- Tue, 02 Nov 2021 09:22:35 -0700 (PDT)
+ bh=IDezkPMpO8WvNXnSWn+/RVlskolktFY4fSsyMlzqiY0=;
+ b=cjLhitetJ6MhOm+2qSYOu4eNx13d52KblLvu6TOB1E4RmYKTSxe7IqNVDB4p8utnEW
+ B9p5aHDfl07MBTf3SW7iY50LtFqB54wyi0n57IlI0cooW3OtXPucGsWgv3orI3HGKRK8
+ bhhVlDBjfHnlk2vhLgxMoeawwmbwAHG/oIXbP4ZZcUsgHuzbIvuriUWf2j7e4Vl0A/6J
+ zEclA7AofDjGrf+gaIEFLI24ORKDkdbQPWjrYETuUB+fkuC/qPSXkzLDkBdQ1fDoSTJI
+ 4fg39QJ6cFkfe1ewknQYJS7WQzIBxCkdiyNK5TP6b/A4QDV3b8SE0VEyJmSxOvT1PwLr
+ mtQw==
+X-Gm-Message-State: AOAM530nO3UcbutBTLpW9p3yxuY/9+dM/OO8kRtZhb3rcdYcOPdv84z+
+ 7KS4MLvthBrdVvnfeHROsHhI9fUfK4FPlZDmar+4xdDHp73WHh5lIGYbd2+vJrpPC+xcsEQbgNh
+ kRb4yhuGXyBuUiLc=
+X-Received: by 2002:a1c:a711:: with SMTP id q17mr8292583wme.158.1635870363128; 
+ Tue, 02 Nov 2021 09:26:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzniwZJu295CGVFEqZRJzCJ6ic1xB8/cQGcwm4Tu9KfeVTI7TtwkbFILSp7Wzik0Z0u+fD0kw==
+X-Received: by 2002:a1c:a711:: with SMTP id q17mr8292560wme.158.1635870362942; 
+ Tue, 02 Nov 2021 09:26:02 -0700 (PDT)
 Received: from localhost ([188.26.219.212])
- by smtp.gmail.com with ESMTPSA id n32sm3208450wms.1.2021.11.02.09.22.34
+ by smtp.gmail.com with ESMTPSA id l4sm10565025wrv.94.2021.11.02.09.26.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 09:22:34 -0700 (PDT)
+ Tue, 02 Nov 2021 09:26:02 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
-To: "Rao, Lei" <lei.rao@intel.com>
-Subject: Re: [PATCH v2 7/7] Optimized the function of fill_connection_key.
-In-Reply-To: <1635753425-11756-8-git-send-email-lei.rao@intel.com> (Lei Rao's
- message of "Mon, 1 Nov 2021 15:57:05 +0800")
-References: <1635753425-11756-1-git-send-email-lei.rao@intel.com>
- <1635753425-11756-8-git-send-email-lei.rao@intel.com>
+To: Lukas Straub <lukasstraub2@web.de>
+Subject: Re: [PATCH] colo: Don't dump colo cache if dump-guest-core=off
+In-Reply-To: <20210704181444.59396f6b@gecko.fritz.box> (Lukas Straub's message
+ of "Sun, 4 Jul 2021 18:14:44 +0200")
+References: <20210704181444.59396f6b@gecko.fritz.box>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Tue, 02 Nov 2021 17:22:33 +0100
-Message-ID: <87cznih6ie.fsf@secure.mitica>
+Date: Tue, 02 Nov 2021 17:26:01 +0100
+Message-ID: <878ry6h6cm.fsf@secure.mitica>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
@@ -96,29 +95,18 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: quintela@redhat.com
-Cc: lukasstraub2@web.de, zhang.zhanghailiang@huawei.com,
- lizhijian@cn.fujitsu.com, jasowang@redhat.com, dgilbert@redhat.com,
- qemu-devel@nongnu.org, chen.zhang@intel.com
+Cc: zhang.zhanghailiang@huawei.com, qemu-devel <qemu-devel@nongnu.org>, "Rao,
+ Lei" <lei.rao@intel.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Rao, Lei" <lei.rao@intel.com> wrote:
-> From: "Rao, Lei" <lei.rao@intel.com>
+Lukas Straub <lukasstraub2@web.de> wrote:
+> One might set dump-guest-core=off to make coredumps smaller and
+> still allow to debug many qemu bugs. Extend this option to the colo
+> cache.
 >
-> Remove some unnecessary code to improve the performance of
-> the filter-rewriter module.
->
-> Signed-off-by: Lei Rao <lei.rao@intel.com>
-> Reviewed-by: Zhang Chen <chen.zhang@intel.com>
-
-As Chen has already reviewed it:
+> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-But I think that you should change in a following patch:
-
-s/int reverse/bool reverse/
-
-Later, Juan.
 
 
