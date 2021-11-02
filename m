@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E081442F7B
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 14:54:00 +0100 (CET)
-Received: from localhost ([::1]:59692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20AB4442F66
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 14:51:16 +0100 (CET)
+Received: from localhost ([::1]:51464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhuEh-0002O2-DP
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 09:53:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60936)
+	id 1mhuC2-0004wU-VI
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 09:51:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1mhu0a-0000Zw-59
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:39:25 -0400
-Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:33500)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1mhu0U-0005GA-WC
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:39:22 -0400
-Received: from iva8-d2cd82b7433e.qloud-c.yandex.net
- (iva8-d2cd82b7433e.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:a88e:0:640:d2cd:82b7])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 7B58B2E12B9;
- Tue,  2 Nov 2021 16:39:10 +0300 (MSK)
-Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
- (myt5-70c90f7d6d7d.qloud-c.yandex.net [2a02:6b8:c12:3e2c:0:640:70c9:f7d])
- by iva8-d2cd82b7433e.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- Lr6hckm6Cz-dAsOd4FY; Tue, 02 Nov 2021 16:39:10 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1635860350; bh=dS5M3tFrBHWIS8Shku3dELlUlfbO/3KbYO55up63qnQ=;
- h=Message-Id:Date:Subject:To:From:Cc;
- b=adi/Uz1Jyyu7wjgkYxCtaVgELXHCR/jOGE+hTjZlyZ8f/l5E05AS89igReMqjkfu1
- 2dVZrJUT86rQbK5rS/o0nT/kXjd3sMUrjoSOor6X+NRZsUfoiG3qgsIm6C+JGqB0HP
- ZsW7y7CRn2QoRpxsp2JHF26POfqS4rLTJpTJOAuQ=
-Authentication-Results: iva8-d2cd82b7433e.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from den-plotnikov-w.yandex-team.ru (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b081:8010::1:3a])
- by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPS id
- RyP6wzUDBk-d9xCDFKK; Tue, 02 Nov 2021 16:39:10 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-X-Yandex-Fwd: 2
-From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v0] vl: flush all task from rcu queue before exiting
-Date: Tue,  2 Nov 2021 16:39:01 +0300
-Message-Id: <20211102133901.286027-1-den-plotnikov@yandex-team.ru>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mhu1x-0002dG-El
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:40:49 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:37540)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mhu1u-0005T1-9M
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:40:49 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ y84-20020a1c7d57000000b00330cb84834fso1980394wmc.2
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 06:40:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HmdqIW1tBD6moq40VnXoNkrbf+LuTBNMLpXJd/iHMSs=;
+ b=UyMmVcnxLPdif2AqHVAaxkcaKiW8bmVqZ8p3yAW+K/bKu+xOUABv6hz0T70SFKvnf+
+ 7ckk+vm1qvJhgzOlRqzzPST3zHnDr1LeyFxLmyRCGZzGKOzaMf19MnPOf9ooiIQniCWx
+ Zhp8dnhl4ziQcfgRoAsZDkRPisK5hG1SwOgjhvhdajsQM4tQwLT02eRT0X88gRYJAMp8
+ C8QluFX9GaBDk6xpAtT29p0IwtWniB/5i354ocOOJq+1Tump4szJkgP8Y2oFKuYve/yl
+ /71ctfkK81WRq4I4lJao2fT6eD6BVq9XmsRKE6VUUCsX6I0ZdyFK+cs2Vy8Xn+z8Ahn8
+ YJNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HmdqIW1tBD6moq40VnXoNkrbf+LuTBNMLpXJd/iHMSs=;
+ b=JeC5bS7OTt0R4x60fve8Zb7orjtUNvhhv1hviLrCa+cZ0Oe7hVFiY1UVgUbwnD8u4T
+ vDX5x2h9wcs7zdtLsKn75U33kyXa7OQNoff1BD5nDJOsLob/1gbm6YxIES+u/K3U+7Sn
+ dXNY27vkQm1p2+H9gMPqPNhsCNNMoY3ooUg8xBM0AEFTSMBVcg6FqpIu5q1u75PC2L0a
+ iqpjtbDoy4PHhA1QJzxr2fjRsbQcYt0lSZnU1WTrk09Z5wIo4AMmXLJjXBSexRue88jG
+ Cf54V6S7TcRf9nIlABQJiRClCGi2GE9r3NOuwuhPdZs1qSlZy3MoQFPF0aaNSQHm+Rwx
+ +qZQ==
+X-Gm-Message-State: AOAM531Ii8S/poDQfGHrUIpn/ZsGPiY8KDAbNxjjNkX5VftpgDQjE0Gz
+ 7ee1+VcXW2QEkLep1joK5vZWd70EDMILeIaa+MajKdH10f0=
+X-Google-Smtp-Source: ABdhPJyms93olYKhNEkrhSGxstkF53eF3xItuthRpbgG98tQkCnAKTzuxMMJZO02ryIjl7333rfC+2JwqyuvtfavyNo=
+X-Received: by 2002:a05:600c:198d:: with SMTP id
+ t13mr7261061wmq.21.1635860440154; 
+ Tue, 02 Nov 2021 06:40:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=77.88.29.217;
- envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+References: <CAFEAcA9ha4G=AC3p9LKJRC87DkgHVqbrX3X8RPg7vVR_F1Kt1Q@mail.gmail.com>
+In-Reply-To: <CAFEAcA9ha4G=AC3p9LKJRC87DkgHVqbrX3X8RPg7vVR_F1Kt1Q@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 2 Nov 2021 13:40:29 +0000
+Message-ID: <CAFEAcA8nF-kDMBwt0EL__Yvk3FZ-z-BwDYxL3ndX2CzrrvkWKQ@mail.gmail.com>
+Subject: Re: more bogus meson warnings
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,80 +78,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, yc-core@yandex-team.ru, mlevitsk@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The device destruction may superimpose over qemu shutdown.
-In this case some management layer, requested a device unplug and
-waiting for DEVICE_DELETED event, may never get this event.
+On Tue, 2 Nov 2021 at 13:38, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> I tried my static-system build config today; meson bogus
+> complaints include:
+>
+> WARNING: Static library 'pulse' not found for dependency 'libpulse',
+> may not be statically linked
+> WARNING: Static library 'pulsecommon-11.1' not found for dependency
+> 'libpulse', may not be statically linked
+> WARNING: Static library 'asound' not found for dependency 'alsa', may
+> not be statically linked
 
-This happens because device_finalize() may never be called on qemu shutdown
-for some devices using address_space_destroy(). The later is called from
-the rcu thread.
-On qemu shutdown, not all rcu callbacks may be called because the rcu thread
-may not have enough time to converge before qemu main thread exit.
+...also this configure passed "--audio-drv-list=" so we
+shouldn't be probing for pulse or asound at all.
 
-To resolve this issue this patch makes rcu thread to finish all its callbacks
-explicitly by calling a new rcu intreface function right before
-qemu main thread exit.
+The resulting build fails at link time because meson is
+incorrectly trying to link dynamic libraries into a static
+executable.
 
-Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
----
- include/qemu/rcu.h |  1 +
- softmmu/runstate.c |  3 +++
- util/rcu.c         | 12 ++++++++++++
- 3 files changed, 16 insertions(+)
-
-diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
-index 515d327cf11c..f7fbdc3781e5 100644
---- a/include/qemu/rcu.h
-+++ b/include/qemu/rcu.h
-@@ -134,6 +134,7 @@ struct rcu_head {
- 
- extern void call_rcu1(struct rcu_head *head, RCUCBFunc *func);
- extern void drain_call_rcu(void);
-+extern void flush_rcu(void);
- 
- /* The operands of the minus operator must have the same type,
-  * which must be the one that we specify in the cast.
-diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-index 10d9b7365aa7..28f319a97a2b 100644
---- a/softmmu/runstate.c
-+++ b/softmmu/runstate.c
-@@ -822,5 +822,8 @@ void qemu_cleanup(void)
-     monitor_cleanup();
-     qemu_chr_cleanup();
-     user_creatable_cleanup();
-+
-+    /* finish all the tasks from rcu queue before exiting */
-+    flush_rcu();
-     /* TODO: unref root container, check all devices are ok */
- }
-diff --git a/util/rcu.c b/util/rcu.c
-index 13ac0f75cb2a..f047f8ee8d16 100644
---- a/util/rcu.c
-+++ b/util/rcu.c
-@@ -348,6 +348,18 @@ void drain_call_rcu(void)
- 
- }
- 
-+/*
-+ * This function drains rcu queue until there are no tasks to do left
-+ * and aims to the cases when one needs to ensure that no work hang
-+ * in rcu thread before proceeding, e.g. on qemu shutdown.
-+ */
-+void flush_rcu(void)
-+{
-+    while (qatomic_read(&rcu_call_count) > 0) {
-+        drain_call_rcu();
-+    }
-+}
-+
- void rcu_register_thread(void)
- {
-     assert(rcu_reader.ctr == 0);
--- 
-2.25.1
-
+-- PMM
 
