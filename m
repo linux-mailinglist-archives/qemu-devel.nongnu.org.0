@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB65D443622
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 19:54:56 +0100 (CET)
-Received: from localhost ([::1]:44252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 344A2443610
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 19:53:11 +0100 (CET)
+Received: from localhost ([::1]:41082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhyvv-0000CJ-QY
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 14:54:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43228)
+	id 1mhyuE-0006N8-50
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 14:53:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mhynW-0004Na-Fd
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 14:46:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29813)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mhyns-0004m1-Vz
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 14:46:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40219)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mhynU-0004Gw-9W
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 14:46:13 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mhynr-0004mQ-II
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 14:46:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635878771;
+ s=mimecast20190719; t=1635878795;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i2KW2wCuNVxgmC1cz78ZXb1YV27huKZjMrxsF06sZME=;
- b=KQ5YbZte31JuzCXWLVQM7vMcsoBWJREoF3iW+8e650+meCBlhkp2+OaS2Ty2wcBXjQABbr
- raPGawXoFdT9KzmcOh8T+KFur8r8Ubwb++pQ6wtdQJYNaj41RBDAE0Ifzk8Ym+oERW1K1/
- waWZRpb3DPSZUAnPemoEvOxO47ncD4k=
+ bh=Sb+JrgSSp9WAPQnhdMXztmNWnmaSMiyfNN+rpG9Ac2w=;
+ b=ITvCXkfB/ueJOrBIuK/oh/NxNqMXxXwlvbfsz2j75aHfKswdG9skYQ5ID4G7CeaS9AheA0
+ zLB047Xq8VHjgzXXj4l2q2pVKMCbKxSGCVz52I6xr9ldQy24ulEzm6xYFx/EMXZlZ4obVD
+ Ea5qu12/hoY55LTacBSq2/6EM2Bl7m0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-502-LlDw0qBWPHmxS8pi1BI-Hw-1; Tue, 02 Nov 2021 14:46:08 -0400
-X-MC-Unique: LlDw0qBWPHmxS8pi1BI-Hw-1
+ us-mta-125-IO3zarywPr6HtKTOBFc7oA-1; Tue, 02 Nov 2021 14:46:34 -0400
+X-MC-Unique: IO3zarywPr6HtKTOBFc7oA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24D5D872FF7;
- Tue,  2 Nov 2021 18:46:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E79F8799E0;
+ Tue,  2 Nov 2021 18:46:32 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.175])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 76A1F19C79;
- Tue,  2 Nov 2021 18:45:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AA28C19C79;
+ Tue,  2 Nov 2021 18:46:07 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 3/4] docs: (further further) remove non-reference uses of
- single backticks
-Date: Tue,  2 Nov 2021 14:43:59 -0400
-Message-Id: <20211102184400.1168508-4-jsnow@redhat.com>
+Subject: [PATCH v5 4/4] docs/sphinx: change default role to "any"
+Date: Tue,  2 Nov 2021 14:44:00 -0400
+Message-Id: <20211102184400.1168508-5-jsnow@redhat.com>
 In-Reply-To: <20211102184400.1168508-1-jsnow@redhat.com>
 References: <20211102184400.1168508-1-jsnow@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,59 +84,35 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- docs/devel/build-system.rst | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+This interprets single-backtick syntax in all of our Sphinx docs as a
+cross-reference to *something*, including Python symbols.
 
-diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
-index 7f106d2f1c..48e56d7ea9 100644
---- a/docs/devel/build-system.rst
-+++ b/docs/devel/build-system.rst
-@@ -47,16 +47,17 @@ command line options for which a same-named Meson option exists;
- dashes in the command line are replaced with underscores.
+From here on out, new uses of `backticks` will cause a build failure if
+the target cannot be referenced.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ docs/conf.py | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/docs/conf.py b/docs/conf.py
+index ff6e92c6e2..4d9f56601f 100644
+--- a/docs/conf.py
++++ b/docs/conf.py
+@@ -85,6 +85,11 @@
+ # The master toctree document.
+ master_doc = 'index'
  
- Many checks on the compilation environment are still found in configure
--rather than `meson.build`, but new checks should be added directly to
--`meson.build`.
-+rather than ``meson.build``, but new checks should be added directly to
-+``meson.build``.
- 
- Patches are also welcome to move existing checks from the configure
--phase to `meson.build`.  When doing so, ensure that `meson.build` does
--not use anymore the keys that you have removed from `config-host.mak`.
--Typically these will be replaced in `meson.build` by boolean variables,
--``get_option('optname')`` invocations, or `dep.found()` expressions.
--In general, the remaining checks have little or no interdependencies,
--so they can be moved one by one.
-+phase to ``meson.build``.  When doing so, ensure that ``meson.build``
-+does not use anymore the keys that you have removed from
-+``config-host.mak``.  Typically these will be replaced in
-+``meson.build`` by boolean variables, ``get_option('optname')``
-+invocations, or ``dep.found()`` expressions.  In general, the remaining
-+checks have little or no interdependencies, so they can be moved one by
-+one.
- 
- Helper functions
- ----------------
-@@ -298,7 +299,7 @@ comprises the following tasks:
- 
-  - Add code to perform the actual feature check.
- 
-- - Add code to include the feature status in `config-host.h`
-+ - Add code to include the feature status in ``config-host.h``
- 
-  - Add code to print out the feature status in the configure summary
-    upon completion.
-@@ -334,7 +335,7 @@ The other supporting code is generally simple::
- 
- For the configure script to parse the new option, the
- ``scripts/meson-buildoptions.sh`` file must be up-to-date; ``make
--update-buildoptions`` (or just `make`) will take care of updating it.
-+update-buildoptions`` (or just ``make``) will take care of updating it.
- 
- 
- Support scripts
++# Interpret `single-backticks` to be a cross-reference to any kind of
++# referenceable object. Unresolvable or ambiguous references will emit a
++# warning at build time.
++default_role = 'any'
++
+ # General information about the project.
+ project = u'QEMU'
+ copyright = u'2021, The QEMU Project Developers'
 -- 
 2.31.1
 
