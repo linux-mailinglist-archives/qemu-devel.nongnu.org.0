@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21CA2442C1D
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 12:04:32 +0100 (CET)
-Received: from localhost ([::1]:60866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E9B2442C23
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 12:06:28 +0100 (CET)
+Received: from localhost ([::1]:39172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhrah-0002xD-8H
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 07:04:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40874)
+	id 1mhrcZ-0007Qr-NL
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 07:06:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhrW1-0007Mj-Vz
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:59:42 -0400
-Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f]:34364)
+ id 1mhrW4-0007VU-2n
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:59:44 -0400
+Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:33450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhrVz-0006rD-TQ
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:59:41 -0400
-Received: by mail-qv1-xf2f.google.com with SMTP id i13so497183qvm.1
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 03:59:39 -0700 (PDT)
+ id 1mhrW2-0006rQ-3l
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:59:43 -0400
+Received: by mail-qt1-x833.google.com with SMTP id h16so14018333qtk.0
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 03:59:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Q6HNZmGYTbycFPeFxtYkDDBxjYNGXuSc6oSxfpDPpfw=;
- b=HzTiYXrXDlrijK6UQC32i9x0dktLH7nT0GHXfsWa/oRI5BcRPF3BUZ+T3P0895f/zA
- mEHWOEQ1NEhNl9cFocEDhNUWUz8KIkL2uBgcSvDqQSmiCSjMlYPsC36GJAuc1KWh0BsL
- NsZ3cY8khirldVJ/TRrnFBDPH41Z8JNDmmkAKWc1XdgFWQZrVc7I2GdItwayT0AEjKVV
- jw8VNFD1Mvneq2dsUK/rIPCHYdP3zGEQRTKzRT3AheBCLBlR7zRFmJnqZdeisSgWjigv
- gE8KS/wt5kAiKjBTnX6QQVc/1IwfAlEReNSr8kbRq1BsNsanHTb7GHMVu4pranF78fNJ
- 89rw==
+ bh=4iN+wCNn39PyCmqyIu9fXyF1t2chc7mKLTiK8TWZaXs=;
+ b=Rmrgg8GUf+8rtUpNAlHRceo2G4oWGcF6zrWd1cN/UVsWM8cV+/EkczEfKxoO98q4/7
+ mqCQTvW9oLMdY18Rk+P2iuf2a16OSpj7TqE4puOl4zxX7kVEKuWq/pZgwXOUbUREHZT/
+ ve2TqIk7+0u+kCw2S/prmqtMX+uyeVQQS1I9rzLTNVjm089wLmd/G8njAbBbW5s7rmrg
+ hjUbPMXsJDshCW1wCbPiaoIg53RUjyLD9bbP1FqgbwrR4rOm9nyYuQfRRllRXoMmn1XB
+ 2j9cnW7yIcAf0SOzKm0gNGRBmGLpAjg1qU3toaHukL/fmFD6YkfBq6I+187PwHWqz+QZ
+ UWVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Q6HNZmGYTbycFPeFxtYkDDBxjYNGXuSc6oSxfpDPpfw=;
- b=gwMi65TuTcljM6vNGehs2//NMNS/AYMhZzX3El66V9A4nXUw7PB2mHFzaL+zR/5V37
- sD8aNGMw3q+z0Tt1W1ea2upyeHa+Y1FXovpbs+cGkoL644iVlxTb5R0cQ4EF1RJOQHLw
- Z+rgHk6B2V5f2jeuGwC30ABPxe7SOfNlhNr1Fw0q4sb6YjYd6vHfXLgSkekUcDFOFzzJ
- nBDVYewT6Oct7ucuIvotkI4c3xCn5GyFjzAaqHxkcSCPPkBOj6kmsLh1auVd/L5E47/G
- K798MFZ5MKe2rUq3tOjTzYXJO3X0ROWi4ve5m5qVeAvdu/L04DugMNSDfj/PX5Fi/YpK
- D5PA==
-X-Gm-Message-State: AOAM532t5PWtrTsrzbSO55Qvpf0u1Vw+2fh9/i1CqSl7nlPfx0yBhxCy
- 39qvtuhA5KOOettmEPVN8I3pf8DoD9mwIg==
-X-Google-Smtp-Source: ABdhPJwGWoaQwGjHxOTlUZuAHYWmJsTmj0LmgD5OhT8jUH6iFv7Ut0G82e9598T58/gbKjj8t9srcA==
-X-Received: by 2002:a05:6214:1d2b:: with SMTP id
- f11mr18926667qvd.7.1635850778982; 
- Tue, 02 Nov 2021 03:59:38 -0700 (PDT)
+ bh=4iN+wCNn39PyCmqyIu9fXyF1t2chc7mKLTiK8TWZaXs=;
+ b=JX75X5WPZoR9EYCIc8gOefZjd8KaObGuObQJ0VDKVXJp+XbvLVqe3JrMyC5KX27ksC
+ s7N86uRdJQWB/jF0j9Mq53XnblmyCMEf60bB4mHd8zfgeV4jfD/YQhJwlrnInMtLnmPu
+ e8tUjdXIQsAZkaIM7mcJA63iyqewbNkldFsNvuZy0OnMy7AsCqsd/EBHLFLOPe7t5DqV
+ 1hf0oHtz1QQDVV2EcinDODIuMjTtIEjlkuOYgskvfaqfqWBqRLK9zxDECtd/EtuNmaBE
+ ghRfvcBO01oKX4Rx5sl52yENbrBNeKCPHn8+FE0sgRUkqS4Wk0L9xPPlr7qh64/wsTlX
+ KsBw==
+X-Gm-Message-State: AOAM530R2IXmgDGsj3kNs/Wf9E1QdIx0r2l8zCr4oI+KHfPgkEY+o3zF
+ X0XNzf68Fgpq3qnMafCPovQm85RPaye2Ww==
+X-Google-Smtp-Source: ABdhPJw94t1wIFmqKFf1yTS4tgJyTpt9dWdPoHOnp8uQuqGi27FYzs6mYeLORsl7vpSBGqtCzo+zkA==
+X-Received: by 2002:ac8:5c08:: with SMTP id i8mr37226021qti.181.1635850780141; 
+ Tue, 02 Nov 2021 03:59:40 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-172-254-253-57.nyc.biz.rr.com.
  [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id z26sm11789510qko.13.2021.11.02.03.59.38
+ by smtp.gmail.com with ESMTPSA id z26sm11789510qko.13.2021.11.02.03.59.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 03:59:38 -0700 (PDT)
+ Tue, 02 Nov 2021 03:59:39 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/12] tests/qtest: add qtests for npcm7xx sdhci
-Date: Tue,  2 Nov 2021 06:59:27 -0400
-Message-Id: <20211102105934.214596-6-richard.henderson@linaro.org>
+Subject: [PULL 06/12] target/arm: Advertise MVE to gdb when present
+Date: Tue,  2 Nov 2021 06:59:28 -0400
+Message-Id: <20211102105934.214596-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211102105934.214596-1-richard.henderson@linaro.org>
 References: <20211102105934.214596-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x833.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,255 +84,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hao Wu <wuhaotsh@google.com>, Tyrone Ting <kfting@nuvoton.com>,
- Shengtan Mao <stmao@google.com>, Chris Rauer <crauer@google.com>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Shengtan Mao <stmao@google.com>
+From: Peter Maydell <peter.maydell@linaro.org>
 
-Signed-off-by: Shengtan Mao <stmao@google.com>
-Signed-off-by: Hao Wu <wuhaotsh@google.com>
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
-Reviewed-by: Chris Rauer <crauer@google.com>
-Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20211008002628.1958285-6-wuhaotsh@google.com>
+Cortex-M CPUs with MVE should advertise this fact to gdb, using the
+org.gnu.gdb.arm.m-profile-mve XML feature, which defines the VPR
+register.  Presence of this feature also tells gdb to create
+pseudo-registers Q0..Q7, so we do not need to tell gdb about them
+separately.
+
+Note that unless you have a very recent GDB that includes this fix:
+http://patches-tcwg.linaro.org/patch/58133/ gdb will mis-print the
+individual fields of the VPR register as zero (but showing the whole
+thing as hex, eg with "print /x $vpr" will give the correct value).
+
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20211101160814.5103-1-peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/qtest/npcm7xx_sdhci-test.c | 209 +++++++++++++++++++++++++++++++
- tests/qtest/meson.build          |   1 +
- 2 files changed, 210 insertions(+)
- create mode 100644 tests/qtest/npcm7xx_sdhci-test.c
+ configs/targets/aarch64-softmmu.mak  |  2 +-
+ configs/targets/arm-linux-user.mak   |  2 +-
+ configs/targets/arm-softmmu.mak      |  2 +-
+ configs/targets/armeb-linux-user.mak |  2 +-
+ target/arm/gdbstub.c                 | 25 +++++++++++++++++++++++++
+ gdb-xml/arm-m-profile-mve.xml        | 19 +++++++++++++++++++
+ 6 files changed, 48 insertions(+), 4 deletions(-)
+ create mode 100644 gdb-xml/arm-m-profile-mve.xml
 
-diff --git a/tests/qtest/npcm7xx_sdhci-test.c b/tests/qtest/npcm7xx_sdhci-test.c
-new file mode 100644
-index 0000000000..a6732f657d
---- /dev/null
-+++ b/tests/qtest/npcm7xx_sdhci-test.c
-@@ -0,0 +1,209 @@
-+/*
-+ * QTests for NPCM7xx SD-3.0 / MMC-4.51 Host Controller
-+ *
-+ * Copyright (c) 2021 Google LLC
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms of the GNU General Public License as published by the
-+ * Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-+ * for more details.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/sd/npcm7xx_sdhci.h"
-+
-+#include "libqos/libqtest.h"
-+#include "libqtest-single.h"
-+#include "libqos/sdhci-cmd.h"
-+
-+#define NPCM7XX_MMC_BA 0xF0842000
-+#define NPCM7XX_BLK_SIZE 512
-+#define NPCM7XX_TEST_IMAGE_SIZE (1 << 30)
-+
-+static char *sd_path;
-+
-+static QTestState *setup_sd_card(void)
+diff --git a/configs/targets/aarch64-softmmu.mak b/configs/targets/aarch64-softmmu.mak
+index 13d40b55e6..d489e6da83 100644
+--- a/configs/targets/aarch64-softmmu.mak
++++ b/configs/targets/aarch64-softmmu.mak
+@@ -1,5 +1,5 @@
+ TARGET_ARCH=aarch64
+ TARGET_BASE_ARCH=arm
+ TARGET_SUPPORTS_MTTCG=y
+-TARGET_XML_FILES= gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
++TARGET_XML_FILES= gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml gdb-xml/arm-m-profile-mve.xml
+ TARGET_NEED_FDT=y
+diff --git a/configs/targets/arm-linux-user.mak b/configs/targets/arm-linux-user.mak
+index acecc339e3..3e10d6b15d 100644
+--- a/configs/targets/arm-linux-user.mak
++++ b/configs/targets/arm-linux-user.mak
+@@ -1,6 +1,6 @@
+ TARGET_ARCH=arm
+ TARGET_SYSTBL_ABI=common,oabi
+ TARGET_SYSTBL=syscall.tbl
+-TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
++TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml gdb-xml/arm-m-profile-mve.xml
+ TARGET_HAS_BFLT=y
+ CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
+diff --git a/configs/targets/arm-softmmu.mak b/configs/targets/arm-softmmu.mak
+index f6c95ba07a..92c8349b96 100644
+--- a/configs/targets/arm-softmmu.mak
++++ b/configs/targets/arm-softmmu.mak
+@@ -1,4 +1,4 @@
+ TARGET_ARCH=arm
+ TARGET_SUPPORTS_MTTCG=y
+-TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
++TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml gdb-xml/arm-m-profile-mve.xml
+ TARGET_NEED_FDT=y
+diff --git a/configs/targets/armeb-linux-user.mak b/configs/targets/armeb-linux-user.mak
+index 662c73d8fb..f81e5bf1fe 100644
+--- a/configs/targets/armeb-linux-user.mak
++++ b/configs/targets/armeb-linux-user.mak
+@@ -2,6 +2,6 @@ TARGET_ARCH=arm
+ TARGET_SYSTBL_ABI=common,oabi
+ TARGET_SYSTBL=syscall.tbl
+ TARGET_WORDS_BIGENDIAN=y
+-TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
++TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml gdb-xml/arm-m-profile-mve.xml
+ TARGET_HAS_BFLT=y
+ CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
+diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
+index e0dcb33e32..134da0d0ae 100644
+--- a/target/arm/gdbstub.c
++++ b/target/arm/gdbstub.c
+@@ -199,6 +199,27 @@ static int vfp_gdb_set_sysreg(CPUARMState *env, uint8_t *buf, int reg)
+     return 0;
+ }
+ 
++static int mve_gdb_get_reg(CPUARMState *env, GByteArray *buf, int reg)
 +{
-+    QTestState *qts = qtest_initf(
-+        "-machine quanta-gbs-bmc "
-+        "-device sd-card,drive=drive0 "
-+        "-drive id=drive0,if=none,file=%s,format=raw,auto-read-only=off",
-+        sd_path);
-+
-+    qtest_writew(qts, NPCM7XX_MMC_BA + SDHC_SWRST, SDHC_RESET_ALL);
-+    qtest_writew(qts, NPCM7XX_MMC_BA + SDHC_CLKCON,
-+                 SDHC_CLOCK_SDCLK_EN | SDHC_CLOCK_INT_STABLE |
-+                 SDHC_CLOCK_INT_EN);
-+    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0, 0, SDHC_APP_CMD);
-+    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0x41200000, 0, (41 << 8));
-+    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0, 0, SDHC_ALL_SEND_CID);
-+    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0, 0, SDHC_SEND_RELATIVE_ADDR);
-+    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0x45670000, 0,
-+                   SDHC_SELECT_DESELECT_CARD);
-+
-+    return qts;
-+}
-+
-+static void write_sdread(QTestState *qts, const char *msg)
-+{
-+    size_t len = strlen(msg);
-+    char *rmsg = g_malloc(len);
-+
-+    /* write message to sd */
-+    int fd = open(sd_path, O_WRONLY);
-+    int ret;
-+
-+    g_assert(fd > 0);
-+    ret = write(fd, msg, len);
-+    g_assert(ret == len);
-+    ret = close(fd);
-+    g_assert(ret == 0);
-+
-+    /* read message using sdhci */
-+    ret = sdhci_read_cmd(qts, NPCM7XX_MMC_BA, rmsg, len);
-+    g_assert(ret == len);
-+    g_assert(!strcmp(rmsg, msg));
-+
-+    free(rmsg);
-+}
-+
-+/* Check MMC can read values from sd */
-+static void test_read_sd(void)
-+{
-+    QTestState *qts = setup_sd_card();
-+
-+    write_sdread(qts, "hello world");
-+    write_sdread(qts, "goodbye");
-+
-+    qtest_quit(qts);
-+}
-+
-+static void sdwrite_read(QTestState *qts, const char *msg)
-+{
-+    size_t len = strlen(msg);
-+    char *rmsg = g_malloc(len);
-+
-+    /* write message using sdhci */
-+    sdhci_write_cmd(qts, NPCM7XX_MMC_BA, msg, len, NPCM7XX_BLK_SIZE);
-+
-+    /* read message from sd */
-+    int fd = open(sd_path, O_RDONLY);
-+    int ret;
-+
-+    g_assert(fd > 0);
-+    ret = read(fd, rmsg, len);
-+    g_assert(ret == len);
-+    ret = close(fd);
-+    g_assert(ret == 0);
-+
-+    g_assert(!strcmp(rmsg, msg));
-+
-+    free(rmsg);
-+}
-+
-+/* Check MMC can write values to sd */
-+static void test_write_sd(void)
-+{
-+    QTestState *qts = setup_sd_card();
-+
-+    sdwrite_read(qts, "hello world");
-+    sdwrite_read(qts, "goodbye");
-+
-+    qtest_quit(qts);
-+}
-+
-+/* Check SDHCI has correct default values. */
-+static void test_reset(void)
-+{
-+    QTestState *qts = qtest_init("-machine quanta-gbs-bmc");
-+
-+    uint64_t addr = NPCM7XX_MMC_BA;
-+    uint64_t end_addr = addr + 0x100;
-+    uint16_t prstvals_resets[] = {NPCM7XX_PRSTVALS_0_RESET,
-+                                  NPCM7XX_PRSTVALS_1_RESET,
-+                                  0,
-+                                  NPCM7XX_PRSTVALS_3_RESET,
-+                                  0,
-+                                  0};
-+    int i;
-+    uint32_t mask;
-+    while (addr < end_addr) {
-+        switch (addr - NPCM7XX_MMC_BA) {
-+        case SDHC_PRNSTS:
-+            /* ignores bits 20 to 24: they are changed when reading registers */
-+            mask = 0x1f00000;
-+            g_assert_cmphex(qtest_readl(qts, addr) | mask, ==,
-+                            NPCM7XX_PRSNTS_RESET | mask);
-+            addr += 4;
-+            break;
-+        case SDHC_BLKGAP:
-+            g_assert_cmphex(qtest_readb(qts, addr), ==, NPCM7XX_BLKGAP_RESET);
-+            addr += 1;
-+            break;
-+        case SDHC_CAPAB:
-+            g_assert_cmphex(qtest_readq(qts, addr), ==, NPCM7XX_CAPAB_RESET);
-+            addr += 8;
-+            break;
-+        case SDHC_MAXCURR:
-+            g_assert_cmphex(qtest_readq(qts, addr), ==, NPCM7XX_MAXCURR_RESET);
-+            addr += 8;
-+            break;
-+        case SDHC_HCVER:
-+            g_assert_cmphex(qtest_readw(qts, addr), ==, NPCM7XX_HCVER_RESET);
-+            addr += 2;
-+            break;
-+        case NPCM7XX_PRSTVALS:
-+            for (i = 0; i < NPCM7XX_PRSTVALS_SIZE; ++i) {
-+                g_assert_cmphex(qtest_readw(qts, addr + 2 * i), ==,
-+                                prstvals_resets[i]);
-+            }
-+            addr += NPCM7XX_PRSTVALS_SIZE * 2;
-+            break;
-+        default:
-+            g_assert_cmphex(qtest_readb(qts, addr), ==, 0);
-+            addr += 1;
-+        }
++    switch (reg) {
++    case 0:
++        return gdb_get_reg32(buf, env->v7m.vpr);
++    default:
++        return 0;
 +    }
-+
-+    qtest_quit(qts);
 +}
 +
-+static void drive_destroy(void)
++static int mve_gdb_set_reg(CPUARMState *env, uint8_t *buf, int reg)
 +{
-+    unlink(sd_path);
-+    g_free(sd_path);
++    switch (reg) {
++    case 0:
++        env->v7m.vpr = ldl_p(buf);
++        return 4;
++    default:
++        return 0;
++    }
 +}
 +
-+static void drive_create(void)
-+{
-+    int fd, ret;
+ /**
+  * arm_get/set_gdb_*: get/set a gdb register
+  * @env: the CPU state
+@@ -468,6 +489,10 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
+                                      2, "arm-vfp-sysregs.xml", 0);
+         }
+     }
++    if (cpu_isar_feature(aa32_mve, cpu)) {
++        gdb_register_coprocessor(cs, mve_gdb_get_reg, mve_gdb_set_reg,
++                                 1, "arm-m-profile-mve.xml", 0);
++    }
+     gdb_register_coprocessor(cs, arm_gdb_get_sysreg, arm_gdb_set_sysreg,
+                              arm_gen_dynamic_sysreg_xml(cs, cs->gdb_num_regs),
+                              "system-registers.xml", 0);
+diff --git a/gdb-xml/arm-m-profile-mve.xml b/gdb-xml/arm-m-profile-mve.xml
+new file mode 100644
+index 0000000000..cba664c4c5
+--- /dev/null
++++ b/gdb-xml/arm-m-profile-mve.xml
+@@ -0,0 +1,19 @@
++<?xml version="1.0"?>
++<!-- Copyright (C) 2021 Free Software Foundation, Inc.
 +
-+    sd_path = g_strdup("/tmp/qtest_npcm7xx_sdhci.XXXXXX");
-+    /* Create a temporary raw image */
-+    fd = mkstemp(sd_path);
-+    g_assert_cmpint(fd, >=, 0);
-+    ret = ftruncate(fd, NPCM7XX_TEST_IMAGE_SIZE);
-+    g_assert_cmpint(ret, ==, 0);
-+    g_message("%s", sd_path);
-+    close(fd);
-+}
++     Copying and distribution of this file, with or without modification,
++     are permitted in any medium without royalty provided the copyright
++     notice and this notice are preserved.  -->
 +
-+int main(int argc, char **argv)
-+{
-+    drive_create();
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    qtest_add_func("npcm7xx_sdhci/reset", test_reset);
-+    qtest_add_func("npcm7xx_sdhci/write_sd", test_write_sd);
-+    qtest_add_func("npcm7xx_sdhci/read_sd", test_read_sd);
-+
-+    int ret = g_test_run();
-+    drive_destroy();
-+    return ret;
-+}
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index c9d8458062..84fa391229 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -157,6 +157,7 @@ qtests_npcm7xx = \
-    'npcm7xx_gpio-test',
-    'npcm7xx_pwm-test',
-    'npcm7xx_rng-test',
-+   'npcm7xx_sdhci-test',
-    'npcm7xx_smbus-test',
-    'npcm7xx_timer-test',
-    'npcm7xx_watchdog_timer-test'] + \
++<!DOCTYPE feature SYSTEM "gdb-target.dtd">
++<feature name="org.gnu.gdb.arm.m-profile-mve">
++  <flags id="vpr_reg" size="4">
++    <!-- ARMv8.1-M and MVE: Unprivileged and privileged Access.  -->
++    <field name="P0" start="0" end="15"/>
++    <!-- ARMv8.1-M: Privileged Access only.  -->
++    <field name="MASK01" start="16" end="19"/>
++    <!-- ARMv8.1-M: Privileged Access only.  -->
++    <field name="MASK23" start="20" end="23"/>
++  </flags>
++  <reg name="vpr" bitsize="32" type="vpr_reg"/>
++</feature>
 -- 
 2.25.1
 
