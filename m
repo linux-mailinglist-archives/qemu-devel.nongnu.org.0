@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BAFE442FEE
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:12:21 +0100 (CET)
-Received: from localhost ([::1]:58472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1C77443007
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:15:03 +0100 (CET)
+Received: from localhost ([::1]:39110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhuWS-0000te-P7
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:12:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35044)
+	id 1mhuZ4-00047x-SW
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:15:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mhu6u-0005M7-1h
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:45:56 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35461)
+ id 1mhu6w-0005Pc-7s
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:45:58 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:43666)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mhu6n-0006TS-Nt
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:45:55 -0400
-Received: by mail-wr1-x431.google.com with SMTP id i5so25763276wrb.2
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 06:45:45 -0700 (PDT)
+ id 1mhu6o-0006Te-Vj
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:45:57 -0400
+Received: by mail-wr1-x429.google.com with SMTP id t30so8566970wra.10
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 06:45:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=S5e6ssV22qr/J5Dlfe80AVdnMPyE0wzeS1Wogbg1ZY0=;
- b=bZR1gmgiHlu68wfIa5Ld7MWd6anYAPX9zZMdLQc9OyM9yo3pI8knOBiN9HCQJkYXpr
- PiwZN4kQqy0LYik9wFKHc4e5AkDZuZxR0/BGeuSmbRP+pYhYQ37YopQ+HJctsEZgstJL
- VCw1SDrKETDT7A4BLX4f03sOyCSpuQsMJ6bVkju+fFFuOpFvYeXd3zW1P0Eq6WLFdreD
- aBlFp0npF8xW+MHqHjCYa4Xf6AYJBlnXvNZGU6yRSmCOBiTOsPNgTnz2pp4n/yBEIMJW
- t8JaS2luy07UYrYXHbCbxC5P4pg/uiVDijwqNTzg2Dnlo2M/QbtXYTjBcnLy///LCBW8
- ++pA==
+ bh=CX4TDYxHmqmiiR24yF6hrsJep+v1xIl7VYK9/UVuiFE=;
+ b=bArEW0RPuk8NGIaE6nAs8gLpoqiLIBR+HMim0K8JK5R36RKYCkU/zCXKiRPHC/ZykM
+ nkzCx/OkhvhmrAhYE0UNhz0WMiVb2V77Q7w/cBncuq5nRJwxvIERLtQ2E6brWaJtt8oY
+ VoYqNT0vnx2wVWCwLl7k7qh2vxwrUnei10WP3zGaD/F6B4X3JMf1RhJsaA4Exg4BM6nd
+ 1B4AcbpnYoU+mDkxAc33VrPVQ2Wz6Y0RLGQbWPpR946FOXw64OcHroG69T5iRkBIs3ZI
+ n2/OvX47hLHh00lkpMIRQb7OG2KSAOexe/ddBoHvkHBQL0EoRW0ZQV4fzt4LvLVqo1Ww
+ fF1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=S5e6ssV22qr/J5Dlfe80AVdnMPyE0wzeS1Wogbg1ZY0=;
- b=E0okuzxToG3zE5O0s0aenk5CXyoUQGCJBsguBiO3o5O3WiLQ0XUM6jkhkm/Jsi/7Hr
- 3JKFJ8kj2pPBWPaG57SK+K8LJCJADyNXx5kox6EjmPDwcpp6NFMffIwuMsWRCwzOKtAN
- g5QpXxtbYNgWllI7WEbFdaFhL44h04W5bxetsDUGBJwXoJSkbQPoGMDc89hPnTzGrSSL
- HJaRefSdvFdxGCS2rR5hTh3K6mHiJMOZtfZ4eaqj0/wEdCE9ZQ+eVgkKN7A8XptIPx8v
- ahMmhFvUUQVPxIzmAnW3bHOUx7jb8pmPzR8J8khsC1JfhKrFeoVWp6SH5n8jD/uodQgl
- c6uw==
-X-Gm-Message-State: AOAM532GCZhLyCzZjiMMSRj4uLxuS29K3AqOvy/jeybEnn+0wonh0t8n
- eyh6dtQtHE+CY35EVAB07Hxrse8r6kA=
-X-Google-Smtp-Source: ABdhPJyoi/yhH5K4aON6loe3Z0jXcGN94EnXsrOLoLpStqRi1/TEPNbtMOsMRN7wO6KaDlOGH6a3GA==
-X-Received: by 2002:adf:d1c3:: with SMTP id b3mr44847488wrd.273.1635860744693; 
- Tue, 02 Nov 2021 06:45:44 -0700 (PDT)
+ bh=CX4TDYxHmqmiiR24yF6hrsJep+v1xIl7VYK9/UVuiFE=;
+ b=DcHlJOGzP9YXs7VOybj5WGZRUFNyqa2PJWN4nifa3QHet4iH2VVvgXQhCrzCsPwvI7
+ MUnqk+HYAipoDVy5xV5fxrbD0kWpcL98i05I9k+R4cugYsBR5C5+kqbOiqZlulsXoYYI
+ 90FuPEPSqNXICFtiTcECkua8KFUDgONgIFtruqDaz6kzniLl2SK4dCnwurqKmUUg9fHb
+ 0DGpuBe+McKgMLViGsC5vpHb3cUtQlCzlmRNoJO9BGtwC3SQA1DAnpkM/DuhdwUveMxw
+ tAL6fLdF7xFbRAvsU4lh4qD+iJI079iXldpDc/iNLHl9RHsqRuCduVhUTFJtXVyLV1ED
+ oKwQ==
+X-Gm-Message-State: AOAM5335KuJDjgSiB8Sv6EloJTi9LkiVum1toU+//uHOF7wy+8f2dTS4
+ +RQEo+AJdWbTmgUzJGhwXxks+oH0s/E=
+X-Google-Smtp-Source: ABdhPJxA7zw8DqffVCkFUuDn588vE7WSlqWk7ccOuqfII328SfFey975t26Tdr0b6buapBDQmxSEqw==
+X-Received: by 2002:a5d:59ae:: with SMTP id p14mr9305165wrr.365.1635860749445; 
+ Tue, 02 Nov 2021 06:45:49 -0700 (PDT)
 Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
  by smtp.gmail.com with ESMTPSA id
- z14sm250991wrp.70.2021.11.02.06.45.43
+ z15sm6096355wrr.65.2021.11.02.06.45.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 06:45:44 -0700 (PDT)
+ Tue, 02 Nov 2021 06:45:49 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 38/41] usb/uhci: Disallow user creating a vt82c686-uhci-pci
- device
-Date: Tue,  2 Nov 2021 14:42:37 +0100
-Message-Id: <20211102134240.3036524-39-f4bug@amsat.org>
+Subject: [PULL 39/41] usb/uhci: Replace pci_set_irq with qemu_set_irq
+Date: Tue,  2 Nov 2021 14:42:38 +0100
+Message-Id: <20211102134240.3036524-40-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211102134240.3036524-1-f4bug@amsat.org>
 References: <20211102134240.3036524-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,59 +93,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-Because this device only works as part of VIA superio chips set user
-creatable to false. Since the class init method is common for UHCI
-variants introduce a flag in UHCIInfo for this.
+Instead of using pci_set_irq, store the irq in the device state and
+use it explicitly so variants having different interrupt handling can
+use their own.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <e6abf1f19ca72bbc2d8a5a6aa941edbf87a9845f.1635161629.git.balaton@eik.bme.hu>
+Message-Id: <b39066e03c8731f4197d50bc79b403f797599999.1635161629.git.balaton@eik.bme.hu>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/usb/hcd-uhci.h          | 1 +
- hw/usb/hcd-uhci.c          | 3 +++
- hw/usb/vt82c686-uhci-pci.c | 2 ++
- 3 files changed, 6 insertions(+)
+ hw/usb/hcd-uhci.h | 2 +-
+ hw/usb/hcd-uhci.c | 4 +++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/hw/usb/hcd-uhci.h b/hw/usb/hcd-uhci.h
-index e61d8fcb192..316693f80bd 100644
+index 316693f80bd..c85ab7868ee 100644
 --- a/hw/usb/hcd-uhci.h
 +++ b/hw/usb/hcd-uhci.h
-@@ -85,6 +85,7 @@ typedef struct UHCIInfo {
-     uint8_t    irq_pin;
-     void       (*realize)(PCIDevice *dev, Error **errp);
-     bool       unplug;
-+    bool       notuser; /* disallow user_creatable */
- } UHCIInfo;
+@@ -60,7 +60,7 @@ typedef struct UHCIState {
+     uint32_t frame_bandwidth;
+     bool completions_only;
+     UHCIPort ports[NB_PORTS];
+-
++    qemu_irq irq;
+     /* Interrupts that should be raised at the end of the current frame.  */
+     uint32_t pending_int_mask;
  
- void uhci_data_class_init(ObjectClass *klass, void *data);
 diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
-index c557566ec26..7d26e351942 100644
+index 7d26e351942..d1b5657d722 100644
 --- a/hw/usb/hcd-uhci.c
 +++ b/hw/usb/hcd-uhci.c
-@@ -1282,6 +1282,9 @@ void uhci_data_class_init(ObjectClass *klass, void *data)
-     } else {
-         device_class_set_props(dc, uhci_properties_standalone);
+@@ -31,6 +31,7 @@
+ #include "hw/usb/uhci-regs.h"
+ #include "migration/vmstate.h"
+ #include "hw/pci/pci.h"
++#include "hw/irq.h"
+ #include "hw/qdev-properties.h"
+ #include "qapi/error.h"
+ #include "qemu/timer.h"
+@@ -299,7 +300,7 @@ static void uhci_update_irq(UHCIState *s)
+         (s->status & UHCI_STS_HCPERR)) {
+         level = 1;
      }
-+    if (info->notuser) {
-+        dc->user_creatable = false;
-+    }
-     u->info = *info;
+-    pci_set_irq(&s->dev, level);
++    qemu_set_irq(s->irq, level);
  }
  
-diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
-index b109c216033..ea262e6d709 100644
---- a/hw/usb/vt82c686-uhci-pci.c
-+++ b/hw/usb/vt82c686-uhci-pci.c
-@@ -25,6 +25,8 @@ static UHCIInfo uhci_info[] = {
-         .irq_pin   = 3,
-         .realize   = usb_uhci_vt82c686b_realize,
-         .unplug    = true,
-+        /* Reason: only works as USB function of VT82xx superio chips */
-+        .notuser   = true,
-     }
- };
+ static void uhci_reset(DeviceState *dev)
+@@ -1170,6 +1171,7 @@ void usb_uhci_common_realize(PCIDevice *dev, Error **errp)
+     /* TODO: reset value should be 0. */
+     pci_conf[USB_SBRN] = USB_RELEASE_1; /* release number */
+     pci_config_set_interrupt_pin(pci_conf, u->info.irq_pin + 1);
++    s->irq = pci_allocate_irq(dev);
  
+     if (s->masterbus) {
+         USBPort *ports[NB_PORTS];
 -- 
 2.31.1
 
