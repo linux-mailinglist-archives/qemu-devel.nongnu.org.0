@@ -2,46 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE4CA442A39
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 10:18:05 +0100 (CET)
-Received: from localhost ([::1]:49012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93F1F442A38
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 10:17:45 +0100 (CET)
+Received: from localhost ([::1]:50908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhpvf-0000kf-SH
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 05:18:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39336)
+	id 1mhpvL-0002Eh-RB
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 05:17:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kamil@netbsd.org>) id 1mhpqN-0007j5-Ae
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 05:12:35 -0400
-Received: from mail.netbsd.org ([199.233.217.200]:61038)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mhptr-00016K-G7
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 05:16:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45651)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kamil@netbsd.org>) id 1mhpqK-0001vl-HH
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 05:12:34 -0400
-Received: from [IPv6:::1] (localhost [127.0.0.1])
- by mail.netbsd.org (Postfix) with ESMTP id 7E4A484F01;
- Tue,  2 Nov 2021 09:12:28 +0000 (UTC)
-Subject: Re: [PATCH] nvmm: Fix support for stable version
-To: nia <nia@NetBSD.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <YWblCe2J8GwCaV9U@homeworld.netbsd.org>
-From: Kamil Rytarowski <kamil@netbsd.org>
-Message-ID: <e0e46321-86d8-349a-2850-b82cd8e716a2@netbsd.org>
-Date: Tue, 2 Nov 2021 10:12:28 +0100
-User-Agent: Mozilla/5.0 (X11; NetBSD amd64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mhptp-0003Nt-Bx
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 05:16:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635844568;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ad+Z6H6w5PHkl61PFxoSBiv61aXvXOBzp8hV/uMi1iI=;
+ b=EyXP4hZ7Z2NOE/Fb6dlTaIjUHDj++1CNpSuVIFZp/pnxMroObqv+Ohsl54+dSMUvY9a2FG
+ wNra8bk0Z/wbvIfBN82fZoeX67yPm/d9fGSJtplPLeHaZ9NNHK2FNYceSdE4WkL80D4xwL
+ ajBinZiWMA/YE3CBRoyZvpw1Gn+AR/0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-316-QUcVI7QtOPShKIEfWaLyDg-1; Tue, 02 Nov 2021 05:15:59 -0400
+X-MC-Unique: QUcVI7QtOPShKIEfWaLyDg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AEBD1808304;
+ Tue,  2 Nov 2021 09:15:58 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1942269FA2;
+ Tue,  2 Nov 2021 09:15:10 +0000 (UTC)
+Date: Tue, 2 Nov 2021 10:15:09 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH 2/9] qapi: Mark unstable QMP parts with feature 'unstable'
+Message-ID: <YYEBnSoSi4Gcs8ki@redhat.com>
+References: <20211025052532.3859634-1-armbru@redhat.com>
+ <20211025052532.3859634-3-armbru@redhat.com>
+ <20211029130717.fy3t5qqvy5u3iphg@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YWblCe2J8GwCaV9U@homeworld.netbsd.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=199.233.217.200; envelope-from=kamil@netbsd.org;
- helo=mail.netbsd.org
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.14,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211029130717.fy3t5qqvy5u3iphg@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -54,88 +77,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kamil@netbsd.org, reinoud@netbsd.org
+Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ qemu-block@nongnu.org, quintela@redhat.com, qemu-devel@nongnu.org,
+ mdroth@linux.vnet.ibm.com, Markus Armbruster <armbru@redhat.com>,
+ libvir-list@redhat.com, dgilbert@redhat.com, pbonzini@redhat.com,
+ marcandre.lureau@redhat.com, jsnow@redhat.com, libguestfs@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Kamil Rytarowski <kamil@netbsd.org>
+Am 29.10.2021 um 15:07 hat Eric Blake geschrieben:
+> On Mon, Oct 25, 2021 at 07:25:25AM +0200, Markus Armbruster wrote:
+> > Add special feature 'unstable' everywhere the name starts with 'x-',
+> > except for InputBarrierProperties member x-origin and
+> > MemoryBackendProperties member x-use-canonical-path-for-ramblock-id,
+> > because these two are actually stable.
+> > 
+> > Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> > ---
+> > @@ -2495,27 +2508,57 @@
+> >  #
+> >  # Properties for throttle-group objects.
+> >  #
+> > -# The options starting with x- are aliases for the same key without x- in
+> > -# the @limits object. As indicated by the x- prefix, this is not a stable
+> > -# interface and may be removed or changed incompatibly in the future. Use
+> > -# @limits for a supported stable interface.
+> > -#
+> >  # @limits: limits to apply for this throttle group
+> >  #
+> > +# Features:
+> > +# @unstable: All members starting with x- are aliases for the same key
+> > +#            without x- in the @limits object.  This is not a stable
+> > +#            interface and may be removed or changed incompatibly in
+> > +#            the future.  Use @limits for a supported stable
+> > +#            interface.
+> > +#
+> >  # Since: 2.11
+> >  ##
+> >  { 'struct': 'ThrottleGroupProperties',
+> >    'data': { '*limits': 'ThrottleLimits',
+> > -            '*x-iops-total' : 'int', '*x-iops-total-max' : 'int',
+> 
+> > +            '*x-iops-total': { 'type': 'int',
+> > +                               'features': [ 'unstable' ] },
+> 
+> This struct has been around since 381bd74 (v6.0); but was not listed
+> as deprecated at the time.  Do we still need it in 6.2, or have we
+> gone enough release cycles with the saner naming without x- that we
+> could drop this?  But that is a question independent of this patch.
 
-Paolo, could you please merge it?
+There is no reason any more to use the x- options, and I think libvirt
+never used them anyway.
 
-On 13.10.2021 15:54, nia wrote:
-> NVMM user version 1 is the version being shipped with netbsd-9,
-> which is the most recent stable branch of NetBSD. This makes it
-> possible to use the NVMM accelerator on the most recent NetBSD
-> release, 9.2, which lacks nvmm_cpu_stop.
-> 
-> (CC'ing maintainers)
-> 
-> Signed-off-by: Nia Alarie <nia@NetBSD.org>
-> ---
->  meson.build                 |  4 +---
->  target/i386/nvmm/nvmm-all.c | 10 ++++++++++
->  2 files changed, 11 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meson.build b/meson.build
-> index 15ef4d3c41..6e4d9b919a 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -244,9 +244,7 @@ if not get_option('hax').disabled()
->    endif
->  endif
->  if targetos == 'netbsd'
-> -  if cc.has_header_symbol('nvmm.h', 'nvmm_cpu_stop', required: get_option('nvmm'))
-> -    nvmm = cc.find_library('nvmm', required: get_option('nvmm'))
-> -  endif
-> +  nvmm = cc.find_library('nvmm', required: get_option('nvmm'))
->    if nvmm.found()
->      accelerators += 'CONFIG_NVMM'
->    endif
-> diff --git a/target/i386/nvmm/nvmm-all.c b/target/i386/nvmm/nvmm-all.c
-> index a488b00e90..4a10412427 100644
-> --- a/target/i386/nvmm/nvmm-all.c
-> +++ b/target/i386/nvmm/nvmm-all.c
-> @@ -750,7 +750,11 @@ nvmm_vcpu_loop(CPUState *cpu)
->          nvmm_vcpu_pre_run(cpu);
->  
->          if (qatomic_read(&cpu->exit_request)) {
-> +#if NVMM_USER_VERSION >= 2
->              nvmm_vcpu_stop(vcpu);
-> +#else
-> +            qemu_cpu_kick_self();
-> +#endif
->          }
->  
->          /* Read exit_request before the kernel reads the immediate exit flag */
-> @@ -767,6 +771,7 @@ nvmm_vcpu_loop(CPUState *cpu)
->          switch (exit->reason) {
->          case NVMM_VCPU_EXIT_NONE:
->              break;
-> +#if NVMM_USER_VERSION >= 2
->          case NVMM_VCPU_EXIT_STOPPED:
->              /*
->               * The kernel cleared the immediate exit flag; cpu->exit_request
-> @@ -775,6 +780,7 @@ nvmm_vcpu_loop(CPUState *cpu)
->              smp_wmb();
->              qcpu->stop = true;
->              break;
-> +#endif
->          case NVMM_VCPU_EXIT_MEMORY:
->              ret = nvmm_handle_mem(mach, vcpu);
->              break;
-> @@ -888,8 +894,12 @@ nvmm_ipi_signal(int sigcpu)
->  {
->      if (current_cpu) {
->          struct qemu_vcpu *qcpu = get_qemu_vcpu(current_cpu);
-> +#if NVMM_USER_VERSION >= 2
->          struct nvmm_vcpu *vcpu = &qcpu->vcpu;
->          nvmm_vcpu_stop(vcpu);
-> +#else
-> +        qcpu->stop = true;
-> +#endif
->      }
->  }
->  
-> 
+I actually have a commit in my QAPI object branch that removes these
+properties, but I think it still broke some tests.
+
+Anyway, something for a separate patch.
+
+Kevin
 
 
