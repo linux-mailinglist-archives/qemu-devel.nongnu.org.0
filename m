@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EF284431FB
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 16:46:55 +0100 (CET)
-Received: from localhost ([::1]:58164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44ED6443202
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 16:48:42 +0100 (CET)
+Received: from localhost ([::1]:33812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhvzx-0007Mr-IS
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 11:46:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46212)
+	id 1mhw1h-0001aY-5o
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 11:48:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhvy6-0005sm-W1
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 11:44:59 -0400
-Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830]:34341)
+ id 1mhvz5-0007Ig-JU
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 11:46:00 -0400
+Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f]:44610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhvy4-0002yY-LF
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 11:44:58 -0400
-Received: by mail-qt1-x830.google.com with SMTP id u7so836434qtc.1
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 08:44:56 -0700 (PDT)
+ id 1mhvz3-0003Nd-8j
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 11:45:59 -0400
+Received: by mail-qt1-x82f.google.com with SMTP id j1so12007699qtq.11
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 08:45:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dna/UH4yg89my5SsQkkPpca8BrkzXNFTI/oIwKQLjBU=;
- b=cY9ZEriJpfQrcElN/HX++JiLgLgt9ztNdUQLpm3As5yu2dV6wq0icYJ7Rv4Cxe/bUX
- 2h4bqqzlCtgqd/dIqXtwMZXxUFJNAMem8LPKn0fddYDa3uP3FUgi8WFAbq6rESjbPkhI
- tNtGhNv4kU6fWOGOBDL5bzQIikIw7WHnyC18NnlUxIWRp/YsWOeBKOP5Ie90hA5CQ5xS
- DFziGpwtM+wGaD+EIoIG+ZjPtbomc1T78ylkc6J1DaLvWa0uEjjzpaLSEE5k7qjgsCLf
- kVUjjKiUs4D2zbPvQfcObYD+gK4uLKB1NgyuFGpKq1fA2I9UiL57eEJwuVk/ofJ4mDTL
- S1JA==
+ bh=oBZS+B5OI/pNOurVNUNmHTLzU1LJ6vGeGI0SMtDtTqA=;
+ b=ZxvXyZ8G6um96czYq5NWq0JwiA0h3KQZiPg6jRZHGNFHRPslxY+VDPyuTaCEHNUULy
+ +pkbJHwaI9jQjaIW8qRyVebYqe2MOnXFruS8bmWxt5KLy3IZ+0AFirfA/DLeUcEl4HIX
+ TRgpSA0mp0MdbHJSKO7qkEMITA6Dw2dfICBp3n7qqNf/sBb+gB8edfdhV911nOhAOwHH
+ B6snqjnx7hhz3hn1quZHjYRnFA8fZTSIRSu4V/8qL24ItahLZWErZc2Foql8ePgzC/Vz
+ +nYzVDZGlH30T0pNHhnmKVJBhUCmIs7aHmo7nDOe0zezTbMGPCuSmMyaFmLIFYCq83rR
+ pJPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=dna/UH4yg89my5SsQkkPpca8BrkzXNFTI/oIwKQLjBU=;
- b=b7pVMJcUNJ3ggs2q3mUkBKb1ot5tmLZU5oUXv+t9i/de4EHrQa9DYpSyspMTI1IuVk
- c5NFiucIC7PmzUdCi3wIJBZG9Ogxuz+WgE1Y7dxnT7i5VMQRcfWXFeefnNyumZ5Y3KzA
- frzT8KBMUPAsoAVvmMLmZce1sokQH5TXVJuTwD2N1h1YzO8N3nF0QtiBJcqbyzt6rs9o
- Lv4RHoiDOkq5+H8GOxYm4vwENd9Vd6ogfFL4l/727Y6TEINKozOkrBaEERrXCZHjW/o1
- uIF5YTV7SgOx2eMjhd1sL6CyQHh9Q5g+6VIM37ZWOl/b4hPiNTNR3UVl4daibT7Mc1h7
- 6Brw==
-X-Gm-Message-State: AOAM5320vMnEHreEMm6yk3zESbH3j6QlH4HiN+3PmrHpATMPq1FNGmTI
- dXI3tfnf5reFMJyUYvoBPTyjUg==
-X-Google-Smtp-Source: ABdhPJzFAly6i05tDQoaCmIQ4EbU/t3UlL1J9UYrevMWMhKziW5qNLUYdOcUggOurys/hhBh+0pAKw==
-X-Received: by 2002:ac8:7d89:: with SMTP id c9mr29660413qtd.88.1635867895502; 
- Tue, 02 Nov 2021 08:44:55 -0700 (PDT)
+ bh=oBZS+B5OI/pNOurVNUNmHTLzU1LJ6vGeGI0SMtDtTqA=;
+ b=fvic2XX+fVG4kudnFlTcNJ8FLKsWUHSxoBh3j5oaPkzdwe+nHR2/jAIrdGb2vB5jA/
+ iQXSO7Ed6LHSgZjCjGKayG9VeuFEVO7+P+hGX8IZ3d2xJwmBiMjccNy6jSpc3O9ecqz3
+ zOX4/ktdGfZf8Im8byxn1Lk34qfaxpJUtQUgPr7srougDUWwMefKzX4yQUU1fptNj50T
+ Ygjj3bbvvvwrpedXs1kAjEveGRAV34TSfKxQ2nuBGTNSRzkHaQud/awX1d9nUR41ihOR
+ TFKxhAjQLfUarAZJwLGKn300JtJi4pE0rdJGe+8suxp4LtEldPFzPt/2Gtn3hYlZnM1q
+ ldMA==
+X-Gm-Message-State: AOAM532in8ck/e/0e+uug6B5RDXt8YIX9Qo3hliw9GIuLKwFavUjqQpe
+ 2dqhogFPa5mguxVCxCg3Mk1tcQ==
+X-Google-Smtp-Source: ABdhPJx7asEmjavQwNXvLHtTNJJ4FS8uJKsNMq8MaQoG0lRsFCuUBJcFIhC2E0gsV2D1s47hX+9AHg==
+X-Received: by 2002:ac8:7f11:: with SMTP id f17mr31747889qtk.389.1635867956240; 
+ Tue, 02 Nov 2021 08:45:56 -0700 (PDT)
 Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
  [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id d18sm2569175qtb.70.2021.11.02.08.44.54
+ by smtp.gmail.com with ESMTPSA id y8sm12807287qko.36.2021.11.02.08.45.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Nov 2021 08:44:55 -0700 (PDT)
-Subject: Re: [RFC 2/6] target/riscv: rvk: add implementation of instructions
- for Zbk* - reuse partial instructions of Zbb/Zbc extensions - add brev8
- packh, unzip, zip, etc.
-To: liweiwei <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-References: <20211102031128.17296-1-liweiwei@iscas.ac.cn>
- <20211102031128.17296-3-liweiwei@iscas.ac.cn>
+ Tue, 02 Nov 2021 08:45:55 -0700 (PDT)
+Subject: Re: [PULL 00/20] Migration 20211031 patches
+To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+References: <20211101220912.10039-1-quintela@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5523b929-316e-a119-af1a-2a4aba4ee86d@linaro.org>
-Date: Tue, 2 Nov 2021 11:44:53 -0400
+Message-ID: <709cabc0-95c3-27dd-e2ae-8834fc7b36b3@linaro.org>
+Date: Tue, 2 Nov 2021 11:45:53 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211102031128.17296-3-liweiwei@iscas.ac.cn>
+In-Reply-To: <20211101220912.10039-1-quintela@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x830.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82f.google.com
 X-Spam_score_int: -45
 X-Spam_score: -4.6
 X-Spam_bar: ----
@@ -92,166 +87,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, luruibo2000@163.com,
- lustrew@foxmail.com
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ David Hildenbrand <david@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Paul Durrant <paul@xen.org>, Markus Armbruster <armbru@redhat.com>,
+ Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/1/21 11:11 PM, liweiwei wrote:
-> Signed-off-by: liweiwei <liweiwei@iscas.ac.cn>
-> Signed-off-by: wangjunqiang <wangjunqiang@iscas.ac.cn>
+On 11/1/21 6:08 PM, Juan Quintela wrote:
+> The following changes since commit af531756d25541a1b3b3d9a14e72e7fedd941a2e:
+> 
+>    Merge remote-tracking branch 'remotes/philmd/tags/renesas-20211030' into staging (2021-10-30 11:31:41 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/juanquintela/qemu.git tags/migration-20211031-pull-request
+> 
+> for you to fetch changes up to 826b8bc80cb191557a4ce7cf0e155b436d2d1afa:
+> 
+>    migration/dirtyrate: implement dirty-bitmap dirtyrate calculation (2021-11-01 22:56:44 +0100)
+> 
+> ----------------------------------------------------------------
+> Migration Pull request
+> 
+> Hi
+> 
+> this includes pending bits of migration patches.
+> 
+> - virtio-mem support by David Hildenbrand
+> - dirtyrate improvements by Hyman Huang
+> - fix rdma wrid by Li Zhijian
+> - dump-guest-memory fixes by Peter Xu
+> 
+> Pleas apply.
+> 
+> Thanks, Juan.
+> 
+> ----------------------------------------------------------------
+> 
+> David Hildenbrand (8):
+>    memory: Introduce replay_discarded callback for RamDiscardManager
+>    virtio-mem: Implement replay_discarded RamDiscardManager callback
+>    migration/ram: Handle RAMBlocks with a RamDiscardManager on the
+>      migration source
+>    virtio-mem: Drop precopy notifier
+>    migration/postcopy: Handle RAMBlocks with a RamDiscardManager on the
+>      destination
+>    migration: Simplify alignment and alignment checks
+>    migration/ram: Factor out populating pages readable in
+>      ram_block_populate_pages()
+>    migration/ram: Handle RAMBlocks with a RamDiscardManager on background
+>      snapshots
+> 
+> Hyman Huang(é»„å‹‡) (6):
+>    KVM: introduce dirty_pages and kvm_dirty_ring_enabled
+>    memory: make global_dirty_tracking a bitmask
+>    migration/dirtyrate: introduce struct and adjust DirtyRateStat
+>    migration/dirtyrate: adjust order of registering thread
+>    migration/dirtyrate: move init step of calculation to main thread
+>    migration/dirtyrate: implement dirty-ring dirtyrate calculation
+> 
+> Hyman Huang(黄勇) (2):
+>    memory: introduce total_dirty_pages to stat dirty pages
+>    migration/dirtyrate: implement dirty-bitmap dirtyrate calculation
+> 
+> Li Zhijian (1):
+>    migration/rdma: Fix out of order wrid
+> 
+> Peter Xu (3):
+>    migration: Make migration blocker work for snapshots too
+>    migration: Add migrate_add_blocker_internal()
+>    dump-guest-memory: Block live migration
+> 
+>   qapi/migration.json            |  48 ++++-
+>   include/exec/memory.h          |  41 +++-
+>   include/exec/ram_addr.h        |  13 +-
+>   include/hw/core/cpu.h          |   1 +
+>   include/hw/virtio/virtio-mem.h |   3 -
+>   include/migration/blocker.h    |  16 ++
+>   include/sysemu/kvm.h           |   1 +
+>   migration/dirtyrate.h          |  21 +-
+>   migration/ram.h                |   1 +
+>   accel/kvm/kvm-all.c            |   7 +
+>   accel/stubs/kvm-stub.c         |   5 +
+>   dump/dump.c                    |  19 ++
+>   hw/i386/xen/xen-hvm.c          |   4 +-
+>   hw/virtio/virtio-mem.c         |  92 ++++++---
+>   migration/dirtyrate.c          | 367 ++++++++++++++++++++++++++++++---
+>   migration/migration.c          |  30 +--
+>   migration/postcopy-ram.c       |  40 +++-
+>   migration/ram.c                | 180 ++++++++++++++--
+>   migration/rdma.c               | 138 +++++++++----
+>   softmmu/memory.c               |  43 +++-
+>   hmp-commands.hx                |   8 +-
+>   migration/trace-events         |   2 +
+>   softmmu/trace-events           |   1 +
+>   23 files changed, 909 insertions(+), 172 deletions(-)
 
-You managed to get the whole patch description into the subject line.
-Please break it up.
-
-> +target_ulong HELPER(grev)(target_ulong rs1, target_ulong rs2)
-> +{
-> +    return do_grev(rs1, rs2, TARGET_LONG_BITS);
-> +}
-
-Are we expecting to see the full grev instruction at any point?  If not, we can certainly 
-implement Zbk with a simpler implementation.
-
-> +target_ulong HELPER(xperm)(target_ulong rs1, target_ulong rs2, uint32_t sz_log2)
-> +{
-> +    target_ulong r = 0;
-> +    target_ulong sz = 1LL << sz_log2;
-> +    target_ulong mask = (1LL << sz) - 1;
-> +    for (int i = 0; i < TARGET_LONG_BITS; i += sz) {
-> +        target_ulong pos = ((rs2 >> i) & mask) << sz_log2;
-> +        if (pos < sizeof(target_ulong) * 8) {
-> +            r |= ((rs1 >> pos) & mask) << i;
-> +        }
-> +    }
-> +    return r;
-> +}
-
-This could become a static inline do_xperm, and provide two specific xperm4 and xperm8 
-helpers; the compiler would fold all of the sz_log2 stuff into a more efficient 
-implementation.
-
-> +target_ulong HELPER(unshfl)(target_ulong rs1,
-> +                            target_ulong rs2)
-> +{
-> +    target_ulong x = rs1;
-> +    int i, shift;
-> +    int bits = TARGET_LONG_BITS >> 1;
-> +    for (i = 0, shift = 1; shift < bits; i++, shift <<= 1) {
-> +        if (rs2 & shift) {
-> +            x = do_shuf_stage(x, shuf_masks[i], shuf_masks[i] >> shift, shift);
-> +        }
-> +    }
-> +    return x;
-> +}
-> +
-> +target_ulong HELPER(shfl)(target_ulong rs1,
-> +                          target_ulong rs2)
-> +{
-> +    target_ulong x = rs1;
-> +    int i, shift;
-> +    shift = TARGET_LONG_BITS >> 2;
-> +    i = (shift == 8) ? 3 : 4;
-> +    for (; i >= 0; i--, shift >>= 1) {
-> +        if (rs2 & shift) {
-> +            x = do_shuf_stage(x, shuf_masks[i], shuf_masks[i] >> shift, shift);
-> +        }
-> +    }
-> +    return x;
-> +}
-
-Similar comment as for grev.
-
-> +# The encoding for zext.h differs between RV32 and RV64.
-> +# zext_h_32 denotes the RV32 variant.
-> +{
-> +  zext_h_32  0000100 00000 ..... 100 ..... 0110011 @r2
-> +  pack       0000100 ..... ..... 100 ..... 0110011 @r
-> +}
-
-Note to self: improve tcg_gen_deposit to notice zeros, so that the more general pack 
-compiles to zero-extension.
-
-> @@ -556,6 +563,81 @@ static bool gen_unary_per_ol(DisasContext *ctx, arg_r2 *a, DisasExtend ext,
->       return gen_unary(ctx, a, ext, f_tl);
->   }
->   
-> +static bool gen_xperm(DisasContext *ctx, arg_r *a, int32_t size)
-> +{
-> +    TCGv dest = dest_gpr(ctx, a->rd);
-> +    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
-> +    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
-> +
-> +    TCGv_i32 sz = tcg_const_i32(size);
-> +    gen_helper_xperm(dest, src1, src2, sz);
-> +
-> +    gen_set_gpr(ctx, a->rd, dest);
-> +    tcg_temp_free_i32(sz);
-> +    return true;
-> +}
-> +
-> +static bool gen_grevi(DisasContext *ctx, arg_r2 *a, int shamt)
-> +{
-> +    TCGv dest = dest_gpr(ctx, a->rd);
-> +    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
-> +
-> +    if (shamt == (TARGET_LONG_BITS - 8)) {
-> +        /* rev8, byte swaps */
-> +        tcg_gen_bswap_tl(dest, src1);
-> +    } else {
-> +        TCGv src2 = tcg_temp_new();
-> +        tcg_gen_movi_tl(src2, shamt);
-> +        gen_helper_grev(dest, src1, src2);
-> +        tcg_temp_free(src2);
-> +    }
-> +
-> +    gen_set_gpr(ctx, a->rd, dest);
-> +    return true;
-> +}
-> +
-> +static void gen_pack(TCGv ret, TCGv src1, TCGv src2)
-> +{
-> +    tcg_gen_deposit_tl(ret, src1, src2,
-> +                       TARGET_LONG_BITS / 2,
-> +                       TARGET_LONG_BITS / 2);
-> +}
-> +
-> +static void gen_packh(TCGv ret, TCGv src1, TCGv src2)
-> +{
-> +    TCGv t = tcg_temp_new();
-> +    tcg_gen_ext8u_tl(t, src2);
-> +    tcg_gen_deposit_tl(ret, src1, t, 8, TARGET_LONG_BITS - 8);
-> +    tcg_temp_free(t);
-> +}
-> +
-> +static void gen_packw(TCGv ret, TCGv src1, TCGv src2)
-> +{
-> +    TCGv t = tcg_temp_new();
-> +    tcg_gen_ext16s_tl(t, src2);
-> +    tcg_gen_deposit_tl(ret, src1, t, 16, 48);
-> +    tcg_temp_free(t);
-> +}
-> +
-> +static bool gen_shufi(DisasContext *ctx, arg_r2 *a, int shamt,
-> +                       void(*func)(TCGv, TCGv, TCGv))
-> +{
-> +    if (shamt >= TARGET_LONG_BITS / 2) {
-> +        return false;
-> +    }
-> +
-> +    TCGv dest = dest_gpr(ctx, a->rd);
-> +    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
-> +    TCGv src2 = tcg_temp_new();
-> +
-> +    tcg_gen_movi_tl(src2, shamt);
-> +    (*func)(dest, src1, src2);
-> +
-> +    gen_set_gpr(ctx, a->rd, dest);
-> +    tcg_temp_free(src2);
-> +    return true;
-> +}
-
-All of the gen functions belong in insn_trans/trans_rvb.c.inc.
-
+Applied, thanks.
 
 r~
+
 
