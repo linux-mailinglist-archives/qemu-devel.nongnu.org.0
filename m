@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 277D14429A7
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 09:39:59 +0100 (CET)
-Received: from localhost ([::1]:32878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0043C4429C5
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 09:45:15 +0100 (CET)
+Received: from localhost ([::1]:43664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhpKo-00033m-6h
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 04:39:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58230)
+	id 1mhpPv-00021C-4l
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 04:45:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mhpJ2-0001zD-FO
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 04:38:08 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:56203)
+ id 1mhpNO-00067j-0o
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 04:42:38 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:36640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mhpJ0-000214-Ea
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 04:38:08 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id v127so14900042wme.5
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 01:38:06 -0700 (PDT)
+ id 1mhpNM-0007Us-5S
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 04:42:37 -0400
+Received: by mail-wr1-x432.google.com with SMTP id s13so24874635wrb.3
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 01:42:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=BVP2S75eoU4XoUHZTuEL7Ws/+vPyQwpN4pIg5tPMXUo=;
- b=R93dQ73dhtkbwrg6HNLD7Sd9LEmgLUpwpDhbDz6gleCIsYsAgKOLb+/Xq3mblmNrIw
- vRqO7eMiO13hc+YuuYnanxppWPp2TYgbXZuG2YRJSZ8l64AuPeAY35p9YkkqNwfJjmfU
- 1ADUKYKCHgOhUgyHKb9mOFp6BJ2/MGzxZHybngMX11K3LcYwETMG7HRX5px7F1rzTtvC
- S/U7DC/QHHcuCk6NCCFKmNyb0fcDmjOzgmsBNqwpMzGXAUwZdOccwJmzgUnKx725uZEa
- J+NO/pCg2geHB5XcCaPlqV1cuTfaHkOk5a476/JFzxIgDmzgy0kq40fxfGv2gAUGwWjP
- 8R2g==
+ bh=Dm3GqT3SJZPWPjw3h3+2ovZPrJeMfeOd8aivOZrdKOs=;
+ b=Xy95j9MxeIxADm3/il6AsDwW3hX4lk/GjqHKzpm9KNAny8c3XJNOvX7wRCXdWOwiBP
+ K3Tu8inbsDkfOPzBWYBU8fTXl3jc1Bg6uVQGK/FC+JlxfSsm5+aLiBTPHwLLo8uN0LIv
+ Z+8gAc+A8rgoyxtxGNBGU6aAYVUPVBNkGZTvlwWwC3FkzmpSevNB5aoSR8NAdEgbkaBg
+ 084S7tFXhHUChkIk1gbJd+tZIowaIEsnQ5bmPOtj7WUUReJs2GY3eazSxBipNlehzkPQ
+ DVKh4lV0i9lzy1dXbJrPYLs8itT6KPvwzvoKE7WOafjpeBxcbCcm/bxTUGsCC8mU35T7
+ 2uuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=BVP2S75eoU4XoUHZTuEL7Ws/+vPyQwpN4pIg5tPMXUo=;
- b=quN/ZOnTXRhKl3YIqnPTAotuoFVa0LG8mZHrnc0a9hBXh8vNBQVAC0ulo4dLRCaAmZ
- Vh/rcCZVIQXyPq/UgyN4qJZCToYHoXW0Wsd5ZdGMwCXx7rC+h+QySkot6wDiyTGpiAV0
- 6Ftiif/kFzIeP7+AhfnttlyZzl/wgZyKSyAPidzvq+5GK9NhXyKYThBT3oOWTz4UO0Nd
- 7yT6V6qQpKtWu8xNX4ANPKHljQaHM/UB/GZpMORj0q5iGBPRN6Kn8K6xhccAw8LgACS9
- TYTi1u6fR40kLbwGBADGJISR3SdaFm9CzUfcWBcEGxBNDBSebIzsj2M4rqK+ZzrZkr/Y
- 8ujg==
-X-Gm-Message-State: AOAM5334daCTQkixj5a/ELSgcmDJ8ApddBGgJdDi6nIP4Q3UOKcSLeYO
- J/iNiy6F0P1Yea6TiV2kuaw=
-X-Google-Smtp-Source: ABdhPJyQg48XZ7kxDHL7uY2zuOEwYnBiRzAqhxkpKKc9y30AoRAFA1KsE6qnSqG2zbvI0PysyilLag==
-X-Received: by 2002:a05:600c:c1:: with SMTP id
- u1mr5166849wmm.163.1635842284906; 
- Tue, 02 Nov 2021 01:38:04 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id x13sm12623241wrr.47.2021.11.02.01.38.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Nov 2021 01:38:04 -0700 (PDT)
-Message-ID: <bdc9d879-dbe7-dc48-7bf5-4d150996174a@amsat.org>
-Date: Tue, 2 Nov 2021 09:38:02 +0100
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Dm3GqT3SJZPWPjw3h3+2ovZPrJeMfeOd8aivOZrdKOs=;
+ b=Igds1Q/wWGOrffL6YZk4FJ4giybj2xsUBPFhpmwHe3qqOozo8hZjg12NSoSXphvS+s
+ OG4Nn/JPQgn16xu8GTvMPrj5DnlzW3IAejZ9ixzNhTL/5dG75FQQZOfqshnQ9znQDPIC
+ KNtEebRUtdWaskUkCfFvKOcDn8maY7CDkXl5T4rzQknQXzvdEkgucfbOa3zS1ar1sNTu
+ qKvmD+lUMLY9+Ts21MEMOs/GF23gMTWButAz8DxtidWtj8AcVLhL7TxNTZqZAJ0WLJOz
+ Htbfijxr92RePW0tvoGG4gBjz/4othnFAQq7FVJYe7ydWa05w7dBbJtYs1oVeBPAs5VE
+ aNhQ==
+X-Gm-Message-State: AOAM530zbs+q1Rdmq4OJm4mIkfhPmUCSjziXweXJmwNT22Z24GVpbVw+
+ rVa80c4dadceFi/YDOzL/HOy+CwCgWc=
+X-Google-Smtp-Source: ABdhPJyv30tH3/nPkLz8EgtdLCYZyhiSeurTQnsmxMAKrqskted6DhhXgPWhYDZTsrRzndNPFTMN7g==
+X-Received: by 2002:a5d:6508:: with SMTP id x8mr20124195wru.388.1635842554470; 
+ Tue, 02 Nov 2021 01:42:34 -0700 (PDT)
+Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id
+ i3sm2154514wmq.18.2021.11.02.01.42.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Nov 2021 01:42:33 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/6] tests/acceptance: Add bFLT loader linux-user test
+Date: Tue,  2 Nov 2021 09:42:26 +0100
+Message-Id: <20211102084232.2965062-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v8 02/29] target/loongarch: Add core definition
-Content-Language: en-US
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <1635760311-20015-1-git-send-email-gaosong@loongson.cn>
- <1635760311-20015-3-git-send-email-gaosong@loongson.cn>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <1635760311-20015-3-git-send-email-gaosong@loongson.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.14,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,138 +83,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, i.qemu@xen0n.name,
- richard.henderson@linaro.org, laurent@vivier.eu, peterx@redhat.com,
- f4bug@amsat.org, yangxiaojuan@loongson.cn, alistair.francis@wdc.com,
- maobibo@loongson.cn, pbonzini@redhat.com, bmeng.cn@gmail.com,
- alex.bennee@linaro.org, chenhuacai@loongson.cn
+Cc: Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Warner Losh <imp@bsdimp.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/1/21 10:51, Song Gao wrote:
-> This patch adds target state header, target definitions
-> and initialization routines.
-> 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-> ---
->  target/loongarch/cpu-param.h |  19 +++
->  target/loongarch/cpu.c       | 352 +++++++++++++++++++++++++++++++++++++++++++
->  target/loongarch/cpu.h       | 254 +++++++++++++++++++++++++++++++
->  target/loongarch/internals.h |  22 +++
->  4 files changed, 647 insertions(+)
->  create mode 100644 target/loongarch/cpu-param.h
->  create mode 100644 target/loongarch/cpu.c
->  create mode 100644 target/loongarch/cpu.h
->  create mode 100644 target/loongarch/internals.h
-
-> diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-
-> +static void set_loongarch_cpucfg(CPULoongArchState *env)
-> +{
-> +    int i;
-> +
-> +    for (i = 0; i < 49; i++) {
-> +        env->cpucfg[i] = 0x0;
-> +    }
-> +
-> +    env->cpucfg[0] = 0x14c010;  /* PRID */
-
-Why do you insist in calling this generically and not
-loongarch_3a5000_initfn()? If you want a generic function,
-why not pass PRID and xtal freq as arguments?
-
-> +
-> +    uint32_t data = 0;
-> +    data = FIELD_DP32(data, CPUCFG1, ARCH, 2);
-> +    data = FIELD_DP32(data, CPUCFG1, PGMMU, 1);
-> +    data = FIELD_DP32(data, CPUCFG1, IOCSR, 1);
-> +    data = FIELD_DP32(data, CPUCFG1, PALEN, 0x2f);
-> +    data = FIELD_DP32(data, CPUCFG1, VALEN, 0x2f);
-> +    data = FIELD_DP32(data, CPUCFG1, UAL, 1);
-> +    data = FIELD_DP32(data, CPUCFG1, RI, 1);
-> +    data = FIELD_DP32(data, CPUCFG1, EP, 1);
-> +    data = FIELD_DP32(data, CPUCFG1, RPLV, 1);
-> +    data = FIELD_DP32(data, CPUCFG1, HP, 1);
-> +    data = FIELD_DP32(data, CPUCFG1, IOCSR_BRD, 1);
-> +    env->cpucfg[1] = data;
-> +
-> +    data = 0;
-> +    data = FIELD_DP32(data, CPUCFG2, FP, 1);
-> +    data = FIELD_DP32(data, CPUCFG2, FP_SP, 1);
-> +    data = FIELD_DP32(data, CPUCFG2, FP_DP, 1);
-> +    data = FIELD_DP32(data, CPUCFG2, FP_VER, 1);
-> +    data = FIELD_DP32(data, CPUCFG2, LSX, 1);
-> +    data = FIELD_DP32(data, CPUCFG2, LASX, 1);
-> +    data = FIELD_DP32(data, CPUCFG2, COMPLEX, 1);
-> +    data = FIELD_DP32(data, CPUCFG2, CRYPTO, 1);
-> +    data = FIELD_DP32(data, CPUCFG2, LLFTP, 1);
-> +    data = FIELD_DP32(data, CPUCFG2, LLFTP_VER, 1);
-> +    data = FIELD_DP32(data, CPUCFG2, LSPW, 1);
-> +    data = FIELD_DP32(data, CPUCFG2, LAM, 1);
-> +    env->cpucfg[2] = data;
-> +
-> +    data = 0;
-> +    data = FIELD_DP32(data, CPUCFG3, CCDMA, 1);
-> +    data = FIELD_DP32(data, CPUCFG3, SFB, 1);
-> +    data = FIELD_DP32(data, CPUCFG3, UCACC, 1);
-> +    data = FIELD_DP32(data, CPUCFG3, LLEXC, 1);
-> +    data = FIELD_DP32(data, CPUCFG3, SCDLY, 1);
-> +    data = FIELD_DP32(data, CPUCFG3, LLDBAR, 1);
-> +    data = FIELD_DP32(data, CPUCFG3, ITLBHMC, 1);
-> +    data = FIELD_DP32(data, CPUCFG3, ICHMC, 1);
-> +    data = FIELD_DP32(data, CPUCFG3, SPW_LVL, 4);
-> +    data = FIELD_DP32(data, CPUCFG3, SPW_HP_HF, 1);
-> +    env->cpucfg[3] = data;
-> +
-> +    env->cpucfg[4] = 0x5f5e100; /* Crystal frequency */
-> +
-> +    data = 0;
-> +    data = FIELD_DP32(data, CPUCFG5, CC_MUL, 1);
-> +    data = FIELD_DP32(data, CPUCFG5, CC_DIV, 1);
-> +    env->cpucfg[5] = data;
-> +
-> +    data = 0;
-> +    data = FIELD_DP32(data, CPUCFG16, L1_IUPRE, 1);
-> +    data = FIELD_DP32(data, CPUCFG16, L1_DPRE, 1);
-> +    data = FIELD_DP32(data, CPUCFG16, L2_IUPRE, 1);
-> +    data = FIELD_DP32(data, CPUCFG16, L2_IUUNIFY, 1);
-> +    data = FIELD_DP32(data, CPUCFG16, L2_IUPRIV, 1);
-> +    data = FIELD_DP32(data, CPUCFG16, L3_IUPRE, 1);
-> +    data = FIELD_DP32(data, CPUCFG16, L3_IUUNIFY, 1);
-> +    data = FIELD_DP32(data, CPUCFG16, L3_IUINCL, 1);
-> +    env->cpucfg[16] = data;
-> +
-> +    data = 0;
-> +    data = FIELD_DP32(data, CPUCFG17, L1IU_WAYS, 0x8003);
-> +    data = FIELD_DP32(data, CPUCFG17, L1IU_SETS, 0x60);
-> +    env->cpucfg[17] =  data;
-> +
-> +    data = 0;
-> +    data = FIELD_DP32(data, CPUCFG18, L1D_WAYS, 0x8003);
-> +    data = FIELD_DP32(data, CPUCFG18, L1D_SETS, 0x60);
-> +    env->cpucfg[18] = data;
-> +
-> +    data = 0;
-> +    data = FIELD_DP32(data, CPUCFG19, L2IU_WAYS, 0x800f);
-> +    data = FIELD_DP32(data, CPUCFG19, L2IU_SETS, 0x60);
-> +    env->cpucfg[19] = data;
-> +
-> +    data = 0;
-> +    data = FIELD_DP32(data, CPUCFG20, L3IU_WAYS, 0xf00f);
-> +    data = FIELD_DP32(data, CPUCFG20, L3IU_SETS, 0x60);
-> +    env->cpucfg[20] = data;
-> +}
-> +
-> +static inline void loongarch_3a5000_initfn(Object *obj)
-
-'inline' is not justified.
-
-> +{
-> +    LoongArchCPU *cpu = LOONGARCH_CPU(obj);
-> +    CPULoongArchState *env = &cpu->env;
-> +
-> +    set_loongarch_cpucfg(env);
-> +}
+Since v4:=0D
+- rebased=0D
+- addressed Willian review comments=0D
+=0D
+Since v3:=0D
+- rebased=0D
+- addressed Wainer review comments from v2=0D
+- rename avocado_qemu.Test -> QemuSystemTest=0D
+=0D
+Since v2:=0D
+- rebased tests/acceptance/avocado_qemu/__init__.py patches=0D
+- extract has_cmd() from virtiofs_submounts.py=0D
+- check cpio availability with has_cmd()=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (6):=0D
+  tests/acceptance: Extract QemuBaseTest from Test=0D
+  tests/acceptance: Make pick_default_qemu_bin() more generic=0D
+  tests/acceptance: Introduce QemuUserTest base class=0D
+  tests/acceptance: Share useful helpers from virtiofs_submounts test=0D
+  tests/acceptance: Add bFLT loader linux-user test=0D
+  tests/acceptance: Rename avocado_qemu.Test -> QemuSystemTest=0D
+=0D
+ docs/devel/testing.rst                       |   8 +-=0D
+ tests/acceptance/avocado_qemu/__init__.py    | 161 ++++++++++++++-----=0D
+ tests/acceptance/boot_linux_console.py       |   4 +-=0D
+ tests/acceptance/cpu_queries.py              |   4 +-=0D
+ tests/acceptance/empty_cpu_model.py          |   4 +-=0D
+ tests/acceptance/info_usernet.py             |   4 +-=0D
+ tests/acceptance/linux_initrd.py             |   4 +-=0D
+ tests/acceptance/linux_ssh_mips_malta.py     |   5 +-=0D
+ tests/acceptance/load_bflt.py                |  54 +++++++=0D
+ tests/acceptance/machine_arm_canona1100.py   |   4 +-=0D
+ tests/acceptance/machine_arm_integratorcp.py |   4 +-=0D
+ tests/acceptance/machine_arm_n8x0.py         |   4 +-=0D
+ tests/acceptance/machine_avr6.py             |   4 +-=0D
+ tests/acceptance/machine_m68k_nextcube.py    |   4 +-=0D
+ tests/acceptance/machine_microblaze.py       |   4 +-=0D
+ tests/acceptance/machine_mips_fuloong2e.py   |   4 +-=0D
+ tests/acceptance/machine_mips_loongson3v.py  |   4 +-=0D
+ tests/acceptance/machine_mips_malta.py       |   4 +-=0D
+ tests/acceptance/machine_rx_gdbsim.py        |   4 +-=0D
+ tests/acceptance/machine_s390_ccw_virtio.py  |   4 +-=0D
+ tests/acceptance/machine_sparc_leon3.py      |   4 +-=0D
+ tests/acceptance/migration.py                |   4 +-=0D
+ tests/acceptance/multiprocess.py             |   4 +-=0D
+ tests/acceptance/pc_cpu_hotplug_props.py     |   4 +-=0D
+ tests/acceptance/ppc_405.py                  |   4 +-=0D
+ tests/acceptance/ppc_bamboo.py               |   4 +-=0D
+ tests/acceptance/ppc_mpc8544ds.py            |   4 +-=0D
+ tests/acceptance/ppc_prep_40p.py             |   4 +-=0D
+ tests/acceptance/ppc_pseries.py              |   4 +-=0D
+ tests/acceptance/ppc_virtex_ml507.py         |   4 +-=0D
+ tests/acceptance/version.py                  |   4 +-=0D
+ tests/acceptance/virtio-gpu.py               |   4 +-=0D
+ tests/acceptance/virtio_check_params.py      |   4 +-=0D
+ tests/acceptance/virtio_version.py           |   4 +-=0D
+ tests/acceptance/virtiofs_submounts.py       |  59 +------=0D
+ tests/acceptance/vnc.py                      |   4 +-=0D
+ tests/acceptance/x86_cpu_model_versions.py   |   4 +-=0D
+ 37 files changed, 248 insertions(+), 167 deletions(-)=0D
+ create mode 100644 tests/acceptance/load_bflt.py=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
