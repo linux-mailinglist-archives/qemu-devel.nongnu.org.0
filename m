@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09A40443069
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:28:58 +0100 (CET)
-Received: from localhost ([::1]:51666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BBE44430AA
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:41:48 +0100 (CET)
+Received: from localhost ([::1]:34726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhumX-0001vF-5g
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:28:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40638)
+	id 1mhuyx-0003Js-I8
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:41:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhuRK-00078m-81
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:07:02 -0400
-Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:37530)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1mhuS0-0000Qj-BB
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:07:45 -0400
+Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:46651)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhuRG-0003Hq-K2
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:07:00 -0400
-Received: by mail-qt1-x82b.google.com with SMTP id o12so8164144qtv.4
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 07:06:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=EBYPzclCaW71iei0tvVtPlQbCecz13BYYYtj4s6xQ6M=;
- b=THHeSa1l8XGQGr4+xyfJ22n5u+eq2ajGcmiaRpIY9TDie0CmwpYsm1LwCjo7r+ZJ0A
- AIHbdvUmaVPwfAMdq59yeAnJBeqsTA6gLKY396m9LyG3y11A3kBH6oV1TSbojo23kERd
- YL56TRPgljCMnc1zViB2v3j8w9mtiKWYX1a9CG6VIfo71LutfZ4s8grnUmBdi5aMTxpn
- Fu5m2aZx7pqHW9vpiENmhb/kga7crCSgW4NB7Hjt/hmVlnYK6+R/fg6GQ0E419eBhStu
- aByU21uTGJu7aH8z2DX/5INur+3yMTiIKWwotvglw1aw2lCLcCyzFuFJwUB7w5U0HyxY
- X09Q==
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1mhuRv-0003Mj-Oy
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:07:43 -0400
+Received: by mail-io1-xd29.google.com with SMTP id i143so1373289ioa.13
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 07:07:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=l6V0W2c76xs63O23tX3vhfV4kcHeEX1s9fXQ89bj7Q8=;
+ b=AsPqOT17cPWwSTWFC/Qg8tYYEQ+6Ia5LxpVpmi2YKYqoGDc1+LHV92e6jIu4sgYkHJ
+ Zp1gKg/VcJJ3MgESA3z38nYgUNEfESy07HV9QcJ30M5izdgRqqVFBV0RPZa/ZwbnwSIg
+ 80wuVxp84tVexhDL/9YhoD5i27hCGCYTsKV+9xZjgWemy0vzIsyes7WMy7aLFBbu+poX
+ a0i9YIk5Noya0r/IrDxhWsiyrrDirFrb1PR8GhlGMsRPwoqcirBl0Q7uSiT8E9kJvnHk
+ haEINo8L9k7f9MskkmTR66v02/LIxBt2/yOuGc9W17kT7/S2zykA9EWs3JZTpxLAjJiH
+ 2mJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=EBYPzclCaW71iei0tvVtPlQbCecz13BYYYtj4s6xQ6M=;
- b=REIDq0c+Mfz5PTNset136P63tjsxf3eNTRFvTUCNq3zgqnvD9GUbJW7vjern3EtG97
- FVcFaTc6vwgRu67Pixvrx8j38Es8gQ+n1gI6I/APxVnFNIHXMgB/n7VnrGM7Ys8B63iC
- DsNK2MV5ebDOPOZ80QcAfNPPyiOTlkvbraz1/ictJtdMxaI8p7cQXV6ceKd6QN3f+OkB
- Ae46VkxO89xWcCOPUrZ3W8sj5BEaPdYcfIcRTkhW9VwstxfOP7okYql+pG+zuy3NM5pe
- iv7uJOM9+gWE8lpaXz66VS3u5sh79AwC4/hre3q3BqgTUqicp92Q8X07NZJmClHU6I5A
- VUYA==
-X-Gm-Message-State: AOAM533QfF1yIG2L1c4gQyGBJDVmI6UVV5EHe54cRXTa2NirfftepEFY
- aN2RmiE3NbUCX4tJKIudQBXrjGVqKU2xIQ==
-X-Google-Smtp-Source: ABdhPJwgbxuEr4bVGrb/VJROJ384w5tUsR0AU599bpmwIAHw0/qnZM1jmE26OeFGuPtXDD7pJ0yCcg==
-X-Received: by 2002:a05:622a:1647:: with SMTP id
- y7mr38454992qtj.370.1635862016112; 
- Tue, 02 Nov 2021 07:06:56 -0700 (PDT)
-Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
- [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id y7sm12933194qtj.39.2021.11.02.07.06.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Nov 2021 07:06:55 -0700 (PDT)
-Subject: Re: [PULL 0/1] qemu-openbios queue 20211101
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- peter.maydell@linaro.org, qemu-devel@nongnu.org
-References: <20211101215636.6141-1-mark.cave-ayland@ilande.co.uk>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f6b79e12-d018-f421-19e1-b81cd6db0d64@linaro.org>
-Date: Tue, 2 Nov 2021 10:06:54 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=l6V0W2c76xs63O23tX3vhfV4kcHeEX1s9fXQ89bj7Q8=;
+ b=PTrkJm0ZwxtPmwjEY3RRNyHQq7mWzJYhJ+z9Q4rmoLU8A6OTIFhsFbYUYd1KUkJmns
+ 8YT4nigZPaqlNCrNXpBlswdTqOFg7XtH/D124cnIbslA62SOZZ9b8iJaHji/6NVddy9j
+ qE0vN3oARv/bO2N/GOXhxKYlfOlw/iastfP2hOEF9lZTH40faPKdmyPMEwvUVTgNWvOk
+ fKs8XFQLhPdLUJd4HGH+jReNI5BE4G4xkWlgaU/qOyAg9Za3qbsw9vCq290ssu78WXPT
+ zlMu4rEXmf88ZhfArHXEXLOphWbH8Lbvgzj9w1OzWhedn4W+l2uXako4bhNmBdxo4Y1Y
+ eN1g==
+X-Gm-Message-State: AOAM533SQfLRPhhottxVNfNWrZeYZ1DlwE/0ZSAG4ehpo5euea3poqW0
+ fVI0le/cP2D1VX06IPXo6m2pLeUx+Reep33HwCQ3GA==
+X-Google-Smtp-Source: ABdhPJyUSeBazosqGq6lPYydjcyhKPjTGnw691zdhysUWCzR5lk5L8gxC0u5z0fLoRz08pQxwyF4f8XX46ZzmgcjZz8=
+X-Received: by 2002:a05:6602:1583:: with SMTP id
+ e3mr2997433iow.112.1635862056538; 
+ Tue, 02 Nov 2021 07:07:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211101215636.6141-1-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82b.google.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.549,
+References: <20211021162956.2772656-1-frank.chang@sifive.com>
+In-Reply-To: <20211021162956.2772656-1-frank.chang@sifive.com>
+From: Frank Chang <frank.chang@sifive.com>
+Date: Tue, 2 Nov 2021 22:07:25 +0800
+Message-ID: <CAE_xrPi_20tt1w-ZaPU5cGRtQ6PQOeeqwaY7uL=ii86e9Z25SA@mail.gmail.com>
+Subject: Re: [PATCH v5 0/8] target/riscv: support Zfh, Zfhmin extension v0.1
+To: "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair23@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000c82e2805cfced03a"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=frank.chang@sifive.com; helo=mail-io1-xd29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,35 +82,189 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/1/21 5:56 PM, Mark Cave-Ayland wrote:
-> The following changes since commit af531756d25541a1b3b3d9a14e72e7fedd941a2e:
-> 
->    Merge remote-tracking branch 'remotes/philmd/tags/renesas-20211030' into staging (2021-10-30 11:31:41 -0700)
-> 
-> are available in the Git repository at:
-> 
->    git://github.com/mcayland/qemu.git tags/qemu-openbios-20211101
-> 
-> for you to fetch changes up to 97a5b35c17f4bcddc7b550ac1f4d7e39f100aec1:
-> 
->    roms/openbios: update OpenBIOS images to b9062dea built from submodule (2021-11-01 21:50:52 +0000)
-> 
-> ----------------------------------------------------------------
-> qemu-openbios queue
-> 
-> ----------------------------------------------------------------
-> Mark Cave-Ayland (1):
->        roms/openbios: update OpenBIOS images to b9062dea built from submodule
-> 
->   pc-bios/openbios-ppc     | Bin 696912 -> 696912 bytes
->   pc-bios/openbios-sparc32 | Bin 382048 -> 382048 bytes
->   pc-bios/openbios-sparc64 | Bin 1593408 -> 1593408 bytes
->   roms/openbios            |   2 +-
->   4 files changed, 1 insertion(+), 1 deletion(-)
+--000000000000c82e2805cfced03a
+Content-Type: text/plain; charset="UTF-8"
 
-Applied, thanks.
-Please update the wiki for changes in 6.2.
+On Fri, Oct 22, 2021 at 12:30 AM <frank.chang@sifive.com> wrote:
 
+> From: Frank Chang <frank.chang@sifive.com>
+>
+> Zfh - Half width floating point
+> Zfhmin - Subset of half width floating point
+>
+> Zfh, Zfhmin v0.1 is now in public review period and is required by
+> RVV extension:
+>
+> https://groups.google.com/a/groups.riscv.org/g/isa-dev/c/63gDCinXTwE/m/871Wm9XIBQAJ
+>
+> Zfh, Zfhmin can be enabled with -cpu option: Zfh=true and Zfhmin=true
+> respectively.
+>
+> The port is available at:
+> https://github.com/sifive/qemu/tree/zfh-upstream-v5
+>
+> Note: This patchset depends on another patchset listed in Based-on
+>       section below so it is not able to be built unless the patchset
+>       is applied.
+>
+> Changelog:
+>
+> v5:
+>   * Rebase on riscv-to-apply.next.
+>
+> v4:
+>   * Spilt Zfh, Zfhmin cpu properties related changes into individual
+>     patches.
+>
+> v3:
+>   * Use the renamed softfloat min/max APIs: *_minimum_number()
+>     and *_maximum_number().
+>   * Pick softfloat min/max APIs based on CPU privilege spec version.
+>   * Add braces for if statements in REQUIRE_ZFH() and
+>     REQUIRE_ZFH_OR_ZFHMIN().
+>   * Rearrange the positions of Zfh and Zfhmin cpu properties.
+>
+> v2:
+>   * Use {get,dest}_gpr APIs.
+>   * Add Zfhmin extension.
+>
+> Based-on: <20211021160847.2748577-1-frank.chang@sifive.com>
+>
+> Frank Chang (3):
+>   target/riscv: zfh: add Zfh cpu property
+>   target/riscv: zfh: implement zfhmin extension
+>   target/riscv: zfh: add Zfhmin cpu property
+>
+> Kito Cheng (5):
+>   target/riscv: zfh: half-precision load and store
+>   target/riscv: zfh: half-precision computational
+>   target/riscv: zfh: half-precision convert and move
+>   target/riscv: zfh: half-precision floating-point compare
+>   target/riscv: zfh: half-precision floating-point classify
+>
+>  target/riscv/cpu.c                        |   2 +
+>  target/riscv/cpu.h                        |   2 +
+>  target/riscv/fpu_helper.c                 | 180 ++++++++
+>  target/riscv/helper.h                     |  29 ++
+>  target/riscv/insn32.decode                |  38 ++
+>  target/riscv/insn_trans/trans_rvzfh.c.inc | 537 ++++++++++++++++++++++
+>  target/riscv/internals.h                  |  16 +
+>  target/riscv/translate.c                  |  20 +
+>  8 files changed, 824 insertions(+)
+>  create mode 100644 target/riscv/insn_trans/trans_rvzfh.c.inc
+>
+> --
+> 2.25.1
+>
+>
+Hi Alistair,
 
-r~
+Is this one able to be merged to v6.2.0 as the soft feature freeze is due
+today (2021-11-02).
+I think this series has gotten all Reviewed-by.
+
+Thanks,
+Frank Chang
+
+--000000000000c82e2805cfced03a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Fri, Oct 22, 2021 at 12:30 AM &lt;<a h=
+ref=3D"mailto:frank.chang@sifive.com" target=3D"_blank">frank.chang@sifive.=
+com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">From: Frank Chang &lt;<a href=3D"mailto:frank=
+.chang@sifive.com" target=3D"_blank">frank.chang@sifive.com</a>&gt;<br>
+<br>
+Zfh - Half width floating point<br>
+Zfhmin - Subset of half width floating point<br>
+<br>
+Zfh, Zfhmin v0.1 is now in public review period and is required by<br>
+RVV extension:<br>
+<a href=3D"https://groups.google.com/a/groups.riscv.org/g/isa-dev/c/63gDCin=
+XTwE/m/871Wm9XIBQAJ" rel=3D"noreferrer" target=3D"_blank">https://groups.go=
+ogle.com/a/groups.riscv.org/g/isa-dev/c/63gDCinXTwE/m/871Wm9XIBQAJ</a><br>
+<br>
+Zfh, Zfhmin can be enabled with -cpu option: Zfh=3Dtrue and Zfhmin=3Dtrue<b=
+r>
+respectively.<br>
+<br>
+The port is available at:<br>
+<a href=3D"https://github.com/sifive/qemu/tree/zfh-upstream-v5" rel=3D"nore=
+ferrer" target=3D"_blank">https://github.com/sifive/qemu/tree/zfh-upstream-=
+v5</a><br>
+<br>
+Note: This patchset depends on another patchset listed in Based-on<br>
+=C2=A0 =C2=A0 =C2=A0 section below so it is not able to be built unless the=
+ patchset<br>
+=C2=A0 =C2=A0 =C2=A0 is applied.<br>
+<br>
+Changelog:<br>
+<br>
+v5:<br>
+=C2=A0 * Rebase on riscv-to-apply.next.<br>
+<br>
+v4:<br>
+=C2=A0 * Spilt Zfh, Zfhmin cpu properties related changes into individual<b=
+r>
+=C2=A0 =C2=A0 patches.<br>
+<br>
+v3:<br>
+=C2=A0 * Use the renamed softfloat min/max APIs: *_minimum_number()<br>
+=C2=A0 =C2=A0 and *_maximum_number().<br>
+=C2=A0 * Pick softfloat min/max APIs based on CPU privilege spec version.<b=
+r>
+=C2=A0 * Add braces for if statements in REQUIRE_ZFH() and<br>
+=C2=A0 =C2=A0 REQUIRE_ZFH_OR_ZFHMIN().<br>
+=C2=A0 * Rearrange the positions of Zfh and Zfhmin cpu properties.<br>
+<br>
+v2:<br>
+=C2=A0 * Use {get,dest}_gpr APIs.<br>
+=C2=A0 * Add Zfhmin extension.<br>
+<br>
+Based-on: &lt;<a href=3D"mailto:20211021160847.2748577-1-frank.chang@sifive=
+.com" target=3D"_blank">20211021160847.2748577-1-frank.chang@sifive.com</a>=
+&gt;<br>
+<br>
+Frank Chang (3):<br>
+=C2=A0 target/riscv: zfh: add Zfh cpu property<br>
+=C2=A0 target/riscv: zfh: implement zfhmin extension<br>
+=C2=A0 target/riscv: zfh: add Zfhmin cpu property<br>
+<br>
+Kito Cheng (5):<br>
+=C2=A0 target/riscv: zfh: half-precision load and store<br>
+=C2=A0 target/riscv: zfh: half-precision computational<br>
+=C2=A0 target/riscv: zfh: half-precision convert and move<br>
+=C2=A0 target/riscv: zfh: half-precision floating-point compare<br>
+=C2=A0 target/riscv: zfh: half-precision floating-point classify<br>
+<br>
+=C2=A0target/riscv/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +<br>
+=C2=A0target/riscv/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +<br>
+=C2=A0target/riscv/fpu_helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0| 180 ++++++++<br>
+=C2=A0target/riscv/helper.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 29 ++<br>
+=C2=A0target/riscv/insn32.decode=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 38 ++<br>
+=C2=A0target/riscv/insn_trans/trans_rvzfh.c.inc | 537 +++++++++++++++++++++=
++<br>
+=C2=A0target/riscv/internals.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 |=C2=A0 16 +<br>
+=C2=A0target/riscv/translate.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 |=C2=A0 20 +<br>
+=C2=A08 files changed, 824 insertions(+)<br>
+=C2=A0create mode 100644 target/riscv/insn_trans/trans_rvzfh.c.inc<br>
+<br>
+--<br>
+2.25.1<br>
+<br></blockquote><div><br></div><div>Hi Alistair,</div><div><br></div><div>=
+Is this one able to be merged to v6.2.0 as the soft feature freeze is due t=
+oday (2021-11-02).</div><div>I think this series has gotten all Reviewed-by=
+.</div><div><br></div><div>Thanks,</div><div>Frank Chang=C2=A0<br></div></d=
+iv></div>
+
+--000000000000c82e2805cfced03a--
 
