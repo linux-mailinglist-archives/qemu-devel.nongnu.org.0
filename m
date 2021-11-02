@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2286442B4D
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 11:04:15 +0100 (CET)
-Received: from localhost ([::1]:45940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1E99442B5E
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 11:08:29 +0100 (CET)
+Received: from localhost ([::1]:49374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhqeM-0004j0-Hl
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 06:04:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54544)
+	id 1mhqiS-0006lW-Qq
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 06:08:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhqdP-0003R5-EP
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:03:15 -0400
-Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:34756)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhqdM-0007dB-U2
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:03:15 -0400
-Received: by mail-qt1-x833.google.com with SMTP id v17so18355813qtp.1
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 03:03:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=H3rgNfkRORT9RVV7KgvRugFcAPq1l0XVhDNjnInePpg=;
- b=ZVvS+LxU4vI0Lh9Yb0odhYFl3Se6XvKvEi4Bx64hBxAmqGRrPI0XPx1KqaQkPqdp5s
- Otm14KQOODOKprcpAuJdUWJxLbOWdkDkiQ3Sp8XxZNzUvk/WTgnYP06A5EMWPLNYdh4s
- fN+GTTKYGZPjiDZyKZKLVV0vpI+tLAlUVMbEZyx4Oi4/JjnW/hAZrvL3HGAuHxi6YtCl
- Wp2FiAJVZlZ06pFLnYzRoC+ScZBaIFQP+7kno33jjphbj3hYIzDOW8Q/UkT1NJ1+n4I/
- q6+Mi8UUvUUVD+Cf+rAL6QYA2bNdjPfFdDO+j4IJ9Pl5nJDEkOPMrzNsOplv0NSvZFn6
- bnnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=H3rgNfkRORT9RVV7KgvRugFcAPq1l0XVhDNjnInePpg=;
- b=Gf5vEpHvqy+W2P4HtQYEyWPoIWwsa+VqnkV3QpIkSXkUYzJ42iubzfd9UKQj6LknnJ
- 1A+dX0GnPq900z7htDui9xmeC4E+XvmAA9opsKW5MEc9ilKbunS8denv3y/1T0syUDzr
- x/5EzBWxW0g6nK3/gn+a5bkgoXseB1+ehfmNO5MtqBFGUdIazf+V2b3Cfy4DU5WUzF1t
- YUp3U2S7FZOwHZMZx+95slLd3mc1QvMYgSPMw0r64e72xnqZe62YEq4xFHxK84xjCa/s
- MwzIFP6pBrFrFYisqhcnRxatZkSF8rP6w+FY5SAGhLpIqOrFOiYa2wlHibmDC6lCQ0Nz
- yIeg==
-X-Gm-Message-State: AOAM531NBKGfUEoV5gmTdIEwKzC0eXbJq7DUfSPYE+Om3dFJAv85uW1R
- xvFvV5b1QytlxB1eYvn0dlUpEg==
-X-Google-Smtp-Source: ABdhPJw3myN3HnYOKFYSPHZudUFUjyXgOtUoM0pgqutceJQLkNRZnr6FXc/LBTkcYZSVPz3rQOiKDA==
-X-Received: by 2002:ac8:4e8d:: with SMTP id 13mr16015484qtp.414.1635847389519; 
- Tue, 02 Nov 2021 03:03:09 -0700 (PDT)
-Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
- [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id f10sm7483390qko.78.2021.11.02.03.03.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Nov 2021 03:03:09 -0700 (PDT)
-Subject: Re: [PATCH v2 0/5] hw/arm: Add NPCM7XX Tachometer Device
-To: Hao Wu <wuhaotsh@google.com>
-References: <20210311180855.149764-1-wuhaotsh@google.com>
- <CAFXwXrnm2yveebfyq0cPPZBAeW33_sVu0jrkpbNQNUDBRBFQUQ@mail.gmail.com>
- <CAGcCb10wR6sfZCD_1N+jV9gi6f5Vq=0q9mHzky844nDwkzb7yg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <3d2a1f82-a32d-a423-ee6c-12a842bbf6c8@linaro.org>
-Date: Tue, 2 Nov 2021 06:03:07 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mhqgq-0005i5-DK
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:06:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25966)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mhqgn-0000eN-7k
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:06:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635847603;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FV/e4q+qJNN/aVdKwlWfA9SWGxP/MeHQiPmO+obWFDw=;
+ b=XiZIvJGuXD/hEsocC+tVRiUhAxLryFXA7bHyDh8FV7S+32LiCv2qUDpdnMyTu7PKcrJpa4
+ gdUyMaW8Z0Xd2VkpX6p7OLK1DXaIyzYUG/7SqSfcmFijvtk4Hit0qNpyJMyxVO41RBX52D
+ pUum66D5lTNtqn6xYH6/+mrfdwRlzt4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-404-B0TdCQHHO7iPdMdMWf2PAw-1; Tue, 02 Nov 2021 06:06:40 -0400
+X-MC-Unique: B0TdCQHHO7iPdMdMWf2PAw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 147458042DF;
+ Tue,  2 Nov 2021 10:06:39 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6DFEA60C0F;
+ Tue,  2 Nov 2021 10:06:38 +0000 (UTC)
+Date: Tue, 2 Nov 2021 10:06:37 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [RFC PATCH 00/15] job: replace AioContext lock with job_mutex
+Message-ID: <YYENrb7Cas3eAsUT@stefanha-x1.localdomain>
+References: <20211029163914.4044794-1-eesposit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAGcCb10wR6sfZCD_1N+jV9gi6f5Vq=0q9mHzky844nDwkzb7yg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x833.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+In-Reply-To: <20211029163914.4044794-1-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="p6SpuYV8QDkH0QJQ"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.14,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,72 +78,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, venture@google.com, hskinnemoen@google.com,
- qemu-devel@nongnu.org, KFTING@nuvoton.com, qemu-arm@nongnu.org,
- Avi.Fishman@nuvoton.com, dje@google.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/1/21 1:50 PM, Hao Wu wrote:
-> Is this reply to a wrong thread? I thought it was applied a long time ago.
+--p6SpuYV8QDkH0QJQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Probably.
+On Fri, Oct 29, 2021 at 12:38:59PM -0400, Emanuele Giuseppe Esposito wrote:
+> RFC: not sure if the current patch organization is correct.
+> Bisecting in patches in between this serie would cause tests
+> to deadlock.
 
-r~
+Patch series must be bisectable. It will be necessary to fix this.
 
-> 
-> Thanks,
-> 
-> On Mon, Nov 1, 2021 at 10:33 AM Richard Henderson <richard.henderson@linaro.org 
-> <mailto:richard.henderson@linaro.org>> wrote:
-> 
->     On Thu, 11 Mar 2021 at 13:11, Hao Wu <wuhaotsh@google.com
->     <mailto:wuhaotsh@google.com>> wrote:
->      >
->      > This patch set implements the Tachometer (a.k.a Multi Functional Timer/MFT)
->      > device in NPCM7XX SoC. This device is used by NPCM7XX boards to measure
->      > the RPM of PWM fans.
->      >
->      > To provide the RPM of a certain fan, since RPM = MAX_RPM * duty_percentage.
->      > We convert the duty output in NPCM7XX PWM module into GPIOs and feed them
->      > into the MFT module.
->      >
->      > The connection of PWM modules and fan modules are derived from their specific
->      > Linux device trees and coded in hw/arm/npcm7xx_boards.c.
->      >
->      > We amend the QTest for the PWM module to include verifying the reading from
->      > the Tachometer is correct.
->      >
->      > Changes since v1:
->      > - Split implementation of device and addition to board file to separate patches
->      > - Adapt to new Clock API and address conflicts
->      > - Use the new clock_ns_to_ticks API to calculate tachometer counts
->      >
->      > Hao Wu (5):
->      >   hw/misc: Add GPIOs for duty in NPCM7xx PWM
->      >   hw/misc: Add NPCM7XX MFT Module
->      >   hw/arm: Add MFT device to NPCM7xx Soc
->      >   hw/arm: Connect PWM fans in NPCM7XX boards
->      >   tests/qtest: Test PWM fan RPM using MFT in PWM test
->      >
->      >  docs/system/arm/nuvoton.rst    |   2 +-
->      >  hw/arm/npcm7xx.c               |  45 ++-
->      >  hw/arm/npcm7xx_boards.c        |  99 ++++++
->      >  hw/misc/meson.build            |   1 +
->      >  hw/misc/npcm7xx_mft.c          | 540 +++++++++++++++++++++++++++++++++
->      >  hw/misc/npcm7xx_pwm.c          |   4 +
->      >  hw/misc/trace-events           |   8 +
->      >  include/hw/arm/npcm7xx.h       |  13 +-
->      >  include/hw/misc/npcm7xx_mft.h  |  70 +++++
->      >  include/hw/misc/npcm7xx_pwm.h  |   4 +-
->      >  tests/qtest/npcm7xx_pwm-test.c | 205 ++++++++++++-
->      >  11 files changed, 974 insertions(+), 17 deletions(-)
->      >  create mode 100644 hw/misc/npcm7xx_mft.c
->      >  create mode 100644 include/hw/misc/npcm7xx_mft.h
-> 
->     Thanks, queued to target-arm.next.
-> 
->     r~
-> 
+Stefan
+
+--p6SpuYV8QDkH0QJQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmGBDa0ACgkQnKSrs4Gr
+c8is+wf/QdyN5vWkC4Rk5v6rp0nni2EjPyXe8jWPnVsK7j0PwbZAN++lWjX+yv3Y
++lE0r14BeOlPHgWN4nSdE8dyTFacWJlA0ND3NAiBaBd5kIobeGfUe++yVrxZtkip
+Cthz1nNQtmmVjS+Jz+AZpvqI7Jz1AyfljJngqnWUuFemuu94uls9sRS9jQS63dE7
+ZcnJfRBDvG4ZOU/ymfoP10mskqof5m6yzLeGt1u4bRoYOtCrs6QpWvmB3J2wGPqG
+5WRCqUKvwTDuARfMCF8c/oWczwGKLsr8EoD/u4o92fPIjXKmshKxZtMP3ohhc5ge
+lIesDHhs8pK6Kxw3Mtlai5uLQCq1hw==
+=4zJS
+-----END PGP SIGNATURE-----
+
+--p6SpuYV8QDkH0QJQ--
 
 
