@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1852443016
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:16:34 +0100 (CET)
-Received: from localhost ([::1]:42994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52D9844302F
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:20:29 +0100 (CET)
+Received: from localhost ([::1]:53226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhuaX-0002iE-Sy
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:16:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37568)
+	id 1mhueK-0000BT-GS
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:20:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mhuH5-0001rT-BZ
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:56:27 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:40517)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mhuHS-0002TR-B6
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:56:50 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:46067)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mhuH3-0000Zm-4L
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:56:26 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id r8so20625721wra.7
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 06:56:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=fjZTeSRIvtAvxNxamWT3O+b7+vV8ExmKqyqb5QtCluI=;
- b=s1jLAD5kJfNFzbSowq9luP+15kSiENwtXR+XGVczZMv60w0Yo2deJB1lex4ZFm1peW
- 0ul4OH5m2xgflFeRvqT+5rAn0qSWU3InavAA6qua0EgJ5DmcQVrVjCskn6iL86GmUjw5
- 6fDpkZRROgNkEf5dT+CdbPJ7FnkdUGUwFZX+908CnkpjRWDbiP365VOsp6/ozwJ516K0
- PgdT+EnCVsD6nVjqzwU2SJTi0fPUiZCzPqnGeoYe2aumdWRx+9HI7+HVy99K0ukdmwvU
- MAnbn3AuZwBMYHtXYuG/twPpcVfMrwyeNXgfgYcAlUJpggeb/9Ge4JUX0LHj93Q2DazE
- mHQQ==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mhuHQ-0000dc-6W
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:56:50 -0400
+Received: by mail-wr1-x436.google.com with SMTP id o14so33343202wra.12
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 06:56:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hf6F8LWwHbQDD2Jjgb4WPM+UfGS9Me1LA1sRup9TIeU=;
+ b=h+2YaQGeCxBM6zqSvvEK8PVN9PjrL1zrsx7mu8TFdKlt1n81kNWos5sGsiLQ5mPkS6
+ zXgXyxtgrl9R+4pNmUjzptI0eoMWpK5vI/F5dAD89CBAjdqtUE/QxuwL3GHf8BuR4pEL
+ mTVMu0cLNQo41D2rHUeDVUa4953t9FfnX9uCvGW8zBcV2F10FK1sGYlwf+mSw/k6Benp
+ ePx7ITNsP1DI2b6WhywTQYE0DYrnTlq4yIc8blN4SDcYmI4aRqgZubjQ2Qwi8i0+ZTHo
+ Yqcjai1KFM5J46v9lzRTxXNdjB57k8UT+be871eDEKGjR2xwspIs/lmJI0ZWwM4npzfW
+ boNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=fjZTeSRIvtAvxNxamWT3O+b7+vV8ExmKqyqb5QtCluI=;
- b=pQ3PXlaR+w/2X77yW4OLMX920p206q7faAyG2LiC5umKuMnRfSoWlHT41Ua8yTVmtE
- 5Lj9RuRgbsdCmgPoDDhetq3ztV9mkhs7kNUjySciCPLWmCT3orpukTO/wFEQl1R3c9u3
- kF2LyhSbKOKs5nGkyJOWymmvCBrT6pmKXzAUF7Udb+4cELRbZ+krNnepTCKVk/tGbH0H
- 88bFpd2KpNkWsvuvmc8nYpPFvGDnWBea8DlNvfRL1hvIJaM+v0gw6yaqJBAptreh4ieN
- 4LrjJwH0qbVOjcg0I/O+uvYWNysFxoy8+6ELpu7F03YlqEOa7hA1IAi2L3LT/NzJlX86
- TJkw==
-X-Gm-Message-State: AOAM530wgW5grilvgcE2TXtIa/vrWfJEfCaK3JtOkhVSB/CynQXWQQvx
- 3qE0IhmuGhJu1v0YBoRtsokVDg==
-X-Google-Smtp-Source: ABdhPJx89Vv5uZ+d5I1TxYAq2zhxJka/J9JgB2PIUoqe7zEcT4vvZ4NzUUdcdMu4rTtNoRjDUALV1A==
-X-Received: by 2002:adf:a10f:: with SMTP id o15mr50041458wro.286.1635861383434; 
- Tue, 02 Nov 2021 06:56:23 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n32sm2823280wms.1.2021.11.02.06.56.22
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=hf6F8LWwHbQDD2Jjgb4WPM+UfGS9Me1LA1sRup9TIeU=;
+ b=ORxwXQWcJCfKc75B2ViPpqAqcbujAtkoq1AuwqfDT8QHmgHzVA4smret4mNhKP+CLB
+ LJ6CDZQx+b/dcrqUixmGdiA86Grg/g9ndPVsxHx2uRGGzeU2piVpXE0Uvhf+NbBY1tu/
+ ReIqbn6nS+feJYiLeAEJhFa79Nw6k430hLIFtLqgWEoefgFPZuxDJ4rH9ArMbBfVbwKT
+ xrYf5g56F3fM7NiUINGxRsDjaU+GiZjmSlLqcPs0wxcejYXKixVQTorWtEx1k/28b32O
+ 1HESvrPBfVo03SPLQMpkuyccuKMAan32S3DoIU/Gy0BiaLO1ZmNk5GXwc6GxsU6pzp6E
+ CBHg==
+X-Gm-Message-State: AOAM530qkxVvpetXWuu0BtEauFqMtWPCRRwjc1MUZqK+dspHG6YuJJtf
+ r5xa9SLwzG/02GQpHBLyPsvlkRkcU8A=
+X-Google-Smtp-Source: ABdhPJzTArADSX3wHV6zXWxRX271FKe2jJCEddQSQFAgwyGCsV4aXgZSlEhUX9mJhloAKiS8EowoUQ==
+X-Received: by 2002:a5d:568c:: with SMTP id f12mr36622424wrv.240.1635861406851; 
+ Tue, 02 Nov 2021 06:56:46 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id o1sm9863758wrn.63.2021.11.02.06.56.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 06:56:22 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F08231FF96;
- Tue,  2 Nov 2021 13:56:21 +0000 (GMT)
-References: <1635760311-20015-1-git-send-email-gaosong@loongson.cn>
- <1635760311-20015-27-git-send-email-gaosong@loongson.cn>
-User-agent: mu4e 1.7.4; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Song Gao <gaosong@loongson.cn>
-Subject: Re: [PATCH v8 26/29] target/loongarch: 'make check-tcg' support
-Date: Tue, 02 Nov 2021 13:56:17 +0000
-In-reply-to: <1635760311-20015-27-git-send-email-gaosong@loongson.cn>
-Message-ID: <874k8ulkze.fsf@linaro.org>
+ Tue, 02 Nov 2021 06:56:46 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] configure: fix --audio-drv-list help message
+Date: Tue,  2 Nov 2021 14:56:45 +0100
+Message-Id: <20211102135645.213417-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,23 +81,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@loongson.cn,
- i.qemu@xen0n.name, richard.henderson@linaro.org, laurent@vivier.eu,
- peterx@redhat.com, qemu-devel@nongnu.org, yangxiaojuan@loongson.cn,
- alistair.francis@wdc.com, maobibo@loongson.cn, pbonzini@redhat.com,
- bmeng.cn@gmail.com, philmd@redhat.com, f4bug@amsat.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--audio-drv-list is now establishing which audio drivers to try if -audiodev
+is not used; drivers for -audiodev are configured with --enable/--disable
+options or possibly --without-default-features.  Adjust the help message
+for --audio-drv-list.
 
-Song Gao <gaosong@loongson.cn> writes:
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+diff --git a/configure b/configure
+index 4c444e1750..97fee368ee 100755
+--- a/configure
++++ b/configure
+@@ -1390,7 +1390,7 @@ Advanced options (experts only):
+   --disable-strip          disable stripping binaries
+   --disable-werror         disable compilation abort on warning
+   --disable-stack-protector disable compiler-provided stack protection
+-  --audio-drv-list=LIST    set audio drivers list
++  --audio-drv-list=LIST    set audio drivers to try if -audiodev is not used
+   --block-drv-whitelist=L  Same as --block-drv-rw-whitelist=L
+   --block-drv-rw-whitelist=L
+                            set block driver read-write whitelist
+-- 
+2.31.1
 
-Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
