@@ -2,61 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 931224430B9
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:45:57 +0100 (CET)
-Received: from localhost ([::1]:48936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 913804430C1
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:47:48 +0100 (CET)
+Received: from localhost ([::1]:53046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhv2y-0004MN-PQ
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:45:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46212)
+	id 1mhv4l-0007aO-O0
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:47:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mhuga-0006af-Fh
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:22:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20398)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mhuoJ-0008NL-1n
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:30:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51744)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mhugX-000399-PW
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:22:48 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mhuoF-0005bU-Tc
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 10:30:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635862965;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CxPGQDvnz7wLbeXSF54pf2XeNqKU0g81EeWn83j5DxQ=;
- b=fSTeD7U1cobBFVRHFHIpww2EPdhrAkBGAj7uGpOf0f5HPlLb4C1iOJpt7cUAuHW6Opaszj
- TFFQafab+nDXulrr18TSJah//5SBWpGix9fY7Covb+Oe7RKI+utpVEf3oPBcxmVGe/Nggc
- 14pPBlCELYkgHT1w04eVY4toqXcAJ40=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-100-h6OqSs70Pgm13H-hGbQ7rw-1; Tue, 02 Nov 2021 10:22:44 -0400
-X-MC-Unique: h6OqSs70Pgm13H-hGbQ7rw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E847E876ECA;
- Tue,  2 Nov 2021 14:22:42 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 900B95D705;
- Tue,  2 Nov 2021 14:22:42 +0000 (UTC)
-From: Hanna Reitz <hreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 4/4] block/vpc: Add a sanity check that fixed-size images have
- the right type
-Date: Tue,  2 Nov 2021 15:22:19 +0100
-Message-Id: <20211102142219.697650-5-hreitz@redhat.com>
-In-Reply-To: <20211102142219.697650-1-hreitz@redhat.com>
-References: <20211102142219.697650-1-hreitz@redhat.com>
+ s=mimecast20190719; t=1635863441;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=LE1Tvl8v65SAcDTQfkcLfP3vur1qhojh2EODPe1ml/s=;
+ b=QPpkA+dZEBr9FJd2PryrpBYMMCLGsw++/EBj6uhgS5zKTFRcOzzAf4EaxzH2PJ3QaBe/w0
+ eAucQCofVmv81ehvMdIfKeZCuAph2lVD7PVr4p8f5tsXz13PkunMcabz5eVJVttO+Jb+PF
+ gLQ78zBR9tkpLZVKtly3baqrDkIIcQs=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-548-UtoloUsYPEeTuN4yNvHXmw-1; Tue, 02 Nov 2021 10:30:40 -0400
+X-MC-Unique: UtoloUsYPEeTuN4yNvHXmw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ p17-20020adff211000000b0017b902a7701so4677920wro.19
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 07:30:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=LE1Tvl8v65SAcDTQfkcLfP3vur1qhojh2EODPe1ml/s=;
+ b=tgKlgMFI45dQ/baqGJTfl9doW5NzfXVO+Cp6M1O4zsUwbSzH1YcyELrDqusrBDVqLx
+ MkhURVr0igqJP11oluOpqPM7ZhJQpOP/CZESIdqqTKPYbN5KDwVURyVVl3z5D5EsTqO2
+ f+DKvSuutAcXKKXpeyFfWfiFjbBIQCgLQJsEwRvcPBWHkwz7L0wicSQ320bsU0mOFwua
+ meakgN+l1KrvBs0UuwJMWqstNq56J/XsfveU3JMHJQYUWA6zExX4PrsptfMqA9HIeZgF
+ Cu3FNQCiy6l/61ASbCD3PfSdnQMkH7K6QWK9DWHM/TrvJKvvCKSEuHTYQ8+7OSFDVttX
+ mVYA==
+X-Gm-Message-State: AOAM532tZx7QEYi/0GRlSnb010DbyYrLdhD1DZPA5vm33ma40pYU3nRR
+ G9Akqia7la8O2kYHR2fqJSg2bUGtyjTLl9KxyQ9WWMREzedRz+edQJPGf896a61INxK7lfCmnJb
+ PyFxBe3wq/hpMvo4=
+X-Received: by 2002:a5d:400e:: with SMTP id n14mr34479061wrp.368.1635863439342; 
+ Tue, 02 Nov 2021 07:30:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyQtVjWvKR9vGcnrhh1QuVMwSMHig10xgOMjorXbNWGj3ar0+bmSJqZaTmm5ZcyNYpQC2LI+w==
+X-Received: by 2002:a5d:400e:: with SMTP id n14mr34479034wrp.368.1635863439127; 
+ Tue, 02 Nov 2021 07:30:39 -0700 (PDT)
+Received: from localhost ([188.26.219.212])
+ by smtp.gmail.com with ESMTPSA id a9sm13480916wrt.66.2021.11.02.07.30.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Nov 2021 07:30:38 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: -only-migrate and the two different uses of migration blockers
+In-Reply-To: <87sg0amuuz.fsf_-_@dusky.pond.sub.org> (Markus Armbruster's
+ message of "Mon, 19 Jul 2021 13:00:20 +0200")
+References: <87tukvaejt.fsf@dusky.pond.sub.org> <YPTj6ml6LoMJkypI@yekko>
+ <87lf62ydow.fsf@dusky.pond.sub.org> <YPUn2quWrztTqyML@yekko>
+ <875yx6oabe.fsf@dusky.pond.sub.org>
+ <87sg0amuuz.fsf_-_@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Tue, 02 Nov 2021 15:30:37 +0100
+Message-ID: <875ytak4tu.fsf@secure.mitica>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -77,42 +97,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org
+Reply-To: quintela@redhat.com
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+Markus Armbruster <armbru@redhat.com> wrote:
+> We appear to use migration blockers in two ways:
+>
+> (1) Prevent migration for an indefinite time, typically due to use of
+> some feature that isn't compatible with migration.
+>
+> (2) Delay migration for a short time.
+>
+> Option -only-migrate is designed for (1).  It interferes with (2).
+>
+> Example for (1): device "x-pci-proxy-dev" doesn't support migration.  It
+> adds a migration blocker on realize, and deletes it on unrealize.  With
+> -only-migrate, device realize fails.  Works as designed.
+>
+> Example for (2): spapr_mce_req_event() makes an effort to prevent
+> migration degrate the reporting of FWNMIs.  It adds a migration blocker
+> when it receives one, and deletes it when it's done handling it.  This
+> is a best effort; if migration is already in progress by the time FWNMI
+> is received, we simply carry on, and that's okay.  However, option
+> -only-migrate sabotages the best effort entirely.
+>
+> While this isn't exactly terrible, it may be a weakness in our thinking
+> and our infrastructure.  I'm bringing it up so the people in charge are
+> aware :)
 
-The code in vpc.c uses BDRVVPCState->footer.type in various places
-to decide whether the image is a fixed-size (VHD_FIXED) or a dynamic
-(VHD_DYNAMIC) image. However, we never check that this field really
-contains VHD_FIXED if we detected a fixed size image in vpc_open(),
-so a wrong value here could cause quite some trouble during runtime.
+Hi
 
-Suggested-by: Kevin Wolf <kwolf@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20211012082702.792259-1-thuth@redhat.com>
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
----
- block/vpc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On the past, we have talked about this (but done nothing).
 
-diff --git a/block/vpc.c b/block/vpc.c
-index 1b4c7333af..297a26262a 100644
---- a/block/vpc.c
-+++ b/block/vpc.c
-@@ -276,7 +276,8 @@ static int vpc_open(BlockDriverState *bs, QDict *options, int flags,
-         if (ret < 0) {
-             goto fail;
-         }
--        if (strncmp(footer->creator, "conectix", 8)) {
-+        if (strncmp(footer->creator, "conectix", 8) ||
-+            be32_to_cpu(footer->type) != VHD_FIXED) {
-             error_setg(errp, "invalid VPC image");
-             ret = -EINVAL;
-             goto fail;
--- 
-2.31.1
+What we "thought" was to change save_complete() to just return the
+equivalent of -EAGAIN, i.e. right now it is not a good time for doing a
+migration, wait a little while and try again.
+
+There is no code for that.
+
+Fixing this will also help with latency issues.  When we move to the
+complation stage, we have the equivalent of a sync in the block layer.
+that can take a long time, but we don't have a way to timeout and get
+back to normal migration and try it a bit later.
+
+Later, Juan.
 
 
