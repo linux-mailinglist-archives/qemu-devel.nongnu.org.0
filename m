@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BD964429D8
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 09:50:05 +0100 (CET)
-Received: from localhost ([::1]:56046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 966EF4429D7
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 09:49:54 +0100 (CET)
+Received: from localhost ([::1]:55616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhpUa-0001yf-A7
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 04:50:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60924)
+	id 1mhpUP-0001h6-Og
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 04:49:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mhpQr-0005sD-4a
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 04:46:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29502)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mhpRq-0007GX-6k
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 04:47:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mhpQm-00081x-Kr
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 04:46:12 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mhpRo-00088H-5i
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 04:47:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635842767;
+ s=mimecast20190719; t=1635842830;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6HFgFIDnVJhYbyBrFgV6u1BRJUMu26RfhgosSEngKlo=;
- b=gK2qzVUqdBzjhqSw4Mmlr9TgL1xuPgj5pI0gZOvd9v5AqEaDmCd2J4eWU6dbtB0Kd3XIjr
- K7V3XWyPnlASpc9M62Q0g/zxeEwo+zv+rha+8WnMbaknq6rYQHYP2Uya/razs3UkGUG1/P
- Off+It/fZU2rAfJBO+4ZC0Z1a2YlA7E=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-x1KrhqCDOoOPxRd2uQQa8w-1; Tue, 02 Nov 2021 04:46:04 -0400
-X-MC-Unique: x1KrhqCDOoOPxRd2uQQa8w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- m1-20020a1ca301000000b003231d5b3c4cso777745wme.5
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 01:46:04 -0700 (PDT)
+ bh=yQ4zVo431jJvV3OQX2WmnR3BoE9d7qdzPg8WNVwADYs=;
+ b=GvT+AzZ6586vusLo+xeHDBKNG/kdmmCdRtw8RrEIsCh42gy/UcZLHbyCPPlFS6Ne0CsQRb
+ w5PJkduQvrKzBgzUVTJ4kwrdA33+BZxGoZmqn6hE9WB5/85N/FCcBx2e4b2vmWW/RMxDGA
+ MPFWO7sX/OS2RoSapIinruvHdfxmSco=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-322-q96YIjqeN7e7o0rOodjerw-1; Tue, 02 Nov 2021 04:47:08 -0400
+X-MC-Unique: q96YIjqeN7e7o0rOodjerw-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ c14-20020ac87d8e000000b002ac69908b09so7281979qtd.9
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 01:47:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=6HFgFIDnVJhYbyBrFgV6u1BRJUMu26RfhgosSEngKlo=;
- b=S/3vUzorKlBHlbVmh5ECD/TuKyt55jQB+1jwICyuSWaFPVQuI8JKbYuvgVsUDsmYE0
- uxiIfAxLPE1jNVA/Unfazga1pJOgeor5P/iAUB3qZkkg2xC8kSouJy4YlR9Q2U+srjRG
- nVmWaY2ur0bJhupJSaUskYmE52PBYwVS0dvIRrNjKwFXOHQOHH10bcORmal2dObr+q5I
- KaWQ4ylNk8V3rxrgJO+NgVI3+B0pnGahW1rNSP6JuT3xtnhqS+AoPqy9uRglqmUvKfaP
- KCe30R9DmFZ6Rzm1Jn9JZEwXqF8wx1olbddM4mjfjUQRZUhcmcHCdS82Y+4zF/b/UOud
- hWMA==
-X-Gm-Message-State: AOAM533LgaGCy4PInlW7EWqOY7tQQEqwVEke0wqMzzYW4sL11uGW+Xv9
- W5r3iFSILTOAAknNQaKETvc4etZnUW95kzjsVbAbes5Wg6Gq2nxuqOn+pG6ggVgqESjYXSy6hD5
- jW27TV2cE4dKKeUA=
-X-Received: by 2002:a7b:c109:: with SMTP id w9mr5359506wmi.114.1635842763515; 
- Tue, 02 Nov 2021 01:46:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyR6RCsVh1iN58CC0j7RKx+UOiBGqdIM5IW7JgW2PSKAtb1xMr+G2ZynCq2/HQnTxk9288UuQ==
-X-Received: by 2002:a7b:c109:: with SMTP id w9mr5359479wmi.114.1635842763264; 
- Tue, 02 Nov 2021 01:46:03 -0700 (PDT)
-Received: from redhat.com ([2a03:c5c0:207f:b499:edfc:9aad:137a:a971])
- by smtp.gmail.com with ESMTPSA id h22sm46247wmq.14.2021.11.02.01.46.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 01:46:02 -0700 (PDT)
-Date: Tue, 2 Nov 2021 04:45:59 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH v2] failover: specify an alternate MAC address
-Message-ID: <20211102044223-mutt-send-email-mst@kernel.org>
-References: <20211027095945.86710-1-lvivier@redhat.com>
- <20211101053105-mutt-send-email-mst@kernel.org>
- <913b4d85-9c05-0bb8-2dd5-02744a44b388@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=yQ4zVo431jJvV3OQX2WmnR3BoE9d7qdzPg8WNVwADYs=;
+ b=UgKCaKCNPtmZlPfbIrFtAtvTqkj+UbwmCScn+GKjtAHKVSq+dDhcMJlwMHRheh+X5V
+ Cu1fxv6ZR3JPtjKZMYmdKZ/3H0ABNI2w5OzqO/ep6iYNgFKvaxROTcXX5t2n0t3jsRho
+ 0xiAHE+b9IYwoKAFviAJCxJXdBN3pAgyTexwpzJeqxQV5P+44ie7yCTXvWtyi5yeCbng
+ XlrHAbUm6DAhztMAC7d3d4CN/f8CqARdfAuZwKUfT7jXNWtTE9gYgmbb1u5WDl7Sg+yA
+ g7kp1D0ZBhV3mHQIWU9yZMqLgvx7N32Zi8geh/0v1ap5rDzCuD68n1fcWoZK4Yd28Ydm
+ fYsg==
+X-Gm-Message-State: AOAM532rAc2UGn5KoN9pBCD+z65ghRWw1jUB4eWuA/TeoZZbMqj3/kPH
+ lRf15ZwWuQIrYsLCj6hSzyRxRNdBlu/XDqqpUqWWGrKeUUa2oygs3pjer0pKaTpZeJO6Syli+RC
+ jBXW25sakiy9vnMYYNw7NQbCCpnIhAiY=
+X-Received: by 2002:a37:9acd:: with SMTP id c196mr2736916qke.495.1635842828135; 
+ Tue, 02 Nov 2021 01:47:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwiElldvIrN5ms0DY4SEFwE+H/xrXavhnxlRxprW0+FvZjJw8jTEKFHabAfAzcINaKC0LB/4LucI5iDKGsD/5g=
+X-Received: by 2002:a37:9acd:: with SMTP id c196mr2736875qke.495.1635842827891; 
+ Tue, 02 Nov 2021 01:47:07 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <913b4d85-9c05-0bb8-2dd5-02744a44b388@redhat.com>
+References: <20211029183525.1776416-1-eperezma@redhat.com>
+ <20211029183525.1776416-12-eperezma@redhat.com>
+ <74dbf70f-96a7-6fe3-dbc5-28a7b7989109@redhat.com>
+In-Reply-To: <74dbf70f-96a7-6fe3-dbc5-28a7b7989109@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 2 Nov 2021 09:46:31 +0100
+Message-ID: <CAJaqyWe56+wzXgdQp4nbGxhrSU4tPU+SkgTBUa=wSB5nSbtwuw@mail.gmail.com>
+Subject: Re: [RFC PATCH v5 11/26] vhost: Handle host notifiers in SVQ
+To: Jason Wang <jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -96,107 +92,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-level <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Xiao W Wang <xiao.w.wang@intel.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Eric Blake <eblake@redhat.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Parav Pandit <parav@mellanox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 02, 2021 at 09:14:51AM +0100, Laurent Vivier wrote:
-> On 01/11/2021 10:39, Michael S. Tsirkin wrote:
-> > On Wed, Oct 27, 2021 at 11:59:45AM +0200, Laurent Vivier wrote:
-> > > If the guest driver doesn't support the STANDBY feature, by default
-> > > we keep the virtio-net device and don't hotplug the VFIO device,
-> > > but in some cases, user can prefer to use the VFIO device rather
-> > > than the virtio-net one. We can't unplug the virtio-net device
-> > > (because on migration it is expected on the destination side) but
-> > > we can keep both interfaces if the MAC addresses are different
-> > > (to have the same MAC address can cause kernel crash with old
-> > > kernel). The VFIO device will be unplugged before the migration
-> > > like in the normal failover migration but without a failover device.
-> > > 
-> > > This patch adds a new property to the virtio-net device:
-> > > "failover-legacy-mac"
-> > > 
-> > > If an alternate MAC address is provided with "failover-legacy-mac" and
-> > > the STANDBY feature is not supported, both interfaces are plugged
-> > > but the standby interface (virtio-net) MAC address is set to the
-> > > value provided by the "failover-legacy-mac" parameter.
-> > > 
-> > > If the STANDBY feature is supported by guest and QEMU, the virtio-net
-> > > failover acts as usual.
-> > > 
-> > > Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> > 
-> > Wait a second. What if config is read before features are set?
-> > Are we going to provide a legacy or a new mac?
-> We provide the new MAC and at this point the primary device is not plugged.
-> 
-> When features are set:
-> - if STANDBY is set, the primary device is plugged, and secondary
-> (virtio-net) uses the new MAC
-> - if STANDBY is not set:
->     - if legacy MAC is provided:
->         the primary device is plugged and legacy MAC is used
->     - else
->         the primary device is not plugged and new MAC is used.
-> 
-> > I guess current guests do not do this, but the spec does allow this,
-> > and then the mac will apparently change for the guests.
-> 
-> What I read in virtio 1.0 specs, "3.1.1 Driver requirements: Device
-> initialization", is the virtio configuration space (step 7) is is accessed
-> after the features are negotiated. I don't think the part in step 4 can
-> involve the MAC address, and moreover the config is not read before, but
-> during the negotiation (I guess we can see that as the config access is part
-> of the negotiation).
-> 
-> 3.1.1 Driver Requirements: Device Initialization
-> 
-> The driver MUST follow this sequence to initialize a device:
-> 1. Reset the device.
-> 2. Set the ACKNOWLEDGE status bit: the guest OS has notice the device.
-> 3. Set the DRIVER status bit: the guest OS knows how to drive the device.
-> 4. Read device feature bits, and write the subset of feature bits understood
-> by the OS and driver to the device. During this step the driver MAY read
-> (but MUST NOT write) the device-specific configuration fields to check that
-> it can support the device before accepting it.
-> 5. Set the FEATURES_OK status bit. The driver MUST NOT accept new feature
-> bits after this step.
-> 6. Re-read device status to ensure the FEATURES_OK bit is still set:
-> otherwise, the device does not support our subset of features and the device
-> is unusable.
-> 7. Perform device-specific setup, including discovery of virtqueues for the
-> device, optional per-bus setup, reading and possibly writing the device’s
-> virtio configuration space, and population of virtqueues.
-> 8. Set the DRIVER_OK status bit. At this point the device is “live”.
+On Tue, Nov 2, 2021 at 8:55 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2021/10/30 =E4=B8=8A=E5=8D=882:35, Eugenio P=C3=A9rez =E5=86=99=
+=E9=81=93:
+> > If device supports host notifiers, this makes one jump less (kernel) to
+> > deliver SVQ notifications to it.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >   hw/virtio/vhost-shadow-virtqueue.h |  2 ++
+> >   hw/virtio/vhost-shadow-virtqueue.c | 23 ++++++++++++++++++++++-
+> >   2 files changed, 24 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shado=
+w-virtqueue.h
+> > index 30ab9643b9..eb0a54f954 100644
+> > --- a/hw/virtio/vhost-shadow-virtqueue.h
+> > +++ b/hw/virtio/vhost-shadow-virtqueue.h
+> > @@ -18,6 +18,8 @@ typedef struct VhostShadowVirtqueue VhostShadowVirtqu=
+eue;
+> >   void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kic=
+k_fd);
+> >   const EventNotifier *vhost_svq_get_dev_kick_notifier(
+> >                                                 const VhostShadowVirtqu=
+eue *svq);
+> > +void vhost_svq_set_host_mr_notifier(VhostShadowVirtqueue *svq, void *a=
+ddr);
+> > +
+> >   void vhost_svq_start(struct vhost_dev *dev, unsigned idx,
+> >                        VhostShadowVirtqueue *svq, int svq_kick_fd);
+> >   void vhost_svq_stop(struct vhost_dev *dev, unsigned idx,
+> > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shado=
+w-virtqueue.c
+> > index fda60d11db..e3dcc039b6 100644
+> > --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > @@ -29,6 +29,12 @@ typedef struct VhostShadowVirtqueue {
+> >        * So shadow virtqueue must not clean it, or we would lose VirtQu=
+eue one.
+> >        */
+> >       EventNotifier svq_kick;
+> > +
+> > +    /* Device's host notifier memory region. NULL means no region */
+> > +    void *host_notifier_mr;
+> > +
+> > +    /* Virtio queue shadowing */
+> > +    VirtQueue *vq;
+> >   } VhostShadowVirtqueue;
+> >
+> >   /**
+> > @@ -50,7 +56,20 @@ static void vhost_handle_guest_kick(EventNotifier *n=
+)
+> >           return;
+> >       }
+> >
+> > -    event_notifier_set(&svq->hdev_kick);
+> > +    if (svq->host_notifier_mr) {
+> > +        uint16_t *mr =3D svq->host_notifier_mr;
+> > +        *mr =3D virtio_get_queue_index(svq->vq);
+>
+>
+> Do we need barriers around the possible MMIO here?
 
-OTOH
+That's right, I missed them.
 
-Device Requirements: Device Configuration Space
-The device MUST allow reading of any device-specific configuration field before FEATURES_OK is set by the
-driver. This includes fields which are conditional on feature bits, as long as those feature bits are offered by the
-device.
+>
+> To avoid those complicated stuff, I'd rather simply go with eventfd path.
+>
+> Note mmio and eventfd are not mutually exclusive.
 
-now, we can maybe make an exception for mac.
-But this is something to discuss on the virtio TC mailing list.
+Actually we cannot ignore them since they are set in the guest. If SVQ
+does nothing about them, the guest's notification will travel directly
+to the vdpa device, and SVQ cannot intercept them.
 
+Taking that into account, it's actually less changes to move them to
+SVQ (like in this series) than to disable them (like in previous
+series). But we can go with disabling them for sure.
 
-> > 
-> > It might be cleaner to just add a PRIMARY_MAC feature -
-> > would need guest work though ...
-> 
-> We can't add a new feature: the goal of this patch is to be able to use the
-> primary device (VFIO) with kernel that doesn't support STANDBY feature. If
-> we can add a feature, to add the STANDBY feature would be a better choice.
-> 
-> If changing the MAC address is not acceptable we can return to a mix of v1 and v2 of my patch:
-> 
-> "virtio: failover: allow to keep the VFIO device rather than the virtio-net one"
-> 
-> https://patchew.org/QEMU/20210729191910.317114-1-lvivier@redhat.com/
-> 
-> that disables the virtio-net driver on the module probe.
-> 
-> Thanks,
-> Laurent
+Thanks!
+
+>
+> Thanks
+>
+>
+> > +    } else {
+> > +        event_notifier_set(&svq->hdev_kick);
+> > +    }
+> > +}
+> > +
+> > +/*
+> > + * Set the device's memory region notifier. addr =3D NULL clear it.
+> > + */
+> > +void vhost_svq_set_host_mr_notifier(VhostShadowVirtqueue *svq, void *a=
+ddr)
+> > +{
+> > +    svq->host_notifier_mr =3D addr;
+> >   }
+> >
+> >   /**
+> > @@ -134,6 +153,7 @@ void vhost_svq_stop(struct vhost_dev *dev, unsigned=
+ idx,
+> >    */
+> >   VhostShadowVirtqueue *vhost_svq_new(struct vhost_dev *dev, int idx)
+> >   {
+> > +    int vq_idx =3D dev->vq_index + idx;
+> >       g_autofree VhostShadowVirtqueue *svq =3D g_new0(VhostShadowVirtqu=
+eue, 1);
+> >       int r;
+> >
+> > @@ -151,6 +171,7 @@ VhostShadowVirtqueue *vhost_svq_new(struct vhost_de=
+v *dev, int idx)
+> >           goto err_init_hdev_call;
+> >       }
+> >
+> > +    svq->vq =3D virtio_get_queue(dev->vdev, vq_idx);
+> >       return g_steal_pointer(&svq);
+> >
+> >   err_init_hdev_call:
+>
 
 
