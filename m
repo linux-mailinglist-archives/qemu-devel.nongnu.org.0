@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1C77443007
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:15:03 +0100 (CET)
-Received: from localhost ([::1]:39110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CA30443067
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 15:28:19 +0100 (CET)
+Received: from localhost ([::1]:49378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhuZ4-00047x-SW
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:15:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35082)
+	id 1mhulu-0000NB-0D
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 10:28:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mhu6w-0005Pc-7s
+ id 1mhu6w-0005R7-Sa
  for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:45:58 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:43666)
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33525)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mhu6o-0006Te-Vj
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:45:57 -0400
-Received: by mail-wr1-x429.google.com with SMTP id t30so8566970wra.10
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 06:45:50 -0700 (PDT)
+ id 1mhu6t-0006Tr-KS
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:45:58 -0400
+Received: by mail-wr1-x435.google.com with SMTP id d24so2827656wra.0
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 06:45:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CX4TDYxHmqmiiR24yF6hrsJep+v1xIl7VYK9/UVuiFE=;
- b=bArEW0RPuk8NGIaE6nAs8gLpoqiLIBR+HMim0K8JK5R36RKYCkU/zCXKiRPHC/ZykM
- nkzCx/OkhvhmrAhYE0UNhz0WMiVb2V77Q7w/cBncuq5nRJwxvIERLtQ2E6brWaJtt8oY
- VoYqNT0vnx2wVWCwLl7k7qh2vxwrUnei10WP3zGaD/F6B4X3JMf1RhJsaA4Exg4BM6nd
- 1B4AcbpnYoU+mDkxAc33VrPVQ2Wz6Y0RLGQbWPpR946FOXw64OcHroG69T5iRkBIs3ZI
- n2/OvX47hLHh00lkpMIRQb7OG2KSAOexe/ddBoHvkHBQL0EoRW0ZQV4fzt4LvLVqo1Ww
- fF1A==
+ bh=3GPMsZfnn4ZfssdGOMr+SGtI/4dHR+YaPHIAKWs/umE=;
+ b=LDyxw8yH/CG3bJ5Viu8sk/v7TzrgApxn7X4WhbnbCFPNpK79B3BX8MiH6NiiIhCWv0
+ 9AHUAsCViY9uqS2nW2CIslqKPAbxGE/npYK94mbXzKTsioXxwS0US7/2HLzYkfz747Xt
+ YaPIYKSEiE6pRJHQd9VkPxr3HyNg2qlMoovgZHv1Lg/dbYxL/6G0I9XzHQGoahkKdZ4X
+ x8RvJmdPIgrMYukY6TnLl9DNi3FA4DHvhxAOasoTrOG0QGoP95Zc2TdD6/AfL/1iL/zi
+ 4WdNWkPlW25rlQ2ymKnKw8DWvQyi+LlvPOaTXgyoQrjyc2ufYjQR6W3Je3Qm/SfacQ+G
+ oFJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=CX4TDYxHmqmiiR24yF6hrsJep+v1xIl7VYK9/UVuiFE=;
- b=DcHlJOGzP9YXs7VOybj5WGZRUFNyqa2PJWN4nifa3QHet4iH2VVvgXQhCrzCsPwvI7
- MUnqk+HYAipoDVy5xV5fxrbD0kWpcL98i05I9k+R4cugYsBR5C5+kqbOiqZlulsXoYYI
- 90FuPEPSqNXICFtiTcECkua8KFUDgONgIFtruqDaz6kzniLl2SK4dCnwurqKmUUg9fHb
- 0DGpuBe+McKgMLViGsC5vpHb3cUtQlCzlmRNoJO9BGtwC3SQA1DAnpkM/DuhdwUveMxw
- tAL6fLdF7xFbRAvsU4lh4qD+iJI079iXldpDc/iNLHl9RHsqRuCduVhUTFJtXVyLV1ED
- oKwQ==
-X-Gm-Message-State: AOAM5335KuJDjgSiB8Sv6EloJTi9LkiVum1toU+//uHOF7wy+8f2dTS4
- +RQEo+AJdWbTmgUzJGhwXxks+oH0s/E=
-X-Google-Smtp-Source: ABdhPJxA7zw8DqffVCkFUuDn588vE7WSlqWk7ccOuqfII328SfFey975t26Tdr0b6buapBDQmxSEqw==
-X-Received: by 2002:a5d:59ae:: with SMTP id p14mr9305165wrr.365.1635860749445; 
- Tue, 02 Nov 2021 06:45:49 -0700 (PDT)
+ bh=3GPMsZfnn4ZfssdGOMr+SGtI/4dHR+YaPHIAKWs/umE=;
+ b=vuLwnTBIlLA2AZlmLwSxwr0OsBHUva3hU8bGWc13fnMSZHdkcbkiXR8Jn+FeDUQ8gz
+ wcUXlzVAqL1U6F2g07zoVD69PGRId61S/FYIRTDTv+2CJjol7eUVAdPztwfm6ZvWN59r
+ R29lKiNWOJuhuOhm8MHKsHwkjYatEPV7/vhkx7uoCa7pOs7ihcdYvJ2jngyDmQh5X0St
+ uHTxOFsGQvN/MhtM2uLpWWBUuEhoQApM8SB1YOLjoEw0nwtXxT5UI3pu57q35tVluKCL
+ dQjJwXzCR5GgMLbMIcc86OJANY0k+U8fsEcqFNOnCcAtV8ONqghoQUVwmsimNbory+Ks
+ MWeQ==
+X-Gm-Message-State: AOAM532PcR+uUJ9kT+J7LNRsHfsPRFHC65UsJDqi/cI6zc+xtpzitz87
+ 8Kb0WAG8cH/swH2L1z3RIO/iCxeAuaI=
+X-Google-Smtp-Source: ABdhPJwEoRphZm/JsjD5xLIu2zrH1++egeiXxJuRGXvFM5CnC4ixGBrK/3RdQd1VaVsdnxSP5mfg8g==
+X-Received: by 2002:a05:6000:2ca:: with SMTP id
+ o10mr46156758wry.383.1635860754088; 
+ Tue, 02 Nov 2021 06:45:54 -0700 (PDT)
 Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
  by smtp.gmail.com with ESMTPSA id
- z15sm6096355wrr.65.2021.11.02.06.45.48
+ p18sm2628776wmq.4.2021.11.02.06.45.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 06:45:49 -0700 (PDT)
+ Tue, 02 Nov 2021 06:45:53 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 39/41] usb/uhci: Replace pci_set_irq with qemu_set_irq
-Date: Tue,  2 Nov 2021 14:42:38 +0100
-Message-Id: <20211102134240.3036524-40-f4bug@amsat.org>
+Subject: [PULL 40/41] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI
+ interrupts
+Date: Tue,  2 Nov 2021 14:42:39 +0100
+Message-Id: <20211102134240.3036524-41-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211102134240.3036524-1-f4bug@amsat.org>
 References: <20211102134240.3036524-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,61 +95,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-Instead of using pci_set_irq, store the irq in the device state and
-use it explicitly so variants having different interrupt handling can
-use their own.
+This device is part of a superio/ISA bridge chip and IRQs from it are
+routed to an ISA interrupt set by the Interrupt Line PCI config
+register. Implement this in a vt82c686-uhci-pci specific irq handler
+Using via_isa_set_irq().
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <b39066e03c8731f4197d50bc79b403f797599999.1635161629.git.balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <8d7ed385e33a847d8ddc669163a68b5ca57f82ce.1635161629.git.balaton@eik.bme.hu>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/usb/hcd-uhci.h | 2 +-
- hw/usb/hcd-uhci.c | 4 +++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ hw/usb/vt82c686-uhci-pci.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/hw/usb/hcd-uhci.h b/hw/usb/hcd-uhci.h
-index 316693f80bd..c85ab7868ee 100644
---- a/hw/usb/hcd-uhci.h
-+++ b/hw/usb/hcd-uhci.h
-@@ -60,7 +60,7 @@ typedef struct UHCIState {
-     uint32_t frame_bandwidth;
-     bool completions_only;
-     UHCIPort ports[NB_PORTS];
--
-+    qemu_irq irq;
-     /* Interrupts that should be raised at the end of the current frame.  */
-     uint32_t pending_int_mask;
- 
-diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
-index 7d26e351942..d1b5657d722 100644
---- a/hw/usb/hcd-uhci.c
-+++ b/hw/usb/hcd-uhci.c
-@@ -31,6 +31,7 @@
- #include "hw/usb/uhci-regs.h"
- #include "migration/vmstate.h"
- #include "hw/pci/pci.h"
+diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
+index ea262e6d709..0bf2b72ff08 100644
+--- a/hw/usb/vt82c686-uhci-pci.c
++++ b/hw/usb/vt82c686-uhci-pci.c
+@@ -1,6 +1,17 @@
+ #include "qemu/osdep.h"
 +#include "hw/irq.h"
- #include "hw/qdev-properties.h"
- #include "qapi/error.h"
- #include "qemu/timer.h"
-@@ -299,7 +300,7 @@ static void uhci_update_irq(UHCIState *s)
-         (s->status & UHCI_STS_HCPERR)) {
-         level = 1;
-     }
--    pci_set_irq(&s->dev, level);
-+    qemu_set_irq(s->irq, level);
++#include "hw/isa/vt82c686.h"
+ #include "hcd-uhci.h"
+ 
++static void uhci_isa_set_irq(void *opaque, int irq_num, int level)
++{
++    UHCIState *s = opaque;
++    uint8_t irq = pci_get_byte(s->dev.config + PCI_INTERRUPT_LINE);
++    if (irq > 0 && irq < 15) {
++        via_isa_set_irq(pci_get_function_0(&s->dev), irq, level);
++    }
++}
++
+ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
+ {
+     UHCIState *s = UHCI(dev);
+@@ -14,6 +25,8 @@ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
+     pci_set_long(pci_conf + 0xc0, 0x00002000);
+ 
+     usb_uhci_common_realize(dev, errp);
++    object_unref(s->irq);
++    s->irq = qemu_allocate_irq(uhci_isa_set_irq, s, 0);
  }
  
- static void uhci_reset(DeviceState *dev)
-@@ -1170,6 +1171,7 @@ void usb_uhci_common_realize(PCIDevice *dev, Error **errp)
-     /* TODO: reset value should be 0. */
-     pci_conf[USB_SBRN] = USB_RELEASE_1; /* release number */
-     pci_config_set_interrupt_pin(pci_conf, u->info.irq_pin + 1);
-+    s->irq = pci_allocate_irq(dev);
- 
-     if (s->masterbus) {
-         USBPort *ports[NB_PORTS];
+ static UHCIInfo uhci_info[] = {
 -- 
 2.31.1
 
