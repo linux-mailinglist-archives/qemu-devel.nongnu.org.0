@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4545A4434FB
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 19:00:01 +0100 (CET)
-Received: from localhost ([::1]:49928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC82144350B
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 19:03:29 +0100 (CET)
+Received: from localhost ([::1]:59076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhy4m-00029p-DI
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 14:00:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59498)
+	id 1mhy88-0008NT-WB
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 14:03:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mhy2Q-0007sk-20
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 13:57:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33090)
+ id 1mhy2c-0008Lp-Cd
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 13:57:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31605)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mhy2M-0006mv-4K
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 13:57:32 -0400
+ id 1mhy2a-0006pG-C7
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 13:57:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635875848;
+ s=mimecast20190719; t=1635875863;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y6xuNF/kPJ0Q1HvTS2RwpxwCzBfCHTGT3cZ5prjyV8s=;
- b=QyL+O3i/fiwlW9tLTUP1N3gk9VnZaOJ36BDbCMwncziMOn8fR/uTFlXyuByWLlMz+Mwkdh
- +5L+zIiWup6+bBgmkNR5MdxIvyNCVnNgU2chaVb+yv2kzCILRP519Oq1ZKDtPg2GTs1Fo/
- KZruwIRCmG/P6RuOQc7IgNbfkjKZqKw=
+ bh=+VKurEWH3KAL60hElA0PQUqjUhyiCNjOrLnesbiwSG0=;
+ b=F02syGVMftJKp7QYWxHo/G980Dxqrozh8CMa3DhVNMiBtH1KypypfCXumzmLly88ZEjyGQ
+ FyJxXFjBje0Zj3D96dz+mWpKZ+CrQFl1NMs+AZ2VbHywpXd2p2v4wJEFZiO5LeiM9/thT4
+ 5rS9dgRJ1tuagKYmed93YPyJlqZyZyg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-183-6Cfj40aDMHaUx97TPp_peA-1; Tue, 02 Nov 2021 13:57:25 -0400
-X-MC-Unique: 6Cfj40aDMHaUx97TPp_peA-1
+ us-mta-122-k3by1EmJMju_7GVH7jkWmg-1; Tue, 02 Nov 2021 13:57:40 -0400
+X-MC-Unique: k3by1EmJMju_7GVH7jkWmg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C25EB10247A8;
- Tue,  2 Nov 2021 17:57:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BEC7D8066EB;
+ Tue,  2 Nov 2021 17:57:39 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.39.194.194])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D11EB19C59;
- Tue,  2 Nov 2021 17:57:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1762919C59;
+ Tue,  2 Nov 2021 17:57:23 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/18] monitor: remove 'info ioapic' HMP command
-Date: Tue,  2 Nov 2021 17:56:43 +0000
-Message-Id: <20211102175700.1175996-2-berrange@redhat.com>
+Subject: [PULL 02/18] monitor: make hmp_handle_error return a boolean
+Date: Tue,  2 Nov 2021 17:56:44 +0000
+Message-Id: <20211102175700.1175996-3-berrange@redhat.com>
 In-Reply-To: <20211102175700.1175996-1-berrange@redhat.com>
 References: <20211102175700.1175996-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -57,15 +57,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,80 +87,158 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This command was turned into a no-op four years ago in
+This turns the pattern
 
-  commit 0c8465440d50c18a7bb13d0a866748f0593e193a
-  Author: Peter Xu <peterx@redhat.com>
-  Date:   Fri Dec 29 15:31:04 2017 +0800
+  if (err) {
+     hmp_handle_error(mon, err);
+     return;
+  }
 
-    hmp: obsolete "info ioapic"
+into
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+  if (hmp_handle_error(mon, err)) {
+     return;
+  }
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- hmp-commands-info.hx         | 15 ---------------
- include/monitor/hmp-target.h |  1 -
- target/i386/monitor.c        |  6 ------
- 3 files changed, 22 deletions(-)
+ hw/core/machine-hmp-cmds.c |  3 +--
+ include/monitor/hmp.h      |  2 +-
+ monitor/hmp-cmds.c         | 28 +++++++++++-----------------
+ 3 files changed, 13 insertions(+), 20 deletions(-)
 
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index 4c966e8a6b..24c478aead 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -127,21 +127,6 @@ SRST
-     Show local APIC state
- ERST
+diff --git a/hw/core/machine-hmp-cmds.c b/hw/core/machine-hmp-cmds.c
+index 76b22b00d6..c356783ab9 100644
+--- a/hw/core/machine-hmp-cmds.c
++++ b/hw/core/machine-hmp-cmds.c
+@@ -53,8 +53,7 @@ void hmp_hotpluggable_cpus(Monitor *mon, const QDict *qdict)
+     HotpluggableCPUList *saved = l;
+     CpuInstanceProperties *c;
  
--#if defined(TARGET_I386)
--    {
--        .name       = "ioapic",
--        .args_type  = "",
--        .params     = "",
--        .help       = "show io apic state",
--        .cmd        = hmp_info_io_apic,
--    },
--#endif
--
--SRST
--  ``info ioapic``
--    Show io APIC state
--ERST
--
-     {
-         .name       = "cpus",
-         .args_type  = "",
-diff --git a/include/monitor/hmp-target.h b/include/monitor/hmp-target.h
-index 96956d0fc4..ffdc15a34b 100644
---- a/include/monitor/hmp-target.h
-+++ b/include/monitor/hmp-target.h
-@@ -48,7 +48,6 @@ void hmp_info_mem(Monitor *mon, const QDict *qdict);
- void hmp_info_tlb(Monitor *mon, const QDict *qdict);
- void hmp_mce(Monitor *mon, const QDict *qdict);
- void hmp_info_local_apic(Monitor *mon, const QDict *qdict);
--void hmp_info_io_apic(Monitor *mon, const QDict *qdict);
- void hmp_info_sev(Monitor *mon, const QDict *qdict);
- void hmp_info_sgx(Monitor *mon, const QDict *qdict);
- 
-diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-index 8166e17693..8e4b4d600c 100644
---- a/target/i386/monitor.c
-+++ b/target/i386/monitor.c
-@@ -667,9 +667,3 @@ void hmp_info_local_apic(Monitor *mon, const QDict *qdict)
+-    if (err != NULL) {
+-        hmp_handle_error(mon, err);
++    if (hmp_handle_error(mon, err)) {
+         return;
      }
-     x86_cpu_dump_local_apic_state(cs, CPU_DUMP_FPU);
+ 
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index 6bc27639e0..a2cb002a3a 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -16,7 +16,7 @@
+ 
+ #include "qemu/readline.h"
+ 
+-void hmp_handle_error(Monitor *mon, Error *err);
++bool hmp_handle_error(Monitor *mon, Error *err);
+ 
+ void hmp_info_name(Monitor *mon, const QDict *qdict);
+ void hmp_info_version(Monitor *mon, const QDict *qdict);
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index bcaa41350e..9031cea881 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -62,11 +62,13 @@
+ #include <spice/enums.h>
+ #endif
+ 
+-void hmp_handle_error(Monitor *mon, Error *err)
++bool hmp_handle_error(Monitor *mon, Error *err)
+ {
+     if (err) {
+         error_reportf_err(err, "Error: ");
++        return true;
+     }
++    return false;
  }
--
--void hmp_info_io_apic(Monitor *mon, const QDict *qdict)
--{
--    monitor_printf(mon, "This command is obsolete and will be "
--                   "removed soon. Please use 'info pic' instead.\n");
--}
+ 
+ /*
+@@ -577,8 +579,7 @@ void hmp_info_vnc(Monitor *mon, const QDict *qdict)
+ 
+     info2l = qmp_query_vnc_servers(&err);
+     info2l_head = info2l;
+-    if (err) {
+-        hmp_handle_error(mon, err);
++    if (hmp_handle_error(mon, err)) {
+         return;
+     }
+     if (!info2l) {
+@@ -693,8 +694,7 @@ void hmp_info_balloon(Monitor *mon, const QDict *qdict)
+     Error *err = NULL;
+ 
+     info = qmp_query_balloon(&err);
+-    if (err) {
+-        hmp_handle_error(mon, err);
++    if (hmp_handle_error(mon, err)) {
+         return;
+     }
+ 
+@@ -1065,8 +1065,7 @@ void hmp_ringbuf_read(Monitor *mon, const QDict *qdict)
+     int i;
+ 
+     data = qmp_ringbuf_read(chardev, size, false, 0, &err);
+-    if (err) {
+-        hmp_handle_error(mon, err);
++    if (hmp_handle_error(mon, err)) {
+         return;
+     }
+ 
+@@ -1582,8 +1581,7 @@ void hmp_migrate(Monitor *mon, const QDict *qdict)
+ 
+     qmp_migrate(uri, !!blk, blk, !!inc, inc,
+                 false, false, true, resume, &err);
+-    if (err) {
+-        hmp_handle_error(mon, err);
++    if (hmp_handle_error(mon, err)) {
+         return;
+     }
+ 
+@@ -1917,8 +1915,7 @@ void hmp_rocker(Monitor *mon, const QDict *qdict)
+     Error *err = NULL;
+ 
+     rocker = qmp_query_rocker(name, &err);
+-    if (err != NULL) {
+-        hmp_handle_error(mon, err);
++    if (hmp_handle_error(mon, err)) {
+         return;
+     }
+ 
+@@ -1936,8 +1933,7 @@ void hmp_rocker_ports(Monitor *mon, const QDict *qdict)
+     Error *err = NULL;
+ 
+     list = qmp_query_rocker_ports(name, &err);
+-    if (err != NULL) {
+-        hmp_handle_error(mon, err);
++    if (hmp_handle_error(mon, err)) {
+         return;
+     }
+ 
+@@ -1965,8 +1961,7 @@ void hmp_rocker_of_dpa_flows(Monitor *mon, const QDict *qdict)
+     Error *err = NULL;
+ 
+     list = qmp_query_rocker_of_dpa_flows(name, tbl_id != -1, tbl_id, &err);
+-    if (err != NULL) {
+-        hmp_handle_error(mon, err);
++    if (hmp_handle_error(mon, err)) {
+         return;
+     }
+ 
+@@ -2115,8 +2110,7 @@ void hmp_rocker_of_dpa_groups(Monitor *mon, const QDict *qdict)
+     Error *err = NULL;
+ 
+     list = qmp_query_rocker_of_dpa_groups(name, type != 9, type, &err);
+-    if (err != NULL) {
+-        hmp_handle_error(mon, err);
++    if (hmp_handle_error(mon, err)) {
+         return;
+     }
+ 
 -- 
 2.31.1
 
