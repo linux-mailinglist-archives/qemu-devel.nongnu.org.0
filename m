@@ -2,86 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C18B44357A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 19:22:42 +0100 (CET)
-Received: from localhost ([::1]:43336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E1304435A3
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 19:31:59 +0100 (CET)
+Received: from localhost ([::1]:55316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhyQj-0002b2-Dh
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 14:22:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34386)
+	id 1mhyZi-0002Zb-5a
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 14:31:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhyDx-0003me-9R
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 14:09:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22819)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhyDv-0005dU-18
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 14:09:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635876566;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=b/Tun746SEhZ+2ztpIjmbQlGp+7PqF5bZfxt4bCPsFo=;
- b=CK5NX0bfTC7VR+TJXsT+c0FFWAO17qw34/TieoTDrIKGMssXKPNmnIr237U9yQe+fjAVKI
- MjwSkcPfVtFmqE0p0wHJ4SASdVtoEekSKu1TH8Jmv4ZPxeaX/MzyX+uGmYIa1XdCmS9qpT
- 5zMlRHeJoa/byvCZaJ0jfkSW+9OpWLM=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-484-HA1DnfLTNgKFRr0xu6s4QQ-1; Tue, 02 Nov 2021 14:09:25 -0400
-X-MC-Unique: HA1DnfLTNgKFRr0xu6s4QQ-1
-Received: by mail-vk1-f199.google.com with SMTP id
- f11-20020a1f9c0b000000b002e52d613018so56290vke.20
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 11:09:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mhyO5-0001DU-8B
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 14:19:57 -0400
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:35623)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mhyO3-0003N5-FG
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 14:19:56 -0400
+Received: by mail-qk1-x72e.google.com with SMTP id az8so9321010qkb.2
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 11:19:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=nx5nh4ExAWult6bbYOuGuh27cw1rb7yoPZJT1jbhqwg=;
+ b=Ps1gnmDYKt10uhrI3FyXsa/8ajRtNFjGgTILHyaibyZJ3s2IG2b0XPH6OQHknugnh3
+ DzlB8bwA6gRPTxybrY8O1nqC80s4nGp4UN1SCM+3e6+mGYVA1sVPi6G75XzzTq3S6kp/
+ FzdkKujgePyGgREeWuR995HCHErUofwgK4CjxR3l2us8NwCiavY4R0YC09KAjBLYF4Or
+ NmJtUko34JlEtcEhcgvjP0v0GMxi0e+XU5FnPC2AbSSb6AL1BdeaTGQLNnNEce38/hde
+ PmTvdQ5KS3FS63elwt0SQC1yXFrb9RxtH4GNa0PXbwimrpzKJRQMr4rEzhOSjZ7MDHTM
+ mIcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=b/Tun746SEhZ+2ztpIjmbQlGp+7PqF5bZfxt4bCPsFo=;
- b=1P+c3uPwBtRf7LjJBRgT781YVbKqUxHTSxAgculrME7s5zcn7wA/k1rBpUFmE3NV3u
- WBWY9WLl3JrTUdGwFedmP9iRcBdXsRoam80dg7jvuNIXwBDR+1s/ixiMA7MAz8Bc18l2
- R5kteYl/gP8+DxpP6LQjwkDJBl6sgIyzAdJ5iIpV+O/dDo4IzC8iOT8yewq3wfKzigYN
- 7hkq1Nq4WOiFqtjyqhj9tCu6a/8hEgKwAPQLRM+eAvlvCbvdooPhM41wBoTiU3hIEOO5
- 7gClzhEhaEmDkroVMNkvJbq+NZCnhB/EE9zDdR+iKDPMPYy52vYxeMpIQ1mSiCTzYbIJ
- 8Ekw==
-X-Gm-Message-State: AOAM532K2yMPEhX0GHCTjontste0B2ivRPeJSchzwATjFdOMPYKf1tbk
- SJTBU1EEveRuqLSqos9sJ1g5SleOnqmNsXzKIdRvTPRbtM3XHqwng6+db6K/We0EODUuIMBT3n2
- jAyQv5+nJeQRTP2lz9az1/LnSwD2HvDw=
-X-Received: by 2002:a67:c194:: with SMTP id h20mr4041558vsj.19.1635876564591; 
- Tue, 02 Nov 2021 11:09:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy2lQ7Ph5tjivWsK17PcTvtuHAINJBmd5oV4NvHNasWbiVhVYtScWamN+52vWvj6BHwHTxwVFLDewCUDLMqRYg=
-X-Received: by 2002:a67:c194:: with SMTP id h20mr4041516vsj.19.1635876564310; 
- Tue, 02 Nov 2021 11:09:24 -0700 (PDT)
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nx5nh4ExAWult6bbYOuGuh27cw1rb7yoPZJT1jbhqwg=;
+ b=aDmxV2b6UEOtBy/l0GGSVFHfws7zBNrE4fTiWs+xRbP1CNjXLCQ8OPYLJubOIbbMwD
+ CB0TNcrygkJPDbbQOFlpQVjXehzijj5qetDEHVNxhoU+NYKunWkMKBBxOdrnvGlEBqnV
+ NPWuDKbx6fup81jE6XfiAfLCxd/wTylxlT2cEy+AxwnebIXjW/4dilS9AD/0JTh57O/p
+ 4Lgi1vcHKp2UKFBdvmQHcWbIpnuiQhF2DmY7wKdHIOsR2+D7DbGcYAJKyCgTfl3C5axU
+ /RW334qe5ChfYonoOI2RlsTgqcNSUZ1qN1MMDPy+TTXtvoWkXa3kMOsAwRtSDPFGIsI3
+ C4MQ==
+X-Gm-Message-State: AOAM530jbjxeK2Ntmz4YTmudsn0n/V87D1A3/+RL4gijumIl93MGMWUj
+ Da7wVdQYreKo3LH/TFZhvV5l9g==
+X-Google-Smtp-Source: ABdhPJx0L6D4o/uwfU1R/lPttJF+VhS5K4gyZGo4us+8JodIFsBJKmzUY12Y8xr5W7gLKZ2bYF1WXw==
+X-Received: by 2002:a37:b8a:: with SMTP id 132mr31769461qkl.278.1635877194325; 
+ Tue, 02 Nov 2021 11:19:54 -0700 (PDT)
+Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
+ [172.254.253.57])
+ by smtp.gmail.com with ESMTPSA id m14sm1183227qtk.12.2021.11.02.11.19.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Nov 2021 11:19:53 -0700 (PDT)
+Subject: Re: [PATCH v2] hvf: arm: Ignore cache operations on MMIO
+From: Richard Henderson <richard.henderson@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20211026071241.74889-1-agraf@csgraf.de>
+ <0cd15efa-d00e-fa85-47c7-6e3d11058cf4@linaro.org>
+ <CAFEAcA_wBCL++KREtW2COtDC8nHAD3DRsDbWBxPr0k7i8EWRnw@mail.gmail.com>
+ <47d35b2d-bfbf-6ee8-a004-ad74e713db13@linaro.org>
+ <CAFEAcA9gwpXQ6MbbaBDXNsCOca+Zyd3jRWYrCqoSZ44U-KAjeg@mail.gmail.com>
+ <e8fb0d93-7377-214a-1032-cfea21de1fa2@linaro.org>
+Message-ID: <1f1e9fd1-86da-8224-5b80-8f0ddb1455b5@linaro.org>
+Date: Tue, 2 Nov 2021 14:19:52 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210929144311.1168561-1-lvivier@redhat.com>
- <20210929144311.1168561-3-lvivier@redhat.com>
- <20211102110043-mutt-send-email-mst@kernel.org>
- <5139c0a8-6aa0-48df-f353-84a15ffc4dd1@redhat.com>
- <20211102130811-mutt-send-email-mst@kernel.org> <87v91afozo.fsf@secure.mitica>
- <fcd90239-6152-fde8-db95-a3692ae151ba@redhat.com>
-In-Reply-To: <fcd90239-6152-fde8-db95-a3692ae151ba@redhat.com>
-From: Juan Quintela <quintela@redhat.com>
-Date: Tue, 2 Nov 2021 19:09:13 +0100
-Message-ID: <CAGiv1-W-1f=VQLZ1XgO-bspwF+UC_F-h6iBp6tYccPofh1JAoA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] failover: don't allow to migrate a paused VM that
- needs PCI unplug
-To: Laurent Vivier <lvivier@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000083326605cfd23114"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <e8fb0d93-7377-214a-1032-cfea21de1fa2@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72e.google.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.549,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,202 +92,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: kettenis@openbsd.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Cameron Esfahani <dirty@apple.com>, qemu-devel@nongnu.org,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000083326605cfd23114
-Content-Type: text/plain; charset="UTF-8"
+On 11/2/21 7:15 AM, Richard Henderson wrote:
+> On 11/2/21 6:42 AM, Peter Maydell wrote:
+>> On Tue, 2 Nov 2021 at 10:01, Richard Henderson
+>> <richard.henderson@linaro.org> wrote:
+>>>
+>>> On 11/1/21 3:35 PM, Peter Maydell wrote:
+>>>> On Mon, 1 Nov 2021 at 19:28, Richard Henderson
+>>>> <richard.henderson@linaro.org> wrote:
+>>>>>
+>>>>> On 10/26/21 3:12 AM, Alexander Graf wrote:
+>>>>>> Apple's Hypervisor.Framework forwards cache operations as MMIO traps
+>>>>>> into user space. For MMIO however, these have no meaning: There is no
+>>>>>> cache attached to them.
+>>>>>>
+>>>>>> So let's just treat cache data exits as nops.
+>>>>>>
+>>>>>> This fixes OpenBSD booting as guest.
+>>>>>>
+>>>>>> Signed-off-by: Alexander Graf <agraf@csgraf.de>
+>>>>>> Reported-by: AJ Barris <AwlsomeAlex@github.com>
+>>>>>> Reference: https://github.com/utmapp/UTM/issues/3197
+>>>>>> ---
+>>>>>>     target/arm/hvf/hvf.c | 7 +++++++
+>>>>>>     1 file changed, 7 insertions(+)
+>>>>>
+>>>>> Thanks, applied to target-arm.next
+>>>>
+>>>> ...did you see my email saying I think we also need
+>>>> to test S1PTW ?
+>>>
+>>> That arrived afterward.
+>>
+>> Thinking it over later, I wouldn't be opposed to taking this
+>> patch now and adding the S1PTW second -- I think we're
+>> currently going to do the wrong thing for the "page tables
+>> not in RAM case anyway", so you could regard it as a
+>> separate bug fix.
+> 
+> Heh.  I was thinking the something similar, after I dequeued the patch.  That this fixes a 
+> problem emulating a well-behaved guest, and that the s1ptw hole is "merely" a problem vs 
+> an ill-behaved guest hitting the following assert.
+> 
+> Well, I've sent off the PR without this included, so I guess this should be the first cab 
+> off the rank for the next set.
+> 
+> I'm quite happy to hand the target-arm.next baton back to you.  ;-)
 
-On Tue, Nov 2, 2021, 18:47 Laurent Vivier <lvivier@redhat.com> wrote:
-
-> On 02/11/2021 18:26, Juan Quintela wrote:
-> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> >> On Tue, Nov 02, 2021 at 06:06:51PM +0100, Laurent Vivier wrote:
-> >>> On 02/11/2021 16:04, Michael S. Tsirkin wrote:
-> >>>> On Wed, Sep 29, 2021 at 04:43:11PM +0200, Laurent Vivier wrote:
-> >>>>> As the guest OS is paused, we will never receive the unplug event
-> >>>>> from the kernel and the migration cannot continue.
-> >>>>>
-> >>>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> >>>>
-> >>>> Well ... what if user previously did
-> >>>>
-> >>>> pause
-> >>>> start migration
-> >>>> unpause
-> >>>>
-> >>>> we are breaking it now for no good reason.
-> >>>>
-> >>>> Further, how about
-> >>>>
-> >>>> start migration
-> >>>> pause
-> >>>>
-> >>>> are we going to break this too? by failing pause?
-> >>>>
-> >>>>
-> >>>
-> >>> TL;DR: This patch only prevents to migrate a VFIO device as failover
-> allows
-> >>> to start a migration with a VFIO device plugged in.
-> >>>
-> >>> Long Story:
-> >>>
-> >>> * before this patch:
-> >>>
-> >>> - pause and start migration and unpause-> fails if we unpause too late
-> >>> because we migrate a VFIO device, works otherwise
-> >>
-> >>
-> >> confused about this one. can you explain pls?
-> >
-> > Pause the guest.
-> > Start migration.
-> >
-> >       if (migration_in_setup(s) && !should_be_hidden) {
-> >          if (failover_unplug_primary(n, dev)) {
-> >               vmstate_unregister(VMSTATE_IF(dev), qdev_get_vmsd(dev),
-> dev);
-> >               qapi_event_send_unplug_primary(dev->id);
-> >
-> > We send the unplug request, but the guest is paused.
-> >
-> >               qatomic_set(&n->failover_primary_hidden, true);
-> >
-> > callbacks, callbacks, callbacks.
-> >
-> >          while (s->state == MIGRATION_STATUS_WAIT_UNPLUG &&
-> >                 qemu_savevm_state_guest_unplug_pending()) {
-> >              qemu_sem_timedwait(&s->wait_unplug_sem, 250);
-> >          }
-> >
-> > And we are not able to get out of that loop, because we never get to the
-> > point where the guest send the unplug command.
-> >
-> > So, the only other thing that I can think of is putting one timeout
-> > there, but how much?  That is a good question.
-> >
->
-> Please, no timeout, IMHO timeout is worse than a clean exit on failure.
->
+Since I need to re-spin the target-arm.next PR anyway, I've re-queued this.
 
 
-How long should we wait for the guest? If not a timeout....
-
-
-> Thanks,
-> Laurent
->
->
-
---00000000000083326605cfd23114
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Tue, Nov 2, 2021, 18:47 Laurent Vivier &lt;<a href=
-=3D"mailto:lvivier@redhat.com">lvivier@redhat.com</a>&gt; wrote:<br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
- #ccc solid;padding-left:1ex">On 02/11/2021 18:26, Juan Quintela wrote:<br>
-&gt; &quot;Michael S. Tsirkin&quot; &lt;<a href=3D"mailto:mst@redhat.com" t=
-arget=3D"_blank" rel=3D"noreferrer">mst@redhat.com</a>&gt; wrote:<br>
-&gt;&gt; On Tue, Nov 02, 2021 at 06:06:51PM +0100, Laurent Vivier wrote:<br=
->
-&gt;&gt;&gt; On 02/11/2021 16:04, Michael S. Tsirkin wrote:<br>
-&gt;&gt;&gt;&gt; On Wed, Sep 29, 2021 at 04:43:11PM +0200, Laurent Vivier w=
-rote:<br>
-&gt;&gt;&gt;&gt;&gt; As the guest OS is paused, we will never receive the u=
-nplug event<br>
-&gt;&gt;&gt;&gt;&gt; from the kernel and the migration cannot continue.<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; Signed-off-by: Laurent Vivier &lt;<a href=3D"mailto:lv=
-ivier@redhat.com" target=3D"_blank" rel=3D"noreferrer">lvivier@redhat.com</=
-a>&gt;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Well ... what if user previously did<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; pause<br>
-&gt;&gt;&gt;&gt; start migration<br>
-&gt;&gt;&gt;&gt; unpause<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; we are breaking it now for no good reason.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Further, how about<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; start migration<br>
-&gt;&gt;&gt;&gt; pause<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; are we going to break this too? by failing pause?<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; TL;DR: This patch only prevents to migrate a VFIO device as fa=
-ilover allows<br>
-&gt;&gt;&gt; to start a migration with a VFIO device plugged in.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Long Story:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; * before this patch:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; - pause and start migration and unpause-&gt; fails if we unpau=
-se too late<br>
-&gt;&gt;&gt; because we migrate a VFIO device, works otherwise<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; confused about this one. can you explain pls?<br>
-&gt; <br>
-&gt; Pause the guest.<br>
-&gt; Start migration.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (migration_in_setup(s) &amp;&amp; !should=
-_be_hidden) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (failover_unplug_primary(n, dev))=
- {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vmstate_unregist=
-er(VMSTATE_IF(dev), qdev_get_vmsd(dev), dev);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qapi_event_send_=
-unplug_primary(dev-&gt;id);<br>
-&gt; <br>
-&gt; We send the unplug request, but the guest is paused.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qatomic_set(&amp=
-;n-&gt;failover_primary_hidden, true);<br>
-&gt; <br>
-&gt; callbacks, callbacks, callbacks.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 while (s-&gt;state =3D=3D MIGRATION_=
-STATUS_WAIT_UNPLUG &amp;&amp;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_save=
-vm_state_guest_unplug_pending()) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_sem_timedwait(&am=
-p;s-&gt;wait_unplug_sem, 250);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; <br>
-&gt; And we are not able to get out of that loop, because we never get to t=
-he<br>
-&gt; point where the guest send the unplug command.<br>
-&gt; <br>
-&gt; So, the only other thing that I can think of is putting one timeout<br=
->
-&gt; there, but how much?=C2=A0 That is a good question.<br>
-&gt; <br>
-<br>
-Please, no timeout, IMHO timeout is worse than a clean exit on failure.<br>=
-</blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto"><br>=
-</div><div dir=3D"auto">How long should we wait for the guest? If not a tim=
-eout....</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"g=
-mail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex">
-<br>
-Thanks,<br>
-Laurent<br>
-<br>
-</blockquote></div></div></div>
-
---00000000000083326605cfd23114--
-
+r~
 
