@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAC17442D0B
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 12:44:49 +0100 (CET)
-Received: from localhost ([::1]:54160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5595442C69
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 12:21:24 +0100 (CET)
+Received: from localhost ([::1]:50722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhsDg-0000AT-Uq
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 07:44:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43502)
+	id 1mhrr1-0001KC-QK
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 07:21:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhreF-0003qe-Om
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:08:11 -0400
-Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:36407)
+ id 1mhreG-0003s9-AJ
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:08:12 -0400
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:39504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhre3-0000w1-CU
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:08:10 -0400
-Received: by mail-qt1-x82e.google.com with SMTP id h14so17662790qtb.3
+ id 1mhre3-0000w8-CV
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:08:11 -0400
+Received: by mail-qk1-x72e.google.com with SMTP id bk22so12482348qkb.6
  for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 04:07:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=StWIwDrqZSFeqnqFg+3hcLpPKjUfEIhsbr06iPdg0Gc=;
- b=DlbdVejiussjWNpJ32pJ5I3owF8tmWrUSHRbJgX3Z7MvJWdVSJ9kojPxIu+4g1K0GN
- InPQHmtrMnVZRSm9y385A0y4SNnxjzZgS0K1ocUUErYxfXChTpz07cG2/j8UvE/NyYzA
- YU0xj16daS7pWbhHwsREMO9vmgxU3tK4nH0/SO84imb0HuRWLv1446VYBw0bVOG0xWkg
- 8xTsvGK5FQXem7jo91mx23bCkv1uH2LUi8NwNeK1Udm6pwrcTe7GhUeYsaS//5LofiKn
- PVaGBCKKb8Vy+CGzeoLPCd3TKtanayohqwCWg/RGCmS7Yn4wJs29f29D9o8UqJZiuSZz
- ED7g==
+ bh=Bcv7+vrfVWDaxhREKP7oW3QycojCjuZf0xWMtNuZYi8=;
+ b=VhhMXEt1F5UycjB4r+Cd4HQkr9225pO6eL8qvN1PrQ1fRduWHTeixFvbw80x6V6EcB
+ D6YH8zxwipI0BZ32mXEH/LSJrM97hxUgYaYJbHapdDM4fo8lxEeIfX/Um4ZavhD73TpO
+ o1iSgx5lcveP8hL48A1GCMwz6XG3lK0q52PFb7XRr4LvWQLxDlEzbRarUVnOH8Kffoyu
+ F0pS/BUqVn70pWfNhq1CN2XbGhsIWNauMemv3/eQMzbB7yQNC8M0hbuVeA1fOllIjZpI
+ W5z/mED/nXrdCr4Gm+5d9IsKcgQ3RCGscA/AtRD4+myR4Lgz7b0sxwZQyITGhM8xhHcN
+ vG6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=StWIwDrqZSFeqnqFg+3hcLpPKjUfEIhsbr06iPdg0Gc=;
- b=G8PBCVcsufxbp4IVQ754q3rjJFVqsWo93j5Uxv+KgjA3jR41aww/Gni/eIAdauGM33
- 1DGcx51g2aQUN5BK4/UfF9MjZYSwh0vxsyHF2whMRDsH0hCgHYndf5u5YpgUKcIJQu3Z
- XHeEupoT51qKmIs2twOfiHaDC+qiZgAFiMlkWhca1a9PKNUfacp4fgTeSSgOwEYyuoPd
- LW8PqTp8D4xx49ZcScUN8Pnjt9IqrFXinGYT+grqb9qGNH0O/kZilI3Z7LLDdEa0VOv5
- 5tltLzlJda8LxVjHEJ9k+ubAUzeeESet8T2knd997Kng42O+AE6Z6UVXli1KzCTS+AMV
- mqDw==
-X-Gm-Message-State: AOAM532nP3W4SAcCMCDJwZYCk0+UxhfPklBon7mlk9FSsoF33sDGAmwi
- EufdFB3iDLpGPoNHpsoEkJ5+ogmZ7BlttQ==
-X-Google-Smtp-Source: ABdhPJw/9pfHsY6GiaqxuSSe9pss+1BlSTzW2QpDjAL5c3gl+d+9VMg5HBCQT04QLS/fTh7UqIoBdw==
-X-Received: by 2002:a05:622a:30f:: with SMTP id
- q15mr6725530qtw.316.1635851276727; 
- Tue, 02 Nov 2021 04:07:56 -0700 (PDT)
+ bh=Bcv7+vrfVWDaxhREKP7oW3QycojCjuZf0xWMtNuZYi8=;
+ b=5OSVVfn/QBLxVnYfDP5+SXtm6+sUBM0vZNf2iMI947x750XUMEUbw4QCQWUFYfZeq9
+ hJkuxFrV8LaXqY4DWEJNblz/L6xX8drlBWFNMg4iWwpYXCveS5LRiohMWVaDJmSwD+7H
+ oQ/A+2aTEpMgFvt+zaX+osXhQlWLr1OiqeFJ+JZxxjL4iGMeLmSAqL1yPNTYJROERmEp
+ yDuS5Q98lrQGXxpxRA6IWP0p01dTUa74dRA60FMy9yqnWrh4nPxnN2HVxyS2agDR0MLE
+ pL86q3ynx2cVVVxlh45LAZYXHNOua0UYK6JUI8sOgxU6lvmbxlm54//1tZ+bLbc8vWnV
+ a0Bw==
+X-Gm-Message-State: AOAM531iwAa3/kvB3UPaarkEwmhczOX/jVqdhjYMcQ4AJDDMdIp0Os8E
+ 9Ewht3c+FRuuafjSS/Ex4OFVxYrbSBasgw==
+X-Google-Smtp-Source: ABdhPJx5JSMT29cxrN5Ouh/62xtCYp95gTC7LNk08LH7gVltwQvWwuF9T9K1aBNByy1q5uNO/6Ipxg==
+X-Received: by 2002:a37:6c83:: with SMTP id
+ h125mr27783636qkc.486.1635851277219; 
+ Tue, 02 Nov 2021 04:07:57 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-172-254-253-57.nyc.biz.rr.com.
  [172.254.253.57])
  by smtp.gmail.com with ESMTPSA id bm7sm3568612qkb.86.2021.11.02.04.07.56
@@ -55,17 +55,17 @@ Received: from localhost.localdomain (rrcs-172-254-253-57.nyc.biz.rr.com.
  Tue, 02 Nov 2021 04:07:56 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/60] target/hppa: Make hppa_cpu_tlb_fill sysemu only
-Date: Tue,  2 Nov 2021 07:07:06 -0400
-Message-Id: <20211102110740.215699-27-richard.henderson@linaro.org>
+Subject: [PULL 27/60] target/i386: Implement x86_cpu_record_sigsegv
+Date: Tue,  2 Nov 2021 07:07:07 -0400
+Message-Id: <20211102110740.215699-28-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211102110740.215699-1-richard.henderson@linaro.org>
 References: <20211102110740.215699-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,133 +89,98 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The fallback code in cpu_loop_exit_sigsegv is sufficient
-for hppa linux-user.
+Record cr2, error_code, and exception_index.  That last means
+that we must exit to cpu_loop ourselves, instead of letting
+exception_index being overwritten.
 
-Remove the code from cpu_loop that raised SIGSEGV.
-This makes all of the code in mem_helper.c sysemu only,
-so remove the ifdefs and move the file to hppa_softmmu_ss.
+Use the maperr parameter to properly set PG_ERROR_P_MASK.
 
+Reviewed by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/hppa/cpu.h          |  2 +-
- linux-user/hppa/cpu_loop.c | 16 ----------------
- target/hppa/cpu.c          |  2 +-
- target/hppa/mem_helper.c   | 15 ---------------
- target/hppa/meson.build    |  6 ++++--
- 5 files changed, 6 insertions(+), 35 deletions(-)
+ target/i386/tcg/helper-tcg.h       |  6 ++++++
+ target/i386/tcg/tcg-cpu.c          |  3 ++-
+ target/i386/tcg/user/excp_helper.c | 23 +++++++++++++++++------
+ 3 files changed, 25 insertions(+), 7 deletions(-)
 
-diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
-index d3cb7a279f..294fd7297f 100644
---- a/target/hppa/cpu.h
-+++ b/target/hppa/cpu.h
-@@ -323,10 +323,10 @@ hwaddr hppa_cpu_get_phys_page_debug(CPUState *cs, vaddr addr);
- int hppa_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int hppa_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
- void hppa_cpu_dump_state(CPUState *cs, FILE *f, int);
-+#ifndef CONFIG_USER_ONLY
- bool hppa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                        MMUAccessType access_type, int mmu_idx,
-                        bool probe, uintptr_t retaddr);
--#ifndef CONFIG_USER_ONLY
- void hppa_cpu_do_interrupt(CPUState *cpu);
- bool hppa_cpu_exec_interrupt(CPUState *cpu, int int_req);
- int hppa_get_physical_address(CPUHPPAState *env, vaddr addr, int mmu_idx,
-diff --git a/linux-user/hppa/cpu_loop.c b/linux-user/hppa/cpu_loop.c
-index 81607a9b27..e0a62deeb9 100644
---- a/linux-user/hppa/cpu_loop.c
-+++ b/linux-user/hppa/cpu_loop.c
-@@ -144,22 +144,6 @@ void cpu_loop(CPUHPPAState *env)
-             env->iaoq_f = env->gr[31];
-             env->iaoq_b = env->gr[31] + 4;
-             break;
--        case EXCP_ITLB_MISS:
--        case EXCP_DTLB_MISS:
--        case EXCP_NA_ITLB_MISS:
--        case EXCP_NA_DTLB_MISS:
--        case EXCP_IMP:
--        case EXCP_DMP:
--        case EXCP_DMB:
--        case EXCP_PAGE_REF:
--        case EXCP_DMAR:
--        case EXCP_DMPI:
--            info.si_signo = TARGET_SIGSEGV;
--            info.si_errno = 0;
--            info.si_code = TARGET_SEGV_ACCERR;
--            info._sifields._sigfault._addr = env->cr[CR_IOR];
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
--            break;
-         case EXCP_UNALIGN:
-             info.si_signo = TARGET_SIGBUS;
-             info.si_errno = 0;
-diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
-index 89cba9d7a2..23eb254228 100644
---- a/target/hppa/cpu.c
-+++ b/target/hppa/cpu.c
-@@ -145,9 +145,9 @@ static const struct SysemuCPUOps hppa_sysemu_ops = {
- static const struct TCGCPUOps hppa_tcg_ops = {
-     .initialize = hppa_translate_init,
-     .synchronize_from_tb = hppa_cpu_synchronize_from_tb,
--    .tlb_fill = hppa_cpu_tlb_fill,
+diff --git a/target/i386/tcg/helper-tcg.h b/target/i386/tcg/helper-tcg.h
+index 60ca09e95e..0a4401e917 100644
+--- a/target/i386/tcg/helper-tcg.h
++++ b/target/i386/tcg/helper-tcg.h
+@@ -43,9 +43,15 @@ bool x86_cpu_exec_interrupt(CPUState *cpu, int int_req);
+ #endif
  
- #ifndef CONFIG_USER_ONLY
-+    .tlb_fill = hppa_cpu_tlb_fill,
-     .cpu_exec_interrupt = hppa_cpu_exec_interrupt,
-     .do_interrupt = hppa_cpu_do_interrupt,
-     .do_unaligned_access = hppa_cpu_do_unaligned_access,
-diff --git a/target/hppa/mem_helper.c b/target/hppa/mem_helper.c
-index afc5b56c3e..bf07445cd1 100644
---- a/target/hppa/mem_helper.c
-+++ b/target/hppa/mem_helper.c
-@@ -24,20 +24,6 @@
- #include "hw/core/cpu.h"
- #include "trace.h"
+ /* helper.c */
++#ifdef CONFIG_USER_ONLY
++void x86_cpu_record_sigsegv(CPUState *cs, vaddr addr,
++                            MMUAccessType access_type,
++                            bool maperr, uintptr_t ra);
++#else
+ bool x86_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                       MMUAccessType access_type, int mmu_idx,
+                       bool probe, uintptr_t retaddr);
++#endif
  
--#ifdef CONFIG_USER_ONLY
--bool hppa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                       MMUAccessType access_type, int mmu_idx,
--                       bool probe, uintptr_t retaddr)
--{
--    HPPACPU *cpu = HPPA_CPU(cs);
--
--    /* ??? Test between data page fault and data memory protection trap,
--       which would affect si_code.  */
--    cs->exception_index = EXCP_DMP;
--    cpu->env.cr[CR_IOR] = address;
--    cpu_loop_exit_restore(cs, retaddr);
--}
--#else
- static hppa_tlb_entry *hppa_find_tlb(CPUHPPAState *env, vaddr addr)
+ void breakpoint_handler(CPUState *cs);
+ 
+diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
+index 3ecfae34cb..6fdfdf9598 100644
+--- a/target/i386/tcg/tcg-cpu.c
++++ b/target/i386/tcg/tcg-cpu.c
+@@ -72,10 +72,11 @@ static const struct TCGCPUOps x86_tcg_ops = {
+     .synchronize_from_tb = x86_cpu_synchronize_from_tb,
+     .cpu_exec_enter = x86_cpu_exec_enter,
+     .cpu_exec_exit = x86_cpu_exec_exit,
+-    .tlb_fill = x86_cpu_tlb_fill,
+ #ifdef CONFIG_USER_ONLY
+     .fake_user_interrupt = x86_cpu_do_interrupt,
++    .record_sigsegv = x86_cpu_record_sigsegv,
+ #else
++    .tlb_fill = x86_cpu_tlb_fill,
+     .do_interrupt = x86_cpu_do_interrupt,
+     .cpu_exec_interrupt = x86_cpu_exec_interrupt,
+     .debug_excp_handler = breakpoint_handler,
+diff --git a/target/i386/tcg/user/excp_helper.c b/target/i386/tcg/user/excp_helper.c
+index a89b5228fd..cd507e2a1b 100644
+--- a/target/i386/tcg/user/excp_helper.c
++++ b/target/i386/tcg/user/excp_helper.c
+@@ -22,18 +22,29 @@
+ #include "exec/exec-all.h"
+ #include "tcg/helper-tcg.h"
+ 
+-bool x86_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
+-                      MMUAccessType access_type, int mmu_idx,
+-                      bool probe, uintptr_t retaddr)
++void x86_cpu_record_sigsegv(CPUState *cs, vaddr addr,
++                            MMUAccessType access_type,
++                            bool maperr, uintptr_t ra)
  {
-     int i;
-@@ -392,4 +378,3 @@ int hppa_artype_for_page(CPUHPPAState *env, target_ulong vaddr)
-     hppa_tlb_entry *ent = hppa_find_tlb(env, vaddr);
-     return ent ? ent->ar_type : -1;
+     X86CPU *cpu = X86_CPU(cs);
+     CPUX86State *env = &cpu->env;
+ 
++    /*
++     * The error_code that hw reports as part of the exception frame
++     * is copied to linux sigcontext.err.  The exception_index is
++     * copied to linux sigcontext.trapno.  Short of inventing a new
++     * place to store the trapno, we cannot let our caller raise the
++     * signal and set exception_index to EXCP_INTERRUPT.
++     */
+     env->cr[2] = addr;
+-    env->error_code = (access_type == MMU_DATA_STORE) << PG_ERROR_W_BIT;
+-    env->error_code |= PG_ERROR_U_MASK;
++    env->error_code = ((access_type == MMU_DATA_STORE) << PG_ERROR_W_BIT)
++                    | (maperr ? 0 : PG_ERROR_P_MASK)
++                    | PG_ERROR_U_MASK;
+     cs->exception_index = EXCP0E_PAGE;
++
++    /* Disable do_interrupt_user. */
+     env->exception_is_int = 0;
+     env->exception_next_eip = -1;
+-    cpu_loop_exit_restore(cs, retaddr);
++
++    cpu_loop_exit_restore(cs, ra);
  }
--#endif /* CONFIG_USER_ONLY */
-diff --git a/target/hppa/meson.build b/target/hppa/meson.build
-index 8a7ff82efc..021e42a2d0 100644
---- a/target/hppa/meson.build
-+++ b/target/hppa/meson.build
-@@ -7,13 +7,15 @@ hppa_ss.add(files(
-   'gdbstub.c',
-   'helper.c',
-   'int_helper.c',
--  'mem_helper.c',
-   'op_helper.c',
-   'translate.c',
- ))
- 
- hppa_softmmu_ss = ss.source_set()
--hppa_softmmu_ss.add(files('machine.c'))
-+hppa_softmmu_ss.add(files(
-+  'machine.c',
-+  'mem_helper.c',
-+))
- 
- target_arch += {'hppa': hppa_ss}
- target_softmmu_arch += {'hppa': hppa_softmmu_ss}
 -- 
 2.25.1
 
