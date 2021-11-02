@@ -2,84 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64B3844299A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 09:36:31 +0100 (CET)
-Received: from localhost ([::1]:56052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 277D14429A7
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 09:39:59 +0100 (CET)
+Received: from localhost ([::1]:32878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhpHS-000818-Iu
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 04:36:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56884)
+	id 1mhpKo-00033m-6h
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 04:39:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mhpFm-0006Yn-NM
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 04:34:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49325)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mhpFk-0007Ij-Sd
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 04:34:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635842084;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lq6Y6OGXqitUDAht4VPFaHK8F18ncGkeK96swZmf/oQ=;
- b=CF2R3xecbq5XVH4gKR9sKb2bXdT68RWgvy1VODzesYqEnGCFmB3y21gMOOuEhl8t8BrqsC
- CoO9/jDm2g4ja5Nj74Bq+eLoEpyk7ikP52g4jjC2P4x1c31nZHQ26wJkoSrqxOmGyTQPnO
- 4BKJAYH5YlDVR0o0v0/GaBnLYqTtjyY=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-g8C7PU0VPCK-uIVBXkKXUA-1; Tue, 02 Nov 2021 04:34:41 -0400
-X-MC-Unique: g8C7PU0VPCK-uIVBXkKXUA-1
-Received: by mail-qv1-f71.google.com with SMTP id
- p7-20020a05621421e700b003a31e1b87e4so8960375qvj.21
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 01:34:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mhpJ2-0001zD-FO
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 04:38:08 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:56203)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mhpJ0-000214-Ea
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 04:38:08 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id v127so14900042wme.5
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 01:38:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=BVP2S75eoU4XoUHZTuEL7Ws/+vPyQwpN4pIg5tPMXUo=;
+ b=R93dQ73dhtkbwrg6HNLD7Sd9LEmgLUpwpDhbDz6gleCIsYsAgKOLb+/Xq3mblmNrIw
+ vRqO7eMiO13hc+YuuYnanxppWPp2TYgbXZuG2YRJSZ8l64AuPeAY35p9YkkqNwfJjmfU
+ 1ADUKYKCHgOhUgyHKb9mOFp6BJ2/MGzxZHybngMX11K3LcYwETMG7HRX5px7F1rzTtvC
+ S/U7DC/QHHcuCk6NCCFKmNyb0fcDmjOzgmsBNqwpMzGXAUwZdOccwJmzgUnKx725uZEa
+ J+NO/pCg2geHB5XcCaPlqV1cuTfaHkOk5a476/JFzxIgDmzgy0kq40fxfGv2gAUGwWjP
+ 8R2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=lq6Y6OGXqitUDAht4VPFaHK8F18ncGkeK96swZmf/oQ=;
- b=3EB0KDp/2UnmvCGsQLdETLfVwW/yierqIF0VwI77WDWT3/o9eqVn41SIy74b9+zbbp
- 9EzDub1xu8YSEeyA2PeLnRq1uUXJtOeOL3xH3V7kdAnswSFYBRP3Wq1ktXlIP6ew96AM
- 3wn6Sy2B520CUhb1BZ9gzCbCimAl8j4RiWXnU4y0aqluWyCoJ1RnrIAUaVN1boZ5mzUO
- yeBStlp0BR2ZN0bNmW2SPLjhWkkSqze69OA+iul+84B4RA4lXn0x1y4aAKizyQJLTMqo
- OQznZRLbjkhDKkws6whGWXFxIUT2uV3GnC5y0V94h0w/KjfeR6BB0UhIgUWvXraDWdUD
- xabg==
-X-Gm-Message-State: AOAM530ntzzz4Blv9FMExwrbCm+T0AkZW1DMEHC3lqtiVWOTOmHzzdX8
- WTvRUgwLzEZguNjZ90erlKr0xhfmCPvePaIYV4iJcjPsovVT+gVHaQcgzInO2jJegcC0SFborqX
- mNiVMko6o8wFdH5I2w1nJv9TSedok+7g=
-X-Received: by 2002:ac8:598d:: with SMTP id e13mr37461979qte.76.1635842081030; 
- Tue, 02 Nov 2021 01:34:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzCcrYlqJ5n7NeRqBWwBEO7q8BjuwWiM5cwT4Ax4mIOgbIYzdJi8tKds9wheRV2XAn5O5OSDo6vX1R35K73XBY=
-X-Received: by 2002:ac8:598d:: with SMTP id e13mr37461952qte.76.1635842080865; 
- Tue, 02 Nov 2021 01:34:40 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=BVP2S75eoU4XoUHZTuEL7Ws/+vPyQwpN4pIg5tPMXUo=;
+ b=quN/ZOnTXRhKl3YIqnPTAotuoFVa0LG8mZHrnc0a9hBXh8vNBQVAC0ulo4dLRCaAmZ
+ Vh/rcCZVIQXyPq/UgyN4qJZCToYHoXW0Wsd5ZdGMwCXx7rC+h+QySkot6wDiyTGpiAV0
+ 6Ftiif/kFzIeP7+AhfnttlyZzl/wgZyKSyAPidzvq+5GK9NhXyKYThBT3oOWTz4UO0Nd
+ 7yT6V6qQpKtWu8xNX4ANPKHljQaHM/UB/GZpMORj0q5iGBPRN6Kn8K6xhccAw8LgACS9
+ TYTi1u6fR40kLbwGBADGJISR3SdaFm9CzUfcWBcEGxBNDBSebIzsj2M4rqK+ZzrZkr/Y
+ 8ujg==
+X-Gm-Message-State: AOAM5334daCTQkixj5a/ELSgcmDJ8ApddBGgJdDi6nIP4Q3UOKcSLeYO
+ J/iNiy6F0P1Yea6TiV2kuaw=
+X-Google-Smtp-Source: ABdhPJyQg48XZ7kxDHL7uY2zuOEwYnBiRzAqhxkpKKc9y30AoRAFA1KsE6qnSqG2zbvI0PysyilLag==
+X-Received: by 2002:a05:600c:c1:: with SMTP id
+ u1mr5166849wmm.163.1635842284906; 
+ Tue, 02 Nov 2021 01:38:04 -0700 (PDT)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id x13sm12623241wrr.47.2021.11.02.01.38.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Nov 2021 01:38:04 -0700 (PDT)
+Message-ID: <bdc9d879-dbe7-dc48-7bf5-4d150996174a@amsat.org>
+Date: Tue, 2 Nov 2021 09:38:02 +0100
 MIME-Version: 1.0
-References: <20211029183525.1776416-1-eperezma@redhat.com>
- <20211029183525.1776416-3-eperezma@redhat.com>
- <87a6inow7s.fsf@secure.mitica>
-In-Reply-To: <87a6inow7s.fsf@secure.mitica>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 2 Nov 2021 09:34:05 +0100
-Message-ID: <CAJaqyWeEza4L_zzedbpu3oSm8L=ycjBCRe6g0ctexX9CQA0jBg@mail.gmail.com>
-Subject: Re: [RFC PATCH v5 02/26] vhost: Fix last queue index of devices with
- no cvq
-To: Juan Quintela <quintela@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v8 02/29] target/loongarch: Add core definition
+Content-Language: en-US
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <1635760311-20015-1-git-send-email-gaosong@loongson.cn>
+ <1635760311-20015-3-git-send-email-gaosong@loongson.cn>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <1635760311-20015-3-git-send-email-gaosong@loongson.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.14,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,91 +91,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-level <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Xiao W Wang <xiao.w.wang@intel.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Eric Blake <eblake@redhat.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Parav Pandit <parav@mellanox.com>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, i.qemu@xen0n.name,
+ richard.henderson@linaro.org, laurent@vivier.eu, peterx@redhat.com,
+ f4bug@amsat.org, yangxiaojuan@loongson.cn, alistair.francis@wdc.com,
+ maobibo@loongson.cn, pbonzini@redhat.com, bmeng.cn@gmail.com,
+ alex.bennee@linaro.org, chenhuacai@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 2, 2021 at 8:25 AM Juan Quintela <quintela@redhat.com> wrote:
->
-> Eugenio P=C3=A9rez <eperezma@redhat.com> wrote:
-> > The -1 assumes that all devices with no cvq have an spare vq allocated
-> > for them, but with no offer of VIRTIO_NET_F_CTRL_VQ. This may not be th=
-e
-> > case, and the device may have a pair number of queues.
->                                   ^^^^
-> even
->
-> I know, I know, I am Spanish myself O:-)
->
+On 11/1/21 10:51, Song Gao wrote:
+> This patch adds target state header, target definitions
+> and initialization routines.
+> 
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> ---
+>  target/loongarch/cpu-param.h |  19 +++
+>  target/loongarch/cpu.c       | 352 +++++++++++++++++++++++++++++++++++++++++++
+>  target/loongarch/cpu.h       | 254 +++++++++++++++++++++++++++++++
+>  target/loongarch/internals.h |  22 +++
+>  4 files changed, 647 insertions(+)
+>  create mode 100644 target/loongarch/cpu-param.h
+>  create mode 100644 target/loongarch/cpu.c
+>  create mode 100644 target/loongarch/cpu.h
+>  create mode 100644 target/loongarch/internals.h
 
-Ouch! Good catch! :).
+> diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
 
-> > To fix this, just resort to the lower even number of queues.
->
-> I don't understand what you try to achieve here.
->
-> > Fixes: 049eb15b5fc9 ("vhost: record the last virtqueue index for the
-> > virtio device")
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >  hw/net/vhost_net.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> > index 0d888f29a6..edf56a597f 100644
-> > --- a/hw/net/vhost_net.c
-> > +++ b/hw/net/vhost_net.c
-> > @@ -330,7 +330,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientSta=
-te *ncs,
-> >      NetClientState *peer;
-> >
-> >      if (!cvq) {
-> > -        last_index -=3D 1;
-> > +        last_index &=3D ~1ULL;
-> >      }
->
-> As far as I can see, that is a nop. last_index is defined as an int.
->
-> $ cat kk.c
-> #include <stdio.h>
->
-> int main(void)
-> {
->         int i =3D 7;
->         i &=3D -1ULL;
->         printf("%d\n", i);
->         i =3D 8;
->         i &=3D -1ULL;
->         printf("%d\n", i);
->         i =3D 0;
->         i &=3D -1ULL;
->         printf("%d\n", i);
->         i =3D -2;
->         i &=3D -1ULL;
->         printf("%d\n", i);
->         return 0;
-> }
-> $ ./kk
-> 7
-> 8
-> 0
-> -2
->
+> +static void set_loongarch_cpucfg(CPULoongArchState *env)
+> +{
+> +    int i;
+> +
+> +    for (i = 0; i < 49; i++) {
+> +        env->cpucfg[i] = 0x0;
+> +    }
+> +
+> +    env->cpucfg[0] = 0x14c010;  /* PRID */
 
-(Already answered by MST in another thread, but to be consistent here)
-it's actually a ~1ULL :).
+Why do you insist in calling this generically and not
+loongarch_3a5000_initfn()? If you want a generic function,
+why not pass PRID and xtal freq as arguments?
 
-I will rewrite the patch message,
+> +
+> +    uint32_t data = 0;
+> +    data = FIELD_DP32(data, CPUCFG1, ARCH, 2);
+> +    data = FIELD_DP32(data, CPUCFG1, PGMMU, 1);
+> +    data = FIELD_DP32(data, CPUCFG1, IOCSR, 1);
+> +    data = FIELD_DP32(data, CPUCFG1, PALEN, 0x2f);
+> +    data = FIELD_DP32(data, CPUCFG1, VALEN, 0x2f);
+> +    data = FIELD_DP32(data, CPUCFG1, UAL, 1);
+> +    data = FIELD_DP32(data, CPUCFG1, RI, 1);
+> +    data = FIELD_DP32(data, CPUCFG1, EP, 1);
+> +    data = FIELD_DP32(data, CPUCFG1, RPLV, 1);
+> +    data = FIELD_DP32(data, CPUCFG1, HP, 1);
+> +    data = FIELD_DP32(data, CPUCFG1, IOCSR_BRD, 1);
+> +    env->cpucfg[1] = data;
+> +
+> +    data = 0;
+> +    data = FIELD_DP32(data, CPUCFG2, FP, 1);
+> +    data = FIELD_DP32(data, CPUCFG2, FP_SP, 1);
+> +    data = FIELD_DP32(data, CPUCFG2, FP_DP, 1);
+> +    data = FIELD_DP32(data, CPUCFG2, FP_VER, 1);
+> +    data = FIELD_DP32(data, CPUCFG2, LSX, 1);
+> +    data = FIELD_DP32(data, CPUCFG2, LASX, 1);
+> +    data = FIELD_DP32(data, CPUCFG2, COMPLEX, 1);
+> +    data = FIELD_DP32(data, CPUCFG2, CRYPTO, 1);
+> +    data = FIELD_DP32(data, CPUCFG2, LLFTP, 1);
+> +    data = FIELD_DP32(data, CPUCFG2, LLFTP_VER, 1);
+> +    data = FIELD_DP32(data, CPUCFG2, LSPW, 1);
+> +    data = FIELD_DP32(data, CPUCFG2, LAM, 1);
+> +    env->cpucfg[2] = data;
+> +
+> +    data = 0;
+> +    data = FIELD_DP32(data, CPUCFG3, CCDMA, 1);
+> +    data = FIELD_DP32(data, CPUCFG3, SFB, 1);
+> +    data = FIELD_DP32(data, CPUCFG3, UCACC, 1);
+> +    data = FIELD_DP32(data, CPUCFG3, LLEXC, 1);
+> +    data = FIELD_DP32(data, CPUCFG3, SCDLY, 1);
+> +    data = FIELD_DP32(data, CPUCFG3, LLDBAR, 1);
+> +    data = FIELD_DP32(data, CPUCFG3, ITLBHMC, 1);
+> +    data = FIELD_DP32(data, CPUCFG3, ICHMC, 1);
+> +    data = FIELD_DP32(data, CPUCFG3, SPW_LVL, 4);
+> +    data = FIELD_DP32(data, CPUCFG3, SPW_HP_HF, 1);
+> +    env->cpucfg[3] = data;
+> +
+> +    env->cpucfg[4] = 0x5f5e100; /* Crystal frequency */
+> +
+> +    data = 0;
+> +    data = FIELD_DP32(data, CPUCFG5, CC_MUL, 1);
+> +    data = FIELD_DP32(data, CPUCFG5, CC_DIV, 1);
+> +    env->cpucfg[5] = data;
+> +
+> +    data = 0;
+> +    data = FIELD_DP32(data, CPUCFG16, L1_IUPRE, 1);
+> +    data = FIELD_DP32(data, CPUCFG16, L1_DPRE, 1);
+> +    data = FIELD_DP32(data, CPUCFG16, L2_IUPRE, 1);
+> +    data = FIELD_DP32(data, CPUCFG16, L2_IUUNIFY, 1);
+> +    data = FIELD_DP32(data, CPUCFG16, L2_IUPRIV, 1);
+> +    data = FIELD_DP32(data, CPUCFG16, L3_IUPRE, 1);
+> +    data = FIELD_DP32(data, CPUCFG16, L3_IUUNIFY, 1);
+> +    data = FIELD_DP32(data, CPUCFG16, L3_IUINCL, 1);
+> +    env->cpucfg[16] = data;
+> +
+> +    data = 0;
+> +    data = FIELD_DP32(data, CPUCFG17, L1IU_WAYS, 0x8003);
+> +    data = FIELD_DP32(data, CPUCFG17, L1IU_SETS, 0x60);
+> +    env->cpucfg[17] =  data;
+> +
+> +    data = 0;
+> +    data = FIELD_DP32(data, CPUCFG18, L1D_WAYS, 0x8003);
+> +    data = FIELD_DP32(data, CPUCFG18, L1D_SETS, 0x60);
+> +    env->cpucfg[18] = data;
+> +
+> +    data = 0;
+> +    data = FIELD_DP32(data, CPUCFG19, L2IU_WAYS, 0x800f);
+> +    data = FIELD_DP32(data, CPUCFG19, L2IU_SETS, 0x60);
+> +    env->cpucfg[19] = data;
+> +
+> +    data = 0;
+> +    data = FIELD_DP32(data, CPUCFG20, L3IU_WAYS, 0xf00f);
+> +    data = FIELD_DP32(data, CPUCFG20, L3IU_SETS, 0x60);
+> +    env->cpucfg[20] = data;
+> +}
+> +
+> +static inline void loongarch_3a5000_initfn(Object *obj)
 
-Thanks!
+'inline' is not justified.
 
+> +{
+> +    LoongArchCPU *cpu = LOONGARCH_CPU(obj);
+> +    CPULoongArchState *env = &cpu->env;
+> +
+> +    set_loongarch_cpucfg(env);
+> +}
 
