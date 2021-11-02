@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43939442675
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 05:59:21 +0100 (CET)
-Received: from localhost ([::1]:39106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73C2F4426C8
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 06:29:15 +0100 (CET)
+Received: from localhost ([::1]:48382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhltH-0001bL-Ug
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 00:59:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41694)
+	id 1mhmME-0001KB-4X
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 01:29:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mhlro-0000v9-3q
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 00:57:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53249)
+ id 1mhmJJ-0007VF-LX
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 01:26:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25511)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mhlrk-0005M4-Jg
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 00:57:46 -0400
+ id 1mhmJG-0005jq-22
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 01:26:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635829063;
+ s=mimecast20190719; t=1635830768;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fPxOPCRc3Z2/1ON035liOxmgokBJHX5NnrY+1zM54tQ=;
- b=SvvioHpAfT//n0d3vr9MLdBm+nQjEil4pq5oeAlgjSDymYKCo5dR8jtEO56/h5SNhWGZ1u
- r0tm6gmpOQ0BZEw4++WRLqfJYUxo/cyqjw3o9qtlMEBlmFmospmRmjjQZjFziY783drwmm
- L+jxcnUS4/uoQirG8qbw5sTxYbEnOnc=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-V9mTuxQhOgiERr_ijHGQLQ-1; Tue, 02 Nov 2021 00:57:41 -0400
-X-MC-Unique: V9mTuxQhOgiERr_ijHGQLQ-1
-Received: by mail-lj1-f200.google.com with SMTP id
- v13-20020a2e2f0d000000b0021126b5cca2so7131307ljv.19
- for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 21:57:41 -0700 (PDT)
+ bh=bajX0FLkv/tXMkVBnTHf1Bd8wxQJJ2cX8rqdOASLHZs=;
+ b=HtCCgkNBPm2a7MPmyeN504o+ZaTIN3/abLfVam6368OV5/q6r01llYyTp232YrKCmDEXKC
+ pHAoiaHnNL6VMNjYGkt9KL97KFUwiRqD7Yv3Nlnx+na1V0/Y1/pvoY9pJa6MfjcsEXwH0U
+ sq1KBt9Ie9QiZZC3YJ735rgrE3ToMiw=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-288-9PEuW6OROC2N-ry7x36Z5g-1; Tue, 02 Nov 2021 01:26:07 -0400
+X-MC-Unique: 9PEuW6OROC2N-ry7x36Z5g-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ b12-20020a0565120b8c00b003ffa7050931so6555522lfv.13
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 22:26:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=fPxOPCRc3Z2/1ON035liOxmgokBJHX5NnrY+1zM54tQ=;
- b=RXsDYupb3MLPOr3LozBT+0PzL9aR6jLgBugFLO8A+VwBBaJnnZLPrZTWKHrBRwGFk2
- Wul+L9y0hnwLSy0FZ6YlC+28ehy5FZD1jaD9MmzKMwhqKchg5aW31gUBJOCWwEDMtZ7V
- UpsyzJj2t716ZjlEZ3qt5EgjZ/j2FjSKjCDSzd3ADs3l/OFkGLgjgYeY6TFKnGMezdqI
- FKxnsp1AZBZwP6YUQfZ8wcdrTGNeRDuRGXALI0OvvvJl9fEIHDy8iBzqKzAU+LhG24kD
- ivJw7oig93Ww4yECwq95AhMAdviMr41UG7g+jDNMOglQB2/4FU34DVo93/fHgIz9CSHJ
- Zf8g==
-X-Gm-Message-State: AOAM532Na6dY64Z7Q0zSzSrVHlkog7fwCLZbEpuy9SYQDaNuJEaTq/cI
- 634g30ghS1ZyvT6/TbtH0ZtoguITle2FS4DAGkHWvapTU/PRK0iwrkjsMbkklCuYa9axMrYZ6JM
- PyV6/qwovDdTIuhWDMnn8fOcb/8eyzlk=
-X-Received: by 2002:a05:6512:110d:: with SMTP id
- l13mr30883202lfg.199.1635829059894; 
- Mon, 01 Nov 2021 21:57:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy2FLI/DDC4r0Zz7kO0JbzR7nV0V5lH9M3uGR5Y5AeohLGlQG14sh4TdH3r24iVDPQtW68o98ohqXgPTRrHm+k=
-X-Received: by 2002:a05:6512:110d:: with SMTP id
- l13mr30883164lfg.199.1635829059598; 
- Mon, 01 Nov 2021 21:57:39 -0700 (PDT)
+ bh=bajX0FLkv/tXMkVBnTHf1Bd8wxQJJ2cX8rqdOASLHZs=;
+ b=7HFOR36inBy37Fzppmitv20oiO14MTMf5sG0XdNOsz6d84Q7IKHMSexvyJYyQfI5LB
+ /KjaDtNlJdtDXRcjXKGnK3f1m3ar5L94gdmRL1HqFJLkBKRZQMjE+rt4X1RduvouYdss
+ XZdbLIP3YA1p1IoIZHbsxXDGLh1ZsdLIKIpGtPW5zF8w+/Sl/Br7vzRK0zmjC78pQ2p7
+ XmMtWzlnd+/3WHrA4NBs0LTmwAOVcHxhcPuDzXkQMJAK0zbGRaJPFZP52eT3P0nOytfw
+ h0TllxKaRy41+VEUBEadg3ZpjC7rOb3gKagQJy/GEd8HB5yUgBgipuoD5Pbtze7tz7pw
+ ETmw==
+X-Gm-Message-State: AOAM530k7DPndK3oK/T1SV2dUhCWPo3qAjws/S0uzNw7S1u00oJASIPK
+ 3iNg+F73qUbg/H+wBngCgJg19L9uw0t9YHABp0e8Kqp/Q7qo27DWWWnKs1uHDMbq8yRb+X6DR6L
+ 99mcBwcD7/JcUmZvDOd2o3idwy0ASWu8=
+X-Received: by 2002:a05:651c:1254:: with SMTP id
+ h20mr36382265ljh.420.1635830765684; 
+ Mon, 01 Nov 2021 22:26:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyaDvnbh3/QxnYwKDlAGBulhKs/ymZFxgmAXKGQQ5IuYUOoQAtoot7ukBQPvQCm3+fRXhfU3cKGVoh91JJ3zgs=
+X-Received: by 2002:a05:651c:1254:: with SMTP id
+ h20mr36382225ljh.420.1635830765441; 
+ Mon, 01 Nov 2021 22:26:05 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211029183525.1776416-1-eperezma@redhat.com>
- <20211029183525.1776416-4-eperezma@redhat.com>
-In-Reply-To: <20211029183525.1776416-4-eperezma@redhat.com>
+ <20211029183525.1776416-22-eperezma@redhat.com>
+In-Reply-To: <20211029183525.1776416-22-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 2 Nov 2021 12:57:28 +0800
-Message-ID: <CACGkMEsa=iWwN3CkO5JmiB-2BU5T2HvBi=h48qApdktoFCe4Vw@mail.gmail.com>
-Subject: Re: [RFC PATCH v5 03/26] virtio: Add VIRTIO_F_QUEUE_STATE
+Date: Tue, 2 Nov 2021 13:25:54 +0800
+Message-ID: <CACGkMEt8fusPLj3=E1GETzotMOhkuTAzD_bON0hQEjNecg2GcQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v5 21/26] vhost: Add vhost_svq_valid_guest_features to
+ shadow vq
 To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
@@ -72,7 +73,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -106,157 +107,64 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Oct 30, 2021 at 2:36 AM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
+On Sat, Oct 30, 2021 at 2:44 AM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
 ote:
 >
-> Implementation of RFC of device state capability:
-> https://lists.oasis-open.org/archives/virtio-comment/202012/msg00005.html
+> This allows it to test if the guest has aknowledge an invalid transport
+> feature for SVQ. This will include packed vq layout or event_idx,
+> where VirtIO device needs help from SVQ.
+>
+> There is not needed at this moment, but since SVQ will not re-negotiate
+> features again with the guest, a failure in acknowledge them is fatal
+> for SVQ.
+>
 
-Considering this still requires time to be done, we need to think of a
-way to go without this.
+It's not clear to me why we need this. Maybe you can give me an
+example. E.g isn't it sufficient to filter out the device with
+event_idx?
 
 Thanks
 
-
-
->
-> With this capability, vdpa device can reset it's index so it can start
-> consuming from guest after disabling shadow virtqueue (SVQ), with state
-> not 0.
->
-> The use case is to test SVQ with virtio-pci vdpa (vp_vdpa) with nested
-> virtualization. Spawning a L0 qemu with a virtio-net device, use
-> vp_vdpa driver to handle it in the guest, and then spawn a L1 qemu using
-> that vdpa device. When L1 qemu calls device to set a new state though
-> vdpa ioctl, vp_vdpa should set each queue state though virtio
-> VIRTIO_PCI_COMMON_Q_AVAIL_STATE.
->
-> Since this is only for testing vhost-vdpa, it's added here before of
-> proposing to kernel code. No effort is done for checking that device
-> can actually change its state, its layout, or if the device even
-> supports to change state at all. These will be added in the future.
->
-> Also, a modified version of vp_vdpa that allows to set these in PCI
-> config is needed.
->
-> TODO: Check for feature enabled and split in virtio pci config
->
 > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 > ---
->  hw/virtio/virtio-pci.h                         | 1 +
->  include/hw/virtio/virtio.h                     | 4 +++-
->  include/standard-headers/linux/virtio_config.h | 3 +++
->  include/standard-headers/linux/virtio_pci.h    | 2 ++
->  hw/virtio/virtio-pci.c                         | 9 +++++++++
->  5 files changed, 18 insertions(+), 1 deletion(-)
+>  hw/virtio/vhost-shadow-virtqueue.h | 1 +
+>  hw/virtio/vhost-shadow-virtqueue.c | 6 ++++++
+>  2 files changed, 7 insertions(+)
 >
-> diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
-> index 2446dcd9ae..019badbd7c 100644
-> --- a/hw/virtio/virtio-pci.h
-> +++ b/hw/virtio/virtio-pci.h
-> @@ -120,6 +120,7 @@ typedef struct VirtIOPCIQueue {
->    uint32_t desc[2];
->    uint32_t avail[2];
->    uint32_t used[2];
-> +  uint16_t state;
->  } VirtIOPCIQueue;
+> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-=
+virtqueue.h
+> index 946b2c6295..ac55588009 100644
+> --- a/hw/virtio/vhost-shadow-virtqueue.h
+> +++ b/hw/virtio/vhost-shadow-virtqueue.h
+> @@ -16,6 +16,7 @@
+>  typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
 >
->  struct VirtIOPCIProxy {
-> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> index 8bab9cfb75..5fe575b8f0 100644
-> --- a/include/hw/virtio/virtio.h
-> +++ b/include/hw/virtio/virtio.h
-> @@ -289,7 +289,9 @@ typedef struct VirtIORNGConf VirtIORNGConf;
->      DEFINE_PROP_BIT64("iommu_platform", _state, _field, \
->                        VIRTIO_F_IOMMU_PLATFORM, false), \
->      DEFINE_PROP_BIT64("packed", _state, _field, \
-> -                      VIRTIO_F_RING_PACKED, false)
-> +                      VIRTIO_F_RING_PACKED, false), \
-> +    DEFINE_PROP_BIT64("save_restore_q_state", _state, _field, \
-> +                      VIRTIO_F_QUEUE_STATE, true)
+>  bool vhost_svq_valid_device_features(uint64_t *features);
+> +bool vhost_svq_valid_guest_features(uint64_t *features);
 >
->  hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n);
->  bool virtio_queue_enabled_legacy(VirtIODevice *vdev, int n);
-> diff --git a/include/standard-headers/linux/virtio_config.h b/include/sta=
-ndard-headers/linux/virtio_config.h
-> index 22e3a85f67..59fad3eb45 100644
-> --- a/include/standard-headers/linux/virtio_config.h
-> +++ b/include/standard-headers/linux/virtio_config.h
-> @@ -90,4 +90,7 @@
->   * Does the device support Single Root I/O Virtualization?
->   */
->  #define VIRTIO_F_SR_IOV                        37
+>  void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kick_f=
+d);
+>  void vhost_svq_set_guest_call_notifier(VhostShadowVirtqueue *svq, int ca=
+ll_fd);
+> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-=
+virtqueue.c
+> index 6e0508a231..cb9ffcb015 100644
+> --- a/hw/virtio/vhost-shadow-virtqueue.c
+> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> @@ -62,6 +62,12 @@ bool vhost_svq_valid_device_features(uint64_t *dev_fea=
+tures)
+>      return true;
+>  }
+>
+> +/* If the guest is using some of these, SVQ cannot communicate */
+> +bool vhost_svq_valid_guest_features(uint64_t *guest_features)
+> +{
+> +    return true;
+> +}
 > +
-> +/* Device support save and restore virtqueue state */
-> +#define VIRTIO_F_QUEUE_STATE            40
->  #endif /* _LINUX_VIRTIO_CONFIG_H */
-> diff --git a/include/standard-headers/linux/virtio_pci.h b/include/standa=
-rd-headers/linux/virtio_pci.h
-> index db7a8e2fcb..c8d9802a87 100644
-> --- a/include/standard-headers/linux/virtio_pci.h
-> +++ b/include/standard-headers/linux/virtio_pci.h
-> @@ -164,6 +164,7 @@ struct virtio_pci_common_cfg {
->         uint32_t queue_avail_hi;                /* read-write */
->         uint32_t queue_used_lo;         /* read-write */
->         uint32_t queue_used_hi;         /* read-write */
-> +       uint16_t queue_avail_state;     /* read-write */
->  };
->
->  /* Fields in VIRTIO_PCI_CAP_PCI_CFG: */
-> @@ -202,6 +203,7 @@ struct virtio_pci_cfg_cap {
->  #define VIRTIO_PCI_COMMON_Q_AVAILHI    44
->  #define VIRTIO_PCI_COMMON_Q_USEDLO     48
->  #define VIRTIO_PCI_COMMON_Q_USEDHI     52
-> +#define VIRTIO_PCI_COMMON_Q_AVAIL_STATE        56
->
->  #endif /* VIRTIO_PCI_NO_MODERN */
->
-> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> index 750aa47ec1..d7bb549033 100644
-> --- a/hw/virtio/virtio-pci.c
-> +++ b/hw/virtio/virtio-pci.c
-> @@ -1244,6 +1244,9 @@ static uint64_t virtio_pci_common_read(void *opaque=
-, hwaddr addr,
->      case VIRTIO_PCI_COMMON_Q_USEDHI:
->          val =3D proxy->vqs[vdev->queue_sel].used[1];
->          break;
-> +    case VIRTIO_PCI_COMMON_Q_AVAIL_STATE:
-> +        val =3D virtio_queue_get_last_avail_idx(vdev, vdev->queue_sel);
-> +        break;
->      default:
->          val =3D 0;
->      }
-> @@ -1330,6 +1333,8 @@ static void virtio_pci_common_write(void *opaque, h=
-waddr addr,
->                         proxy->vqs[vdev->queue_sel].avail[0],
->                         ((uint64_t)proxy->vqs[vdev->queue_sel].used[1]) <=
-< 32 |
->                         proxy->vqs[vdev->queue_sel].used[0]);
-> +            virtio_queue_set_last_avail_idx(vdev, vdev->queue_sel,
-> +                        proxy->vqs[vdev->queue_sel].state);
->              proxy->vqs[vdev->queue_sel].enabled =3D 1;
->          } else {
->              virtio_error(vdev, "wrong value for queue_enable %"PRIx64, v=
-al);
-> @@ -1353,6 +1358,9 @@ static void virtio_pci_common_write(void *opaque, h=
-waddr addr,
->      case VIRTIO_PCI_COMMON_Q_USEDHI:
->          proxy->vqs[vdev->queue_sel].used[1] =3D val;
->          break;
-> +    case VIRTIO_PCI_COMMON_Q_AVAIL_STATE:
-> +        proxy->vqs[vdev->queue_sel].state =3D val;
-> +        break;
->      default:
->          break;
->      }
-> @@ -1951,6 +1959,7 @@ static void virtio_pci_reset(DeviceState *qdev)
->          proxy->vqs[i].desc[0] =3D proxy->vqs[i].desc[1] =3D 0;
->          proxy->vqs[i].avail[0] =3D proxy->vqs[i].avail[1] =3D 0;
->          proxy->vqs[i].used[0] =3D proxy->vqs[i].used[1] =3D 0;
-> +        proxy->vqs[i].state =3D 0;
->      }
->
->      if (pci_is_express(dev)) {
+>  /* Forward guest notifications */
+>  static void vhost_handle_guest_kick(EventNotifier *n)
+>  {
 > --
 > 2.27.0
 >
