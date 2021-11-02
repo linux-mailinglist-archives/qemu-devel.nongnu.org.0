@@ -2,58 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2504C442602
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 04:25:47 +0100 (CET)
-Received: from localhost ([::1]:41334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD16442653
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 05:11:36 +0100 (CET)
+Received: from localhost ([::1]:58990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhkQj-0002Lm-NC
-	for lists+qemu-devel@lfdr.de; Mon, 01 Nov 2021 23:25:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36726)
+	id 1mhl93-0000Zz-9D
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 00:11:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mhkJk-0004OE-4U
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 23:18:33 -0400
-Received: from mail.xen0n.name ([115.28.160.31]:58054
- helo=mailbox.box.xen0n.name)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mhl6q-0008JE-Tr
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 00:09:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mhkJf-0007d8-RY
- for qemu-devel@nongnu.org; Mon, 01 Nov 2021 23:18:31 -0400
-Received: from [100.100.57.93] (unknown [220.248.53.61])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 6B4DD600B0;
- Tue,  2 Nov 2021 11:18:19 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1635823099; bh=kzlVL7JzT+eBgGZQZnMPD/VZ4OVLHEAe0hYICw8jJJY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=WpchOICJ6MY/cH5RyNzgd1BfCpSFiDK0/JL3DpWoEBaoBAgIeEvEItel5XOQg7B33
- VnlpJMyy8kmYz1MFIZENZlcNqUYdeB1eVe0hX8MQW4fzYUoxO6VB1JmTMup1StFlkE
- Sp8ShSqrPh3IcY+eZei88uk1e2ouT7sfwfv7YziU=
-Message-ID: <7c90bbea-a3d8-9e0d-25d8-77e47eca4aee@xen0n.name>
-Date: Tue, 2 Nov 2021 11:18:18 +0800
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mhl6n-0003kw-97
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 00:09:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635826151;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CSqNw3Iz5CQGAgUEakxIHRw23+3p899uO5GqnAsNP3w=;
+ b=b3Krv3AkSEV+DfMmSsNkx+bhBke1AH9Ce8a6/uQKP9qBj2I2zok5zGTnpoMx+Qm8p/tPDa
+ 3m0ioHwde3H5SuNlRpsmSaH/t3IJqZ/CUUnhVFsmMpaDkbg8VQI9dFQMNQHolZo9LyRqGL
+ VPeO3zQOIj9jGCCSXUobblFqXsv6iqw=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-502-dIpvVj3zNMqEOIXMdG0Qow-1; Tue, 02 Nov 2021 00:09:10 -0400
+X-MC-Unique: dIpvVj3zNMqEOIXMdG0Qow-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ d20-20020a2e8114000000b00212bedb4998so5020926ljg.14
+ for <qemu-devel@nongnu.org>; Mon, 01 Nov 2021 21:09:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=CSqNw3Iz5CQGAgUEakxIHRw23+3p899uO5GqnAsNP3w=;
+ b=Mcc3Z3mRGBeseUkbJffa/VgcjxPvtLEdlw9ptJsSW3+VGrHfQygLBU01mnSmbwwnIT
+ Bj1DzawYedXhY66DSS9v+fIiwY4wq+UBN5KrgiVkaB/utWKfixu6Jla96muwvP2mpzPP
+ uWpxIaDt5oe8sLB4+ydO3ezMAgPHwdIB+Mn/9fGfuuambxsSmmLmkfQfka1+XRST6uMZ
+ CDifpP3H4WcGy1oayySGuXB8i3phHNlLh6wcCzjfG6mE0MqyVkuWQCu3bTt5s6asngs6
+ U4O11DqVVd9x1iup4Y6qt9d1KfKNfYw3tWQD+hokWi9B2pAFPx3qALOSg0mlcpomg/Ox
+ niWA==
+X-Gm-Message-State: AOAM530W2AEZBBO2oXUuRyx5G0PJOKzQfR1MWcKqI0ZsqvU5BHL+cqW4
+ V+5V3MCOA9ZxMc0v+nV8V/ImPDybSksmYQBin2Dnbl7cD9/2/Wn4duSb65LepBsoc2xxcwfn9me
+ cKBVN0b628gVyOXSXNlfoUVIHbEJQTz0=
+X-Received: by 2002:a2e:8605:: with SMTP id a5mr37519736lji.107.1635826149024; 
+ Mon, 01 Nov 2021 21:09:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzk/s8lhpQ53voPQNL5nO7dOfhyRb7AyEGIgS9rxERkY4DbduvJDR9KoxqXGq/Csnznn/eZWkBUv3XX0Ek5cKQ=
+X-Received: by 2002:a2e:8605:: with SMTP id a5mr37519711lji.107.1635826148746; 
+ Mon, 01 Nov 2021 21:09:08 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:95.0)
- Gecko/20100101 Thunderbird/95.0a1
-Subject: Re: [PATCH v8 28/29] accel/tcg/user-exec: Implement CPU-specific
- signal handler for loongarch64 hosts
-Content-Language: en-US
-To: gaosong <gaosong@loongson.cn>
-References: <1635760311-20015-1-git-send-email-gaosong@loongson.cn>
- <1635760311-20015-29-git-send-email-gaosong@loongson.cn>
- <648d74b4-17fe-1f4b-448c-004896b22c17@xen0n.name>
- <117734f6-94b6-17b7-3ffc-78c62a52c9cd@loongson.cn>
-From: WANG Xuerui <i.qemu@xen0n.name>
-In-Reply-To: <117734f6-94b6-17b7-3ffc-78c62a52c9cd@loongson.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
- helo=mailbox.box.xen0n.name
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+References: <20211029141608.1728855-1-eperezma@redhat.com>
+ <CACGkMEss8Xq8WYUkDkLaYx-XBW6GADDAjH1mwmpBdxKc2wsRAQ@mail.gmail.com>
+ <CAJaqyWcsbtOoLGkCW6J_9M8qR1-yvbQmWq1rU0y+8Y=BhPeRWw@mail.gmail.com>
+In-Reply-To: <CAJaqyWcsbtOoLGkCW6J_9M8qR1-yvbQmWq1rU0y+8Y=BhPeRWw@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 2 Nov 2021 12:08:57 +0800
+Message-ID: <CACGkMEv9OR1yTVWhy8bqxdH8s6+f_6KY=Avw2z3soeBudR+Ocw@mail.gmail.com>
+Subject: Re: [PATCH] vhost: Fix last queue index of devices with no cvq
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.14,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,39 +92,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@loongson.cn,
- philmd@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- peterx@redhat.com, laurent@vivier.eu, yangxiaojuan@loongson.cn,
- alistair.francis@wdc.com, maobibo@loongson.cn, pbonzini@redhat.com,
- bmeng.cn@gmail.com, alex.bennee@linaro.org, f4bug@amsat.org
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Mon, Nov 1, 2021 at 4:59 PM Eugenio Perez Martin <eperezma@redhat.com> w=
+rote:
+>
+> On Mon, Nov 1, 2021 at 4:34 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> > On Fri, Oct 29, 2021 at 10:16 PM Eugenio P=C3=A9rez <eperezma@redhat.co=
+m> wrote:
+> > >
+> > > The -1 assumes that all devices with no cvq have an spare vq allocate=
+d
+> > > for them, but with no offer of VIRTIO_NET_F_CTRL_VQ. This may not be =
+the
+> > > case, and the device may have a pair number of queues.
+> > >
+> > > To fix this, just resort to the lower even number of queues.
+> > >
+> > > Fixes: 049eb15b5fc9 ("vhost: record the last virtqueue index for the =
+virtio device")
+> > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > ---
+> > >  hw/net/vhost_net.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> > > index 0d888f29a6..edf56a597f 100644
+> > > --- a/hw/net/vhost_net.c
+> > > +++ b/hw/net/vhost_net.c
+> > > @@ -330,7 +330,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientS=
+tate *ncs,
+> > >      NetClientState *peer;
+> > >
+> > >      if (!cvq) {
+> > > -        last_index -=3D 1;
+> > > +        last_index &=3D ~1ULL;
+> > >      }
+> >
+> > The math here looks correct but we need to fix vhost_vdpa_dev_start() i=
+nstead?
+> >
+> > if (dev->vq_index + dev->nvqs - 1 !=3D dev->last_index) {
+> > ...
+> > }
+> >
+>
+> If we just do that, devices that offer an odd number of queues but do
+> not offer ctrl vq would never enable the last vq pair, isn't it?
 
-On 2021/11/1 19:21, gaosong wrote:
-> Hi Xuerui,
+For vq pair, you assume that it's a networking device, so the device
+you described here violates the spec.
+
 >
-> On 2021/11/1 下午6:45, WANG Xuerui wrote:
->> While I can see this patch and the next one are clearly from me, my
->> author info is lost as I didn't spot any "From:" line in the mail body?
->> Also I don't remember seeing "Base-on" tags in QEMU either.
+> Also, I would say that the right place for the solution of this
+> problem should not be virtio/vhost-vdpa: This is highly dependent on
+> having cvq, and this implies a knowledge about the use of each
+> virtqueue. Another kind of device could have an odd number of
+> virtqueues naturally, and that (-1) would not work for them, isn't it?
+
+It actually depends on how multiqueue is modeled for each specific
+type of device. They need to initialize the vq_index and nvqs
+correctly:
+
+E.g if we had a device with 3 queues, we could model it with the following:
+
+vhost_dev 1, vq_index =3D 0, nvqs =3D 2
+vhost_dev 2, vq_index =3D 2, nvqs =3D 1
+
+In this case the last_index should be initialized to 2, then we know
+all the vhost_dev is initialized and we can start the hardware.
+
+Thanks
+
 >
-> Sorry,  I refer to the commit 35f171a2eb25fcdf1b719c58a61a7da15b4fe078
+> Thanks!
 >
-> It seems that the reference is wrong.  I 'll correct it.
-My patch series haven't gone into upstream yet, so I'm pretty sure this
-commit hash would change in the final merged version. I think basing
-your whole series on top of mine should be okay; mine has been
-completely reviewed and IIUC only waiting for a test-purpose Docker
-builder image before it can be merged, so the code should be fairly
-stable and friendly for rebases.
+> > Thanks
+> >
+> > >
+> > >      if (!k->set_guest_notifiers) {
+> > > --
+> > > 2.27.0
+> > >
+> >
 >
->> I think you're meaning to include the "Based-on" tags in your cover
->> letter instead?
->
-> I should take this way,  Sorry Again,
->
-Never mind; you could of course use more caution when it comes to Git
-operations later.
+
 
