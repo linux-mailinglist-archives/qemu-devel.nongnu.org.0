@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC03E442E8B
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 13:56:22 +0100 (CET)
-Received: from localhost ([::1]:55384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 572DE442E6C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 13:48:10 +0100 (CET)
+Received: from localhost ([::1]:36430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhtKv-0004t1-UC
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 08:56:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41674)
+	id 1mhtCz-0008Hu-3w
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 08:48:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mht8X-00018n-By
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 08:43:33 -0400
-Received: from mail-qv1-xf35.google.com ([2607:f8b0:4864:20::f35]:33440)
+ id 1mht9K-0003LS-8s
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 08:44:25 -0400
+Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:39569)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mht8V-0007hH-H9
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 08:43:32 -0400
-Received: by mail-qv1-xf35.google.com with SMTP id bu11so5276358qvb.0
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 05:43:31 -0700 (PDT)
+ id 1mht9H-0000Il-Qu
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 08:44:21 -0400
+Received: by mail-qt1-x836.google.com with SMTP id t40so18672921qtc.6
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 05:44:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:subject:to:cc:references:message-id:date:user-agent
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rYZs6HRHheEiaHF7ZRGFpf3zIEKM8DJFRh3zeff9C5Q=;
- b=GMpUGrF0RW7DtPIqY3D6ME3asGher11RLFKWlBsSIS2/Zr/Z0Nw3pR68IL5FSDkZ2c
- R1jvzfVRikOybZfugd2CskmUiPfV2+5rRusRruyRkH+/Wdse5EYjPRmwdpo0g/Ot00md
- OaNq1Jx+Fqozs0hv1k8G18IlvR8mGXZVRKZGHdQLN2iLRC/j6q7I1Z4bhTSmC4cHNOFD
- JNWOkrIspGdl4TNsnGiUT/oSEDUbvFY3yR/wId1CjTheoaLGInb4ojesR3pXrK4gjJMV
- SVROPGZhBOyNyYDJuS1SMSS8DsiVHC9vwAfZ2BmDqN17SiXqMk3foTCAAFclIIitvQYK
- dn1g==
+ bh=Tm1IemC3nMnYsYlECCYnjZoNr+ZSiZ4XDmbyCAfX4qs=;
+ b=cjPKAbq1NXTsfy4Cv+E85G4Bmw4yPTTXHGv83to0J0PHS+r5f5sxNrubPnZEIzP3I+
+ AYrLPbNt1cNVwM0ygRFTBJ9GBKgQSoDxTP68jNy0ZuFtK6owgopatmHqAddrGLvsGhNG
+ vFZ3wdALNli8OO0CgFP4/zn74HC7TY1OwGIxDzKLPQJwJL4AJDhc0//8p1LCahG4cIBW
+ 0O39FOG8MI4nEOo5yZ4BtpVnxCC/1FOFtcjPnlcgRZI1R173hu+06+jG/LkTi4D90CRp
+ c7GTVVecrOwhnM079QIFkwBSu6XLVOuX7nIbYGbsZVCJCQtUIA6Ea4WYAJ40fQR22224
+ aJWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=rYZs6HRHheEiaHF7ZRGFpf3zIEKM8DJFRh3zeff9C5Q=;
- b=GFbf1tmjBD9Pb2OL4VPeiQjUNmFjZx8vdBpRVnW+NXbwitf0uo+K9//mgtTw0udjlt
- zQLezx+8BbCeD7F3EW6OrkFyXUBvLMHIvEORn+pDXC3GkQwY935wBhknZcVsshX9is1H
- CUD6bzTTL34uYweXgOtXNaKsCxpPeYFK/Ff3iI9hd7DASbuqcDWQgTPlr4EyFshFw6cr
- tPa/zcKIMfTQupQcd4S2PP/EOrUloAr1iew/PPBJ770dAis/jEI2BqgzJ4gDN4v/3Moo
- vZJw+BihD1n6nXdpFhiZ2myQuSDp97imdeL1/tc60ue34YOemuU2kQ3xaFCSjaIqDhLK
- ZHhw==
-X-Gm-Message-State: AOAM532URwQjBNJ0ICUkkMqxdlpdhGEOTdiT3AjmN0werY3JAX5GKHHs
- c3kPUaxVlOVqr8xTd8aEhsfAlA==
-X-Google-Smtp-Source: ABdhPJxZa2oxdo5W3/ryis63WhVqpbGtuRgIf5MWQywBVa+ahhzBUQ2+COFJRlTQ7MqtdtFBFftBPg==
-X-Received: by 2002:ad4:5002:: with SMTP id s2mr13890971qvo.13.1635857010317; 
- Tue, 02 Nov 2021 05:43:30 -0700 (PDT)
+ bh=Tm1IemC3nMnYsYlECCYnjZoNr+ZSiZ4XDmbyCAfX4qs=;
+ b=4kPCyE1W3uOSlGxHM3c2gQxvWxZQub4VnuYPdLaCb89JLs0oa55ZC99aAqfPevOtb4
+ fN02DnzNL5QsGS6LdU3TxMv/oHcIVgMjYAar5eGMydcGP6lPoiH/7FCF0WmAnau9fYC7
+ 0XAuhtPj0DTbNs6nt/oEP3yZmdKQzuXU0V5Feo2px9OS8IpdU4ynIyyS7ZjHLXWn1ib+
+ 3xaZB8SEpUzJT5skHwzlEi+yIf9xCTgHB19Sl52HpmEauZZeVsiB7/xbOPo3JvyCulWx
+ WnsSrjJf/YJS491djQtOV2UnXME0M3LmaJBlUIWIqnLC2M9fg/xkaPiHk9ZPwOh8708n
+ F9/Q==
+X-Gm-Message-State: AOAM532Sz9cB+x7Nd68WGnjOf8T8+R9JQkebwQRuQwsDTY2BmAkas7az
+ R32u7f4VV+Rut+DMefboCnIdow==
+X-Google-Smtp-Source: ABdhPJyt5ZNd6sEyNlRK6l7wePmQ49RYPbsf5Q6yKL/qatQ3XP9LIb6E7tu780HJ+JcIKLIMU7ognQ==
+X-Received: by 2002:ac8:5a4b:: with SMTP id o11mr38713937qta.59.1635857058890; 
+ Tue, 02 Nov 2021 05:44:18 -0700 (PDT)
 Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
  [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id y8sm9685791qtx.0.2021.11.02.05.43.29
+ by smtp.gmail.com with ESMTPSA id d23sm12119635qtm.11.2021.11.02.05.44.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Nov 2021 05:43:29 -0700 (PDT)
+ Tue, 02 Nov 2021 05:44:18 -0700 (PDT)
+Subject: Re: [PULL 0/2] VFIO update 2021-11-01 (for v6.2)
+To: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org
+References: <163579674962.3486201.2525541279968158386.stgit@omen>
 From: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v4 12/17] target/riscv: support for 128-bit arithmetic
- instructions
-To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211025122818.168890-1-frederic.petrot@univ-grenoble-alpes.fr>
- <20211025122818.168890-13-frederic.petrot@univ-grenoble-alpes.fr>
-Message-ID: <c010789f-de86-f71f-2f4d-34ba4a6aa1b7@linaro.org>
-Date: Tue, 2 Nov 2021 08:43:28 -0400
+Message-ID: <a0ce88df-b4cf-533b-a59e-c9c155a6fe6d@linaro.org>
+Date: Tue, 2 Nov 2021 08:44:17 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211025122818.168890-13-frederic.petrot@univ-grenoble-alpes.fr>
+In-Reply-To: <163579674962.3486201.2525541279968158386.stgit@omen>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f35;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf35.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x836.google.com
 X-Spam_score_int: -45
 X-Spam_score: -4.6
 X-Spam_bar: ----
@@ -91,222 +87,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
- palmer@dabbelt.com, fabien.portas@grenoble-inp.org
+Cc: Kunkun Jiang <jiangkunkun@huawei.com>,
+ Nianyao Tang <tangnianyao@huawei.com>, Qixin Gan <ganqixin@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/25/21 5:28 AM, Frédéric Pétrot wrote:
-> +    if (get_xl(ctx) < MXL_RV128 || get_ol(ctx) < MXL_RV128) {
+On 11/1/21 4:01 PM, Alex Williamson wrote:
+> The following changes since commit af531756d25541a1b3b3d9a14e72e7fedd941a2e:
+> 
+>    Merge remote-tracking branch 'remotes/philmd/tags/renesas-20211030' into staging (2021-10-30 11:31:41 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    git://github.com/awilliam/qemu-vfio.git tags/vfio-update-20211101.0
+> 
+> for you to fetch changes up to e4b34708388b20f1ceb55f1d563d8da925a32424:
+> 
+>    vfio/common: Add a trace point when a MMIO RAM section cannot be mapped (2021-11-01 12:17:51 -0600)
+> 
+> ----------------------------------------------------------------
+> VFIO update 2021-11-01
+> 
+>   * Re-enable expanded sub-page BAR mappings after migration (Kunkun Jiang)
+> 
+>   * Trace dropped listener sections due to page alignment (Kunkun Jiang)
+> 
+> ----------------------------------------------------------------
+> Kunkun Jiang (2):
+>        vfio/pci: Add support for mmapping sub-page MMIO BARs after live migration
+>        vfio/common: Add a trace point when a MMIO RAM section cannot be mapped
+> 
+>   hw/vfio/common.c |  7 +++++++
+>   hw/vfio/pci.c    | 19 ++++++++++++++++++-
+>   2 files changed, 25 insertions(+), 1 deletion(-)
 
-Only the second test.  Two times.
-
-> +static bool gen_setcond_i128(TCGv rl, TCGv rh,
-> +                             TCGv al, TCGv ah,
-> +                             TCGv bl, TCGv bh,
-> +                             TCGCond cond)
-> +{
-> +    switch (cond) {
-> +    case TCG_COND_EQ:
-> +        tcg_gen_xor_tl(rl, al, bl);
-> +        tcg_gen_xor_tl(rh, ah, bh);
-> +        tcg_gen_or_tl(rh, rl, rh);
-> +        tcg_gen_setcondi_tl(TCG_COND_EQ, rl, rh, 0);
-> +    break;
-
-Indentation.
-
-> +
-> +    case TCG_COND_NE:
-> +        tcg_gen_xor_tl(rl, al, bl);
-> +        tcg_gen_xor_tl(rh, ah, bh);
-> +        tcg_gen_or_tl(rh, rl, rh);
-> +        tcg_gen_setcondi_tl(TCG_COND_NE, rl, rh, 0);
-> +        break;
-> +
-> +    case TCG_COND_LT:
-> +    {
-> +        TCGv tmp1 = tcg_temp_new();
-> +        TCGv tmp2 = tcg_temp_new();
-> +
-> +        tcg_gen_sub2_tl(rl, rh, al, ah, bl, bh);
-> +        tcg_gen_xor_tl(tmp1, rh, ah);
-> +        tcg_gen_xor_tl(tmp2, ah, bh);
-> +        tcg_gen_and_tl(tmp1, tmp1, tmp2);
-> +        tcg_gen_xor_tl(tmp1, rh, tmp1);
-> +        tcg_gen_shri_tl(rl, tmp1, 63);
-> +
-> +        tcg_temp_free(tmp1);
-> +        tcg_temp_free(tmp2);
-> +        break;
-> +    }
-> +
-> +    case TCG_COND_GE:
-> +        /* Invert result of TCG_COND_LT */
-> +        gen_setcond_i128(rl, rh, al, ah, bl, bh, TCG_COND_LT);
-> +        tcg_gen_xori_tl(rl, rl, 1);
-> +        break;
-> +
-> +    case TCG_COND_LTU:
-> +        gen_setcond_i128(rl, rh, al, ah, bl, bh, TCG_COND_GEU);
-> +        tcg_gen_xori_tl(rl, rl, 1);
-> +        break;
-> +
-> +    case TCG_COND_GEU:
-> +    {
-> +        TCGv tmp1 = tcg_temp_new();
-> +        TCGv tmp2 = tcg_temp_new();
-> +        TCGv zero = tcg_constant_tl(0);
-> +        TCGv one = tcg_constant_tl(1);
-> +        /* borrow in to second word */
-> +        tcg_gen_setcond_tl(TCG_COND_LTU, tmp1, al, bl);
-> +        /* seed third word with 1, which will be result */
-> +        tcg_gen_sub2_tl(tmp1, tmp2, ah, one, tmp1, zero);
-> +        tcg_gen_sub2_tl(tmp1, rl, tmp1, tmp2, bh, zero);
-> +
-> +        tcg_temp_free(tmp1);
-> +        tcg_temp_free(tmp2);
-> +        break;
-> +    }
-> +
-> +    default:
-> +        return false;
-
-This should be g_assert_not_reached(), not return false.
-
-> +    }
-> +    tcg_gen_movi_tl(rh, 0);
-> +    return true;
-> +}
-
-Which begs the question of what the return value is for when you don't even use it below.
-
-I think we should treat this as more of a subroutine, and return the final TCGCond 
-required to get the correct result, *without* actually computing the final setcond.
-
-static TCGCond compare_128i(TCGv rl, int rs1, int rs2, TCGCond cond)
-{
-     TCGv al = get_gpr(ctx, rs1, EXT_SIGN);
-     TCGv bl = get_gpr(ctx, rs2, EXT_SIGN);
-     TCGv ah = get_gprh(ctx, a->rs1);
-     TCGv bh = get_gprh(ctx, a->rs2);
-     TCGv rh = tcg_temp_new();
-     bool invert = false;
-
-     switch (cond) {
-     case TCG_COND_EQ:
-     case TCG_COND_NE:
-         if (rs2 == 0) {
-             tcg_gen_or_tl(rl, al, ah);
-         } else {
-             tcg_gen_xor_tl(rl, al, bl);
-             tcg_gen_xor_tl(rh, ah, bh);
-             tcg_gen_or_tl(rl, rl, rh);
-         }
-         break;
-
-     case TCG_COND_GE:
-         invert = true;
-         cond = TCG_COND_LT;
-         /* fall through */
-     case TCG_COND_LT:
-         if (rs2 == 0) {
-             tcg_gen_mov_tl(rl, ah);
-         } else {
-             TCGv tmp1 = tcg_temp_new();
-             TCGv tmp2 = tcg_temp_new();
-             tcg_gen_sub2_tl(rl, rh, al, ah, bl, bh);
-             tcg_gen_xor_tl(tmp1, rh, ah);
-             tcg_gen_xor_tl(tmp2, ah, bh);
-             tcg_gen_and_tl(tmp1, tmp1, tmp2);
-             tcg_gen_xor_tl(rl, rh, tmp1);
-             tcg_temp_free(tmp1);
-             tcg_temp_free(tmp2);
-         }
-         break;
-     ...
-     }
-     tcg_temp_free(rh);
-
-     if (invert) {
-         cond = tcg_invert_cond(cond);
-     }
-     return cond;
-}
-
-static void setcond_128i(...)
-{
-     cond = compare_128i(rl, rh, al, ah, bl, bh, cond);
-     tcg_gen_setcondi_tl(cond, rl, rl, 0);
-     tcg_gen_movi_tl(rh, 0);
-}
-
-static void branch_128i(...)
-{
-     TCGv tmpl = tcg_temp_new();
-     TCGv tmph = tcg_temp_new();
-
-     cond = compare_128i(tmpl, tmph, al, ah, bl, bh, cond);
-     tcg_gen_brcondi_tl(cond, tmpl, 0, label);
-
-     tcg_temp_free(tmpl);
-     tcg_temp_free(tmph);
-}
-
-> +
->   static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
->   {
->       TCGLabel *l = gen_new_label();
->       TCGv src1 = get_gpr(ctx, a->rs1, EXT_SIGN);
->       TCGv src2 = get_gpr(ctx, a->rs2, EXT_SIGN);
->   
-> -    tcg_gen_brcond_tl(cond, src1, src2, l);
-> +    if (get_xl(ctx) == MXL_RV128) {
-> +        TCGv src1h = get_gprh(ctx, a->rs1);
-> +        TCGv src2h = get_gprh(ctx, a->rs2);
-> +        TCGv tmpl = tcg_temp_new();
-> +        TCGv tmph = tcg_temp_new();
-> +
-> +        /*
-> +         * Do not use gen_setcond_i128 for EQ and NE as these conditions are
-> +         * often met and can be more efficiently implemented.
-> +         * Some comparisons with zero are also simpler, let's do them.
-> +         */
-> +        if (cond == TCG_COND_EQ || cond == TCG_COND_NE) {
-> +            /*
-> +             * bnez and beqz being used quite often too, lets optimize them,
-> +             * although QEMU's tcg optimizer handles these cases nicely
-> +             */
-> +            if (a->rs2 == 0) {
-> +                tcg_gen_or_tl(tmpl, src1, src1h);
-> +                tcg_gen_brcondi_tl(cond, tmpl, 0, l);
-> +            } else {
-> +                tcg_gen_xor_tl(tmpl, src1, src2);
-> +                tcg_gen_xor_tl(tmph, src1h, src2h);
-> +                tcg_gen_or_tl(tmpl, tmpl, tmph);
-> +                tcg_gen_brcondi_tl(cond, tmpl, 0, l);
-> +            }
-> +        } else if (a->rs2 == 0
-> +                   && (cond == TCG_COND_LT || cond == TCG_COND_GE)) {
-> +            tcg_gen_shri_tl(tmpl, src1h, 63);
-> +            /* hack: transform LT in EQ and GE in NE */
-> +            tcg_gen_brcondi_tl((cond & 13) | 8, tmpl, 1, l);
-> +        } else {
-> +            if (cond == TCG_COND_GE || cond == TCG_COND_LTU) {
-> +                gen_setcond_i128(tmpl, tmph, src1, src1h, src2, src2h,
-> +                                 tcg_invert_cond(cond));
-> +                tcg_gen_brcondi_tl(TCG_COND_EQ, tmpl, 0, l);
-> +            } else {
-> +                gen_setcond_i128(tmpl, tmph, src1, src1h, src2, src2h, cond);
-> +                tcg_gen_brcondi_tl(TCG_COND_NE, tmpl, 0, l);
-> +            }
-> +        }
-
-Which then takes care of all of this.
-
-BTW, the hack was quite a hack, and quite unnecessary.  You could have dropped the shift 
-and performed the LT/GE brcond directly on src1h.
-
+Applied, thanks.
 
 r~
 
