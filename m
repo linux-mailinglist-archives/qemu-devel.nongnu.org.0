@@ -2,79 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 190474439C6
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 00:34:00 +0100 (CET)
-Received: from localhost ([::1]:45500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EC274439D9
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 00:37:29 +0100 (CET)
+Received: from localhost ([::1]:54912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mi3Hz-00010f-8F
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 19:33:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52220)
+	id 1mi3LM-0007PV-OE
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 19:37:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mi3BV-0007qM-Ad
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 19:27:17 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:43959)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mi3Je-0005lM-PZ
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 19:35:42 -0400
+Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:36490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mi3BJ-0007PI-EK
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 19:27:16 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- nh10-20020a17090b364a00b001a69adad5ebso24002pjb.2
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 16:27:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=sender:from:mime-version:subject:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=ZTCeLl+31/h1fFn2ze23dhSKb4fxDEztXU4DSV5YnSk=;
- b=Mdcd5veMJcydfTbex9Sm64sIwh0Nr41+bUj8y+HfWy/VkGzLrsPfwY4+AaHuCm2Udq
- n5iaWdfYkw2XQC7SVTXdDYrJPoR0vHT/UpBESSWxPJ/CR4hLuZbXqCBCMZz2sPDPQpBD
- SZMqNXF8j1wULZsXemSJuYn0eFBj9pAi2Bc6nU74/F1RNS28YfSFaESKA73tpVuLfS4V
- wkgkV3w/Qy1VAM/BBCsMvTYYMRghd+mZpdmoghgLkc2HLDV6A9TO5z/IvI5n54xPfDVY
- eilO/CEo9IRpaBJbdFiImliuM9ka7PU+tqMFRZnKW3VkfxtBYYZptO9vg8+c3I9Ej1Kk
- LqUg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mi3Ja-0002cO-E0
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 19:35:42 -0400
+Received: by mail-qk1-x72d.google.com with SMTP id i9so680119qki.3
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 16:35:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Nsqcl4l3KHwgFBY506jG5UfVddHyp7gdgvjCb3K1fW4=;
+ b=hbd20D76cUNB0oaY5ALdYO52Va7yiIJuorSqGXM5gZBr+ADcZexla+YH3C5Yw9iTko
+ CvIL1oO2yFZWSmA8JHrC4bMZqLbfI5K+Og+26vIxk8BrHSmz+I3WKF7YfPRBTk+KJFZP
+ ZCgNcgqfbRVT/IEE6dTFxgr9CKlrIpeTRXbyWH50ZH6mIO9hKOVjzdo8pQ7exISMoSM9
+ FfELtxYWPDJZfYxCBRcHYMWcbRxsJULH2n59qdIXZ6yVOb6oXmpAGQDvLQC74hioUY9S
+ la7ZBUBnnVyFRvR0dsy1oUgX9hmHIFDRHi5frAKVYC/kGnrsqiQdTQkm2zZ4BR9W5UEC
+ Xa7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:mime-version:subject:in-reply-to
- :date:cc:content-transfer-encoding:message-id:references:to;
- bh=ZTCeLl+31/h1fFn2ze23dhSKb4fxDEztXU4DSV5YnSk=;
- b=0Hhl/XB+fNXUA40XJjAb+uZvqjcjQkvxbUcOUv919aDHoNhfQW6HFzL3KkLMc7dlrw
- B3EIEh9FMwO9IR3i3CkuV/0TFUWht043qFA1iiCFNe0s2NjHOWktzbYcw4e4fMRXevkO
- zSJhWg4NKhqV4ot2H3qU3jLt3pfktDTvpMivnt6+CYP4dOU+yZ2YHVi6eCQfd2gfyZBU
- BX/YW30US+04V5USr91aZwKrxqlJ+ElCxjseLtDWq38PKy/4ZFLRpVnX03/wbywXXUwi
- 7r3EGZhrrFLsxAfAnE2vbeQ9Hh2j9k3wk+rNS2wrXHn/HRtQdjVvp/As2U7p65w0Y35u
- TO2w==
-X-Gm-Message-State: AOAM531xGRH8e2Gb75VgOrAqfMJC7xQ83R/pqLZxHIL20L9Bdo4JlXZz
- lz8RuyFQIbWU23BhrLudt7H4wQ==
-X-Google-Smtp-Source: ABdhPJy5AZ7f6b1W/B+OoeMg3xHi4imz/TXwNF/19GsZMZHNB3L0v+2g3k2rZ49d99Ks+/U1hmabTA==
-X-Received: by 2002:a17:90a:8912:: with SMTP id
- u18mr10241747pjn.69.1635895623007; 
- Tue, 02 Nov 2021 16:27:03 -0700 (PDT)
-Received: from ?IPv6:2603:300b:6:5100:7506:c595:39a9:b85a?
- ([2603:300b:6:5100:7506:c595:39a9:b85a])
- by smtp.gmail.com with ESMTPSA id e14sm221033pfv.192.2021.11.02.16.27.02
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 02 Nov 2021 16:27:02 -0700 (PDT)
-From: Warner Losh <imp@bsdimp.com>
-X-Google-Original-From: Warner Losh <bsdimp@gmail.com>
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.7\))
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Nsqcl4l3KHwgFBY506jG5UfVddHyp7gdgvjCb3K1fW4=;
+ b=ldQa0pq2/cI9QlUPHIhVp2ZXQdMtrhbNpTd4l2SphYegmYlnOn3YVmtmc/0o/TT5C5
+ J/TNmcL4JkUZIq92C1yf21dFBAqDZ5WFu1s+zvpAkp0h/jBMAE9NaJIQCJ3t9bBM1jEJ
+ ppFUfokT/1uBDoRgqdDisFKChiQtFckjD0eZhH+JFOBlgZPxrfXzFwGMk2ysH62ESa2H
+ NgscVgZq48KH7TkdZrpFKfmotImYz2J6T1C3SToDwjCW/H4YSvA0osFaW6oTVhqBqy8V
+ FG1/536G43WXvhnKgeKV9g+ycAtO+2PDXKgZnfWC3zCIyHyfizuyE4lcJF2B3gxQbsr1
+ mKRg==
+X-Gm-Message-State: AOAM530En+aRvpciidY9jB59oBzkdo/Q63RX1w/p9H3I1E4c5FpuUeAa
+ 3A1epqJgbA5Jh/GmXqm5CI2YksJtxsD/Tw==
+X-Google-Smtp-Source: ABdhPJwAsCc9Dc7YzKyTtB/oFf4oTNG6UXZWtATTbk6dWPFx+3tSiV6p0vzYkf3wiAXGIYzjCxjlgQ==
+X-Received: by 2002:a05:620a:298a:: with SMTP id
+ r10mr31325705qkp.84.1635896136870; 
+ Tue, 02 Nov 2021 16:35:36 -0700 (PDT)
+Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
+ [172.254.253.57])
+ by smtp.gmail.com with ESMTPSA id v3sm321960qkd.20.2021.11.02.16.35.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Nov 2021 16:35:36 -0700 (PDT)
 Subject: Re: [PULL 00/60] accel/tcg patch queue
-In-Reply-To: <a155ebce-e2ec-974f-355c-6bca26b22c80@linaro.org>
-Date: Tue, 2 Nov 2021 17:27:01 -0600
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <B2EB83EC-D491-4C42-91A4-CA95BF50E63B@gmail.com>
+To: Warner Losh <imp@bsdimp.com>
 References: <20211102110740.215699-1-richard.henderson@linaro.org>
  <a155ebce-e2ec-974f-355c-6bca26b22c80@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-X-Mailer: Apple Mail (2.3608.120.23.2.7)
-Received-SPF: none client-ip=2607:f8b0:4864:20::1031;
- envelope-from=wlosh@bsdimp.com; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ <B2EB83EC-D491-4C42-91A4-CA95BF50E63B@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <2838fdfb-017d-504b-d98d-aefd50efbf00@linaro.org>
+Date: Tue, 2 Nov 2021 19:35:35 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <B2EB83EC-D491-4C42-91A4-CA95BF50E63B@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72d.google.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.549,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,232 +94,17 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This breaks bsd-user building. That=E2=80=99s OK, imho, for two reasons: =
-First it only runs =E2=80=98hello world=E2=80=99. Second, I=E2=80=99ve =
-updated my patch train which will fix this (message-id =
-20211019164447.16359-1-imp@bsdimp.com).
+On 11/2/21 7:27 PM, Warner Losh wrote:
+> This breaks bsd-user building. That’s OK, imho, for two reasons: First it only runs ‘hello world’. Second, I’ve updated my patch train which will fix this (message-id 20211019164447.16359-1-imp@bsdimp.com).
+> 
+> If there’s urgency to this, I can pull patch 1 out and submit it.
 
-If there=E2=80=99s urgency to this, I can pull patch 1 out and submit =
-it.
+Dangit.  I shouldn't have broken the build, even with signals still disabled in bsd-user. 
+  I let my guard down because the cirrus bsd build has gone wonky, and the shared machine 
+I'm doing other cross-testing on has got some temporary resource conflict.
 
-Warner
+Let's fix the build asap.
 
-> On Nov 2, 2021, at 1:11 PM, Richard Henderson =
-<richard.henderson@linaro.org> wrote:
->=20
-> On 11/2/21 7:06 AM, Richard Henderson wrote:
->> The following changes since commit =
-dd61b91c080cdfba1360a5ea1e4693fffb3445b0:
->>   Merge remote-tracking branch =
-'remotes/armbru/tags/pull-qapi-2021-10-29' into staging (2021-10-29 =
-19:42:36 -0700)
->> are available in the Git repository at:
->>   https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20211102
->> for you to fetch changes up to =
-742f07628c0a0bd847b47ee0a0b20c44531e0ba5:
->>   linux-user: Handle BUS_ADRALN in host_signal_handler (2021-11-02 =
-07:00:52 -0400)
->> ----------------------------------------------------------------
->> - Split out host signal handing from accel/tcg/user-exec.c
->>   to linux-user/host/arch/host-signal.h
->> - Replace TCGCPUOps.tlb_fill with TCGCPUOps.record_sigsegv for =
-user-only
->> - Add TCGCPUOps.record_sigbus for user-only
->> - Remove a lot of target-specific cpu_loop handling for signals,
->>   now accomplished with generic code.
->> ----------------------------------------------------------------
->> Richard Henderson (60):
->>       accel/tcg: Split out adjust_signal_pc
->>       accel/tcg: Move clear_helper_retaddr to cpu loop
->>       accel/tcg: Split out handle_sigsegv_accerr_write
->>       accel/tcg: Fold cpu_exit_tb_from_sighandler into caller
->>       configure: Merge riscv32 and riscv64 host architectures
->>       linux-user: Reorg handling for SIGSEGV
->>       linux-user/host/x86: Populate host_signal.h
->>       linux-user/host/ppc: Populate host_signal.h
->>       linux-user/host/alpha: Populate host_signal.h
->>       linux-user/host/sparc: Populate host_signal.h
->>       linux-user/host/arm: Populate host_signal.h
->>       linux-user/host/aarch64: Populate host_signal.h
->>       linux-user/host/s390: Populate host_signal.h
->>       linux-user/host/mips: Populate host_signal.h
->>       linux-user/host/riscv: Populate host_signal.h
->>       target/arm: Fixup comment re handle_cpu_signal
->>       linux-user/host/riscv: Improve host_signal_write
->>       linux-user/signal: Drop HOST_SIGNAL_PLACEHOLDER
->>       hw/core: Add TCGCPUOps.record_sigsegv
->>       linux-user: Add cpu_loop_exit_sigsegv
->>       target/alpha: Implement alpha_cpu_record_sigsegv
->>       target/arm: Use cpu_loop_exit_sigsegv for mte tag lookup
->>       target/arm: Implement arm_cpu_record_sigsegv
->>       target/cris: Make cris_cpu_tlb_fill sysemu only
->>       target/hexagon: Remove hexagon_cpu_tlb_fill
->>       target/hppa: Make hppa_cpu_tlb_fill sysemu only
->>       target/i386: Implement x86_cpu_record_sigsegv
->>       target/m68k: Make m68k_cpu_tlb_fill sysemu only
->>       target/microblaze: Make mb_cpu_tlb_fill sysemu only
->>       target/mips: Make mips_cpu_tlb_fill sysemu only
->>       target/nios2: Implement nios2_cpu_record_sigsegv
->>       linux-user/openrisc: Abort for EXCP_RANGE, EXCP_FPE
->>       target/openrisc: Make openrisc_cpu_tlb_fill sysemu only
->>       target/ppc: Implement ppc_cpu_record_sigsegv
->>       target/riscv: Make riscv_cpu_tlb_fill sysemu only
->>       target/s390x: Use probe_access_flags in s390_probe_access
->>       target/s390x: Implement s390_cpu_record_sigsegv
->>       target/sh4: Make sh4_cpu_tlb_fill sysemu only
->>       target/sparc: Make sparc_cpu_tlb_fill sysemu only
->>       target/xtensa: Make xtensa_cpu_tlb_fill sysemu only
->>       accel/tcg: Restrict TCGCPUOps::tlb_fill() to sysemu
->>       hw/core: Add TCGCPUOps.record_sigbus
->>       linux-user: Add cpu_loop_exit_sigbus
->>       target/alpha: Implement alpha_cpu_record_sigbus
->>       target/arm: Implement arm_cpu_record_sigbus
->>       linux-user/hppa: Remove EXCP_UNALIGN handling
->>       target/microblaze: Do not set MO_ALIGN for user-only
->>       target/ppc: Move SPR_DSISR setting to powerpc_excp
->>       target/ppc: Set fault address in ppc_cpu_do_unaligned_access
->>       target/ppc: Restrict ppc_cpu_do_unaligned_access to sysemu
->>       linux-user/ppc: Remove POWERPC_EXCP_ALIGN handling
->>       target/s390x: Implement s390x_cpu_record_sigbus
->>       target/sh4: Set fault address in superh_cpu_do_unaligned_access
->>       target/sparc: Remove DEBUG_UNALIGNED
->>       target/sparc: Split out build_sfsr
->>       target/sparc: Set fault address in =
-sparc_cpu_do_unaligned_access
->>       accel/tcg: Report unaligned atomics for user-only
->>       accel/tcg: Report unaligned load/store for user-only
->>       tcg: Add helper_unaligned_{ld,st} for user-only sigbus
->>       linux-user: Handle BUS_ADRALN in host_signal_handler
->>  configure                                          |   8 +-
->>  meson.build                                        |   4 +-
->>  include/exec/exec-all.h                            |  55 +-
->>  include/hw/core/tcg-cpu-ops.h                      |  71 +-
->>  include/tcg/tcg-ldst.h                             |   5 +
->>  linux-user/host/aarch64/host-signal.h              |  74 ++
->>  linux-user/host/alpha/host-signal.h                |  42 +
->>  linux-user/host/arm/host-signal.h                  |  30 +
->>  linux-user/host/i386/host-signal.h                 |  25 +
->>  linux-user/host/mips/host-signal.h                 |  62 ++
->>  linux-user/host/ppc/host-signal.h                  |  25 +
->>  linux-user/host/ppc64/host-signal.h                |   1 +
->>  linux-user/host/riscv/host-signal.h                |  58 ++
->>  linux-user/host/{riscv64 =3D> riscv}/hostdep.h       |   4 +-
->>  linux-user/host/riscv32/hostdep.h                  |  11 -
->>  linux-user/host/s390/host-signal.h                 |  93 +++
->>  linux-user/host/s390x/host-signal.h                |   1 +
->>  linux-user/host/sparc/host-signal.h                |  54 ++
->>  linux-user/host/sparc64/host-signal.h              |   1 +
->>  linux-user/host/x32/host-signal.h                  |   1 +
->>  linux-user/host/x86_64/host-signal.h               |  24 +
->>  target/alpha/cpu.h                                 |  21 +-
->>  target/arm/internals.h                             |   8 +
->>  target/cris/cpu.h                                  |   8 +-
->>  target/hppa/cpu.h                                  |   2 +-
->>  target/i386/tcg/helper-tcg.h                       |   6 +
->>  target/microblaze/cpu.h                            |   8 +-
->>  target/mips/tcg/tcg-internal.h                     |   7 +-
->>  target/nios2/cpu.h                                 |   6 +
->>  target/openrisc/cpu.h                              |   7 +-
->>  target/ppc/cpu.h                                   |   3 -
->>  target/ppc/internal.h                              |  17 +-
->>  target/s390x/s390x-internal.h                      |   9 +
->>  target/sh4/cpu.h                                   |   6 +-
->>  target/xtensa/cpu.h                                |   2 +-
->>  accel/tcg/cpu-exec.c                               |   3 +-
->>  accel/tcg/user-exec.c                              | 861 =
-+++------------------
->>  linux-user/aarch64/cpu_loop.c                      |  12 +-
->>  linux-user/alpha/cpu_loop.c                        |  15 -
->>  linux-user/arm/cpu_loop.c                          |  30 +-
->>  linux-user/cris/cpu_loop.c                         |  10 -
->>  linux-user/hexagon/cpu_loop.c                      |  24 +-
->>  linux-user/hppa/cpu_loop.c                         |  23 -
->>  linux-user/m68k/cpu_loop.c                         |  10 -
->>  linux-user/microblaze/cpu_loop.c                   |  10 -
->>  linux-user/mips/cpu_loop.c                         |  11 -
->>  linux-user/openrisc/cpu_loop.c                     |  25 +-
->>  linux-user/ppc/cpu_loop.c                          |   8 -
->>  linux-user/riscv/cpu_loop.c                        |   7 -
->>  linux-user/s390x/cpu_loop.c                        |  13 +-
->>  linux-user/sh4/cpu_loop.c                          |   8 -
->>  linux-user/signal.c                                | 133 +++-
->>  linux-user/sparc/cpu_loop.c                        |  25 -
->>  linux-user/xtensa/cpu_loop.c                       |   9 -
->>  target/alpha/cpu.c                                 |   7 +-
->>  target/alpha/helper.c                              |  39 +-
->>  target/alpha/mem_helper.c                          |  30 +-
->>  target/arm/cpu.c                                   |   7 +-
->>  target/arm/cpu_tcg.c                               |   7 +-
->>  target/arm/mte_helper.c                            |   6 +-
->>  target/arm/sve_helper.c                            |   2 +-
->>  target/arm/tlb_helper.c                            |  42 +-
->>  target/cris/cpu.c                                  |   4 +-
->>  target/cris/helper.c                               |  18 -
->>  target/hexagon/cpu.c                               |  23 -
->>  target/hppa/cpu.c                                  |   2 +-
->>  target/hppa/mem_helper.c                           |  15 -
->>  target/i386/tcg/tcg-cpu.c                          |   3 +-
->>  target/i386/tcg/user/excp_helper.c                 |  23 +-
->>  target/m68k/cpu.c                                  |   2 +-
->>  target/m68k/helper.c                               |   6 +-
->>  target/microblaze/cpu.c                            |   2 +-
->>  target/microblaze/helper.c                         |  13 +-
->>  target/microblaze/translate.c                      |  16 +
->>  target/mips/cpu.c                                  |   2 +-
->>  target/mips/tcg/user/tlb_helper.c                  |  59 --
->>  target/nios2/cpu.c                                 |   6 +-
->>  target/nios2/helper.c                              |   7 +-
->>  target/openrisc/cpu.c                              |   2 +-
->>  target/openrisc/mmu.c                              |   9 -
->>  target/ppc/cpu_init.c                              |   6 +-
->>  target/ppc/excp_helper.c                           |  41 +-
->>  target/ppc/user_only_helper.c                      |  15 +-
->>  target/riscv/cpu.c                                 |   2 +-
->>  target/riscv/cpu_helper.c                          |  21 +-
->>  target/s390x/cpu.c                                 |   7 +-
->>  target/s390x/tcg/excp_helper.c                     |  45 +-
->>  target/s390x/tcg/mem_helper.c                      |  18 +-
->>  target/sh4/cpu.c                                   |   2 +-
->>  target/sh4/helper.c                                |   9 +-
->>  target/sh4/op_helper.c                             |   5 +
->>  target/sparc/cpu.c                                 |   2 +-
->>  target/sparc/ldst_helper.c                         |  22 -
->>  target/sparc/mmu_helper.c                          | 115 +--
->>  target/xtensa/cpu.c                                |   2 +-
->>  target/xtensa/helper.c                             |  22 +-
->>  .../host/{riscv64 =3D> riscv}/safe-syscall.inc.S     |   0
->>  target/cris/meson.build                            |   7 +-
->>  target/hppa/meson.build                            |   6 +-
->>  target/mips/tcg/meson.build                        |   3 -
->>  target/mips/tcg/user/meson.build                   |   3 -
->>  target/openrisc/meson.build                        |   2 +-
->>  target/sparc/meson.build                           |   2 +-
->>  103 files changed, 1269 insertions(+), 1436 deletions(-)
->>  create mode 100644 linux-user/host/aarch64/host-signal.h
->>  create mode 100644 linux-user/host/alpha/host-signal.h
->>  create mode 100644 linux-user/host/arm/host-signal.h
->>  create mode 100644 linux-user/host/i386/host-signal.h
->>  create mode 100644 linux-user/host/mips/host-signal.h
->>  create mode 100644 linux-user/host/ppc/host-signal.h
->>  create mode 100644 linux-user/host/ppc64/host-signal.h
->>  create mode 100644 linux-user/host/riscv/host-signal.h
->>  rename linux-user/host/{riscv64 =3D> riscv}/hostdep.h (94%)
->>  delete mode 100644 linux-user/host/riscv32/hostdep.h
->>  create mode 100644 linux-user/host/s390/host-signal.h
->>  create mode 100644 linux-user/host/s390x/host-signal.h
->>  create mode 100644 linux-user/host/sparc/host-signal.h
->>  create mode 100644 linux-user/host/sparc64/host-signal.h
->>  create mode 100644 linux-user/host/x32/host-signal.h
->>  create mode 100644 linux-user/host/x86_64/host-signal.h
->>  delete mode 100644 target/mips/tcg/user/tlb_helper.c
->>  rename linux-user/host/{riscv64 =3D> riscv}/safe-syscall.inc.S =
-(100%)
->>  delete mode 100644 target/mips/tcg/user/meson.build
->=20
-> Applied, thanks.
->=20
-> r~
->=20
->=20
 
+r~
 
