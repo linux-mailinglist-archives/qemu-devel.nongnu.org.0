@@ -2,74 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD924443989
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 00:20:47 +0100 (CET)
-Received: from localhost ([::1]:36830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9900F4439A4
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 00:26:33 +0100 (CET)
+Received: from localhost ([::1]:55084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mi35C-0000wR-TT
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 19:20:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45142)
+	id 1mi3Am-0004zr-PT
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 19:26:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mi2fB-00081h-SE
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 18:53:53 -0400
-Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:33281)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mi2f8-0002vl-Nk
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 18:53:53 -0400
-Received: by mail-io1-xd36.google.com with SMTP id z206so654169iof.0
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 15:53:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=V2bQIWGL0XqjqPbzVAf7nqAzcBUhtupJ0ypcSsardcc=;
- b=FbyWJOPN4JgY8FvbYmqNCqW46yYYnQeEM76xOFFYhjX6a2jnCf6h1BQEgls21Rh4ks
- 7ob40dbj9agR0pXGYKB3ZuNVMum6PUaWmrds6b9G2Gukmbq9wJyM7dY+PcGsMfoKLHJL
- eNDCglkVmwlFA1oMIPCRxv4HqJoQ5ylCpKxaomv8Z+nfTA95iDB6fPcH2xkR+GoRcinK
- kDeHE561o3r8Xrj0rv9w0kjg8vFnoWlmlf+9zF4MNq+UGBVct7wrIiga+n9R+dxsAgBC
- 8yA4L/vsa8hjtLj7UeCsDY2wbdcpsYmR3PlkYI9QcfZZz32HkY7R9LurMWBvvUNvhZhp
- DqJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=V2bQIWGL0XqjqPbzVAf7nqAzcBUhtupJ0ypcSsardcc=;
- b=vbxMhV0Wgx00GPKd2ZQgdGuVOx0+n5JDNbVgu+dcugu78CosGqmcPbjfFSDZMKulBJ
- bpXXYk5vmOw3ud6iQH6ASkgdP0L4eJSFKTt/ndxqL6dxgAip/UjzTyngbW8l+GYfSaLn
- WpxZ4aEpL1uFWEhKcb0c7qO8WG5EJCazDfq7Qia2mubw38QB2b1pMx5hVtoyH2JpTMZD
- 7HWCV7y2eK7Gugr74IUv6Ns0/3v6USJ7QO1taLs6jQwxc3RDxgQIAoC7vZvkTBQLMOQ8
- ua6NF2kTg0o/Mw05VRIQ5nZ8hdLaoSRV2+c5Xpbu1PMe/9B4DIp2/7LaL5Pfx04Knlii
- 1Bkw==
-X-Gm-Message-State: AOAM5311rYbrYLInYnyOP2uG8oE0IWYRoJ6HuPUTvs2RuQi8ctDsspq6
- yVGKQxdv0+lL0wWi8zhiFDih3dtUklY/Sg==
-X-Google-Smtp-Source: ABdhPJw0oSesAjkdoGIfe0Yp23QLnB7YgSIf6XSVFk3U1gK6kftBL64Ofezt98ZmRBfyXwfWmQIRnQ==
-X-Received: by 2002:a05:6638:3052:: with SMTP id
- u18mr30704277jak.148.1635893629646; 
- Tue, 02 Nov 2021 15:53:49 -0700 (PDT)
-Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
- [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id h14sm205427ils.75.2021.11.02.15.53.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 15:53:49 -0700 (PDT)
-From: Warner Losh <imp@bsdimp.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mi36k-00064L-Nk; Tue, 02 Nov 2021 19:22:23 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:55627)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mi36h-0006LH-S1; Tue, 02 Nov 2021 19:22:22 -0400
+Received: from quad ([82.142.14.190]) by mrelayeu.kundenserver.de (mreue012
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MmyzH-1mIvkg2NYV-00kB8s; Wed, 03
+ Nov 2021 00:22:13 +0100
+From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 30/30] bsd-user/x86_64/target_arch_signal.h: use new
- target_os_ucontext.h
-Date: Tue,  2 Nov 2021 16:52:48 -0600
-Message-Id: <20211102225248.52999-31-imp@bsdimp.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211102225248.52999-1-imp@bsdimp.com>
-References: <20211102225248.52999-1-imp@bsdimp.com>
+Subject: [PULL 0/4] Trivial branch for 6.2 patches
+Date: Wed,  3 Nov 2021 00:22:08 +0100
+Message-Id: <20211102232212.2911638-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d36;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd36.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:rTbczGPGWs1SbRspFrruUwk/v6KniVcaeUSqTzN7rugFQp+qN+8
+ Py2vxNADMFZAHjjQUFWOEESyIJbjpN461je32Zz1P9wI8jcV23ObL9r511PPIfNkxCGtXln
+ T9hxVVCqCMKOk8GITTm4u3a/jTskJTFsoYijy3LcQx7Fn1Yib1vyW/6hgjEJD5va0Gnh1Mx
+ +zrQIGgyGjD9NvxNpDGbQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Rhy23w4mtrQ=:R0g5QWUu6t7yruxM0+uniR
+ PeOdAAfcoD25dkK10BcDlxOMdZjeQI3XZECnB/UiNZnCIvLZ1IE6OHq8Nv1mEhlf5Q+dHJ4nI
+ LH3ToxyrxFb/uwruD50tx5wcUpB0ShIBp5ViuWgTvThJJJ53D1zPEhg5SoY3SOtvn/pTW7MNm
+ 3OanQ0ncyWzAKFW4QyxmBuhHjxfiE9rvwJ0rCMivXy9CJllDzq45ZSnGEycMhPqQQh+wHnUue
+ ORpl/o5CWXDx89fP5luBUw+Et7QiOsqT9i0/QcoTuBWm82H/Q8IMzoC12qQuV6tBkm9V+Yicx
+ ajmf6nBi/xhbedDWdTSbgKkLHbbEv7xBxuFHNXnaN2WsWi/bqGzcA26eS84tYoD0s6QyhN13h
+ UDVn+IsdNyUDzNy8aQJHj3eGAfOVPH9Uzpb+FdBEglPHF2xRS1CfzGn5/qk3o8HtdEBCwBDHF
+ 7Riwf/yYntV5ODSUePl5kBgQiTgy+XFKFDiMNGYjL2Mb465g6NBUtHaCP8peA3+tTD5mMdDVK
+ AySjT66QYIBat/AkfdT/sSo1cOdSf982wBwX2yCCAzhMYz3S4IDqNLrc+bKV5Pm8qUln2agZR
+ BmLk7iQMPlUYQe78aVM+NcM77HOPcWatUaU3IgQyTr7bpNSpWzTKDgw9OokopUOqqoijTrx4i
+ dTs8AnXd3rElLX6BjbdyA8ST5JovMVLSDxEG6APEzaTV7mgGEiTnxNTAuzt6OWV8OHLk=
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,39 +64,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Kyle Evans <kevans@freebsd.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe Mathieu-Daude <f4bug@amsat.org>, Laurent Vivier <laurent@vivier.eu>,
- Michael Tokarev <mjt@tls.msk.ru>, Warner Losh <imp@bsdimp.com>
+Cc: qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Warner Losh <imp@bsdimp.com>
----
- bsd-user/x86_64/target_arch_signal.h | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
-
-diff --git a/bsd-user/x86_64/target_arch_signal.h b/bsd-user/x86_64/target_arch_signal.h
-index 55f742b0a8..e84aff948c 100644
---- a/bsd-user/x86_64/target_arch_signal.h
-+++ b/bsd-user/x86_64/target_arch_signal.h
-@@ -30,14 +30,7 @@
- typedef struct target_mcontext {
- } target_mcontext_t;
- 
--typedef struct target_ucontext {
--    target_sigset_t   uc_sigmask;
--    target_mcontext_t uc_mcontext;
--    abi_ulong         uc_link;
--    target_stack_t    uc_stack;
--    int32_t           uc_flags;
--    int32_t         __spare__[4];
--} target_ucontext_t;
-+#include "target_os_ucontext.h"
- 
- struct target_sigframe {
-     abi_ulong   sf_signum;
--- 
-2.33.0
-
+The following changes since commit af531756d25541a1b3b3d9a14e72e7fedd941a2e=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/philmd/tags/renesas-20211030' into =
+staging (2021-10-30 11:31:41 -0700)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://github.com/vivier/qemu.git tags/trivial-branch-for-6.2-pull-request=
+=0D
+=0D
+for you to fetch changes up to 5d2bd73588d14b5868129ace9c7912a777f06753:=0D
+=0D
+  hw/input/lasips2: Fix typos in function names (2021-10-31 21:05:40 +0100)=
+=0D
+=0D
+----------------------------------------------------------------=0D
+Trivial patches branch pull request 20211101 v2=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Markus Armbruster (1):=0D
+  monitor: Trim some trailing space from human-readable output=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  MAINTAINERS: Split HPPA TCG vs HPPA machines/hardware=0D
+  hw/input/lasips2: Fix typos in function names=0D
+=0D
+Yanan Wang (1):=0D
+  hw/core/machine: Add the missing delimiter in cpu_slot_to_string()=0D
+=0D
+ MAINTAINERS                | 5 ++---=0D
+ hw/core/machine.c          | 3 +++=0D
+ hw/input/lasips2.c         | 8 ++++----=0D
+ monitor/hmp-cmds.c         | 2 +-=0D
+ target/i386/cpu-dump.c     | 4 ++--=0D
+ target/i386/cpu.c          | 2 +-=0D
+ target/ppc/cpu_init.c      | 2 +-=0D
+ target/s390x/cpu_models.c  | 4 ++--=0D
+ target/xtensa/mmu_helper.c | 2 +-=0D
+ 9 files changed, 17 insertions(+), 15 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
