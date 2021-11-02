@@ -2,67 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C215442E5D
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 13:40:51 +0100 (CET)
-Received: from localhost ([::1]:45954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BC42442DCF
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 13:26:14 +0100 (CET)
+Received: from localhost ([::1]:44816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mht5s-0003g0-Ke
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 08:40:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55168)
+	id 1mhsrl-0005Dh-Bm
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 08:26:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mhsIU-0007O5-AS
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:49:47 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:54894)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mhsIS-0000BP-TL
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:49:46 -0400
-Received: by mail-wm1-x329.google.com with SMTP id 71so13075946wma.4
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 04:49:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OsXU0UZD0k9N1BZjlDPQWKSq15/NBNSov4JOl3qUfaU=;
- b=R4PV5SvGS/saur8ytSkogCmpmKdY+mbWj3H/FQ59I1e41ginYQeT7jvH/+vmVQSEJp
- UcuIm83sDbPxuXj/uuK23AeVl2Y58QrPeGhnc8nidAsQFuXiGGl+wjdSujUZ10F2wIMA
- 8gTs3+rvsOP4jJLiBGI83DqsUpBAYGIduNXZ4kH9rtqdYsVQlR39bfunnv9hsTpX1LG8
- yWZLmFmLauubDuCVBdeB0Y4U6YNt4N8FPGGUi6rQJ3B2bnQwYN8prfR67p2i/pXQgRTS
- 6353bZF0q4DSM6p4FrrO60njU/evsFduciNx8i9mTgw7ewXUi938FSoxsrsx1w5uYCS0
- I7cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OsXU0UZD0k9N1BZjlDPQWKSq15/NBNSov4JOl3qUfaU=;
- b=jh5OgUl3HZgmqWTld0E6fIj+N+eESq9sH9++brhwkSuANU0TqznJ4ezMCPptsXxloH
- c/hgoRJSD1vHXBIOlDCYfn0V7G0FZrBzBvVm2ijMX6wkLCBzTwUnwKC2skJdk1Ve6fVp
- Eup2RSh6eqvTXp825LXBfrGjs2IfCg1/s+qE358Ij2OVkzaVjla6jlzX/3RqndRXAiOu
- kZvqpJRU2OCDAgfA6ZsQGMU8hIQAp7cOlPSvWy52Uq6ir4yk+hWVA0lIQZq5l+VtGG5x
- SlaD45VQIy7QrUFKK73Pz4OiUA7LvYUFRT/O0Nh40ejSklcDNsxXRb1lIByOrwJttohE
- FPew==
-X-Gm-Message-State: AOAM533WGwRe1ifk2SBu6ywSjmh3CreOfYLMYmNvSW6nNiwvumwiuBZq
- rb0EHbt7VUvDVm7pTGYYM6ejQLi+Pdus+lcCPhjWdg==
-X-Google-Smtp-Source: ABdhPJzN6WAXiit1EOz6dKH0c4OWUo0ePzDPXcmR4zu3rUrb3vPWIuKxgphtXSalkNZXNJQLrXvoRlGOAjXEZ261jsE=
-X-Received: by 2002:a1c:a344:: with SMTP id m65mr6181045wme.32.1635853782543; 
- Tue, 02 Nov 2021 04:49:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mhsJ1-0008Bq-0x
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:50:19 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:20592)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mhsIv-0000GD-Cg
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:50:18 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A29aHUu012753; 
+ Tue, 2 Nov 2021 11:50:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=JCn5XT8SyysPXoeFCiOGB7D+zJvvPcOSvpZp3Kisv5w=;
+ b=lLKTVlPHBqfCeO9c6v5dareYCpd3gOSLP0foHitqP1xtQSaniDL3OuZaxDc732n28Meu
+ iBPVDaafSCWM0ZpZPMADUUZCKNtLYET9K4VUwT3l26ttHVEyiE2MsXQgbMod+YQ/sSDi
+ eQa0Y/HrKRh5zm3G4/+kpCym27qgYZxB6f5bnk9a65X68UC4GlGS0NaLwS601TZCRQUX
+ dIc9T6MxAoxLFt9kGY3oPXgQ6iC5PIiEKcYNUSblEeU7pqwu43XfixOpBbc8XW+lpab1
+ XG6sHQvEw1Sbbh6on3JKdZkK5YHe4mBtFu4O4N9okWZ7Dar9WwiTO3bOJS6thxk/55hB RA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3c30byp7m9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 Nov 2021 11:50:06 +0000
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1A2BGQEJ021089;
+ Tue, 2 Nov 2021 11:50:06 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3c30byp7kp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 Nov 2021 11:50:06 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1A2BgAoL016175;
+ Tue, 2 Nov 2021 11:50:04 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma02wdc.us.ibm.com with ESMTP id 3c0wpb13g5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 Nov 2021 11:50:04 +0000
+Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
+ [9.57.199.107])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1A2Bo3RV12780428
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 2 Nov 2021 11:50:03 GMT
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C8B8112405A;
+ Tue,  2 Nov 2021 11:50:03 +0000 (GMT)
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 727B6124052;
+ Tue,  2 Nov 2021 11:50:01 +0000 (GMT)
+Received: from [9.65.202.213] (unknown [9.65.202.213])
+ by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
+ Tue,  2 Nov 2021 11:50:01 +0000 (GMT)
+Message-ID: <1f8b2150-b200-e862-be36-1e2b280fcac7@linux.ibm.com>
+Date: Tue, 2 Nov 2021 13:50:00 +0200
 MIME-Version: 1.0
-References: <20211102113044.204344-2-pbonzini@redhat.com>
-In-Reply-To: <20211102113044.204344-2-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 Nov 2021 11:49:31 +0000
-Message-ID: <CAFEAcA9VO0w6fYuOFh+H-raQigOkms8Bv=LrMkkgc1BVzaredw@mail.gmail.com>
-Subject: Re: [PATCH] meson: remove unnecessary coreaudio test program
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
+Subject: Re: [PATCH 3/3] sev/i386: Perform padding calculations at compile-time
+Content-Language: en-US
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20211101102136.1706421-1-dovmurik@linux.ibm.com>
+ <20211101102136.1706421-4-dovmurik@linux.ibm.com> <YYEiyJ73TCg2AFOl@work-vm>
+From: Dov Murik <dovmurik@linux.ibm.com>
+In-Reply-To: <YYEiyJ73TCg2AFOl@work-vm>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: -5dOAZaLOaVw-NPNJASvLWgqa9jJhtS0
+X-Proofpoint-GUID: ayINoSgJU64BLoDD4JTMEsl3FSjOyyGR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-02_06,2021-11-02_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ mlxlogscore=999 bulkscore=0 priorityscore=1501 impostorscore=0 mlxscore=0
+ adultscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015 phishscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2111020068
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.549,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,58 +113,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Dov Murik <dovmurik@linux.ibm.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2 Nov 2021 at 11:30, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> AudioGetCurrentHostTime has been present forever, so the test is not
-> enforcing a specific version of macOS.  In fact the test was broken
-> since it was not linking against the coreaudio dependency; just remove it.
->
-> Fixes: 87430d5b13 ("configure, meson: move audio driver detection to Meson", 2021-10-14)
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  meson.build | 16 ----------------
->  1 file changed, 16 deletions(-)
->
-> diff --git a/meson.build b/meson.build
-> index 3dadb245a8..d800b9c5fb 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -944,22 +944,6 @@ coreaudio = not_found
->  if not get_option('coreaudio').auto() or (targetos == 'darwin' and have_system)
->    coreaudio = dependency('appleframeworks', modules: 'CoreAudio',
->                           required: get_option('coreaudio'))
-> -  if coreaudio.found() and not cc.links('''
-> -    #include <CoreAudio/CoreAudio.h>
-> -    int main(void)
-> -    {
-> -      return (int)AudioGetCurrentHostTime();
-> -    }''')
-> -    coreaudio = not_found
-> -  endif
-> -
-> -  if not coreaudio.found()
-> -    if get_option('coreaudio').enabled()
-> -      error('CoreAudio not found')
-> -    else
-> -      warning('CoreAudio not found, disabling')
-> -    endif
-> -  endif
->  endif
 
-Don't we still want
 
-  if not coreaudio.found()
-    if get_option('coreaudio').enabled()
-      error('CoreAudio not found')
-    endif
-  endif
+On 02/11/2021 13:36, Dr. David Alan Gilbert wrote:
+> * Dov Murik (dovmurik@linux.ibm.com) wrote:
+>> In sev_add_kernel_loader_hashes, the sizes of structs are known at
+>> compile-time, so calculate needed padding at compile-time.
+>>
+>> No functional change intended.
+>>
+>> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+> 
+> 
+> 
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> 
 
-?
+Thanks Dave.
 
--- PMM
+-Dov
+
 
