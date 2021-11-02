@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C945442C5B
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 12:19:09 +0100 (CET)
-Received: from localhost ([::1]:43616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52F37442C6A
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 12:21:26 +0100 (CET)
+Received: from localhost ([::1]:51042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhroq-0004zq-CR
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 07:19:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43124)
+	id 1mhrr3-0001Xr-Eq
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 07:21:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhrdt-0003hY-Rd
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:07:49 -0400
-Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:44732)
+ id 1mhrdz-0003jg-Qj
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:07:59 -0400
+Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:46676)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhrdp-0000rp-UA
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:07:49 -0400
-Received: by mail-qt1-x82b.google.com with SMTP id j1so11231100qtq.11
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 04:07:45 -0700 (PDT)
+ id 1mhrdq-0000ry-OC
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:07:53 -0400
+Received: by mail-qv1-xf36.google.com with SMTP id g25so12008974qvf.13
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 04:07:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=A9mkVrBs8KkxTXk1PYgQKfRHS5p1nm/1r22NtGvkuhs=;
- b=wiznCEa6FEQ9ZzmKRZ8OU/XJBBDk9CZAybAsDn8IJiGtJWff0Q1ZNPZFUk6Ttl9UGP
- aRkLuyFSPqPmd1x5d4mNouT51IHTRGbZpl9Q2ZHcnkG0yPaOUgvP8Wr7AdI2wpRK5sKd
- oiQvH0P42dCZ2TDyZYLZkD6wzWgJxmd5v8R71xrx72lqSzJwdIOSbYk4cLzvtwnxJEmc
- a7MmUHtmXC33ZiSm+Z7J5Ziy9eOoWQyAAWgZOd6tlgxfnkn5M0VSGVVh0b0iB3JmZ/Vd
- 7/nmw+WBY9hSN2436yT5oBzwMPZCSD26+YigMbK3z1Ini0JDXuz5ag6xFdZ4LWBCazh9
- ping==
+ bh=RSgMMIuxwm2GRlSM3OSJ89oURZNxoJr58EWEVCgv90k=;
+ b=dyTIrLB+JjoNSzMd66ccGjk52JUY3AoIoCl90a71D7b59nDQxn9KeA48RfTC53ZEw+
+ /cP4+qKSvGRhZCJAzkMNa3turKwpnFH1kscVELkmvzcyHNugr2O+NHWhj2qs4pKIDpF0
+ thytWbRpWrTeQsOIdaZ6We7z8ydeI+dHz06ZhNXqyqqDGHU26L7nzzhc27e9/CzupSEH
+ GoT8lLbR1eVwppaLZgj4ydJnc8rgfOqow6YGCc4baFqxeX5VganPuuLX3pNOVbHkdunX
+ EPHS6MBhdcFWsRxBZ5reFJaC/+hghbrZXCWZQQgBanywF0YgwteqluLz7VydCYnqOxtn
+ Rh6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=A9mkVrBs8KkxTXk1PYgQKfRHS5p1nm/1r22NtGvkuhs=;
- b=65KAWMf0/K9FXGDgo+ixRFi3maELmjOq4itgOiOgwZxd+OAVp/2Div+bLHUr7bIHa8
- 7ib7j0RDFnTkK5nf5bdRPbHwGYv7v4nDdoh+cxatUb9NL/S/FrOPxdoMFGeVf8A7uey1
- 0/LpCr7/eHTSIQjgOq128cFVJA/SRKtwtETfuyidATG+fx7iA2hAf+oJ2+b0QizNlgpT
- FIhZKLKC+QvbjPVPswQ09t4bHN40+H9qFFLC9ldaQxBPhuML2ApOGgR95qn71S5NNCh1
- 34FIwWuqJ+fsQ1YsTNxpHRrkkn51M8wdvYCEMrDzO0x0OMqHP1/WaCKdDShdiDJY391z
- 3S7w==
-X-Gm-Message-State: AOAM5301KoYRY+U2sINhr0Ym2EF9/aNHMCvRVM9q6/mVgdM1li2zmXj6
- RMfdsz8379iRmsTG1UVSvbkuZBflESLcSA==
-X-Google-Smtp-Source: ABdhPJzdPs5Diy6hgx+MNdRT5Wp9mtftM1Ere3nH5dytirnUV0Cr/OqnrUonBS1rHfNzpiPow4q8Rg==
-X-Received: by 2002:ac8:5a4b:: with SMTP id o11mr38088517qta.59.1635851264925; 
- Tue, 02 Nov 2021 04:07:44 -0700 (PDT)
+ bh=RSgMMIuxwm2GRlSM3OSJ89oURZNxoJr58EWEVCgv90k=;
+ b=Gp+oUqVANi46MFcmTtFqHJJKF4ATmbqqwYU+/J0HYuh1tXnA+BZhLDAMCHtW8L1T8H
+ Mjg6tS0MnhuTfzOUAJEhTk/d7RjHHSZ9HtFJ/TTNY1hK/gW2sMKJmmR/1M2C2OqV9hX7
+ Sf2eywhjyIcm06xQN+UFyNcXgJ+0kfcpzyRcAKD4wLwCwXKZrNSsSruHaxv+m5rW8UYO
+ DQCWAvPavaKG6hLjTXGTB1W7rDEHcmNHb4IJVLyvCWRMZLgZSEXrKdLoUltWm0A0ZYdk
+ Jg3RDLDP7nKSyAOxmjsJZ3iYOe1PtdtEgRTGe612lMYmRGjmX6RgigLEsXL0qfl4o8HB
+ ONLw==
+X-Gm-Message-State: AOAM530RafpdQeFis/8aE+IORq13WEzGvTwwfCv4qwT43fN42AkoJg3O
+ mnQzu7dWgCCQguxUe1ntQ0zyxzZB1jHG6g==
+X-Google-Smtp-Source: ABdhPJwkSNUbeNdn9KSP2fSOEXDjStqRyOhgz4PrX8vpQZKNyDgbmy4G/NsD0xQSDxW7wyp0Sn4U/w==
+X-Received: by 2002:a05:6214:4107:: with SMTP id
+ kc7mr14868977qvb.12.1635851265691; 
+ Tue, 02 Nov 2021 04:07:45 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-172-254-253-57.nyc.biz.rr.com.
  [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id bm7sm3568612qkb.86.2021.11.02.04.07.44
+ by smtp.gmail.com with ESMTPSA id bm7sm3568612qkb.86.2021.11.02.04.07.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 04:07:44 -0700 (PDT)
+ Tue, 02 Nov 2021 04:07:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/60] linux-user: Reorg handling for SIGSEGV
-Date: Tue,  2 Nov 2021 07:06:46 -0400
-Message-Id: <20211102110740.215699-7-richard.henderson@linaro.org>
+Subject: [PULL 07/60] linux-user/host/x86: Populate host_signal.h
+Date: Tue,  2 Nov 2021 07:06:47 -0400
+Message-Id: <20211102110740.215699-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211102110740.215699-1-richard.henderson@linaro.org>
 References: <20211102110740.215699-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf36.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,294 +84,251 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Warner Losh <imp@bsdimp.com>
+Cc: Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add stub host-signal.h for all linux-user hosts.
-Add new code replacing cpu_signal_handler.
-Full migration will happen one host at a time.
+Split host_signal_pc and host_signal_write out of user-exec.c.
+Drop the *BSD code, to be re-created under bsd-user/ later.
 
 Reviewed-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/host/aarch64/host-signal.h |   1 +
- linux-user/host/arm/host-signal.h     |   1 +
- linux-user/host/i386/host-signal.h    |   1 +
- linux-user/host/mips/host-signal.h    |   1 +
- linux-user/host/ppc/host-signal.h     |   1 +
- linux-user/host/ppc64/host-signal.h   |   1 +
- linux-user/host/riscv/host-signal.h   |   1 +
- linux-user/host/s390/host-signal.h    |   1 +
- linux-user/host/s390x/host-signal.h   |   1 +
- linux-user/host/sparc/host-signal.h   |   1 +
- linux-user/host/sparc64/host-signal.h |   1 +
- linux-user/host/x32/host-signal.h     |   1 +
- linux-user/host/x86_64/host-signal.h  |   1 +
- linux-user/signal.c                   | 109 ++++++++++++++++++++++----
- 14 files changed, 106 insertions(+), 16 deletions(-)
- create mode 100644 linux-user/host/aarch64/host-signal.h
- create mode 100644 linux-user/host/arm/host-signal.h
- create mode 100644 linux-user/host/i386/host-signal.h
- create mode 100644 linux-user/host/mips/host-signal.h
- create mode 100644 linux-user/host/ppc/host-signal.h
- create mode 100644 linux-user/host/ppc64/host-signal.h
- create mode 100644 linux-user/host/riscv/host-signal.h
- create mode 100644 linux-user/host/s390/host-signal.h
- create mode 100644 linux-user/host/s390x/host-signal.h
- create mode 100644 linux-user/host/sparc/host-signal.h
- create mode 100644 linux-user/host/sparc64/host-signal.h
- create mode 100644 linux-user/host/x32/host-signal.h
- create mode 100644 linux-user/host/x86_64/host-signal.h
+ linux-user/host/i386/host-signal.h   |  26 ++++-
+ linux-user/host/x32/host-signal.h    |   2 +-
+ linux-user/host/x86_64/host-signal.h |  25 ++++-
+ accel/tcg/user-exec.c                | 136 +--------------------------
+ 4 files changed, 51 insertions(+), 138 deletions(-)
 
-diff --git a/linux-user/host/aarch64/host-signal.h b/linux-user/host/aarch64/host-signal.h
-new file mode 100644
-index 0000000000..f4b4d65031
---- /dev/null
-+++ b/linux-user/host/aarch64/host-signal.h
-@@ -0,0 +1 @@
-+#define HOST_SIGNAL_PLACEHOLDER
-diff --git a/linux-user/host/arm/host-signal.h b/linux-user/host/arm/host-signal.h
-new file mode 100644
-index 0000000000..f4b4d65031
---- /dev/null
-+++ b/linux-user/host/arm/host-signal.h
-@@ -0,0 +1 @@
-+#define HOST_SIGNAL_PLACEHOLDER
 diff --git a/linux-user/host/i386/host-signal.h b/linux-user/host/i386/host-signal.h
-new file mode 100644
-index 0000000000..f4b4d65031
---- /dev/null
+index f4b4d65031..4c8eef99ce 100644
+--- a/linux-user/host/i386/host-signal.h
 +++ b/linux-user/host/i386/host-signal.h
-@@ -0,0 +1 @@
-+#define HOST_SIGNAL_PLACEHOLDER
-diff --git a/linux-user/host/mips/host-signal.h b/linux-user/host/mips/host-signal.h
-new file mode 100644
-index 0000000000..f4b4d65031
---- /dev/null
-+++ b/linux-user/host/mips/host-signal.h
-@@ -0,0 +1 @@
-+#define HOST_SIGNAL_PLACEHOLDER
-diff --git a/linux-user/host/ppc/host-signal.h b/linux-user/host/ppc/host-signal.h
-new file mode 100644
-index 0000000000..f4b4d65031
---- /dev/null
-+++ b/linux-user/host/ppc/host-signal.h
-@@ -0,0 +1 @@
-+#define HOST_SIGNAL_PLACEHOLDER
-diff --git a/linux-user/host/ppc64/host-signal.h b/linux-user/host/ppc64/host-signal.h
-new file mode 100644
-index 0000000000..f4b4d65031
---- /dev/null
-+++ b/linux-user/host/ppc64/host-signal.h
-@@ -0,0 +1 @@
-+#define HOST_SIGNAL_PLACEHOLDER
-diff --git a/linux-user/host/riscv/host-signal.h b/linux-user/host/riscv/host-signal.h
-new file mode 100644
-index 0000000000..f4b4d65031
---- /dev/null
-+++ b/linux-user/host/riscv/host-signal.h
-@@ -0,0 +1 @@
-+#define HOST_SIGNAL_PLACEHOLDER
-diff --git a/linux-user/host/s390/host-signal.h b/linux-user/host/s390/host-signal.h
-new file mode 100644
-index 0000000000..f4b4d65031
---- /dev/null
-+++ b/linux-user/host/s390/host-signal.h
-@@ -0,0 +1 @@
-+#define HOST_SIGNAL_PLACEHOLDER
-diff --git a/linux-user/host/s390x/host-signal.h b/linux-user/host/s390x/host-signal.h
-new file mode 100644
-index 0000000000..f4b4d65031
---- /dev/null
-+++ b/linux-user/host/s390x/host-signal.h
-@@ -0,0 +1 @@
-+#define HOST_SIGNAL_PLACEHOLDER
-diff --git a/linux-user/host/sparc/host-signal.h b/linux-user/host/sparc/host-signal.h
-new file mode 100644
-index 0000000000..f4b4d65031
---- /dev/null
-+++ b/linux-user/host/sparc/host-signal.h
-@@ -0,0 +1 @@
-+#define HOST_SIGNAL_PLACEHOLDER
-diff --git a/linux-user/host/sparc64/host-signal.h b/linux-user/host/sparc64/host-signal.h
-new file mode 100644
-index 0000000000..f4b4d65031
---- /dev/null
-+++ b/linux-user/host/sparc64/host-signal.h
-@@ -0,0 +1 @@
-+#define HOST_SIGNAL_PLACEHOLDER
+@@ -1 +1,25 @@
+-#define HOST_SIGNAL_PLACEHOLDER
++/*
++ * host-signal.h: signal info dependent on the host architecture
++ *
++ * Copyright (c) 2003-2005 Fabrice Bellard
++ * Copyright (c) 2021 Linaro Limited
++ *
++ * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef I386_HOST_SIGNAL_H
++#define I386_HOST_SIGNAL_H
++
++static inline uintptr_t host_signal_pc(ucontext_t *uc)
++{
++    return uc->uc_mcontext.gregs[REG_EIP];
++}
++
++static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
++{
++    return uc->uc_mcontext.gregs[REG_TRAPNO] == 0xe
++        && (uc->uc_mcontext.gregs[REG_ERR] & 0x2);
++}
++
++#endif
 diff --git a/linux-user/host/x32/host-signal.h b/linux-user/host/x32/host-signal.h
-new file mode 100644
-index 0000000000..f4b4d65031
---- /dev/null
+index f4b4d65031..26800591d3 100644
+--- a/linux-user/host/x32/host-signal.h
 +++ b/linux-user/host/x32/host-signal.h
-@@ -0,0 +1 @@
-+#define HOST_SIGNAL_PLACEHOLDER
+@@ -1 +1 @@
+-#define HOST_SIGNAL_PLACEHOLDER
++#include "../x86_64/host-signal.h"
 diff --git a/linux-user/host/x86_64/host-signal.h b/linux-user/host/x86_64/host-signal.h
-new file mode 100644
-index 0000000000..f4b4d65031
---- /dev/null
+index f4b4d65031..883d2fcf65 100644
+--- a/linux-user/host/x86_64/host-signal.h
 +++ b/linux-user/host/x86_64/host-signal.h
-@@ -0,0 +1 @@
-+#define HOST_SIGNAL_PLACEHOLDER
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 14d8fdfde1..6900acb122 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -19,6 +19,7 @@
- #include "qemu/osdep.h"
- #include "qemu/bitops.h"
- #include "exec/gdbstub.h"
-+#include "hw/core/tcg-cpu-ops.h"
+@@ -1 +1,24 @@
+-#define HOST_SIGNAL_PLACEHOLDER
++/*
++ * host-signal.h: signal info dependent on the host architecture
++ *
++ * Copyright (C) 2021 Linaro Limited
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef X86_64_HOST_SIGNAL_H
++#define X86_64_HOST_SIGNAL_H
++
++static inline uintptr_t host_signal_pc(ucontext_t *uc)
++{
++    return uc->uc_mcontext.gregs[REG_RIP];
++}
++
++static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
++{
++    return uc->uc_mcontext.gregs[REG_TRAPNO] == 0xe
++        && (uc->uc_mcontext.gregs[REG_ERR] & 0x2);
++}
++
++#endif
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index b1183aa4b3..b121e6c2e9 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -29,19 +29,6 @@
+ #include "trace/trace-root.h"
+ #include "internal.h"
  
- #include <sys/ucontext.h>
- #include <sys/resource.h>
-@@ -29,6 +30,7 @@
- #include "loader.h"
- #include "trace.h"
- #include "signal-common.h"
-+#include "host-signal.h"
+-#undef EAX
+-#undef ECX
+-#undef EDX
+-#undef EBX
+-#undef ESP
+-#undef EBP
+-#undef ESI
+-#undef EDI
+-#undef EIP
+-#ifdef __linux__
+-#include <sys/ucontext.h>
+-#endif
+-
+ __thread uintptr_t helper_retaddr;
  
- static struct target_sigaction sigact_table[TARGET_NSIG];
- 
-@@ -769,41 +771,116 @@ static inline void rewind_if_in_safe_syscall(void *puc)
+ //#define DEBUG_SIGNAL
+@@ -266,123 +253,7 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
+     return size ? g2h(env_cpu(env), addr) : NULL;
  }
+ 
+-#if defined(__i386__)
+-
+-#if defined(__NetBSD__)
+-#include <ucontext.h>
+-#include <machine/trap.h>
+-
+-#define EIP_sig(context)     ((context)->uc_mcontext.__gregs[_REG_EIP])
+-#define TRAP_sig(context)    ((context)->uc_mcontext.__gregs[_REG_TRAPNO])
+-#define ERROR_sig(context)   ((context)->uc_mcontext.__gregs[_REG_ERR])
+-#define MASK_sig(context)    ((context)->uc_sigmask)
+-#define PAGE_FAULT_TRAP      T_PAGEFLT
+-#elif defined(__FreeBSD__) || defined(__DragonFly__)
+-#include <ucontext.h>
+-#include <machine/trap.h>
+-
+-#define EIP_sig(context)  (*((unsigned long *)&(context)->uc_mcontext.mc_eip))
+-#define TRAP_sig(context)    ((context)->uc_mcontext.mc_trapno)
+-#define ERROR_sig(context)   ((context)->uc_mcontext.mc_err)
+-#define MASK_sig(context)    ((context)->uc_sigmask)
+-#define PAGE_FAULT_TRAP      T_PAGEFLT
+-#elif defined(__OpenBSD__)
+-#include <machine/trap.h>
+-#define EIP_sig(context)     ((context)->sc_eip)
+-#define TRAP_sig(context)    ((context)->sc_trapno)
+-#define ERROR_sig(context)   ((context)->sc_err)
+-#define MASK_sig(context)    ((context)->sc_mask)
+-#define PAGE_FAULT_TRAP      T_PAGEFLT
+-#else
+-#define EIP_sig(context)     ((context)->uc_mcontext.gregs[REG_EIP])
+-#define TRAP_sig(context)    ((context)->uc_mcontext.gregs[REG_TRAPNO])
+-#define ERROR_sig(context)   ((context)->uc_mcontext.gregs[REG_ERR])
+-#define MASK_sig(context)    ((context)->uc_sigmask)
+-#define PAGE_FAULT_TRAP      0xe
+-#endif
+-
+-int cpu_signal_handler(int host_signum, void *pinfo,
+-                       void *puc)
+-{
+-    siginfo_t *info = pinfo;
+-#if defined(__NetBSD__) || defined(__FreeBSD__) || defined(__DragonFly__)
+-    ucontext_t *uc = puc;
+-#elif defined(__OpenBSD__)
+-    struct sigcontext *uc = puc;
+-#else
+-    ucontext_t *uc = puc;
+-#endif
+-    unsigned long pc;
+-    int trapno;
+-
+-#ifndef REG_EIP
+-/* for glibc 2.1 */
+-#define REG_EIP    EIP
+-#define REG_ERR    ERR
+-#define REG_TRAPNO TRAPNO
+-#endif
+-    pc = EIP_sig(uc);
+-    trapno = TRAP_sig(uc);
+-    return handle_cpu_signal(pc, info,
+-                             trapno == PAGE_FAULT_TRAP ?
+-                             (ERROR_sig(uc) >> 1) & 1 : 0,
+-                             &MASK_sig(uc));
+-}
+-
+-#elif defined(__x86_64__)
+-
+-#ifdef __NetBSD__
+-#include <machine/trap.h>
+-#define PC_sig(context)       _UC_MACHINE_PC(context)
+-#define TRAP_sig(context)     ((context)->uc_mcontext.__gregs[_REG_TRAPNO])
+-#define ERROR_sig(context)    ((context)->uc_mcontext.__gregs[_REG_ERR])
+-#define MASK_sig(context)     ((context)->uc_sigmask)
+-#define PAGE_FAULT_TRAP       T_PAGEFLT
+-#elif defined(__OpenBSD__)
+-#include <machine/trap.h>
+-#define PC_sig(context)       ((context)->sc_rip)
+-#define TRAP_sig(context)     ((context)->sc_trapno)
+-#define ERROR_sig(context)    ((context)->sc_err)
+-#define MASK_sig(context)     ((context)->sc_mask)
+-#define PAGE_FAULT_TRAP       T_PAGEFLT
+-#elif defined(__FreeBSD__) || defined(__DragonFly__)
+-#include <ucontext.h>
+-#include <machine/trap.h>
+-
+-#define PC_sig(context)  (*((unsigned long *)&(context)->uc_mcontext.mc_rip))
+-#define TRAP_sig(context)     ((context)->uc_mcontext.mc_trapno)
+-#define ERROR_sig(context)    ((context)->uc_mcontext.mc_err)
+-#define MASK_sig(context)     ((context)->uc_sigmask)
+-#define PAGE_FAULT_TRAP       T_PAGEFLT
+-#else
+-#define PC_sig(context)       ((context)->uc_mcontext.gregs[REG_RIP])
+-#define TRAP_sig(context)     ((context)->uc_mcontext.gregs[REG_TRAPNO])
+-#define ERROR_sig(context)    ((context)->uc_mcontext.gregs[REG_ERR])
+-#define MASK_sig(context)     ((context)->uc_sigmask)
+-#define PAGE_FAULT_TRAP       0xe
+-#endif
+-
+-int cpu_signal_handler(int host_signum, void *pinfo,
+-                       void *puc)
+-{
+-    siginfo_t *info = pinfo;
+-    unsigned long pc;
+-#if defined(__NetBSD__) || defined(__FreeBSD__) || defined(__DragonFly__)
+-    ucontext_t *uc = puc;
+-#elif defined(__OpenBSD__)
+-    struct sigcontext *uc = puc;
+-#else
+-    ucontext_t *uc = puc;
+-#endif
+-
+-    pc = PC_sig(uc);
+-    return handle_cpu_signal(pc, info,
+-                             TRAP_sig(uc) == PAGE_FAULT_TRAP ?
+-                             (ERROR_sig(uc) >> 1) & 1 : 0,
+-                             &MASK_sig(uc));
+-}
+-
+-#elif defined(_ARCH_PPC)
++#if defined(_ARCH_PPC)
+ 
+ /***********************************************************************
+  * signal context platform-specific definitions
+@@ -893,11 +764,6 @@ int cpu_signal_handler(int host_signum, void *pinfo,
+ 
+     return handle_cpu_signal(pc, info, is_write, &uc->uc_sigmask);
+ }
+-
+-#else
+-
+-#error host CPU specific signal handler needed
+-
  #endif
  
--static void host_signal_handler(int host_signum, siginfo_t *info,
--                                void *puc)
-+static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
- {
-     CPUArchState *env = thread_cpu->env_ptr;
-     CPUState *cpu = env_cpu(env);
-     TaskState *ts = cpu->opaque;
--
--    int sig;
-     target_siginfo_t tinfo;
-     ucontext_t *uc = puc;
-     struct emulated_sigtable *k;
-+    int guest_sig;
- 
-+#ifdef HOST_SIGNAL_PLACEHOLDER
-     /* the CPU emulator uses some host signals to detect exceptions,
-        we forward to it some signals */
--    if ((host_signum == SIGSEGV || host_signum == SIGBUS)
-+    if ((host_sig == SIGSEGV || host_sig == SIGBUS)
-         && info->si_code > 0) {
--        if (cpu_signal_handler(host_signum, info, puc))
-+        if (cpu_signal_handler(host_sig, info, puc)) {
-             return;
-+        }
-     }
-+#else
-+    uintptr_t pc = 0;
-+    bool sync_sig = false;
-+
-+    /*
-+     * Non-spoofed SIGSEGV and SIGBUS are synchronous, and need special
-+     * handling wrt signal blocking and unwinding.
-+     */
-+    if ((host_sig == SIGSEGV || host_sig == SIGBUS) && info->si_code > 0) {
-+        MMUAccessType access_type;
-+        uintptr_t host_addr;
-+        abi_ptr guest_addr;
-+        bool is_write;
-+
-+        host_addr = (uintptr_t)info->si_addr;
-+
-+        /*
-+         * Convert forcefully to guest address space: addresses outside
-+         * reserved_va are still valid to report via SEGV_MAPERR.
-+         */
-+        guest_addr = h2g_nocheck(host_addr);
-+
-+        pc = host_signal_pc(uc);
-+        is_write = host_signal_write(info, uc);
-+        access_type = adjust_signal_pc(&pc, is_write);
-+
-+        if (host_sig == SIGSEGV) {
-+            const struct TCGCPUOps *tcg_ops;
-+
-+            if (info->si_code == SEGV_ACCERR && h2g_valid(host_addr)) {
-+                /* If this was a write to a TB protected page, restart. */
-+                if (is_write &&
-+                    handle_sigsegv_accerr_write(cpu, &uc->uc_sigmask,
-+                                                pc, guest_addr)) {
-+                    return;
-+                }
-+
-+                /*
-+                 * With reserved_va, the whole address space is PROT_NONE,
-+                 * which means that we may get ACCERR when we want MAPERR.
-+                 */
-+                if (page_get_flags(guest_addr) & PAGE_VALID) {
-+                    /* maperr = false; */
-+                } else {
-+                    info->si_code = SEGV_MAPERR;
-+                }
-+            }
-+
-+            sigprocmask(SIG_SETMASK, &uc->uc_sigmask, NULL);
-+
-+            tcg_ops = CPU_GET_CLASS(cpu)->tcg_ops;
-+            tcg_ops->tlb_fill(cpu, guest_addr, 0, access_type,
-+                              MMU_USER_IDX, false, pc);
-+            g_assert_not_reached();
-+        } else {
-+            sigprocmask(SIG_SETMASK, &uc->uc_sigmask, NULL);
-+        }
-+
-+        sync_sig = true;
-+    }
-+#endif
- 
-     /* get target signal number */
--    sig = host_to_target_signal(host_signum);
--    if (sig < 1 || sig > TARGET_NSIG)
-+    guest_sig = host_to_target_signal(host_sig);
-+    if (guest_sig < 1 || guest_sig > TARGET_NSIG) {
-         return;
--    trace_user_host_signal(env, host_signum, sig);
-+    }
-+    trace_user_host_signal(env, host_sig, guest_sig);
-+
-+    host_to_target_siginfo_noswap(&tinfo, info);
-+    k = &ts->sigtab[guest_sig - 1];
-+    k->info = tinfo;
-+    k->pending = guest_sig;
-+    ts->signal_pending = 1;
-+
-+#ifndef HOST_SIGNAL_PLACEHOLDER
-+    /*
-+     * For synchronous signals, unwind the cpu state to the faulting
-+     * insn and then exit back to the main loop so that the signal
-+     * is delivered immediately.
-+     */
-+    if (sync_sig) {
-+        cpu->exception_index = EXCP_INTERRUPT;
-+        cpu_loop_exit_restore(cpu, pc);
-+    }
-+#endif
- 
-     rewind_if_in_safe_syscall(puc);
- 
--    host_to_target_siginfo_noswap(&tinfo, info);
--    k = &ts->sigtab[sig - 1];
--    k->info = tinfo;
--    k->pending = sig;
--    ts->signal_pending = 1;
--
--    /* Block host signals until target signal handler entered. We
-+    /*
-+     * Block host signals until target signal handler entered. We
-      * can't block SIGSEGV or SIGBUS while we're executing guest
-      * code in case the guest code provokes one in the window between
-      * now and it getting out to the main loop. Signals will be
+ /* The softmmu versions of these helpers are in cputlb.c.  */
 -- 
 2.25.1
 
