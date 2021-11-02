@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFB4044322B
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 16:59:28 +0100 (CET)
-Received: from localhost ([::1]:43542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E77A44325F
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 17:08:47 +0100 (CET)
+Received: from localhost ([::1]:57728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhwC7-0000Ms-Vl
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 11:59:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50554)
+	id 1mhwL7-00023K-Th
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 12:08:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhwB0-00086o-4p
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 11:58:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34484)
+ id 1mhwDW-000218-Sl
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 12:00:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mhwAy-0006Jt-MF
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 11:58:17 -0400
+ id 1mhwDU-0006q3-Et
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 12:00:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635868695;
+ s=mimecast20190719; t=1635868850;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=O5VD1vW3CiSF19mA4KWNSGIBXv1gYuGea/2fxg6mVFw=;
- b=ihkYdNXB2b2fpSxh8LbMItXnmdcpqK1XYxNBQG9Q5vPKfgj3slfoU15aQWzV5PbVuwSaTp
- nmOThLtaksUK9oxheajYY8s/kNzyYUaC3QSP6GpFp2jiLK1YCpot7kBi8dZRprXtnXmTnH
- dJkoZ8b4LDk9AOm95JTip7+VXcwpJKM=
+ bh=LOuNi1J3rdjnjQ3cFgi5MdeWevvohMm/hpai/d99CXo=;
+ b=GEndSTDq3FIPInuBOEOFhaDNI/N2qRD0cKrKuy/R7csmh3oH6xOagl+4ZdzrUAZMLXiGg4
+ mI8WlBxpABZ1+oTcvsfmJyrmXPlNKLzEC7pNYBhpP08+YGpcfcCynok862Hz8Qq6jLXHha
+ v7SQ7LqbMZ7QsC5ZNtqTjSiAecXDRkI=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-yLvu1LquNWe8fwQ1_tglsg-1; Tue, 02 Nov 2021 11:58:12 -0400
-X-MC-Unique: yLvu1LquNWe8fwQ1_tglsg-1
+ us-mta-490-UwiC05mOPdaIylOwPojs0Q-1; Tue, 02 Nov 2021 12:00:49 -0400
+X-MC-Unique: UwiC05mOPdaIylOwPojs0Q-1
 Received: by mail-wm1-f71.google.com with SMTP id
- m1-20020a1ca301000000b003231d5b3c4cso1354766wme.5
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 08:58:12 -0700 (PDT)
+ l4-20020a05600c1d0400b00332f47a0fa3so1017407wms.8
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 09:00:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version;
- bh=O5VD1vW3CiSF19mA4KWNSGIBXv1gYuGea/2fxg6mVFw=;
- b=6FMtBRDiTtFui9Imq0Y9toNGjgoybf2u2BHofZFwSAWxlQ+fs4dyZdMCd2OF+4UJBe
- mYik6SnfNX+ytBpKSTihvSn9MAl8wgkP2eAsgA/9L8Hc2nGnBkFkePTlOC33QVCo0L+R
- KXGrNkfGIt1ozHwyJMT1onp5VDz4xYOnCaslav61J7ElmI839VMHupo+JJcJ51L+3eVX
- 0wgmb3W8HcvAzWVHrE9oKaSM+MHc852ym4Xsdk0BftLjJ1jOVeViQ1N3tEFRMYAG3ruv
- 0fUJzeSiBrXOSdTccOMxLBy4/ra/nszbNCEk2kGZbOSP8gDIUa+PF8QQa9QWS9TURuqG
- RVew==
-X-Gm-Message-State: AOAM53308iiBwx+PtWvZ3M03RZ6TqOtM4iU30Fn0o/kp/k4TjVRJarIA
- 4yz6nfZc2xFirJBc0QnggtqzWjfnYyQ3znXm6WTHe+cBzVlh0+lF+lhDrecJxD0BFuSZZHfyhCL
- VvpUXtxG64XUPOAY=
-X-Received: by 2002:adf:ce8b:: with SMTP id r11mr27297974wrn.294.1635868691750; 
- Tue, 02 Nov 2021 08:58:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwmCIce/JG18kpmEBHiH/Z+WRgLXm610ViHj8dMzChueu77jMu4f64+DFaern/ZTvZhMIIWjA==
-X-Received: by 2002:adf:ce8b:: with SMTP id r11mr27297946wrn.294.1635868691567; 
- Tue, 02 Nov 2021 08:58:11 -0700 (PDT)
+ bh=LOuNi1J3rdjnjQ3cFgi5MdeWevvohMm/hpai/d99CXo=;
+ b=vxsulem03SahMMh+XMXIga/I0r71qOXym4ZJw5kQZkn+JJWP6xvxpGFncdm6R/Cty+
+ 2Mq1xd39f3bFNmb2F5I9slwbFaWvjs4cmESPVSZ+XvQKayVD8Ej3pYma/mtrXp63htvX
+ zhFz/SCbdp+tUpZwKYJh37sGP77mmVkmNaopGPPwVj0U26IDINs0BLhyGp8FWpisGWSz
+ RiMLaxNBe/Gh1VnOXlFIboWFI57SbzHGw1wwm1+a2Q0FAfwXseegJ1g+C96eA58FhUgF
+ jYdXgjltSSUw26W1Y79KiQO2jS0x5KrAdzNNph+tZXezNFOayUOG3IIp9ZbFeQkZcZG4
+ yODw==
+X-Gm-Message-State: AOAM532v9vTefHhCcn6u02iqxTpCmg6eIN0eso+V0ZMSyESvIT+FyW/0
+ Jn5jzNvvdR9mPTngfq1/aSSLJS79yP0cmwUPrsj1jE2rejeL09351vc3WWR97dTvnH7taaEtyZp
+ yj6OqpzEGOqxkslU=
+X-Received: by 2002:adf:e84d:: with SMTP id d13mr28872410wrn.72.1635868848504; 
+ Tue, 02 Nov 2021 09:00:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz0Qf2yjZ/X0vrrJgQKs4Wv1yKg9gReSmnwkfjWpNFDNgDkSs+s9Vr/ZAa9/91gdAyRd08tUA==
+X-Received: by 2002:adf:e84d:: with SMTP id d13mr28872373wrn.72.1635868848344; 
+ Tue, 02 Nov 2021 09:00:48 -0700 (PDT)
 Received: from localhost ([188.26.219.212])
- by smtp.gmail.com with ESMTPSA id l5sm2869332wms.16.2021.11.02.08.58.10
+ by smtp.gmail.com with ESMTPSA id y7sm9067742wrw.55.2021.11.02.09.00.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 08:58:11 -0700 (PDT)
+ Tue, 02 Nov 2021 09:00:48 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: "Rao, Lei" <lei.rao@intel.com>
-Subject: Re: [PATCH v2 2/7] Fixed qemu crash when guest power off in COLO mode
-In-Reply-To: <1635753425-11756-3-git-send-email-lei.rao@intel.com> (Lei Rao's
- message of "Mon, 1 Nov 2021 15:57:00 +0800")
+Subject: Re: [PATCH v2 3/7] Fixed SVM hang when do failover before PVM crash
+In-Reply-To: <1635753425-11756-4-git-send-email-lei.rao@intel.com> (Lei Rao's
+ message of "Mon, 1 Nov 2021 15:57:01 +0800")
 References: <1635753425-11756-1-git-send-email-lei.rao@intel.com>
- <1635753425-11756-3-git-send-email-lei.rao@intel.com>
+ <1635753425-11756-4-git-send-email-lei.rao@intel.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Tue, 02 Nov 2021 16:58:09 +0100
-Message-ID: <8735oeim7i.fsf@secure.mitica>
+Date: Tue, 02 Nov 2021 17:00:47 +0100
+Message-ID: <87wnlqh7io.fsf@secure.mitica>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -105,30 +105,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 "Rao, Lei" <lei.rao@intel.com> wrote:
 > From: "Rao, Lei" <lei.rao@intel.com>
 >
-> This patch fixes the following:
-> qemu-system-x86_64: invalid runstate transition: 'shutdown' -> 'running'
-> Aborted (core dumped)
-> The gdb bt as following:
-> 0  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
-> 1  0x00007faa3d613859 in __GI_abort () at abort.c:79
-> 2  0x000055c5a21268fd in runstate_set (new_state=RUN_STATE_RUNNING) at vl.c:723
-> 3 0x000055c5a1f8cae4 in vm_prepare_start () at
-> /home/workspace/colo-qemu/cpus.c:2206
-> 4  0x000055c5a1f8cb1b in vm_start () at /home/workspace/colo-qemu/cpus.c:2213
-> 5 0x000055c5a2332bba in migration_iteration_finish (s=0x55c5a4658810)
-> at migration/migration.c:3376
-> 6 0x000055c5a2332f3b in migration_thread (opaque=0x55c5a4658810) at
-> migration/migration.c:3527
-> 7 0x000055c5a251d68a in qemu_thread_start (args=0x55c5a5491a70) at
-> util/qemu-thread-posix.c:519
-> 8  0x00007faa3d7e9609 in start_thread (arg=<optimized out>) at pthread_create.c:477
-> 9  0x00007faa3d710293 in clone () at ../sysdeps/unix/sysv/linux/x86_64/clone.S:95
+> This patch fixed as follows:
+>     Thread 1 (Thread 0x7f34ee738d80 (LWP 11212)):
+>     #0 __pthread_clockjoin_ex (threadid=139847152957184, thread_return=0x7f30b1febf30, clockid=<optimized out>, abstime=<optimized out>, block=<optimized out>) at pthread_join_common.c:145
+>     #1 0x0000563401998e36 in qemu_thread_join (thread=0x563402d66610) at util/qemu-thread-posix.c:587
+>     #2 0x00005634017a79fa in process_incoming_migration_co (opaque=0x0) at migration/migration.c:502
+>     #3 0x00005634019b59c9 in coroutine_trampoline (i0=63395504, i1=22068) at util/coroutine-ucontext.c:115
+>     #4 0x00007f34ef860660 in ?? () at ../sysdeps/unix/sysv/linux/x86_64/__start_context.S:91 from /lib/x86_64-linux-gnu/libc.so.6
+>     #5 0x00007f30b21ee730 in ?? ()
+>     #6 0x0000000000000000 in ?? ()
+>
+>     Thread 13 (Thread 0x7f30b3dff700 (LWP 11747)):
+>     #0  __lll_lock_wait (futex=futex@entry=0x56340218ffa0 <qemu_global_mutex>, private=0) at lowlevellock.c:52
+>     #1  0x00007f34efa000a3 in _GI__pthread_mutex_lock (mutex=0x56340218ffa0 <qemu_global_mutex>) at ../nptl/pthread_mutex_lock.c:80
+>     #2  0x0000563401997f99 in qemu_mutex_lock_impl (mutex=0x56340218ffa0 <qemu_global_mutex>, file=0x563401b7a80e "migration/colo.c", line=806) at util/qemu-thread-posix.c:78
+>     #3  0x0000563401407144 in qemu_mutex_lock_iothread_impl (file=0x563401b7a80e "migration/colo.c", line=806) at /home/workspace/colo-qemu/cpus.c:1899
+>     #4  0x00005634017ba8e8 in colo_process_incoming_thread (opaque=0x563402d664c0) at migration/colo.c:806
+>     #5  0x0000563401998b72 in qemu_thread_start (args=0x5634039f8370) at util/qemu-thread-posix.c:519
+>     #6  0x00007f34ef9fd609 in start_thread (arg=<optimized out>) at pthread_create.c:477
+>     #7  0x00007f34ef924293 in clone () at ../sysdeps/unix/sysv/linux/x86_64/clone.S:95
+>
+>     The QEMU main thread is holding the lock:
+>     (gdb) p qemu_global_mutex
+>     $1 = {lock = {_data = {lock = 2, __count = 0, __owner = 11212, __nusers = 9, __kind = 0, __spins = 0, __elision = 0, __list = {_prev = 0x0, __next = 0x0}},
+>      __size = "\002\000\000\000\000\000\000\000\314+\000\000\t", '\000' <repeats 26 times>, __align = 2}, file = 0x563401c07e4b "util/main-loop.c", line = 240,
+>     initialized = true}
+>
+> From the call trace, we can see it is a deadlock bug. and the QEMU main thread holds the global mutex to wait until the COLO thread ends. and the colo thread
+> wants to acquire the global mutex, which will cause a deadlock. So, we should release the qemu_global_mutex before waiting colo thread ends.
 >
 > Signed-off-by: Lei Rao <lei.rao@intel.com>
+> Reviewed-by: Li Zhijian <lizhijian@cn.fujitsu.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-Good catch.
 
 queued.
 
