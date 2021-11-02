@@ -2,105 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC42442DCF
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 13:26:14 +0100 (CET)
-Received: from localhost ([::1]:44816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB76442D8A
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 13:08:30 +0100 (CET)
+Received: from localhost ([::1]:43282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhsrl-0005Dh-Bm
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 08:26:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55302)
+	id 1mhsab-0000QT-Gg
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 08:08:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1mhsJ1-0008Bq-0x
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:50:19 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:20592)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mhsJf-0001H9-CQ
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:50:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60182)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1mhsIv-0000GD-Cg
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:50:18 -0400
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A29aHUu012753; 
- Tue, 2 Nov 2021 11:50:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=JCn5XT8SyysPXoeFCiOGB7D+zJvvPcOSvpZp3Kisv5w=;
- b=lLKTVlPHBqfCeO9c6v5dareYCpd3gOSLP0foHitqP1xtQSaniDL3OuZaxDc732n28Meu
- iBPVDaafSCWM0ZpZPMADUUZCKNtLYET9K4VUwT3l26ttHVEyiE2MsXQgbMod+YQ/sSDi
- eQa0Y/HrKRh5zm3G4/+kpCym27qgYZxB6f5bnk9a65X68UC4GlGS0NaLwS601TZCRQUX
- dIc9T6MxAoxLFt9kGY3oPXgQ6iC5PIiEKcYNUSblEeU7pqwu43XfixOpBbc8XW+lpab1
- XG6sHQvEw1Sbbh6on3JKdZkK5YHe4mBtFu4O4N9okWZ7Dar9WwiTO3bOJS6thxk/55hB RA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3c30byp7m9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 Nov 2021 11:50:06 +0000
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1A2BGQEJ021089;
- Tue, 2 Nov 2021 11:50:06 GMT
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3c30byp7kp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 Nov 2021 11:50:06 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1A2BgAoL016175;
- Tue, 2 Nov 2021 11:50:04 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma02wdc.us.ibm.com with ESMTP id 3c0wpb13g5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 Nov 2021 11:50:04 +0000
-Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
- [9.57.199.107])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1A2Bo3RV12780428
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 2 Nov 2021 11:50:03 GMT
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C8B8112405A;
- Tue,  2 Nov 2021 11:50:03 +0000 (GMT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 727B6124052;
- Tue,  2 Nov 2021 11:50:01 +0000 (GMT)
-Received: from [9.65.202.213] (unknown [9.65.202.213])
- by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  2 Nov 2021 11:50:01 +0000 (GMT)
-Message-ID: <1f8b2150-b200-e862-be36-1e2b280fcac7@linux.ibm.com>
-Date: Tue, 2 Nov 2021 13:50:00 +0200
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mhsJc-0000Kq-UI
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 07:50:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635853855;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6km4zfeJQxlY+h+mVKE4wQvXRqHT61/E8FfFIQalKZE=;
+ b=gAPtNLtKlSGHh1LOPkS6bAFWh/Jo7LlakDQ4IQrxo6Vt8qv8KQM1AYhxIJ6gxdBVvjeH6e
+ vYWwSpzO1hyBsv3K7qEI1XVKJXylOeG2FUPdGl6h6e75a4ILmkGdFsMG4e4SCA5PF7SFM4
+ ltrneT6SCmuZrSyK6+bjNkz7QnJpEkg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-245-YgsrcxN4MbeQa2Tc4raugg-1; Tue, 02 Nov 2021 07:50:54 -0400
+X-MC-Unique: YgsrcxN4MbeQa2Tc4raugg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ u14-20020a05600c19ce00b0030d8549d49aso623100wmq.0
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 04:50:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=6km4zfeJQxlY+h+mVKE4wQvXRqHT61/E8FfFIQalKZE=;
+ b=4H/B54jvd1+eLOYtfIaNGqcKYxExWzYs5lZoaKrmkOqE0xWP99CrLZmB7+yW2mW3Z3
+ 7eOxWUwRkqsx7C2ZsZYvTirIZrRAWHSR+vshrkgJnL+Vrb0VKRLn+i3f+YDcTGUR+WPt
+ TUzE5yUmMMsl10HN2CeWZr5TXJG8QV9xPyNIt9d05O4jvboCStQogCPGX68JtBKYQaU8
+ a1rc6+dOU6Nr6lVC/k/3i9XeTDj+LkUzh1KQuBhZK5DiF8F14kU45Mm8TsR/LagA92Ss
+ 1bxJXmJj2IrxoS++t7hpFkN6xGT91WpnS8i+2Rn3upz12eHoHpv43Ludu2UXCqwe8zSp
+ n+4w==
+X-Gm-Message-State: AOAM530Tt2xmnHa9YbCrqBN1sYsbg8uc4+km1YReLXDfRLkEF5UlFhGG
+ Tv6Holoh2qsvLPxCGDaLRyYL3n/USXkIeIb3jSV7Ql4vI3gbP74n88sy8iiqOZN+kc49GJE/9Wh
+ hoxHxepsNJzMdqYk=
+X-Received: by 2002:adf:db47:: with SMTP id f7mr28585464wrj.113.1635853853052; 
+ Tue, 02 Nov 2021 04:50:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwo71iUNzaIHRRbMGCumE22yHC9r07oDKzVoGLn7tA6HnMJNTD+uV5xHwBRE3iXbX5QCrXzyw==
+X-Received: by 2002:adf:db47:: with SMTP id f7mr28585447wrj.113.1635853852874; 
+ Tue, 02 Nov 2021 04:50:52 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id f20sm2840444wmq.38.2021.11.02.04.50.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Nov 2021 04:50:52 -0700 (PDT)
+Message-ID: <8a1c9a53-b955-80ce-c216-9e418ce7c5e1@redhat.com>
+Date: Tue, 2 Nov 2021 12:50:51 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.1
-Subject: Re: [PATCH 3/3] sev/i386: Perform padding calculations at compile-time
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 3/4] Move CONFIG_XFS handling to meson.build
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20211028185910.1729744-1-thuth@redhat.com>
+ <20211028185910.1729744-4-thuth@redhat.com>
+ <e02332c0-7c4e-18a2-5c33-b00e8045f6da@redhat.com>
+ <cbeb23e1-8d44-5751-4e61-a4ef46d0510a@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <cbeb23e1-8d44-5751-4e61-a4ef46d0510a@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20211101102136.1706421-1-dovmurik@linux.ibm.com>
- <20211101102136.1706421-4-dovmurik@linux.ibm.com> <YYEiyJ73TCg2AFOl@work-vm>
-From: Dov Murik <dovmurik@linux.ibm.com>
-In-Reply-To: <YYEiyJ73TCg2AFOl@work-vm>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: -5dOAZaLOaVw-NPNJASvLWgqa9jJhtS0
-X-Proofpoint-GUID: ayINoSgJU64BLoDD4JTMEsl3FSjOyyGR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-02_06,2021-11-02_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- mlxlogscore=999 bulkscore=0 priorityscore=1501 impostorscore=0 mlxscore=0
- adultscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015 phishscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111020068
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.549,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -60
+X-Spam_score: -6.1
+X-Spam_bar: ------
+X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.549, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,34 +102,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Dov Murik <dovmurik@linux.ibm.com>,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 02/11/2021 13:36, Dr. David Alan Gilbert wrote:
-> * Dov Murik (dovmurik@linux.ibm.com) wrote:
->> In sev_add_kernel_loader_hashes, the sizes of structs are known at
->> compile-time, so calculate needed padding at compile-time.
+On 02/11/21 12:38, Thomas Huth wrote:
 >>
->> No functional change intended.
 >>
->> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+>> struct dioattr {
+>>          u32           d_mem;          /* data buffer memory alignment */
+>>          u32           d_miniosz;      /* min xfer size                */
+>>          u32           d_maxiosz;      /* max xfer size                */
+>> };
+>>
+>> #define XFS_IOC_DIOINFO        _IOR ('X', 30, struct dioattr)
 > 
-> 
-> 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> 
+> I thought about something like that, too, but I'm not sure whether 
+> xfs/xfs.h exists on some non-Linux systems, too and might be implemented 
+> differently there?
 
-Thanks Dave.
+In theory on IRIX XFS exists, but I'm not sure about xfs/xfs.h and 
+anyway we don't support it.
 
--Dov
+Paolo
 
 
