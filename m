@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 855C0442750
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 07:53:51 +0100 (CET)
-Received: from localhost ([::1]:43502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0F6442754
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 07:54:47 +0100 (CET)
+Received: from localhost ([::1]:45422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhng6-0005iu-LI
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 02:53:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34634)
+	id 1mhnh0-00071Z-AI
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 02:54:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mhneb-0004tW-Mx; Tue, 02 Nov 2021 02:52:17 -0400
-Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:44957)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mhneY-0003we-Uc; Tue, 02 Nov 2021 02:52:17 -0400
-Received: by mail-yb1-xb33.google.com with SMTP id q74so44670568ybq.11;
- Mon, 01 Nov 2021 23:52:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bnU0UssTY9ryQEnrIdu1EfGW8Y/io+93x1FDdCmvdhg=;
- b=hvhSnKyNsCLuwKvnB+fsuS/CJfaB3PW9N6RIh/VxeokYQXoA0CwTDCkKanV1IpaMd+
- 4UNOvXSeZHL3Q2T4Kp4bzMoMXqRsXBpXvbOfPvFK/MY9VmP1KBqZHezqE3IjAgKRkMSc
- cwJUbzyvIW0S97xET2x36EShJEacRhOQfpcAP6AlU4SmSGe3Xwt26mq540wgSneViPCq
- tiU3q7YY0f8oVe5YVbtR/m2jMFl6hNlIXUanKK4M/pVchXLXeqd+d3BbGSD0ydrvvxjE
- KmLGR4PHlbqyjnIrOLN+LzL5ik+KltACGHIIZ65idEjnzWngoFc2EsVfAdNK0MZoifNr
- 4zVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bnU0UssTY9ryQEnrIdu1EfGW8Y/io+93x1FDdCmvdhg=;
- b=zZPgi6aS9zLvqiXqObnI6NjnWILezPV9ODgOPhyOwr3tIbZPLlrTpODr4TvcMtpnSL
- 88cC8P4wKP57/VxnK+9YTHhhXNRyZJq5AvGDXJSVfbYYYBK8rrduAbYB+a6LGLcoM5xq
- WP5bC3KJdz8PrlbR/iOhjZkjfrSi1IZ4v7ZvqcfMtYsL+ZAEg8wsWfT7s5mAL8YXKw+d
- LkiPG4g44Rg3+STsVlxAwl8iMyg3aDLSEkhfTbUwOVZuRPsAMA/JOFTvbizdumtUTTNu
- 2+oWwRgRbfI5GjgerVELZg02ZCKk42JxWNXk53ssJ6fTlx1BlD1CWB5DQu2x7H2wA0rR
- L1Jg==
-X-Gm-Message-State: AOAM530LyxDqdKboUluvZjSP4w5xy6dY4Cs19B+lh4Wz8jgZLHSVtAvk
- geNNgOEOmPFayWwCj+Hqqm/nHLh7Tv7IxGGNSco=
-X-Google-Smtp-Source: ABdhPJyQSWFdtR6mPTddoQHC73aNH/it8J65vsCkyWabLM6YwAlmyMIiDeNqLc2LjTIvUzKBrWo+81iCwZF98NrpENs=
-X-Received: by 2002:a25:42c7:: with SMTP id
- p190mr29014013yba.332.1635835932062; 
- Mon, 01 Nov 2021 23:52:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mhnfG-0005ci-8z
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 02:52:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32847)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mhnfE-0004CJ-6S
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 02:52:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635835975;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=G181Tb9bV5AKcFNkZy/knRILz6AcWiifcJ4T6Xp1Aaw=;
+ b=R7z3vc/Ja3ZeXOZeNuOTsuIkqq3hiSd4gc1hiZ5a000sOyZ58OfEzsLxqXCZBl+1K4FfgJ
+ G/rFyv4dVQuEMln8Phj24FAfBDLXlXQjZqqmgXju65StvRV5YjdP6ZqFlfFSPsPmHAsa7K
+ r5kwKDc2bfPd+M6lDLZIsj6FDxR95XQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-563-50RtqHNYNCiDdJem6MzqQQ-1; Tue, 02 Nov 2021 02:52:52 -0400
+X-MC-Unique: 50RtqHNYNCiDdJem6MzqQQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54488802682;
+ Tue,  2 Nov 2021 06:52:51 +0000 (UTC)
+Received: from [10.39.192.88] (unknown [10.39.192.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7A4D45D705;
+ Tue,  2 Nov 2021 06:52:50 +0000 (UTC)
+Message-ID: <e54b7469-bd94-285d-f167-50a754706407@redhat.com>
+Date: Tue, 2 Nov 2021 07:52:49 +0100
 MIME-Version: 1.0
-References: <20211026064227.2014502-1-anup.patel@wdc.com>
- <20211026064227.2014502-3-anup.patel@wdc.com>
-In-Reply-To: <20211026064227.2014502-3-anup.patel@wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 2 Nov 2021 14:52:00 +0800
-Message-ID: <CAEUhbmX_XFTTGZBnRACrdOh27Hddj2Ho-RUL8xmf=2YG=Fw0OA@mail.gmail.com>
-Subject: Re: [PATCH v4 02/22] target/riscv: Implement SGEIP bit in hip and hie
- CSRs
-To: Anup Patel <anup.patel@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb33.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v7 13/60] linux-user/host/s390: Populate host_signal.h
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20211101172729.23149-1-richard.henderson@linaro.org>
+ <20211101172729.23149-14-richard.henderson@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20211101172729.23149-14-richard.henderson@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.14, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,159 +80,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 26, 2021 at 2:43 PM Anup Patel <anup.patel@wdc.com> wrote:
->
-> A hypervsior can optionally take guest external interrupts using
-
-typo: hypervisor
-
-> SGEIP bit of hip and hie CSRs.
->
-> Signed-off-by: Anup Patel <anup.patel@wdc.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+On 01/11/2021 18.26, Richard Henderson wrote:
+> Split host_signal_pc and host_signal_write out of user-exec.c.
+> 
+> Cc: Thomas Huth <thuth@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/riscv/cpu.c      |  3 ++-
->  target/riscv/cpu_bits.h |  3 +++
->  target/riscv/csr.c      | 18 +++++++++++-------
->  3 files changed, 16 insertions(+), 8 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 788fa0b11c..0460a3972b 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -365,6 +365,7 @@ static void riscv_cpu_reset(DeviceState *dev)
->          env->mstatus = set_field(env->mstatus, MSTATUS64_UXL, env->misa_mxl);
->      }
->      env->mcause = 0;
-> +    env->miclaim = MIP_SGEIP;
->      env->pc = env->resetvec;
->      env->two_stage_lookup = false;
->  #endif
-> @@ -598,7 +599,7 @@ static void riscv_cpu_init(Object *obj)
->      cpu_set_cpustate_pointers(cpu);
->
->  #ifndef CONFIG_USER_ONLY
-> -    qdev_init_gpio_in(DEVICE(cpu), riscv_cpu_set_irq, 12);
-> +    qdev_init_gpio_in(DEVICE(cpu), riscv_cpu_set_irq, IRQ_LOCAL_MAX);
->  #endif /* CONFIG_USER_ONLY */
->  }
->
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index cffcd3a5df..8a5a4cde95 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -498,6 +498,8 @@ typedef enum RISCVException {
->  #define IRQ_S_EXT                          9
->  #define IRQ_VS_EXT                         10
->  #define IRQ_M_EXT                          11
-> +#define IRQ_S_GEXT                         12
-> +#define IRQ_LOCAL_MAX                      13
+>   linux-user/host/s390/host-signal.h  | 94 ++++++++++++++++++++++++++++-
+>   linux-user/host/s390x/host-signal.h |  2 +-
+>   accel/tcg/user-exec.c               | 88 +--------------------------
+>   3 files changed, 95 insertions(+), 89 deletions(-)
 
-The IRQ_LOCAL_MAX should be XLEN long, not 13.
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
->
->  /* mip masks */
->  #define MIP_USIP                           (1 << IRQ_U_SOFT)
-> @@ -512,6 +514,7 @@ typedef enum RISCVException {
->  #define MIP_SEIP                           (1 << IRQ_S_EXT)
->  #define MIP_VSEIP                          (1 << IRQ_VS_EXT)
->  #define MIP_MEIP                           (1 << IRQ_M_EXT)
-> +#define MIP_SGEIP                          (1 << IRQ_S_GEXT)
->
->  /* sip masks */
->  #define SIP_SSIP                           MIP_SSIP
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 9dfc9b5eba..9a0a0c0679 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -408,12 +408,13 @@ static RISCVException read_timeh(CPURISCVState *env, int csrno,
->  #define M_MODE_INTERRUPTS  (MIP_MSIP | MIP_MTIP | MIP_MEIP)
->  #define S_MODE_INTERRUPTS  (MIP_SSIP | MIP_STIP | MIP_SEIP)
->  #define VS_MODE_INTERRUPTS (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP)
-> +#define HS_MODE_INTERRUPTS (MIP_SGEIP | VS_MODE_INTERRUPTS)
->
->  static const target_ulong delegable_ints = S_MODE_INTERRUPTS |
->                                             VS_MODE_INTERRUPTS;
->  static const target_ulong vs_delegable_ints = VS_MODE_INTERRUPTS;
->  static const target_ulong all_ints = M_MODE_INTERRUPTS | S_MODE_INTERRUPTS |
-> -                                     VS_MODE_INTERRUPTS;
-> +                                     HS_MODE_INTERRUPTS;
->  #define DELEGABLE_EXCPS ((1ULL << (RISCV_EXCP_INST_ADDR_MIS)) | \
->                           (1ULL << (RISCV_EXCP_INST_ACCESS_FAULT)) | \
->                           (1ULL << (RISCV_EXCP_ILLEGAL_INST)) | \
-> @@ -673,7 +674,7 @@ static RISCVException write_mideleg(CPURISCVState *env, int csrno,
->  {
->      env->mideleg = (env->mideleg & ~delegable_ints) | (val & delegable_ints);
->      if (riscv_has_ext(env, RVH)) {
-> -        env->mideleg |= VS_MODE_INTERRUPTS;
-> +        env->mideleg |= HS_MODE_INTERRUPTS;
->      }
->      return RISCV_EXCP_NONE;
->  }
-> @@ -689,6 +690,9 @@ static RISCVException write_mie(CPURISCVState *env, int csrno,
->                                  target_ulong val)
->  {
->      env->mie = (env->mie & ~all_ints) | (val & all_ints);
-> +    if (!riscv_has_ext(env, RVH)) {
-> +        env->mie &= ~MIP_SGEIP;
-> +    }
->      return RISCV_EXCP_NONE;
->  }
->
-> @@ -984,7 +988,7 @@ static RISCVException rmw_sip(CPURISCVState *env, int csrno,
->      }
->
->      if (ret_value) {
-> -        *ret_value &= env->mideleg;
-> +        *ret_value &= env->mideleg & S_MODE_INTERRUPTS;
->      }
->      return ret;
->  }
-> @@ -1102,7 +1106,7 @@ static RISCVException rmw_hvip(CPURISCVState *env, int csrno,
->                        write_mask & hvip_writable_mask);
->
->      if (ret_value) {
-> -        *ret_value &= hvip_writable_mask;
-> +        *ret_value &= VS_MODE_INTERRUPTS;
->      }
->      return ret;
->  }
-> @@ -1115,7 +1119,7 @@ static RISCVException rmw_hip(CPURISCVState *env, int csrno,
->                        write_mask & hip_writable_mask);
->
->      if (ret_value) {
-> -        *ret_value &= hip_writable_mask;
-> +        *ret_value &= HS_MODE_INTERRUPTS;
->      }
->      return ret;
->  }
-> @@ -1123,14 +1127,14 @@ static RISCVException rmw_hip(CPURISCVState *env, int csrno,
->  static RISCVException read_hie(CPURISCVState *env, int csrno,
->                                 target_ulong *val)
->  {
-> -    *val = env->mie & VS_MODE_INTERRUPTS;
-> +    *val = env->mie & HS_MODE_INTERRUPTS;
->      return RISCV_EXCP_NONE;
->  }
->
->  static RISCVException write_hie(CPURISCVState *env, int csrno,
->                                  target_ulong val)
->  {
-> -    target_ulong newval = (env->mie & ~VS_MODE_INTERRUPTS) | (val & VS_MODE_INTERRUPTS);
-> +    target_ulong newval = (env->mie & ~HS_MODE_INTERRUPTS) | (val & HS_MODE_INTERRUPTS);
->      return write_mie(env, CSR_MIE, newval);
->  }
->
-
-Regards,
-Bin
 
