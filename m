@@ -2,66 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F8E5442EA7
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 13:59:46 +0100 (CET)
-Received: from localhost ([::1]:39508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A05CE442F31
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 14:44:23 +0100 (CET)
+Received: from localhost ([::1]:59434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhtOD-00056l-6L
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 08:59:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45678)
+	id 1mhu5O-0007yH-Ai
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 09:44:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mhtJm-0005di-J5
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 08:55:11 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:36684 helo=loongson.cn)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1mhkEN-00031o-Js; Mon, 01 Nov 2021 23:13:00 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25]:34804 helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mhtJj-0003mT-78
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 08:55:10 -0400
-Received: from [10.20.42.193] (unknown [10.20.42.193])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxZeUUNYFh6zUkAA--.63410S3; 
- Tue, 02 Nov 2021 20:54:44 +0800 (CST)
-Subject: Re: [PATCH v8 02/29] target/loongarch: Add core definition
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <1635760311-20015-1-git-send-email-gaosong@loongson.cn>
- <1635760311-20015-3-git-send-email-gaosong@loongson.cn>
- <bdc9d879-dbe7-dc48-7bf5-4d150996174a@amsat.org>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <cf9478e4-4d5f-923a-d2fa-3668cd79d30b@loongson.cn>
-Date: Tue, 2 Nov 2021 20:54:44 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <bdc9d879-dbe7-dc48-7bf5-4d150996174a@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf9DxZeUUNYFh6zUkAA--.63410S3
-X-Coremail-Antispam: 1UD129KBjvJXoW3Jw43ZFW5Jry8AF4xXw4Utwb_yoW7Xw43pr
- W7Ars0gasrtr1xAw43XFW2krn5Zr4xGw12ya1xJFWDZ3yqvFn7Xa97JFyxAry2vw13AF40
- 9FW5AF93WFs8JFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBa1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2
- jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
- 8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
- Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
- ACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7I2V7IY0VAS
- 07AlzVAYIcxG8wCY02Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8V
- W5Wr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
- 6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0x
- vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
- 42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2js
- IEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -44
-X-Spam_score: -4.5
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1mhkEI-0004mj-VC; Mon, 01 Nov 2021 23:12:59 -0400
+Received: from localhost.localdomain (unknown [180.156.147.178])
+ by APP-05 (Coremail) with SMTP id zQCowAC3mO2qrIBh7YkSBg--.46962S2;
+ Tue, 02 Nov 2021 11:12:43 +0800 (CST)
+From: liweiwei <liweiwei@iscas.ac.cn>
+To: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Subject: [RFC 0/6] support subsets of scalar crypto extension
+Date: Tue,  2 Nov 2021 11:11:22 +0800
+Message-Id: <20211102031128.17296-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: zQCowAC3mO2qrIBh7YkSBg--.46962S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cr4DCFWftF43Wr1kZw1xuFg_yoW8ZFWxpF
+ 4rC3y5Cr98Ja9Fkw4ftF1UAr45Xr4rWr4fJwn3Jwn5t3y5ArW3Jrn7Kw13AF1DJF18Wr1I
+ 93Wjkr1fCw45AFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUv214x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+ 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02
+ 628vn2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+ 02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_
+ GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+ CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAF
+ wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
+ 7VUbXdbUUUUUU==
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.549,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 02 Nov 2021 09:39:05 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,155 +66,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, i.qemu@xen0n.name,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, peterx@redhat.com,
- laurent@vivier.eu, yangxiaojuan@loongson.cn, alistair.francis@wdc.com,
- maobibo@loongson.cn, pbonzini@redhat.com, bmeng.cn@gmail.com,
- alex.bennee@linaro.org, chenhuacai@loongson.cn
+Cc: wangjunqiang@iscas.ac.cn, liweiwei@iscas.ac.cn, lazyparser@gmail.com,
+ lustrew@foxmail.com, luruibo2000@163.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+This patchset implements RISC-V K-extension v1.0.0.rc5 version instructions. Partial instructions are reused from B-extension.
 
-On 2021/11/2 下午4:38, Philippe Mathieu-Daudé wrote:
-> On 11/1/21 10:51, Song Gao wrote:
->> This patch adds target state header, target definitions
->> and initialization routines.
->>
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->> Signed-off-by: Song Gao <gaosong@loongson.cn>
->> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
->> ---
->>   target/loongarch/cpu-param.h |  19 +++
->>   target/loongarch/cpu.c       | 352 +++++++++++++++++++++++++++++++++++++++++++
->>   target/loongarch/cpu.h       | 254 +++++++++++++++++++++++++++++++
->>   target/loongarch/internals.h |  22 +++
->>   4 files changed, 647 insertions(+)
->>   create mode 100644 target/loongarch/cpu-param.h
->>   create mode 100644 target/loongarch/cpu.c
->>   create mode 100644 target/loongarch/cpu.h
->>   create mode 100644 target/loongarch/internals.h
->>
->> +static void set_loongarch_cpucfg(CPULoongArchState *env)
->> +{
->> +    int i;
->> +
->> +    for (i = 0; i < 49; i++) {
->> +        env->cpucfg[i] = 0x0;
->> +    }
->> +
->> +    env->cpucfg[0] = 0x14c010;  /* PRID */
-> Why do you insist in calling this generically and not
-> loongarch_3a5000_initfn()?
+Specification:
+https://github.com/riscv/riscv-crypto
 
-This function is called in 2 places,  loongarch_3a5000_initfn() and 
-loongarch_cpu_reset().  So I think we need this function,
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-k-upstream
 
-But now I realize that the CPUCFG instruction is read-only the cpucfg[i] 
-values,  We need't to call this function in loongarch_cpu_reset().  We 
-should move this code in loongarch_3a5000_initfn().
+To test rvk implementation,  specify cpu argument with 'x-zks=true,x-zkn=true'  or "x-zbkb=true,x-zbkc=true,x-zbkx=true,x-zknd=true,x-zkne=true,x-zknh=true,x-zksed=true,x-zksh=true,x-zkr=true" to enable  K-extension support.  This implementation can pass the ACT tests for K with our extended act support for qemu (available at https://github.com/plctlab/plct-qemu/tree/plct-k-upstream-with-act)
 
-> If you want a generic function,
-> why not pass PRID and xtal freq as arguments?
+liweiwei (6):
+  target/riscv: rvk: add flag support for Zbk[bcx]
+  target/riscv: rvk: add implementation of instructions for Zbk*  -
+    reuse partial instructions of Zbb/Zbc extensions  - add brev8 packh,
+    unzip, zip, etc.
+  target/riscv: rvk: add flag support for
+    Zk/Zkn/Zknd/Zknd/Zkne/Zknh/Zks/Zksed/Zksh/Zkr
+  target/riscv: rvk: add implementation of instructions for Zk*
+  target/riscv: rvk: add CSR support for Zkr:  - add SEED CSR  - add
+    USEED, SSEED fields for MSECCFG CSR
+  disas/riscv.c: rvk: add disas support for Zbk* and Zk* instructions
 
-Currently the cpucfg[i] values are fixed.   the cpucfg[i] values are 
-from 3a5000 Hardware.
+ disas/riscv.c                           | 171 +++++++-
+ target/riscv/bitmanip_helper.c          |  94 +++++
+ target/riscv/cpu.c                      |  45 +-
+ target/riscv/cpu.h                      |  12 +
+ target/riscv/cpu_bits.h                 |   9 +
+ target/riscv/crypto_helper.c            | 540 ++++++++++++++++++++++++
+ target/riscv/csr.c                      |  66 +++
+ target/riscv/helper.h                   |  47 +++
+ target/riscv/insn32.decode              |  94 ++++-
+ target/riscv/insn_trans/trans_rvb.c.inc |  91 +++-
+ target/riscv/insn_trans/trans_rvk.c.inc | 467 ++++++++++++++++++++
+ target/riscv/meson.build                |   1 +
+ target/riscv/pmp.h                      |   8 +-
+ target/riscv/translate.c                |  83 ++++
+ 14 files changed, 1690 insertions(+), 38 deletions(-)
+ create mode 100644 target/riscv/crypto_helper.c
+ create mode 100644 target/riscv/insn_trans/trans_rvk.c.inc
 
-I didn't realize that the cpucfg[i] valuse might be different on 3a6000 
-or  later.
-
-I think we need a  variable features  on CPULoongArchState, like  arm.  
-This is what you mentioned before.
-
->> +
->> +    uint32_t data = 0;
->> +    data = FIELD_DP32(data, CPUCFG1, ARCH, 2);
->> +    data = FIELD_DP32(data, CPUCFG1, PGMMU, 1);
->> +    data = FIELD_DP32(data, CPUCFG1, IOCSR, 1);
->> +    data = FIELD_DP32(data, CPUCFG1, PALEN, 0x2f);
->> +    data = FIELD_DP32(data, CPUCFG1, VALEN, 0x2f);
->> +    data = FIELD_DP32(data, CPUCFG1, UAL, 1);
->> +    data = FIELD_DP32(data, CPUCFG1, RI, 1);
->> +    data = FIELD_DP32(data, CPUCFG1, EP, 1);
->> +    data = FIELD_DP32(data, CPUCFG1, RPLV, 1);
->> +    data = FIELD_DP32(data, CPUCFG1, HP, 1);
->> +    data = FIELD_DP32(data, CPUCFG1, IOCSR_BRD, 1);
->> +    env->cpucfg[1] = data;
->> +
->> +    data = 0;
->> +    data = FIELD_DP32(data, CPUCFG2, FP, 1);
->> +    data = FIELD_DP32(data, CPUCFG2, FP_SP, 1);
->> +    data = FIELD_DP32(data, CPUCFG2, FP_DP, 1);
->> +    data = FIELD_DP32(data, CPUCFG2, FP_VER, 1);
->> +    data = FIELD_DP32(data, CPUCFG2, LSX, 1);
->> +    data = FIELD_DP32(data, CPUCFG2, LASX, 1);
->> +    data = FIELD_DP32(data, CPUCFG2, COMPLEX, 1);
->> +    data = FIELD_DP32(data, CPUCFG2, CRYPTO, 1);
->> +    data = FIELD_DP32(data, CPUCFG2, LLFTP, 1);
->> +    data = FIELD_DP32(data, CPUCFG2, LLFTP_VER, 1);
->> +    data = FIELD_DP32(data, CPUCFG2, LSPW, 1);
->> +    data = FIELD_DP32(data, CPUCFG2, LAM, 1);
->> +    env->cpucfg[2] = data;
->> +
->> +    data = 0;
->> +    data = FIELD_DP32(data, CPUCFG3, CCDMA, 1);
->> +    data = FIELD_DP32(data, CPUCFG3, SFB, 1);
->> +    data = FIELD_DP32(data, CPUCFG3, UCACC, 1);
->> +    data = FIELD_DP32(data, CPUCFG3, LLEXC, 1);
->> +    data = FIELD_DP32(data, CPUCFG3, SCDLY, 1);
->> +    data = FIELD_DP32(data, CPUCFG3, LLDBAR, 1);
->> +    data = FIELD_DP32(data, CPUCFG3, ITLBHMC, 1);
->> +    data = FIELD_DP32(data, CPUCFG3, ICHMC, 1);
->> +    data = FIELD_DP32(data, CPUCFG3, SPW_LVL, 4);
->> +    data = FIELD_DP32(data, CPUCFG3, SPW_HP_HF, 1);
->> +    env->cpucfg[3] = data;
->> +
->> +    env->cpucfg[4] = 0x5f5e100; /* Crystal frequency */
->> +
->> +    data = 0;
->> +    data = FIELD_DP32(data, CPUCFG5, CC_MUL, 1);
->> +    data = FIELD_DP32(data, CPUCFG5, CC_DIV, 1);
->> +    env->cpucfg[5] = data;
->> +
->> +    data = 0;
->> +    data = FIELD_DP32(data, CPUCFG16, L1_IUPRE, 1);
->> +    data = FIELD_DP32(data, CPUCFG16, L1_DPRE, 1);
->> +    data = FIELD_DP32(data, CPUCFG16, L2_IUPRE, 1);
->> +    data = FIELD_DP32(data, CPUCFG16, L2_IUUNIFY, 1);
->> +    data = FIELD_DP32(data, CPUCFG16, L2_IUPRIV, 1);
->> +    data = FIELD_DP32(data, CPUCFG16, L3_IUPRE, 1);
->> +    data = FIELD_DP32(data, CPUCFG16, L3_IUUNIFY, 1);
->> +    data = FIELD_DP32(data, CPUCFG16, L3_IUINCL, 1);
->> +    env->cpucfg[16] = data;
->> +
->> +    data = 0;
->> +    data = FIELD_DP32(data, CPUCFG17, L1IU_WAYS, 0x8003);
->> +    data = FIELD_DP32(data, CPUCFG17, L1IU_SETS, 0x60);
->> +    env->cpucfg[17] =  data;
->> +
->> +    data = 0;
->> +    data = FIELD_DP32(data, CPUCFG18, L1D_WAYS, 0x8003);
->> +    data = FIELD_DP32(data, CPUCFG18, L1D_SETS, 0x60);
->> +    env->cpucfg[18] = data;
->> +
->> +    data = 0;
->> +    data = FIELD_DP32(data, CPUCFG19, L2IU_WAYS, 0x800f);
->> +    data = FIELD_DP32(data, CPUCFG19, L2IU_SETS, 0x60);
->> +    env->cpucfg[19] = data;
->> +
->> +    data = 0;
->> +    data = FIELD_DP32(data, CPUCFG20, L3IU_WAYS, 0xf00f);
->> +    data = FIELD_DP32(data, CPUCFG20, L3IU_SETS, 0x60);
->> +    env->cpucfg[20] = data;
->> +}
->> +
->> +static inline void loongarch_3a5000_initfn(Object *obj)
-> 'inline' is not justified.
-
-I misunderstood what you meant in V7 comments,  I'll correct it.
-
-Thanks.
-
-Song Gao
+-- 
+2.17.1
 
 
