@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52086442C3C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 12:10:46 +0100 (CET)
-Received: from localhost ([::1]:50050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18ED2442C2B
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 12:09:20 +0100 (CET)
+Received: from localhost ([::1]:45850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhrgj-00070R-FJ
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 07:10:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40910)
+	id 1mhrfL-0003bM-4A
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 07:09:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhrW3-0007RL-5Y
+ id 1mhrW3-0007Um-SC
  for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:59:43 -0400
-Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:36501)
+Received: from mail-qk1-x734.google.com ([2607:f8b0:4864:20::734]:42772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mhrW1-0006ra-Pq
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:59:42 -0400
-Received: by mail-qk1-x72f.google.com with SMTP id i9so18667574qki.3
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 03:59:41 -0700 (PDT)
+ id 1mhrW2-0006ri-C7
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 06:59:43 -0400
+Received: by mail-qk1-x734.google.com with SMTP id bm28so4082989qkb.9
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 03:59:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5cdNvFSJ5wR7JnuiQcjHWFGJQar8vceYVcWEUN+hvfs=;
- b=R0N4J02AVwpi3erHg6YVQNU7idMdJURf9oPGwOVBoRYJkR7ib0fRaMv3Jxm/S3btl2
- 08J2ck3z39XEG9IedTqo11liSEbYNfAM5gGuQvbf0NiH42LVXlBOGt5wWESzOGAbD9KC
- ZlboyfRnueLfqQz7JWYb9CUllw09lHr5N15jR2gEvvQcKkYZiNeIlWfiNmYZrBeKRPSB
- wTmXrF2XkJt0WqsGgAZOgoNf6mwoLGMqYP7PWUW3Jn97w4FV5lzxCLcOy0fPfFGL//9t
- is1muJFCq7osFjoKB7xIT8MVb5SvktQ/R/HXhmUFy3PEw7LySBE2DUH+JKTRvk/WA8lP
- zN1w==
+ bh=kgIAZfpBiG9Bp0aRLB9BDRfUW43JbXvDwVrmE2eY/v8=;
+ b=Z/NV4hhKqW0tOWm77uZhklFGUZzngF+3cAH2rjx1O4hQQZNufFkaxuuSDCSekf/AuP
+ 2XPE2NM1u6OZuMz/gaJ2SrTrO1Xo8ZHX9xw1ZWKHUS40Orgdl7CbiXdDSMcZagKK39Q5
+ X3h8vXBC6SvXu0GEwbZvxV4q4milYL4pgyah+00DgpXExStFcyu6qjWA+A667rcOFago
+ dqbeC4J9OjD9Fbng4LIhbnQFTBF8VzLBuXx1d+dmZ0G0ZPO3O2z3oZJbj3b0prm/x2Jz
+ 7EqZ66Yx1KJGGMKfj9RrzrLwsyIwjjDDCSv8n09mkW9FARVJPyKSDVLjtkx5nDQvx0jf
+ OlDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5cdNvFSJ5wR7JnuiQcjHWFGJQar8vceYVcWEUN+hvfs=;
- b=ctegOxrQcDhmoAfwJnY/rUkwYEruxh+HoYWOu8yvmHJxyRkdynbih2falxU7tZhoc6
- yD0p7rqnrSIvgkFWOzoLrtTO+VCn2lWQIHCbiA4vn8/emp7BTGPY9BrVtlYKf8eppFsB
- nxxlAPHbebRPBX2jVHiEs5AsoVLp60fh6JHfdla2ANdTkqafWHaLTtBauN6vK91BTXti
- Pr6XxYhSmjhvsnm3lKHpgz5BKWTYnnjSgGSbmH1qEvs9kLFc1ejJDtPiUw7WXYuWVkcK
- CMbYNt7FzP0trLJvrfs4w0KWLF8PPAqlRB+3zHOqux/uKgQri0tFqaYEXfEJ0ZHcZrul
- ogDA==
-X-Gm-Message-State: AOAM533BIfZesg2q6qtMWeMud5cG3646Frs9XFTrfkGLMYF8Jy/1brwH
- 6PdSGG7VVQtx2L2559SAmhZAzUxwbhI0Hg==
-X-Google-Smtp-Source: ABdhPJyJTWqX0tkg7zoFxjsYPfDj0cOEoLlkWmmchGwE2oUu7ljM4DMh++641Af3+TLrMYYQjLBe9w==
-X-Received: by 2002:a05:620a:318e:: with SMTP id
- bi14mr17284924qkb.439.1635850780883; 
- Tue, 02 Nov 2021 03:59:40 -0700 (PDT)
+ bh=kgIAZfpBiG9Bp0aRLB9BDRfUW43JbXvDwVrmE2eY/v8=;
+ b=SDGc1xWkBjAeEkAfae6z3cbuXd+he+mov2oPbwaHLImbIzT+dcq3HVJKAmtrH0Df1F
+ 3zTwsLxoC7wVTOVN9kZMTUKDii8Kem0Wa/54wxohfHRS/guALdGjRHaa1kOybd8OX+sd
+ 0YTjvZ7c1tmkScI+OMlx4D+o3BX5XCqtUXAN0jmd8UPPnwfef8xniK0Y247JHFvfuGCb
+ NYTUjlgSdzeTY1AhQri8kmM66HJ7ursBvVq3jdjACDEGK1yMqTY+Ts/C9sphGtKD6K5O
+ JEHINe6TyucUxlovrp81Ex7O8giTRgTsdEfFOhjcop2sCtFKqNy2kG+/wtIxPUA40JO2
+ HSeg==
+X-Gm-Message-State: AOAM531ULP87tmEIpqe1qLFefSVYDGA8fBls/6E5AgjuB0EPH6pSZ+nu
+ MzQ+oPyceU2OEQQbw9QaWwZ7b31jWWzVNQ==
+X-Google-Smtp-Source: ABdhPJxba/hCChtj3JW5asj9xBZcZH6U85IDIzSMZ1vwA9Q5JC9aDEYP3Ms+D7cZs36sZIiBxcQ5nQ==
+X-Received: by 2002:a05:620a:103c:: with SMTP id
+ a28mr12149541qkk.271.1635850781549; 
+ Tue, 02 Nov 2021 03:59:41 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-172-254-253-57.nyc.biz.rr.com.
  [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id z26sm11789510qko.13.2021.11.02.03.59.40
+ by smtp.gmail.com with ESMTPSA id z26sm11789510qko.13.2021.11.02.03.59.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 03:59:40 -0700 (PDT)
+ Tue, 02 Nov 2021 03:59:41 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/12] target/arm: Use tcg_constant_i32() in op_smlad()
-Date: Tue,  2 Nov 2021 06:59:29 -0400
-Message-Id: <20211102105934.214596-8-richard.henderson@linaro.org>
+Subject: [PULL 08/12] target/arm: Introduce store_cpu_field_constant() helper
+Date: Tue,  2 Nov 2021 06:59:30 -0400
+Message-Id: <20211102105934.214596-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211102105934.214596-1-richard.henderson@linaro.org>
 References: <20211102105934.214596-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::734;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x734.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,32 +91,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Avoid using a TCG temporary for a read-only constant.
+Similarly to the store_cpu_field() helper which takes a TCG
+temporary, store its value to the CPUState, introduce the
+store_cpu_field_constant() helper which store a constant to
+CPUState (without using any TCG temporary).
 
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211029231834.2476117-2-f4bug@amsat.org>
+Message-Id: <20211029231834.2476117-3-f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ target/arm/translate-a32.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index d6af5b1b03..083a6d6ed7 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -7849,10 +7849,9 @@ static bool op_smlad(DisasContext *s, arg_rrrr *a, bool m_swap, bool sub)
-         t3 = tcg_temp_new_i32();
-         tcg_gen_sari_i32(t3, t1, 31);
-         qf = load_cpu_field(QF);
--        one = tcg_const_i32(1);
-+        one = tcg_constant_i32(1);
-         tcg_gen_movcond_i32(TCG_COND_NE, qf, t2, t3, one, qf);
-         store_cpu_field(qf, QF);
--        tcg_temp_free_i32(one);
-         tcg_temp_free_i32(t3);
-         tcg_temp_free_i32(t2);
-     }
+diff --git a/target/arm/translate-a32.h b/target/arm/translate-a32.h
+index 88f15df60e..17af8dc95a 100644
+--- a/target/arm/translate-a32.h
++++ b/target/arm/translate-a32.h
+@@ -70,6 +70,9 @@ static inline void store_cpu_offset(TCGv_i32 var, int offset)
+ #define store_cpu_field(var, name) \
+     store_cpu_offset(var, offsetof(CPUARMState, name))
+ 
++#define store_cpu_field_constant(val, name) \
++    tcg_gen_st_i32(tcg_constant_i32(val), cpu_env, offsetof(CPUARMState, name))
++
+ /* Create a new temporary and set it to the value of a CPU register.  */
+ static inline TCGv_i32 load_reg(DisasContext *s, int reg)
+ {
 -- 
 2.25.1
 
