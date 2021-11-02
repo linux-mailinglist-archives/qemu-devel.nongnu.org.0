@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7526442EBC
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 14:03:31 +0100 (CET)
-Received: from localhost ([::1]:46202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DB6F442ED2
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 14:08:10 +0100 (CET)
+Received: from localhost ([::1]:57608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhtRq-0001Rx-Vz
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 09:03:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46826)
+	id 1mhtWL-0000xr-49
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 09:08:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mhtN5-0003rt-4m
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 08:58:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42807)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mhtN1-0005Jw-Ke
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 08:58:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635857910;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1NctDjfAYxjOBW0cyhhat8u0Pd9cGRth4zaMJvXE22Y=;
- b=BfIg1Kt4H0m7jQQko4jhZzcoXo0kJ6lmT3YRM+jNlrH0lT9tOAtDdOa0vLs3d6WwQ/SUcs
- rC2LC1NvrL+s5wZld37sXTBzfEe+iSoHmFe7YflfJQ98gzFENvVUg5xEXwjJBqkkrzMFrE
- vYRZmlx6qDJrPAhp7Yq+M1lN5tS4RMw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-j0oPrIyQNYyAtODPX-K53A-1; Tue, 02 Nov 2021 08:58:25 -0400
-X-MC-Unique: j0oPrIyQNYyAtODPX-K53A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4097D80A5C0;
- Tue,  2 Nov 2021 12:58:24 +0000 (UTC)
-Received: from [10.39.192.88] (unknown [10.39.192.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7A245104A9C1;
- Tue,  2 Nov 2021 12:58:02 +0000 (UTC)
-Message-ID: <5e8c9e6a-830c-5f47-3b19-e878f021fa6f@redhat.com>
-Date: Tue, 2 Nov 2021 13:58:01 +0100
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mhtU7-0006Jt-V0
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:05:51 -0400
+Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:39873)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mhtU1-0005dS-0B
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 09:05:51 -0400
+Received: by mail-qk1-x72f.google.com with SMTP id bk22so12778050qkb.6
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 06:05:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=cy8h+qEhvfF8y2oclsgLmxcXQNfqPttopW147oQ1Uss=;
+ b=R/nqxFy5bSfcC72A446EZwdoAl+4tcrVqrlCkFB6XwoelQSpc6hUdbHuAiA34KxQLn
+ 8LEKkU89Jm88yjg7q4Y9BPwnKdsH538Y6lURTGJ3dqNOMZ9BNwlWaobwWsGm/qBCmFmy
+ lvq9ltdsR5hn4Zj3zcWQM4J29LpVYOA1Dlmc3Bk9T0uNteKEVHGtlfWrwHJZ8XIVZnLJ
+ WkdiGP68yPkxZ3cLZSf4C79h8gB6jLabp83Bp53ZYrlEOFGxKLKqhouln/22vC1Mi2tS
+ VDBUfF2QYBrmslPVXBPBw/WPeyU4OHC4UoiJTKUa1ejfPCvathbtLrveczbTC8UpP9gR
+ RI5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=cy8h+qEhvfF8y2oclsgLmxcXQNfqPttopW147oQ1Uss=;
+ b=FCo3m55T8i++afw2Vhjfm8JMJOefl2CGwytQz1BAVCTQ+6q/hXQ6MutOSoK0Jdt1XX
+ IkgrwZJKoeRYEKdj6NeyyRoGuMfzFoKfpVYBRjXhxpOFql11a9p4eHRkq2tMCH+coKTg
+ WdeMVMvRBEnsDSvj8V9gsnUN4vcFR0fp6r+lC2dbhjd5JQMolNFUBaD87hB3fcp8v4a/
+ 0uI66kqvX5rpsPGyEkP/QshO/PoofMAa+q7waKhpcAFRKJ7bGpKvWCDe2cMG8aaNa55t
+ fsAhapqQPniNHo6uFl1M8GkX8rkxnr3q/e2YAFGefiDhe4n3LHK/srRWkohzKVBPcG90
+ i51Q==
+X-Gm-Message-State: AOAM530FSejDHMpuouqOXC3hWc/pYKnXyADbIaCskD2vf1Yk0hSgR/wj
+ j8pDb2JQs1zh3EV21mgXvmKPRw==
+X-Google-Smtp-Source: ABdhPJwSWM+w7/A1N4rR0gO/UVJtS7qBiPgK5IoGZJt4HyTPsYA1Xt4pG0canvB/bjG3x//YNse8/w==
+X-Received: by 2002:a37:68cd:: with SMTP id
+ d196mr23918655qkc.490.1635858343713; 
+ Tue, 02 Nov 2021 06:05:43 -0700 (PDT)
+Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
+ [172.254.253.57])
+ by smtp.gmail.com with ESMTPSA id s22sm13125231qko.88.2021.11.02.06.05.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Nov 2021 06:05:43 -0700 (PDT)
+Subject: Re: [PATCH v4 13/17] target/riscv: support for 128-bit M extension
+To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20211025122818.168890-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <20211025122818.168890-14-frederic.petrot@univ-grenoble-alpes.fr>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <d6c7f698-a23f-7f62-657f-91abd22ab27e@linaro.org>
+Date: Tue, 2 Nov 2021 09:05:41 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v5] tests: qtest: Add virtio-iommu test
-To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- pbonzini@redhat.com, lvivier@redhat.com, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, jean-philippe@linaro.org
-References: <20211101184858.15223-1-eric.auger@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20211101184858.15223-1-eric.auger@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20211025122818.168890-14-frederic.petrot@univ-grenoble-alpes.fr>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -60
-X-Spam_score: -6.1
-X-Spam_bar: ------
-X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.549, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72f.google.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.549,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,44 +90,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
+ palmer@dabbelt.com, fabien.portas@grenoble-inp.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/11/2021 19.48, Eric Auger wrote:
-> Add the framework to test the virtio-iommu-pci device
-> and tests exercising the attach/detach, map/unmap API.
-> 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> Tested-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> 
-> ---
-> 
-> v4 -> v5:
-> - remove printf and move a comment
-> - Added Jean-Philippe's T-b and R-b
+On 10/25/21 8:28 AM, Frédéric Pétrot wrote:
+> +static void gen_mulu2_i128(TCGv r2, TCGv r3, TCGv al, TCGv ah, TCGv bl, TCGv bh)
 
-  Hi Eric,
+This should be named gen_mulhu_i128.
 
-I tried to add this patch to my queue, but unfortunately, it fails some of 
-the gitlab CI pipelines, e.g.:
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-  https://gitlab.com/thuth/qemu/-/jobs/1739091817#L311
 
-  ...
-  Running test qtest-x86_64/qos-test
-  qemu-system-x86_64: -device virtio-iommu-pci,addr=04.0:
-  pc-i440fx-6.2 machine fails to create iommu-map device tree
-  bindings
-  Check your machine implements a hotplug handler for the
-  virtio-iommu-pci device
-  Check the guest is booted without FW or with -no-acpi
-  Broken pipe
-  ...
-
-Could you please have a look?
-
-  Thanks,
-   Thomas
-
+r~
 
