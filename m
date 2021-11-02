@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92D0E442784
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 08:06:37 +0100 (CET)
-Received: from localhost ([::1]:53216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1366E442862
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Nov 2021 08:29:46 +0100 (CET)
+Received: from localhost ([::1]:58020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mhnsR-0004a3-OX
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 03:06:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37184)
+	id 1mhoEq-00018H-EF
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 03:29:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mhnqg-0003sN-L1
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 03:04:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26302)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mhoAK-0007MC-Cc; Tue, 02 Nov 2021 03:25:04 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:51403)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mhnqc-0001FW-3M
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 03:04:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635836680;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Lwb/CyKGjMpw1AcUmjQHhYoalWVs2fec3YfmpmYJt8w=;
- b=TDgHviFU8CQFc2UEq5YLquMAzEu2R8tDByE4YxYSNZX26KAypXfOFNK8I4pJyXMqz+bN76
- z8F51KJ/k9foJU94zZ6WPUXUvutC5uY29Rr3zn+4gTVhpjN4kve8D3re45p1ggoKU9Xlgt
- lD2STT+0PVHyBT3sNtOgsIGT5zF08Js=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-qViM89wKPEOKD8wbC369CQ-1; Tue, 02 Nov 2021 03:04:39 -0400
-X-MC-Unique: qViM89wKPEOKD8wbC369CQ-1
-Received: by mail-lj1-f200.google.com with SMTP id
- 73-20020a2e054c000000b0021668f13ce2so1184789ljf.17
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 00:04:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Lwb/CyKGjMpw1AcUmjQHhYoalWVs2fec3YfmpmYJt8w=;
- b=vG/gmUBS32qoG2tfu/SK9egd4F19HCITKrcvBMoywcXoqBOB+EO8oqUcYIVJ0UkTJJ
- gvCB9udjhntidYfPN9aYZTAc7ZPB1pU/YgPUIzDEB7ezqbYFDJ7vOp3cDntD54T9zfcW
- +cD7SFaVZfvl/m3FclYQwvFOyIXTahmqs67SK4PsE8ZQrDB2DyFptfjzsIes7P8dlaZ6
- 6SQk97aBHqDj+ERFnpP+S4sCwuO9ySu5pe0mMy37WpRpS00KkurVjOvh5oxnG3d9KvhT
- f3iVlZJwUaM2gHjKM/8GecsHu5WM3b6ofHoh+ZlybS+SZGCORCzz8IjSdXNXjcZNlVlZ
- +ZHQ==
-X-Gm-Message-State: AOAM5326Cjk9od/TefocHWURiUJkeHltNBl0BtEuSu+cWP3MufX7K7TE
- NE7sG9/Hufx7+MpvepYjrnLHKbVrCCbH1sYKX9jg0iOZQr+94ezO5nxbogAPjhQiF9iWrhQ2w7U
- AmhF6gNWs2bFX3QArpYx+d0qUCvS5TzY=
-X-Received: by 2002:a2e:5344:: with SMTP id t4mr36656016ljd.362.1635836677773; 
- Tue, 02 Nov 2021 00:04:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxX2v8seSnQatagGgmURzzkXiZ3QDOj3w1vTa2wfC/2r3JEciKE2j3pF9lPORhwpoRz7jokT3ckQyfJd8XzoH0=
-X-Received: by 2002:a2e:5344:: with SMTP id t4mr36655982ljd.362.1635836677520; 
- Tue, 02 Nov 2021 00:04:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mhoAG-0001Cz-IK; Tue, 02 Nov 2021 03:25:04 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 9E15D5C0131;
+ Tue,  2 Nov 2021 03:24:57 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Tue, 02 Nov 2021 03:24:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=zohuzlayuMjTGQ/WgxcXx9/Nr5+
+ h+GV6fSPqq/niSTo=; b=crSScYtax6gq/xqVj/YlOlmHHjH5ZiKz2Ux270cPxN6
+ 5Ujhq8oyoIabS97FKLQAVCFj3cMPzRVPe8lqexOrg1Zjw5WSVV1qRLrIxqPQnF4p
+ KzKMBP/0t6l2mrxSA1X3JRQh5VJgxuhg5vLu5EqJSAYmrFCLPPoHVeSojMsNwCC/
+ E9m+G0VwDUHAEfG7PaZp/PyIA5ZLfN/YbNh5T8vi8jxRLObDdZLyrMlhCCBkDaXF
+ N8nDHSuJanSTanG5W27j+mZdBf8w9Mj77W1JtRxGVT5zR6X0D/k+mP4YPpmMp7Gx
+ KIcCXYupFNnXr25ep+7e/Z6GLpwOfdXTl5UEg6JBzxw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=zohuzl
+ ayuMjTGQ/WgxcXx9/Nr5+h+GV6fSPqq/niSTo=; b=A0YpaePzSlM5E5ZSEWM91S
+ lq5o+bzF2290yeSXQZtmoX22z5WYFxkJ5tfmIQ9fsNLKgoXWMD2gwGUcN83PQZkz
+ yW399uzETntW84XYKjg4Yud8227UnYdZHoqoqMjnq8rsxgwa9trIDU6Ft5EFrtTp
+ fwVPz/3NRVyCzhvZ/DwMZvSfGwRIMdAuJBZyalWsvqbBVgrq4+Sf89vn+cEgwKo5
+ uj96RTpyXlJ3FKfDt9opaJas5yf64JkWQjIPctn9qxgefrI3g13j3hXHM5a8GVHw
+ RA34hlRCmfNhspQjeVICBY/c5I2sv3a3uNNOsFEC4xxhBt2+7Z80PVq9isGKc5Gw
+ ==
+X-ME-Sender: <xms:yOeAYYeRbkpMloMOzGabc2jOyYMtVQX4zbgE_i4sfkysS353Ece7uQ>
+ <xme:yOeAYaNcPYpH3B_fp-gs9dorgUbvfz4MpQNF_tH1b0OxgZPYjCm6wsyws00gUOk1C
+ ZTkhQyWh4VLdGRoY1U>
+X-ME-Received: <xmr:yOeAYZg7_7QtLlpPzsXwIPgVk3CCZK3EK4RCGEnG-_mXTTApV3hIvavYc_svoioBbvPnVwb64FVgn1NywYfdpeSr7dtZJMy0Fy6I7kyh78JlpKX9Ew>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdehgedguddttdcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtroertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepteehveejgffhtddvteefleehveduudduffekffehkedvudeghfeujefggefg
+ heeunecuffhomhgrihhnpehgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:yOeAYd9bOmV2is5AlhRVcyQCu0x1_-0dIJcXM8GUfrToRDjVu6zGww>
+ <xmx:yOeAYUs8O9h0mQR_4tREqQP8fv7NQEhd29kO58AIS7T7v4N2pef4JQ>
+ <xmx:yOeAYUGqbmlQQ51C6RyaPg9r5dqUWaqalTF5F9wAYLwAkfLE63yYXw>
+ <xmx:yeeAYQK3DzMV8Ak2IEbWnOt_0D705rn1oB8JuOoGATVAuAWQ9RD6SQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 2 Nov 2021 03:24:55 -0400 (EDT)
+Date: Tue, 2 Nov 2021 08:24:53 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+Subject: Re: [PATCH 00/15] hw/nvme: SR-IOV with Virtualization Enhancements
+Message-ID: <YYDnxTNriIifeHsq@apples.localdomain>
+References: <20211007162406.1920374-1-lukasz.maniak@linux.intel.com>
+ <YXhG3L+brG0q6o/2@apples.localdomain>
+ <20211027164930.GC3331@lmaniak-dev.igk.intel.com>
 MIME-Version: 1.0
-References: <20211029141608.1728855-1-eperezma@redhat.com>
- <CACGkMEss8Xq8WYUkDkLaYx-XBW6GADDAjH1mwmpBdxKc2wsRAQ@mail.gmail.com>
- <CAJaqyWcsbtOoLGkCW6J_9M8qR1-yvbQmWq1rU0y+8Y=BhPeRWw@mail.gmail.com>
- <CACGkMEv9OR1yTVWhy8bqxdH8s6+f_6KY=Avw2z3soeBudR+Ocw@mail.gmail.com>
- <CAJaqyWeV-UGG8ddwmrYeq4J47V_KSfkPEni96sJOzpEFe5v_FQ@mail.gmail.com>
-In-Reply-To: <CAJaqyWeV-UGG8ddwmrYeq4J47V_KSfkPEni96sJOzpEFe5v_FQ@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 2 Nov 2021 15:04:26 +0800
-Message-ID: <CACGkMEsxW_ZKdF7JGvvCEspNMXeSUeovZM1DooR2RTsmESw5jw@mail.gmail.com>
-Subject: Re: [PATCH] vhost: Fix last queue index of devices with no cvq
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.734,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="3vm395HjFEd5ZmAu"
+Content-Disposition: inline
+In-Reply-To: <20211027164930.GC3331@lmaniak-dev.igk.intel.com>
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,120 +94,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 2, 2021 at 2:59 PM Eugenio Perez Martin <eperezma@redhat.com> w=
-rote:
->
-> On Tue, Nov 2, 2021 at 5:09 AM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> > On Mon, Nov 1, 2021 at 4:59 PM Eugenio Perez Martin <eperezma@redhat.co=
-m> wrote:
-> > >
-> > > On Mon, Nov 1, 2021 at 4:34 AM Jason Wang <jasowang@redhat.com> wrote=
-:
-> > > >
-> > > > On Fri, Oct 29, 2021 at 10:16 PM Eugenio P=C3=A9rez <eperezma@redha=
-t.com> wrote:
-> > > > >
-> > > > > The -1 assumes that all devices with no cvq have an spare vq allo=
-cated
-> > > > > for them, but with no offer of VIRTIO_NET_F_CTRL_VQ. This may not=
- be the
-> > > > > case, and the device may have a pair number of queues.
-> > > > >
-> > > > > To fix this, just resort to the lower even number of queues.
-> > > > >
-> > > > > Fixes: 049eb15b5fc9 ("vhost: record the last virtqueue index for =
-the virtio device")
-> > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > > > ---
-> > > > >  hw/net/vhost_net.c | 2 +-
-> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > >
-> > > > > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> > > > > index 0d888f29a6..edf56a597f 100644
-> > > > > --- a/hw/net/vhost_net.c
-> > > > > +++ b/hw/net/vhost_net.c
-> > > > > @@ -330,7 +330,7 @@ int vhost_net_start(VirtIODevice *dev, NetCli=
-entState *ncs,
-> > > > >      NetClientState *peer;
-> > > > >
-> > > > >      if (!cvq) {
-> > > > > -        last_index -=3D 1;
-> > > > > +        last_index &=3D ~1ULL;
-> > > > >      }
-> > > >
-> > > > The math here looks correct but we need to fix vhost_vdpa_dev_start=
-() instead?
-> > > >
-> > > > if (dev->vq_index + dev->nvqs - 1 !=3D dev->last_index) {
-> > > > ...
-> > > > }
-> > > >
-> > >
-> > > If we just do that, devices that offer an odd number of queues but do
-> > > not offer ctrl vq would never enable the last vq pair, isn't it?
-> >
-> > For vq pair, you assume that it's a networking device, so the device
-> > you described here violates the spec.
-> >
-> > >
-> > > Also, I would say that the right place for the solution of this
-> > > problem should not be virtio/vhost-vdpa: This is highly dependent on
-> > > having cvq, and this implies a knowledge about the use of each
-> > > virtqueue. Another kind of device could have an odd number of
-> > > virtqueues naturally, and that (-1) would not work for them, isn't it=
-?
-> >
-> > It actually depends on how multiqueue is modeled for each specific
-> > type of device. They need to initialize the vq_index and nvqs
-> > correctly:
-> >
-> > E.g if we had a device with 3 queues, we could model it with the follow=
-ing:
-> >
-> > vhost_dev 1, vq_index =3D 0, nvqs =3D 2
-> > vhost_dev 2, vq_index =3D 2, nvqs =3D 1
-> >
-> > In this case the last_index should be initialized to 2, then we know
-> > all the vhost_dev is initialized and we can start the hardware.
-> >
->
-> Right, but in that case, cvq =3D=3D true, and we never enter the
-> conditional if (!cvq).
->
-> If cvq is false at that moment, your vhost_dev 2 *must* not exist and
-> the last index will be even, so we must not subtract 1 to last_index.
-> The subtraction is the cause the device never starts.
 
-The last_index will be 1, so the device will be started after
-vhost_dev 1 is initialized?
+--3vm395HjFEd5ZmAu
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks
+On Oct 27 18:49, Lukasz Maniak wrote:
+> On Tue, Oct 26, 2021 at 08:20:12PM +0200, Klaus Jensen wrote:
+> > On Oct  7 18:23, Lukasz Maniak wrote:
+> > > Hi,
+> > >=20
+> > > This series of patches is an attempt to add support for the following
+> > > sections of NVMe specification revision 1.4:
+> > >=20
+> > > 8.5 Virtualization Enhancements (Optional)
+> > >     8.5.1 VQ Resource Definition
+> > >     8.5.2 VI Resource Definition
+> > >     8.5.3 Secondary Controller States and Resource Configuration
+> > >     8.5.4 Single Root I/O Virtualization and Sharing (SR-IOV)
+> > >=20
+> > > The NVMe controller's Single Root I/O Virtualization and Sharing
+> > > implementation is based on patches introducing SR-IOV support for PCI
+> > > Express proposed by Knut Omang:
+> > > https://lists.gnu.org/archive/html/qemu-devel/2015-10/msg05155.html
+> > >=20
+> > > However, based on what I was able to find historically, Knut's patches
+> > > have not yet been pulled into QEMU due to no example of a working dev=
+ice
+> > > up to this point:
+> > > https://lists.gnu.org/archive/html/qemu-devel/2017-10/msg02722.html
+> > >=20
+> > > In terms of design, the Physical Function controller and the Virtual
+> > > Function controllers are almost independent, with few exceptions:
+> > > PF handles flexible resource allocation for all its children (VFs have
+> > > read-only access to this data), and reset (PF explicitly calls it on =
+VFs).
+> > > Since the MMIO access is serialized, no extra precautions are required
+> > > to handle concurrent resets, as well as the secondary controller state
+> > > access doesn't need to be atomic.
+> > >=20
+> > > A controller with full SR-IOV support must be capable of handling the
+> > > Namespace Management command. As there is a pending review with this
+> > > functionality, this patch list is not duplicating efforts.
+> > > Yet, NS management patches are not required to test the SR-IOV suppor=
+t.
+> > >=20
+> > > We tested the patches on Ubuntu 20.04.3 LTS with kernel 5.4.0. We have
+> > > hit various issues with NVMe CLI (list and virt-mgmt commands) between
+> > > releases from version 1.09 to master, thus we chose this golden NVMe =
+CLI
+> > > hash for testing: a50a0c1.
+> > >=20
+> > > The implementation is not 100% finished and certainly not bug free,
+> > > since we are already aware of some issues e.g. interaction with
+> > > namespaces related to AER, or unexpected (?) kernel behavior in more
+> > > complex reset scenarios. However, our SR-IOV implementation is already
+> > > able to support typical SR-IOV use cases, so we believe the patches a=
+re
+> > > ready to share with the community.
+> > >=20
+> > > Hope you find some time to review the work we did, and share your
+> > > thoughts.
+> > >=20
+> > > Kind regards,
+> > > Lukasz
+> >=20
+> > Hi Lukasz,
+> >=20
+> > If possible, can you share a brief guide on testing this? I keep hitting
+> > an assert
+> >=20
+> >   qemu-system-x86_64: ../hw/pci/pci.c:1215: pci_register_bar: Assertion=
+ `!pci_is_vf(pci_dev)' failed.
+> >=20
+> > when I try to modify sriov_numvfs. This should be fixed anyway, but I
+> > might be doing something wrong in the first place.
+>=20
+> Hi Klaus,
+>=20
+> Let me share all the details about the steps I did to run 7 fully
+> functional VF controllers and failed to reproduce the assert.
+>=20
+> I rebased v1 patches to eliminate any recent regression onto the current
+> master 931ce30859.
+>=20
+> I configured build as follows:
+> ./configure \
+> --target-list=3Dx86_64-softmmu \
+> --enable-kvm
+>=20
+> Then I launched QEMU using these options:
+> ./qemu-system-x86_64 \
+> -m 4096 \
+> -smp 4 \
+> -drive file=3Dqemu-os.qcow2 \
+> -nographic \
+> -enable-kvm \
+> -machine q35 \
+> -device pcie-root-port,slot=3D0,id=3Drp0 \
+> -device nvme-subsys,id=3Dsubsys0 \
+> -device nvme,serial=3D1234,id=3Dnvme0,subsys=3Dsubsys0,bus=3Drp0,sriov_ma=
+x_vfs=3D127,sriov_max_vq_per_vf=3D2,sriov_max_vi_per_vf=3D1
+>=20
+> Next, I issued below commands as root to configure VFs:
+> nvme virt-mgmt /dev/nvme0 -c 0 -r 1 -a 1 -n 0
+> nvme virt-mgmt /dev/nvme0 -c 0 -r 0 -a 1 -n 0
+> nvme reset /dev/nvme0
+> echo 1 > /sys/bus/pci/rescan
+>=20
+> nvme virt-mgmt /dev/nvme0 -c 1 -r 1 -a 8 -n 1
+> nvme virt-mgmt /dev/nvme0 -c 1 -r 0 -a 8 -n 2
+> nvme virt-mgmt /dev/nvme0 -c 1 -r 0 -a 9 -n 0
+> nvme virt-mgmt /dev/nvme0 -c 2 -r 1 -a 8 -n 1
+> nvme virt-mgmt /dev/nvme0 -c 2 -r 0 -a 8 -n 2
+> nvme virt-mgmt /dev/nvme0 -c 2 -r 0 -a 9 -n 0
+> nvme virt-mgmt /dev/nvme0 -c 3 -r 1 -a 8 -n 1
+> nvme virt-mgmt /dev/nvme0 -c 3 -r 0 -a 8 -n 2
+> nvme virt-mgmt /dev/nvme0 -c 3 -r 0 -a 9 -n 0
+> nvme virt-mgmt /dev/nvme0 -c 4 -r 1 -a 8 -n 1
+> nvme virt-mgmt /dev/nvme0 -c 4 -r 0 -a 8 -n 2
+> nvme virt-mgmt /dev/nvme0 -c 4 -r 0 -a 9 -n 0
+> nvme virt-mgmt /dev/nvme0 -c 5 -r 1 -a 8 -n 1
+> nvme virt-mgmt /dev/nvme0 -c 5 -r 0 -a 8 -n 2
+> nvme virt-mgmt /dev/nvme0 -c 5 -r 0 -a 9 -n 0
+> nvme virt-mgmt /dev/nvme0 -c 6 -r 1 -a 8 -n 1
+> nvme virt-mgmt /dev/nvme0 -c 6 -r 0 -a 8 -n 2
+> nvme virt-mgmt /dev/nvme0 -c 6 -r 0 -a 9 -n 0
+> nvme virt-mgmt /dev/nvme0 -c 7 -r 1 -a 8 -n 1
+> nvme virt-mgmt /dev/nvme0 -c 7 -r 0 -a 8 -n 2
+> nvme virt-mgmt /dev/nvme0 -c 7 -r 0 -a 9 -n 0
+>=20
+> echo 7 > /sys/bus/pci/devices/0000:01:00.0/sriov_numvfs
+>=20
+> If you use only up to patch 05 inclusive then this command should do all
+> the job:
+> echo 7 > /sys/bus/pci/devices/0000:01:00.0/sriov_numvfs
+>=20
+> The OS I used for the host and guest was Ubuntu 20.04.3 LTS.
+>=20
+> Can you share more call stack for assert or the configuration you are
+> trying to run?
+>=20
+> Thanks,
+> Lukasz
+>=20
 
->
-> Given all of the above, I think we can skip the conditional entirely.
->
-> Thanks!
->
-> > Thanks
-> >
-> > >
-> > > Thanks!
-> > >
-> > > > Thanks
-> > > >
-> > > > >
-> > > > >      if (!k->set_guest_notifiers) {
-> > > > > --
-> > > > > 2.27.0
-> > > > >
-> > > >
-> > >
-> >
->
+Hi Lukasz,
 
+Thanks, this all works for me and in general it all looks pretty good to
+me. I don't have any big reservations about this series (the hw/nvme
+parts).
+
+However, the assert.
+
+I did the right procedure, but if the device has a CMB, then changing
+sriov_numvfs asserts QEMU. I.e., add `cmb_size_mb=3D64` to the controller
+parameters.
+
+--3vm395HjFEd5ZmAu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmGA58AACgkQTeGvMW1P
+DekulggAvkwwccpPXxB6WCIUs35ftWvoHNj4hW91oCLNWsB+SYKudKeGCPOFhvJd
+SZI2ybWmul2W6bIlo4hG7X6kmBrvz6PCAaNr04BVnam21Cml5xgrQs/wFwV6M1ER
+lNgIlWrbudxsLQ64Ppx552+B3JdDc3U3BkoUEpeYvtICsd4Js0MkmuIx+z8XXjaA
+5ZOMyi4nx39J5ecYb9S6kg5chtEt3lMK88iDeMK24EHFjBh0UMmk5D+IpnIuBvBq
+bT8qe5SEywERSFtkcCsSs7ecIpph6CaBEH/GjlUcYoxluSZiWL0xJG9lk+yeOdQJ
+VSoVIr9ypM5je2n6oyN/9KgLVwtHZw==
+=6oAt
+-----END PGP SIGNATURE-----
+
+--3vm395HjFEd5ZmAu--
 
