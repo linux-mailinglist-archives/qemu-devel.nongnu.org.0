@@ -2,68 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A80A7443DCD
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 08:44:39 +0100 (CET)
-Received: from localhost ([::1]:52716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00990443DCE
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 08:45:22 +0100 (CET)
+Received: from localhost ([::1]:55128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miAwo-0001SN-Ql
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 03:44:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39090)
+	id 1miAxW-0003BJ-4P
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 03:45:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1miAud-0007zF-5Y
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 03:42:23 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44863)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1miAub-0002DJ-KC
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 03:42:22 -0400
-Received: by mail-wr1-x432.google.com with SMTP id d13so2092497wrf.11
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 00:42:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jqV8RyoowRRg+x1y91eX8x1Iu/wGztwrykaJSAonW3o=;
- b=cWsT6yJDoBYNtzapJB5NZrY8qfy4J21/U8+tiS6/Z6u1pH0klHCQ2jYxfArOtxqnAd
- EozZswc3/Fr0HNjkVAPng0hW1AmK8jpcOT0xnLlkW62IJ+XH/xpH0HO6rN7HPYo8Yca4
- arlb9FuBhWXD8UVIDWwZHPsGX20wnsC0YSKl0Auz1duhlGKrIiP6pV/ONtOfCOwbK4kJ
- HFDZaMRQ76a1bWlCF29j8fQ7kelbcorZzgjsN+rS2rz1BWZDgMQnRUdy/S3nuaC/y+3I
- yUe3yOD0WccbwKDn3KOSoTCJdSrtePTLrA4VNPdyMGMX5JxvRRu4gbmuusiVNyC6/xAs
- dBsg==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1miAwQ-0001s2-6H
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 03:44:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41928)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1miAwM-0002Pi-4R
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 03:44:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635925449;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XtJFq5rlIfDVjmLQuVwNJxeWZKl+1LKmrDZWYseC+4Q=;
+ b=XEQNJ4c+E+0i8SJcwA0a6yLZ8//6ZrM9aSi4WZlxCLjiAqJgygzE8M6BTzpQF1fPvqfOO/
+ hkpk2vOGA6UkUFXg66MyAjZ9IxAtCvAglslZQx8uXNkvr63DoHYuIZmwGyP42pONGTEJc8
+ IvUGau0RAbXwETQWBWqZwimeXycI9Mg=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-6-DMArSBxwPxqVp_oROtC6qw-1; Wed, 03 Nov 2021 03:44:06 -0400
+X-MC-Unique: DMArSBxwPxqVp_oROtC6qw-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ bk21-20020a05620a1a1500b004631b196a46so1629238qkb.4
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 00:44:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jqV8RyoowRRg+x1y91eX8x1Iu/wGztwrykaJSAonW3o=;
- b=EXiY3+BXxY6yMGwP2yJId79MMQUWvvKU+WIm1CJ4m6eNJp9FZXBmafTHQGUzl/5BwG
- AqSqpnlDNion65X/BPk7rNbnHE4eUsmWsFrN8PeUtHtqWn17wlSsKyVIC03cWN+17PGp
- uMoOd8mLNv7zlQud+/Tj/F4SDpXqysHqZogtuICozWRa9eWZVuO8avnz+znS/jx7Jj+J
- A80xeuPb8HLdyDfYXrYnflkbig0NIpD0x6Z9Qu8eS9M4nTCro/hMUGM9yss0VFlT9TU5
- x9D9lNqU1guW88v09iVDNrr/8yZHiDhY9v2blxE45dOmBs31dX50VT6bhwY9oC1/N4t8
- r8HA==
-X-Gm-Message-State: AOAM532oNc4y3h9s39w5qwSTTGC1ygdbJSOvMA1ju/MHWyCP5gPW5rxo
- xCtLG9W+5iYmIRTI+UVrSMUhBg1CAKsCUZsUQe4=
-X-Google-Smtp-Source: ABdhPJyszRTPSSiCEy+lVYwpdQ3va8t59c03NBpdzcoK/dEgrW0VrlzSc0HVrsUkAMwLllW4CaqAA/wAKCCNIz1D/E8=
-X-Received: by 2002:a5d:6781:: with SMTP id v1mr44627226wru.239.1635925339474; 
- Wed, 03 Nov 2021 00:42:19 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=XtJFq5rlIfDVjmLQuVwNJxeWZKl+1LKmrDZWYseC+4Q=;
+ b=x05aMEqR1IJ6hiCoQpTrvvAUne8tbxlheCHvoVfK4caftDLZz73QZ7LS4bBQ19rq1F
+ VNd/xq0umL90B33XJ56eEFXIeh5rTvTI6Bv3SyCMhwrhz3SaDc9sQ377nk5MK22fO1Ch
+ ihnILEVUQsnMAEtjbTNwN1vKmxyaE1qi6gb8S85HZHbFTuDRDkS2wZ3uNjuKtxhCHSBA
+ Uim/oE+f16wLRPNBUkso6YahwxoaxHxRp6v3RAUtYM3HGGsN2qiURAgigXnS8wM+dsMi
+ PmLUiYbpRP2lXahdZIKbFOVAcnBtm09WjhWYvKvuwZJFkzRHtbKrFbBKYPrjrqQzjEBW
+ Qq2w==
+X-Gm-Message-State: AOAM533PU8Rw7dqsSlBJC4rZawNy6sOrKS1sNC2yXPznNb8RpDGFLBYf
+ HM7ExvrbnKraE+9nJtXk5AdP3AqCc+kpgR+4iWy2oBk1WCshDhllca3EQyBG+FlvvQBdzu1hfdW
+ RkHNl62n+XT8ssPwXrj4MkbPSfCCqTbA=
+X-Received: by 2002:a37:9acd:: with SMTP id c196mr8843427qke.495.1635925445757; 
+ Wed, 03 Nov 2021 00:44:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzuVMFbr0D3lIQvlww2XHGNSYhxcIYgiqZz/JSwTzoTwKEwAIOjHmiVyWrhSk7OmUtJmXywTcdfM7eVaP/rb2k=
+X-Received: by 2002:a37:9acd:: with SMTP id c196mr8843417qke.495.1635925445566; 
+ Wed, 03 Nov 2021 00:44:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211103073848.1459138-1-armbru@redhat.com>
-In-Reply-To: <20211103073848.1459138-1-armbru@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 3 Nov 2021 11:42:07 +0400
-Message-ID: <CAJ+F1CKkXB77QCv1_-_3Cu61tYkeTp+7juNx81SHqth6L_64WQ@mail.gmail.com>
-Subject: Re: [PATCH] qdev-monitor: Fix use after free on duplicate device ID
- error
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000bd10e705cfdd8c67"
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20211029183525.1776416-1-eperezma@redhat.com>
+ <20211029183525.1776416-22-eperezma@redhat.com>
+ <CACGkMEt8fusPLj3=E1GETzotMOhkuTAzD_bON0hQEjNecg2GcQ@mail.gmail.com>
+ <CAJaqyWfdZwW82cTXwfdyfcLZUyKyw7R2wcwF2SM0wwTcVmZ_yQ@mail.gmail.com>
+ <CACGkMEvw8-D7VL3P0QJcn3zNFW3St3cEncqFfBW1J+m1b99CAQ@mail.gmail.com>
+In-Reply-To: <CACGkMEvw8-D7VL3P0QJcn3zNFW3St3cEncqFfBW1J+m1b99CAQ@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Wed, 3 Nov 2021 08:43:29 +0100
+Message-ID: <CAJaqyWcDrEyFX8xvGmePdA5-tN88JuPV+=GU26+d=u-kSO6gsQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v5 21/26] vhost: Add vhost_svq_valid_guest_features to
+ shadow vq
+To: Jason Wang <jasowang@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,91 +95,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, Kevin Wolf <kwolf@redhat.com>,
- QEMU <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Xiao W Wang <xiao.w.wang@intel.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Eric Blake <eblake@redhat.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Parav Pandit <parav@mellanox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000bd10e705cfdd8c67
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Nov 3, 2021 at 11:39 AM Markus Armbruster <armbru@redhat.com> wrote=
-:
-
-> Fixes: 4a1d937796de0fecd8b22d7dbebf87f38e8282fd
-> Reported-by: Coverity CID 1465223
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  softmmu/qdev-monitor.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Nov 3, 2021 at 4:18 AM Jason Wang <jasowang@redhat.com> wrote:
 >
-> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-> index e49d9773d2..14c1fb76c5 100644
-> --- a/softmmu/qdev-monitor.c
-> +++ b/softmmu/qdev-monitor.c
-> @@ -592,8 +592,8 @@ const char *qdev_set_id(DeviceState *dev, char *id,
-> Error **errp)
->          if (prop) {
->              dev->id =3D id;
->          } else {
-> -            g_free(id);
->              error_setg(errp, "Duplicate device ID '%s'", id);
-> +            g_free(id);
->              return NULL;
->          }
->      } else {
-> --
-> 2.31.1
+> On Tue, Nov 2, 2021 at 4:10 PM Eugenio Perez Martin <eperezma@redhat.com>=
+ wrote:
+> >
+> > On Tue, Nov 2, 2021 at 6:26 AM Jason Wang <jasowang@redhat.com> wrote:
+> > >
+> > > On Sat, Oct 30, 2021 at 2:44 AM Eugenio P=C3=A9rez <eperezma@redhat.c=
+om> wrote:
+> > > >
+> > > > This allows it to test if the guest has aknowledge an invalid trans=
+port
+> > > > feature for SVQ. This will include packed vq layout or event_idx,
+> > > > where VirtIO device needs help from SVQ.
+> > > >
+> > > > There is not needed at this moment, but since SVQ will not re-negot=
+iate
+> > > > features again with the guest, a failure in acknowledge them is fat=
+al
+> > > > for SVQ.
+> > > >
+> > >
+> > > It's not clear to me why we need this. Maybe you can give me an
+> > > example. E.g isn't it sufficient to filter out the device with
+> > > event_idx?
+> > >
+> >
+> > If the guest did negotiate _F_EVENT_IDX, it expects to be notified
+> > only when device marks as used a specific number of descriptors.
+> >
+> > If we use VirtQueue notification, the VirtQueue code handles it
+> > transparently. But if we want to be able to change the guest VQ's
+> > call_fd, we cannot use VirtQueue's, so this needs to be handled by SVQ
+> > code. And that is still not implemented.
+> >
+> > Of course in the event_idx case we could just ignore it and notify in
+> > all used descriptors, but it seems not polite to me :). I will develop
+> > event_idx on top of this, either exposing the needed pieces in
+> > VirtQueue (I prefer this) or rolling our own in SVQ.
 >
+> Yes, but what I meant is, we can fail the SVQ enabling if the device
+> supports event_idx. Then we're sure guests won't negotiate event_idx.
 >
+
+We can go that way for sure, but then we leave out the scenario where
+the device supports event_idx but the guest has not acked it. This is
+a valid scenario for SVQ to work in.
+
+Thanks!
+
+> Thanks
 >
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > Same reasoning can be applied to unknown transport features.
+> >
+> > Thanks!
+> >
+> > > Thanks
+> > >
+> > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > > ---
+> > > >  hw/virtio/vhost-shadow-virtqueue.h | 1 +
+> > > >  hw/virtio/vhost-shadow-virtqueue.c | 6 ++++++
+> > > >  2 files changed, 7 insertions(+)
+> > > >
+> > > > diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-s=
+hadow-virtqueue.h
+> > > > index 946b2c6295..ac55588009 100644
+> > > > --- a/hw/virtio/vhost-shadow-virtqueue.h
+> > > > +++ b/hw/virtio/vhost-shadow-virtqueue.h
+> > > > @@ -16,6 +16,7 @@
+> > > >  typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
+> > > >
+> > > >  bool vhost_svq_valid_device_features(uint64_t *features);
+> > > > +bool vhost_svq_valid_guest_features(uint64_t *features);
+> > > >
+> > > >  void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_=
+kick_fd);
+> > > >  void vhost_svq_set_guest_call_notifier(VhostShadowVirtqueue *svq, =
+int call_fd);
+> > > > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-s=
+hadow-virtqueue.c
+> > > > index 6e0508a231..cb9ffcb015 100644
+> > > > --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > > > +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > > > @@ -62,6 +62,12 @@ bool vhost_svq_valid_device_features(uint64_t *d=
+ev_features)
+> > > >      return true;
+> > > >  }
+> > > >
+> > > > +/* If the guest is using some of these, SVQ cannot communicate */
+> > > > +bool vhost_svq_valid_guest_features(uint64_t *guest_features)
+> > > > +{
+> > > > +    return true;
+> > > > +}
+> > > > +
+> > > >  /* Forward guest notifications */
+> > > >  static void vhost_handle_guest_kick(EventNotifier *n)
+> > > >  {
+> > > > --
+> > > > 2.27.0
+> > > >
+> > >
+> >
+>
 
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000bd10e705cfdd8c67
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 3, 2021 at 11:39 AM Marku=
-s Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Fixe=
-s: 4a1d937796de0fecd8b22d7dbebf87f38e8282fd<br>
-Reported-by: Coverity CID 1465223<br>
-Signed-off-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" t=
-arget=3D"_blank">armbru@redhat.com</a>&gt;<br>
----<br>
-=C2=A0softmmu/qdev-monitor.c | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c<br>
-index e49d9773d2..14c1fb76c5 100644<br>
---- a/softmmu/qdev-monitor.c<br>
-+++ b/softmmu/qdev-monitor.c<br>
-@@ -592,8 +592,8 @@ const char *qdev_set_id(DeviceState *dev, char *id, Err=
-or **errp)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (prop) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev-&gt;id =3D id;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(id);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_setg(errp, &quot;Dupl=
-icate device ID &#39;%s&#39;&quot;, id);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(id);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return NULL;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0} else {<br>
--- <br>
-2.31.1<br>
-<br>
-<br></blockquote><div><br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &l=
-t;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.co=
-m</a>&gt; <br></div></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" cla=
-ss=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000bd10e705cfdd8c67--
 
