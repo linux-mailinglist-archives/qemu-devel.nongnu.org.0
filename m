@@ -2,50 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16F85443E5E
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 09:26:23 +0100 (CET)
-Received: from localhost ([::1]:42618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17EFE443E88
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 09:43:05 +0100 (CET)
+Received: from localhost ([::1]:46106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miBbC-0001ZZ-8L
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 04:26:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57648)
+	id 1miBrL-0004z3-P5
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 04:43:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.kettenis@xs4all.nl>)
- id 1miBYD-0007Oc-4l
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 04:23:17 -0400
-Received: from sibelius.xs4all.nl ([83.163.83.176]:57458)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1miBq5-0004B2-MG
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 04:41:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.kettenis@xs4all.nl>)
- id 1miBYA-0003rD-4J
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 04:23:16 -0400
-Received: from localhost (bloch.sibelius.xs4all.nl [local])
- by bloch.sibelius.xs4all.nl (OpenSMTPD) with ESMTPA id a18b78b6;
- Wed, 3 Nov 2021 09:22:58 +0100 (CET)
-Date: Wed, 3 Nov 2021 09:22:58 +0100 (CET)
-From: Mark Kettenis <mark.kettenis@xs4all.nl>
-To: Simon Glass <sjg@chromium.org>
-In-Reply-To: <CAPnjgZ0r04-_K+8JkXhzxDeW5pg3FSrnJbwA6Ghd_a_=jVKKeg@mail.gmail.com>
- (message from Simon Glass on Tue, 2 Nov 2021 19:20:51 -0600)
-Subject: Re: [PATCH v5 00/26] fdt: Make OF_BOARD a boolean option
-References: <20211026002344.405160-1-sjg@chromium.org>
- <CAHFG_=WdKL-WcaNJxwqMRHBgVQZy9SRz11mYDKJifXEnQyQSXg@mail.gmail.com>
- <CAPnjgZ0MGr+2tcSziB8DWXZPmv6Q=9ecs_6RK=N20n3-XJiL5w@mail.gmail.com>
- <CAHFG_=Vr6VkJy+d0MaPvVsoXYgvdB5xd2P5FuvF2w63bxSm4cw@mail.gmail.com>
- <CAPnjgZ3Gr+m+sTHDOpW+RFQ6rTtbriY4TpU3bjzqZB79f43Ycw@mail.gmail.com>
- <d3ca9672e7f97f07@bloch.sibelius.xs4all.nl>
- <CAPnjgZ0r04-_K+8JkXhzxDeW5pg3FSrnJbwA6Ghd_a_=jVKKeg@mail.gmail.com>
-MIME-version: 1.0
-Content-type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Message-ID: <d3caad562467ca29@bloch.sibelius.xs4all.nl>
-Received-SPF: softfail client-ip=83.163.83.176;
- envelope-from=mark.kettenis@xs4all.nl; helo=sibelius.xs4all.nl
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1miBpq-0001Eg-Ev
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 04:41:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635928889;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ALar6u8c6+7Xy3lp5n4cQZcdDHdHnNDLPD2OHtxFXRs=;
+ b=Obb0ixJVmr8GVH7dmSP14/JnyXGAoxfk9HRz5xhY8RlXRRjnulbOFPsGo4jiXy2BLRVWFR
+ 7wMg9+fne3QIC4dNb1Fi65PNnj+hCd9/uTilwXpeQmoOtOxSvrVz7JsZe7uS7lzH8GjfO4
+ YwTGCkHIHq/jm3ZxgFaLa5gEAyQquIc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-600-_WjXLeK9M7yC_-3unf_caA-1; Wed, 03 Nov 2021 04:41:23 -0400
+X-MC-Unique: _WjXLeK9M7yC_-3unf_caA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 127838066EF;
+ Wed,  3 Nov 2021 08:41:22 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C0765D9D3;
+ Wed,  3 Nov 2021 08:41:21 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id F01C911380A7; Wed,  3 Nov 2021 09:41:19 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: does drive_get_next(IF_NONE) make sense?
+References: <CAFEAcA9zmPds0+jHm8VY465XEhK6bbVPd+nDob1ruRPaHOua_Q@mail.gmail.com>
+Date: Wed, 03 Nov 2021 09:41:19 +0100
+In-Reply-To: <CAFEAcA9zmPds0+jHm8VY465XEhK6bbVPd+nDob1ruRPaHOua_Q@mail.gmail.com>
+ (Peter Maydell's message of "Tue, 2 Nov 2021 15:14:02 +0000")
+Message-ID: <87r1bxzl5c.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,97 +77,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linus.walleij@linaro.org, fitzsim@fitzsim.org, qemu-devel@nongnu.org,
- seanga2@gmail.com, u-boot@lists.denx.de, francois.ozog@linaro.org,
- swarren@nvidia.com, Oleksandr_Andrushchenko@epam.com, xypron.glpk@gmx.de,
- michal.simek@xilinx.com, vanbaren@cideas.com, swarren@wwwdotorg.org,
- andre.przywara@arm.com, agraf@csgraf.de, Anastasiia_Lukianenko@epam.com,
- albert.u.boot@aribaud.net, mbrugger@suse.com, ilias.apalodimas@linaro.org,
- awilliams@marvell.com, tuomas.tynkkynen@iki.fi, bmeng.cn@gmail.com,
- trini@konsulko.com
+Cc: Hao Wu <wuhaotsh@google.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> From: Simon Glass <sjg@chromium.org>
-> Date: Tue, 2 Nov 2021 19:20:51 -0600
-> 
-> Hi Mark,
-> 
-> On Wed, 27 Oct 2021 at 16:30, Mark Kettenis <mark.kettenis@xs4all.nl> wrote:
-> >
-> > > From: Simon Glass <sjg@chromium.org>
-> > > Date: Wed, 27 Oct 2021 12:23:21 -0600
-> > >
-> > > Hi François,
-> > >
-> > > On Wed, 27 Oct 2021 at 09:14, François Ozog <francois.ozog@linaro.org> wrote:
-> > > >
-> > > >
-> > > >
-> > > > On Wed, 27 Oct 2021 at 16:08, Simon Glass <sjg@chromium.org> wrote:
-> > > >>
-> > > >> Hi François,
-> > > >>
-> > > >> On Tue, 26 Oct 2021 at 00:07, François Ozog <francois.ozog@linaro.org> wrote:
-> > > >> >
-> > > >> > Hi Simon
-> > > >> >
-> > > >> > Position unchanged on this series: adding fake dts for boards that generate their device tree in the dts directory is not good. If you have them in documentation the it is acceptable.
-> > > >>
-> > > >> I think we are going to have to disagree on this one. I actually used
-> > > >> the qemu one in testing/development recently. We have to have a way to
-> > > >> develop in-tree with U-Boot. It does not impinge on any of your use
-> > > >> cases, so far as I know.
-> > > >
-> > > > I am not the only one in disagreement... You just saw Alex Bénée from Qemu saying the same thing.
-> > > > I understand the advanced debug/development scenario you mention.
-> > > > But locating the DT files in the dts directory is mis-leading the contributors to think that they need to compile the DT for the targeted platforms.
-> > > > For your advanced scenario, you can still have the dts in the documentation area, or whatever directory (except dts). compile it and supply to U-Boot.
-> > >
-> > > We have this situation with rpi 1, 2 and 3 and I don't believe anyone
-> > > has noticed. U-Boot handles the build automatically. If you turn off
-> > > OF_BOARD, it will use the U-Boot devicetree always so you know what is
-> > > going on.
-> >
-> > Until.  The Raspberry Pi foundation releases a new firmware that
-> > configures the hardware differently such that the addresses in the
-> > U-Boot devicetree are wrong and nothing works anymore.  Can't speak
-> > for the rpi 1, but this has happened in the past for the rpi 2 and 3
-> > as well as more recently on the rpi 4.
-> 
-> So I update my SD card with a new private-binary bootloader and things
-> stop working? I think I can narrow that one down :-)
-> 
-> > > We can add a message to U-Boot indicating where the devicetree came
-> > > from, perhaps? That might be useful given everything that is going on.
-> > >
-> > > As in this case, quite often in these discussions I struggle to
-> > > understand what is behind the objection. Is it that your customers are
-> > > demanding that devicetrees become private, secret data, not included
-> > > in open-source projects? Or is it just the strange case of QEMU that
-> > > is informing your thinking? I know of at least one project where the
-> > > first-stage bootloader produces a devicetree and no one has the source
-> > > for it. I believe TF-A was created for licensing reasons...so can you
-> > > be a bit clearer about what the problem actually is? If a board is
-> > > in-tree in U-Boot I would like it to have a devicetree there, at least
-> > > until we have a better option. At the very least, it MUST be
-> > > discoverable and it must be possible to undertake U-Boot development
-> > > easily without a lot of messing around.
-> >
-> > How many people are there out there that work on U-Boot that don't
-> > have a Linux source tree checked out?  Even I have several of those
-> > lying around on my development systems and I am an OpenBSD developer ;).
-> 
-> So it is OK to have the DT in Linux but not in U-Boot? I don't even
-> know what to say that. How does that square with your point above?
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Ideally the DT's and DT binding would move out of the Linux tree and
-into a repository of their own.  But until that is the case, the Linux
-tree is the source of truth.
+> Does it make sense for a device/board to do drive_get_next(IF_NONE) ?
 
-> I am not talking about disabling OF_BOARD, just making it *possible*
-> to do so.
+Short answer: hell, no!  ;)
 
-And I don't think it makes sense to do so on most boards that have
-OF_BOARD in their config.
+Long answer below.
+
+> At the moment we have exactly one user of this, which is
+> hw/misc/sifive_u_otp.c. This is a model of a one-time-programmable
+> fuse, and the drive is providing the backing store for the fuse
+> contents. Borrowing an IF_NONE for this seems a bit odd, but
+> it's not clear any of the other IF_ types is better.
+>
+> We also just (this release cycle) added models of the Xilinx
+> efuse OTP fuses. Those have been implemented to use IF_PFLASH.
+> (This is a somewhat unfortunate inconsistency I guess.)
+>
+> We also have a patchseries currently in the code review stage
+> which uses IF_NONE:
+> https://patchew.org/QEMU/20211101232346.1070813-1-wuhaotsh@google.com/20211101232346.1070813-6-wuhaotsh@google.com/
+> Here we are trying to provide a drive as backing store for some
+> EEPROMs that hang off the i2c buses on some npcm7xx boards.
+>
+> Are these uses of IF_NONE OK, or should we be doing something
+> else (using IF_PFLASH, defining a new IF_*, ???)
+
+Two questions, really: one, may boards IF_NONE for onboard devices, and
+two, should new board code use drive_get_next().
+
+
+drive_get_next() is basically a bad idea.  It returns the "next" block
+backend of a certain interface type.  "Next" means bus=0,unit=N, where
+subsequent calls count N up from zero, per interface type.
+
+This lets you define unit numbers implicitly by execution order.  If the
+order changes, or new calls appear "in the middle", unit numbers change.
+ABI break.  Hard to spot in review.
+
+Old hat: explicit is better than implicit.  Better use drive_get().
+Even if that means you have to pass unit numbers around.
+
+
+IF_NONE is *only* for use with -device.
+
+Traditional -drive (before IF_NONE) does two things:
+
+(1) Create a block backend device
+
+(2) Request the board to create a block frontend device
+
+    Which kind of device the board creates is up to the board.  Nothing
+    but common decency stops a board from creating a floppy when asked
+    for an IF_PFLASH.
+
+When -device was invented, we needed a way to create just a block
+backend.
+
+A working (at the time), but obviously bad way was to use -drive to
+create one the board ignores.
+
+Improvement: invent an interface type all the boards ignore.  This is
+IF_NONE.
+
+Hindsight: we should have created a separate option instead of
+overloading -drive.  Such an option now exists: -blockdev.
+
+The difference between IF_NONE and the other interface types is more
+than just convention: we actually detect when the board ignores a
+request to create a block device, like this:
+
+    $ qemu-system-x86_64 -S -drive if=mtd
+    qemu-system-x86_64: -drive if=mtd: machine type does not support if=mtd,bus=0,unit=0
+
+We don't do this for if=none, because those may still be used with
+device_add:
+
+    $ qemu-system-x86_64 -nodefaults -display none -S -drive if=none,id=mt -device virtio-scsi -monitor stdio
+    QEMU 6.1.50 monitor - type 'help' for more information
+    (qemu) device_add scsi-cd,drive=mt,id=cd0
+    (qemu) info block
+    mt: [not inserted]
+        Attached to:      cd0
+        Removable device: not locked, tray closed
+
+Therefore, having the board use IF_NONE just like a traditional
+interface type is *wrong*.
+
+As I explained above, the board can use any traditional interface type.
+If none of them matches, and common decency prevents use of a
+non-matching one, invent a new one.  We could do IF_OTHER.
+
 
