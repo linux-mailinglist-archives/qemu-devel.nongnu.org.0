@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D92C0444488
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:19:21 +0100 (CET)
-Received: from localhost ([::1]:52102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66DB4444AF
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:33:42 +0100 (CET)
+Received: from localhost ([::1]:42678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miI2r-0005K8-0F
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:19:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52196)
+	id 1miIGj-0003Nk-PC
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:33:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miHpA-0003Ug-Kh
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:13 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51854)
+ id 1miHpS-0003eH-Rl
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:32 -0400
+Received: from mail-lf1-x135.google.com ([2a00:1450:4864:20::135]:46680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miHp6-0000lJ-IG
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:12 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id z200so2222550wmc.1
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:05:06 -0700 (PDT)
+ id 1miHpO-00011b-1U
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:30 -0400
+Received: by mail-lf1-x135.google.com with SMTP id o18so5709720lfu.13
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:05:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7cWNpBnywY+l7pKZXWN6LNoB6JNOQy205F166UqLIg4=;
- b=ATevcCaj401p3vjjS3oFhtcOkFHGsFN7SWj+aGpvj4pOb0SAFMXBAQvb0EKcC0Z9pI
- +iRE9VV3mUfCdUcUdkqmfyKWqAMVONcYTDP2ZbhuoaJH+kHOK5X0G7OpD5BLjmGzss/6
- KFWzN0VKxTP+KRfOfbFY2Zc8lSyomiyiYgbPMjlA5yry8CosmCYXu6NvgRDGbYw8iwRy
- 95++Z6n9waS7hzFPPgk761FViuSkHgHzOsTtpfZtJetWCszeYRINYOe4yEFkbfUhq50l
- mCh6Z0+WwBZpsP+eJWSGvWFyOEjyK/XfWeLDkyfKk5Fp4uk1dwgafWPZLG+/lTuG09Ui
- pdJA==
+ bh=SxMMNDBEz7b0O+6ZdEnpdkz/xFDuHSYn2SqbysRD8oQ=;
+ b=K8ABofkM+a3hU8s2ZCCn85YzKwISZhcYCIjWsz/fc8tzXMAQAEtMbirdeIfux/sojU
+ HYob///r9LOO3eVd+ZMMxo0XiJqVoOCPJkcjINJG3Py3d/f4fEJNL2GRxQQ54S2UKb3r
+ apdUldBSil/w16w4/fygJ+vvLH8Rr8fMonfrqbVrnC66mMbzppOStGy7WhMzgDUqZYXK
+ OdCqxsgFTHqhwAVh57yfjzJTNhRwt4iKZWdPJryHgPXxkZ5Uc+VIZPxjXVfydhSUZnNt
+ a57yLPrespMxZCUv27Vc8BUxN2CBOYWeOa2wLfa3ZZho1PP2Sr1f8NWYVLTae4Rc8R/+
+ 3sSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=7cWNpBnywY+l7pKZXWN6LNoB6JNOQy205F166UqLIg4=;
- b=nXK0cS4zUkB7LjWQlbPFhWfpTmMAZbCT6qvUm0/yiUBp2UauMhou0Gg+eE28dJ8CDs
- Qqb6t6xPqr/cWj16+Lhoc7FIqmyfJ8Kc1rMw+1luf1fwrjin/FcNaKhYxyb7nvVc9unF
- DudDFV725E6zYa3U+GcRQLF109pF5DXVakmj+0Gnft84NTVUI9UOrDslLgQjnh7PiXln
- r9rjJKJAUxdqIrOFhFGXDxl8ReXy8GFNSN3jf12QxoKsL8iNvMVdXCz1F2X/uJGRwimb
- PpVL2wqbZoRMbR58X+M9gGi11ViAHIkkEsqQgNWQkWonG7x8XAkDGAET245tuF2uVwRm
- Gqzg==
-X-Gm-Message-State: AOAM533hp7VlEQKhNYOU2de3Q8dp8F77tlFa8L4sLconKqXUttIzji98
- XiHpNmmuZKRJ8fDnSlf+V9vtIekRfVQ=
-X-Google-Smtp-Source: ABdhPJxDjpnKVuKXmmM2ztuQtbUsEwRYYUknGez7xVDHdmUHxuzFN2D3tEQvOKmiFgqpPb8Wq0B8zA==
-X-Received: by 2002:a1c:f219:: with SMTP id s25mr16372682wmc.31.1635951905557; 
- Wed, 03 Nov 2021 08:05:05 -0700 (PDT)
+ bh=SxMMNDBEz7b0O+6ZdEnpdkz/xFDuHSYn2SqbysRD8oQ=;
+ b=DCsklMSUsHLZJ+bPDH7ZlMX9etWKDzwR1mgayzJrhvpyTbAasc73SRjlh8CsQDnK+0
+ ypARd1++XpQ1X0QsmW2bqK9V8HFlADvf5V88KpbLi+eeMsOZ6Qv1axgXyDQAQkhKsbfA
+ gPoOhqW9N91q/HzCv37DXdZ5ES5FHertuGTzOcm3yq7fYSMKhQsG2XADgSG+35UMcEYr
+ AMVpI86mjhNrQ9UM4zHogEPQuru/yYnub0R7ARoMIRSgmcvCJySH8reFPwNaxlApVyNs
+ rwbwq5qP5mzSE9E5/fCusUz0ozzCYrvcvoF2n6z4V+y0ARX2+pgUuRozmTi9Kx5b71i3
+ 5TqA==
+X-Gm-Message-State: AOAM530VTvg0ted59Y9NCBgI5ZMzVZWGtEs3UumdQL91L9Ej6cDezksL
+ hmIgX60iMbkftiXnZMTDr8h/sPYEwNc=
+X-Google-Smtp-Source: ABdhPJwcmEujQm5jHEy5Zkf1utdVFp/wieKdPPsG8ZtIh0YzFjK8afNeWF08jvo3KonSylvqwCFfjw==
+X-Received: by 2002:a5d:584e:: with SMTP id i14mr17971557wrf.386.1635951906731; 
+ Wed, 03 Nov 2021 08:05:06 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id h16sm2488797wrm.27.2021.11.03.08.05.04
+ by smtp.gmail.com with ESMTPSA id h16sm2488797wrm.27.2021.11.03.08.05.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 08:05:05 -0700 (PDT)
+ Wed, 03 Nov 2021 08:05:06 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/27] esp: ensure in-flight SCSI requests are always cancelled
-Date: Wed,  3 Nov 2021 16:04:34 +0100
-Message-Id: <20211103150442.387121-20-pbonzini@redhat.com>
+Subject: [PULL 20/27] qtest/am53c974-test: add test for cancelling in-flight
+ requests
+Date: Wed,  3 Nov 2021 16:04:35 +0100
+Message-Id: <20211103150442.387121-21-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211103150442.387121-1-pbonzini@redhat.com>
 References: <20211103150442.387121-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::135;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-lf1-x135.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,57 +90,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-There is currently a check in esp_select() to cancel any in-flight SCSI requests
-to ensure that issuing multiple select commands without continuing through the
-rest of the ESP state machine ignores all but the last SCSI request. This is
-also enforced through the addition of assert()s in esp_transfer_data() and
-scsi_read_data().
-
-The get_cmd() function does not call esp_select() when TC == 0 which means it is
-possible for a fuzzer to trigger these assert()s by sending a select command when
-TC == 0 immediately after a valid SCSI CDB has been submitted.
-
-Since esp_select() is only called from get_cmd(), hoist the check to cancel
-in-flight SCSI requests from esp_select() into get_cmd() to ensure it is always
-called when executing a select command to initiate a new SCSI request.
+Based upon the qtest reproducer posted to Gitlab issue #663 at
+https://gitlab.com/qemu-project/qemu/-/issues/663.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Closes: https://gitlab.com/qemu-project/qemu/-/issues/662
-Closes: https://gitlab.com/qemu-project/qemu/-/issues/663
-Message-Id: <20211101183516.8455-2-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20211101183516.8455-3-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/esp.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ tests/qtest/am53c974-test.c | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 8454ed1773..84f935b549 100644
---- a/hw/scsi/esp.c
-+++ b/hw/scsi/esp.c
-@@ -204,11 +204,6 @@ static int esp_select(ESPState *s)
-     s->ti_size = 0;
-     fifo8_reset(&s->fifo);
+diff --git a/tests/qtest/am53c974-test.c b/tests/qtest/am53c974-test.c
+index d996866cd4..9b1e4211bd 100644
+--- a/tests/qtest/am53c974-test.c
++++ b/tests/qtest/am53c974-test.c
+@@ -189,6 +189,40 @@ static void test_cancelled_request_ok(void)
+     qtest_quit(s);
+ }
  
--    if (s->current_req) {
--        /* Started a new command before the old one finished.  Cancel it.  */
--        scsi_req_cancel(s->current_req);
--    }
--
-     s->current_dev = scsi_device_find(&s->bus, 0, target, 0);
-     if (!s->current_dev) {
-         /* No such drive */
-@@ -235,6 +230,11 @@ static uint32_t get_cmd(ESPState *s, uint32_t maxlen)
-     uint32_t dmalen, n;
-     int target;
- 
-+    if (s->current_req) {
-+        /* Started a new command before the old one finished.  Cancel it.  */
-+        scsi_req_cancel(s->current_req);
-+    }
++static void test_inflight_cancel_ok(void)
++{
++    QTestState *s = qtest_init(
++        "-device am53c974,id=scsi "
++        "-device scsi-hd,drive=disk0 -drive "
++        "id=disk0,if=none,file=null-co://,format=raw -nodefaults");
++    qtest_outl(s, 0xcf8, 0x80001000);
++    qtest_inw(s, 0xcfc);
++    qtest_outl(s, 0xcf8, 0x80001010);
++    qtest_outl(s, 0xcfc, 0xffffffff);
++    qtest_outl(s, 0xcf8, 0x80001010);
++    qtest_inl(s, 0xcfc);
++    qtest_outl(s, 0xcf8, 0x80001010);
++    qtest_outl(s, 0xcfc, 0xc001);
++    qtest_outl(s, 0xcf8, 0x80001004);
++    qtest_inw(s, 0xcfc);
++    qtest_outl(s, 0xcf8, 0x80001004);
++    qtest_outw(s, 0xcfc, 0x7);
++    qtest_outl(s, 0xcf8, 0x80001004);
++    qtest_inw(s, 0xcfc);
++    qtest_inb(s, 0xc000);
++    qtest_outb(s, 0xc008, 0x8);
++    qtest_outw(s, 0xc00b, 0x4100);
++    qtest_outb(s, 0xc009, 0x0);
++    qtest_outb(s, 0xc009, 0x0);
++    qtest_outw(s, 0xc00b, 0xc212);
++    qtest_outl(s, 0xc042, 0x2c2c5a88);
++    qtest_outw(s, 0xc00b, 0xc212);
++    qtest_outw(s, 0xc00b, 0x415a);
++    qtest_outl(s, 0xc03f, 0x3060303);
++    qtest_outl(s, 0xc00b, 0x5afa9054);
++    qtest_quit(s);
++}
 +
-     target = s->wregs[ESP_WBUSID] & BUSID_DID;
-     if (s->dma) {
-         dmalen = MIN(esp_get_tc(s), maxlen);
+ int main(int argc, char **argv)
+ {
+     const char *arch = qtest_get_arch();
+@@ -212,6 +246,8 @@ int main(int argc, char **argv)
+                        test_fifo_underflow_on_write_ok);
+         qtest_add_func("am53c974/test_cancelled_request_ok",
+                        test_cancelled_request_ok);
++        qtest_add_func("am53c974/test_inflight_cancel_ok",
++                       test_inflight_cancel_ok);
+     }
+ 
+     return g_test_run();
 -- 
 2.31.1
 
