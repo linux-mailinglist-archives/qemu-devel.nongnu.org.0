@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6DEF4447C9
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 18:53:53 +0100 (CET)
-Received: from localhost ([::1]:49450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E216D444843
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 19:31:53 +0100 (CET)
+Received: from localhost ([::1]:51154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miKSO-0004YE-DH
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 13:53:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48000)
+	id 1miL37-0004AY-SG
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 14:31:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1miKQx-0000nw-6E
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:52:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57805)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1miKQn-0001XU-6C
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:52:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635961931;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=eGxdh6ufTrtoGXP6l+rjZcjDFbK8ePV8C//h+DDPFo8=;
- b=DhL9TmV46ELfMcFpc1dmpxjSDjQPnPpRo4I7XHiUw1LwGDnzpun6IveRZY/O2/QpwIp1Cu
- 120XL7pl25HeDFOPFdFgfdvOZzRjAdVEx6HhsWrSgy7XwvF1vOyw/3Zvj1m5GL/+dJtsg7
- IxIOZ9GoKd4ZatXaofFTt7AFLwQ2M4c=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-30-I4Rl5MLYOvCmL55T4GvhhQ-1; Wed, 03 Nov 2021 13:52:03 -0400
-X-MC-Unique: I4Rl5MLYOvCmL55T4GvhhQ-1
-Received: by mail-vk1-f199.google.com with SMTP id
- p144-20020a1fbf96000000b002eb82e0e8cfso1263204vkf.18
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 10:52:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1miKzL-0001m4-SJ
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 14:27:56 -0400
+Received: from mail-ua1-x92a.google.com ([2607:f8b0:4864:20::92a]:45952)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1miKzH-0004JG-7s
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 14:27:55 -0400
+Received: by mail-ua1-x92a.google.com with SMTP id ay21so6100745uab.12
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 11:27:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FhK8RbzEFufb1iq23r34WkDiA3ShkcQ+NWfPmmVrVXU=;
+ b=YPk8rg4v1YBDgnetEi5QPwdZgcCg6/J1+1Fy5bXzmafafAJGY4A9vn0Q99JXJ+auuN
+ 6Jg9DoNBvhgvm3HRgPpZ0utl91G+D20FPOXTAFzqEBTpJgiljWxhhWf+c2OA9TcgKQyP
+ 3eqOhWyi5a/dvdUpKc5QLJd3H9Iz8hIw1YEUOTOPBMAubAzImlviVDkksSSnUcCH/jRH
+ gIvBKhbpk5ffOrR45UdrXpoPqNl3GbbnTPu/cU+jPuvNssl6lFNDHGRq5M2fQmnfCu12
+ kKeO12GRvlbtyslACWlLgk/7DJ+ZuzuaObrkiUYvhdV+D2ri3yDgjwVfZ9H1mD7ENDu2
+ eEXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=eGxdh6ufTrtoGXP6l+rjZcjDFbK8ePV8C//h+DDPFo8=;
- b=eUWLiETn/6n9TCH45ClN/dI++FpfG/yWswf9MaH85lZLEwl2Ar+0/vaSACTxCx2QQw
- NcIFLJLBJvxizHhoibdXewVqEa//ufVMCqTLqutj0F5HEeyrNSWDSwaLlPOWJmAvKkYC
- OnuLttznueeY4irAMn7j5zIUGx7hAk+ZdwJPB+AHpvl2B4EML8nf+iUh+dlBLFs2HOLK
- gYTZbH1tsm+Za23oM8rN2LBd+qHIXFOr319JhDxrrMPtrGIyJy+gNCsCTUJy3Y8NDN0k
- SYp+1wpVZbkyoeS9PkfseI9LCNCdmUihgdgyt6eoONwfgkBig2khCnhoaeDdH0gyefjV
- LvzQ==
-X-Gm-Message-State: AOAM530NbcwG9vaO2s4O7HBNDImJrYAmXmFVURgGMR5M/GUJe9IpbVa/
- grrYlo6eBT26cjYk/7Pavfd57hEYlL00cSNctBQp31n/k2CncK/kZ/7r1LV2P2Nd7UlMEBzUIe6
- MI+4Ic3WEkxWUS+X5gzbsrtVHiTGodj8=
-X-Received: by 2002:a67:ed07:: with SMTP id l7mr53694851vsp.40.1635961922757; 
- Wed, 03 Nov 2021 10:52:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwjdY/laRJckPOgB46caJwpU0vE3uSAGLno8x0duNU8l58CR+/+/TUOHIdo+oLWOTZ5eu77F8/lP1gC1u1HMt4=
-X-Received: by 2002:a67:ed07:: with SMTP id l7mr53694806vsp.40.1635961922509; 
- Wed, 03 Nov 2021 10:52:02 -0700 (PDT)
+ bh=FhK8RbzEFufb1iq23r34WkDiA3ShkcQ+NWfPmmVrVXU=;
+ b=w7ItRXglOK7CubyyGuDcNKCwKHjt0ySSej/Op75cmtaBPf5qSDdn2C6lf9TuQBPkyV
+ 3/AhYmW+h882EhL2rs3Ksh1TrmuL3tIALA87/fdze75AUtrRJqFxjIfFO0ouZnnM771y
+ y7Hn1LBcXb5jkE88hqWnhUG/4c6GpCV/+Chd9QO559F4CS0a3d/aZwuf2VU6+ziwI9RV
+ ZedAck5QuyAJcOlnFPuSJK+d1nUAAU3Kfb9fdErREx05a2bjQpOWugzt/W7ajvHHjYbj
+ 7JCVOrJkyV4vxD6oQabpfT6/ukR3uwXR/XjPe1yqYP0xCXZjovZeq1ZbZbmeB/eI29Ur
+ S0wQ==
+X-Gm-Message-State: AOAM533UENHaMD8oC2ytcliqdTJz6sb37jgA5icVFamcJac2xuPUl2qY
+ FCJR6/CH5aw+xdO8FWQ78EuV4ib7+8e+oJbgpOc6nw==
+X-Google-Smtp-Source: ABdhPJzJr4VKaZ6fUPmMjzvjy4dYPA9aicNSAbcb/S/zKks/wi2e7Sa6eRwgo1FFccyZiELw0Lh/FVI+KnbD45HqDNA=
+X-Received: by 2002:a05:6102:10c7:: with SMTP id
+ t7mr38820201vsr.44.1635964069759; 
+ Wed, 03 Nov 2021 11:27:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211103144844.1285634-1-jsnow@redhat.com>
- <20211103144844.1285634-7-jsnow@redhat.com>
- <YYK/2WugmOrTA+62@redhat.com>
-In-Reply-To: <YYK/2WugmOrTA+62@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Wed, 3 Nov 2021 13:51:51 -0400
-Message-ID: <CAFn=p-Z4ic6=LWdRCjgtYYO2crQbw8=aCgLrbkTwW-5X2=O4iA@mail.gmail.com>
-Subject: Re: [PATCH 6/6] docker: Add Fedora 35 container
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000041ee2305cfe61199"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211102225248.52999-1-imp@bsdimp.com>
+ <20211102225248.52999-15-imp@bsdimp.com>
+ <1e865859-b1bc-6e80-816f-da4858a8f2cd@linaro.org>
+In-Reply-To: <1e865859-b1bc-6e80-816f-da4858a8f2cd@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Wed, 3 Nov 2021 12:27:38 -0600
+Message-ID: <CANCZdfpF4Fq9f_0PHfC89dCokSmKw1=w3n3wQuZYEpEeDxJZCw@mail.gmail.com>
+Subject: Re: [PATCH v2 14/30] bsd-user/arm/target_arch_thread.h: Routines to
+ create and switch to a thread
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000003e643805cfe69148"
+Received-SPF: none client-ip=2607:f8b0:4864:20::92a;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,530 +78,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Willian Rampazzo <willianr@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Stacey Son <sson@freebsd.org>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ Kyle Evans <kevans@freebsd.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, QEMU Developers <qemu-devel@nongnu.org>,
+ Olivier Houchard <cognet@ci0.org>, Philippe Mathieu-Daude <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000041ee2305cfe61199
+--0000000000003e643805cfe69148
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 3, 2021 at 1:01 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
->
-wrote:
+[[ Adding Olivier Houchard to confirm my reading of the ARM init twisty
+maze of code ]]
+On Tue, Nov 2, 2021 at 9:31 PM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-> On Wed, Nov 03, 2021 at 10:48:44AM -0400, John Snow wrote:
-> > Or, more accurately, update our current Fedora container to Fedora 35,
-> > and then add a new fedora34 container and build test.
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > ---
-> >  .gitlab-ci.d/buildtest.yml               |  16 ++++
-> >  .gitlab-ci.d/container-core.yml          |   5 +
-> >  tests/docker/dockerfiles/fedora.docker   |   2 +-
-> >  tests/docker/dockerfiles/fedora34.docker | 117 +++++++++++++++++++++++
+> On 11/2/21 6:52 PM, Warner Losh wrote:
+> > +    /*
+> > +     * Thumb mode is encoded by the low bit in the entry point (since
+> ARM can't
+> > +     * execute at odd addresses). When it's set, set the Thumb bit (T)
+> in the
+> > +     * CPSR.
+> > +     */
+> > +    if (entry & 0x1) {
+> > +        cpsr_write(env, cpsr_read(env) | CPSR_T, CPSR_T,
+> CPSRWriteByInstr);
+> > +    }
 >
-> We already struggle with having too much work in the CI pipeline
-> and will be in trouble when they start enforcing CI limits.
+> This should be
 >
-> With that in mind I'm not sure that having both Fedora versions
-> brings large enough benefit to justify the CI CPU time burnt.
+>    cpsr_write(env, (entry & 1) * CPSR_T, CPSR_T, CPSRWriteByInstr);
 >
->
-Fair. I'd say having stuff like ubuntu21.10 is more important than having
-both f34/f35. I have a keen interest on pushing forward into bleeding edge
-releases to identify potential issues sooner rather than later; and can
-generally trust that the older releases are well traveled through
-developer's personal machines.
-
-
-> If we did want both versions though, we should be consistent
-> with file naming - ie fedora35.dockre, not fedora.docker
-> to match fedora34.docker.
->
->
-OK. I was originally considering the "unversioned" file to be the "most
-recent one" that would update on a rolling schedule. On IRC you made a good
-point that when we fork a stable branch, we actually don't want this
-behavior. Explicit naming is therefore the best policy.
-
-I am still somewhat interested in having the F34 image, but we don't need
-it on the CI platform right now. Maybe it could be included later on as a
-target of lesser value to only be run occasionally, but I can worry about
-that a little later.
-
-
-> >  4 files changed, 139 insertions(+), 1 deletion(-)
-> >  create mode 100644 tests/docker/dockerfiles/fedora34.docker
-> >
-> > diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-> > index 5c378e35f9..9d9330b646 100644
-> > --- a/.gitlab-ci.d/buildtest.yml
-> > +++ b/.gitlab-ci.d/buildtest.yml
-> > @@ -100,6 +100,22 @@ acceptance-system-debian:
-> >      IMAGE: debian-amd64
-> >      MAKE_CHECK_ARGS: check-acceptance
-> >
-> > +build-system-fedora34:
-> > +  extends: .native_build_job_template
-> > +  needs:
-> > +    job: amd64-fedora34-container
-> > +  variables:
-> > +    IMAGE: fedora34
-> > +    CONFIGURE_ARGS: --disable-gcrypt --enable-nettle --enable-docs
-> > +             --enable-fdt=3Dsystem --enable-slirp=3Dsystem
-> --enable-capstone=3Dsystem
-> > +    TARGETS: tricore-softmmu microblaze-softmmu mips-softmmu
-> > +      xtensa-softmmu m68k-softmmu riscv32-softmmu ppc-softmmu
-> sparc64-softmmu
-> > +    MAKE_CHECK_ARGS: check-build
-> > +  artifacts:
-> > +    expire_in: 2 days
-> > +    paths:
-> > +      - build
-> > +
-> >  build-system-fedora:
-> >    extends: .native_build_job_template
-> >    needs:
-> > diff --git a/.gitlab-ci.d/container-core.yml
-> b/.gitlab-ci.d/container-core.yml
-> > index e8dd1f476a..96a71e88ff 100644
-> > --- a/.gitlab-ci.d/container-core.yml
-> > +++ b/.gitlab-ci.d/container-core.yml
-> > @@ -6,6 +6,11 @@ amd64-centos8-container:
-> >    variables:
-> >      NAME: centos8
-> >
-> > +amd64-fedora34-container:
-> > +  extends: .container_job_template
-> > +  variables:
-> > +    NAME: fedora34
-> > +
-> >  amd64-fedora-container:
-> >    extends: .container_job_template
-> >    variables:
-> > diff --git a/tests/docker/dockerfiles/fedora.docker
-> b/tests/docker/dockerfiles/fedora.docker
-> > index 44d7f12110..24aca97cd7 100644
-> > --- a/tests/docker/dockerfiles/fedora.docker
-> > +++ b/tests/docker/dockerfiles/fedora.docker
-> > @@ -1,4 +1,4 @@
-> > -FROM registry.fedoraproject.org/fedora:34
-> > +FROM registry.fedoraproject.org/fedora:35
-> >
-> >  # Please keep this list sorted alphabetically
-> >  ENV PACKAGES \
-> > diff --git a/tests/docker/dockerfiles/fedora34.docker
-> b/tests/docker/dockerfiles/fedora34.docker
-> > new file mode 100644
-> > index 0000000000..44d7f12110
-> > --- /dev/null
-> > +++ b/tests/docker/dockerfiles/fedora34.docker
-> > @@ -0,0 +1,117 @@
-> > +FROM registry.fedoraproject.org/fedora:34
-> > +
-> > +# Please keep this list sorted alphabetically
-> > +ENV PACKAGES \
-> > +    SDL2-devel \
-> > +    SDL2_image-devel \
-> > +    alsa-lib-devel \
-> > +    bc \
-> > +    brlapi-devel \
-> > +    bzip2 \
-> > +    bzip2-devel \
-> > +    ca-certificates \
-> > +    capstone-devel \
-> > +    ccache \
-> > +    clang \
-> > +    ctags \
-> > +    cyrus-sasl-devel \
-> > +    daxctl-devel \
-> > +    dbus-daemon \
-> > +    device-mapper-multipath-devel \
-> > +    diffutils \
-> > +    findutils \
-> > +    gcc \
-> > +    gcc-c++ \
-> > +    gcovr \
-> > +    genisoimage \
-> > +    gettext \
-> > +    git \
-> > +    glib2-devel \
-> > +    glibc-langpack-en \
-> > +    glibc-static \
-> > +    glusterfs-api-devel \
-> > +    gnutls-devel \
-> > +    gtk3-devel \
-> > +    hostname \
-> > +    jemalloc-devel \
-> > +    libaio-devel \
-> > +    libasan \
-> > +    libattr-devel \
-> > +    libbpf-devel \
-> > +    libcacard-devel \
-> > +    libcap-ng-devel \
-> > +    libcurl-devel \
-> > +    libdrm-devel \
-> > +    libepoxy-devel \
-> > +    libfdt-devel \
-> > +    libffi-devel \
-> > +    libgcrypt-devel \
-> > +    libiscsi-devel \
-> > +    libjpeg-devel \
-> > +    libnfs-devel \
-> > +    libpmem-devel \
-> > +    libpng-devel \
-> > +    librbd-devel \
-> > +    libseccomp-devel \
-> > +    libslirp-devel \
-> > +    libssh-devel \
-> > +    libtasn1-devel \
-> > +    libubsan \
-> > +    libudev-devel \
-> > +    liburing-devel \
-> > +    libusbx-devel \
-> > +    libxml2-devel \
-> > +    libzstd-devel \
-> > +    llvm \
-> > +    lttng-ust-devel \
-> > +    lzo-devel \
-> > +    make \
-> > +    mesa-libgbm-devel \
-> > +    meson \
-> > +    ncurses-devel \
-> > +    nettle-devel \
-> > +    ninja-build \
-> > +    nmap-ncat \
-> > +    numactl-devel \
-> > +    openssh-clients \
-> > +    pam-devel \
-> > +    perl-Test-Harness \
-> > +    perl-base \
-> > +    pixman-devel \
-> > +    pkgconfig \
-> > +    pulseaudio-libs-devel \
-> > +    python3 \
-> > +    python3-PyYAML \
-> > +    python3-numpy \
-> > +    python3-opencv \
-> > +    python3-pillow \
-> > +    python3-pip \
-> > +    python3-sphinx \
-> > +    python3-sphinx_rtd_theme \
-> > +    python3-virtualenv \
-> > +    rdma-core-devel \
-> > +    rpm \
-> > +    sed \
-> > +    snappy-devel \
-> > +    sparse \
-> > +    spice-protocol \
-> > +    spice-server-devel \
-> > +    systemd-devel \
-> > +    systemtap-sdt-devel \
-> > +    tar \
-> > +    tesseract \
-> > +    tesseract-langpack-eng \
-> > +    texinfo \
-> > +    usbredir-devel \
-> > +    util-linux \
-> > +    virglrenderer-devel \
-> > +    vte291-devel \
-> > +    which \
-> > +    xen-devel \
-> > +    xfsprogs-devel \
-> > +    zlib-devel
-> > +ENV QEMU_CONFIGURE_OPTS --python=3D/usr/bin/python3
-> > +
-> > +RUN dnf install -y $PACKAGES
-> > +RUN rpm -q $PACKAGES | sort > /packages.txt
-> > +ENV PATH $PATH:/usr/libexec/python3-sphinx/
-> > --
-> > 2.31.1
-> >
->
-> Regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-
-> https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-> https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-> https://www.instagram.com/dberrange :|
->
+> because you need to clear T for arm mode as well.
 >
 
---00000000000041ee2305cfe61199
+Ah. Right. I'd intended to fix this, but it slipped my mind (along with the
+other T bit thing you told me about).
+
+
+> > +    /* FIXME - what to for failure of get_user()? */
+> > +    get_user_ual(regs->ARM_r2, stack + 8); /* envp */
+> > +    get_user_ual(regs->ARM_r1, stack + 4); /* envp */
+>
+> Surely these values are present in image_info anyway?
+>
+
+The host versions are in image_info, but the target versions are not.
+Linux-user does a similar
+thing without the #define sugar form ARM_rX. I didn't see where the current
+bsd-user squirrels
+this information away (it's computed and stored in local variables), nor
+did my much more
+brief look at linux-user.
+
+Looking at the FreeBSD kernel, though, we don't set r1 or r2. r0 and r1 are
+set to 0 explicitly,
+and r2 is set to 0 because the first user registers are all cleared. In the
+static case, they
+are ignored (since r0 = ps_strings, r1 = obj_main (unused) and r2 = cleanup
+(also
+unused in the static case). If we're entering via the dynamic loader, it
+saves r0 and generates
+r1 (though it's ultimately unused) and r2 (which rtld sets to its cleanup
+routine). r0 is the ps
+strings that ps displays, so isn't relevant to emulation.
+
+tl;dr: I'll add a comment to that effect and make it simpler (assuming my
+analysis survives)
+
+Warner
+
+--0000000000003e643805cfe69148
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 3, 2021 at 1:01 PM Daniel P. =
-Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redhat.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->On Wed, Nov 03, 2021 at 10:48:44AM -0400, John Snow wrote:<br>
-&gt; Or, more accurately, update our current Fedora container to Fedora 35,=
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div>[[ Adding Olivier Houchard to c=
+onfirm my reading of the ARM init twisty maze of code ]]<br><div class=3D"g=
+mail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 2, 2021 at 9:=
+31 PM Richard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org"=
+>richard.henderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">On 11/2/21 6:52 PM, Warner Losh wrote:<br>
+&gt; +=C2=A0 =C2=A0 /*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* Thumb mode is encoded by the low bit in the ent=
+ry point (since ARM can&#39;t<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* execute at odd addresses). When it&#39;s set, s=
+et the Thumb bit (T) in the<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* CPSR.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
+&gt; +=C2=A0 =C2=A0 if (entry &amp; 0x1) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpsr_write(env, cpsr_read(env) | CPSR_T, =
+CPSR_T, CPSRWriteByInstr);<br>
+&gt; +=C2=A0 =C2=A0 }<br>
 <br>
-&gt; and then add a new fedora34 container and build test.<br>
-&gt; <br>
-&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
-t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 .gitlab-ci.d/buildtest.yml=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0|=C2=A0 16 ++++<br>
-&gt;=C2=A0 .gitlab-ci.d/container-core.yml=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 =C2=A05 +<br>
-&gt;=C2=A0 tests/docker/dockerfiles/fedora.docker=C2=A0 =C2=A0|=C2=A0 =C2=
-=A02 +-<br>
-&gt;=C2=A0 tests/docker/dockerfiles/fedora34.docker | 117 +++++++++++++++++=
-++++++<br>
+This should be<br>
 <br>
-We already struggle with having too much work in the CI pipeline<br>
-and will be in trouble when they start enforcing CI limits.<br>
+=C2=A0 =C2=A0cpsr_write(env, (entry &amp; 1) * CPSR_T, CPSR_T, CPSRWriteByI=
+nstr);<br>
 <br>
-With that in mind I&#39;m not sure that having both Fedora versions<br>
-brings large enough benefit to justify the CI CPU time burnt.<br>
-<br></blockquote><div><br></div><div>Fair. I&#39;d say having stuff like ub=
-untu21.10 is more important than having both f34/f35. I have a keen interes=
-t on pushing forward into bleeding edge releases to identify potential issu=
-es sooner rather than later; and can generally trust that the older release=
-s are well traveled through developer&#39;s personal machines.<br></div><di=
-v>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-If we did want both versions though, we should be consistent<br>
-with file naming - ie fedora35.dockre, not fedora.docker<br>
-to match fedora34.docker.<br>
-<br></blockquote><div><br></div><div>OK. I was originally considering the &=
-quot;unversioned&quot; file to be the &quot;most recent one&quot; that woul=
-d update on a rolling schedule. On IRC you made a good point that when we f=
-ork a stable branch, we actually don&#39;t want this behavior. Explicit nam=
-ing is therefore the best policy.</div></div><div class=3D"gmail_quote"><br=
-></div><div class=3D"gmail_quote">I am still somewhat interested in having =
-the F34 image, but we don&#39;t need it on the CI platform right now. Maybe=
- it could be included later on as a target of lesser value to only be run o=
-ccasionally, but I can worry about that a little later.<br></div><div class=
-=3D"gmail_quote"><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-&gt;=C2=A0 4 files changed, 139 insertions(+), 1 deletion(-)<br>
-&gt;=C2=A0 create mode 100644 tests/docker/dockerfiles/fedora34.docker<br>
-&gt; <br>
-&gt; diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml<b=
-r>
-&gt; index 5c378e35f9..9d9330b646 100644<br>
-&gt; --- a/.gitlab-ci.d/buildtest.yml<br>
-&gt; +++ b/.gitlab-ci.d/buildtest.yml<br>
-&gt; @@ -100,6 +100,22 @@ acceptance-system-debian:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 IMAGE: debian-amd64<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 MAKE_CHECK_ARGS: check-acceptance<br>
-&gt;=C2=A0 <br>
-&gt; +build-system-fedora34:<br>
-&gt; +=C2=A0 extends: .native_build_job_template<br>
-&gt; +=C2=A0 needs:<br>
-&gt; +=C2=A0 =C2=A0 job: amd64-fedora34-container<br>
-&gt; +=C2=A0 variables:<br>
-&gt; +=C2=A0 =C2=A0 IMAGE: fedora34<br>
-&gt; +=C2=A0 =C2=A0 CONFIGURE_ARGS: --disable-gcrypt --enable-nettle --enab=
-le-docs<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--enable-fdt=3Dsystem=
- --enable-slirp=3Dsystem --enable-capstone=3Dsystem<br>
-&gt; +=C2=A0 =C2=A0 TARGETS: tricore-softmmu microblaze-softmmu mips-softmm=
-u<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 xtensa-softmmu m68k-softmmu riscv32-softmmu ppc-=
-softmmu sparc64-softmmu<br>
-&gt; +=C2=A0 =C2=A0 MAKE_CHECK_ARGS: check-build<br>
-&gt; +=C2=A0 artifacts:<br>
-&gt; +=C2=A0 =C2=A0 expire_in: 2 days<br>
-&gt; +=C2=A0 =C2=A0 paths:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 - build<br>
-&gt; +<br>
-&gt;=C2=A0 build-system-fedora:<br>
-&gt;=C2=A0 =C2=A0 extends: .native_build_job_template<br>
-&gt;=C2=A0 =C2=A0 needs:<br>
-&gt; diff --git a/.gitlab-ci.d/container-core.yml b/.gitlab-ci.d/container-=
-core.yml<br>
-&gt; index e8dd1f476a..96a71e88ff 100644<br>
-&gt; --- a/.gitlab-ci.d/container-core.yml<br>
-&gt; +++ b/.gitlab-ci.d/container-core.yml<br>
-&gt; @@ -6,6 +6,11 @@ amd64-centos8-container:<br>
-&gt;=C2=A0 =C2=A0 variables:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 NAME: centos8<br>
-&gt;=C2=A0 <br>
-&gt; +amd64-fedora34-container:<br>
-&gt; +=C2=A0 extends: .container_job_template<br>
-&gt; +=C2=A0 variables:<br>
-&gt; +=C2=A0 =C2=A0 NAME: fedora34<br>
-&gt; +<br>
-&gt;=C2=A0 amd64-fedora-container:<br>
-&gt;=C2=A0 =C2=A0 extends: .container_job_template<br>
-&gt;=C2=A0 =C2=A0 variables:<br>
-&gt; diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/doc=
-kerfiles/fedora.docker<br>
-&gt; index 44d7f12110..24aca97cd7 100644<br>
-&gt; --- a/tests/docker/dockerfiles/fedora.docker<br>
-&gt; +++ b/tests/docker/dockerfiles/fedora.docker<br>
-&gt; @@ -1,4 +1,4 @@<br>
-&gt; -FROM <a href=3D"http://registry.fedoraproject.org/fedora:34" rel=3D"n=
-oreferrer" target=3D"_blank">registry.fedoraproject.org/fedora:34</a><br>
-&gt; +FROM <a href=3D"http://registry.fedoraproject.org/fedora:35" rel=3D"n=
-oreferrer" target=3D"_blank">registry.fedoraproject.org/fedora:35</a><br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 # Please keep this list sorted alphabetically<br>
-&gt;=C2=A0 ENV PACKAGES \<br>
-&gt; diff --git a/tests/docker/dockerfiles/fedora34.docker b/tests/docker/d=
-ockerfiles/fedora34.docker<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..44d7f12110<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/tests/docker/dockerfiles/fedora34.docker<br>
-&gt; @@ -0,0 +1,117 @@<br>
-&gt; +FROM <a href=3D"http://registry.fedoraproject.org/fedora:34" rel=3D"n=
-oreferrer" target=3D"_blank">registry.fedoraproject.org/fedora:34</a><br>
-&gt; +<br>
-&gt; +# Please keep this list sorted alphabetically<br>
-&gt; +ENV PACKAGES \<br>
-&gt; +=C2=A0 =C2=A0 SDL2-devel \<br>
-&gt; +=C2=A0 =C2=A0 SDL2_image-devel \<br>
-&gt; +=C2=A0 =C2=A0 alsa-lib-devel \<br>
-&gt; +=C2=A0 =C2=A0 bc \<br>
-&gt; +=C2=A0 =C2=A0 brlapi-devel \<br>
-&gt; +=C2=A0 =C2=A0 bzip2 \<br>
-&gt; +=C2=A0 =C2=A0 bzip2-devel \<br>
-&gt; +=C2=A0 =C2=A0 ca-certificates \<br>
-&gt; +=C2=A0 =C2=A0 capstone-devel \<br>
-&gt; +=C2=A0 =C2=A0 ccache \<br>
-&gt; +=C2=A0 =C2=A0 clang \<br>
-&gt; +=C2=A0 =C2=A0 ctags \<br>
-&gt; +=C2=A0 =C2=A0 cyrus-sasl-devel \<br>
-&gt; +=C2=A0 =C2=A0 daxctl-devel \<br>
-&gt; +=C2=A0 =C2=A0 dbus-daemon \<br>
-&gt; +=C2=A0 =C2=A0 device-mapper-multipath-devel \<br>
-&gt; +=C2=A0 =C2=A0 diffutils \<br>
-&gt; +=C2=A0 =C2=A0 findutils \<br>
-&gt; +=C2=A0 =C2=A0 gcc \<br>
-&gt; +=C2=A0 =C2=A0 gcc-c++ \<br>
-&gt; +=C2=A0 =C2=A0 gcovr \<br>
-&gt; +=C2=A0 =C2=A0 genisoimage \<br>
-&gt; +=C2=A0 =C2=A0 gettext \<br>
-&gt; +=C2=A0 =C2=A0 git \<br>
-&gt; +=C2=A0 =C2=A0 glib2-devel \<br>
-&gt; +=C2=A0 =C2=A0 glibc-langpack-en \<br>
-&gt; +=C2=A0 =C2=A0 glibc-static \<br>
-&gt; +=C2=A0 =C2=A0 glusterfs-api-devel \<br>
-&gt; +=C2=A0 =C2=A0 gnutls-devel \<br>
-&gt; +=C2=A0 =C2=A0 gtk3-devel \<br>
-&gt; +=C2=A0 =C2=A0 hostname \<br>
-&gt; +=C2=A0 =C2=A0 jemalloc-devel \<br>
-&gt; +=C2=A0 =C2=A0 libaio-devel \<br>
-&gt; +=C2=A0 =C2=A0 libasan \<br>
-&gt; +=C2=A0 =C2=A0 libattr-devel \<br>
-&gt; +=C2=A0 =C2=A0 libbpf-devel \<br>
-&gt; +=C2=A0 =C2=A0 libcacard-devel \<br>
-&gt; +=C2=A0 =C2=A0 libcap-ng-devel \<br>
-&gt; +=C2=A0 =C2=A0 libcurl-devel \<br>
-&gt; +=C2=A0 =C2=A0 libdrm-devel \<br>
-&gt; +=C2=A0 =C2=A0 libepoxy-devel \<br>
-&gt; +=C2=A0 =C2=A0 libfdt-devel \<br>
-&gt; +=C2=A0 =C2=A0 libffi-devel \<br>
-&gt; +=C2=A0 =C2=A0 libgcrypt-devel \<br>
-&gt; +=C2=A0 =C2=A0 libiscsi-devel \<br>
-&gt; +=C2=A0 =C2=A0 libjpeg-devel \<br>
-&gt; +=C2=A0 =C2=A0 libnfs-devel \<br>
-&gt; +=C2=A0 =C2=A0 libpmem-devel \<br>
-&gt; +=C2=A0 =C2=A0 libpng-devel \<br>
-&gt; +=C2=A0 =C2=A0 librbd-devel \<br>
-&gt; +=C2=A0 =C2=A0 libseccomp-devel \<br>
-&gt; +=C2=A0 =C2=A0 libslirp-devel \<br>
-&gt; +=C2=A0 =C2=A0 libssh-devel \<br>
-&gt; +=C2=A0 =C2=A0 libtasn1-devel \<br>
-&gt; +=C2=A0 =C2=A0 libubsan \<br>
-&gt; +=C2=A0 =C2=A0 libudev-devel \<br>
-&gt; +=C2=A0 =C2=A0 liburing-devel \<br>
-&gt; +=C2=A0 =C2=A0 libusbx-devel \<br>
-&gt; +=C2=A0 =C2=A0 libxml2-devel \<br>
-&gt; +=C2=A0 =C2=A0 libzstd-devel \<br>
-&gt; +=C2=A0 =C2=A0 llvm \<br>
-&gt; +=C2=A0 =C2=A0 lttng-ust-devel \<br>
-&gt; +=C2=A0 =C2=A0 lzo-devel \<br>
-&gt; +=C2=A0 =C2=A0 make \<br>
-&gt; +=C2=A0 =C2=A0 mesa-libgbm-devel \<br>
-&gt; +=C2=A0 =C2=A0 meson \<br>
-&gt; +=C2=A0 =C2=A0 ncurses-devel \<br>
-&gt; +=C2=A0 =C2=A0 nettle-devel \<br>
-&gt; +=C2=A0 =C2=A0 ninja-build \<br>
-&gt; +=C2=A0 =C2=A0 nmap-ncat \<br>
-&gt; +=C2=A0 =C2=A0 numactl-devel \<br>
-&gt; +=C2=A0 =C2=A0 openssh-clients \<br>
-&gt; +=C2=A0 =C2=A0 pam-devel \<br>
-&gt; +=C2=A0 =C2=A0 perl-Test-Harness \<br>
-&gt; +=C2=A0 =C2=A0 perl-base \<br>
-&gt; +=C2=A0 =C2=A0 pixman-devel \<br>
-&gt; +=C2=A0 =C2=A0 pkgconfig \<br>
-&gt; +=C2=A0 =C2=A0 pulseaudio-libs-devel \<br>
-&gt; +=C2=A0 =C2=A0 python3 \<br>
-&gt; +=C2=A0 =C2=A0 python3-PyYAML \<br>
-&gt; +=C2=A0 =C2=A0 python3-numpy \<br>
-&gt; +=C2=A0 =C2=A0 python3-opencv \<br>
-&gt; +=C2=A0 =C2=A0 python3-pillow \<br>
-&gt; +=C2=A0 =C2=A0 python3-pip \<br>
-&gt; +=C2=A0 =C2=A0 python3-sphinx \<br>
-&gt; +=C2=A0 =C2=A0 python3-sphinx_rtd_theme \<br>
-&gt; +=C2=A0 =C2=A0 python3-virtualenv \<br>
-&gt; +=C2=A0 =C2=A0 rdma-core-devel \<br>
-&gt; +=C2=A0 =C2=A0 rpm \<br>
-&gt; +=C2=A0 =C2=A0 sed \<br>
-&gt; +=C2=A0 =C2=A0 snappy-devel \<br>
-&gt; +=C2=A0 =C2=A0 sparse \<br>
-&gt; +=C2=A0 =C2=A0 spice-protocol \<br>
-&gt; +=C2=A0 =C2=A0 spice-server-devel \<br>
-&gt; +=C2=A0 =C2=A0 systemd-devel \<br>
-&gt; +=C2=A0 =C2=A0 systemtap-sdt-devel \<br>
-&gt; +=C2=A0 =C2=A0 tar \<br>
-&gt; +=C2=A0 =C2=A0 tesseract \<br>
-&gt; +=C2=A0 =C2=A0 tesseract-langpack-eng \<br>
-&gt; +=C2=A0 =C2=A0 texinfo \<br>
-&gt; +=C2=A0 =C2=A0 usbredir-devel \<br>
-&gt; +=C2=A0 =C2=A0 util-linux \<br>
-&gt; +=C2=A0 =C2=A0 virglrenderer-devel \<br>
-&gt; +=C2=A0 =C2=A0 vte291-devel \<br>
-&gt; +=C2=A0 =C2=A0 which \<br>
-&gt; +=C2=A0 =C2=A0 xen-devel \<br>
-&gt; +=C2=A0 =C2=A0 xfsprogs-devel \<br>
-&gt; +=C2=A0 =C2=A0 zlib-devel<br>
-&gt; +ENV QEMU_CONFIGURE_OPTS --python=3D/usr/bin/python3<br>
-&gt; +<br>
-&gt; +RUN dnf install -y $PACKAGES<br>
-&gt; +RUN rpm -q $PACKAGES | sort &gt; /packages.txt<br>
-&gt; +ENV PATH $PATH:/usr/libexec/python3-sphinx/<br>
-&gt; -- <br>
-&gt; 2.31.1<br>
-&gt; <br>
+because you need to clear T for arm mode as well.<br></blockquote><div><br>=
+</div><div>Ah. Right. I&#39;d intended to fix this, but it slipped my mind =
+(along with the other T bit thing you told me about).</div><div>=C2=A0</div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">
+&gt; +=C2=A0 =C2=A0 /* FIXME - what to for failure of get_user()? */<br>
+&gt; +=C2=A0 =C2=A0 get_user_ual(regs-&gt;ARM_r2, stack + 8); /* envp */<br=
+>
+&gt; +=C2=A0 =C2=A0 get_user_ual(regs-&gt;ARM_r1, stack + 4); /* envp */<br=
+>
 <br>
-Regards,<br>
-Daniel<br>
--- <br>
-|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
-tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
-s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://www.flickr.com/photos/dberrange</a> :|<br>
-|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
-oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
-|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
-nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
-"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
-https://www.instagram.com/dberrange</a> :|<br>
-<br>
-</blockquote></div></div>
+Surely these values are present in image_info anyway?<br></blockquote><div>=
+<br></div><div>The host versions are in image_info, but the target versions=
+ are not.=C2=A0 Linux-user does a similar</div><div>thing without the #defi=
+ne sugar form ARM_rX. I didn&#39;t see where the current bsd-user squirrels=
+</div><div>this information away (it&#39;s computed and stored in local var=
+iables), nor did my much more</div><div>brief look at linux-user.=C2=A0</di=
+v><div><br></div><div>Looking at the FreeBSD kernel, though, we don&#39;t s=
+et r1 or r2. r0 and r1 are set to 0 explicitly,</div><div>and r2 is set to =
+0 because the first user registers are all cleared. In the static case, the=
+y</div><div>are ignored (since r0 =3D ps_strings, r1 =3D obj_main (unused) =
+and r2 =3D cleanup (also</div><div>unused in the static case). If we&#39;re=
+ entering via the dynamic loader, it saves r0 and generates</div><div>r1 (t=
+hough it&#39;s ultimately unused) and r2 (which rtld sets to its cleanup ro=
+utine). r0 is the ps</div><div>strings that ps displays, so isn&#39;t relev=
+ant to emulation.</div><div><br></div><div>tl;dr: I&#39;ll add a comment to=
+ that effect and make it simpler (assuming my analysis survives)</div><div>=
+<br></div><div>Warner<br></div></div></div>
 
---00000000000041ee2305cfe61199--
-
+--0000000000003e643805cfe69148--
 
