@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6461443E90
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 09:50:07 +0100 (CET)
-Received: from localhost ([::1]:33064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73B60443E8E
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 09:49:02 +0100 (CET)
+Received: from localhost ([::1]:57032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miByA-00074z-Ue
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 04:50:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38558)
+	id 1miBx7-0004ET-Jh
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 04:49:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1miBuf-0008GN-GV
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 04:46:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46262)
+ id 1miBvY-0001TS-Nf
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 04:47:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1miBuY-0003WC-NQ
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 04:46:27 -0400
+ id 1miBua-0003Xz-TR
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 04:47:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635929181;
+ s=mimecast20190719; t=1635929183;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SEXspVMmfGtE+DiNvaMKmF2UapwNbWjKsW47Dll7cHM=;
- b=Bj61xHjmcdeBzHJtOnlLxo9L+Xd7oje0T47TGrjh9ogR5Wkgvpl2oPY7fc5s/mlEvv3jKt
- xZpQhbke0ATdAUVgWq5M7lH0cp1zKxW3OjNoHBGQAPwY3ET+92ed0B5t7cgZ1nHipaUJT5
- lmqdrFMZfItVVueU2vDgJhNE5O6tVuE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-EcZK14JsMdO_9qqu44LyMg-1; Wed, 03 Nov 2021 04:46:20 -0400
-X-MC-Unique: EcZK14JsMdO_9qqu44LyMg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- k8-20020a5d5248000000b001763e7c9ce5so271862wrc.22
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 01:46:20 -0700 (PDT)
+ bh=2M+OuUyISgXvCG9YPhIzkFcGQHD6D2pRsVs+iBRO2Uo=;
+ b=OeHrh+DHmg/0J5/yIgsvknz/iHB4pQQUxosUzuL6yc/Cx4KKwO0RkuHUYPR6xpJyjFPQMi
+ gmWtb6BS61tzyw6IcvEqbHxAmFj2Ls7HAOHJU91cnZqkjxEXw/oGCARn2aIFwHfNf5O3do
+ /j5SQw4ZZbzn3sPqRt7IyTWiMcY+C5s=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-460-Qv0fhb6HNcqv5Bv7BDRypQ-1; Wed, 03 Nov 2021 04:46:22 -0400
+X-MC-Unique: Qv0fhb6HNcqv5Bv7BDRypQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ k25-20020a05600c1c9900b00332f798ba1dso2424197wms.4
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 01:46:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SEXspVMmfGtE+DiNvaMKmF2UapwNbWjKsW47Dll7cHM=;
- b=ZK/JHNLyjmLfW5tbA2LO2rvEI0B0YP3eIbuwbLFhC0aGeBUhIOTNeWNrE1/d9SFeu2
- veHz/IGAgI3eTqVfbVNE71csD5Y3yX94eGyWY3V4KW4hNHEKKZDHjlEqeTfQoNOVU5yf
- EFSkwd2UvYtjxlnha9vHrJrAZSZ4NY7Zk72fNqCfJCEFUoVuk+G7Atf0CtgkudVzgWug
- sjqkojkNRYPxpxk71Nem53EXtgTnGNNCKk+l7tcsEKjEcFzGbPmRbrsFqY6VNrMABst8
- AQGpeHAD26Er4+JqUq/69TLlqMvlDtBpE70QbVHS3KimbYQZHwNXxOaNj2cIkRVoJk2e
- 3HYQ==
-X-Gm-Message-State: AOAM532EA2wHiaI16mmfDykqqzIHfG5RWVGafHaH+MsyDUk0ed8+StTb
- 1fX8ffxM6uafGjpS0LSmmZ/cM08r4mKikIYMErGf0BflQXKInILOqekGGuB98vU7O6rZPlvgWxg
- jakTzd/m9dh4lxsEQHXhHo5xegh9XT4pRmboWWqKrDTw4ECcE7PoVBfieMwnWBEkHrtQ=
-X-Received: by 2002:a5d:584c:: with SMTP id i12mr15312528wrf.95.1635929179416; 
- Wed, 03 Nov 2021 01:46:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwSDMfRozQs83jQd6/fnc3G6crCnW7enJimwHWTs3QMH9oJ4TlgxRw5t/BvyUorRpFyMLMR+Q==
-X-Received: by 2002:a5d:584c:: with SMTP id i12mr15312506wrf.95.1635929179182; 
- Wed, 03 Nov 2021 01:46:19 -0700 (PDT)
+ bh=2M+OuUyISgXvCG9YPhIzkFcGQHD6D2pRsVs+iBRO2Uo=;
+ b=M37/zZPO9LTcZ/7QeT81siDKARXWd9G1zK5v8KsxpeyvuyxBfn8LGsM5KVmwp4a0t/
+ 2H3jHb0r1WoZS9rhFzvJQ8yDyvHoR766FagZg1O8+B3wE0ugjKjbhArdR2oS2ltI8KYi
+ nKJXwdpjayYM+jnrOrozAscT+ggs7YFJF6tzORjk1M6M08ON77iVkY/oTPaPiw9qZQdT
+ tV0mJw4Vp2GyD91ahv7ALzw07cNtQzP5/9gC5iMazVCOjUjUVZq/OSHMwtwufgowLqjT
+ 4O55iW+Np+nJB2DAk0e4NoWbLuxKBYeUE/3nc0o2hAZz6xG0vU4GDw9cWz1lIAiOmzBH
+ zb0Q==
+X-Gm-Message-State: AOAM533koMXdCBo1e+QHzcAhS+/H2y6YibJtaZaSPB1cHmssPlq2VC+s
+ 5U6Ct8iMyKpijd/F8xujd+mMrE4dfaL3m1pOwq1YsIgz7ADyOJ8E46Vo7xoeiReiXFpj35J35cb
+ lhpr6UKKH6Kn7CdtTWQUnn135CUF4DbbF3Zyem1tfmpkik5c1nN9kQaihld/a08Dp0+s=
+X-Received: by 2002:adf:c40f:: with SMTP id v15mr44983282wrf.302.1635929180837; 
+ Wed, 03 Nov 2021 01:46:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwo1nz7S6u6i4B4iwdnk1QHIDPtk8JFON2B4NJBsVxzmrYv5Pkwn3dgMJKlcOOfMX/F3JMrqw==
+X-Received: by 2002:adf:c40f:: with SMTP id v15mr44983245wrf.302.1635929180535; 
+ Wed, 03 Nov 2021 01:46:20 -0700 (PDT)
 Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
  [188.86.86.233])
- by smtp.gmail.com with ESMTPSA id q4sm1319511wrs.56.2021.11.03.01.46.18
+ by smtp.gmail.com with ESMTPSA id z6sm1383764wmp.1.2021.11.03.01.46.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 01:46:18 -0700 (PDT)
+ Wed, 03 Nov 2021 01:46:20 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/11] Changed the last-mode to none of first start COLO
-Date: Wed,  3 Nov 2021 09:46:03 +0100
-Message-Id: <20211103084605.20027-10-quintela@redhat.com>
+Subject: [PULL 10/11] colo: Don't dump colo cache if dump-guest-core=off
+Date: Wed,  3 Nov 2021 09:46:04 +0100
+Message-Id: <20211103084605.20027-11-quintela@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211103084605.20027-1-quintela@redhat.com>
 References: <20211103084605.20027-1-quintela@redhat.com>
@@ -75,8 +75,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,65 +96,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+Cc: Lukas Straub <lukasstraub2@web.de>,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
  Li Zhijian <lizhijian@cn.fujitsu.com>, Juan Quintela <quintela@redhat.com>,
  Jason Wang <jasowang@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Zhang Chen <chen.zhang@intel.com>, "Rao, Lei" <lei.rao@intel.com>
+ Zhang Chen <chen.zhang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Rao, Lei" <lei.rao@intel.com>
+From: Lukas Straub <lukasstraub2@web.de>
 
-When we first stated the COLO, the last-mode is as follows:
-{ "execute": "query-colo-status" }
-{"return": {"last-mode": "primary", "mode": "primary", "reason": "none"}}
+One might set dump-guest-core=off to make coredumps smaller and
+still allow to debug many qemu bugs. Extend this option to the colo
+cache.
 
-The last-mode is unreasonable. After the patch, will be changed to the
-following:
-{ "execute": "query-colo-status" }
-{"return": {"last-mode": "none", "mode": "primary", "reason": "none"}}
-
-Signed-off-by: Lei Rao <lei.rao@intel.com>
+Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/colo.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ migration/ram.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/migration/colo.c b/migration/colo.c
-index 71fc82a040..e3b1f136f4 100644
---- a/migration/colo.c
-+++ b/migration/colo.c
-@@ -205,7 +205,7 @@ void colo_do_failover(void)
-         vm_stop_force_state(RUN_STATE_COLO);
+diff --git a/migration/ram.c b/migration/ram.c
+index f5d39db4e4..847af461f2 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -56,6 +56,8 @@
+ #include "multifd.h"
+ #include "sysemu/runstate.h"
+ 
++#include "hw/boards.h" /* for machine_dump_guest_core() */
++
+ #if defined(__linux__)
+ #include "qemu/userfaultfd.h"
+ #endif /* defined(__linux__) */
+@@ -3542,6 +3544,10 @@ int colo_init_ram_cache(void)
+                 }
+                 return -errno;
+             }
++            if (!machine_dump_guest_core(current_machine)) {
++                qemu_madvise(block->colo_cache, block->used_length,
++                             QEMU_MADV_DONTDUMP);
++            }
+         }
      }
  
--    switch (get_colo_mode()) {
-+    switch (last_colo_mode = get_colo_mode()) {
-     case COLO_MODE_PRIMARY:
-         primary_vm_do_failover();
-         break;
-@@ -530,8 +530,7 @@ static void colo_process_checkpoint(MigrationState *s)
-     Error *local_err = NULL;
-     int ret;
- 
--    last_colo_mode = get_colo_mode();
--    if (last_colo_mode != COLO_MODE_PRIMARY) {
-+    if (get_colo_mode() != COLO_MODE_PRIMARY) {
-         error_report("COLO mode must be COLO_MODE_PRIMARY");
-         return;
-     }
-@@ -830,8 +829,7 @@ void *colo_process_incoming_thread(void *opaque)
-     migrate_set_state(&mis->state, MIGRATION_STATUS_ACTIVE,
-                       MIGRATION_STATUS_COLO);
- 
--    last_colo_mode = get_colo_mode();
--    if (last_colo_mode != COLO_MODE_SECONDARY) {
-+    if (get_colo_mode() != COLO_MODE_SECONDARY) {
-         error_report("COLO mode must be COLO_MODE_SECONDARY");
-         return NULL;
-     }
 -- 
 2.33.1
 
