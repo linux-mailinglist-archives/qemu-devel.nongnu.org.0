@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3E8444431F
+	by mail.lfdr.de (Postfix) with ESMTPS id A8C3C44431E
 	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 15:10:52 +0100 (CET)
-Received: from localhost ([::1]:37978 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:38142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miGyY-0004kG-Rn
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 10:10:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47528)
+	id 1miGyZ-0004qg-Gz
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 10:10:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1miGwe-00025i-Ts
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 10:08:52 -0400
-Received: from mail-qv1-xf2b.google.com ([2607:f8b0:4864:20::f2b]:41953)
+ id 1miGwf-00025k-65
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 10:08:53 -0400
+Received: from mail-qv1-xf2e.google.com ([2607:f8b0:4864:20::f2e]:40616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1miGwc-0004uj-T5
+ id 1miGwc-0004um-TE
  for qemu-devel@nongnu.org; Wed, 03 Nov 2021 10:08:52 -0400
-Received: by mail-qv1-xf2b.google.com with SMTP id gh1so3024274qvb.8
+Received: by mail-qv1-xf2e.google.com with SMTP id b11so3032799qvm.7
  for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 07:08:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WVMZQI8g9tnc1RNoQzspmjc2tzhxkcZ/dPeR3lrxQJc=;
- b=cBbJlLM3lSTzyOzHmd54Y1Uklha/avujNTrPisX3QSJehlKgwEN5mhQ2TNB5PcN/Kr
- 0ENnGj6gVTS2OzXkel77VguV0uMlG6RTSnQgNyFzvORum0tpm7TaCfAsOQm3jMdV5qTX
- NQT0wW1qDGRmlZiEVZEJFeuQM4XEwq1JfgAjMoRC69NP9DHYL4iQ572KSPYuIOVIQBNO
- FdgkHDBFqu21a6+A7EMsnqMOJB0i9QWZROojPdOaWWbdsfOWN3wnE6trriUPFLkzXQyj
- XUBKXGCeL26+E6uoebRNghILppy5vjvMWdtD/E7VuuChEmO8G5JAdr7+cPe7UXN8AlGz
- IXaA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=J2ekQZgUHFBwZ3Oz3uiVU6aBNOJi28RxLl6uhXrVgUY=;
+ b=zJoZTnLPOBIuC6dwuFd5eQBMRhyNbYljs/S+k+EV3iT/ujQqq9KTP5EpLVFwZTHpRL
+ CWSJDbjDjipP3AILc6KfDJS0B63XZm1proJAy79q4DX2FbufPhlZlX+4l/I00OqbSLTJ
+ m5F5Gy3uLKaV6qYpo9vek0o+99wyLFDxZBvhXFDsRxeDhjOkzcosY3kuVRRCiERuM4f2
+ 14ZwzoFrDX69rN6XiDul6rikLp3j2XjdJi2xhECCMHNUyIXk3jcQb5JJy8zr3T4xJgD5
+ q32/cfOjT0bKEiFT8WboQmo/a8b9Ee9Nzf7zE2uW+waRv7W2kfaFdXHbM6udJEV8YTpX
+ g7cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WVMZQI8g9tnc1RNoQzspmjc2tzhxkcZ/dPeR3lrxQJc=;
- b=zhb0M3rlMBTBiZounQ3BOVgE+6f1/2xS22r+IWa0ip7FpjJyW15ldNbIqHWdgaXWJx
- lPZoUyAxajYkS2avGeg+hxN7HEQ/jqjn6mkD7YnYnOM0+2OpWCvkpCP81m2ysEC22K3Q
- kDYUB9Bw72huKhWNihOs6+y//QkRjhW0lht+KPpdQvyhRPMkSyE8uS7AY0YcOh8Z4fna
- TgQ95FYUUlxzEnd44gpgCqcNcTQMxxGvO5Z1rQQnnkQ3dWvAyMzKgtLrOoU4k775aQ3W
- nb9o95GFnWTDzo2/3L9Zf+Ys7Skisk4xdTeILOHYKnSgSlid32kJRvkpb0su79TGxy36
- +QQg==
-X-Gm-Message-State: AOAM530+fLX0LJXQQXa3BDP5pyG7JkUxlM421v4jhsPRcROERR0zd7rA
- mqXEv2vba74TPRCvzYl3IcogycAUMW/i1A==
-X-Google-Smtp-Source: ABdhPJyPT80fUzkZzhM5OHQVpUeCkMftsnbWb4a0807TF325E2yFdowJLWpocOnBCDUS0RbwJyzKgA==
-X-Received: by 2002:a0c:c685:: with SMTP id d5mr11832893qvj.35.1635948528903; 
- Wed, 03 Nov 2021 07:08:48 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=J2ekQZgUHFBwZ3Oz3uiVU6aBNOJi28RxLl6uhXrVgUY=;
+ b=f1eQ2iTPVjF5z3MipHi4ELq5MQ73vZ+WDtp0zLFGpQvhs7bGGrEib1MWQ6DLFFYrJO
+ hflIye7NjTtEtCm99DO5wIFHwG5gKECsBqdj3ICxYAP5luew/mmlZFAHH3myNKobWeQr
+ RaJwO6efGme9/cw/xjKi1DU5dL9Hjbl+q16pmVmermyauhsow8QliD+OeRUbZ/CFHzAF
+ SRcjkDkAl3Pz2ho8BktGJwpQNAp0lQnzBE0Ce2Ijr4PLL/zk89FWBdeASEdvwwCbeOYM
+ qWn1d5EO0Ltp4nl8rP3L1bRmQeLPm93yCIJhNuJg7pi7hdBiXQ4U5tUst9Mozz5oN8J3
+ aubQ==
+X-Gm-Message-State: AOAM532ufdffRZKDE9BetKgAt5IaRd0wiUqbIvB+QFVciPooIRZs3oJ1
+ V6Gm9QvtqLVPcbl2Wx++mMVQ2ojC1rg5lQ==
+X-Google-Smtp-Source: ABdhPJx0FvzACsCWUYZG6m2OBbFUItYcoJ3jzIpYJPEOtjowdBKJV/7866LnUm5vFOIdVc46ABsaog==
+X-Received: by 2002:a05:6214:27c7:: with SMTP id
+ ge7mr32075882qvb.44.1635948529446; 
+ Wed, 03 Nov 2021 07:08:49 -0700 (PDT)
 Received: from localhost.localdomain (rrcs-172-254-253-57.nyc.biz.rr.com.
  [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id z5sm1669377qtw.71.2021.11.03.07.08.48
+ by smtp.gmail.com with ESMTPSA id z5sm1669377qtw.71.2021.11.03.07.08.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 07:08:48 -0700 (PDT)
+ Wed, 03 Nov 2021 07:08:49 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/23] linux-user: Clean up siginfo_t handling
-Date: Wed,  3 Nov 2021 10:08:24 -0400
-Message-Id: <20211103140847.454070-1-richard.henderson@linaro.org>
+Subject: [PATCH v3 01/23] linux-user/alpha: Set TRAP_UNK for bugchk and
+ unknown gentrap
+Date: Wed,  3 Nov 2021 10:08:25 -0400
+Message-Id: <20211103140847.454070-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211103140847.454070-1-richard.henderson@linaro.org>
+References: <20211103140847.454070-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2b;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,70 +89,49 @@ Cc: peter.maydell@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes from v2:
-  * Rebase on master.
-    - force_sig_fault is in,
-    - force_sigsegv_for_addr is obviated by cpu_loop_exit_sigsegv,
-    - openrisc RANGE and FPE exception abort are upstream.
+These si_codes were changed in 535906c684fca, for linux 4.17.
 
-Patches lacking review:
-  07-linux-user-hppa-Set-FPE_CONDTRAP-for-COND.patch
-  15-target-mips-Extract-break-code-into-env-error_cod.patch
-  16-target-mips-Extract-trap-code-into-env-error_code.patch
-  17-linux-user-openrisc-Use-force_sig_fault.patch
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ linux-user/syscall_defs.h   | 1 +
+ linux-user/alpha/cpu_loop.c | 4 ++--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-
-r~
-
-
-Richard Henderson (23):
-  linux-user/alpha: Set TRAP_UNK for bugchk and unknown gentrap
-  linux-user/alpha: Set FPE_FLTUNK for gentrap ROPRAND
-  linux-user/alpha: Use force_sig_fault
-  linux-user/cris: Use force_sig_fault
-  linux-user/hppa: Use force_sig_fault
-  linux-user/hppa: Use the proper si_code for PRIV_OPR, PRIV_REG,
-    OVERFLOW
-  linux-user/hppa: Set FPE_CONDTRAP for COND
-  linux-user/i386: Split out maybe_handle_vm86_trap
-  linux-user/i386: Use force_sig, force_sig_fault
-  linux-user/m68k: Use force_sig_fault
-  linux-user/microblaze: Use force_sig_fault
-  linux-user/microblaze: Fix SIGFPE si_codes
-  linux-user/mips: Improve do_break
-  linux-user/mips: Use force_sig_fault
-  target/mips: Extract break code into env->error_code
-  target/mips: Extract trap code into env->error_code
-  linux-user/openrisc: Use force_sig_fault
-  linux-user/ppc: Use force_sig_fault
-  linux-user/riscv: Use force_sig_fault
-  linux-user/s390x: Use force_sig_fault
-  linux-user/sh4: Use force_sig_fault
-  linux-user/sparc: Use force_sig_fault
-  linux-user/xtensa: Use force_sig_fault
-
- linux-user/syscall_defs.h                 |   2 +
- target/mips/tcg/translate.h               |   1 +
- linux-user/alpha/cpu_loop.c               |  61 +++-----
- linux-user/cris/cpu_loop.c                |  12 +-
- linux-user/hppa/cpu_loop.c                |  26 ++--
- linux-user/i386/cpu_loop.c                |  78 +++++-----
- linux-user/m68k/cpu_loop.c                |  24 +---
- linux-user/microblaze/cpu_loop.c          |  71 +++++----
- linux-user/mips/cpu_loop.c                | 166 +++++-----------------
- linux-user/openrisc/cpu_loop.c            |  18 +--
- linux-user/ppc/cpu_loop.c                 | 136 ++++--------------
- linux-user/riscv/cpu_loop.c               |  31 +---
- linux-user/s390x/cpu_loop.c               |   7 +-
- linux-user/sh4/cpu_loop.c                 |   6 +-
- linux-user/sparc/cpu_loop.c               |  14 +-
- linux-user/xtensa/cpu_loop.c              |  26 ++--
- target/mips/tcg/translate.c               |  36 ++++-
- target/mips/tcg/micromips_translate.c.inc |  10 +-
- target/mips/tcg/mips16e_translate.c.inc   |   2 +-
- target/mips/tcg/nanomips_translate.c.inc  |   4 +-
- 20 files changed, 230 insertions(+), 501 deletions(-)
-
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index a5ce487dcc..55ccc6ae03 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -715,6 +715,7 @@ typedef struct target_siginfo {
+ #define TARGET_TRAP_TRACE	(2)	/* process trace trap */
+ #define TARGET_TRAP_BRANCH      (3)     /* process taken branch trap */
+ #define TARGET_TRAP_HWBKPT      (4)     /* hardware breakpoint/watchpoint */
++#define TARGET_TRAP_UNK         (5)     /* undiagnosed trap */
+ 
+ struct target_rlimit {
+         abi_ulong   rlim_cur;
+diff --git a/linux-user/alpha/cpu_loop.c b/linux-user/alpha/cpu_loop.c
+index 4029849d5c..b039369198 100644
+--- a/linux-user/alpha/cpu_loop.c
++++ b/linux-user/alpha/cpu_loop.c
+@@ -86,7 +86,7 @@ void cpu_loop(CPUAlphaState *env)
+                 /* BUGCHK */
+                 info.si_signo = TARGET_SIGTRAP;
+                 info.si_errno = 0;
+-                info.si_code = 0;
++                info.si_code = TARGET_TRAP_UNK;
+                 info._sifields._sigfault._addr = env->pc;
+                 queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+                 break;
+@@ -155,7 +155,7 @@ void cpu_loop(CPUAlphaState *env)
+                     break;
+                 default:
+                     info.si_signo = TARGET_SIGTRAP;
+-                    info.si_code = 0;
++                    info.si_code = TARGET_TRAP_UNK;
+                     break;
+                 }
+                 info.si_errno = 0;
 -- 
 2.25.1
 
