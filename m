@@ -2,76 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08F85444492
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:21:35 +0100 (CET)
-Received: from localhost ([::1]:33172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7BA94444A0
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:24:55 +0100 (CET)
+Received: from localhost ([::1]:44646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miI50-0003FI-4G
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:21:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52382)
+	id 1miI8E-0002do-WC
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:24:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miHpS-0003dw-DM
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:32 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:46678)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miHpF-0000zA-VZ
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:27 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- b184-20020a1c1bc1000000b0033140bf8dd5so2065439wmb.5
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:05:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=hf6F8LWwHbQDD2Jjgb4WPM+UfGS9Me1LA1sRup9TIeU=;
- b=aqM65JexbnK5Wej+E5u6PFyc3u+pJ+gXabm8XwEeiBowyWC5K0iZN7qHGi3Bpl9YHZ
- Ejgu0YGgmzKY5PufqmAKUnDyyv4XBs39LML99A52gBkJPS+IjDUi0jQQaiWUh+TdbyPx
- eBkKPpYdagVKmZtJXrI97HuBWLp8K+XmAAkLkpPH3sF9JtROH0bJDLNMMkhtDHAvoWcC
- o3PKE7Z3SUErQHToEFinw5JnQ7TTXCOW4qslODjtdf+dS+DxWaeAg3YHTHQixVcOBbc6
- +P5Y6O13nk8l6pOQEcfqyqRMqqTrwLNUqfh842exH94j7VfVy1zDhHg7z9FAugmz97na
- 9baw==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1miHqC-00068R-RV
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:06:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56486)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1miHqA-0002k8-Gb
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:06:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635951973;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=8brPr2qWVOnbmaatxMdjYyy1ZRoi+GVTvI796ftkhvY=;
+ b=i4lZM+bna89hebZtNyMQVoumC6JEs/1FCsue46vdqBtwHsBNLD1sZvGz5lvhG//JLU6k2n
+ Bt8Cdh9aly++8Thj4o49jX+olb3ulEYoKmRllRIRWS/hB0x4qQM/he5D1NADJoLYDtY94q
+ okpn8WL/9wxeqT64yfwfgMpfrOlkrMs=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-580-mekbv5pwNbSLKnnLcLzxgg-1; Wed, 03 Nov 2021 11:06:12 -0400
+X-MC-Unique: mekbv5pwNbSLKnnLcLzxgg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ g11-20020a1c200b000000b003320d092d08so1174083wmg.9
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:06:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=hf6F8LWwHbQDD2Jjgb4WPM+UfGS9Me1LA1sRup9TIeU=;
- b=Ss46BYvkQ4pn3tJS1b3EOcvB9SW22E+Taygt+2kMPVM/NXhrpo9Sry87COEAXupkAo
- RNzGrPwwSYdFgHpmM2fNx+9MXDnhwxylzU+D5gRMKwjkIG1nJ7zX03KtluRW7al21Zas
- 4hQEWRZeT7ukaVB/lsmf48jztWT0p2OR3rklHTZNwcR18W5v5SOsf+X4WctkNlTQdCXc
- 5WoS9mPLrzIdJY5kkjJHK0b/Z8CJoYSv8AY47sKnQ9RetDNOLibRYJg2NRkGLRhST6fA
- jylki139+T2jy4mOoRm8wAN67qCk8vzLLKvM3hDJpGaSZDpJL1npiG4S5iBu1kDEGeQ3
- hlUA==
-X-Gm-Message-State: AOAM530S2OTM7qAnHXrmnx8YdCDtRRk41MLw8iXmUbvclYEBEFCKtk5/
- haslaj5/RYtEyWTvi7zlw5drXGLKXHU=
-X-Google-Smtp-Source: ABdhPJy1EWa7KQNuugi8vV7vv5CM/c2QCXc2/bRmPFkKGhhT8gTzr8IVVN9FRqYz5NSU3ST+pqQEBQ==
-X-Received: by 2002:a1c:48e:: with SMTP id 136mr16112444wme.21.1635951914447; 
- Wed, 03 Nov 2021 08:05:14 -0700 (PDT)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id h16sm2488797wrm.27.2021.11.03.08.05.13
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=8brPr2qWVOnbmaatxMdjYyy1ZRoi+GVTvI796ftkhvY=;
+ b=MOSwgJljrxzBj+SswFzPtjBCopKjXDP4lzUyVejEDbPxIjNOZbrWREF7CSutbD0LfB
+ sC0gsDFqiEhRmnEmVLIYKmeCEffi2nBOezLpgRyAK6n0MzTCV1pJ23xopVS5SzlUoP6t
+ IH9LFq176c4LGq+6G6+hRDdoSO9L2aTY1VoqT0Za5D34QzpwjR5BRKs1kXWovm/Opkkf
+ BfHMDA386Vw3hVsGO2mQrTmQmgenYnQm1oM9rYlq5EHJm82WDxp7vaQpN+lF/9FZRm+/
+ N7n7obDQq5Uaa4zUN+KfxYlqIocIOIAtk6WyTYJfC8HjnOdBvgOivPs2q2cCsnHdy3So
+ O7AQ==
+X-Gm-Message-State: AOAM531X1G54D0+a1iu8V/7UvMkDpeoxJGmDKUZ3hAFmhtzJq3Vo7/o0
+ uZhy6XN5Z9+tw3e37PV2LFtm3r41uDVb2sAnIp3PTiQgPv3M5FCl/tykQLyNy7dEy8Pla4EWaod
+ wzEN18rbkz66LrR84VaUYE8yBai4PEKOGJAf+xUsLYi46s6wOdwau/NJy/qsiRH21ghk=
+X-Received: by 2002:a5d:6085:: with SMTP id w5mr48952002wrt.122.1635951971284; 
+ Wed, 03 Nov 2021 08:06:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyi0empZsjPrULEk8Zlalvm2l7TVl1+QO+jFTELZdUgwtvkmn9xX2kWEkqAmMJr1nYZx6z5KQ==
+X-Received: by 2002:a5d:6085:: with SMTP id w5mr48951954wrt.122.1635951971010; 
+ Wed, 03 Nov 2021 08:06:11 -0700 (PDT)
+Received: from localhost ([47.60.53.191])
+ by smtp.gmail.com with ESMTPSA id 6sm2174603wma.48.2021.11.03.08.06.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 08:05:14 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ Wed, 03 Nov 2021 08:06:10 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/27] configure: fix --audio-drv-list help message
-Date: Wed,  3 Nov 2021 16:04:42 +0100
-Message-Id: <20211103150442.387121-28-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211103150442.387121-1-pbonzini@redhat.com>
-References: <20211103150442.387121-1-pbonzini@redhat.com>
+Subject: Re: [PULL 11/11] Optimized the function of fill_connection_key.
+In-Reply-To: <20211103084605.20027-12-quintela@redhat.com> (Juan Quintela's
+ message of "Wed, 3 Nov 2021 09:46:05 +0100")
+References: <20211103084605.20027-1-quintela@redhat.com>
+ <20211103084605.20027-12-quintela@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Wed, 03 Nov 2021 16:06:08 +0100
+Message-ID: <87cznhi8in.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,35 +95,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Reply-To: quintela@redhat.com
+Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>, Jason Wang <jasowang@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Zhang Chen <chen.zhang@intel.com>, "Rao, Lei" <lei.rao@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---audio-drv-list is now establishing which audio drivers to try if -audiodev
-is not used; drivers for -audiodev are configured with --enable/--disable
-options or possibly --without-default-features.  Adjust the help message
-for --audio-drv-list.
+Juan Quintela <quintela@redhat.com> wrote:
+> From: "Rao, Lei" <lei.rao@intel.com>
+>
+> Remove some unnecessary code to improve the performance of
+> the filter-rewriter module.
+>
+> Signed-off-by: Lei Rao <lei.rao@intel.com>
+> Reviewed-by: Zhang Chen <chen.zhang@intel.com>
+> Reviewed-by: Juan Quintela <quintela@redhat.com>
+> Signed-off-by: Juan Quintela <quintela@trasno.org>
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Jason
 
-diff --git a/configure b/configure
-index 4c444e1750..97fee368ee 100755
---- a/configure
-+++ b/configure
-@@ -1390,7 +1390,7 @@ Advanced options (experts only):
-   --disable-strip          disable stripping binaries
-   --disable-werror         disable compilation abort on warning
-   --disable-stack-protector disable compiler-provided stack protection
--  --audio-drv-list=LIST    set audio drivers list
-+  --audio-drv-list=LIST    set audio drivers to try if -audiodev is not used
-   --block-drv-whitelist=L  Same as --block-drv-rw-whitelist=L
-   --block-drv-rw-whitelist=L
-                            set block driver read-write whitelist
--- 
-2.31.1
+This was an easy colo patch that I didn't realize that this was for
+networking.  So I put in the pull request without noticing that it
+should have gone through your tree.
+
+Should I resend the pull request without this patch, or it is ok with
+you.
+
+Later, Juan.
+
+PD.  thanks to Dave Gilbert to point me my error.
 
 
