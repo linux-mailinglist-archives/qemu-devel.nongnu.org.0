@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E7194444A4
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:28:47 +0100 (CET)
-Received: from localhost ([::1]:54628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7648B444489
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:19:25 +0100 (CET)
+Received: from localhost ([::1]:52506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miIBx-0000uB-Ks
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:28:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52290)
+	id 1miI2u-0005aw-LL
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:19:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miHpG-0003a0-DY
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:18 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33462)
+ id 1miHpG-0003a6-GR
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:20 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:43722)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miHpA-0000xG-9U
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:16 -0400
-Received: by mail-wr1-x435.google.com with SMTP id d24so4124956wra.0
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:05:10 -0700 (PDT)
+ id 1miHpA-0000y3-9I
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:15 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 67-20020a1c1946000000b0030d4c90fa87so2090553wmz.2
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:05:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rnLo8h8h3qpMsXw4rmg0h4Mlf1YBlXBqCnyDSXIT3o4=;
- b=pvnYhPZC9B7itdMDSLPPYMY8vGyHTk9eTpcE6cpNynZ3IT80pJ2lJH0uzB96DGP2fB
- KFbOSdXv5GrCfS2AGTXHPLZrLKS3Z6YxMzqmDp9d+8sUOTkbvjYqQJ/j9yyUgv8s3Mq3
- zxxrfw1u3Rrb1Nnnco9/kNAMrKFH6X86AH1DoPCFbs5d2yE8/LTQhuhJNUHvWhFXx+wE
- 9gpLGf8OtqKthPDWFrE+TqYkfkJpGCs3mV+WoziHnBl4qgaIpclpIfFApGIN4oF7t2gV
- /WemeQJgeLrVi2k1oFWnW2RMlP8zHp4s/G/jKako7/E8OD3fLK856+AdUHB9UnS2BON+
- X4xw==
+ bh=AR6zROu+hSNCFZnWbKN2sMBmcQto/oUWk8gUO4Jr0u0=;
+ b=V2ivIC/hkPlL4WuNYuy5VLSScMFZNoq6QwHSDPjBiezpw1Eu2G0Pu3tcG65N7t6Nqh
+ 81YmOWA/3B6+LOV5uuoR75zFKJ1PHqDAFK2J4l1zY8vQxXhp7WdOlDSxV8AfoTYCAb3b
+ 9JcpQ0F5ZZ8Xrzlk2icO5ursTrUNgpbir+XVZFRGQ4vSsX4UHHmrnWl1RAGkP9IwX/Ox
+ XC3+YnUnW4mMqfjkEaxFeeAYTJPPPHMNYRPStlwpJ77nKHzMMsnx82DVL+KSkdeVqfM/
+ WPGcz4poZqIjHOZvlI5ZdK9gRVPqrCjFqMv1pVVprEtp5iS5vAADqoZ1eX+3FoRIIjN+
+ noPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=rnLo8h8h3qpMsXw4rmg0h4Mlf1YBlXBqCnyDSXIT3o4=;
- b=pWg/uYQv3UnNq+cFZwuiO9t7xbxKvOAytcKYwtdY86ZFg7KVVDQOTWcoQZab3TAsKj
- KKg2Y5BKjaBMkqvIDQrblHYntWIlBf2W9wIzcTyhjOhneY5H8AQTKeyY2cOFe9E+yL9+
- Pn3UqSVMw+kdYUKbveQw4EUIoz/nM2qIcuL/5G43/EDzYbdtr6/sH0dgOMQqfHEUA7gy
- 44ytNcLPqtRFNHU5vvMJoydKrdsFfgURfGCMXXrM7FC/c2Kjca06Hr2m24QGJTwsNNXx
- ocVAaXugwbktilbI59950qf26VvdDZmJK8dyZI0fipJAArHeBj6vSPS6uhX7GZ9foRQ9
- BYmA==
-X-Gm-Message-State: AOAM532k6ritafew+Au13g8AfsVPLSAlvO2yAYQLagRfseuagYTGLEaR
- VGi3KVJhHkA2R/Yv4NdI/INeGvmxWu0=
-X-Google-Smtp-Source: ABdhPJzQLGaTkPb4buANTC6HdT1o5g5hyXC6f2fbOTD9g+cMD2Oc8xrvyq1qT+bJEdXeoMljdSiATg==
-X-Received: by 2002:adf:efc6:: with SMTP id i6mr33072185wrp.428.1635951909303; 
- Wed, 03 Nov 2021 08:05:09 -0700 (PDT)
+ bh=AR6zROu+hSNCFZnWbKN2sMBmcQto/oUWk8gUO4Jr0u0=;
+ b=d7m+7ILfvjvgqF+ssXYYX/USgziaTeV7eQrd5LwAJ4/lvkquQV08Hmw+ZqOqgo5M3T
+ srMtTjQC4DZcLMK4Z0q+QsSA1MXETffL3dmwNMU9s4F/Ln5f8FIVs2w2EtmjZwaJ7Ou8
+ hrbG+rRcJruJdNw4n+9CGiA+Eo5gzL4nd1j/7UDGJcFqG8XIGW3ZNT5aqmlN1s381ZXN
+ 1QVKCLJXoMIlSZqIqrHXChJLup2qTZYyIzubHJ3SsczMT7dLCMsB8kMWNJB5Bo6zBjLJ
+ PJBFMWsyEXb86q8q/N0jUtwVdexfrhObx9BYt0HkVbJPBz9Se3R55n3JzSqNJ//qUI21
+ wynQ==
+X-Gm-Message-State: AOAM532gTQi1qtdPAG8cQKTNNdwsteKXf+38AgvOf5Cg2njNKBJOOK6X
+ R6eVZImgYJkuVMC7voNuin3r4ScJT7Y=
+X-Google-Smtp-Source: ABdhPJxUhflfR1Xs9pxKCDOtb8h/946uLp8JuI5aMupXezdTOY6FsyykYPUvFJX1f/kJhCvBQbV9jA==
+X-Received: by 2002:a05:600c:4e8d:: with SMTP id f13mr81029wmq.7.1635951910468; 
+ Wed, 03 Nov 2021 08:05:10 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id h16sm2488797wrm.27.2021.11.03.08.05.08
+ by smtp.gmail.com with ESMTPSA id h16sm2488797wrm.27.2021.11.03.08.05.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 08:05:08 -0700 (PDT)
+ Wed, 03 Nov 2021 08:05:10 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/27] meson: remove pointless warnings
-Date: Wed,  3 Nov 2021 16:04:38 +0100
-Message-Id: <20211103150442.387121-24-pbonzini@redhat.com>
+Subject: [PULL 24/27] meson: remove unnecessary coreaudio test program
+Date: Wed,  3 Nov 2021 16:04:39 +0100
+Message-Id: <20211103150442.387121-25-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211103150442.387121-1-pbonzini@redhat.com>
 References: <20211103150442.387121-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,38 +88,44 @@ Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Meson tests sometimes warn if the required libraries and headers are present but
-a test program fails to link.  In the case of DirectSound and OSS, however, there
-is no test program so there is no need to warn.
+AudioGetCurrentHostTime has been present forever, so the test is not
+enforcing a specific version of macOS.  In fact the test was broken
+since it was not linking against the coreaudio dependency; just remove it.
 
+Fixes: 87430d5b13 ("configure, meson: move audio driver detection to Meson", 2021-10-14)
 Reported-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 4 ----
- 1 file changed, 4 deletions(-)
+ meson.build | 16 ----------------
+ 1 file changed, 16 deletions(-)
 
 diff --git a/meson.build b/meson.build
-index 0ab9c43bf2..d09e314e04 100644
+index d09e314e04..30b06b12b4 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -924,8 +924,6 @@ if have_system and not get_option('oss').disabled()
-   if not oss.found()
-     if get_option('oss').enabled()
-       error('OSS not found')
+@@ -944,22 +944,6 @@ coreaudio = not_found
+ if not get_option('coreaudio').auto() or (targetos == 'darwin' and have_system)
+   coreaudio = dependency('appleframeworks', modules: 'CoreAudio',
+                          required: get_option('coreaudio'))
+-  if coreaudio.found() and not cc.links('''
+-    #include <CoreAudio/CoreAudio.h>
+-    int main(void)
+-    {
+-      return (int)AudioGetCurrentHostTime();
+-    }''')
+-    coreaudio = not_found
+-  endif
+-
+-  if not coreaudio.found()
+-    if get_option('coreaudio').enabled()
+-      error('CoreAudio not found')
 -    else
--      warning('OSS not found, disabling')
-     endif
-   endif
+-      warning('CoreAudio not found, disabling')
+-    endif
+-  endif
  endif
-@@ -938,8 +936,6 @@ if not get_option('dsound').auto() or (targetos == 'windows' and have_system)
-   if not dsound.found()
-     if get_option('dsound').enabled()
-       error('DirectSound not found')
--    else
--      warning('DirectSound not found, disabling')
-     endif
-   endif
- endif
+ 
+ opengl = not_found
 -- 
 2.31.1
 
