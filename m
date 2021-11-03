@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D48B4444B1
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:34:46 +0100 (CET)
-Received: from localhost ([::1]:47150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08F85444492
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:21:35 +0100 (CET)
+Received: from localhost ([::1]:33172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miIHl-0006Lp-7c
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:34:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52456)
+	id 1miI50-0003FI-4G
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:21:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miHpU-0003fF-B9
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:35 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:36423)
+ id 1miHpS-0003dw-DM
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:32 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:46678)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miHpG-0000z4-0f
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:31 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- z11-20020a1c7e0b000000b0030db7b70b6bso4877361wmc.1
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:05:14 -0700 (PDT)
+ id 1miHpF-0000zA-VZ
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:27 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ b184-20020a1c1bc1000000b0033140bf8dd5so2065439wmb.5
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:05:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LEYPHCoLHi7U2PQlZyg1xbJFkqyNPR2p+feFATfDKZs=;
- b=SPGj0ZihjNSAhZl2e5mw1DufY7yLbWIRAh9MDCFCqrZ+8fqIbcWqIGFfhjaaNjc0QK
- gKh143ZsyB8igGqACGKjL/hjFGth0+ONLd4Ir+sbqh/mf/0EA8CpDa7lQnT9CM6Np8ti
- xaM2aeGECr0OHqTA+0r7ZW2d0OTeR8y0LUHM1N3ZYAoayPLZMD15hRLpy4Bmbcga5R9g
- CWc/nUGLR2KruoWB0b6+Qd/zfBDJektmtT+zOMZplSCtXAN0sRSxh9+9qVQ3EROKQ5Zf
- BN4/jM1hNZ/4lWb0z3CPD+zOmghj7fet/HtRX9bedzxIx649Mhw41kKn2nSlmVceu0mF
- ZulQ==
+ bh=hf6F8LWwHbQDD2Jjgb4WPM+UfGS9Me1LA1sRup9TIeU=;
+ b=aqM65JexbnK5Wej+E5u6PFyc3u+pJ+gXabm8XwEeiBowyWC5K0iZN7qHGi3Bpl9YHZ
+ Ejgu0YGgmzKY5PufqmAKUnDyyv4XBs39LML99A52gBkJPS+IjDUi0jQQaiWUh+TdbyPx
+ eBkKPpYdagVKmZtJXrI97HuBWLp8K+XmAAkLkpPH3sF9JtROH0bJDLNMMkhtDHAvoWcC
+ o3PKE7Z3SUErQHToEFinw5JnQ7TTXCOW4qslODjtdf+dS+DxWaeAg3YHTHQixVcOBbc6
+ +P5Y6O13nk8l6pOQEcfqyqRMqqTrwLNUqfh842exH94j7VfVy1zDhHg7z9FAugmz97na
+ 9baw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=LEYPHCoLHi7U2PQlZyg1xbJFkqyNPR2p+feFATfDKZs=;
- b=O+ovCoG7vobeWHCMpQSAjHfT73RuRmY1OR+DgObTh9ndr0izde7+w8EELYY/g56Mnq
- L1juyoUChl9StfsyGD//cS6nv2a8F1AB8+oGunaVWHGUf1O0gEo5FN+u2rOMBHb1xe1r
- 5bR3RaC8E3KUXJPz2pj72FLN89plk3upzlS6OvAhR71rCVaRMT9HNW1fiLh8N+0xoitZ
- +eNxssnMVBRJfW3SlFBEIfmimNfyFBVqE0NuJ5H1Z8vtZAm/I+jlGl2hEZSJLkxtDeDI
- 6GsL0AoKwb4qjVwgAZhjrL3d+lFSauqnIfzmwKZVDN9uISm4A63QyGG83n78DEDtSfow
- qVow==
-X-Gm-Message-State: AOAM53055sMSpxB1oVFbczWoiy6kU7Isfcq73dEs0AMlqeLzP5mXe+Ar
- LdVgUrewI93ydQ4ZIHA/mw6H+/wcZhs=
-X-Google-Smtp-Source: ABdhPJzJEW12aSoMOpHepK7OqIrNy70EV4vwmrYH1e6efgsSyYLzVQe4a5VkzKz5p35SDNpjc+X9xQ==
-X-Received: by 2002:a05:600c:3b28:: with SMTP id
- m40mr4559123wms.100.1635951913776; 
- Wed, 03 Nov 2021 08:05:13 -0700 (PDT)
+ bh=hf6F8LWwHbQDD2Jjgb4WPM+UfGS9Me1LA1sRup9TIeU=;
+ b=Ss46BYvkQ4pn3tJS1b3EOcvB9SW22E+Taygt+2kMPVM/NXhrpo9Sry87COEAXupkAo
+ RNzGrPwwSYdFgHpmM2fNx+9MXDnhwxylzU+D5gRMKwjkIG1nJ7zX03KtluRW7al21Zas
+ 4hQEWRZeT7ukaVB/lsmf48jztWT0p2OR3rklHTZNwcR18W5v5SOsf+X4WctkNlTQdCXc
+ 5WoS9mPLrzIdJY5kkjJHK0b/Z8CJoYSv8AY47sKnQ9RetDNOLibRYJg2NRkGLRhST6fA
+ jylki139+T2jy4mOoRm8wAN67qCk8vzLLKvM3hDJpGaSZDpJL1npiG4S5iBu1kDEGeQ3
+ hlUA==
+X-Gm-Message-State: AOAM530S2OTM7qAnHXrmnx8YdCDtRRk41MLw8iXmUbvclYEBEFCKtk5/
+ haslaj5/RYtEyWTvi7zlw5drXGLKXHU=
+X-Google-Smtp-Source: ABdhPJy1EWa7KQNuugi8vV7vv5CM/c2QCXc2/bRmPFkKGhhT8gTzr8IVVN9FRqYz5NSU3ST+pqQEBQ==
+X-Received: by 2002:a1c:48e:: with SMTP id 136mr16112444wme.21.1635951914447; 
+ Wed, 03 Nov 2021 08:05:14 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id h16sm2488797wrm.27.2021.11.03.08.05.12
+ by smtp.gmail.com with ESMTPSA id h16sm2488797wrm.27.2021.11.03.08.05.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 08:05:13 -0700 (PDT)
+ Wed, 03 Nov 2021 08:05:14 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/27] configure: Remove the check for the __thread keyword
-Date: Wed,  3 Nov 2021 16:04:41 +0100
-Message-Id: <20211103150442.387121-27-pbonzini@redhat.com>
+Subject: [PULL 27/27] configure: fix --audio-drv-list help message
+Date: Wed,  3 Nov 2021 16:04:42 +0100
+Message-Id: <20211103150442.387121-28-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211103150442.387121-1-pbonzini@redhat.com>
 References: <20211103150442.387121-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,49 +84,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+--audio-drv-list is now establishing which audio drivers to try if -audiodev
+is not used; drivers for -audiodev are configured with --enable/--disable
+options or possibly --without-default-features.  Adjust the help message
+for --audio-drv-list.
 
-We recently bumped our minimum required version of GCC to 7.4
-and Clang to 6.0, and those compiler versions should support
-the __thread keyword already.
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20211028185910.1729744-2-thuth@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 11 -----------
- 1 file changed, 11 deletions(-)
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/configure b/configure
-index 2268e5d0ab..4c444e1750 100755
+index 4c444e1750..97fee368ee 100755
 --- a/configure
 +++ b/configure
-@@ -1724,17 +1724,6 @@ if test "$static" = "yes" ; then
-   fi
- fi
- 
--# Unconditional check for compiler __thread support
--  cat > $TMPC << EOF
--static __thread int tls_var;
--int main(void) { return tls_var; }
--EOF
--
--if ! compile_prog "-Werror" "" ; then
--    error_exit "Your compiler does not support the __thread specifier for " \
--	"Thread-Local Storage (TLS). Please upgrade to a version that does."
--fi
--
- cat > $TMPC << EOF
- 
- #ifdef __linux__
+@@ -1390,7 +1390,7 @@ Advanced options (experts only):
+   --disable-strip          disable stripping binaries
+   --disable-werror         disable compilation abort on warning
+   --disable-stack-protector disable compiler-provided stack protection
+-  --audio-drv-list=LIST    set audio drivers list
++  --audio-drv-list=LIST    set audio drivers to try if -audiodev is not used
+   --block-drv-whitelist=L  Same as --block-drv-rw-whitelist=L
+   --block-drv-rw-whitelist=L
+                            set block driver read-write whitelist
 -- 
 2.31.1
-
 
 
