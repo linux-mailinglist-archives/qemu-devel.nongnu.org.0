@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F9514446B6
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 18:11:16 +0100 (CET)
-Received: from localhost ([::1]:55816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 690AD4446FE
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 18:23:55 +0100 (CET)
+Received: from localhost ([::1]:45050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miJn9-00086r-DU
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 13:11:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35174)
+	id 1miJzO-0005Ei-JP
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 13:23:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1miJiS-0004B9-OF
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:06:25 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34597)
+ id 1miJoI-0005cp-Qs
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:12:26 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:40728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1miJiQ-0003xV-DT
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:06:24 -0400
-Received: by mail-wr1-x432.google.com with SMTP id d5so4651539wrc.1
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 10:06:21 -0700 (PDT)
+ id 1miJoG-00074t-Hg
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:12:26 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id r8so4632414wra.7
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 10:12:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RHcYTC5lNCjrZHkm+0rV2h3yz1/+QOqms6mqHEoCWSE=;
- b=Xxj0EVrbIWFh3dwOXMXBLs4amXEhGGfsGWYMZOke2otHIO2efFfQxpHz2NXKqOZAcW
- psJAm+aqLddTTqLCOoTkV65UY2WKs1SzFaccUnPVUJnOzYJ9Pzk2AqQvlS/nWcuxXeWC
- ycftZBbmJ2jjglqstwMfnu3bANBIh4APE22W+lybcmC680ZEYj62EcpQfp5xbzw5Cqu3
- o6RX/DPGk3kkMrhxXWyahkRIFv6SvA2iZHqqQ8gHyBTzFiKlfJx4ME6el7gOxcXJo6ZJ
- Bcjeb1pY6J+QKWuN+DBoXy8Rw9u9lwvrrqsGoFyL6lHMs1p09IwQHmelTTSDcX/3azwv
- hR5g==
+ bh=e6CwJoaEBKjKMYgYgC8qHcZ4bffXqP81dXgxRXrPAtQ=;
+ b=evIiUVtAEpCKDO2ru74x1vhM30z6THoYQrEBhGxB5c93JfFR0iq/KxMmL/E8mgh/LD
+ Tdn0L8t5IZJ2/F9lyssesxL6TowrrJSq/VZw2R30+h70TxbcO2C7ClnFMscfGc2yY8+U
+ OoJLi9KSRzhjchUfbwpw6RlPH9ngrnUPR/Sl2ICujRWMbOakM5AnSMFozXiT+Z2pQ5Fb
+ MEOIs80o4reFbrXzcit0eRQAx8rPK7TvJItL/kXEfjP4rlbwJw/8W7R6kSlnvo59xI/r
+ z6sn1Q71fS/l7mP0ZEGKNB6Rv0/l2MgmShgQFqcighThtu/NTVSnQIbgaWIRXw50KJJn
+ ntMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RHcYTC5lNCjrZHkm+0rV2h3yz1/+QOqms6mqHEoCWSE=;
- b=0Pw+RJooDcoR9epb9hXdSTHm4cINZ4e+uzS2i6N6vX5vNImHY05cCvYW8TRJE0EHpQ
- w9+ThsP/wS1XcbWMwOxaWuNKFmmlmoJTgfQTHYBp5WC6tdHMBjHDWtoCClNQzXyIVjMT
- EdpNKbpLdvCWRKs1TwLgjEm+aXIgIy+2j9+/+7qZtnWcViVcYnNjKmLit089EXG0Wuqf
- eI81IzX4AZ9TxEnipdphcCST6sa+Wlq0+shYBXml3D3GWB++ZoNtyNQoRxEBRsAY2nTD
- Ylp2fpgFnsj3SN9vQgT2RAElS9hea50rWRHRU9liJ+DQl/Tt4NNf6rYLBDLHW6AnKR4k
- Orpw==
-X-Gm-Message-State: AOAM533BU5k3eXAP/jkg5ZffdUVy2oftBeSnJ34lIZK2WkWVdAGHM13s
- swLQ/VMlYzoYuvcGIYs9hzJ/CnVAE6XYdg==
-X-Google-Smtp-Source: ABdhPJwgzvxg415c69XvUZh0zae7qRLuwDt8IawTNa4Zf7kyQxib3o/SLYliHmMxUeUZOLi26AtngA==
-X-Received: by 2002:a5d:46cb:: with SMTP id g11mr40342135wrs.26.1635959181044; 
- Wed, 03 Nov 2021 10:06:21 -0700 (PDT)
+ bh=e6CwJoaEBKjKMYgYgC8qHcZ4bffXqP81dXgxRXrPAtQ=;
+ b=pHhCMrYYhmMIH833wD4c6dC/0/GFkU3qXElRaETgG6hs3gEurMT/aZVervgdvm7VuX
+ p2KmMnpkZw7J5s1Y/sxAKJ3HrpEmi6/uIoJ6RlxPAY5ma+/VoKI8L85n0puSdoqXcipk
+ OLSVc+V30/bGEjsiTV0Uyv30OCl7dcxPU7cbPs1CgskSWfh+1ZGr3ytPL3YL+3y2t+/s
+ dqOfxQEQULvmFuBFF1sBThBOVj88pjaYjVGWCOZH/qzBjQPrw8RbvXvunjeao3f7alte
+ J/8aFyxGU+08pEqZNTn3TbItV6zXbOE+eeVBMOkPDrvZ0WW3pyY83CfSqXUAUJWEjwHG
+ vdQA==
+X-Gm-Message-State: AOAM530iQ0eL2akph1+CxGxviV8Ku4jmknQqLldJEZ80N+UuGXHALH2x
+ h3iUtxCOoDIUAX5bPEIDoSc/Dg==
+X-Google-Smtp-Source: ABdhPJxwT2rgbK8gmo/v0NPl/B8rWLrm5SqcjMrwcojP9XZg+72lhMJxc+/ShLoeykCSMcVhGSHcPQ==
+X-Received: by 2002:a05:6000:1842:: with SMTP id
+ c2mr31651325wri.301.1635959543152; 
+ Wed, 03 Nov 2021 10:12:23 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l7sm3449809wry.86.2021.11.03.10.06.07
+ by smtp.gmail.com with ESMTPSA id 10sm7013942wme.27.2021.11.03.10.12.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 10:06:11 -0700 (PDT)
+ Wed, 03 Nov 2021 10:12:18 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A840C1FFAC;
+ by zen.linaroharston (Postfix) with ESMTP id C2C6D1FFAE;
  Wed,  3 Nov 2021 17:05:59 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 14/21] docs/tcg-plugins: add L2 arguments to cache docs
-Date: Wed,  3 Nov 2021 17:05:51 +0000
-Message-Id: <20211103170558.717981-15-alex.bennee@linaro.org>
+Subject: [PULL 15/21] chardev: don't exit() straight away on C-a x
+Date: Wed,  3 Nov 2021 17:05:52 +0000
+Message-Id: <20211103170558.717981-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211103170558.717981-1-alex.bennee@linaro.org>
 References: <20211103170558.717981-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,64 +87,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Mahmoud Mandour <ma.mandourr@gmail.com>, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, Alexandre Iooss <erdnaxe@crans.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ =?UTF-8?q?Lukas=20J=C3=BCnger?= <lukas.junger@greensocs.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mahmoud Mandour <ma.mandourr@gmail.com>
+While there are a number of uses in the code-base of the exit(0)
+pattern it gets in the way of clean exit which can do all of it's
+house-keeping. In particular it was reported that you can crash
+plugins this way because TCG can still be running on other threads
+when the atexit callback is called.
 
-cache plugin now allows optional L2 per-core cache emulation that can be
-configured through plugin arguments, this commit adds this functionality
-to the docs.
+Use qmp_quit() instead which takes care of some housekeeping before
+triggering the shutdown.
 
-While I'm at it, I editted the bullet point for cache plugin to say:
-    contrib/plugins/cache.c
-instead of
-    contrib/plugins/cache
-to match other plugins.
-
-Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210810134844.166490-6-ma.mandourr@gmail.com>
-Message-Id: <20211026102234.3961636-18-alex.bennee@linaro.org>
+Reported-by: Lukas Jünger <lukas.junger@greensocs.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20211026102234.3961636-19-alex.bennee@linaro.org>
 
-diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-index 842ae01a4c..59a7d838be 100644
---- a/docs/devel/tcg-plugins.rst
-+++ b/docs/devel/tcg-plugins.rst
-@@ -361,8 +361,9 @@ which will output an execution trace following this structure::
+diff --git a/chardev/char-mux.c b/chardev/char-mux.c
+index ada0c6866f..ee2d47b20d 100644
+--- a/chardev/char-mux.c
++++ b/chardev/char-mux.c
+@@ -28,6 +28,7 @@
+ #include "qemu/option.h"
+ #include "chardev/char.h"
+ #include "sysemu/block-backend.h"
++#include "qapi/qapi-commands-control.h"
+ #include "chardev-internal.h"
  
- - contrib/plugins/cache.c
- 
--Cache modelling plugin that measures the performance of a given cache
--configuration when a given working set is run::
-+Cache modelling plugin that measures the performance of a given L1 cache
-+configuration, and optionally a unified L2 per-core cache when a given working
-+set is run::
- 
-     qemu-x86_64 -plugin ./contrib/plugins/libcache.so \
-       -d plugin -D cache.log ./tests/tcg/x86_64-linux-user/float_convs
-@@ -420,3 +421,18 @@ The plugin has a number of arguments, all of them are optional:
-   Sets the number of cores for which we maintain separate icache and dcache.
-   (default: for linux-user, N = 1, for full system emulation: N = cores
-   available to guest)
+ /* MUX driver for serial I/O splitting */
+@@ -157,7 +158,7 @@ static int mux_proc_byte(Chardev *chr, MuxChardev *d, int ch)
+             {
+                  const char *term =  "QEMU: Terminated\n\r";
+                  qemu_chr_write_all(chr, (uint8_t *)term, strlen(term));
+-                 exit(0);
++                 qmp_quit(NULL);
+                  break;
+             }
+         case 's':
+diff --git a/stubs/qmp-quit.c b/stubs/qmp-quit.c
+new file mode 100644
+index 0000000000..a3ff47f7bd
+--- /dev/null
++++ b/stubs/qmp-quit.c
+@@ -0,0 +1,8 @@
++#include "qemu/osdep.h"
++#include "qapi/qapi-commands-control.h"
++#include "qapi/qmp/dispatch.h"
 +
-+  * l2=on
-+
-+  Simulates a unified L2 cache (stores blocks for both instructions and data)
-+  using the default L2 configuration (cache size = 2MB, associativity = 16-way,
-+  block size = 64B).
-+
-+  * l2cachesize=N
-+  * l2blksize=B
-+  * l2assoc=A
-+
-+  L2 cache configuration arguments. They specify the cache size, block size, and
-+  associativity of the L2 cache, respectively. Setting any of the L2
-+  configuration arguments implies ``l2=on``.
-+  (default: N = 2097152 (2MB), B = 64, A = 16)
++void qmp_quit(Error **errp)
++{
++    g_assert_not_reached();
++}
+diff --git a/stubs/meson.build b/stubs/meson.build
+index f6aa3aa94f..71469c1d50 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -31,6 +31,7 @@ stub_ss.add(files('pci-bus.c'))
+ stub_ss.add(files('qemu-timer-notify-cb.c'))
+ stub_ss.add(files('qmp_memory_device.c'))
+ stub_ss.add(files('qmp-command-available.c'))
++stub_ss.add(files('qmp-quit.c'))
+ stub_ss.add(files('qtest.c'))
+ stub_ss.add(files('ram-block.c'))
+ stub_ss.add(files('ramfb.c'))
 -- 
 2.30.2
 
