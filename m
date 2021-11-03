@@ -2,74 +2,131 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75CFA44423F
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 14:19:01 +0100 (CET)
-Received: from localhost ([::1]:41632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68C77444271
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 14:33:35 +0100 (CET)
+Received: from localhost ([::1]:49156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miGAO-00049W-L5
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 09:19:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60242)
+	id 1miGOU-0002Tn-7L
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 09:33:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <francois.ozog@linaro.org>)
- id 1miG8u-0003Q0-F2
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 09:17:28 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:41758)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <francois.ozog@linaro.org>)
- id 1miG8r-0003RM-GK
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 09:17:27 -0400
-Received: by mail-ed1-x532.google.com with SMTP id ee33so9107421edb.8
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 06:17:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=to3VWalT1oF8s8W0kCuV93KO1EvHg21dh734ZDF3AaA=;
- b=oo9j4sQCKbP5KcU2bPOd3CAA5jliX7rShMdbIDLJ25RUxikTN9+nzO7lRWVjmOb//s
- xxObJCGSOvelf01MxPpKOrg50eUAQLq8L72aab1DfmwzRQKPeV3xSRt0eMxqSkAAeuBD
- jZMQwYlKMZs9DnyylUB/rvp02+vQacnjqjHT8uakVQO+YId7xisHgYkyvBm5SlVba52d
- vMMXBm3AfRJyLHncYX0l2WAIk+rjx6TrIx75ROaJF7tZ+K8762r61/xai+apfxmX5HcG
- TuJjkOGIBDXHiy3rjtzq57vx7i27wR2OMqxVZujxK8GWDUFmw636LFyfQu6yb6Q20mpe
- 26cQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=to3VWalT1oF8s8W0kCuV93KO1EvHg21dh734ZDF3AaA=;
- b=lud+RaSrPB2fPGjak39zWAXin36xJ06EqXT44n8liDg9HalJMmnW3yUJpgG9Dw2OmS
- FxN9p8hg2z399OwlE6bCXEDu8qZIOZaMBnDgVYcmR6VXUztfB2jo+99DXTMa+Fpe7vhA
- S8+7bSEjv/gsFSF0349CMiFWcmSf55QZttK94HtFuDBLu8UcrA68T2UIDUq2jjXtDEiU
- Z7dZRDAYOqZdDQXs1U2uBZxPClrlvtQ8NtOdxVmel8apekeueODuqqinimQs3arOLbqA
- NvhxiUVyqU7ldKWqC48pBCOm9pvhQt4/Ca2zD3z7OiD3FSYVQ84WJ7fYW1QVWhoRREfH
- TjVQ==
-X-Gm-Message-State: AOAM531ooKRl8RyW084CpsboiVHx9kZkvJLdxTuaT6P3Jo7RAPeGVLCb
- WPmB/XKQFg0VYVG6ZOLn3ScozkK3eRbUmndsU4sHzA==
-X-Google-Smtp-Source: ABdhPJyHubuDOvvl030FWLo8+pqEXE6ssozLlSN4us8fQx2VpTXE2RN81N4g3riFy816kMm8x/c9aKR9LtA+1eSW6DU=
-X-Received: by 2002:a05:6402:2707:: with SMTP id
- y7mr6527730edd.26.1635945442589; 
- Wed, 03 Nov 2021 06:17:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1miGKt-0007WM-3f; Wed, 03 Nov 2021 09:29:51 -0400
+Received: from mail-db8eur05on2117.outbound.protection.outlook.com
+ ([40.107.20.117]:3553 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1miGKp-00076y-F8; Wed, 03 Nov 2021 09:29:50 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VPzNvLZZLUeddPxbd3tpE5ygOgBTXkTE2FyeVLi+lKLSfQad8WcKbxRopKqHyC9x8xq/Azn5RWdxXR0kO2k5Yb3ZmdzmsVCFuxIl/Nr1Cfm2G6g3IlkiGbMzoLEvKTX6A6wqI3ya3LBx50VpGssvs8GD2PirT0uEl15IO3gehTJMtsAoS0Y/in8tRZkBmCMFIz45Ao4wVPe+HAYfZJ/I8pwelLyDbyY6Pt0wMmrXEZvoW+rkWJk4LpDM0jsc3ZSuHzr5+4borhgXZYCB/wd332UQbdSaf2FyYng53neulgGpmDxkssc2ubcU9fqEMnshR9tSh3qSkoEYua6gsrKsdw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5xFPIRii+vatFY5UvNqeFEHVQKm87/i9p/uNJhW90N4=;
+ b=c2W6Y6tttyMpc0INE6FutoEkNXh3rNuHFc2rrLGD5TEIRuQyoCxpBJsmjUMkJawBo2Ae2roDCKUaOivhXW8ApA1CK7px26c5Nth/BKoSOCswws6AZ5h5LxQuiICqATZPSW63QnlSsHlp7D0Xdmvul65SWmo0gemyfCwB3TOUrmMyAGytB9U9d0uUj9ltloFvRVuA7THPTnVLoDXUVXqgS4E7TvKAz5c2qloVTQJnaWqyV0RGqvYa4IWmaWWXk4B44UcBrEsp75eJLX0uMMt9hQADDRNzbhJBZScdCmX5G5Z4PB97knQt4n1zrS3cuW4ZsmUhBJ2SXGMgWCW+ZJkYVA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5xFPIRii+vatFY5UvNqeFEHVQKm87/i9p/uNJhW90N4=;
+ b=hFE+TKOwO2UH+wMgSwb1F/VcGfXUGWuPIJxrnAn8g8Z4KKMBecwLdsGSDgwEl3jMvnfu9CBD3fJvoGzQxu9uI6z/7CWbAhE6YkOKybK19YL+95JoUXyFF343hECtTZO8exe83p2X01pB50bI7eDq5mgogoeSze+L6XfDYeviokk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB5256.eurprd08.prod.outlook.com (2603:10a6:20b:e7::32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.15; Wed, 3 Nov
+ 2021 13:29:37 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a994:9f7c:53a5:84bc]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a994:9f7c:53a5:84bc%5]) with mapi id 15.20.4649.020; Wed, 3 Nov 2021
+ 13:29:37 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, armbru@redhat.com, jsnow@redhat.com,
+ vsementsov@virtuozzo.com, eblake@redhat.com, xiechanglong.d@gmail.com,
+ wencongyang2@huawei.com, libvir-list@redhat.com, kchamart@redhat.com
+Subject: [PATCH v3 0/3] qapi & doc: deprecate drive-backup
+Date: Wed,  3 Nov 2021 14:29:09 +0100
+Message-Id: <20211103132912.1977438-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.31.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: AS9PR0301CA0015.eurprd03.prod.outlook.com
+ (2603:10a6:20b:468::23) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <20210926183410.256484-1-sjg@chromium.org>
- <CAFEAcA8S2=7rOKxeqcW+kw0BVPO3PUJGSUH-ioN7=c=U7zQxvg@mail.gmail.com>
- <CAPnjgZ2NCRVxKULWR1JjZU+D9saJ7fbZ=yHmWTSr3ufHxLYg-g@mail.gmail.com>
- <CAFEAcA9n+2JDFv8BezeEMA4e2Zhr0ENAvzLjBS6YXRoW9P-JXQ@mail.gmail.com>
- <CAPnjgZ1AO8575LYbwmuouNR5=dgNam6EFDC1_bai=8xAHdw7-Q@mail.gmail.com>
- <CAFEAcA8FsPcBELEZxiRMuFbKtmKTFgDHABePQ33hdxYRq0C0ig@mail.gmail.com>
- <87ilx9jw7t.fsf@linaro.org>
-In-Reply-To: <87ilx9jw7t.fsf@linaro.org>
-From: =?UTF-8?Q?Fran=C3=A7ois_Ozog?= <francois.ozog@linaro.org>
-Date: Wed, 3 Nov 2021 14:17:11 +0100
-Message-ID: <CAHFG_=VYK3=bCfiFW9aYZRMbHApPzg3+Zj4NDbArmjs0uzFvvQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/virt: Allow additions to the generated device tree
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000fa63aa05cfe23afb"
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=francois.ozog@linaro.org; helo=mail-ed1-x532.google.com
+Received: from kvm.ch-qa.sw.ru (130.117.225.5) by
+ AS9PR0301CA0015.eurprd03.prod.outlook.com (2603:10a6:20b:468::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.15 via Frontend
+ Transport; Wed, 3 Nov 2021 13:29:37 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b936b1aa-092f-4c88-c62b-08d99ecdfb8c
+X-MS-TrafficTypeDiagnostic: AM6PR08MB5256:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB5256251FBCF029AC83CF6388C18C9@AM6PR08MB5256.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: U4/+duTuOlXB6U5y7jZYtaI7zttOoJKmQRKkP0hTgCrr87gKQQNw3JNaTHGP3wxU9TKE8FDpAZzubRCZR/J2gcQCrw0ClVMCHL5L/a9cXZr6mJ7cjjL99kethQHGQQDQOKDpTFdTc36hg0PAuvctDkQlyG1oDD1EbYRD6gH8CVIeFdxnvGhWvIJHUCVaE8iEMcloraqktUfTgCsp5LhRABfQh6lojN7fuXQlgAre6HItmu62GlmoFBSO3ib1lYDUofpRiKXFOPt1zDzMZBz/8kQ/kVYFGGrs+qvMyDWke+GBCyPo6FTdW3wAffwimRPTxDojf6dwt/xk5EjGF+2+sWNqb7LdATS2OE5HPvOXw1TeWnE2GK7f9uhowkjzv67MdXtxbjfZKqKbgG/7JFxaVbBYEkokwfW86kOp3tjPnC3JAn8x0nL4u04c4hG4PeaFfPngamQdJQYTdBPteNdmAJSDYKfqp3b5itlhSgtRwAES4OqGDFlGwUA33DO9ttFO9q3ikwpABjwVxtfV7TerXxgcwjF28kgdvljVoEVrmU2BxZ0asVKFR6LOq3YP+hWy/OQOkIJcrmACmzoI24j3sz5SZRBsbtwc6EWgslfpx0UoHfBd6BvyBSvebQV4uVrLOHFdEW/SCJQk41MF+jRCio7aknTi4+65vKJISDo+obkZs5pG3op5hYy3OnKkL8vyeTFxKZXYbvE5rr/xm/+/PQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(1076003)(8676002)(52116002)(6486002)(6506007)(508600001)(6666004)(4744005)(186003)(8936002)(2906002)(83380400001)(956004)(2616005)(36756003)(66946007)(5660300002)(38100700002)(66476007)(86362001)(6916009)(38350700002)(4326008)(6512007)(66556008)(316002)(26005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?hjpTQ2k0rJtfgDI4by/bBeqkmsVfmH1T61GBLRU9Z1avHOh822BUXdxTs9sx?=
+ =?us-ascii?Q?PIDPn+H4oKle3t66N92+cEFZOH5FK5z8SwCkOhpKxdX5A+bdY4JZvieHp2fU?=
+ =?us-ascii?Q?2iiviF5WkETdGaCnovDU4W096dJYdGlcKjL6aQ4rjCLXWxdPQ2RwIsh76J0z?=
+ =?us-ascii?Q?8Xum2CE8R1PXd3GYnHgK1Ltj4OYx9hdqYjbBipHAKxiePss5PLg1+ox+e0Nm?=
+ =?us-ascii?Q?nEWW+TWOLVnC/3v/trquh2QBP6NXqU0s1nr1D21SKLtMHSRGbDhbc0bEpeBs?=
+ =?us-ascii?Q?xwxBwfCNToUcZHoEycCKXm5qqCYZcRjA2gL15rv2eCzT64KB2gsetr/VAxL0?=
+ =?us-ascii?Q?YgImjEgp6cCFqWHnZZE37yipKiwoxY19Zx1vG/Wie8UCrSFk6QSewI7DDmyx?=
+ =?us-ascii?Q?Z/oKrw+F0Lq7OqSg3mAofK9rOkAHjItCk72lsnfQetypjDNWOxHUKeuCbjpX?=
+ =?us-ascii?Q?Zenub3gNzeegHHMQffTSFXirWf6Pl6BhvPFuOQlajgM28wFALX6fbH6sJWPr?=
+ =?us-ascii?Q?oHmIGTow2w66XwBzObLkPb+RgkKNNdmfbym5mnPcn8LLr2nsq7Ot/xTNfD/K?=
+ =?us-ascii?Q?6CXoeJ4ZDF6HdzNYxOl2w29hYOOWt6LvYmC3iVHJhKxA+M3fn0EUzSCjx2Xz?=
+ =?us-ascii?Q?F5H/nso2aBJ9qdfxqcNi35JFs+kAuujv2vC5P3QSDG19avBQoaxkS2yWHJtR?=
+ =?us-ascii?Q?iU/7kfY4iu9B64WHFI8qIW2m7ZWhoZ5pjIVdgctsz1b4eCimGo6XHRUNelic?=
+ =?us-ascii?Q?I60EOTmFadGXl4up10sHBT1IleNVzb3NWsfOe6v6l4Td2ZhCRJjTVHH/SNBL?=
+ =?us-ascii?Q?rrUL+AwZCleemAL22zCqAhBQTztggB293a2dX+Dt0f/dW2V/xV/1JXdQGX7Q?=
+ =?us-ascii?Q?WWQEEpu35MapD4dS9k/HUYupy9/tOPzRyF3Ru1sWqsvLo4TFWrNLuKalalSL?=
+ =?us-ascii?Q?xUGjKKfCMvEB+Z1qRtPFP+JxAcmIHHhYbsz0+Ogiy70LUZHMjGa4AuSCNF9G?=
+ =?us-ascii?Q?lbyCO6nQJAQSRkcj+KQG0bs9uQ7U3Oa2RFB0TD6HAePZpLOJGZGnk+4+qfRY?=
+ =?us-ascii?Q?41NoHRgvb9hGMXHi8sBog6X1BBNaApUZxX6tFzSsn5YaNiJRi+BbdwQmlH4C?=
+ =?us-ascii?Q?5S1LRqbvJzKZKKE+Htg4Ua7rXnDj1Xz3LjudjXZWUIam8jUyKeMWoqMxBS4a?=
+ =?us-ascii?Q?bsZV1+xd6jM0Ly6OuQyFgNrOUnWdQYR+3Hbll83YnCU11mnbRy3rGoBpAilh?=
+ =?us-ascii?Q?e2kSpbbqhd7+ByTQfgKr4FMZucnP4G3wkPoDme9XI9ePvwwblFeRVJgxc7DR?=
+ =?us-ascii?Q?Y8OXjmYa6QgY1yVDA6nlGpUjVuGXk56vyAo6l3o78biWIAMgSa4mlsu7VXoO?=
+ =?us-ascii?Q?h6PXT3BQI77pvrjvbo9WqWgpzJeV03nv0px0WubNHo4hN/wOjoqWavvO2NCj?=
+ =?us-ascii?Q?8SRMi2Ijzkjfsqp4XKOx2xzljF6iDGe5ndU6jYN58DBUKBxSKwRSc/934Yjp?=
+ =?us-ascii?Q?JwGP9Q4Q2iDnM5sxxmBFkDP5B6AEphXKYD9tcrb5jQe8xCBQr+WG6UYBd6M0?=
+ =?us-ascii?Q?jOWKQUN7+oBCcm8SWvmL0xusYS36eJ3kxmZKXQbAj/6tKmjl1mQv9/PX31Rj?=
+ =?us-ascii?Q?Af0DOKGm9lK1u7DXCQFUETqizyNkaaP8bAtgpqOO6aJfz0Vh/1GGeE+l0hh7?=
+ =?us-ascii?Q?bonE3Q=3D=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b936b1aa-092f-4c88-c62b-08d99ecdfb8c
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2021 13:29:37.7179 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BwIDWN80uyhuHP9otrZGjloCB7cPehRgKL69fr47sz2L9syvSWlPnXK9VQG49hxenLDx55hUXsxNFYCjaCgMSp52SP0P2er2phq4xoLZYaQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5256
+Received-SPF: pass client-ip=40.107.20.117;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,352 +140,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Simon Glass <sjg@chromium.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000fa63aa05cfe23afb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi all!
 
-Hi,
+See 03 commit message for details. 01-02 are preparation docs update.
 
-Thanks Alex to patch me in.
-
-I'd like to present another perspective on the motivation as I can't really
-comment on the actual "how".
-
-On real Arm boards, firmware is often assembled into a FIP.
-That FIP can contain quite a good deal of things, including an
-NT_FW_CONFIG, NonTrusted_FirmWare_CONFIGuration (NT_FW =3D BL33 which is
-U-Boot in our case).
-So the expected typical content for that section is a DT fragment/overlay.
-That section is to be used in different ways but one is
-https://trustedfirmware-a.readthedocs.io/en/latest/components/fconf/index.h=
-tml
-.
-For SystemReady systems we will almost inevitably put a device tree
-fragment in this section and have BL2 merge it with the board DT before
-handing it over to BL33 (U-Boot is one of them).
-In some real world examples based on carrier board + som for instance, it
-may contain SerDes configuration for U-Boot that will result in appropriate
-PCI lanes or MDIO lanes for the booted OS.
-
-So I could say there is precedence in Simon's effort.
-
-In any case, when we will have made the changes in TFA for the SystemReady
-boards we work on, booting the full SystemReady stack (TFA, OP-TEE, U-Boot)
-on Qemu will allow that late merge based through the FIP.
-
-Other boot flows such as VBE (without TFA but with TPL/SPL/U-Boot proper)
-need a similar facility.
-
-Hence I am supporting Simon's proposal at least on the intent. On the how
-exactly, that is outside my skillset.
-
-future comments below
+v3: wording fix-ups and improvements suggested by Kashyap
+v2: add a lot of documentation changes
+v1 was "[PATCH] qapi: deprecate drive-backup"
 
 
-On Wed, 3 Nov 2021 at 12:48, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
-
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > On Mon, 27 Sept 2021 at 16:18, Simon Glass <sjg@chromium.org> wrote:
-> >> On Mon, 27 Sept 2021 at 02:48, Peter Maydell <peter.maydell@linaro.org=
->
-> wrote:
-> >> > So what is missing in the QEMU-provided DTB that it needs?
-> >>
-> >> Quite a lot. Here are some examples:
-> >>
-> >> U-Boot has limited pre-relocation memory so tries to avoid
-> >> binding/probing devices that are not used before relocation:
-> >>
-> >>
-> https://u-boot.readthedocs.io/en/latest/develop/driver-model/design.html#=
-pre-relocation-support
-> >
-> > It's up to u-boot to decide what it wants to touch and
-> > what it does not. QEMU tells u-boot what all the available
-> > devices are; I don't think we should have extra stuff saying
-> > "and if you are u-boot, do something odd".
-> >
-> >> There is a configuration node (which is likely to change form in
-> >> future releases, but will still be there)
-> >>
-> >>
-> https://github.com/u-boot/u-boot/blob/master/doc/device-tree-bindings/con=
-fig.txt
-> >
-> > I think u-boot should be storing this kind of thing somewhere
-> > else (e.g. as part of the binary blob that is u-boot itself,
-> > or stored in flash or RAM as a separate blob).
-> >
-> >> Then there are various features which put things in U-Boot's control
-> >> dtb, such as verified boot, which adds public keys during signing:
-> >>
-> >>
-> https://github.com/u-boot/u-boot/blob/master/doc/uImage.FIT/signature.txt=
-#L135
-> >>
-> >> More generally, the U-Boot tree has hundreds of files which add
-> >> properties for each board, since we try to keep the U-Boot-specific
-> >> things out of the Linux tree:
-> >>
-> >> $ find . -name *u-boot.dtsi |wc -l
-> >> 398
-> >
-> > If any of this is actual information about the hardware then you
-> > should sort out getting the bindings documented officially
-> > (which I think is still in the Linux tree), and then QEMU can
-> > provide them.
-> >
-> >> Quite a bit of this is to do with SPL and so far it seems that QEMU
-> >> mostly runs U-Boot proper only, although I see that SPL is starting to
-> >> creep in too in the U-Boot CI.
-> >>
-> >> So at present QEMU is not able to support U-Boot fully.
-> >
-> > My take is that this is u-boot doing weird custom things with
-> > the DTB that aren't "describe the hardware". You should be able
-> > to boot u-boot by putting those custom DTB extra things in a
-> > separate blob and having u-boot combine that with the
-> > actual DTB when it starts.
->
-> It's not entirely without precedent - for SPL (which I hope is secondary
-> program loading) we have things like the guest loader which expands the
-> plain HW DTB with some information needed by the bootloader and the
-> primary OS to load additional blobs which have been put into memory.
->
-> In effect the DTB is being expanded as a signalling mechanism similar to
-> things like fw_cfg and other things we use to control boot up. Whether
-> this affects the "purity" of DTB as a "just the HW" description is
-> probably a philosophical question.
->
-> More than a philosophical question: a key aspect of supply chain that nee=
-d
-change from
-quite inflexible and tightly coupled to loosely coupled.
- A key aspect of it is to maintain "pure" hardware description DTBs at rest=
-.
-Composition of DTBs at build time (for products) or runtime (for
-development boards) should be a simple thing.
-Another aspect to take into account is System Device Trees. U-Boot only
-deal with Cortex-As on a platform,
-so there are multiple device trees for each compute domain. Communities are
-working on System Device Tree
-to define the overall platform with its power and clock domains. A tool
-"lopper" is being developed to slide the SDT into diverse domain DTs.
-One of them being included into the FIP as the basis for the computing
-element (Carrier, SoM...).
-Those attempts to cleanup passed DTBs from configuration data (drivers,
-bootloaders...) is not incompatible
-with merging fragments at runtime (for dev boards) or build time (for
-products).
-
-> I agree with Peter that just allowing the merging of arbitrary data into
-> the QEMU generated DTB is going to lead to confusion and breakages.
-> Indeed I wrote the guest-loader because instructions for booting Xen up
-> until that point involved dumpdtb and hand hacking the data which was
-> silly because this is stuff QEMU already knew about.
->
-> >
-> > -- PMM
->
->
-> --
-> Alex Benn=C3=A9e
->
+Note, that this series lack deprecating drive-backup transaction action.
+That's done by Markus in 05 patch of
+"[PATCH v4 0/5] qapi: Add feature flags to enum members"
+So, the most effective would be to take these series together.
 
 
---=20
-Fran=C3=A7ois-Fr=C3=A9d=C3=A9ric Ozog | *Director Business Development*
-T: +33.67221.6485
-francois.ozog@linaro.org | Skype: ffozog
+Vladimir Sementsov-Ogievskiy (3):
+  docs/block-replication: use blockdev-backup
+  docs/interop/bitmaps: use blockdev-backup
+  qapi: deprecate drive-backup
 
---000000000000fa63aa05cfe23afb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ docs/about/deprecated.rst              |  11 +
+ docs/block-replication.txt             |   4 +-
+ docs/interop/bitmaps.rst               | 285 +++++++++++++++++++------
+ docs/interop/live-block-operations.rst |  47 ++--
+ qapi/block-core.json                   |   5 +-
+ 5 files changed, 263 insertions(+), 89 deletions(-)
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi,<div><br></div><div>Thanks Alex to pat=
-ch me in.</div><div><br></div><div>I&#39;d like to present another perspect=
-ive on the motivation as I can&#39;t really comment on the actual &quot;how=
-&quot;.</div><div><br></div><div>On real Arm boards, firmware is often asse=
-mbled into a FIP.=C2=A0</div><div>That FIP can contain quite a good deal of=
- things, including an NT_FW_CONFIG, NonTrusted_FirmWare_CONFIGuration (NT_F=
-W =3D BL33 which is U-Boot in our case).</div><div>So the expected typical =
-content for that section is a DT fragment/overlay.</div><div>That section i=
-s to be used in different ways but one is=C2=A0<a href=3D"https://trustedfi=
-rmware-a.readthedocs.io/en/latest/components/fconf/index.html" target=3D"_b=
-lank">https://trustedfirmware-a.readthedocs.io/en/latest/components/fconf/i=
-ndex.html</a>.</div><div>For SystemReady systems we will almost inevitably =
-put a device tree fragment in this section and have BL2 merge it with the b=
-oard DT before handing it over to BL33 (U-Boot is one of them).</div><div>I=
-n some real world examples based on carrier board + som for instance, it ma=
-y contain SerDes configuration for U-Boot that will result in appropriate P=
-CI lanes or MDIO lanes for the booted OS.</div><div><br></div><div>So I cou=
-ld say there is precedence in Simon&#39;s effort.</div><div><br></div><div>=
-In any case, when we will have made the changes in TFA for the SystemReady =
-boards we work on, booting the full SystemReady stack=C2=A0(TFA, OP-TEE, U-=
-Boot) on Qemu will allow that late merge based through the FIP.</div><div><=
-br></div><div>Other boot flows such as VBE (without TFA but with TPL/SPL/U-=
-Boot proper) need a similar facility.=C2=A0</div><div><br></div><div>Hence =
-I am supporting Simon&#39;s proposal at least on the intent. On the how exa=
-ctly, that is outside my skillset.</div><div><br></div><div>future comments=
- below</div><div><br></div></div><br><div class=3D"gmail_quote"><div dir=3D=
-"ltr" class=3D"gmail_attr">On Wed, 3 Nov 2021 at 12:48, Alex Benn=C3=A9e &l=
-t;<a href=3D"mailto:alex.bennee@linaro.org" target=3D"_blank">alex.bennee@l=
-inaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;=
-border-left-color:rgb(204,204,204);padding-left:1ex"><br>
-Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" target=3D"_bl=
-ank">peter.maydell@linaro.org</a>&gt; writes:<br>
-<br>
-&gt; On Mon, 27 Sept 2021 at 16:18, Simon Glass &lt;<a href=3D"mailto:sjg@c=
-hromium.org" target=3D"_blank">sjg@chromium.org</a>&gt; wrote:<br>
-&gt;&gt; On Mon, 27 Sept 2021 at 02:48, Peter Maydell &lt;<a href=3D"mailto=
-:peter.maydell@linaro.org" target=3D"_blank">peter.maydell@linaro.org</a>&g=
-t; wrote:<br>
-&gt;&gt; &gt; So what is missing in the QEMU-provided DTB that it needs?<br=
->
-&gt;&gt;<br>
-&gt;&gt; Quite a lot. Here are some examples:<br>
-&gt;&gt;<br>
-&gt;&gt; U-Boot has limited pre-relocation memory so tries to avoid<br>
-&gt;&gt; binding/probing devices that are not used before relocation:<br>
-&gt;&gt;<br>
-&gt;&gt; <a href=3D"https://u-boot.readthedocs.io/en/latest/develop/driver-=
-model/design.html#pre-relocation-support" rel=3D"noreferrer" target=3D"_bla=
-nk">https://u-boot.readthedocs.io/en/latest/develop/driver-model/design.htm=
-l#pre-relocation-support</a><br>
-&gt;<br>
-&gt; It&#39;s up to u-boot to decide what it wants to touch and<br>
-&gt; what it does not. QEMU tells u-boot what all the available<br>
-&gt; devices are; I don&#39;t think we should have extra stuff saying<br>
-&gt; &quot;and if you are u-boot, do something odd&quot;.<br>
-&gt;<br>
-&gt;&gt; There is a configuration node (which is likely to change form in<b=
-r>
-&gt;&gt; future releases, but will still be there)<br>
-&gt;&gt;<br>
-&gt;&gt; <a href=3D"https://github.com/u-boot/u-boot/blob/master/doc/device=
--tree-bindings/config.txt" rel=3D"noreferrer" target=3D"_blank">https://git=
-hub.com/u-boot/u-boot/blob/master/doc/device-tree-bindings/config.txt</a><b=
-r>
-&gt;<br>
-&gt; I think u-boot should be storing this kind of thing somewhere<br>
-&gt; else (e.g. as part of the binary blob that is u-boot itself,<br>
-&gt; or stored in flash or RAM as a separate blob).<br>
-&gt;<br>
-&gt;&gt; Then there are various features which put things in U-Boot&#39;s c=
-ontrol<br>
-&gt;&gt; dtb, such as verified boot, which adds public keys during signing:=
-<br>
-&gt;&gt;<br>
-&gt;&gt; <a href=3D"https://github.com/u-boot/u-boot/blob/master/doc/uImage=
-.FIT/signature.txt#L135" rel=3D"noreferrer" target=3D"_blank">https://githu=
-b.com/u-boot/u-boot/blob/master/doc/uImage.FIT/signature.txt#L135</a><br>
-&gt;&gt;<br>
-&gt;&gt; More generally, the U-Boot tree has hundreds of files which add<br=
->
-&gt;&gt; properties for each board, since we try to keep the U-Boot-specifi=
-c<br>
-&gt;&gt; things out of the Linux tree:<br>
-&gt;&gt;<br>
-&gt;&gt; $ find . -name *u-boot.dtsi |wc -l<br>
-&gt;&gt; 398<br>
-&gt;<br>
-&gt; If any of this is actual information about the hardware then you<br>
-&gt; should sort out getting the bindings documented officially<br>
-&gt; (which I think is still in the Linux tree), and then QEMU can<br>
-&gt; provide them.<br>
-&gt;<br>
-&gt;&gt; Quite a bit of this is to do with SPL and so far it seems that QEM=
-U<br>
-&gt;&gt; mostly runs U-Boot proper only, although I see that SPL is startin=
-g to<br>
-&gt;&gt; creep in too in the U-Boot CI.<br>
-&gt;&gt;<br>
-&gt;&gt; So at present QEMU is not able to support U-Boot fully.<br>
-&gt;<br>
-&gt; My take is that this is u-boot doing weird custom things with<br>
-&gt; the DTB that aren&#39;t &quot;describe the hardware&quot;. You should =
-be able<br>
-&gt; to boot u-boot by putting those custom DTB extra things in a<br>
-&gt; separate blob and having u-boot combine that with the<br>
-&gt; actual DTB when it starts.<br>
-<br>
-It&#39;s not entirely without precedent - for SPL (which I hope is secondar=
-y<br>
-program loading) we have things like the guest loader which expands the<br>
-plain HW DTB with some information needed by the bootloader and the<br>
-primary OS to load additional blobs which have been put into memory.<br>
-<br>
-In effect the DTB is being expanded as a signalling mechanism similar to<br=
->
-things like fw_cfg and other things we use to control boot up. Whether<br>
-this affects the &quot;purity&quot; of DTB as a &quot;just the HW&quot; des=
-cription is<br>
-probably a philosophical question.<br>
-<br></blockquote><div>More than a philosophical question: a key aspect of s=
-upply chain that need change from</div><div>quite inflexible and tightly co=
-upled to loosely coupled.</div><div>=C2=A0A key aspect of it is to maintain=
- &quot;pure&quot; hardware description DTBs at rest.</div><div>Composition =
-of DTBs at build time (for products) or runtime (for development boards) sh=
-ould be a simple thing.</div><div>Another aspect to take into account is Sy=
-stem Device Trees. U-Boot only deal with Cortex-As on a platform,=C2=A0</di=
-v><div>so there are multiple device trees for each compute domain. Communit=
-ies are working on System Device Tree</div><div>to define the overall platf=
-orm with its power and clock domains. A tool &quot;lopper&quot; is being de=
-veloped to slide the SDT into diverse domain DTs.</div><div>One of them bei=
-ng included into the FIP as the basis for the computing element (Carrier, S=
-oM...).</div><div>Those attempts to cleanup passed DTBs from configuration =
-data (drivers, bootloaders...) is not incompatible=C2=A0</div><div>with mer=
-ging fragments at runtime (for dev boards) or build time (for products).</d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204=
-);padding-left:1ex">
-I agree with Peter that just allowing the merging of arbitrary data into<br=
->
-the QEMU generated DTB is going to lead to confusion and breakages.<br>
-Indeed I wrote the guest-loader because instructions for booting Xen up<br>
-until that point involved dumpdtb and hand hacking the data which was<br>
-silly because this is stuff QEMU already knew about.<br>
-<br>
-&gt;<br>
-&gt; -- PMM<br>
-<br>
-<br>
--- <br>
-Alex Benn=C3=A9e<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
-><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=
-=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr">=
-<div><div><div><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><table st=
-yle=3D"font-size:small" border=3D"0" cellpadding=3D"0" cellspacing=3D"0"><t=
-body><tr><td style=3D"padding-right:10px" valign=3D"top"><img src=3D"https:=
-//static.linaro.org/common/images/linaro-logo-web.png"></td><td valign=3D"t=
-op"><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0"><tbody><tr><td =
-style=3D"font-family:Arial,Helvetica,&quot;Sans Serif&quot;;white-space:now=
-rap;font-size:9pt;padding-top:0px;color:rgb(87,87,87)" valign=3D"top"><span=
- style=3D"font-weight:bold">Fran=C3=A7ois-Fr=C3=A9d=C3=A9ric Ozog</span>=C2=
-=A0<span style=3D"color:rgb(161,161,161)">|</span>=C2=A0<i>Director Busines=
-s Development</i></td></tr><tr><td style=3D"font-family:Arial,Helvetica,&qu=
-ot;Sans Serif&quot;;white-space:nowrap;font-size:9pt;padding-top:2px;color:=
-rgb(87,87,87)" valign=3D"top">T:=C2=A0<a value=3D"+393384075993" style=3D"c=
-olor:rgb(17,85,204)">+33.67221.6485</a><br><a href=3D"mailto:francois.ozog@=
-linaro.org" style=3D"color:rgb(87,87,87);text-decoration:none" target=3D"_b=
-lank">francois.ozog@linaro.org</a>=C2=A0<span style=3D"color:rgb(161,161,16=
-1)">|</span>=C2=A0Skype:=C2=A0ffozog</td></tr></tbody></table></td></tr></t=
-body></table></div></div></div></div></div><div><div><br style=3D"font-size=
-:small"></div></div></div></div></div></div></div></div></div></div></div><=
-/div></div></div></div></div></div>
-</div>
+-- 
+2.31.1
 
---000000000000fa63aa05cfe23afb--
 
