@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF794446FB
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 18:22:52 +0100 (CET)
-Received: from localhost ([::1]:42412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF734446C9
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 18:13:56 +0100 (CET)
+Received: from localhost ([::1]:39706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miJyN-0003Qz-T5
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 13:22:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37090)
+	id 1miJpk-0007pc-1v
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 13:13:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1miJoG-0005Sb-Ae
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:12:24 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44911)
+ id 1miJo8-000519-PG
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:12:16 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:44755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1miJoD-00074Y-VS
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:12:23 -0400
-Received: by mail-wr1-x431.google.com with SMTP id d13so4625460wrf.11
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 10:12:21 -0700 (PDT)
+ id 1miJo6-00073E-Oq
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:12:16 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ c71-20020a1c9a4a000000b0032cdcc8cbafso2373253wme.3
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 10:12:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rK81rLaycn75GU/7jkMSQO8ubSWMfzaA7wAThWraCKQ=;
- b=KkZzVEsghPmvFIB0mj4Nsty7/IzoL2ZJklu/F47q0bK3s7plDiC7gtV7EEwkyegzS7
- nMf6eWz/iitxYhlrKZcgahbf05D8TlU5rFOBcsUhMvfXxBM8WBCTk2Rrr0r635kHcYK/
- AJU6oYKz0Jq7/NagsPYqAwrGGcNYaf10GB906g8EGAt9qOU1RvbDZVu15CgU8XYZ6vVg
- IxbzHRA3ExnTc7OtApK6yUwGT746j+YPk0+TJ/uNxBdulR1iLKrIz8A1QxdZYW3OPf3O
- l3Mmoq5kIuJHJmLGsf8hHHtBTNFYxWBtIXSsb3qg1V1nheBLMddrhMooCxERLJldti7I
- S/iw==
+ bh=m3OZRZ6+tmKnw7GakdlKZKV5dmhTWdnq+opHPpGWJrY=;
+ b=AHnyp3VAe0vHGV2nC6gIWb6AF+UHDQ9JwQGeaHTn/hHC8iIDTmm1mrhEo9QyOZN9Vc
+ MwoUQk/C5mCF3v51juyFmh9Azr5gKOL818MVqipInrFuPUv87VT58L4M28xcTcZTI9G6
+ Uk4ZU+k5cUzI5eJwa/rcVhYmmQMVpxhXCsOESJ75EA0ymHfpYc+fipgEr7XOh9IpXNqI
+ moZHigQDcituR2FNd1wChAb4WNtstvq55soTMVbg54XqL9RF6VDHBte/rQ1CFRkB7rSG
+ i5K8TMnWbZvP4hwncKxv1K8Egq3vo2fmbDu8OBe2xo6/T+yg34BS9NmKwfNEu3MefrfH
+ oIdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rK81rLaycn75GU/7jkMSQO8ubSWMfzaA7wAThWraCKQ=;
- b=OhG+eSaHGokfuwk5TP9fItkEzrPc/yMkePOY/Lnjm/rUL5c4mZ7PNzF1jYp5G9wlt/
- TbTFitdoiOR6Q+gEf1d0BV9Wf33RAuyubDeVSGSJo831F3GC16LJg4y67C8TED89uJx1
- ZTlZY+lZMtPwC5Ebmp46z17290h3hVE3OTk9QP8/qubz0JOFQ8VfAHpNEJ+8+pptN6aW
- enHIEDEuthKM2tLNo7G/lk4VIdQoMcW61kxowYjHr+KCv5drKECVMO902JwN4yEIMwtk
- 5Q2vOCkKH7pHIJi4/wne1upzfSvRDCrGYSbQaVv+QMUF2Zi9fO0/dU0CiOh+wWyuKoNC
- uDnw==
-X-Gm-Message-State: AOAM533740ljHMirfEMlLR0+p1Al/mrGs4rh/mRRXiICYN3tBydnmBBv
- 5M8eWQ2xqkUJrPHmK6we6bxUqnXJbzcZ6g==
-X-Google-Smtp-Source: ABdhPJzBoWIbNp8maYWAAgFuwTkZJihy3vWEYhWgZ/hH5aExdim42vDHMPEuhD34ahp356qkonHgIQ==
-X-Received: by 2002:a05:6000:1868:: with SMTP id
- d8mr21410229wri.285.1635959540584; 
- Wed, 03 Nov 2021 10:12:20 -0700 (PDT)
+ bh=m3OZRZ6+tmKnw7GakdlKZKV5dmhTWdnq+opHPpGWJrY=;
+ b=HLRVkvfzfChngzq3xSJvbR9V/7EdIwL/O5PT2/gAdI+f0Coh/0YE8G1tHw4KfFLMJ9
+ VOzN/PR2XkNhZTwOOWId56WHP7JvVBYePYHiGMmgXO2jmGlHCNOs/Oa6CmtBB+DNV5tq
+ C1IkIiU7XDA+f+BQW5ytjwDrkEbzg4lObbtDxBba19EpdMop/JWhkbIXBBDvraSR7N0M
+ 11yA8O1HVtNzxKkpAgVZCOC3dDRJf09yiufm0Fsw85zDEiE3BK9vAwa3ibJtm9+kFT1t
+ R+AjSP2v0mxHNFOEmPLy5tNJ6hmXwyU5QvVSWE0DF3XjG3X3NS/pSoisDPB+XAYTHQmi
+ ihiA==
+X-Gm-Message-State: AOAM530+Ha4HF9oWe9MFaON6JcaqaISBSrDAlgyxZS9aYBcu1RhyFhne
+ rJsTmGPmfP7RzZD2Mn/gxY2KNQ==
+X-Google-Smtp-Source: ABdhPJz9JUwj/IbRSFOZT+onF1OStCVO4+GXLT4LP2iY9BPvvvGBcvD2SuWQUI5+LPDWlzfUtKlmAQ==
+X-Received: by 2002:a7b:cb97:: with SMTP id m23mr16493532wmi.182.1635959532931; 
+ Wed, 03 Nov 2021 10:12:12 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u16sm5719960wmc.21.2021.11.03.10.12.14
+ by smtp.gmail.com with ESMTPSA id f6sm2415170wmj.40.2021.11.03.10.12.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 10:12:18 -0700 (PDT)
+ Wed, 03 Nov 2021 10:12:11 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 84FBC1FFAA;
+ by zen.linaroharston (Postfix) with ESMTP id 9BFD11FFAB;
  Wed,  3 Nov 2021 17:05:59 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 12/21] plugins/cache: split command line arguments into name
- and value
-Date: Wed,  3 Nov 2021 17:05:49 +0000
-Message-Id: <20211103170558.717981-13-alex.bennee@linaro.org>
+Subject: [PULL 13/21] plugins/cache: make L2 emulation optional through args
+Date: Wed,  3 Nov 2021 17:05:50 +0000
+Message-Id: <20211103170558.717981-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211103170558.717981-1-alex.bennee@linaro.org>
 References: <20211103170558.717981-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,91 +95,207 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 
-This way of handling args is more lenient and sets a better framework to
-parse boolean command line arguments.
+By default L2 is not enabled and is enabled by either using the
+newly-introduced "l2" boolean argument, or by setting any of the L2
+cache parameters using args. On specifying "l2=on", the default cache
+configuration is used.
 
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210810134844.166490-4-ma.mandourr@gmail.com>
-Message-Id: <20211026102234.3961636-16-alex.bennee@linaro.org>
+Message-Id: <20210810134844.166490-5-ma.mandourr@gmail.com>
+Message-Id: <20211026102234.3961636-17-alex.bennee@linaro.org>
 
 diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
-index 908c967a09..ff325beb9f 100644
+index ff325beb9f..b9226e7c40 100644
 --- a/contrib/plugins/cache.c
 +++ b/contrib/plugins/cache.c
-@@ -11,6 +11,8 @@
+@@ -97,6 +97,8 @@ void (*metadata_destroy)(Cache *cache);
  
- #include <qemu-plugin.h>
- 
-+#define STRTOLL(x) g_ascii_strtoll(x, NULL, 10)
+ static int cores;
+ static Cache **l1_dcaches, **l1_icaches;
 +
- QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++static bool use_l2;
+ static Cache **l2_ucaches;
  
- static enum qemu_plugin_mem_rw rw = QEMU_PLUGIN_MEM_RW;
-@@ -746,35 +748,36 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
+ static GMutex *l1_dcache_locks;
+@@ -410,7 +412,7 @@ static void vcpu_mem_access(unsigned int vcpu_index, qemu_plugin_meminfo_t info,
+     l1_dcaches[cache_idx]->accesses++;
+     g_mutex_unlock(&l1_dcache_locks[cache_idx]);
  
-     for (i = 0; i < argc; i++) {
-         char *opt = argv[i];
--        if (g_str_has_prefix(opt, "iblksize=")) {
--            l1_iblksize = g_ascii_strtoll(opt + 9, NULL, 10);
--        } else if (g_str_has_prefix(opt, "iassoc=")) {
--            l1_iassoc = g_ascii_strtoll(opt + 7, NULL, 10);
--        } else if (g_str_has_prefix(opt, "icachesize=")) {
--            l1_icachesize = g_ascii_strtoll(opt + 11, NULL, 10);
--        } else if (g_str_has_prefix(opt, "dblksize=")) {
--            l1_dblksize = g_ascii_strtoll(opt + 9, NULL, 10);
--        } else if (g_str_has_prefix(opt, "dassoc=")) {
--            l1_dassoc = g_ascii_strtoll(opt + 7, NULL, 10);
--        } else if (g_str_has_prefix(opt, "dcachesize=")) {
--            l1_dcachesize = g_ascii_strtoll(opt + 11, NULL, 10);
--        } else if (g_str_has_prefix(opt, "limit=")) {
--            limit = g_ascii_strtoll(opt + 6, NULL, 10);
--        } else if (g_str_has_prefix(opt, "cores=")) {
--            cores = g_ascii_strtoll(opt + 6, NULL, 10);
--        } else if (g_str_has_prefix(opt, "l2cachesize=")) {
--            l2_cachesize = g_ascii_strtoll(opt + 6, NULL, 10);
--        } else if (g_str_has_prefix(opt, "l2blksize=")) {
--            l2_blksize = g_ascii_strtoll(opt + 6, NULL, 10);
--        } else if (g_str_has_prefix(opt, "l2assoc=")) {
--            l2_assoc = g_ascii_strtoll(opt + 6, NULL, 10);
--        } else if (g_str_has_prefix(opt, "evict=")) {
--            gchar *p = opt + 6;
--            if (g_strcmp0(p, "rand") == 0) {
-+        g_autofree char **tokens = g_strsplit(opt, "=", 2);
+-    if (hit_in_l1) {
++    if (hit_in_l1 || !use_l2) {
+         /* No need to access L2 */
+         return;
+     }
+@@ -445,7 +447,7 @@ static void vcpu_insn_exec(unsigned int vcpu_index, void *userdata)
+     l1_icaches[cache_idx]->accesses++;
+     g_mutex_unlock(&l1_icache_locks[cache_idx]);
+ 
+-    if (hit_in_l1) {
++    if (hit_in_l1 || !use_l2) {
+         /* No need to access L2 */
+         return;
+     }
+@@ -542,19 +544,25 @@ static void append_stats_line(GString *line, uint64_t l1_daccess,
+ 
+     l1_dmiss_rate = ((double) l1_dmisses) / (l1_daccess) * 100.0;
+     l1_imiss_rate = ((double) l1_imisses) / (l1_iaccess) * 100.0;
+-    l2_miss_rate =  ((double) l2_misses) / (l2_access) * 100.0;
+ 
+     g_string_append_printf(line, "%-14lu %-12lu %9.4lf%%  %-14lu %-12lu"
+-                           " %9.4lf%%  %-12lu %-11lu %10.4lf%%\n",
++                           " %9.4lf%%",
+                            l1_daccess,
+                            l1_dmisses,
+                            l1_daccess ? l1_dmiss_rate : 0.0,
+                            l1_iaccess,
+                            l1_imisses,
+-                           l1_iaccess ? l1_imiss_rate : 0.0,
+-                           l2_access,
+-                           l2_misses,
+-                           l2_access ? l2_miss_rate : 0.0);
++                           l1_iaccess ? l1_imiss_rate : 0.0);
 +
-+        if (g_strcmp0(tokens[0], "iblksize") == 0) {
-+            l1_iblksize = STRTOLL(tokens[1]);
-+        } else if (g_strcmp0(tokens[0], "iassoc") == 0) {
-+            l1_iassoc = STRTOLL(tokens[1]);
-+        } else if (g_strcmp0(tokens[0], "icachesize") == 0) {
-+            l1_icachesize = STRTOLL(tokens[1]);
-+        } else if (g_strcmp0(tokens[0], "dblksize") == 0) {
-+            l1_dblksize = STRTOLL(tokens[1]);
-+        } else if (g_strcmp0(tokens[0], "dassoc") == 0) {
-+            l1_dassoc = STRTOLL(tokens[1]);
-+        } else if (g_strcmp0(tokens[0], "dcachesize") == 0) {
-+            l1_dcachesize = STRTOLL(tokens[1]);
-+        } else if (g_strcmp0(tokens[0], "limit") == 0) {
-+            limit = STRTOLL(tokens[1]);
-+        } else if (g_strcmp0(tokens[0], "cores") == 0) {
-+            cores = STRTOLL(tokens[1]);
-+        } else if (g_strcmp0(tokens[0], "l2cachesize") == 0) {
-+            l2_cachesize = STRTOLL(tokens[1]);
-+        } else if (g_strcmp0(tokens[0], "l2blksize") == 0) {
-+            l2_blksize = STRTOLL(tokens[1]);
-+        } else if (g_strcmp0(tokens[0], "l2assoc") == 0) {
-+            l2_assoc = STRTOLL(tokens[1]);
-+        } else if (g_strcmp0(tokens[0], "evict") == 0) {
-+            if (g_strcmp0(tokens[1], "rand") == 0) {
++    if (use_l2) {
++        l2_miss_rate =  ((double) l2_misses) / (l2_access) * 100.0;
++        g_string_append_printf(line, "  %-12lu %-11lu %10.4lf%%",
++                               l2_access,
++                               l2_misses,
++                               l2_access ? l2_miss_rate : 0.0);
++    }
++
++    g_string_append(line, "\n");
+ }
+ 
+ static void sum_stats(void)
+@@ -568,8 +576,10 @@ static void sum_stats(void)
+         l1_imem_accesses += l1_icaches[i]->accesses;
+         l1_dmem_accesses += l1_dcaches[i]->accesses;
+ 
+-        l2_misses += l2_ucaches[i]->misses;
+-        l2_mem_accesses += l2_ucaches[i]->accesses;
++        if (use_l2) {
++            l2_misses += l2_ucaches[i]->misses;
++            l2_mem_accesses += l2_ucaches[i]->accesses;
++        }
+     }
+ }
+ 
+@@ -604,25 +614,31 @@ static void log_stats(void)
+ 
+     g_autoptr(GString) rep = g_string_new("core #, data accesses, data misses,"
+                                           " dmiss rate, insn accesses,"
+-                                          " insn misses, imiss rate,"
+-                                          " l2 accesses, l2 misses,"
+-                                          " l2 miss rate\n");
++                                          " insn misses, imiss rate");
++
++    if (use_l2) {
++        g_string_append(rep, ", l2 accesses, l2 misses, l2 miss rate");
++    }
++
++    g_string_append(rep, "\n");
+ 
+     for (i = 0; i < cores; i++) {
+         g_string_append_printf(rep, "%-8d", i);
+         dcache = l1_dcaches[i];
+         icache = l1_icaches[i];
+-        l2_cache = l2_ucaches[i];
++        l2_cache = use_l2 ? l2_ucaches[i] : NULL;
+         append_stats_line(rep, dcache->accesses, dcache->misses,
+-                icache->accesses, icache->misses, l2_cache->accesses,
+-                l2_cache->misses);
++                icache->accesses, icache->misses,
++                l2_cache ? l2_cache->accesses : 0,
++                l2_cache ? l2_cache->misses : 0);
+     }
+ 
+     if (cores > 1) {
+         sum_stats();
+         g_string_append_printf(rep, "%-8s", "sum");
+         append_stats_line(rep, l1_dmem_accesses, l1_dmisses,
+-                l1_imem_accesses, l1_imisses, l2_mem_accesses, l2_misses);
++                l1_imem_accesses, l1_imisses,
++                l2_cache ? l2_mem_accesses : 0, l2_cache ? l2_misses : 0);
+     }
+ 
+     g_string_append(rep, "\n");
+@@ -663,6 +679,10 @@ static void log_top_insns(void)
+                                insn->disas_str);
+     }
+ 
++    if (!use_l2) {
++        goto finish;
++    }
++
+     miss_insns = g_list_sort(miss_insns, l2_cmp);
+     g_string_append_printf(rep, "%s", "\naddress, L2 misses, instruction\n");
+ 
+@@ -676,6 +696,7 @@ static void log_top_insns(void)
+                                insn->disas_str);
+     }
+ 
++finish:
+     qemu_plugin_outs(rep->str);
+     g_list_free(miss_insns);
+ }
+@@ -687,11 +708,14 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
+ 
+     caches_free(l1_dcaches);
+     caches_free(l1_icaches);
+-    caches_free(l2_ucaches);
+ 
+     g_free(l1_dcache_locks);
+     g_free(l1_icache_locks);
+-    g_free(l2_ucache_locks);
++
++    if (use_l2) {
++        caches_free(l2_ucaches);
++        g_free(l2_ucache_locks);
++    }
+ 
+     g_hash_table_destroy(miss_ht);
+ }
+@@ -767,11 +791,19 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
+         } else if (g_strcmp0(tokens[0], "cores") == 0) {
+             cores = STRTOLL(tokens[1]);
+         } else if (g_strcmp0(tokens[0], "l2cachesize") == 0) {
++            use_l2 = true;
+             l2_cachesize = STRTOLL(tokens[1]);
+         } else if (g_strcmp0(tokens[0], "l2blksize") == 0) {
++            use_l2 = true;
+             l2_blksize = STRTOLL(tokens[1]);
+         } else if (g_strcmp0(tokens[0], "l2assoc") == 0) {
++            use_l2 = true;
+             l2_assoc = STRTOLL(tokens[1]);
++        } else if (g_strcmp0(tokens[0], "l2") == 0) {
++            if (!qemu_plugin_bool_parse(tokens[0], tokens[1], &use_l2)) {
++                fprintf(stderr, "boolean argument parsing failed: %s\n", opt);
++                return -1;
++            }
+         } else if (g_strcmp0(tokens[0], "evict") == 0) {
+             if (g_strcmp0(tokens[1], "rand") == 0) {
                  policy = RAND;
--            } else if (g_strcmp0(p, "lru") == 0) {
-+            } else if (g_strcmp0(tokens[1], "lru") == 0) {
-                 policy = LRU;
--            } else if (g_strcmp0(p, "fifo") == 0) {
-+            } else if (g_strcmp0(tokens[1], "fifo") == 0) {
-                 policy = FIFO;
-             } else {
-                 fprintf(stderr, "invalid eviction policy: %s\n", opt);
+@@ -807,8 +839,8 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
+         return -1;
+     }
+ 
+-    l2_ucaches = caches_init(l2_blksize, l2_assoc, l2_cachesize);
+-    if (!l2_ucaches) {
++    l2_ucaches = use_l2 ? caches_init(l2_blksize, l2_assoc, l2_cachesize) : NULL;
++    if (!l2_ucaches && use_l2) {
+         const char *err = cache_config_error(l2_blksize, l2_assoc, l2_cachesize);
+         fprintf(stderr, "L2 cache cannot be constructed from given parameters\n");
+         fprintf(stderr, "%s\n", err);
+@@ -817,7 +849,7 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
+ 
+     l1_dcache_locks = g_new0(GMutex, cores);
+     l1_icache_locks = g_new0(GMutex, cores);
+-    l2_ucache_locks = g_new0(GMutex, cores);
++    l2_ucache_locks = use_l2 ? g_new0(GMutex, cores) : NULL;
+ 
+     qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
+     qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
 -- 
 2.30.2
 
