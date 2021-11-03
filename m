@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0693E443CD6
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 06:45:36 +0100 (CET)
-Received: from localhost ([::1]:51352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B22E443CD8
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 06:46:37 +0100 (CET)
+Received: from localhost ([::1]:52090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mi95a-00061R-OZ
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 01:45:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35086)
+	id 1mi96a-0006YF-Bf
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 01:46:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mi901-0004hy-Cf
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 01:39:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21818)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mi8zy-00076X-Vf
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 01:39:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635917984;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fRh/Ps6VaquJl0BLOU5aT1KqpepWTIbgu9JinG7cCCE=;
- b=MTeGUYsfYjxsIt9IEu1UPL3DjCdICrAcgnk9ZNU+6FMNL9LH8j3eWkDLjsnBXGUD1Qu74U
- ag4FIo5Fxax4sIa7OGgT3De6LYNOnJLFyItt45/Gg2S2zyJmDfbmyUUkM9oYR7kr491bs1
- yeOif1x9HDruPbnkaE3AbCcHgqhEby0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-TPRzXb-lOgSctBcHpzwY6Q-1; Wed, 03 Nov 2021 01:39:41 -0400
-X-MC-Unique: TPRzXb-lOgSctBcHpzwY6Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0FFCC10A8E00;
- Wed,  3 Nov 2021 05:39:40 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.194.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B85F55D9D3;
- Wed,  3 Nov 2021 05:39:39 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D85BD1800924; Wed,  3 Nov 2021 06:39:37 +0100 (CET)
-Date: Wed, 3 Nov 2021 06:39:37 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Dongwon Kim <dongwon.kim@intel.com>
-Subject: Re: [PATCH v2 1/2] virtio-gpu: splitting one extended mode guest fb
- into n-scanouts
-Message-ID: <20211103053937.on4dg37wmkx2f2t5@sirius.home.kraxel.org>
-References: <20210706235255.7575-1-dongwon.kim@intel.com>
- <20210726215950.26705-1-dongwon.kim@intel.com>
- <20211102135154.lfntfm7wdswa5kdf@sirius.home.kraxel.org>
- <20211103004110.GA751@dongwonk-MOBL.amr.corp.intel.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mi90x-00051F-67; Wed, 03 Nov 2021 01:40:48 -0400
+Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:39738)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mi90v-0007hd-ML; Wed, 03 Nov 2021 01:40:46 -0400
+Received: by mail-io1-xd29.google.com with SMTP id h81so1441575iof.6;
+ Tue, 02 Nov 2021 22:40:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pxxUI3pXcd9Sr5V7kGDLOFss6pVvlDWHX345L2qCTLs=;
+ b=mgiitGhbWUQziXiTTzv7ouELb2TShEJTYn72YUfGlJdGlPWQokH8uB9mc76tYMfU4G
+ aeQSpTUKntJu31cEtd5FqmItTMg2iXghHi4+ljDscvXOxwh2BltUAkI9XgUgjul1iOsk
+ 3Cf38obAQdVJNv9Ki35auOBeZhW/d/j1P7QjbX3E8M5vTAgT7S0Wl8uY3fBuCuBAr12M
+ Rg77IWTmGObFUjTXBE0VsGJmR1xRjn8/qcVAezhBI7qEml+Kf1DBN1leDrdt5DV2iMd9
+ joS2v3KE/eIsJI8m4yB4hqtL6FYi1TBPWXoOD6qm0/KyF0lY4jEmNY8VOuhbLQ3y2dg6
+ cFtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pxxUI3pXcd9Sr5V7kGDLOFss6pVvlDWHX345L2qCTLs=;
+ b=ihlYAXni1fkZiYSoyXaRyCQplK/SVYcGOogvrRPlEtshQLHB55549DUiUHgoo/FDs6
+ L7yswuNe4znTg5qfOx+yGSS+uf05SS1jLOn0LiUo2pJaiOLayVctph7qIfe81C87XC3D
+ mHVwmbqfvzo2vA6qLvwXF8R6gKjPxsaF80WUq67lfv6M6gIw5V35FjYZ4xKozuO1fc5/
+ x0f1/o4rmY/0yjx8ltu4GILluhSF4pIpjQ5zD/i0f0n95QeY1O8+8VZyESZH+0NHDU9z
+ 8h5cRDjDgNRgrEAN8DuTMw7P6tPqXzhwO9IJDgmnJqG8mgikBW6RAxouUThhRjexRf6S
+ w7LA==
+X-Gm-Message-State: AOAM530axD6KhD1tjD+hBsqDjwoUOGXRPpv/f2gANPm5sJxxUPhQnpYT
+ 9D3i73tR5xtTdfl72pzmISSOSoiMcgDmWKZ04oA=
+X-Google-Smtp-Source: ABdhPJzQ8olfXIF1RUNX2Qy7IX9cBFIcR+d0vJsQePfAD97ryigL9nzgqH3+cLgP5N5YEAvMfdpcVGXLDr5nDO2ERwk=
+X-Received: by 2002:a05:6602:2e8c:: with SMTP id
+ m12mr29304597iow.91.1635918042606; 
+ Tue, 02 Nov 2021 22:40:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211103004110.GA751@dongwonk-MOBL.amr.corp.intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20211025195601.245631-1-atish.patra@wdc.com>
+ <20211025195601.245631-2-atish.patra@wdc.com>
+In-Reply-To: <20211025195601.245631-2-atish.patra@wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 3 Nov 2021 15:40:16 +1000
+Message-ID: <CAKmqyKPOu2nDE8DEMSV55mp7UCYcsS45Y9dDCbeKXvEh6HxDbw@mail.gmail.com>
+Subject: Re: [ PATCH v3 01/10] target/riscv: Fix PMU CSR predicate function
+To: Atish Patra <atish.patra@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd29.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,34 +77,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, vivek.kasireddy@intel.com
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 02, 2021 at 05:41:10PM -0700, Dongwon Kim wrote:
-> I double-checked the patch and also tried to build with --disable-opengl
-> but couldn't find any issue. Can you please give me some hint? Like
-> build errors you saw. What are changed by the patch are pretty much
-> limited to virtio-gpu blob case and just one change in common area is
-> egl_fb_blit function but the function interface stays same and there are
-> no variables enabled only with certain define.
-> 
-> Is there any chance that the build system was building it with the
-> previous patch, "ui/gtk-egl: un-tab and re-tab should destroy egl
-> surface and context" still applied?
+On Tue, Oct 26, 2021 at 6:39 AM Atish Patra <atish.patra@wdc.com> wrote:
+>
+> The predicate function calculates the counter index incorrectly for
+> hpmcounterx. Fix the counter index to reflect correct CSR number.
+>
+> Signed-off-by: Atish Patra <atish.patra@wdc.com>
 
-Hmm, I had applied both, then dropped the failing series, but possibly I
-missed some broken patch.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Trying to apply the series on top of the v2 just sent failed.
+Alistair
 
-Any chance you can send a single patch series with all pending patches
-(including the "virtio-gpu: Add a default synchronization mechanism for
-blobs" series by Vivek which also doesn't apply cleanly any more)?
-
-Ideally tested in gitlab ci?
-
-thanks,
-  Gerd
-
+> ---
+>  target/riscv/csr.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 23fbbd32162a..1ec776013435 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -89,8 +89,9 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+>              }
+>              break;
+>          case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
+> -            if (!get_field(env->hcounteren, 1 << (csrno - CSR_HPMCOUNTER3)) &&
+> -                get_field(env->mcounteren, 1 << (csrno - CSR_HPMCOUNTER3))) {
+> +            ctr_index = csrno - CSR_CYCLE;
+> +            if (!get_field(env->hcounteren, 1 << ctr_index) &&
+> +                 get_field(env->mcounteren, 1 << ctr_index)) {
+>                  return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>              }
+>              break;
+> @@ -116,8 +117,9 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+>                  }
+>                  break;
+>              case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
+> -                if (!get_field(env->hcounteren, 1 << (csrno - CSR_HPMCOUNTER3H)) &&
+> -                    get_field(env->mcounteren, 1 << (csrno - CSR_HPMCOUNTER3H))) {
+> +                ctr_index = csrno - CSR_CYCLEH;
+> +                if (!get_field(env->hcounteren, 1 << ctr_index) &&
+> +                     get_field(env->mcounteren, 1 << ctr_index)) {
+>                      return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>                  }
+>                  break;
+> --
+> 2.31.1
+>
+>
 
