@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CFB2444572
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 17:09:35 +0100 (CET)
-Received: from localhost ([::1]:34018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2431444599
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 17:12:22 +0100 (CET)
+Received: from localhost ([::1]:37416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miIpS-000326-8H
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 12:09:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45438)
+	id 1miIs9-0005lR-Ml
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 12:12:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1miIoF-0001Xd-Jy
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 12:08:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28249)
+ id 1miIrH-00053G-KU
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 12:11:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44009)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1miIoB-0002nz-Hr
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 12:08:18 -0400
+ id 1miIrD-0003vX-7J
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 12:11:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635955694;
+ s=mimecast20190719; t=1635955881;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=B8uy84VxcTFj6HEWA4alvlW3tjdhBfME5A/cHNZYZLI=;
- b=F8I1N4+iaXkdj3xvo4sWyYFW1RisorGSKBMMm2cSw/TKPGIehTxPB3llHsMLnplpfORh2D
- QvT0NY7gNQz/Rsx7BvEZObRoHMV8jn8xnrpiz/9wrdt50IHtBACs3zrfvQItmyO6TRfNKh
- l0lLI66t5EebulwXraOJAK0I7ecuvQM=
+ bh=ByOggNdQRm6wA6nZc0BF2QxYpXM9SdY5Pqctx1CTcwA=;
+ b=dgf/LfG7k+6NF31eII5RngzKbNa7GlMWn3Av63qIzFWMV+VBfWaKVJfdStZHgK+2xgKB8t
+ jCECm+vm7LYHJ16o08AAXfYEoxzGKoFg0Y7d9azYkTrVrZMFnhyzHDGW9O53YZK+INoO7p
+ zJ3QZdzklsrvuOAw/Vx7nmC7b8oVU0w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-62-BHmXP9XzMI-pu08bZqTJIg-1; Wed, 03 Nov 2021 12:08:11 -0400
-X-MC-Unique: BHmXP9XzMI-pu08bZqTJIg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-192-9TjStLlaN6GCzOrZOWR4_w-1; Wed, 03 Nov 2021 12:11:20 -0400
+X-MC-Unique: 9TjStLlaN6GCzOrZOWR4_w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF5C5BD52C;
- Wed,  3 Nov 2021 16:07:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F83510247BE;
+ Wed,  3 Nov 2021 16:10:47 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.195.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F1CE6196E5;
- Wed,  3 Nov 2021 16:07:48 +0000 (UTC)
-Date: Wed, 3 Nov 2021 16:07:45 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 53A99101E591;
+ Wed,  3 Nov 2021 16:10:45 +0000 (UTC)
+Date: Wed, 3 Nov 2021 16:10:42 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Dov Murik <dovmurik@linux.ibm.com>
-Subject: Re: [PATCH 2/3] sev/i386: Warn if using -kernel with invalid OVMF
- hashes table area
-Message-ID: <YYKz0QX3AIf9oxYH@redhat.com>
+Subject: Re: [PATCH 0/3] SEV: fixes for -kernel launch with incompatible OVMF
+Message-ID: <YYK0giDFEo3Y70Qx@redhat.com>
 References: <20211101102136.1706421-1-dovmurik@linux.ibm.com>
- <20211101102136.1706421-3-dovmurik@linux.ibm.com>
+ <0291b6fc-b613-5eae-77a0-b344020a8376@amd.com>
+ <39de4c3a-4351-3705-0962-7bb8d496fe28@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20211101102136.1706421-3-dovmurik@linux.ibm.com>
+In-Reply-To: <39de4c3a-4351-3705-0962-7bb8d496fe28@linux.ibm.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -91,57 +91,30 @@ Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 01, 2021 at 10:21:35AM +0000, Dov Murik wrote:
-> Commit cff03145ed3c ("sev/i386: Introduce sev_add_kernel_loader_hashes
-> for measured linux boot", 2021-09-30) introduced measured direct boot
-> with -kernel, using an OVMF-designated hashes table which QEMU fills.
+On Tue, Nov 02, 2021 at 03:22:24PM +0200, Dov Murik wrote:
 > 
-> However, no checks are performed on the validity of the hashes area
-> designated by OVMF.  Specifically, if OVMF publishes the
-> SEV_HASH_TABLE_RV_GUID entry but it is filled with zeroes, this will
-> cause QEMU to write the hashes entries over the first page of the
-> guest's memory (GPA 0).
 > 
-> Add validity checks to the published area.  If the hashes table area's
-> base address is zero, or its size is too small to fit the aligned hashes
-> table, warn and skip the hashes entries addition.  In such case, the
-> following warning will be displayed:
+> On 02/11/2021 12:52, Brijesh Singh wrote:
+> > Hi Dov,
+> > 
+> > Overall the patch looks good, only question I have is that now we are
+> > enforce qemu to hash the kernel, initrd and cmdline unconditionally for
+> > any of the SEV guest launches. This requires anyone wanting to
+> > calculating the expected measurement need to account for it. Should we
+> > make the hash page build optional ?
+> > 
 > 
->     qemu-system-x86_64: warning: SEV: OVMF's hashes table area is invalid (base=0x0 size=0x0)
-> 
-> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
-> Reported-by: Brijesh Singh <brijesh.singh@amd.com>
-> ---
->  target/i386/sev.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index 682b8ccf6c..a20ddb545e 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -1201,13 +1201,18 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
->      uint8_t kernel_hash[HASH_SIZE];
->      uint8_t *hashp;
->      size_t hash_len = HASH_SIZE;
-> -    int aligned_len;
-> +    int aligned_len = ROUND_UP(sizeof(SevHashTable), 16);
->  
->      if (!pc_system_ovmf_table_find(SEV_HASH_TABLE_RV_GUID, &data, NULL)) {
->          warn_report("SEV: kernel specified but OVMF has no hash table guid");
->          return false;
->      }
->      area = (SevHashTableDescriptor *)data;
-> +    if (!area->base || area->size < aligned_len) {
-> +        warn_report("SEV: OVMF's hashes table area is invalid (base=0x%x size=0x%x)",
-> +                    area->base, area->size);
-> +        return false;
-> +    }
+> The problem with adding a -enable-add-kernel-hashes QEMU option (or
+> suboption) is yet another complexity for the user.
 
-I think warn_report is likely a bad idea.
+I don't view that as complexity - rather it is the user being explicit
+about what their requirements are. If they ask for the kernel hashes
+and we can't honour that, we can now give them a clear error and
+exit instead of carrying on with a broken setup.
 
-If someone's use case is relying on the hashs being populated, then
-we need to be able to error_report and exit, not carry on with a
-known broken setup.
+If they don't ask for kernel hashes, we can skip the whole bit and
+not have a problem with bogus warnings or back compatibilty worries.
+
 
 Regards,
 Daniel
