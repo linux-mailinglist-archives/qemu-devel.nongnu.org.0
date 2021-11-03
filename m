@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C22F84444A8
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:30:12 +0100 (CET)
-Received: from localhost ([::1]:58122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 145C54444AB
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:32:05 +0100 (CET)
+Received: from localhost ([::1]:36422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miIDL-0003Dv-TX
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:30:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60156)
+	id 1miIFA-0007eD-4b
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:32:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1miI7C-0001iy-Dv
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:23:51 -0400
-Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:43630)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1miI77-0002MM-VI
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:23:48 -0400
-Received: by mail-qk1-x72e.google.com with SMTP id bp7so2612840qkb.10
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:23:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:references:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=jBtm4kccoxZlTr1YK0iwLzwKc5TjF2FXLPHXE10No0E=;
- b=JGLXdJj1qgOgJLqgIRb41BeefTwiTAcDxi/80gYm2+QpXuvwxNIzuk/ToLVeuOgApF
- VieObmUW243BDa7BHp0OQcpCfP7nU+IsRRkCf4H1zPB//IJl8DhrvMhVIP5Je2RgwO4b
- dQz4Ba86+zJ+fEDpeTrJJcUHSESas2NLaV2bltd4uJq7AWkeZzJD6x3KtupKdV2aMyeU
- qVcUys97c61v1n4BmdJOXPYhf8NoqV60C4+4qz+lU5EHtrReClGsPeilu1F7irHR4FNI
- YGu1wdJy8DZveF/ocLfVh97/fIA5J7iFkB7DXCH1BzIzUNP3JuG/ZjOPpK4+2YnVyon0
- We4g==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1miICa-00047d-SQ
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:29:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23362)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1miICX-00035D-2d
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:29:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635953359;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mSEGZbg0Bg5w5D6seFtfvpLkYnT761ehnixqAmcV3+Y=;
+ b=dxRqDd1UXnJt2tr18OkzRNFKHAIiNfMiNOIqvn+IQD4F5dgS45ScEPpQsAi7QdHCOpR0fu
+ GTBrq4hNw7Xi6UDqOwRZVrfdN0ZIBalsuGlM7Pn0aCqjCIMIwymRiqOq1ISS5x44Pl5TtC
+ hpijbZcH3aMzOTz/ZBRcFJ56yMlZfB4=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-105-2A_MAB7LMfWEdArrHf1Bmw-1; Wed, 03 Nov 2021 11:29:17 -0400
+X-MC-Unique: 2A_MAB7LMfWEdArrHf1Bmw-1
+Received: by mail-ua1-f69.google.com with SMTP id
+ 63-20020a9f2345000000b002cbbc79fb71so1383596uae.0
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:29:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:from:to:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jBtm4kccoxZlTr1YK0iwLzwKc5TjF2FXLPHXE10No0E=;
- b=CGVyttuVmIhvQ0skJBmK4b0btozoWDuMqTELtZfHtNJFr4V1fmdn9A6oO9HqHC5cp7
- ddJvK7+AefanRE+HvOFiGO3JLW2ofdFnKAmnoRidHlgZW+l9cNy1J/p8l1ko/w1ZfL4h
- OymyECchFCEDw8I73EQWqWSDr8nSHzT395e8D2hD+lJ0OmH/tWyYyuPatoBvc3O6MbeA
- S23i4/QIjg5OegDbJI/CNN03ownZ3EqYQebOAKktN1QPXjdWsUYr6q9u8JeDY+QpT3UH
- FTM1Fpy5rMmcbMtWHwPmWyp3YArZ0VypsJt4GGKrsB5Rase+VLqZnpzSX6jCMuJiffBd
- 42YA==
-X-Gm-Message-State: AOAM533ZFiUm5XiCgLqihkKl5+Hla6z6QncbSShdNU5wtV872Rq/wUnO
- Vzu+3Y9gAGv+2bzM/xU+bMhrU0ZqXQrUnw==
-X-Google-Smtp-Source: ABdhPJyjdQLSzO5vKLVk1pkHj3k4rKkLzDk/6hFbY4m6kCgCcNEqPSVNIkViC5wiJ324YDavbpgE3A==
-X-Received: by 2002:a05:620a:d85:: with SMTP id
- q5mr34842068qkl.64.1635953024465; 
- Wed, 03 Nov 2021 08:23:44 -0700 (PDT)
-Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
- [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id m1sm1759169qkp.124.2021.11.03.08.23.44
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Nov 2021 08:23:44 -0700 (PDT)
-Subject: Re: [PULL v2 00/12] target/arm patch queue
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20211102182519.320319-1-richard.henderson@linaro.org>
-Message-ID: <c7c0b20d-9792-e474-8122-a01b76daa66c@linaro.org>
-Date: Wed, 3 Nov 2021 11:23:42 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mSEGZbg0Bg5w5D6seFtfvpLkYnT761ehnixqAmcV3+Y=;
+ b=5yrP19niLlFOEu5GlrXgRcIwT0VtO5+i9eWsPyT2WpMNG9fEGAyIfnMpl2RBpv34TJ
+ t3HcDw5wI6qwM9v/BKifu+ktlIz0SP7cu195Fk+0j38JT25UOi1/a2vdYSOt+DhLtIR2
+ d205j9c7PmfgkgK148H9r8bTzNGOjhY80CfEvR2jtZe4HM8PN1SdkVCqqAUZJ4Ag1bLq
+ S1L9kjvU+d333h3Hf732wlhGINKZcwmrp6jrnSRYhVi329h9EJX7FCj9j3DJZC8ZgcHV
+ PTUiZ7FxT9ZsiR/v9tvln7deTukpIaUu2zpJBg+M8tpRb+VfRyxOAvzuVdK8eWWDMVYg
+ 0Ntg==
+X-Gm-Message-State: AOAM531rK/Ml2h9SlwEoDq7+puSXVEoiiLBiTi+RkhvxlQmMPSVIS/TB
+ J6TT9rbitOxIBvOpdioHk9v3auhvbmFnNrQlTLEeSHePmaNn7PSIF3bODZL/8EQtuTKLpAppMYd
+ JVIaIFTiiAl7pRNwkHtxSsitNJjc8zVU=
+X-Received: by 2002:a05:6102:e0d:: with SMTP id
+ o13mr35093472vst.13.1635953356728; 
+ Wed, 03 Nov 2021 08:29:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJziGzRmTMLWNtnMAozYD93Wz8jvqQTWEb/V6Yr5B7Ll3XOpxFS5x89Qd7RooDv/4Mf4FYt3CU4yf5d7tWH2nms=
+X-Received: by 2002:a05:6102:e0d:: with SMTP id
+ o13mr35093444vst.13.1635953356592; 
+ Wed, 03 Nov 2021 08:29:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211102182519.320319-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72e.google.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.528,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20211103150407.3459877-1-philmd@redhat.com>
+In-Reply-To: <20211103150407.3459877-1-philmd@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 3 Nov 2021 11:29:06 -0400
+Message-ID: <CAFn=p-ZgWbX+Q9fXmkMJsoEXn1AybQ=+p0PiM6cdBQsiBf=K4w@mail.gmail.com>
+Subject: Re: [PATCH] scripts/coverity-scan: Use Fedora project Docker
+ container registry
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000b06ae705cfe412fc"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,89 +90,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/2/21 2:25 PM, Richard Henderson wrote:
-> v2:
->    Dropped the errant npcm7xx_sdhci test case.
->    Added the hvf fix for openbsd.
-> 
-> 
-> r~
-> 
-> 
-> The following changes since commit 91e8394415f9bc9cd81c02bfafe02012855d4f98:
-> 
->    Merge remote-tracking branch 'remotes/juanquintela/tags/migration-20211031-pull-request' into staging (2021-11-02 10:07:27 -0400)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/rth7680/qemu.git tags/pull-arm-20211102-2
-> 
-> for you to fetch changes up to 5fd6a3e23669444026f84f466a7ed402c203a84e:
-> 
->    hvf: arm: Ignore cache operations on MMIO (2021-11-02 14:18:33 -0400)
-> 
-> ----------------------------------------------------------------
-> Add nuvoton sd module for NPCM7XX
-> Add gdb-xml for MVE
-> More uses of tcg_constant_* in target/arm
-> Fix parameter naming for default-bus-bypass-iommu
-> Ignore cache operations to mmio in HVF
-> 
-> ----------------------------------------------------------------
-> Alexander Graf (1):
->        hvf: arm: Ignore cache operations on MMIO
-> 
-> Jean-Philippe Brucker (1):
->        hw/arm/virt: Rename default_bus_bypass_iommu
-> 
-> Peter Maydell (1):
->        target/arm: Advertise MVE to gdb when present
-> 
-> Philippe Mathieu-Daudé (5):
->        target/arm: Use tcg_constant_i32() in op_smlad()
->        target/arm: Introduce store_cpu_field_constant() helper
->        target/arm: Use the constant variant of store_cpu_field() when possible
->        target/arm: Use tcg_constant_i64() in do_sat_addsub_64()
->        target/arm: Use tcg_constant_i32() in gen_rev16()
-> 
-> Shengtan Mao (4):
->        hw/sd: add nuvoton MMC
->        hw/arm: Add Nuvoton SD module to board
->        hw/arm: Attach MMC to quanta-gbs-bmc
->        tests/qtest/libqos: add SDHCI commands
-> 
->   configs/targets/aarch64-softmmu.mak  |   2 +-
->   configs/targets/arm-linux-user.mak   |   2 +-
->   configs/targets/arm-softmmu.mak      |   2 +-
->   configs/targets/armeb-linux-user.mak |   2 +-
->   include/hw/arm/npcm7xx.h             |   2 +
->   include/hw/sd/npcm7xx_sdhci.h        |  65 +++++++++++++
->   target/arm/translate-a32.h           |   3 +
->   tests/qtest/libqos/sdhci-cmd.h       |  70 ++++++++++++++
->   hw/arm/npcm7xx.c                     |  12 ++-
->   hw/arm/npcm7xx_boards.c              |  20 ++++
->   hw/arm/virt.c                        |   4 +-
->   hw/sd/npcm7xx_sdhci.c                | 182 +++++++++++++++++++++++++++++++++++
->   target/arm/gdbstub.c                 |  25 +++++
->   target/arm/hvf/hvf.c                 |   7 ++
->   target/arm/translate-sve.c           |  17 ++--
->   target/arm/translate.c               |  27 ++----
->   tests/qtest/libqos/sdhci-cmd.c       | 116 ++++++++++++++++++++++
->   gdb-xml/arm-m-profile-mve.xml        |  19 ++++
->   hw/sd/meson.build                    |   1 +
->   tests/qtest/libqos/meson.build       |   1 +
->   20 files changed, 544 insertions(+), 35 deletions(-)
->   create mode 100644 include/hw/sd/npcm7xx_sdhci.h
->   create mode 100644 tests/qtest/libqos/sdhci-cmd.h
->   create mode 100644 hw/sd/npcm7xx_sdhci.c
->   create mode 100644 tests/qtest/libqos/sdhci-cmd.c
->   create mode 100644 gdb-xml/arm-m-profile-mve.xml
+--000000000000b06ae705cfe412fc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Applied, thanks.
+On Wed, Nov 3, 2021 at 11:04 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
+com>
+wrote:
 
-r~
+> Similarly to commit 102cd5c294d ("tests/docker: use project
+> specific container registries"), use the Fedora registry to
+> reduce pull rate limits enforced by Docker Hub.
+>
+> Inspired-by: John Snow <jsnow@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  scripts/coverity-scan/coverity-scan.docker | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/coverity-scan/coverity-scan.docker
+> b/scripts/coverity-scan/coverity-scan.docker
+> index ecff6ac5b4b..529c0a28566 100644
+> --- a/scripts/coverity-scan/coverity-scan.docker
+> +++ b/scripts/coverity-scan/coverity-scan.docker
+> @@ -15,7 +15,7 @@
+>  # The work of actually doing the build is handled by the
+>  # run-coverity-scan script.
+>
+> -FROM fedora:30
+> +FROM registry.fedoraproject.org/fedora:30
+
+
+Should we bump to F34? F30 is EOL. Switching to an LTS distro is also an
+option.
+
+
+>
+>  ENV PACKAGES \
+>      alsa-lib-devel \
+>      bc \
+> --
+> 2.31.1
+>
+>
+
+--000000000000b06ae705cfe412fc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 3, 2021 at 11:04 AM Phili=
+ppe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@redh=
+at.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">Similarly to commit 102cd5c294d (&quot;tests/docker: use project<br>
+specific container registries&quot;), use the Fedora registry to<br>
+reduce pull rate limits enforced by Docker Hub.<br>
+<br>
+Inspired-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"_b=
+lank">jsnow@redhat.com</a>&gt;<br>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@red=
+hat.com" target=3D"_blank">philmd@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0scripts/coverity-scan/coverity-scan.docker | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/scripts/coverity-scan/coverity-scan.docker b/scripts/coverity-=
+scan/coverity-scan.docker<br>
+index ecff6ac5b4b..529c0a28566 100644<br>
+--- a/scripts/coverity-scan/coverity-scan.docker<br>
++++ b/scripts/coverity-scan/coverity-scan.docker<br>
+@@ -15,7 +15,7 @@<br>
+=C2=A0# The work of actually doing the build is handled by the<br>
+=C2=A0# run-coverity-scan script.<br>
+<br>
+-FROM fedora:30<br>
++FROM <a href=3D"http://registry.fedoraproject.org/fedora:30" rel=3D"norefe=
+rrer" target=3D"_blank">registry.fedoraproject.org/fedora:30</a></blockquot=
+e><div><br></div><div>Should we bump to F34? F30 is EOL. Switching to an LT=
+S distro is also an option.<br></div><div>=C2=A0</div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex"><br>
+=C2=A0ENV PACKAGES \<br>
+=C2=A0 =C2=A0 =C2=A0alsa-lib-devel \<br>
+=C2=A0 =C2=A0 =C2=A0bc \<br>
+-- <br>
+2.31.1<br>
+<br>
+</blockquote></div></div>
+
+--000000000000b06ae705cfe412fc--
 
 
