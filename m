@@ -2,82 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 277A2444A5E
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 22:41:59 +0100 (CET)
-Received: from localhost ([::1]:52192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03860444A8A
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 22:58:09 +0100 (CET)
+Received: from localhost ([::1]:46806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miO18-0007pJ-90
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 17:41:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45684)
+	id 1miOGm-0007Od-UF
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 17:58:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1miNov-0004BE-E3
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 17:29:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50689)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1miNot-0000sa-Ei
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 17:29:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635974958;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iVMKa7DJs2327nAFpK2ZaBi/36WAegpPoCcfzbQtCY8=;
- b=VbAo5XByomifIBGZ9Au0Gw0A9XlwVt93Fu+VB8m7ndRv3sBxemhGAVTv6w3odWE4JuXVxG
- s/W68mcK29V0us3fm5ilmB6Xzi8Y63qXSC5bYYQnJ9Vh997dyVIbf0FTWaq77t2s4EgepZ
- 1BvWvMzBwo53anUCXXiBkE5sI2GJUxk=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-HabxwWw6OwukRNwYH4s-5w-1; Wed, 03 Nov 2021 17:29:17 -0400
-X-MC-Unique: HabxwWw6OwukRNwYH4s-5w-1
-Received: by mail-lf1-f69.google.com with SMTP id
- t8-20020a056512030800b004017cf4c16dso819996lfp.14
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 14:29:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1miOBd-0002Vl-0U; Wed, 03 Nov 2021 17:52:49 -0400
+Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:45995)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1miOBa-0008Gc-Ug; Wed, 03 Nov 2021 17:52:48 -0400
+Received: by mail-io1-xd35.google.com with SMTP id q203so4477018iod.12;
+ Wed, 03 Nov 2021 14:52:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XprijC3k3v+ALIh6PCF32SLkWMtOU9Afj6q7F8tZZ0c=;
+ b=LiXgO4tQ/28iEZzooPhtVsJlN/dSA8IaxZRlEcP2VuOdn5Z4gQsWgzjNnBwi86y40a
+ aEfDBU3T3+hjDGice1Ny+uTSQVycuu2RJbiRxfdnlhgHf08FVNX2KpbQ3U0/eK7yEld7
+ llIK25B6pMkvrOJJuqKatJjZjRBKJ3oJIpOY37mvUFPbN03C92mT6hgLXMwOvys6g2pA
+ BQ/B32iNR4x48kc82E8XBNdl/vdKWo77IBORBwzE5lEIOpb6wmKKd+VWqjKOQWZ2tNnL
+ lVudN65O1X0zXQgXcT6PMh7b247MAUDjpBY7MCw8rgXnSQNCqcBPbDYessZUEZetAZRE
+ YDag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=iVMKa7DJs2327nAFpK2ZaBi/36WAegpPoCcfzbQtCY8=;
- b=A51fqx1/DbU+z5WghHthvyPDrjxw0KNVbnilACCrN5CdDj3WP51EXmUACrgn8YSxrD
- cMJ2VLYMhxLyumfaNFBlqH7dG3uJdQ5QIlrvirGYMErs3yeZ48AD9d4BLbFoBFvofGT1
- Cg//J44vxwlc8mK8DVq7N/tWsT/Zf+wyynsY9HUdCVohNrLKQJ90Q1DMtFfUBXlOfz0+
- faNRJMdZcTEWCk0iIDUAaKzeD+MiWrUDvQI+9IqT60M+xrUflEKxRJpYZD+Z8mtjQblr
- N188/Side2f7VbX9GP0fIa0mdTY1mIgyAtu/QVTA5nlCNU0f5mESpplxdyqLzUgaus7V
- XfWQ==
-X-Gm-Message-State: AOAM5333k8+SnzaSyiq3XgYU5pvvbn29LnEOgHFK2zYrfsvfxFhw0nQx
- LrY7/Ax21Xl3M095ictY3PU6OiXoxUHezz+RKLMEEQJon33zhnNwcr79Gv7hOMj6W7BsSkgn81j
- CB8oKtDf3HQaVHDL8bMh/Z8GLhBHxQ50=
-X-Received: by 2002:a2e:a554:: with SMTP id e20mr36261612ljn.116.1635974956119; 
- Wed, 03 Nov 2021 14:29:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyi+jzMgj5/2QlQiNBELoMfNcazHltDMhJUPL5GwG6qmhl+QjUGgH7pXSw51fwzSFU0Geap54OJO48zdYRIzYQ=
-X-Received: by 2002:a2e:a554:: with SMTP id e20mr36261575ljn.116.1635974955827; 
- Wed, 03 Nov 2021 14:29:15 -0700 (PDT)
+ bh=XprijC3k3v+ALIh6PCF32SLkWMtOU9Afj6q7F8tZZ0c=;
+ b=7JDQsYiC5SrDa0gKGWlyMpBag8rERWi2Dtcpdy2QsDoRRfx1LL84rNEBRDmYOsOnrm
+ E21dSSyF5S5Km9WuuLnISEoYylF80eaQRLnCJ620pgJs/qtn+jD144lXElOKcRFZVeHH
+ df0pPxib4bdHSqcuKTDFF3BdUXLBaLvLb99bV1011gycg4jS5qr/5CvbhQEMXqWnJgS6
+ WSRQBOsHFscyBvosvWtadxvyo58n1C33Z/JaCtDEHe9uDpEeunPlFX1Jd/bACSHjcXc1
+ OQ4XJVDvXnKS/Z7VfpfFOut8zBFLsrxJmLUCO4dmxpp2K8YSyo0is+wpQB0j1hccX7Hd
+ G3mQ==
+X-Gm-Message-State: AOAM5315bQD6mNDQSa0PUMjb7VjO911/3VAi1opoXXaFV77PVQDpOkzK
+ iWwvohaVHdEfl6ZHt9LmM3J5pfwEcRpYgrpeyds=
+X-Google-Smtp-Source: ABdhPJxm3/BCrYOBMgHoW7Fcyl80jzlnKBs/GY87/d4RJV8SNweT+WvA2WtefABBNuOcMbSCLerN6yt0udqsNLUdUYw=
+X-Received: by 2002:a5e:890e:: with SMTP id k14mr31680942ioj.187.1635976364464; 
+ Wed, 03 Nov 2021 14:52:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211009075612.230283-1-leobras@redhat.com>
- <20211009075612.230283-4-leobras@redhat.com>
- <87sfwekabf.fsf@secure.mitica>
-In-Reply-To: <87sfwekabf.fsf@secure.mitica>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Wed, 3 Nov 2021 18:29:25 -0300
-Message-ID: <CAJ6HWG7erHjN7ZNi=oRC=e-boWexbCJ7bBpgKs9x1D-igVSAqw@mail.gmail.com>
-Subject: Re: [PATCH v4 3/3] multifd: Implement zerocopy write in multifd
- migration (multifd-zerocopy)
-To: Juan Quintela <quintela@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20211030030606.32297-1-bmeng.cn@gmail.com>
+In-Reply-To: <20211030030606.32297-1-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 4 Nov 2021 07:52:18 +1000
+Message-ID: <CAKmqyKOYGrLTxR9XqP1KNuznud=aQS5FLWse4RQgEzfV+J8vvg@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: machine: Sort the .subsections
+To: Bin Meng <bmeng.cn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,165 +75,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Jason Wang <jasowang@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Juan,
+On Sat, Oct 30, 2021 at 1:07 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> Move the codes around so that the order of .subsections matches
+> the one they are referenced in vmstate_riscv_cpu.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-On Tue, Nov 2, 2021 at 9:32 AM Juan Quintela <quintela@redhat.com> wrote:
->
-> Leonardo Bras <leobras@redhat.com> wrote:
-> > Implement zerocopy on nocomp_send_write(), by making use of QIOChannel
-> > zerocopy interface.
-> >
-> > Change multifd_send_sync_main() so it can distinguish the last sync from
-> > the setup and per-iteration ones, so a flush_zerocopy() can be called
-> > at the last sync in order to make sure all RAM is sent before finishing
-> > the migration.
->
-> You need to do this after each iteration.  Otherwise it can happen that:
->
-> channel 1:               channel 2:
->
->    send page 11
->
-> next iteration
->                          send page 11
->
->                          this page arrives
->
-> now arrives this old copy.
+Thanks!
 
-Current multifd's sendmsg() will block until all data is sent, is that correct?
+Applied to riscv-to-apply.next
 
-If that's the case, and supposing the network driver supports
-multiqueue, maybe there is a small chance for this to happen.
-I will add the flush at the end of each iteration, just to be sure.
+Alistair
 
+> ---
 >
-> After each iteration, one needs to be sure that no ram is inflight.
+>  target/riscv/machine.c | 92 +++++++++++++++++++++---------------------
+>  1 file changed, 46 insertions(+), 46 deletions(-)
 >
-> This means that I think you don't need the last_sync parameter at all,
-> as you have to do the flush() in every iteration.
+> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+> index 7b4c739564..ad8248ebfd 100644
+> --- a/target/riscv/machine.c
+> +++ b/target/riscv/machine.c
+> @@ -76,20 +76,50 @@ static bool hyper_needed(void *opaque)
+>      return riscv_has_ext(env, RVH);
+>  }
 >
-> > Also make it return -1 if flush_zerocopy() fails, in order to cancel
-> > the migration process, and avoid resuming the guest in the target host
-> > without receiving all current RAM.> >
-> > This will work fine on RAM migration because the RAM pages are not usually freed,
-> > and there is no problem on changing the pages content between async_send() and
-> > the actual sending of the buffer, because this change will dirty the page and
-> > cause it to be re-sent on a next iteration anyway.
-> >
-> > Given a lot of locked memory may be needed in order to use multid migration
-> > with zerocopy enabled, make it optional by creating a new parameter
-> > multifd-zerocopy on qapi, so low-privileged users can still perform multifd
-> > migrations.
-> >
-> > Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> -static bool vector_needed(void *opaque)
+> -{
+> -    RISCVCPU *cpu = opaque;
+> -    CPURISCVState *env = &cpu->env;
+> +static const VMStateDescription vmstate_hyper = {
+> +    .name = "cpu/hyper",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .needed = hyper_needed,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINTTL(env.hstatus, RISCVCPU),
+> +        VMSTATE_UINTTL(env.hedeleg, RISCVCPU),
+> +        VMSTATE_UINTTL(env.hideleg, RISCVCPU),
+> +        VMSTATE_UINTTL(env.hcounteren, RISCVCPU),
+> +        VMSTATE_UINTTL(env.htval, RISCVCPU),
+> +        VMSTATE_UINTTL(env.htinst, RISCVCPU),
+> +        VMSTATE_UINTTL(env.hgatp, RISCVCPU),
+> +        VMSTATE_UINT64(env.htimedelta, RISCVCPU),
 >
-> I think it is better that you split this patch into two:
+> -    return riscv_has_ext(env, RVV);
+> -}
+> +        VMSTATE_UINT64(env.vsstatus, RISCVCPU),
+> +        VMSTATE_UINTTL(env.vstvec, RISCVCPU),
+> +        VMSTATE_UINTTL(env.vsscratch, RISCVCPU),
+> +        VMSTATE_UINTTL(env.vsepc, RISCVCPU),
+> +        VMSTATE_UINTTL(env.vscause, RISCVCPU),
+> +        VMSTATE_UINTTL(env.vstval, RISCVCPU),
+> +        VMSTATE_UINTTL(env.vsatp, RISCVCPU),
 >
-> - Add the new parameter (it looks good to me, and can be reviewed-by)
-> - Implement the feature, here probably you need more changes/review
-
-Sure, I will try to divide the patch like this.
-
+> -static bool pointermasking_needed(void *opaque)
+> +        VMSTATE_UINTTL(env.mtval2, RISCVCPU),
+> +        VMSTATE_UINTTL(env.mtinst, RISCVCPU),
+> +
+> +        VMSTATE_UINTTL(env.stvec_hs, RISCVCPU),
+> +        VMSTATE_UINTTL(env.sscratch_hs, RISCVCPU),
+> +        VMSTATE_UINTTL(env.sepc_hs, RISCVCPU),
+> +        VMSTATE_UINTTL(env.scause_hs, RISCVCPU),
+> +        VMSTATE_UINTTL(env.stval_hs, RISCVCPU),
+> +        VMSTATE_UINTTL(env.satp_hs, RISCVCPU),
+> +        VMSTATE_UINT64(env.mstatus_hs, RISCVCPU),
+> +
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+> +static bool vector_needed(void *opaque)
+>  {
+>      RISCVCPU *cpu = opaque;
+>      CPURISCVState *env = &cpu->env;
+>
+> -    return riscv_has_ext(env, RVJ);
+> +    return riscv_has_ext(env, RVV);
+>  }
+>
+>  static const VMStateDescription vmstate_vector = {
+> @@ -108,6 +138,14 @@ static const VMStateDescription vmstate_vector = {
+>          }
+>  };
+>
+> +static bool pointermasking_needed(void *opaque)
+> +{
+> +    RISCVCPU *cpu = opaque;
+> +    CPURISCVState *env = &cpu->env;
+> +
+> +    return riscv_has_ext(env, RVJ);
+> +}
+> +
+>  static const VMStateDescription vmstate_pointermasking = {
+>      .name = "cpu/pointer_masking",
+>      .version_id = 1,
+> @@ -126,44 +164,6 @@ static const VMStateDescription vmstate_pointermasking = {
+>      }
+>  };
+>
+> -static const VMStateDescription vmstate_hyper = {
+> -    .name = "cpu/hyper",
+> -    .version_id = 1,
+> -    .minimum_version_id = 1,
+> -    .needed = hyper_needed,
+> -    .fields = (VMStateField[]) {
+> -        VMSTATE_UINTTL(env.hstatus, RISCVCPU),
+> -        VMSTATE_UINTTL(env.hedeleg, RISCVCPU),
+> -        VMSTATE_UINTTL(env.hideleg, RISCVCPU),
+> -        VMSTATE_UINTTL(env.hcounteren, RISCVCPU),
+> -        VMSTATE_UINTTL(env.htval, RISCVCPU),
+> -        VMSTATE_UINTTL(env.htinst, RISCVCPU),
+> -        VMSTATE_UINTTL(env.hgatp, RISCVCPU),
+> -        VMSTATE_UINT64(env.htimedelta, RISCVCPU),
+> -
+> -        VMSTATE_UINT64(env.vsstatus, RISCVCPU),
+> -        VMSTATE_UINTTL(env.vstvec, RISCVCPU),
+> -        VMSTATE_UINTTL(env.vsscratch, RISCVCPU),
+> -        VMSTATE_UINTTL(env.vsepc, RISCVCPU),
+> -        VMSTATE_UINTTL(env.vscause, RISCVCPU),
+> -        VMSTATE_UINTTL(env.vstval, RISCVCPU),
+> -        VMSTATE_UINTTL(env.vsatp, RISCVCPU),
+> -
+> -        VMSTATE_UINTTL(env.mtval2, RISCVCPU),
+> -        VMSTATE_UINTTL(env.mtinst, RISCVCPU),
+> -
+> -        VMSTATE_UINTTL(env.stvec_hs, RISCVCPU),
+> -        VMSTATE_UINTTL(env.sscratch_hs, RISCVCPU),
+> -        VMSTATE_UINTTL(env.sepc_hs, RISCVCPU),
+> -        VMSTATE_UINTTL(env.scause_hs, RISCVCPU),
+> -        VMSTATE_UINTTL(env.stval_hs, RISCVCPU),
+> -        VMSTATE_UINTTL(env.satp_hs, RISCVCPU),
+> -        VMSTATE_UINT64(env.mstatus_hs, RISCVCPU),
+> -
+> -        VMSTATE_END_OF_LIST()
+> -    }
+> -};
+> -
+>  const VMStateDescription vmstate_riscv_cpu = {
+>      .name = "cpu",
+>      .version_id = 3,
+> --
+> 2.25.1
 >
 >
-> >              '*multifd-zlib-level': 'uint8',
-> >              '*multifd-zstd-level': 'uint8',
-> > +         '*multifd-zerocopy': 'bool',
-> >              '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
->
-> Something weird here.
->
-> >              '*multifd-compression': 'MultiFDCompression',
-> >              '*multifd-zlib-level': 'uint8',
-> >              '*multifd-zstd-level': 'uint8',
-> > +         '*multifd-zerocopy': 'bool',
-> >              '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
-> >
->
-> Same here.
-
-Could you please elaborate?
-
->
->
-> > @@ -105,7 +105,13 @@ static int nocomp_send_prepare(MultiFDSendParams *p, uint32_t used,
-> >   */
-> >  static int nocomp_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
-> >  {
-> > -    return qio_channel_writev_all(p->c, p->pages->iov, used, errp);
-> > +    int flags = 0;
-> > +
-> > +    if (migrate_multifd_zerocopy()) {
-> > +        flags = QIO_CHANNEL_WRITE_FLAG_ZEROCOPY;
-> > +    }
->
-> You have added an if on each write, just add it during initialization.
-
-
-
->
-> There is already a uint32_t flags field in MultiFDRecvParams, but you
-> can add a
->
-> int write_flags;
->
-> one and add it during initialization.  That way you don't need any check
-> here, just pass it.
->
-> > +    return qio_channel_writev_all_flags(p->c, p->pages->iov, used, flags, errp);
-
-Ok, I will try to make it work with this suggestion.
-
->
->
-> > -void multifd_send_sync_main(QEMUFile *f)
-> > +int multifd_send_sync_main(QEMUFile *f, bool last_sync)
->
-> As you need to check every round, you now have to check for errors on
-> every multifd_send_sync_main() call.  It really looked weird that you
-> only need to check it sometimes.
-
-Ok, I will work on that.
-
->
-> > @@ -3006,13 +3006,19 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
-> >          ram_control_after_iterate(f, RAM_CONTROL_FINISH);
-> >      }
-> >
-> > -    if (ret >= 0) {
-> > -        multifd_send_sync_main(rs->f);
-> > -        qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-> > -        qemu_fflush(f);
-> > +    if (ret < 0) {
-> > +        return ret;
-> >      }
-> >
-> > -    return ret;
-> > +    ret = multifd_send_sync_main(rs->f, true);
-> > +    if (ret < 0) {
-> > +        return -1;
->
-> Why are you returning -1 instead of ret?
->
-> Callers of ram_save_complete(). We set qemu_error_file() with that
-> error, so it is not a good idea to reset it.
->
->
-
-Ok, I will take a look on that.
-
-> Later, Juan.
->
-
-Thanks,
-Leo
-
 
