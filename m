@@ -2,73 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D5F2443E3C
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 09:16:43 +0100 (CET)
-Received: from localhost ([::1]:49990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE6FB443E4A
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 09:20:48 +0100 (CET)
+Received: from localhost ([::1]:60320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miBRp-0003x2-Vf
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 04:16:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54560)
+	id 1miBVn-0002ak-KN
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 04:20:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miBQG-0003AP-Ou
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 04:15:04 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:35834)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miBQE-0002Vw-Pa
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 04:15:04 -0400
-Received: by mail-ed1-x532.google.com with SMTP id g14so6284938edz.2
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 01:15:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NcAuy8Ag5a5hAQBWW1iJrx04g8N5jIuPPMqpi85EUO4=;
- b=NKwFOr5umsnZs+WtM5LpFyc4tG3YybrXwjrgdwNIWCR7Pjtr5YZ1PZPpQwpU8v+unq
- D9ApmoFf//GW6quOHx0UF4x9exJrVmsE7oVJIok/4X7iOvRGbBMuNHteaH5uHRvBZYn9
- iKVIuJNZQWC4OE1wGRe+ui4tQXW5XkZw6wcELu3yaSTxXkebfBDvo8AsDcZE6JHa8qA2
- KMy3tuSpzQ789aa5VpiKCE0MB6lGBa3V3R//s3kSP+b5q9Ph89QidaAYtYK6Gbpe8j8P
- D2EhVqNzvP7BIfFCjBgM5/LJbFGZ07D2n2ZK/xWUGfVM930HAZKwXmN0kVVRY2Avyhdp
- OKgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=NcAuy8Ag5a5hAQBWW1iJrx04g8N5jIuPPMqpi85EUO4=;
- b=ckoYQO7XjUeM/zoDNoIvC/puRNzfyKNM3NFphmRTUJ6NIXCmeFWv+dJ2XRCMiVNkS+
- lbPRn1NqktU6CIRf//NlLw4wMrQyFcVuTLAZ8qEG8DYYolOIb6lVv53ATS84iPlTUCf/
- 8xmPvnKG13gzRXQh4GqmikJELYXMGiM1I7SofSNyA5SDCzUYs1+gvZzESLXgb630p1uw
- Bof6Py68wx8EQqtRHMlrin2adY9tIHABaAkcNkCuqIlz1R7N/x1jn+xRiT7KDKduCA2B
- iIyT3AcEkFeV/OEgTM0aB5ryarvNrXWRaeQEhS1A/X1jb0QZFTrOrVcPqwMBgcIKyvO/
- DHJA==
-X-Gm-Message-State: AOAM5302uq4lSWLVWdtQ1kn/+X/CN0ipRgwxn2aMMd11YbRLChWcQiNe
- HQ/iZhVZ9bWzJqT5Z5We23i1mFsnUJk=
-X-Google-Smtp-Source: ABdhPJyFMploFUMaIdOoolWIPEeWOkhTILzfukl9WklbSzJBsXInGS6CUEg+A3kPf7ozli3ihSrcNQ==
-X-Received: by 2002:a50:ed92:: with SMTP id h18mr23002704edr.381.1635927301373; 
- Wed, 03 Nov 2021 01:15:01 -0700 (PDT)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id f7sm839596edl.33.2021.11.03.01.15.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 01:15:00 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [qemu-web PATCH] remove deployment phase from CI
-Date: Wed,  3 Nov 2021 09:14:59 +0100
-Message-Id: <20211103081459.369912-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.33.1
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1miBSX-00069t-9B
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 04:17:25 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:3488)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1miBSJ-0002yT-Sp
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 04:17:24 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4HkfhP4RvMzW259;
+ Wed,  3 Nov 2021 16:15:01 +0800 (CST)
+Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.15; Wed, 3 Nov 2021 16:17:06 +0800
+Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
+ dggpeml100016.china.huawei.com (7.185.36.216) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.15; Wed, 3 Nov 2021 16:17:06 +0800
+From: "Longpeng(Mike)" <longpeng2@huawei.com>
+To: <alex.williamson@redhat.com>, <pbonzini@redhat.com>
+Subject: [PATCH v5 0/6] optimize the downtime for vfio migration
+Date: Wed, 3 Nov 2021 16:16:51 +0800
+Message-ID: <20211103081657.1945-1-longpeng2@huawei.com>
+X-Mailer: git-send-email 2.25.0.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Type: text/plain
+X-Originating-IP: [10.174.148.223]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpeml100016.china.huawei.com (7.185.36.216)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187; envelope-from=longpeng2@huawei.com;
+ helo=szxga01-in.huawei.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,59 +62,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com
+Cc: "Longpeng\(Mike\)" <longpeng2@huawei.com>, arei.gonglei@huawei.com,
+ qemu-devel@nongnu.org, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu.org is now served via a reverse proxy from qemu-project.gitlab.io; it does
-not need anymore the rsync step to the QEMU project\s shell server.
-Remove it from the CI.
-
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- .gitlab-ci.yml | 24 ------------------------
- 1 file changed, 24 deletions(-)
-
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 129b2ff..dde0ef3 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -1,7 +1,6 @@
+Hi guys,
  
- stages:
-   - build
--  - update
+In vfio migration resume phase, the cost would increase if the
+vfio device has more unmasked vectors. We try to optimize it in
+this series.
  
- pages:
-   image: centos:8
-@@ -19,26 +18,3 @@ pages:
-   artifacts:
-     paths:
-      - public
--
--deploy:
--  image: centos:8
--  stage: update
--  needs:
--    - job: pages
--      artifacts: true
--  before_script:
--    - dnf install -y openssh-clients rsync
--    - eval $(ssh-agent -s)
--    - cat "$SSH_PRIVATE_KEY_FILE" | tr -d '\r' | ssh-add -
--    - mkdir -m700 -p ~/.ssh
--    - - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config'
--  script:
--    - ssh $SSH_DEPLOY_DESTINATION "cd /var/www/qemu-project.org && mkdir new && rsync -az root/ new"
--    - rsync -avz --delete public/ $SSH_DEPLOY_DESTINATION:/var/www/qemu-project.org/new
--    - ssh $SSH_DEPLOY_DESTINATION "cd /var/www/qemu-project.org && rm -rf old && mv root old && mv new root"
--  only:
--    refs:
--      - master
--    variables:
--      - $SSH_PRIVATE_KEY_FILE
--      - $SSH_DEPLOY_DESTINATION
+You can see the commit message in PATCH 6 for details.
+ 
+Patch 1-3 are simple cleanups and fixup.
+Patch 4-5 are the preparations for the optimization.
+Patch 6 optimizes the vfio msix setup path.
+
+Changes v4->v5:
+ - setup the notifier and irqfd in the same function to makes
+   the code neater.    [Alex]
+
+Changes v3->v4:
+ - fix several typos and grammatical errors [Alex]
+ - remove the patches that fix and clean the MSIX common part
+   from this series [Alex]
+ - Patch 6:
+    - use vector->use directly and fill it with -1 on error
+      paths [Alex]
+    - add comment before enable deferring to commit [Alex]
+    - move the code that do_use/release on vector 0 into an
+      "else" branch [Alex]
+    - introduce vfio_prepare_kvm_msi_virq_batch() that enables
+      the 'defer_kvm_irq_routing' flag [Alex]
+    - introduce vfio_commit_kvm_msi_virq_batch() that clears the
+      'defer_kvm_irq_routing' flag and does further work [Alex]
+
+Changes v2->v3:
+ - fix two errors [Longpeng]
+
+Changes v1->v2:
+ - fix several typos and grammatical errors [Alex, Philippe]
+ - split fixups and cleanups into separate patches  [Alex, Philippe]
+ - introduce kvm_irqchip_add_deferred_msi_route to
+   minimize code changes    [Alex]
+ - enable the optimization in msi setup path    [Alex]
+
+Longpeng (Mike) (6):
+  vfio: simplify the conditional statements in vfio_msi_enable
+  vfio: move re-enabling INTX out of the common helper
+  vfio: simplify the failure path in vfio_msi_enable
+  kvm: irqchip: extract kvm_irqchip_add_deferred_msi_route
+  Revert "vfio: Avoid disabling and enabling vectors repeatedly in VFIO
+    migration"
+  vfio: defer to commit kvm irq routing when enable msi/msix
+
+ accel/kvm/kvm-all.c  |  15 ++++-
+ hw/vfio/pci.c        | 176 ++++++++++++++++++++++++++++++++-------------------
+ hw/vfio/pci.h        |   1 +
+ include/sysemu/kvm.h |   6 ++
+ 4 files changed, 130 insertions(+), 68 deletions(-)
+
 -- 
-2.33.1
+1.8.3.1
 
 
