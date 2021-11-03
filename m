@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60D244443F9
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 15:56:12 +0100 (CET)
-Received: from localhost ([::1]:50020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EF91444404
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 15:58:14 +0100 (CET)
+Received: from localhost ([::1]:56600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miHgR-0005Ss-Bw
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 10:56:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44676)
+	id 1miHiO-0001dT-Ty
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 10:58:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1miHal-0005bg-KI
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 10:50:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.151.124]:49107)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1miHap-0005kl-7o
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 10:50:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56555)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1miHaj-0003vm-Pm
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 10:50:19 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1miHam-0003xQ-0p
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 10:50:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635951016;
+ s=mimecast20190719; t=1635951019;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Jd8kYUMbgI/K5lIDLVOYL90KBqaWp0tiB/2yA8tUP3w=;
- b=D+jgQNnwgR6BF6ygryIPJWunjB50cT3M9q74yzslBAsh1YdcC6q3cyKHt1IzSWLy51tJfr
- VURkAspgVfAQUUS8gM57g8F4SyxBFXDEkBGfkzzVmRh1KqTWYkgEcNxVL4QSiAr28loe05
- /Xy41y/V1i3aHxHG/hIF1XA63pjbTi0=
+ bh=j3FT8NqWbP8jI0rErtNODhfF07NcbJz9dMjlWRSBXJE=;
+ b=V+hPwZS7F8cSC4aRBBTYths6O+KJJbOzGI7woUIqRg3Gu2/+s/wErOP21jextmVqVXvkwZ
+ 086t9a9wydJ7OE+h9RwH5qNPkN40ljaPaLroM0j4bX+jXGXDklhL3Y3BGZ7ZtoTi62nddb
+ 4bxYUnguq1sj+LUvu+KyM2lMlSM7/wU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-ScMbwgHSOPSjhGIBk811Hg-1; Wed, 03 Nov 2021 10:50:13 -0400
-X-MC-Unique: ScMbwgHSOPSjhGIBk811Hg-1
+ us-mta-517-s8hlpYyNOS2oorxXyGQLIw-1; Wed, 03 Nov 2021 10:50:15 -0400
+X-MC-Unique: s8hlpYyNOS2oorxXyGQLIw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB7B010A8E09;
- Wed,  3 Nov 2021 14:50:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9ABF10A8E03;
+ Wed,  3 Nov 2021 14:50:13 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.175])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C1022196E5;
- Wed,  3 Nov 2021 14:50:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EA5E4196E5;
+ Wed,  3 Nov 2021 14:50:12 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/6] docker: update 'python' dockerfile to use Fedora registry
-Date: Wed,  3 Nov 2021 10:48:43 -0400
-Message-Id: <20211103144844.1285634-6-jsnow@redhat.com>
+Subject: [PATCH 6/6] docker: Add Fedora 35 container
+Date: Wed,  3 Nov 2021 10:48:44 -0400
+Message-Id: <20211103144844.1285634-7-jsnow@redhat.com>
 In-Reply-To: <20211103144844.1285634-1-jsnow@redhat.com>
 References: <20211103144844.1285634-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,14 +55,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.151.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,26 +86,194 @@ Cc: Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Following the lead of 102cd5c294dc, switch from using Docker hub to the
-Fedora registry itself.
+Or, more accurately, update our current Fedora container to Fedora 35,
+and then add a new fedora34 container and build test.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/docker/dockerfiles/python.docker | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .gitlab-ci.d/buildtest.yml               |  16 ++++
+ .gitlab-ci.d/container-core.yml          |   5 +
+ tests/docker/dockerfiles/fedora.docker   |   2 +-
+ tests/docker/dockerfiles/fedora34.docker | 117 +++++++++++++++++++++++
+ 4 files changed, 139 insertions(+), 1 deletion(-)
+ create mode 100644 tests/docker/dockerfiles/fedora34.docker
 
-diff --git a/tests/docker/dockerfiles/python.docker b/tests/docker/dockerfiles/python.docker
-index 56d88417df..ecefcc54c4 100644
---- a/tests/docker/dockerfiles/python.docker
-+++ b/tests/docker/dockerfiles/python.docker
-@@ -1,6 +1,6 @@
- # Python library testing environment
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index 5c378e35f9..9d9330b646 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -100,6 +100,22 @@ acceptance-system-debian:
+     IMAGE: debian-amd64
+     MAKE_CHECK_ARGS: check-acceptance
  
--FROM fedora:latest
-+FROM registry.fedoraproject.org/fedora:latest
- MAINTAINER John Snow <jsnow@redhat.com>
++build-system-fedora34:
++  extends: .native_build_job_template
++  needs:
++    job: amd64-fedora34-container
++  variables:
++    IMAGE: fedora34
++    CONFIGURE_ARGS: --disable-gcrypt --enable-nettle --enable-docs
++             --enable-fdt=system --enable-slirp=system --enable-capstone=system
++    TARGETS: tricore-softmmu microblaze-softmmu mips-softmmu
++      xtensa-softmmu m68k-softmmu riscv32-softmmu ppc-softmmu sparc64-softmmu
++    MAKE_CHECK_ARGS: check-build
++  artifacts:
++    expire_in: 2 days
++    paths:
++      - build
++
+ build-system-fedora:
+   extends: .native_build_job_template
+   needs:
+diff --git a/.gitlab-ci.d/container-core.yml b/.gitlab-ci.d/container-core.yml
+index e8dd1f476a..96a71e88ff 100644
+--- a/.gitlab-ci.d/container-core.yml
++++ b/.gitlab-ci.d/container-core.yml
+@@ -6,6 +6,11 @@ amd64-centos8-container:
+   variables:
+     NAME: centos8
+ 
++amd64-fedora34-container:
++  extends: .container_job_template
++  variables:
++    NAME: fedora34
++
+ amd64-fedora-container:
+   extends: .container_job_template
+   variables:
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 44d7f12110..24aca97cd7 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -1,4 +1,4 @@
+-FROM registry.fedoraproject.org/fedora:34
++FROM registry.fedoraproject.org/fedora:35
  
  # Please keep this list sorted alphabetically
+ ENV PACKAGES \
+diff --git a/tests/docker/dockerfiles/fedora34.docker b/tests/docker/dockerfiles/fedora34.docker
+new file mode 100644
+index 0000000000..44d7f12110
+--- /dev/null
++++ b/tests/docker/dockerfiles/fedora34.docker
+@@ -0,0 +1,117 @@
++FROM registry.fedoraproject.org/fedora:34
++
++# Please keep this list sorted alphabetically
++ENV PACKAGES \
++    SDL2-devel \
++    SDL2_image-devel \
++    alsa-lib-devel \
++    bc \
++    brlapi-devel \
++    bzip2 \
++    bzip2-devel \
++    ca-certificates \
++    capstone-devel \
++    ccache \
++    clang \
++    ctags \
++    cyrus-sasl-devel \
++    daxctl-devel \
++    dbus-daemon \
++    device-mapper-multipath-devel \
++    diffutils \
++    findutils \
++    gcc \
++    gcc-c++ \
++    gcovr \
++    genisoimage \
++    gettext \
++    git \
++    glib2-devel \
++    glibc-langpack-en \
++    glibc-static \
++    glusterfs-api-devel \
++    gnutls-devel \
++    gtk3-devel \
++    hostname \
++    jemalloc-devel \
++    libaio-devel \
++    libasan \
++    libattr-devel \
++    libbpf-devel \
++    libcacard-devel \
++    libcap-ng-devel \
++    libcurl-devel \
++    libdrm-devel \
++    libepoxy-devel \
++    libfdt-devel \
++    libffi-devel \
++    libgcrypt-devel \
++    libiscsi-devel \
++    libjpeg-devel \
++    libnfs-devel \
++    libpmem-devel \
++    libpng-devel \
++    librbd-devel \
++    libseccomp-devel \
++    libslirp-devel \
++    libssh-devel \
++    libtasn1-devel \
++    libubsan \
++    libudev-devel \
++    liburing-devel \
++    libusbx-devel \
++    libxml2-devel \
++    libzstd-devel \
++    llvm \
++    lttng-ust-devel \
++    lzo-devel \
++    make \
++    mesa-libgbm-devel \
++    meson \
++    ncurses-devel \
++    nettle-devel \
++    ninja-build \
++    nmap-ncat \
++    numactl-devel \
++    openssh-clients \
++    pam-devel \
++    perl-Test-Harness \
++    perl-base \
++    pixman-devel \
++    pkgconfig \
++    pulseaudio-libs-devel \
++    python3 \
++    python3-PyYAML \
++    python3-numpy \
++    python3-opencv \
++    python3-pillow \
++    python3-pip \
++    python3-sphinx \
++    python3-sphinx_rtd_theme \
++    python3-virtualenv \
++    rdma-core-devel \
++    rpm \
++    sed \
++    snappy-devel \
++    sparse \
++    spice-protocol \
++    spice-server-devel \
++    systemd-devel \
++    systemtap-sdt-devel \
++    tar \
++    tesseract \
++    tesseract-langpack-eng \
++    texinfo \
++    usbredir-devel \
++    util-linux \
++    virglrenderer-devel \
++    vte291-devel \
++    which \
++    xen-devel \
++    xfsprogs-devel \
++    zlib-devel
++ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3
++
++RUN dnf install -y $PACKAGES
++RUN rpm -q $PACKAGES | sort > /packages.txt
++ENV PATH $PATH:/usr/libexec/python3-sphinx/
 -- 
 2.31.1
 
