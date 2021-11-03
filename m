@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2568D444AA4
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 23:08:46 +0100 (CET)
-Received: from localhost ([::1]:39608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE2AD444ABD
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 23:11:13 +0100 (CET)
+Received: from localhost ([::1]:44392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miOR3-00061K-9b
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 18:08:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54394)
+	id 1miOTQ-000100-W7
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 18:11:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3xwaDYQgKCvIqobUinmbaiiafY.WigkYgo-XYpYfhihaho.ila@flex--wuhaotsh.bounces.google.com>)
- id 1miOKR-0003Eo-O3
+ <3yQaDYQgKCvQsqdWkpodckkcha.Ykimaiq-Zarahjkjcjq.knc@flex--wuhaotsh.bounces.google.com>)
+ id 1miOKT-0003F6-J4
  for qemu-devel@nongnu.org; Wed, 03 Nov 2021 18:01:58 -0400
-Received: from mail-pf1-x449.google.com ([2607:f8b0:4864:20::449]:34562)
+Received: from mail-pf1-x449.google.com ([2607:f8b0:4864:20::449]:36807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3xwaDYQgKCvIqobUinmbaiiafY.WigkYgo-XYpYfhihaho.ila@flex--wuhaotsh.bounces.google.com>)
- id 1miOKM-0002bm-04
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 18:01:54 -0400
+ <3yQaDYQgKCvQsqdWkpodckkcha.Ykimaiq-Zarahjkjcjq.knc@flex--wuhaotsh.bounces.google.com>)
+ id 1miOKO-0002c7-LK
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 18:01:57 -0400
 Received: by mail-pf1-x449.google.com with SMTP id
- x25-20020aa79199000000b0044caf0d1ba8so2155677pfa.1
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 15:01:44 -0700 (PDT)
+ c207-20020a621cd8000000b0048060050cfeso2145649pfc.3
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 15:01:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=DofkSRTXRKtEMsEmkHJldcRscNyPS9ZKqUEISxFiUzc=;
- b=Ir/f1gSbLy9cLdndt/s2yFMzleVVnjUGZlYAjIpJyjKSVbCL+zQIxFrSO20Yn9jv6e
- pBHGwuHaSczYjjkroQcQIW9H/WhUBlugYMbtfW/+udprAskcGv1IfqvgQ5xgKZjWdPaY
- j7yobWBylCM+ZEeHP9PhAf/VGu6gX/6NPPCKuK+XE4Vef/xZLLUFmpvL+URkRF6ba6iC
- XnLRDGC7OvdYzaCFVOJTXvsq7hn/RT55E6E+/6CIT+XdAdRx9L+c4euzhEbKkLSk0hc4
- bgcpoOTnoxxR7e2MsAP5Z0nS/0CtpqC9/lfHtmCo+JKwcecuPMt1MwJ3KyTZpefrE/UH
- /mDw==
+ :cc; bh=zKsthWD6aLJepNequIRsE8wsdkCHtKgMHCSXi5pgrhc=;
+ b=LdKZ6V9HSdXlROBBmA/fypBCta8ug4XXGnUmkBApf2ExIWyZcJDcEBZjmrLnHHiuic
+ 9Dz/rp4xR/kgBEiUD9UdaB7uI4TljLwlkNseSVXUbBdpjdZZrJ5qtLWnRpk9VsOYn/A5
+ napPDpH/wgOhqEZdtUmIM/V72DvmElO5A/3X/XLJ2kuNPwzv1/zEWan1zxXdcD6FDRG1
+ fNNvlXW1PTbmoAK7GVkX4XPoSqHIp7MBKWeu9l/mkZLQoM//HD47ECh499q0jxkPpd4t
+ pMYM1qBsal1IcQuVjAgKLgv1oxrcif41nWVwiWVUQVd7x/KUwVEye9MaEocfYggRBrw2
+ G9IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=DofkSRTXRKtEMsEmkHJldcRscNyPS9ZKqUEISxFiUzc=;
- b=tDuQQNHYFlfhcu8ZhG8HriQUyjdODdb56YBnvkWwk4X5DFFUlam6lfucytsi/aPA9/
- O+W6LRE0AZacxQXwLIDESkd3838QQJVWsLVIVu34gciSPjZjrI6odHtTQVGwzLixEmiX
- fkbfzoRjnnl2fGmQa22C9Uts/GgXbdXrs6CBLxAPjNGQd3lRnc9rSlYxLh2UqeSuxnZw
- IOgnxRdJc8u9cfRHUUu2BAPCW4hHvQh2QmPZL+K4cEoa/zFdgnFDU+VpbjBi1Ha7fdim
- PNdOGbUC4trFrxSz/e0zP6DYF5yDO8XVnAXOQXnKsDbM9KzTNPPnpR0DrbzD62WAUT93
- /J+A==
-X-Gm-Message-State: AOAM5325ioLSDrFuMAaQykVbBcfSwr8hvMduK4gE9tge9k0WMo4Zjx01
- 9F12dKYTtGBJy0o/wemiO2bvoOg1/0eccw==
-X-Google-Smtp-Source: ABdhPJyeAWGrglgE32IfnWZDuwyZaX4inqjW1ka6u7wNh9KAzyxAxtexjF4rqZm1qR6i6V9afzpJBQU0ZJVd5w==
+ bh=zKsthWD6aLJepNequIRsE8wsdkCHtKgMHCSXi5pgrhc=;
+ b=thvdMnj0L/FmGVedcAUMFNz2qlKENwCTH/O0BdFdxlLR8mCH2ykJ15XAohb7aI+b9w
+ ou+14IwbYH6nQLgsfWLNfx/xCIg3MQFqWde5d7Rl4+4peJm04GIYLY7blcVbMxsvHJ5P
+ v1Youxkr5z86mE+TWgL3BDSggl66XAK/CRY//RHDDdRVNlbizQe0pagBlP4/hbqudoUk
+ Y+kkEYy0F396EXTS+nqdp0rgUd6xn2w09QVZo4xR355WtW/xXYXfP7C5mwg/XUou9pHd
+ +mpgxMJwWURVUCSwmW0nCpwHRVujRlBUPw4FTZaS622CIndHV/B/jCD8MGqb2EE+yYMd
+ jZkQ==
+X-Gm-Message-State: AOAM530g19WN64JNyfSVRs+vAj+o6Q8QGa/7ux4t++mDfDLGyP36ofJR
+ HGqoEHLt466T6c1aaR8eWYV3TQHOkNS9xw==
+X-Google-Smtp-Source: ABdhPJw7o3c1yLN1sC5c9BSpKwnQ5XLGbing+MBEiGbq0wkKpqz9S+xnrJpqlZu6cebjO9B1f2LIs8wmpHn35A==
 X-Received: from mimik.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4e])
- (user=wuhaotsh job=sendgmr) by 2002:a17:902:ce8c:b0:141:d411:7e25 with SMTP
- id f12-20020a170902ce8c00b00141d4117e25mr26691523plg.85.1635976903943; Wed,
- 03 Nov 2021 15:01:43 -0700 (PDT)
-Date: Wed,  3 Nov 2021 15:01:32 -0700
+ (user=wuhaotsh job=sendgmr) by 2002:a17:90b:2487:: with SMTP id
+ nt7mr17397144pjb.75.1635976905864; Wed, 03 Nov 2021 15:01:45 -0700 (PDT)
+Date: Wed,  3 Nov 2021 15:01:33 -0700
 In-Reply-To: <20211103220133.1422879-1-wuhaotsh@google.com>
-Message-Id: <20211103220133.1422879-4-wuhaotsh@google.com>
+Message-Id: <20211103220133.1422879-5-wuhaotsh@google.com>
 Mime-Version: 1.0
 References: <20211103220133.1422879-1-wuhaotsh@google.com>
 X-Mailer: git-send-email 2.33.1.1089.g2158813163f-goog
-Subject: [PATCH v4 6/7] hw/nvram: Update at24c EEPROM init function in NPCM7xx
- boards
+Subject: [PATCH v4 7/7] hw/arm: quanta-gbs-bmc add i2c devices
 From: Hao Wu <wuhaotsh@google.com>
 To: peter.maydell@linaro.org
 Cc: richard.henderson@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
@@ -68,7 +66,7 @@ Cc: richard.henderson@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
  thuth@redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2607:f8b0:4864:20::449;
- envelope-from=3xwaDYQgKCvIqobUinmbaiiafY.WigkYgo-XYpYfhihaho.ila@flex--wuhaotsh.bounces.google.com;
+ envelope-from=3yQaDYQgKCvQsqdWkpodckkcha.Ykimaiq-Zarahjkjcjq.knc@flex--wuhaotsh.bounces.google.com;
  helo=mail-pf1-x449.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
@@ -76,7 +74,7 @@ X-Spam_bar: ---------
 X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,63 +90,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We made 3 changes to the at24c_eeprom_init function in
-npcm7xx_boards.c:
+From: Patrick Venture <venture@google.com>
 
-1. We allow the function to take a I2CBus* as parameter. This allows
-   us to attach an EEPROM device behind an I2C mux which is not
-   possible with the old method.
+Adds supported i2c devices to the quanta-gbc-bmc board.
 
-2. We make at24c EEPROMs are backed by drives so that we can
-   specify the content of the EEPROMs.
-
-3. Instead of using i2c address as unit number, This patch assigns
-   unique unit numbers for each eeproms in each board. This avoids
-   conflict in providing multiple eeprom contents with the same address.
-   In the old method if we specify two drives with the same unit number,
-   the following error will occur: `Device with id 'none85' exists`.
-
-Signed-off-by: Hao Wu <wuhaotsh@google.com>
+Signed-off-by: Patrick Venture <venture@google.com>
+Reviewed-by: Hao Wu <wuhaotsh@google.com>
 ---
- hw/arm/npcm7xx_boards.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ hw/arm/npcm7xx_boards.c | 82 ++++++++++++++++++++++++-----------------
+ 1 file changed, 49 insertions(+), 33 deletions(-)
 
 diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
-index dec7d16ae5..9121e081fa 100644
+index 9121e081fa..7fb1b3dbc2 100644
 --- a/hw/arm/npcm7xx_boards.c
 +++ b/hw/arm/npcm7xx_boards.c
-@@ -126,13 +126,17 @@ static I2CBus *npcm7xx_i2c_get_bus(NPCM7xxState *soc, uint32_t num)
-     return I2C_BUS(qdev_get_child_bus(DEVICE(&soc->smbus[num]), "i2c-bus"));
- }
+@@ -276,10 +276,12 @@ static void quanta_gsj_fan_init(NPCM7xxMachine *machine, NPCM7xxState *soc)
  
--static void at24c_eeprom_init(NPCM7xxState *soc, int bus, uint8_t addr,
--                              uint32_t rsize)
-+static void at24c_eeprom_init(I2CBus *i2c_bus, int bus, uint8_t addr,
-+                              uint32_t rsize, int unit_number)
+ static void quanta_gbs_i2c_init(NPCM7xxState *soc)
  {
--    I2CBus *i2c_bus = npcm7xx_i2c_get_bus(soc, bus);
-     I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", addr);
-     DeviceState *dev = DEVICE(i2c_dev);
-+    DriveInfo *dinfo;
- 
-+    dinfo = drive_get(IF_OTHER, bus, unit_number);
-+    if (dinfo) {
-+        qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo));
-+    }
-     qdev_prop_set_uint32(dev, "rom-size", rsize);
-     i2c_slave_realize_and_unref(i2c_dev, i2c_bus, &error_abort);
- }
-@@ -239,8 +243,8 @@ static void quanta_gsj_i2c_init(NPCM7xxState *soc)
-     i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 3), "tmp105", 0x5c);
-     i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 4), "tmp105", 0x5c);
- 
--    at24c_eeprom_init(soc, 9, 0x55, 8192);
--    at24c_eeprom_init(soc, 10, 0x55, 8192);
-+    at24c_eeprom_init(npcm7xx_i2c_get_bus(soc, 9), 9, 0x55, 8192, 0);
-+    at24c_eeprom_init(npcm7xx_i2c_get_bus(soc, 10), 10, 0x55, 8192, 1);
- 
++    I2CSlave *i2c_mux;
++
++    /* i2c-0: */
++    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 0), TYPE_PCA9546, 0x71);
++
      /*
+-     * i2c-0:
+-     *     pca9546@71
+-     *
+      * i2c-1:
+      *     pca9535@24
+      *     pca9535@20
+@@ -288,46 +290,60 @@ static void quanta_gbs_i2c_init(NPCM7xxState *soc)
+      *     pca9535@23
+      *     pca9535@25
+      *     pca9535@26
+-     *
+-     * i2c-2:
+-     *     sbtsi@4c
+-     *
+-     * i2c-5:
+-     *     atmel,24c64@50 mb_fru
+-     *     pca9546@71
+-     *         - channel 0: max31725@54
+-     *         - channel 1: max31725@55
+-     *         - channel 2: max31725@5d
+-     *                      atmel,24c64@51 fan_fru
+-     *         - channel 3: atmel,24c64@52 hsbp_fru
+-     *
++     */
++
++    /* i2c-2: sbtsi@4c */
++
++    /* i2c-5: */
++    /* mb_fru */
++    at24c_eeprom_init(npcm7xx_i2c_get_bus(soc, 5), 5, 0x50, 8192, 0);
++    i2c_mux = i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 5),
++                                      TYPE_PCA9546, 0x71);
++    /* max31725 is tmp105 compatible. */
++    i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 0), "tmp105", 0x54);
++    i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 1), "tmp105", 0x55);
++    i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 2), "tmp105", 0x5d);
++    /* fan_fru */
++    at24c_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 2), 5, 0x51, 8192, 1);
++    /* hsbp_fru */
++    at24c_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 3), 5, 0x52, 8192, 2);
++
++    /*
+      * i2c-6:
+      *     pca9545@73
+      *
+      * i2c-7:
+      *     pca9545@72
+-     *
+-     * i2c-8:
+-     *     adi,adm1272@10
+-     *
+-     * i2c-9:
+-     *     pca9546@71
+-     *         - channel 0: isil,isl68137@60
+-     *         - channel 1: isil,isl68137@61
+-     *         - channel 2: isil,isl68137@63
+-     *         - channel 3: isil,isl68137@45
+-     *
++     */
++
++    /* i2c-8: */
++    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 8), "adm1272", 0x10);
++
++    /* i2c-9: */
++    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 9), TYPE_PCA9546, 0x71);
++    /*
++     * - channel 0: isil,isl68137@60
++     * - channel 1: isil,isl68137@61
++     * - channel 2: isil,isl68137@63
++     * - channel 3: isil,isl68137@45
++     */
++
++    /*
+      * i2c-10:
+      *     pca9545@71
+      *
       * i2c-11:
+      *     pca9545@76
+-     *
+-     * i2c-12:
+-     *     maxim,max34451@4e
+-     *     isil,isl68137@5d
+-     *     isil,isl68137@5e
+-     *
++     */
++
++    /* i2c-12: */
++    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 12), "max34451", 0x4e);
++    /*
++     * isil,isl68137@5d
++     * isil,isl68137@5e
++     */
++
++    /*
+      * i2c-14:
+      *     pca9545@70
+      */
 -- 
 2.33.1.1089.g2158813163f-goog
 
