@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 322DD4446F6
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 18:21:17 +0100 (CET)
-Received: from localhost ([::1]:36736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD1E24446D3
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 18:16:47 +0100 (CET)
+Received: from localhost ([::1]:48448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miJwq-000807-AK
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 13:21:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37124)
+	id 1miJsU-0005AD-Vx
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 13:16:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1miJoH-0005YH-I4
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:12:25 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:33359)
+ id 1miJoA-00056V-Bl
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:12:18 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:46947)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1miJoF-00074n-UN
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:12:25 -0400
-Received: by mail-wr1-x433.google.com with SMTP id d24so4719183wra.0
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 10:12:23 -0700 (PDT)
+ id 1miJo8-00073i-UM
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:12:18 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ b184-20020a1c1bc1000000b0033140bf8dd5so2360650wmb.5
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 10:12:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AwxpI2bFznxmZpBb5VRsZbQtkWT+77Twu4jSfg8KH/E=;
- b=f/1RijjtCRik+SvSTXx2n1YdCb9lq6UIdewCxVrB3+nk56rI3V53n0n8QG0mP3ud1t
- rIXW1az/TPrKLALQP78tQ79evB/W/9Yy4KBBniallDUs9KcAmo7KBeYmOiuUOiPTRh0/
- Lu5iK0WXjwHFoh4ZGpjQES4UyWWYQ+tPt5F6F2NSAoWMlOR6KC8zeVUMMhscfFD/BK1R
- TjOUrMvChFIq9MADeGM0w9GpblaBVlYzUVqXZMzI6OWOweBmifUcSxwDl33CFz8ZqLxm
- U2PEWUh4fx58Rlofu6je0Y4Xml/MXFOW35XH6w9e3MnJxDJdxG0dkCT4YfkGeDVvS4nK
- 5+Qg==
+ bh=gN/nCnYHg37RzH2ySF2xwAPVmqvP9Hor2tdZRDmd/rA=;
+ b=s+G9BvPTYfVKT1SAmnx1/GFQ8ofROLhHCRma2cBRlmtLxmlpVHMTD4iRRHiPHh4rBm
+ qy3ZBQWSvvad7B+QSqRH/VeSX5u1u+5xJ3C3odi6YPuT+1Z0YXtCfgQv81cMLpYWk/8A
+ Fk4Z9MKWClaUqWyS9kYx/IBHfk72yW9j+G1GGwNE3b7opk63Xc9vfKFpDYpoqJv/A02a
+ qRN52z3RsplMKJvPuA5teKrc2ap5X3QZr6dEvhTEQL2Ucvx4dBjtHZ6F0NUmmznvPYd5
+ tpuSIcRXLsurMYD1DqQ55kqnvKfy710QcVf0nxfNaGEekstSxhHJgHyXuy7HkTRbTUXH
+ h9Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AwxpI2bFznxmZpBb5VRsZbQtkWT+77Twu4jSfg8KH/E=;
- b=DKsUVlbu/XJv5/bJxPk7lj3gja8xh/0aImJlxTCtFoz0JnKq33PrplWilIXU4dVd/z
- LDnxtPZUCJkx6vnIUNYWY+qme9co87zNWg4WUjLX19MbaVV/JA6pvdcYJkXXc/4lRn06
- /p8mPAj/IOgvmXxrzSRzCABHkWEFEy84YbVpVTdlL7w1ytBkNe0MJPHvVt1OpBPX1C7+
- wxsFSrNsMXOqyJD7AYVouitBNm9Rgq1oCgjXUU5VpWg52aBU1PSN+fi4Wk42JE0PkoFk
- TEvmhxgIxMdt9A/UIlpCc9cE6d475qexMyxvVxEurtPauLvzvkdBZ7Snj+Zw3/TTc1xb
- BAag==
-X-Gm-Message-State: AOAM532tnZmLuHC/pxlIDK/mLaG2V/Ztws6Tk5D9Ageefx+c11BObWmF
- ih4LjyMIUhielHo62Jcfd1rv5A==
-X-Google-Smtp-Source: ABdhPJxsv2dIJLkKG6WNwzVr/NNmwYkkrpgKOEIiScIm6lRLqPMg0vicc91P+sVBvmBr/Vd4wuOC8Q==
-X-Received: by 2002:adf:a1d4:: with SMTP id v20mr15931221wrv.190.1635959542286; 
- Wed, 03 Nov 2021 10:12:22 -0700 (PDT)
+ bh=gN/nCnYHg37RzH2ySF2xwAPVmqvP9Hor2tdZRDmd/rA=;
+ b=YME+W9l00NxyESQEPNadDGN87iNLrxdzMuBQn3Xc0SY9m9Ow1yzQHgdVex6PhT0v1G
+ 9P9Hy5guvyKRDEIGbxknRQ1P/HHTu2JidW61kQCW7S0SiyCQRuSsqfx2N5b7OMy1hKi7
+ 58x78N7kEDSwWmPA63YcyVQmhWFvRlkX7BbwsxevbIZSE+FxDJuWV36FO0nNbMSc6D9y
+ 08vNrbaMVgDKkDu9bdOzhcEBn76P+uRHJIFDrpvusdfhrJU2faZjZIImCWoNhXbzye5P
+ 4oIVptaX39gWZe2NK0v0DlRPAvDCZpSmGscz8HFH3ybdRXRg6q4ylq1Po6fA73gQ00Pj
+ HcNA==
+X-Gm-Message-State: AOAM530hNtF9WwLqy7Ao33vr/yCf+KQ/F5J2sxXmh469vFxprClNf/GF
+ k5k8o1JxJw1xLVaXWfhu6OHhNQ==
+X-Google-Smtp-Source: ABdhPJzUJbXeT8QBGvEDuw0w7BgYItQR5DENAXoM21CX99wY6ygoWXm1B8NpaQ6NTB403xsK5DqxXQ==
+X-Received: by 2002:a1c:2507:: with SMTP id l7mr16478349wml.186.1635959535351; 
+ Wed, 03 Nov 2021 10:12:15 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g5sm3115553wrd.59.2021.11.03.10.12.14
+ by smtp.gmail.com with ESMTPSA id n7sm2463588wro.68.2021.11.03.10.12.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 10:12:18 -0700 (PDT)
+ Wed, 03 Nov 2021 10:12:11 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EA9721FFB1;
- Wed,  3 Nov 2021 17:05:59 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 0C7021FFB3;
+ Wed,  3 Nov 2021 17:06:00 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 17/21] plugins: try and make plugin_insn_append more ergonomic
-Date: Wed,  3 Nov 2021 17:05:54 +0000
-Message-Id: <20211103170558.717981-18-alex.bennee@linaro.org>
+Subject: [PULL 18/21] tests/tcg: remove duplicate EXTRA_RUNS
+Date: Wed,  3 Nov 2021 17:05:55 +0000
+Message-Id: <20211103170558.717981-19-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211103170558.717981-1-alex.bennee@linaro.org>
 References: <20211103170558.717981-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,117 +89,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently we make the assumption that the guest frontend loads all
-op code bytes sequentially. This mostly holds up for regular fixed
-encodings but some architectures like s390x like to re-read the
-instruction which causes weirdness to occur. Rather than changing the
-frontends make the plugin API a little more ergonomic and able to
-handle the re-read case.
-
-Stuff will still get strange if we read ahead of the opcode but so far
-no front ends have done that and this patch asserts the case so we can
-catch it early if they do.
+We set it bellow outside the #if leg.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211026102234.3961636-21-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20211026102234.3961636-28-alex.bennee@linaro.org>
 
-diff --git a/include/exec/plugin-gen.h b/include/exec/plugin-gen.h
-index b1b72b5d90..f92f169739 100644
---- a/include/exec/plugin-gen.h
-+++ b/include/exec/plugin-gen.h
-@@ -27,13 +27,21 @@ void plugin_gen_insn_end(void);
- void plugin_gen_disable_mem_helpers(void);
- void plugin_gen_empty_mem_callback(TCGv addr, uint32_t info);
+diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
+index 6ccb592aac..c0d9e638e9 100644
+--- a/tests/tcg/multiarch/Makefile.target
++++ b/tests/tcg/multiarch/Makefile.target
+@@ -61,8 +61,6 @@ run-gdbstub-sha1: sha1
+ 		--bin $< --test $(MULTIARCH_SRC)/gdbstub/sha1.py, \
+ 	"basic gdbstub support")
  
--static inline void plugin_insn_append(const void *from, size_t size)
-+static inline void plugin_insn_append(abi_ptr pc, const void *from, size_t size)
- {
-     struct qemu_plugin_insn *insn = tcg_ctx->plugin_insn;
-+    abi_ptr off;
- 
-     if (insn == NULL) {
-         return;
-     }
-+    off = pc - insn->vaddr;
-+    if (off < insn->data->len) {
-+        g_byte_array_set_size(insn->data, off);
-+    } else if (off > insn->data->len) {
-+        /* we have an unexpected gap */
-+        g_assert_not_reached();
-+    }
- 
-     insn->data = g_byte_array_append(insn->data, from, size);
- }
-@@ -62,7 +70,7 @@ static inline void plugin_gen_disable_mem_helpers(void)
- static inline void plugin_gen_empty_mem_callback(TCGv addr, uint32_t info)
- { }
- 
--static inline void plugin_insn_append(const void *from, size_t size)
-+static inline void plugin_insn_append(abi_ptr pc, const void *from, size_t size)
- { }
- 
- #endif /* CONFIG_PLUGIN */
-diff --git a/include/qemu/plugin.h b/include/qemu/plugin.h
-index b3172b147f..145f8a221a 100644
---- a/include/qemu/plugin.h
-+++ b/include/qemu/plugin.h
-@@ -163,10 +163,12 @@ struct qemu_plugin_tb {
- 
- /**
-  * qemu_plugin_tb_insn_get(): get next plugin record for translation.
-- *
-+ * @tb: the internal tb context
-+ * @pc: address of instruction
-  */
- static inline
--struct qemu_plugin_insn *qemu_plugin_tb_insn_get(struct qemu_plugin_tb *tb)
-+struct qemu_plugin_insn *qemu_plugin_tb_insn_get(struct qemu_plugin_tb *tb,
-+                                                 uint64_t pc)
- {
-     struct qemu_plugin_insn *insn;
-     int i, j;
-@@ -179,6 +181,7 @@ struct qemu_plugin_insn *qemu_plugin_tb_insn_get(struct qemu_plugin_tb *tb)
-     g_byte_array_set_size(insn->data, 0);
-     insn->calls_helpers = false;
-     insn->mem_helper = false;
-+    insn->vaddr = pc;
- 
-     for (i = 0; i < PLUGIN_N_CB_TYPES; i++) {
-         for (j = 0; j < PLUGIN_N_CB_SUBTYPES; j++) {
-diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
-index 61be64b78c..22d95fe1c3 100644
---- a/accel/tcg/plugin-gen.c
-+++ b/accel/tcg/plugin-gen.c
-@@ -876,9 +876,8 @@ void plugin_gen_insn_start(CPUState *cpu, const DisasContextBase *db)
-     struct qemu_plugin_tb *ptb = tcg_ctx->plugin_tb;
-     struct qemu_plugin_insn *pinsn;
- 
--    pinsn = qemu_plugin_tb_insn_get(ptb);
-+    pinsn = qemu_plugin_tb_insn_get(ptb, db->pc_next);
-     tcg_ctx->plugin_insn = pinsn;
--    pinsn->vaddr = db->pc_next;
-     plugin_gen_empty_callback(PLUGIN_GEN_FROM_INSN);
- 
-     /*
-diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
-index 390bd9db0a..f06c314266 100644
---- a/accel/tcg/translator.c
-+++ b/accel/tcg/translator.c
-@@ -169,7 +169,7 @@ static inline void translator_maybe_page_protect(DisasContextBase *dcbase,
-         if (do_swap) {                                                  \
-             ret = swap_fn(ret);                                         \
-         }                                                               \
--        plugin_insn_append(&ret, sizeof(ret));                          \
-+        plugin_insn_append(pc, &ret, sizeof(ret));                      \
-         return ret;                                                     \
-     }
- 
+-EXTRA_RUNS += run-gdbstub-sha1
+-
+ run-gdbstub-qxfer-auxv-read: sha1
+ 	$(call run-test, $@, $(GDB_SCRIPT) \
+ 		--gdb $(HAVE_GDB_BIN) \
 -- 
 2.30.2
 
