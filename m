@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B60443E8E
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 09:49:02 +0100 (CET)
-Received: from localhost ([::1]:57032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FEA3443E8F
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 09:49:06 +0100 (CET)
+Received: from localhost ([::1]:57088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miBx7-0004ET-Jh
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 04:49:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40320)
+	id 1miBxB-0004GK-Ga
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 04:49:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1miBvY-0001TS-Nf
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 04:47:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22700)
+ id 1miBvZ-0001WQ-Se
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 04:47:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1miBua-0003Xz-TR
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 04:47:24 -0400
+ id 1miBud-0003ap-34
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 04:47:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635929183;
+ s=mimecast20190719; t=1635929184;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2M+OuUyISgXvCG9YPhIzkFcGQHD6D2pRsVs+iBRO2Uo=;
- b=OeHrh+DHmg/0J5/yIgsvknz/iHB4pQQUxosUzuL6yc/Cx4KKwO0RkuHUYPR6xpJyjFPQMi
- gmWtb6BS61tzyw6IcvEqbHxAmFj2Ls7HAOHJU91cnZqkjxEXw/oGCARn2aIFwHfNf5O3do
- /j5SQw4ZZbzn3sPqRt7IyTWiMcY+C5s=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-Qv0fhb6HNcqv5Bv7BDRypQ-1; Wed, 03 Nov 2021 04:46:22 -0400
-X-MC-Unique: Qv0fhb6HNcqv5Bv7BDRypQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k25-20020a05600c1c9900b00332f798ba1dso2424197wms.4
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 01:46:22 -0700 (PDT)
+ bh=tMbn646NxPo11ghluGX0Bj9WsBwth9tbkanSVUa4oF8=;
+ b=ZSaTm6rv0UeTDhHuqpiIQ0sEFcceldkook8m91UKmdSHBBCCC6AIYMyBtxV8pihbWQOSV0
+ FmYE/TwV74RxD3/JP0wF7/pInFi//zti72zdPpDl2/VcPfBQHMsBY/hnqKrPyvJk+PDf9v
+ uEWm9LUHVRCjMomZcXPevSwEwpMhr3E=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-571-Qv3KJ-jgMw63OpFHrtdgEg-1; Wed, 03 Nov 2021 04:46:23 -0400
+X-MC-Unique: Qv3KJ-jgMw63OpFHrtdgEg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ r12-20020adfdc8c000000b0017d703c07c0so281176wrj.0
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 01:46:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2M+OuUyISgXvCG9YPhIzkFcGQHD6D2pRsVs+iBRO2Uo=;
- b=M37/zZPO9LTcZ/7QeT81siDKARXWd9G1zK5v8KsxpeyvuyxBfn8LGsM5KVmwp4a0t/
- 2H3jHb0r1WoZS9rhFzvJQ8yDyvHoR766FagZg1O8+B3wE0ugjKjbhArdR2oS2ltI8KYi
- nKJXwdpjayYM+jnrOrozAscT+ggs7YFJF6tzORjk1M6M08ON77iVkY/oTPaPiw9qZQdT
- tV0mJw4Vp2GyD91ahv7ALzw07cNtQzP5/9gC5iMazVCOjUjUVZq/OSHMwtwufgowLqjT
- 4O55iW+Np+nJB2DAk0e4NoWbLuxKBYeUE/3nc0o2hAZz6xG0vU4GDw9cWz1lIAiOmzBH
- zb0Q==
-X-Gm-Message-State: AOAM533koMXdCBo1e+QHzcAhS+/H2y6YibJtaZaSPB1cHmssPlq2VC+s
- 5U6Ct8iMyKpijd/F8xujd+mMrE4dfaL3m1pOwq1YsIgz7ADyOJ8E46Vo7xoeiReiXFpj35J35cb
- lhpr6UKKH6Kn7CdtTWQUnn135CUF4DbbF3Zyem1tfmpkik5c1nN9kQaihld/a08Dp0+s=
-X-Received: by 2002:adf:c40f:: with SMTP id v15mr44983282wrf.302.1635929180837; 
- Wed, 03 Nov 2021 01:46:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwo1nz7S6u6i4B4iwdnk1QHIDPtk8JFON2B4NJBsVxzmrYv5Pkwn3dgMJKlcOOfMX/F3JMrqw==
-X-Received: by 2002:adf:c40f:: with SMTP id v15mr44983245wrf.302.1635929180535; 
- Wed, 03 Nov 2021 01:46:20 -0700 (PDT)
+ bh=tMbn646NxPo11ghluGX0Bj9WsBwth9tbkanSVUa4oF8=;
+ b=KIICm2m8CgG/YHpSS1a2Zf6XGWijUtnTUyjBFKgHxhJpuIW2ycbkGfKu4H38gD0kt8
+ lxf3Nl/COD2NzS3cMKf5sGYUhCpSRcB9oSfedROxzsgtMn94BYtj/TICri4NR2LWairP
+ 07YkIv0QseK8FclTZuoOgjw9i5oICixsttQ/Lvnozqliqo/GBTDcKf0TVJ+t04E2RtiL
+ lbSXB0xYkce3e1s4evoXsmHy10Fidpu7NZUOfJOcknnnhVdVn3j7Tyguw9YuBSR4VVTO
+ 3uw7/TUrFoj/VhPJ6ZKz1daqUGNUHqu3kMC1VLbPq00xAcknMCvbQnykTIO9Rccvb0Yi
+ 8zDg==
+X-Gm-Message-State: AOAM532ZZ+6gUK1qHnGxDcI0KK0LH9Mh+nVErWL1D/WBj2Xeda7VaHMS
+ mf3YXkA1WMdnY3eBNbSQakUZIWlwCRVy4hshKrkxmio+JSpvWuTQ6ry1pWsVP1KU3zhBKpXVmE1
+ plzF6kxJlIsGwHYBmR2/0lZrmwoV0vKIEDR0zaGvUsUZszqYnAKfC5pab3Lh/iRmiPqI=
+X-Received: by 2002:a05:600c:4108:: with SMTP id
+ j8mr13364574wmi.139.1635929182074; 
+ Wed, 03 Nov 2021 01:46:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyJDwELJIln/2VqytPZIWQP5cRt1jcKqKoWYVDRKNgjqVh4+clGHBYcqD/7a+tHEtIDdzh40Q==
+X-Received: by 2002:a05:600c:4108:: with SMTP id
+ j8mr13364544wmi.139.1635929181815; 
+ Wed, 03 Nov 2021 01:46:21 -0700 (PDT)
 Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
  [188.86.86.233])
- by smtp.gmail.com with ESMTPSA id z6sm1383764wmp.1.2021.11.03.01.46.19
+ by smtp.gmail.com with ESMTPSA id r8sm1500987wrz.43.2021.11.03.01.46.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 01:46:20 -0700 (PDT)
+ Wed, 03 Nov 2021 01:46:21 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/11] colo: Don't dump colo cache if dump-guest-core=off
-Date: Wed,  3 Nov 2021 09:46:04 +0100
-Message-Id: <20211103084605.20027-11-quintela@redhat.com>
+Subject: [PULL 11/11] Optimized the function of fill_connection_key.
+Date: Wed,  3 Nov 2021 09:46:05 +0100
+Message-Id: <20211103084605.20027-12-quintela@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211103084605.20027-1-quintela@redhat.com>
 References: <20211103084605.20027-1-quintela@redhat.com>
@@ -75,7 +77,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -96,52 +98,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>,
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
  Li Zhijian <lizhijian@cn.fujitsu.com>, Juan Quintela <quintela@redhat.com>,
  Jason Wang <jasowang@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Zhang Chen <chen.zhang@intel.com>
+ Zhang Chen <chen.zhang@intel.com>, Juan Quintela <quintela@trasno.org>, "Rao,
+ Lei" <lei.rao@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lukas Straub <lukasstraub2@web.de>
+From: "Rao, Lei" <lei.rao@intel.com>
 
-One might set dump-guest-core=off to make coredumps smaller and
-still allow to debug many qemu bugs. Extend this option to the colo
-cache.
+Remove some unnecessary code to improve the performance of
+the filter-rewriter module.
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+Signed-off-by: Lei Rao <lei.rao@intel.com>
+Reviewed-by: Zhang Chen <chen.zhang@intel.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-Signed-off-by: Juan Quintela <quintela@redhat.com>
+Signed-off-by: Juan Quintela <quintela@trasno.org>
 ---
- migration/ram.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ net/colo.h            |  6 +++---
+ net/colo-compare.c    |  2 +-
+ net/colo.c            | 31 ++++++++++++-------------------
+ net/filter-rewriter.c | 10 +---------
+ 4 files changed, 17 insertions(+), 32 deletions(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index f5d39db4e4..847af461f2 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -56,6 +56,8 @@
- #include "multifd.h"
- #include "sysemu/runstate.h"
- 
-+#include "hw/boards.h" /* for machine_dump_guest_core() */
-+
- #if defined(__linux__)
- #include "qemu/userfaultfd.h"
- #endif /* defined(__linux__) */
-@@ -3542,6 +3544,10 @@ int colo_init_ram_cache(void)
-                 }
-                 return -errno;
-             }
-+            if (!machine_dump_guest_core(current_machine)) {
-+                qemu_madvise(block->colo_cache, block->used_length,
-+                             QEMU_MADV_DONTDUMP);
-+            }
-         }
+diff --git a/net/colo.h b/net/colo.h
+index d91cd245c4..8b3e8d5a83 100644
+--- a/net/colo.h
++++ b/net/colo.h
+@@ -89,9 +89,9 @@ typedef struct Connection {
+ uint32_t connection_key_hash(const void *opaque);
+ int connection_key_equal(const void *opaque1, const void *opaque2);
+ int parse_packet_early(Packet *pkt);
+-void extract_ip_and_port(uint32_t tmp_ports, ConnectionKey *key, Packet *pkt);
+-void fill_connection_key(Packet *pkt, ConnectionKey *key);
+-void reverse_connection_key(ConnectionKey *key);
++void extract_ip_and_port(uint32_t tmp_ports, ConnectionKey *key,
++                         Packet *pkt, bool reverse);
++void fill_connection_key(Packet *pkt, ConnectionKey *key, bool reverse);
+ Connection *connection_new(ConnectionKey *key);
+ void connection_destroy(void *opaque);
+ Connection *connection_get(GHashTable *connection_track_table,
+diff --git a/net/colo-compare.c b/net/colo-compare.c
+index 4a64a5d386..b8876d7fd9 100644
+--- a/net/colo-compare.c
++++ b/net/colo-compare.c
+@@ -264,7 +264,7 @@ static int packet_enqueue(CompareState *s, int mode, Connection **con)
+         pkt = NULL;
+         return -1;
      }
+-    fill_connection_key(pkt, &key);
++    fill_connection_key(pkt, &key, false);
  
+     conn = connection_get(s->connection_track_table,
+                           &key,
+diff --git a/net/colo.c b/net/colo.c
+index 3a3e6e89a0..1f8162f59f 100644
+--- a/net/colo.c
++++ b/net/colo.c
+@@ -83,19 +83,26 @@ int parse_packet_early(Packet *pkt)
+     return 0;
+ }
+ 
+-void extract_ip_and_port(uint32_t tmp_ports, ConnectionKey *key, Packet *pkt)
++void extract_ip_and_port(uint32_t tmp_ports, ConnectionKey *key,
++                         Packet *pkt, bool reverse)
+ {
++    if (reverse) {
++        key->src = pkt->ip->ip_dst;
++        key->dst = pkt->ip->ip_src;
++        key->src_port = ntohs(tmp_ports & 0xffff);
++        key->dst_port = ntohs(tmp_ports >> 16);
++    } else {
+         key->src = pkt->ip->ip_src;
+         key->dst = pkt->ip->ip_dst;
+         key->src_port = ntohs(tmp_ports >> 16);
+         key->dst_port = ntohs(tmp_ports & 0xffff);
++    }
+ }
+ 
+-void fill_connection_key(Packet *pkt, ConnectionKey *key)
++void fill_connection_key(Packet *pkt, ConnectionKey *key, bool reverse)
+ {
+-    uint32_t tmp_ports;
++    uint32_t tmp_ports = 0;
+ 
+-    memset(key, 0, sizeof(*key));
+     key->ip_proto = pkt->ip->ip_p;
+ 
+     switch (key->ip_proto) {
+@@ -106,29 +113,15 @@ void fill_connection_key(Packet *pkt, ConnectionKey *key)
+     case IPPROTO_SCTP:
+     case IPPROTO_UDPLITE:
+         tmp_ports = *(uint32_t *)(pkt->transport_header);
+-        extract_ip_and_port(tmp_ports, key, pkt);
+         break;
+     case IPPROTO_AH:
+         tmp_ports = *(uint32_t *)(pkt->transport_header + 4);
+-        extract_ip_and_port(tmp_ports, key, pkt);
+         break;
+     default:
+         break;
+     }
+-}
+ 
+-void reverse_connection_key(ConnectionKey *key)
+-{
+-    struct in_addr tmp_ip;
+-    uint16_t tmp_port;
+-
+-    tmp_ip = key->src;
+-    key->src = key->dst;
+-    key->dst = tmp_ip;
+-
+-    tmp_port = key->src_port;
+-    key->src_port = key->dst_port;
+-    key->dst_port = tmp_port;
++    extract_ip_and_port(tmp_ports, key, pkt, reverse);
+ }
+ 
+ Connection *connection_new(ConnectionKey *key)
+diff --git a/net/filter-rewriter.c b/net/filter-rewriter.c
+index cb3a96cde1..bf05023dc3 100644
+--- a/net/filter-rewriter.c
++++ b/net/filter-rewriter.c
+@@ -279,15 +279,7 @@ static ssize_t colo_rewriter_receive_iov(NetFilterState *nf,
+      */
+     if (pkt && is_tcp_packet(pkt)) {
+ 
+-        fill_connection_key(pkt, &key);
+-
+-        if (sender == nf->netdev) {
+-            /*
+-             * We need make tcp TX and RX packet
+-             * into one connection.
+-             */
+-            reverse_connection_key(&key);
+-        }
++        fill_connection_key(pkt, &key, sender == nf->netdev);
+ 
+         /* After failover we needn't change new TCP packet */
+         if (s->failover_mode &&
 -- 
 2.33.1
 
