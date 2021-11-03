@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADEC5444455
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:10:41 +0100 (CET)
-Received: from localhost ([::1]:55654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B22C4444493
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:22:22 +0100 (CET)
+Received: from localhost ([::1]:36290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miHuS-0004Rk-Ro
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:10:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51944)
+	id 1miI5l-0005Oy-RD
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:22:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miHp0-0003IY-GC
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:02 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:40658)
+ id 1miHp8-0003UY-TN; Wed, 03 Nov 2021 11:05:12 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:43534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miHox-0000Xx-Mj
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:02 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- j128-20020a1c2386000000b003301a98dd62so4845707wmj.5
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:04:58 -0700 (PDT)
+ id 1miHoz-0000YY-Mx; Wed, 03 Nov 2021 11:05:10 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id t30so4023620wra.10;
+ Wed, 03 Nov 2021 08:05:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Feie4aaYvBPPX4NGQ+HI7Tuz8JeaxPU1QKcXUDGysRQ=;
- b=NJdhe7sxtXBku4RUMW/0SMRJ5mbYcP9xF6jFleL3Gn0q/trL6rp4Wc+AEbj3VjiQ5c
- k0TLHweIiy4/pfvFjlH0DzcXMOkFizDcfre1HnVXTA5QKHET/eUlNWohTXR23q0jP2p4
- d7v0u9vDcuN6X1VmRUjqfFHB98iPGXiAnC2vKnTzhdrAI0qskg/LnKSxgQmyQ1XyVo89
- ToTXtd7JpWgyUAjIti170MAORvf5iVPrqejwtpq2W+CDu5hvFvAbC5z11LQXR9UqxM2/
- Ymdq8axeCURlhKacos+2JDiPFbo7aZpHjB5Yega0FHeRTiqADG4iWkmcsEu2i0wIxGmX
- LiYQ==
+ bh=rnSjJep00PuWrOp9q/49ZO8vTrCgwf3MZFCi6UASDb4=;
+ b=RU+tuUJp+V8KINeMxy4e7TN7PJ6Mw9ZQ3n+xB8KTEsVv29nLMsQhD1Dk6y+fBnPOzm
+ IHkNVN+i6chyZN2gGQh309VtmuIe/n1m0JSyVbkqv6upUFc0VMgcFmBMtdFZMV616x1B
+ CJJOtTbltL3m3INnSpQQ3mizzENssJB/9yBBOEuI6o54ImI1lsM6+UFT25X7/1noLqRz
+ DFqaqrithXsMzlpgHVpYSglY3ohmTkOO7IzHYcfPN+ZIZdhzWP/8Pq29f+GNw43WxI+f
+ IaSPXYB8PeMFqohOFumPncTB27mgx8swNSW73vkcQeuPBas6zdB0bBeufhGnNIpv8jXO
+ eJkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Feie4aaYvBPPX4NGQ+HI7Tuz8JeaxPU1QKcXUDGysRQ=;
- b=LWrA0oWYt5IffnDPOsTehVpljP7SQNd1YwmNKE3c3BStFUzMz+Yt/K611lh2Ui9AD8
- 6p50LDfBofuzBUAfMLbK2GtEdxHParG5fvJkREGvFZVoCPpWBBA3AZ6lUndtzE32bjav
- /OgRxMD9DRTKjw2TVQTeM3qAuYm3KKEvB7ZIyj6nim04hRzp5SS1Prpx+EMxno0Syl66
- +tiJGReETAWuRVLd8URiHIh0+R/tbq1qNpyW+gYlBI88FTOdaxlavqFBJyXpSWAY93aD
- urelrcGR+BHLEIkFpzaX6u9WHPINmXxrhd5d6jkgiJ00iarQfzX6wecde70ZQ9Q/31SV
- OmWw==
-X-Gm-Message-State: AOAM533MVngp9T6NsR6bMSWim0Xd9Wj4t7++szaaVie/k0Mk999Je5d6
- PJp5jqtCS0fnV9Vk2pusOGCaNSTrRUc=
-X-Google-Smtp-Source: ABdhPJzd+JjzSQ/YbMbkBVb4dehXnsBugXvQ+9YLr15hwT+6AttlPdem9jcbBa5zPfda6B8idscSOQ==
-X-Received: by 2002:a05:600c:4fd4:: with SMTP id
- o20mr15525073wmq.175.1635951898161; 
- Wed, 03 Nov 2021 08:04:58 -0700 (PDT)
+ bh=rnSjJep00PuWrOp9q/49ZO8vTrCgwf3MZFCi6UASDb4=;
+ b=AW5KEFje3Cu5sEOyWSSOv53KZp05VR2gbm+lAhU0RL0OnhwCk50Jz7gr/CMzAMiNT0
+ WYubnDOgPbzpQ4t7q32UaO8BPATitL0fCNhfW2KvT4UM/XpU0PT4iqDuvxBfNjEbiDj7
+ MQ5fxHSEgNHQOa0QLgviBD8lTS9NFMoe5WKi6dQgsRpcExK6ebTRcR4kTFIxrSn8s29t
+ y9Z7RK/keBVxq8s0U9CfYn9m0PyzRkUGcHVoB3zEXFuDn4k8fBjEoBtIEmRaQhFLdxoN
+ p0PevzAWq46ZNaOBLnSooTx9pD9USJWFjyRMAMnNSMdaAI24rnwkL3/xcDP9cZ0iJqgx
+ 4keg==
+X-Gm-Message-State: AOAM530Pg9EtcguRYpnDRnF/rSYvee7hiM7Gg36ctbopSzkA8Q4rizkZ
+ 4sPre1a23knr5JW9Fd4zBNAqOPrmQF4=
+X-Google-Smtp-Source: ABdhPJwpQb3VeeL9lYJPpHbPwOb/DwkAW2v05V57R5YIwxny+N/zhOgMv/e8FjfrYUtV4nzkTcZLOQ==
+X-Received: by 2002:a5d:6449:: with SMTP id d9mr30395276wrw.332.1635951899677; 
+ Wed, 03 Nov 2021 08:04:59 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id h16sm2488797wrm.27.2021.11.03.08.04.56
+ by smtp.gmail.com with ESMTPSA id h16sm2488797wrm.27.2021.11.03.08.04.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 08:04:57 -0700 (PDT)
+ Wed, 03 Nov 2021 08:04:59 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/27] hvf: Avoid mapping regions < PAGE_SIZE as ram
-Date: Wed,  3 Nov 2021 16:04:27 +0100
-Message-Id: <20211103150442.387121-13-pbonzini@redhat.com>
+Subject: [PULL 13/27] hw/i386: Rename default_bus_bypass_iommu
+Date: Wed,  3 Nov 2021 16:04:28 +0100
+Message-Id: <20211103150442.387121-14-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211103150442.387121-1-pbonzini@redhat.com>
 References: <20211103150442.387121-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -73,7 +69,7 @@ X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,53 +82,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Graf <agraf@csgraf.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-stable@nongnu.org, Eric Auger <eric.auger@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexander Graf <agraf@csgraf.de>
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 
-HVF has generic memory listener code that adds all RAM regions as HVF RAM
-regions. However, HVF can only handle page aligned, page granule regions.
+Since commit d8fb7d0969d5 ("vl: switch -M parsing to keyval"), machine
+parameter definitions cannot use underscores, because keyval_dashify()
+transforms them to dashes and the parser doesn't find the parameter.
 
-So let's ignore regions that are not page aligned and sized. They will be
-trapped as MMIO instead.
+This affects option default_bus_bypass_iommu which was introduced in the
+same release:
 
-Signed-off-by: Alexander Graf <agraf@csgraf.de>
+$ qemu-system-x86_64 -M q35,default_bus_bypass_iommu=on
+qemu-system-x86_64: Property 'pc-q35-6.1-machine.default-bus-bypass-iommu' not found
 
+Rename the parameter to "default-bus-bypass-iommu". Passing
+"default_bus_bypass_iommu" is still valid since the underscore are
+transformed automatically.
+
+Fixes: c9e96b04fc19 ("hw/i386: Add a default_bus_bypass_iommu pc machine option")
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20211025132147.28308-1-agraf@csgraf.de>
+Tested-by: Eric Auger <eric.auger@redhat.com>
+Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Message-Id: <20211025104737.1560274-1-jean-philippe@linaro.org>
+Cc: qemu-stable@nongnu.org
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/hvf/hvf-accel-ops.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ hw/i386/pc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/accel/hvf/hvf-accel-ops.c b/accel/hvf/hvf-accel-ops.c
-index 2b2c411076..54457c76c2 100644
---- a/accel/hvf/hvf-accel-ops.c
-+++ b/accel/hvf/hvf-accel-ops.c
-@@ -122,6 +122,7 @@ static void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
-     MemoryRegion *area = section->mr;
-     bool writeable = !area->readonly && !area->rom_device;
-     hv_memory_flags_t flags;
-+    uint64_t page_size = qemu_real_host_page_size;
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index fcfb7f7139..ac5af274cd 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1718,7 +1718,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+     object_class_property_add_bool(oc, "hpet",
+         pc_machine_get_hpet, pc_machine_set_hpet);
  
-     if (!memory_region_is_ram(area)) {
-         if (writeable) {
-@@ -135,6 +136,12 @@ static void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
-         }
-     }
+-    object_class_property_add_bool(oc, "default_bus_bypass_iommu",
++    object_class_property_add_bool(oc, "default-bus-bypass-iommu",
+         pc_machine_get_default_bus_bypass_iommu,
+         pc_machine_set_default_bus_bypass_iommu);
  
-+    if (!QEMU_IS_ALIGNED(int128_get64(section->size), page_size) ||
-+        !QEMU_IS_ALIGNED(section->offset_within_address_space, page_size)) {
-+        /* Not page aligned, so we can not map as RAM */
-+        add = false;
-+    }
-+
-     mem = hvf_find_overlap_slot(
-             section->offset_within_address_space,
-             int128_get64(section->size));
 -- 
 2.31.1
 
