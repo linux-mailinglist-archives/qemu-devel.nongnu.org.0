@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F414F443FCB
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 11:04:14 +0100 (CET)
-Received: from localhost ([::1]:38946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C1A1443FCC
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 11:04:15 +0100 (CET)
+Received: from localhost ([::1]:38944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miD7u-00020D-2T
+	id 1miD7u-00020B-9I
 	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 06:04:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35214)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1miD5g-0007vR-1B
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 06:01:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54644)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1miD5i-0007y3-3H
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 06:02:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57433)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1miD5Z-00060D-Ef
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 06:01:55 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1miD5f-00061o-Sq
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 06:01:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635933708;
+ s=mimecast20190719; t=1635933714;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ud9SjcWNWH6zG/0jluD3BZyRdqJLHQZV3VmXL4K65rI=;
- b=YFKwJUKOacngUU3y8fCJ+bJwzX/TbI25WpslKscWy7UlL80mNbPneUG4cpe4kysowRSt9g
- Eih+wCzGJzi0iymgMExgJ6pZzbgq29N4sBr6J63R7OleWUcRTrIvvMvDCoXYqOGPLrS+9K
- nZMJTo8Ibq0YBkXvN9WK/ylk8WOCSbk=
+ bh=i2ero4QE77Grw+jq42BT6eBvByBlJLtj9BO0d+OZBp0=;
+ b=hdYcYf70IMtQ4dITJhoVDNoimZ6CCzSp+D+K9w4Ak38PW0W+jAVNe5z/i5Mmm+izvB+KPj
+ yjuhr7gTCj9D1uQlzPn3eShFrmrVGtbiroWFIFhWYhLCUhjtBILXp+Ph0Aeb0vrYhxYK+r
+ NWjCZ99XtYgx7j7ZEh/8JmZDkujIuU0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-l7P4oEDgNWGSTPRXIvraNA-1; Wed, 03 Nov 2021 06:01:47 -0400
-X-MC-Unique: l7P4oEDgNWGSTPRXIvraNA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-502-gCl-HAvAN-uE9QFHQ8UA6A-1; Wed, 03 Nov 2021 06:01:53 -0400
+X-MC-Unique: gCl-HAvAN-uE9QFHQ8UA6A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D9191927801
- for <qemu-devel@nongnu.org>; Wed,  3 Nov 2021 10:01:46 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.192.133])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6081618A68;
- Wed,  3 Nov 2021 10:01:45 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/2] vhost: Fix last vq queue index of devices with no cvq
-Date: Wed,  3 Nov 2021 11:01:31 +0100
-Message-Id: <20211103100131.1983272-3-eperezma@redhat.com>
-In-Reply-To: <20211103100131.1983272-1-eperezma@redhat.com>
-References: <20211103100131.1983272-1-eperezma@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF98B1927801;
+ Wed,  3 Nov 2021 10:01:52 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E0B395C1BB;
+ Wed,  3 Nov 2021 10:01:43 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 71E9311380A7; Wed,  3 Nov 2021 11:01:42 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] softmmu/qdev-monitor: fix use-after-free in qdev_set_id()
+References: <20211102163342.31162-1-stefanha@redhat.com>
+ <a3004034-0221-bb40-3b22-2c57824cac83@redhat.com>
+Date: Wed, 03 Nov 2021 11:01:42 +0100
+In-Reply-To: <a3004034-0221-bb40-3b22-2c57824cac83@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Wed, 3 Nov 2021 10:46:36
+ +0100")
+Message-ID: <8735odk16h.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -78,46 +82,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>, Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The -1 assumes that last index counts all vhost device models as having
-two queues, but they count only the ones that models the data queues.
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-Because of that, the right change in last_index is to actually add the
-cvq, not to remove the missing one.
+> Cc'ing Markus
+>
+> On 11/2/21 17:33, Stefan Hajnoczi wrote:
+>> Reported by Coverity (CID 1465222).
+>>=20
+>> Fixes: 4a1d937796de0fecd8b22d7dbebf87f38e8282fd ("softmmu/qdev-monitor: =
+add error handling in qdev_set_id")
+>> Cc: Damien Hedde <damien.hedde@greensocs.com>
+>> Cc: Kevin Wolf <kwolf@redhat.com>
+>> Cc: Michael S. Tsirkin <mst@redhat.com>
+>> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+>> ---
+>>  softmmu/qdev-monitor.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>=20
+>> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+>> index 4851de51a5..06f86a1a96 100644
+>> --- a/softmmu/qdev-monitor.c
+>> +++ b/softmmu/qdev-monitor.c
+>> @@ -581,8 +581,8 @@ const char *qdev_set_id(DeviceState *dev, char *id, =
+Error **errp)
+>>          if (prop) {
+>>              dev->id =3D id;
+>>          } else {
+>> -            g_free(id);
+>>              error_setg(errp, "Duplicate device ID '%s'", id);
+>> +            g_free(id);
+>>              return NULL;
+>>          }
+>>      } else {
+>>=20
+>
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
 
-This is not a problem to vhost-net, but it is to vhost-vdpa, which
-device model trust to reach the last index to finish starting the
-device.
-
-Tested with vp_vdpa with host's vhost=on and vhost=off, with ctrl_vq=on
-and ctrl_vq=off.
-
-Fixes: 049eb15b5fc9 ("vhost: record the last virtqueue index for the virtio device")
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
----
- hw/net/vhost_net.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index 081946dc93..fe2b8a2b83 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -329,8 +329,8 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
-     int r, e, i, last_index = data_queue_pairs * 2;
-     NetClientState *peer;
- 
--    if (!cvq) {
--        last_index -= 1;
-+    if (cvq) {
-+        last_index += 1;
-     }
- 
-     if (!k->set_guest_notifiers) {
--- 
-2.27.0
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
