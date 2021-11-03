@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB9C044445C
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:10:55 +0100 (CET)
-Received: from localhost ([::1]:56458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03DDE444475
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:14:24 +0100 (CET)
+Received: from localhost ([::1]:36772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miHug-00055q-DH
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:10:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51868)
+	id 1miHxz-0002zt-Dp
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:14:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miHov-0003Ex-Nn
+ id 1miHox-0003F7-6p
  for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:04:59 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36419)
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:47057)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miHot-0000WP-IX
+ id 1miHou-0000Wl-Au
  for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:04:57 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- z11-20020a1c7e0b000000b0030db7b70b6bso4876532wmc.1
+Received: by mail-wr1-x436.google.com with SMTP id u1so4003954wru.13
  for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:04:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0vUABkOdW3n1O+J/YlCSi4LCn6CSZ6NW/xi0cwG+LLU=;
- b=ENYO9XugqQnXFLUZWu1Vof9bxWLl3mYJyQ22eeb9TbCm1GMs9IBPxzkOFYoH9jlWD2
- aY+HLtD9U9HeLHvyAYCu7U4Htv8wb702gVfyn39QndcPEQNpgpd9N1BlBmCuyZfn3vdr
- aJNmjad6lKc48660djzACkskNyyc8rBWC28YFHYH5zIh+cO2LgdGilCcmWiugKW0OkQK
- QeY3+RWlRfZoYcVOHvMY2gN6YgRGkuljZS2OckRBx3+ZJBsv01cPAgn1x/jFvB8/KwX0
- qnqwib2YH6dx69XvgTLX8rBM8lfO4FiZIg3WcT3oUoFuh85giE74tLQKbGhIXHtwkIKO
- IODQ==
+ bh=X3SQejK3WrW99drRT37J6slxXvRt4OUdqxEbD8zahlg=;
+ b=aDJDFt9v1+RcZiKtqsoEBmYIieOev04Tp0utKurWGzEuxy4AJTA7ktgcKQvMRM3Yiu
+ 9lhusLXQ+fdpnbPiz/xNmBdazhVN1PxHaMLGvWHdJpsxMO+rZVJp1YfJyuC/GsjrQxim
+ CGZueNjHc+DKWSOxBp7Ww5H+ga51x3qO4wVEHsM5NbhjShix+7WhkkuCNDgSj7Jxt7ph
+ EALMVjSm4x/zSijApvgNNPuZZHF2eOE/DDGPn+JFDnhpqsvEpw98E1IdWxbbh/n8AnY0
+ cLkAU2pMVcWZJkwHYRqABuCMSqEYXoOCa9azhld9ISQKff3EaRYXppyto9PdKGU0Hqa5
+ RI1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0vUABkOdW3n1O+J/YlCSi4LCn6CSZ6NW/xi0cwG+LLU=;
- b=wuhOLQN72Myv1e/klqtjE1gxYLYdGa+LdGoaxRi6Uy7DA8I1W2MwrAJROR8JD3qaMh
- YEG7TxKJE5g/fbysIp3oTWIupq2o7rsgmvfyL0kFFX4OkMGBg7q5WmlRSw6mNfFlIaVB
- Ra3stGxVX4dO7ibKry3HACdD9JAKLiv+eRKCCwtmPgfuovvfg98yYHv9z3p4geh8PjfE
- xmwmgUx3eiDKIQPKDLrDxca9XSn3OdADmTUcahFGbcMRfk17wcxkoWRQccSaPUcgg3Vg
- icgUYScfHd3O7iTBnBDzY4cA/ZQeHPyOjvLVHUTxNeJXRPr/CFnAb5mp7DuDoUOrPxIT
- YaPQ==
-X-Gm-Message-State: AOAM531w8jS4a0T83c/bFLuvcFsRhaW2StEDWyaU/qqPL3w7jBobcZbz
- yxb7otjwSsT0Bw44PB8rD/OcX2aF9zA=
-X-Google-Smtp-Source: ABdhPJxjSIq+5xaAbzjNU/4b3drnww3yzy4+R6mw0UDSk14QWHoGfKJYb511DGqIxhSTo3DEaLCZxA==
-X-Received: by 2002:a05:600c:3b27:: with SMTP id
- m39mr16460159wms.132.1635951894262; 
+ bh=X3SQejK3WrW99drRT37J6slxXvRt4OUdqxEbD8zahlg=;
+ b=cHcodyFSI+FLw2txzMHYBPR+SIuq/U7LNYk5U6P3Kktu9Lk49fQZPg+ydEy41jfhvz
+ +drxhYLDjoigRAF/tkytQ/4WFYd2HqdimcSliVcf33A/tG51k3BacvacEXCt9Az4atxP
+ 1Vne9+Bes4pPLCjT1fp0lWwciEhjD5waqG5c9mkyKR/dQzLzTmzwghTQcGOcgR6B/f6c
+ 8Dy+canLa2aZeaxNODvWgLtCmx6zVneWkStpvpZh5ETDATM3bJmo7oFjiM6BO9s2PGKL
+ aEMLDTTZ60stIcRKwKAt5zv5igRccrQoW5jXz54bcfrZnWoWgYQzE+FTg7vcfqXMqqfc
+ lF6A==
+X-Gm-Message-State: AOAM531Uy2F5QFHc5jHDTqUxcPrpj+WV3pSLzuWvSywUahVpJUjl3nFT
+ eErvkL3UuLXy3NXTKelrPEzPITCs3Io=
+X-Google-Smtp-Source: ABdhPJwd7dvaNuu6a5rIZebUX+VaBjqRVE9wPspIUXtIeP/h4jdcEr1rjZuUPgxCuFoJ+FjrwlBKtg==
+X-Received: by 2002:adf:ef52:: with SMTP id c18mr36563197wrp.162.1635951894854; 
  Wed, 03 Nov 2021 08:04:54 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id h16sm2488797wrm.27.2021.11.03.08.04.53
+ by smtp.gmail.com with ESMTPSA id h16sm2488797wrm.27.2021.11.03.08.04.54
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 08:04:53 -0700 (PDT)
+ Wed, 03 Nov 2021 08:04:54 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/27] optionrom: add a DMA-enabled multiboot ROM
-Date: Wed,  3 Nov 2021 16:04:23 +0100
-Message-Id: <20211103150442.387121-9-pbonzini@redhat.com>
+Subject: [PULL 09/27] target/i386: use DMA-enabled multiboot ROM for
+ new-enough QEMU machine types
+Date: Wed,  3 Nov 2021 16:04:24 +0100
+Message-Id: <20211103150442.387121-10-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211103150442.387121-1-pbonzini@redhat.com>
 References: <20211103150442.387121-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,203 +85,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Adam Lackorzynski <adam@l4re.org>,
- =?UTF-8?q?Marcus=20H=C3=A4hnel?= <marcus.haehnel@kernkonzept.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marcus Hähnel <marcus.haehnel@kernkonzept.com>
+As long as fw_cfg supports DMA, the new ROM can be used also on older
+machine types because it has the same size as the existing one.
 
-Add a new option rom for the multiboot loader, using DMA transfers to copy
-data instead of "rep insb".
-
-This significantly lowers QEMU's startup latency by a factor of about 40,
-for example, going from 30sec to 0.8sec when loading modules of 120MB
-in size.
-
-Signed-off-by: Marcus Hähnel <marcus.haehnel@kernkonzept.com>
-Signed-off-by: Adam Lackorzynski <adam@l4re.org>
-[Modified to keep the non-DMA code depending on #ifdef USE_FW_CFG_DMA;
- do not write below stack. - Paolo]
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- pc-bios/meson.build               |   1 +
- pc-bios/multiboot_dma.bin         | Bin 0 -> 1024 bytes
- pc-bios/optionrom/Makefile        |   4 +-
- pc-bios/optionrom/multiboot.S     |   4 +-
- pc-bios/optionrom/multiboot_dma.S |   2 +
- pc-bios/optionrom/optionrom.h     |  66 ++++++++++++++++++++++++++++++
- 6 files changed, 72 insertions(+), 5 deletions(-)
- create mode 100644 pc-bios/multiboot_dma.bin
- create mode 100644 pc-bios/optionrom/multiboot_dma.S
+ hw/i386/multiboot.c | 10 ++++++++--
+ hw/i386/multiboot.h |  4 +++-
+ hw/i386/pc.c        |  3 ++-
+ hw/i386/x86.c       |  2 +-
+ 4 files changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/pc-bios/meson.build b/pc-bios/meson.build
-index a44c9bc127..b40ff3f2bd 100644
---- a/pc-bios/meson.build
-+++ b/pc-bios/meson.build
-@@ -63,6 +63,7 @@ blobs = files(
-   'petalogix-s3adsp1800.dtb',
-   'petalogix-ml605.dtb',
-   'multiboot.bin',
-+  'multiboot_dma.bin',
-   'linuxboot.bin',
-   'linuxboot_dma.bin',
-   'kvmvapic.bin',
-diff --git a/pc-bios/multiboot_dma.bin b/pc-bios/multiboot_dma.bin
-new file mode 100644
-index 0000000000000000000000000000000000000000..c0e2c3102a3358207c61d3ae113524fb6007abc3
-GIT binary patch
-literal 1024
-zcmd^-v1=1i9LIlmUTlcNU1}{N5`u&{DAHSmq6iKdix;GHRxaNnR0A<Lc978Fk#IvN
-zaS+5wQE+fL&*iQWa#czc94ZyL>R{3q;@~8~^LMo;4s!p158nI!-tWur_ul*P<{!&%
-z=%3>xm5f`4Bq!!)`Rkwf;(oFd*qcAb=mhXX1)X>Bw-tylkUpR_ETXkH1AnO4L$nJ|
-zWJui_M1kmKmTID)P`mI^=HM`~{VB1t1l_Ye=Lor4X5{8Gd)zzw_o4<6zLQJ!dr<pW
-z;7%~ysSHL?*HHx*O%k}?fCyRL<7_RWt(4;Aqn}X}S>MolrKNZG2Z|kTOyaJIhYFc^
-zFhhuQ9`r5fQLCrm#T4^_QylQ>8kgs;ZX9bIEiXb`8AIxu;?h~d%9izBkKht%WM1G*
-z^E{W9(OT9dt5in2qF}|dPH>dL>{=sV#-U1<quUb@YkIW%niI?8-7fCz#695e<V=WZ
-zrVCY?W~`3Hw@^=cHALr#9F2GOTYJ;??9d*-Vbsi+;lz|<$jMX#;lr6ov3qKNLH7(W
-z+>yFoWnOtw14D$&k*SUtsT%wS`ki@#&rUrnmtuDv`PtJm(Kg?H$Pdc0CL@YCy4R<D
-pT|LnIbg(BnP0#tqRx5M!bkkaD-nd?`H;YU4Yi6yHwD{k({tHC8FAx9#
-
-literal 0
-HcmV?d00001
-
-diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
-index 3482508a86..5d55d25acc 100644
---- a/pc-bios/optionrom/Makefile
-+++ b/pc-bios/optionrom/Makefile
-@@ -2,7 +2,7 @@ include config.mak
- SRC_DIR := $(TOPSRC_DIR)/pc-bios/optionrom
- VPATH = $(SRC_DIR)
+diff --git a/hw/i386/multiboot.c b/hw/i386/multiboot.c
+index 9e7d69d470..0a10089f14 100644
+--- a/hw/i386/multiboot.c
++++ b/hw/i386/multiboot.c
+@@ -143,7 +143,8 @@ static void mb_add_mod(MultibootState *s,
+     s->mb_mods_count++;
+ }
  
--all: multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin
-+all: multiboot.bin multiboot_dma.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin
- # Dummy command so that make thinks it has done something
- 	@true
+-int load_multiboot(FWCfgState *fw_cfg,
++int load_multiboot(X86MachineState *x86ms,
++                   FWCfgState *fw_cfg,
+                    FILE *f,
+                    const char *kernel_filename,
+                    const char *initrd_filename,
+@@ -151,6 +152,7 @@ int load_multiboot(FWCfgState *fw_cfg,
+                    int kernel_file_size,
+                    uint8_t *header)
+ {
++    bool multiboot_dma_enabled = X86_MACHINE_GET_CLASS(x86ms)->fwcfg_dma_enabled;
+     int i, is_multiboot = 0;
+     uint32_t flags = 0;
+     uint32_t mh_entry_addr;
+@@ -401,7 +403,11 @@ int load_multiboot(FWCfgState *fw_cfg,
+     fw_cfg_add_bytes(fw_cfg, FW_CFG_INITRD_DATA, mb_bootinfo_data,
+                      sizeof(bootinfo));
  
-@@ -41,8 +41,6 @@ override CFLAGS += $(call cc-option, $(Wa)-32)
- LD_I386_EMULATION ?= elf_i386
- override LDFLAGS = -m $(LD_I386_EMULATION) -T $(SRC_DIR)/flat.lds
+-    option_rom[nb_option_roms].name = "multiboot.bin";
++    if (multiboot_dma_enabled) {
++        option_rom[nb_option_roms].name = "multiboot_dma.bin";
++    } else {
++        option_rom[nb_option_roms].name = "multiboot.bin";
++    }
+     option_rom[nb_option_roms].bootindex = 0;
+     nb_option_roms++;
  
--all: multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin
--
- pvh.img: pvh.o pvh_main.o
+diff --git a/hw/i386/multiboot.h b/hw/i386/multiboot.h
+index 60de309cd1..2b9182a8ea 100644
+--- a/hw/i386/multiboot.h
++++ b/hw/i386/multiboot.h
+@@ -2,8 +2,10 @@
+ #define QEMU_MULTIBOOT_H
  
- %.o: %.S
-diff --git a/pc-bios/optionrom/multiboot.S b/pc-bios/optionrom/multiboot.S
-index b7efe4de34..181a4b03a3 100644
---- a/pc-bios/optionrom/multiboot.S
-+++ b/pc-bios/optionrom/multiboot.S
-@@ -68,7 +68,7 @@ run_multiboot:
- 	mov		%eax, %es
+ #include "hw/nvram/fw_cfg.h"
++#include "hw/i386/x86.h"
  
- 	/* Read the bootinfo struct into RAM */
--	read_fw_blob(FW_CFG_INITRD)
-+	read_fw_blob_dma(FW_CFG_INITRD)
- 
- 	/* FS = bootinfo_struct */
- 	read_fw		FW_CFG_INITRD_ADDR
-@@ -188,7 +188,7 @@ prot_mode:
- 	movl		%eax, %gs
- 
- 	/* Read the kernel and modules into RAM */
--	read_fw_blob(FW_CFG_KERNEL)
-+	read_fw_blob_dma(FW_CFG_KERNEL)
- 
- 	/* Jump off to the kernel */
- 	read_fw		FW_CFG_KERNEL_ENTRY
-diff --git a/pc-bios/optionrom/multiboot_dma.S b/pc-bios/optionrom/multiboot_dma.S
-new file mode 100644
-index 0000000000..d809af3e23
---- /dev/null
-+++ b/pc-bios/optionrom/multiboot_dma.S
-@@ -0,0 +1,2 @@
-+#define USE_FW_CFG_DMA 1
-+#include "multiboot.S"
-diff --git a/pc-bios/optionrom/optionrom.h b/pc-bios/optionrom/optionrom.h
-index a2b612f1a7..8d74c0ddf3 100644
---- a/pc-bios/optionrom/optionrom.h
-+++ b/pc-bios/optionrom/optionrom.h
-@@ -37,6 +37,17 @@
- #define BIOS_CFG_IOPORT_CFG	0x510
- #define BIOS_CFG_IOPORT_DATA	0x511
- 
-+#define FW_CFG_DMA_CTL_ERROR   0x01
-+#define FW_CFG_DMA_CTL_READ    0x02
-+#define FW_CFG_DMA_CTL_SKIP    0x04
-+#define FW_CFG_DMA_CTL_SELECT  0x08
-+#define FW_CFG_DMA_CTL_WRITE   0x10
-+
-+#define FW_CFG_DMA_SIGNATURE 0x51454d5520434647ULL /* "QEMU CFG" */
-+
-+#define BIOS_CFG_DMA_ADDR_HIGH  0x514
-+#define BIOS_CFG_DMA_ADDR_LOW   0x518
-+
- /* Break the translation block flow so -d cpu shows us values */
- #define DEBUG_HERE \
- 	jmp		1f;				\
-@@ -62,6 +73,61 @@
- 	bswap		%eax
- .endm
- 
-+
-+/*
-+ * Read data from the fw_cfg device using DMA.
-+ * Clobbers:	%edx, %eax, ADDR, SIZE, memory[%esp-16] to memory[%esp]
-+ */
-+.macro read_fw_dma VAR, SIZE, ADDR
-+        /* Address */
-+	bswapl		\ADDR
-+	pushl		\ADDR
-+
-+	/* We only support 32 bit target addresses */
-+	xorl		%eax, %eax
-+	pushl		%eax
-+	mov		$BIOS_CFG_DMA_ADDR_HIGH, %dx
-+	outl		%eax, (%dx)
-+
-+	/* Size */
-+	bswapl		\SIZE
-+	pushl		\SIZE
-+
-+        /* Control */
-+	movl		$(\VAR << 16) | (FW_CFG_DMA_CTL_READ | FW_CFG_DMA_CTL_SELECT), %eax
-+	bswapl		%eax
-+	pushl		%eax
-+
-+	movl		%esp, %eax /* Address of the struct we generated */
-+	bswapl		%eax
-+	mov		$BIOS_CFG_DMA_ADDR_LOW, %dx
-+	outl		%eax, (%dx) /* Initiate DMA */
-+
-+1:  mov		(%esp), %eax /* Wait for completion */
-+	bswapl		%eax
-+	testl		$~FW_CFG_DMA_CTL_ERROR, %eax
-+	jnz		1b
-+       addl            $16, %esp
-+.endm
-+
-+
-+/*
-+ * Read a blob from the fw_cfg device using DMA
-+ * Requires _ADDR, _SIZE and _DATA values for the parameter.
-+ *
-+ * Clobbers:	%eax, %edx, %es, %ecx, %edi and adresses %esp-20 to %esp
-+ */
-+#ifdef USE_FW_CFG_DMA
-+#define read_fw_blob_dma(var) \
-+	read_fw		var ## _SIZE; \
-+	mov		%eax, %ecx; \
-+	read_fw		var ## _ADDR; \
-+	mov		%eax, %edi ;\
-+	read_fw_dma	var ## _DATA, %ecx, %edi
-+#else
-+#define read_fw_blob_dma(var) read_fw_blob(var)
-+#endif
-+
- #define read_fw_blob_pre(var)				\
- 	read_fw		var ## _SIZE;			\
- 	mov		%eax, %ecx;			\
+-int load_multiboot(FWCfgState *fw_cfg,
++int load_multiboot(X86MachineState *x86ms,
++                   FWCfgState *fw_cfg,
+                    FILE *f,
+                    const char *kernel_filename,
+                    const char *initrd_filename,
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index d203db7845..fcfb7f7139 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -780,7 +780,8 @@ void xen_load_linux(PCMachineState *pcms)
+         assert(!strcmp(option_rom[i].name, "linuxboot.bin") ||
+                !strcmp(option_rom[i].name, "linuxboot_dma.bin") ||
+                !strcmp(option_rom[i].name, "pvh.bin") ||
+-               !strcmp(option_rom[i].name, "multiboot.bin"));
++               !strcmp(option_rom[i].name, "multiboot.bin") ||
++               !strcmp(option_rom[i].name, "multiboot_dma.bin"));
+         rom_add_option(option_rom[i].name, option_rom[i].bootindex);
+     }
+     x86ms->fw_cfg = fw_cfg;
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index a34498fe16..b84840a1bb 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -814,7 +814,7 @@ void x86_load_linux(X86MachineState *x86ms,
+          * PVH), so we try multiboot first since we check the multiboot magic
+          * header before to load it.
+          */
+-        if (load_multiboot(fw_cfg, f, kernel_filename, initrd_filename,
++        if (load_multiboot(x86ms, fw_cfg, f, kernel_filename, initrd_filename,
+                            kernel_cmdline, kernel_size, header)) {
+             return;
+         }
 -- 
 2.31.1
 
