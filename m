@@ -2,72 +2,153 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF315443B0E
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 02:34:44 +0100 (CET)
-Received: from localhost ([::1]:34436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A741443B22
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 02:51:23 +0100 (CET)
+Received: from localhost ([::1]:37236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mi5Ap-0005nV-Sy
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 21:34:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48872)
+	id 1mi5Qw-0000YM-8Z
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 21:51:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mi59I-000571-DY
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 21:33:08 -0400
-Received: from mail-vk1-xa31.google.com ([2607:f8b0:4864:20::a31]:43806)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mi59G-0000on-MU
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 21:33:08 -0400
-Received: by mail-vk1-xa31.google.com with SMTP id h133so543472vke.10
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 18:33:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=vTIut1ymaDabKkqB12mW1+gOwQtugPp4jFZ8ypIxeAs=;
- b=NjqHxqgrxFsZ0bsh2dnhaItxtifP9aRWI/v5WRQ10YASsasvPWQwPqvaL72TPOQAvK
- a6Tpenu/eI09r6zipxqhk6IN93iuU5Qgy8iUtzZIT6hS+mCUhoVzEnHXCLqhwU1qL8pF
- jf6e1Ot/5vr/spLOL6wbjl3Poe+knDXN2EiiE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=vTIut1ymaDabKkqB12mW1+gOwQtugPp4jFZ8ypIxeAs=;
- b=BdnT4fsuJ7C9vxtIwse0PXUv/WFeLbX+KDLUHVzUrgLOGUImrLBzPEazISDe0Iou4O
- raGJhUMJv3wSNF3gTa02bBHJ9lUmE4FFP5hWX8V9cImQofnbPEEllMiks/sYFNukMn08
- l2gF1SbcZmMXBu9alUpYGM5qAIRn/7nErAVexzuIstoFB+XJEGEjC/s+W41mcEiBOeeR
- ZmlapHv/2IKzy+T4LSokqARDRvnd75wApuMOqlOOGIXDGYNkYbYI54nWEZZqsvNbkg1V
- b+8vRYaL1xIM6zRFSuFV8Kg3fion3Nd0pX7rm+oyjQT/V2QV5n3BiY9aocTddslbEPvh
- RIxA==
-X-Gm-Message-State: AOAM533Phb9G5kqdV4a3f7WMnDtbhDOw9n3T/2RmAFjfqmp78XaTV3qO
- zfFdrbtLlE0SV8cW0LrGQSK8UWJM6HrcqjSgkxgvcQ==
-X-Google-Smtp-Source: ABdhPJxykPw0xbaH+SS8On5xptBVk0H2ZQ2fCavTGAjGrjgc8Y1611tlzp5Koo7EZOJu+NY5ILUnK7VH/Mhh4l6KVaY=
-X-Received: by 2002:a1f:1904:: with SMTP id 4mr21787603vkz.9.1635903185278;
- Tue, 02 Nov 2021 18:33:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211026002344.405160-1-sjg@chromium.org>
- <20211026002344.405160-7-sjg@chromium.org>
- <CAFEAcA-UukuQXT3ebcboiVOSn0J+88w-kzoH8jE1JVxQnoeuvQ@mail.gmail.com>
- <CAPnjgZ2C8okdUMcgKjuLgV8JdPexYY0=9NtbSOHO81dN7=2RCg@mail.gmail.com>
- <CAHFG_=XWc+Fb=m=SHC6=y4KeF533yqCNk=Ae088oAZyjOULPaw@mail.gmail.com>
- <CAPnjgZ0O56yokanMjybQKa1kBmtFHHbDfQ0sPPawrbLWtw7aDQ@mail.gmail.com>
- <20211102165718.GR24579@bill-the-cat>
-In-Reply-To: <20211102165718.GR24579@bill-the-cat>
-From: Simon Glass <sjg@chromium.org>
-Date: Tue, 2 Nov 2021 19:32:54 -0600
-Message-ID: <CAPnjgZ1KYRY9a-WBeHVX-5r2O-KBNVU1-6wHRw1of0qHrCt4yA@mail.gmail.com>
-Subject: Re: [PATCH v5 06/26] arm: qemu: Add a devicetree file for qemu_arm64
-To: Tom Rini <trini@konsulko.com>
-Content-Type: text/plain; charset="UTF-8"
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1mi5PW-0008Dw-Gk
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 21:49:54 -0400
+Received: from mga12.intel.com ([192.55.52.136]:35469)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1mi5PU-00041C-4w
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 21:49:53 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="211467833"
+X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="211467833"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Nov 2021 18:49:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="583931120"
+Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
+ by fmsmga002.fm.intel.com with ESMTP; 02 Nov 2021 18:49:43 -0700
+Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
+ ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 2 Nov 2021 18:49:42 -0700
+Received: from orsmsx605.amr.corp.intel.com (10.22.229.18) by
+ ORSMSX608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 2 Nov 2021 18:49:42 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12 via Frontend Transport; Tue, 2 Nov 2021 18:49:42 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.48) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.12; Tue, 2 Nov 2021 18:49:42 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=n+UBP4mUrL3z1JYhytITA/jz2SGsgU6NZVddGkxRZTINTN2wUvZP638ZUr95i+B+fnx/OFmeRnE9v5MhKcTeOmPo3ci2Jewfgxr3XazJxTFwpxnUlzbe9bAZbaId1VFY2o4bC2w8OMys9oyOHNvxZ8UEPH7Gvy0NbwHQEfmxMw94PMRDoiWXCYvcnIFuKkOR/bzHq/l95llz3sEiDANtgzW4dniIG497a6WvjxnwAlZQSte/zyZcAXQ/LUDPsE0Qhj8SPm9YkZfBKldgwCPFz/WVld15krezHBn/ZRw7FXnE78E+Dmb6wgOc55dUU1lq7XTR5ncTw2F6lnfQFAG2wA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SKEtk9gcRsY1hb1bhbBU4KsBVfzyfULzw96BsS2i/8w=;
+ b=U3ztVaD+yV7xzrG/g1ZqK4/fKSrrWsMfEeaXJiDbL0eBQ9I8/BIBJ9B0cnEOCb31iaQ3RcRi92pGDvm+y0K4KcDcjE/ab1GA4nqFij13K+aItKNxanmmYutXj/S0WA77nImIR6rw4uxvVJuIzTqRUfLEdkBe+is0mjmFd8X1J85X0GwI5mVENV7bj2zQ5UcPuKMCX6R7NUyp9eTtppNg3RI8Pm22AFGFqHUEc44pWr68JCg9km6To4WXXKNLjAT+twM6XRgdY3naYn2f6e4dDg7BoGpOHLuZXMxomtEWcI7WtCAS6z58I94m9Dd2ewdxPSOZMvvSIM0OsAVFRBBPeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SKEtk9gcRsY1hb1bhbBU4KsBVfzyfULzw96BsS2i/8w=;
+ b=gOb0lIPp0AQlv9IDAaLHxXILpClTB4oNC+DJpR1iMn7ZE/VajOJbAKW7GAxy2zmSXahAtzaSdhMLgRDMO2s+F2UlQN49n7RteZn+SSBjvOLPFH9JuyTkYmoPsxHHqx82LtRnUz+bWM+U62GFWKoiZRuSKCTV1iqMnwNcOhYwk2A=
+Received: from DM8PR11MB5640.namprd11.prod.outlook.com (2603:10b6:8:3f::14) by
+ DM8PR11MB5637.namprd11.prod.outlook.com (2603:10b6:8:33::5) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4669.10; Wed, 3 Nov 2021 01:49:41 +0000
+Received: from DM8PR11MB5640.namprd11.prod.outlook.com
+ ([fe80::9c4d:5c63:9fdd:53da]) by DM8PR11MB5640.namprd11.prod.outlook.com
+ ([fe80::9c4d:5c63:9fdd:53da%3]) with mapi id 15.20.4669.010; Wed, 3 Nov 2021
+ 01:49:41 +0000
+From: "Rao, Lei" <lei.rao@intel.com>
+To: "quintela@redhat.com" <quintela@redhat.com>
+Subject: RE: [PATCH v2 7/7] Optimized the function of fill_connection_key.
+Thread-Topic: [PATCH v2 7/7] Optimized the function of fill_connection_key.
+Thread-Index: AQHXzvdIBYwhJX2CjUmqhHHQq8ty1qvwcNFAgACWF9A=
+Date: Wed, 3 Nov 2021 01:49:41 +0000
+Message-ID: <DM8PR11MB5640E3DA278886F5F8B8AAEBFD8C9@DM8PR11MB5640.namprd11.prod.outlook.com>
+References: <1635753425-11756-1-git-send-email-lei.rao@intel.com>
+ <1635753425-11756-8-git-send-email-lei.rao@intel.com>
+ <87cznih6ie.fsf@secure.mitica>
+In-Reply-To: <87cznih6ie.fsf@secure.mitica>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-reaction: no-action
+dlp-version: 11.6.200.16
+dlp-product: dlpe-windows
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 8133b62a-af16-417a-c21a-08d99e6c341e
+x-ms-traffictypediagnostic: DM8PR11MB5637:
+x-microsoft-antispam-prvs: <DM8PR11MB56379E79F66CFB79ABCBC05FFD8C9@DM8PR11MB5637.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3173;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: QM4k3AKolGZiWbsLCd5L6Qvi2HyXfC+Z0nYflrldL2A36xUaxiu8oxx5d6nDXdXKzcJltaYcqoNFN5Tto9p+Slvv5ZnT9SMmoaWQGw5pOgdb6szNRJ9kM8RLmUJWeVYfb3LOycZwRcU/CkvNKpemombHqysTPzgT9dGC2qoYWO7ZL8D26QLYHMmA9HuOMaev/0qqEDJNJ7Xl83WrnMS7ljISO4SwoGo+oUnMgFO7CoKTmDhE2wBiuETnM3yZShqJV8/EVoOe6kqHmewUWhuZ3orw6b/s5HN4IeMAVw31LvgBCepOI+nqFADpu+V3+Xs6MkoI6pHi3zgMRJHxkswN8ZIFgrV822wWdiWn58dNzKARXttXtcOIuEVG5t16xuDs7JH7HqgSVBnHOd+jyzmaAgXsSD3sxO7kAMVpkca9Y4t4g9odGxF/6voUp/Za9MxF5RLSCcU+o51pgX04hOn+lv8InnYY202b0CmXCJsnaqa1g5MSYcyTxY2hjzTZhhd4NjwTkd0MliZWPQ03HlgU27oJFP+UbS5p/cXqeG1mS6FSkHp+Y8cCIPSF3CaJsJRwe/sq5aeJiFMe4jLKShfG+wYKe5yc1o8J+H4pU9uPfSw/Nc8oC5HGFE5X+PgQSKGsoXgW+iv2+OpiSdslIKC8r7c6VuEJB6cX1YO5g8fP0X3nTv8x8ck8ReDC79hdhYrzirF7yHzTYpfCTMN851nfzA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM8PR11MB5640.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(66476007)(4326008)(71200400001)(82960400001)(66556008)(64756008)(66446008)(6916009)(5660300002)(38070700005)(86362001)(9686003)(52536014)(316002)(122000001)(53546011)(6506007)(186003)(508600001)(8676002)(54906003)(4744005)(8936002)(76116006)(83380400001)(7696005)(66946007)(38100700002)(55016002)(2906002)(26005)(33656002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?TgftPBhr1iT7EpOFzIz7+dZYdtGyqKZ64KdCgUy1wShg1OJIkHCJwPUzT+nE?=
+ =?us-ascii?Q?RDe24Ddpu/U2+d+N6nnw1LH5WHZIR5/IpbDngNfqoss4Q2F8GC5o2u6FOVIJ?=
+ =?us-ascii?Q?a7LAjeiTu1xerhwoaa0HXxxx8k4lmRC7qk/Oqzw+RLniYU+1bSUiI/k7lMoA?=
+ =?us-ascii?Q?Mf1f9QyL9etaRZHWcpWhxXvuhnZQynrwCdccH+Sv3SSWW94Ghpe/GEh5GqsH?=
+ =?us-ascii?Q?5yt/+cSHkPYio+cOAYvSrFPO14NrRYUQGdGhlAw3ahIiQ8JYUTOf2qfwLwVG?=
+ =?us-ascii?Q?+d+wM/sDpKI0wzwF2lIVXxbVKwx1/R/rlvJcB++dO9p1UGqfz9bNRKsB7iG7?=
+ =?us-ascii?Q?cA+z8SIKCa8LzwhhfYYuYiBdGJG64DBLa9cRrAHzuV31lUJb3/3vh5iDdQXc?=
+ =?us-ascii?Q?XRXHHgymrezzwMrOklA32KtCkepxZOwBfPOLip94I8hu/bJL/NQi/kz+ci8P?=
+ =?us-ascii?Q?xFq7SduTaP5vrJ7ynwzpBSkwM0aO20hzlGxheKRPTMTfj+zh3dSl19Dbh0FQ?=
+ =?us-ascii?Q?IhI0ZpN3/9Myh9S2rbFQr91r6vobG1xlyapikVLcq/dknpQ2pcftNhiByZmC?=
+ =?us-ascii?Q?xsERmyimzskGqNF/zrbK0iJEldAlSPqY4KoHOS53hWeLYi5GVN3SpWMkPFRx?=
+ =?us-ascii?Q?9lLh6zRD6IiUnnoB3Xn+PKw3Cb7FPq14rPv9//qCPgzgSDVyMfbI1Ip/pCr3?=
+ =?us-ascii?Q?nZDdiYrzZ68x+9EH3vOWZlqLoMjgdWfIDkB27K5lfFKt/RrPKAwUDzeoKiMA?=
+ =?us-ascii?Q?tMXf0BI1pbKg27oM8gxVa9ZBtiiBIB3yyPJtq8coL7d36eIbov0RML8hjqZu?=
+ =?us-ascii?Q?g58G/1Q/m7K88a+/OiM1+dHCRkskkcStjfkx1ZPMYpfEFW9hHVi+16l/Xp5B?=
+ =?us-ascii?Q?iF5BEJNkhtynOmjpTjJ3+VEBh0ASbHUlknprm6q/5hknGXDAw2UJGs/3LERb?=
+ =?us-ascii?Q?AJkpVX5vYLK46I6IMyNYdivcHP7LZIX0o/ylr67MUQgRmUGc6dc+rWdtZs1H?=
+ =?us-ascii?Q?BslmOPiMQM114DbAiYxCzESlhmOao+zkPerUOBqjE+b5oxdVhtKb16mepabM?=
+ =?us-ascii?Q?FgnFRC1NDVh2m7MUeMYF49s/yGSrWZjQiKSoADt92h4s8T/1UPIh/WSPOBQ0?=
+ =?us-ascii?Q?cYba7H214XCmmIU7vpVMMpHeZ1JtEyBYTGEkvM36CwYNECByx+USorraI1r1?=
+ =?us-ascii?Q?lmVO2njsM047hHJkZwqOXzf6hV7JP9iBoacrfTyR3RCaNuPjzJ5gXqNMZtgI?=
+ =?us-ascii?Q?Cr9S09BpdoQy26olDjgPT7Ag0hKI8Y75sCqxNMUPhkVTYZVTMOKXfD7uDrRt?=
+ =?us-ascii?Q?eeDaaR7UeymfRW159uIOr/91A9YpxPJoGSmsq0l8Y2Ul7oF5BUAktHxMFN87?=
+ =?us-ascii?Q?w8iHdjjvAvEWhPreRff26AmJM/Sr3mahlBhKxa+EXKS+5cZcTJCIN/rFgfC2?=
+ =?us-ascii?Q?Tgtea5L1UrGHX6UdQYuyH2IWiHJhSx2sxUBuquE6kav3M33mX03IAFh7XMH+?=
+ =?us-ascii?Q?iQpVtwW3kpaelV0PALnWLTRQekp8GAvjzy1aw83M4R6vH2QSolmwf0oGl5jO?=
+ =?us-ascii?Q?2pViE81jcxLvxotsXSHb9qtkAJ+uu8B/ijJ159gPVkxoQW8QYZltAnFgk/Cw?=
+ =?us-ascii?Q?Iw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a31;
- envelope-from=sjg@google.com; helo=mail-vk1-xa31.google.com
-X-Spam_score_int: -99
-X-Spam_score: -10.0
-X-Spam_bar: ----------
-X-Spam_report: (-10.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.702,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5640.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8133b62a-af16-417a-c21a-08d99e6c341e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Nov 2021 01:49:41.6807 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: QGEkgXvOMHfp/h9l++VGecW2TW7c0alc/LkGlA5KLp1vjWhXaRPhbdkj+WU43ZYEGINoa+5LkkTCAyP5IuGWdA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR11MB5637
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.136; envelope-from=lei.rao@intel.com;
+ helo=mga12.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,99 +161,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Albert Aribaud <albert.u.boot@aribaud.net>,
- =?UTF-8?Q?Fran=C3=A7ois_Ozog?= <francois.ozog@linaro.org>,
- U-Boot Mailing List <u-boot@lists.denx.de>,
- Heinrich Schuchardt <xypron.glpk@gmx.de>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Sean Anderson <seanga2@gmail.com>,
- Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>,
- Mark Kettenis <mark.kettenis@xs4all.nl>
+Cc: "lukasstraub2@web.de" <lukasstraub2@web.de>,
+ "zhang.zhanghailiang@huawei.com" <zhang.zhanghailiang@huawei.com>,
+ "lizhijian@cn.fujitsu.com" <lizhijian@cn.fujitsu.com>,
+ "jasowang@redhat.com" <jasowang@redhat.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Zhang,
+ Chen" <chen.zhang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Tom,
+Will be changed and sent separately.
 
-On Tue, 2 Nov 2021 at 10:57, Tom Rini <trini@konsulko.com> wrote:
+Thanks,
+Lei
+
+-----Original Message-----
+From: Juan Quintela <quintela@redhat.com>=20
+Sent: Wednesday, November 3, 2021 12:23 AM
+To: Rao, Lei <lei.rao@intel.com>
+Cc: Zhang, Chen <chen.zhang@intel.com>; lizhijian@cn.fujitsu.com; jasowang@=
+redhat.com; zhang.zhanghailiang@huawei.com; lukasstraub2@web.de; dgilbert@r=
+edhat.com; qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 7/7] Optimized the function of fill_connection_key.
+
+"Rao, Lei" <lei.rao@intel.com> wrote:
+> From: "Rao, Lei" <lei.rao@intel.com>
 >
-> On Tue, Nov 02, 2021 at 08:59:45AM -0600, Simon Glass wrote:
-> > Hi Fran=C3=A7ois,
-> >
-> > On Mon, 1 Nov 2021 at 11:33, Fran=C3=A7ois Ozog <francois.ozog@linaro.o=
-rg> wrote:
-> > >
-> > > Hi Simon
-> > >
-> > > Le lun. 1 nov. 2021 =C3=A0 17:58, Simon Glass <sjg@chromium.org> a =
-=C3=A9crit :
-> > >>
-> > >> Hi Peter,
-> > >>
-> > >> On Mon, 1 Nov 2021 at 04:48, Peter Maydell <peter.maydell@linaro.org=
-> wrote:
-> > >> >
-> > >> > On Tue, 26 Oct 2021 at 01:33, Simon Glass <sjg@chromium.org> wrote=
-:
-> > >> > >
-> > >> > > Add this file, generated from qemu, so there is a reference devi=
-cetree
-> > >> > > in the U-Boot tree.
-> > >> > >
-> > >> > > Signed-off-by: Simon Glass <sjg@chromium.org>
-> > >> >
-> > >> > Note that the dtb you get from QEMU is only guaranteed to work if:
-> > >> >  1) you run it on the exact same QEMU version you generated it wit=
-h
-> > >> >  2) you pass QEMU the exact same command line arguments you used
-> > >> >     when you generated it
-> > >>
-> > >> Yes, I certainly understand that. In general this is not safe, but i=
-n
-> > >> practice it works well enough for development and CI.
-> > >
-> > > You recognize that you hijack a product directory with development ha=
-ck facility. There is a test directory to keep things clear. There can be a=
- dev-dts or something similar for Dev time tools.
-> > > I have only seen push back on those fake dts files in the dts directo=
-ry: I guess that unless someone strongly favors a continuation of the discu=
-ssion, you may consider re-shaping the proposal to address concerns.
-> >
-> > As stated previously, I would like to have at least a sample DT
-> > in-tree for all boards. I cannot see another way to get the Kconfig
+> Remove some unnecessary code to improve the performance of the=20
+> filter-rewriter module.
 >
-> What's the point of having a sample when it's not going to always be
-> correct or may be actively wrong and we can tell interested developers /
-> users how to get the correct DTB/DTS to examine?
->
-> > options in line. If we are able to put these files somewhere else in
-> > the future and get them out of U-Boot, with perhaps just an overlay
-> > for development purposes, I'd be keen to see it. But for now, this is
-> > where we are, I believe.
-> >
-> > In this particular case, this is not just a dev hack. It is also for
-> > CI tests which need to use a devicetree. See for example here:
-> >
-> > https://patchwork.ozlabs.org/project/uboot/patch/20211101011734.1614781=
--15-sjg@chromium.org/
-> > https://patchwork.ozlabs.org/project/uboot/patch/20211101011734.1614781=
--24-sjg@chromium.org/
->
-> This example would probably be better done on vexpress_ca9x4 where we do
-> test in CI via QEMU but do not need to modify a device tree that is
-> passed on to us, we already control the source of truth DTB in this
-> case.
+> Signed-off-by: Lei Rao <lei.rao@intel.com>
+> Reviewed-by: Zhang Chen <chen.zhang@intel.com>
 
-But that board:
+As Chen has already reviewed it:
 
-- uses OF_EMBED, which it should not
-- does not use SPL, which I need
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
->
-> And also yes, I'm behind on reviewing things I need to review.
+But I think that you should change in a following patch:
 
-Aren't we all...I can't even keep up with these threads.
+s/int reverse/bool reverse/
 
-Regards,
-Simon
+Later, Juan.
+
 
