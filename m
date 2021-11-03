@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B1A74443FA
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 15:56:46 +0100 (CET)
-Received: from localhost ([::1]:51046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60D244443F9
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 15:56:12 +0100 (CET)
+Received: from localhost ([::1]:50020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miHgz-00069i-7A
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 10:56:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44612)
+	id 1miHgR-0005Ss-Bw
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 10:56:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1miHaj-0005UR-BU
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 10:50:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37332)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1miHal-0005bg-KI
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 10:50:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.151.124]:49107)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1miHah-0003tn-40
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 10:50:17 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1miHaj-0003vm-Pm
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 10:50:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635951014;
+ s=mimecast20190719; t=1635951016;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pRBumbU8OS/Vbvszx5F0bt297UTtlVIFT4VSYQF4kUY=;
- b=aDUtJ17GBjm+uA467RWQTVOyqreSkCtcSTF8NDCYRRZVlHPDRE3IS70yHBmCbTQr0vkHMZ
- VOCSPTWtcHc3+D8iCdtQv2KdjjKspx87uHIESdV56Cq51mjt4hLgfQEDcVjJ4epmelZd8C
- FfNaVsHb5UaICNnzFMj7IiTBP8LsBnU=
+ bh=Jd8kYUMbgI/K5lIDLVOYL90KBqaWp0tiB/2yA8tUP3w=;
+ b=D+jgQNnwgR6BF6ygryIPJWunjB50cT3M9q74yzslBAsh1YdcC6q3cyKHt1IzSWLy51tJfr
+ VURkAspgVfAQUUS8gM57g8F4SyxBFXDEkBGfkzzVmRh1KqTWYkgEcNxVL4QSiAr28loe05
+ /Xy41y/V1i3aHxHG/hIF1XA63pjbTi0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-147-acm15EonNXyYof5-VapIoA-1; Wed, 03 Nov 2021 10:50:12 -0400
-X-MC-Unique: acm15EonNXyYof5-VapIoA-1
+ us-mta-2-ScMbwgHSOPSjhGIBk811Hg-1; Wed, 03 Nov 2021 10:50:13 -0400
+X-MC-Unique: ScMbwgHSOPSjhGIBk811Hg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82FAA9F936;
- Wed,  3 Nov 2021 14:50:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB7B010A8E09;
+ Wed,  3 Nov 2021 14:50:12 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.175])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 81B38196F1;
- Wed,  3 Nov 2021 14:50:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C1022196E5;
+ Wed,  3 Nov 2021 14:50:11 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/6] docker: update Fedora-based cross-compiler containers to
- Fedora 34
-Date: Wed,  3 Nov 2021 10:48:42 -0400
-Message-Id: <20211103144844.1285634-5-jsnow@redhat.com>
+Subject: [PATCH 5/6] docker: update 'python' dockerfile to use Fedora registry
+Date: Wed,  3 Nov 2021 10:48:43 -0400
+Message-Id: <20211103144844.1285634-6-jsnow@redhat.com>
 In-Reply-To: <20211103144844.1285634-1-jsnow@redhat.com>
 References: <20211103144844.1285634-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,15 +55,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.151.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,50 +86,26 @@ Cc: Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similarly to the last patch, Fedora 33 will be EOL by the time QEMU 6.2
-releases, so bump the version for all of the other Fedora containers,
-too.
+Following the lead of 102cd5c294dc, switch from using Docker hub to the
+Fedora registry itself.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/docker/dockerfiles/fedora-cris-cross.docker  | 2 +-
- tests/docker/dockerfiles/fedora-win32-cross.docker | 2 +-
- tests/docker/dockerfiles/fedora-win64-cross.docker | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ tests/docker/dockerfiles/python.docker | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/docker/dockerfiles/fedora-cris-cross.docker b/tests/docker/dockerfiles/fedora-cris-cross.docker
-index 91c373fdd3..b6787dc572 100644
---- a/tests/docker/dockerfiles/fedora-cris-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-cris-cross.docker
-@@ -2,7 +2,7 @@
- # Cross compiler for cris system tests
- #
+diff --git a/tests/docker/dockerfiles/python.docker b/tests/docker/dockerfiles/python.docker
+index 56d88417df..ecefcc54c4 100644
+--- a/tests/docker/dockerfiles/python.docker
++++ b/tests/docker/dockerfiles/python.docker
+@@ -1,6 +1,6 @@
+ # Python library testing environment
  
--FROM registry.fedoraproject.org/fedora:33
-+FROM registry.fedoraproject.org/fedora:34
- ENV PACKAGES gcc-cris-linux-gnu
- RUN dnf install -y $PACKAGES
- RUN rpm -q $PACKAGES | sort > /packages.txt
-diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
-index aad39dd97f..1b800921e8 100644
---- a/tests/docker/dockerfiles/fedora-win32-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
-@@ -1,4 +1,4 @@
--FROM registry.fedoraproject.org/fedora:33
-+FROM registry.fedoraproject.org/fedora:34
+-FROM fedora:latest
++FROM registry.fedoraproject.org/fedora:latest
+ MAINTAINER John Snow <jsnow@redhat.com>
  
  # Please keep this list sorted alphabetically
- ENV PACKAGES \
-diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
-index 9a224a619b..d4e12fbdfc 100644
---- a/tests/docker/dockerfiles/fedora-win64-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
-@@ -1,4 +1,4 @@
--FROM registry.fedoraproject.org/fedora:33
-+FROM registry.fedoraproject.org/fedora:34
- 
- # Please keep this list sorted alphabetically
- ENV PACKAGES \
 -- 
 2.31.1
 
