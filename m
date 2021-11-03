@@ -2,84 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F36144468B
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 18:03:49 +0100 (CET)
-Received: from localhost ([::1]:43724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C97844469B
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 18:06:04 +0100 (CET)
+Received: from localhost ([::1]:47240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miJfw-00089p-9l
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 13:03:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33736)
+	id 1miJi6-00028a-QB
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 13:06:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1miJdh-0006HX-FF
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:01:29 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37759)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1miJdf-0000Al-9J
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:01:29 -0400
-Received: by mail-wr1-x431.google.com with SMTP id b12so4621058wrh.4
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 10:01:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=4/GviCGBzVsrPOkiZspZs7N8TlzMUocpfe+SUVpUOIY=;
- b=bDTBpbViboQihDioVHeqwfEs5fVtZpRQF+4Ee5FZyTf9d14Z89whgX4z1JXAyuDa9Q
- YhGJZXmxkmWhE0j+BURrqi80nHDjzdcm/6Va/DjfBCjsHl/JGPX6Un6Y36fPMB5iVtFu
- zGftWHUt01IbEwgrSYuT5X4r4nnk4TEQgKXDWs/kHwz823LN1CtBaY6KkTyGqQKl+chf
- 0dAVJal70CKehw++dL2I3rPKZAfRG8+pNAoU34pAhTkdlOjsv8ssdVzpgJpYB/KmPXBQ
- bB0S51gAm+/X7X2Mq2zLazQILZCKF0jDcBsOkNDJPNTbeYVSFhhQ9/evuSBPSTB43vzy
- bsuw==
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1miJgA-0000kx-7E
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:04:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25058)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1miJg8-0003Gg-71
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:04:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635959039;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DWjHljkY7gWe5x6Uuu2j7XAzN83AsH9ey4m/laKSshM=;
+ b=YX99IBsSr17mv7Mc3gpVchZZAEbdgHNxzoCahETN21zSIevTVBV/XMRztGh6NusQ04ysfY
+ IKFAYWWJak0Zw+jv6nSrmOdNUJqdVPRvpeW733hKwoNnE9C7IjhsTa60TSOsau2IXbIpl1
+ +rnLs5Pue6OwfKS+A4KFOOec1x4HC0s=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-506-BSRoiFH2NzKdTExjJjslrQ-1; Wed, 03 Nov 2021 13:03:53 -0400
+X-MC-Unique: BSRoiFH2NzKdTExjJjslrQ-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ o202-20020a6292d3000000b00480ffe3c3baso1677683pfd.12
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 10:03:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=4/GviCGBzVsrPOkiZspZs7N8TlzMUocpfe+SUVpUOIY=;
- b=nzhVqKhnJbBDnlN9vBiE+g3Zvi/uC/lZzMg9h+aZYJOoL3C0fHs5iZZkPOGeDWf0Sb
- Ah2yImbxUBosTkMhTI45w57J42Pu3Uqzx97w8iGPdVKm5gS1GG6gJEwzXuPjDMkTTEmy
- 9aNHi6IU/P8uBwMb/7L1z3yw7mrWx3RsRsNjMkrji+IPhOHNghFvzcRZHrMthNMWewlH
- lwBl27Bd9z55yz11TGUiumT7f+rdrD1Ykg1dcc/JK6CzkcxY+lpuzJ6FZRfLCR320CVI
- A5TpMslx3pNmbE8iGyd44BhK9uHUUJncuNUaZz1X6fS6G6rQ6RlfQQJ9x6dLtMKovopl
- 2wAA==
-X-Gm-Message-State: AOAM533RdttDGYM73HRR7Y3hnYoEBxPBqFND1vJ3EcaNtlHVVg1PPeZu
- LwwDNWxJVqsBQ5pUXJN8SfA=
-X-Google-Smtp-Source: ABdhPJydAzwANaRdevhYGTb3cg8HosuiSpWn/jN3gJxuEks0nTguLhRUzZXaPPHrkBekdZyu/N7SXA==
-X-Received: by 2002:a5d:518d:: with SMTP id k13mr53751401wrv.120.1635958885635; 
- Wed, 03 Nov 2021 10:01:25 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id n13sm2525721wrt.44.2021.11.03.10.01.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Nov 2021 10:01:24 -0700 (PDT)
-Message-ID: <282771ff-9b42-65aa-b6fa-3110e8a84666@amsat.org>
-Date: Wed, 3 Nov 2021 18:01:23 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DWjHljkY7gWe5x6Uuu2j7XAzN83AsH9ey4m/laKSshM=;
+ b=FzBBDbYdBNMY0rGtAv2qj7yj/viXbXVGQT66u46or1D8ju1ReaHOaorzbRUMO4yEdz
+ 5G7JXlPtLGW7T/1rpk8mBLpszAt4Kllc19L3lQQ5Hr++R4h2sHCZvpP8DjmERbCqYcuP
+ +TT4isA7CleqR8hwjIVbhbewn8xbOVTYtdg8tZQf8Jq42BHC9ZmSXvY2bD81s0wdz4fN
+ 1SVgjQvxMlyEhvU1DVk8IBaznaqT3VQVuXtxCW+CzN6EInyF3GStBsSvX94WEAMm87En
+ rJMeZji1i81b7tAes9IVvJJsDLAQ+UEnRli9I4Uh5ZXGMP22VMwj/wUxkigrpnN75pwX
+ E1Gg==
+X-Gm-Message-State: AOAM533n30yTPEia92LcQcaumHmmcdZGAmzjZQDJtkYUgdX02gFmb9GT
+ +x/oeKJtxIS6SfeSgCqURYWoLkWLJtj9Mvn7+DaBEMcpxwJQa/G/9Wns6xHFd7CGoqCxd/Jn8Fi
+ jsrS+/CWF47j92yV+siP53E4HY5PHdxw=
+X-Received: by 2002:aa7:8b56:0:b0:44c:10a:4ee9 with SMTP id
+ i22-20020aa78b56000000b0044c010a4ee9mr46223552pfd.46.1635959031987; 
+ Wed, 03 Nov 2021 10:03:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwOXsHn2gZnLxaiXAiW0d6lqA9T5eXTi+Q0wUCl6JTdr1Z8KE8B68nbwhWF+LZPJyNpQQRnhIKtL5UL41jZpIQ=
+X-Received: by 2002:aa7:8b56:0:b0:44c:10a:4ee9 with SMTP id
+ i22-20020aa78b56000000b0044c010a4ee9mr46223501pfd.46.1635959031641; Wed, 03
+ Nov 2021 10:03:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v3 15/23] target/mips: Extract break code into
- env->error_code
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211103140847.454070-1-richard.henderson@linaro.org>
- <20211103140847.454070-16-richard.henderson@linaro.org>
- <6fb43925-c350-ad38-ed4f-37b236e755fc@amsat.org>
- <3086c9e2-3452-2f4b-766d-be40c3d4ba1f@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <3086c9e2-3452-2f4b-766d-be40c3d4ba1f@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-3.528,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20211103081459.369912-1-pbonzini@redhat.com>
+In-Reply-To: <20211103081459.369912-1-pbonzini@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Wed, 3 Nov 2021 14:03:25 -0300
+Message-ID: <CAKJDGDaq_mRY+wmN_Vdw1VTuHoAYkcGp20MRr3yneQuRpu7dLQ@mail.gmail.com>
+Subject: Re: [qemu-web PATCH] remove deployment phase from CI
+To: Paolo Bonzini <pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,32 +90,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, laurent@vivier.eu
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/3/21 16:38, Richard Henderson wrote:
-> On 11/3/21 11:11 AM, Philippe Mathieu-Daudé wrote:
->>> +            /*
->>> +             * As described in the original Linux kernel code, the
->>> below
->>> +             * checks on 'code' are to work around an old assembly bug.
->>> +             */
->>> +            code = env->error_code;
->>> +            if (code >= (1 << 10)) {
->>> +                code >>= 10;
->>
->> Shouldn't we also move this to the translation (not in R6_BREAK16)?
-> 
-> No, because it's a kernel thing, not a cpu thing:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/mips/kernel/traps.c#n1056
+On Wed, Nov 3, 2021 at 5:16 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> qemu.org is now served via a reverse proxy from qemu-project.gitlab.io; it does
+> not need anymore the rsync step to the QEMU project\s shell server.
+> Remove it from the CI.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  .gitlab-ci.yml | 24 ------------------------
+>  1 file changed, 24 deletions(-)
+>
 
-Oh indeed, I see.
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> PS: Just above, it looks like the kernel would need to grow support for
-> R6_BREAK.  At present it only handles mips16e and micromips.
-> 
 
