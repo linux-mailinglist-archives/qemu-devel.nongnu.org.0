@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 165B84445AB
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 17:15:21 +0100 (CET)
-Received: from localhost ([::1]:41732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F5844445C1
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 17:17:23 +0100 (CET)
+Received: from localhost ([::1]:46354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miIv2-0000KT-4q
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 12:15:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46824)
+	id 1miIx0-0003ZF-HJ
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 12:17:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
- id 1miItA-0006i0-2I
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 12:13:24 -0400
-Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b]:41806)
+ id 1miItC-0006jf-8E
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 12:13:26 -0400
+Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e]:42727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
- id 1miIt4-00046C-8H
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 12:13:23 -0400
-Received: by mail-lf1-x12b.google.com with SMTP id br12so4328968lfb.8
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 09:13:17 -0700 (PDT)
+ id 1miIt5-00046H-5B
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 12:13:25 -0400
+Received: by mail-lj1-x22e.google.com with SMTP id j5so4692095lja.9
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 09:13:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=phystech-edu.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zfpmHzy9rUw4eULZXkrlYVJEPRCYC4Gqp54jnkn16YA=;
- b=OjOkTM2JG6jxnux34JSa1rxyzrUfdyzTG/BqNx/X983eSo2qdyt6A6h8LiGWHkWRsx
- UrtHo5JYctBarnxdz/2+wTVeqgN9zRRv8J+kA/Ee3EDkBE7iUX974mSb3rs2GH40hw1X
- VSlTcTLQmu57pY/2tznmagautDs8EfVZzOqCENoqqbn4Z30Lo6aDTzNutufUAfT3U/Zr
- 4C2AdvP9cnOYBRBV631TqcmoLn0YQqOwA/tel3Z5+WlzNA2A5YGRx7Wj+fGxZChbIaDF
- CIFzgGliU+9u8XW6HF9fesehd8AUrH8FvxsQDzkfivbITgrwJOqTal0iuj3BWtTMbCot
- 8k0Q==
+ bh=l4eGc6tTv7y4u27o89v8L5qnwIlplazWZnMj4+zY2uU=;
+ b=w2O5tl2kAm+yrU2AUy6Dd5ivWHj51kW4BC5gq8oAtf4FSKoXAdtjnt/xz815p1UO5j
+ 5m0kWM+SIly83M1s7RXVMU+q6jQE5z1Fzz6glJlI37QHwRoDBOZjFyRbbinqGAO+/Bav
+ E9Ay+2Z0YXlRyeVC3ACosZa3PWNtyfD8QT80erGEkKVpK9CTIP11RgFpf9/l9VDb86Bx
+ 3sDSUP5SiGRkLLoKTJOfCVK/hLZLNbrXFQg3GrwBHhIqS8HlQj4AeInruDZatXrfu2U8
+ MD0bQ/c8N8e+9TDl5eJFwTpRbKonqpZkAiVtomC9reH1kdGqfGEh5qqsjz7cnKItIZ5S
+ 0TEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zfpmHzy9rUw4eULZXkrlYVJEPRCYC4Gqp54jnkn16YA=;
- b=XaahWBcIXgylEkUwl9u22WUTv85JxiJpNT8wAo7GqMYWwSGPm6aYfGOM4iOttAoBZO
- fo6tyVMScHfJdigSzxgB4XY+IIQHdJBjOck4LsyL29Cl4srnRJgiDJim323JKqCj8hPa
- eWB+/Lh2I7rHtuID7xiwTyeZXDAto1Qj95Td5uTMirJcnsNYxbOFKUrQ32S6dadMw6FU
- BHiYqraY8fhqISwLRbQOtJQxJIYmMb14fGeo0wMsYjpyWI1pdSV6Dr61clltFv9hZWYw
- HKNx9sel5ACBlc5F1XrudVuDiWWQkaULV/RQEz4CL+hBd7sV2I3HeB4HYibve32Eusf4
- TnHw==
-X-Gm-Message-State: AOAM531bjeCt8AQfE6V4AOIqPKlBJlh/drF3Q5DHaQ+oClviVUrdGDvo
- /ckAngCIebDVHqpTn/7Q+Itu5BaSFOaOuBys
-X-Google-Smtp-Source: ABdhPJyDjgi4awFvA3dRKLVJ4BBDqSHNOYSq/3MLSOxkBE1PLtLclwPtrVUZfAdxsjU2l4orEYKOdw==
-X-Received: by 2002:a19:710f:: with SMTP id m15mr40969167lfc.597.1635955996405; 
- Wed, 03 Nov 2021 09:13:16 -0700 (PDT)
+ bh=l4eGc6tTv7y4u27o89v8L5qnwIlplazWZnMj4+zY2uU=;
+ b=muTQRChUXUrSizVzCctwcpc2lQ5Ff5EGH/5V/B6lpl3fSEkZpcvTfwUO2slY66SSTx
+ AbxRo26lRzqFvyPofCId8u/wCGciZ5C+9W9fH4AAEY+TLn0kZMPU0fTEUlOpDNhCDhr9
+ wNljxOrQN5ADxN/iKaGsWfmmTCoEenKteUJhXjUuKu0p99Bb7rUSCOwKkSf6FwhrZyeg
+ VhOR2EXyYu+VvicGIYdIV4K1oDLTPU+fqKI2oIENYY5mKl1lk0rqeO710K8rHxQa2/8f
+ ET7D5/HxVaiYQYYmniE7K1Wd8JHj0jRAM4yS5VS1iFdSbRjr0RLY8Y6ZgCS0LKkezthg
+ lfgw==
+X-Gm-Message-State: AOAM533yvK6XQSEFTPvYJsG16vE+0BB4yiDYQ+VN1/u0Cb3iQtLGlYcS
+ nD3HY0D2UEjP4ibpqPFUj3a2LQ2VxPfz8HKU
+X-Google-Smtp-Source: ABdhPJyCItqfQ8wfR9j5mFvqHMRnajz4PgqTvKjNcbtP9xMx4IE6yWdDOGjWyr8YXSWVCS0SB6+b2A==
+X-Received: by 2002:a2e:9846:: with SMTP id e6mr3422481ljj.10.1635955997591;
+ Wed, 03 Nov 2021 09:13:17 -0700 (PDT)
 Received: from vp-pc.redhat.com ([2a00:1370:810e:bd31:a3af:f811:c4e:52b8])
- by smtp.gmail.com with ESMTPSA id a3sm243337lji.48.2021.11.03.09.13.13
+ by smtp.gmail.com with ESMTPSA id a3sm243337lji.48.2021.11.03.09.13.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 09:13:15 -0700 (PDT)
+ Wed, 03 Nov 2021 09:13:17 -0700 (PDT)
 From: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 To: peter.maydell@linaro.org,
 	yuri.benditovich@daynix.com,
 	yan@daynix.com
-Subject: [PATCH 1/3] contrib/elf2dmp: fix code style
-Date: Wed,  3 Nov 2021 19:12:58 +0300
-Message-Id: <20211103161300.114741-2-viktor.prutyanov@phystech.edu>
+Subject: [PATCH 2/3] contrib/elf2dmp: move PE dir search to
+ pe_get_data_dir_entry
+Date: Wed,  3 Nov 2021 19:12:59 +0300
+Message-Id: <20211103161300.114741-3-viktor.prutyanov@phystech.edu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211103161300.114741-1-viktor.prutyanov@phystech.edu>
 References: <20211103161300.114741-1-viktor.prutyanov@phystech.edu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12b;
- envelope-from=viktor.prutyanov@phystech.edu; helo=mail-lf1-x12b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::22e;
+ envelope-from=viktor.prutyanov@phystech.edu; helo=mail-lj1-x22e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,174 +89,105 @@ Cc: qemu-devel@nongnu.org, Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Originally elf2dmp were added with some code style issues,
-especially in pe.h header, and some were introduced by
-2d0fc797faaa73fbc1d30f5f9e90407bf3dd93f0. Fix them now.
+Move out PE directory search functionality to be reused not only
+for Debug Directory processing but for arbitrary PE directory.
 
 Signed-off-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 ---
- contrib/elf2dmp/main.c |   9 ++--
- contrib/elf2dmp/pe.h   | 100 ++++++++++++++++++++---------------------
- 2 files changed, 56 insertions(+), 53 deletions(-)
+ contrib/elf2dmp/main.c | 66 +++++++++++++++++++++++-------------------
+ 1 file changed, 37 insertions(+), 29 deletions(-)
 
 diff --git a/contrib/elf2dmp/main.c b/contrib/elf2dmp/main.c
-index 20b477d582..beb534e79c 100644
+index beb534e79c..a62fde23cc 100644
 --- a/contrib/elf2dmp/main.c
 +++ b/contrib/elf2dmp/main.c
-@@ -281,14 +281,16 @@ static int fill_header(WinDumpHeader64 *hdr, struct pa_space *ps,
-     };
+@@ -332,6 +332,40 @@ static int fill_context(KDDEBUGGER_DATA64 *kdbg,
+     return 0;
+ }
  
-     for (i = 0; i < ps->block_nr; i++) {
--        h.PhysicalMemoryBlock.NumberOfPages += ps->block[i].size / ELF2DMP_PAGE_SIZE;
-+        h.PhysicalMemoryBlock.NumberOfPages +=
-+                ps->block[i].size / ELF2DMP_PAGE_SIZE;
-         h.PhysicalMemoryBlock.Run[i] = (WinDumpPhyMemRun64) {
-             .BasePage = ps->block[i].paddr / ELF2DMP_PAGE_SIZE,
-             .PageCount = ps->block[i].size / ELF2DMP_PAGE_SIZE,
-         };
++static int pe_get_data_dir_entry(uint64_t base, void *start_addr, int idx,
++        void *entry, size_t size, struct va_space *vs)
++{
++    const char e_magic[2] = "MZ";
++    const char Signature[4] = "PE\0\0";
++    IMAGE_DOS_HEADER *dos_hdr = start_addr;
++    IMAGE_NT_HEADERS64 nt_hdrs;
++    IMAGE_FILE_HEADER *file_hdr = &nt_hdrs.FileHeader;
++    IMAGE_OPTIONAL_HEADER64 *opt_hdr = &nt_hdrs.OptionalHeader;
++    IMAGE_DATA_DIRECTORY *data_dir = nt_hdrs.OptionalHeader.DataDirectory;
++
++    if (memcmp(&dos_hdr->e_magic, e_magic, sizeof(e_magic))) {
++        return 1;
++    }
++
++    if (va_space_rw(vs, base + dos_hdr->e_lfanew,
++                &nt_hdrs, sizeof(nt_hdrs), 0)) {
++        return 1;
++    }
++
++    if (memcmp(&nt_hdrs.Signature, Signature, sizeof(Signature)) ||
++            file_hdr->Machine != 0x8664 || opt_hdr->Magic != 0x020b) {
++        return 1;
++    }
++
++    if (va_space_rw(vs,
++                base + data_dir[idx].VirtualAddress,
++                entry, size, 0)) {
++        return 1;
++    }
++
++    return 0;
++}
++
+ static int write_dump(struct pa_space *ps,
+         WinDumpHeader64 *hdr, const char *name)
+ {
+@@ -368,42 +402,16 @@ static int write_dump(struct pa_space *ps,
+ static int pe_get_pdb_symstore_hash(uint64_t base, void *start_addr,
+         char *hash, struct va_space *vs)
+ {
+-    const char e_magic[2] = "MZ";
+-    const char Signature[4] = "PE\0\0";
+     const char sign_rsds[4] = "RSDS";
+-    IMAGE_DOS_HEADER *dos_hdr = start_addr;
+-    IMAGE_NT_HEADERS64 nt_hdrs;
+-    IMAGE_FILE_HEADER *file_hdr = &nt_hdrs.FileHeader;
+-    IMAGE_OPTIONAL_HEADER64 *opt_hdr = &nt_hdrs.OptionalHeader;
+-    IMAGE_DATA_DIRECTORY *data_dir = nt_hdrs.OptionalHeader.DataDirectory;
+     IMAGE_DEBUG_DIRECTORY debug_dir;
+     OMFSignatureRSDS rsds;
+     char *pdb_name;
+     size_t pdb_name_sz;
+     size_t i;
+ 
+-    QEMU_BUILD_BUG_ON(sizeof(*dos_hdr) >= ELF2DMP_PAGE_SIZE);
+-
+-    if (memcmp(&dos_hdr->e_magic, e_magic, sizeof(e_magic))) {
+-        return 1;
+-    }
+-
+-    if (va_space_rw(vs, base + dos_hdr->e_lfanew,
+-                &nt_hdrs, sizeof(nt_hdrs), 0)) {
+-        return 1;
+-    }
+-
+-    if (memcmp(&nt_hdrs.Signature, Signature, sizeof(Signature)) ||
+-            file_hdr->Machine != 0x8664 || opt_hdr->Magic != 0x020b) {
+-        return 1;
+-    }
+-
+-    printf("Debug Directory RVA = 0x%08"PRIx32"\n",
+-            (uint32_t)data_dir[IMAGE_FILE_DEBUG_DIRECTORY].VirtualAddress);
+-
+-    if (va_space_rw(vs,
+-                base + data_dir[IMAGE_FILE_DEBUG_DIRECTORY].VirtualAddress,
+-                &debug_dir, sizeof(debug_dir), 0)) {
++    if (pe_get_data_dir_entry(base, start_addr, IMAGE_FILE_DEBUG_DIRECTORY,
++                &debug_dir, sizeof(debug_dir), vs)) {
++        eprintf("Failed to get Debug Directory\n");
+         return 1;
      }
  
--    h.RequiredDumpSpace += h.PhysicalMemoryBlock.NumberOfPages << ELF2DMP_PAGE_BITS;
-+    h.RequiredDumpSpace +=
-+            h.PhysicalMemoryBlock.NumberOfPages << ELF2DMP_PAGE_BITS;
- 
-     *hdr = h;
- 
-@@ -298,7 +300,8 @@ static int fill_header(WinDumpHeader64 *hdr, struct pa_space *ps,
- static int fill_context(KDDEBUGGER_DATA64 *kdbg,
-         struct va_space *vs, QEMU_Elf *qe)
- {
--        int i;
-+    int i;
-+
-     for (i = 0; i < qe->state_nr; i++) {
-         uint64_t Prcb;
-         uint64_t Context;
-diff --git a/contrib/elf2dmp/pe.h b/contrib/elf2dmp/pe.h
-index c2a4a6ba7c..807d006364 100644
---- a/contrib/elf2dmp/pe.h
-+++ b/contrib/elf2dmp/pe.h
-@@ -33,70 +33,70 @@ typedef struct IMAGE_DOS_HEADER {
- } __attribute__ ((packed)) IMAGE_DOS_HEADER;
- 
- typedef struct IMAGE_FILE_HEADER {
--  uint16_t  Machine;
--  uint16_t  NumberOfSections;
--  uint32_t  TimeDateStamp;
--  uint32_t  PointerToSymbolTable;
--  uint32_t  NumberOfSymbols;
--  uint16_t  SizeOfOptionalHeader;
--  uint16_t  Characteristics;
-+    uint16_t  Machine;
-+    uint16_t  NumberOfSections;
-+    uint32_t  TimeDateStamp;
-+    uint32_t  PointerToSymbolTable;
-+    uint32_t  NumberOfSymbols;
-+    uint16_t  SizeOfOptionalHeader;
-+    uint16_t  Characteristics;
- } __attribute__ ((packed)) IMAGE_FILE_HEADER;
- 
- typedef struct IMAGE_DATA_DIRECTORY {
--  uint32_t VirtualAddress;
--  uint32_t Size;
-+    uint32_t VirtualAddress;
-+    uint32_t Size;
- } __attribute__ ((packed)) IMAGE_DATA_DIRECTORY;
- 
- #define IMAGE_NUMBEROF_DIRECTORY_ENTRIES 16
- 
- typedef struct IMAGE_OPTIONAL_HEADER64 {
--  uint16_t  Magic; /* 0x20b */
--  uint8_t   MajorLinkerVersion;
--  uint8_t   MinorLinkerVersion;
--  uint32_t  SizeOfCode;
--  uint32_t  SizeOfInitializedData;
--  uint32_t  SizeOfUninitializedData;
--  uint32_t  AddressOfEntryPoint;
--  uint32_t  BaseOfCode;
--  uint64_t  ImageBase;
--  uint32_t  SectionAlignment;
--  uint32_t  FileAlignment;
--  uint16_t  MajorOperatingSystemVersion;
--  uint16_t  MinorOperatingSystemVersion;
--  uint16_t  MajorImageVersion;
--  uint16_t  MinorImageVersion;
--  uint16_t  MajorSubsystemVersion;
--  uint16_t  MinorSubsystemVersion;
--  uint32_t  Win32VersionValue;
--  uint32_t  SizeOfImage;
--  uint32_t  SizeOfHeaders;
--  uint32_t  CheckSum;
--  uint16_t  Subsystem;
--  uint16_t  DllCharacteristics;
--  uint64_t  SizeOfStackReserve;
--  uint64_t  SizeOfStackCommit;
--  uint64_t  SizeOfHeapReserve;
--  uint64_t  SizeOfHeapCommit;
--  uint32_t  LoaderFlags;
--  uint32_t  NumberOfRvaAndSizes;
--  IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES];
-+    uint16_t  Magic; /* 0x20b */
-+    uint8_t   MajorLinkerVersion;
-+    uint8_t   MinorLinkerVersion;
-+    uint32_t  SizeOfCode;
-+    uint32_t  SizeOfInitializedData;
-+    uint32_t  SizeOfUninitializedData;
-+    uint32_t  AddressOfEntryPoint;
-+    uint32_t  BaseOfCode;
-+    uint64_t  ImageBase;
-+    uint32_t  SectionAlignment;
-+    uint32_t  FileAlignment;
-+    uint16_t  MajorOperatingSystemVersion;
-+    uint16_t  MinorOperatingSystemVersion;
-+    uint16_t  MajorImageVersion;
-+    uint16_t  MinorImageVersion;
-+    uint16_t  MajorSubsystemVersion;
-+    uint16_t  MinorSubsystemVersion;
-+    uint32_t  Win32VersionValue;
-+    uint32_t  SizeOfImage;
-+    uint32_t  SizeOfHeaders;
-+    uint32_t  CheckSum;
-+    uint16_t  Subsystem;
-+    uint16_t  DllCharacteristics;
-+    uint64_t  SizeOfStackReserve;
-+    uint64_t  SizeOfStackCommit;
-+    uint64_t  SizeOfHeapReserve;
-+    uint64_t  SizeOfHeapCommit;
-+    uint32_t  LoaderFlags;
-+    uint32_t  NumberOfRvaAndSizes;
-+    IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES];
- } __attribute__ ((packed)) IMAGE_OPTIONAL_HEADER64;
- 
- typedef struct IMAGE_NT_HEADERS64 {
--  uint32_t Signature;
--  IMAGE_FILE_HEADER FileHeader;
--  IMAGE_OPTIONAL_HEADER64 OptionalHeader;
-+    uint32_t Signature;
-+    IMAGE_FILE_HEADER FileHeader;
-+    IMAGE_OPTIONAL_HEADER64 OptionalHeader;
- } __attribute__ ((packed)) IMAGE_NT_HEADERS64;
- 
- typedef struct IMAGE_DEBUG_DIRECTORY {
--  uint32_t Characteristics;
--  uint32_t TimeDateStamp;
--  uint16_t MajorVersion;
--  uint16_t MinorVersion;
--  uint32_t Type;
--  uint32_t SizeOfData;
--  uint32_t AddressOfRawData;
--  uint32_t PointerToRawData;
-+    uint32_t Characteristics;
-+    uint32_t TimeDateStamp;
-+    uint16_t MajorVersion;
-+    uint16_t MinorVersion;
-+    uint32_t Type;
-+    uint32_t SizeOfData;
-+    uint32_t AddressOfRawData;
-+    uint32_t PointerToRawData;
- } __attribute__ ((packed)) IMAGE_DEBUG_DIRECTORY;
- 
- #define IMAGE_DEBUG_TYPE_CODEVIEW   2
 -- 
 2.31.1
 
