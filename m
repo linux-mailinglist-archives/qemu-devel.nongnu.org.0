@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57C34444706
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 18:26:20 +0100 (CET)
-Received: from localhost ([::1]:53132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 151474446FD
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 18:23:02 +0100 (CET)
+Received: from localhost ([::1]:42796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miK1j-0002Hz-HT
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 13:26:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37308)
+	id 1miJyV-0003go-Ez
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 13:22:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <francois.ozog@linaro.org>)
- id 1miJp8-0007aV-U6
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:13:18 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:33449)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1miJpe-00017Q-F4
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:13:50 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:38498)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <francois.ozog@linaro.org>)
- id 1miJp6-0007AV-0I
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:13:18 -0400
-Received: by mail-ed1-x535.google.com with SMTP id m14so11452043edd.0
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 10:13:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1miJpc-0007EG-D8
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:13:50 -0400
+Received: by mail-wr1-x432.google.com with SMTP id u18so4668449wrg.5
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 10:13:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SlanUv6iQM3HAawoY2oJpdh8Q05qqfawqcS9dMLVlo8=;
- b=TzdGrSxP4IDwrJhLJ4DRkEYaAvAjlwUyQ1T+YhWmQpVncHy7zhPrXFNK650UwXuSz6
- rkh+8Q8NMO+iRT2v2Dt/JQEav9WcBtwx+a8QtFFJ4N8pS57hjcPDgOQX/V4TAnhMu6d6
- tPlCF/UtKO0Sp4wSNFLf5XMot23DAcUhEyISD0R87UgPx+PlR1HZZagM+abh9ZvAooZG
- ZWNYo75T6QY/OjAcRwi/nwdEmWbd10ScHzfG/YkCH6giTuvVW2SzCGruRFcx+2m8QT/P
- LXbvrkmQAads/k7zX3ifqWezqZ5v03r7gQPiQTGPHcLTd2GiiEft2/ZyPUk0lb5Z8pN1
- yQhw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6L7V8FBbm3jTst1al+hCD3I4R6kwO4ndmzZB8XWsSP8=;
+ b=rhp8yviM69pwVywInLctt4hyQJ8Aj9+VExCxKuJ27tPxX2y5SfSbir2S+WUFX/B/IR
+ 4GqhWvdvbruJEj+HlzgddJ3A+ab9zmH4aT1qOv+GtAJzWtpBTcEZYlNunEt2Sl0A+QaQ
+ IUuoC7s45JXZ+SVd+nxS3NEHv3i2H9hgYhlpuQCx4c2EBPnoIcrWJ340EJAIpocWmCI7
+ lCd6xgz9WC046kjJ5acl5dMGtpekcxPPlBh+VxBh0han6SIMAYWw7rbwJEGPAknXuTN7
+ M4P+bVdaN17fZgLNfnqSAMuCvvCioUVtiu3EHIRcujxmtErcKt/gkhn8jwSSelvu0LM4
+ 3sCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SlanUv6iQM3HAawoY2oJpdh8Q05qqfawqcS9dMLVlo8=;
- b=Uczj9a79Bk5CQpGDiZeC7kzdsc5uB9kwik2EUTEKGQMVNUZGQAwSuxhn41Q1OSyyL8
- OW3q7b39YPEvA8yvVOES34cGb7hhZ+TIUnmowcjXHVP0rryLe/CV2qg2gpVGSNX3nvnQ
- q+IG1deU613rUN8ZXo7VQ+UNAImnqSLt3KofbBK2KtryOrsyOvOEEGrcBFi/Rna83oUM
- Muc15D8dU+RLgwGTs4zjlzbMlgFmPbZjFrr6RjGFvAMqWA6H7U86cKPazR3GRAVtBn6A
- xpyKwqVjW6N5zIcW1dvl4DLErhl7c8QM0cUsn/p0aF6qNQ1z7f7+3qnVNGceP8fCXxTc
- 3L7Q==
-X-Gm-Message-State: AOAM531XFCLudBX/iGKuIt6THMA6x/pA1CYVKkkb1sd4rAq64QhUui5m
- H8x630RSkj0nPrWrzFZFCOXixWsyAfyUac0ctpFdZA==
-X-Google-Smtp-Source: ABdhPJxFKW3xom2NTg/aDgmX7xLdd2QoqBqu8Ezdm4e/9Mr7B9Cv2BHZ/9XWEegC9ASocv8wVXL8dU292/3pwm/mhB4=
-X-Received: by 2002:a05:6402:2707:: with SMTP id
- y7mr8119001edd.26.1635959593833; 
- Wed, 03 Nov 2021 10:13:13 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6L7V8FBbm3jTst1al+hCD3I4R6kwO4ndmzZB8XWsSP8=;
+ b=ek9esDxXCkE0THwQvu8dIqzTwKqQ4GNVOz2BZzSI76i3u0ouLezYzJ94bjxrtm+Zm9
+ Vd/WAAEgB2zi2kwQP788zn/TafDWX0sIBjIBbxN5Rn31dvF4ldiwnLBAdlgQZhRy5XPM
+ CFiOVWf9eKtuV0ztcDfQxInrvPY8mZ5wEbxzTTzqvYAMtIxq4YGW8pNsCyJwmu7z7Ajq
+ qmg3wwh5RKBxD0UYqzqSx6i7E5A5mE6AtEiNTmR85t1MWRw6APQnv97tx0RzLtgTtZFG
+ h3v9swsaEDvRNZyyZ41cN596o0z+Up1zOw7tpKvhKXD52jMWfeD+Shql07i5q2fm/cos
+ 1+gA==
+X-Gm-Message-State: AOAM530xGJTg5l7g7RTnxFbI0JuEGFYpFZqgX4DXYxQ0WHhuK2I22l+V
+ GDdEPm+2hC/ojJ2pQws7CUeXyg==
+X-Google-Smtp-Source: ABdhPJxZAcCaNbwLZ/ydbx8J3Nx4AldScvG2TKEgPYQA6ILBsLpcPnrYS4Pefe8GPYFVeHLsenEsXg==
+X-Received: by 2002:adf:f681:: with SMTP id v1mr36501976wrp.367.1635959626869; 
+ Wed, 03 Nov 2021 10:13:46 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id t1sm2769470wre.32.2021.11.03.10.13.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Nov 2021 10:13:46 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 597661FF96;
+ Wed,  3 Nov 2021 17:13:45 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] tests/docker: force NOUSER=1 for base images
+Date: Wed,  3 Nov 2021 17:13:39 +0000
+Message-Id: <20211103171339.721910-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20211026002344.405160-1-sjg@chromium.org>
-In-Reply-To: <20211026002344.405160-1-sjg@chromium.org>
-From: =?UTF-8?Q?Fran=C3=A7ois_Ozog?= <francois.ozog@linaro.org>
-Date: Wed, 3 Nov 2021 18:13:02 +0100
-Message-ID: <CAHFG_=VKkOdaPmQwdQxCd07kMU5f3KWv9B9ocXC6X8Un=M8uqw@mail.gmail.com>
-Subject: Re: [PATCH v5 00/26] fdt: Make OF_BOARD a boolean option
-To: Simon Glass <sjg@chromium.org>
-Content-Type: multipart/alternative; boundary="000000000000753b7f05cfe58682"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=francois.ozog@linaro.org; helo=mail-ed1-x535.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,565 +84,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
- Thomas Fitzsimmons <fitzsim@fitzsim.org>, qemu-devel@nongnu.org,
- Sean Anderson <seanga2@gmail.com>, U-Boot Mailing List <u-boot@lists.denx.de>,
- Mark Kettenis <mark.kettenis@xs4all.nl>, Tom Rini <trini@konsulko.com>,
- Stephen Warren <swarren@nvidia.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Heinrich Schuchardt <xypron.glpk@gmx.de>,
- Michal Simek <michal.simek@xilinx.com>, Jerry Van Baren <vanbaren@cideas.com>,
- Stephen Warren <swarren@wwwdotorg.org>,
- Andre Przywara <andre.przywara@arm.com>, Alexander Graf <agraf@csgraf.de>,
- Anastasiia Lukianenko <anastasiia_lukianenko@epam.com>,
- Albert Aribaud <albert.u.boot@aribaud.net>,
- Matthias Brugger <mbrugger@suse.com>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Aaron Williams <awilliams@marvell.com>,
- Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>, Bin Meng <bmeng.cn@gmail.com>
+Cc: Thomas Huth <thuth@redhat.com>, richard.henderson@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000753b7f05cfe58682
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+As base images are often used to build further images like toolchains
+ensure we don't add the local user by accident. The local user should
+only exist on local images and not anything that gets pushed up to the
+public registry.
 
-Hi Simon
+Reported-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ tests/docker/Makefile.include | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-I don't know if this is correct etiquette but at this moment it feels just
-right to do this:
-The problem is not confusion it is that the patch set goes in a direction
-that makes no sense.
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index 5bbbaceed1..462a3758d7 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -150,6 +150,10 @@ docker-image-debian-sparc64-cross: docker-image-debian10
+ # The native build should never use the registry
+ docker-image-debian-native: DOCKER_REGISTRY=
+ 
++# base images should not add a local user
++docker-image-debian10: NOUSER=1
++docker-image-debian11: NOUSER=1
++
+ debian-toolchain-run = \
+ 	$(if $(NOCACHE), 						\
+ 		$(call quiet-command,					\
+-- 
+2.30.2
 
-On Tue, 26 Oct 2021 at 02:24, Simon Glass <sjg@chromium.org> wrote:
-
-> With Ilias' efforts we have dropped OF_PRIOR_STAGE and OF_HOSTFILE so
-> there are only three ways to obtain a devicetree:
->
->    - OF_SEPARATE - the normal way, where the devicetree is built and
->       appended to U-Boot
->    - OF_EMBED - for development purposes, the devicetree is embedded in
->       the ELF file (also used for EFI)
->    - OF_BOARD - the board figures it out on its own
->
-> YES! perfect!
-Default config for boards like RPI4, Qemu and SystemReady ones should be
-OF_BOARD.
-There may be an override for the advanced developer that need a playground
-for those boards; with a warning:
-"for debug purposes, turning on this option for this platform assumes you
-know exactly what you are doing."
-
-The last one is currently set up so that no devicetree is needed at all
-> in the U-Boot tree.
-
-Rightfully as you write below "it comes from an entity that "have a better
-idea about the hardware".
-
-> Most boards do provide one, but some don't. Some
-> don't even provide instructions on how to boot on the board.
->
-> That is a documentation problem.
-
-> The problems with this approach are documented in another patch in this
-> series: "doc: Add documentation about devicetree usage"
->
-> In practice, OF_BOARD is not really distinct from OF_SEPARATE. Any board
-> can obtain its devicetree at runtime, even it is has a devicetree built
-> in U-Boot.
-
-That statement is I think the start of problems.
-
-> This is because U-Boot may be a second-stage bootloader and its
-> caller may have a better idea about the hardware available in the machine=
-.
-> This is the case with a few QEMU boards, for example.
->
-> YES! exactly. Why would you ever embed a DT in U-Boot if it comes from an
-entity that "have a better idea about the hardware"?
-For advanced debugging yes. Otherwise no reasons.
-
-> So it makes no sense to have OF_BOARD as a 'choice'. It should be an
-> option, available with either OF_SEPARATE or OF_EMBED.
->
-> Problem starts to grow.
-
-> This series makes this change, adding various missing devicetree files
-> (and placeholders) to make the build work.
->
-> Note: If board maintainers are able to add their own patch to add the
-> files, some patches in this series can be dropped.
->
-> It also provides a few qemu clean-ups discovered along the way.
->
-> Note: This breaks the qemu-riscv64_spl test, which still needs
-> investigation.
->
-> [1]
-> https://patchwork.ozlabs.org/project/uboot/patch/20210919215111.3830278-3=
--sjg@chromium.org/
->
-> Changes in v5:
-> - Bring into the OF_BOARD series
-> - Rebase to master and drop mention of OF_PRIOR_STAGE, since removed
-> - Refer to the 'control' DTB in the first paragraph
-> - Use QEMU instead of qemu
-> - Merge RISC-V and ARM patches since they are similar
-> - Add new patches to clean up fdtdec_setup() and surrounds
->
-> Changes in v3:
-> - Clarify the 'bug' refered to at the top
-> - Reword 'This means that there' paragraph to explain U-Boot-specific
-> things
-> - Move to doc/develop/devicetree now that OF_CONTROL is in the docs
->
-> Changes in v2:
-> - Fix typos per Sean (thank you!) and a few others
-> - Add a 'Use of U-Boot /config node' section
-> - Drop mention of dm-verity since that actually uses the kernel cmdline
-> - Explain that OF_BOARD will still work after these changes (in
->   'Once this bug is fixed...' paragraph)
-> - Expand a bit on the reason why the 'Current situation' is bad
-> - Clarify in a second place that Linux and U-Boot use the same devicetree
->   in 'To be clear, while U-Boot...'
-> - Expand on why we should have rules for other projects in
->   'Devicetree in another project'
-> - Add a comment as to why devicetree in U-Boot is not 'bad design'
-> - Reword 'in-tree U-Boot devicetree' to 'devicetree source in U-Boot'
-> - Rewrite 'Devicetree generated on-the-fly in another project' to cover
->   points raised on v1
-> - Add 'Why does U-Boot have its nodes and properties?'
-> - Add 'Why not have two devicetrees?'
->
-> Ilias Apalodimas (1):
->   sandbox: Remove OF_HOSTFILE
->
-> Simon Glass (25):
->   doc: Add documentation about devicetree usage
->   arm: qemu: Mention -nographic in the docs
->   arm: riscv: qemu: Explain how to extract the generated dt
->   arm: qemu: Add a devicetree file for qemu_arm
->   arm: qemu: Add a devicetree file for qemu_arm64
->   riscv: qemu: Add devicetree files for qemu_riscv32/64
->   arm: rpi: Add a devicetree file for rpi_4
->   arm: vexpress: Add a devicetree file for juno
->   arm: xenguest_arm64: Add a fake devicetree file
->   arm: octeontx: Add a fake devicetree file
->   arm: xilinx_versal_virt: Add a devicetree file
->   arm: bcm7xxx: Add a devicetree file
->   arm: qemu-ppce500: Add a devicetree file
->   arm: highbank: Add a fake devicetree file
->   fdt: Make OF_BOARD a bool option
->   Drop CONFIG_BINMAN_STANDALONE_FDT
->   doc: Update info on devicetree update
->   fdt: Move MULTI_DTB_FIT handling out of fdtdec_setup()
->   fdt: Drop #ifdefs with MULTI_DTB_FIT
->   fdt: Drop CONFIG_SPL_BUILD check in fdtdec_setup()
->   fdt: Drop #ifdef around board_fdt_blob_setup()
->   fdt: Use if() for fdtcontroladdr check
->   fdt: Drop OF_CONTROL check in fdtdec_setup()
->   fdt: Drop remaining preprocessor macros in fdtdec_setup()
->   fdt: Don't call board_fdt_blob_setup() without OF_BOARD
->
->  Makefile                                  |    7 +-
->  arch/arm/dts/Makefile                     |   20 +-
->  arch/arm/dts/bcm2711-rpi-4-b.dts          | 1958 +++++++++++++++++++++
->  arch/arm/dts/bcm7xxx.dts                  |   15 +
->  arch/arm/dts/highbank.dts                 |   14 +
->  arch/arm/dts/juno-r2.dts                  | 1038 +++++++++++
->  arch/arm/dts/octeontx.dts                 |   14 +
->  arch/arm/dts/qemu-arm.dts                 |  402 +++++
->  arch/arm/dts/qemu-arm64.dts               |  381 ++++
->  arch/arm/dts/xenguest-arm64.dts           |   15 +
->  arch/arm/dts/xilinx-versal-virt.dts       |  307 ++++
->  arch/powerpc/dts/Makefile                 |    1 +
->  arch/powerpc/dts/qemu-ppce500.dts         |  264 +++
->  arch/riscv/dts/Makefile                   |    2 +-
->  arch/riscv/dts/qemu-virt.dts              |    8 -
->  arch/riscv/dts/qemu-virt32.dts            |  217 +++
->  arch/riscv/dts/qemu-virt64.dts            |  217 +++
->  arch/sandbox/cpu/cpu.c                    |   21 +-
->  arch/sandbox/include/asm/u-boot-sandbox.h |    8 -
->  configs/bcm7260_defconfig                 |    1 +
->  configs/bcm7445_defconfig                 |    1 +
->  configs/highbank_defconfig                |    2 +-
->  configs/octeontx2_95xx_defconfig          |    1 +
->  configs/octeontx2_96xx_defconfig          |    1 +
->  configs/octeontx_81xx_defconfig           |    1 +
->  configs/octeontx_83xx_defconfig           |    1 +
->  configs/qemu-ppce500_defconfig            |    2 +
->  configs/qemu-riscv32_defconfig            |    1 +
->  configs/qemu-riscv32_smode_defconfig      |    1 +
->  configs/qemu-riscv32_spl_defconfig        |    4 +-
->  configs/qemu-riscv64_defconfig            |    1 +
->  configs/qemu-riscv64_smode_defconfig      |    1 +
->  configs/qemu-riscv64_spl_defconfig        |    3 +-
->  configs/qemu_arm64_defconfig              |    1 +
->  configs/qemu_arm_defconfig                |    1 +
->  configs/rpi_4_32b_defconfig               |    1 +
->  configs/rpi_4_defconfig                   |    1 +
->  configs/rpi_arm64_defconfig               |    1 +
->  configs/sandbox64_defconfig               |    2 +-
->  configs/sandbox_defconfig                 |    2 +-
->  configs/sandbox_flattree_defconfig        |    2 +-
->  configs/sandbox_noinst_defconfig          |    2 +-
->  configs/sandbox_spl_defconfig             |    2 +-
->  configs/tools-only_defconfig              |    2 +-
->  configs/vexpress_aemv8a_juno_defconfig    |    1 +
->  configs/xenguest_arm64_defconfig          |    1 +
->  configs/xilinx_versal_virt_defconfig      |    1 +
->  doc/board/emulation/qemu-arm.rst          |   10 +-
->  doc/board/emulation/qemu-riscv.rst        |    3 +
->  doc/develop/devicetree/control.rst        |    7 +-
->  doc/develop/devicetree/dt_qemu.rst        |   48 +
->  doc/develop/devicetree/dt_update.rst      |  498 ++++++
->  doc/develop/devicetree/index.rst          |    2 +
->  dts/Kconfig                               |   37 +-
->  include/asm-generic/global_data.h         |    8 +
->  include/fdtdec.h                          |   21 +-
->  lib/fdtdec.c                              |  116 +-
->  scripts/Makefile.spl                      |    4 +-
->  tools/binman/binman.rst                   |   20 -
->  59 files changed, 5560 insertions(+), 164 deletions(-)
->  create mode 100644 arch/arm/dts/bcm2711-rpi-4-b.dts
->  create mode 100644 arch/arm/dts/bcm7xxx.dts
->  create mode 100644 arch/arm/dts/highbank.dts
->  create mode 100644 arch/arm/dts/juno-r2.dts
->  create mode 100644 arch/arm/dts/octeontx.dts
->  create mode 100644 arch/arm/dts/qemu-arm.dts
->  create mode 100644 arch/arm/dts/qemu-arm64.dts
->  create mode 100644 arch/arm/dts/xenguest-arm64.dts
->  create mode 100644 arch/arm/dts/xilinx-versal-virt.dts
->  create mode 100644 arch/powerpc/dts/qemu-ppce500.dts
->  delete mode 100644 arch/riscv/dts/qemu-virt.dts
->  create mode 100644 arch/riscv/dts/qemu-virt32.dts
->  create mode 100644 arch/riscv/dts/qemu-virt64.dts
->  create mode 100644 doc/develop/devicetree/dt_qemu.rst
->  create mode 100644 doc/develop/devicetree/dt_update.rst
->
-> --
-> 2.33.0.1079.g6e70778dc9-goog
->
->
-
---=20
-Fran=C3=A7ois-Fr=C3=A9d=C3=A9ric Ozog | *Director Business Development*
-T: +33.67221.6485
-francois.ozog@linaro.org | Skype: ffozog
-
---000000000000753b7f05cfe58682
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Simon<div><br></div><div>I don&#39;t k=
-now if this is correct etiquette but at this moment it feels just right to =
-do this:</div></div>The problem is not confusion it is that the patch set g=
-oes in a direction that makes no sense.<div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, 26 Oct 2021 at 02:24, Simon G=
-lass &lt;<a href=3D"mailto:sjg@chromium.org">sjg@chromium.org</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204=
-,204,204);padding-left:1ex">With Ilias&#39; efforts we have dropped OF_PRIO=
-R_STAGE and OF_HOSTFILE so<br>
-there are only three ways to obtain a devicetree:<br>
-<br>
-=C2=A0 =C2=A0- OF_SEPARATE - the normal way, where the devicetree is built =
-and<br>
-=C2=A0 =C2=A0 =C2=A0 appended to U-Boot<br>
-=C2=A0 =C2=A0- OF_EMBED - for development purposes, the devicetree is embed=
-ded in<br>
-=C2=A0 =C2=A0 =C2=A0 the ELF file (also used for EFI)<br>
-=C2=A0 =C2=A0- OF_BOARD - the board figures it out on its own<br>
-<br></blockquote><div>YES! perfect!</div><div>Default config for boards lik=
-e RPI4, Qemu and SystemReady ones should be OF_BOARD.</div><div>There may b=
-e an override for the advanced developer that need a playground for those b=
-oards; with a warning:=C2=A0</div><div>&quot;for debug purposes, turning on=
- this option for this platform assumes you know exactly what you are doing.=
-&quot;</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-le=
-ft-color:rgb(204,204,204);padding-left:1ex">
-The last one is currently set up so that no devicetree is needed at all<br>
-in the U-Boot tree. </blockquote><div>Rightfully as you write below &quot;i=
-t comes from an entity that &quot;have a better idea about the hardware&quo=
-t;.</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,2=
-04,204);padding-left:1ex">Most boards do provide one, but some don&#39;t. S=
-ome<br>
-don&#39;t even provide instructions on how to boot on the board.<br>
-<br></blockquote><div>That is a documentation problem.=C2=A0</div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-widt=
-h:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padding-le=
-ft:1ex">
-The problems with this approach are documented in another patch in this<br>
-series: &quot;doc: Add documentation about devicetree usage&quot;<br>
-<br>
-In practice, OF_BOARD is not really distinct from OF_SEPARATE. Any board<br=
->
-can obtain its devicetree at runtime, even it is has a devicetree built<br>
-in U-Boot. </blockquote><div>That statement is I think the start of problem=
-s.=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(=
-204,204,204);padding-left:1ex">This is because U-Boot may be a second-stage=
- bootloader and its<br>
-caller may have a better idea about the hardware available in the machine.<=
-br>
-This is the case with a few QEMU boards, for example.<br>
-<br></blockquote><div>YES! exactly. Why would you ever embed a DT in U-Boot=
- if it comes from an entity that &quot;have a better idea about the hardwar=
-e&quot;?</div><div>For advanced debugging yes. Otherwise no reasons.=C2=A0<=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,2=
-04);padding-left:1ex">
-So it makes no sense to have OF_BOARD as a &#39;choice&#39;. It should be a=
-n<br>
-option, available with either OF_SEPARATE or OF_EMBED.<br>
-<br></blockquote><div>Problem starts to grow.=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
-rder-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">
-This series makes this change, adding various missing devicetree files<br>
-(and placeholders) to make the build work.<br>
-<br>
-Note: If board maintainers are able to add their own patch to add the<br>
-files, some patches in this series can be dropped.<br>
-<br>
-It also provides a few qemu clean-ups discovered along the way.<br>
-<br>
-Note: This breaks the qemu-riscv64_spl test, which still needs<br>
-investigation.<br>
-<br>
-[1] <a href=3D"https://patchwork.ozlabs.org/project/uboot/patch/20210919215=
-111.3830278-3-sjg@chromium.org/" rel=3D"noreferrer" target=3D"_blank">https=
-://patchwork.ozlabs.org/project/uboot/patch/20210919215111.3830278-3-sjg@ch=
-romium.org/</a><br>
-<br>
-Changes in v5:<br>
-- Bring into the OF_BOARD series<br>
-- Rebase to master and drop mention of OF_PRIOR_STAGE, since removed<br>
-- Refer to the &#39;control&#39; DTB in the first paragraph<br>
-- Use QEMU instead of qemu<br>
-- Merge RISC-V and ARM patches since they are similar<br>
-- Add new patches to clean up fdtdec_setup() and surrounds<br>
-<br>
-Changes in v3:<br>
-- Clarify the &#39;bug&#39; refered to at the top<br>
-- Reword &#39;This means that there&#39; paragraph to explain U-Boot-specif=
-ic things<br>
-- Move to doc/develop/devicetree now that OF_CONTROL is in the docs<br>
-<br>
-Changes in v2:<br>
-- Fix typos per Sean (thank you!) and a few others<br>
-- Add a &#39;Use of U-Boot /config node&#39; section<br>
-- Drop mention of dm-verity since that actually uses the kernel cmdline<br>
-- Explain that OF_BOARD will still work after these changes (in<br>
-=C2=A0 &#39;Once this bug is fixed...&#39; paragraph)<br>
-- Expand a bit on the reason why the &#39;Current situation&#39; is bad<br>
-- Clarify in a second place that Linux and U-Boot use the same devicetree<b=
-r>
-=C2=A0 in &#39;To be clear, while U-Boot...&#39;<br>
-- Expand on why we should have rules for other projects in<br>
-=C2=A0 &#39;Devicetree in another project&#39;<br>
-- Add a comment as to why devicetree in U-Boot is not &#39;bad design&#39;<=
-br>
-- Reword &#39;in-tree U-Boot devicetree&#39; to &#39;devicetree source in U=
--Boot&#39;<br>
-- Rewrite &#39;Devicetree generated on-the-fly in another project&#39; to c=
-over<br>
-=C2=A0 points raised on v1<br>
-- Add &#39;Why does U-Boot have its nodes and properties?&#39;<br>
-- Add &#39;Why not have two devicetrees?&#39;<br>
-<br>
-Ilias Apalodimas (1):<br>
-=C2=A0 sandbox: Remove OF_HOSTFILE<br>
-<br>
-Simon Glass (25):<br>
-=C2=A0 doc: Add documentation about devicetree usage<br>
-=C2=A0 arm: qemu: Mention -nographic in the docs<br>
-=C2=A0 arm: riscv: qemu: Explain how to extract the generated dt<br>
-=C2=A0 arm: qemu: Add a devicetree file for qemu_arm<br>
-=C2=A0 arm: qemu: Add a devicetree file for qemu_arm64<br>
-=C2=A0 riscv: qemu: Add devicetree files for qemu_riscv32/64<br>
-=C2=A0 arm: rpi: Add a devicetree file for rpi_4<br>
-=C2=A0 arm: vexpress: Add a devicetree file for juno<br>
-=C2=A0 arm: xenguest_arm64: Add a fake devicetree file<br>
-=C2=A0 arm: octeontx: Add a fake devicetree file<br>
-=C2=A0 arm: xilinx_versal_virt: Add a devicetree file<br>
-=C2=A0 arm: bcm7xxx: Add a devicetree file<br>
-=C2=A0 arm: qemu-ppce500: Add a devicetree file<br>
-=C2=A0 arm: highbank: Add a fake devicetree file<br>
-=C2=A0 fdt: Make OF_BOARD a bool option<br>
-=C2=A0 Drop CONFIG_BINMAN_STANDALONE_FDT<br>
-=C2=A0 doc: Update info on devicetree update<br>
-=C2=A0 fdt: Move MULTI_DTB_FIT handling out of fdtdec_setup()<br>
-=C2=A0 fdt: Drop #ifdefs with MULTI_DTB_FIT<br>
-=C2=A0 fdt: Drop CONFIG_SPL_BUILD check in fdtdec_setup()<br>
-=C2=A0 fdt: Drop #ifdef around board_fdt_blob_setup()<br>
-=C2=A0 fdt: Use if() for fdtcontroladdr check<br>
-=C2=A0 fdt: Drop OF_CONTROL check in fdtdec_setup()<br>
-=C2=A0 fdt: Drop remaining preprocessor macros in fdtdec_setup()<br>
-=C2=A0 fdt: Don&#39;t call board_fdt_blob_setup() without OF_BOARD<br>
-<br>
-=C2=A0Makefile=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =
-7 +-<br>
-=C2=A0arch/arm/dts/Makefile=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A020 +-<br>
-=C2=A0arch/arm/dts/bcm2711-rpi-4-b.dts=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =
-1958 +++++++++++++++++++++<br>
-=C2=A0arch/arm/dts/bcm7xxx.dts=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A015 +<br>
-=C2=A0arch/arm/dts/highbank.dts=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A014 +<br>
-=C2=A0arch/arm/dts/juno-r2.dts=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 | 1038 +++++++++++<br>
-=C2=A0arch/arm/dts/octeontx.dts=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A014 +<br>
-=C2=A0arch/arm/dts/qemu-arm.dts=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 402 +++++<br>
-=C2=A0arch/arm/dts/qemu-arm64.dts=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 381 ++++<br>
-=C2=A0arch/arm/dts/xenguest-arm64.dts=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 =C2=A015 +<br>
-=C2=A0arch/arm/dts/xilinx-versal-virt.dts=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0=
- 307 ++++<br>
-=C2=A0arch/powerpc/dts/Makefile=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 1 +<br>
-=C2=A0arch/powerpc/dts/qemu-ppce500.dts=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 264 +++<br>
-=C2=A0arch/riscv/dts/Makefile=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 2 +-<br>
-=C2=A0arch/riscv/dts/qemu-virt.dts=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 |=C2=A0 =C2=A0 8 -<br>
-=C2=A0arch/riscv/dts/qemu-virt32.dts=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 217 +++<br>
-=C2=A0arch/riscv/dts/qemu-virt64.dts=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 217 +++<br>
-=C2=A0arch/sandbox/cpu/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A021 +-<br>
-=C2=A0arch/sandbox/include/asm/u-boot-sandbox.h |=C2=A0 =C2=A0 8 -<br>
-=C2=A0configs/bcm7260_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 1 +<br>
-=C2=A0configs/bcm7445_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 1 +<br>
-=C2=A0configs/highbank_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 =C2=A0 2 +-<br>
-=C2=A0configs/octeontx2_95xx_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 =C2=A0 1 +<br>
-=C2=A0configs/octeontx2_96xx_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 =C2=A0 1 +<br>
-=C2=A0configs/octeontx_81xx_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 =C2=A0 1 +<br>
-=C2=A0configs/octeontx_83xx_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 =C2=A0 1 +<br>
-=C2=A0configs/qemu-ppce500_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 =C2=A0 2 +<br>
-=C2=A0configs/qemu-riscv32_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 =C2=A0 1 +<br>
-=C2=A0configs/qemu-riscv32_smode_defconfig=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
-=A0 1 +<br>
-=C2=A0configs/qemu-riscv32_spl_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0=
- =C2=A0 4 +-<br>
-=C2=A0configs/qemu-riscv64_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 =C2=A0 1 +<br>
-=C2=A0configs/qemu-riscv64_smode_defconfig=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
-=A0 1 +<br>
-=C2=A0configs/qemu-riscv64_spl_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0=
- =C2=A0 3 +-<br>
-=C2=A0configs/qemu_arm64_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 |=C2=A0 =C2=A0 1 +<br>
-=C2=A0configs/qemu_arm_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 =C2=A0 1 +<br>
-=C2=A0configs/rpi_4_32b_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 =C2=A0 1 +<br>
-=C2=A0configs/rpi_4_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 1 +<br>
-=C2=A0configs/rpi_arm64_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 =C2=A0 1 +<br>
-=C2=A0configs/sandbox64_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 =C2=A0 2 +-<br>
-=C2=A0configs/sandbox_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 2 +-<br>
-=C2=A0configs/sandbox_flattree_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0=
- =C2=A0 2 +-<br>
-=C2=A0configs/sandbox_noinst_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 =C2=A0 2 +-<br>
-=C2=A0configs/sandbox_spl_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 =C2=A0 2 +-<br>
-=C2=A0configs/tools-only_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 |=C2=A0 =C2=A0 2 +-<br>
-=C2=A0configs/vexpress_aemv8a_juno_defconfig=C2=A0 =C2=A0 |=C2=A0 =C2=A0 1 =
-+<br>
-=C2=A0configs/xenguest_arm64_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 =C2=A0 1 +<br>
-=C2=A0configs/xilinx_versal_virt_defconfig=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
-=A0 1 +<br>
-=C2=A0doc/board/emulation/qemu-arm.rst=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 =C2=A010 +-<br>
-=C2=A0doc/board/emulation/qemu-riscv.rst=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0=
- =C2=A0 3 +<br>
-=C2=A0doc/develop/devicetree/control.rst=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0=
- =C2=A0 7 +-<br>
-=C2=A0doc/develop/devicetree/dt_qemu.rst=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0=
- =C2=A048 +<br>
-=C2=A0doc/develop/devicetree/dt_update.rst=C2=A0 =C2=A0 =C2=A0 |=C2=A0 498 =
-++++++<br>
-=C2=A0doc/develop/devicetree/index.rst=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 =C2=A0 2 +<br>
-=C2=A0dts/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A037 +-<=
-br>
-=C2=A0include/asm-generic/global_data.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 =C2=A0 8 +<br>
-=C2=A0include/fdtdec.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A021 +-<br>
-=C2=A0lib/fdtdec.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 116 +-<br>
-=C2=A0scripts/Makefile.spl=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 4 +-<br>
-=C2=A0tools/binman/binman.rst=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A020 -<br>
-=C2=A059 files changed, 5560 insertions(+), 164 deletions(-)<br>
-=C2=A0create mode 100644 arch/arm/dts/bcm2711-rpi-4-b.dts<br>
-=C2=A0create mode 100644 arch/arm/dts/bcm7xxx.dts<br>
-=C2=A0create mode 100644 arch/arm/dts/highbank.dts<br>
-=C2=A0create mode 100644 arch/arm/dts/juno-r2.dts<br>
-=C2=A0create mode 100644 arch/arm/dts/octeontx.dts<br>
-=C2=A0create mode 100644 arch/arm/dts/qemu-arm.dts<br>
-=C2=A0create mode 100644 arch/arm/dts/qemu-arm64.dts<br>
-=C2=A0create mode 100644 arch/arm/dts/xenguest-arm64.dts<br>
-=C2=A0create mode 100644 arch/arm/dts/xilinx-versal-virt.dts<br>
-=C2=A0create mode 100644 arch/powerpc/dts/qemu-ppce500.dts<br>
-=C2=A0delete mode 100644 arch/riscv/dts/qemu-virt.dts<br>
-=C2=A0create mode 100644 arch/riscv/dts/qemu-virt32.dts<br>
-=C2=A0create mode 100644 arch/riscv/dts/qemu-virt64.dts<br>
-=C2=A0create mode 100644 doc/develop/devicetree/dt_qemu.rst<br>
-=C2=A0create mode 100644 doc/develop/devicetree/dt_update.rst<br>
-<br>
--- <br>
-2.33.0.1079.g6e70778dc9-goog<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div=
- dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"l=
-tr"><div><div dir=3D"ltr"><div><div><div><div dir=3D"ltr"><div dir=3D"ltr">=
-<div dir=3D"ltr"><table style=3D"font-size:small" border=3D"0" cellpadding=
-=3D"0" cellspacing=3D"0"><tbody><tr><td style=3D"padding-right:10px" valign=
-=3D"top"><img src=3D"https://static.linaro.org/common/images/linaro-logo-we=
-b.png"></td><td valign=3D"top"><table border=3D"0" cellpadding=3D"0" cellsp=
-acing=3D"0"><tbody><tr><td style=3D"font-family:Arial,Helvetica,&quot;Sans =
-Serif&quot;;white-space:nowrap;font-size:9pt;padding-top:0px;color:rgb(87,8=
-7,87)" valign=3D"top"><span style=3D"font-weight:bold">Fran=C3=A7ois-Fr=C3=
-=A9d=C3=A9ric Ozog</span>=C2=A0<span style=3D"color:rgb(161,161,161)">|</sp=
-an>=C2=A0<i>Director Business Development</i></td></tr><tr><td style=3D"fon=
-t-family:Arial,Helvetica,&quot;Sans Serif&quot;;white-space:nowrap;font-siz=
-e:9pt;padding-top:2px;color:rgb(87,87,87)" valign=3D"top">T:=C2=A0<a value=
-=3D"+393384075993" style=3D"color:rgb(17,85,204)">+33.67221.6485</a><br><a =
-href=3D"mailto:francois.ozog@linaro.org" style=3D"color:rgb(87,87,87);text-=
-decoration:none" target=3D"_blank">francois.ozog@linaro.org</a>=C2=A0<span =
-style=3D"color:rgb(161,161,161)">|</span>=C2=A0Skype:=C2=A0ffozog</td></tr>=
-</tbody></table></td></tr></tbody></table></div></div></div></div></div><di=
-v><div><br style=3D"font-size:small"></div></div></div></div></div></div></=
-div></div></div></div></div></div></div></div></div></div></div></div></div=
->
-
---000000000000753b7f05cfe58682--
 
