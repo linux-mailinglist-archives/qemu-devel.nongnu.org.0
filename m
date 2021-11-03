@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E66DB4444AF
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:33:42 +0100 (CET)
-Received: from localhost ([::1]:42678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06D32444490
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:21:11 +0100 (CET)
+Received: from localhost ([::1]:60682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miIGj-0003Nk-PC
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:33:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52410)
+	id 1miI4c-0002lE-5k
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:21:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miHpS-0003eH-Rl
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:32 -0400
-Received: from mail-lf1-x135.google.com ([2a00:1450:4864:20::135]:46680)
+ id 1miHpG-0003a7-Fl
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:20 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:36461)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miHpO-00011b-1U
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:30 -0400
-Received: by mail-lf1-x135.google.com with SMTP id o18so5709720lfu.13
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:05:19 -0700 (PDT)
+ id 1miHp8-0000vj-Dn
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:14 -0400
+Received: by mail-wr1-x429.google.com with SMTP id s13so4084994wrb.3
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:05:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SxMMNDBEz7b0O+6ZdEnpdkz/xFDuHSYn2SqbysRD8oQ=;
- b=K8ABofkM+a3hU8s2ZCCn85YzKwISZhcYCIjWsz/fc8tzXMAQAEtMbirdeIfux/sojU
- HYob///r9LOO3eVd+ZMMxo0XiJqVoOCPJkcjINJG3Py3d/f4fEJNL2GRxQQ54S2UKb3r
- apdUldBSil/w16w4/fygJ+vvLH8Rr8fMonfrqbVrnC66mMbzppOStGy7WhMzgDUqZYXK
- OdCqxsgFTHqhwAVh57yfjzJTNhRwt4iKZWdPJryHgPXxkZ5Uc+VIZPxjXVfydhSUZnNt
- a57yLPrespMxZCUv27Vc8BUxN2CBOYWeOa2wLfa3ZZho1PP2Sr1f8NWYVLTae4Rc8R/+
- 3sSA==
+ bh=9pcrwji9vHuaWvaq0ZOMUVH0lNQxgrqXr28rTnWc4hQ=;
+ b=ebziOCvwT93i71xxcLY+BozqlAIXTeAnZa2EYjJGOq2KqLnswnX6xZJtsNaYF9PfyA
+ O+Yc1fu5ITlB8v0IntEMqLIvrolvoPHl3RCjgbX6kWMXeQB7jO3u3AzmSBpFzxcJl9fc
+ 32ak37SHefYb4u+mjI9BQn7Wcy7iUvRC2EivaUlFZ0PJXr8MvPk+X1FfSb5sDkkyGSwV
+ agmJDowaX4jmZq9z6nsyn7hDU7FjMZKfeLtvCpkvKHTyvp9OZNZB8g5yH/KVu0r11jcC
+ bJVResNxlcWk6H+Stg7eMHbDPzwF+yKGJ9VOewock3SAO/ginXukVgMe/TJxpUYWQp33
+ u/YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=SxMMNDBEz7b0O+6ZdEnpdkz/xFDuHSYn2SqbysRD8oQ=;
- b=DCsklMSUsHLZJ+bPDH7ZlMX9etWKDzwR1mgayzJrhvpyTbAasc73SRjlh8CsQDnK+0
- ypARd1++XpQ1X0QsmW2bqK9V8HFlADvf5V88KpbLi+eeMsOZ6Qv1axgXyDQAQkhKsbfA
- gPoOhqW9N91q/HzCv37DXdZ5ES5FHertuGTzOcm3yq7fYSMKhQsG2XADgSG+35UMcEYr
- AMVpI86mjhNrQ9UM4zHogEPQuru/yYnub0R7ARoMIRSgmcvCJySH8reFPwNaxlApVyNs
- rwbwq5qP5mzSE9E5/fCusUz0ozzCYrvcvoF2n6z4V+y0ARX2+pgUuRozmTi9Kx5b71i3
- 5TqA==
-X-Gm-Message-State: AOAM530VTvg0ted59Y9NCBgI5ZMzVZWGtEs3UumdQL91L9Ej6cDezksL
- hmIgX60iMbkftiXnZMTDr8h/sPYEwNc=
-X-Google-Smtp-Source: ABdhPJwcmEujQm5jHEy5Zkf1utdVFp/wieKdPPsG8ZtIh0YzFjK8afNeWF08jvo3KonSylvqwCFfjw==
-X-Received: by 2002:a5d:584e:: with SMTP id i14mr17971557wrf.386.1635951906731; 
- Wed, 03 Nov 2021 08:05:06 -0700 (PDT)
+ bh=9pcrwji9vHuaWvaq0ZOMUVH0lNQxgrqXr28rTnWc4hQ=;
+ b=ifJh8cirWlMWQVc2tbaCFsqu3bUVh0ySBqWWdgZnWyNtYn9/MdISAhJvfhGK0f1wa5
+ uTKJXupK+uwi1WZyVnNE4icjPYQAc/WNntJvip7goYXAay70zzBdKwU6lxmlhMeFLzWD
+ eEI4fz1zOZ+hGpyGuHCljFZLH6NoRcyqkmmrjpQnEwIWWRTd1dHq9us5L+1n4ZQ7aXNW
+ f9AdUABkQrzGpo3jBe8VNF/GKndhLiuONg3iy7NJQkG4lk1RlymR0W2NI1tnN/KphcGe
+ gUIbfROcy0z1+0hG/+qRbf0H+yYPIotH8ollTCkD7iaLOQCtIwJUfQsenACLydNje0gf
+ RQIA==
+X-Gm-Message-State: AOAM532kJx2Zsz2vx25Hi9freU1xBMhR1hK1syuqz/MIg45X0XsHhc7v
+ h68IBZ1p9aXYghkUHRUT+JH96eJ1LZY=
+X-Google-Smtp-Source: ABdhPJzMBa5D7KExL+QeWVhgMCw+U/p8GZpPXrSBXDR/6+xx3Y9LSDE2HdAviN0WhorQrjNkhLMgkg==
+X-Received: by 2002:adf:a389:: with SMTP id l9mr45792112wrb.121.1635951907387; 
+ Wed, 03 Nov 2021 08:05:07 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id h16sm2488797wrm.27.2021.11.03.08.05.05
+ by smtp.gmail.com with ESMTPSA id h16sm2488797wrm.27.2021.11.03.08.05.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 08:05:06 -0700 (PDT)
+ Wed, 03 Nov 2021 08:05:07 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/27] qtest/am53c974-test: add test for cancelling in-flight
- requests
-Date: Wed,  3 Nov 2021 16:04:35 +0100
-Message-Id: <20211103150442.387121-21-pbonzini@redhat.com>
+Subject: [PULL 21/27] meson: bump submodule to 0.59.3
+Date: Wed,  3 Nov 2021 16:04:36 +0100
+Message-Id: <20211103150442.387121-22-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211103150442.387121-1-pbonzini@redhat.com>
 References: <20211103150442.387121-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::135;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-lf1-x135.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,76 +83,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+This gains some bugfixes, especially:
 
-Based upon the qtest reproducer posted to Gitlab issue #663 at
-https://gitlab.com/qemu-project/qemu/-/issues/663.
+- it fixes the introspection of array options.  While technically we
+still support Meson 0.58.2, this issue only appears when adding a new
+option and not if the user is just building QEMU.  In the relatively
+rare case of a contributor using --meson to point to a 0.58 version,
+review can catch spurious changes to scripts/meson-buildoptions.sh
+easily.
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-Id: <20211101183516.8455-3-mark.cave-ayland@ilande.co.uk>
+- it fixes "meson test" when it is not the process group leader.  Make is
+the process group leader when "make check" invokes "meson test", so this
+is a requirement for using it as a test harness.
+
+Tested-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/qtest/am53c974-test.c | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ configure                     |  2 +-
+ meson                         |  2 +-
+ scripts/meson-buildoptions.py | 16 ----------------
+ 3 files changed, 2 insertions(+), 18 deletions(-)
 
-diff --git a/tests/qtest/am53c974-test.c b/tests/qtest/am53c974-test.c
-index d996866cd4..9b1e4211bd 100644
---- a/tests/qtest/am53c974-test.c
-+++ b/tests/qtest/am53c974-test.c
-@@ -189,6 +189,40 @@ static void test_cancelled_request_ok(void)
-     qtest_quit(s);
- }
+diff --git a/configure b/configure
+index c0018a304f..73af9a7b30 100755
+--- a/configure
++++ b/configure
+@@ -1500,7 +1500,7 @@ python_version=$($python -c 'import sys; print("%d.%d.%d" % (sys.version_info[0]
+ python="$python -B"
  
-+static void test_inflight_cancel_ok(void)
-+{
-+    QTestState *s = qtest_init(
-+        "-device am53c974,id=scsi "
-+        "-device scsi-hd,drive=disk0 -drive "
-+        "id=disk0,if=none,file=null-co://,format=raw -nodefaults");
-+    qtest_outl(s, 0xcf8, 0x80001000);
-+    qtest_inw(s, 0xcfc);
-+    qtest_outl(s, 0xcf8, 0x80001010);
-+    qtest_outl(s, 0xcfc, 0xffffffff);
-+    qtest_outl(s, 0xcf8, 0x80001010);
-+    qtest_inl(s, 0xcfc);
-+    qtest_outl(s, 0xcf8, 0x80001010);
-+    qtest_outl(s, 0xcfc, 0xc001);
-+    qtest_outl(s, 0xcf8, 0x80001004);
-+    qtest_inw(s, 0xcfc);
-+    qtest_outl(s, 0xcf8, 0x80001004);
-+    qtest_outw(s, 0xcfc, 0x7);
-+    qtest_outl(s, 0xcf8, 0x80001004);
-+    qtest_inw(s, 0xcfc);
-+    qtest_inb(s, 0xc000);
-+    qtest_outb(s, 0xc008, 0x8);
-+    qtest_outw(s, 0xc00b, 0x4100);
-+    qtest_outb(s, 0xc009, 0x0);
-+    qtest_outb(s, 0xc009, 0x0);
-+    qtest_outw(s, 0xc00b, 0xc212);
-+    qtest_outl(s, 0xc042, 0x2c2c5a88);
-+    qtest_outw(s, 0xc00b, 0xc212);
-+    qtest_outw(s, 0xc00b, 0x415a);
-+    qtest_outl(s, 0xc03f, 0x3060303);
-+    qtest_outl(s, 0xc00b, 0x5afa9054);
-+    qtest_quit(s);
-+}
-+
- int main(int argc, char **argv)
- {
-     const char *arch = qtest_get_arch();
-@@ -212,6 +246,8 @@ int main(int argc, char **argv)
-                        test_fifo_underflow_on_write_ok);
-         qtest_add_func("am53c974/test_cancelled_request_ok",
-                        test_cancelled_request_ok);
-+        qtest_add_func("am53c974/test_inflight_cancel_ok",
-+                       test_inflight_cancel_ok);
-     }
+ if test -z "$meson"; then
+-    if test "$explicit_python" = no && has meson && version_ge "$(meson --version)" 0.59.2; then
++    if test "$explicit_python" = no && has meson && version_ge "$(meson --version)" 0.59.3; then
+         meson=meson
+     elif test $git_submodules_action != 'ignore' ; then
+         meson=git
+diff --git a/meson b/meson
+index b25d94e7c7..12f9f04ba0 160000
+--- a/meson
++++ b/meson
+@@ -1 +1 @@
+-Subproject commit b25d94e7c77fda05a7fdfe8afe562cf9760d69da
++Subproject commit 12f9f04ba0decfda425dbbf9a501084c153a2d18
+diff --git a/scripts/meson-buildoptions.py b/scripts/meson-buildoptions.py
+index 256523c09d..96969d89ee 100755
+--- a/scripts/meson-buildoptions.py
++++ b/scripts/meson-buildoptions.py
+@@ -150,23 +150,7 @@ def print_parse(options):
+     print("}")
  
-     return g_test_run();
+ 
+-def fixup_options(options):
+-    # Meson <= 0.60 does not include the choices in array options, fix that up
+-    for opt in options:
+-        if opt["name"] == "trace_backends":
+-            opt["choices"] = [
+-                "dtrace",
+-                "ftrace",
+-                "log",
+-                "nop",
+-                "simple",
+-                "syslog",
+-                "ust",
+-            ]
+-
+-
+ options = load_options(json.load(sys.stdin))
+-fixup_options(options)
+ print("# This file is generated by meson-buildoptions.py, do not edit!")
+ print_help(options)
+ print_parse(options)
 -- 
 2.31.1
 
