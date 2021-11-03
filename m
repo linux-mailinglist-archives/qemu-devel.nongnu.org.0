@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 357704445A9
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 17:15:14 +0100 (CET)
-Received: from localhost ([::1]:41524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 165B84445AB
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 17:15:21 +0100 (CET)
+Received: from localhost ([::1]:41732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miIuv-0000By-Br
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 12:15:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46800)
+	id 1miIv2-0000KT-4q
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 12:15:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
- id 1miIt7-0006gg-52
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 12:13:21 -0400
-Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f]:39799)
+ id 1miItA-0006i0-2I
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 12:13:24 -0400
+Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b]:41806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
- id 1miIt2-00045X-Bm
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 12:13:18 -0400
-Received: by mail-lj1-x22f.google.com with SMTP id t11so4719245ljh.6
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 09:13:14 -0700 (PDT)
+ id 1miIt4-00046C-8H
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 12:13:23 -0400
+Received: by mail-lf1-x12b.google.com with SMTP id br12so4328968lfb.8
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 09:13:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=phystech-edu.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Wa0v1U2LuDNoL48v8vrhvNK9WtkHaOZ+dWUnJrVugPM=;
- b=qVd2MAm7sZTuJJXnNFvbVroZvIN9D9gyGv5nzrdnngYXvqn2FegNxA1Ez0s1wxklaz
- eHLwzdy2/eqrX1oN2bzsvMnFkx8enH0PxkHnRGxj5Q+pw/C1/34NHYdzduo3nwKi5wkb
- WBKpt2A7vgifIu83+yPOLXTV830G2GOgat0zXtWw2r9kt/F/Za/ZBYK11HcFRZTa020l
- jQ1QnEY3RVTog3toWhSmDRBOyyk3mlv/QKkW9OSC15VbnMjKhtSgQv+0cQs36WZgYB/E
- yl3QR08kspOZRI/fbhgNCswQqZhwdsf1WtpMS+6MNjmb9mGnYt3ln8ln2QXXkbU3Vrez
- FpjQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=zfpmHzy9rUw4eULZXkrlYVJEPRCYC4Gqp54jnkn16YA=;
+ b=OjOkTM2JG6jxnux34JSa1rxyzrUfdyzTG/BqNx/X983eSo2qdyt6A6h8LiGWHkWRsx
+ UrtHo5JYctBarnxdz/2+wTVeqgN9zRRv8J+kA/Ee3EDkBE7iUX974mSb3rs2GH40hw1X
+ VSlTcTLQmu57pY/2tznmagautDs8EfVZzOqCENoqqbn4Z30Lo6aDTzNutufUAfT3U/Zr
+ 4C2AdvP9cnOYBRBV631TqcmoLn0YQqOwA/tel3Z5+WlzNA2A5YGRx7Wj+fGxZChbIaDF
+ CIFzgGliU+9u8XW6HF9fesehd8AUrH8FvxsQDzkfivbITgrwJOqTal0iuj3BWtTMbCot
+ 8k0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Wa0v1U2LuDNoL48v8vrhvNK9WtkHaOZ+dWUnJrVugPM=;
- b=gDGn9hP1sByuryt0L8pLyePI3mSixEW2TY9d1HOQUdnJ86kMAvBSVj/imDNcbzomuz
- GvY1zZDhc6Qr6gPlLoglq0q38+4VHNQLeRE1SBPBgzjXxBm/lKCEYITE6V66/nhwwvem
- QNsRa40k6F5h7hzsOI8Hz2QAZlqk0gzmrVptzwHFAf3Lk5UVb/zSnSLDHZ8jXWBnL1tP
- bG/CKVk06lUH7EYkLZktY85OkMF+uoEZc3u92A6qVmqQcbq6y5r7l4BiSECpBbqhWR8z
- GoYcc4VdJSzB4X0FKTcGbi0GD6MvHYg7o5QHaAjGZJc7EeenABPyDollfOavoNl8vAe4
- baOw==
-X-Gm-Message-State: AOAM532yCKYXEit4DLzc/DbXgTOVa4OQ5JKU3hV+yFn22MiyVaY2W36P
- dndyJERtkOzzBvVLAk8rBbbn6A==
-X-Google-Smtp-Source: ABdhPJzl3T/5xwuiiqBnNEiQvJ3qnMrA9wKPRxPskwuvPP+mq1xEsasP+NxcYqD2jYuMNcjCETsUAA==
-X-Received: by 2002:a2e:9e06:: with SMTP id e6mr46924658ljk.190.1635955993181; 
- Wed, 03 Nov 2021 09:13:13 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=zfpmHzy9rUw4eULZXkrlYVJEPRCYC4Gqp54jnkn16YA=;
+ b=XaahWBcIXgylEkUwl9u22WUTv85JxiJpNT8wAo7GqMYWwSGPm6aYfGOM4iOttAoBZO
+ fo6tyVMScHfJdigSzxgB4XY+IIQHdJBjOck4LsyL29Cl4srnRJgiDJim323JKqCj8hPa
+ eWB+/Lh2I7rHtuID7xiwTyeZXDAto1Qj95Td5uTMirJcnsNYxbOFKUrQ32S6dadMw6FU
+ BHiYqraY8fhqISwLRbQOtJQxJIYmMb14fGeo0wMsYjpyWI1pdSV6Dr61clltFv9hZWYw
+ HKNx9sel5ACBlc5F1XrudVuDiWWQkaULV/RQEz4CL+hBd7sV2I3HeB4HYibve32Eusf4
+ TnHw==
+X-Gm-Message-State: AOAM531bjeCt8AQfE6V4AOIqPKlBJlh/drF3Q5DHaQ+oClviVUrdGDvo
+ /ckAngCIebDVHqpTn/7Q+Itu5BaSFOaOuBys
+X-Google-Smtp-Source: ABdhPJyDjgi4awFvA3dRKLVJ4BBDqSHNOYSq/3MLSOxkBE1PLtLclwPtrVUZfAdxsjU2l4orEYKOdw==
+X-Received: by 2002:a19:710f:: with SMTP id m15mr40969167lfc.597.1635955996405; 
+ Wed, 03 Nov 2021 09:13:16 -0700 (PDT)
 Received: from vp-pc.redhat.com ([2a00:1370:810e:bd31:a3af:f811:c4e:52b8])
- by smtp.gmail.com with ESMTPSA id a3sm243337lji.48.2021.11.03.09.13.11
+ by smtp.gmail.com with ESMTPSA id a3sm243337lji.48.2021.11.03.09.13.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 09:13:12 -0700 (PDT)
+ Wed, 03 Nov 2021 09:13:15 -0700 (PDT)
 From: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 To: peter.maydell@linaro.org,
 	yuri.benditovich@daynix.com,
 	yan@daynix.com
-Subject: [PATCH 0/3] contrib/elf2dmp: Windows Server 2022 support
-Date: Wed,  3 Nov 2021 19:12:57 +0300
-Message-Id: <20211103161300.114741-1-viktor.prutyanov@phystech.edu>
+Subject: [PATCH 1/3] contrib/elf2dmp: fix code style
+Date: Wed,  3 Nov 2021 19:12:58 +0300
+Message-Id: <20211103161300.114741-2-viktor.prutyanov@phystech.edu>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211103161300.114741-1-viktor.prutyanov@phystech.edu>
+References: <20211103161300.114741-1-viktor.prutyanov@phystech.edu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
- envelope-from=viktor.prutyanov@phystech.edu; helo=mail-lj1-x22f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12b;
+ envelope-from=viktor.prutyanov@phystech.edu; helo=mail-lf1-x12b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -86,20 +88,174 @@ Cc: qemu-devel@nongnu.org, Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Originally elf2dmp were added with some code style issues,
+especially in pe.h header, and some were introduced by
+2d0fc797faaa73fbc1d30f5f9e90407bf3dd93f0. Fix them now.
 
-For now, elf2dmp is unable to convert ELF-dump to DMP-dump made of
-Windows Server 2022 guest. This patch series fixes it.
+Signed-off-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+---
+ contrib/elf2dmp/main.c |   9 ++--
+ contrib/elf2dmp/pe.h   | 100 ++++++++++++++++++++---------------------
+ 2 files changed, 56 insertions(+), 53 deletions(-)
 
-Viktor Prutyanov (3):
-  contrib/elf2dmp: fix code style
-  contrib/elf2dmp: move PE dir search to pe_get_data_dir_entry
-  contrib/elf2dmp: add PE name check and Windows Server 2022 support
-
- contrib/elf2dmp/main.c | 103 ++++++++++++++++++++++++------------
- contrib/elf2dmp/pe.h   | 115 +++++++++++++++++++++++------------------
- 2 files changed, 134 insertions(+), 84 deletions(-)
-
+diff --git a/contrib/elf2dmp/main.c b/contrib/elf2dmp/main.c
+index 20b477d582..beb534e79c 100644
+--- a/contrib/elf2dmp/main.c
++++ b/contrib/elf2dmp/main.c
+@@ -281,14 +281,16 @@ static int fill_header(WinDumpHeader64 *hdr, struct pa_space *ps,
+     };
+ 
+     for (i = 0; i < ps->block_nr; i++) {
+-        h.PhysicalMemoryBlock.NumberOfPages += ps->block[i].size / ELF2DMP_PAGE_SIZE;
++        h.PhysicalMemoryBlock.NumberOfPages +=
++                ps->block[i].size / ELF2DMP_PAGE_SIZE;
+         h.PhysicalMemoryBlock.Run[i] = (WinDumpPhyMemRun64) {
+             .BasePage = ps->block[i].paddr / ELF2DMP_PAGE_SIZE,
+             .PageCount = ps->block[i].size / ELF2DMP_PAGE_SIZE,
+         };
+     }
+ 
+-    h.RequiredDumpSpace += h.PhysicalMemoryBlock.NumberOfPages << ELF2DMP_PAGE_BITS;
++    h.RequiredDumpSpace +=
++            h.PhysicalMemoryBlock.NumberOfPages << ELF2DMP_PAGE_BITS;
+ 
+     *hdr = h;
+ 
+@@ -298,7 +300,8 @@ static int fill_header(WinDumpHeader64 *hdr, struct pa_space *ps,
+ static int fill_context(KDDEBUGGER_DATA64 *kdbg,
+         struct va_space *vs, QEMU_Elf *qe)
+ {
+-        int i;
++    int i;
++
+     for (i = 0; i < qe->state_nr; i++) {
+         uint64_t Prcb;
+         uint64_t Context;
+diff --git a/contrib/elf2dmp/pe.h b/contrib/elf2dmp/pe.h
+index c2a4a6ba7c..807d006364 100644
+--- a/contrib/elf2dmp/pe.h
++++ b/contrib/elf2dmp/pe.h
+@@ -33,70 +33,70 @@ typedef struct IMAGE_DOS_HEADER {
+ } __attribute__ ((packed)) IMAGE_DOS_HEADER;
+ 
+ typedef struct IMAGE_FILE_HEADER {
+-  uint16_t  Machine;
+-  uint16_t  NumberOfSections;
+-  uint32_t  TimeDateStamp;
+-  uint32_t  PointerToSymbolTable;
+-  uint32_t  NumberOfSymbols;
+-  uint16_t  SizeOfOptionalHeader;
+-  uint16_t  Characteristics;
++    uint16_t  Machine;
++    uint16_t  NumberOfSections;
++    uint32_t  TimeDateStamp;
++    uint32_t  PointerToSymbolTable;
++    uint32_t  NumberOfSymbols;
++    uint16_t  SizeOfOptionalHeader;
++    uint16_t  Characteristics;
+ } __attribute__ ((packed)) IMAGE_FILE_HEADER;
+ 
+ typedef struct IMAGE_DATA_DIRECTORY {
+-  uint32_t VirtualAddress;
+-  uint32_t Size;
++    uint32_t VirtualAddress;
++    uint32_t Size;
+ } __attribute__ ((packed)) IMAGE_DATA_DIRECTORY;
+ 
+ #define IMAGE_NUMBEROF_DIRECTORY_ENTRIES 16
+ 
+ typedef struct IMAGE_OPTIONAL_HEADER64 {
+-  uint16_t  Magic; /* 0x20b */
+-  uint8_t   MajorLinkerVersion;
+-  uint8_t   MinorLinkerVersion;
+-  uint32_t  SizeOfCode;
+-  uint32_t  SizeOfInitializedData;
+-  uint32_t  SizeOfUninitializedData;
+-  uint32_t  AddressOfEntryPoint;
+-  uint32_t  BaseOfCode;
+-  uint64_t  ImageBase;
+-  uint32_t  SectionAlignment;
+-  uint32_t  FileAlignment;
+-  uint16_t  MajorOperatingSystemVersion;
+-  uint16_t  MinorOperatingSystemVersion;
+-  uint16_t  MajorImageVersion;
+-  uint16_t  MinorImageVersion;
+-  uint16_t  MajorSubsystemVersion;
+-  uint16_t  MinorSubsystemVersion;
+-  uint32_t  Win32VersionValue;
+-  uint32_t  SizeOfImage;
+-  uint32_t  SizeOfHeaders;
+-  uint32_t  CheckSum;
+-  uint16_t  Subsystem;
+-  uint16_t  DllCharacteristics;
+-  uint64_t  SizeOfStackReserve;
+-  uint64_t  SizeOfStackCommit;
+-  uint64_t  SizeOfHeapReserve;
+-  uint64_t  SizeOfHeapCommit;
+-  uint32_t  LoaderFlags;
+-  uint32_t  NumberOfRvaAndSizes;
+-  IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES];
++    uint16_t  Magic; /* 0x20b */
++    uint8_t   MajorLinkerVersion;
++    uint8_t   MinorLinkerVersion;
++    uint32_t  SizeOfCode;
++    uint32_t  SizeOfInitializedData;
++    uint32_t  SizeOfUninitializedData;
++    uint32_t  AddressOfEntryPoint;
++    uint32_t  BaseOfCode;
++    uint64_t  ImageBase;
++    uint32_t  SectionAlignment;
++    uint32_t  FileAlignment;
++    uint16_t  MajorOperatingSystemVersion;
++    uint16_t  MinorOperatingSystemVersion;
++    uint16_t  MajorImageVersion;
++    uint16_t  MinorImageVersion;
++    uint16_t  MajorSubsystemVersion;
++    uint16_t  MinorSubsystemVersion;
++    uint32_t  Win32VersionValue;
++    uint32_t  SizeOfImage;
++    uint32_t  SizeOfHeaders;
++    uint32_t  CheckSum;
++    uint16_t  Subsystem;
++    uint16_t  DllCharacteristics;
++    uint64_t  SizeOfStackReserve;
++    uint64_t  SizeOfStackCommit;
++    uint64_t  SizeOfHeapReserve;
++    uint64_t  SizeOfHeapCommit;
++    uint32_t  LoaderFlags;
++    uint32_t  NumberOfRvaAndSizes;
++    IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES];
+ } __attribute__ ((packed)) IMAGE_OPTIONAL_HEADER64;
+ 
+ typedef struct IMAGE_NT_HEADERS64 {
+-  uint32_t Signature;
+-  IMAGE_FILE_HEADER FileHeader;
+-  IMAGE_OPTIONAL_HEADER64 OptionalHeader;
++    uint32_t Signature;
++    IMAGE_FILE_HEADER FileHeader;
++    IMAGE_OPTIONAL_HEADER64 OptionalHeader;
+ } __attribute__ ((packed)) IMAGE_NT_HEADERS64;
+ 
+ typedef struct IMAGE_DEBUG_DIRECTORY {
+-  uint32_t Characteristics;
+-  uint32_t TimeDateStamp;
+-  uint16_t MajorVersion;
+-  uint16_t MinorVersion;
+-  uint32_t Type;
+-  uint32_t SizeOfData;
+-  uint32_t AddressOfRawData;
+-  uint32_t PointerToRawData;
++    uint32_t Characteristics;
++    uint32_t TimeDateStamp;
++    uint16_t MajorVersion;
++    uint16_t MinorVersion;
++    uint32_t Type;
++    uint32_t SizeOfData;
++    uint32_t AddressOfRawData;
++    uint32_t PointerToRawData;
+ } __attribute__ ((packed)) IMAGE_DEBUG_DIRECTORY;
+ 
+ #define IMAGE_DEBUG_TYPE_CODEVIEW   2
 -- 
 2.31.1
 
