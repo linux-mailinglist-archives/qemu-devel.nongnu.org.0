@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22BF0444412
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 15:58:57 +0100 (CET)
-Received: from localhost ([::1]:57394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 219A94443F2
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 15:55:09 +0100 (CET)
+Received: from localhost ([::1]:48368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miHj6-0002C7-9M
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 10:58:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46258)
+	id 1miHfQ-0004Kb-4P
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 10:55:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1miHd1-0000ck-1Z
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 10:52:40 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:39676)
+ id 1miHdM-0001Zf-Ju
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 10:53:00 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:33302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1miHcz-0004UF-4A
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 10:52:38 -0400
-Received: by mail-wr1-x431.google.com with SMTP id d27so3994280wrb.6
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 07:52:36 -0700 (PDT)
+ id 1miHdL-0004XK-85
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 10:53:00 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id d24so4067147wra.0
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 07:52:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=AaiS1AYe6k56kU8on+AE9NLPLQkEkihqyy0RdhtI8y8=;
- b=CAbF6oo+sB5WONr5253WDHg41yKSwECLruF70+sCqFU9o7mdoYDsvSRfMvjI1xP2BY
- Z7l8M70cAcZoqCtoGM1r6GgVp+DTjuxj5exfhDZjSVQpSEiOWS+0Ej1v0PCjDxSLsrhU
- 8HDfRXw/CzllsUthOz4daqlMnqeSc36YLmyKwU+brNeHHoT5nBji5kO1K/uvtZG0u/6e
- 6r7PVFrrkCWuNXfOtMLu1HM/e2hho/KIYIkaKVMrXyoCF7aReTcnthXhIFUndkWTHYEZ
- jhtB0NIU70ko5nfdWcXYFAGlhDuH4COIi63EW4IJxRPx4FKdSUV2Z5fkS7zGexN0t/WI
- fBQQ==
+ bh=/4YoROrwYk3zNLoDyuQZTrK6sfOleK5P0ChWd8f0x/s=;
+ b=pON6R3CP1wpUeq+VzEzxlLRD7RzTv9mimQEuqMFsiumcYhFUfktJKgHxBtnlnJa+zG
+ 3+8bpj01szNjvRedXeujBlmE/zsKmGbHF58Jl9f9I/P3hFjsFQF1LA+McC4mzUQW6Ik8
+ Zk+zRFOdtuxqplQwD1SfyLWC4sajn7LpYbvemGpbdF5o0a0trK2xbrVVRfeTHg74Q+Db
+ J/ParPbbrQrMdDTNBGxd4NPwsytb/44OYlNE21+XSLIFquLjeGomIB9k70UqmfCAA1+P
+ owKLek1UZfUWm3BmlAlaFXaPCdGc2jJsL+Uci5O0pB9N9Ylu77n/ksA4w/7wuhRgUJOf
+ MDJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=AaiS1AYe6k56kU8on+AE9NLPLQkEkihqyy0RdhtI8y8=;
- b=DmSazSxP4/90gXX9UVrboNmotZd8Vx+hlpZCWeU04BN/AiH/xCn4BhvQyHsAoJOsrx
- jL9gsslDaaT5NAa2iX1F1JzG3jY1MW1Ps5OdssUGeo1cYqmEYYYD/HfogzpEjaAKQgB5
- a+d4mrM9ntZycezEOqID7Yaeu/JG3bolKYyFo0VTfH+vKi+xFnfjBPyhGzngaYKYhllL
- xOuMzVxux3wPDTA9U6I02dLfi94jQsJt5OTTKrCZ07sKqY0OzVZ/gJKe1vSZMR8NLes6
- D4WZskzeycTfEwnSZK01iLDk0IKu+e//TAVHOiVhD/wl28Dh7zgdmcYiT/2ADF3fcxxU
- G/dA==
-X-Gm-Message-State: AOAM531JZYp9mER6dnm9tYeGKSTjmU5VCW5YOV3sp2ULTNNYnAZqkVco
- uXKeGJiv+sdajISNWrCpJJslnS6VHpA=
-X-Google-Smtp-Source: ABdhPJzJN8Ykyk5/0soAqJco6E7k1k6B+/GbJmULXJKRarMG0AKWjWsATnZplqwOmKS6gUT93wCrpA==
-X-Received: by 2002:a5d:6691:: with SMTP id l17mr41610835wru.227.1635951155340; 
- Wed, 03 Nov 2021 07:52:35 -0700 (PDT)
+ bh=/4YoROrwYk3zNLoDyuQZTrK6sfOleK5P0ChWd8f0x/s=;
+ b=erV4tWBKYt57RZ1RUbOGdPM/EcclEG4w+btW+9RIpzLGG/Y30vx5dt9bDn5mJcCTRa
+ aAOdqe8KUG5kqJHYZXnWFJM0auX0+l6ZssBFFUYrPzetZ3Tsbgzw5rfCRzinT9H6DKkF
+ CAiR/slnIoXoqyCyeNK2zFx+TtR+z4AA8dPu+Ld1u1Lej2Kw8vPsTXyOwZxKW53c3Pfn
+ TNgYP3028/M+RLMEafB+72p6HASuSHF9qlk9NMzC7o3XlNucnL7/Y5OFbVdy6cKEiPUt
+ TBwthc1r+Kd+TYvqxkApiD8ZmLkAjL5SD2Y0oMplaOq5JFvc3jnjTeJgFDEkFhaw5e1o
+ 4rOQ==
+X-Gm-Message-State: AOAM532BxrL9amkBAMqlqzl9KO6ku+DRPdj2HKMWSbf7tMc3+fjEFFmt
+ MAk1eN9jAVz7AwaZ5GcOxYEO2AyDle8=
+X-Google-Smtp-Source: ABdhPJwrpm0RiYeGiS7iuV2dcF6Mby5K22Po45yZyIJG76qEb9+P4CXhn9q990oTqHa6C8hc6FEcMw==
+X-Received: by 2002:a5d:4c86:: with SMTP id z6mr25692922wrs.219.1635951177743; 
+ Wed, 03 Nov 2021 07:52:57 -0700 (PDT)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id c16sm2094916wrx.96.2021.11.03.07.52.33
+ by smtp.gmail.com with ESMTPSA id o1sm2271037wrn.63.2021.11.03.07.52.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Nov 2021 07:52:34 -0700 (PDT)
-Message-ID: <9c33af99-d897-89cf-fda7-d37c3224eb54@amsat.org>
-Date: Wed, 3 Nov 2021 15:52:33 +0100
+ Wed, 03 Nov 2021 07:52:57 -0700 (PDT)
+Message-ID: <40d2a8fc-8b0d-87fd-8e12-67ae7ee8dcec@amsat.org>
+Date: Wed, 3 Nov 2021 15:52:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH 3/6] docker: update fedora container to Fedora 34
+Subject: Re: [PATCH 4/6] docker: update Fedora-based cross-compiler containers
+ to Fedora 34
 Content-Language: en-US
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20211103144844.1285634-1-jsnow@redhat.com>
- <20211103144844.1285634-4-jsnow@redhat.com>
+ <20211103144844.1285634-5-jsnow@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211103144844.1285634-4-jsnow@redhat.com>
+In-Reply-To: <20211103144844.1285634-5-jsnow@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
@@ -99,14 +100,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/3/21 15:48, John Snow wrote:
-> Fedora 33 will be EOL 2021-11-23, before QEMU 6.2 will release. Upgrade
-> the version we're testing as our minimum now.
+> Similarly to the last patch, Fedora 33 will be EOL by the time QEMU 6.2
+
+s/last/previous/ or squash?
+
+> releases, so bump the version for all of the other Fedora containers,
+> too.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  tests/docker/dockerfiles/fedora.docker | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  tests/docker/dockerfiles/fedora-cris-cross.docker  | 2 +-
+>  tests/docker/dockerfiles/fedora-win32-cross.docker | 2 +-
+>  tests/docker/dockerfiles/fedora-win64-cross.docker | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
 
