@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C1A1443FCC
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 11:04:15 +0100 (CET)
-Received: from localhost ([::1]:38944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 003E1443FD5
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 11:06:03 +0100 (CET)
+Received: from localhost ([::1]:44372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miD7u-00020B-9I
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 06:04:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35242)
+	id 1miD9f-0005gS-54
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 06:06:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1miD5i-0007y3-3H
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 06:02:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57433)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1miD7t-0003TI-4c
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 06:04:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51259)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1miD5f-00061o-Sq
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 06:01:57 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1miD7r-0006Ri-G0
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 06:04:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635933714;
+ s=mimecast20190719; t=1635933850;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i2ero4QE77Grw+jq42BT6eBvByBlJLtj9BO0d+OZBp0=;
- b=hdYcYf70IMtQ4dITJhoVDNoimZ6CCzSp+D+K9w4Ak38PW0W+jAVNe5z/i5Mmm+izvB+KPj
- yjuhr7gTCj9D1uQlzPn3eShFrmrVGtbiroWFIFhWYhLCUhjtBILXp+Ph0Aeb0vrYhxYK+r
- NWjCZ99XtYgx7j7ZEh/8JmZDkujIuU0=
+ bh=X3SUb7Fjdwor15ZACjqiHIn3lB4/XFopZGF4O6nL4Po=;
+ b=fguIjCBeB3w17gTVQFKpIsJyHUIImhKVrfCtsNjmJ9dcMRCo4r8sylAiW56EOQY0lUF9hS
+ GGce6imbnaH9KJOm3eYOkw+Y++nwnW3+cj6sGo+ihZvaV7LnOrEbWiY2kFuT2Po+uIz+4i
+ g4nsmT13vp8MBQ90uF+QHIL8VK5ysp8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-502-gCl-HAvAN-uE9QFHQ8UA6A-1; Wed, 03 Nov 2021 06:01:53 -0400
-X-MC-Unique: gCl-HAvAN-uE9QFHQ8UA6A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-372-4fC5r-JOMW6gQF1cuY-MaA-1; Wed, 03 Nov 2021 06:04:07 -0400
+X-MC-Unique: 4fC5r-JOMW6gQF1cuY-MaA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF98B1927801;
- Wed,  3 Nov 2021 10:01:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F7AC100CCC0;
+ Wed,  3 Nov 2021 10:04:06 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E0B395C1BB;
- Wed,  3 Nov 2021 10:01:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D118D7086C;
+ Wed,  3 Nov 2021 10:03:52 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 71E9311380A7; Wed,  3 Nov 2021 11:01:42 +0100 (CET)
+ id 7D8CF11380A7; Wed,  3 Nov 2021 11:03:51 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] softmmu/qdev-monitor: fix use-after-free in qdev_set_id()
-References: <20211102163342.31162-1-stefanha@redhat.com>
- <a3004034-0221-bb40-3b22-2c57824cac83@redhat.com>
-Date: Wed, 03 Nov 2021 11:01:42 +0100
-In-Reply-To: <a3004034-0221-bb40-3b22-2c57824cac83@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Wed, 3 Nov 2021 10:46:36
- +0100")
-Message-ID: <8735odk16h.fsf@dusky.pond.sub.org>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v3 2/3] hw/smbios: Use qapi for SmbiosEntryPointType
+References: <20211026151100.1691925-1-ehabkost@redhat.com>
+ <20211026151100.1691925-3-ehabkost@redhat.com>
+Date: Wed, 03 Nov 2021 11:03:51 +0100
+In-Reply-To: <20211026151100.1691925-3-ehabkost@redhat.com> (Eduardo Habkost's
+ message of "Tue, 26 Oct 2021 11:10:59 -0400")
+Message-ID: <87y265imig.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,51 +81,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, "Daniel
+ P. Berrange" <berrange@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Eric Blake <eblake@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Philippe =?utf-8?Q?Mathi?= =?utf-8?Q?eu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-> Cc'ing Markus
+> This prepares for exposing the SMBIOS entry point type as a
+> machine property on x86.
 >
-> On 11/2/21 17:33, Stefan Hajnoczi wrote:
->> Reported by Coverity (CID 1465222).
->>=20
->> Fixes: 4a1d937796de0fecd8b22d7dbebf87f38e8282fd ("softmmu/qdev-monitor: =
-add error handling in qdev_set_id")
->> Cc: Damien Hedde <damien.hedde@greensocs.com>
->> Cc: Kevin Wolf <kwolf@redhat.com>
->> Cc: Michael S. Tsirkin <mst@redhat.com>
->> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
->> ---
->>  softmmu/qdev-monitor.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>=20
->> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
->> index 4851de51a5..06f86a1a96 100644
->> --- a/softmmu/qdev-monitor.c
->> +++ b/softmmu/qdev-monitor.c
->> @@ -581,8 +581,8 @@ const char *qdev_set_id(DeviceState *dev, char *id, =
-Error **errp)
->>          if (prop) {
->>              dev->id =3D id;
->>          } else {
->> -            g_free(id);
->>              error_setg(errp, "Duplicate device ID '%s'", id);
->> +            g_free(id);
->>              return NULL;
->>          }
->>      } else {
->>=20
+> Based on a patch from Daniel P. Berrang=C3=A9.
 >
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+[...]
+
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index 5db54df298f..0a13579275f 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -1411,3 +1411,15 @@
+>       '*cores': 'int',
+>       '*threads': 'int',
+>       '*maxcpus': 'int' } }
+> +
+> +##
+> +# @SmbiosEntryPointType:
+> +#
+> +# @32: SMBIOS version 2.1 (32-bit) Entry Point
+> +#
+> +# @64: SMBIOS version 3.0 (64-bit) Entry Point
+> +#
+> +# Since: 6.1
+> +##
+> +{ 'enum': 'SmbiosEntryPointType',
+> +  'data': [ '32', '64' ] }
+
+QAPI schema
+Acked-by: Markus Armbruster <armbru@redhat.com>
 
 
