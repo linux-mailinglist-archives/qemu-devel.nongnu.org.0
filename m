@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EF3F443B0B
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 02:31:40 +0100 (CET)
-Received: from localhost ([::1]:59920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF315443B0E
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 02:34:44 +0100 (CET)
+Received: from localhost ([::1]:34436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mi57r-0003sF-0L
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 21:31:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48458)
+	id 1mi5Ap-0005nV-Sy
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 21:34:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mi56P-0002un-Ey
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 21:30:09 -0400
-Received: from mail-ua1-x931.google.com ([2607:f8b0:4864:20::931]:38404)
+ (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mi59I-000571-DY
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 21:33:08 -0400
+Received: from mail-vk1-xa31.google.com ([2607:f8b0:4864:20::a31]:43806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mi56N-0007Yy-41
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 21:30:09 -0400
-Received: by mail-ua1-x931.google.com with SMTP id o26so1533767uab.5
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 18:30:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mi59G-0000on-MU
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 21:33:08 -0400
+Received: by mail-vk1-xa31.google.com with SMTP id h133so543472vke.10
+ for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 18:33:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=5RrtUbVgGMgtqf+8lvES/bSnfWt6HvWqatyLNILH34c=;
- b=EVBV5bK6s9G+MuTRl1XCtcIpnrKFgfNIsS8YSxknyR20863l8Bwyqiq5wyedf7a2ZW
- hwA2iWFjE//1EBijlJTRugwhgMoYocMoXrm5PTB7f155FMemSx8Z0UXOEM22r9GWNFU9
- DuKRoY2DQKyJK+eNoE2U9/3kGdgFVG5zQD3O8=
+ bh=vTIut1ymaDabKkqB12mW1+gOwQtugPp4jFZ8ypIxeAs=;
+ b=NjqHxqgrxFsZ0bsh2dnhaItxtifP9aRWI/v5WRQ10YASsasvPWQwPqvaL72TPOQAvK
+ a6Tpenu/eI09r6zipxqhk6IN93iuU5Qgy8iUtzZIT6hS+mCUhoVzEnHXCLqhwU1qL8pF
+ jf6e1Ot/5vr/spLOL6wbjl3Poe+knDXN2EiiE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=5RrtUbVgGMgtqf+8lvES/bSnfWt6HvWqatyLNILH34c=;
- b=IwpdfJajzc+UpsyMrwiWxo9bZVwLIAJGD5F6I+a3bX2CskUdmtBA0BkHkKmudyrJBN
- CzhhJ3GawfHTSTCxffGjAxtm9EXcuXdO0ahaNy9OKhszSHV4yRzNLsK24fajD+C94tTh
- pWe+UWKk1xNXLFJ1oaeq6Sna7eAwQM1zvmDZH7NViB4Mow8FbBB4hNH4rBiz4BjvdGLY
- 7j1EOVsyRUYrWVkZ/wB0YIPt4fUo4tQldWTeR+L1dNwilACSRGSvblniaVc42YM0d2W/
- pGVbzE0xhM5TSGA4n67Pt9rbWuDG3A8ooGr7k/V45jr4luFrMk0l2GrCN107jzgS53ER
- apig==
-X-Gm-Message-State: AOAM531yV2oLDolkzI8UYtTvQ15l9axyzgZRvO1068RhlMxebxFvvUc9
- HnlGOzIDJk1H7CF3giFlCwRviECZir8utSbo5nmk3g==
-X-Google-Smtp-Source: ABdhPJxF3ZRTw/AVlugqCFZiRzPnADGDuF1mo8SCpIFBOoY9AvimBrcTJrEDvcYfwjLr/wd4i529D6FHGD+oCncmux4=
-X-Received: by 2002:ab0:22d0:: with SMTP id z16mr42349138uam.143.1635903005767; 
- Tue, 02 Nov 2021 18:30:05 -0700 (PDT)
+ bh=vTIut1ymaDabKkqB12mW1+gOwQtugPp4jFZ8ypIxeAs=;
+ b=BdnT4fsuJ7C9vxtIwse0PXUv/WFeLbX+KDLUHVzUrgLOGUImrLBzPEazISDe0Iou4O
+ raGJhUMJv3wSNF3gTa02bBHJ9lUmE4FFP5hWX8V9cImQofnbPEEllMiks/sYFNukMn08
+ l2gF1SbcZmMXBu9alUpYGM5qAIRn/7nErAVexzuIstoFB+XJEGEjC/s+W41mcEiBOeeR
+ ZmlapHv/2IKzy+T4LSokqARDRvnd75wApuMOqlOOGIXDGYNkYbYI54nWEZZqsvNbkg1V
+ b+8vRYaL1xIM6zRFSuFV8Kg3fion3Nd0pX7rm+oyjQT/V2QV5n3BiY9aocTddslbEPvh
+ RIxA==
+X-Gm-Message-State: AOAM533Phb9G5kqdV4a3f7WMnDtbhDOw9n3T/2RmAFjfqmp78XaTV3qO
+ zfFdrbtLlE0SV8cW0LrGQSK8UWJM6HrcqjSgkxgvcQ==
+X-Google-Smtp-Source: ABdhPJxykPw0xbaH+SS8On5xptBVk0H2ZQ2fCavTGAjGrjgc8Y1611tlzp5Koo7EZOJu+NY5ILUnK7VH/Mhh4l6KVaY=
+X-Received: by 2002:a1f:1904:: with SMTP id 4mr21787603vkz.9.1635903185278;
+ Tue, 02 Nov 2021 18:33:05 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211026002344.405160-1-sjg@chromium.org>
  <20211026002344.405160-7-sjg@chromium.org>
  <CAFEAcA-UukuQXT3ebcboiVOSn0J+88w-kzoH8jE1JVxQnoeuvQ@mail.gmail.com>
  <CAPnjgZ2C8okdUMcgKjuLgV8JdPexYY0=9NtbSOHO81dN7=2RCg@mail.gmail.com>
  <CAHFG_=XWc+Fb=m=SHC6=y4KeF533yqCNk=Ae088oAZyjOULPaw@mail.gmail.com>
- <20211101180707.GJ24579@bill-the-cat>
- <CAPnjgZ0XeFHrXwBuTZ=eoKHCo7cMSuM_gUiTfv-Sqt8o6tPOXw@mail.gmail.com>
- <20211102172833.GS24579@bill-the-cat>
-In-Reply-To: <20211102172833.GS24579@bill-the-cat>
+ <CAPnjgZ0O56yokanMjybQKa1kBmtFHHbDfQ0sPPawrbLWtw7aDQ@mail.gmail.com>
+ <20211102165718.GR24579@bill-the-cat>
+In-Reply-To: <20211102165718.GR24579@bill-the-cat>
 From: Simon Glass <sjg@chromium.org>
-Date: Tue, 2 Nov 2021 19:29:54 -0600
-Message-ID: <CAPnjgZ1zDeXMCtccy6=cQzjjAz92xJZunObm2OYKZ2eyP=Sdsw@mail.gmail.com>
+Date: Tue, 2 Nov 2021 19:32:54 -0600
+Message-ID: <CAPnjgZ1KYRY9a-WBeHVX-5r2O-KBNVU1-6wHRw1of0qHrCt4yA@mail.gmail.com>
 Subject: Re: [PATCH v5 06/26] arm: qemu: Add a devicetree file for qemu_arm64
 To: Tom Rini <trini@konsulko.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::931;
- envelope-from=sjg@google.com; helo=mail-ua1-x931.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a31;
+ envelope-from=sjg@google.com; helo=mail-vk1-xa31.google.com
 X-Spam_score_int: -99
 X-Spam_score: -10.0
 X-Spam_bar: ----------
@@ -95,206 +94,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Hi Tom,
 
-On Tue, 2 Nov 2021 at 11:28, Tom Rini <trini@konsulko.com> wrote:
+On Tue, 2 Nov 2021 at 10:57, Tom Rini <trini@konsulko.com> wrote:
 >
-> On Tue, Nov 02, 2021 at 09:00:53AM -0600, Simon Glass wrote:
-> > Hi Tom,
+> On Tue, Nov 02, 2021 at 08:59:45AM -0600, Simon Glass wrote:
+> > Hi Fran=C3=A7ois,
 > >
-> > On Mon, 1 Nov 2021 at 12:07, Tom Rini <trini@konsulko.com> wrote:
+> > On Mon, 1 Nov 2021 at 11:33, Fran=C3=A7ois Ozog <francois.ozog@linaro.o=
+rg> wrote:
 > > >
-> > > On Mon, Nov 01, 2021 at 06:33:35PM +0100, Fran=C3=A7ois Ozog wrote:
-> > > > Hi Simon
-> > > >
-> > > > Le lun. 1 nov. 2021 =C3=A0 17:58, Simon Glass <sjg@chromium.org> a =
+> > > Hi Simon
+> > >
+> > > Le lun. 1 nov. 2021 =C3=A0 17:58, Simon Glass <sjg@chromium.org> a =
 =C3=A9crit :
-> > > >
-> > > > > Hi Peter,
-> > > > >
-> > > > > On Mon, 1 Nov 2021 at 04:48, Peter Maydell <peter.maydell@linaro.=
-org>
-> > > > > wrote:
-> > > > > >
-> > > > > > On Tue, 26 Oct 2021 at 01:33, Simon Glass <sjg@chromium.org> wr=
-ote:
-> > > > > > >
-> > > > > > > Add this file, generated from qemu, so there is a reference d=
-evicetree
-> > > > > > > in the U-Boot tree.
-> > > > > > >
-> > > > > > > Signed-off-by: Simon Glass <sjg@chromium.org>
-> > > > > >
-> > > > > > Note that the dtb you get from QEMU is only guaranteed to work =
-if:
-> > > > > >  1) you run it on the exact same QEMU version you generated it =
-with
-> > > > > >  2) you pass QEMU the exact same command line arguments you use=
-d
-> > > > > >     when you generated it
-> > > > >
-> > > > > Yes, I certainly understand that. In general this is not safe, bu=
-t in
-> > > > > practice it works well enough for development and CI.
-> > > >
-> > > > You recognize that you hijack a product directory with development =
-hack
-> > > > facility. There is a test directory to keep things clear. There can=
- be a
-> > > > dev-dts or something similar for Dev time tools.
-> > > > I have only seen push back on those fake dts files in the dts direc=
-tory: I
-> > > > guess that unless someone strongly favors a continuation of the dis=
-cussion,
-> > > > you may consider re-shaping the proposal to address concerns.
+> > >>
+> > >> Hi Peter,
+> > >>
+> > >> On Mon, 1 Nov 2021 at 04:48, Peter Maydell <peter.maydell@linaro.org=
+> wrote:
+> > >> >
+> > >> > On Tue, 26 Oct 2021 at 01:33, Simon Glass <sjg@chromium.org> wrote=
+:
+> > >> > >
+> > >> > > Add this file, generated from qemu, so there is a reference devi=
+cetree
+> > >> > > in the U-Boot tree.
+> > >> > >
+> > >> > > Signed-off-by: Simon Glass <sjg@chromium.org>
+> > >> >
+> > >> > Note that the dtb you get from QEMU is only guaranteed to work if:
+> > >> >  1) you run it on the exact same QEMU version you generated it wit=
+h
+> > >> >  2) you pass QEMU the exact same command line arguments you used
+> > >> >     when you generated it
+> > >>
+> > >> Yes, I certainly understand that. In general this is not safe, but i=
+n
+> > >> practice it works well enough for development and CI.
 > > >
-> > > Yes.  We need to document how to make development easier.  But I'm st=
-ill
-> > > not on board with the notion of including DTS files for platforms whe=
-re
-> > > the source of truth for the DTB is elsewhere.  That's going to bring =
-us
-> > > a lot more pain.
+> > > You recognize that you hijack a product directory with development ha=
+ck facility. There is a test directory to keep things clear. There can be a=
+ dev-dts or something similar for Dev time tools.
+> > > I have only seen push back on those fake dts files in the dts directo=
+ry: I guess that unless someone strongly favors a continuation of the discu=
+ssion, you may consider re-shaping the proposal to address concerns.
 > >
-> > Are you talking about QEMU specifically, or Raspberry Pi?
+> > As stated previously, I would like to have at least a sample DT
+> > in-tree for all boards. I cannot see another way to get the Kconfig
 >
-> I was using two of the more common and readily available platforms where
-> the source of truth for the DTS/DTB is not (and will not be) U-Boot.
+> What's the point of having a sample when it's not going to always be
+> correct or may be actively wrong and we can tell interested developers /
+> users how to get the correct DTB/DTS to examine?
 >
-> > How can we get this resolved? I very much want to get to just having
-> > OF_SEPARATE and OF_EMBED as the only available build-time options,
-> > with OF_BOARD (and perhaps OF_PASSAGE) as something we can enable for
-> > runtime support. I feel that separating the build-time and run-time
-> > behaviour is very important. Over time perhaps we will have some
-> > success in upstreaming bindings, but for now we have what we have.
-> > There is still a lot of pushback on U-Boot having things in the
-> > devicetree, although I do see that softening somewhat.
->
->
-> To reiterate, the uniform bit of feedback on this series has been that
-> everyone else disagrees with your notion that we _must_ have a dts
-> in-tree.
-
-[I would like everyone to take a deep breath and think about what this
-actually impacts. I argue the impact outside U-Boot is approximately
-zero. What are we actually discussing here?]
-
-A few have responded that they can just add the files. I think that is
-the case for everything except QEMU, right? I think even Fran=C3=A7ois
-agrees with the documentation argument. There is no real burden in
-adding the files so we can see what is going on, add a binman node,
-SPL nodes, etc.
-
-So I am going to stand my ground on that one. It affects:
-
-- highbank
-- qemu-ppce500
-- rpi_4
-- xilinx_versal_virt
-- octeontx
-- xenguest_arm64
-- juno
-
-So that is just 7 boards that I want to add devicetree files for. I
-think that is reasonable and not a burden on these maintainers.
-
-Let me deal with QEMU.
-
-Let's imagine that we were in the state that I am proposing here,
-which we would be if I were a better devicetree maintainer for U-Boot
-and had not taken my eye off the ball, basically with my review of
-[1], where I should have pushed to get a response on the questions
-before it was applied. That might have triggered me to think about the
-implications of this at the time.
-
-Anyway, in the state that I am proposing, what problems would we have?
-
-1. QEMU has a DT which only matches the 'standard' invocation as
-documented at [2]
-
-2. QEMU may get out of date if there is a new release.
-
-I don't think (1) is really a problem. People will have to remove
-CONFIG_OF_BOARD from configs/qemu_arm_spl_defconfig (or the like) to
-get into this state, and we have a message now that prints out where
-the devicetree comes from ("separate" in this case):
-
-Core:  42 devices, 11 uclasses, devicetree: separate
-
-For (2), I tested QEMU 6.1.50 and the only difference from 4.2.1 (a
-year old) is:
-
-kaslr-seed =3D <0x2037f53d 0x42c279e8>;
-
-It doesn't affect anything here. It boots the lastest image fine.
-
-Just for interest I went back to 2.5.0 which is nearly 6 years old!
-There are a few differences like dma-coherent and gpio-keys being
-added, but again it boots fine.
-
-So in practice that doesn't seem to be a problem from what I can tell.
-
-3. Anything else?
-
-For qemu_arm_spl, it *does not boot* unless the U-Boot SPL properties
-are present. There is no easy way to fix this. If we merge them into
-qemu with dumpdtb, etc. we are assuming that the node we want to
-update is present, so this is not really any better than having the
-devicetree in U-Boot. Actually I think it is worse, since who knows
-what changes might happen to the devicetree in QEMU which will stop
-U-Boot from working.
-
-QEMU cannot make changes that don't follow the bindings. U-Boot uses
-the bindings, so we are good.
-
-It just seems very clear to me that this approach is far superior to
-U-Boot to the wonky business that we have today.
-
->
-> > > It is important to make sure our "develop our project" workflow is sa=
-ne
-> > > and relatively pain free.  But that needs to not come by making
-> > > sacrifices to the "use our project" outcome.  I would hope for exampl=
-e
-> > > that the new Pi zero platform is just dtb changes, as far as the linu=
-x
-> > > kernel is concerned which means that for rpi_arm64 (which uses run ti=
-me
-> > > dtb) it also just works.  And that's what we want to see.
+> > options in line. If we are able to put these files somewhere else in
+> > the future and get them out of U-Boot, with perhaps just an overlay
+> > for development purposes, I'd be keen to see it. But for now, this is
+> > where we are, I believe.
 > >
-> > So long as OF_BOARD is enabled then the flow should work as you expect.
+> > In this particular case, this is not just a dev hack. It is also for
+> > CI tests which need to use a devicetree. See for example here:
+> >
+> > https://patchwork.ozlabs.org/project/uboot/patch/20211101011734.1614781=
+-15-sjg@chromium.org/
+> > https://patchwork.ozlabs.org/project/uboot/patch/20211101011734.1614781=
+-24-sjg@chromium.org/
 >
-> Then we need to get things spun such that we can build the platforms
-> where the dtb is given to us, complete and correct, at run time, to not
-> require an in-tree dts that's not going to be used.  Documentation
-> (another area we have much improved on these past few years and for
-> which I am grateful for all of the effort behind!) is how we make the
-> developer use-case for those platforms better.
+> This example would probably be better done on vexpress_ca9x4 where we do
+> test in CI via QEMU but do not need to modify a device tree that is
+> passed on to us, we already control the source of truth DTB in this
+> case.
 
-I did not expect everyone to love this; this is how we got into the
-mess we are in. A few people thinking it would be expedient to just do
-their own thing. But I have come to this after an enormous amount of
-thought and much discussion. I think sometimes people imagine that I
-just throw things over the wall to get a reaction. That is not the
-case.
+But that board:
 
-We need some way to put U-Boot properties in there, at least until
-things change upstream and within U-Boot. That envisages tooling that
-is clearly not going to be in place for the upcoming release.
+- uses OF_EMBED, which it should not
+- does not use SPL, which I need
 
-For the test, how about I create a separate qemu build (which I have
-done, actually, qemu_arm_spl) and control the QEMU flags so we know it
-will boot. It is for CI so we can keep it in sync and deal with any
-breakages if people change things in QEMU (as above, this seems to be
-a theoretical problem).
+>
+> And also yes, I'm behind on reviewing things I need to review.
 
-Again, please take a deep breath and consider how much this actually
-affects TF-A, QEMU, etc. I'd argue not at all. We are talking about a
-build-time devicetree in the U-Boot tree. We are not talking about
-disabling OF_BOARD or removing that option.
+Aren't we all...I can't even keep up with these threads.
 
 Regards,
 Simon
-
-[1] http://patchwork.ozlabs.org/project/uboot/patch/20170402082520.32546-1-=
-deymo@google.com/
-[2] https://u-boot.readthedocs.io/en/latest/board/emulation/qemu-arm.html
 
