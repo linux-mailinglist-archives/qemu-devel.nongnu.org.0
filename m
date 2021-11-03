@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD1E24446D3
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 18:16:47 +0100 (CET)
-Received: from localhost ([::1]:48448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D1F54446E4
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 18:18:55 +0100 (CET)
+Received: from localhost ([::1]:56340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miJsU-0005AD-Vx
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 13:16:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37026)
+	id 1miJuY-0002A4-Ln
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 13:18:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1miJoA-00056V-Bl
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:12:18 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:46947)
+ id 1miJoB-0005CK-Qm
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:12:19 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:50860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1miJo8-00073i-UM
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:12:18 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- b184-20020a1c1bc1000000b0033140bf8dd5so2360650wmb.5
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 10:12:16 -0700 (PDT)
+ id 1miJo9-00073r-Jh
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:12:19 -0400
+Received: by mail-wm1-x332.google.com with SMTP id 133so2584975wme.0
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 10:12:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gN/nCnYHg37RzH2ySF2xwAPVmqvP9Hor2tdZRDmd/rA=;
- b=s+G9BvPTYfVKT1SAmnx1/GFQ8ofROLhHCRma2cBRlmtLxmlpVHMTD4iRRHiPHh4rBm
- qy3ZBQWSvvad7B+QSqRH/VeSX5u1u+5xJ3C3odi6YPuT+1Z0YXtCfgQv81cMLpYWk/8A
- Fk4Z9MKWClaUqWyS9kYx/IBHfk72yW9j+G1GGwNE3b7opk63Xc9vfKFpDYpoqJv/A02a
- qRN52z3RsplMKJvPuA5teKrc2ap5X3QZr6dEvhTEQL2Ucvx4dBjtHZ6F0NUmmznvPYd5
- tpuSIcRXLsurMYD1DqQ55kqnvKfy710QcVf0nxfNaGEekstSxhHJgHyXuy7HkTRbTUXH
- h9Cg==
+ bh=jEm8wFXqDZuskzPXAa1Sb29OHvLZldSUOvxYEh9L5yg=;
+ b=dfOo/WUO+sMaPXo5fePo76AvghODAB2fA4E4BJ1ebmYTI2ji8XN15VCd7VDBeMSRKp
+ yKcnLUNIaTPxmMycpLoxEIQJUx3y7vax0LjW4jbx07E0lWfFyNDHkXxzuTRbW130P9C/
+ 0VlLC3FYr2HjU29cVvcEAKr+as0FmNnFNME+idi4RxfjMuFNyeMTWDAjlZJztRnK7x/r
+ fC9hTz3qjAhu+sOXj3ViGpl5yWxlJVe8+UVjC5pPiyeiUhcEuTy204JJ3WfSC9XQD7AV
+ 1I0iZemxUe7ps21nQorhkFVCdTvn6bQjFDXjVPugXEjrQ/6F0hwpjX/Shqhi1BMAbm8E
+ BU4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gN/nCnYHg37RzH2ySF2xwAPVmqvP9Hor2tdZRDmd/rA=;
- b=YME+W9l00NxyESQEPNadDGN87iNLrxdzMuBQn3Xc0SY9m9Ow1yzQHgdVex6PhT0v1G
- 9P9Hy5guvyKRDEIGbxknRQ1P/HHTu2JidW61kQCW7S0SiyCQRuSsqfx2N5b7OMy1hKi7
- 58x78N7kEDSwWmPA63YcyVQmhWFvRlkX7BbwsxevbIZSE+FxDJuWV36FO0nNbMSc6D9y
- 08vNrbaMVgDKkDu9bdOzhcEBn76P+uRHJIFDrpvusdfhrJU2faZjZIImCWoNhXbzye5P
- 4oIVptaX39gWZe2NK0v0DlRPAvDCZpSmGscz8HFH3ybdRXRg6q4ylq1Po6fA73gQ00Pj
- HcNA==
-X-Gm-Message-State: AOAM530hNtF9WwLqy7Ao33vr/yCf+KQ/F5J2sxXmh469vFxprClNf/GF
- k5k8o1JxJw1xLVaXWfhu6OHhNQ==
-X-Google-Smtp-Source: ABdhPJzUJbXeT8QBGvEDuw0w7BgYItQR5DENAXoM21CX99wY6ygoWXm1B8NpaQ6NTB403xsK5DqxXQ==
-X-Received: by 2002:a1c:2507:: with SMTP id l7mr16478349wml.186.1635959535351; 
- Wed, 03 Nov 2021 10:12:15 -0700 (PDT)
+ bh=jEm8wFXqDZuskzPXAa1Sb29OHvLZldSUOvxYEh9L5yg=;
+ b=ELG2RFj3dy6IMb5xvGoY0lb9xNvxzrH4q1nc69BB0RUXVzvhxjGMe9E8dZPip/BF2s
+ xMGUWumkDXZQDJNpstT/HtNvAK+7a9NCZJvFzkDuFsBSmSD2C+aX6VxG/gmsG15pQQuH
+ fjdvm+TuLC1I/ATw3JjBrb1t8C8LEN7STLw6Tjssar795QZoHkuXJfaB7tVmUSbuF8MS
+ IpIouV1YSco6AriJmCNbQz6iVFEgIDnJKkaaJ4F8svQEXDanB85aJgdss+tysfBIvdtj
+ 7cfr2XzI5lHRGRK8EnA2FlcenHfXoZwtU17lrxMsGtQQnC+9fYs43TjILkfYs1OErl2B
+ lXPA==
+X-Gm-Message-State: AOAM530w7VoQWwuAvXl2jJtR9otKkRfgQBw2t5znnPhE1eA61L4gq2KZ
+ BmVYGV7+mA2kg6ycjE//PJkSow==
+X-Google-Smtp-Source: ABdhPJx7MvxoUoKPWTDUm08vSlkEZcz7x4HTy+T0AzVKr0EyGldvEpZuwA+acfoncgznqFEfqpSWjw==
+X-Received: by 2002:a1c:6a0e:: with SMTP id f14mr16351901wmc.58.1635959536218; 
+ Wed, 03 Nov 2021 10:12:16 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n7sm2463588wro.68.2021.11.03.10.12.11
+ by smtp.gmail.com with ESMTPSA id k187sm6170771wme.0.2021.11.03.10.12.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 03 Nov 2021 10:12:11 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0C7021FFB3;
+ by zen.linaroharston (Postfix) with ESMTP id 1C8291FFB4;
  Wed,  3 Nov 2021 17:06:00 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 18/21] tests/tcg: remove duplicate EXTRA_RUNS
-Date: Wed,  3 Nov 2021 17:05:55 +0000
-Message-Id: <20211103170558.717981-19-alex.bennee@linaro.org>
+Subject: [PULL 19/21] gdbstub: Switch to the thread receiving a signal
+Date: Wed,  3 Nov 2021 17:05:56 +0000
+Message-Id: <20211103170558.717981-20-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211103170558.717981-1-alex.bennee@linaro.org>
 References: <20211103170558.717981-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,30 +87,135 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Pavel Labath <pavel@labath.sk>, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We set it bellow outside the #if leg.
+From: Pavel Labath <pavel@labath.sk>
 
+Respond with Txxthread:yyyy; instead of a plain Sxx to indicate which
+thread received the signal. Otherwise, the debugger will associate it
+with the main one. Also automatically select this thread, as that is
+what gdb expects.
+
+Signed-off-by: Pavel Labath <pavel@labath.sk>
+Message-Id: <20211019174953.36560-1-pavel@labath.sk>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20211026102234.3961636-28-alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20211026102234.3961636-29-alex.bennee@linaro.org>
 
+diff --git a/gdbstub.c b/gdbstub.c
+index 36b85aa50e..23baaef40e 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -3138,8 +3138,12 @@ gdb_handlesig(CPUState *cpu, int sig)
+     tb_flush(cpu);
+ 
+     if (sig != 0) {
+-        snprintf(buf, sizeof(buf), "S%02x", target_signal_to_gdb(sig));
+-        put_packet(buf);
++        gdb_set_stop_cpu(cpu);
++        g_string_printf(gdbserver_state.str_buf,
++                        "T%02xthread:", target_signal_to_gdb(sig));
++        gdb_append_thread_id(cpu, gdbserver_state.str_buf);
++        g_string_append_c(gdbserver_state.str_buf, ';');
++        put_strbuf();
+     }
+     /* put_packet() might have detected that the peer terminated the
+        connection.  */
 diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
-index 6ccb592aac..c0d9e638e9 100644
+index c0d9e638e9..b962ed8236 100644
 --- a/tests/tcg/multiarch/Makefile.target
 +++ b/tests/tcg/multiarch/Makefile.target
-@@ -61,8 +61,6 @@ run-gdbstub-sha1: sha1
- 		--bin $< --test $(MULTIARCH_SRC)/gdbstub/sha1.py, \
- 	"basic gdbstub support")
+@@ -68,11 +68,19 @@ run-gdbstub-qxfer-auxv-read: sha1
+ 		--bin $< --test $(MULTIARCH_SRC)/gdbstub/test-qxfer-auxv-read.py, \
+ 	"basic gdbstub qXfer:auxv:read support")
  
--EXTRA_RUNS += run-gdbstub-sha1
--
- run-gdbstub-qxfer-auxv-read: sha1
- 	$(call run-test, $@, $(GDB_SCRIPT) \
- 		--gdb $(HAVE_GDB_BIN) \
++run-gdbstub-thread-breakpoint: testthread
++	$(call run-test, $@, $(GDB_SCRIPT) \
++		--gdb $(HAVE_GDB_BIN) \
++		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
++		--bin $< --test $(MULTIARCH_SRC)/gdbstub/test-thread-breakpoint.py, \
++	"hitting a breakpoint on non-main thread")
++
+ else
+ run-gdbstub-%:
+ 	$(call skip-test, "gdbstub test $*", "need working gdb")
+ endif
+-EXTRA_RUNS += run-gdbstub-sha1 run-gdbstub-qxfer-auxv-read
++EXTRA_RUNS += run-gdbstub-sha1 run-gdbstub-qxfer-auxv-read \
++	      run-gdbstub-thread-breakpoint
+ 
+ # ARM Compatible Semi Hosting Tests
+ #
+diff --git a/tests/tcg/multiarch/gdbstub/test-thread-breakpoint.py b/tests/tcg/multiarch/gdbstub/test-thread-breakpoint.py
+new file mode 100644
+index 0000000000..798d508bc7
+--- /dev/null
++++ b/tests/tcg/multiarch/gdbstub/test-thread-breakpoint.py
+@@ -0,0 +1,60 @@
++from __future__ import print_function
++#
++# Test auxiliary vector is loaded via gdbstub
++#
++# This is launched via tests/guest-debug/run-test.py
++#
++
++import gdb
++import sys
++
++failcount = 0
++
++def report(cond, msg):
++    "Report success/fail of test"
++    if cond:
++        print ("PASS: %s" % (msg))
++    else:
++        print ("FAIL: %s" % (msg))
++        global failcount
++        failcount += 1
++
++def run_test():
++    "Run through the tests one by one"
++
++    sym, ok = gdb.lookup_symbol("thread1_func")
++    gdb.execute("b thread1_func")
++    gdb.execute("c")
++
++    frame = gdb.selected_frame()
++    report(str(frame.function()) == "thread1_func", "break @ %s"%frame)
++
++#
++# This runs as the script it sourced (via -x, via run-test.py)
++#
++try:
++    inferior = gdb.selected_inferior()
++    arch = inferior.architecture()
++    print("ATTACHED: %s" % arch.name())
++except (gdb.error, AttributeError):
++    print("SKIPPING (not connected)", file=sys.stderr)
++    exit(0)
++
++if gdb.parse_and_eval('$pc') == 0:
++    print("SKIP: PC not set")
++    exit(0)
++
++try:
++    # These are not very useful in scripts
++    gdb.execute("set pagination off")
++    gdb.execute("set confirm off")
++
++    # Run the actual tests
++    run_test()
++except (gdb.error):
++    print ("GDB Exception: %s" % (sys.exc_info()[0]))
++    failcount += 1
++    pass
++
++print("All tests complete: %d failures" % failcount)
++exit(failcount)
 -- 
 2.30.2
 
