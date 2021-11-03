@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81AB944448B
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:20:05 +0100 (CET)
-Received: from localhost ([::1]:56210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE7774444A1
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:25:18 +0100 (CET)
+Received: from localhost ([::1]:46362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miI3Y-00088L-KF
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:20:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52130)
+	id 1miI8b-0003l8-Sa
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:25:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miHp8-0003UW-Rs
+ id 1miHp8-0003UX-Qp
  for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:12 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:53061)
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miHp2-0000a1-5L
+ id 1miHp3-0000gQ-AQ
  for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:08 -0400
-Received: by mail-wm1-x335.google.com with SMTP id b71so2227988wmd.2
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:05:03 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id d5so4079793wrc.1
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:05:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XfEPGGdEuQA4tJkhanah7cV7Ub1nKcQ28u2qdP0NjLI=;
- b=aHH1sOCYkPv8n969KKl1eGGy7r9MMnV4os8XAC7JPg4TH02FbggbCQrxwbJXHZKhAm
- FOHBJqzL7GMHJ/SM7WrdrNrJ6M1tLl3F7jG8CKoSLdzlcOQk//1IQ0jblotH/x82SmTE
- e5vZVEnO3g9/AuKnif1Wtj0Vjm1cn56mGPFKnEC1hXWGlZVGjr+Dq8iwJhEVm/cYSIty
- kSGbfZkVDye5J2Z34xk7QDTh3uIUAHeYUcPooJARuokhaKqBomqFm3gNuVLeQ/IsANCK
- qZEoPA3OUfx0y0r1gFCSJgut6fJrtU9la1e9xD6ikkmVP3iu3iJt50k3cihlVmVgybPt
- TlJg==
+ bh=615AKc7cJa2Nmp/k3mK1vf+yM3PqWLTGp1nXFg7+mVY=;
+ b=oLICi/kJH119FlodCOz55nHw8f/O/cwk6LMHcUL/9I542m93VGt1n4Xm1wLsNmBaBj
+ A0v1ZC8AkhynKPikOlOLAK/o3UyDnI7O0WQMuJJeqKOdW7VbMz2pM66qAsgvLvFu207e
+ Ouf6QaLVa3aEmrgQ/3MRYpjCYvckXWfXfIACxPj1ECQh6KmfNGpoK+T4ybFonHKnLmrr
+ JdKCbFqVA47YK3Fx1Ct+VVxqvTX5JtKy1i8HB6bFTMmWzjH0+tOlfSz44eFYOyeUwPKJ
+ HuJEF+hSqKLRpvaxUIBTDIrOuZrW66teJz5Gw+Ky5gfauWdkvIYrrcEH0m29WMqU3pC4
+ x0eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=XfEPGGdEuQA4tJkhanah7cV7Ub1nKcQ28u2qdP0NjLI=;
- b=pkpmq0Ls07NtdVN32G3vkjj5Zz1d/4ktEuz7nLiJ73SBSkYFHCp74GMLOeRMOEGWf6
- aKRkkCtyOAO16ccpmfvJjefCeOHzNnqnnTR6W/OmT9wMl56XjP/Xu1VHoQt/l+hVYWr6
- Wj7sGynFlFwF3PxtUnSQlTKFLxe3cyWgs9uUTiKtrF0+WkYumX/IdWp00lsgie+WEKMH
- YquRLMP5Ib7Ga+cYxAWQRavqZ5rje3NdpjBtgom84JkbViuA58ZCzlvUCM17V7Kv3wzb
- jCumVyS8PgfG4h37njx+326OYZAoICTjqzvsVeVkoWmLiy93Tyf5Z9XzZPiYI2GhDp3R
- DY6w==
-X-Gm-Message-State: AOAM533pf1v1pC/YW5WziKGpHixGYqsyDOm5GQqxCBM7WE+E3kq27dEU
- NxF28A/vVeOThXOzxqLxPVDIBAaVR8s=
-X-Google-Smtp-Source: ABdhPJxKzyhosCtFpHPZ0FoSz7FF/9mJEEAvdqAFgk/3KqCDw9ajThfwQNgsirWTQXFDOtYztTgkcA==
-X-Received: by 2002:a1c:f319:: with SMTP id q25mr15987820wmq.33.1635951902855; 
- Wed, 03 Nov 2021 08:05:02 -0700 (PDT)
+ bh=615AKc7cJa2Nmp/k3mK1vf+yM3PqWLTGp1nXFg7+mVY=;
+ b=7FEUPUOcQNZQRF0KHTxQHU8ZgCLcWCTEeCzvG+3eqns9TOIpHM3krWnfVkZ8uA2RH1
+ aFI6iQbx9BMoznWpJLpkmVBgIYM2iMra4yH/8wwkX88XoVyp/dhoIisPnF0LhbzVPG4a
+ GEv3o6M66qq20Ik6kq/62J3HyLFjXp2X3c6TzGKF0uWfvu+IFPe6x+QVbrKarxo2wVCC
+ qaqdaWvy66iYO/5xXpPPT8VbrrHRPV15aKM9ZrgHFM7xwTvjouIkSMxQV+ARQG3E3fFF
+ nwaEWNZUWxHF3TrmQCGBOGcx7km/zVhOoPaQhs0sKXZNfzwRXoiAAI44fWldOqRK5Wv3
+ 9H1A==
+X-Gm-Message-State: AOAM531DSWGn1Qte6yOdqFPigpbB6daJ2WnCVkLJbNTO70Ipn4gM0cIg
+ BXWkvAABtKYul5ofgyvhDx5MY9gphDA=
+X-Google-Smtp-Source: ABdhPJyU18acUgg0THlx9B8JGi0+kkdMt7AMYRyDg7a/yNk9WjPpUXHYOHV8/QXyQ6W/nJpL1DcWcw==
+X-Received: by 2002:a5d:6902:: with SMTP id t2mr15387757wru.317.1635951904004; 
+ Wed, 03 Nov 2021 08:05:04 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id h16sm2488797wrm.27.2021.11.03.08.05.01
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id h16sm2488797wrm.27.2021.11.03.08.05.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 08:05:02 -0700 (PDT)
+ Wed, 03 Nov 2021 08:05:03 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/27] watchdog: remove select_watchdog_action
-Date: Wed,  3 Nov 2021 16:04:31 +0100
-Message-Id: <20211103150442.387121-17-pbonzini@redhat.com>
+Subject: [PULL 17/27] hw/i386: fix vmmouse registration
+Date: Wed,  3 Nov 2021 16:04:32 +0100
+Message-Id: <20211103150442.387121-18-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211103150442.387121-1-pbonzini@redhat.com>
 References: <20211103150442.387121-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,119 +83,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of invoking select_watchdog_action from both HMP and command line,
-go directly from HMP to QMP and use QemuOpts as the intermediary for the
-command line.
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 
-This makes -watchdog-action explicitly a shortcut for "-action watchdog",
-so that "-watchdog-action" and "-action watchdog" override each other
-based on the position on the command line; previously, "-action watchdog"
-always won.
+According to the logic of vmmouse_update_handler function,
+vmmouse should be registered as an event handler when
+it's status is zero.
+vmmouse_read_id resets the status but does not register
+the handler.
+This patch adds vmmouse registration and activation when
+status is reset.
 
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+Message-Id: <163524204515.1914131.16465061981774791228.stgit@pasha-ThinkPad-X280>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/watchdog/watchdog.c    | 14 --------------
- include/sysemu/watchdog.h |  1 -
- monitor/misc.c            | 15 ++++++++++++---
- softmmu/vl.c              | 10 +++++-----
- 4 files changed, 17 insertions(+), 23 deletions(-)
+ hw/i386/vmmouse.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/watchdog/watchdog.c b/hw/watchdog/watchdog.c
-index 0e98ffb73f..1437e6c5b6 100644
---- a/hw/watchdog/watchdog.c
-+++ b/hw/watchdog/watchdog.c
-@@ -76,20 +76,6 @@ int select_watchdog(const char *p)
-     return 1;
+diff --git a/hw/i386/vmmouse.c b/hw/i386/vmmouse.c
+index df4798f502..3d66368286 100644
+--- a/hw/i386/vmmouse.c
++++ b/hw/i386/vmmouse.c
+@@ -158,6 +158,7 @@ static void vmmouse_read_id(VMMouseState *s)
+ 
+     s->queue[s->nb_queue++] = VMMOUSE_VERSION;
+     s->status = 0;
++    vmmouse_update_handler(s, s->absolute);
  }
  
--int select_watchdog_action(const char *p)
--{
--    int action;
--    char *qapi_value;
--
--    qapi_value = g_ascii_strdown(p, -1);
--    action = qapi_enum_parse(&WatchdogAction_lookup, qapi_value, -1, NULL);
--    g_free(qapi_value);
--    if (action < 0)
--        return -1;
--    qmp_watchdog_set_action(action, &error_abort);
--    return 0;
--}
--
- WatchdogAction get_watchdog_action(void)
- {
-     return watchdog_action;
-diff --git a/include/sysemu/watchdog.h b/include/sysemu/watchdog.h
-index a08d16380d..d2d4901dbb 100644
---- a/include/sysemu/watchdog.h
-+++ b/include/sysemu/watchdog.h
-@@ -37,7 +37,6 @@ typedef struct WatchdogTimerModel WatchdogTimerModel;
- 
- /* in hw/watchdog.c */
- int select_watchdog(const char *p);
--int select_watchdog_action(const char *action);
- WatchdogAction get_watchdog_action(void);
- void watchdog_add_model(WatchdogTimerModel *model);
- void watchdog_perform_action(void);
-diff --git a/monitor/misc.c b/monitor/misc.c
-index c2d227a07c..1759d1e7f1 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -70,6 +70,7 @@
- #include "qapi/qapi-commands-migration.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-commands-qom.h"
-+#include "qapi/qapi-commands-run-state.h"
- #include "qapi/qapi-commands-trace.h"
- #include "qapi/qapi-init-commands.h"
- #include "qapi/error.h"
-@@ -471,10 +472,18 @@ static void hmp_gdbserver(Monitor *mon, const QDict *qdict)
- 
- static void hmp_watchdog_action(Monitor *mon, const QDict *qdict)
- {
--    const char *action = qdict_get_str(qdict, "action");
--    if (select_watchdog_action(action) == -1) {
--        monitor_printf(mon, "Unknown watchdog action '%s'\n", action);
-+    Error *err = NULL;
-+    WatchdogAction action;
-+    char *qapi_value;
-+
-+    qapi_value = g_ascii_strdown(qdict_get_str(qdict, "action"), -1);
-+    action = qapi_enum_parse(&WatchdogAction_lookup, qapi_value, -1, &err);
-+    g_free(qapi_value);
-+    if (err) {
-+        hmp_handle_error(mon, err);
-+        return;
-     }
-+    qmp_watchdog_set_action(action, &error_abort);
- }
- 
- static void monitor_printc(Monitor *mon, int c)
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 570120f5c4..1159a64bce 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -3265,12 +3265,12 @@ void qemu_init(int argc, char **argv, char **envp)
-                      exit(1);
-                 }
-                 break;
--            case QEMU_OPTION_watchdog_action:
--                if (select_watchdog_action(optarg) == -1) {
--                    error_report("unknown -watchdog-action parameter");
--                    exit(1);
--                }
-+            case QEMU_OPTION_watchdog_action: {
-+                QemuOpts *opts;
-+                opts = qemu_opts_create(qemu_find_opts("action"), NULL, 0, &error_abort);
-+                qemu_opt_set(opts, "watchdog", optarg, &error_abort);
-                 break;
-+            }
-             case QEMU_OPTION_parallel:
-                 add_device_config(DEV_PARALLEL, optarg);
-                 default_parallel = 0;
+ static void vmmouse_request_relative(VMMouseState *s)
 -- 
 2.31.1
 
