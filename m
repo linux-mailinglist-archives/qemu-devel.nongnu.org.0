@@ -2,157 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A741443B22
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 02:51:23 +0100 (CET)
-Received: from localhost ([::1]:37236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 718AE443B31
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 03:03:16 +0100 (CET)
+Received: from localhost ([::1]:46472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mi5Qw-0000YM-8Z
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 21:51:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50898)
+	id 1mi5cR-0007DA-4f
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 22:03:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1mi5PW-0008Dw-Gk
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 21:49:54 -0400
-Received: from mga12.intel.com ([192.55.52.136]:35469)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mi5aO-000669-Rt
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 22:01:09 -0400
+Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:34942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1mi5PU-00041C-4w
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 21:49:53 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="211467833"
-X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="211467833"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 18:49:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="583931120"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
- by fmsmga002.fm.intel.com with ESMTP; 02 Nov 2021 18:49:43 -0700
-Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Tue, 2 Nov 2021 18:49:42 -0700
-Received: from orsmsx605.amr.corp.intel.com (10.22.229.18) by
- ORSMSX608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Tue, 2 Nov 2021 18:49:42 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12 via Frontend Transport; Tue, 2 Nov 2021 18:49:42 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.48) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.12; Tue, 2 Nov 2021 18:49:42 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n+UBP4mUrL3z1JYhytITA/jz2SGsgU6NZVddGkxRZTINTN2wUvZP638ZUr95i+B+fnx/OFmeRnE9v5MhKcTeOmPo3ci2Jewfgxr3XazJxTFwpxnUlzbe9bAZbaId1VFY2o4bC2w8OMys9oyOHNvxZ8UEPH7Gvy0NbwHQEfmxMw94PMRDoiWXCYvcnIFuKkOR/bzHq/l95llz3sEiDANtgzW4dniIG497a6WvjxnwAlZQSte/zyZcAXQ/LUDPsE0Qhj8SPm9YkZfBKldgwCPFz/WVld15krezHBn/ZRw7FXnE78E+Dmb6wgOc55dUU1lq7XTR5ncTw2F6lnfQFAG2wA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SKEtk9gcRsY1hb1bhbBU4KsBVfzyfULzw96BsS2i/8w=;
- b=U3ztVaD+yV7xzrG/g1ZqK4/fKSrrWsMfEeaXJiDbL0eBQ9I8/BIBJ9B0cnEOCb31iaQ3RcRi92pGDvm+y0K4KcDcjE/ab1GA4nqFij13K+aItKNxanmmYutXj/S0WA77nImIR6rw4uxvVJuIzTqRUfLEdkBe+is0mjmFd8X1J85X0GwI5mVENV7bj2zQ5UcPuKMCX6R7NUyp9eTtppNg3RI8Pm22AFGFqHUEc44pWr68JCg9km6To4WXXKNLjAT+twM6XRgdY3naYn2f6e4dDg7BoGpOHLuZXMxomtEWcI7WtCAS6z58I94m9Dd2ewdxPSOZMvvSIM0OsAVFRBBPeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SKEtk9gcRsY1hb1bhbBU4KsBVfzyfULzw96BsS2i/8w=;
- b=gOb0lIPp0AQlv9IDAaLHxXILpClTB4oNC+DJpR1iMn7ZE/VajOJbAKW7GAxy2zmSXahAtzaSdhMLgRDMO2s+F2UlQN49n7RteZn+SSBjvOLPFH9JuyTkYmoPsxHHqx82LtRnUz+bWM+U62GFWKoiZRuSKCTV1iqMnwNcOhYwk2A=
-Received: from DM8PR11MB5640.namprd11.prod.outlook.com (2603:10b6:8:3f::14) by
- DM8PR11MB5637.namprd11.prod.outlook.com (2603:10b6:8:33::5) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4669.10; Wed, 3 Nov 2021 01:49:41 +0000
-Received: from DM8PR11MB5640.namprd11.prod.outlook.com
- ([fe80::9c4d:5c63:9fdd:53da]) by DM8PR11MB5640.namprd11.prod.outlook.com
- ([fe80::9c4d:5c63:9fdd:53da%3]) with mapi id 15.20.4669.010; Wed, 3 Nov 2021
- 01:49:41 +0000
-From: "Rao, Lei" <lei.rao@intel.com>
-To: "quintela@redhat.com" <quintela@redhat.com>
-Subject: RE: [PATCH v2 7/7] Optimized the function of fill_connection_key.
-Thread-Topic: [PATCH v2 7/7] Optimized the function of fill_connection_key.
-Thread-Index: AQHXzvdIBYwhJX2CjUmqhHHQq8ty1qvwcNFAgACWF9A=
-Date: Wed, 3 Nov 2021 01:49:41 +0000
-Message-ID: <DM8PR11MB5640E3DA278886F5F8B8AAEBFD8C9@DM8PR11MB5640.namprd11.prod.outlook.com>
-References: <1635753425-11756-1-git-send-email-lei.rao@intel.com>
- <1635753425-11756-8-git-send-email-lei.rao@intel.com>
- <87cznih6ie.fsf@secure.mitica>
-In-Reply-To: <87cznih6ie.fsf@secure.mitica>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-reaction: no-action
-dlp-version: 11.6.200.16
-dlp-product: dlpe-windows
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8133b62a-af16-417a-c21a-08d99e6c341e
-x-ms-traffictypediagnostic: DM8PR11MB5637:
-x-microsoft-antispam-prvs: <DM8PR11MB56379E79F66CFB79ABCBC05FFD8C9@DM8PR11MB5637.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3173;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: QM4k3AKolGZiWbsLCd5L6Qvi2HyXfC+Z0nYflrldL2A36xUaxiu8oxx5d6nDXdXKzcJltaYcqoNFN5Tto9p+Slvv5ZnT9SMmoaWQGw5pOgdb6szNRJ9kM8RLmUJWeVYfb3LOycZwRcU/CkvNKpemombHqysTPzgT9dGC2qoYWO7ZL8D26QLYHMmA9HuOMaev/0qqEDJNJ7Xl83WrnMS7ljISO4SwoGo+oUnMgFO7CoKTmDhE2wBiuETnM3yZShqJV8/EVoOe6kqHmewUWhuZ3orw6b/s5HN4IeMAVw31LvgBCepOI+nqFADpu+V3+Xs6MkoI6pHi3zgMRJHxkswN8ZIFgrV822wWdiWn58dNzKARXttXtcOIuEVG5t16xuDs7JH7HqgSVBnHOd+jyzmaAgXsSD3sxO7kAMVpkca9Y4t4g9odGxF/6voUp/Za9MxF5RLSCcU+o51pgX04hOn+lv8InnYY202b0CmXCJsnaqa1g5MSYcyTxY2hjzTZhhd4NjwTkd0MliZWPQ03HlgU27oJFP+UbS5p/cXqeG1mS6FSkHp+Y8cCIPSF3CaJsJRwe/sq5aeJiFMe4jLKShfG+wYKe5yc1o8J+H4pU9uPfSw/Nc8oC5HGFE5X+PgQSKGsoXgW+iv2+OpiSdslIKC8r7c6VuEJB6cX1YO5g8fP0X3nTv8x8ck8ReDC79hdhYrzirF7yHzTYpfCTMN851nfzA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM8PR11MB5640.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(66476007)(4326008)(71200400001)(82960400001)(66556008)(64756008)(66446008)(6916009)(5660300002)(38070700005)(86362001)(9686003)(52536014)(316002)(122000001)(53546011)(6506007)(186003)(508600001)(8676002)(54906003)(4744005)(8936002)(76116006)(83380400001)(7696005)(66946007)(38100700002)(55016002)(2906002)(26005)(33656002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?TgftPBhr1iT7EpOFzIz7+dZYdtGyqKZ64KdCgUy1wShg1OJIkHCJwPUzT+nE?=
- =?us-ascii?Q?RDe24Ddpu/U2+d+N6nnw1LH5WHZIR5/IpbDngNfqoss4Q2F8GC5o2u6FOVIJ?=
- =?us-ascii?Q?a7LAjeiTu1xerhwoaa0HXxxx8k4lmRC7qk/Oqzw+RLniYU+1bSUiI/k7lMoA?=
- =?us-ascii?Q?Mf1f9QyL9etaRZHWcpWhxXvuhnZQynrwCdccH+Sv3SSWW94Ghpe/GEh5GqsH?=
- =?us-ascii?Q?5yt/+cSHkPYio+cOAYvSrFPO14NrRYUQGdGhlAw3ahIiQ8JYUTOf2qfwLwVG?=
- =?us-ascii?Q?+d+wM/sDpKI0wzwF2lIVXxbVKwx1/R/rlvJcB++dO9p1UGqfz9bNRKsB7iG7?=
- =?us-ascii?Q?cA+z8SIKCa8LzwhhfYYuYiBdGJG64DBLa9cRrAHzuV31lUJb3/3vh5iDdQXc?=
- =?us-ascii?Q?XRXHHgymrezzwMrOklA32KtCkepxZOwBfPOLip94I8hu/bJL/NQi/kz+ci8P?=
- =?us-ascii?Q?xFq7SduTaP5vrJ7ynwzpBSkwM0aO20hzlGxheKRPTMTfj+zh3dSl19Dbh0FQ?=
- =?us-ascii?Q?IhI0ZpN3/9Myh9S2rbFQr91r6vobG1xlyapikVLcq/dknpQ2pcftNhiByZmC?=
- =?us-ascii?Q?xsERmyimzskGqNF/zrbK0iJEldAlSPqY4KoHOS53hWeLYi5GVN3SpWMkPFRx?=
- =?us-ascii?Q?9lLh6zRD6IiUnnoB3Xn+PKw3Cb7FPq14rPv9//qCPgzgSDVyMfbI1Ip/pCr3?=
- =?us-ascii?Q?nZDdiYrzZ68x+9EH3vOWZlqLoMjgdWfIDkB27K5lfFKt/RrPKAwUDzeoKiMA?=
- =?us-ascii?Q?tMXf0BI1pbKg27oM8gxVa9ZBtiiBIB3yyPJtq8coL7d36eIbov0RML8hjqZu?=
- =?us-ascii?Q?g58G/1Q/m7K88a+/OiM1+dHCRkskkcStjfkx1ZPMYpfEFW9hHVi+16l/Xp5B?=
- =?us-ascii?Q?iF5BEJNkhtynOmjpTjJ3+VEBh0ASbHUlknprm6q/5hknGXDAw2UJGs/3LERb?=
- =?us-ascii?Q?AJkpVX5vYLK46I6IMyNYdivcHP7LZIX0o/ylr67MUQgRmUGc6dc+rWdtZs1H?=
- =?us-ascii?Q?BslmOPiMQM114DbAiYxCzESlhmOao+zkPerUOBqjE+b5oxdVhtKb16mepabM?=
- =?us-ascii?Q?FgnFRC1NDVh2m7MUeMYF49s/yGSrWZjQiKSoADt92h4s8T/1UPIh/WSPOBQ0?=
- =?us-ascii?Q?cYba7H214XCmmIU7vpVMMpHeZ1JtEyBYTGEkvM36CwYNECByx+USorraI1r1?=
- =?us-ascii?Q?lmVO2njsM047hHJkZwqOXzf6hV7JP9iBoacrfTyR3RCaNuPjzJ5gXqNMZtgI?=
- =?us-ascii?Q?Cr9S09BpdoQy26olDjgPT7Ag0hKI8Y75sCqxNMUPhkVTYZVTMOKXfD7uDrRt?=
- =?us-ascii?Q?eeDaaR7UeymfRW159uIOr/91A9YpxPJoGSmsq0l8Y2Ul7oF5BUAktHxMFN87?=
- =?us-ascii?Q?w8iHdjjvAvEWhPreRff26AmJM/Sr3mahlBhKxa+EXKS+5cZcTJCIN/rFgfC2?=
- =?us-ascii?Q?Tgtea5L1UrGHX6UdQYuyH2IWiHJhSx2sxUBuquE6kav3M33mX03IAFh7XMH+?=
- =?us-ascii?Q?iQpVtwW3kpaelV0PALnWLTRQekp8GAvjzy1aw83M4R6vH2QSolmwf0oGl5jO?=
- =?us-ascii?Q?2pViE81jcxLvxotsXSHb9qtkAJ+uu8B/ijJ159gPVkxoQW8QYZltAnFgk/Cw?=
- =?us-ascii?Q?Iw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mi5aJ-0005YB-IN
+ for qemu-devel@nongnu.org; Tue, 02 Nov 2021 22:01:07 -0400
+Received: from loganberry.canonical.com (loganberry.canonical.com
+ [91.189.90.37])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id C18DA3F86E
+ for <qemu-devel@nongnu.org>; Wed,  3 Nov 2021 02:00:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1635904855;
+ bh=FDmKLOWrq7Ta/YhAveOrHckFqKY3bVcO8LRVRmNns0s=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=c/Y3rNZx/1at/om8RhFQmDE/2yj60wyobTJ0ndkmBaj6qVdy/0n5HIIYNwOEQzgsX
+ zFgEWfmi7RBTNScvoOR4UxB0c3BjgluA2Cv6uvmJMN8RsVAiJSG0Rn2lV0cCryOHt+
+ Jgc8iwD0r9p34JeyCSa8PXnxRH1sY9GjQmaLzXO55hXcdF1fZ99BMPcOZ/RbNgjgWF
+ INz0S1qBScwajiS8xoJTfLFTzNSJiDEOOiZ+pfuCu7kNtlJH3D2fh402X4SlFH7Dqy
+ BdvYea7jLAmJ6Ze20d0KpIFrFZomJnkzhID3WR8Oeyx2/abZKbwPexVwLc7i7ABHnE
+ bjqYKnKA4xnwA==
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D92C22E8189
+ for <qemu-devel@nongnu.org>; Wed,  3 Nov 2021 02:00:54 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5640.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8133b62a-af16-417a-c21a-08d99e6c341e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Nov 2021 01:49:41.6807 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QGEkgXvOMHfp/h9l++VGecW2TW7c0alc/LkGlA5KLp1vjWhXaRPhbdkj+WU43ZYEGINoa+5LkkTCAyP5IuGWdA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR11MB5637
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.136; envelope-from=lei.rao@intel.com;
- helo=mga12.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 03 Nov 2021 01:51:12 -0000
+From: Shi <1903712@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: beihaisuishe-239 berrange janitor tao1992
+X-Launchpad-Bug-Reporter: Trudy McClendon (beihaisuishe-239)
+X-Launchpad-Bug-Modifier: Shi (tao1992)
+References: <160501447454.28833.9213355837708100022.malonedeb@chaenomeles.canonical.com>
+Message-Id: <163590427216.21809.15683017458943438647.malone@wampee.canonical.com>
+Subject: [Bug 1903712] Re: when ../configure, cannot find Ninjia
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="5c9d2c413ed946c4f70cb1ddd4149326eda16fc5"; Instance="production"
+X-Launchpad-Hash: 23e3578ea0600ea97700d05dccdfb8194af2922c
+Received-SPF: pass client-ip=185.125.188.250;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -161,47 +83,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "lukasstraub2@web.de" <lukasstraub2@web.de>,
- "zhang.zhanghailiang@huawei.com" <zhang.zhanghailiang@huawei.com>,
- "lizhijian@cn.fujitsu.com" <lizhijian@cn.fujitsu.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Zhang,
- Chen" <chen.zhang@intel.com>
+Reply-To: Bug 1903712 <1903712@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Will be changed and sent separately.
+1=E3=80=81install re2c=E3=80=82[url=EF=BC=9Ahttp://re2c.org/index.html]
+tar -xvzf re2c-1.0.3.tar.gz
+    cd re2c-1.0.3/
+    autoreconf -i -W all
+    ./configure
+    make&&make install
+2=E3=80=81git clone git://github.com/ninja-build/ninja.git && cd ninja
+    ./configure.py --bootstrap
+    cp ninja /usr/bin/
 
-Thanks,
-Lei
+[root@aix7 ~]# ninja --version
+1.10.2.git
 
------Original Message-----
-From: Juan Quintela <quintela@redhat.com>=20
-Sent: Wednesday, November 3, 2021 12:23 AM
-To: Rao, Lei <lei.rao@intel.com>
-Cc: Zhang, Chen <chen.zhang@intel.com>; lizhijian@cn.fujitsu.com; jasowang@=
-redhat.com; zhang.zhanghailiang@huawei.com; lukasstraub2@web.de; dgilbert@r=
-edhat.com; qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 7/7] Optimized the function of fill_connection_key.
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1903712
 
-"Rao, Lei" <lei.rao@intel.com> wrote:
-> From: "Rao, Lei" <lei.rao@intel.com>
->
-> Remove some unnecessary code to improve the performance of the=20
-> filter-rewriter module.
->
-> Signed-off-by: Lei Rao <lei.rao@intel.com>
-> Reviewed-by: Zhang Chen <chen.zhang@intel.com>
+Title:
+  when ../configure, cannot find Ninjia
 
-As Chen has already reviewed it:
+Status in QEMU:
+  Expired
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Bug description:
+  On unbuntu18.04, after finishing
 
-But I think that you should change in a following patch:
+  wget https://download.qemu.org/qemu-5.2.0-rc0.tar.xz
+  tar xvJf qemu-5.2.0-rc0.tar.xz
+  cd qemu-5.2.0-rc0
 
-s/int reverse/bool reverse/
+  when I input
 
-Later, Juan.
+  mkdir build
+  cd build
+  ../configure
+
+  Return Error:
+  cannot find Ninjia
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1903712/+subscriptions
 
 
