@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2431444599
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 17:12:22 +0100 (CET)
-Received: from localhost ([::1]:37416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 357704445A9
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 17:15:14 +0100 (CET)
+Received: from localhost ([::1]:41524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miIs9-0005lR-Ml
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 12:12:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46426)
+	id 1miIuv-0000By-Br
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 12:15:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1miIrH-00053G-KU
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 12:11:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44009)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1miIrD-0003vX-7J
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 12:11:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635955881;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=ByOggNdQRm6wA6nZc0BF2QxYpXM9SdY5Pqctx1CTcwA=;
- b=dgf/LfG7k+6NF31eII5RngzKbNa7GlMWn3Av63qIzFWMV+VBfWaKVJfdStZHgK+2xgKB8t
- jCECm+vm7LYHJ16o08AAXfYEoxzGKoFg0Y7d9azYkTrVrZMFnhyzHDGW9O53YZK+INoO7p
- zJ3QZdzklsrvuOAw/Vx7nmC7b8oVU0w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-9TjStLlaN6GCzOrZOWR4_w-1; Wed, 03 Nov 2021 12:11:20 -0400
-X-MC-Unique: 9TjStLlaN6GCzOrZOWR4_w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F83510247BE;
- Wed,  3 Nov 2021 16:10:47 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 53A99101E591;
- Wed,  3 Nov 2021 16:10:45 +0000 (UTC)
-Date: Wed, 3 Nov 2021 16:10:42 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Dov Murik <dovmurik@linux.ibm.com>
-Subject: Re: [PATCH 0/3] SEV: fixes for -kernel launch with incompatible OVMF
-Message-ID: <YYK0giDFEo3Y70Qx@redhat.com>
-References: <20211101102136.1706421-1-dovmurik@linux.ibm.com>
- <0291b6fc-b613-5eae-77a0-b344020a8376@amd.com>
- <39de4c3a-4351-3705-0962-7bb8d496fe28@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
+ id 1miIt7-0006gg-52
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 12:13:21 -0400
+Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f]:39799)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
+ id 1miIt2-00045X-Bm
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 12:13:18 -0400
+Received: by mail-lj1-x22f.google.com with SMTP id t11so4719245ljh.6
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 09:13:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=phystech-edu.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Wa0v1U2LuDNoL48v8vrhvNK9WtkHaOZ+dWUnJrVugPM=;
+ b=qVd2MAm7sZTuJJXnNFvbVroZvIN9D9gyGv5nzrdnngYXvqn2FegNxA1Ez0s1wxklaz
+ eHLwzdy2/eqrX1oN2bzsvMnFkx8enH0PxkHnRGxj5Q+pw/C1/34NHYdzduo3nwKi5wkb
+ WBKpt2A7vgifIu83+yPOLXTV830G2GOgat0zXtWw2r9kt/F/Za/ZBYK11HcFRZTa020l
+ jQ1QnEY3RVTog3toWhSmDRBOyyk3mlv/QKkW9OSC15VbnMjKhtSgQv+0cQs36WZgYB/E
+ yl3QR08kspOZRI/fbhgNCswQqZhwdsf1WtpMS+6MNjmb9mGnYt3ln8ln2QXXkbU3Vrez
+ FpjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Wa0v1U2LuDNoL48v8vrhvNK9WtkHaOZ+dWUnJrVugPM=;
+ b=gDGn9hP1sByuryt0L8pLyePI3mSixEW2TY9d1HOQUdnJ86kMAvBSVj/imDNcbzomuz
+ GvY1zZDhc6Qr6gPlLoglq0q38+4VHNQLeRE1SBPBgzjXxBm/lKCEYITE6V66/nhwwvem
+ QNsRa40k6F5h7hzsOI8Hz2QAZlqk0gzmrVptzwHFAf3Lk5UVb/zSnSLDHZ8jXWBnL1tP
+ bG/CKVk06lUH7EYkLZktY85OkMF+uoEZc3u92A6qVmqQcbq6y5r7l4BiSECpBbqhWR8z
+ GoYcc4VdJSzB4X0FKTcGbi0GD6MvHYg7o5QHaAjGZJc7EeenABPyDollfOavoNl8vAe4
+ baOw==
+X-Gm-Message-State: AOAM532yCKYXEit4DLzc/DbXgTOVa4OQ5JKU3hV+yFn22MiyVaY2W36P
+ dndyJERtkOzzBvVLAk8rBbbn6A==
+X-Google-Smtp-Source: ABdhPJzl3T/5xwuiiqBnNEiQvJ3qnMrA9wKPRxPskwuvPP+mq1xEsasP+NxcYqD2jYuMNcjCETsUAA==
+X-Received: by 2002:a2e:9e06:: with SMTP id e6mr46924658ljk.190.1635955993181; 
+ Wed, 03 Nov 2021 09:13:13 -0700 (PDT)
+Received: from vp-pc.redhat.com ([2a00:1370:810e:bd31:a3af:f811:c4e:52b8])
+ by smtp.gmail.com with ESMTPSA id a3sm243337lji.48.2021.11.03.09.13.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Nov 2021 09:13:12 -0700 (PDT)
+From: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+To: peter.maydell@linaro.org,
+	yuri.benditovich@daynix.com,
+	yan@daynix.com
+Subject: [PATCH 0/3] contrib/elf2dmp: Windows Server 2022 support
+Date: Wed,  3 Nov 2021 19:12:57 +0300
+Message-Id: <20211103161300.114741-1-viktor.prutyanov@phystech.edu>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <39de4c3a-4351-3705-0962-7bb8d496fe28@linux.ibm.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
+ envelope-from=viktor.prutyanov@phystech.edu; helo=mail-lj1-x22f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,47 +82,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org, Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 02, 2021 at 03:22:24PM +0200, Dov Murik wrote:
-> 
-> 
-> On 02/11/2021 12:52, Brijesh Singh wrote:
-> > Hi Dov,
-> > 
-> > Overall the patch looks good, only question I have is that now we are
-> > enforce qemu to hash the kernel, initrd and cmdline unconditionally for
-> > any of the SEV guest launches. This requires anyone wanting to
-> > calculating the expected measurement need to account for it. Should we
-> > make the hash page build optional ?
-> > 
-> 
-> The problem with adding a -enable-add-kernel-hashes QEMU option (or
-> suboption) is yet another complexity for the user.
+Hi,
 
-I don't view that as complexity - rather it is the user being explicit
-about what their requirements are. If they ask for the kernel hashes
-and we can't honour that, we can now give them a clear error and
-exit instead of carrying on with a broken setup.
+For now, elf2dmp is unable to convert ELF-dump to DMP-dump made of
+Windows Server 2022 guest. This patch series fixes it.
 
-If they don't ask for kernel hashes, we can skip the whole bit and
-not have a problem with bogus warnings or back compatibilty worries.
+Viktor Prutyanov (3):
+  contrib/elf2dmp: fix code style
+  contrib/elf2dmp: move PE dir search to pe_get_data_dir_entry
+  contrib/elf2dmp: add PE name check and Windows Server 2022 support
 
+ contrib/elf2dmp/main.c | 103 ++++++++++++++++++++++++------------
+ contrib/elf2dmp/pe.h   | 115 +++++++++++++++++++++++------------------
+ 2 files changed, 134 insertions(+), 84 deletions(-)
 
-Regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.31.1
 
 
