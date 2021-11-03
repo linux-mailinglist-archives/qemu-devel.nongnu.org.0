@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DC1444448D
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:20:24 +0100 (CET)
-Received: from localhost ([::1]:57788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C262F444473
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:14:02 +0100 (CET)
+Received: from localhost ([::1]:35782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miI3r-0000mp-Nf
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:20:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52028)
+	id 1miHxh-0002AD-Tx
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:14:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miHp4-0003T0-Ui
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:10 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45573)
+ id 1miHp8-0003UT-O1
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:12 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:39765)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miHoz-0000Yh-Ns
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:06 -0400
-Received: by mail-wr1-x430.google.com with SMTP id o14so4007063wra.12
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:05:01 -0700 (PDT)
+ id 1miHp0-0000Z5-Dh
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:08 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ b2-20020a1c8002000000b0032fb900951eso4862978wmd.4
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:05:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=r2gcgLovYgk2FFEZHd2igMQ6F1dEK3cZxyz+kGi87HA=;
- b=NoN2YPRBqw65eTVx3AYTkpnV5uskjy3l6RCKdrDi3ZWRknF+PkJ79yHpHM8YjzWbTD
- VbGBHO1l1WdAc5d+Ra2N5VbdeHFQAW+C/nj4K9mHnRX7qmZ/e+Gnt6sd7SmhRJfuVXq7
- FJe/Fn2x9Of7VJ5an9CbWXzpcKCgigHG9G/BvikO2lwLbGXWjRHVfJ4sKqt1Zt9+TEBU
- Pisto/s1rZD6Dg3rwHQfmbJ+cW84cyr6M62CtORj2Dl9ENPRZSk0osHQEcsJzV+hG2if
- 8lSIsOeVK3JptCH0YV0JdVMd1AZOC1vIb9aApojL8PFWOiomAYoB8opV8CFTPfuolHHS
- D7HA==
+ bh=GMP3uUjLWtP0WS92hT7gluftEH4jK1vIjm6dISQNfvM=;
+ b=F1dI5f0SwVmBu8bN2i+1ruJ8p1MLb9FUc+NZ0lAAfc9i9rK+qPp4mddaZMuIu/QaTG
+ 7XMFXSQoM2feawsMOn5Q4Vnu5BkUg8fZ/hbpN0jFntljppMrV8yeV/tlOvR42KtvQv2E
+ hwqqAEO7SHvV2JtaEOSuFUUbR9O2zW6uv+9RSaM+gaJ3c/nyk4GqdpoPrs54FMArBIsC
+ m/gUBhU4kAQwOucdJp/wxpO6Ve7ElpBc4+ItTEGjz69Yh+zwkqiRwlv/Jk5o9w+w8kfK
+ XKkeDZkvUUo3hMioS3ga0w5aXOngi2dn6EO+jkFu+GmnAI5TLSYJluOwjF3bAbD4/62j
+ kxDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=r2gcgLovYgk2FFEZHd2igMQ6F1dEK3cZxyz+kGi87HA=;
- b=ppPLEN/vLdmBp7RAmoBPieI/+EWq4Q+bHjWBj49sZOPMWPU+T3Ie9nsfDvNWzgpj3u
- 5l5BHIiZ8R3wa042qb1LejlCZFY0dTRlGdd3OF2jJlQDpQh1wBXDaLvCFfJsXgWCkTTq
- VpyII+B5Aj1EHSONUbw/pMFec5mZCVP0ugD49LwYuIKiqAQLyQdiiUfUguSIKtcSHc+h
- 5A1NSzWVRtdAGJbiIwoVG38i0z5bSbHW8XoC/JVt2UOHLdDbqTDbKUeTRgqWUQLkxvlf
- 16xwzxYDThZEHtvdkyXFNx5fjiIk/34ULcbUmiwjWC1Pebhk5nOsY4in+aSKLNdbAUSW
- fr8A==
-X-Gm-Message-State: AOAM533KtPp3m+caxgeteQtymHyy6Y4+WLtjQWtiWLGYaAAVT+aKbpAD
- m9X2HyRJVAb4qLzKAH+gTofJIYC1FQo=
-X-Google-Smtp-Source: ABdhPJzwPjIHfSL2PQWiAPtBYBC3iXUd7tnUhwsTxbsH8ylt/yHMsYe9Ld/9+6HV0wnuz8VClH5BMg==
-X-Received: by 2002:adf:ee4b:: with SMTP id w11mr53852597wro.115.1635951900395; 
- Wed, 03 Nov 2021 08:05:00 -0700 (PDT)
+ bh=GMP3uUjLWtP0WS92hT7gluftEH4jK1vIjm6dISQNfvM=;
+ b=VzmKcmOOIFDyASgZl+ngAD1zO6WdZHjPs+lEXUuOZqpr4ByEQuAF1ipfsd3qkLtbQQ
+ iWzdFxT74ZKpY3L9//kKVYm/KiYxpSHmm1F73xNTB0kMYF9e1gZk+b7jt98tuWX26uwH
+ zD+Gl6stAYTrVaepX74H6OU3nFVrr51LkuOu85vDUR91tTCF6l9VGThYkKoZZSV6Somr
+ 0sGKEGJDLPVp9eKJ7Ut4+tta6+s8aIDS3liL4CocVv+C1cZyJLpyJua6wXy7EFi72ffa
+ eYC14bfJqWum20+xlOdqqZjlruC5q+L+/J/EqJGCHqak0Qyt7Lbx54gkitRQ3G1LKFO9
+ 7ojg==
+X-Gm-Message-State: AOAM531F+noxGj1JXF4L7imhHZvL0A5V4M0g10Z3X7X9+NlkzYWLEeMe
+ j9gZwdUzCqASMSQ2Js1aMMhnMqJYjTo=
+X-Google-Smtp-Source: ABdhPJwf9kyxkpjjoxr5TvAb0ePNK8U1DwjlbizXzaQGzlaaxq+7yNRLIhvs1A3EDIWaGRKXU2ILvw==
+X-Received: by 2002:a05:600c:4e8d:: with SMTP id f13mr79740wmq.7.1635951901103; 
+ Wed, 03 Nov 2021 08:05:01 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id h16sm2488797wrm.27.2021.11.03.08.04.59
+ by smtp.gmail.com with ESMTPSA id h16sm2488797wrm.27.2021.11.03.08.05.00
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 03 Nov 2021 08:05:00 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/27] watchdog: add information from -watchdog help to -device
- help
-Date: Wed,  3 Nov 2021 16:04:29 +0100
-Message-Id: <20211103150442.387121-15-pbonzini@redhat.com>
+Subject: [PULL 15/27] vl: deprecate -watchdog
+Date: Wed,  3 Nov 2021 16:04:30 +0100
+Message-Id: <20211103150442.387121-16-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211103150442.387121-1-pbonzini@redhat.com>
 References: <20211103150442.387121-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,135 +88,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-List all watchdog devices in a separate category, and populate
-their descriptions.
+-watchdog is the same as -device except that it is case insensitive (and it
+allows only watchdog devices of course).  Now that "-device help" can list
+as such the available watchdog devices, we can deprecate it.
+
+Note that even though -watchdog tries to be case insensitive, it fails
+at that: "-watchdog i6300xyz" fails with "Unknown -watchdog device",
+but "-watchdog i6300ESB" also fails (when the generated -device option
+is processed) with an error "'i6300ESB' is not a valid device model name".
+For this reason, the documentation update does not mention the case
+insensitivity of -watchdog.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/watchdog/sbsa_gwdt.c    | 3 ++-
- hw/watchdog/wdt_aspeed.c   | 3 ++-
- hw/watchdog/wdt_diag288.c  | 3 ++-
- hw/watchdog/wdt_i6300esb.c | 3 ++-
- hw/watchdog/wdt_ib700.c    | 3 ++-
- hw/watchdog/wdt_imx2.c     | 4 ++--
- include/hw/qdev-core.h     | 1 +
- softmmu/qdev-monitor.c     | 1 +
- 8 files changed, 14 insertions(+), 7 deletions(-)
+ docs/about/deprecated.rst | 5 +++++
+ softmmu/vl.c              | 1 +
+ 2 files changed, 6 insertions(+)
 
-diff --git a/hw/watchdog/sbsa_gwdt.c b/hw/watchdog/sbsa_gwdt.c
-index d0998f8489..e49cacd0e2 100644
---- a/hw/watchdog/sbsa_gwdt.c
-+++ b/hw/watchdog/sbsa_gwdt.c
-@@ -273,8 +273,9 @@ static void wdt_sbsa_gwdt_class_init(ObjectClass *klass, void *data)
-     dc->realize = wdt_sbsa_gwdt_realize;
-     dc->reset = wdt_sbsa_gwdt_reset;
-     dc->hotpluggable = false;
--    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+    set_bit(DEVICE_CATEGORY_WATCHDOG, dc->categories);
-     dc->vmsd = &vmstate_sbsa_gwdt;
-+    dc->desc = "SBSA-compliant generic watchdog device";
- }
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index be19317470..6155b32ee6 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -160,6 +160,11 @@ Use ``-display sdl`` instead.
  
- static const TypeInfo wdt_sbsa_gwdt_info = {
-diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
-index 146ffcd713..6aa6f90b66 100644
---- a/hw/watchdog/wdt_aspeed.c
-+++ b/hw/watchdog/wdt_aspeed.c
-@@ -293,9 +293,10 @@ static void aspeed_wdt_class_init(ObjectClass *klass, void *data)
-     dc->desc = "ASPEED Watchdog Controller";
-     dc->realize = aspeed_wdt_realize;
-     dc->reset = aspeed_wdt_reset;
--    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+    set_bit(DEVICE_CATEGORY_WATCHDOG, dc->categories);
-     dc->vmsd = &vmstate_aspeed_wdt;
-     device_class_set_props(dc, aspeed_wdt_properties);
-+    dc->desc = "Aspeed watchdog device";
- }
+ Use ``-display curses`` instead.
  
- static const TypeInfo aspeed_wdt_info = {
-diff --git a/hw/watchdog/wdt_diag288.c b/hw/watchdog/wdt_diag288.c
-index e135a4de8b..9e8882a11c 100644
---- a/hw/watchdog/wdt_diag288.c
-+++ b/hw/watchdog/wdt_diag288.c
-@@ -122,9 +122,10 @@ static void wdt_diag288_class_init(ObjectClass *klass, void *data)
-     dc->unrealize = wdt_diag288_unrealize;
-     dc->reset = wdt_diag288_reset;
-     dc->hotpluggable = false;
--    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+    set_bit(DEVICE_CATEGORY_WATCHDOG, dc->categories);
-     dc->vmsd = &vmstate_diag288;
-     diag288->handle_timer = wdt_diag288_handle_timer;
-+    dc->desc = "diag288 device for s390x platform";
- }
++``-watchdog`` (since 6.2)
++'''''''''''''''''''''''''
++
++Use ``-device`` instead.
++
+ ``-smp`` ("parameter=0" SMP configurations) (since 6.2)
+ '''''''''''''''''''''''''''''''''''''''''''''''''''''''
  
- static const TypeInfo wdt_diag288_info = {
-diff --git a/hw/watchdog/wdt_i6300esb.c b/hw/watchdog/wdt_i6300esb.c
-index 4c52e3bb9e..f99a1c9d29 100644
---- a/hw/watchdog/wdt_i6300esb.c
-+++ b/hw/watchdog/wdt_i6300esb.c
-@@ -476,7 +476,8 @@ static void i6300esb_class_init(ObjectClass *klass, void *data)
-     k->class_id = PCI_CLASS_SYSTEM_OTHER;
-     dc->reset = i6300esb_reset;
-     dc->vmsd = &vmstate_i6300esb;
--    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+    set_bit(DEVICE_CATEGORY_WATCHDOG, dc->categories);
-+    dc->desc = "Intel 6300ESB";
- }
- 
- static const TypeInfo i6300esb_info = {
-diff --git a/hw/watchdog/wdt_ib700.c b/hw/watchdog/wdt_ib700.c
-index 177aaa503f..91d1bdc0da 100644
---- a/hw/watchdog/wdt_ib700.c
-+++ b/hw/watchdog/wdt_ib700.c
-@@ -140,7 +140,8 @@ static void wdt_ib700_class_init(ObjectClass *klass, void *data)
-     dc->realize = wdt_ib700_realize;
-     dc->reset = wdt_ib700_reset;
-     dc->vmsd = &vmstate_ib700;
--    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+    set_bit(DEVICE_CATEGORY_WATCHDOG, dc->categories);
-+    dc->desc = "iBASE 700";
- }
- 
- static const TypeInfo wdt_ib700_info = {
-diff --git a/hw/watchdog/wdt_imx2.c b/hw/watchdog/wdt_imx2.c
-index a5fb76308f..c3128370b5 100644
---- a/hw/watchdog/wdt_imx2.c
-+++ b/hw/watchdog/wdt_imx2.c
-@@ -280,8 +280,8 @@ static void imx2_wdt_class_init(ObjectClass *klass, void *data)
-     dc->realize = imx2_wdt_realize;
-     dc->reset = imx2_wdt_reset;
-     dc->vmsd = &vmstate_imx2_wdt;
--    dc->desc = "i.MX watchdog timer";
--    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+    dc->desc = "i.MX2 watchdog timer";
-+    set_bit(DEVICE_CATEGORY_WATCHDOG, dc->categories);
- }
- 
- static const TypeInfo imx2_wdt_info = {
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 1bad07002d..72622bd337 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -26,6 +26,7 @@ typedef enum DeviceCategory {
-     DEVICE_CATEGORY_SOUND,
-     DEVICE_CATEGORY_MISC,
-     DEVICE_CATEGORY_CPU,
-+    DEVICE_CATEGORY_WATCHDOG,
-     DEVICE_CATEGORY_MAX
- } DeviceCategory;
- 
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index e49d9773d2..f8b3a4cd82 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -165,6 +165,7 @@ static void qdev_print_devinfos(bool show_no_user)
-         [DEVICE_CATEGORY_SOUND]   = "Sound",
-         [DEVICE_CATEGORY_MISC]    = "Misc",
-         [DEVICE_CATEGORY_CPU]     = "CPU",
-+        [DEVICE_CATEGORY_WATCHDOG]= "Watchdog",
-         [DEVICE_CATEGORY_MAX]     = "Uncategorized",
-     };
-     GSList *list, *elt;
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index af0c4cbd99..570120f5c4 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3256,6 +3256,7 @@ void qemu_init(int argc, char **argv, char **envp)
+                     error_report("only one watchdog option may be given");
+                     exit(1);
+                 }
++                warn_report("-watchdog is deprecated; use -device instead.");
+                 watchdog = optarg;
+                 break;
+             case QEMU_OPTION_action:
 -- 
 2.31.1
 
