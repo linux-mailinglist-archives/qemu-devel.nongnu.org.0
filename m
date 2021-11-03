@@ -2,85 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 370214440D0
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 12:52:02 +0100 (CET)
-Received: from localhost ([::1]:35950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10C4C444105
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 13:05:19 +0100 (CET)
+Received: from localhost ([::1]:49924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miEoC-00031m-U4
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 07:52:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33430)
+	id 1miF13-00053Z-NL
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 08:05:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1miElK-0001CD-4J
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 07:49:02 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:46837)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1miEzD-0003xs-JR
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 08:03:23 -0400
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:36430)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1miElG-0004px-Ps
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 07:49:01 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- b184-20020a1c1bc1000000b0033140bf8dd5so1592589wmb.5
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 04:48:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1miEz1-0000Lm-G7
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 08:03:23 -0400
+Received: by mail-qk1-x72e.google.com with SMTP id i9so1974644qki.3
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 05:03:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=n3WMCj3XHdpl9m3J23NMyQGUhsCZR4SB8NRHkE0BCcU=;
- b=sZCsJLfDK6i9qIK0ZO+LNIjlgK6cborExchjrnrCZnyVN2NLsxtsXEreg+xQh+OK0C
- ItaSw3rX2KZ1XSKSMlNhctb7uFb1j99hKtYttJBVK5utN285sy0BfMvEipUAUrsnjtwd
- jVa5/vGrkQBMLYmFKTXYnqhBHo81hIYHNUJ01/lPYQxuQmXjmBifw9Y/bskpxHbaitiV
- kIi4ffQDQT3HpAP7kYbyW7+U4J45/LrewktRi+N2f3+H+SVCPMcGAfJxTz3C4byY3lBb
- gwYX6q1IFqSaDsIWEUXJ4a48b1swX0vytYYWMmYkYdFhFnzFliKVuD1rsqZvFnkEWRNU
- 7reA==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=e2Za+JgDWGq7Zkr3qqrbXbY4ReiXtDU837SMntvLBY4=;
+ b=yhX19lbQ0W7mX3dMxsEfRuyFJOWJ8NhVbOd1zpTa0rFfLX0T4JDJPb0ByKh0SMJFB0
+ lO1iJsSq/jY+0wG0LUlZPX+3oJVJQWUrmLJuv6VZwKRRzsQ3ScUwpn0ViEzA52lWCPLf
+ d+0jXKE9r9WsMUlgmxyXVZDKhzcs5QDrrzi4mt2pD2/GOMWp3+3CUWEauFQeKOt/Jlrq
+ SN1GY4N9RzYeZ8DT3ozUY67MKRtblnwCulqd7fxcfKiYGGQxm6L2FquvYhU0UH4JVtIu
+ rDq9SYYVjKha8H2tO5WZFIAScwNKU7LHUFZze+SBLPg2zBk7urFPC0rDow39M86BnH6j
+ 4VfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=n3WMCj3XHdpl9m3J23NMyQGUhsCZR4SB8NRHkE0BCcU=;
- b=B80Lv1qUPPGTmDiR0MLs2fMtEL5tGtgoR3nMvc/cbTdz/7eKk+vjhzcpUJiLWI2zoc
- yil06BXtOtFSi1jsXhBle7HfzcQcRcKgiOTQ5EhpZ4Pybbh2veZgBYxXy9QFIsJtu1s2
- h5u8f8FHJfTssXx9N0hU1TifG1W45l9FvbwQ2NX3NwFavS0Gxxyq7hi/g5Y4fznLo610
- JJmNSzwmvByCE+oCOGzEMSX4El0d8OwZ3GQex/t0YuqSWWb8KzELlveqBfZ3xhAhwpQd
- 3EszL4T+UW7Ra+0VNKUWvRvqFjB/jRdN6jPb8ZDda2F9OkWJvpE5DFfZt38+MZ0mNz/K
- nqYQ==
-X-Gm-Message-State: AOAM533PGS1AZy/64IkfHftWKghCsrSDvcr23HoZ9iuJaSnmG+w8mNVe
- 7GVKwmPQHB/bD+AsdNPMuTiaPg==
-X-Google-Smtp-Source: ABdhPJzg819Uczc0Eg6YxyOiZ4rANOhNdBl9GHX8C4peTFKgD9TDvGQLZWAscs/tIB4WtGUXMNyYcg==
-X-Received: by 2002:a05:600c:ad0:: with SMTP id
- c16mr14039180wmr.176.1635940136748; 
- Wed, 03 Nov 2021 04:48:56 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z1sm1776304wre.21.2021.11.03.04.48.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 04:48:55 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B3D061FF96;
- Wed,  3 Nov 2021 11:48:54 +0000 (GMT)
-References: <20210926183410.256484-1-sjg@chromium.org>
- <CAFEAcA8S2=7rOKxeqcW+kw0BVPO3PUJGSUH-ioN7=c=U7zQxvg@mail.gmail.com>
- <CAPnjgZ2NCRVxKULWR1JjZU+D9saJ7fbZ=yHmWTSr3ufHxLYg-g@mail.gmail.com>
- <CAFEAcA9n+2JDFv8BezeEMA4e2Zhr0ENAvzLjBS6YXRoW9P-JXQ@mail.gmail.com>
- <CAPnjgZ1AO8575LYbwmuouNR5=dgNam6EFDC1_bai=8xAHdw7-Q@mail.gmail.com>
- <CAFEAcA8FsPcBELEZxiRMuFbKtmKTFgDHABePQ33hdxYRq0C0ig@mail.gmail.com>
-User-agent: mu4e 1.7.4; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] hw/arm/virt: Allow additions to the generated device tree
-Date: Wed, 03 Nov 2021 11:39:32 +0000
-In-reply-to: <CAFEAcA8FsPcBELEZxiRMuFbKtmKTFgDHABePQ33hdxYRq0C0ig@mail.gmail.com>
-Message-ID: <87ilx9jw7t.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=e2Za+JgDWGq7Zkr3qqrbXbY4ReiXtDU837SMntvLBY4=;
+ b=rn1e5A8zTTLseSveW/nT4y09aX+vVc6dSC2y49fo+aECJkML3adnSt2lYJc5/DuDg/
+ clqu7lLHId2sarVJfr4FGwZ5GP8i/4t6RVBZdL5Gp6r+WDP8U6IKoT7OXc+Siw2XOzZo
+ D5diB68yGUsq2QSKQ1lZDA6XBtr8Ly0dq5Zqjtl2fNdxBZHEnxbKysL6B3ZyNjaNYOLr
+ FNms+76vN8wgL/VsmEyLtxuggbUpJp/zrJvx1bdn8qerzk/CyNEJwCmlHkXKt0bSFkga
+ MLVOhcZl/qbtQoi0cEBmNB6TJKMvkS8wkHYI8J/weYo2sQHMangH5PziZ4wPQT7PrMBD
+ FpIg==
+X-Gm-Message-State: AOAM533ugpPkYKn1NkCHne8berj3LITk6K9mczH1XoOlZFpFzK7iGbL6
+ Ft84KNHneLe8rDxqopfa+oFN4w==
+X-Google-Smtp-Source: ABdhPJzcUe1G4aCjzMN7LFm0oXPUkZK1W+8+tQYjnERZMLhTtXBR+MHBtGFaKnL6sjbwROKhSS9USw==
+X-Received: by 2002:a05:620a:4049:: with SMTP id
+ i9mr14327045qko.320.1635940989106; 
+ Wed, 03 Nov 2021 05:03:09 -0700 (PDT)
+Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
+ [172.254.253.57])
+ by smtp.gmail.com with ESMTPSA id u9sm1425723qta.83.2021.11.03.05.03.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Nov 2021 05:03:08 -0700 (PDT)
+Subject: Re: [PULL 00/10] Misc 20211102 patches
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+References: <20211102162619.2760593-1-kraxel@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <39461c49-727f-7a54-a0b8-a8774c8e63b2@linaro.org>
+Date: Wed, 3 Nov 2021 08:03:06 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20211102162619.2760593-1-kraxel@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72e.google.com
+X-Spam_score_int: -55
+X-Spam_score: -5.6
+X-Spam_bar: -----
+X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.528,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,94 +87,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?Fran=C3=A7ois?= Ozog <francois.ozog@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Simon Glass <sjg@chromium.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Sergio Lopez <slp@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ libvir-list@redhat.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 11/2/21 12:26 PM, Gerd Hoffmann wrote:
+> The following changes since commit 8cb41fda78c7ebde0dd248c6afe1d336efb0de50:
+> 
+>    Merge remote-tracking branch 'remotes/philmd/tags/machine-20211101' into staging (2021-11-02 05:53:45 -0400)
+> 
+> are available in the Git repository at:
+> 
+>    git://git.kraxel.org/qemu tags/misc-20211102-pull-request
+> 
+> for you to fetch changes up to 58d7d4c7869cb3addb0714aa7b6bd88f2b6b7edf:
+> 
+>    usb-storage: tag usb_msd_csw as packed struct (2021-11-02 17:24:18 +0100)
+> 
+> ----------------------------------------------------------------
+> MAINTAINERS: audio updates
+> microvm: device tree support
+> console: chardev fixes
+> misc: deprecate sga
+> usb: fix struct usb_msd_csw
+> 
+> ----------------------------------------------------------------
+> 
+> Christian Schoenebeck (1):
+>    MAINTAINERS: add myself as partial audio reviewer
+> 
+> Daniel P. Berrangé (1):
+>    hw/misc: deprecate the 'sga' device
+> 
+> Dongwon Kim (1):
+>    ui/gtk: skip any extra draw of same guest scanout blob res
+> 
+> Gerd Hoffmann (2):
+>    microvm: add device tree support.
+>    usb-storage: tag usb_msd_csw as packed struct
+> 
+> Nikola Pavlica (1):
+>    ui/gtk: Update the refresh rate for gl-area too
+> 
+> Thomas Huth (1):
+>    MAINTAINERS: Add myself as a reviewer for SDL audio
+> 
+> Volker Rümelin (3):
+>    ui/console: replace QEMUFIFO with Fifo8
+>    ui/console: replace kbd_timer with chr_accept_input callback
+>    ui/console: remove chardev frontend connected test
+> 
+>   hw/i386/microvm-dt.h               |   8 +
+>   include/hw/i386/microvm.h          |   4 +
+>   include/hw/usb/msd.h               |   2 +-
+>   include/ui/console.h               |   1 +
+>   hw/display/virtio-gpu-udmabuf.c    |   2 +-
+>   hw/i386/microvm-dt.c               | 341 +++++++++++++++++++++++++++++
+>   hw/i386/microvm.c                  |   2 +
+>   hw/misc/sga.c                      |   2 +
+>   ui/console.c                       | 109 +++------
+>   ui/gtk-egl.c                       |  40 ++--
+>   ui/gtk-gl-area.c                   |  52 +++--
+>   .gitlab-ci.d/buildtest.yml         |   1 -
+>   MAINTAINERS                        |   4 +
+>   configs/targets/i386-softmmu.mak   |   1 +
+>   configs/targets/x86_64-softmmu.mak |   1 +
+>   docs/about/deprecated.rst          |  10 +
+>   hw/i386/meson.build                |   2 +-
+>   17 files changed, 466 insertions(+), 116 deletions(-)
+>   create mode 100644 hw/i386/microvm-dt.h
+>   create mode 100644 hw/i386/microvm-dt.c
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Applied, thanks.
 
-> On Mon, 27 Sept 2021 at 16:18, Simon Glass <sjg@chromium.org> wrote:
->> On Mon, 27 Sept 2021 at 02:48, Peter Maydell <peter.maydell@linaro.org> =
-wrote:
->> > So what is missing in the QEMU-provided DTB that it needs?
->>
->> Quite a lot. Here are some examples:
->>
->> U-Boot has limited pre-relocation memory so tries to avoid
->> binding/probing devices that are not used before relocation:
->>
->> https://u-boot.readthedocs.io/en/latest/develop/driver-model/design.html=
-#pre-relocation-support
->
-> It's up to u-boot to decide what it wants to touch and
-> what it does not. QEMU tells u-boot what all the available
-> devices are; I don't think we should have extra stuff saying
-> "and if you are u-boot, do something odd".
->
->> There is a configuration node (which is likely to change form in
->> future releases, but will still be there)
->>
->> https://github.com/u-boot/u-boot/blob/master/doc/device-tree-bindings/co=
-nfig.txt
->
-> I think u-boot should be storing this kind of thing somewhere
-> else (e.g. as part of the binary blob that is u-boot itself,
-> or stored in flash or RAM as a separate blob).
->
->> Then there are various features which put things in U-Boot's control
->> dtb, such as verified boot, which adds public keys during signing:
->>
->> https://github.com/u-boot/u-boot/blob/master/doc/uImage.FIT/signature.tx=
-t#L135
->>
->> More generally, the U-Boot tree has hundreds of files which add
->> properties for each board, since we try to keep the U-Boot-specific
->> things out of the Linux tree:
->>
->> $ find . -name *u-boot.dtsi |wc -l
->> 398
->
-> If any of this is actual information about the hardware then you
-> should sort out getting the bindings documented officially
-> (which I think is still in the Linux tree), and then QEMU can
-> provide them.
->
->> Quite a bit of this is to do with SPL and so far it seems that QEMU
->> mostly runs U-Boot proper only, although I see that SPL is starting to
->> creep in too in the U-Boot CI.
->>
->> So at present QEMU is not able to support U-Boot fully.
->
-> My take is that this is u-boot doing weird custom things with
-> the DTB that aren't "describe the hardware". You should be able
-> to boot u-boot by putting those custom DTB extra things in a
-> separate blob and having u-boot combine that with the
-> actual DTB when it starts.
+r~
 
-It's not entirely without precedent - for SPL (which I hope is secondary
-program loading) we have things like the guest loader which expands the
-plain HW DTB with some information needed by the bootloader and the
-primary OS to load additional blobs which have been put into memory.
-
-In effect the DTB is being expanded as a signalling mechanism similar to
-things like fw_cfg and other things we use to control boot up. Whether
-this affects the "purity" of DTB as a "just the HW" description is
-probably a philosophical question.
-
-I agree with Peter that just allowing the merging of arbitrary data into
-the QEMU generated DTB is going to lead to confusion and breakages.
-Indeed I wrote the guest-loader because instructions for booting Xen up
-until that point involved dumpdtb and hand hacking the data which was
-silly because this is stuff QEMU already knew about.
-
->
-> -- PMM
-
-
---=20
-Alex Benn=C3=A9e
 
