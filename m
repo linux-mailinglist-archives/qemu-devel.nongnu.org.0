@@ -2,64 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7176444437
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:04:06 +0100 (CET)
-Received: from localhost ([::1]:39234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD50344444F
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:09:49 +0100 (CET)
+Received: from localhost ([::1]:52668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miHo5-0000mX-QD
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:04:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48430)
+	id 1miHtc-0002G7-T3
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:09:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1miHjH-0003VZ-3l
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 10:59:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49253)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1miHoL-0002ac-Hz
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:04:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29402)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1miHjE-00065B-W5
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 10:59:06 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1miHoJ-0008SV-Ey
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:04:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635951543;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Yxn7rCEGjzVm1Y5yuVrltJoZSlZm1z+nM93HuXti1D4=;
- b=Cjq/6xSRJybRIy/9/iXeROsxbVjW6/KUKi0BTpBusJClnlk/WrBlZLk7fVVqHieR9vup+X
- gNMProO2IHM7vn5+a5tkQ3i4BbfKP8JmHnrpxgmLJ0do5nSGKzyTBtf/XL0oyB8LgfxmJn
- gA3a7xZFaHKNGAfP69bCW9XgH/l7aqw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-rpbY9VMWPfip8AI_Wm-eGg-1; Wed, 03 Nov 2021 10:58:56 -0400
-X-MC-Unique: rpbY9VMWPfip8AI_Wm-eGg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CEF09BAF82;
- Wed,  3 Nov 2021 14:58:54 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8999E1064152;
- Wed,  3 Nov 2021 14:58:52 +0000 (UTC)
-Date: Wed, 3 Nov 2021 14:58:49 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 2/6] ui/clipboard: Don't use g_autoptr just to free a
- variable
-Message-ID: <YYKjqVGr4QxB6wax@redhat.com>
-References: <20211103144844.1285634-1-jsnow@redhat.com>
- <20211103144844.1285634-3-jsnow@redhat.com>
+ s=mimecast20190719; t=1635951858;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=tw4K5/JQXTIkuGO+rNjxwYM6ad0YsYOlkdlxu1hB2ro=;
+ b=ivIrIoJi2mplPZ9sqWNsUr3kYIacj3p+TQG5ptBNVm+e+SYytT3jErQQJe90kLsdeVRK9K
+ cY2x4/kZ4AYfOGZRNUPbxEkbhEmwyInE1uhE6TfTyMzIFoAir1w4Dbk7KpMH8qoGeAG6aL
+ A09FqXd8fGKXIlR1YFxl9G2axDXEkmY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-450-BJZJpAtQPYOtFs6DjbTMMg-1; Wed, 03 Nov 2021 11:04:11 -0400
+X-MC-Unique: BJZJpAtQPYOtFs6DjbTMMg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ v13-20020adfe28d000000b00186c47ee9e3so492425wri.3
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:04:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tw4K5/JQXTIkuGO+rNjxwYM6ad0YsYOlkdlxu1hB2ro=;
+ b=0XPC8oEQZX9zCF4LDu3YcBc+3V7dTDdzT2qMm7DEmlbPXQd3oS9282JO/gYFbqi1Zu
+ x8SVcABiFrmbYNG2sDhlMwL4mv6MU16oHiuKiUHzom2BiHJ+kawRt6LFT5kWE2c9+7zX
+ dws5jtXVJcjl2VO7VrDHvf9Hn3vF33LBkF1UG8y4SERFFt4ktbk+ZdugAXJgywGfhgtT
+ FSFOqNiA4GSaMIbZtdedVlnOMoqmH/nRvMjsKDPxCK84yR6TL5UMrdfqe5r7z5PBxhAg
+ QXF/hLN8opXrLqmD/Ywop+7QKSafS3KqeI+sXmjMY1u/VJfB4e1VkHqhVBQeoVADjiqx
+ wXpA==
+X-Gm-Message-State: AOAM531SuN+sADDhBM3uT2QFIwGRcIfnGeBbFLaV1ssfvLNmsmeHwniT
+ bGF4OBQwFmcJ9n56M1p2t7ZL1RiKXlT9ddd3W5bFKG5BVJrnHxJhnNpp2lcWbEqNgV5LNpH1ZQ3
+ xmtYs7c2z1/+Ue6J8dmzp9JlEDIy17UmRjxpD3Vbz+aXhHeuR7sf6I2chrCjcviaY
+X-Received: by 2002:a5d:68ce:: with SMTP id p14mr40111592wrw.116.1635951849884; 
+ Wed, 03 Nov 2021 08:04:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwY3avv0jl0uLEC2awxb+wjt0mkK7rcfCJ0OnRqau9HlDKc1udhFerf7FEttG8hqkc2L60ebQ==
+X-Received: by 2002:a5d:68ce:: with SMTP id p14mr40111546wrw.116.1635951849595; 
+ Wed, 03 Nov 2021 08:04:09 -0700 (PDT)
+Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id
+ c79sm2283584wme.43.2021.11.03.08.04.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Nov 2021 08:04:09 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] scripts/coverity-scan: Use Fedora project Docker container
+ registry
+Date: Wed,  3 Nov 2021 16:04:07 +0100
+Message-Id: <20211103150407.3459877-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20211103144844.1285634-3-jsnow@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -80,62 +92,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Willian Rampazzo <willianr@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 03, 2021 at 10:48:40AM -0400, John Snow wrote:
-> Clang doesn't recognize that the variable is being "used" and will emit
-> a warning:
-> 
->   ../ui/clipboard.c:47:34: error: variable 'old' set but not used [-Werror,-Wunused-but-set-variable]
->       g_autoptr(QemuClipboardInfo) old = NULL;
->                                  ^
->   1 error generated.
-> 
-> OK, fine. Just do things the old way.
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  ui/clipboard.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/ui/clipboard.c b/ui/clipboard.c
-> index d7b008d62a..d53576b0f6 100644
-> --- a/ui/clipboard.c
-> +++ b/ui/clipboard.c
-> @@ -44,13 +44,14 @@ void qemu_clipboard_peer_release(QemuClipboardPeer *peer,
->  
->  void qemu_clipboard_update(QemuClipboardInfo *info)
->  {
-> -    g_autoptr(QemuClipboardInfo) old = NULL;
-> +    QemuClipboardInfo *old = NULL;
->      assert(info->selection < QEMU_CLIPBOARD_SELECTION__COUNT);
->  
->      notifier_list_notify(&clipboard_notifiers, info);
->  
->      old = cbinfo[info->selection];
->      cbinfo[info->selection] = qemu_clipboard_info_ref(info);
-> +    g_free(old);
->  }
+Similarly to commit 102cd5c294d ("tests/docker: use project
+specific container registries"), use the Fedora registry to
+reduce pull rate limits enforced by Docker Hub.
 
-Surely the right answer here is to get rid of the variable
-entirely as it isn't adding value
+Inspired-by: John Snow <jsnow@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ scripts/coverity-scan/coverity-scan.docker | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-   g_free(cbinfo[info->selection]);
-
-
-Regards,
-Daniel
+diff --git a/scripts/coverity-scan/coverity-scan.docker b/scripts/coverity-scan/coverity-scan.docker
+index ecff6ac5b4b..529c0a28566 100644
+--- a/scripts/coverity-scan/coverity-scan.docker
++++ b/scripts/coverity-scan/coverity-scan.docker
+@@ -15,7 +15,7 @@
+ # The work of actually doing the build is handled by the
+ # run-coverity-scan script.
+ 
+-FROM fedora:30
++FROM registry.fedoraproject.org/fedora:30
+ ENV PACKAGES \
+     alsa-lib-devel \
+     bc \
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.31.1
 
 
