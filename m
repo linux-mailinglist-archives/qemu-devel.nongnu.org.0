@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00855444730
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 18:32:54 +0100 (CET)
-Received: from localhost ([::1]:38734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9AD0444745
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 18:35:22 +0100 (CET)
+Received: from localhost ([::1]:47610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miK84-0003cS-SZ
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 13:32:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41972)
+	id 1miKAT-0001GE-O8
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 13:35:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1miK5f-0000nw-2a
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:30:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30155)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1miK5g-0000oi-0D
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:30:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1miK5b-0001IO-El
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:30:21 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1miK5b-0001JG-QP
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 13:30:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635960617;
+ s=mimecast20190719; t=1635960619;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OVvbInFKSgK0TmjPAgDP+1Hq7QXSUbBoQi6FBr5BeRs=;
- b=WHaWk1dM2JinHSqgMaPzu/9vewLRhPDbTLQ+IB8kyNKipJFv78d1Q86ITjLNfc8IuC+lfJ
- klZXI7M0aEFJIBfYkI54+oSIL1bLS2cbKQAKMz4yLHP8mN00ASB8sZFt/ddjCrQ46DowmR
- Z80LdriEIUL6fWVHwVEM2MxPEHb5brs=
+ bh=lOT7L/i7CxEJH2QSDpk9ekZd4sA5KDsKlLG6lbGAxdg=;
+ b=LuYw2M6hu4BVTtktslHwoRLiJDcmK1mTcGTYiKROHtFd3ZOtgMS9Z7pq2hTvvK9u4rQXAS
+ IF2icE/or22QB5Dk7S0oqqYL3+XSV9fTqi8VaUPPQao8qo85XrdSm6JqNshqFbB/+tQulu
+ qh2nvQxFXh09JjivC0FuYV0t/E2rgfg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-245-6znBwnKHNeaEDmHct62JTw-1; Wed, 03 Nov 2021 13:30:16 -0400
-X-MC-Unique: 6znBwnKHNeaEDmHct62JTw-1
+ us-mta-253-MXe1EEm7Mfa3HjOWb7XtVw-1; Wed, 03 Nov 2021 13:30:18 -0400
+X-MC-Unique: MXe1EEm7Mfa3HjOWb7XtVw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 637AF806688
- for <qemu-devel@nongnu.org>; Wed,  3 Nov 2021 17:30:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B098101F7B0
+ for <qemu-devel@nongnu.org>; Wed,  3 Nov 2021 17:30:17 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.193.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6B5E1794DE;
- Wed,  3 Nov 2021 17:30:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE98A68D7D;
+ Wed,  3 Nov 2021 17:30:15 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 01/12] qapi: Add visit_next_struct_member()
-Date: Wed,  3 Nov 2021 18:29:51 +0100
-Message-Id: <20211103173002.209906-2-kwolf@redhat.com>
+Subject: [RFC PATCH 02/12] qom: Create object_configure()
+Date: Wed,  3 Nov 2021 18:29:52 +0100
+Message-Id: <20211103173002.209906-3-kwolf@redhat.com>
 In-Reply-To: <20211103173002.209906-1-kwolf@redhat.com>
 References: <20211103173002.209906-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -81,111 +81,58 @@ Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds a way to generically deal with an unknown set of members in
-input visitors by just getting the name of the next unvisited member.
-QOM object creation code will use it to have generic code that calls
-property setters which then in turn have the more specific knowledge how
-to visit the respective member.
+This renames object_set_properties_from_qdict() to object_configure()
+and removes the QDict parameter from it: With visit_next_struct_member()
+it can set all properties without looking at the keys of the QDict.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/qapi/visitor-impl.h  |  3 +++
- include/qapi/visitor.h       |  2 ++
- qapi/qapi-visit-core.c       |  6 ++++++
- qapi/qobject-input-visitor.c | 16 ++++++++++++++++
- qapi/trace-events            |  1 +
- 5 files changed, 28 insertions(+)
+ qom/object_interfaces.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/include/qapi/visitor-impl.h b/include/qapi/visitor-impl.h
-index 2badec5ba4..af66a850ed 100644
---- a/include/qapi/visitor-impl.h
-+++ b/include/qapi/visitor-impl.h
-@@ -57,6 +57,9 @@ struct Visitor
-     /* Must be set to visit structs */
-     void (*end_struct)(Visitor *v, void **obj);
- 
-+    /* Must be set for input visitors to visit structs */
-+    const char *(*next_struct_member)(Visitor *v);
-+
-     /* Must be set; implementations may require @list to be non-null,
-      * but must document it. */
-     bool (*start_list)(Visitor *v, const char *name, GenericList **list,
-diff --git a/include/qapi/visitor.h b/include/qapi/visitor.h
-index d53a84c9ba..5a1a28f9ad 100644
---- a/include/qapi/visitor.h
-+++ b/include/qapi/visitor.h
-@@ -326,6 +326,8 @@ bool visit_check_struct(Visitor *v, Error **errp);
-  */
- void visit_end_struct(Visitor *v, void **obj);
- 
-+/* TODO */
-+const char *visit_next_struct_member(Visitor *v);
- 
- /*** Visiting lists ***/
- 
-diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
-index 6c13510a2b..82fb63e459 100644
---- a/qapi/qapi-visit-core.c
-+++ b/qapi/qapi-visit-core.c
-@@ -70,6 +70,12 @@ void visit_end_struct(Visitor *v, void **obj)
-     v->end_struct(v, obj);
+diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
+index 3b61c195c5..f9f5608194 100644
+--- a/qom/object_interfaces.c
++++ b/qom/object_interfaces.c
+@@ -42,16 +42,15 @@ bool user_creatable_can_be_deleted(UserCreatable *uc)
+     }
  }
  
-+const char *visit_next_struct_member(Visitor *v)
-+{
-+    trace_visit_next_struct_member(v);
-+    return v->next_struct_member(v);
-+}
-+
- bool visit_start_list(Visitor *v, const char *name, GenericList **list,
-                       size_t size, Error **errp)
+-static void object_set_properties_from_qdict(Object *obj, const QDict *qdict,
+-                                             Visitor *v, Error **errp)
++static void object_configure(Object *obj, Visitor *v, Error **errp)
  {
-diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
-index f0b4c7ca9d..a409b841af 100644
---- a/qapi/qobject-input-visitor.c
-+++ b/qapi/qobject-input-visitor.c
-@@ -310,6 +310,21 @@ static void qobject_input_end_struct(Visitor *v, void **obj)
-     qobject_input_pop(v, obj);
+-    const QDictEntry *e;
++    const char *key;
+ 
+     if (!visit_start_struct(v, NULL, NULL, 0, errp)) {
+         return;
+     }
+-    for (e = qdict_first(qdict); e; e = qdict_next(qdict, e)) {
+-        if (!object_property_set(obj, e->key, v, errp)) {
++    while ((key = visit_next_struct_member(v))) {
++        if (!object_property_set(obj, key, v, errp)) {
+             goto out;
+         }
+     }
+@@ -69,7 +68,7 @@ void object_set_properties_from_keyval(Object *obj, const QDict *qdict,
+     } else {
+         v = qobject_input_visitor_new_keyval(QOBJECT(qdict));
+     }
+-    object_set_properties_from_qdict(obj, qdict, v, errp);
++    object_configure(obj, v, errp);
+     visit_free(v);
  }
  
-+static const char *qobject_input_next_struct_member(Visitor *v)
-+{
-+    QObjectInputVisitor *qiv = to_qiv(v);
-+    StackObject *tos = QSLIST_FIRST(&qiv->stack);
-+    GHashTableIter iter;
-+    const char *key;
-+
-+    assert(qobject_type(tos->obj) == QTYPE_QDICT && tos->h);
-+    g_hash_table_iter_init(&iter, tos->h);
-+    if (g_hash_table_iter_next(&iter, (void **)&key, NULL)) {
-+        return key;
-+    }
-+    return false;
-+}
-+
+@@ -108,7 +107,7 @@ Object *user_creatable_add_type(const char *type, const char *id,
  
- static bool qobject_input_start_list(Visitor *v, const char *name,
-                                      GenericList **list, size_t size,
-@@ -700,6 +715,7 @@ static QObjectInputVisitor *qobject_input_visitor_base_new(QObject *obj)
-     v->visitor.start_struct = qobject_input_start_struct;
-     v->visitor.check_struct = qobject_input_check_struct;
-     v->visitor.end_struct = qobject_input_end_struct;
-+    v->visitor.next_struct_member = qobject_input_next_struct_member;
-     v->visitor.start_list = qobject_input_start_list;
-     v->visitor.next_list = qobject_input_next_list;
-     v->visitor.check_list = qobject_input_check_list;
-diff --git a/qapi/trace-events b/qapi/trace-events
-index ab108c4f0e..2d91bb6ae3 100644
---- a/qapi/trace-events
-+++ b/qapi/trace-events
-@@ -7,6 +7,7 @@ visit_complete(void *v, void *opaque) "v=%p opaque=%p"
- visit_start_struct(void *v, const char *name, void *obj, size_t size) "v=%p name=%s obj=%p size=%zu"
- visit_check_struct(void *v) "v=%p"
- visit_end_struct(void *v, void *obj) "v=%p obj=%p"
-+visit_next_struct_member(void *v) "v=%p"
- 
- visit_start_list(void *v, const char *name, void *obj, size_t size) "v=%p name=%s obj=%p size=%zu"
- visit_next_list(void *v, void *tail, size_t size) "v=%p tail=%p size=%zu"
+     assert(qdict);
+     obj = object_new(type);
+-    object_set_properties_from_qdict(obj, qdict, v, &local_err);
++    object_configure(obj, v, &local_err);
+     if (local_err) {
+         goto out;
+     }
 -- 
 2.31.1
 
