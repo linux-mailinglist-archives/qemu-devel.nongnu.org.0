@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F6164444EA
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:48:25 +0100 (CET)
-Received: from localhost ([::1]:60426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2CA444514
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:58:22 +0100 (CET)
+Received: from localhost ([::1]:38378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miIUx-0007Mg-Op
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:48:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39426)
+	id 1miIeb-0003Y4-7l
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:58:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1miITd-0006fb-T6
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:47:02 -0400
-Received: from mail-qv1-xf29.google.com ([2607:f8b0:4864:20::f29]:35833)
+ (Exim 4.90_1) (envelope-from <trini@konsulko.com>)
+ id 1miIdD-0002OT-Vb
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:56:55 -0400
+Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:37700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1miITc-0003CS-4k
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:47:01 -0400
-Received: by mail-qv1-xf29.google.com with SMTP id u25so3257663qve.2
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:46:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=fB/3eilnHZ8mHHK75h5WYhK2X/qfe30VgUzY8n++FYw=;
- b=xKwmoTAOVDfMIbQ6s4Vg1enMiTrYiBOBRjvhFvraVfJdKpPi+m4SlOzRwB3rhEUgcv
- NACqWxjCe5+jax7kFs1CW34RTFr8soOJzq/q/JIbJnbvRyTqgUaySx0yDXDPhM2BEMUz
- MNxRnadgj1FoOFyZv6vss+gMr1e/Gq0u+xIpXvNbAyTNCdA+OPbr/+K3DnPaaS/qBoob
- fW55au5MNNznxB77aWEJYWtwIqr+LYzjpXiVT2SHM1CfgZeW5At+10HU7nluf67gqcfR
- UK+FmJRPThFyhv6JT3n1lMw0/GsEmQjTFDwZQYwSCAAC7ww/RVjND5Dgdj3KInZKkuER
- DDXQ==
+ (Exim 4.90_1) (envelope-from <trini@konsulko.com>)
+ id 1miIdC-0004bC-2W
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:56:55 -0400
+Received: by mail-qt1-x82c.google.com with SMTP id o12so1308151qtv.4
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:56:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=UxvmRoWg44HPTy/dFmIBXIcm3NkM9L8NhwEC1h8+xpc=;
+ b=nWFL1CKrsYsGMOrnt4yOXLEX+cbk05+609wBab9LXGxSIOYv7UeT6l/3VDlYbiYHn+
+ ggSdNz49AweNHwmjV+kRdk0epp1OWXHXlBn9gd1M6T44B/YsmJ3pJ/xQuHq7dsohDicF
+ pZ39240e4H/NdpBHcIh7XqM08QdQ3U/uuJJE8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fB/3eilnHZ8mHHK75h5WYhK2X/qfe30VgUzY8n++FYw=;
- b=ZW2pPgJ2yuVjzQThdayqnOOS8JjfbE+ZPpLy3RFBDpzwQUCWdPufXUTvr4NofAaZTe
- drRXIzC+SSR2sP6qCjdlEDp+x2W8vT1kmnMzyWoaNCBWA+wlq7x80uHUNrrmuMyPzQ3R
- BKc/XtGzL1239SAhkpdOTYqAClM0l6/6xSGIu3/q52H332JWw1uhZhBUpKZm9/TQ2hfM
- HxvSkbrVjdAnke+VkvsjRXsyx++1xhcZoPTzSK2ndq0+2k4ZehpCnb0+9SncoGddIvx4
- 5zw63bFuk5jl4s9U6o1oiTxQb5pjepuMtEk+d5/mKk2JQDRkeaEKNcbvArEINBo2TvsO
- SgOQ==
-X-Gm-Message-State: AOAM5316p3dpIN99ghnfn5+l4zKslZL+mal6kCyy7TGlPxTlSKWB1Nxw
- hUzYIhyaIesokM/qyo0QYN7yXQ==
-X-Google-Smtp-Source: ABdhPJyTaE12rMbRyO/xBd5W4rqtZn3F1FFprG5nwdjHf8MH2oixTG731Nb1LVa4Qu0rI08bjqtUIA==
-X-Received: by 2002:a0c:f9cc:: with SMTP id j12mr198143qvo.2.1635954418997;
- Wed, 03 Nov 2021 08:46:58 -0700 (PDT)
-Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
- [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id w5sm1829060qko.54.2021.11.03.08.46.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Nov 2021 08:46:58 -0700 (PDT)
-Subject: Re: [PATCH v3 16/23] target/mips: Extract trap code into
- env->error_code
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20211103140847.454070-1-richard.henderson@linaro.org>
- <20211103140847.454070-17-richard.henderson@linaro.org>
- <13397f73-9594-d363-e7ab-860477a832b7@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d6d8504d-8bfd-bcdb-9912-65ffdb052c25@linaro.org>
-Date: Wed, 3 Nov 2021 11:46:56 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=UxvmRoWg44HPTy/dFmIBXIcm3NkM9L8NhwEC1h8+xpc=;
+ b=l/Rrul+ohhhXAFhspniGfLuzd65UBZBGxjis/G/1DYQ9fH0a5Ru0iReIfJ9vVRySHl
+ leKKhHHhQlIr9ZAQTr4nSQBEPpwPsDdvY8ac9SvAAb079X2WSCJ02hkHyN695R4qATuu
+ +UNv6wlLpIJdRhDlfB6UfhxDFjXtaousEWcStrDIXJRV+w9+xInBcNdBHkOFf7Bu8WC2
+ duD+3CrW8N1NXwBh3ryw/ioFPZiBgZLDmtuDq86veqfSY1Y2JLiYif5Yw1Xd7HElEZF+
+ 6WeWEj0HY2ffeFTC1DF2nWEcnvBKJjltTm8gwMZmnU5gFTZY5QqHW4ZHdeKvMzFG/T4y
+ AOJw==
+X-Gm-Message-State: AOAM532A+jf/BGneKCrSY2R7HiDdMkh+o9hSROotKQK/2yzI04zLbnyB
+ ayYO1lwADXEB+DbMCJnuJVzngw==
+X-Google-Smtp-Source: ABdhPJxlkzsrrGxFBgCXE/+hry1y3OLvHXepD5mCebry+jHweXvUCV/jaluV1gpZTG1hsYTD7FxNaA==
+X-Received: by 2002:a05:622a:1006:: with SMTP id
+ d6mr46640970qte.259.1635955013006; 
+ Wed, 03 Nov 2021 08:56:53 -0700 (PDT)
+Received: from bill-the-cat
+ (2603-6081-7b01-cbda-e929-65d4-8978-cf6f.res6.spectrum.com.
+ [2603:6081:7b01:cbda:e929:65d4:8978:cf6f])
+ by smtp.gmail.com with ESMTPSA id 201sm1726976qkm.1.2021.11.03.08.56.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Nov 2021 08:56:49 -0700 (PDT)
+Date: Wed, 3 Nov 2021 11:56:47 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Simon Glass <sjg@chromium.org>
+Subject: Re: [PATCH v5 00/26] fdt: Make OF_BOARD a boolean option
+Message-ID: <20211103155647.GD24579@bill-the-cat>
+References: <20211026002344.405160-1-sjg@chromium.org>
+ <CAHFG_=WdKL-WcaNJxwqMRHBgVQZy9SRz11mYDKJifXEnQyQSXg@mail.gmail.com>
+ <CAPnjgZ0MGr+2tcSziB8DWXZPmv6Q=9ecs_6RK=N20n3-XJiL5w@mail.gmail.com>
+ <CAHFG_=Vr6VkJy+d0MaPvVsoXYgvdB5xd2P5FuvF2w63bxSm4cw@mail.gmail.com>
+ <CAPnjgZ3Gr+m+sTHDOpW+RFQ6rTtbriY4TpU3bjzqZB79f43Ycw@mail.gmail.com>
+ <d3ca9672e7f97f07@bloch.sibelius.xs4all.nl>
+ <CAPnjgZ0r04-_K+8JkXhzxDeW5pg3FSrnJbwA6Ghd_a_=jVKKeg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <13397f73-9594-d363-e7ab-860477a832b7@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f29;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf29.google.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.528,
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="p7Jy7isCirGQ9JA8"
+Content-Disposition: inline
+In-Reply-To: <CAPnjgZ0r04-_K+8JkXhzxDeW5pg3FSrnJbwA6Ghd_a_=jVKKeg@mail.gmail.com>
+X-Clacks-Overhead: GNU Terry Pratchett
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
+ envelope-from=trini@konsulko.com; helo=mail-qt1-x82c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,35 +90,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, laurent@vivier.eu
+Cc: linus.walleij@linaro.org, fitzsim@fitzsim.org, qemu-devel@nongnu.org,
+ seanga2@gmail.com, u-boot@lists.denx.de,
+ Mark Kettenis <mark.kettenis@xs4all.nl>, francois.ozog@linaro.org,
+ swarren@nvidia.com, Oleksandr_Andrushchenko@epam.com, xypron.glpk@gmx.de,
+ michal.simek@xilinx.com, vanbaren@cideas.com, swarren@wwwdotorg.org,
+ andre.przywara@arm.com, agraf@csgraf.de, Anastasiia_Lukianenko@epam.com,
+ albert.u.boot@aribaud.net, mbrugger@suse.com, ilias.apalodimas@linaro.org,
+ awilliams@marvell.com, tuomas.tynkkynen@iki.fi, bmeng.cn@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/3/21 11:21 AM, Philippe Mathieu-Daudé wrote:
->>       do_trap:
->> -        gen_trap(ctx, mips32_op, rs, rt, -1);
->> +        gen_trap(ctx, mips32_op, rs, rt, -1, extract32(ctx->opcode, 12, 4));
->>           break;
->>   #ifndef CONFIG_USER_ONLY
->>       case MFC0:
->> @@ -2439,7 +2439,7 @@ static void decode_micromips32_opc(CPUMIPSState *env, DisasContext *ctx)
->>               check_insn_opc_removed(ctx, ISA_MIPS_R6);
->>               mips32_op = OPC_TEQI;
->>           do_trapi:
->> -            gen_trap(ctx, mips32_op, rs, -1, imm);
->> +            gen_trap(ctx, mips32_op, rs, -1, imm, 0);
-> 
-> IIUC the microMIPS manual (MD00594):
-> 
->                 gen_trap(ctx, mips32_op, rs, -1, imm,
->                          extract32(ctx->opcode, 12, 4));
 
-No, there is no code for trap-immediate.
-You can see the 12:4 code above for trap-register.
+--p7Jy7isCirGQ9JA8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-See the 3.05 revision of the manual, which still contains TEQI.  Note that all 
-trap-immediate opcodes were removed for R6.
+On Tue, Nov 02, 2021 at 07:20:51PM -0600, Simon Glass wrote:
+> Hi Mark,
+>=20
+> On Wed, 27 Oct 2021 at 16:30, Mark Kettenis <mark.kettenis@xs4all.nl> wro=
+te:
+> >
+> > > From: Simon Glass <sjg@chromium.org>
+> > > Date: Wed, 27 Oct 2021 12:23:21 -0600
+> > >
+> > > Hi Fran=E7ois,
+> > >
+> > > On Wed, 27 Oct 2021 at 09:14, Fran=E7ois Ozog <francois.ozog@linaro.o=
+rg> wrote:
+> > > >
+> > > >
+> > > >
+> > > > On Wed, 27 Oct 2021 at 16:08, Simon Glass <sjg@chromium.org> wrote:
+> > > >>
+> > > >> Hi Fran=E7ois,
+> > > >>
+> > > >> On Tue, 26 Oct 2021 at 00:07, Fran=E7ois Ozog <francois.ozog@linar=
+o.org> wrote:
+> > > >> >
+> > > >> > Hi Simon
+> > > >> >
+> > > >> > Position unchanged on this series: adding fake dts for boards th=
+at generate their device tree in the dts directory is not good. If you have=
+ them in documentation the it is acceptable.
+> > > >>
+> > > >> I think we are going to have to disagree on this one. I actually u=
+sed
+> > > >> the qemu one in testing/development recently. We have to have a wa=
+y to
+> > > >> develop in-tree with U-Boot. It does not impinge on any of your use
+> > > >> cases, so far as I know.
+> > > >
+> > > > I am not the only one in disagreement... You just saw Alex B=E9n=E9=
+e from Qemu saying the same thing.
+> > > > I understand the advanced debug/development scenario you mention.
+> > > > But locating the DT files in the dts directory is mis-leading the c=
+ontributors to think that they need to compile the DT for the targeted plat=
+forms.
+> > > > For your advanced scenario, you can still have the dts in the docum=
+entation area, or whatever directory (except dts). compile it and supply to=
+ U-Boot.
+> > >
+> > > We have this situation with rpi 1, 2 and 3 and I don't believe anyone
+> > > has noticed. U-Boot handles the build automatically. If you turn off
+> > > OF_BOARD, it will use the U-Boot devicetree always so you know what is
+> > > going on.
+> >
+> > Until.  The Raspberry Pi foundation releases a new firmware that
+> > configures the hardware differently such that the addresses in the
+> > U-Boot devicetree are wrong and nothing works anymore.  Can't speak
+> > for the rpi 1, but this has happened in the past for the rpi 2 and 3
+> > as well as more recently on the rpi 4.
+>=20
+> So I update my SD card with a new private-binary bootloader and things
+> stop working? I think I can narrow that one down :-)
 
+Well, wait, no, this is the point.  You can just not update your board.
+But that all of the users running a more recent release are now broken
+is the problem.  It's already an opt-in thing to use U-Boot on Pis and
+if we make it even more annoying to be recent, there'll be even less
+reason to use U-Boot over over the Pi+TianoCore if you want anything
+more fancy that direct-to-Linux booting.
 
-r~
+--=20
+Tom
+
+--p7Jy7isCirGQ9JA8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmGCsTwACgkQFHw5/5Y0
+tywowwwAjh/I2ESKoXGKfn8tdSOJkwkm76+IQMDKUUA9w5hGPosNr3PFkljQEEao
+7u7wQ6fWpBHQvvJR0alLSQJsC/Mc33svclejrOFxB8QgBIUCELweBSkTlzpMxV3f
+jULksNSnkSTGFgavE9mcohqXPfEEC0i5MlHw8COljvYYdleRIYPCVSrOJHcWFtqc
+MNH5wn33ZSwrgzILUsOTdHGV54f/YvGjnTAN/FeLOB2rCp4BAGzUZCaxngKvdRIk
+0j4IY5qOokXM/z/MyUBKmDynG+Ml0IUp+LGK8IPxQR8DBXwLZfFmhehdImAqW93S
+m/Ug1Dh0kFER4AJN6aLXiXgIedOipLPWiBGsVpvHS5+2viMiN9aniXaJvSqG8cuE
+rAYD2wdcCtIhCnrru/Dn3G/ZhRlutINX387jmCcKGr63Wl641Pf0fotK/5750Low
+wQoegNquYbZlDXNK891AZVKA5tCSpD4UwCFY5YhqKp8G+D/6zBUn7WpVzMLbJsVB
+VVv2wJ8A
+=Gg7j
+-----END PGP SIGNATURE-----
+
+--p7Jy7isCirGQ9JA8--
 
