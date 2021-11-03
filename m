@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5A4B443AB0
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 02:06:12 +0100 (CET)
-Received: from localhost ([::1]:37580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CB62443AB2
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 02:07:45 +0100 (CET)
+Received: from localhost ([::1]:40570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mi4jD-0004L4-4B
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 21:06:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43122)
+	id 1mi4ki-0006SG-9b
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 21:07:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mi4hU-0003f0-P0
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 21:04:24 -0400
-Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:34376)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mi4hS-0001FV-BW
- for qemu-devel@nongnu.org; Tue, 02 Nov 2021 21:04:24 -0400
-Received: by mail-qk1-x735.google.com with SMTP id bq14so840649qkb.1
- for <qemu-devel@nongnu.org>; Tue, 02 Nov 2021 18:04:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=XriK0b8XCdP641AIVKpOgdY6OB4DQfc2E1hwwM0GhuY=;
- b=jysEYEC1XrsF9VECkPyhpPwCvjy8TppsIXsMo9nI67yngH+0B5ZvOVgV7w4Bz+zBN8
- U5U0nOrL2D69WpJ62jo5XOH7xMnCNgEjrA4LF+gMHXY1605yMG8X1CSmo21rbrtuxuFG
- ehkAFhFYsH1E2yx22vwbhXOX6k0fsPxZebOX++1D6+Qd6z0a9RVHlI4qTnJHhuWZNdAH
- uzB0OHSSdMrk+JOMrWRWllPOXEv4Cp4l/T9zCxIv/AKBiIXD0ZBssFD8V2PpFSXrtVHC
- VDWU44lLCmlvT7HkHiGlsgbKgSO7FHW7RYqRVvKaQRo06yOyZoi5s/G3Rnr2rhNlLZx7
- hofQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XriK0b8XCdP641AIVKpOgdY6OB4DQfc2E1hwwM0GhuY=;
- b=b5kBqBPWn139qPl1A1y2dB5SUrbZFhjO6NRz/xWb5Y8ifJH4ZYoqJYxXZh7O1L8aMr
- A/Klyk6l5pJUqQ/8U7x4f7VwJA+Hdqus6y+KQTCLOMI2gU658w3AyQ59s1Yun0WN7WqP
- 7l71hVH2O2svGZB030WDb8yeo9xHMqlZ04GtK+bNlO6Nh7dtIdArgL1Hah83MJRcEaqg
- 1wZefgMIV1CPumo/3qvjVZb0lhuJoLFl4UxKSliH2bSmr7LxPsJX7vXd5qvflZGT7w7N
- 3sfMBHKqeNdAR1W0UCRxcTfuYiiHU0rjbHrlMZUi9kGR8XQslo/A35hQAN5Z41HMdEXU
- nxTg==
-X-Gm-Message-State: AOAM533I8IJt9F4eO/0OwZO4s+JiWZeQ/Ad508raGmGzR59WIyPDT2H/
- AYPXT603KREamEf15jPXdAdHrg==
-X-Google-Smtp-Source: ABdhPJwkTWYiT8LnwlOwLODBH2NkXawC7p57fu0YWGGpbUd/wG8XVtumwL9EusZpea1RnKTaaifR9Q==
-X-Received: by 2002:a05:620a:2808:: with SMTP id
- f8mr10735244qkp.434.1635901461295; 
- Tue, 02 Nov 2021 18:04:21 -0700 (PDT)
-Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
- [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id e14sm504958qty.59.2021.11.02.18.04.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Nov 2021 18:04:20 -0700 (PDT)
-Subject: Re: [PULL 0/9] pc,pci,virtio: features, fixes
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-References: <20211101234358.582487-1-mst@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <42306e21-1eac-adec-ef9f-074b27a31786@linaro.org>
-Date: Tue, 2 Nov 2021 21:04:19 -0400
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1mi4jX-00054l-2m; Tue, 02 Nov 2021 21:06:31 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25]:56706 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1mi4jT-0002h6-94; Tue, 02 Nov 2021 21:06:30 -0400
+Received: from [192.168.0.103] (unknown [180.156.147.178])
+ by APP-05 (Coremail) with SMTP id zQCowACXnamJ4IFh9qsnBg--.15201S2;
+ Wed, 03 Nov 2021 09:06:17 +0800 (CST)
+Subject: Re: [RFC 3/6] target/riscv: rvk: add flag support for
+ Zk/Zkn/Zknd/Zknd/Zkne/Zknh/Zks/Zksed/Zksh/Zkr
+To: Richard Henderson <richard.henderson@linaro.org>, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20211102031128.17296-1-liweiwei@iscas.ac.cn>
+ <20211102031128.17296-4-liweiwei@iscas.ac.cn>
+ <85f8f249-a54c-0ad6-a3bf-7bc4f072251b@linaro.org>
+From: liweiwei <liweiwei@iscas.ac.cn>
+Message-ID: <83e80e8f-485a-84b9-10e6-bac7d54850e1@iscas.ac.cn>
+Date: Wed, 3 Nov 2021 09:06:17 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211101234358.582487-1-mst@redhat.com>
+In-Reply-To: <85f8f249-a54c-0ad6-a3bf-7bc4f072251b@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x735.google.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.549,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-CM-TRANSID: zQCowACXnamJ4IFh9qsnBg--.15201S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrZry5AFW8tFWrZFyUuryDWrg_yoW3Kwc_Jw
+ 48KrnrWr4UJr48Kr15Zr1kZry5tr42yF1Yqrs8A3W8WF18JF98Jr1rtwn5Crn5K3yUAry5
+ Jr18Jw13G3WjqjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbh8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+ Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJV
+ WxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+ 0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0264kExVAvwVAq07x20xyl42xK82IYc2
+ Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
+ 6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0x
+ vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
+ 42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87
+ Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUnXdbUUUUU
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.549,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,81 +77,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, luruibo2000@163.com,
+ lustrew@foxmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/1/21 7:44 PM, Michael S. Tsirkin wrote:
-> The following changes since commit af531756d25541a1b3b3d9a14e72e7fedd941a2e:
-> 
->    Merge remote-tracking branch 'remotes/philmd/tags/renesas-20211030' into staging (2021-10-30 11:31:41 -0700)
-> 
-> are available in the Git repository at:
-> 
->    git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> 
-> for you to fetch changes up to d99e8b5fcb138b19f751c027ed5599224f9b5036:
-> 
->    hw/i386: fix vmmouse registration (2021-11-01 19:36:11 -0400)
-> 
-> ----------------------------------------------------------------
-> pc,pci,virtio: features, fixes
-> 
-> virtio-iommu support for x86/ACPI.
-> Fixes, cleanups all over the place.
-> 
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> 
-> ----------------------------------------------------------------
-> David Hildenbrand (1):
->        vhost-vdpa: Set discarding of RAM broken when initializing the backend
-> 
-> Igor Mammedov (1):
->        qtest: fix 'expression is always false' build failure in qtest_has_accel()
-> 
-> Jean-Philippe Brucker (4):
->        hw/acpi: Add VIOT table
->        hw/i386/pc: Remove x86_iommu_get_type()
->        hw/i386/pc: Move IOMMU singleton into PCMachineState
->        hw/i386/pc: Allow instantiating a virtio-iommu device
-> 
-> Pavel Dovgalyuk (1):
->        hw/i386: fix vmmouse registration
-> 
-> Peter Xu (2):
->        pci: Define pci_bus_dev_fn/pci_bus_fn/pci_bus_ret_fn
->        pci: Export pci_for_each_device_under_bus*()
-> 
->   hw/acpi/viot.h              |  13 +++++
->   include/hw/i386/pc.h        |   1 +
->   include/hw/i386/x86-iommu.h |  12 -----
->   include/hw/pci/pci.h        |  24 ++++++----
->   hw/acpi/viot.c              | 114 ++++++++++++++++++++++++++++++++++++++++++++
->   hw/i386/acpi-build.c        |  33 +++++++------
->   hw/i386/amd_iommu.c         |   2 -
->   hw/i386/intel_iommu.c       |   3 --
->   hw/i386/pc.c                |  26 +++++++++-
->   hw/i386/vmmouse.c           |   1 +
->   hw/i386/x86-iommu-stub.c    |   5 --
->   hw/i386/x86-iommu.c         |  31 ++++--------
->   hw/pci/pci.c                |  26 ++++------
->   hw/pci/pcie.c               |   4 +-
->   hw/ppc/spapr_pci.c          |  12 ++---
->   hw/ppc/spapr_pci_nvlink2.c  |   7 ++-
->   hw/ppc/spapr_pci_vfio.c     |   4 +-
->   hw/s390x/s390-pci-bus.c     |   5 +-
->   hw/virtio/vhost-vdpa.c      |  13 +++++
->   hw/xen/xen_pt.c             |   4 +-
->   hw/acpi/Kconfig             |   4 ++
->   hw/acpi/meson.build         |   1 +
->   hw/i386/Kconfig             |   1 +
->   meson.build                 |   2 +-
->   24 files changed, 239 insertions(+), 109 deletions(-)
->   create mode 100644 hw/acpi/viot.h
->   create mode 100644 hw/acpi/viot.c
 
-Applied, thanks.
-
-r~
+在 2021/11/3 上午1:56, Richard Henderson 写道:
+> On 11/1/21 11:11 PM, liweiwei wrote:
+>> +        if (cpu->cfg.ext_zk) {
+>> +            cpu->cfg.ext_zbkb = true;
+>> +            cpu->cfg.ext_zbkc = true;
+>> +            cpu->cfg.ext_zbkx = true;
+>> +            cpu->cfg.ext_zknd = true;
+>> +            cpu->cfg.ext_zkne = true;
+>> +            cpu->cfg.ext_zknh = true;
+>> +            cpu->cfg.ext_zkr = true;
+>> +        }
+>
+> Section 2.12 lists instead the larger Zkn, Zks, Zkt extensions.
+> I think it's better to follow that.
+>
+OK. I'll replace this with setting ext_zkn, ext_zks, ext_zkt true. By 
+the way, Zkt only includes partial RVI/M/C instructions. Is it 
+neccessary to distinguish them?
+>
+> r~
 
 
