@@ -2,68 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055BD443AB8
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 02:10:33 +0100 (CET)
-Received: from localhost ([::1]:44498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B7A6443AC0
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 02:13:45 +0100 (CET)
+Received: from localhost ([::1]:47436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mi4nQ-0000fr-3A
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 21:10:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43816)
+	id 1mi4qW-0002nP-Ii
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 21:13:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1mi4lf-0007jl-VX; Tue, 02 Nov 2021 21:08:44 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25]:57398 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1mi4ld-00030r-3v; Tue, 02 Nov 2021 21:08:43 -0400
-Received: from [192.168.0.103] (unknown [180.156.147.178])
- by APP-05 (Coremail) with SMTP id zQCowAD3_78R4YFhiLgnBg--.5889S2;
- Wed, 03 Nov 2021 09:08:34 +0800 (CST)
-Subject: Re: [RFC 4/6] target/riscv: rvk: add implementation of instructions
- for Zk*
-To: Richard Henderson <richard.henderson@linaro.org>, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-References: <20211102031128.17296-1-liweiwei@iscas.ac.cn>
- <20211102031128.17296-5-liweiwei@iscas.ac.cn>
- <345c3fc7-72f9-a5b8-1545-fe7835ed8905@linaro.org>
-From: liweiwei <liweiwei@iscas.ac.cn>
-Message-ID: <96831a41-5d70-68d4-49f7-3308be3f5f6d@iscas.ac.cn>
-Date: Wed, 3 Nov 2021 09:08:33 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mi4pB-0001y1-WB; Tue, 02 Nov 2021 21:12:22 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:45918)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mi4p8-0003vy-BG; Tue, 02 Nov 2021 21:12:21 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id B941F746353;
+ Wed,  3 Nov 2021 02:12:11 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 904F7746333; Wed,  3 Nov 2021 02:12:11 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 8B8A87462D3;
+ Wed,  3 Nov 2021 02:12:11 +0100 (CET)
+Date: Wed, 3 Nov 2021 02:12:11 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PULL 0/4] Trivial branch for 6.2 patches
+In-Reply-To: <20211102232212.2911638-1-laurent@vivier.eu>
+Message-ID: <1de94126-c15f-1040-a254-3c49b95189d@eik.bme.hu>
+References: <20211102232212.2911638-1-laurent@vivier.eu>
 MIME-Version: 1.0
-In-Reply-To: <345c3fc7-72f9-a5b8-1545-fe7835ed8905@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: zQCowAD3_78R4YFhiLgnBg--.5889S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtw4DXr1Dur1fCF4UtFyxKrg_yoWDuFc_J3
- y8WrsrJr1UZayDKF45Ar17GFn3X3Z7AFyDKF4Fqr1j9ay0g397J342kFyxZw1rKry5JF9x
- G3W7G34UJrn8ujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbSkFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
- Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJV
- WxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
- 0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0264kExVAvwVAq07x20xyl42xK82IYc2
- Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
- 6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0x
- vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
- 42xK8VAvwI8IcIk0rVW3JVWrJr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aV
- CY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUj2jg7UUUUU==
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.549,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-602452773-1635901931=:80404"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,43 +55,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, luruibo2000@163.com,
- lustrew@foxmail.com
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-在 2021/11/3 上午2:56, Richard Henderson 写道:
-> On 11/1/21 11:11 PM, liweiwei wrote:
->> +uint8_t AES_ENC_SBOX[] = {
->> +  0x63, 0x7C, 0x77, 0x7B, 0xF2, 0x6B, 0x6F, 0xC5,
->> +  0x30, 0x01, 0x67, 0x2B, 0xFE, 0xD7, 0xAB, 0x76,
->> +  0xCA, 0x82, 0xC9, 0x7D, 0xFA, 0x59, 0x47, 0xF0,
->> +  0xAD, 0xD4, 0xA2, 0xAF, 0x9C, 0xA4, 0x72, 0xC0,
->
-> Use "crypto/aes.h".
->
-OK. I'll reuse this.
->
->> +/* SM4 forward SBox. SM4 has no inverse sbox. */
->> +static const uint8_t sm4_sbox[256] = {
->> +    0xD6, 0x90, 0xE9, 0xFE, 0xCC, 0xE1, 0x3D, 0xB7, 0x16, 0xB6, 
->> 0x14, 0xC2,
->> +    0x28, 0xFB, 0x2C, 0x05, 0x2B, 0x67, 0x9A, 0x76, 0x2A, 0xBE, 
->> 0x04, 0xC3,
->> +    0xAA, 0x44, 0x13, 0x26, 0x49, 0x86, 0x06, 0x99, 0x9C, 0x42, 
->> 0x50, 0xF4,
->
-> Hmm.  We have an existing copy of this in target/arm/crypto_helper.c.  
-> I think we should move that code out to a shared location like aes.
-OK. I'll try to move it.
->
->> +#define sext_xlen(x) (((int64_t)(x) << (XLEN - 32)) >> (XLEN  - 32))
->
-> This is (target_ulong)(int32_t)(x).
->
-OK. I'll improve this.
->
-> r~
+--3866299591-602452773-1635901931=:80404
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
+On Wed, 3 Nov 2021, Laurent Vivier wrote:
+> The following changes since commit af531756d25541a1b3b3d9a14e72e7fedd941a2e:
+>
+>  Merge remote-tracking branch 'remotes/philmd/tags/renesas-20211030' into staging (2021-10-30 11:31:41 -0700)
+>
+> are available in the Git repository at:
+>
+>  git://github.com/vivier/qemu.git tags/trivial-branch-for-6.2-pull-request
+>
+> for you to fetch changes up to 5d2bd73588d14b5868129ace9c7912a777f06753:
+>
+>  hw/input/lasips2: Fix typos in function names (2021-10-31 21:05:40 +0100)
+>
+> ----------------------------------------------------------------
+> Trivial patches branch pull request 20211101 v2
+
+Did you see this one?
+https://patchew.org/QEMU/20211030095225.513D4748F48@zero.eik.bme.hu/
+
+Could somebody take it please?
+
+Regards,
+BALATON Zoltan
+
+> ----------------------------------------------------------------
+>
+> Markus Armbruster (1):
+>  monitor: Trim some trailing space from human-readable output
+>
+> Philippe Mathieu-Daudé (2):
+>  MAINTAINERS: Split HPPA TCG vs HPPA machines/hardware
+>  hw/input/lasips2: Fix typos in function names
+>
+> Yanan Wang (1):
+>  hw/core/machine: Add the missing delimiter in cpu_slot_to_string()
+>
+> MAINTAINERS                | 5 ++---
+> hw/core/machine.c          | 3 +++
+> hw/input/lasips2.c         | 8 ++++----
+> monitor/hmp-cmds.c         | 2 +-
+> target/i386/cpu-dump.c     | 4 ++--
+> target/i386/cpu.c          | 2 +-
+> target/ppc/cpu_init.c      | 2 +-
+> target/s390x/cpu_models.c  | 4 ++--
+> target/xtensa/mmu_helper.c | 2 +-
+> 9 files changed, 17 insertions(+), 15 deletions(-)
+>
+> --
+> 2.31.1
+>
+>
+>
+--3866299591-602452773-1635901931=:80404--
 
