@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54D42444122
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 13:13:17 +0100 (CET)
-Received: from localhost ([::1]:53134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52339444121
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 13:12:52 +0100 (CET)
+Received: from localhost ([::1]:54712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miF8m-00080M-1V
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 08:13:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39182)
+	id 1miF8N-0000mn-8Q
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 08:12:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1miF3R-0006xL-8C; Wed, 03 Nov 2021 08:07:45 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:35171)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1miF6o-0008M0-Mz
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 08:11:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1miF3M-0001v5-2Z; Wed, 03 Nov 2021 08:07:44 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 2322358078E;
- Wed,  3 Nov 2021 08:07:37 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 03 Nov 2021 08:07:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=6lm6wcNinPAIJw0Attz58znorJA
- gYeITkSMEl2I+/Kk=; b=cPgC0oGYKpedhKrH/KwbqSvL5NSkUjk7RgH1+v0L4td
- ccdm/UoujipPvZl87JYPB5aDy1bIK9n5MPG4JqSc8i9IkbWvxO884PCEK17QU1G9
- Je9a1k2J4nXf6ZbjE3eVS7nSwmuun5kziMoNFi2H4a94KXGLyApXa8lL4YJDIAs+
- 3/z/dRygHDNxbnT7sbbOdR18LY0RJzrifqXLbLvn5Mdx4cMyLt4lTw8NqAYHRUSq
- itRImMT9dgCtxjfodjd6MZWrgPdHIfbXjgkIlQzopUz3ROet1Vx6TJzs1JmHFQdp
- 5Q/KZvF/ylTFyENuq6oTmbI478lHf6CcSDEzXY9KhuA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=6lm6wc
- NinPAIJw0Attz58znorJAgYeITkSMEl2I+/Kk=; b=f3CSaSdqY+r9DKAf031X8B
- OAzKBFG3052tFyz/NqTEwe+uIcJJhBeQ5g4g1fzuADJ7fmJO73QzN3w46hBInoqV
- gH3MYMe9RWLkxVRh4ryYq+Yr2/g7r5YioqyuQHRZ2uw0LpO01QQQTfblJ4okkGIV
- 9wKod7ddh/6OwGrpuZ6Lika1Hh41bNDCxgTwxg3MuQRvb4BzBB+rZq46xNlNyj5o
- HU039Cj9z/x+FXoGC4hMH6774KnRitEwVhqOVVIDiOdsl/mvwER9aFqH2AEtbcOI
- HGUCl9nWGRrOG37bfsjviLxlVCVBCS5USlG5eQOnQZcDsf6/hlBy/cPeHILpYJ3Q
- ==
-X-ME-Sender: <xms:h3uCYcD89TCdR6u7Yjr0JO3iK_kYaArCp-FSqxGec4QWx7wvhClG0w>
- <xme:h3uCYeg5x6KfTYamZ1EFTk1e7DtrzsgvZJy4oecKmbTutImxJChk0K4kvAp-Ggcuh
- lI6n4t4Udna9w8fnzs>
-X-ME-Received: <xmr:h3uCYflvGtb6ZS-woYB6xtx5H2FIjz-6M5gJqE5iJ1EKBcVGeJ2xkK_IkPdQTCA3avI-VeAyJ4eu1MgW3G2DyVEz7L75qwMSOupb3WSnJWUAk1aMuw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrtddvgdefhecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
- esihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:h3uCYSzPSlbjgIHyskVzY8z5wPsaFr6aCUc-IfVCLOR8tSzCe8D_Jw>
- <xmx:h3uCYRSCz1SM4azCfP6wKP1zsVfvZRfm4NFz32Td1OgnVlPpbazFkA>
- <xmx:h3uCYdb2jk4vFY7itlzVYR3L4DsYjlSnTfc5Tp3Bc5gluYFuCEIA6g>
- <xmx:iXuCYe8Sovs1YrLkeC6WHpKgbsPwM49zvywVXYdtcP8FrrxTUxHdZg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 3 Nov 2021 08:07:33 -0400 (EDT)
-Date: Wed, 3 Nov 2021 13:07:31 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Lukasz Maniak <lukasz.maniak@linux.intel.com>
-Subject: Re: [PATCH 12/15] hw/nvme: Initialize capability structures for
- primary/secondary controllers
-Message-ID: <YYJ7gy185o57adWJ@apples.localdomain>
-References: <20211007162406.1920374-1-lukasz.maniak@linux.intel.com>
- <20211007162406.1920374-13-lukasz.maniak@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1miF6l-0002Ob-PL
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 08:11:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1635941470;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sPgLDQ4GkrfvapCsEDQBUSlaaWy+iSbPf2uA1XHNjNE=;
+ b=LtrJjG+BDpPHS2RfY4SXgrAm3Si7wV4C5yZTqcsSyghXBRYJKR1T6yFk1PtbDvh/ySveIY
+ mtec0ZY6UcYaOfrrmemUG9gRAkf8Kpnw6D9SDyIJiTRu20tsWCGntm6jhB1+YDc025xK5C
+ +FKlPzN74KkRzCdiBnIHfJaaFcCfwRA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-271-I-ZMt1eROLapsJBmw-OfYA-1; Wed, 03 Nov 2021 08:11:09 -0400
+X-MC-Unique: I-ZMt1eROLapsJBmw-OfYA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 145-20020a1c0197000000b0032efc3eb9bcso2677163wmb.0
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 05:11:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=sPgLDQ4GkrfvapCsEDQBUSlaaWy+iSbPf2uA1XHNjNE=;
+ b=fFIvrNQT3N0+5Es6auc4sdFQAIUcNmRBgtO72uBkbsgBBiqiUz0BMtutqfOS1AYRO+
+ A7pKmDh0Wdph25x5EmJkjDhQzJiNPQhrf2DaWAmdyzr/NCgRpmBu/9O5LCPxYiQM999I
+ VwgcG4VfBQT5WVKrfcLOnyShNc7VgRWtis7eAe48rDKoF2QQ/fGIJFxyTpBpAcjui7sN
+ io/fhSsMmyh+FdEm4n+9hpDbQ6f4M04MrIzeKD7ORAiimz0blyGOuuavkiMgv4ldNL0e
+ PMvcyDhzLJL/lxAayTwVOYS3Qo+cjNP+6XpXfe0w8IHXpg/0f6zsKHnVRSN70hgEVJ80
+ R2gg==
+X-Gm-Message-State: AOAM533jfeMFhtVSmouEy/06gV1VvQibE3B4w125hAxt6BQxI9E5wCse
+ xXD2WvVfbe6W/R19PPPkZJC89Tax0B8FCA0k1m2uwFuorwbdrZeNTpf6CBvIuqChJn/CMEfK+HK
+ gUTEbEw1/A2pES80=
+X-Received: by 2002:a5d:6d49:: with SMTP id k9mr52339689wri.352.1635941468408; 
+ Wed, 03 Nov 2021 05:11:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyItY2OPsvL4Q6fvHbsOBs2WoyEL9U9jN1EMiaweVERFAa9yD/VxKXCILIx8DOtFaTxE0NfyQ==
+X-Received: by 2002:a5d:6d49:: with SMTP id k9mr52339662wri.352.1635941468171; 
+ Wed, 03 Nov 2021 05:11:08 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id n184sm3506609wme.2.2021.11.03.05.11.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Nov 2021 05:11:07 -0700 (PDT)
+Date: Wed, 3 Nov 2021 12:11:05 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Zhiwei Jiang <elish.jiang@ucloud.cn>
+Subject: Re: [PATCH] migration: RDMA registrations interval optimization
+Message-ID: <YYJ8WQlGAW8vG8dL@work-vm>
+References: <20210820155756.3899605-1-elish.jiang@ucloud.cn>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="MA+j8HKlSTlWgb5+"
+In-Reply-To: <20210820155756.3899605-1-elish.jiang@ucloud.cn>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211007162406.1920374-13-lukasz.maniak@linux.intel.com>
-Received-SPF: pass client-ip=66.111.4.224; envelope-from=its@irrelevant.dk;
- helo=new2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,79 +95,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org,
- =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
- qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Zhiwei Jiang (elish.jiang@ucloud.cn) wrote:
+> RDMA migration very hard to complete when VM run mysql
+> benchmark on 1G host hugepage.I think the time between
+> ram_control_before_iterate(f, RAM_CONTROL_ROUND) and
+> after_iterate is too large when 1G host pagesize,so 1M
+> buffer size match with mlx driver that will be good.
+> after this patch,it will work as normal on my situation.
 
---MA+j8HKlSTlWgb5+
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
+  Apologies for the delay in responding.
 
-On Oct  7 18:24, Lukasz Maniak wrote:
-> From: =C5=81ukasz Gieryk <lukasz.gieryk@linux.intel.com>
->=20
-> With two new properties (sriov_max_vi_per_vf, sriov_max_vq_per_vf) one
-> can configure the maximum number of virtual queues and interrupts
-> assignable to a single virtual device. The primary and secondary
-> controller capability structures are initialized accordingly.
->=20
-> Since the number of available queues (interrupts) now varies between
-> VF/PF, BAR size calculation is also adjusted.
->=20
+There are a few things I don't understand about this patch:
+  a) Splitting the ram_save-host_page is probably wrong, in other
+places we rely on this always saving the whole page.
 
-While this patch allows configuring the VQFRSM and VIFRSM fields, it
-implicitly sets VQFRT and VIFRT (i.e. by setting them to the product of
-sriov_max_vi_pervf and max_vfs). Which is just setting it to an upper
-bound and this removes a testable case for host software (e.g.
-requesting more flexible resources than what is currently available).
+  b) I don't understand why splitting ram_save_host_page to a smaller
+size, causes ram_control..(RAM_CONTROL_ROUND) to be called more often
+- it might be if you have the bandwidth limits set?
 
-This patch also requires that these parameters are set if sriov_max_vfs
-is. I think we can provide better defaults.
+  c) I thought the RDMA cards preferred large transfers? Can you provide
+some pointer to the information on this 1M buffer size and why it slows
+it down?
 
-How about,
+Dave
 
-1. if only sriov_max_vfs is set, then all VFs get private resources
-   equal to max_ioqpairs. Like before this patch. This limits the number
-   of parameters required to get a basic setup going.
+> Signed-off-by: Zhiwei Jiang <elish.jiang@ucloud.cn>
+> ---
+>  migration/migration.c | 13 +++++++++++++
+>  migration/migration.h |  6 ++++++
+>  migration/ram.c       |  6 +++++-
+>  3 files changed, 24 insertions(+), 1 deletion(-)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 041b8451a6..934916b161 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -457,6 +457,8 @@ void migrate_add_address(SocketAddress *address)
+>  static void qemu_start_incoming_migration(const char *uri, Error **errp)
+>  {
+>      const char *p = NULL;
+> +    MigrationState *s = migrate_get_current();
+> +    s->enabled_rdma_migration = false;
+>  
+>      qapi_event_send_migration(MIGRATION_STATUS_SETUP);
+>      if (strstart(uri, "tcp:", &p) ||
+> @@ -465,6 +467,7 @@ static void qemu_start_incoming_migration(const char *uri, Error **errp)
+>          socket_start_incoming_migration(p ? p : uri, errp);
+>  #ifdef CONFIG_RDMA
+>      } else if (strstart(uri, "rdma:", &p)) {
+> +        s->enabled_rdma_migration = true;
+>          rdma_start_incoming_migration(p, errp);
+>  #endif
+>      } else if (strstart(uri, "exec:", &p)) {
+> @@ -2040,6 +2043,7 @@ void migrate_init(MigrationState *s)
+>      s->start_postcopy = false;
+>      s->postcopy_after_devices = false;
+>      s->migration_thread_running = false;
+> +    s->enabled_rdma_migration = false;
+>      error_free(s->error);
+>      s->error = NULL;
+>      s->hostname = NULL;
+> @@ -2300,6 +2304,7 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+>          socket_start_outgoing_migration(s, p ? p : uri, &local_err);
+>  #ifdef CONFIG_RDMA
+>      } else if (strstart(uri, "rdma:", &p)) {
+> +        s->enabled_rdma_migration = true;
+>          rdma_start_outgoing_migration(s, p, &local_err);
+>  #endif
+>      } else if (strstart(uri, "exec:", &p)) {
+> @@ -2475,6 +2480,14 @@ bool migrate_use_events(void)
+>      return s->enabled_capabilities[MIGRATION_CAPABILITY_EVENTS];
+>  }
+>  
+> +bool migrate_use_rdma(void)
+> +{
+> +    MigrationState *s;
+> +    s = migrate_get_current();
+> +
+> +    return s->enabled_rdma_migration;
+> +}
+> +
+>  bool migrate_use_multifd(void)
+>  {
+>      MigrationState *s;
+> diff --git a/migration/migration.h b/migration/migration.h
+> index 7a5aa8c2fd..860dc93df1 100644
+> --- a/migration/migration.h
+> +++ b/migration/migration.h
+> @@ -296,6 +296,11 @@ struct MigrationState {
+>       * This save hostname when out-going migration starts
+>       */
+>      char *hostname;
+> +
+> +    /*
+> +     * Enable RDMA migration
+> +     */
+> +    bool enabled_rdma_migration;
+>  };
+>  
+>  void migrate_set_state(int *state, int old_state, int new_state);
+> @@ -332,6 +337,7 @@ bool migrate_ignore_shared(void);
+>  bool migrate_validate_uuid(void);
+>  
+>  bool migrate_auto_converge(void);
+> +bool migrate_use_rdma(void);
+>  bool migrate_use_multifd(void);
+>  bool migrate_pause_before_switchover(void);
+>  int migrate_multifd_channels(void);
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 7a43bfd7af..dc0c0e2565 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -2043,7 +2043,11 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
+>          qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
+>      unsigned long hostpage_boundary =
+>          QEMU_ALIGN_UP(pss->page + 1, pagesize_bits);
+> +    /* Set RDMA boundary default 256*4K=1M that driver delivery more effective*/
+> +    unsigned long rdma_boundary =
+> +        QEMU_ALIGN_UP(pss->page + 1, 256);
+>      unsigned long start_page = pss->page;
+> +    bool use_rdma = migrate_use_rdma();
+>      int res;
+>  
+>      if (ramblock_is_ignored(pss->block)) {
+> @@ -2069,7 +2073,7 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
+>              }
+>          }
+>          pss->page = migration_bitmap_find_dirty(rs, pss->block, pss->page);
+> -    } while ((pss->page < hostpage_boundary) &&
+> +    } while ((pss->page < (use_rdma ? rdma_boundary : hostpage_boundary)) &&
+>               offset_in_ramblock(pss->block,
+>                                  ((ram_addr_t)pss->page) << TARGET_PAGE_BITS));
+>      /* The offset we leave with is the min boundary of host page and block */
+> -- 
+> 2.25.1
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-2. if sriov_v{q,i}_private is set (I suggested this parameter in patch
-   10), the difference between that and max_ioqpairs become flexible
-   resources. Also, I'd be just fine with having sriov_v{q,i}_flexible
-   instead and just make the difference become private resources.
-   Potato/potato.
-
-   a. in the absence of sriov_max_v{q,i}_per_vf, set them to the number
-      of calculated flexible resources.
-
-This probably smells a bit like bikeshedding, but I think this gives
-more flexibility and better defaults, which helps with verifying host
-software.
-
-If we can't agree on this now, I suggest we could go ahead and merge the
-base functionality (i.e. private resources only) and ruminate some more
-about these parameters.
-
---MA+j8HKlSTlWgb5+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmGCe4AACgkQTeGvMW1P
-DenHhQgAo3b04QG+ARAHNABbIA55mi0WKbmIrHVLsHqbs10RDL5SiQqYwJhGvd3y
-Y8h6F2XO1RKQfYMrT5QBpUapVMnp6rJsQ/LTZzQpbIB8ZaxJhkLRILvbtobhnptf
-WW+RPjK4slXSftbcRFC9klEr3ArI4O0IfW7VoeoIpSlAOARbMxqjJHW5zizRvzjc
-j330yD7eMyWUKRXcJ46eJLeJ+YS0DNs172iHWvIT760/bsOV4kvXNyNivIUI6kYN
-QQz+RxciSJyehF4jjCSIJYVN3ttfmupqbjnFWKXsdfDBMYq9fDymLqLvbhU/9DKf
-XwsmPClKd8NFnardXrOhU0LdYVzr+g==
-=1lih
------END PGP SIGNATURE-----
-
---MA+j8HKlSTlWgb5+--
 
