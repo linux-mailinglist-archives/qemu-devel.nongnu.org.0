@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C41443A5E
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 01:22:45 +0100 (CET)
-Received: from localhost ([::1]:51348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88478443A5F
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 01:23:05 +0100 (CET)
+Received: from localhost ([::1]:51372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mi439-0001Ps-KG
-	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 20:22:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34928)
+	id 1mi43T-0001Qv-A4
+	for lists+qemu-devel@lfdr.de; Tue, 02 Nov 2021 20:23:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mi3yv-0007wP-J5; Tue, 02 Nov 2021 20:18:23 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:48867)
+ id 1mi3yv-0007wQ-HX; Tue, 02 Nov 2021 20:18:23 -0400
+Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:54853)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mi3ys-0001As-Mk; Tue, 02 Nov 2021 20:18:21 -0400
+ id 1mi3ys-0001At-M5; Tue, 02 Nov 2021 20:18:21 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HkS6B0nwWz4xbc; Wed,  3 Nov 2021 11:18:10 +1100 (AEDT)
+ id 4HkS6B137tz4xbP; Wed,  3 Nov 2021 11:18:10 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1635898690;
- bh=TYvPL/wXDTOcmb5oa8jGw+YHO7dH4zfjiSQKh8bG6hg=;
+ bh=W66m+GcFvwOk4JKYQW2j32q0opxXNvWclJXHlT9sJHI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=A6WBXphaEJsEh9WBPvDBFm3wM9XZjDURnsrF6pR8g7fPflESEpbQpKT36garsLEdr
- m/PC9Gaqw+Vp3f7cS/AT8mC9g9Ufz2oV5/iyG8Nbsee7p37XD1kjSCkr5kJpkhfSQZ
- 51RJCbemC0icqPduTuxLKoYJYT5KIWIUvsKNWwpA=
-Date: Wed, 3 Nov 2021 11:11:15 +1100
+ b=fPzWQdkO+sp8zLm8wdJknf+66YCHXsFvgu46zHdspJYuQuv1kkB7kt+Xw7BXsQ2jd
+ mVyaEfgRPKNq/kISTZt3ULr1sBlJakAdTD/sSnh3gGY8mar79o1IOJFLzSrcSoZtiB
+ 3/OWxUkunUpEY+8BFYeccqiNCxlGqhbTfk9i8CsI=
+Date: Wed, 3 Nov 2021 11:18:04 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH] ppc/pnv: Fix check on block device before updating drive
- contents
-Message-ID: <YYHTo6XJq/4KNrj0@yekko>
-References: <20211102162905.762078-1-clg@kaod.org>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH] ppc/pegasos2: Suppress warning when qtest enabled
+Message-ID: <YYHVPLCOMEcsRsDP@yekko>
+References: <20211101151023.F0D02748F5A@zero.eik.bme.hu>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="yXRlbLp9B4hBxJJ7"
+ protocol="application/pgp-signature"; boundary="pt5xXpLtHqOOgBNn"
 Content-Disposition: inline
-In-Reply-To: <20211102162905.762078-1-clg@kaod.org>
-Received-SPF: pass client-ip=150.107.74.76;
+In-Reply-To: <20211101151023.F0D02748F5A@zero.eik.bme.hu>
+Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -58,43 +57,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---yXRlbLp9B4hBxJJ7
-Content-Type: text/plain; charset=iso-8859-1
+--pt5xXpLtHqOOgBNn
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 02, 2021 at 05:29:05PM +0100, C=E9dric Le Goater wrote:
-> Test is wrong and the backend can never updated. It could have led to
-> a QEMU crash but since the firmware deactivates flash access if a valid
-> layout is not detected, it went unnoticed.
->=20
-> Reported-by: Coverity CID 1465223
-> Fixes: 35dde5766211 ("ppc/pnv: Add a PNOR model")
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+On Mon, Nov 01, 2021 at 04:08:31PM +0100, BALATON Zoltan wrote:
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 
 Applied to ppc-for-6.2, thanks.
 
 > ---
->  hw/ppc/pnv_pnor.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/ppc/pegasos2.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/hw/ppc/pnv_pnor.c b/hw/ppc/pnv_pnor.c
-> index 5ef1cf2afbe1..83ecccca28df 100644
-> --- a/hw/ppc/pnv_pnor.c
-> +++ b/hw/ppc/pnv_pnor.c
-> @@ -36,7 +36,7 @@ static void pnv_pnor_update(PnvPnor *s, int offset, int=
- size)
->      int offset_end;
->      int ret;
-> =20
-> -    if (s->blk) {
-> +    if (!s->blk || !blk_is_writable(s->blk)) {
->          return;
+> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+> index e427ac2fe0..298e6b93e2 100644
+> --- a/hw/ppc/pegasos2.c
+> +++ b/hw/ppc/pegasos2.c
+> @@ -23,6 +23,7 @@
+>  #include "hw/qdev-properties.h"
+>  #include "sysemu/reset.h"
+>  #include "sysemu/runstate.h"
+> +#include "sysemu/qtest.h"
+>  #include "hw/boards.h"
+>  #include "hw/loader.h"
+>  #include "hw/fw-path-provider.h"
+> @@ -199,7 +200,7 @@ static void pegasos2_init(MachineState *machine)
+>          if (!pm->vof) {
+>              warn_report("Option -kernel may be ineffective with -bios.");
+>          }
+> -    } else if (pm->vof) {
+> +    } else if (pm->vof && !qtest_enabled()) {
+>          warn_report("Using Virtual OpenFirmware but no -kernel option.");
 >      }
 > =20
 
@@ -104,25 +106,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---yXRlbLp9B4hBxJJ7
+--pt5xXpLtHqOOgBNn
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGB06MACgkQbDjKyiDZ
-s5ILlBAAmEqm1RwZ9MmGfR5GOptyuLP1aM5qRDe+ptJbx1po97igjDyv7Rlsl8NH
-PxaGU9Fb8ApBKaurVP0DdLr1K/s6ilhPLB1/UXRqP55sqYR2gbuqKOL2d6dT5169
-6PzN44LZbXDx0GrlOcMbqY7YPkZlDi9VztoHSMYJBbrkjF9nk8N3czedeODrvFdL
-VhH8SYT8g8UdASucTUTC0P2jJlQ+wYdXAxxFokozsMSQREd0B/jUUa/UgSlDvvTD
-tj92s8QymnZw+NPG4iXPxq55FTMMYx/Kz/Zd5oOh049QOvN7vus8TmnBoWtSkCFr
-OoanS1aAa0ZSRt2OUKjNW0cT9T3k8ohex4hApi3vA6Vnv+381to90O5dZT8llXvf
-ykdIfhbFx81KnR3JMh2FpDa52lzFqVXyG6lXenzDOctBWys0J6CSclD42DLVZGYq
-JzGGYNuwWkE0moziD/fTwBPZncU8ksBcS/ObABFrir7BRB61cB7S5CoQ/RSdSn+P
-kkroEzVhUzgJ6iRnuC321qLdzth84tC2HNIeD9RZTi1kFJyyWtF0lWZEDODxHTmZ
-s5CuRrJlqxV2U9vw3kjp3HNyAvo7z12KJsGuSWouiWbVdPsumBbFi4vLqSr8uT6O
-Y0O9HWYjnQjG0HbRCX93RB2oNSk3ldxSsIdXGizxLMXfSc3JRVc=
-=zyXY
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGB1TwACgkQbDjKyiDZ
+s5JO3BAAvyLRc6ZhC5Dey291Lo++f588o50okNvx/FEGOBphIDiQeFNJYh2Dl0IX
+PLm+EfHgOn3X9WAlFUXxBdALfY1OTLMwcZ2iGMR+s4Tj85sOoRuUXHDBikJ9BlIB
++E24FXg7q+21LD8cyBj8sbG6XrMsYKoDpvFxeQGLrDjgWOC2zqJ/3xlp2RbvztnV
+iQ+hF8ez711e8uytTw0km2lMnfQiD7tEf6cpxwy7zm6zIRhv67SsBL4FgEFZPd2W
+/kD1RgviinIYY5roy1sFSyO/w1za6Qg04VzZS+vzQMUSrujshmH/rbC1G9nqCU46
+JPObLvqxkj2YcMXY7BA32gh8IVd+lDCuy+D+QJtolKmNwer9oycVJFuHp9To4QE0
+9U3i+ho6OQsgZbjwYGwTUpL0srD8n9lHzut/vO+EhAFBQIlcanQjDTKbnWc6w2tG
+2AUaNU7i/yemw70eabAT6CiQkPVbPvLTxm6hZ5fWGh8cYizDaPJVr8wAKz3m7++n
+RjeN3+sSlJ7vuvIMMWLq8w1duNu185NIAjxxiwoKf8EzzZ3iHANfY+taHWC3cNd9
+zdEpWwaYpXUZO36lmv8wPBDq34DmKenOr2+YE1Tc5cEG5ArgkYMWOn5P7XZNHOxA
++efxjxVvQqKKtU7JmiKQ77ZZ1vJcK+i6rPFyyLiejOtgr19n5Ns=
+=z+TO
 -----END PGP SIGNATURE-----
 
---yXRlbLp9B4hBxJJ7--
+--pt5xXpLtHqOOgBNn--
 
