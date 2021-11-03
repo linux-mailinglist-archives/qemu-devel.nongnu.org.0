@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 062B24448AF
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 19:56:56 +0100 (CET)
-Received: from localhost ([::1]:55310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 892374448D0
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 20:15:49 +0100 (CET)
+Received: from localhost ([::1]:41740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miLRN-0002PM-PD
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 14:56:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38032)
+	id 1miLjg-00056O-5P
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 15:15:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1miLOE-00007z-7z
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 14:53:38 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:43950)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1miLiM-0004F8-IV
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 15:14:26 -0400
+Received: from mail-vk1-xa2f.google.com ([2607:f8b0:4864:20::a2f]:34480)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1miLOB-0002fy-Vg
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 14:53:37 -0400
-Received: by mail-wr1-x436.google.com with SMTP id t30so5019650wra.10
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 11:53:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=87BUNoCOELFAMAzfZuXYmxLTmjCzJZcWT+KZ8rMKX18=;
- b=Rl8kLYdFhRm6JB3bCzTDZxePcfks4sVe/g4ELnmuyJzBLPM/MXBx/qjE29HUCxVZxl
- 7PCIlLEjapOWo4Et559vCLZVJaTUGJrxk1qLt6QCNxcZp6BiaFCuYEqZeqwT6moBoTt2
- WPoIdRlHJ1LB6jAs2eYMkZMANrn1vq+E0qtdYBQvEjqRtjiEwEv40CRBlRxUnYHC7gvy
- f3XMzyPv3cQl6WRY77Mdu8o+CQHxuZ/vZ4C2YJThQdlSDChzyh1OXGGcSySw5e+fKFk5
- 5HQmnT3afPe5GIVOqoUass50nQo2NqElmYOnYSfRCP/actbPUOaEVseYOJZAFg15wBaN
- sb7w==
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1miLiK-0004ZE-3K
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 15:14:26 -0400
+Received: by mail-vk1-xa2f.google.com with SMTP id bc10so1834917vkb.1
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 12:14:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7hHpcXnXbnO/Smq2EF0kBP5czLB9Onl/pbFZJwtZ3Ec=;
+ b=rSTgjogqkfSIo6KE2ap9b9hjad8/oV1GXxP1s2d4YWT3rV6H9Yaat3VDypkP1JZre0
+ yMM4r63jVpNAS6bHGtOpseUnJeClf8Qm51vY3tl06OZ1UzwrkBXLML4hmjgitBZ392Pr
+ vHP+SgzFFB1NA956m+bjKWX0JsOR+nES5CBxxeE3ESqG+SeNANrvCRvEugxabic0t0fw
+ z4FlpyFVM4D0Z3tOzJrWd0V+7WZ5D5DesZ8mZeF6ibAY9TQdfPAxZn7mnBBe5q9OABs5
+ z5rt2cZNBVrn8Ezb7alfyDSnsxDTM2IQarOMgqqHXYt8Ny/yyuMHvpz8Hh06Bpluxt0S
+ WCGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=87BUNoCOELFAMAzfZuXYmxLTmjCzJZcWT+KZ8rMKX18=;
- b=lU1D+9jPYcRaRp4Fph0mR1O25QlMrAs+pKejGKaUrNpF4/qoR+WeV4gke4FqrImuum
- iaD5rXgV5PV5hA0VXwo+oKIcrZ8pItWHyIRdrBWfP/VHATG5RBvTHlfU+iutU6ed0LJ0
- uFlAuQDs9nvg7iXJxQjGPMsScAeMfmdoyFAbwsE0drQ9oltzLRNtHijVB3ZMXnHtMWzo
- d7mfzffcYkLiSc945DO/lS90EioOFnlSPbvm3WVR4BOs2Qa+tE0Kr3DYD5Ig7JnIpfOG
- EfWWF5HYl2ngIlXZWRTbxSkhIG5nrenAVC8u17Mlyb6wlMS+3tsTXzzGsCXd28xG0N/Y
- tKiQ==
-X-Gm-Message-State: AOAM532fOX5Cpf3rIHGMXik7G0i5H9SwXEOVJVdaG8jEdctzcNHpenwW
- oWKp737nrVaZM7TiSiCaONE=
-X-Google-Smtp-Source: ABdhPJxEibZc4/s4slwsdq2IXvXrLxwEKM7+8ySg/FR3UMQTw7lPM8vEHxYaIMlwvCDJmRRVafrPNw==
-X-Received: by 2002:adf:cf05:: with SMTP id o5mr22455133wrj.325.1635965614401; 
- Wed, 03 Nov 2021 11:53:34 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id g18sm2821982wrv.42.2021.11.03.11.53.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Nov 2021 11:53:33 -0700 (PDT)
-Message-ID: <3e5bb588-f5c8-cf87-786d-74ac43ba8be8@amsat.org>
-Date: Wed, 3 Nov 2021 19:53:32 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7hHpcXnXbnO/Smq2EF0kBP5czLB9Onl/pbFZJwtZ3Ec=;
+ b=iz/SK+UgMLisoCBcM9Fmv9jfb50QyyRWGy+qoXJg3Ix62dhE7wFIPSDOpqSvtO2Imv
+ 84+dojDTw4ZBi+/KUvFcqDDdOxDpIXMe2DMHcVEmUFO4uZdGytvy0ozqWS19lN0zeNrq
+ oFPlC3HlSUVtq8t3dWcegqoXqzAqFSFA8PO0VZ3mR2pgcoR30ncBnQY7ps0icowDdcnc
+ iA7jrsLUBy+a3Bkm1OSdl9SAuzxCWlCl6koXvX6ENT34LNq4hiS1TdeBN84F3IwAjaP3
+ cHuUmcH8jJASCP/LPUdRLkeXdRrV3eIsyzGbmG2kfF4dOAq0bR96h6aOy3hQ+6/LovR5
+ yF8Q==
+X-Gm-Message-State: AOAM531Re5LBqPY9/NfrfWL74Vl6jGlAmbA2LBo23BbAPYHz9drC43US
+ VuPY/4/LAUqZZdNjAwOu2AmLQg2PPrOdbDHNvZ372Q==
+X-Google-Smtp-Source: ABdhPJz7mAbpNEknN8lHMh0hBtbIEprB1mlcvNK6GZliBjg6/82vlsuveqy3Btv409Rzat3Bqr+C1urewI8EdzgYR5o=
+X-Received: by 2002:a05:6122:134f:: with SMTP id
+ f15mr18256169vkp.22.1635966862538; 
+ Wed, 03 Nov 2021 12:14:22 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 6/6] docker: Add Fedora 35 container
-Content-Language: en-US
-To: John Snow <jsnow@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-References: <20211103144844.1285634-1-jsnow@redhat.com>
- <20211103144844.1285634-7-jsnow@redhat.com> <YYK/2WugmOrTA+62@redhat.com>
- <CAFn=p-Z4ic6=LWdRCjgtYYO2crQbw8=aCgLrbkTwW-5X2=O4iA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <CAFn=p-Z4ic6=LWdRCjgtYYO2crQbw8=aCgLrbkTwW-5X2=O4iA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-3.528,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211102225248.52999-1-imp@bsdimp.com>
+ <20211102225248.52999-23-imp@bsdimp.com>
+ <27eae3b8-156b-540b-e88b-0d8c3097ee7e@linaro.org>
+In-Reply-To: <27eae3b8-156b-540b-e88b-0d8c3097ee7e@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Wed, 3 Nov 2021 13:14:11 -0600
+Message-ID: <CANCZdfqyK4y2-wqL6rm8LKEa8L0im=hNTqU3W9vG4j-DDokGqw@mail.gmail.com>
+Subject: Re: [PATCH v2 22/30] bsd-user/arm/target_arch_signal.h: arm
+ set_sigtramp_args
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000b4ca1d05cfe7371c"
+Received-SPF: none client-ip=2607:f8b0:4864:20::a2f;
+ envelope-from=wlosh@bsdimp.com; helo=mail-vk1-xa2f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,69 +78,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Stacey Son <sson@freebsd.org>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ Kyle Evans <kevans@freebsd.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, QEMU Developers <qemu-devel@nongnu.org>,
+ Philippe Mathieu-Daude <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/3/21 18:51, John Snow wrote:> On Wed, Nov 3, 2021 at 1:01 PM
-Daniel P. Berrangé <berrange@redhat.com
-> <mailto:berrange@redhat.com>> wrote:
-> 
->     On Wed, Nov 03, 2021 at 10:48:44AM -0400, John Snow wrote:
->     > Or, more accurately, update our current Fedora container to Fedora 35,
->     > and then add a new fedora34 container and build test.
->     >
->     > Signed-off-by: John Snow <jsnow@redhat.com <mailto:jsnow@redhat.com>>
->     > ---
->     >  .gitlab-ci.d/buildtest.yml               |  16 ++++
->     >  .gitlab-ci.d/container-core.yml          |   5 +
->     >  tests/docker/dockerfiles/fedora.docker   |   2 +-
->     >  tests/docker/dockerfiles/fedora34.docker | 117
->     +++++++++++++++++++++++
-> 
->     We already struggle with having too much work in the CI pipeline
->     and will be in trouble when they start enforcing CI limits.
-> 
->     With that in mind I'm not sure that having both Fedora versions
->     brings large enough benefit to justify the CI CPU time burnt.
-> 
-> 
-> Fair. I'd say having stuff like ubuntu21.10 is more important than
-> having both f34/f35. I have a keen interest on pushing forward into
-> bleeding edge releases to identify potential issues sooner rather than
-> later; and can generally trust that the older releases are well traveled
-> through developer's personal machines.
->  
-> 
->     If we did want both versions though, we should be consistent
->     with file naming - ie fedora35.dockre, not fedora.docker
->     to match fedora34.docker.
-> 
-> 
-> OK. I was originally considering the "unversioned" file to be the "most
-> recent one" that would update on a rolling schedule. On IRC you made a
-> good point that when we fork a stable branch, we actually don't want
-> this behavior. Explicit naming is therefore the best policy.
-> 
-> I am still somewhat interested in having the F34 image, but we don't
-> need it on the CI platform right now. Maybe it could be included later
-> on as a target of lesser value to only be run occasionally, but I can
-> worry about that a little later.
+--000000000000b4ca1d05cfe7371c
+Content-Type: text/plain; charset="UTF-8"
 
-I agree with Daniel, this is not ideal on mainstream CI.
+On Tue, Nov 2, 2021 at 9:37 PM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-However you can add it to your fork, see commit 8b185c815ce
-("gitlab: Document how forks can use different set of jobs"):
+> On 11/2/21 6:52 PM, Warner Losh wrote:
+> > +    /*
+> > +     * Low bit indicates whether or not we're entering thumb mode.
+> > +     */
+> > +    cpsr = cpsr_read(env);
+> > +    if (ka->_sa_handler & 1) {
+> > +        cpsr |= CPSR_T;
+> > +    } else {
+> > +        cpsr &= ~CPSR_T;
+> > +    }
+> > +    cpsr_write(env, cpsr, CPSR_T, CPSRWriteByInstr);
+>
+> Like I said before, you don't need the cpsr_read, because the mask ensures
+> that only
+> CPSR_T will change:
+>
+>    cpsr_write(env, (ka->_sa_handler & 1) * CPSR_T, CPSR_T,
+> CPSRWriteByInstr);
+>
+>
+> Otherwise,
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>
 
-+# To use a different set of jobs than the mainstream QEMU project,
-+# you need to set the location of your custom yml file at "custom CI/CD
-+# configuration path", on your GitLab CI namespace:
-+#
-https://docs.gitlab.com/ee/ci/pipelines/settings.html#custom-cicd-configuration-path
+Thanks. Applied. I'd intended to do this for this round, but it slipped my
+mind.
 
+Warner
+
+--000000000000b4ca1d05cfe7371c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 2, 2021 at 9:37 PM Richar=
+d Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hen=
+derson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">On 11/2/21 6:52 PM, Warner Losh wrote:<br>
+&gt; +=C2=A0 =C2=A0 /*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* Low bit indicates whether or not we&#39;re ente=
+ring thumb mode.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
+&gt; +=C2=A0 =C2=A0 cpsr =3D cpsr_read(env);<br>
+&gt; +=C2=A0 =C2=A0 if (ka-&gt;_sa_handler &amp; 1) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpsr |=3D CPSR_T;<br>
+&gt; +=C2=A0 =C2=A0 } else {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpsr &amp;=3D ~CPSR_T;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 cpsr_write(env, cpsr, CPSR_T, CPSRWriteByInstr);<br>
+<br>
+Like I said before, you don&#39;t need the cpsr_read, because the mask ensu=
+res that only <br>
+CPSR_T will change:<br>
+<br>
+=C2=A0 =C2=A0cpsr_write(env, (ka-&gt;_sa_handler &amp; 1) * CPSR_T, CPSR_T,=
+ CPSRWriteByInstr);<br>
+<br>
+<br>
+Otherwise,<br>
+Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
+ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br></blockqu=
+ote><div><br></div><div>Thanks. Applied. I&#39;d intended to do this for th=
+is round, but it slipped my mind.</div><div><br></div><div>Warner</div></di=
+v></div>
+
+--000000000000b4ca1d05cfe7371c--
 
