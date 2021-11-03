@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C262F444473
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:14:02 +0100 (CET)
-Received: from localhost ([::1]:35782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81AB944448B
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Nov 2021 16:20:05 +0100 (CET)
+Received: from localhost ([::1]:56210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miHxh-0002AD-Tx
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:14:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52126)
+	id 1miI3Y-00088L-KF
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 11:20:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miHp8-0003UT-O1
+ id 1miHp8-0003UW-Rs
  for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:12 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:39765)
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:53061)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miHp0-0000Z5-Dh
+ id 1miHp2-0000a1-5L
  for qemu-devel@nongnu.org; Wed, 03 Nov 2021 11:05:08 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- b2-20020a1c8002000000b0032fb900951eso4862978wmd.4
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:05:02 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id b71so2227988wmd.2
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 08:05:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GMP3uUjLWtP0WS92hT7gluftEH4jK1vIjm6dISQNfvM=;
- b=F1dI5f0SwVmBu8bN2i+1ruJ8p1MLb9FUc+NZ0lAAfc9i9rK+qPp4mddaZMuIu/QaTG
- 7XMFXSQoM2feawsMOn5Q4Vnu5BkUg8fZ/hbpN0jFntljppMrV8yeV/tlOvR42KtvQv2E
- hwqqAEO7SHvV2JtaEOSuFUUbR9O2zW6uv+9RSaM+gaJ3c/nyk4GqdpoPrs54FMArBIsC
- m/gUBhU4kAQwOucdJp/wxpO6Ve7ElpBc4+ItTEGjz69Yh+zwkqiRwlv/Jk5o9w+w8kfK
- XKkeDZkvUUo3hMioS3ga0w5aXOngi2dn6EO+jkFu+GmnAI5TLSYJluOwjF3bAbD4/62j
- kxDQ==
+ bh=XfEPGGdEuQA4tJkhanah7cV7Ub1nKcQ28u2qdP0NjLI=;
+ b=aHH1sOCYkPv8n969KKl1eGGy7r9MMnV4os8XAC7JPg4TH02FbggbCQrxwbJXHZKhAm
+ FOHBJqzL7GMHJ/SM7WrdrNrJ6M1tLl3F7jG8CKoSLdzlcOQk//1IQ0jblotH/x82SmTE
+ e5vZVEnO3g9/AuKnif1Wtj0Vjm1cn56mGPFKnEC1hXWGlZVGjr+Dq8iwJhEVm/cYSIty
+ kSGbfZkVDye5J2Z34xk7QDTh3uIUAHeYUcPooJARuokhaKqBomqFm3gNuVLeQ/IsANCK
+ qZEoPA3OUfx0y0r1gFCSJgut6fJrtU9la1e9xD6ikkmVP3iu3iJt50k3cihlVmVgybPt
+ TlJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=GMP3uUjLWtP0WS92hT7gluftEH4jK1vIjm6dISQNfvM=;
- b=VzmKcmOOIFDyASgZl+ngAD1zO6WdZHjPs+lEXUuOZqpr4ByEQuAF1ipfsd3qkLtbQQ
- iWzdFxT74ZKpY3L9//kKVYm/KiYxpSHmm1F73xNTB0kMYF9e1gZk+b7jt98tuWX26uwH
- zD+Gl6stAYTrVaepX74H6OU3nFVrr51LkuOu85vDUR91tTCF6l9VGThYkKoZZSV6Somr
- 0sGKEGJDLPVp9eKJ7Ut4+tta6+s8aIDS3liL4CocVv+C1cZyJLpyJua6wXy7EFi72ffa
- eYC14bfJqWum20+xlOdqqZjlruC5q+L+/J/EqJGCHqak0Qyt7Lbx54gkitRQ3G1LKFO9
- 7ojg==
-X-Gm-Message-State: AOAM531F+noxGj1JXF4L7imhHZvL0A5V4M0g10Z3X7X9+NlkzYWLEeMe
- j9gZwdUzCqASMSQ2Js1aMMhnMqJYjTo=
-X-Google-Smtp-Source: ABdhPJwf9kyxkpjjoxr5TvAb0ePNK8U1DwjlbizXzaQGzlaaxq+7yNRLIhvs1A3EDIWaGRKXU2ILvw==
-X-Received: by 2002:a05:600c:4e8d:: with SMTP id f13mr79740wmq.7.1635951901103; 
- Wed, 03 Nov 2021 08:05:01 -0700 (PDT)
+ bh=XfEPGGdEuQA4tJkhanah7cV7Ub1nKcQ28u2qdP0NjLI=;
+ b=pkpmq0Ls07NtdVN32G3vkjj5Zz1d/4ktEuz7nLiJ73SBSkYFHCp74GMLOeRMOEGWf6
+ aKRkkCtyOAO16ccpmfvJjefCeOHzNnqnnTR6W/OmT9wMl56XjP/Xu1VHoQt/l+hVYWr6
+ Wj7sGynFlFwF3PxtUnSQlTKFLxe3cyWgs9uUTiKtrF0+WkYumX/IdWp00lsgie+WEKMH
+ YquRLMP5Ib7Ga+cYxAWQRavqZ5rje3NdpjBtgom84JkbViuA58ZCzlvUCM17V7Kv3wzb
+ jCumVyS8PgfG4h37njx+326OYZAoICTjqzvsVeVkoWmLiy93Tyf5Z9XzZPiYI2GhDp3R
+ DY6w==
+X-Gm-Message-State: AOAM533pf1v1pC/YW5WziKGpHixGYqsyDOm5GQqxCBM7WE+E3kq27dEU
+ NxF28A/vVeOThXOzxqLxPVDIBAaVR8s=
+X-Google-Smtp-Source: ABdhPJxKzyhosCtFpHPZ0FoSz7FF/9mJEEAvdqAFgk/3KqCDw9ajThfwQNgsirWTQXFDOtYztTgkcA==
+X-Received: by 2002:a1c:f319:: with SMTP id q25mr15987820wmq.33.1635951902855; 
+ Wed, 03 Nov 2021 08:05:02 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id h16sm2488797wrm.27.2021.11.03.08.05.00
+ by smtp.gmail.com with ESMTPSA id h16sm2488797wrm.27.2021.11.03.08.05.01
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Nov 2021 08:05:00 -0700 (PDT)
+ Wed, 03 Nov 2021 08:05:02 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/27] vl: deprecate -watchdog
-Date: Wed,  3 Nov 2021 16:04:30 +0100
-Message-Id: <20211103150442.387121-16-pbonzini@redhat.com>
+Subject: [PULL 16/27] watchdog: remove select_watchdog_action
+Date: Wed,  3 Nov 2021 16:04:31 +0100
+Message-Id: <20211103150442.387121-17-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211103150442.387121-1-pbonzini@redhat.com>
 References: <20211103150442.387121-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -88,51 +87,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
--watchdog is the same as -device except that it is case insensitive (and it
-allows only watchdog devices of course).  Now that "-device help" can list
-as such the available watchdog devices, we can deprecate it.
+Instead of invoking select_watchdog_action from both HMP and command line,
+go directly from HMP to QMP and use QemuOpts as the intermediary for the
+command line.
 
-Note that even though -watchdog tries to be case insensitive, it fails
-at that: "-watchdog i6300xyz" fails with "Unknown -watchdog device",
-but "-watchdog i6300ESB" also fails (when the generated -device option
-is processed) with an error "'i6300ESB' is not a valid device model name".
-For this reason, the documentation update does not mention the case
-insensitivity of -watchdog.
+This makes -watchdog-action explicitly a shortcut for "-action watchdog",
+so that "-watchdog-action" and "-action watchdog" override each other
+based on the position on the command line; previously, "-action watchdog"
+always won.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/about/deprecated.rst | 5 +++++
- softmmu/vl.c              | 1 +
- 2 files changed, 6 insertions(+)
+ hw/watchdog/watchdog.c    | 14 --------------
+ include/sysemu/watchdog.h |  1 -
+ monitor/misc.c            | 15 ++++++++++++---
+ softmmu/vl.c              | 10 +++++-----
+ 4 files changed, 17 insertions(+), 23 deletions(-)
 
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index be19317470..6155b32ee6 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -160,6 +160,11 @@ Use ``-display sdl`` instead.
+diff --git a/hw/watchdog/watchdog.c b/hw/watchdog/watchdog.c
+index 0e98ffb73f..1437e6c5b6 100644
+--- a/hw/watchdog/watchdog.c
++++ b/hw/watchdog/watchdog.c
+@@ -76,20 +76,6 @@ int select_watchdog(const char *p)
+     return 1;
+ }
  
- Use ``-display curses`` instead.
+-int select_watchdog_action(const char *p)
+-{
+-    int action;
+-    char *qapi_value;
+-
+-    qapi_value = g_ascii_strdown(p, -1);
+-    action = qapi_enum_parse(&WatchdogAction_lookup, qapi_value, -1, NULL);
+-    g_free(qapi_value);
+-    if (action < 0)
+-        return -1;
+-    qmp_watchdog_set_action(action, &error_abort);
+-    return 0;
+-}
+-
+ WatchdogAction get_watchdog_action(void)
+ {
+     return watchdog_action;
+diff --git a/include/sysemu/watchdog.h b/include/sysemu/watchdog.h
+index a08d16380d..d2d4901dbb 100644
+--- a/include/sysemu/watchdog.h
++++ b/include/sysemu/watchdog.h
+@@ -37,7 +37,6 @@ typedef struct WatchdogTimerModel WatchdogTimerModel;
  
-+``-watchdog`` (since 6.2)
-+'''''''''''''''''''''''''
+ /* in hw/watchdog.c */
+ int select_watchdog(const char *p);
+-int select_watchdog_action(const char *action);
+ WatchdogAction get_watchdog_action(void);
+ void watchdog_add_model(WatchdogTimerModel *model);
+ void watchdog_perform_action(void);
+diff --git a/monitor/misc.c b/monitor/misc.c
+index c2d227a07c..1759d1e7f1 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -70,6 +70,7 @@
+ #include "qapi/qapi-commands-migration.h"
+ #include "qapi/qapi-commands-misc.h"
+ #include "qapi/qapi-commands-qom.h"
++#include "qapi/qapi-commands-run-state.h"
+ #include "qapi/qapi-commands-trace.h"
+ #include "qapi/qapi-init-commands.h"
+ #include "qapi/error.h"
+@@ -471,10 +472,18 @@ static void hmp_gdbserver(Monitor *mon, const QDict *qdict)
+ 
+ static void hmp_watchdog_action(Monitor *mon, const QDict *qdict)
+ {
+-    const char *action = qdict_get_str(qdict, "action");
+-    if (select_watchdog_action(action) == -1) {
+-        monitor_printf(mon, "Unknown watchdog action '%s'\n", action);
++    Error *err = NULL;
++    WatchdogAction action;
++    char *qapi_value;
 +
-+Use ``-device`` instead.
-+
- ``-smp`` ("parameter=0" SMP configurations) (since 6.2)
- '''''''''''''''''''''''''''''''''''''''''''''''''''''''
++    qapi_value = g_ascii_strdown(qdict_get_str(qdict, "action"), -1);
++    action = qapi_enum_parse(&WatchdogAction_lookup, qapi_value, -1, &err);
++    g_free(qapi_value);
++    if (err) {
++        hmp_handle_error(mon, err);
++        return;
+     }
++    qmp_watchdog_set_action(action, &error_abort);
+ }
  
+ static void monitor_printc(Monitor *mon, int c)
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index af0c4cbd99..570120f5c4 100644
+index 570120f5c4..1159a64bce 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -3256,6 +3256,7 @@ void qemu_init(int argc, char **argv, char **envp)
-                     error_report("only one watchdog option may be given");
-                     exit(1);
+@@ -3265,12 +3265,12 @@ void qemu_init(int argc, char **argv, char **envp)
+                      exit(1);
                  }
-+                warn_report("-watchdog is deprecated; use -device instead.");
-                 watchdog = optarg;
                  break;
-             case QEMU_OPTION_action:
+-            case QEMU_OPTION_watchdog_action:
+-                if (select_watchdog_action(optarg) == -1) {
+-                    error_report("unknown -watchdog-action parameter");
+-                    exit(1);
+-                }
++            case QEMU_OPTION_watchdog_action: {
++                QemuOpts *opts;
++                opts = qemu_opts_create(qemu_find_opts("action"), NULL, 0, &error_abort);
++                qemu_opt_set(opts, "watchdog", optarg, &error_abort);
+                 break;
++            }
+             case QEMU_OPTION_parallel:
+                 add_device_config(DEV_PARALLEL, optarg);
+                 default_parallel = 0;
 -- 
 2.31.1
 
