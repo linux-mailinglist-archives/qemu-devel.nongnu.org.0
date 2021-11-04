@@ -2,76 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13BCC4452D8
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 13:18:34 +0100 (CET)
-Received: from localhost ([::1]:35782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 212DA4452FE
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 13:29:12 +0100 (CET)
+Received: from localhost ([::1]:38394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mibhR-0001Be-8d
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 08:18:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59830)
+	id 1mibrh-0005zv-Rk
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 08:29:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mibff-0000Rm-DW
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 08:16:43 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:55182)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mibfa-0002mi-MO
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 08:16:42 -0400
-Received: by mail-wm1-x330.google.com with SMTP id 71so4333021wma.4
- for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 05:16:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=PGBmZGoyNB+02Dc+PQGeRv0jiCaEWHRva5ePRUtTz0c=;
- b=hm7AwNL/AuGuFKC+UJHADKUhGFSdc5z8ZofFrSbslhRG+4vyTQTcLA77fffEdf9QHj
- HBxxgtyMeo85oYvx8EsgT445YJWCi/02+QGH8xl+fo87tYM/IGdx8k/PtfvxIrXG8dR2
- 0Yy6F+H/48HJMZutZAEa6LTSSKCoL0WnHDHL4R3xffd7/cPnRy4JpX/bapixIXTlLH/H
- 33uPXvyW7wSIrYkAG9d0HaetCw3KQS6MpjivXWFwP2BJ1+FbI1bM21XQ5dcsUmo3lWgO
- X2a4MXe0sgbq5rKwOjBS9vOrAPeRN6YIz7wGYY1/ShfzAsPlzUZnX1X+7selurLFMm+v
- hCQg==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mibpw-00053J-SZ
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 08:27:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57224)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mibpt-0004M5-Tv
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 08:27:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636028836;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tV/vMknzsWgi0RzTy41v7nbtgGS25wIgh/r7kz9NBbw=;
+ b=fuu7ZdsrU+1t0iOACML4yRKLIZX0FjrYE+0ONHgkeKqhLZtJc02KnX0OmialyrXBRzupth
+ E4FJyMaZLs2FBNitpr2bPt+EgbudY28nzD9+VmdxEwVfCgkx7Za+nzS7bDrxRRvrshRmFj
+ h2twHIh5DoSa9prWjIQtsZi1BFL4uq8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-317-WDq9IJOqNgeC5zebRhIw_w-1; Thu, 04 Nov 2021 08:27:15 -0400
+X-MC-Unique: WDq9IJOqNgeC5zebRhIw_w-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ c1-20020a05600c0ac100b00322fcaa2bc7so2536391wmr.4
+ for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 05:27:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=PGBmZGoyNB+02Dc+PQGeRv0jiCaEWHRva5ePRUtTz0c=;
- b=YJJ7/k6UlxTGsbnswIrMAtT3PwkmXvIq4RHohUboI32OUeNaJeVdWYxnQwe9C9IC28
- 17aK1fpwNIXqoKC1wlVh8nMOE8RAj1ZWKv/pDDf2tC6jaHLXEALCQYiCqlKugqcMFq+i
- mQMMtq+ijZClWcJ+ayM21te/WVEm1w+Vrpz9qlRxXcjW5pBO7voeHRoLwohPopIZsYB9
- gY0lwmy8Hx/pk3UJZRVh/hLGj/EmfkqtOM4ZHa4p0uNOGTH1mojU8ZB3H3Wg83MEMh7z
- 2VRYLX6BTfGO2ddaND20bHgSk3hALLjmIAQQDtIuMzrt9ZrDaC/88et0ohx6bVdHjWik
- yv0A==
-X-Gm-Message-State: AOAM530NpvoAMjlLz7JxOlSomsqf5dH1net2/lsOofniQiRP+jm1PdDk
- NkubtQ9EDedxFU3LeP386EttrA==
-X-Google-Smtp-Source: ABdhPJyztkCLSviYs8Z3uW8XOeX7I/C+mgYVSH8hCeAGInidWfve9W9bMSS+85fobVZdaXzWlXrCkA==
-X-Received: by 2002:a05:600c:3586:: with SMTP id
- p6mr17057972wmq.34.1636028196226; 
- Thu, 04 Nov 2021 05:16:36 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l11sm4854920wrp.61.2021.11.04.05.16.35
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=tV/vMknzsWgi0RzTy41v7nbtgGS25wIgh/r7kz9NBbw=;
+ b=MMqbpph7VAxt/ZEkmPT5a6g6omoGrJwstweYOfvlDaH47JIS/MI78qs02nRJozionZ
+ nyIcpRAfCYwkE1PqZw50pBTMKuPeVESKdrXdIAkLyQbZpg6xVhnbmp73urD68kyuaZ4v
+ xKstFU7WA3dVEjI5jkwlvEbYGs0Ud2LrNWrdyn0+leng6L9Nix542ZHMvG/OjvmeoD3m
+ 8op27Br9U4BeZ2PtQ3sZwqmI5s24n9i0NUbzIj6wIDeScMlbdFDQTVRzzblZ5Msl7shj
+ vhYSRPzztU1wolGhBtHtB+x0zvfzK7EnOp1qJYO5tbDZIfd8eXSu+N92dYDrtA5WYTPm
+ aXyA==
+X-Gm-Message-State: AOAM530S1c9px9wa1jVmS6JEZRZEoM5Y8quEr0SQVdyWhv/7EMTqG6gS
+ m9OUfCPVHEbeH+NNcGxkZbcZvQR4Ax0dUWgNxgQYdrrxQqDOLMCae6oLrA6QPLoATZi15peroCE
+ rdNB6GLVk2JrmD3o=
+X-Received: by 2002:adf:fd4c:: with SMTP id h12mr51216960wrs.429.1636028834261; 
+ Thu, 04 Nov 2021 05:27:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz4VrKeafJoA5/0FMoZ+awxjcuceAcLnSKeBjsC+ViR8Bwbs/MzD3z2J3CDjo3RTMCxAzzUVQ==
+X-Received: by 2002:adf:fd4c:: with SMTP id h12mr51216945wrs.429.1636028834059; 
+ Thu, 04 Nov 2021 05:27:14 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id w10sm4844664wrq.88.2021.11.04.05.27.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Nov 2021 05:16:35 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 731C41FF96;
- Thu,  4 Nov 2021 12:16:34 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL for 6.2 v2 00/19] testing, plugin and gdbstub updates
-Date: Thu,  4 Nov 2021 12:16:34 +0000
-Message-Id: <20211104121634.900434-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ Thu, 04 Nov 2021 05:27:13 -0700 (PDT)
+Date: Thu, 4 Nov 2021 12:27:11 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH] postocpy: Check that postocpy fd's are not NULL
+Message-ID: <YYPRn8geZ21UKsA/@work-vm>
+References: <20211103193129.23930-1-quintela@redhat.com>
+ <YYLqcx/Y9EqhZKhG@work-vm> <87r1bxgfvk.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <87r1bxgfvk.fsf@secure.mitica>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,101 +96,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2, dropped the hexagon toolchain updates which seem to be busted.
+* Juan Quintela (quintela@redhat.com) wrote:
+> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> > * Juan Quintela (quintela@redhat.com) wrote:
+> >> If postcopy has finished, it frees the array.
+> >> But vhost-user unregister it at cleanup time.
+> >
+> > I must admit to being confused as the double migrate case vs migrate
+> > once and shutdown. It might just be an ordering thing?
+> >
+> > I notice that  'vhost_user_backend_cleanup' does:
+> >     if (u->postcopy_fd.handler) {
+> >         postcopy_unregister_shared_ufd(&u->postcopy_fd);
+> >         close(u->postcopy_fd.fd);
+> >         u->postcopy_fd.handler = NULL;
+> >     }
+> >
+> > where as the other caller, 'vhost_user_postcopy_end'
+> > does:
+> >     postcopy_unregister_shared_ufd(&u->postcopy_fd);
+> >     close(u->postcopy_fd.fd);
+> >     u->postcopy_fd.handler = NULL;
+> 
+> I think that we want ta make here the check to see if it has already
+> been freed.
+> 
+> > maybe it would be better to fix them to do the same if check?
+> 
+> But even there, I think that it is more robust that we don't try to
+> access a NULL pointer.
+> 
+> I.e. there are two things that we can fix here:
+> - postcopy unregister
+> - vhost use of postcopy unregister
 
-The following changes since commit b1fd92137e4d485adeec8e9f292f928ff335b76c:
+True we could indeed fix both as a belt-and-braces.
 
-  Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into staging (2021-11-03 13:07:30 -0400)
+> > (Also note 'post*o*cpy' typo in title, and probably worth a
+> >   Fixes: c4f7538 ?)
+> 
+> Sure.
+> 
+> What do you think?
 
-are available in the Git repository at:
+So yeh,
 
-  https://github.com/stsquad/qemu.git tags/pull-for-6.2-041121-2
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-for you to fetch changes up to b31b3fd0c0e17b95b9b0e05e0d67d0cd3ca081da:
+Please do the other if as a separate patch sometime.
 
-  tests/vm/openbsd: Update to release 7.0 (2021-11-04 10:32:01 +0000)
+Dave
 
-----------------------------------------------------------------
-Testing, gdbstub and plugin updates for 6.2
-
- - add microblaze and nios2 compiler docker images
- - fix test cross compiler detection for some targets
- - don't try and link ebf to user targets
- - add L2 tracking to cache plugin
- - exit cleanly on C-a x
- - clean up debug output in check-tcg
- - switch to thread on break in gdbstub
- - update openbsd VM to 7.0
-
-----------------------------------------------------------------
-Alex Bennée (7):
-      tests/docker: split PARTIAL into PARTIAL and VIRTUAL images
-      tests/tcg: enable debian-nios2-cross for test building
-      chardev: don't exit() straight away on C-a x
-      tests/plugins: extend the insn plugin to track opcode sizes
-      plugins: try and make plugin_insn_append more ergonomic
-      tests/tcg: remove duplicate EXTRA_RUNS
-      tests/tcg: remove debug polluting make output
-
-Mahmoud Mandour (5):
-      plugins/cache: freed heap-allocated mutexes
-      plugins/cache: implement unified L2 cache emulation
-      plugins/cache: split command line arguments into name and value
-      plugins/cache: make L2 emulation optional through args
-      docs/tcg-plugins: add L2 arguments to cache docs
-
-Paolo Bonzini (1):
-      ebpf: really include it only in system emulators
-
-Pavel Labath (1):
-      gdbstub: Switch to the thread receiving a signal
-
-Philippe Mathieu-Daudé (1):
-      tests/tcg: Fix some targets default cross compiler path
-
-Richard Henderson (4):
-      tests/docker: Add debian-nios2-cross image
-      tests/docker: Add debian-microblaze-cross image
-      tests/tcg: Enable container_cross_cc for microblaze
-      tests/vm/openbsd: Update to release 7.0
-
- docs/devel/tcg-plugins.rst                         |  20 +-
- meson.build                                        |   2 -
- include/exec/plugin-gen.h                          |  12 +-
- include/qemu/plugin.h                              |   7 +-
- accel/tcg/plugin-gen.c                             |   3 +-
- accel/tcg/translator.c                             |   2 +-
- chardev/char-mux.c                                 |   3 +-
- contrib/plugins/cache.c                            | 318 +++++++++++++++------
- gdbstub.c                                          |   8 +-
- stubs/qmp-quit.c                                   |   8 +
- tests/plugin/insn.c                                |  37 ++-
- MAINTAINERS                                        |   3 +
- stubs/meson.build                                  |   1 +
- tests/docker/Makefile.include                      |  39 ++-
- .../debian-microblaze-cross.d/build-toolchain.sh   |  88 ++++++
- .../debian-nios2-cross.d/build-toolchain.sh        |  87 ++++++
- tests/docker/dockerfiles/debian-toolchain.docker   |  36 +++
- tests/tcg/configure.sh                             |  26 +-
- tests/tcg/multiarch/Makefile.target                |  13 +-
- .../multiarch/gdbstub/test-thread-breakpoint.py    |  60 ++++
- tests/tcg/nios2/Makefile.target                    |  11 +
- tests/tcg/sh4/Makefile.target                      |   6 +
- tests/vm/openbsd                                   |   7 +-
- 23 files changed, 670 insertions(+), 127 deletions(-)
- create mode 100644 stubs/qmp-quit.c
- create mode 100755 tests/docker/dockerfiles/debian-microblaze-cross.d/build-toolchain.sh
- create mode 100755 tests/docker/dockerfiles/debian-nios2-cross.d/build-toolchain.sh
- create mode 100644 tests/docker/dockerfiles/debian-toolchain.docker
- create mode 100644 tests/tcg/multiarch/gdbstub/test-thread-breakpoint.py
- create mode 100644 tests/tcg/nios2/Makefile.target
-
+> Later, Juan.
+> 
+> > Dave
+> >
+> >
+> >> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> >> ---
+> >>  migration/postcopy-ram.c | 4 ++++
+> >>  1 file changed, 4 insertions(+)
+> >> 
+> >> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+> >> index e721f69d0f..d18b5d05b2 100644
+> >> --- a/migration/postcopy-ram.c
+> >> +++ b/migration/postcopy-ram.c
+> >> @@ -1457,6 +1457,10 @@ void postcopy_unregister_shared_ufd(struct PostCopyFD *pcfd)
+> >>      MigrationIncomingState *mis = migration_incoming_get_current();
+> >>      GArray *pcrfds = mis->postcopy_remote_fds;
+> >>  
+> >> +    if (!pcrfds) {
+> >> +        /* migration has already finished and freed the array */
+> >> +        return;
+> >> +    }
+> >>      for (i = 0; i < pcrfds->len; i++) {
+> >>          struct PostCopyFD *cur = &g_array_index(pcrfds, struct PostCopyFD, i);
+> >>          if (cur->fd == pcfd->fd) {
+> >> -- 
+> >> 2.33.1
+> >> 
+> 
 -- 
-2.30.2
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
