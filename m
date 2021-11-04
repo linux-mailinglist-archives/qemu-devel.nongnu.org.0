@@ -2,37 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15489445342
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 13:46:00 +0100 (CET)
-Received: from localhost ([::1]:44916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 779D9445351
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 13:49:41 +0100 (CET)
+Received: from localhost ([::1]:49544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mic7z-0004KD-6I
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 08:45:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37086)
+	id 1micBY-0007gB-J2
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 08:49:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mic1Z-0000EC-Se; Thu, 04 Nov 2021 08:39:21 -0400
+ id 1mic1d-0000Lw-BO; Thu, 04 Nov 2021 08:39:25 -0400
 Received: from [201.28.113.2] (port=33857 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mic1X-0005sq-Tw; Thu, 04 Nov 2021 08:39:21 -0400
+ id 1mic1b-0005sq-Da; Thu, 04 Nov 2021 08:39:24 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 4 Nov 2021 09:39:15 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 4 Nov 2021 09:39:16 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 63B59800BA7;
+ by power9a (Postfix) with ESMTP id CBDDA800BA7;
  Thu,  4 Nov 2021 09:39:15 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v3 00/25] PowerISA v3.1 instruction batch
-Date: Thu,  4 Nov 2021 09:36:54 -0300
-Message-Id: <20211104123719.323713-1-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v3 01/25] target/ppc: Move vcfuged to vmx-impl.c.inc
+Date: Thu,  4 Nov 2021 09:36:55 -0300
+Message-Id: <20211104123719.323713-2-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211104123719.323713-1-matheus.ferst@eldorado.org.br>
+References: <20211104123719.323713-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 04 Nov 2021 12:39:15.0822 (UTC)
- FILETIME=[FA6988E0:01D7D178]
+X-OriginalArrivalTime: 04 Nov 2021 12:39:16.0229 (UTC)
+ FILETIME=[FAA7A350:01D7D178]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -62,83 +64,154 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-This patch series implements 56 new instructions for POWER10, moving 28
-"old" instructions to decodetree along the way. The series is divided by
-facility as follows:
+There's no reason to keep vector-impl.c.inc separate from
+vmx-impl.c.inc. Additionally, let GVec handle the multiple calls to
+helper_cfuged for us.
 
-- From patch 1 to 9: Vector
-- From patch 10 to 24: Vector-Scalar Extensions
-- From patch 25: Fixed-Point
-
-Based-on: ppc-for-6.2
-
-Patches without review: 5, 25
-
-v3:
-- Rebase on ppc-for-6.2
-- Fixed endianness issue in vector insert helpers
-- cntlzdm/cnttzdm implementation without brcond
-
-v2:
-- do_ea_calc now allocate and returns ea
-- Inline version of cntlzdm/cnttzdm
-- vecop_list removed from GVecGen* without fniv
-- vsldbi/vsrdbi implemented with tcg_gen_extract2_i64
-- memcpy instead of misaligned load/stores on vector insert instructions
-- Simplified helper for Vector Extract
-- Fixed [p]stxv[xp]/[p]lxv[xp] to always access to lowest address first
-  in LE
-- xxsplti32dx implemented with tcg_gen_st_i32
-- valid_values mask removed from lxvkq implementation
-
-Bruno Larsen (billionai) (6):
-  target/ppc: Introduce REQUIRE_VSX macro
-  target/ppc: moved XXSPLTW to using decodetree
-  target/ppc: moved XXSPLTIB to using decodetree
-  target/ppc: implemented XXSPLTI32DX
-  target/ppc: Implemented XXSPLTIW using decodetree
-  target/ppc: implemented XXSPLTIDP instruction
-
-Lucas Mateus Castro (alqotel) (6):
-  target/ppc: moved stxv and lxv from legacy to decodtree
-  target/ppc: moved stxvx and lxvx from legacy to decodtree
-  target/ppc: added the instructions LXVP and STXVP
-  target/ppc: added the instructions LXVPX and STXVPX
-  target/ppc: added the instructions PLXV and PSTXV
-  target/ppc: added the instructions PLXVP and PSTXVP
-
-Matheus Ferst (13):
-  target/ppc: Move vcfuged to vmx-impl.c.inc
-  target/ppc: Implement vclzdm/vctzdm instructions
-  target/ppc: Implement vpdepd/vpextd instruction
-  target/ppc: Implement vsldbi/vsrdbi instructions
-  target/ppc: Implement Vector Insert from GPR using GPR index insns
-  target/ppc: Implement Vector Insert Word from GPR using Immediate
-    insns
-  target/ppc: Implement Vector Insert from VSR using GPR index insns
-  target/ppc: Move vinsertb/vinserth/vinsertw/vinsertd to decodetree
-  target/ppc: Implement Vector Extract Double to VSR using GPR index
-    insns
-  target/ppc: receive high/low as argument in get/set_cpu_vsr
-  target/ppc: Implement xxblendvb/xxblendvh/xxblendvw/xxblendvd
-    instructions
-  target/ppc: Implement lxvkq instruction
-  target/ppc: cntlzdm/cnttzdm implementation without brcond
-
- target/ppc/helper.h                        |  20 +-
- target/ppc/insn32.decode                   |  93 +++
- target/ppc/insn64.decode                   |  57 ++
- target/ppc/int_helper.c                    | 101 ++-
- target/ppc/translate.c                     |  26 +-
- target/ppc/translate/fixedpoint-impl.c.inc |  37 +-
- target/ppc/translate/vector-impl.c.inc     |  48 --
- target/ppc/translate/vmx-impl.c.inc        | 334 +++++++++-
- target/ppc/translate/vmx-ops.c.inc         |  10 +-
- target/ppc/translate/vsx-impl.c.inc        | 704 ++++++++++++---------
- target/ppc/translate/vsx-ops.c.inc         |   4 -
- 11 files changed, 1006 insertions(+), 428 deletions(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+---
+ target/ppc/helper.h                        |  2 +-
+ target/ppc/int_helper.c                    |  2 +-
+ target/ppc/translate.c                     |  1 -
+ target/ppc/translate/fixedpoint-impl.c.inc |  2 +-
+ target/ppc/translate/vector-impl.c.inc     | 48 ----------------------
+ target/ppc/translate/vmx-impl.c.inc        | 16 ++++++++
+ 6 files changed, 19 insertions(+), 52 deletions(-)
  delete mode 100644 target/ppc/translate/vector-impl.c.inc
 
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 72e66c5fe8..401575b935 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -46,7 +46,7 @@ DEF_HELPER_4(divwe, tl, env, tl, tl, i32)
+ DEF_HELPER_FLAGS_1(popcntb, TCG_CALL_NO_RWG_SE, tl, tl)
+ DEF_HELPER_FLAGS_2(cmpb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+ DEF_HELPER_3(sraw, tl, env, tl, tl)
+-DEF_HELPER_FLAGS_2(cfuged, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(CFUGED, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+ #if defined(TARGET_PPC64)
+ DEF_HELPER_FLAGS_2(PDEPD, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+ DEF_HELPER_FLAGS_2(PEXTD, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index 913d76be6e..f03c864e48 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -324,7 +324,7 @@ target_ulong helper_popcntb(target_ulong val)
+ }
+ #endif
+ 
+-uint64_t helper_cfuged(uint64_t src, uint64_t mask)
++uint64_t helper_CFUGED(uint64_t src, uint64_t mask)
+ {
+     /*
+      * Instead of processing the mask bit-by-bit from the most significant to
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 659859ff5f..fc9d35a7a8 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -7407,7 +7407,6 @@ static bool resolve_PLS_D(DisasContext *ctx, arg_D *d, arg_PLS_D *a)
+ #include "translate/vmx-impl.c.inc"
+ 
+ #include "translate/vsx-impl.c.inc"
+-#include "translate/vector-impl.c.inc"
+ 
+ #include "translate/dfp-impl.c.inc"
+ 
+diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
+index 220b099fcd..fa519c2d3e 100644
+--- a/target/ppc/translate/fixedpoint-impl.c.inc
++++ b/target/ppc/translate/fixedpoint-impl.c.inc
+@@ -407,7 +407,7 @@ static bool trans_CFUGED(DisasContext *ctx, arg_X *a)
+     REQUIRE_64BIT(ctx);
+     REQUIRE_INSNS_FLAGS2(ctx, ISA310);
+ #if defined(TARGET_PPC64)
+-    gen_helper_cfuged(cpu_gpr[a->ra], cpu_gpr[a->rt], cpu_gpr[a->rb]);
++    gen_helper_CFUGED(cpu_gpr[a->ra], cpu_gpr[a->rt], cpu_gpr[a->rb]);
+ #else
+     qemu_build_not_reached();
+ #endif
+diff --git a/target/ppc/translate/vector-impl.c.inc b/target/ppc/translate/vector-impl.c.inc
+deleted file mode 100644
+index 197e903337..0000000000
+--- a/target/ppc/translate/vector-impl.c.inc
++++ /dev/null
+@@ -1,48 +0,0 @@
+-/*
+- * Power ISA decode for Vector Facility instructions
+- *
+- * Copyright (c) 2021 Instituto de Pesquisas Eldorado (eldorado.org.br)
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+- *
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+- *
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+- */
+-
+-static bool trans_VCFUGED(DisasContext *ctx, arg_VX *a)
+-{
+-    TCGv_i64 tgt, src, mask;
+-
+-    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
+-    REQUIRE_VECTOR(ctx);
+-
+-    tgt = tcg_temp_new_i64();
+-    src = tcg_temp_new_i64();
+-    mask = tcg_temp_new_i64();
+-
+-    /* centrifuge lower double word */
+-    get_cpu_vsrl(src, a->vra + 32);
+-    get_cpu_vsrl(mask, a->vrb + 32);
+-    gen_helper_cfuged(tgt, src, mask);
+-    set_cpu_vsrl(a->vrt + 32, tgt);
+-
+-    /* centrifuge higher double word */
+-    get_cpu_vsrh(src, a->vra + 32);
+-    get_cpu_vsrh(mask, a->vrb + 32);
+-    gen_helper_cfuged(tgt, src, mask);
+-    set_cpu_vsrh(a->vrt + 32, tgt);
+-
+-    tcg_temp_free_i64(tgt);
+-    tcg_temp_free_i64(src);
+-    tcg_temp_free_i64(mask);
+-
+-    return true;
+-}
+diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+index 92b9527aff..e36c66589c 100644
+--- a/target/ppc/translate/vmx-impl.c.inc
++++ b/target/ppc/translate/vmx-impl.c.inc
+@@ -1559,6 +1559,22 @@ GEN_VXFORM3(vpermxor, 22, 0xFF)
+ GEN_VXFORM_DUAL(vsldoi, PPC_ALTIVEC, PPC_NONE,
+                 vpermxor, PPC_NONE, PPC2_ALTIVEC_207)
+ 
++static bool trans_VCFUGED(DisasContext *ctx, arg_VX *a)
++{
++    static const GVecGen3 g = {
++        .fni8 = gen_helper_CFUGED,
++        .vece = MO_64,
++    };
++
++    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
++    REQUIRE_VECTOR(ctx);
++
++    tcg_gen_gvec_3(avr_full_offset(a->vrt), avr_full_offset(a->vra),
++                   avr_full_offset(a->vrb), 16, 16, &g);
++
++    return true;
++}
++
+ #undef GEN_VR_LDX
+ #undef GEN_VR_STX
+ #undef GEN_VR_LVE
 -- 
 2.25.1
 
