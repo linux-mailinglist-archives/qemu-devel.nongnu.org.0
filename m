@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4E8F445535
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 15:21:11 +0100 (CET)
-Received: from localhost ([::1]:37446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCAAA445515
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 15:17:14 +0100 (CET)
+Received: from localhost ([::1]:55228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1midc6-0001Zb-MF
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 10:21:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37230)
+	id 1midYH-0002tj-Ik
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 10:17:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1midNq-0006oy-94
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1midNq-0006r0-KK
  for qemu-devel@nongnu.org; Thu, 04 Nov 2021 10:06:26 -0400
-Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:40944)
+Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:34377)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1midNj-0000zs-KH
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 10:06:25 -0400
-Received: by mail-il1-x12a.google.com with SMTP id k1so6262216ilo.7
- for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 07:06:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1midNo-00010V-Ir
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 10:06:26 -0400
+Received: by mail-io1-xd33.google.com with SMTP id 2so3674146iou.1
+ for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 07:06:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1ztRBQYqWrUwRLf6NQ4W8izvboRcDbY0eKrhIvHHz3I=;
- b=f4/1VVtJdxJA6ObRpXO+osPgo4zji3vWjabJJiDGSf4vow5N0uZUAiWIyw/szw3CM5
- 0N9uYPq7IcQ1UfgSyKwNiRqjaLeesxaCx7yxLUEeYeyvm5GWSv06BbuDA3LShGeLfKcZ
- V47rd2SJH3R+UH5cqfZZD+dvfynqMpsX0Gx5mA4VNf6Ng2ONv/8MEaSm4UhNJd5Zzllm
- a77QM/xyEo6f5aBciIWi0rSy4dmnX2wrf3v3/ufQExT/WfuxGF66A7ry6rA2+/XANOw+
- a+BZXijX8H8DVIqzXwv+vlCZl06rOOTetHenpi3eVg5lYAQESqY0CQq5QL0OyhdZWmVf
- m48A==
+ bh=F9IbbLGjnRnokIuDKxQfCzJoAx075CoGnpnzgfUmRKo=;
+ b=bjfIrnmnRdCx9FwDgLWOCcc2qCcgyQowvcSbtL9jvDVezWV2sBRB5ghP+N1lTN0Wt8
+ FtcnsdFJf6DKsYYJH6hGGniDT9GiVt92OC2zt4qH1/JjKiInYlxKhYepCseVETKHoE1a
+ YpdgqhJGQtnRQeQzWft+PVqFm1O0BGBVQMccrYy9ZaHy7SHZcuSMl5P+4Y96r6QKIuut
+ 0KR8YEbYhRxZ7kCBxXyiyEOpl3KReNr2wnkARQaSD8b7d/Fn85F5L088S5ko6/cJAjOW
+ xxr0vNeS4NOHXf9VRwg5u5ASaBjcWVlJTp7KU0aseLZDfnvxlgKms6xBqwYMs8OuO8ME
+ cPUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1ztRBQYqWrUwRLf6NQ4W8izvboRcDbY0eKrhIvHHz3I=;
- b=wL4hOtKHXrtV30jxERHFuTY6Om8YJ+MaN17Q51hsQvNyYySU3jHAzruqRBOIKuFf3+
- gIhp1BJE1ZdV9b5VS0gAwQ2GJ8igRSnQkqKf7lbbVLCGSmmIHEkR9ca4vY172b8i/5p9
- molSLjK9DcZLGdbM1Yu3yyee6uSENlGhFQ8geWKcH+u1uomyjdlBIXst2WKoTDuTUMAq
- mMP3ndmzB7xeSj6gdOi5jwSL8EvPX0KAYrLBvIgd4M1qDuKtf2TFKrXemHplzmkDavkr
- fZeRbjSDY1qzHPElM/cPqc74Gl3IuiG2EE+R8yzO2cCsWkpJXxDctoPUEKxPWP3SPDLT
- AvNQ==
-X-Gm-Message-State: AOAM531RINpjDkHygRAsJsAHweAS9TMa0t6FcmGRBnIR2/dOmisrWMl4
- vZBFTX7iWpVqLU+2DKRbpJCEIT60+pPoYA==
-X-Google-Smtp-Source: ABdhPJzhJlGyw6qGMCYmRBhagt+wukl5nkYtsFooH+QpjdchGQtVv6zlczOBEkKzCwMrIyLpztUAXw==
-X-Received: by 2002:a92:8742:: with SMTP id d2mr34167829ilm.128.1636034778237; 
- Thu, 04 Nov 2021 07:06:18 -0700 (PDT)
+ bh=F9IbbLGjnRnokIuDKxQfCzJoAx075CoGnpnzgfUmRKo=;
+ b=L5mkqdcYIcj3n7pjEPA322GvUOfrj9XTrrhn6/bSOz7poRtbH757xuTT3Q92UE7Fuk
+ 5z3aRYmtjH/YXbgsev4dnt/144Pse8KbxpaLexbPeGoSmlSMuaJl2fabYzEPuOjohC/Z
+ EeoDlrSse6vvS98ShLkT6jbDK0csY9pzlRyU+fZ6T6kqgIuE3Oxt6exBHQpFcuNARQU1
+ kamx/OgW/bRlmKH71V9LVwb2v6mJXAFq9/QcKglJgWecSLdeqOsxpLF60Nopfs8Drf6y
+ RwVI+YxjhWURQyL6vIhoaojJMTNIt6WqYdsNR0h0CcOdLgXKDpFXaMXummjT4cmUPQEW
+ rDqQ==
+X-Gm-Message-State: AOAM5338qpjItc5Up1u5eOKa07wIeCEuiTv+WcXtQq3Gc6Sc6ef8EtG7
+ l3qZUJg7eCB/DdFVcw/NaWfZPPgsW0R8Dw==
+X-Google-Smtp-Source: ABdhPJx31xve4U5O9Z4kfNcaxY5j5an/l1OEBXHfdKPOz2EPfiLu1VTi6nHUBzMobQDiZbQErWwoQQ==
+X-Received: by 2002:a5d:81c7:: with SMTP id t7mr38230769iol.65.1636034779468; 
+ Thu, 04 Nov 2021 07:06:19 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id l2sm3206741iln.50.2021.11.04.07.06.17
+ by smtp.gmail.com with ESMTPSA id l2sm3206741iln.50.2021.11.04.07.06.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Nov 2021 07:06:17 -0700 (PDT)
+ Thu, 04 Nov 2021 07:06:19 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 11/29] bsd-user/arm/target_arch_vmparam.h: Parameters for
- arm address space
-Date: Thu,  4 Nov 2021 08:05:18 -0600
-Message-Id: <20211104140536.42573-12-imp@bsdimp.com>
+Subject: [PATCH v3 12/29] bsd-user/arm/target_arch_sigtramp.h: Signal
+ Trampoline for arm
+Date: Thu,  4 Nov 2021 08:05:19 -0600
+Message-Id: <20211104140536.42573-13-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211104140536.42573-1-imp@bsdimp.com>
 References: <20211104140536.42573-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::12a;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12a.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd33.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,28 +89,26 @@ Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Various parameters describing the layout of the ARM address space. In
-addition, define routines to get the stack pointer and to set the second
-return value.
+Copy of the signal trampoline code for arm, as well as setup_sigtramp to
+write it to the stack.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
-Signed-off-by: Kyle Evans <kevans@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/arm/target_arch_vmparam.h | 48 ++++++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
- create mode 100644 bsd-user/arm/target_arch_vmparam.h
+ bsd-user/arm/target_arch_sigtramp.h | 49 +++++++++++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
+ create mode 100644 bsd-user/arm/target_arch_sigtramp.h
 
-diff --git a/bsd-user/arm/target_arch_vmparam.h b/bsd-user/arm/target_arch_vmparam.h
+diff --git a/bsd-user/arm/target_arch_sigtramp.h b/bsd-user/arm/target_arch_sigtramp.h
 new file mode 100644
-index 0000000000..4bbc04ddf5
+index 0000000000..5d434a9e7e
 --- /dev/null
-+++ b/bsd-user/arm/target_arch_vmparam.h
-@@ -0,0 +1,48 @@
++++ b/bsd-user/arm/target_arch_sigtramp.h
+@@ -0,0 +1,49 @@
 +/*
-+ *  arm VM parameters definitions
++ *  arm sysarch() system call emulation
 + *
 + *  Copyright (c) 2013 Stacey D. Son
 + *
@@ -127,36 +125,37 @@ index 0000000000..4bbc04ddf5
 + *  You should have received a copy of the GNU General Public License
 + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
-+#ifndef _TARGET_ARCH_VMPARAM_H_
-+#define _TARGET_ARCH_VMPARAM_H_
 +
-+#include "cpu.h"
++#ifndef _TARGET_ARCH_SIGTRAMP_H_
++#define _TARGET_ARCH_SIGTRAMP_H_
 +
-+/* compare to sys/arm/include/vmparam.h */
-+#define TARGET_MAXTSIZ      (64 * MiB)           /* max text size */
-+#define TARGET_DFLDSIZ      (128 * MiB)          /* initial data size limit */
-+#define TARGET_MAXDSIZ      (512 * MiB)          /* max data size */
-+#define TARGET_DFLSSIZ      (4 * MiB)            /* initial stack size limit */
-+#define TARGET_MAXSSIZ      (64 * MiB)           /* max stack size */
-+#define TARGET_SGROWSIZ     (128 * KiB)          /* amount to grow stack */
-+
-+#define TARGET_RESERVED_VA  0xf7000000
-+
-+                /* KERNBASE - 512 MB */
-+#define TARGET_VM_MAXUSER_ADDRESS   (0xc0000000 - (512 * MiB))
-+#define TARGET_USRSTACK             TARGET_VM_MAXUSER_ADDRESS
-+
-+static inline abi_ulong get_sp_from_cpustate(CPUARMState *state)
++/* Compare to arm/arm/locore.S ENTRY_NP(sigcode) */
++static inline abi_long setup_sigtramp(abi_ulong offset, unsigned sigf_uc,
++        unsigned sys_sigreturn)
 +{
-+    return state->regs[13]; /* sp */
-+}
++    int i;
++    uint32_t sys_exit = TARGET_FREEBSD_NR_exit;
++    uint32_t sigtramp_code[] = {
++    /* 1 */ 0xE1A0000D,                  /* mov r0, sp */
++    /* 2 */ 0xE2800000 + sigf_uc,        /* add r0, r0, #SIGF_UC */
++    /* 3 */ 0xE59F700C,                  /* ldr r7, [pc, #12] */
++    /* 4 */ 0xEF000000 + sys_sigreturn,  /* swi (SYS_sigreturn) */
++    /* 5 */ 0xE59F7008,                  /* ldr r7, [pc, #8] */
++    /* 6 */ 0xEF000000 + sys_exit,       /* swi (SYS_exit)*/
++    /* 7 */ 0xEAFFFFFA,                  /* b . -16 */
++    /* 8 */ sys_sigreturn,
++    /* 9 */ sys_exit
++    };
 +
-+static inline void set_second_rval(CPUARMState *state, abi_ulong retval2)
-+{
-+    state->regs[1] = retval2;
-+}
++    G_STATIC_ASSERT(sizeof(sigtramp_code) == TARGET_SZSIGCODE);
 +
-+#endif  /* ! _TARGET_ARCH_VMPARAM_H_ */
++    for (i = 0; i < 9; i++) {
++        tswap32s(&sigtramp_code[i]);
++    }
++
++    return memcpy_to_target(offset, sigtramp_code, TARGET_SZSIGCODE);
++}
++#endif /* _TARGET_ARCH_SIGTRAMP_H_ */
 -- 
 2.33.0
 
