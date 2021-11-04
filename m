@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D5FF445272
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 12:46:17 +0100 (CET)
-Received: from localhost ([::1]:38644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDC57445284
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 12:51:08 +0100 (CET)
+Received: from localhost ([::1]:41896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mibCB-0007RU-Mf
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 07:46:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50186)
+	id 1mibGt-0001Tx-ON
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 07:51:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mib7t-000693-Sf
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 07:41:52 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:43525)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mibBk-0008AV-SV; Thu, 04 Nov 2021 07:45:51 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:34725)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mib7k-0003iW-57
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 07:41:49 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id t30so8107686wra.10
- for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 04:41:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mibBi-0004qb-A8; Thu, 04 Nov 2021 07:45:48 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id o12so13824594ybk.1;
+ Thu, 04 Nov 2021 04:45:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=s0Za19WIplfe2FfnCuDz4VMUMwRXES7RpvFIqduFLRk=;
- b=jSE4fhme9nd4BT4R4rl4x3oZ4qHAveKa4OF2e+pzPqtPNF6kHe3JBLc8qx0Moojx+h
- nD7hLojG145u7vByToO6DDQlSl417E+tDwOCIhLaHcQKAOAZ5hHkLdsIdP6UumRA54fF
- QeHWTx7mDPWFvlLi1pzwOhPG88BViP/x41hHVo5eGiUOR7C0odYeuOgYzF3yih9x9ccO
- cwATkD5H7J03I+dsoO084q41Z+nqALKfKTgUeBk2AG8ofwvevxLJzWr1XugTG4c6q5uu
- HBg8jc6JKnZvrzr6yk/8iSkrE08SnP/wyYs6BgOvum8jv5e3kdx38UP1ZdyeIO+KgV7Q
- LJbQ==
+ :cc; bh=Uk+t6q1ReiE6klt/lc8i27f+JFTd6/GiQ01xmR/eDcQ=;
+ b=aoIqvNRuAbCLb1/nuiRRgcxVod0W/cF53ouL/oUR0SWgNodcysaLfsxXdxQO/UImyn
+ Ekzj2VU0FZZmPHvjrcLmM+Tp567COXjAsxtSdRDab/srxu/YgunSgARb7SfVOxGnXken
+ ct3CEAvyBUBALrx2EoyY6p2++G1BKFEgZ/LG1wtKfrw5UBfH+vEDhUMYb4UV2e83qP+u
+ hR5xRqXEubEFmc261YL3Q7UlH/RsEgaSFRX+hcAPvBc0MOIit/KYenLUlTDcfs3uKxZn
+ 4cZhyzeT8B3ixOUspEP0DXMd1lb0eNXOfuxoxbC+uW/ReEXCzwFFpFkvROXYSREUi5DZ
+ CN8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=s0Za19WIplfe2FfnCuDz4VMUMwRXES7RpvFIqduFLRk=;
- b=PBCs07/4MMwX3vu5Z3YoQR9h61NCKQ9+Zhc3mo/LiiB3dmPYvsFfeVApYnjLV3vboX
- rCoX6whAzUdyR4VJM082Wij0uQbOHXB5eS+a/J7oMd5i+CUTc/D30bgeiQs6Z3VHlRt7
- RjqOiOHbg0yLDQgOQbQpcsS/pQ3dyPXtzAq9wqz75TMTxMi/2FDeWuYEcdPjv2dprnMt
- iS5YpQZ+JxhhLjFDUhyXnkYiVtWDReO4Z+DmbeegDeLBXdTvr0+MUT9YwLrjH9j6Gz9Z
- eGptuNEuQklLKrS2om6GRwA/OBX4Qb5WaVtOpfrBMEDK9DEZHkL65UEnOGNinewO7NSS
- +njw==
-X-Gm-Message-State: AOAM532apwgdQpGVRqHPZypChmySxwOSWPSs/RcbMX7wsy5YNuIANLc/
- lI72GzuTqmLmc5gOaFaCEypPW2CSMYqV9PySNFRs/g==
-X-Google-Smtp-Source: ABdhPJwpvzvCJVK+19v5h5I8spaMLDAoUBXpohk61d/e/lB5AiRcF+YOecDEDVZ6lMpcX7JrYVBLK7Y29TJ/Ph8gs4A=
-X-Received: by 2002:adf:c40f:: with SMTP id v15mr54778676wrf.302.1636026098220; 
- Thu, 04 Nov 2021 04:41:38 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=Uk+t6q1ReiE6klt/lc8i27f+JFTd6/GiQ01xmR/eDcQ=;
+ b=c3YQ3r2LVlC2F7WWkHznq4aNr6k4CZ/ijnCgoj/7eZt1/BbdKePBrvCXy+tRpKbmRb
+ gQAk+x8YJwm/8QBrTNGOhcd1jQ0KCEBvwFS72Zzdef+m9V2idKkZ3ddrJWFMSgTgknTA
+ PtZw8JdgSFqxR5UP0cf5vvxbGmKHpDl/MaCVYw1djxlVVeJhTmvEP/ZcHYf4JeDlw9BR
+ c2xDI1YTyUwnBaf35KERSEpeSIYIgQugfeX8CH0ciyuzUH8SOp9XkY+xZtdXIJuyXNG5
+ gGHo/eB4IojyCaQmTovK6tn/2VmSSDIYa1SBSg2wGUlPK6vqZ3YJf7IBkxfEIFr+T4ev
+ w5MA==
+X-Gm-Message-State: AOAM5303tGLQMCHWRRryGVL7BkbGQEZ0TZGa9axiXtDyGA2Bt2hLWCeH
+ /1eIIAXGSLp+Ac/rQTcHCaq0x0pXFHtmeJHoFKPJAKNX
+X-Google-Smtp-Source: ABdhPJxnnPZ1q8iinxEz+DpahOs2O8YiAYHk7SIjBHl+gGNpHxyHJw2N2BB2nEPsv4TSDrlKZdDr09GQ8nejM/FGE6Q=
+X-Received: by 2002:a25:2346:: with SMTP id j67mr842409ybj.467.1636026344278; 
+ Thu, 04 Nov 2021 04:45:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211026002344.405160-1-sjg@chromium.org>
- <20211026002344.405160-7-sjg@chromium.org>
- <CAFEAcA-UukuQXT3ebcboiVOSn0J+88w-kzoH8jE1JVxQnoeuvQ@mail.gmail.com>
- <CAPnjgZ2C8okdUMcgKjuLgV8JdPexYY0=9NtbSOHO81dN7=2RCg@mail.gmail.com>
- <CAHFG_=XWc+Fb=m=SHC6=y4KeF533yqCNk=Ae088oAZyjOULPaw@mail.gmail.com>
- <20211101180707.GJ24579@bill-the-cat>
- <CAPnjgZ0XeFHrXwBuTZ=eoKHCo7cMSuM_gUiTfv-Sqt8o6tPOXw@mail.gmail.com>
- <20211102172833.GS24579@bill-the-cat>
- <CAPnjgZ1zDeXMCtccy6=cQzjjAz92xJZunObm2OYKZ2eyP=Sdsw@mail.gmail.com>
- <CAHFG_=UTbUkZ3EUss4qoJwL6nJcL6tvZQATfPrH1WFQpRgqubQ@mail.gmail.com>
- <20211103144125.GZ24579@bill-the-cat>
- <CAFEAcA955NWTGhaEHYqjWppsDxH4BDEX4NiAew69mkwCVvjnLw@mail.gmail.com>
- <CAHFG_=WhM2-oByH2-WZO5prQx548JJFFGf2+TsUWOg_Sw+-6hA@mail.gmail.com>
-In-Reply-To: <CAHFG_=WhM2-oByH2-WZO5prQx548JJFFGf2+TsUWOg_Sw+-6hA@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 4 Nov 2021 11:41:26 +0000
-Message-ID: <CAFEAcA9WSzk5qYwm9U0BSiM_DUXnERV_59WKbdQU-PwaY18gAQ@mail.gmail.com>
-Subject: Re: [PATCH v5 06/26] arm: qemu: Add a devicetree file for qemu_arm64
-To: =?UTF-8?Q?Fran=C3=A7ois_Ozog?= <francois.ozog@linaro.org>
+References: <20211025195601.245631-1-atish.patra@wdc.com>
+ <20211025195601.245631-5-atish.patra@wdc.com>
+In-Reply-To: <20211025195601.245631-5-atish.patra@wdc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 4 Nov 2021 19:45:32 +0800
+Message-ID: <CAEUhbmV0kH8ZG7A0jiWAKTj4j3rhHrTCZY1diDWibPhMgcoiFw@mail.gmail.com>
+Subject: Re: [ PATCH v3 04/10] target/riscv: pmu: Make number of counters
+ configurable
+To: Atish Patra <atish.patra@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,33 +76,203 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Albert Aribaud <albert.u.boot@aribaud.net>, Tom Rini <trini@konsulko.com>,
- U-Boot Mailing List <u-boot@lists.denx.de>,
- Heinrich Schuchardt <xypron.glpk@gmx.de>, Simon Glass <sjg@chromium.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Sean Anderson <seanga2@gmail.com>,
- Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>,
- Mark Kettenis <mark.kettenis@xs4all.nl>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 4 Nov 2021 at 11:22, Fran=C3=A7ois Ozog <francois.ozog@linaro.org> =
-wrote:
-> Le jeu. 4 nov. 2021 =C3=A0 12:09, Peter Maydell <peter.maydell@linaro.org=
-> a =C3=A9crit :
->>
->> Well, our recommendation really was that the ideal thing would
->> be "you take the dtb that QEMU passes you at runtime, and at
->> runtime combine that with whatever extra information you want".
+On Tue, Oct 26, 2021 at 4:41 AM Atish Patra <atish.patra@wdc.com> wrote:
 >
-> That looks just reasonable this way.
+> The RISC-V privilege specification provides flexibility to implement
+> any number of counters from 29 programmable counters. However, the QEMU
+> implements all the counters.
+>
+> Make it configurable through pmu config parameter which now will indicate
+> how many programmable counters should be implemented by the cpu.
+>
+> Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> ---
+>  target/riscv/cpu.c |  2 +-
+>  target/riscv/cpu.h |  2 +-
+>  target/riscv/csr.c | 96 ++++++++++++++++++++++++++++++----------------
+>  3 files changed, 65 insertions(+), 35 deletions(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 3b55f5ed0036..aec94101a4c0 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -598,7 +598,7 @@ static Property riscv_cpu_properties[] = {
+>      DEFINE_PROP_BOOL("x-zbs", RISCVCPU, cfg.ext_zbs, false),
+>      DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
+>      DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
+> -    DEFINE_PROP_BOOL("pmu", RISCVCPU, cfg.ext_pmu, true),
+> +    DEFINE_PROP_UINT8("pmu-num", RISCVCPU, cfg.pmu_num, 16),
+>      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+>      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+>      DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index ebc1a8754032..d0a722e7cbe1 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -294,10 +294,10 @@ struct RISCVCPU {
+>          bool ext_zbb;
+>          bool ext_zbc;
+>          bool ext_zbs;
+> -        bool ext_pmu;
+>          bool ext_ifencei;
+>          bool ext_icsr;
+>
+> +        uint8_t pmu_num;
+>          char *priv_spec;
+>          char *user_spec;
+>          char *bext_spec;
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index c486eeaffeb8..a7249eaf917f 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -57,15 +57,45 @@ static RISCVException vs(CPURISCVState *env, int csrno)
+>      return RISCV_EXCP_ILLEGAL_INST;
+>  }
+>
+> +static RISCVException mctr(CPURISCVState *env, int csrno)
+> +{
+> +#if !defined(CONFIG_USER_ONLY)
+> +    CPUState *cs = env_cpu(env);
+> +    RISCVCPU *cpu = RISCV_CPU(cs);
+> +    int ctr_index;
+> +    int base_csrno = CSR_MHPMCOUNTER3;
+> +
+> +    if (riscv_cpu_is_32bit(env) && csrno >= CSR_MCYCLEH) {
+> +        /* Offset for RV32 mhpmcounternh counters */
+> +        base_csrno += 0x80;
+> +    }
+> +    ctr_index = csrno - base_csrno;
+> +    if (!cpu->cfg.pmu_num || ctr_index >= cpu->cfg.pmu_num) {
+> +        /* The PMU is not enabled or counter is out of range*/
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +
+> +    return RISCV_EXCP_NONE;
+> +#endif
+> +}
+> +
+>  static RISCVException ctr(CPURISCVState *env, int csrno)
+>  {
+>  #if !defined(CONFIG_USER_ONLY)
+>      CPUState *cs = env_cpu(env);
+>      RISCVCPU *cpu = RISCV_CPU(cs);
+>      int ctr_index;
+> +    int base_csrno = CSR_CYCLE;
 
-> So we need a =C2=AB -mergedtb =C2=BB option for Qemu to have the same
-> capability. This would merge the QEMU generated one with the
-> command line provided.
+Use CSR_HPMCOUNTER3 here, for consistency with the mctr version
 
-No, I mean that the guest, ie u-boot, should do the merging,
-not QEMU.
+> +    bool brv32 = riscv_cpu_is_32bit(env);
 
--- PMM
+nits: the leading 'b' sounds useless. I would use rv32 instead.
+
+> +
+> +    if (brv32 && csrno >= CSR_CYCLEH) {
+> +        /* Offset for RV32 hpmcounternh counters */
+> +        base_csrno += 0x80;
+> +    }
+> +    ctr_index = csrno - base_csrno;
+>
+> -    if (!cpu->cfg.ext_pmu) {
+> -        /* The Counters extensions is not enabled */
+> +    if (!cpu->cfg.pmu_num || ctr_index >= (cpu->cfg.pmu_num + 3)) {
+
+so we can use "ctr_index >= cpu->cfg.pmu_num" here
+
+> +        /* The PMU is not enabled or counter is out of range */
+>          return RISCV_EXCP_ILLEGAL_INST;
+>      }
+>
+> @@ -93,7 +123,7 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+>              }
+>              break;
+>          }
+> -        if (riscv_cpu_is_32bit(env)) {
+> +        if (brv32) {
+>              switch (csrno) {
+>              case CSR_CYCLEH:
+>                  if (!get_field(env->mcounteren, COUNTEREN_CY)) {
+> @@ -148,7 +178,7 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+>              }
+>              break;
+>          }
+> -        if (riscv_cpu_is_32bit(env)) {
+> +        if (brv32) {
+>              switch (csrno) {
+>              case CSR_CYCLEH:
+>                  if (!get_field(env->hcounteren, COUNTEREN_CY) &&
+> @@ -1720,35 +1750,35 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>      [CSR_HPMCOUNTER30]   = { "hpmcounter30",   ctr,    read_zero },
+>      [CSR_HPMCOUNTER31]   = { "hpmcounter31",   ctr,    read_zero },
+>
+> -    [CSR_MHPMCOUNTER3]   = { "mhpmcounter3",   any,    read_zero },
+> -    [CSR_MHPMCOUNTER4]   = { "mhpmcounter4",   any,    read_zero },
+> -    [CSR_MHPMCOUNTER5]   = { "mhpmcounter5",   any,    read_zero },
+> -    [CSR_MHPMCOUNTER6]   = { "mhpmcounter6",   any,    read_zero },
+> -    [CSR_MHPMCOUNTER7]   = { "mhpmcounter7",   any,    read_zero },
+> -    [CSR_MHPMCOUNTER8]   = { "mhpmcounter8",   any,    read_zero },
+> -    [CSR_MHPMCOUNTER9]   = { "mhpmcounter9",   any,    read_zero },
+> -    [CSR_MHPMCOUNTER10]  = { "mhpmcounter10",  any,    read_zero },
+> -    [CSR_MHPMCOUNTER11]  = { "mhpmcounter11",  any,    read_zero },
+> -    [CSR_MHPMCOUNTER12]  = { "mhpmcounter12",  any,    read_zero },
+> -    [CSR_MHPMCOUNTER13]  = { "mhpmcounter13",  any,    read_zero },
+> -    [CSR_MHPMCOUNTER14]  = { "mhpmcounter14",  any,    read_zero },
+> -    [CSR_MHPMCOUNTER15]  = { "mhpmcounter15",  any,    read_zero },
+> -    [CSR_MHPMCOUNTER16]  = { "mhpmcounter16",  any,    read_zero },
+> -    [CSR_MHPMCOUNTER17]  = { "mhpmcounter17",  any,    read_zero },
+> -    [CSR_MHPMCOUNTER18]  = { "mhpmcounter18",  any,    read_zero },
+> -    [CSR_MHPMCOUNTER19]  = { "mhpmcounter19",  any,    read_zero },
+> -    [CSR_MHPMCOUNTER20]  = { "mhpmcounter20",  any,    read_zero },
+> -    [CSR_MHPMCOUNTER21]  = { "mhpmcounter21",  any,    read_zero },
+> -    [CSR_MHPMCOUNTER22]  = { "mhpmcounter22",  any,    read_zero },
+> -    [CSR_MHPMCOUNTER23]  = { "mhpmcounter23",  any,    read_zero },
+> -    [CSR_MHPMCOUNTER24]  = { "mhpmcounter24",  any,    read_zero },
+> -    [CSR_MHPMCOUNTER25]  = { "mhpmcounter25",  any,    read_zero },
+> -    [CSR_MHPMCOUNTER26]  = { "mhpmcounter26",  any,    read_zero },
+> -    [CSR_MHPMCOUNTER27]  = { "mhpmcounter27",  any,    read_zero },
+> -    [CSR_MHPMCOUNTER28]  = { "mhpmcounter28",  any,    read_zero },
+> -    [CSR_MHPMCOUNTER29]  = { "mhpmcounter29",  any,    read_zero },
+> -    [CSR_MHPMCOUNTER30]  = { "mhpmcounter30",  any,    read_zero },
+> -    [CSR_MHPMCOUNTER31]  = { "mhpmcounter31",  any,    read_zero },
+> +    [CSR_MHPMCOUNTER3]   = { "mhpmcounter3",   mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER4]   = { "mhpmcounter4",   mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER5]   = { "mhpmcounter5",   mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER6]   = { "mhpmcounter6",   mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER7]   = { "mhpmcounter7",   mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER8]   = { "mhpmcounter8",   mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER9]   = { "mhpmcounter9",   mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER10]  = { "mhpmcounter10",  mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER11]  = { "mhpmcounter11",  mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER12]  = { "mhpmcounter12",  mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER13]  = { "mhpmcounter13",  mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER14]  = { "mhpmcounter14",  mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER15]  = { "mhpmcounter15",  mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER16]  = { "mhpmcounter16",  mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER17]  = { "mhpmcounter17",  mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER18]  = { "mhpmcounter18",  mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER19]  = { "mhpmcounter19",  mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER20]  = { "mhpmcounter20",  mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER21]  = { "mhpmcounter21",  mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER22]  = { "mhpmcounter22",  mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER23]  = { "mhpmcounter23",  mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER24]  = { "mhpmcounter24",  mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER25]  = { "mhpmcounter25",  mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER26]  = { "mhpmcounter26",  mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER27]  = { "mhpmcounter27",  mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER28]  = { "mhpmcounter28",  mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER29]  = { "mhpmcounter29",  mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER30]  = { "mhpmcounter30",  mctr,   read_zero },
+> +    [CSR_MHPMCOUNTER31]  = { "mhpmcounter31",  mctr,   read_zero },
+>
+>      [CSR_MHPMEVENT3]     = { "mhpmevent3",     any,    read_zero },
+>      [CSR_MHPMEVENT4]     = { "mhpmevent4",     any,    read_zero },
+
+Regards,
+Bin
 
