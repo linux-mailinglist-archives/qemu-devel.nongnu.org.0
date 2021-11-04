@@ -2,74 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D395E445780
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 17:50:08 +0100 (CET)
-Received: from localhost ([::1]:43212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8588B445881
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 18:35:56 +0100 (CET)
+Received: from localhost ([::1]:44206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mifwF-0000io-Hk
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 12:50:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60824)
+	id 1migeZ-0007oB-8c
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 13:35:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mifvD-0007pc-Fw
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 12:49:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43590)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mifv9-0005Xi-AX
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 12:49:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636044534;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jGOsY6pEUDI3nkHGlSmGQPBBWNve3p9Gli2v0sOMYlU=;
- b=EDSXZt3qlbOpybrz2WUbmKM8OYr1pkom58ql8J3GpC30x8lnD8fo4xpyJqr3SWJuwiYTvC
- OqTXk3clMmMoVA3j6nY3dTVRrOutctaWmD23KxCKHBa9EP3HUj3Q1EUeKBHsHztGWN5bVE
- m+vzix0kG7ijsXFhfooVqd3VzUe9S1w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-508-DHgSSPhLMxuWL7TJ_kO3Nw-1; Thu, 04 Nov 2021 12:48:50 -0400
-X-MC-Unique: DHgSSPhLMxuWL7TJ_kO3Nw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30B851006AA6;
- Thu,  4 Nov 2021 16:48:49 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.156])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8AC5E5D9D3;
- Thu,  4 Nov 2021 16:48:31 +0000 (UTC)
-Date: Thu, 4 Nov 2021 16:48:30 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v3 03/12] vfio-user: define vfio-user-server object
-Message-ID: <YYQO3nQUmTto5zKn@stefanha-x1.localdomain>
-References: <cover.1633929457.git.jag.raman@oracle.com>
- <13dba991f1de91711e5c3cad9a332d6e7c5eee7b.1633929457.git.jag.raman@oracle.com>
- <YXly2vSh/bhgr0i/@stefanha-x1.localdomain>
- <6346833B-469B-487B-8382-62EA03BA56C2@oracle.com>
- <YX/Cx7g0D5o8dVtp@stefanha-x1.localdomain>
- <87wnloce5t.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1migdH-00078A-Ip
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 13:34:35 -0400
+Received: from mail-qk1-x734.google.com ([2607:f8b0:4864:20::734]:42922)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1migdF-0008OF-96
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 13:34:35 -0400
+Received: by mail-qk1-x734.google.com with SMTP id bm28so6393272qkb.9
+ for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 10:34:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=NbU9zQ42RV+7aOkJFTeNUYAHppArPowlV7ZAHrV8Qq4=;
+ b=IiuS48MyOZTdm/4khGSlHOslllUR6AFEaz4j9M3e1aZOQ06BzNK+jYLGwU9kugo0ZP
+ 4KpzcGIQQrh+N7eW4AHRngeVTBuhzOp9aWnDhXUHsFVpSjLlo9A155ktQeYahup2dLyN
+ jR2+kOLi5HJHwJIM9yC1yG4yUh6XVSzT8unqOioVVH7gY+jZ8DQyW/+jNh0bRnNZDe6r
+ AXPoeZeR0BIAQRfo8YnhYLfBkZN1dLXmiAQDX1tT1T7qOlkeInxBJtGjn4J5ctVoRwuc
+ QSXUkkRep0J0JviLDGWKbD8Rdkaaq1puair0UXr5ZB7u8LmzUUVyHXOSWbeX6HCBHtp0
+ 5zrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=NbU9zQ42RV+7aOkJFTeNUYAHppArPowlV7ZAHrV8Qq4=;
+ b=4f/VM2jF/yHYyqHd/2mMTHG8GD2flXtdtPUhUzZ6dq2uE0XbV9kPUCaKQYNgE14uuN
+ wXXOdAK1ZPweZn7MNJ9nitGeW7S++xx3HDoy/2e8fLaalcQdo10ATe4cWZPV1BsLt0yF
+ iawBgRQUlX+tGFN7ks+2J5OBxENcnH6RTFh2PoQLnGMVbIoFjK/CQfRkJWrKCMj6igHU
+ V7kmJfF6LkztYZ/9YbmcyuReFRT1VUTZJPuz3n54vL5a4C9yHdbRpyjS6VmfJR4/rNMQ
+ hyGmJJNaKDP2kuP4WVF5LdXpshkoz3ezPNh9xMFEp68AzsqVc+AwO2eNl3+zrZg1J8/e
+ xLdg==
+X-Gm-Message-State: AOAM532PI0jB453RMjHNcPi8T2KsfQe80oBSdMFMBKtliTEbBUfeN5iB
+ vC+lG+z9RZOjOvRQChLTmOqZBGN6cnxWQQ==
+X-Google-Smtp-Source: ABdhPJyNXOArY2zgy5iGOuXxoGKn55aydj8XVq+yw/9RbfkvN7W7LY1mmNTeuWI5Nt4AARSpnP/jUg==
+X-Received: by 2002:a05:620a:414e:: with SMTP id
+ k14mr42629749qko.400.1636047270512; 
+ Thu, 04 Nov 2021 10:34:30 -0700 (PDT)
+Received: from ?IPv6:2607:fb90:f802:6e0c:4407:203:e794:8e1f?
+ ([2607:fb90:f802:6e0c:4407:203:e794:8e1f])
+ by smtp.gmail.com with ESMTPSA id o14sm4446092qtv.34.2021.11.04.10.34.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Nov 2021 10:34:30 -0700 (PDT)
+Subject: Re: [PULL for 6.2 v2 00/19] testing, plugin and gdbstub updates
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ peter.maydell@linaro.org
+References: <20211104121634.900434-1-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <a1dc3460-6dba-8750-054a-0c7e1f353b3e@linaro.org>
+Date: Thu, 4 Nov 2021 13:34:27 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <87wnloce5t.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wKS/4iOTpb4wbZfD"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20211104121634.900434-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::734;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x734.google.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.093,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,178 +89,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John Johnson <john.g.johnson@oracle.com>,
- "thuth@redhat.com" <thuth@redhat.com>, Jag Raman <jag.raman@oracle.com>,
- "swapnil.ingle@nutanix.com" <swapnil.ingle@nutanix.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
- Kevin Wolf <kwolf@redhat.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "philmd@redhat.com" <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---wKS/4iOTpb4wbZfD
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 11/4/21 8:16 AM, Alex Bennée wrote:
+> v2, dropped the hexagon toolchain updates which seem to be busted.
+> 
+> The following changes since commit b1fd92137e4d485adeec8e9f292f928ff335b76c:
+> 
+>    Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into staging (2021-11-03 13:07:30 -0400)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/stsquad/qemu.git tags/pull-for-6.2-041121-2
+> 
+> for you to fetch changes up to b31b3fd0c0e17b95b9b0e05e0d67d0cd3ca081da:
+> 
+>    tests/vm/openbsd: Update to release 7.0 (2021-11-04 10:32:01 +0000)
+> 
+> ----------------------------------------------------------------
+> Testing, gdbstub and plugin updates for 6.2
+> 
+>   - add microblaze and nios2 compiler docker images
+>   - fix test cross compiler detection for some targets
+>   - don't try and link ebf to user targets
+>   - add L2 tracking to cache plugin
+>   - exit cleanly on C-a x
+>   - clean up debug output in check-tcg
+>   - switch to thread on break in gdbstub
+>   - update openbsd VM to 7.0
+> 
+> ----------------------------------------------------------------
+> Alex Bennée (7):
+>        tests/docker: split PARTIAL into PARTIAL and VIRTUAL images
+>        tests/tcg: enable debian-nios2-cross for test building
+>        chardev: don't exit() straight away on C-a x
+>        tests/plugins: extend the insn plugin to track opcode sizes
+>        plugins: try and make plugin_insn_append more ergonomic
+>        tests/tcg: remove duplicate EXTRA_RUNS
+>        tests/tcg: remove debug polluting make output
+> 
+> Mahmoud Mandour (5):
+>        plugins/cache: freed heap-allocated mutexes
+>        plugins/cache: implement unified L2 cache emulation
+>        plugins/cache: split command line arguments into name and value
+>        plugins/cache: make L2 emulation optional through args
+>        docs/tcg-plugins: add L2 arguments to cache docs
+> 
+> Paolo Bonzini (1):
+>        ebpf: really include it only in system emulators
+> 
+> Pavel Labath (1):
+>        gdbstub: Switch to the thread receiving a signal
+> 
+> Philippe Mathieu-Daudé (1):
+>        tests/tcg: Fix some targets default cross compiler path
+> 
+> Richard Henderson (4):
+>        tests/docker: Add debian-nios2-cross image
+>        tests/docker: Add debian-microblaze-cross image
+>        tests/tcg: Enable container_cross_cc for microblaze
+>        tests/vm/openbsd: Update to release 7.0
+> 
+>   docs/devel/tcg-plugins.rst                         |  20 +-
+>   meson.build                                        |   2 -
+>   include/exec/plugin-gen.h                          |  12 +-
+>   include/qemu/plugin.h                              |   7 +-
+>   accel/tcg/plugin-gen.c                             |   3 +-
+>   accel/tcg/translator.c                             |   2 +-
+>   chardev/char-mux.c                                 |   3 +-
+>   contrib/plugins/cache.c                            | 318 +++++++++++++++------
+>   gdbstub.c                                          |   8 +-
+>   stubs/qmp-quit.c                                   |   8 +
+>   tests/plugin/insn.c                                |  37 ++-
+>   MAINTAINERS                                        |   3 +
+>   stubs/meson.build                                  |   1 +
+>   tests/docker/Makefile.include                      |  39 ++-
+>   .../debian-microblaze-cross.d/build-toolchain.sh   |  88 ++++++
+>   .../debian-nios2-cross.d/build-toolchain.sh        |  87 ++++++
+>   tests/docker/dockerfiles/debian-toolchain.docker   |  36 +++
+>   tests/tcg/configure.sh                             |  26 +-
+>   tests/tcg/multiarch/Makefile.target                |  13 +-
+>   .../multiarch/gdbstub/test-thread-breakpoint.py    |  60 ++++
+>   tests/tcg/nios2/Makefile.target                    |  11 +
+>   tests/tcg/sh4/Makefile.target                      |   6 +
+>   tests/vm/openbsd                                   |   7 +-
+>   23 files changed, 670 insertions(+), 127 deletions(-)
+>   create mode 100644 stubs/qmp-quit.c
+>   create mode 100755 tests/docker/dockerfiles/debian-microblaze-cross.d/build-toolchain.sh
+>   create mode 100755 tests/docker/dockerfiles/debian-nios2-cross.d/build-toolchain.sh
+>   create mode 100644 tests/docker/dockerfiles/debian-toolchain.docker
+>   create mode 100644 tests/tcg/multiarch/gdbstub/test-thread-breakpoint.py
+>   create mode 100644 tests/tcg/nios2/Makefile.target
 
-On Thu, Nov 04, 2021 at 01:13:02PM +0100, Markus Armbruster wrote:
-> Stefan Hajnoczi <stefanha@redhat.com> writes:
->=20
-> > On Fri, Oct 29, 2021 at 02:42:49PM +0000, Jag Raman wrote:
-> >> > On Oct 27, 2021, at 11:40 AM, Stefan Hajnoczi <stefanha@redhat.com> =
-wrote:
-> >> > On Mon, Oct 11, 2021 at 01:31:08AM -0400, Jagannathan Raman wrote:
-> >> >> diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
-> >> >> new file mode 100644
-> >> >> index 0000000000..c2a300f0ff
-> >> >> --- /dev/null
-> >> >> +++ b/hw/remote/vfio-user-obj.c
-> >> >> @@ -0,0 +1,173 @@
-> >> >> +/**
-> >> >> + * QEMU vfio-user-server server object
-> >> >> + *
-> >> >> + * Copyright =C2=A9 2021 Oracle and/or its affiliates.
-> >> >> + *
-> >> >> + * This work is licensed under the terms of the GNU GPL-v2, versio=
-n 2 or later.
-> >> >> + *
-> >> >> + * See the COPYING file in the top-level directory.
-> >> >> + *
-> >> >> + */
-> >> >> +
-> >> >> +/**
-> >> >> + * Usage: add options:
-> >> >> + *     -machine x-remote
-> >> >> + *     -device <PCI-device>,id=3D<pci-dev-id>
-> >> >> + *     -object vfio-user-server,id=3D<id>,type=3Dunix,path=3D<sock=
-et-path>,
-> >> >=20
-> >> > I expected socket.type=3D and socket.path=3D based on the QAPI schem=
-a. Is
-> >> > this command-line example correct?
-> >>=20
-> >> When I tried the =E2=80=9Csocket.path=E2=80=9D approach, QEMU was not =
-able to parse the
-> >> arguments. So I had to break it down to a series of individual members=
-.
-> >>=20
-> >> If =E2=80=9Csocket.path=E2=80=9D is the expected way, I=E2=80=99ll see=
- why the parser is not working
-> >> as expected.=20
-> >
-> > CCing Markus regarding QAPI.
-> >
-> > I'm surprised because the QAPI schema for vfio-user-server objects is:
-> >
-> >   { 'struct': 'VfioUserServerProperties',
-> >     'data': { 'socket': 'SocketAddress', 'device': 'str' } }
-> >
-> > It's not clear to me why the command-line parser flattens the 'socket'
-> > field into its 'type' and 'path' sub-fields in your example:
-> >
-> >   -object vfio-user-server,id=3D<id>,type=3Dunix,path=3D<socket-path>,d=
-evice=3D<pci-dev-id>
-> >
-> > Maybe because SocketAddress is an enum instead of a struct?
-> >
-> > Imagine a second SocketAddress field is added to vfio-user-server. How
-> > can the parser know which field 'type' and 'path' belong to? I tried it=
-:
-> >
-> >   { 'struct': 'VfioUserServerProperties',
-> >     'data': { 'socket': 'SocketAddress', 'socket2': 'SocketAddress', 'd=
-evice': 'str' } }
-> >
-> > Now the parser refuses any input I've tried. For example:
-> >
-> >   $ build/qemu-system-x86_64 -object vfio-user-server,id=3Ds,device=3Da=
-sdf,type=3Dunix,path=3Dasdf,type=3Dunix
-> >   qemu-system-x86_64: -object vfio-user-server,id=3Ds,device=3Dasdf,typ=
-e=3Dunix,path=3Dasdf,type=3Dunix: Parameter 'type' is missing
-> >
-> > A similar case happens if the parent struct has 'type' or 'path' fields=
-.
-> > They collide with the SocketAddress union fields. I didn't test this
-> > though.
-> >
-> > Questions for Markus:
-> > 1. Do you know why the parser behaves like this?
->=20
-> Yes: backward compatibility.
->=20
-> The straightforward way to do a QAPI-based command line option uses
-> qobject_input_visitor_new_str(), which parses either JSON or dotted
-> keys, and returns the result wrapped in the appropriate QObject visitor.
->=20
-> The JSON syntax is derived from the QAPI schema just like for QMP.  For
-> the VfioUserServerProperties shown above, it's something like
->=20
->     {"socket": {"type": "unix", "path": "dir/socket"}, "device" "mumble"}
->=20
-> I did not check my derivation by feeding it to QEMU.  Beware of
-> screwups.
->=20
-> The dotted keys syntax is derived from the JSON syntax as described in
-> keyval.c.  For the JSON above, it should be
->=20
->     socket.type=3Dunix,socket.path=3Ddir/socket,device=3Dmumble
->=20
-> When we QAPIfy an existing option instead of adding a new QAPI-based
-> one, we have an additional problem: the dotted keys syntax has to match
-> the old syntax (the JSON syntax is all new, so no problem there).
->=20
-> The old syntax almost always has its quirks.  Ideally, we'd somehow get
-> from quirky old to boring new in an orderly manner.  Sadly, we still
-> don't have good solutions for that.  To make progress, we commonly
-> combine JSON new with quirky old.
->=20
-> qemu-system-FOO -object works that way.  object_option_parse() parses
-> either JSON or QemuOpts.  It wraps the former in a QObject visitor, and
-> the latter in an opts visitor.
->=20
-> QemuOpts is flat by design[*], so the opts visitor parses flat QemuOpts
-> from a (possibly non-flat) QAPI type.  How exactly it flattens, and how
-> it handles clashes I don't remember.
->=20
-> Sadly, this means that we get quirky old even for new object types.
->=20
-> Questions?
->=20
-> > 2. Is it good practice to embed SocketAddress into parent structs or
-> >    should we force it into a struct?
->=20
-> I'm not sure I got your question.  An example might help.
+Applied, thanks.
 
-I think Question 2 isn't relevant anymore.
 
-Thanks for the explanation!
-
-> [*] You can play games with dotted keys to simulate nesting, but the
-> opts visitor predates all that.
->=20
-
---wKS/4iOTpb4wbZfD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmGEDt4ACgkQnKSrs4Gr
-c8jAlgf9F7kEac9LOGtvzr7Ycj4Vmq0TV8x7TFf5f7BHrAQQwABuGzRfKVW2Anih
-cvMe/gdmyKHAckKScRMEllUPUdbkTCTQQowZwfPLugkelfIj7YPLMFPcPpjjxRyV
-f5xmIVMraGSNSyICRaY7cdfbGopik5cQWRstXWoga8Urk/dQgi1Ceah1mXRgUzEC
-Z9sxcnIyGYhoTZPqqTmUfpixlwSTRXU0t/qbq8EBswrKpAJPO8WhRpTCfPbVsdrH
-wJ3x4ivOpvwjZYHVkzS0FShdrqVOWQQNrOe9dkI4zeD+MfVhX6FAiHggmtODiE/J
-BtDz9cIEsgtG2REEiw2k8kZkXDJNzA==
-=aatr
------END PGP SIGNATURE-----
-
---wKS/4iOTpb4wbZfD--
-
+r~
 
