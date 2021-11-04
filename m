@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC57445284
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 12:51:08 +0100 (CET)
-Received: from localhost ([::1]:41896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 158ED445286
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 12:51:51 +0100 (CET)
+Received: from localhost ([::1]:44306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mibGt-0001Tx-ON
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 07:51:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51436)
+	id 1mibHa-0003FF-7x
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 07:51:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mibBk-0008AV-SV; Thu, 04 Nov 2021 07:45:51 -0400
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:34725)
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1mibDe-0000xl-Pc
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 07:47:47 -0400
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:37524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mibBi-0004qb-A8; Thu, 04 Nov 2021 07:45:48 -0400
-Received: by mail-yb1-xb35.google.com with SMTP id o12so13824594ybk.1;
- Thu, 04 Nov 2021 04:45:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1mibDb-00057R-Vi
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 07:47:46 -0400
+Received: by mail-oi1-x22b.google.com with SMTP id o83so8783754oif.4
+ for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 04:47:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Uk+t6q1ReiE6klt/lc8i27f+JFTd6/GiQ01xmR/eDcQ=;
- b=aoIqvNRuAbCLb1/nuiRRgcxVod0W/cF53ouL/oUR0SWgNodcysaLfsxXdxQO/UImyn
- Ekzj2VU0FZZmPHvjrcLmM+Tp567COXjAsxtSdRDab/srxu/YgunSgARb7SfVOxGnXken
- ct3CEAvyBUBALrx2EoyY6p2++G1BKFEgZ/LG1wtKfrw5UBfH+vEDhUMYb4UV2e83qP+u
- hR5xRqXEubEFmc261YL3Q7UlH/RsEgaSFRX+hcAPvBc0MOIit/KYenLUlTDcfs3uKxZn
- 4cZhyzeT8B3ixOUspEP0DXMd1lb0eNXOfuxoxbC+uW/ReEXCzwFFpFkvROXYSREUi5DZ
- CN8Q==
+ :cc; bh=sFQunZKX7zcACLbJIQ7KqUdb8rUHTzsSetfHItzFbyw=;
+ b=rx7hMkNoiliZDkmP50B3n8aM+NKUVz6Uvi+V4w7Rt64JJl1+reSeQVODNub/iH9+ne
+ IKD+hF4kyhZsFysJxO66QXFvVjdHX2aEIzFaqYC5IorFSvqNEvxbo1rO11at3Gawv8ek
+ wiR7PGg86hXKpfwMomHbG23ZFf39xtxt4xVElsYW0BYvvm+cBx3UXtNwl1GLqFNy6eK2
+ Rb4mRV7Rxo5jzuaEbr7+z4Q4e/NTuBrxFweW021wbK8asuIKxWvYyZ9Bzadv91IhQyzd
+ SCY1QQ5opR1zzyrSWTDgEF1iEPwkwZvx71AnxX6uBR3Zd5uKR9Gmno71Mi6hNnyD42KW
+ XLHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Uk+t6q1ReiE6klt/lc8i27f+JFTd6/GiQ01xmR/eDcQ=;
- b=c3YQ3r2LVlC2F7WWkHznq4aNr6k4CZ/ijnCgoj/7eZt1/BbdKePBrvCXy+tRpKbmRb
- gQAk+x8YJwm/8QBrTNGOhcd1jQ0KCEBvwFS72Zzdef+m9V2idKkZ3ddrJWFMSgTgknTA
- PtZw8JdgSFqxR5UP0cf5vvxbGmKHpDl/MaCVYw1djxlVVeJhTmvEP/ZcHYf4JeDlw9BR
- c2xDI1YTyUwnBaf35KERSEpeSIYIgQugfeX8CH0ciyuzUH8SOp9XkY+xZtdXIJuyXNG5
- gGHo/eB4IojyCaQmTovK6tn/2VmSSDIYa1SBSg2wGUlPK6vqZ3YJf7IBkxfEIFr+T4ev
- w5MA==
-X-Gm-Message-State: AOAM5303tGLQMCHWRRryGVL7BkbGQEZ0TZGa9axiXtDyGA2Bt2hLWCeH
- /1eIIAXGSLp+Ac/rQTcHCaq0x0pXFHtmeJHoFKPJAKNX
-X-Google-Smtp-Source: ABdhPJxnnPZ1q8iinxEz+DpahOs2O8YiAYHk7SIjBHl+gGNpHxyHJw2N2BB2nEPsv4TSDrlKZdDr09GQ8nejM/FGE6Q=
-X-Received: by 2002:a25:2346:: with SMTP id j67mr842409ybj.467.1636026344278; 
- Thu, 04 Nov 2021 04:45:44 -0700 (PDT)
+ bh=sFQunZKX7zcACLbJIQ7KqUdb8rUHTzsSetfHItzFbyw=;
+ b=UJTt/BA7ExO8imbNRb3zknEdJio/OMegWFoe4mPu1sXk+YbGIin4DufEp3c1GLwlHf
+ ZxMZz1GnNSMXsQaoNL5B1sv5+1McrGNdCYtGNd5w4lHDKrW62qC3Lp+6SU1DO/qBgabf
+ epNmME2rMHwhMthPocl25JdLzm2YgTIyosXVUBqiHG3buwcnk7EhVa2UmOTL5fmvFrss
+ eTxonXcQkWwRX13xp+IzTp1EI4k6xCBe1slL93o5isp8tO/L61CHuzFe1L+WrL7+HWXO
+ 7FeBBgf3j3maHDYQXBXacdFGowYbvj42xdFMvfULe0lIDwVIlwgYdC+WqzPauwxKU3Rt
+ O6MA==
+X-Gm-Message-State: AOAM533LcX7jhZQH/3hrfkHbbiCttH8eRhIkbuFtMIn4qIbiXFigY3UF
+ X+nkuw5qmPWALqzgTepYloMsy75DX4RCSN8UiXWWWA==
+X-Google-Smtp-Source: ABdhPJyvmJiSxYfUfvqxJ23icX8H3+XShyRH7uLomZJl+pnDQVsZHJ34yJc4f24vQcrHM4wLEU/8iRHIhI+2MQPqXDU=
+X-Received: by 2002:aca:1a09:: with SMTP id a9mr5317457oia.54.1636026458049;
+ Thu, 04 Nov 2021 04:47:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211025195601.245631-1-atish.patra@wdc.com>
- <20211025195601.245631-5-atish.patra@wdc.com>
-In-Reply-To: <20211025195601.245631-5-atish.patra@wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 4 Nov 2021 19:45:32 +0800
-Message-ID: <CAEUhbmV0kH8ZG7A0jiWAKTj4j3rhHrTCZY1diDWibPhMgcoiFw@mail.gmail.com>
-Subject: Re: [ PATCH v3 04/10] target/riscv: pmu: Make number of counters
- configurable
-To: Atish Patra <atish.patra@wdc.com>
+References: <20211103161300.114741-1-viktor.prutyanov@phystech.edu>
+ <20211103161300.114741-4-viktor.prutyanov@phystech.edu>
+In-Reply-To: <20211103161300.114741-4-viktor.prutyanov@phystech.edu>
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
+Date: Thu, 4 Nov 2021 13:47:27 +0200
+Message-ID: <CAOEp5OeZ4da6bcF6XotxLTDCH=ZO3iMj-Kv6kQhCHM3+dtJUMg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] contrib/elf2dmp: add PE name check and Windows Server
+ 2022 support
+To: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2607:f8b0:4864:20::22b;
+ envelope-from=yuri.benditovich@daynix.com; helo=mail-oi1-x22b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,203 +78,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>
+Cc: Yan Vugenfirer <yan@daynix.com>, peter.maydell@linaro.org,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 26, 2021 at 4:41 AM Atish Patra <atish.patra@wdc.com> wrote:
+On Wed, Nov 3, 2021 at 6:13 PM Viktor Prutyanov
+<viktor.prutyanov@phystech.edu> wrote:
 >
-> The RISC-V privilege specification provides flexibility to implement
-> any number of counters from 29 programmable counters. However, the QEMU
-> implements all the counters.
+> Since its inception elf2dmp has checked MZ signatures within an
+> address space above IDT[0] interrupt vector and took first PE image
+> found as Windows Kernel.
+> But in Windows Server 2022 memory dump this address space range is
+> full of invalid PE fragments and the tool must check that PE image
+> is 'ntoskrnl.exe' actually.
+> So, introduce additional validation by checking image name from
+> Export Directory against 'ntoskrnl.exe'.
 >
-> Make it configurable through pmu config parameter which now will indicate
-> how many programmable counters should be implemented by the cpu.
->
-> Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> Signed-off-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+Tested-by: Yuri Benditovich <yuri.benditovich@daynix.com>
 > ---
->  target/riscv/cpu.c |  2 +-
->  target/riscv/cpu.h |  2 +-
->  target/riscv/csr.c | 96 ++++++++++++++++++++++++++++++----------------
->  3 files changed, 65 insertions(+), 35 deletions(-)
+>  contrib/elf2dmp/main.c | 28 ++++++++++++++++++++++++++--
+>  contrib/elf2dmp/pe.h   | 15 +++++++++++++++
+>  2 files changed, 41 insertions(+), 2 deletions(-)
 >
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 3b55f5ed0036..aec94101a4c0 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -598,7 +598,7 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_BOOL("x-zbs", RISCVCPU, cfg.ext_zbs, false),
->      DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
->      DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
-> -    DEFINE_PROP_BOOL("pmu", RISCVCPU, cfg.ext_pmu, true),
-> +    DEFINE_PROP_UINT8("pmu-num", RISCVCPU, cfg.pmu_num, 16),
->      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
->      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
->      DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index ebc1a8754032..d0a722e7cbe1 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -294,10 +294,10 @@ struct RISCVCPU {
->          bool ext_zbb;
->          bool ext_zbc;
->          bool ext_zbs;
-> -        bool ext_pmu;
->          bool ext_ifencei;
->          bool ext_icsr;
+> diff --git a/contrib/elf2dmp/main.c b/contrib/elf2dmp/main.c
+> index a62fde23cc..04cdd07292 100644
+> --- a/contrib/elf2dmp/main.c
+> +++ b/contrib/elf2dmp/main.c
+> @@ -17,6 +17,7 @@
 >
-> +        uint8_t pmu_num;
->          char *priv_spec;
->          char *user_spec;
->          char *bext_spec;
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index c486eeaffeb8..a7249eaf917f 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -57,15 +57,45 @@ static RISCVException vs(CPURISCVState *env, int csrno)
->      return RISCV_EXCP_ILLEGAL_INST;
+>  #define SYM_URL_BASE    "https://msdl.microsoft.com/download/symbols/"
+>  #define PDB_NAME    "ntkrnlmp.pdb"
+> +#define PE_NAME     "ntoskrnl.exe"
+>
+>  #define INITIAL_MXCSR   0x1f80
+>
+> @@ -399,6 +400,25 @@ static int write_dump(struct pa_space *ps,
+>      return fclose(dmp_file);
 >  }
 >
-> +static RISCVException mctr(CPURISCVState *env, int csrno)
+> +static bool pe_check_export_name(uint64_t base, void *start_addr,
+> +        struct va_space *vs)
 > +{
-> +#if !defined(CONFIG_USER_ONLY)
-> +    CPUState *cs = env_cpu(env);
-> +    RISCVCPU *cpu = RISCV_CPU(cs);
-> +    int ctr_index;
-> +    int base_csrno = CSR_MHPMCOUNTER3;
+> +    IMAGE_EXPORT_DIRECTORY export_dir;
+> +    const char *pe_name;
 > +
-> +    if (riscv_cpu_is_32bit(env) && csrno >= CSR_MCYCLEH) {
-> +        /* Offset for RV32 mhpmcounternh counters */
-> +        base_csrno += 0x80;
-> +    }
-> +    ctr_index = csrno - base_csrno;
-> +    if (!cpu->cfg.pmu_num || ctr_index >= cpu->cfg.pmu_num) {
-> +        /* The PMU is not enabled or counter is out of range*/
-> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    if (pe_get_data_dir_entry(base, start_addr, IMAGE_FILE_EXPORT_DIRECTORY,
+> +                &export_dir, sizeof(export_dir), vs)) {
+> +        return false;
 > +    }
 > +
-> +    return RISCV_EXCP_NONE;
-> +#endif
+> +    pe_name = va_space_resolve(vs, base + export_dir.Name);
+> +    if (!pe_name) {
+> +        return false;
+> +    }
+> +
+> +    return !strcmp(pe_name, PE_NAME);
 > +}
 > +
->  static RISCVException ctr(CPURISCVState *env, int csrno)
+>  static int pe_get_pdb_symstore_hash(uint64_t base, void *start_addr,
+>          char *hash, struct va_space *vs)
 >  {
->  #if !defined(CONFIG_USER_ONLY)
->      CPUState *cs = env_cpu(env);
->      RISCVCPU *cpu = RISCV_CPU(cs);
->      int ctr_index;
-> +    int base_csrno = CSR_CYCLE;
-
-Use CSR_HPMCOUNTER3 here, for consistency with the mctr version
-
-> +    bool brv32 = riscv_cpu_is_32bit(env);
-
-nits: the leading 'b' sounds useless. I would use rv32 instead.
-
-> +
-> +    if (brv32 && csrno >= CSR_CYCLEH) {
-> +        /* Offset for RV32 hpmcounternh counters */
-> +        base_csrno += 0x80;
-> +    }
-> +    ctr_index = csrno - base_csrno;
+> @@ -483,6 +503,7 @@ int main(int argc, char *argv[])
+>      uint64_t KdDebuggerDataBlock;
+>      KDDEBUGGER_DATA64 *kdbg;
+>      uint64_t KdVersionBlock;
+> +    bool kernel_found = false;
 >
-> -    if (!cpu->cfg.ext_pmu) {
-> -        /* The Counters extensions is not enabled */
-> +    if (!cpu->cfg.pmu_num || ctr_index >= (cpu->cfg.pmu_num + 3)) {
-
-so we can use "ctr_index >= cpu->cfg.pmu_num" here
-
-> +        /* The PMU is not enabled or counter is out of range */
->          return RISCV_EXCP_ILLEGAL_INST;
+>      if (argc != 3) {
+>          eprintf("usage:\n\t%s elf_file dmp_file\n", argv[0]);
+> @@ -530,11 +551,14 @@ int main(int argc, char *argv[])
+>          }
+>
+>          if (*(uint16_t *)nt_start_addr == 0x5a4d) { /* MZ */
+> -            break;
+> +            if (pe_check_export_name(KernBase, nt_start_addr, &vs)) {
+> +                kernel_found = true;
+> +                break;
+> +            }
+>          }
 >      }
 >
-> @@ -93,7 +123,7 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
->              }
->              break;
->          }
-> -        if (riscv_cpu_is_32bit(env)) {
-> +        if (brv32) {
->              switch (csrno) {
->              case CSR_CYCLEH:
->                  if (!get_field(env->mcounteren, COUNTEREN_CY)) {
-> @@ -148,7 +178,7 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
->              }
->              break;
->          }
-> -        if (riscv_cpu_is_32bit(env)) {
-> +        if (brv32) {
->              switch (csrno) {
->              case CSR_CYCLEH:
->                  if (!get_field(env->hcounteren, COUNTEREN_CY) &&
-> @@ -1720,35 +1750,35 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->      [CSR_HPMCOUNTER30]   = { "hpmcounter30",   ctr,    read_zero },
->      [CSR_HPMCOUNTER31]   = { "hpmcounter31",   ctr,    read_zero },
+> -    if (!nt_start_addr) {
+> +    if (!kernel_found) {
+>          eprintf("Failed to find NT kernel image\n");
+>          err = 1;
+>          goto out_ps;
+> diff --git a/contrib/elf2dmp/pe.h b/contrib/elf2dmp/pe.h
+> index 807d006364..71126af1ac 100644
+> --- a/contrib/elf2dmp/pe.h
+> +++ b/contrib/elf2dmp/pe.h
+> @@ -88,6 +88,20 @@ typedef struct IMAGE_NT_HEADERS64 {
+>      IMAGE_OPTIONAL_HEADER64 OptionalHeader;
+>  } __attribute__ ((packed)) IMAGE_NT_HEADERS64;
 >
-> -    [CSR_MHPMCOUNTER3]   = { "mhpmcounter3",   any,    read_zero },
-> -    [CSR_MHPMCOUNTER4]   = { "mhpmcounter4",   any,    read_zero },
-> -    [CSR_MHPMCOUNTER5]   = { "mhpmcounter5",   any,    read_zero },
-> -    [CSR_MHPMCOUNTER6]   = { "mhpmcounter6",   any,    read_zero },
-> -    [CSR_MHPMCOUNTER7]   = { "mhpmcounter7",   any,    read_zero },
-> -    [CSR_MHPMCOUNTER8]   = { "mhpmcounter8",   any,    read_zero },
-> -    [CSR_MHPMCOUNTER9]   = { "mhpmcounter9",   any,    read_zero },
-> -    [CSR_MHPMCOUNTER10]  = { "mhpmcounter10",  any,    read_zero },
-> -    [CSR_MHPMCOUNTER11]  = { "mhpmcounter11",  any,    read_zero },
-> -    [CSR_MHPMCOUNTER12]  = { "mhpmcounter12",  any,    read_zero },
-> -    [CSR_MHPMCOUNTER13]  = { "mhpmcounter13",  any,    read_zero },
-> -    [CSR_MHPMCOUNTER14]  = { "mhpmcounter14",  any,    read_zero },
-> -    [CSR_MHPMCOUNTER15]  = { "mhpmcounter15",  any,    read_zero },
-> -    [CSR_MHPMCOUNTER16]  = { "mhpmcounter16",  any,    read_zero },
-> -    [CSR_MHPMCOUNTER17]  = { "mhpmcounter17",  any,    read_zero },
-> -    [CSR_MHPMCOUNTER18]  = { "mhpmcounter18",  any,    read_zero },
-> -    [CSR_MHPMCOUNTER19]  = { "mhpmcounter19",  any,    read_zero },
-> -    [CSR_MHPMCOUNTER20]  = { "mhpmcounter20",  any,    read_zero },
-> -    [CSR_MHPMCOUNTER21]  = { "mhpmcounter21",  any,    read_zero },
-> -    [CSR_MHPMCOUNTER22]  = { "mhpmcounter22",  any,    read_zero },
-> -    [CSR_MHPMCOUNTER23]  = { "mhpmcounter23",  any,    read_zero },
-> -    [CSR_MHPMCOUNTER24]  = { "mhpmcounter24",  any,    read_zero },
-> -    [CSR_MHPMCOUNTER25]  = { "mhpmcounter25",  any,    read_zero },
-> -    [CSR_MHPMCOUNTER26]  = { "mhpmcounter26",  any,    read_zero },
-> -    [CSR_MHPMCOUNTER27]  = { "mhpmcounter27",  any,    read_zero },
-> -    [CSR_MHPMCOUNTER28]  = { "mhpmcounter28",  any,    read_zero },
-> -    [CSR_MHPMCOUNTER29]  = { "mhpmcounter29",  any,    read_zero },
-> -    [CSR_MHPMCOUNTER30]  = { "mhpmcounter30",  any,    read_zero },
-> -    [CSR_MHPMCOUNTER31]  = { "mhpmcounter31",  any,    read_zero },
-> +    [CSR_MHPMCOUNTER3]   = { "mhpmcounter3",   mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER4]   = { "mhpmcounter4",   mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER5]   = { "mhpmcounter5",   mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER6]   = { "mhpmcounter6",   mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER7]   = { "mhpmcounter7",   mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER8]   = { "mhpmcounter8",   mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER9]   = { "mhpmcounter9",   mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER10]  = { "mhpmcounter10",  mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER11]  = { "mhpmcounter11",  mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER12]  = { "mhpmcounter12",  mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER13]  = { "mhpmcounter13",  mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER14]  = { "mhpmcounter14",  mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER15]  = { "mhpmcounter15",  mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER16]  = { "mhpmcounter16",  mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER17]  = { "mhpmcounter17",  mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER18]  = { "mhpmcounter18",  mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER19]  = { "mhpmcounter19",  mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER20]  = { "mhpmcounter20",  mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER21]  = { "mhpmcounter21",  mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER22]  = { "mhpmcounter22",  mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER23]  = { "mhpmcounter23",  mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER24]  = { "mhpmcounter24",  mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER25]  = { "mhpmcounter25",  mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER26]  = { "mhpmcounter26",  mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER27]  = { "mhpmcounter27",  mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER28]  = { "mhpmcounter28",  mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER29]  = { "mhpmcounter29",  mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER30]  = { "mhpmcounter30",  mctr,   read_zero },
-> +    [CSR_MHPMCOUNTER31]  = { "mhpmcounter31",  mctr,   read_zero },
+> +typedef struct IMAGE_EXPORT_DIRECTORY {
+> +    uint32_t    Characteristics;
+> +    uint32_t    TimeDateStamp;
+> +    uint16_t    MajorVersion;
+> +    uint16_t    MinorVersion;
+> +    uint32_t    Name;
+> +    uint32_t    Base;
+> +    uint32_t    NumberOfFunctions;
+> +    uint32_t    NumberOfNames;
+> +    uint32_t    AddressOfFunctions;
+> +    uint32_t    AddressOfNames;
+> +    uint32_t    AddressOfNameOrdinals;
+> +} __attribute__ ((packed)) IMAGE_EXPORT_DIRECTORY;
+> +
+>  typedef struct IMAGE_DEBUG_DIRECTORY {
+>      uint32_t Characteristics;
+>      uint32_t TimeDateStamp;
+> @@ -102,6 +116,7 @@ typedef struct IMAGE_DEBUG_DIRECTORY {
+>  #define IMAGE_DEBUG_TYPE_CODEVIEW   2
+>  #endif
 >
->      [CSR_MHPMEVENT3]     = { "mhpmevent3",     any,    read_zero },
->      [CSR_MHPMEVENT4]     = { "mhpmevent4",     any,    read_zero },
-
-Regards,
-Bin
+> +#define IMAGE_FILE_EXPORT_DIRECTORY 0
+>  #define IMAGE_FILE_DEBUG_DIRECTORY  6
+>
+>  typedef struct guid_t {
+> --
+> 2.31.1
+>
 
