@@ -2,50 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F250445569
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 15:36:39 +0100 (CET)
-Received: from localhost ([::1]:51658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31535445586
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 15:41:41 +0100 (CET)
+Received: from localhost ([::1]:59936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1midr3-0005cS-RJ
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 10:36:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44006)
+	id 1midvw-0002zB-C0
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 10:41:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1midmk-0007hQ-OD; Thu, 04 Nov 2021 10:32:10 -0400
-Received: from mga05.intel.com ([192.55.52.43]:3672)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1miduZ-0002D3-Rs
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 10:40:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1midmh-0006eU-Kf; Thu, 04 Nov 2021 10:32:10 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10157"; a="317916687"
-X-IronPort-AV: E=Sophos;i="5.87,209,1631602800"; d="scan'208";a="317916687"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2021 07:31:58 -0700
-X-IronPort-AV: E=Sophos;i="5.87,209,1631602800"; d="scan'208";a="450465510"
-Received: from lmaniak-dev.igk.intel.com ([10.55.248.48])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2021 07:31:55 -0700
-Date: Thu, 4 Nov 2021 15:30:45 +0100
-From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH 05/15] hw/nvme: Add support for SR-IOV
-Message-ID: <20211104143045.GB3643516@lmaniak-dev.igk.intel.com>
-References: <20211007162406.1920374-1-lukasz.maniak@linux.intel.com>
- <20211007162406.1920374-6-lukasz.maniak@linux.intel.com>
- <YYFMK3z1iAY52hp6@apples.localdomain>
- <20211102173244.GA3643516@lmaniak-dev.igk.intel.com>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1miduU-0002XY-SM
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 10:40:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636036809;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uyKyjlVBrxiObe1eGgFYNDUNRgTvlHtC/UamQsMG9k8=;
+ b=K3a/Qrg+s5CCa5MLMBOOKNzYbssWBXgU1LdbQGCXjjMm1XNLW/mV3c6QzNtJrJA6wE4rsm
+ 8ipSQHFqUC62lwZvz61ANrO9xd4+rpmsRV6ExoKHgi3ojWvT2ZsCrDzvv06zpvSdtXIca4
+ +ONj2mqO1H8/wd83Ay4eHQEgvssiPoc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-322-R-b15ZMvOS-saMqHSsXEAQ-1; Thu, 04 Nov 2021 10:40:06 -0400
+X-MC-Unique: R-b15ZMvOS-saMqHSsXEAQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01C30A0BD7;
+ Thu,  4 Nov 2021 14:40:05 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.97])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CAD1167842;
+ Thu,  4 Nov 2021 14:39:31 +0000 (UTC)
+Date: Thu, 4 Nov 2021 15:39:30 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v3 03/12] vfio-user: define vfio-user-server object
+Message-ID: <YYPwogn87tMf0p7s@redhat.com>
+References: <cover.1633929457.git.jag.raman@oracle.com>
+ <13dba991f1de91711e5c3cad9a332d6e7c5eee7b.1633929457.git.jag.raman@oracle.com>
+ <YXly2vSh/bhgr0i/@stefanha-x1.localdomain>
+ <6346833B-469B-487B-8382-62EA03BA56C2@oracle.com>
+ <YX/Cx7g0D5o8dVtp@stefanha-x1.localdomain>
+ <87wnloce5t.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
+In-Reply-To: <87wnloce5t.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211102173244.GA3643516@lmaniak-dev.igk.intel.com>
-Received-SPF: none client-ip=192.55.52.43;
- envelope-from=lukasz.maniak@linux.intel.com; helo=mga05.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,126 +80,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
- qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John Johnson <john.g.johnson@oracle.com>,
+ "thuth@redhat.com" <thuth@redhat.com>, Jag Raman <jag.raman@oracle.com>,
+ "swapnil.ingle@nutanix.com" <swapnil.ingle@nutanix.com>,
+ "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "philmd@redhat.com" <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 02, 2021 at 06:33:31PM +0100, Lukasz Maniak wrote:
-> On Tue, Nov 02, 2021 at 03:33:15PM +0100, Klaus Jensen wrote:
-> > On Oct  7 18:23, Lukasz Maniak wrote:
-> > > This patch implements initial support for Single Root I/O Virtualization
-> > > on an NVMe device.
-> > > 
-> > > Essentially, it allows to define the maximum number of virtual functions
-> > > supported by the NVMe controller via sriov_max_vfs parameter.
-> > > 
-> > > Passing a non-zero value to sriov_max_vfs triggers reporting of SR-IOV
-> > > capability by a physical controller and ARI capability by both the
-> > > physical and virtual function devices.
-> > > 
-> > > NVMe controllers created via virtual functions mirror functionally
-> > > the physical controller, which may not entirely be the case, thus
-> > > consideration would be needed on the way to limit the capabilities of
-> > > the VF.
-> > > 
-> > > NVMe subsystem is required for the use of SR-IOV.
-> > > 
-> > > Signed-off-by: Lukasz Maniak <lukasz.maniak@linux.intel.com>
-> > > ---
-> > >  hw/nvme/ctrl.c           | 74 ++++++++++++++++++++++++++++++++++++++--
-> > >  hw/nvme/nvme.h           |  1 +
-> > >  include/hw/pci/pci_ids.h |  1 +
-> > >  3 files changed, 73 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> > > index 6a571d18cf..ad79ff0c00 100644
-> > > --- a/hw/nvme/ctrl.c
-> > > +++ b/hw/nvme/ctrl.c
-> > > @@ -6361,8 +6406,12 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
-> > >                            n->reg_size);
-> > >      memory_region_add_subregion(&n->bar0, 0, &n->iomem);
-> > >  
-> > > -    pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY |
-> > > -                     PCI_BASE_ADDRESS_MEM_TYPE_64, &n->bar0);
-> > > +    if (pci_is_vf(pci_dev)) {
-> > > +        pcie_sriov_vf_register_bar(pci_dev, 0, &n->bar0);
-> > > +    } else {
-> > > +        pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY |
-> > > +                         PCI_BASE_ADDRESS_MEM_TYPE_64, &n->bar0);
-> > > +    }
-> > 
-> > I assume that the assert we are seeing means that the pci_register_bars
-> > in nvme_init_cmb and nvme_init_pmr must be changed similarly to this.
+Am 04.11.2021 um 13:13 hat Markus Armbruster geschrieben:
+> The old syntax almost always has its quirks.  Ideally, we'd somehow get
+> from quirky old to boring new in an orderly manner.  Sadly, we still
+> don't have good solutions for that.  To make progress, we commonly
+> combine JSON new with quirky old.
 > 
-> Assert will only arise for CMB as VF params are initialized with PF
-> params.
+> qemu-system-FOO -object works that way.  object_option_parse() parses
+> either JSON or QemuOpts.  It wraps the former in a QObject visitor, and
+> the latter in an opts visitor.
 > 
-> @@ -6532,6 +6585,15 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
->      NvmeCtrl *n = NVME(pci_dev);
->      NvmeNamespace *ns;
->      Error *local_err = NULL;
-> +    NvmeCtrl *pn = NVME(pcie_sriov_get_pf(pci_dev));
-> +
-> +    if (pci_is_vf(pci_dev)) {
-> +        /* VFs derive settings from the parent. PF's lifespan exceeds
-> +         * that of VF's, so it's safe to share params.serial.
-> +         */
-> +        memcpy(&n->params, &pn->params, sizeof(NvmeParams));
-> +        n->subsys = pn->subsys;
-> +    }
->  
->      nvme_check_constraints(n, &local_err);
->      if (local_err) {
+> QemuOpts is flat by design[*], so the opts visitor parses flat QemuOpts
+> from a (possibly non-flat) QAPI type.  How exactly it flattens, and how
+> it handles clashes I don't remember.
 > 
-> The following simple fix will both fix assert and also allow
-> each VF to have its own CMB of the size defined for PF.
-> 
-> ---
->  hw/nvme/ctrl.c | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index 19b32dd4da..99daa6290c 100644
-> --- a/hw/nvme/ctrl.c
-> +++ b/hw/nvme/ctrl.c
-> @@ -6837,10 +6837,15 @@ static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
->      n->cmb.buf = g_malloc0(cmb_size);
->      memory_region_init_io(&n->cmb.mem, OBJECT(n), &nvme_cmb_ops, n,
->                            "nvme-cmb", cmb_size);
-> -    pci_register_bar(pci_dev, NVME_CMB_BIR,
-> -                     PCI_BASE_ADDRESS_SPACE_MEMORY |
-> -                     PCI_BASE_ADDRESS_MEM_TYPE_64 |
-> -                     PCI_BASE_ADDRESS_MEM_PREFETCH, &n->cmb.mem);
-> +
-> +    if (pci_is_vf(pci_dev)) {
-> +        pcie_sriov_vf_register_bar(pci_dev, NVME_CMB_BIR, &n->cmb.mem);
-> +    } else {
-> +        pci_register_bar(pci_dev, NVME_CMB_BIR,
-> +                        PCI_BASE_ADDRESS_SPACE_MEMORY |
-> +                        PCI_BASE_ADDRESS_MEM_TYPE_64 |
-> +                        PCI_BASE_ADDRESS_MEM_PREFETCH, &n->cmb.mem);
-> +    }
->  
->      NVME_CAP_SET_CMBS(cap, 1);
->      stq_le_p(&n->bar.cap, cap);
-> 
-> As for PMR, it is currently only available on PF, as only PF is capable
-> of specifying the memory-backend-file object to use with PMR.
-> Otherwise, either VFs would have to share the PMR with its PF, or there
-> would be a requirement to define a memory-backend-file object for each VF.
+> Sadly, this means that we get quirky old even for new object types.
 
-Hi Klaus,
+For -object in the system emulator (the tools all use the keyval
+visitor, so there it would work as expected), the only reason that we
+need to keep the quirky old code path around is the list handling in
+memory-backend.host-nodes.
 
-After some discussion, we decided to prohibit in V2 the use of CMB and
-PMR in combination with SR-IOV.
+The main difficulty there is that the old QemuOpts based code path
+allows specifying the option twice and both of them would effectively be
+combined. Do we have any idea how to replicate this in a keyval parser
+based world?
 
-While the implementation of CMB with SR-IOV is relatively
-straightforward, PMR is not. We are committed to consistency in CMB and
-PMR design in association with SR-IOV. So we considered it best to
-disable both features and implement them in separate patches.
+If not, do we want to use the remaining time until 6.2 to deprecate
+this? The nasty part is that the only syntax that works both now and in
+the future is JSON. We can't easily accept the new keyval syntax while
+still using the QemuOpts based code.
 
-Kind regards,
-Lukasz
+Kevin
+
 
