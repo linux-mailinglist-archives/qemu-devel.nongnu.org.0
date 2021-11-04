@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F09694454BC
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 15:14:51 +0100 (CET)
-Received: from localhost ([::1]:48062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A21154454AB
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 15:14:15 +0100 (CET)
+Received: from localhost ([::1]:45130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1midVz-0006XN-47
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 10:14:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37024)
+	id 1midVO-0004ba-Oc
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 10:14:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1midNg-0006St-B0
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1midNg-0006Wc-8G
  for qemu-devel@nongnu.org; Thu, 04 Nov 2021 10:06:16 -0400
-Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:44930)
+Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:33741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1midNc-0000xM-R5
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1midNe-0000xm-1A
  for qemu-devel@nongnu.org; Thu, 04 Nov 2021 10:06:15 -0400
-Received: by mail-io1-xd33.google.com with SMTP id f9so6915754ioo.11
- for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 07:06:12 -0700 (PDT)
+Received: by mail-io1-xd2f.google.com with SMTP id z206so7072222iof.0
+ for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 07:06:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IOY3t4AaHZe80iw8hQcSliA4Md0iNA8hrA2Uy7U0qF8=;
- b=3wOxFoT9veo1eOphH18qdcn59J2C93hUkwM/NkU1yVgNIMH2qAFRtpwnF5W3YQa4xQ
- vWJJ+kD7mQ2F42CqeJknTFvU+ZJt/ymqRGK+XUSB81DslTjCdQmvvDy7gqR5R6T+MM3U
- xiKLRKOKIxlcUHpJxGV7FgSjn3LPDJEo3ph2RopzJmwcHTctrAIgXy+lP1xBdUKdwfUP
- i5Q6pwpASdWSaKAkJ1EAPxSXVikCsSs16HDHYPiZbx1TWJj06eJBsqLTp+4MUS1FTJI1
- ONEhWaO4l0yCmz0YqWcSqpl7uA1C+T2+hByJ6M3LbokrHZXwz05Jz+Y9lvHEOnE97Ctf
- 7MEQ==
+ bh=GLFz+hfOtxy/QWMpxfsl9nCO3CdG/6n25bbQ+o+tB/w=;
+ b=Aep7I0AFEOJdWz7ORLLsHk2dAaAVCXYD7FvYJarVRcdNPuTpxYAXtjSfJ95V73R3en
+ lOnGqYQYADHW/Kmh9r4TnIzcKou7QtNdnzry/nIi36DVCDkv+AUXI8KXBWlqd50NxDeK
+ q2iiCxw9CoAOIVQ9yvZZCsjqF1FsPx+CP6VCDWkFvjLtoy7uQLsBFMaso/6G6fLQjZhG
+ e2+aEgIBCMwxZn+EzciAzqBLR/CDZK7P2TtiXJxMPNyBJZBw+/iVF4/Dbnz0uTt3W2Ke
+ tTP88l/5mk0EOR0SpBRScAEmg46v6ItdckVVb5RDZBHgT/vAoVbNFyLPN0FU9ZX2FTCK
+ JQ+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IOY3t4AaHZe80iw8hQcSliA4Md0iNA8hrA2Uy7U0qF8=;
- b=SVXZC1w6sq2mE/L/Fp6f+t1KfNdcX8rDDhF6UOpwYV5Qs+elGNq2JPP5l5J77024uH
- bcb26IRu1EJfOZZaAvcjD34fBNvqeFcnxphjf8/zzi7AsScFllV1lU6/S+TrzC6JXUY+
- mym60e9358YnKuAgKzGmU2Vnywbe4UpjlnGWwc/uML3KgUZLGSHqogcHuHPrVJ1P+T4L
- mjAxFMoOFixk6Kfaco0e7uINrroUjLfJNNOT4LCpwbwR0pGOqHjFLByF5NH5KLJTeEp+
- YzUJZ7ZnYItoL5f0KUo9cxo1VleSsyT+BKn/Lhti9tlXNjfz2n8QRJafSAcuyZwcNFUv
- imFQ==
-X-Gm-Message-State: AOAM533P1vF+YsGRCqCUN7q+QRb1Uls42ExL9qzZBNmkJRm7ykBL2kZA
- qbH3eO8U6du+MKY+3GyrHsDkueNgtYc7IQ==
-X-Google-Smtp-Source: ABdhPJz3OvExpkbOPR4TkCNn4ZGaW4uxxc9sOSuGWBleIkgWm+C5x/RWznBF8q7O66uc1Ad0TFlbcA==
-X-Received: by 2002:a05:6638:dcc:: with SMTP id
- m12mr3997759jaj.143.1636034771644; 
- Thu, 04 Nov 2021 07:06:11 -0700 (PDT)
+ bh=GLFz+hfOtxy/QWMpxfsl9nCO3CdG/6n25bbQ+o+tB/w=;
+ b=E4HP029PMaYiLdZe57GhLgPa/nlueyDT/HtJANB600oUmn1JwpSt9lSFygJsm1/Tk8
+ fOuf4piSFyehnIsw6jhh7AKh44a0dnWuXd1jVHZxC8og5BSuCWVgRJ7d/Qq60bWj3LEN
+ G1i3kC4Te5NrUFnYu/WTf8H4tSnY5sTqUQks8+ex9bOgLiJtP+kqVWjCyjO4FxNmOvoq
+ DaUUDawfA09uw2dO5lNTKSq59CtGredH/240K6qgGpF8D9bbs9Taanap0UigL/rpXGV1
+ 7LEXSg/P7IfgykHmiECr/pZdbhmD2Yg/rlUjpeGSlH+bDru7b7y5UETCh15tNaS8gJ3P
+ 9i/w==
+X-Gm-Message-State: AOAM5330ELM59fssflRFX3sqJd0DHGYtA1DMBb2jJw1xwVsQUQR34wE5
+ k4yJeCF+kTk9nh+NMY4mvNQhhwP+b4bdNw==
+X-Google-Smtp-Source: ABdhPJxfZ4eU9HYuD0XDcjzdLF/AZ/SGczESVoLWkFGBDQKu4AcQtedLzPlqSLtsFaD4T/fUoAqUNw==
+X-Received: by 2002:a05:6638:c49:: with SMTP id
+ g9mr4070026jal.54.1636034772726; 
+ Thu, 04 Nov 2021 07:06:12 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id l2sm3206741iln.50.2021.11.04.07.06.10
+ by smtp.gmail.com with ESMTPSA id l2sm3206741iln.50.2021.11.04.07.06.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Nov 2021 07:06:11 -0700 (PDT)
+ Thu, 04 Nov 2021 07:06:12 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 05/29] bsd-user/arm/target_arch_cpu.h: Implement
- target_cpu_clone_regs
-Date: Thu,  4 Nov 2021 08:05:12 -0600
-Message-Id: <20211104140536.42573-6-imp@bsdimp.com>
+Subject: [PATCH v3 06/29] bsd-user/arm/target_arch_cpu.h: Dummy
+ target_cpu_loop implementation
+Date: Thu,  4 Nov 2021 08:05:13 -0600
+Message-Id: <20211104140536.42573-7-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211104140536.42573-1-imp@bsdimp.com>
 References: <20211104140536.42573-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d33;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd33.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2f;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -86,39 +86,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org,
  Kyle Evans <kevans@FreeBSD.org>, Michael Tokarev <mjt@tls.msk.ru>,
  Laurent Vivier <laurent@vivier.eu>, Philippe Mathieu-Daude <f4bug@amsat.org>,
+ Sean Bruno <sbruno@FreeBSD.org>,
  Richard Henderson <richard.henderson@linaro.org>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement target_cpu_clone_regs to clone the resister state on a fork.
+Add a boiler plate CPU loop that does nothing except return an error for
+all traps.
 
+Signed-off-by: Sean Bruno <sbruno@FreeBSD.org>
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/arm/target_arch_cpu.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ bsd-user/arm/target_arch_cpu.h | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch_cpu.h
-index 66215684d6..fa45d9335d 100644
+index fa45d9335d..2484bdc2f7 100644
 --- a/bsd-user/arm/target_arch_cpu.h
 +++ b/bsd-user/arm/target_arch_cpu.h
-@@ -36,6 +36,14 @@ static inline void target_cpu_init(CPUARMState *env,
+@@ -36,6 +36,28 @@ static inline void target_cpu_init(CPUARMState *env,
      }
  }
  
-+static inline void target_cpu_clone_regs(CPUARMState *env, target_ulong newsp)
++static inline void target_cpu_loop(CPUARMState *env)
 +{
-+    if (newsp) {
-+        env->regs[13] = newsp;
-+    }
-+    env->regs[0] = 0;
++    int trapnr;
++    target_siginfo_t info;
++    CPUState *cs = env_cpu(env);
++
++    for (;;) {
++        cpu_exec_start(cs);
++        trapnr = cpu_exec(cs);
++        cpu_exec_end(cs);
++        process_queued_cpu_work(cs);
++        switch (trapnr) {
++        default:
++            fprintf(stderr, "qemu: unhandled CPU exception 0x%x - aborting\n",
++                    trapnr);
++            cpu_dump_state(cs, stderr, 0);
++            abort();
++        } /* switch() */
++        process_pending_signals(env);
++    } /* for (;;) */
 +}
 +
- static inline void target_cpu_reset(CPUArchState *cpu)
+ static inline void target_cpu_clone_regs(CPUARMState *env, target_ulong newsp)
  {
- }
+     if (newsp) {
 -- 
 2.33.0
 
