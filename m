@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E11A5444D62
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 03:47:51 +0100 (CET)
-Received: from localhost ([::1]:44000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8478444D63
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 03:49:08 +0100 (CET)
+Received: from localhost ([::1]:46570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miSn8-0000RK-Iu
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 22:47:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57016)
+	id 1miSoN-0002CT-Ju
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 22:49:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1miSlX-00083L-AX
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 22:46:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27243)
+ id 1miSn4-0000ow-EI
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 22:47:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1miSlR-0007i4-Of
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 22:46:09 -0400
+ id 1miSn1-0007xQ-4q
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 22:47:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635993964;
+ s=mimecast20190719; t=1635994062;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YP/yOLmMm/sWLcuNtjBeezZwq4HiR5P1pp8C19wTJiQ=;
- b=iB2ZpwAg6fMs4VzUQ05QXenks/VmLSfy0Y74HVDEXz/eOaGDO3T7ELYJ5+C1jlXhlLc1fC
- Qut4pl1KSFftJSy9P6bHOkIT2kjKNk/1jIeNOD6sI/lruA+HTCxPcnxCZJML0TiybCnzDj
- nzGTHASVQHRbdJx/jH4VnEmAsBugcec=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-332-HP7mclnqPPyynwkRx2LsjA-1; Wed, 03 Nov 2021 22:46:01 -0400
-X-MC-Unique: HP7mclnqPPyynwkRx2LsjA-1
-Received: by mail-lf1-f71.google.com with SMTP id
- i1-20020a056512340100b003fdd5b951e0so1339096lfr.22
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 19:46:00 -0700 (PDT)
+ bh=I/5bn2QBW2W8NQ38jVbB9/Ff1JDK0+IYfD71GxCjkoY=;
+ b=eiNWrSDXIaurqf7i3LCmC/rtsNlk68fI2i0nhqUTsnrr7dX3n8h/Kbj76KyGrEwQ+GxvGT
+ 0kEwVRwxSPmBN1PMcR6ZEhfTarRel6JdjMLx+NOWqHhbZUtjB79c4fNVv1UiK5Lw/nuFWp
+ /riMHhnTLEr7R97SI9kIvONwA6gSPKQ=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-492-cvTZNVjnM_iLp6brXfyANA-1; Wed, 03 Nov 2021 22:47:41 -0400
+X-MC-Unique: cvTZNVjnM_iLp6brXfyANA-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ d10-20020a0565123d0a00b004002359a671so1362616lfv.10
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 19:47:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=YP/yOLmMm/sWLcuNtjBeezZwq4HiR5P1pp8C19wTJiQ=;
- b=Hh07djP2i36IsG1rbUQN9D2ZsRKCeu6/5s0Ox60aZgnCgkyaPkRxukYfSR1/l7hiMG
- W5K5Q+r321VjoMBAnL4ogHBK6U2fMHJYGOuWk6gLNaoJke7Ja+UWhUo/vIkYUe5IaJnI
- /W6Vv+6WT0txRiKyedUq3PYRfsV9nR2K+mq1627gUTlOuseCuPSlTjHqpSTJ1I3/1mOA
- GqNM730CnJC6mkYUCa64vBCBcE8kNBJQxSaBvb9TWb8B1Gr1F2XLSxVh0EkVMVtw8Dcm
- cbaPGrl9AJdWIkHuIwTL57DwUyglSbBir3o3pdzt3cOcNJMW157gkJ0opDWUzZvs4rbr
- UA6w==
-X-Gm-Message-State: AOAM530f1imbquNvpZ/QIuBdw00V0TTPQ2g1oTIt6YLonA6AOUFUOYd0
- pn5NGNU+GwUeYaHKyNA5V6/G8/8MhUCNO6AbPvdzcDzClVfqD1wgwc8qDr8OYe4VHiAUUkvA4aW
- UoCwdgA4iu/i3d51yxQDPXpjvL5B1G6Q=
-X-Received: by 2002:a2e:9155:: with SMTP id q21mr51176302ljg.217.1635993959401; 
- Wed, 03 Nov 2021 19:45:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwfV89rTEhGJqt9GpD1p4fATa1S2uVJ8VSNXBi9pcXywQqnmJpLQRtpg8bMcz89hznG4kdsGYphhQ8zFLfp10A=
-X-Received: by 2002:a2e:9155:: with SMTP id q21mr51176279ljg.217.1635993959152; 
- Wed, 03 Nov 2021 19:45:59 -0700 (PDT)
+ bh=I/5bn2QBW2W8NQ38jVbB9/Ff1JDK0+IYfD71GxCjkoY=;
+ b=j6tfa0B0qXCXSuRbG1knmh3mM389enA/iQcc11Y+0zB4fM0ObqMtZKB+WrhQPIlVjE
+ w/Mwf+qVcYIzr1CLqfgyX3/+KrkHtcodeiaZIqY7AetlU1DcYE78dmIK4hTaA0MsRLqg
+ MNvJAK26Ze4bOqFD/oV7SNEl5DO4vAetzoXlhkHr19o4EfApm7rkYGD8Rz76RFYjIAPF
+ xG8Wyfq7aPmT/bBxoAGk3Oc/NZTMb34U5beMeXICXef9tD7GwiERE+IoApQ6X9eU0+XK
+ aFMG6RfJBr4s6QI1BNBSdQlbUZ3UjqqjfrkJxG7KbeYMmTCDSmENby6MJNdly/413LrC
+ jL0g==
+X-Gm-Message-State: AOAM532C6byydf0/43BuLFQM9RcID1hXEkn30KyHqGrX0B4+h+dzLohg
+ 4PzvZ82xJD1PFjZr7qhsu5CsJ9ktTWXoa1I9sLFhrRkuqa5ROvyJRIIcX8MKiDnlhz4NnRBCQsr
+ n2JlsFOlqx6xduYR6gET91nOzr8yH2dg=
+X-Received: by 2002:a2e:8e96:: with SMTP id z22mr8392556ljk.369.1635994059698; 
+ Wed, 03 Nov 2021 19:47:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyi5Vqfu00MiK/S1CzVbd3BoVWwvocQFjE6/+0RrzTQ9nNlsLO0pyOyjLpsSJLt4xVDpwPgVN5SRnpFyGYOjvU=
+X-Received: by 2002:a2e:8e96:: with SMTP id z22mr8392535ljk.369.1635994059465; 
+ Wed, 03 Nov 2021 19:47:39 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211103100131.1983272-1-eperezma@redhat.com>
- <20211103100131.1983272-2-eperezma@redhat.com>
-In-Reply-To: <20211103100131.1983272-2-eperezma@redhat.com>
+ <20211103100131.1983272-3-eperezma@redhat.com>
+In-Reply-To: <20211103100131.1983272-3-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 4 Nov 2021 10:45:48 +0800
-Message-ID: <CACGkMEsUvRP7uw3zdxbHjmEVqaFXTmgYS8DJP+AY-XJqxwmt1Q@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] vhost: Rename last_index to last_vq_index
+Date: Thu, 4 Nov 2021 10:47:28 +0800
+Message-ID: <CACGkMEuEktc5RbeBcfyDhZ5iTBB49nHdcwQ+r0u29VfmuC+gtQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] vhost: Fix last vq queue index of devices with no
+ cvq
 To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
@@ -99,64 +100,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Wed, Nov 3, 2021 at 6:01 PM Eugenio P=C3=A9rez <eperezma@redhat.com> wro=
 te:
 >
-> The doc of this field points out that last_index is the last vq index.
-> Since last_index can cause confusion if seen out of context, renaming
-> to last_vq_index, aligning with vq_index.
+> The -1 assumes that last index counts all vhost device models as having
+> two queues, but they count only the ones that models the data queues.
 >
+> Because of that, the right change in last_index is to actually add the
+> cvq, not to remove the missing one.
+>
+> This is not a problem to vhost-net, but it is to vhost-vdpa, which
+> device model trust to reach the last index to finish starting the
+> device.
+>
+> Tested with vp_vdpa with host's vhost=3Don and vhost=3Doff, with ctrl_vq=
+=3Don
+> and ctrl_vq=3Doff.
+>
+> Fixes: 049eb15b5fc9 ("vhost: record the last virtqueue index for the virt=
+io device")
 > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-
-Acked-by: Jason Wang <jasowang@redhat.com>
-
 > ---
->  include/hw/virtio/vhost.h | 2 +-
->  hw/net/vhost_net.c        | 4 ++--
->  hw/virtio/vhost-vdpa.c    | 2 +-
->  3 files changed, 4 insertions(+), 4 deletions(-)
+>  hw/net/vhost_net.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-> index 3fa0b554ef..8a79833b54 100644
-> --- a/include/hw/virtio/vhost.h
-> +++ b/include/hw/virtio/vhost.h
-> @@ -75,7 +75,7 @@ struct vhost_dev {
->      /* the first virtqueue which would be used by this vhost dev */
->      int vq_index;
->      /* the last vq index for the virtio device (not vhost) */
-> -    int last_index;
-> +    int last_vq_index;
->      /* if non-zero, minimum required value for max_queues */
->      int num_queues;
->      uint64_t features;
 > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> index 0d888f29a6..081946dc93 100644
+> index 081946dc93..fe2b8a2b83 100644
 > --- a/hw/net/vhost_net.c
 > +++ b/hw/net/vhost_net.c
-> @@ -232,10 +232,10 @@ fail:
->  }
+> @@ -329,8 +329,8 @@ int vhost_net_start(VirtIODevice *dev, NetClientState=
+ *ncs,
+>      int r, e, i, last_index =3D data_queue_pairs * 2;
+>      NetClientState *peer;
 >
->  static void vhost_net_set_vq_index(struct vhost_net *net, int vq_index,
-> -                                   int last_index)
-> +                                   int last_vq_index)
->  {
->      net->dev.vq_index =3D vq_index;
-> -    net->dev.last_index =3D last_index;
-> +    net->dev.last_vq_index =3D last_vq_index;
->  }
->
->  static int vhost_net_start_one(struct vhost_net *net,
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 12661fd5b1..a1831b27ca 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -632,7 +632,7 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev=
-, bool started)
->          vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
+> -    if (!cvq) {
+> -        last_index -=3D 1;
+> +    if (cvq) {
+> +        last_index +=3D 1;
+
+Patch looks ok.
+
+Not a native speaker but I guess "last" should be inside the closed
+interval. If this is true, I still prefer to change the check in
+vhost_vdpa_dev_start().
+
+Thanks
+
 >      }
 >
-> -    if (dev->vq_index + dev->nvqs !=3D dev->last_index) {
-> +    if (dev->vq_index + dev->nvqs !=3D dev->last_vq_index) {
->          return 0;
->      }
->
+>      if (!k->set_guest_notifiers) {
 > --
 > 2.27.0
 >
