@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB034450D2
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 10:01:24 +0100 (CET)
-Received: from localhost ([::1]:55960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3229F4450C1
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 09:59:56 +0100 (CET)
+Received: from localhost ([::1]:53000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miYcd-0007cy-IU
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 05:01:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54080)
+	id 1miYbD-0005aX-C7
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 04:59:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1miYZy-0003eY-9i
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 04:58:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50666)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1miYa7-0003xE-V6
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 04:58:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39241)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1miYZw-00010Z-6B
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 04:58:38 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1miYa5-00012F-SE
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 04:58:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636016315;
+ s=mimecast20190719; t=1636016325;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eDzxbTAdVhdkUeIGHMVEb8KWVVdw3wXoaPWYssoRDF4=;
- b=aRtWHt1rkHisAi5RT43NprM2eYpbxhSWjXMaiwfT3HKEJtvyg3QNce+Jph4d/8YCYeAUr9
- /xoKC7CouPi5MigKJwZ+/KJScEoCC4wDqS3E6jEPW/ufcZ1xyvxz8VgZEsyTIr/MdTeiio
- 842QEX9zW64YAS8T4CAc/un5pvByCQs=
+ bh=wtrLwbDg3AhhAwqIBZjITEGs8OHrx6AIMtzMLUlesNE=;
+ b=ET2/RjFQSq0EpISboMmf7qUqhDSf/RGn43nsAfFV8BxJAlq/iEuri0bvJR0CBer+uZ8Cda
+ EbXixvBrFV4SDr/j5vn8i79EtXrrG4gaP38vld2AC4dzMNwwThsFf+wVZVCzDfUWHSsy2P
+ 05rophWnbNnE0C6cueqgPYtVTTVpAOs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-yrexOdQ_Ow6S4ciHgnDP-w-1; Thu, 04 Nov 2021 04:58:33 -0400
-X-MC-Unique: yrexOdQ_Ow6S4ciHgnDP-w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-600-iWzlQQCCNX6kHXDhMQ32Bw-1; Thu, 04 Nov 2021 04:58:42 -0400
+X-MC-Unique: iWzlQQCCNX6kHXDhMQ32Bw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5141F91272;
- Thu,  4 Nov 2021 08:58:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2A2419057A1;
+ Thu,  4 Nov 2021 08:58:40 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F7B567841;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3072E5D740;
  Thu,  4 Nov 2021 08:58:13 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BADE511380B8; Thu,  4 Nov 2021 09:58:11 +0100 (CET)
+ id BE6E111380BA; Thu,  4 Nov 2021 09:58:11 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/3] docs/interop/bitmaps: use blockdev-backup
-Date: Thu,  4 Nov 2021 09:58:10 +0100
-Message-Id: <20211104085811.1736654-3-armbru@redhat.com>
+Subject: [PATCH v4 3/3] qapi: deprecate drive-backup
+Date: Thu,  4 Nov 2021 09:58:11 +0100
+Message-Id: <20211104085811.1736654-4-armbru@redhat.com>
 In-Reply-To: <20211104085811.1736654-1-armbru@redhat.com>
 References: <20211104085811.1736654-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -65,7 +65,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,514 +86,197 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-We are going to deprecate drive-backup, so use modern interface here.
-In examples where target image creation is shown, show blockdev-add as
-well. If target creation omitted, omit blockdev-add as well.
+Modern way is using blockdev-add + blockdev-backup, which provides a
+lot more control on how target is opened.
 
-Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>
+As example of drive-backup problems consider the following:
+
+User of drive-backup expects that target will be opened in the same
+cache and aio mode as source. Corresponding logic is in
+drive_backup_prepare(), where we take bs->open_flags of source.
+
+It works rather bad if source was added by blockdev-add. Assume source
+is qcow2 image. On blockdev-add we should specify aio and cache options
+for file child of qcow2 node. What happens next:
+
+drive_backup_prepare() looks at bs->open_flags of qcow2 source node.
+But there no BDRV_O_NOCAHE neither BDRV_O_NATIVE_AIO: BDRV_O_NOCAHE is
+places in bs->file->bs->open_flags, and BDRV_O_NATIVE_AIO is nowhere,
+as file-posix parse options and simply set s->use_linux_aio.
+
+The documentation is updated in a minimal way, so that drive-backup is
+noted only as a deprecated command, and blockdev-backup used in most of
+places.
+
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- docs/interop/bitmaps.rst | 285 +++++++++++++++++++++++++++++----------
- 1 file changed, 215 insertions(+), 70 deletions(-)
+ docs/about/deprecated.rst              | 11 ++++++
+ docs/interop/live-block-operations.rst | 47 +++++++++++++++++---------
+ qapi/block-core.json                   |  5 ++-
+ qapi/transaction.json                  |  6 +++-
+ 4 files changed, 51 insertions(+), 18 deletions(-)
 
-diff --git a/docs/interop/bitmaps.rst b/docs/interop/bitmaps.rst
-index 059ad67929..1de46febdc 100644
---- a/docs/interop/bitmaps.rst
-+++ b/docs/interop/bitmaps.rst
-@@ -539,12 +539,11 @@ other partial disk images on top of a base image to reconstruct a full backup
- from the point in time at which the incremental backup was issued.
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index 56f9ad15ab..e3bdb89c65 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -239,6 +239,17 @@ single ``bitmap``, the new ``block-export-add`` uses a list of ``bitmaps``.
+ Member ``values`` in return value elements with meta-type ``enum`` is
+ deprecated.  Use ``members`` instead.
  
- The "Push Model" here references the fact that QEMU is "pushing" the modified
--blocks out to a destination. We will be using the `drive-backup
--<qemu-qmp-ref.html#index-drive_002dbackup>`_ and `blockdev-backup
--<qemu-qmp-ref.html#index-blockdev_002dbackup>`_ QMP commands to create both
-+blocks out to a destination. We will be using the  `blockdev-backup
-+<qemu-qmp-ref.html#index-blockdev_002dbackup>`_ QMP command to create both
- full and incremental backups.
++``drive-backup`` (since 6.2)
++''''''''''''''''''''''''''''
++
++Use ``blockdev-backup`` in combination with ``blockdev-add`` instead.
++This change primarily separates the creation/opening process of the backup
++target with explicit, separate steps. ``blockdev-backup`` uses mostly the
++same arguments as ``drive-backup``, except the ``format`` and ``mode``
++options are removed in favor of using explicit ``blockdev-create`` and
++``blockdev-add`` calls. See :doc:`/interop/live-block-operations` for
++details.
++
+ System accelerators
+ -------------------
  
--Both of these commands are jobs, which have their own QMP API for querying and
-+The command is a background job, which has its own QMP API for querying and
- management documented in `Background jobs
- <qemu-qmp-ref.html#Background-jobs>`_.
+diff --git a/docs/interop/live-block-operations.rst b/docs/interop/live-block-operations.rst
+index 9e3635b233..d403d96f58 100644
+--- a/docs/interop/live-block-operations.rst
++++ b/docs/interop/live-block-operations.rst
+@@ -116,8 +116,8 @@ QEMU block layer supports.
+ (3) ``drive-mirror`` (and ``blockdev-mirror``): Synchronize a running
+     disk to another image.
  
-@@ -557,6 +556,10 @@ create a new incremental backup chain attached to a drive.
- This example creates a new, full backup of "drive0" and accompanies it with a
- new, empty bitmap that records writes from this point in time forward.
+-(4) ``drive-backup`` (and ``blockdev-backup``): Point-in-time (live) copy
+-    of a block device to a destination.
++(4) ``blockdev-backup`` (and the deprecated ``drive-backup``):
++    Point-in-time (live) copy of a block device to a destination.
  
-+The target can be created with the help of `blockdev-add
-+<qemu-qmp-ref.html#index-blockdev_002dadd>`_ or `blockdev-create
-+<qemu-qmp-ref.html#index-blockdev_002dcreate>`_ command.
-+
- .. note:: Any new writes that happen after this command is issued, even while
-           the backup job runs, will be written locally and not to the backup
-           destination. These writes will be recorded in the bitmap
-@@ -576,12 +579,11 @@ new, empty bitmap that records writes from this point in time forward.
-              }
-            },
-            {
--             "type": "drive-backup",
-+             "type": "blockdev-backup",
-              "data": {
-                "device": "drive0",
--               "target": "/path/to/drive0.full.qcow2",
--               "sync": "full",
--               "format": "qcow2"
-+               "target": "target0",
-+               "sync": "full"
-              }
-            }
-          ]
-@@ -664,12 +666,11 @@ use a transaction to reset the bitmap while making a new full backup:
-            }
-          },
-          {
--           "type": "drive-backup",
-+           "type": "blockdev-backup",
-            "data": {
-              "device": "drive0",
--             "target": "/path/to/drive0.new_full.qcow2",
--             "sync": "full",
--             "format": "qcow2"
-+             "target": "target0",
-+             "sync": "full"
-            }
-          }
-        ]
-@@ -728,19 +729,35 @@ Example: First Incremental Backup
-        $ qemu-img create -f qcow2 drive0.inc0.qcow2 \
-          -b drive0.full.qcow2 -F qcow2
  
-+#. Add target block node:
-+
-+   .. code-block:: QMP
-+
-+    -> {
-+         "execute": "blockdev-add",
-+         "arguments": {
-+           "node-name": "target0",
-+           "driver": "qcow2",
-+           "file": {
-+             "driver": "file",
-+             "filename": "drive0.inc0.qcow2"
-+           }
-+         }
-+       }
-+
-+    <- { "return": {} }
-+
- #. Issue an incremental backup command:
+ .. _`Interacting with a QEMU instance`:
+@@ -555,13 +555,14 @@ Currently, there are four different kinds:
  
-    .. code-block:: QMP
+ (3) ``none`` -- Synchronize only the new writes from this point on.
  
-     -> {
--         "execute": "drive-backup",
-+         "execute": "blockdev-backup",
-          "arguments": {
-            "device": "drive0",
-            "bitmap": "bitmap0",
--           "target": "drive0.inc0.qcow2",
--           "format": "qcow2",
--           "sync": "incremental",
--           "mode": "existing"
-+           "target": "target0",
-+           "sync": "incremental"
-          }
-        }
+-    .. note:: In the case of ``drive-backup`` (or ``blockdev-backup``),
+-              the behavior of ``none`` synchronization mode is different.
+-              Normally, a ``backup`` job consists of two parts: Anything
+-              that is overwritten by the guest is first copied out to
+-              the backup, and in the background the whole image is
+-              copied from start to end. With ``sync=none``, it's only
+-              the first part.
++    .. note:: In the case of ``blockdev-backup`` (or deprecated
++              ``drive-backup``), the behavior of ``none``
++              synchronization mode is different.  Normally, a
++              ``backup`` job consists of two parts: Anything that is
++              overwritten by the guest is first copied out to the
++              backup, and in the background the whole image is copied
++              from start to end. With ``sync=none``, it's only the
++              first part.
  
-@@ -785,20 +802,36 @@ Example: Second Incremental Backup
-        $ qemu-img create -f qcow2 drive0.inc1.qcow2 \
-          -b drive0.inc0.qcow2 -F qcow2
+ (4) ``incremental`` -- Synchronize content that is described by the
+     dirty bitmap
+@@ -928,19 +929,22 @@ Shutdown the guest, by issuing the ``quit`` QMP command::
+     }
  
-+#. Add target block node:
-+
-+   .. code-block:: QMP
-+
-+    -> {
-+         "execute": "blockdev-add",
-+         "arguments": {
-+           "node-name": "target0",
-+           "driver": "qcow2",
-+           "file": {
-+             "driver": "file",
-+             "filename": "drive0.inc1.qcow2"
-+           }
-+         }
-+       }
-+
-+    <- { "return": {} }
-+
- #. Issue a new incremental backup command. The only difference here is that we
-    have changed the target image below.
  
-    .. code-block:: QMP
+-Live disk backup --- ``drive-backup`` and ``blockdev-backup``
+--------------------------------------------------------------
++Live disk backup --- ``blockdev-backup`` and the deprecated``drive-backup``
++---------------------------------------------------------------------------
  
-     -> {
--         "execute": "drive-backup",
-+         "execute": "blockdev-backup",
-          "arguments": {
-            "device": "drive0",
-            "bitmap": "bitmap0",
--           "target": "drive0.inc1.qcow2",
--           "format": "qcow2",
--           "sync": "incremental",
--           "mode": "existing"
-+           "target": "target0",
-+           "sync": "incremental"
-          }
-        }
+-The ``drive-backup`` (and its newer equivalent ``blockdev-backup``) allows
++The ``blockdev-backup`` (and the deprecated ``drive-backup``) allows
+ you to create a point-in-time snapshot.
  
-@@ -866,20 +899,36 @@ image:
-              file for you, but you lose control over format options like
-              compatibility and preallocation presets.
+-In this case, the point-in-time is when you *start* the ``drive-backup``
+-(or its newer equivalent ``blockdev-backup``) command.
++In this case, the point-in-time is when you *start* the
++``blockdev-backup`` (or deprecated ``drive-backup``) command.
  
-+#. Add target block node:
-+
-+   .. code-block:: QMP
-+
-+    -> {
-+         "execute": "blockdev-add",
-+         "arguments": {
-+           "node-name": "target0",
-+           "driver": "qcow2",
-+           "file": {
-+             "driver": "file",
-+             "filename": "drive0.inc2.qcow2"
-+           }
-+         }
-+       }
-+
-+    <- { "return": {} }
-+
- #. Issue a new incremental backup command. Apart from the new destination
-    image, there is no difference from the last two examples.
  
-    .. code-block:: QMP
+ QMP invocation for ``drive-backup``
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
-     -> {
--         "execute": "drive-backup",
-+         "execute": "blockdev-backup",
-          "arguments": {
-            "device": "drive0",
-            "bitmap": "bitmap0",
--           "target": "drive0.inc2.qcow2",
--           "format": "qcow2",
--           "sync": "incremental",
--           "mode": "existing"
-+           "target": "target0",
-+           "sync": "incremental"
-          }
-        }
++Note that ``drive-backup`` command is deprecated since QEMU 6.1 and
++will be removed in future.
++
+ Yet again, starting afresh with our example disk image chain::
  
-@@ -930,6 +979,38 @@ point in time.
-     $ qemu-img create -f qcow2 drive0.full.qcow2 64G
-     $ qemu-img create -f qcow2 drive1.full.qcow2 64G
+     [A] <-- [B] <-- [C] <-- [D]
+@@ -965,11 +969,22 @@ will be issued, indicating the live block device job operation has
+ completed, and no further action is required.
  
-+#. Add target block nodes:
-+
-+   .. code-block:: QMP
-+
-+    -> {
-+         "execute": "blockdev-add",
-+         "arguments": {
-+           "node-name": "target0",
-+           "driver": "qcow2",
-+           "file": {
-+             "driver": "file",
-+             "filename": "drive0.full.qcow2"
-+           }
-+         }
-+       }
-+
-+    <- { "return": {} }
-+
-+    -> {
-+         "execute": "blockdev-add",
-+         "arguments": {
-+           "node-name": "target1",
-+           "driver": "qcow2",
-+           "file": {
-+             "driver": "file",
-+             "filename": "drive1.full.qcow2"
-+           }
-+         }
-+       }
-+
-+    <- { "return": {} }
-+
- #. Create a full (anchor) backup for each drive, with accompanying bitmaps:
  
-    .. code-block:: QMP
-@@ -953,21 +1034,19 @@ point in time.
-                }
-              },
-              {
--               "type": "drive-backup",
-+               "type": "blockdev-backup",
-                "data": {
-                  "device": "drive0",
--                 "target": "/path/to/drive0.full.qcow2",
--                 "sync": "full",
--                 "format": "qcow2"
-+                 "target": "target0",
-+                 "sync": "full"
-                }
-              },
-              {
--               "type": "drive-backup",
-+               "type": "blockdev-backup",
-                "data": {
-                  "device": "drive1",
--                 "target": "/path/to/drive1.full.qcow2",
--                 "sync": "full",
--                 "format": "qcow2"
-+                 "target": "target1",
-+                 "sync": "full"
-                }
-              }
-            ]
-@@ -1016,6 +1095,38 @@ point in time.
-      $ qemu-img create -f qcow2 drive1.inc0.qcow2 \
-        -b drive1.full.qcow2 -F qcow2
++Moving from the deprecated ``drive-backup`` to newer ``blockdev-backup``
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++``blockdev-backup`` differs from ``drive-backup`` in how you specify
++the backup target. With ``blockdev-backup`` you can't specify filename
++as a target.  Instead you use ``node-name`` of existing block node,
++which you may add by ``blockdev-add`` or ``blockdev-create`` commands.
++Correspondingly, ``blockdev-backup`` doesn't have ``mode`` and
++``format`` arguments which don't apply to an existing block node. See
++following sections for details and examples.
++
++
+ Notes on ``blockdev-backup``
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
-+#. Add target block nodes:
-+
-+   .. code-block:: QMP
-+
-+    -> {
-+         "execute": "blockdev-add",
-+         "arguments": {
-+           "node-name": "target0",
-+           "driver": "qcow2",
-+           "file": {
-+             "driver": "file",
-+             "filename": "drive0.inc0.qcow2"
-+           }
-+         }
-+       }
-+
-+    <- { "return": {} }
-+
-+    -> {
-+         "execute": "blockdev-add",
-+         "arguments": {
-+           "node-name": "target1",
-+           "driver": "qcow2",
-+           "file": {
-+             "driver": "file",
-+             "filename": "drive1.inc0.qcow2"
-+           }
-+         }
-+       }
-+
-+    <- { "return": {} }
-+
- #. Issue a multi-drive incremental push backup transaction:
+-The ``blockdev-backup`` command is equivalent in functionality to
+-``drive-backup``, except that it operates at node-level in a Block Driver
++The ``blockdev-backup`` command operates at node-level in a Block Driver
+ State (BDS) graph.
  
-    .. code-block:: QMP
-@@ -1025,25 +1136,21 @@ point in time.
-          "arguments": {
-            "actions": [
-              {
--               "type": "drive-backup",
-+               "type": "blockev-backup",
-                "data": {
-                  "device": "drive0",
-                  "bitmap": "bitmap0",
--                 "format": "qcow2",
--                 "mode": "existing",
-                  "sync": "incremental",
--                 "target": "drive0.inc0.qcow2"
-+                 "target": "target0"
-                }
-              },
-              {
--               "type": "drive-backup",
-+               "type": "blockdev-backup",
-                "data": {
-                  "device": "drive1",
-                  "bitmap": "bitmap0",
--                 "format": "qcow2",
--                 "mode": "existing",
-                  "sync": "incremental",
--                 "target": "drive1.inc0.qcow2"
-+                 "target": "target1"
-                }
-              },
-            ]
-@@ -1119,19 +1226,35 @@ described above. This example demonstrates the single-job failure case:
-        $ qemu-img create -f qcow2 drive0.inc0.qcow2 \
-          -b drive0.full.qcow2 -F qcow2
+ E.g. the sequence of actions to create a point-in-time backup
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index b290782bf2..f4968d6404 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -1709,6 +1709,9 @@
+ # The operation can be stopped before it has completed using the
+ # block-job-cancel command.
+ #
++# Features:
++# @deprecated: This command is deprecated. Use @blockdev-backup instead.
++#
+ # Returns: - nothing on success
+ #          - If @device is not a valid block device, GenericError
+ #
+@@ -1724,7 +1727,7 @@
+ #
+ ##
+ { 'command': 'drive-backup', 'boxed': true,
+-  'data': 'DriveBackup' }
++  'data': 'DriveBackup', 'features': ['deprecated'] }
  
-+#. Add target block node:
-+
-+   .. code-block:: QMP
-+
-+    -> {
-+         "execute": "blockdev-add",
-+         "arguments": {
-+           "node-name": "target0",
-+           "driver": "qcow2",
-+           "file": {
-+             "driver": "file",
-+             "filename": "drive0.inc0.qcow2"
-+           }
-+         }
-+       }
-+
-+    <- { "return": {} }
-+
- #. Attempt to create an incremental backup via QMP:
+ ##
+ # @blockdev-backup:
+diff --git a/qapi/transaction.json b/qapi/transaction.json
+index d175b5f863..381a2df782 100644
+--- a/qapi/transaction.json
++++ b/qapi/transaction.json
+@@ -54,6 +54,10 @@
+ # @blockdev-snapshot-sync: since 1.1
+ # @drive-backup: Since 1.6
+ #
++# Features:
++# @deprecated: Member @drive-backup is deprecated.  Use member
++#              @blockdev-backup instead.
++#
+ # Since: 1.1
+ ##
+ { 'enum': 'TransactionActionKind',
+@@ -62,7 +66,7 @@
+             'block-dirty-bitmap-disable', 'block-dirty-bitmap-merge',
+             'blockdev-backup', 'blockdev-snapshot',
+             'blockdev-snapshot-internal-sync', 'blockdev-snapshot-sync',
+-            'drive-backup' ] }
++            { 'name': 'drive-backup', 'features': [ 'deprecated' ] } ] }
  
-    .. code-block:: QMP
- 
-     -> {
--         "execute": "drive-backup",
-+         "execute": "blockdev-backup",
-          "arguments": {
-            "device": "drive0",
-            "bitmap": "bitmap0",
--           "target": "drive0.inc0.qcow2",
--           "format": "qcow2",
--           "sync": "incremental",
--           "mode": "existing"
-+           "target": "target0",
-+           "sync": "incremental"
-          }
-        }
- 
-@@ -1164,6 +1287,19 @@ described above. This example demonstrates the single-job failure case:
-          "event": "BLOCK_JOB_COMPLETED"
-        }
- 
-+#. Remove target node:
-+
-+   .. code-block:: QMP
-+
-+    -> {
-+         "execute": "blockdev-del",
-+         "arguments": {
-+           "node-name": "target0",
-+         }
-+       }
-+
-+    <- { "return": {} }
-+
- #. Delete the failed image, and re-create it.
- 
-    .. code:: bash
-@@ -1172,20 +1308,36 @@ described above. This example demonstrates the single-job failure case:
-        $ qemu-img create -f qcow2 drive0.inc0.qcow2 \
-          -b drive0.full.qcow2 -F qcow2
- 
-+#. Add target block node:
-+
-+   .. code-block:: QMP
-+
-+    -> {
-+         "execute": "blockdev-add",
-+         "arguments": {
-+           "node-name": "target0",
-+           "driver": "qcow2",
-+           "file": {
-+             "driver": "file",
-+             "filename": "drive0.inc0.qcow2"
-+           }
-+         }
-+       }
-+
-+    <- { "return": {} }
-+
- #. Retry the command after fixing the underlying problem, such as
-    freeing up space on the backup volume:
- 
-    .. code-block:: QMP
- 
-     -> {
--         "execute": "drive-backup",
-+         "execute": "blockdev-backup",
-          "arguments": {
-            "device": "drive0",
-            "bitmap": "bitmap0",
--           "target": "drive0.inc0.qcow2",
--           "format": "qcow2",
--           "sync": "incremental",
--           "mode": "existing"
-+           "target": "target0",
-+           "sync": "incremental"
-          }
-        }
- 
-@@ -1210,7 +1362,8 @@ described above. This example demonstrates the single-job failure case:
- Example: Partial Transactional Failures
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--QMP commands like `drive-backup <qemu-qmp-ref.html#index-drive_002dbackup>`_
-+QMP commands like `blockdev-backup
-+<qemu-qmp-ref.html#index-blockdev_002dbackup>`_
- conceptually only start a job, and so transactions containing these commands
- may succeed even if the job it created later fails. This might have surprising
- interactions with notions of how a "transaction" ought to behave.
-@@ -1240,25 +1393,21 @@ and one succeeds:
-          "arguments": {
-            "actions": [
-            {
--             "type": "drive-backup",
-+             "type": "blockdev-backup",
-              "data": {
-                "device": "drive0",
-                "bitmap": "bitmap0",
--               "format": "qcow2",
--               "mode": "existing",
-                "sync": "incremental",
--               "target": "drive0.inc0.qcow2"
-+               "target": "target0"
-              }
-            },
-            {
--             "type": "drive-backup",
-+             "type": "blockdev-backup",
-              "data": {
-                "device": "drive1",
-                "bitmap": "bitmap0",
--               "format": "qcow2",
--               "mode": "existing",
-                "sync": "incremental",
--               "target": "drive1.inc0.qcow2"
-+               "target": "target1"
-              }
-            }]
-          }
-@@ -1375,25 +1524,21 @@ applied:
-            },
-            "actions": [
-            {
--             "type": "drive-backup",
-+             "type": "blockdev-backup",
-              "data": {
-                "device": "drive0",
-                "bitmap": "bitmap0",
--               "format": "qcow2",
--               "mode": "existing",
-                "sync": "incremental",
--               "target": "drive0.inc0.qcow2"
-+               "target": "target0"
-              }
-            },
-            {
--             "type": "drive-backup",
-+             "type": "blockdev-backup",
-              "data": {
-                "device": "drive1",
-                "bitmap": "bitmap0",
--               "format": "qcow2",
--               "mode": "existing",
-                "sync": "incremental",
--               "target": "drive1.inc0.qcow2"
-+               "target": "target1"
-              }
-            }]
-          }
+ ##
+ # @AbortWrapper:
 -- 
 2.31.1
 
