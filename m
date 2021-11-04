@@ -2,44 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DFBB445B8C
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 22:13:10 +0100 (CET)
-Received: from localhost ([::1]:33706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF8F8445BFF
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 23:06:31 +0100 (CET)
+Received: from localhost ([::1]:45256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mik2m-0000XX-Sv
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 17:13:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50588)
+	id 1miksQ-0005wt-BI
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 18:06:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcd@tribudubois.net>)
- id 1mik1E-000807-Ec; Thu, 04 Nov 2021 17:11:32 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:50079)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mikrN-0004zC-Hu
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 18:05:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcd@tribudubois.net>)
- id 1mik1B-00074j-Md; Thu, 04 Nov 2021 17:11:31 -0400
-Received: (Authenticated sender: jcd@tribudubois.net)
- by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 7EEEBFF805;
- Thu,  4 Nov 2021 21:11:23 +0000 (UTC)
-Content-Type: multipart/alternative;
- boundary="------------jC5hRl0UNJFFVHOI7HwStT30"
-Message-ID: <c8b89685-7490-328b-51a3-48711c140a84@tribudubois.net>
-Date: Thu, 4 Nov 2021 22:11:22 +0100
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mikrK-0001ud-Jh
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 18:05:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636063520;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=55IgmPgmgSuFU9TD9sDvt/2ASWtxXb/fPvF+Rr/pBEI=;
+ b=OeRsT9OZj037HOboHxS3iv080deug4S+vX9wINGdKbuLky9iA/OesbKr9mQqXoWCXvJ+rO
+ QL1KMGx/fpY8TV+yRYj9kXe7+6bC9Qhn3AYnCyYIPUOf+ZPOSr60l1fLnnMfzpfuNA1ovr
+ JgWni7d+q78t7qeCKrFq5BH64wq38dY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-367-lHZuqqoFMuKf0gy5lTj8zQ-1; Thu, 04 Nov 2021 18:05:17 -0400
+X-MC-Unique: lHZuqqoFMuKf0gy5lTj8zQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v10-20020a1cf70a000000b00318203a6bd1so2869938wmh.6
+ for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 15:05:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=55IgmPgmgSuFU9TD9sDvt/2ASWtxXb/fPvF+Rr/pBEI=;
+ b=fhCwqRJ2uknKxtIsf+omr658zb6T4blmNwz2f54kcqqdJy1xlPhyYgtngVuFBFusHz
+ GIhWv0EvYwMoZgJZAgCmbfB87Nguo0toZ9/Ef1DoE5OFAslv3G3gkuLY97e+v++2VubQ
+ i2op+J9OfXU68LD2BWxhr5zUw1D1KGlnqeHudFoECqYeLh9ctNuC9O1i8eJeKfrbfBU3
+ 2sPqv3wvH7Lc1oQkWrxH7CT8Gk1ay2BzFICQF6KouysxQf/ZVeisiZgur1duYrMz1R0R
+ SukQ78eZr9usDKWWwCHbneDKKBRUDlwKfZSQJOVQO+75cZPC0agBio8qc8aaJsfhUJPc
+ M7JA==
+X-Gm-Message-State: AOAM530S4YL1lqL81KzdtS8FIVE++7RwhAJ2r+ECLqg1H7TruUDc11tO
+ mPq6GG1q4rWxRQC1QDUcKF27gpENT+Wot6VAv/IpFpK5GTVh+rm9E1pDMkx1z/R00PgLw/4NeHH
+ 0ozHW7x+x1X5ulpU=
+X-Received: by 2002:a7b:c316:: with SMTP id k22mr27241682wmj.22.1636063516580; 
+ Thu, 04 Nov 2021 15:05:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyjuyOzFEoyPllk1OzGlmTypUNL8HrTM0i7sNCF1fqIwt5RxcZxT6UmP+XE0SaD8CiW4+dEaQ==
+X-Received: by 2002:a7b:c316:: with SMTP id k22mr27241636wmj.22.1636063516364; 
+ Thu, 04 Nov 2021 15:05:16 -0700 (PDT)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id c17sm6507637wmk.23.2021.11.04.15.05.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Nov 2021 15:05:15 -0700 (PDT)
+Message-ID: <6f8b30c5-d93d-882d-cf1a-502592e4bcf8@redhat.com>
+Date: Thu, 4 Nov 2021 23:05:14 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.2
-Subject: Re: Qemu and ARM secure state.
+ Thunderbird/91.2.0
+Subject: Re: [PULL 07/20] migration/dirtyrate: implement dirty-ring dirtyrate
+ calculation
+To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>
+References: <20211101220912.10039-1-quintela@redhat.com>
+ <20211101220912.10039-8-quintela@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211101220912.10039-8-quintela@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <07e63acb-b756-2586-2ba2-b54b837f7fc8@tribudubois.net>
- <CAFEAcA89YQ_vN-JpCeB+L==F5g1hM=CNMBzjaf5c3EHF19NVyQ@mail.gmail.com>
-From: Jean-Christophe DUBOIS <jcd@tribudubois.net>
-In-Reply-To: <CAFEAcA89YQ_vN-JpCeB+L==F5g1hM=CNMBzjaf5c3EHF19NVyQ@mail.gmail.com>
-Received-SPF: pass client-ip=217.70.183.199; envelope-from=jcd@tribudubois.net;
- helo=relay9-d.mail.gandi.net
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-2.093, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -54,125 +100,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ David Hildenbrand <david@redhat.com>,
+ =?UTF-8?B?SHltYW4gSHVhbmcow6nCu+KAnsOl4oC54oChKQ==?=
+ <huangy81@chinatelecom.cn>, Paul Durrant <paul@xen.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------jC5hRl0UNJFFVHOI7HwStT30
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Hi Juan,
 
-Le 04/11/2021 à 12:11, Peter Maydell a écrit :
-> On Wed, 3 Nov 2021 at 13:27, Jean-Christophe DUBOIS<jcd@tribudubois.net>  wrote:
->> I have a little application that is designed to work on the i.MX6UL processor.
->>
->> I developed it and tested it on the mcimx6ul-evk platform emulated by Qemu.
->>
->> This application used to work "flawlessly" on Qemu 5.0.50 and is working on Qemu 6.0.0 (available as a pre-built package on the latest Ubuntu).
->>
->> But when I try to run the exact same command line on a Qemu version I compile myself from main/latest of github (Qemu 6.1.50), my application fails to start.
->>
->> So a little background:
->>
->> My application expects to start in "secure" state and supervisor mode (which is the default state of i.MX6UL when booting barebone [without u-boot]).
->>
->>  From this state the application tries to get to "non secure" / hypervisor mode which imply going to the "secure" / monitor state before being able to drop to "non secure" / hypervisor. To do so is runs a "smc 0" operand (from "secure" / supervisor).
->>
->> This "smc" instruction is processed "as expected" by Qemu 5.0.50 and Qemu 6.0.0 (getting to "secure" / monitor mode) but on Qemu 6.1.50 (latest from github) it is as if the smc operand was a no-op. It doesn't trigger any exception and the processor just get to the next instruction after the "smc" instruction. So I am a bit puzzled.
->>
->> Is there something that changed in Qemu (since Qemu 6.0.0) when it comes to the "secure" world/state?
->> Is there some additional command line parameters to use (I search in the documentation but without luck) to get secure world behavior ?
->> Is it necessary to "adapt" the emulated platform (i.MX6UL/mcimx6ul-evk) in some way (it looks like the "virt" machine with "secure=on" does work for arm platform)?
-> Could you try doing a bisect to find the QEMU commit that caused
-> your guest to stop working ?
+On 11/1/21 23:08, Juan Quintela wrote:
+> From: Hyman Huang(é»„å‹‡) <huangy81@chinatelecom.cn>
+> 
+> use dirty ring feature to implement dirtyrate calculation.
+> 
+> introduce mode option in qmp calc_dirty_rate to specify what
+> method should be used when calculating dirtyrate, either
+> page-sampling or dirty-ring should be passed.
+> 
+> introduce "dirty_ring:-r" option in hmp calc_dirty_rate to
+> indicate dirty ring method should be used for calculation.
+> 
+> Signed-off-by: Hyman Huang(é»„å‹‡) <huangy81@chinatelecom.cn>
 
-OK, I did the bisect and the commit that break the i.MX6UL behavior for 
-my program is commit 9fcd15b9193e819b6cc2fd0a45e3506148812bb4 (arm: tcg: 
-Adhere to SMCCC 1.3 section 5.2).
+Just noticing in the git history some commits from your
+pull request have the author name (from + S-o-b) mojibaked.
 
-Before it the SMC instruction would trigger a monitor exception.
-
-After it the SMC instruction is acting like a no-op.
-
-Thanks
-
-JC
-
-
->
-> thanks
-> -- PMM
->
-
---------------jC5hRl0UNJFFVHOI7HwStT30
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">Le 04/11/2021 à 12:11, Peter Maydell a
-      écrit :<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAFEAcA89YQ_vN-JpCeB+L==F5g1hM=CNMBzjaf5c3EHF19NVyQ@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">On Wed, 3 Nov 2021 at 13:27, Jean-Christophe DUBOIS <a class="moz-txt-link-rfc2396E" href="mailto:jcd@tribudubois.net">&lt;jcd@tribudubois.net&gt;</a> wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">I have a little application that is designed to work on the i.MX6UL processor.
-
-I developed it and tested it on the mcimx6ul-evk platform emulated by Qemu.
-
-This application used to work "flawlessly" on Qemu 5.0.50 and is working on Qemu 6.0.0 (available as a pre-built package on the latest Ubuntu).
-
-But when I try to run the exact same command line on a Qemu version I compile myself from main/latest of github (Qemu 6.1.50), my application fails to start.
-
-So a little background:
-
-My application expects to start in "secure" state and supervisor mode (which is the default state of i.MX6UL when booting barebone [without u-boot]).
-
-From this state the application tries to get to "non secure" / hypervisor mode which imply going to the "secure" / monitor state before being able to drop to "non secure" / hypervisor. To do so is runs a "smc 0" operand (from "secure" / supervisor).
-
-This "smc" instruction is processed "as expected" by Qemu 5.0.50 and Qemu 6.0.0 (getting to "secure" / monitor mode) but on Qemu 6.1.50 (latest from github) it is as if the smc operand was a no-op. It doesn't trigger any exception and the processor just get to the next instruction after the "smc" instruction. So I am a bit puzzled.
-
-Is there something that changed in Qemu (since Qemu 6.0.0) when it comes to the "secure" world/state?
-Is there some additional command line parameters to use (I search in the documentation but without luck) to get secure world behavior ?
-Is it necessary to "adapt" the emulated platform (i.MX6UL/mcimx6ul-evk) in some way (it looks like the "virt" machine with "secure=on" does work for arm platform)?
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Could you try doing a bisect to find the QEMU commit that caused
-your guest to stop working ?</pre>
-    </blockquote>
-    <p>OK, I did the bisect and the commit that break the i.MX6UL
-      behavior for my program is commit <span class="sha-block"><span
-          class="sha user-select-contain">9fcd15b9193e819b6cc2fd0a45e3506148812bb4
-          (</span></span>arm: tcg: Adhere to SMCCC 1.3 section 5.2).</p>
-    <p>Before it the SMC instruction would trigger a monitor exception.</p>
-    <p>After it the SMC instruction is acting like a no-op.<br>
-    </p>
-    <p>Thanks</p>
-    <p>JC<br>
-    </p>
-    <p><span class="sha-block"><span class="sha user-select-contain"></span></span></p>
-    <p><span class="sha-block"><span class="sha user-select-contain"><br>
-        </span></span></p>
-    <blockquote type="cite"
-cite="mid:CAFEAcA89YQ_vN-JpCeB+L==F5g1hM=CNMBzjaf5c3EHF19NVyQ@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">
-
-thanks
--- PMM
-
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
---------------jC5hRl0UNJFFVHOI7HwStT30--
+> Message-Id: <7db445109bd18125ce8ec86816d14f6ab5de6a7d.1624040308.git.huangy81@chinatelecom.cn>
+> Reviewed-by: Peter Xu <peterx@redhat.com>
+> Reviewed-by: Juan Quintela <quintela@redhat.com>
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> ---
+>  qapi/migration.json    |  16 +++-
+>  migration/dirtyrate.c  | 208 +++++++++++++++++++++++++++++++++++++++--
+>  hmp-commands.hx        |   7 +-
+>  migration/trace-events |   2 +
+>  4 files changed, 218 insertions(+), 15 deletions(-)
 
 
