@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 131BD4451EF
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 12:04:16 +0100 (CET)
-Received: from localhost ([::1]:58318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A33654451FB
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 12:09:39 +0100 (CET)
+Received: from localhost ([::1]:34604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miaXX-00058D-80
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 07:04:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40342)
+	id 1miack-0000JV-04
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 07:09:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1miaWZ-0004DI-BJ
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 07:03:15 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:41825)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1miabM-0007kR-Qn; Thu, 04 Nov 2021 07:08:12 -0400
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:44940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1miaWX-0005Gh-3s
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 07:03:15 -0400
-Received: by mail-wr1-x436.google.com with SMTP id d3so7930550wrh.8
- for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 04:03:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1miabK-0002VE-QQ; Thu, 04 Nov 2021 07:08:12 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id q74so13505132ybq.11;
+ Thu, 04 Nov 2021 04:08:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dWEHeUTSXKX1B3NXhSnOUlID1VS4JEnYRyDdFa0dRjg=;
- b=aAURbAGyN+1inXcg2IdR6zshf5ofAxztEuPmoZlkZTkGtEViZFNb/8OEJvIOj25gN8
- raDwwjRAQEOnM0mMT6BhEXFEIBEDIgDavud1p7xUDoFjYVaNcKkKBLJpZwCROmK/4IWX
- mAV6QT448C7Rs76ocYtQqQJvO74nFaKl3KxQExIOyatYpbEuMDYk/elHKDarCn8LIDGm
- 91py0Gi0dBRuQGRDeJfXq/YTmExTUmjWpiFmjH0U9FcdNK2JLrrPXYBlF33+8Xe0qoZ8
- in8UEo3PN7nIveMtHcuZN+kZde9KzIoWdstXRy8cqw/AZGcRD+pJ8jIsXHedvFqpzyKW
- vTsA==
+ :cc; bh=tpjDTKz5u80vb9X3iDVrIdNpXlTw7p9VVUHETfEX5jU=;
+ b=RB4UsDg0n5VTeRyEQpPI4+UIErbJwmL/cbd9kU1vUS6yINjINhZWvfl4YU9jAYUeA6
+ rYTlT4pyExnW2bIA5s1USVI2NE85YjZTA3kNosN5xrdGQnN5kj+ZWzOsXDxI//AUEM80
+ BHva11G8L1u8rT1zaWvheN2bLxRkUAsBk0QPupVydjTFZ6ywEyoyUI6dMPeSbAFKn7yq
+ d0Ga+1B32vy3zH42tpT7XJ1X3HeStkJ6fnPzyDbXmPrz+M8mjQ2FgJuy0caH6htlZ7A+
+ MsSTglb/sGByn4SZtHkAEtX8W6B3MOI/1MAs2mTAiUZEkGLmLERWtJuhnvrjpiCUz6Ej
+ rwoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=dWEHeUTSXKX1B3NXhSnOUlID1VS4JEnYRyDdFa0dRjg=;
- b=TP4/xDo72ioi3tSIdNDWbn6setnc9mH5t+KFADgqiV5VQoqR2WSB9EHNZvH80FWLPl
- UdYSb9C6iau3dLC9AonwYwavjq2dZFyWKZdptrhyzbFGbSWtu+ODvwMs9O94xn49SByM
- h3vXS05Hu2zfiSJiqrjqT8BFw3ateXw82X9dL87JrgtCcg1kdtDx7ee1h8wkfBxfT8XN
- cmpDbv0W2g0wxV/l2pUBU1EmG6kdTadTWgzGb+VhOeCq9V5kocc6d+huCW3+EJ8QL/zE
- axHnu7P+31Jai4xSYUMv9PlysWykl/z69Mk4WOaxQ7aPLfSthuaP4U1i1dWyxMWbJpuO
- yBaQ==
-X-Gm-Message-State: AOAM53363ynY8rcg9s+ILh2SwWzXsJYIsnV0PmYbx2p5V7Px3Zf2alhi
- ppn8uyk6zb7QHtmG5vk2KJg+kBumtoxNRA/fZg4RpQ==
-X-Google-Smtp-Source: ABdhPJyV+ve2i0BJCYi6wJayAIz3E/6SL4sCaLtupFbyH4ZNRlRX3xzlVDWfVkequu/802Lfb9Cx0owKgte3ioT+lDQ=
-X-Received: by 2002:a05:6000:186e:: with SMTP id
- d14mr11618226wri.376.1636023791065; 
- Thu, 04 Nov 2021 04:03:11 -0700 (PDT)
+ bh=tpjDTKz5u80vb9X3iDVrIdNpXlTw7p9VVUHETfEX5jU=;
+ b=FnyeLwt5Q3Rf4+OhLkLEZ7p52Vl8J51Wek/GJOobqhyRvTDYVXvsIn92DikdJSH/Ss
+ bIKCDztL3vd7ro7h4pxkyQ30EBl6TL3BGCg6O7c6MerM2wNCSeUAtSrGXhe+HDnofqv4
+ Hj6Rhw3cAkN8frrWz80kJ1dxyj+uPaHgQQstw2GcxcDmwzwgOezSCQW02+Xyuv8z1GGv
+ gxe3n5NQVYMl57OMJBdJi27fXxMRKPcx9QZ1D5k/xY/42XZpZI8ICvCfAfmhk9S4c330
+ 3qX0BzERpPCIB6wMGtzJYz2hTzGhcvNo+saiB4CMsKqmNaRlZOSM7zS2T9nPXv+eTywg
+ hiqg==
+X-Gm-Message-State: AOAM533g+LPYi98VWLBWdDltQRD7+CSq6WupLRZdBsI4mUGoVG/AlcDN
+ LD7Ha61nhgUPeZDusG7nhxHV4yTtzyuuxoLii0A=
+X-Google-Smtp-Source: ABdhPJyFN71QZsJzyvrk0rIcGEvpdHvNFCbCnilzONCeZh0q5q4+jR8icSP6TmCBBHYjXECW1QDCbqb/oONo5YYzoXI=
+X-Received: by 2002:a25:cc07:: with SMTP id l7mr43020707ybf.313.1636024089541; 
+ Thu, 04 Nov 2021 04:08:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAFEAcA9ha4G=AC3p9LKJRC87DkgHVqbrX3X8RPg7vVR_F1Kt1Q@mail.gmail.com>
- <CABgObfaXJZ1E5593HHMEyhXHVKNu85=KSOhg7VXbt93cKA8fvg@mail.gmail.com>
- <CAFEAcA9KF1437LXv+icrizZYcDiNZPn4KRMd0r7rEZWtDKxjpA@mail.gmail.com>
- <e5eee498-85a4-2f22-2580-9bcd6621f746@redhat.com>
-In-Reply-To: <e5eee498-85a4-2f22-2580-9bcd6621f746@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 4 Nov 2021 11:02:59 +0000
-Message-ID: <CAFEAcA-F-f7TcmbtZTJ8O0q9Ebxf-7aLHbawQCz-jQ5q8xgFRg@mail.gmail.com>
-Subject: Re: more bogus meson warnings
-To: Paolo Bonzini <pbonzini@redhat.com>
+References: <20211025195601.245631-1-atish.patra@wdc.com>
+ <20211025195601.245631-3-atish.patra@wdc.com>
+In-Reply-To: <20211025195601.245631-3-atish.patra@wdc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 4 Nov 2021 19:07:58 +0800
+Message-ID: <CAEUhbmUOBq4-tguGbGixXADGdstJ2azKr-WK=6y2J83Ye9AbBQ@mail.gmail.com>
+Subject: Re: [ PATCH v3 02/10] target/riscv: Implement PMU CSR predicate
+ function for
+To: Atish Patra <atish.patra@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,59 +76,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 3 Nov 2021 at 13:38, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> On 11/3/21 13:19, Peter Maydell wrote:
-> > They're two tests under the hood, but they both need to pass
-> > for us to be able to use the feature. If they don't both pass,
-> > then meson should just quietly say "OK, we don't have this thing"
-> > (ie it could print a "Something or other: NO" line, but it should
-> > not be printing a "WARNING" line).
+On Tue, Oct 26, 2021 at 3:56 AM Atish Patra <atish.patra@wdc.com> wrote:
 >
-> Of course it's possible to downgrade the warning line, but I'd rather
-> first be sure that the warning is bogus.  If you _do_ have a header and
-> static library, but somehow it cannot be used to link the test program,
-> it would be correct to warn.
 
-I don't really agree. There are lots and lots of things that
-might put the user's system somewhere between "there is no
-evidence of libfoo here at all" and "there is a working libfoo
-we can use". We don't in general try to diagnose any of those,
-we just say "no libfoo, move on".
+The commit title is incomplete
 
-> Unlike the configure script, Meson does
-> have code to distinguish static vs shared libraries, so the compile test
-> should be unnecessary; I would like to understand what causes it to
-> fail, so that your system says "Library snappy found: YES" (and warns),
-> whereas mine says "no".  I can check that using config-host.mak and
-> meson-logs/meson-log.txt.
 
-https://people.linaro.org/~peter.maydell/meson-log.txt
-https://people.linaro.org/~peter.maydell/config-host.mak
+> Currently, the predicate function for PMU related CSRs only works if
+> virtualization is enabled. It also does not check mcounteren bits before
+> before cycle/minstret/hpmcounterx access.
+>
+> Support supervisor mode access in the predicate function as well.
+>
+> Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> ---
+>  target/riscv/csr.c | 52 ++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 52 insertions(+)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 1ec776013435..de484c74d3b4 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -62,12 +62,64 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+>  #if !defined(CONFIG_USER_ONLY)
+>      CPUState *cs = env_cpu(env);
+>      RISCVCPU *cpu = RISCV_CPU(cs);
+> +    int ctr_index;
+>
+>      if (!cpu->cfg.ext_counters) {
+>          /* The Counters extensions is not enabled */
+>          return RISCV_EXCP_ILLEGAL_INST;
+>      }
+>
+> +    if (env->priv == PRV_S) {
+> +        switch (csrno) {
+> +        case CSR_CYCLE:
+> +            if (!get_field(env->mcounteren, COUNTEREN_CY)) {
+> +                return RISCV_EXCP_ILLEGAL_INST;
+> +            }
+> +            break;
+> +        case CSR_TIME:
+> +            if (!get_field(env->mcounteren, COUNTEREN_TM)) {
+> +                return RISCV_EXCP_ILLEGAL_INST;
+> +            }
+> +            break;
+> +        case CSR_INSTRET:
+> +            if (!get_field(env->mcounteren, COUNTEREN_IR)) {
+> +                return RISCV_EXCP_ILLEGAL_INST;
+> +            }
+> +            break;
+> +        case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
+> +            ctr_index = csrno - CSR_CYCLE;
+> +            if (!get_field(env->mcounteren, 1 << ctr_index)) {
+> +                return RISCV_EXCP_ILLEGAL_INST;
+> +            }
+> +            break;
 
-The link of the test program against libsnappy.a fails because
-it is being linked with cc and nothing is putting the C++ stdlib
-that libsnappy needs on the link line, so you get errors like:
+The above switch..case can be simplified with the logic of last case
+as the same one applies to all cases.
 
- /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/libsnappy.a(snappy.cc.o):
-In function `snappy::internal::WorkingMemory::GetHashTable(unsigned
-long, int*)':
-(.text+0x15b): undefined reference to `operator new[](unsigned long)'
+> +        }
+> +        if (riscv_cpu_is_32bit(env)) {
+> +            switch (csrno) {
+> +            case CSR_CYCLEH:
+> +                if (!get_field(env->mcounteren, COUNTEREN_CY)) {
+> +                    return RISCV_EXCP_ILLEGAL_INST;
+> +                }
+> +                break;
+> +            case CSR_TIMEH:
+> +                if (!get_field(env->mcounteren, COUNTEREN_TM)) {
+> +                    return RISCV_EXCP_ILLEGAL_INST;
+> +                }
+> +                break;
+> +            case CSR_INSTRETH:
+> +                if (!get_field(env->mcounteren, COUNTEREN_IR)) {
+> +                    return RISCV_EXCP_ILLEGAL_INST;
+> +                }
+> +                break;
+> +            case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
+> +                ctr_index = csrno - CSR_CYCLEH;
+> +                if (!get_field(env->mcounteren, 1 << ctr_index)) {
+> +                    return RISCV_EXCP_ILLEGAL_INST;
+> +                }
 
-This is (I suspect) another example of "distro does ship a
-static .a file, but the shipped pkg-config file is only good for
-dynamic linking, doesn't work for static linking". There's generally
-nothing much the user can do about this, beyond file a bug report with
-the distro if they're feeling enthusiastic.
-("pkg-config --static --libs snappy" just outputs "-lsnappy".)
+ditto
 
-Note that Debian/Ubuntu pretty much always ships the .a
-file in the libfoo-dev package, so "there's a .a file on the
-disk but the pkg-config might or might not work" is pretty
-common.
+> +                break;
+> +            }
+> +        }
+> +    }
+> +
+>      if (riscv_cpu_virt_enabled(env)) {
+>          switch (csrno) {
+>          case CSR_CYCLE:
+>
 
--- PMM
+Regards,
+Bin
 
