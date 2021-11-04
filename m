@@ -2,93 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 894E3445339
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 13:43:21 +0100 (CET)
-Received: from localhost ([::1]:42750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 740D744537C
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 14:03:08 +0100 (CET)
+Received: from localhost ([::1]:40370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mic5Q-0002SX-63
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 08:43:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37058)
+	id 1micOZ-0004zl-I9
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 09:03:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mic1V-0000Ao-89
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 08:39:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44488)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mic1S-0005jG-1b
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 08:39:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636029553;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=T3ebbR1AiWG/PjtLTFQswMNb8cvDpN6w1YgQgpX3tVM=;
- b=IdprRhnGzlg0pO/DOkasrByNQiRbUl8sVSB+Ja+/h27+FaZVCy/jQ/xfFksBeePTpIOkEY
- NYMTv1FSurG1Oc/tgv1bUIMJ0mNGy3cA6Q2qE2h8xhqLdEE6Tmeuzj3fdXqQGmuTxdPq5P
- Yg8eumJRlJH6fYnVxFAEQlVipmoDZ1g=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-360-O0KMLEkiNz-JmqUUDfJSuQ-1; Thu, 04 Nov 2021 08:39:12 -0400
-X-MC-Unique: O0KMLEkiNz-JmqUUDfJSuQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- f20-20020a05600c155400b0030db7b29174so2556154wmg.2
- for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 05:39:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=T3ebbR1AiWG/PjtLTFQswMNb8cvDpN6w1YgQgpX3tVM=;
- b=EpWq52qGF13FwuGVYhOoUPwLn9zEMr4bjisjEtwo+aidNgqAWTwNleOGYa4Ck/sm5j
- 92CWfwVZA38VUFoF+NmVUKshpnEHCHlOTUWa8sfhHEKfyMZlysyCxuuglBiPvg8Inlg/
- z6uuU9Ez84R6E/L7z3EBzalGqUS7U49PDmLZ4lYC3KJFnRM4BuOpz7XSzgZhIR0zbCFQ
- e9tKgyEJ5tWJ3BdFSSlaIuiUl3RtkPx6lccVaa0iMT+W+5hRO+yeLskZ2J/6Sn/ehVN8
- vzTA7Tz8DsvqvAMMcsdP6tl95sYgPnQV/3Sk/gHIKKEXn+Dxg8ZU1/dzHI6PtVLxU91P
- 4pMA==
-X-Gm-Message-State: AOAM5311+7ZSEw/BfPg0LiWK6t8gIA5YWI8+FuBWbu1lTkxJyipL4ZyP
- Mp/n2oUI9B0A7OAtptxXHR8313Xt4qPyfOug6+xHE1R9mbwM9ZqhoDhhTQyZjv0A3FNXIGfCfuV
- 6yqigmS/Bn9bxbJI=
-X-Received: by 2002:adf:ee0c:: with SMTP id y12mr62057450wrn.82.1636029551067; 
- Thu, 04 Nov 2021 05:39:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzqxQuVRS5FzwJytyFu9azDuWZd6k0n092fwTKU9WGR6bXQdkwfcvTYDFe9PU1o8cg5LJTAiQ==
-X-Received: by 2002:adf:ee0c:: with SMTP id y12mr62057412wrn.82.1636029550772; 
- Thu, 04 Nov 2021 05:39:10 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
- ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id q14sm4765696wrr.28.2021.11.04.05.39.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Nov 2021 05:39:10 -0700 (PDT)
-Message-ID: <13f8981a-55e5-e5d9-415f-4658aba16270@redhat.com>
-Date: Thu, 4 Nov 2021 13:39:09 +0100
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1mic1q-0000Xj-A5; Thu, 04 Nov 2021 08:39:38 -0400
+Received: from [201.28.113.2] (port=33857 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1mic1n-0005sq-Pu; Thu, 04 Nov 2021 08:39:37 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 4 Nov 2021 09:39:17 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id 6C571800BA7;
+ Thu,  4 Nov 2021 09:39:17 -0300 (-03)
+From: matheus.ferst@eldorado.org.br
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH v3 05/25] target/ppc: Implement Vector Insert from GPR using
+ GPR index insns
+Date: Thu,  4 Nov 2021 09:36:59 -0300
+Message-Id: <20211104123719.323713-6-matheus.ferst@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211104123719.323713-1-matheus.ferst@eldorado.org.br>
+References: <20211104123719.323713-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [RFC PATCH 00/12] QOM/QAPI integration part 1
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20211103173002.209906-1-kwolf@redhat.com>
- <8e630c96-5d2c-d214-e594-6162356990b0@redhat.com>
- <YYOiyTcA6zZgtWBs@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <YYOiyTcA6zZgtWBs@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.093, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 04 Nov 2021 12:39:17.0840 (UTC)
+ FILETIME=[FB9D7500:01D7D178]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,59 +57,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eblake@redhat.com, berrange@redhat.com, armbru@redhat.com,
- ehabkost@redhat.com, qemu-devel@nongnu.org
+Cc: lucas.castro@eldorado.org.br, richard.henderson@linaro.org, groug@kaod.org,
+ luis.pires@eldorado.org.br, Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/4/21 10:07, Kevin Wolf wrote:
->> Also, for the obligatory bikeshedding remark, do you have any other plans or
->> ideas for the colon-separated auto generated typenames?  Having both the
->> "namespace" (qom) and the more specific use (config) before the classname is
->> a bit weird, compared to the existing structs like RngRandomProperties.
->> Especially if boxed config is more used (or becomes the only possibility),
->> it might be that qom:class-name:config, or even just class-name:config, make
->> for nicer code in the object implementation.
-> 
-> 'qom-config:classname' isn't a type that is useful for the object
-> implementations at all. Its only use is really storing the whole
-> configuration temporarily in a QAPI C struct before applying it.
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-<rubbish>
-It would be useful as the (auto-boxed) argument of the configuration 
-code.  So basically you'd not need the RngProperties function anymore 
-because you use something like QomConfigRngBackend (or 
-RngBackendQomConfig - hence the question on how to name the 
-auto-generated types).
-</rubbish>
+Implements the following PowerISA v3.1 instructions:
+vinsblx: Vector Insert Byte from GPR using GPR-specified Left-Index
+vinshlx: Vector Insert Halfword from GPR using GPR-specified Left-Index
+vinswlx: Vector Insert Word from GPR using GPR-specified Left-Index
+vinsdlx: Vector Insert Doubleword from GPR using GPR-specified
+         Left-Index
+vinsbrx: Vector Insert Byte from GPR using GPR-specified Right-Index
+vinshrx: Vector Insert Halfword from GPR using GPR-specified
+         Right-Index
+vinswrx: Vector Insert Word from GPR using GPR-specified Right-Index
+vinsdrx: Vector Insert Doubleword from GPR using GPR-specified
+         Right-Index
 
-> The class implementations always want to store only their "local" config
-> options, but 'qom-config:classname' contains those of the parent class
-> as well.
+The helpers and do_vinsx receive i64 to allow code sharing with the
+future implementation of Vector Insert from VSR using GPR Index.
 
-Ah, I didn't understand that (hence the rubbish tag above).  It makes 
-sense given that instance_config is called per-class while ObjectOptions 
-stores all the info in one class.  That's a major change from my sketch, 
-which planned to call the base class config function by hand (and handle 
-the marshalling via QAPI 'base': '...').
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+---
+v3:
+- Fixed helper endianness issue
+---
+ target/ppc/helper.h                 |  4 +++
+ target/ppc/insn32.decode            |  9 ++++++
+ target/ppc/int_helper.c             | 30 +++++++++++++++++
+ target/ppc/translate/vmx-impl.c.inc | 50 +++++++++++++++++++++++++++++
+ 4 files changed, 93 insertions(+)
 
-> Oh, and I also wanted to say something about why not just directly using
-> the class name, which was my first idea: 'foo': 'iothread' looks more
-> like referencing an existing iothread rather than the configuration for
-> a new one. I wanted to leave us the option that we could possibly later
-> take a string for such options (a QOM path) and then pass the referenced
-> object to QMP commands as the proper QOM type.
-
-I agree that 'iothread' is going to be confusing when you're referring 
-to the configuration.
-
-Anyway I'm totally fine with 'qom-config:classname'.  Given this 
-explanation, however, one alternative that makes sense could be 
-'classname:full-config'. Then you could use 'classname:config' for the 
-autoboxed configs---and reserve 'classname' to mean the pointer to an 
-object.  Classes are (generally) lowercase and QAPI structs are 
-CamelCase, so there is not much potential for collisions.
-
-Paolo
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 0e99f8095c..80f88ce78b 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -228,6 +228,10 @@ DEF_HELPER_3(vinsertb, void, avr, avr, i32)
+ DEF_HELPER_3(vinserth, void, avr, avr, i32)
+ DEF_HELPER_3(vinsertw, void, avr, avr, i32)
+ DEF_HELPER_3(vinsertd, void, avr, avr, i32)
++DEF_HELPER_4(VINSBLX, void, env, avr, i64, tl)
++DEF_HELPER_4(VINSHLX, void, env, avr, i64, tl)
++DEF_HELPER_4(VINSWLX, void, env, avr, i64, tl)
++DEF_HELPER_4(VINSDLX, void, env, avr, i64, tl)
+ DEF_HELPER_2(vextsb2w, void, avr, avr)
+ DEF_HELPER_2(vextsh2w, void, avr, avr)
+ DEF_HELPER_2(vextsb2d, void, avr, avr)
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index 257b11113d..b794424496 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -344,5 +344,14 @@ VPEXTD          000100 ..... ..... ..... 10110001101    @VX
+ 
+ ## Vector Permute and Formatting Instruction
+ 
++VINSBLX         000100 ..... ..... ..... 01000001111    @VX
++VINSBRX         000100 ..... ..... ..... 01100001111    @VX
++VINSHLX         000100 ..... ..... ..... 01001001111    @VX
++VINSHRX         000100 ..... ..... ..... 01101001111    @VX
++VINSWLX         000100 ..... ..... ..... 01010001111    @VX
++VINSWRX         000100 ..... ..... ..... 01110001111    @VX
++VINSDLX         000100 ..... ..... ..... 01011001111    @VX
++VINSDRX         000100 ..... ..... ..... 01111001111    @VX
++
+ VSLDBI          000100 ..... ..... ..... 00 ... 010110  @VN
+ VSRDBI          000100 ..... ..... ..... 01 ... 010110  @VN
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index 42541736f1..80b7f8814f 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -1632,6 +1632,36 @@ VINSERT(h, u16)
+ VINSERT(w, u32)
+ VINSERT(d, u64)
+ #undef VINSERT
++
++#if defined(HOST_WORDS_BIGENDIAN)
++#define ELEM_ADDR(VEC, IDX, SIZE) (&(VEC)->u8[IDX])
++#else
++#define ELEM_ADDR(VEC, IDX, SIZE) (&(VEC)->u8[15 - (IDX)] - (SIZE) + 1)
++#endif
++
++#define VINSX(SUFFIX, TYPE) \
++void glue(glue(helper_VINS, SUFFIX), LX)(CPUPPCState *env, ppc_avr_t *t,       \
++                                         uint64_t val, target_ulong index)     \
++{                                                                              \
++    const int maxidx = ARRAY_SIZE(t->u8) - sizeof(TYPE);                       \
++    target_long idx = index;                                                   \
++                                                                               \
++    if (idx < 0 || idx > maxidx) {                                             \
++        idx =  idx < 0 ? sizeof(TYPE) - idx : idx;                             \
++        qemu_log_mask(LOG_GUEST_ERROR,                                         \
++            "Invalid index for Vector Insert Element after 0x" TARGET_FMT_lx   \
++            ", RA = " TARGET_FMT_ld " > %d\n", env->nip, idx, maxidx);         \
++    } else {                                                                   \
++        TYPE src = val;                                                        \
++        memcpy(ELEM_ADDR(t, idx, sizeof(TYPE)), &src, sizeof(TYPE));           \
++    }                                                                          \
++}
++VINSX(B, uint8_t)
++VINSX(H, uint16_t)
++VINSX(W, uint32_t)
++VINSX(D, uint64_t)
++#undef ELEM_ADDR
++#undef VINSX
+ #if defined(HOST_WORDS_BIGENDIAN)
+ #define VEXTRACT(suffix, element)                                            \
+     void helper_vextract##suffix(ppc_avr_t *r, ppc_avr_t *b, uint32_t index) \
+diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+index 6edffd5637..21af60c616 100644
+--- a/target/ppc/translate/vmx-impl.c.inc
++++ b/target/ppc/translate/vmx-impl.c.inc
+@@ -1238,6 +1238,56 @@ GEN_VXFORM_DUAL(vspltish, PPC_ALTIVEC, PPC_NONE,
+ GEN_VXFORM_DUAL(vspltisw, PPC_ALTIVEC, PPC_NONE,
+                 vinsertw, PPC_NONE, PPC2_ISA300);
+ 
++static bool do_vinsx(DisasContext *ctx, int vrt, int size, bool right, TCGv ra,
++            TCGv_i64 rb, void (*gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_i64, TCGv))
++{
++    TCGv_ptr t;
++    TCGv idx;
++
++    t = gen_avr_ptr(vrt);
++    idx = tcg_temp_new();
++
++    tcg_gen_andi_tl(idx, ra, 0xF);
++    if (right) {
++        tcg_gen_subfi_tl(idx, 16 - size, idx);
++    }
++
++    gen_helper(cpu_env, t, rb, idx);
++
++    tcg_temp_free_ptr(t);
++    tcg_temp_free(idx);
++
++    return true;
++}
++
++static bool do_vinsx_VX(DisasContext *ctx, arg_VX *a, int size, bool right,
++                        void (*gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_i64, TCGv))
++{
++    bool ok;
++    TCGv_i64 val;
++
++    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
++    REQUIRE_VECTOR(ctx);
++
++    val = tcg_temp_new_i64();
++    tcg_gen_extu_tl_i64(val, cpu_gpr[a->vrb]);
++
++    ok = do_vinsx(ctx, a->vrt, size, right, cpu_gpr[a->vra], val, gen_helper);
++
++    tcg_temp_free_i64(val);
++    return ok;
++}
++
++TRANS(VINSBLX, do_vinsx_VX, 1, false, gen_helper_VINSBLX)
++TRANS(VINSHLX, do_vinsx_VX, 2, false, gen_helper_VINSHLX)
++TRANS(VINSWLX, do_vinsx_VX, 4, false, gen_helper_VINSWLX)
++TRANS(VINSDLX, do_vinsx_VX, 8, false, gen_helper_VINSDLX)
++
++TRANS(VINSBRX, do_vinsx_VX, 1, true, gen_helper_VINSBLX)
++TRANS(VINSHRX, do_vinsx_VX, 2, true, gen_helper_VINSHLX)
++TRANS(VINSWRX, do_vinsx_VX, 4, true, gen_helper_VINSWLX)
++TRANS(VINSDRX, do_vinsx_VX, 8, true, gen_helper_VINSDLX)
++
+ static void gen_vsldoi(DisasContext *ctx)
+ {
+     TCGv_ptr ra, rb, rd;
+-- 
+2.25.1
 
 
