@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F18A44535F
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 13:54:38 +0100 (CET)
-Received: from localhost ([::1]:58894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF210445346
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 13:46:53 +0100 (CET)
+Received: from localhost ([::1]:46012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1micGI-00060S-QJ
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 08:54:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37154)
+	id 1mic8q-000557-OV
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 08:46:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mic1f-0000Qj-RC; Thu, 04 Nov 2021 08:39:27 -0400
+ id 1mic1i-0000To-CI; Thu, 04 Nov 2021 08:39:30 -0400
 Received: from [201.28.113.2] (port=33857 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mic1e-0005sq-BW; Thu, 04 Nov 2021 08:39:27 -0400
+ id 1mic1g-0005sq-SN; Thu, 04 Nov 2021 08:39:30 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Thu, 4 Nov 2021 09:39:16 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 38ADE800BA7;
+ by power9a (Postfix) with ESMTP id 9D9BE800BA7;
  Thu,  4 Nov 2021 09:39:16 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v3 02/25] target/ppc: Implement vclzdm/vctzdm instructions
-Date: Thu,  4 Nov 2021 09:36:56 -0300
-Message-Id: <20211104123719.323713-3-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v3 03/25] target/ppc: Implement vpdepd/vpextd instruction
+Date: Thu,  4 Nov 2021 09:36:57 -0300
+Message-Id: <20211104123719.323713-4-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211104123719.323713-1-matheus.ferst@eldorado.org.br>
 References: <20211104123719.323713-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 04 Nov 2021 12:39:16.0620 (UTC)
- FILETIME=[FAE34CC0:01D7D178]
+X-OriginalArrivalTime: 04 Nov 2021 12:39:17.0012 (UTC)
+ FILETIME=[FB1F1D40:01D7D178]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -64,87 +64,100 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-The signature of do_cntzdm is changed to allow reuse as GVecGen3i.fni8.
-The method is also moved out of #ifdef TARGET_PPC64, as PowerISA doesn't
-say vclzdm and vctzdm are 64-bit only.
+pdepd and pextd helpers are moved out of #ifdef (TARGET_PPC64) to allow
+them to be reused as GVecGen3.fni8.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/insn32.decode                   |  2 ++
- target/ppc/translate/fixedpoint-impl.c.inc |  4 +--
- target/ppc/translate/vmx-impl.c.inc        | 32 ++++++++++++++++++++++
- 3 files changed, 35 insertions(+), 3 deletions(-)
+ target/ppc/helper.h                 |  2 +-
+ target/ppc/insn32.decode            |  2 ++
+ target/ppc/int_helper.c             |  2 --
+ target/ppc/translate/vmx-impl.c.inc | 32 +++++++++++++++++++++++++++++
+ 4 files changed, 35 insertions(+), 3 deletions(-)
 
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 401575b935..0e99f8095c 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -47,9 +47,9 @@ DEF_HELPER_FLAGS_1(popcntb, TCG_CALL_NO_RWG_SE, tl, tl)
+ DEF_HELPER_FLAGS_2(cmpb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+ DEF_HELPER_3(sraw, tl, env, tl, tl)
+ DEF_HELPER_FLAGS_2(CFUGED, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+-#if defined(TARGET_PPC64)
+ DEF_HELPER_FLAGS_2(PDEPD, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+ DEF_HELPER_FLAGS_2(PEXTD, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++#if defined(TARGET_PPC64)
+ DEF_HELPER_FLAGS_2(cmpeqb, TCG_CALL_NO_RWG_SE, i32, tl, tl)
+ DEF_HELPER_FLAGS_1(popcntw, TCG_CALL_NO_RWG_SE, tl, tl)
+ DEF_HELPER_FLAGS_2(bpermd, TCG_CALL_NO_RWG_SE, i64, i64, i64)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 65075f0d03..6ce06b231d 100644
+index 6ce06b231d..4666c06f55 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -334,3 +334,5 @@ DSCRIQ          111111 ..... ..... ...... 001100010 .   @Z22_tap_sh_rc
- ## Vector Bit Manipulation Instruction
- 
+@@ -336,3 +336,5 @@ DSCRIQ          111111 ..... ..... ...... 001100010 .   @Z22_tap_sh_rc
  VCFUGED         000100 ..... ..... ..... 10101001101    @VX
-+VCLZDM          000100 ..... ..... ..... 11110000100    @VX
-+VCTZDM          000100 ..... ..... ..... 11111000100    @VX
-diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
-index fa519c2d3e..e093562e2a 100644
---- a/target/ppc/translate/fixedpoint-impl.c.inc
-+++ b/target/ppc/translate/fixedpoint-impl.c.inc
-@@ -414,8 +414,7 @@ static bool trans_CFUGED(DisasContext *ctx, arg_X *a)
-     return true;
+ VCLZDM          000100 ..... ..... ..... 11110000100    @VX
+ VCTZDM          000100 ..... ..... ..... 11111000100    @VX
++VPDEPD          000100 ..... ..... ..... 10111001101    @VX
++VPEXTD          000100 ..... ..... ..... 10110001101    @VX
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index f03c864e48..42541736f1 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -386,7 +386,6 @@ uint64_t helper_CFUGED(uint64_t src, uint64_t mask)
+     return left | (right >> n);
  }
  
 -#if defined(TARGET_PPC64)
--static void do_cntzdm(TCGv_i64 dst, TCGv_i64 src, TCGv_i64 mask, bool trail)
-+static void do_cntzdm(TCGv_i64 dst, TCGv_i64 src, TCGv_i64 mask, int64_t trail)
+ uint64_t helper_PDEPD(uint64_t src, uint64_t mask)
  {
-     TCGv_i64 tmp;
-     TCGLabel *l1;
-@@ -444,7 +443,6 @@ static void do_cntzdm(TCGv_i64 dst, TCGv_i64 src, TCGv_i64 mask, bool trail)
+     int i, o;
+@@ -422,7 +421,6 @@ uint64_t helper_PEXTD(uint64_t src, uint64_t mask)
  
-     tcg_gen_mov_i64(dst, tmp);
+     return result;
  }
 -#endif
  
- static bool trans_CNTLZDM(DisasContext *ctx, arg_X *a)
- {
+ /*****************************************************************************/
+ /* PowerPC 601 specific instructions (POWER bridge) */
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index e36c66589c..6da8a9123f 100644
+index 6da8a9123f..cddb3848ab 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -1575,6 +1575,38 @@ static bool trans_VCFUGED(DisasContext *ctx, arg_VX *a)
+@@ -1607,6 +1607,38 @@ static bool trans_VCTZDM(DisasContext *ctx, arg_VX *a)
      return true;
  }
  
-+static bool trans_VCLZDM(DisasContext *ctx, arg_VX *a)
++static bool trans_VPDEPD(DisasContext *ctx, arg_VX *a)
 +{
-+    static const GVecGen3i g = {
-+        .fni8 = do_cntzdm,
++    static const GVecGen3 g = {
++        .fni8 = gen_helper_PDEPD,
 +        .vece = MO_64,
 +    };
 +
 +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
 +    REQUIRE_VECTOR(ctx);
 +
-+    tcg_gen_gvec_3i(avr_full_offset(a->vrt), avr_full_offset(a->vra),
-+                    avr_full_offset(a->vrb), 16, 16, false, &g);
++    tcg_gen_gvec_3(avr_full_offset(a->vrt), avr_full_offset(a->vra),
++                   avr_full_offset(a->vrb), 16, 16, &g);
 +
 +    return true;
 +}
 +
-+static bool trans_VCTZDM(DisasContext *ctx, arg_VX *a)
++static bool trans_VPEXTD(DisasContext *ctx, arg_VX *a)
 +{
-+    static const GVecGen3i g = {
-+        .fni8 = do_cntzdm,
++    static const GVecGen3 g = {
++        .fni8 = gen_helper_PEXTD,
 +        .vece = MO_64,
 +    };
 +
 +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
 +    REQUIRE_VECTOR(ctx);
 +
-+    tcg_gen_gvec_3i(avr_full_offset(a->vrt), avr_full_offset(a->vra),
-+                    avr_full_offset(a->vrb), 16, 16, true, &g);
++    tcg_gen_gvec_3(avr_full_offset(a->vrt), avr_full_offset(a->vra),
++                   avr_full_offset(a->vrb), 16, 16, &g);
 +
 +    return true;
 +}
