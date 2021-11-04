@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 220B444517F
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 11:17:33 +0100 (CET)
-Received: from localhost ([::1]:51588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86361445169
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 11:05:53 +0100 (CET)
+Received: from localhost ([::1]:48298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miZoJ-0004YJ-Pk
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 06:17:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49010)
+	id 1miZd2-0001bl-9G
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 06:05:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1miZms-0003bp-Rd
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 06:16:02 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35774)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1miZmq-0006nf-Qs
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 06:16:02 -0400
-Received: by mail-wr1-x431.google.com with SMTP id i5so7783459wrb.2
- for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 03:16:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ZWHsYv7stjzWBw/g4w05wfcy2GpEKY14JEahxADqQsM=;
- b=qmoby00Galb+5PAEq064x1qJX1m/NHKG6W8gK7C/aTkgfNmkyXXNS4ckXA1ChugyOx
- t4JLm5kDxBLNsa+KzlR7qUfZmuJdqA+RG6kv75bL9wZpe4NaT6ZjRflnCG7E4wgan3UD
- 4NUYflhdRgNxWtgwRsFixFtlkPWX2XJ8KUtaZE7KuvaksyS0clf87svmUp8aiXI7S/cT
- IwuC63ojb2Lh0ZcKGGvrSE48bpp3/913Ax/pFYqhsyj2LcmFwA6gcgVOyfPtu1TxuXnb
- gx0bGAXAue8ybttHVJX8FgZJMWXelurm3yUp1meeJpIOXGqEr5rdgBUW1ZrohL5KLm7F
- 0EQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ZWHsYv7stjzWBw/g4w05wfcy2GpEKY14JEahxADqQsM=;
- b=vpHgws2oQM2zXwRbvV1upzFIDyvwWTKUq9XjcoRlKiia+4eSgji9f9oRemDU+/hEDc
- GLrTt+LbNesM9Li6jxYhRQ5DkDYHd1r7E9lPS6qwaA+yjnazxSl2kqvgh4Qyi/zRdJa8
- gD+5yByINO/wuKkktabxaKAjGNiH5mxnF9EqmKX3RIKCDK4NWYGGVUdI6gTKX/sL/9vs
- C0u4X3G5Jbw70nlxmadpj8EB5xh5d3pJeguLia8mFsaHhyXtjJNQnSubNi6Efe3T58BI
- pDUwk5G+x3lCFFFfH+T5oWL9m6y9VskMw26tTvswQ0OsZ3BcaYHe0ZAKQSQ2TkkIh1I7
- Vd3w==
-X-Gm-Message-State: AOAM530iP95/IZt6qTu7Jip2bgrjR7RH8qyqMA1SU0z1RBcFaA2GbOeZ
- gdWrqvVmwatscP6zZy8Jrw4=
-X-Google-Smtp-Source: ABdhPJz/52SJc4o+32tjSf/F+LjYUYMcntlwXYRhamrZjEM7GiyytRgmAxCChnFbIDWqYC+txQVKKw==
-X-Received: by 2002:a5d:4281:: with SMTP id k1mr66718417wrq.89.1636020958823; 
- Thu, 04 Nov 2021 03:15:58 -0700 (PDT)
-Received: from [192.168.43.238] (73.red-193-152-127.dynamicip.rima-tde.net.
- [193.152.127.73])
- by smtp.gmail.com with ESMTPSA id w7sm4722209wru.51.2021.11.04.03.15.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Nov 2021 03:15:58 -0700 (PDT)
-Message-ID: <891bd73d-771a-1463-ff2d-5885a6081cd4@amsat.org>
-Date: Thu, 4 Nov 2021 11:02:00 +0100
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1miZbW-0000nx-8B
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 06:04:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24392)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1miZbT-0007zn-SK
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 06:04:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636020253;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=s0csrDsTRgs8ZGfB9JAhxTv+cmD6DCSavMukyxDXyKc=;
+ b=hCstb22RLMOVX7d6p2L4WSqByWGrG0XbOr0rIv1ak5hAenB5EMHkdtdslYq0DzsaNw4w/W
+ q9v/jP838SZ0xxl/s4FO7Ikc/DRGuyX/CTqk906xzJ6IdOATgHVK6EDu7IKf53/aGq90HH
+ YAyRHMmIHGh2yEvoNKkoaCUxHeXE7xY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-535-4U2tSiDeOHSZPg0cGla4yw-1; Thu, 04 Nov 2021 06:04:10 -0400
+X-MC-Unique: 4U2tSiDeOHSZPg0cGla4yw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DAFE5721F;
+ Thu,  4 Nov 2021 10:04:09 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B315870F61;
+ Thu,  4 Nov 2021 10:04:08 +0000 (UTC)
+Date: Thu, 4 Nov 2021 10:04:07 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH v1] job.c: add missing notifier initialization
+Message-ID: <YYOwF8EmSSu5X2T3@stefanha-x1.localdomain>
+References: <20211103162155.791482-1-eesposit@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] linux-user: Add GPL-2.0+ SPDX license identifier
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20211103203146.3630550-1-f4bug@amsat.org>
- <YYOirmDXpPq16ZMi@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <YYOirmDXpPq16ZMi@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-3.528,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20211103162155.791482-1-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="neIXiq7tLgQGd+Fx"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,37 +78,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Taylor Simpson <tsimpson@quicinc.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/4/21 10:06, Daniel P. Berrangé wrote:
-> On Wed, Nov 03, 2021 at 09:31:46PM +0100, Philippe Mathieu-Daudé wrote:
->> Use Qualcomm License Identifier tool [*] to classify linux-user/
->> files per license type, filtering those matching at least 60% the
->> "GPLv2 or later" type, and manually add the GPL-2.0-or-later SPDX
->> comment.
-> 
-> When you say  "manually add", can you confirm that you explicitly
-> inspected every license header yourself to validate that the reported
-> match truely is GPL-2.0+, before adding the SPDX tag.
-> 
-> Adding licenses tags based merely on a 60% match, without doing
-> human inspection would be questionable.
+--neIXiq7tLgQGd+Fx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes I explicitly inspected every license error before manually add
-the tag, but I am human, so prone to errors, which is why peer
-review is important :)
+On Wed, Nov 03, 2021 at 12:21:55PM -0400, Emanuele Giuseppe Esposito wrote:
+> It seems that on_idle list is not properly initialized like
+> the other notifiers.
+>=20
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>  job.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-This diff is generated using 'git-format-patch --unified=4' because
-I thought it would ease review, however I just realize reviewers can't
-check from the diff whether there is another license in the file.
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-In v2 I moved the tag to the first line and generated the diff using
-'git-format-patch --unified=20' which is better because in almost all
-cases the full header is displayed. I might use '--function-context'
-in eventual v3, but it is slightly more verbose (it displays everything
-until the first function, so all #include / #define after the header).
+--neIXiq7tLgQGd+Fx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmGDsBYACgkQnKSrs4Gr
+c8g/qggApkpU+TmRLvfkOmpoCfKe0qVKHK1MeDLQsaqTAylyeiHO9l0/RabEbV6c
+9L+Di5jsZtlWr961EiDui/pYYhqRbYm59v7DJ17iakjwkB7Ev9o4DgYdgXWif+TI
+BrbOXL8cIUJB23qcwAdrgVYSl963L/Ri/xXSF8dQ406likvlzaSpdcIkfxFmjR+h
+M2iZM3cgKthwXfkc3t2tq+0UbuHBxhJ+ORv+vcbJaxYoz9ITU9nqoCR4jvkVtluz
+RzyxVGIya1Lh+CA93ckG2WdcOBdR4o0NWSdoEt6BOKptSXBV4IyQemnh/pe3bJCr
+T6i4zWvP5HL8fRwfLQiTasZuv1YzsQ==
+=TCnz
+-----END PGP SIGNATURE-----
+
+--neIXiq7tLgQGd+Fx--
+
 
