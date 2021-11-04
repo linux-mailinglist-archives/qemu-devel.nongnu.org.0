@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3536445371
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 13:59:45 +0100 (CET)
-Received: from localhost ([::1]:36572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 034C6445359
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 13:53:11 +0100 (CET)
+Received: from localhost ([::1]:56326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1micLH-00028n-VG
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 08:59:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37732)
+	id 1micEw-0004DU-3W
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 08:53:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mic3G-0001rA-Nc; Thu, 04 Nov 2021 08:41:08 -0400
+ id 1mic3R-00020M-KO; Thu, 04 Nov 2021 08:41:17 -0400
 Received: from [201.28.113.2] (port=58980 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mic3D-0006gQ-Vr; Thu, 04 Nov 2021 08:41:05 -0400
+ id 1mic3O-0006gQ-OC; Thu, 04 Nov 2021 08:41:15 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 4 Nov 2021 09:39:18 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 4 Nov 2021 09:39:19 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id A4595800BA7;
- Thu,  4 Nov 2021 09:39:18 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 77301800BA7;
+ Thu,  4 Nov 2021 09:39:19 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v3 08/25] target/ppc: Move vinsertb/vinserth/vinsertw/vinsertd
- to decodetree
-Date: Thu,  4 Nov 2021 09:37:02 -0300
-Message-Id: <20211104123719.323713-9-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v3 10/25] target/ppc: Introduce REQUIRE_VSX macro
+Date: Thu,  4 Nov 2021 09:37:04 -0300
+Message-Id: <20211104123719.323713-11-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211104123719.323713-1-matheus.ferst@eldorado.org.br>
 References: <20211104123719.323713-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 04 Nov 2021 12:39:19.0031 (UTC)
- FILETIME=[FC533070:01D7D178]
+X-OriginalArrivalTime: 04 Nov 2021 12:39:19.0850 (UTC)
+ FILETIME=[FCD028A0:01D7D178]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -58,171 +57,44 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: lucas.castro@eldorado.org.br, richard.henderson@linaro.org, groug@kaod.org,
- luis.pires@eldorado.org.br, Matheus Ferst <matheus.ferst@eldorado.org.br>,
- david@gibson.dropbear.id.au
+ luis.pires@eldorado.org.br,
+ "Bruno Larsen \(billionai\)" <bruno.larsen@eldorado.org.br>,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+
+Introduce the macro to centralize checking if the VSX facility is
+enabled and handle it correctly.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/helper.h                 |  4 ----
- target/ppc/insn32.decode            |  5 +++++
- target/ppc/int_helper.c             | 21 -------------------
- target/ppc/translate/vmx-impl.c.inc | 32 ++++++++++++++++++++---------
- target/ppc/translate/vmx-ops.c.inc  | 10 +++------
- 5 files changed, 30 insertions(+), 42 deletions(-)
+ target/ppc/translate.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 80f88ce78b..356495f392 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -224,10 +224,6 @@ DEF_HELPER_3(vextractub, void, avr, avr, i32)
- DEF_HELPER_3(vextractuh, void, avr, avr, i32)
- DEF_HELPER_3(vextractuw, void, avr, avr, i32)
- DEF_HELPER_3(vextractd, void, avr, avr, i32)
--DEF_HELPER_3(vinsertb, void, avr, avr, i32)
--DEF_HELPER_3(vinserth, void, avr, avr, i32)
--DEF_HELPER_3(vinsertw, void, avr, avr, i32)
--DEF_HELPER_3(vinsertd, void, avr, avr, i32)
- DEF_HELPER_4(VINSBLX, void, env, avr, i64, tl)
- DEF_HELPER_4(VINSHLX, void, env, avr, i64, tl)
- DEF_HELPER_4(VINSWLX, void, env, avr, i64, tl)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index de410abf7d..2eb7fb4e92 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -347,6 +347,11 @@ VPEXTD          000100 ..... ..... ..... 10110001101    @VX
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index fc9d35a7a8..e88b613093 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -7354,6 +7354,14 @@ static int times_16(DisasContext *ctx, int x)
+         }                                               \
+     } while (0)
  
- ## Vector Permute and Formatting Instruction
- 
-+VINSERTB        000100 ..... - .... ..... 01100001101   @VX_uim4
-+VINSERTH        000100 ..... - .... ..... 01101001101   @VX_uim4
-+VINSERTW        000100 ..... - .... ..... 01110001101   @VX_uim4
-+VINSERTD        000100 ..... - .... ..... 01111001101   @VX_uim4
++#define REQUIRE_VSX(CTX)                                \
++    do {                                                \
++        if (unlikely(!(CTX)->vsx_enabled)) {            \
++            gen_exception((CTX), POWERPC_EXCP_VSXU);    \
++            return true;                                \
++        }                                               \
++    } while (0)
 +
- VINSBLX         000100 ..... ..... ..... 01000001111    @VX
- VINSBRX         000100 ..... ..... ..... 01100001111    @VX
- VINSHLX         000100 ..... ..... ..... 01001001111    @VX
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 80b7f8814f..6f9479fd53 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -1612,27 +1612,6 @@ void helper_vslo(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
- #endif
- }
- 
--#if defined(HOST_WORDS_BIGENDIAN)
--#define VINSERT(suffix, element)                                            \
--    void helper_vinsert##suffix(ppc_avr_t *r, ppc_avr_t *b, uint32_t index) \
--    {                                                                       \
--        memmove(&r->u8[index], &b->u8[8 - sizeof(r->element[0])],           \
--               sizeof(r->element[0]));                                      \
--    }
--#else
--#define VINSERT(suffix, element)                                            \
--    void helper_vinsert##suffix(ppc_avr_t *r, ppc_avr_t *b, uint32_t index) \
--    {                                                                       \
--        uint32_t d = (16 - index) - sizeof(r->element[0]);                  \
--        memmove(&r->u8[d], &b->u8[8], sizeof(r->element[0]));               \
--    }
--#endif
--VINSERT(b, u8)
--VINSERT(h, u16)
--VINSERT(w, u32)
--VINSERT(d, u64)
--#undef VINSERT
--
- #if defined(HOST_WORDS_BIGENDIAN)
- #define ELEM_ADDR(VEC, IDX, SIZE) (&(VEC)->u8[IDX])
- #else
-diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index 46d6890242..6fd18690df 100644
---- a/target/ppc/translate/vmx-impl.c.inc
-+++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -1217,10 +1217,6 @@ GEN_VXFORM_UIMM_SPLAT(vextractub, 6, 8, 15);
- GEN_VXFORM_UIMM_SPLAT(vextractuh, 6, 9, 14);
- GEN_VXFORM_UIMM_SPLAT(vextractuw, 6, 10, 12);
- GEN_VXFORM_UIMM_SPLAT(vextractd, 6, 11, 8);
--GEN_VXFORM_UIMM_SPLAT(vinsertb, 6, 12, 15);
--GEN_VXFORM_UIMM_SPLAT(vinserth, 6, 13, 14);
--GEN_VXFORM_UIMM_SPLAT(vinsertw, 6, 14, 12);
--GEN_VXFORM_UIMM_SPLAT(vinsertd, 6, 15, 8);
- GEN_VXFORM_UIMM_ENV(vcfux, 5, 12);
- GEN_VXFORM_UIMM_ENV(vcfsx, 5, 13);
- GEN_VXFORM_UIMM_ENV(vctuxs, 5, 14);
-@@ -1231,12 +1227,6 @@ GEN_VXFORM_DUAL(vsplth, PPC_ALTIVEC, PPC_NONE,
-                 vextractuh, PPC_NONE, PPC2_ISA300);
- GEN_VXFORM_DUAL(vspltw, PPC_ALTIVEC, PPC_NONE,
-                 vextractuw, PPC_NONE, PPC2_ISA300);
--GEN_VXFORM_DUAL(vspltisb, PPC_ALTIVEC, PPC_NONE,
--                vinsertb, PPC_NONE, PPC2_ISA300);
--GEN_VXFORM_DUAL(vspltish, PPC_ALTIVEC, PPC_NONE,
--                vinserth, PPC_NONE, PPC2_ISA300);
--GEN_VXFORM_DUAL(vspltisw, PPC_ALTIVEC, PPC_NONE,
--                vinsertw, PPC_NONE, PPC2_ISA300);
- 
- static bool do_vinsx(DisasContext *ctx, int vrt, int size, bool right, TCGv ra,
-             TCGv_i64 rb, void (*gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_i64, TCGv))
-@@ -1336,6 +1326,23 @@ static bool do_vins_VX_uim4(DisasContext *ctx, arg_VX_uim4 *a, int size,
-     return ok;
- }
- 
-+static bool do_vinsert_VX_uim4(DisasContext *ctx, arg_VX_uim4 *a, int size,
-+                        void (*gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_i64, TCGv))
-+{
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-+    REQUIRE_VECTOR(ctx);
-+
-+    if (a->uim > (16 - size)) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "Invalid index for VINSERT* at"
-+            " 0x" TARGET_FMT_lx ", UIM = %d > %d\n", ctx->cia, a->uim,
-+            16 - size);
-+        return true;
-+    }
-+
-+    return do_vinsvx(ctx, a->vrt, size, false, tcg_constant_tl(a->uim), a->vrb,
-+                     gen_helper);
-+}
-+
- TRANS(VINSBLX, do_vinsx_VX, 1, false, gen_helper_VINSBLX)
- TRANS(VINSHLX, do_vinsx_VX, 2, false, gen_helper_VINSHLX)
- TRANS(VINSWLX, do_vinsx_VX, 4, false, gen_helper_VINSWLX)
-@@ -1357,6 +1364,11 @@ TRANS(VINSBVRX, do_vinsvx_VX, 1, true, gen_helper_VINSBLX)
- TRANS(VINSHVRX, do_vinsvx_VX, 2, true, gen_helper_VINSHLX)
- TRANS(VINSWVRX, do_vinsvx_VX, 4, true, gen_helper_VINSWLX)
- 
-+TRANS(VINSERTB, do_vinsert_VX_uim4, 1, gen_helper_VINSBLX)
-+TRANS(VINSERTH, do_vinsert_VX_uim4, 2, gen_helper_VINSHLX)
-+TRANS(VINSERTW, do_vinsert_VX_uim4, 4, gen_helper_VINSWLX)
-+TRANS(VINSERTD, do_vinsert_VX_uim4, 8, gen_helper_VINSDLX)
-+
- static void gen_vsldoi(DisasContext *ctx)
- {
-     TCGv_ptr ra, rb, rd;
-diff --git a/target/ppc/translate/vmx-ops.c.inc b/target/ppc/translate/vmx-ops.c.inc
-index f3f4855111..25ee715b43 100644
---- a/target/ppc/translate/vmx-ops.c.inc
-+++ b/target/ppc/translate/vmx-ops.c.inc
-@@ -225,13 +225,9 @@ GEN_VXFORM_DUAL_INV(vsplth, vextractuh, 6, 9, 0x00000000, 0x100000,
- GEN_VXFORM_DUAL_INV(vspltw, vextractuw, 6, 10, 0x00000000, 0x100000,
-                                                PPC_ALTIVEC),
- GEN_VXFORM_300_EXT(vextractd, 6, 11, 0x100000),
--GEN_VXFORM_DUAL_INV(vspltisb, vinsertb, 6, 12, 0x00000000, 0x100000,
--                                               PPC_ALTIVEC),
--GEN_VXFORM_DUAL_INV(vspltish, vinserth, 6, 13, 0x00000000, 0x100000,
--                                               PPC_ALTIVEC),
--GEN_VXFORM_DUAL_INV(vspltisw, vinsertw, 6, 14, 0x00000000, 0x100000,
--                                               PPC_ALTIVEC),
--GEN_VXFORM_300_EXT(vinsertd, 6, 15, 0x100000),
-+GEN_VXFORM(vspltisb, 6, 12),
-+GEN_VXFORM(vspltish, 6, 13),
-+GEN_VXFORM(vspltisw, 6, 14),
- GEN_VXFORM_300_EO(vnegw, 0x01, 0x18, 0x06),
- GEN_VXFORM_300_EO(vnegd, 0x01, 0x18, 0x07),
- GEN_VXFORM_300_EO(vextsb2w, 0x01, 0x18, 0x10),
+ #define REQUIRE_FPU(ctx)                                \
+     do {                                                \
+         if (unlikely(!(ctx)->fpu_enabled)) {            \
 -- 
 2.25.1
 
