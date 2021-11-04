@@ -2,71 +2,146 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A88E9445628
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 16:18:05 +0100 (CET)
-Received: from localhost ([::1]:38624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1972744562D
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 16:19:31 +0100 (CET)
+Received: from localhost ([::1]:41142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mieVA-0004Sc-9Y
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 11:18:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35374)
+	id 1mieWY-0006IT-6m
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 11:19:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mieTb-0003Rq-JS
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 11:16:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49118)
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1mieUl-0004qk-7r
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 11:17:40 -0400
+Received: from esa.hc3962-90.iphmx.com ([216.71.142.165]:52040)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mieTW-00074d-RQ
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 11:16:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636038981;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UxTY4V7WyQpQ9Omk9IcTpbjFXUNhmk/gT3r8s3rORxY=;
- b=RZ21Rt97VRmM809+MWMrpu+BiwPM8vcbY0FzweMcIo8TBrPIJqn4vIpsUA+rvPfUcrgvRh
- WTh2rFQVQdUk8w9Rv9/Og8IA2T3gCk/szHfQ2o3Hqw9LOyLLtHW7ffswsP4p/GSPQcGkHq
- c1Ltr5Ok59nqouGu7FeEfr80MSEhAcg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-80-LwFWAMl5N0Cu8cLG0w7shA-1; Thu, 04 Nov 2021 11:16:18 -0400
-X-MC-Unique: LwFWAMl5N0Cu8cLG0w7shA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C25280A5CC;
- Thu,  4 Nov 2021 15:16:16 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6909819C79;
- Thu,  4 Nov 2021 15:15:30 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id CDF9E11380A7; Thu,  4 Nov 2021 16:15:28 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Jonah Palmer <jonah.palmer@oracle.com>
-Subject: Re: [PATCH v8 3/8] qmp: add QMP command x-debug-query-virtio
-References: <1635334909-31614-1-git-send-email-jonah.palmer@oracle.com>
- <1635334909-31614-4-git-send-email-jonah.palmer@oracle.com>
-Date: Thu, 04 Nov 2021 16:15:28 +0100
-In-Reply-To: <1635334909-31614-4-git-send-email-jonah.palmer@oracle.com>
- (Jonah Palmer's message of "Wed, 27 Oct 2021 07:41:44 -0400")
-Message-ID: <87ilx89ckv.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1mieUh-0007qp-NP
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 11:17:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
+ t=1636039055; x=1636643855;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=kBMk4D1N2cl05Hbx+ZDUH7Kn1yoOR0jMiUA1tbA0BYg=;
+ b=MQ3ApqR0/xr9RI4XhRr7CYSZL9aEg+47XzGs/hQiSuYnq/r+zvbWQ9ca
+ v3MGh2O3/pysdi60GXCZBr8Ymz8DQcf8nBM9wNZOsHN5G6KMo/JT6KTks
+ LbLO5DMw8Mwp2uU5+QN+pc4kQ0s4UUN5eWSIWKpnMyIv3aZquL9Q2gp13 o=;
+Received: from mail-dm6nam10lp2109.outbound.protection.outlook.com (HELO
+ NAM10-DM6-obe.outbound.protection.outlook.com) ([104.47.58.109])
+ by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Nov 2021 15:17:33 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mCNf/leg10K51uxd9jjdchpxhvspqZulmhOXtGAxXtrODkZYrDY8cy1i7uMECRIr+gmNdpKdhCXsI5S/ztKuCi0ZGEKfDfeWOHxzoC5L+Bx6109R/ybVZ84+Z733/VHkUShHplkD5V7NO3HsZgA51c8AYd3OdHT3ClD8ki2MVtagCbxkz9t2QVbjg/QcVujOTfFwc9/n3taLSr/T48bTc3JiaiO+lVDYdyOd8SjFZXtAi4V7dpIHr/cdiYq5b9UIcLcKTcmtFWsJCzTz6CORbF8DAmAR94ksVd5U++eLy3pcJKBOIbR3R3lxNojWhNYy+LFFbg4K75TrBp+exkg5Qw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kBMk4D1N2cl05Hbx+ZDUH7Kn1yoOR0jMiUA1tbA0BYg=;
+ b=goMVSPqshz3CZGzE1tCyHj4SUDAN2YIBqVThgfr1qY7WIqGB9CxVhSO+pOwc9GYIrpQIxXboIWEzsVbOhfnmZDEtg1XDxPxrnOsN+4XiAgSPGnN8OvthHaRJFOIZE8z54l0Oy7kOQ+Gc0k1CmXifw0+Y0glVUUyeC6GBVIDCgien6CEB7vPMLz1bpPAZOnXaX762QX9HripOtcEqyLrV0MpYeZ/3XwALuac+88C5M6TqLFPpBiz2pgK6gljhmnGTMp1UG1z4e5JRSjWSfpo5KjCPISxKcu2P1rfUUEw7VZngEg9CTx385bGMkarnRhsrjELUOh+eeg3gt1jButhueg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
+ (2603:10b6:806:203::12) by SN6PR02MB4173.namprd02.prod.outlook.com
+ (2603:10b6:805:2f::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.18; Thu, 4 Nov
+ 2021 15:17:31 +0000
+Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
+ ([fe80::b858:f47d:4ad1:1a04]) by SN4PR0201MB8808.namprd02.prod.outlook.com
+ ([fe80::b858:f47d:4ad1:1a04%5]) with mapi id 15.20.4649.018; Thu, 4 Nov 2021
+ 15:17:31 +0000
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ =?utf-8?B?RGFuaWVsIFAuIEJlcnJhbmfDqQ==?= <berrange@redhat.com>
+Subject: RE: [PATCH] linux-user: Add GPL-2.0+ SPDX license identifier
+Thread-Topic: [PATCH] linux-user: Add GPL-2.0+ SPDX license identifier
+Thread-Index: AQHX0PHZqdb+NsmfjE6yP07Qr8rC4avzFLsAgAAPZQCAAFVwsA==
+Date: Thu, 4 Nov 2021 15:17:31 +0000
+Message-ID: <SN4PR0201MB880896CEC8C3B4F706E2F80BDE8D9@SN4PR0201MB8808.namprd02.prod.outlook.com>
+References: <20211103203146.3630550-1-f4bug@amsat.org>
+ <YYOirmDXpPq16ZMi@redhat.com>
+ <891bd73d-771a-1463-ff2d-5885a6081cd4@amsat.org>
+In-Reply-To: <891bd73d-771a-1463-ff2d-5885a6081cd4@amsat.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: amsat.org; dkim=none (message not signed)
+ header.d=none;amsat.org; dmarc=none action=none header.from=quicinc.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 1d319703-1f8b-4163-9740-08d99fa638bb
+x-ms-traffictypediagnostic: SN6PR02MB4173:
+x-microsoft-antispam-prvs: <SN6PR02MB41730CDBE71E45B55496E0F4DE8D9@SN6PR02MB4173.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Z1/Bmn3hLFggxhpXlz4iiP3l06SKoyFrPPElRNG5k7rrqDQ3+U81BfXlqtU9RG6IKEFghsGw0BANYalAhEdeGToP1VOMfg1CWe0EnALulpTrXRhf1hdr/ppggRUFgRztP/0XpunFXNPufCkvuFU4Ih22dT0GGC+gK/O7c7RVRuzS4RQdc6KO7yD+Q26H69FEEc7abEHeKJsXblO+pM7J7CjUKL9GReUKuB7qmc3lbnuaYUsIHYgw6ocKYj+35954hsNMG6yMvEqxTzKtC39usJWtfvtZlacQaND0n+kP+c9wKxsnYgVHCQJg+KS9Y6GANRDfhrc4SX3yWkTkoAAk4MvQjKYbIakSWTyOKhZupD/eYrVNBYChJuOuncrXZINdwxFdbRYmIo+Bu45Lzu+nK6y8BONtjeeP2hpCI7/+lVkUX+zrUyO3/2kDgNSM4GysoD94iCWSArI6lHe+xTf6L610VG2UlCx0bUnDo9q3XUb9/QgWzqP8HXSUlDEdfJfVXzmNk7bzgF60AtgzxYWW6G9LChyMt5cvZRciw1LQEGvl2IEq3bvDt83pWaXV5sQv+8wcgJqflqEw5N/citTE3UxjTusvMRfc8JXY4ZtqaqzGDcEwruHwagHV3rt4uoY7JUXjGpAFNkZmzCWim1GYrtWDWq1nDrXLOFADFz36vLfm6JknQiG+i2D6dICk01wTxOG2FieJiq9OhU/xKW1b5Q==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(66476007)(64756008)(52536014)(38100700002)(76116006)(66946007)(54906003)(8936002)(86362001)(33656002)(5660300002)(66556008)(2906002)(186003)(8676002)(53546011)(316002)(7696005)(55016002)(83380400001)(9686003)(38070700005)(110136005)(122000001)(66446008)(26005)(508600001)(71200400001)(4326008)(6506007);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QXcyeUN4aUhCMFVneWo3RWkyd1psWDFnemZzcTIwandJTGQ0OFE5N0ozQWMr?=
+ =?utf-8?B?TEVyYlZoZUozUFBnRnVTSTZZVnFBRjFJZFI3YzgrcEIvcWRaSE1Id1FEOGJs?=
+ =?utf-8?B?eExUTkFEdnlMUUZvcXQrWWJzbVdlbWpRRWhZbjZGaXVyQUJDZXJFbXlaNkhH?=
+ =?utf-8?B?YXF0cHpXZTVKRFNrV1BxUHNYSkNCMG1heklCMll3cE1qVFYvcmpaZVRlWFpl?=
+ =?utf-8?B?MEkvVDJpaUVGQTBsekhXNm45cEFYZ0tTUUV2VGVKR29sNWNkVFQxaUx1UG10?=
+ =?utf-8?B?TFA5UkpGS05Xb0xGdlYraEpXMlpIaFI3Z200S3Z5U1ZRNU1tTVJpYWsxUWs1?=
+ =?utf-8?B?R3B5akZGaTNsZnRZR21lNWd0RnFVbFgvWVhYazBycDZUcFQrLy9BSEJ3ZEpN?=
+ =?utf-8?B?c0JndmdOWS9xbzRKN054d3hxZERUWlVBTytxYnhXa3RzQk9SNUNqZUtaVTRq?=
+ =?utf-8?B?Z3ZZZHBRN01haVg5L3ZRYUxrTUlPc1hBSzU0akZzY2xKSS9PZXpYMGJidXRo?=
+ =?utf-8?B?YTRNaTdZZzU3Tkl3dmVxUDMwY0FSaTZrQTJoRHJpb0JLd2twZmZkTEg2UUcy?=
+ =?utf-8?B?aW54M09yN0x0eTZ5VFNKVmc2angvS3FPTFE5WDJnMEZWeWtwRkNHQ1NFU0lK?=
+ =?utf-8?B?TnB3MDVybzB1aFQ3OVQrS01aUExPZStHZDBkQ1d3ekdYM2JMblAwSFIwNWxz?=
+ =?utf-8?B?S25BVFpKSEVRN0pWaWFqVkRWR1dtd2NrbXVHODVGSFhsak5oa3pPN21pOGpt?=
+ =?utf-8?B?NU1zYjRaTGtPd09peU9mMGpOcFN2SStlb3JhRFJPZjZuZFZ4THM3RkZ1bUJa?=
+ =?utf-8?B?eU5YRGVKWWk0TC9FQ2RBNWoybnJqdEV1MHRnaVFQK240S2Q2dDhNTHVIRDdi?=
+ =?utf-8?B?WmlSRkFkSmZ0cU5mcVAxakxQdUFBUVhjbU5yVXFBcGZrbk5KYWExcHRsUkI2?=
+ =?utf-8?B?T3AwV1Q2VkJXZ1YrSkl2RFY1RVprVmF5ek5zNzUvM1ErZTZHTE54Y0FXV0NM?=
+ =?utf-8?B?V2FLNjZFQVNDeE11Q29uc2JLM0c2UnE0MVN6MEFCaWpKTlQ0VDlZVnQ5czg4?=
+ =?utf-8?B?ZGxtRlFvMVdEVHNuRlljOUx2dlZCY1FLZyt4UXpaRWNEZFhzQXcwdXd3b1Z1?=
+ =?utf-8?B?SHVzeEtLK1ZzMTJNT2p0UlM2MFEvUjVQSnZDdC90L2NKNDMyQ2xlQ24vZzhY?=
+ =?utf-8?B?T2dGR3JiTDBaVHJyVnZYMHdIQlBNTEUrVmJDTzNFL0hGbzRqSVU3b2duNU5D?=
+ =?utf-8?B?ZHJBeGZ4cG56YTBNNjBDalJ2dXlYK3VpczhiTENFeHJXQ0pnd3ZFRVpDSkM2?=
+ =?utf-8?B?dFN6Q0tNNXYwUmFnNVhrL0p0YVFpNjF1Mzdud2ZmVjcvOHllOThKZjNXWGZK?=
+ =?utf-8?B?NS84VForWk5xNWQ4b2ZDTnk5U045eWp5NFRTVU5aWVEyeEdkZDJpSzFyNGNV?=
+ =?utf-8?B?dTZ4cENSL0RiNGJoQjhDV2lUM05oZ0RrL3U3QktNdWRaOENGaWZ6U09QZ1hK?=
+ =?utf-8?B?RzFtdjR3cHJlOWNEMEFVNmVzcnUxc0hydE5IZFpDUjk1UC82M2U2REhZbk1O?=
+ =?utf-8?B?cUJEcUlIRWpDQXVncE9mL3hwVjZ6bWhsMUpJSXdsRkhFR3FNbmFBUkhQbkFV?=
+ =?utf-8?B?RE54a2F5VmtqOVFRSW5vOElMZGxrSEd3dnZZSS8waFVReHVSaEI5cjhhLzVp?=
+ =?utf-8?B?aUJPenZVQUpjQXVjb25oMldNUjFhNi92MjMzV2pTclFXWTVpRmtja1RVM1p4?=
+ =?utf-8?B?cGZ4MkhZZWdCd3lBN0pRU21OaURxQ01ObUh2amdHcHpicTYxbTR3Ni9tNGZt?=
+ =?utf-8?B?UW1VeGcwbDQxamx3YW1zMjdJdEdGS0VhZkhhR3c0N1YyTUxHMFo3TDE1bDRk?=
+ =?utf-8?B?QjFyNTZuM3kvWmZxM2RSNkwyNTRFN0QxdjRkOXhWUDVwUUdDWnpqS05IaCtC?=
+ =?utf-8?B?ZktYemhEN2NXZk1VL0ZSa0JiSThSeUVTVksvT0JQTXdqNEFJU0hYRmExNGwr?=
+ =?utf-8?B?dDNYcTB0OFBsZTNaN2JZM3pHZ213Ri9BTWhuVCt2bFVYS28zcGwrR2xaZzNV?=
+ =?utf-8?B?U09lVXJFQ1p6N0RUOEtvN3hLazh5VnpuUHdIVlY0aWpYTTJNUGJFUTlWTTJW?=
+ =?utf-8?B?SkQ4MmNORWt6OTVMVHZzZld2dlU0NEJRcGpjNldKaERVdzZpOGdFcDU2RkJy?=
+ =?utf-8?Q?XRlLkPoO1k+y4h28gNGdF9c=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-OriginatorOrg: quicinc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d319703-1f8b-4163-9740-08d99fa638bb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Nov 2021 15:17:31.3965 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: odW5x+7mra6hUaYy2srSpM7AA04ctQ0lZ6it9jPeB+aALHJFypl0ts42lhS6Flv/UYBErMHvAvUMdkk9UdDakw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB4173
+Received-SPF: pass client-ip=216.71.142.165; envelope-from=tsimpson@quicinc.com;
+ helo=esa.hc3962-90.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,276 +154,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, qemu_oss@crudebyte.com, qemu-devel@nongnu.org,
- kraxel@redhat.com, si-wei.liu@oracle.com, joao.m.martins@oracle.com,
- eblake@redhat.com, qemu-block@nongnu.org, david@redhat.com,
- arei.gonglei@huawei.com, marcandre.lureau@redhat.com, lvivier@redhat.com,
- thuth@redhat.com, michael.roth@amd.com, groug@kaod.org, dgilbert@redhat.com,
- eric.auger@redhat.com, stefanha@redhat.com, boris.ostrovsky@oracle.com,
- kwolf@redhat.com, mathieu.poirier@linaro.org, raphael.norwitz@nutanix.com,
- pbonzini@redhat.com
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Jonah Palmer <jonah.palmer@oracle.com> writes:
-
-> From: Laurent Vivier <lvivier@redhat.com>
->
-> This new command lists all the instances of VirtIODevice with
-> their QOM paths and virtio type/name.
->
-> Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
-> ---
->  hw/virtio/meson.build      |  2 ++
->  hw/virtio/virtio-stub.c    | 14 ++++++++++
->  hw/virtio/virtio.c         | 27 +++++++++++++++++++
->  include/hw/virtio/virtio.h |  1 +
->  qapi/meson.build           |  1 +
->  qapi/qapi-schema.json      |  1 +
->  qapi/virtio.json           | 67 ++++++++++++++++++++++++++++++++++++++++++++++
->  tests/qtest/qmp-cmd-test.c |  1 +
->  8 files changed, 114 insertions(+)
->  create mode 100644 hw/virtio/virtio-stub.c
->  create mode 100644 qapi/virtio.json
->
-> diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-> index 521f7d6..d893f5f 100644
-> --- a/hw/virtio/meson.build
-> +++ b/hw/virtio/meson.build
-> @@ -6,8 +6,10 @@ softmmu_virtio_ss.add(when: 'CONFIG_VHOST', if_false: files('vhost-stub.c'))
->  
->  softmmu_ss.add_all(when: 'CONFIG_VIRTIO', if_true: softmmu_virtio_ss)
->  softmmu_ss.add(when: 'CONFIG_VIRTIO', if_false: files('vhost-stub.c'))
-> +softmmu_ss.add(when: 'CONFIG_VIRTIO', if_false: files('virtio-stub.c'))
->  
->  softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost-stub.c'))
-> +softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('virtio-stub.c'))
->  
->  virtio_ss = ss.source_set()
->  virtio_ss.add(files('virtio.c'))
-> diff --git a/hw/virtio/virtio-stub.c b/hw/virtio/virtio-stub.c
-> new file mode 100644
-> index 0000000..d4a88f5
-> --- /dev/null
-> +++ b/hw/virtio/virtio-stub.c
-> @@ -0,0 +1,14 @@
-> +#include "qemu/osdep.h"
-> +#include "qapi/error.h"
-> +#include "qapi/qapi-commands-virtio.h"
-> +
-> +static void *qmp_virtio_unsupported(Error **errp)
-> +{
-> +    error_setg(errp, "Virtio is disabled");
-> +    return NULL;
-> +}
-> +
-> +VirtioInfoList *qmp_x_debug_query_virtio(Error **errp)
-> +{
-> +    return qmp_virtio_unsupported(errp);
-> +}
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index 7050bd5..ad17be7 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -13,6 +13,8 @@
->  
->  #include "qemu/osdep.h"
->  #include "qapi/error.h"
-> +#include "qapi/qapi-commands-virtio.h"
-> +#include "qapi/qapi-visit-virtio.h"
->  #include "cpu.h"
->  #include "trace.h"
->  #include "qemu/error-report.h"
-> @@ -29,6 +31,9 @@
->  #include "sysemu/runstate.h"
->  #include "standard-headers/linux/virtio_ids.h"
->  
-> +/* QAPI list of VirtIODevices */
-> +static QTAILQ_HEAD(, VirtIODevice) virtio_list;
-> +
->  /*
->   * The alignment to use between consumer and producer parts of vring.
->   * x86 pagesize again. This is the default, used by transports like PCI
-> @@ -3709,6 +3714,7 @@ static void virtio_device_realize(DeviceState *dev, Error **errp)
->      vdev->listener.commit = virtio_memory_listener_commit;
->      vdev->listener.name = "virtio";
->      memory_listener_register(&vdev->listener, vdev->dma_as);
-> +    QTAILQ_INSERT_TAIL(&virtio_list, vdev, next);
->  }
->  
->  static void virtio_device_unrealize(DeviceState *dev)
-> @@ -3723,6 +3729,7 @@ static void virtio_device_unrealize(DeviceState *dev)
->          vdc->unrealize(dev);
->      }
->  
-> +    QTAILQ_REMOVE(&virtio_list, vdev, next);
->      g_free(vdev->bus_name);
->      vdev->bus_name = NULL;
->  }
-> @@ -3896,6 +3903,8 @@ static void virtio_device_class_init(ObjectClass *klass, void *data)
->      vdc->stop_ioeventfd = virtio_device_stop_ioeventfd_impl;
->  
->      vdc->legacy_features |= VIRTIO_LEGACY_FEATURES;
-> +
-> +    QTAILQ_INIT(&virtio_list);
->  }
->  
->  bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev)
-> @@ -3906,6 +3915,24 @@ bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev)
->      return virtio_bus_ioeventfd_enabled(vbus);
->  }
->  
-> +VirtioInfoList *qmp_x_debug_query_virtio(Error **errp)
-> +{
-> +    VirtioInfoList *list = NULL;
-> +    VirtioInfoList *node;
-> +    VirtIODevice *vdev;
-> +
-> +    QTAILQ_FOREACH(vdev, &virtio_list, next) {
-> +        DeviceState *dev = DEVICE(vdev);
-> +        node = g_new0(VirtioInfoList, 1);
-> +        node->value = g_new(VirtioInfo, 1);
-> +        node->value->path = g_strdup(dev->canonical_path);
-> +        node->value->type = g_strdup(vdev->name);
-> +        QAPI_LIST_PREPEND(list, node->value);
-> +    }
-> +
-> +    return list;
-> +}
-> +
->  static const TypeInfo virtio_device_info = {
->      .name = TYPE_VIRTIO_DEVICE,
->      .parent = TYPE_DEVICE,
-> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> index 105b98c..eceaafc 100644
-> --- a/include/hw/virtio/virtio.h
-> +++ b/include/hw/virtio/virtio.h
-> @@ -110,6 +110,7 @@ struct VirtIODevice
->      bool use_guest_notifier_mask;
->      AddressSpace *dma_as;
->      QLIST_HEAD(, VirtQueue) *vector_queues;
-> +    QTAILQ_ENTRY(VirtIODevice) next;
->  };
->  
->  struct VirtioDeviceClass {
-> diff --git a/qapi/meson.build b/qapi/meson.build
-> index c356a38..df5662e 100644
-> --- a/qapi/meson.build
-> +++ b/qapi/meson.build
-> @@ -45,6 +45,7 @@ qapi_all_modules = [
->    'sockets',
->    'trace',
->    'transaction',
-> +  'virtio',
->    'yank',
->  ]
->  if have_system
-> diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-> index 4912b97..1512ada 100644
-> --- a/qapi/qapi-schema.json
-> +++ b/qapi/qapi-schema.json
-> @@ -93,3 +93,4 @@
->  { 'include': 'audio.json' }
->  { 'include': 'acpi.json' }
->  { 'include': 'pci.json' }
-> +{ 'include': 'virtio.json' }
-> diff --git a/qapi/virtio.json b/qapi/virtio.json
-> new file mode 100644
-> index 0000000..4490c2c
-> --- /dev/null
-> +++ b/qapi/virtio.json
-> @@ -0,0 +1,67 @@
-> +# -*- Mode: Python -*-
-> +# vim: filetype=python
-> +#
-> +
-> +##
-> +# = Virtio devices
-> +##
-> +
-> +##
-> +# @VirtioInfo:
-> +#
-> +# Basic information about a given VirtIODevice including the device
-> +# canonical QOM path as well as the name of the device.
-
-Is the part starting with "including" worth its keep?
-
-> +#
-> +# @path: VirtIO device canonical QOM path
-
-I'd prefer "the device's canonical QOM path".
-
-> +#
-> +# @type: VirtIO device name
-> +#
-> +# Since: 6.2
-
-If this series misses 6.2, which seems likely, you'll have to adjust the
-since tags.
-
-> +#
-> +##
-> +{ 'struct': 'VirtioInfo',
-> +    'data': {
-> +        'path': 'str',
-> +        'type': 'str'
-> +    }
-> +}
-> +
-> +##
-> +# @x-debug-query-virtio:
-> +#
-> +# Returns a list of all initalized VirtIO devices
-
-What's an uninitialized VirtIO device?
-
-> +#
-> +# Returns: list of gathered @VirtioInfo devices
-> +#
-> +# Since: 6.2
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "x-debug-query-virtio" }
-> +# <- { "return": [
-> +#        {
-> +#            "path": "/machine/peripheral-anon/device[4]/virtio-backend",
-> +#            "type": "virtio-input"
-> +#        },
-> +#        {
-> +#            "path": "/machine/peripheral/crypto0/virtio-backend",
-> +#            "type": "virtio-crypto"
-> +#        },
-> +#        {
-> +#            "path": "/machine/peripheral-anon/device[2]/virtio-backend",
-> +#            "type": "virtio-scsi"
-> +#        },
-> +#        {
-> +#            "path": "/machine/peripheral-anon/device[1]/virtio-backend",
-> +#            "type": "virtio-net"
-> +#        },
-> +#        {
-> +#            "path": "/machine/peripheral-anon/device[0]/virtio-backend",
-> +#            "type": "virtio-serial"
-> +#        }
-> +#      ]
-> +#    }
-> +#
-> +##
-> +
-> +{ 'command': 'x-debug-query-virtio', 'returns': ['VirtioInfo'] }
-> diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-> index 1af2f74..62c6cc4 100644
-> --- a/tests/qtest/qmp-cmd-test.c
-> +++ b/tests/qtest/qmp-cmd-test.c
-> @@ -95,6 +95,7 @@ static bool query_is_ignored(const char *cmd)
->          "query-gic-capabilities", /* arm */
->          /* Success depends on target-specific build configuration: */
->          "query-pci",              /* CONFIG_PCI */
-> +        "x-debug-query-virtio",   /* CONFIG_VIRTIO */
->          /* Success depends on launching SEV guest */
->          "query-sev-launch-measure",
->          /* Success depends on Host or Hypervisor SEV support */
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGhpbGlwcGUgTWF0aGll
+dS1EYXVkw6kgPHBoaWxpcHBlLm1hdGhpZXUuZGF1ZGVAZ21haWwuY29tPiBPbg0KPiBCZWhhbGYg
+T2YgUGhpbGlwcGUgTWF0aGlldS1EYXVkw6kNCj4gU2VudDogVGh1cnNkYXksIE5vdmVtYmVyIDQs
+IDIwMjEgNTowMiBBTQ0KPiBUbzogRGFuaWVsIFAuIEJlcnJhbmfDqSA8YmVycmFuZ2VAcmVkaGF0
+LmNvbT4NCj4gQ2M6IFRheWxvciBTaW1wc29uIDx0c2ltcHNvbkBxdWljaW5jLmNvbT47IFJpY2hh
+cmQgSGVuZGVyc29uDQo+IDxyaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnPjsgcWVtdS1kZXZl
+bEBub25nbnUub3JnOyBMYXVyZW50IFZpdmllcg0KPiA8bGF1cmVudEB2aXZpZXIuZXU+DQo+IFN1
+YmplY3Q6IFJlOiBbUEFUQ0hdIGxpbnV4LXVzZXI6IEFkZCBHUEwtMi4wKyBTUERYIGxpY2Vuc2Ug
+aWRlbnRpZmllcg0KPiANCj4gT24gMTEvNC8yMSAxMDowNiwgRGFuaWVsIFAuIEJlcnJhbmfDqSB3
+cm90ZToNCj4gPg0KPiA+IFdoZW4geW91IHNheSAgIm1hbnVhbGx5IGFkZCIsIGNhbiB5b3UgY29u
+ZmlybSB0aGF0IHlvdSBleHBsaWNpdGx5DQo+ID4gaW5zcGVjdGVkIGV2ZXJ5IGxpY2Vuc2UgaGVh
+ZGVyIHlvdXJzZWxmIHRvIHZhbGlkYXRlIHRoYXQgdGhlIHJlcG9ydGVkDQo+ID4gbWF0Y2ggdHJ1
+ZWx5IGlzIEdQTC0yLjArLCBiZWZvcmUgYWRkaW5nIHRoZSBTUERYIHRhZy4NCj4gPg0KPiA+IEFk
+ZGluZyBsaWNlbnNlcyB0YWdzIGJhc2VkIG1lcmVseSBvbiBhIDYwJSBtYXRjaCwgd2l0aG91dCBk
+b2luZyBodW1hbg0KPiA+IGluc3BlY3Rpb24gd291bGQgYmUgcXVlc3Rpb25hYmxlLg0KPiANCj4g
+WWVzIEkgZXhwbGljaXRseSBpbnNwZWN0ZWQgZXZlcnkgbGljZW5zZSBlcnJvciBiZWZvcmUgbWFu
+dWFsbHkgYWRkIHRoZSB0YWcsIGJ1dA0KPiBJIGFtIGh1bWFuLCBzbyBwcm9uZSB0byBlcnJvcnMs
+IHdoaWNoIGlzIHdoeSBwZWVyIHJldmlldyBpcyBpbXBvcnRhbnQgOikNCg0KVGhpcyBzZWVtcyBs
+aWtlIG1vcmUgb2YgYSBxdWVzdGlvbiBmb3IgYSBsYXd5ZXIgdG8gcmV2aWV3IHRoYW4gdGVjaG5p
+Y2FsIHJldmlld2Vycy4NCg0KSSByZW1lbWJlciBkaXNjdXNzaW5nIHRoaXMgd2hlbiBJIG1hZGUg
+dGhlIGluaXRpYWwgc3VibWlzc2lvbi4gIEF0IHRoYXQgdGltZSwgdGhlcmUgd2Fzbid0IGEgYnJv
+YWQgcG9saWN5IG9uIHRoaXMuICBIYXMgdGhhdCBjaGFuZ2VkPw0KDQpUaGFua3MsDQpUYXlsb3IN
+Cg0K
 
