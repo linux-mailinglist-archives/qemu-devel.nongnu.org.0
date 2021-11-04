@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D08644541A
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 14:38:23 +0100 (CET)
-Received: from localhost ([::1]:35730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C6544453BC
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 14:21:28 +0100 (CET)
+Received: from localhost ([::1]:36810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1micwg-0008BT-Iy
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 09:38:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38776)
+	id 1micgI-0005d0-NQ
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 09:21:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mic6P-0005cD-Oi; Thu, 04 Nov 2021 08:44:21 -0400
+ id 1mic6T-0005ii-AO; Thu, 04 Nov 2021 08:44:25 -0400
 Received: from [201.28.113.2] (port=43952 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mic6O-0000L9-0I; Thu, 04 Nov 2021 08:44:21 -0400
+ id 1mic6R-0000L9-Qj; Thu, 04 Nov 2021 08:44:25 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Thu, 4 Nov 2021 09:39:25 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id EA780800BA7;
- Thu,  4 Nov 2021 09:39:24 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 57588800BA7;
+ Thu,  4 Nov 2021 09:39:25 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v3 24/25] target/ppc: Implement lxvkq instruction
-Date: Thu,  4 Nov 2021 09:37:18 -0300
-Message-Id: <20211104123719.323713-25-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v3 25/25] target/ppc: cntlzdm/cnttzdm implementation without
+ brcond
+Date: Thu,  4 Nov 2021 09:37:19 -0300
+Message-Id: <20211104123719.323713-26-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211104123719.323713-1-matheus.ferst@eldorado.org.br>
 References: <20211104123719.323713-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 04 Nov 2021 12:39:25.0340 (UTC)
- FILETIME=[0015DDC0:01D7D179]
+X-OriginalArrivalTime: 04 Nov 2021 12:39:25.0710 (UTC)
+ FILETIME=[004E52E0:01D7D179]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -64,90 +65,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/insn32.decode            |  7 +++++
- target/ppc/translate/vsx-impl.c.inc | 43 +++++++++++++++++++++++++++++
- 2 files changed, 50 insertions(+)
+ target/ppc/translate/fixedpoint-impl.c.inc | 31 +++++++++++-----------
+ 1 file changed, 16 insertions(+), 15 deletions(-)
 
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index fd73946122..e135b8aba4 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -100,6 +100,9 @@
- &X_imm8         xt imm:uint8_t
- @X_imm8         ...... ..... .. imm:8 .......... .              &X_imm8 xt=%x_xt
+diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
+index e093562e2a..7fecff4579 100644
+--- a/target/ppc/translate/fixedpoint-impl.c.inc
++++ b/target/ppc/translate/fixedpoint-impl.c.inc
+@@ -416,32 +416,33 @@ static bool trans_CFUGED(DisasContext *ctx, arg_X *a)
  
-+&X_uim5         xt uim:uint8_t
-+@X_uim5         ...... ..... ..... uim:5 .......... .           &X_uim5 xt=%x_xt
-+
- &X_tb_sp_rc     rt rb sp rc:bool
- @X_tb_sp_rc     ...... rt:5 sp:2 ... rb:5 .......... rc:1       &X_tb_sp_rc
+ static void do_cntzdm(TCGv_i64 dst, TCGv_i64 src, TCGv_i64 mask, int64_t trail)
+ {
+-    TCGv_i64 tmp;
+-    TCGLabel *l1;
++    TCGv_i64 t0, t1;
  
-@@ -420,3 +423,7 @@ STXVPX          011111 ..... ..... ..... 0111001101 -   @X_TSXP
+-    tmp = tcg_temp_local_new_i64();
+-    l1 = gen_new_label();
++    t0 = tcg_temp_new_i64();
++    t1 = tcg_temp_new_i64();
  
- XXSPLTIB        111100 ..... 00 ........ 0101101000 .   @X_imm8
- XXSPLTW         111100 ..... ---.. ..... 010100100 . .  @XX2
-+
-+## VSX Vector Load Special Value Instruction
-+
-+LXVKQ           111100 ..... 11111 ..... 0101101000 .   @X_uim5
-diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index d1de0da877..c0e38060b4 100644
---- a/target/ppc/translate/vsx-impl.c.inc
-+++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -1503,6 +1503,49 @@ static bool trans_XXSPLTI32DX(DisasContext *ctx, arg_8RR_D_IX *a)
-     return true;
+-    tcg_gen_and_i64(tmp, src, mask);
++    tcg_gen_and_i64(t0, src, mask);
+     if (trail) {
+-        tcg_gen_ctzi_i64(tmp, tmp, 64);
++        tcg_gen_ctzi_i64(t0, t0, -1);
+     } else {
+-        tcg_gen_clzi_i64(tmp, tmp, 64);
++        tcg_gen_clzi_i64(t0, t0, -1);
+     }
+ 
+-    tcg_gen_brcondi_i64(TCG_COND_EQ, tmp, 0, l1);
+-
+-    tcg_gen_subfi_i64(tmp, 64, tmp);
++    tcg_gen_setcondi_i64(TCG_COND_NE, t1, t0, -1);
++    tcg_gen_andi_i64(t0, t0, 63);
++    tcg_gen_xori_i64(t0, t0, 63);
+     if (trail) {
+-        tcg_gen_shl_i64(tmp, mask, tmp);
++        tcg_gen_shl_i64(t0, mask, t0);
++        tcg_gen_shl_i64(t0, t0, t1);
+     } else {
+-        tcg_gen_shr_i64(tmp, mask, tmp);
++        tcg_gen_shr_i64(t0, mask, t0);
++        tcg_gen_shr_i64(t0, t0, t1);
+     }
+-    tcg_gen_ctpop_i64(tmp, tmp);
+ 
+-    gen_set_label(l1);
++    tcg_gen_ctpop_i64(dst, t0);
+ 
+-    tcg_gen_mov_i64(dst, tmp);
++    tcg_temp_free_i64(t0);
++    tcg_temp_free_i64(t1);
  }
  
-+static bool trans_LXVKQ(DisasContext *ctx, arg_X_uim5 *a)
-+{
-+    static const uint64_t values[32] = {
-+        0, /* Unspecified */
-+        0x3FFF000000000000llu, /* QP +1.0 */
-+        0x4000000000000000llu, /* QP +2.0 */
-+        0x4000800000000000llu, /* QP +3.0 */
-+        0x4001000000000000llu, /* QP +4.0 */
-+        0x4001400000000000llu, /* QP +5.0 */
-+        0x4001800000000000llu, /* QP +6.0 */
-+        0x4001C00000000000llu, /* QP +7.0 */
-+        0x7FFF000000000000llu, /* QP +Inf */
-+        0x7FFF800000000000llu, /* QP dQNaN */
-+        0, /* Unspecified */
-+        0, /* Unspecified */
-+        0, /* Unspecified */
-+        0, /* Unspecified */
-+        0, /* Unspecified */
-+        0, /* Unspecified */
-+        0x8000000000000000llu, /* QP -0.0 */
-+        0xBFFF000000000000llu, /* QP -1.0 */
-+        0xC000000000000000llu, /* QP -2.0 */
-+        0xC000800000000000llu, /* QP -3.0 */
-+        0xC001000000000000llu, /* QP -4.0 */
-+        0xC001400000000000llu, /* QP -5.0 */
-+        0xC001800000000000llu, /* QP -6.0 */
-+        0xC001C00000000000llu, /* QP -7.0 */
-+        0xFFFF000000000000llu, /* QP -Inf */
-+    };
-+
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
-+    REQUIRE_VSX(ctx);
-+
-+    if (values[a->uim]) {
-+        set_cpu_vsr(a->xt, tcg_constant_i64(0x0), false);
-+        set_cpu_vsr(a->xt, tcg_constant_i64(values[a->uim]), true);
-+    } else {
-+        gen_invalid(ctx);
-+    }
-+
-+    return true;
-+}
-+
- static void gen_xxsldwi(DisasContext *ctx)
- {
-     TCGv_i64 xth, xtl;
+ static bool trans_CNTLZDM(DisasContext *ctx, arg_X *a)
 -- 
 2.25.1
 
