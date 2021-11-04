@@ -2,73 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71F3144556B
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 15:37:36 +0100 (CET)
-Received: from localhost ([::1]:52460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D75A44556E
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 15:39:04 +0100 (CET)
+Received: from localhost ([::1]:57152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1midrz-0006Cq-32
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 10:37:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38680)
+	id 1midtP-0000xL-K8
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 10:39:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1midRN-0006FN-JN; Thu, 04 Nov 2021 10:10:07 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:41953)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1midRL-0002Ku-2h; Thu, 04 Nov 2021 10:10:05 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- f7-20020a1c1f07000000b0032ee11917ceso4408758wmf.0; 
- Thu, 04 Nov 2021 07:10:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=j0dbHIH7kx0P124G/r8aX5PzRPAKYNtVa7fkjmrzx54=;
- b=eICFF8UgvbcRDVz1yaCmvenYKGf7SFbB+BKeqFI2Po58kobhBhbzrSWX5lv1juaGly
- R4+IM4IkhyX3O6efsQMcLgPnk/ITFPunphX8pZDbvrL4PZIGQPacxZVHOwif04imkP4X
- oxj8lhg2o5GwHr8m8TlgR6C0onIm9exVMhWc++UhycxaY3X9jshMVqAkCxhn+DZoIulS
- EWn44uLBzcGLqwwHh/3zxOVPiN7DWZaEZpdDTewjoK+47c9j6BNSsF59p6Bhb4m07N1x
- Sps8yPjqcXRVjRGv5vBQVgys5YY1QU2sWE2t6k/YFCkFiKhkUXFtzGLbcsYAfptX6Qig
- 6ajg==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1midbf-00027I-FG
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 10:20:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59174)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1midbZ-0003pj-GY
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 10:20:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636035635;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gyw9TwpdW3ob4WTm2/tuTd5vwfmaBXHwhSuZQCiHqH8=;
+ b=ZyHILC1xmVFJHAJJyeMcZkuv4CFbKy8h0vXTagu38AnX9Rdm/pbSq22qkPI4V1uK6F6PVq
+ 7N7kqz61cxc0YZJt2q9s4PcOZhFxMGxNSaLEDax6nYCFQGGl+mJ3ojAi8Vk1k0NJ1YLTWD
+ I2p95B+wxO8QLkjAeByEc+X+Kqii/30=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-272-hQPvkhCSMOuVXgBxfNXblQ-1; Thu, 04 Nov 2021 10:20:34 -0400
+X-MC-Unique: hQPvkhCSMOuVXgBxfNXblQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ d11-20020a50cd4b000000b003da63711a8aso5800290edj.20
+ for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 07:20:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=j0dbHIH7kx0P124G/r8aX5PzRPAKYNtVa7fkjmrzx54=;
- b=EtpwMJR7o21xELwdsjJ6E68wLCJKjgMdfOTrWRlh5VxYzqqaflleOnwrEOXoSNsD5N
- ThqY0U8mEegrL3zDTudHbciB5YEvv8pt9I2/2trPcV7zcetZ6iuSviobt+jXvuqZvU/j
- EtrI+l5/U+TyLvKcvntOJthnqd6F6c8lphj3HcBjXPhwAKdBitnJnax+yoHUX9rSYfmG
- e3HVB8RL8GBCdtP1bzsw+aRHWpYLuSjgTmtrwY7ES+ynNlEsfD8XkCqCPpDhUmkj9Wyb
- 6xbESXY8LjRMAQq3YXvY30VQlSx9eZl1hBypwBV4qYMMW7G27imUBcTLQl9L+ZByZFsS
- Njdw==
-X-Gm-Message-State: AOAM533XxYxw/GnEkuYeCgv4VGC2U6JSXXUbk6VddkkU1ligpJw2+cu7
- /NoCu7+HcW9WelxRuvYrJXazxeXZgUs=
-X-Google-Smtp-Source: ABdhPJwWUdLtgkn9d2XUNF1UnZ+mbaA0lh085txCxNpgMkWxOrqCAf6hodWoTkATP2y92mDvcboBCA==
-X-Received: by 2002:a7b:cb12:: with SMTP id u18mr23268477wmj.109.1636035000821; 
- Thu, 04 Nov 2021 07:10:00 -0700 (PDT)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id n7sm5065330wra.37.2021.11.04.07.10.00
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=gyw9TwpdW3ob4WTm2/tuTd5vwfmaBXHwhSuZQCiHqH8=;
+ b=M30uxi/yxHpi++Q0KxKYz3sxgWO3vrkN3x/XvTKVEY1yB2JXWVIAIX4+2+cJ1m0NFE
+ qnfZsduXr/fEKrqzP5CI3mfm8+A3UkE5C1ylvdqKw4LNTET2qt3p6rDM53dIvvOHvidV
+ lo9yTfg59QB/h7+IykecrH3lCIFIWOPkfynkv+SwagqBXpx7jkKdwzE0fw/wzzHo2CJr
+ KBLBpwpj82fQNbOTeaRDiAdT5LQkrYgUMfbkDXQxpoYJ5qL8XD5lnlnIQgJQpbLLwwvc
+ AiPZeP3xBcNF2sx2QZTn9VGN2rnf7TlKRp4EhDy4vlzwpSF+KAaLIk8vtGXwzaJxkmsg
+ VYLA==
+X-Gm-Message-State: AOAM532U0TJNe6UdEcp96bwVhReI2dRTOKLMvJ2a7liW2gFJhEwOGYHP
+ +rnzBzR7elNf08o0bzLs99Dw3UE0oiAx8fCPn7q0HsWMNwbL83h2EhUYiGNh/f7gUN8XrlCRPm3
+ WwXvmNo7tSbzOvmY=
+X-Received: by 2002:a05:6402:2753:: with SMTP id
+ z19mr39214602edd.143.1636035632884; 
+ Thu, 04 Nov 2021 07:20:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx2lYqLSSYaTcUz9qdo81HdOJnPHR9GA+bOqs4ydmtBa5Z8G1MMOuY7Fc54y7+oQOHUQw1Q8Q==
+X-Received: by 2002:a05:6402:2753:: with SMTP id
+ z19mr39214571edd.143.1636035632563; 
+ Thu, 04 Nov 2021 07:20:32 -0700 (PDT)
+Received: from steredhat (host-87-10-72-39.retail.telecomitalia.it.
+ [87.10.72.39])
+ by smtp.gmail.com with ESMTPSA id b20sm3206191edd.50.2021.11.04.07.20.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Nov 2021 07:10:00 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target-i386: mmu: fix handling of noncanonical virtual
- addresses
-Date: Thu,  4 Nov 2021 15:09:58 +0100
-Message-Id: <20211104140958.445304-2-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.33.1
+ Thu, 04 Nov 2021 07:20:32 -0700 (PDT)
+Date: Thu, 4 Nov 2021 15:20:29 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH] file-posix: Fix alignment after reopen changing O_DIRECT
+Message-ID: <20211104142029.gcfgwrq4wuvzg5as@steredhat>
+References: <20211104113109.56336-1-kwolf@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20211104113109.56336-1-kwolf@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,66 +96,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-stable@nongnu.org
+Cc: hreitz@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-mmu_translate is supposed to return an error code for page faults; it is
-not able to handle other exceptions.  The #GP case for noncanonical
-virtual addresses is not handled correctly, and incorrectly raised as
-a page fault with error code 1.  Since it cannot happen for nested
-page tables, move it directly to handle_mmu_fault, even before the
-invocation of mmu_translate.
+On Thu, Nov 04, 2021 at 12:31:09PM +0100, Kevin Wolf wrote:
+>At the end of a reopen, we already call bdrv_refresh_limits(), which
+>should update bs->request_alignment according to the new file
+>descriptor. However, raw_probe_alignment() relies on s->needs_alignment
+>and just uses 1 if it isn't set. We neglected to update this field, so
+>starting with cache=writeback and then reopening with cache=none means
+>that we get an incorrect bs->request_alignment == 1 and unaligned
+>requests fail instead of being automatically aligned.
+>
+>Fix this by recalculating s->needs_alignment in raw_refresh_limits()
+>before calling raw_probe_alignment().
+>
+>Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+>---
+> block/file-posix.c         | 20 ++++++++++++++++----
+> tests/qemu-iotests/142     | 22 ++++++++++++++++++++++
+> tests/qemu-iotests/142.out | 15 +++++++++++++++
+> 3 files changed, 53 insertions(+), 4 deletions(-)
+>
+>diff --git a/block/file-posix.c b/block/file-posix.c
+>index 7a27c83060..3f14e47096 100644
+>--- a/block/file-posix.c
+>+++ b/block/file-posix.c
+>@@ -167,6 +167,7 @@ typedef struct BDRVRawState {
+>     int page_cache_inconsistent; /* errno from fdatasync failure */
+>     bool has_fallocate;
+>     bool needs_alignment;
+>+    bool force_alignment;
+>     bool drop_cache;
+>     bool check_cache_dropped;
+>     struct {
+>@@ -351,6 +352,17 @@ static bool dio_byte_aligned(int fd)
+>     return false;
+> }
+>
+>+static int raw_needs_alignment(BlockDriverState *bs)
 
-Fixes: 661ff4879e ("target/i386: extract mmu_translate", 2021-05-11)
-Cc: qemu-stable@nongnu.org
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Fixes: #676
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/tcg/sysemu/excp_helper.c | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+If you need to respin, maybe it's better to use `bool` as return type.
 
-diff --git a/target/i386/tcg/sysemu/excp_helper.c b/target/i386/tcg/sysemu/excp_helper.c
-index 492b777de9..5ba739fbed 100644
---- a/target/i386/tcg/sysemu/excp_helper.c
-+++ b/target/i386/tcg/sysemu/excp_helper.c
-@@ -94,15 +94,6 @@ static int mmu_translate(CPUState *cs, hwaddr addr, MMUTranslateFunc get_hphys_f
-             bool la57 = pg_mode & PG_MODE_LA57;
-             uint64_t pml5e_addr, pml5e;
-             uint64_t pml4e_addr, pml4e;
--            int32_t sext;
--
--            /* test virtual address sign extension */
--            sext = la57 ? (int64_t)addr >> 56 : (int64_t)addr >> 47;
--            if (get_hphys_func && sext != 0 && sext != -1) {
--                env->error_code = 0;
--                cs->exception_index = EXCP0D_GPF;
--                return 1;
--            }
- 
-             if (la57) {
-                 pml5e_addr = ((cr3 & ~0xfff) +
-@@ -423,6 +414,18 @@ static int handle_mmu_fault(CPUState *cs, vaddr addr, int size,
-         page_size = 4096;
-     } else {
-         pg_mode = get_pg_mode(env);
-+        if (pg_mode & PG_MODE_LMA) {
-+            int32_t sext;
-+
-+            /* test virtual address sign extension */
-+            sext = (int64_t)addr >> (pg_mode & PG_MODE_LA57 ? 56 : 47);
-+            if (sext != 0 && sext != -1) {
-+                env->error_code = 0;
-+                cs->exception_index = EXCP0D_GPF;
-+                return 1;
-+            }
-+        }
-+
-         error_code = mmu_translate(cs, addr, get_hphys, env->cr[3], is_write1,
-                                    mmu_idx, pg_mode,
-                                    &paddr, &page_size, &prot);
--- 
-2.33.1
+In both cases:
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+
+Stefano
 
 
