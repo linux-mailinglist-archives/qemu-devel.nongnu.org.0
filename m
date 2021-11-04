@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F782445662
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 16:33:44 +0100 (CET)
-Received: from localhost ([::1]:46688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCAE9445663
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 16:33:49 +0100 (CET)
+Received: from localhost ([::1]:47454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miekJ-0003K9-9m
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 11:33:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39204)
+	id 1miekO-0003pR-Qr
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 11:33:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mieiF-00013I-Qz
+ id 1mieiF-00013F-R5
  for qemu-devel@nongnu.org; Thu, 04 Nov 2021 11:31:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29745)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mieiB-0001ZK-Rt
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 11:31:35 -0400
+ id 1mieiB-0001ZU-Re
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 11:31:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636039889;
+ s=mimecast20190719; t=1636039890;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rg8uNk2U/6ViTXA4DKvtPvKzhhjqi7B9P87HvZTJcO8=;
- b=DpsLvkNnxyqIMOs5Aj+AnNBU+7ABFx4wDd0Mzzjoh1sMkMhQTf83GJSEilTay09ANPalhP
- P5DYTY9E4E9DOxR0dfseC91oRJATOTOIlAERGA28uMsDRsH680b91Pi2jeGftdkXToCPcD
- nA3KAsKsT4OAV8fKyfGfxvbwxtUv/SI=
+ bh=kHrKZspW4xfOAJZsV1LkSiCBylCFy5gWcth4e3lvJjg=;
+ b=A2ra7grqov8z9pw2FvXJ14CdiaIhVGm736Ee5QbtHc2UM+LQ1SRNKbeEdHt7PjILCcDHLi
+ fr/adbxDvQJ6+Jy+aBQIjiM+1pBhCbt2AWQRuvo6y+nLTFgMv20suVF+Hp/bcJmnwvPgXQ
+ G3CmIUUT2iRU43tArzBrZ+RwqKIILQQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-58-jlYLjh_7Os6AQe_gfF818w-1; Thu, 04 Nov 2021 11:31:26 -0400
-X-MC-Unique: jlYLjh_7Os6AQe_gfF818w-1
+ us-mta-121-CzQIS4NLOxq5_LTRTZdOZg-1; Thu, 04 Nov 2021 11:31:27 -0400
+X-MC-Unique: CzQIS4NLOxq5_LTRTZdOZg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5257B801107;
- Thu,  4 Nov 2021 15:31:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04E7911B4C04;
+ Thu,  4 Nov 2021 15:31:26 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AB003652AC;
- Thu,  4 Nov 2021 15:31:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C66F67840;
+ Thu,  4 Nov 2021 15:31:25 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [RFC PATCH 1/3] jobs: add job-common.h
-Date: Thu,  4 Nov 2021 11:31:19 -0400
-Message-Id: <20211104153121.1362449-2-eesposit@redhat.com>
+Subject: [RFC PATCH 2/3] jobs: add job-monitor.h
+Date: Thu,  4 Nov 2021 11:31:20 -0400
+Message-Id: <20211104153121.1362449-3-eesposit@redhat.com>
 In-Reply-To: <20211104153121.1362449-1-eesposit@redhat.com>
 References: <20211104153121.1362449-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -58,15 +58,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,28 +86,26 @@ Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-job-common.h contains all struct and common function that currently
-are in job.h and will be shared by job-monitor and job-driver in
-the next commits.
-
-Also move job_type() and job_type_str() there, as they are
-common helper functions.
+job-monitor.h contains all functions of job.h that are used by the
+monitor and essentially all functions that do not define a
+JobDriver/Blockdriver.
 
 No functional change intended.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- include/qemu/job-common.h | 336 ++++++++++++++++++++++++++++++++++++++
- include/qemu/job.h        | 307 +---------------------------------
- 2 files changed, 337 insertions(+), 306 deletions(-)
- create mode 100644 include/qemu/job-common.h
+ include/qemu/job-monitor.h | 282 +++++++++++++++++++++++++++++++++++++
+ include/qemu/job.h         | 228 +-----------------------------
+ job.c                      |   1 +
+ 3 files changed, 284 insertions(+), 227 deletions(-)
+ create mode 100644 include/qemu/job-monitor.h
 
-diff --git a/include/qemu/job-common.h b/include/qemu/job-common.h
+diff --git a/include/qemu/job-monitor.h b/include/qemu/job-monitor.h
 new file mode 100644
-index 0000000000..d2968a848e
+index 0000000000..7189cdafef
 --- /dev/null
-+++ b/include/qemu/job-common.h
-@@ -0,0 +1,336 @@
++++ b/include/qemu/job-monitor.h
+@@ -0,0 +1,282 @@
 +/*
 + * Declarations for background jobs
 + *
@@ -133,642 +131,551 @@ index 0000000000..d2968a848e
 + * THE SOFTWARE.
 + */
 +
-+#ifndef JOB_COMMON_H
-+#define JOB_COMMON_H
++#ifndef JOB_MONITOR_H
++#define JOB_MONITOR_H
 +
-+#include "qapi/qapi-types-job.h"
-+#include "qemu/queue.h"
-+#include "qemu/progress_meter.h"
-+#include "qemu/coroutine.h"
-+#include "block/aio.h"
++#include "job-common.h"
 +
-+typedef struct JobDriver JobDriver;
-+typedef struct JobTxn JobTxn;
-+
-+
-+/**
-+ * Long-running operation.
-+ */
-+typedef struct Job {
-+
-+    /* Fields set at initialization (job_create), and never modified */
-+
-+    /** The ID of the job. May be NULL for internal jobs. */
-+    char *id;
-+
-+    /**
-+     * The type of this job.
-+     * All callbacks are called with job_mutex *not* held.
-+     */
-+    const JobDriver *driver;
-+
-+    /** AioContext to run the job coroutine in */
-+    AioContext *aio_context;
-+
-+    /**
-+     * The coroutine that executes the job.  If not NULL, it is reentered when
-+     * busy is false and the job is cancelled.
-+     * Initialized in job_start()
-+     */
-+    Coroutine *co;
-+
-+    /** True if this job should automatically finalize itself */
-+    bool auto_finalize;
-+
-+    /** True if this job should automatically dismiss itself */
-+    bool auto_dismiss;
-+
-+    /** The completion function that will be called when the job completes.  */
-+    BlockCompletionFunc *cb;
-+
-+    /** The opaque value that is passed to the completion function.  */
-+    void *opaque;
-+
-+    /* ProgressMeter API is thread-safe */
-+    ProgressMeter progress;
-+
-+
-+    /** Protected by job_mutex */
-+
-+    /** Reference count of the block job */
-+    int refcnt;
-+
-+    /** Current state; See @JobStatus for details. */
-+    JobStatus status;
-+
-+    /**
-+     * Timer that is used by @job_sleep_ns. Accessed under job_mutex (in
-+     * job.c).
-+     */
-+    QEMUTimer sleep_timer;
-+
-+    /**
-+     * Counter for pause request. If non-zero, the block job is either paused,
-+     * or if busy == true will pause itself as soon as possible.
-+     */
-+    int pause_count;
-+
-+    /**
-+     * Set to false by the job while the coroutine has yielded and may be
-+     * re-entered by job_enter(). There may still be I/O or event loop activity
-+     * pending. Accessed under job_mutex.
-+     *
-+     * When the job is deferred to the main loop, busy is true as long as the
-+     * bottom half is still pending.
-+     */
-+    bool busy;
-+
-+    /**
-+     * Set to true by the job while it is in a quiescent state, where
-+     * no I/O or event loop activity is pending.
-+     */
-+    bool paused;
-+
-+    /**
-+     * Set to true if the job is paused by user.  Can be unpaused with the
-+     * block-job-resume QMP command.
-+     */
-+    bool user_paused;
-+
-+    /**
-+     * Set to true if the job should cancel itself.  The flag must
-+     * always be tested just before toggling the busy flag from false
-+     * to true.  After a job has been cancelled, it should only yield
-+     * if #aio_poll will ("sooner or later") reenter the coroutine.
-+     */
-+    bool cancelled;
-+
-+    /**
-+     * Set to true if the job should abort immediately without waiting
-+     * for data to be in sync.
-+     */
-+    bool force_cancel;
-+
-+    /** Set to true when the job has deferred work to the main loop. */
-+    bool deferred_to_main_loop;
-+
-+    /**
-+     * Return code from @run and/or @prepare callback(s).
-+     * Not final until the job has reached the CONCLUDED status.
-+     * 0 on success, -errno on failure.
-+     */
-+    int ret;
-+
-+    /**
-+     * Error object for a failed job.
-+     * If job->ret is nonzero and an error object was not set, it will be set
-+     * to strerror(-job->ret) during job_completed.
-+     */
-+    Error *err;
-+
-+    /** Notifiers called when a cancelled job is finalised */
-+    NotifierList on_finalize_cancelled;
-+
-+    /** Notifiers called when a successfully completed job is finalised */
-+    NotifierList on_finalize_completed;
-+
-+    /** Notifiers called when the job transitions to PENDING */
-+    NotifierList on_pending;
-+
-+    /** Notifiers called when the job transitions to READY */
-+    NotifierList on_ready;
-+
-+    /** Notifiers called when the job coroutine yields or terminates */
-+    NotifierList on_idle;
-+
-+    /** Element of the list of jobs */
-+    QLIST_ENTRY(Job) job_list;
-+
-+    /** Transaction this job is part of */
-+    JobTxn *txn;
-+
-+    /** Element of the list of jobs in a job transaction */
-+    QLIST_ENTRY(Job) txn_list;
-+} Job;
-+
-+/**
-+ * Callbacks and other information about a Job driver.
-+ * All callbacks are invoked with job_mutex *not* held.
-+ */
-+struct JobDriver {
-+
-+    /* Fields initialized in struct definition and never changed. */
-+
-+    /** Derived Job struct size */
-+    size_t instance_size;
-+
-+    /** Enum describing the operation */
-+    JobType job_type;
-+
-+    /*
-+     * Functions run without regard to the BQL and may run in any
-+     * arbitrary thread. These functions do not need to be thread-safe
-+     * because the caller ensures that are invoked from one thread at time.
-+     */
-+
-+    /**
-+     * Mandatory: Entrypoint for the Coroutine.
-+     *
-+     * This callback will be invoked when moving from CREATED to RUNNING.
-+     *
-+     * If this callback returns nonzero, the job transaction it is part of is
-+     * aborted. If it returns zero, the job moves into the WAITING state. If it
-+     * is the last job to complete in its transaction, all jobs in the
-+     * transaction move from WAITING to PENDING.
-+     */
-+    int coroutine_fn (*run)(Job *job, Error **errp);
-+
-+    /**
-+     * If the callback is not NULL, it will be invoked when the job transitions
-+     * into the paused state.  Paused jobs must not perform any asynchronous
-+     * I/O or event loop activity.  This callback is used to quiesce jobs.
-+     */
-+    void coroutine_fn (*pause)(Job *job);
-+
-+    /**
-+     * If the callback is not NULL, it will be invoked when the job transitions
-+     * out of the paused state.  Any asynchronous I/O or event loop activity
-+     * should be restarted from this callback.
-+     */
-+    void coroutine_fn (*resume)(Job *job);
-+
-+    /*
-+     * Global state (GS) API. These functions run under the BQL lock.
-+     *
-+     * See include/block/block-global-state.h for more information about
-+     * the GS API.
-+     */
-+
-+    /**
-+     * Called when the job is resumed by the user (i.e. user_paused becomes
-+     * false). .user_resume is called before .resume.
-+     */
-+    void (*user_resume)(Job *job);
-+
-+    /**
-+     * Optional callback for job types whose completion must be triggered
-+     * manually.
-+     */
-+    void (*complete)(Job *job, Error **errp);
-+
-+    /**
-+     * If the callback is not NULL, prepare will be invoked when all the jobs
-+     * belonging to the same transaction complete; or upon this job's completion
-+     * if it is not in a transaction.
-+     *
-+     * This callback will not be invoked if the job has already failed.
-+     * If it fails, abort and then clean will be called.
-+     */
-+    int (*prepare)(Job *job);
-+
-+    /**
-+     * If the callback is not NULL, it will be invoked when all the jobs
-+     * belonging to the same transaction complete; or upon this job's
-+     * completion if it is not in a transaction. Skipped if NULL.
-+     *
-+     * All jobs will complete with a call to either .commit() or .abort() but
-+     * never both.
-+     */
-+    void (*commit)(Job *job);
-+
-+    /**
-+     * If the callback is not NULL, it will be invoked when any job in the
-+     * same transaction fails; or upon this job's failure (due to error or
-+     * cancellation) if it is not in a transaction. Skipped if NULL.
-+     *
-+     * All jobs will complete with a call to either .commit() or .abort() but
-+     * never both.
-+     */
-+    void (*abort)(Job *job);
-+
-+    /**
-+     * If the callback is not NULL, it will be invoked after a call to either
-+     * .commit() or .abort(). Regardless of which callback is invoked after
-+     * completion, .clean() will always be called, even if the job does not
-+     * belong to a transaction group.
-+     */
-+    void (*clean)(Job *job);
-+
-+    /**
-+     * If the callback is not NULL, it will be invoked in job_cancel_async
-+     *
-+     * This function must return true if the job will be cancelled
-+     * immediately without any further I/O (mandatory if @force is
-+     * true), and false otherwise.  This lets the generic job layer
-+     * know whether a job has been truly (force-)cancelled, or whether
-+     * it is just in a special completion mode (like mirror after
-+     * READY).
-+     * (If the callback is NULL, the job is assumed to terminate
-+     * without I/O.)
-+     */
-+    bool (*cancel)(Job *job, bool force);
-+
-+
-+    /** Called when the job is freed */
-+    void (*free)(Job *job);
-+};
-+
-+typedef enum JobCreateFlags {
-+    /* Default behavior */
-+    JOB_DEFAULT = 0x00,
-+    /* Job is not QMP-created and should not send QMP events */
-+    JOB_INTERNAL = 0x01,
-+    /* Job requires manual finalize step */
-+    JOB_MANUAL_FINALIZE = 0x02,
-+    /* Job requires manual dismiss step */
-+    JOB_MANUAL_DISMISS = 0x04,
-+} JobCreateFlags;
-+
-+/**
-+ * job_lock:
++/*
++ * Job monitor API.
 + *
-+ * Take the mutex protecting the list of jobs and their status.
-+ * Most functions called by the monitor need to call job_lock
-+ * and job_unlock manually.  On the other hand, function called
-+ * by the block jobs themselves and by the block layer will take the
-+ * lock for you.
++ * These functions use are used by the QEMU monitor, for example
++ * to execute QMP commands. The monitor is aware of the job_mutex
++ * presence, so these functions assume it is held by the caller
++ * to protect job fields (see job-common.h).
++ * This prevents TOC/TOU bugs, allowing the caller to hold the
++ * lock between a check in the job state and the actual action.
++ *
++ * Therefore, each function in this API that needs protection
++ * must have the comment
++ * "Called between job_lock and job_unlock."
 + */
-+void job_lock(void);
 +
 +/**
-+ * job_unlock:
++ * Allocate and return a new job transaction. Jobs can be added to the
++ * transaction using job_txn_add_job().
 + *
-+ * Release the mutex protecting the list of jobs and their status.
++ * The transaction is automatically freed when the last job completes or is
++ * cancelled.
++ *
++ * All jobs in the transaction either complete successfully or fail/cancel as a
++ * group.  Jobs wait for each other before completing.  Cancelling one job
++ * cancels all jobs in the transaction.
 + */
-+void job_unlock(void);
++JobTxn *job_txn_new(void);
 +
-+/** Returns the JobType of a given Job. */
-+JobType job_type(const Job *job);
++/**
++ * Release a reference that was previously acquired with job_txn_add_job or
++ * job_txn_new. If it's the last reference to the object, it will be freed.
++ */
++void job_txn_unref(JobTxn *txn);
 +
-+/** Returns the enum string for the JobType of a given Job. */
-+const char *job_type_str(const Job *job);
++/**
++ * @txn: The transaction (may be NULL)
++ * @job: Job to add to the transaction
++ *
++ * Add @job to the transaction.  The @job must not already be in a transaction.
++ * The caller must call either job_txn_unref() or job_completed() to release
++ * the reference that is automatically grabbed here.
++ *
++ * If @txn is NULL, the function does nothing.
++ *
++ * Called between job_lock and job_unlock.
++ */
++void job_txn_add_job(JobTxn *txn, Job *job);
++
++/**
++ * Add a reference to Job refcnt, it will be decreased with job_unref, and then
++ * be freed if it comes to be the last reference.
++ *
++ * Called between job_lock and job_unlock.
++ */
++void job_ref(Job *job);
++
++/**
++ * Release a reference that was previously acquired with job_ref() or
++ * job_create(). If it's the last reference to the object, it will be freed.
++ *
++ * Called between job_lock and job_unlock.
++ */
++void job_unref(Job *job);
++
++/**
++ * Conditionally enter the job coroutine if the job is ready to run, not
++ * already busy and fn() returns true. fn() is called while under the job_lock
++ * critical section.
++ *
++ * Called between job_lock and job_unlock, but it releases the lock temporarly.
++ */
++void job_enter_cond(Job *job, bool(*fn)(Job *job));
++
++/**
++ * Returns true if the job should not be visible to the management layer.
++ */
++bool job_is_internal(Job *job);
++
++/**
++ * Returns whether the job is in a completed state.
++ * Called between job_lock and job_unlock.
++ */
++bool job_is_completed(Job *job);
++
++/**
++ * Request @job to pause at the next pause point. Must be paired with
++ * job_resume(). If the job is supposed to be resumed by user action, call
++ * job_user_pause() instead.
++ *
++ * Called between job_lock and job_unlock.
++ */
++void job_pause(Job *job);
++
++/**
++ * Resumes a @job paused with job_pause.
++ * Called between job_lock and job_unlock.
++ */
++void job_resume(Job *job);
++
++/**
++ * Asynchronously pause the specified @job.
++ * Do not allow a resume until a matching call to job_user_resume.
++ *
++ * Called between job_lock and job_unlock.
++ */
++void job_user_pause(Job *job, Error **errp);
++
++/**
++ * Returns true if the job is user-paused.
++ * Called between job_lock and job_unlock.
++ */
++bool job_user_paused(Job *job);
++
++/**
++ * Resume the specified @job.
++ * Must be paired with a preceding job_user_pause.
++ *
++ * Called between job_lock and job_unlock.
++ */
++void job_user_resume(Job *job, Error **errp);
++
++/**
++ * Get the next element from the list of block jobs after @job, or the
++ * first one if @job is %NULL.
++ *
++ * Returns the requested job, or %NULL if there are no more jobs left.
++ *
++ * Called between job_lock and job_unlock.
++ */
++Job *job_next(Job *job);
++
++/**
++ * Get the job identified by @id (which must not be %NULL).
++ *
++ * Returns the requested job, or %NULL if it doesn't exist.
++ *
++ * Called between job_lock and job_unlock.
++ */
++Job *job_get(const char *id);
++
++/**
++ * Check whether the verb @verb can be applied to @job in its current state.
++ * Returns 0 if the verb can be applied; otherwise errp is set and -EPERM
++ * returned.
++ *
++ * Called between job_lock and job_unlock.
++ */
++int job_apply_verb(Job *job, JobVerb verb, Error **errp);
++
++/**
++ * Asynchronously complete the specified @job.
++ * Called between job_lock and job_unlock, but it releases the lock temporarly.
++ */
++void job_complete(Job *job, Error **errp);
++
++/**
++ * Asynchronously cancel the specified @job. If @force is true, the job should
++ * be cancelled immediately without waiting for a consistent state.
++ *
++ * Called between job_lock and job_unlock.
++ */
++void job_cancel(Job *job, bool force);
++
++/**
++ * Cancels the specified job like job_cancel(), but may refuse to do so if the
++ * operation isn't meaningful in the current state of the job.
++ *
++ * Called between job_lock and job_unlock.
++ */
++void job_user_cancel(Job *job, bool force, Error **errp);
++
++/**
++ * Synchronously cancel the @job.  The completion callback is called
++ * before the function returns.  If @force is false, the job may
++ * actually complete instead of canceling itself; the circumstances
++ * under which this happens depend on the kind of job that is active.
++ *
++ * Returns the return value from the job if the job actually completed
++ * during the call, or -ECANCELED if it was canceled.
++ *
++ * Callers must hold the AioContext lock of job->aio_context.
++ */
++int job_cancel_sync(Job *job, bool force);
++
++/**
++ * Synchronously force-cancels all jobs using job_cancel_sync().
++ *
++ * Called with job_lock *not* held, unlike most other APIs consumed
++ * by the monitor! This is primarly to avoid adding unnecessary lock-unlock
++ * patterns in the caller.
++ */
++void job_cancel_sync_all(void);
++
++/**
++ * @job: The job to be completed.
++ * @errp: Error object which may be set by job_complete(); this is not
++ *        necessarily set on every error, the job return value has to be
++ *        checked as well.
++ *
++ * Synchronously complete the job.  The completion callback is called before the
++ * function returns, unless it is NULL (which is permissible when using this
++ * function).
++ *
++ * Returns the return value from the job.
++ *
++ * Callers must hold the AioContext lock of job->aio_context.
++ *
++ * Called between job_lock and job_unlock.
++ */
++int job_complete_sync(Job *job, Error **errp);
++
++/**
++ * For a @job that has finished its work and is pending awaiting explicit
++ * acknowledgement to commit its work, this will commit that work.
++ *
++ * FIXME: Make the below statement universally true:
++ * For jobs that support the manual workflow mode, all graph changes that occur
++ * as a result will occur after this command and before a successful reply.
++ *
++ * Called between job_lock and job_unlock.
++ */
++void job_finalize(Job *job, Error **errp);
++
++/**
++ * Remove the concluded @job from the query list and resets the passed pointer
++ * to %NULL. Returns an error if the job is not actually concluded.
++ *
++ * Called between job_lock and job_unlock.
++ */
++void job_dismiss(Job **job, Error **errp);
++
++/**
++ * Synchronously finishes the given @job. If @finish is given, it is called to
++ * trigger completion or cancellation of the job.
++ *
++ * Returns 0 if the job is successfully completed, -ECANCELED if the job was
++ * cancelled before completing, and -errno in other error cases.
++ *
++ * Callers must hold the AioContext lock of job->aio_context.
++ *
++ * Called between job_lock and job_unlock, but it releases the lock temporarly.
++ */
++int job_finish_sync(Job *job, void (*finish)(Job *, Error **errp),
++                    Error **errp);
++
++/** Same as job_is_ready(), but assumes job_lock is held. */
++bool job_is_ready_locked(Job *job);
++
++/** Same as job_early_fail(), but assumes job_lock is held. */
++void job_early_fail_locked(Job *job);
 +
 +#endif
 diff --git a/include/qemu/job.h b/include/qemu/job.h
-index d417e1b601..0003b636bc 100644
+index 0003b636bc..79f5367f3d 100644
 --- a/include/qemu/job.h
 +++ b/include/qemu/job.h
-@@ -26,306 +26,7 @@
+@@ -26,40 +26,7 @@
  #ifndef JOB_H
  #define JOB_H
  
--#include "qapi/qapi-types-job.h"
--#include "qemu/queue.h"
--#include "qemu/progress_meter.h"
--#include "qemu/coroutine.h"
--#include "block/aio.h"
--
--typedef struct JobDriver JobDriver;
--typedef struct JobTxn JobTxn;
--
+-#include "job-common.h"
 -
 -/**
-- * Long-running operation.
-- */
--typedef struct Job {
--
--    /* Fields set at initialization (job_create), and never modified */
--
--    /** The ID of the job. May be NULL for internal jobs. */
--    char *id;
--
--    /**
--     * The type of this job.
--     * All callbacks are called with job_mutex *not* held.
--     */
--    const JobDriver *driver;
--
--    /** AioContext to run the job coroutine in */
--    AioContext *aio_context;
--
--    /**
--     * The coroutine that executes the job.  If not NULL, it is reentered when
--     * busy is false and the job is cancelled.
--     * Initialized in job_start()
--     */
--    Coroutine *co;
--
--    /** True if this job should automatically finalize itself */
--    bool auto_finalize;
--
--    /** True if this job should automatically dismiss itself */
--    bool auto_dismiss;
--
--    /** The completion function that will be called when the job completes.  */
--    BlockCompletionFunc *cb;
--
--    /** The opaque value that is passed to the completion function.  */
--    void *opaque;
--
--    /* ProgressMeter API is thread-safe */
--    ProgressMeter progress;
--
--
--    /** Protected by job_mutex */
--
--    /** Reference count of the block job */
--    int refcnt;
--
--    /** Current state; See @JobStatus for details. */
--    JobStatus status;
--
--    /**
--     * Timer that is used by @job_sleep_ns. Accessed under job_mutex (in
--     * job.c).
--     */
--    QEMUTimer sleep_timer;
--
--    /**
--     * Counter for pause request. If non-zero, the block job is either paused,
--     * or if busy == true will pause itself as soon as possible.
--     */
--    int pause_count;
--
--    /**
--     * Set to false by the job while the coroutine has yielded and may be
--     * re-entered by job_enter(). There may still be I/O or event loop activity
--     * pending. Accessed under job_mutex.
--     *
--     * When the job is deferred to the main loop, busy is true as long as the
--     * bottom half is still pending.
--     */
--    bool busy;
--
--    /**
--     * Set to true by the job while it is in a quiescent state, where
--     * no I/O or event loop activity is pending.
--     */
--    bool paused;
--
--    /**
--     * Set to true if the job is paused by user.  Can be unpaused with the
--     * block-job-resume QMP command.
--     */
--    bool user_paused;
--
--    /**
--     * Set to true if the job should cancel itself.  The flag must
--     * always be tested just before toggling the busy flag from false
--     * to true.  After a job has been cancelled, it should only yield
--     * if #aio_poll will ("sooner or later") reenter the coroutine.
--     */
--    bool cancelled;
--
--    /**
--     * Set to true if the job should abort immediately without waiting
--     * for data to be in sync.
--     */
--    bool force_cancel;
--
--    /** Set to true when the job has deferred work to the main loop. */
--    bool deferred_to_main_loop;
--
--    /**
--     * Return code from @run and/or @prepare callback(s).
--     * Not final until the job has reached the CONCLUDED status.
--     * 0 on success, -errno on failure.
--     */
--    int ret;
--
--    /**
--     * Error object for a failed job.
--     * If job->ret is nonzero and an error object was not set, it will be set
--     * to strerror(-job->ret) during job_completed.
--     */
--    Error *err;
--
--    /** Notifiers called when a cancelled job is finalised */
--    NotifierList on_finalize_cancelled;
--
--    /** Notifiers called when a successfully completed job is finalised */
--    NotifierList on_finalize_completed;
--
--    /** Notifiers called when the job transitions to PENDING */
--    NotifierList on_pending;
--
--    /** Notifiers called when the job transitions to READY */
--    NotifierList on_ready;
--
--    /** Notifiers called when the job coroutine yields or terminates */
--    NotifierList on_idle;
--
--    /** Element of the list of jobs */
--    QLIST_ENTRY(Job) job_list;
--
--    /** Transaction this job is part of */
--    JobTxn *txn;
--
--    /** Element of the list of jobs in a job transaction */
--    QLIST_ENTRY(Job) txn_list;
--} Job;
--
--/**
-- * Callbacks and other information about a Job driver.
-- * All callbacks are invoked with job_mutex *not* held.
-- */
--struct JobDriver {
--
--    /* Fields initialized in struct definition and never changed. */
--
--    /** Derived Job struct size */
--    size_t instance_size;
--
--    /** Enum describing the operation */
--    JobType job_type;
--
--    /*
--     * Functions run without regard to the BQL and may run in any
--     * arbitrary thread. These functions do not need to be thread-safe
--     * because the caller ensures that are invoked from one thread at time.
--     */
--
--    /**
--     * Mandatory: Entrypoint for the Coroutine.
--     *
--     * This callback will be invoked when moving from CREATED to RUNNING.
--     *
--     * If this callback returns nonzero, the job transaction it is part of is
--     * aborted. If it returns zero, the job moves into the WAITING state. If it
--     * is the last job to complete in its transaction, all jobs in the
--     * transaction move from WAITING to PENDING.
--     */
--    int coroutine_fn (*run)(Job *job, Error **errp);
--
--    /**
--     * If the callback is not NULL, it will be invoked when the job transitions
--     * into the paused state.  Paused jobs must not perform any asynchronous
--     * I/O or event loop activity.  This callback is used to quiesce jobs.
--     */
--    void coroutine_fn (*pause)(Job *job);
--
--    /**
--     * If the callback is not NULL, it will be invoked when the job transitions
--     * out of the paused state.  Any asynchronous I/O or event loop activity
--     * should be restarted from this callback.
--     */
--    void coroutine_fn (*resume)(Job *job);
--
--    /*
--     * Global state (GS) API. These functions run under the BQL lock.
--     *
--     * See include/block/block-global-state.h for more information about
--     * the GS API.
--     */
--
--    /**
--     * Called when the job is resumed by the user (i.e. user_paused becomes
--     * false). .user_resume is called before .resume.
--     */
--    void (*user_resume)(Job *job);
--
--    /**
--     * Optional callback for job types whose completion must be triggered
--     * manually.
--     */
--    void (*complete)(Job *job, Error **errp);
--
--    /**
--     * If the callback is not NULL, prepare will be invoked when all the jobs
--     * belonging to the same transaction complete; or upon this job's completion
--     * if it is not in a transaction.
--     *
--     * This callback will not be invoked if the job has already failed.
--     * If it fails, abort and then clean will be called.
--     */
--    int (*prepare)(Job *job);
--
--    /**
--     * If the callback is not NULL, it will be invoked when all the jobs
--     * belonging to the same transaction complete; or upon this job's
--     * completion if it is not in a transaction. Skipped if NULL.
--     *
--     * All jobs will complete with a call to either .commit() or .abort() but
--     * never both.
--     */
--    void (*commit)(Job *job);
--
--    /**
--     * If the callback is not NULL, it will be invoked when any job in the
--     * same transaction fails; or upon this job's failure (due to error or
--     * cancellation) if it is not in a transaction. Skipped if NULL.
--     *
--     * All jobs will complete with a call to either .commit() or .abort() but
--     * never both.
--     */
--    void (*abort)(Job *job);
--
--    /**
--     * If the callback is not NULL, it will be invoked after a call to either
--     * .commit() or .abort(). Regardless of which callback is invoked after
--     * completion, .clean() will always be called, even if the job does not
--     * belong to a transaction group.
--     */
--    void (*clean)(Job *job);
--
--    /**
--     * If the callback is not NULL, it will be invoked in job_cancel_async
--     *
--     * This function must return true if the job will be cancelled
--     * immediately without any further I/O (mandatory if @force is
--     * true), and false otherwise.  This lets the generic job layer
--     * know whether a job has been truly (force-)cancelled, or whether
--     * it is just in a special completion mode (like mirror after
--     * READY).
--     * (If the callback is NULL, the job is assumed to terminate
--     * without I/O.)
--     */
--    bool (*cancel)(Job *job, bool force);
--
--
--    /** Called when the job is freed */
--    void (*free)(Job *job);
--};
--
--typedef enum JobCreateFlags {
--    /* Default behavior */
--    JOB_DEFAULT = 0x00,
--    /* Job is not QMP-created and should not send QMP events */
--    JOB_INTERNAL = 0x01,
--    /* Job requires manual finalize step */
--    JOB_MANUAL_FINALIZE = 0x02,
--    /* Job requires manual dismiss step */
--    JOB_MANUAL_DISMISS = 0x04,
--} JobCreateFlags;
--
--/**
-- * job_lock:
+- * Allocate and return a new job transaction. Jobs can be added to the
+- * transaction using job_txn_add_job().
 - *
-- * Take the mutex protecting the list of jobs and their status.
-- * Most functions called by the monitor need to call job_lock
-- * and job_unlock manually.  On the other hand, function called
-- * by the block jobs themselves and by the block layer will take the
-- * lock for you.
+- * The transaction is automatically freed when the last job completes or is
+- * cancelled.
+- *
+- * All jobs in the transaction either complete successfully or fail/cancel as a
+- * group.  Jobs wait for each other before completing.  Cancelling one job
+- * cancels all jobs in the transaction.
 - */
--void job_lock(void);
+-JobTxn *job_txn_new(void);
 -
 -/**
-- * job_unlock:
-- *
-- * Release the mutex protecting the list of jobs and their status.
+- * Release a reference that was previously acquired with job_txn_add_job or
+- * job_txn_new. If it's the last reference to the object, it will be freed.
 - */
--void job_unlock(void);
-+#include "job-common.h"
+-void job_txn_unref(JobTxn *txn);
+-
+-/**
+- * @txn: The transaction (may be NULL)
+- * @job: Job to add to the transaction
+- *
+- * Add @job to the transaction.  The @job must not already be in a transaction.
+- * The caller must call either job_txn_unref() or job_completed() to release
+- * the reference that is automatically grabbed here.
+- *
+- * If @txn is NULL, the function does nothing.
+- *
+- * Called between job_lock and job_unlock.
+- */
+-void job_txn_add_job(JobTxn *txn, Job *job);
++#include "job-monitor.h"
  
  /**
-  * Allocate and return a new job transaction. Jobs can be added to the
-@@ -474,12 +175,6 @@ void job_yield(Job *job);
+  * Create a new long-running job and return it.
+@@ -77,22 +44,6 @@ void *job_create(const char *job_id, const JobDriver *driver, JobTxn *txn,
+                  AioContext *ctx, int flags, BlockCompletionFunc *cb,
+                  void *opaque, Error **errp);
+ 
+-/**
+- * Add a reference to Job refcnt, it will be decreased with job_unref, and then
+- * be freed if it comes to be the last reference.
+- *
+- * Called between job_lock and job_unlock.
+- */
+-void job_ref(Job *job);
+-
+-/**
+- * Release a reference that was previously acquired with job_ref() or
+- * job_create(). If it's the last reference to the object, it will be freed.
+- *
+- * Called between job_lock and job_unlock.
+- */
+-void job_unref(Job *job);
+-
+ /**
+  * @job: The job that has made progress
+  * @done: How much progress the job made since the last call
+@@ -126,15 +77,6 @@ void job_progress_set_remaining(Job *job, uint64_t remaining);
+  */
+ void job_progress_increase_remaining(Job *job, uint64_t delta);
+ 
+-/**
+- * Conditionally enter the job coroutine if the job is ready to run, not
+- * already busy and fn() returns true. fn() is called while under the job_lock
+- * critical section.
+- *
+- * Called between job_lock and job_unlock, but it releases the lock temporarly.
+- */
+-void job_enter_cond(Job *job, bool(*fn)(Job *job));
+-
+ /**
+  * @job: A job that has not yet been started.
+  *
+@@ -175,9 +117,6 @@ void job_yield(Job *job);
   */
  void coroutine_fn job_sleep_ns(Job *job, int64_t ns);
  
--/** Returns the JobType of a given Job. */
--JobType job_type(const Job *job);
+-/** Returns true if the job should not be visible to the management layer. */
+-bool job_is_internal(Job *job);
 -
--/** Returns the enum string for the JobType of a given Job. */
--const char *job_type_str(const Job *job);
--
- /** Returns true if the job should not be visible to the management layer. */
- bool job_is_internal(Job *job);
+ /** Returns whether the job is being cancelled. */
+ bool job_is_cancelled(Job *job);
  
+@@ -187,180 +126,15 @@ bool job_is_cancelled(Job *job);
+  */
+ bool job_cancel_requested(Job *job);
+ 
+-/**
+- * Returns whether the job is in a completed state.
+- * Called between job_lock and job_unlock.
+- */
+-bool job_is_completed(Job *job);
+-
+ /** Returns whether the job is ready to be completed. */
+ bool job_is_ready(Job *job);
+ 
+-/** Same as job_is_ready(), but assumes job_lock is held. */
+-bool job_is_ready_locked(Job *job);
+-
+-/**
+- * Request @job to pause at the next pause point. Must be paired with
+- * job_resume(). If the job is supposed to be resumed by user action, call
+- * job_user_pause() instead.
+- *
+- * Called between job_lock and job_unlock.
+- */
+-void job_pause(Job *job);
+-
+-/**
+- * Resumes a @job paused with job_pause.
+- * Called between job_lock and job_unlock.
+- */
+-void job_resume(Job *job);
+-
+-/**
+- * Asynchronously pause the specified @job.
+- * Do not allow a resume until a matching call to job_user_resume.
+- *
+- * Called between job_lock and job_unlock.
+- */
+-void job_user_pause(Job *job, Error **errp);
+-
+-/**
+- * Returns true if the job is user-paused.
+- * Called between job_lock and job_unlock.
+- */
+-bool job_user_paused(Job *job);
+-
+-/**
+- * Resume the specified @job.
+- * Must be paired with a preceding job_user_pause.
+- *
+- * Called between job_lock and job_unlock.
+- */
+-void job_user_resume(Job *job, Error **errp);
+-
+-/**
+- * Get the next element from the list of block jobs after @job, or the
+- * first one if @job is %NULL.
+- *
+- * Returns the requested job, or %NULL if there are no more jobs left.
+- *
+- * Called between job_lock and job_unlock.
+- */
+-Job *job_next(Job *job);
+-
+-/**
+- * Get the job identified by @id (which must not be %NULL).
+- *
+- * Returns the requested job, or %NULL if it doesn't exist.
+- *
+- * Called between job_lock and job_unlock.
+- */
+-Job *job_get(const char *id);
+-
+-/**
+- * Check whether the verb @verb can be applied to @job in its current state.
+- * Returns 0 if the verb can be applied; otherwise errp is set and -EPERM
+- * returned.
+- *
+- * Called between job_lock and job_unlock.
+- */
+-int job_apply_verb(Job *job, JobVerb verb, Error **errp);
+-
+ /** The @job could not be started, free it. */
+ void job_early_fail(Job *job);
+ 
+-/** Same as job_early_fail(), but assumes job_lock is held. */
+-void job_early_fail_locked(Job *job);
+-
+ /** Moves the @job from RUNNING to READY */
+ void job_transition_to_ready(Job *job);
+ 
+-/**
+- * Asynchronously complete the specified @job.
+- * Called between job_lock and job_unlock, but it releases the lock temporarly.
+- */
+-void job_complete(Job *job, Error **errp);
+-
+-/**
+- * Asynchronously cancel the specified @job. If @force is true, the job should
+- * be cancelled immediately without waiting for a consistent state.
+- *
+- * Called between job_lock and job_unlock.
+- */
+-void job_cancel(Job *job, bool force);
+-
+-/**
+- * Cancels the specified job like job_cancel(), but may refuse to do so if the
+- * operation isn't meaningful in the current state of the job.
+- *
+- * Called between job_lock and job_unlock.
+- */
+-void job_user_cancel(Job *job, bool force, Error **errp);
+-
+-/**
+- * Synchronously cancel the @job.  The completion callback is called
+- * before the function returns.  If @force is false, the job may
+- * actually complete instead of canceling itself; the circumstances
+- * under which this happens depend on the kind of job that is active.
+- *
+- * Returns the return value from the job if the job actually completed
+- * during the call, or -ECANCELED if it was canceled.
+- */
+-int job_cancel_sync(Job *job, bool force);
+-
+-/**
+- * Synchronously force-cancels all jobs using job_cancel_sync().
+- *
+- * Called with job_lock *not* held, unlike most other APIs consumed
+- * by the monitor! This is primarly to avoid adding unnecessary lock-unlock
+- * patterns in the caller.
+- */
+-void job_cancel_sync_all(void);
+-
+-/**
+- * @job: The job to be completed.
+- * @errp: Error object which may be set by job_complete(); this is not
+- *        necessarily set on every error, the job return value has to be
+- *        checked as well.
+- *
+- * Synchronously complete the job.  The completion callback is called before the
+- * function returns, unless it is NULL (which is permissible when using this
+- * function).
+- *
+- * Returns the return value from the job.
+- * Called between job_lock and job_unlock.
+- */
+-int job_complete_sync(Job *job, Error **errp);
+-
+-/**
+- * For a @job that has finished its work and is pending awaiting explicit
+- * acknowledgement to commit its work, this will commit that work.
+- *
+- * FIXME: Make the below statement universally true:
+- * For jobs that support the manual workflow mode, all graph changes that occur
+- * as a result will occur after this command and before a successful reply.
+- *
+- * Called between job_lock and job_unlock.
+- */
+-void job_finalize(Job *job, Error **errp);
+-
+-/**
+- * Remove the concluded @job from the query list and resets the passed pointer
+- * to %NULL. Returns an error if the job is not actually concluded.
+- *
+- * Called between job_lock and job_unlock.
+- */
+-void job_dismiss(Job **job, Error **errp);
+-
+-/**
+- * Synchronously finishes the given @job. If @finish is given, it is called to
+- * trigger completion or cancellation of the job.
+- *
+- * Returns 0 if the job is successfully completed, -ECANCELED if the job was
+- * cancelled before completing, and -errno in other error cases.
+- *
+- * Called between job_lock and job_unlock.
+- */
+-int job_finish_sync(Job *job, void (*finish)(Job *, Error **errp), Error **errp);
+-
+ /** Enters the @job if it is not paused */
+ void job_enter_not_paused(Job *job);
+ 
+diff --git a/job.c b/job.c
+index 53c64fcde1..aa8c4fe1b6 100644
+--- a/job.c
++++ b/job.c
+@@ -40,6 +40,7 @@
+  * therefore needs consistency across job_get and the actual operation
+  * (e.g. job_user_cancel). To achieve this consistency, the caller
+  * calls job_lock/job_unlock itself around the whole operation.
++ * These functions are declared in job-monitor.h.
+  *
+  *
+  * The second includes functions used by the block job drivers and sometimes
 -- 
 2.27.0
 
