@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B616445388
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 14:07:38 +0100 (CET)
-Received: from localhost ([::1]:45008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D953344538A
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 14:07:51 +0100 (CET)
+Received: from localhost ([::1]:45384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1micSu-0008HC-4P
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 09:07:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37780)
+	id 1micT8-000052-Vo
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 09:07:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mic3N-0001y3-Go; Thu, 04 Nov 2021 08:41:13 -0400
+ id 1mic3Z-00027A-5P; Thu, 04 Nov 2021 08:41:25 -0400
 Received: from [201.28.113.2] (port=58980 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mic3H-0006gQ-RD; Thu, 04 Nov 2021 08:41:13 -0400
+ id 1mic3X-0006gQ-79; Thu, 04 Nov 2021 08:41:24 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 4 Nov 2021 09:39:19 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 4 Nov 2021 09:39:20 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 10870800BA7;
- Thu,  4 Nov 2021 09:39:19 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 4D3D9800BA7;
+ Thu,  4 Nov 2021 09:39:20 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v3 09/25] target/ppc: Implement Vector Extract Double to VSR
- using GPR index insns
-Date: Thu,  4 Nov 2021 09:37:03 -0300
-Message-Id: <20211104123719.323713-10-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v3 12/25] target/ppc: moved stxv and lxv from legacy to
+ decodtree
+Date: Thu,  4 Nov 2021 09:37:06 -0300
+Message-Id: <20211104123719.323713-13-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211104123719.323713-1-matheus.ferst@eldorado.org.br>
 References: <20211104123719.323713-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 04 Nov 2021 12:39:19.0472 (UTC)
- FILETIME=[FC967B00:01D7D178]
+X-OriginalArrivalTime: 04 Nov 2021 12:39:20.0681 (UTC)
+ FILETIME=[FD4EF590:01D7D178]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -63,180 +63,155 @@ Cc: lucas.castro@eldorado.org.br, richard.henderson@linaro.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+From: "Lucas Mateus Castro (alqotel)" <lucas.castro@eldorado.org.br>
 
-Implement the following PowerISA v3.1 instructions:
-vextdubvlx: Vector Extract Double Unsigned Byte to VSR using
-            GPR-specified Left-Index
-vextduhvlx: Vector Extract Double Unsigned Halfword to VSR using
-            GPR-specified Left-Index
-vextduwvlx: Vector Extract Double Unsigned Word to VSR using
-            GPR-specified Left-Index
-vextddvlx: Vector Extract Double Doubleword to VSR using
-           GPR-specified Left-Index
-vextdubvrx: Vector Extract Double Unsigned Byte to VSR using
-            GPR-specified Right-Index
-vextduhvrx: Vector Extract Double Unsigned Halfword to VSR using
-            GPR-specified Right-Index
-vextduwvrx: Vector Extract Double Unsigned Word to VSR using
-            GPR-specified Right-Index
-vextddvrx: Vector Extract Double Doubleword to VSR using
-           GPR-specified Right-Index
+Moved stxv and lxv implementation from the legacy system to
+decodetree.
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
+Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.castro@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/helper.h                 |  4 +++
- target/ppc/insn32.decode            | 12 +++++++++
- target/ppc/int_helper.c             | 39 +++++++++++++++++++++++++++++
- target/ppc/translate/vmx-impl.c.inc | 37 +++++++++++++++++++++++++++
- 4 files changed, 92 insertions(+)
+ target/ppc/insn32.decode            |  8 +++++
+ target/ppc/translate.c              | 17 ++--------
+ target/ppc/translate/vsx-impl.c.inc | 51 +++++++++++++++++++++++++++--
+ 3 files changed, 59 insertions(+), 17 deletions(-)
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 356495f392..7ff1d055c4 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -334,6 +334,10 @@ DEF_HELPER_2(vextuwlx, tl, tl, avr)
- DEF_HELPER_2(vextubrx, tl, tl, avr)
- DEF_HELPER_2(vextuhrx, tl, tl, avr)
- DEF_HELPER_2(vextuwrx, tl, tl, avr)
-+DEF_HELPER_5(VEXTDUBVLX, void, env, avr, avr, avr, tl)
-+DEF_HELPER_5(VEXTDUHVLX, void, env, avr, avr, avr, tl)
-+DEF_HELPER_5(VEXTDUWVLX, void, env, avr, avr, avr, tl)
-+DEF_HELPER_5(VEXTDDVLX, void, env, avr, avr, avr, tl)
- 
- DEF_HELPER_2(vsbox, void, avr, avr)
- DEF_HELPER_3(vcipher, void, avr, avr, avr)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 2eb7fb4e92..e438177b32 100644
+index e438177b32..296d6d6c5a 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -38,6 +38,9 @@
- %dx_d           6:s10 16:5 0:1
- @DX             ...... rt:5  ..... .......... ..... .   &DX d=%dx_d
+@@ -28,6 +28,9 @@
+ %dq_rtp         22:4   !function=times_2
+ @DQ_rtp         ...... ....0 ra:5 ............ ....             &D rt=%dq_rtp si=%dq_si
  
-+&VA             vrt vra vrb rc
-+@VA             ...... vrt:5 vra:5 vrb:5 rc:5 ......    &VA
++%dq_rt_tsx      3:1 21:5
++@DQ_TSX         ...... ..... ra:5 ............ ....             &D si=%dq_si rt=%dq_rt_tsx
 +
- &VN             vrt vra vrb sh
- @VN             ...... vrt:5 vra:5 vrb:5 .. sh:3 ......         &VN
+ %ds_si          2:s14  !function=times_4
+ @DS             ...... rt:5 ra:5 .............. ..      &D si=%ds_si
  
-@@ -347,6 +350,15 @@ VPEXTD          000100 ..... ..... ..... 10110001101    @VX
+@@ -385,3 +388,8 @@ VINSWVRX        000100 ..... ..... ..... 00110001111    @VX
  
- ## Vector Permute and Formatting Instruction
- 
-+VEXTDUBVLX      000100 ..... ..... ..... ..... 011000   @VA
-+VEXTDUBVRX      000100 ..... ..... ..... ..... 011001   @VA
-+VEXTDUHVLX      000100 ..... ..... ..... ..... 011010   @VA
-+VEXTDUHVRX      000100 ..... ..... ..... ..... 011011   @VA
-+VEXTDUWVLX      000100 ..... ..... ..... ..... 011100   @VA
-+VEXTDUWVRX      000100 ..... ..... ..... ..... 011101   @VA
-+VEXTDDVLX       000100 ..... ..... ..... ..... 011110   @VA
-+VEXTDDVRX       000100 ..... ..... ..... ..... 011111   @VA
+ VSLDBI          000100 ..... ..... ..... 00 ... 010110  @VN
+ VSRDBI          000100 ..... ..... ..... 01 ... 010110  @VN
 +
- VINSERTB        000100 ..... - .... ..... 01100001101   @VX_uim4
- VINSERTH        000100 ..... - .... ..... 01101001101   @VX_uim4
- VINSERTW        000100 ..... - .... ..... 01110001101   @VX_uim4
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 6f9479fd53..b7861776c2 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -1642,6 +1642,45 @@ VINSX(D, uint64_t)
- #undef ELEM_ADDR
- #undef VINSX
- #if defined(HOST_WORDS_BIGENDIAN)
-+#define VEXTDVLX(NAME, SIZE) \
-+void helper_##NAME(CPUPPCState *env, ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b, \
-+                   target_ulong index)                                         \
-+{                                                                              \
-+    const target_long idx = index;                                             \
-+    ppc_avr_t tmp[2] = { *a, *b };                                             \
-+    memset(t, 0, sizeof(*t));                                                  \
-+    if (idx >= 0 && idx + SIZE <= sizeof(tmp)) {                               \
-+        memcpy(&t->u8[ARRAY_SIZE(t->u8) / 2 - SIZE], (void *)tmp + idx, SIZE); \
-+    } else {                                                                   \
-+        qemu_log_mask(LOG_GUEST_ERROR, "Invalid index for " #NAME " after 0x"  \
-+                      TARGET_FMT_lx ", RC = " TARGET_FMT_ld " > %d\n",         \
-+                      env->nip, idx < 0 ? SIZE - idx : idx, 32 - SIZE);        \
-+    }                                                                          \
-+}
-+#else
-+#define VEXTDVLX(NAME, SIZE) \
-+void helper_##NAME(CPUPPCState *env, ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b, \
-+                   target_ulong index)                                         \
-+{                                                                              \
-+    const target_long idx = index;                                             \
-+    ppc_avr_t tmp[2] = { *b, *a };                                             \
-+    memset(t, 0, sizeof(*t));                                                  \
-+    if (idx >= 0 && idx + SIZE <= sizeof(tmp)) {                               \
-+        memcpy(&t->u8[ARRAY_SIZE(t->u8) / 2],                                  \
-+               (void *)tmp + sizeof(tmp) - SIZE - idx, SIZE);                  \
-+    } else {                                                                   \
-+        qemu_log_mask(LOG_GUEST_ERROR, "Invalid index for " #NAME " after 0x"  \
-+                      TARGET_FMT_lx ", RC = " TARGET_FMT_ld " > %d\n",         \
-+                      env->nip, idx < 0 ? SIZE - idx : idx, 32 - SIZE);        \
-+    }                                                                          \
-+}
-+#endif
-+VEXTDVLX(VEXTDUBVLX, 1)
-+VEXTDVLX(VEXTDUHVLX, 2)
-+VEXTDVLX(VEXTDUWVLX, 4)
-+VEXTDVLX(VEXTDDVLX, 8)
-+#undef VEXTDVLX
-+#if defined(HOST_WORDS_BIGENDIAN)
- #define VEXTRACT(suffix, element)                                            \
-     void helper_vextract##suffix(ppc_avr_t *r, ppc_avr_t *b, uint32_t index) \
-     {                                                                        \
-diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index 6fd18690df..8eb8d3a067 100644
---- a/target/ppc/translate/vmx-impl.c.inc
-+++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -1228,6 +1228,43 @@ GEN_VXFORM_DUAL(vsplth, PPC_ALTIVEC, PPC_NONE,
- GEN_VXFORM_DUAL(vspltw, PPC_ALTIVEC, PPC_NONE,
-                 vextractuw, PPC_NONE, PPC2_ISA300);
++# VSX Load/Store Instructions
++
++LXV             111101 ..... ..... ............ . 001   @DQ_TSX
++STXV            111101 ..... ..... ............ . 101   @DQ_TSX
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index e88b613093..9960df6e18 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -7446,20 +7446,7 @@ static void gen_dform39(DisasContext *ctx)
+ /* handles stfdp, lxv, stxsd, stxssp lxvx */
+ static void gen_dform3D(DisasContext *ctx)
+ {
+-    if ((ctx->opcode & 3) == 1) { /* DQ-FORM */
+-        switch (ctx->opcode & 0x7) {
+-        case 1: /* lxv */
+-            if (ctx->insns_flags2 & PPC2_ISA300) {
+-                return gen_lxv(ctx);
+-            }
+-            break;
+-        case 5: /* stxv */
+-            if (ctx->insns_flags2 & PPC2_ISA300) {
+-                return gen_stxv(ctx);
+-            }
+-            break;
+-        }
+-    } else { /* DS-FORM */
++    if ((ctx->opcode & 3) != 1) { /* DS-FORM */
+         switch (ctx->opcode & 0x3) {
+         case 0: /* stfdp */
+             if (ctx->insns_flags2 & PPC2_ISA205) {
+@@ -7584,7 +7571,7 @@ GEN_HANDLER2_E(extswsli1, "extswsli", 0x1F, 0x1B, 0x1B, 0x00000000,
+ #endif
+ /* handles lfdp, lxsd, lxssp */
+ GEN_HANDLER_E(dform39, 0x39, 0xFF, 0xFF, 0x00000000, PPC_NONE, PPC2_ISA205),
+-/* handles stfdp, lxv, stxsd, stxssp, stxv */
++/* handles stfdp, stxsd, stxssp */
+ GEN_HANDLER_E(dform3D, 0x3D, 0xFF, 0xFF, 0x00000000, PPC_NONE, PPC2_ISA205),
+ GEN_HANDLER(lmw, 0x2E, 0xFF, 0xFF, 0x00000000, PPC_INTEGER),
+ GEN_HANDLER(stmw, 0x2F, 0xFF, 0xFF, 0x00000000, PPC_INTEGER),
+diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
+index d923c6a090..9da66b5348 100644
+--- a/target/ppc/translate/vsx-impl.c.inc
++++ b/target/ppc/translate/vsx-impl.c.inc
+@@ -307,7 +307,6 @@ static void gen_##name(DisasContext *ctx)                   \
+     tcg_temp_free_i64(xtl);                                 \
+ }
  
-+static bool do_vextdx(DisasContext *ctx, arg_VA *a, int size, bool right,
-+               void (*gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv))
+-VSX_VECTOR_LOAD(lxv, ld_i64, 0)
+ VSX_VECTOR_LOAD(lxvx, ld_i64, 1)
+ 
+ #define VSX_VECTOR_STORE(name, op, indexed)                 \
+@@ -360,7 +359,6 @@ static void gen_##name(DisasContext *ctx)                   \
+     tcg_temp_free_i64(xtl);                                 \
+ }
+ 
+-VSX_VECTOR_STORE(stxv, st_i64, 0)
+ VSX_VECTOR_STORE(stxvx, st_i64, 1)
+ 
+ #ifdef TARGET_PPC64
+@@ -2052,6 +2050,55 @@ static void gen_xvxsigdp(DisasContext *ctx)
+     tcg_temp_free_i64(xbl);
+ }
+ 
++static bool do_lstxv(DisasContext *ctx, int ra, TCGv displ,
++                     int rt, bool store)
 +{
-+    TCGv_ptr vrt, vra, vrb;
-+    TCGv rc;
++    TCGv ea;
++    TCGv_i64 xt;
++    MemOp mop;
 +
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
-+    REQUIRE_VECTOR(ctx);
++    xt = tcg_temp_new_i64();
 +
-+    vrt = gen_avr_ptr(a->vrt);
-+    vra = gen_avr_ptr(a->vra);
-+    vrb = gen_avr_ptr(a->vrb);
-+    rc = tcg_temp_new();
++    mop = DEF_MEMOP(MO_Q);
 +
-+    tcg_gen_andi_tl(rc, cpu_gpr[a->rc], 0x1F);
-+    if (right) {
-+        tcg_gen_subfi_tl(rc, 32 - size, rc);
++    gen_set_access_type(ctx, ACCESS_INT);
++    ea = do_ea_calc(ctx, ra, displ);
++
++    if (store) {
++        get_cpu_vsr(xt, rt, !ctx->le_mode);
++        tcg_gen_qemu_st_i64(xt, ea, ctx->mem_idx, mop);
++        gen_addr_add(ctx, ea, ea, 8);
++        get_cpu_vsr(xt, rt, ctx->le_mode);
++        tcg_gen_qemu_st_i64(xt, ea, ctx->mem_idx, mop);
++    } else {
++        tcg_gen_qemu_ld_i64(xt, ea, ctx->mem_idx, mop);
++        set_cpu_vsr(rt, xt, !ctx->le_mode);
++        gen_addr_add(ctx, ea, ea, 8);
++        tcg_gen_qemu_ld_i64(xt, ea, ctx->mem_idx, mop);
++        set_cpu_vsr(rt, xt, ctx->le_mode);
 +    }
-+    gen_helper(cpu_env, vrt, vra, vrb, rc);
 +
-+    tcg_temp_free_ptr(vrt);
-+    tcg_temp_free_ptr(vra);
-+    tcg_temp_free_ptr(vrb);
-+    tcg_temp_free(rc);
++    tcg_temp_free(ea);
++    tcg_temp_free_i64(xt);
 +    return true;
 +}
 +
-+TRANS(VEXTDUBVLX, do_vextdx, 1, false, gen_helper_VEXTDUBVLX)
-+TRANS(VEXTDUHVLX, do_vextdx, 2, false, gen_helper_VEXTDUHVLX)
-+TRANS(VEXTDUWVLX, do_vextdx, 4, false, gen_helper_VEXTDUWVLX)
-+TRANS(VEXTDDVLX, do_vextdx, 8, false, gen_helper_VEXTDDVLX)
++static bool do_lstxv_D(DisasContext *ctx, arg_D *a, bool store)
++{
++    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
 +
-+TRANS(VEXTDUBVRX, do_vextdx, 1, true, gen_helper_VEXTDUBVLX)
-+TRANS(VEXTDUHVRX, do_vextdx, 2, true, gen_helper_VEXTDUHVLX)
-+TRANS(VEXTDUWVRX, do_vextdx, 4, true, gen_helper_VEXTDUWVLX)
-+TRANS(VEXTDDVRX, do_vextdx, 8, true, gen_helper_VEXTDDVLX)
++    if (a->rt >= 32) {
++        REQUIRE_VSX(ctx);
++    } else {
++        REQUIRE_VECTOR(ctx);
++    }
 +
- static bool do_vinsx(DisasContext *ctx, int vrt, int size, bool right, TCGv ra,
-             TCGv_i64 rb, void (*gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_i64, TCGv))
- {
++    return do_lstxv(ctx, a->ra, tcg_constant_tl(a->si), a->rt, store);
++}
++
++TRANS(STXV, do_lstxv_D, true)
++TRANS(LXV, do_lstxv_D, false)
++
+ #undef GEN_XX2FORM
+ #undef GEN_XX3FORM
+ #undef GEN_XX2IFORM
 -- 
 2.25.1
 
