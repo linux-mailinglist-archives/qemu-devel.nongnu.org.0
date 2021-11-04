@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDCB8445208
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 12:13:37 +0100 (CET)
-Received: from localhost ([::1]:39578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08A6D44520A
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 12:14:06 +0100 (CET)
+Received: from localhost ([::1]:40896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miagW-00046u-TE
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 07:13:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43004)
+	id 1miah3-00052l-7A
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 07:14:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1miaeJ-0002Qw-2E; Thu, 04 Nov 2021 07:11:15 -0400
-Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:36457)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1miaeg-00035M-6d
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 07:11:38 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:38617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1miaeH-0004dU-53; Thu, 04 Nov 2021 07:11:14 -0400
-Received: by mail-yb1-xb2a.google.com with SMTP id d10so13585446ybe.3;
- Thu, 04 Nov 2021 04:11:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1miaee-0004er-9S
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 07:11:37 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ a20-20020a1c7f14000000b003231d13ee3cso6908380wmd.3
+ for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 04:11:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nRmH3xLz6Ta446MJ0F1cvpbp8RaPNMR4UMUFwZsRnP8=;
- b=o4d/TUTdYB+APD6oE+eHi+SOS4SKZB8XIAAt4kl5+01bHR7Fs/0VZGex42hnUURlJZ
- rE1Or5GV8+2BQe7LrQE6uUKVVBa/5/qCd1Ar1scwwH1GM9x5iFUCwfKblvgE9A5W7tOs
- vgcw39+4RpKtpqiSOEVjsS2WYtQ06kd1gdrADoJntYcQJtvYLEmsTVYPRBNXVNke2521
- dhrXzryixcvWAcaii4hM9aYGfzdGreE9j0B7JIEndbhPlbuqAZuJKfD3h2wFNnnwH5zE
- vLKC5VHQVjkCHxQMLGo/5+BhQMm8v2WU1aHmaa3it4RfpmR342txeTb1rH09XNZqp+Ra
- b6Mw==
+ :cc:content-transfer-encoding;
+ bh=Vwonmle2nZhFpkaoLiPD3pWkHX/BW9Nnb1izCtQJD9s=;
+ b=F4puwFdiUMFgOj2LA+QfjUJP3V0iz2rkoKb4R4iM90VpX7GLZ02yqsu31HX/awkzqZ
+ +JERjw4l4ZU4ygdmj95a35Nu88BhNCg9iCwrXpDD6OWvJNex5+tCIrX4fCmqOHMtRD0e
+ TF0ItyYynuvd14IRKTwsm+ssnF5IGV/egGzwV+DpBUK1/jls9DiFtDWqyo9psuCcjBDs
+ LSdOO4pvJAJdR9F9pa4FGuefCMhEg1eomHxTjHZ9lG3qM7rkYQ/CF2QG+YpKeq/LXgU7
+ At1xzwETCGDwkj7qGd8B0e9rZMx8CaXmfcFIcuqh3Vd2ORjgI+e+M133AAtlzykCJd8a
+ J2uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nRmH3xLz6Ta446MJ0F1cvpbp8RaPNMR4UMUFwZsRnP8=;
- b=y4VWC1eek3pXy1W3rKvdlurWq6Csjs9Dmd8OlixyfYoWg4dIaYz99YC3j2D0CzClMv
- eszidA6/3vMyMLdja78tFaUkJs3AZOM2Czq9kN7OkW5fySZ2YxTnALyobi9NiHEkeJQ6
- KMP1wR17lqBapBWf6PJToIg3ENCs6Uo8n9+gB+DKl//mHZtIGlqYlqscfs56tn6W7jCR
- +3CZVvaAub8xMKFEgWtHoZEoKXWyOP6ENuanSfalgia1rgPJMosb15BB3D93AasomD2f
- iHu0S4CNOpSjCXwSpIeZwVtqQSlYtArwvo1rZyqJ0PRJsmmilDmZ02qQ7cFgruHTDfzF
- FKTA==
-X-Gm-Message-State: AOAM532opg1oWeJSf9u3E6vBf/orYuIzQiBJ4tFHyzwARH9Xv4nupuQr
- u3T52rhpq6MweCvRxIDy/VpVEh50ssKieuMFu8J4sroUuuw=
-X-Google-Smtp-Source: ABdhPJwU7T7B9jMDl89TQnYthk0muwdmF1CRk1Bb7UvKFVppPsBGR21UP1fbWXyX2UOXasKr7bTlKroHhgcX7bwcDOE=
-X-Received: by 2002:a25:258c:: with SMTP id l134mr29827271ybl.40.1636024268760; 
- Thu, 04 Nov 2021 04:11:08 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Vwonmle2nZhFpkaoLiPD3pWkHX/BW9Nnb1izCtQJD9s=;
+ b=wxYV3cXMlDw6vaWuE+f2DYHi9OeklrZvk45E5+4PnwCAIV+66VyXg9peumBkwuBBDo
+ hdlhe2aYc3UmniM2dAklLYAcdEo8rAz6srpDNT/7CR0KyvcA9mfpOigOnKqk9ehgn811
+ zERUAfut85Ai6VlxMt0+iH89OKq9M3QSBy3MjvcLqS6uoRLUPrYxq/0xp6cwXp2Y/Qfl
+ 5iWcco+OiJMqd1q5aPLJoHWiUDW8sPXYss8ViUse6OUSh8+YC6g8AlTptvcwAZc4n5l0
+ Tnbd/RT8X1nzLEd/2QRYjHBtkM0+EL7+Bh1cJBGi/hDOhbm8A//7Ps4uxUNV12eh+tkm
+ RZMw==
+X-Gm-Message-State: AOAM530jY3ODXv7A80rd1np1JycIGBSBZQv0hWTL4AL+mBrAM5EhB1Ts
+ k3iJESjwalmaDl1BBt1rT/j9xrL//MuxZYBnKAD9Zg==
+X-Google-Smtp-Source: ABdhPJzejyLLk6WX5nd80a6xmBjZ7UD3f2cPKjJVdSdMGkVCet/bnDGFr4WmHoSE46baDyB2zJLWx9Kn/0nqM47npPw=
+X-Received: by 2002:a05:600c:1993:: with SMTP id
+ t19mr3717976wmq.21.1636024294330; 
+ Thu, 04 Nov 2021 04:11:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211025195601.245631-1-atish.patra@wdc.com>
- <20211025195601.245631-4-atish.patra@wdc.com>
-In-Reply-To: <20211025195601.245631-4-atish.patra@wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 4 Nov 2021 19:10:57 +0800
-Message-ID: <CAEUhbmVVM7YOOaoax1JWuO-wHWCZN+FO42CyiaDKNLwbBaR7Eg@mail.gmail.com>
-Subject: Re: [ PATCH v3 03/10] target/riscv: pmu: Rename the counters
- extension to pmu
-To: Atish Patra <atish.patra@wdc.com>
+References: <07e63acb-b756-2586-2ba2-b54b837f7fc8@tribudubois.net>
+In-Reply-To: <07e63acb-b756-2586-2ba2-b54b837f7fc8@tribudubois.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 4 Nov 2021 11:11:23 +0000
+Message-ID: <CAFEAcA89YQ_vN-JpCeB+L==F5g1hM=CNMBzjaf5c3EHF19NVyQ@mail.gmail.com>
+Subject: Re: Qemu and ARM secure state.
+To: Jean-Christophe DUBOIS <jcd@tribudubois.net>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -76,73 +80,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 26, 2021 at 4:02 AM Atish Patra <atish.patra@wdc.com> wrote:
+On Wed, 3 Nov 2021 at 13:27, Jean-Christophe DUBOIS <jcd@tribudubois.net> w=
+rote:
+> I have a little application that is designed to work on the i.MX6UL proce=
+ssor.
 >
-> The PMU counters are supported via cpu config "Counters" which doesn't
-> indicate the correct purpose of those counters.
+> I developed it and tested it on the mcimx6ul-evk platform emulated by Qem=
+u.
 >
-> Rename the config property to pmu to indicate that these counters
-> are performance monitoring counters. This aligns with cpu options for
-> ARM architecture as well.
+> This application used to work "flawlessly" on Qemu 5.0.50 and is working =
+on Qemu 6.0.0 (available as a pre-built package on the latest Ubuntu).
 >
-> Signed-off-by: Atish Patra <atish.patra@wdc.com>
-> ---
->  target/riscv/cpu.c | 2 +-
->  target/riscv/cpu.h | 2 +-
->  target/riscv/csr.c | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
+> But when I try to run the exact same command line on a Qemu version I com=
+pile myself from main/latest of github (Qemu 6.1.50), my application fails =
+to start.
 >
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 1d69d1887e63..3b55f5ed0036 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -598,7 +598,7 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_BOOL("x-zbs", RISCVCPU, cfg.ext_zbs, false),
->      DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
->      DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
-> -    DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-> +    DEFINE_PROP_BOOL("pmu", RISCVCPU, cfg.ext_pmu, true),
->      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
->      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
->      DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 9e55b2f5b170..ebc1a8754032 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -294,7 +294,7 @@ struct RISCVCPU {
->          bool ext_zbb;
->          bool ext_zbc;
->          bool ext_zbs;
-> -        bool ext_counters;
-> +        bool ext_pmu;
->          bool ext_ifencei;
->          bool ext_icsr;
+> So a little background:
 >
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index de484c74d3b4..c486eeaffeb8 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -64,7 +64,7 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
->      RISCVCPU *cpu = RISCV_CPU(cs);
->      int ctr_index;
+> My application expects to start in "secure" state and supervisor mode (wh=
+ich is the default state of i.MX6UL when booting barebone [without u-boot])=
+.
 >
-> -    if (!cpu->cfg.ext_counters) {
-> +    if (!cpu->cfg.ext_pmu) {
->          /* The Counters extensions is not enabled */
+> From this state the application tries to get to "non secure" / hypervisor=
+ mode which imply going to the "secure" / monitor state before being able t=
+o drop to "non secure" / hypervisor. To do so is runs a "smc 0" operand (fr=
+om "secure" / supervisor).
+>
+> This "smc" instruction is processed "as expected" by Qemu 5.0.50 and Qemu=
+ 6.0.0 (getting to "secure" / monitor mode) but on Qemu 6.1.50 (latest from=
+ github) it is as if the smc operand was a no-op. It doesn't trigger any ex=
+ception and the processor just get to the next instruction after the "smc" =
+instruction. So I am a bit puzzled.
+>
+> Is there something that changed in Qemu (since Qemu 6.0.0) when it comes =
+to the "secure" world/state?
+> Is there some additional command line parameters to use (I search in the =
+documentation but without luck) to get secure world behavior ?
+> Is it necessary to "adapt" the emulated platform (i.MX6UL/mcimx6ul-evk) i=
+n some way (it looks like the "virt" machine with "secure=3Don" does work f=
+or arm platform)?
 
-%s/Counters extensions/PMU extension
+Could you try doing a bisect to find the QEMU commit that caused
+your guest to stop working ?
 
->          return RISCV_EXCP_ILLEGAL_INST;
->      }
-> --
-
-Otherwise,
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+thanks
+-- PMM
 
