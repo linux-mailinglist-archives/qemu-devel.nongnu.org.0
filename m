@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 940434450DD
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 10:06:01 +0100 (CET)
-Received: from localhost ([::1]:37060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 289874450D8
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 10:03:37 +0100 (CET)
+Received: from localhost ([::1]:60444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miYh6-0005fV-I9
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 05:06:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54268)
+	id 1miYem-0002I3-AK
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 05:03:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1miYaJ-0004V2-S9
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 04:58:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60933)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1miYa3-0003n7-I1
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 04:58:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1miYaH-00015B-Jt
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 04:58:59 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1miYa2-000115-3n
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 04:58:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636016337;
+ s=mimecast20190719; t=1636016321;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=BcXO39Hkn0ySdoYMx/qVT463mOPxDrUpXP476StOJeQ=;
- b=geDLWX5m3AtlkwmaTMYWUJRhOEU6ycvfwPaIncn8W6ZGpw6nTgJ+OseWDV0Gk/yIF+ySvo
- NHnEv5Jkl4PoyZB3sKCHOyAlTAgLOXHZ4qj2Ds7ps0/jrB98GeojoR/rusFF/9O7AowXTk
- MdPNv0TLhQb4eS6JFdApxhP8rBIq6pE=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hPrajxVI3EG7oEK3FbUHDchzsqfsHSPzqU9rl06oiDc=;
+ b=LlRLV/mGqVprvAbe7rl79bYqNTXp0I3HVOas2DuQSj/qU++8e5fLx7eQu0mXYDjonPUWK3
+ 9fKrAN9eG6RhWrPEWiO0qZqDXR0M600tCdB7G+TUCZmkPPuA+YW30noZjgHfPDzFB3t9Xt
+ KVuXmR/JksR1IHqdiH4IvaBxnnbKzlw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-gFCHrnlDOZig-E6Q67yzBA-1; Thu, 04 Nov 2021 04:58:53 -0400
-X-MC-Unique: gFCHrnlDOZig-E6Q67yzBA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-586-6XADHIaXNd-2iWcSqLAlDA-1; Thu, 04 Nov 2021 04:58:40 -0400
+X-MC-Unique: 6XADHIaXNd-2iWcSqLAlDA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 914261006AA5;
- Thu,  4 Nov 2021 08:58:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39EC41006AA3;
+ Thu,  4 Nov 2021 08:58:39 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2FA8C19C79;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2FB6B708E2;
  Thu,  4 Nov 2021 08:58:13 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B453911380A7; Thu,  4 Nov 2021 09:58:11 +0100 (CET)
+ id B6A7C11380AA; Thu,  4 Nov 2021 09:58:11 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/3] qapi & doc: deprecate drive-backup
-Date: Thu,  4 Nov 2021 09:58:08 +0100
-Message-Id: <20211104085811.1736654-1-armbru@redhat.com>
+Subject: [PATCH v4 1/3] docs/block-replication: use blockdev-backup
+Date: Thu,  4 Nov 2021 09:58:09 +0100
+Message-Id: <20211104085811.1736654-2-armbru@redhat.com>
+In-Reply-To: <20211104085811.1736654-1-armbru@redhat.com>
+References: <20211104085811.1736654-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -62,7 +65,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.717,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,30 +84,40 @@ Cc: vsementsov@virtuozzo.com, qemu-block@nongnu.org, kchamart@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-See 03 commit message for details. 01-02 are preparation docs update.
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-v4: deprecate drive-backup transaction by squashing
-	[PATCH v4 5/5] block: Deprecate transaction type drive-backup
-	Message-Id: <20211025042405.3762351-6-armbru@redhat.com>
-    into PATCH 3
+We are going to deprecate drive-backup, so don't mention it here.
+Moreover, blockdev-backup seems more correct in the context.
 
-v3: wording fix-ups and improvements suggested by Kashyap
-v2: add a lot of documentation changes
-v1 was "[PATCH] qapi: deprecate drive-backup"
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ docs/block-replication.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Vladimir Sementsov-Ogievskiy (3):
-  docs/block-replication: use blockdev-backup
-  docs/interop/bitmaps: use blockdev-backup
-  qapi: deprecate drive-backup
-
- docs/about/deprecated.rst              |  11 +
- docs/block-replication.txt             |   4 +-
- docs/interop/bitmaps.rst               | 285 +++++++++++++++++++------
- docs/interop/live-block-operations.rst |  47 ++--
- qapi/block-core.json                   |   5 +-
- qapi/transaction.json                  |   6 +-
- 6 files changed, 268 insertions(+), 90 deletions(-)
-
+diff --git a/docs/block-replication.txt b/docs/block-replication.txt
+index 108e9166a8..59eb2b33b3 100644
+--- a/docs/block-replication.txt
++++ b/docs/block-replication.txt
+@@ -79,7 +79,7 @@ Primary |                 ||  Secondary disk <--------- hidden-disk 5 <---------
+                           ||        |                         |
+                           ||        |                         |
+                           ||        '-------------------------'
+-                          ||           drive-backup sync=none 6
++                          ||         blockdev-backup sync=none 6
+ 
+ 1) The disk on the primary is represented by a block device with two
+ children, providing replication between a primary disk and the host that
+@@ -101,7 +101,7 @@ should support bdrv_make_empty() and backing file.
+ that is modified by the primary VM. It should also start as an empty disk,
+ and the driver supports bdrv_make_empty() and backing file.
+ 
+-6) The drive-backup job (sync=none) is run to allow hidden-disk to buffer
++6) The blockdev-backup job (sync=none) is run to allow hidden-disk to buffer
+ any state that would otherwise be lost by the speculative write-through
+ of the NBD server into the secondary disk. So before block replication,
+ the primary disk and secondary disk should contain the same data.
 -- 
 2.31.1
 
