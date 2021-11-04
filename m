@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F13D4458F9
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 18:51:09 +0100 (CET)
-Received: from localhost ([::1]:36722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9373A4458FF
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 18:51:45 +0100 (CET)
+Received: from localhost ([::1]:38726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1migtI-0005kp-KT
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 13:51:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48382)
+	id 1migts-000784-O2
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 13:51:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1migqS-0002h5-1B
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 13:48:12 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:34573)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1migrJ-0003cY-7Y
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 13:49:05 -0400
+Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:46833)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1migqP-0007ss-SC
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 13:48:11 -0400
-Received: by mail-wr1-x431.google.com with SMTP id d5so9895569wrc.1
- for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 10:48:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1migrG-0008J5-Kq
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 13:49:04 -0400
+Received: by mail-qt1-x82b.google.com with SMTP id s1so4840857qta.13
+ for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 10:49:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=ZpH8wPY78dojvCfW5y3YWLzfljc1f0ZI9Glqv83M+KE=;
- b=FWSvXxCC4q6vVIPzutCfgt4a6/Z87jXNXR8sJqCwQm9FXQNITp/LBgsHRMAB4wz6RF
- 1ATAYCLl8BJKFSiukCSJtVDf2RUW2zonMFsZakeTMdLMQaBBH/BccPJVcx6yVASlZCk7
- 9aCkNnV12SdgBzpu3GOy+Fm0XkvZy9s5AYXDY7MWIbw7VNcs7c/7/qko3Jibw9dnnNAA
- MLs4EgxqQCSNhydm9ZGKhEEexDDdtZIEKJuewjmNm78cy8sVuL9Q2Qlw8uMwZAq8K/gK
- owwlT0K+JCJHeKsToLecCmVSV1yldb9MXFbOQu5XpU27LKCwCiAcS/CFJdyl85ZOsA/X
- Kg4g==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=hs4+2w+EPhh1gsybkdyrjCeFQnWf4C2zk7arz+gwxrM=;
+ b=dwihwSd6VrF3at5HThaE0CmXhAa3DIV1ZakuLBaIAyJwuoUiw4YL93Gqr6dNjZa0bk
+ WnTqru+p40s/4TYeXu9y0LnQDA6H0+KzX/+Skopt3UdzoK2vG+9ONCxxy7aVi6ZEEBc1
+ p33/zuwpUGDZjkU2UO6AW/e4oteN2Kd6Yk9pHXhTALAbFYYzKIGTloRp5boA3llpv9ov
+ OI2rCEwC4sG41c5GJ5U8I5e+kFouEaWi7qMhC7Ovr/YCASe4A29G/BFYX9/yvSnO+htf
+ N37BtDstKIC+S5UcQoxKvPnt+pIIB/o3WLsrsjQkj9IBRaV8rFaNMVU/yTtOsmjDM0u6
+ SnRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=ZpH8wPY78dojvCfW5y3YWLzfljc1f0ZI9Glqv83M+KE=;
- b=XHf7eN84FrWkib3rqbvmo81Z94CfFX4VQpOUJGPsk3dbAAemUx7iu6Mr/ZKb3iLJgj
- 2DjAqfcUOpA+3apG4Nx9rzp2snKnPojnuW5/MdGlytuDNRnjh6YmAym/T53wQ7ehddry
- 2sEjsNTGJTv8JC5y18m8vEzohxYpEqAdfNtJzz82Q9ZXM0P7UehlEwEy7L70ZaxwcG0m
- gunZqNE8doLnXGxvtPok6gl0USNQ29QnmXD7xcgJH4GHYue9bd6BqgxXhrB7olgnzuuf
- hCglt1AjDG9VgfPIyK7++B0vFc5rxX//zbe95gVZYsdmPhtFF3N4qtNvQ4YAnNRwl2Z9
- kXHg==
-X-Gm-Message-State: AOAM530kKA8LeXTKhPbQ4Vd+miQFPf1buw2piynmOtb39i5leCufhu+Q
- XXKoU2n1pkU8ztbxpkLPHJT7XA==
-X-Google-Smtp-Source: ABdhPJxvbI3wh4VfGBxFVTns4DnKk4ltG3eYx5Aww8B/mxH6BDKfSjSoB2i62U8PPZZ0DGtGliQQlQ==
-X-Received: by 2002:adf:ee4b:: with SMTP id w11mr63832778wro.115.1636048087385; 
- Thu, 04 Nov 2021 10:48:07 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x21sm9029691wmc.14.2021.11.04.10.48.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Nov 2021 10:48:06 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 960C61FF96;
- Thu,  4 Nov 2021 17:48:05 +0000 (GMT)
-References: <20211103171339.721910-1-alex.bennee@linaro.org>
- <122de229-1451-71a2-0c0b-fd8c85c8666d@amsat.org>
-User-agent: mu4e 1.7.4; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH] tests/docker: force NOUSER=1 for base images
-Date: Thu, 04 Nov 2021 17:44:49 +0000
-In-reply-to: <122de229-1451-71a2-0c0b-fd8c85c8666d@amsat.org>
-Message-ID: <878ry3izhm.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hs4+2w+EPhh1gsybkdyrjCeFQnWf4C2zk7arz+gwxrM=;
+ b=78uuU/yn8Zr1iXMYLkfSJeRpYzDqdr8uFPRhehEq0mEsK0qQGgn/sdpeHFf5hacJ4N
+ ADE3DDhR6SLj7Sp8U5OzyxOdAt50mIoq1/xbXSWD5A65C3dRC2+7F7r4FQzY6ded/Kf/
+ ytXTLK4KQldKx5Yha3rGFbD/JDZaGyAZYFlpyOaPt6d3hR9T0Y8qd+rezDlqAoECBPFE
+ CevorvD1WxavaS99AWc+2mx0UyW6fAn/c/lEjCqf7H2kQyDwJbTbNPG3H8JXZdPzcZrV
+ k86mielc0HwBpVeXUxqYzMfVDmV0TKndAAU39TQDaoWY4k/EB5mlHZpEnjx1GNKDNWKx
+ ebTA==
+X-Gm-Message-State: AOAM5324IRPgTlIMZn7DoKkuhFqvsfDO0XeZn3lLvETQVhwOOz/D/m6G
+ TGKJF9iif4qOa7WCtaQNb085mg==
+X-Google-Smtp-Source: ABdhPJy+L7uatWrMkqZuQ0aBiTK6JW3P4V72NUYE6DnRRWYu1+tJ7bswHxKxxGHbg+9Bvr0Mw7EsYA==
+X-Received: by 2002:ac8:5888:: with SMTP id t8mr55386761qta.121.1636048141438; 
+ Thu, 04 Nov 2021 10:49:01 -0700 (PDT)
+Received: from ?IPv6:2607:fb90:f802:6e0c:4407:203:e794:8e1f?
+ ([2607:fb90:f802:6e0c:4407:203:e794:8e1f])
+ by smtp.gmail.com with ESMTPSA id w9sm4200739qkp.12.2021.11.04.10.49.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Nov 2021 10:49:01 -0700 (PDT)
+Subject: Re: [PATCH v3 19/29] bsd-user/arm/target_arch_signal.h: arm machine
+ context for signals
+To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
+References: <20211104140536.42573-1-imp@bsdimp.com>
+ <20211104140536.42573-20-imp@bsdimp.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <1262504d-1ce4-4720-31e4-e373d74e2b39@linaro.org>
+Date: Thu, 4 Nov 2021 13:48:58 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <20211104140536.42573-20-imp@bsdimp.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82b.google.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.093,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,67 +89,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, Thomas Huth <thuth@redhat.com>,
- richard.henderson@linaro.org, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org,
+ Kyle Evans <kevans@freebsd.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, Philippe Mathieu-Daude <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 11/4/21 10:05 AM, Warner Losh wrote:
+> +typedef struct target_mcontext {
+> +    uint32_t    __gregs[32];
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+sys/arm/include/ucontext.h has
 
-> On 11/3/21 18:13, Alex Benn=C3=A9e wrote:
->> As base images are often used to build further images like toolchains
->> ensure we don't add the local user by accident. The local user should
->> only exist on local images and not anything that gets pushed up to the
->> public registry.
->>=20
->> Reported-by: Richard Henderson <richard.henderson@linaro.org>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> ---
->>  tests/docker/Makefile.include | 4 ++++
->>  1 file changed, 4 insertions(+)
->>=20
->> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.inclu=
-de
->> index 5bbbaceed1..462a3758d7 100644
->> --- a/tests/docker/Makefile.include
->> +++ b/tests/docker/Makefile.include
->> @@ -150,6 +150,10 @@ docker-image-debian-sparc64-cross: docker-image-deb=
-ian10
->>  # The native build should never use the registry
->>  docker-image-debian-native: DOCKER_REGISTRY=3D
->>=20=20
->> +# base images should not add a local user
->> +docker-image-debian10: NOUSER=3D1
->> +docker-image-debian11: NOUSER=3D1
->
-> What about covering all DOCKER_PARTIAL_IMAGES:
+#define _NGREG          17
+typedef __greg_t        __gregset_t[_NGREG];
 
-Hmm maybe - to be honest the naming is at variance with what it actually
-indicates. They are perfectly usable images (they are used for cross
-compiling tests) but they are not usable for building QEMU itself hence
-use the DOCKER_PARTIAL_IMAGES field to stop them being expanded in the
-test runs.
-
-If I had my time again....
-
->
-> -- >8 --
-> @@ -188,6 +188,9 @@ DOCKER_PARTIAL_IMAGES +=3D debian-tricore-cross
->  DOCKER_PARTIAL_IMAGES +=3D debian-xtensa-cross
->  DOCKER_PARTIAL_IMAGES +=3D fedora-cris-cross
->
-> +# base images should not add a local user
-> +$(foreach image,$(DOCKER_PARTIAL_IMAGES),docker-image-$(image)): NOUSER=
-=3D1
-> +
->  # Rules for building linux-user powered images
->  #
->  # These are slower than using native cross compiler setups but can
-> ---
+With s/32/17/ here,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
---=20
-Alex Benn=C3=A9e
+r~
 
