@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E305D4459EF
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 19:45:55 +0100 (CET)
-Received: from localhost ([::1]:48198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 891E5445AA3
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 20:39:48 +0100 (CET)
+Received: from localhost ([::1]:34240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mihkI-0001yT-J7
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 14:45:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35710)
+	id 1miiaR-0008Ng-A2
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 15:39:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mihi8-00016l-Ng
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 14:43:40 -0400
-Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f]:40464)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mihi7-0000fk-3w
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 14:43:40 -0400
-Received: by mail-qt1-x82f.google.com with SMTP id l12so4532827qtx.7
- for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 11:43:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dFrGETjZqj4jYMu56+tK9t85D6av/p/UCU4iq9uzH8o=;
- b=nGDjg2I649pRCOs3GyxnAlXZqPt6vJwwoTNs7OXSZDcbPPP0AU1uVElrVrD9tthQQb
- 313IxiK0bspJHE8AF2dkYFwo8+klM0gkjR61+euUOR3Ux4dyVSjnMsqBwo/nKOCWkPPO
- d5jb9COGxcdzPQh2ScTIrgQyJSGUJxopVrmdd8nloLXWpSNIqURetPZ20Eq90TjZ8v51
- ylODMgRZtiKIE0DJQeQsfJbBTYgesbeb29O+7nOC6U8yCBNuKnxRZMGXvjt0nUiO2i2F
- E4QDKFK9RrgZwcyd/u9uXWhqzAx/23phc1bE4LTnTPfoXI7qauVrZdfzHfSit/wHI5Yo
- q3xA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dFrGETjZqj4jYMu56+tK9t85D6av/p/UCU4iq9uzH8o=;
- b=KLSCHvGXZCPn/a6nMNYwiTSktXMH/1CV0RHf7EJQPtRai/qIazY7IiViGqAh2uy7sr
- 50z34UfrF6MUkXpFWRwEOscUWjDbWQP+x7+moLjLbeYm6dtJcOrH7QvgYZbB+Da2ECSC
- OGICer0PdvxlRbmxwfuBfWhQenSdA2OQIPDRfjClODVmM5Q1ouCC+HuefXSb2ydx7j9N
- 6hM38i2H5NgTJGLOTlaWu1QlAhBowQ5wJg9Vxir1Y/Cdb/MZJ90WIFIJJ54UGa5laoul
- 06ni7fEEX3PwL85QXJF0wwxCMASXSa2u6STk5s+9ecEnQLzY8XiOWBYuYvOmzxi2GQuh
- X89g==
-X-Gm-Message-State: AOAM531CXeUSDTcGpxrmx/DeZYtB5KgvrxOV2kMPcWOwfyE/h6BhDZrD
- 5wv1TT+wEPmhQTvqCp8qDWJ5Ww==
-X-Google-Smtp-Source: ABdhPJwfxSITllOiSD2T44ax0puRx/Qx7WxGQ3cMt/hF9PaTSJJbEWge+RVnaBp4vWCw+3VdamZsUQ==
-X-Received: by 2002:a05:622a:1450:: with SMTP id
- v16mr45470145qtx.25.1636051417818; 
- Thu, 04 Nov 2021 11:43:37 -0700 (PDT)
-Received: from [192.168.44.35] ([172.58.219.70])
- by smtp.gmail.com with ESMTPSA id n19sm4457469qta.22.2021.11.04.11.43.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Nov 2021 11:43:37 -0700 (PDT)
-Subject: Re: [PATCH v3 23/29] bsd-user/arm/target_arch_signal.h: arm
- set_mcontext
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-References: <20211104140536.42573-1-imp@bsdimp.com>
- <20211104140536.42573-24-imp@bsdimp.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a4809133-bdae-8c06-511c-0aa9af6f3362@linaro.org>
-Date: Thu, 4 Nov 2021 14:41:17 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1miiZK-0007XX-7v
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 15:38:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21577)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1miiZH-0006Wv-22
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 15:38:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636054712;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kGL6GsmV+WyfTerHM7enZu36ifkYCt8A63C7byiHkw0=;
+ b=dIOceNvDd3/b3nW2WPM7x7BlW+VLfZhCu9hZB+FoXWhcVkvvulOlUXjl8V+FYuAK36RZ6D
+ hpdZBz+iEUM29PqCNHSsza37JPmU+aCK68+wvkecNgOAiIUjF6whs1rnNO3OtWW0KgCpFL
+ ZFf0KjhOxX26ImcNtmSWnds8szF2wRM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-563-E223DiRTP9av8ntjbIkB5g-1; Thu, 04 Nov 2021 15:38:29 -0400
+X-MC-Unique: E223DiRTP9av8ntjbIkB5g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54221800053;
+ Thu,  4 Nov 2021 19:38:28 +0000 (UTC)
+Received: from redhat.com (ovpn-112-104.phx2.redhat.com [10.3.112.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CA5AC5F4ED;
+ Thu,  4 Nov 2021 19:38:17 +0000 (UTC)
+Date: Thu, 4 Nov 2021 14:38:16 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3 3/3] qapi: deprecate drive-backup
+Message-ID: <20211104193816.4qybfnrmdh4vi7a2@redhat.com>
+References: <20211103132912.1977438-1-vsementsov@virtuozzo.com>
+ <20211103132912.1977438-4-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20211104140536.42573-24-imp@bsdimp.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82f;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82f.google.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.093,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211103132912.1977438-4-vsementsov@virtuozzo.com>
+User-Agent: NeoMutt/20211029-10-fe244a
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,44 +77,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org,
- Kyle Evans <kevans@freebsd.org>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, Philippe Mathieu-Daude <f4bug@amsat.org>
+Cc: qemu-block@nongnu.org, kchamart@redhat.com, libvir-list@redhat.com,
+ wencongyang2@huawei.com, xiechanglong.d@gmail.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/4/21 10:05 AM, Warner Losh wrote:
-> +    /*
-> +     * Make sure T mode matches the PC's notion of thumb mode, although
-> +     * FreeBSD lets the processor sort this out, so we may need remove
-> +     * this check, or generate a signal...
-> +     */
-> +    if (!!(tswap32(gr[TARGET_REG_PC]) & 1) != !!(cpsr & CPSR_T)) {
-> +        return -TARGET_EINVAL;
-> +    }
+On Wed, Nov 03, 2021 at 02:29:12PM +0100, Vladimir Sementsov-Ogievskiy wrote:
+> Modern way is using blockdev-add + blockdev-backup, which provides a
+> lot more control on how target is opened.
+> 
 
-I've had a read through the Arm ARM for "movs pc, lr", which is how swi_exit returns to 
-userspace:
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>
+> ---
+>  docs/about/deprecated.rst              | 11 ++++++
+>  docs/interop/live-block-operations.rst | 47 +++++++++++++++++---------
+>  qapi/block-core.json                   |  5 ++-
+>  3 files changed, 46 insertions(+), 17 deletions(-)
+> 
+> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+> index 25b7ec8d92..4a4910143f 100644
+> --- a/docs/about/deprecated.rst
+> +++ b/docs/about/deprecated.rst
+> @@ -234,6 +234,17 @@ single ``bitmap``, the new ``block-export-add`` uses a list of ``bitmaps``.
+>  Member ``values`` in return value elements with meta-type ``enum`` is
+>  deprecated.  Use ``members`` instead.
+>  
+> +``drive-backup`` (since 6.2)
+> +''''''''''''''''''''''''''''
 
-     CPSRWriteByInstr(SPSR[], '1111', TRUE);
-     ...
-     BranchWritePC(result);
+Correct here,...
 
-So the CPSR gets written first, which sets the T bit, and thus the result of 
-CurrentInstrSet(), then
+> +++ b/docs/interop/live-block-operations.rst
 
-BranchWritePC(bits(32) address)
-   if CurrentInstrSet() == InstrSet_ARM then
-     if ArchVersion() < 6 && address<1:0> != '00' then UNPREDICTABLE;
-     BranchTo(address<31:2>:'00');
-   ...
-   else
-     BranchTo(address<31:1>:'0');
+>  
+>  QMP invocation for ``drive-backup``
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>  
+> +Note that ``drive-backup`` command is deprecated since QEMU 6.1 and
+> +will be removed in future.
 
-> +    env->regs[15] = tswap32(gr[TARGET_REG_PC]);
+...but stale here (this patch has been around for a while).
 
-So this should mask the low 1 or 2 bits depending on cpsr & CPSR_T.
+But even though we're in soft freeze, I lean toward this going in
+rather than wait yet another release to do the deprecation.
 
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
-r~
 
