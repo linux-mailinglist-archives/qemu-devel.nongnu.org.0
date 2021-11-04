@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1696444D51
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 03:33:34 +0100 (CET)
-Received: from localhost ([::1]:60710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50D94444D57
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 03:37:56 +0100 (CET)
+Received: from localhost ([::1]:37124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miSZJ-0008Ps-Et
-	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 22:33:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53734)
+	id 1miSdW-0003IF-LV
+	for lists+qemu-devel@lfdr.de; Wed, 03 Nov 2021 22:37:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1miSXF-0007VZ-Mj
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 22:31:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51107)
+ id 1miSaS-0001ke-NG
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 22:34:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20891)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1miSXB-0003q8-Ua
- for qemu-devel@nongnu.org; Wed, 03 Nov 2021 22:31:24 -0400
+ id 1miSaP-0004rX-1J
+ for qemu-devel@nongnu.org; Wed, 03 Nov 2021 22:34:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1635993079;
+ s=mimecast20190719; t=1635993279;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NcNKgPAdotlma+SzbiL53/k1dV5NpFo2xKriZncoGG8=;
- b=XNvYjFyoe6XvkL2TDTGoW8UPfqToKyzGKeG9eTNDujegB0ZSd6jDB+BeuIvEoRUdPkEtgk
- SuIhdyTiq2I9G1+VmGIPvfMM4NU/T7e7/S1OlVcM/qUag/pXXcL7zFOrthRE9BfzI7AstR
- 3kkm1o0FalMrG8yzX/zbWM2JPgPtuPg=
+ bh=F0blnMfu1IPQFo5xoG5T4IPh8ZDv7m3+nQiHK+FEm10=;
+ b=RBnF7nvI4iFCLI5ECSeoDx3rfFg/naiNGlbw58PwDeQCnFQebcT6q/F98NHNitaFT4vqqo
+ 38Jx5ryIZjOEQ0o3RL8JkMsBnjfY9tKotc7p/ze9PtrLgn+c8i3wXnyQc6xmPg6witVJ87
+ roaAUCUvqflY9EUtdY2LK2WGVx9gZVE=
 Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
  [209.85.167.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-601-5yGEkdciPjGZkjboD8w-yg-1; Wed, 03 Nov 2021 22:31:18 -0400
-X-MC-Unique: 5yGEkdciPjGZkjboD8w-yg-1
+ us-mta-346-0WkrvrJIOqCDMwfrSYMaSA-1; Wed, 03 Nov 2021 22:34:36 -0400
+X-MC-Unique: 0WkrvrJIOqCDMwfrSYMaSA-1
 Received: by mail-lf1-f72.google.com with SMTP id
- j11-20020a056512398b00b004016f3be72fso1322601lfu.15
- for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 19:31:17 -0700 (PDT)
+ c40-20020a05651223a800b004018e2f2512so815414lfv.11
+ for <qemu-devel@nongnu.org>; Wed, 03 Nov 2021 19:34:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=NcNKgPAdotlma+SzbiL53/k1dV5NpFo2xKriZncoGG8=;
- b=Or6uER1ciloZS+M83adKChLIj0gdHNaKol3+po3Y9hb8XUf0/TyQwU0GWzhiScU50g
- QguYzv7066sSTGdoJaB0cC5Hi7N/jglcHwxV5hBk+LIKiTqvH72xk1AV0d6xe/stVvLm
- mDloHvpW8NTM92rhfGLy8LV4x6oHs1+Kp7oHLecwdfGb2bsX/q7MJvYAXPNVEk5EVwCc
- oB1IQfSq33Q0fqyXcUYTqv6Hw40uZxXnyPFiWosCy6i92NTjbaUDvolvIE18EB3/mlr8
- yfDh0JSK794rTIlMR9720WPbYBZwNkrQkEz2dQ/c78zhdtzxtai/+Ni6AooX9v2llL+p
- gNMQ==
-X-Gm-Message-State: AOAM531l3AY1XA/3ndNiLZ0bwC1TaQAU/nN4kdbyqRCaKNrkehSiPJJi
- +pzkq4myxisr9UUyanuciFSEiW0fVbsHNmE2Qz2/Aay0nWPWkVcaqpm1ODNtl9J/67+3dDVDrre
- 3g00HQ2DNC1FSf+9g15qGDMeuV6UxPv0=
-X-Received: by 2002:a05:6512:32c1:: with SMTP id
- f1mr45935293lfg.498.1635993076436; 
- Wed, 03 Nov 2021 19:31:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwwpEZwopt/FLpSd93uaD8FQ8BeiJJ3BLvKAmk9tr1ED8T3ahFDV7Us6tZiLiBradYvwHPdQAg8wBwYgGnbRFs=
-X-Received: by 2002:a05:6512:32c1:: with SMTP id
- f1mr45935246lfg.498.1635993076043; 
- Wed, 03 Nov 2021 19:31:16 -0700 (PDT)
+ bh=F0blnMfu1IPQFo5xoG5T4IPh8ZDv7m3+nQiHK+FEm10=;
+ b=a5VIIMMZKiy/iwi14a/jMX5p+5xr6dkTsURuJPNyzGwZdeOXpUB4FfMagxRWH77jO4
+ FlQ+wJdVsAFXYSvlc/wz6C1qq7MsagXG/KVBMNPWkQMeK6gzwVAQ8JX/GPKDrQ88Cp4Y
+ 1UB8TmIYYYz+H6BIAjdKwWq/SEIS+eA9MD7hXoLYKUUtJPMtB0UH/jt/O5b9DFmE01tk
+ 5g4tcWh6Bt8rv1BC4YJxwCD9SjGu/6dt0fIzVIatV4f+64V96NtURGn7zNh+9PE2fLpM
+ 5yFFN+IITgjRRULkRGZXXKwkvy905EO3yxfnHV/7gW2TM7sPYPwCuZSiRq2gBU2dFv0q
+ ZR/w==
+X-Gm-Message-State: AOAM532o/G8CP7T8DeMj6fII33iz8UrPC7ockm2KkAyqFCNKq0L3TwoG
+ Av3DMb7Oi9VVK4bJDPyWlMBMjo5rWru15HK2C60opi6ivYuZ8mPFl2NLoSCTEb+MeKe9Dn/84QJ
+ kf3+t01YXgMQuExZWfFktrbxOmlbJDeI=
+X-Received: by 2002:a05:6512:1291:: with SMTP id
+ u17mr46252345lfs.84.1635993275174; 
+ Wed, 03 Nov 2021 19:34:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz13yriHYCo2BzwTEWmGSIV5YjpmbLvEcqatDb5pcm/JxzUwbVtdNSkaMFWdLtsl72unSlkVIHOqUaALstfQuE=
+X-Received: by 2002:a05:6512:1291:: with SMTP id
+ u17mr46252324lfs.84.1635993274974; 
+ Wed, 03 Nov 2021 19:34:34 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211029183525.1776416-1-eperezma@redhat.com>
- <20211029183525.1776416-12-eperezma@redhat.com>
- <74dbf70f-96a7-6fe3-dbc5-28a7b7989109@redhat.com>
- <CAJaqyWe56+wzXgdQp4nbGxhrSU4tPU+SkgTBUa=wSB5nSbtwuw@mail.gmail.com>
- <CACGkMEvOxUMo1WA4tUfDhw+FOJVW87JJGPw=U3JvUSQTU_ogWQ@mail.gmail.com>
- <CAJaqyWd4DQwRSL5StCft+3-uq12TW5x1o4DN_YW97D0JzOr2XQ@mail.gmail.com>
-In-Reply-To: <CAJaqyWd4DQwRSL5StCft+3-uq12TW5x1o4DN_YW97D0JzOr2XQ@mail.gmail.com>
+ <20211029183525.1776416-22-eperezma@redhat.com>
+ <CACGkMEt8fusPLj3=E1GETzotMOhkuTAzD_bON0hQEjNecg2GcQ@mail.gmail.com>
+ <CAJaqyWfdZwW82cTXwfdyfcLZUyKyw7R2wcwF2SM0wwTcVmZ_yQ@mail.gmail.com>
+ <CACGkMEvw8-D7VL3P0QJcn3zNFW3St3cEncqFfBW1J+m1b99CAQ@mail.gmail.com>
+ <CAJaqyWcDrEyFX8xvGmePdA5-tN88JuPV+=GU26+d=u-kSO6gsQ@mail.gmail.com>
+In-Reply-To: <CAJaqyWcDrEyFX8xvGmePdA5-tN88JuPV+=GU26+d=u-kSO6gsQ@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 4 Nov 2021 10:31:05 +0800
-Message-ID: <CACGkMEvXBHfgx+Vy-wjgHb_SYXAe1XOxp5NZPCkU06whXBHTmw@mail.gmail.com>
-Subject: Re: [RFC PATCH v5 11/26] vhost: Handle host notifiers in SVQ
+Date: Thu, 4 Nov 2021 10:34:24 +0800
+Message-ID: <CACGkMEuXji7Od=p6hC2w9hXfa0X7b91M+CXyghX_Xfty+pMpEg@mail.gmail.com>
+Subject: Re: [RFC PATCH v5 21/26] vhost: Add vhost_svq_valid_guest_features to
+ shadow vq
 To: Eugenio Perez Martin <eperezma@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
@@ -76,7 +77,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -110,182 +111,122 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 3, 2021 at 3:40 PM Eugenio Perez Martin <eperezma@redhat.com> w=
+On Wed, Nov 3, 2021 at 3:44 PM Eugenio Perez Martin <eperezma@redhat.com> w=
 rote:
 >
-> On Wed, Nov 3, 2021 at 3:56 AM Jason Wang <jasowang@redhat.com> wrote:
+> On Wed, Nov 3, 2021 at 4:18 AM Jason Wang <jasowang@redhat.com> wrote:
 > >
-> > On Tue, Nov 2, 2021 at 4:47 PM Eugenio Perez Martin <eperezma@redhat.co=
+> > On Tue, Nov 2, 2021 at 4:10 PM Eugenio Perez Martin <eperezma@redhat.co=
 m> wrote:
 > > >
-> > > On Tue, Nov 2, 2021 at 8:55 AM Jason Wang <jasowang@redhat.com> wrote=
+> > > On Tue, Nov 2, 2021 at 6:26 AM Jason Wang <jasowang@redhat.com> wrote=
 :
 > > > >
+> > > > On Sat, Oct 30, 2021 at 2:44 AM Eugenio P=C3=A9rez <eperezma@redhat=
+.com> wrote:
+> > > > >
+> > > > > This allows it to test if the guest has aknowledge an invalid tra=
+nsport
+> > > > > feature for SVQ. This will include packed vq layout or event_idx,
+> > > > > where VirtIO device needs help from SVQ.
+> > > > >
+> > > > > There is not needed at this moment, but since SVQ will not re-neg=
+otiate
+> > > > > features again with the guest, a failure in acknowledge them is f=
+atal
+> > > > > for SVQ.
+> > > > >
 > > > >
-> > > > =E5=9C=A8 2021/10/30 =E4=B8=8A=E5=8D=882:35, Eugenio P=C3=A9rez =E5=
-=86=99=E9=81=93:
-> > > > > If device supports host notifiers, this makes one jump less (kern=
-el) to
-> > > > > deliver SVQ notifications to it.
-> > > > >
-> > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > > > ---
-> > > > >   hw/virtio/vhost-shadow-virtqueue.h |  2 ++
-> > > > >   hw/virtio/vhost-shadow-virtqueue.c | 23 ++++++++++++++++++++++-
-> > > > >   2 files changed, 24 insertions(+), 1 deletion(-)
-> > > > >
-> > > > > diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost=
--shadow-virtqueue.h
-> > > > > index 30ab9643b9..eb0a54f954 100644
-> > > > > --- a/hw/virtio/vhost-shadow-virtqueue.h
-> > > > > +++ b/hw/virtio/vhost-shadow-virtqueue.h
-> > > > > @@ -18,6 +18,8 @@ typedef struct VhostShadowVirtqueue VhostShadow=
-Virtqueue;
-> > > > >   void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int s=
-vq_kick_fd);
-> > > > >   const EventNotifier *vhost_svq_get_dev_kick_notifier(
-> > > > >                                                 const VhostShadow=
-Virtqueue *svq);
-> > > > > +void vhost_svq_set_host_mr_notifier(VhostShadowVirtqueue *svq, v=
-oid *addr);
-> > > > > +
-> > > > >   void vhost_svq_start(struct vhost_dev *dev, unsigned idx,
-> > > > >                        VhostShadowVirtqueue *svq, int svq_kick_fd=
-);
-> > > > >   void vhost_svq_stop(struct vhost_dev *dev, unsigned idx,
-> > > > > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost=
--shadow-virtqueue.c
-> > > > > index fda60d11db..e3dcc039b6 100644
-> > > > > --- a/hw/virtio/vhost-shadow-virtqueue.c
-> > > > > +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> > > > > @@ -29,6 +29,12 @@ typedef struct VhostShadowVirtqueue {
-> > > > >        * So shadow virtqueue must not clean it, or we would lose =
-VirtQueue one.
-> > > > >        */
-> > > > >       EventNotifier svq_kick;
-> > > > > +
-> > > > > +    /* Device's host notifier memory region. NULL means no regio=
-n */
-> > > > > +    void *host_notifier_mr;
-> > > > > +
-> > > > > +    /* Virtio queue shadowing */
-> > > > > +    VirtQueue *vq;
-> > > > >   } VhostShadowVirtqueue;
-> > > > >
-> > > > >   /**
-> > > > > @@ -50,7 +56,20 @@ static void vhost_handle_guest_kick(EventNotif=
-ier *n)
-> > > > >           return;
-> > > > >       }
-> > > > >
-> > > > > -    event_notifier_set(&svq->hdev_kick);
-> > > > > +    if (svq->host_notifier_mr) {
-> > > > > +        uint16_t *mr =3D svq->host_notifier_mr;
-> > > > > +        *mr =3D virtio_get_queue_index(svq->vq);
+> > > > It's not clear to me why we need this. Maybe you can give me an
+> > > > example. E.g isn't it sufficient to filter out the device with
+> > > > event_idx?
 > > > >
-> > > >
-> > > > Do we need barriers around the possible MMIO here?
 > > >
-> > > That's right, I missed them.
+> > > If the guest did negotiate _F_EVENT_IDX, it expects to be notified
+> > > only when device marks as used a specific number of descriptors.
 > > >
-> > > >
-> > > > To avoid those complicated stuff, I'd rather simply go with eventfd=
- path.
-> > > >
-> > > > Note mmio and eventfd are not mutually exclusive.
-> > >
-> > > Actually we cannot ignore them since they are set in the guest. If SV=
+> > > If we use VirtQueue notification, the VirtQueue code handles it
+> > > transparently. But if we want to be able to change the guest VQ's
+> > > call_fd, we cannot use VirtQueue's, so this needs to be handled by SV=
 Q
-> > > does nothing about them, the guest's notification will travel directl=
-y
-> > > to the vdpa device, and SVQ cannot intercept them.
+> > > code. And that is still not implemented.
 > > >
-> > > Taking that into account, it's actually less changes to move them to
-> > > SVQ (like in this series) than to disable them (like in previous
-> > > series). But we can go with disabling them for sure.
+> > > Of course in the event_idx case we could just ignore it and notify in
+> > > all used descriptors, but it seems not polite to me :). I will develo=
+p
+> > > event_idx on top of this, either exposing the needed pieces in
+> > > VirtQueue (I prefer this) or rolling our own in SVQ.
 > >
-> > I think we can simply disable the memory region for the doorbell, then
-> > qemu/kvm will do all the rest for us.
-> >
-> > If we want to add barriers it would be a lot of architecture specific
-> > instructions which looks like a burden for us to maintain in Qemu.
-> >
-> > So if we disable the memory region, KVM will fallback to the eventfd,
-> > then qemu can intercept and we can simply relay it via kickfd. This
-> > looks easier to maintain.
-> >
-> > Thanks
+> > Yes, but what I meant is, we can fail the SVQ enabling if the device
+> > supports event_idx. Then we're sure guests won't negotiate event_idx.
 > >
 >
-> Any reason to go off-list? :).
+> We can go that way for sure, but then we leave out the scenario where
+> the device supports event_idx but the guest has not acked it. This is
+> a valid scenario for SVQ to work in.
 
-Hit the wrong button:(
-
-Adding the list back.
-
->
-> I'm fine doing it that way, but it seems to me there must be a way
-> since VFIO, UIO, etc would have the same issues. The worst case would
-> be that these accesses are resolved through a syscall or similar. How
-> does DPDK solve it?
-
-I guess it should have per arch assemblies etc.
-
-> Probably with specific asm as you say...
-
-We can go this way, but to speed up the merging, I'd go with eventfd
-first to avoid dependencies. And we can do that in the future as the
-performance optimization.
+If SVQ supports event idx in the future, we can remove it from the
+blacklist. But I think it should be simpler to let SVQ use the same
+features as guests. So in this case SVQ won't use the event index.
 
 Thanks
 
 >
 > Thanks!
 >
->
+> > Thanks
+> >
+> > >
+> > > Same reasoning can be applied to unknown transport features.
 > > >
 > > > Thanks!
 > > >
-> > > >
 > > > > Thanks
 > > > >
-> > > >
-> > > > > +    } else {
-> > > > > +        event_notifier_set(&svq->hdev_kick);
-> > > > > +    }
+> > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > > > ---
+> > > > >  hw/virtio/vhost-shadow-virtqueue.h | 1 +
+> > > > >  hw/virtio/vhost-shadow-virtqueue.c | 6 ++++++
+> > > > >  2 files changed, 7 insertions(+)
+> > > > >
+> > > > > diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost=
+-shadow-virtqueue.h
+> > > > > index 946b2c6295..ac55588009 100644
+> > > > > --- a/hw/virtio/vhost-shadow-virtqueue.h
+> > > > > +++ b/hw/virtio/vhost-shadow-virtqueue.h
+> > > > > @@ -16,6 +16,7 @@
+> > > > >  typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
+> > > > >
+> > > > >  bool vhost_svq_valid_device_features(uint64_t *features);
+> > > > > +bool vhost_svq_valid_guest_features(uint64_t *features);
+> > > > >
+> > > > >  void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int sv=
+q_kick_fd);
+> > > > >  void vhost_svq_set_guest_call_notifier(VhostShadowVirtqueue *svq=
+, int call_fd);
+> > > > > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost=
+-shadow-virtqueue.c
+> > > > > index 6e0508a231..cb9ffcb015 100644
+> > > > > --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > > > > +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > > > > @@ -62,6 +62,12 @@ bool vhost_svq_valid_device_features(uint64_t =
+*dev_features)
+> > > > >      return true;
+> > > > >  }
+> > > > >
+> > > > > +/* If the guest is using some of these, SVQ cannot communicate *=
+/
+> > > > > +bool vhost_svq_valid_guest_features(uint64_t *guest_features)
+> > > > > +{
+> > > > > +    return true;
 > > > > > +}
 > > > > > +
-> > > > > +/*
-> > > > > + * Set the device's memory region notifier. addr =3D NULL clear =
-it.
-> > > > > + */
-> > > > > +void vhost_svq_set_host_mr_notifier(VhostShadowVirtqueue *svq, v=
-oid *addr)
-> > > > > +{
-> > > > > +    svq->host_notifier_mr =3D addr;
-> > > > >   }
+> > > > >  /* Forward guest notifications */
+> > > > >  static void vhost_handle_guest_kick(EventNotifier *n)
+> > > > >  {
+> > > > > --
+> > > > > 2.27.0
 > > > > >
-> > > > >   /**
-> > > > > @@ -134,6 +153,7 @@ void vhost_svq_stop(struct vhost_dev *dev, un=
-signed idx,
-> > > > >    */
-> > > > >   VhostShadowVirtqueue *vhost_svq_new(struct vhost_dev *dev, int =
-idx)
-> > > > >   {
-> > > > > +    int vq_idx =3D dev->vq_index + idx;
-> > > > >       g_autofree VhostShadowVirtqueue *svq =3D g_new0(VhostShadow=
-Virtqueue, 1);
-> > > > >       int r;
-> > > > >
-> > > > > @@ -151,6 +171,7 @@ VhostShadowVirtqueue *vhost_svq_new(struct vh=
-ost_dev *dev, int idx)
-> > > > >           goto err_init_hdev_call;
-> > > > >       }
-> > > > >
-> > > > > +    svq->vq =3D virtio_get_queue(dev->vdev, vq_idx);
-> > > > >       return g_steal_pointer(&svq);
-> > > > >
-> > > > >   err_init_hdev_call:
 > > > >
 > > >
 > >
