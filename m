@@ -2,96 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E08F1445614
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 16:12:18 +0100 (CET)
-Received: from localhost ([::1]:60558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A88E9445628
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 16:18:05 +0100 (CET)
+Received: from localhost ([::1]:38624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miePZ-0008Qs-RR
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 11:12:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56890)
+	id 1mieVA-0004Sc-9Y
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 11:18:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mieME-0003XO-KA
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 11:08:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29151)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mieTb-0003Rq-JS
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 11:16:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49118)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mieM8-0003Oq-3m
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 11:08:49 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mieTW-00074d-RQ
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 11:16:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636038522;
+ s=mimecast20190719; t=1636038981;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J5E2jW+aoxCniJzsI0npZoYwRiorJ4P07/gyED+S9Rg=;
- b=Q2i4TooP0RZOESMRNYVpAaXljLjsmufD7fWIZYyEm/uQovHt71ISMh78GSTf0+IDVl6Ixb
- uAKQ7w+ecI4s3MD94EygmypxN/fgFSAEF51nEZ1J+yiV47LP+Ia8rFw+uRUH0kq0GojlLw
- kcZwVpIATfJP6skytSQTh64RCVTv484=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-fsbTiL0-MoaAqf3COQAkQg-1; Thu, 04 Nov 2021 11:08:41 -0400
-X-MC-Unique: fsbTiL0-MoaAqf3COQAkQg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- j193-20020a1c23ca000000b003306ae8bfb7so2578394wmj.7
- for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 08:08:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=J5E2jW+aoxCniJzsI0npZoYwRiorJ4P07/gyED+S9Rg=;
- b=1PLboL996vymUhDw+d28eEi5h2H/7BxrR6TErxJ4lujag+WTwFQQ1pjHUYKytiuTI7
- UEgAiAEzYs3jVLPTmS350Ml/B+K1PCaCtaNaa5kNQhcQucaNkAfJs8IXrm7YpQIKtuRd
- r2JqyJU8RYT9lAWooiHJZYe9FfvnsrmFTjc+N6XULvB3BdI5NLNefDZE6Yd9PmIfbXy4
- Ts+47CWMJ1TPq8kq98A6bLzAcXVKnfq4BFatpiSTwfS3CqRCnm6Bfnx+JY+CzMkUSeAn
- D/Z3kjqTBtuI/XsKd7iVQLG4BWxi8Zu4xanrYm5ts1Lo5qiUUjoAo4sh+HQ45vXkZdl9
- GIsg==
-X-Gm-Message-State: AOAM533iFv3Df84K8VUqiVj751trc0SB5dMhiqWg6oGRBnHijn/6OTE6
- JI574ZsL4lu6FI2CKa+SgvZ8FNdUxxpVaup42N5wUOy2eWTMCj1r2uSAfir9Z1VOyeoJ7Ju7VRH
- dTMpns91YV0RPFdU=
-X-Received: by 2002:a5d:6dab:: with SMTP id u11mr1103635wrs.46.1636038520532; 
- Thu, 04 Nov 2021 08:08:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwAUggOJosSlFuRG24ankYdmgPf3FViLWHdWd9DGEtR7m0+KWVSu1Vdm3yBt0Kcj08W9XQKZg==
-X-Received: by 2002:a5d:6dab:: with SMTP id u11mr1103580wrs.46.1636038520216; 
- Thu, 04 Nov 2021 08:08:40 -0700 (PDT)
-Received: from [192.168.3.132] (p4ff23c9c.dip0.t-ipconnect.de. [79.242.60.156])
- by smtp.gmail.com with ESMTPSA id d16sm1964257wmb.37.2021.11.04.08.08.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Nov 2021 08:08:39 -0700 (PDT)
-Message-ID: <f1798844-795a-e5c6-4781-8a6bd4c26b4a@redhat.com>
-Date: Thu, 4 Nov 2021 16:08:38 +0100
+ bh=UxTY4V7WyQpQ9Omk9IcTpbjFXUNhmk/gT3r8s3rORxY=;
+ b=RZ21Rt97VRmM809+MWMrpu+BiwPM8vcbY0FzweMcIo8TBrPIJqn4vIpsUA+rvPfUcrgvRh
+ WTh2rFQVQdUk8w9Rv9/Og8IA2T3gCk/szHfQ2o3Hqw9LOyLLtHW7ffswsP4p/GSPQcGkHq
+ c1Ltr5Ok59nqouGu7FeEfr80MSEhAcg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-80-LwFWAMl5N0Cu8cLG0w7shA-1; Thu, 04 Nov 2021 11:16:18 -0400
+X-MC-Unique: LwFWAMl5N0Cu8cLG0w7shA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C25280A5CC;
+ Thu,  4 Nov 2021 15:16:16 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6909819C79;
+ Thu,  4 Nov 2021 15:15:30 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id CDF9E11380A7; Thu,  4 Nov 2021 16:15:28 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Jonah Palmer <jonah.palmer@oracle.com>
+Subject: Re: [PATCH v8 3/8] qmp: add QMP command x-debug-query-virtio
+References: <1635334909-31614-1-git-send-email-jonah.palmer@oracle.com>
+ <1635334909-31614-4-git-send-email-jonah.palmer@oracle.com>
+Date: Thu, 04 Nov 2021 16:15:28 +0100
+In-Reply-To: <1635334909-31614-4-git-send-email-jonah.palmer@oracle.com>
+ (Jonah Palmer's message of "Wed, 27 Oct 2021 07:41:44 -0400")
+Message-ID: <87ilx89ckv.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [RFC PATCH v2 2/2] s390x: Implement the USER_SIGP_BUSY capability
-To: Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Thomas Huth <thuth@redhat.com>
-References: <20211102201122.3188108-1-farman@linux.ibm.com>
- <20211102201122.3188108-3-farman@linux.ibm.com>
- <227c48c0-9736-020a-bf21-f70c850c9480@redhat.com>
- <9f76c37fc79d40a0bf031deafc7ef4c455c4d375.camel@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <9f76c37fc79d40a0bf031deafc7ef4c455c4d375.camel@linux.ibm.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.093, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,60 +79,276 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org
+Cc: mst@redhat.com, qemu_oss@crudebyte.com, qemu-devel@nongnu.org,
+ kraxel@redhat.com, si-wei.liu@oracle.com, joao.m.martins@oracle.com,
+ eblake@redhat.com, qemu-block@nongnu.org, david@redhat.com,
+ arei.gonglei@huawei.com, marcandre.lureau@redhat.com, lvivier@redhat.com,
+ thuth@redhat.com, michael.roth@amd.com, groug@kaod.org, dgilbert@redhat.com,
+ eric.auger@redhat.com, stefanha@redhat.com, boris.ostrovsky@oracle.com,
+ kwolf@redhat.com, mathieu.poirier@linaro.org, raphael.norwitz@nutanix.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Jonah Palmer <jonah.palmer@oracle.com> writes:
 
->>
->> Can't we call s390_cpu_reset_sigp_busy() directly from
->> handle_sigp_single_dst(),
->> after the handle_sigp_single_dst() call?
-> 
-> Can I? Most of the orders in that routine are invoked via
-> "run_on_cpu(CPU(dst_cpu), ..." dispatching them to other vcpus, so I
-> presumed that was a stacked task. But of course, that doesn't make a
-> lot of sense, since it's holding that sigp lock across the duration, so
-> it must be a vcpu switch instead. Not sure what I was thinking at the
-> time, so I'll give this a try.
+> From: Laurent Vivier <lvivier@redhat.com>
+>
+> This new command lists all the instances of VirtIODevice with
+> their QOM paths and virtio type/name.
+>
+> Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
+> ---
+>  hw/virtio/meson.build      |  2 ++
+>  hw/virtio/virtio-stub.c    | 14 ++++++++++
+>  hw/virtio/virtio.c         | 27 +++++++++++++++++++
+>  include/hw/virtio/virtio.h |  1 +
+>  qapi/meson.build           |  1 +
+>  qapi/qapi-schema.json      |  1 +
+>  qapi/virtio.json           | 67 ++++++++++++++++++++++++++++++++++++++++++++++
+>  tests/qtest/qmp-cmd-test.c |  1 +
+>  8 files changed, 114 insertions(+)
+>  create mode 100644 hw/virtio/virtio-stub.c
+>  create mode 100644 qapi/virtio.json
+>
+> diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
+> index 521f7d6..d893f5f 100644
+> --- a/hw/virtio/meson.build
+> +++ b/hw/virtio/meson.build
+> @@ -6,8 +6,10 @@ softmmu_virtio_ss.add(when: 'CONFIG_VHOST', if_false: files('vhost-stub.c'))
+>  
+>  softmmu_ss.add_all(when: 'CONFIG_VIRTIO', if_true: softmmu_virtio_ss)
+>  softmmu_ss.add(when: 'CONFIG_VIRTIO', if_false: files('vhost-stub.c'))
+> +softmmu_ss.add(when: 'CONFIG_VIRTIO', if_false: files('virtio-stub.c'))
+>  
+>  softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost-stub.c'))
+> +softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('virtio-stub.c'))
+>  
+>  virtio_ss = ss.source_set()
+>  virtio_ss.add(files('virtio.c'))
+> diff --git a/hw/virtio/virtio-stub.c b/hw/virtio/virtio-stub.c
+> new file mode 100644
+> index 0000000..d4a88f5
+> --- /dev/null
+> +++ b/hw/virtio/virtio-stub.c
+> @@ -0,0 +1,14 @@
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "qapi/qapi-commands-virtio.h"
+> +
+> +static void *qmp_virtio_unsupported(Error **errp)
+> +{
+> +    error_setg(errp, "Virtio is disabled");
+> +    return NULL;
+> +}
+> +
+> +VirtioInfoList *qmp_x_debug_query_virtio(Error **errp)
+> +{
+> +    return qmp_virtio_unsupported(errp);
+> +}
+> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> index 7050bd5..ad17be7 100644
+> --- a/hw/virtio/virtio.c
+> +++ b/hw/virtio/virtio.c
+> @@ -13,6 +13,8 @@
+>  
+>  #include "qemu/osdep.h"
+>  #include "qapi/error.h"
+> +#include "qapi/qapi-commands-virtio.h"
+> +#include "qapi/qapi-visit-virtio.h"
+>  #include "cpu.h"
+>  #include "trace.h"
+>  #include "qemu/error-report.h"
+> @@ -29,6 +31,9 @@
+>  #include "sysemu/runstate.h"
+>  #include "standard-headers/linux/virtio_ids.h"
+>  
+> +/* QAPI list of VirtIODevices */
+> +static QTAILQ_HEAD(, VirtIODevice) virtio_list;
+> +
+>  /*
+>   * The alignment to use between consumer and producer parts of vring.
+>   * x86 pagesize again. This is the default, used by transports like PCI
+> @@ -3709,6 +3714,7 @@ static void virtio_device_realize(DeviceState *dev, Error **errp)
+>      vdev->listener.commit = virtio_memory_listener_commit;
+>      vdev->listener.name = "virtio";
+>      memory_listener_register(&vdev->listener, vdev->dma_as);
+> +    QTAILQ_INSERT_TAIL(&virtio_list, vdev, next);
+>  }
+>  
+>  static void virtio_device_unrealize(DeviceState *dev)
+> @@ -3723,6 +3729,7 @@ static void virtio_device_unrealize(DeviceState *dev)
+>          vdc->unrealize(dev);
+>      }
+>  
+> +    QTAILQ_REMOVE(&virtio_list, vdev, next);
+>      g_free(vdev->bus_name);
+>      vdev->bus_name = NULL;
+>  }
+> @@ -3896,6 +3903,8 @@ static void virtio_device_class_init(ObjectClass *klass, void *data)
+>      vdc->stop_ioeventfd = virtio_device_stop_ioeventfd_impl;
+>  
+>      vdc->legacy_features |= VIRTIO_LEGACY_FEATURES;
+> +
+> +    QTAILQ_INIT(&virtio_list);
+>  }
+>  
+>  bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev)
+> @@ -3906,6 +3915,24 @@ bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev)
+>      return virtio_bus_ioeventfd_enabled(vbus);
+>  }
+>  
+> +VirtioInfoList *qmp_x_debug_query_virtio(Error **errp)
+> +{
+> +    VirtioInfoList *list = NULL;
+> +    VirtioInfoList *node;
+> +    VirtIODevice *vdev;
+> +
+> +    QTAILQ_FOREACH(vdev, &virtio_list, next) {
+> +        DeviceState *dev = DEVICE(vdev);
+> +        node = g_new0(VirtioInfoList, 1);
+> +        node->value = g_new(VirtioInfo, 1);
+> +        node->value->path = g_strdup(dev->canonical_path);
+> +        node->value->type = g_strdup(vdev->name);
+> +        QAPI_LIST_PREPEND(list, node->value);
+> +    }
+> +
+> +    return list;
+> +}
+> +
+>  static const TypeInfo virtio_device_info = {
+>      .name = TYPE_VIRTIO_DEVICE,
+>      .parent = TYPE_DEVICE,
+> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> index 105b98c..eceaafc 100644
+> --- a/include/hw/virtio/virtio.h
+> +++ b/include/hw/virtio/virtio.h
+> @@ -110,6 +110,7 @@ struct VirtIODevice
+>      bool use_guest_notifier_mask;
+>      AddressSpace *dma_as;
+>      QLIST_HEAD(, VirtQueue) *vector_queues;
+> +    QTAILQ_ENTRY(VirtIODevice) next;
+>  };
+>  
+>  struct VirtioDeviceClass {
+> diff --git a/qapi/meson.build b/qapi/meson.build
+> index c356a38..df5662e 100644
+> --- a/qapi/meson.build
+> +++ b/qapi/meson.build
+> @@ -45,6 +45,7 @@ qapi_all_modules = [
+>    'sockets',
+>    'trace',
+>    'transaction',
+> +  'virtio',
+>    'yank',
+>  ]
+>  if have_system
+> diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+> index 4912b97..1512ada 100644
+> --- a/qapi/qapi-schema.json
+> +++ b/qapi/qapi-schema.json
+> @@ -93,3 +93,4 @@
+>  { 'include': 'audio.json' }
+>  { 'include': 'acpi.json' }
+>  { 'include': 'pci.json' }
+> +{ 'include': 'virtio.json' }
+> diff --git a/qapi/virtio.json b/qapi/virtio.json
+> new file mode 100644
+> index 0000000..4490c2c
+> --- /dev/null
+> +++ b/qapi/virtio.json
+> @@ -0,0 +1,67 @@
+> +# -*- Mode: Python -*-
+> +# vim: filetype=python
+> +#
+> +
+> +##
+> +# = Virtio devices
+> +##
+> +
+> +##
+> +# @VirtioInfo:
+> +#
+> +# Basic information about a given VirtIODevice including the device
+> +# canonical QOM path as well as the name of the device.
 
-These functions are all synchronous. See below.
+Is the part starting with "including" worth its keep?
 
-> 
->>
->> IIRC we could clear it in case cpu->env.sigp_order wasn't set.
->> Otherwise,
->> we'll have to clear it once we clear cpu->env.sigp_order -- e.g., in
->> do_stop_interrupt(), but
->> also during s390_cpu_reset().
->>
->> We could have a helper function that sets cpu->env.sigp_order = 0 and
->> clears the busy indication.
->>
-> 
-> Agreed, this was some of the refactoring that I had in mind looking at
-> this mindboggling patch.
-> 
-> I would love it if sigp_order weren't limited to the STOP and STOP AND
-> STORE STATUS orders, but I hesitate to mess with that too much, for
-> fear of ripples across the system.
+> +#
+> +# @path: VirtIO device canonical QOM path
 
-The only reason for that is that these are the only two (asynchronous)
-SIGP orders that can take forever to stop. You could have an endless
-stream of program interrupts on such a CPU and the CPU will actually
-never process the STOP interrupt. That's why only these are sticky --
-because run_on_cpu() itself is synchronous.
+I'd prefer "the device's canonical QOM path".
 
-Only for SIGP STOP*, run_on_cpu() can return and the order has not been
-fully processed.
+> +#
+> +# @type: VirtIO device name
+> +#
+> +# Since: 6.2
 
-All other ones are processed completely "synchronously" in QEMU. (using
-run_on_cpu(), but they are fully synchronous).
+If this series misses 6.2, which seems likely, you'll have to adjust the
+since tags.
 
--- 
-Thanks,
+> +#
+> +##
+> +{ 'struct': 'VirtioInfo',
+> +    'data': {
+> +        'path': 'str',
+> +        'type': 'str'
+> +    }
+> +}
+> +
+> +##
+> +# @x-debug-query-virtio:
+> +#
+> +# Returns a list of all initalized VirtIO devices
 
-David / dhildenb
+What's an uninitialized VirtIO device?
+
+> +#
+> +# Returns: list of gathered @VirtioInfo devices
+> +#
+> +# Since: 6.2
+> +#
+> +# Example:
+> +#
+> +# -> { "execute": "x-debug-query-virtio" }
+> +# <- { "return": [
+> +#        {
+> +#            "path": "/machine/peripheral-anon/device[4]/virtio-backend",
+> +#            "type": "virtio-input"
+> +#        },
+> +#        {
+> +#            "path": "/machine/peripheral/crypto0/virtio-backend",
+> +#            "type": "virtio-crypto"
+> +#        },
+> +#        {
+> +#            "path": "/machine/peripheral-anon/device[2]/virtio-backend",
+> +#            "type": "virtio-scsi"
+> +#        },
+> +#        {
+> +#            "path": "/machine/peripheral-anon/device[1]/virtio-backend",
+> +#            "type": "virtio-net"
+> +#        },
+> +#        {
+> +#            "path": "/machine/peripheral-anon/device[0]/virtio-backend",
+> +#            "type": "virtio-serial"
+> +#        }
+> +#      ]
+> +#    }
+> +#
+> +##
+> +
+> +{ 'command': 'x-debug-query-virtio', 'returns': ['VirtioInfo'] }
+> diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
+> index 1af2f74..62c6cc4 100644
+> --- a/tests/qtest/qmp-cmd-test.c
+> +++ b/tests/qtest/qmp-cmd-test.c
+> @@ -95,6 +95,7 @@ static bool query_is_ignored(const char *cmd)
+>          "query-gic-capabilities", /* arm */
+>          /* Success depends on target-specific build configuration: */
+>          "query-pci",              /* CONFIG_PCI */
+> +        "x-debug-query-virtio",   /* CONFIG_VIRTIO */
+>          /* Success depends on launching SEV guest */
+>          "query-sev-launch-measure",
+>          /* Success depends on Host or Hypervisor SEV support */
 
 
