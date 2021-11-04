@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA4064455EE
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 16:00:54 +0100 (CET)
-Received: from localhost ([::1]:60594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 841EE4455D2
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 15:57:52 +0100 (CET)
+Received: from localhost ([::1]:51604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mieEX-0006AK-Q0
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 11:00:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51276)
+	id 1mieBb-00007O-Lj
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 10:57:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mie86-0003Fm-Dv
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 10:54:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32450)
+ id 1mie8A-0003RM-55
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 10:54:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40923)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mie84-0006tJ-54
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 10:54:14 -0400
+ id 1mie86-0006uF-OA
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 10:54:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636037651;
+ s=mimecast20190719; t=1636037654;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UrRfMkBnaj5EI7rovdrJF0eNhgCHysukHpqKwzSsn3Y=;
- b=eJadbEIblKEov/sHdGOy/PuwvhJgl2tMIoNSQBvUyEnUNDoEq707U4UyZDad5UVG/vKK5j
- xBc1n6gx8MDxWPp85JyvPYCQaK5rIf66qeEXbXHAZS8UwZN4LpcA39EmI/aFPPfkw/hw5W
- 7QsZ9r5VMYucbWC5ClcSG0OYpkSbJbg=
+ bh=hx3r2KUL5QHtcRGIVt9AjkqkTKKz9o4kc1FoO1ja1LY=;
+ b=QmBo3uGF6xKkWmDQbLMSm0QHQ8l9hKsoSl0o5fCY9wgg2rwITJXFq3ry8Ich/V7ajUZ4nu
+ JJ8elKlM0VGOl+XFKnc3TrCzozPL2hV/AiWwAtuV5Xs21CRiretQ4w0MShokrrGwvDCgE5
+ R1caDoCXlY6eMAJa7w8GkEM6LsNrHw0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-536-c19v-D3vPm6ea2jzX79FFQ-1; Thu, 04 Nov 2021 10:54:08 -0400
-X-MC-Unique: c19v-D3vPm6ea2jzX79FFQ-1
+ us-mta-594-A40Yh6BfMOqtRZsbJ_554Q-1; Thu, 04 Nov 2021 10:54:11 -0400
+X-MC-Unique: A40Yh6BfMOqtRZsbJ_554Q-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C351A19251A0;
- Thu,  4 Nov 2021 14:54:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D52A87180C;
+ Thu,  4 Nov 2021 14:54:10 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4C7476418A;
- Thu,  4 Nov 2021 14:53:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 067716418A;
+ Thu,  4 Nov 2021 14:54:08 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [RFC PATCH v2 05/14] block/mirror.c: use of job helpers in drivers to
- avoid TOC/TOU
-Date: Thu,  4 Nov 2021 10:53:25 -0400
-Message-Id: <20211104145334.1346363-6-eesposit@redhat.com>
+Subject: [RFC PATCH v2 08/14] aio-wait.h: introduce AIO_WAIT_WHILE_UNLOCKED
+Date: Thu,  4 Nov 2021 10:53:28 -0400
+Message-Id: <20211104145334.1346363-9-eesposit@redhat.com>
 In-Reply-To: <20211104145334.1346363-1-eesposit@redhat.com>
 References: <20211104145334.1346363-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -91,51 +90,70 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Once job lock is used and aiocontext is removed, mirror has
-to perform job operations under the same critical section,
-using the helpers prepared in previous commit.
+Same as AIO_WAIT_WHILE macro, but if we are in the Main loop
+do not release and then acquire ctx_ 's aiocontext.
 
-Note: at this stage, job_{lock/unlock} and job lock guard macros
-are *nop*.
+Once all Aiocontext locks go away, this macro will replace
+AIO_WAIT_WHILE.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block/mirror.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ include/block/aio-wait.h | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/block/mirror.c b/block/mirror.c
-index 00089e519b..f22fa7da6e 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -653,7 +653,7 @@ static int mirror_exit_common(Job *job)
-     BlockDriverState *target_bs;
-     BlockDriverState *mirror_top_bs;
-     Error *local_err = NULL;
--    bool abort = job->ret < 0;
-+    bool abort = job_has_failed(job);
-     int ret = 0;
+diff --git a/include/block/aio-wait.h b/include/block/aio-wait.h
+index b39eefb38d..ff27fe4eab 100644
+--- a/include/block/aio-wait.h
++++ b/include/block/aio-wait.h
+@@ -59,10 +59,11 @@ typedef struct {
+ extern AioWait global_aio_wait;
  
-     if (s->prepared) {
-@@ -1161,9 +1161,7 @@ static void mirror_complete(Job *job, Error **errp)
-     s->should_complete = true;
+ /**
+- * AIO_WAIT_WHILE:
++ * _AIO_WAIT_WHILE:
+  * @ctx: the aio context, or NULL if multiple aio contexts (for which the
+  *       caller does not hold a lock) are involved in the polling condition.
+  * @cond: wait while this conditional expression is true
++ * @unlock: whether to unlock and then lock again @ctx
+  *
+  * Wait while a condition is true.  Use this to implement synchronous
+  * operations that require event loop activity.
+@@ -75,7 +76,7 @@ extern AioWait global_aio_wait;
+  * wait on conditions between two IOThreads since that could lead to deadlock,
+  * go via the main loop instead.
+  */
+-#define AIO_WAIT_WHILE(ctx, cond) ({                               \
++#define _AIO_WAIT_WHILE(ctx, cond, unlock) ({                      \
+     bool waited_ = false;                                          \
+     AioWait *wait_ = &global_aio_wait;                             \
+     AioContext *ctx_ = (ctx);                                      \
+@@ -90,11 +91,11 @@ extern AioWait global_aio_wait;
+         assert(qemu_get_current_aio_context() ==                   \
+                qemu_get_aio_context());                            \
+         while ((cond)) {                                           \
+-            if (ctx_) {                                            \
++            if (unlock && ctx_) {                                  \
+                 aio_context_release(ctx_);                         \
+             }                                                      \
+             aio_poll(qemu_get_aio_context(), true);                \
+-            if (ctx_) {                                            \
++            if (unlock && ctx_) {                                  \
+                 aio_context_acquire(ctx_);                         \
+             }                                                      \
+             waited_ = true;                                        \
+@@ -103,6 +104,12 @@ extern AioWait global_aio_wait;
+     qatomic_dec(&wait_->num_waiters);                              \
+     waited_; })
  
-     /* If the job is paused, it will be re-entered when it is resumed */
--    if (!job->paused) {
--        job_enter(job);
--    }
-+    job_enter_not_paused(job);
- }
- 
- static void coroutine_fn mirror_pause(Job *job)
-@@ -1182,7 +1180,7 @@ static bool mirror_drained_poll(BlockJob *job)
-      * from one of our own drain sections, to avoid a deadlock waiting for
-      * ourselves.
-      */
--    if (!s->common.job.paused && !job_is_cancelled(&job->job) && !s->in_drain) {
-+    if (job_not_paused_nor_cancelled(&s->common.job) && !s->in_drain) {
-         return true;
-     }
- 
++#define AIO_WAIT_WHILE(ctx, cond)                                  \
++    _AIO_WAIT_WHILE(ctx, cond, true)
++
++#define AIO_WAIT_WHILE_UNLOCKED(ctx, cond)                         \
++    _AIO_WAIT_WHILE(ctx, cond, false)
++
+ /**
+  * aio_wait_kick:
+  * Wake up the main thread if it is waiting on AIO_WAIT_WHILE().  During
 -- 
 2.27.0
 
