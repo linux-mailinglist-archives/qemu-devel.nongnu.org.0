@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44EBF4450D6
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 10:02:37 +0100 (CET)
-Received: from localhost ([::1]:57334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9EE84450E6
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 10:09:42 +0100 (CET)
+Received: from localhost ([::1]:42404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miYdo-0000Ac-3T
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 05:02:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54590)
+	id 1miYkf-00010g-Ds
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 05:09:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1miYbR-0006vZ-Up
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 05:00:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48606)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1miYiA-0007b1-Uf
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 05:07:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1miYbL-0001Dn-M6
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 05:00:09 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1miYi7-0004pC-T7
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 05:07:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636016402;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1636016822;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FIPPDNKQ0qyLWILCbVGSCQjEl17eiu2tMV6ymZ+/N9g=;
- b=PTSvnb8GIBmtthB8emn3SG+oA9ObHLc0ImlFHitii0aPLNT0a8K2BYwkk98MnHbce6Tyh6
- BfGd418kZzRvxKvIFGbSiiWu5b0nfvgrITVUoIsqjyTfQv0vrLEt6a47Slfar54njMHRWL
- uNfaBooGUkwtfHVtPJYg/f0ki7nmy5U=
+ bh=FBtD+zaQMUqt0ErRj8EmpcndhJUFP2Gy5o945xM5O6M=;
+ b=WW9eZZUJ9bbjzSgefDJMyd+MC5D7XBw4XW1ABFR2vGuXF/4RNl2T6I2fpxyl9jR2X4ue5I
+ KNa9FTAdirXH4ehhBkfQyOdXfCGBTmp/uwibC7sRYimprzzou16SRwZrwoOwRKMkWF48Hh
+ hlsQccO8GM4Ap3nKv4Tw3GE9qCwy/OQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-593-RxWsZyI3PlmZsYuv7yLxfw-1; Thu, 04 Nov 2021 04:59:59 -0400
-X-MC-Unique: RxWsZyI3PlmZsYuv7yLxfw-1
+ us-mta-260-uctM7Jj7NYG-PbOcWHqBew-1; Thu, 04 Nov 2021 05:06:59 -0400
+X-MC-Unique: uctM7Jj7NYG-PbOcWHqBew-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A27781006AA2;
- Thu,  4 Nov 2021 08:59:58 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C16091F41E;
- Thu,  4 Nov 2021 08:59:55 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6D17811380A7; Thu,  4 Nov 2021 09:59:54 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] monitor: Fix find_device_state() for IDs containing
- slashes
-References: <20211019085711.86377-1-armbru@redhat.com>
- <367cc443-7e2a-36e0-b3fb-bf79b2d65b2d@redhat.com>
- <877ddx3dx9.fsf@dusky.pond.sub.org>
-Date: Thu, 04 Nov 2021 09:59:54 +0100
-In-Reply-To: <877ddx3dx9.fsf@dusky.pond.sub.org> (Markus Armbruster's message
- of "Thu, 28 Oct 2021 07:40:18 +0200")
-Message-ID: <87y264e1o5.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4ED281CAFB;
+ Thu,  4 Nov 2021 09:06:57 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 94CA699C3;
+ Thu,  4 Nov 2021 09:06:56 +0000 (UTC)
+Date: Thu, 4 Nov 2021 09:06:54 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH] linux-user: Add GPL-2.0+ SPDX license identifier
+Message-ID: <YYOirmDXpPq16ZMi@redhat.com>
+References: <20211103203146.3630550-1-f4bug@amsat.org>
 MIME-Version: 1.0
+In-Reply-To: <20211103203146.3630550-1-f4bug@amsat.org>
+User-Agent: Mutt/2.0.7 (2021-05-04)
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -81,21 +81,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com, borntraeger@de.ibm.com, berrange@redhat.com,
- qemu-devel@nongnu.org, ehabkost@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Taylor Simpson <tsimpson@quicinc.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
+On Wed, Nov 03, 2021 at 09:31:46PM +0100, Philippe Mathieu-Daudé wrote:
+> Use Qualcomm License Identifier tool [*] to classify linux-user/
+> files per license type, filtering those matching at least 60% the
+> "GPLv2 or later" type, and manually add the GPL-2.0-or-later SPDX
+> comment.
 
-> Paolo Bonzini <pbonzini@redhat.com> writes:
->
->> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
->>
->> Thanks for the quick fix!
->
-> Who's going to do the pull request?
+When you say  "manually add", can you confirm that you explicitly
+inspected every license header yourself to validate that the reported
+match truely is GPL-2.0+, before adding the SPDX tag.
 
-Ping!
+Adding licenses tags based merely on a 60% match, without doing
+human inspection would be questionable.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
