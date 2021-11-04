@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6F54444F99
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 08:21:26 +0100 (CET)
-Received: from localhost ([::1]:51718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF716444F96
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 08:18:35 +0100 (CET)
+Received: from localhost ([::1]:44452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miX3t-0003m0-Su
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 03:21:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56832)
+	id 1miX18-0007Ki-Vk
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 03:18:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1miWyg-0004dI-T1
+ id 1miWyg-0004dA-Rh
  for qemu-devel@nongnu.org; Thu, 04 Nov 2021 03:16:02 -0400
-Received: from mga17.intel.com ([192.55.52.151]:65404)
+Received: from mga17.intel.com ([192.55.52.151]:65406)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1miWyb-0000gF-EI
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 03:16:02 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10157"; a="212405211"
-X-IronPort-AV: E=Sophos;i="5.87,208,1631602800"; d="scan'208";a="212405211"
+ id 1miWya-0000gd-9E
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 03:16:00 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10157"; a="212405216"
+X-IronPort-AV: E=Sophos;i="5.87,208,1631602800"; d="scan'208";a="212405216"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2021 00:15:48 -0700
+ 04 Nov 2021 00:15:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,208,1631602800"; d="scan'208";a="639171347"
+X-IronPort-AV: E=Sophos;i="5.87,208,1631602800"; d="scan'208";a="639171354"
 Received: from dongwonk-z390-aorus-ultra-intel-gfx.fm.intel.com
  ([10.105.129.122])
- by fmsmga001.fm.intel.com with ESMTP; 04 Nov 2021 00:15:48 -0700
+ by fmsmga001.fm.intel.com with ESMTP; 04 Nov 2021 00:15:50 -0700
 From: Dongwon Kim <dongwon.kim@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/6] ui/gtk-egl: un-tab and re-tab should destroy egl
- surface and context
-Date: Wed,  3 Nov 2021 23:51:48 -0700
-Message-Id: <20211104065153.28897-1-dongwon.kim@intel.com>
+Subject: [PATCH 2/6] ui/gtk-egl: make sure the right context is set as the
+ current
+Date: Wed,  3 Nov 2021 23:51:49 -0700
+Message-Id: <20211104065153.28897-2-dongwon.kim@intel.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20211103053937.on4dg37wmkx2f2t5@sirius.home.kraxel.org>
+In-Reply-To: <20211104065153.28897-1-dongwon.kim@intel.com>
 References: <20211103053937.on4dg37wmkx2f2t5@sirius.home.kraxel.org>
+ <20211104065153.28897-1-dongwon.kim@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=192.55.52.151; envelope-from=dongwon.kim@intel.com;
@@ -59,62 +60,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Khairul Anuar Romli <khairul.anuar.romli@intel.com>,
- Dongwon Kim <dongwon.kim@intel.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Dongwon Kim <dongwon.kim@intel.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-An old esurface should be destroyed and set to be NULL when doing
-un-tab and re-tab so that a new esurface an context can be created
-for the window widget that those will be bound to.
-
-v2: enabling opengl specific routines only when CONFIG_OPENGL is set
+Making the vc->gfx.ectx current before handling texture
+associated with it
 
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
-Signed-off-by: Khairul Anuar Romli <khairul.anuar.romli@intel.com>
 ---
- ui/gtk.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ ui/gtk-egl.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/ui/gtk.c b/ui/gtk.c
-index b0564d80c1..8da673c18c 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -1242,6 +1242,16 @@ static gboolean gd_tab_window_close(GtkWidget *widget, GdkEvent *event,
-                                     vc->tab_item, vc->label);
-     gtk_widget_destroy(vc->window);
-     vc->window = NULL;
-+#if defined(CONFIG_OPENGL)
-+    if (vc->gfx.esurface) {
-+        eglDestroySurface(qemu_egl_display, vc->gfx.esurface);
-+        vc->gfx.esurface = NULL;
-+    }
-+    if (vc->gfx.ectx) {
-+        eglDestroyContext(qemu_egl_display, vc->gfx.ectx);
-+        vc->gfx.ectx = NULL;
-+    }
-+#endif
-     return TRUE;
- }
+diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
+index e912b20075..2164995098 100644
+--- a/ui/gtk-egl.c
++++ b/ui/gtk-egl.c
+@@ -152,6 +152,7 @@ void gd_egl_refresh(DisplayChangeListener *dcl)
+         }
+         vc->gfx.gls = qemu_gl_init_shader();
+         if (vc->gfx.ds) {
++            surface_gl_destroy_texture(vc->gfx.gls, vc->gfx.ds);
+             surface_gl_create_texture(vc->gfx.gls, vc->gfx.ds);
+         }
+     }
+@@ -178,6 +179,8 @@ void gd_egl_switch(DisplayChangeListener *dcl,
+         surface_height(vc->gfx.ds) == surface_height(surface)) {
+         resized = false;
+     }
++    eglMakeCurrent(qemu_egl_display, vc->gfx.esurface,
++                   vc->gfx.esurface, vc->gfx.ectx);
  
-@@ -1271,6 +1281,16 @@ static void gd_menu_untabify(GtkMenuItem *item, void *opaque)
-     if (!vc->window) {
-         gtk_widget_set_sensitive(vc->menu_item, false);
-         vc->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-+#if defined(CONFIG_OPENGL)
-+        if (vc->gfx.esurface) {
-+            eglDestroySurface(qemu_egl_display, vc->gfx.esurface);
-+            vc->gfx.esurface = NULL;
-+        }
-+        if (vc->gfx.esurface) {
-+            eglDestroyContext(qemu_egl_display, vc->gfx.ectx);
-+            vc->gfx.ectx = NULL;
-+        }
-+#endif
-         gd_widget_reparent(s->notebook, vc->window, vc->tab_item);
+     surface_gl_destroy_texture(vc->gfx.gls, vc->gfx.ds);
+     vc->gfx.ds = surface;
+@@ -237,6 +240,9 @@ void gd_egl_scanout_dmabuf(DisplayChangeListener *dcl,
+ #ifdef CONFIG_GBM
+     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
  
-         g_signal_connect(vc->window, "delete-event",
++    eglMakeCurrent(qemu_egl_display, vc->gfx.esurface,
++                   vc->gfx.esurface, vc->gfx.ectx);
++
+     egl_dmabuf_import_texture(dmabuf);
+     if (!dmabuf->texture) {
+         return;
 -- 
 2.30.2
 
