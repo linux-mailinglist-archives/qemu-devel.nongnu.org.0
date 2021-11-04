@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0A08445355
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 13:52:25 +0100 (CET)
-Received: from localhost ([::1]:54608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCB7A44534A
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 13:47:11 +0100 (CET)
+Received: from localhost ([::1]:46932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1micEC-00032O-L3
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 08:52:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37214)
+	id 1mic98-0005jV-Kl
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 08:47:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mic1m-0000WC-Oc; Thu, 04 Nov 2021 08:39:38 -0400
-Received: from [201.28.113.2] (port=33857 helo=outlook.eldorado.org.br)
+ id 1mic3B-0001oS-W1; Thu, 04 Nov 2021 08:41:02 -0400
+Received: from [201.28.113.2] (port=58980 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mic1k-0005sq-Uc; Thu, 04 Nov 2021 08:39:34 -0400
+ id 1mic39-0006gQ-6a; Thu, 04 Nov 2021 08:41:01 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 4 Nov 2021 09:39:17 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 4 Nov 2021 09:39:18 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 0973C800E6F;
- Thu,  4 Nov 2021 09:39:17 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 407CB800E6F;
+ Thu,  4 Nov 2021 09:39:18 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v3 04/25] target/ppc: Implement vsldbi/vsrdbi instructions
-Date: Thu,  4 Nov 2021 09:36:58 -0300
-Message-Id: <20211104123719.323713-5-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v3 07/25] target/ppc: Implement Vector Insert from VSR using
+ GPR index insns
+Date: Thu,  4 Nov 2021 09:37:01 -0300
+Message-Id: <20211104123719.323713-8-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211104123719.323713-1-matheus.ferst@eldorado.org.br>
 References: <20211104123719.323713-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 04 Nov 2021 12:39:17.0419 (UTC)
- FILETIME=[FB5D37B0:01D7D178]
+X-OriginalArrivalTime: 04 Nov 2021 12:39:18.0656 (UTC)
+ FILETIME=[FC19F800:01D7D178]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -64,114 +65,97 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
+Implements the following PowerISA v3.1 instructions:
+vinsbvlx: Vector Insert Byte from VSR using GPR-specified Left-Index
+vinshvlx: Vector Insert Halfword from VSR using GPR-specified
+          Left-Index
+vinswvlx: Vector Insert Word from VSR using GPR-specified Left-Index
+vinsbvrx: Vector Insert Byte from VSR using GPR-specified Right-Index
+vinshvrx: Vector Insert Halfword from VSR using GPR-specified
+          Right-Index
+vinswvrx: Vector Insert Word from VSR using GPR-specified Right-Index
+
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/insn32.decode            |  8 ++++
- target/ppc/translate/vmx-impl.c.inc | 66 +++++++++++++++++++++++++++++
- 2 files changed, 74 insertions(+)
+ target/ppc/insn32.decode            |  7 +++++++
+ target/ppc/translate/vmx-impl.c.inc | 32 +++++++++++++++++++++++++++++
+ 2 files changed, 39 insertions(+)
 
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 4666c06f55..257b11113d 100644
+index e1f76aac34..de410abf7d 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -38,6 +38,9 @@
- %dx_d           6:s10 16:5 0:1
- @DX             ...... rt:5  ..... .......... ..... .   &DX d=%dx_d
+@@ -359,5 +359,12 @@ VINSDRX         000100 ..... ..... ..... 01111001111    @VX
+ VINSW           000100 ..... - .... ..... 00011001111   @VX_uim4
+ VINSD           000100 ..... - .... ..... 00111001111   @VX_uim4
  
-+&VN             vrt vra vrb sh
-+@VN             ...... vrt:5 vra:5 vrb:5 .. sh:3 ......         &VN
++VINSBVLX        000100 ..... ..... ..... 00000001111    @VX
++VINSBVRX        000100 ..... ..... ..... 00100001111    @VX
++VINSHVLX        000100 ..... ..... ..... 00001001111    @VX
++VINSHVRX        000100 ..... ..... ..... 00101001111    @VX
++VINSWVLX        000100 ..... ..... ..... 00010001111    @VX
++VINSWVRX        000100 ..... ..... ..... 00110001111    @VX
 +
- &VX             vrt vra vrb
- @VX             ...... vrt:5 vra:5 vrb:5 .......... .   &VX
- 
-@@ -338,3 +341,8 @@ VCLZDM          000100 ..... ..... ..... 11110000100    @VX
- VCTZDM          000100 ..... ..... ..... 11111000100    @VX
- VPDEPD          000100 ..... ..... ..... 10111001101    @VX
- VPEXTD          000100 ..... ..... ..... 10110001101    @VX
-+
-+## Vector Permute and Formatting Instruction
-+
-+VSLDBI          000100 ..... ..... ..... 00 ... 010110  @VN
-+VSRDBI          000100 ..... ..... ..... 01 ... 010110  @VN
+ VSLDBI          000100 ..... ..... ..... 00 ... 010110  @VN
+ VSRDBI          000100 ..... ..... ..... 01 ... 010110  @VN
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index cddb3848ab..6edffd5637 100644
+index 9642cfa037..46d6890242 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -1257,6 +1257,72 @@ static void gen_vsldoi(DisasContext *ctx)
-     tcg_temp_free_i32(sh);
+@@ -1260,6 +1260,20 @@ static bool do_vinsx(DisasContext *ctx, int vrt, int size, bool right, TCGv ra,
+     return true;
  }
  
-+static bool trans_VSLDBI(DisasContext *ctx, arg_VN *a)
++static bool do_vinsvx(DisasContext *ctx, int vrt, int size, bool right, TCGv ra,
++                int vrb, void (*gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_i64, TCGv))
 +{
-+    TCGv_i64 t0, t1, t2;
++    bool ok;
++    TCGv_i64 val;
 +
++    val = tcg_temp_new_i64();
++    get_avr64(val, vrb, true);
++    ok = do_vinsx(ctx, vrt, size, right, ra, val, gen_helper);
++
++    tcg_temp_free_i64(val);
++    return ok;
++}
++
+ static bool do_vinsx_VX(DisasContext *ctx, arg_VX *a, int size, bool right,
+                         void (*gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_i64, TCGv))
+ {
+@@ -1278,6 +1292,16 @@ static bool do_vinsx_VX(DisasContext *ctx, arg_VX *a, int size, bool right,
+     return ok;
+ }
+ 
++static bool do_vinsvx_VX(DisasContext *ctx, arg_VX *a, int size, bool right,
++                        void (*gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_i64, TCGv))
++{
 +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
 +    REQUIRE_VECTOR(ctx);
 +
-+    t0 = tcg_temp_new_i64();
-+    t1 = tcg_temp_new_i64();
-+
-+    get_avr64(t0, a->vra, true);
-+    get_avr64(t1, a->vra, false);
-+
-+    if (a->sh != 0) {
-+        t2 = tcg_temp_new_i64();
-+
-+        get_avr64(t2, a->vrb, true);
-+
-+        tcg_gen_extract2_i64(t0, t1, t0, 64 - a->sh);
-+        tcg_gen_extract2_i64(t1, t2, t1, 64 - a->sh);
-+
-+        tcg_temp_free_i64(t2);
-+    }
-+
-+    set_avr64(a->vrt, t0, true);
-+    set_avr64(a->vrt, t1, false);
-+
-+    tcg_temp_free_i64(t0);
-+    tcg_temp_free_i64(t1);
-+
-+    return true;
++    return do_vinsvx(ctx, a->vrt, size, right, cpu_gpr[a->vra], a->vrb,
++                     gen_helper);
 +}
 +
-+static bool trans_VSRDBI(DisasContext *ctx, arg_VN *a)
-+{
-+    TCGv_i64 t2, t1, t0;
+ static bool do_vins_VX_uim4(DisasContext *ctx, arg_VX_uim4 *a, int size,
+                         void (*gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_i64, TCGv))
+ {
+@@ -1325,6 +1349,14 @@ TRANS(VINSDRX, do_vinsx_VX, 8, true, gen_helper_VINSDLX)
+ TRANS(VINSW, do_vins_VX_uim4, 4, gen_helper_VINSWLX)
+ TRANS(VINSD, do_vins_VX_uim4, 8, gen_helper_VINSDLX)
+ 
++TRANS(VINSBVLX, do_vinsvx_VX, 1, false, gen_helper_VINSBLX)
++TRANS(VINSHVLX, do_vinsvx_VX, 2, false, gen_helper_VINSHLX)
++TRANS(VINSWVLX, do_vinsvx_VX, 4, false, gen_helper_VINSWLX)
 +
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
-+    REQUIRE_VECTOR(ctx);
++TRANS(VINSBVRX, do_vinsvx_VX, 1, true, gen_helper_VINSBLX)
++TRANS(VINSHVRX, do_vinsvx_VX, 2, true, gen_helper_VINSHLX)
++TRANS(VINSWVRX, do_vinsvx_VX, 4, true, gen_helper_VINSWLX)
 +
-+    t0 = tcg_temp_new_i64();
-+    t1 = tcg_temp_new_i64();
-+
-+    get_avr64(t0, a->vrb, false);
-+    get_avr64(t1, a->vrb, true);
-+
-+    if (a->sh != 0) {
-+        t2 = tcg_temp_new_i64();
-+
-+        get_avr64(t2, a->vra, false);
-+
-+        tcg_gen_extract2_i64(t0, t0, t1, a->sh);
-+        tcg_gen_extract2_i64(t1, t1, t2, a->sh);
-+
-+        tcg_temp_free_i64(t2);
-+    }
-+
-+    set_avr64(a->vrt, t0, false);
-+    set_avr64(a->vrt, t1, true);
-+
-+    tcg_temp_free_i64(t0);
-+    tcg_temp_free_i64(t1);
-+
-+    return true;
-+}
-+
- #define GEN_VAFORM_PAIRED(name0, name1, opc2)                           \
- static void glue(gen_, name0##_##name1)(DisasContext *ctx)              \
-     {                                                                   \
+ static void gen_vsldoi(DisasContext *ctx)
+ {
+     TCGv_ptr ra, rb, rd;
 -- 
 2.25.1
 
