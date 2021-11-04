@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65268445297
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 13:03:06 +0100 (CET)
-Received: from localhost ([::1]:58306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 668964452C7
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 13:15:12 +0100 (CET)
+Received: from localhost ([::1]:33492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mibST-0004wC-4w
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 08:03:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56296)
+	id 1mibeB-0007rQ-4A
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 08:15:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mibR3-00045u-Le
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 08:01:37 -0400
-Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:34790)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mibR1-0008Jx-0b
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 08:01:37 -0400
-Received: by mail-qt1-x82e.google.com with SMTP id u7so3832057qtc.1
- for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 05:01:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=FKJkDxq48bMoIlyipPBE5/K5kMlZacL0mUbxqLpoaqM=;
- b=Nh0b8Plug3xo6vQXymRM5OmvAgmjl6YHj/9TJR5irXOmo+1Bylw0S5o62wsc8Jwqik
- rT8LvZdNmi2LKOB/r8QZ1fhVN7RUPc5pu7IRx+KsAxv09vSzSPmdU0TKukg22vgB8EuM
- bXRzBFhYTE9pgBpdhjRv//GUrC3Dr76wlNtYP/07Le/P+wZDb+ZA6uBxif9ZCVzUqPfg
- kFBv44zx62UwZTCt8afFRc2duCltCBnmz5Lzuns8GsrbaQZsA8xchz/w2wJDxxF1WYPe
- rDnZ1Matr/EpUxxob1vHmZM9KFSV/02ou5ucJzkPuFVFyMXI2UX4byUfmtO6ni/Ch+BJ
- eaYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FKJkDxq48bMoIlyipPBE5/K5kMlZacL0mUbxqLpoaqM=;
- b=Z639vHzbEOdy/W+bSkjSR+kms3+vtU6itDFOvYMvupMnDfVCsePby0vrZ/b6yIkFMj
- BXkxjkROnZJWmW5aNFZA/bXsssTOIDZtJf/AHhPQl/r9GYVzFB1LodTsh0mr8NVnKiti
- h0F4iK0Wh6SAkKYTJnKPMWJZC9MYy9AdUNM57uz2iBXA19YPn4Pa1NEoOz9G7twoezRJ
- cRwPvUZqJy5PkoQqpuAKBkP/SG3yBiQieOtc9I434DpRWzsZQ13qg0eUWEWv7SrtBf86
- x4KacchTuc2aQVlCFQibpRoKdNfDauQx7wOKtJrKcuTbooFehBu9GK0l6iZiaAubwLUu
- Sexg==
-X-Gm-Message-State: AOAM532aVN1qut3bIjgWP3bKbTnNrOw70NqroulOqefDztSsib2FAOO0
- zTkilAx2QXc4B4sLEccq36JFCucI6FBr6g==
-X-Google-Smtp-Source: ABdhPJwaMZlNyfXGntpoIH93rtUX+D8a6bBtOaj80sqLaDRRG0nihaybm/JykU8OaVxm9dpGQ3tR4A==
-X-Received: by 2002:ac8:588d:: with SMTP id t13mr53662019qta.179.1636027293903; 
- Thu, 04 Nov 2021 05:01:33 -0700 (PDT)
-Received: from [172.20.81.179] (rrcs-172-254-253-57.nyc.biz.rr.com.
- [172.254.253.57])
- by smtp.gmail.com with ESMTPSA id n3sm3460980qkp.112.2021.11.04.05.01.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Nov 2021 05:01:33 -0700 (PDT)
-Subject: Re: [PULL v2 00/30] Hexagon HVX (target/hexagon) patch series
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <1635974247-1820-1-git-send-email-tsimpson@quicinc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <6404569d-2dd5-b897-0307-e0156a9894db@linaro.org>
-Date: Thu, 4 Nov 2021 08:01:31 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mibci-0007Bm-2m
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 08:13:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57677)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mibce-0002K3-FT
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 08:13:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636028014;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hEoIpN4XReiMjcTxBcoutgWyDXGb/ju+HR+V0dXdnKc=;
+ b=BdhZpnVzHXlsvXCeYv2iv7SkpnASV/EzOVR7Mu6MKYJNFKWe5LzXm/Y9KW13rSCyGdf+04
+ 9pp9Ad87gk3aCJC8G80HWhdGGAmT+FY2h0O9EpjM2OlJl2sDjRzgDLbAbbgHRwAjCWWC85
+ fZ24XBlQHUUh4YgaZWhcopYKoF5DVP8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-537-PE3q4XkEPUKFO3fyGds-YQ-1; Thu, 04 Nov 2021 08:13:31 -0400
+X-MC-Unique: PE3q4XkEPUKFO3fyGds-YQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A310BAF83;
+ Thu,  4 Nov 2021 12:13:29 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2280467840;
+ Thu,  4 Nov 2021 12:13:04 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A784611380A7; Thu,  4 Nov 2021 13:13:02 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v3 03/12] vfio-user: define vfio-user-server object
+References: <cover.1633929457.git.jag.raman@oracle.com>
+ <13dba991f1de91711e5c3cad9a332d6e7c5eee7b.1633929457.git.jag.raman@oracle.com>
+ <YXly2vSh/bhgr0i/@stefanha-x1.localdomain>
+ <6346833B-469B-487B-8382-62EA03BA56C2@oracle.com>
+ <YX/Cx7g0D5o8dVtp@stefanha-x1.localdomain>
+Date: Thu, 04 Nov 2021 13:13:02 +0100
+In-Reply-To: <YX/Cx7g0D5o8dVtp@stefanha-x1.localdomain> (Stefan Hajnoczi's
+ message of "Mon, 1 Nov 2021 10:34:47 +0000")
+Message-ID: <87wnloce5t.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <1635974247-1820-1-git-send-email-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82e.google.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.093,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,137 +84,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, f4bug@amsat.org
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John Johnson <john.g.johnson@oracle.com>,
+ "thuth@redhat.com" <thuth@redhat.com>, Jag Raman <jag.raman@oracle.com>,
+ "swapnil.ingle@nutanix.com" <swapnil.ingle@nutanix.com>,
+ "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ Kevin Wolf <kwolf@redhat.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "philmd@redhat.com" <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/3/21 5:16 PM, Taylor Simpson wrote:
-> The following changes since commit 91e8394415f9bc9cd81c02bfafe02012855d4f98:
-> 
->    Merge remote-tracking branch 'remotes/juanquintela/tags/migration-20211031-pull-request' into staging (2021-11-02 10:07:27 -0400)
-> 
-> are available in the git repository at:
-> 
->    https://github.com/quic/qemu tags/pull-hex-20211103
-> 
-> for you to fetch changes up to 49278c1b0d7ef5864d0d8ad9a950296deb8b05ae:
-> 
->    Hexagon HVX (tests/tcg/hexagon) histogram test (2021-11-03 16:01:38 -0500)
-> 
-> ----------------------------------------------------------------
-> This series adds support for the Hexagon Vector eXtensions (HVX)
-> 
-> These instructions are documented here
-> https://developer.qualcomm.com/downloads/qualcomm-hexagon-v66-hvx-programmer-s-reference-manual
-> 
-> Hexagon HVX is a wide vector engine with 128 byte vectors.
-> 
-> See patch 01 Hexagon HVX README for more information.
-> 
-> *** Changes in v2 ***
-> Remove HVX tests from makefile to avoid need for toolchain upgrade
-> 
-> ----------------------------------------------------------------
-> Taylor Simpson (30):
->        Hexagon HVX (target/hexagon) README
->        Hexagon HVX (target/hexagon) add Hexagon Vector eXtensions (HVX) to core
->        Hexagon HVX (target/hexagon) register names
->        Hexagon HVX (target/hexagon) instruction attributes
->        Hexagon HVX (target/hexagon) macros
->        Hexagon HVX (target/hexagon) import macro definitions
->        Hexagon HVX (target/hexagon) semantics generator
->        Hexagon HVX (target/hexagon) semantics generator - part 2
->        Hexagon HVX (target/hexagon) C preprocessor for decode tree
->        Hexagon HVX (target/hexagon) instruction utility functions
->        Hexagon HVX (target/hexagon) helper functions
->        Hexagon HVX (target/hexagon) TCG generation
->        Hexagon HVX (target/hexagon) helper overrides infrastructure
->        Hexagon HVX (target/hexagon) helper overrides for histogram instructions
->        Hexagon HVX (target/hexagon) helper overrides - vector assign & cmov
->        Hexagon HVX (target/hexagon) helper overrides - vector add & sub
->        Hexagon HVX (target/hexagon) helper overrides - vector shifts
->        Hexagon HVX (target/hexagon) helper overrides - vector max/min
->        Hexagon HVX (target/hexagon) helper overrides - vector logical ops
->        Hexagon HVX (target/hexagon) helper overrides - vector compares
->        Hexagon HVX (target/hexagon) helper overrides - vector splat and abs
->        Hexagon HVX (target/hexagon) helper overrides - vector loads
->        Hexagon HVX (target/hexagon) helper overrides - vector stores
->        Hexagon HVX (target/hexagon) import semantics
->        Hexagon HVX (target/hexagon) instruction decoding
->        Hexagon HVX (target/hexagon) import instruction encodings
->        Hexagon HVX (tests/tcg/hexagon) vector_add_int test
->        Hexagon HVX (tests/tcg/hexagon) hvx_misc test
->        Hexagon HVX (tests/tcg/hexagon) scatter_gather test
->        Hexagon HVX (tests/tcg/hexagon) histogram test
-> 
->   target/hexagon/cpu.h                         |   35 +-
->   target/hexagon/gen_tcg_hvx.h                 |  903 +++++++++
->   target/hexagon/helper.h                      |   16 +
->   target/hexagon/hex_arch_types.h              |    5 +
->   target/hexagon/hex_regs.h                    |    1 +
->   target/hexagon/insn.h                        |    3 +
->   target/hexagon/internal.h                    |    3 +
->   target/hexagon/macros.h                      |   22 +
->   target/hexagon/mmvec/decode_ext_mmvec.h      |   24 +
->   target/hexagon/mmvec/macros.h                |  354 ++++
->   target/hexagon/mmvec/mmvec.h                 |   82 +
->   target/hexagon/mmvec/system_ext_mmvec.h      |   25 +
->   target/hexagon/translate.h                   |   61 +
->   tests/tcg/hexagon/hvx_histogram_input.h      |  717 +++++++
->   tests/tcg/hexagon/hvx_histogram_row.h        |   24 +
->   target/hexagon/attribs_def.h.inc             |   22 +
->   target/hexagon/cpu.c                         |   80 +-
->   target/hexagon/decode.c                      |   28 +-
->   target/hexagon/gen_dectree_import.c          |   13 +
->   target/hexagon/gen_semantics.c               |   33 +
->   target/hexagon/genptr.c                      |  188 ++
->   target/hexagon/mmvec/decode_ext_mmvec.c      |  236 +++
->   target/hexagon/mmvec/system_ext_mmvec.c      |   47 +
->   target/hexagon/op_helper.c                   |  282 ++-
->   target/hexagon/translate.c                   |  239 ++-
->   tests/tcg/hexagon/hvx_histogram.c            |   88 +
->   tests/tcg/hexagon/hvx_misc.c                 |  469 +++++
->   tests/tcg/hexagon/scatter_gather.c           | 1011 ++++++++++
->   tests/tcg/hexagon/vector_add_int.c           |   61 +
->   target/hexagon/README                        |   81 +-
->   target/hexagon/gen_helper_funcs.py           |  115 +-
->   target/hexagon/gen_helper_protos.py          |   19 +-
->   target/hexagon/gen_tcg_funcs.py              |  257 ++-
->   target/hexagon/hex_common.py                 |   13 +
->   target/hexagon/imported/allext.idef          |   25 +
->   target/hexagon/imported/allext_macros.def    |   25 +
->   target/hexagon/imported/allextenc.def        |   20 +
->   target/hexagon/imported/allidefs.def         |    1 +
->   target/hexagon/imported/encode.def           |    1 +
->   target/hexagon/imported/macros.def           |   88 +
->   target/hexagon/imported/mmvec/encode_ext.def |  794 ++++++++
->   target/hexagon/imported/mmvec/ext.idef       | 2606 ++++++++++++++++++++++++++
->   target/hexagon/imported/mmvec/macros.def     |  842 +++++++++
->   target/hexagon/meson.build                   |   15 +-
->   tests/tcg/hexagon/hvx_histogram_row.S        |  294 +++
->   45 files changed, 10221 insertions(+), 47 deletions(-)
->   create mode 100644 target/hexagon/gen_tcg_hvx.h
->   create mode 100644 target/hexagon/mmvec/decode_ext_mmvec.h
->   create mode 100644 target/hexagon/mmvec/macros.h
->   create mode 100644 target/hexagon/mmvec/mmvec.h
->   create mode 100644 target/hexagon/mmvec/system_ext_mmvec.h
->   create mode 100644 tests/tcg/hexagon/hvx_histogram_input.h
->   create mode 100644 tests/tcg/hexagon/hvx_histogram_row.h
->   create mode 100644 target/hexagon/mmvec/decode_ext_mmvec.c
->   create mode 100644 target/hexagon/mmvec/system_ext_mmvec.c
->   create mode 100644 tests/tcg/hexagon/hvx_histogram.c
->   create mode 100644 tests/tcg/hexagon/hvx_misc.c
->   create mode 100644 tests/tcg/hexagon/scatter_gather.c
->   create mode 100644 tests/tcg/hexagon/vector_add_int.c
->   create mode 100644 target/hexagon/imported/allext.idef
->   create mode 100644 target/hexagon/imported/allext_macros.def
->   create mode 100644 target/hexagon/imported/allextenc.def
->   create mode 100644 target/hexagon/imported/mmvec/encode_ext.def
->   create mode 100644 target/hexagon/imported/mmvec/ext.idef
->   create mode 100755 target/hexagon/imported/mmvec/macros.def
->   create mode 100644 tests/tcg/hexagon/hvx_histogram_row.S
+Stefan Hajnoczi <stefanha@redhat.com> writes:
 
-Applied, thanks.
+> On Fri, Oct 29, 2021 at 02:42:49PM +0000, Jag Raman wrote:
+>> > On Oct 27, 2021, at 11:40 AM, Stefan Hajnoczi <stefanha@redhat.com> wr=
+ote:
+>> > On Mon, Oct 11, 2021 at 01:31:08AM -0400, Jagannathan Raman wrote:
+>> >> diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
+>> >> new file mode 100644
+>> >> index 0000000000..c2a300f0ff
+>> >> --- /dev/null
+>> >> +++ b/hw/remote/vfio-user-obj.c
+>> >> @@ -0,0 +1,173 @@
+>> >> +/**
+>> >> + * QEMU vfio-user-server server object
+>> >> + *
+>> >> + * Copyright =C2=A9 2021 Oracle and/or its affiliates.
+>> >> + *
+>> >> + * This work is licensed under the terms of the GNU GPL-v2, version =
+2 or later.
+>> >> + *
+>> >> + * See the COPYING file in the top-level directory.
+>> >> + *
+>> >> + */
+>> >> +
+>> >> +/**
+>> >> + * Usage: add options:
+>> >> + *     -machine x-remote
+>> >> + *     -device <PCI-device>,id=3D<pci-dev-id>
+>> >> + *     -object vfio-user-server,id=3D<id>,type=3Dunix,path=3D<socket=
+-path>,
+>> >=20
+>> > I expected socket.type=3D and socket.path=3D based on the QAPI schema.=
+ Is
+>> > this command-line example correct?
+>>=20
+>> When I tried the =E2=80=9Csocket.path=E2=80=9D approach, QEMU was not ab=
+le to parse the
+>> arguments. So I had to break it down to a series of individual members.
+>>=20
+>> If =E2=80=9Csocket.path=E2=80=9D is the expected way, I=E2=80=99ll see w=
+hy the parser is not working
+>> as expected.=20
+>
+> CCing Markus regarding QAPI.
+>
+> I'm surprised because the QAPI schema for vfio-user-server objects is:
+>
+>   { 'struct': 'VfioUserServerProperties',
+>     'data': { 'socket': 'SocketAddress', 'device': 'str' } }
+>
+> It's not clear to me why the command-line parser flattens the 'socket'
+> field into its 'type' and 'path' sub-fields in your example:
+>
+>   -object vfio-user-server,id=3D<id>,type=3Dunix,path=3D<socket-path>,dev=
+ice=3D<pci-dev-id>
+>
+> Maybe because SocketAddress is an enum instead of a struct?
+>
+> Imagine a second SocketAddress field is added to vfio-user-server. How
+> can the parser know which field 'type' and 'path' belong to? I tried it:
+>
+>   { 'struct': 'VfioUserServerProperties',
+>     'data': { 'socket': 'SocketAddress', 'socket2': 'SocketAddress', 'dev=
+ice': 'str' } }
+>
+> Now the parser refuses any input I've tried. For example:
+>
+>   $ build/qemu-system-x86_64 -object vfio-user-server,id=3Ds,device=3Dasd=
+f,type=3Dunix,path=3Dasdf,type=3Dunix
+>   qemu-system-x86_64: -object vfio-user-server,id=3Ds,device=3Dasdf,type=
+=3Dunix,path=3Dasdf,type=3Dunix: Parameter 'type' is missing
+>
+> A similar case happens if the parent struct has 'type' or 'path' fields.
+> They collide with the SocketAddress union fields. I didn't test this
+> though.
+>
+> Questions for Markus:
+> 1. Do you know why the parser behaves like this?
 
-r~
+Yes: backward compatibility.
+
+The straightforward way to do a QAPI-based command line option uses
+qobject_input_visitor_new_str(), which parses either JSON or dotted
+keys, and returns the result wrapped in the appropriate QObject visitor.
+
+The JSON syntax is derived from the QAPI schema just like for QMP.  For
+the VfioUserServerProperties shown above, it's something like
+
+    {"socket": {"type": "unix", "path": "dir/socket"}, "device" "mumble"}
+
+I did not check my derivation by feeding it to QEMU.  Beware of
+screwups.
+
+The dotted keys syntax is derived from the JSON syntax as described in
+keyval.c.  For the JSON above, it should be
+
+    socket.type=3Dunix,socket.path=3Ddir/socket,device=3Dmumble
+
+When we QAPIfy an existing option instead of adding a new QAPI-based
+one, we have an additional problem: the dotted keys syntax has to match
+the old syntax (the JSON syntax is all new, so no problem there).
+
+The old syntax almost always has its quirks.  Ideally, we'd somehow get
+from quirky old to boring new in an orderly manner.  Sadly, we still
+don't have good solutions for that.  To make progress, we commonly
+combine JSON new with quirky old.
+
+qemu-system-FOO -object works that way.  object_option_parse() parses
+either JSON or QemuOpts.  It wraps the former in a QObject visitor, and
+the latter in an opts visitor.
+
+QemuOpts is flat by design[*], so the opts visitor parses flat QemuOpts
+from a (possibly non-flat) QAPI type.  How exactly it flattens, and how
+it handles clashes I don't remember.
+
+Sadly, this means that we get quirky old even for new object types.
+
+Questions?
+
+> 2. Is it good practice to embed SocketAddress into parent structs or
+>    should we force it into a struct?
+
+I'm not sure I got your question.  An example might help.
+
+
+[*] You can play games with dotted keys to simulate nesting, but the
+opts visitor predates all that.
+
 
