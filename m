@@ -2,70 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA7AC445565
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 15:34:03 +0100 (CET)
-Received: from localhost ([::1]:44362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F250445569
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 15:36:39 +0100 (CET)
+Received: from localhost ([::1]:51658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1midoY-0000kQ-MX
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 10:34:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42482)
+	id 1midr3-0005cS-RJ
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 10:36:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1midhh-0006Pz-CM
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 10:26:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25723)
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1midmk-0007hQ-OD; Thu, 04 Nov 2021 10:32:10 -0400
+Received: from mga05.intel.com ([192.55.52.43]:3672)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1midhf-0004cB-6H
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 10:26:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636036014;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9qVmHb24Dpz2hpbtPZFNbaSJn4mWha+cCr6ovRmLAuc=;
- b=LpwHaVJIxg78YckOX4lSBs5vvnGIdbc5gaOIq7RwNT8DZiDlZIzOzRtFr2F/6yyrZw75oo
- TDkxukx4yWAVlkTjpnSDuaNKNg2vtTHmP+M6Rf1kNrECA/vYqPbRCLEAKxaHVHo3gsJJJt
- j7YH9sAGfzNqx+qR+nAQ0xyKgV4G5qs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-362-9dVR1fvqOgC2DNfP60Ifdw-1; Thu, 04 Nov 2021 10:26:51 -0400
-X-MC-Unique: 9dVR1fvqOgC2DNfP60Ifdw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3EA7E1054F91
- for <qemu-devel@nongnu.org>; Thu,  4 Nov 2021 14:26:50 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.97])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 47A685F4ED;
- Thu,  4 Nov 2021 14:26:43 +0000 (UTC)
-Date: Thu, 4 Nov 2021 15:26:42 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC PATCH 00/12] QOM/QAPI integration part 1
-Message-ID: <YYPtokwlkWzhrJ2u@redhat.com>
-References: <20211103173002.209906-1-kwolf@redhat.com>
- <8e630c96-5d2c-d214-e594-6162356990b0@redhat.com>
- <YYOiyTcA6zZgtWBs@redhat.com>
- <13f8981a-55e5-e5d9-415f-4658aba16270@redhat.com>
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1midmh-0006eU-Kf; Thu, 04 Nov 2021 10:32:10 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10157"; a="317916687"
+X-IronPort-AV: E=Sophos;i="5.87,209,1631602800"; d="scan'208";a="317916687"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Nov 2021 07:31:58 -0700
+X-IronPort-AV: E=Sophos;i="5.87,209,1631602800"; d="scan'208";a="450465510"
+Received: from lmaniak-dev.igk.intel.com ([10.55.248.48])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Nov 2021 07:31:55 -0700
+Date: Thu, 4 Nov 2021 15:30:45 +0100
+From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH 05/15] hw/nvme: Add support for SR-IOV
+Message-ID: <20211104143045.GB3643516@lmaniak-dev.igk.intel.com>
+References: <20211007162406.1920374-1-lukasz.maniak@linux.intel.com>
+ <20211007162406.1920374-6-lukasz.maniak@linux.intel.com>
+ <YYFMK3z1iAY52hp6@apples.localdomain>
+ <20211102173244.GA3643516@lmaniak-dev.igk.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <13f8981a-55e5-e5d9-415f-4658aba16270@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211102173244.GA3643516@lmaniak-dev.igk.intel.com>
+Received-SPF: none client-ip=192.55.52.43;
+ envelope-from=lukasz.maniak@linux.intel.com; helo=mga05.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,67 +58,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eblake@redhat.com, berrange@redhat.com, armbru@redhat.com,
- ehabkost@redhat.com, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
+ qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 04.11.2021 um 13:39 hat Paolo Bonzini geschrieben:
-> On 11/4/21 10:07, Kevin Wolf wrote:
-> > The class implementations always want to store only their "local" config
-> > options, but 'qom-config:classname' contains those of the parent class
-> > as well.
+On Tue, Nov 02, 2021 at 06:33:31PM +0100, Lukasz Maniak wrote:
+> On Tue, Nov 02, 2021 at 03:33:15PM +0100, Klaus Jensen wrote:
+> > On Oct  7 18:23, Lukasz Maniak wrote:
+> > > This patch implements initial support for Single Root I/O Virtualization
+> > > on an NVMe device.
+> > > 
+> > > Essentially, it allows to define the maximum number of virtual functions
+> > > supported by the NVMe controller via sriov_max_vfs parameter.
+> > > 
+> > > Passing a non-zero value to sriov_max_vfs triggers reporting of SR-IOV
+> > > capability by a physical controller and ARI capability by both the
+> > > physical and virtual function devices.
+> > > 
+> > > NVMe controllers created via virtual functions mirror functionally
+> > > the physical controller, which may not entirely be the case, thus
+> > > consideration would be needed on the way to limit the capabilities of
+> > > the VF.
+> > > 
+> > > NVMe subsystem is required for the use of SR-IOV.
+> > > 
+> > > Signed-off-by: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+> > > ---
+> > >  hw/nvme/ctrl.c           | 74 ++++++++++++++++++++++++++++++++++++++--
+> > >  hw/nvme/nvme.h           |  1 +
+> > >  include/hw/pci/pci_ids.h |  1 +
+> > >  3 files changed, 73 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> > > index 6a571d18cf..ad79ff0c00 100644
+> > > --- a/hw/nvme/ctrl.c
+> > > +++ b/hw/nvme/ctrl.c
+> > > @@ -6361,8 +6406,12 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
+> > >                            n->reg_size);
+> > >      memory_region_add_subregion(&n->bar0, 0, &n->iomem);
+> > >  
+> > > -    pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY |
+> > > -                     PCI_BASE_ADDRESS_MEM_TYPE_64, &n->bar0);
+> > > +    if (pci_is_vf(pci_dev)) {
+> > > +        pcie_sriov_vf_register_bar(pci_dev, 0, &n->bar0);
+> > > +    } else {
+> > > +        pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY |
+> > > +                         PCI_BASE_ADDRESS_MEM_TYPE_64, &n->bar0);
+> > > +    }
+> > 
+> > I assume that the assert we are seeing means that the pci_register_bars
+> > in nvme_init_cmb and nvme_init_pmr must be changed similarly to this.
 > 
-> Ah, I didn't understand that (hence the rubbish tag above).  It makes sense
-> given that instance_config is called per-class while ObjectOptions stores
-> all the info in one class.  That's a major change from my sketch, which
-> planned to call the base class config function by hand (and handle the
-> marshalling via QAPI 'base': '...').
-
-Yeah, handling inheritance and how to represent things in the schema is
-probably the two more interesting things this series changes compared to
-your proposal.
-
-I started with your model, but it just didn't work out nicely, because I
-always had the full configuration in the child class and apart from just
-being ugly, having all options of the parent class duplicated, but
-ignored, would certainly be a source for a lot of confusion and bugs.
-
-It took me a while to figure out how to deal with this, but I'm quite
-happy with the result.
-
-> > Oh, and I also wanted to say something about why not just directly using
-> > the class name, which was my first idea: 'foo': 'iothread' looks more
-> > like referencing an existing iothread rather than the configuration for
-> > a new one. I wanted to leave us the option that we could possibly later
-> > take a string for such options (a QOM path) and then pass the referenced
-> > object to QMP commands as the proper QOM type.
+> Assert will only arise for CMB as VF params are initialized with PF
+> params.
 > 
-> I agree that 'iothread' is going to be confusing when you're referring to
-> the configuration.
+> @@ -6532,6 +6585,15 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+>      NvmeCtrl *n = NVME(pci_dev);
+>      NvmeNamespace *ns;
+>      Error *local_err = NULL;
+> +    NvmeCtrl *pn = NVME(pcie_sriov_get_pf(pci_dev));
+> +
+> +    if (pci_is_vf(pci_dev)) {
+> +        /* VFs derive settings from the parent. PF's lifespan exceeds
+> +         * that of VF's, so it's safe to share params.serial.
+> +         */
+> +        memcpy(&n->params, &pn->params, sizeof(NvmeParams));
+> +        n->subsys = pn->subsys;
+> +    }
+>  
+>      nvme_check_constraints(n, &local_err);
+>      if (local_err) {
 > 
-> Anyway I'm totally fine with 'qom-config:classname'.  Given this
-> explanation, however, one alternative that makes sense could be
-> 'classname:full-config'. Then you could use 'classname:config' for the
-> autoboxed configs---and reserve 'classname' to mean the pointer to an
-> object.  Classes are (generally) lowercase and QAPI structs are
-> CamelCase, so there is not much potential for collisions.
+> The following simple fix will both fix assert and also allow
+> each VF to have its own CMB of the size defined for PF.
+> 
+> ---
+>  hw/nvme/ctrl.c | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> index 19b32dd4da..99daa6290c 100644
+> --- a/hw/nvme/ctrl.c
+> +++ b/hw/nvme/ctrl.c
+> @@ -6837,10 +6837,15 @@ static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
+>      n->cmb.buf = g_malloc0(cmb_size);
+>      memory_region_init_io(&n->cmb.mem, OBJECT(n), &nvme_cmb_ops, n,
+>                            "nvme-cmb", cmb_size);
+> -    pci_register_bar(pci_dev, NVME_CMB_BIR,
+> -                     PCI_BASE_ADDRESS_SPACE_MEMORY |
+> -                     PCI_BASE_ADDRESS_MEM_TYPE_64 |
+> -                     PCI_BASE_ADDRESS_MEM_PREFETCH, &n->cmb.mem);
+> +
+> +    if (pci_is_vf(pci_dev)) {
+> +        pcie_sriov_vf_register_bar(pci_dev, NVME_CMB_BIR, &n->cmb.mem);
+> +    } else {
+> +        pci_register_bar(pci_dev, NVME_CMB_BIR,
+> +                        PCI_BASE_ADDRESS_SPACE_MEMORY |
+> +                        PCI_BASE_ADDRESS_MEM_TYPE_64 |
+> +                        PCI_BASE_ADDRESS_MEM_PREFETCH, &n->cmb.mem);
+> +    }
+>  
+>      NVME_CAP_SET_CMBS(cap, 1);
+>      stq_le_p(&n->bar.cap, cap);
+> 
+> As for PMR, it is currently only available on PF, as only PF is capable
+> of specifying the memory-backend-file object to use with PMR.
+> Otherwise, either VFs would have to share the PMR with its PF, or there
+> would be a requirement to define a memory-backend-file object for each VF.
 
-Makes sense to me, too.
+Hi Klaus,
 
-I just checked and I actually already forbid class names with colons in
-them (check_name_str() takes care of this), so yes, suffixes actually
-work on the QAPI level.
+After some discussion, we decided to prohibit in V2 the use of CMB and
+PMR in combination with SR-IOV.
 
-If we actually want to use these types in manually written C code, we
-might have to convert the name to CamelCase, though, for consistency
-with the coding style.
+While the implementation of CMB with SR-IOV is relatively
+straightforward, PMR is not. We are committed to consistency in CMB and
+PMR design in association with SR-IOV. So we considered it best to
+disable both features and implement them in separate patches.
 
-We already have a function camel_to_upper(), we'd need a new
-lower_to_camel(), so that from a class 'rng-random', you would get types
-'RngRandomConfig' (the local ones) and 'RngRandomFullConfig' (with
-parent options).
-
-Kevin
-
+Kind regards,
+Lukasz
 
