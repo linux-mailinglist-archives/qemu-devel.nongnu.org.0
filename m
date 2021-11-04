@@ -2,49 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C6544453BC
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 14:21:28 +0100 (CET)
-Received: from localhost ([::1]:36810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6906944538E
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Nov 2021 14:08:46 +0100 (CET)
+Received: from localhost ([::1]:48506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1micgI-0005d0-NQ
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 09:21:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38802)
+	id 1micU1-0002OP-Jr
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 09:08:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mic6T-0005ii-AO; Thu, 04 Nov 2021 08:44:25 -0400
-Received: from [201.28.113.2] (port=43952 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mic6R-0000L9-Qj; Thu, 04 Nov 2021 08:44:25 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 4 Nov 2021 09:39:25 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 57588800BA7;
- Thu,  4 Nov 2021 09:39:25 -0300 (-03)
-From: matheus.ferst@eldorado.org.br
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Subject: [PATCH v3 25/25] target/ppc: cntlzdm/cnttzdm implementation without
- brcond
-Date: Thu,  4 Nov 2021 09:37:19 -0300
-Message-Id: <20211104123719.323713-26-matheus.ferst@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211104123719.323713-1-matheus.ferst@eldorado.org.br>
-References: <20211104123719.323713-1-matheus.ferst@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1micCM-00020q-1B
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 08:50:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60603)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1micCH-0001Jb-P8
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 08:50:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636030225;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UwK70Z9P9mY30F+cwnX4Uy3wW0E93dxpKhGZ3NP1Ptg=;
+ b=UJEJzGyR0s/cAnqh5G8TOqGWwNgif24Jaq1Gto2QiOfhyGj2wpZzmsrmCcw2zc0kqunAl2
+ z7o+pm3Rmr6wsRMB9PSpGRKu/NmEaoQCtqSMM/kjCihrl6Sm1BbBzM4+7h645f0boCny49
+ lAkkpIlwQA/CA9WUofbRvkjh2sm1PGM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-317-wW6JP5J6O8qpnFli50YkHQ-1; Thu, 04 Nov 2021 08:50:23 -0400
+X-MC-Unique: wW6JP5J6O8qpnFli50YkHQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ k25-20020a05600c1c9900b00332f798ba1dso4363108wms.4
+ for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 05:50:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=UwK70Z9P9mY30F+cwnX4Uy3wW0E93dxpKhGZ3NP1Ptg=;
+ b=Y9JPn89qlcTDg/o6ULr0dDx9Ulx70WhkHHqV6Z5cCp1ls4mTG2UduDrq5FIqMnf6HV
+ rq8nkN9+BDJeQVj43Nw/5YbkL85Qdty1wRXdd1WVX1enAwhfdpu/YT3nzUeTpDCYOSEh
+ u0barYPmqOTfF2gZpXkzDfGeJ4fqMHV35gMvqlQ/jtfm+YFrAJXxk2RWFMLb6JY4m6UG
+ /+JHs9elr1B9qTYsvdFJTM4aPjDv+UjvWdqoEwLA4kqxvzDmVeZGNbTUDKLlFbwn6yv3
+ c/ctKY8+Ll3KCUbjOzsZwwgFL7gAvoJRRiY45WrQVuLhYjPJBhb450pbxN1jkWFFr26E
+ qWTQ==
+X-Gm-Message-State: AOAM532ZuKiah6LtLvImIDxUmINHZluqTSzaWRiaVoU4cCZ0DNZverVC
+ +4mGfsHmhD4Nt4L0r8HVPqceFybXR+qKrJ8CkUM6JQzDVlXFMDOjTYH0hIDJpQTutLS6ifuveqN
+ UtUUJDU4UdZMbrVs=
+X-Received: by 2002:adf:a389:: with SMTP id l9mr53615047wrb.121.1636030221993; 
+ Thu, 04 Nov 2021 05:50:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx0aEdqpdFx5rYgl53fG+ir2eOm3n165Tqq5LfspUZdEi8pCLsUo3knM7z+TY1e/BTyHK/RpA==
+X-Received: by 2002:adf:a389:: with SMTP id l9mr53615014wrb.121.1636030221777; 
+ Thu, 04 Nov 2021 05:50:21 -0700 (PDT)
+Received: from [192.168.50.34] (static-180-27-86-188.ipcom.comunitel.net.
+ [188.86.27.180])
+ by smtp.gmail.com with ESMTPSA id c17sm5357267wmk.23.2021.11.04.05.50.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Nov 2021 05:50:21 -0700 (PDT)
+Message-ID: <3f261dc1-aa3c-affe-1d56-1e41e2ccf6fa@redhat.com>
+Date: Thu, 4 Nov 2021 13:50:19 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 1/1] tests/acceptance: rename tests acceptance to tests
+ avocado
+To: Willian Rampazzo <willianr@redhat.com>, qemu-devel@nongnu.org
+References: <20211103211404.79953-1-willianr@redhat.com>
+ <20211103211404.79953-2-willianr@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211103211404.79953-2-willianr@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 04 Nov 2021 12:39:25.0710 (UTC)
- FILETIME=[004E52E0:01D7D179]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.093, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,74 +99,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lucas.castro@eldorado.org.br, richard.henderson@linaro.org, groug@kaod.org,
- luis.pires@eldorado.org.br, Matheus Ferst <matheus.ferst@eldorado.org.br>,
- david@gibson.dropbear.id.au
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ Michael Rolnik <mrolnik@gmail.com>, John Snow <jsnow@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+On 11/3/21 22:14, Willian Rampazzo wrote:
+> In the discussion about renaming the `tests/acceptance` [1], the
+> conclusion was that the folders inside `tests` are related to the
+> framework running the tests and not directly related to the type of
+> the tests.
+> 
+> This changes the folder to `tests/avocado` and adjusts the MAKEFILE, the
+> CI related files and the documentation.
+> 
+> [1] https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg06553.html
+> 
+> Signed-off-by: Willian Rampazzo <willianr@redhat.com>
+> ---
+>  64 files changed, 113 insertions(+), 118 deletions(-)
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
----
- target/ppc/translate/fixedpoint-impl.c.inc | 31 +++++++++++-----------
- 1 file changed, 16 insertions(+), 15 deletions(-)
+> --- a/tests/Makefile.include
+> +++ b/tests/Makefile.include
 
-diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
-index e093562e2a..7fecff4579 100644
---- a/target/ppc/translate/fixedpoint-impl.c.inc
-+++ b/target/ppc/translate/fixedpoint-impl.c.inc
-@@ -416,32 +416,33 @@ static bool trans_CFUGED(DisasContext *ctx, arg_X *a)
- 
- static void do_cntzdm(TCGv_i64 dst, TCGv_i64 src, TCGv_i64 mask, int64_t trail)
- {
--    TCGv_i64 tmp;
--    TCGLabel *l1;
-+    TCGv_i64 t0, t1;
- 
--    tmp = tcg_temp_local_new_i64();
--    l1 = gen_new_label();
-+    t0 = tcg_temp_new_i64();
-+    t1 = tcg_temp_new_i64();
- 
--    tcg_gen_and_i64(tmp, src, mask);
-+    tcg_gen_and_i64(t0, src, mask);
-     if (trail) {
--        tcg_gen_ctzi_i64(tmp, tmp, 64);
-+        tcg_gen_ctzi_i64(t0, t0, -1);
-     } else {
--        tcg_gen_clzi_i64(tmp, tmp, 64);
-+        tcg_gen_clzi_i64(t0, t0, -1);
-     }
- 
--    tcg_gen_brcondi_i64(TCG_COND_EQ, tmp, 0, l1);
--
--    tcg_gen_subfi_i64(tmp, 64, tmp);
-+    tcg_gen_setcondi_i64(TCG_COND_NE, t1, t0, -1);
-+    tcg_gen_andi_i64(t0, t0, 63);
-+    tcg_gen_xori_i64(t0, t0, 63);
-     if (trail) {
--        tcg_gen_shl_i64(tmp, mask, tmp);
-+        tcg_gen_shl_i64(t0, mask, t0);
-+        tcg_gen_shl_i64(t0, t0, t1);
-     } else {
--        tcg_gen_shr_i64(tmp, mask, tmp);
-+        tcg_gen_shr_i64(t0, mask, t0);
-+        tcg_gen_shr_i64(t0, t0, t1);
-     }
--    tcg_gen_ctpop_i64(tmp, tmp);
- 
--    gen_set_label(l1);
-+    tcg_gen_ctpop_i64(dst, t0);
- 
--    tcg_gen_mov_i64(dst, tmp);
-+    tcg_temp_free_i64(t0);
-+    tcg_temp_free_i64(t1);
- }
- 
- static bool trans_CNTLZDM(DisasContext *ctx, arg_X *a)
--- 
-2.25.1
+> -.PHONY: check-venv check-acceptance
+> +.PHONY: check-venv check-avocado
+
+> -check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+> +check-avocado: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+>  	$(call quiet-command, \
+>              $(TESTS_VENV_DIR)/bin/python -m avocado \
+>              --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
+
+We should keep check-acceptance, eventually printing a deprecation
+message. Smth like:
+
+  check-acceptance: check-avocado a
+      @echo "Note 'make $@' is deprecated, use 'make $<' instead" >&2
+
+> --- a/tests/acceptance/ppc_prep_40p.py
+> +++ b/tests/avocado/ppc_prep_40p.py
+> @@ -13,6 +13,10 @@
+>  
+>  
+>  class IbmPrep40pMachine(Test):
+> +    """
+> +    :avocado: tags=arch:ppc
+> +    :avocado: tags=machine:40p
+> +    """
+>  
+>      timeout = 60
+>  
+> @@ -24,8 +28,6 @@ class IbmPrep40pMachine(Test):
+>      @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
+>      def test_factory_firmware_and_netbsd(self):
+>          """
+> -        :avocado: tags=arch:ppc
+> -        :avocado: tags=machine:40p
+>          :avocado: tags=os:netbsd
+>          :avocado: tags=slowness:high
+>          """
+> @@ -48,10 +50,6 @@ def test_factory_firmware_and_netbsd(self):
+>          wait_for_console_pattern(self, 'Model: IBM PPS Model 6015')
+>  
+>      def test_openbios_192m(self):
+> -        """
+> -        :avocado: tags=arch:ppc
+> -        :avocado: tags=machine:40p
+> -        """
+>          self.vm.set_console()
+>          self.vm.add_args('-m', '192') # test fw_cfg
+>  
+> @@ -62,8 +60,6 @@ def test_openbios_192m(self):
+>  
+>      def test_openbios_and_netbsd(self):
+>          """
+> -        :avocado: tags=arch:ppc
+> -        :avocado: tags=machine:40p
+>          :avocado: tags=os:netbsd
+>          """
+>          drive_url = ('https://archive.netbsd.org/pub/NetBSD-archive/'
+
+Unrelated change, otherwise:
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
