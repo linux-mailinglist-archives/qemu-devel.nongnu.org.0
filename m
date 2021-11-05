@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3830E4468AE
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 19:54:38 +0100 (CET)
-Received: from localhost ([::1]:48298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E97F4468CC
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 20:18:02 +0100 (CET)
+Received: from localhost ([::1]:45976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mj4MH-000743-Cn
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 14:54:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40790)
+	id 1mj4iu-0000IM-VQ
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 15:18:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mj4K5-000537-76; Fri, 05 Nov 2021 14:52:21 -0400
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:42536)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mj4ht-0007lf-9X; Fri, 05 Nov 2021 15:16:57 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mj4K3-0005WV-C2; Fri, 05 Nov 2021 14:52:20 -0400
-Received: by mail-ot1-x332.google.com with SMTP id
- g91-20020a9d12e4000000b0055ae68cfc3dso11706378otg.9; 
- Fri, 05 Nov 2021 11:52:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mj4hp-0001go-K0; Fri, 05 Nov 2021 15:16:56 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id d27so15266556wrb.6;
+ Fri, 05 Nov 2021 12:16:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=kd7KKZc3HnLkW75lMBUr64KgQlGXASFpgUeE9m3h2uc=;
- b=bCZDPZtxmvXRHZhbzVVYgAu/6Mx73R3NKCH2HQlG5nWPriQzyBtKUUEFPSSZPUAa28
- WCjpwiE7JYGyIlr4x2Pvli94c7Xllj1mYJHlfOf1+2CJMnruhYs7UPIlzuV9kPeWIZJy
- IinfdZ0C3ZjwIghCIU2E72pIRPNRC6R8JCVurF2Z6rmYsuCSbX5n+1ed8PtJqmA+8yZe
- 6DlUCfsydIraFDmHcVVYYApwZPT+J8YPgv9YSLSimzmNF+L0eqynybIhD19YGQO6ly3i
- 6zux/9B2mnMkT41CKwD2GH8YOdUXY4+j4HFJiHZ/Jj9pAYX9hxWwCcMR9TGtUwSAY2tL
- CTPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=kd7KKZc3HnLkW75lMBUr64KgQlGXASFpgUeE9m3h2uc=;
- b=pKsXNBnwPvdOPPw5TmFcjVT8+dU6ChW+ybX182P5ySTPmOmeBafvBN5kJ6bTjNkLa0
- 2uQu/ib4c7fNRJwzZwjs+mtdhEO2WkNPPNwOBbY7utp/sH37LzGlqVX+i7mAjn0JhaqJ
- qIPDPujsfQPJcao0KKw5lnF3fh/yhX+fNnqw9I0dDdozUc4/uyxppzHARqjOVVyXIrma
- Nr9NZ5qe4Tbi4RAa/IPSdSIoJYvjtFs16Wud8O+FK7zO82jcBWBLflu2LU8lBhUYF9bh
- OcrRos6Ce+zinQ4s5G3k7oyD1S7uxGY1CBAnb54tYDPQEVM8+pRiCtM5YBGeWM+Cjl0N
- yE/A==
-X-Gm-Message-State: AOAM533KtRxhpyDj9B3raXdHfzz6fVkK0A9NWBPdxux1FfODoBjKajNV
- Z5afT8gO2dr5EWc4Uw7x4dY=
-X-Google-Smtp-Source: ABdhPJw5ajscwJKWg6SFoCIj2MVnebctlaAQTeAG29sA5hW9tdnsIhcVTPqba2zUdzW99Ul6XNsiJQ==
-X-Received: by 2002:a9d:20c7:: with SMTP id x65mr9385402ota.173.1636138336681; 
- Fri, 05 Nov 2021 11:52:16 -0700 (PDT)
-Received: from [192.168.10.222] (201-42-211-153.dsl.telesp.net.br.
- [201.42.211.153])
- by smtp.gmail.com with ESMTPSA id q12sm2690497otl.66.2021.11.05.11.52.14
+ bh=nf835mmAytdF0LUXOxz9y59qEtN6QJvyVDZuiS0VPqs=;
+ b=msKdvSMCow2vom2xZcLm/oCWuJ2S7Fy/o1ZA+rGpUkVKwO5tIoGHW0O4yA3pBrjxmp
+ 7xa+u4vxbd4lx8bwKdZwVo0t5L/EWyTQjcgiIc7QgUJMLTRQszxt9bP/8UbD3OZ43OB8
+ LAkvvD9doBDX7bt9g0zmeoGhsJSjEFNcdEvnxkUJkY6ii9IkINWxyRhpy1rKrji9dY0B
+ vojB0zVegJK8rZbPzoKmBpzkosD2PG/6c+bOwGKiaBPhUVHcEUoRJFGZ25kEQgLEG2bh
+ +4s71ikvdBmXbEHd2vwqTPlWXIBFzhaPJD2qQrkmhQglC69DlkAvpyGn6PLwYQxHmKwa
+ hWhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=nf835mmAytdF0LUXOxz9y59qEtN6QJvyVDZuiS0VPqs=;
+ b=VU7QvzfBMJeNaGD4sBi9dJoK2J9Pes/gcdf0aEmqwBihnplgiIyCrNCBW5np4jfSJr
+ iRXFM4kGVOggW+SAXKTWEEVwo2MQ11AMlf3CdviCcj/BTj5JTNAX6+n+pDaXPX184N4l
+ 3l7HBOPLX5H1MBnuA/FoP0xZl+slLhaKcw+h2P2U2gwNC2ho38WpgjgD3v00OE0x+M3d
+ kIdtka8aYFfYQhzW/Fc/R1jKP5hcj7KKBUmTD3AGp1yN9bxYLtgF/3doZxN/xhYvKn03
+ Wlm7Fm3OUtS38lggYMET17LBgZvO5q0L04XdG0Wqce+r33g0NNm0g3zPSDKXhME3ybJ7
+ xHeQ==
+X-Gm-Message-State: AOAM533SBMAp769br9YpvbZ7ZNtYLBfLEB9SWOfMLb1TcAPi+FSgd6m6
+ 8kyGMggZIUAIznjzb073wqI=
+X-Google-Smtp-Source: ABdhPJzyP3R8KyYl26BrCWXyB561Iz63Q8AqujFb3YgqEDbee7gl3g+A+Q5Co7B2DB7lZSLhHZvtXg==
+X-Received: by 2002:a5d:668f:: with SMTP id l15mr76040773wru.182.1636139811437; 
+ Fri, 05 Nov 2021 12:16:51 -0700 (PDT)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id n7sm8703323wro.68.2021.11.05.12.16.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Nov 2021 11:52:16 -0700 (PDT)
-Message-ID: <555804ca-e59e-6dfb-c133-0087b7c0ffd0@gmail.com>
-Date: Fri, 5 Nov 2021 15:52:13 -0300
+ Fri, 05 Nov 2021 12:16:50 -0700 (PDT)
+Message-ID: <880124b9-5cd1-7fcb-fdc6-3d3f8a1da2b6@amsat.org>
+Date: Fri, 5 Nov 2021 20:16:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH] spapr_numa.c: FORM2 table handle nodes with no distance
- info
+Subject: Re: [PATCH] target/ppc, hw/ppc: Change maintainers
 Content-Language: en-US
-To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
-References: <20211105135137.1584840-1-npiggin@gmail.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20211105135137.1584840-1-npiggin@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x332.google.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, clg@kaod.org
+References: <20211105034640.53754-1-david@gibson.dropbear.id.au>
+ <8e05f98a-6a46-f728-5035-fab10f5a209a@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <8e05f98a-6a46-f728-5035-fab10f5a209a@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.093,
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.093,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,98 +88,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: peter.maydell@linaro.org, groug@kaod.org, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Daniel,
 
-
-On 11/5/21 10:51, Nicholas Piggin wrote:
-> A configuration that specifies multiple nodes without distance info
-> results in the non-local points in the FORM2 matrix having a distance of
-> 0. This causes Linux to complain "Invalid distance value range" because
-> a node distance is smaller than the local distance.
+On 11/5/21 10:48, Daniel Henrique Barboza wrote:
+> On 11/5/21 00:46, David Gibson wrote:
+>> As our day jobs and interests have moved onto other things, Greg and I
+>> have
+>> been struggling to keep on top of maintainership of target/ppc and
+>> associated pieces like the pseries and powernv machine types, with their
+>> platform specific devices.
+>>
+>> We've therefore discussed and plan to transfer maintainership to
+>> Cédric Le
+>> Goater (primary) and Daniel Henrique Barboza (backup).  Cédric and Daniel
+>> have been actively contributing to the area for some time, and they're
+>> supported in this by their current employer, IBM, who has an obvious
+>> interest in the platform.
 > 
-> Fix this by building a simple local / remote fallback for points where
-> distance information is missing.
+> Thank you and Greg and Red Hat for all the years of service supporting
+> qemu-ppc in the community. IBM will shoulder this responsibility now.
 
-Thanks for looking this up. I checked the output of this same scenario with
-a FORM1 guest and 4 distance-less NUMA nodes. This is what I got:
+In term of the MAINTAINERS file:
 
-[root@localhost ~]# numactl -H
-available: 4 nodes (0-3)
-(...)
-node distances:
-node   0   1   2   3
-   0:  10  160  160  160
-   1:  160  10  160  160
-   2:  160  160  10  160
-   3:  160  160  160  10
-[root@localhost ~]#
+        S: Status, one of the following:
+           Supported:   Someone is actually paid to look after this.
+           Maintained:  Someone actually looks after it.
 
+The PPC entries have a 'Maintained' status. You say "IBM will shoulder
+this responsibility", does that mean the entries will be 'Supported'
+as in "someone paid to look after them"?
+I wonder because both Cédric and you have some commits with an IBM
+email, but both are registering a non-IBM email as contact. I don't
+mind the email technical detail, but I am curious about the status
+and expectations.
 
-With this patch we're getting '20' instead of '160' because you're using
-NUMA_DISTANCE_DEFAULT, while FORM1 will default this case to the maximum
-NUMA distance the kernel allows for that affinity (160).
+Thanks,
 
-I do not have strong feelings about changing this behavior between FORM1 and
-FORM2. I tested the same scenario with a x86_64 guest and they also uses '20'
-in this case as well, so far as QEMU goes using NUMA_DISTANCE_DEFAULT is
-consistent.
+Phil.
 
-Aneesh is already in CC, so I believe he'll let us know if there's something
-we're missing and we need to preserve the '160' distance in FORM2 for this
-case as well.
-
-For now:
-
-
+>> Greg and I do plan to stay around in some capacity for at least the next
+>> 6 months, providing reviews and advice to assist the new maintainers into
+>> the role.
 > 
-> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-> ---
-
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-
-
->   hw/ppc/spapr_numa.c | 22 +++++++++++++++++-----
->   1 file changed, 17 insertions(+), 5 deletions(-)
+> I hope both of you stay around way longer than that :)
 > 
-> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> index 5822938448..56ab2a5fb6 100644
-> --- a/hw/ppc/spapr_numa.c
-> +++ b/hw/ppc/spapr_numa.c
-> @@ -546,12 +546,24 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
->                * NUMA nodes, but QEMU adds the default NUMA node without
->                * adding the numa_info to retrieve distance info from.
->                */
-> -            if (src == dst) {
-> -                distance_table[i++] = NUMA_DISTANCE_MIN;
-> -                continue;
-> +            distance_table[i] = numa_info[src].distance[dst];
-> +            if (distance_table[i] == 0) {
-> +                /*
-> +                 * In case QEMU adds a default NUMA single node when the user
-> +                 * did not add any, or where the user did not supply distances,
-> +                 * the value will be 0 here. Populate the table with a fallback
-> +                 * simple local / remote distance.
-> +                 */
-> +                if (src == dst) {
-> +                    distance_table[i] = NUMA_DISTANCE_MIN;
-> +                } else {
-> +                    distance_table[i] = numa_info[src].distance[dst];
-> +                    if (distance_table[i] < NUMA_DISTANCE_MIN) {
-> +                        distance_table[i] = NUMA_DISTANCE_DEFAULT;
-> +                    }
-> +                }
->               }
-> -
-> -            distance_table[i++] = numa_info[src].distance[dst];
-> +            i++;
->           }
->       }
->   
 > 
+> 
+> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> 
+>>
+>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+>> ---
+>>   MAINTAINERS | 20 ++++++++++++++------
+>>   1 file changed, 14 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 797be5b366..066c4fb2b0 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -262,8 +262,10 @@ F: hw/openrisc/
+>>   F: tests/tcg/openrisc/
+>>     PowerPC TCG CPUs
+>> -M: David Gibson <david@gibson.dropbear.id.au>
+>> -M: Greg Kurz <groug@kaod.org>
+>> +M: Cédric Le Goater <clg@kaod.org>
+>> +M: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> +R: David Gibson <david@gibson.dropbear.id.au>
+>> +R: Greg Kurz <groug@kaod.org>
+>>   L: qemu-ppc@nongnu.org
+>>   S: Maintained
+>>   F: target/ppc/
+>> @@ -382,8 +384,10 @@ F: target/mips/kvm*
+>>   F: target/mips/sysemu/
+>>     PPC KVM CPUs
+>> -M: David Gibson <david@gibson.dropbear.id.au>
+>> -M: Greg Kurz <groug@kaod.org>
+>> +M: Cédric Le Goater <clg@kaod.org>
+>> +M: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> +R: David Gibson <david@gibson.dropbear.id.au>
+>> +R: Greg Kurz <groug@kaod.org>
+>>   S: Maintained
+>>   F: target/ppc/kvm.c
+>>   @@ -1321,8 +1325,10 @@ F: include/hw/rtc/m48t59.h
+>>   F: tests/acceptance/ppc_prep_40p.py
+>>     sPAPR
+>> -M: David Gibson <david@gibson.dropbear.id.au>
+>> -M: Greg Kurz <groug@kaod.org>
+>> +M: Cédric Le Goater <clg@kaod.org>
+>> +M: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> +R: David Gibson <david@gibson.dropbear.id.au>
+>> +R: Greg Kurz <groug@kaod.org>
+>>   L: qemu-ppc@nongnu.org
+>>   S: Maintained
+>>   F: hw/*/spapr*
+>> @@ -1382,6 +1388,8 @@ F: include/hw/pci-host/mv64361.h
+>>     Virtual Open Firmware (VOF)
+>>   M: Alexey Kardashevskiy <aik@ozlabs.ru>
+>> +R: Cédric Le Goater <clg@kaod.org>
+>> +R: Daniel Henrique Barboza <danielhb413@gmail.com>
+>>   R: David Gibson <david@gibson.dropbear.id.au>
+>>   R: Greg Kurz <groug@kaod.org>
+>>   L: qemu-ppc@nongnu.org
+>>
+> 
+
 
