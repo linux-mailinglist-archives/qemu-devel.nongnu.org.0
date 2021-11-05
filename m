@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E97F4468CC
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 20:18:02 +0100 (CET)
-Received: from localhost ([::1]:45976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0512D44691D
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 20:27:41 +0100 (CET)
+Received: from localhost ([::1]:54170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mj4iu-0000IM-VQ
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 15:18:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46830)
+	id 1mj4sF-0006GX-OO
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 15:27:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mj4ht-0007lf-9X; Fri, 05 Nov 2021 15:16:57 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39699)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mj4hp-0001go-K0; Fri, 05 Nov 2021 15:16:56 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id d27so15266556wrb.6;
- Fri, 05 Nov 2021 12:16:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=nf835mmAytdF0LUXOxz9y59qEtN6QJvyVDZuiS0VPqs=;
- b=msKdvSMCow2vom2xZcLm/oCWuJ2S7Fy/o1ZA+rGpUkVKwO5tIoGHW0O4yA3pBrjxmp
- 7xa+u4vxbd4lx8bwKdZwVo0t5L/EWyTQjcgiIc7QgUJMLTRQszxt9bP/8UbD3OZ43OB8
- LAkvvD9doBDX7bt9g0zmeoGhsJSjEFNcdEvnxkUJkY6ii9IkINWxyRhpy1rKrji9dY0B
- vojB0zVegJK8rZbPzoKmBpzkosD2PG/6c+bOwGKiaBPhUVHcEUoRJFGZ25kEQgLEG2bh
- +4s71ikvdBmXbEHd2vwqTPlWXIBFzhaPJD2qQrkmhQglC69DlkAvpyGn6PLwYQxHmKwa
- hWhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=nf835mmAytdF0LUXOxz9y59qEtN6QJvyVDZuiS0VPqs=;
- b=VU7QvzfBMJeNaGD4sBi9dJoK2J9Pes/gcdf0aEmqwBihnplgiIyCrNCBW5np4jfSJr
- iRXFM4kGVOggW+SAXKTWEEVwo2MQ11AMlf3CdviCcj/BTj5JTNAX6+n+pDaXPX184N4l
- 3l7HBOPLX5H1MBnuA/FoP0xZl+slLhaKcw+h2P2U2gwNC2ho38WpgjgD3v00OE0x+M3d
- kIdtka8aYFfYQhzW/Fc/R1jKP5hcj7KKBUmTD3AGp1yN9bxYLtgF/3doZxN/xhYvKn03
- Wlm7Fm3OUtS38lggYMET17LBgZvO5q0L04XdG0Wqce+r33g0NNm0g3zPSDKXhME3ybJ7
- xHeQ==
-X-Gm-Message-State: AOAM533SBMAp769br9YpvbZ7ZNtYLBfLEB9SWOfMLb1TcAPi+FSgd6m6
- 8kyGMggZIUAIznjzb073wqI=
-X-Google-Smtp-Source: ABdhPJzyP3R8KyYl26BrCWXyB561Iz63Q8AqujFb3YgqEDbee7gl3g+A+Q5Co7B2DB7lZSLhHZvtXg==
-X-Received: by 2002:a5d:668f:: with SMTP id l15mr76040773wru.182.1636139811437; 
- Fri, 05 Nov 2021 12:16:51 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id n7sm8703323wro.68.2021.11.05.12.16.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Nov 2021 12:16:50 -0700 (PDT)
-Message-ID: <880124b9-5cd1-7fcb-fdc6-3d3f8a1da2b6@amsat.org>
-Date: Fri, 5 Nov 2021 20:16:49 +0100
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1mj4qY-00045D-CL
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 15:25:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23430)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1mj4qV-0006vq-KJ
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 15:25:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636140349;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=W0xby7xdJIVIXviqKy+KpvMH0lTXfsDYL2f4Z5k54BI=;
+ b=gHgVl/R47fFWxtLmZUnHAdbrBIMecIGK5QjX5B5mTQaskrq5IdeIcp3OhjEKKd+cEbWtRI
+ Xq4IV+TFV0/DQ7Pa87y+2QacoEAtHxtQaGMmN79CVxA0QU/zOHQvquDKaA+wirmrSQ9Fhc
+ xNsaBEaAH1iS/ExlJXj6K6xyEDcjxAw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-331-Hgv-3FHiNbSbfj3A3XAUUg-1; Fri, 05 Nov 2021 15:25:47 -0400
+X-MC-Unique: Hgv-3FHiNbSbfj3A3XAUUg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E4651922023;
+ Fri,  5 Nov 2021 19:25:46 +0000 (UTC)
+Received: from thinkpad.redhat.com (unknown [10.39.194.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 685E157CAB;
+ Fri,  5 Nov 2021 19:25:42 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] trace-events,pci: unify trace events format
+Date: Fri,  5 Nov 2021 20:25:41 +0100
+Message-Id: <20211105192541.655831-1-lvivier@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] target/ppc, hw/ppc: Change maintainers
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, clg@kaod.org
-References: <20211105034640.53754-1-david@gibson.dropbear.id.au>
- <8e05f98a-6a46-f728-5035-fab10f5a209a@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <8e05f98a-6a46-f728-5035-fab10f5a209a@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.093,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,113 +75,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, groug@kaod.org, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: Laurent Vivier <lvivier@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Daniel,
+Unify format used by trace_pci_update_mappings_del(),
+trace_pci_update_mappings_add(), trace_pci_cfg_write() and
+trace_pci_cfg_read() to print the device name and bus number,
+slot number and function number.
 
-On 11/5/21 10:48, Daniel Henrique Barboza wrote:
-> On 11/5/21 00:46, David Gibson wrote:
->> As our day jobs and interests have moved onto other things, Greg and I
->> have
->> been struggling to keep on top of maintainership of target/ppc and
->> associated pieces like the pseries and powernv machine types, with their
->> platform specific devices.
->>
->> We've therefore discussed and plan to transfer maintainership to
->> Cédric Le
->> Goater (primary) and Daniel Henrique Barboza (backup).  Cédric and Daniel
->> have been actively contributing to the area for some time, and they're
->> supported in this by their current employer, IBM, who has an obvious
->> interest in the platform.
-> 
-> Thank you and Greg and Red Hat for all the years of service supporting
-> qemu-ppc in the community. IBM will shoulder this responsibility now.
+For instance:
 
-In term of the MAINTAINERS file:
+  pci_cfg_read virtio-net-pci 00:0 @0x20 -> 0xffffc00c
+  pci_cfg_write virtio-net-pci 00:0 @0x20 <- 0xfea0000c
+  pci_update_mappings_del d=0x555810b92330 01:00.0 4,0xffffc000+0x4000
+  pci_update_mappings_add d=0x555810b92330 01:00.0 4,0xfea00000+0x4000
 
-        S: Status, one of the following:
-           Supported:   Someone is actually paid to look after this.
-           Maintained:  Someone actually looks after it.
+becomes
 
-The PPC entries have a 'Maintained' status. You say "IBM will shoulder
-this responsibility", does that mean the entries will be 'Supported'
-as in "someone paid to look after them"?
-I wonder because both Cédric and you have some commits with an IBM
-email, but both are registering a non-IBM email as contact. I don't
-mind the email technical detail, but I am curious about the status
-and expectations.
+  pci_cfg_read virtio-net-pci 01:00.0 @0x20 -> 0xffffc00c
+  pci_cfg_write virtio-net-pci 01:00.0 @0x20 <- 0xfea0000c
+  pci_update_mappings_del virtio-net-pci 01:00.0 4,0xffffc000+0x4000
+  pci_update_mappings_add virtio-net-pci 01:00.0 4,0xfea00000+0x4000
 
-Thanks,
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+---
+ hw/pci/pci.c        | 4 ++--
+ hw/pci/pci_host.c   | 6 ++++--
+ hw/pci/trace-events | 8 ++++----
+ 3 files changed, 10 insertions(+), 8 deletions(-)
 
-Phil.
-
->> Greg and I do plan to stay around in some capacity for at least the next
->> 6 months, providing reviews and advice to assist the new maintainers into
->> the role.
-> 
-> I hope both of you stay around way longer than that :)
-> 
-> 
-> 
-> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> 
->>
->> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
->> ---
->>   MAINTAINERS | 20 ++++++++++++++------
->>   1 file changed, 14 insertions(+), 6 deletions(-)
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 797be5b366..066c4fb2b0 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -262,8 +262,10 @@ F: hw/openrisc/
->>   F: tests/tcg/openrisc/
->>     PowerPC TCG CPUs
->> -M: David Gibson <david@gibson.dropbear.id.au>
->> -M: Greg Kurz <groug@kaod.org>
->> +M: Cédric Le Goater <clg@kaod.org>
->> +M: Daniel Henrique Barboza <danielhb413@gmail.com>
->> +R: David Gibson <david@gibson.dropbear.id.au>
->> +R: Greg Kurz <groug@kaod.org>
->>   L: qemu-ppc@nongnu.org
->>   S: Maintained
->>   F: target/ppc/
->> @@ -382,8 +384,10 @@ F: target/mips/kvm*
->>   F: target/mips/sysemu/
->>     PPC KVM CPUs
->> -M: David Gibson <david@gibson.dropbear.id.au>
->> -M: Greg Kurz <groug@kaod.org>
->> +M: Cédric Le Goater <clg@kaod.org>
->> +M: Daniel Henrique Barboza <danielhb413@gmail.com>
->> +R: David Gibson <david@gibson.dropbear.id.au>
->> +R: Greg Kurz <groug@kaod.org>
->>   S: Maintained
->>   F: target/ppc/kvm.c
->>   @@ -1321,8 +1325,10 @@ F: include/hw/rtc/m48t59.h
->>   F: tests/acceptance/ppc_prep_40p.py
->>     sPAPR
->> -M: David Gibson <david@gibson.dropbear.id.au>
->> -M: Greg Kurz <groug@kaod.org>
->> +M: Cédric Le Goater <clg@kaod.org>
->> +M: Daniel Henrique Barboza <danielhb413@gmail.com>
->> +R: David Gibson <david@gibson.dropbear.id.au>
->> +R: Greg Kurz <groug@kaod.org>
->>   L: qemu-ppc@nongnu.org
->>   S: Maintained
->>   F: hw/*/spapr*
->> @@ -1382,6 +1388,8 @@ F: include/hw/pci-host/mv64361.h
->>     Virtual Open Firmware (VOF)
->>   M: Alexey Kardashevskiy <aik@ozlabs.ru>
->> +R: Cédric Le Goater <clg@kaod.org>
->> +R: Daniel Henrique Barboza <danielhb413@gmail.com>
->>   R: David Gibson <david@gibson.dropbear.id.au>
->>   R: Greg Kurz <groug@kaod.org>
->>   L: qemu-ppc@nongnu.org
->>
-> 
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 4a84e478cef5..9a76905d38c7 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -1387,7 +1387,7 @@ static void pci_update_mappings(PCIDevice *d)
+ 
+         /* now do the real mapping */
+         if (r->addr != PCI_BAR_UNMAPPED) {
+-            trace_pci_update_mappings_del(d, pci_dev_bus_num(d),
++            trace_pci_update_mappings_del(d->name, pci_dev_bus_num(d),
+                                           PCI_SLOT(d->devfn),
+                                           PCI_FUNC(d->devfn),
+                                           i, r->addr, r->size);
+@@ -1395,7 +1395,7 @@ static void pci_update_mappings(PCIDevice *d)
+         }
+         r->addr = new_addr;
+         if (r->addr != PCI_BAR_UNMAPPED) {
+-            trace_pci_update_mappings_add(d, pci_dev_bus_num(d),
++            trace_pci_update_mappings_add(d->name, pci_dev_bus_num(d),
+                                           PCI_SLOT(d->devfn),
+                                           PCI_FUNC(d->devfn),
+                                           i, r->addr, r->size);
+diff --git a/hw/pci/pci_host.c b/hw/pci/pci_host.c
+index cf02f0d6a501..0768893aafcf 100644
+--- a/hw/pci/pci_host.c
++++ b/hw/pci/pci_host.c
+@@ -78,7 +78,8 @@ void pci_host_config_write_common(PCIDevice *pci_dev, uint32_t addr,
+         return;
+     }
+ 
+-    trace_pci_cfg_write(pci_dev->name, PCI_SLOT(pci_dev->devfn),
++    trace_pci_cfg_write(pci_dev->name, pci_dev_bus_num(pci_dev),
++                        PCI_SLOT(pci_dev->devfn),
+                         PCI_FUNC(pci_dev->devfn), addr, val);
+     pci_dev->config_write(pci_dev, addr, val, MIN(len, limit - addr));
+ }
+@@ -102,7 +103,8 @@ uint32_t pci_host_config_read_common(PCIDevice *pci_dev, uint32_t addr,
+     }
+ 
+     ret = pci_dev->config_read(pci_dev, addr, MIN(len, limit - addr));
+-    trace_pci_cfg_read(pci_dev->name, PCI_SLOT(pci_dev->devfn),
++    trace_pci_cfg_read(pci_dev->name, pci_dev_bus_num(pci_dev),
++                       PCI_SLOT(pci_dev->devfn),
+                        PCI_FUNC(pci_dev->devfn), addr, ret);
+ 
+     return ret;
+diff --git a/hw/pci/trace-events b/hw/pci/trace-events
+index fc777d0b5e6e..7570752c4045 100644
+--- a/hw/pci/trace-events
++++ b/hw/pci/trace-events
+@@ -1,12 +1,12 @@
+ # See docs/devel/tracing.rst for syntax documentation.
+ 
+ # pci.c
+-pci_update_mappings_del(void *d, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size) "d=%p %02x:%02x.%x %d,0x%"PRIx64"+0x%"PRIx64
+-pci_update_mappings_add(void *d, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size) "d=%p %02x:%02x.%x %d,0x%"PRIx64"+0x%"PRIx64
++pci_update_mappings_del(const char *dev, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size) "%s %02x:%02x.%x %d,0x%"PRIx64"+0x%"PRIx64
++pci_update_mappings_add(const char *dev, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size) "%s %02x:%02x.%x %d,0x%"PRIx64"+0x%"PRIx64
+ 
+ # pci_host.c
+-pci_cfg_read(const char *dev, unsigned devid, unsigned fnid, unsigned offs, unsigned val) "%s %02u:%u @0x%x -> 0x%x"
+-pci_cfg_write(const char *dev, unsigned devid, unsigned fnid, unsigned offs, unsigned val) "%s %02u:%u @0x%x <- 0x%x"
++pci_cfg_read(const char *dev, uint32_t bus, uint32_t slot, uint32_t func, unsigned offs, unsigned val) "%s %02x:%02x.%x @0x%x -> 0x%x"
++pci_cfg_write(const char *dev, uint32_t bus, uint32_t slot, uint32_t func, unsigned offs, unsigned val) "%s %02x:%02x.%x @0x%x <- 0x%x"
+ 
+ # msix.c
+ msix_write_config(char *name, bool enabled, bool masked) "dev %s enabled %d masked %d"
+-- 
+2.31.1
 
 
