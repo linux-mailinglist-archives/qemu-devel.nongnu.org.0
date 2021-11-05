@@ -2,62 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CD5B44649B
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 15:05:39 +0100 (CET)
-Received: from localhost ([::1]:40906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 031EE446496
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 15:05:14 +0100 (CET)
+Received: from localhost ([::1]:40256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mizqc-0001OY-Cv
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 10:05:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60666)
+	id 1mizqC-0005vN-CD
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 10:05:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mizge-000553-Vo
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 09:55:27 -0400
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:33431)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mizhG-0005o2-BP
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 09:56:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mizgZ-0003fU-Gf
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 09:55:19 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.44])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 1806CC9B02D6;
- Fri,  5 Nov 2021 14:54:59 +0100 (CET)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Fri, 5 Nov
- 2021 14:54:59 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R00558b98e41-11cd-4f1c-b671-bdd47a994971,
- ACBEE74C211706A3681C4B00B96A7A61B931BAD7) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <f5264f8a-4bce-a8f4-235e-9253738240bd@kaod.org>
-Date: Fri, 5 Nov 2021 14:54:58 +0100
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mizhE-0003mi-Nf
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 09:55:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636120555;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=f+W9VVVqXqicoLF50h50RXvHCuO9/QQ7PXTAwdCjkr0=;
+ b=TsjLLeN92EXhLpA9xPdzmzNA4Eb3QmNhyTpWVlrW0aNdIaE/ZSOoqAw6IrMmp5KF2O1nTr
+ v4TXwzhJPFSwcmzKHhrWcyHSua7wFOXEFZWmr1VDjXdemWJqTd0viRf1UVSO+AnyCMlEKH
+ n7ADAYNbtcBkiG1LsrE/fsXmnJbF2Go=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-317-wcO-FkRmNGCJWLg9tmh3Kg-1; Fri, 05 Nov 2021 09:55:52 -0400
+X-MC-Unique: wcO-FkRmNGCJWLg9tmh3Kg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F46410168D8;
+ Fri,  5 Nov 2021 13:55:51 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.188])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 976C01803D;
+ Fri,  5 Nov 2021 13:55:49 +0000 (UTC)
+Date: Fri, 5 Nov 2021 14:55:47 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Damien Hedde <damien.hedde@greensocs.com>
+Subject: Re: [RFC PATCH 00/12] QOM/QAPI integration part 1
+Message-ID: <YYU34xFC7gxRNhf6@redhat.com>
+References: <20211103173002.209906-1-kwolf@redhat.com>
+ <8e630c96-5d2c-d214-e594-6162356990b0@redhat.com>
+ <YYOiyTcA6zZgtWBs@redhat.com>
+ <d97fef26-9ec5-8504-ed72-808fcfa3c3db@greensocs.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] target/ppc, hw/ppc: Change maintainers
-Content-Language: en-US
-To: David Gibson <david@gibson.dropbear.id.au>, <qemu-ppc@nongnu.org>,
- <qemu-devel@nongnu.org>, <groug@kaod.org>, <danielhb413@gmail.com>
-References: <20211105034640.53754-1-david@gibson.dropbear.id.au>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20211105034640.53754-1-david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: e4a611f9-4d87-4acd-87e1-97409dda15b9
-X-Ovh-Tracer-Id: 4013551696605121318
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrtdeigdehiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejgeffteffieejheehveekgfefhfffveffuedtvdeftdffjeeijefhheeljefhudenucffohhmrghinhepohiilhgrsghsrdhorhhgpdhgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.093,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <d97fef26-9ec5-8504-ed72-808fcfa3c3db@greensocs.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,147 +78,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: berrange@redhat.com, ehabkost@redhat.com, armbru@redhat.com,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/5/21 04:46, David Gibson wrote:
-> As our day jobs and interests have moved onto other things, Greg and I have
-> been struggling to keep on top of maintainership of target/ppc and
-> associated pieces like the pseries and powernv machine types, with their
-> platform specific devices.
+Am 04.11.2021 um 16:52 hat Damien Hedde geschrieben:
+> On 11/4/21 10:07, Kevin Wolf wrote:
+> > Am 03.11.2021 um 22:26 hat Paolo Bonzini geschrieben:
+> > > On 11/3/21 18:29, Kevin Wolf wrote:
+> > > > This series adds QOM class definitions to the QAPI schema, introduces
+> > > > a new TypeInfo.instance_config() callback that configures the object at
+> > > > creation time (instead of setting properties individually) and is
+> > > > separate from runtime property setters (which often used to be not
+> > > > really tested for runtime use), and finally generates a marshalling
+> > > > function for .instance_config() from the QAPI schema that makes this a
+> > > > natural C interface rather than a visitor based one.
+> > > 
+> > > That's pretty cool!
 > 
-> We've therefore discussed and plan to transfer maintainership to Cédric Le
-> Goater (primary) and Daniel Henrique Barboza (backup).  Cédric and Daniel
-> have been actively contributing to the area for some time, and they're
-> supported in this by their current employer, IBM, who has an obvious
-> interest in the platform.
-
-
-IBM business has changed focus and pseries/KVM will be less in
-the spotlights. Nevertheless, there is a large code base we want
-to keep running and not break. Migration compatibility is the
-most complex part of it. I hope we will be able to automate some
-of the non-regression tests RedHat/IBM have. Not an easy part
-I admit.
-
-
-There are plenty of contributors who help on very large parts
-of QEMU-PPC.
-
-Richard and the Eldorado team are watching closely instruction
-implementation,
-Mark is doing the same for MAC machines,
-Balaton for 44x and 46x and associated machines.
-Thomas showed he could bring back from the dead any forgotten board,
-Alex Graf still admins the qemu-ppc mailin list.
-It was nicely hooked to patchwork by the OzLabs recently :
-
-     https://patchwork.ozlabs.org/project/qemu-ppc/list/
-
-we might add some simple automation on the received patches,
-"does the patch apply ?" for instance. Anyhow, it's an easy way
-to share the review between people.
-
-Daniel, Bharata, Fabiano, Nick, You and Greg for pseries, and
-Alexey, for SLOF+VOF also. I am still around for PowerNV, XIVE, XICS.
-
-Christophe is doing his best to keep alive Linux ppc405.
-
-Michael does kernel CI testing on all these platforms :
-
-     https://github.com/linuxppc/ci-scripts/tree/master/scripts/boot
-
-Guenter also does :
-
-     https://github.com/groeck/linux-build-test/tree/master/rootfs/ppc
-
-and skiboot :
-
-     https://github.com/open-power/skiboot/tree/master/opal-ci
-
-GitLab does even more.
-
-and we have Philippe, always here to make sure every grain of sand
-has been examined.
-
-We don't feel alone :)
-
-> Greg and I do plan to stay around in some capacity for at least the next
-> 6 months, providing reviews and advice to assist the new maintainers into
-> the role.
-
-Thanks for the time and assistance for all these years. Pseries
-and PowerNV would not be in such a good shape without all the
-efforts you have put into them.
-
-I suppose emulation will take a larger part of our time now since
-it is largely used for pseries/powernv development in IBM. We will
-see how that goes.
-
+> Hi,
 > 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> Just to be sure I understand. Is this config a generalization of the
+> qdev-properties we have to describe the parameter used to create a
+> device ?
 
-Acked-by: Cédric Le Goater <clg@kaod.org>
+Everything I'm doing here is on the QOM level. But qdev is just a layer
+on top of QOM, so yes, eventually qdev properties should be declared in
+the schema, too. It's useful to keep this long-term goal in mind, but
+for now, the immediate goal is making it work for user-creatable
+objects.
 
-C.
-
-> ---
->   MAINTAINERS | 20 ++++++++++++++------
->   1 file changed, 14 insertions(+), 6 deletions(-)
+> > > Just one question: why not always use boxed configuration?  It should not
+> > > make the instance_config types any larger, and it avoids unwieldy argument
+> > > lists.
+> > 
+> > Basically for the same reason as for commands (and for consistency with
+> > commands): If you have only one or two options, then creating a separate
+> > type for them feels just a little over the top, and boxing doesn't work
+> > with implicit types.
+> > 
+> > I really like the concise definitions without a separate struct like in:
+> > 
+> > { 'class': 'rng-egd',
+> >    'parent': 'rng-backend',
+> >    'config': { 'chardev': 'str' } }
+> > 
+> > Though maybe we could make it work by giving the implicit type another
+> > prefixed name?
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 797be5b366..066c4fb2b0 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -262,8 +262,10 @@ F: hw/openrisc/
->   F: tests/tcg/openrisc/
->   
->   PowerPC TCG CPUs
-> -M: David Gibson <david@gibson.dropbear.id.au>
-> -M: Greg Kurz <groug@kaod.org>
-> +M: Cédric Le Goater <clg@kaod.org>
-> +M: Daniel Henrique Barboza <danielhb413@gmail.com>
-> +R: David Gibson <david@gibson.dropbear.id.au>
-> +R: Greg Kurz <groug@kaod.org>
->   L: qemu-ppc@nongnu.org
->   S: Maintained
->   F: target/ppc/
-> @@ -382,8 +384,10 @@ F: target/mips/kvm*
->   F: target/mips/sysemu/
->   
->   PPC KVM CPUs
-> -M: David Gibson <david@gibson.dropbear.id.au>
-> -M: Greg Kurz <groug@kaod.org>
-> +M: Cédric Le Goater <clg@kaod.org>
-> +M: Daniel Henrique Barboza <danielhb413@gmail.com>
-> +R: David Gibson <david@gibson.dropbear.id.au>
-> +R: Greg Kurz <groug@kaod.org>
->   S: Maintained
->   F: target/ppc/kvm.c
->   
-> @@ -1321,8 +1325,10 @@ F: include/hw/rtc/m48t59.h
->   F: tests/acceptance/ppc_prep_40p.py
->   
->   sPAPR
-> -M: David Gibson <david@gibson.dropbear.id.au>
-> -M: Greg Kurz <groug@kaod.org>
-> +M: Cédric Le Goater <clg@kaod.org>
-> +M: Daniel Henrique Barboza <danielhb413@gmail.com>
-> +R: David Gibson <david@gibson.dropbear.id.au>
-> +R: Greg Kurz <groug@kaod.org>
->   L: qemu-ppc@nongnu.org
->   S: Maintained
->   F: hw/*/spapr*
-> @@ -1382,6 +1388,8 @@ F: include/hw/pci-host/mv64361.h
->   
->   Virtual Open Firmware (VOF)
->   M: Alexey Kardashevskiy <aik@ozlabs.ru>
-> +R: Cédric Le Goater <clg@kaod.org>
-> +R: Daniel Henrique Barboza <danielhb413@gmail.com>
->   R: David Gibson <david@gibson.dropbear.id.au>
->   R: Greg Kurz <groug@kaod.org>
->   L: qemu-ppc@nongnu.org
+> What's an implicit type in this context ?
+
+The value of 'config' creates an implicit struct type that is considered
+anonymous on the QAPI level. With an explicit type, you wouldn't put an
+object containing all the options there, but just a type name, like
+this:
+
+{ 'struct': 'RngEgdConfig',
+  'data': { 'chardev': 'str' } }
+
+{ 'class': 'rng-egd',
+   'parent': 'rng-backend',
+   'config': 'RngEgdConfig' }
+
+> > 
+> > > Also, for the obligatory bikeshedding remark, do you have any other plans or
+> > > ideas for the colon-separated auto generated typenames?  Having both the
+> > > "namespace" (qom) and the more specific use (config) before the classname is
+> > > a bit weird, compared to the existing structs like RngRandomProperties.
+> > > Especially if boxed config is more used (or becomes the only possibility),
+> > > it might be that qom:class-name:config, or even just class-name:config, make
+> > > for nicer code in the object implementation.
+> > 
+> > 'qom-config:classname' isn't a type that is useful for the object
+> > implementations at all. Its only use is really storing the whole
+> > configuration temporarily in a QAPI C struct before applying it.
 > 
+> Would not this type be useful to generate read-only properties (and store
+> the values) corresponding to the config if we expect to always have such
+> properties ?
+
+No, that's what I explained in the following paragraph. That would be a
+different type, because 'qom-config:classname' contains the options for
+the parent class, too, but you only want to store the options for the
+class itself.
+
+Kevin
 
 
