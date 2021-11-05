@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 095214466DE
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 17:19:19 +0100 (CET)
-Received: from localhost ([::1]:50146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F5D74466F0
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 17:25:12 +0100 (CET)
+Received: from localhost ([::1]:48772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mj1vx-0004sq-NM
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 12:19:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47202)
+	id 1mj21f-00054w-IL
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 12:25:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1mj1XI-0001Lu-Pf; Fri, 05 Nov 2021 11:53:48 -0400
-Received: from mx2.freebsd.org ([2610:1c1:1:606c::19:2]:34830)
+ (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
+ id 1mj1Xl-0001TV-Kf
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 11:54:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23487)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1mj1XG-0006Ol-NA; Fri, 05 Nov 2021 11:53:48 -0400
-Received: from mx1.freebsd.org (mx1.freebsd.org [96.47.72.80])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits)
- client-signature RSA-PSS (4096 bits))
- (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
- by mx2.freebsd.org (Postfix) with ESMTPS id 4F51992AC7;
- Fri,  5 Nov 2021 15:53:37 +0000 (UTC)
- (envelope-from kevans@freebsd.org)
-Received: from smtp.freebsd.org (smtp.freebsd.org [96.47.72.83])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
- client-signature RSA-PSS (4096 bits) client-digest SHA256)
- (Client CN "smtp.freebsd.org", Issuer "R3" (verified OK))
- by mx1.freebsd.org (Postfix) with ESMTPS id 4Hm4md0lM0z3Dwc;
- Fri,  5 Nov 2021 15:53:37 +0000 (UTC)
- (envelope-from kevans@freebsd.org)
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
- [209.85.160.177])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client CN "smtp.gmail.com", Issuer "GTS CA 1D4" (verified OK))
- (Authenticated sender: kevans)
- by smtp.freebsd.org (Postfix) with ESMTPSA id DB8B97C3B;
- Fri,  5 Nov 2021 15:53:36 +0000 (UTC)
- (envelope-from kevans@freebsd.org)
-Received: by mail-qt1-f177.google.com with SMTP id u7so7558883qtc.1;
- Fri, 05 Nov 2021 08:53:36 -0700 (PDT)
-X-Gm-Message-State: AOAM531d/t1LMgI+3NEmhixd/vN0VR3dCOnbd3Cz8GAatKLKQxIsZfio
- wvEg/3HsZXhuMWNFRWEm1Ty3irMufBFwDVg3s3E=
-X-Google-Smtp-Source: ABdhPJxa0YamnKliklD9UrbAU+Ajg2MgVA2shT3C/lmRTt0TLRahQdvlSpeooqlPy7QoHd/zjUSAgYvlx5oDrZhefrw=
-X-Received: by 2002:a05:622a:13:: with SMTP id
- x19mr61576957qtw.83.1636127616314; 
- Fri, 05 Nov 2021 08:53:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
+ id 1mj1Xd-0006QY-FM
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 11:54:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636127648;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kFrFw85Swr/akkG46HXBQV7M0KsUBD8gs8cLloPfCNU=;
+ b=QKg9bd2htxlnCB4cjHpSYUyaG7I56Q/aGoeQXi6VjJgDcFCSPd7syz7XN8uV5+JMED4U6v
+ hK1Nv4RBL8eK9yMTVgcjLsyy2oyAgxLVuirJOZSLUnmouFsnjKD0Fvqy2b9xYXHgdCPMB7
+ CxLWcjK6CcldYlMJbd7HmOtzuFPpeps=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-368-blMwn5AtOWyU67zfMuxXNw-1; Fri, 05 Nov 2021 11:54:03 -0400
+X-MC-Unique: blMwn5AtOWyU67zfMuxXNw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C94701023F77;
+ Fri,  5 Nov 2021 15:54:01 +0000 (UTC)
+Received: from wrampazz.redhat.com (unknown [10.22.8.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5FADC7C05D;
+ Fri,  5 Nov 2021 15:53:56 +0000 (UTC)
+From: Willian Rampazzo <willianr@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] tests/acceptance: rename tests acceptance to tests
+ avocado
+Date: Fri,  5 Nov 2021 12:53:52 -0300
+Message-Id: <20211105155354.154864-1-willianr@redhat.com>
 MIME-Version: 1.0
-References: <20211105031917.87837-1-imp@bsdimp.com>
- <20211105031917.87837-2-imp@bsdimp.com>
- <0901cff3-28ed-4a80-90b2-d2e4966e667a@linaro.org>
-In-Reply-To: <0901cff3-28ed-4a80-90b2-d2e4966e667a@linaro.org>
-From: Kyle Evans <kevans@freebsd.org>
-Date: Fri, 5 Nov 2021 10:53:25 -0500
-X-Gmail-Original-Message-ID: <CACNAnaFzT7iytnoNMTNM_O9oUskpMrXH35Yk4cO1GsCMkNLM+A@mail.gmail.com>
-Message-ID: <CACNAnaFzT7iytnoNMTNM_O9oUskpMrXH35Yk4cO1GsCMkNLM+A@mail.gmail.com>
-Subject: Re: [PATCH v4 01/36] bsd-user/mips*: Remove
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2610:1c1:1:606c::19:2;
- envelope-from=kevans@freebsd.org; helo=mx2.freebsd.org
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=willianr@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=willianr@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,35 +76,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Kyle Evans <kevans@freebsd.org>,
- Michael Tokarev <mjt@tls.msk.ru>, QEMU Developers <qemu-devel@nongnu.org>,
- Philippe Mathieu-Daude <f4bug@amsat.org>, Warner Losh <imp@bsdimp.com>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, libvir-list@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Cleber Rosa <crosa@redhat.com>, Michael Rolnik <mrolnik@gmail.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 5, 2021 at 10:52 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 11/4/21 11:18 PM, Warner Losh wrote:
-> > FreeBSD has dropped support for mips starting with FreeBSD 14. mips
-> > support has been removed from the bsd-user fork because updating it for
-> > new signal requirements. Remove it here since it is a distraction.
-> >
-> > Signed-off-by: Warner Losh<imp@bsdimp.com>
-> > ---
-> >   bsd-user/mips/target_arch_sysarch.h   | 69 ---------------------------
-> >   bsd-user/mips/target_syscall.h        | 52 --------------------
-> >   bsd-user/mips64/target_arch_sysarch.h | 69 ---------------------------
-> >   bsd-user/mips64/target_syscall.h      | 53 --------------------
-> >   4 files changed, 243 deletions(-)
-> >   delete mode 100644 bsd-user/mips/target_arch_sysarch.h
-> >   delete mode 100644 bsd-user/mips/target_syscall.h
-> >   delete mode 100644 bsd-user/mips64/target_arch_sysarch.h
-> >   delete mode 100644 bsd-user/mips64/target_syscall.h
-> I'm somewhat surprised that sys/mips/mips still exists on the main branch?  But anyway,
->
-> Acked-by: Richard Henderson <richard.henderson@linaro.org>
+In the discussion about renaming the `tests/acceptance` [1], the=0D
+conclusion was that the folders inside `tests` are related to the=0D
+framework running the tests and not directly related to the type of=0D
+the tests.=0D
+=0D
+This changes the folder to `tests/avocado` and adjusts the MAKEFILE, the=0D
+CI related files and the documentation.=0D
+=0D
+[1] https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg06553.html=0D
+=0D
+GitLab pipeline with new naming: https://gitlab.com/willianrampazzo/qemu/-/=
+pipelines/403056475=0D
+=0D
+Changes from v1:=0D
+ - Split changes on Makefile leaving `check-acceptance` available and=0D
+   adding a deprecate warning message when it is used.=0D
+   (Suggested-by: Philippe Mathieu-Daud=C3=A9)=0D
+ - Remove unrelated changes.=0D
+=0D
+Signed-off-by: Willian Rampazzo <willianr@redhat.com>=0D
+=0D
+Willian Rampazzo (2):=0D
+  tests/acceptance: introduce new check-avocado tartget=0D
+  tests/acceptance: rename tests acceptance to tests avocado=0D
+=0D
+ .gitlab-ci.d/buildtest-template.yml           |  2 +-=0D
+ .gitlab-ci.d/buildtest.yml                    | 56 +++++++++----------=0D
+ MAINTAINERS                                   | 52 ++++++++---------=0D
+ configure                                     |  2 +-=0D
+ docs/about/deprecated.rst                     | 13 +++++=0D
+ docs/devel/build-system.rst                   |  2 +-=0D
+ docs/devel/ci-definitions.rst.inc             |  2 +-=0D
+ docs/devel/testing.rst                        | 49 ++++++++--------=0D
+ docs/system/arm/orangepi.rst                  |  8 +--=0D
+ python/qemu/machine/README.rst                |  2 +-=0D
+ python/qemu/qmp/README.rst                    |  2 +-=0D
+ python/qemu/utils/README.rst                  |  2 +-=0D
+ tests/Makefile.include                        | 21 ++++---=0D
+ tests/acceptance/README.rst                   | 10 ----=0D
+ tests/avocado/README.rst                      | 10 ++++=0D
+ .../avocado_qemu/__init__.py                  |  2 +-=0D
+ tests/{acceptance =3D> avocado}/boot_linux.py   |  0=0D
+ .../boot_linux_console.py                     |  0=0D
+ tests/{acceptance =3D> avocado}/boot_xen.py     |  0=0D
+ tests/{acceptance =3D> avocado}/cpu_queries.py  |  0=0D
+ .../empty_cpu_model.py                        |  0=0D
+ tests/{acceptance =3D> avocado}/hotplug_cpu.py  |  0=0D
+ tests/{acceptance =3D> avocado}/info_usernet.py |  0=0D
+ tests/{acceptance =3D> avocado}/intel_iommu.py  |  0=0D
+ tests/{acceptance =3D> avocado}/linux_initrd.py |  2 +-=0D
+ .../linux_ssh_mips_malta.py                   |  0=0D
+ .../machine_arm_canona1100.py                 |  0=0D
+ .../machine_arm_integratorcp.py               |  0=0D
+ .../machine_arm_n8x0.py                       |  0=0D
+ tests/{acceptance =3D> avocado}/machine_avr6.py |  2 +-=0D
+ .../machine_m68k_nextcube.py                  |  0=0D
+ .../machine_microblaze.py                     |  0=0D
+ .../machine_mips_fuloong2e.py                 |  0=0D
+ .../machine_mips_loongson3v.py                |  0=0D
+ .../machine_mips_malta.py                     |  0=0D
+ .../machine_rx_gdbsim.py                      |  0=0D
+ .../machine_s390_ccw_virtio.py                |  0=0D
+ .../machine_sparc64_sun4u.py                  |  0=0D
+ .../machine_sparc_leon3.py                    |  0=0D
+ tests/{acceptance =3D> avocado}/migration.py    |  0=0D
+ tests/{acceptance =3D> avocado}/multiprocess.py |  0=0D
+ .../pc_cpu_hotplug_props.py                   |  0=0D
+ tests/{acceptance =3D> avocado}/ppc_405.py      |  0=0D
+ tests/{acceptance =3D> avocado}/ppc_bamboo.py   |  0=0D
+ .../{acceptance =3D> avocado}/ppc_mpc8544ds.py  |  0=0D
+ tests/{acceptance =3D> avocado}/ppc_prep_40p.py |  0=0D
+ tests/{acceptance =3D> avocado}/ppc_pseries.py  |  0=0D
+ .../ppc_virtex_ml507.py                       |  0=0D
+ .../{acceptance =3D> avocado}/replay_kernel.py  |  0=0D
+ tests/{acceptance =3D> avocado}/replay_linux.py |  0=0D
+ .../reverse_debugging.py                      |  0=0D
+ tests/{acceptance =3D> avocado}/smmu.py         |  0=0D
+ tests/{acceptance =3D> avocado}/tcg_plugins.py  |  0=0D
+ .../tesseract_utils.py                        |  0=0D
+ tests/{acceptance =3D> avocado}/version.py      |  0=0D
+ tests/{acceptance =3D> avocado}/virtio-gpu.py   |  0=0D
+ .../virtio_check_params.py                    |  0=0D
+ .../{acceptance =3D> avocado}/virtio_version.py |  0=0D
+ .../virtiofs_submounts.py                     |  0=0D
+ .../virtiofs_submounts.py.data/cleanup.sh     |  0=0D
+ .../guest-cleanup.sh                          |  0=0D
+ .../virtiofs_submounts.py.data/guest.sh       |  0=0D
+ .../virtiofs_submounts.py.data/host.sh        |  0=0D
+ tests/{acceptance =3D> avocado}/vnc.py          |  0=0D
+ .../x86_cpu_model_versions.py                 |  0=0D
+ 65 files changed, 129 insertions(+), 110 deletions(-)=0D
+ delete mode 100644 tests/acceptance/README.rst=0D
+ create mode 100644 tests/avocado/README.rst=0D
+ rename tests/{acceptance =3D> avocado}/avocado_qemu/__init__.py (99%)=0D
+ rename tests/{acceptance =3D> avocado}/boot_linux.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/boot_linux_console.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/boot_xen.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/cpu_queries.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/empty_cpu_model.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/hotplug_cpu.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/info_usernet.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/intel_iommu.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/linux_initrd.py (99%)=0D
+ rename tests/{acceptance =3D> avocado}/linux_ssh_mips_malta.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/machine_arm_canona1100.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/machine_arm_integratorcp.py (100%)=
+=0D
+ rename tests/{acceptance =3D> avocado}/machine_arm_n8x0.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/machine_avr6.py (98%)=0D
+ rename tests/{acceptance =3D> avocado}/machine_m68k_nextcube.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/machine_microblaze.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/machine_mips_fuloong2e.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/machine_mips_loongson3v.py (100%)=
+=0D
+ rename tests/{acceptance =3D> avocado}/machine_mips_malta.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/machine_rx_gdbsim.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/machine_s390_ccw_virtio.py (100%)=
+=0D
+ rename tests/{acceptance =3D> avocado}/machine_sparc64_sun4u.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/machine_sparc_leon3.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/migration.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/multiprocess.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/pc_cpu_hotplug_props.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/ppc_405.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/ppc_bamboo.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/ppc_mpc8544ds.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/ppc_prep_40p.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/ppc_pseries.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/ppc_virtex_ml507.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/replay_kernel.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/replay_linux.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/reverse_debugging.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/smmu.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/tcg_plugins.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/tesseract_utils.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/version.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/virtio-gpu.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/virtio_check_params.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/virtio_version.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/virtiofs_submounts.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/virtiofs_submounts.py.data/cleanup.=
+sh (100%)=0D
+ rename tests/{acceptance =3D> avocado}/virtiofs_submounts.py.data/guest-cl=
+eanup.sh (100%)=0D
+ rename tests/{acceptance =3D> avocado}/virtiofs_submounts.py.data/guest.sh=
+ (100%)=0D
+ rename tests/{acceptance =3D> avocado}/virtiofs_submounts.py.data/host.sh =
+(100%)=0D
+ rename tests/{acceptance =3D> avocado}/vnc.py (100%)=0D
+ rename tests/{acceptance =3D> avocado}/x86_cpu_model_versions.py (100%)=0D
+=0D
+--=20=0D
+2.33.1=0D
+=0D
 
-It's slated for removal here within the coming month or two-
 
