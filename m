@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B338E44665C
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 16:47:45 +0100 (CET)
-Received: from localhost ([::1]:36720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5047446660
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 16:47:55 +0100 (CET)
+Received: from localhost ([::1]:37168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mj1RQ-0002xI-SL
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 11:47:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43932)
+	id 1mj1Ra-0003Ev-Ub
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 11:47:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mj1MK-0004dm-RQ
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 11:42:30 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:45638)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mj1MI-0000Ay-3l
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 11:42:27 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- g191-20020a1c9dc8000000b0032fbf912885so6720305wme.4
- for <qemu-devel@nongnu.org>; Fri, 05 Nov 2021 08:42:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=kYMNx+PH4NmqEiLJMpVpnz1hjLOYdsr7CwaJ6NV8oJU=;
- b=mmAotGLYVmyACJwWYVyLVDQ7YLOM0ExyYpAw/xHIxCZ6J7iC0cq68hAYUutbv0tLcl
- iWkK+dchxaeIAhO8C74+KdKUpHkMv88YztH5KNhCDXEaUDwspupOPTPLoL08Wjlw2u8h
- 1hwqXdUVtoZvCv4jG9ecHBNukx/RP+J0uBPu3/JCHBcrByVEhune3k4i1S4p2RVd9zXb
- ma4UeHID8Yd9L86ea31gw9Yc58uztAZ1DiRqUxYNr9QjcznQuSG5UDGnzmKeLwT9Mo0B
- 1tHENnVNhO4MMARGIT1b116oXjETlWvSKoh6Dga5mD2SOXrCslTqV+0oAZw4T+Wh9f12
- 12Sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=kYMNx+PH4NmqEiLJMpVpnz1hjLOYdsr7CwaJ6NV8oJU=;
- b=eJSHfyXdR3e7XMPltCdX6xzC4pAn/Uu6FQi4yng3KFAqScUy5HO2IvJJWhXE/8N1wh
- uxnba+aoNIcB3rVUhVB7O6Mwh95UqmoY+LYyQylK4JSAxMC06eh8x7n6jnegu2Ik2/ub
- u8jlI1lWVUr1bcOEv2XEzZ/wE2it+ZN7ZHM6wpSInVxhGmwqXdxwz65XPtRwWc3fnd1f
- re15lcADU8QGkLZnQmHK+mc+VSI6zOwcq2dBR17HGr5XUlvrKOrFnlFUEisYw6eXy0DH
- DDOd1XrWTNvscEEp975OjN18lOTDfpxRDIh65qiMOieZJNBV6bAArMfV3XxQGfCPindL
- IcZw==
-X-Gm-Message-State: AOAM532fp/cnjoi5gGHqJ9Py2Kf1TaN7m/I19eb0xZGR4NUdDlYHezhL
- oCFtRCxRv95tEZCXwmItbQKuFeAqyyar282a+yGAWg==
-X-Google-Smtp-Source: ABdhPJwa4O/kxcHuIaGsWfa5BpxNd8kM+H5C8807AuzvGT15YgJYKopTZbpwoHcC/BC7LJ4qhB6BBsiQ7ubweJ8z9RA=
-X-Received: by 2002:a7b:c389:: with SMTP id s9mr31740198wmj.133.1636126944181; 
- Fri, 05 Nov 2021 08:42:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mj1Oh-0000um-JY
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 11:44:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58239)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mj1Of-0000iG-QA
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 11:44:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636127093;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=6DLkGSxNicOim/LBBgAt4eojAI3YnddCRl0+DAWn5eI=;
+ b=IHbiGiwmZu98ao9kDnWv6S1K3unjSPh/kmmJNrV8DzfV9BV4V/ldgaVxPa8R+yRgrH3bb6
+ PSnyDfmt6lW+nZsv1qkDGvYwci35cJUs8jKkOSLBtlxWZEcFRdQffCTs37Ppj5dWLv9YA0
+ RxSaZPgaxBLmdmU88i171l17vAg0H5g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-125-Z51IVV95M2m12sgDWdBfOw-1; Fri, 05 Nov 2021 11:44:51 -0400
+X-MC-Unique: Z51IVV95M2m12sgDWdBfOw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4582DDF8A0;
+ Fri,  5 Nov 2021 15:44:50 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.188])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 37C6E5D6D7;
+ Fri,  5 Nov 2021 15:44:49 +0000 (UTC)
+Date: Fri, 5 Nov 2021 16:44:47 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH 0/7] block: Attempt on fixing 030-reported errors
+Message-ID: <YYVRb+fq+hyZBeke@redhat.com>
+References: <20211104103849.46855-1-hreitz@redhat.com>
 MIME-Version: 1.0
-References: <SJ0PR09MB6032CFAA829AA63AF31947048F8E9@SJ0PR09MB6032.namprd09.prod.outlook.com>
-In-Reply-To: <SJ0PR09MB6032CFAA829AA63AF31947048F8E9@SJ0PR09MB6032.namprd09.prod.outlook.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 Nov 2021 15:42:12 +0000
-Message-ID: <CAFEAcA9s_4URTMKog9GyzHU2KuAN1L=d9LLWOLv4R4V=9OSTNg@mail.gmail.com>
-Subject: Re: Pre-built binaries
-To: "House, Michael" <michael.house@dese.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211104103849.46855-1-hreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,26 +75,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Nov 2021 at 15:24, House, Michael via <qemu-devel@nongnu.org> wro=
-te:
-> I=E2=80=99ve been working with QEMU a bit and I haven=E2=80=99t been able=
- to find
-> pre-built binaries for different platforms. Does Xilinx maintain
-> releases, or should I build it from source for my platform?
+Am 04.11.2021 um 11:38 hat Hanna Reitz geschrieben:
+> Hanna Reitz (7):
+>   stream: Traverse graph after modification
+>   block: Manipulate children list in .attach/.detach
+>   block: Unite remove_empty_child and child_free
+>   block: Drop detached child from ignore list
+>   block: Pass BdrvChild ** to replace_child_noperm
+>   block: Let replace_child_noperm free children
+>   iotests/030: Unthrottle parallel jobs in reverse
 
-Hi! This is the mailing list for the upstream QEMU project. As you've
-found, we don't distribute pre-built binaries, only source code.
-Our users either build source themselves, or else they use prebuilt
-binaries provided by third parties such as Linux distributions.
+Now I know that I don't aspire to a new career as a full time borrow
+checker. :-)
 
-Xilinx have a fork of QEMU with some extra features. I don't know if
-they provide binaries of their version -- you'd need to ask them
-directly.
+Patches 1-4:
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 
-thanks
--- PMM
 
