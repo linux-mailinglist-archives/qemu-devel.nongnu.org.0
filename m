@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F8744679F
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 18:12:25 +0100 (CET)
-Received: from localhost ([::1]:41506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 481D84467A1
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 18:14:02 +0100 (CET)
+Received: from localhost ([::1]:46586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mj2lM-0000I5-Is
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 13:12:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43520)
+	id 1mj2mv-0003gN-E7
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 13:14:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mj2fZ-0000Pc-Lo
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 13:06:25 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:43665)
+ id 1mj2fe-0000X2-Oi
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 13:06:30 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:33639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mj2fP-00064T-8e
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 13:06:25 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id t30so14733191wra.10
- for <qemu-devel@nongnu.org>; Fri, 05 Nov 2021 10:06:13 -0700 (PDT)
+ id 1mj2fc-000661-0A
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 13:06:30 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id d24so14783363wra.0
+ for <qemu-devel@nongnu.org>; Fri, 05 Nov 2021 10:06:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=w72SCYjTiKkWFcl7Lv6BK+2xMPM0Tg2rSik4TuOz2pk=;
- b=znSNiCzP3xftT4Vrej1r1BCMPPiQwhFppE+NtC8mZfxqqmOQ7PxEvOii4qNrQFH0TN
- i0csgJ8C01xQLkxw0Nu9wSqMWqD9kt4edsaasqbkIY04cFc2WcmXU+zqxitQM7dfgTHf
- 0oNxqyyqtK90hyZsi+ymN+55yh/MKe9KOqrDYDx8ukijlOB42k8WZN/LFd2PeSmqDAOk
- prANDwQvht4KLhKhRctYc4PGCIBnRcz7lEn3yinAVIR2BFGHU9YO8AIGPSiJIDCrBN8V
- 69RjJ/+1xBGsNCDRppihCerG9doHFM+Pb6iIQro6rz5DjR3IDUuDKLUraKk7A5dCL9+0
- PVmw==
+ :cc; bh=nUNbQ4RSWYaBn/83BaODcM8BQR19f+Zxc2obfN0eZtU=;
+ b=KmdsL5OOALyKxT0QroX5s8dDNIXCof+tkwYAnhXhAX3VhahIKVeUYxHQqEe5T5Xo1q
+ vRX1qCjPAPPf2l33Ip1PEHpTS6b33/+P4oOs+zQXTkt+9mLSvCyeE6uuD4dDI4ZSj4p8
+ 4hRGKxxOkfBmovY7AR8hYpGclZyWIfjEqdt8K2dit8aSRonde99CowUkguA+dav1yN9L
+ NYYUB6TKbqIP3k8hceu82/4kkjBnjkST/C3qfOWT1iEn4ZvOq9e8Xdup5uWyNUaoSNi3
+ zTtDnsfYypX8zMpHImOia2CqGx/DGSbkJjTxHi2k03/NUYghx8RK2myqQo3IGAD50MDt
+ Bthg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=w72SCYjTiKkWFcl7Lv6BK+2xMPM0Tg2rSik4TuOz2pk=;
- b=Ly6c8+EjJNciKg9qjgDiuys8RYHY1elXLKIwdch6OhgkzAKGMvwVNRiQ/DpG3VMalc
- V9yUJAem3SbcOxKJKi/si8vthuupZ775a4wMQcLZF+4emgcjczqGVJH0ZO2+y7godcSA
- D8/SGh4fkGppPmbz5ANzQmSQO8xrDi32W6RjBxxsjwEvfWJVfqeOKqjAEXGH3W3Uzcfp
- pIqmhL/EWqiSvgpmj7Kx6pqEuC2Z3gaFPJw0WRxHRoBWcGcOGGoESf6iQgXU1einFS7/
- +OxfBCk82EkXIK7zWrvQkf7luHs6y2ABYZSvRouwKR+e2f/RQNJDCpJqpxzjbkM85EZF
- d7iQ==
-X-Gm-Message-State: AOAM5330zcfdzAtLFRvqAnq0G8HLgDFLjELwr2OkeydUJhTrJQMJJxVn
- eQ1kw6yuCrmFwozDcHBpbloIHQFkoLn+3FqiUxjwPg==
-X-Google-Smtp-Source: ABdhPJxO0eYkr6TUgCxpjfUWymdIeAynBc3oDHUSl5b2Sfayyhu5ZevHBc6OdrcDMPZ04wtwW/jFa/3BOEWiaMENm1s=
-X-Received: by 2002:adf:c40f:: with SMTP id v15mr66203558wrf.302.1636131972702; 
- Fri, 05 Nov 2021 10:06:12 -0700 (PDT)
+ bh=nUNbQ4RSWYaBn/83BaODcM8BQR19f+Zxc2obfN0eZtU=;
+ b=lN2qlUuCpJaB5v4dxqwEaULJ4LvJNtQAKIxrroNuvkcIaTdDst3IkwZSyQabSEzsjT
+ GBgMGzU9plwMquPsePsy3ymwJBeUdcEqJSrVAZwsCYw5d2CWCcbyC9yqJFjquKFuvRL/
+ Y5fM4ixI9LhnBXWXeXwpJvPDzd4KfNH2+OPM2X5KSdPzG5LxLSxhJrBwT+zPfU0HItz6
+ R+DBUzH35ybt/0SBkiO28abSqQs99X6vdlxeCNptV2wOTQnw6Js89ft9afw5KKUEIEM2
+ qI/isssazYlF48RYEipvK9VpsWfn2hQnA1g6TyZOE4T2VFLO+CwyX4zG1lB9mp+ZJcYp
+ OXxQ==
+X-Gm-Message-State: AOAM531j0QgOuoESJ4rL4ZbjvFxYejWniJPbcV1H3535kD8fUxPh0T1v
+ 2j1SywH7CBp4djzRD01m/nIkfQxSx5j6ksH7BuWxBs9UJdM=
+X-Google-Smtp-Source: ABdhPJyjCNrrbLle8nBj/QZkBTIBHRWSIqLMDQ7mbM18GyKPsW+Il7JJzWaGe8D3ynLntIwS2TcaloFVu4dal1Nijos=
+X-Received: by 2002:a05:6000:186e:: with SMTP id
+ d14mr22938974wri.376.1636131986178; 
+ Fri, 05 Nov 2021 10:06:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211103040352.373688-1-richard.henderson@linaro.org>
- <20211103040352.373688-4-richard.henderson@linaro.org>
-In-Reply-To: <20211103040352.373688-4-richard.henderson@linaro.org>
+ <20211103040352.373688-2-richard.henderson@linaro.org>
+In-Reply-To: <20211103040352.373688-2-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 Nov 2021 17:06:01 +0000
-Message-ID: <CAFEAcA-XuXM-BLH3meg029GZHnOKx56X9GM9-ga46L7UaA-i-g@mail.gmail.com>
-Subject: Re: [PATCH v4 03/10] target/arm: Hoist pc_next to a local variable in
- thumb_tr_translate_insn
+Date: Fri, 5 Nov 2021 17:06:14 +0000
+Message-ID: <CAFEAcA86ScZxrm8j7PC82FZgB-SimpK0fasLGey_yaUF8sDBEA@mail.gmail.com>
+Subject: Re: [PATCH v4 01/10] target/arm: Hoist pc_next to a local variable in
+ aarch64_tr_translate_insn
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,8 +88,8 @@ On Wed, 3 Nov 2021 at 04:04, Richard Henderson
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/translate.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
+>  target/arm/translate-a64.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 >
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
