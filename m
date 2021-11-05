@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB2F34467CB
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 18:24:52 +0100 (CET)
-Received: from localhost ([::1]:45456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B8834467DD
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 18:26:45 +0100 (CET)
+Received: from localhost ([::1]:49648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mj2xP-0005KU-Mz
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 13:24:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48874)
+	id 1mj2zE-0008Hi-6Z
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 13:26:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mj2uY-0002TX-4R; Fri, 05 Nov 2021 13:22:00 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:52200)
+ id 1mj2ue-0002Te-Nk; Fri, 05 Nov 2021 13:22:00 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:42987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mj2uO-0007Dd-1K; Fri, 05 Nov 2021 13:21:48 -0400
-Received: by mail-wm1-x334.google.com with SMTP id z200so7651192wmc.1;
- Fri, 05 Nov 2021 10:21:40 -0700 (PDT)
+ id 1mj2uV-0007EU-Fi; Fri, 05 Nov 2021 13:21:55 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ d72-20020a1c1d4b000000b00331140f3dc8so6934159wmd.1; 
+ Fri, 05 Nov 2021 10:21:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kMH4rTDikXhJZKCos7ysG4oLdQBxpsKJK0cAf4O+2Mc=;
- b=NFWCwo7iM31vVhh2iyNK/IlBZtZFlAS2hv0kT88M/xEBw05IZ5zkcwuQEf9ESwsV9A
- k+lQoLZlTqBq3ZEGIZfntT8Cm/ac4o6KHLlwPqfOy7iQt8S3D6KszBw0G/Pq0i4UIBGu
- Ukm9ZAtIAMfKxKAxjmY48IoJvmpcNudd5+uLQgqfOej6dL9rNjGjXaRLLLGRJ9NkAVlQ
- vY18PF75xZM6u80Oz+BXa40nLqIUSkqF559UeGdJ9rv38Hj9zDa/X21tQJj75AW0Omki
- 1nOI85sWgbzmj6iExD+SDfv+8kePfk/fOApEJWdbalaFpccgPMK1nav28/T8C89iCoHs
- y89Q==
+ bh=IOdSvE7B+V3yJN993wQb7M8J5BQsaGVtUf2KFSGPdGo=;
+ b=A1eqCaDugkUYsUbS/i+GBK6GjR0EuLjgxR+xu2r17EbgaGhEAINocCh4Q6n07C2tDy
+ 9HPvEAZ38wFpB1MNkdGu0FmZam7q/EnRWnSncJo+/m2RJIvxiMt9R0tmVweGZ7ztj8GL
+ 6BuJu2akeUESKGOmKBm2R15EGP2EnJehKtTgxC4jSrVMvRdXF/5Era73LSA8QvlBa2iT
+ rfnZwO4BFU8hsdo6NNv2RqM5vfLtQraPbUqtjr6ww172kRatsohVF7axXUPAak/SRNnF
+ iPVySQBoJto/BnkWaP+Vc1Y+3LQW+OMWOb8d2EtEQH/aMsgxMk53z3ZZZVTwCcXAhC6W
+ 3Qqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=kMH4rTDikXhJZKCos7ysG4oLdQBxpsKJK0cAf4O+2Mc=;
- b=SFTVU0lTBKyRXbGy2CS5t+AvhvHLIdy+hZlhU3CfNh4Gax+ViMMJ5aiN9VJT2r0rYx
- lrjBSpqLfn3NpXt49XS7/RmX6iTbKp0caEMMHDXU0obpnphfSBF+/NWsMtaT1iQ6SuXK
- Mha4KFA9YfTxs9z4BDemONSfH41vc5kizz37MhdaonZ5KSZAXMvl75sN1khEZOzRCFw6
- Jr2x3YpyNeYgRmSytb82K2Ou5DVi73oTYIMKR7ayMRWMyYfEuctCM8VS4JgMB1qWCynI
- F8FhmvcjR+onv15QyZV5nGGgOvl7k2++n+a94IsTDPnqgCW+O5wxX6cM1se5QKnZwsw2
- nNEg==
-X-Gm-Message-State: AOAM5328inkHvtKwMXb9eygb/LST2hIYh9EnR947OKpgwaSVWHxuVhKz
- J+Rjnwte8fw7FMJP+f+RaU+nfJ1A6J8=
-X-Google-Smtp-Source: ABdhPJwmmiMflzrZV3GcpCWTGmL5EN9FSF0gkk5YW/bTfouE1WUse5OP7XWXzoEHEOPpSIT06kejgg==
-X-Received: by 2002:a7b:c841:: with SMTP id c1mr32572419wml.80.1636132898997; 
- Fri, 05 Nov 2021 10:21:38 -0700 (PDT)
+ bh=IOdSvE7B+V3yJN993wQb7M8J5BQsaGVtUf2KFSGPdGo=;
+ b=ZMls6nbXNUxBvNPh9s8PCu0WDzqZBhBIetlhkqmI0B7Ct1bUpHaQpXdlbDZqqSjv/n
+ VIft7PFNCbQcdKpTsRMYlWh+fnnlM214Y2BJ2h1uUaO2Av4qiNrbzqKOd591H8+6i25k
+ YrhxAw0gCePpclJtAjf6J7/LKHLnuvD/sGJlX0QsZ53maFWxQfJN00ZcgulqUGF7t2xV
+ 6uv5pqkT2FDxxA+QqWaIzZqFTfEvfriYCPpg+nUkWiVTHTmSbKg0f7fEZF0ru+5g/yA0
+ DKfRaqB7sUMuwiTW938j/bya4jm/ajZ/TPUZpPZdIBzrYCrWCTyQgMWqr890ECSY+ZqZ
+ lGMQ==
+X-Gm-Message-State: AOAM531chUqbjoVbE2BqIpJ8kn+Ya0tdqKJMkbzRR3y9Q4SQAQafyhEF
+ LauYMZWhOmADAgKtaz1hhWUYc6HMxBQ=
+X-Google-Smtp-Source: ABdhPJydUANBy2qlKlDDoncrwZW9FQohQBIjND9xVC++HE8vbZd3xtzzN55+t2dEWXzBiMRApzgpMg==
+X-Received: by 2002:a05:600c:511c:: with SMTP id
+ o28mr33057350wms.96.1636132903802; 
+ Fri, 05 Nov 2021 10:21:43 -0700 (PDT)
 Received: from x1w.redhat.com (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id o26sm11661262wmc.17.2021.11.05.10.21.38
+ by smtp.gmail.com with ESMTPSA id a4sm7648091wmg.10.2021.11.05.10.21.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Nov 2021 10:21:38 -0700 (PDT)
+ Fri, 05 Nov 2021 10:21:43 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] hw/qdev: Rename qdev_connect_gpio_out*() 'input_pin'
- parameter
-Date: Fri,  5 Nov 2021 18:21:26 +0100
-Message-Id: <20211105172127.224462-3-f4bug@amsat.org>
+Subject: [PATCH 3/3] hw/input/pckbd: Rename i8042_setup_a20_line() and its a20
+ irq argument
+Date: Fri,  5 Nov 2021 18:21:27 +0100
+Message-Id: <20211105172127.224462-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211105172127.224462-1-f4bug@amsat.org>
 References: <20211105172127.224462-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,93 +93,59 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-@pin is an input where we connect a device output.
-Rename it @input_pin to simplify the documentation.
+'a20_out' is an input IRQ, rename it as 'a20_input'.
+i8042_setup_a20_line() doesn't take a Device parameter
+but an ISADevice one. Rename it as i8042_isa_*() to
+make it explicit.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/qdev-core.h |  8 ++++----
- hw/core/gpio.c         | 13 +++++++------
- 2 files changed, 11 insertions(+), 10 deletions(-)
+ include/hw/input/i8042.h | 2 +-
+ hw/i386/pc.c             | 2 +-
+ hw/input/pckbd.c         | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 5b88c8b9dd3..3a0fe643a73 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -470,7 +470,7 @@ qemu_irq qdev_get_gpio_in_named(DeviceState *dev, const char *name, int n);
-  * qdev_connect_gpio_out: Connect one of a device's anonymous output GPIO lines
-  * @dev: Device whose GPIO to connect
-  * @n: Number of the anonymous output GPIO line (which must be in range)
-- * @pin: qemu_irq to connect the output line to
-+ * @input_pin: qemu_irq to connect the output line to
-  *
-  * This function connects an anonymous output GPIO line on a device
-  * up to an arbitrary qemu_irq, so that when the device asserts that
-@@ -495,14 +495,14 @@ qemu_irq qdev_get_gpio_in_named(DeviceState *dev, const char *name, int n);
-  *
-  * For named output GPIO lines, use qdev_connect_gpio_out_named().
-  */
--void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq pin);
-+void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq input_pin);
- /**
-  * qdev_connect_gpio_out_named: Connect one of a device's named output
-  *                              GPIO lines
-  * @dev: Device whose GPIO to connect
-  * @name: Name of the output GPIO array
-  * @n: Number of the anonymous output GPIO line (which must be in range)
-- * @pin: qemu_irq to connect the output line to
-+ * @input_pin: qemu_irq to connect the output line to
-  *
-  * This function connects an anonymous output GPIO line on a device
-  * up to an arbitrary qemu_irq, so that when the device asserts that
-@@ -521,7 +521,7 @@ void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq pin);
-  * same qemu_irq; see qdev_connect_gpio_out() for details.
-  */
- void qdev_connect_gpio_out_named(DeviceState *dev, const char *name, int n,
--                                 qemu_irq pin);
-+                                 qemu_irq input_pin);
- /**
-  * qdev_get_gpio_out_connector: Get the qemu_irq connected to an output GPIO
-  * @dev: Device whose output GPIO we are interested in
-diff --git a/hw/core/gpio.c b/hw/core/gpio.c
-index 8e6b4f5edf3..80d07a6ec99 100644
---- a/hw/core/gpio.c
-+++ b/hw/core/gpio.c
-@@ -115,17 +115,18 @@ qemu_irq qdev_get_gpio_in(DeviceState *dev, int n)
+diff --git a/include/hw/input/i8042.h b/include/hw/input/i8042.h
+index 1d90432daef..3534fcc4b43 100644
+--- a/include/hw/input/i8042.h
++++ b/include/hw/input/i8042.h
+@@ -21,6 +21,6 @@ void i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_irq,
+                    MemoryRegion *region, ram_addr_t size,
+                    hwaddr mask);
+ void i8042_isa_mouse_fake_event(ISAKBDState *isa);
+-void i8042_setup_a20_line(ISADevice *dev, qemu_irq a20_out);
++void i8042_isa_setup_a20_line(ISADevice *dev, qemu_irq a20_input);
+ 
+ #endif /* HW_INPUT_I8042_H */
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 2592a821486..06ef74ca22b 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1043,7 +1043,7 @@ static void pc_superio_init(ISABus *isa_bus, bool create_fdctrl, bool no_vmport)
+     port92 = isa_create_simple(isa_bus, TYPE_PORT92);
+ 
+     a20_line = qemu_allocate_irqs(handle_a20_line_change, first_cpu, 2);
+-    i8042_setup_a20_line(i8042, a20_line[0]);
++    i8042_isa_setup_a20_line(i8042, a20_line[0]);
+     qdev_connect_gpio_out_named(DEVICE(port92),
+                                 PORT92_A20_LINE, 0, a20_line[1]);
+     g_free(a20_line);
+diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
+index baba62f357a..7b842c8f3b5 100644
+--- a/hw/input/pckbd.c
++++ b/hw/input/pckbd.c
+@@ -680,9 +680,9 @@ void i8042_isa_mouse_fake_event(ISAKBDState *isa)
+     ps2_mouse_fake_event(s->mouse);
  }
  
- void qdev_connect_gpio_out_named(DeviceState *dev, const char *name, int n,
--                                 qemu_irq pin)
-+                                 qemu_irq input_pin)
+-void i8042_setup_a20_line(ISADevice *dev, qemu_irq a20_out)
++void i8042_isa_setup_a20_line(ISADevice *dev, qemu_irq a20_input)
  {
-     char *propname = g_strdup_printf("%s[%d]",
-                                      name ? name : "unnamed-gpio-out", n);
--    if (pin && !OBJECT(pin)->parent) {
-+    if (input_pin && !OBJECT(input_pin)->parent) {
-         /* We need a name for object_property_set_link to work */
-         object_property_add_child(container_get(qdev_get_machine(),
-                                                 "/unattached"),
--                                  "non-qdev-gpio[*]", OBJECT(pin));
-+                                  "non-qdev-gpio[*]", OBJECT(input_pin));
-     }
--    object_property_set_link(OBJECT(dev), propname, OBJECT(pin), &error_abort);
-+    object_property_set_link(OBJECT(dev), propname,
-+                             OBJECT(input_pin), &error_abort);
-     g_free(propname);
+-    qdev_connect_gpio_out_named(DEVICE(dev), I8042_A20_LINE, 0, a20_out);
++    qdev_connect_gpio_out_named(DEVICE(dev), I8042_A20_LINE, 0, a20_input);
  }
  
-@@ -165,9 +166,9 @@ qemu_irq qdev_intercept_gpio_out(DeviceState *dev, qemu_irq icpt,
-     return disconnected;
- }
- 
--void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq pin)
-+void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq input_pin)
- {
--    qdev_connect_gpio_out_named(dev, NULL, n, pin);
-+    qdev_connect_gpio_out_named(dev, NULL, n, input_pin);
- }
- 
- void qdev_pass_gpios(DeviceState *dev, DeviceState *container,
+ static const VMStateDescription vmstate_kbd_isa = {
 -- 
 2.31.1
 
