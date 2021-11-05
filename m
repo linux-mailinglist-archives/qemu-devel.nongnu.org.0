@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5AA2446747
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 17:48:01 +0100 (CET)
-Received: from localhost ([::1]:42312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9AA044674A
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 17:50:09 +0100 (CET)
+Received: from localhost ([::1]:46186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mj2Nk-0006LP-Ij
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 12:48:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38778)
+	id 1mj2Pl-0000Xm-GN
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 12:50:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mj2LY-00041a-1h
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 12:45:44 -0400
-Received: from mail-vk1-xa2a.google.com ([2607:f8b0:4864:20::a2a]:44825)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mj2Li-0004Iy-PP
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 12:45:54 -0400
+Received: from mail-qk1-x72b.google.com ([2607:f8b0:4864:20::72b]:45783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mj2LW-0005FC-93
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 12:45:43 -0400
-Received: by mail-vk1-xa2a.google.com with SMTP id d128so4874490vkf.11
- for <qemu-devel@nongnu.org>; Fri, 05 Nov 2021 09:45:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=q/8rp2LoRZI5gkb8UlHjAdxZirsReviL7L2OAE09s5Y=;
- b=QCskA7eZ89qVJOA+T4Y31DqvpzwGHUyC3fBq5AhDXxzDJIdO5JxRH8RiiK/SfHj8C3
- Q3w2qivuPcVP76/aOqJu/2kttFAYwdE3If9l0d5Vc81XhheBHYR71EzoxSaclIjppnzP
- AxfowRMa/qE+X+SXuFuR/2G4LHX7brEQNKeroHElCLvzjHYryI3NRS5UvgEcTBdllns/
- MjU/txBTAeXhBGu4Nik4kp3nqm0zlAiqNzWzxMzyTKd48uF0l92ygbg+c/2PYUKtm0Mu
- /V88SakdLV2n+bwU40wm95J714aYRI7YnF9BKh/zvw6pHGiDb3jrXrIEouVlE7ySZFmr
- Mspg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mj2Lh-0005GF-Bk
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 12:45:54 -0400
+Received: by mail-qk1-x72b.google.com with SMTP id n15so9237048qkp.12
+ for <qemu-devel@nongnu.org>; Fri, 05 Nov 2021 09:45:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=1RKwRpMno+J4/al8vMXV3aeu/XaPUoZkipk4agJk2vo=;
+ b=cY1iw3JWaLVFpZZuaidItMU6YxoKEztqvUBYMRFIbDMFSgBVcYc5CEXj8/K3Cv3F15
+ rgJZICmTpBgJr2GAG+lSkT+AJiBgw4YyxwEt9JA9Iydtvzp/HRjwAYWnNgLcg+jVDuk0
+ X6Nlzz7ZmgiwlJMIJMVpsAPMDoWNCScZEBfEdZKqrftb2Cxwve/qJKYBcrNFhifABuVw
+ eH8pKp5OljVh+ynZUWh75u027VVcyDCY3bEdYXOmrbEgyIJYrsFvhWaISxptDMtXVSxt
+ sylwkARJ09UPM7N0mVwQJZvhegh9YM+AtBfU9H5HK4Zk+24BaTa69DFXZEkTg79pnEu9
+ 9BUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=q/8rp2LoRZI5gkb8UlHjAdxZirsReviL7L2OAE09s5Y=;
- b=jTCMlrFbRTClCiaonwoEyz+HEilKfpm2KVNUMQT24VmiOddEmjx3B3lbR64MtxRZdE
- 1fALxvpLXfLUhdnhGCeqtOcNmaF5D2UQsZuazPsGTCa8cHo2LGFGYMRYZVLFmzPClb5v
- cFMqv+szX7fzcnAYpHmY/tW44tG36qjTzeOCRKcHAdb4d1vIky+dE9jFfPTyRvMk08i5
- BCr8RCTlllkjrm0vyaZ4H0T3AqE03paCC8O/3KQjL68ROkEFUcTg95va6pk6rQ2Es2Eh
- gbn3MqQzGWqcsagnQhyoYwiXZohuTy41hazoInK4YiOiletXpRA+HPpqeTK2EglX8cy7
- GiRQ==
-X-Gm-Message-State: AOAM530YgahCb033hUJ4eM0DOqoyK53SXA/SGyHUgs+0AbjNQk37Im01
- wemHWjhx+HAVviw76MRjm3Xo9eCdM4oEIAQrvl7q1w==
-X-Google-Smtp-Source: ABdhPJzqYkWplerq5RT2qYkgpbyH50RDHSHfJs8hR3gTmZdj7MSgVISUi2jzibu7k+zVvpgJYLdhHeaya7C9Wgss9no=
-X-Received: by 2002:a05:6122:2092:: with SMTP id
- i18mr2371650vkd.18.1636130740475; 
- Fri, 05 Nov 2021 09:45:40 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1RKwRpMno+J4/al8vMXV3aeu/XaPUoZkipk4agJk2vo=;
+ b=gFX2cQFEbXChB41yr+LQY56FlprjPT8kwQ9dIicSoXDMN9VHloNqLmg+OjudiXonVb
+ DAlElJ6hxR1L3FwStvf2plsL398WCCDjVqCaGyMkelK3fMPjA/Zei5gNTDp7u82KH+Tw
+ lzTWRsa6bFhCL1TGPFRWQQloBc4oy1o8NJxCX5OFlNrRR5xxhZXjiBw8LqDH74hUJ+X1
+ tJusuZKxjhR/KT/eEE1bjz3I5sU1A+VEIqFSF/Noc65Pe2y6y6skKhSLpeYyDLcakdnM
+ HAYwW24WUkjIjH3qp88FJRhK5Mn5oNLFI7TSRJ2K8vA+MgUrWJny2SFdiIQwcEKvbziJ
+ /fsQ==
+X-Gm-Message-State: AOAM533HrllqCn0mtP5RlWcSgBTLo6hKsSvkM2t5hkE2+9z4k8Scf5hS
+ nISdgPBZLyYSV9wLIrEh812TiA==
+X-Google-Smtp-Source: ABdhPJznIS/H39rjYvqUtHgFS1cLMYbvIVJ4zm/pWLYhCyEgOudYqvwD9J9BN9ldZfYxPEPVRhb0Dw==
+X-Received: by 2002:a05:620a:248f:: with SMTP id
+ i15mr21029179qkn.23.1636130752283; 
+ Fri, 05 Nov 2021 09:45:52 -0700 (PDT)
+Received: from [10.200.5.34] ([38.66.81.217])
+ by smtp.gmail.com with ESMTPSA id x8sm6252694qtw.84.2021.11.05.09.45.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Nov 2021 09:45:52 -0700 (PDT)
+Subject: Re: [PATCH v4 35/36] bsd-user/freebsd/target_os_ucontext.h: Require
+ TARGET_*CONTEXT_SIZE
+To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 References: <20211105031917.87837-1-imp@bsdimp.com>
- <20211105031917.87837-8-imp@bsdimp.com>
- <ba0e1487-ec74-1d8b-b371-c33ea9ca0d74@linaro.org>
-In-Reply-To: <ba0e1487-ec74-1d8b-b371-c33ea9ca0d74@linaro.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Fri, 5 Nov 2021 10:45:29 -0600
-Message-ID: <CANCZdfpwYPRb9mt7G3Oojx5BkfNHjtMFDZHeckzs0qhAepaJFw@mail.gmail.com>
-Subject: Re: [PATCH v4 07/36] bsd-user/i386: Move the inlines into signal.c
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000097ab4c05d00d5fcd"
-Received-SPF: none client-ip=2607:f8b0:4864:20::a2a;
- envelope-from=wlosh@bsdimp.com; helo=mail-vk1-xa2a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ <20211105031917.87837-36-imp@bsdimp.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <90c72414-1695-fba8-6dcb-191f7faa54ff@linaro.org>
+Date: Fri, 5 Nov 2021 12:45:50 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <20211105031917.87837-36-imp@bsdimp.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72b.google.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.093,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,83 +89,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Kyle Evans <kevans@freebsd.org>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Philippe Mathieu-Daude <f4bug@amsat.org>
+Cc: qemu-trivial@nongnu.org, Kyle Evans <kevans@freebsd.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, Philippe Mathieu-Daude <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000097ab4c05d00d5fcd
-Content-Type: text/plain; charset="UTF-8"
+On 11/4/21 11:19 PM, Warner Losh wrote:
+> Now that all architecutres define TARGET_[MU]CONTEXT_SIZE, enforce
+> requiring them and always check the sizeof target_{u,m}context_t
+> sizes.
+> 
+> Signed-off-by: Warner Losh<imp@bsdimp.com>
+> ---
+>   bsd-user/freebsd/target_os_ucontext.h | 2 --
+>   1 file changed, 2 deletions(-)
 
-On Fri, Nov 5, 2021 at 10:21 AM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> On 11/4/21 11:18 PM, Warner Losh wrote:
-> > +abi_long set_sigtramp_args(CPUX86State *env, int sig,
-> > +                           struct target_sigframe *frame,
-> > +                           abi_ulong frame_addr,
-> > +                           struct target_sigaction *ka);
-> > +abi_long get_mcontext(CPUX86State *regs, target_mcontext_t *mcp, int
-> flags);
-> > +abi_long set_mcontext(CPUX86State *regs, target_mcontext_t *mcp, int
-> srflag);
-> > +abi_long get_ucontext_sigreturn(CPUX86State *regs, abi_ulong target_sf,
-> > +                                abi_ulong *target_uc);
-> >
-> >   #endif /* TARGET_ARCH_SIGNAL_H */
->
-> You should use the CPUArchState typedef, instead of CPUX86State directly,
-> and place these
-> declarations in a shared header.
->
-
-Will do! Thanks!
-
-
-> Otherwise,
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->
-
---00000000000097ab4c05d00d5fcd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Nov 5, 2021 at 10:21 AM Richa=
-rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
-nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">On 11/4/21 11:18 PM, Warner Losh wrote:<br>
-&gt; +abi_long set_sigtramp_args(CPUX86State *env, int sig,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0struct target_sigframe *frame,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0abi_ulong frame_addr,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0struct target_sigaction *ka);<br>
-&gt; +abi_long get_mcontext(CPUX86State *regs, target_mcontext_t *mcp, int =
-flags);<br>
-&gt; +abi_long set_mcontext(CPUX86State *regs, target_mcontext_t *mcp, int =
-srflag);<br>
-&gt; +abi_long get_ucontext_sigreturn(CPUX86State *regs, abi_ulong target_s=
-f,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 abi_ulong *target_uc);<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0#endif /* TARGET_ARCH_SIGNAL_H */<br>
-<br>
-You should use the CPUArchState typedef, instead of CPUX86State directly, a=
-nd place these <br>
-declarations in a shared header.<br></blockquote><div><br></div><div>Will d=
-o! Thanks!</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">
-Otherwise,<br>
-Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
-ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
-</blockquote></div></div>
-
---00000000000097ab4c05d00d5fcd--
+r~
 
