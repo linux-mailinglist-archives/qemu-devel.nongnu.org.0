@@ -2,80 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD1D44696B
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 21:07:00 +0100 (CET)
-Received: from localhost ([::1]:50512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87972446AEB
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 23:32:12 +0100 (CET)
+Received: from localhost ([::1]:40008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mj5UJ-0007oL-FG
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 16:06:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56774)
+	id 1mj7kp-0005yJ-5L
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 18:32:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mj5Su-0006dl-6H; Fri, 05 Nov 2021 16:05:32 -0400
-Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:43584)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mj5Ss-0007wT-GK; Fri, 05 Nov 2021 16:05:31 -0400
-Received: by mail-qk1-x736.google.com with SMTP id p138so3299223qke.10;
- Fri, 05 Nov 2021 13:05:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=J3QA5UEuwwXEvUO1cx/vZDguLGvd9fhg5IzeYF9ae68=;
- b=fu5cTGbWjcZgodGaa0UFi0vMXIMgpH0gUUojYVYkxqA5ueriTLBaPihllUGfjlNGGI
- jUktzqBOHwWJnC2EGDdThkcKMDKskjBUSDkxKMfjq+8ed1+BApbn/dBIi5YqcAHdHSTb
- ljAOuRf0mTXaUNyuJSQroznZSIh2N+FQpAI/NsM3a4K1k9nEV0+B0phiWS1DiPK5Th4w
- YyqoMaJ2QS2K+n3DngXIGfT9J9f3vV+xrfTUJcXJYq6p8rCXmuATWWFB9k5S/gHyD5Al
- KUUUKcG07w182v/V+jZvPTYwpROQrFd6zzEoROvZDAcHpe8J9FcjLxZws/isac9gL7tr
- 5NUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=J3QA5UEuwwXEvUO1cx/vZDguLGvd9fhg5IzeYF9ae68=;
- b=piPZUXLFvceoGAaR4F30cP+ztw+UkDvPqYPXA3f4YCfRMubVskxobrNy9flCPtBCsy
- tFZVRYQi/v6yuHnjTWFFxRbQXTQDKYnbvUNqdsaNkGJl6bv+oqgwVN4jsOBnHz2TMEgt
- 7qFsbWw2KtJw7VfHgt2e9Ru5UBy1MVBxsJW4vqDabVraQXqS7qNTzf1QB8jj6FINfZxe
- jR44xFcn84VIxB8OfldNB1saZz1QWkN2c/TLrB2bgSpvu50hlVqBpES53bUKEcJzpAzl
- RhPX0XZ4yDdfV9GL1GzF5S9CGtAmiRXPSxexmVUksPmUFOyMLxjs48OiGCHOrDgKTV6B
- hUxQ==
-X-Gm-Message-State: AOAM531viOZ3pgmiwmnRAOy6DYVA83kjtHylaeaeMQN1F/PdBnRhgyXZ
- AjRdgEMwfPPuhBJ+1BKpWYAZLRe5m70=
-X-Google-Smtp-Source: ABdhPJyhAkcEGy+SS0MUoE3+tYnErM09AYUuSa/N20Eh8ynz5rkdCKUNYguupFH7GGvC3c/pTbqiKw==
-X-Received: by 2002:a05:620a:29c6:: with SMTP id
- s6mr26883140qkp.350.1636142729103; 
- Fri, 05 Nov 2021 13:05:29 -0700 (PDT)
-Received: from [192.168.10.222] (201-42-211-153.dsl.telesp.net.br.
- [201.42.211.153])
- by smtp.gmail.com with ESMTPSA id o8sm6612071qtk.77.2021.11.05.13.05.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Nov 2021 13:05:28 -0700 (PDT)
-Message-ID: <91972ce2-8d1f-f22e-c87f-45cb3c221b18@gmail.com>
-Date: Fri, 5 Nov 2021 17:05:25 -0300
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mj7jY-00058N-Fj; Fri, 05 Nov 2021 18:30:52 -0400
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:46183)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mj7jW-0007Wl-LF; Fri, 05 Nov 2021 18:30:52 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.105])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 2B56CC9C72E2;
+ Fri,  5 Nov 2021 23:30:46 +0100 (CET)
+Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Fri, 5 Nov
+ 2021 23:30:45 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G00599a222a3-0a61-47c0-b575-47f05382123f,
+ ACBEE74C211706A3681C4B00B96A7A61B931BAD7) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <b156132f-e798-4abd-140a-632c23b0d5a7@kaod.org>
+Date: Fri, 5 Nov 2021 23:30:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] target/ppc, hw/ppc: Change maintainers
+ Thunderbird/91.1.0
+Subject: Re: [PATCH] hw/ppc/mac.h: Remove MAX_CPUS macro
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, clg@kaod.org
-References: <20211105034640.53754-1-david@gibson.dropbear.id.au>
- <8e05f98a-6a46-f728-5035-fab10f5a209a@gmail.com>
- <880124b9-5cd1-7fcb-fdc6-3d3f8a1da2b6@amsat.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <880124b9-5cd1-7fcb-fdc6-3d3f8a1da2b6@amsat.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Peter Maydell <peter.maydell@linaro.org>, <qemu-devel@nongnu.org>
+References: <20211105184216.120972-1-peter.maydell@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20211105184216.120972-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x736.google.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.093,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 4b7b84e6-58a4-4fc2-b6a8-ac4400ee42c7
+X-Ovh-Tracer-Id: 12724357797778918368
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrtdeigdduiedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeekkeefheefvdefhefgjeelveekheeileehudevkeefvdfhleetiedvffdtudeknecuffhomhgrihhnpehgihhtlhgrsgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdqphhptgesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.093,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,135 +69,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, groug@kaod.org, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-ppc@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 11/5/21 16:16, Philippe Mathieu-Daudé wrote:
-> Hi Daniel,
+On 11/5/21 19:42, Peter Maydell wrote:
+> The mac.h header defines a MAX_CPUS macro. This is confusingly named,
+> because it suggests it's a generic setting, but in fact it's used
+> by only the g3beige and mac99 machines. It's also using a single
+> macro for two values which aren't inherently the same -- if one
+> of these two machines was updated to support SMP configurations
+> then it would want a different max_cpus value to the other.
 > 
-> On 11/5/21 10:48, Daniel Henrique Barboza wrote:
->> On 11/5/21 00:46, David Gibson wrote:
->>> As our day jobs and interests have moved onto other things, Greg and I
->>> have
->>> been struggling to keep on top of maintainership of target/ppc and
->>> associated pieces like the pseries and powernv machine types, with their
->>> platform specific devices.
->>>
->>> We've therefore discussed and plan to transfer maintainership to
->>> Cédric Le
->>> Goater (primary) and Daniel Henrique Barboza (backup).  Cédric and Daniel
->>> have been actively contributing to the area for some time, and they're
->>> supported in this by their current employer, IBM, who has an obvious
->>> interest in the platform.
->>
->> Thank you and Greg and Red Hat for all the years of service supporting
->> qemu-ppc in the community. IBM will shoulder this responsibility now.
-> 
-> In term of the MAINTAINERS file:
-> 
->          S: Status, one of the following:
->             Supported:   Someone is actually paid to look after this.
->             Maintained:  Someone actually looks after it.
-> 
-> The PPC entries have a 'Maintained' status. You say "IBM will shoulder
-> this responsibility", does that mean the entries will be 'Supported'
-> as in "someone paid to look after them"?
+> Since the macro is used in only two places, just expand it out
+> and get rid of it. If hypothetical future work to support SMP
+> in these boards needs a compile-time-known limit on the number
+> of CPUs, we can give it a suitable name at that point.
 
-Yes. It's appropriate to change the PPC entries of this patch to "Supported"
-now.
+Yes. the mac99 could theoretically support SMP with the 970MP CPU
+but I have never seen plan for this.
 
+Anyhow,
+  
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-> I wonder because both Cédric and you have some commits with an IBM
-> email, but both are registering a non-IBM email as contact. I don't
-> mind the email technical detail, but I am curious about the status
-> and expectations.
-
-I had problems using IBM corporate email with mailing lists in the past,
-and started using this gmail account instead. I believe Cedric has a
-similar sob story.
-
-FWIW the contrib/gitdm/group-map-ibm file has both our emails there to
-indicate that we're IBM contributors.
-
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
 Thanks,
 
+C.
 
-Daniel
+> ---
+> Minor bit of cleanup prompted by discussion on
+> https://gitlab.com/qemu-project/qemu/-/issues/672
+> ---
+>   hw/ppc/mac.h          | 3 ---
+>   hw/ppc/mac_newworld.c | 3 ++-
+>   hw/ppc/mac_oldworld.c | 3 ++-
+>   3 files changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
+> index 22c8408078d..a1fa8f8e41a 100644
+> --- a/hw/ppc/mac.h
+> +++ b/hw/ppc/mac.h
+> @@ -36,9 +36,6 @@
+>   #include "hw/pci-host/uninorth.h"
+>   #include "qom/object.h"
+>   
+> -/* SMP is not enabled, for now */
+> -#define MAX_CPUS 1
+> -
+>   #define NVRAM_SIZE        0x2000
+>   #define PROM_FILENAME    "openbios-ppc"
+>   
+> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+> index 7bb7ac39975..4bddb529c2a 100644
+> --- a/hw/ppc/mac_newworld.c
+> +++ b/hw/ppc/mac_newworld.c
+> @@ -581,7 +581,8 @@ static void core99_machine_class_init(ObjectClass *oc, void *data)
+>       mc->desc = "Mac99 based PowerMAC";
+>       mc->init = ppc_core99_init;
+>       mc->block_default_type = IF_IDE;
+> -    mc->max_cpus = MAX_CPUS;
+> +    /* SMP is not supported currently */
+> +    mc->max_cpus = 1;
+>       mc->default_boot_order = "cd";
+>       mc->default_display = "std";
+>       mc->kvm_type = core99_kvm_type;
+> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+> index de2be960e6c..7016979a7cd 100644
+> --- a/hw/ppc/mac_oldworld.c
+> +++ b/hw/ppc/mac_oldworld.c
+> @@ -423,7 +423,8 @@ static void heathrow_class_init(ObjectClass *oc, void *data)
+>       mc->desc = "Heathrow based PowerMAC";
+>       mc->init = ppc_heathrow_init;
+>       mc->block_default_type = IF_IDE;
+> -    mc->max_cpus = MAX_CPUS;
+> +    /* SMP is not supported currently */
+> +    mc->max_cpus = 1;
+>   #ifndef TARGET_PPC64
+>       mc->is_default = true;
+>   #endif
+> 
 
-> 
-> Thanks,
-> 
-> Phil.
-> 
->>> Greg and I do plan to stay around in some capacity for at least the next
->>> 6 months, providing reviews and advice to assist the new maintainers into
->>> the role.
->>
->> I hope both of you stay around way longer than that :)
->>
->>
->>
->> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->>
->>>
->>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
->>> ---
->>>    MAINTAINERS | 20 ++++++++++++++------
->>>    1 file changed, 14 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/MAINTAINERS b/MAINTAINERS
->>> index 797be5b366..066c4fb2b0 100644
->>> --- a/MAINTAINERS
->>> +++ b/MAINTAINERS
->>> @@ -262,8 +262,10 @@ F: hw/openrisc/
->>>    F: tests/tcg/openrisc/
->>>      PowerPC TCG CPUs
->>> -M: David Gibson <david@gibson.dropbear.id.au>
->>> -M: Greg Kurz <groug@kaod.org>
->>> +M: Cédric Le Goater <clg@kaod.org>
->>> +M: Daniel Henrique Barboza <danielhb413@gmail.com>
->>> +R: David Gibson <david@gibson.dropbear.id.au>
->>> +R: Greg Kurz <groug@kaod.org>
->>>    L: qemu-ppc@nongnu.org
->>>    S: Maintained
->>>    F: target/ppc/
->>> @@ -382,8 +384,10 @@ F: target/mips/kvm*
->>>    F: target/mips/sysemu/
->>>      PPC KVM CPUs
->>> -M: David Gibson <david@gibson.dropbear.id.au>
->>> -M: Greg Kurz <groug@kaod.org>
->>> +M: Cédric Le Goater <clg@kaod.org>
->>> +M: Daniel Henrique Barboza <danielhb413@gmail.com>
->>> +R: David Gibson <david@gibson.dropbear.id.au>
->>> +R: Greg Kurz <groug@kaod.org>
->>>    S: Maintained
->>>    F: target/ppc/kvm.c
->>>    @@ -1321,8 +1325,10 @@ F: include/hw/rtc/m48t59.h
->>>    F: tests/acceptance/ppc_prep_40p.py
->>>      sPAPR
->>> -M: David Gibson <david@gibson.dropbear.id.au>
->>> -M: Greg Kurz <groug@kaod.org>
->>> +M: Cédric Le Goater <clg@kaod.org>
->>> +M: Daniel Henrique Barboza <danielhb413@gmail.com>
->>> +R: David Gibson <david@gibson.dropbear.id.au>
->>> +R: Greg Kurz <groug@kaod.org>
->>>    L: qemu-ppc@nongnu.org
->>>    S: Maintained
->>>    F: hw/*/spapr*
->>> @@ -1382,6 +1388,8 @@ F: include/hw/pci-host/mv64361.h
->>>      Virtual Open Firmware (VOF)
->>>    M: Alexey Kardashevskiy <aik@ozlabs.ru>
->>> +R: Cédric Le Goater <clg@kaod.org>
->>> +R: Daniel Henrique Barboza <danielhb413@gmail.com>
->>>    R: David Gibson <david@gibson.dropbear.id.au>
->>>    R: Greg Kurz <groug@kaod.org>
->>>    L: qemu-ppc@nongnu.org
->>>
->>
-> 
 
