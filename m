@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3062F445E9B
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 04:29:26 +0100 (CET)
-Received: from localhost ([::1]:46626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65643445E94
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 04:26:26 +0100 (CET)
+Received: from localhost ([::1]:37682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mipuv-00030F-92
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 23:29:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53330)
+	id 1mips1-0005Pt-FK
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 23:26:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mipli-0004Gb-GQ
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1miplj-0004Gl-CD
  for qemu-devel@nongnu.org; Thu, 04 Nov 2021 23:19:56 -0400
-Received: from mail-il1-x136.google.com ([2607:f8b0:4864:20::136]:33686)
+Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:42961)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1miplg-00043d-HZ
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 23:19:54 -0400
-Received: by mail-il1-x136.google.com with SMTP id l19so8322801ilk.0
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1miplg-00043m-Hw
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 23:19:55 -0400
+Received: by mail-io1-xd34.google.com with SMTP id n128so9290814iod.9
  for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 20:19:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rOISPYYKecMk71RBzznUZbzYo3FGryyldBKKzRc7muU=;
- b=HsDjNmtOoFA6hBAH8rjKqis5saoGQ1Kk7UyzD0c8L2dKow0WG8ibimMhhexPMiGQDL
- UYNqXFbiz7QXWKpR6dz/rf40xqoJgKsnaJl4+iLIT5XX277VYCZTn378lS/xEX7JHxil
- +IbXyZQYVM0aVgPUtHMBKFa/MARhXlKCp6I3ykM/Q9eMYmh8cHZL2BLgllrv7xbmT+UP
- 2qCu3kiKvsAwfKphNC73FXfW91fmcCfB3tASKzA0BrmX992aF1oUjIBxtU6mzkbs9S5X
- CBFTzyzUxdcMEDSjbu4C7QeN8DVxhrIOGBkYUTv8G5dVYaKGAtIsfWE9+BbftuJSbfBl
- UHuA==
+ bh=YUhiVOQnmpNFSdmZg3CHyQkzJYfHEf7WcwU0TPM0Y70=;
+ b=5qxLB4ZdqD/SJBGHlPvaveJoxwDCsTLPc1BgkXHsVd66IEUWrWYpJqlAKHBi2XLhXA
+ aeLFmEiuuPW1DoxMSihZoZpe3HRGloi0gRJwlZ4ivjG5xeX27kW2gUqOEk8fWEnQ2twq
+ MVRU4QT6UluKanUDEovoM4JeFyeWe4g+e4svjuI8dM842OxeVTG10vsgcimkxulxt4sb
+ dkk7Qc8Mbwt/gUm/W/4piTpofMPWHD/mTQZWvKUJkbUwYSGtR9z/9lJMaC6B0qGaB5Kx
+ VDkqyQyVsY9Spop+JbD1GdduDJytNRuFX4bSe8+8Sk+KM004/ZzCdBBde8P/rwEEIkI8
+ taRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rOISPYYKecMk71RBzznUZbzYo3FGryyldBKKzRc7muU=;
- b=hHjX624dJV/e6kTWhrBwJMY44/LoH/S2HLkzeHRvcP1P9OxyFyVvmL2YGkVoq9cA3a
- k2qCAGAZB4HxBg4hBY+aqRB2YCR76jBzzwCX8Yo62QMVXKdFyUKTvVBaGE/wRuRl+pAC
- UjfUu2/T8jslXnJJ1CjTY9c/lueR+xunkm4GT+zQVVsCIBNgyondo6or5n9tyFU2xztQ
- hvK4+yTMpgulnCP2QZVCMYcfgRxhYtWGpBt2pC0t924nGfa8rvURX5ia/XxwYBbUj5sS
- s97VOAG41Z7JKVH1whq7fmkP8nO9NscT5P1HWQaipYFKwR3RM1VbIIGCibhWSfnWIZ/0
- ZqTA==
-X-Gm-Message-State: AOAM531Ty/wMJolrJzDpzshCCc3/ECYkZMctlyvGayx9cKF89uWSbK59
- cX8/NR1To/nUa3NODKIC6txuN/d12YqfpA==
-X-Google-Smtp-Source: ABdhPJzVFhzWsOGkE7rfKs03PlXzdcfqK0dvnp7/2wm1iAaSeJCCt+j7QDp3NRC4/kE4jyvRvRrv6w==
-X-Received: by 2002:a05:6e02:1ca9:: with SMTP id
- x9mr12340717ill.273.1636082390111; 
+ bh=YUhiVOQnmpNFSdmZg3CHyQkzJYfHEf7WcwU0TPM0Y70=;
+ b=eWRzzwYseB5GHnYDY80wpkWvxDjFwrQebBBUU47bbHNksMHNH9eOCc96MBtmufpM0F
+ TtJa8G1gJg+j1vrCcCSjfu7Z5uYdVZzseXc3a1WnBXCoN1IprodlmYWl441POL27yjGa
+ HOXsp/SaCDbGc07uNKdevXiKAbr3y7sY2p+pCUKx5G2QoFnyCzisxU8ARNTVV72HqgLb
+ a9ptXO+f/0N/ocIlLYrOrWB32ODSC98if+l4I3keboSKlXEAgRvuW0zfkiEt9P7q/cfx
+ 1URl5q8CPB5voiFA96a6qkcA7lP7ACywktUel/d8cGdJGCNl5txhXTV8m/LceIUD2ztl
+ bKyA==
+X-Gm-Message-State: AOAM532hkkTO8zezjcDWPOQBkufoOs43kt2ZivLXXm0LfI1oYb0R9sN5
+ Q/AWL/P1AmC2bybpTo/G5IMKxA9PgftC3w==
+X-Google-Smtp-Source: ABdhPJyvL+2Tm/sSUxGF6AVJBfltr0yDymFvwceUglM2QXjAVc/Y5dLIH+O6iO9zdLRCnuFys20+6w==
+X-Received: by 2002:a02:84ec:: with SMTP id f99mr7027850jai.122.1636082390824; 
  Thu, 04 Nov 2021 20:19:50 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id v4sm3508528ilq.57.2021.11.04.20.19.49
+ by smtp.gmail.com with ESMTPSA id v4sm3508528ilq.57.2021.11.04.20.19.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Nov 2021 20:19:49 -0700 (PDT)
+ Thu, 04 Nov 2021 20:19:50 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 04/36] bsd-user/i386/target_arch_signal.h: Remove
- target_sigcontext
-Date: Thu,  4 Nov 2021 21:18:45 -0600
-Message-Id: <20211105031917.87837-5-imp@bsdimp.com>
+Subject: [PATCH v4 05/36] bsd-user/i386/target_arch_signal.h: use new
+ target_os_ucontext.h
+Date: Thu,  4 Nov 2021 21:18:46 -0600
+Message-Id: <20211105031917.87837-6-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211105031917.87837-1-imp@bsdimp.com>
 References: <20211105031917.87837-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::136;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x136.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd34.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,30 +89,32 @@ Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In FreeBSD, sigcontext was retired in favor of ucontext/mcontext.
-Remove vestigial target_sigcontext.
-
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/i386/target_arch_signal.h | 4 ----
- 1 file changed, 4 deletions(-)
+ bsd-user/i386/target_arch_signal.h | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
 diff --git a/bsd-user/i386/target_arch_signal.h b/bsd-user/i386/target_arch_signal.h
-index a90750d602..e262667bda 100644
+index e262667bda..bf7263c4f8 100644
 --- a/bsd-user/i386/target_arch_signal.h
 +++ b/bsd-user/i386/target_arch_signal.h
-@@ -27,10 +27,6 @@
- #define TARGET_MINSIGSTKSZ  (512 * 4)               /* min sig stack size */
- #define TARGET_SIGSTKSZ     (MINSIGSTKSZ + 32768)   /* recommended size */
- 
--struct target_sigcontext {
--    /* to be added */
--};
--
+@@ -30,14 +30,7 @@
  typedef struct target_mcontext {
  } target_mcontext_t;
  
+-typedef struct target_ucontext {
+-    target_sigset_t   uc_sigmask;
+-    target_mcontext_t uc_mcontext;
+-    abi_ulong         uc_link;
+-    target_stack_t    uc_stack;
+-    int32_t           uc_flags;
+-    int32_t         __spare__[4];
+-} target_ucontext_t;
++#include "target_os_ucontext.h"
+ 
+ struct target_sigframe {
+     abi_ulong   sf_signum;
 -- 
 2.33.0
 
