@@ -2,23 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57F024466D6
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 17:16:47 +0100 (CET)
-Received: from localhost ([::1]:57846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BFA74466EB
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 17:22:42 +0100 (CET)
+Received: from localhost ([::1]:43696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mj1tW-0001BP-Gf
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 12:16:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56950)
+	id 1mj1zF-0001hx-P6
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 12:22:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mj1pa-0006m7-BT
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 12:12:42 -0400
-Received: from mail-ua1-x92d.google.com ([2607:f8b0:4864:20::92d]:35682)
+ (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mj1pc-0006pc-7g
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 12:12:44 -0400
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:37885)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mj1pV-0007vJ-If
+ (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mj1pY-0007vS-6j
  for qemu-devel@nongnu.org; Fri, 05 Nov 2021 12:12:42 -0400
-Received: by mail-ua1-x92d.google.com with SMTP id q13so18063323uaq.2
- for <qemu-devel@nongnu.org>; Fri, 05 Nov 2021 09:12:37 -0700 (PDT)
+Received: by mail-ot1-x330.google.com with SMTP id
+ v40-20020a056830092800b0055591caa9c6so13792786ott.4
+ for <qemu-devel@nongnu.org>; Fri, 05 Nov 2021 09:12:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
@@ -31,17 +32,17 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
  bh=Q61HNvVrvtUndEXjdDnY0VKSgsgZF/JfHPCda9qHZtY=;
- b=Sh4bBHgk7v1sMPH5kxmCVn+h3u6PtWcthFqoKsFyL7yeNDX0BOr4MP3Ip0SiBrOfLG
- j3BTiKYCGFLwnlPJRbBRittloNqr70jTx1XaBJOjlxHcIFc2OnU1nJlXxebkTdOT+O7K
- Af6xnhNgEwoWGjuhfaJJjSy4ANcey4591bayr6uK+Z7pnDGfqiYVtUoLBUHYrYpGvoaR
- /yUgXF/s4+P1d5QWltWqwBNfsJlTRYH8/6GrrCtcai1CuUUZz18/i5NcaQWVtNDW1aQn
- Nhfvf2+ntSqcoJMX0zTkTLyDKnZsV6E++LdqRgClV8wwZ4Lyhmt/4yuBJdc+nGsp+jE4
- /fSg==
-X-Gm-Message-State: AOAM531e/V70IPqvPIKcmTs2sh7rj+F7lCgpcOGroYva/SQ79LOIFoLM
- eCPHaHgZMMiyOE/tm0dJR4oRjBeABrW+1713Z5HTzw==
-X-Google-Smtp-Source: ABdhPJzW9xYLp2uMWdvFzsuO1IlHe/Ebne3hmKmqU97rE3w5sqo254AuxaSXeWxCL74kgI/BAL5w1GTliqTUNbnzDQo=
-X-Received: by 2002:a67:c308:: with SMTP id r8mr46062741vsj.20.1636128756193; 
- Fri, 05 Nov 2021 09:12:36 -0700 (PDT)
+ b=x+p/VSxwh6MK94ADGgnMalF6h39RbaeYAhq3VizcJwVtGg+HVOUbcIHdRDFmltJEv4
+ OQzaqRAApH0vkNgBoxLEeSwmHyLZd+C83To0UTxD7KPSW8rYREzuzJLbG6PudZ12Jcm1
+ Bu6BkzqetcEj/GSb0H6/TzahbVRBq2JJ2xW21qswJBCJh9FRyTjhh4VK/S+Y1BC5UIOq
+ Tb1j3dFexiU82+6owVHb315A4ZfbgMURpG/wOrowq/PBHlW4U5QMDSf4xJfbV+PGX4Jx
+ dR1OPMmIqAd/RBYgTzADephgr+teIEiF8zgHJnp4khb51SgOYJKRnuSKrPoPq8xViE1c
+ JXHA==
+X-Gm-Message-State: AOAM5303e7w2U+5GYJeWupYySSZoAsT+9yzxA2Dbf9Nb0lXQwGtd3HeX
+ JLKJmVPoeynX1BE7lKlrL4GYtU+6k76W1DtFnGbaIw==
+X-Google-Smtp-Source: ABdhPJxmRnm1sgmOEaritJE250Z+8NtL9dSzy7ihBeMo5nDpdmzO2hj9FPsLqTZKZ0WpnEKbCjOr6GlMrWzpzh+4mOE=
+X-Received: by 2002:a9d:17c5:: with SMTP id j63mr45584307otj.191.1636128758443; 
+ Fri, 05 Nov 2021 09:12:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211101011734.1614781-1-sjg@chromium.org>
  <CAHFG_=X1DeBFkzwFBkirMkmHB0_OSa9OkQj+CvpG6dT5HZEWBA@mail.gmail.com>
@@ -57,8 +58,8 @@ Subject: Re: [PATCH 00/31] passage: Define a standard for firmware data flow
 To: =?UTF-8?Q?Fran=C3=A7ois_Ozog?= <francois.ozog@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92d;
- envelope-from=sjg@google.com; helo=mail-ua1-x92d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
+ envelope-from=sjg@google.com; helo=mail-ot1-x330.google.com
 X-Spam_score_int: -98
 X-Spam_score: -9.9
 X-Spam_bar: ---------
@@ -66,7 +67,7 @@ X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
  HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
