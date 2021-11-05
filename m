@@ -2,76 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A1E1446487
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 14:58:19 +0100 (CET)
-Received: from localhost ([::1]:56752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CD5B44649B
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 15:05:39 +0100 (CET)
+Received: from localhost ([::1]:40906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mizjW-0007Kx-7C
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 09:58:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60474)
+	id 1mizqc-0001OY-Cv
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 10:05:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1mizgG-0004E8-OY
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 09:54:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55890)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mizge-000553-Vo
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 09:55:27 -0400
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:33431)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1mizgD-0003dU-81
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 09:54:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636120491;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fGNlQufdRhvOv5Gsr8t1/OKDoIqVPsWcZiBzUYa6HUw=;
- b=dGCbWDSk8OIBcIw32OApf3GHUCOpuj7MjhUhX++sxFtQuw/f5iABueDyli1QjRNkFG2nJl
- 4yWIFGyQL0Vii5jLg8yEwiWwRjw1YRcC2ZSKa11yDpETkO5WCrhAxCPNmZoxSyNwvXuAuT
- rDp/EjJdfm2KwRLKT1Ze2wMiKuFJkd0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-lMHfGwW4PW2WvI17bjuWcA-1; Fri, 05 Nov 2021 09:54:47 -0400
-X-MC-Unique: lMHfGwW4PW2WvI17bjuWcA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C8B487D541;
- Fri,  5 Nov 2021 13:54:46 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.40.194.125])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CEDC799CF;
- Fri,  5 Nov 2021 13:54:17 +0000 (UTC)
-Date: Fri, 5 Nov 2021 14:54:15 +0100
-From: Peter Krempa <pkrempa@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v3 03/12] vfio-user: define vfio-user-server object
-Message-ID: <YYU3h16iVbY+lAzH@angien.pipo.sk>
-References: <cover.1633929457.git.jag.raman@oracle.com>
- <13dba991f1de91711e5c3cad9a332d6e7c5eee7b.1633929457.git.jag.raman@oracle.com>
- <YXly2vSh/bhgr0i/@stefanha-x1.localdomain>
- <6346833B-469B-487B-8382-62EA03BA56C2@oracle.com>
- <YX/Cx7g0D5o8dVtp@stefanha-x1.localdomain>
- <87wnloce5t.fsf@dusky.pond.sub.org> <YYPwogn87tMf0p7s@redhat.com>
- <87y2623of6.fsf@dusky.pond.sub.org> <YYUvZjg0lmaWE223@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mizgZ-0003fU-Gf
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 09:55:19 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.44])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 1806CC9B02D6;
+ Fri,  5 Nov 2021 14:54:59 +0100 (CET)
+Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Fri, 5 Nov
+ 2021 14:54:59 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R00558b98e41-11cd-4f1c-b671-bdd47a994971,
+ ACBEE74C211706A3681C4B00B96A7A61B931BAD7) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <f5264f8a-4bce-a8f4-235e-9253738240bd@kaod.org>
+Date: Fri, 5 Nov 2021 14:54:58 +0100
 MIME-Version: 1.0
-In-Reply-To: <YYUvZjg0lmaWE223@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pkrempa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH] target/ppc, hw/ppc: Change maintainers
+Content-Language: en-US
+To: David Gibson <david@gibson.dropbear.id.au>, <qemu-ppc@nongnu.org>,
+ <qemu-devel@nongnu.org>, <groug@kaod.org>, <danielhb413@gmail.com>
+References: <20211105034640.53754-1-david@gibson.dropbear.id.au>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20211105034640.53754-1-david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: e4a611f9-4d87-4acd-87e1-97409dda15b9
+X-Ovh-Tracer-Id: 4013551696605121318
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrtdeigdehiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejgeffteffieejheehveekgfefhfffveffuedtvdeftdffjeeijefhheeljefhudenucffohhmrghinhepohiilhgrsghsrdhorhhgpdhgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.093,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,56 +70,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John Johnson <john.g.johnson@oracle.com>,
- "thuth@redhat.com" <thuth@redhat.com>, Jag Raman <jag.raman@oracle.com>,
- "swapnil.ingle@nutanix.com" <swapnil.ingle@nutanix.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "philmd@redhat.com" <philmd@redhat.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 05, 2021 at 14:19:34 +0100, Kevin Wolf wrote:
-> Am 05.11.2021 um 11:08 hat Markus Armbruster geschrieben:
-> > Kevin Wolf <kwolf@redhat.com> writes:
-> > 
-> > > Am 04.11.2021 um 13:13 hat Markus Armbruster geschrieben:
-
-[...]
-
-> We can deprecate on two different levels. I think it's useful to do
-> both:
+On 11/5/21 04:46, David Gibson wrote:
+> As our day jobs and interests have moved onto other things, Greg and I have
+> been struggling to keep on top of maintainership of target/ppc and
+> associated pieces like the pseries and powernv machine types, with their
+> platform specific devices.
 > 
-> 1. Broad deprecation: Stable non-JSON interfaces are degraded to
->    a HMP-like compatibility promise. Obviously, this can only be done
->    for options that support JSON. Peter Maydell also wants to do this
->    only after a big user (read: libvirt) has implemented and is
->    using JSON, basically as a proof that the alternative is working.
+> We've therefore discussed and plan to transfer maintainership to Cédric Le
+> Goater (primary) and Daniel Henrique Barboza (backup).  Cédric and Daniel
+> have been actively contributing to the area for some time, and they're
+> supported in this by their current employer, IBM, who has an obvious
+> interest in the platform.
+
+
+IBM business has changed focus and pseries/KVM will be less in
+the spotlights. Nevertheless, there is a large code base we want
+to keep running and not break. Migration compatibility is the
+most complex part of it. I hope we will be able to automate some
+of the non-regression tests RedHat/IBM have. Not an easy part
+I admit.
+
+
+There are plenty of contributors who help on very large parts
+of QEMU-PPC.
+
+Richard and the Eldorado team are watching closely instruction
+implementation,
+Mark is doing the same for MAC machines,
+Balaton for 44x and 46x and associated machines.
+Thomas showed he could bring back from the dead any forgotten board,
+Alex Graf still admins the qemu-ppc mailin list.
+It was nicely hooked to patchwork by the OzLabs recently :
+
+     https://patchwork.ozlabs.org/project/qemu-ppc/list/
+
+we might add some simple automation on the received patches,
+"does the patch apply ?" for instance. Anyhow, it's an easy way
+to share the review between people.
+
+Daniel, Bharata, Fabiano, Nick, You and Greg for pseries, and
+Alexey, for SLOF+VOF also. I am still around for PowerNV, XIVE, XICS.
+
+Christophe is doing his best to keep alive Linux ppc405.
+
+Michael does kernel CI testing on all these platforms :
+
+     https://github.com/linuxppc/ci-scripts/tree/master/scripts/boot
+
+Guenter also does :
+
+     https://github.com/groeck/linux-build-test/tree/master/rootfs/ppc
+
+and skiboot :
+
+     https://github.com/open-power/skiboot/tree/master/opal-ci
+
+GitLab does even more.
+
+and we have Philippe, always here to make sure every grain of sand
+has been examined.
+
+We don't feel alone :)
+
+> Greg and I do plan to stay around in some capacity for at least the next
+> 6 months, providing reviews and advice to assist the new maintainers into
+> the role.
+
+Thanks for the time and assistance for all these years. Pseries
+and PowerNV would not be in such a good shape without all the
+efforts you have put into them.
+
+I suppose emulation will take a larger part of our time now since
+it is largely used for pseries/powernv development in IBM. We will
+see how that goes.
+
 > 
->    So this can certainly be done for -object. I believe libvirt also
->    uses JSON for -device now, so this should be fine now, too. Possibly
->    -drive (in favour of -blockdev), though I'm not completely sure if we
->    have gotten rid of the final users of -drive. (CCing Peter Krempa for
->    details.)
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 
-Libvirt uses JSON exclusively with -object (starting from qemu-6.0) and
-with -device (starting from qemu-6.2).
+Acked-by: Cédric Le Goater <clg@kaod.org>
 
-We could also easily do -netdev if JSON support will be added for the
-option as internally we already create the JSON object (so that the code
-is identical for QMP hotplug) and just convert it back to the
-commandline syntax.
+C.
 
-Libvirt also uses JSON with -blockdev since -blockdev support was
-introduced (IIRC qemu-4.2 added all the necessary bits for us).
-If -blockdev is used libvirt does not use -drive at all (except for SD
-cards for ARM boards), but that is not tested very well.
+> ---
+>   MAINTAINERS | 20 ++++++++++++++------
+>   1 file changed, 14 insertions(+), 6 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 797be5b366..066c4fb2b0 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -262,8 +262,10 @@ F: hw/openrisc/
+>   F: tests/tcg/openrisc/
+>   
+>   PowerPC TCG CPUs
+> -M: David Gibson <david@gibson.dropbear.id.au>
+> -M: Greg Kurz <groug@kaod.org>
+> +M: Cédric Le Goater <clg@kaod.org>
+> +M: Daniel Henrique Barboza <danielhb413@gmail.com>
+> +R: David Gibson <david@gibson.dropbear.id.au>
+> +R: Greg Kurz <groug@kaod.org>
+>   L: qemu-ppc@nongnu.org
+>   S: Maintained
+>   F: target/ppc/
+> @@ -382,8 +384,10 @@ F: target/mips/kvm*
+>   F: target/mips/sysemu/
+>   
+>   PPC KVM CPUs
+> -M: David Gibson <david@gibson.dropbear.id.au>
+> -M: Greg Kurz <groug@kaod.org>
+> +M: Cédric Le Goater <clg@kaod.org>
+> +M: Daniel Henrique Barboza <danielhb413@gmail.com>
+> +R: David Gibson <david@gibson.dropbear.id.au>
+> +R: Greg Kurz <groug@kaod.org>
+>   S: Maintained
+>   F: target/ppc/kvm.c
+>   
+> @@ -1321,8 +1325,10 @@ F: include/hw/rtc/m48t59.h
+>   F: tests/acceptance/ppc_prep_40p.py
+>   
+>   sPAPR
+> -M: David Gibson <david@gibson.dropbear.id.au>
+> -M: Greg Kurz <groug@kaod.org>
+> +M: Cédric Le Goater <clg@kaod.org>
+> +M: Daniel Henrique Barboza <danielhb413@gmail.com>
+> +R: David Gibson <david@gibson.dropbear.id.au>
+> +R: Greg Kurz <groug@kaod.org>
+>   L: qemu-ppc@nongnu.org
+>   S: Maintained
+>   F: hw/*/spapr*
+> @@ -1382,6 +1388,8 @@ F: include/hw/pci-host/mv64361.h
+>   
+>   Virtual Open Firmware (VOF)
+>   M: Alexey Kardashevskiy <aik@ozlabs.ru>
+> +R: Cédric Le Goater <clg@kaod.org>
+> +R: Daniel Henrique Barboza <danielhb413@gmail.com>
+>   R: David Gibson <david@gibson.dropbear.id.au>
+>   R: Greg Kurz <groug@kaod.org>
+>   L: qemu-ppc@nongnu.org
+> 
 
 
