@@ -2,74 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 482BE445F9B
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 07:12:54 +0100 (CET)
-Received: from localhost ([::1]:57676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70366446017
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 08:25:44 +0100 (CET)
+Received: from localhost ([::1]:52804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1misT6-00023w-BT
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 02:12:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35496)
+	id 1mitbb-0005V3-05
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 03:25:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1misR9-0000gn-IA
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 02:10:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58671)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mitaK-0004ny-OV
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 03:24:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1misR6-0003H9-2i
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 02:10:50 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mitaG-0006HE-QD
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 03:24:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636092647;
+ s=mimecast20190719; t=1636097059;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZohW6aRrFc2jSUWaEdgsjcy+Xi6QCvg8InR4ILPZmQA=;
- b=e0+zHKr4S7oK7q8cBIQ0rBHQa4uNy33SaZr43h1DaA4p3ToR9vQODsckXXge/AeMld6bwa
- y+oVBJcALdvslP/mcoLdeUA/P+2l2CR7xGY81ZF/UVEWI+bhPV23wxmWmTxgAJgzdI1O7l
- VZ4zn8HagMLxnIZV4ziu2UOzQvmwuQE=
+ bh=CzCZfsjyqL7KqY+U4VcCmINYHYr2UKSv3Akt8OxvKOs=;
+ b=UlfTuvmdVE5AnIyoK5+tZnsT8hYVhiX1IBTTmvb6DWNbtEKdM1d1xbosmp8QcjTalYKroJ
+ AuoZ+EzGrE740IurjvOF+RHCHMfztEO/19X/T2UtfTrIpNVxsY8KvcJUgfyOtlcYo5gici
+ xaBG4YRUG2/DnT4G+zNaGDtKIVAwrtk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-UzGeDGEuM3i6OmqEq_8Zwg-1; Fri, 05 Nov 2021 02:10:42 -0400
-X-MC-Unique: UzGeDGEuM3i6OmqEq_8Zwg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-508-g7WpSq3WMcOftdRFohvc8A-1; Fri, 05 Nov 2021 03:24:13 -0400
+X-MC-Unique: g7WpSq3WMcOftdRFohvc8A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C37731006AA2;
- Fri,  5 Nov 2021 06:10:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7675A104ECFD;
+ Fri,  5 Nov 2021 07:24:11 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F46260C13;
- Fri,  5 Nov 2021 06:10:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 766395FC25;
+ Fri,  5 Nov 2021 07:23:24 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id F115E11380A7; Fri,  5 Nov 2021 07:10:39 +0100 (CET)
+ id 04E1C11380A7; Fri,  5 Nov 2021 08:23:22 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: "Zhang, Chen" <chen.zhang@intel.com>
-Subject: Re: [PATCH V5 1/3] net/filter: Optimize transfer protocol for
- filter-mirror/redirector
-References: <20211028090556.3168043-1-chen.zhang@intel.com>
- <20211028090556.3168043-2-chen.zhang@intel.com>
- <c603b048-1cee-1396-811d-8be857aa932b@redhat.com>
- <MWHPR11MB0031A0311824C3DF060B64E39B879@MWHPR11MB0031.namprd11.prod.outlook.com>
- <CACGkMEsjn0nz4N+O4s9Y0m0gEYXu9WKstP9LHE4F=m5mOR3dcA@mail.gmail.com>
- <MWHPR11MB00315CFF0E7854146B5C9AE69B8A9@MWHPR11MB0031.namprd11.prod.outlook.com>
- <MWHPR11MB0031B626425E7815EB78A9E49B8D9@MWHPR11MB0031.namprd11.prod.outlook.com>
- <94f96089-f8a8-d3d4-18c3-26917952fc14@redhat.com>
- <DM5PR11MB00276DF408F0DBC3C6EFADB89B8E9@DM5PR11MB0027.namprd11.prod.outlook.com>
- <CACGkMEvuXhuzSiTebOQqvriD5UnaiPzaY37AOR8bihTC4FTa4Q@mail.gmail.com>
- <DM5PR11MB002701BF07DCC15BF968A1749B8E9@DM5PR11MB0027.namprd11.prod.outlook.com>
-Date: Fri, 05 Nov 2021 07:10:39 +0100
-In-Reply-To: <DM5PR11MB002701BF07DCC15BF968A1749B8E9@DM5PR11MB0027.namprd11.prod.outlook.com>
- (Chen Zhang's message of "Fri, 5 Nov 2021 05:29:24 +0000")
-Message-ID: <87y2635e00.fsf@dusky.pond.sub.org>
+To: Jonah Palmer <jonah.palmer@oracle.com>
+Subject: Re: [PATCH v8 8/8] hmp: add virtio commands
+References: <1635334909-31614-1-git-send-email-jonah.palmer@oracle.com>
+ <1635334909-31614-9-git-send-email-jonah.palmer@oracle.com>
+Date: Fri, 05 Nov 2021 08:23:22 +0100
+In-Reply-To: <1635334909-31614-9-git-send-email-jonah.palmer@oracle.com>
+ (Jonah Palmer's message of "Wed, 27 Oct 2021 07:41:49 -0400")
+Message-ID: <87fssb5amt.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
@@ -91,73 +79,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
- Li Zhijian <lizhijian@cn.fujitsu.com>
+Cc: mst@redhat.com, qemu_oss@crudebyte.com, qemu-devel@nongnu.org,
+ kraxel@redhat.com, si-wei.liu@oracle.com, joao.m.martins@oracle.com,
+ eblake@redhat.com, qemu-block@nongnu.org, david@redhat.com,
+ arei.gonglei@huawei.com, marcandre.lureau@redhat.com, lvivier@redhat.com,
+ thuth@redhat.com, michael.roth@amd.com, groug@kaod.org, dgilbert@redhat.com,
+ eric.auger@redhat.com, stefanha@redhat.com, boris.ostrovsky@oracle.com,
+ kwolf@redhat.com, mathieu.poirier@linaro.org, raphael.norwitz@nutanix.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Zhang, Chen" <chen.zhang@intel.com> writes:
+Jonah Palmer <jonah.palmer@oracle.com> writes:
 
->> -----Original Message-----
->> From: Jason Wang <jasowang@redhat.com>
->> Sent: Friday, November 5, 2021 12:03 PM
->> To: Zhang, Chen <chen.zhang@intel.com>
->> Cc: Markus Armbruster <armbru@redhat.com>; qemu-dev <qemu-
->> devel@nongnu.org>; Li Zhijian <lizhijian@cn.fujitsu.com>
->> Subject: Re: [PATCH V5 1/3] net/filter: Optimize transfer protocol for f=
-ilter-mirror/redirector
->>=20
->> On Fri, Nov 5, 2021 at 11:27 AM Zhang, Chen <chen.zhang@intel.com> wrote=
-:
->> >
->> >
->> >
->> > > -----Original Message-----
->> > > From: Jason Wang <jasowang@redhat.com>
->> > > Sent: Friday, November 5, 2021 11:17 AM
->> > > To: Zhang, Chen <chen.zhang@intel.com>; Markus Armbruster
->> > > <armbru@redhat.com>
->> > > Cc: qemu-dev <qemu-devel@nongnu.org>; Li Zhijian
->> > > <lizhijian@cn.fujitsu.com>
->> > > Subject: Re: [PATCH V5 1/3] net/filter: Optimize transfer protocol
->> > > for filter- mirror/redirector
->> > >
->> > >
->> > > =E5=9C=A8 2021/11/4 =E4=B8=8B=E5=8D=881:37, Zhang, Chen =E5=86=99=E9=
-=81=93:
->> > > > Hi Jason/Markus,
->> > > >
->> > > > Rethink about it, How about keep the original "vnet_hdr_support"
->> > > > function, And add a new optional parameter "auto_vnet_hdr" for fil=
-ters/compare?
->> > >
->> > >
->> > > It's a way but rethink of the whole thing. I wonder what if we just
->> > > enable "vnet_hdr_support" by default for filter and colo-compare?
->> >
->> > It's works by default for user use -device virtio-net-pci and e1000...
->> > But it can't resolve this series motivation, how to fix/check user con=
-figuration issue:
->> > For example user enable " vnet_hdr_support " filter-mirror and disable
->> > " vnet_hdr_support" filter-redirector And connect both filter modules =
-by chardev socket.
->> > In this case guest will get wrong network workload and filters didn=E2=
-=80=99t
->> > perceive any abnormalities, but in fact, the whole system is no longer=
- working.
->> > This series will report error and try to correct it.
->>=20
->> The problem is how "auto_vnet_hdr" help in this case. It's a new paramet=
-er
->> which may lead to more wrong configuration?
+> From: Laurent Vivier <lvivier@redhat.com>
 >
-> No, the "auto_vnet_hdr" will fix most the wrong configuration issues as "=
-vnet_hdr_support" correct setting.
-> When we enable the "auto_vnet_hdr", the original "vnet_hdr_support" will =
-no effect.
+> This patch implements the HMP versions of the virtio QMP commands.
+>
+> Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
+> ---
+>  docs/system/monitor.rst |   2 +
+>  hmp-commands-virtio.hx  | 250 ++++++++++++++++++++++++++++++++++
+>  hmp-commands.hx         |  10 ++
+>  hw/virtio/virtio.c      | 355 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  include/monitor/hmp.h   |   5 +
+>  meson.build             |   1 +
+>  monitor/misc.c          |  17 +++
+>  7 files changed, 640 insertions(+)
+>  create mode 100644 hmp-commands-virtio.hx
+>
+> diff --git a/docs/system/monitor.rst b/docs/system/monitor.rst
+> index ff5c434..10418fc 100644
+> --- a/docs/system/monitor.rst
+> +++ b/docs/system/monitor.rst
+> @@ -21,6 +21,8 @@ The following commands are available:
+>  
+>  .. hxtool-doc:: hmp-commands.hx
+>  
+> +.. hxtool-doc:: hmp-commands-virtio.hx
+> +
+>  .. hxtool-doc:: hmp-commands-info.hx
+>  
+>  Integer expressions
+> diff --git a/hmp-commands-virtio.hx b/hmp-commands-virtio.hx
+> new file mode 100644
+> index 0000000..36aab94
+> --- /dev/null
+> +++ b/hmp-commands-virtio.hx
+> @@ -0,0 +1,250 @@
+> +HXCOMM Use DEFHEADING() to define headings in both help text and rST.
+> +HXCOMM Text between SRST and ERST is copied to the rST version and
+> +HXCOMM discarded from C version.
+> +HXCOMM
+> +HXCOMM DEF(command, args, callback, arg_string, help) is used to construct
+> +HXCOMM monitor info commands.
+> +HXCOMM
+> +HXCOMM HXCOMM can be used for comments, discarded from both rST and C.
+> +HXCOMM
+> +HXCOMM In this file, generally SRST fragments should have two extra
+> +HXCOMM spaces of indent, so that the documentation list item for "virtio cmd"
+> +HXCOMM appears inside the documentation list item for the top level
+> +HXCOMM "virtio" documentation entry. The exception is the first SRST
+> +HXCOMM fragment that defines that top level entry.
+> +
+> +SRST
+> +  ``virtio`` *subcommand*
+> +  Show various information about virtio
+> +
+> +  Example:
+> +
+> +  List all sub-commands::
+> +
+> +  (qemu) virtio
+> +  virtio query  -- List all available virtio devices
 
-I don't know enough to help much here.  What I do know: having to
-specify an obscure parameter to get a nicer user interface is
-backwards.  Is this the case here?
+I get:
+
+    qemu/docs/../hmp-commands-virtio.hx:25:Inconsistent literal block quoting.
+
+> +  virtio status path -- Display status of a given virtio device
+> +  virtio queue-status path queue -- Display status of a given virtio queue
+> +  virtio vhost-queue-status path queue -- Display status of a given vhost queue
+> +  virtio queue-element path queue [index] -- Display element of a given virtio queue
+> +
+> +ERST
+
+[...]
+
+> diff --git a/monitor/misc.c b/monitor/misc.c
+> index ffe7966..5e4cd88 100644
+> --- a/monitor/misc.c
+> +++ b/monitor/misc.c
+> @@ -23,6 +23,7 @@
+>   */
+>  
+>  #include "qemu/osdep.h"
+> +#include CONFIG_DEVICES
+>  #include "monitor-internal.h"
+>  #include "monitor/qdev.h"
+>  #include "hw/usb.h"
+> @@ -219,6 +220,15 @@ static void hmp_info_help(Monitor *mon, const QDict *qdict)
+>      help_cmd(mon, "info");
+>  }
+>  
+> +static void hmp_virtio_help(Monitor *mon, const QDict *qdict)
+> +{
+> +#if defined(CONFIG_VIRTIO)
+> +    help_cmd(mon, "virtio");
+
+Probably not your patch's fault: extra space before '--' in the line
+
+    virtio query  -- List all available virtio devices
+
+> +#else
+> +    monitor_printf(mon, "Virtio is disabled\n");
+> +#endif
+> +}
+> +
+>  static void monitor_init_qmp_commands(void)
+>  {
+>      /*
+> @@ -1433,6 +1443,13 @@ static HMPCommand hmp_info_cmds[] = {
+>      { NULL, NULL, },
+>  };
+>  
+> +static HMPCommand hmp_virtio_cmds[] = {
+> +#if defined(CONFIG_VIRTIO)
+> +#include "hmp-commands-virtio.h"
+> +#endif
+> +    { NULL, NULL, },
+> +};
+> +
+>  /* hmp_cmds and hmp_info_cmds would be sorted at runtime */
+>  HMPCommand hmp_cmds[] = {
+>  #include "hmp-commands.h"
 
 
