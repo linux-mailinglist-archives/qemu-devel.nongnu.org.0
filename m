@@ -2,73 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE31844601A
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 08:28:08 +0100 (CET)
-Received: from localhost ([::1]:55942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16CBA446034
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 08:40:26 +0100 (CET)
+Received: from localhost ([::1]:35870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mitdv-0007hH-Lf
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 03:28:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56986)
+	id 1mitpo-0005Kz-Oe
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 03:40:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mitd1-0006xN-5s
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 03:27:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25796)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mitnz-0004MI-TQ
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 03:38:33 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mitcz-0007Am-Hy
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 03:27:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636097228;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZhhZBE/WQKO0r/s1e5r+jiN5DxeO5RR2xW+rjc7CTQQ=;
- b=G3awdpx4rqDkNKbNFcR9TmPyfPi9LCMUv1Pl07Ld5JomCh2yH/F3hbkGqXDj9q90Xh/+6y
- jVWHGOhesu2O4bWgWRPBIqea712lrzDIeug/7j2mgr+rKyn8ZTN4qX0SIwkZlDQXRwYebE
- eOo9vWfqF9egUfmp6gLSRvccZxLF1HQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-557-jGw_g7lLNfyQTrUCLSF70g-1; Fri, 05 Nov 2021 03:27:05 -0400
-X-MC-Unique: jGw_g7lLNfyQTrUCLSF70g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 472381006AA3;
- Fri,  5 Nov 2021 07:27:03 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2BAD65F4EC;
- Fri,  5 Nov 2021 07:26:34 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C410511380A7; Fri,  5 Nov 2021 08:26:32 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v8 0/8] hmp, qmp: Add commands to introspect virtio devices
-References: <1635334909-31614-1-git-send-email-jonah.palmer@oracle.com>
- <YXk+JvPuOglFoerz@redhat.com>
-Date: Fri, 05 Nov 2021 08:26:32 +0100
-In-Reply-To: <YXk+JvPuOglFoerz@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Wed, 27 Oct 2021 12:55:18 +0100")
-Message-ID: <87bl2z5ahj.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mitnx-0004sK-EM
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 03:38:31 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A56Lt5m009913; 
+ Fri, 5 Nov 2021 07:38:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=OF7c2R9D+DqPzKWfyf0Jux1L6acg6y9qZTHiUfGIZdw=;
+ b=Ei0iBg2nA5QsEsbwZPaFLy1rxYFeHlbAM8D+7WqBtnqvS0D5x2xyFJuigoOvc1ttNY9v
+ RC0Wv6ihht9PE+6TCf3kvxkgyNY5Nk62B/qKhxMP31aqNR2olUtQvAVwoYugPdgAQz/j
+ LRiTbfTr99OOa+/AygpG+dJWUfW2HwXULzQa+uJACIfil0ZrmZ1rm3Vk85/5EHPIqqgo
+ /U2Qqri8e7ywOae78J0VnqRzoQxhDRFkDj/tnr4gHt2xFHyOxD5oArCceHESMyGU/MNY
+ VZjoHba9ciORDtUwpJo0k21+kSpMRy/itKm5MZs8eqYeQ97BCUtPiOcrVDe/IunifMqN HA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3c4y9bsaa0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Nov 2021 07:38:24 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1A57cOCD002837;
+ Fri, 5 Nov 2021 07:38:24 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3c4y9bsa9d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Nov 2021 07:38:23 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1A57ZUhD027466;
+ Fri, 5 Nov 2021 07:38:22 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma05wdc.us.ibm.com with ESMTP id 3c4t4gn4t3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Nov 2021 07:38:22 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1A57cL2m31326622
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 5 Nov 2021 07:38:21 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 96B93AE05F;
+ Fri,  5 Nov 2021 07:38:21 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 43A3DAE063;
+ Fri,  5 Nov 2021 07:38:19 +0000 (GMT)
+Received: from [9.65.75.52] (unknown [9.65.75.52])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
+ Fri,  5 Nov 2021 07:38:19 +0000 (GMT)
+Message-ID: <8d17ae09-af05-0c22-dbca-2425fb03d32e@linux.ibm.com>
+Date: Fri, 5 Nov 2021 09:38:18 +0200
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 0/3] SEV: fixes for -kernel launch with incompatible OVMF
+Content-Language: en-US
+To: Brijesh Singh <brijesh.singh@amd.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20211101102136.1706421-1-dovmurik@linux.ibm.com>
+ <0291b6fc-b613-5eae-77a0-b344020a8376@amd.com>
+ <39de4c3a-4351-3705-0962-7bb8d496fe28@linux.ibm.com>
+ <9e4c0415-4153-e234-7c59-872e903e6567@amd.com> <YYKX7kmDE71NN8Sb@work-vm>
+ <f2dce4c6-1dbd-4bef-ad90-4e176db9d628@amd.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
+In-Reply-To: <f2dce4c6-1dbd-4bef-ad90-4e176db9d628@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: FVt2H0ZL5il7uZ91DwSqkSGm4rETcQXD
+X-Proofpoint-ORIG-GUID: RC_J5T0_NqOl_k4Tf0eqtsb5zxJ3smKu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-05_01,2021-11-03_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ clxscore=1015 suspectscore=0 mlxlogscore=999 spamscore=0 adultscore=0
+ phishscore=0 mlxscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2111050041
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.093,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,82 +118,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, qemu_oss@crudebyte.com, qemu-devel@nongnu.org,
- kraxel@redhat.com, si-wei.liu@oracle.com, joao.m.martins@oracle.com,
- eblake@redhat.com, qemu-block@nongnu.org, david@redhat.com, armbru@redhat.com,
- arei.gonglei@huawei.com, marcandre.lureau@redhat.com,
- Jonah Palmer <jonah.palmer@oracle.com>, lvivier@redhat.com, thuth@redhat.com,
- michael.roth@amd.com, groug@kaod.org, dgilbert@redhat.com,
- eric.auger@redhat.com, stefanha@redhat.com, boris.ostrovsky@oracle.com,
- kwolf@redhat.com, mathieu.poirier@linaro.org, raphael.norwitz@nutanix.com,
- pbonzini@redhat.com
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ Dov Murik <dovmurik@linux.ibm.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> On Wed, Oct 27, 2021 at 07:41:41AM -0400, Jonah Palmer wrote:
->> This series introduces new QMP/HMP commands to dump the status of a
->> virtio device at different levels.
->>=20
->> [Jonah: Rebasing previous patchset from Oct. 5 (v7). Original patches
->>  are from Laurent Vivier from May 2020.
->>=20
->>  Rebase from v7 to v8 includes an additional assert to make sure
->>  we're not returning NULL in virtio_id_to_name(). Rebase also
->>  includes minor additions/edits to qapi/virtio.json.]
->>=20
->> 1. Main command
->>=20
->> HMP Only:
->>=20
->>     virtio [subcommand]
->>=20
->>     Example:
->>=20
->>         List all sub-commands:
->>=20
->>         (qemu) virtio
->>         virtio query  -- List all available virtio devices
->>         virtio status path -- Display status of a given virtio device
->>         virtio queue-status path queue -- Display status of a given virt=
-io queue
->>         virtio vhost-queue-status path queue -- Display status of a give=
-n vhost queue
->>         virtio queue-element path queue [index] -- Display element of a =
-given virtio queue
->
-> I don't see a compelling reason why these are setup as sub-commands
-> under a new "virtio" top level. This HMP approach and the QMP 'x-debug-qu=
-ery'
-> naming just feels needlessly different from the current QEMU practices.
->
-> IMHO they should just be "info" subcommands for HMP. ie
->
->          info virtio  -- List all available virtio devices
->          info virtio-status path -- Display status of a given virtio devi=
-ce
->          info virtio-queue-status path queue -- Display status of a given=
- virtio queue
->          info virtio-vhost-queue-status path queue -- Display status of a=
- given vhost queue
->          info virtio-queue-element path queue [index] -- Display element =
-of a given virtio queue
 
-I agree with Dan (but I'm not the maintainer).
+On 03/11/2021 17:44, Brijesh Singh wrote:
+> 
+> 
+> On 11/3/21 9:08 AM, Dr. David Alan Gilbert wrote:
+>> * Brijesh Singh (brijesh.singh@amd.com) wrote:
+>>>
+>>>
+>>> On 11/2/21 8:22 AM, Dov Murik wrote:
+>>>>
+>>>>
+>>>> On 02/11/2021 12:52, Brijesh Singh wrote:
+>>>>> Hi Dov,
+>>>>>
+>>>>> Overall the patch looks good, only question I have is that now we are
+>>>>> enforce qemu to hash the kernel, initrd and cmdline unconditionally
+>>>>> for
+>>>>> any of the SEV guest launches. This requires anyone wanting to
+>>>>> calculating the expected measurement need to account for it. Should we
+>>>>> make the hash page build optional ?
+>>>>>
+>>>>
+>>>> The problem with adding a -enable-add-kernel-hashes QEMU option (or
+>>>> suboption) is yet another complexity for the user.  I'd also argue that
+>>>> adding these hashes can lead to a more secure VM boot process, so it
+>>>> makes sense for it to be the default (and maybe introduce a
+>>>> -allow-insecure-unmeasured-kernel-via-fw-cfg option to prevent the
+>>>> measurement from changing due to addition of hashes?).
+>>>>
+>>>> Maybe, on the other hand, OVMF should "report" whether it supports
+>>>> hashes verification. If it does, it should have the GUID in the table
+>>>> (near the reset vector), like the current OvmfPkg/AmdSev edk2 build. If
+>>>> it doesn't support that, then the entry should not appear at all, and
+>>>> then QEMU won't add the hashes (with patch 1 from this series).  This
+>>>> means that in edk2 we need to remove the SEV Hash Table block from the
+>>>> ResetVectorVtf0.asm for OvmfPkg, but include it in the AmdSev build.
+>>>>
+>>>
+>>> By leaving it ON is conveying a wrong message to the user. The
+>>> library used
+>>> for verifying the hash is a NULL library for all the builds of Ovmf
+>>> except
+>>> the AmdSev package. In the NULL library case, OVMF does not perform any
+>>> checks and hash table is useless. I will raise this on concern on
+>>> your Ovmf
+>>> patch series.
+>>>
+>>> IMHO, if you want to turn it ON by default then make sure all the OVMF
+>>> package builds supports validating the hash.
+>>>
+>>>
+>>>> But the problem with this approach is that it prevents the future
+>>>> unification of AmdSev and OvmfPkg, which is a possibility we discussed
+>>>> (at least with Dave Gilbert), though not sure it's a good/feasible
+>>>> goal.
+>>>>
+>>>>
+>>>
+>>> This is my exact concern, we are auto enabling the features in Qemu
+>>> that is
+>>> supported by AmdSev package only.
+>>
+>> I'm confused; wouldn't the trick be to only define the GUIDs for the
+>> builds that support the validation?
+>>
+> 
+> The GUID is hardcoded in the OVMF reset vector asm file, and the file
+> gets included for all the flavor of OVMF builds. In its current form,
+> GUID is defined for all the package.
+> 
 
-> While the corresponding QMP commands ought to be
->
->          x-query-virtio
->          x-query-virtio-status
->          x-query-virtio-queue-status
->          x-query-virtio-vhost-queue-status
->          x-query-virtio-queue-element
+(We can overcome that by changing to a new GUID and modifying the reset
+vector asm file to include the SEV hashes GUID only in the AmdSev build.
+Requires changes both in OVMF and in QEMU.)
 
-I agree with Dan (and I am the maintainer).
+But some people want to use a non-hash-validating OVMF build with
+-kernel (that's the "old OVMF" scenario that Tom presented).  In that case:
 
-The x- is not strictly required anymore (see commit a3c45b3e62 'qapi:
-New special feature flag "unstable"').  I lean towards keeping it here,
-because we don't plan to stabilize these commands.
+1. QEMU won't find the GUID, and will fail. This is breaking behaviour
+for existing users.
+2. If we just warn (as this patch suggested), then we don't enforce the
+secure behaviour that some users want.
+
+Following Daniel's suggestion, I think I'm going to send another round
+in which the whole kernel hashes addition will happen only if the user
+explicitly requested:
+
+  -object sev_guest,id=sev0,...,kernel_hashes=on
+
+With the default being 'off'.
+
+(and change the warn_report above to error_report so they are fatal.)
+
+This is basically keeping the new functionality for the release under a
+feature flag, so users that want to use it will enable it explicitly and
+all other users have the same behaviour as in previous releases.
+
+
+As Daniel mentioned, we can also consider an 'auto' mode in which we add
+the kernel hashes only if the GUID exists in OVMF, but I actually came
+to an understanding that this is too confusing in the state of OVMF
+builds right now.
+
+Users that use the tighter OVMF build (AmdSev) will get a boot failure
+from OVMF if they don't define kernel_hashes=on, so that won't be
+accidentally missed.
+
+
+
+-Dov
 
 
