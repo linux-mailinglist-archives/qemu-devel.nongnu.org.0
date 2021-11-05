@@ -2,54 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F6674460DD
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 09:48:02 +0100 (CET)
-Received: from localhost ([::1]:60372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 912E34460EE
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 09:52:38 +0100 (CET)
+Received: from localhost ([::1]:37260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miutF-0002W4-Gl
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 04:48:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51660)
+	id 1miuxh-0006Ab-6s
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 04:52:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasz.gieryk@linux.intel.com>)
- id 1miurz-0001hQ-HJ; Fri, 05 Nov 2021 04:46:43 -0400
-Received: from mga14.intel.com ([192.55.52.115]:4529)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1miuwA-0004e0-T7
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 04:51:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40814)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasz.gieryk@linux.intel.com>)
- id 1miurx-0006Ah-CM; Fri, 05 Nov 2021 04:46:43 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10158"; a="232114119"
-X-IronPort-AV: E=Sophos;i="5.87,210,1631602800"; d="scan'208";a="232114119"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2021 01:46:39 -0700
-X-IronPort-AV: E=Sophos;i="5.87,210,1631602800"; d="scan'208";a="501869419"
-Received: from lgieryk-mobl1.ger.corp.intel.com (HELO lgieryk-VirtualBox)
- ([10.252.39.232])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2021 01:46:36 -0700
-Date: Fri, 5 Nov 2021 09:46:28 +0100
-From: =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH 12/15] hw/nvme: Initialize capability structures for
- primary/secondary controllers
-Message-ID: <20211105084615.GA5164@lgieryk-VirtualBox>
-References: <20211007162406.1920374-1-lukasz.maniak@linux.intel.com>
- <20211007162406.1920374-13-lukasz.maniak@linux.intel.com>
- <YYJ7gy185o57adWJ@apples.localdomain>
- <20211104154843.GA4639@lgieryk-VirtualBox>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1miuw8-00073o-Ft
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 04:51:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636102258;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0b5P5HuW4dq9DXtlJUpZNTHFwW09Lgo3zve4gXSGD1U=;
+ b=ifqzwrYo9NZb8OY60B3z6U5cyZrCKmQvYXut6u0rVYntCMNOYZnpgjcaD9S1gqzjxdkDhx
+ /Lwj/4kwBKxZ7J4f26xTrbYIDMovidmp352h/sjeBHyvN5JkY5inRWmRwBlWjprCy/qhT/
+ j/pjO0r/mSsiqZZiNfz9TIG8b3Lb61o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-381-2fKpsIWBNzaefon7Mje4tA-1; Fri, 05 Nov 2021 04:50:55 -0400
+X-MC-Unique: 2fKpsIWBNzaefon7Mje4tA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AEB591927804;
+ Fri,  5 Nov 2021 08:50:53 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AE57E5F93B;
+ Fri,  5 Nov 2021 08:50:35 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2E5E311380A7; Fri,  5 Nov 2021 09:50:34 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Jonah Palmer <jonah.palmer@oracle.com>
+Subject: Re: [PATCH v8 0/8] hmp, qmp: Add commands to introspect virtio devices
+References: <1635334909-31614-1-git-send-email-jonah.palmer@oracle.com>
+Date: Fri, 05 Nov 2021 09:50:34 +0100
+In-Reply-To: <1635334909-31614-1-git-send-email-jonah.palmer@oracle.com>
+ (Jonah Palmer's message of "Wed, 27 Oct 2021 07:41:41 -0400")
+Message-ID: <877ddn56lh.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211104154843.GA4639@lgieryk-VirtualBox>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: none client-ip=192.55.52.115;
- envelope-from=lukasz.gieryk@linux.intel.com; helo=mga14.intel.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,108 +78,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Lukasz Maniak <lukasz.maniak@linux.intel.com>,
- qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: mst@redhat.com, qemu_oss@crudebyte.com, qemu-devel@nongnu.org,
+ kraxel@redhat.com, si-wei.liu@oracle.com, joao.m.martins@oracle.com,
+ eblake@redhat.com, qemu-block@nongnu.org, david@redhat.com,
+ arei.gonglei@huawei.com, marcandre.lureau@redhat.com, lvivier@redhat.com,
+ thuth@redhat.com, michael.roth@amd.com, groug@kaod.org, dgilbert@redhat.com,
+ eric.auger@redhat.com, stefanha@redhat.com, boris.ostrovsky@oracle.com,
+ kwolf@redhat.com, mathieu.poirier@linaro.org, raphael.norwitz@nutanix.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 04, 2021 at 04:48:43PM +0100, Łukasz Gieryk wrote:
-> On Wed, Nov 03, 2021 at 01:07:31PM +0100, Klaus Jensen wrote:
-> > On Oct  7 18:24, Lukasz Maniak wrote:
-> > > From: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
-> > > 
-> > > With two new properties (sriov_max_vi_per_vf, sriov_max_vq_per_vf) one
-> > > can configure the maximum number of virtual queues and interrupts
-> > > assignable to a single virtual device. The primary and secondary
-> > > controller capability structures are initialized accordingly.
-> > > 
-> > > Since the number of available queues (interrupts) now varies between
-> > > VF/PF, BAR size calculation is also adjusted.
-> > > 
-> > 
-> > While this patch allows configuring the VQFRSM and VIFRSM fields, it
-> > implicitly sets VQFRT and VIFRT (i.e. by setting them to the product of
-> > sriov_max_vi_pervf and max_vfs). Which is just setting it to an upper
-> > bound and this removes a testable case for host software (e.g.
-> > requesting more flexible resources than what is currently available).
-> > 
-> > This patch also requires that these parameters are set if sriov_max_vfs
-> > is. I think we can provide better defaults.
-> > 
-> 
-> Originally I considered more params, but ended up coding the simplest,
-> user-friendly solution, because I did not like the mess with so many
-> parameters, and the flexibility wasn't needed for my use cases. But I do
-> agree: others may need the flexibility. Case (FRT < max_vfs * FRSM) is
-> valid and resembles an actual device.
-> 
-> > How about,
-> > 
-> > 1. if only sriov_max_vfs is set, then all VFs get private resources
-> >    equal to max_ioqpairs. Like before this patch. This limits the number
-> >    of parameters required to get a basic setup going.
-> > 
-> > 2. if sriov_v{q,i}_private is set (I suggested this parameter in patch
-> >    10), the difference between that and max_ioqpairs become flexible
-> >    resources. Also, I'd be just fine with having sriov_v{q,i}_flexible
-> >    instead and just make the difference become private resources.
-> >    Potato/potato.
-> > 
-> >    a. in the absence of sriov_max_v{q,i}_per_vf, set them to the number
-> >       of calculated flexible resources.
-> > 
-> > This probably smells a bit like bikeshedding, but I think this gives
-> > more flexibility and better defaults, which helps with verifying host
-> > software.
-> > 
-> > If we can't agree on this now, I suggest we could go ahead and merge the
-> > base functionality (i.e. private resources only) and ruminate some more
-> > about these parameters.
-> 
-> The problem is that the spec allows VFs to support either only private,
-> or only flexible resources.
-> 
-> At this point I have to admit, that since my use cases for
-> QEMU/Nvme/SRIOV require flexible resources, I haven’t paid much
-> attention to the case with VFs having private resources. So this SR/IOV
-> implementation doesn’t even support such case (max_vX_per_vf != 0).
-> 
-> Let me summarize the possible config space, and how the current
-> parameters (could) map to these (interrupt-related ones omitted):
-> 
-> Flexible resources not supported (not implemented):
->  - Private resources for PF     = max_ioqpairs
->  - Private resources per VF     = ?
->  - (error if flexible resources are configured)
-> 
-> With flexible resources:
->  - VQPRT, private resources for PF      = max_ioqpairs
->  - VQFRT, total flexible resources      = max_vq_per_vf * num_vfs
->  - VQFRSM, maximum assignable per VF    = max_vq_per_vf
->  - VQGRAN, granularity                  = #define constant
->  - (error if private resources per VF are configured)
-> 
-> Since I don’t want to misunderstand your suggestion: could you provide a
-> similar map with your parameters, formulas, and explain how to determine
-> if flexible resources are active? I want to be sure we are on the
-> same page.
-> 
+This series increases total size (text + data + bss) by 134KiB for me.
+QAPI clearly was not designed for space efficiency.  Still, it's a drop
+in the bucket.
 
-I’ve just re-read through my email and decided that some bits need
-clarification.
-
-This implementation supports the “Flexible”-resources-only flavor of
-SR/IOV, while the “Private” also could be supported. Some effort is
-required to support both, and I cannot afford that (at least I cannot
-commit today, neither the other Lukasz).
-
-While I’m ready to rework the Flexible config and prepare it to be
-extended later to handle the Private variant, the 2nd version of these
-patches will still support the Flexible flavor only.
-
-I will include appropriate TODO/open in the next cover letter.
+If debugging commands ever become a burden for certain use cases, we can
+think about making them compile-time optional.
 
 
