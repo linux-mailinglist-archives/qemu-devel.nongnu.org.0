@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 330E0445E8D
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 04:23:03 +0100 (CET)
-Received: from localhost ([::1]:55672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE191445EF9
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 05:02:44 +0100 (CET)
+Received: from localhost ([::1]:39754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mipoj-00071E-Kc
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 23:23:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53106)
+	id 1miqR9-0006TN-QM
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 00:02:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1miplY-00047Z-Tm
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 23:19:44 -0400
-Received: from out28-169.mail.aliyun.com ([115.124.28.169]:57936)
+ id 1mipm6-0004gz-NO
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 23:20:18 -0400
+Received: from out28-125.mail.aliyun.com ([115.124.28.125]:59701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1miplV-0003zC-Gn
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 23:19:44 -0400
+ id 1mipm1-0004B0-Qn
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 23:20:17 -0400
 X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07760695|-1; CH=green;
  DM=|CONTINUE|false|;
  DS=CONTINUE|ham_system_inform|0.000804269-0.000131237-0.999065;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047201; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=2; RT=2; SR=0; TI=SMTPD_---.LnnfNlI_1636082370; 
+ FP=3473802044894209499|1|1|1|0|-1|-1|-1; HT=ay29a033018047187;
+ MF=zhiwei_liu@c-sky.com; NM=1; PH=DS; RN=2; RT=2; SR=0;
+ TI=SMTPD_---.Lno-fo7_1636082407; 
 Received: from localhost.localdomain(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.LnnfNlI_1636082370)
- by smtp.aliyun-inc.com(10.147.40.26); Fri, 05 Nov 2021 11:19:31 +0800
+ fp:SMTPD_---.Lno-fo7_1636082407)
+ by smtp.aliyun-inc.com(10.147.41.138);
+ Fri, 05 Nov 2021 11:20:07 +0800
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 To: qemu-devel@nongnu.org
 Subject: [PATCH] configure: Support modules for Windows
-Date: Fri,  5 Nov 2021 11:19:25 +0800
-Message-Id: <20211105031925.83740-1-zhiwei_liu@c-sky.com>
+Date: Fri,  5 Nov 2021 11:20:02 +0800
+Message-Id: <20211105032002.83792-1-zhiwei_liu@c-sky.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=115.124.28.169; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-169.mail.aliyun.com
+Received-SPF: none client-ip=115.124.28.125; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-125.mail.aliyun.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
