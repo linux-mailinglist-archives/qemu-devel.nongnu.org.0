@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9044544689B
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 19:45:45 +0100 (CET)
-Received: from localhost ([::1]:35492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C37C4468A7
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 19:53:03 +0100 (CET)
+Received: from localhost ([::1]:44304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mj4Dg-0006bq-Fw
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 14:45:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39216)
+	id 1mj4Kj-0004Lx-S8
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 14:53:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mj4BJ-0004Pf-3F
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 14:43:17 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37454)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mj4H5-0002RL-Pe
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 14:49:15 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:53022)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mj4BG-0007al-H9
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 14:43:16 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- y84-20020a1c7d57000000b00330cb84834fso10197171wmc.2
- for <qemu-devel@nongnu.org>; Fri, 05 Nov 2021 11:43:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=QYcsYUdt9G0LZ+PSobWmWNul0KFwu4tgX+rb9Y0faaM=;
- b=SkVs79aoqm8WIjuRCFk+wu9K8L0nupfjF77of5DUN+9YwOUA1WiZLsp2oCkWo4lUw1
- Mi3JjzKVh1IpmUF2Mfl5zh2Ry4YCGasVHYifnq5xBqGKlH0i2WTszKRL26OWY0ghaAXJ
- bP+Tm//TKIX/JhC1txBKI8LLfiDl6qPe2Z4kcyYB0L1p5L13kVwARS38OGNN/LNH9YPE
- gduwk5oUY5ypIRdT18DVf1rkyX/qaaMMVXJg8caPFyYuIEUH22m7xIGDj8sO2WOp8zZH
- mkf3EhdYhJqwaAXEf9WQWP+NprLa2SYIv16Mko1R+jrMAAMNN0zO42yRVpPufr5Ywly7
- 8CrQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mj4H3-0002zf-Sg
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 14:49:15 -0400
+Received: by mail-wm1-x332.google.com with SMTP id o29so4012674wms.2
+ for <qemu-devel@nongnu.org>; Fri, 05 Nov 2021 11:49:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=o3qcP0EQjGmpWTvVejj13btwWT7VxM1ngPtXi/IefGo=;
+ b=SNlrXH5qmFf45mAsA6TbMuVT7ewGGX1t5OypXAOi9F60brURbz7rGs1zPByI7uAN+v
+ 5Zt2zDa7AtxFsQ7u3bTM99P6CO919IdYV9C1J9uOcbbbgdFYHDkqfl5ww6i6NNKMMR5u
+ d2qOEYKB8OVKXOgBhCQDP9UgjL9Ffcm5cMqBSJJmIZpc6A/Gx4E4ESLSgEdb4EI31aMP
+ 5a6V4LDxUV3s+vti5O7P1Msl1MTcpGFCRm6b/3CiY92znrf29NloiN2w33dFw1AwbWV7
+ 3GH73XvTjMJYC0YU1madOLJXQUdhY5v7K34WR1jGi9EFe0KFCSvYv4AIsGVhtNBJ//0u
+ AnPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=QYcsYUdt9G0LZ+PSobWmWNul0KFwu4tgX+rb9Y0faaM=;
- b=qIKuFrn1V87uPmeaBf1GGz6tqMGPc3F1Od3R9PpgzcETY3pi5/zhYYBHE1YN8eFapO
- FJzpqAJeKLD5LhuhBUXGTSVXXxTRs4kQTZdyxjXOBL/EFCUTw/R5GAosC8iu0a9jQ+gG
- lpbFpjU4Ag/kdHpKXkG2lEZCf9QznwXfhMcZhPSp4+FaJu0VpiYzgZUgzjAMlaXMqw+8
- IXv88s5FysGwpETjmIhSPBW0J1WI5HERX0rQ94HyM/w+HpymNQp8ImspTDh7p9QuLHhc
- xqZTA6QQdW56FhPAyy4N5vM5mLbtExA8ILX87rSq+hKy7kCvuY3CTNebO6gPWS9h0zmJ
- f7NQ==
-X-Gm-Message-State: AOAM532/fZU0zgG4g7fk4sYPeNo36tZDeFH7mbaHMNNiywPr6rqXmVHP
- LL6AnoRFciSvuglEE/+gXrJnDki5MrG2FDddaqG1bthAMZE=
-X-Google-Smtp-Source: ABdhPJxfy6MhiBCluRZjNPyAzLnn146sSS0u70nUDrtmW1SFYXeRjDVqjeeuxrqr4sSQhYQbWU8cBubWIQ0LLGKucZs=
-X-Received: by 2002:a1c:a344:: with SMTP id m65mr31679197wme.32.1636137792864; 
- Fri, 05 Nov 2021 11:43:12 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=o3qcP0EQjGmpWTvVejj13btwWT7VxM1ngPtXi/IefGo=;
+ b=4NkVY3AYbeOWtg8Qiv4EPHkrM7lBnPrJFh0+ApvDORf0IaITCD+RbqhBgF4PyVtpjV
+ db++fyjAT4Vja6eCU1u7NEYweC9pUryvYW0VucZbMFbhZRRz5s0pRstWLyLDGxHh0WTw
+ pi0ioHqn4PaiNeG2cD8IUI2m9WukOaeajTgU9oPWrEwYUqSOjbknG9TRCe/IWrIYHUmC
+ xFG88Y0sf8zV3bAbInG25gOPKWypfs9txcP1+zxe6cJfzWofQN4I3+i3BG/Y2ZeDfCSW
+ nSk1wD2L8wSrAVZNst0sChm398phJALLVl+bZw2jBUV2tNMpxbQ7dpCJLh5yJQeXEqpr
+ Jncw==
+X-Gm-Message-State: AOAM532iJ676H7XzfaBZVVnZgWTTCUqSIpICDfUReUun2CDPuN8P7cdK
+ u3Wc+26xSepKbQYpwb6V43U=
+X-Google-Smtp-Source: ABdhPJwnT30L2wSwiQTg+8y/NAOg2+Xg5aC/2YtmZmX5X4L3kkq63bOniTfgpRLoty1U46m3WN4Ihw==
+X-Received: by 2002:a05:600c:1989:: with SMTP id
+ t9mr4878333wmq.24.1636138149314; 
+ Fri, 05 Nov 2021 11:49:09 -0700 (PDT)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id q4sm8741510wrs.56.2021.11.05.11.49.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Nov 2021 11:49:08 -0700 (PDT)
+Message-ID: <1b641554-f983-a86f-3512-c109779f6d73@amsat.org>
+Date: Fri, 5 Nov 2021 19:49:07 +0100
 MIME-Version: 1.0
-References: <20211105165254.3544369-1-laurent@vivier.eu>
- <CAFEAcA_ma2f6UfMSSJwssVjdZHQzO2LQfK2KROfv11Mec0WWsg@mail.gmail.com>
- <3f1bcc4e-2b53-8f54-e927-d52aef76a9c6@vivier.eu>
-In-Reply-To: <3f1bcc4e-2b53-8f54-e927-d52aef76a9c6@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 Nov 2021 18:43:01 +0000
-Message-ID: <CAFEAcA-Yz0ww_1C22X-DmCsN7t=1URrt4p6SL2UHHMhRPomDkQ@mail.gmail.com>
-Subject: Re: [PATCH] macfb: fix a memory leak (CID 1465231)
-To: Laurent Vivier <Laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PULL 0/6] Egl 20211105 patches
+Content-Language: en-US
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: Gerd Hoffmann <kraxel@redhat.com>, Dongwon Kim <dongwon.kim@intel.com>
+References: <20211105113043.4059361-1-kraxel@redhat.com>
+ <9221f39f-32ca-094b-c526-82fdbf99a588@linaro.org>
+ <c97aefa2-4686-b339-4d07-f801ac6e5de1@amsat.org>
+In-Reply-To: <c97aefa2-4686-b339-4d07-f801ac6e5de1@amsat.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.093,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -81,68 +92,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Nov 2021 at 18:32, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> Le 05/11/2021 =C3=A0 18:01, Peter Maydell a =C3=A9crit :
-> > On Fri, 5 Nov 2021 at 16:52, Laurent Vivier <laurent@vivier.eu> wrote:
-> >>
-> >> Rewrite the function using g_string_append_printf() rather than
-> >> g_strdup_printf()/g_strconcat().
-> >>
-> >> Fixes: df8abbbadf74 ("macfb: add common monitor modes supported by the=
- MacOS toolbox ROM")
-> >> Cc: mark.cave-ayland@ilande.co.uk
-> >> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> >> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> >> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-> >> ---
-> >>   hw/display/macfb.c | 11 ++++-------
-> >>   1 file changed, 4 insertions(+), 7 deletions(-)
-> >>
-> >> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-> >> index 4b352eb89c3f..277d3e663331 100644
-> >> --- a/hw/display/macfb.c
-> >> +++ b/hw/display/macfb.c
-> >> @@ -440,21 +440,18 @@ static MacFbMode *macfb_find_mode(MacfbDisplayTy=
-pe display_type,
-> >>
-> >>   static gchar *macfb_mode_list(void)
-> >>   {
-> >> -    gchar *list =3D NULL;
-> >> -    gchar *mode;
-> >> +    GString *list =3D g_string_new("");
-> >>       MacFbMode *macfb_mode;
-> >>       int i;
-> >>
-> >>       for (i =3D 0; i < ARRAY_SIZE(macfb_mode_table); i++) {
-> >>           macfb_mode =3D &macfb_mode_table[i];
-> >>
-> >> -        mode =3D g_strdup_printf("    %dx%dx%d\n", macfb_mode->width,
-> >> +        g_string_append_printf(list, "    %dx%dx%d\n", macfb_mode->wi=
-dth,
-> >>                                  macfb_mode->height, macfb_mode->depth=
-);
-> >> -        list =3D g_strconcat(mode, list, NULL);
-> >> -        g_free(mode);
-> >>       }
-> >>
-> >> -    return list;
-> >> +    return g_string_free(list, FALSE);
-> >
-> > This reverses the order compared to the old code (which prepends
-> > 'mode' to the 'list' string it is building up). Does that matter ?
-> >
->
-> Not at all. Perhaps it's even better like that as we have lower resolutio=
-ns first.
+On 11/5/21 19:26, Philippe Mathieu-Daudé wrote:
+> On 11/5/21 18:13, Richard Henderson wrote:
+>> On 11/5/21 7:30 AM, Gerd Hoffmann wrote:
+>>> The following changes since commit
+>>> b1fd92137e4d485adeec8e9f292f928ff335b76c:
+>>>
+>>>    Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream'
+>>> into staging (2021-11-03 13:07:30 -0400)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>    git://git.kraxel.org/qemu tags/egl-20211105-pull-request
+>>>
+>>> for you to fetch changes up to 1350ff156b25be65c599ecca9957ce6726c6d383:
+>>>
+>>>    ui/gtk-egl: blitting partial guest fb to the proper scanout surface
+>>> (2021-11-05 12:29:44 +0100)
+>>>
+>>> ----------------------------------------------------------------
+>>> gtk: a collection of egl fixes.
+>>>
+>>> ----------------------------------------------------------------
+>>>
+>>> Dongwon Kim (6):
+>>>    virtio-gpu: splitting one extended mode guest fb into n-scanouts
+>>>    ui/gtk-egl: un-tab and re-tab should destroy egl surface and context
+>>>    ui/gtk-egl: make sure the right context is set as the current
+>>>    ui/gtk-egl: guest fb texture needs to be regenerated when
+>>>      reinitializing egl
+>>>    ui/gtk: gd_draw_event returns FALSE when no cairo surface is bound
+>>>    ui/gtk-egl: blitting partial guest fb to the proper scanout surface
+>>>
+>>>   include/hw/virtio/virtio-gpu.h        |  5 +++--
+>>>   include/ui/console.h                  |  4 ++++
+>>>   hw/display/virtio-gpu-udmabuf-stubs.c |  3 ++-
+>>>   hw/display/virtio-gpu-udmabuf.c       | 22 ++++++++++++++--------
+>>>   hw/display/virtio-gpu.c               |  4 ++--
+>>>   ui/egl-helpers.c                      | 25 +++++++++++++++++++++----
+>>>   ui/gtk-egl.c                          | 10 ++++++++++
+>>>   ui/gtk.c                              | 23 +++++++++++++++++++++++
+>>>   8 files changed, 79 insertions(+), 17 deletions(-)
+>>
+>> Applied, thanks.
+> 
+> Ubuntu 18.04.4 LTS:
+> 
+> ui/gtk-egl.c:159:13: error: implicit declaration of function
+> 'egl_dmabuf_release_texture' is invalid in C99
+> [-Werror,-Wimplicit-function-declaration]
+>             egl_dmabuf_release_texture(vc->gfx.guest_fb.dmabuf);
+>             ^
+> ui/gtk-egl.c:159:13: error: this function declaration is not a prototype
+> [-Werror,-Wstrict-prototypes]
+> 2 errors generated.
+> 
+> https://app.travis-ci.com/gitlab/qemu-project/qemu/builds/241272737
+> 
 
-In that case,
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+This seems to fix but I have no clue whether it is correct:
 
-thanks
--- PMM
+-- >8 --
+diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
+index f2026e4b5c9..45cb67712df 100644
+--- a/ui/gtk-egl.c
++++ b/ui/gtk-egl.c
+@@ -156,8 +156,10 @@ void gd_egl_refresh(DisplayChangeListener *dcl)
+             surface_gl_create_texture(vc->gfx.gls, vc->gfx.ds);
+         }
++#ifdef CONFIG_GBM
+         if (vc->gfx.guest_fb.dmabuf) {
+             egl_dmabuf_release_texture(vc->gfx.guest_fb.dmabuf);
+             gd_egl_scanout_dmabuf(dcl, vc->gfx.guest_fb.dmabuf);
+         }
++#endif
+     }
+
+---
 
