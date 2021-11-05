@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE4F4445EC3
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 04:37:05 +0100 (CET)
-Received: from localhost ([::1]:60558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A83F445ED4
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 04:45:05 +0100 (CET)
+Received: from localhost ([::1]:54782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miq2K-0003yU-TD
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 23:37:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53866)
+	id 1miqA4-0002gd-4J
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 23:45:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mipm0-0004VL-LJ
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mipm0-0004VK-H1
  for qemu-devel@nongnu.org; Thu, 04 Nov 2021 23:20:13 -0400
-Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:35753)
+Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134]:35567)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1miplx-0004An-9K
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1miply-0004B9-3f
  for qemu-devel@nongnu.org; Thu, 04 Nov 2021 23:20:12 -0400
-Received: by mail-io1-xd2a.google.com with SMTP id c206so7788581iof.2
- for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 20:20:08 -0700 (PDT)
+Received: by mail-il1-x134.google.com with SMTP id w15so8272493ill.2
+ for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 20:20:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rKLMBYjEYlw1VjEHepSl0BqgSbBEPtGPWDcDEzPgUqg=;
- b=fyq52+1H7qnvQoDjJrPOm/QQp1mut1XErFX58Q9qnLnEZ4VXfWuiqKVNvlgI+kptM1
- Cfy0Gj/Uo2OS2mn0M9/g/oWt7GFFRfYyS310V9BIjcsdaYIE/8BaCcdAhft1Vnvwl5Qj
- n1/z5eIgi2Du/KuWWtqtLKjz7jxUHPWTxaAnZPjYG6QQm9qfxh5RRnkYvj6kQVIMC3g+
- JysL0DQ2uyS0Cui2MrJ+S/MLWaCU45Lqa0CyEcRFZ2/PQcOCnAY1Frb7IXVoiNXlqyKZ
- xhpDYO+jwruo3+JfsGaRbX77BBD5jjp587R82D/mHpcMc7he5KmoRGnpQ+cVVOyNNsAV
- HmFw==
+ bh=1ztRBQYqWrUwRLf6NQ4W8izvboRcDbY0eKrhIvHHz3I=;
+ b=jv0dLjV4mrXUY3snyiQ6c51BEj97lhaQkMRHPwt5k7otCAN+GpVbKFtyHbXikURwa7
+ rgV5xgjl0vSE17euTf4i7SrE5RuIugPGBca6SBnznD2Ep/8lsEsNrpse60IjZ319Dm9z
+ dz+n1PHGv4EY3EopGMUQXuLuts8ukU/PTlNJKT00v40U4NNR69V+0HpZVCSU9EbRwWdD
+ i/+tbNoIgu0ZgU5gTOIrQL7/X9W5T8tYdutldwMjEqRpc4ANnv/o+taHI8vgiDJQD2qg
+ PxyJbGPn3Kz9P8tED+CPDst8h9MUN7bbwcPD4Ea4N/wa+kvX7KzRZ1e/8+SH/56isWlt
+ cptQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rKLMBYjEYlw1VjEHepSl0BqgSbBEPtGPWDcDEzPgUqg=;
- b=moYNcPbBfcZidYxgRhsKOkdk7syE8QbWixXLB+3ZM1v96PSOQvBxy1nAvswPYXrxky
- 1ACQnoAnjIGjzK2IwmhK5TtgLq9q3w2UWqdwjdjkOGzcPywezJ8+87H9UXWAY8n5xYrB
- cVc+Qr1pYqNN3R1xjSMsTGgz/L8mq41LqDwau6sxixNVV+2ZfFId4BeRUXEI7EzCe6wB
- Q0yeQ/I5HhZoXB9hCDw5bHXVPDLQDG4u5jhmp9FhGSXHX0UMIYcOCczIiwVeoCtQQ4uT
- P66cra/xf3k0ufL9ynOp4dGLbeMZwAmZXxZqDAdtoVxTA5AQrOOA8ON7XNeAxkMqe1Yq
- e9gQ==
-X-Gm-Message-State: AOAM531DKDf/MigR72UgWDypd+Jm0R9iGqQZJwHMAA1+70VfoZfwjRsE
- yJY1hr+4RXLytcQa6LlpWD2YAPhiHCjq6w==
-X-Google-Smtp-Source: ABdhPJzk+D4b1B7miKa6SSKPZqy971p97GfKWh5yptfPDoXHd0QDPOgyljctneo8X8+a1smh0f+b4w==
-X-Received: by 2002:a05:6638:164a:: with SMTP id
- a10mr7011222jat.1.1636082407765; 
- Thu, 04 Nov 2021 20:20:07 -0700 (PDT)
+ bh=1ztRBQYqWrUwRLf6NQ4W8izvboRcDbY0eKrhIvHHz3I=;
+ b=u4YUq/5f2a1K/vrUO6+KRczxThs6Rqmp8CK8wczJozaq/HlN2fYOMUtzBqtGe2Q5yN
+ Vg9XIZrpJHA20UnPYAsMWaPVBjMeYttWaINoQ88Q/CpqFE3Ws6Oeqne7asBZwFC4K/yN
+ nzdPhMaLT+tew7X1cGzpyYE187rO0iDi7YLOyBRwugpp2z96U60b6B7XH3bKy9gpotYP
+ JonkQ63mHczyXAWQZSucFq8gYVsufGOyCPtLH5RFZkW/SlnVLtyjoP3BoVUJcTSaZL4l
+ Q38vi3xYNvG/laRa731Kgz3jCn9noG/MkvocWez7h4cyRYgWfS6CsOo3fEy/2Wyo23Mx
+ 20KQ==
+X-Gm-Message-State: AOAM533j5aZm1KrasAnfSg6QJEqmP9LJXF/EDk1/zeYcrEzlaVMNgdYZ
+ Wtf7fquRqHxB+I1t1LvynnxG3FIF5V4xlg==
+X-Google-Smtp-Source: ABdhPJxQKqlXIZYFNc73EhrO2XRmXvaNTXGZacHM5nhF33rM9hn0hDbkSfRJXtXMiWWMlOh0VXUzOg==
+X-Received: by 2002:a92:d48f:: with SMTP id p15mr36433785ilg.236.1636082408953; 
+ Thu, 04 Nov 2021 20:20:08 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id v4sm3508528ilq.57.2021.11.04.20.20.06
+ by smtp.gmail.com with ESMTPSA id v4sm3508528ilq.57.2021.11.04.20.20.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Nov 2021 20:20:07 -0700 (PDT)
+ Thu, 04 Nov 2021 20:20:08 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 21/36] bsd-user/arm/target_arch_reg.h: Implement core dump
- register copying
-Date: Thu,  4 Nov 2021 21:19:02 -0600
-Message-Id: <20211105031917.87837-22-imp@bsdimp.com>
+Subject: [PATCH v4 22/36] bsd-user/arm/target_arch_vmparam.h: Parameters for
+ arm address space
+Date: Thu,  4 Nov 2021 21:19:03 -0600
+Message-Id: <20211105031917.87837-23-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211105031917.87837-1-imp@bsdimp.com>
 References: <20211105031917.87837-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2a;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2a.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::134;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x134.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,28 +90,30 @@ Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the register copying routines to extract registers from the
-cpu for core dump generation.
+Various parameters describing the layout of the ARM address space. In
+addition, define routines to get the stack pointer and to set the second
+return value.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
+Signed-off-by: Kyle Evans <kevans@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/arm/target_arch_reg.h | 60 ++++++++++++++++++++++++++++++++++
- 1 file changed, 60 insertions(+)
- create mode 100644 bsd-user/arm/target_arch_reg.h
+ bsd-user/arm/target_arch_vmparam.h | 48 ++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
+ create mode 100644 bsd-user/arm/target_arch_vmparam.h
 
-diff --git a/bsd-user/arm/target_arch_reg.h b/bsd-user/arm/target_arch_reg.h
+diff --git a/bsd-user/arm/target_arch_vmparam.h b/bsd-user/arm/target_arch_vmparam.h
 new file mode 100644
-index 0000000000..ef5ed5154f
+index 0000000000..4bbc04ddf5
 --- /dev/null
-+++ b/bsd-user/arm/target_arch_reg.h
-@@ -0,0 +1,60 @@
++++ b/bsd-user/arm/target_arch_vmparam.h
+@@ -0,0 +1,48 @@
 +/*
-+ *  FreeBSD arm register structures
++ *  arm VM parameters definitions
 + *
-+ *  Copyright (c) 2015 Stacey Son
++ *  Copyright (c) 2013 Stacey D. Son
 + *
 + *  This program is free software; you can redistribute it and/or modify
 + *  it under the terms of the GNU General Public License as published by
@@ -127,48 +128,36 @@ index 0000000000..ef5ed5154f
 + *  You should have received a copy of the GNU General Public License
 + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
++#ifndef _TARGET_ARCH_VMPARAM_H_
++#define _TARGET_ARCH_VMPARAM_H_
 +
-+#ifndef _TARGET_ARCH_REG_H_
-+#define _TARGET_ARCH_REG_H_
++#include "cpu.h"
 +
-+/* See sys/arm/include/reg.h */
-+typedef struct target_reg {
-+    uint32_t        r[13];
-+    uint32_t        r_sp;
-+    uint32_t        r_lr;
-+    uint32_t        r_pc;
-+    uint32_t        r_cpsr;
-+} target_reg_t;
++/* compare to sys/arm/include/vmparam.h */
++#define TARGET_MAXTSIZ      (64 * MiB)           /* max text size */
++#define TARGET_DFLDSIZ      (128 * MiB)          /* initial data size limit */
++#define TARGET_MAXDSIZ      (512 * MiB)          /* max data size */
++#define TARGET_DFLSSIZ      (4 * MiB)            /* initial stack size limit */
++#define TARGET_MAXSSIZ      (64 * MiB)           /* max stack size */
++#define TARGET_SGROWSIZ     (128 * KiB)          /* amount to grow stack */
 +
-+typedef struct target_fp_reg {
-+    uint32_t        fp_exponent;
-+    uint32_t        fp_mantissa_hi;
-+    u_int32_t       fp_mantissa_lo;
-+} target_fp_reg_t;
++#define TARGET_RESERVED_VA  0xf7000000
 +
-+typedef struct target_fpreg {
-+    uint32_t        fpr_fpsr;
-+    target_fp_reg_t fpr[8];
-+} target_fpreg_t;
++                /* KERNBASE - 512 MB */
++#define TARGET_VM_MAXUSER_ADDRESS   (0xc0000000 - (512 * MiB))
++#define TARGET_USRSTACK             TARGET_VM_MAXUSER_ADDRESS
 +
-+#define tswapreg(ptr)   tswapal(ptr)
-+
-+static inline void target_copy_regs(target_reg_t *regs, const CPUARMState *env)
++static inline abi_ulong get_sp_from_cpustate(CPUARMState *state)
 +{
-+    int i;
-+
-+    for (i = 0; i < 13; i++) {
-+        regs->r[i] = tswapreg(env->regs[i + 1]);
-+    }
-+    regs->r_sp = tswapreg(env->regs[13]);
-+    regs->r_lr = tswapreg(env->regs[14]);
-+    regs->r_pc = tswapreg(env->regs[15]);
-+    regs->r_cpsr = tswapreg(cpsr_read((CPUARMState *)env));
++    return state->regs[13]; /* sp */
 +}
 +
-+#undef tswapreg
++static inline void set_second_rval(CPUARMState *state, abi_ulong retval2)
++{
++    state->regs[1] = retval2;
++}
 +
-+#endif /* !_TARGET_ARCH_REG_H_ */
++#endif  /* ! _TARGET_ARCH_VMPARAM_H_ */
 -- 
 2.33.0
 
