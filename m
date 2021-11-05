@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB074463A1
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 13:49:13 +0100 (CET)
-Received: from localhost ([::1]:50238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C7204463A3
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 13:49:50 +0100 (CET)
+Received: from localhost ([::1]:51750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miyee-0008Nz-3e
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 08:49:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34838)
+	id 1miyfF-0000zU-Lx
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 08:49:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miycx-00072X-5Y
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 08:47:27 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:43618)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1miycr-0002XP-DC
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 08:47:26 -0400
-Received: by mail-ed1-x531.google.com with SMTP id w1so32930481edd.10
- for <qemu-devel@nongnu.org>; Fri, 05 Nov 2021 05:47:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bDq026sgoiPHheA66RiSd07V4v5/986TRG7J3zfRGIo=;
- b=pmopP7/MPLcpTaVRFvynFLgVnrh9Qk7oYDpEp7/PHSXNk99Q2vPQAJybZ7gGWZrKYR
- Ufxp4Dh8VltY0llYMeGVY3bR5qwR297bF5qsRnOnKyXqYxmbpIRhdKg09TcomgXSUude
- 1I2IE7iPqBmCrgBkCe4GEIfbP/v80+pd0CW39rOjyg0y4gzvohnbYyQz2Dhxq4zr9u1+
- 557iofCyqi3bypq37D+PvaJiA8SeSInX8CRDK7KhL6WrxGiFZZ8ugLeXP4JFNPiabhpB
- Q87+bj5NFIN7y71R5qi6PUpqV5/Plu9EagfaErjtOfRgPmik1VZf8XG/RyFlrpDT0zsw
- svaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=bDq026sgoiPHheA66RiSd07V4v5/986TRG7J3zfRGIo=;
- b=Om6MhKCBkDOqJse//3lE2ohblDBeqVbNYG7DDOEYOFMC5Uo7pMRzF4+usI2fPYzqLQ
- 4mS9O83Y58UXSi9XUJzFaiSCymDEjc3a/0GOn8AD+n2KrnthQv9+P9yWjz3dwtLxik/i
- lT0u4gnD77qFpSo1TPVMhI5+52bT0lS1JBNLVNn3trhtZu4aOYVwDHtM4n4zSKWN5bOL
- omtDKxR2ivRMilaAPaVYuce4mlE7Id3gy9pncWYAhNI+qeAwLaX/oP87dWPO/ymFUzTe
- ICgB8w2zPXoOAPB0m7GhrwHnIZHqcGw4UCBYkMM3ZhfEaOZMLIhZdROn+W82DcyNqTTe
- 835A==
-X-Gm-Message-State: AOAM532WLYwjeAHXdp/W8g6ppKept4jPsQVK9Da+07lkvPgsJT+wPYVT
- jlqe5P9e3Eo/Cle6tq6ZGb5zYfZtuFk=
-X-Google-Smtp-Source: ABdhPJxBNPDooVNdfSdTSz1zCczuerqV8OYWWUuaPC4nzOHjuyMGDPknRSxoJxhhVGmZ463JwNpb7Q==
-X-Received: by 2002:a17:906:730f:: with SMTP id
- di15mr50097619ejc.22.1636116438720; 
- Fri, 05 Nov 2021 05:47:18 -0700 (PDT)
-Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id w3sm4499740edj.63.2021.11.05.05.47.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Nov 2021 05:47:18 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] docs: adjust for demise of scripts/create_config
-Date: Fri,  5 Nov 2021 13:46:56 +0100
-Message-Id: <20211105124656.512471-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.33.1
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1miydN-0007Tx-0c
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 08:47:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37662)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1miydJ-0002ZF-0M
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 08:47:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636116467;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UoSM/62d82M77mRNIO4+H6iltV2oGoSzDR/YF/qDEKM=;
+ b=dozrKP7qUoFNJwr8ClBAI+goWmKg5wuRD22DC79/IStppwb6+vfZ5MxjjsDNQIy4mPjmGe
+ c2XGykbDWr33qgPz0agHVdI1ELaOYqL4xqm42aJXjEeKKuxJx3lJIoz2OeBY2r8hedAprM
+ P6DZ/sstwkibTsMZ4O0qtvGylwuUVOw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-532-Pe4h1IQINVK3hDhcEDbj7Q-1; Fri, 05 Nov 2021 08:47:46 -0400
+X-MC-Unique: Pe4h1IQINVK3hDhcEDbj7Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FEBD879500;
+ Fri,  5 Nov 2021 12:47:45 +0000 (UTC)
+Received: from [10.64.54.99] (vpn2-54-99.bne.redhat.com [10.64.54.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 54E3A5F4ED;
+ Fri,  5 Nov 2021 12:47:41 +0000 (UTC)
+Subject: Re: [PATCH v2] hw/arm/virt: Expose empty NUMA nodes through ACPI
+To: Andrew Jones <drjones@redhat.com>
+References: <20211027052958.280741-1-gshan@redhat.com>
+ <20211027174028.1f16fcfb@redhat.com>
+ <fecb9351-ae78-8fcd-e377-623243ef80df@redhat.com>
+ <20211101094431.71e1a50a@redhat.com>
+ <47dc3a95-ed77-6c0e-d024-27cb22c338eb@redhat.com>
+ <20211102073948.am3p3hcqqd3cfvru@gator.home>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <b8ed4687-e30a-d70f-0816-bd8ba490ceb7@redhat.com>
+Date: Fri, 5 Nov 2021 23:47:37 +1100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20211102073948.am3p3hcqqd3cfvru@gator.home>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.093, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,42 +85,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>
+Reply-To: Gavin Shan <gshan@redhat.com>
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, shan.gavin@gmail.com,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The config-host.h, $TARGET-NAME/config-target.h, $TARGET-NAME/config-devices.h files
-are now generated by configure_file() rather than scripts/create_config.  Adjust
-the relevant paragraph in docs/devel/build-system.rst, and take the occasion to
-fix a preexisting confusion of *.h vs *.mak.
+Hi Drew and Igor,
 
-Reported-by: Markus Armbruster <armbru@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- docs/devel/build-system.rst | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+On 11/2/21 6:39 PM, Andrew Jones wrote:
+> On Tue, Nov 02, 2021 at 10:44:08AM +1100, Gavin Shan wrote:
+>>
+>> Yeah, I agree. I don't have strong sense to expose these empty nodes
+>> for now. Please ignore the patch.
+>>
+> 
+> So were describing empty numa nodes on the command line ever a reasonable
+> thing to do? What happens on x86 machine types when describing empty numa
+> nodes? I'm starting to think that the solution all along was just to
+> error out when a numa node has memory size = 0...
+> 
 
-diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
-index 08f49c845d..1a82ce0b9a 100644
---- a/docs/devel/build-system.rst
-+++ b/docs/devel/build-system.rst
-@@ -463,11 +463,10 @@ Built by Meson:
-   scripts/make_device_config.sh program, feeding it the
-   default-configs/$TARGET-NAME file as input.
- 
--``config-host.h``, ``$TARGET-NAME/config-target.h``, ``$TARGET-NAME/config-devices.h``
--  These files are used by source code to determine what features
--  are enabled.  They are generated from the contents of the corresponding
--  ``*.h`` files using the scripts/create_config program. This extracts
--  relevant variables and formats them as C preprocessor macros.
-+``config-host.h``, ``$TARGET_NAME-config-target.h``, ``$TARGET_NAME-config-devices.h``
-+  These files are used by source code to determine what features are
-+  enabled.  They are generated from the contents of the corresponding
-+  ``*.mak`` files using Meson's ``configure_file()`` function.
- 
- ``build.ninja``
-   The build rules.
--- 
-2.33.1
+Sorry for the delay as I spent a few days looking into linux virtio-mem
+driver. I'm afraid we still need this patch for ARM64. I don't think x86
+has this issue even though I didn't experiment on X86. For example, I
+have the following command lines. The hot added memory is put into node#0
+instead of node#2, which is wrong.
+
+There are several bitmaps tracking the node states in Linux kernel. One of
+them is @possible_map, which tracks the nodes available, but don't have to
+be online. @passible_map is sorted out from the following ACPI table.
+
+   ACPI_SRAT_TYPE_MEMORY_AFFINITY
+   ACPI_SRAT_TYPE_GENERIC_AFFINITY
+   ACPI_SIG_SLIT                          # if it exists when optional distance map
+                                          # is provided on QEMU side.
+
+Note: Drew might ask why we have node#2 in "/sys/devices/system/node" again.
+hw/arm/virt-acpi-build.c::build_srat() creates additional node in ACPI SRAT
+table and the node's PXM is 3 ((ms->numa_state->num_nodes - 1)) in this case,
+but linux kernel assigns node#2 to it.
+
+   /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64 \
+   -accel kvm -machine virt,gic-version=host               \
+   -cpu host -smp 4,sockets=2,cores=2,threads=1            \
+   -m 1024M,slots=16,maxmem=64G                            \
+   -object memory-backend-ram,id=mem0,size=512M            \
+   -object memory-backend-ram,id=mem1,size=512M            \
+   -numa node,nodeid=0,cpus=0-1,memdev=mem0                \
+   -numa node,nodeid=1,cpus=2-3,memdev=mem1                \
+   -numa node,nodeid=2 -numa node,nodeid=3                 \
+   -object memory-backend-ram,id=vmem0,size=512M           \
+   -device virtio-mem-pci,id=vm0,memdev=vmem0,node=2,requested-size=0 \
+   -object memory-backend-ram,id=vmem1,size=512M           \
+   -device virtio-mem-pci,id=vm1,memdev=vmem1,node=3,requested-size=0
+      :
+   # ls  /sys/devices/system/node | grep node
+   node0
+   node1
+   node2
+   # cat /proc/meminfo | grep MemTotal\:
+   MemTotal:        1003104 kB
+   # cat /sys/devices/system/node/node0/meminfo | grep MemTotal\:
+   Node 0 MemTotal: 524288 kB
+
+   (qemu) qom-set vm0 requested-size 512M
+   # cat /proc/meminfo | grep MemTotal\:
+   MemTotal:        1527392 kB
+   # cat /sys/devices/system/node/node0/meminfo | grep MemTotal\:
+   Node 0 MemTotal: 1013652 kB
+
+Try above test after the patch is applied. The hot added memory is
+put into node#2 correctly as the user expected.
+
+   # ls  /sys/devices/system/node | grep node
+   node0
+   node1
+   node2
+   node3
+   # cat /proc/meminfo | grep MemTotal\:
+   MemTotal:        1003100 kB
+   # cat /sys/devices/system/node/node2/meminfo | grep MemTotal\:
+   Node 2 MemTotal: 0 kB
+
+   (qemu) qom-set vm0 requested-size 512M
+   # cat /proc/meminfo | grep MemTotal\:
+   MemTotal:        1527388 kB
+   # cat /sys/devices/system/node/node2/meminfo | grep MemTotal\:
+   Node 2 MemTotal: 524288 kB
+
+Thanks,
+Gavin
+
+
+   
 
 
