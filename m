@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B720A445EC2
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 04:34:22 +0100 (CET)
-Received: from localhost ([::1]:57098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52FF3445EC7
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 04:38:44 +0100 (CET)
+Received: from localhost ([::1]:37482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mipzh-0001fm-Oy
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 23:34:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54058)
+	id 1miq3v-0007SA-F8
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 23:38:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mipm6-0004j3-FK
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 23:20:18 -0400
-Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:39890)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mipm7-0004mA-DP
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 23:20:19 -0400
+Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:45714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mipm3-0004Cu-6P
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 23:20:18 -0400
-Received: by mail-io1-xd2d.google.com with SMTP id r3so7829260iod.6
- for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 20:20:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mipm4-0004DY-HX
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 23:20:19 -0400
+Received: by mail-io1-xd2a.google.com with SMTP id q203so9162436iod.12
+ for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 20:20:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=I1XrwZ0o7hRgTEhkk9E1BQTq9616nNWJfCEFdNAWs4w=;
- b=NEEjkj/fIC5F3QLF/bGtQy0UfetDO/cLXBrFTHJ0pouW6+w1eWh6lXd1FJGY5TYknN
- 33UgkwxNasdIrKoiWQOswdqm2NMxDG64rEP9HNF1v/UEpTfEa1MCJo2knlCaXcA6GHOu
- mZduwBcl6JjhLlMquVBjHzRVxF53JqJXeXw5UkeruPJB0k6hIsrCWa1INbiDNqjYayAY
- f9zvt4JKEaT4+8myHRAc3+R1J8o2XYVhaaM+n5dF+MijkVLA8+ix6xXJlDKyb13rcDMZ
- l4EamWrFbLrhPOwP10guuWg1L2RaP8fb3W/G27EHrEzPBIfr8RMBmr5NM+A962QHLojz
- plwQ==
+ bh=xELoQ9MP23ZY0icqqnGEqd1dDOY3xpL6nxhgED/dCUI=;
+ b=4+70WyCeUe298IFuNjUCUTB6RGpMksuaazivOLytdluebtyjnefRBXQlFlXcBwHToI
+ xWTF49hVkffSEzxMMZghqPHbKv9RriCnIokKNx0syK2hxzuQFrQOBaLD2EgZFt3IvRyB
+ x41TLrIjfCTeNNuIetWoYEh9HkqwcSQ4v6Y/grRH/mqIfCaYc+UQljP3p6WMnb9B5oHj
+ PPUpbuTL4nFfXx6u0tIhCae4Uv8o6JwEDd0gwpZqdeJMTSpPdx/5Wlz3UO9copIv2Cls
+ WKeOD/369Z0vs9GAdPh0vZnojA6GHjDn5mq4VmZKplGbY+LcE28RPbpK4v3LcSejp9A4
+ LGZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=I1XrwZ0o7hRgTEhkk9E1BQTq9616nNWJfCEFdNAWs4w=;
- b=gxrQ0gFoKBYY7cc545hbXAVezVPtyL9Wi2BCcKB8Omrh9gP4uM17yNKs0KgR8VZJoT
- SGWGphnrzaVvOLVS/Iu3RBnFelO6VP5O4SSU9iaxtO3dI2K/B3KLOeO+HXiONrhVS+Jc
- 3n3tpu3Jnlx5F3YrUqeaYZ9dwJc98kSksdc74FTakouDYPf4qJDrSkCaopDMuCCx9Ef3
- 3l9J5nSQjWw7LxU2NSgF0yYzS/2CixMKDFCwvKXDPjyODpuxHPUL/a73aWZHPWUIxctD
- P7/t8+fY/miO4mJCJCz48Kk5oT/FovV1QD92UiFg7PW9iisDxl0DTGF3pKbJ2iUE8Doo
- Vsqw==
-X-Gm-Message-State: AOAM531Oia+sgRqv680FC1+gsCdJR8AmY0ZsVSw5SJ2dwFs24MNAUru0
- l1oTGEGEoZQ9gfRhm/k5wLrtHEwOnnXcUg==
-X-Google-Smtp-Source: ABdhPJyrQe2uvqbevhuznz1rFbPVTY4f39BCpJ/fWlbJkUlZ9hujfgjnxOnRgqy7X1vAyhIAiEBeyQ==
-X-Received: by 2002:a05:6602:1550:: with SMTP id
- h16mr38280373iow.125.1636082414010; 
+ bh=xELoQ9MP23ZY0icqqnGEqd1dDOY3xpL6nxhgED/dCUI=;
+ b=BtLpaHd6TLh7UlkLGvGvIXtDT7O/odhluAWWuc+/rvGR5eslctC1AU3/Kt+YvnGfi7
+ aSWzl18MnxAXWw/5G2VmJluaSiOyE2Ezmjs/E92vzW68AYOu/G6Tm3a8g1wPM3Smx16x
+ BmG4L9J+WvpmMSPSQD7O63BvUwQXwIhyz0zLiysLncDx9/dnlDxuOcdRb5I8SvBqpWsZ
+ jwkx0ItQ/6mMGTxKI4sIQzQn/hwHv+SuATSVdV9HvdJlX6eKy4JZDuyNjeUjlKb5s35l
+ W55nPK7ab6n1F54yQWoVyu/TKR7vl7AYixL1rCO045a97Yu+5merFKS3LcfWpidkGCy6
+ l6vA==
+X-Gm-Message-State: AOAM530QlE7d+Ea4gH8ORKvty1WsNVmJ+tMByUfaQqjxkZtoaVmO3MSh
+ 9eyd2aMC6G9pSU/o4B6NL6TkmhHgU38Vng==
+X-Google-Smtp-Source: ABdhPJzsL3yqZIFIEsMi3J6NXe28GnPJrDUNp3yIAO8pHpHfB2/ythOmmiKIL+TQ6DIqP/ZXLwssZQ==
+X-Received: by 2002:a5d:87d4:: with SMTP id q20mr32618516ios.190.1636082414906; 
  Thu, 04 Nov 2021 20:20:14 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id v4sm3508528ilq.57.2021.11.04.20.20.13
+ by smtp.gmail.com with ESMTPSA id v4sm3508528ilq.57.2021.11.04.20.20.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Nov 2021 20:20:13 -0700 (PDT)
+ Thu, 04 Nov 2021 20:20:14 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 27/36] bsd-user/arm/target_arch_elf.h: arm get_hwcap2 impl
-Date: Thu,  4 Nov 2021 21:19:08 -0600
-Message-Id: <20211105031917.87837-28-imp@bsdimp.com>
+Subject: [PATCH v4 28/36] bsd-user/arm/target_arch_signal.h: arm specific
+ signal registers and stack
+Date: Thu,  4 Nov 2021 21:19:09 -0600
+Message-Id: <20211105031917.87837-29-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211105031917.87837-1-imp@bsdimp.com>
 References: <20211105031917.87837-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2d;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2d.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2a;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -82,70 +82,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>,
  Richard Henderson <richard.henderson@linaro.org>,
  Philippe Mathieu-Daude <f4bug@amsat.org>, Laurent Vivier <laurent@vivier.eu>,
  Kyle Evans <kevans@FreeBSD.org>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the extended HW capabilities for HWCAP2.
+Defines for registers and stack layout related to signals.
 
-Signed-off-by: Kyle Evans <kevans@FreeBSD.org>
+Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/arm/target_arch_elf.h | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ bsd-user/arm/target_arch_signal.h | 57 +++++++++++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
+ create mode 100644 bsd-user/arm/target_arch_signal.h
 
-diff --git a/bsd-user/arm/target_arch_elf.h b/bsd-user/arm/target_arch_elf.h
-index 02d25b8926..4a0215d02e 100644
---- a/bsd-user/arm/target_arch_elf.h
-+++ b/bsd-user/arm/target_arch_elf.h
-@@ -32,6 +32,7 @@
- #define ELF_EXEC_PAGESIZE       4096
- 
- #define ELF_HWCAP get_elf_hwcap()
-+#define ELF_HWCAP2 get_elf_hwcap2()
- 
- #define GET_FEATURE(feat, hwcap) \
-     do { if (arm_feature(&cpu->env, feat)) { hwcaps |= hwcap; } } while (0)
-@@ -64,6 +65,14 @@ enum {
-     ARM_HWCAP_ARM_EVTSTRM   = 1 << 21,
- };
- 
-+enum {
-+    ARM_HWCAP2_ARM_AES      = 1 << 0,
-+    ARM_HWCAP2_ARM_PMULL    = 1 << 1,
-+    ARM_HWCAP2_ARM_SHA1     = 1 << 2,
-+    ARM_HWCAP2_ARM_SHA2     = 1 << 3,
-+    ARM_HWCAP2_ARM_CRC32    = 1 << 4,
-+};
+diff --git a/bsd-user/arm/target_arch_signal.h b/bsd-user/arm/target_arch_signal.h
+new file mode 100644
+index 0000000000..973183d99c
+--- /dev/null
++++ b/bsd-user/arm/target_arch_signal.h
+@@ -0,0 +1,57 @@
++/*
++ *  arm signal definitions
++ *
++ *  Copyright (c) 2013 Stacey D. Son
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++#ifndef _TARGET_ARCH_SIGNAL_H_
++#define _TARGET_ARCH_SIGNAL_H_
 +
- static uint32_t get_elf_hwcap(void)
- {
-     ARMCPU *cpu = ARM_CPU(thread_cpu);
-@@ -100,6 +109,19 @@ static uint32_t get_elf_hwcap(void)
-     return hwcaps;
- }
- 
-+static uint32_t get_elf_hwcap2(void)
-+{
-+    ARMCPU *cpu = ARM_CPU(thread_cpu);
-+    uint32_t hwcaps = 0;
++#include "cpu.h"
 +
-+    GET_FEATURE_ID(aa32_aes, ARM_HWCAP2_ARM_AES);
-+    GET_FEATURE_ID(aa32_pmull, ARM_HWCAP2_ARM_PMULL);
-+    GET_FEATURE_ID(aa32_sha1, ARM_HWCAP2_ARM_SHA1);
-+    GET_FEATURE_ID(aa32_sha2, ARM_HWCAP2_ARM_SHA2);
-+    GET_FEATURE_ID(aa32_crc32, ARM_HWCAP2_ARM_CRC32);
-+    return hwcaps;
-+}
++#define TARGET_REG_R0   0
++#define TARGET_REG_R1   1
++#define TARGET_REG_R2   2
++#define TARGET_REG_R3   3
++#define TARGET_REG_R4   4
++#define TARGET_REG_R5   5
++#define TARGET_REG_R6   6
++#define TARGET_REG_R7   7
++#define TARGET_REG_R8   8
++#define TARGET_REG_R9   9
++#define TARGET_REG_R10  10
++#define TARGET_REG_R11  11
++#define TARGET_REG_R12  12
++#define TARGET_REG_R13  13
++#define TARGET_REG_R14  14
++#define TARGET_REG_R15  15
++#define TARGET_REG_CPSR 16
++#define TARGET__NGREG   17
++/* Convenience synonyms */
++#define TARGET_REG_FP   TARGET_REG_R11
++#define TARGET_REG_SP   TARGET_REG_R13
++#define TARGET_REG_LR   TARGET_REG_R14
++#define TARGET_REG_PC   TARGET_REG_R15
 +
- #undef GET_FEATURE
- #undef GET_FEATURE_ID
- 
++#define TARGET_INSN_SIZE    4       /* arm instruction size */
++
++/* Size of the signal trampolin code. See _sigtramp(). */
++#define TARGET_SZSIGCODE    ((abi_ulong)(9 * TARGET_INSN_SIZE))
++
++/* compare to arm/include/_limits.h */
++#define TARGET_MINSIGSTKSZ  (1024 * 4)                  /* min sig stack size */
++#define TARGET_SIGSTKSZ     (TARGET_MINSIGSTKSZ + 32768)  /* recommended size */
++
++#endif /* !_TARGET_ARCH_SIGNAL_H_ */
 -- 
 2.33.0
 
