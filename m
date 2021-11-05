@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B422445E95
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 04:26:33 +0100 (CET)
-Received: from localhost ([::1]:38196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD240445E90
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 04:23:51 +0100 (CET)
+Received: from localhost ([::1]:58524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mips8-0005kw-F9
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 23:26:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53364)
+	id 1mippW-0000W2-Ro
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 23:23:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1miplj-0004Gk-8d
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1miplk-0004Gq-92
  for qemu-devel@nongnu.org; Thu, 04 Nov 2021 23:19:56 -0400
-Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d]:46865)
+Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130]:37603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1miplh-000442-20
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 23:19:54 -0400
-Received: by mail-il1-x12d.google.com with SMTP id w10so8225880ilc.13
- for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 20:19:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mipli-00044l-1v
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 23:19:56 -0400
+Received: by mail-il1-x130.google.com with SMTP id h23so8255999ila.4
+ for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 20:19:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uyxbbQF80/XM90AkSm9sfWQoRQdroYy3zT6tj7fuzSM=;
- b=gUzhFJ+m6gVCo0IVbvzNb9vIKJDZOREqpnlVvzWej1XgQea6sRgzANMIaSe/eUpYvv
- 48sUgqtZ4MqR1zwjVRKxQ2DCwy0BmKbTec5DeFk8ZIRW9AfqTz0Y7BAo9ig0P/sbRyiI
- stkQJgV+Z14GUDyaje9asE3I7+p4G9Ay9aGXIwXLGbnEAG4lECILUHCXxe5PWqPxLUZf
- Js+BpIFr/TqdO5tJSCafmi2kQNu8cce89JZQ7bEbcXYdMt+avQTz4mRiBUq4AUcXE73v
- E6xiVl8o6pRYC0EfwPycJiFVlJYnJVYVC65t/S/3RfgM9CM314UN8c2NHaHnNlT4lKsJ
- 0Q9Q==
+ bh=jsIdVmjKOIUEZ1G1O3ibGx2Ed5U+hmNQGqNLw2OjQ6c=;
+ b=hb6W+ObEwC+zujrIs9OyIVgVJx8DnBF3k2gWNWWjbBsge/WX9bugH9sQNhKW754WkB
+ XBAdiuAg5mA0pk8sKvwerDt+WeAcbtf8ATd9JrC5HUdyP8kh0pSADfPbBr/kSCNzIja/
+ Pwbc1ZTPioGosCPpDuQbW8rierGO/lcKb6+Gh6aUMhqfUJn+6/gnXBXUpnTxpuxVmsqT
+ tyQfM5IYnUSPA9Cq2e9rrhemcxR1TXAiubG9zQLEn44uo346bmrXvC36wMiVHpJRN3ae
+ 0f4vUEym8rNnJQAtsK6h6IDT0cEEXFQ+TDdl8FinRsR9W9Z18U12orDQPvBd2z0ToQ/+
+ e5RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uyxbbQF80/XM90AkSm9sfWQoRQdroYy3zT6tj7fuzSM=;
- b=108kLslKKEzC0rsjnrekNgQEbBdSWamCo1JlLiPyaqQSPvH/DhqaqjS+KzB5J93seF
- 1bbRr8t4jDB8VRvrztR+5KEcezLCwTN/nJChJfCh1Tfj7v3fCqNDll7aJoDk8qLmSas3
- nlBoLzZfvT/K9ypKj2gWSZYwvhQWqK820L/KgXpGfkF6gcRZoZYyz8Mv12LQv7Twe1CK
- WmOXt/zSJ8mdA0Uqvs+gQ79G744jPVCqqopBD/JxaEUaJupHcAhFA0w9t8dGQbnQBT5p
- EihZ3zHZQomvDn6REhPZbrkNlgJpys3y80OQs0rfLzgowavf8kJOH6c2Yt0qQzpVXvUs
- gjEw==
-X-Gm-Message-State: AOAM530yH10RSR2p801ng2HifPnaK8ZNU+3ovLiGDf1z0UAtTgM7MK2/
- DuPYmCipspweXr2YzroDsCVrT44crQS15w==
-X-Google-Smtp-Source: ABdhPJzm0ueogUqa54TooubBKIrJmszRV4HXCRYu0LetXr5XCWiQdVBZsCv7wG0HNc2xzk5n0Z4sew==
-X-Received: by 2002:a05:6e02:1c47:: with SMTP id
- d7mr20175541ilg.6.1636082391748; 
- Thu, 04 Nov 2021 20:19:51 -0700 (PDT)
+ bh=jsIdVmjKOIUEZ1G1O3ibGx2Ed5U+hmNQGqNLw2OjQ6c=;
+ b=m67B0/wEDm31bn7WgeBONi6Z8v8KgU5YdY8elrJIpcQGf2GXMjIpH5QoWQzVYp6Uiz
+ FUy5ENwKFwxqgdf4kfwJIaK7fw022NU+5xln3OqAnkTNShvFpYaxe+VSksTCeiJ0C/n8
+ ciVIXvs/zyh6QOC1gQvq/Ankr0MetwoX8bU3vbI5Rbfm/Jxk/d6PM/PXDEkTAovXuLm5
+ 5Z1VKhjUeM5hOZTAM6O4+Vy3qzXPeBC9QV3IR2q5iXq9MNYuDDOgPiFTuMcirqQRxavV
+ Q5uAqbp0W1D6wgjNGbUyO299jonX+HRA4w7dSRjXBgDpoBLaf9C0ssb/y1OpACGjeXpC
+ rIcw==
+X-Gm-Message-State: AOAM533MrWuA2MaNVHFlSYADsN8gYou4rOGTi27PMONBy2osou4fpEqU
+ zsIqXyyBM+A00BTW9suuNh9+DkdVF+cQmA==
+X-Google-Smtp-Source: ABdhPJwzm1qGR41d5bGkndxttj2JpPv0jtWLYWKQhb4J96q8ihMUArXteM/PVKYERYPIQeCkyQyxtA==
+X-Received: by 2002:a92:ca0b:: with SMTP id j11mr36127551ils.289.1636082392775; 
+ Thu, 04 Nov 2021 20:19:52 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id v4sm3508528ilq.57.2021.11.04.20.19.50
+ by smtp.gmail.com with ESMTPSA id v4sm3508528ilq.57.2021.11.04.20.19.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Nov 2021 20:19:51 -0700 (PDT)
+ Thu, 04 Nov 2021 20:19:52 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 06/36] bsd-user/i386/target_arch_signal.h: Update
- mcontext_t to match FreeBSD
-Date: Thu,  4 Nov 2021 21:18:47 -0600
-Message-Id: <20211105031917.87837-7-imp@bsdimp.com>
+Subject: [PATCH v4 07/36] bsd-user/i386: Move the inlines into signal.c
+Date: Thu,  4 Nov 2021 21:18:48 -0600
+Message-Id: <20211105031917.87837-8-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211105031917.87837-1-imp@bsdimp.com>
 References: <20211105031917.87837-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::12d;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12d.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::130;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x130.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,73 +88,128 @@ Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fill in target_mcontext_t to match the FreeBSD mcontex_t. Also tag the
-current size of mcontext and ucontext to enable size checking for i386.
+Move the (now stubbed out) inlines into bsd-user/i386/signal.c.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/i386/target_arch_signal.h | 46 ++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+ bsd-user/i386/signal.c             | 56 +++++++++++++++++++++++++++++-
+ bsd-user/i386/target_arch_signal.h | 43 +++++------------------
+ 2 files changed, 63 insertions(+), 36 deletions(-)
 
+diff --git a/bsd-user/i386/signal.c b/bsd-user/i386/signal.c
+index ac90323365..2939d32400 100644
+--- a/bsd-user/i386/signal.c
++++ b/bsd-user/i386/signal.c
+@@ -1 +1,55 @@
+-/* Placeholder for signal.c */
++/*
++ *  i386 dependent signal definitions
++ *
++ *  Copyright (c) 2013 Stacey D. Son
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu.h"
++
++/*
++ * Compare to i386/i386/machdep.c sendsig()
++ * Assumes that target stack frame memory is locked.
++ */
++abi_long set_sigtramp_args(CPUX86State *env, int sig,
++                           struct target_sigframe *frame,
++                           abi_ulong frame_addr,
++                           struct target_sigaction *ka)
++{
++    /* XXX return -TARGET_EOPNOTSUPP; */
++    return 0;
++}
++
++/* Compare to i386/i386/machdep.c get_mcontext() */
++abi_long get_mcontext(CPUX86State *regs, target_mcontext_t *mcp, int flags)
++{
++    /* XXX */
++    return -TARGET_EOPNOTSUPP;
++}
++
++/* Compare to i386/i386/machdep.c set_mcontext() */
++abi_long set_mcontext(CPUX86State *regs, target_mcontext_t *mcp, int srflag)
++{
++    /* XXX */
++    return -TARGET_EOPNOTSUPP;
++}
++
++abi_long get_ucontext_sigreturn(CPUX86State *regs, abi_ulong target_sf,
++                                abi_ulong *target_uc)
++{
++    /* XXX */
++    *target_uc = 0;
++    return -TARGET_EOPNOTSUPP;
++}
 diff --git a/bsd-user/i386/target_arch_signal.h b/bsd-user/i386/target_arch_signal.h
-index bf7263c4f8..701c6f964f 100644
+index 701c6f964f..982c7035c7 100644
 --- a/bsd-user/i386/target_arch_signal.h
 +++ b/bsd-user/i386/target_arch_signal.h
-@@ -28,8 +28,54 @@
- #define TARGET_SIGSTKSZ     (MINSIGSTKSZ + 32768)   /* recommended size */
+@@ -88,40 +88,13 @@ struct target_sigframe {
+     uint32_t    __spare__[2];
+ };
  
- typedef struct target_mcontext {
-+    abi_ulong   mc_onstack;     /* XXX - sigcontext compat. */
-+    abi_ulong   mc_gs;          /* machine state (struct trapframe) */
-+    abi_ulong   mc_fs;
-+    abi_ulong   mc_es;
-+    abi_ulong   mc_ds;
-+    abi_ulong   mc_edi;
-+    abi_ulong   mc_esi;
-+    abi_ulong   mc_ebp;
-+    abi_ulong   mc_isp;
-+    abi_ulong   mc_ebx;
-+    abi_ulong   mc_edx;
-+    abi_ulong   mc_ecx;
-+    abi_ulong   mc_eax;
-+    abi_ulong   mc_trapno;
-+    abi_ulong   mc_err;
-+    abi_ulong   mc_eip;
-+    abi_ulong   mc_cs;
-+    abi_ulong   mc_eflags;
-+    abi_ulong   mc_esp;
-+    abi_ulong   mc_ss;
-+
-+    int32_t     mc_len;                 /* sizeof(mcontext_t) */
-+#define _MC_FPFMT_NODEV         0x10000 /* device not present or configured */
-+#define _MC_FPFMT_387           0x10001
-+#define _MC_FPFMT_XMM           0x10002
-+    int32_t     mc_fpformat;
-+#define _MC_FPOWNED_NONE        0x20000 /* FP state not used */
-+#define _MC_FPOWNED_FPU         0x20001 /* FP state came from FPU */
-+#define _MC_FPOWNED_PCB         0x20002 /* FP state came from PCB */
-+    int32_t     mc_ownedfp;
-+    abi_ulong mc_flags;
-+        /*
-+         * See <machine/npx.h> for the internals of mc_fpstate[].
-+         */
-+    int32_t     mc_fpstate[128] __aligned(16);
-+
-+    abi_ulong mc_fsbase;
-+    abi_ulong mc_gsbase;
-+
-+    abi_ulong mc_xfpustate;
-+    abi_ulong mc_xfpustate_len;
-+
-+    int32_t     mc_spare2[4];
- } target_mcontext_t;
+-/*
+- * Compare to i386/i386/machdep.c sendsig()
+- * Assumes that target stack frame memory is locked.
+- */
+-static inline abi_long set_sigtramp_args(CPUX86State *regs,
+-        int sig, struct target_sigframe *frame, abi_ulong frame_addr,
+-        struct target_sigaction *ka)
+-{
+-    /* XXX return -TARGET_EOPNOTSUPP; */
+-    return 0;
+-}
+-
+-/* Compare to i386/i386/machdep.c get_mcontext() */
+-static inline abi_long get_mcontext(CPUX86State *regs,
+-        target_mcontext_t *mcp, int flags)
+-{
+-    /* XXX */
+-    return -TARGET_EOPNOTSUPP;
+-}
+-
+-/* Compare to i386/i386/machdep.c set_mcontext() */
+-static inline abi_long set_mcontext(CPUX86State *regs,
+-        target_mcontext_t *mcp, int srflag)
+-{
+-    /* XXX */
+-    return -TARGET_EOPNOTSUPP;
+-}
+-
+-static inline abi_long get_ucontext_sigreturn(CPUX86State *regs,
+-                        abi_ulong target_sf, abi_ulong *target_uc)
+-{
+-    /* XXX */
+-    *target_uc = 0;
+-    return -TARGET_EOPNOTSUPP;
+-}
++abi_long set_sigtramp_args(CPUX86State *env, int sig,
++                           struct target_sigframe *frame,
++                           abi_ulong frame_addr,
++                           struct target_sigaction *ka);
++abi_long get_mcontext(CPUX86State *regs, target_mcontext_t *mcp, int flags);
++abi_long set_mcontext(CPUX86State *regs, target_mcontext_t *mcp, int srflag);
++abi_long get_ucontext_sigreturn(CPUX86State *regs, abi_ulong target_sf,
++                                abi_ulong *target_uc);
  
-+#define TARGET_MCONTEXT_SIZE 640
-+#define TARGET_UCONTEXT_SIZE 704
-+
- #include "target_os_ucontext.h"
- 
- struct target_sigframe {
+ #endif /* TARGET_ARCH_SIGNAL_H */
 -- 
 2.33.0
 
