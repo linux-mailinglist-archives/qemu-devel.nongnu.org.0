@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 327D9445ED2
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 04:44:10 +0100 (CET)
-Received: from localhost ([::1]:50624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FCD1445ED7
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 04:46:34 +0100 (CET)
+Received: from localhost ([::1]:59152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miq9B-0008Bx-8U
-	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 23:44:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53956)
+	id 1miqBV-0005Zm-4u
+	for lists+qemu-devel@lfdr.de; Thu, 04 Nov 2021 23:46:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mipm4-0004ak-0G
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mipm4-0004ck-Rq
  for qemu-devel@nongnu.org; Thu, 04 Nov 2021 23:20:16 -0400
-Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:43779)
+Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:44918)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mipm0-0004Bt-9T
- for qemu-devel@nongnu.org; Thu, 04 Nov 2021 23:20:15 -0400
-Received: by mail-io1-xd32.google.com with SMTP id b203so5835785iof.10
- for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 20:20:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mipm3-0004CI-5E
+ for qemu-devel@nongnu.org; Thu, 04 Nov 2021 23:20:16 -0400
+Received: by mail-io1-xd31.google.com with SMTP id f9so9187406ioo.11
+ for <qemu-devel@nongnu.org>; Thu, 04 Nov 2021 20:20:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4oZ5iwXqrJmDcU+2qXHAQ++/SNnYAx62sujgKs8Ho4M=;
- b=uocYHOL+N/Zc+TzaAsIC0fuw++G00gnW8Jej5GciuPQE3PGm9ZAxaafpaQDaYNOeiQ
- bBFnil65s+NIOrhWIWDmk2KaS5+MWtQNxTf42KSTtvVh5La/RvTUlK6C5eZzSEcEybJd
- 31vij7bUVfU3yTBNMhjvLiMxL1U7Y5J9+OGgo75m1GwW0hcBCwPZ4uEu7kAZnEqZhWeV
- 01z32GahkjmcVJXUKOi3mA4qvb//t90fpzVvjaPB4xCwQbuzUuknQnsC36QDDV8dOORq
- F3PzkzLetCxHssk18JvWlgpsG/va6S/oH6QvcgNvd8bCWohTNScfCRfvVjaaLsQPzTl+
- sTXw==
+ bh=oLmdczkCWtTXgS+hIrrLVL8jr4D4Q93OjOn0dkypiZQ=;
+ b=kjjfayhKhadnXPKY1Ckovw00NxlvpWARnZb4s3n5yYGoratnwoCc6pDRdN7gu3lBQQ
+ +A+16Qdkgkt7/zFk4BEJTj/cqH+7Y1avHtbX7XuMqAc5y1Pp6C1soogWVMsFd6H6RSpe
+ yH49cl4shqbXcWtYgl115XQf6J/nbS2pwYv4l9ZY8RmoCF/jI+md8JqEjWvJflguAed5
+ PY14pM/vMfZIxE6P7Xh8BBSVMtpTqj0qjq/87hNACekeBLanYssQPe14m4X09KFMM45h
+ v/Btw2WUoT5IOfkeqUSZf8ODxS3bXWNYP1p0RRjRdLwvtnr1bJtJ+lucSFKQIFdDkxiT
+ jlWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4oZ5iwXqrJmDcU+2qXHAQ++/SNnYAx62sujgKs8Ho4M=;
- b=jnbsr+nA4Vq+pSVsYBLAj3GRpWijlTVnyKn47xBdE+KNJ0SbzVCSuvXCq4gnF1Dtl8
- XQ9rX1H8tFxAR/DBso2JNCJ5nyWoX8iCyOJdtfymyQw3K86DYm44TNkkLuJN9VOp2WSl
- IwW0jnnLychqbRVI9odWi1EI08RNTtukcLgQnjSgeQC6VrFYeFqwIbCjm384aW+nKXlT
- f3XU+aZ+mpGL3lo4cKjA0aIkKoK6k5QhMk9saugrBk3hY6y/Z/xM9hFh3K1kr+OadpWJ
- eGQKu1hwq2IQmtMtNtB3guoiJJxT9XzemgAFUZoMdhmXrs1MAAUDgiJLmqUjl2iZ2K59
- G4XA==
-X-Gm-Message-State: AOAM532NjnWuy3wITacpiN4e+wW4xCdvz6V4yqZsr054Z1ieyTrXE3VS
- G6Ri0SMLq3ZnKTvcXAm3oWbZtLfkMb+x3A==
-X-Google-Smtp-Source: ABdhPJxdbmQMhIEDU+vkko9gQWHAA9XohINh0Vprdbh9VKuvscTT6O/MIi+1+d7Osa42nfb6ne+NjA==
-X-Received: by 2002:a05:6602:2293:: with SMTP id
- d19mr4244150iod.71.1636082411069; 
- Thu, 04 Nov 2021 20:20:11 -0700 (PDT)
+ bh=oLmdczkCWtTXgS+hIrrLVL8jr4D4Q93OjOn0dkypiZQ=;
+ b=xcPx91uyLeW7lkqrKttuDLqOQj5orF4VIt11MgIELn51hEWPfx1YzxhRUHWI0lx+xj
+ 0lK1Dp5Elo1R0f0JhXjH2rMydMQejFALvidCSHPk6drw2Fe0FIJX9rGuAUp7rKSryHkk
+ mL2mLE0Ax4IKQhZNBkJNZ5fald/RRjBChzD7tCJo/XhdUWGI+WQWyFICqr+oFsiTAUY5
+ TmAnnwUWnxPGDTnF+71JmMTA2uGpnf3qJZQsr5CajIFdKTQyiMXICydF1wzJGswmL8Gz
+ N6bNGxI9l/24/7W3t4mQ0w3GQETGqzWOgUg0NXbS1Z2/UalNI6ZwelXfwTeKM3IguCxH
+ oUjg==
+X-Gm-Message-State: AOAM533cL3N7efTwbqdGXUzG6k1disA8V0ykXX6CqwjM26kZV351LT5r
+ Rj1PnZLP8DhT0w87nqC36FYOowUZnBq9yg==
+X-Google-Smtp-Source: ABdhPJwGvscJUcaIAXCijl95dr/Y77kQ+aVHvBfpdR2ckhnOj+PfMFQcSEhy9jAWkwScMVmf18Y6Hw==
+X-Received: by 2002:a05:6602:1649:: with SMTP id
+ y9mr26275400iow.133.1636082412292; 
+ Thu, 04 Nov 2021 20:20:12 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id v4sm3508528ilq.57.2021.11.04.20.20.09
+ by smtp.gmail.com with ESMTPSA id v4sm3508528ilq.57.2021.11.04.20.20.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Nov 2021 20:20:10 -0700 (PDT)
+ Thu, 04 Nov 2021 20:20:11 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 24/36] bsd-user/arm/target_arch_thread.h: Routines to
- create and switch to a thread
-Date: Thu,  4 Nov 2021 21:19:05 -0600
-Message-Id: <20211105031917.87837-25-imp@bsdimp.com>
+Subject: [PATCH v4 25/36] bsd-user/arm/target_arch_elf.h: arm defines for ELF
+Date: Thu,  4 Nov 2021 21:19:06 -0600
+Message-Id: <20211105031917.87837-26-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211105031917.87837-1-imp@bsdimp.com>
 References: <20211105031917.87837-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d32;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd32.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd31.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,26 +90,25 @@ Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement target_thread_init (to create a thread) and target_set_upcall
-(to switch to a thread) for arm.
+Basic set of defines needed for arm ELF file activation.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
-Signed-off-by: Kyle Evans <kevans@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/arm/target_arch_thread.h | 82 +++++++++++++++++++++++++++++++
- 1 file changed, 82 insertions(+)
- create mode 100644 bsd-user/arm/target_arch_thread.h
+ bsd-user/arm/target_arch_elf.h | 36 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+ create mode 100644 bsd-user/arm/target_arch_elf.h
 
-diff --git a/bsd-user/arm/target_arch_thread.h b/bsd-user/arm/target_arch_thread.h
+diff --git a/bsd-user/arm/target_arch_elf.h b/bsd-user/arm/target_arch_elf.h
 new file mode 100644
-index 0000000000..11c7f76583
+index 0000000000..15b5c66511
 --- /dev/null
-+++ b/bsd-user/arm/target_arch_thread.h
-@@ -0,0 +1,82 @@
++++ b/bsd-user/arm/target_arch_elf.h
+@@ -0,0 +1,36 @@
 +/*
-+ *  arm thread support
++ *  arm ELF definitions
 + *
 + *  Copyright (c) 2013 Stacey D. Son
 + *
@@ -127,70 +125,24 @@ index 0000000000..11c7f76583
 + *  You should have received a copy of the GNU General Public License
 + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
-+#ifndef _TARGET_ARCH_THREAD_H_
-+#define _TARGET_ARCH_THREAD_H_
++#ifndef _TARGET_ARCH_ELF_H_
++#define _TARGET_ARCH_ELF_H_
 +
-+/* Compare to arm/arm/vm_machdep.c cpu_set_upcall_kse() */
-+static inline void target_thread_set_upcall(CPUARMState *env, abi_ulong entry,
-+    abi_ulong arg, abi_ulong stack_base, abi_ulong stack_size)
-+{
-+    abi_ulong sp;
++#define ELF_START_MMAP 0x80000000
++#define ELF_ET_DYN_LOAD_ADDR    0x500000
 +
-+    /*
-+     * Make sure the stack is properly aligned.
-+     * arm/include/param.h (STACKLIGN() macro)
-+     */
-+    sp = (u_int)(stack_base + stack_size) & ~0x7;
++#define elf_check_arch(x) ((x) == EM_ARM)
 +
-+    /* sp = stack base */
-+    env->regs[13] = sp;
-+    /* pc = start function entry */
-+    env->regs[15] = entry & 0xfffffffe;
-+    /* r0 = arg */
-+    env->regs[0] = arg;
-+    env->spsr = ARM_CPU_MODE_USR;
-+    /*
-+     * Thumb mode is encoded by the low bit in the entry point (since ARM can't
-+     * execute at odd addresses). When it's set, set the Thumb bit (T) in the
-+     * CPSR.
-+     */
-+    cpsr_write(env, (entry & 1) * CPSR_T, CPSR_T, CPSRWriteByInstr);
-+}
++#define ELF_CLASS       ELFCLASS32
++#define ELF_DATA        ELFDATA2LSB
++#define ELF_ARCH        EM_ARM
 +
-+static inline void target_thread_init(struct target_pt_regs *regs,
-+        struct image_info *infop)
-+{
-+    abi_long stack = infop->start_stack;
-+    memset(regs, 0, sizeof(*regs));
-+    regs->ARM_cpsr = ARM_CPU_MODE_USR;
-+    /*
-+     * Thumb mode is encoded by the low bit in the entry point (since ARM can't
-+     * execute at odd addresses). When it's set, set the Thumb bit (T) in the
-+     * CPSR.
-+     */
-+    if (infop->entry & 1) {
-+        regs->ARM_cpsr |= CPSR_T;
-+    }
-+    regs->ARM_pc = infop->entry & 0xfffffffe;
-+    regs->ARM_sp = stack;
-+    if (bsd_type == target_freebsd) {
-+        regs->ARM_lr = infop->entry & 0xfffffffe;
-+    }
-+    /*
-+     * FreeBSD kernel passes the ps_strings pointer in r0. This is used by some
-+     * programs to set status messages that we see in ps. bsd-user doesn't
-+     * support that functionality, so it's ignored. When set to 0, FreeBSD's csu
-+     * code ignores it. For the static case, r1 and r2 are effectively ignored
-+     * by the csu __startup() routine. For the dynamic case, rtld saves r0 but
-+     * generates r1 and r2 and passes them into the csu _startup.
-+     *
-+     * r0 ps_strings 0 passed since ps arg setting not supported
-+     * r1 obj_main   ignored by _start(), so 0 passed
-+     * r2 cleanup    generated by rtld or ignored by _start(), so 0 passed
-+     */
-+}
++#define USE_ELF_CORE_DUMP
++#define ELF_EXEC_PAGESIZE       4096
 +
-+#endif /* !_TARGET_ARCH_THREAD_H_ */
++#define ELF_HWCAP 0
++
++#endif /* _TARGET_ARCH_ELF_H_ */
 -- 
 2.33.0
 
