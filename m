@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F02A4446163
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 10:31:58 +0100 (CET)
-Received: from localhost ([::1]:49592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E34E1446194
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 10:50:15 +0100 (CET)
+Received: from localhost ([::1]:57590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mivZl-0008E8-JY
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 05:31:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38084)
+	id 1mivrS-00061c-HV
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 05:50:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mivYr-0007T7-Ug
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 05:31:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20978)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mivYp-00038C-IG
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 05:31:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636104658;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=S40txURDasiJJWK5QGWqk60ZThSLZi2FHhfMBNJI77o=;
- b=dxMuQQyyUao04RiIaS57o8Y05eXhn50XemsT/LAKKtgs0nUzlkjyBA4U4N+zPyY5kp2YrP
- uJ01lqtEm0f32AHwInbyq1biv7N6X/u34u91TZqfh+6SXpYZq1nAs23PsuSnsT9/TVUl0p
- F3Fnyye2gsG0IJqMZwkR8LelLLkg6SI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-A-9A1aTwMnevF6kBVDl_8w-1; Fri, 05 Nov 2021 05:30:47 -0400
-X-MC-Unique: A-9A1aTwMnevF6kBVDl_8w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E58C1006AA5;
- Fri,  5 Nov 2021 09:30:46 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.115])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C8C8E5D9DE;
- Fri,  5 Nov 2021 09:30:45 +0000 (UTC)
-Date: Fri, 5 Nov 2021 09:30:43 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Subject: Re: [PATCH] configure: Support modules for Windows
-Message-ID: <YYT5w9fAh6EJY3Ku@redhat.com>
-References: <20211105032002.83792-1-zhiwei_liu@c-sky.com>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mivqJ-0005BI-TN; Fri, 05 Nov 2021 05:49:04 -0400
+Received: from mail-qk1-x72b.google.com ([2607:f8b0:4864:20::72b]:34520)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mivqI-0003kg-99; Fri, 05 Nov 2021 05:49:03 -0400
+Received: by mail-qk1-x72b.google.com with SMTP id bq14so8244430qkb.1;
+ Fri, 05 Nov 2021 02:48:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=t0iqV0YKuCZDyf/Zv1Ep2XmTznLaVVG3Zw/10myUui4=;
+ b=Z5fPf8xJsnBT+T66lsEvewmw2Z/R29J//pZYlyMQQgSE93Yz6wrSA69lLaYf0U3g9n
+ yF47F30knpehV7K4PmvPfUjwr6nVIGV1YFNhZXfNfaS8o9WmGTIG7uTMZRqyzo8d2U6Q
+ DsV3y+QN1LZiK7vafE/NrON8fwjOkAdQETMf2qDK4QHZu3clZJHKnZifGoiKd7+NN/e8
+ 6HdVTzzm0AUJ/CCLhpuFCMxciIT3eKf56W9jeylzI7DRAI9XSce6sh9FREuKlknbW+vX
+ LZWR15uPPebbG68O+BEtxTiXqh+SyMCDQfUl86BrtLZ2wHqpVnoNXqLHuH2IwgHIu3sk
+ j7dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=t0iqV0YKuCZDyf/Zv1Ep2XmTznLaVVG3Zw/10myUui4=;
+ b=svEZfPzQIeQmBAYFaeq0iI1FmU87/hjWKhIHgfXUElB5YBh73PBqSlT47EURjkyPXU
+ T3qNuaC0UpEWz4VeUwufC/IRwfrA0CTCSAfLubyGW4X8TVmm7joi2R14rsTksmfP8pR5
+ lFsYxPSDq+xy6JgZkycVB8tK1f/AfbPAtKs4mZ+E4BLoebTTL2VnBewcHHy5SGpLqGy/
+ 4sR/emN7/ijZwq/yPpJ+dZtJJ1QboEfrGz07iJl4pQBqsqi9M6ph3Bdy2hrAY+UAYYsV
+ i5jSP4ATFZEDmNMQFM/gZ0yj+GajKCkBNtnkkApe2UtSrJDOUHw8O17W3GwE8wtE+cHC
+ MN4g==
+X-Gm-Message-State: AOAM532S+eVgotLVJ7TH2ItiU+e3KVZoPu5RWVvPh3KFCO248tOO9jJf
+ TGQjMA7Z015+OGORnYPg9sfzrpKu7Oo=
+X-Google-Smtp-Source: ABdhPJy+KxvAKrwRHynWZy4xNPyRxtWEtVs/UnKitgg1k5HEtndWf3NT6E4h5syhTJetjK7ulcbF0A==
+X-Received: by 2002:ae9:edc5:: with SMTP id
+ c188mr13642582qkg.391.1636105739185; 
+ Fri, 05 Nov 2021 02:48:59 -0700 (PDT)
+Received: from [192.168.10.222] (201-42-211-153.dsl.telesp.net.br.
+ [201.42.211.153])
+ by smtp.gmail.com with ESMTPSA id u19sm5683952qtw.14.2021.11.05.02.48.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Nov 2021 02:48:58 -0700 (PDT)
+Message-ID: <8e05f98a-6a46-f728-5035-fab10f5a209a@gmail.com>
+Date: Fri, 5 Nov 2021 06:48:55 -0300
 MIME-Version: 1.0
-In-Reply-To: <20211105032002.83792-1-zhiwei_liu@c-sky.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] target/ppc, hw/ppc: Change maintainers
+Content-Language: en-US
+To: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, groug@kaod.org, clg@kaod.org
+References: <20211105034640.53754-1-david@gibson.dropbear.id.au>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20211105034640.53754-1-david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72b;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x72b.google.com
+X-Spam_score_int: -38
+X-Spam_score: -3.9
 X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.093,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,143 +88,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 05, 2021 at 11:20:02AM +0800, LIU Zhiwei wrote:
 
-Generally we expect a commit message describing what is being solved
-and any reasons for the approach taken.
 
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> ---
->  configure   |  7 +------
->  meson.build | 34 ++++++++++++++++++++++++----------
->  2 files changed, 25 insertions(+), 16 deletions(-)
+On 11/5/21 00:46, David Gibson wrote:
+> As our day jobs and interests have moved onto other things, Greg and I have
+> been struggling to keep on top of maintainership of target/ppc and
+> associated pieces like the pseries and powernv machine types, with their
+> platform specific devices.
 > 
-> diff --git a/configure b/configure
-> index 33682cb971..6280e412a9 100755
-> --- a/configure
-> +++ b/configure
-> @@ -1422,7 +1422,7 @@ cat << EOF
->    bsd-user        all BSD usermode emulation targets
->    guest-agent     build the QEMU Guest Agent
->    pie             Position Independent Executables
-> -  modules         modules support (non-Windows)
-> +  modules         modules support
->    module-upgrades try to load modules from alternate paths for upgrades
->    debug-tcg       TCG debugging (default is disabled)
->    debug-info      debugging information
-> @@ -1698,11 +1698,6 @@ else
->    QEMU_CFLAGS="$QEMU_CFLAGS -Wno-missing-braces"
->  fi
->  
-> -# Our module code doesn't support Windows
-> -if test "$modules" = "yes" && test "$mingw32" = "yes" ; then
-> -  error_exit "Modules are not available for Windows"
-> -fi
-> -
->  # module_upgrades is only reasonable if modules are enabled
->  if test "$modules" = "no" && test "$module_upgrades" = "yes" ; then
->    error_exit "Can't enable module-upgrades as Modules are not enabled"
-> diff --git a/meson.build b/meson.build
-> index 47df10afc2..26195cb24f 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -2625,7 +2625,7 @@ block_mods = []
->  softmmu_mods = []
->  foreach d, list : modules
->    foreach m, module_ss : list
-> -    if enable_modules and targetos != 'windows'
-> +    if enable_modules
->        module_ss = module_ss.apply(config_all, strict: false)
->        sl = static_library(d + '-' + m, [genh, module_ss.sources()],
->                            dependencies: [modulecommon, module_ss.dependencies()], pic: true)
-> @@ -2658,7 +2658,7 @@ endforeach
->  
->  foreach d, list : target_modules
->    foreach m, module_ss : list
-> -    if enable_modules and targetos != 'windows'
-> +    if enable_modules
->        foreach target : target_dirs
->          if target.endswith('-softmmu')
->            config_target = config_target_mak[target]
-> @@ -2800,14 +2800,15 @@ common_ss.add(hwcore)
->  ###########
->  # Targets #
->  ###########
-> -
-> -foreach m : block_mods + softmmu_mods
-> -  shared_module(m.name(),
-> -                name_prefix: '',
-> -                link_whole: m,
-> -                install: true,
-> -                install_dir: qemu_moddir)
-> -endforeach
-> +if targetos != 'windows'
-> +  foreach m : block_mods + softmmu_mods
-> +    shared_module(m.name(),
-> +                  name_prefix: '',
-> +                  link_whole: m,
-> +                  install: true,
-> +                  install_dir: qemu_moddir)
-> +  endforeach
-> +endif
->  
->  softmmu_ss.add(authz, blockdev, chardev, crypto, io, qmp)
->  common_ss.add(qom, qemuutil)
-> @@ -2826,6 +2827,7 @@ common_all = static_library('common',
->  feature_to_c = find_program('scripts/feature_to_c.sh')
->  
->  emulators = {}
-> +emulator = 0
->  foreach target : target_dirs
->    config_target = config_target_mak[target]
->    target_name = config_target['TARGET_NAME']
-> @@ -2966,6 +2968,7 @@ foreach target : target_dirs
->                 link_language: link_language,
->                 link_depends: [block_syms, qemu_syms] + exe.get('link_depends', []),
->                 link_args: link_args,
-> +               implib: true,
->                 win_subsystem: exe['win_subsystem'])
->  
->      if targetos == 'darwin'
-> @@ -3023,6 +3026,17 @@ foreach target : target_dirs
->      endif
->    endforeach
->  endforeach
-> +if (targetos == 'windows')
-> +  foreach m : block_mods + softmmu_mods
-> +    shared_module(m.name(),
-> +	    name_prefix: '',
-> +	    link_whole: m,
-> +	    install: true,
-> +	    dependencies: glib,
-> +	    link_with: emulator,
+> We've therefore discussed and plan to transfer maintainership to Cédric Le
+> Goater (primary) and Daniel Henrique Barboza (backup).  Cédric and Daniel
+> have been actively contributing to the area for some time, and they're
+> supported in this by their current employer, IBM, who has an obvious
+> interest in the platform.
 
-AFAIK from the docs meson wants "link_with" to be a list of
-libraries. This is passing a literal '0' which doesn't
-make sense. Is this really needed ?
+Thank you and Greg and Red Hat for all the years of service supporting
+qemu-ppc in the community. IBM will shoulder this responsibility now.
 
-What is the reason for the "dependencies" addition ?
+> 
+> Greg and I do plan to stay around in some capacity for at least the next
+> 6 months, providing reviews and advice to assist the new maintainers into
+> the role.
 
-Can we not just use the existing shared_module() rules
-we already have. It might be ok to just add dependencies
-to the existing rule even for non-windows.
-
-> +	    install_dir: qemu_moddir)
-> +  endforeach
-> +endif
+I hope both of you stay around way longer than that :)
 
 
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
+> 
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> ---
+>   MAINTAINERS | 20 ++++++++++++++------
+>   1 file changed, 14 insertions(+), 6 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 797be5b366..066c4fb2b0 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -262,8 +262,10 @@ F: hw/openrisc/
+>   F: tests/tcg/openrisc/
+>   
+>   PowerPC TCG CPUs
+> -M: David Gibson <david@gibson.dropbear.id.au>
+> -M: Greg Kurz <groug@kaod.org>
+> +M: Cédric Le Goater <clg@kaod.org>
+> +M: Daniel Henrique Barboza <danielhb413@gmail.com>
+> +R: David Gibson <david@gibson.dropbear.id.au>
+> +R: Greg Kurz <groug@kaod.org>
+>   L: qemu-ppc@nongnu.org
+>   S: Maintained
+>   F: target/ppc/
+> @@ -382,8 +384,10 @@ F: target/mips/kvm*
+>   F: target/mips/sysemu/
+>   
+>   PPC KVM CPUs
+> -M: David Gibson <david@gibson.dropbear.id.au>
+> -M: Greg Kurz <groug@kaod.org>
+> +M: Cédric Le Goater <clg@kaod.org>
+> +M: Daniel Henrique Barboza <danielhb413@gmail.com>
+> +R: David Gibson <david@gibson.dropbear.id.au>
+> +R: Greg Kurz <groug@kaod.org>
+>   S: Maintained
+>   F: target/ppc/kvm.c
+>   
+> @@ -1321,8 +1325,10 @@ F: include/hw/rtc/m48t59.h
+>   F: tests/acceptance/ppc_prep_40p.py
+>   
+>   sPAPR
+> -M: David Gibson <david@gibson.dropbear.id.au>
+> -M: Greg Kurz <groug@kaod.org>
+> +M: Cédric Le Goater <clg@kaod.org>
+> +M: Daniel Henrique Barboza <danielhb413@gmail.com>
+> +R: David Gibson <david@gibson.dropbear.id.au>
+> +R: Greg Kurz <groug@kaod.org>
+>   L: qemu-ppc@nongnu.org
+>   S: Maintained
+>   F: hw/*/spapr*
+> @@ -1382,6 +1388,8 @@ F: include/hw/pci-host/mv64361.h
+>   
+>   Virtual Open Firmware (VOF)
+>   M: Alexey Kardashevskiy <aik@ozlabs.ru>
+> +R: Cédric Le Goater <clg@kaod.org>
+> +R: Daniel Henrique Barboza <danielhb413@gmail.com>
+>   R: David Gibson <david@gibson.dropbear.id.au>
+>   R: Greg Kurz <groug@kaod.org>
+>   L: qemu-ppc@nongnu.org
+> 
 
