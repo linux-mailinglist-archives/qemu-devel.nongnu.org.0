@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD60446469
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 14:47:05 +0100 (CET)
-Received: from localhost ([::1]:33900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A74BE446475
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 14:51:14 +0100 (CET)
+Received: from localhost ([::1]:42140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mizYe-0007It-IS
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 09:47:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54546)
+	id 1mizcf-0004gD-7y
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 09:51:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mizLt-0007hh-0O
+ id 1mizLy-0007i9-Fe
  for qemu-devel@nongnu.org; Fri, 05 Nov 2021 09:33:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38803)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mizLr-000198-Lh
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 09:33:52 -0400
+ id 1mizLw-0001RQ-45
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 09:33:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636119231;
+ s=mimecast20190719; t=1636119235;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vXCQEoApqaksXfro1WHTSuYwZpITFwX8D1pEIqEVdtc=;
- b=hhjXDAXOAYNicVzTklijhLLKg9HqXNT8agS/l8UjnSgqqVePvR569Y7EtWC61ZLwI4FZw1
- z+qi+18+RBueXU//LcCFIh5UD1C+rfSJkD2WPyafXs64DPF3wF3WkmeO21HVsRyjKY09uZ
- 7LYHE/QF+WcfzX4GUb6PnRa7/Ihm8k4=
+ bh=GvqT5RX8XrTCakxUrMOv3JoHcoZ4N7vOMJK4HDTaeEk=;
+ b=HJNmSTjh/02V6axbXofr5/QAKr2gsB014GHWLMzmllLKEjQJ3rrmO6T04lup54pn5jQED+
+ NvY6tcbaDZUytNQ1VTJrRbn58FerIVmz0Im+NAg6AAwc1/vVERUbA3FKFO+vmlmjn9nr96
+ KqBktulGZ9xfK6RTDEQZ4CvvlLX1dYA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-517-0o4SCp1SMLyzaZPlzWmTKw-1; Fri, 05 Nov 2021 09:33:49 -0400
-X-MC-Unique: 0o4SCp1SMLyzaZPlzWmTKw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-120-9KgtaqbIPmWFHERwWNPIwg-1; Fri, 05 Nov 2021 09:33:51 -0400
+X-MC-Unique: 9KgtaqbIPmWFHERwWNPIwg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 502AC875048;
- Fri,  5 Nov 2021 13:33:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF60D112B8D5;
+ Fri,  5 Nov 2021 13:33:50 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EAE9060C17;
- Fri,  5 Nov 2021 13:33:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 891925FC13;
+ Fri,  5 Nov 2021 13:33:49 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/11] docs/sphinx: add 's' keyboard binding to focus search
-Date: Fri,  5 Nov 2021 17:32:19 +0400
-Message-Id: <20211105133222.184722-9-marcandre.lureau@redhat.com>
+Subject: [PULL 09/11] docs: remove non-reference uses of single backticks
+Date: Fri,  5 Nov 2021 17:32:20 +0400
+Message-Id: <20211105133222.184722-10-marcandre.lureau@redhat.com>
 In-Reply-To: <20211105133222.184722-1-marcandre.lureau@redhat.com>
 References: <20211105133222.184722-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
@@ -80,55 +80,152 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+From: John Snow <jsnow@redhat.com>
 
-This is pretty ubiquitous. ('/' is already taken by some browsers for
-quick search)
+The single backtick markup in ReST is the "default role". Currently,
+Sphinx's default role is called "content". Sphinx suggests you can use
+the "Any" role instead to turn any single-backtick enclosed item into a
+cross-reference.
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+This is useful for things like autodoc for Python docstrings, where it's
+often nicer to reference other types with `foo` instead of the more
+laborious :py:meth:`foo`. It's also useful in multi-domain cases to
+easily reference definitions from other Sphinx domains, such as
+referencing C code definitions from outside of kerneldoc comments.
+
+Before we do that, though, we'll need to turn all existing usages of the
+"content" role to inline verbatim markup wherever it does not correctly
+resolve into a cross-refernece by using double backticks instead.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
+Message-Id: <20211004215238.1523082-2-jsnow@redhat.com>
 ---
- docs/conf.py                 | 4 ++++
- docs/sphinx-static/custom.js | 9 +++++++++
- 2 files changed, 13 insertions(+)
- create mode 100644 docs/sphinx-static/custom.js
+ docs/devel/fuzzing.rst                 | 9 +++++----
+ docs/devel/tcg-plugins.rst             | 2 +-
+ docs/interop/live-block-operations.rst | 2 +-
+ docs/system/guest-loader.rst           | 2 +-
+ qapi/block-core.json                   | 4 ++--
+ include/qemu/module.h                  | 6 +++---
+ qemu-options.hx                        | 4 ++--
+ 7 files changed, 15 insertions(+), 14 deletions(-)
 
-diff --git a/docs/conf.py b/docs/conf.py
-index f536483bc3d5..3161b8b127c6 100644
---- a/docs/conf.py
-+++ b/docs/conf.py
-@@ -182,6 +182,10 @@
-     'theme_overrides.css',
- ]
+diff --git a/docs/devel/fuzzing.rst b/docs/devel/fuzzing.rst
+index 2749bb9bed36..784ecb99e667 100644
+--- a/docs/devel/fuzzing.rst
++++ b/docs/devel/fuzzing.rst
+@@ -182,10 +182,11 @@ The output should contain a complete list of matched MemoryRegions.
  
-+html_js_files = [
-+    'custom.js',
-+]
-+
- html_context = {
-     "display_gitlab": True,
-     "gitlab_user": "qemu-project",
-diff --git a/docs/sphinx-static/custom.js b/docs/sphinx-static/custom.js
-new file mode 100644
-index 000000000000..71a86053051b
---- /dev/null
-+++ b/docs/sphinx-static/custom.js
-@@ -0,0 +1,9 @@
-+document.addEventListener('keydown', (event) => {
-+    // find a better way to look it up?
-+    let search_input = document.getElementsByName('q')[0];
-+
-+    if (event.code === 'KeyS' && document.activeElement !== search_input) {
-+        event.preventDefault();
-+        search_input.focus();
-+    }
-+});
+ OSS-Fuzz
+ --------
+-QEMU is continuously fuzzed on `OSS-Fuzz` __(https://github.com/google/oss-fuzz).
+-By default, the OSS-Fuzz build will try to fuzz every fuzz-target. Since the
+-generic-fuzz target requires additional information provided in environment
+-variables, we pre-define some generic-fuzz configs in
++QEMU is continuously fuzzed on `OSS-Fuzz
++<https://github.com/google/oss-fuzz>`_.  By default, the OSS-Fuzz build
++will try to fuzz every fuzz-target. Since the generic-fuzz target
++requires additional information provided in environment variables, we
++pre-define some generic-fuzz configs in
+ ``tests/qtest/fuzz/generic_fuzz_configs.h``. Each config must specify:
+ 
+ - ``.name``: To identify the fuzzer config
+diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+index 59a7d838bee3..f93ef4fe52a4 100644
+--- a/docs/devel/tcg-plugins.rst
++++ b/docs/devel/tcg-plugins.rst
+@@ -211,7 +211,7 @@ The hotpages plugin can be configured using the following arguments:
+ 
+ This is an instruction classifier so can be used to count different
+ types of instructions. It has a number of options to refine which get
+-counted. You can give a value to the `count` argument for a class of
++counted. You can give a value to the ``count`` argument for a class of
+ instructions to break it down fully, so for example to see all the system
+ registers accesses::
+ 
+diff --git a/docs/interop/live-block-operations.rst b/docs/interop/live-block-operations.rst
+index 9e3635b23386..814c29bbe1df 100644
+--- a/docs/interop/live-block-operations.rst
++++ b/docs/interop/live-block-operations.rst
+@@ -640,7 +640,7 @@ at this point:
+         (QEMU) block-job-complete device=job0
+ 
+ In either of the above cases, if you once again run the
+-`query-block-jobs` command, there should not be any active block
++``query-block-jobs`` command, there should not be any active block
+ operation.
+ 
+ Comparing 'commit' and 'mirror': In both then cases, the overlay images
+diff --git a/docs/system/guest-loader.rst b/docs/system/guest-loader.rst
+index 4320d1183f73..9ef9776bf07b 100644
+--- a/docs/system/guest-loader.rst
++++ b/docs/system/guest-loader.rst
+@@ -51,4 +51,4 @@ The full syntax of the guest-loader is::
+ 
+ ``bootargs=<args>``
+   This is an optional field for kernel blobs which will pass command
+-  like via the `/chosen/module@<addr>/bootargs` node.
++  like via the ``/chosen/module@<addr>/bootargs`` node.
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index b290782bf280..33e8507d1035 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -491,11 +491,11 @@
+ # @granularity: granularity of the dirty bitmap in bytes (since 1.4)
+ #
+ # @recording: true if the bitmap is recording new writes from the guest.
+-#             Replaces `active` and `disabled` statuses. (since 4.0)
++#             Replaces ``active`` and ``disabled`` statuses. (since 4.0)
+ #
+ # @busy: true if the bitmap is in-use by some operation (NBD or jobs)
+ #        and cannot be modified via QMP or used by another operation.
+-#        Replaces `locked` and `frozen` statuses. (since 4.0)
++#        Replaces ``locked`` and ``frozen`` statuses. (since 4.0)
+ #
+ # @persistent: true if the bitmap was stored on disk, is scheduled to be stored
+ #              on disk, or both. (since 4.0)
+diff --git a/include/qemu/module.h b/include/qemu/module.h
+index 3deac0078b9d..5fcc323b2a79 100644
+--- a/include/qemu/module.h
++++ b/include/qemu/module.h
+@@ -77,14 +77,14 @@ void module_allow_arch(const char *arch);
+ /**
+  * DOC: module info annotation macros
+  *
+- * `scripts/modinfo-collect.py` will collect module info,
++ * ``scripts/modinfo-collect.py`` will collect module info,
+  * using the preprocessor and -DQEMU_MODINFO.
+  *
+- * `scripts/modinfo-generate.py` will create a module meta-data database
++ * ``scripts/modinfo-generate.py`` will create a module meta-data database
+  * from the collected information so qemu knows about module
+  * dependencies and QOM objects implemented by modules.
+  *
+- * See `*.modinfo` and `modinfo.c` in the build directory to check the
++ * See ``*.modinfo`` and ``modinfo.c`` in the build directory to check the
+  * script results.
+  */
+ #ifdef QEMU_MODINFO
+diff --git a/qemu-options.hx b/qemu-options.hx
+index f051536b630f..7749f59300b5 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -1895,8 +1895,8 @@ SRST
+         Valid parameters are:
+ 
+         ``grab-mod=<mods>`` : Used to select the modifier keys for toggling
+-        the mouse grabbing in conjunction with the "g" key. `<mods>` can be
+-        either `lshift-lctrl-lalt` or `rctrl`.
++        the mouse grabbing in conjunction with the "g" key. ``<mods>`` can be
++        either ``lshift-lctrl-lalt`` or ``rctrl``.
+ 
+         ``alt_grab=on|off`` : Use Control+Alt+Shift-g to toggle mouse grabbing.
+         This parameter is deprecated - use ``grab-mod`` instead.
 -- 
 2.33.0.721.g106298f7f9
 
