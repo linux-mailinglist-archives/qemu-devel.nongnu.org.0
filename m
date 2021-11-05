@@ -2,109 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16CBA446034
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 08:40:26 +0100 (CET)
-Received: from localhost ([::1]:35870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B10C446037
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 08:43:02 +0100 (CET)
+Received: from localhost ([::1]:38832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mitpo-0005Kz-Oe
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 03:40:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60530)
+	id 1mitsL-0007Sv-7m
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 03:43:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1mitnz-0004MI-TQ
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 03:38:33 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34976)
+ id 1mitrD-0006lu-CK
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 03:41:51 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:52608
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1mitnx-0004sK-EM
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 03:38:31 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A56Lt5m009913; 
- Fri, 5 Nov 2021 07:38:25 GMT
+ id 1mitrB-0007Db-8v
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 03:41:51 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A54tvS1003137; 
+ Fri, 5 Nov 2021 07:41:46 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=OF7c2R9D+DqPzKWfyf0Jux1L6acg6y9qZTHiUfGIZdw=;
- b=Ei0iBg2nA5QsEsbwZPaFLy1rxYFeHlbAM8D+7WqBtnqvS0D5x2xyFJuigoOvc1ttNY9v
- RC0Wv6ihht9PE+6TCf3kvxkgyNY5Nk62B/qKhxMP31aqNR2olUtQvAVwoYugPdgAQz/j
- LRiTbfTr99OOa+/AygpG+dJWUfW2HwXULzQa+uJACIfil0ZrmZ1rm3Vk85/5EHPIqqgo
- /U2Qqri8e7ywOae78J0VnqRzoQxhDRFkDj/tnr4gHt2xFHyOxD5oArCceHESMyGU/MNY
- VZjoHba9ciORDtUwpJo0k21+kSpMRy/itKm5MZs8eqYeQ97BCUtPiOcrVDe/IunifMqN HA== 
+ bh=tAlJnD3fn2Z3X6yRIs8MjqYu/OgPcSsk6o46Op5oP3s=;
+ b=p4qQU6Jls9iv/+37n4rfzo80RShouxctkD2Fb025PZgY7xvIIf2iq+w+zECuplJwIrlz
+ lP1ZjyyfYGiyvT3N7+rUlGzJIdplYqkOe6vD/K29mdKCRsZTRLKPJnhrKun642yJOfyo
+ 97RvR99Zv2OoAqK9/qJMQplT8DgU2QfyoxFkUZqbedFsMjZdxjPAAlKT06l0OIUdoQyJ
+ Gzp0/+GohBQ7Ht89EMwtPU3GzKAdCwsPmMEOmaKlRWaworZoV+AXKwJSGAr++g1COUEr
+ ClI8beqH/IOCcrnowiB8hRCTjPatihDDcAKMYnP2sObLvCdKE57q0SncP9aAeBygCss9 2Q== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3c4y9bsaa0-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3c4t5uehh2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Nov 2021 07:38:24 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1A57cOCD002837;
- Fri, 5 Nov 2021 07:38:24 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3c4y9bsa9d-1
+ Fri, 05 Nov 2021 07:41:46 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1A57fIqd004417;
+ Fri, 5 Nov 2021 07:41:46 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3c4t5uehgs-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Nov 2021 07:38:23 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1A57ZUhD027466;
- Fri, 5 Nov 2021 07:38:22 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma05wdc.us.ibm.com with ESMTP id 3c4t4gn4t3-1
+ Fri, 05 Nov 2021 07:41:46 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1A57YC2c001319;
+ Fri, 5 Nov 2021 07:41:44 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma01dal.us.ibm.com with ESMTP id 3c4t3x6fr1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Nov 2021 07:38:22 +0000
+ Fri, 05 Nov 2021 07:41:44 +0000
 Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
  [9.57.199.110])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1A57cL2m31326622
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1A57fhxB29032742
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 5 Nov 2021 07:38:21 GMT
+ Fri, 5 Nov 2021 07:41:43 GMT
 Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 96B93AE05F;
- Fri,  5 Nov 2021 07:38:21 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 64742AE062;
+ Fri,  5 Nov 2021 07:41:43 +0000 (GMT)
 Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 43A3DAE063;
- Fri,  5 Nov 2021 07:38:19 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 7B14BAE05C;
+ Fri,  5 Nov 2021 07:41:40 +0000 (GMT)
 Received: from [9.65.75.52] (unknown [9.65.75.52])
  by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Fri,  5 Nov 2021 07:38:19 +0000 (GMT)
-Message-ID: <8d17ae09-af05-0c22-dbca-2425fb03d32e@linux.ibm.com>
-Date: Fri, 5 Nov 2021 09:38:18 +0200
+ Fri,  5 Nov 2021 07:41:40 +0000 (GMT)
+Message-ID: <5bf7ec04-5a82-9e38-657a-46312d855045@linux.ibm.com>
+Date: Fri, 5 Nov 2021 09:41:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH 0/3] SEV: fixes for -kernel launch with incompatible OVMF
+Subject: Re: [PATCH 1/3] sev/i386: Allow launching with -kernel if no OVMF
+ hashes table found
 Content-Language: en-US
-To: Brijesh Singh <brijesh.singh@amd.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 References: <20211101102136.1706421-1-dovmurik@linux.ibm.com>
- <0291b6fc-b613-5eae-77a0-b344020a8376@amd.com>
- <39de4c3a-4351-3705-0962-7bb8d496fe28@linux.ibm.com>
- <9e4c0415-4153-e234-7c59-872e903e6567@amd.com> <YYKX7kmDE71NN8Sb@work-vm>
- <f2dce4c6-1dbd-4bef-ad90-4e176db9d628@amd.com>
+ <20211101102136.1706421-2-dovmurik@linux.ibm.com>
+ <YYKynfyEpwn3PRHW@redhat.com> <YYQj4hIiYckbRrZ/@work-vm>
+ <YYQk4rI0sKpxCu78@redhat.com>
 From: Dov Murik <dovmurik@linux.ibm.com>
-In-Reply-To: <f2dce4c6-1dbd-4bef-ad90-4e176db9d628@amd.com>
+In-Reply-To: <YYQk4rI0sKpxCu78@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: FVt2H0ZL5il7uZ91DwSqkSGm4rETcQXD
-X-Proofpoint-ORIG-GUID: RC_J5T0_NqOl_k4Tf0eqtsb5zxJ3smKu
+X-Proofpoint-GUID: GpVR5Mx-5tpJG1n7JnB9wo2OPftB0c7P
+X-Proofpoint-ORIG-GUID: KiZnQTmnLiVu7NWTdCXZVVmNW5khHq74
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
  definitions=2021-11-05_01,2021-11-03_01,2020-04-07_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- clxscore=1015 suspectscore=0 mlxlogscore=999 spamscore=0 adultscore=0
- phishscore=0 mlxscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111050041
-Received-SPF: pass client-ip=148.163.156.1;
+ spamscore=0
+ priorityscore=1501 phishscore=0 mlxlogscore=999 impostorscore=0
+ bulkscore=0 mlxscore=0 lowpriorityscore=0 malwarescore=0 adultscore=0
+ suspectscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2111050041
+Received-SPF: pass client-ip=148.163.158.5;
  envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
 X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.093,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -119,9 +119,9 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Dov Murik <dovmurik@linux.ibm.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Dov Murik <dovmurik@linux.ibm.com>,
  Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
@@ -130,114 +130,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 03/11/2021 17:44, Brijesh Singh wrote:
-> 
-> 
-> On 11/3/21 9:08 AM, Dr. David Alan Gilbert wrote:
->> * Brijesh Singh (brijesh.singh@amd.com) wrote:
+On 04/11/2021 20:22, Daniel P. Berrangé wrote:
+> On Thu, Nov 04, 2021 at 06:18:10PM +0000, Dr. David Alan Gilbert wrote:
+>> * Daniel P. Berrangé (berrange@redhat.com) wrote:
+>>> On Mon, Nov 01, 2021 at 10:21:34AM +0000, Dov Murik wrote:
+>>>> Commit cff03145ed3c ("sev/i386: Introduce sev_add_kernel_loader_hashes
+>>>> for measured linux boot", 2021-09-30) introduced measured direct boot
+>>>> with -kernel, using an OVMF-designated hashes table which QEMU fills.
+>>>>
+>>>> However, if OVMF doesn't designate such an area, QEMU would completely
+>>>> abort the VM launch.  This breaks launching with -kernel using older
+>>>> OVMF images which don't publish the SEV_HASH_TABLE_RV_GUID.
+>>>>
+>>>> Instead, just warn the user that -kernel was supplied by OVMF doesn't
+>>>> specify the GUID for the hashes table.  The following warning will be
+>>>> displayed during VM launch:
+>>>>
+>>>>     qemu-system-x86_64: warning: SEV: kernel specified but OVMF has no hash table guid
+>>>>
+>>>> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+>>>> Reported-by: Tom Lendacky <thomas.lendacky@amd.com>
+>>>> ---
+>>>>  target/i386/sev.c | 2 +-
+>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/target/i386/sev.c b/target/i386/sev.c
+>>>> index eede07f11d..682b8ccf6c 100644
+>>>> --- a/target/i386/sev.c
+>>>> +++ b/target/i386/sev.c
+>>>> @@ -1204,7 +1204,7 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
+>>>>      int aligned_len;
+>>>>  
+>>>>      if (!pc_system_ovmf_table_find(SEV_HASH_TABLE_RV_GUID, &data, NULL)) {
+>>>> -        error_setg(errp, "SEV: kernel specified but OVMF has no hash table guid");
+>>>> +        warn_report("SEV: kernel specified but OVMF has no hash table guid");
+>>>>          return false;
+>>>
+>>> I'm pretty wary of doing this kind of thing.
+>>>
+>>> If someone is using QEMU and they required to have the hashes populated
+>>> for their use case, they now don't get a fatal error if something goes
+>>> wrong with the process. This is bad as it hides a serious mistake.
+>>>
+>>> If someone is using QEMU and they don't require to have the hashes
+>>> populated and they knowingly use a firmware that doesn't support
+>>> this, they'll now get a irrelevant warning every time they boot
+>>> QEMU. This is bad because IME users will file bugs complaining
+>>> about this bogus warning.
 >>>
 >>>
->>> On 11/2/21 8:22 AM, Dov Murik wrote:
->>>>
->>>>
->>>> On 02/11/2021 12:52, Brijesh Singh wrote:
->>>>> Hi Dov,
->>>>>
->>>>> Overall the patch looks good, only question I have is that now we are
->>>>> enforce qemu to hash the kernel, initrd and cmdline unconditionally
->>>>> for
->>>>> any of the SEV guest launches. This requires anyone wanting to
->>>>> calculating the expected measurement need to account for it. Should we
->>>>> make the hash page build optional ?
->>>>>
->>>>
->>>> The problem with adding a -enable-add-kernel-hashes QEMU option (or
->>>> suboption) is yet another complexity for the user.  I'd also argue that
->>>> adding these hashes can lead to a more secure VM boot process, so it
->>>> makes sense for it to be the default (and maybe introduce a
->>>> -allow-insecure-unmeasured-kernel-via-fw-cfg option to prevent the
->>>> measurement from changing due to addition of hashes?).
->>>>
->>>> Maybe, on the other hand, OVMF should "report" whether it supports
->>>> hashes verification. If it does, it should have the GUID in the table
->>>> (near the reset vector), like the current OvmfPkg/AmdSev edk2 build. If
->>>> it doesn't support that, then the entry should not appear at all, and
->>>> then QEMU won't add the hashes (with patch 1 from this series).  This
->>>> means that in edk2 we need to remove the SEV Hash Table block from the
->>>> ResetVectorVtf0.asm for OvmfPkg, but include it in the AmdSev build.
->>>>
+>>> If we genuinely need to support both uses cases, then we should have
+>>> an explicit command line flag to request the desired behaviour.
 >>>
->>> By leaving it ON is conveying a wrong message to the user. The
->>> library used
->>> for verifying the hash is a NULL library for all the builds of Ovmf
->>> except
->>> the AmdSev package. In the NULL library case, OVMF does not perform any
->>> checks and hash table is useless. I will raise this on concern on
->>> your Ovmf
->>> patch series.
+>>> This could be a -machine option to indicate that the hashes must
+>>> be populated.
 >>>
->>> IMHO, if you want to turn it ON by default then make sure all the OVMF
->>> package builds supports validating the hash.
->>>
->>>
->>>> But the problem with this approach is that it prevents the future
->>>> unification of AmdSev and OvmfPkg, which is a possibility we discussed
->>>> (at least with Dave Gilbert), though not sure it's a good/feasible
->>>> goal.
->>>>
->>>>
->>>
->>> This is my exact concern, we are auto enabling the features in Qemu
->>> that is
->>> supported by AmdSev package only.
+>>>  - unset: try to populate hashes, *silently* ignore missing table
+>>>           in ovmf
+>>>  - set == on: try to populate hashes, report error on missing
+>>>              table in ovmf
+>>>   -set == off: never try to populate hashes, nor look for the
+>>>                table in ovmf
 >>
->> I'm confused; wouldn't the trick be to only define the GUIDs for the
->> builds that support the validation?
->>
+>> Or as a property on the sev-guest object.
 > 
-> The GUID is hardcoded in the OVMF reset vector asm file, and the file
-> gets included for all the flavor of OVMF builds. In its current form,
-> GUID is defined for all the package.
+> Yep, I thought of that too, and I'm pretty undecided which is "best".
 > 
+> -machine makes sense as 'kernel' and 'initrd' are properties of
+> the '-machine' and we're doing stuff related to the.
+> 
+> -object sev-guest makes sense as this is behaviour that's (currently)
+> specific to SEV.
 
-(We can overcome that by changing to a new GUID and modifying the reset
-vector asm file to include the SEV hashes GUID only in the AmdSev build.
-Requires changes both in OVMF and in QEMU.)
+Thanks for the suggestions.
 
-But some people want to use a non-hash-validating OVMF build with
--kernel (that's the "old OVMF" scenario that Tom presented).  In that case:
-
-1. QEMU won't find the GUID, and will fail. This is breaking behaviour
-for existing users.
-2. If we just warn (as this patch suggested), then we don't enforce the
-secure behaviour that some users want.
-
-Following Daniel's suggestion, I think I'm going to send another round
-in which the whole kernel hashes addition will happen only if the user
-explicitly requested:
-
-  -object sev_guest,id=sev0,...,kernel_hashes=on
-
-With the default being 'off'.
-
-(and change the warn_report above to error_report so they are fatal.)
-
-This is basically keeping the new functionality for the release under a
-feature flag, so users that want to use it will enable it explicitly and
-all other users have the same behaviour as in previous releases.
-
-
-As Daniel mentioned, we can also consider an 'auto' mode in which we add
-the kernel hashes only if the GUID exists in OVMF, but I actually came
-to an understanding that this is too confusing in the state of OVMF
-builds right now.
-
-Users that use the tighter OVMF build (AmdSev) will get a boot failure
-from OVMF if they don't define kernel_hashes=on, so that won't be
-accidentally missed.
-
-
+I'm going to go with '-object sev-guest,...,kernel_hashes=on' because
+this whole function is defined in sev.c and only works with the AmdSev
+OVMF target.
 
 -Dov
-
 
