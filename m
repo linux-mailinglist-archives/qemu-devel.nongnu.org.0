@@ -2,90 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 443D04462F7
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 12:46:50 +0100 (CET)
-Received: from localhost ([::1]:38324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B9CE446323
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 13:06:29 +0100 (CET)
+Received: from localhost ([::1]:50226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mixgH-0006ie-1U
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 07:46:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43754)
+	id 1mixzI-0007we-27
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 08:06:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mixcB-0005aT-2Y
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 07:42:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40174)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mixxD-0006tQ-0e; Fri, 05 Nov 2021 08:04:19 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:53053)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mixc8-00062T-Rm
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 07:42:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636112552;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=b7eAcV+hHwSNZGPZ70OxFpJrgtEIdtEAhY0ZShQ2dxo=;
- b=IiMxweNSLrCkG+d3D5PIw9j/wXSd7/UgtUyWPElX9rds3u9L3nSfcC1bCRhebuwrXCXbtq
- WHfGdC/5MyEaDsy85CxxrdPujHohejtVI9OOyjDYp8bnqGd04kbcudUNJHGhrPimi+NnYj
- 91Tg2oZfl6btfq4KfonfnUBYi/MlBEQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-lpfToq4BNG2FjSPpdrpqxQ-1; Fri, 05 Nov 2021 07:42:31 -0400
-X-MC-Unique: lpfToq4BNG2FjSPpdrpqxQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- z138-20020a1c7e90000000b003319c5f9164so5577267wmc.7
- for <qemu-devel@nongnu.org>; Fri, 05 Nov 2021 04:42:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=b7eAcV+hHwSNZGPZ70OxFpJrgtEIdtEAhY0ZShQ2dxo=;
- b=Zb+jDM9KM9n7u4cUVoW5WJhoEph2LV4/Z70lEepquwK3og0ev/VxsEaHHsio5u1suF
- oOlBRwyH9j5CEvCTf3L5PMZGWRBSxVNslM7dbUj2c1LzZWSS4nRdFIZAYiKbfYDbNAJT
- JTL1TXrE22/DDtXYJ1vSK375GTsbNFtT3oTFY7u2TgQv0pClh/RLwbII89T+6VCKBR2A
- dbbYqwyR11j+BRuq2KV7jUQnLz9eylHZSguF0VGnH1PGH4NXhAGUd3ikjqg0QrJfs4H0
- SANjAyF/hs/67QI4vvsjOTOCI/lhbwODOUqukTrV21Z0tPHVGoF9GFq8X6h4WGQlghJk
- Tbew==
-X-Gm-Message-State: AOAM532Dt8WBUkmLtfZBmQ+4p2eOCKpQCMdwg5FIAflOX64eZ7f3KWcR
- CVKAHIgfDkylV7V8V0IFULlsACpcjVs61BMGywRgBpwAVGWg895CcXNv1ckEEE+AQL82luSsJnv
- QKxITPGFtm9CAsaA=
-X-Received: by 2002:adf:f7d2:: with SMTP id a18mr58537096wrq.354.1636112549813; 
- Fri, 05 Nov 2021 04:42:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwo5eu7w6jLqhkDLZieboY7wu79A+rUYuXPCgu6+fdiD22IpCh97bB5r8qg3ugM2AzRZXbZNg==
-X-Received: by 2002:adf:f7d2:: with SMTP id a18mr58537071wrq.354.1636112549646; 
- Fri, 05 Nov 2021 04:42:29 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id y12sm7848267wrn.73.2021.11.05.04.42.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Nov 2021 04:42:27 -0700 (PDT)
-Message-ID: <8e8d660f-6710-e389-8b2b-16afca44f274@redhat.com>
-Date: Fri, 5 Nov 2021 12:42:26 +0100
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mixxA-0003fK-Ie; Fri, 05 Nov 2021 08:04:18 -0400
+Received: from [192.168.100.1] ([82.142.14.190]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1Mow4E-1mOlDk443K-00qVOH; Fri, 05 Nov 2021 13:03:27 +0100
+Message-ID: <462e39cf-6572-b78a-c12a-6adb1b5307a2@vivier.eu>
+Date: Fri, 5 Nov 2021 13:03:23 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH] hw/scsi/scsi-disk: MODE_PAGE_ALLS not allowed in MODE
- SELECT commands
-To: Mauro Matteo Cascella <mcascell@redhat.com>, qemu-devel@nongnu.org
-References: <20211105113729.530200-1-mcascell@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211105113729.530200-1-mcascell@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.093, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Subject: Re: [PATCH-for-6.2 v2] .mailmap: Fix more contributor entries
+Content-Language: fr
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20211027043254.1248097-1-f4bug@amsat.org>
+ <530b7d0e-9290-c78a-df50-7ef297dbf0b6@amsat.org>
+ <fec0423b-8ef7-7a76-6827-1ebb6c69db1a@amsat.org>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <fec0423b-8ef7-7a76-6827-1ebb6c69db1a@amsat.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:Yn7VNuwFARfWeoqfHG0uv34VFjgIqCMqZgwei7jVB+J/dlOGs6w
+ D5/0UWs+MOG32qsP4IXqx2xrEfsyDNiJm09ky106l7Fq4eY9/EX0P6/mQIXZpHaZ/o+ZShD
+ czxgKYUgXDQ/pihWMSJUzXASfDtUdCvrQoyFJpLiiyotnyYWdsVeZIZznm24SLjZqV5fESn
+ tzwR2HNZ6f8m04Tx0Acfg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:OtxdFsSKWLQ=:0vRM0S0vZ7MdI0ppIfSPwB
+ iXhr2QIn2jGP90JECx9RnrvMcyx+MzDGmpP2xYyQuOdG+I90WdGoHGYXM3bm01ge2kj6pfq6j
+ yCJuJJ6BOvmLVAZXjEPX9z1PwkiRU+nQzRtRVjlp0zki3NmoKfOgD7TSttFV2w5qh7sLz7Wi2
+ a8/qrcr5kuEczf/ENX450tVPH1qfbzy8TwbMnLjE2NFc2Ee97tFor9xw5671UW5uPpSQjDI4Q
+ qP4753rOniEdt0GfTsiqHtkZsJeoaAfywhAFuBNdofTQxXi6/JoMXF/3TS0ne+h4k+aydkLPY
+ n09Yro0Ezz43fKU6FgP/4vEN4M7JkFTbdMNc8dZaAB0H6Mdsbnxl4oeMi+Z+Z8RxwR8NrWscV
+ ge8BBNAC/2JiUNK8QtxTwmJ2bNt9BGuyb+Frvf1JLhwbrVnIf84q94Sa9/fYNp6LQDde9PRS4
+ 1o7CYu6vtbvDRqSjcvfBmvauohgpaXsZGqxZkovunLPRTNMooql9mwECWMkxyq1Ka9G/2MlS1
+ dsqtSh4OvMp+uv2MftR9j/RYmDwZmVcYpUdjQLtfZXreeaMh+S6m9xdWPU6XJqnx7SqqoGC4C
+ y+1uEIL9G0l7m7kptGqu3kr+iPGBl78xFVFr2i3CDzPbWP+W5LFwD9VqcUbeIBOrxAdbAX9CG
+ z5D8bxfLOusmrXtaJi+gmUHNZDuxA5LBiYvFwX8mJHK5JkiiWuurqwjPlF4UyygL8lKE=
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.093,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,56 +71,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Darren Kenny <darren.kenny@oracle.com>,
- Li Qiang <liq3ea@gmail.com>, qiuhao.li@outlook.com,
- Alexander Bulekov <alxndr@bu.edu>, pbonzini@redhat.com
+Cc: qemu-trivial@nongnu.org, Pan Nengyuan <pannengyuan@huawei.com>,
+ Hyman Huang <huangy81@chinatelecom.cn>, Haibin Zhang <haibinzhang@tencent.com>,
+ Alex Chen <alex.chen@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/5/21 12:37, Mauro Matteo Cascella wrote:
-> MODE_PAGE_ALLS causes an off-by-one error in mode_sense_page() when accessing
-> the stack-allocated mode_sense_valid buffer. MODE_PAGE_ALLS is only valid for
-> MODE SENSE commands. Do not process it in MODE SELECT commands.
+Le 04/11/2021 à 23:06, Philippe Mathieu-Daudé a écrit :
+> Ping for 6.2? (Patch fully reviewed/acked by affected contributors).
+> 
+> On 11/1/21 11:22, Philippe Mathieu-Daudé wrote:
+>> Can this patch go via the Trivial tree?
+>>
+>> On 10/27/21 06:32, Philippe Mathieu-Daudé wrote:
+>>> These authors have some incorrect author email field.
+>>>
+>>> Acked-by: Pan Nengyuan <pannengyuan@huawei.com>
+>>> Reviewed-by: Alex Chen <alex.chen@huawei.com>
+>>> Reviewed-by: Hyman Huang <huangy81@chinatelecom.cn>
+>>> Reviewed-by: Haibin Zhang <haibinzhang@tencent.com>
+>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>> ---
+>>> Patch fully reviewed/acked.
+>>> ---
+>>>   .mailmap | 4 ++++
+>>>   1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/.mailmap b/.mailmap
+>>> index f029d1c21fe..8beb2f95ae2 100644
+>>> --- a/.mailmap
+>>> +++ b/.mailmap
+>>> @@ -69,6 +69,7 @@ Yongbok Kim <yongbok.kim@mips.com> <yongbok.kim@imgtec.com>
+>>>   # git author config, or had utf8/latin1 encoding issues.
+>>>   Aaron Lindsay <aaron@os.amperecomputing.com>
+>>>   Alexey Gerasimenko <x1917x@gmail.com>
+>>> +Alex Chen <alex.chen@huawei.com>
+>>>   Alex Ivanov <void@aleksoft.net>
+>>>   Andreas Färber <afaerber@suse.de>
+>>>   Bandan Das <bsd@redhat.com>
+>>> @@ -99,9 +100,11 @@ Gautham R. Shenoy <ego@in.ibm.com>
+>>>   Gautham R. Shenoy <ego@linux.vnet.ibm.com>
+>>>   Gonglei (Arei) <arei.gonglei@huawei.com>
+>>>   Guang Wang <wang.guang55@zte.com.cn>
+>>> +Haibin Zhang <haibinzhang@tencent.com>
+>>>   Hailiang Zhang <zhang.zhanghailiang@huawei.com>
+>>>   Hanna Reitz <hreitz@redhat.com> <mreitz@redhat.com>
+>>>   Hervé Poussineau <hpoussin@reactos.org>
+>>> +Hyman Huang <huangy81@chinatelecom.cn>
+>>>   Jakub Jermář <jakub@jermar.eu>
+>>>   Jakub Jermář <jakub.jermar@kernkonzept.com>
+>>>   Jean-Christophe Dubois <jcd@tribudubois.net>
+>>> @@ -135,6 +138,7 @@ Nicholas Thomas <nick@bytemark.co.uk>
+>>>   Nikunj A Dadhania <nikunj@linux.vnet.ibm.com>
+>>>   Orit Wasserman <owasserm@redhat.com>
+>>>   Paolo Bonzini <pbonzini@redhat.com>
+>>> +Pan Nengyuan <pannengyuan@huawei.com>
+>>>   Pavel Dovgaluk <dovgaluk@ispras.ru>
+>>>   Pavel Dovgaluk <pavel.dovgaluk@gmail.com>
+>>>   Pavel Dovgaluk <Pavel.Dovgaluk@ispras.ru>
+>>>
+>>
 > 
 
-Cc: qemu-stable@nongnu.org
+Applied to my trivial-patches branch.
 
-> Fixes: CVE-2021-3930
-> RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=2020588
-> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-> Reported-by: Qiuhao Li <qiuhao.li@outlook.com>
-
-See also:
-https://lore.kernel.org/qemu-devel/20210204225041.1822673-1-philmd@redhat.com/
-
-> ---
->  hw/scsi/scsi-disk.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-> index e8a547dbb7..5852e8dcfd 100644
-> --- a/hw/scsi/scsi-disk.c
-> +++ b/hw/scsi/scsi-disk.c
-> @@ -1087,6 +1087,7 @@ static int mode_sense_page(SCSIDiskState *s, int page, uint8_t **p_outbuf,
->      uint8_t *p = *p_outbuf + 2;
->      int length;
->  
-> +    assert(page != MODE_PAGE_ALLS);
->      if ((mode_sense_valid[page] & (1 << s->qdev.type)) == 0) {
->          return -1;
->      }
-> @@ -1428,6 +1429,11 @@ static int scsi_disk_check_mode_select(SCSIDiskState *s, int page,
->          return -1;
->      }
->  
-> +    /* MODE_PAGE_ALLS is only valid for MODE SENSE commands */
-> +    if (page == MODE_PAGE_ALLS) {
-> +        return -1;
-> +    }
-> +
->      p = mode_current;
->      memset(mode_current, 0, inlen + 2);
->      len = mode_sense_page(s, page, &p, 0);
-> 
+Thanks,
+Laurent
 
 
