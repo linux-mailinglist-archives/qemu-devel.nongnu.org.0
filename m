@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3711446594
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 16:18:00 +0100 (CET)
-Received: from localhost ([::1]:60676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 988D74465D6
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 16:32:39 +0100 (CET)
+Received: from localhost ([::1]:45558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mj0yd-00054a-LS
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 11:17:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33678)
+	id 1mj1Co-0006MT-8E
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 11:32:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mj0wS-0003dg-Lq
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 11:15:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48240)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mj0wN-0002CL-7k
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 11:15:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636125337;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6n8fHPw9pmywZmn+OsZpVFH1x9kqYlIzbfmNSMvhrt4=;
- b=DQS61u0akzUdZIOInmFcvEof7ec8PjtXAAndJ0bSLfMr4grNNtwkrEgiZHkP1B6pcmIUyz
- gMp9d6jV6HWCav6ApKhBsUaf6mzwST9/lDsDFQk3Is947eB0/EcYsPnyqGu5r+mc6G7bhE
- pQZz9sKxOcXugf4+Y6YWe600f0Ue/Yg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-595-x-aB_q9UPsGiDWKP7HFQww-1; Fri, 05 Nov 2021 11:15:33 -0400
-X-MC-Unique: x-aB_q9UPsGiDWKP7HFQww-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D2C1801B01;
- Fri,  5 Nov 2021 15:15:32 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.188])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C2628100164A;
- Fri,  5 Nov 2021 15:15:30 +0000 (UTC)
-Date: Fri, 5 Nov 2021 16:15:29 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH 5/7] block: Pass BdrvChild ** to replace_child_noperm
-Message-ID: <YYVKkd1giB7eZ0k2@redhat.com>
-References: <20211104103849.46855-1-hreitz@redhat.com>
- <20211104103849.46855-6-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mj1Bd-0005gO-Qq
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 11:31:25 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:38656)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mj1Bb-0004tb-KR
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 11:31:25 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ a20-20020a1c7f14000000b003231d13ee3cso9804386wmd.3
+ for <qemu-devel@nongnu.org>; Fri, 05 Nov 2021 08:31:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ldd/t6U+sACbQnl/iec1NcWeahb/j2CvMJd0MKtrX4U=;
+ b=LWXLM/xdai5mjDl+qdCH7BHbUxOzSc56tBZM38zspQupufcl5Hq3HaCyTaNrXZujCO
+ GFDBB4lWh5MK6q2vGijamkEJonYVUNcIsVmo/a6fO8GuWWhY+5X8eqaMxIw5Sdc1BStj
+ ddH6xEEnitkOFE+9BLjMujKJEvX5Ua01FgnOVCtZQQq5Y49y3U+5axa1nYWYrxk4c6pO
+ z5BhgBuV7NEHzHNoNAW3j0tihePZE0tALpAzCUFyTtjf6nUHDzxFB7SPKMOLqBku44mS
+ 2/jmzLfEk7AgLW61YKe/ecGVCxCX8EAnoprrhV6V8yJpzcM9wY49p2TvFDvAiySCtYE6
+ 7RGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ldd/t6U+sACbQnl/iec1NcWeahb/j2CvMJd0MKtrX4U=;
+ b=5WEHtR+cVXx5LRvaukK/3A02dt1BATqbUkzFj8lKZvlSsqUTTAB9c4pgJnAy1ET8UM
+ jmlROugWWvoO3pFv9N8fzte806B+483o0bQVMh1TR8KOQFVcs85CuDo4/cSYs23yiR7t
+ Rj1jITbrgDlg4Qv+r1k7DVMBu1gqKNkfChteZ2s3TERvEJCzyQKzqKbr9/LIb868EwoR
+ 6oPELv0/ojH1rQayA7zpUNuWvCal6b5f6qhmBv/6/OtMeyDIstoSft8Y6dUHvf6Z1Tpp
+ Z6VZBy7NUsWsTlgqGQ6g7Cu8fJ08Nr5yhTQEiiuqrizEqoswLV2rWnmt69kB2ie7zroZ
+ CYrg==
+X-Gm-Message-State: AOAM5302I0XD7T5Y1uW2XgV6Kz0pbX3lVzynrQ5HbWpEqLTe/tIw2LFz
+ oTnf39IEaCS7JlN6TYhmu7IF+iXq5WuIs+lr0TKYVg==
+X-Google-Smtp-Source: ABdhPJxTN4uk6ezecehADzZAkA71RIMJQWXwSt9EDRqQBmr5qj0sYvdOiS8CcWyTM4SY3hNIjsaXO8F4S4jMQUd0k5E=
+X-Received: by 2002:a7b:c389:: with SMTP id s9mr31666658wmj.133.1636126281947; 
+ Fri, 05 Nov 2021 08:31:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211104103849.46855-6-hreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <61844bb6ced54_21aa5f2b09742af98856497@prd-scan-dashboard-0.mail>
+ <SN4PR0201MB880836A27E0A0E93CDF7308CDE8D9@SN4PR0201MB8808.namprd02.prod.outlook.com>
+In-Reply-To: <SN4PR0201MB880836A27E0A0E93CDF7308CDE8D9@SN4PR0201MB8808.namprd02.prod.outlook.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 5 Nov 2021 15:31:10 +0000
+Message-ID: <CAFEAcA9Tp0t+x+AcfJUJgqJxPMYmH7dTibYHGf0ipvPp71yGhg@mail.gmail.com>
+Subject: Re: FW: New Defects reported by Coverity Scan for QEMU
+To: Taylor Simpson <tsimpson@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,232 +78,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 04.11.2021 um 11:38 hat Hanna Reitz geschrieben:
-> bdrv_replace_child_noperm() modifies BdrvChild.bs, and can potentially
-> set it to NULL.  That is dangerous, because BDS parents generally assume
-> that their children's .bs pointer is never NULL.  We therefore want to
-> let bdrv_replace_child_noperm() set the corresponding BdrvChild pointer
-> to NULL, too.
-> 
-> This patch lays the foundation for it by passing a BdrvChild ** pointer
-> to bdrv_replace_child_noperm() so that it can later use it to NULL the
-> BdrvChild pointer immediately after setting BdrvChild.bs to NULL.
-> 
-> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-> ---
->  block.c | 59 ++++++++++++++++++++++++++++++++-------------------------
->  1 file changed, 33 insertions(+), 26 deletions(-)
-> 
-> diff --git a/block.c b/block.c
-> index 6d230ad3d1..ff45447686 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -87,7 +87,7 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
->  static bool bdrv_recurse_has_child(BlockDriverState *bs,
->                                     BlockDriverState *child);
->  
-> -static void bdrv_replace_child_noperm(BdrvChild *child,
-> +static void bdrv_replace_child_noperm(BdrvChild **child,
->                                        BlockDriverState *new_bs);
->  static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
->                                                BdrvChild *child,
-> @@ -2254,6 +2254,7 @@ static int bdrv_drv_set_perm(BlockDriverState *bs, uint64_t perm,
->  
->  typedef struct BdrvReplaceChildState {
->      BdrvChild *child;
-> +    BdrvChild **childp;
+On Thu, 4 Nov 2021 at 22:34, Taylor Simpson <tsimpson@quicinc.com> wrote:
+>
+> Coverity is getting confused here.  The index can never actually overflow.
+>  Does Coverity have a pragma or something to tell it it's OK?
+>
+> The loop nest in question is (the index must be < 128)
+>     for (int offset = 1; offset < 128; offset <<= 1) {
+>         for (int k = 0; k < 128; k++) {
+>             if (!(k & offset)) {
+>                 swap(vector1.ub[k], vector0.ub[k + offset]);
+>             }
+>         }
+>     }
+> Basically, it's looking for elements to swap, and the
+> "if (!(k & offset))" prevents "k + offset" from overflowing.
 
-Would it be clearer to rename child to old_child now that it can be
-changed?
+Yes, I agree this is a false positive. I've marked it as an FP
+in the Coverity web UI.
 
-I would also consider having childp first because this is really the
-object that we're modifying and potentially rolling back now.
+I suspect that changing "k + offset" to "k | offset" would
+probably stop Coverity complaining, but we should only do that
+if you think it's more readable that way. (As I read the code
+we are doing bit operations here rather than addition, so
+it seems slightly better to be using the OR; but there's not
+a lot in it.)
 
->      BlockDriverState *old_bs;
->  } BdrvReplaceChildState;
->  
-> @@ -2269,8 +2270,8 @@ static void bdrv_replace_child_abort(void *opaque)
->      BdrvReplaceChildState *s = opaque;
->      BlockDriverState *new_bs = s->child->bs;
->  
-> -    /* old_bs reference is transparently moved from @s to @s->child */
-> -    bdrv_replace_child_noperm(s->child, s->old_bs);
-> +    /* old_bs reference is transparently moved from @s to *s->childp */
-> +    bdrv_replace_child_noperm(s->childp, s->old_bs);
->      bdrv_unref(new_bs);
->  }
->  
-> @@ -2287,21 +2288,23 @@ static TransactionActionDrv bdrv_replace_child_drv = {
->   *
->   * The function doesn't update permissions, caller is responsible for this.
->   */
-> -static void bdrv_replace_child_tran(BdrvChild *child, BlockDriverState *new_bs,
-> +static void bdrv_replace_child_tran(BdrvChild **childp,
-> +                                    BlockDriverState *new_bs,
->                                      Transaction *tran)
->  {
->      BdrvReplaceChildState *s = g_new(BdrvReplaceChildState, 1);
->      *s = (BdrvReplaceChildState) {
-> -        .child = child,
-> -        .old_bs = child->bs,
-> +        .child = *childp,
-> +        .childp = childp,
-> +        .old_bs = (*childp)->bs,
->      };
->      tran_add(tran, &bdrv_replace_child_drv, s);
->  
->      if (new_bs) {
->          bdrv_ref(new_bs);
->      }
-> -    bdrv_replace_child_noperm(child, new_bs);
-> -    /* old_bs reference is transparently moved from @child to @s */
-> +    bdrv_replace_child_noperm(childp, new_bs);
-> +    /* old_bs reference is transparently moved from *childp to @s */
->  }
->  
->  /*
-> @@ -2672,9 +2675,10 @@ uint64_t bdrv_qapi_perm_to_blk_perm(BlockPermission qapi_perm)
->      return permissions[qapi_perm];
->  }
->  
-> -static void bdrv_replace_child_noperm(BdrvChild *child,
-> +static void bdrv_replace_child_noperm(BdrvChild **childp,
->                                        BlockDriverState *new_bs)
->  {
-> +    BdrvChild *child = *childp;
->      BlockDriverState *old_bs = child->bs;
->      int new_bs_quiesce_counter;
->      int drain_saldo;
-> @@ -2767,7 +2771,7 @@ static void bdrv_attach_child_common_abort(void *opaque)
->      BdrvChild *child = *s->child;
->      BlockDriverState *bs = child->bs;
->  
-> -    bdrv_replace_child_noperm(child, NULL);
-> +    bdrv_replace_child_noperm(s->child, NULL);
->  
->      if (bdrv_get_aio_context(bs) != s->old_child_ctx) {
->          bdrv_try_set_aio_context(bs, s->old_child_ctx, &error_abort);
-> @@ -2867,7 +2871,7 @@ static int bdrv_attach_child_common(BlockDriverState *child_bs,
->      }
->  
->      bdrv_ref(child_bs);
-> -    bdrv_replace_child_noperm(new_child, child_bs);
-> +    bdrv_replace_child_noperm(&new_child, child_bs);
->  
->      *child = new_child;
->  
-> @@ -2927,12 +2931,12 @@ static int bdrv_attach_child_noperm(BlockDriverState *parent_bs,
->      return 0;
->  }
->  
-> -static void bdrv_detach_child(BdrvChild *child)
-> +static void bdrv_detach_child(BdrvChild **childp)
->  {
-> -    BlockDriverState *old_bs = child->bs;
-> +    BlockDriverState *old_bs = (*childp)->bs;
->  
-> -    bdrv_replace_child_noperm(child, NULL);
-> -    bdrv_child_free(child);
-> +    bdrv_replace_child_noperm(childp, NULL);
-> +    bdrv_child_free(*childp);
->  
->      if (old_bs) {
->          /*
-> @@ -3038,7 +3042,7 @@ void bdrv_root_unref_child(BdrvChild *child)
->      BlockDriverState *child_bs;
->  
->      child_bs = child->bs;
-> -    bdrv_detach_child(child);
-> +    bdrv_detach_child(&child);
->      bdrv_unref(child_bs);
->  }
->  
-> @@ -4891,30 +4895,33 @@ static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
->                                                BdrvChild *child,
->                                                Transaction *tran)
->  {
-> +    BdrvChild **childp;
->      BdrvRemoveFilterOrCowChild *s;
->  
-> -    assert(child == bs->backing || child == bs->file);
-> +    if (child == bs->backing) {
-> +        childp = &bs->backing;
-> +    } else if (child == bs->file) {
-> +        childp = &bs->file;
-> +    } else {
-> +        g_assert_not_reached();
-> +    }
->  
->      if (!child) {
->          return;
->      }
->  
->      if (child->bs) {
-> -        bdrv_replace_child_tran(child, NULL, tran);
-> +        bdrv_replace_child_tran(childp, NULL, tran);
->      }
->  
->      s = g_new(BdrvRemoveFilterOrCowChild, 1);
->      *s = (BdrvRemoveFilterOrCowChild) {
->          .child = child,
-> -        .is_backing = (child == bs->backing),
-> +        .is_backing = (childp == &bs->backing),
->      };
->      tran_add(tran, &bdrv_remove_filter_or_cow_child_drv, s);
->  
-> -    if (s->is_backing) {
-> -        bs->backing = NULL;
-> -    } else {
-> -        bs->file = NULL;
-> -    }
-> +    *childp = NULL;
->  }
-
-Hmm... This looks a bit dangerous. Is it guaranteed that bs lives until
-the end of the transaction? I guess it has to because we want to be able
-to roll back, so probably this is okay, though I'm not sure if I would
-bet money on it.
-
-But...
-
-> @@ -4950,7 +4957,7 @@ static int bdrv_replace_node_noperm(BlockDriverState *from,
->                         c->name, from->node_name);
->              return -EPERM;
->          }
-> -        bdrv_replace_child_tran(c, to, tran);
-> +        bdrv_replace_child_tran(&c, to, tran);
->      }
-
-...here, c is a local stack variable that is even reused in a loop.
-bdrv_replace_child_tran() now keeps a pointer to the same variable in
-the transaction state for each BdrvChild in the whole parent list, and
-by the time the transaction is finalised, I think they are all dangling
-pointers anyway because they pointed to stack variables in a function
-that has already returned.
-
-bdrv_replace_child_tran() should probably have a comment like we already
-have in bdrv_attach_child_common():
-
- * @child is saved to a new entry of @tran, so that *@child could be reverted to
- * NULL on abort(). So referenced variable must live at least until transaction
- * end.
-
->      return 0;
-> @@ -5099,7 +5106,7 @@ int bdrv_replace_child_bs(BdrvChild *child, BlockDriverState *new_bs,
->      bdrv_drained_begin(old_bs);
->      bdrv_drained_begin(new_bs);
->  
-> -    bdrv_replace_child_tran(child, new_bs, tran);
-> +    bdrv_replace_child_tran(&child, new_bs, tran);
->  
->      found = g_hash_table_new(NULL, NULL);
->      refresh_list = bdrv_topological_dfs(refresh_list, found, old_bs);
-
-Kevin
-
+thanks
+-- PMM
 
