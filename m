@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BA9A445F19
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 05:22:07 +0100 (CET)
-Received: from localhost ([::1]:58604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1736D445F1C
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 05:23:36 +0100 (CET)
+Received: from localhost ([::1]:34012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miqju-0002x9-BW
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 00:22:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38332)
+	id 1miqlL-0005Y2-7T
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 00:23:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1miqg8-0008Vv-Qn
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 00:18:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51259)
+ id 1miqgF-0000E7-8g
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 00:18:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50579)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1miqg6-0001W9-8Z
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 00:18:11 -0400
+ id 1miqgD-0001z9-Aa
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 00:18:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636085888;
+ s=mimecast20190719; t=1636085896;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yZQQSxBgWGguXmL7A57WCwaRS++XbW5c6tJZMBK92kY=;
- b=bhZVf0ZJhAPhUU8VIpNX52So4M9nKhkFd6MobkXVQrWSZCbypsCJJyzH7AzEecoXS38feV
- vd3L+h1AymDYruaPgn6jiWtkF2iTVQ598iOuKTt9KhkeRZt8cHIJz92U7Xgwu3g3ja//GZ
- Hewcr5xK8N2zrxLKMAlBTWwVBzVEvMI=
+ bh=2kOU1CX4fyCr2d5Bv1PmQ4ov6jourOW2sM2oMBS2xWs=;
+ b=I/PsSIkvPF8I0Qe3P+/itEyJmJbkRuXSivEGDHSZfRahPcldBfNRo/4vmLDZ44UbCaNORZ
+ BepWMseaFd94jxSUcx9Tsulp3IShxdpY6aeU0hF4STUB8P4Ts0f44HopB0Km0WG6w5LIjY
+ r66etgbbMkXPxPueglRfLjQso9d0xMQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-335-x5qUWBFKNymSlhMLP9_jAw-1; Fri, 05 Nov 2021 00:18:05 -0400
-X-MC-Unique: x5qUWBFKNymSlhMLP9_jAw-1
+ us-mta-536-kEoCD8LSOS-99Ujen9a2DA-1; Fri, 05 Nov 2021 00:18:15 -0400
+X-MC-Unique: kEoCD8LSOS-99Ujen9a2DA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43D4E10A8E00;
- Fri,  5 Nov 2021 04:18:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 580C41808304;
+ Fri,  5 Nov 2021 04:18:14 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-12-79.pek2.redhat.com [10.72.12.79])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8932B6784F;
- Fri,  5 Nov 2021 04:18:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C40F3652AC;
+ Fri,  5 Nov 2021 04:18:04 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 1/2] e1000: fix tx re-entrancy problem
-Date: Fri,  5 Nov 2021 12:17:47 +0800
-Message-Id: <20211105041748.1681-2-jasowang@redhat.com>
+Subject: [PULL 2/2] Fix virtio-net-pci* "vectors" compat
+Date: Fri,  5 Nov 2021 12:17:48 +0800
+Message-Id: <20211105041748.1681-3-jasowang@redhat.com>
 In-Reply-To: <20211105041748.1681-1-jasowang@redhat.com>
 References: <20211105041748.1681-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -78,62 +78,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jon Maloy <jmaloy@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Jean-Louis Dupond <jean-louis@dupond.be>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jon Maloy <jmaloy@redhat.com>
+From: Eduardo Habkost <ehabkost@redhat.com>
 
-The fact that the MMIO handler is not re-entrant causes an infinite
-loop under certain conditions:
+hw_compat_5_2 has an issue: it affects only "virtio-net-pci"
+but not "virtio-net-pci-transitional" and
+"virtio-net-pci-non-transitional".  The solution is to use the
+"virtio-net-pci-base" type in compat_props.
 
-Guest write to TDT ->  Loopback -> RX (DMA to TDT) -> TX
+Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1999141
 
-We now eliminate the effect of this problem locally in e1000, by adding
-a boolean in struct E1000State indicating when the TX side is busy. This
-will cause any entering new call to return early instead of interfering
-with the ongoing work, and eliminates any risk of looping.
-
-This is intended to address CVE-2021-20257.
-
-Signed-off-by: Jon Maloy <jmaloy@redhat.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Signed-off-by: Jean-Louis Dupond <jean-louis@dupond.be>
+Acked-by: Jason Wang <jasowang@redhat.com>
+Acked-by: Jean-Louis Dupond <jean-louis@dupond.be>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/e1000.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ hw/core/machine.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-index a30546c..f5bc812 100644
---- a/hw/net/e1000.c
-+++ b/hw/net/e1000.c
-@@ -107,6 +107,7 @@ struct E1000State_st {
-         e1000x_txd_props props;
-         e1000x_txd_props tso_props;
-         uint16_t tso_frames;
-+        bool busy;
-     } tx;
- 
-     struct {
-@@ -763,6 +764,11 @@ start_xmit(E1000State *s)
-         return;
-     }
- 
-+    if (s->tx.busy) {
-+        return;
-+    }
-+    s->tx.busy = true;
-+
-     while (s->mac_reg[TDH] != s->mac_reg[TDT]) {
-         base = tx_desc_base(s) +
-                sizeof(struct e1000_tx_desc) * s->mac_reg[TDH];
-@@ -789,6 +795,7 @@ start_xmit(E1000State *s)
-             break;
-         }
-     }
-+    s->tx.busy = false;
-     set_ics(s, 0, cause);
- }
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 948b3d9..26ec54e 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -56,7 +56,7 @@ GlobalProperty hw_compat_5_2[] = {
+     { "ICH9-LPC", "smm-compat", "on"},
+     { "PIIX4_PM", "smm-compat", "on"},
+     { "virtio-blk-device", "report-discard-granularity", "off" },
+-    { "virtio-net-pci", "vectors", "3"},
++    { "virtio-net-pci-base", "vectors", "3"},
+ };
+ const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
  
 -- 
 2.7.4
