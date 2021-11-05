@@ -2,96 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8269B4466AD
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 17:05:54 +0100 (CET)
-Received: from localhost ([::1]:38904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E91084466FE
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 17:28:54 +0100 (CET)
+Received: from localhost ([::1]:60276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mj1iz-0006LV-EF
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 12:05:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48602)
+	id 1mj25F-0004uy-QZ
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 12:28:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mj1cn-0001Cj-GL
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 11:59:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30710)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mj1ck-0007CV-UM
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 11:59:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636127966;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ds15YC6ClXsiNhZwuMcqcFfDV+NtyS3WwwU+lY5kN1c=;
- b=N/kI30attCK2stvsB5/mpSNxvo4vrNzCh+CEn17lEAAW7u3Mj1OO02iZhuJDh1DucVeEi4
- aPsGQf/sd/uCQmMwAwde+nLPSHJiRsJ/d3tCbkpx8byMvdXTRn0jyVl4MKYnSAhvbRJ7YX
- 03D5KB48fm5IPu+tXao/F/MvHz/i818=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-tgpIEbR9P5uCqhVE11WFDg-1; Fri, 05 Nov 2021 11:59:25 -0400
-X-MC-Unique: tgpIEbR9P5uCqhVE11WFDg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- q6-20020a056402518600b003e28d92bb85so9267305edd.7
- for <qemu-devel@nongnu.org>; Fri, 05 Nov 2021 08:59:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mj1eT-0002ac-Au
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 12:01:13 -0400
+Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f]:46059)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mj1eQ-0007UD-Qb
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 12:01:12 -0400
+Received: by mail-qv1-xf2f.google.com with SMTP id s9so7587263qvk.12
+ for <qemu-devel@nongnu.org>; Fri, 05 Nov 2021 09:01:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=A24PYcR59ZSC08jZDO/B/Avns8lFb36ZYbYW6tDcqPk=;
+ b=qnC7yva+1hhFY4fGgiw1O4CaDTP3ZOygmBv0t7I2en1dgRjzoXp93DXk4Ebln1yZ/m
+ aUu2KZ93Bm5UJbX3SqENLzLTkMfI/nq0Y6OynbZ7/kSbJVtxeqr5nKnPoApdPVFjlW41
+ fItqfEHNHkU5rORl+OR1izph/bmdfRfpEwKb8PjGvuDjwRMA5ZITLoQOkOaXKKMPqhA/
+ Q4HxKnzTN7vlQHjPqaxz3vP9u6E7zEfRMdUpSNDRLTW0zqQGZlujempKD1Yx6LR3YGIl
+ aFTJ55y7PiUVjx0LeJhqzQom/2csRTS0Ki/XPF0Z1s8zOaYN+5tRelwtI2PJpaZv6h/m
+ S2zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Ds15YC6ClXsiNhZwuMcqcFfDV+NtyS3WwwU+lY5kN1c=;
- b=T8lQ9X1jWp0WhLQ7hFCtmhb4FdRIgWFCqOBh4VQp7yf9ag0IRFuxe2eb7yrSTAux+/
- dDGXn6VUCKYU8yX4NPezSlgJF6/y+c9MTy4eBIZhi+f5l5PsWDT4cCrje+oKchuT4qqJ
- bnnBKpguFzTlBc1J8n/N1ZUCTderWSQNDg+u/8GRGuAbofTo+suTq8G4pXr6rXk0Xkt8
- VeS1aZ0jep6/HONh47vFrRP6KpW3GQTI/sUtgUn54yjbNIV/Kb8AK9JzAQBd/4GzpI5Y
- DM+nfYfIgiHwHfF3eJ6DeBjbwqJ0vvLmVJLl4sl9nOnvfcmsIdw3neBtV6J6XGpfUmBd
- vQWQ==
-X-Gm-Message-State: AOAM532RnqInoTTpPtOKXg9DkEUY7uXwrlQcZsE2/yUGnkGREXwH5vtJ
- Z1dxVwz7x+0AfszbNboQ0iYn6c6Yi9FD74HhMW77Qs3Ige6diJf3kN7VIeeRHyT1TPSdExqEQ5V
- VKjVVE+SQnF1gj9w=
-X-Received: by 2002:a17:906:309b:: with SMTP id
- 27mr8844739ejv.129.1636127963894; 
- Fri, 05 Nov 2021 08:59:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxFtYq6TbLu2ZzbdX/5AYd0rYisGcxGanYprMC4Ckf0QtlBzTcgoosRHMuRWE8WOt9TmZ6/mg==
-X-Received: by 2002:a17:906:309b:: with SMTP id
- 27mr8844720ejv.129.1636127963702; 
- Fri, 05 Nov 2021 08:59:23 -0700 (PDT)
-Received: from ?IPV6:2001:b07:add:ec09:c399:bc87:7b6c:fb2a?
- ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
- by smtp.gmail.com with ESMTPSA id h20sm4689550eds.88.2021.11.05.08.59.21
+ bh=A24PYcR59ZSC08jZDO/B/Avns8lFb36ZYbYW6tDcqPk=;
+ b=vf+ZI7LxkbdwdQfPyAPglXJFx5nwPvwCBnxuFUnuvmQAKyZr0gJlhl3vZHCd12sqQc
+ l581YKzdTJZN+3nxHe3MYxdhN8X9E5070RrULcbWzQx+EM7xKxQw0pXaShwxEJtVN/9t
+ PFku2H1Te1iYuZCyXt6TibwwHFU/lGhLGhycpynWjZ5U2BhHBRGnkE0a59bi/mKImrS1
+ j5pxF6rpqncs6rOFVs5V6VQ7VHX15yGf+IZU9omRoUI4nsT87jZRApeTG2dd/AXvdHdW
+ aPR4l4UUaM/t3VgwogFnKf9UHiFvspFsK+2uLJTgD0VDRAXkgUQJscL+Kl49odsDGTA1
+ G8gA==
+X-Gm-Message-State: AOAM531JGC1HUGcxqlxmk0f2hgszVgOeHWzvM+UQFCLzjMlVVfVLgUWy
+ oDsadUtlB9UDJ3KK5kH2MDvFMg==
+X-Google-Smtp-Source: ABdhPJzHCRtMZg/xNHJQUiew7i3V3qsQKcHcdvgKfPtCHarawxiAVzB6Mwrb7chnez4sRXluopymHQ==
+X-Received: by 2002:ad4:5eca:: with SMTP id jm10mr22837qvb.54.1636128068641;
+ Fri, 05 Nov 2021 09:01:08 -0700 (PDT)
+Received: from [10.200.5.34] ([38.66.81.217])
+ by smtp.gmail.com with ESMTPSA id w1sm6117084qtj.28.2021.11.05.09.01.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Nov 2021 08:59:22 -0700 (PDT)
-Message-ID: <e340f7c1-e156-3e0d-553a-8bacb2a0809b@redhat.com>
-Date: Fri, 5 Nov 2021 16:59:19 +0100
+ Fri, 05 Nov 2021 09:01:08 -0700 (PDT)
+Subject: Re: [PATCH v4 02/36] bsd-user/freebsd: Create common
+ target_os_ucontext.h file
+To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
+References: <20211105031917.87837-1-imp@bsdimp.com>
+ <20211105031917.87837-3-imp@bsdimp.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <01d2fb99-5629-06ec-5108-ba1009878804@linaro.org>
+Date: Fri, 5 Nov 2021 12:01:06 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: FW: New Defects reported by Coverity Scan for QEMU
-To: Peter Maydell <peter.maydell@linaro.org>,
- Taylor Simpson <tsimpson@quicinc.com>
-References: <61844bb6ced54_21aa5f2b09742af98856497@prd-scan-dashboard-0.mail>
- <SN4PR0201MB880836A27E0A0E93CDF7308CDE8D9@SN4PR0201MB8808.namprd02.prod.outlook.com>
- <CAFEAcA9Tp0t+x+AcfJUJgqJxPMYmH7dTibYHGf0ipvPp71yGhg@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAFEAcA9Tp0t+x+AcfJUJgqJxPMYmH7dTibYHGf0ipvPp71yGhg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20211105031917.87837-3-imp@bsdimp.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.093, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2f.google.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.093,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,32 +88,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: qemu-trivial@nongnu.org, Kyle Evans <kevans@freebsd.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, Philippe Mathieu-Daude <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/5/21 16:31, Peter Maydell wrote:
-> The loop nest in question is (the index must be < 128)
->      for (int offset = 1; offset < 128; offset <<= 1) {
->          for (int k = 0; k < 128; k++) {
->              if (!(k & offset)) {
->                  swap(vector1.ub[k], vector0.ub[k + offset]);
->              }
->          }
->      }
-> Basically, it's looking for elements to swap, and the
-> "if (!(k & offset))" prevents "k + offset" from overflowing.
+On 11/4/21 11:18 PM, Warner Losh wrote:
+> FreeBSD has a MI ucontext structure that contains the MD mcontext
+> machine state and other things that are machine independent. Create an
+> include file for all the ucontext stuff. It needs to be included in the
+> arch specific files after target_mcontext is defined. This is largely
+> copied from sys/_ucontext.h with the comments about layout removed
+> because we don't support ancient FreeBSD binaries.
+> 
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
+> ---
+>   bsd-user/freebsd/target_os_signal.h   |  3 ---
+>   bsd-user/freebsd/target_os_ucontext.h | 35 +++++++++++++++++++++++++++
+>   2 files changed, 35 insertions(+), 3 deletions(-)
+>   create mode 100644 bsd-user/freebsd/target_os_ucontext.h
 
-It would still be slightly more efficient however to change the loop to 
-k < 128 - offset.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Another possibility is to change the inner loop to
 
-for (int k = offset; k < 128; k = (k + 1) | offset)
-     swap(vector1.ub[k-offset], vector0.ub[k]);
-
-Paolo
-
+r~
 
