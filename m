@@ -2,173 +2,173 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 420F84460D2
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 09:44:16 +0100 (CET)
-Received: from localhost ([::1]:55424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E90B4460D8
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 09:46:10 +0100 (CET)
+Received: from localhost ([::1]:57658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1miupb-0007J4-DT
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 04:44:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49532)
+	id 1miurR-0000Uv-8V
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 04:46:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonah.palmer@oracle.com>)
- id 1miumd-0006Tj-FA; Fri, 05 Nov 2021 04:41:11 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:45976)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1miup0-0007g2-Cd
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 04:43:38 -0400
+Received: from mga04.intel.com ([192.55.52.120]:6386)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonah.palmer@oracle.com>)
- id 1miumY-0003to-Nj; Fri, 05 Nov 2021 04:41:11 -0400
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A56Gtf1012957; 
- Fri, 5 Nov 2021 08:40:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=content-type :
- message-id : date : subject : to : cc : references : from : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=W5Vf+2qkgDeZxdHHeU5rlUhvZX9ACNNtz+jFIH+qgnE=;
- b=ac2QH0EE8IEGyODlnEUr+1o9b8zEQETFYL4e9eqjrjZWhDRFcF22SWdjzqlQjr7BEQww
- vNY7Y9xdp/ayDVa+TMJH34Hhd4GxJUSfEDjRFTF8Xy7I5py4QNTN2xgCJMhR4zwSQl7z
- KbEvssVeXrCb3K+7fGdCzmvfSn1uOzykZ4KvxKbu9xX2m/ykAV0qRYPqP5+BFH1rjoy2
- VgzHlQfZhvh45r0gBCkAy5MAjvI+Sxf8lTzL715+1S9NkfPnZHY/XFvuia7qdlegdqEG
- aBudQ4mZHYhcs6XAQGNzSLTR/HFHk1boOj29ga9JwvMdEX5XCYZMoHbPPenRw+PhS0c9 ZA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by mx0b-00069f02.pphosted.com with ESMTP id 3c4t7f1ch0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 05 Nov 2021 08:40:48 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1A58V9oY119307;
- Fri, 5 Nov 2021 08:40:47 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2176.outbound.protection.outlook.com [104.47.55.176])
- by userp3030.oracle.com with ESMTP id 3c4t5cpn8d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 05 Nov 2021 08:40:46 +0000
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1miuot-0005W2-Rh
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 04:43:37 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10158"; a="230588956"
+X-IronPort-AV: E=Sophos;i="5.87,210,1631602800"; d="scan'208";a="230588956"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Nov 2021 01:43:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,210,1631602800"; d="scan'208";a="600553831"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orsmga004.jf.intel.com with ESMTP; 05 Nov 2021 01:43:24 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 5 Nov 2021 01:43:24 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 5 Nov 2021 01:43:23 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12 via Frontend Transport; Fri, 5 Nov 2021 01:43:23 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.176)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.12; Fri, 5 Nov 2021 01:43:23 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c/5Wupf7BJF1yHH8ESN53eiA/qOaU2dxYkKHqfNc6GyHibogEVZZncO7Pv+BD3ftZec7dgSHrf7vT/S9SX63k9H/7gpdq/TP2mCEc9t+CnSlGgCzYj/BElwthpqvyKeeZSCu2rDIXmooJcmo0kjj1kwc+5yA13ajfQWL3M5KLWFo5I1dD3NDCYSrZet+Iq3tKTSXKbu8tVoWIxhNekzjT2isxh+sQeoDzpssydWBSPk8qPW4uqlyMLe2SpaJkNef6+FNkidzaPZhO/GSry+EmeMAAPr/PT+jU3yKk5aosxQs+bFl8eDR+ZwdPCeUjCETJcD1HrD6bR+t7DjrL8MiDQ==
+ b=awbXZHCMiq4sVG/4zfhEMR1+6kJ9NaiUI+hL4gHAPk9I0UPiHFAdGitcK03bpaYr3V5pKCC8Aln35nNBmBqa3+a3gv35z6tZ729uqWzBYgcEn2kMaZf9ty3N2GHXs0Xu9RGJK9+HjwBKs6t9Tt0aZouol1hk6lb+uoBVATFH+vuzFk5FMDDfRs8S0W+CU4uMgnZ9S0nQ0kWWvCVTmG2PKab51rDdiszzsnyRmA/nsWxEPzO70vDMFyajDzs8gl5FkRcdd2FqiHMhUiY6zkNrTJHnHi97T1JEW7Q1c4QWJiJQOHYxMGbeQsLz1tv1hgPfMJx8VAyu3uyoQJYuax+gWQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W5Vf+2qkgDeZxdHHeU5rlUhvZX9ACNNtz+jFIH+qgnE=;
- b=hU8VE0zAItFH1dcocH7UNUlRLUF27VdCPHtXfzYeRL+QoUhnIKDgt3igNKX3jikdccL7Z2uP7K+GhgqTDHwHIHaBfhZq18jX30JEtlDOCh0xMCO5F+c4RlX+aEFkzpIvOlK80j4TcT7Djnw2WUTnuFRVJWqixi0qqvJLSrKLI7KPzhSzW+pJUNCCSLJCmGP+NyeEq1MKMPRbNR1MG2vHpWAe0Zuf0yQjlpY10tSeKm4sWjvwwNlW60i9/UCzHTYGjGOGCU80RwMNUOUJEo86w963YTRFJVW/fzGvxoH0P7K15yAwSVwqhlvmTIruUFOi9gYBdfW2FKgQlhvVLgaJeQ==
+ bh=FR7gIb6reX1brJjo5GbUSToxTUGcn71d6GiEk1DGeWA=;
+ b=IgNP1q9rxIpw3pzHYTIQC9CMmu4cOfZf5BFdHRIhbSbJTXy4ArzTe84E2VxQTPnqTiQCJJamu+OQx6Dbj/U2NoK1N5/Ddc5DKXs1qw7Ar7iF2HlMUYg31VZeyq6/Nuueqbrcyz76tdcsVE2VIA8srR5OZzyFWYfJCjsZw1XIWtNehWVZMJQhIW9uOFOoziw+vWyTLPALG6wsOcLcRnI0fYrfTPD7JHv+kRr2YLEKDafUmam+7oqnlrrtuw0PfBpndtg5Wo72XDMMxvSDgO5MOT7i6QfKeJJSABVLVoIxVUkoCZ0gH7qcYVyYQvXePK1twQWDYzNUctmm4PpzSHm9XQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W5Vf+2qkgDeZxdHHeU5rlUhvZX9ACNNtz+jFIH+qgnE=;
- b=BIWZfjdy6d5mgT88e7gv163IcJxcImmerN6doGNxeCKtjduLei0oGe9SUuA5f3GEvi3RoXcDhZ2dWl2zpTa7nYwkOQdDFHAE7ivyDbtqOIVHR8SH7FbOuEpnpOJ/4HUKsahgOKkZZ8HpE+1MLdGQCv5VKxksg9+pRkRcBg0/FN4=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=oracle.com;
-Received: from SA2PR10MB4667.namprd10.prod.outlook.com (2603:10b6:806:111::21)
- by SN6PR10MB2717.namprd10.prod.outlook.com (2603:10b6:805:46::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.11; Fri, 5 Nov
- 2021 08:40:44 +0000
-Received: from SA2PR10MB4667.namprd10.prod.outlook.com
- ([fe80::6092:9e8:aa36:f263]) by SA2PR10MB4667.namprd10.prod.outlook.com
- ([fe80::6092:9e8:aa36:f263%7]) with mapi id 15.20.4669.011; Fri, 5 Nov 2021
- 08:40:44 +0000
-Content-Type: multipart/alternative;
- boundary="------------VQ8phqmnW0smMBeU62BWkYI4"
-Message-ID: <182f9d0c-20f6-f82b-464e-553fc6e2042f@oracle.com>
-Date: Fri, 5 Nov 2021 04:40:40 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v8 8/8] hmp: add virtio commands
+ bh=FR7gIb6reX1brJjo5GbUSToxTUGcn71d6GiEk1DGeWA=;
+ b=ASFbX09FoLM5KogTEQatbYvyo5EG80pYXl6y0QjBsQV+RNf7mqk7CSS2YNOjeOVg1g2RuvmF1Nl2v1i7OWmEZQF8WZuWynyT93ckBO0/ZdBokdg3dp1WLsCOQD7KM/eDAU0LAcQTn91BqThHvejRyd4e7TIYmq7dNqIlsI0RyKU=
+Received: from MWHPR11MB0031.namprd11.prod.outlook.com (10.164.205.37) by
+ CO1PR11MB5060.namprd11.prod.outlook.com (20.182.136.197) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4649.15; Fri, 5 Nov 2021 08:43:22 +0000
+Received: from MWHPR11MB0031.namprd11.prod.outlook.com
+ ([fe80::3827:2f36:f344:e814]) by MWHPR11MB0031.namprd11.prod.outlook.com
+ ([fe80::3827:2f36:f344:e814%3]) with mapi id 15.20.4669.013; Fri, 5 Nov 2021
+ 08:43:22 +0000
+From: "Zhang, Chen" <chen.zhang@intel.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: RE: [PATCH V5 1/3] net/filter: Optimize transfer protocol for
+ filter-mirror/redirector
+Thread-Topic: [PATCH V5 1/3] net/filter: Optimize transfer protocol for
+ filter-mirror/redirector
+Thread-Index: AQHXy9x7gE+VGPrLuEuUpJeh4vPmyavpTZSAgABPWuCABHFUgIAAMzPwgAShnTCAAWxkAIAAAISAgAAMYICAABYMEIAANIUAgAACC2A=
+Date: Fri, 5 Nov 2021 08:43:22 +0000
+Message-ID: <MWHPR11MB0031EBF5ACACF7455EA9F4779B8E9@MWHPR11MB0031.namprd11.prod.outlook.com>
+References: <20211028090556.3168043-1-chen.zhang@intel.com>
+ <20211028090556.3168043-2-chen.zhang@intel.com>
+ <c603b048-1cee-1396-811d-8be857aa932b@redhat.com>
+ <MWHPR11MB0031A0311824C3DF060B64E39B879@MWHPR11MB0031.namprd11.prod.outlook.com>
+ <CACGkMEsjn0nz4N+O4s9Y0m0gEYXu9WKstP9LHE4F=m5mOR3dcA@mail.gmail.com>
+ <MWHPR11MB00315CFF0E7854146B5C9AE69B8A9@MWHPR11MB0031.namprd11.prod.outlook.com>
+ <MWHPR11MB0031B626425E7815EB78A9E49B8D9@MWHPR11MB0031.namprd11.prod.outlook.com>
+ <94f96089-f8a8-d3d4-18c3-26917952fc14@redhat.com>
+ <DM5PR11MB00276DF408F0DBC3C6EFADB89B8E9@DM5PR11MB0027.namprd11.prod.outlook.com>
+ <CACGkMEvuXhuzSiTebOQqvriD5UnaiPzaY37AOR8bihTC4FTa4Q@mail.gmail.com>
+ <DM5PR11MB002701BF07DCC15BF968A1749B8E9@DM5PR11MB0027.namprd11.prod.outlook.com>
+ <CACGkMEs5q4E3yK_ZjUQsvJ=Ojd6hmTVEwQeh1N0QDPNaPoM7Dw@mail.gmail.com>
+In-Reply-To: <CACGkMEs5q4E3yK_ZjUQsvJ=Ojd6hmTVEwQeh1N0QDPNaPoM7Dw@mail.gmail.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-References: <1635334909-31614-1-git-send-email-jonah.palmer@oracle.com>
- <1635334909-31614-9-git-send-email-jonah.palmer@oracle.com>
- <87fssb5amt.fsf@dusky.pond.sub.org>
-From: Jonah Palmer <jonah.palmer@oracle.com>
-In-Reply-To: <87fssb5amt.fsf@dusky.pond.sub.org>
-X-ClientProxiedBy: SN6PR04CA0075.namprd04.prod.outlook.com
- (2603:10b6:805:f2::16) To SA2PR10MB4667.namprd10.prod.outlook.com
- (2603:10b6:806:111::21)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.6.200.16
+dlp-reaction: no-action
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f523051b-12bb-4a8a-331e-08d9a0385325
+x-ms-traffictypediagnostic: CO1PR11MB5060:
+x-microsoft-antispam-prvs: <CO1PR11MB5060458E494FDA34F86251B39B8E9@CO1PR11MB5060.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: bHvN8buDGu6aBBC71o+lEN99GVK31MtlGbe/JXH+Pe/LimTFrGO+xbyLX+k3OtkEBfmdP9EKZfbbB8ZYlBfwlnvz+IpSWeTjy5LTbXV6XWa3iLQ34mNs5LCATfh8qsjlnlge+9KTq+Pn4/Rj8G+XuDUdbLzvuObaWqBR+xyAsZKfmlOKtRTU1N9FBJx03gNYO/FTIpjtWyr3sdqAFSsZ/bXhKsAHTiEAHZGvlxwkpfKPC0D+/BkG+seTiQuS3F1oUkmI4cXUJ4WM99QGktWuO8rRm2gRN+9XKAd4AMv5UnwHrhEsPkb9Y684Nj4ZkI8YxhnJyK9Y2nYlX3LO5y07VSxyBKP5RtzCC+pGPWRcmnNnRE+gMKZMmuUBcUuk1uifaLs6rmr7CkUutGsGQ79pNJsSnPNFOZe/k112ZCg7TPGYxWS0VksBPl35+3fxBzd0kiRfLYAIxFGAtKIZo+hmJRSnG/GoVZN2iUXqWLWvJ92USlXvwl1JIW/vYBt0KbFlYlNOuAiNo1Q/KR5QmLeIcSLx3R/kf21rpDnEVUKlAGtI8p0Ab32pWnkR+3a8jhVYGOVcRGNfLwzbteDD7kSLlMIw3ya/tZwibwgoJ7X7VrZStvMZ6PeHZeFloaMJi6TiEvxeX8raAXoYXeKWcgc0X5Aroeeln0SDENJicDJMt0Pm+Nbv5WbFxC5Dvy1cXgjISLtFa5t0AlEIyuFDPKr4cg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR11MB0031.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(4326008)(82960400001)(6916009)(54906003)(316002)(55016002)(66946007)(66556008)(2906002)(8676002)(38070700005)(5660300002)(6506007)(53546011)(83380400001)(86362001)(508600001)(38100700002)(66446008)(76116006)(8936002)(52536014)(26005)(71200400001)(64756008)(186003)(122000001)(33656002)(9686003)(7696005)(66476007);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cFpHd2xXZGhKOVlVV1VOZ0JRV3pxMUNvZ3UyOEVBY01SOFJIdHRMUTdMUldG?=
+ =?utf-8?B?V05XWnR5TUNtVTJDWkg1eGc3S2tyK1ArRER6SkcvOU9ScC92aUx5ZDc4UW5u?=
+ =?utf-8?B?UjdpSVg1MjdZaEVaeXI2WnZrMldrSFlUQi9DS2tIQnhTNlZtTXJKdndlUGxV?=
+ =?utf-8?B?dldNYXVrTzdoZGhtUVZJc1dWeDJaWUJGK0FMYVZaY0VUMFhaNkhQbmlGaks1?=
+ =?utf-8?B?cko2MVhlK2t5TXBLZy83V0EvQVdnNDNWVTVXYTd6enFPTmY4cUNtdXdtUXdF?=
+ =?utf-8?B?UmFHMHZIVE1GRkNiUi8vNHhRSGxzRkxBcU9LTk05WHZkbXFhMVViNFYvU2FC?=
+ =?utf-8?B?Nmp2TXJuVVI2elNrYjREbEpybzcyV1RINU83aTRBTURIc05Sdjg0Z1dhTDI1?=
+ =?utf-8?B?MzNPRlMyVjVHWVVhaHd1MmFkVkZKcUYvLzByd3VqK2hHa3luOGwvbmlYWWdz?=
+ =?utf-8?B?ZGF1ek93bGRhN1VVNERPNXFiM2N5WWhMcnZHenk3cGhIL3BjMEFQcnBkRnlk?=
+ =?utf-8?B?ZFFoSkRXSTRtd2wwM1NQNG9PekdQanFjK25YSFR0bTBha1Z1M3g4T1VVOXZq?=
+ =?utf-8?B?L0JaOG5hV3lXam5jL3lwUkxvbEJoLzJxK0F1di9MK1hKUm9XYlpraGlFMllB?=
+ =?utf-8?B?eG9sVzdlZ3NUMDhqenlQdmxWUCtzSlUrS2NCNzhCZ3hYeUwvc0lxOHAvY2Q2?=
+ =?utf-8?B?OUxKQmowejVxZ2FIS3dWRXFzcDdndlUyMGwveExMYVZIRWtJdXhGdWt4eVBw?=
+ =?utf-8?B?Lzc5SFl4NnN0eWd5UitHQ3V2dzlQOU11NzYxU0w5TEZua1VmRmJmVWxXVnJz?=
+ =?utf-8?B?VHRHZWJmVnFFcm1FWnJCVEw0dXQzQWhoY2x6VzlQYndpbGxWcFdwTUZleGdp?=
+ =?utf-8?B?WW9UMUtjWWRpTGpMZldKY3hyOE5RbVE5SHhQTnFUNjdHTVlLOE1hY1M4aS90?=
+ =?utf-8?B?bkVmek9nS09sVWZlU3RRS0JFdW1mR1pRNlB5NngxcWFwUmdKYWdheERGRGta?=
+ =?utf-8?B?NGZhT2l3ZW80ZjRMTmFGNjBicXpLK2RwRXVzKzhFbi95MG9mSU5tR2JrRTRy?=
+ =?utf-8?B?a0pnNnhOWlhLTUZQT2NvbGhGekY4Ync2TTNGcjZxdG9RL2RxaUhlWjRlb2Jr?=
+ =?utf-8?B?Zk5INGkxSzVqeTJ6YzVxOFAvREFrclBybXZBNHVHMXJEcVlVS2Q0bzNSZWtM?=
+ =?utf-8?B?RUxsNkwxcjRtRHBSUk9KVmlSeVd6S0VOdmVMTllEUGJmZDZGQ25qTGFicWps?=
+ =?utf-8?B?UVFGR0Z5Si8wU0EvbnpmL3dhNjBQTmVQRDBxMEcrNXBLdHlKMnR0V3VIc3da?=
+ =?utf-8?B?Sktlc3ZRNEdSUDVkU1Y4Ym1vQmJ4RS9JSkVMTENaMnB6ajcvMHZKZXJhTktM?=
+ =?utf-8?B?ZnlNeHR4SU5hSVYweC9OM2xjbnltZjFuMFQ0NzhlVzdmaUJWSnB2ZnM4QUxp?=
+ =?utf-8?B?RXdpb3RBcW4yYnVNc0RyN0FwaDhKZC9yekFjQ3dhSjRwZEpmVFk5YzBTQThu?=
+ =?utf-8?B?MkJwUXEzNVI5STR4TXRwcStPNkM0NUgwdUNjczQxb0lUTjJQOGVTbDJjTU1X?=
+ =?utf-8?B?bEZBbXNDcHdaWFdXWW9MODZZYXFMNVNNdjFGMEVIWUY1UDdNY203NldhUzE3?=
+ =?utf-8?B?ZjF0ZXZjNTdCYkcxRmZQWWVxWU80dytMOHNOK0xVY2gydWZ2T3FpSHpXUGs1?=
+ =?utf-8?B?SnRndTdNcWhkSEtZc1ViTEtmSkNiWmNRNEhPbWk4OGtQcXdwUHBmdGNkM01W?=
+ =?utf-8?B?cktzTUxLZ1VROXV0VmgyL0docE1nNVpxV2lKMlBXRStTK3lNemcwSVZpREhz?=
+ =?utf-8?B?bUdEUXVqZnFpMEdhM1FFLzhkcGRlT3hydWVtNW1BSitlaE9tdEJZK1ZuSCs2?=
+ =?utf-8?B?bzdnc2NOVy9nOHFnUHhBdzNaekRhaXZOLzdpd2lka1NxdVJsdGFwQXRudTlj?=
+ =?utf-8?B?ck5Ta2UrM0RuQlVweGwyRnRSOFd0WDhLR01HbzAvVGhRU0N2N090c1RqSThC?=
+ =?utf-8?B?S3JQaFFvZ0ZDUS9SRnR3QUw4eldRN2E3RkRscnNWcjNZUGVIdUNUQ1JIREhF?=
+ =?utf-8?B?TjNBVFlsK00wQkdhRzVMV2tSM0NEREgwZFB1K2h4V1p2TkVzZjBvUWlMbFAr?=
+ =?utf-8?B?d2lyZGZLcE5EWCtQWUxhUFN0UjI2aDRxWU56UnlGQkNud1lGdlZWbVlpLzBi?=
+ =?utf-8?B?aUE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Received: from [10.39.215.155] (209.17.40.45) by
- SN6PR04CA0075.namprd04.prod.outlook.com (2603:10b6:805:f2::16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4669.11 via Frontend Transport; Fri, 5 Nov 2021 08:40:42 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fabd1264-5983-46af-1baa-08d9a037f50f
-X-MS-TrafficTypeDiagnostic: SN6PR10MB2717:
-X-Microsoft-Antispam-PRVS: <SN6PR10MB2717E52F67F9F80385DFCC13E88E9@SN6PR10MB2717.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1Zn0IiRWvDXGPf8bao3/tyca6wED9OWFEhGqXNVxJOgRWIia71WuLXYgbwBAUKwuYsnJgl614OLiR5Nu7MY5j6uJHo+ne8WjHr4qbgROYFoOHHHm05vEGt22MXVvscWeg2e4TcQ+XJJtfJCTj2xxzr52kufAtplrz+aH1arNdICw9BjfMBvjsD7M2OhgU0Gk4lxJc+7IytIk/uOUE6Hj9Dya1sz0L+gHGgosdwyGDQCZ6jQNUS0v6Fy1wbTX4yl6MkO0ZtsQgVFZIex8tNnXfBdCs4Ogbm2yPzsIEqa9Z/W9zwVebSec4pyX4X0uYiYCalelhk7ysvtpC8PCDPtn5T2Lo0qcqyQ4+6EOlGXa9SwNoAKgVoVPRpaMGHUXF2B0WOGue1iKUJwSAvWJI+2YHwOj48HZA0FVyD5AvC0Xmv8AS7wd2hfjmpeKpaXPa9JIFJlwfyo582IdEcQbNueiTAB9rOimGFuvpImIvDYPdnB4C/MIvPrXLMlS3IlUfLv1ZsIo3Eui5TnYRCfzI+uj0rotiLFclz9BQBchBKIpc1oi7V1WqulRZPB7oKmspH03CGDM7c/YN+Q3NHoK2WEDe5sY6YMJsGy9aPzwAJEaVxXcXuEBacRlCFSNyCKCCx2JzLW21aZqhzSqXw3O1WnnESaqI4UAFHFd4Pq5NYuRgUNtlI2bdohp4UBXpCj3Jrq8FpZPnKt4k6oE9TXmPe7AeGVrvjAX8FPlDXjnh4+hsg014GQe6e9L87mUS2dPm1Q6
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA2PR10MB4667.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(33964004)(38100700002)(66476007)(956004)(83380400001)(26005)(31686004)(86362001)(4326008)(66556008)(31696002)(66946007)(44832011)(8676002)(186003)(8936002)(6916009)(36756003)(7416002)(2616005)(6486002)(508600001)(53546011)(316002)(16576012)(2906002)(5660300002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RDFjTlRQd2Y3YWVJa09yaHl2a2dFdzZqb2dGUXh2b21vbGFCZUJUZDBDdGdK?=
- =?utf-8?B?bVpOWXE3b1VVcXJab2lzaVE0eHJHY2VweGwzTTdJNFVlTDFrdVdtWGdKVCtp?=
- =?utf-8?B?NTd2V2lvZWtHT0pVN0gvR1d3SmlHR0FPZ1JWL3VGM0ZMbTg4WThlbVRhOW9K?=
- =?utf-8?B?Nmdwclgra3NMZENJblhhMXRVNzMzTGhpWWRRaGhTcXMycHNFSHQ0RkFEZDdL?=
- =?utf-8?B?UUM3OUYrOFZSZzZVbEYzMjg3WlM4TWpITnp6Vm9MamZRMWY2NTlydDVYUlpz?=
- =?utf-8?B?RnQrN3dzOU81U25PeWhWYW8zZEIxTmljRjlaZCtaTFkrL0RiRlMrQXpoZjUr?=
- =?utf-8?B?T0JneEZwektUSUVXZ1dsbGJpckYwT3Y1NVdkcE9xb1FMOFc5b29NK05DL2l1?=
- =?utf-8?B?TExaWG94aVZwTU9XTG5zS2hQbVFCUnJRcHhsditMS1M2bmNkcHA1MXVsYUlj?=
- =?utf-8?B?VFppd3l1RVhXUE5YUzM3MTBKSThvbGdVZkY5S2VoVUx6WnI5bHF0Yk0xU2Na?=
- =?utf-8?B?TXV5S25JTzNONVhIaXYvVlBiM1QwR2paZkhXMGlBYWROVCs3WTZIcitnWGd0?=
- =?utf-8?B?SWpjL3JtTTdCN1BvUGxSYnpmbzhRdFZCb0NJZzFlZ3BmaE5Va25wZHFQeVhm?=
- =?utf-8?B?RDZGNjc0OXZhMVdoRTk1ZXNVNHhXQ2NkNlgySzF5K2lpK2hzM3NXc2x2YkxG?=
- =?utf-8?B?Zks0UUdQWWJsNFYybjU0YkZxS1RFVVpHR0lFNkpMY2RoR2hpbEhIZWJWa0JI?=
- =?utf-8?B?UkJsZncwM1FCTzVWdFFiaTNmSkJ2eFIwQ1Z0YUVqMWt0dGUrQTJ3VnBnOExM?=
- =?utf-8?B?Nm9iSllxSUlTZkhZN2tEN3E0QVF1Z2JFajF4bmYrU3dLb1MyeFhDNjErVVRW?=
- =?utf-8?B?Vnd1c1BGdFg1ZjhLczlwOGlEK3c2Q0NCVFpoVXZlQWFHV0c0RUpPc1gzR3lN?=
- =?utf-8?B?NTVvK1czSVBNN0ZZeVhpSFp0ckFlaTFDdjVla2V3dzc1cmhpV3NHNmNjenht?=
- =?utf-8?B?MVNRN1g5blpVS3VhT1N5ckZTMFpQQjc3bVhZQTQ4bEdJZmJnVGE0UmdKNlE4?=
- =?utf-8?B?dWE2aUltN3FkS3hOOTlpRU1oUnp3RnZpWjVRdTB0S0J5alBIZWgzVVV1YlhO?=
- =?utf-8?B?Z2F3RWtCMmw1dEVOQk92VGxZeTB4V3RZSmIrVXhYaHh5aUtyRWFOY0w5VGtK?=
- =?utf-8?B?VVg0UkNxT3Q4aFRUZlUxWnJSK1VzWGg1L2dlRGpaTDc5N0lTUkFKbmxlTlda?=
- =?utf-8?B?YTJMbzd2cUxqRjB2TGttZ2NtRGo3aVorR2E2dnNtOWZOV09nQ29QRXdKUzNM?=
- =?utf-8?B?cndXdnByT0UwMDJleVFBeGhaai9Qc2QvMXJ2OEE1U0FBSDRQdTlGS3labnVD?=
- =?utf-8?B?enZLRjVlRjdtUjFmcGZPZ1M4YWpLSXVEVzErZmMzaTV6T2QyblYzM2VMOU5q?=
- =?utf-8?B?b25vUkxZMzl4STE3ck9KeU1ZOE9FUjN0MTBwVnVYWnlqeFVobDg3R2s2azUv?=
- =?utf-8?B?Z29Ydit3a0JCTXVjT2haZW12UXg4cVNQZm0xZkZlbnlEZWZ5UXRFUDM3Rmdy?=
- =?utf-8?B?QytNQlIvRE9nV3NodFNRQUN4M1VGQ1dzdUtBYVp1NHAxbkh5d1lVNXl6T2lN?=
- =?utf-8?B?UzZvTVZPbU13NCtMSEpUbE9GL28wWm9CNGVDTWYwd0t1SlhWL1JPZXhhRnRE?=
- =?utf-8?B?QkVXWmVDbmZrU0hrdUdNL0JpVEpwQkk4bExEaWtVOCttYjZ6ZWxBQkpVSnZl?=
- =?utf-8?B?QnMvb3pEd0FSS3lFZHJqWW5KRkpaR2dGOVpOVVdIWmgxUjJLeENMNEhSZHpk?=
- =?utf-8?B?bUtBZ2dKU1BicU0vUlplSVZCQnpWR1VIcHpjU3drRmJRWGM1UlQrUVFKdU9S?=
- =?utf-8?B?STNjOTZleXovaW9HaXdMSkMxTEdMM1l3b1BJc0FCUlF5L1ZxZHRJRkZpeUtJ?=
- =?utf-8?B?RC92dmRxRkN1MG5Zdkk5NGdFU3cwNjZLZS9WbXlpekY1aThTc08vVkdmMy9x?=
- =?utf-8?B?eHNsa0RkVnlOeWhneHozZnU5eG1OT2NPdGpzQnNVZHpwZXN6VHVISHJZRDVh?=
- =?utf-8?B?VW82TlU3a254ZVozQVE3SUJCL3V1cGxiQ2JiWnBHMFBZOEpaQ1lpS1h2RW9r?=
- =?utf-8?B?V05jWGlhWlk4OTN1MFBGaFpyU0hNS3hqN0lFQ1pTVjJGUzJZTVl1Rmp3WXBy?=
- =?utf-8?Q?neHsP98/io1GocF6NI9Yepo=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fabd1264-5983-46af-1baa-08d9a037f50f
-X-MS-Exchange-CrossTenant-AuthSource: SA2PR10MB4667.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2021 08:40:44.6292 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uJBHEmrNCKGb5WcX+pZZ8BKZht5hJEVmDI4x+avJcHxVuy8EWUh9vpmYjjqUIqY+ArPZujh1DN0H+IfzFTPSLw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR10MB2717
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10158
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- adultscore=0
- suspectscore=0 mlxscore=0 spamscore=0 bulkscore=0 malwarescore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111050049
-X-Proofpoint-ORIG-GUID: phKOOBA3wGgCnZfkCMVBfVIMuncEjxte
-X-Proofpoint-GUID: phKOOBA3wGgCnZfkCMVBfVIMuncEjxte
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=jonah.palmer@oracle.com; helo=mx0b-00069f02.pphosted.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB0031.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f523051b-12bb-4a8a-331e-08d9a0385325
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Nov 2021 08:43:22.1296 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4n8ohw+cyanH18l15cb6nBRwjYejL9zRt8H16CoN6GnFtzCy6z7yWN2dh5RDMwrrZYSHav75OrV2jSfiQ4iE4w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5060
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.120; envelope-from=chen.zhang@intel.com;
+ helo=mga04.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-2.093, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -182,310 +182,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, qemu_oss@crudebyte.com, qemu-devel@nongnu.org,
- kraxel@redhat.com, si-wei.liu@oracle.com, joao.m.martins@oracle.com,
- eblake@redhat.com, qemu-block@nongnu.org, david@redhat.com,
- arei.gonglei@huawei.com, marcandre.lureau@redhat.com, lvivier@redhat.com,
- thuth@redhat.com, michael.roth@amd.com, groug@kaod.org, dgilbert@redhat.com,
- eric.auger@redhat.com, stefanha@redhat.com, boris.ostrovsky@oracle.com,
- kwolf@redhat.com, mathieu.poirier@linaro.org, raphael.norwitz@nutanix.com,
- pbonzini@redhat.com
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>, qemu-dev <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---------------VQ8phqmnW0smMBeU62BWkYI4
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-
-On 11/5/21 03:23, Markus Armbruster wrote:
-> Jonah Palmer<jonah.palmer@oracle.com>  writes:
->
->> From: Laurent Vivier<lvivier@redhat.com>
->>
->> This patch implements the HMP versions of the virtio QMP commands.
->>
->> Signed-off-by: Jonah Palmer<jonah.palmer@oracle.com>
->> ---
->>   docs/system/monitor.rst |   2 +
->>   hmp-commands-virtio.hx  | 250 ++++++++++++++++++++++++++++++++++
->>   hmp-commands.hx         |  10 ++
->>   hw/virtio/virtio.c      | 355 ++++++++++++++++++++++++++++++++++++++++++++++++
->>   include/monitor/hmp.h   |   5 +
->>   meson.build             |   1 +
->>   monitor/misc.c          |  17 +++
->>   7 files changed, 640 insertions(+)
->>   create mode 100644 hmp-commands-virtio.hx
->>
->> diff --git a/docs/system/monitor.rst b/docs/system/monitor.rst
->> index ff5c434..10418fc 100644
->> --- a/docs/system/monitor.rst
->> +++ b/docs/system/monitor.rst
->> @@ -21,6 +21,8 @@ The following commands are available:
->>   
->>   .. hxtool-doc:: hmp-commands.hx
->>   
->> +.. hxtool-doc:: hmp-commands-virtio.hx
->> +
->>   .. hxtool-doc:: hmp-commands-info.hx
->>   
->>   Integer expressions
->> diff --git a/hmp-commands-virtio.hx b/hmp-commands-virtio.hx
->> new file mode 100644
->> index 0000000..36aab94
->> --- /dev/null
->> +++ b/hmp-commands-virtio.hx
->> @@ -0,0 +1,250 @@
->> +HXCOMM Use DEFHEADING() to define headings in both help text and rST.
->> +HXCOMM Text between SRST and ERST is copied to the rST version and
->> +HXCOMM discarded from C version.
->> +HXCOMM
->> +HXCOMM DEF(command, args, callback, arg_string, help) is used to construct
->> +HXCOMM monitor info commands.
->> +HXCOMM
->> +HXCOMM HXCOMM can be used for comments, discarded from both rST and C.
->> +HXCOMM
->> +HXCOMM In this file, generally SRST fragments should have two extra
->> +HXCOMM spaces of indent, so that the documentation list item for "virtio cmd"
->> +HXCOMM appears inside the documentation list item for the top level
->> +HXCOMM "virtio" documentation entry. The exception is the first SRST
->> +HXCOMM fragment that defines that top level entry.
->> +
->> +SRST
->> +  ``virtio`` *subcommand*
->> +  Show various information about virtio
->> +
->> +  Example:
->> +
->> +  List all sub-commands::
->> +
->> +  (qemu) virtio
->> +  virtio query  -- List all available virtio devices
-> I get:
->
->      qemu/docs/../hmp-commands-virtio.hx:25:Inconsistent literal block quoting.
->
->> +  virtio status path -- Display status of a given virtio device
->> +  virtio queue-status path queue -- Display status of a given virtio queue
->> +  virtio vhost-queue-status path queue -- Display status of a given vhost queue
->> +  virtio queue-element path queue [index] -- Display element of a given virtio queue
->> +
->> +ERST
-> [...]
->
->> diff --git a/monitor/misc.c b/monitor/misc.c
->> index ffe7966..5e4cd88 100644
->> --- a/monitor/misc.c
->> +++ b/monitor/misc.c
->> @@ -23,6 +23,7 @@
->>    */
->>   
->>   #include "qemu/osdep.h"
->> +#include CONFIG_DEVICES
->>   #include "monitor-internal.h"
->>   #include "monitor/qdev.h"
->>   #include "hw/usb.h"
->> @@ -219,6 +220,15 @@ static void hmp_info_help(Monitor *mon, const QDict *qdict)
->>       help_cmd(mon, "info");
->>   }
->>   
->> +static void hmp_virtio_help(Monitor *mon, const QDict *qdict)
->> +{
->> +#if defined(CONFIG_VIRTIO)
->> +    help_cmd(mon, "virtio");
-> Probably not your patch's fault: extra space before '--' in the line
->
->      virtio query  -- List all available virtio devices
-
-Huh interesting... I'll get this patched up!
-
->
->> +#else
->> +    monitor_printf(mon, "Virtio is disabled\n");
->> +#endif
->> +}
->> +
->>   static void monitor_init_qmp_commands(void)
->>   {
->>       /*
->> @@ -1433,6 +1443,13 @@ static HMPCommand hmp_info_cmds[] = {
->>       { NULL, NULL, },
->>   };
->>   
->> +static HMPCommand hmp_virtio_cmds[] = {
->> +#if defined(CONFIG_VIRTIO)
->> +#include "hmp-commands-virtio.h"
->> +#endif
->> +    { NULL, NULL, },
->> +};
->> +
->>   /* hmp_cmds and hmp_info_cmds would be sorted at runtime */
->>   HMPCommand hmp_cmds[] = {
->>   #include "hmp-commands.h"
-Jonah
---------------VQ8phqmnW0smMBeU62BWkYI4
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 11/5/21 03:23, Markus Armbruster
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:87fssb5amt.fsf@dusky.pond.sub.org">
-      <pre class="moz-quote-pre" wrap="">Jonah Palmer <a class="moz-txt-link-rfc2396E" href="mailto:jonah.palmer@oracle.com">&lt;jonah.palmer@oracle.com&gt;</a> writes:
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">From: Laurent Vivier <a class="moz-txt-link-rfc2396E" href="mailto:lvivier@redhat.com">&lt;lvivier@redhat.com&gt;</a>
-
-This patch implements the HMP versions of the virtio QMP commands.
-
-Signed-off-by: Jonah Palmer <a class="moz-txt-link-rfc2396E" href="mailto:jonah.palmer@oracle.com">&lt;jonah.palmer@oracle.com&gt;</a>
----
- docs/system/monitor.rst |   2 +
- hmp-commands-virtio.hx  | 250 ++++++++++++++++++++++++++++++++++
- hmp-commands.hx         |  10 ++
- hw/virtio/virtio.c      | 355 ++++++++++++++++++++++++++++++++++++++++++++++++
- include/monitor/hmp.h   |   5 +
- meson.build             |   1 +
- monitor/misc.c          |  17 +++
- 7 files changed, 640 insertions(+)
- create mode 100644 hmp-commands-virtio.hx
-
-diff --git a/docs/system/monitor.rst b/docs/system/monitor.rst
-index ff5c434..10418fc 100644
---- a/docs/system/monitor.rst
-+++ b/docs/system/monitor.rst
-@@ -21,6 +21,8 @@ The following commands are available:
- 
- .. hxtool-doc:: hmp-commands.hx
- 
-+.. hxtool-doc:: hmp-commands-virtio.hx
-+
- .. hxtool-doc:: hmp-commands-info.hx
- 
- Integer expressions
-diff --git a/hmp-commands-virtio.hx b/hmp-commands-virtio.hx
-new file mode 100644
-index 0000000..36aab94
---- /dev/null
-+++ b/hmp-commands-virtio.hx
-@@ -0,0 +1,250 @@
-+HXCOMM Use DEFHEADING() to define headings in both help text and rST.
-+HXCOMM Text between SRST and ERST is copied to the rST version and
-+HXCOMM discarded from C version.
-+HXCOMM
-+HXCOMM DEF(command, args, callback, arg_string, help) is used to construct
-+HXCOMM monitor info commands.
-+HXCOMM
-+HXCOMM HXCOMM can be used for comments, discarded from both rST and C.
-+HXCOMM
-+HXCOMM In this file, generally SRST fragments should have two extra
-+HXCOMM spaces of indent, so that the documentation list item for &quot;virtio cmd&quot;
-+HXCOMM appears inside the documentation list item for the top level
-+HXCOMM &quot;virtio&quot; documentation entry. The exception is the first SRST
-+HXCOMM fragment that defines that top level entry.
-+
-+SRST
-+  ``virtio`` *subcommand*
-+  Show various information about virtio
-+
-+  Example:
-+
-+  List all sub-commands::
-+
-+  (qemu) virtio
-+  virtio query  -- List all available virtio devices
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-I get:
-
-    qemu/docs/../hmp-commands-virtio.hx:25:Inconsistent literal block quoting.
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">+  virtio status path -- Display status of a given virtio device
-+  virtio queue-status path queue -- Display status of a given virtio queue
-+  virtio vhost-queue-status path queue -- Display status of a given vhost queue
-+  virtio queue-element path queue [index] -- Display element of a given virtio queue
-+
-+ERST
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-[...]
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">diff --git a/monitor/misc.c b/monitor/misc.c
-index ffe7966..5e4cd88 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -23,6 +23,7 @@
-  */
- 
- #include &quot;qemu/osdep.h&quot;
-+#include CONFIG_DEVICES
- #include &quot;monitor-internal.h&quot;
- #include &quot;monitor/qdev.h&quot;
- #include &quot;hw/usb.h&quot;
-@@ -219,6 +220,15 @@ static void hmp_info_help(Monitor *mon, const QDict *qdict)
-     help_cmd(mon, &quot;info&quot;);
- }
- 
-+static void hmp_virtio_help(Monitor *mon, const QDict *qdict)
-+{
-+#if defined(CONFIG_VIRTIO)
-+    help_cmd(mon, &quot;virtio&quot;);
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Probably not your patch's fault: extra space before '--' in the line
-
-    virtio query  -- List all available virtio devices</pre>
-    </blockquote>
-    <pre>Huh interesting... I'll get this patched up!
-</pre>
-    <blockquote type="cite" cite="mid:87fssb5amt.fsf@dusky.pond.sub.org">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">+#else
-+    monitor_printf(mon, &quot;Virtio is disabled\n&quot;);
-+#endif
-+}
-+
- static void monitor_init_qmp_commands(void)
- {
-     /*
-@@ -1433,6 +1443,13 @@ static HMPCommand hmp_info_cmds[] = {
-     { NULL, NULL, },
- };
- 
-+static HMPCommand hmp_virtio_cmds[] = {
-+#if defined(CONFIG_VIRTIO)
-+#include &quot;hmp-commands-virtio.h&quot;
-+#endif
-+    { NULL, NULL, },
-+};
-+
- /* hmp_cmds and hmp_info_cmds would be sorted at runtime */
- HMPCommand hmp_cmds[] = {
- #include &quot;hmp-commands.h&quot;
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-    </blockquote>
-    Jonah<br>
-  </body>
-</html>
---------------VQ8phqmnW0smMBeU62BWkYI4--
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogSmFzb24gV2FuZyA8amFz
+b3dhbmdAcmVkaGF0LmNvbT4NCj4gU2VudDogRnJpZGF5LCBOb3ZlbWJlciA1LCAyMDIxIDQ6MzAg
+UE0NCj4gVG86IFpoYW5nLCBDaGVuIDxjaGVuLnpoYW5nQGludGVsLmNvbT4NCj4gQ2M6IE1hcmt1
+cyBBcm1icnVzdGVyIDxhcm1icnVAcmVkaGF0LmNvbT47IHFlbXUtZGV2IDxxZW11LQ0KPiBkZXZl
+bEBub25nbnUub3JnPjsgTGkgWmhpamlhbiA8bGl6aGlqaWFuQGNuLmZ1aml0c3UuY29tPg0KPiBT
+dWJqZWN0OiBSZTogW1BBVENIIFY1IDEvM10gbmV0L2ZpbHRlcjogT3B0aW1pemUgdHJhbnNmZXIg
+cHJvdG9jb2wgZm9yIGZpbHRlci0NCj4gbWlycm9yL3JlZGlyZWN0b3INCj4gDQo+IE9uIEZyaSwg
+Tm92IDUsIDIwMjEgYXQgMToyOSBQTSBaaGFuZywgQ2hlbiA8Y2hlbi56aGFuZ0BpbnRlbC5jb20+
+IHdyb3RlOg0KPiA+DQo+ID4NCj4gPg0KPiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
+Cj4gPiA+IEZyb206IEphc29uIFdhbmcgPGphc293YW5nQHJlZGhhdC5jb20+DQo+ID4gPiBTZW50
+OiBGcmlkYXksIE5vdmVtYmVyIDUsIDIwMjEgMTI6MDMgUE0NCj4gPiA+IFRvOiBaaGFuZywgQ2hl
+biA8Y2hlbi56aGFuZ0BpbnRlbC5jb20+DQo+ID4gPiBDYzogTWFya3VzIEFybWJydXN0ZXIgPGFy
+bWJydUByZWRoYXQuY29tPjsgcWVtdS1kZXYgPHFlbXUtDQo+ID4gPiBkZXZlbEBub25nbnUub3Jn
+PjsgTGkgWmhpamlhbiA8bGl6aGlqaWFuQGNuLmZ1aml0c3UuY29tPg0KPiA+ID4gU3ViamVjdDog
+UmU6IFtQQVRDSCBWNSAxLzNdIG5ldC9maWx0ZXI6IE9wdGltaXplIHRyYW5zZmVyIHByb3RvY29s
+DQo+ID4gPiBmb3IgZmlsdGVyLSBtaXJyb3IvcmVkaXJlY3Rvcg0KPiA+ID4NCj4gPiA+IE9uIEZy
+aSwgTm92IDUsIDIwMjEgYXQgMTE6MjcgQU0gWmhhbmcsIENoZW4gPGNoZW4uemhhbmdAaW50ZWwu
+Y29tPg0KPiB3cm90ZToNCj4gPiA+ID4NCj4gPiA+ID4NCj4gPiA+ID4NCj4gPiA+ID4gPiAtLS0t
+LU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4gPiA+IEZyb206IEphc29uIFdhbmcgPGphc293
+YW5nQHJlZGhhdC5jb20+DQo+ID4gPiA+ID4gU2VudDogRnJpZGF5LCBOb3ZlbWJlciA1LCAyMDIx
+IDExOjE3IEFNDQo+ID4gPiA+ID4gVG86IFpoYW5nLCBDaGVuIDxjaGVuLnpoYW5nQGludGVsLmNv
+bT47IE1hcmt1cyBBcm1icnVzdGVyDQo+ID4gPiA+ID4gPGFybWJydUByZWRoYXQuY29tPg0KPiA+
+ID4gPiA+IENjOiBxZW11LWRldiA8cWVtdS1kZXZlbEBub25nbnUub3JnPjsgTGkgWmhpamlhbg0K
+PiA+ID4gPiA+IDxsaXpoaWppYW5AY24uZnVqaXRzdS5jb20+DQo+ID4gPiA+ID4gU3ViamVjdDog
+UmU6IFtQQVRDSCBWNSAxLzNdIG5ldC9maWx0ZXI6IE9wdGltaXplIHRyYW5zZmVyDQo+ID4gPiA+
+ID4gcHJvdG9jb2wgZm9yIGZpbHRlci0gbWlycm9yL3JlZGlyZWN0b3INCj4gPiA+ID4gPg0KPiA+
+ID4gPiA+DQo+ID4gPiA+ID4g5ZyoIDIwMjEvMTEvNCDkuIvljYgxOjM3LCBaaGFuZywgQ2hlbiDl
+hpnpgZM6DQo+ID4gPiA+ID4gPj4+Pj4NCj4gPiA+ID4gPiA+Pj4+PiBJIHdvbmRlciBpZiB3ZSBu
+ZWVkIHRvIGludHJvZHVjZSBuZXcgcGFyYW1ldGVyLCBlLmcNCj4gPiA+ID4gPiA+Pj4+PiBmb3Jj
+ZV92bmV0X2hkciBoZXJlLCB0aGVuIHdlIGNhbiBhbHdheXMgc2VuZCB2bmV0X2hkcg0KPiB3aGVu
+DQo+ID4gPiA+ID4gPj4+Pj4gaXQNCj4gPiA+IGlzIGVuYWJsZWQuDQo+ID4gPiA+ID4gPj4+Pj4N
+Cj4gPiA+ID4gPiA+Pj4+PiBPdGhlcndpc2UgdGhlICJ2bmV0X2hkcl9zdXBwb3J0IiBzZWVtcyBt
+ZWFuaW5nbGVzcy4NCj4gPiA+ID4gPiA+Pj4+IFllcywgQ3VycmVudCAidm5ldF9oZHJfc3VwcG9y
+dCIgIGRlZmF1bHQgZW5hYmxlZCwgYW5kDQo+ID4gPiA+ID4gPj4+PiB2bmV0X2hkcl9sZW4NCj4g
+PiA+ID4gPiA+Pj4gYWxyZWFkeSBmb3JjZWQgZnJvbSBhdHRhY2hlZCBuZi0+bmV0ZGV2Lg0KPiA+
+ID4gPiA+ID4+Pj4gTWF5YmUgd2UgY2FuIGludHJvZHVjZSBhIG5ldyBwYXJhbWV0ZXINCj4gImZv
+cmNlX25vX3ZuZXRfaGRyIg0KPiA+ID4gaGVyZQ0KPiA+ID4gPiA+IHRvDQo+ID4gPiA+ID4gPj4+
+IG1ha2UgdGhlIHZuZXRfaGRyX2xlbiBhbHdheXMga2VlcCAwLg0KPiA+ID4gPiA+ID4+Pj4gSWYg
+eW91IHRoaW5rIE9LLCBJIHdpbGwgdXBkYXRlIGl0IGluIG5leHQgdmVyc2lvbi4NCj4gPiA+ID4g
+PiA+Pj4gTGV0IG1lIGV4cGxhaW4sIGlmIEkgd2FzIG5vdCB3cm9uZzoNCj4gPiA+ID4gPiA+Pj4N
+Cj4gPiA+ID4gPiA+Pj4gInZuZXRfaGRyX3N1cHBvcnQiIG1lYW5zIHdoZXRoZXIgb3Igbm90IHRv
+IHNlbmQgdm5ldCBoZWFkZXINCj4gPiA+IGxlbmd0aC4NCj4gPiA+ID4gPiA+Pj4gSWYgdm5ldF9o
+ZHJfc3VwcG9ydD1mYWxzZSwgd2Ugd29uJ3Qgc2VuZCB0aGUgdm5ldCBoZWFkZXIuDQo+ID4gPiA+
+ID4gPj4+IFRoaXMgbG9va3MgdGhlIHNhbWUgYXMgeW91ICJmb3JjZV9ub192ZW50X2hkciIgYWJv
+dmUuDQo+ID4gPiA+ID4gPj4gWWVzLCBJdCB3YXMuICBCdXQgdGhpcyBzZXJpZXMgY2hhbmdlZCBp
+dC4NCj4gPiA+ID4gPiA+PiBDdXJyZW50ICJ2bmV0X2hkcl9zdXBwb3J0IiBjYW4ndCBkZWNpZGUg
+d2hldGhlciBzZW5kIHZuZXQNCj4gPiA+ID4gPiA+PiBoZWFkZXIgbGVuZ3RoLCB3ZSBhbHdheXMg
+c2VuZCBpdCBldmVuIDAuDQo+ID4gPiA+ID4gPj4gSXQgd2lsbCBhdm9pZCBzZW5kZXIvcmVjZWl2
+ZXIgdHJhbnNmZXIgcHJvdG9jb2wgcGFyc2UgaXNzdWVzOg0KPiA+ID4gPiA+ID4+IFdoZW4gc2Vu
+ZGVyIGRhdGEgd2l0aCB0aGUgdm5ldCBoZWFkZXIgbGVuZ3RoLCBidXQgcmVjZWl2ZXINCj4gPiA+
+ID4gPiA+PiBjYW4ndCBlbmFibGUgdGhlICJ2bmV0X2hkcl9zdXBwb3J0Ii4NCj4gPiA+ID4gPiA+
+PiBGaWx0ZXJzIHdpbGwgYXV0byBzZXR1cCB2bmV0X2hkcl9sZW4gYXMgbG9jYWwgbmYtPm5ldGRl
+diBhbmQNCj4gPiA+ID4gPiA+PiBmb3VuZCB0aGUgaXNzdWUgd2hlbiBnZXQgZGlmZmVyZW50IHZu
+ZXRfaGRyX2xlbiBmcm9tIG90aGVyDQo+IGZpbHRlcnMuDQo+ID4gPiA+ID4gPj4NCj4gPiA+ID4g
+PiA+Pj4gQW5kIG15ICJmb3JjZV92bmV0X2hkciIgc2VlbXMgZHVwbGljYXRlZCB3aXRoDQo+ID4g
+PiA+ID4gdm5ldF9oZHJfc3VwcG9ydD10cnVlLg0KPiA+ID4gPiA+ID4+PiBTbyBpdCBsb29rcyB0
+byBtZSB3ZSBjYW4gbGVhdmUgdGhlIG1pcnJvciBjb2RlIGFzIGlzIGFuZA0KPiA+ID4gPiA+ID4+
+PiBqdXN0IGNoYW5nZSB0aGUgY29tcGFyZT8gKGRlcGVuZHMgb24gdGhlIG1nbXQgdG8gc2V0IGEN
+Cj4gPiA+ID4gPiA+Pj4gY29ycmVjdA0KPiA+ID4gPiA+ID4+PiB2bmV0X2hkcl9zdXBwb3J0KQ0K
+PiA+ID4gPiA+ID4+IE9LLCBJIHdpbGwga2VlcCB0aGUNCj4gPiA+ID4gPiA+PiBmaWx0ZXItbWly
+cm9yL2ZpbHRlci1yZWRpcmVjdG9yL2ZpbHRlci1yZXdyaXRlcg0KPiA+ID4gPiA+ID4+IHNhbWUg
+YXMgdGhpcyB2ZXJzaW9uLg0KPiA+ID4gPiA+ID4+IEZvciB0aGUgY29sby1jb21wYXJlIG1vZHVs
+ZSwgSXQgd2lsbCBnZXQgcHJpbWFyeSBub2RlJ3MNCj4gPiA+ID4gPiA+PiBmaWx0ZXIgZGF0YSdz
+IHZuZXRfaGRyX2xlbiBhcyB0aGUgbG9jYWwgdmFsdWUsIEFuZCBjb21wYXJlDQo+ID4gPiA+ID4g
+Pj4gd2l0aCBzZWNvbmRhcnkgbm9kZSdzLCBiZWNhdXNlIGl0IGlzIG5vdCBhdHRhY2hlZCBhbnkg
+bmYtPm5ldGRldi4NCj4gPiA+ID4gPiA+PiBTbywgaXQgbG9va3MgY29tcGFyZSBtb2R1bGUncyAi
+dm5ldF9oZHJfc3VwcG9ydCIgYmVlbiBhdXRvDQo+ID4gPiA+ID4gPj4gY29uZmlndXJhdGlvbiBm
+cm9tIHRoZSBmaWx0ZXIgdHJhbnNwb3J0IHByb3RvY29sLg0KPiA+ID4gPiA+ID4+IElmIHRoZSAi
+Zm9yY2Vfdm5ldF9oZHIiIG1lYW5zIGhhcmQgY29kZSBhIGNvbXBhcmUncyBsb2NhbA0KPiA+ID4g
+PiA+ID4+IHZuZXRfaGRyX2xlbiByYXRoZXIgdGhhbiBjb21lIGZyb20gaW5wdXQgZmlsdGVyJ3Mg
+ZGF0YT8NCj4gPiA+ID4gPiA+Pg0KPiA+ID4gPiA+ID4+IFRoYW5rcw0KPiA+ID4gPiA+ID4+IENo
+ZW4NCj4gPiA+ID4gPiA+Pg0KPiA+ID4gPiA+ID4gSGkgSmFzb24vTWFya3VzLA0KPiA+ID4gPiA+
+ID4NCj4gPiA+ID4gPiA+IFJldGhpbmsgYWJvdXQgaXQsIEhvdyBhYm91dCBrZWVwIHRoZSBvcmln
+aW5hbCAidm5ldF9oZHJfc3VwcG9ydCINCj4gPiA+ID4gPiA+IGZ1bmN0aW9uLCBBbmQgYWRkIGEg
+bmV3IG9wdGlvbmFsIHBhcmFtZXRlciAiYXV0b192bmV0X2hkciIgZm9yDQo+ID4gPiA+ID4gZmls
+dGVycy9jb21wYXJlPw0KPiA+ID4gPiA+DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBJdCdzIGEgd2F5
+IGJ1dCByZXRoaW5rIG9mIHRoZSB3aG9sZSB0aGluZy4gSSB3b25kZXIgd2hhdCBpZiB3ZQ0KPiA+
+ID4gPiA+IGp1c3QgZW5hYmxlICJ2bmV0X2hkcl9zdXBwb3J0IiBieSBkZWZhdWx0IGZvciBmaWx0
+ZXIgYW5kIGNvbG8tDQo+IGNvbXBhcmU/DQo+ID4gPiA+DQo+ID4gPiA+IEl0J3Mgd29ya3MgYnkg
+ZGVmYXVsdCBmb3IgdXNlciB1c2UgLWRldmljZSB2aXJ0aW8tbmV0LXBjaSBhbmQgZTEwMDAuLi4N
+Cj4gPiA+ID4gQnV0IGl0IGNhbid0IHJlc29sdmUgdGhpcyBzZXJpZXMgbW90aXZhdGlvbiwgaG93
+IHRvIGZpeC9jaGVjayB1c2VyDQo+ID4gPiBjb25maWd1cmF0aW9uIGlzc3VlOg0KPiA+ID4gPiBG
+b3IgZXhhbXBsZSB1c2VyIGVuYWJsZSAiIHZuZXRfaGRyX3N1cHBvcnQgIiBmaWx0ZXItbWlycm9y
+IGFuZA0KPiA+ID4gPiBkaXNhYmxlICIgdm5ldF9oZHJfc3VwcG9ydCIgZmlsdGVyLXJlZGlyZWN0
+b3IgQW5kIGNvbm5lY3QgYm90aA0KPiA+ID4gPiBmaWx0ZXIgbW9kdWxlcyBieQ0KPiA+ID4gY2hh
+cmRldiBzb2NrZXQuDQo+ID4gPiA+IEluIHRoaXMgY2FzZSBndWVzdCB3aWxsIGdldCB3cm9uZyBu
+ZXR3b3JrIHdvcmtsb2FkIGFuZCBmaWx0ZXJzDQo+ID4gPiA+IGRpZG7igJl0IHBlcmNlaXZlIGFu
+eSBhYm5vcm1hbGl0aWVzLCBidXQgaW4gZmFjdCwgdGhlIHdob2xlIHN5c3RlbQ0KPiA+ID4gPiBp
+cyBubyBsb25nZXINCj4gPiA+IHdvcmtpbmcuDQo+ID4gPiA+IFRoaXMgc2VyaWVzIHdpbGwgcmVw
+b3J0IGVycm9yIGFuZCB0cnkgdG8gY29ycmVjdCBpdC4NCj4gPiA+DQo+ID4gPiBUaGUgcHJvYmxl
+bSBpcyBob3cgImF1dG9fdm5ldF9oZHIiIGhlbHAgaW4gdGhpcyBjYXNlLiBJdCdzIGEgbmV3DQo+
+ID4gPiBwYXJhbWV0ZXIgd2hpY2ggbWF5IGxlYWQgdG8gbW9yZSB3cm9uZyBjb25maWd1cmF0aW9u
+Pw0KPiA+DQo+ID4gTm8sIHRoZSAiYXV0b192bmV0X2hkciIgd2lsbCBmaXggbW9zdCB0aGUgd3Jv
+bmcgY29uZmlndXJhdGlvbiBpc3N1ZXMgYXMNCj4gInZuZXRfaGRyX3N1cHBvcnQiIGNvcnJlY3Qg
+c2V0dGluZy4NCj4gPiBXaGVuIHdlIGVuYWJsZSB0aGUgImF1dG9fdm5ldF9oZHIiLCB0aGUgb3Jp
+Z2luYWwgInZuZXRfaGRyX3N1cHBvcnQiDQo+IHdpbGwgbm8gZWZmZWN0Lg0KPiANCj4gU28gaXQg
+bG9va3MgdG8gbWUgaXQgc3RpbGwgZGVwZW5kcyBvbiB0aGUgbWFuYWdlbWVudCB0byBzZXQgImF1
+dG9fdm5ldF9oZHIiDQo+IHRvIGJlIHRydWU/IChvciBtYWtlIGl0IGVuYWJsZWQgYnkgZGVmYXVs
+dCkNCg0KWWVzLCBJIHBsYW4gdG8gbWFrZSAiYXV0b192bmV0X2hkciIgZW5hYmxlZCBieSBkZWZh
+dWx0IGluIG5leHQgdmVyc2lvbi4gDQoNCj4gDQo+IElmIHdlIGNhbiBkbyB0aGF0LCBpc24ndCBp
+dCBtdWNoIG1vcmUgc2ltcGxlciB0byBtYWtlIHZuZXRfaGRyX3N1cHBvcnQgYnkNCj4gZGVmYXVs
+dD8NCg0KWWVzLCBGb3IgY29tcGF0aWJpbGl0eSBmaWx0ZXJzIGFuZCBDT0xPIHN0aWxsIHdvcmsg
+d2l0aCB0aGUgb3JpZ2luYWwgInZuZXRfaGRyX3N1cHBvcnQiLg0KRm9yIG5ldyB1c2VycywgdGhl
+eSBjYW4gZW5hYmxlIHRoZSBuZXcgImF1dG9fdm5ldF9oZHIiIHRvIGF2b2lkIHNvbWUgaXNzdWVz
+Lg0KDQpUaGFua3MNCkNoZW4NCg0KPiANCj4gSSB0aGluayBJIG1heSBtaXNzIHNvbWV0aGluZy4N
+Cj4gDQo+IFRoYW5rcw0KPiANCj4gPg0KPiA+IFRoYW5rcw0KPiA+IENoZW4NCj4gPg0KPiA+ID4N
+Cj4gPiA+IFRoYW5rcw0KPiA+ID4NCj4gPiA+ID4NCj4gPiA+ID4gVGhhbmtzDQo+ID4gPiA+IENo
+ZW4NCj4gPiA+ID4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+IFRoYW5rcw0KPiA+ID4gPiA+DQo+ID4g
+PiA+ID4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiBUaGFua3MNCj4gPiA+ID4gPiA+IENoZW4N
+Cj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4+PiBUaGFua3MNCj4gPiA+ID4g
+PiA+Pj4NCj4gPiA+ID4gPiA+Pj4+IFRoYW5rcw0KPiA+ID4gPiA+ID4+Pj4gQ2hlbg0KPiA+ID4g
+PiA+ID4+Pj4NCj4gPiA+ID4gPiA+Pj4+PiBUaGFua3MNCj4gPiA+ID4gPiA+Pj4+Pg0KPiA+ID4g
+PiA+ID4+Pj4+DQo+ID4gPiA+DQo+ID4NCg0K
 
