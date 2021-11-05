@@ -2,102 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4F9C446B0F
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 23:57:53 +0100 (CET)
-Received: from localhost ([::1]:50066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74EE8446B13
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 00:02:46 +0100 (CET)
+Received: from localhost ([::1]:56526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mj89g-0005M5-CQ
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 18:57:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34482)
+	id 1mj8EP-0001N2-2n
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 19:02:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1mj88o-0004eY-QV; Fri, 05 Nov 2021 18:56:58 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:19982)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mj8CP-0008PF-IL; Fri, 05 Nov 2021 19:00:43 -0400
+Received: from 10.mo552.mail-out.ovh.net ([87.98.187.244]:50667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1mj88m-00005A-Lv; Fri, 05 Nov 2021 18:56:58 -0400
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A5KkZGc015999; 
- Fri, 5 Nov 2021 22:56:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=XFH9lyKZrktW7MxK64xoc86BcDv1/fo9RbZ+bTDk764=;
- b=DyyuWmMqSF7vB8iWpe20zSmRRhUxgmaHsSGX3F7N5pKBSUUFRDhPv07xlRKVegE1X6QF
- C+hySbSIC3ECkbNcjWQMRMBLNolgIDgSF8Mirj7SYZ5b+Zv+riKthF91w50nU3AWbfde
- Rg7oIDD21QIYMKJUvsqWqVtsvqumWoVI3Gq2CQU6B9yyjCyqiwDd2SHNXZpPb5lLQ9PX
- npYAAC6PFNKr333qpKCOG2AjIk4SLzyW4wtI2yto12ZsO1Vgl69L9ad90ZjPl5FuJFwu
- PQ81oM8DSiXAD4I3l7HRV3i8iqE3bOl2jEFKgcDzQgB/sm2Mk+25zJoytoFuoLH5PD2y QQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3c5bxrhvqr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Nov 2021 22:56:54 +0000
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1A5Mu30L025486;
- Fri, 5 Nov 2021 22:56:54 GMT
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3c5bxrhvqh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Nov 2021 22:56:54 +0000
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1A5MlORE031383;
- Fri, 5 Nov 2021 22:56:52 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma03wdc.us.ibm.com with ESMTP id 3c4t4eu9vp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 05 Nov 2021 22:56:52 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1A5MuqZe32899380
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 5 Nov 2021 22:56:52 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0AD667805C;
- Fri,  5 Nov 2021 22:56:52 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 910377805F;
- Fri,  5 Nov 2021 22:56:51 +0000 (GMT)
-Received: from [9.160.106.35] (unknown [9.160.106.35])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri,  5 Nov 2021 22:56:51 +0000 (GMT)
-Message-ID: <7bcc35e1-ca27-eccc-8fb6-9cb6dda38e51@linux.ibm.com>
-Date: Fri, 5 Nov 2021 18:56:51 -0400
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mj8CI-0000eN-4u; Fri, 05 Nov 2021 19:00:40 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.19])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 4F44B21394;
+ Fri,  5 Nov 2021 23:00:30 +0000 (UTC)
+Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Sat, 6 Nov
+ 2021 00:00:29 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R0033bdd823d-6764-4fcd-9df4-2bfdee888481,
+ 0F42570F59393370FB24324DC60E17D91301572C) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <d7c12a79-107d-dfe6-ad7b-fde51f64ddf1@kaod.org>
+Date: Sat, 6 Nov 2021 00:00:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH] s390x: kvm: adjust diag318 resets to retain data
+Subject: Re: [PATCH] target/ppc, hw/ppc: Change maintainers
 Content-Language: en-US
-From: Collin Walling <walling@linux.ibm.com>
-To: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
-References: <20211105224646.803661-1-walling@linux.ibm.com>
-In-Reply-To: <20211105224646.803661-1-walling@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 0kysBm9pxdxl-_NdqCUxg5E6h9Q8p6Ky
-X-Proofpoint-GUID: uaSng518EcGPXDDR4YXKKerQXoKMUCUz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-05_03,2021-11-03_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- priorityscore=1501 mlxscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0
- impostorscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0
- suspectscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2110150000 definitions=main-2111050121
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=walling@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, Daniel Henrique
+ Barboza <danielhb413@gmail.com>
+References: <20211105034640.53754-1-david@gibson.dropbear.id.au>
+ <8e05f98a-6a46-f728-5035-fab10f5a209a@gmail.com>
+ <880124b9-5cd1-7fcb-fdc6-3d3f8a1da2b6@amsat.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <880124b9-5cd1-7fcb-fdc6-3d3f8a1da2b6@amsat.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: e68bdad9-b741-425c-b075-94bcd6f72dcb
+X-Ovh-Tracer-Id: 13226509156220701545
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrtdejgddtgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=87.98.187.244; envelope-from=clg@kaod.org;
+ helo=10.mo552.mail-out.ovh.net
+X-Spam_score_int: -39
+X-Spam_score: -4.0
 X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.093,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.093,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,46 +72,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, thuth@redhat.com, cohuck@redhat.com,
- david@redhat.com
+Cc: peter.maydell@linaro.org, groug@kaod.org, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/5/21 18:46, Collin Walling wrote:
-> The CPNC portion of the diag 318 data is erroneously reset during an
-> initial CPU reset caused by SIGP. Let's go ahead and relocate the
-> diag318_info field within the CPUS390XState struct such that it is
-> only zeroed during a clear reset. This way, the CPNC will be retained
-> for each VCPU in the configuration after the diag 318 instruction
-> has been invoked by the kernel.
+> In term of the MAINTAINERS file:
 > 
-> Additionally, the diag 318 data reset is handled via the CPU reset
-> code. The set_diag318 code can be merged into the handler function
-> and the helper functions can consequently be removed.
+>          S: Status, one of the following:
+>             Supported:   Someone is actually paid to look after this.
+>             Maintained:  Someone actually looks after it.
 > 
-> Signed-off-by: Collin Walling <walling@linux.ibm.com>
+> The PPC entries have a 'Maintained' status. You say "IBM will shoulder
+> this responsibility", does that mean the entries will be 'Supported'
+> as in "someone paid to look after them"?
+> I wonder because both Cédric and you have some commits with an IBM
+> email, but both are registering a non-IBM email as contact. 
 
-I neglected to mention that this addresses a bug that was discovered
-internally, observed by a recent patch I sent upstream:
+Lotus Notes was not designed for patch communication. You don't want
+me to send patches with it I assure you :)
 
-[PATCH] KVM: s390x: add debug statement for diag 318 CPNC data
+> I don't
+> mind the email technical detail, but I am curious about the status
+> and expectations.
 
-This patch removes most of the code from one of my past patches. Does it
-make more sense to revert the old patch and then introduce a follow-up
-that includes the additions introduced by this new one?
+We have other IBM commitments. IBM is willing to share some/most of
+our time for QEMU-PPC maintenance.
 
-commit e2c6cd567422bfa563be026b9741a1854aecdc06
-Author: Collin L. Walling <walling@linux.ibm.com>
-Date:   Fri Nov 13 17:10:22 2020 -0500
+What we are going do will depend on inputs really. We have pseries
+and KVM in focus because there is still business using the software
+stack. TCG is extremely useful for pseries and powernv. We clearly
+want to keep that running and improve it. Some parts have been barely
+touched (and probably used) in the last 15 years. I think we should
+drop some support to modernize the useful parts and ease maintenance.
 
-    s390/kvm: fix diag318 propagation and reset functionality
+Thanks,
 
-There is also a bug where hotplugged CPUs are not acquiring the CPNC as
-well. I will address a fix to this in a follow-up patch in the future.
+C.
 
--- 
-Regards,
-Collin
-
-Stay safe and stay healthy
 
