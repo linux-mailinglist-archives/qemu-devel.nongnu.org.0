@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 541E544644A
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 14:40:55 +0100 (CET)
-Received: from localhost ([::1]:50450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 637E044646A
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 14:47:09 +0100 (CET)
+Received: from localhost ([::1]:34114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mizSg-0007ap-Fx
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 09:40:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54584)
+	id 1mizYi-0007Xx-DJ
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 09:47:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mizM5-0007nu-9j
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 09:34:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60794)
+ id 1mizMF-00087J-5x
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 09:34:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43106)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mizM3-0001qy-N0
- for qemu-devel@nongnu.org; Fri, 05 Nov 2021 09:34:05 -0400
+ id 1mizMD-0002KE-1M
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 09:34:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636119242;
+ s=mimecast20190719; t=1636119252;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uaiDoJgOQGQvis10bJGSk5/g9IeVC9PME07gxiv+5oY=;
- b=ETFrEKL5jBj/mg347XJmGUL+xc9iMhsS2Mq75jRzDLFvxDaF67M46Pzya53RRj5OtLWALV
- THaRI/pUn7p8lw+cWJZW+cKvYnVEOwzpygNvB/wb8fnj6MMwHaUw7diD01ZpB8E3gAxKYF
- z0qppNsZcTQyQzbhsPEp7IY7QuQJdnU=
+ bh=uw8lNlRzeT0fJfa5Z4fBeynnvzDhYSxkV0pED0OyFlg=;
+ b=jUZnIkw0R1+NhIt2RnSsA+XNoHHG3dTiVQ2Bge2sL2CAq2IHXMlOibgOnv64gsIzyD9AUf
+ K58ju1JaeyKy6TePCXG+/b1H+bEjQ7TMfs15Olbq/nxOz3YeJP4T2PhDdQvlFpqBC4abuY
+ I6yTxBmBLC3YQLx9cNfVDZZRpenQyqE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-305-mdWPmE-VPfSLKpA-uREyLA-1; Fri, 05 Nov 2021 09:33:59 -0400
-X-MC-Unique: mdWPmE-VPfSLKpA-uREyLA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-51-9qwC3zCeOfGMEhwER8Czbg-1; Fri, 05 Nov 2021 09:34:11 -0400
+X-MC-Unique: 9qwC3zCeOfGMEhwER8Czbg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63CDD875054;
- Fri,  5 Nov 2021 13:33:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED0BF112B8F9;
+ Fri,  5 Nov 2021 13:34:09 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0DB2A60C17;
- Fri,  5 Nov 2021 13:33:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB7A41037F3F;
+ Fri,  5 Nov 2021 13:34:00 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/11] docs: (further) remove non-reference uses of single
- backticks
-Date: Fri,  5 Nov 2021 17:32:21 +0400
-Message-Id: <20211105133222.184722-11-marcandre.lureau@redhat.com>
+Subject: [PULL 11/11] docs/sphinx: change default role to "any"
+Date: Fri,  5 Nov 2021 17:32:22 +0400
+Message-Id: <20211105133222.184722-12-marcandre.lureau@redhat.com>
 In-Reply-To: <20211105133222.184722-1-marcandre.lureau@redhat.com>
 References: <20211105133222.184722-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
@@ -66,8 +65,8 @@ X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.648,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,93 +80,42 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-The series rotted already. Here's the new changes.
+This interprets single-backtick syntax in all of our Sphinx docs as a
+cross-reference to *something*, including Python symbols.
+
+From here on out, new uses of `backticks` will cause a build failure if
+the target cannot be referenced.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
-[ extra backticks fixes ]
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20211004215238.1523082-3-jsnow@redhat.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20211004215238.1523082-4-jsnow@redhat.com>
 ---
- docs/devel/build-system.rst | 16 ++++++++--------
- docs/system/i386/sgx.rst    |  6 +++---
- 2 files changed, 11 insertions(+), 11 deletions(-)
+ docs/conf.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
-index 7f106d2f1c2f..ae536ef75db4 100644
---- a/docs/devel/build-system.rst
-+++ b/docs/devel/build-system.rst
-@@ -47,14 +47,14 @@ command line options for which a same-named Meson option exists;
- dashes in the command line are replaced with underscores.
+diff --git a/docs/conf.py b/docs/conf.py
+index 3161b8b127c6..763e7d243448 100644
+--- a/docs/conf.py
++++ b/docs/conf.py
+@@ -85,6 +85,11 @@
+ # The master toctree document.
+ master_doc = 'index'
  
- Many checks on the compilation environment are still found in configure
--rather than `meson.build`, but new checks should be added directly to
--`meson.build`.
-+rather than ``meson.build``, but new checks should be added directly to
-+``meson.build``.
- 
- Patches are also welcome to move existing checks from the configure
--phase to `meson.build`.  When doing so, ensure that `meson.build` does
--not use anymore the keys that you have removed from `config-host.mak`.
--Typically these will be replaced in `meson.build` by boolean variables,
--``get_option('optname')`` invocations, or `dep.found()` expressions.
-+phase to ``meson.build``.  When doing so, ensure that ``meson.build`` does
-+not use anymore the keys that you have removed from ``config-host.mak``.
-+Typically these will be replaced in ``meson.build`` by boolean variables,
-+``get_option('optname')`` invocations, or ``dep.found()`` expressions.
- In general, the remaining checks have little or no interdependencies,
- so they can be moved one by one.
- 
-@@ -298,7 +298,7 @@ comprises the following tasks:
- 
-  - Add code to perform the actual feature check.
- 
-- - Add code to include the feature status in `config-host.h`
-+ - Add code to include the feature status in ``config-host.h``
- 
-  - Add code to print out the feature status in the configure summary
-    upon completion.
-@@ -334,7 +334,7 @@ The other supporting code is generally simple::
- 
- For the configure script to parse the new option, the
- ``scripts/meson-buildoptions.sh`` file must be up-to-date; ``make
--update-buildoptions`` (or just `make`) will take care of updating it.
-+update-buildoptions`` (or just ``make``) will take care of updating it.
- 
- 
- Support scripts
-diff --git a/docs/system/i386/sgx.rst b/docs/system/i386/sgx.rst
-index f103ae2a2fdd..9aa161af1a13 100644
---- a/docs/system/i386/sgx.rst
-+++ b/docs/system/i386/sgx.rst
-@@ -77,9 +77,9 @@ CPUID
- 
- Due to its myriad dependencies, SGX is currently not listed as supported
- in any of Qemu's built-in CPU configuration. To expose SGX (and SGX Launch
--Control) to a guest, you must either use `-cpu host` to pass-through the
-+Control) to a guest, you must either use ``-cpu host`` to pass-through the
- host CPU model, or explicitly enable SGX when using a built-in CPU model,
--e.g. via `-cpu <model>,+sgx` or `-cpu <model>,+sgx,+sgxlc`.
-+e.g. via ``-cpu <model>,+sgx`` or ``-cpu <model>,+sgx,+sgxlc``.
- 
- All SGX sub-features enumerated through CPUID, e.g. SGX2, MISCSELECT,
- ATTRIBUTES, etc... can be restricted via CPUID flags. Be aware that enforcing
-@@ -126,7 +126,7 @@ creating VM with SGX.
- Feature Control
- ~~~~~~~~~~~~~~~
- 
--Qemu SGX updates the `etc/msr_feature_control` fw_cfg entry to set the SGX
-+Qemu SGX updates the ``etc/msr_feature_control`` fw_cfg entry to set the SGX
- (bit 18) and SGX LC (bit 17) flags based on their respective CPUID support,
- i.e. existing guest firmware will automatically set SGX and SGX LC accordingly,
- assuming said firmware supports fw_cfg.msr_feature_control.
++# Interpret `single-backticks` to be a cross-reference to any kind of
++# referenceable object. Unresolvable or ambiguous references will emit a
++# warning at build time.
++default_role = 'any'
++
+ # General information about the project.
+ project = u'QEMU'
+ copyright = u'2021, The QEMU Project Developers'
 -- 
 2.33.0.721.g106298f7f9
 
