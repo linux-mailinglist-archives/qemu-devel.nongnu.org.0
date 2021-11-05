@@ -2,63 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B9CE446323
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 13:06:29 +0100 (CET)
-Received: from localhost ([::1]:50226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3D2C44634D
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Nov 2021 13:20:50 +0100 (CET)
+Received: from localhost ([::1]:60132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mixzI-0007we-27
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 08:06:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51238)
+	id 1miyDA-0007Bf-RG
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 08:20:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mixxD-0006tQ-0e; Fri, 05 Nov 2021 08:04:19 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:53053)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1miy7J-0003AZ-26
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 08:14:45 -0400
+Received: from out28-1.mail.aliyun.com ([115.124.28.1]:35666)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mixxA-0003fK-Ie; Fri, 05 Nov 2021 08:04:18 -0400
-Received: from [192.168.100.1] ([82.142.14.190]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mow4E-1mOlDk443K-00qVOH; Fri, 05 Nov 2021 13:03:27 +0100
-Message-ID: <462e39cf-6572-b78a-c12a-6adb1b5307a2@vivier.eu>
-Date: Fri, 5 Nov 2021 13:03:23 +0100
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1miy7F-0000QU-K5
+ for qemu-devel@nongnu.org; Fri, 05 Nov 2021 08:14:44 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07441215|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.00479531-8.87397e-05-0.995116;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047212; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=2; RT=2; SR=0; TI=SMTPD_---.Lo4i.QP_1636114471; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.Lo4i.QP_1636114471)
+ by smtp.aliyun-inc.com(10.147.41.120);
+ Fri, 05 Nov 2021 20:14:32 +0800
+Subject: Re: [PATCH] configure: Support modules for Windows
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20211105032002.83792-1-zhiwei_liu@c-sky.com>
+ <YYT5w9fAh6EJY3Ku@redhat.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <ab58838b-5e7d-ca08-f641-ab8e8d2ba3d8@c-sky.com>
+Date: Fri, 5 Nov 2021 20:14:29 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH-for-6.2 v2] .mailmap: Fix more contributor entries
-Content-Language: fr
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20211027043254.1248097-1-f4bug@amsat.org>
- <530b7d0e-9290-c78a-df50-7ef297dbf0b6@amsat.org>
- <fec0423b-8ef7-7a76-6827-1ebb6c69db1a@amsat.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <fec0423b-8ef7-7a76-6827-1ebb6c69db1a@amsat.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <YYT5w9fAh6EJY3Ku@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Yn7VNuwFARfWeoqfHG0uv34VFjgIqCMqZgwei7jVB+J/dlOGs6w
- D5/0UWs+MOG32qsP4IXqx2xrEfsyDNiJm09ky106l7Fq4eY9/EX0P6/mQIXZpHaZ/o+ZShD
- czxgKYUgXDQ/pihWMSJUzXASfDtUdCvrQoyFJpLiiyotnyYWdsVeZIZznm24SLjZqV5fESn
- tzwR2HNZ6f8m04Tx0Acfg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:OtxdFsSKWLQ=:0vRM0S0vZ7MdI0ppIfSPwB
- iXhr2QIn2jGP90JECx9RnrvMcyx+MzDGmpP2xYyQuOdG+I90WdGoHGYXM3bm01ge2kj6pfq6j
- yCJuJJ6BOvmLVAZXjEPX9z1PwkiRU+nQzRtRVjlp0zki3NmoKfOgD7TSttFV2w5qh7sLz7Wi2
- a8/qrcr5kuEczf/ENX450tVPH1qfbzy8TwbMnLjE2NFc2Ee97tFor9xw5671UW5uPpSQjDI4Q
- qP4753rOniEdt0GfTsiqHtkZsJeoaAfywhAFuBNdofTQxXi6/JoMXF/3TS0ne+h4k+aydkLPY
- n09Yro0Ezz43fKU6FgP/4vEN4M7JkFTbdMNc8dZaAB0H6Mdsbnxl4oeMi+Z+Z8RxwR8NrWscV
- ge8BBNAC/2JiUNK8QtxTwmJ2bNt9BGuyb+Frvf1JLhwbrVnIf84q94Sa9/fYNp6LQDde9PRS4
- 1o7CYu6vtbvDRqSjcvfBmvauohgpaXsZGqxZkovunLPRTNMooql9mwECWMkxyq1Ka9G/2MlS1
- dsqtSh4OvMp+uv2MftR9j/RYmDwZmVcYpUdjQLtfZXreeaMh+S6m9xdWPU6XJqnx7SqqoGC4C
- y+1uEIL9G0l7m7kptGqu3kr+iPGBl78xFVFr2i3CDzPbWP+W5LFwD9VqcUbeIBOrxAdbAX9CG
- z5D8bxfLOusmrXtaJi+gmUHNZDuxA5LBiYvFwX8mJHK5JkiiWuurqwjPlF4UyygL8lKE=
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
+Content-Language: en-US
+Received-SPF: none client-ip=115.124.28.1; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-1.mail.aliyun.com
 X-Spam_score_int: -39
 X-Spam_score: -4.0
 X-Spam_bar: ----
 X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.093,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,71 +62,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Pan Nengyuan <pannengyuan@huawei.com>,
- Hyman Huang <huangy81@chinatelecom.cn>, Haibin Zhang <haibinzhang@tencent.com>,
- Alex Chen <alex.chen@huawei.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 04/11/2021 à 23:06, Philippe Mathieu-Daudé a écrit :
-> Ping for 6.2? (Patch fully reviewed/acked by affected contributors).
-> 
-> On 11/1/21 11:22, Philippe Mathieu-Daudé wrote:
->> Can this patch go via the Trivial tree?
->>
->> On 10/27/21 06:32, Philippe Mathieu-Daudé wrote:
->>> These authors have some incorrect author email field.
->>>
->>> Acked-by: Pan Nengyuan <pannengyuan@huawei.com>
->>> Reviewed-by: Alex Chen <alex.chen@huawei.com>
->>> Reviewed-by: Hyman Huang <huangy81@chinatelecom.cn>
->>> Reviewed-by: Haibin Zhang <haibinzhang@tencent.com>
->>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>> ---
->>> Patch fully reviewed/acked.
->>> ---
->>>   .mailmap | 4 ++++
->>>   1 file changed, 4 insertions(+)
->>>
->>> diff --git a/.mailmap b/.mailmap
->>> index f029d1c21fe..8beb2f95ae2 100644
->>> --- a/.mailmap
->>> +++ b/.mailmap
->>> @@ -69,6 +69,7 @@ Yongbok Kim <yongbok.kim@mips.com> <yongbok.kim@imgtec.com>
->>>   # git author config, or had utf8/latin1 encoding issues.
->>>   Aaron Lindsay <aaron@os.amperecomputing.com>
->>>   Alexey Gerasimenko <x1917x@gmail.com>
->>> +Alex Chen <alex.chen@huawei.com>
->>>   Alex Ivanov <void@aleksoft.net>
->>>   Andreas Färber <afaerber@suse.de>
->>>   Bandan Das <bsd@redhat.com>
->>> @@ -99,9 +100,11 @@ Gautham R. Shenoy <ego@in.ibm.com>
->>>   Gautham R. Shenoy <ego@linux.vnet.ibm.com>
->>>   Gonglei (Arei) <arei.gonglei@huawei.com>
->>>   Guang Wang <wang.guang55@zte.com.cn>
->>> +Haibin Zhang <haibinzhang@tencent.com>
->>>   Hailiang Zhang <zhang.zhanghailiang@huawei.com>
->>>   Hanna Reitz <hreitz@redhat.com> <mreitz@redhat.com>
->>>   Hervé Poussineau <hpoussin@reactos.org>
->>> +Hyman Huang <huangy81@chinatelecom.cn>
->>>   Jakub Jermář <jakub@jermar.eu>
->>>   Jakub Jermář <jakub.jermar@kernkonzept.com>
->>>   Jean-Christophe Dubois <jcd@tribudubois.net>
->>> @@ -135,6 +138,7 @@ Nicholas Thomas <nick@bytemark.co.uk>
->>>   Nikunj A Dadhania <nikunj@linux.vnet.ibm.com>
->>>   Orit Wasserman <owasserm@redhat.com>
->>>   Paolo Bonzini <pbonzini@redhat.com>
->>> +Pan Nengyuan <pannengyuan@huawei.com>
->>>   Pavel Dovgaluk <dovgaluk@ispras.ru>
->>>   Pavel Dovgaluk <pavel.dovgaluk@gmail.com>
->>>   Pavel Dovgaluk <Pavel.Dovgaluk@ispras.ru>
->>>
->>
-> 
 
-Applied to my trivial-patches branch.
+On 2021/11/5 下午5:30, Daniel P. Berrangé wrote:
+> On Fri, Nov 05, 2021 at 11:20:02AM +0800, LIU Zhiwei wrote:
+>
+> Generally we expect a commit message describing what is being solved
+> and any reasons for the approach taken.
+
+This patch relaxes all constraints on modules for Windows.  It firstly 
+exports  all symbols of the
+target executable to an import library. Then  all modules link with the 
+import library .
+
+>> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+>> ---
+>>   configure   |  7 +------
+>>   meson.build | 34 ++++++++++++++++++++++++----------
+>>   2 files changed, 25 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/configure b/configure
+>> index 33682cb971..6280e412a9 100755
+>> --- a/configure
+>> +++ b/configure
+>> @@ -1422,7 +1422,7 @@ cat << EOF
+>>     bsd-user        all BSD usermode emulation targets
+>>     guest-agent     build the QEMU Guest Agent
+>>     pie             Position Independent Executables
+>> -  modules         modules support (non-Windows)
+>> +  modules         modules support
+>>     module-upgrades try to load modules from alternate paths for upgrades
+>>     debug-tcg       TCG debugging (default is disabled)
+>>     debug-info      debugging information
+>> @@ -1698,11 +1698,6 @@ else
+>>     QEMU_CFLAGS="$QEMU_CFLAGS -Wno-missing-braces"
+>>   fi
+>>   
+>> -# Our module code doesn't support Windows
+>> -if test "$modules" = "yes" && test "$mingw32" = "yes" ; then
+>> -  error_exit "Modules are not available for Windows"
+>> -fi
+>> -
+>>   # module_upgrades is only reasonable if modules are enabled
+>>   if test "$modules" = "no" && test "$module_upgrades" = "yes" ; then
+>>     error_exit "Can't enable module-upgrades as Modules are not enabled"
+>> diff --git a/meson.build b/meson.build
+>> index 47df10afc2..26195cb24f 100644
+>> --- a/meson.build
+>> +++ b/meson.build
+>> @@ -2625,7 +2625,7 @@ block_mods = []
+>>   softmmu_mods = []
+>>   foreach d, list : modules
+>>     foreach m, module_ss : list
+>> -    if enable_modules and targetos != 'windows'
+>> +    if enable_modules
+>>         module_ss = module_ss.apply(config_all, strict: false)
+>>         sl = static_library(d + '-' + m, [genh, module_ss.sources()],
+>>                             dependencies: [modulecommon, module_ss.dependencies()], pic: true)
+>> @@ -2658,7 +2658,7 @@ endforeach
+>>   
+>>   foreach d, list : target_modules
+>>     foreach m, module_ss : list
+>> -    if enable_modules and targetos != 'windows'
+>> +    if enable_modules
+>>         foreach target : target_dirs
+>>           if target.endswith('-softmmu')
+>>             config_target = config_target_mak[target]
+>> @@ -2800,14 +2800,15 @@ common_ss.add(hwcore)
+>>   ###########
+>>   # Targets #
+>>   ###########
+>> -
+>> -foreach m : block_mods + softmmu_mods
+>> -  shared_module(m.name(),
+>> -                name_prefix: '',
+>> -                link_whole: m,
+>> -                install: true,
+>> -                install_dir: qemu_moddir)
+>> -endforeach
+>> +if targetos != 'windows'
+>> +  foreach m : block_mods + softmmu_mods
+>> +    shared_module(m.name(),
+>> +                  name_prefix: '',
+>> +                  link_whole: m,
+>> +                  install: true,
+>> +                  install_dir: qemu_moddir)
+>> +  endforeach
+>> +endif
+>>   
+>>   softmmu_ss.add(authz, blockdev, chardev, crypto, io, qmp)
+>>   common_ss.add(qom, qemuutil)
+>> @@ -2826,6 +2827,7 @@ common_all = static_library('common',
+>>   feature_to_c = find_program('scripts/feature_to_c.sh')
+>>   
+>>   emulators = {}
+>> +emulator = 0
+>>   foreach target : target_dirs
+>>     config_target = config_target_mak[target]
+>>     target_name = config_target['TARGET_NAME']
+>> @@ -2966,6 +2968,7 @@ foreach target : target_dirs
+>>                  link_language: link_language,
+>>                  link_depends: [block_syms, qemu_syms] + exe.get('link_depends', []),
+>>                  link_args: link_args,
+>> +               implib: true,
+>>                  win_subsystem: exe['win_subsystem'])
+>>   
+>>       if targetos == 'darwin'
+>> @@ -3023,6 +3026,17 @@ foreach target : target_dirs
+>>       endif
+>>     endforeach
+>>   endforeach
+>> +if (targetos == 'windows')
+>> +  foreach m : block_mods + softmmu_mods
+>> +    shared_module(m.name(),
+>> +	    name_prefix: '',
+>> +	    link_whole: m,
+>> +	    install: true,
+>> +	    dependencies: glib,
+>> +	    link_with: emulator,
+> AFAIK from the docs meson wants "link_with" to be a list of
+> libraries.
+
+The emulator is an import library.
+
+There has been an executable variable named emulator in origin meson.build.
+An implib keyword args has been  added in this patch when the executable 
+generates.
+And I declare it to the out-most level  to make it visible for modules 
+after the build of targets.
+
+> This is passing a literal '0' which doesn't
+> make sense. Is this really needed ?
+
+It will not be a literal '0'
+
+> What is the reason for the "dependencies" addition ?
+
+I don't think the import library will include the symbols of glib.  And 
+many modules need
+link with glib. So I add the dependencies.
+
+> Can we not just use the existing shared_module() rules
+> we already have. It might be ok to just add dependencies
+> to the existing rule even for non-windows.
+
+I think you are right. It is difficult for me to add all dependencies to 
+modules.
+I use a rough method that export all symbols in the executable.
+
+I am not clear about the right way to support this feature. Look forward 
+to you more advice.
 
 Thanks,
-Laurent
+Zhiwei
 
+>> +	    install_dir: qemu_moddir)
+>> +  endforeach
+>> +endif
+>
+>
+> Regards,
+> Daniel
 
