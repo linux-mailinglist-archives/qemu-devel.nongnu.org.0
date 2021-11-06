@@ -2,90 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F9B446DA5
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 12:34:59 +0100 (CET)
-Received: from localhost ([::1]:52602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E438446DAA
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 12:42:49 +0100 (CET)
+Received: from localhost ([::1]:58366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjJyM-0006TR-0U
-	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 07:34:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35096)
+	id 1mjK5v-0002IW-RD
+	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 07:42:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mjJx6-0005nD-PZ
- for qemu-devel@nongnu.org; Sat, 06 Nov 2021 07:33:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36401)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mjK1X-0000qN-ID
+ for qemu-devel@nongnu.org; Sat, 06 Nov 2021 07:38:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32387)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mjJx3-0003bF-4T
- for qemu-devel@nongnu.org; Sat, 06 Nov 2021 07:33:39 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mjK1S-00034a-Ig
+ for qemu-devel@nongnu.org; Sat, 06 Nov 2021 07:38:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636198414;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1636198689;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RwAs16oJR9dUNJYNEOFBPsMCWWf4SuFhV6lXJbWHrqU=;
- b=VKAZzNtMfQf6+MmExLq4Jienv0PPCkoBvfKqx82ykjtMg9lCPMpF6VfyCV9M8brXE/dEoe
- BWrfBdMnpdUUtT77z8f5emHzH2yPXyVXWZbwgF74YQHWcRgLt3frAFUdq3Xj4dwo+n/boh
- TNFBEeW84nsAV06FMDV8VuSyvBlRXUw=
+ bh=Av8bXU4Zc5lO2JuH5f6T6VdQt71IioMp3pXW0qn1FBA=;
+ b=bigK9QXyrtW5W+ZDzsCS70wua+rtpYMMffOB5auQFxvInDbKC4GNhCTF950JE6BrIiUVHi
+ nvfGD9SpXAg9BZqQ2mpbtgikuXXeOJtDdVtkMA24sY0H9NDpGsSmpKL2qgrbfU3/PEe/2f
+ 8ZVRnOB7Jw4P+pR4lVJ2xXLBWd3nMQE=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-481-NhYOcrc8Np6YRzGutv_SnA-1; Sat, 06 Nov 2021 07:33:33 -0400
-X-MC-Unique: NhYOcrc8Np6YRzGutv_SnA-1
+ us-mta-509-x9liW-2xMviY3XoRmj9X9w-1; Sat, 06 Nov 2021 07:38:08 -0400
+X-MC-Unique: x9liW-2xMviY3XoRmj9X9w-1
 Received: by mail-wm1-f70.google.com with SMTP id
- 69-20020a1c0148000000b0033214e5b021so4675919wmb.3
- for <qemu-devel@nongnu.org>; Sat, 06 Nov 2021 04:33:32 -0700 (PDT)
+ 128-20020a1c0486000000b0030dcd45476aso4698086wme.0
+ for <qemu-devel@nongnu.org>; Sat, 06 Nov 2021 04:38:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=RwAs16oJR9dUNJYNEOFBPsMCWWf4SuFhV6lXJbWHrqU=;
- b=6A57wF9blH4oulrYaT5ieP3XCeNjl+7SnYu+AtFi3ZLR7HiqKHo4Vt6XwFfxr9Sh8c
- BcBjCZe7jgmINHiH439GcaV6jH2J3eZpEDnOTEBQW6ewdXJrJ82Wp9SKb8DVFi769jOJ
- TblJFTvPJPitpEGgN9h2Sehf67a63PlC5oFJs1QrwsAhCipOBmahEBcjPnClBXbvCP7W
- bbmcSpT9QpVKrBCQVntnjI6XyfLLvbWtYWEIdAlmMVsbSfEEx7jPGMdW0f9u1YIL4s4z
- 5zbYyNb6+YDQgPq2aG8V1RLFXS/HvG0+MxE4r4XS+RqjUHKYo+09XJKfzgzStXrGRzFP
- Sb+A==
-X-Gm-Message-State: AOAM533QdC132DVWok+5GLbx96KeyEbFEVvwhB9S1/5nQsftDidHKaY1
- R+nCvS4bQd+W3xdD4iVEzn4RQOXnvOAcaqRCOLEyJ/aw+YxMtR3Wnj+TqVsMD20JhuM/RJz97bs
- 9IdLwEDixfBxPAO0=
-X-Received: by 2002:adf:fc88:: with SMTP id g8mr52721573wrr.334.1636198412072; 
- Sat, 06 Nov 2021 04:33:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxE3N0ewK4rZJQHgy0XAu8ElJ7jhR9NLBArDmYFIAiu+VjIJpLr0tOn5udbDERwaHNhG4y8gA==
-X-Received: by 2002:adf:fc88:: with SMTP id g8mr52721541wrr.334.1636198411845; 
- Sat, 06 Nov 2021 04:33:31 -0700 (PDT)
-Received: from localhost ([178.139.230.94])
- by smtp.gmail.com with ESMTPSA id h22sm11629927wmq.14.2021.11.06.04.33.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 06 Nov 2021 04:33:31 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH] docs: fix qemu incorrect tag
-In-Reply-To: <2f6070f08d63fd2281d324c70bb5f8db3b4c803c.1636116975.git.huangy81@chinatelecom.cn>
- (huangy's message of "Fri, 5 Nov 2021 21:01:16 +0800")
-References: <2f6070f08d63fd2281d324c70bb5f8db3b4c803c.1636116975.git.huangy81@chinatelecom.cn>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Sat, 06 Nov 2021 12:33:30 +0100
-Message-ID: <87tugpfrhx.fsf@secure.mitica>
+ bh=Av8bXU4Zc5lO2JuH5f6T6VdQt71IioMp3pXW0qn1FBA=;
+ b=yfY7VhwBz+7Ve8soJiKa5b7YgMTQ8pHW8xZA4r//u0YY2mTBCEpAbRwO/9C/HO1Crn
+ hWMaTAiSltOUILdZZ3KmbI2dHjOTb4o+yBDq5rXFb9pgMDHxXsMGDgzjEOw5a3FYSUH0
+ cBkNgF+6on/JfrL802ZbxLZS8/7KCJvxdj3+mvupnkrAJeJUpn7QQ0dxvbb0rgqhhciN
+ oPLFoWYoHmg//r65RSyGKqgU1wHse9pgfLfshCQIKkfoHpympRl84TfS+SjCy0cteTJM
+ cUJJ0/7MwplnTnBz3ujm2i5zVpybq9q8ppypXGOmAxJEljwmFm5yRkRt7OR8iHtY4H/6
+ tqfQ==
+X-Gm-Message-State: AOAM531fPkb0ncRZGtlO7XHon1is4nOYLgeUyGET2JF23/m8+nmVwkj/
+ IZ7TS/ovVuwPTfp2d78729U74Yo5e2PMY9zpARJjWfeOT4JHe5vH8QvsWXX0ixEdNjd40X2xDRA
+ oFNLqqxdbzkpLA770QBbzgukZyGMIGwjKvrTqIwpmTbr8g50gx9ihGKo21HZ2O/tq
+X-Received: by 2002:a7b:c4c4:: with SMTP id g4mr36479984wmk.93.1636198686611; 
+ Sat, 06 Nov 2021 04:38:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyY46H/TfMfYwsBipyo+YWZy7oEgOpwvDHnrHpLWyqqvCIV7dQMcjiFBRPT7B3+v0g7kw+rTQ==
+X-Received: by 2002:a7b:c4c4:: with SMTP id g4mr36479952wmk.93.1636198686333; 
+ Sat, 06 Nov 2021 04:38:06 -0700 (PDT)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id f15sm10093392wrt.26.2021.11.06.04.38.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 06 Nov 2021 04:38:05 -0700 (PDT)
+Message-ID: <13b323ae-e334-1daa-d487-9a4b1a63c7ef@redhat.com>
+Date: Sat, 6 Nov 2021 12:38:04 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v7 0/2] memory: Have 'info mtree' remove duplicated
+ Address Space information
+To: qemu-devel@nongnu.org
+References: <20210904231101.1071929-1-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20210904231101.1071929-1-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.735,
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.735,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-3.407, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,23 +98,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Gerd Hoffmann <kraxel@redhat.com>, Peter Xu <peterx@redhat.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-huangy81@chinatelecom.cn wrote:
-> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
->
-> The last modification of the patchset may be 2 month before
-> merging dirtyrate implementation, it used the wrong tag, so
-> fix with 6.2.
->
-> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
+Ping?
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-queued.
+On 9/5/21 01:10, Philippe Mathieu-Daudé wrote:
+> Series fully reviewed.
+> 
+> Follow Peter Maydell suggestions:
+> - Split mtree_info() as mtree_info_flatview() + mtree_info_as()
+> - Remove duplicated Address Space information
+> 
+> Since v6:
+> - Added missing vertical whitespace (rth)
+> - Added rth's R-b
+> 
+> Since v5:
+> - Fixed messed up during v3->v4 (peterx)
+>   . Restore format
+>   . Remove unused 'int counter'
+> 
+> Since v4:
+> - Merged patches 1 & 2 (David)
+> - Remove unnecessary return void (David)
+> - Added David R-b
+> 
+> Since v3:
+> - Fix typos
+> - Split mtree_info_flatview() + mtree_info_as() first
+> - Rebased last patch keeping Peter's R-b tag
+> 
+> Since v2:
+> - Removed unused AddressSpaceInfo::counter
+> 
+> Since v1:
+> - List AS similarly to 'info mtree -f' (peterx)
+> 
+> checkpatch warning (81 chars):
+> 
+>   WARNING: line over 80 characters
+>   #86: FILE: softmmu/memory.c:3359:
+>   +                                  address_space_compare_name);
+> 
+> Philippe Mathieu-Daudé (2):
+>   memory: Split mtree_info() as mtree_info_flatview() + mtree_info_as()
+>   memory: Have 'info mtree' remove duplicated Address Space information
+> 
+>  softmmu/memory.c | 150 ++++++++++++++++++++++++++++++++++-------------
+>  1 file changed, 108 insertions(+), 42 deletions(-)
+> 
 
 
