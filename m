@@ -2,56 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 079B2447038
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 20:46:41 +0100 (CET)
-Received: from localhost ([::1]:42142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A892E447071
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 21:35:00 +0100 (CET)
+Received: from localhost ([::1]:60018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjReB-0000Bz-MS
-	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 15:46:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37188)
+	id 1mjSOx-00069j-Ex
+	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 16:34:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mjRZp-0006ZS-5T
- for qemu-devel@nongnu.org; Sat, 06 Nov 2021 15:42:10 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:59443)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mjSNF-0005JD-T5
+ for qemu-devel@nongnu.org; Sat, 06 Nov 2021 16:33:13 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:44177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mjRZm-0000qm-6k
- for qemu-devel@nongnu.org; Sat, 06 Nov 2021 15:42:08 -0400
-Received: from quad ([82.142.14.190]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MFbFW-1mxChL2XiY-00HAhi; Sat, 06
- Nov 2021 20:42:01 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] hw: m68: virt: Add compat machines for 6.2
-Date: Sat,  6 Nov 2021 20:41:58 +0100
-Message-Id: <20211106194158.4068596-3-laurent@vivier.eu>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211106194158.4068596-1-laurent@vivier.eu>
-References: <20211106194158.4068596-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mjSMt-00022C-Qg
+ for qemu-devel@nongnu.org; Sat, 06 Nov 2021 16:33:13 -0400
+Received: from [192.168.100.1] ([82.142.14.190]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MKsax-1n2MnH1S3h-00LCje; Sat, 06 Nov 2021 21:32:42 +0100
+Message-ID: <e44b788c-0764-66ce-f78b-a7123832fd00@vivier.eu>
+Date: Sat, 6 Nov 2021 21:32:40 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Content-Language: fr
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+References: <20211105113043.4059361-1-kraxel@redhat.com>
+ <20211105113043.4059361-5-kraxel@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PULL 4/6] ui/gtk-egl: guest fb texture needs to be regenerated
+ when reinitializing egl
+In-Reply-To: <20211105113043.4059361-5-kraxel@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:M/Fg2ua9rHrJIEKxs/rEXpHftvYfn2mQ/9eAHh+1mT4Ju8vDiOO
- NdAJAdZpCHR3OxxHngf9Ws08eDcnkXxLzDvg/i5VYnGN1nANa8X1MLYp0X/3WsDnWsDVys0
- 1VymGD7usmHCccVFPy00/qUpKo18nvXmuOUtvkKa2HY5tpPXW52h0VXQTgzM37i8Cdd6xlf
- U8K+9U5ArqvXGFo48zn8Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:XJtTMkf/zUU=:gZOh8WT6DBgAn85XKZhm2P
- r8eTJzYSf8tS8rydu+5nqnInwVFuaiosRzdA6Nh1u4YqWA6bE2KLWtVbRmv8ZuYlbPReCyTbp
- zFySrHESMYPV7tRHraDE/CoPfNz9ohRf4TagpTVmp5FhqvZSJs1HUjaEoHuxz8hbDeBiylccS
- ma/JMmV0kdDdwEdCB3C4nurULz4lcX80CYAYgCX3kGRUiqjeAmCWQabrZcWmI/M+G8QzcdIW7
- +7eYI1LaHuQF9WvSIEWVe1JbIWbDbpvuC6QYFrm04waSHFWX89bNsRKthhlYjmBR9n0UhWgW5
- lvqLpDhLEfkwFM4gh1SIMj/moP3owhFfTHp8+QwmSr9vaaAAxT/4DhShVkVU69x0bF8DFDi3a
- KUv762GlD/wsM2onXvCdMo27l4pG7dBksSkJukZ6EQxXPPrimxlpotsCrmdsb270AF7DOSFNx
- 4DaILiD3SMMsL3sj/Sgz40F3yZK2hQmHLJ90Cne4xzGEG3CjbUfgbnl8iEOk24U1QES3aj7YL
- UkQKy2+B9V+RP+JvPg2xf0kA8OOWWXshDvUKpUVl6p7fM4tTsJaUTdpoQlcVeU6jB7M6Hwi6D
- w0CBK3B4zKnSUY+5V1RlxHTg/HFkT7jleccPzHGy6UOXGfYFPa9PGnUtTD+la6QhBs2NX/iHM
- gE19liBC4LqI+8QvpUVnaecnVJTJZCNbqAYd4+3Ew8sfENhBlkYZeBL0DjKa4y1kbjcc=
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:AV3BX4aV9uw/m80UngeM/QR55Yd6YK7R2ixP9mRBa0t/qAH2a9H
+ dTRQZb5+XrDD4sDce+0PG+Jx6eoGEz6seYtxRdb6KFAxM06Y7I6hgw3mwXjSOInDcB7T8pu
+ yq6HC56TOJZarw7vsCzh61lL5JvdFtv4eVMcwXA/ffmOeo+QD10n0vubi5y2ecYZ+I3xukw
+ Gkp3MyeD1TryU8SzAkoEQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:8WS8VLpYbtY=:l73+UjzsbhTs/TZVqGwSLu
+ NoJCAbydD4FRYz05zTxzH7D/7Hys+3oF4PxIG4PxjMve/Er5pM26OIeALd8zYrt44AcwVam7B
+ v9/sfiXSAI7xKYFWj5fuA4/1WpGpBuiKTC4C7gurXEHhF2oP//USOGl2ZVY9p9gv9fCq04Uc/
+ l8qIUm+FioZU8S2N3fHVvWEETHqA6NgFA0DP/oan7zUmcKkSTKnn2JsrX3lAX14N+V0HKhvC5
+ 6MdSTI/wH88qrlsybwAAMuU3GrdboZEmPEODhSHFLrO1N49Sc4AkYFP+QlMJ4uPgxIoHrxrzv
+ qc9rIgbfF4TdQDcUuJ7uzlxyUbzPpKnpdUEL9iDZ91XC6ty8TyYjcE5OfPMACVwBM1yG0xWoJ
+ PQ/LdJ22ys6sbnBBk/HzJkUPFnVQRZxsvITRrfJCXXXsgTe3l++0CopVZzzJUbQFfnrdMMG5u
+ f/8myIIM91Jq5zdLW5ul6Cepk/st6B5dyZB3FZrsLWXq70lNKW7kiQKLxzyH7EGj3htb5eQl6
+ /F9CY/qH7RqNUlAA1BvMqrcZdQI6Ni9C04Ku1tzskfxht3sevev+ICLiZel2xZtreYJtrFuoy
+ kvutACBM+cAtxHm49OL0jm0NPSMvv23g9a5tM8NiMdpCqpW27oscuxz87nfZoERzRfq+k6r32
+ mCXly/DxtBxOmML5PYE61p9vmU1rYS71JfnYaCU3lvqAeWNTBmHMsGX6xVUhMfcrF8/Y=
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.407,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,41 +70,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Dongwon Kim <dongwon.kim@intel.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the missing machine type for m68k/virt
+Le 05/11/2021 à 12:30, Gerd Hoffmann a écrit :
+> From: Dongwon Kim <dongwon.kim@intel.com>
+> 
+> If guest fb is backed by dmabuf (blob-resource), the texture bound to the
+> old context needs to be recreated in case the egl is re-initialized (e.g.
+> new window for vc is created in case of detaching/reattaching of the tab)
+> 
+> v2: call egl_dmabuf_release_texutre instead of putting 0 to dmabuf->texture
+>      (Vivek Kasireddy)
+> 
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+> Message-Id: <20211104065153.28897-3-dongwon.kim@intel.com>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>   ui/gtk-egl.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
+> index 21649950983f..f2026e4b5c9b 100644
+> --- a/ui/gtk-egl.c
+> +++ b/ui/gtk-egl.c
+> @@ -155,6 +155,10 @@ void gd_egl_refresh(DisplayChangeListener *dcl)
+>               surface_gl_destroy_texture(vc->gfx.gls, vc->gfx.ds);
+>               surface_gl_create_texture(vc->gfx.gls, vc->gfx.ds);
+>           }
+> +        if (vc->gfx.guest_fb.dmabuf) {
+> +            egl_dmabuf_release_texture(vc->gfx.guest_fb.dmabuf);
+> +            gd_egl_scanout_dmabuf(dcl, vc->gfx.guest_fb.dmabuf);
+> +        }
+>       }
+>   
+>       graphic_hw_update(dcl->con);
+> 
 
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- hw/m68k/virt.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+This patch breaks something:
 
-diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
-index 0d9e3f83c169..978c26e025a7 100644
---- a/hw/m68k/virt.c
-+++ b/hw/m68k/virt.c
-@@ -304,10 +304,17 @@ type_init(virt_machine_register_types)
-     } \
-     type_init(machvirt_machine_##major##_##minor##_init);
- 
-+static void virt_machine_6_2_options(MachineClass *mc)
-+{
-+}
-+DEFINE_VIRT_MACHINE(6, 2, true)
-+
- static void virt_machine_6_1_options(MachineClass *mc)
- {
-+    virt_machine_6_2_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
- }
--DEFINE_VIRT_MACHINE(6, 1, true)
-+DEFINE_VIRT_MACHINE(6, 1, false)
- 
- static void virt_machine_6_0_options(MachineClass *mc)
- {
--- 
-2.31.1
+$ .../configure' '--target-list=m68k-softmmu' '--enable-virglrenderer'
+$ make
+...
 
+FAILED: libcommon.fa.p/ui_gtk-egl.c.o
+cc -m64 -mcx16 -Ilibcommon.fa.p -I../../../Projects/qemu-next/capstone/include/capstone 
+-I../../../Projects/qemu-next/dtc/libfdt -I../../../Projects/qemu-next/slirp 
+-I../../../Projects/qemu-next/slirp/src -I/usr/include/pixman-1 -I/usr/include/libpng16 
+-I/usr/include/p11-kit-1 -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include 
+-I/usr/include/sysprof-4 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/gio-unix-2.0 
+-I/usr/include/virgl -I/usr/include/gtk-3.0 -I/usr/include/pango-1.0 -I/usr/include/harfbuzz 
+-I/usr/include/freetype2 -I/usr/include/fribidi -I/usr/include/libxml2 -I/usr/include/cairo 
+-I/usr/include/gdk-pixbuf-2.0 -I/usr/include/cloudproviders -I/usr/include/atk-1.0 
+-I/usr/include/at-spi2-atk/2.0 -I/usr/include/dbus-1.0 -I/usr/lib64/dbus-1.0/include 
+-I/usr/include/at-spi-2.0 -I/usr/include/vte-2.91 -fdiagnostics-color=auto -Wall -Winvalid-pch 
+-Werror -std=gnu11 -O2 -g -isystem /home/laurent/Projects/qemu-next/linux-headers -isystem 
+linux-headers -iquote . -iquote /home/laurent/Projects/qemu-next -iquote 
+/home/laurent/Projects/qemu-next/include -iquote /home/laurent/Projects/qemu-next/disas/libvixl 
+-iquote /home/laurent/Projects/qemu-next/tcg/i386 -pthread -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 
+-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls 
+-Wundef -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv 
+-Wold-style-declaration -Wold-style-definition -Wtype-limits -Wformat-security -Wformat-y2k 
+-Winit-self -Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined 
+-Wimplicit-fallthrough=2 -Wno-missing-include-dirs -Wno-shift-negative-value -Wno-psabi 
+-fstack-protector-strong -fPIE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DNCURSES_WIDECHAR -D_REENTRANT 
+-MD -MQ libcommon.fa.p/ui_gtk-egl.c.o -MF libcommon.fa.p/ui_gtk-egl.c.o.d -o 
+libcommon.fa.p/ui_gtk-egl.c.o -c ../../../Projects/qemu-next/ui/gtk-egl.c
+../../../Projects/qemu-next/ui/gtk-egl.c: In function 'gd_egl_refresh':
+../../../Projects/qemu-next/ui/gtk-egl.c:159:13: error: implicit declaration of function 
+'egl_dmabuf_release_texture' [-Werror=implicit-function-declaration]
+   159 |             egl_dmabuf_release_texture(vc->gfx.guest_fb.dmabuf);
+       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../../../Projects/qemu-next/ui/gtk-egl.c:159:13: error: nested extern declaration of 
+'egl_dmabuf_release_texture' [-Werror=nested-externs]
+
+I think we need something like:
+
+diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
+index f2026e4b5c9b..45cb67712df0 100644
+--- a/ui/gtk-egl.c
++++ b/ui/gtk-egl.c
+@@ -155,10 +155,12 @@ void gd_egl_refresh(DisplayChangeListener *dcl)
+              surface_gl_destroy_texture(vc->gfx.gls, vc->gfx.ds);
+              surface_gl_create_texture(vc->gfx.gls, vc->gfx.ds);
+          }
++#ifdef CONFIG_GBM
+          if (vc->gfx.guest_fb.dmabuf) {
+              egl_dmabuf_release_texture(vc->gfx.guest_fb.dmabuf);
+              gd_egl_scanout_dmabuf(dcl, vc->gfx.guest_fb.dmabuf);
+          }
++#endif
+      }
+
+      graphic_hw_update(dcl->con);
+
+Thanks,
+Laurent
 
