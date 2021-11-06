@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0161E446D83
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 11:59:06 +0100 (CET)
-Received: from localhost ([::1]:38758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B237F446D8F
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 12:16:06 +0100 (CET)
+Received: from localhost ([::1]:46092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjJPd-0002ct-Ls
-	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 06:59:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57462)
+	id 1mjJg5-0000sg-Bi
+	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 07:16:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mjJN7-00082e-0y; Sat, 06 Nov 2021 06:56:29 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46961)
+ id 1mjJf4-0008Rq-Ul; Sat, 06 Nov 2021 07:15:02 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:56190)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mjJN5-0002Ud-IQ; Sat, 06 Nov 2021 06:56:28 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id u1so17726064wru.13;
- Sat, 06 Nov 2021 03:56:26 -0700 (PDT)
+ id 1mjJf2-0005F9-Nq; Sat, 06 Nov 2021 07:15:02 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id v127so9097127wme.5;
+ Sat, 06 Nov 2021 04:15:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=r7ChOI/rOL8VqbBn1urCKzj6+wcEmE0CC31/KsKTfic=;
- b=KrJKd/nfhzje79M+VknKNugIqOESWo30prGj30ickuHeuy4psfCpUKsRfqzP99ka8Z
- AJVcLVLAUja6gvTJLN/WjujTlnY0q8OVMK+QkdkM+e4D7DYTiUt+BQqpxij6OSn0B114
- OYZRaQ/DNQyW0krBH7cGoA90ZkQQPWjldwXvgzB9EYaby9vGXOIpWwY2YEhO3gxwn8PQ
- h/3g8prVCzCE9yPVM/4TmzjvMB8v86vcSYbNAaNYHGzHieXK6icP5n2EcZ16q//08maq
- n6OdyrFOHHNt6Ex1eabWptrrY4xHHucOeShFWYM3hjUlED6bWDFerjxX7lzRwVU04Tw0
- a6cQ==
+ bh=tTcXNGWKRza87XKImQt6K3icJ0I/BqQ9EWb0BFs0g20=;
+ b=SnCbX1lvh7Hf40D4EklqSftfL3SANd4Qp4v4XKGArCxLzDzT6Kgnwrw7uJayYEIGmp
+ EZ5RmaCOi+RdnzUO/FMHYBK/oi1XQ1yxXBxLxPZNN/SKdhndrJFfsklQWT9iPBbvaLZF
+ RfJ5tU3B7cnCUheiECBilbb1w3UeD5mq6C4nTfM0bFYxPQpUfR0ww4ubqlyT29rqbekI
+ MAUQfvcI+2h8z628I3/Bfz28bPpma7I7x+TVSbw7TXWtaRZaZbJb4Y2J2HhYL2jJ5o+D
+ iZ3+ycRbsYmYY365zKL4NwnE5n84CE1kQcxmFb5SHW4+8PKTRIMNK2ySdpGHe0PL2IeQ
+ djWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :mime-version:content-transfer-encoding;
- bh=r7ChOI/rOL8VqbBn1urCKzj6+wcEmE0CC31/KsKTfic=;
- b=d0w7ghwWRmeu3oVgVlKQxXLBERQSulvHbxpjxvehgiuG/rVaUbVORx/CzgZmiNJnXi
- tGPPtbaywzTPMNpYpfq9KnghuN0jwb3/mtkMvbKQZN7XINTyg1bCsS1igvK6LkNc2ATc
- pu79vIsdFKq52Y/4QgnEMNKXdJlUSbuwk9mDrdg88wMGmMIDmwyer1GJjin132KLCWGs
- HvqP9O5xV0opaP9oqVopX55SThTwrdxq+q1otDbNGWSdmc5ZpnbtPpQ8dW0KjQV1ZbGT
- NoKfA2fWF8amsgaL6NSQsm/7ZbnOsZRWcm0KhxyRn1KIbfNraITSqBm4H7d6IxsTQb45
- nlBw==
-X-Gm-Message-State: AOAM531d32wFIEp/GOBO2TvEuK/iOVt4aMp9acG1cEH5UdoR0DaqmV2u
- 7MhXmUoU6jlG13LEfMD+n56ZBKGP/XY=
-X-Google-Smtp-Source: ABdhPJxnbmoHniqKhPN8y8/y+ICCTR4X/b8Z2CauEWYugbdiiHA9JhqvOf6vhS7lO32Tu9gGtS+Djg==
-X-Received: by 2002:a5d:44d1:: with SMTP id z17mr71414562wrr.143.1636196184977; 
- Sat, 06 Nov 2021 03:56:24 -0700 (PDT)
+ bh=tTcXNGWKRza87XKImQt6K3icJ0I/BqQ9EWb0BFs0g20=;
+ b=4tM5U2btBrFHZmSOW7Qep7gvB5Sm4K7Fqyahx51muY/+OiGsqff00QHVJzhb7IGll1
+ VK4HIbq4N6xQ3okA8bciHjB0t+E/xFiZA96CmlUguBjZwThTtsvWpXfqi4YDksNI1qlA
+ 4sj7bbEdVw1MXTq8n9+tf5oVjvnkG+tmCqr8fDzOfQ1pZiE6Y+ka43vSuWKR+ljt3bZs
+ o1TK1/8x9HbPUtBpZZvEWsWsJr/7a6WGvQdgvHaogRl+nUh4Vq4jWYWRUArAnhgmD9On
+ mhcqw+T+n2zO23uUVhDsWgQjLjp1t+Hglgf6vEgAtlEUsvQoBDZR6Vjcy6VGcYzEMZVW
+ 6iRg==
+X-Gm-Message-State: AOAM530x89+Ru6YylBoB8HIjGPJVtDK8YZDNfSWUZKED1Km9PJy4vfsZ
+ XLSzIxTgady4ma9WJ3w3DU351ASs4/0=
+X-Google-Smtp-Source: ABdhPJzddH+2+Yx8vbx1WVGRWB7m8CiuwHrQP0pt78vB31nFYjzfVANyx0tdKb327AYQsgzG92fmKw==
+X-Received: by 2002:a7b:c8d5:: with SMTP id f21mr36218629wml.146.1636197298640; 
+ Sat, 06 Nov 2021 04:14:58 -0700 (PDT)
 Received: from x1w.redhat.com (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id g18sm10387824wrv.42.2021.11.06.03.56.24
+ by smtp.gmail.com with ESMTPSA id t17sm3138529wmq.13.2021.11.06.04.14.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 06 Nov 2021 03:56:24 -0700 (PDT)
+ Sat, 06 Nov 2021 04:14:58 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/timer/etraxfs_timer: Add vmstate for ETRAX timers
-Date: Sat,  6 Nov 2021 11:56:23 +0100
-Message-Id: <20211106105623.510868-1-f4bug@amsat.org>
+Subject: [PATCH v2] tcg: Remove TCI experimental status
+Date: Sat,  6 Nov 2021 12:14:57 +0100
+Message-Id: <20211106111457.517546-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -81,87 +81,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the vmstate for the ETRAX timers.
-This is in theory a migration compatibility break
-for the 'AXIS devboard 88' CRIS machine.
+The following commits (released in v6.0.0) made raised the
+quality of the TCI backend to the other TCG architectures,
+thus is is not considerated experimental anymore:
+- c6fbea47664..2f74f45e32b
+- dc09f047edd..9e9acb7b348
+- b6139eb0578..2fc6f16ca5e
+- dbcbda2cd84..5e8892db93f
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/timer/etraxfs_timer.c | 34 +++++++++++++++++++++++++++++++++-
- 1 file changed, 33 insertions(+), 1 deletion(-)
+v2:
+- rebase
+- precise sysemu/user (Richard)
 
-diff --git a/hw/timer/etraxfs_timer.c b/hw/timer/etraxfs_timer.c
-index 4ba662190de..139e5b86a44 100644
---- a/hw/timer/etraxfs_timer.c
-+++ b/hw/timer/etraxfs_timer.c
-@@ -26,6 +26,7 @@
- #include "hw/sysbus.h"
- #include "sysemu/reset.h"
- #include "sysemu/runstate.h"
-+#include "migration/vmstate.h"
- #include "qemu/module.h"
- #include "qemu/timer.h"
- #include "hw/irq.h"
-@@ -64,7 +65,7 @@ struct ETRAXTimerState {
-     ptimer_state *ptimer_t1;
-     ptimer_state *ptimer_wd;
+Supersedes: <20210920062306.2723797-1-f4bug@amsat.org>
+---
+ docs/about/build-platforms.rst | 10 ++++++----
+ meson.build                    |  4 ++--
+ meson_options.txt              |  2 +-
+ scripts/meson-buildoptions.sh  |  3 +--
+ 4 files changed, 10 insertions(+), 9 deletions(-)
+
+diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
+index bcb15497213..c29a4b8fe64 100644
+--- a/docs/about/build-platforms.rst
++++ b/docs/about/build-platforms.rst
+@@ -54,10 +54,12 @@ Those hosts are officially supported, with various accelerators:
+    * - x86
+      - hax, hvf (64 bit only), kvm, nvmm, tcg, whpx (64 bit only), xen
  
--    int wd_hits;
-+    uint32_t wd_hits;
+-Other host architectures are not supported. It is possible to build QEMU on an
+-unsupported host architecture using the configure ``--enable-tcg-interpreter``
+-option to enable the experimental TCI support, but note that this is very slow
+-and is not recommended.
++Other host architectures are not supported. It is possible to build QEMU system
++emulation on an unsupported host architecture using the configure
++``--enable-tcg-interpreter`` option to enable the TCI support, but note that
++this is very slow and is not recommended for normal use. QEMU user emulation
++requires host-specific support for signal handling, therefore TCI won't help
++on unsupported host architectures.
  
-     /* Control registers.  */
-     uint32_t rw_tmr0_div;
-@@ -83,6 +84,36 @@ struct ETRAXTimerState {
-     uint32_t r_masked_intr;
- };
- 
-+static const VMStateDescription vmstate_etraxfs = {
-+    .name = "etraxfs",
-+    .version_id = 0,
-+    .minimum_version_id = 0,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_PTIMER(ptimer_t0, ETRAXTimerState),
-+        VMSTATE_PTIMER(ptimer_t1, ETRAXTimerState),
-+        VMSTATE_PTIMER(ptimer_wd, ETRAXTimerState),
-+
-+        VMSTATE_UINT32(wd_hits, ETRAXTimerState),
-+
-+        VMSTATE_UINT32(rw_tmr0_div, ETRAXTimerState),
-+        VMSTATE_UINT32(r_tmr0_data, ETRAXTimerState),
-+        VMSTATE_UINT32(rw_tmr0_ctrl, ETRAXTimerState),
-+
-+        VMSTATE_UINT32(rw_tmr1_div, ETRAXTimerState),
-+        VMSTATE_UINT32(r_tmr1_data, ETRAXTimerState),
-+        VMSTATE_UINT32(rw_tmr1_ctrl, ETRAXTimerState),
-+
-+        VMSTATE_UINT32(rw_wd_ctrl, ETRAXTimerState),
-+
-+        VMSTATE_UINT32(rw_intr_mask, ETRAXTimerState),
-+        VMSTATE_UINT32(rw_ack_intr, ETRAXTimerState),
-+        VMSTATE_UINT32(r_intr, ETRAXTimerState),
-+        VMSTATE_UINT32(r_masked_intr, ETRAXTimerState),
-+
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- static uint64_t
- timer_read(void *opaque, hwaddr addr, unsigned int size)
- {
-@@ -357,6 +388,7 @@ static void etraxfs_timer_class_init(ObjectClass *klass, void *data)
-     ResettableClass *rc = RESETTABLE_CLASS(klass);
- 
-     dc->realize = etraxfs_timer_realize;
-+    dc->vmsd = &vmstate_etraxfs;
-     rc->phases.enter = etraxfs_timer_reset_enter;
-     rc->phases.hold = etraxfs_timer_reset_hold;
- }
+ Non-supported architectures may be removed in the future following the
+ :ref:`deprecation process<Deprecated features>`.
+diff --git a/meson.build b/meson.build
+index 47df10afc21..16de7103d69 100644
+--- a/meson.build
++++ b/meson.build
+@@ -331,7 +331,7 @@
+ if not get_option('tcg').disabled()
+   if cpu not in supported_cpus
+     if get_option('tcg_interpreter')
+-      warning('Unsupported CPU @0@, will use TCG with TCI (experimental and slow)'.format(cpu))
++      warning('Unsupported CPU @0@, will use TCG with TCI (slow)'.format(cpu))
+     else
+       error('Unsupported CPU @0@, try --enable-tcg-interpreter'.format(cpu))
+     endif
+@@ -3286,7 +3286,7 @@
+ summary_info += {'TCG support':       config_all.has_key('CONFIG_TCG')}
+ if config_all.has_key('CONFIG_TCG')
+   if get_option('tcg_interpreter')
+-    summary_info += {'TCG backend':   'TCI (TCG with bytecode interpreter, experimental and slow)'}
++    summary_info += {'TCG backend':   'TCI (TCG with bytecode interpreter, slow)'}
+   else
+     summary_info += {'TCG backend':   'native (@0@)'.format(cpu)}
+   endif
+diff --git a/meson_options.txt b/meson_options.txt
+index e740dce2a51..411952bc91a 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -59,7 +59,7 @@ option('xen_pci_passthrough', type: 'feature', value: 'auto',
+ option('tcg', type: 'feature', value: 'auto',
+        description: 'TCG support')
+ option('tcg_interpreter', type: 'boolean', value: false,
+-       description: 'TCG with bytecode interpreter (experimental and slow)')
++       description: 'TCG with bytecode interpreter (slow)')
+ option('cfi', type: 'boolean', value: 'false',
+        description: 'Control-Flow Integrity (CFI)')
+ option('cfi_debug', type: 'boolean', value: 'false',
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 55b8a785600..45e1f2e20da 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -13,8 +13,7 @@ meson_options_help() {
+   printf "%s\n" '                           jemalloc/system/tcmalloc)'
+   printf "%s\n" '  --enable-slirp[=CHOICE]  Whether and how to find the slirp library'
+   printf "%s\n" '                           (choices: auto/disabled/enabled/internal/system)'
+-  printf "%s\n" '  --enable-tcg-interpreter TCG with bytecode interpreter (experimental and'
+-  printf "%s\n" '                           slow)'
++  printf "%s\n" '  --enable-tcg-interpreter TCG with bytecode interpreter (slow)'
+   printf "%s\n" '  --enable-trace-backends=CHOICE'
+   printf "%s\n" '                           Set available tracing backends [log] (choices:'
+   printf "%s\n" '                           dtrace/ftrace/log/nop/simple/syslog/ust)'
 -- 
 2.31.1
 
