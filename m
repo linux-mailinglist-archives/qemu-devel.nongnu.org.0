@@ -2,65 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FD02446D00
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 09:30:02 +0100 (CET)
-Received: from localhost ([::1]:56218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26717446D0C
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 09:56:38 +0100 (CET)
+Received: from localhost ([::1]:37642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjH5M-0000cu-SZ
-	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 04:30:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33066)
+	id 1mjHV6-0008Iu-M6
+	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 04:56:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mjH4P-0008Jp-79
- for qemu-devel@nongnu.org; Sat, 06 Nov 2021 04:29:01 -0400
-Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213]:51819)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mjHRx-0007Pd-76; Sat, 06 Nov 2021 04:53:21 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:42109)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mjH4M-0000uM-VY
- for qemu-devel@nongnu.org; Sat, 06 Nov 2021 04:29:00 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.235])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id A778E20267;
- Sat,  6 Nov 2021 08:28:55 +0000 (UTC)
-Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Sat, 6 Nov
- 2021 09:28:54 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R0011e68f226-5916-4956-b02c-4a890c436383,
- A4C8F90A16E6B7612790F333A0774993578A41BE) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <e93f45aa-b2dc-6f9a-d056-1bf50d431802@kaod.org>
-Date: Sat, 6 Nov 2021 09:28:54 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mjHRt-0003MX-V6; Sat, 06 Nov 2021 04:53:20 -0400
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4HmWP41n6Nz4xdP; Sat,  6 Nov 2021 19:53:12 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1636188792;
+ bh=38uXB7008h3CMAPOacODurUFSKmCTMfL7T6EifvxnSY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GXYS+k0ySQxD8tIacSXamSlxBcg+dEDE7GfDU4enTPIA+ajSTpO43N2cvReHnKsl6
+ 1XOPl8OffcOPTqw3ushgLGNJWmfuhwvdLWFyDNbackNXnORBbExuBeNOukP2T1CWrq
+ 8Ez9PYrf8D7kUqIkjPKnG9sTu0Sx/zNSf8XPNoV8=
+Date: Sat, 6 Nov 2021 19:53:04 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
 Subject: Re: [PATCH] target/ppc, hw/ppc: Change maintainers
-Content-Language: en-US
-To: David Gibson <david@gibson.dropbear.id.au>, Daniel Henrique Barboza
- <danielhb413@gmail.com>
+Message-ID: <YYZCcDH/5ssXnORx@yekko>
 References: <20211105034640.53754-1-david@gibson.dropbear.id.au>
  <8e05f98a-6a46-f728-5035-fab10f5a209a@gmail.com>
  <880124b9-5cd1-7fcb-fdc6-3d3f8a1da2b6@amsat.org>
- <91972ce2-8d1f-f22e-c87f-45cb3c221b18@gmail.com> <YYYCcwEuUNGVMKwu@yekko>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <YYYCcwEuUNGVMKwu@yekko>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 3d3819c7-26bb-4d36-9ed5-4086ccd78100
-X-Ovh-Tracer-Id: 4379469165007702889
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrtdejgddutdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
- helo=5.mo548.mail-out.ovh.net
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.407,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ <91972ce2-8d1f-f22e-c87f-45cb3c221b18@gmail.com>
+ <YYYCcwEuUNGVMKwu@yekko>
+ <e93f45aa-b2dc-6f9a-d056-1bf50d431802@kaod.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="0FDbn+waxgmVcorr"
+Content-Disposition: inline
+In-Reply-To: <e93f45aa-b2dc-6f9a-d056-1bf50d431802@kaod.org>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,36 +62,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, groug@kaod.org, qemu-ppc@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, groug@kaod.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->>>> Thank you and Greg and Red Hat for all the years of service supporting
->>>> qemu-ppc in the community. IBM will shoulder this responsibility now.
->>>
->>> In term of the MAINTAINERS file:
->>>
->>>           S: Status, one of the following:
->>>              Supported:   Someone is actually paid to look after this.
->>>              Maintained:  Someone actually looks after it.
->>>
->>> The PPC entries have a 'Maintained' status. You say "IBM will shoulder
->>> this responsibility", does that mean the entries will be 'Supported'
->>> as in "someone paid to look after them"?
->>
->> Yes. It's appropriate to change the PPC entries of this patch to "Supported"
->> now.
-> 
-> Good point, I've adjusted that.
 
-"Supported" would be setting the expectations too high. It is an extra
-activity among what we are already dealing with. Please leave it to
-"Maintained".
+--0FDbn+waxgmVcorr
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
+On Sat, Nov 06, 2021 at 09:28:54AM +0100, C=E9dric Le Goater wrote:
+> > > > > Thank you and Greg and Red Hat for all the years of service suppo=
+rting
+> > > > > qemu-ppc in the community. IBM will shoulder this responsibility =
+now.
+> > > >=20
+> > > > In term of the MAINTAINERS file:
+> > > >=20
+> > > >           S: Status, one of the following:
+> > > >              Supported:   Someone is actually paid to look after th=
+is.
+> > > >              Maintained:  Someone actually looks after it.
+> > > >=20
+> > > > The PPC entries have a 'Maintained' status. You say "IBM will shoul=
+der
+> > > > this responsibility", does that mean the entries will be 'Supported'
+> > > > as in "someone paid to look after them"?
+> > >=20
+> > > Yes. It's appropriate to change the PPC entries of this patch to "Sup=
+ported"
+> > > now.
+> >=20
+> > Good point, I've adjusted that.
+>=20
+> "Supported" would be setting the expectations too high. It is an extra
+> activity among what we are already dealing with. Please leave it to
+> "Maintained".
 
-C.
+Fair enough, reverted.
 
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--0FDbn+waxgmVcorr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGGQm4ACgkQbDjKyiDZ
+s5KwlhAA4kxjC66agg39NrB+xyA1xWi+xlUfdZY4bInHEH2Uof7uGkL34Ib9W/Gd
+fz5WvTzwgIwzBOIYVD3RvdXm97VqMmAUKS262U9caBeEqA+e/H2ECYdo3FMMt5Xa
+ZehnnwtmHMHRJy82gqUrFJKpL4XMn+7//asr49ncqj/Uuhs957zGGsqiWzzxHCeC
+zXz+C/jaqJ2e3iTnt9ktxTHfB67k3nWYl6HezLAU5nhSCy67jZPeLrOFZjeZ13zW
+aasS4slemwOtWBvLDgF4ToSklbOqXWCNenitFaFrQpFwJhS5uPFwYJTq3eFL4xdR
+9sDb/anQ9Qol5AV/Hw8U2CpPAVMHCRIXGXBSA1d+qYNia50B95HHW1p+tWDcg9UL
+kwKumNv9YjS525/KpCCj4f2Uari8Bc1YsrmdEBID2FF3LNmqC2qNwM1H1JbhGRwk
+pFQM5Fn8pm16RqObEPj+YW8+Tfqa4jH34pvvHaTxW5I0RqJU+Hh4z121vKfZDT5b
+3Hr/iVvOwwMfDYVbad8yXrlYdf9yTZWN8OvyToCujk5uIaYr1b0e77ko3tyefdao
+cJhwMUuhx4KMIotqxT4g8VI/LFTgAl+/OVT1T0BqtWhzxSY3/xaxcwDxUgxjCYyc
+6wCHbXvvIFLixC3xz4Zj8DUa7CgmcfMdYf25P+J3FFiuyoiVzUk=
+=BewP
+-----END PGP SIGNATURE-----
+
+--0FDbn+waxgmVcorr--
 
