@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD31447039
+	by mail.lfdr.de (Postfix) with ESMTPS id 079B2447038
 	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 20:46:41 +0100 (CET)
-Received: from localhost ([::1]:42200 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:42142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjReB-0000Ej-Tu
+	id 1mjReB-0000Bz-MS
 	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 15:46:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37204)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mjRZq-0006Zd-JI; Sat, 06 Nov 2021 15:42:10 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:60349)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mjRZp-0006ZS-5T
+ for qemu-devel@nongnu.org; Sat, 06 Nov 2021 15:42:10 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:59443)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mjRZn-0000qi-NV; Sat, 06 Nov 2021 15:42:10 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mjRZm-0000qm-6k
+ for qemu-devel@nongnu.org; Sat, 06 Nov 2021 15:42:08 -0400
 Received: from quad ([82.142.14.190]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MsqMq-1mTpUv1532-00t8gi; Sat, 06
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MFbFW-1mxChL2XiY-00HAhi; Sat, 06
  Nov 2021 20:42:01 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] hw: m68: virt: Add compat machines for 6.1
-Date: Sat,  6 Nov 2021 20:41:57 +0100
-Message-Id: <20211106194158.4068596-2-laurent@vivier.eu>
+Subject: [PATCH 2/2] hw: m68: virt: Add compat machines for 6.2
+Date: Sat,  6 Nov 2021 20:41:58 +0100
+Message-Id: <20211106194158.4068596-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211106194158.4068596-1-laurent@vivier.eu>
 References: <20211106194158.4068596-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:4coAIJQZ1O1Gtjb6hxLT7yksr1YdLnCIjlNkzcWGvaHwQW2NLbk
- 560zoDO9on+w5BqQFTEDq3GSfdFcqdjNuX0+l5ytFDIYaY5hF0SSjGPBnhRKP7T48PK7OK/
- 8R04BmWjWWY3YB0rHqJzvK94Xfqeg03WofXGEYrnUzJ27yQ2obwKIIaiR8iJjwM89vwGW+Z
- u9sPCgJJU5UfJHfIv/3yg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:tLVoaNQtTvE=:0CrhGU6v9GHoojpn5Q1FiX
- 8WJQ0DEUl730kN+jye/FjlpEE0vjl+q5BbjozWVCgfxZxjh4WFIJ8Z2Z9Ry5itSdneRMpgXef
- 0ABMPioqXDf1Simw5ZNZ8BZOR0TVX7V3Cqn/wqaTfGJUk2ixJHQBDakxhul7Gmbpr+VaVF4RE
- XCAXq50XCTcR5LRUsyEWk683RVr7o6OaLCg4Jo6B1pqRL0rw3BlYFJzqWVXRDMVDtYDpjzSE6
- gqWDMirhBwaCqOkseuOLdQMF6vBchzmTmuvR+0Q7w1vMpc5e76xJzka++aAJ6RLcGKjfU8hEx
- IceXRrIlByIeM471XgZhBpdvy/6zT9FXVj736gNctgFEQDr93itPgP4x/4MRv/ZDsFMozr+uv
- CbBuvtRseYZL/0l/KhJG/PJ9jQ90qv10lwWnrKMC7Qur6RUIh6uOIWbOIowD8FDA55NksqMVw
- emESd2Q0QLNLXvzsE1iPR716XNcJzmW3/vJieOvxq17G3AzS+X1LnP/UCvMBEOV/oAI9+VI4b
- n6X+9FI62LlSSwQb85ED/sFXXy+0477r95jTGO7i3PiU3C3gUkjWjsuHm+sFIdC3wQIMFJaIV
- D4t0+cTwnHqZFXEToHaUW6nkl6FbqD/l3uvTpYmA8noaHZOgVWO57dtE49AUZSJo4aTV0Mm/F
- arxCXdtGl3m/zgITCR/7/0x5MxH5U+WjO1mH5NVBaR5jAdAqodDVsRq47VLBqw0tNwtg=
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:M/Fg2ua9rHrJIEKxs/rEXpHftvYfn2mQ/9eAHh+1mT4Ju8vDiOO
+ NdAJAdZpCHR3OxxHngf9Ws08eDcnkXxLzDvg/i5VYnGN1nANa8X1MLYp0X/3WsDnWsDVys0
+ 1VymGD7usmHCccVFPy00/qUpKo18nvXmuOUtvkKa2HY5tpPXW52h0VXQTgzM37i8Cdd6xlf
+ U8K+9U5ArqvXGFo48zn8Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:XJtTMkf/zUU=:gZOh8WT6DBgAn85XKZhm2P
+ r8eTJzYSf8tS8rydu+5nqnInwVFuaiosRzdA6Nh1u4YqWA6bE2KLWtVbRmv8ZuYlbPReCyTbp
+ zFySrHESMYPV7tRHraDE/CoPfNz9ohRf4TagpTVmp5FhqvZSJs1HUjaEoHuxz8hbDeBiylccS
+ ma/JMmV0kdDdwEdCB3C4nurULz4lcX80CYAYgCX3kGRUiqjeAmCWQabrZcWmI/M+G8QzcdIW7
+ +7eYI1LaHuQF9WvSIEWVe1JbIWbDbpvuC6QYFrm04waSHFWX89bNsRKthhlYjmBR9n0UhWgW5
+ lvqLpDhLEfkwFM4gh1SIMj/moP3owhFfTHp8+QwmSr9vaaAAxT/4DhShVkVU69x0bF8DFDi3a
+ KUv762GlD/wsM2onXvCdMo27l4pG7dBksSkJukZ6EQxXPPrimxlpotsCrmdsb270AF7DOSFNx
+ 4DaILiD3SMMsL3sj/Sgz40F3yZK2hQmHLJ90Cne4xzGEG3CjbUfgbnl8iEOk24U1QES3aj7YL
+ UkQKy2+B9V+RP+JvPg2xf0kA8OOWWXshDvUKpUVl6p7fM4tTsJaUTdpoQlcVeU6jB7M6Hwi6D
+ w0CBK3B4zKnSUY+5V1RlxHTg/HFkT7jleccPzHGy6UOXGfYFPa9PGnUtTD+la6QhBs2NX/iHM
+ gE19liBC4LqI+8QvpUVnaecnVJTJZCNbqAYd4+3Ew8sfENhBlkYZeBL0DjKa4y1kbjcc=
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -64,38 +64,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, qemu-stable@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Add the missing machine type for m68k/virt
 
-Cc: qemu-stable@nongnu.org
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
  hw/m68k/virt.c | 9 ++++++++-
  1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
-index 4e8bce5aa6f7..0d9e3f83c169 100644
+index 0d9e3f83c169..978c26e025a7 100644
 --- a/hw/m68k/virt.c
 +++ b/hw/m68k/virt.c
-@@ -304,7 +304,14 @@ type_init(virt_machine_register_types)
+@@ -304,10 +304,17 @@ type_init(virt_machine_register_types)
      } \
      type_init(machvirt_machine_##major##_##minor##_init);
  
-+static void virt_machine_6_1_options(MachineClass *mc)
++static void virt_machine_6_2_options(MachineClass *mc)
 +{
 +}
-+DEFINE_VIRT_MACHINE(6, 1, true)
++DEFINE_VIRT_MACHINE(6, 2, true)
 +
+ static void virt_machine_6_1_options(MachineClass *mc)
+ {
++    virt_machine_6_2_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+ }
+-DEFINE_VIRT_MACHINE(6, 1, true)
++DEFINE_VIRT_MACHINE(6, 1, false)
+ 
  static void virt_machine_6_0_options(MachineClass *mc)
  {
-+    virt_machine_6_1_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_6_0, hw_compat_6_0_len);
- }
--DEFINE_VIRT_MACHINE(6, 0, true)
-+DEFINE_VIRT_MACHINE(6, 0, false)
 -- 
 2.31.1
 
