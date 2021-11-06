@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2104446E2C
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 14:44:09 +0100 (CET)
-Received: from localhost ([::1]:53312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7886446E2D
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 14:44:28 +0100 (CET)
+Received: from localhost ([::1]:54544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjLzM-00060E-GU
-	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 09:44:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54848)
+	id 1mjLzf-0006qa-Vu
+	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 09:44:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mjLxN-0004bK-5P
- for qemu-devel@nongnu.org; Sat, 06 Nov 2021 09:42:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26982)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mjLxS-0004cz-Hn
+ for qemu-devel@nongnu.org; Sat, 06 Nov 2021 09:42:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30081)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mjLxJ-0004k0-R6
- for qemu-devel@nongnu.org; Sat, 06 Nov 2021 09:42:03 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mjLxQ-0004lp-O0
+ for qemu-devel@nongnu.org; Sat, 06 Nov 2021 09:42:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636206120;
+ s=mimecast20190719; t=1636206127;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Yywpyvz2X/USLG4dt39zgpjZsXoWAwouYLFVCmqRaOg=;
- b=Z1mDKKxWMZOrU7ky1kdy4mCmWfZCFpPQ6oXaPSR0wxJa1Ofn+B/9EDkqjVgyq5zQrl+cfS
- IB2biY2pOGdotVk0wtkPOeth3H28Mugk7EQN9fN+eLbYQPRF9VMCV6nvsNMdeCF7yZrqki
- 9nD31oMluq5+VI3Yivrogvb9Jaujh4c=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-300-7jQuZuHgOE-7a54LzokPFg-1; Sat, 06 Nov 2021 09:41:59 -0400
-X-MC-Unique: 7jQuZuHgOE-7a54LzokPFg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- n16-20020a05600c3b9000b003331973fdbbso1146906wms.0
- for <qemu-devel@nongnu.org>; Sat, 06 Nov 2021 06:41:59 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hpWCid9UewSIDZKy89GAH4fSn0++vdwnA69NZMo4eVM=;
+ b=cxOahxMC1UzUKIDDf7kgGuexlDgYN/qVt9qX2iYM7WRBdJTEwIWbGaIu4/tXBbfnAEGKFO
+ UD53qiWEOHkeALGLD2HrtpYsaFEv7XxC7yuzKg1Um7KEQyEQmBPvkdGXQBM6pUHp1xP/PF
+ H6Zpf2qKiDDC2BTF7Ax/unbr5Q2gHKA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-595-cZie70WHPFCx-eda1r2B8g-1; Sat, 06 Nov 2021 09:42:04 -0400
+X-MC-Unique: cZie70WHPFCx-eda1r2B8g-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ j12-20020adf910c000000b0015e4260febdso2694613wrj.20
+ for <qemu-devel@nongnu.org>; Sat, 06 Nov 2021 06:42:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=99lWek98dpsNHuRvJiny6DmRtJF9SLO8oYY9F6fI8qk=;
- b=D73D4cjVfe2qHeXgVVFPB+ROa6kDRMgDL+XlnEN3JyYpOnxDRsonnTgPulCkmP9i3b
- zVD1TUI8APDKxTrMOLSih0hBI8LHn1iTmrOmEYe5g6iBuPJNb9DjFFQrDwo10d8crw/K
- O9Q0WQhkF3uVuNOT/sLhwmX0s4rqfosoDOhf9rtskD1lBznSeU4+HGpTrqPgN8jpfzOy
- g29+hpqBKCDk3MhmI4at2BRM36COr9K8VME3SqVSbE7Jdulbc3JRQ3md6MySMScPFasj
- HwT6Xas+Yb5jtZvCLR9CIiZN9aAYRJIVe6a8b3K9q2h8y2sUMPmanESoJ/hXRfxQPfmx
- 5DnA==
-X-Gm-Message-State: AOAM532IbiM8nEX4zxWxDdEb3ReZFmggCD0t7MHLG1TE3ta7klbYKdlV
- uTT++Q3z+QDKs+yv9ZZPmQnRzF5MthiVaj4ybOjO6LdWMDX/Q4Y2wht4AmlTDW6KLoKpjEVdino
- ccRGJPxSevwhG+/kz/JA31ZuMay77iffHTERerMKZhgJhECzEkzURVvyva4ceRQea
-X-Received: by 2002:a05:600c:1d28:: with SMTP id
- l40mr10891307wms.192.1636206118163; 
- Sat, 06 Nov 2021 06:41:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyUCeeTOPmQD4Re1tfDruJCBCRgOfSzPmq77mLB2TnFndqRzi0S7sMaa3T3oQwKiIEwx/+q/w==
-X-Received: by 2002:a05:600c:1d28:: with SMTP id
- l40mr10891259wms.192.1636206117796; 
- Sat, 06 Nov 2021 06:41:57 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=hpWCid9UewSIDZKy89GAH4fSn0++vdwnA69NZMo4eVM=;
+ b=DDicFtEYi082pOB2KYZ0rFU5KC9u5Pe4oi2sabRbssBQFn/5Bp5YDUUsTqHu5vCeGT
+ jhKHNqdWDhUuYvV+ogEUCSXzny64ZXaErnEGPXFq89VcTMxOHo8RmB1bdNei0kaDZBBq
+ eIBvRVQnymNZCHDV6Nnf6UU5F92mzD+ihyzD2epPfMBABweHReeqsm1nhQtbEMACK5Xz
+ 0tOaeZQ7DwNsvUQfb7Le8Zw+xY1ff7j5gBXGn8xXSWYnU02K6xt3575mVpfnJqU2mSPN
+ Ox3BTZrLeXTLkAGKPqfW9wDpUZKRWswzeonyGsuNtHufHpZpwX1pvzvJ5EJTUI0jOS2v
+ fzSQ==
+X-Gm-Message-State: AOAM530Uv7mZ6wbmLPLvILuhlCR4i9fwQ2XInRdEd19aMOb8Ab2GeR6T
+ IJ9kE6bChaFzG9dRI1MbHXpqT1m4Edo3iZKJdxob1ckGxkcEZXpCUAR8isYvUUl453FoGRAgzCz
+ 8pmSTS2bleI4p603wjfHPCQtaN2rSxp+C+IT8u9LGRhMHN6vgRaGyZp/Q9tqmgz7N
+X-Received: by 2002:adf:e84d:: with SMTP id d13mr63791260wrn.72.1636206122513; 
+ Sat, 06 Nov 2021 06:42:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxtgZ05o2NU4IXT31/WvAFgNpzJL3hkeuTy9EPekPYKqpE4PwH/QSUXeNl4HOZXSQTlP9G8Ww==
+X-Received: by 2002:adf:e84d:: with SMTP id d13mr63791213wrn.72.1636206122173; 
+ Sat, 06 Nov 2021 06:42:02 -0700 (PDT)
 Received: from x1w.redhat.com (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id h1sm10428005wmb.7.2021.11.06.06.41.56
+ by smtp.gmail.com with ESMTPSA id y7sm10501445wrw.55.2021.11.06.06.42.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 06 Nov 2021 06:41:57 -0700 (PDT)
+ Sat, 06 Nov 2021 06:42:01 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/1] hw/hyperv/vmbus: Is it maintained?
-Date: Sat,  6 Nov 2021 14:41:54 +0100
-Message-Id: <20211106134155.582312-1-philmd@redhat.com>
+Subject: [PATCH v4 1/1] hw/hyperv/vmbus: Remove unused vmbus_load/save_req()
+Date: Sat,  6 Nov 2021 14:41:55 +0100
+Message-Id: <20211106134155.582312-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211106134155.582312-1-philmd@redhat.com>
+References: <20211106134155.582312-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -80,7 +81,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.735,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,22 +102,101 @@ Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the 4th time I send this patch. Is the VMBus infrastructure=0D
-used / maintained? Should we deprecate & remove?=0D
-=0D
-  $ ./scripts/get_maintainer.pl -f hw/hyperv/vmbus.c -f include/hw/hyperv/v=
-mbus.h=0D
-  get_maintainer.pl: No maintainers found=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (1):=0D
-  hw/hyperv/vmbus: Remove unused vmbus_load/save_req()=0D
-=0D
- include/hw/hyperv/vmbus.h |  3 --=0D
- hw/hyperv/vmbus.c         | 59 ---------------------------------------=0D
- 2 files changed, 62 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+vmbus_save_req() and vmbus_load_req() are not used.
+Remove them to avoid maintaining dead code.
+
+This partially reverts commit 4dd8a7064b8a6527f99a62be11
+("vmbus: add infrastructure to save/load vmbus requests").
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ include/hw/hyperv/vmbus.h |  3 --
+ hw/hyperv/vmbus.c         | 59 ---------------------------------------
+ 2 files changed, 62 deletions(-)
+
+diff --git a/include/hw/hyperv/vmbus.h b/include/hw/hyperv/vmbus.h
+index f98bea3888d..8ea660dd8e6 100644
+--- a/include/hw/hyperv/vmbus.h
++++ b/include/hw/hyperv/vmbus.h
+@@ -223,7 +223,4 @@ int vmbus_map_sgl(VMBusChanReq *req, DMADirection dir, struct iovec *iov,
+ void vmbus_unmap_sgl(VMBusChanReq *req, DMADirection dir, struct iovec *iov,
+                      unsigned iov_cnt, size_t accessed);
+ 
+-void vmbus_save_req(QEMUFile *f, VMBusChanReq *req);
+-void *vmbus_load_req(QEMUFile *f, VMBusDevice *dev, uint32_t size);
+-
+ #endif
+diff --git a/hw/hyperv/vmbus.c b/hw/hyperv/vmbus.c
+index dbce3b35fba..78c19caf5f7 100644
+--- a/hw/hyperv/vmbus.c
++++ b/hw/hyperv/vmbus.c
+@@ -1311,65 +1311,6 @@ static const VMStateDescription vmstate_vmbus_chan_req = {
+     }
+ };
+ 
+-void vmbus_save_req(QEMUFile *f, VMBusChanReq *req)
+-{
+-    VMBusChanReqSave req_save;
+-
+-    req_save.chan_idx = req->chan->subchan_idx;
+-    req_save.pkt_type = req->pkt_type;
+-    req_save.msglen = req->msglen;
+-    req_save.msg = req->msg;
+-    req_save.transaction_id = req->transaction_id;
+-    req_save.need_comp = req->need_comp;
+-    req_save.num = req->sgl.nsg;
+-    req_save.sgl = g_memdup(req->sgl.sg,
+-                            req_save.num * sizeof(ScatterGatherEntry));
+-
+-    vmstate_save_state(f, &vmstate_vmbus_chan_req, &req_save, NULL);
+-
+-    g_free(req_save.sgl);
+-}
+-
+-void *vmbus_load_req(QEMUFile *f, VMBusDevice *dev, uint32_t size)
+-{
+-    VMBusChanReqSave req_save;
+-    VMBusChanReq *req = NULL;
+-    VMBusChannel *chan = NULL;
+-    uint32_t i;
+-
+-    vmstate_load_state(f, &vmstate_vmbus_chan_req, &req_save, 0);
+-
+-    if (req_save.chan_idx >= dev->num_channels) {
+-        error_report("%s: %u(chan_idx) > %u(num_channels)", __func__,
+-                     req_save.chan_idx, dev->num_channels);
+-        goto out;
+-    }
+-    chan = &dev->channels[req_save.chan_idx];
+-
+-    if (vmbus_channel_reserve(chan, 0, req_save.msglen)) {
+-        goto out;
+-    }
+-
+-    req = vmbus_alloc_req(chan, size, req_save.pkt_type, req_save.msglen,
+-                          req_save.transaction_id, req_save.need_comp);
+-    if (req_save.msglen) {
+-        memcpy(req->msg, req_save.msg, req_save.msglen);
+-    }
+-
+-    for (i = 0; i < req_save.num; i++) {
+-        qemu_sglist_add(&req->sgl, req_save.sgl[i].base, req_save.sgl[i].len);
+-    }
+-
+-out:
+-    if (req_save.msglen) {
+-        g_free(req_save.msg);
+-    }
+-    if (req_save.num) {
+-        g_free(req_save.sgl);
+-    }
+-    return req;
+-}
+-
+ static void channel_event_cb(EventNotifier *e)
+ {
+     VMBusChannel *chan = container_of(e, VMBusChannel, notifier);
+-- 
+2.31.1
 
 
