@@ -2,70 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03342446CE3
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 08:41:27 +0100 (CET)
-Received: from localhost ([::1]:38902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FD02446D00
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 09:30:02 +0100 (CET)
+Received: from localhost ([::1]:56218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjGKK-0003Ms-0V
-	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 03:41:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55420)
+	id 1mjH5M-0000cu-SZ
+	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 04:30:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mjGJG-0002gr-23
- for qemu-devel@nongnu.org; Sat, 06 Nov 2021 03:40:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21494)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mjH4P-0008Jp-79
+ for qemu-devel@nongnu.org; Sat, 06 Nov 2021 04:29:01 -0400
+Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213]:51819)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mjGJA-00047k-Ne
- for qemu-devel@nongnu.org; Sat, 06 Nov 2021 03:40:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636184410;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VN34cCVVkuoTc4pfavg7blgOaIR1+Z6A2qBIlstZzvA=;
- b=BOfD2+/BPt7AaSmRtzgY5PkGFFq9G0Nd/wTjDySUuI4KgGuoIh8Mh2hNx5OPAC9OcD2oXp
- K3cegA6Lr0cf1GsRlRdgUbOCo4l4MUG1kJr+T4JnzsiqdbMZN5I6r5CfzY0/WaIat4oAUr
- iAEhdM/h9hVyBDkygRBzmUc/8fl3auk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-6zF8I35sPamIl1MKCu-hBQ-1; Sat, 06 Nov 2021 03:40:09 -0400
-X-MC-Unique: 6zF8I35sPamIl1MKCu-hBQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CA1A806688
- for <qemu-devel@nongnu.org>; Sat,  6 Nov 2021 07:40:08 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D69957CD2;
- Sat,  6 Nov 2021 07:40:02 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 925AC11380A7; Sat,  6 Nov 2021 08:40:00 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: Artificially target-dependend compiles
-References: <87czneyaw3.fsf@dusky.pond.sub.org>
- <2e4b52b0-b1fc-58c5-9631-fbf9d7f927fc@redhat.com>
-Date: Sat, 06 Nov 2021 08:40:00 +0100
-In-Reply-To: <2e4b52b0-b1fc-58c5-9631-fbf9d7f927fc@redhat.com> (Paolo
- Bonzini's message of "Fri, 5 Nov 2021 17:15:33 +0100")
-Message-ID: <87fss9u3zj.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mjH4M-0000uM-VY
+ for qemu-devel@nongnu.org; Sat, 06 Nov 2021 04:29:00 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.235])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id A778E20267;
+ Sat,  6 Nov 2021 08:28:55 +0000 (UTC)
+Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Sat, 6 Nov
+ 2021 09:28:54 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R0011e68f226-5916-4956-b02c-4a890c436383,
+ A4C8F90A16E6B7612790F333A0774993578A41BE) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <e93f45aa-b2dc-6f9a-d056-1bf50d431802@kaod.org>
+Date: Sat, 6 Nov 2021 09:28:54 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.735,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH] target/ppc, hw/ppc: Change maintainers
+Content-Language: en-US
+To: David Gibson <david@gibson.dropbear.id.au>, Daniel Henrique Barboza
+ <danielhb413@gmail.com>
+References: <20211105034640.53754-1-david@gibson.dropbear.id.au>
+ <8e05f98a-6a46-f728-5035-fab10f5a209a@gmail.com>
+ <880124b9-5cd1-7fcb-fdc6-3d3f8a1da2b6@amsat.org>
+ <91972ce2-8d1f-f22e-c87f-45cb3c221b18@gmail.com> <YYYCcwEuUNGVMKwu@yekko>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <YYYCcwEuUNGVMKwu@yekko>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 3d3819c7-26bb-4d36-9ed5-4086ccd78100
+X-Ovh-Tracer-Id: 4379469165007702889
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrtdejgddutdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
+ helo=5.mo548.mail-out.ovh.net
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.407,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,47 +73,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, groug@kaod.org, qemu-ppc@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+>>>> Thank you and Greg and Red Hat for all the years of service supporting
+>>>> qemu-ppc in the community. IBM will shoulder this responsibility now.
+>>>
+>>> In term of the MAINTAINERS file:
+>>>
+>>>           S: Status, one of the following:
+>>>              Supported:   Someone is actually paid to look after this.
+>>>              Maintained:  Someone actually looks after it.
+>>>
+>>> The PPC entries have a 'Maintained' status. You say "IBM will shoulder
+>>> this responsibility", does that mean the entries will be 'Supported'
+>>> as in "someone paid to look after them"?
+>>
+>> Yes. It's appropriate to change the PPC entries of this patch to "Supported"
+>> now.
+> 
+> Good point, I've adjusted that.
 
-> On 11/5/21 14:45, Markus Armbruster wrote:
->> Moving these definitions to machine-target.json moves the generated C
->> from qapi/qapi-*-machine.[ch] to qapi/qapi-*-machine-target.[ch], where
->> CONFIG_ACPI_VMGENID is okay.  It also makes qmp_query_vm_generation_id()
->> target-dependent: it needs qapi/qapi-commands-machine-target.h.
->
-> If I understand correctly, the problem that
-> qapi-commands-machine-target.h is target-dependent, because it uses 
-> "#ifdef CONFIG_ACPI_VMGENID" around the prototype?
+"Supported" would be setting the expectations too high. It is an extra
+activity among what we are already dealing with. Please leave it to
+"Maintained".
 
-Around the prototype and struct GuidInfo.
+Thanks,
 
-> On one hand, the "#ifdef" is unnecessary: the prototype does not
-> depend on anything target-specific.  Removing it will avoid the 
-> target-dependence.  On the other hand, the "#ifdef" has a defensive
-> purpose, in that an unnecessary definition (such as the one currently
-> in the stub) will fail due to the implicit definition of 
-> qmp_query_vm_generation_id().
-
-Also, it immediately flags uses of qmp_query_vm_generation_id() and
-struct GuidInfo.  Without it, the linker still catches most, but not all
-uses.
-
->> Have you seen similar artificial target-dependence elsewhere?
->
-> I can't think of a specific example, but it does ring some bells.
-
-I just ran into an instance that may be clearer.
-
-The "rocker" device is target-independent (hw/net/meson.build adds it to
-softmmu_ss), but linked only for selected targets (hw/net/Kconfig has
-depends on PCI && MSI_NONBROKEN).
-
-This makes our build machinery put CONFIG_ROCKER in
-$TARGET-softmmu-config-devices.h, and poison it in config-poison.h.
-Feels uncalled for.
+C.
 
 
