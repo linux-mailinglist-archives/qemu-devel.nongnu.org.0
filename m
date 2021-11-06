@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1701446EFC
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 17:35:02 +0100 (CET)
-Received: from localhost ([::1]:52308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA5C446F26
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 17:56:53 +0100 (CET)
+Received: from localhost ([::1]:36770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjOej-0005n7-6p
-	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 12:35:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53296)
+	id 1mjOzs-0007Ck-6p
+	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 12:56:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mjOdX-0004x3-2P; Sat, 06 Nov 2021 12:33:47 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:49347)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mjOyn-0006WY-Oi; Sat, 06 Nov 2021 12:55:45 -0400
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:33997)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mjOdU-0006V8-Rk; Sat, 06 Nov 2021 12:33:46 -0400
-Received: from [192.168.100.1] ([82.142.14.190]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mae7u-1mBhVq3dbG-00cAQk; Sat, 06 Nov 2021 17:33:37 +0100
-Message-ID: <addd8778-e14f-a185-26d2-0b9acb57e0a3@vivier.eu>
-Date: Sat, 6 Nov 2021 17:33:35 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mjOyk-0002WD-01; Sat, 06 Nov 2021 12:55:44 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.25])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 6A5EEC9E4968;
+ Sat,  6 Nov 2021 17:55:30 +0100 (CET)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Sat, 6 Nov
+ 2021 17:55:29 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G001e02699de-2a97-4fec-866f-a192f30c144e,
+ 0F42570F59393370FB24324DC60E17D91301572C) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 86.250.25.102
+Message-ID: <aa8ad81f-db92-009c-e4f4-8d54455a098e@kaod.org>
+Date: Sat, 6 Nov 2021 17:55:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] meson: Fix 'interpretor' typo
-Content-Language: fr
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20210521103423.2780345-1-philmd@redhat.com>
- <7d9abdeb-575d-3ec5-904b-bc676313ca14@vivier.eu>
- <CAP+75-U0wK7BKxFywWr8tWUbZ-nc5W8cdcOWM=gPp162gPAtiQ@mail.gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <CAP+75-U0wK7BKxFywWr8tWUbZ-nc5W8cdcOWM=gPp162gPAtiQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Q8SWsts1Bw4PUuaUMXvLres0+zuDsoQI3oRVyFo+WLTHnGI05hs
- r7295r7PE+vL3Qt5hd3bxyIDC95wZORQWCI7ORFkISk9iUGfxwW92RIqe2SI280EkeT4axD
- GrsO7hSpCpgNmoS4jJR6gGkHydVemLF49pYnTTWGdy8/4AoVe+YzH1IPAlTM/VT6hGLwDzr
- XnlE9zNhHyqlU/9NzIFlQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:YWxDH4oxZ/g=:Fuoq+o2hlsVVUr5TqM5BS1
- 5q70YVpznDmmqYab+ftBMvG1e6wkBnl/gp8PMfE6GW+OkX0Nu/H7yvn2DIY3Mwu7DHgB5rO8g
- YP9hZx4Oz4jkjX02zeWmhYwbcEgn+x2AU57h/aUizcqartdHa37+pPIr5FRDJH8Z2r9rdODCC
- Cr5aiJSDGYvTT9S6YY81tu2IqFHS7mIVkVILqNa1CHqQSLblJ2RPz4rzfdPA1TfWtiE1Hqyt3
- xfqHdREDq6Qspv74xp/XJNV7RqhnYuVrl+3Ba5CLJLV2pnvZon6qRE/Wa+SHwn4dZLFG+hmFE
- E8oB14Z+0b0QFMDmeZ/DwWEUzqiuZiJIdTiPhpZ6y4Wh/CTTPl6MwSNfvdNMiU/vtPrwhi6QD
- IlDZQoj79NJWti0UbZBn5tOC6OR/2e0eBAcKUjigg3ga/cIYFZjNBfNbjP/AjnLP/V/CsqcZ0
- D8yNXKEYEpi0khd0/tbunqyC42EdUKJHY1V1SxJ26X+3kVHmbWqqxNojdVRtMGMgKH6YlBtVK
- bzt5N90TfZh0Whh3rBSSvTxLPY2rcZl9t+ItXjDIiGWNaL/DiKYCfvYTllfPbMI4iZyG6T8Wc
- spsrprs26oY/do5O3LG6md8SXmMo3vj10EwNQ4rlTflGK9N7tMdMQYAtxREQKwUyLNjYhHrgo
- PPJWSjwQiZuiVeAMEgNW2Z04jUTzUUU4NOkw+LbPlO5RgG77Jpwl6uGxGAWwKig6ejxU=
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
+ Thunderbird/91.1.0
+Subject: Re: [PATCH] target/ppc, hw/ppc: Change maintainers
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, Daniel Henrique
+ Barboza <danielhb413@gmail.com>
+References: <20211105034640.53754-1-david@gibson.dropbear.id.au>
+ <8e05f98a-6a46-f728-5035-fab10f5a209a@gmail.com>
+ <880124b9-5cd1-7fcb-fdc6-3d3f8a1da2b6@amsat.org>
+ <d7c12a79-107d-dfe6-ad7b-fde51f64ddf1@kaod.org>
+ <bb0f4cb9-1c95-c45c-8eb9-b5504787fb1b@amsat.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <bb0f4cb9-1c95-c45c-8eb9-b5504787fb1b@amsat.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 2800fdbd-69f7-47ea-a2fa-0013a8872bcd
+X-Ovh-Tracer-Id: 12934901080641473327
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrtdekgdelvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
 X-Spam_score_int: -52
 X-Spam_score: -5.3
 X-Spam_bar: -----
 X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.407,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,52 +74,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, groug@kaod.org, qemu-devel@nongnu.org,
+ Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>, qemu-ppc@nongnu.org,
+ matheus.ferst@eldorado.org.br, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 06/11/2021 à 15:53, Philippe Mathieu-Daudé a écrit :
-> ping...
+>> What we are going do will depend on inputs really. We have pseries
+>> and KVM in focus because there is still business using the software
+>> stack. TCG is extremely useful for pseries and powernv. We clearly
+>> want to keep that running and improve it. Some parts have been barely
+>> touched (and probably used) in the last 15 years. I think we should
+>> drop some support to modernize the useful parts and ease maintenance.
 > 
-> https://lore.kernel.org/qemu-devel/20210521103423.2780345-1-philmd@redhat.com/
-> 
-> On Sat, Jun 5, 2021 at 9:03 PM Laurent Vivier <laurent@vivier.eu> wrote:
->>
->> Le 21/05/2021 à 12:34, Philippe Mathieu-Daudé a écrit :
->>> Fix a typo from commit fa2f7b0b9b7 ("meson: Warn when TCI is
->>> selected but TCG backend is available").
->>>
->>> Reported-by: Peter Maydell <peter.maydell@linaro.org>
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> ---
->>>   meson.build | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/meson.build b/meson.build
->>> index 1559e8d873a..230a0e4b558 100644
->>> --- a/meson.build
->>> +++ b/meson.build
->>> @@ -247,7 +247,7 @@
->>>         error('Unsupported CPU @0@, try --enable-tcg-interpreter'.format(cpu))
->>>       endif
->>>     elif get_option('tcg_interpreter')
->>> -    warning('Use of the TCG interpretor is not recommended on this host')
->>> +    warning('Use of the TCG interpreter is not recommended on this host')
->>>       warning('architecture. There is a native TCG execution backend available')
->>>       warning('which provides substantially better performance and reliability.')
->>>       warning('It is strongly recommended to remove the --enable-tcg-interpreter')
->>>
->>
->> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
->>
-> 
-> 
+> Here let me recommend the ant work approach I'm doing for MIPS. Instead
+> of dropping ISA extensions, I'm splitting them in various compile units,
+> that way 1/ we can chose to build without them and 2/ sub-maintainers
+> can maintain them separately. Having a finer grained MAINTAINERS
+> entries allow to filter-out/in and reduce reviewers pressure.
 
-Applied to my trivial-patches branch.
+OK. Yes, the goal is to ease maintenance, not to remove platforms or
+CPUs. QEMU is the perfect project for legacy systems.
+
+I am very willing to go in that direction and take the risk to break
+a few things. We have been through such an episode when HV mode was
+added for the PowerNV machine and we managed to fix all regressions,
+down to OpenBIOS. Ben and his ppc32 knowledge helped a lot of course.
+
+Untangling some parts won't be easy. Exception modeling for instance.
+The instruction implementation shouldn't be too hard and it's being
+modernized by Luis and Matheus. I guess we should improve our
+testsuite to catch early any issues. An acceptance test for each
+machine is a minimum.
 
 Thanks,
-Laurent
+
+C.
 
 
