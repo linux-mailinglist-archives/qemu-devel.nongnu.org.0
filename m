@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94FFE446C35
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 04:24:10 +0100 (CET)
-Received: from localhost ([::1]:47850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7572D446C3D
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 04:36:32 +0100 (CET)
+Received: from localhost ([::1]:52530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjCJN-0000xm-98
-	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 23:24:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54510)
+	id 1mjCVL-0004oN-DU
+	for lists+qemu-devel@lfdr.de; Fri, 05 Nov 2021 23:36:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mjCGf-0007Uv-GI; Fri, 05 Nov 2021 23:21:22 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3491)
+ id 1mjCU8-0003tL-KZ; Fri, 05 Nov 2021 23:35:16 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2948)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mjCGc-0004mb-0t; Fri, 05 Nov 2021 23:21:21 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4HmMzS3khNzZcdt;
- Sat,  6 Nov 2021 11:19:00 +0800 (CST)
+ id 1mjCU5-0001V4-B2; Fri, 05 Nov 2021 23:35:16 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4HmNDR4ljhzcZxw;
+ Sat,  6 Nov 2021 11:30:15 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.15; Sat, 6 Nov 2021 11:21:09 +0800
+ 15.1.2308.15; Sat, 6 Nov 2021 11:35:02 +0800
 Received: from [10.174.187.128] (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.15; Sat, 6 Nov 2021 11:21:08 +0800
-Subject: Re: [PATCH 2/3] hw/qdev: Rename qdev_connect_gpio_out*() 'input_pin'
- parameter
+ 15.1.2308.15; Sat, 6 Nov 2021 11:35:01 +0800
+Subject: Re: [PATCH 3/3] hw/input/pckbd: Rename i8042_setup_a20_line() and its
+ a20 irq argument
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  <qemu-devel@nongnu.org>
 References: <20211105172127.224462-1-f4bug@amsat.org>
- <20211105172127.224462-3-f4bug@amsat.org>
+ <20211105172127.224462-4-f4bug@amsat.org>
 From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <6fc3573e-ebe8-cb23-3105-6972dbdf7203@huawei.com>
-Date: Sat, 6 Nov 2021 11:21:08 +0800
+Message-ID: <9cf31ee0-8a2f-c1b0-df4e-fcfc25df287a@huawei.com>
+Date: Sat, 6 Nov 2021 11:35:01 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20211105172127.224462-3-f4bug@amsat.org>
+In-Reply-To: <20211105172127.224462-4-f4bug@amsat.org>
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme712-chm.china.huawei.com (10.1.199.108) To
+X-ClientProxiedBy: dggeme711-chm.china.huawei.com (10.1.199.107) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=45.249.212.187;
@@ -76,93 +76,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 2021/11/6 1:21, Philippe Mathieu-Daudé wrote:
-> @pin is an input where we connect a device output.
-> Rename it @input_pin to simplify the documentation.
+> 'a20_out' is an input IRQ, rename it as 'a20_input'.
+> i8042_setup_a20_line() doesn't take a Device parameter
+> but an ISADevice one. Rename it as i8042_isa_*() to
+> make it explicit.
 >
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->   include/hw/qdev-core.h |  8 ++++----
->   hw/core/gpio.c         | 13 +++++++------
->   2 files changed, 11 insertions(+), 10 deletions(-)
+>   include/hw/input/i8042.h | 2 +-
+>   hw/i386/pc.c             | 2 +-
+>   hw/input/pckbd.c         | 4 ++--
+>   3 files changed, 4 insertions(+), 4 deletions(-)
 >
-> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> index 5b88c8b9dd3..3a0fe643a73 100644
-> --- a/include/hw/qdev-core.h
-> +++ b/include/hw/qdev-core.h
-> @@ -470,7 +470,7 @@ qemu_irq qdev_get_gpio_in_named(DeviceState *dev, const char *name, int n);
->    * qdev_connect_gpio_out: Connect one of a device's anonymous output GPIO lines
->    * @dev: Device whose GPIO to connect
->    * @n: Number of the anonymous output GPIO line (which must be in range)
-> - * @pin: qemu_irq to connect the output line to
-> + * @input_pin: qemu_irq to connect the output line to
->    *
->    * This function connects an anonymous output GPIO line on a device
->    * up to an arbitrary qemu_irq, so that when the device asserts that
-> @@ -495,14 +495,14 @@ qemu_irq qdev_get_gpio_in_named(DeviceState *dev, const char *name, int n);
->    *
->    * For named output GPIO lines, use qdev_connect_gpio_out_named().
->    */
-> -void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq pin);
-> +void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq input_pin);
->   /**
->    * qdev_connect_gpio_out_named: Connect one of a device's named output
->    *                              GPIO lines
->    * @dev: Device whose GPIO to connect
->    * @name: Name of the output GPIO array
->    * @n: Number of the anonymous output GPIO line (which must be in range)
-> - * @pin: qemu_irq to connect the output line to
-> + * @input_pin: qemu_irq to connect the output line to
->    *
->    * This function connects an anonymous output GPIO line on a device
->    * up to an arbitrary qemu_irq, so that when the device asserts that
-> @@ -521,7 +521,7 @@ void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq pin);
->    * same qemu_irq; see qdev_connect_gpio_out() for details.
->    */
->   void qdev_connect_gpio_out_named(DeviceState *dev, const char *name, int n,
-> -                                 qemu_irq pin);
-> +                                 qemu_irq input_pin);
->   /**
->    * qdev_get_gpio_out_connector: Get the qemu_irq connected to an output GPIO
->    * @dev: Device whose output GPIO we are interested in
-> diff --git a/hw/core/gpio.c b/hw/core/gpio.c
-> index 8e6b4f5edf3..80d07a6ec99 100644
-> --- a/hw/core/gpio.c
-> +++ b/hw/core/gpio.c
-> @@ -115,17 +115,18 @@ qemu_irq qdev_get_gpio_in(DeviceState *dev, int n)
+> diff --git a/include/hw/input/i8042.h b/include/hw/input/i8042.h
+> index 1d90432daef..3534fcc4b43 100644
+> --- a/include/hw/input/i8042.h
+> +++ b/include/hw/input/i8042.h
+> @@ -21,6 +21,6 @@ void i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_irq,
+>                      MemoryRegion *region, ram_addr_t size,
+>                      hwaddr mask);
+>   void i8042_isa_mouse_fake_event(ISAKBDState *isa);
+> -void i8042_setup_a20_line(ISADevice *dev, qemu_irq a20_out);
+> +void i8042_isa_setup_a20_line(ISADevice *dev, qemu_irq a20_input);
+>   
+>   #endif /* HW_INPUT_I8042_H */
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 2592a821486..06ef74ca22b 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -1043,7 +1043,7 @@ static void pc_superio_init(ISABus *isa_bus, bool create_fdctrl, bool no_vmport)
+>       port92 = isa_create_simple(isa_bus, TYPE_PORT92);
+>   
+>       a20_line = qemu_allocate_irqs(handle_a20_line_change, first_cpu, 2);
+> -    i8042_setup_a20_line(i8042, a20_line[0]);
+> +    i8042_isa_setup_a20_line(i8042, a20_line[0]);
+>       qdev_connect_gpio_out_named(DEVICE(port92),
+>                                   PORT92_A20_LINE, 0, a20_line[1]);
+>       g_free(a20_line);
+> diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
+> index baba62f357a..7b842c8f3b5 100644
+> --- a/hw/input/pckbd.c
+> +++ b/hw/input/pckbd.c
+> @@ -680,9 +680,9 @@ void i8042_isa_mouse_fake_event(ISAKBDState *isa)
+>       ps2_mouse_fake_event(s->mouse);
 >   }
 >   
->   void qdev_connect_gpio_out_named(DeviceState *dev, const char *name, int n,
-> -                                 qemu_irq pin)
-> +                                 qemu_irq input_pin)
+> -void i8042_setup_a20_line(ISADevice *dev, qemu_irq a20_out)
+> +void i8042_isa_setup_a20_line(ISADevice *dev, qemu_irq a20_input)
 >   {
->       char *propname = g_strdup_printf("%s[%d]",
->                                        name ? name : "unnamed-gpio-out", n);
-> -    if (pin && !OBJECT(pin)->parent) {
-> +    if (input_pin && !OBJECT(input_pin)->parent) {
->           /* We need a name for object_property_set_link to work */
->           object_property_add_child(container_get(qdev_get_machine(),
->                                                   "/unattached"),
-> -                                  "non-qdev-gpio[*]", OBJECT(pin));
-> +                                  "non-qdev-gpio[*]", OBJECT(input_pin));
->       }
-> -    object_property_set_link(OBJECT(dev), propname, OBJECT(pin), &error_abort);
-> +    object_property_set_link(OBJECT(dev), propname,
-> +                             OBJECT(input_pin), &error_abort);
->       g_free(propname);
+> -    qdev_connect_gpio_out_named(DEVICE(dev), I8042_A20_LINE, 0, a20_out);
+> +    qdev_connect_gpio_out_named(DEVICE(dev), I8042_A20_LINE, 0, a20_input);
 >   }
 >   
-> @@ -165,9 +166,9 @@ qemu_irq qdev_intercept_gpio_out(DeviceState *dev, qemu_irq icpt,
->       return disconnected;
->   }
->   
-> -void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq pin)
-> +void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq input_pin)
->   {
-> -    qdev_connect_gpio_out_named(dev, NULL, n, pin);
-> +    qdev_connect_gpio_out_named(dev, NULL, n, input_pin);
->   }
->   
->   void qdev_pass_gpios(DeviceState *dev, DeviceState *container,
+>   static const VMStateDescription vmstate_kbd_isa = {
+Looks reasonable:
 Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
 
 Thanks,
