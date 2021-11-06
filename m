@@ -2,52 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC95E446CAB
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 06:55:09 +0100 (CET)
-Received: from localhost ([::1]:42082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B227446CBD
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 07:37:28 +0100 (CET)
+Received: from localhost ([::1]:48540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjEfU-0006a4-87
-	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 01:55:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43216)
+	id 1mjFKR-0004nK-AU
+	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 02:37:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mjEck-0005gT-MB; Sat, 06 Nov 2021 01:52:18 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:39559)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mjFHu-0003zW-P4
+ for qemu-devel@nongnu.org; Sat, 06 Nov 2021 02:34:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mjEcf-0007cn-OC; Sat, 06 Nov 2021 01:52:18 -0400
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HmRN31Rjfz4xdP; Sat,  6 Nov 2021 16:52:03 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1636177923;
- bh=we8tZVuLsvNQPKYTL4zrt0XiPR5kb6OjPq2mkLAiU4w=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=H4ecyY6VCoxPql15sHcRh23A/4RNxdFXcg39F6J/FU6/Bll4WEmhDKKI1wTRZ92PD
- eQVIM8ccCaUMdVapoDhJnLA8798TNKKXOO5v7xjPh/OvHuPWrwzxY/H2+wAPsFw/t2
- /R+1pLnM9P/TWmj13UU9TWMRlULBFMS4WuGcQuaE=
-Date: Sat, 6 Nov 2021 15:20:03 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH] target/ppc, hw/ppc: Change maintainers
-Message-ID: <YYYCcwEuUNGVMKwu@yekko>
-References: <20211105034640.53754-1-david@gibson.dropbear.id.au>
- <8e05f98a-6a46-f728-5035-fab10f5a209a@gmail.com>
- <880124b9-5cd1-7fcb-fdc6-3d3f8a1da2b6@amsat.org>
- <91972ce2-8d1f-f22e-c87f-45cb3c221b18@gmail.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mjFHq-0005Su-5U
+ for qemu-devel@nongnu.org; Sat, 06 Nov 2021 02:34:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636180481;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QCDLt3yLQn0Se/nRUEWbK6sbAeYrVZmMf3q/Xvon9mQ=;
+ b=G8/xRGBYURWIfrgs+MFr/pgAGwI5JgBSHCVgzmt808bum+MvYoGlo5MPUeIPpLtO5gQiFt
+ vJXfU3nXs8QLS3j8ioUVGjkavst1A/eAjtmSLLJxQAfzVZuf/ImYniseaFh1NCQr5esAxc
+ lr1WUb4G0dWmbM8LraNBfFVh3mqh97A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-463-ARUM4-0bMWae--iYlDWRpA-1; Sat, 06 Nov 2021 02:34:38 -0400
+X-MC-Unique: ARUM4-0bMWae--iYlDWRpA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61AFC1808319;
+ Sat,  6 Nov 2021 06:34:36 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 96D0D60C17;
+ Sat,  6 Nov 2021 06:34:26 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 265C911380A7; Sat,  6 Nov 2021 07:34:25 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v3 03/12] vfio-user: define vfio-user-server object
+References: <cover.1633929457.git.jag.raman@oracle.com>
+ <13dba991f1de91711e5c3cad9a332d6e7c5eee7b.1633929457.git.jag.raman@oracle.com>
+ <YXly2vSh/bhgr0i/@stefanha-x1.localdomain>
+ <6346833B-469B-487B-8382-62EA03BA56C2@oracle.com>
+ <YX/Cx7g0D5o8dVtp@stefanha-x1.localdomain>
+ <87wnloce5t.fsf@dusky.pond.sub.org> <YYPwogn87tMf0p7s@redhat.com>
+ <87y2623of6.fsf@dusky.pond.sub.org> <YYUvZjg0lmaWE223@redhat.com>
+Date: Sat, 06 Nov 2021 07:34:25 +0100
+In-Reply-To: <YYUvZjg0lmaWE223@redhat.com> (Kevin Wolf's message of "Fri, 5
+ Nov 2021 14:19:34 +0100")
+Message-ID: <87fss9vlla.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="D3Q5yqJcQgIm05a1"
-Content-Disposition: inline
-In-Reply-To: <91972ce2-8d1f-f22e-c87f-45cb3c221b18@gmail.com>
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.735,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,180 +84,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John Johnson <john.g.johnson@oracle.com>,
+ "thuth@redhat.com" <thuth@redhat.com>, pkrempa@redhat.com,
+ Jag Raman <jag.raman@oracle.com>,
+ "swapnil.ingle@nutanix.com" <swapnil.ingle@nutanix.com>,
+ "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "philmd@redhat.com" <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Kevin Wolf <kwolf@redhat.com> writes:
 
---D3Q5yqJcQgIm05a1
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Am 05.11.2021 um 11:08 hat Markus Armbruster geschrieben:
+>> Kevin Wolf <kwolf@redhat.com> writes:
+>> 
+>> > Am 04.11.2021 um 13:13 hat Markus Armbruster geschrieben:
+>> >> The old syntax almost always has its quirks.  Ideally, we'd somehow get
+>> >> from quirky old to boring new in an orderly manner.  Sadly, we still
+>> >> don't have good solutions for that.  To make progress, we commonly
+>> >> combine JSON new with quirky old.
+>> >> 
+>> >> qemu-system-FOO -object works that way.  object_option_parse() parses
+>> >> either JSON or QemuOpts.  It wraps the former in a QObject visitor, and
+>> >> the latter in an opts visitor.
+>> >> 
+>> >> QemuOpts is flat by design[*], so the opts visitor parses flat QemuOpts
+>> >> from a (possibly non-flat) QAPI type.  How exactly it flattens, and how
+>> >> it handles clashes I don't remember.
+>> >> 
+>> >> Sadly, this means that we get quirky old even for new object types.
+>> >
+>> > For -object in the system emulator (the tools all use the keyval
+>> > visitor, so there it would work as expected), the only reason that we
+>> > need to keep the quirky old code path around is the list handling in
+>> > memory-backend.host-nodes.
+>> >
+>> > The main difficulty there is that the old QemuOpts based code path
+>> > allows specifying the option twice and both of them would effectively be
+>> > combined. Do we have any idea how to replicate this in a keyval parser
+>> > based world?
+>> 
+>> I can see just two clean solutions, but both involve upending a lot of
+>> code.
+>> 
+>> We can fuse keyval parser and visitor to get a schema-directed parser.
+>> 
+>> We can change the abstract keyval syntax to permit repeated keys.  This
+>> means replacing QDict in in the abstract syntax tree, with fallout in
+>> the visitor.
+>> 
+>> Even if we find a practical solution, I don't like the combination of
+>> "you may give the same parameter multiple times, and the last one wins"
+>> and "for a list-valued parameter, the values of repeated parameters are
+>> collected into a list".  Each makes sense on its own.  The combination
+>> not so much.  Inheriting "last one wins" from QemuOpts may have been a
+>> mistake.
+>> 
+>> The keyval way of doing lists (inherited from the block layer's usage of
+>> dotted keys?  I don't remember) requires the user to count, which isn't
+>> exactly nice, either.
+>
+> Yes. If we didn't have to maintain compatibility (or actually as soon as
+> we degrade non-JSON option lists to HMP-level support), I would
+> introduce [] and {} syntax for lists and dicts, even if that means that
+> use of these characters in strings doesn't work any more or only in a
+> limited way. I think this would be the best compromise for usability.
+>
+> Anyway, this doesn't help us with the compatibility problem we're
+> discussing here.
+>
+>> > If not, do we want to use the remaining time until 6.2 to deprecate
+>> > this? The nasty part is that the only syntax that works both now and in
+>> > the future is JSON. We can't easily accept the new keyval syntax while
+>> > still using the QemuOpts based code.
+>> 
+>> What exactly do you propose to deprecate?
+>
+> We can deprecate on two different levels. I think it's useful to do
+> both:
+>
+> 1. Broad deprecation: Stable non-JSON interfaces are degraded to
+>    a HMP-like compatibility promise.
 
-On Fri, Nov 05, 2021 at 05:05:25PM -0300, Daniel Henrique Barboza wrote:
->=20
->=20
-> On 11/5/21 16:16, Philippe Mathieu-Daud=E9 wrote:
-> > Hi Daniel,
-> >=20
-> > On 11/5/21 10:48, Daniel Henrique Barboza wrote:
-> > > On 11/5/21 00:46, David Gibson wrote:
-> > > > As our day jobs and interests have moved onto other things, Greg an=
-d I
-> > > > have
-> > > > been struggling to keep on top of maintainership of target/ppc and
-> > > > associated pieces like the pseries and powernv machine types, with =
-their
-> > > > platform specific devices.
-> > > >=20
-> > > > We've therefore discussed and plan to transfer maintainership to
-> > > > C=E9dric Le
-> > > > Goater (primary) and Daniel Henrique Barboza (backup).=A0 C=E9dric =
-and Daniel
-> > > > have been actively contributing to the area for some time, and they=
-'re
-> > > > supported in this by their current employer, IBM, who has an obvious
-> > > > interest in the platform.
-> > >=20
-> > > Thank you and Greg and Red Hat for all the years of service supporting
-> > > qemu-ppc in the community. IBM will shoulder this responsibility now.
-> >=20
-> > In term of the MAINTAINERS file:
-> >=20
-> >          S: Status, one of the following:
-> >             Supported:   Someone is actually paid to look after this.
-> >             Maintained:  Someone actually looks after it.
-> >=20
-> > The PPC entries have a 'Maintained' status. You say "IBM will shoulder
-> > this responsibility", does that mean the entries will be 'Supported'
-> > as in "someone paid to look after them"?
->=20
-> Yes. It's appropriate to change the PPC entries of this patch to "Support=
-ed"
-> now.
+Calling it "deprecation" might be confusing.  HMP isn't deprecated, it's
+merely not a stable interface.  That's kind of like "deprecated when you
+need stable", but saying "not a stable interface" is clearer.
 
-Good point, I've adjusted that.
+When I write "deprecate" below, I mean something like "go use something
+else (no conditions)".  When I mean "use something else when you need
+stable", I write "degrade" (short for "degrade to an HMP-like
+compatibility promise").
 
-> > I wonder because both C=E9dric and you have some commits with an IBM
-> > email, but both are registering a non-IBM email as contact. I don't
-> > mind the email technical detail, but I am curious about the status
-> > and expectations.
->=20
-> I had problems using IBM corporate email with mailing lists in the past,
-> and started using this gmail account instead. I believe Cedric has a
-> similar sob story.
->=20
-> FWIW the contrib/gitdm/group-map-ibm file has both our emails there to
-> indicate that we're IBM contributors.
->=20
->=20
-> Thanks,
->=20
->=20
-> Daniel
->=20
-> >=20
-> > Thanks,
-> >=20
-> > Phil.
-> >=20
-> > > > Greg and I do plan to stay around in some capacity for at least the=
- next
-> > > > 6 months, providing reviews and advice to assist the new maintainer=
-s into
-> > > > the role.
-> > >=20
-> > > I hope both of you stay around way longer than that :)
-> > >=20
-> > >=20
-> > >=20
-> > > Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> > >=20
-> > > >=20
-> > > > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > > > ---
-> > > >  =A0 MAINTAINERS | 20 ++++++++++++++------
-> > > >  =A0 1 file changed, 14 insertions(+), 6 deletions(-)
-> > > >=20
-> > > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > > index 797be5b366..066c4fb2b0 100644
-> > > > --- a/MAINTAINERS
-> > > > +++ b/MAINTAINERS
-> > > > @@ -262,8 +262,10 @@ F: hw/openrisc/
-> > > >  =A0 F: tests/tcg/openrisc/
-> > > >  =A0 =A0 PowerPC TCG CPUs
-> > > > -M: David Gibson <david@gibson.dropbear.id.au>
-> > > > -M: Greg Kurz <groug@kaod.org>
-> > > > +M: C=E9dric Le Goater <clg@kaod.org>
-> > > > +M: Daniel Henrique Barboza <danielhb413@gmail.com>
-> > > > +R: David Gibson <david@gibson.dropbear.id.au>
-> > > > +R: Greg Kurz <groug@kaod.org>
-> > > >  =A0 L: qemu-ppc@nongnu.org
-> > > >  =A0 S: Maintained
-> > > >  =A0 F: target/ppc/
-> > > > @@ -382,8 +384,10 @@ F: target/mips/kvm*
-> > > >  =A0 F: target/mips/sysemu/
-> > > >  =A0 =A0 PPC KVM CPUs
-> > > > -M: David Gibson <david@gibson.dropbear.id.au>
-> > > > -M: Greg Kurz <groug@kaod.org>
-> > > > +M: C=E9dric Le Goater <clg@kaod.org>
-> > > > +M: Daniel Henrique Barboza <danielhb413@gmail.com>
-> > > > +R: David Gibson <david@gibson.dropbear.id.au>
-> > > > +R: Greg Kurz <groug@kaod.org>
-> > > >  =A0 S: Maintained
-> > > >  =A0 F: target/ppc/kvm.c
-> > > >  =A0 @@ -1321,8 +1325,10 @@ F: include/hw/rtc/m48t59.h
-> > > >  =A0 F: tests/acceptance/ppc_prep_40p.py
-> > > >  =A0 =A0 sPAPR
-> > > > -M: David Gibson <david@gibson.dropbear.id.au>
-> > > > -M: Greg Kurz <groug@kaod.org>
-> > > > +M: C=E9dric Le Goater <clg@kaod.org>
-> > > > +M: Daniel Henrique Barboza <danielhb413@gmail.com>
-> > > > +R: David Gibson <david@gibson.dropbear.id.au>
-> > > > +R: Greg Kurz <groug@kaod.org>
-> > > >  =A0 L: qemu-ppc@nongnu.org
-> > > >  =A0 S: Maintained
-> > > >  =A0 F: hw/*/spapr*
-> > > > @@ -1382,6 +1388,8 @@ F: include/hw/pci-host/mv64361.h
-> > > >  =A0 =A0 Virtual Open Firmware (VOF)
-> > > >  =A0 M: Alexey Kardashevskiy <aik@ozlabs.ru>
-> > > > +R: C=E9dric Le Goater <clg@kaod.org>
-> > > > +R: Daniel Henrique Barboza <danielhb413@gmail.com>
-> > > >  =A0 R: David Gibson <david@gibson.dropbear.id.au>
-> > > >  =A0 R: Greg Kurz <groug@kaod.org>
-> > > >  =A0 L: qemu-ppc@nongnu.org
-> > > >=20
-> > >=20
-> >=20
->=20
+>                                      Obviously, this can only be done
+>    for options that support JSON.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+We can also degrade or even deprecate sugar options in favor of the real
+ones.  Case by case, I guess.
 
---D3Q5yqJcQgIm05a1
-Content-Type: application/pgp-signature; name="signature.asc"
+>                                   Peter Maydell also wants to do this
+>    only after a big user (read: libvirt) has implemented and is
+>    using JSON, basically as a proof that the alternative is working.
+>
+>    So this can certainly be done for -object. I believe libvirt also
+>    uses JSON for -device now, so this should be fine now, too.
 
------BEGIN PGP SIGNATURE-----
+The non-sugar options supporting JSON are -audiodev, -blockdev, -compat,
+-display (partially), -machine (I think), -object.
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGGAnMACgkQbDjKyiDZ
-s5JUGQ/+Ps3SUH7MyzWp0fH6MpTHcD8zC8AOIb9HwgXWR5/kN0iTA38uRZK6xhc0
-8zXfdkO0t8TDcno372FfBgTWs49kbWo87fjjicsgCSp3yc1AHIZPJYmTbQ/7Kn7c
-fHX9iTMN8o2Ydi8KS1qDZzxnMTPfkEcf67HcIHPuMBdHYg/Zo/K07AU4/6fAE7Yi
-aAWGeIj3tOtgbVZMSNR7sFlhkSbfMT7Cks3CzOd1fp+WoWFdpL7Qu/Fng2HFxfAq
-5XGcodlRlIHBwrvjHNhbA9dfkfDdLSKZJiJ6c3hji7/RFOPHlGGk9ufYK//DjJ4f
-6z7jftrSExI1QQBxy1qBG0qBmnq59VnrBPhYmxm1mmA5M0dTALT0T4yC6EJ7p2vK
-HS2QHFTbfwzp3SHGtHsq8naA31wVnEptOrzWpWR11U7f08E01Nl4dZVlRvkb0jkc
-FHXoSmtdF+IcEowJ7ntX9Ha4GGiD4VmvR/MIcGX+ZTHjVlGWncnxHCG6O7vhRRS6
-OtIeMoM7A7nxVJgFL8D+FL8p/250CGlb7B4gNJX3ph4YxqKd0xtgfBfpS7MgLPMG
-PZbJencQ0lhobrfFGDq2gEZ5xqjmOXB+7jnW/Nm2+NljMklWx/SzKJgGsraGemnH
-DkGyUX/Y/IS1NDRq2ScWwL0u0sEIL8gwNT1I1g4TLad4+mPDBjQ=
-=412y
------END PGP SIGNATURE-----
+-netdev is QAPIfied, but still uses QemuOpts.  Too late for 6.2, I'm
+afraid.
 
---D3Q5yqJcQgIm05a1--
+>                                                                Possibly
+>    -drive (in favour of -blockdev), though I'm not completely sure if we
+>    have gotten rid of the final users of -drive. (CCing Peter Krempa for
+>    details.)
+
+The problem with deprecating -drive is configuring onboard block
+devices.  We need a stable interface for that, and it must be usable
+together with -blockdev.
+
+We provided such an interface (machine properties) for some onboard
+block devices starting with commit ebc29e1bea "pc: Support firmware
+configuration with -blockdev".  Many more remain, I believe.
+
+>    This degradation of the compatibility promise doesn't tell users what
+>    exactly is going to change, which is why doing the second one, too,
+>    might be nice.
+>
+> 2. Narrow deprecation: We can just deprecate the non-JSON form, or
+>    certain aspects of it, of memory-backend.host-nodes. This is the
+>    specific things that stops us from switching -object to keyval.
+>
+>    a. Deprecate the whole option. If you want to use it and need a
+>       stable interface, you have to use JSON. We'll just switch the
+>       non-JSON form on a flag day. Before it, you need to use QemuOpts +
+>       OptsVisitor syntax for the list; after it, you need to use keyval
+>       syntax.
+
+I parse "the whole option" as "-object with dotted keys argument".
+Correct?
+
+>    b. Deprecate only repeating the option. memory-backend is changed to
+>       first try visiting a list, and if that fails, it visits a string
+>       and goes through a string visitor locally to keep supporting the
+>       integer range syntax.
+
+Possible problem: integer range syntax must not leak into the JSON form.
+
+>    c. Deprecate all list values, but keep supporting a single integer
+>       value by using an alternate between list and int.
+
+Single int should also not leak into JSON.
+
+> Picking one of these four options is enough to convert -object to
+> keyval. I would suggest doing both 1. and one of the options in 2.
+
+I'm grateful for your analysis.
+
 
