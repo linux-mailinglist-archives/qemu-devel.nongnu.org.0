@@ -2,75 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18C25446E55
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 15:36:33 +0100 (CET)
-Received: from localhost ([::1]:53396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C48EC446E01
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 14:05:38 +0100 (CET)
+Received: from localhost ([::1]:39190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjMo4-0005Vp-8T
-	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 10:36:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53486)
+	id 1mjLO5-0002Sv-4j
+	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 09:05:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <787738581@qq.com>) id 1mjIzZ-0005qQ-BQ
- for qemu-devel@nongnu.org; Sat, 06 Nov 2021 06:32:10 -0400
-Received: from out203-205-221-191.mail.qq.com ([203.205.221.191]:46903)
+ (Exim 4.90_1) (envelope-from <jcd@tribudubois.net>)
+ id 1mjLMp-0001Vz-Gh; Sat, 06 Nov 2021 09:04:19 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:60939)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <787738581@qq.com>) id 1mjIzP-0004hv-8p
- for qemu-devel@nongnu.org; Sat, 06 Nov 2021 06:32:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
- t=1636194715; bh=/sq3YdcYfaIk52TD/Idw4Vk+WvxGAOf3QOHj+kJr4BU=;
- h=From:To:Cc:Subject:Date;
- b=I13rZRrZMBpv/dUWZQ0Z9uwkUx+x3EexO/mTFAUBiSVca17LFzlFk0SzHvjFZFpgV
- L4Duez070xscaVy6621qS0EzkDDSDOujUkwoPF5tG3upJyF6XHFXByNe2K3KAvc+Up
- nq+aysLSOEbsZy2raMbim3zmSHGq7N3LPcvWgRDI=
-X-QQ-FEAT: oHWrrGTW1dDxccXvLW0dV1NlNqhOmxED
-X-QQ-SSF: 00000000000000F000000000000000Z
-X-QQ-XMAILINFO: NCLUWOcZO7FK2EArZEc2BHJJvB1zlkMM1UwgZJkKzp8CLKlstAROCBtGlvAEkp
- kzvdyQ2bYCxnGz8Cc/bfbPTFve+Ff44Cvj/AdJ4qvIVpt7qZn17Xxh4jx8FJxbQioVByv0GVqFQRb
- yYJ2eVywEJL5ZlzZOG1PmyYrHqvBo3gh8eQOfb4TB3y1lY0FN8kfaDd2rEUHnoGorMavjoyk29Etq
- SNe9uk4gDzVhmC24TPOftMmkT/p9xReU7/4H67CkN0abxxPo7qy2Jj3XG+X2KKVzoRufRDII5Dowa
- 51v3y9GpiKiPCV8Bnls31GSqwktgbXvUrnAEaKyrlkpvUI2diC6uY0dLE+gT1b3sia2qybvnrSSQ/
- +b6K11ZnHwMLWxV628s9NiX4ZyJ+oG2g80SIYvSRmVx/xu1jMJbzpb2eVW9tOe+BuTESjU3ZwnwWI
- yLmh50H36BoPUsyJHdzSruGx595l3dyQrJtSrvkXrx8uq7auWP5rExH5QGpJAlsKHX8w0P/Vvk3Ci
- +80iYYF7vTXNhA7WbFRSzaX4uQQnMAVW8O1Bn3w6RERbOqDCviebtF3Qfi3QVbmx6v9oIdPVrvdhg
- wvVEtHkSDjTLY+WSuJ2zSgdljp1Jq38qDZe0u1Z8lwA3MIf2307Ny0bpB/0zZs3oh8LDDe4zm+BSK
- HEX0X6BwhSDfsWV72jv4iHrdxX8BQht5HOlSGqthPHqvnsMnS9Xs3AG2Mzt7aKHh3+/wznrKdmg+9
- cTyAxWFUQ8hjm/CeT31TN8UQ87IEYjNP92/ji7eYqtbkzSOr8+euM34tXxRSWwV1ApLSSVey1HTVs
- 1toPU/ztYX8kmI8gJbrQNLAM53zV645seA==
-X-HAS-ATTACH: no
-X-QQ-BUSINESS-ORIGIN: 2
-X-Originating-IP: 111.206.187.191
-X-QQ-STYLE: 
-X-QQ-mid: webmail333t1636194218t9024391
-From: "=?gb18030?B?pNe357n9zt662z8/?=" <787738581@qq.com>
-To: "=?gb18030?B?bWFyY2FuZHJlLmx1cmVhdQ==?=" <marcandre.lureau@redhat.com>,
- "=?gb18030?B?cGJvbnppbmk=?=" <pbonzini@redhat.com>
-Cc: "=?gb18030?B?cWVtdS1kZXZlbA==?=" <qemu-devel@nongnu.org>
-Subject: Chardev: delete the QemuOpts reserved in vm_config_groups
-Mime-Version: 1.0
+ (Exim 4.90_1) (envelope-from <jcd@tribudubois.net>)
+ id 1mjLMl-0007wY-8e; Sat, 06 Nov 2021 09:04:19 -0400
+Received: (Authenticated sender: jcd@tribudubois.net)
+ by relay10.mail.gandi.net (Postfix) with ESMTPSA id 716D9240006;
+ Sat,  6 Nov 2021 13:04:09 +0000 (UTC)
 Content-Type: multipart/alternative;
- boundary="----=_NextPart_618657AA_0FFCC108_750DF3B3"
-Content-Transfer-Encoding: 8Bit
-Date: Sat, 6 Nov 2021 18:23:38 +0800
-X-Priority: 3
-Message-ID: <tencent_C7CEA36B3AB3971A278DFD71F2BBCFF88906@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-Received-SPF: pass client-ip=203.205.221.191; envelope-from=787738581@qq.com;
- helo=out203-205-221-191.mail.qq.com
-X-Spam_score_int: 43
-X-Spam_score: 4.3
-X-Spam_bar: ++++
-X-Spam_report: (4.3 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- HELO_DYNAMIC_IPADDR=1.951, HTML_MESSAGE=0.001, NO_FM_NAME_IP_HOSTN=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, RDNS_DYNAMIC=0.982,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_TVD_MIME_EPI=0.01 autolearn=no autolearn_force=no
+ boundary="------------wv5xuDOB6ufKucNK5RzdaE8G"
+Message-ID: <dd45f94c-6110-7251-4f9f-5b4e1fbb73a4@tribudubois.net>
+Date: Sat, 6 Nov 2021 14:04:08 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.2
+Subject: Re: Qemu and ARM secure state.
+Content-Language: en-US
+From: Jean-Christophe DUBOIS <jcd@tribudubois.net>
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <07e63acb-b756-2586-2ba2-b54b837f7fc8@tribudubois.net>
+ <CAFEAcA89YQ_vN-JpCeB+L==F5g1hM=CNMBzjaf5c3EHF19NVyQ@mail.gmail.com>
+ <c8b89685-7490-328b-51a3-48711c140a84@tribudubois.net>
+ <d19f6d2c-7505-b326-3a67-48c336f111e9@tribudubois.net>
+In-Reply-To: <d19f6d2c-7505-b326-3a67-48c336f111e9@tribudubois.net>
+Received-SPF: pass client-ip=217.70.178.230; envelope-from=jcd@tribudubois.net;
+ helo=relay10.mail.gandi.net
+X-Spam_score_int: -59
+X-Spam_score: -6.0
+X-Spam_bar: ------
+X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-3.407, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 06 Nov 2021 10:35:18 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,150 +56,253 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is a multi-part message in MIME format.
+--------------wv5xuDOB6ufKucNK5RzdaE8G
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-------=_NextPart_618657AA_0FFCC108_750DF3B3
-Content-Type: text/plain;
-	charset="gb18030"
-Content-Transfer-Encoding: base64
+So it seems that what is needed is a way to choose on the command line 
+if we want to enable the Qemu built-in PSCI implementation (because we 
+are booting linux for example) or if we really want a bare metal 
+processor (because we are booting a trustedOS like optee).
 
-V2UgaGF2ZSBmb3VuZCB0aGF0IHFlbXUgY2Fubm90IHBsdWcgaW4gdGhlIHByZXZpb3VzbHkg
-dW5wbHVnZ2VkIGRldmljZS4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBzdGFydCBx
-ZW11IHdpdGggdGhlIGZvbGxvd2luZyBjb21tYW5kOg0KLi9xZW11LXN5c3RlbS14ODZfNjQg
-LWVuYWJsZS1rdm0gLW0gODE5MiAtc21wIDE2IFwNCiZuYnNwOyAmbmJzcDstb2JqZWN0IG1l
-bW9yeS1iYWNrZW5kLWZpbGUsaWQ9bWVtLHNpemU9ODE5Mk0sbWVtLXBhdGg9L2Rldi9odWdl
-cGFnZXMsc2hhcmU9b24gXA0KJm5ic3A7ICZuYnNwOy1udW1hIG5vZGUsbWVtZGV2PW1lbSAt
-bWVtLXByZWFsbG9jIFwNCiZuYnNwOyAmbmJzcDsuLi4NCiZuYnNwOyAmbmJzcDstY2hhcmRl
-diBzb2NrZXQsaWQ9ZHJpdmUtdmlydGlvLWRpc2sxLHBhdGg9L3Zhci9ydW4vc3Bkay92aG9z
-dF9ibGtfc29ja2V0LTMwZGNmNDY3LTQ4NmEtNDVjZi1iNzU0LTA5M2JmNWNmMjRkMSxyZWNv
-bm5lY3Q9MTAgXA0KJm5ic3A7ICZuYnNwOy1kZXZpY2Ugdmhvc3QtdXNlci1ibGstcGNpLGNo
-YXJkZXY9ZHJpdmUtdmlydGlvLWRpc2sxLG51bS1xdWV1ZXM9MSxidXM9cGNpLjAsYWRkcj0w
-eDUsaWQ9dmlydGlvLWRpc2sxIFwNCiZuYnNwOyAmbmJzcDsuLi4NCg0KDQoocWVtdSkgaW5m
-byBjaGFyZGV2DQpzZXJpYWwwOiBmaWxlbmFtZT1wdHk6L2Rldi9wdHMvMA0KZHJpdmUtdmly
-dGlvLWRpc2sxOiBmaWxlbmFtZT11bml4Og0KY2hhcm1vbml0b3I6DQpmaWxlbmFtZT11bml4
-Oi91c3IvbG9jYWwvdmFyL2xpYi9saWJ2aXJ0L3FlbXUvZG9tYWluLTU1LWU1OTAzOWRiLWQ1
-NzYtNDBkYi1hL21vbml0b3Iuc29jayxzZXJ2ZXINCihxZW11KSBkZXZpY2VfZGVsIHZpcnRp
-by1kaXNrMQ0KKHFlbXUpIGNoYXJkZXYtcmVtb3ZlIGRyaXZlLXZpcnRpby1kaXNrMQ0KKHFl
-bXUpIGluZm8gY2hhcmRldg0Kc2VyaWFsMDogZmlsZW5hbWU9cHR5Oi9kZXYvcHRzLzANCmNo
-YXJtb25pdG9yOg0KZmlsZW5hbWU9dW5peDovdXNyL2xvY2FsL3Zhci9saWIvbGlidmlydC9x
-ZW11L2RvbWFpbi01NS1lNTkwMzlkYi1kNTc2LTQwZGItYS9tb25pdG9yLnNvY2ssc2VydmVy
-DQoocWVtdSkgY2hhcmRldi1hZGQgc29ja2V0LGlkPWRyaXZlLXZpcnRpby1kaXNrMSxwYXRo
-PS92YXIvcnVuL3NwZGsvdmhvc3RfYmxrX3NvY2tldC0zMGRjZjQ2Ny00ODZhLTQ1Y2YtYjc1
-NC0wOTNiZjVjZjI0ZDEscmVjb25uZWN0PTEwDQpkZXZpY2UgZmFpbGVkOiBEdXBsaWNhdGUg
-SUQgJ2RyaXZlLXZpcnRpby1kaXNrMScgZm9yIGNoYXJkZXYgRXJyb3I6IFBhcnNpbmcgY2hh
-cmRldiBhcmdzIGZhaWxlZA0KDQoNClRoZSByb290IGNhdXNlIG9mIHRoaXMgaXNzdWUgaXMg
-dGhhdCB0aGUgUWVtdU9wdHMgaXMgc3RpbGwgcmVzZXJ2ZWQgaW4gdm1fY29uZmlnX2dyb3Vw
-cyBsaXN0LA0Kc28gcWVtdV9vcHRzX2NyZWF0ZSB3aWxsIGZhaWwgd2l0aCB0aGUgZXJyb3Ig
-YWJvdmUuIFNvIHRoZSBRZW11T3B0cyBzaG91bGQgYmUgcmVtb3ZlZCB3aGVuDQppbnZva2lu
-ZyBxbXBfY2hhcmRldl9yZW1vdmUuDQoNCg0KDQoNClNpZ25lZC1vZmYtYnk6IFpob3VqaWFu
-IFl1IDx3aW5keXVAdGVuY2VudC5jb20mZ3Q7DQpSZXZpZXdlZC1ieTogTGVpIFdhbmcgPGth
-aWVyd2FuZ0B0ZW5jZW50LmNvbSZndDsNClJldmlld2VkLWJ5OiBYdW4gTmkgPHJpY2hhcmRu
-aUB0ZW5jZW50LmNvbSZndDsNClJldmlld2VkLWJ5OiBaaGlnYW5nIEx1IDx0b25ueWx1QHRl
-bmNlbnQuY29tJmd0Ow0KLS0tDQombmJzcDtjaGFyZGV2L2NoYXIuYyB8IDYgKysrKysrDQom
-bmJzcDsxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspDQoNCg0KZGlmZiAtLWdpdCBh
-L2NoYXJkZXYvY2hhci5jIGIvY2hhcmRldi9jaGFyLmMNCmluZGV4IDM5OGYwOWQuLmQyMDg3
-YmQgMTAwNjQ0DQotLS0gYS9jaGFyZGV2L2NoYXIuYw0KKysrIGIvY2hhcmRldi9jaGFyLmMN
-CkBAIC0zNyw2ICszNyw3IEBADQombmJzcDsjaW5jbHVkZSAicWVtdS9oZWxwX29wdGlvbi5o
-Ig0KJm5ic3A7I2luY2x1ZGUgInFlbXUvbW9kdWxlLmgiDQombmJzcDsjaW5jbHVkZSAicWVt
-dS9vcHRpb24uaCINCisjaW5jbHVkZSAicWVtdS9vcHRpb25faW50LmgiDQombmJzcDsjaW5j
-bHVkZSAicWVtdS9pZC5oIg0KJm5ic3A7I2luY2x1ZGUgInFlbXUvY29yb3V0aW5lLmgiDQom
-bmJzcDsjaW5jbHVkZSAicWVtdS95YW5rLmgiDQpAQCAtMTE1OSw2ICsxMTYwLDcgQEAgQ2hh
-cmRldlJldHVybiAqcW1wX2NoYXJkZXZfY2hhbmdlKGNvbnN0IGNoYXIgKmlkLCBDaGFyZGV2
-QmFja2VuZCAqYmFja2VuZCwNCiZuYnNwO3ZvaWQgcW1wX2NoYXJkZXZfcmVtb3ZlKGNvbnN0
-IGNoYXIgKmlkLCBFcnJvciAqKmVycnApDQombmJzcDt7DQombmJzcDsgJm5ic3A7ICZuYnNw
-O0NoYXJkZXYgKmNocjsNCismbmJzcDsgJm5ic3A7UWVtdU9wdHMgKm9wdHM7DQombmJzcDsN
-CiZuYnNwOyAmbmJzcDsgJm5ic3A7Y2hyID0gcWVtdV9jaHJfZmluZChpZCk7DQombmJzcDsg
-Jm5ic3A7ICZuYnNwO2lmIChjaHIgPT0gTlVMTCkgew0KQEAgLTExNzUsNiArMTE3NywxMCBA
-QCB2b2lkIHFtcF9jaGFyZGV2X3JlbW92ZShjb25zdCBjaGFyICppZCwgRXJyb3IgKiplcnJw
-KQ0KJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO3JldHVybjsNCiZuYnNwOyAm
-bmJzcDsgJm5ic3A7fQ0KJm5ic3A7ICZuYnNwOyAmbmJzcDtvYmplY3RfdW5wYXJlbnQoT0JK
-RUNUKGNocikpOw0KKyZuYnNwOyAmbmJzcDsgLyogZGVsZXRlIHRoZSBvcHRzIHJlc2VydmVk
-IGluIHZtX2NvbmZpZ19ncm91cHMgbGlzdC4mbmJzcDsgKi8NCismbmJzcDsgJm5ic3A7IG9w
-dHMgPSBxZW11X29wdHNfZmluZChxZW11X2ZpbmRfb3B0cygiY2hhcmRldiIpLCBpZCk7DQor
-Jm5ic3A7ICZuYnNwOyBpZiAob3B0cykNCismbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsg
-cWVtdV9vcHRzX2RlbChvcHRzKTsNCiZuYnNwO30NCiZuYnNwOw0KJm5ic3A7dm9pZCBxbXBf
-Y2hhcmRldl9zZW5kX2JyZWFrKGNvbnN0IGNoYXIgKmlkLCBFcnJvciAqKmVycnApDQotLSZu
-YnNwOw0KMS44LjMuMQ==
+The "virt" platform allows to dynamically choose one or the other. Other 
+platforms seems to need the same feature.
 
-------=_NextPart_618657AA_0FFCC108_750DF3B3
-Content-Type: text/html;
-	charset="gb18030"
-Content-Transfer-Encoding: base64
+JC
 
-PG1ldGEgaHR0cC1lcXVpdj0iQ29udGVudC1UeXBlIiBjb250ZW50PSJ0ZXh0L2h0bWw7IGNo
-YXJzZXQ9R0IxODAzMCI+PGRpdj48ZGl2PldlIGhhdmUgZm91bmQgdGhhdCBxZW11IGNhbm5v
-dCBwbHVnIGluIHRoZSBwcmV2aW91c2x5IHVucGx1Z2dlZCBkZXZpY2UuPC9kaXY+PGRpdj4m
-bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgc3RhcnQgcWVtdSB3aXRoIHRoZSBmb2xsb3dp
-bmcgY29tbWFuZDo8L2Rpdj48ZGl2Pi4vcWVtdS1zeXN0ZW0teDg2XzY0IC1lbmFibGUta3Zt
-IC1tIDgxOTIgLXNtcCAxNiBcPC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7LW9iamVjdCBtZW1v
-cnktYmFja2VuZC1maWxlLGlkPW1lbSxzaXplPTgxOTJNLG1lbS1wYXRoPS9kZXYvaHVnZXBh
-Z2VzLHNoYXJlPW9uIFw8L2Rpdj48ZGl2PiZuYnNwOyAmbmJzcDstbnVtYSBub2RlLG1lbWRl
-dj1tZW0gLW1lbS1wcmVhbGxvYyBcPC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7Li4uPC9kaXY+
-PGRpdj4mbmJzcDsgJm5ic3A7LWNoYXJkZXYgc29ja2V0LGlkPWRyaXZlLXZpcnRpby1kaXNr
-MSxwYXRoPS92YXIvcnVuL3NwZGsvdmhvc3RfYmxrX3NvY2tldC0zMGRjZjQ2Ny00ODZhLTQ1
-Y2YtYjc1NC0wOTNiZjVjZjI0ZDEscmVjb25uZWN0PTEwIFw8L2Rpdj48ZGl2PiZuYnNwOyAm
-bmJzcDstZGV2aWNlIHZob3N0LXVzZXItYmxrLXBjaSxjaGFyZGV2PWRyaXZlLXZpcnRpby1k
-aXNrMSxudW0tcXVldWVzPTEsYnVzPXBjaS4wLGFkZHI9MHg1LGlkPXZpcnRpby1kaXNrMSBc
-PC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7Li4uPC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj4o
-cWVtdSkgaW5mbyBjaGFyZGV2PC9kaXY+PGRpdj5zZXJpYWwwOiBmaWxlbmFtZT1wdHk6L2Rl
-di9wdHMvMDwvZGl2PjxkaXY+ZHJpdmUtdmlydGlvLWRpc2sxOiBmaWxlbmFtZT11bml4Ojwv
-ZGl2PjxkaXY+Y2hhcm1vbml0b3I6PC9kaXY+PGRpdj5maWxlbmFtZT11bml4Oi91c3IvbG9j
-YWwvdmFyL2xpYi9saWJ2aXJ0L3FlbXUvZG9tYWluLTU1LWU1OTAzOWRiLWQ1NzYtNDBkYi1h
-L21vbml0b3Iuc29jayxzZXJ2ZXI8L2Rpdj48ZGl2PihxZW11KSBkZXZpY2VfZGVsIHZpcnRp
-by1kaXNrMTwvZGl2PjxkaXY+KHFlbXUpIGNoYXJkZXYtcmVtb3ZlIGRyaXZlLXZpcnRpby1k
-aXNrMTwvZGl2PjxkaXY+KHFlbXUpIGluZm8gY2hhcmRldjwvZGl2PjxkaXY+c2VyaWFsMDog
-ZmlsZW5hbWU9cHR5Oi9kZXYvcHRzLzA8L2Rpdj48ZGl2PmNoYXJtb25pdG9yOjwvZGl2Pjxk
-aXY+ZmlsZW5hbWU9dW5peDovdXNyL2xvY2FsL3Zhci9saWIvbGlidmlydC9xZW11L2RvbWFp
-bi01NS1lNTkwMzlkYi1kNTc2LTQwZGItYS9tb25pdG9yLnNvY2ssc2VydmVyPC9kaXY+PGRp
-dj4ocWVtdSkgY2hhcmRldi1hZGQgc29ja2V0LGlkPWRyaXZlLXZpcnRpby1kaXNrMSxwYXRo
-PS92YXIvcnVuL3NwZGsvdmhvc3RfYmxrX3NvY2tldC0zMGRjZjQ2Ny00ODZhLTQ1Y2YtYjc1
-NC0wOTNiZjVjZjI0ZDEscmVjb25uZWN0PTEwPC9kaXY+PGRpdj5kZXZpY2UgZmFpbGVkOiBE
-dXBsaWNhdGUgSUQgJ2RyaXZlLXZpcnRpby1kaXNrMScgZm9yIGNoYXJkZXYgRXJyb3I6IFBh
-cnNpbmcgY2hhcmRldiBhcmdzIGZhaWxlZDwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+VGhl
-IHJvb3QgY2F1c2Ugb2YgdGhpcyBpc3N1ZSBpcyB0aGF0IHRoZSBRZW11T3B0cyBpcyBzdGls
-bCByZXNlcnZlZCBpbiB2bV9jb25maWdfZ3JvdXBzIGxpc3QsPC9kaXY+PGRpdj5zbyBxZW11
-X29wdHNfY3JlYXRlIHdpbGwgZmFpbCB3aXRoIHRoZSBlcnJvciBhYm92ZS4gU28gdGhlIFFl
-bXVPcHRzIHNob3VsZCBiZSByZW1vdmVkIHdoZW48L2Rpdj48ZGl2Pmludm9raW5nIHFtcF9j
-aGFyZGV2X3JlbW92ZS48L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2
-PlNpZ25lZC1vZmYtYnk6IFpob3VqaWFuIFl1ICZsdDt3aW5keXVAdGVuY2VudC5jb20mZ3Q7
-PC9kaXY+PGRpdj5SZXZpZXdlZC1ieTogTGVpIFdhbmcgJmx0O2thaWVyd2FuZ0B0ZW5jZW50
-LmNvbSZndDs8L2Rpdj48ZGl2PlJldmlld2VkLWJ5OiBYdW4gTmkgJmx0O3JpY2hhcmRuaUB0
-ZW5jZW50LmNvbSZndDs8L2Rpdj48ZGl2PlJldmlld2VkLWJ5OiBaaGlnYW5nIEx1ICZsdDt0
-b25ueWx1QHRlbmNlbnQuY29tJmd0OzwvZGl2PjxkaXY+LS0tPC9kaXY+PGRpdj4mbmJzcDtj
-aGFyZGV2L2NoYXIuYyB8IDYgKysrKysrPC9kaXY+PGRpdj4mbmJzcDsxIGZpbGUgY2hhbmdl
-ZCwgNiBpbnNlcnRpb25zKCspPC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj5kaWZmIC0tZ2l0
-IGEvY2hhcmRldi9jaGFyLmMgYi9jaGFyZGV2L2NoYXIuYzwvZGl2PjxkaXY+aW5kZXggMzk4
-ZjA5ZC4uZDIwODdiZCAxMDA2NDQ8L2Rpdj48ZGl2Pi0tLSBhL2NoYXJkZXYvY2hhci5jPC9k
-aXY+PGRpdj4rKysgYi9jaGFyZGV2L2NoYXIuYzwvZGl2PjxkaXY+QEAgLTM3LDYgKzM3LDcg
-QEA8L2Rpdj48ZGl2PiZuYnNwOyNpbmNsdWRlICJxZW11L2hlbHBfb3B0aW9uLmgiPC9kaXY+
-PGRpdj4mbmJzcDsjaW5jbHVkZSAicWVtdS9tb2R1bGUuaCI8L2Rpdj48ZGl2PiZuYnNwOyNp
-bmNsdWRlICJxZW11L29wdGlvbi5oIjwvZGl2PjxkaXY+KyNpbmNsdWRlICJxZW11L29wdGlv
-bl9pbnQuaCI8L2Rpdj48ZGl2PiZuYnNwOyNpbmNsdWRlICJxZW11L2lkLmgiPC9kaXY+PGRp
-dj4mbmJzcDsjaW5jbHVkZSAicWVtdS9jb3JvdXRpbmUuaCI8L2Rpdj48ZGl2PiZuYnNwOyNp
-bmNsdWRlICJxZW11L3lhbmsuaCI8L2Rpdj48ZGl2PkBAIC0xMTU5LDYgKzExNjAsNyBAQCBD
-aGFyZGV2UmV0dXJuICpxbXBfY2hhcmRldl9jaGFuZ2UoY29uc3QgY2hhciAqaWQsIENoYXJk
-ZXZCYWNrZW5kICpiYWNrZW5kLDwvZGl2PjxkaXY+Jm5ic3A7dm9pZCBxbXBfY2hhcmRldl9y
-ZW1vdmUoY29uc3QgY2hhciAqaWQsIEVycm9yICoqZXJycCk8L2Rpdj48ZGl2PiZuYnNwO3s8
-L2Rpdj48ZGl2PiZuYnNwOyAmbmJzcDsgJm5ic3A7Q2hhcmRldiAqY2hyOzwvZGl2PjxkaXY+
-KyZuYnNwOyAmbmJzcDtRZW11T3B0cyAqb3B0czs8L2Rpdj48ZGl2PiZuYnNwOzwvZGl2Pjxk
-aXY+Jm5ic3A7ICZuYnNwOyAmbmJzcDtjaHIgPSBxZW11X2Nocl9maW5kKGlkKTs8L2Rpdj48
-ZGl2PiZuYnNwOyAmbmJzcDsgJm5ic3A7aWYgKGNociA9PSBOVUxMKSB7PC9kaXY+PGRpdj5A
-QCAtMTE3NSw2ICsxMTc3LDEwIEBAIHZvaWQgcW1wX2NoYXJkZXZfcmVtb3ZlKGNvbnN0IGNo
-YXIgKmlkLCBFcnJvciAqKmVycnApPC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7ICZuYnNwOyAm
-bmJzcDsgJm5ic3A7cmV0dXJuOzwvZGl2PjxkaXY+Jm5ic3A7ICZuYnNwOyAmbmJzcDt9PC9k
-aXY+PGRpdj4mbmJzcDsgJm5ic3A7ICZuYnNwO29iamVjdF91bnBhcmVudChPQkpFQ1QoY2hy
-KSk7PC9kaXY+PGRpdj4rJm5ic3A7ICZuYnNwOyAvKiBkZWxldGUgdGhlIG9wdHMgcmVzZXJ2
-ZWQgaW4gdm1fY29uZmlnX2dyb3VwcyBsaXN0LiZuYnNwOyAqLzwvZGl2PjxkaXY+KyZuYnNw
-OyAmbmJzcDsgb3B0cyA9IHFlbXVfb3B0c19maW5kKHFlbXVfZmluZF9vcHRzKCJjaGFyZGV2
-IiksIGlkKTs8L2Rpdj48ZGl2PismbmJzcDsgJm5ic3A7IGlmIChvcHRzKTwvZGl2PjxkaXY+
-KyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBxZW11X29wdHNfZGVsKG9wdHMpOzwvZGl2
-PjxkaXY+Jm5ic3A7fTwvZGl2PjxkaXY+Jm5ic3A7PC9kaXY+PGRpdj4mbmJzcDt2b2lkIHFt
-cF9jaGFyZGV2X3NlbmRfYnJlYWsoY29uc3QgY2hhciAqaWQsIEVycm9yICoqZXJycCk8L2Rp
-dj48ZGl2Pi0tJm5ic3A7PC9kaXY+PGRpdj4xLjguMy4xPC9kaXY+PC9kaXY+
+Le 06/11/2021 à 11:04, Jean-Christophe DUBOIS a écrit :
+> So, I am trying to understand:
+>
+> Contrary to what I said, In my case the SMC instruction is not really 
+> a "no-op" as it sets R0 to -1 (0xffffffff) to indicate an unknown PSCI 
+> service (by the Qemu internal PSCI handler).
+>
+> With the new code introduced by the "arm: tcg: Adhere to SMCCC 1.3 
+> section 5.2" commit, once a processor/platform configure things to 
+> have PSCI requests handled by Qemu code (with "psci-conduit" attribute 
+> set to QEMU_PSCI_CONDUIT_SMC for example), then any exception raised 
+> by an "SMC" instruction will be only handled by the Qemu internal code 
+> and will no call the monitor related code in the guest/OS application. 
+> This seems to be why my SMC monitor handler is not called anymore in 
+> my case.
+>
+> As my i.MX6UL is a mono-processor platform I don't really need to set 
+> the "psci-conduit" attribute (which really makes sense when you have a 
+> cluster of 2 or more cores I guess). As a matter of fact if I remove 
+> the "psci-conduit" attribute setting from the i.MX6UL processor file, 
+> my application is working again on main/latest.
+>
+> But this still raises the question to know if the current behavior for 
+> processors with "psci-conduit" set to SMC or HVC is correct. For 
+> example an i.MX7 based platform (with up to 4 cortex A7 cores) would 
+> not be able to trigger OS SMC handler as the exception would be 
+> entirely processed by the Qemu internal code (with CR generally set to 
+> -1 in R0 to indicate unknown PSCI request).
+>
+> Is there something I am missing?
+>
+> Regards
+>
+> JC
+>
+> Le 04/11/2021 à 22:11, Jean-Christophe DUBOIS a écrit :
+>> Le 04/11/2021 à 12:11, Peter Maydell a écrit :
+>>> On Wed, 3 Nov 2021 at 13:27, Jean-Christophe DUBOIS<jcd@tribudubois.net>  wrote:
+>>>> I have a little application that is designed to work on the i.MX6UL processor.
+>>>>
+>>>> I developed it and tested it on the mcimx6ul-evk platform emulated by Qemu.
+>>>>
+>>>> This application used to work "flawlessly" on Qemu 5.0.50 and is working on Qemu 6.0.0 (available as a pre-built package on the latest Ubuntu).
+>>>>
+>>>> But when I try to run the exact same command line on a Qemu version I compile myself from main/latest of github (Qemu 6.1.50), my application fails to start.
+>>>>
+>>>> So a little background:
+>>>>
+>>>> My application expects to start in "secure" state and supervisor mode (which is the default state of i.MX6UL when booting barebone [without u-boot]).
+>>>>
+>>>> >From this state the application tries to get to "non secure" / hypervisor mode which imply going to the "secure" / monitor state before being able to drop to "non secure" / hypervisor. To do so is runs a "smc 0" operand (from "secure" / supervisor).
+>>>>
+>>>> This "smc" instruction is processed "as expected" by Qemu 5.0.50 and Qemu 6.0.0 (getting to "secure" / monitor mode) but on Qemu 6.1.50 (latest from github) it is as if the smc operand was a no-op. It doesn't trigger any exception and the processor just get to the next instruction after the "smc" instruction. So I am a bit puzzled.
+>>>>
+>>>> Is there something that changed in Qemu (since Qemu 6.0.0) when it comes to the "secure" world/state?
+>>>> Is there some additional command line parameters to use (I search in the documentation but without luck) to get secure world behavior ?
+>>>> Is it necessary to "adapt" the emulated platform (i.MX6UL/mcimx6ul-evk) in some way (it looks like the "virt" machine with "secure=on" does work for arm platform)?
+>>> Could you try doing a bisect to find the QEMU commit that caused
+>>> your guest to stop working ?
+>>
+>> OK, I did the bisect and the commit that break the i.MX6UL behavior 
+>> for my program is commit 9fcd15b9193e819b6cc2fd0a45e3506148812bb4 
+>> (arm: tcg: Adhere to SMCCC 1.3 section 5.2).
+>>
+>> Before it the SMC instruction would trigger a monitor exception.
+>>
+>> After it the SMC instruction is acting like a no-op.
+>>
+>> Thanks
+>>
+>> JC
+>>
+>>
+>>> thanks
+>>> -- PMM
+>>>
+>>
+>
 
-------=_NextPart_618657AA_0FFCC108_750DF3B3--
-���
+--------------wv5xuDOB6ufKucNK5RzdaE8G
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">So it seems that what is needed is a
+      way to choose on the command line if we want to enable the Qemu
+      built-in PSCI implementation (because we are booting linux for
+      example) or if we really want a bare metal processor (because we
+      are booting a trustedOS like optee).</div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">The "virt" platform allows to
+      dynamically choose one or the other. Other platforms seems to need
+      the same feature.</div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">JC</div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">Le 06/11/2021 à 11:04, Jean-Christophe
+      DUBOIS a écrit :<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:d19f6d2c-7505-b326-3a67-48c336f111e9@tribudubois.net">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <div class="moz-cite-prefix">So, I am trying to understand:</div>
+      <div class="moz-cite-prefix"><br>
+      </div>
+      <div class="moz-cite-prefix">Contrary to what I said, In my case
+        the SMC instruction is not really a "no-op" as it sets R0 to -1
+        (0xffffffff) to indicate an unknown PSCI service (by the Qemu
+        internal PSCI handler).<br>
+      </div>
+      <div class="moz-cite-prefix"><br>
+      </div>
+      <div class="moz-cite-prefix">With the new code introduced by the
+        "arm: tcg: Adhere to SMCCC 1.3 section 5.2" commit, once a
+        processor/platform configure things to have PSCI requests
+        handled by Qemu code (with "psci-conduit" attribute set to
+        QEMU_PSCI_CONDUIT_SMC for example), then any exception raised by
+        an "SMC" instruction will be only handled by the Qemu internal
+        code and will no call the monitor related code in the guest/OS
+        application. This seems to be why my SMC monitor handler is not
+        called anymore in my case.</div>
+      <div class="moz-cite-prefix"><br>
+      </div>
+      <div class="moz-cite-prefix">As my i.MX6UL is a mono-processor
+        platform I don't really need to set the "psci-conduit" attribute
+        (which really makes sense when you have a cluster of 2 or more
+        cores I guess). As a matter of fact if I remove the
+        "psci-conduit" attribute setting from the i.MX6UL processor
+        file, my application is working again on main/latest.</div>
+      <div class="moz-cite-prefix"><br>
+      </div>
+      <div class="moz-cite-prefix">But this still raises the question to
+        know if the current behavior for processors with "psci-conduit"
+        set to SMC or HVC is correct. For example an i.MX7 based
+        platform (with up to 4 cortex A7 cores) would not be able to
+        trigger OS SMC handler as the exception would be entirely
+        processed by the Qemu internal code (with CR generally set to -1
+        in R0 to indicate unknown PSCI request).</div>
+      <div class="moz-cite-prefix"><br>
+      </div>
+      <div class="moz-cite-prefix">Is there something I am missing?<br>
+      </div>
+      <div class="moz-cite-prefix"><br>
+      </div>
+      <div class="moz-cite-prefix">Regards</div>
+      <div class="moz-cite-prefix"><br>
+      </div>
+      <div class="moz-cite-prefix">JC<br>
+      </div>
+      <div class="moz-cite-prefix"><br>
+      </div>
+      <div class="moz-cite-prefix">Le 04/11/2021 à 22:11,
+        Jean-Christophe DUBOIS a écrit :<br>
+      </div>
+      <blockquote type="cite"
+        cite="mid:c8b89685-7490-328b-51a3-48711c140a84@tribudubois.net">
+        <meta http-equiv="Content-Type" content="text/html;
+          charset=UTF-8">
+        <div class="moz-cite-prefix">Le 04/11/2021 à 12:11, Peter
+          Maydell a écrit :<br>
+        </div>
+        <blockquote type="cite"
+cite="mid:CAFEAcA89YQ_vN-JpCeB+L==F5g1hM=CNMBzjaf5c3EHF19NVyQ@mail.gmail.com">
+          <pre class="moz-quote-pre" wrap="">On Wed, 3 Nov 2021 at 13:27, Jean-Christophe DUBOIS <a class="moz-txt-link-rfc2396E" href="mailto:jcd@tribudubois.net" moz-do-not-send="true">&lt;jcd@tribudubois.net&gt;</a> wrote:
+</pre>
+          <blockquote type="cite">
+            <pre class="moz-quote-pre" wrap="">I have a little application that is designed to work on the i.MX6UL processor.
+
+I developed it and tested it on the mcimx6ul-evk platform emulated by Qemu.
+
+This application used to work "flawlessly" on Qemu 5.0.50 and is working on Qemu 6.0.0 (available as a pre-built package on the latest Ubuntu).
+
+But when I try to run the exact same command line on a Qemu version I compile myself from main/latest of github (Qemu 6.1.50), my application fails to start.
+
+So a little background:
+
+My application expects to start in "secure" state and supervisor mode (which is the default state of i.MX6UL when booting barebone [without u-boot]).
+
+&gt;From this state the application tries to get to "non secure" / hypervisor mode which imply going to the "secure" / monitor state before being able to drop to "non secure" / hypervisor. To do so is runs a "smc 0" operand (from "secure" / supervisor).
+
+This "smc" instruction is processed "as expected" by Qemu 5.0.50 and Qemu 6.0.0 (getting to "secure" / monitor mode) but on Qemu 6.1.50 (latest from github) it is as if the smc operand was a no-op. It doesn't trigger any exception and the processor just get to the next instruction after the "smc" instruction. So I am a bit puzzled.
+
+Is there something that changed in Qemu (since Qemu 6.0.0) when it comes to the "secure" world/state?
+Is there some additional command line parameters to use (I search in the documentation but without luck) to get secure world behavior ?
+Is it necessary to "adapt" the emulated platform (i.MX6UL/mcimx6ul-evk) in some way (it looks like the "virt" machine with "secure=on" does work for arm platform)?
+</pre>
+          </blockquote>
+          <pre class="moz-quote-pre" wrap="">Could you try doing a bisect to find the QEMU commit that caused
+your guest to stop working ?</pre>
+        </blockquote>
+        <p>OK, I did the bisect and the commit that break the i.MX6UL
+          behavior for my program is commit <span class="sha-block"><span
+              class="sha user-select-contain">9fcd15b9193e819b6cc2fd0a45e3506148812bb4
+              (</span></span>arm: tcg: Adhere to SMCCC 1.3 section 5.2).</p>
+        <p>Before it the SMC instruction would trigger a monitor
+          exception.</p>
+        <p>After it the SMC instruction is acting like a no-op.<br>
+        </p>
+        <p>Thanks</p>
+        <p>JC<br>
+        </p>
+        <p><span class="sha-block"><span class="sha user-select-contain"></span></span></p>
+        <p><span class="sha-block"><span class="sha user-select-contain"><br>
+            </span></span></p>
+        <blockquote type="cite"
+cite="mid:CAFEAcA89YQ_vN-JpCeB+L==F5g1hM=CNMBzjaf5c3EHF19NVyQ@mail.gmail.com">
+          <pre class="moz-quote-pre" wrap="">thanks
+-- PMM
+
+</pre>
+        </blockquote>
+        <p><br>
+        </p>
+      </blockquote>
+      <p><br>
+      </p>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
+--------------wv5xuDOB6ufKucNK5RzdaE8G--
+
 
