@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92729446E73
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 15:59:12 +0100 (CET)
-Received: from localhost ([::1]:39444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4AF0446E8A
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 16:06:37 +0100 (CET)
+Received: from localhost ([::1]:45720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjN9z-0006yG-GP
-	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 10:59:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39190)
+	id 1mjNHA-00031y-Fh
+	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 11:06:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mjN90-0006Ii-Gx
- for qemu-devel@nongnu.org; Sat, 06 Nov 2021 10:58:10 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:46988)
+ id 1mjNFF-0001ji-6i; Sat, 06 Nov 2021 11:04:37 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37570)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mjN8y-000583-Hc
- for qemu-devel@nongnu.org; Sat, 06 Nov 2021 10:58:10 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- b184-20020a1c1bc1000000b0033140bf8dd5so8435305wmb.5
- for <qemu-devel@nongnu.org>; Sat, 06 Nov 2021 07:58:08 -0700 (PDT)
+ id 1mjNFD-0000CF-3a; Sat, 06 Nov 2021 11:04:36 -0400
+Received: by mail-wr1-x435.google.com with SMTP id b12so18458734wrh.4;
+ Sat, 06 Nov 2021 08:04:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=hnoMIF3ZPJNb+QKeMBreU1TqdFu8MBQJvb0SXqoCwBQ=;
- b=iQTBvlI5952lffosMNAmxNy+/Ks8zXeemB3rjlOtuMDGE8kTeFEBqZ9RyORRMHU4Nt
- FBYE+qJ68XndRwHpHXeQkrPd3Q5APvjk0/b3zMcIygmL0AemvgpF9DvVuJZf5XLLfit4
- 0MXDF9kCwEbcB7qrU5opcGQ0NSLjASYQWvXbmw7e+xqwRVxlnlXIn94aJuMgY7cZrDYQ
- aEAdFiNaURBHgawBOiqe6PT8gscBJuszs6+IE8dNVyV4WJCnWrng6a0vbo3KdqK7iDy4
- rLXLu1l91oOaea2wdHBRqjTavCr5IPV7zATRpBohAZ8FSYc5+/rti43/Bk4iPPbm62zg
- 2WwA==
+ bh=B4YkghKqFf+xv+6nSbqY8OoEy321OpAPG6QnZfy6z+o=;
+ b=ghT5bFRz26MogFIu7moCqL2a5Tbn9Zxotecr4A8FR4zqsi/gFH8hQppFmjH3eiuwRt
+ nuunUZSf6HGGKrYMtjALwmB02xalM4DeXKZRzR0ycghSGXr7NhtauZGJeDyJdaHveFc+
+ Ek+RBlD0HoNEbD1rjYIsUEu2HNV0IAYCg+8jYyAQTivdZDfOO/xDN6n0pRm1kmeHGRPv
+ 0CJEvDvN6tlhpf1B+YAoJ/4oSpVeVnQfM+Ib3rYlhEbxV8CpIcKX3FYsUaD6YNEQu0RC
+ SoaeZ67aPyO6NcyKDjTm5KjPd6sAGX3o7m0H2MSW8tBwnaJU2Qo/iFWwEYps1oyhIH5Z
+ j2eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:from:to:cc:references:in-reply-to
+ :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=hnoMIF3ZPJNb+QKeMBreU1TqdFu8MBQJvb0SXqoCwBQ=;
- b=7c2jgBuRRUZF8HVi2e86WaNJD6Ba8oGW6ipqpSDFkV2DdTVaDUkIDPwXtfoumxiURP
- /VVXmn4ixlgoBgBU7vF9/58qljUhoTreYqdZaOHjFrSLp5oK6h4XU1X6s1YemEWpLnFQ
- ZYp5WPvv+kCWj2vE7DnD7085ez+UsfOKx9NFMEZ4BR9znOZpFsaUegcrTf3tDv5OvvE6
- HVa3bNPEe946IV1iApavcEMy255O10pXBATt2aLFAf5oa3XaSSvGUVj+UPq/vsGd4Fnc
- zScwtdDdTm1mrL3q9ZCO+ZQ+0GOSC0RkVRv785IqD+9Do2S5WRnu7DPhoA9stv93hClQ
- i1Ww==
-X-Gm-Message-State: AOAM5329LSPAPY3OZZZzFg0JOoaeg3MjYmR6vbD8vxq15xczr5m8tKvE
- vqulT8DiOrEejIUVuFpgrEwSr3nMaLc=
-X-Google-Smtp-Source: ABdhPJyjYn5xZzzBfeTdPk8PIi+bRMC7gv//CA1IcPhl2M5pZgXyyqGMxu4+tAulvCqiREWOF7NcCg==
-X-Received: by 2002:a1c:2541:: with SMTP id l62mr39428460wml.11.1636210686565; 
- Sat, 06 Nov 2021 07:58:06 -0700 (PDT)
+ bh=B4YkghKqFf+xv+6nSbqY8OoEy321OpAPG6QnZfy6z+o=;
+ b=NbxCCcJajqUDR4bQY6TZQkD7y4m9gIno4zty4glsGX3/YiLrDlytdWTw2ABjgzmehU
+ WukSVs2Qy38b8cmJfqsL0ZYnFS0imqIiKfYEgRThwidMkmVBFa6bppfiXyRQmD4lUPiw
+ Vgn3c69wjHhThjCWxmrYktU2YST5PrZ5Km8HPVS1N9dm5PhMtleU7Oh+vO6AgXsfTm/w
+ Pr2bJxNFXxOheIfteMgdf+djaQ4+ojVwd8DxQjUsAns34JLLj32WSB+B2OPBg5lIqnds
+ lcGhHrQL4wI2f+AOmlXxs4CbY/7RvNcc5lZaLedfoNnouNyAt5CxzKPZiovWcqxjz1oA
+ I8vA==
+X-Gm-Message-State: AOAM530qvPOaLafzT7B4arfppZfdgIZ91GKsztTGILe/q0Q4dGBIfDMk
+ J4OCmdqjsqNrcCa/nLXSAjKxJtDJkew=
+X-Google-Smtp-Source: ABdhPJxLZAeJp4XudDsvoSWuR8/KDV0qFWTi5s0fOIT1zctHgpvLaYaSMP8epzddEVDNyeuQey0k0A==
+X-Received: by 2002:adf:fc90:: with SMTP id g16mr72512442wrr.53.1636211073144; 
+ Sat, 06 Nov 2021 08:04:33 -0700 (PDT)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id m125sm13998004wmm.39.2021.11.06.07.58.05
+ by smtp.gmail.com with ESMTPSA id z135sm17162669wmc.45.2021.11.06.08.04.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 06 Nov 2021 07:58:05 -0700 (PDT)
-Message-ID: <6043b073-cbf8-e44f-5cd7-8805c1077758@amsat.org>
-Date: Sat, 6 Nov 2021 15:58:04 +0100
+ Sat, 06 Nov 2021 08:04:32 -0700 (PDT)
+Message-ID: <471f53ee-4f93-927b-bd95-b666a5eaebb6@amsat.org>
+Date: Sat, 6 Nov 2021 16:04:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH 00/11] exec: Restrict various system emulation specific
- headers (to sysemu)
+Subject: Re: [PATCH v2 0/4] hw/isa: Remove unuseful qemu_allocate_irqs() call
 Content-Language: en-US
+To: qemu-devel@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>
+References: <20210511040621.2736981-1-f4bug@amsat.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-References: <20210517111111.1068153-1-f4bug@amsat.org>
- <5574cf42-8b21-b3aa-4d91-45643129c200@amsat.org>
-In-Reply-To: <5574cf42-8b21-b3aa-4d91-45643129c200@amsat.org>
+In-Reply-To: <20210511040621.2736981-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -48
 X-Spam_score: -4.9
 X-Spam_bar: ----
@@ -92,64 +87,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Claudio Fontana <cfontana@suse.de>, Laurent Vivier <laurent@vivier.eu>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@kernel.org>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc@nongnu.org, =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-6 months passed, heavy rebased required, dropping for now.
+Cc'ing Zoltan
 
-On 5/25/21 16:13, Philippe Mathieu-Daudé wrote:
-> Ping for review? :)
+On 5/11/21 06:06, Philippe Mathieu-Daudé wrote:
+> I started to fix the LeakSanitizer error in piix4_realize(),
+> then looked for similar pattern and found 2 other places.
+> The older is i82378 (historically the first one) which then
+> spread.
 > 
-> On 5/17/21 1:11 PM, Philippe Mathieu-Daudé wrote:
->> Hi,
->>
->> This series restricts various system emulation specific headers
->> by moving them under sysemu/ and adding #error if included from
->> user emulation.
->> We could avoid the sysemu/ rename if too much churn, but enforcing
->> error of headers that must not be included in user emulation allows
->> further cleanups (to be sent later).
->>
->> I had to split the ioport.c file to cpu-io (generic to any target
->> having access to I/O bus, but I haven't checked the TCG implementation
->> details for user emulation) VS ioport (system specific, access to
->> hardware).
->>
->> Many files are changed, but this is mostly one-line mechanical
->> updates of old path to new path using sed.
->>
->> Regards,
->>
->> Phil.
->>
->> Philippe Mathieu-Daudé (11):
->>   NOTFORMERGE target/arm: Restrict KVM files to softmmu
->>   exec: Restrict hwaddr.h to sysemu/
->>   exec: Restrict cputlb.h to sysemu/
->>   exec: Restrict memory.h to sysemu/
->>   exec: Restrict memory-internal.h to sysemu/
->>   exec: Restrict address-spaces.h to sysemu/
->>   exec: Extract CPU I/O instructions to "cpu-io.h"
->>   exec: Restrict ioport.h to sysemu/
->>   exec: Restrict ram_addr.h to sysemu/
->>   exec: Restrict ramblock.h to sysemu/
->>   exec: Restrict confidential-guest-support.h to sysemu/
+> Since v1:
+> - rebased
+> - removed vt82c686 patches
 > 
->>  275 files changed, 491 insertions(+), 409 deletions(-)
->>  create mode 100644 include/exec/cpu-io.h
->>  rename include/exec/{ => sysemu}/address-spaces.h (80%)
->>  rename include/exec/{ => sysemu}/cputlb.h (86%)
->>  rename include/exec/{ => sysemu}/hwaddr.h (81%)
->>  rename include/exec/{ => sysemu}/memory-internal.h (94%)
->>  rename include/exec/{ => sysemu}/memory.h (99%)
->>  rename include/{exec => sysemu}/confidential-guest-support.h (95%)
->>  rename include/{exec => sysemu}/ioport.h (86%)
->>  rename include/{exec => sysemu}/ram_addr.h (99%)
->>  rename include/{exec => sysemu}/ramblock.h (92%)
->>  create mode 100644 softmmu/cpu-io.c
->>
+> Philippe Mathieu-Daudé (4):
+>   hw/isa/i82378: Name output IRQ as 'intr'
+>   hw/isa/i82378: Simplify removing unuseful qemu_allocate_irqs() call
+>   hw/isa/i82378: Rename output IRQ variable
+>   hw/isa/piix4: Fix leak removing unuseful qemu_allocate_irqs() call
+> 
+>  hw/isa/i82378.c | 13 +++----------
+>  hw/isa/piix4.c  | 10 +---------
+>  hw/ppc/prep.c   |  4 ++--
+>  3 files changed, 6 insertions(+), 21 deletions(-)
 > 
 
