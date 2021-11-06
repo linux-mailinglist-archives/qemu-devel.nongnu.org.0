@@ -2,82 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B0F1446D37
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 10:24:14 +0100 (CET)
-Received: from localhost ([::1]:53696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 147AD446D5C
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 11:06:32 +0100 (CET)
+Received: from localhost ([::1]:39794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjHvp-0003h4-9Q
-	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 05:24:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42578)
+	id 1mjIak-0007FK-L5
+	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 06:06:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mjHuX-0002rA-5v; Sat, 06 Nov 2021 05:22:53 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40511)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mjHuV-0001DP-FF; Sat, 06 Nov 2021 05:22:52 -0400
-Received: by mail-wr1-x433.google.com with SMTP id r8so17470298wra.7;
- Sat, 06 Nov 2021 02:22:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=wLBpViOPM77sUs1xGya6n5ZCmDjflhc7Ie2eQM8uzXY=;
- b=cBzk4pq3iqD9O6VDPNCmF2OAdxFuTzLA13N05UAkGgOblf5+Cu2TqRvL1XdfqiVVRQ
- tsAP+8EcKEiIYqZkkorsl2tEF3+XVZ8WCQ/MVqZQxX1aj1Fm59HRG+7r9QRzsTpkfRUv
- 1kBkX7lO8XmZFtmG2cu3TJfazz+wlGcgoHMbNBT16naqaIQphWk+IdwucRv6b7jSEGVX
- nqoBIPUKEN0uI1twERg/MW7KWU7eMPxaqjIK7WCCLtJiqykLDAthSYxxNOoJf0no6Y8R
- 7QT5c831B6OjSOAmKRc2erH9AbWTl6i0J20pOYXn+TORXFQGzIHsFsQnXcfIiRrqah08
- w7gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=wLBpViOPM77sUs1xGya6n5ZCmDjflhc7Ie2eQM8uzXY=;
- b=o3OPri/YVFFUc53fIaoBWoKk4326jsjt3kf6Eqw9MxEW5sfnXDJMP+NmeNaNoeniGj
- WuWlcBSzvQv1YQklhOiMUw9+cH7ZZ6TDXxYGfiqgC2Q4BOkdZY+7AS73CBQ6kbScccwk
- diUk7oys2FNLCCHmo7tiIT8Y/YC5WM3tss9mBDtPa7g4wYbgyisN0U+xO3qR9J01hBvS
- uxk8rEph5vCB5MNpLpheBoWoDizgwbi+NHI7uINwWdCmAzVYicH2n4Uqa90xRaGaYXMC
- mx9iPnZdjzAucpg1Dm2QVKWfzbY3CRGMgDHKOoKgqtFM+yaCqRWaRJfYqWGWoQhGxY9a
- CNxA==
-X-Gm-Message-State: AOAM530yj0FUBwnOE4x54jphQ2ye+aZDqEKTvwMSS2T4HIJlKdJIVada
- aQFC1UyGaFK7MgggDL1U/CY=
-X-Google-Smtp-Source: ABdhPJx9g+5yaFAT5b4m7ZhL3d1XWtbZHweyl1YMdEPIaUjUbNQzrItWCLYgG2+uVfv8aKSNNQ/mAQ==
-X-Received: by 2002:a5d:584c:: with SMTP id i12mr42551362wrf.95.1636190569571; 
- Sat, 06 Nov 2021 02:22:49 -0700 (PDT)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id q123sm13156906wma.30.2021.11.06.02.22.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 06 Nov 2021 02:22:48 -0700 (PDT)
-Message-ID: <bb0f4cb9-1c95-c45c-8eb9-b5504787fb1b@amsat.org>
-Date: Sat, 6 Nov 2021 10:22:47 +0100
+ (Exim 4.90_1) (envelope-from <jcd@tribudubois.net>)
+ id 1mjIYc-0005t0-Ex; Sat, 06 Nov 2021 06:04:18 -0400
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:60793)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jcd@tribudubois.net>)
+ id 1mjIYZ-0004MJ-Ix; Sat, 06 Nov 2021 06:04:18 -0400
+Received: (Authenticated sender: jcd@tribudubois.net)
+ by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 64187E0007;
+ Sat,  6 Nov 2021 10:04:09 +0000 (UTC)
+Content-Type: multipart/alternative;
+ boundary="------------3ReN9D51jAnO062HfSsQ2RFW"
+Message-ID: <d19f6d2c-7505-b326-3a67-48c336f111e9@tribudubois.net>
+Date: Sat, 6 Nov 2021 11:04:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] target/ppc, hw/ppc: Change maintainers
+ Thunderbird/91.1.2
+Subject: Re: Qemu and ARM secure state.
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-References: <20211105034640.53754-1-david@gibson.dropbear.id.au>
- <8e05f98a-6a46-f728-5035-fab10f5a209a@gmail.com>
- <880124b9-5cd1-7fcb-fdc6-3d3f8a1da2b6@amsat.org>
- <d7c12a79-107d-dfe6-ad7b-fde51f64ddf1@kaod.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <d7c12a79-107d-dfe6-ad7b-fde51f64ddf1@kaod.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-3.407,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+From: Jean-Christophe DUBOIS <jcd@tribudubois.net>
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <07e63acb-b756-2586-2ba2-b54b837f7fc8@tribudubois.net>
+ <CAFEAcA89YQ_vN-JpCeB+L==F5g1hM=CNMBzjaf5c3EHF19NVyQ@mail.gmail.com>
+ <c8b89685-7490-328b-51a3-48711c140a84@tribudubois.net>
+In-Reply-To: <c8b89685-7490-328b-51a3-48711c140a84@tribudubois.net>
+Received-SPF: pass client-ip=217.70.183.196; envelope-from=jcd@tribudubois.net;
+ helo=relay4-d.mail.gandi.net
+X-Spam_score_int: -59
+X-Spam_score: -6.0
+X-Spam_bar: ------
+X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-3.407, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,44 +56,215 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, David Gibson <david@gibson.dropbear.id.au>,
- qemu-ppc@nongnu.org, groug@kaod.org, qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/6/21 00:00, Cédric Le Goater wrote:
->> In term of the MAINTAINERS file:
->>
->>          S: Status, one of the following:
->>             Supported:   Someone is actually paid to look after this.
->>             Maintained:  Someone actually looks after it.
->>
->> The PPC entries have a 'Maintained' status. You say "IBM will shoulder
->> this responsibility", does that mean the entries will be 'Supported'
->> as in "someone paid to look after them"?
->> I wonder because both Cédric and you have some commits with an IBM
->> email, but both are registering a non-IBM email as contact. 
-> 
-> Lotus Notes was not designed for patch communication. You don't want
-> me to send patches with it I assure you :)
-> 
->> I don't
->> mind the email technical detail, but I am curious about the status
->> and expectations.
-> 
-> We have other IBM commitments. IBM is willing to share some/most of
-> our time for QEMU-PPC maintenance.
-> 
-> What we are going do will depend on inputs really. We have pseries
-> and KVM in focus because there is still business using the software
-> stack. TCG is extremely useful for pseries and powernv. We clearly
-> want to keep that running and improve it. Some parts have been barely
-> touched (and probably used) in the last 15 years. I think we should
-> drop some support to modernize the useful parts and ease maintenance.
+This is a multi-part message in MIME format.
+--------------3ReN9D51jAnO062HfSsQ2RFW
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Here let me recommend the ant work approach I'm doing for MIPS. Instead
-of dropping ISA extensions, I'm splitting them in various compile units,
-that way 1/ we can chose to build without them and 2/ sub-maintainers
-can maintain them separately. Having a finer grained MAINTAINERS
-entries allow to filter-out/in and reduce reviewers pressure.
+So, I am trying to understand:
+
+Contrary to what I said, In my case the SMC instruction is not really a 
+"no-op" as it sets R0 to -1 (0xffffffff) to indicate an unknown PSCI 
+service (by the Qemu internal PSCI handler).
+
+With the new code introduced by the "arm: tcg: Adhere to SMCCC 1.3 
+section 5.2" commit, once a processor/platform configure things to have 
+PSCI requests handled by Qemu code (with "psci-conduit" attribute set to 
+QEMU_PSCI_CONDUIT_SMC for example), then any exception raised by an 
+"SMC" instruction will be only handled by the Qemu internal code and 
+will no call the monitor related code in the guest/OS application. This 
+seems to be why my SMC monitor handler is not called anymore in my case.
+
+As my i.MX6UL is a mono-processor platform I don't really need to set 
+the "psci-conduit" attribute (which really makes sense when you have a 
+cluster of 2 or more cores I guess). As a matter of fact if I remove the 
+"psci-conduit" attribute setting from the i.MX6UL processor file, my 
+application is working again on main/latest.
+
+But this still raises the question to know if the current behavior for 
+processors with "psci-conduit" set to SMC or HVC is correct. For example 
+an i.MX7 based platform (with up to 4 cortex A7 cores) would not be able 
+to trigger OS SMC handler as the exception would be entirely processed 
+by the Qemu internal code (with CR generally set to -1 in R0 to indicate 
+unknown PSCI request).
+
+Is there something I am missing?
+
+Regards
+
+JC
+
+Le 04/11/2021 à 22:11, Jean-Christophe DUBOIS a écrit :
+> Le 04/11/2021 à 12:11, Peter Maydell a écrit :
+>> On Wed, 3 Nov 2021 at 13:27, Jean-Christophe DUBOIS<jcd@tribudubois.net>  wrote:
+>>> I have a little application that is designed to work on the i.MX6UL processor.
+>>>
+>>> I developed it and tested it on the mcimx6ul-evk platform emulated by Qemu.
+>>>
+>>> This application used to work "flawlessly" on Qemu 5.0.50 and is working on Qemu 6.0.0 (available as a pre-built package on the latest Ubuntu).
+>>>
+>>> But when I try to run the exact same command line on a Qemu version I compile myself from main/latest of github (Qemu 6.1.50), my application fails to start.
+>>>
+>>> So a little background:
+>>>
+>>> My application expects to start in "secure" state and supervisor mode (which is the default state of i.MX6UL when booting barebone [without u-boot]).
+>>>
+>>> >From this state the application tries to get to "non secure" / hypervisor mode which imply going to the "secure" / monitor state before being able to drop to "non secure" / hypervisor. To do so is runs a "smc 0" operand (from "secure" / supervisor).
+>>>
+>>> This "smc" instruction is processed "as expected" by Qemu 5.0.50 and Qemu 6.0.0 (getting to "secure" / monitor mode) but on Qemu 6.1.50 (latest from github) it is as if the smc operand was a no-op. It doesn't trigger any exception and the processor just get to the next instruction after the "smc" instruction. So I am a bit puzzled.
+>>>
+>>> Is there something that changed in Qemu (since Qemu 6.0.0) when it comes to the "secure" world/state?
+>>> Is there some additional command line parameters to use (I search in the documentation but without luck) to get secure world behavior ?
+>>> Is it necessary to "adapt" the emulated platform (i.MX6UL/mcimx6ul-evk) in some way (it looks like the "virt" machine with "secure=on" does work for arm platform)?
+>> Could you try doing a bisect to find the QEMU commit that caused
+>> your guest to stop working ?
+>
+> OK, I did the bisect and the commit that break the i.MX6UL behavior 
+> for my program is commit 9fcd15b9193e819b6cc2fd0a45e3506148812bb4 
+> (arm: tcg: Adhere to SMCCC 1.3 section 5.2).
+>
+> Before it the SMC instruction would trigger a monitor exception.
+>
+> After it the SMC instruction is acting like a no-op.
+>
+> Thanks
+>
+> JC
+>
+>
+>> thanks
+>> -- PMM
+>>
+>
+
+--------------3ReN9D51jAnO062HfSsQ2RFW
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">So, I am trying to understand:</div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">Contrary to what I said, In my case the
+      SMC instruction is not really a "no-op" as it sets R0 to -1
+      (0xffffffff) to indicate an unknown PSCI service (by the Qemu
+      internal PSCI handler).<br>
+    </div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">With the new code introduced by the
+      "arm: tcg: Adhere to SMCCC 1.3 section 5.2" commit, once a
+      processor/platform configure things to have PSCI requests handled
+      by Qemu code (with "psci-conduit" attribute set to
+      QEMU_PSCI_CONDUIT_SMC for example), then any exception raised by
+      an "SMC" instruction will be only handled by the Qemu internal
+      code and will no call the monitor related code in the guest/OS
+      application. This seems to be why my SMC monitor handler is not
+      called anymore in my case.</div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">As my i.MX6UL is a mono-processor
+      platform I don't really need to set the "psci-conduit" attribute
+      (which really makes sense when you have a cluster of 2 or more
+      cores I guess). As a matter of fact if I remove the "psci-conduit"
+      attribute setting from the i.MX6UL processor file, my application
+      is working again on main/latest.</div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">But this still raises the question to
+      know if the current behavior for processors with "psci-conduit"
+      set to SMC or HVC is correct. For example an i.MX7 based platform
+      (with up to 4 cortex A7 cores) would not be able to trigger OS SMC
+      handler as the exception would be entirely processed by the Qemu
+      internal code (with CR generally set to -1 in R0 to indicate
+      unknown PSCI request).</div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">Is there something I am missing?<br>
+    </div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">Regards</div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">JC<br>
+    </div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">Le 04/11/2021 à 22:11, Jean-Christophe
+      DUBOIS a écrit :<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:c8b89685-7490-328b-51a3-48711c140a84@tribudubois.net">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <div class="moz-cite-prefix">Le 04/11/2021 à 12:11, Peter Maydell
+        a écrit :<br>
+      </div>
+      <blockquote type="cite"
+cite="mid:CAFEAcA89YQ_vN-JpCeB+L==F5g1hM=CNMBzjaf5c3EHF19NVyQ@mail.gmail.com">
+        <pre class="moz-quote-pre" wrap="">On Wed, 3 Nov 2021 at 13:27, Jean-Christophe DUBOIS <a class="moz-txt-link-rfc2396E" href="mailto:jcd@tribudubois.net" moz-do-not-send="true">&lt;jcd@tribudubois.net&gt;</a> wrote:
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">I have a little application that is designed to work on the i.MX6UL processor.
+
+I developed it and tested it on the mcimx6ul-evk platform emulated by Qemu.
+
+This application used to work "flawlessly" on Qemu 5.0.50 and is working on Qemu 6.0.0 (available as a pre-built package on the latest Ubuntu).
+
+But when I try to run the exact same command line on a Qemu version I compile myself from main/latest of github (Qemu 6.1.50), my application fails to start.
+
+So a little background:
+
+My application expects to start in "secure" state and supervisor mode (which is the default state of i.MX6UL when booting barebone [without u-boot]).
+
+&gt;From this state the application tries to get to "non secure" / hypervisor mode which imply going to the "secure" / monitor state before being able to drop to "non secure" / hypervisor. To do so is runs a "smc 0" operand (from "secure" / supervisor).
+
+This "smc" instruction is processed "as expected" by Qemu 5.0.50 and Qemu 6.0.0 (getting to "secure" / monitor mode) but on Qemu 6.1.50 (latest from github) it is as if the smc operand was a no-op. It doesn't trigger any exception and the processor just get to the next instruction after the "smc" instruction. So I am a bit puzzled.
+
+Is there something that changed in Qemu (since Qemu 6.0.0) when it comes to the "secure" world/state?
+Is there some additional command line parameters to use (I search in the documentation but without luck) to get secure world behavior ?
+Is it necessary to "adapt" the emulated platform (i.MX6UL/mcimx6ul-evk) in some way (it looks like the "virt" machine with "secure=on" does work for arm platform)?
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">Could you try doing a bisect to find the QEMU commit that caused
+your guest to stop working ?</pre>
+      </blockquote>
+      <p>OK, I did the bisect and the commit that break the i.MX6UL
+        behavior for my program is commit <span class="sha-block"><span
+            class="sha user-select-contain">9fcd15b9193e819b6cc2fd0a45e3506148812bb4
+            (</span></span>arm: tcg: Adhere to SMCCC 1.3 section 5.2).</p>
+      <p>Before it the SMC instruction would trigger a monitor
+        exception.</p>
+      <p>After it the SMC instruction is acting like a no-op.<br>
+      </p>
+      <p>Thanks</p>
+      <p>JC<br>
+      </p>
+      <p><span class="sha-block"><span class="sha user-select-contain"></span></span></p>
+      <p><span class="sha-block"><span class="sha user-select-contain"><br>
+          </span></span></p>
+      <blockquote type="cite"
+cite="mid:CAFEAcA89YQ_vN-JpCeB+L==F5g1hM=CNMBzjaf5c3EHF19NVyQ@mail.gmail.com">
+        <pre class="moz-quote-pre" wrap="">thanks
+-- PMM
+
+</pre>
+      </blockquote>
+      <p><br>
+      </p>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
+--------------3ReN9D51jAnO062HfSsQ2RFW--
+
 
