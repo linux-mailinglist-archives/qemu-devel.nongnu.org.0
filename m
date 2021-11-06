@@ -2,66 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683C3446D9A
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 12:26:04 +0100 (CET)
-Received: from localhost ([::1]:48962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53F9B446DA5
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 12:34:59 +0100 (CET)
+Received: from localhost ([::1]:52602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjJpj-0003R5-5B
-	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 07:26:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33696)
+	id 1mjJyM-0006TR-0U
+	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 07:34:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1mjJof-0002ki-Uh
- for qemu-devel@nongnu.org; Sat, 06 Nov 2021 07:24:57 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:34712)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1mjJod-0001mh-GG
- for qemu-devel@nongnu.org; Sat, 06 Nov 2021 07:24:57 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- j5-20020a17090a318500b001a6c749e697so4048320pjb.1
- for <qemu-devel@nongnu.org>; Sat, 06 Nov 2021 04:24:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=bLA9ApXP4MVMyJSAkbUs5ISsSXfl2ajA8OpG8XF3x0Q=;
- b=dA1jF3MjTXvtO+C0JqEyk+Ija6S0dEV9l6rEMphOlyxezayJuG8sIn10tLSOz1SGhv
- s7F7hLrMSJ/5YiD6ly/fjbbuRLBDgywZ9IdozoC9aDN3O9YUZTYTeq7oE/JQE+v7cKDB
- AASTqw9r+pnjNow0jK6nW3Jnd/JWIXAN+PKEbHqvx3P0vKauyTgeIaSSpz64sCu1w+gW
- 4zSrJ4GLILWduwIpvZlO86AJaxoYKaoEFx5RfeSaAsxcfFPJcJcmO/ocJGYuPBcW8W34
- vKD0hYo+vDK+QjY3S9bIoa9Y9vBWutaJfeibBv8lHga+M8XNlRORyguJIs8Zd3YoPvz6
- sIeQ==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mjJx6-0005nD-PZ
+ for qemu-devel@nongnu.org; Sat, 06 Nov 2021 07:33:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36401)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mjJx3-0003bF-4T
+ for qemu-devel@nongnu.org; Sat, 06 Nov 2021 07:33:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636198414;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RwAs16oJR9dUNJYNEOFBPsMCWWf4SuFhV6lXJbWHrqU=;
+ b=VKAZzNtMfQf6+MmExLq4Jienv0PPCkoBvfKqx82ykjtMg9lCPMpF6VfyCV9M8brXE/dEoe
+ BWrfBdMnpdUUtT77z8f5emHzH2yPXyVXWZbwgF74YQHWcRgLt3frAFUdq3Xj4dwo+n/boh
+ TNFBEeW84nsAV06FMDV8VuSyvBlRXUw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-481-NhYOcrc8Np6YRzGutv_SnA-1; Sat, 06 Nov 2021 07:33:33 -0400
+X-MC-Unique: NhYOcrc8Np6YRzGutv_SnA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 69-20020a1c0148000000b0033214e5b021so4675919wmb.3
+ for <qemu-devel@nongnu.org>; Sat, 06 Nov 2021 04:33:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=bLA9ApXP4MVMyJSAkbUs5ISsSXfl2ajA8OpG8XF3x0Q=;
- b=vkgo74DDQiPOaOCLCe9kvR6NUkaHeqy9q5fg/OiLCxApHH8s0OQb74rAvSynvHW6o4
- HLjhSuj8MLLS4W1LPBoXxtLe98oxKfiPMJXphN2V3ZGGZ9mFU84hszzNU812M9+MoVAv
- 3JxCL6af7EKBBsg8nlmx+HAuFOlIpwj92Mk7MybpwVbIxftX0sge8b08dTJZDQDPzqXe
- AsK4b3xWdegg/hdlnRl6BChtPvNhB2RhwlKM4zGXGM464UtrBCfSPLvOZJ9C6VEUunIz
- hPxIJ+OzZ4mXTFPVsU96/mj9el784q8cChxh5ClaK+rdUwTeuJuL6j2Sipx0wrCqAO/V
- sMQg==
-X-Gm-Message-State: AOAM532CEmSeBRE6LMJNhj5fCB5q5TQtf/h754nMwWjbi8aOMecFtd0O
- Eo4S0vnz319fy7J8Wzf29/ucemG7eoDHUnuUe/URjKj5pa0=
-X-Google-Smtp-Source: ABdhPJwtdtqEo7ZLlJJfY+So1nf8JYxCTWBgyj2Q24CHA3U6vyz3jFbtGtQzYXoSs/WFg1mGyr9uvPmiPjz77Aqxjn4=
-X-Received: by 2002:a17:90b:3ecd:: with SMTP id
- rm13mr11344829pjb.157.1636197893429; 
- Sat, 06 Nov 2021 04:24:53 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RwAs16oJR9dUNJYNEOFBPsMCWWf4SuFhV6lXJbWHrqU=;
+ b=6A57wF9blH4oulrYaT5ieP3XCeNjl+7SnYu+AtFi3ZLR7HiqKHo4Vt6XwFfxr9Sh8c
+ BcBjCZe7jgmINHiH439GcaV6jH2J3eZpEDnOTEBQW6ewdXJrJ82Wp9SKb8DVFi769jOJ
+ TblJFTvPJPitpEGgN9h2Sehf67a63PlC5oFJs1QrwsAhCipOBmahEBcjPnClBXbvCP7W
+ bbmcSpT9QpVKrBCQVntnjI6XyfLLvbWtYWEIdAlmMVsbSfEEx7jPGMdW0f9u1YIL4s4z
+ 5zbYyNb6+YDQgPq2aG8V1RLFXS/HvG0+MxE4r4XS+RqjUHKYo+09XJKfzgzStXrGRzFP
+ Sb+A==
+X-Gm-Message-State: AOAM533QdC132DVWok+5GLbx96KeyEbFEVvwhB9S1/5nQsftDidHKaY1
+ R+nCvS4bQd+W3xdD4iVEzn4RQOXnvOAcaqRCOLEyJ/aw+YxMtR3Wnj+TqVsMD20JhuM/RJz97bs
+ 9IdLwEDixfBxPAO0=
+X-Received: by 2002:adf:fc88:: with SMTP id g8mr52721573wrr.334.1636198412072; 
+ Sat, 06 Nov 2021 04:33:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxE3N0ewK4rZJQHgy0XAu8ElJ7jhR9NLBArDmYFIAiu+VjIJpLr0tOn5udbDERwaHNhG4y8gA==
+X-Received: by 2002:adf:fc88:: with SMTP id g8mr52721541wrr.334.1636198411845; 
+ Sat, 06 Nov 2021 04:33:31 -0700 (PDT)
+Received: from localhost ([178.139.230.94])
+ by smtp.gmail.com with ESMTPSA id h22sm11629927wmq.14.2021.11.06.04.33.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 06 Nov 2021 04:33:31 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: huangy81@chinatelecom.cn
+Subject: Re: [PATCH] docs: fix qemu incorrect tag
+In-Reply-To: <2f6070f08d63fd2281d324c70bb5f8db3b4c803c.1636116975.git.huangy81@chinatelecom.cn>
+ (huangy's message of "Fri, 5 Nov 2021 21:01:16 +0800")
+References: <2f6070f08d63fd2281d324c70bb5f8db3b4c803c.1636116975.git.huangy81@chinatelecom.cn>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Sat, 06 Nov 2021 12:33:30 +0100
+Message-ID: <87tugpfrhx.fsf@secure.mitica>
 MIME-Version: 1.0
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Sat, 6 Nov 2021 11:24:41 +0000
-Message-ID: <CAJSP0QWvz3TQOD3kmiLYKk_REgzXzukpWT3G-ZH6VknXf_UWmw@mail.gmail.com>
-Subject: Lei: a new tool for filtering patch series
-To: qemu-devel <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000385ca305d01d02a0"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=stefanha@gmail.com; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.735,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,53 +98,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Reply-To: quintela@redhat.com
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000385ca305d01d02a0
-Content-Type: text/plain; charset="UTF-8"
+huangy81@chinatelecom.cn wrote:
+> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
+>
+> The last modification of the patchset may be 2 month before
+> merging dirtyrate implementation, it used the wrong tag, so
+> fix with 6.2.
+>
+> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
 
-Hi,
-lore.kernel.org has been archiving qemu-devel for some time. You can use b4
-(https://pypi.org/project/b4/) to easily apply patch series. Now there is a
-new tool called lei that could be of interest to the QEMU community.
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-lei let's you query the mailing list for patch series that match queries
-like specific filenames or functions touched by a patch. It keeps track of
-patch series that you've already downloaded so you can see just the new
-stuff.
+queued.
 
-Instead of adding "R:" entries to the MAINTAINERS file in qemu.git you can
-now do that locally using lei.
-
-I haven't tried it yet but it seems like a useful tool!
-
-https://people.kernel.org/monsieuricon/lore-lei-part-1-getting-started
-
-Stefan
-
---000000000000385ca305d01d02a0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div dir=3D"auto">Hi,</div><div dir=3D"auto"><a href=3D"h=
-ttp://lore.kernel.org">lore.kernel.org</a> has been archiving qemu-devel fo=
-r some time. You can use b4 (<a href=3D"https://pypi.org/project/b4/">https=
-://pypi.org/project/b4/</a>) to easily apply patch series. Now there is a n=
-ew tool called lei that could be of interest to the QEMU community.</div><d=
-iv dir=3D"auto"><br></div><div dir=3D"auto">lei let&#39;s you query the mai=
-ling list for patch series that match queries like specific filenames or fu=
-nctions touched by a patch. It keeps track of patch series that you&#39;ve =
-already downloaded so you can see just the new stuff.</div><div dir=3D"auto=
-"><br></div><div dir=3D"auto">Instead of adding &quot;R:&quot; entries to t=
-he MAINTAINERS file in qemu.git you can now do that locally using lei.</div=
-><div dir=3D"auto"><br></div><div dir=3D"auto">I haven&#39;t tried it yet b=
-ut it seems like a useful tool!</div><div dir=3D"auto"><br></div><a href=3D=
-"https://people.kernel.org/monsieuricon/lore-lei-part-1-getting-started">ht=
-tps://people.kernel.org/monsieuricon/lore-lei-part-1-getting-started</a><di=
-v dir=3D"auto"><br></div><div dir=3D"auto">Stefan</div></div>
-
---000000000000385ca305d01d02a0--
 
