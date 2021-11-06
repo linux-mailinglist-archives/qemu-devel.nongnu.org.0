@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44AF3446FC4
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 19:12:30 +0100 (CET)
-Received: from localhost ([::1]:50044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32A67447007
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Nov 2021 20:15:54 +0100 (CET)
+Received: from localhost ([::1]:55612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjQB2-0005Q0-S1
-	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 14:12:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46296)
+	id 1mjRAO-0005pT-VW
+	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 15:15:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcd@tribudubois.net>)
- id 1mjQA1-0004YW-Qq; Sat, 06 Nov 2021 14:11:25 -0400
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:55041)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mjR8i-0004pL-KL
+ for qemu-devel@nongnu.org; Sat, 06 Nov 2021 15:14:08 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:17264)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcd@tribudubois.net>)
- id 1mjQ9t-00087W-NH; Sat, 06 Nov 2021 14:11:20 -0400
-Received: (Authenticated sender: jcd@tribudubois.net)
- by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id A7514E000B;
- Sat,  6 Nov 2021 18:11:12 +0000 (UTC)
-Content-Type: multipart/alternative;
- boundary="------------oFQuK9EeA3dsND7r6e96dJt7"
-Message-ID: <e0a1b786-4b1c-c608-495b-3fb839de2376@tribudubois.net>
-Date: Sat, 6 Nov 2021 19:11:11 +0100
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mjR8f-0006qN-7Q
+ for qemu-devel@nongnu.org; Sat, 06 Nov 2021 15:14:07 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id C09C0756036;
+ Sat,  6 Nov 2021 20:13:58 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id A367675602D; Sat,  6 Nov 2021 20:13:58 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id A1E06755FE6;
+ Sat,  6 Nov 2021 20:13:58 +0100 (CET)
+Date: Sat, 6 Nov 2021 20:13:58 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2 0/4] hw/isa: Remove unuseful qemu_allocate_irqs() call
+In-Reply-To: <471f53ee-4f93-927b-bd95-b666a5eaebb6@amsat.org>
+Message-ID: <975db73-972f-c3e2-4bc7-66b15510d39a@eik.bme.hu>
+References: <20210511040621.2736981-1-f4bug@amsat.org>
+ <471f53ee-4f93-927b-bd95-b666a5eaebb6@amsat.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.2
-Subject: Re: Qemu and ARM secure state.
-Content-Language: en-US
-From: Jean-Christophe DUBOIS <jcd@tribudubois.net>
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <07e63acb-b756-2586-2ba2-b54b837f7fc8@tribudubois.net>
- <CAFEAcA89YQ_vN-JpCeB+L==F5g1hM=CNMBzjaf5c3EHF19NVyQ@mail.gmail.com>
- <c8b89685-7490-328b-51a3-48711c140a84@tribudubois.net>
- <d19f6d2c-7505-b326-3a67-48c336f111e9@tribudubois.net>
- <dd45f94c-6110-7251-4f9f-5b4e1fbb73a4@tribudubois.net>
-In-Reply-To: <dd45f94c-6110-7251-4f9f-5b4e1fbb73a4@tribudubois.net>
-Received-SPF: pass client-ip=217.70.183.196; envelope-from=jcd@tribudubois.net;
- helo=relay4-d.mail.gandi.net
-X-Spam_score_int: -59
-X-Spam_score: -6.0
-X-Spam_bar: ------
-X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-3.407, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-925225441-1636226038=:87368"
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,298 +58,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------oFQuK9EeA3dsND7r6e96dJt7
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--3866299591-925225441-1636226038=:87368
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 8BIT
 
-One small question/remark:
+On Sat, 6 Nov 2021, Philippe Mathieu-Daudé wrote:
+> Cc'ing Zoltan
 
-According to the the "Arm Power State Coordinate Interface" (DEN0022D.b) 
-document (chapter 5) PSCI calls can only be issued by "normal world" 
-(EL1 or EL2). Therefore, should we be adding a test for the current 
-secure state in the arm_is_psci_call() function? This would prevent 
-calling the built-in Qemu PSCI function if SMC is issued  from secure state.
+What do I have to do with this? This was a while ago so I don't remember 
+and it seems to not touch any of the devices I have some experience with 
+so not sure what do you expect from me for this series.
 
-Regards.
+Regards,
+BALATON Zoltan
 
-JC
-
-Le 06/11/2021 à 14:04, Jean-Christophe DUBOIS a écrit :
-> So it seems that what is needed is a way to choose on the command line 
-> if we want to enable the Qemu built-in PSCI implementation (because we 
-> are booting linux for example) or if we really want a bare metal 
-> processor (because we are booting a trustedOS like optee).
->
-> The "virt" platform allows to dynamically choose one or the other. 
-> Other platforms seems to need the same feature.
->
-> JC
->
-> Le 06/11/2021 à 11:04, Jean-Christophe DUBOIS a écrit :
->> So, I am trying to understand:
+> On 5/11/21 06:06, Philippe Mathieu-Daudé wrote:
+>> I started to fix the LeakSanitizer error in piix4_realize(),
+>> then looked for similar pattern and found 2 other places.
+>> The older is i82378 (historically the first one) which then
+>> spread.
 >>
->> Contrary to what I said, In my case the SMC instruction is not really 
->> a "no-op" as it sets R0 to -1 (0xffffffff) to indicate an unknown 
->> PSCI service (by the Qemu internal PSCI handler).
+>> Since v1:
+>> - rebased
+>> - removed vt82c686 patches
 >>
->> With the new code introduced by the "arm: tcg: Adhere to SMCCC 1.3 
->> section 5.2" commit, once a processor/platform configure things to 
->> have PSCI requests handled by Qemu code (with "psci-conduit" 
->> attribute set to QEMU_PSCI_CONDUIT_SMC for example), then any 
->> exception raised by an "SMC" instruction will be only handled by the 
->> Qemu internal code and will no call the monitor related code in the 
->> guest/OS application. This seems to be why my SMC monitor handler is 
->> not called anymore in my case.
+>> Philippe Mathieu-Daudé (4):
+>>   hw/isa/i82378: Name output IRQ as 'intr'
+>>   hw/isa/i82378: Simplify removing unuseful qemu_allocate_irqs() call
+>>   hw/isa/i82378: Rename output IRQ variable
+>>   hw/isa/piix4: Fix leak removing unuseful qemu_allocate_irqs() call
 >>
->> As my i.MX6UL is a mono-processor platform I don't really need to set 
->> the "psci-conduit" attribute (which really makes sense when you have 
->> a cluster of 2 or more cores I guess). As a matter of fact if I 
->> remove the "psci-conduit" attribute setting from the i.MX6UL 
->> processor file, my application is working again on main/latest.
->>
->> But this still raises the question to know if the current behavior 
->> for processors with "psci-conduit" set to SMC or HVC is correct. For 
->> example an i.MX7 based platform (with up to 4 cortex A7 cores) would 
->> not be able to trigger OS SMC handler as the exception would be 
->> entirely processed by the Qemu internal code (with CR generally set 
->> to -1 in R0 to indicate unknown PSCI request).
->>
->> Is there something I am missing?
->>
->> Regards
->>
->> JC
->>
->> Le 04/11/2021 à 22:11, Jean-Christophe DUBOIS a écrit :
->>> Le 04/11/2021 à 12:11, Peter Maydell a écrit :
->>>> On Wed, 3 Nov 2021 at 13:27, Jean-Christophe DUBOIS<jcd@tribudubois.net>  wrote:
->>>>> I have a little application that is designed to work on the i.MX6UL processor.
->>>>>
->>>>> I developed it and tested it on the mcimx6ul-evk platform emulated by Qemu.
->>>>>
->>>>> This application used to work "flawlessly" on Qemu 5.0.50 and is working on Qemu 6.0.0 (available as a pre-built package on the latest Ubuntu).
->>>>>
->>>>> But when I try to run the exact same command line on a Qemu version I compile myself from main/latest of github (Qemu 6.1.50), my application fails to start.
->>>>>
->>>>> So a little background:
->>>>>
->>>>> My application expects to start in "secure" state and supervisor mode (which is the default state of i.MX6UL when booting barebone [without u-boot]).
->>>>>
->>>>> >From this state the application tries to get to "non secure" / hypervisor mode which imply going to the "secure" / monitor state before being able to drop to "non secure" / hypervisor. To do so is runs a "smc 0" operand (from "secure" / supervisor).
->>>>>
->>>>> This "smc" instruction is processed "as expected" by Qemu 5.0.50 and Qemu 6.0.0 (getting to "secure" / monitor mode) but on Qemu 6.1.50 (latest from github) it is as if the smc operand was a no-op. It doesn't trigger any exception and the processor just get to the next instruction after the "smc" instruction. So I am a bit puzzled.
->>>>>
->>>>> Is there something that changed in Qemu (since Qemu 6.0.0) when it comes to the "secure" world/state?
->>>>> Is there some additional command line parameters to use (I search in the documentation but without luck) to get secure world behavior ?
->>>>> Is it necessary to "adapt" the emulated platform (i.MX6UL/mcimx6ul-evk) in some way (it looks like the "virt" machine with "secure=on" does work for arm platform)?
->>>> Could you try doing a bisect to find the QEMU commit that caused
->>>> your guest to stop working ?
->>>
->>> OK, I did the bisect and the commit that break the i.MX6UL behavior 
->>> for my program is commit 9fcd15b9193e819b6cc2fd0a45e3506148812bb4 
->>> (arm: tcg: Adhere to SMCCC 1.3 section 5.2).
->>>
->>> Before it the SMC instruction would trigger a monitor exception.
->>>
->>> After it the SMC instruction is acting like a no-op.
->>>
->>> Thanks
->>>
->>> JC
->>>
->>>
->>>> thanks
->>>> -- PMM
->>>>
->>>
+>>  hw/isa/i82378.c | 13 +++----------
+>>  hw/isa/piix4.c  | 10 +---------
+>>  hw/ppc/prep.c   |  4 ++--
+>>  3 files changed, 6 insertions(+), 21 deletions(-)
 >>
 >
-
---------------oFQuK9EeA3dsND7r6e96dJt7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">One small question/remark:</div>
-    <div class="moz-cite-prefix"><br>
-    </div>
-    <div class="moz-cite-prefix">According to the the "Arm Power State
-      Coordinate Interface" (DEN0022D.b) document (chapter 5) PSCI calls
-      can only be issued by "normal world" (EL1 or EL2). Therefore,
-      should we be adding a test for the current secure state in the
-      arm_is_psci_call() function? This would prevent calling the
-      built-in Qemu PSCI function if SMC is issued  from secure state.<br>
-    </div>
-    <div class="moz-cite-prefix"><br>
-    </div>
-    <div class="moz-cite-prefix">Regards.</div>
-    <div class="moz-cite-prefix"><br>
-    </div>
-    <div class="moz-cite-prefix">JC</div>
-    <div class="moz-cite-prefix"><br>
-    </div>
-    <div class="moz-cite-prefix">Le 06/11/2021 à 14:04, Jean-Christophe
-      DUBOIS a écrit :<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:dd45f94c-6110-7251-4f9f-5b4e1fbb73a4@tribudubois.net">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <div class="moz-cite-prefix">So it seems that what is needed is a
-        way to choose on the command line if we want to enable the Qemu
-        built-in PSCI implementation (because we are booting linux for
-        example) or if we really want a bare metal processor (because we
-        are booting a trustedOS like optee).</div>
-      <div class="moz-cite-prefix"><br>
-      </div>
-      <div class="moz-cite-prefix">The "virt" platform allows to
-        dynamically choose one or the other. Other platforms seems to
-        need the same feature.</div>
-      <div class="moz-cite-prefix"><br>
-      </div>
-      <div class="moz-cite-prefix">JC</div>
-      <div class="moz-cite-prefix"><br>
-      </div>
-      <div class="moz-cite-prefix">Le 06/11/2021 à 11:04,
-        Jean-Christophe DUBOIS a écrit :<br>
-      </div>
-      <blockquote type="cite"
-        cite="mid:d19f6d2c-7505-b326-3a67-48c336f111e9@tribudubois.net">
-        <meta http-equiv="Content-Type" content="text/html;
-          charset=UTF-8">
-        <div class="moz-cite-prefix">So, I am trying to understand:</div>
-        <div class="moz-cite-prefix"><br>
-        </div>
-        <div class="moz-cite-prefix">Contrary to what I said, In my case
-          the SMC instruction is not really a "no-op" as it sets R0 to
-          -1 (0xffffffff) to indicate an unknown PSCI service (by the
-          Qemu internal PSCI handler).<br>
-        </div>
-        <div class="moz-cite-prefix"><br>
-        </div>
-        <div class="moz-cite-prefix">With the new code introduced by the
-          "arm: tcg: Adhere to SMCCC 1.3 section 5.2" commit, once a
-          processor/platform configure things to have PSCI requests
-          handled by Qemu code (with "psci-conduit" attribute set to
-          QEMU_PSCI_CONDUIT_SMC for example), then any exception raised
-          by an "SMC" instruction will be only handled by the Qemu
-          internal code and will no call the monitor related code in the
-          guest/OS application. This seems to be why my SMC monitor
-          handler is not called anymore in my case.</div>
-        <div class="moz-cite-prefix"><br>
-        </div>
-        <div class="moz-cite-prefix">As my i.MX6UL is a mono-processor
-          platform I don't really need to set the "psci-conduit"
-          attribute (which really makes sense when you have a cluster of
-          2 or more cores I guess). As a matter of fact if I remove the
-          "psci-conduit" attribute setting from the i.MX6UL processor
-          file, my application is working again on main/latest.</div>
-        <div class="moz-cite-prefix"><br>
-        </div>
-        <div class="moz-cite-prefix">But this still raises the question
-          to know if the current behavior for processors with
-          "psci-conduit" set to SMC or HVC is correct. For example an
-          i.MX7 based platform (with up to 4 cortex A7 cores) would not
-          be able to trigger OS SMC handler as the exception would be
-          entirely processed by the Qemu internal code (with CR
-          generally set to -1 in R0 to indicate unknown PSCI request).</div>
-        <div class="moz-cite-prefix"><br>
-        </div>
-        <div class="moz-cite-prefix">Is there something I am missing?<br>
-        </div>
-        <div class="moz-cite-prefix"><br>
-        </div>
-        <div class="moz-cite-prefix">Regards</div>
-        <div class="moz-cite-prefix"><br>
-        </div>
-        <div class="moz-cite-prefix">JC<br>
-        </div>
-        <div class="moz-cite-prefix"><br>
-        </div>
-        <div class="moz-cite-prefix">Le 04/11/2021 à 22:11,
-          Jean-Christophe DUBOIS a écrit :<br>
-        </div>
-        <blockquote type="cite"
-          cite="mid:c8b89685-7490-328b-51a3-48711c140a84@tribudubois.net">
-          <meta http-equiv="Content-Type" content="text/html;
-            charset=UTF-8">
-          <div class="moz-cite-prefix">Le 04/11/2021 à 12:11, Peter
-            Maydell a écrit :<br>
-          </div>
-          <blockquote type="cite"
-cite="mid:CAFEAcA89YQ_vN-JpCeB+L==F5g1hM=CNMBzjaf5c3EHF19NVyQ@mail.gmail.com">
-            <pre class="moz-quote-pre" wrap="">On Wed, 3 Nov 2021 at 13:27, Jean-Christophe DUBOIS <a class="moz-txt-link-rfc2396E" href="mailto:jcd@tribudubois.net" moz-do-not-send="true">&lt;jcd@tribudubois.net&gt;</a> wrote:
-</pre>
-            <blockquote type="cite">
-              <pre class="moz-quote-pre" wrap="">I have a little application that is designed to work on the i.MX6UL processor.
-
-I developed it and tested it on the mcimx6ul-evk platform emulated by Qemu.
-
-This application used to work "flawlessly" on Qemu 5.0.50 and is working on Qemu 6.0.0 (available as a pre-built package on the latest Ubuntu).
-
-But when I try to run the exact same command line on a Qemu version I compile myself from main/latest of github (Qemu 6.1.50), my application fails to start.
-
-So a little background:
-
-My application expects to start in "secure" state and supervisor mode (which is the default state of i.MX6UL when booting barebone [without u-boot]).
-
-&gt;From this state the application tries to get to "non secure" / hypervisor mode which imply going to the "secure" / monitor state before being able to drop to "non secure" / hypervisor. To do so is runs a "smc 0" operand (from "secure" / supervisor).
-
-This "smc" instruction is processed "as expected" by Qemu 5.0.50 and Qemu 6.0.0 (getting to "secure" / monitor mode) but on Qemu 6.1.50 (latest from github) it is as if the smc operand was a no-op. It doesn't trigger any exception and the processor just get to the next instruction after the "smc" instruction. So I am a bit puzzled.
-
-Is there something that changed in Qemu (since Qemu 6.0.0) when it comes to the "secure" world/state?
-Is there some additional command line parameters to use (I search in the documentation but without luck) to get secure world behavior ?
-Is it necessary to "adapt" the emulated platform (i.MX6UL/mcimx6ul-evk) in some way (it looks like the "virt" machine with "secure=on" does work for arm platform)?
-</pre>
-            </blockquote>
-            <pre class="moz-quote-pre" wrap="">Could you try doing a bisect to find the QEMU commit that caused
-your guest to stop working ?</pre>
-          </blockquote>
-          <p>OK, I did the bisect and the commit that break the i.MX6UL
-            behavior for my program is commit <span class="sha-block"><span
-                class="sha user-select-contain">9fcd15b9193e819b6cc2fd0a45e3506148812bb4
-                (</span></span>arm: tcg: Adhere to SMCCC 1.3 section
-            5.2).</p>
-          <p>Before it the SMC instruction would trigger a monitor
-            exception.</p>
-          <p>After it the SMC instruction is acting like a no-op.<br>
-          </p>
-          <p>Thanks</p>
-          <p>JC<br>
-          </p>
-          <p><span class="sha-block"><span class="sha
-                user-select-contain"></span></span></p>
-          <p><span class="sha-block"><span class="sha
-                user-select-contain"><br>
-              </span></span></p>
-          <blockquote type="cite"
-cite="mid:CAFEAcA89YQ_vN-JpCeB+L==F5g1hM=CNMBzjaf5c3EHF19NVyQ@mail.gmail.com">
-            <pre class="moz-quote-pre" wrap="">thanks
--- PMM
-
-</pre>
-          </blockquote>
-          <p><br>
-          </p>
-        </blockquote>
-        <p><br>
-        </p>
-      </blockquote>
-      <p><br>
-      </p>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
---------------oFQuK9EeA3dsND7r6e96dJt7--
-
+>
+--3866299591-925225441-1636226038=:87368--
 
