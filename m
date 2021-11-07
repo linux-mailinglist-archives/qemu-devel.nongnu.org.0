@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABBBC447284
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Nov 2021 11:23:00 +0100 (CET)
-Received: from localhost ([::1]:34136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A7A7447298
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Nov 2021 11:54:39 +0100 (CET)
+Received: from localhost ([::1]:42920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjfKF-0004n7-As
-	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 05:22:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45708)
+	id 1mjfor-0003bl-Qb
+	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 05:54:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mjfJI-00045M-65
- for qemu-devel@nongnu.org; Sun, 07 Nov 2021 05:22:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45907)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mjfo2-0002vp-Ep
+ for qemu-devel@nongnu.org; Sun, 07 Nov 2021 05:53:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51265)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mjfJE-0000ND-8D
- for qemu-devel@nongnu.org; Sun, 07 Nov 2021 05:21:58 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mjfny-0005s1-DZ
+ for qemu-devel@nongnu.org; Sun, 07 Nov 2021 05:53:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636280514;
+ s=mimecast20190719; t=1636282420;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=atZ/pePHP/+NA64gKuXMrnkZMDn3k3mW+OH37h9DxL0=;
- b=iH0sBKDZHJkp9qX/qdECjL9uq0OlxN5uU8ESq3ys2Gwgk8LI5jar16n6BGhW0EMrhZNH5A
- XM8A1hUxFj8zH0YcjICzlcIHr+Qtua2tVVCJ6pOABCXUlUTS+5cFhpTfn1RXKqymPhfbSA
- bcM7bq9ilyrUJvLIRDSuC92Ahw1tRpM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-528-GJYkSnHdMS2K833thhnmSw-1; Sun, 07 Nov 2021 05:21:53 -0500
-X-MC-Unique: GJYkSnHdMS2K833thhnmSw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- c4-20020adfed84000000b00185ca4eba36so2885612wro.21
- for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 02:21:53 -0800 (PST)
+ bh=KduvtXb+fKziR3SatNVMCMUC1urqWHpoLYZZABDYaYs=;
+ b=YUh8JIvJj0dJffp1R+uzaXoqSxeoWOP+E8LPz4eP2G7/WpFMfmOlupkFCXhnODv/a76p2q
+ wz7Y9bgeEwibEsLfKxly3knz3I3ba5oTLo9Oo+dwMG28tlDH/hwqBJNaVGN733DpwBaTrl
+ 8wEESXwmwKxLp3IF9jG3zw9k5fopuHc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-12-sYTG3kJfPwCyg-FeK2qOew-1; Sun, 07 Nov 2021 05:53:37 -0500
+X-MC-Unique: sYTG3kJfPwCyg-FeK2qOew-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ m1-20020a1ca301000000b003231d5b3c4cso8750541wme.5
+ for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 02:53:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=atZ/pePHP/+NA64gKuXMrnkZMDn3k3mW+OH37h9DxL0=;
- b=7jiv8SONOIZo907ZETrpcPXKOBL0a5ZuxZPnhkxDyM7eg1Zjpa45SNdnlXz7o4tJQu
- CdH2wlWz+1NqIvDxpbUPltKiOKYyVk+JFmrBeVmCDWgXqZNp51CpzXXg+wnNMPwPbyA4
- iXqD6r1i6BS0YK0APzcp/qBUpfdmFJmlABbuVFdzEiBswt8z9r35fl9LuphJa9hHGLxJ
- TdGRXFjJAQEVHUUmy4S14kA6JKwT6O+9g36lmqrJse4lhRlVshBUM13Ehggeeh+lUw2T
- TmGj8V91AzU0yXpI55PFRnGAdNRAt3ErQAmhUDEeYMt1u8MdEapHYEPtK7SfnTh4IMXj
- ddIg==
-X-Gm-Message-State: AOAM5338uHfQ3nBkaaB8CF7d0kDpZhKYjt5NXJAnxlAc4mkku2oTIwZ8
- oxTfB4YR7i2A2wEcLTwdsMKFAVGEV7Psdwc2Aw1IVchPIYUaStwsQPqClPDH91X/9k/y0N3YIdK
- Crj1GcUBN9SI0BGU=
-X-Received: by 2002:a5d:6d09:: with SMTP id e9mr68805543wrq.17.1636280512566; 
- Sun, 07 Nov 2021 02:21:52 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwCEewVH1OASVQ31el9e2Z4O/i0wt4tV7KOU+PlG2161rRgIcKJYPJIr6YcXG1iHgRfkCDAnA==
-X-Received: by 2002:a5d:6d09:: with SMTP id e9mr68805499wrq.17.1636280512331; 
- Sun, 07 Nov 2021 02:21:52 -0800 (PST)
-Received: from redhat.com ([2.55.155.32])
- by smtp.gmail.com with ESMTPSA id f6sm12732558wmj.40.2021.11.07.02.21.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Nov 2021 02:21:51 -0800 (PST)
-Date: Sun, 7 Nov 2021 05:21:46 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v1 00/12] virtio-mem: Expose device memory via multiple
- memslots
-Message-ID: <20211107051832-mutt-send-email-mst@kernel.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:organization:subject
+ :in-reply-to:content-transfer-encoding;
+ bh=KduvtXb+fKziR3SatNVMCMUC1urqWHpoLYZZABDYaYs=;
+ b=uwSOl3zwGd4kSaIWdNGoV0r+Wd74kSw6X8rnwPrD1A0TF8IZYGUnJYLctkWNjfdMm+
+ W8ZPOIRTxLvXrqfjW9tMaTpz6fyQpfEidep/IqFI4ZGcQGAD0gOB9r1gEvXNnDrqv44U
+ YqkCO1RQ5oIcbg0ms1kCv8gbdAZRnqbePdnSNBOMKfLNx6gNieeQVIlWjwKkWPpbFPGi
+ mg3wffkKX75/LsOjAMFVeJ4naej59rWjjLr4kKHmmv94GD8CS5B6SsGFHH60MZ4cHesg
+ Hy0phCmFjGRdJJKMITOcdlbAy8TMTC1tSpETJ8oaceSLFgRAmNqoeQYeXdclwD01luXM
+ UcZg==
+X-Gm-Message-State: AOAM533gqZZ90qTM8VIesU1DuzoIhmJVqy9J64q61oOVj1xFy/uPSQQZ
+ 40d4v3dL9j+0HlTJhTFe19fslaZ1V7qYkKI9umq1BOXw8YAK7mZC8TuO9/IWFb+1SBxBrdxlQiR
+ ve48MqN409/ihaWc=
+X-Received: by 2002:a5d:43c5:: with SMTP id v5mr92980047wrr.11.1636282416131; 
+ Sun, 07 Nov 2021 02:53:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzsfVHowFIVVIa9m/d8WdUd/IzGs4m4KlW24FzqjhCQS6jtAQo0HhLCIkup0A9/ySoDDeBmWg==
+X-Received: by 2002:a5d:43c5:: with SMTP id v5mr92980019wrr.11.1636282415887; 
+ Sun, 07 Nov 2021 02:53:35 -0800 (PST)
+Received: from ?IPV6:2003:d8:2f0c:a000:3f25:9662:b5cf:73f9?
+ (p200300d82f0ca0003f259662b5cf73f9.dip0.t-ipconnect.de.
+ [2003:d8:2f0c:a000:3f25:9662:b5cf:73f9])
+ by smtp.gmail.com with ESMTPSA id z11sm12993555wrt.58.2021.11.07.02.53.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 07 Nov 2021 02:53:35 -0800 (PST)
+Message-ID: <41f72294-b449-2a42-d8b8-cf3de9314066@redhat.com>
+Date: Sun, 7 Nov 2021 11:53:34 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+To: "Michael S. Tsirkin" <mst@redhat.com>
 References: <20211027124531.57561-1-david@redhat.com>
  <20211101181352-mutt-send-email-mst@kernel.org>
  <a5c94705-b66d-1b19-1c1f-52e99d9dacce@redhat.com>
@@ -71,23 +75,28 @@ References: <20211027124531.57561-1-david@redhat.com>
  <e4b63a74-57ad-551c-0046-97a02eb798e5@redhat.com>
  <20211107031316-mutt-send-email-mst@kernel.org>
  <f6071d5f-d100-a128-9f66-a801436aa78a@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <f6071d5f-d100-a128-9f66-a801436aa78a@redhat.com>
+ <20211107051832-mutt-send-email-mst@kernel.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v1 00/12] virtio-mem: Expose device memory via multiple
+ memslots
+In-Reply-To: <20211107051832-mutt-send-email-mst@kernel.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.039, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,42 +116,83 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
  Sebastien Boeuf <sebastien.boeuf@intel.com>,
  Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
  Paolo Bonzini <pbonzini@redhat.com>, Hui Zhu <teawater@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Nov 07, 2021 at 10:21:33AM +0100, David Hildenbrand wrote:
-> Let's not focus on b), a) is the primary goal of this series:
+On 07.11.21 11:21, Michael S. Tsirkin wrote:
+> On Sun, Nov 07, 2021 at 10:21:33AM +0100, David Hildenbrand wrote:
+>> Let's not focus on b), a) is the primary goal of this series:
+>>
+>> "
+>> a) Reduce the metadata overhead, including bitmap sizes inside KVM but
+>> also inside QEMU KVM code where possible.
+>> "
+>>
+>> Because:
+>>
+>> "
+>> For example, when starting a VM with a 1 TiB virtio-mem device that only
+>> exposes little device memory (e.g., 1 GiB) towards the VM initialliy,
+>> in order to hotplug more memory later, we waste a lot of memory on
+>> metadata for KVM memory slots (> 2 GiB!) and accompanied bitmaps.
+>> "
+>>
+>> Partially tackling b) is just a nice side effect of this series. In the
+>> long term, we'll want userfaultfd-based protection, and I'll do a
+>> performance evaluation then, how userfaultf vs. !userfaultfd compares
+>> (boot time, run time, THP consumption).
+>>
+>> I'll adjust the cover letter for the next version to make this clearer.
 > 
-> "
-> a) Reduce the metadata overhead, including bitmap sizes inside KVM but
-> also inside QEMU KVM code where possible.
-> "
-> 
-> Because:
-> 
-> "
-> For example, when starting a VM with a 1 TiB virtio-mem device that only
-> exposes little device memory (e.g., 1 GiB) towards the VM initialliy,
-> in order to hotplug more memory later, we waste a lot of memory on
-> metadata for KVM memory slots (> 2 GiB!) and accompanied bitmaps.
-> "
-> 
-> Partially tackling b) is just a nice side effect of this series. In the
-> long term, we'll want userfaultfd-based protection, and I'll do a
-> performance evaluation then, how userfaultf vs. !userfaultfd compares
-> (boot time, run time, THP consumption).
-> 
-> I'll adjust the cover letter for the next version to make this clearer.
+> So given this is short-term, and long term we'll use uffd possibly with
+> some extension (a syscall to populate 1G in one go?) isn't there some
+> way to hide this from management? It's a one way street: once we get
+> management involved in playing with memory slots we no longer can go
+> back and control them ourselves. Not to mention it's a lot of
+> complexity to push out to management.
 
-So given this is short-term, and long term we'll use uffd possibly with
-some extension (a syscall to populate 1G in one go?) isn't there some
-way to hide this from management? It's a one way street: once we get
-management involved in playing with memory slots we no longer can go
-back and control them ourselves. Not to mention it's a lot of
-complexity to push out to management.
+For b) userfaultfd + optimizatons is the way to go long term.
+For a) userfaultfd does not help in any way, and that's what I currently
+care about most.
+
+1) For the management layer it will be as simple as providing a
+"memslots" parameter to the user. I don't expect management to do manual
+memslot detection+calculation -- management layer is the wrong place
+because it has limited insight. Either QEMU will do it automatically or
+the user will do it manually. For QEMU to do it reliably, we'll have to
+teach the management layer to specify any vhost* devices before
+virtio-mem* devices on the QEMU cmdline -- that is the only real
+complexity I see.
+
+2) "control them ourselves" will essentially be enabled via "memslots=0"
+(auto-detect mode". The user has to opt in.
+
+"memslots" is a pure optimization mechanism. While I'd love to hide this
+complexity from user space and always use the auto-detect mode,
+especially hotplug of vhost devices is a real problem and requires users
+to opt-in.
+
+I assume once we have "memslots=0" (auto-detect) mode, most people will:
+* Set "memslots=0" to enable the optimization and essentially let QEMU
+  control it. Will work in most cases and we can document perfectly
+  where it won't. We'll always fail gracefully.
+* Leave "memslots=1" if they don't care about the optimization or run a
+  problematic setup.
+* Set "memslots=X if they run a problemantic setup in still care about
+  the optimization.
+
+
+To be precise, we could have a "memslots-optimiation=true|false" toggle
+instead. IMHO that could be limiting for these corner case setups where
+auto-detection is problematic and users still want to optimize --
+especially eventually hotplugging vhost devices. But as I assume
+99.9999% of all setups will enable auto-detect mode, I don't have a
+strong opinion.
 
 -- 
-MST
+Thanks,
+
+David / dhildenb
 
 
