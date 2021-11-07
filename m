@@ -2,66 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 117AE44711D
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Nov 2021 01:41:32 +0100 (CET)
-Received: from localhost ([::1]:55618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F5444714D
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Nov 2021 04:22:04 +0100 (CET)
+Received: from localhost ([::1]:44320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjWFW-0004Kv-Mr
-	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 20:41:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52308)
+	id 1mjYkt-0008Ng-0D
+	for lists+qemu-devel@lfdr.de; Sat, 06 Nov 2021 23:22:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mjWDl-0003Wv-M9
- for qemu-devel@nongnu.org; Sat, 06 Nov 2021 20:39:41 -0400
-Received: from mail-ua1-x92c.google.com ([2607:f8b0:4864:20::92c]:34628)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mjYjo-0007fb-3c
+ for qemu-devel@nongnu.org; Sat, 06 Nov 2021 23:20:56 -0400
+Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830]:47041)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mjWDj-0007Iz-8L
- for qemu-devel@nongnu.org; Sat, 06 Nov 2021 20:39:41 -0400
-Received: by mail-ua1-x92c.google.com with SMTP id b3so24389282uam.1
- for <qemu-devel@nongnu.org>; Sat, 06 Nov 2021 17:39:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aNaPm5ckV24HWwpo8ry3EGobH6NO9qqnPHil95a9hXQ=;
- b=j2mEa2W+mOn+jO36vfjhtX1A73h1OXdplpwjcaimAni7DIvgOnMHb8qxE1D2r/gDXu
- WURp0Vm5Y9xcQAyAQjpcp3pI8d08CPeb3N5w2wA72iqkRhD4BQNFfH8QLWYYleqn+TFR
- XISclBpGN9HXOagwRF/7xiEdzh0tziVajiyz5AK7klkf0zSNQJiyoNz9fq+iYTBi71Np
- VLLo+e+VTDlcI987213SC2EGMgqq5WO59ntnGeDxHSWAKpdZQTxJd9J57CnlvqhXPTVA
- QD0oGeV5mAKoXTPPPyM72sclIT75Ra33DEqmrHy+6Evq4+s1Qe5GzErw5iAtOJTBIoQK
- 8lmw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mjYji-0001AW-I0
+ for qemu-devel@nongnu.org; Sat, 06 Nov 2021 23:20:55 -0400
+Received: by mail-qt1-x830.google.com with SMTP id m25so1463512qtq.13
+ for <qemu-devel@nongnu.org>; Sat, 06 Nov 2021 20:20:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=BD0e6PV7lwFjUDWbzqXKvlrTSD8IizgpKaZ2L7ZjrSQ=;
+ b=fnTutwajAq1SNVAiM8wuzVQcl3dHSP6fRHoz8+Ay69QWS1vr+SMt4sDpN7X49g2GYt
+ E/w6UIR2J/QDARfByJTrfz3rq9BfkeIwJxoBilp7n5Z+wdbpnRqjt8AnTs+rwdpULWOK
+ 2DsGWHwOFD1xoOrkSz7lrcfDA8yemXknGHWjHmwu/LiCAVGxbAwbdNy0khv6D0V2cdHh
+ sIhEmk8Gql0pza1yVZu//52r6l6TpTcz2FduExcs4Dp4PMK51E4oUiNI2P9uSrzhrOh/
+ Q1jpFCZP7TeSKiByQCYPTjSxnJIi1f/EG3Y1lcc8ObqmK7V9wmiflSNm+GhywAOscIRR
+ mhDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aNaPm5ckV24HWwpo8ry3EGobH6NO9qqnPHil95a9hXQ=;
- b=1SdPtXg5GQxN/gziXkcrGQ03jayu+LWYtar1O+fupS69tOjv6zoWs7EVCcSK6ji3Z/
- TH7KhSLfcsSZfkqk6w/uOGPoqt7YBxCUWa+uo+KP27zOTM7jO1bAogNM7XB1CR3Ty11W
- GLzyQbl2Arzfk8TDRjNkRPc7gmA1BqlvAmnDSjxP4k55qDiMG/FnHl4Oiw1sh0q8Xnxz
- iqgT7nJ7mvCPKk7i9uV+gIvs77nLf32d304yShPEu7qFXuFMGwIaL4ELHCc3GInCWkID
- 14f63LoG8PMoWpVTG5uv8Fa6KxFQoflhnsEvDNA+btI2C5QKoWn1f99p7uFlqiNtWtGy
- oKqw==
-X-Gm-Message-State: AOAM530un8D/lfJ9TXvxtxQbLFqoTJfeHtJCSQxELlj2l9vS52Jpgtjg
- J8AFyxvVaughX6u5qnOmfFzC0DdfbEVyyj667nSWLA==
-X-Google-Smtp-Source: ABdhPJz8b5L7SJtQxZZyA15Ut/c9UgIyU3a1EaDDZQMDQl3Exr/Gd8SB6q/wa2IA1S1Hh4ZjEK+WjeyG3MLoQ+i+Oj4=
-X-Received: by 2002:ab0:3d07:: with SMTP id f7mr59643185uax.11.1636245577337; 
- Sat, 06 Nov 2021 17:39:37 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=BD0e6PV7lwFjUDWbzqXKvlrTSD8IizgpKaZ2L7ZjrSQ=;
+ b=ACmz6GV+B0lXk4KrUsxqLN78SLm3/LqsiGNrrprRXERc7lxrFN4y4ANAsAo8Ib2/H/
+ lxl7ghivueqLRJhMkZp8+TplNHTusFnLqUKFykG98hsGu42fAbUmorXeyw7EKO2cDaQH
+ kgmTH6LFnM1KIIdhMILADonXNO6eb2NjeVF8L44/jWQ3kqTfSxry1S8al0PIt3hjCvGH
+ 2Oz6oVsOSKDF4hBu9dbzjBr0MQh5C162Lftg2y2s7i5MpzxY9PmfP9jwK4sAaT423qkJ
+ 5CyawU/qC5211lyzX/e5JREUK8LHLqOMg/4R2LETiUU6HTIZMsb+iZkjt+oddlDvsDax
+ 5QyQ==
+X-Gm-Message-State: AOAM531XaZXeaNGYpMJb8PoR5+LMDhTgdplOs0+dAD0kqwsum1jCpGj4
+ M/cIWo/Pc/kC5L3PadU7lODM2g==
+X-Google-Smtp-Source: ABdhPJw9qoEqa3gl+wob57f9aJ0yxL1LAV5z2mBy2NVBw5MLYQo1gQPHXrArhIUnH7gsblbO5oKZbg==
+X-Received: by 2002:ac8:615c:: with SMTP id d28mr70530515qtm.103.1636255247065; 
+ Sat, 06 Nov 2021 20:20:47 -0700 (PDT)
+Received: from [10.200.5.34] ([38.66.81.217])
+ by smtp.gmail.com with ESMTPSA id c23sm3537751qka.89.2021.11.06.20.20.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 06 Nov 2021 20:20:46 -0700 (PDT)
+Subject: Re: [PULL 0/2] Migration 20211106 patches
+To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+References: <20211106232941.46184-1-quintela@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <825b72a2-2589-d7b6-9b41-6a36808d7a9a@linaro.org>
+Date: Sat, 6 Nov 2021 23:20:44 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20211106113916.544587-1-f4bug@amsat.org>
-In-Reply-To: <20211106113916.544587-1-f4bug@amsat.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Sat, 6 Nov 2021 18:39:25 -0600
-Message-ID: <CANCZdfqjcUBMwdkh=RvNUHd57a_Ed6ui6ciq9y8=qsdMtZOntQ@mail.gmail.com>
-Subject: Re: [PATCH v2] linux-user: Mark cpu_loop() with noreturn attribute
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="000000000000671d4c05d0281c3e"
-Received-SPF: none client-ip=2607:f8b0:4864:20::92c;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211106232941.46184-1-quintela@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x830.google.com
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, NICE_REPLY_A=-3.407, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,118 +85,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bmeng.cn@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000671d4c05d0281c3e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 11/6/21 7:29 PM, Juan Quintela wrote:
+> The following changes since commit c39deb218178d1fb814dd2138ceff4b541a03d85:
+> 
+>    Merge remote-tracking branch 'remotes/kraxel/tags/egl-20211105-pull-request' into staging (2021-11-05 11:42:06 -0400)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/juanquintela/qemu.git tags/migration-20211106-pull-request
+> 
+> for you to fetch changes up to f78d4ed701454f10079461b981ba2a61a95762ab:
+> 
+>    docs: fix qemu incorrect tag (2021-11-06 12:35:38 +0100)
+> 
+> ----------------------------------------------------------------
+> Migration Pull request
+> 
+> - fix vhost-user crash when using postcopy (me)
+> - fix incorrect tag for docs (hyman)
+> 
+> Please apply, Juan.
+> 
+> ----------------------------------------------------------------
+> 
+> Hyman Huang(黄勇) (1):
+>    docs: fix qemu incorrect tag
+> 
+> Juan Quintela (1):
+>    migration: Check that postcopy fd's are not NULL
+> 
+>   qapi/migration.json      | 10 +++++-----
+>   migration/postcopy-ram.c |  4 ++++
+>   2 files changed, 9 insertions(+), 5 deletions(-)
 
-On Sat, Nov 6, 2021, 5:39 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
-wrote:
+Applied, thanks.
 
-> cpu_loop() never exits, so mark it with QEMU_NORETURN.
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-By: Warner Losh <imp@bsdimp.com>
-> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
-> v2:
-> - rebased
-> - restricted to linux-user
->
-> Supersedes: <20210905000429.1097336-1-f4bug@amsat.org>
->
-
-Reviewed-by: Warner Losh <imp@bsdimp.com>
-
-bsd-user likely needs similar treatment, no?
-
----
->  linux-user/user-internals.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/linux-user/user-internals.h b/linux-user/user-internals.h
-> index 661612a088b..c7ad00268af 100644
-> --- a/linux-user/user-internals.h
-> +++ b/linux-user/user-internals.h
-> @@ -65,7 +65,7 @@ abi_long do_syscall(void *cpu_env, int num, abi_long
-> arg1,
->                      abi_long arg5, abi_long arg6, abi_long arg7,
->                      abi_long arg8);
->  extern __thread CPUState *thread_cpu;
-> -void cpu_loop(CPUArchState *env);
-> +void QEMU_NORETURN cpu_loop(CPUArchState *env);
->  const char *target_strerror(int err);
->  int get_osversion(void);
->  void init_qemu_uname_release(void);
-> --
-> 2.31.1
->
->
-
---000000000000671d4c05d0281c3e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Sat, Nov 6, 2021, 5:39 AM Philippe Mathieu-Daud=C3=
-=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&gt; wrote:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex">cpu_loop() never exits, so mark it w=
-ith QEMU_NORETURN.<br>
-<br>
-Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
-ro.org" target=3D"_blank" rel=3D"noreferrer">richard.henderson@linaro.org</=
-a>&gt;<br>
-Reviewed-By: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" target=3D"_b=
-lank" rel=3D"noreferrer">imp@bsdimp.com</a>&gt;<br>
-Reviewed-by: Bin Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com" target=3D"_=
-blank" rel=3D"noreferrer">bmeng.cn@gmail.com</a>&gt;<br>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsa=
-t.org" target=3D"_blank" rel=3D"noreferrer">f4bug@amsat.org</a>&gt;<br>
----<br>
-v2:<br>
-- rebased<br>
-- restricted to linux-user<br>
-<br>
-Supersedes: &lt;<a href=3D"mailto:20210905000429.1097336-1-f4bug@amsat.org"=
- target=3D"_blank" rel=3D"noreferrer">20210905000429.1097336-1-f4bug@amsat.=
-org</a>&gt;<br></blockquote></div></div><div dir=3D"auto"><br></div><div di=
-r=3D"auto">Reviewed-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com">i=
-mp@bsdimp.com</a>&gt;</div><div dir=3D"auto"><br></div><div dir=3D"auto">bs=
-d-user likely needs similar treatment, no?</div><div dir=3D"auto"><br></div=
-><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-">
----<br>
-=C2=A0linux-user/user-internals.h | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/linux-user/user-internals.h b/linux-user/user-internals.h<br>
-index 661612a088b..c7ad00268af 100644<br>
---- a/linux-user/user-internals.h<br>
-+++ b/linux-user/user-internals.h<br>
-@@ -65,7 +65,7 @@ abi_long do_syscall(void *cpu_env, int num, abi_long arg1=
-,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0abi_long arg5, abi_long arg6, abi_long arg7,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0abi_long arg8);<br>
-=C2=A0extern __thread CPUState *thread_cpu;<br>
--void cpu_loop(CPUArchState *env);<br>
-+void QEMU_NORETURN cpu_loop(CPUArchState *env);<br>
-=C2=A0const char *target_strerror(int err);<br>
-=C2=A0int get_osversion(void);<br>
-=C2=A0void init_qemu_uname_release(void);<br>
--- <br>
-2.31.1<br>
-<br>
-</blockquote></div></div></div>
-
---000000000000671d4c05d0281c3e--
+r~
 
