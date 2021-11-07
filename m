@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D859B4472E5
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Nov 2021 13:52:17 +0100 (CET)
-Received: from localhost ([::1]:48882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B1BB4472E6
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Nov 2021 13:53:34 +0100 (CET)
+Received: from localhost ([::1]:52472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjhej-00087X-1Z
-	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 07:52:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40924)
+	id 1mjhfx-00027P-An
+	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 07:53:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mjhbP-000343-9P
- for qemu-devel@nongnu.org; Sun, 07 Nov 2021 07:48:52 -0500
-Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:38519)
+ id 1mjhbO-00033x-Qc
+ for qemu-devel@nongnu.org; Sun, 07 Nov 2021 07:48:50 -0500
+Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a]:42817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mjhbN-00026G-Ax
+ id 1mjhbM-00026I-Ru
  for qemu-devel@nongnu.org; Sun, 07 Nov 2021 07:48:50 -0500
-Received: by mail-qt1-x829.google.com with SMTP id c12so6803358qtd.5
+Received: by mail-qt1-x82a.google.com with SMTP id h17so9113622qtx.9
  for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 04:48:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NgWRpb6eD25eDJnCmvoWcYOQSpkeHkzdEszyRb0jyTc=;
- b=LHECL2AxH4ua7CW9c++czvjfYDapl6y+B5lIuI8XiO6N1nTsUJcbZphl9Mrak7QoY6
- OrP2iMAhiT3Od+UfrUyOx+wR4dM2JxkaxCzPktxdEGUqaoP1R4Ld5/Mw1D+1lleCVbnQ
- ld+xQ07OYAvanqgFE/0i85tY8dwy5Tgdfztv30ZcfGYIvYphrNmw3OYH/XwiL5V2UIqN
- 4lTilUqnl/Q4nH9wtikfTsChP2TjoizrKWiStWtIwO3Op3koPeTAs6DFetB9Bl7MH6OB
- mq65Vw+YW5rtrsJb8R/tsuktpm0/1yaWMY8KlccFY+NxVKzf0Gxb95lcsmPOUi94QD3N
- HwDQ==
+ bh=eGSHLpNAu9g6Np9tb4uVWnbjp2oiYs6nIhg97qpdgNI=;
+ b=oqyb73dj9QP7WWMkTJy6D5uMXQo+bkqh2hU0NeyaMQ15+S3FzK6Jz30OJjcpaLZ/6V
+ i+n3erSM1cN2JuCHCHY1fkos5p8vRSKSl1uIwXopMktvya9QJaVMBKu2yxrhYeXxa7K1
+ X6uoXDzmJ4L92Fp1Pcd0YcY5cRTe3ES+dOt2f6mPCBWa40jcnc+rcAl/ZXDYsGzjweRF
+ jm8PyiNJLmF8aqF4MNdtIdaDdnq6pnONZDPzd5tJ6w/9GVsqovtuw9B87HqDdrXx5g0E
+ 6LsUGIbRWc9sB8diAqMki3G0qpN9gEfPR7dqNyByerBHXSpZSxqd7cMhA9mqk3nubOMp
+ Tubg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NgWRpb6eD25eDJnCmvoWcYOQSpkeHkzdEszyRb0jyTc=;
- b=0B1vJnV5ZvgUh04S4C3CTYjc/eokM4y0TfLE/FWCvwrkEb63YP9l2awFQ9lvjqYYP+
- PCmJc7lR//jszA+3rJBFegZXnzQH9ptoSFQC4QKwnn6PHPr36SaMc0WabLamluCKz+1Y
- uFdFdvZaVGg63FAP3vvW/IytnaSoown0J0CEG1/RcXi5VRQ3rKHA2lgAK74JolXd5sXw
- BPsgArChwm6z2I4ujymi+dPBqhpYQoORZiO3aF7lB4XQbMaRVypSf2j8lQAkv5LjL2Ta
- kGadTAC29DIMOGKGi6xU4QI+XAPPmPuhkBd/XN9xNDNmUIdZHcP2lsMawfCxk9NO3U9v
- VwaQ==
-X-Gm-Message-State: AOAM530mInmMP9+sReFg9OLFDfDBnPzE1ODOyqd7mcQT1Hv0WX+a0Vg8
- WJq2X6qR9Wm06b8265rlMen7BwUZFxAkAQ==
-X-Google-Smtp-Source: ABdhPJzXYltN6JXGyLF8lZgb0qXFlG/5FBmuw63JQ5B2U4a5JuauXm7eL6QLPQMgli2pDEiAErxCag==
-X-Received: by 2002:a05:622a:1449:: with SMTP id
- v9mr56241399qtx.122.1636289327300; 
- Sun, 07 Nov 2021 04:48:47 -0800 (PST)
+ bh=eGSHLpNAu9g6Np9tb4uVWnbjp2oiYs6nIhg97qpdgNI=;
+ b=Q0ELmwnXPcFpqQJl5j2LqubOsMbBUZ2VlhaUAMd5v7UdhTGDy6JcdyTfAiUzafjQTE
+ 8NsrNwaoaefJ+pMc+uUExrg2DK/7MSv71KIfVVSXDL0f6ps5jSCTcEIEE298ve72O6KL
+ LBK7APTknUD+JYD7bI1CGPfPcsjCaJKtrRdY2r8DqImWUAiUEOLqBW6H3tpUvaYNvz69
+ urB6/s2gQqI5GifiJCBwh5GULfGHL9bRVZAcMOtt2GVJGrzIMebUQI7YMjJ19PMuva28
+ 9vGegDe6aXmGZejt+/LBTQGfRhpsaCd8CPs4mUIZxDRFjYEjXvjG4i+F04mMWZqNjQrV
+ 02fA==
+X-Gm-Message-State: AOAM5335VLc6x64LRr0lIMCOOjf2N5wjnmzXOjgPS3Yjn8HszojL0CYq
+ 7EDZ6iK4QWHR/rErwU3FdfYE+DMN79iMng==
+X-Google-Smtp-Source: ABdhPJz3fox5iykds3n8eX3Cjb1m2f+v35BdR0bG/eIz6+dXD+gh043w67gOxLrW3eYm4nHQogcN4g==
+X-Received: by 2002:ac8:4547:: with SMTP id z7mr38555940qtn.50.1636289328016; 
+ Sun, 07 Nov 2021 04:48:48 -0800 (PST)
 Received: from localhost.localdomain ([38.66.81.217])
- by smtp.gmail.com with ESMTPSA id w19sm6917qkw.49.2021.11.07.04.48.46
+ by smtp.gmail.com with ESMTPSA id w19sm6917qkw.49.2021.11.07.04.48.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 07 Nov 2021 04:48:47 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] linux-user: Always use flexible arrays for dirent d_name
-Date: Sun,  7 Nov 2021 07:48:43 -0500
-Message-Id: <20211107124845.1174791-3-richard.henderson@linaro.org>
+Subject: [PATCH 3/4] linux-user: Fix member types of target_dirent64
+Date: Sun,  7 Nov 2021 07:48:44 -0500
+Message-Id: <20211107124845.1174791-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211107124845.1174791-1-richard.henderson@linaro.org>
 References: <20211107124845.1174791-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x829.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,67 +86,31 @@ Cc: f4bug@amsat.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We currently use a flexible array member for target_dirent,
-but use incorrectly fixed length arrays for target_dirent64,
-linux_dirent and linux_dirent64.
-
-This requires that we adjust the definition of the VFAT READDIR
-ioctls which hard-code the 256 namelen size into the ioctl constant.
+The host uint64_t (etc) does not have the correct
+alignment constraint as the guest: use abi_* types.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
  linux-user/syscall_defs.h | 6 +++---
- linux-user/syscall.c      | 6 ++++--
- 2 files changed, 7 insertions(+), 5 deletions(-)
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index a5ce487dcc..98b09ee6d6 100644
+index 98b09ee6d6..41aaafbac1 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -441,7 +441,7 @@ struct target_dirent64 {
- 	int64_t		d_off;
- 	unsigned short	d_reclen;
+@@ -437,9 +437,9 @@ struct target_dirent {
+ };
+ 
+ struct target_dirent64 {
+-	uint64_t	d_ino;
+-	int64_t		d_off;
+-	unsigned short	d_reclen;
++	abi_ullong      d_ino;
++	abi_llong       d_off;
++	abi_ushort      d_reclen;
  	unsigned char	d_type;
--	char		d_name[256];
-+	char		d_name[];
+ 	char		d_name[];
  };
- 
- 
-@@ -2714,7 +2714,7 @@ struct linux_dirent {
-     long            d_ino;
-     unsigned long   d_off;
-     unsigned short  d_reclen;
--    char            d_name[256]; /* We must not include limits.h! */
-+    char            d_name[];
- };
- 
- struct linux_dirent64 {
-@@ -2722,7 +2722,7 @@ struct linux_dirent64 {
-     int64_t         d_off;
-     unsigned short  d_reclen;
-     unsigned char   d_type;
--    char            d_name[256];
-+    char            d_name[];
- };
- 
- struct target_mq_attr {
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index a2f605dec4..499415ad81 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -197,8 +197,10 @@
- //#define DEBUG_ERESTARTSYS
- 
- //#include <linux/msdos_fs.h>
--#define	VFAT_IOCTL_READDIR_BOTH		_IOR('r', 1, struct linux_dirent [2])
--#define	VFAT_IOCTL_READDIR_SHORT	_IOR('r', 2, struct linux_dirent [2])
-+#define VFAT_IOCTL_READDIR_BOTH \
-+    _IOC(_IOC_READ, 'r', 1, (sizeof(struct linux_dirent) + 256) * 2)
-+#define VFAT_IOCTL_READDIR_SHORT \
-+    _IOC(_IOC_READ, 'r', 2, (sizeof(struct linux_dirent) + 256) * 2)
- 
- #undef _syscall0
- #undef _syscall1
 -- 
 2.25.1
 
