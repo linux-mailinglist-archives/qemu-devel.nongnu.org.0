@@ -2,81 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFD7C44722B
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Nov 2021 09:27:09 +0100 (CET)
-Received: from localhost ([::1]:49304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0128447236
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Nov 2021 09:37:49 +0100 (CET)
+Received: from localhost ([::1]:56908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjdW8-0005fk-JB
-	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 03:27:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55376)
+	id 1mjdgS-0002lN-Ch
+	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 03:37:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mjdUq-0004uf-Lf
- for qemu-devel@nongnu.org; Sun, 07 Nov 2021 03:25:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51779)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mjdfP-00020E-Aj
+ for qemu-devel@nongnu.org; Sun, 07 Nov 2021 03:36:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49245)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mjdUj-00083Y-Ku
- for qemu-devel@nongnu.org; Sun, 07 Nov 2021 03:25:47 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mjdfL-0002wP-BQ
+ for qemu-devel@nongnu.org; Sun, 07 Nov 2021 03:36:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636273540;
+ s=mimecast20190719; t=1636274197;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YnKVz+FfA4cdaehJ6t/pPo+f++1T/wpLXiC6Cc+oCPk=;
- b=PK/VUnzvm06u3jLWobFkIiMdqnzzJfQaK1QT1TqFtcKEpfzbQFvcDf5zVzWX/ALb1m7flb
- 5qrZghBjF++2TGPsoNwzsFJ+GMBY4ugGrGBfZN5itcH9zhxKwQ4UyoEwM8hRDb94ppKzCe
- /jb3yR7MANUQEt/SXSLJb0IJamjw7Pk=
+ bh=a9Xg9z8l3wSuMgLbaUgAn3v3YSBidewK3hVnTpSHzX4=;
+ b=iOjFGvAps+4Shi+wXobFBAwSfDy4aloftgO2xiVjTWRT6ZsQpCLO+kxPhHxOXtIAK9jFNg
+ /1/bAdSOAEzQHavEtrXQzLWbu1OzzQBM3czPJY127oI1Rahg7XNzM5kzu/2Nniqc2JiUzq
+ TrR6TwWNDFXTFO1sbfjQR5OI74ZWImc=
 Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
  [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-403-hgVWYhRXOUGtVIRoGyBrvg-1; Sun, 07 Nov 2021 03:25:36 -0500
-X-MC-Unique: hgVWYhRXOUGtVIRoGyBrvg-1
+ us-mta-445-z_yw43LUMBen4l2hkdyI3g-1; Sun, 07 Nov 2021 03:36:34 -0500
+X-MC-Unique: z_yw43LUMBen4l2hkdyI3g-1
 Received: by mail-ed1-f71.google.com with SMTP id
- z1-20020a05640235c100b003e28c89743bso12291010edc.22
- for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 01:25:36 -0700 (PDT)
+ w12-20020a056402268c00b003e2ab5a3370so12451566edd.0
+ for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 01:36:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=YnKVz+FfA4cdaehJ6t/pPo+f++1T/wpLXiC6Cc+oCPk=;
- b=so0psfp/awlhk68u1TXicD891vY2iWWIYFidjIAlhKXI7G1RxGL+Z8s8foTejNYDOq
- +C3nmRLqXQs7HvvcJUNAg04h9eC3RXjhvVl4lt0/IDoySnAt0ay5vA47m2LXory24ISM
- B+x3s+tQW2EUQPjqBrLuTS25MwO2lKrm5lyXzRUu/SwPIuJ4A7ZIC/snTm4t3qMU37IR
- wop9iKqa69sMPbtputBkZz7unRD53EKbMuGirAprx1bj35lOPS8D3PMgXzcFb6rUqMmL
- R0xvQq+eCI+xLFRbPsruxVj9mlrDOi9nDVVYHZjRSvdhc5b8AQmILMB8fE6DFEJ3VYHO
- 082Q==
-X-Gm-Message-State: AOAM530FTB+BvwsFLbr2bBLsZBq2oO0jbU8YqzcxOd3f6WEO1ulVthvW
- x2pAjH82OVulqUyt1OmOzFfGkuRBuRVkFevURw96R1XMNt0fXYTimDvWA3+njzvvLOn4qvxkcFL
- bcPIn0DrUpxm1b+A=
-X-Received: by 2002:a17:906:d20c:: with SMTP id
- w12mr65815979ejz.521.1636273535496; 
- Sun, 07 Nov 2021 01:25:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw6utNQ+ayeB2oHrviavDgYFVmmCHFqezGoMMgHgxLP/KYZMJv9QlUe6roTiuqD92GYqYCO7g==
-X-Received: by 2002:a17:906:d20c:: with SMTP id
- w12mr65815957ejz.521.1636273535268; 
- Sun, 07 Nov 2021 01:25:35 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=a9Xg9z8l3wSuMgLbaUgAn3v3YSBidewK3hVnTpSHzX4=;
+ b=k3TshWvA5JiyIC6SKW6t0vzhSBfr1n7juPBZlmlqvSa00jJJ/C+fVu1Y7YOkv4NAqL
+ QAIvAaQya6aBJ9KiCFyGmT8i9CG24IOY4YVhop5/8fmvuZ4G0dXE4BU1jYiVsMj3MxXD
+ KcYunS1PXsxCX3h4u1kDvD3uNg2dbX4jpVmt/IPGH+f2405iqZb97rLrcftWByd/GWXk
+ NrgyKy6tGVmgqP0HxjWAz6COtDYRinL/U8cmC7K7QphYj4XBV/yd3XOeLYrcdNcmJIs3
+ HFmqqbcY0ZsXIST/ZC+WfB3NBBqN39ummOkyLJDXNrp/UVU1tORUbOotzarD97ekA6yX
+ iOow==
+X-Gm-Message-State: AOAM531rqTneHARqUB9HoCivBtEwfbiLFTEPVwLkZKOuTyL8USlyURn0
+ hl2aHImyzDj/8GHnLFbY29stfnsWRkIZRK5SdZ24ru3eibA5GvQXkPzS7QZ7YS9fa7eecspkAi2
+ lQon+ay1WHP5asoE=
+X-Received: by 2002:a17:907:7ba4:: with SMTP id
+ ne36mr46610073ejc.227.1636274192957; 
+ Sun, 07 Nov 2021 01:36:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJydvlIrm4XAB0e0uoCbSIMeM802Zb1Gx1xbUujIRlKbW54SNNclQ3TiGHe9lGeZNukcDLoFyg==
+X-Received: by 2002:a17:907:7ba4:: with SMTP id
+ ne36mr46610047ejc.227.1636274192755; 
+ Sun, 07 Nov 2021 01:36:32 -0700 (PDT)
 Received: from redhat.com ([2.55.155.32])
- by smtp.gmail.com with ESMTPSA id t22sm7268204eds.65.2021.11.07.01.25.34
+ by smtp.gmail.com with ESMTPSA id f18sm7884304edd.10.2021.11.07.01.36.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Nov 2021 01:25:34 -0700 (PDT)
-Date: Sun, 7 Nov 2021 03:25:32 -0500
+ Sun, 07 Nov 2021 01:36:32 -0700 (PDT)
+Date: Sun, 7 Nov 2021 03:36:29 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH v2] failover: specify an alternate MAC address
-Message-ID: <20211107031702-mutt-send-email-mst@kernel.org>
-References: <20211027095945.86710-1-lvivier@redhat.com>
- <20211101053105-mutt-send-email-mst@kernel.org>
- <913b4d85-9c05-0bb8-2dd5-02744a44b388@redhat.com>
+To: Cindy Lu <lulu@redhat.com>
+Subject: Re: [PATCH v10 00/10]vhost-vdpa: add support for configure interrupt
+Message-ID: <20211107033459-mutt-send-email-mst@kernel.org>
+References: <20211104164827.21911-1-lulu@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <913b4d85-9c05-0bb8-2dd5-02744a44b388@redhat.com>
+In-Reply-To: <20211104164827.21911-1-lulu@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -98,117 +93,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+Cc: jasowang@redhat.com, dgilbert@redhat.com, qemu-devel@nongnu.org,
+ arei.gonglei@huawei.com, kraxel@redhat.com, stefanha@redhat.com,
+ marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 02, 2021 at 09:14:51AM +0100, Laurent Vivier wrote:
-> On 01/11/2021 10:39, Michael S. Tsirkin wrote:
-> > On Wed, Oct 27, 2021 at 11:59:45AM +0200, Laurent Vivier wrote:
-> > > If the guest driver doesn't support the STANDBY feature, by default
-> > > we keep the virtio-net device and don't hotplug the VFIO device,
-> > > but in some cases, user can prefer to use the VFIO device rather
-> > > than the virtio-net one. We can't unplug the virtio-net device
-> > > (because on migration it is expected on the destination side) but
-> > > we can keep both interfaces if the MAC addresses are different
-> > > (to have the same MAC address can cause kernel crash with old
-> > > kernel). The VFIO device will be unplugged before the migration
-> > > like in the normal failover migration but without a failover device.
-> > > 
-> > > This patch adds a new property to the virtio-net device:
-> > > "failover-legacy-mac"
-> > > 
-> > > If an alternate MAC address is provided with "failover-legacy-mac" and
-> > > the STANDBY feature is not supported, both interfaces are plugged
-> > > but the standby interface (virtio-net) MAC address is set to the
-> > > value provided by the "failover-legacy-mac" parameter.
-> > > 
-> > > If the STANDBY feature is supported by guest and QEMU, the virtio-net
-> > > failover acts as usual.
-> > > 
-> > > Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> > 
-> > Wait a second. What if config is read before features are set?
-> > Are we going to provide a legacy or a new mac?
-> We provide the new MAC and at this point the primary device is not plugged.
+On Fri, Nov 05, 2021 at 12:48:17AM +0800, Cindy Lu wrote:
+> these patches add the support for configure interrupt
 > 
-> When features are set:
-> - if STANDBY is set, the primary device is plugged, and secondary
-> (virtio-net) uses the new MAC
-> - if STANDBY is not set:
->     - if legacy MAC is provided:
->         the primary device is plugged and legacy MAC is used
->     - else
->         the primary device is not plugged and new MAC is used.
+> These codes are all tested in vp-vdpa (support configure interrupt)
+> vdpa_sim (not support configure interrupt), virtio tap device
 > 
-> > I guess current guests do not do this, but the spec does allow this,
-> > and then the mac will apparently change for the guests.
-> 
-> What I read in virtio 1.0 specs, "3.1.1 Driver requirements: Device
-> initialization", is the virtio configuration space (step 7) is is accessed
-> after the features are negotiated. I don't think the part in step 4 can
-> involve the MAC address, and moreover the config is not read before, but
-> during the negotiation (I guess we can see that as the config access is part
-> of the negotiation).
-> 
-> 3.1.1 Driver Requirements: Device Initialization
-> 
-> The driver MUST follow this sequence to initialize a device:
-> 1. Reset the device.
-> 2. Set the ACKNOWLEDGE status bit: the guest OS has notice the device.
-> 3. Set the DRIVER status bit: the guest OS knows how to drive the device.
-> 4. Read device feature bits, and write the subset of feature bits understood
-> by the OS and driver to the device. During this step the driver MAY read
-> (but MUST NOT write) the device-specific configuration fields to check that
-> it can support the device before accepting it.
+> test in virtio-pci bus and virtio-mmio bus
 
-Note this part here. config is read before FEATURES_OK.
+Thanks! Given we are in freeze, I can't merge this now.
+Will queue it until after release, if possible please
+ping me after the release to help make sure it's not lost then.
 
-> 5. Set the FEATURES_OK status bit. The driver MUST NOT accept new feature
-> bits after this step.
-> 6. Re-read device status to ensure the FEATURES_OK bit is still set:
-> otherwise, the device does not support our subset of features and the device
-> is unusable.
-> 7. Perform device-specific setup, including discovery of virtqueues for the
-> device, optional per-bus setup, reading and possibly writing the device’s
-> virtio configuration space, and population of virtqueues.
-> 8. Set the DRIVER_OK status bit. At this point the device is “live”.
+> Change in v2:
+> Add support for virtio-mmio bus
+> active the notifier while the backend support configure interrupt
+> misc fixes from v1
 > 
-> > 
-> > It might be cleaner to just add a PRIMARY_MAC feature -
-> > would need guest work though ...
+> Change in v3
+> fix the coding style problems
 > 
-> We can't add a new feature: the goal of this patch is to be able to use the
-> primary device (VFIO) with kernel that doesn't support STANDBY feature. If
-> we can add a feature, to add the STANDBY feature would be a better choice.
-
-The point would be a new feature replacing STANDBY: instead of using the
-same MAC for both devices it specifies the MAC of the primary.
-And if we go there, I would add a third MAC as the mac of the
-failover device itself. Thus:
-
-standby-mac: used by legacy virtio drivers
-primary-mac: used to locate the primary device and by legacy primary drivers
-failover-mac: programmed by guest driver into whatever device guest is using at the moment
-
-
-What we lose there is all these drivers already supporting STANDBY,
-but hey, won't matter so much in X years. Some primary devices
-do not support mac programming. I guess specifying failover-mac=primary-mac
-would be an option for these.
-
-Thoughts?
-
-
-> If changing the MAC address is not acceptable we can return to a mix of v1 and v2 of my patch:
+> Change in v4
+> misc fixes from v3
+> merge the set_config_notifier to set_guest_notifier
+> when vdpa start, check the feature by VIRTIO_NET_F_STATUS
 > 
-> "virtio: failover: allow to keep the VFIO device rather than the virtio-net one"
+> Change in v5
+> misc fixes from v4
+> split the code to introduce configure interrupt type and the callback function
+> will init the configure interrupt in all virtio-pci and virtio-mmio bus, but will
+> only active while using vhost-vdpa driver
 > 
-> https://patchew.org/QEMU/20210729191910.317114-1-lvivier@redhat.com/
+> Change in v6
+> misc fixes from v5
+> decouple vq from interrupt setting and misc process
+> fix the bug in virtio_net_handle_rx
+> use -1 as the queue number to identify if the interrupt is configure interrupt
 > 
-> that disables the virtio-net driver on the module probe.
+> Change in v7
+> misc fixes from v6
+> decouple vq from interrupt setting and misc process
+> decouple vq from vector use/release process
+> decouple vq from set notifier fd handler process
+> move config_notifier and masked_config_notifier to VirtIODevice
+> fix the bug in virtio_net_handle_rx, add more information
+> add VIRTIO_CONFIG_IRQ_IDX as the queue number to identify if the interrupt is configure interrupt
 > 
-> Thanks,
-> Laurent
+> Change in v8
+> misc fixes from v7
+> decouple vq from interrupt setting and misc process
+> decouple vq from vector use/release process
+> decouple vq from set notifier fd handler process
+> move the vhost configure interrupt to vhost_net
+> 
+> Change in v9
+> misc fixes from v8
+> address the comments from v8
+> 
+> Change in v10
+> fix the hang issue in qtest
+> address the comments from v9
+> 
+> Cindy Lu (10):
+>   virtio: introduce macro IRTIO_CONFIG_IRQ_IDX
+>   virtio-pci: decouple notifier from interrupt process
+>   virtio-pci: decouple the single vector from the interrupt process
+>   vhost: introduce new VhostOps vhost_set_config_call
+>   vhost-vdpa: add support for config interrupt
+>   virtio: add support for configure interrupt
+>   vhost: add support for configure interrupt
+>   virtio-net: add support for configure interrupt
+>   virtio-mmio: add support for configure interrupt
+>   virtio-pci: add support for configure interrupt
+> 
+>  hw/display/vhost-user-gpu.c       |   6 +
+>  hw/net/vhost_net.c                |   9 +
+>  hw/net/virtio-net.c               |  10 +-
+>  hw/virtio/trace-events            |   1 +
+>  hw/virtio/vhost-user-fs.c         |   6 +
+>  hw/virtio/vhost-vdpa.c            |   7 +
+>  hw/virtio/vhost-vsock-common.c    |   6 +
+>  hw/virtio/vhost.c                 |  76 +++++++++
+>  hw/virtio/virtio-crypto.c         |   6 +
+>  hw/virtio/virtio-mmio.c           |  27 +++
+>  hw/virtio/virtio-pci.c            | 269 +++++++++++++++++++++---------
+>  hw/virtio/virtio-pci.h            |   4 +-
+>  hw/virtio/virtio.c                |  29 ++++
+>  include/hw/virtio/vhost-backend.h |   3 +
+>  include/hw/virtio/vhost.h         |   4 +
+>  include/hw/virtio/virtio.h        |   7 +
+>  include/net/vhost_net.h           |   2 +
+>  17 files changed, 389 insertions(+), 83 deletions(-)
+> 
+> -- 
+> 2.21.3
 
 
