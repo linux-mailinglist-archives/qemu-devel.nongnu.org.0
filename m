@@ -2,85 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C070447237
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Nov 2021 09:40:14 +0100 (CET)
-Received: from localhost ([::1]:59066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F311447257
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Nov 2021 10:22:37 +0100 (CET)
+Received: from localhost ([::1]:49732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjdin-0004GA-E4
-	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 03:40:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57152)
+	id 1mjeNn-000200-Fa
+	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 04:22:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mjdh5-0003Ya-JH
- for qemu-devel@nongnu.org; Sun, 07 Nov 2021 03:38:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53322)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mjeMx-0001E1-FZ
+ for qemu-devel@nongnu.org; Sun, 07 Nov 2021 04:21:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mjdh3-000367-JZ
- for qemu-devel@nongnu.org; Sun, 07 Nov 2021 03:38:27 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mjeMt-0006qv-Jb
+ for qemu-devel@nongnu.org; Sun, 07 Nov 2021 04:21:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636274305;
+ s=mimecast20190719; t=1636276897;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=472cl2xARvIW1tX3bG4qCjBWHmneMEjxN55rvqMuYyE=;
- b=ZJOxmuOUp5xv5AZo5BE5nDezHnYwVxazQBtwG2UwFmNYMYu7xWimRPpPVf3DbiJdsU8fCR
- Sw1GUrt+zp5YDPTf04iAz/0rYf72mE1koH3WTwJc3CfMSeTx70nMWc6Hk9xyU+qsdxV88c
- FHlISjLwqLna2YiNoD5pOMbDAQBgvOk=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-598-gwGqvt5qNZOuf2InnamGCw-1; Sun, 07 Nov 2021 03:38:23 -0500
-X-MC-Unique: gwGqvt5qNZOuf2InnamGCw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- f4-20020a50e084000000b003db585bc274so12328547edl.17
- for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 01:38:23 -0700 (PDT)
+ bh=olfzwTtSHUIfHVCl6XtPYdi4mvQIwS2D4a2QqwCFifc=;
+ b=L7sakSEPazk9ZzAZ0o9gOlg9cbdiegJpIXYemNh2h5zVYGzs4mPrO6sScH+CpUJokHb0mp
+ wTKGgJDJMXmV8cx50+kL3FKnXN7O8ESk5jNuGlAbGYj4XJkwgfN2X9Ilh5DU+hb7tP4/jF
+ Qr4PCZMrAbvmAsaQkdP3KrFNOZ3bpdY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-392-K5-B9LxcOKqB_wKUBZOiUA-1; Sun, 07 Nov 2021 04:21:36 -0500
+X-MC-Unique: K5-B9LxcOKqB_wKUBZOiUA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ d13-20020adf9b8d000000b00160a94c235aso2860893wrc.2
+ for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 01:21:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=472cl2xARvIW1tX3bG4qCjBWHmneMEjxN55rvqMuYyE=;
- b=8ImxjFBnThch9e3ATiobpVO4YCnM6qX5RO3U55GBqS0Put0xNJWnxOfREMv6IVZ6Q3
- 3IvtnhyUgzU1diKO5tBM9YUx9o0I9bbyih6525UxqL7y8i1AEQDUuQLUghX/fzsmnRBK
- 2/jz+7+bnkEGoHV1A6jsHA2wyUUwjfsAL48wDIvtA2ktT7Fi/82oac2EHDl1LKSYMvbm
- iVJnyvS++bOwVl8IXhIhuqfKMhDS2l7BNcoo7FTtpdYcQpwR4WTFlWAd6Lbd1ljEVYjw
- 2iGYumRO5qRHen/f04kGvhiPWL2RmHztPUoUUvqes1yRazfCzIFktZz52T8XPDlPo+mX
- xWbg==
-X-Gm-Message-State: AOAM530V/DQ73TG0xB4Phay0pDoUQF53nO8R6Gk8LZgYAQtdF1JhsMla
- l4CgiF48rmLvxjokaaC8TRWxmaasptUt683ulqTaW5vAkf4tX9HEKKaDOa4j0hhwWP54HW/g/01
- a3P1UStCeQwbSYXg=
-X-Received: by 2002:a17:907:2d87:: with SMTP id
- gt7mr19312787ejc.554.1636274302587; 
- Sun, 07 Nov 2021 01:38:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxMUwNdajiSApB9L2sl8K7JlYYzmSFb7IyBRJa3WFVmNvdum+I3GVCnZ7sCA0GnezMSFWLtKQ==
-X-Received: by 2002:a17:907:2d87:: with SMTP id
- gt7mr19312771ejc.554.1636274302356; 
- Sun, 07 Nov 2021 01:38:22 -0700 (PDT)
-Received: from redhat.com ([2.55.155.32])
- by smtp.gmail.com with ESMTPSA id m12sm6428604ejj.63.2021.11.07.01.38.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Nov 2021 01:38:21 -0700 (PDT)
-Date: Sun, 7 Nov 2021 03:38:18 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH] trace-events,pci: unify trace events format
-Message-ID: <20211107033751-mutt-send-email-mst@kernel.org>
-References: <20211105192541.655831-1-lvivier@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=olfzwTtSHUIfHVCl6XtPYdi4mvQIwS2D4a2QqwCFifc=;
+ b=SjG/eMTWTmcNJY+Z34qHe9c+RHCPDspx5SbTjOQky8KpXwVsRHEiVI72TQsfcGXXX4
+ QdIj0uWzkaDoMGdFd2T/UzCJKTh03KBoqQfiDAqOzo0nmy3OcimJB0zk5KOFbaqhlokv
+ MMLGEMLIdqI2IRm7ttOKr+BzX7dBcfZrjY9d+7UdG6tXGzaSWYe3aQWwsE+CWcJL68x6
+ ETpH7NrexM3dyAx6qHP1zT1w09HvmXR194Tf6hxg/BdnaVlW92iBwEcZefbchz920Arj
+ U6FRHx4GOWqedXIDJ4tZp8SffIREa2k4OTCzxxhZXq4/3XlAAy6UVCRKOkgnsj416Fhn
+ Zr3Q==
+X-Gm-Message-State: AOAM530eHFEZlf5k6sF9uk6V43ZGdbE4SQ65rR1TwZ3vmxn817TaQXmE
+ GIj9XOY7rVkOkpO+XcihQBXDq1brvOK7NweFNcQf+WRAy4Hyo/kepU5SqJ5eBZFB9g3pbHV5bC3
+ iTlmzA/8wsqWRBXo=
+X-Received: by 2002:a05:600c:a08:: with SMTP id
+ z8mr45064952wmp.52.1636276895253; 
+ Sun, 07 Nov 2021 01:21:35 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyETHxRAngHYa7R7dHv9Vr3ecQLaLuP+5ugn9puKukXXr0doKpPm31X9p9sX/2s9B0zzS0lSg==
+X-Received: by 2002:a05:600c:a08:: with SMTP id
+ z8mr45064926wmp.52.1636276895015; 
+ Sun, 07 Nov 2021 01:21:35 -0800 (PST)
+Received: from ?IPV6:2003:d8:2f0c:a000:3f25:9662:b5cf:73f9?
+ (p200300d82f0ca0003f259662b5cf73f9.dip0.t-ipconnect.de.
+ [2003:d8:2f0c:a000:3f25:9662:b5cf:73f9])
+ by smtp.gmail.com with ESMTPSA id a4sm11864894wmg.10.2021.11.07.01.21.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 07 Nov 2021 01:21:34 -0800 (PST)
+Message-ID: <f6071d5f-d100-a128-9f66-a801436aa78a@redhat.com>
+Date: Sun, 7 Nov 2021 10:21:33 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211105192541.655831-1-lvivier@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v1 00/12] virtio-mem: Expose device memory via multiple
+ memslots
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20211027124531.57561-1-david@redhat.com>
+ <20211101181352-mutt-send-email-mst@kernel.org>
+ <a5c94705-b66d-1b19-1c1f-52e99d9dacce@redhat.com>
+ <20211102072843-mutt-send-email-mst@kernel.org>
+ <171c8ed0-d55e-77ef-963b-6d836729ef4b@redhat.com>
+ <20211102111228-mutt-send-email-mst@kernel.org>
+ <e4b63a74-57ad-551c-0046-97a02eb798e5@redhat.com>
+ <20211107031316-mutt-send-email-mst@kernel.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20211107031316-mutt-send-email-mst@kernel.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.039, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,110 +109,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Sebastien Boeuf <sebastien.boeuf@intel.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>, Hui Zhu <teawater@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 05, 2021 at 08:25:41PM +0100, Laurent Vivier wrote:
-> Unify format used by trace_pci_update_mappings_del(),
-> trace_pci_update_mappings_add(), trace_pci_cfg_write() and
-> trace_pci_cfg_read() to print the device name and bus number,
-> slot number and function number.
+On 07.11.21 09:14, Michael S. Tsirkin wrote:
+> On Tue, Nov 02, 2021 at 06:10:13PM +0100, David Hildenbrand wrote:
+>> On 02.11.21 18:06, Michael S. Tsirkin wrote:
+>>> On Tue, Nov 02, 2021 at 12:55:17PM +0100, David Hildenbrand wrote:
+>>>> On 02.11.21 12:35, Michael S. Tsirkin wrote:
+>>>>> On Tue, Nov 02, 2021 at 09:33:55AM +0100, David Hildenbrand wrote:
+>>>>>> On 01.11.21 23:15, Michael S. Tsirkin wrote:
+>>>>>>> On Wed, Oct 27, 2021 at 02:45:19PM +0200, David Hildenbrand wrote:
+>>>>>>>> This is the follow-up of [1], dropping auto-detection and vhost-user
+>>>>>>>> changes from the initial RFC.
+>>>>>>>>
+>>>>>>>> Based-on: 20211011175346.15499-1-david@redhat.com
+>>>>>>>>
+>>>>>>>> A virtio-mem device is represented by a single large RAM memory region
+>>>>>>>> backed by a single large mmap.
+>>>>>>>>
+>>>>>>>> Right now, we map that complete memory region into guest physical addres
+>>>>>>>> space, resulting in a very large memory mapping, KVM memory slot, ...
+>>>>>>>> although only a small amount of memory might actually be exposed to the VM.
+>>>>>>>>
+>>>>>>>> For example, when starting a VM with a 1 TiB virtio-mem device that only
+>>>>>>>> exposes little device memory (e.g., 1 GiB) towards the VM initialliy,
+>>>>>>>> in order to hotplug more memory later, we waste a lot of memory on metadata
+>>>>>>>> for KVM memory slots (> 2 GiB!) and accompanied bitmaps. Although some
+>>>>>>>> optimizations in KVM are being worked on to reduce this metadata overhead
+>>>>>>>> on x86-64 in some cases, it remains a problem with nested VMs and there are
+>>>>>>>> other reasons why we would want to reduce the total memory slot to a
+>>>>>>>> reasonable minimum.
+>>>>>>>>
+>>>>>>>> We want to:
+>>>>>>>> a) Reduce the metadata overhead, including bitmap sizes inside KVM but also
+>>>>>>>>    inside QEMU KVM code where possible.
+>>>>>>>> b) Not always expose all device-memory to the VM, to reduce the attack
+>>>>>>>>    surface of malicious VMs without using userfaultfd.
+>>>>>>>
+>>>>>>> I'm confused by the mention of these security considerations,
+>>>>>>> and I expect users will be just as confused.
+>>>>>>
+>>>>>> Malicious VMs wanting to consume more memory than desired is only
+>>>>>> relevant when running untrusted VMs in some environments, and it can be
+>>>>>> caught differently, for example, by carefully monitoring and limiting
+>>>>>> the maximum memory consumption of a VM. We have the same issue already
+>>>>>> when using virtio-balloon to logically unplug memory. For me, it's a
+>>>>>> secondary concern ( optimizing a is much more important ).
+>>>>>>
+>>>>>> Some users showed interest in having QEMU disallow access to unplugged
+>>>>>> memory, because coming up with a maximum memory consumption for a VM is
+>>>>>> hard. This is one step into that direction without having to run with
+>>>>>> uffd enabled all of the time.
+>>>>>
+>>>>> Sorry about missing the memo - is there a lot of overhead associated
+>>>>> with uffd then?
+>>>>
+>>>> When used with huge/gigantic pages, we don't particularly care.
+>>>>
+>>>> For other memory backends, we'll have to route any population via the
+>>>> uffd handler: guest accesses a 4k page -> place a 4k page from user
+>>>> space. Instead of the kernel automatically placing a THP, we'd be
+>>>> placing single 4k pages and have to hope the kernel will collapse them
+>>>> into a THP later.
+>>>
+>>> How much value there is in a THP given it's not present?
+>>
+>> If you don't place a THP right during the first page fault inside the
+>> THP region, you'll have to rely on khugepagd to eventually place a huge
+>> page later -- and manually fault in each and every 4k page. I haven't
+>> done any performance measurements so far. Going via userspace on every
+>> 4k fault will most certainly hurt performance when first touching memory.
 > 
-> For instance:
-> 
->   pci_cfg_read virtio-net-pci 00:0 @0x20 -> 0xffffc00c
->   pci_cfg_write virtio-net-pci 00:0 @0x20 <- 0xfea0000c
->   pci_update_mappings_del d=0x555810b92330 01:00.0 4,0xffffc000+0x4000
->   pci_update_mappings_add d=0x555810b92330 01:00.0 4,0xfea00000+0x4000
-> 
-> becomes
-> 
->   pci_cfg_read virtio-net-pci 01:00.0 @0x20 -> 0xffffc00c
->   pci_cfg_write virtio-net-pci 01:00.0 @0x20 <- 0xfea0000c
->   pci_update_mappings_del virtio-net-pci 01:00.0 4,0xffffc000+0x4000
->   pci_update_mappings_add virtio-net-pci 01:00.0 4,0xfea00000+0x4000
-> 
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> So, if the focus is performance improvement, maybe show the speedup?
 
+Let's not focus on b), a) is the primary goal of this series:
 
-Looks good to me. We are in freeze, will queue. Pls ping after
-the release to make sure it's not lost.
+"
+a) Reduce the metadata overhead, including bitmap sizes inside KVM but
+also inside QEMU KVM code where possible.
+"
 
-> ---
->  hw/pci/pci.c        | 4 ++--
->  hw/pci/pci_host.c   | 6 ++++--
->  hw/pci/trace-events | 8 ++++----
->  3 files changed, 10 insertions(+), 8 deletions(-)
-> 
-> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> index 4a84e478cef5..9a76905d38c7 100644
-> --- a/hw/pci/pci.c
-> +++ b/hw/pci/pci.c
-> @@ -1387,7 +1387,7 @@ static void pci_update_mappings(PCIDevice *d)
->  
->          /* now do the real mapping */
->          if (r->addr != PCI_BAR_UNMAPPED) {
-> -            trace_pci_update_mappings_del(d, pci_dev_bus_num(d),
-> +            trace_pci_update_mappings_del(d->name, pci_dev_bus_num(d),
->                                            PCI_SLOT(d->devfn),
->                                            PCI_FUNC(d->devfn),
->                                            i, r->addr, r->size);
-> @@ -1395,7 +1395,7 @@ static void pci_update_mappings(PCIDevice *d)
->          }
->          r->addr = new_addr;
->          if (r->addr != PCI_BAR_UNMAPPED) {
-> -            trace_pci_update_mappings_add(d, pci_dev_bus_num(d),
-> +            trace_pci_update_mappings_add(d->name, pci_dev_bus_num(d),
->                                            PCI_SLOT(d->devfn),
->                                            PCI_FUNC(d->devfn),
->                                            i, r->addr, r->size);
-> diff --git a/hw/pci/pci_host.c b/hw/pci/pci_host.c
-> index cf02f0d6a501..0768893aafcf 100644
-> --- a/hw/pci/pci_host.c
-> +++ b/hw/pci/pci_host.c
-> @@ -78,7 +78,8 @@ void pci_host_config_write_common(PCIDevice *pci_dev, uint32_t addr,
->          return;
->      }
->  
-> -    trace_pci_cfg_write(pci_dev->name, PCI_SLOT(pci_dev->devfn),
-> +    trace_pci_cfg_write(pci_dev->name, pci_dev_bus_num(pci_dev),
-> +                        PCI_SLOT(pci_dev->devfn),
->                          PCI_FUNC(pci_dev->devfn), addr, val);
->      pci_dev->config_write(pci_dev, addr, val, MIN(len, limit - addr));
->  }
-> @@ -102,7 +103,8 @@ uint32_t pci_host_config_read_common(PCIDevice *pci_dev, uint32_t addr,
->      }
->  
->      ret = pci_dev->config_read(pci_dev, addr, MIN(len, limit - addr));
-> -    trace_pci_cfg_read(pci_dev->name, PCI_SLOT(pci_dev->devfn),
-> +    trace_pci_cfg_read(pci_dev->name, pci_dev_bus_num(pci_dev),
-> +                       PCI_SLOT(pci_dev->devfn),
->                         PCI_FUNC(pci_dev->devfn), addr, ret);
->  
->      return ret;
-> diff --git a/hw/pci/trace-events b/hw/pci/trace-events
-> index fc777d0b5e6e..7570752c4045 100644
-> --- a/hw/pci/trace-events
-> +++ b/hw/pci/trace-events
-> @@ -1,12 +1,12 @@
->  # See docs/devel/tracing.rst for syntax documentation.
->  
->  # pci.c
-> -pci_update_mappings_del(void *d, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size) "d=%p %02x:%02x.%x %d,0x%"PRIx64"+0x%"PRIx64
-> -pci_update_mappings_add(void *d, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size) "d=%p %02x:%02x.%x %d,0x%"PRIx64"+0x%"PRIx64
-> +pci_update_mappings_del(const char *dev, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size) "%s %02x:%02x.%x %d,0x%"PRIx64"+0x%"PRIx64
-> +pci_update_mappings_add(const char *dev, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size) "%s %02x:%02x.%x %d,0x%"PRIx64"+0x%"PRIx64
->  
->  # pci_host.c
-> -pci_cfg_read(const char *dev, unsigned devid, unsigned fnid, unsigned offs, unsigned val) "%s %02u:%u @0x%x -> 0x%x"
-> -pci_cfg_write(const char *dev, unsigned devid, unsigned fnid, unsigned offs, unsigned val) "%s %02u:%u @0x%x <- 0x%x"
-> +pci_cfg_read(const char *dev, uint32_t bus, uint32_t slot, uint32_t func, unsigned offs, unsigned val) "%s %02x:%02x.%x @0x%x -> 0x%x"
-> +pci_cfg_write(const char *dev, uint32_t bus, uint32_t slot, uint32_t func, unsigned offs, unsigned val) "%s %02x:%02x.%x @0x%x <- 0x%x"
->  
->  # msix.c
->  msix_write_config(char *name, bool enabled, bool masked) "dev %s enabled %d masked %d"
-> -- 
-> 2.31.1
+Because:
+
+"
+For example, when starting a VM with a 1 TiB virtio-mem device that only
+exposes little device memory (e.g., 1 GiB) towards the VM initialliy,
+in order to hotplug more memory later, we waste a lot of memory on
+metadata for KVM memory slots (> 2 GiB!) and accompanied bitmaps.
+"
+
+Partially tackling b) is just a nice side effect of this series. In the
+long term, we'll want userfaultfd-based protection, and I'll do a
+performance evaluation then, how userfaultf vs. !userfaultfd compares
+(boot time, run time, THP consumption).
+
+I'll adjust the cover letter for the next version to make this clearer.
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
