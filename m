@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B96374472E4
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Nov 2021 13:52:14 +0100 (CET)
-Received: from localhost ([::1]:48656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D859B4472E5
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Nov 2021 13:52:17 +0100 (CET)
+Received: from localhost ([::1]:48882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjhef-0007yX-U6
-	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 07:52:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40916)
+	id 1mjhej-00087X-1Z
+	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 07:52:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mjhbO-00033w-QF
- for qemu-devel@nongnu.org; Sun, 07 Nov 2021 07:48:50 -0500
-Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:33360)
+ id 1mjhbP-000343-9P
+ for qemu-devel@nongnu.org; Sun, 07 Nov 2021 07:48:52 -0500
+Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:38519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mjhbL-000269-MJ
+ id 1mjhbN-00026G-Ax
  for qemu-devel@nongnu.org; Sun, 07 Nov 2021 07:48:50 -0500
-Received: by mail-qk1-x735.google.com with SMTP id p17so12033661qkj.0
- for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 04:48:47 -0800 (PST)
+Received: by mail-qt1-x829.google.com with SMTP id c12so6803358qtd.5
+ for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 04:48:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5YdY/iarwR1o7rlm4TvNfomS0+BmE8A5jrB21UT6FG8=;
- b=RfJ8ccCyNmw8lJnH0EywAbBWxThMm6HvmuJu+oiPEoYw09piV3cE3AC6X8oRHbe9WC
- CvJqK2GVW0uxgJSj1j5k5tLiIsigrX9ygFbPhN2qZBSdVlLIZPu1SaatRzTZUy9dHVHg
- u1NY86+Ptm8/05oGvqPwFFL/I/0hIUkS6KaRYwl9NmbeLFEECjytIsC1Qg1q5mt0E7Ia
- 0bACijXSGRg9XQoqP9TPer5oADkqy4Zv10pLc+Scq1H0bhp6CwftYxlBs3K0wdutit78
- Bj6C8XdZQ1FO+pB/W7g0NVqP8nSifw6lCKIFi42/M5KkVFGxOqBxQN53DjepvU7OPkyb
- v58w==
+ bh=NgWRpb6eD25eDJnCmvoWcYOQSpkeHkzdEszyRb0jyTc=;
+ b=LHECL2AxH4ua7CW9c++czvjfYDapl6y+B5lIuI8XiO6N1nTsUJcbZphl9Mrak7QoY6
+ OrP2iMAhiT3Od+UfrUyOx+wR4dM2JxkaxCzPktxdEGUqaoP1R4Ld5/Mw1D+1lleCVbnQ
+ ld+xQ07OYAvanqgFE/0i85tY8dwy5Tgdfztv30ZcfGYIvYphrNmw3OYH/XwiL5V2UIqN
+ 4lTilUqnl/Q4nH9wtikfTsChP2TjoizrKWiStWtIwO3Op3koPeTAs6DFetB9Bl7MH6OB
+ mq65Vw+YW5rtrsJb8R/tsuktpm0/1yaWMY8KlccFY+NxVKzf0Gxb95lcsmPOUi94QD3N
+ HwDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5YdY/iarwR1o7rlm4TvNfomS0+BmE8A5jrB21UT6FG8=;
- b=LtXHnpBZtUy9Yk7ckkar7H8gHodJl4eUCd8MaxiPma3GhAzwWm5jqBG8lkkMqFlP6U
- YkIMyIZP5f64Q5k6tbaougpzllpsz5I9JTe6KjqQZeRWTfWpxiwAEidhS+QheR8njfYN
- D9y2nXdPwGKFrV2kXInObqCGM+6nwaqhtYhw950LAP3j1UCi850HDfyS82OTPQXoqDsj
- ZxRNWuKup6v71oF8Kg/C77QvW3OvyixFK4oOf0Smyn6Mz8UUGy/ytwmUFFWeDAMMK0jV
- w/7ofPh6rcAyuqoXkZqN0PGgJ81JY1eGgimRgel7k0TbkCm4kX7goVAT+FaddbJxmzwo
- 0tmQ==
-X-Gm-Message-State: AOAM530Vug2cMPPVRvc5m8QdahfPhuZtd82RAE6eSrK2AeJTTFcQBryz
- WSp3X2tNvx/A2MTpKJa9dl/sPscHpuJZYg==
-X-Google-Smtp-Source: ABdhPJyflayOKUKW92DF/ZoIausR8RHsaScXxf5S0Qn+sJ54nU5hjhdX5fiZEVYa3WqDS05mIc606Q==
-X-Received: by 2002:a05:620a:b4c:: with SMTP id
- x12mr50762665qkg.324.1636289326717; 
- Sun, 07 Nov 2021 04:48:46 -0800 (PST)
+ bh=NgWRpb6eD25eDJnCmvoWcYOQSpkeHkzdEszyRb0jyTc=;
+ b=0B1vJnV5ZvgUh04S4C3CTYjc/eokM4y0TfLE/FWCvwrkEb63YP9l2awFQ9lvjqYYP+
+ PCmJc7lR//jszA+3rJBFegZXnzQH9ptoSFQC4QKwnn6PHPr36SaMc0WabLamluCKz+1Y
+ uFdFdvZaVGg63FAP3vvW/IytnaSoown0J0CEG1/RcXi5VRQ3rKHA2lgAK74JolXd5sXw
+ BPsgArChwm6z2I4ujymi+dPBqhpYQoORZiO3aF7lB4XQbMaRVypSf2j8lQAkv5LjL2Ta
+ kGadTAC29DIMOGKGi6xU4QI+XAPPmPuhkBd/XN9xNDNmUIdZHcP2lsMawfCxk9NO3U9v
+ VwaQ==
+X-Gm-Message-State: AOAM530mInmMP9+sReFg9OLFDfDBnPzE1ODOyqd7mcQT1Hv0WX+a0Vg8
+ WJq2X6qR9Wm06b8265rlMen7BwUZFxAkAQ==
+X-Google-Smtp-Source: ABdhPJzXYltN6JXGyLF8lZgb0qXFlG/5FBmuw63JQ5B2U4a5JuauXm7eL6QLPQMgli2pDEiAErxCag==
+X-Received: by 2002:a05:622a:1449:: with SMTP id
+ v9mr56241399qtx.122.1636289327300; 
+ Sun, 07 Nov 2021 04:48:47 -0800 (PST)
 Received: from localhost.localdomain ([38.66.81.217])
  by smtp.gmail.com with ESMTPSA id w19sm6917qkw.49.2021.11.07.04.48.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Nov 2021 04:48:46 -0800 (PST)
+ Sun, 07 Nov 2021 04:48:47 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] linux-user: Split out do_getdents, do_getdents64
-Date: Sun,  7 Nov 2021 07:48:42 -0500
-Message-Id: <20211107124845.1174791-2-richard.henderson@linaro.org>
+Subject: [PATCH 2/4] linux-user: Always use flexible arrays for dirent d_name
+Date: Sun,  7 Nov 2021 07:48:43 -0500
+Message-Id: <20211107124845.1174791-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211107124845.1174791-1-richard.henderson@linaro.org>
 References: <20211107124845.1174791-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x735.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x829.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,359 +87,67 @@ Cc: f4bug@amsat.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Retain all 3 implementations of getdents for now.
+We currently use a flexible array member for target_dirent,
+but use incorrectly fixed length arrays for target_dirent64,
+linux_dirent and linux_dirent64.
+
+This requires that we adjust the definition of the VFAT READDIR
+ioctls which hard-code the 256 namelen size into the ioctl constant.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall.c | 325 +++++++++++++++++++++++--------------------
- 1 file changed, 172 insertions(+), 153 deletions(-)
+ linux-user/syscall_defs.h | 6 +++---
+ linux-user/syscall.c      | 6 ++++--
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index a5ce487dcc..98b09ee6d6 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -441,7 +441,7 @@ struct target_dirent64 {
+ 	int64_t		d_off;
+ 	unsigned short	d_reclen;
+ 	unsigned char	d_type;
+-	char		d_name[256];
++	char		d_name[];
+ };
+ 
+ 
+@@ -2714,7 +2714,7 @@ struct linux_dirent {
+     long            d_ino;
+     unsigned long   d_off;
+     unsigned short  d_reclen;
+-    char            d_name[256]; /* We must not include limits.h! */
++    char            d_name[];
+ };
+ 
+ struct linux_dirent64 {
+@@ -2722,7 +2722,7 @@ struct linux_dirent64 {
+     int64_t         d_off;
+     unsigned short  d_reclen;
+     unsigned char   d_type;
+-    char            d_name[256];
++    char            d_name[];
+ };
+ 
+ struct target_mq_attr {
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 544f5b662f..a2f605dec4 100644
+index a2f605dec4..499415ad81 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -8137,6 +8137,176 @@ static int host_to_target_cpu_mask(const unsigned long *host_mask,
-     return 0;
- }
+@@ -197,8 +197,10 @@
+ //#define DEBUG_ERESTARTSYS
  
-+#ifdef TARGET_NR_getdents
-+static int do_getdents(abi_long arg1, abi_long arg2, abi_long arg3)
-+{
-+    int ret;
-+
-+#ifdef EMULATE_GETDENTS_WITH_GETDENTS
-+# if TARGET_ABI_BITS == 32 && HOST_LONG_BITS == 64
-+    struct target_dirent *target_dirp;
-+    struct linux_dirent *dirp;
-+    abi_long count = arg3;
-+
-+    dirp = g_try_malloc(count);
-+    if (!dirp) {
-+        return -TARGET_ENOMEM;
-+    }
-+
-+    ret = get_errno(sys_getdents(arg1, dirp, count));
-+    if (!is_error(ret)) {
-+        struct linux_dirent *de;
-+        struct target_dirent *tde;
-+        int len = ret;
-+        int reclen, treclen;
-+        int count1, tnamelen;
-+
-+        count1 = 0;
-+        de = dirp;
-+        target_dirp = lock_user(VERIFY_WRITE, arg2, count, 0);
-+        if (!target_dirp) {
-+            return -TARGET_EFAULT;
-+        }
-+        tde = target_dirp;
-+        while (len > 0) {
-+            reclen = de->d_reclen;
-+            tnamelen = reclen - offsetof(struct linux_dirent, d_name);
-+            assert(tnamelen >= 0);
-+            treclen = tnamelen + offsetof(struct target_dirent, d_name);
-+            assert(count1 + treclen <= count);
-+            tde->d_reclen = tswap16(treclen);
-+            tde->d_ino = tswapal(de->d_ino);
-+            tde->d_off = tswapal(de->d_off);
-+            memcpy(tde->d_name, de->d_name, tnamelen);
-+            de = (struct linux_dirent *)((char *)de + reclen);
-+            len -= reclen;
-+            tde = (struct target_dirent *)((char *)tde + treclen);
-+            count1 += treclen;
-+        }
-+        ret = count1;
-+        unlock_user(target_dirp, arg2, ret);
-+    }
-+    g_free(dirp);
-+# else
-+    struct linux_dirent *dirp;
-+    abi_long count = arg3;
-+
-+    dirp = lock_user(VERIFY_WRITE, arg2, count, 0);
-+    if (!dirp) {
-+        return -TARGET_EFAULT;
-+    }
-+    ret = get_errno(sys_getdents(arg1, dirp, count));
-+    if (!is_error(ret)) {
-+        struct linux_dirent *de;
-+        int len = ret;
-+        int reclen;
-+        de = dirp;
-+        while (len > 0) {
-+            reclen = de->d_reclen;
-+            if (reclen > len) {
-+                break;
-+            }
-+            de->d_reclen = tswap16(reclen);
-+            tswapls(&de->d_ino);
-+            tswapls(&de->d_off);
-+            de = (struct linux_dirent *)((char *)de + reclen);
-+            len -= reclen;
-+        }
-+    }
-+    unlock_user(dirp, arg2, ret);
-+# endif
-+#else
-+    /* Implement getdents in terms of getdents64 */
-+    struct linux_dirent64 *dirp;
-+    abi_long count = arg3;
-+
-+    dirp = lock_user(VERIFY_WRITE, arg2, count, 0);
-+    if (!dirp) {
-+        return -TARGET_EFAULT;
-+    }
-+    ret = get_errno(sys_getdents64(arg1, dirp, count));
-+    if (!is_error(ret)) {
-+        /*
-+         * Convert the dirent64 structs to target dirent.  We do this
-+         * in-place, since we can guarantee that a target_dirent is no
-+         * larger than a dirent64; however this means we have to be
-+         * careful to read everything before writing in the new format.
-+         */
-+        struct linux_dirent64 *de;
-+        struct target_dirent *tde;
-+        int len = ret;
-+        int tlen = 0;
-+
-+        de = dirp;
-+        tde = (struct target_dirent *)dirp;
-+        while (len > 0) {
-+            int namelen, treclen;
-+            int reclen = de->d_reclen;
-+            uint64_t ino = de->d_ino;
-+            int64_t off = de->d_off;
-+            uint8_t type = de->d_type;
-+
-+            namelen = strlen(de->d_name);
-+            treclen = offsetof(struct target_dirent, d_name) + namelen + 2;
-+            treclen = QEMU_ALIGN_UP(treclen, sizeof(abi_long));
-+
-+            memmove(tde->d_name, de->d_name, namelen + 1);
-+            tde->d_ino = tswapal(ino);
-+            tde->d_off = tswapal(off);
-+            tde->d_reclen = tswap16(treclen);
-+            /*
-+             * The target_dirent type is in what was formerly a padding
-+             * byte at the end of the structure:
-+             */
-+            *(((char *)tde) + treclen - 1) = type;
-+
-+            de = (struct linux_dirent64 *)((char *)de + reclen);
-+            tde = (struct target_dirent *)((char *)tde + treclen);
-+            len -= reclen;
-+            tlen += treclen;
-+        }
-+        ret = tlen;
-+    }
-+    unlock_user(dirp, arg2, ret);
-+#endif
-+    return ret;
-+}
-+#endif /* TARGET_NR_getdents */
-+
-+#if defined(TARGET_NR_getdents64) && defined(__NR_getdents64)
-+static int do_getdents64(abi_long arg1, abi_long arg2, abi_long arg3)
-+{
-+    struct linux_dirent64 *dirp;
-+    abi_long count = arg3;
-+    int ret;
-+
-+    dirp = lock_user(VERIFY_WRITE, arg2, count, 0);
-+    if (!dirp) {
-+        return -TARGET_EFAULT;
-+    }
-+    ret = get_errno(sys_getdents64(arg1, dirp, count));
-+    if (!is_error(ret)) {
-+        struct linux_dirent64 *de;
-+        int len = ret;
-+        int reclen;
-+        de = dirp;
-+        while (len > 0) {
-+            reclen = de->d_reclen;
-+            if (reclen > len) {
-+                break;
-+            }
-+            de->d_reclen = tswap16(reclen);
-+            tswap64s((uint64_t *)&de->d_ino);
-+            tswap64s((uint64_t *)&de->d_off);
-+            de = (struct linux_dirent64 *)((char *)de + reclen);
-+            len -= reclen;
-+        }
-+    }
-+    unlock_user(dirp, arg2, ret);
-+    return ret;
-+}
-+#endif /* TARGET_NR_getdents64 */
-+
- #if defined(TARGET_NR_pivot_root) && defined(__NR_pivot_root)
- _syscall2(int, pivot_root, const char *, new_root, const char *, put_old)
- #endif
-@@ -10227,162 +10397,11 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
- #endif
- #ifdef TARGET_NR_getdents
-     case TARGET_NR_getdents:
--#ifdef EMULATE_GETDENTS_WITH_GETDENTS
--#if TARGET_ABI_BITS == 32 && HOST_LONG_BITS == 64
--        {
--            struct target_dirent *target_dirp;
--            struct linux_dirent *dirp;
--            abi_long count = arg3;
--
--            dirp = g_try_malloc(count);
--            if (!dirp) {
--                return -TARGET_ENOMEM;
--            }
--
--            ret = get_errno(sys_getdents(arg1, dirp, count));
--            if (!is_error(ret)) {
--                struct linux_dirent *de;
--		struct target_dirent *tde;
--                int len = ret;
--                int reclen, treclen;
--		int count1, tnamelen;
--
--		count1 = 0;
--                de = dirp;
--                if (!(target_dirp = lock_user(VERIFY_WRITE, arg2, count, 0)))
--                    return -TARGET_EFAULT;
--		tde = target_dirp;
--                while (len > 0) {
--                    reclen = de->d_reclen;
--                    tnamelen = reclen - offsetof(struct linux_dirent, d_name);
--                    assert(tnamelen >= 0);
--                    treclen = tnamelen + offsetof(struct target_dirent, d_name);
--                    assert(count1 + treclen <= count);
--                    tde->d_reclen = tswap16(treclen);
--                    tde->d_ino = tswapal(de->d_ino);
--                    tde->d_off = tswapal(de->d_off);
--                    memcpy(tde->d_name, de->d_name, tnamelen);
--                    de = (struct linux_dirent *)((char *)de + reclen);
--                    len -= reclen;
--                    tde = (struct target_dirent *)((char *)tde + treclen);
--		    count1 += treclen;
--                }
--		ret = count1;
--                unlock_user(target_dirp, arg2, ret);
--            }
--            g_free(dirp);
--        }
--#else
--        {
--            struct linux_dirent *dirp;
--            abi_long count = arg3;
--
--            if (!(dirp = lock_user(VERIFY_WRITE, arg2, count, 0)))
--                return -TARGET_EFAULT;
--            ret = get_errno(sys_getdents(arg1, dirp, count));
--            if (!is_error(ret)) {
--                struct linux_dirent *de;
--                int len = ret;
--                int reclen;
--                de = dirp;
--                while (len > 0) {
--                    reclen = de->d_reclen;
--                    if (reclen > len)
--                        break;
--                    de->d_reclen = tswap16(reclen);
--                    tswapls(&de->d_ino);
--                    tswapls(&de->d_off);
--                    de = (struct linux_dirent *)((char *)de + reclen);
--                    len -= reclen;
--                }
--            }
--            unlock_user(dirp, arg2, ret);
--        }
--#endif
--#else
--        /* Implement getdents in terms of getdents64 */
--        {
--            struct linux_dirent64 *dirp;
--            abi_long count = arg3;
--
--            dirp = lock_user(VERIFY_WRITE, arg2, count, 0);
--            if (!dirp) {
--                return -TARGET_EFAULT;
--            }
--            ret = get_errno(sys_getdents64(arg1, dirp, count));
--            if (!is_error(ret)) {
--                /* Convert the dirent64 structs to target dirent.  We do this
--                 * in-place, since we can guarantee that a target_dirent is no
--                 * larger than a dirent64; however this means we have to be
--                 * careful to read everything before writing in the new format.
--                 */
--                struct linux_dirent64 *de;
--                struct target_dirent *tde;
--                int len = ret;
--                int tlen = 0;
--
--                de = dirp;
--                tde = (struct target_dirent *)dirp;
--                while (len > 0) {
--                    int namelen, treclen;
--                    int reclen = de->d_reclen;
--                    uint64_t ino = de->d_ino;
--                    int64_t off = de->d_off;
--                    uint8_t type = de->d_type;
--
--                    namelen = strlen(de->d_name);
--                    treclen = offsetof(struct target_dirent, d_name)
--                        + namelen + 2;
--                    treclen = QEMU_ALIGN_UP(treclen, sizeof(abi_long));
--
--                    memmove(tde->d_name, de->d_name, namelen + 1);
--                    tde->d_ino = tswapal(ino);
--                    tde->d_off = tswapal(off);
--                    tde->d_reclen = tswap16(treclen);
--                    /* The target_dirent type is in what was formerly a padding
--                     * byte at the end of the structure:
--                     */
--                    *(((char *)tde) + treclen - 1) = type;
--
--                    de = (struct linux_dirent64 *)((char *)de + reclen);
--                    tde = (struct target_dirent *)((char *)tde + treclen);
--                    len -= reclen;
--                    tlen += treclen;
--                }
--                ret = tlen;
--            }
--            unlock_user(dirp, arg2, ret);
--        }
--#endif
--        return ret;
-+        return do_getdents(arg1, arg2, arg3);
- #endif /* TARGET_NR_getdents */
- #if defined(TARGET_NR_getdents64) && defined(__NR_getdents64)
-     case TARGET_NR_getdents64:
--        {
--            struct linux_dirent64 *dirp;
--            abi_long count = arg3;
--            if (!(dirp = lock_user(VERIFY_WRITE, arg2, count, 0)))
--                return -TARGET_EFAULT;
--            ret = get_errno(sys_getdents64(arg1, dirp, count));
--            if (!is_error(ret)) {
--                struct linux_dirent64 *de;
--                int len = ret;
--                int reclen;
--                de = dirp;
--                while (len > 0) {
--                    reclen = de->d_reclen;
--                    if (reclen > len)
--                        break;
--                    de->d_reclen = tswap16(reclen);
--                    tswap64s((uint64_t *)&de->d_ino);
--                    tswap64s((uint64_t *)&de->d_off);
--                    de = (struct linux_dirent64 *)((char *)de + reclen);
--                    len -= reclen;
--                }
--            }
--            unlock_user(dirp, arg2, ret);
--        }
--        return ret;
-+        return do_getdents64(arg1, arg2, arg3);
- #endif /* TARGET_NR_getdents64 */
- #if defined(TARGET_NR__newselect)
-     case TARGET_NR__newselect:
+ //#include <linux/msdos_fs.h>
+-#define	VFAT_IOCTL_READDIR_BOTH		_IOR('r', 1, struct linux_dirent [2])
+-#define	VFAT_IOCTL_READDIR_SHORT	_IOR('r', 2, struct linux_dirent [2])
++#define VFAT_IOCTL_READDIR_BOTH \
++    _IOC(_IOC_READ, 'r', 1, (sizeof(struct linux_dirent) + 256) * 2)
++#define VFAT_IOCTL_READDIR_SHORT \
++    _IOC(_IOC_READ, 'r', 2, (sizeof(struct linux_dirent) + 256) * 2)
+ 
+ #undef _syscall0
+ #undef _syscall1
 -- 
 2.25.1
 
