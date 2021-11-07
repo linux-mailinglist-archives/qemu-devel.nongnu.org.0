@@ -2,101 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A7A7447298
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Nov 2021 11:54:39 +0100 (CET)
-Received: from localhost ([::1]:42920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BC354472D1
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Nov 2021 13:09:02 +0100 (CET)
+Received: from localhost ([::1]:57406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjfor-0003bl-Qb
-	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 05:54:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50756)
+	id 1mjgyq-0000Jp-NO
+	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 07:09:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mjfo2-0002vp-Ep
- for qemu-devel@nongnu.org; Sun, 07 Nov 2021 05:53:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51265)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mjfny-0005s1-DZ
- for qemu-devel@nongnu.org; Sun, 07 Nov 2021 05:53:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636282420;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KduvtXb+fKziR3SatNVMCMUC1urqWHpoLYZZABDYaYs=;
- b=YUh8JIvJj0dJffp1R+uzaXoqSxeoWOP+E8LPz4eP2G7/WpFMfmOlupkFCXhnODv/a76p2q
- wz7Y9bgeEwibEsLfKxly3knz3I3ba5oTLo9Oo+dwMG28tlDH/hwqBJNaVGN733DpwBaTrl
- 8wEESXwmwKxLp3IF9jG3zw9k5fopuHc=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-12-sYTG3kJfPwCyg-FeK2qOew-1; Sun, 07 Nov 2021 05:53:37 -0500
-X-MC-Unique: sYTG3kJfPwCyg-FeK2qOew-1
-Received: by mail-wm1-f69.google.com with SMTP id
- m1-20020a1ca301000000b003231d5b3c4cso8750541wme.5
- for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 02:53:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:organization:subject
- :in-reply-to:content-transfer-encoding;
- bh=KduvtXb+fKziR3SatNVMCMUC1urqWHpoLYZZABDYaYs=;
- b=uwSOl3zwGd4kSaIWdNGoV0r+Wd74kSw6X8rnwPrD1A0TF8IZYGUnJYLctkWNjfdMm+
- W8ZPOIRTxLvXrqfjW9tMaTpz6fyQpfEidep/IqFI4ZGcQGAD0gOB9r1gEvXNnDrqv44U
- YqkCO1RQ5oIcbg0ms1kCv8gbdAZRnqbePdnSNBOMKfLNx6gNieeQVIlWjwKkWPpbFPGi
- mg3wffkKX75/LsOjAMFVeJ4naej59rWjjLr4kKHmmv94GD8CS5B6SsGFHH60MZ4cHesg
- Hy0phCmFjGRdJJKMITOcdlbAy8TMTC1tSpETJ8oaceSLFgRAmNqoeQYeXdclwD01luXM
- UcZg==
-X-Gm-Message-State: AOAM533gqZZ90qTM8VIesU1DuzoIhmJVqy9J64q61oOVj1xFy/uPSQQZ
- 40d4v3dL9j+0HlTJhTFe19fslaZ1V7qYkKI9umq1BOXw8YAK7mZC8TuO9/IWFb+1SBxBrdxlQiR
- ve48MqN409/ihaWc=
-X-Received: by 2002:a5d:43c5:: with SMTP id v5mr92980047wrr.11.1636282416131; 
- Sun, 07 Nov 2021 02:53:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzsfVHowFIVVIa9m/d8WdUd/IzGs4m4KlW24FzqjhCQS6jtAQo0HhLCIkup0A9/ySoDDeBmWg==
-X-Received: by 2002:a5d:43c5:: with SMTP id v5mr92980019wrr.11.1636282415887; 
- Sun, 07 Nov 2021 02:53:35 -0800 (PST)
-Received: from ?IPV6:2003:d8:2f0c:a000:3f25:9662:b5cf:73f9?
- (p200300d82f0ca0003f259662b5cf73f9.dip0.t-ipconnect.de.
- [2003:d8:2f0c:a000:3f25:9662:b5cf:73f9])
- by smtp.gmail.com with ESMTPSA id z11sm12993555wrt.58.2021.11.07.02.53.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 07 Nov 2021 02:53:35 -0800 (PST)
-Message-ID: <41f72294-b449-2a42-d8b8-cf3de9314066@redhat.com>
-Date: Sun, 7 Nov 2021 11:53:34 +0100
+ (Exim 4.90_1) (envelope-from <kvmluck@163.com>) id 1mjgxh-0007yZ-DV
+ for qemu-devel@nongnu.org; Sun, 07 Nov 2021 07:07:49 -0500
+Received: from m13139.mail.163.com ([220.181.13.139]:3577)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <kvmluck@163.com>) id 1mjgxa-0007s7-S5
+ for qemu-devel@nongnu.org; Sun, 07 Nov 2021 07:07:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=WeOtm
+ UHMzqSA6ucZrpnIx76dyY3Sss9ziQLzQzt1y/k=; b=DwMDr8sqAtdId6B3U+zjB
+ S/9X8i9Q6OTZV1Q2rn5RyuTGavoaX3vBPa/MQokgLP0+ax+Bm4U/NsfGYaWV+zIh
+ eyK8hb2kl0RR0cmM5XyJRMjnXNur6NtbWCqLJI95GOD69uI1Pa6DZw2vxgGn4h2K
+ LQQKi3XWlU/jqQDfKaJUH4=
+Received: from kvmluck$163.com ( [114.246.35.27] ) by ajax-webmail-wmsvr139
+ (Coremail) ; Sun, 7 Nov 2021 19:52:17 +0800 (CST)
+X-Originating-IP: [114.246.35.27]
+Date: Sun, 7 Nov 2021 19:52:17 +0800 (CST)
+From: yue  <kvmluck@163.com>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: Bus 'pcie.0' does not support hotplugging
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210622(1d4788a8)
+ Copyright (c) 2002-2021 www.mailtech.cn 163com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20211027124531.57561-1-david@redhat.com>
- <20211101181352-mutt-send-email-mst@kernel.org>
- <a5c94705-b66d-1b19-1c1f-52e99d9dacce@redhat.com>
- <20211102072843-mutt-send-email-mst@kernel.org>
- <171c8ed0-d55e-77ef-963b-6d836729ef4b@redhat.com>
- <20211102111228-mutt-send-email-mst@kernel.org>
- <e4b63a74-57ad-551c-0046-97a02eb798e5@redhat.com>
- <20211107031316-mutt-send-email-mst@kernel.org>
- <f6071d5f-d100-a128-9f66-a801436aa78a@redhat.com>
- <20211107051832-mutt-send-email-mst@kernel.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v1 00/12] virtio-mem: Expose device memory via multiple
- memslots
-In-Reply-To: <20211107051832-mutt-send-email-mst@kernel.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.039, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Message-ID: <7a2a9f80.19fc.17cfa3df784.Coremail.kvmluck@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: i8GowAAnXOrxvYdhKgKCAQ--.32858W
+X-CM-SenderInfo: xnypz3lfn6il2tof0z/xtbByQ1EiV1vmaEiLwADsN
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Received-SPF: pass client-ip=220.181.13.139; envelope-from=kvmluck@163.com;
+ helo=m13139.mail.163.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,90 +61,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Sebastien Boeuf <sebastien.boeuf@intel.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Paolo Bonzini <pbonzini@redhat.com>, Hui Zhu <teawater@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07.11.21 11:21, Michael S. Tsirkin wrote:
-> On Sun, Nov 07, 2021 at 10:21:33AM +0100, David Hildenbrand wrote:
->> Let's not focus on b), a) is the primary goal of this series:
->>
->> "
->> a) Reduce the metadata overhead, including bitmap sizes inside KVM but
->> also inside QEMU KVM code where possible.
->> "
->>
->> Because:
->>
->> "
->> For example, when starting a VM with a 1 TiB virtio-mem device that only
->> exposes little device memory (e.g., 1 GiB) towards the VM initialliy,
->> in order to hotplug more memory later, we waste a lot of memory on
->> metadata for KVM memory slots (> 2 GiB!) and accompanied bitmaps.
->> "
->>
->> Partially tackling b) is just a nice side effect of this series. In the
->> long term, we'll want userfaultfd-based protection, and I'll do a
->> performance evaluation then, how userfaultf vs. !userfaultfd compares
->> (boot time, run time, THP consumption).
->>
->> I'll adjust the cover letter for the next version to make this clearer.
-> 
-> So given this is short-term, and long term we'll use uffd possibly with
-> some extension (a syscall to populate 1G in one go?) isn't there some
-> way to hide this from management? It's a one way street: once we get
-> management involved in playing with memory slots we no longer can go
-> back and control them ourselves. Not to mention it's a lot of
-> complexity to push out to management.
-
-For b) userfaultfd + optimizatons is the way to go long term.
-For a) userfaultfd does not help in any way, and that's what I currently
-care about most.
-
-1) For the management layer it will be as simple as providing a
-"memslots" parameter to the user. I don't expect management to do manual
-memslot detection+calculation -- management layer is the wrong place
-because it has limited insight. Either QEMU will do it automatically or
-the user will do it manually. For QEMU to do it reliably, we'll have to
-teach the management layer to specify any vhost* devices before
-virtio-mem* devices on the QEMU cmdline -- that is the only real
-complexity I see.
-
-2) "control them ourselves" will essentially be enabled via "memslots=0"
-(auto-detect mode". The user has to opt in.
-
-"memslots" is a pure optimization mechanism. While I'd love to hide this
-complexity from user space and always use the auto-detect mode,
-especially hotplug of vhost devices is a real problem and requires users
-to opt-in.
-
-I assume once we have "memslots=0" (auto-detect) mode, most people will:
-* Set "memslots=0" to enable the optimization and essentially let QEMU
-  control it. Will work in most cases and we can document perfectly
-  where it won't. We'll always fail gracefully.
-* Leave "memslots=1" if they don't care about the optimization or run a
-  problematic setup.
-* Set "memslots=X if they run a problemantic setup in still care about
-  the optimization.
-
-
-To be precise, we could have a "memslots-optimiation=true|false" toggle
-instead. IMHO that could be limiting for these corner case setups where
-auto-detection is problematic and users still want to optimize --
-especially eventually hotplugging vhost devices. But as I assume
-99.9999% of all setups will enable auto-detect mode, I don't have a
-strong opinion.
-
--- 
-Thanks,
-
-David / dhildenb
-
+SGksIGFsbDoKICAgIGluIG15IGNhc2UgaXQgaXMga2F0YSB0aGF0IG1hbmFnZSBxZW11IGRpcmVj
+dGx5IHZpYSBxbXAuICAoUUVNVSBlbXVsYXRvciB2ZXJzaW9uIDUuMi4wIChrYXRhLXN0YXRpYykp
+LgoKICBpIGhhdmUgdGVzdGVkIHZpYSB2aXJzaCBjb21tYW5kIGFuZCBtYWtlIHN1cmUgdGhhdCBx
+ZW11LXN5c3RlbS14ODZfNjQgc3VwcG9ydHMgaG90cGx1Zy4gCiAgYnV0IGlmIHFlbXUgd2FzIHN0
+YXJ0ZWQgYnkga2F0YSwgIGF0dGFjaC1kaXNrIGZhaWxlZC4gIAoKCjEuICBpdCBpcyB3aGljaCBv
+cHRpb24gdGhhdCBwbGF5IGEgcGFydD8gICBpcyBpdCBzaHBjPW9uPwoyLiBpbiBrYXRhIGNhc2Us
+IHRoZXJlIGlzIG5vIGJvb3QgcHJvY2VzcyBmb3Igdm0uIHFlbXUgc3RhcnRzIHdpdGggLWtlcm5l
+bCBvcHRpb24gYW5kIGEgcm9vdGZzIChyb290PS9kZXYvcG1lbTBwMSkuICB3aGF0IGFmZmVjdHMg
+aG90cGx1Z2dpbmcgaW5zaWRlIHZtPwoKCnRoYW5rIHZlcnkgbXVjaC4KCgoKL29wdC9rYXRhL2Jp
+bi9xZW11LXN5c3RlbS14ODZfNjQgLW5hbWUgc2FuZGJveC10ZXN0LWthdGExIC1tYWNoaW5lIHEz
+NSxhY2NlbD1rdm0sa2VybmVsX2lycWNoaXA9b24sbnZkaW1tPW9uIC1jcHUgaG9zdCxwbXU9b2Zm
+IAotcW1wIHVuaXg6L3J1bi92Yy92bS90ZXN0LWthdGExL3FtcC5zb2NrLHNlcnZlcj1vbix3YWl0
+PW9mZiAtcW1wIHVuaXg6L3J1bi92Yy92bS90ZXN0LWthdGExL3FtcDEuc29jayxzZXJ2ZXI9b24s
+d2FpdD1vZmYgLW0gMjA0OE0sc2xvdHM9MTAsbWF4bWVtPTI1ODQ4MU0gCi1kZXZpY2UgcGNpLWJy
+aWRnZSxidXM9cGNpZS4wLGlkPXBjaS1icmlkZ2UtMCxjaGFzc2lzX25yPTEsc2hwYz1vbixhZGRy
+PTIgLWRldmljZSB2aXJ0aW8tc2VyaWFsLXBjaSxkaXNhYmxlLW1vZGVybj1mYWxzZSxpZD1zZXJp
+YWwwIC1kZXZpY2UgdmlydGNvbnNvbGUsY2hhcmRldj1jaGFyY29uc29sZTAsaWQ9Y29uc29sZTAg
+LWNoYXJkZXYgc29ja2V0LGlkPWNoYXJjb25zb2xlMCxwYXRoPS9ydW4vdmMvdm0vdGVzdC1rYXRh
+MS9jb25zb2xlLnNvY2ssc2VydmVyPW9uLHdhaXQ9b2ZmIAoKLWRldmljZSBudmRpbW0saWQ9bnYw
+LG1lbWRldj1tZW0wLHVuYXJtZWQ9b24gLW9iamVjdCBtZW1vcnktYmFja2VuZC1maWxlLGlkPW1l
+bTAsbWVtLXBhdGg9L29wdC9rYXRhL3NoYXJlL2thdGEtY29udGFpbmVycy9rYXRhLWNsZWFybGlu
+dXgtbGF0ZXN0LmltYWdlLHNpemU9MjY4NDM1NDU2LHJlYWRvbmx5PW9uIC1vYmplY3Qgcm5nLXJh
+bmRvbSxpZD1ybmcwLGZpbGVuYW1lPS9kZXYvdXJhbmRvbSAtZGV2aWNlIHZpcnRpby1ybmctcGNp
+LHJuZz1ybmcwIAoKLWRldmljZSBwY2llLXJvb3QtcG9ydCxpZD1ycDAsYnVzPXBjaWUuMCxjaGFz
+c2lzPTAsc2xvdD0wLG11bHRpZnVuY3Rpb249b2ZmIC1kZXZpY2UgcGNpZS1yb290LXBvcnQsaWQ9
+cnAxLGJ1cz1wY2llLjAsY2hhc3Npcz0wLHNsb3Q9MSxtdWx0aWZ1bmN0aW9uPW9mZiAKLWRldmlj
+ZSB2aG9zdC12c29jay1wY2ksZGlzYWJsZS1tb2Rlcm49ZmFsc2Usdmhvc3RmZD0zLGlkPXZzb2Nr
+LTI5MjQwMTA0NjEsZ3Vlc3QtY2lkPTI5MjQwMTA0NjEgCi1kZXZpY2UgdmlydGlvLTlwLXBjaSxk
+aXNhYmxlLW1vZGVybj1mYWxzZSxmc2Rldj1leHRyYS05cC1rYXRhU2hhcmVkLG1vdW50X3RhZz1r
+YXRhU2hhcmVkIC1mc2RldiBsb2NhbCxpZD1leHRyYS05cC1rYXRhU2hhcmVkLHBhdGg9L3J1bi9r
+YXRhLWNvbnRhaW5lcnMvc2hhcmVkL3NhbmRib3hlcy90ZXN0LWthdGExL3NoYXJlZCxzZWN1cml0
+eV9tb2RlbD1ub25lLG11bHRpZGV2cz1yZW1hcCAtcnRjIGJhc2U9dXRjLGRyaWZ0Zml4PXNsZXcs
+Y2xvY2s9aG9zdCAtZ2xvYmFsIGt2bS1waXQubG9zdF90aWNrX3BvbGljeT1kaXNjYXJkIC12Z2Eg
+bm9uZSAtbm8tdXNlci1jb25maWcgLW5vZGVmYXVsdHMgLW5vZ3JhcGhpYyAtLW5vLXJlYm9vdCAt
+ZGFlbW9uaXplIC1vYmplY3QgbWVtb3J5LWJhY2tlbmQtcmFtLGlkPWRpbW0xLHNpemU9MjA0OE0g
+LW51bWEgbm9kZSxtZW1kZXY9ZGltbTEgCgota2VybmVsIC9vcHQva2F0YS9zaGFyZS9rYXRhLWNv
+bnRhaW5lcnMvdm1saW51eC01LjEwLjI1LTg1IAotYXBwZW5kIHRzYz1yZWxpYWJsZSBub190aW1l
+cl9jaGVjayByY3VwZGF0ZS5yY3VfZXhwZWRpdGVkPTEgaTgwNDIuZGlyZWN0PTEgaTgwNDIuZHVt
+YmtiZD0xIGk4MDQyLm5vcG5wPTEgaTgwNDIubm9hdXg9MSBub3JlcGxhY2Utc21wIHJlYm9vdD1r
+IGNvbnNvbGU9aHZjMCBjb25zb2xlPWh2YzEgY3J5cHRvbWdyLm5vdGVzdHMgbmV0LmlmbmFtZXM9
+MCBwY2k9bGFzdGJ1cz0wIHJvb3Q9L2Rldi9wbWVtMHAxIHJvb3RmbGFncz1kYXgsZGF0YT1vcmRl
+cmVkLGVycm9ycz1yZW1vdW50LXJvIHJvIHJvb3Rmc3R5cGU9ZXh0NCBkZWJ1ZyBzeXN0ZW1kLnNo
+b3dfc3RhdHVzPXRydWUgc3lzdGVtZC5sb2dfbGV2ZWw9ZGVidWcgcGFuaWM9MSBucl9jcHVzPTQ4
+IHN5c3RlbWQudW5pdD1rYXRhLWNvbnRhaW5lcnMudGFyZ2V0IHN5c3RlbWQubWFzaz1zeXN0ZW1k
+LW5ldHdvcmtkLnNlcnZpY2Ugc3lzdGVtZC5tYXNrPXN5c3RlbWQtbmV0d29ya2Quc29ja2V0IGFn
+ZW50LmxvZz1kZWJ1ZyBhZ2VudC5kZWJ1Z19jb25zb2xlIGFnZW50LmRlYnVnX2NvbnNvbGVfdnBv
+cnQ9MTAyNiAtc21wIDEsY29yZXM9MSx0aHJlYWRzPTEsc29ja2V0cz00OCxtYXhjcHVzPTQ4CgoK
+eyJleGVjdXRlIiA6ICJxbXBfY2FwYWJpbGl0aWVzIn0gCnsicmV0dXJuIjoge319CnsgImV4ZWN1
+dGUiOiAiYmxvY2tkZXYtYWRkIiwgImFyZ3VtZW50cyI6IHsgImRyaXZlciI6ICJyYXciLCAibm9k
+ZS1uYW1lIjogImRyaXZlLXZpcnRpby1kaXNrMiIsICJmaWxlIjogeyAiZHJpdmVyIjogImZpbGUi
+LCAiZmlsZW5hbWUiOiAiL3Jvb3QvY2lycm9zL2RhdGEteG1sLnJhdyIgfSB9IH0KeyJyZXR1cm4i
+OiB7fX0KeyJleGVjdXRlIjoiZGV2aWNlX2FkZCIsImFyZ3VtZW50cyI6eyJkcml2ZXIiOiJ2aXJ0
+aW8tYmxrLXBjaSIsInNjc2kiOiJvZmYiLCJidXMiOiJwY2llLjAiLCJhZGRyIjoiMHg3IiwiZHJp
+dmUiOiJkcml2ZS12aXJ0aW8tZGlzazIiLCJpZCI6InZpcnRpby1kaXNrMiJ9LCJpZCI6ImxpYnZp
+cnQtMTgifQp7ImlkIjogImxpYnZpcnQtMTgiLCAiZXJyb3IiOiB7ImNsYXNzIjogIkdlbmVyaWNF
+cnJvciIsICJkZXNjIjogIkJ1cyAncGNpZS4wJyBkb2VzIG5vdCBzdXBwb3J0IGhvdHBsdWdnaW5n
+In19
 
