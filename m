@@ -2,54 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 650D5447CCA
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 10:31:19 +0100 (CET)
-Received: from localhost ([::1]:39978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 414D2447CF5
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 10:39:24 +0100 (CET)
+Received: from localhost ([::1]:45908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk0zl-0002wO-N5
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 04:31:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54584)
+	id 1mk17a-0007db-Sh
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 04:39:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mk0xf-0001e9-Sg; Mon, 08 Nov 2021 04:29:07 -0500
-Received: from out28-101.mail.aliyun.com ([115.124.28.101]:34253)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mk15W-0006H4-RT
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 04:37:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mk0xS-0004dy-2L; Mon, 08 Nov 2021 04:29:07 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436326|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_regular_dialog|0.0173972-0.000499226-0.982104;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047209; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.LpO54no_1636363723; 
-Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.LpO54no_1636363723)
- by smtp.aliyun-inc.com(10.147.42.22); Mon, 08 Nov 2021 17:28:44 +0800
-Subject: Re: [PATCH 09/13] target/riscv: Adjust vector address with ol
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org, Alexey Baturo <baturo.alexey@gmail.com>
-References: <20211101100143.44356-1-zhiwei_liu@c-sky.com>
- <20211101100143.44356-10-zhiwei_liu@c-sky.com>
- <851481b9-e973-b3e1-1722-73db47edb772@linaro.org>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <f84e607c-e16e-ec3f-a7b3-e779b344fcb6@c-sky.com>
-Date: Mon, 8 Nov 2021 17:28:43 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mk15R-0008U4-Oe
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 04:37:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636364228;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OFdTT+iTTnEyQs1gsQ25FO9MzlPl6y8AEe1fgo3DQKo=;
+ b=eo+mmUx17T5IjBXxeDl3GJydJnWn7k7nKyDtgPuLtfNds+amIBQ8I/+8FhctjOUBnj2wyg
+ vwlB4LlmLh1lZvrnCW7L1VcOWWVIA3o+HX04CPcN7oMseXo1mXgBods9/UUnWtWDf7Xx/D
+ ckg4lI/bqhKra6cEy/F+nLAHXDqIe7c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-432-nxy_gPG1MvmZ1G_UCObCzA-1; Mon, 08 Nov 2021 04:37:05 -0500
+X-MC-Unique: nxy_gPG1MvmZ1G_UCObCzA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA42E18125C0;
+ Mon,  8 Nov 2021 09:37:03 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.194.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4DE5019C79;
+ Mon,  8 Nov 2021 09:37:00 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 8CB611803560; Mon,  8 Nov 2021 10:36:58 +0100 (CET)
+Date: Mon, 8 Nov 2021 10:36:58 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PULL 0/6] Egl 20211105 patches
+Message-ID: <20211108093658.xofljgqxe3p4as7e@sirius.home.kraxel.org>
+References: <20211105113043.4059361-1-kraxel@redhat.com>
+ <9221f39f-32ca-094b-c526-82fdbf99a588@linaro.org>
+ <c97aefa2-4686-b339-4d07-f801ac6e5de1@amsat.org>
+ <1b641554-f983-a86f-3512-c109779f6d73@amsat.org>
+ <cc48fcc7-4408-be45-7081-335b98c1ce6f@ilande.co.uk>
+ <4733e0d7-a108-e444-e640-0d5dd7644943@amsat.org>
+ <YYjsatU4ENpazt29@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <851481b9-e973-b3e1-1722-73db47edb772@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <YYjsatU4ENpazt29@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: none client-ip=115.124.28.101; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-101.mail.aliyun.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.06,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,167 +85,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
+Cc: Thomas Huth <thuth@redhat.com>, Dongwon Kim <dongwon.kim@intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021/11/1 下午7:35, Richard Henderson wrote:
+> > >> +#ifdef CONFIG_GBM
+> > >> ��������� if (vc->gfx.guest_fb.dmabuf) {
+> > >> ������������� egl_dmabuf_release_texture(vc->gfx.guest_fb.dmabuf);
+> > >> ������������� gd_egl_scanout_dmabuf(dcl, vc->gfx.guest_fb.dmabuf);
+> > >> ��������� }
+> > >> +#endif
 
-> On 11/1/21 6:01 AM, LIU Zhiwei wrote:
->> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
->> ---
->>   target/riscv/insn_trans/trans_rvv.c.inc |  8 ++++
->>   target/riscv/internals.h                |  1 +
->>   target/riscv/vector_helper.c            | 54 +++++++++++++++++--------
->>   3 files changed, 46 insertions(+), 17 deletions(-)
->>
->> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc 
->> b/target/riscv/insn_trans/trans_rvv.c.inc
->> index ed042f7bb9..5cd9b802df 100644
->> --- a/target/riscv/insn_trans/trans_rvv.c.inc
->> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
->> @@ -233,6 +233,7 @@ static bool ld_us_op(DisasContext *s, arg_r2nfvm 
->> *a, uint8_t seq)
->>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>       return ldst_us_trans(a->rd, a->rs1, data, fn, s);
->>   }
->>   @@ -286,6 +287,7 @@ static bool st_us_op(DisasContext *s, 
->> arg_r2nfvm *a, uint8_t seq)
->>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>       return ldst_us_trans(a->rd, a->rs1, data, fn, s);
->>   }
->>   @@ -365,6 +367,7 @@ static bool ld_stride_op(DisasContext *s, 
->> arg_rnfvm *a, uint8_t seq)
->>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>       return ldst_stride_trans(a->rd, a->rs1, a->rs2, data, fn, s);
->>   }
->>   @@ -404,6 +407,7 @@ static bool st_stride_op(DisasContext *s, 
->> arg_rnfvm *a, uint8_t seq)
->>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>       fn =  fns[seq][s->sew];
->>       if (fn == NULL) {
->>           return false;
->> @@ -490,6 +494,7 @@ static bool ld_index_op(DisasContext *s, 
->> arg_rnfvm *a, uint8_t seq)
->>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s);
->>   }
->>   @@ -542,6 +547,7 @@ static bool st_index_op(DisasContext *s, 
->> arg_rnfvm *a, uint8_t seq)
->>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s);
->>   }
->>   @@ -617,6 +623,7 @@ static bool ldff_op(DisasContext *s, arg_r2nfvm 
->> *a, uint8_t seq)
->>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>       return ldff_trans(a->rd, a->rs1, data, fn, s);
->>   }
->>   @@ -724,6 +731,7 @@ static bool amo_op(DisasContext *s, arg_rwdvm 
->> *a, uint8_t seq)
->>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>       data = FIELD_DP32(data, VDATA, WD, a->wd);
->> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>       return amo_trans(a->rd, a->rs1, a->rs2, data, fn, s);
->>   }
->>   /*
->> diff --git a/target/riscv/internals.h b/target/riscv/internals.h
->> index b15ad394bb..f74b8291e4 100644
->> --- a/target/riscv/internals.h
->> +++ b/target/riscv/internals.h
->> @@ -27,6 +27,7 @@ FIELD(VDATA, VM, 8, 1)
->>   FIELD(VDATA, LMUL, 9, 2)
->>   FIELD(VDATA, NF, 11, 4)
->>   FIELD(VDATA, WD, 11, 1)
->> +FIELD(VDATA, OL, 15, 2)
->>     /* float point classify helpers */
->>   target_ulong fclass_h(uint64_t frs1);
->> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
->> index 535420ee66..451688c328 100644
->> --- a/target/riscv/vector_helper.c
->> +++ b/target/riscv/vector_helper.c
->> @@ -112,6 +112,11 @@ static uint32_t vext_wd(uint32_t desc)
->>       return (simd_data(desc) >> 11) & 0x1;
->>   }
->>   +static inline uint32_t vext_ol(uint32_t desc)
->> +{
->> +    return FIELD_EX32(simd_data(desc), VDATA, OL);
->> +}
->
-> XLEN not OLEN.
-OK.
->
->> @@ -123,6 +128,14 @@ static inline uint32_t vext_maxsz(uint32_t desc)
->>       return simd_maxsz(desc) << vext_lmul(desc);
->>   }
->>   +static inline target_ulong adjust_addr(target_ulong addr, uint32_t 
->> olen)
->> +{
->> +    if (olen < TARGET_LONG_BITS) {
->> +        addr &= UINT32_MAX;
->> +    }
->> +    return addr;
->> +}
->
-> Here's where I'm unsure.  This looks a lot like the changes that are 
-> required to support pointer-masking in vectors, which Alexey said he 
-> was going to look at.
->
-> (1) Do we need to pass anything in VEXT at all?
->     We do have CPURISCVState, so we could just use cpu_get_ml,
-Yes, we should use cpu_get_xl.
-> which we would also need for env->mmte etc for pointer masking.
+> I don't know what Mark sees a problem on Debian Buster though, as we
+> successfully built there AFAICT
+> 
+>    https://gitlab.com/qemu-project/qemu/-/jobs/1756202449
 
-Do you mean env->mpmmask and env->mpmbase? I think yes, we should also 
-adjust these register behaviors with xlen.
+Probably depends on whenever libgbm-dev (or whatever the package
+is named on debian) is installed or not.
 
->
-> (2) Do we try to streamline the "normal" case with a simple bit in VEXT
->     that indicates if the address needs modification at all?  I.e. the
->     bit is set if UXLEN < TARGET_LONG_BITS or if PM_ENABLED?
->
-> (3) Do we try to streamline the computation by passing down composite
->     mask and base parameters.  This way we don't need to do complex
->     examination of ENV to determine execution mode, and instead always
->     compute
->
->        addr = (addr & mask) | base;
->
->     where mask = -1, base = 0 for "normal" addressing, and when
->     UXLEN == 32, mask <= UINT32_MAX.
+take care,
+  Gerd
 
-Do you mean add env->pmmask and env->pmbase?
-
-I can initialize themin riscv_tr_init_disas_context, such as by 
-env->xpmmask & UINT32_MAX .
-
->
-> (4) Do we in fact want to pre-compute these into known slots on ENV,
->     so that we don't have to pass these around as separate parameters?
->     We would adjust these values during PM CSR changes and when
->     changing privilege levels.
->
->
-> r~
 
