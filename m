@@ -2,93 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FC1C4481D7
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 15:34:42 +0100 (CET)
-Received: from localhost ([::1]:54254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C674481F8
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 15:38:19 +0100 (CET)
+Received: from localhost ([::1]:58526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk5jM-0007Fx-GK
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 09:34:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58238)
+	id 1mk5mt-0001w2-08
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 09:38:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mk5f7-0002NF-Md
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 09:30:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35486)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mk5f3-0005ki-GO
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 09:30:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636381811;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O7obqSqtG+4nZkznQ2+J5RnBIezVqiyp0oRu4Daq504=;
- b=CQAb0RmpiNCWJgxhCr8fc8Uo/LTpx3Ea8+m0ft1kfkGFBJpZY/uCW8QDID7EDxWXZJR/nr
- JiVIuxF8dR/EaSBi+7LUkmrUEvsV7fUgEtzH+y+XmUI1P1tptHVN7qOHIjQ0Ogs+lg7oNJ
- dyxspvtZaSu7aTbc5h+v0GB0d3FCUbw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-207-isoJBu4ZP-yINsKp5FUpJg-1; Mon, 08 Nov 2021 09:30:10 -0500
-X-MC-Unique: isoJBu4ZP-yINsKp5FUpJg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- m18-20020a05600c3b1200b0033283ea5facso3594736wms.1
- for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 06:30:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mk5l5-0008A7-7F
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 09:36:27 -0500
+Received: from [2a00:1450:4864:20::52b] (port=37693
+ helo=mail-ed1-x52b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mk5ky-00074b-A0
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 09:36:23 -0500
+Received: by mail-ed1-x52b.google.com with SMTP id f8so63475227edy.4
+ for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 06:36:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eFcY+YFn2/y44sm6fS8ePAb0w9i21PMd73WjdzReTdg=;
+ b=laugrHzopopim9CeTHirOcLjGPGCXz9n68+FKDYzDT6S8LEGTuxnGq8j+d8DxpHssw
+ Ky1TD+uA0Rn/uKP89o6gB7ijeJN3LiWNVNTI7UC6T/NZS/sOv6bB/ffDhVfsgqm5l0c+
+ g8ESJCjz45JR3wixt8IPEscIN75elUueFzriw88u8p0yX/qvJgDGnoPx9bRAhIQo0ZTg
+ flgaruvKpGDCjvk0lFfsv7TTQih47k1oFEAVYd+czajDHO55ligGJUdhEt3d4aR67IHI
+ Dx9YpuyMStR7MQBloHks7cMhHLWnz4gIWs5TyejZvcF7s2gQJL2xkyTuJQ1k7C8jhh/C
+ vStw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=O7obqSqtG+4nZkznQ2+J5RnBIezVqiyp0oRu4Daq504=;
- b=D2gF3SxLbrpopLqffAvrMFF9c2e0CZQAnrVp/zI36Fh6OUTlT6xMzLGZs8Pvcb8kwz
- o+4hvu9BQ7iMEl45VvhfOlO8ZFejpWaE6vlRZkVaZVraXjd6y6Y9zAaQcw6vEAqRxE2h
- q7h2KazF2OvGZpSSAH+cP3wdFSqVieI0XgDjVxlrbxVNJ5l4LYtmDYUcAVfUB4XFG7GC
- uL9b/XKpyvEN+Hfl+j4hG3ziIlLaAF2J+BWcmdxdUdyQkP8yH6kjpRrj8BmgHr4m45Nu
- exbONK2+XZv1gVuX9B21sq3/5R+7N4AiMZdb/bY57QLtph/UZ5Ujqno8UdM85rZcCgY2
- Rf4Q==
-X-Gm-Message-State: AOAM531deKrobLDYtjzNpebTW9vsc3+6dJlugZirQf6tdgH2W4rjZBya
- F7+YSWYTisUbXutoAoV0rUHNK57RXIwIPJ9y6xa6+wB2oYUM0gyluqTHQof/80l39YnSS3ElGKW
- y+C+7bQZI7WKTEu8=
-X-Received: by 2002:a5d:68cb:: with SMTP id p11mr231256wrw.262.1636381809406; 
- Mon, 08 Nov 2021 06:30:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzTI6seka0Rvi/OMIubixF8QblHYkviENk/lTBRzhSu71CVbAmnMaTkC1WR5DitKyk+cSIT7A==
-X-Received: by 2002:a5d:68cb:: with SMTP id p11mr231220wrw.262.1636381809152; 
- Mon, 08 Nov 2021 06:30:09 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id c79sm16890978wme.43.2021.11.08.06.30.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Nov 2021 06:30:08 -0800 (PST)
-Message-ID: <b0787bca-8321-059e-d360-1e0a0af31228@redhat.com>
-Date: Mon, 8 Nov 2021 15:30:07 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] hw/acpi: Set memory regions to native endian as a work
- around
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
-References: <20211108130934.59B48748F52@zero.eik.bme.hu>
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=eFcY+YFn2/y44sm6fS8ePAb0w9i21PMd73WjdzReTdg=;
+ b=AZAKocvfGrM1p/HmTTreXcJuPiZ7MNpOrIp84uwy1oSLjjoeYTGVfm9+Eslv4+ILoL
+ 3wQcbW0u7NJLDGxgyItUHOQ44lmNefBlOMUm2ds6ZKKXYnd4j7zKWx7CM2bUbfZEOVEN
+ Ax/FusA80vX/0dPMAtpDitB6ca0zOZP4WmGIcxb7v8PveKRDFv9yKF/zF4AtI7QX1iVv
+ D6ortGjVY9D+lwvYQwbt/Ha8OhnlFtzr/VGba5I8avO38FfDsTMqJrhzL9mr7E5fQoKF
+ txqauN1VshRhFg6DB+9HqnUjkSXzye9wJYsQuzKAy/gZS38Yf2E6R6cTDE5ranrl4pl4
+ BNLw==
+X-Gm-Message-State: AOAM530RgnSOcUM5OtlmJnkR1wKSjb5DvTHOfi1XbKk31gwzGHX/VzPU
+ 3iqUb64sOVo1LisU49h+tGupSr0HxzY=
+X-Google-Smtp-Source: ABdhPJzAAmXc79K4phbxhx/MBE2c/X1htSl7nWwsSU65a3cGyneuMnTtNzlGZSyDkEZ+FvoIjqcCew==
+X-Received: by 2002:a50:e0c9:: with SMTP id j9mr111276edl.336.1636382178527;
+ Mon, 08 Nov 2021 06:36:18 -0800 (PST)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id hp3sm8366662ejc.61.2021.11.08.06.36.17
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Nov 2021 06:36:18 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20211108130934.59B48748F52@zero.eik.bme.hu>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.06, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/10] Misc QEMU bugfixes for 6.2 hard freeze
+Date: Mon,  8 Nov 2021 15:36:06 +0100
+Message-Id: <20211108143616.660340-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.33.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,60 +86,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/8/21 14:05, BALATON Zoltan wrote:
-> When using ACPI on big endian machine (such as ppc/pegasos2 which has
-> a VT8231 south bridge with ACPI) writes to ACPI registers come out
-> byte swapped. This may be caused by a bug in memory subsystem but
-> until that is fixed setting the ACPI memory regions to native endian
-> makes it usable for big endian machines. This fixes ACPI shutdown with
-> pegasos2 when using the board firmware for now.
-> This could be reverted when the memory layer is fixed.
+The following changes since commit 63ed851de474b1e2458cb9b4ba6e02a88f72c25c:
 
-What is the path to the swapped writes?  Even just a backtrace might be 
-enough to understand what's going on, and especially where the bug is.
+  Merge remote-tracking branch 'remotes/juanquintela/tags/migration-20211106-pull-request' into staging (2021-11-06 19:43:42 -0400)
 
-Paolo
+are available in the Git repository at:
 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->   hw/acpi/core.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/acpi/core.c b/hw/acpi/core.c
-> index 1e004d0078..543e4a7875 100644
-> --- a/hw/acpi/core.c
-> +++ b/hw/acpi/core.c
-> @@ -461,7 +461,7 @@ static const MemoryRegionOps acpi_pm_evt_ops = {
->       .impl.min_access_size = 2,
->       .valid.min_access_size = 1,
->       .valid.max_access_size = 2,
-> -    .endianness = DEVICE_LITTLE_ENDIAN,
-> +    .endianness = DEVICE_NATIVE_ENDIAN,
->   };
->   
->   void acpi_pm1_evt_init(ACPIREGS *ar, acpi_update_sci_fn update_sci,
-> @@ -531,7 +531,7 @@ static const MemoryRegionOps acpi_pm_tmr_ops = {
->       .impl.min_access_size = 4,
->       .valid.min_access_size = 1,
->       .valid.max_access_size = 4,
-> -    .endianness = DEVICE_LITTLE_ENDIAN,
-> +    .endianness = DEVICE_NATIVE_ENDIAN,
->   };
->   
->   void acpi_pm_tmr_init(ACPIREGS *ar, acpi_update_sci_fn update_sci,
-> @@ -608,7 +608,7 @@ static const MemoryRegionOps acpi_pm_cnt_ops = {
->       .impl.min_access_size = 2,
->       .valid.min_access_size = 1,
->       .valid.max_access_size = 2,
-> -    .endianness = DEVICE_LITTLE_ENDIAN,
-> +    .endianness = DEVICE_NATIVE_ENDIAN,
->   };
->   
->   void acpi_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
-> 
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to 8b4ed0dabae559ebe1fd6f8eb54e1ec6000a0a7a:
+
+  ui/gtk-egl: Fix build failure when libgbm is not available (2021-11-08 12:20:13 +0100)
+
+----------------------------------------------------------------
+* Fix off-by-one in MODE SELECT commands
+* extend --extra-*flags behavior to meson-based tests
+* allow using snappy in static builds
+* i386 TCG fixes
+* fix build failure when libgbm is not available
+
+----------------------------------------------------------------
+Mauro Matteo Cascella (1):
+      hw/scsi/scsi-disk: MODE_PAGE_ALLS not allowed in MODE SELECT commands
+
+Paolo Bonzini (8):
+      target-i386: mmu: use pg_mode instead of HF_LMA_MASK
+      target-i386: mmu: fix handling of noncanonical virtual addresses
+      meson: perform snappy test with the C++ compiler if used
+      docs: adjust for demise of scripts/create_config
+      configure: simplify calls to meson_quote
+      configure: preserve CFLAGS, CXXFLAGS and LDFLAGS in config.status
+      configure: propagate --extra-cflags and --extra-ldflags to meson compile tests
+      configure: ignore preexisting QEMU_*FLAGS envvars
+
+Philippe Mathieu-Daudé (1):
+      ui/gtk-egl: Fix build failure when libgbm is not available
+
+ configure                            | 46 ++++++++++++++++++++++--------------
+ docs/devel/build-system.rst          |  9 ++++---
+ hw/scsi/scsi-disk.c                  |  6 +++++
+ meson.build                          |  6 ++++-
+ target/i386/tcg/sysemu/excp_helper.c | 25 +++++++++++---------
+ ui/gtk-egl.c                         |  2 ++
+ 6 files changed, 59 insertions(+), 35 deletions(-)
+-- 
+2.33.1
 
 
