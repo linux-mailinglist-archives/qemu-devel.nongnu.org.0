@@ -2,51 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E87B4449801
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 16:18:37 +0100 (CET)
-Received: from localhost ([::1]:37302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71D3E449804
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 16:19:15 +0100 (CET)
+Received: from localhost ([::1]:40754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk6Ps-0006pd-Kh
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 10:18:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44222)
+	id 1mk6QU-0000h4-K9
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 10:19:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mk6O9-0004sj-A8
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:16:50 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:11641)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mk6P4-0006lG-Nn
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:17:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33261)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mk6O2-00036U-Af
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:16:48 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D3A4B748F56;
- Mon,  8 Nov 2021 16:16:35 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 976B6748F54; Mon,  8 Nov 2021 16:16:35 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 960AE748F52;
- Mon,  8 Nov 2021 16:16:35 +0100 (CET)
-Date: Mon, 8 Nov 2021 16:16:35 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] hw/acpi: Set memory regions to native endian as a work
- around
-In-Reply-To: <a7992420-e2e3-7859-b2de-f9aa88c94945@redhat.com>
-Message-ID: <d03380e9-b6a2-5998-cc72-6443cfdc46b5@eik.bme.hu>
-References: <20211108130934.59B48748F52@zero.eik.bme.hu>
- <b0787bca-8321-059e-d360-1e0a0af31228@redhat.com>
- <a7992420-e2e3-7859-b2de-f9aa88c94945@redhat.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mk6P1-0003SC-Pi
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:17:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636384662;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hKcyTKLMPRJMRL1WkoqUFnlj4Ggg7wFsfX1AAjTEU2E=;
+ b=XF31Y6KLKi0v3FSJ695xhorLTjrLm00ZCWJMWSYSfCeUTt1q6e/xhrxDoTIu+zaE+q4KH0
+ OI38lyyTOHHrPPVVYX28W9eBvdHQdlkZ8KmZW8I/v21WSobigz/ds29/B1R0qHl9Bw2L4a
+ A4bBC7XXnKA62G5aQrHWu6uFhnzVkwo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-553-U5NUlwKIMKy8A2ieEgcrDQ-1; Mon, 08 Nov 2021 10:17:39 -0500
+X-MC-Unique: U5NUlwKIMKy8A2ieEgcrDQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5365F1054F93;
+ Mon,  8 Nov 2021 15:17:36 +0000 (UTC)
+Received: from [10.39.192.185] (unknown [10.39.192.185])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D9C5161077;
+ Mon,  8 Nov 2021 15:16:57 +0000 (UTC)
+Message-ID: <124c2224-8983-3737-c8a5-1347bd83e941@redhat.com>
+Date: Mon, 8 Nov 2021 16:16:56 +0100
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1914207032-1636384595=:98146"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2 0/6] rSTify contribution-related wiki pages
+To: Kashyap Chamarthy <kchamart@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20211019090344.3054300-1-kchamart@redhat.com>
+ <CAFEAcA8CHVfAXFaQwfZrQUfJcD9qQNOYAEt9vvpQVtgwtTf80w@mail.gmail.com>
+ <YYFebObSyo6itE/R@paraplu>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <YYFebObSyo6itE/R@paraplu>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.06, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,77 +82,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-trivial@nongnu.org, Eric Blake <eblake@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
+ Laurent Vivier <Laurent@vivier.eu>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 02/11/2021 16.51, Kashyap Chamarthy wrote:
+> On Mon, Nov 01, 2021 at 02:56:43PM +0000, Peter Maydell wrote:
+>> On Tue, 19 Oct 2021 at 10:04, Kashyap Chamarthy <kchamart@redhat.com> wrote:
+>>>
+>>> My main motivation was to convert SubmitAPatch[1] based on a chat with
+>>> Peter Maydell and Dan Berrangé on #qemu channel (on OFTC).  But the page
+>>> also links to a couple of other contribution-related pages, so I
+>>> converted them too:
+>>>
+>>>    - SubmitAPullRequest: https://wiki.qemu.org/Contribute/SubmitAPullRequest
+>>>    - KeySigningParty: https://wiki.qemu.org/KeySigningParty
+>>>    - SpellCheck: https://wiki.qemu.org/Contribute/SpellCheck
+>>>    - TrivialPatches: https://wiki.qemu.org/Contribute/TrivialPatches
+>>
+>> I'm not sure that SpellCheck in particular is sufficiently baked
+>> to be in the actual docs. I'd rather just drop the reference to it
+>> from SubmitAPatch.
+> 
+> Sure, will drop.
+> 
+>> KeySigningParty I'm on the fence about.
+> 
+> This is linked only from the SubmitAPullRequest page.  If we're
+> ambivalent about it, I'll just keep it in for reference.
 
---3866299591-1914207032-1636384595=:98146
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+FWIW, I'd rather prefer to keep the KeySigningParty stuff in the wiki - it 
+does not feel like the right content for the docs that we ship in the 
+release tarballs.
 
-On Mon, 8 Nov 2021, Paolo Bonzini wrote:
-> On 11/8/21 15:30, Paolo Bonzini wrote:
->> On 11/8/21 14:05, BALATON Zoltan wrote:
->>> When using ACPI on big endian machine (such as ppc/pegasos2 which has
->>> a VT8231 south bridge with ACPI) writes to ACPI registers come out
->>> byte swapped. This may be caused by a bug in memory subsystem but
->>> until that is fixed setting the ACPI memory regions to native endian
->>> makes it usable for big endian machines. This fixes ACPI shutdown with
->>> pegasos2 when using the board firmware for now.
->>> This could be reverted when the memory layer is fixed.
->> 
->> What is the path to the swapped writes?  Even just a backtrace might be 
->> enough to understand what's going on, and especially where the bug is.
->
-> Ok, Michael pointed me at 
-> https://lore.kernel.org/all/20211011080528-mutt-send-email-mst@kernel.org/.
+  Thomas
 
-I was about to say that here's the original thread:
-
-https://lists.nongnu.org/archive/html/qemu-devel/2021-10/msg01972.html
-
-and here's the backtrace:
-
-#0  acpi_pm1_cnt_write (val=40, ar=0x55555695f340) at ../hw/acpi/core.c:556
-#1  acpi_pm_cnt_write (opaque=0x55555695f340, addr=1, val=40, width=2) at ../hw/acpi/core.c:602
-#2  0x0000555555b3a82f in memory_region_write_accessor
-     (mr=mr@entry=0x55555695f590, addr=1, value=value@entry=0x7fffefffdd08, size=size@entry=2, shift=<optimized out>, mask=mask@entry=65535, attrs=...)
-     at ../softmmu/memory.c:492
-#3  0x0000555555b3813e in access_with_adjusted_size
-     (addr=addr@entry=1, value=value@entry=0x7fffefffdd08, size=size@entry=1, access_size_min=<optimized out>, access_size_max=<optimized out>, access_fn=
-     0x555555b3a7b0 <memory_region_write_accessor>, mr=0x55555695f590, attrs=...) at ../softmmu/memory.c:554
-#4  0x0000555555b3c449 in memory_region_dispatch_write (mr=mr@entry=0x55555695f590, addr=1, data=<optimized out>, op=<optimized out>, attrs=attrs@entry=...)
-     at ../softmmu/memory.c:1511
-#5  0x0000555555b2c121 in flatview_write_continue
-     (fv=fv@entry=0x7fff84d23b30, addr=addr@entry=4261416709, attrs=attrs@entry=..., ptr=ptr@entry=0x7fffefffdec0, len=len@entry=1, addr1=<optimized out>,
-      l=<optimized out>, mr=0x55555695f590) at host-utils.h:165
-#6  0x0000555555b2c399 in flatview_write (len=1, buf=0x7fffefffdec0, attrs=..., addr=4261416709, fv=0x7fff84d23b30) at ../softmmu/physmem.c:2822
-#7  subpage_write (opaque=<optimized out>, addr=<optimized out>, value=<optimized out>, len=1, attrs=...) at ../softmmu/physmem.c:2488
-#8  0x0000555555b380de in access_with_adjusted_size
-     (addr=addr@entry=3845, value=value@entry=0x7fffefffdf88, size=size@entry=1, access_size_min=<optimized out>, access_size_max=<optimized out>, access_fn=
-     0x555555b3aa80 <memory_region_write_with_attrs_accessor>, mr=0x7fff84710bb0, attrs=...) at ../softmmu/memory.c:549
-#9  0x0000555555b3c449 in memory_region_dispatch_write (mr=mr@entry=0x7fff84710bb0, addr=addr@entry=3845, data=<optimized out>, data@entry=40, op=op@entry=MO_8, attrs=...)
-     at ../softmmu/memory.c:1511
-#10 0x0000555555c07b4c in io_writex
-     (env=env@entry=0x55555666a820, iotlbentry=iotlbentry@entry=0x7fff843367f0, mmu_idx=1, val=val@entry=40, addr=addr@entry=4261416709,
-      retaddr=retaddr@entry=140736116523268, op=MO_8) at ../accel/tcg/cputlb.c:1420
-#11 0x0000555555c0b5df in store_helper (op=MO_8, retaddr=<optimized out>, oi=<optimized out>, val=40, addr=4261416709, env=0x55555666a820) at ../accel/tcg/cputlb.c:2355
-#12 full_stb_mmu (env=0x55555666a820, addr=4261416709, val=40, oi=<optimized out>, retaddr=140736116523268) at ../accel/tcg/cputlb.c:2404
-#13 0x00007fffae3b8104 in code_gen_buffer ()
-#14 0x0000555555bfcfab in cpu_tb_exec (cpu=cpu@entry=0x555556661360, itb=itb@entry=0x7fffae3b7fc0 <code_gen_buffer+56197011>, tb_exit=tb_exit@entry=0x7fffefffe668)
-     at ../accel/tcg/cpu-exec.c:357
-#15 0x0000555555bfe089 in cpu_loop_exec_tb (tb_exit=0x7fffefffe668, last_tb=<synthetic pointer>, tb=0x7fffae3b7fc0 <code_gen_buffer+56197011>, cpu=0x555556661360)
-     at ../accel/tcg/cpu-exec.c:833
-#16 cpu_exec (cpu=cpu@entry=0x555556661360) at ../accel/tcg/cpu-exec.c:992
-#17 0x0000555555c1bba0 in tcg_cpus_exec (cpu=cpu@entry=0x555556661360) at ../accel/tcg/tcg-accel-ops.c:67
-#18 0x0000555555c1c3d7 in rr_cpu_thread_fn (arg=arg@entry=0x555556661360) at ../accel/tcg/tcg-accel-ops-rr.c:214
-#19 0x0000555555d5c049 in qemu_thread_start (args=0x7fffefffe750) at ../util/qemu-thread-posix.c:556
-#20 0x00007ffff6a95dea in start_thread () at /lib64/libpthread.so.0
-#21 0x00007ffff69c8fdf in clone () at /lib64/libc.so.6
-
---3866299591-1914207032-1636384595=:98146--
 
