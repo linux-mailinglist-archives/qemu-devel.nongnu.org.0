@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D687447B61
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 08:51:27 +0100 (CET)
-Received: from localhost ([::1]:48070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80A6D447B47
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 08:44:13 +0100 (CET)
+Received: from localhost ([::1]:40632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjzR8-00006z-QW
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 02:51:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39724)
+	id 1mjzK8-00034r-4E
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 02:44:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mjzOR-0006yw-Kg
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 02:48:41 -0500
-Received: from [2a00:1450:4864:20::32b] (port=46641
- helo=mail-wm1-x32b.google.com)
+ id 1mjzIa-0002Jx-Gy
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 02:42:36 -0500
+Received: from [2a00:1450:4864:20::434] (port=39928
+ helo=mail-wr1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mjzOP-0002AQ-EE
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 02:48:38 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- b184-20020a1c1bc1000000b0033140bf8dd5so10916155wmb.5
- for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 23:48:37 -0800 (PST)
+ id 1mjzIZ-0007Qp-21
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 02:42:36 -0500
+Received: by mail-wr1-x434.google.com with SMTP id d27so25213591wrb.6
+ for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 23:42:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=xOuWduFXmn6mQ8S8uVtWiq0yDp85EgllsaC85lL4ZO4=;
- b=hgxXO/nwVpm+8+x8MW/kZX5sPBFuZEPlNgJfLOWbtAdiLepX+7yfOEaOCxbjvvaxKt
- g96bCtFuos3frM5SU4gaBSq7bJnnokBKmUJhgB1IwzJg/IcT6eYVFJFj9TvdPpXaKObL
- Dch9n3eyCqdTw8JhgYgUr7AIttkUspi1pBq02NwpZlGdrBlJVvtZK5NtSg3keSQYSJxY
- 2Uw1FbQEpWMvcm0i3ILUCFaVvKq1DzeGmm6iZFAqJRONvoBl0kNPTLi0dWFtn/U+panc
- X7dUMGaFm0wVLb9S+u4qXyrsDuzDlxf2GEcwYaJFUjvnFS9+4dS/MRS+j87/QFp32zzm
- 705A==
+ bh=YdB10ZVRylHVmT4H1qBD74R2pX/eu7QQD7UCVz9FydY=;
+ b=I/42A9gqyzSnEoO8sm8yOdjoJACTX5lKRhxwQH29P11byrmHPI1LIlAQ02CwusL2iU
+ ACUpvGaBMeXxDHuI74Zh61IJYJrf1KGT0HpAwWNkxKA64HmW2MkCf+3/tS07yLPLKxVK
+ CpGiEPnLUYlN4n1fDfrQRiZer71FwSL/xMCgNHctFS+QLU4UmvELIjmDgvUk6Krgk/gR
+ fth35o2qhaXFYuCeJAq/eWQM2GXCT76mnrIWDa0uoHXFQDhcsiO59c8QSJco4jPy2MR+
+ EPHkaOLCqAk0Pam7limnk4e7b2TL2bWaUurYtytaPGPKY55swhnUxClameUuHOk/VKAe
+ 6IpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=xOuWduFXmn6mQ8S8uVtWiq0yDp85EgllsaC85lL4ZO4=;
- b=JD7eYfgMxTMZIWFPcpkRt+Qv5VhhHXBddJ+L6yInlAv1D8NxgojxKuaQfTn+vbaZOO
- GqscTAgrVaXHsjIIGTQboE99gmKZiX3hhGDKvgna4d6eq5GQydLmNK8KoeYSDItELNqw
- MhO+9uAUfYTaCP+ziL+VL7wWxxcTFrmC2AYaLNpa78+h4XtbaykRjl7zst/3GGj3GPc9
- aPf94EjX+kXBLHKSk7h2I2A3nXqUbOhUD/boOZQ1ZBgxitxoIZxisyO0H1TE6mmxM6rw
- dbH6kpHKCUacP3aYL0utnEW57oTc7N5afdOSQeaVX/L52XDd2aRvKFhaMhaQ2t5KwYyq
- Y0BA==
-X-Gm-Message-State: AOAM5306wAlMTdW/3hsi4vXbBEspds2fAsJdtpxEv9sK6OelF0XiVowY
- bQ3el8fuaLyHX0gA6T6OYZtWS0ld4NU=
-X-Google-Smtp-Source: ABdhPJy9KF/DxcS9rU6Hkc5VjGphsbdIrn1shyYAr885Jtw6+2rkcb5Xf4FfUmYxE++GL6jOq7yqkg==
-X-Received: by 2002:a7b:c24a:: with SMTP id b10mr15644130wmj.166.1636357235149; 
- Sun, 07 Nov 2021 23:40:35 -0800 (PST)
+ bh=YdB10ZVRylHVmT4H1qBD74R2pX/eu7QQD7UCVz9FydY=;
+ b=2t1fGf29IvJ21nLbNLqG8jWdVk4+DC7j8WIDNHywrJK33BWhpdfKiu3qVE/2Of10s7
+ A4SLzBdiRaCoqssFgYzqBNHT89HIPOoxyqaXpwwqKsXsK2kpcxjLtRAnv5dpvdUf59ml
+ ySSLlTqRWYBQ2f6XYU5JcEiOp6gscvMOFyiSi+K8SXfLsQ/0mjnydcypxHE9qUbLCVhC
+ szkdL6gE36EHC6I+i/q9Rfd0G85JvOqW2CVOPD6FEraLWwuqWjh0i6kqkHG+QQajEMWv
+ dS5L6kMzVtvHJ308kumCZHVbPU8doIjbmM9SuUOcLt6+3jF2ySeImMNVdCfQQrAWZ+CD
+ qjHA==
+X-Gm-Message-State: AOAM531RpFw4MLfMS6E7s0B9/TGU/2Sr0M4yCpSqu1GYSRx2lmy4KafY
+ Zff8Esij2U5XVr5xAGGXhII=
+X-Google-Smtp-Source: ABdhPJxJT/6QE7N1Y6/5BWcHF3fzffZC1nx6RPzEyjnlaLTUEwrHlhIlKP+C39xmSJC4wQbiXOf+uA==
+X-Received: by 2002:adf:fb09:: with SMTP id c9mr38403489wrr.223.1636357353141; 
+ Sun, 07 Nov 2021 23:42:33 -0800 (PST)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id j11sm1806903wrt.3.2021.11.07.23.40.34
+ by smtp.gmail.com with ESMTPSA id f7sm9880491wri.74.2021.11.07.23.42.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 07 Nov 2021 23:40:34 -0800 (PST)
-Message-ID: <a5be987c-9c57-26a6-a973-cf0b14a5ccbe@amsat.org>
-Date: Mon, 8 Nov 2021 08:40:33 +0100
+ Sun, 07 Nov 2021 23:42:32 -0800 (PST)
+Message-ID: <9e73bd0f-2820-2a8d-9194-559d5bf94223@amsat.org>
+Date: Mon, 8 Nov 2021 08:42:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH 2/4] linux-user: Always use flexible arrays for dirent
- d_name
+Subject: Re: [PATCH 1/4] linux-user: Split out do_getdents, do_getdents64
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20211107124845.1174791-1-richard.henderson@linaro.org>
- <20211107124845.1174791-3-richard.henderson@linaro.org>
+ <20211107124845.1174791-2-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211107124845.1174791-3-richard.henderson@linaro.org>
+In-Reply-To: <20211107124845.1174791-2-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -100,18 +98,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/7/21 13:48, Richard Henderson wrote:
-> We currently use a flexible array member for target_dirent,
-> but use incorrectly fixed length arrays for target_dirent64,
-> linux_dirent and linux_dirent64.
-> 
-> This requires that we adjust the definition of the VFAT READDIR
-> ioctls which hard-code the 256 namelen size into the ioctl constant.
+> Retain all 3 implementations of getdents for now.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  linux-user/syscall_defs.h | 6 +++---
->  linux-user/syscall.c      | 6 ++++--
->  2 files changed, 7 insertions(+), 5 deletions(-)
+>  linux-user/syscall.c | 325 +++++++++++++++++++++++--------------------
+>  1 file changed, 172 insertions(+), 153 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
