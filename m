@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC5E1448221
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 15:48:41 +0100 (CET)
-Received: from localhost ([::1]:55980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D83874481F7
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 15:38:18 +0100 (CET)
+Received: from localhost ([::1]:58458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk5wu-0002UA-Li
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 09:48:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60134)
+	id 1mk5ms-0001sr-0v
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 09:38:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mk5lD-0008D9-Kd
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 09:36:35 -0500
-Received: from [2a00:1450:4864:20::52e] (port=45618
- helo=mail-ed1-x52e.google.com)
+ id 1mk5l9-0008Bq-UB
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 09:36:32 -0500
+Received: from [2a00:1450:4864:20::536] (port=46891
+ helo=mail-ed1-x536.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mk5l6-00075N-Qq
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 09:36:35 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id f4so63061136edx.12
- for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 06:36:22 -0800 (PST)
+ id 1mk5l6-00075j-RK
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 09:36:31 -0500
+Received: by mail-ed1-x536.google.com with SMTP id c8so46591145ede.13
+ for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 06:36:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1YCRO1A9pLbA5hIjXk2sgTpZ9XAfwgfFzZhqTlaxT9Q=;
- b=N/1XRq5KQdKKKbQfajSeP3Ob8ToQtby10d9b+gMQZC4+AkNlmKOWF/HCjow4/Nm3aI
- Z4p9sgdilkO2IeZN9fgutSSamAU4AHy1rsSPphZN4kOV/NqWTZpu8zDMsn32b6kbdmgB
- DxDqHs2dSOCc9RWdne2G3pTTvzZgtWBn66QQC//BSXKtaLrzmS+sbKn4JBl2NjlZpzxu
- Y2dJnojjLIyaOccXFWL5UdUE1AfQ/gBQTUYh4+GcRODizch461U+l8P9XZ8Bf+mHUyYt
- fTScgbWrps69meaLIexhDJ+AMK3fpiHBS8uuoOVFEK1iJdlg2t9WUan4OykjqfBKPqLd
- 6xOQ==
+ bh=N5/RbeJzuOI+XKh6jbbQtrcH3k205uQ3u96kbz/WyQI=;
+ b=gIST3+wUREiKTtPQtkHHi5BLWVXLd4sZEqyGDHEkFEvog6DOTjUQ/UmB5DjaL4iOG7
+ 4NFgiEmY4PU+SOWE5zAz0gmC/hjy5YMIISmzVy05CgsCgV3Ezqlb1vNAdTaBJWSHThHY
+ vK7NGF6TfM1uo0SdKlgoEQTZJ7UWxVgRHI2ET3DJwtuhn04Nem09NtIRruQ8UT9QZMQA
+ /lLd8gb78dPjbK8jWvyRYbjtenJ+OvhprQm+LbUPlWl+huInS0D8lpba0+TgvcdgNOf7
+ yzAOn27I+T70yIHsUb/DIFDQtRnnpkYOr7ArNNVnuxexRcBbpB8my9FatHU63pqJJhqk
+ wooA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=1YCRO1A9pLbA5hIjXk2sgTpZ9XAfwgfFzZhqTlaxT9Q=;
- b=dgDWkuK6azM3qP/qb/S1xC989y6ybs7vlsC6pl/HgsleZ+NoV3a1oQYwBiKUfUJYBe
- L08XuvBPU6qRZLl6RemNVm/5oz3Qs+dIpDAEY7sAWaGJBpLs2IM/nfLViVUg/IBu0/xb
- qqq4335YOfY7vLmwQ2o2jEm13CT+fJrX6+dAsYEpg+X0Da7CvxWEdzf/kp+ICvi2s5jL
- PvYihG2+2cYBJkmggoohRK90r2swHmyH2/Ip+bd+1DwFevwfqR4bE/eh9JtoJ+/GVUDg
- s2M68suoCuFGafDvFsA9HXbbZbv2jviC9YfhjepjobHOz2MdGnn03Gvwg3HY6tJOgRuE
- 0UzQ==
-X-Gm-Message-State: AOAM530wtIy+0zWeaUsZlWRcOLRL4ooQRij538+c7IyPe6+xsKNt6znx
- ZJ6WoS033wrLko3WyOcCv51m5/6w6UE=
-X-Google-Smtp-Source: ABdhPJyN/cx1gqEoOgfr9bEQr0/1CZ4Lrb7/sybqd07b1IeAVPeAusZFHh6f4LHc8JQJ7kXTAPL9pA==
-X-Received: by 2002:a50:e0cf:: with SMTP id j15mr99246edl.23.1636382182167;
+ bh=N5/RbeJzuOI+XKh6jbbQtrcH3k205uQ3u96kbz/WyQI=;
+ b=njmaXDkwy3zzWJaV/bhFgnZIbUdU5acNoZo9hjKwsR6rENhpSp1wyE3aEBUt+ov/R/
+ 2eGgw9b51NtqTpoMJs/y9Ms9uxhlnm7jT1gefK1nQVzx84TANvW9+dzUCFsCvhSbZJKx
+ q8NwdpNXn1ROIhr5uA21oX3nGFcgaDJJ1glm2oRXrPMCaV+tiIMxy9UsjIxTjj2O8Zb5
+ siTk1KtECvH8He6e2MnkwVXNR68GDHO9qbeRinOhdizmXuc/iSO/tVt+IXgWqkN66Zvh
+ vTvBPMFiVX4e/1lf8eCCeIBuixhBQV3Lp5gbUZXf2GKnPPsEKcmmabD3O6+OipyrtK1F
+ hWHA==
+X-Gm-Message-State: AOAM530UFVCzGtZ1FRWH3nxjeNeqTDOKmL4beyOSrnL1r5O6/uci5L4P
+ i+WapBo5DK4HdBfYuZuw8VEPNZutnOM=
+X-Google-Smtp-Source: ABdhPJxLN3Z5HuHYmX8QBjH3ESL0L/oKXq8HAdEFfaNvzzBZtZE0js8sO46u1A1skYtfiCBT5t3PcQ==
+X-Received: by 2002:a05:6402:221b:: with SMTP id
+ cq27mr131430edb.232.1636382182972; 
  Mon, 08 Nov 2021 06:36:22 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id hp3sm8366662ejc.61.2021.11.08.06.36.21
+ by smtp.gmail.com with ESMTPSA id hp3sm8366662ejc.61.2021.11.08.06.36.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Nov 2021 06:36:21 -0800 (PST)
+ Mon, 08 Nov 2021 06:36:22 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/10] docs: adjust for demise of scripts/create_config
-Date: Mon,  8 Nov 2021 15:36:11 +0100
-Message-Id: <20211108143616.660340-6-pbonzini@redhat.com>
+Subject: [PULL 06/10] configure: simplify calls to meson_quote
+Date: Mon,  8 Nov 2021 15:36:12 +0100
+Message-Id: <20211108143616.660340-7-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211108143616.660340-1-pbonzini@redhat.com>
 References: <20211108143616.660340-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -86,43 +87,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The config-host.h, $TARGET_NAME-config-target.h,
-$TARGET_NAME-config-devices.h files are now generated by
-configure_file() rather than scripts/create_config.  Adjust
-he relevant paragraph in docs/devel/build-system.rst, and take
-the occasion to fix a preexisting confusion of *.h vs *.mak.
+meson_quote assumes a non-empty argument list, and incorrectly returns a
+one-entry array if passed nothing.  Move the check for an empty argument
+list from the invocations to the function itself.
 
-Reported-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/devel/build-system.rst | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ configure | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
-index 7f106d2f1c..3c05032438 100644
---- a/docs/devel/build-system.rst
-+++ b/docs/devel/build-system.rst
-@@ -464,11 +464,10 @@ Built by Meson:
-   scripts/make_device_config.sh program, feeding it the
-   default-configs/$TARGET-NAME file as input.
+diff --git a/configure b/configure
+index 33682cb971..369b5455b6 100755
+--- a/configure
++++ b/configure
+@@ -3894,6 +3894,7 @@ echo "TOPSRC_DIR=$source_path" >> $config_mak
+ if test "$skip_meson" = no; then
+   cross="config-meson.cross.new"
+   meson_quote() {
++    test $# = 0 && return
+     echo "'$(echo $* | sed "s/ /','/g")'"
+   }
  
--``config-host.h``, ``$TARGET-NAME/config-target.h``, ``$TARGET-NAME/config-devices.h``
--  These files are used by source code to determine what features
--  are enabled.  They are generated from the contents of the corresponding
--  ``*.h`` files using the scripts/create_config program. This extracts
--  relevant variables and formats them as C preprocessor macros.
-+``config-host.h``, ``$TARGET_NAME-config-target.h``, ``$TARGET_NAME-config-devices.h``
-+  These files are used by source code to determine what features are
-+  enabled.  They are generated from the contents of the corresponding
-+  ``*.mak`` files using Meson's ``configure_file()`` function.
+@@ -3908,10 +3909,10 @@ if test "$skip_meson" = no; then
  
- ``build.ninja``
-   The build rules.
+   test -z "$cxx" && echo "link_language = 'c'" >> $cross
+   echo "[built-in options]" >> $cross
+-  echo "c_args = [${CFLAGS:+$(meson_quote $CFLAGS)}]" >> $cross
+-  echo "cpp_args = [${CXXFLAGS:+$(meson_quote $CXXFLAGS)}]" >> $cross
+-  echo "c_link_args = [${LDFLAGS:+$(meson_quote $LDFLAGS)}]" >> $cross
+-  echo "cpp_link_args = [${LDFLAGS:+$(meson_quote $LDFLAGS)}]" >> $cross
++  echo "c_args = [$(meson_quote $CFLAGS)]" >> $cross
++  echo "cpp_args = [$(meson_quote $CXXFLAGS)]" >> $cross
++  echo "c_link_args = [$(meson_quote $LDFLAGS)]" >> $cross
++  echo "cpp_link_args = [$(meson_quote $LDFLAGS)]" >> $cross
+   echo "[binaries]" >> $cross
+   echo "c = [$(meson_quote $cc $CPU_CFLAGS)]" >> $cross
+   test -n "$cxx" && echo "cpp = [$(meson_quote $cxx $CPU_CFLAGS)]" >> $cross
 -- 
 2.33.1
 
