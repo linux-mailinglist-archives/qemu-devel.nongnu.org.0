@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63D6E447939
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 05:15:25 +0100 (CET)
-Received: from localhost ([::1]:48036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE183447933
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 05:13:15 +0100 (CET)
+Received: from localhost ([::1]:41632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjw44-0003xZ-IB
-	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 23:15:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48482)
+	id 1mjw1z-000896-3g
+	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 23:13:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mjvi5-0006sJ-Pr
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mjvi5-0006sA-Nt
  for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:52:41 -0500
-Received: from [2607:f8b0:4864:20::12b] (port=38895
- helo=mail-il1-x12b.google.com)
+Received: from [2607:f8b0:4864:20::12c] (port=38896
+ helo=mail-il1-x12c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mjvi1-0002vU-8E
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mjvi1-0002vg-EJ
  for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:52:38 -0500
-Received: by mail-il1-x12b.google.com with SMTP id f10so15558996ilu.5
- for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 19:52:36 -0800 (PST)
+Received: by mail-il1-x12c.google.com with SMTP id f10so15559021ilu.5
+ for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 19:52:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8R82c+oSIU+sp8WqnJE/Io3vjzLSVpjkS5kzwk9Q/Pk=;
- b=RZEx6SDAu9e0UUOZnTNwtQqOun36orq0oaAKyxFxyCEqVaGD3BKeUFP34tO+y92SM+
- Dz0ENh8cubvy+At8qCKd0SZI2eTd7WddFFO21bK3NULNM6n/EdZo65x1Wz4FK8xyhs9r
- z8G1Ny5GmXcGUYwrsCpqrW6msiaJkp0fhix5/I9g811kgrGNo95czm0G1HZeKbBP935M
- szrieI88P6v/Qm6YE5Vpu1iv8oVUWVa7dVVd0+TsqicAz3xum35uwh3Psdyoam6rwE8u
- sPMOfg8suh1BDC7mCAb4rfpGsFwyCWEDWncJV4qkuSWhWG+8rhox7oV670cqzmAwjm7o
- Imhg==
+ bh=I1XrwZ0o7hRgTEhkk9E1BQTq9616nNWJfCEFdNAWs4w=;
+ b=iHtHR3+L3TPKMgvw29wWTsuJmwq/CPpAaT3lOZGdLFgE648Hpw3GP/8Cni2Xsh6A62
+ XfnGsxoFiLrEyxmfIwttGim2RCFqlXqiByVUPWdi7Gzd3Ydfp4vvUZq3lfXBjdvGUG8w
+ CDTTAGDVf4FoGAw5bQwn8MjtlK+FW8gyypZh8zjR6AjNlNugiy7JE1O7rFzHfmzgbDHt
+ Xhd+8q4m/hep/KNk7GoW5DwQQ0xRiTXOFeWEBCaPggEBmKqHl0qAny+D7k/hfFzZaaG1
+ evnMgOXLpPJTW4sNM+fcKmOvJJcgnL2fB9VbarW1p/UdeCPwRVDbxjLI/gi2LiHrqjw2
+ YoUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8R82c+oSIU+sp8WqnJE/Io3vjzLSVpjkS5kzwk9Q/Pk=;
- b=DO9fhxb5NjZLFmmSe1+QBM9nOFTZGSTWkGx3lvYmSi4Ar2RGXDNDXPyTniAXur3sXx
- /2k76n2LWLHGkcxEH53jnHIjG3K851aS0+j7v+k6i6piqceYVzRWMP7MUjbNIeQZCFF0
- 7P2C8CEA7QmK87EEayUNeJ6md9keOlO8lnnnDtXGjDtO3QFb4Uatfltepv+6xGkCF4Eu
- nwu5muK3PMkOXZvXhwxgDvorjr83puCaD792aKnQrSda/GGfQmOmSzHV8LOTR2z8iQbl
- TMvchtADxITUPLYeL07EkoqGRgNCQce+PpcMf9vl9UymbsTAQVqUZNQ/Mgnpbi3mwy4k
- psfA==
-X-Gm-Message-State: AOAM53373TanS6tvSldfS0c+kxlhVlfj9gU2PVI4ig6UCuKvcZeXxlYh
- 67PgScM/1VSm31Fp66X5kuvhb6x83WQ71w==
-X-Google-Smtp-Source: ABdhPJz4MCpHPM94oowND6IhOPPtrFsam50KbRGnaBD9RdzLjVCtj8LAWlUTpmTJrMX1rQXHlhmPRQ==
-X-Received: by 2002:a05:6e02:168c:: with SMTP id
- f12mr32457301ila.277.1636343555494; 
- Sun, 07 Nov 2021 19:52:35 -0800 (PST)
+ bh=I1XrwZ0o7hRgTEhkk9E1BQTq9616nNWJfCEFdNAWs4w=;
+ b=p38x5JHMbl8VY72L8X5ReN0xe09a6CDweB6TbZb5sLLGwQaPLQrliEXaLx1Wz9aAJ1
+ A3F1acTbMVe4ZawcMuhLgW6QL2P55H/cMFVDs6j/wvVKnOsA4ev7REHQfNnZl1g3VNjv
+ C+gOjHWthJlKoKXUdiOeKcV6/FIB8+M5MXp1BlCyR6Mf0so+3tyfhKG8It3Qxq4qxVNh
+ EIb/SUDpMrKXXyjA7MejrbiiIIvLI5D2fXts67g03R4oYjkSeX79Bu3aY2CNLeTcF2Uf
+ uxsWX04wlizGLeBkb2DprRPmCVDzhpl5WliwnKaR/3SMI/r/x/FIizOjuuTjhkoH2whp
+ oR5A==
+X-Gm-Message-State: AOAM530quo/QB66OWDZTJ9d5yj6DWRWlLHXLGfsAH9dYMYei+ku2+LzG
+ qZDMAsClQfU671o0nvUKJeu6dxuMfyu56A==
+X-Google-Smtp-Source: ABdhPJzngoF5WBay+ClD50mdExal44tbM6pudV5iaWjZXs7htVFEPy69H4qABd+0OTWl94gdBN0cTA==
+X-Received: by 2002:a92:c261:: with SMTP id h1mr33309867ild.291.1636343556337; 
+ Sun, 07 Nov 2021 19:52:36 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id x15sm876909iob.8.2021.11.07.19.52.34
+ by smtp.gmail.com with ESMTPSA id x15sm876909iob.8.2021.11.07.19.52.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Nov 2021 19:52:34 -0800 (PST)
+ Sun, 07 Nov 2021 19:52:36 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 27/37] bsd-user/arm/target_arch_elf.h: arm get hwcap
-Date: Sun,  7 Nov 2021 20:51:26 -0700
-Message-Id: <20211108035136.43687-28-imp@bsdimp.com>
+Subject: [PATCH v5 28/37] bsd-user/arm/target_arch_elf.h: arm get_hwcap2 impl
+Date: Sun,  7 Nov 2021 20:51:27 -0700
+Message-Id: <20211108035136.43687-29-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211108035136.43687-1-imp@bsdimp.com>
 References: <20211108035136.43687-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12c
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::12b;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12b.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::12c;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12c.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -86,106 +85,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org,
- Kyle Evans <kevans@FreeBSD.org>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, Philippe Mathieu-Daude <f4bug@amsat.org>,
+Cc: qemu-trivial@nongnu.org, Kyle Evans <kevans@FreeBSD.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ Philippe Mathieu-Daude <f4bug@amsat.org>,
  Richard Henderson <richard.henderson@linaro.org>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement get_elf_hwcap to get the first word of hardware capabilities.
+Implement the extended HW capabilities for HWCAP2.
 
 Signed-off-by: Kyle Evans <kevans@FreeBSD.org>
-Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/arm/target_arch_elf.h | 72 +++++++++++++++++++++++++++++++++-
- 1 file changed, 71 insertions(+), 1 deletion(-)
+ bsd-user/arm/target_arch_elf.h | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/bsd-user/arm/target_arch_elf.h b/bsd-user/arm/target_arch_elf.h
-index 15b5c66511..02d25b8926 100644
+index 02d25b8926..4a0215d02e 100644
 --- a/bsd-user/arm/target_arch_elf.h
 +++ b/bsd-user/arm/target_arch_elf.h
-@@ -31,6 +31,76 @@
- #define USE_ELF_CORE_DUMP
+@@ -32,6 +32,7 @@
  #define ELF_EXEC_PAGESIZE       4096
  
--#define ELF_HWCAP 0
-+#define ELF_HWCAP get_elf_hwcap()
-+
-+#define GET_FEATURE(feat, hwcap) \
-+    do { if (arm_feature(&cpu->env, feat)) { hwcaps |= hwcap; } } while (0)
-+
-+#define GET_FEATURE_ID(feat, hwcap) \
-+    do { if (cpu_isar_feature(feat, cpu)) { hwcaps |= hwcap; } } while (0)
-+
+ #define ELF_HWCAP get_elf_hwcap()
++#define ELF_HWCAP2 get_elf_hwcap2()
+ 
+ #define GET_FEATURE(feat, hwcap) \
+     do { if (arm_feature(&cpu->env, feat)) { hwcaps |= hwcap; } } while (0)
+@@ -64,6 +65,14 @@ enum {
+     ARM_HWCAP_ARM_EVTSTRM   = 1 << 21,
+ };
+ 
 +enum {
-+    ARM_HWCAP_ARM_SWP       = 1 << 0,
-+    ARM_HWCAP_ARM_HALF      = 1 << 1,
-+    ARM_HWCAP_ARM_THUMB     = 1 << 2,
-+    ARM_HWCAP_ARM_26BIT     = 1 << 3,
-+    ARM_HWCAP_ARM_FAST_MULT = 1 << 4,
-+    ARM_HWCAP_ARM_FPA       = 1 << 5,
-+    ARM_HWCAP_ARM_VFP       = 1 << 6,
-+    ARM_HWCAP_ARM_EDSP      = 1 << 7,
-+    ARM_HWCAP_ARM_JAVA      = 1 << 8,
-+    ARM_HWCAP_ARM_IWMMXT    = 1 << 9,
-+    ARM_HWCAP_ARM_CRUNCH    = 1 << 10,
-+    ARM_HWCAP_ARM_THUMBEE   = 1 << 11,
-+    ARM_HWCAP_ARM_NEON      = 1 << 12,
-+    ARM_HWCAP_ARM_VFPv3     = 1 << 13,
-+    ARM_HWCAP_ARM_VFPv3D16  = 1 << 14,
-+    ARM_HWCAP_ARM_TLS       = 1 << 15,
-+    ARM_HWCAP_ARM_VFPv4     = 1 << 16,
-+    ARM_HWCAP_ARM_IDIVA     = 1 << 17,
-+    ARM_HWCAP_ARM_IDIVT     = 1 << 18,
-+    ARM_HWCAP_ARM_VFPD32    = 1 << 19,
-+    ARM_HWCAP_ARM_LPAE      = 1 << 20,
-+    ARM_HWCAP_ARM_EVTSTRM   = 1 << 21,
++    ARM_HWCAP2_ARM_AES      = 1 << 0,
++    ARM_HWCAP2_ARM_PMULL    = 1 << 1,
++    ARM_HWCAP2_ARM_SHA1     = 1 << 2,
++    ARM_HWCAP2_ARM_SHA2     = 1 << 3,
++    ARM_HWCAP2_ARM_CRC32    = 1 << 4,
 +};
 +
-+static uint32_t get_elf_hwcap(void)
+ static uint32_t get_elf_hwcap(void)
+ {
+     ARMCPU *cpu = ARM_CPU(thread_cpu);
+@@ -100,6 +109,19 @@ static uint32_t get_elf_hwcap(void)
+     return hwcaps;
+ }
+ 
++static uint32_t get_elf_hwcap2(void)
 +{
 +    ARMCPU *cpu = ARM_CPU(thread_cpu);
 +    uint32_t hwcaps = 0;
 +
-+    hwcaps |= ARM_HWCAP_ARM_SWP;
-+    hwcaps |= ARM_HWCAP_ARM_HALF;
-+    hwcaps |= ARM_HWCAP_ARM_THUMB;
-+    hwcaps |= ARM_HWCAP_ARM_FAST_MULT;
-+
-+    /* probe for the extra features */
-+    /* EDSP is in v5TE and above */
-+    GET_FEATURE(ARM_FEATURE_V5, ARM_HWCAP_ARM_EDSP);
-+    GET_FEATURE(ARM_FEATURE_IWMMXT, ARM_HWCAP_ARM_IWMMXT);
-+    GET_FEATURE(ARM_FEATURE_THUMB2EE, ARM_HWCAP_ARM_THUMBEE);
-+    GET_FEATURE(ARM_FEATURE_NEON, ARM_HWCAP_ARM_NEON);
-+    GET_FEATURE(ARM_FEATURE_V6K, ARM_HWCAP_ARM_TLS);
-+    GET_FEATURE(ARM_FEATURE_LPAE, ARM_HWCAP_ARM_LPAE);
-+    GET_FEATURE_ID(aa32_arm_div, ARM_HWCAP_ARM_IDIVA);
-+    GET_FEATURE_ID(aa32_thumb_div, ARM_HWCAP_ARM_IDIVT);
-+    GET_FEATURE_ID(aa32_vfp, ARM_HWCAP_ARM_VFP);
-+
-+    if (cpu_isar_feature(aa32_fpsp_v3, cpu) ||
-+        cpu_isar_feature(aa32_fpdp_v3, cpu)) {
-+        hwcaps |= ARM_HWCAP_ARM_VFPv3;
-+        if (cpu_isar_feature(aa32_simd_r32, cpu)) {
-+            hwcaps |= ARM_HWCAP_ARM_VFPD32;
-+        } else {
-+            hwcaps |= ARM_HWCAP_ARM_VFPv3D16;
-+        }
-+    }
-+    GET_FEATURE_ID(aa32_simdfmac, ARM_HWCAP_ARM_VFPv4);
-+
++    GET_FEATURE_ID(aa32_aes, ARM_HWCAP2_ARM_AES);
++    GET_FEATURE_ID(aa32_pmull, ARM_HWCAP2_ARM_PMULL);
++    GET_FEATURE_ID(aa32_sha1, ARM_HWCAP2_ARM_SHA1);
++    GET_FEATURE_ID(aa32_sha2, ARM_HWCAP2_ARM_SHA2);
++    GET_FEATURE_ID(aa32_crc32, ARM_HWCAP2_ARM_CRC32);
 +    return hwcaps;
 +}
 +
-+#undef GET_FEATURE
-+#undef GET_FEATURE_ID
+ #undef GET_FEATURE
+ #undef GET_FEATURE_ID
  
- #endif /* _TARGET_ARCH_ELF_H_ */
 -- 
 2.33.0
 
