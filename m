@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8961E447C3E
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 09:50:09 +0100 (CET)
-Received: from localhost ([::1]:52578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11226447C57
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 09:55:28 +0100 (CET)
+Received: from localhost ([::1]:39776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk0Lw-0002tI-Jj
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 03:50:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35840)
+	id 1mk0R5-0004vf-6s
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 03:55:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mk0Kf-00024n-Il
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 03:48:49 -0500
-Received: from [2a00:1450:4864:20::236] (port=41669
- helo=mail-lj1-x236.google.com)
+ id 1mk0N0-0005gd-PT
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 03:51:14 -0500
+Received: from [2a00:1450:4864:20::12d] (port=38475
+ helo=mail-lf1-x12d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mk0Kc-000306-HU
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 03:48:49 -0500
-Received: by mail-lj1-x236.google.com with SMTP id d11so6897827ljg.8
- for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 00:48:45 -0800 (PST)
+ id 1mk0Mx-0004dR-G5
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 03:51:13 -0500
+Received: by mail-lf1-x12d.google.com with SMTP id x27so34434465lfu.5
+ for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 00:51:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Yrxm3HZAZHHfZ6yOom6hrGKWBUxN4oKHriAO7oUE0IY=;
- b=kvqzRjpfNcHsg0bdTiRy4HZuGME1Fp1d5XpVksHZoT/pBhLkYR/sZUjStXpTQmVcdN
- JMRnZUz04ETeJmgJKueelTd8k6JFTYJ6qxSA6K5SlKAVaHwffNJCVCeOTdyBHnqjfUNi
- xqr2iAO4zJ0VwEPuoVHmha0C/iwhq7flNlNQ4QX+E6rcC+3B5BUafmvOPj/zkdxL4vHd
- 4kwJfkxk/yB4FF7lorR8JPppt1eQdXNxcEN5mIy4nd6ummhPTpaJHsfpOWIbswhA+lte
- PGX7ymL+IbtexljBkSvx7fU4FQi2RoZUvu0XtkS2NTVs13fywyWmdP6C5jPP+pOwTsG9
- Ixsg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=EIf6M5yko2Ugfg5Utn/QX2dWFQD1lepYf66MvhGUO5E=;
+ b=g07NLSXA6kcto1EqVJpJvNQ0fWWOUSfKZgXsq5svAXyypFwsf47xPDRF7Aj8SoF2UT
+ RbS7rbkTejXkliDSIj25of5hS7FcurJp1c8aqg+o/5dlScWXMrgHgEMJR41eeMfaARM3
+ iUBTzv+wf57lk2zvAUJlfvP/HcyFt4pc7dpfBvLs52wWw7GKAJCwJUWwWHZOTnqvVKIF
+ ZZvwkSLirUCdwzCKsm80oCFxLB0udvArb0+2x53ygPVj0P8Nv0hfHXudNG68IfnyaZb3
+ NdpGq5PqsWGnLoh9GbuW3MwJLHrg+7IrrPAujElVrb5MpZ8ZhlXMTIpM2FYVomvw4eRF
+ GEYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=Yrxm3HZAZHHfZ6yOom6hrGKWBUxN4oKHriAO7oUE0IY=;
- b=4BsVN0LQys4eRPtwsY2uGRNU2x1KbG1ZScXq76h6S2A4cVqeRjZKJejRw4yWYW0LL/
- 88rKv3J+lHb4ZXOY7hSsJgBaxx/IiImM3s18zW0jFqNMy9JGQ3F9vLzCA0ZtZ01Mz64Y
- 70tMMRRpqWryV+AkJFluRjn2uSKQzwYoEosrUdadFiBQAJSESzEzxh4wrXpWdMN870yu
- xK0ANC9iYX1XvCUUH9Hb3/TnmBcMv4h1TKZn8ZTJFZ13YDmERfRx3OU9ukMIIrpsIkVR
- gOJPkL86to5XYEf6edFWVuHY6YejOhAQWY8BAyE/+plWsbDQy4tvpUAosVoM5pQEOi8T
- 1NXg==
-X-Gm-Message-State: AOAM530pi8fVz1NYO801mXjksxYhXcCsSh4eVoRU2BpL9oGTnAicPkPL
- rHSAQqwPnP/ofANt+bYQOxmIdW7Heig=
-X-Google-Smtp-Source: ABdhPJw4zD9M0vW3Vbe7ohH4OjwTmvjOIezZEbf7vtpDx3KDnhTaBe2tB89fLNLrENzR6hfB4OTPcw==
-X-Received: by 2002:a17:907:3da6:: with SMTP id
- he38mr19232896ejc.151.1636361004277; 
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=EIf6M5yko2Ugfg5Utn/QX2dWFQD1lepYf66MvhGUO5E=;
+ b=cGMD2wgE1gXycgmdb3+L2cQ+otD3ko+Vk3oBGOtjqpriRmWICKsDRXP166SOlwmTRC
+ IS74tDtBS29yjVmFhhoj032388bVyYx7oxpZkCIsHdNYHgYhQmrMO2lLN2GSyF4Tc5Ok
+ F4zTxzYYDD2mNbhfgCeZ42C3luJXbPAv5b4F/SY3uioaMSsQaz3ZeQKlExLAzVj5NtPc
+ mDzB0f4x5FNAFqQnGRJUQFRzaluTTlMba2oIxi67yJBsNWi5pSG2Ji+P9lKwq+TirJtx
+ zOMXn0iESiAXvqFrroCkM/nlko1EbyOiBBnP0tOwJSCJUKaFQW+VF/y+EBVF3A29q6lO
+ t5mA==
+X-Gm-Message-State: AOAM533/Y8gtFBUEArCYJ36j9WLKQeCcNtgvG6xOPaKBJRcItIgxSxUF
+ fKxVuCB3KMMVkz/vXcvKNJYckHHHlwA=
+X-Google-Smtp-Source: ABdhPJxPXPpRyw3+vVTc4VUvVQW8NDhP00j8Wx4kcMkuaQmf7s1ndaicm81qO8GGAkD6zTlV2AW2SA==
+X-Received: by 2002:a05:6402:350b:: with SMTP id
+ b11mr48191190edd.184.1636361004870; 
  Mon, 08 Nov 2021 00:43:24 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id nb17sm7743211ejc.7.2021.11.08.00.43.23
+ by smtp.gmail.com with ESMTPSA id nb17sm7743211ejc.7.2021.11.08.00.43.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Nov 2021 00:43:23 -0800 (PST)
+ Mon, 08 Nov 2021 00:43:24 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] configure: propagate --extra-cflags and --extra-ldflags
- to meson compile tests
-Date: Mon,  8 Nov 2021 09:43:18 +0100
-Message-Id: <20211108084323.541961-1-pbonzini@redhat.com>
+Subject: [PATCH 1/4] configure: simplify calls to meson_quote
+Date: Mon,  8 Nov 2021 09:43:19 +0100
+Message-Id: <20211108084323.541961-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211108084323.541961-1-pbonzini@redhat.com>
+References: <20211108084323.541961-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::236
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::236;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-lj1-x236.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-lf1-x12d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -90,41 +91,44 @@ Cc: thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Meson (intentionally) does not add QEMU_CFLAGS to cc.compiles/cc.links
-tests, as they are supposed to be independent of the specific sets of
-compilation flags used to build the programs.  However, the user can
-still use CFLAGS or the toolchain file's LANG_args/LANG_link_args option
-to specify -I or -L options that apply to cc.compiles/cc.links as well.
+meson_quote assumes a non-empty argument list, and incorrectly returns a
+one-entry array if passed nothing.  Move the check for an empty argument
+list from the invocations to the function itself.
 
-This is also the intended use of configure's --extra-cflags,
---extra-cxxflags and --extra-ldflags options.  For example, if
-one has netmap's header in a nonstandard directory, up to commit
-837b84b1c078bf3e909 it used to work fine to do:
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ configure | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-.../configure --enable-netmap \
-     --extra-cflags=-I/path/to/netmap/sys
-
-but since the test was converted to meson, this does not work anymore.
-
-The main change in the series is in patch 3, where these options are
-passed to meson via the toolchain file, instead of via config-host.mak.
-This solves the issue since the toolchain file's variables have the
-same purpose as configure's --extra-*flags arguments.
-
-Paolo
-
-
-Paolo Bonzini (4):
-  configure: simplify calls to meson_quote
-  configure: preserve CFLAGS, CXXFLAGS and LDFLAGS in config.status
-  configure: propagate --extra-cflags and --extra-ldflags to meson
-    compile tests
-  configure: ignore preexisting QEMU_*FLAGS envvars
-
- configure | 46 ++++++++++++++++++++++++++++------------------
- 1 file changed, 28 insertions(+), 18 deletions(-)
-
+diff --git a/configure b/configure
+index 33682cb971..369b5455b6 100755
+--- a/configure
++++ b/configure
+@@ -3894,6 +3894,7 @@ echo "TOPSRC_DIR=$source_path" >> $config_mak
+ if test "$skip_meson" = no; then
+   cross="config-meson.cross.new"
+   meson_quote() {
++    test $# = 0 && return
+     echo "'$(echo $* | sed "s/ /','/g")'"
+   }
+ 
+@@ -3908,10 +3909,10 @@ if test "$skip_meson" = no; then
+ 
+   test -z "$cxx" && echo "link_language = 'c'" >> $cross
+   echo "[built-in options]" >> $cross
+-  echo "c_args = [${CFLAGS:+$(meson_quote $CFLAGS)}]" >> $cross
+-  echo "cpp_args = [${CXXFLAGS:+$(meson_quote $CXXFLAGS)}]" >> $cross
+-  echo "c_link_args = [${LDFLAGS:+$(meson_quote $LDFLAGS)}]" >> $cross
+-  echo "cpp_link_args = [${LDFLAGS:+$(meson_quote $LDFLAGS)}]" >> $cross
++  echo "c_args = [$(meson_quote $CFLAGS)]" >> $cross
++  echo "cpp_args = [$(meson_quote $CXXFLAGS)]" >> $cross
++  echo "c_link_args = [$(meson_quote $LDFLAGS)]" >> $cross
++  echo "cpp_link_args = [$(meson_quote $LDFLAGS)]" >> $cross
+   echo "[binaries]" >> $cross
+   echo "c = [$(meson_quote $cc $CPU_CFLAGS)]" >> $cross
+   test -n "$cxx" && echo "cpp = [$(meson_quote $cxx $CPU_CFLAGS)]" >> $cross
 -- 
 2.33.1
+
 
 
