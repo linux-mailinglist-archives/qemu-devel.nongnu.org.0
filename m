@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DDC8447923
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 05:09:51 +0100 (CET)
-Received: from localhost ([::1]:60378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD3F44790C
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 05:03:01 +0100 (CET)
+Received: from localhost ([::1]:37692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjvyf-0001kE-J9
-	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 23:09:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48308)
+	id 1mjvs4-000311-9E
+	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 23:03:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mjvhu-0006Zm-BL
- for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:52:30 -0500
-Received: from [2607:f8b0:4864:20::136] (port=37389
- helo=mail-il1-x136.google.com)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mjvht-0006Wk-Im
+ for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:52:29 -0500
+Received: from [2607:f8b0:4864:20::d36] (port=37853
+ helo=mail-io1-xd36.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mjvhr-0002rj-94
- for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:52:30 -0500
-Received: by mail-il1-x136.google.com with SMTP id h23so15532821ila.4
- for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 19:52:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mjvhr-0002ru-59
+ for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:52:29 -0500
+Received: by mail-io1-xd36.google.com with SMTP id k21so81244ioh.4
+ for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 19:52:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3XmuKD3L8C0RdT+vaSED8BhWG5EV9OjA2AgZ0ahq8Uw=;
- b=mk0AMUynlSIOwY6E4iZcT+o3omMwaOPb3annq6wPg3Dv5N4iScRMRnTAk09AQPFo50
- BkkYtd6OSstbtSexk3cuHGOexe6E7Ud9W5MTJ/VcbCRVlMBuqGIdMwrayKvG+vY8WF3e
- XLhUgmZBQZ+yk16tmw6YfCuB65K2SfM+gRlgrYrRp+tMCll+J3shh4AHiLja7Da37Ps/
- bFYhnMOBH/naiJa1v5Mf2rA/l98TMh0w8jaY91W0cAZvr3kl3E2tdkWTb2kfGsZAdo/V
- CfJ3JgSlgCbzohSbdneRDRt04rlXz3jzbwMw5Yd7rP3dHdNon05H8IVkfUs19cEVq/Vd
- wdXw==
+ bh=5iIfFcYyYja/cPaQ9qdIgUErIUCnLNWxpKMyL/JDBtE=;
+ b=NfHOezxAQZwlBSOYp7TJ/oP6B8i4eQo3lr7bpTG4WKbr33nsP+Gy4NKPo4poVrHD3V
+ Dewd6RTtfPdgLtRqMr5/HS/zi8+Hkx/sZT4SGuTJg2A+gm4ooovXm5S7eRajkyMymcem
+ lG+1RWxIjDs3V4kQmtzK2BYf7vueoZR9m2gNGo36mN8j4gQACnK4KJoZwu13uCTdkK9v
+ nAFTI7J5Ie9g3cRjzVG4Eg/zRED041Q4zmjqR6zdGxnq66tPwhruziyNNq07Ah1jBBWi
+ Zeia9MaWMBww3XKz9IqQtsSo7gKg8kH8ArCTWOP7YlSaBz4kCUfvzdZ6wWUoqCy/gJKt
+ 1H6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3XmuKD3L8C0RdT+vaSED8BhWG5EV9OjA2AgZ0ahq8Uw=;
- b=xf+7Jdp2rm/wwfItSWtSClXamCSxe9zZFrr94kUppgUcjRb8WuJaWuePXky2GcCW4z
- 5io+jCoj3g4/mKunIbV2a/6hQui3E9XTLovSFLbI50CL4UTpzJhenhmUNrM9InoyEX/r
- oo8uVWdRKffSWoGaOV7eSiadMJ2kepl9oPi5/RYVG94JnmBBTiO2c8frRDEvdcLoAWSa
- 0sfHXhSWsS3a89gkRBo8/TMDD3lyT1CibtP9ln7+j6RNysan4tFpGanoB60G2FoTitL8
- /YtbSMaVNqtE8O4z7W+qMU42Av7H6fy5kp1NbS7430kKNWNW6Dh3hhmTo+dQFS1u14JT
- iyTQ==
-X-Gm-Message-State: AOAM5301Zrc9xAarfTIGxLoZK2hGey51CHDDx4OYefhfgy4eoAticZ02
- Qb3JjTKPz4JoZpSJgQwnyJ0rTm0IHQF/+w==
-X-Google-Smtp-Source: ABdhPJxswyzqBceC795HS1jZdv+zoQ/6RjTNYZaliWshEhlEG/c/u/2gf5TDDTRL7s0YlLoobKR8dA==
-X-Received: by 2002:a92:4b06:: with SMTP id m6mr21119978ilg.123.1636343544183; 
- Sun, 07 Nov 2021 19:52:24 -0800 (PST)
+ bh=5iIfFcYyYja/cPaQ9qdIgUErIUCnLNWxpKMyL/JDBtE=;
+ b=rYQLn5zNjeEVkoEz4eeuFky1j1bXS+g9kjlK+3ozadCkCG2Mo0LO3ZIL70001IcZ7d
+ JmwTjduzbzoC/OPsGoiUH6v3M8DmqYxX/76/m3XRdqU/ZcUZEcJj45/XqHIJq7qXuYb7
+ us5D3OPbBOB17FnpzCF5CRR92RDCkBEZQi1u1sTnoADt/IK41jTbPKJ7P2HWlmkTwqEU
+ hFHrJOG1KT0CdMRtHEoTXG/kcqjD8JC5QHpPLHkyhDLP+COlVj9l/L5r7HAzj5q338ZB
+ brC7sDuQMfSynd3scG+gWUADpTgRqgNTLGvwPl6u3cYe6gYgyXO7RjA9MMaKHX+eQYgd
+ pdWw==
+X-Gm-Message-State: AOAM531LUuWsK6E1vOo/YvrwJSOBKiLM9hccZ8w66tEonVtiGtmZGNGi
+ r989Y3b0YONdZYq1qs1RPe4/DMj+1jKgdA==
+X-Google-Smtp-Source: ABdhPJxfEchwduoayk4m5UPDHya/opL2QitujfBL0RA7Bguv24IG3p9wdBma/K7GH2JB3tBxXo/FzQ==
+X-Received: by 2002:a02:84ec:: with SMTP id f99mr21768957jai.122.1636343545147; 
+ Sun, 07 Nov 2021 19:52:25 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id x15sm876909iob.8.2021.11.07.19.52.23
+ by smtp.gmail.com with ESMTPSA id x15sm876909iob.8.2021.11.07.19.52.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Nov 2021 19:52:23 -0800 (PST)
+ Sun, 07 Nov 2021 19:52:24 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 15/37] bsd-user/arm/target_arch_cpu.c: Target specific TLS
- routines
-Date: Sun,  7 Nov 2021 20:51:14 -0700
-Message-Id: <20211108035136.43687-16-imp@bsdimp.com>
+Subject: [PATCH v5 16/37] bsd-user/arm/target_arch_cpu.h: CPU Loop definitions
+Date: Sun,  7 Nov 2021 20:51:15 -0700
+Message-Id: <20211108035136.43687-17-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211108035136.43687-1-imp@bsdimp.com>
 References: <20211108035136.43687-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::136
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d36
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::136;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x136.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd36.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -89,32 +88,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org,
  Kyle Evans <kevans@FreeBSD.org>, Michael Tokarev <mjt@tls.msk.ru>,
  Laurent Vivier <laurent@vivier.eu>, Philippe Mathieu-Daude <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>, Warner Losh <imp@bsdimp.com>
+ Richard Henderson <richard.henderson@linaro.org>,
+ Olivier Houchard <cognet@ci0.org>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Target specific TLS routines to get and set the TLS values.
+target_arch_cpu.h is for CPU loop definitions. Create the file and
+define target_cpu_init and target_cpu_reset for arm.
 
-Signed-off-by: Kyle Evans <kevans@FreeBSD.org>
+Signed-off-by: Olivier Houchard <cognet@ci0.org>
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/arm/target_arch.h     | 28 ++++++++++++++++++++++++
- bsd-user/arm/target_arch_cpu.c | 39 ++++++++++++++++++++++++++++++++++
- 2 files changed, 67 insertions(+)
- create mode 100644 bsd-user/arm/target_arch.h
- create mode 100644 bsd-user/arm/target_arch_cpu.c
+ bsd-user/arm/target_arch_cpu.h | 43 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
+ create mode 100644 bsd-user/arm/target_arch_cpu.h
 
-diff --git a/bsd-user/arm/target_arch.h b/bsd-user/arm/target_arch.h
+diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch_cpu.h
 new file mode 100644
-index 0000000000..93cfaea098
+index 0000000000..66215684d6
 --- /dev/null
-+++ b/bsd-user/arm/target_arch.h
-@@ -0,0 +1,28 @@
++++ b/bsd-user/arm/target_arch_cpu.h
+@@ -0,0 +1,43 @@
 +/*
-+ * ARM 32-bit specific prototypes for bsd-user
++ *  arm cpu init and loop
 + *
 + *  Copyright (c) 2013 Stacey D. Son
 + *
@@ -132,60 +131,30 @@ index 0000000000..93cfaea098
 + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#ifndef _TARGET_ARCH_H_
-+#define _TARGET_ARCH_H_
++#ifndef _TARGET_ARCH_CPU_H_
++#define _TARGET_ARCH_CPU_H_
 +
-+#include "qemu.h"
-+
-+void target_cpu_set_tls(CPUARMState *env, target_ulong newtls);
-+target_ulong target_cpu_get_tls(CPUARMState *env);
-+
-+#endif /* !_TARGET_ARCH_H_ */
-diff --git a/bsd-user/arm/target_arch_cpu.c b/bsd-user/arm/target_arch_cpu.c
-new file mode 100644
-index 0000000000..02bf9149d5
---- /dev/null
-+++ b/bsd-user/arm/target_arch_cpu.c
-@@ -0,0 +1,39 @@
-+/*
-+ *  arm cpu related code
-+ *
-+ *  Copyright (c) 2013 Stacey D. Son
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
 +#include "target_arch.h"
 +
-+void target_cpu_set_tls(CPUARMState *env, target_ulong newtls)
-+{
-+    if (access_secure_reg(env)) {
-+        env->cp15.tpidrurw_s = newtls;
-+        env->cp15.tpidruro_s = newtls;
-+        return;
-+    }
++#define TARGET_DEFAULT_CPU_MODEL "any"
 +
-+    env->cp15.tpidr_el[0] = newtls;
-+    env->cp15.tpidrro_el[0] = newtls;
++static inline void target_cpu_init(CPUARMState *env,
++        struct target_pt_regs *regs)
++{
++    int i;
++
++    cpsr_write(env, regs->uregs[16], CPSR_USER | CPSR_EXEC,
++               CPSRWriteByInstr);
++    for (i = 0; i < 16; i++) {
++        env->regs[i] = regs->uregs[i];
++    }
 +}
 +
-+target_ulong target_cpu_get_tls(CPUARMState *env)
++static inline void target_cpu_reset(CPUArchState *cpu)
 +{
-+    if (access_secure_reg(env)) {
-+        return env->cp15.tpidruro_s;
-+    }
-+    return env->cp15.tpidrro_el[0];
 +}
++
++#endif /* !_TARGET_ARCH_CPU_H */
 -- 
 2.33.0
 
