@@ -2,54 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C8C0447F55
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 13:11:32 +0100 (CET)
-Received: from localhost ([::1]:53796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BCF1447F7A
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 13:31:33 +0100 (CET)
+Received: from localhost ([::1]:58934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk3Up-0006GG-Bh
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 07:11:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49506)
+	id 1mk3oC-0002T4-4p
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 07:31:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mk3Te-0005Sw-Km; Mon, 08 Nov 2021 07:10:18 -0500
-Received: from out28-194.mail.aliyun.com ([115.124.28.194]:38441)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1mk3nD-0001c0-74
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 07:30:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24927)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mk3Tb-0000ZR-Kv; Mon, 08 Nov 2021 07:10:18 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1190568|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_news_journal|0.0161763-0.000347131-0.983477;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047213; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.LpT3Ipi_1636373407; 
-Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.LpT3Ipi_1636373407)
- by smtp.aliyun-inc.com(10.147.41.158);
- Mon, 08 Nov 2021 20:10:07 +0800
-Subject: Re: [PATCH 13/13] target/riscv: Enable uxl field write
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211101100143.44356-1-zhiwei_liu@c-sky.com>
- <20211101100143.44356-14-zhiwei_liu@c-sky.com>
- <869f1399-0158-e609-1e68-57d7a9896e3d@linaro.org>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <199a212f-8df5-9289-c625-8c0e5d4f6c76@c-sky.com>
-Date: Mon, 8 Nov 2021 20:10:07 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1mk3nA-00021W-3d
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 07:30:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636374627;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9LqyPLtrLefgHSoFxwcNBbwmeZfd3Qeu3k/Nt9hn8ko=;
+ b=dgI7CeFfivBaTKVpsx4FPNWi8+fZ+TqHFyzZAe2vfyLIxHqACZhmKk0Mv/FsgKE3jCa6KQ
+ gOjZytT3k8NER9Ss9uxVhQwWWWD7NOH6d90KcPJbZ9f7ySXi4Jz0zVwQJg0metSTM1XLmt
+ m7Se4e38c5WopwgOVjFblkXlQ8hW2zA=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-24-qAy5NgEOO4yP6PANvH51cA-1; Mon, 08 Nov 2021 07:30:26 -0500
+X-MC-Unique: qAy5NgEOO4yP6PANvH51cA-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ a12-20020a17090aa50cb0290178fef5c227so4636743pjq.1
+ for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 04:30:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=9LqyPLtrLefgHSoFxwcNBbwmeZfd3Qeu3k/Nt9hn8ko=;
+ b=zCnb4eT9MUeSZJiC3MYNfW2bPu5WxB90i7mCzvbUfWfonffQl4haUa9IUGiyKL9YVX
+ lkAfC5/VGXvwQCc2g0TdsM+Zz856WUSLO6tObYpRRyhGJKdRdlvLbV5NztSZkNOciF4g
+ uzdebmhVLdTSgbcsQU6rg8uOWjliOInLyD4Cd8mlQaIP/fsDr90lJVzNSfgMfkpjYa3j
+ IGm6oSvWRfG5Wa3QUda9sJI8gAjhHHmAdne7+jzlHYieZnaAeg6uV4dLN9ykGuf4uYr4
+ 95uJU6zsTNxM3xl4PaWdTU0ujTmZ+MYdy605prrykI1cTfi0ABaF6ZNzKuHvvPpRL5ZN
+ 2P3A==
+X-Gm-Message-State: AOAM5304ADDyK/s8PU2F0dTqnNQm0ePy8YsTtQOI1hCF6s4RW+ps0Ieh
+ MZci1GlKaILtxrehFk2KHcT0ej7b2SGpHjdp6JP43dl0mrKePh3RRjQNtXl+EM1DuDsEjZEsi62
+ po3ap48zRAl09+vG9w9uPsMmoVBE5Lbs=
+X-Received: by 2002:aa7:81c2:0:b0:47c:1d4:67f5 with SMTP id
+ c2-20020aa781c2000000b0047c01d467f5mr81984035pfn.38.1636374625109; 
+ Mon, 08 Nov 2021 04:30:25 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyobgvBsg62hi968XyPmWTJzlAhXUxmuTPlL/BNiKZgVRboHo039M6ooqzy3BVnqB1xU0YahX3QOteyTgdsbmU=
+X-Received: by 2002:aa7:81c2:0:b0:47c:1d4:67f5 with SMTP id
+ c2-20020aa781c2000000b0047c01d467f5mr81983999pfn.38.1636374624812; Mon, 08
+ Nov 2021 04:30:24 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <869f1399-0158-e609-1e68-57d7a9896e3d@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: none client-ip=115.124.28.194; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-194.mail.aliyun.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.06,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+References: <20211106091059.465109-1-philmd@redhat.com>
+In-Reply-To: <20211106091059.465109-1-philmd@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Mon, 8 Nov 2021 09:29:58 -0300
+Message-ID: <CAKJDGDZJC_pqigs8GHFT_uw6rOBT917zeTNdSYga1LCi2-xDFQ@mail.gmail.com>
+Subject: Re: [PATCH] tests/avocado: Remove p7zip binary availability check
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,42 +92,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
+Cc: Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sat, Nov 6, 2021 at 3:14 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om> wrote:
+>
+> The single use of the 7z binary has been removed in commit a30e114f3
+> ("tests/acceptance: remove Armbian 19.11.3 test for orangepi-pc"),
+> we don't need to check for this binary availability anymore.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> Based-on: <20211105155354.154864-1-willianr@redhat.com>
+> ---
+>  tests/avocado/boot_linux_console.py | 7 -------
+>  1 file changed, 7 deletions(-)
+>
 
-On 2021/11/2 上午1:01, Richard Henderson wrote:
-> On 11/1/21 6:01 AM, LIU Zhiwei wrote:
->>           mask |= MSTATUS_MPV | MSTATUS_GVA;
->> +        if ((val ^ mstatus) & MSTATUS64_UXL) {
->> +            mask |= MSTATUS64_UXL;
->> +        }
->
-> Why do you need the conditional here?
-> Why is this not just
->
->     mask |= MSTATUS_MPV | MSTATUS_GVA | MSTATUS64_UXL;
-OK
->
->
->>  static bool trans_csrrw(DisasContext *ctx, arg_csrrw *a)
->>  {
->> -    TCGv src = get_gpr(ctx, a->rs1, EXT_NONE);
->> +    TCGv src = get_gpr(ctx, a->rs1, EXT_ZERO);
->
-> Hmm.  Not sure about this.
->
-> It looks like we should in fact change mask, just a few lines down, at 
-> which point the extension (or not) for the source would not matter.  
-> And likewise in trans_csrrwi.
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
-It's better to use the mask.
-
-Thanks,
-Zhiwei
-
->
->
-> r~
 
