@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 285AC449EBA
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 23:44:13 +0100 (CET)
-Received: from localhost ([::1]:44250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B08C449EBE
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 23:46:24 +0100 (CET)
+Received: from localhost ([::1]:46470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkDN5-0005qI-Q9
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 17:44:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59896)
+	id 1mkDPD-0007Nd-DW
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 17:46:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mkDLZ-0004Wf-59; Mon, 08 Nov 2021 17:42:37 -0500
-Received: from [2607:f8b0:4864:20::830] (port=40509
- helo=mail-qt1-x830.google.com)
+ id 1mkDMy-0006KX-85
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 17:44:05 -0500
+Received: from [2607:f8b0:4864:20::d2b] (port=44729
+ helo=mail-io1-xd2b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mkDLX-00050N-2t; Mon, 08 Nov 2021 17:42:36 -0500
-Received: by mail-qt1-x830.google.com with SMTP id t34so6617176qtc.7;
- Mon, 08 Nov 2021 14:42:33 -0800 (PST)
+ id 1mkDMv-0005I9-PH
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 17:44:02 -0500
+Received: by mail-io1-xd2b.google.com with SMTP id f9so20326620ioo.11;
+ Mon, 08 Nov 2021 14:43:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=4t/uzsVjnf++F+iZc9VXehuWidAREiVfluH73bH/Uc8=;
- b=T6bMlMe2yNmzXy3GJlDOLkRueqyZ6xTeK5Ocot2qgrpjgAFRE2tCWz+axUBN2aEzwN
- WmPfM0u79T+c7/EUAuAlLiUMAY06T47/cfqSWxDPEB0wEYCuG5JlRrtmJo6VzoqHIg+K
- 7V3S0cz/jVr1IxGUBLh3zM/LhyW9CwAv5bC1Yd9nTLm5sRGE4oxONLF51EYWyXdY7Wji
- kKsZP4HQZgdKas4xV8wElodu04N7wE4+7rgY1ISZGWeUiJSIsgz3KBwLKpSbOp5b6FvG
- o5w5s0r+dSq0QS18QN0jpoLxbpnAJiZVRDyoSzY27JfA9fEgZd7BXEcieMEA0X3AOBk/
- W+6w==
+ bh=WBXCNBgU8CcKAxSwhr3mUT60pBImmYZqHDisNP33Cxk=;
+ b=iWfSXedkytDNHsHfswe5/jSuvkvHpB7owTS2aTiBCu/8F/fKg9sBSS3iLL3PFYhqQE
+ rjuy7bgrxr0A27CxBHamgS6SlspE1g3+ANGlOKzCPfA3XsCRF+L6zknTao+zsZo2fIf3
+ NoEGh4elDY8G+HOeqjAsYqOxCibwYo4V1t7t5u8HWnUx+WCAwRqjHNkOlfnzTzNMqC0h
+ x1hv2laqFH/yu2hK23PDQmYwUp2xzuQNH/5bgjIpLFpmLGHBBn8V4OQ4ys5R98qATxFD
+ jSC28C/Qq+TMG66fjQMmPT2d+4FVPS0PUK0ixSjtQNf9PvagJ8CrlVt6eFozMM88Rudk
+ 84kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=4t/uzsVjnf++F+iZc9VXehuWidAREiVfluH73bH/Uc8=;
- b=BvICoEudrwJ+s3S9OI3JPCcw06QAUGAZogop/ljwTNx8DpXZo/zSUB8S34FSCyEiZA
- HnaMAjKgvOiaz1Eq7YxHGZm9QZWEqWfKUkXlxdicdkk2ypbaw4OPUieRLNn92uuTXH/8
- WaqsWFiDieO/9VrjqGwCj/FQ3Ldw8fr6nT1/NYaizWGVhfGc1vErNAjLufMZWE26O0dv
- E+Cc3IQKL9JEeIfV9U0mNxRKQXUGpFGzF9SvVgC42sxZ8Ow7tEm6TeR8A+ZvziBahFF8
- JEnP2mBXxbMZS43hghQdfrb8klN6S7d2hxyjS7KQnVEbG3O/5sz/Mg81+h0NjDD8C784
- V/+g==
-X-Gm-Message-State: AOAM530wPse2/o/IdVKFcZvQ2aarX9o/tBbHJcsGclIoNUrkOL5PCt6h
- 2XnkYQvszQI2WujN6DcH6itjc0iSASV3sFsabr99Y59m+Cl6X+O2y7k=
-X-Google-Smtp-Source: ABdhPJzoPkqUUgE0Y/5hG2Me6wxAYekTV5ryOcz6kUruZkWc3oLFUcF5ZHJs+IJaHPK3lqPFMKIFRswAdJ2WcUAZNRQ=
-X-Received: by 2002:a05:6638:1489:: with SMTP id
- j9mr2003327jak.18.1636411038193; 
- Mon, 08 Nov 2021 14:37:18 -0800 (PST)
+ bh=WBXCNBgU8CcKAxSwhr3mUT60pBImmYZqHDisNP33Cxk=;
+ b=Pld7qWNNFm8LTn882YRHcunVcfzBfsA25LcFZFNRRotkCm2LZXBI/D4wvYv2eX60oi
+ mlNrXhnYUTRn6Q7YniwtZoF8fq+Ys+V5OJoiDzQLxVPvTmxIk+3vTAkq247Ki2MLw7vK
+ WW8FC3N5dfFnn8AAdKZAG9rihaaJwgUgdEj/jZnFA67EjhVu8L3onz/LqA/j6F5gPOd2
+ lZj3eJ7Kgk3PeS/TdUeAIECZ/1/Kf74yl+S31k/1Cl59BLW6//ig1LCHN/KRigyvud3m
+ fG4fRH1hsmM6vlfXwsiPsh1/jmHoaQva77lzCWNaOKxCsAQb6RkdtIdUZnPhI33BVmNV
+ 5n6A==
+X-Gm-Message-State: AOAM531Y0aKl+1ghJ55lXxurPIvubcUZ3G8JWbJYXDAwMQshriFGGU9C
+ hpDOq2gSkLxWE32t4O8KVi/IXywdQfO8XLlIeWE=
+X-Google-Smtp-Source: ABdhPJwea2HaTzqIbDqNWuJrPjBJ5dC3lgY6E8tCO7fDX+N8z1nBb65N5a1Mda6ZyIxzF/MGeQe7N0zGCH1O52RyUn4=
+X-Received: by 2002:a05:6638:d16:: with SMTP id
+ q22mr1996737jaj.35.1636411438394; 
+ Mon, 08 Nov 2021 14:43:58 -0800 (PST)
 MIME-Version: 1.0
-References: <CAFT0Dp1FKeLFNbKSXtgjt9FHF3awu+4ic32cAXQrrmd7Dstwbw@mail.gmail.com>
- <daa4049b-c6c2-1c0c-c1bd-404008c137dd@amsat.org>
-In-Reply-To: <daa4049b-c6c2-1c0c-c1bd-404008c137dd@amsat.org>
+References: <20211108200756.1302697-1-sw@weilnetz.de>
+In-Reply-To: <20211108200756.1302697-1-sw@weilnetz.de>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 9 Nov 2021 08:36:51 +1000
-Message-ID: <CAKmqyKNuUaz=Ri_Krg_AtPESFXgX7wtMkJncddSJH1H-b3O9cg@mail.gmail.com>
-Subject: Re: Emulation of solo key
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Tue, 9 Nov 2021 08:43:32 +1000
+Message-ID: <CAKmqyKPSHycrLo5=Eh5NeZVVE8aMkQXCVGxmQrKYEs50k6HLqQ@mail.gmail.com>
+Subject: Re: [PATCH] device_tree: Fix compiler error
+To: Stefan Weil <sw@weilnetz.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::830
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
- envelope-from=alistair23@gmail.com; helo=mail-qt1-x830.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2b.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -82,72 +83,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexandre Iooss <erdnaxe@crans.org>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm <qemu-arm@nongnu.org>,
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Niraj Sorathiya <nirajsorathiya101@gmail.com>
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 8, 2021 at 5:52 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
-> wrote:
+On Tue, Nov 9, 2021 at 6:08 AM Stefan Weil <sw@weilnetz.de> wrote:
 >
-> Hi Niraj,
+> A build with gcc (Debian 10.2.1-6) 10.2.1 20210110 fails:
 >
-> On 11/6/21 11:17, Niraj Sorathiya wrote:
-> > Hello Team,
-> >
-> > I really need your suggestions on how I should proceed to build a
-> > Solo key emulator ?  Since I am new to QEMU  , I would like to know how
-> > I should do planing before getting into technical of QEMU
-> >
-> > Please find all information about solo key below:
-> >
-> > Docs: https://docs.solokeys.io/solo/building/
-> > <https://docs.solokeys.io/solo/building/>
-> > Firmware: https://github.com/solokeys/solo/
-> > <https://github.com/solokeys/solo/>
-> > Hardware: https://github.com/solokeys/solo-hw
-> > <https://github.com/solokeys/solo-hw>
+> ../../../softmmu/device_tree.c: In function =E2=80=98qemu_fdt_add_path=E2=
+=80=99:
+> ../../../softmmu/device_tree.c:560:18: error: =E2=80=98retval=E2=80=99 ma=
+y be used uninitialized in this function [-Werror=3Dmaybe-uninitialized]
+>   560 |     int namelen, retval;
+>       |                  ^~~~~~
 >
-> Solo is based on the STM32L432 microcontroller.
->
-> Currently QEMU only models the STM32F family:
-> https://qemu-project.gitlab.io/qemu/system/arm/stm32.html
->
-> Presumably some core components could be reused for the
-> STM32L family.
+> This is not a real error, but the compiler can be satisfied with a small =
+change.
 
-Generally STM32 parts share a lot of standard functionality. So I
-suspect it would be pretty straightforward to get a STM32L432 up and
-running using the existing QEMU devices.
-
-STM32L4: https://www.st.com/content/st_com/en/products/microcontrollers-mic=
-roprocessors/stm32-32-bit-arm-cortex-mcus/stm32-ultra-low-power-mcus/stm32l=
-4-series.html
-STM32F4: https://www.st.com/en/microcontrollers-microprocessors/stm32f4-ser=
-ies.html
-
-That should give you CPU, interrupts, UART (USART), SPI, timers and
-probably ADC and sysconfig (I haven't checked the docs to double
-check). That would at least be enough to run the firmware and see
-signs of life.
-
-It looks like the STM32L432 doesn't have the cyrpto/hash functions, so
-that's one less thing to work on.
-
-For full functionality you would probably need to model the USB SoC
-(I'm assuming connected via I2C or SPI). You probably want GPIO for
-the button as well, I have out of tree support for that as a starting
-point (https://github.com/alistair23/qemu/tree/netduinoplus2.dev).
-Then any other external ICs, I would assume there is a TRNG involved
-somewhere.
+Why don't we just initalise retval?
 
 Alistair
 
 >
-> Regards,
+> Fixes: b863f0b75852 ("device_tree: Add qemu_fdt_add_path")
+> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+> ---
+>  softmmu/device_tree.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> Phil.
+> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
+> index 3965c834ca..9e96f5ecd5 100644
+> --- a/softmmu/device_tree.c
+> +++ b/softmmu/device_tree.c
+> @@ -564,7 +564,7 @@ int qemu_fdt_add_path(void *fdt, const char *path)
+>          return -1;
+>      }
+>
+> -    while (p) {
+> +    do {
+>          name =3D p + 1;
+>          p =3D strchr(name, '/');
+>          namelen =3D p !=3D NULL ? p - name : strlen(name);
+> @@ -584,7 +584,7 @@ int qemu_fdt_add_path(void *fdt, const char *path)
+>          }
+>
+>          parent =3D retval;
+> -    }
+> +    } while (p);
+>
+>      return retval;
+>  }
+> --
+> 2.30.2
+>
 >
 
