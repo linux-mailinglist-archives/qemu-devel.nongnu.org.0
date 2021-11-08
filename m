@@ -2,76 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6737F447CC1
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 10:26:21 +0100 (CET)
-Received: from localhost ([::1]:34258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 650D5447CCA
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 10:31:19 +0100 (CET)
+Received: from localhost ([::1]:39978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk0uy-0007BN-Ik
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 04:26:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52530)
+	id 1mk0zl-0002wO-N5
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 04:31:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mk0tI-0005Js-UL
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 04:24:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30310)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mk0xf-0001e9-Sg; Mon, 08 Nov 2021 04:29:07 -0500
+Received: from out28-101.mail.aliyun.com ([115.124.28.101]:34253)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mk0tG-0002zi-Ue
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 04:24:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636363474;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BHOosZ2kMKUQ4jEgih1lEA03JC3f7ooM35j2w8GgmWw=;
- b=J23GCfSCIShI92lyQ4U0+DAgdItqa6c7aDL+tvfRIRd8vBYxxEhOQFvPOsdwdihjVR7QQ2
- qycspTIfiL5vRRzYkYzSOXYIVpaGzgHHAbg/BxqgcrkSpaymSxpaJCV5Inn5YuyF4M+QXq
- 1uF4jun8o5gdI6gcGgv1qUa/UobQWzI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-573-YlsiA1RyPFeXY8ZDj988Ug-1; Mon, 08 Nov 2021 04:24:33 -0500
-X-MC-Unique: YlsiA1RyPFeXY8ZDj988Ug-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34BFA804142;
- Mon,  8 Nov 2021 09:24:31 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.176])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B45960BE5;
- Mon,  8 Nov 2021 09:24:16 +0000 (UTC)
-Date: Mon, 8 Nov 2021 09:24:13 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 1/2] tests/acceptance: introduce new check-avocado
- tartget
-Message-ID: <YYjsvY3W27a1jUCD@redhat.com>
-References: <20211105155354.154864-1-willianr@redhat.com>
- <20211105155354.154864-2-willianr@redhat.com>
- <e7d8e96b-cfca-c41f-257c-a70cb899ca9a@redhat.com>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mk0xS-0004dy-2L; Mon, 08 Nov 2021 04:29:07 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436326|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.0173972-0.000499226-0.982104;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047209; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.LpO54no_1636363723; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.LpO54no_1636363723)
+ by smtp.aliyun-inc.com(10.147.42.22); Mon, 08 Nov 2021 17:28:44 +0800
+Subject: Re: [PATCH 09/13] target/riscv: Adjust vector address with ol
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org, Alexey Baturo <baturo.alexey@gmail.com>
+References: <20211101100143.44356-1-zhiwei_liu@c-sky.com>
+ <20211101100143.44356-10-zhiwei_liu@c-sky.com>
+ <851481b9-e973-b3e1-1722-73db47edb772@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <f84e607c-e16e-ec3f-a7b3-e779b344fcb6@c-sky.com>
+Date: Mon, 8 Nov 2021 17:28:43 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <e7d8e96b-cfca-c41f-257c-a70cb899ca9a@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <851481b9-e973-b3e1-1722-73db47edb772@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: none client-ip=115.124.28.101; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-101.mail.aliyun.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.06,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,79 +62,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-ppc@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- libvir-list@redhat.com, Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
- =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
- Cleber Rosa <crosa@redhat.com>, Michael Rolnik <mrolnik@gmail.com>,
- John Snow <jsnow@redhat.com>
+Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 08, 2021 at 08:59:51AM +0100, Thomas Huth wrote:
-> On 05/11/2021 16.53, Willian Rampazzo wrote:
-> > This introduces a new `make` target, `check-avocado`, and adds a
-> > deprecation message about the `check-acceptance` target. This is
-> > a preparation for renaming the `tests/acceptance` folder to
-> >   `tests/avocado`.
-> > 
-> > The plan is to remove the call to the `check-avocado` target one
-> > or two months after the release and leave the warning to force
-> > people to move to the new `check-avocado` target.
-> > 
-> > Later, the `check-acceptance` target can be removed. The intent
-> > is to avoid a direct impact during the current soft freeze.
-> > 
-> > Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> > Signed-off-by: Willian Rampazzo <willianr@redhat.com>
-> > ---
-> >   docs/about/deprecated.rst | 13 +++++++++++++
-> >   tests/Makefile.include    | 17 ++++++++++++-----
-> >   2 files changed, 25 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-> > index 56f9ad15ab..7bf8da8325 100644
-> > --- a/docs/about/deprecated.rst
-> > +++ b/docs/about/deprecated.rst
-> > @@ -410,3 +410,16 @@ nanoMIPS ISA
-> >   The ``nanoMIPS`` ISA has never been upstreamed to any compiler toolchain.
-> >   As it is hard to generate binaries for it, declare it deprecated.
-> > +
-> > +Testing
-> > +-------
-> > +
-> > +Renaming of the acceptance folder to avocado
-> > +''''''''''''''''''''''''''''''''''''''''''''
-> > +
-> > +The ``tests/acceptance`` folder was never used to store acceptance tests
-> > +in terms of software engineering. This naming can confuse developers
-> > +adding tests using the Avocado Framework to this folder. The folder
-> > +name change to ``tests/avocado`` also changed the ``make`` target from
-> > +``check-acceptance`` to ``check-avocado``. In this case, the use of the
-> > +``check-acceptance`` target is deprecated.
-> 
-> Not sure whether we need  to document this in deprecated.rst, too, since
-> we're normally only listing the things here that affect the users of the
-> qemu binaries, not the people who want to recompile and run the tests...
-> OTOH, I don't mind too much either if we list it here... Anybody else got an
-> opinion on this?
+On 2021/11/1 下午7:35, Richard Henderson wrote:
 
-Deprecations are only things for user facing changes in the apps.
+> On 11/1/21 6:01 AM, LIU Zhiwei wrote:
+>> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+>> ---
+>>   target/riscv/insn_trans/trans_rvv.c.inc |  8 ++++
+>>   target/riscv/internals.h                |  1 +
+>>   target/riscv/vector_helper.c            | 54 +++++++++++++++++--------
+>>   3 files changed, 46 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc 
+>> b/target/riscv/insn_trans/trans_rvv.c.inc
+>> index ed042f7bb9..5cd9b802df 100644
+>> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+>> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+>> @@ -233,6 +233,7 @@ static bool ld_us_op(DisasContext *s, arg_r2nfvm 
+>> *a, uint8_t seq)
+>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>       return ldst_us_trans(a->rd, a->rs1, data, fn, s);
+>>   }
+>>   @@ -286,6 +287,7 @@ static bool st_us_op(DisasContext *s, 
+>> arg_r2nfvm *a, uint8_t seq)
+>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>       return ldst_us_trans(a->rd, a->rs1, data, fn, s);
+>>   }
+>>   @@ -365,6 +367,7 @@ static bool ld_stride_op(DisasContext *s, 
+>> arg_rnfvm *a, uint8_t seq)
+>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>       return ldst_stride_trans(a->rd, a->rs1, a->rs2, data, fn, s);
+>>   }
+>>   @@ -404,6 +407,7 @@ static bool st_stride_op(DisasContext *s, 
+>> arg_rnfvm *a, uint8_t seq)
+>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>       fn =  fns[seq][s->sew];
+>>       if (fn == NULL) {
+>>           return false;
+>> @@ -490,6 +494,7 @@ static bool ld_index_op(DisasContext *s, 
+>> arg_rnfvm *a, uint8_t seq)
+>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s);
+>>   }
+>>   @@ -542,6 +547,7 @@ static bool st_index_op(DisasContext *s, 
+>> arg_rnfvm *a, uint8_t seq)
+>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s);
+>>   }
+>>   @@ -617,6 +623,7 @@ static bool ldff_op(DisasContext *s, arg_r2nfvm 
+>> *a, uint8_t seq)
+>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>       return ldff_trans(a->rd, a->rs1, data, fn, s);
+>>   }
+>>   @@ -724,6 +731,7 @@ static bool amo_op(DisasContext *s, arg_rwdvm 
+>> *a, uint8_t seq)
+>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>       data = FIELD_DP32(data, VDATA, WD, a->wd);
+>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>       return amo_trans(a->rd, a->rs1, a->rs2, data, fn, s);
+>>   }
+>>   /*
+>> diff --git a/target/riscv/internals.h b/target/riscv/internals.h
+>> index b15ad394bb..f74b8291e4 100644
+>> --- a/target/riscv/internals.h
+>> +++ b/target/riscv/internals.h
+>> @@ -27,6 +27,7 @@ FIELD(VDATA, VM, 8, 1)
+>>   FIELD(VDATA, LMUL, 9, 2)
+>>   FIELD(VDATA, NF, 11, 4)
+>>   FIELD(VDATA, WD, 11, 1)
+>> +FIELD(VDATA, OL, 15, 2)
+>>     /* float point classify helpers */
+>>   target_ulong fclass_h(uint64_t frs1);
+>> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+>> index 535420ee66..451688c328 100644
+>> --- a/target/riscv/vector_helper.c
+>> +++ b/target/riscv/vector_helper.c
+>> @@ -112,6 +112,11 @@ static uint32_t vext_wd(uint32_t desc)
+>>       return (simd_data(desc) >> 11) & 0x1;
+>>   }
+>>   +static inline uint32_t vext_ol(uint32_t desc)
+>> +{
+>> +    return FIELD_EX32(simd_data(desc), VDATA, OL);
+>> +}
+>
+> XLEN not OLEN.
+OK.
+>
+>> @@ -123,6 +128,14 @@ static inline uint32_t vext_maxsz(uint32_t desc)
+>>       return simd_maxsz(desc) << vext_lmul(desc);
+>>   }
+>>   +static inline target_ulong adjust_addr(target_ulong addr, uint32_t 
+>> olen)
+>> +{
+>> +    if (olen < TARGET_LONG_BITS) {
+>> +        addr &= UINT32_MAX;
+>> +    }
+>> +    return addr;
+>> +}
+>
+> Here's where I'm unsure.  This looks a lot like the changes that are 
+> required to support pointer-masking in vectors, which Alexey said he 
+> was going to look at.
+>
+> (1) Do we need to pass anything in VEXT at all?
+>     We do have CPURISCVState, so we could just use cpu_get_ml,
+Yes, we should use cpu_get_xl.
+> which we would also need for env->mmte etc for pointer masking.
 
-For build system changes we don't bother with any deprecation cycle.
-Just make the change immediately and document it in the release notes.
+Do you mean env->mpmmask and env->mpmbase? I think yes, we should also 
+adjust these register behaviors with xlen.
 
+>
+> (2) Do we try to streamline the "normal" case with a simple bit in VEXT
+>     that indicates if the address needs modification at all?  I.e. the
+>     bit is set if UXLEN < TARGET_LONG_BITS or if PM_ENABLED?
+>
+> (3) Do we try to streamline the computation by passing down composite
+>     mask and base parameters.  This way we don't need to do complex
+>     examination of ENV to determine execution mode, and instead always
+>     compute
+>
+>        addr = (addr & mask) | base;
+>
+>     where mask = -1, base = 0 for "normal" addressing, and when
+>     UXLEN == 32, mask <= UINT32_MAX.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Do you mean add env->pmmask and env->pmbase?
 
+I can initialize themin riscv_tr_init_disas_context, such as by 
+env->xpmmask & UINT32_MAX .
+
+>
+> (4) Do we in fact want to pre-compute these into known slots on ENV,
+>     so that we don't have to pass these around as separate parameters?
+>     We would adjust these values during PM CSR changes and when
+>     changing privilege levels.
+>
+>
+> r~
 
