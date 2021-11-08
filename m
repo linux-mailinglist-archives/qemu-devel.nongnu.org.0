@@ -2,90 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7EEB447CAA
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 10:20:15 +0100 (CET)
-Received: from localhost ([::1]:54510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F433447CBB
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 10:25:03 +0100 (CET)
+Received: from localhost ([::1]:59638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk0p4-0001VO-OI
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 04:20:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48638)
+	id 1mk0ti-0005FE-7T
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 04:25:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mk0mr-0007xr-Oz
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 04:17:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41243)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mk0s8-0004Da-LY
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 04:23:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22147)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mk0mk-0001Gb-42
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 04:17:56 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mk0s5-0002fH-8Q
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 04:23:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636363069;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1636363399;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Wajm78U75VqucCmeB/h2Qidv4uAsOs1y9C58Ip5aIDY=;
- b=OUJh5dXcabFl949aPoxOy05SPqhIQnAk1IHsKBIVhBsyG1+S2oxHTZHSpdV0L2547Jy9d4
- g5Xhiukv41njIJl8rpZx4a47GUgP1VdKvOBbRDx7e3K6Jay4NPuMWoWUpM0G8M3WsWPyk3
- UxLNy4WH0CVfs1xpQg6lc5c+hQlH464=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-ZmBQlaFtM_qUWDwvhKgSPg-1; Mon, 08 Nov 2021 04:17:48 -0500
-X-MC-Unique: ZmBQlaFtM_qUWDwvhKgSPg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- z5-20020a5d6405000000b00182083d7d2aso3839059wru.13
- for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 01:17:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Wajm78U75VqucCmeB/h2Qidv4uAsOs1y9C58Ip5aIDY=;
- b=FuXn4xVa5GVv8/nTxtupdoVPrlhqejNwvBVQDmgBSKE00DaqDlaZq2TvbjyHZOG3QO
- psmjR5u8C1Qz2HrLRH9G++V9+pBLPx+ujWzYNM95qT+ykIfDU/Pw3MN3x/BF13AmjrrR
- ZZeAsFMJL8mIcMSNdP6BBrHgcNM1zvadrO3FtM0y+Tm5mm7hAy7MhcLNuLVA2pUG2/rG
- tbaYIwr9H0ZoSAsROJ15H68/tmsUVCCFDhSXTiY3iwbDNBfH9xZD6xRCa0JkOMqtPddN
- aJesrXEgovEwDwM0gsfqfJPc5ksnhNr84aHExbSxycLelRWiw+BBy4zZHmWQj5o3tZ2I
- r1kA==
-X-Gm-Message-State: AOAM530uwRPZUIyrPOu1Nb4kIK8cmqnowU2qPzpiESNjknPjI1aTKbLX
- uzq4ZkWEV0luam0xtNvXpQJGhZCYmoPftSVKBbO44ULh5BVtaLEu85RIySCHEP4vppw9HgJGgSp
- q9YTMwSi62Qy2nuM=
-X-Received: by 2002:adf:8008:: with SMTP id 8mr89910764wrk.188.1636363066981; 
- Mon, 08 Nov 2021 01:17:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx+FAkSd7w1cL97/FsFFi8yuuHn22f8CLn8EjQsmUMxDIr5F7qFfmcXmeiL87aBw56XQTuf6w==
-X-Received: by 2002:adf:8008:: with SMTP id 8mr89910741wrk.188.1636363066814; 
- Mon, 08 Nov 2021 01:17:46 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id z135sm22911592wmc.45.2021.11.08.01.17.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Nov 2021 01:17:46 -0800 (PST)
-Message-ID: <3d3762c0-425f-3a04-216f-4a0915cff29d@redhat.com>
-Date: Mon, 8 Nov 2021 10:17:45 +0100
+ bh=jY49A9KzArywxc8ARPL90BOT1FsANf+mwu+Rl9lhuJA=;
+ b=RTy0jcYqMtqadS2ILStD8Ix8ynIGsYyxGz1wnuwsxRHVRXoghJgFyRZqTsfBZZwY5Zc/CX
+ bQ+ljrFnlr7/OMNlu61MdqLJBQmWOSVAnuTdvwco1kN1tAzMcSm5TJiWbYEDC5F38t4AVi
+ 8g6b4rfJap2eVM7gyyp46pLVxGvlBuw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-168-j9LTbE5vNkCGataQSyFO1g-1; Mon, 08 Nov 2021 04:23:09 -0500
+X-MC-Unique: j9LTbE5vNkCGataQSyFO1g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1ED4104ECFD;
+ Mon,  8 Nov 2021 09:23:07 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.176])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E17D19729;
+ Mon,  8 Nov 2021 09:22:52 +0000 (UTC)
+Date: Mon, 8 Nov 2021 09:22:50 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PULL 0/6] Egl 20211105 patches
+Message-ID: <YYjsatU4ENpazt29@redhat.com>
+References: <20211105113043.4059361-1-kraxel@redhat.com>
+ <9221f39f-32ca-094b-c526-82fdbf99a588@linaro.org>
+ <c97aefa2-4686-b339-4d07-f801ac6e5de1@amsat.org>
+ <1b641554-f983-a86f-3512-c109779f6d73@amsat.org>
+ <cc48fcc7-4408-be45-7081-335b98c1ce6f@ilande.co.uk>
+ <4733e0d7-a108-e444-e640-0d5dd7644943@amsat.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 4/4] configure: ignore preexisting QEMU_*FLAGS envvars
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20211108084323.541961-1-pbonzini@redhat.com>
- <20211108084323.541961-5-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211108084323.541961-5-pbonzini@redhat.com>
+In-Reply-To: <4733e0d7-a108-e444-e640-0d5dd7644943@amsat.org>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.06, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,41 +86,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Dongwon Kim <dongwon.kim@intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/8/21 09:43, Paolo Bonzini wrote:
-> User flags should be passed via CFLAGS/CXXFLAGS/LDFLAGS,
-> or --extra-cflags/extra-cxxflags/--extra-ldflags on the
-> command line.
+On Mon, Nov 08, 2021 at 09:17:19AM +0100, Philippe Mathieu-Daudé wrote:
+> +Thomas & Daniel for Travis-CI
 > 
-> QEMU_CFLAGS, QEMU_CXXFLAGS and QEMU_LDFLAGS are reserved
-> for flags detected by configure, so do not add to them
-> and clear them at the beginning of the script.
+> On 11/8/21 09:12, Mark Cave-Ayland wrote:
+> > On 05/11/2021 18:49, Philippe Mathieu-Daudé wrote:
+> >> On 11/5/21 19:26, Philippe Mathieu-Daudé wrote:
+> >>> On 11/5/21 18:13, Richard Henderson wrote:
+> >>>> On 11/5/21 7:30 AM, Gerd Hoffmann wrote:
+> >>>>> The following changes since commit
+> >>>>> b1fd92137e4d485adeec8e9f292f928ff335b76c:
+> >>>>>
+> >>>>>     Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream'
+> >>>>> into staging (2021-11-03 13:07:30 -0400)
+> >>>>>
+> >>>>> are available in the Git repository at:
+> >>>>>
+> >>>>>     git://git.kraxel.org/qemu tags/egl-20211105-pull-request
+> >>>>>
+> >>>>> for you to fetch changes up to
+> >>>>> 1350ff156b25be65c599ecca9957ce6726c6d383:
+> >>>>>
+> >>>>>     ui/gtk-egl: blitting partial guest fb to the proper scanout
+> >>>>> surface
+> >>>>> (2021-11-05 12:29:44 +0100)
+> >>>>>
+> >>>>> ----------------------------------------------------------------
+> >>>>> gtk: a collection of egl fixes.
+> >>>>>
+> >>>>> ----------------------------------------------------------------
+> >>>>>
+> >>>>> Dongwon Kim (6):
+> >>>>>     virtio-gpu: splitting one extended mode guest fb into n-scanouts
+> >>>>>     ui/gtk-egl: un-tab and re-tab should destroy egl surface and
+> >>>>> context
+> >>>>>     ui/gtk-egl: make sure the right context is set as the current
+> >>>>>     ui/gtk-egl: guest fb texture needs to be regenerated when
+> >>>>>       reinitializing egl
+> >>>>>     ui/gtk: gd_draw_event returns FALSE when no cairo surface is bound
+> >>>>>     ui/gtk-egl: blitting partial guest fb to the proper scanout
+> >>>>> surface
+> >>>>>
+> >>>>>    include/hw/virtio/virtio-gpu.h        |  5 +++--
+> >>>>>    include/ui/console.h                  |  4 ++++
+> >>>>>    hw/display/virtio-gpu-udmabuf-stubs.c |  3 ++-
+> >>>>>    hw/display/virtio-gpu-udmabuf.c       | 22 ++++++++++++++--------
+> >>>>>    hw/display/virtio-gpu.c               |  4 ++--
+> >>>>>    ui/egl-helpers.c                      | 25
+> >>>>> +++++++++++++++++++++----
+> >>>>>    ui/gtk-egl.c                          | 10 ++++++++++
+> >>>>>    ui/gtk.c                              | 23 +++++++++++++++++++++++
+> >>>>>    8 files changed, 79 insertions(+), 17 deletions(-)
+> >>>>
+> >>>> Applied, thanks.
+> >>>
+> >>> Ubuntu 18.04.4 LTS:
+> >>>
+> >>> ui/gtk-egl.c:159:13: error: implicit declaration of function
+> >>> 'egl_dmabuf_release_texture' is invalid in C99
+> >>> [-Werror,-Wimplicit-function-declaration]
+> >>>              egl_dmabuf_release_texture(vc->gfx.guest_fb.dmabuf);
+> >>>              ^
+> >>> ui/gtk-egl.c:159:13: error: this function declaration is not a prototype
+> >>> [-Werror,-Wstrict-prototypes]
+> >>> 2 errors generated.
+> >>>
+> >>> https://app.travis-ci.com/gitlab/qemu-project/qemu/builds/241272737
+> >>>
+> >>
+> >> This seems to fix but I have no clue whether it is correct:
+> >>
+> >> -- >8 --
+> >> diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
+> >> index f2026e4b5c9..45cb67712df 100644
+> >> --- a/ui/gtk-egl.c
+> >> +++ b/ui/gtk-egl.c
+> >> @@ -156,8 +156,10 @@ void gd_egl_refresh(DisplayChangeListener *dcl)
+> >>               surface_gl_create_texture(vc->gfx.gls, vc->gfx.ds);
+> >>           }
+> >> +#ifdef CONFIG_GBM
+> >>           if (vc->gfx.guest_fb.dmabuf) {
+> >>               egl_dmabuf_release_texture(vc->gfx.guest_fb.dmabuf);
+> >>               gd_egl_scanout_dmabuf(dcl, vc->gfx.guest_fb.dmabuf);
+> >>           }
+> >> +#endif
+> >>       }
+> >>
+> >> ---
+> > 
+> > I see the same error here trying to build QEMU git master on Debian
+> > Buster (oldstable). The fix looks reasonable to me in that it matches
+> > the CONFIG_GBM guards around other similar functions and the resulting
+> > binary appears to work, so:
+> > 
+> > Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  configure | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+> Thank you, I'll post a formal patch then.
 > 
-> diff --git a/configure b/configure
-> index 1ea26c67e5..2048a52b20 100755
-> --- a/configure
-> +++ b/configure
-> @@ -158,7 +158,7 @@ update_cxxflags() {
->      # Set QEMU_CXXFLAGS from QEMU_CFLAGS by filtering out those
->      # options which some versions of GCC's C++ compiler complain about
->      # because they only make sense for C programs.
-> -    QEMU_CXXFLAGS="$QEMU_CXXFLAGS -D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS"
-> +    QEMU_CXXFLAGS="-D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS"
->      CONFIGURE_CXXFLAGS=$(echo "$CONFIGURE_CFLAGS" | sed s/-std=gnu11/-std=gnu++11/)
->      for arg in $QEMU_CFLAGS; do
->          case $arg in
+> I wonder why this got merged while this configuration is covered in
+> Travis-CI. Is it that we have a too high failure rate than we don't
+> use it anymore?
 
-update_cxxflags() should keep previous QEMU_CXXFLAGS. But since
-we call it only once, we don't use it to update. IMHO we should
-inline this code where it is called, then overwriting QEMU_CXXFLAGS
-makes sense.
+I've not looked at travis in ages what matters is GitLab CI, and there
+the problem is that we're building ubuntu 20.04 not 18.04 so didn't
+catch the older problem.
+
+I don't know what Mark sees a problem on Debian Buster though, as we
+successfully built there AFAICT
+
+   https://gitlab.com/qemu-project/qemu/-/jobs/1756202449
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
