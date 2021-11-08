@@ -2,62 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6EDF448013
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 14:11:07 +0100 (CET)
-Received: from localhost ([::1]:47376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24ABB448063
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 14:38:39 +0100 (CET)
+Received: from localhost ([::1]:57706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk4QU-0007N0-Vd
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 08:11:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36376)
+	id 1mk4r8-0001td-1P
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 08:38:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mk4N7-00039s-Sq
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 08:07:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58038)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mk4m1-0000ss-2z
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 08:33:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20325)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mk4N4-0006OV-T2
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 08:07:36 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mk4lx-0008Fn-JA
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 08:33:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636376854;
+ s=mimecast20190719; t=1636378384;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xbjzdTc+wpcrc9npey7akvdS72EUVW2ck0PNaT5/v6w=;
- b=DLTF/P/dAMfSKVj6L3sFSsnlAatWKrDOpT8vDtI3GzaKnQc7Anl4lpJfBsxLTpl0NBdMig
- oQpR/q92XS87UKhrQhFKVW2vEuVYSQftIF97eEejfevDhRk1U6D2Wts2byP1pc4pntcz2v
- auee7PfE0KPVsfRQp+4HMI4aA2tmC1k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-VwXlIMckNNOIJizKkf6zxw-1; Mon, 08 Nov 2021 08:07:31 -0500
-X-MC-Unique: VwXlIMckNNOIJizKkf6zxw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D0EC802C98;
- Mon,  8 Nov 2021 13:07:30 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.194.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 092DE19C79;
- Mon,  8 Nov 2021 13:07:21 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id BD5DC1805C80; Mon,  8 Nov 2021 14:07:18 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] microvm: check g_file_set_contents() return value
-Date: Mon,  8 Nov 2021 14:07:18 +0100
-Message-Id: <20211108130718.840216-3-kraxel@redhat.com>
-In-Reply-To: <20211108130718.840216-1-kraxel@redhat.com>
-References: <20211108130718.840216-1-kraxel@redhat.com>
+ bh=wb/G5YPQGP/bRgj4YsLsKwpWJtmnPEPWmRwW/qngfAU=;
+ b=hZq2LeXWBUNNP7qV1OzkPrpUsZv5T+w6Rvr4A5e4qWTW65E8+uVRsqY/7R4Kq+NEzDfFFs
+ nhe4LB+ztiINILe1RgrthB3TjQag53atFC24wVXhLQbsBJuWR9TgkEN02gwbJE5GiPqBo8
+ 1uR6lOQPZrvDrvPdr0H5I0Fv8hWU3NI=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-527-z3duGqvGPLqrMRavypkXxw-1; Mon, 08 Nov 2021 08:33:02 -0500
+X-MC-Unique: z3duGqvGPLqrMRavypkXxw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ r25-20020a05640216d900b003dca3501ab4so14822092edx.15
+ for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 05:33:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=wb/G5YPQGP/bRgj4YsLsKwpWJtmnPEPWmRwW/qngfAU=;
+ b=gYVVER9DCO79BsOyTyFZVI6Oe6xgy9ewcYf0sB2l4eFNBAuEKojCUXOuehGwQevKRw
+ JkLktynojQyp9t4Juc9Ht6riWROLpIxij808e+01bSZteffwrlG0mdseq2EKSP5/2D1e
+ 1S4t4npaGpvITVjz46xIZTtW+eDwjvqJgyuK4YqpkobXJpmwn+DKTT/2J0sJ7idllMTd
+ iEUy0/XwFat3dN/6YMAtdjibZ/bvBMYcRl+Hhd7URSkNnnow7XZTy0rtCz5gZeHc17Wt
+ NV9xiGWjubd7qijiRLWoY9Uni+hSX1qYGO/+eIZwl1UzS/WQtsb4a27vxiqgy1gLAWqX
+ Rnxg==
+X-Gm-Message-State: AOAM532Uyzd++rON8UPlXOr5ZOTO8uSa0R3/SChIqRpo42G1Wac0p6N0
+ NnmikxxET1m3xBZaJFV/ml3uZo3R+mV8d3zoqlV3bxK+EyFE3My50U/gsuDBYWIJUetmiZT4Cg7
+ 9XnR1jxf7LiZPnwI=
+X-Received: by 2002:a05:6402:4381:: with SMTP id
+ o1mr45757219edc.301.1636378381414; 
+ Mon, 08 Nov 2021 05:33:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyALzQIwoIehAg+tGhBXgvVGAIsIGpTNasxUf1yh0h92r5BgzrjrwHRZFcK/eryx+3RBFykiA==
+X-Received: by 2002:a05:6402:4381:: with SMTP id
+ o1mr45757186edc.301.1636378381182; 
+ Mon, 08 Nov 2021 05:33:01 -0800 (PST)
+Received: from redhat.com ([2.55.155.32])
+ by smtp.gmail.com with ESMTPSA id d4sm9477733edk.78.2021.11.08.05.32.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Nov 2021 05:33:00 -0800 (PST)
+Date: Mon, 8 Nov 2021 08:32:57 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH] hw/acpi: Set memory regions to native endian as a work
+ around
+Message-ID: <20211108083200-mutt-send-email-mst@kernel.org>
+References: <20211108130934.59B48748F52@zero.eik.bme.hu>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20211108130934.59B48748F52@zero.eik.bme.hu>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -78,36 +94,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes: CID 1465239
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/i386/microvm-dt.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+On Mon, Nov 08, 2021 at 02:05:42PM +0100, BALATON Zoltan wrote:
+> When using ACPI on big endian machine (such as ppc/pegasos2 which has
+> a VT8231 south bridge with ACPI) writes to ACPI registers come out
+> byte swapped. This may be caused by a bug in memory subsystem but
+> until that is fixed setting the ACPI memory regions to native endian
+> makes it usable for big endian machines. This fixes ACPI shutdown with
+> pegasos2 when using the board firmware for now.
+> This could be reverted when the memory layer is fixed.
+> 
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 
-diff --git a/hw/i386/microvm-dt.c b/hw/i386/microvm-dt.c
-index ad4e48e5fe60..774e0bc7fef3 100644
---- a/hw/i386/microvm-dt.c
-+++ b/hw/i386/microvm-dt.c
-@@ -334,7 +334,10 @@ void dt_setup_microvm(MicrovmMachineState *mms)
- 
-     if (debug) {
-         fprintf(stderr, "%s: writing microvm.fdt\n", __func__);
--        g_file_set_contents("microvm.fdt", mms->fdt, size, NULL);
-+        if (!g_file_set_contents("microvm.fdt", mms->fdt, size, NULL)) {
-+            fprintf(stderr, "%s: writing microvm.fdt failed\n", __func__);
-+            return;
-+        }
-         int ret = system("dtc -I dtb -O dts microvm.fdt");
-         if (ret != 0) {
-             fprintf(stderr, "%s: oops, dtc not installed?\n", __func__);
--- 
-2.31.1
+
+Paolo, could you weight in on whether we can fix it properly
+in the memory core? I suspect it's not a good idea to switch
+to native without adding a bunch of byteswaps all
+over the place ...
+
+> ---
+>  hw/acpi/core.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/acpi/core.c b/hw/acpi/core.c
+> index 1e004d0078..543e4a7875 100644
+> --- a/hw/acpi/core.c
+> +++ b/hw/acpi/core.c
+> @@ -461,7 +461,7 @@ static const MemoryRegionOps acpi_pm_evt_ops = {
+>      .impl.min_access_size = 2,
+>      .valid.min_access_size = 1,
+>      .valid.max_access_size = 2,
+> -    .endianness = DEVICE_LITTLE_ENDIAN,
+> +    .endianness = DEVICE_NATIVE_ENDIAN,
+>  };
+>  
+>  void acpi_pm1_evt_init(ACPIREGS *ar, acpi_update_sci_fn update_sci,
+> @@ -531,7 +531,7 @@ static const MemoryRegionOps acpi_pm_tmr_ops = {
+>      .impl.min_access_size = 4,
+>      .valid.min_access_size = 1,
+>      .valid.max_access_size = 4,
+> -    .endianness = DEVICE_LITTLE_ENDIAN,
+> +    .endianness = DEVICE_NATIVE_ENDIAN,
+>  };
+>  
+>  void acpi_pm_tmr_init(ACPIREGS *ar, acpi_update_sci_fn update_sci,
+> @@ -608,7 +608,7 @@ static const MemoryRegionOps acpi_pm_cnt_ops = {
+>      .impl.min_access_size = 2,
+>      .valid.min_access_size = 1,
+>      .valid.max_access_size = 2,
+> -    .endianness = DEVICE_LITTLE_ENDIAN,
+> +    .endianness = DEVICE_NATIVE_ENDIAN,
+>  };
+>  
+>  void acpi_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
+> -- 
+> 2.30.2
 
 
