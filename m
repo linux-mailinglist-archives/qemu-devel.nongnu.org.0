@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B02104497DE
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 16:10:26 +0100 (CET)
-Received: from localhost ([::1]:49706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6321C4497F9
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 16:16:29 +0100 (CET)
+Received: from localhost ([::1]:60558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk6Hx-0004NT-Ci
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 10:10:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41320)
+	id 1mk6No-0003PA-9L
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 10:16:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mk6Ew-0001TI-Fr
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:07:18 -0500
-Received: from [2a00:1450:4864:20::433] (port=41967
- helo=mail-wr1-x433.google.com)
+ id 1mk6I1-00061D-AD
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:10:29 -0500
+Received: from [2a00:1450:4864:20::334] (port=50836
+ helo=mail-wm1-x334.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mk6Eu-0001EI-6K
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:07:18 -0500
-Received: by mail-wr1-x433.google.com with SMTP id d3so27420768wrh.8
- for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 07:07:15 -0800 (PST)
+ id 1mk6Hz-0001c4-9Y
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:10:28 -0500
+Received: by mail-wm1-x334.google.com with SMTP id 133so13319616wme.0
+ for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 07:10:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=jz+2xJi1SBXmkJbAJt9XRm16jDFnN6NEdC8o6Rv/1LY=;
- b=wFqbcCg0picKN9P95VHyKuB+iXuBhjGa3KsfKCrpMD4pocGOYdMfZgvqndhq3XCip4
- 0n8gOmkxIyIgX42OWC/4oRap4zNv4sOgc9SC2ev+meFHmoBrn7pb168zKEkoXyO+udU0
- DWRNwvltTl097CenPMQfvigxuCiUi6BpDHLROrmGWiItQhkKK28jRKJCi4pl9+RhjvtY
- jYebJLhJYRBZdiYhlBE7cFhL+Ebp8+xxX+5bBBvg6pfQYl7WjERAhx/wWSm4EIdZI7os
- xUqUzDai7hMlyVuyI1bKimK84qANK/l3+VPHHW62FERJ0raoXZYWKZTLv5bYpuy0C83C
- ZFIQ==
+ bh=qzZJzULWH5wRJ2QpT74VH9eosgfDC0kQgznzt1wIv4c=;
+ b=nqTlbce41kxF8HPBXu2CgKD7L0ac55GmrjCPH75VFFgIyd7qged8D9oCCgO8+4gKMJ
+ kI7AyiQUxFmdIYTi5Z0tDVOvv9yz0DaS/bwB+/y0YGEH7tuaWtfy8eao9GdMH6+MSwxo
+ Kq9vtQJF2J0B5Xiv1PDeY6ELg9W40UWXPVUifLlTukuSPFdClnEt+uJHmzw0o6dMYaxQ
+ SgV75SFDBHGl1JogMbOQ25NEnJ7pvu2+jTZAsoUvHzpLZTdw6KcYEsjUtqYrit5a3viD
+ XvMZA7O2P0HXVOCSVLSb+NQeY0DB7e9DU/0OjAAuYkJt4e1LkhwfOHtWV3khsSBRxuZG
+ AIXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=jz+2xJi1SBXmkJbAJt9XRm16jDFnN6NEdC8o6Rv/1LY=;
- b=qN03TM4PgZBhI0TOnyEXvDcjmlgJbdF2FMc3tmrAt4zTM1XVeTjHRaZXzohaNbHFPQ
- jcs23UaNwnIAetZ7jfgv0Lk3espW9dryPwowM8TK+JMvpswJZnaIzNtEZoGr4FHFrDYS
- j//Ilmp1lhWVnOgti0N11BzmRd78GcMu7igkMpm8DPLcxfnYVgqeLJ+yw41yWGDfcvqv
- MVicOenVpMLGQ3wzFmOuNJgQKJ8ags41FD1JczYif9XhtWde2sTgLOQNR3/VygV6SVNu
- KRjzrGhTduB7ZFOjHwXgn2URqoeiC+O8JeNu24wY/ZIZl8nQx7tJJrP7Sg6KeLaXZgvN
- B0tA==
-X-Gm-Message-State: AOAM531OAc+yWd9EA0GzaaJEeGiPZk0xyWuwO4svc6yxKJIhVM7tu8Qh
- //UmRFOP42UMzqtBxmFTwx0/oA==
-X-Google-Smtp-Source: ABdhPJyLdZtUt9YCz2FLcxAR5Mz+3Z+j3OpQRaiJ1Zn1DP/8DDHV74+OagSrVnFGWKpN2+cFEsOj7A==
-X-Received: by 2002:adf:dec9:: with SMTP id i9mr547639wrn.18.1636384034899;
- Mon, 08 Nov 2021 07:07:14 -0800 (PST)
+ bh=qzZJzULWH5wRJ2QpT74VH9eosgfDC0kQgznzt1wIv4c=;
+ b=Jf4mQJbfuhjSeScile9IAw4A7pDRyVmeZ0vjdpW9dSg0StIJqg/NEbJjEENEMHrAJO
+ PCZB96QhlT1Jho3TvM43/RKO1Yha7NQ/nWq+WlXKgcpjpz2tp4IoDCH/vJzw1/hyX/0p
+ 6E03ZZ4W0E6M9DxZbVjve4uPL1Kag2/xlcstBkzWjpNyNt4KBXRAHoShbyxFWqypE4Ap
+ bsZGPN2EmObdvdAKf/5bpwStEedNnWCs+JbL8gj8FE6T7iM1/wPqCx1PTh4troZqunKV
+ 4Do38bpSf8ny6x44XOj8rICkiHDMrzy+4tsSSPTlyKAJxKvNhKKhCrlvkFLj/dcR5JaC
+ OZ5Q==
+X-Gm-Message-State: AOAM531AcfqX45GH5PA8fbs7PLIT/Trd18uKjTkpYjaiIbMq6f5xBTG9
+ YpzJhnKkCh1YRGA3k++PyT/oCw==
+X-Google-Smtp-Source: ABdhPJxelL695MkIjdDUmDpy66cGti7d5qytWjNUJiXBMjSRHOaGzDRoQxlBdvsL8v8q0QtEjBu/6A==
+X-Received: by 2002:a1c:6a0e:: with SMTP id f14mr51874519wmc.58.1636384225508; 
+ Mon, 08 Nov 2021 07:10:25 -0800 (PST)
 Received: from [192.168.8.106] (173.red-95-126-185.staticip.rima-tde.net.
  [95.126.185.173])
- by smtp.gmail.com with ESMTPSA id l2sm86267wmi.1.2021.11.08.07.07.13
+ by smtp.gmail.com with ESMTPSA id 10sm20906362wrb.75.2021.11.08.07.10.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Nov 2021 07:07:14 -0800 (PST)
-Subject: Re: [RFC 2/4] linux-user/signal.c: Create a common
- rewind_if_in_safe_syscall
+ Mon, 08 Nov 2021 07:10:25 -0800 (PST)
+Subject: Re: [RFC 4/4] common-user: Allow return codes to be adjusted after
+ sytsem call
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 References: <20211108023738.42125-1-imp@bsdimp.com>
- <20211108023738.42125-3-imp@bsdimp.com>
+ <20211108023738.42125-5-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <fa216460-3fa2-a5bc-f974-ea2c8cf6430e@linaro.org>
-Date: Mon, 8 Nov 2021 16:07:08 +0100
+Message-ID: <0511aedf-1ecd-666d-034f-55d50306e115@linaro.org>
+Date: Mon, 8 Nov 2021 16:10:22 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211108023738.42125-3-imp@bsdimp.com>
+In-Reply-To: <20211108023738.42125-5-imp@bsdimp.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -98,28 +98,39 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/8/21 3:37 AM, Warner Losh wrote:
-> All instances of rewind_if_in_safe_syscall are the same, differing only
-> in how the instruction point is fetched from the ucontext and the size
-> of the registers. Use host_signal_pc and new host_signal_set_pc
-> interfaces to fetch the pointer to the PC and adjust if needed. Delete
-> all the old copies of rewind_if_in_safe_syscall.
+> All the *-users generally use the Linux style of negative return codes
+> for errno. However, other systems, like FreeBSD, have a different
+> convention. Allow those systems to insert code after the syscall that
+> adjusts the return value of the system call to match the native linux
+> format.
 > 
-> Signed-off-by: Warner Losh<imp@bsdimp.com>
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
 > ---
->   linux-user/host/aarch64/hostdep.h | 20 --------------------
->   linux-user/host/arm/hostdep.h     | 20 --------------------
->   linux-user/host/i386/hostdep.h    | 20 --------------------
->   linux-user/host/ppc64/hostdep.h   | 20 --------------------
->   linux-user/host/riscv/hostdep.h   | 20 --------------------
->   linux-user/host/s390x/hostdep.h   | 20 --------------------
->   linux-user/host/x86_64/hostdep.h  | 20 --------------------
->   linux-user/signal.c               | 18 +++++++++++++++++-
->   8 files changed, 17 insertions(+), 141 deletions(-)
+>   common-user/host/aarch64/safe-syscall.inc.S | 1 +
+>   common-user/host/arm/safe-syscall.inc.S     | 1 +
+>   common-user/host/i386/safe-syscall.inc.S    | 1 +
+>   common-user/host/ppc64/safe-syscall.inc.S   | 1 +
+>   common-user/host/riscv/safe-syscall.inc.S   | 1 +
+>   common-user/host/s390x/safe-syscall.inc.S   | 1 +
+>   common-user/host/x86_64/safe-syscall.inc.S  | 1 +
+>   linux-user/safe-syscall.S                   | 1 +
+>   8 files changed, 8 insertions(+)
+> 
+> diff --git a/common-user/host/aarch64/safe-syscall.inc.S b/common-user/host/aarch64/safe-syscall.inc.S
+> index bc1f5a9792..81d83e8e79 100644
+> --- a/common-user/host/aarch64/safe-syscall.inc.S
+> +++ b/common-user/host/aarch64/safe-syscall.inc.S
+> @@ -64,6 +64,7 @@ safe_syscall_start:
+>   	svc	0x0
+>   safe_syscall_end:
+>   	/* code path for having successfully executed the syscall */
+> +	ADJUST_SYSCALL_RETCODE
+>   	ret
+>   
+>   0:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-Although I think we can fairly safely drop HAVE_SAFE_SYSCALL.  It is required for proper 
-operation.  As with host-signal.h, really.
+Not sure about this, really.  Is it really that much cleaner to insert this than create 
+separate 10-line files, with the adjustment included?
 
 
 r~
