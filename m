@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 296E444790B
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 05:02:07 +0100 (CET)
-Received: from [::1] (port=35016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B7A447916
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 05:04:50 +0100 (CET)
+Received: from localhost ([::1]:43444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjvrC-00018B-9d
-	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 23:02:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48370)
+	id 1mjvtp-0006sy-GS
+	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 23:04:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mjvhw-0006kt-VT
- for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:52:34 -0500
-Received: from [2607:f8b0:4864:20::133] (port=34374
- helo=mail-il1-x133.google.com)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mjvhy-0006mB-VW
+ for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:52:37 -0500
+Received: from [2607:f8b0:4864:20::d31] (port=35580
+ helo=mail-io1-xd31.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mjvhv-0002tr-18
- for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:52:32 -0500
-Received: by mail-il1-x133.google.com with SMTP id j28so15551727ila.1
- for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 19:52:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mjvhw-0002uG-2A
+ for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:52:33 -0500
+Received: by mail-io1-xd31.google.com with SMTP id c206so15927811iof.2
+ for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 19:52:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=98BqBI8TmV8YvyFkZ3y+XgKQlmpyG8KzRCO1YXNy77I=;
- b=m2GUU55SRn7izQSOGfZhs5tHxX00bTz/xEf17iYq1jPVw+m6QZD3kofFabYA96lasQ
- DvMRq4KtjPrerKQl1f5JaOLrgcMpgM9fDnpl4HdYDrKLiyjOfgmgrGVbz6QAql57TVCx
- co5UcT6DyFO7jbJ3OHCA0zwvVIDLQ/ZZFkTmiI3aButqtMrSIc/wcBmCvZKdiBtbjWW8
- vdHZ9piIBlHf9NIWJi5z0bHitLMOfgl2ENh57yQ7MFbYXZ4V/M2fFBQXNCn3OrXnJ2Yd
- 8hJkFdYHh4OdszAIy49jIE/mM7886+Hv0096vnJgITzQcf/Gzqq/iABSG825v0nGiebK
- YyTw==
+ bh=rKLMBYjEYlw1VjEHepSl0BqgSbBEPtGPWDcDEzPgUqg=;
+ b=cJXZ5UEBvURLY9C+HCVOQ6PhBsyhLuyZlDOhItVxfW5gUagn8P25kfL5smpvPzhg1j
+ 8yMZDut/8s8mLYvjc4r2ndsxSYvSWXkOW+p82aNYJGAsNDEC+v9EpSG6aXrEQ3YxkrhZ
+ RPZcft2vXDWBRM+ugjDqEFQPDhLuosq9pkf2ENKu7ctj07Re95Mv6V0R/DFGTRG1n4V9
+ IGttdSx3fcRmAA9WoLJ+mt8YcExDSlgb44h7xImQu3OgLZOWfal6BFJ441ZgBib5UWOc
+ UUkoA7vWwy0K6KKmim7Ck4Ez/rV/Tb/33s34IKdVQCpEFCbnJCc1FZd/SHknUVgpEyO4
+ 3ghg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=98BqBI8TmV8YvyFkZ3y+XgKQlmpyG8KzRCO1YXNy77I=;
- b=E6iF7gwn9QRTfMhkXbofHSb3iRfbAzNe0EvRBQ/42h5lSyhLMn6poQ6UJgg/zZjMVT
- TCxGEzG7IbVw3FYP52SEpEFe7HzKVqWo/xMewwyqHdVuTLZQiu0I/5bpZt6BkKC7UROZ
- DMcuPfu49JRO3BhPrMaGFhmlno5ieexV/2vBmQDSeBoVvf7U2jTwS8zwgfVI30BmKKsx
- 0rs97O3BzXo8odloO2OHk8HUS2t3YrOWJ/o84M/vm+vgSndwyeuK4JEUat9bZgXJvC2l
- fQuKj49LO694Ea2WCPVNe8monQ3dHL1PK85bdG188wgJQD7juFnnvd9UhzEmSKqT/g+e
- et4g==
-X-Gm-Message-State: AOAM531WtJ+bH0dLBvZVU/dFxB3MJFHf+kQK4VC+3wKh68JheU9JfKXe
- 15VDuYwvxUBfKghCy3EY9QQsm9X93J8WFA==
-X-Google-Smtp-Source: ABdhPJy+t1j0Okd4J9o0BDAMj6xolQTA/DGlL1kX9YOJoySpNpwpaCkYaXrkaOjG4JAZd92FIKNx4g==
-X-Received: by 2002:a05:6e02:20e4:: with SMTP id
- q4mr45550220ilv.71.1636343549810; 
- Sun, 07 Nov 2021 19:52:29 -0800 (PST)
+ bh=rKLMBYjEYlw1VjEHepSl0BqgSbBEPtGPWDcDEzPgUqg=;
+ b=yeFnhj4qzKopGS0a6vEzih9nKFPWvvT7baErxHkvvsrK87YCf7WTQDyn1pQWL/P6dk
+ WVNcpPMkI3Qd8wr0EJ3NW25Xi93kba1MYr9YVlN+pv2srGYJGnBIhE8actsDi7MFMfA0
+ f49FcQS0pcAeryTO1JaT8aRBfqI5MRvj7cP1Hw9fhFcBTjw6zjP/rHJqBVZju0kmIe2T
+ IFDZk1ID10JZbrCrV8tA/vc2vkHESt8uVbIwY02YrGqM7xNBzPl2iTdXmFFVzGWkOlvQ
+ TUE5kMpjECvSYYOtm7zdo1ZQ17XNT/pJyi2VeeFwVN/6nbchFbHkyMPKkxCWsXcngQBR
+ XhqA==
+X-Gm-Message-State: AOAM533OdNDlmP0GL2hNdO4Sv1G6Fs4wG06kZlH+s7OF3YtW0YXTd8Jq
+ 9L76/4aJ8hFi1pFfIN41FlPhDAj9vhdSuA==
+X-Google-Smtp-Source: ABdhPJw7o9FR3RFWy6svo0UDVF9ltptU8k1K/5h0Zbz9/6BhrVlm6KXEtZfIVxE+OvqL6qNsOzD4nw==
+X-Received: by 2002:a05:6602:2c0d:: with SMTP id
+ w13mr11266965iov.79.1636343550934; 
+ Sun, 07 Nov 2021 19:52:30 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
  by smtp.gmail.com with ESMTPSA id x15sm876909iob.8.2021.11.07.19.52.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Nov 2021 19:52:29 -0800 (PST)
+ Sun, 07 Nov 2021 19:52:30 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 21/37] bsd-user/arm/target_arch_cpu.h: Implement system
- call dispatch
-Date: Sun,  7 Nov 2021 20:51:20 -0700
-Message-Id: <20211108035136.43687-22-imp@bsdimp.com>
+Subject: [PATCH v5 22/37] bsd-user/arm/target_arch_reg.h: Implement core dump
+ register copying
+Date: Sun,  7 Nov 2021 20:51:21 -0700
+Message-Id: <20211108035136.43687-23-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211108035136.43687-1-imp@bsdimp.com>
 References: <20211108035136.43687-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::133
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d31
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::133;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x133.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd31.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -94,131 +94,84 @@ Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the system call dispatch. This implements all three kinds of
-system call: direct and the two indirect variants. It handles all the
-special cases for thumb as well.
+Implement the register copying routines to extract registers from the
+cpu for core dump generation.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
-Signed-off-by: Kyle Evans <kevans@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/arm/target_arch_cpu.h | 94 ++++++++++++++++++++++++++++++++++
- 1 file changed, 94 insertions(+)
+ bsd-user/arm/target_arch_reg.h | 60 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 60 insertions(+)
+ create mode 100644 bsd-user/arm/target_arch_reg.h
 
-diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch_cpu.h
-index 905a5ffaff..c675419c30 100644
---- a/bsd-user/arm/target_arch_cpu.h
-+++ b/bsd-user/arm/target_arch_cpu.h
-@@ -40,6 +40,7 @@ static inline void target_cpu_loop(CPUARMState *env)
- {
-     int trapnr;
-     target_siginfo_t info;
-+    unsigned int n;
-     CPUState *cs = env_cpu(env);
- 
-     for (;;) {
-@@ -62,6 +63,99 @@ static inline void target_cpu_loop(CPUARMState *env)
-                 /* TODO: What about instruction emulation? */
-             }
-             break;
-+        case EXCP_SWI:
-+        case EXCP_BKPT:
-+            {
-+                /*
-+                 * system call
-+                 * See arm/arm/trap.c cpu_fetch_syscall_args()
-+                 */
-+                if (trapnr == EXCP_BKPT) {
-+                    if (env->thumb) {
-+                        env->regs[15] += 2;
-+                    } else {
-+                        env->regs[15] += 4;
-+                    }
-+                }
-+                n = env->regs[7];
-+                if (bsd_type == target_freebsd) {
-+                    int ret;
-+                    abi_ulong params = get_sp_from_cpustate(env);
-+                    int32_t syscall_nr = n;
-+                    int32_t arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8;
+diff --git a/bsd-user/arm/target_arch_reg.h b/bsd-user/arm/target_arch_reg.h
+new file mode 100644
+index 0000000000..ef5ed5154f
+--- /dev/null
++++ b/bsd-user/arm/target_arch_reg.h
+@@ -0,0 +1,60 @@
++/*
++ *  FreeBSD arm register structures
++ *
++ *  Copyright (c) 2015 Stacey Son
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
 +
-+                    /* See arm/arm/trap.c cpu_fetch_syscall_args() */
-+                    if (syscall_nr == TARGET_FREEBSD_NR_syscall) {
-+                        syscall_nr = env->regs[0];
-+                        arg1 = env->regs[1];
-+                        arg2 = env->regs[2];
-+                        arg3 = env->regs[3];
-+                        get_user_s32(arg4, params);
-+                        params += sizeof(int32_t);
-+                        get_user_s32(arg5, params);
-+                        params += sizeof(int32_t);
-+                        get_user_s32(arg6, params);
-+                        params += sizeof(int32_t);
-+                        get_user_s32(arg7, params);
-+                        arg8 = 0;
-+                    } else if (syscall_nr == TARGET_FREEBSD_NR___syscall) {
-+                        syscall_nr = env->regs[0];
-+                        arg1 = env->regs[2];
-+                        arg2 = env->regs[3];
-+                        get_user_s32(arg3, params);
-+                        params += sizeof(int32_t);
-+                        get_user_s32(arg4, params);
-+                        params += sizeof(int32_t);
-+                        get_user_s32(arg5, params);
-+                        params += sizeof(int32_t);
-+                        get_user_s32(arg6, params);
-+                        arg7 = 0;
-+                        arg8 = 0;
-+                    } else {
-+                        arg1 = env->regs[0];
-+                        arg2 = env->regs[1];
-+                        arg3 = env->regs[2];
-+                        arg4 = env->regs[3];
-+                        get_user_s32(arg5, params);
-+                        params += sizeof(int32_t);
-+                        get_user_s32(arg6, params);
-+                        params += sizeof(int32_t);
-+                        get_user_s32(arg7, params);
-+                        params += sizeof(int32_t);
-+                        get_user_s32(arg8, params);
-+                    }
-+                    ret = do_freebsd_syscall(env, syscall_nr, arg1, arg2, arg3,
-+                            arg4, arg5, arg6, arg7, arg8);
-+                    /*
-+                     * Compare to arm/arm/vm_machdep.c
-+                     * cpu_set_syscall_retval()
-+                     */
-+                    if (-TARGET_EJUSTRETURN == ret) {
-+                        /*
-+                         * Returning from a successful sigreturn syscall.
-+                         * Avoid clobbering register state.
-+                         */
-+                        break;
-+                    }
-+                    if (-TARGET_ERESTART == ret) {
-+                        env->regs[15] -= env->thumb ? 2 : 4;
-+                        break;
-+                    }
-+                    if ((unsigned int)ret >= (unsigned int)(-515)) {
-+                        ret = -ret;
-+                        cpsr_write(env, CPSR_C, CPSR_C, CPSRWriteByInstr);
-+                        env->regs[0] = ret;
-+                    } else {
-+                        cpsr_write(env, 0, CPSR_C, CPSRWriteByInstr);
-+                        env->regs[0] = ret; /* XXX need to handle lseek()? */
-+                        /* env->regs[1] = 0; */
-+                    }
-+                } else {
-+                    fprintf(stderr, "qemu: bsd_type (= %d) syscall "
-+                            "not supported\n", bsd_type);
-+                }
-+            }
-+            break;
-         case EXCP_INTERRUPT:
-             /* just indicate that signals should be handled asap */
-             break;
++#ifndef _TARGET_ARCH_REG_H_
++#define _TARGET_ARCH_REG_H_
++
++/* See sys/arm/include/reg.h */
++typedef struct target_reg {
++    uint32_t        r[13];
++    uint32_t        r_sp;
++    uint32_t        r_lr;
++    uint32_t        r_pc;
++    uint32_t        r_cpsr;
++} target_reg_t;
++
++typedef struct target_fp_reg {
++    uint32_t        fp_exponent;
++    uint32_t        fp_mantissa_hi;
++    u_int32_t       fp_mantissa_lo;
++} target_fp_reg_t;
++
++typedef struct target_fpreg {
++    uint32_t        fpr_fpsr;
++    target_fp_reg_t fpr[8];
++} target_fpreg_t;
++
++#define tswapreg(ptr)   tswapal(ptr)
++
++static inline void target_copy_regs(target_reg_t *regs, const CPUARMState *env)
++{
++    int i;
++
++    for (i = 0; i < 13; i++) {
++        regs->r[i] = tswapreg(env->regs[i + 1]);
++    }
++    regs->r_sp = tswapreg(env->regs[13]);
++    regs->r_lr = tswapreg(env->regs[14]);
++    regs->r_pc = tswapreg(env->regs[15]);
++    regs->r_cpsr = tswapreg(cpsr_read((CPUARMState *)env));
++}
++
++#undef tswapreg
++
++#endif /* !_TARGET_ARCH_REG_H_ */
 -- 
 2.33.0
 
