@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8C24449ECA
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 23:53:32 +0100 (CET)
-Received: from localhost ([::1]:52956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B7A8449ED2
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 23:55:40 +0100 (CET)
+Received: from localhost ([::1]:60770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkDW8-0003iz-3E
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 17:53:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33132)
+	id 1mkDYB-0000S6-NO
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 17:55:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mkDU0-0000kq-VF; Mon, 08 Nov 2021 17:51:20 -0500
-Received: from [2607:f8b0:4864:20::22b] (port=46865
- helo=mail-oi1-x22b.google.com)
+ id 1mkDU2-0000qW-Hn; Mon, 08 Nov 2021 17:51:22 -0500
+Received: from [2607:f8b0:4864:20::334] (port=45726
+ helo=mail-ot1-x334.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mkDTy-00081H-Oj; Mon, 08 Nov 2021 17:51:20 -0500
-Received: by mail-oi1-x22b.google.com with SMTP id s139so13066565oie.13;
- Mon, 08 Nov 2021 14:51:17 -0800 (PST)
+ id 1mkDU0-0008FM-9B; Mon, 08 Nov 2021 17:51:22 -0500
+Received: by mail-ot1-x334.google.com with SMTP id
+ l7-20020a0568302b0700b0055ae988dcc8so24785875otv.12; 
+ Mon, 08 Nov 2021 14:51:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=J9JufLeBG4tHXEvePwRm5d9XsAfGOzuYnoii6cFG5nE=;
- b=hOO/ZUh7P1mYN4Sg+VewwNbLfZuASYZ5w2I6tpKNMfK5Fq0/42sbXSqgjk2KxCdcoo
- 80DZrzARnvxwTKfNe3reiPaG84T8M7LTSC4PJdB0SarbDcjf/E4XGNmYGXuNONTmXuA5
- jbIw8A3MnoY4w8bqw7xgKn4N3cLcEhiPbMQwhEf3Uj0aviku9xKumt90X0oYmwORgbMV
- w2ZSjnK9ZUvyJrOSLZ6xhJrn9mKItNLtVGaZRf8mCSZtuxajLXbTLfoN0w4Cty3HVVey
- o/KyiFkPzI2/dUdXqEZDi1GRz7S+jGF1D7ZONY68OUZdxykZYgzJ6FOXrOd3tfAaI1mc
- 3Ixw==
+ bh=oO8MeUFmtu2u46mvu1cC1vaoB9UbZTBkoIz4rfLSPGQ=;
+ b=EaUJo8WDQEYxTCZa64miT9mV7XLf/jZqhh4HOB6OhDGXxVOpg8GleCFB8Qo8GMBFV/
+ 4m1ozobpO1YmKrX8kmKn3QUgIwcDjnCLlPYHQywj3CPN0AZF+h9PRXD5K/4lrN83nlUy
+ vbEzcL3j2tXPHOmEvJy1SYJPR2iyuABvApKtgfwCgMfbG1o5h+JTBPF1zjwbnotXCMTd
+ ntCe04ClAddKppXccGfSVq8+MpJGDo/IBEHXgDIExgbixWY4Tz0Ch/oceqvAtrgPDJMM
+ wvTsahl7D/IjdX0tD99dWuTOHf7A1BPJ97SnJBB/Pd2EKgZc+V0x2o1zFiRDE3kOr9ii
+ p2Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=J9JufLeBG4tHXEvePwRm5d9XsAfGOzuYnoii6cFG5nE=;
- b=I5kle6sXohRIoPIwe9wQppc0dXbgWOhDy0oBIlfQ6duEXvJKrprhVk+zAxqqGB/1fc
- PhUwLgzeS5nc6Q8vpXovi8JS0oxpeYL582dkbDZZEVqBgjL6x5tYcA9OBy2AMcXG5FM7
- X0s0xms+N3Ti6z416tonJGS03q2avhOrcJJdM98McUK2RMcL5dK6PbEnGXBCFdGnDypF
- IF2hcjFmzPewC95VGKpYOA171caQzIv4lxMW2JEYpwqsRuZ6ylI0ujD13q/q6QgSVT75
- tUQI3ZEQlLEO0MluiVC22aIYVVUReDAkhUBPXbG0YUnHAS4tsB4AVnn2t98TC4vxAA4q
- nzfg==
-X-Gm-Message-State: AOAM531XTRpEVEcyl89uyM3Vx8arD2DNi+W93YKOalJmG2E/X+rwtkwl
- u9Bz70joOSksh/seeFj+2PFJZKRr7EQ=
-X-Google-Smtp-Source: ABdhPJy3Kojo4fmJCDnMTT3PkmmSPxaVgKsYb3GrYHkQJLto28j0zw87EuQezoqT0T4GN7bLOD+uXA==
-X-Received: by 2002:aca:3b89:: with SMTP id i131mr1705676oia.102.1636411876055; 
- Mon, 08 Nov 2021 14:51:16 -0800 (PST)
+ bh=oO8MeUFmtu2u46mvu1cC1vaoB9UbZTBkoIz4rfLSPGQ=;
+ b=6SNzYhJ59/deK7ekDhlFmIEz+H9LNAOVXNo+R9Waf/3GBGeFPKH/EKxDUyCnQy6LQU
+ N49xjcJFLeKl39+ZSOKpwXAkKpUSmCndZ4b9bAhPq9Cfx+3nmdfPgHFKGqYUsbiI/CDZ
+ xGP5N1hVUoRAqwkJa4n3Cq56va9SeKhAABGL1GVpzTkQVCRZ8FOjMC7TmVoHkxNscg5T
+ EgE/nN9YM+eHqpMIOaBRSc4iVzOCW6RvZlr58ZnJdz2/BwPDBXJhaiFQdSdBIfdkOnDJ
+ s9h1xX2LO0eBfj0ZX3qemk+q2V4kwNV3BGuVGfBLQyneYyBPO+3+ShWuTkpV3aZhPsQG
+ rvjw==
+X-Gm-Message-State: AOAM530CCS4ucRsjeB/FwXLwPikBMjrf9PAXq3pEkaKjyaTlg//e30o8
+ PhKig60v49/paRV/iXUGcrkETNcsz4A=
+X-Google-Smtp-Source: ABdhPJy7m7XkIFOmHrJnhQLcbQzcNs2kRCIjPRa/N6nFDFS1NDftLY1I++RD1bAvHh7EPSIMjAvFPA==
+X-Received: by 2002:a9d:2646:: with SMTP id a64mr2216305otb.249.1636411878789; 
+ Mon, 08 Nov 2021 14:51:18 -0800 (PST)
 Received: from rekt.ibmuc.com ([189.79.219.109])
- by smtp.gmail.com with ESMTPSA id h3sm6487249oih.23.2021.11.08.14.51.13
+ by smtp.gmail.com with ESMTPSA id h3sm6487249oih.23.2021.11.08.14.51.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Nov 2021 14:51:15 -0800 (PST)
+ Mon, 08 Nov 2021 14:51:18 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 02/10] target/ppc: PMU basic cycle count for pseries TCG
-Date: Mon,  8 Nov 2021 19:50:39 -0300
-Message-Id: <20211108225047.1733607-3-danielhb413@gmail.com>
+Subject: [PATCH v6 03/10] target/ppc: enable PMU counter overflow with cycle
+ events
+Date: Mon,  8 Nov 2021 19:50:40 -0300
+Message-Id: <20211108225047.1733607-4-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211108225047.1733607-1-danielhb413@gmail.com>
 References: <20211108225047.1733607-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::334
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x334.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -90,358 +92,156 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds the barebones of the PMU logic by enabling cycle
-counting. The overall logic goes as follows:
+The PowerISA v3.1 defines that if the proper bits are set (MMCR0_PMC1CE
+for PMC1 and MMCR0_PMCjCE for the remaining PMCs), counter negative
+conditions are enabled. This means that if the counter value overflows
+(i.e. exceeds 0x80000000) a performance monitor alert will occur. This alert
+can trigger an event-based exception (to be implemented in the next patches)
+if the MMCR0_EBE bit is set.
 
-- a helper is added to control the PMU state on each MMCR0 write. This
-allows for the PMU to start/stop as the frozen counter bit (MMCR0_FC)
-is cleared or set;
-
-- MMCR0 reg initial value is set to 0x80000000 (MMCR0_FC set) to avoid
-having to spin the PMU right at system init;
-
-- to retrieve the events that are being profiled, getPMUEventType() will
-check the current MMCR1 value and return the appropriate PMUEventType.
-For PMCs 1-4, event 0x2 is the implementation dependent value of
-PMU_EVENT_INSTRUCTIONS and event 0x1E is the implementation dependent
-value of PMU_EVENT_CYCLES. These events are supported by IBM Power chips
-since Power8, at least, and the Linux Perf driver makes use of these
-events until kernel v5.15. For PMC1, event 0xF0 is the architected
-PowerISA event for cycles. Event 0xFE is the architected PowerISA event
-for instructions;
-
-- the intended usage is to freeze the counters by setting MMCR0_FC, do
-any additional setting of events to be counted via MMCR1 and enable
-the PMU by zeroing MMCR0_FC. Software must freeze counters to read the
-results - on the fly reading of the PMCs will return the starting value
-of each one. This act of unfreezing the PMU, counting cycles and then
-freezing the PMU again is being called a cycle count session.
-
-Given that the base CPU frequency is fixed at 1Ghz for both powernv and
-pseries clock, cycle calculation assumes that 1 nanosecond equals 1 CPU
-cycle. Cycle value is then calculated by subtracting the current time
-the PMU was frozen against the time in which the PMU started spining.
-
-The counter specific frozen bits MMCR0_FC14 and MMCR0_FC56 were also
-added as a mean to further control which PMCs were supposed to be
-counting cycles during the session.
+For now, overflowing the counter when the PMC is counting cycles will
+just trigger a performance monitor alert. This is done by starting the
+overflow timer to expire in the moment the overflow would be occuring. The
+timer will call fire_PMC_interrupt() (via cpu_ppc_pmu_timer_cb) which will
+trigger the PMU alert and, if the conditions are met, an EBB exception.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu.h                 |  20 +++++
- target/ppc/cpu_init.c            |   6 +-
- target/ppc/helper.h              |   1 +
- target/ppc/power8-pmu-regs.c.inc |  23 ++++-
- target/ppc/power8-pmu.c          | 149 +++++++++++++++++++++++++++++++
- target/ppc/spr_tcg.h             |   1 +
- 6 files changed, 196 insertions(+), 4 deletions(-)
+ target/ppc/cpu.h        |  2 +
+ target/ppc/power8-pmu.c | 86 ++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 86 insertions(+), 2 deletions(-)
 
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 04ef9300af..233fd8a9ca 100644
+index 233fd8a9ca..f6265be974 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -360,6 +360,9 @@ typedef enum {
- #define MMCR0_FCECE  PPC_BIT(38)         /* FC on Enabled Cond or Event */
- #define MMCR0_PMCC0  PPC_BIT(44)         /* PMC Control bit 0 */
- #define MMCR0_PMCC1  PPC_BIT(45)         /* PMC Control bit 1 */
-+#define MMCR0_PMCC   PPC_BITMASK(44, 45) /* PMC Control */
-+#define MMCR0_FC14   PPC_BIT(58)         /* PMC Freeze Counters 1-4 bit */
-+#define MMCR0_FC56   PPC_BIT(59)         /* PMC Freeze Counters 5-6 bit */
+@@ -363,6 +363,8 @@ typedef enum {
+ #define MMCR0_PMCC   PPC_BITMASK(44, 45) /* PMC Control */
+ #define MMCR0_FC14   PPC_BIT(58)         /* PMC Freeze Counters 1-4 bit */
+ #define MMCR0_FC56   PPC_BIT(59)         /* PMC Freeze Counters 5-6 bit */
++#define MMCR0_PMC1CE PPC_BIT(48)         /* MMCR0 PMC1 Condition Enabled */
++#define MMCR0_PMCjCE PPC_BIT(49)         /* MMCR0 PMCj Condition Enabled */
  /* MMCR0 userspace r/w mask */
  #define MMCR0_UREG_MASK (MMCR0_FC | MMCR0_PMAO | MMCR0_PMAE)
  /* MMCR2 userspace r/w mask */
-@@ -372,6 +375,17 @@ typedef enum {
- #define MMCR2_UREG_MASK (MMCR2_FC1P0 | MMCR2_FC2P0 | MMCR2_FC3P0 | \
-                          MMCR2_FC4P0 | MMCR2_FC5P0 | MMCR2_FC6P0)
- 
-+#define MMCR1_EVT_SIZE 8
-+/* extract64() does a right shift before extracting */
-+#define MMCR1_PMC1SEL_START 32
-+#define MMCR1_PMC1EVT_EXTR (64 - MMCR1_PMC1SEL_START - MMCR1_EVT_SIZE)
-+#define MMCR1_PMC2SEL_START 40
-+#define MMCR1_PMC2EVT_EXTR (64 - MMCR1_PMC2SEL_START - MMCR1_EVT_SIZE)
-+#define MMCR1_PMC3SEL_START 48
-+#define MMCR1_PMC3EVT_EXTR (64 - MMCR1_PMC3SEL_START - MMCR1_EVT_SIZE)
-+#define MMCR1_PMC4SEL_START 56
-+#define MMCR1_PMC4EVT_EXTR (64 - MMCR1_PMC4SEL_START - MMCR1_EVT_SIZE)
-+
- /* LPCR bits */
- #define LPCR_VPM0         PPC_BIT(0)
- #define LPCR_VPM1         PPC_BIT(1)
-@@ -1206,6 +1220,12 @@ struct CPUPPCState {
-      * when counting cycles.
-      */
-     QEMUTimer *pmu_cyc_overflow_timers[PMU_TIMERS_NUM];
-+
-+    /*
-+     * PMU base time value used by the PMU to calculate
-+     * running cycles.
-+     */
-+    uint64_t pmu_base_time;
- };
- 
- #define SET_FIT_PERIOD(a_, b_, c_, d_)          \
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 6695985e9b..8c30339bdb 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -6820,8 +6820,8 @@ static void register_book3s_pmu_sup_sprs(CPUPPCState *env)
- {
-     spr_register_kvm(env, SPR_POWER_MMCR0, "MMCR0",
-                      SPR_NOACCESS, SPR_NOACCESS,
--                     &spr_read_generic, &spr_write_generic,
--                     KVM_REG_PPC_MMCR0, 0x00000000);
-+                     &spr_read_generic, &spr_write_MMCR0,
-+                     KVM_REG_PPC_MMCR0, 0x80000000);
-     spr_register_kvm(env, SPR_POWER_MMCR1, "MMCR1",
-                      SPR_NOACCESS, SPR_NOACCESS,
-                      &spr_read_generic, &spr_write_generic,
-@@ -6869,7 +6869,7 @@ static void register_book3s_pmu_user_sprs(CPUPPCState *env)
-     spr_register(env, SPR_POWER_UMMCR0, "UMMCR0",
-                  &spr_read_MMCR0_ureg, &spr_write_MMCR0_ureg,
-                  &spr_read_ureg, &spr_write_ureg,
--                 0x00000000);
-+                 0x80000000);
-     spr_register(env, SPR_POWER_UMMCR1, "UMMCR1",
-                  &spr_read_ureg, SPR_NOACCESS,
-                  &spr_read_ureg, &spr_write_ureg,
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 627811cefc..ea60a7493c 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -20,6 +20,7 @@ DEF_HELPER_1(rfscv, void, env)
- DEF_HELPER_1(hrfid, void, env)
- DEF_HELPER_2(store_lpcr, void, env, tl)
- DEF_HELPER_2(store_pcr, void, env, tl)
-+DEF_HELPER_2(store_mmcr0, void, env, tl)
- #endif
- DEF_HELPER_1(check_tlb_flush_local, void, env)
- DEF_HELPER_1(check_tlb_flush_global, void, env)
-diff --git a/target/ppc/power8-pmu-regs.c.inc b/target/ppc/power8-pmu-regs.c.inc
-index 7391851238..fbb8977641 100644
---- a/target/ppc/power8-pmu-regs.c.inc
-+++ b/target/ppc/power8-pmu-regs.c.inc
-@@ -104,6 +104,17 @@ void spr_read_MMCR0_ureg(DisasContext *ctx, int gprn, int sprn)
-     tcg_temp_free(t0);
- }
- 
-+static void write_MMCR0_common(DisasContext *ctx, TCGv val)
-+{
-+    /*
-+     * helper_store_mmcr0 will make clock based operations that
-+     * will cause 'bad icount read' errors if we do not execute
-+     * gen_icount_io_start() beforehand.
-+     */
-+    gen_icount_io_start(ctx);
-+    gen_helper_store_mmcr0(cpu_env, val);
-+}
-+
- void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn)
- {
-     TCGv masked_gprn;
-@@ -119,7 +130,7 @@ void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn)
-      */
-     masked_gprn = masked_gprn_for_spr_write(gprn, SPR_POWER_MMCR0,
-                                             MMCR0_UREG_MASK);
--    gen_store_spr(SPR_POWER_MMCR0, masked_gprn);
-+    write_MMCR0_common(ctx, masked_gprn);
- 
-     tcg_temp_free(masked_gprn);
- }
-@@ -219,6 +230,11 @@ void spr_write_PMC56_ureg(DisasContext *ctx, int sprn, int gprn)
-     /* The remaining steps are similar to PMCs 1-4 userspace write */
-     spr_write_PMC14_ureg(ctx, sprn, gprn);
- }
-+
-+void spr_write_MMCR0(DisasContext *ctx, int sprn, int gprn)
-+{
-+    write_MMCR0_common(ctx, cpu_gpr[gprn]);
-+}
- #else
- void spr_read_MMCR0_ureg(DisasContext *ctx, int gprn, int sprn)
- {
-@@ -259,4 +275,9 @@ void spr_write_PMC56_ureg(DisasContext *ctx, int sprn, int gprn)
- {
-     spr_noaccess(ctx, gprn, sprn);
- }
-+
-+void spr_write_MMCR0(DisasContext *ctx, int sprn, int gprn)
-+{
-+    spr_write_generic(ctx, sprn, gprn);
-+}
- #endif /* defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY) */
 diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
-index 3c2f73896f..8674b8f0d6 100644
+index 8674b8f0d6..68409b2236 100644
 --- a/target/ppc/power8-pmu.c
 +++ b/target/ppc/power8-pmu.c
-@@ -23,6 +23,155 @@
+@@ -23,6 +23,8 @@
  
  #if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
  
-+/*
-+ * For PMCs 1-4, IBM POWER chips has support for an implementation
-+ * dependent event, 0x1E, that enables cycle counting. The Linux kernel
-+ * makes extensive use of 0x1E, so let's also support it.
-+ *
-+ * Likewise, event 0x2 is an implementation-dependent event that IBM
-+ * POWER chips implement (at least since POWER8) that is equivalent to
-+ * PM_INST_CMPL. Let's support this event on PMCs 1-4 as well.
-+ */
-+static PMUEventType getPMUEventType(CPUPPCState *env, int sprn)
++#define PMC_COUNTER_NEGATIVE_VAL 0x80000000UL
++
+ /*
+  * For PMCs 1-4, IBM POWER chips has support for an implementation
+  * dependent event, 0x1E, that enables cycle counting. The Linux kernel
+@@ -93,6 +95,15 @@ static bool pmc_is_active(CPUPPCState *env, int sprn, uint64_t mmcr0)
+     return !(mmcr0 & MMCR0_FC56);
+ }
+ 
++static bool pmc_has_overflow_enabled(CPUPPCState *env, int sprn)
 +{
-+    uint8_t mmcr1_evt_extr[] = { MMCR1_PMC1EVT_EXTR, MMCR1_PMC2EVT_EXTR,
-+                                 MMCR1_PMC3EVT_EXTR, MMCR1_PMC4EVT_EXTR };
-+    PMUEventType evt_type = PMU_EVENT_INVALID;
-+    uint8_t pmcsel;
++    if (sprn == SPR_POWER_PMC1) {
++        return env->spr[SPR_POWER_MMCR0] & MMCR0_PMC1CE;
++    }
++
++    return env->spr[SPR_POWER_MMCR0] & MMCR0_PMCjCE;
++}
++
+ static void pmu_update_cycles(CPUPPCState *env, uint64_t old_mmcr0)
+ {
+     uint64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+@@ -116,6 +127,63 @@ static void pmu_update_cycles(CPUPPCState *env, uint64_t old_mmcr0)
+     env->pmu_base_time = now;
+ }
+ 
++static void pmu_delete_timers(CPUPPCState *env)
++{
 +    int i;
 +
++    for (i = 0; i < PMU_TIMERS_NUM; i++) {
++        timer_del(env->pmu_cyc_overflow_timers[i]);
++    }
++}
++
++/*
++ * Helper function to retrieve the cycle overflow timer of the
++ * 'sprn' counter. Given that PMC5 doesn't have a timer, the
++ * amount of timers is less than the total counters and the PMC6
++ * timer is the last of the array.
++ */
++static QEMUTimer *get_cyc_overflow_timer(CPUPPCState *env, int sprn)
++{
 +    if (sprn == SPR_POWER_PMC5) {
-+        return PMU_EVENT_INSTRUCTIONS;
++        return NULL;
 +    }
 +
 +    if (sprn == SPR_POWER_PMC6) {
-+        return PMU_EVENT_CYCLES;
++        return env->pmu_cyc_overflow_timers[PMU_TIMERS_NUM - 1];
 +    }
 +
-+    i = sprn - SPR_POWER_PMC1;
-+    pmcsel = extract64(env->spr[SPR_POWER_MMCR1], mmcr1_evt_extr[i],
-+                       MMCR1_EVT_SIZE);
-+
-+    switch (pmcsel) {
-+    case 0x2:
-+        evt_type = PMU_EVENT_INSTRUCTIONS;
-+        break;
-+    case 0x1E:
-+        evt_type = PMU_EVENT_CYCLES;
-+        break;
-+    case 0xF0:
-+        /*
-+         * PMC1SEL = 0xF0 is the architected PowerISA v3.1
-+         * event that counts cycles using PMC1.
-+         */
-+        if (sprn == SPR_POWER_PMC1) {
-+            evt_type = PMU_EVENT_CYCLES;
-+        }
-+        break;
-+    case 0xFE:
-+        /*
-+         * PMC1SEL = 0xFE is the architected PowerISA v3.1
-+         * event to sample instructions using PMC1.
-+         */
-+        if (sprn == SPR_POWER_PMC1) {
-+            evt_type = PMU_EVENT_INSTRUCTIONS;
-+        }
-+        break;
-+    default:
-+        break;
-+    }
-+
-+    return evt_type;
++    return env->pmu_cyc_overflow_timers[sprn - SPR_POWER_PMC1];
 +}
 +
-+static bool pmc_is_active(CPUPPCState *env, int sprn, uint64_t mmcr0)
-+{
-+    if (sprn < SPR_POWER_PMC5) {
-+        return !(mmcr0 & MMCR0_FC14);
-+    }
-+
-+    return !(mmcr0 & MMCR0_FC56);
-+}
-+
-+static void pmu_update_cycles(CPUPPCState *env, uint64_t old_mmcr0)
++static void pmu_start_overflow_timers(CPUPPCState *env)
 +{
 +    uint64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    uint64_t time_delta = now - env->pmu_base_time;
++    int64_t timeout;
 +    int sprn;
 +
++    env->pmu_base_time = now;
++
++    /*
++     * Scroll through all PMCs and start counter overflow timers for
++     * PM_CYC events, if needed.
++     */
 +    for (sprn = SPR_POWER_PMC1; sprn <= SPR_POWER_PMC6; sprn++) {
-+        if (!pmc_is_active(env, sprn, old_mmcr0) ||
-+            getPMUEventType(env, sprn) != PMU_EVENT_CYCLES) {
++        if (!pmc_is_active(env, sprn, env->spr[SPR_POWER_MMCR0]) ||
++            !(getPMUEventType(env, sprn) == PMU_EVENT_CYCLES) ||
++            !pmc_has_overflow_enabled(env, sprn)) {
 +            continue;
 +        }
 +
-+        /*
-+         * The pseries and powernv clock runs at 1Ghz, meaning
-+         * that 1 nanosec equals 1 cycle.
-+         */
-+        env->spr[sprn] += time_delta;
-+    }
++        if (env->spr[sprn] >= PMC_COUNTER_NEGATIVE_VAL) {
++            timeout =  0;
++        } else {
++            timeout = PMC_COUNTER_NEGATIVE_VAL - env->spr[sprn];
++        }
 +
-+    /* Update base_time for future calculations */
-+    env->pmu_base_time = now;
++        timer_mod(get_cyc_overflow_timer(env, sprn), now + timeout);
++    }
 +}
 +
-+/*
-+ * A cycle count session consists of the basic operations we
-+ * need to do to support PM_CYC events: redefine a new base_time
-+ * to be used to calculate PMC values and start overflow timers.
-+ */
-+static void start_cycle_count_session(CPUPPCState *env)
-+{
-+    /* Just define pmu_base_time for now */
-+    env->pmu_base_time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+}
-+
-+void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
-+{
-+    target_ulong curr_value = env->spr[SPR_POWER_MMCR0];
-+    bool curr_FC = curr_value & MMCR0_FC;
-+    bool new_FC = value & MMCR0_FC;
-+
-+    env->spr[SPR_POWER_MMCR0] = value;
-+
-+    /* MMCR0 writes can change HFLAGS_PMCCCLEAR and HFLAGS_MMCR0FC */
-+    if (((curr_value & MMCR0_PMCC) != (value & MMCR0_PMCC)) ||
-+        (curr_FC != new_FC)) {
-+        hreg_compute_hflags(env);
-+    }
+ /*
+  * A cycle count session consists of the basic operations we
+  * need to do to support PM_CYC events: redefine a new base_time
+@@ -123,8 +191,22 @@ static void pmu_update_cycles(CPUPPCState *env, uint64_t old_mmcr0)
+  */
+ static void start_cycle_count_session(CPUPPCState *env)
+ {
+-    /* Just define pmu_base_time for now */
+-    env->pmu_base_time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++    bool overflow_enabled = env->spr[SPR_POWER_MMCR0] &
++                            (MMCR0_PMC1CE | MMCR0_PMCjCE);
 +
 +    /*
-+     * In an frozen count (FC) bit change:
-+     *
-+     * - if PMCs were running (curr_FC = false) and we're freezing
-+     * them (new_FC = true), save the PMCs values in the registers.
-+     *
-+     * - if PMCs were frozen (curr_FC = true) and we're activating
-+     * them (new_FC = false), set the new base_time for future cycle
-+     * calculations.
++     * Always delete existing overflow timers when starting a
++     * new cycle counting session.
 +     */
-+    if (curr_FC != new_FC) {
-+        if (!curr_FC) {
-+            pmu_update_cycles(env, curr_value);
-+        } else {
-+            start_cycle_count_session(env);
-+        }
-+    } else {
-+        /*
-+         * No change in MMCR0_FC state but, if the PMU is running and
-+         * a change in one of the frozen counter bits is made, update
-+         * the PMCs with the cycles counted so far.
-+         */
-+        if (!curr_FC) {
-+            if ((curr_value & MMCR0_FC14) != (value & MMCR0_FC14) ||
-+                (curr_value & MMCR0_FC56) != (value & MMCR0_FC56)) {
-+                pmu_update_cycles(env, curr_value);
-+            }
-+        }
-+    }
-+}
++    pmu_delete_timers(env);
 +
- static void fire_PMC_interrupt(PowerPCCPU *cpu)
- {
-     CPUPPCState *env = &cpu->env;
-diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
-index 520f1ef233..eb1d0c2bf0 100644
---- a/target/ppc/spr_tcg.h
-+++ b/target/ppc/spr_tcg.h
-@@ -25,6 +25,7 @@
- void spr_noaccess(DisasContext *ctx, int gprn, int sprn);
- void spr_read_generic(DisasContext *ctx, int gprn, int sprn);
- void spr_write_generic(DisasContext *ctx, int sprn, int gprn);
-+void spr_write_MMCR0(DisasContext *ctx, int sprn, int gprn);
- void spr_read_xer(DisasContext *ctx, int gprn, int sprn);
- void spr_write_xer(DisasContext *ctx, int sprn, int gprn);
- void spr_read_lr(DisasContext *ctx, int gprn, int sprn);
++    if (!overflow_enabled) {
++        /* Define pmu_base_time and leave */
++        env->pmu_base_time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++        return;
++    }
++
++    pmu_start_overflow_timers(env);
+ }
+ 
+ void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
 -- 
 2.31.1
 
