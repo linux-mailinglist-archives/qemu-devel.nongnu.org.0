@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE5404478FA
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 04:54:18 +0100 (CET)
-Received: from [::1] (port=37412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 117CB4478FB
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 04:54:21 +0100 (CET)
+Received: from [::1] (port=37722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjvje-0000My-1K
-	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 22:54:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48082)
+	id 1mjvjg-0000aq-6t
+	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 22:54:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mjvhf-00060H-Co
- for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:52:15 -0500
-Received: from [2607:f8b0:4864:20::d34] (port=37850
- helo=mail-io1-xd34.google.com)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mjvhg-00061h-DL
+ for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:52:16 -0500
+Received: from [2607:f8b0:4864:20::d29] (port=41559
+ helo=mail-io1-xd29.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mjvhd-0002o4-SN
- for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:52:15 -0500
-Received: by mail-io1-xd34.google.com with SMTP id k21so80909ioh.4
- for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 19:52:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mjvhe-0002oW-M8
+ for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:52:16 -0500
+Received: by mail-io1-xd29.google.com with SMTP id p193so17419359iod.8
+ for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 19:52:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4/CwsutaIOyDt2WjHRLiQgEBPJ5vyd4yg3qN35Y9Ogo=;
- b=YicToWzSexndkpQoE7u/jETLTD4+gfvW2i099/jciU9HV9sE5nfmXOqMMiAiT4e35F
- A9l0O6rYvbFNc6tKrvb/6oOG2miMQiHTgOAgapkrRppoSngI/D+dJGHnhfBkNJ1hgHvC
- XQVbpLijy0gm7Du/nkI+QH/FrMnl0eFyiMa4aCPmAP3exIL69zv7938yeynJNca7NMCT
- GKIK90Rlpx8mp+wMX7I9j3rwT5AZYmqhfYwkLnqrELv/EZUT3X6yB//0+WfmQGqX+FvP
- O7tG82F0SXMeKQWyyVWEANq8YcntuTNVQusm/Yd/Dcwq0NnDbDTrMvZzR0k7lJanHAru
- UgFw==
+ bh=rOISPYYKecMk71RBzznUZbzYo3FGryyldBKKzRc7muU=;
+ b=4ULHoJ3ykdpdMFRGZq/Sz+CSGGZLQ5nyPEbJkKgIYEsI3Txr4+mxkYQ66lgur9hgU+
+ Fxl11zOK1S2eMNl5Luxpc8XXeHMPqSJWaAyqjoBvS7NFDpd7L0HcN/62osQxQ8pLTHs/
+ Cw8UI93IamYSyuFtykjozq9uNBWaXABR617xtHu9SwP2PQJ+uEOZhuwSavHH/40w2Eu5
+ XiUDykBLJi82mv5YW62HWSw+shijLSTVEXLSBYpnmRotjO9x0vUxC+5OVCunX7rT+s23
+ iN7AvRE61uwXg2gU4sTmyaJqQfQzk2kqqQ/1OB3Vz80akjyODjIYF3por7H5Hhy9yMKq
+ vQww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4/CwsutaIOyDt2WjHRLiQgEBPJ5vyd4yg3qN35Y9Ogo=;
- b=VFe37o/m0yOseunFmE8aaAoZBdsHXkjjCYz+jiZgwTvHvfjFdI0y9kleTna8Dp6aB3
- i+FHKp/AvbjYwMhYexSGzv+YqloJUb0dfOy2F9zGh8dLxy2kx0WVZWaBMdGLaHU3oTCR
- JcK1iemvUh6fPpqxUH6G3EdVfhG5Nk9WLJ/V6ZiqMSWM89CdH2sKEHhvZM1dHc9XYXCw
- sK6uF345GQhWXNn9l5D3jYatJWptm6DiPpdzwMkLXKm+W8N+UeMDjheT+7sH4HdIAp11
- qkuHxMQyMQUJnpXILUpP/IEytxAkph6/vm7LQx+AaNr3pQW3rjIJXuI3DWazKXBIYSB1
- zFkw==
-X-Gm-Message-State: AOAM532zIkhjOPZ26S4LGrQj4zOPtCi9qXtzFAwnAhPp8HX/Prk74xsL
- J13k+8lPTv9ZUoZ3v+cmJAJ4J6E97otLNw==
-X-Google-Smtp-Source: ABdhPJyZse4gQcD7NeFqUEhTNrfbfHzyufmnvF3lCNeiR54F4YWMsfuKIL+6DyOMchpMA0fpbqCGiA==
-X-Received: by 2002:a6b:f706:: with SMTP id k6mr10431594iog.155.1636343532682; 
- Sun, 07 Nov 2021 19:52:12 -0800 (PST)
+ bh=rOISPYYKecMk71RBzznUZbzYo3FGryyldBKKzRc7muU=;
+ b=uRXQNr/zXug2rxaGDNnmbVQnBMuOlGj4TT2LWSYTVIGCbZq3TC8iiEI46/bB633+7U
+ hWguWWh/b5d+equZkFf8mfM7unIposARrv7PCXy35JVgl+j5bKNIjYR1dYZExikEK1SE
+ COeMpXmaEUSlFzWvd2STIBU6hsI8t+OwYNmWMhMFCRxH4YaCkQZfu332QsCNxwB4Sp+N
+ kGEJuNzOK8NbDAXWScwjrTZQ1oqE8u8fKujdGQL2OfX4VfvpyGJZrsBwKlaXeu9jdDkW
+ gsU80LV08z4TDlrhRmSzenRdgFpcc1FL4tBnenPnRnH7D3ksK5RRbXT+hPydOyYH3f8S
+ L+gQ==
+X-Gm-Message-State: AOAM532cX7xauq8TUBUTwyhqGq0zNHIDgBXYveDY9COLJLGhqW/BwDyG
+ JzxRf1IXcOYblwIyrz3yBi/mqsOcGvuRXQ==
+X-Google-Smtp-Source: ABdhPJwh5gDOtmdq3GBnEIXd6tHKW2vKNQXjA7q4HvbKwY2LAsrS3QbwMk3Uqkzr3Ew+AE7N9uitWw==
+X-Received: by 2002:a05:6638:2186:: with SMTP id
+ s6mr22138665jaj.138.1636343533517; 
+ Sun, 07 Nov 2021 19:52:13 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id x15sm876909iob.8.2021.11.07.19.52.11
+ by smtp.gmail.com with ESMTPSA id x15sm876909iob.8.2021.11.07.19.52.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Nov 2021 19:52:12 -0800 (PST)
+ Sun, 07 Nov 2021 19:52:13 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 03/37] bsd-user: create a per-arch signal.c file
-Date: Sun,  7 Nov 2021 20:51:02 -0700
-Message-Id: <20211108035136.43687-4-imp@bsdimp.com>
+Subject: [PATCH v5 04/37] bsd-user/i386/target_arch_signal.h: Remove
+ target_sigcontext
+Date: Sun,  7 Nov 2021 20:51:03 -0700
+Message-Id: <20211108035136.43687-5-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211108035136.43687-1-imp@bsdimp.com>
 References: <20211108035136.43687-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d34
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d29
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d34;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd34.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd29.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -92,47 +94,30 @@ Cc: qemu-trivial@nongnu.org, Kyle Evans <kevans@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create a place-holder signal.c file for each of the architectures that
-are currently built. In the future, some code that's currently inlined
-in target_arch_signal.h will live here.
+In FreeBSD, sigcontext was retired in favor of ucontext/mcontext.
+Remove vestigial target_sigcontext.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/i386/signal.c   | 1 +
- bsd-user/x86_64/signal.c | 1 +
- meson.build              | 2 +-
- 3 files changed, 3 insertions(+), 1 deletion(-)
- create mode 100644 bsd-user/i386/signal.c
- create mode 100644 bsd-user/x86_64/signal.c
+ bsd-user/i386/target_arch_signal.h | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/bsd-user/i386/signal.c b/bsd-user/i386/signal.c
-new file mode 100644
-index 0000000000..ac90323365
---- /dev/null
-+++ b/bsd-user/i386/signal.c
-@@ -0,0 +1 @@
-+/* Placeholder for signal.c */
-diff --git a/bsd-user/x86_64/signal.c b/bsd-user/x86_64/signal.c
-new file mode 100644
-index 0000000000..ac90323365
---- /dev/null
-+++ b/bsd-user/x86_64/signal.c
-@@ -0,0 +1 @@
-+/* Placeholder for signal.c */
-diff --git a/meson.build b/meson.build
-index 26c58123e9..14b0bb2042 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2888,7 +2888,7 @@ foreach target : target_dirs
-       base_dir = 'bsd-user'
-       target_inc += include_directories('bsd-user/' / targetos)
-       dir = base_dir / abi
--      arch_srcs += files(dir / 'target_arch_cpu.c')
-+      arch_srcs += files(dir / 'signal.c', dir / 'target_arch_cpu.c')
-     endif
-     target_inc += include_directories(
-       base_dir,
+diff --git a/bsd-user/i386/target_arch_signal.h b/bsd-user/i386/target_arch_signal.h
+index a90750d602..e262667bda 100644
+--- a/bsd-user/i386/target_arch_signal.h
++++ b/bsd-user/i386/target_arch_signal.h
+@@ -27,10 +27,6 @@
+ #define TARGET_MINSIGSTKSZ  (512 * 4)               /* min sig stack size */
+ #define TARGET_SIGSTKSZ     (MINSIGSTKSZ + 32768)   /* recommended size */
+ 
+-struct target_sigcontext {
+-    /* to be added */
+-};
+-
+ typedef struct target_mcontext {
+ } target_mcontext_t;
+ 
 -- 
 2.33.0
 
