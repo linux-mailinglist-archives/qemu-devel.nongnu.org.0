@@ -2,72 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 973E9449895
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 16:40:32 +0100 (CET)
-Received: from localhost ([::1]:49398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 291874498AF
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 16:45:11 +0100 (CET)
+Received: from localhost ([::1]:55420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk6l5-0000ia-Pa
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 10:40:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51358)
+	id 1mk6pZ-0004uh-Qh
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 10:45:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mk6ji-0007kL-FM
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:39:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51820)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mk6je-0003Vf-DA
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:39:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636385941;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2dtoTIMc9coTp8ujK5cWHSpT1fR8T5J6y2XVwFDr2R4=;
- b=Xa4AVeu5d/ZoDZ6xMRrsE1ZfGTFsqLWjYWALlpSacPfgSIOvEJdYInVlq5fxChYmdlokqb
- IRZ97ALIojXjLmemhUzcEb4qUFHAmJOOSjPh++scqOA89v4+3w/28KhYtHCTfPMsotYJpy
- 8KBkqC402jOWPERXe2diueKxRax0xlI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-542-OBEy6o-eNLKYS6BZTkV95g-1; Mon, 08 Nov 2021 10:39:00 -0500
-X-MC-Unique: OBEy6o-eNLKYS6BZTkV95g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84468101F002
- for <qemu-devel@nongnu.org>; Mon,  8 Nov 2021 15:38:59 +0000 (UTC)
-Received: from [10.39.192.185] (unknown [10.39.192.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE8A960936;
- Mon,  8 Nov 2021 15:38:58 +0000 (UTC)
-Message-ID: <837be094-8a70-b364-3f85-5e6af8c05304@redhat.com>
-Date: Mon, 8 Nov 2021 16:38:57 +0100
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mk6nR-0003Vj-0y
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:42:57 -0500
+Received: from [2a00:1450:4864:20::435] (port=36657
+ helo=mail-wr1-x435.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mk6nL-0005DQ-7y
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:42:56 -0500
+Received: by mail-wr1-x435.google.com with SMTP id s13so27674870wrb.3
+ for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 07:42:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=hMTDcW0D7yNFGXUXrpduCEnVS95gV9fWvJu34D4Ey+U=;
+ b=tkJq04geNdZFbYMF0tqZLgokWyRa/RYFfKo4hS0xtXNcbKM2G2Z3+X+SjZdyBOICwl
+ QaXsPqhKmxkNNxH6V21qwA364BVA8zDkJHEpDonrEQPfLASN0wOkcejZqmfjpBlOTZHo
+ dGg4LdpNtJ92tyefiN1BiIKYjPnUq+T8YWFM/cNc9c9E63n4AsRn/1ukdtx9f5UeKgYy
+ Zf5MNQOfFWj95EX78z3JCGPnmK3+xSgTsM412e3wOsUt2X75Z3/9OMvxkqDnNK+5ON2a
+ TwTbgxEw3mqWQbPXo7MZSyFNJAW2EUm/glUhsBe33iL2tPJ0HuOo0yxGXJrx5RnJgMnI
+ bJQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hMTDcW0D7yNFGXUXrpduCEnVS95gV9fWvJu34D4Ey+U=;
+ b=FbDPjMg1MaJOQYB1/Fp8zzOGFduLWj1lZCGO3N3zQT8NKQLJ67s35oVuUzHNgEpG9x
+ zdV+kbhjO6oimthC18IsTpBdc3cm5Nzl4LhwqA/QCiSWXEkXhi3alm0xwK/925BAKfMR
+ 6gXrhjfzAaqL8bi+IciuXhVapPB9PcHZ6VnO3KF68hOcmdp1QeE4Ys5jF2BU9E93bZeq
+ a+Whf/cXiNhEdAv7+c0tBj5a35AKdD3F4WUmBiIIgLOXCFho4qgMzzba1p4Epu8ZTDey
+ sRfCZqm6CAElaHCUNI2DyvZCKBV7hchZbiAJ/IntCau5XgDMQX5F5u8/TqPPFgIoJTjr
+ Quhg==
+X-Gm-Message-State: AOAM533XPBqfTCiRy3Dwy3inUOMAU79TwE1CFAOAjJB/tCdgwdNVFpgf
+ AIdxAwRgpnTwoIiGUfAvQFkq6g==
+X-Google-Smtp-Source: ABdhPJy3wAKt0KGqJSMotuKPBXK42F0Kd/dtaPckGERavtdQPfDjnJnz3EyS1HiEsyL3GeqvL+tO9g==
+X-Received: by 2002:a05:6000:1c2:: with SMTP id
+ t2mr107089wrx.378.1636386169467; 
+ Mon, 08 Nov 2021 07:42:49 -0800 (PST)
+Received: from [192.168.8.106] (173.red-95-126-185.staticip.rima-tde.net.
+ [95.126.185.173])
+ by smtp.gmail.com with ESMTPSA id a4sm15434385wmg.10.2021.11.08.07.42.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Nov 2021 07:42:49 -0800 (PST)
+Subject: Re: [PATCH v5 34/37] bsd-user/arm/signal.c: arm set_mcontext
+To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
+References: <20211108035136.43687-1-imp@bsdimp.com>
+ <20211108035136.43687-35-imp@bsdimp.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <f7c85323-ac00-f67f-f1d5-c02733ec8ad6@linaro.org>
+Date: Mon, 8 Nov 2021 16:42:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: Artificially target-dependend compiles
-To: Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <87czneyaw3.fsf@dusky.pond.sub.org>
- <2e4b52b0-b1fc-58c5-9631-fbf9d7f927fc@redhat.com>
- <87fss9u3zj.fsf@dusky.pond.sub.org> <87ilx3nk5p.fsf@dusky.pond.sub.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <87ilx3nk5p.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20211108035136.43687-35-imp@bsdimp.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.06, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.06,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,62 +92,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org,
+ Kyle Evans <kevans@freebsd.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, Philippe Mathieu-Daude <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/11/2021 09.09, Markus Armbruster wrote:
-> Markus Armbruster <armbru@redhat.com> writes:
-> 
-> [...]
-> 
->> I just ran into an instance that may be clearer.
->>
->> The "rocker" device is target-independent (hw/net/meson.build adds it to
->> softmmu_ss), but linked only for selected targets (hw/net/Kconfig has
->> depends on PCI && MSI_NONBROKEN).
->>
->> This makes our build machinery put CONFIG_ROCKER in
->> $TARGET-softmmu-config-devices.h, and poison it in config-poison.h.
->> Feels uncalled for.
-> 
-> Hmm, maybe not.
-> 
-> Our build process links the rocker stuff for selected targets.
-> 
-> The QAPI schema provides rocker definitions unconditionally.
-> QAPI-generated rocker code gets linked for all targets.  The
-> command handlers resolve to the real ones when on the selected targets,
-> else to stubs.
-> 
-> This works and is fairly simple.  We link a bit of useless code
-> (QAPI-generated and stubs).  query-qmp-schema can't tell us whether
-> rocker is present, which is sad, but there's a work-around:
-> qom-list-types.
-> 
-> We may still run into cases where we really want query-qmp-schema to
-> tell, say because there is no easy work-around.
-> 
-> Making the QAPI schema definitions properly conditional does the trick,
-> but makes code artificially target-dependent, slowing down the build.
-> It can also lead to extra #ifdeffery, because now useless code doesn't
-> compile anymore.
-> 
-> Simply not poisoning the CONFIG_FOO when the FOO code is actually
-> target-independent avoids the target-dependency, but also messes up
-> introspection: new the FOO stuff is present for all targets when *any*
-> of them has it.  This cure feels worse than the disease.
-> 
-> Needs more thought.
+On 11/8/21 4:51 AM, Warner Losh wrote:
+> +    env->regs[15] = tswap32(gr[TARGET_REG_PC] & ~mask);
 
-Hmm, we used to have a config-all-devices.mak file in the past (see commit 
-a98006bc798169e which removed it), maybe we could re-introduce something 
-similar again, but producing a config-all.h header file instead? So that 
-this header file contains switches like CONFIG_ANY_ACPI_VMGENID and 
-CONFIG_ANY_ROCKER that are set if any of the targets uses the device ... and 
-these switches would not get poisoned in common code... ?
+Oops, one more buglet: the mask should be outside the tswap.
 
-  Thomas
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
+r~
 
