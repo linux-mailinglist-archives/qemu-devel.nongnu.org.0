@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A8F244791B
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 05:07:25 +0100 (CET)
-Received: from localhost ([::1]:51748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32F5F447928
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 05:10:47 +0100 (CET)
+Received: from localhost ([::1]:35060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjvwK-0004Lt-O4
-	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 23:07:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48426)
+	id 1mjvza-0003eX-Bm
+	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 23:10:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mjvi1-0006mQ-Fu
- for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:52:37 -0500
-Received: from [2607:f8b0:4864:20::130] (port=40565
- helo=mail-il1-x130.google.com)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mjvi2-0006op-BG
+ for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:52:38 -0500
+Received: from [2607:f8b0:4864:20::129] (port=39456
+ helo=mail-il1-x129.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mjvhy-0002uo-OS
- for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:52:36 -0500
-Received: by mail-il1-x130.google.com with SMTP id k1so15534771ilo.7
- for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 19:52:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mjvhz-0002uz-2I
+ for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:52:37 -0500
+Received: by mail-il1-x129.google.com with SMTP id x9so15559212ilu.6
+ for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 19:52:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=F9IbbLGjnRnokIuDKxQfCzJoAx075CoGnpnzgfUmRKo=;
- b=2qZ/f0b5vjy9FB7MxofdG6VUphYeRx/TzkSxSPc7XVlmK/cSDm5vg9glvAhHoBbAu/
- si2Oz/RkUnzUrz6fI/28dQUJbgyD0RPdxQwhSZ/zvNzlM8pCebkAI3sBxWKesPd8IQXq
- z34pHUvtx8/l9YTg6Lw+10OShyRB2UD2SVh5fvY5eWt3dz5Wt36QO0+JmJ1CPTs0LhEf
- UJ5c8CHFtBXCKvrYgJuZJvRXgk+d3gCpQ8vLrv3YHjwFRZkc5sdTPzJyZbXzYAfK1Rjr
- BHqKdHmYgKJ9IqGt7Er3OBommF310j+SmpiFMcvWdnPFj5e1Lzhg3dUvlsRLateu4Aqz
- zObg==
+ bh=4oZ5iwXqrJmDcU+2qXHAQ++/SNnYAx62sujgKs8Ho4M=;
+ b=PvUeTMgN885XhJuKwa4LoMcKbwULkKoBW0eTfmjnXuT0KtKY4bL4ZwKhqNkWLbyg2F
+ yLnWWoSVBPunLqZA3wieBmnI/aIKLVCbMO8ouYrmntFh/9vCmAAtXYPsuNj2kW8B06D5
+ 2v+2sboCWdWClzcac2u92UEDGl/xFyd+54tK/ZkAYUYsp2qiObysJ4dEbIpJibQd+cKn
+ m/7AkpsImVe5k4Rd8f7oCHcFL7lpW2i6lc0X0VGRLZT1O+LBlF1ZNdmJSM/VbmaGMTb/
+ WQU7EXXrXzJamGWAe6zlovFiK+t6tWIJKkHlY0Roknfpg+XNEOtKu5O63tK9BQUY/s4n
+ zgAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=F9IbbLGjnRnokIuDKxQfCzJoAx075CoGnpnzgfUmRKo=;
- b=PszBRT2pk19GbVKrAi04TVK4LnC6jRjvruvRi60OY5jS4DedwtWv+LeTM/OOmuP4S9
- g/Xk4JrRLZsL8rZZf5qv7tJNwziZvfswLzH9w/WjQ5OAZZJ6+Ptv7bfJGkI84mtTO50q
- 17I1u0MTj763DQQDZpYco4cOdDgljKHjeuVWy1l+mYhbCXARULv8+s5aBwhYb5MLO2dP
- n3DauApJqQHhOBNbXVVBXF6FJXpwBhtNpSUI7xJM4mvO3DszZtv4EBGNcvSpkXMp5fXB
- GqrE3zoRoj6R5kaAsOwZKZa7CgR8RD1hrcT4icDbMnHXGGD1U5Fq0oYJmgBKWdateoI/
- VF4A==
-X-Gm-Message-State: AOAM530kvndtjjxjMz/u6S7M6lo7/Z3ieInlNOzWaxhqbwsTlSbl85zi
- ImENaxGxKck41ysK87SAo06oXB/cm9SMdw==
-X-Google-Smtp-Source: ABdhPJyLE0Xgexq5Dkjad+xiMaMT1kwgTtkzwQwxDDZhnAxhGFDonwREIcjhwyWWMb6SO3ENZfYtCw==
-X-Received: by 2002:a05:6e02:1a4b:: with SMTP id
- u11mr28258468ilv.96.1636343552730; 
- Sun, 07 Nov 2021 19:52:32 -0800 (PST)
+ bh=4oZ5iwXqrJmDcU+2qXHAQ++/SNnYAx62sujgKs8Ho4M=;
+ b=N724P0oclTh0R0n9AJOEqvdOCLdxleB2j3eOcZmQLqwGyp4K1CXv162YTZfI5G09b1
+ QRAlLIuj4RdJLYgQg/rjpT2cZMO3fV/A5/8IhBw5Ffbi2dCBRQRUlzg+ULYKbUiqdVSR
+ WQmLxNfplYNI/FW+BuvZg9mHbVSCyW+Idk15it7FAGeuKYprdmN3izrtIRt69Gu32boP
+ Y1KlW5AeFxoy4RkANR6ljE8HOm3ajBzHQ/0LkVerEDebMMV0ifMsH2w8iXXRLokdpd2n
+ lBXlPjIxVNzR3GjslzO/XMdYe+q3KzLsR9KOOe2yZqVRtpPVuHWI+ksEBAlhKo4RIpFh
+ Ft0w==
+X-Gm-Message-State: AOAM533CmH+JGXAWx/272TUweXvW3jkiBWInTt/+mkPxTc227BeWvnh0
+ ldBzsbxzzEhXuv4G44l93ZhHPV+W/sOkSg==
+X-Google-Smtp-Source: ABdhPJz8xGzgiab25RBf/itPVeHqnz0njYapsXV1UTiJ3llF7+cP1k5Cgbx/pQEen50H7NATQvAXVQ==
+X-Received: by 2002:a92:dc0c:: with SMTP id t12mr46060285iln.198.1636343553575; 
+ Sun, 07 Nov 2021 19:52:33 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id x15sm876909iob.8.2021.11.07.19.52.31
+ by smtp.gmail.com with ESMTPSA id x15sm876909iob.8.2021.11.07.19.52.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Nov 2021 19:52:32 -0800 (PST)
+ Sun, 07 Nov 2021 19:52:33 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 24/37] bsd-user/arm/target_arch_sigtramp.h: Signal
- Trampoline for arm
-Date: Sun,  7 Nov 2021 20:51:23 -0700
-Message-Id: <20211108035136.43687-25-imp@bsdimp.com>
+Subject: [PATCH v5 25/37] bsd-user/arm/target_arch_thread.h: Routines to
+ create and switch to a thread
+Date: Sun,  7 Nov 2021 20:51:24 -0700
+Message-Id: <20211108035136.43687-26-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211108035136.43687-1-imp@bsdimp.com>
 References: <20211108035136.43687-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::130
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::129
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::130;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x130.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::129;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x129.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -94,26 +93,26 @@ Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Copy of the signal trampoline code for arm, as well as setup_sigtramp to
-write it to the stack.
+Implement target_thread_init (to create a thread) and target_set_upcall
+(to switch to a thread) for arm.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
+Signed-off-by: Kyle Evans <kevans@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/arm/target_arch_sigtramp.h | 49 +++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
- create mode 100644 bsd-user/arm/target_arch_sigtramp.h
+ bsd-user/arm/target_arch_thread.h | 82 +++++++++++++++++++++++++++++++
+ 1 file changed, 82 insertions(+)
+ create mode 100644 bsd-user/arm/target_arch_thread.h
 
-diff --git a/bsd-user/arm/target_arch_sigtramp.h b/bsd-user/arm/target_arch_sigtramp.h
+diff --git a/bsd-user/arm/target_arch_thread.h b/bsd-user/arm/target_arch_thread.h
 new file mode 100644
-index 0000000000..5d434a9e7e
+index 0000000000..11c7f76583
 --- /dev/null
-+++ b/bsd-user/arm/target_arch_sigtramp.h
-@@ -0,0 +1,49 @@
++++ b/bsd-user/arm/target_arch_thread.h
+@@ -0,0 +1,82 @@
 +/*
-+ *  arm sysarch() system call emulation
++ *  arm thread support
 + *
 + *  Copyright (c) 2013 Stacey D. Son
 + *
@@ -130,37 +129,70 @@ index 0000000000..5d434a9e7e
 + *  You should have received a copy of the GNU General Public License
 + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
++#ifndef _TARGET_ARCH_THREAD_H_
++#define _TARGET_ARCH_THREAD_H_
 +
-+#ifndef _TARGET_ARCH_SIGTRAMP_H_
-+#define _TARGET_ARCH_SIGTRAMP_H_
-+
-+/* Compare to arm/arm/locore.S ENTRY_NP(sigcode) */
-+static inline abi_long setup_sigtramp(abi_ulong offset, unsigned sigf_uc,
-+        unsigned sys_sigreturn)
++/* Compare to arm/arm/vm_machdep.c cpu_set_upcall_kse() */
++static inline void target_thread_set_upcall(CPUARMState *env, abi_ulong entry,
++    abi_ulong arg, abi_ulong stack_base, abi_ulong stack_size)
 +{
-+    int i;
-+    uint32_t sys_exit = TARGET_FREEBSD_NR_exit;
-+    uint32_t sigtramp_code[] = {
-+    /* 1 */ 0xE1A0000D,                  /* mov r0, sp */
-+    /* 2 */ 0xE2800000 + sigf_uc,        /* add r0, r0, #SIGF_UC */
-+    /* 3 */ 0xE59F700C,                  /* ldr r7, [pc, #12] */
-+    /* 4 */ 0xEF000000 + sys_sigreturn,  /* swi (SYS_sigreturn) */
-+    /* 5 */ 0xE59F7008,                  /* ldr r7, [pc, #8] */
-+    /* 6 */ 0xEF000000 + sys_exit,       /* swi (SYS_exit)*/
-+    /* 7 */ 0xEAFFFFFA,                  /* b . -16 */
-+    /* 8 */ sys_sigreturn,
-+    /* 9 */ sys_exit
-+    };
++    abi_ulong sp;
 +
-+    G_STATIC_ASSERT(sizeof(sigtramp_code) == TARGET_SZSIGCODE);
++    /*
++     * Make sure the stack is properly aligned.
++     * arm/include/param.h (STACKLIGN() macro)
++     */
++    sp = (u_int)(stack_base + stack_size) & ~0x7;
 +
-+    for (i = 0; i < 9; i++) {
-+        tswap32s(&sigtramp_code[i]);
-+    }
-+
-+    return memcpy_to_target(offset, sigtramp_code, TARGET_SZSIGCODE);
++    /* sp = stack base */
++    env->regs[13] = sp;
++    /* pc = start function entry */
++    env->regs[15] = entry & 0xfffffffe;
++    /* r0 = arg */
++    env->regs[0] = arg;
++    env->spsr = ARM_CPU_MODE_USR;
++    /*
++     * Thumb mode is encoded by the low bit in the entry point (since ARM can't
++     * execute at odd addresses). When it's set, set the Thumb bit (T) in the
++     * CPSR.
++     */
++    cpsr_write(env, (entry & 1) * CPSR_T, CPSR_T, CPSRWriteByInstr);
 +}
-+#endif /* _TARGET_ARCH_SIGTRAMP_H_ */
++
++static inline void target_thread_init(struct target_pt_regs *regs,
++        struct image_info *infop)
++{
++    abi_long stack = infop->start_stack;
++    memset(regs, 0, sizeof(*regs));
++    regs->ARM_cpsr = ARM_CPU_MODE_USR;
++    /*
++     * Thumb mode is encoded by the low bit in the entry point (since ARM can't
++     * execute at odd addresses). When it's set, set the Thumb bit (T) in the
++     * CPSR.
++     */
++    if (infop->entry & 1) {
++        regs->ARM_cpsr |= CPSR_T;
++    }
++    regs->ARM_pc = infop->entry & 0xfffffffe;
++    regs->ARM_sp = stack;
++    if (bsd_type == target_freebsd) {
++        regs->ARM_lr = infop->entry & 0xfffffffe;
++    }
++    /*
++     * FreeBSD kernel passes the ps_strings pointer in r0. This is used by some
++     * programs to set status messages that we see in ps. bsd-user doesn't
++     * support that functionality, so it's ignored. When set to 0, FreeBSD's csu
++     * code ignores it. For the static case, r1 and r2 are effectively ignored
++     * by the csu __startup() routine. For the dynamic case, rtld saves r0 but
++     * generates r1 and r2 and passes them into the csu _startup.
++     *
++     * r0 ps_strings 0 passed since ps arg setting not supported
++     * r1 obj_main   ignored by _start(), so 0 passed
++     * r2 cleanup    generated by rtld or ignored by _start(), so 0 passed
++     */
++}
++
++#endif /* !_TARGET_ARCH_THREAD_H_ */
 -- 
 2.33.0
 
