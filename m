@@ -2,79 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3392447C4C
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 09:53:28 +0100 (CET)
-Received: from localhost ([::1]:33342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F12447C36
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 09:47:33 +0100 (CET)
+Received: from localhost ([::1]:49106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk0P9-0000c3-Ub
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 03:53:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36314)
+	id 1mk0JQ-0000Up-Am
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 03:47:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mk0MZ-0004eT-CF
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 03:50:49 -0500
-Received: from [2a00:1450:4864:20::12c] (port=34593
- helo=mail-lf1-x12c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mk0MU-0003hM-2t
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 03:50:47 -0500
-Received: by mail-lf1-x12c.google.com with SMTP id u11so34489600lfs.1
- for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 00:50:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=JfMAiceoomjlqsAnaVtSpe+RW+YX7W3jh6X67XyGhKM=;
- b=IpPG0pBX5EkQMog25VnrjQZr7PsRdeCE+kbsOWGqESuRFY3Ace1Zk925LHyjfPQt8J
- j2nzbdHfIVEYv/2rdQV52jdwTX11gLfAb7RLGnr5VhZprkS+oTCdM3JR71MhGC/Qtie4
- RiEZzDuYyql/hDyz4FPxEp+k1QoBnJQYwkZbAYzASy7+C6BrISQ58NmOB/rHW9lEAx2m
- Hr+34p3RIu1fDqPR9hh8uYwfKq5vwMOkceR4w+8+8WyOjFgjFR5OXLjLYf+B9zlIFwty
- 6EECP0PBfAOcK8KCJ+N5rwjMq4uOQeGBgCRosVukMtq2Zvc5LrARmjjkAAy4HcivsEFn
- XdXQ==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1mk0IQ-0008Dz-4o
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 03:46:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48298)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1mk0IN-0002dO-Pf
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 03:46:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636361186;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9iAU7JpiZOBmZq7WRxevU+7V5w9znqXseLwXt0Xvdkc=;
+ b=HS5abZOPPRFNaHgDLUzaOyyBPnZsw432xkkgr5R6jA5ea7SKKLc1e9yEofG6mGuUCxwIS7
+ kr3gT1rwnxlwVd/Kb6SV9CKXlQ1HMLYsEtjmbDh9q6SxOgKREZ7DcO2quJadWGgZPYFI9Y
+ t5nHlutZunTcjoIaIB/G5TmuXi3zV6c=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-408-N5ifANHcOFqrn6pT6Wx4_Q-1; Mon, 08 Nov 2021 03:46:25 -0500
+X-MC-Unique: N5ifANHcOFqrn6pT6Wx4_Q-1
+Received: by mail-pf1-f198.google.com with SMTP id
+ s22-20020a056a0008d600b00480fea2e96cso10295499pfu.7
+ for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 00:46:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JfMAiceoomjlqsAnaVtSpe+RW+YX7W3jh6X67XyGhKM=;
- b=aIU+FPnlhHxiXbnJpAkpD93mnxnsilUZcC31HZr5DfLoipBvDcq6n6QtXZ4ksVe9D9
- TCmwSu3OsYICeDzmgKzqjsjGE+ZdPP4fNeQb/iokurXONc9e4nqcRCMfC14xuqtX4Qvt
- GJoZmm7xbUWniXFQrCizbb0Tb6Mgov+PZgzZrNdJVnC+chL51shxOOsZ0yPhIr+AzBQv
- hUm9T1pndyl1bGQshPw9gT1ruqZlI89m1wKQrL5es2qcvwuyKhIqwwzvNXffpKLE3bJh
- XophfVCSVhyeyDg/2CsjAakDzYUH8nF7U9krezKwKqFmZHuXUnX8SO647p3RMlfLL71O
- PD3A==
-X-Gm-Message-State: AOAM53137er0pGpW00ttrnsnLdzqYeMYL796s2m/urQ5ZsRoxXeTpAUA
- CDCOZoHsOLbSMem/2jL1LdPniwNIFsg=
-X-Google-Smtp-Source: ABdhPJyAAo5BI7781CCz2xDxsJVe53u6ZC7Np9OxDMQDp4YPfEkfeyqqqqmtgRpdtLVzd3Jo/MPMrA==
-X-Received: by 2002:a05:6402:2690:: with SMTP id
- w16mr40966803edd.220.1636361006981; 
- Mon, 08 Nov 2021 00:43:26 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id nb17sm7743211ejc.7.2021.11.08.00.43.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Nov 2021 00:43:26 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] configure: ignore preexisting QEMU_*FLAGS envvars
-Date: Mon,  8 Nov 2021 09:43:22 +0100
-Message-Id: <20211108084323.541961-5-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211108084323.541961-1-pbonzini@redhat.com>
-References: <20211108084323.541961-1-pbonzini@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=9iAU7JpiZOBmZq7WRxevU+7V5w9znqXseLwXt0Xvdkc=;
+ b=6I+V/YV1CDF4/AGB/I3XqSzCvhkhgGe+yIQGr6YunG4Zm+1Ke60b7827DN725//WJJ
+ I6PSSa56M8Wfw7FeT8EdsFl4dMe1PNCdkmJBHlOthZoM2g087KqNbFZHoOgwXP6HO5rg
+ LzFtGYN+gchljoqSYGpduPgmhuI8hLu/cvzDrDNGUCgrUGldmwQmlR6A9dfwiRcv+j1Y
+ lRSMCFs55B+MG0z3Wm54NaDRTxpUPoZP9Nwf1GJZT1HuBFMtVH2U8HpCM5xEowsKwubD
+ 8Pdb8tsNo39H7Z9h5swzmlDxhIR+LnJTDb2gVnttiq1rE9isdVXsJRUynEebWDP9rQEf
+ RsAQ==
+X-Gm-Message-State: AOAM532VjFxQ6bEv9tqByTRE6Avpc+qBpeGr0N25zFokCdBe3JtsDmEy
+ onPTysyI5lMBy1nhYr0s9Bj8tIjT/X/DCNXBb6eoiQyUDsi37bIgOC+QRfj5xnD9ULtiwIdctpn
+ RoXu4PZ9wPCtqDGfxlb92NewqIc1SP/c=
+X-Received: by 2002:a17:902:bf43:b0:142:41bb:a6f with SMTP id
+ u3-20020a170902bf4300b0014241bb0a6fmr23659499pls.22.1636361184243; 
+ Mon, 08 Nov 2021 00:46:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy2kkR0xHVKHVZuULBEVPEd8HcrI1AK0Qgl4fvnXUBcpsMa8YyyB2MuDYmjFKwe8N/krVQf8zxuVV81uJY66Hk=
+X-Received: by 2002:a17:902:bf43:b0:142:41bb:a6f with SMTP id
+ u3-20020a170902bf4300b0014241bb0a6fmr23659476pls.22.1636361183911; Mon, 08
+ Nov 2021 00:46:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-lf1-x12c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
+References: <tencent_C7CEA36B3AB3971A278DFD71F2BBCFF88906@qq.com>
+In-Reply-To: <tencent_C7CEA36B3AB3971A278DFD71F2BBCFF88906@qq.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Mon, 8 Nov 2021 12:46:13 +0400
+Message-ID: <CAMxuvaw1+x0FmG_0aW2YCL2pUPFuO=VC=0nv0QA43MkKnMM7fQ@mail.gmail.com>
+Subject: Re: Chardev: delete the QemuOpts reserved in vm_config_groups
+To: =?UTF-8?B?44G36aOO6L+H5peg55eVPz8=?= <787738581@qq.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,52 +92,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com
+Cc: pbonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-User flags should be passed via CFLAGS/CXXFLAGS/LDFLAGS,
-or --extra-cflags/extra-cxxflags/--extra-ldflags on the
-command line.
+Hi
 
-QEMU_CFLAGS, QEMU_CXXFLAGS and QEMU_LDFLAGS are reserved
-for flags detected by configure, so do not add to them
-and clear them at the beginning of the script.
+On Sat, Nov 6, 2021 at 10:41 PM =E3=81=B7=E9=A3=8E=E8=BF=87=E6=97=A0=E7=97=
+=95?? <787738581@qq.com> wrote:
+>
+> We have found that qemu cannot plug in the previously unplugged device.
+>         start qemu with the following command:
+> ./qemu-system-x86_64 -enable-kvm -m 8192 -smp 16 \
+>    -object memory-backend-file,id=3Dmem,size=3D8192M,mem-path=3D/dev/huge=
+pages,share=3Don \
+>    -numa node,memdev=3Dmem -mem-prealloc \
+>    ...
+>    -chardev socket,id=3Ddrive-virtio-disk1,path=3D/var/run/spdk/vhost_blk=
+_socket-30dcf467-486a-45cf-b754-093bf5cf24d1,reconnect=3D10 \
+>    -device vhost-user-blk-pci,chardev=3Ddrive-virtio-disk1,num-queues=3D1=
+,bus=3Dpci.0,addr=3D0x5,id=3Dvirtio-disk1 \
+>    ...
+>
+> (qemu) info chardev
+> serial0: filename=3Dpty:/dev/pts/0
+> drive-virtio-disk1: filename=3Dunix:
+> charmonitor:
+> filename=3Dunix:/usr/local/var/lib/libvirt/qemu/domain-55-e59039db-d576-4=
+0db-a/monitor.sock,server
+> (qemu) device_del virtio-disk1
+> (qemu) chardev-remove drive-virtio-disk1
+> (qemu) info chardev
+> serial0: filename=3Dpty:/dev/pts/0
+> charmonitor:
+> filename=3Dunix:/usr/local/var/lib/libvirt/qemu/domain-55-e59039db-d576-4=
+0db-a/monitor.sock,server
+> (qemu) chardev-add socket,id=3Ddrive-virtio-disk1,path=3D/var/run/spdk/vh=
+ost_blk_socket-30dcf467-486a-45cf-b754-093bf5cf24d1,reconnect=3D10
+> device failed: Duplicate ID 'drive-virtio-disk1' for chardev Error: Parsi=
+ng chardev args failed
+>
+> The root cause of this issue is that the QemuOpts is still reserved in vm=
+_config_groups list,
+> so qemu_opts_create will fail with the error above. So the QemuOpts shoul=
+d be removed when
+> invoking qmp_chardev_remove.
+>
+>
+> Signed-off-by: Zhoujian Yu <windyu@tencent.com>
+> Reviewed-by: Lei Wang <kaierwang@tencent.com>
+> Reviewed-by: Xun Ni <richardni@tencent.com>
+> Reviewed-by: Zhigang Lu <tonnylu@tencent.com>
+> ---
+>  chardev/char.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/chardev/char.c b/chardev/char.c
+> index 398f09d..d2087bd 100644
+> --- a/chardev/char.c
+> +++ b/chardev/char.c
+> @@ -37,6 +37,7 @@
+>  #include "qemu/help_option.h"
+>  #include "qemu/module.h"
+>  #include "qemu/option.h"
+> +#include "qemu/option_int.h"
+>  #include "qemu/id.h"
+>  #include "qemu/coroutine.h"
+>  #include "qemu/yank.h"
+> @@ -1159,6 +1160,7 @@ ChardevReturn *qmp_chardev_change(const char *id, C=
+hardevBackend *backend,
+>  void qmp_chardev_remove(const char *id, Error **errp)
+>  {
+>      Chardev *chr;
+> +   QemuOpts *opts;
+>
+>      chr =3D qemu_chr_find(id);
+>      if (chr =3D=3D NULL) {
+> @@ -1175,6 +1177,10 @@ void qmp_chardev_remove(const char *id, Error **er=
+rp)
+>          return;
+>      }
+>      object_unparent(OBJECT(chr));
+> +    /* delete the opts reserved in vm_config_groups list.  */
+> +    opts =3D qemu_opts_find(qemu_find_opts("chardev"), id);
+> +    if (opts)
+> +        qemu_opts_del(opts);
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+That seems reasonable to me,
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-diff --git a/configure b/configure
-index 1ea26c67e5..2048a52b20 100755
---- a/configure
-+++ b/configure
-@@ -158,7 +158,7 @@ update_cxxflags() {
-     # Set QEMU_CXXFLAGS from QEMU_CFLAGS by filtering out those
-     # options which some versions of GCC's C++ compiler complain about
-     # because they only make sense for C programs.
--    QEMU_CXXFLAGS="$QEMU_CXXFLAGS -D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS"
-+    QEMU_CXXFLAGS="-D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS"
-     CONFIGURE_CXXFLAGS=$(echo "$CONFIGURE_CFLAGS" | sed s/-std=gnu11/-std=gnu++11/)
-     for arg in $QEMU_CFLAGS; do
-         case $arg in
-@@ -465,11 +465,13 @@ sdl2_config="${SDL2_CONFIG-${cross_prefix}sdl2-config}"
- # left shift of signed integers is well defined and has the expected
- # 2s-complement style results. (Both clang and gcc agree that it
- # provides these semantics.)
--QEMU_CFLAGS="-fno-strict-aliasing -fno-common -fwrapv $QEMU_CFLAGS"
-+QEMU_CFLAGS="-fno-strict-aliasing -fno-common -fwrapv"
- QEMU_CFLAGS="-Wundef -Wwrite-strings -Wmissing-prototypes $QEMU_CFLAGS"
- QEMU_CFLAGS="-Wstrict-prototypes -Wredundant-decls $QEMU_CFLAGS"
- QEMU_CFLAGS="-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $QEMU_CFLAGS"
- 
-+QEMU_LDFLAGS=
-+
- # Flags that are needed during configure but later taken care of by Meson
- CONFIGURE_CFLAGS="-std=gnu11 -Wall"
- CONFIGURE_LDFLAGS=
--- 
-2.33.1
+>  }
+>
+>  void qmp_chardev_send_break(const char *id, Error **errp)
+> --
+> 1.8.3.1
 
 
