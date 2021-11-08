@@ -2,105 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05CE6449803
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 16:18:54 +0100 (CET)
-Received: from localhost ([::1]:38740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E87B4449801
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 16:18:37 +0100 (CET)
+Received: from localhost ([::1]:37302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk6Q9-0007m7-57
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 10:18:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42764)
+	id 1mk6Ps-0006pd-Kh
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 10:18:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1mk6Jm-0008BP-Cg; Mon, 08 Nov 2021 10:12:19 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40488)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mk6O9-0004sj-A8
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:16:50 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:11641)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1mk6Jj-0002Kk-NV; Mon, 08 Nov 2021 10:12:18 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A8DjX7U034895; 
- Mon, 8 Nov 2021 15:12:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=6lxbp1Ci58wP3f7jScgEzOrt1l3flGvXZiAMENqL7OE=;
- b=QfH8e4zTGXHw1OkYQlh+v15KWJahqChjL5cLUYbE3VVZflZIWbfERyZd4zaZUhrlDKOz
- Q32rcJ2YtTQoxr+r8YKY1IW2liMIRT8ZVKllO3RuuG3GJT75l1xsDgR/HMXND9ced4P5
- 85J3ljnTgGt15IU7ErO1yJy6fNNl5LrLRQJdH4p16fO/8BVJYLHYo//TQN7tUC8WeIyH
- sg1XkM/TzUNQggsx4WPkjhZqAlNb4Dt58/Il6yr8gIzMmCCFTibbwXjreKC8KbEMkYaq
- FDjkSeYVOSrsLuKON29ythmh10bKfw78i7ZFZrX31RMg2eBD7TFuH1ha9Jh3ooxvyDUa 0w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3c66rq2s2c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 08 Nov 2021 15:12:09 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1A8CxM26040715;
- Mon, 8 Nov 2021 15:12:09 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3c66rq2s21-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 08 Nov 2021 15:12:08 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1A8F8awu005493;
- Mon, 8 Nov 2021 15:12:07 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma01dal.us.ibm.com with ESMTP id 3c5hbawh1c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 08 Nov 2021 15:12:07 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1A8FC5JX19661198
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 8 Nov 2021 15:12:05 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7F6476E052;
- Mon,  8 Nov 2021 15:12:05 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A04236E064;
- Mon,  8 Nov 2021 15:12:04 +0000 (GMT)
-Received: from [9.160.104.209] (unknown [9.160.104.209])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon,  8 Nov 2021 15:12:04 +0000 (GMT)
-Message-ID: <f248cd25-ee7e-7d02-2952-8690b42ea595@linux.ibm.com>
-Date: Mon, 8 Nov 2021 10:12:03 -0500
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mk6O2-00036U-Af
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:16:48 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id D3A4B748F56;
+ Mon,  8 Nov 2021 16:16:35 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 976B6748F54; Mon,  8 Nov 2021 16:16:35 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 960AE748F52;
+ Mon,  8 Nov 2021 16:16:35 +0100 (CET)
+Date: Mon, 8 Nov 2021 16:16:35 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] hw/acpi: Set memory regions to native endian as a work
+ around
+In-Reply-To: <a7992420-e2e3-7859-b2de-f9aa88c94945@redhat.com>
+Message-ID: <d03380e9-b6a2-5998-cc72-6443cfdc46b5@eik.bme.hu>
+References: <20211108130934.59B48748F52@zero.eik.bme.hu>
+ <b0787bca-8321-059e-d360-1e0a0af31228@redhat.com>
+ <a7992420-e2e3-7859-b2de-f9aa88c94945@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] s390x: kvm: adjust diag318 resets to retain data
-Content-Language: en-US
-To: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
-References: <20211105224646.803661-1-walling@linux.ibm.com>
- <d552f5df-2a1f-21d2-2a02-5df512a0d77d@de.ibm.com>
-From: Collin Walling <walling@linux.ibm.com>
-In-Reply-To: <d552f5df-2a1f-21d2-2a02-5df512a0d77d@de.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 50Rc8hMJPyvcLY78ZAMU8hjkB1AlKGxK
-X-Proofpoint-GUID: CCUsFDnA2m0ZJh_CTlOrhWUFLnmCksuE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-08_05,2021-11-08_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- malwarescore=0 impostorscore=0 bulkscore=0 clxscore=1015 mlxscore=0
- mlxlogscore=999 spamscore=0 phishscore=0 priorityscore=1501 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111080093
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=walling@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, CTE_8BIT_MISMATCH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.06,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-1914207032-1636384595=:98146"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,78 +60,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, cohuck@redhat.com, david@redhat.com
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/8/21 03:07, Christian Borntraeger wrote:
-> 
-> 
-> Am 05.11.21 um 23:46 schrieb Collin Walling:
->> The CPNC portion of the diag 318 data is erroneously reset during an
->> initial CPU reset caused by SIGP. Let's go ahead and relocate the
->> diag318_info field within the CPUS390XState struct such that it is
->> only zeroed during a clear reset. This way, the CPNC will be retained
->> for each VCPU in the configuration after the diag 318 instruction
->> has been invoked by the kernel.
->>
->> Additionally, the diag 318 data reset is handled via the CPU reset
->> code. The set_diag318 code can be merged into the handler function
->> and the helper functions can consequently be removed.
->>
->> Signed-off-by: Collin Walling <walling@linux.ibm.com>
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-[...]
+--3866299591-1914207032-1636384595=:98146
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
->> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
->> index 5b1fdb55c4..ed9c477b6f 100644
->> --- a/target/s390x/kvm/kvm.c
->> +++ b/target/s390x/kvm/kvm.c
->> @@ -1576,18 +1576,6 @@ static int handle_sw_breakpoint(S390CPU *cpu,
->> struct kvm_run *run)
->>       return -ENOENT;
->>   }
->>   -void kvm_s390_set_diag318(CPUState *cs, uint64_t diag318_info)
->> -{
->> -    CPUS390XState *env = &S390_CPU(cs)->env;
->> -
->> -    /* Feat bit is set only if KVM supports sync for diag318 */
->> -    if (s390_has_feat(S390_FEAT_DIAG_318)) {
->> -        env->diag318_info = diag318_info;
->> -        cs->kvm_run->s.regs.diag318 = diag318_info;
->> -        cs->kvm_run->kvm_dirty_regs |= KVM_SYNC_DIAG318;
->> -    }
->> -}
->> -
->>   static void handle_diag_318(S390CPU *cpu, struct kvm_run *run)
->>   {
->>       uint64_t reg = (run->s390_sieic.ipa & 0x00f0) >> 4;
->> @@ -1604,8 +1592,11 @@ static void handle_diag_318(S390CPU *cpu,
->> struct kvm_run *run)
->>       }
->>         CPU_FOREACH(t) {
->> -        run_on_cpu(t, s390_do_cpu_set_diag318,
->> -                   RUN_ON_CPU_HOST_ULONG(diag318_info));
->> +        CPUS390XState *env = &S390_CPU(t)->env;
->> +
->> +        env->diag318_info = diag318_info;
->> +        t->kvm_run->s.regs.diag318 = diag318_info;
->> +        t->kvm_run->kvm_dirty_regs |= KVM_SYNC_DIAG318;
-> 
-> I am not sure if this part works fine. What happens if
-> another CPU is currently in SIE (not stopped).
-> Then this change will be not visible in that CPU and in
-> fact this change will be overwritten when the CPU exits to QEMU.
-> 
+On Mon, 8 Nov 2021, Paolo Bonzini wrote:
+> On 11/8/21 15:30, Paolo Bonzini wrote:
+>> On 11/8/21 14:05, BALATON Zoltan wrote:
+>>> When using ACPI on big endian machine (such as ppc/pegasos2 which has
+>>> a VT8231 south bridge with ACPI) writes to ACPI registers come out
+>>> byte swapped. This may be caused by a bug in memory subsystem but
+>>> until that is fixed setting the ACPI memory regions to native endian
+>>> makes it usable for big endian machines. This fixes ACPI shutdown with
+>>> pegasos2 when using the board firmware for now.
+>>> This could be reverted when the memory layer is fixed.
+>> 
+>> What is the path to the swapped writes?  Even just a backtrace might be 
+>> enough to understand what's going on, and especially where the bug is.
+>
+> Ok, Michael pointed me at 
+> https://lore.kernel.org/all/20211011080528-mutt-send-email-mst@kernel.org/.
 
-Ah, I should've paid more attention to what run_on_cpu does. I now see
-that it makes CPU changes atomic. I'll reintroduce the helper as a
-static function and use the run_on_cpu again.
+I was about to say that here's the original thread:
 
+https://lists.nongnu.org/archive/html/qemu-devel/2021-10/msg01972.html
 
--- 
-Regards,
-Collin
+and here's the backtrace:
 
-Stay safe and stay healthy
+#0  acpi_pm1_cnt_write (val=40, ar=0x55555695f340) at ../hw/acpi/core.c:556
+#1  acpi_pm_cnt_write (opaque=0x55555695f340, addr=1, val=40, width=2) at ../hw/acpi/core.c:602
+#2  0x0000555555b3a82f in memory_region_write_accessor
+     (mr=mr@entry=0x55555695f590, addr=1, value=value@entry=0x7fffefffdd08, size=size@entry=2, shift=<optimized out>, mask=mask@entry=65535, attrs=...)
+     at ../softmmu/memory.c:492
+#3  0x0000555555b3813e in access_with_adjusted_size
+     (addr=addr@entry=1, value=value@entry=0x7fffefffdd08, size=size@entry=1, access_size_min=<optimized out>, access_size_max=<optimized out>, access_fn=
+     0x555555b3a7b0 <memory_region_write_accessor>, mr=0x55555695f590, attrs=...) at ../softmmu/memory.c:554
+#4  0x0000555555b3c449 in memory_region_dispatch_write (mr=mr@entry=0x55555695f590, addr=1, data=<optimized out>, op=<optimized out>, attrs=attrs@entry=...)
+     at ../softmmu/memory.c:1511
+#5  0x0000555555b2c121 in flatview_write_continue
+     (fv=fv@entry=0x7fff84d23b30, addr=addr@entry=4261416709, attrs=attrs@entry=..., ptr=ptr@entry=0x7fffefffdec0, len=len@entry=1, addr1=<optimized out>,
+      l=<optimized out>, mr=0x55555695f590) at host-utils.h:165
+#6  0x0000555555b2c399 in flatview_write (len=1, buf=0x7fffefffdec0, attrs=..., addr=4261416709, fv=0x7fff84d23b30) at ../softmmu/physmem.c:2822
+#7  subpage_write (opaque=<optimized out>, addr=<optimized out>, value=<optimized out>, len=1, attrs=...) at ../softmmu/physmem.c:2488
+#8  0x0000555555b380de in access_with_adjusted_size
+     (addr=addr@entry=3845, value=value@entry=0x7fffefffdf88, size=size@entry=1, access_size_min=<optimized out>, access_size_max=<optimized out>, access_fn=
+     0x555555b3aa80 <memory_region_write_with_attrs_accessor>, mr=0x7fff84710bb0, attrs=...) at ../softmmu/memory.c:549
+#9  0x0000555555b3c449 in memory_region_dispatch_write (mr=mr@entry=0x7fff84710bb0, addr=addr@entry=3845, data=<optimized out>, data@entry=40, op=op@entry=MO_8, attrs=...)
+     at ../softmmu/memory.c:1511
+#10 0x0000555555c07b4c in io_writex
+     (env=env@entry=0x55555666a820, iotlbentry=iotlbentry@entry=0x7fff843367f0, mmu_idx=1, val=val@entry=40, addr=addr@entry=4261416709,
+      retaddr=retaddr@entry=140736116523268, op=MO_8) at ../accel/tcg/cputlb.c:1420
+#11 0x0000555555c0b5df in store_helper (op=MO_8, retaddr=<optimized out>, oi=<optimized out>, val=40, addr=4261416709, env=0x55555666a820) at ../accel/tcg/cputlb.c:2355
+#12 full_stb_mmu (env=0x55555666a820, addr=4261416709, val=40, oi=<optimized out>, retaddr=140736116523268) at ../accel/tcg/cputlb.c:2404
+#13 0x00007fffae3b8104 in code_gen_buffer ()
+#14 0x0000555555bfcfab in cpu_tb_exec (cpu=cpu@entry=0x555556661360, itb=itb@entry=0x7fffae3b7fc0 <code_gen_buffer+56197011>, tb_exit=tb_exit@entry=0x7fffefffe668)
+     at ../accel/tcg/cpu-exec.c:357
+#15 0x0000555555bfe089 in cpu_loop_exec_tb (tb_exit=0x7fffefffe668, last_tb=<synthetic pointer>, tb=0x7fffae3b7fc0 <code_gen_buffer+56197011>, cpu=0x555556661360)
+     at ../accel/tcg/cpu-exec.c:833
+#16 cpu_exec (cpu=cpu@entry=0x555556661360) at ../accel/tcg/cpu-exec.c:992
+#17 0x0000555555c1bba0 in tcg_cpus_exec (cpu=cpu@entry=0x555556661360) at ../accel/tcg/tcg-accel-ops.c:67
+#18 0x0000555555c1c3d7 in rr_cpu_thread_fn (arg=arg@entry=0x555556661360) at ../accel/tcg/tcg-accel-ops-rr.c:214
+#19 0x0000555555d5c049 in qemu_thread_start (args=0x7fffefffe750) at ../util/qemu-thread-posix.c:556
+#20 0x00007ffff6a95dea in start_thread () at /lib64/libpthread.so.0
+#21 0x00007ffff69c8fdf in clone () at /lib64/libc.so.6
+
+--3866299591-1914207032-1636384595=:98146--
 
