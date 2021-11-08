@@ -2,51 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF95F44981A
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 16:24:01 +0100 (CET)
-Received: from localhost ([::1]:47976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A373A449894
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 16:39:56 +0100 (CET)
+Received: from localhost ([::1]:47592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk6V6-0005dm-LA
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 10:24:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45936)
+	id 1mk6kV-0007vx-AU
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 10:39:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mk6TY-0003wp-3J
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:22:24 -0500
-Received: from [2001:738:2001:2001::2001] (port=57757 helo=zero.eik.bme.hu)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mk6TU-0006TR-Ch
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:22:23 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 8855F7475FA;
- Mon,  8 Nov 2021 16:22:17 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 658737463B7; Mon,  8 Nov 2021 16:22:17 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 644247462D3;
- Mon,  8 Nov 2021 16:22:17 +0100 (CET)
-Date: Mon, 8 Nov 2021 16:22:17 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH] hw/acpi: Set memory regions to native endian as a work
- around
-In-Reply-To: <20211108083200-mutt-send-email-mst@kernel.org>
-Message-ID: <d8ea41b-bae1-616f-b348-30eb2b9b72e5@eik.bme.hu>
-References: <20211108130934.59B48748F52@zero.eik.bme.hu>
- <20211108083200-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mk6gq-00055L-Kk
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:36:08 -0500
+Received: from [2a00:1450:4864:20::430] (port=45886
+ helo=mail-wr1-x430.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mk6gl-0002Pz-Ls
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:36:08 -0500
+Received: by mail-wr1-x430.google.com with SMTP id w29so16040672wra.12
+ for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 07:36:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EMZ7EECikOvT2TbTMZH0qREAomZCGRKfWgmiYWSDBUI=;
+ b=mdSWwtLS7S7vyjJezf3bq3yKr4tQi+hetBbKXOHcEQ3qHkwAxrii+x4IQuNoEu2COF
+ BB9rdHwkRko2PkdWTdm037H1g3npDNgsMy3Gkif1Q/U5fegIozwmhNKPKY5viDWBP5zY
+ 9KbUPxxxFnts2Sn/RORGfBXnsNmwqTYcje5M5H8E4R6XVPbG2HpoFAEk9jdvqFm7PsaT
+ 3U+W0fn2Wmhz2fSbtkbUaDvPspUNaS6iasR3u+KnpjjX1+z8i982KcpweITQisFpZp8F
+ 7kHEstvz320h8T2hGJB6fD+NdgLeoRKI70K4KZ9NT3mAiCDhUHmh6HUpzglkJKIAv2VU
+ 4uJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EMZ7EECikOvT2TbTMZH0qREAomZCGRKfWgmiYWSDBUI=;
+ b=ySKUKNu5r94DibQM/4mkrqMMONKUn59r5FA6wxA2kUBddkYlbSmTYXGlYyJ+Juf1qL
+ gLus9n8ClnqIrcEL0lAyJTlAopkgf87M+6jakmr3At3z1AN3aP8jxX5lwRy++1LUTxq0
+ ygqSSxl457ifFnfSxP+Qsymij0SdRrIsBMoH9XfvEY0KpjTjD7X8bq0AQFTkl12NWNx2
+ ArRUiC9gSZ8N0O1FaTqxgey5Z8TrGqZsUcuVSP7zJR+mp03+Vj6inIq3wPBlQQCCh3s2
+ a9kZ+S1BMIGjPpQJgdE7e2vmPHN8iKCoqNcLHvJ6Wje/wiJKZI657CdFPrTcJAx6veub
+ 0yJw==
+X-Gm-Message-State: AOAM532+m3quFOEY6VySbf1B7nG112j0yopZbhiSypr6GHKVyVkFDzqJ
+ 8Px5OqpXeeniqy0IVfPr8MuEW/CWpHaGwSGuSgcflA==
+X-Google-Smtp-Source: ABdhPJyMYd+OUV8/qzhy6nHcjlm+rxtuYD77M8HszvJlQNrLt7boBfdKZGLq4jAqlpclvPm7yD50waW9wMdxECJjZZA=
+X-Received: by 2002:a05:6000:186e:: with SMTP id
+ d14mr51478wri.376.1636385762325; 
+ Mon, 08 Nov 2021 07:36:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:738:2001:2001::2001
+References: <20211108130718.840216-1-kraxel@redhat.com>
+ <20211108130718.840216-3-kraxel@redhat.com>
+In-Reply-To: <20211108130718.840216-3-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 8 Nov 2021 15:35:51 +0000
+Message-ID: <CAFEAcA9h7FsqcG5L4abq=n1fRW6cZZHGJqH1de3e3R7OE+Aj9g@mail.gmail.com>
+Subject: Re: [PATCH 2/2] microvm: check g_file_set_contents() return value
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,77 +81,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 8 Nov 2021, Michael S. Tsirkin wrote:
-> On Mon, Nov 08, 2021 at 02:05:42PM +0100, BALATON Zoltan wrote:
->> When using ACPI on big endian machine (such as ppc/pegasos2 which has
->> a VT8231 south bridge with ACPI) writes to ACPI registers come out
->> byte swapped. This may be caused by a bug in memory subsystem but
->> until that is fixed setting the ACPI memory regions to native endian
->> makes it usable for big endian machines. This fixes ACPI shutdown with
->> pegasos2 when using the board firmware for now.
->> This could be reverted when the memory layer is fixed.
->>
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+On Mon, 8 Nov 2021 at 13:11, Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
+> Fixes: CID 1465239
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  hw/i386/microvm-dt.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 >
-> Paolo, could you weight in on whether we can fix it properly
-> in the memory core? I suspect it's not a good idea to switch
-> to native without adding a bunch of byteswaps all
-> over the place ...
+> diff --git a/hw/i386/microvm-dt.c b/hw/i386/microvm-dt.c
+> index ad4e48e5fe60..774e0bc7fef3 100644
+> --- a/hw/i386/microvm-dt.c
+> +++ b/hw/i386/microvm-dt.c
+> @@ -334,7 +334,10 @@ void dt_setup_microvm(MicrovmMachineState *mms)
+>
+>      if (debug) {
+>          fprintf(stderr, "%s: writing microvm.fdt\n", __func__);
+> -        g_file_set_contents("microvm.fdt", mms->fdt, size, NULL);
+> +        if (!g_file_set_contents("microvm.fdt", mms->fdt, size, NULL)) {
+> +            fprintf(stderr, "%s: writing microvm.fdt failed\n", __func__);
+> +            return;
+> +        }
+>          int ret = system("dtc -I dtb -O dts microvm.fdt");
+>          if (ret != 0) {
+>              fprintf(stderr, "%s: oops, dtc not installed?\n", __func__);
 
-In fact I think switching to native is less likely to break anything else 
-than fixing it in the memory core because AFAIK NATIVE_ENDIAN means no 
-byte swap at all while LITTLE_ENDIAN means byte swap if vcpu is big endian 
-so this would only change the pegasos2 case as other ACPI users are little 
-endian machines where this change has no effect. You may want to consider 
-this when trying a last minute fix but I'm OK with whatever solution that 
-fixes the original problem.
+Side note -- rather than invoking dtc from QEMU like this, it
+would be more in line with the way other machine types deal
+with debugging of autogenerated dtb files to support
+"-machine dumpdtb=file.dtb" and let the end user decompile
+the dtb themselves.
 
-Regards,
-BALATON Zoltan
-
->> ---
->>  hw/acpi/core.c | 6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/acpi/core.c b/hw/acpi/core.c
->> index 1e004d0078..543e4a7875 100644
->> --- a/hw/acpi/core.c
->> +++ b/hw/acpi/core.c
->> @@ -461,7 +461,7 @@ static const MemoryRegionOps acpi_pm_evt_ops = {
->>      .impl.min_access_size = 2,
->>      .valid.min_access_size = 1,
->>      .valid.max_access_size = 2,
->> -    .endianness = DEVICE_LITTLE_ENDIAN,
->> +    .endianness = DEVICE_NATIVE_ENDIAN,
->>  };
->>
->>  void acpi_pm1_evt_init(ACPIREGS *ar, acpi_update_sci_fn update_sci,
->> @@ -531,7 +531,7 @@ static const MemoryRegionOps acpi_pm_tmr_ops = {
->>      .impl.min_access_size = 4,
->>      .valid.min_access_size = 1,
->>      .valid.max_access_size = 4,
->> -    .endianness = DEVICE_LITTLE_ENDIAN,
->> +    .endianness = DEVICE_NATIVE_ENDIAN,
->>  };
->>
->>  void acpi_pm_tmr_init(ACPIREGS *ar, acpi_update_sci_fn update_sci,
->> @@ -608,7 +608,7 @@ static const MemoryRegionOps acpi_pm_cnt_ops = {
->>      .impl.min_access_size = 2,
->>      .valid.min_access_size = 1,
->>      .valid.max_access_size = 2,
->> -    .endianness = DEVICE_LITTLE_ENDIAN,
->> +    .endianness = DEVICE_NATIVE_ENDIAN,
->>  };
->>
->>  void acpi_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
->> --
->> 2.30.2
->
->
+-- PMM
 
