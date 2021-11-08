@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B08C449EBE
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 23:46:24 +0100 (CET)
-Received: from localhost ([::1]:46470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79437449EC8
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 23:53:01 +0100 (CET)
+Received: from localhost ([::1]:50878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkDPD-0007Nd-DW
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 17:46:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60120)
+	id 1mkDVc-0002LQ-41
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 17:53:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mkDMy-0006KX-85
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 17:44:05 -0500
-Received: from [2607:f8b0:4864:20::d2b] (port=44729
- helo=mail-io1-xd2b.google.com)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mkDTn-0000OS-2x; Mon, 08 Nov 2021 17:51:07 -0500
+Received: from [2607:f8b0:4864:20::22b] (port=33736
+ helo=mail-oi1-x22b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mkDMv-0005I9-PH
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 17:44:02 -0500
-Received: by mail-io1-xd2b.google.com with SMTP id f9so20326620ioo.11;
- Mon, 08 Nov 2021 14:43:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mkDTk-0007N6-Fi; Mon, 08 Nov 2021 17:51:05 -0500
+Received: by mail-oi1-x22b.google.com with SMTP id bl27so27350432oib.0;
+ Mon, 08 Nov 2021 14:51:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=WBXCNBgU8CcKAxSwhr3mUT60pBImmYZqHDisNP33Cxk=;
- b=iWfSXedkytDNHsHfswe5/jSuvkvHpB7owTS2aTiBCu/8F/fKg9sBSS3iLL3PFYhqQE
- rjuy7bgrxr0A27CxBHamgS6SlspE1g3+ANGlOKzCPfA3XsCRF+L6zknTao+zsZo2fIf3
- NoEGh4elDY8G+HOeqjAsYqOxCibwYo4V1t7t5u8HWnUx+WCAwRqjHNkOlfnzTzNMqC0h
- x1hv2laqFH/yu2hK23PDQmYwUp2xzuQNH/5bgjIpLFpmLGHBBn8V4OQ4ys5R98qATxFD
- jSC28C/Qq+TMG66fjQMmPT2d+4FVPS0PUK0ixSjtQNf9PvagJ8CrlVt6eFozMM88Rudk
- 84kA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OeZQFyjaaDuaUVaVCqaVxB2IClPdIPK6d3+52cQH/vI=;
+ b=XlYhWqGBrH+cA1feU83KM99JW5X4CpveeJZZrFmejoffkrfS9SwVHTN0qQgoynff+O
+ KaooF6cBMV+qtczFwfI5fbxPD+NC5dAV0KmeoHk248+93gi5rimfwx0rDdw7Z0CmsfWC
+ 1y/jM+EG/3w6qlJYJxnuNgLBKPHHswj+YJJtsgCY85aixuSJsoP6W+fDPw50kcR1xU7/
+ F3kS5iRu20BYRYJGFRiOvJqOvbg62EoBzrndBbcHRNEF1HInJUpEqtVQhWYe11kUGOy8
+ Mtm9q1f8luJRx+b49TEulS17LinuhYNSSHHhg4GmuykryjQw5nFMif7XAADrCaZ597vQ
+ SRMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=WBXCNBgU8CcKAxSwhr3mUT60pBImmYZqHDisNP33Cxk=;
- b=Pld7qWNNFm8LTn882YRHcunVcfzBfsA25LcFZFNRRotkCm2LZXBI/D4wvYv2eX60oi
- mlNrXhnYUTRn6Q7YniwtZoF8fq+Ys+V5OJoiDzQLxVPvTmxIk+3vTAkq247Ki2MLw7vK
- WW8FC3N5dfFnn8AAdKZAG9rihaaJwgUgdEj/jZnFA67EjhVu8L3onz/LqA/j6F5gPOd2
- lZj3eJ7Kgk3PeS/TdUeAIECZ/1/Kf74yl+S31k/1Cl59BLW6//ig1LCHN/KRigyvud3m
- fG4fRH1hsmM6vlfXwsiPsh1/jmHoaQva77lzCWNaOKxCsAQb6RkdtIdUZnPhI33BVmNV
- 5n6A==
-X-Gm-Message-State: AOAM531Y0aKl+1ghJ55lXxurPIvubcUZ3G8JWbJYXDAwMQshriFGGU9C
- hpDOq2gSkLxWE32t4O8KVi/IXywdQfO8XLlIeWE=
-X-Google-Smtp-Source: ABdhPJwea2HaTzqIbDqNWuJrPjBJ5dC3lgY6E8tCO7fDX+N8z1nBb65N5a1Mda6ZyIxzF/MGeQe7N0zGCH1O52RyUn4=
-X-Received: by 2002:a05:6638:d16:: with SMTP id
- q22mr1996737jaj.35.1636411438394; 
- Mon, 08 Nov 2021 14:43:58 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OeZQFyjaaDuaUVaVCqaVxB2IClPdIPK6d3+52cQH/vI=;
+ b=TbkKgtkyTsukI9UshnueQCrXP6vVDX99fHTL2XqC/AZArFqEozk28sinHtgcoEtDxB
+ Pd8e1uGFzMghyUOuA5/vUW0ltktzoaUm1XHizghCrOl3Cdld6jQI/EN7xs1wPIfVGUXj
+ o8FmC3V5nivEMYXe1898FMiwI7tS/vwp6VmD/8Yj3GXDDGMlZNUXrXA4iBcwcSXNOGeF
+ oEDBDZw2tHuofgM5MVBMtXSHRSa+peJ2YcpwaiPbRbDuubC6PYnS1vDTnLHuwcnVQbi0
+ f/UVrJ7y2RKJz7h2Jsktd1b0XpVxfhrvZQuh9cv/qpxqbbrJ47IxfxFbjqZPW6oisLgR
+ 93YQ==
+X-Gm-Message-State: AOAM531Hgc0H/0qVklfykzdKhicMAXC5bj3j8P9AD4yNewZMclVM0jZZ
+ F2tMKMdC0oT+RXglR28RCBmodfxNcMY=
+X-Google-Smtp-Source: ABdhPJxmj5FfbnIFHHQARgGDdtOV/xkRzOBlZkDRBh85W1rUQFwseW6P074a0yprToiDlyT3au7T0w==
+X-Received: by 2002:a54:4486:: with SMTP id v6mr1745512oiv.90.1636411862847;
+ Mon, 08 Nov 2021 14:51:02 -0800 (PST)
+Received: from rekt.ibmuc.com ([189.79.219.109])
+ by smtp.gmail.com with ESMTPSA id h3sm6487249oih.23.2021.11.08.14.51.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Nov 2021 14:51:02 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 00/10] PMU-EBB support for PPC64 TCG
+Date: Mon,  8 Nov 2021 19:50:37 -0300
+Message-Id: <20211108225047.1733607-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20211108200756.1302697-1-sw@weilnetz.de>
-In-Reply-To: <20211108200756.1302697-1-sw@weilnetz.de>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 9 Nov 2021 08:43:32 +1000
-Message-ID: <CAKmqyKPSHycrLo5=Eh5NeZVVE8aMkQXCVGxmQrKYEs50k6HLqQ@mail.gmail.com>
-Subject: Re: [PATCH] device_tree: Fix compiler error
-To: Stefan Weil <sw@weilnetz.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2b
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22b.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -83,63 +82,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ richard.henderson@linaro.org, groug@kaod.org, qemu-ppc@nongnu.org,
+ clg@kaod.org, matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 9, 2021 at 6:08 AM Stefan Weil <sw@weilnetz.de> wrote:
->
-> A build with gcc (Debian 10.2.1-6) 10.2.1 20210110 fails:
->
-> ../../../softmmu/device_tree.c: In function =E2=80=98qemu_fdt_add_path=E2=
-=80=99:
-> ../../../softmmu/device_tree.c:560:18: error: =E2=80=98retval=E2=80=99 ma=
-y be used uninitialized in this function [-Werror=3Dmaybe-uninitialized]
->   560 |     int namelen, retval;
->       |                  ^~~~~~
->
-> This is not a real error, but the compiler can be satisfied with a small =
-change.
+Hi,
 
-Why don't we just initalise retval?
+This version contains changes proposed by Matheus in the
+v5 review.
 
-Alistair
+Changes from v5:
+- patch 2:
+  * added an extra argument to pmu_update_cycles() and pmc_is_active()
+to consider the case where we want to consider the frozen counter bits
+of a previous MMCR0 state
+  * added additional logic to allow for FC14/FC56 bits to freeze their
+individual counters without stopping the PMU 
+- patch 3:
+  * changed macro name to PMC_COUNTER_NEGATIVE_VAL and made it unsigned
+  * fixed typo in comment
+  * removed the extra space after '='
+- patch 9:
+  * check for FSCR[EBB] before firing the EBB exception
 
->
-> Fixes: b863f0b75852 ("device_tree: Add qemu_fdt_add_path")
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
-> ---
->  softmmu/device_tree.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-> index 3965c834ca..9e96f5ecd5 100644
-> --- a/softmmu/device_tree.c
-> +++ b/softmmu/device_tree.c
-> @@ -564,7 +564,7 @@ int qemu_fdt_add_path(void *fdt, const char *path)
->          return -1;
->      }
->
-> -    while (p) {
-> +    do {
->          name =3D p + 1;
->          p =3D strchr(name, '/');
->          namelen =3D p !=3D NULL ? p - name : strlen(name);
-> @@ -584,7 +584,7 @@ int qemu_fdt_add_path(void *fdt, const char *path)
->          }
->
->          parent =3D retval;
-> -    }
-> +    } while (p);
->
->      return retval;
->  }
-> --
-> 2.30.2
->
->
+v5 link: https://lists.gnu.org/archive/html/qemu-devel/2021-11/msg00385.html
+
+Daniel Henrique Barboza (9):
+  target/ppc: introduce PMUEventType and PMU overflow timers
+  target/ppc: PMU basic cycle count for pseries TCG
+  target/ppc: enable PMU counter overflow with cycle events
+  target/ppc: enable PMU instruction count
+  target/ppc/power8-pmu.c: add PM_RUN_INST_CMPL (0xFA) event
+  target/ppc: PMU: handle setting of PMCs while running
+  target/ppc/power8-pmu.c: handle overflow bits when PMU is running
+  PPC64/TCG: Implement 'rfebb' instruction
+  target/ppc/excp_helper.c: EBB handling adjustments
+
+Gustavo Romero (1):
+  target/ppc: PMU Event-Based exception support
+
+ hw/ppc/spapr_cpu_core.c                |   6 +
+ target/ppc/cpu.h                       |  60 +++-
+ target/ppc/cpu_init.c                  |  20 +-
+ target/ppc/excp_helper.c               |  93 ++++++
+ target/ppc/helper.h                    |   4 +
+ target/ppc/helper_regs.c               |   4 +
+ target/ppc/insn32.decode               |   5 +
+ target/ppc/meson.build                 |   1 +
+ target/ppc/power8-pmu-regs.c.inc       |  45 ++-
+ target/ppc/power8-pmu.c                | 403 +++++++++++++++++++++++++
+ target/ppc/power8-pmu.h                |  25 ++
+ target/ppc/spr_tcg.h                   |   3 +
+ target/ppc/translate.c                 |  60 ++++
+ target/ppc/translate/branch-impl.c.inc |  33 ++
+ 14 files changed, 749 insertions(+), 13 deletions(-)
+ create mode 100644 target/ppc/power8-pmu.c
+ create mode 100644 target/ppc/power8-pmu.h
+ create mode 100644 target/ppc/translate/branch-impl.c.inc
+
+-- 
+2.31.1
+
 
