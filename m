@@ -2,57 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C7644480BA
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 15:02:29 +0100 (CET)
-Received: from localhost ([::1]:57262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 767964481A9
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 15:25:24 +0100 (CET)
+Received: from localhost ([::1]:41310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk5EC-0005kG-8Z
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 09:02:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48038)
+	id 1mk5aN-0006a5-KV
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 09:25:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasz.gieryk@linux.intel.com>)
- id 1mk59J-00020v-CE; Mon, 08 Nov 2021 08:57:25 -0500
-Received: from mga18.intel.com ([134.134.136.126]:40208)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasz.gieryk@linux.intel.com>)
- id 1mk59H-0002Ea-1d; Mon, 08 Nov 2021 08:57:25 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10161"; a="219126516"
-X-IronPort-AV: E=Sophos;i="5.87,218,1631602800"; d="scan'208";a="219126516"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Nov 2021 05:57:14 -0800
-X-IronPort-AV: E=Sophos;i="5.87,218,1631602800"; d="scan'208";a="503027541"
-Received: from lgieryk-mobl1.ger.corp.intel.com (HELO lgieryk-VirtualBox)
- ([10.252.41.95])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Nov 2021 05:57:12 -0800
-Date: Mon, 8 Nov 2021 14:57:04 +0100
-From: =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH 12/15] hw/nvme: Initialize capability structures for
- primary/secondary controllers
-Message-ID: <20211108135704.GA7389@lgieryk-VirtualBox>
-References: <20211007162406.1920374-1-lukasz.maniak@linux.intel.com>
- <20211007162406.1920374-13-lukasz.maniak@linux.intel.com>
- <YYJ7gy185o57adWJ@apples.localdomain>
- <20211104154843.GA4639@lgieryk-VirtualBox>
- <20211105084615.GA5164@lgieryk-VirtualBox>
- <20211105140401.GA5820@lgieryk-VirtualBox>
- <YYjfFm0gJ29R5IFw@apples.localdomain>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mk5Yv-0005JP-CP
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 09:23:53 -0500
+Received: from [2a00:1450:4864:20::130] (port=35762
+ helo=mail-lf1-x130.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mk5Yt-0002TL-Kw
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 09:23:53 -0500
+Received: by mail-lf1-x130.google.com with SMTP id p16so36590909lfa.2
+ for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 06:23:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=+eC/wvFE7Ow4V+jykW9LjE4Z+AhB2bCqGSQAwIS+nq8=;
+ b=Um0iFHbH/I5SmDrB8KIGawOZU7yu3blW+HDfBMyJEXCmsWNI07LqGlummtiWWt3dCM
+ LPmg1D10/oLQM2FqFT4YN/73jferRZ4kgYxBUX/qkcov8349zVM0CeT7WB06zLrTprf1
+ 4HQ4cv+oWRDbJrbKtE2dCWSYBKMlllZXvcLLIZ14tXUVtR3tBQM0VagIXbK+WavCjxoV
+ 4NyASRuNisSJJV0vXG2wsaPtoTh/1r/GSYKGGKM/gVbhX/GJtxsTbOj5+rYCTR6u4Xme
+ 3/7+88xbNAGOj1lcIqnUXgIafBm/lYvPHlXzqHhJTWqqB/upCIi0l9uBQK1SXjl4qiLq
+ cc1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=+eC/wvFE7Ow4V+jykW9LjE4Z+AhB2bCqGSQAwIS+nq8=;
+ b=U5tbK92r2C0p03QEKfHn0frWRVKqT37Th+hO2vzn9sRq521f/Z5fimRtUVIgF4EmXC
+ 5DAo/Yt89wJ6RvIOGqHAM2UnGGnX/yaH+EhZAIQdNN8t5rojo5t8CVjNZaa2UE52Gl5d
+ Mc8LXxiQgst5qsliQYx8cETMkJJfiC7g1ITANehxTYBURo676sWSwjvBrp6JNwWAF+bv
+ bQ5n0lsaZXtKusQPNO+gDqJAYCGeZu1shXz89sIsyW7lZhIR49F7Y91Nnjoh+vC5DckE
+ DsGix5eqQwbm1S8+dV8ZUWd+BhncQk1gJvCr7GzjDPMedFp6FLw69jMe+5qT6nw60ec5
+ Ps1w==
+X-Gm-Message-State: AOAM5311QFip1/4xEsffqTwC+UGViVAUA4btpMhSfoL3R+lqvHN6xB1I
+ r+CvVsxYbaWrrBjA0EgZQksyZYuQ3SZixA==
+X-Google-Smtp-Source: ABdhPJwiE5dxKrASqVxGeqw2zmBBIWqcSa155XmKZ2Eoao5YXr3q5wsPkpcIJk0f3hDhWLz2vN95Pg==
+X-Received: by 2002:adf:e7c2:: with SMTP id e2mr49012wrn.349.1636381085748;
+ Mon, 08 Nov 2021 06:18:05 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id l4sm16251270wrv.94.2021.11.08.06.18.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Nov 2021 06:18:04 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E83ED1FF96;
+ Mon,  8 Nov 2021 14:18:03 +0000 (GMT)
+References: <07e63acb-b756-2586-2ba2-b54b837f7fc8@tribudubois.net>
+ <CAFEAcA89YQ_vN-JpCeB+L==F5g1hM=CNMBzjaf5c3EHF19NVyQ@mail.gmail.com>
+ <c8b89685-7490-328b-51a3-48711c140a84@tribudubois.net>
+ <d19f6d2c-7505-b326-3a67-48c336f111e9@tribudubois.net>
+ <dd45f94c-6110-7251-4f9f-5b4e1fbb73a4@tribudubois.net>
+ <e0a1b786-4b1c-c608-495b-3fb839de2376@tribudubois.net>
+User-agent: mu4e 1.7.4; emacs 28.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Jean-Christophe DUBOIS <jcd@tribudubois.net>
+Subject: Re: Qemu and ARM secure state.
+Date: Mon, 08 Nov 2021 14:14:45 +0000
+In-reply-to: <e0a1b786-4b1c-c608-495b-3fb839de2376@tribudubois.net>
+Message-ID: <87k0hik9yc.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YYjfFm0gJ29R5IFw@apples.localdomain>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: none client-ip=134.134.136.126;
- envelope-from=lukasz.gieryk@linux.intel.com; helo=mga18.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::130
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::130;
+ envelope-from=alex.bennee@linaro.org; helo=mail-lf1-x130.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,176 +94,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Lukasz Maniak <lukasz.maniak@linux.intel.com>,
- qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 08, 2021 at 09:25:58AM +0100, Klaus Jensen wrote:
-> On Nov  5 15:04, Łukasz Gieryk wrote:
-> > On Fri, Nov 05, 2021 at 09:46:28AM +0100, Łukasz Gieryk wrote:
-> > > On Thu, Nov 04, 2021 at 04:48:43PM +0100, Łukasz Gieryk wrote:
-> > > > On Wed, Nov 03, 2021 at 01:07:31PM +0100, Klaus Jensen wrote:
-> > > > > On Oct  7 18:24, Lukasz Maniak wrote:
-> > > > > > From: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
-> > > > > > 
-> > > > > > With two new properties (sriov_max_vi_per_vf, sriov_max_vq_per_vf) one
-> > > > > > can configure the maximum number of virtual queues and interrupts
-> > > > > > assignable to a single virtual device. The primary and secondary
-> > > > > > controller capability structures are initialized accordingly.
-> > > > > > 
-> > > > > > Since the number of available queues (interrupts) now varies between
-> > > > > > VF/PF, BAR size calculation is also adjusted.
-> > > > > > 
-> > > > > 
-> > > > > While this patch allows configuring the VQFRSM and VIFRSM fields, it
-> > > > > implicitly sets VQFRT and VIFRT (i.e. by setting them to the product of
-> > > > > sriov_max_vi_pervf and max_vfs). Which is just setting it to an upper
-> > > > > bound and this removes a testable case for host software (e.g.
-> > > > > requesting more flexible resources than what is currently available).
-> > > > > 
-> > > > > This patch also requires that these parameters are set if sriov_max_vfs
-> > > > > is. I think we can provide better defaults.
-> > > > > 
-> > > > 
-> > > > Originally I considered more params, but ended up coding the simplest,
-> > > > user-friendly solution, because I did not like the mess with so many
-> > > > parameters, and the flexibility wasn't needed for my use cases. But I do
-> > > > agree: others may need the flexibility. Case (FRT < max_vfs * FRSM) is
-> > > > valid and resembles an actual device.
-> > > > 
-> > > > > How about,
-> > > > > 
-> > > > > 1. if only sriov_max_vfs is set, then all VFs get private resources
-> > > > >    equal to max_ioqpairs. Like before this patch. This limits the number
-> > > > >    of parameters required to get a basic setup going.
-> > > > > 
-> > > > > 2. if sriov_v{q,i}_private is set (I suggested this parameter in patch
-> > > > >    10), the difference between that and max_ioqpairs become flexible
-> > > > >    resources. Also, I'd be just fine with having sriov_v{q,i}_flexible
-> > > > >    instead and just make the difference become private resources.
-> > > > >    Potato/potato.
-> > > > > 
-> > > > >    a. in the absence of sriov_max_v{q,i}_per_vf, set them to the number
-> > > > >       of calculated flexible resources.
-> > > > > 
-> > > > > This probably smells a bit like bikeshedding, but I think this gives
-> > > > > more flexibility and better defaults, which helps with verifying host
-> > > > > software.
-> > > > > 
-> > > > > If we can't agree on this now, I suggest we could go ahead and merge the
-> > > > > base functionality (i.e. private resources only) and ruminate some more
-> > > > > about these parameters.
-> > > > 
-> > > > The problem is that the spec allows VFs to support either only private,
-> > > > or only flexible resources.
-> > > > 
-> > > > At this point I have to admit, that since my use cases for
-> > > > QEMU/Nvme/SRIOV require flexible resources, I haven’t paid much
-> > > > attention to the case with VFs having private resources. So this SR/IOV
-> > > > implementation doesn’t even support such case (max_vX_per_vf != 0).
-> > > > 
-> > > > Let me summarize the possible config space, and how the current
-> > > > parameters (could) map to these (interrupt-related ones omitted):
-> > > > 
-> > > > Flexible resources not supported (not implemented):
-> > > >  - Private resources for PF     = max_ioqpairs
-> > > >  - Private resources per VF     = ?
-> > > >  - (error if flexible resources are configured)
-> > > > 
-> > > > With flexible resources:
-> > > >  - VQPRT, private resources for PF      = max_ioqpairs
-> > > >  - VQFRT, total flexible resources      = max_vq_per_vf * num_vfs
-> > > >  - VQFRSM, maximum assignable per VF    = max_vq_per_vf
-> > > >  - VQGRAN, granularity                  = #define constant
-> > > >  - (error if private resources per VF are configured)
-> > > > 
-> > > > Since I don’t want to misunderstand your suggestion: could you provide a
-> > > > similar map with your parameters, formulas, and explain how to determine
-> > > > if flexible resources are active? I want to be sure we are on the
-> > > > same page.
-> > > > 
-> > > 
-> > > I’ve just re-read through my email and decided that some bits need
-> > > clarification.
-> > > 
-> > > This implementation supports the “Flexible”-resources-only flavor of
-> > > SR/IOV, while the “Private” also could be supported. Some effort is
-> > > required to support both, and I cannot afford that (at least I cannot
-> > > commit today, neither the other Lukasz).
-> > > 
-> > > While I’m ready to rework the Flexible config and prepare it to be
-> > > extended later to handle the Private variant, the 2nd version of these
-> > > patches will still support the Flexible flavor only.
-> > > 
-> > > I will include appropriate TODO/open in the next cover letter.
-> > > 
-> > 
-> > The summary of my thoughts, so far:
-> > - I'm going to introduce sriov_v{q,i}_flexible and better defaults,
-> >   according to your suggestion (as far as I understand your intentions,
-> >   please correct me if I've missed something).
-> > - The Private SR/IOV flavor, if it's ever implemented, could introduce
-> >   sriov_vq_private_per_vf.
-> > - The updated formulas are listed below.
-> > 
-> > Flexible resources not supported (not implemented):
-> >  - Private resources for PF     = max_ioqpairs
-> >  - Private resources per VF     = sriov_vq_private_per_vf
-> 
-> I would just keep it simple and say, if sriov_v{q,i}_flexible is not
-> set, then each VF gets max_ioqpairs private resources.
-> 
 
-Since you did request more tuning knobs for the Flexible variant, the
-Private one should follow that and allow full configuration. A device
-where PF.priv=64 and each VF.priv=4 makes sense, and I couldn’t
-configure it if sriov_v{q,i}_flexible=0 enabled the Private mode.
+Jean-Christophe DUBOIS <jcd@tribudubois.net> writes:
 
-> >  - (error if sriov_vq_flexible is set)
-> > 
-> > With flexible resources:
-> >  - VQPRT, private resources for PF      = max_ioqpairs - sriov_vq_flexible
-> >  - VQFRT, total flexible resources      = sriov_vq_flexible (if set, or)
-> >                                           VQPRT * num_vfs
-> >  - VQFRSM, maximum assignable per VF    = sriov_max_vq_per_vf (if set, or)
-> >                                           VQPRT
-> 
-> You mean VQFRT here, right?
-> 
+> One small question/remark:
+>
+> According to the the "Arm Power State Coordinate Interface" (DEN0022D.b) =
+document (chapter 5) PSCI calls can only be issued by
+> "normal world" (EL1 or EL2). Therefore, should we be adding a test for th=
+e current secure state in the arm_is_psci_call() function? This
+> would prevent calling the built-in Qemu PSCI function if SMC is issued
+> from secure state.
 
-VQPRT is right, and – in my opinion – makes a better default than VQFRT.
+All that should be handled in:
 
-E.g., configuring a device:
+  void HELPER(pre_smc)(CPUARMState *env, uint32_t syndrome)
 
-(max_vfs=32, PF.priv=VQPRT=X, PF.flex_total=VQFRT=256)
+which should cause things to be trapped if the CPU is in an invalid
+state to execute the SMC instruction. If the exception is a valid SMC we
+end up in arm_cpu_do_interrupt where we may divert to
+arm_handle_psci_call.
 
-as (num_vfs=1, VF0.flex=256) doesn’t make much sense. Virtualization is
-not needed in such case, and user should probably use PF directly. On
-the other hand, VQPRT is probably tuned to offer most (if not all) of
-the performance and functionality; thus serves as a sane default.
-
-> >  - VQGRAN, granularity                  = #define constant
-> 
-> Yeah, 1 seems pretty reasonable here.
-> 
-> >  - (error if sriov_vq_private_per_vf is set)
-> > 
-> > Is this version acceptable?
-> > 
-> 
-> Sounds good to me. The only one I am not too happy about is the default
-> of VQPRT * num_vfs. (i.e. max_ioqpairs * num_vfs) when vq_flexible is
-> not set. I think this is the case where we should default to private
-> resources. If you don't want to work with private resources right now,
-> can we instead have it bug out and complain that sriov_vq_flexible must
-> be set? We can then later lift that restriction and implement private
-> resources.
-
-I would prefer reserving sriov_v{q,i}_flexible=0 for now. That's my current
-plan for V2.
-
+--=20
+Alex Benn=C3=A9e
 
