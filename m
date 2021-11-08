@@ -2,70 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23720447AB6
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 08:09:32 +0100 (CET)
-Received: from localhost ([::1]:56800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88925447B30
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 08:33:26 +0100 (CET)
+Received: from localhost ([::1]:36786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjymY-0001On-Pu
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 02:09:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53974)
+	id 1mjz9g-00082F-TS
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 02:33:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mjykS-0008JG-HF
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 02:07:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26427)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mjz7X-0006gb-W1
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 02:31:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30402)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mjykD-0002Aq-0a
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 02:07:17 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mjz7T-0004lX-Jf
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 02:31:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636355223;
+ s=mimecast20190719; t=1636356663;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tkP3IcVtugb3p8fda3LjhupBehOJeJQmbG/C7MOHA3g=;
- b=excyDDkCwX9pOWR2oj5SDgbn5rSWFSHyWjQ7Qs9bzFOTEdwqt8RaZz+tppgmACEohQHlQp
- 9rOTk7yXhoB5yfdSry622PVOTOZhy88BleD/DEGQqAqOTK902/rRWGxeNuM1WCsx6B+Zi9
- InrldBniQASTtHj7PH1lpqshR+eZLTM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-572-4ObUptunMOqzqkVOVxgP7g-1; Mon, 08 Nov 2021 02:07:01 -0500
-X-MC-Unique: 4ObUptunMOqzqkVOVxgP7g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9105887D541;
- Mon,  8 Nov 2021 07:07:00 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 48E4F67846;
- Mon,  8 Nov 2021 07:07:00 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E067911380A7; Mon,  8 Nov 2021 08:06:58 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH] docs: fix 'sample-pages' option tag
-References: <d212ac87ad45dcdd5d3ed85c61fc1fab765aed7e.1636353909.git.huangy81@chinatelecom.cn>
-Date: Mon, 08 Nov 2021 08:06:58 +0100
-In-Reply-To: <d212ac87ad45dcdd5d3ed85c61fc1fab765aed7e.1636353909.git.huangy81@chinatelecom.cn>
- (huangy's message of "Mon, 8 Nov 2021 14:51:00 +0800")
-Message-ID: <87r1brnn1p.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=vy07NpmjE3vqxd14i7vOmnS86GY1iLrrFQhK/J26s10=;
+ b=a9y/DQ4/FEvT7jyNV6EE41rNULMzuCoL1TufuUfutFOXAfivJAL34eUIWviOBsceyN4UOC
+ 5CRVSVlctNJcr+MchIk3SHUhkoOx2hTMl1rX9QKEUNoSd7Na50M/or4qpLpIYV52VYjSjS
+ ofzk1dC0ioUN6NDxnEDKSMDW2PoduVk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-232-967ocxVkMkWNTHSdlR0YvQ-1; Mon, 08 Nov 2021 02:31:02 -0500
+X-MC-Unique: 967ocxVkMkWNTHSdlR0YvQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ l4-20020a05600c1d0400b00332f47a0fa3so5370808wms.8
+ for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 23:31:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=vy07NpmjE3vqxd14i7vOmnS86GY1iLrrFQhK/J26s10=;
+ b=siZ7CisVd0xHFoJwrpnzOG+cN52289XAwuGsuj2lnw3OzbEMIO1644/+sM6nkxSaAf
+ XbrUeAcgK1fdkmOLRPUc9G5lIG2e9NAy3qTht03X3ot74sLE2fvFzvHZYKQIlJ2ABQbp
+ N/Ep3pWdO6I/x1J3Fuu5JvPbM7ZOYf+vQJjheQg6i9NOxS1jgYR6reFJ1DPGILrCVATr
+ y8jC8yc4Q2YQqBnZhnzSl2PlX4qIIe3iXmZkFKaIyr6raXXsIZ4yXxe2tVrNMBWfgksk
+ c9UWjZolnMeV+ovw42IGrbNhSg6/0brWuCSyoulFhmiM1msP1kDkSsRrpESxD+pAtCDe
+ Q5oQ==
+X-Gm-Message-State: AOAM531hBCKERiivTSr+SYfvFK6aBp+bsOBps02G/uYlVCaxsjPtrWPW
+ 6kXgpljp2roGRRhMOKwaYQV374tF7pi9pjF5jfo6cxc3vMlJrOlTunxheUpwZ0S/hhUK3pB8xNh
+ m2vi+m1kTqHlrrHc=
+X-Received: by 2002:a1c:4b07:: with SMTP id y7mr50274204wma.188.1636356661007; 
+ Sun, 07 Nov 2021 23:31:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxYtuFSrnm1EhdMPbYxLwSI91eZc8WbOM/tHJhxSFiJnglHqUFheWG77BijCEvzX5IShp0RPw==
+X-Received: by 2002:a1c:4b07:: with SMTP id y7mr50274180wma.188.1636356660704; 
+ Sun, 07 Nov 2021 23:31:00 -0800 (PST)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id u23sm8843144wru.21.2021.11.07.23.30.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 07 Nov 2021 23:31:00 -0800 (PST)
+Message-ID: <96683e8d-9633-7cb8-98ab-0a8791e1c63e@redhat.com>
+Date: Mon, 8 Nov 2021 08:30:59 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v4 0/1] hw/hyperv/vmbus: Is it maintained?
+To: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>
+References: <20211106134155.582312-1-philmd@redhat.com>
+ <e9c29f4d-d5d5-34aa-8311-7ad1fc05b7d6@oracle.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <e9c29f4d-d5d5-34aa-8311-7ad1fc05b7d6@oracle.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.06, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,40 +98,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Jon Doron <arilou@gmail.com>, qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
+ Roman Kagan <rkagan@virtuozzo.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-huangy81@chinatelecom.cn writes:
+On 11/6/21 20:28, Maciej S. Szmigiero wrote:
+> On 06.11.2021 14:41, Philippe Mathieu-Daudé wrote:
+>> This is the 4th time I send this patch. Is the VMBus infrastructure
+>> used / maintained? Should we deprecate & remove?
+>>
+>>    $ ./scripts/get_maintainer.pl -f hw/hyperv/vmbus.c -f
+>> include/hw/hyperv/vmbus.h
+>>    get_maintainer.pl: No maintainers found
+> 
+> There's an email thread at [1] explaining the reasons for having VMBus
+> infrastructure last time such question was asked.
+> 
+> In short: mere presence of a working VMBus is needed for some high-speed
+> Windows debugging, also people are working on VMBus host device drivers.
 
-> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
->
-> commit f78d4ed701 has fixed qemu tag, making 'sample-pages' option tag
-> involved by accident, which introduced since 6.1 in commit 7afa08cd8fd.
-> revert this line.
->
-> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
-> ---
->  qapi/migration.json | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index f0aefda..bbfd48c 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -1796,7 +1796,7 @@
->  # @calc-time: time in units of second for sample dirty pages
->  #
->  # @sample-pages: page count per GB for sample dirty pages
-> -#                the default value is 512 (since 6.2)
-> +#                the default value is 512 (since 6.1)
->  #
->  # @mode: mode containing method of calculate dirtyrate includes
->  #        'page-sampling' and 'dirty-ring' (Since 6.2)
+Great. Do you mind adding an entry in MAINTAINERS to
+cover these files, so we stop wondering about them?
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> Your patch makes sense to me, so for it:
+> Reviewed-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
+
+Thank you.
+
+> [1]:
+> https://lore.kernel.org/qemu-devel/20201009193919.GF7303@habkost.net/T/#u
+> 
 
 
