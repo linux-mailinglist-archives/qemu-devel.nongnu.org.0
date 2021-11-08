@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60B59449A00
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 17:35:56 +0100 (CET)
-Received: from localhost ([::1]:53868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 317AD449A0B
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 17:41:31 +0100 (CET)
+Received: from localhost ([::1]:58856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk7ch-000265-GS
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 11:35:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39514)
+	id 1mk7i3-0005jG-Bx
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 11:41:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mk7Xk-0005vg-Ip
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 11:30:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32691)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mk7Xh-0003x3-FB
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 11:30:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636389044;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/ZDBlQ39fCPVakygBAtV4IJ/soDoZQ3dmFvxVyVs92Q=;
- b=Dh30FJzsV+RtW2EHsUi/xPM403rkSwQPJc8LPSv93wsJxuo1Nlu29zs+KGt1vWXLy/cW25
- aeEwXcBFryQoYn8dz1U8MR3vLXlKa3jOMh9U13MwocKHcEtwaJBThzeMWACiIhJjeVvscO
- 0GE5970qJ0DuHHYt8V68SsXIKPMNTrs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-502-dVA9B8ViN4qZxbTtL0wLPg-1; Mon, 08 Nov 2021 11:30:43 -0500
-X-MC-Unique: dVA9B8ViN4qZxbTtL0wLPg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6E6E824F83
- for <qemu-devel@nongnu.org>; Mon,  8 Nov 2021 16:30:40 +0000 (UTC)
-Received: from [10.39.192.185] (unknown [10.39.192.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ADEED10016F5;
- Mon,  8 Nov 2021 16:30:39 +0000 (UTC)
-Message-ID: <092f8664-3f19-877a-0aa2-24fac5e0ba51@redhat.com>
-Date: Mon, 8 Nov 2021 17:30:38 +0100
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mk7ge-0004wV-FL
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 11:40:00 -0500
+Received: from [2607:f8b0:4864:20::929] (port=43740
+ helo=mail-ua1-x929.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mk7gc-0005Xs-Mc
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 11:40:00 -0500
+Received: by mail-ua1-x929.google.com with SMTP id v3so32595638uam.10
+ for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 08:39:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BU0OP2kjYPueiJFRcf28uxewh1ERmxS7SBRzmQobnzo=;
+ b=7G//i9F4QU7Vzx/udD6dtjTbHndLVXGKJ7gETyGmsse+5m8XTg+qNim0Hva2co3W9F
+ CkahZw6S3iKU8wA7XG6/ZgHL29uN3sd43SIMVw9fdz/G+NuJuxbFLqV+DCeoCLNCWC56
+ LJXJqEo2hTQn09ZMnkJIzAfYQcYkZfGhlq1Yl1xkoVHDrzh4DfMaVDBA5C49ET8YfNOm
+ LmyAu4+/QO32rv/RlCx92BAzYRbGPr6RTYVEe6os+pW+F4pynAmE0PjlOxka7xp3iSFW
+ GShGLqM+tAERxNispI6WoIuOYw37jBfxswTwOvx2AxIRSpIE+7HQyaBAulwyM4rlAabT
+ bk/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BU0OP2kjYPueiJFRcf28uxewh1ERmxS7SBRzmQobnzo=;
+ b=Xz3ndLDclUlDQA5z9QaO4mR6dW/UmsaeIWrXVBLfIvOpLDct5Y4PlJEgMO0vzeYqld
+ uPXOGZPHUK9tdil/0dEQ9artb6O73uEjbqCVfBwmjmvrTJhyJKfXTYbkteG+G58++gK4
+ h40rM4MzkZuXRrLStvS/0pphFDR7R/j8TjqJjxZUK+hiJhizLbN4TgtsO3vgMeYUoxV9
+ B66Zf/6Cnr8EcttpGrZRKLkP9a60D79Ghhk/BbP84RYnFyK73MgHblY484XOmp1OPh9j
+ iDhfGi57ltMEzKQBevoYWCNOjWLPvsuCt0tn85OX5d36gWsUkdGRoJFmDA7ODos1krWM
+ vBZw==
+X-Gm-Message-State: AOAM531pXTHQSOQZw0Rzndc40lJCgdU1MlPvMlcyEFhMtz/qVj2Blp34
+ Wys6gSW2u1uJpiI5ZDi/HyAKrEyJpRYIvyNNL03J5Q==
+X-Google-Smtp-Source: ABdhPJxMQ5KtqE9Uq7sP1zl+C4Qo74mvGvr4YWa0uKDveGYqEdgoRtzjZVBS1JSp9PLGSF0T5iFHioHAM2SlS4DeqSM=
+X-Received: by 2002:a05:6102:5f2:: with SMTP id w18mr549686vsf.6.1636389597536; 
+ Mon, 08 Nov 2021 08:39:57 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: Artificially target-dependend compiles
-To: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
-References: <87czneyaw3.fsf@dusky.pond.sub.org>
- <2e4b52b0-b1fc-58c5-9631-fbf9d7f927fc@redhat.com>
- <87fss9u3zj.fsf@dusky.pond.sub.org> <87ilx3nk5p.fsf@dusky.pond.sub.org>
- <837be094-8a70-b364-3f85-5e6af8c05304@redhat.com>
- <b476ec65-46fd-7d8c-770d-0351c245df09@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <b476ec65-46fd-7d8c-770d-0351c245df09@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.06, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211108023738.42125-1-imp@bsdimp.com>
+ <20211108023738.42125-3-imp@bsdimp.com>
+ <fa216460-3fa2-a5bc-f974-ea2c8cf6430e@linaro.org>
+In-Reply-To: <fa216460-3fa2-a5bc-f974-ea2c8cf6430e@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Mon, 8 Nov 2021 09:39:46 -0700
+Message-ID: <CANCZdfq5SbUE8Wq8MKsHHJdWuu++suZNuL490E7gqEjGHY+V0g@mail.gmail.com>
+Subject: Re: [RFC 2/4] linux-user/signal.c: Create a common
+ rewind_if_in_safe_syscall
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000acf96705d049a418"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::929
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::929;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x929.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,28 +81,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Philippe Mathieu-Daude <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/11/2021 17.23, Paolo Bonzini wrote:
-> On 11/8/21 16:38, Thomas Huth wrote:
->>
->> Hmm, we used to have a config-all-devices.mak file in the past (see commit 
->> a98006bc798169e which removed it), maybe we could re-introduce something 
->> similar again, but producing a config-all.h header file instead? So that 
->> this header file contains switches like CONFIG_ANY_ACPI_VMGENID and 
->> CONFIG_ANY_ROCKER that are set if any of the targets uses the device ... 
->> and these switches would not get poisoned in common code... ?
-> 
-> That would work, however the schema would still not provide any more 
-> information than it currently does.
+--000000000000acf96705d049a418
+Content-Type: text/plain; charset="UTF-8"
 
-Yeah, it's of limited use - you would only get a difference if none of the 
-targets provided a feature (say if you did not build the x86 and arm 
-targets, CONFIG_ANY_ACPI_VMGENID would likely not be set) ... not too 
-useful, I guess.
+On Mon, Nov 8, 2021 at 8:07 AM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-  Thomas
+> On 11/8/21 3:37 AM, Warner Losh wrote:
+> > All instances of rewind_if_in_safe_syscall are the same, differing only
+> > in how the instruction point is fetched from the ucontext and the size
+> > of the registers. Use host_signal_pc and new host_signal_set_pc
+> > interfaces to fetch the pointer to the PC and adjust if needed. Delete
+> > all the old copies of rewind_if_in_safe_syscall.
+> >
+> > Signed-off-by: Warner Losh<imp@bsdimp.com>
+> > ---
+> >   linux-user/host/aarch64/hostdep.h | 20 --------------------
+> >   linux-user/host/arm/hostdep.h     | 20 --------------------
+> >   linux-user/host/i386/hostdep.h    | 20 --------------------
+> >   linux-user/host/ppc64/hostdep.h   | 20 --------------------
+> >   linux-user/host/riscv/hostdep.h   | 20 --------------------
+> >   linux-user/host/s390x/hostdep.h   | 20 --------------------
+> >   linux-user/host/x86_64/hostdep.h  | 20 --------------------
+> >   linux-user/signal.c               | 18 +++++++++++++++++-
+> >   8 files changed, 17 insertions(+), 141 deletions(-)
+>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>
+> Although I think we can fairly safely drop HAVE_SAFE_SYSCALL.  It is
+> required for proper
+> operation.  As with host-signal.h, really.
+>
 
+Yes. The only possible use I can see for it is to allow people to bring up
+new platforms more easily by deferring the signal-safe system call details
+until later in that process.
+
+Warner
+
+--000000000000acf96705d049a418
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Nov 8, 2021 at 8:07 AM Richar=
+d Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hen=
+derson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">On 11/8/21 3:37 AM, Warner Losh wrote:<br>
+&gt; All instances of rewind_if_in_safe_syscall are the same, differing onl=
+y<br>
+&gt; in how the instruction point is fetched from the ucontext and the size=
+<br>
+&gt; of the registers. Use host_signal_pc and new host_signal_set_pc<br>
+&gt; interfaces to fetch the pointer to the PC and adjust if needed. Delete=
+<br>
+&gt; all the old copies of rewind_if_in_safe_syscall.<br>
+&gt; <br>
+&gt; Signed-off-by: Warner Losh&lt;<a href=3D"mailto:imp@bsdimp.com" target=
+=3D"_blank">imp@bsdimp.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0linux-user/host/aarch64/hostdep.h | 20 -------------------=
+-<br>
+&gt;=C2=A0 =C2=A0linux-user/host/arm/hostdep.h=C2=A0 =C2=A0 =C2=A0| 20 ----=
+----------------<br>
+&gt;=C2=A0 =C2=A0linux-user/host/i386/hostdep.h=C2=A0 =C2=A0 | 20 ---------=
+-----------<br>
+&gt;=C2=A0 =C2=A0linux-user/host/ppc64/hostdep.h=C2=A0 =C2=A0| 20 ---------=
+-----------<br>
+&gt;=C2=A0 =C2=A0linux-user/host/riscv/hostdep.h=C2=A0 =C2=A0| 20 ---------=
+-----------<br>
+&gt;=C2=A0 =C2=A0linux-user/host/s390x/hostdep.h=C2=A0 =C2=A0| 20 ---------=
+-----------<br>
+&gt;=C2=A0 =C2=A0linux-user/host/x86_64/hostdep.h=C2=A0 | 20 --------------=
+------<br>
+&gt;=C2=A0 =C2=A0linux-user/signal.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| 18 +++++++++++++++++-<br>
+&gt;=C2=A0 =C2=A08 files changed, 17 insertions(+), 141 deletions(-)<br>
+<br>
+Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
+ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
+<br>
+Although I think we can fairly safely drop HAVE_SAFE_SYSCALL.=C2=A0 It is r=
+equired for proper <br>
+operation.=C2=A0 As with host-signal.h, really.<br></blockquote><div><br></=
+div><div>Yes. The only possible use I can see for it is to allow people to =
+bring up new platforms more easily by deferring the signal-safe system call=
+ details until later in that process.</div><div><br></div><div>Warner</div>=
+</div></div>
+
+--000000000000acf96705d049a418--
 
