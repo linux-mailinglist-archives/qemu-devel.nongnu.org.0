@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4254F4478DC
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 04:21:29 +0100 (CET)
-Received: from [::1] (port=49754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A78E4478E9
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 04:30:46 +0100 (CET)
+Received: from [::1] (port=44700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjvDs-0002jS-As
-	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 22:21:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39814)
+	id 1mjvMr-0001fx-GI
+	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 22:30:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mjv1s-0003df-2p
- for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:09:04 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:55072 helo=loongson.cn)
+ id 1mjv2D-0004Ck-UK
+ for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:09:25 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:55090 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mjv1p-0003gm-IP
- for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:09:03 -0500
+ (envelope-from <gaosong@loongson.cn>) id 1mjv1x-0003hT-MU
+ for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:09:25 -0500
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9CxGdGflIhh9g8BAA--.2390S16; 
- Mon, 08 Nov 2021 11:08:45 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9CxGdGflIhh9g8BAA--.2390S17; 
+ Mon, 08 Nov 2021 11:08:49 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [RESEND PATCH v9 14/28] target/loongarch: Add floating point
- load/store instruction translation
-Date: Mon,  8 Nov 2021 11:08:01 +0800
-Message-Id: <1636340895-5255-15-git-send-email-gaosong@loongson.cn>
+Subject: [RESEND PATCH v9 15/28] target/loongarch: Add branch instruction
+ translation
+Date: Mon,  8 Nov 2021 11:08:02 +0800
+Message-Id: <1636340895-5255-16-git-send-email-gaosong@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1636340895-5255-1-git-send-email-gaosong@loongson.cn>
 References: <1636340895-5255-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9CxGdGflIhh9g8BAA--.2390S16
-X-Coremail-Antispam: 1UD129KBjvJXoW3Jw4xur17Aw1kXF18tF1rXrb_yoW3uw4xpr
- 4IkryUGr4vqF1fAr93Kw45WF1DZFnxCayUW3ySyr10yF1rJF1UJFs7X3y2krWUXw1kXFWU
- JFZ0yFyUtFyrX3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf9CxGdGflIhh9g8BAA--.2390S17
+X-Coremail-Antispam: 1UD129KBjvJXoW3Xr4DJF1xtF18Zry5Ww45Wrg_yoWxGry5pr
+ 1UCryUKrWkJry5Jrn5tw45XFy5Xrn8G347GrW3twn3JF42q3WUAF18AryUKr4jvw1kZry8
+ tF4rAryjgFy8XwUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -60,265 +60,179 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This includes:
-- FLD.{S/D}, FST.{S/D}
-- FLDX.{S/D}, FSTX.{S/D}
-- FLD{GT/LE}.{S/D}, FST{GT/LE}.{S/D}
+- BEQ, BNE, BLT[U], BGE[U]
+- BEQZ, BNEZ
+- B
+- BL
+- JIRL
+- BCEQZ, BCNEZ
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/loongarch/insn_trans/trans_fmemory.c.inc | 184 ++++++++++++++++++++++++
- target/loongarch/insns.decode                   |  24 ++++
- target/loongarch/translate.c                    |   1 +
- 3 files changed, 209 insertions(+)
- create mode 100644 target/loongarch/insn_trans/trans_fmemory.c.inc
+ target/loongarch/insn_trans/trans_branch.c.inc | 82 ++++++++++++++++++++++++++
+ target/loongarch/insns.decode                  | 30 ++++++++++
+ target/loongarch/translate.c                   |  1 +
+ 3 files changed, 113 insertions(+)
+ create mode 100644 target/loongarch/insn_trans/trans_branch.c.inc
 
-diff --git a/target/loongarch/insn_trans/trans_fmemory.c.inc b/target/loongarch/insn_trans/trans_fmemory.c.inc
+diff --git a/target/loongarch/insn_trans/trans_branch.c.inc b/target/loongarch/insn_trans/trans_branch.c.inc
 new file mode 100644
-index 0000000..31d738e
+index 0000000..ecb6bd1
 --- /dev/null
-+++ b/target/loongarch/insn_trans/trans_fmemory.c.inc
-@@ -0,0 +1,184 @@
++++ b/target/loongarch/insn_trans/trans_branch.c.inc
+@@ -0,0 +1,82 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
 + * Copyright (c) 2021 Loongson Technology Corporation Limited
 + */
 +
-+static bool gen_fload_imm(DisasContext *ctx, arg_fmt_fdrjsi12 *a,
-+                          MemOp mop, bool nanbox)
++static bool trans_b(DisasContext *ctx, arg_b *a)
 +{
-+    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv temp = NULL;
-+
-+    if (a->si12) {
-+        temp = tcg_temp_new();
-+        tcg_gen_addi_tl(temp, addr, a->si12);
-+        addr = temp;
-+    }
-+
-+    tcg_gen_qemu_ld_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
-+
-+    if (nanbox) {
-+        gen_nanbox_s(cpu_fpr[a->fd], cpu_fpr[a->fd]);
-+    }
-+
-+    if (temp) {
-+        tcg_temp_free(temp);
-+    }
++    gen_goto_tb(ctx, 0, ctx->base.pc_next + (a->offs << 2));
++    ctx->base.is_jmp = DISAS_NORETURN;
 +    return true;
 +}
 +
-+static bool gen_fstore_imm(DisasContext *ctx, arg_fmt_fdrjsi12 *a,
-+                           MemOp mop, bool nanbox)
++static bool trans_bl(DisasContext *ctx, arg_bl *a)
 +{
-+    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv temp = NULL;
-+
-+    if (a->si12) {
-+        temp = tcg_temp_new();
-+        tcg_gen_addi_tl(temp, addr, a->si12);
-+        addr = temp;
-+    }
-+
-+    if (nanbox) {
-+        gen_nanbox_s(cpu_fpr[a->fd], cpu_fpr[a->fd]);
-+    }
-+
-+    tcg_gen_qemu_st_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
-+
-+    if (temp) {
-+        tcg_temp_free(temp);
-+    }
++    tcg_gen_movi_tl(cpu_gpr[1], ctx->base.pc_next + 4);
++    gen_goto_tb(ctx, 0, ctx->base.pc_next + (a->offs << 2));
++    ctx->base.is_jmp = DISAS_NORETURN;
 +    return true;
 +}
 +
-+static bool gen_fload_tl(DisasContext *ctx, arg_fmt_fdrjrk *a,
-+                         MemOp mop, bool nanbox)
++static bool trans_jirl(DisasContext *ctx, arg_jirl *a)
++{
++    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
++    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
++
++    tcg_gen_addi_tl(cpu_pc, src1, (a->offs16) << 2);
++    tcg_gen_movi_tl(dest, ctx->base.pc_next + 4);
++    tcg_gen_lookup_and_goto_ptr();
++    ctx->base.is_jmp = DISAS_NORETURN;
++    return true;
++}
++
++static void gen_bc(DisasContext *ctx, TCGv src1, TCGv src2,
++                   target_long offs, TCGCond cond)
++{
++    TCGLabel *l = gen_new_label();
++    tcg_gen_brcond_tl(cond, src1, src2, l);
++    gen_goto_tb(ctx, 1, ctx->base.pc_next + 4);
++    gen_set_label(l);
++    gen_goto_tb(ctx, 0, ctx->base.pc_next + offs);
++    ctx->base.is_jmp = DISAS_NORETURN;
++}
++
++static bool gen_r2_bc(DisasContext *ctx, arg_fmt_rjrdoffs16 *a, TCGCond cond)
 +{
 +    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+    TCGv addr = tcg_temp_new();
++    TCGv src2 = gpr_src(ctx, a->rd, EXT_NONE);
 +
-+    tcg_gen_add_tl(addr, src1, src2);
-+    tcg_gen_qemu_ld_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
-+
-+    if (nanbox) {
-+        gen_nanbox_s(cpu_fpr[a->fd], cpu_fpr[a->fd]);
-+    }
-+
-+    tcg_temp_free(addr);
++    gen_bc(ctx, src1, src2, (a->offs16 << 2), cond);
 +    return true;
 +}
 +
-+static bool gen_fstore_tl(DisasContext *ctx, arg_fmt_fdrjrk *a,
-+                          MemOp mop, bool nanbox)
++static bool gen_rz_bc(DisasContext *ctx, arg_fmt_rjoffs21 *a, TCGCond cond)
 +{
 +    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+    TCGv addr = tcg_temp_new();
++    TCGv src2 = tcg_constant_tl(0);
 +
-+    tcg_gen_add_tl(addr, src1, src2);
-+
-+    if (nanbox) {
-+        gen_nanbox_s(cpu_fpr[a->fd], cpu_fpr[a->fd]);
-+    }
-+
-+    tcg_gen_qemu_st_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
-+
-+    tcg_temp_free(addr);
++    gen_bc(ctx, src1, src2, (a->offs21 << 2), cond);
 +    return true;
 +}
 +
-+static bool gen_fload_gt(DisasContext *ctx, arg_fmt_fdrjrk *a,
-+                         MemOp mop, bool nanbox)
++static bool gen_cz_bc(DisasContext *ctx, arg_fmt_cjoffs21 *a, TCGCond cond)
 +{
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+    TCGv addr = tcg_temp_new();
++    TCGv src1 = tcg_temp_new();
++    TCGv src2 = tcg_constant_tl(0);
 +
-+    gen_helper_asrtgt_d(cpu_env, src1, src2);
-+    tcg_gen_add_tl(addr, src1, src2);
-+    tcg_gen_qemu_ld_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
-+
-+    if (nanbox) {
-+        gen_nanbox_s(cpu_fpr[a->fd], cpu_fpr[a->fd]);
-+    }
-+
-+    tcg_temp_free(addr);
++    tcg_gen_ld8u_tl(src1, cpu_env,
++                    offsetof(CPULoongArchState, cf[a->cj & 0x7]));
++    gen_bc(ctx, src1, src2, (a->offs21 << 2), cond);
 +    return true;
 +}
 +
-+static bool gen_fstore_gt(DisasContext *ctx, arg_fmt_fdrjrk *a,
-+                          MemOp mop, bool nanbox)
-+{
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+    TCGv addr = tcg_temp_new();
-+
-+    gen_helper_asrtgt_d(cpu_env, src1, src2);
-+    tcg_gen_add_tl(addr, src1, src2);
-+
-+    if (nanbox) {
-+        gen_nanbox_s(cpu_fpr[a->fd], cpu_fpr[a->fd]);
-+    }
-+
-+    tcg_gen_qemu_st_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
-+
-+    tcg_temp_free(addr);
-+    return true;
-+}
-+
-+static bool gen_fload_le(DisasContext *ctx, arg_fmt_fdrjrk *a,
-+                         MemOp mop, bool nanbox)
-+{
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+    TCGv addr = tcg_temp_new();
-+
-+    gen_helper_asrtle_d(cpu_env, src1, src2);
-+    tcg_gen_add_tl(addr, src1, src2);
-+    tcg_gen_qemu_ld_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
-+
-+    if (nanbox) {
-+        gen_nanbox_s(cpu_fpr[a->fd], cpu_fpr[a->fd]);
-+    }
-+
-+    tcg_temp_free(addr);
-+    return true;
-+}
-+
-+static bool gen_fstore_le(DisasContext *ctx, arg_fmt_fdrjrk *a,
-+                          MemOp mop, bool nanbox)
-+{
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+    TCGv addr = tcg_temp_new();
-+
-+    gen_helper_asrtle_d(cpu_env, src1, src2);
-+    tcg_gen_add_tl(addr, src1, src2);
-+
-+    if (nanbox) {
-+        gen_nanbox_s(cpu_fpr[a->fd], cpu_fpr[a->fd]);
-+    }
-+
-+    tcg_gen_qemu_st_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
-+
-+    tcg_temp_free(addr);
-+    return true;
-+}
-+
-+TRANS(fld_s, gen_fload_imm, MO_TESL, true)
-+TRANS(fst_s, gen_fstore_imm, MO_TEUL, true)
-+TRANS(fld_d, gen_fload_imm, MO_TEQ, false)
-+TRANS(fst_d, gen_fstore_imm, MO_TEQ, false)
-+TRANS(fldx_s, gen_fload_tl, MO_TESL, true)
-+TRANS(fldx_d, gen_fload_tl, MO_TEQ, false)
-+TRANS(fstx_s, gen_fstore_tl, MO_TEUL, true)
-+TRANS(fstx_d, gen_fstore_tl, MO_TEQ, false)
-+TRANS(fldgt_s, gen_fload_gt, MO_TESL, true)
-+TRANS(fldgt_d, gen_fload_gt, MO_TEQ, false)
-+TRANS(fldle_s, gen_fload_le, MO_TESL, true)
-+TRANS(fldle_d, gen_fload_le, MO_TEQ, false)
-+TRANS(fstgt_s, gen_fstore_gt, MO_TEUL, true)
-+TRANS(fstgt_d, gen_fstore_gt, MO_TEQ, false)
-+TRANS(fstle_s, gen_fstore_le, MO_TEUL, true)
-+TRANS(fstle_d, gen_fstore_le, MO_TEQ, false)
++TRANS(beq, gen_r2_bc, TCG_COND_EQ)
++TRANS(bne, gen_r2_bc, TCG_COND_NE)
++TRANS(blt, gen_r2_bc, TCG_COND_LT)
++TRANS(bge, gen_r2_bc, TCG_COND_GE)
++TRANS(bltu, gen_r2_bc, TCG_COND_LTU)
++TRANS(bgeu, gen_r2_bc, TCG_COND_GEU)
++TRANS(beqz, gen_rz_bc, TCG_COND_EQ)
++TRANS(bnez, gen_rz_bc, TCG_COND_NE)
++TRANS(bceqz, gen_cz_bc, TCG_COND_EQ)
++TRANS(bcnez, gen_cz_bc, TCG_COND_NE)
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index c37b9c9..ee1d544 100644
+index ee1d544..e28b843 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -71,6 +71,8 @@
- &fmt_fdcj           fd cj
- &fmt_cdrj           cd rj
+@@ -37,6 +37,9 @@
+ %ca      15:3
+ %fcsrd   0:5
+ %fcsrs   5:5
++%offs21  0:s5 10:16
++%offs16  10:s16
++%offs    0:s10 10:16
+ 
+ #
+ # Argument sets
+@@ -73,6 +76,11 @@
  &fmt_rdcj           rd cj
-+&fmt_fdrjrk         fd rj rk
-+&fmt_fdrjsi12       fd rj si12
+ &fmt_fdrjrk         fd rj rk
+ &fmt_fdrjsi12       fd rj si12
++&fmt_rjoffs21       rj offs21
++&fmt_cjoffs21       cj offs21
++&fmt_rdrjoffs16     rd rj offs16
++&fmt_offs           offs
++&fmt_rjrdoffs16     rj rd offs16
  
  #
  # Formats
-@@ -105,6 +107,8 @@
- @fmt_fdcj            .... ........ ..... ..... .. ... .....   &fmt_fdcj           %fd %cj
- @fmt_cdrj            .... ........ ..... ..... ..... .. ...   &fmt_cdrj           %cd %rj
+@@ -109,6 +117,11 @@
  @fmt_rdcj            .... ........ ..... ..... .. ... .....   &fmt_rdcj           %rd %cj
-+@fmt_fdrjrk          .... ........ ..... ..... ..... .....    &fmt_fdrjrk         %fd %rj %rk
-+@fmt_fdrjsi12        .... ...... ............ ..... .....     &fmt_fdrjsi12       %fd %rj %si12
+ @fmt_fdrjrk          .... ........ ..... ..... ..... .....    &fmt_fdrjrk         %fd %rj %rk
+ @fmt_fdrjsi12        .... ...... ............ ..... .....     &fmt_fdrjsi12       %fd %rj %si12
++@fmt_rjoffs21        .... .. ................ ..... .....     &fmt_rjoffs21       %rj %offs21
++@fmt_cjoffs21        .... .. ................ .. ... .....    &fmt_cjoffs21       %cj %offs21
++@fmt_rdrjoffs16      .... .. ................ ..... .....     &fmt_rdrjoffs16     %rd %rj %offs16
++@fmt_offs            .... .. ..........................       &fmt_offs           %offs
++@fmt_rjrdoffs16      .... .. ................ ..... .....     &fmt_rjrdoffs16     %rj %rd %offs16
  
  #
  # Fixed point arithmetic operation instruction
-@@ -423,3 +427,23 @@ movfr2cf         0000 00010001 01001 10100 ..... 00 ...   @fmt_cdfj
- movcf2fr         0000 00010001 01001 10101 00 ... .....   @fmt_fdcj
- movgr2cf         0000 00010001 01001 10110 ..... 00 ...   @fmt_cdrj
- movcf2gr         0000 00010001 01001 10111 00 ... .....   @fmt_rdcj
+@@ -447,3 +460,20 @@ fstgt_s          0011 10000111 01100 ..... ..... .....    @fmt_fdrjrk
+ fstgt_d          0011 10000111 01101 ..... ..... .....    @fmt_fdrjrk
+ fstle_s          0011 10000111 01110 ..... ..... .....    @fmt_fdrjrk
+ fstle_d          0011 10000111 01111 ..... ..... .....    @fmt_fdrjrk
 +
 +#
-+# Floating point load/store instruction
++# Branch instructions
 +#
-+fld_s            0010 101100 ............ ..... .....     @fmt_fdrjsi12
-+fst_s            0010 101101 ............ ..... .....     @fmt_fdrjsi12
-+fld_d            0010 101110 ............ ..... .....     @fmt_fdrjsi12
-+fst_d            0010 101111 ............ ..... .....     @fmt_fdrjsi12
-+fldx_s           0011 10000011 00000 ..... ..... .....    @fmt_fdrjrk
-+fldx_d           0011 10000011 01000 ..... ..... .....    @fmt_fdrjrk
-+fstx_s           0011 10000011 10000 ..... ..... .....    @fmt_fdrjrk
-+fstx_d           0011 10000011 11000 ..... ..... .....    @fmt_fdrjrk
-+fldgt_s          0011 10000111 01000 ..... ..... .....    @fmt_fdrjrk
-+fldgt_d          0011 10000111 01001 ..... ..... .....    @fmt_fdrjrk
-+fldle_s          0011 10000111 01010 ..... ..... .....    @fmt_fdrjrk
-+fldle_d          0011 10000111 01011 ..... ..... .....    @fmt_fdrjrk
-+fstgt_s          0011 10000111 01100 ..... ..... .....    @fmt_fdrjrk
-+fstgt_d          0011 10000111 01101 ..... ..... .....    @fmt_fdrjrk
-+fstle_s          0011 10000111 01110 ..... ..... .....    @fmt_fdrjrk
-+fstle_d          0011 10000111 01111 ..... ..... .....    @fmt_fdrjrk
++beqz             0100 00 ................ ..... .....     @fmt_rjoffs21
++bnez             0100 01 ................ ..... .....     @fmt_rjoffs21
++bceqz            0100 10 ................ 00 ... .....    @fmt_cjoffs21
++bcnez            0100 10 ................ 01 ... .....    @fmt_cjoffs21
++jirl             0100 11 ................ ..... .....     @fmt_rdrjoffs16
++b                0101 00 ..........................       @fmt_offs
++bl               0101 01 ..........................       @fmt_offs
++beq              0101 10 ................ ..... .....     @fmt_rjrdoffs16
++bne              0101 11 ................ ..... .....     @fmt_rjrdoffs16
++blt              0110 00 ................ ..... .....     @fmt_rjrdoffs16
++bge              0110 01 ................ ..... .....     @fmt_rjrdoffs16
++bltu             0110 10 ................ ..... .....     @fmt_rjrdoffs16
++bgeu             0110 11 ................ ..... .....     @fmt_rjrdoffs16
 diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-index 5dc8849..bf329fd 100644
+index bf329fd..437f33d 100644
 --- a/target/loongarch/translate.c
 +++ b/target/loongarch/translate.c
-@@ -189,6 +189,7 @@ static void gen_set_gpr(int reg_num, TCGv t, DisasExtend dst_ext)
- #include "insn_trans/trans_fcmp.c.inc"
+@@ -190,6 +190,7 @@ static void gen_set_gpr(int reg_num, TCGv t, DisasExtend dst_ext)
  #include "insn_trans/trans_fcnv.c.inc"
  #include "insn_trans/trans_fmov.c.inc"
-+#include "insn_trans/trans_fmemory.c.inc"
+ #include "insn_trans/trans_fmemory.c.inc"
++#include "insn_trans/trans_branch.c.inc"
  
  static void loongarch_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
  {
