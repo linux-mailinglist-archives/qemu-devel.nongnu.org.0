@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D88C0447C8C
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 10:10:06 +0100 (CET)
-Received: from localhost ([::1]:60318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD637447C94
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 10:11:41 +0100 (CET)
+Received: from localhost ([::1]:37374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk0fG-0002qX-0y
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 04:10:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41436)
+	id 1mk0gn-0006V3-04
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 04:11:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mk0YW-0008EI-H6
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 04:03:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47203)
+ id 1mk0ZC-0001Hd-KM
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 04:03:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25359)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mk0YU-0002Ob-Ao
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 04:03:08 -0500
+ id 1mk0ZA-0002Xg-MA
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 04:03:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636362185;
+ s=mimecast20190719; t=1636362228;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+xpRJAHG8yNNa6bB1HoJUN6+5u1Fhoz4/fzXWVz4r9M=;
- b=YTiUVGFWCiG1SkETVKBN5UiRGpTIjUk+lEEhufrWHd/gwRS7/qjAeU1x9YMJLSSVYdOonA
- 4iCc5g6JuttMHXg86A9OlHqYKGI1pDlMo+ggWOwpYmbNindn/a3dQGXftx7ndNZiA8sm6V
- e+xB1e5MSQVEb8RpMYEM7jIQSwTncR4=
+ bh=vXCQEoApqaksXfro1WHTSuYwZpITFwX8D1pEIqEVdtc=;
+ b=TezCx8qrHea0+A3krt0doaSmDRBqym11SkiQjoWgiLh+Ml4FXcY1kFgDtPzoESljySQp9I
+ dnqMxl9T7EZOq+hwEM4k/nJnqdtspH5LKqmr3cxjA5OKD41lLDVzMno9QjaZrm7JSe+Cvi
+ FKHDYuI3PQMFndtEVKmESmwI3uMAidI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-npyBuPhoN-q2G_wwcu634Q-1; Mon, 08 Nov 2021 04:03:04 -0500
-X-MC-Unique: npyBuPhoN-q2G_wwcu634Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-517-fl8h1U-PNeeK0SigrwpF6w-1; Mon, 08 Nov 2021 04:03:16 -0500
+X-MC-Unique: fl8h1U-PNeeK0SigrwpF6w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74D2F15720;
- Mon,  8 Nov 2021 09:03:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FE51804142;
+ Mon,  8 Nov 2021 09:03:15 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D697860657;
- Mon,  8 Nov 2021 09:03:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C591679449;
+ Mon,  8 Nov 2021 09:03:07 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 07/11] docs/sphinx: set navigation_with_keys=True
-Date: Mon,  8 Nov 2021 13:01:51 +0400
-Message-Id: <20211108090155.371357-8-marcandre.lureau@redhat.com>
+Subject: [PULL v2 08/11] docs/sphinx: add 's' keyboard binding to focus search
+Date: Mon,  8 Nov 2021 13:01:52 +0400
+Message-Id: <20211108090155.371357-9-marcandre.lureau@redhat.com>
 In-Reply-To: <20211108090155.371357-1-marcandre.lureau@redhat.com>
 References: <20211108090155.371357-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,29 +87,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Allow navigating to the previous/next page using the keyboard's left and
-right arrows. I wish this would be the default, and that the themes
-would provide more key navigation, but that doesn't seem on the roadmap.
+This is pretty ubiquitous. ('/' is already taken by some browsers for
+quick search)
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/conf.py | 1 +
- 1 file changed, 1 insertion(+)
+ docs/conf.py                 | 4 ++++
+ docs/sphinx-static/custom.js | 9 +++++++++
+ 2 files changed, 13 insertions(+)
+ create mode 100644 docs/sphinx-static/custom.js
 
 diff --git a/docs/conf.py b/docs/conf.py
-index edc2bf8fcba7..f536483bc3d5 100644
+index f536483bc3d5..3161b8b127c6 100644
 --- a/docs/conf.py
 +++ b/docs/conf.py
-@@ -166,6 +166,7 @@
- if LooseVersion(sphinx_rtd_theme.__version__) >= LooseVersion("0.4.3"):
-     html_theme_options = {
-         "style_nav_header_background": "#802400",
-+        "navigation_with_keys": True,
-     }
+@@ -182,6 +182,10 @@
+     'theme_overrides.css',
+ ]
  
- html_logo = os.path.join(qemu_docdir, "../ui/icons/qemu_128x128.png")
++html_js_files = [
++    'custom.js',
++]
++
+ html_context = {
+     "display_gitlab": True,
+     "gitlab_user": "qemu-project",
+diff --git a/docs/sphinx-static/custom.js b/docs/sphinx-static/custom.js
+new file mode 100644
+index 000000000000..71a86053051b
+--- /dev/null
++++ b/docs/sphinx-static/custom.js
+@@ -0,0 +1,9 @@
++document.addEventListener('keydown', (event) => {
++    // find a better way to look it up?
++    let search_input = document.getElementsByName('q')[0];
++
++    if (event.code === 'KeyS' && document.activeElement !== search_input) {
++        event.preventDefault();
++        search_input.focus();
++    }
++});
 -- 
 2.33.0.721.g106298f7f9
 
