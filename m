@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99013447C52
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 09:54:16 +0100 (CET)
-Received: from localhost ([::1]:35768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3392447C4C
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 09:53:28 +0100 (CET)
+Received: from localhost ([::1]:33342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk0Pv-0002FC-Ne
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 03:54:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36402)
+	id 1mk0P9-0000c3-Ub
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 03:53:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mk0Mj-0004zh-UV
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 03:50:57 -0500
-Received: from [2a00:1450:4864:20::52f] (port=36863
- helo=mail-ed1-x52f.google.com)
+ id 1mk0MZ-0004eT-CF
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 03:50:49 -0500
+Received: from [2a00:1450:4864:20::12c] (port=34593
+ helo=mail-lf1-x12c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mk0Mg-00049n-Td
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 03:50:57 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id o8so59319987edc.3
- for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 00:50:54 -0800 (PST)
+ id 1mk0MU-0003hM-2t
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 03:50:47 -0500
+Received: by mail-lf1-x12c.google.com with SMTP id u11so34489600lfs.1
+ for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 00:50:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=d32zZr3Lg4xmu+J9Aeiyv7F9dvPxwAsvpGCMhgRyfRk=;
- b=GfuwPR+dfL2BFvkUqDjADReFVl4xp1XiEax1R8nPWEMf4EPWZw90t5yGPSFidmoi4s
- YqwRFi34KtbnDISIEI73s+j3mBvHQej3xGymuprG9uqpYonEZQgv2ikA4xGvwbwdGvMO
- hOMy59vXaB1pmr1ZgJyPT4q1zoWSSxXqDfnth5MgAqpmDQtxaNUAtBvfTOxSmUTfK0v/
- ++ilrx5dZSCiH7mnKwGIcmiYjI+kHs+Oih6XDd9AWWv7nR/UF1NTQlRl/e15iJRMqBim
- ZDd23C36VjyG9WA94D3m+5kHLEThzZ1zDt9BStfjGyoP/9o1TKkPw3x60OH6gALw8F4+
- 7Hjg==
+ bh=JfMAiceoomjlqsAnaVtSpe+RW+YX7W3jh6X67XyGhKM=;
+ b=IpPG0pBX5EkQMog25VnrjQZr7PsRdeCE+kbsOWGqESuRFY3Ace1Zk925LHyjfPQt8J
+ j2nzbdHfIVEYv/2rdQV52jdwTX11gLfAb7RLGnr5VhZprkS+oTCdM3JR71MhGC/Qtie4
+ RiEZzDuYyql/hDyz4FPxEp+k1QoBnJQYwkZbAYzASy7+C6BrISQ58NmOB/rHW9lEAx2m
+ Hr+34p3RIu1fDqPR9hh8uYwfKq5vwMOkceR4w+8+8WyOjFgjFR5OXLjLYf+B9zlIFwty
+ 6EECP0PBfAOcK8KCJ+N5rwjMq4uOQeGBgCRosVukMtq2Zvc5LrARmjjkAAy4HcivsEFn
+ XdXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=d32zZr3Lg4xmu+J9Aeiyv7F9dvPxwAsvpGCMhgRyfRk=;
- b=z3NM+OwcLKWFv/QAHqApBPseMGRU6tr8g9bG/+59Q/NXU/vVTZLC0+zW6AYvv8i8er
- XRP1MiZJ9hS+/rBYGLYTQ08Owknp3hiYAjBtQRGUkT5WPLR3h+hMm386oAg1AIN6GSMA
- mZG79gXEjflaPqKBfespJwtIN27yGaZ0hKDBcuHkf2RZMW9Fn8Cg/TS1eoA7sAtUiEnm
- 4C3ActCbwTDglmyY3R4UnfceMqP5ny4zmq9K1KOGuDLR2prpYgAHRHQPeGNDYe9c/4jc
- GjLa0eVVkfrEAHrxorgHfkgDFGHsSO6vNVOInPiA0qoEWhglUgj+5gleHalaOqqNC1XV
- Zi4w==
-X-Gm-Message-State: AOAM532x6vdFRUmkxBY1uuYqQJ/kcnqxb1col5v4YApQ1L80l7b+A3Px
- hPZTCkQumF9RJ1DxcXmEWECqWfGSyIE=
-X-Google-Smtp-Source: ABdhPJwhhI9H/kjJve2PeRHx6mRGi7Cl+oVx3DMROpP5Azzw6PKo7wLqCuu2Z8UwJlaPRA//sMusTw==
-X-Received: by 2002:aa7:d3cf:: with SMTP id o15mr26286143edr.265.1636361006310; 
+ bh=JfMAiceoomjlqsAnaVtSpe+RW+YX7W3jh6X67XyGhKM=;
+ b=aIU+FPnlhHxiXbnJpAkpD93mnxnsilUZcC31HZr5DfLoipBvDcq6n6QtXZ4ksVe9D9
+ TCmwSu3OsYICeDzmgKzqjsjGE+ZdPP4fNeQb/iokurXONc9e4nqcRCMfC14xuqtX4Qvt
+ GJoZmm7xbUWniXFQrCizbb0Tb6Mgov+PZgzZrNdJVnC+chL51shxOOsZ0yPhIr+AzBQv
+ hUm9T1pndyl1bGQshPw9gT1ruqZlI89m1wKQrL5es2qcvwuyKhIqwwzvNXffpKLE3bJh
+ XophfVCSVhyeyDg/2CsjAakDzYUH8nF7U9krezKwKqFmZHuXUnX8SO647p3RMlfLL71O
+ PD3A==
+X-Gm-Message-State: AOAM53137er0pGpW00ttrnsnLdzqYeMYL796s2m/urQ5ZsRoxXeTpAUA
+ CDCOZoHsOLbSMem/2jL1LdPniwNIFsg=
+X-Google-Smtp-Source: ABdhPJyAAo5BI7781CCz2xDxsJVe53u6ZC7Np9OxDMQDp4YPfEkfeyqqqqmtgRpdtLVzd3Jo/MPMrA==
+X-Received: by 2002:a05:6402:2690:: with SMTP id
+ w16mr40966803edd.220.1636361006981; 
  Mon, 08 Nov 2021 00:43:26 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id nb17sm7743211ejc.7.2021.11.08.00.43.25
+ by smtp.gmail.com with ESMTPSA id nb17sm7743211ejc.7.2021.11.08.00.43.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Nov 2021 00:43:25 -0800 (PST)
+ Mon, 08 Nov 2021 00:43:26 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] configure: propagate --extra-cflags and --extra-ldflags
- to meson compile tests
-Date: Mon,  8 Nov 2021 09:43:21 +0100
-Message-Id: <20211108084323.541961-4-pbonzini@redhat.com>
+Subject: [PATCH 4/4] configure: ignore preexisting QEMU_*FLAGS envvars
+Date: Mon,  8 Nov 2021 09:43:22 +0100
+Message-Id: <20211108084323.541961-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211108084323.541961-1-pbonzini@redhat.com>
 References: <20211108084323.541961-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-lf1-x12c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -74,7 +74,7 @@ X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,124 +91,48 @@ Cc: thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Meson (intentionally) does not add QEMU_CFLAGS to cc.compiles/cc.links
-tests, as they are supposed to be independent of the specific sets of
-compilation flags used to build the programs.  However, the user can
-still use CFLAGS or the toolchain file's LANG_args/LANG_link_args option
-to specify -I or -L options that apply to cc.compiles/cc.links as well.
+User flags should be passed via CFLAGS/CXXFLAGS/LDFLAGS,
+or --extra-cflags/extra-cxxflags/--extra-ldflags on the
+command line.
 
-This is also the intended use of configure's --extra-cflags,
---extra-cxxflags and --extra-ldflags options.  For example, if
-one has netmap's header in a nonstandard directory, up to commit
-837b84b1c078bf3e909 it used to work fine to do:
+QEMU_CFLAGS, QEMU_CXXFLAGS and QEMU_LDFLAGS are reserved
+for flags detected by configure, so do not add to them
+and clear them at the beginning of the script.
 
-.../configure --enable-netmap \
-     --extra-cflags=-I/path/to/netmap/sys
-
-but since the test was converted to meson, this does not work anymore.
-
-Pass these options to meson via the toolchain file instead of via
-config-host.mak, since the toolchain file's variables have the
-same purpose as configure's --extra-*flags arguments.
-
-Reported-by: Owen LaGarde
-Reported-by: Thomas Huth <thuth@redhat.com>
-Fixes: 47b30835e4 ("configure: consistently pass CFLAGS/CXXFLAGS/LDFLAGS to meson", 2020-10-06)
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 36 ++++++++++++++++++++----------------
- 1 file changed, 20 insertions(+), 16 deletions(-)
+ configure | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/configure b/configure
-index d268f59246..1ea26c67e5 100755
+index 1ea26c67e5..2048a52b20 100755
 --- a/configure
 +++ b/configure
-@@ -174,14 +174,14 @@ update_cxxflags() {
+@@ -158,7 +158,7 @@ update_cxxflags() {
+     # Set QEMU_CXXFLAGS from QEMU_CFLAGS by filtering out those
+     # options which some versions of GCC's C++ compiler complain about
+     # because they only make sense for C programs.
+-    QEMU_CXXFLAGS="$QEMU_CXXFLAGS -D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS"
++    QEMU_CXXFLAGS="-D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS"
+     CONFIGURE_CXXFLAGS=$(echo "$CONFIGURE_CFLAGS" | sed s/-std=gnu11/-std=gnu++11/)
+     for arg in $QEMU_CFLAGS; do
+         case $arg in
+@@ -465,11 +465,13 @@ sdl2_config="${SDL2_CONFIG-${cross_prefix}sdl2-config}"
+ # left shift of signed integers is well defined and has the expected
+ # 2s-complement style results. (Both clang and gcc agree that it
+ # provides these semantics.)
+-QEMU_CFLAGS="-fno-strict-aliasing -fno-common -fwrapv $QEMU_CFLAGS"
++QEMU_CFLAGS="-fno-strict-aliasing -fno-common -fwrapv"
+ QEMU_CFLAGS="-Wundef -Wwrite-strings -Wmissing-prototypes $QEMU_CFLAGS"
+ QEMU_CFLAGS="-Wstrict-prototypes -Wredundant-decls $QEMU_CFLAGS"
+ QEMU_CFLAGS="-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $QEMU_CFLAGS"
  
- compile_object() {
-   local_cflags="$1"
--  do_cc $CFLAGS $CONFIGURE_CFLAGS $QEMU_CFLAGS $local_cflags -c -o $TMPO $TMPC
-+  do_cc $CFLAGS $EXTRA_CFLAGS $CONFIGURE_CFLAGS $QEMU_CFLAGS $local_cflags -c -o $TMPO $TMPC
- }
- 
- compile_prog() {
-   local_cflags="$1"
-   local_ldflags="$2"
--  do_cc $CFLAGS $CONFIGURE_CFLAGS $QEMU_CFLAGS $local_cflags -o $TMPE $TMPC \
--      $LDFLAGS $CONFIGURE_LDFLAGS $QEMU_LDFLAGS $local_ldflags
-+  do_cc $CFLAGS $EXTRA_CFLAGS $CONFIGURE_CFLAGS $QEMU_CFLAGS $local_cflags -o $TMPE $TMPC \
-+      $LDFLAGS $EXTRA_LDFLAGS $CONFIGURE_LDFLAGS $QEMU_LDFLAGS $local_ldflags
- }
- 
- # symbolically link $1 to $2.  Portable version of "ln -sf".
-@@ -286,6 +286,10 @@ for opt do
-   esac
- done
- 
-+EXTRA_CFLAGS=""
-+EXTRA_CXXFLAGS=""
-+EXTRA_LDFLAGS=""
++QEMU_LDFLAGS=
 +
- xen_ctrl_version="$default_feature"
- xfs="$default_feature"
- membarrier="$default_feature"
-@@ -394,13 +398,13 @@ for opt do
-   ;;
-   --cpu=*) cpu="$optarg"
-   ;;
--  --extra-cflags=*) QEMU_CFLAGS="$QEMU_CFLAGS $optarg"
--                    QEMU_LDFLAGS="$QEMU_LDFLAGS $optarg"
-+  --extra-cflags=*)
-+    EXTRA_CFLAGS="$EXTRA_CFLAGS $optarg"
-+    EXTRA_CXXFLAGS="$EXTRA_CXXFLAGS $optarg"
-+    ;;
-+  --extra-cxxflags=*) EXTRA_CXXFLAGS="$EXTRA_CXXFLAGS $optarg"
-   ;;
--  --extra-cxxflags=*) QEMU_CXXFLAGS="$QEMU_CXXFLAGS $optarg"
--  ;;
--  --extra-ldflags=*) QEMU_LDFLAGS="$QEMU_LDFLAGS $optarg"
--                     EXTRA_LDFLAGS="$optarg"
-+  --extra-ldflags=*) EXTRA_LDFLAGS="$EXTRA_LDFLAGS $optarg"
-   ;;
-   --enable-debug-info) debug_info="yes"
-   ;;
-@@ -1346,8 +1350,8 @@ Advanced options (experts only):
-                            build time
-   --cxx=CXX                use C++ compiler CXX [$cxx]
-   --objcc=OBJCC            use Objective-C compiler OBJCC [$objcc]
--  --extra-cflags=CFLAGS    append extra C compiler flags QEMU_CFLAGS
--  --extra-cxxflags=CXXFLAGS append extra C++ compiler flags QEMU_CXXFLAGS
-+  --extra-cflags=CFLAGS    append extra C compiler flags CFLAGS
-+  --extra-cxxflags=CXXFLAGS append extra C++ compiler flags CXXFLAGS
-   --extra-ldflags=LDFLAGS  append extra linker flags LDFLAGS
-   --cross-cc-ARCH=CC       use compiler when building ARCH guest test cases
-   --cross-cc-flags-ARCH=   use compiler flags when building ARCH guest tests
-@@ -3402,7 +3406,7 @@ EOF
- 
-     update_cxxflags
- 
--    if do_cxx $CXXFLAGS $CONFIGURE_CXXFLAGS $QEMU_CXXFLAGS -o $TMPE $TMPCXX $TMPO $QEMU_LDFLAGS; then
-+    if do_cxx $CXXFLAGS $EXTRA_CXXFLAGS $CONFIGURE_CXXFLAGS $QEMU_CXXFLAGS -o $TMPE $TMPCXX $TMPO $QEMU_LDFLAGS; then
-         # C++ compiler $cxx works ok with C compiler $cc
-         :
-     else
-@@ -3909,10 +3913,10 @@ if test "$skip_meson" = no; then
- 
-   test -z "$cxx" && echo "link_language = 'c'" >> $cross
-   echo "[built-in options]" >> $cross
--  echo "c_args = [$(meson_quote $CFLAGS)]" >> $cross
--  echo "cpp_args = [$(meson_quote $CXXFLAGS)]" >> $cross
--  echo "c_link_args = [$(meson_quote $LDFLAGS)]" >> $cross
--  echo "cpp_link_args = [$(meson_quote $LDFLAGS)]" >> $cross
-+  echo "c_args = [$(meson_quote $CFLAGS $EXTRA_CFLAGS)]" >> $cross
-+  echo "cpp_args = [$(meson_quote $CXXFLAGS $EXTRA_CXXFLAGS)]" >> $cross
-+  echo "c_link_args = [$(meson_quote $LDFLAGS $EXTRA_LDFLAGS)]" >> $cross
-+  echo "cpp_link_args = [$(meson_quote $LDFLAGS $EXTRA_LDFLAGS)]" >> $cross
-   echo "[binaries]" >> $cross
-   echo "c = [$(meson_quote $cc $CPU_CFLAGS)]" >> $cross
-   test -n "$cxx" && echo "cpp = [$(meson_quote $cxx $CPU_CFLAGS)]" >> $cross
+ # Flags that are needed during configure but later taken care of by Meson
+ CONFIGURE_CFLAGS="-std=gnu11 -Wall"
+ CONFIGURE_LDFLAGS=
 -- 
 2.33.1
-
 
 
