@@ -2,89 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88925447B30
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 08:33:26 +0100 (CET)
-Received: from localhost ([::1]:36786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2D81447B53
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 08:47:33 +0100 (CET)
+Received: from localhost ([::1]:43436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjz9g-00082F-TS
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 02:33:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58242)
+	id 1mjzNM-0005EW-Og
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 02:47:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mjz7X-0006gb-W1
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 02:31:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30402)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mjz7T-0004lX-Jf
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 02:31:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636356663;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vy07NpmjE3vqxd14i7vOmnS86GY1iLrrFQhK/J26s10=;
- b=a9y/DQ4/FEvT7jyNV6EE41rNULMzuCoL1TufuUfutFOXAfivJAL34eUIWviOBsceyN4UOC
- 5CRVSVlctNJcr+MchIk3SHUhkoOx2hTMl1rX9QKEUNoSd7Na50M/or4qpLpIYV52VYjSjS
- ofzk1dC0ioUN6NDxnEDKSMDW2PoduVk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-967ocxVkMkWNTHSdlR0YvQ-1; Mon, 08 Nov 2021 02:31:02 -0500
-X-MC-Unique: 967ocxVkMkWNTHSdlR0YvQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- l4-20020a05600c1d0400b00332f47a0fa3so5370808wms.8
- for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 23:31:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mjzKz-0004Ae-NX
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 02:45:05 -0500
+Received: from [2a00:1450:4864:20::333] (port=38885
+ helo=mail-wm1-x333.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mjzKy-00085m-4K
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 02:45:05 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ a20-20020a1c7f14000000b003231d13ee3cso14321366wmd.3
+ for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 23:45:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=vy07NpmjE3vqxd14i7vOmnS86GY1iLrrFQhK/J26s10=;
- b=siZ7CisVd0xHFoJwrpnzOG+cN52289XAwuGsuj2lnw3OzbEMIO1644/+sM6nkxSaAf
- XbrUeAcgK1fdkmOLRPUc9G5lIG2e9NAy3qTht03X3ot74sLE2fvFzvHZYKQIlJ2ABQbp
- N/Ep3pWdO6I/x1J3Fuu5JvPbM7ZOYf+vQJjheQg6i9NOxS1jgYR6reFJ1DPGILrCVATr
- y8jC8yc4Q2YQqBnZhnzSl2PlX4qIIe3iXmZkFKaIyr6raXXsIZ4yXxe2tVrNMBWfgksk
- c9UWjZolnMeV+ovw42IGrbNhSg6/0brWuCSyoulFhmiM1msP1kDkSsRrpESxD+pAtCDe
- Q5oQ==
-X-Gm-Message-State: AOAM531hBCKERiivTSr+SYfvFK6aBp+bsOBps02G/uYlVCaxsjPtrWPW
- 6kXgpljp2roGRRhMOKwaYQV374tF7pi9pjF5jfo6cxc3vMlJrOlTunxheUpwZ0S/hhUK3pB8xNh
- m2vi+m1kTqHlrrHc=
-X-Received: by 2002:a1c:4b07:: with SMTP id y7mr50274204wma.188.1636356661007; 
- Sun, 07 Nov 2021 23:31:01 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxYtuFSrnm1EhdMPbYxLwSI91eZc8WbOM/tHJhxSFiJnglHqUFheWG77BijCEvzX5IShp0RPw==
-X-Received: by 2002:a1c:4b07:: with SMTP id y7mr50274180wma.188.1636356660704; 
- Sun, 07 Nov 2021 23:31:00 -0800 (PST)
+ bh=0BhT39p/mRAiYKm6I5GTZy3jNRSXfKLEtx4IOsK10Zo=;
+ b=gH/H0Bumvwvt0OywnzaPimus9KzGddDUcU2CEppNKwoVjHGQODmxlWZ/J+eWjWDcGB
+ 0GK80bakBzr04mLPY26IzUnJUrcgiV65B5n0yJzZw9OUvXnsHrRX/ztjCHgclDbqLxrQ
+ LbojQ2oJhS0nJkbifY05ZAVi6Z08HY4W3Ap6fiS/dsDT6SveuwpURR3MTkgp0/3Zk6fJ
+ K1hXcT2T37rFMTky6sdhQxQY2fUGb4H3oOIv3bnrfRvOqrdsQS0o6qSlP+do2HUDem0M
+ X4w8632OjZ9KBrY4poogk5VMalWzWw9r1MfQLjGDdK72DM520AumbYo6ITxN6nfi+7H9
+ DaUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=0BhT39p/mRAiYKm6I5GTZy3jNRSXfKLEtx4IOsK10Zo=;
+ b=Rp6/wOj9kyrMnnX2a5MyvaIZravkLqZq2Dr011eApweHFBllBKiagfFX4/1zEmFFMf
+ Lu+2Afr1XJV3gFXSv6GA1EVHq1ogI5SGblE/a4WLHmR/kmp0ED+7qDRTZ8As8tCgMxTB
+ gHMgrqQ16Po51AqQSt7GoVDArlAPcbbO5MB9S7zdgnRwJBA3/WHPZeLbveQdP6hhli9u
+ P9rD1SA5AOafuOgxMMJb99NbdXk4mWoCFbwkZ9GFxkmY4ZLeJKvZjMaIIEjC29abqVUC
+ 8bXu/aAZ9xpM9tCbEn3RRAoZtiow00ucbtsFgBc7aUb33af7EQgWwIeVcQKvJAbxeD4V
+ xTxA==
+X-Gm-Message-State: AOAM530YHEFtt2hJtz+eo8bArHm9CC7lte/73ZPcX13QmcWpVHQF9iZu
+ c2MqQyTvZdaYb22IHHPbKNQSyVhLS3c=
+X-Google-Smtp-Source: ABdhPJx22sbZqkOKE9+tp+I7H2QMELBA7awIn2SjDdgLmswDX6bOEAdqYTDl0IFqe1bwjpA96jJh+g==
+X-Received: by 2002:a1c:770e:: with SMTP id t14mr49773624wmi.173.1636357038589; 
+ Sun, 07 Nov 2021 23:37:18 -0800 (PST)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id u23sm8843144wru.21.2021.11.07.23.30.59
+ by smtp.gmail.com with ESMTPSA id 10sm19158940wrb.75.2021.11.07.23.37.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 07 Nov 2021 23:31:00 -0800 (PST)
-Message-ID: <96683e8d-9633-7cb8-98ab-0a8791e1c63e@redhat.com>
-Date: Mon, 8 Nov 2021 08:30:59 +0100
+ Sun, 07 Nov 2021 23:37:18 -0800 (PST)
+Message-ID: <39681686-e208-3c75-c0a5-ffda2482311f@amsat.org>
+Date: Mon, 8 Nov 2021 08:37:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH v4 0/1] hw/hyperv/vmbus: Is it maintained?
-To: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>
-References: <20211106134155.582312-1-philmd@redhat.com>
- <e9c29f4d-d5d5-34aa-8311-7ad1fc05b7d6@oracle.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <e9c29f4d-d5d5-34aa-8311-7ad1fc05b7d6@oracle.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v2] linux-user: Mark cpu_loop() with noreturn attribute
 Content-Language: en-US
+To: Warner Losh <imp@bsdimp.com>
+References: <20211106113916.544587-1-f4bug@amsat.org>
+ <CANCZdfqjcUBMwdkh=RvNUHd57a_Ed6ui6ciq9y8=qsdMtZOntQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <CANCZdfqjcUBMwdkh=RvNUHd57a_Ed6ui6ciq9y8=qsdMtZOntQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.06, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.06,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,37 +94,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Jon Doron <arilou@gmail.com>, qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- Roman Kagan <rkagan@virtuozzo.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Bin Meng <bmeng.cn@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/6/21 20:28, Maciej S. Szmigiero wrote:
-> On 06.11.2021 14:41, Philippe Mathieu-Daudé wrote:
->> This is the 4th time I send this patch. Is the VMBus infrastructure
->> used / maintained? Should we deprecate & remove?
->>
->>    $ ./scripts/get_maintainer.pl -f hw/hyperv/vmbus.c -f
->> include/hw/hyperv/vmbus.h
->>    get_maintainer.pl: No maintainers found
+On 11/7/21 01:39, Warner Losh wrote:
 > 
-> There's an email thread at [1] explaining the reasons for having VMBus
-> infrastructure last time such question was asked.
 > 
-> In short: mere presence of a working VMBus is needed for some high-speed
-> Windows debugging, also people are working on VMBus host device drivers.
-
-Great. Do you mind adding an entry in MAINTAINERS to
-cover these files, so we stop wondering about them?
-
-> Your patch makes sense to me, so for it:
-> Reviewed-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
-
-Thank you.
-
-> [1]:
-> https://lore.kernel.org/qemu-devel/20201009193919.GF7303@habkost.net/T/#u
+> On Sat, Nov 6, 2021, 5:39 AM Philippe Mathieu-Daudé <f4bug@amsat.org
+> <mailto:f4bug@amsat.org>> wrote:
 > 
+>     cpu_loop() never exits, so mark it with QEMU_NORETURN.
+> 
+>     Reviewed-by: Richard Henderson <richard.henderson@linaro.org
+>     <mailto:richard.henderson@linaro.org>>
+>     Reviewed-By: Warner Losh <imp@bsdimp.com <mailto:imp@bsdimp.com>>
+>     Reviewed-by: Bin Meng <bmeng.cn@gmail.com <mailto:bmeng.cn@gmail.com>>
+>     Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org
+>     <mailto:f4bug@amsat.org>>
+>     ---
+>     v2:
+>     - rebased
+>     - restricted to linux-user
+> 
+>     Supersedes: <20210905000429.1097336-1-f4bug@amsat.org
+>     <mailto:20210905000429.1097336-1-f4bug@amsat.org>>
+> 
+> 
+> Reviewed-by: Warner Losh <imp@bsdimp.com <mailto:imp@bsdimp.com>>
+> 
+> bsd-user likely needs similar treatment, no?
 
+IIUC this thread, not yet (I didn't want to get into your refactor):
+https://lore.kernel.org/qemu-devel/CAFEAcA-f=n6XHp5Cj7=tH8NWO1GLA50i34=5GyaHrZELyr0bjw@mail.gmail.com/
 
