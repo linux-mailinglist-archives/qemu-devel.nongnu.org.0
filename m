@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B3B54481FB
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 15:40:21 +0100 (CET)
-Received: from localhost ([::1]:36608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC88A4481F9
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 15:38:20 +0100 (CET)
+Received: from localhost ([::1]:58570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk5oq-00065z-A9
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 09:40:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59968)
+	id 1mk5mu-0001xe-3L
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 09:38:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mk5l4-0008A6-M6
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 09:36:27 -0500
-Received: from [2a00:1450:4864:20::535] (port=42562
- helo=mail-ed1-x535.google.com)
+ id 1mk5l8-0008Ao-7E
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 09:36:30 -0500
+Received: from [2a00:1450:4864:20::52e] (port=45617
+ helo=mail-ed1-x52e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mk5kz-00074v-BT
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 09:36:23 -0500
-Received: by mail-ed1-x535.google.com with SMTP id v11so60832124edc.9;
- Mon, 08 Nov 2021 06:36:20 -0800 (PST)
+ id 1mk5l6-000752-CO
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 09:36:29 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id f4so63060828edx.12;
+ Mon, 08 Nov 2021 06:36:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ENOdbTpjWaps6H1BTH69NWFKpPcyVeSjIgQ8RCGKNss=;
- b=hSiJ+4Aemx0rUvrzQzHgPd7p3v6g7psXhqaa2th5GiAwDwbsTh8QjPI1Ai9HO7lcEr
- l7viYS2MMEh66k/Wjs7mmduqnMmEiYo/vLfDyN7w/xc+nta8Wa49bbMnFwpQ8LBl37yS
- dI09kiPzah2vPEKLDoVOgFUY+8IBSSTRgqF6+Xaz5lYm/BP0Ft5n5D/OKR31D8dokfrf
- XteZOGogedWlUA2omiEWUXTiUXQulJjIFeyW+YE6Dukf9jXos6K8GKDfy8jEYiO2jVEo
- nWZdVlb0V5AIoQwZ6CeQ5oG+61n4aS75qjEWjSeWEJwTrAUGeN6Qe9/+P9r4+M+qRInr
- CL0A==
+ bh=iHdXttUuLkFsoOSClyINDmKVq/XLT1QrgFTuJJMJyxE=;
+ b=TBaChHeaIuFEoakPrA6HAwkPFPvxoGykxDzrm+8nf6binySVkdA/zRD5R1uHGAzSgm
+ j3l8cT0abL0f1I3nhkpmRk3fabSOAim2sd2WBcVZjDTHIpB0qAxFkb+wO5Hmzvf15VAD
+ e19aKxoMshdGORclKL+KsFboVKZyhc2g4g4ZtC+m7yze8Bq5UHlBaXrbTrLdo+rtOq1H
+ 2lwo48h0aotHRVqw7Adoc0JVFmgURlCovF3kzrZjcrBt0VF6p8UghWGjrDguUgd60Svz
+ N87rHRUpN/N+tWLpB9f18fz4wV6sx8Muwx2U/aWav4Xcda5jr9ao8TxRLsqnLvJmpqzo
+ ZwIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ENOdbTpjWaps6H1BTH69NWFKpPcyVeSjIgQ8RCGKNss=;
- b=Uol6ad6C5r/8opPITw5YGp3LeNEH9iwypKmAIhpEft/sb0a3h0WoCtYVl/l9Fp01zi
- AMkI4STcSfVGKNgUF9wZ+q4NM98WTBWYFFG7kqHmDK0462abv6ydnk6ST0HNA57loNb1
- D7AHjlztquAxYBDrF4HhANXs+TtHubof/Nk53+0Nl3HNtfwHlGdCaUuqUFiZ1bcTDTpD
- 2dxecrMbMrPWVt39NRFiM3DZ/TkVuKw4ZJJPYfzRjCIbWSqvqSFnCBuv4GQBe+U3andf
- FI0RnkeJxRHrbAfX9ZcXlKMzHgoCSgI4dDovdHG+JYvgx3KqzdXEPY3ZpLEdCzv5n9sK
- CPWw==
-X-Gm-Message-State: AOAM5338aO2u2HPjFvex0zX5ZG4wvUDDqpSkgTzY7qFLJyocWG+ryDLx
- m/EQPgvbNhrM0pYABiuOK5fQRymUq1w=
-X-Google-Smtp-Source: ABdhPJwvo4sXr96Qal0DWRqrDXiAF8fR8FX/BbXwKeRJHu3UyUKdrVp6YwjbavWueRf4k3JjF21LiQ==
-X-Received: by 2002:a17:907:9707:: with SMTP id
- jg7mr298174ejc.533.1636382179555; 
- Mon, 08 Nov 2021 06:36:19 -0800 (PST)
+ bh=iHdXttUuLkFsoOSClyINDmKVq/XLT1QrgFTuJJMJyxE=;
+ b=q4PsSCf/VnduFpkb2KwmqawISp+U31B1b9SHEDp4NrGgR8t93BzgCrlDBiBmEhLjER
+ KSG9FhEYY1UTb+ce44PgCHJEUsejLyKTPR7sma4uzvDdGYKlsMLo2Yq4v23fDB9a2q+e
+ l14HUypSke9qDQ+L/snLRsCuC+H9FY+0oHUyM0+1nw2L4zs09TmQHu3NB3SAla0wRVAu
+ nDxBxTopvpijxcmCwxcq/FjsvMUyviDTRkYURMJj4eBM/GVjbKnjB/TdjEgHqf67rXM0
+ ZkVX0LSI9iR4G8CWAPMxlwmhBaQDuAbdr2M0g/mrp6+cvD1+J3LuiUnaQEj3IAKS2JG8
+ cajg==
+X-Gm-Message-State: AOAM533UoTjjSZ+4YTIviNsaHIk622APaXN5KFyUY9lSIGd2bf6Dez9M
+ assx4DUMcWKtW1VQG/iM4sccPQErnPU=
+X-Google-Smtp-Source: ABdhPJwB8sHYJ8pHSMbitol+Yu5J4v3c4S6CLi/1i7CK7IJ7cnai5uOjlbYgRtENr8HyadEoTMPREg==
+X-Received: by 2002:aa7:c501:: with SMTP id o1mr82394edq.99.1636382180187;
+ Mon, 08 Nov 2021 06:36:20 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id hp3sm8366662ejc.61.2021.11.08.06.36.18
+ by smtp.gmail.com with ESMTPSA id hp3sm8366662ejc.61.2021.11.08.06.36.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Nov 2021 06:36:18 -0800 (PST)
+ Mon, 08 Nov 2021 06:36:19 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/10] target-i386: mmu: use pg_mode instead of HF_LMA_MASK
-Date: Mon,  8 Nov 2021 15:36:07 +0100
-Message-Id: <20211108143616.660340-2-pbonzini@redhat.com>
+Subject: [PULL 02/10] target-i386: mmu: fix handling of noncanonical virtual
+ addresses
+Date: Mon,  8 Nov 2021 15:36:08 +0100
+Message-Id: <20211108143616.660340-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211108143616.660340-1-pbonzini@redhat.com>
 References: <20211108143616.660340-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -87,42 +87,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Correctly look up the paging mode of the hypervisor when it is using 64-bit
-mode but the guest is not.
+mmu_translate is supposed to return an error code for page faults; it is
+not able to handle other exceptions.  The #GP case for noncanonical
+virtual addresses is not handled correctly, and incorrectly raised as
+a page fault with error code 1.  Since it cannot happen for nested
+page tables, move it directly to handle_mmu_fault, even before the
+invocation of mmu_translate.
 
-Fixes: 68746930ae ("target/i386: use mmu_translate for NPT walk", 2021-05-11)
+Fixes: #676
+Fixes: 661ff4879e ("target/i386: extract mmu_translate", 2021-05-11)
 Cc: qemu-stable@nongnu.org
+Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/tcg/sysemu/excp_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/i386/tcg/sysemu/excp_helper.c | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
 
 diff --git a/target/i386/tcg/sysemu/excp_helper.c b/target/i386/tcg/sysemu/excp_helper.c
-index 7af887be4d..492b777de9 100644
+index 492b777de9..5ba739fbed 100644
 --- a/target/i386/tcg/sysemu/excp_helper.c
 +++ b/target/i386/tcg/sysemu/excp_helper.c
-@@ -90,7 +90,7 @@ static int mmu_translate(CPUState *cs, hwaddr addr, MMUTranslateFunc get_hphys_f
-         target_ulong pdpe_addr;
- 
- #ifdef TARGET_X86_64
--        if (env->hflags & HF_LMA_MASK) {
-+        if (pg_mode & PG_MODE_LMA) {
+@@ -94,15 +94,6 @@ static int mmu_translate(CPUState *cs, hwaddr addr, MMUTranslateFunc get_hphys_f
              bool la57 = pg_mode & PG_MODE_LA57;
              uint64_t pml5e_addr, pml5e;
              uint64_t pml4e_addr, pml4e;
-@@ -287,7 +287,7 @@ do_check_protect_pse36:
-         *prot |= PAGE_EXEC;
-     }
+-            int32_t sext;
+-
+-            /* test virtual address sign extension */
+-            sext = la57 ? (int64_t)addr >> 56 : (int64_t)addr >> 47;
+-            if (get_hphys_func && sext != 0 && sext != -1) {
+-                env->error_code = 0;
+-                cs->exception_index = EXCP0D_GPF;
+-                return 1;
+-            }
  
--    if (!(env->hflags & HF_LMA_MASK)) {
-+    if (!(pg_mode & PG_MODE_LMA)) {
-         pkr = 0;
-     } else if (ptep & PG_USER_MASK) {
-         pkr = pg_mode & PG_MODE_PKE ? env->pkru : 0;
+             if (la57) {
+                 pml5e_addr = ((cr3 & ~0xfff) +
+@@ -423,6 +414,18 @@ static int handle_mmu_fault(CPUState *cs, vaddr addr, int size,
+         page_size = 4096;
+     } else {
+         pg_mode = get_pg_mode(env);
++        if (pg_mode & PG_MODE_LMA) {
++            int32_t sext;
++
++            /* test virtual address sign extension */
++            sext = (int64_t)addr >> (pg_mode & PG_MODE_LA57 ? 56 : 47);
++            if (sext != 0 && sext != -1) {
++                env->error_code = 0;
++                cs->exception_index = EXCP0D_GPF;
++                return 1;
++            }
++        }
++
+         error_code = mmu_translate(cs, addr, get_hphys, env->cr[3], is_write1,
+                                    mmu_idx, pg_mode,
+                                    &paddr, &page_size, &prot);
 -- 
 2.33.1
 
