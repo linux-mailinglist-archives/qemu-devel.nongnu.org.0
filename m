@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE33C4481FC
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 15:40:24 +0100 (CET)
-Received: from localhost ([::1]:36828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 639C1448201
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 15:43:15 +0100 (CET)
+Received: from localhost ([::1]:45146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk5os-0006EE-Qr
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 09:40:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60120)
+	id 1mk5re-0003S3-Iq
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 09:43:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mk5lB-0008Cj-KD
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 09:36:35 -0500
-Received: from [2a00:1450:4864:20::530] (port=35465
- helo=mail-ed1-x530.google.com)
+ id 1mk5l9-0008Bp-RZ
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 09:36:32 -0500
+Received: from [2a00:1450:4864:20::52d] (port=41743
+ helo=mail-ed1-x52d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mk5l6-00075V-Tc
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 09:36:33 -0500
-Received: by mail-ed1-x530.google.com with SMTP id g14so62715793edz.2;
- Mon, 08 Nov 2021 06:36:23 -0800 (PST)
+ id 1mk5l6-00075K-DA
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 09:36:31 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id ee33so63596319edb.8
+ for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 06:36:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IMrzXvnIk1qR4eTEctQSvN46IKqNzDDs2FkRHvk4hDE=;
- b=fdS6/5x6ivDFv6cxFvBXnHm5qqcSGjHWSzIFfGIZU+/KXgshSdR/ChqSvNgnCnIVlH
- QxIL8dNiaekF74qRPxAYrXUeJgzjMIgklA7EFO2Ag/05x0DZq6+9NWyeahK8Z0FT8tWe
- +EgfN8yiXBIYxLh8wJVKbZIMt19H9/WRGlwGnVnlZz+9x99ckWy02HWA/V8m2glHin7I
- wsnwy6Tun37t3ehMiHeY3wyzr/TWPE3pQeyL7Z5uSwQ2uiaTDbhlu1DwSaAR3nD9S2F0
- sjvzyea3OLg7QOHzeQUamaS3hCn33rl8yaKeiLQWn/VdY2FLMDkkjeb85cSB4v0czg+m
- ZYlg==
+ bh=0imeq6XwpJU8H3v5+Ve4y8cLcm+ED+v+MPUZI233d9w=;
+ b=QaZt+YAmBUW5a6MctBpHgI+tY2auSOap1a4K6O5Xgp6F1P8Dt4hJizjtM59eU4hGgM
+ 13QR7ejtjIH3PCesywXLOE41fidOtYTCGnxNuuFu007moCbdrKXaoNomtR2CfIITk240
+ V2zWMrha+/Bv8Q5HpYtPwLJiZlgBSF/VlpPcU3pMQd64v8CElsmgC+VXD0G0NkxRfS9/
+ +zuUhHxrJXkSnKaf16LXNjo8Ng6NvNTkTlDt2NBgXW9uGItkVCRdh73cIdGos+XLUbC9
+ ypWzOHwjO+FQy5pZAMvfeYeO5JJcCqST8br4VQLJR1g8kN97KMwsGuhB5jQXu96X1yhz
+ N3xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=IMrzXvnIk1qR4eTEctQSvN46IKqNzDDs2FkRHvk4hDE=;
- b=M8LYlWeFx0PdktK045vpKU7rzEDn1fkKY/E/PoTAWKkiL/rT5a6KUJipvrlOuy09QN
- rplWg46dkjEP52IFtm8YyOAitsHrkIm+PhAMuFTjWJ8SKTZ+OrvkVeXAVW/trSn1P7Ug
- +WEWAtpiUxmS5OOg7abI2aid7C/n+ttvfT/9R3LDNFmEbYIsSz2hXszIeo47GXb5nV+v
- glnIosyEvc9OhvUsKZIuuCwcwXBolaRag7BMn6C3TTUXqA88wCsTxHLdz2XYfhfZpWuo
- 1mNQ8zgMQ+SRZJCvpSmFplr1dseVi3GYj9kTnwJhLySn21TI2LM8SIKstfnT/uvrei/f
- Rk/w==
-X-Gm-Message-State: AOAM532WRAwgbVWR1wwFAvr4Q3VagFvWDC4STfGn46an0i7vc3cr+onf
- h5OBQttfzY1HWT6/84PzNwXFbMIxgUg=
-X-Google-Smtp-Source: ABdhPJy5+dqop0e+hGFQzKmu/ag6wPftxmd/6haBb1JFeL7P3IFUkNzVWIPfczYXcPHiGYqguYDcGg==
-X-Received: by 2002:a05:6402:424a:: with SMTP id
- g10mr104128edb.386.1636382180957; 
- Mon, 08 Nov 2021 06:36:20 -0800 (PST)
+ bh=0imeq6XwpJU8H3v5+Ve4y8cLcm+ED+v+MPUZI233d9w=;
+ b=dqClLsJhaMFDDH/c7ZlaXyuBwJGeuu7RMysKMKxqM9UgCqNn4MKjqgIwqLE9TMISnK
+ vMnagso0ILXpU/pcp3Yuv40GIxn1dLsWKfpsquae/2CrRW+mQf4XV23xfial31z36T+N
+ uZ8xVz/mFIv2BWdluePIIo25E8Sj7TSAVWqYvr3eM4KD10sgz393l8ssZbV+UQmvECSO
+ f8WfgdOJdU/lBtm7h1GA7i7ZZ2IHf42nfv2CjMc1qflbyVKsU6wGXeVxz0cVSdK0F7Wk
+ 7No53aW1gowAnQtin50MNUepXHmk4Qd/RS5r9jJeS8CzcFb2OV4F74TnIZ3Ld8c7NaqN
+ bKXA==
+X-Gm-Message-State: AOAM53316dLM4f3shn0rSDN5VyzxlVp6EwOvwNojuCJCghzS+K2zphKI
+ 4ffoXNCY+bGsKzo6cXxXOXJcyinohR8=
+X-Google-Smtp-Source: ABdhPJzeaGPyaF9QimNp3gyd+1HP+4cT9F5KMP3bTg8bVOVNok4Yw/xoFC6NKWqkZB2JbzsBDW23mg==
+X-Received: by 2002:a05:6402:520b:: with SMTP id
+ s11mr65088edd.213.1636382181513; 
+ Mon, 08 Nov 2021 06:36:21 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id hp3sm8366662ejc.61.2021.11.08.06.36.20
+ by smtp.gmail.com with ESMTPSA id hp3sm8366662ejc.61.2021.11.08.06.36.21
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Nov 2021 06:36:20 -0800 (PST)
+ Mon, 08 Nov 2021 06:36:21 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/10] hw/scsi/scsi-disk: MODE_PAGE_ALLS not allowed in MODE
- SELECT commands
-Date: Mon,  8 Nov 2021 15:36:09 +0100
-Message-Id: <20211108143616.660340-4-pbonzini@redhat.com>
+Subject: [PULL 04/10] meson: perform snappy test with the C++ compiler if used
+Date: Mon,  8 Nov 2021 15:36:10 +0100
+Message-Id: <20211108143616.660340-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211108143616.660340-1-pbonzini@redhat.com>
 References: <20211108143616.660340-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::530
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -88,53 +88,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>,
- Mauro Matteo Cascella <mcascell@redhat.com>, qemu-stable@nongnu.org,
- Qiuhao Li <Qiuhao.Li@outlook.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mauro Matteo Cascella <mcascell@redhat.com>
+Snappy is written in C++ and as such needs to link against libstdc++.  When
+linking statically, this means that the compile test cannot succeed unless
+performed with a C++ compiler.  Do so if link_language is set to C++; if it
+is C, the test will usually fail and snappy will be disabled.
 
-This avoids an off-by-one read of 'mode_sense_valid' buffer in
-hw/scsi/scsi-disk.c:mode_sense_page().
-
-Fixes: CVE-2021-3930
-Cc: qemu-stable@nongnu.org
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
-Fixes: a8f4bbe2900 ("scsi-disk: store valid mode pages in a table")
-Fixes: #546
-Reported-by: Qiuhao Li <Qiuhao.Li@outlook.com>
-Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/scsi-disk.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meson.build | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index e8a547dbb7..d4914178ea 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -1087,6 +1087,7 @@ static int mode_sense_page(SCSIDiskState *s, int page, uint8_t **p_outbuf,
-     uint8_t *p = *p_outbuf + 2;
-     int length;
- 
-+    assert(page < ARRAY_SIZE(mode_sense_valid));
-     if ((mode_sense_valid[page] & (1 << s->qdev.type)) == 0) {
-         return -1;
-     }
-@@ -1428,6 +1429,11 @@ static int scsi_disk_check_mode_select(SCSIDiskState *s, int page,
-         return -1;
-     }
- 
-+    /* MODE_PAGE_ALLS is only valid for MODE SENSE commands */
-+    if (page == MODE_PAGE_ALLS) {
-+        return -1;
-+    }
-+
-     p = mode_current;
-     memset(mode_current, 0, inlen + 2);
-     len = mode_sense_page(s, page, &p, 0);
+diff --git a/meson.build b/meson.build
+index 47df10afc2..6bfed294d0 100644
+--- a/meson.build
++++ b/meson.build
+@@ -197,6 +197,10 @@ add_project_arguments('-iquote', '.',
+ link_language = meson.get_external_property('link_language', 'cpp')
+ if link_language == 'cpp'
+   add_languages('cpp', required: true, native: false)
++  cxx = meson.get_compiler('cpp')
++  linker = cxx
++else
++  linker = cc
+ endif
+ if host_machine.system() == 'darwin'
+   add_languages('objc', required: false, native: false)
+@@ -1109,7 +1113,7 @@ if not get_option('snappy').auto() or have_system
+                            required: get_option('snappy'),
+                            kwargs: static_kwargs)
+ endif
+-if snappy.found() and not cc.links('''
++if snappy.found() and not linker.links('''
+    #include <snappy-c.h>
+    int main(void) { snappy_max_compressed_length(4096); return 0; }''', dependencies: snappy)
+   snappy = not_found
 -- 
 2.33.1
 
