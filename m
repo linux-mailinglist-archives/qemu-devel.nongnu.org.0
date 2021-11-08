@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A45E644978A
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 16:07:42 +0100 (CET)
-Received: from localhost ([::1]:44640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C87114497F1
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 16:14:17 +0100 (CET)
+Received: from localhost ([::1]:55936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk6FI-0005LL-Hv
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 10:07:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40626)
+	id 1mk6Lg-0000F7-G6
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 10:14:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mk6D4-00074W-F9
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:05:22 -0500
-Received: from [2a00:1450:4864:20::32e] (port=53767
- helo=mail-wm1-x32e.google.com)
+ id 1mk6H2-0003le-Uk
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:09:28 -0500
+Received: from [2a00:1450:4864:20::330] (port=39559
+ helo=mail-wm1-x330.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mk6D2-0000rb-Dy
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:05:22 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id y196so13261336wmc.3
- for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 07:05:18 -0800 (PST)
+ id 1mk6H1-0001RT-4r
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:09:28 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ b2-20020a1c8002000000b0032fb900951eso15318082wmd.4
+ for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 07:09:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Ql5fsGC2BUxNSBzDgc8T8XFScxX1pfeJjpPRVa2yXws=;
- b=p6RLzKoH5UAf6+nzghnDxSviAqaNxYJrnsUPmicNoRgLxrWMlONXQerAbIAsi020Z1
- TD8scPBG4219bIpD4e6LFtgsmp5EyJa+2IZdvAxYT7L0ZKsuWDMZHVC2MWcH7+PMfFSw
- 0+DX0F1GwiniGsll9PldCMu5GOFLrEjA398OywjAifPjh0ZclM3dg8Fee4KbssA5+7+b
- ewuJEbhjDaziKP0nUkomGzTtSWdq5mnSP2seDS1j+EHBqb63OPRfknsm3yXHfeOqglwA
- PmXrvsIUKNTi+eCdSiYatTfQOTVTkvYY/yQ0kjke+PTdQzwGgyRecS60fIX0D07VI3YI
- W8Jw==
+ bh=UHLYQ4urNCfUcwcMBJvUhX70LI/amoP09NMr1Xc8QsE=;
+ b=ZwXvSV+zCZiqsX83D6I37OJsy+IeqoeO9TEwIIDPo15RSWPiRTLox+5mzE/7f2YD+l
+ x77p4V4zgZspsXnsYeJIGou7SmZVKmlXmFifBcpXOf1JIw054h1V2x6a20/9STwJTcMg
+ hOEAZG/DmAVBmqZY055KVTphiI7T+I/4wc9CgTqcJOOMWgBjl/zYegcP71jDIxytC7UZ
+ hQV1LNSHGrmK+fyAvU6nBbQbkYzhoPGXZ6qXOlalTk3bHbEBXUm8GwMZS8tNpVCY/iRb
+ q20h3sHz21CMzocmh2NWkj/oE9m67QkuFdDe109JsTt89x4mDrgUIH4uvXeE0gKfVPyd
+ SjYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Ql5fsGC2BUxNSBzDgc8T8XFScxX1pfeJjpPRVa2yXws=;
- b=RmHnC+KKF4XnB6bHZn4TIqeGC/j+qwNWPFaavyHv4YBt6dYRGovIMgVzl/koup6mkS
- SeUhbt8knHq2Db3eu/KpszIh/syQFqg1cD1ty1V5i8s5cO/mzh8i9PeynermJ6XcZ325
- i/WsTI1x72PzUCKK9YdoDZtZNhaoQfQ9vZNC2UolmkKSA0uTMROXy31SFBZ8iAIfAJFh
- Pf+kmBL+21Gl5T27kXepBG5/Ht8P3veogkr+NSlgPhyW5pV4Eh8GP9yd3OKk89WYQ9Y+
- Wb0aljAFEzb/FnpLomi6P2qA/r8OH0ChqIGsPCtHOYhhcLqWdcjANHz50w7vHhRZbwLX
- ELVA==
-X-Gm-Message-State: AOAM5321eUM99Ofu2OlC0d1+IO2dYLi245qtGGLHCj07xAh1AQ8JiEWP
- JQnJqeN9wAoNtzKvPhIxojFTnp9CT0EyhNZz7IE=
-X-Google-Smtp-Source: ABdhPJzDmuu3aB9qqTq6ypitDdENtC0ezvEPG7IHyEoOUmHEwkKt91PhFaP2aZz3oCJjrxt0Ab6u3w==
-X-Received: by 2002:a1c:e906:: with SMTP id q6mr53663306wmc.126.1636383559037; 
- Mon, 08 Nov 2021 06:59:19 -0800 (PST)
+ bh=UHLYQ4urNCfUcwcMBJvUhX70LI/amoP09NMr1Xc8QsE=;
+ b=5RMcCtCKJ4XvJlAalLyQ0c9hnRnk0CnffU85BAIISxbsRdVFVxE/XtVfdjOfGoAJBZ
+ lR7e9RLrou9VRZCCqp7e/WRMPNzKRL1CK8th2dDd3F+He5Mqn30YDA18/DHGbaywcRp2
+ +2R0fwWdJ2bg2UvGo/vB3KO3+6DHBhZAoBPkyLFpYYA8CYylebdB9lId9YGnDZhnxxhE
+ I2wPn6cZLrcCp+1wT7EyH6OjG4/5fyv+XLt5bKlVNGyE38qTywo0/ZRHHvp+8dKQNTlZ
+ MvElP2D28VcA7/XplvJMWWny2kacvoC91LuV6rodzFFKb6e/Yf7VwilIUz8Gc3fuYU1v
+ hufQ==
+X-Gm-Message-State: AOAM531a7oKS7ltZcbPoENIfoF3GLkP4EToLFN/+Hh9iBQFDcooZSx2r
+ NHt/cR4SD00mTw7/Gu9jmJdhuUPQUeZmWmKthig=
+X-Google-Smtp-Source: ABdhPJwCvjJzbegZBm7B2UXCAEyjEH+EIs7AcLAe/FLUTGGEa3xzcxDAbVYWW3uAI0f1a8xfWZJnXg==
+X-Received: by 2002:a7b:c194:: with SMTP id y20mr61733wmi.61.1636383799572;
+ Mon, 08 Nov 2021 07:03:19 -0800 (PST)
 Received: from [192.168.8.106] (173.red-95-126-185.staticip.rima-tde.net.
  [95.126.185.173])
- by smtp.gmail.com with ESMTPSA id v191sm16347223wme.36.2021.11.08.06.59.17
+ by smtp.gmail.com with ESMTPSA id s13sm20250135wmc.47.2021.11.08.07.03.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Nov 2021 06:59:18 -0800 (PST)
-Subject: Re: [PATCH v4 00/10] target/arm: Fix insn exception priorities
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20211103040352.373688-1-richard.henderson@linaro.org>
- <CAFEAcA_xNteFJzgmGjmzpEZUNQnV8yiEHojL-ocsX4Zj0VamHQ@mail.gmail.com>
+ Mon, 08 Nov 2021 07:03:18 -0800 (PST)
+Subject: Re: [RFC 1/4] linux-user: Add host_signal_set_pc to set pc in mcontext
+To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
+References: <20211108023738.42125-1-imp@bsdimp.com>
+ <20211108023738.42125-2-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <575fdd6c-b1dd-6c9d-bcb8-91755d917052@linaro.org>
-Date: Mon, 8 Nov 2021 15:59:14 +0100
+Message-ID: <a8d259be-bf1e-79da-e4d1-ae4a4039ac5e@linaro.org>
+Date: Mon, 8 Nov 2021 16:03:15 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_xNteFJzgmGjmzpEZUNQnV8yiEHojL-ocsX4Zj0VamHQ@mail.gmail.com>
+In-Reply-To: <20211108023738.42125-2-imp@bsdimp.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -91,24 +92,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>,
+ Philippe Mathieu-Daude <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/8/21 3:16 PM, Peter Maydell wrote:
-> On Wed, 3 Nov 2021 at 04:04, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> Raise pc alignment faults.
->> Fix single-step and pc-align priority over breakpoints.
->> Not yet fixing insn abort priority over breakpoints.
+On 11/8/21 3:37 AM, Warner Losh wrote:
+> Add a new function host_signal_set_pc to set the next pc in an
+> mcontext. The caller should ensure this is a valid PC for execution.
 > 
-> Do you have a view on whether we should put this into 6.2
-> or hold it for 7.0 ?
+> Signed-off-by: Warner Losh<imp@bsdimp.com>
+> ---
+>   linux-user/host/aarch64/host-signal.h | 5 +++++
+>   linux-user/host/alpha/host-signal.h   | 5 +++++
+>   linux-user/host/arm/host-signal.h     | 5 +++++
+>   linux-user/host/i386/host-signal.h    | 5 +++++
+>   linux-user/host/mips/host-signal.h    | 5 +++++
+>   linux-user/host/ppc/host-signal.h     | 5 +++++
+>   linux-user/host/riscv/host-signal.h   | 5 +++++
+>   linux-user/host/s390/host-signal.h    | 5 +++++
+>   linux-user/host/sparc/host-signal.h   | 9 +++++++++
+>   linux-user/host/x86_64/host-signal.h  | 5 +++++
+>   10 files changed, 54 insertions(+)
 
-I think it's safe enough to go in.
-But it's something that has been broken since forever, so it could also wait.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
