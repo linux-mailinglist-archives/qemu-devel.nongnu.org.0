@@ -2,50 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52FBC4478EF
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 04:32:49 +0100 (CET)
-Received: from [::1] (port=48884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C6764478F9
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 04:54:16 +0100 (CET)
+Received: from [::1] (port=37270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mjvOq-0004eg-H4
-	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 22:32:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40044)
+	id 1mjvja-0000HL-Us
+	for lists+qemu-devel@lfdr.de; Sun, 07 Nov 2021 22:54:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mjv2F-0004IR-JK
- for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:09:27 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:55294 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mjv2D-0003jB-Fe
- for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:09:27 -0500
-Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9CxGdGflIhh9g8BAA--.2390S30; 
- Mon, 08 Nov 2021 11:09:10 +0800 (CST)
-From: Song Gao <gaosong@loongson.cn>
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mjvhd-0005z9-GD
+ for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:52:13 -0500
+Received: from [2607:f8b0:4864:20::12b] (port=39456
+ helo=mail-il1-x12b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mjvhb-0002nR-5m
+ for qemu-devel@nongnu.org; Sun, 07 Nov 2021 22:52:13 -0500
+Received: by mail-il1-x12b.google.com with SMTP id x9so15558748ilu.6
+ for <qemu-devel@nongnu.org>; Sun, 07 Nov 2021 19:52:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/P7DHk7irNoDbJzBM2HTDtprkCQhwO55Gk/PezxZmbc=;
+ b=0AEGLFpobfPvvhPbEN99QaodFOSoCbNhFKOQpf+oFIFCrPMAlFhF52k1w+xRmQRbQz
+ Vu3TD4Xr0WGR3MuXUA1/Wywh2ngolj7OwLj+v/iHRCfnzmV4Zewacr64EyAOgZK9pOaB
+ 4BHZjvACnAdqYxCByurwQ49KyAnEN+p+HR5FRgxhvRfiQ7w2HRYeDCtDfzsorQdyYbon
+ mK04mf2dsQKOgUtrTUAzPI2h+gBgvYJ8vuc3RiUGBf4NUuFWUVk8ZeOZjkYKOLdad5RF
+ 16RWuiQhFM+TAz25Z+YaIrrbabI6W6NlMzywVkumAsBFnE1LwXpE3PnKW7jZoyMc4mik
+ qupQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/P7DHk7irNoDbJzBM2HTDtprkCQhwO55Gk/PezxZmbc=;
+ b=trUM2XRwY00qoLwG8NXxDvsvr0iO41NhhhdFZ1zY/uh40+BbWMtkoHpJ43XPqMMLgQ
+ cxxLXT/egDtisT2oavN6Lj0O7/FvHkevX2lYp1QJw6jhrBKkwptJ3xfosZZAJJsCYaqt
+ C/kkuyDEU6xFYMIDyj6Vg76x/o5y47W+1LxwoYKYC/1rRq6XvtJh39XbdyYjBXYiJYdw
+ mIEGa18xs0kGeke72w3YqV01hMWiHbCOT+nq/MjzgpunwcxnOX3Pplpi/qAWJF+kY5rQ
+ g8wHqGw03EHSeXBQH7hDUL5izRbqOrVAKNgn/zCDD3F1ihJQc2I1Tdf5N1VxGKucm3fE
+ 7dvQ==
+X-Gm-Message-State: AOAM531l0mSi4Sr7MhCxdxe+voQ0t4WEWpTf1XB+IpMsAfG1hpaBW9xU
+ 98SaEjXhaEIBCMjpE0f0osWkVsHYe+BBag==
+X-Google-Smtp-Source: ABdhPJxw7MXOpQWqb9B5eoB7S3cmwIHEZhNwjJ/Wy8GUuNDXaAhNrWVSnuBmeL+KWgTPtOjFAbBJCg==
+X-Received: by 2002:a92:c8c6:: with SMTP id c6mr42752655ilq.54.1636343529704; 
+ Sun, 07 Nov 2021 19:52:09 -0800 (PST)
+Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
+ [50.253.99.174])
+ by smtp.gmail.com with ESMTPSA id x15sm876909iob.8.2021.11.07.19.52.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 07 Nov 2021 19:52:09 -0800 (PST)
+From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [RESEND PATCH v9 28/28] linux-user/host/loongarch64: Populate
- host_signal.h
-Date: Mon,  8 Nov 2021 11:08:15 +0800
-Message-Id: <1636340895-5255-29-git-send-email-gaosong@loongson.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1636340895-5255-1-git-send-email-gaosong@loongson.cn>
-References: <1636340895-5255-1-git-send-email-gaosong@loongson.cn>
+Subject: [PATCH v5 00/37] bsd-user: arm (32-bit) support
+Date: Sun,  7 Nov 2021 20:50:59 -0700
+Message-Id: <20211108035136.43687-1-imp@bsdimp.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9CxGdGflIhh9g8BAA--.2390S30
-X-Coremail-Antispam: 1UD129KBjvJXoWxXrWUGr1xJw17tFWfJFW8WFg_yoW5CF1DpF
- 43JrW8Grs7Xr9rGrs3Gryktr98GFn3AFWUGFyrKan5uFyjgw1rJrZ5KrWUKF98Wry8uFyS
- gFW2qr1ruF4jyaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12b
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::12b;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12b.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,115 +84,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: WANG Xuerui <git@xen0n.name>, Xiaojuan Yang <yangxiaojuan@loongson.cn>
+Cc: qemu-trivial@nongnu.org, Kyle Evans <kevans@freebsd.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ Philippe Mathieu-Daude <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: WANG Xuerui <git@xen0n.name>
+This series of patches brings in 32-bit arm support for bsd-user.  It implements
+all the bits needed to do image activation, signal handling, stack management
+and threading. This allows us to get to the "Hello World" level. The arm and x86
+code are now the same as in the bsd-user fork. For full context, the fork is at
+https://github.com/qemu-bsd-user/qemu-bsd-user/tree/blitz (though the the recent
+sig{bus,segv} needed updates are incomplete).
 
-Split host_signal_pc and host_signal_write out of user-exec.c
+v5 changes:
+   o Moved to using the CPUArchState typedef and move
+     set_sigtramp_args, get_mcontext, set_mcontext, and
+     get_ucontext_sigreturn prototypes to
+     bsd-user/freebsd/target_os_ucontext.h
+   o Fix issues with arm's set_mcontext related to masking
+     and remove an unnecessary check.
 
-Signed-off-by: WANG Xuerui <git@xen0n.name>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210925173032.2434906-30-git@xen0n.name>
-Signed-off-by: Song Gao <gaosong@loongson.cn>
-Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
----
- linux-user/host/loongarch64/host-signal.h | 83 +++++++++++++++++++++++++++++++
- 1 file changed, 83 insertions(+)
- create mode 100644 linux-user/host/loongarch64/host-signal.h
+We're down to only one hunk needing review:
+    bsd-user/arm/target_arch_signal.c: arm set_mcontext
 
-diff --git a/linux-user/host/loongarch64/host-signal.h b/linux-user/host/loongarch64/host-signal.h
-new file mode 100644
-index 0000000..7c333b2
---- /dev/null
-+++ b/linux-user/host/loongarch64/host-signal.h
-@@ -0,0 +1,83 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * host-signal.h: signal info dependent on the host architecture
-+ *
-+ * Copyright (c) 2003-2005 Fabrice Bellard
-+ * Copyright (c) 2021 Linaro Limited
-+ */
-+
-+#ifndef LOONGARCH_HOST_SIGNAL_H
-+#define LOONGARCH_HOST_SIGNAL_H
-+
-+static inline uintptr_t host_signal_pc(ucontext_t *uc)
-+{
-+    return uc->uc_mcontext.__pc;
-+}
-+
-+static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
-+{
-+    uint32_t insn = *(uint32_t *)host_signal_pc(uc);
-+    bool is_write = false;
-+
-+    /* Detect store by reading the instruction at the program counter. */
-+    switch ((insn >> 26) & 0b111111) {
-+    case 0b001000: /* {ll,sc}.[wd] */
-+        switch ((insn >> 24) & 0b11) {
-+        case 0b01: /* sc.w */
-+        case 0b11: /* sc.d */
-+            is_write = true;
-+           break;
-+        }
-+        break;
-+    case 0b001001: /* {ld,st}ox4.[wd] ({ld,st}ptr.[wd]) */
-+        switch ((insn >> 24) & 0b11) {
-+        case 0b01: /* stox4.w (stptr.w) */
-+        case 0b11: /* stox4.d (stptr.d) */
-+            is_write = true;
-+           break;
-+        }
-+        break;
-+    case 0b001010: /* {ld,st}.* family */
-+        switch ((insn >> 22) & 0b1111) {
-+        case 0b0100: /* st.b */
-+        case 0b0101: /* st.h */
-+        case 0b0110: /* st.w */
-+        case 0b0111: /* st.d */
-+        case 0b1101: /* fst.s */
-+        case 0b1111: /* fst.d */
-+            is_write = true;
-+           break;
-+        }
-+        break;
-+    case 0b001110: /* indexed, atomic, bounds-checking memory operations */
-+        uint32_t sel = (insn >> 15) & 0b11111111111;
-+
-+        switch (sel) {
-+        case 0b00000100000: /* stx.b */
-+        case 0b00000101000: /* stx.h */
-+        case 0b00000110000: /* stx.w */
-+        case 0b00000111000: /* stx.d */
-+        case 0b00001110000: /* fstx.s */
-+        case 0b00001111000: /* fstx.d */
-+        case 0b00011101100: /* fstgt.s */
-+        case 0b00011101101: /* fstgt.d */
-+        case 0b00011101110: /* fstle.s */
-+        case 0b00011101111: /* fstle.d */
-+        case 0b00011111000: /* stgt.b */
-+        case 0b00011111001: /* stgt.h */
-+        case 0b00011111010: /* stgt.w */
-+        case 0b00011111011: /* stgt.d */
-+        case 0b00011111100: /* stle.b */
-+        case 0b00011111101: /* stle.h */
-+        case 0b00011111110: /* stle.w */
-+        case 0b00011111111: /* stle.d */
-+        case 0b00011000000 ... 0b00011100011: /* am* insns */
-+            is_write = true;
-+           break;
-+        }
-+        break;
-+    }
-+    return is_write;
-+}
-+
-+#endif
+Warnings that should be ignored:
+   o make checkpatch has a couple of complaints about the comments for the
+     signal trampoline, since it's a false positive IMHO.
+WARNING: Block comments use a leading /* on a separate line
++    /* 8 */ sys_sigreturn,
+WARNING: Block comments use a leading /* on a separate line
++    /* 9 */ sys_exit
+
+Warner Losh (37):
+  bsd-user/mips*: Remove mips support
+  bsd-user/freebsd: Create common target_os_ucontext.h file
+  bsd-user: create a per-arch signal.c file
+  bsd-user/i386/target_arch_signal.h: Remove target_sigcontext
+  bsd-user/i386/target_arch_signal.h: use new target_os_ucontext.h
+  bsd-user/i386/target_arch_signal.h: Update mcontext_t to match FreeBSD
+  bsd-user/i386: Move the inlines into signal.c
+  bsd-user/x86_64/target_arch_signal.h: Remove target_sigcontext
+  bsd-user/x86_64/target_arch_signal.h: use new target_os_ucontext.h
+  bsd-user/x86_64/target_arch_signal.h: Fill in mcontext_t
+  bsd-user/x86_64: Move functions into signal.c
+  bsd-user/target_os_signal.h: Move signal prototypes to
+    target_os_ucontext.h
+  bsd-user/arm/target_arch_sysarch.h: Use consistent include guards
+  bsd-user/arm/target_syscall.h: Add copyright and update name
+  bsd-user/arm/target_arch_cpu.c: Target specific TLS routines
+  bsd-user/arm/target_arch_cpu.h: CPU Loop definitions
+  bsd-user/arm/target_arch_cpu.h: Implement target_cpu_clone_regs
+  bsd-user/arm/target_arch_cpu.h: Dummy target_cpu_loop implementation
+  bsd-user/arm/target_arch_cpu.h: Implement trivial EXCP exceptions
+  bsd-user/arm/target_arch_cpu.h: Implement data abort exceptions
+  bsd-user/arm/target_arch_cpu.h: Implement system call dispatch
+  bsd-user/arm/target_arch_reg.h: Implement core dump register copying
+  bsd-user/arm/target_arch_vmparam.h: Parameters for arm address space
+  bsd-user/arm/target_arch_sigtramp.h: Signal Trampoline for arm
+  bsd-user/arm/target_arch_thread.h: Routines to create and switch to a
+    thread
+  bsd-user/arm/target_arch_elf.h: arm defines for ELF
+  bsd-user/arm/target_arch_elf.h: arm get hwcap
+  bsd-user/arm/target_arch_elf.h: arm get_hwcap2 impl
+  bsd-user/arm/target_arch_signal.h: arm specific signal registers and
+    stack
+  bsd-user/arm/target_arch_signal.h: arm machine context and trapframe
+    for signals
+  bsd-user/arm/target_arch_signal.h: Define size of *context_t
+  bsd-user/arm/signal.c: arm set_sigtramp_args
+  bsd-user/arm/signal.c: arm get_mcontext
+  bsd-user/arm/signal.c: arm set_mcontext
+  bsd-user/arm/signal.c: arm get_ucontext_sigreturn
+  bsd-user/freebsd/target_os_ucontext.h: Require TARGET_*CONTEXT_SIZE
+  bsd-user: add arm target build
+
+ bsd-user/arm/signal.c                 | 196 ++++++++++++++++++++++++
+ bsd-user/arm/target_arch.h            |  28 ++++
+ bsd-user/arm/target_arch_cpu.c        |  39 +++++
+ bsd-user/arm/target_arch_cpu.h        | 211 ++++++++++++++++++++++++++
+ bsd-user/arm/target_arch_elf.h        | 128 ++++++++++++++++
+ bsd-user/arm/target_arch_reg.h        |  60 ++++++++
+ bsd-user/arm/target_arch_signal.h     |  88 +++++++++++
+ bsd-user/arm/target_arch_sigtramp.h   |  49 ++++++
+ bsd-user/arm/target_arch_sysarch.h    |   6 +-
+ bsd-user/arm/target_arch_thread.h     |  82 ++++++++++
+ bsd-user/arm/target_arch_vmparam.h    |  48 ++++++
+ bsd-user/arm/target_syscall.h         |  27 +++-
+ bsd-user/freebsd/target_os_signal.h   |   3 -
+ bsd-user/freebsd/target_os_ucontext.h |  44 ++++++
+ bsd-user/i386/signal.c                |  55 +++++++
+ bsd-user/i386/target_arch_signal.h    |  95 ++++++------
+ bsd-user/mips/target_arch_sysarch.h   |  69 ---------
+ bsd-user/mips/target_syscall.h        |  52 -------
+ bsd-user/mips64/target_arch_sysarch.h |  69 ---------
+ bsd-user/mips64/target_syscall.h      |  53 -------
+ bsd-user/x86_64/signal.c              |  55 +++++++
+ bsd-user/x86_64/target_arch_signal.h  | 103 +++++++------
+ configs/targets/arm-bsd-user.mak      |   2 +
+ meson.build                           |   2 +-
+ 24 files changed, 1214 insertions(+), 350 deletions(-)
+ create mode 100644 bsd-user/arm/signal.c
+ create mode 100644 bsd-user/arm/target_arch.h
+ create mode 100644 bsd-user/arm/target_arch_cpu.c
+ create mode 100644 bsd-user/arm/target_arch_cpu.h
+ create mode 100644 bsd-user/arm/target_arch_elf.h
+ create mode 100644 bsd-user/arm/target_arch_reg.h
+ create mode 100644 bsd-user/arm/target_arch_signal.h
+ create mode 100644 bsd-user/arm/target_arch_sigtramp.h
+ create mode 100644 bsd-user/arm/target_arch_thread.h
+ create mode 100644 bsd-user/arm/target_arch_vmparam.h
+ create mode 100644 bsd-user/freebsd/target_os_ucontext.h
+ create mode 100644 bsd-user/i386/signal.c
+ delete mode 100644 bsd-user/mips/target_arch_sysarch.h
+ delete mode 100644 bsd-user/mips/target_syscall.h
+ delete mode 100644 bsd-user/mips64/target_arch_sysarch.h
+ delete mode 100644 bsd-user/mips64/target_syscall.h
+ create mode 100644 bsd-user/x86_64/signal.c
+ create mode 100644 configs/targets/arm-bsd-user.mak
+
 -- 
-1.8.3.1
+2.33.0
 
 
