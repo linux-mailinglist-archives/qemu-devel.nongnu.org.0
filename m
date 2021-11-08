@@ -2,89 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF2D9448217
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 15:46:09 +0100 (CET)
-Received: from localhost ([::1]:51342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E26A3448651
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 15:52:56 +0100 (CET)
+Received: from localhost ([::1]:60756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk5uS-0007d3-UF
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 09:46:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33406)
+	id 1mk611-0005ov-SU
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 09:52:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mk5ra-0004xl-AF
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 09:43:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21882)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mk5rX-0000le-0T
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 09:43:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636382585;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=foqTTjpqHQY0zUTpt4aH8vtPssaszFfnkmMvglYI9D4=;
- b=cHsNXfDZRIDkOImzg+iDBA0bjYi1XmG+U+DNerxLFnGv+kL5CuIp1R6QakgmOT6JWXnE/z
- I5KZXznvKgxNcogoN/QG22ynTE/RKwrleUQwDU+qSNeK3n9i1L+2v0m0vRXCkpqI/2YeQf
- zVMrTIsiBSc8IfrAN3AH5Emf8BXwr2g=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-555-mFBuIW_fPcG8Qf0RJWSZKg-1; Mon, 08 Nov 2021 09:43:04 -0500
-X-MC-Unique: mFBuIW_fPcG8Qf0RJWSZKg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- o10-20020a05600c4fca00b0033312e1ed8bso1040wmq.2
- for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 06:43:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mk5yg-0004Z8-SK
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 09:50:31 -0500
+Received: from [2a00:1450:4864:20::435] (port=43531
+ helo=mail-wr1-x435.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mk5yb-0005c1-TB
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 09:50:30 -0500
+Received: by mail-wr1-x435.google.com with SMTP id t30so27339067wra.10
+ for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 06:50:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=VRzp0FWK8MYVZPdHdcEq6rLwLfL7m6N+xRuLlCo5WmA=;
+ b=ex3QiOh/4Hu71GdjoT9pJdao9Mje6JBDgCmjbmVVqrcBHzl37/fl2pkesOFN5yUtHM
+ lLOMs5ZczoQ2zeClt35NqfGJRVaQhKTmRfYzZsXWbLqy2yq634Uq+N1G36p58u5+napr
+ 4oxPAcANfQQqkHUcnwgNS/IOIbpdGX5yBDaJH/eJWHumK3SV2ahUGaDuYEpKJ4IK7iAh
+ FVAg80svdKptqw1pXGB6OQMRmpQ7pmQ0YCRhWvXEDFutE2i5dx1FKG/G/d2fr1DwNQeK
+ 6TfQC0bygdrFyJSgbgML12s8upnjvMY+y5jbL+s3PxzaKcfYbFDKmaFp9pviDHWLdf4S
+ Tp0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=foqTTjpqHQY0zUTpt4aH8vtPssaszFfnkmMvglYI9D4=;
- b=f/q34mVgcrTcyGtCVNQZfODWM9+j61P9bpx7byqtRBbiOWeKI8l01hCA7fPpp/XuSG
- clAZyFnR7DOyys/atfKY6KW2fRc9pAgulB7jOQhZzOo3yPV+hjWyv447Pze9XuAzfoCl
- NJWX5dw7NZ4avawWxjiaKQRVPIvX7KMFK07Z7d1VIRu+XgE5F5X2rHN2nvtr1/Oo42El
- upKRIKwalya+jKyjlLI9x/GQftSQP2J/o287vct604AuKzQ7ef3Z80vsFDB51VWtr1WW
- KMYUkKIGX8wgXDY7SQ+A36cuIZyF4BomFA7VvrRgXoUArEZhwMk6Es/2Dn6s4NX08/L5
- BYCg==
-X-Gm-Message-State: AOAM533SkyjUzdwvaijLQi1X7GSKLUrysCIu/oxkxgBKDNVPPRaor8Sm
- uX3R/q1Jnw+CYgSxawPm1kEn4RwERQG5beWU1fKU9DeKkimOpmBdTLIJNBkbjod1nPcmcPC0omY
- pbLKvjvk+vME28IQ=
-X-Received: by 2002:a5d:6351:: with SMTP id b17mr259629wrw.151.1636382583353; 
- Mon, 08 Nov 2021 06:43:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzV6TqnX9O+rsrcVRFJ10NG3Dp/2n5iayYSoVMENI5Mcd62AWukP49czi0a6xv8eRHGhkoDZQ==
-X-Received: by 2002:a5d:6351:: with SMTP id b17mr259599wrw.151.1636382583197; 
- Mon, 08 Nov 2021 06:43:03 -0800 (PST)
-Received: from [10.201.33.14] ([195.166.127.210])
- by smtp.gmail.com with ESMTPSA id o5sm2822667wrx.83.2021.11.08.06.43.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Nov 2021 06:43:02 -0800 (PST)
-Message-ID: <f7a0afff-d4a2-8056-c3ac-ab3a27cdd344@redhat.com>
-Date: Mon, 8 Nov 2021 15:43:01 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=VRzp0FWK8MYVZPdHdcEq6rLwLfL7m6N+xRuLlCo5WmA=;
+ b=rARSkDadBhxcYm0NMhpzu4RpzsHFE+sxQ/rHkvnZiPUQd4necvchWGZvsfaxlLN/u2
+ KwMqnTCNlQBvc/eM0EHA+aDpmsCo0AsHJ8nMOL7Z9eQTyWuKkda2I9ZWzCRsxHgRkkpW
+ AhhbLDbjadBbvs86+d+P4DG6ddmqZkbYjVI0xmltPrwp1IQ7jFm8zksXsl8ZBvXNS5kH
+ RtcVHXHRCpSh0uGg3TFB4tNyp9awvUzcYBIeieVtgpV5BT1I9t6AYqCAy0YAXEN3FsHH
+ NX/zPoshnBsPuX8J1ORw8BKv3Tl+vwDAVg7ADbt9v3jbdwGHWvTvkiWD2YQybJ3Ei5W5
+ vP0Q==
+X-Gm-Message-State: AOAM532Cf5dz+uFWhOsN3oV4tVQ+l5sRSwteWIDegyXSOzIpM9mfioPr
+ Sjj5u/QyvBFonP8BnlEPadtAuwrTN3XR5oLaR/toQQ==
+X-Google-Smtp-Source: ABdhPJxtX3T2eBi7TOquhLPU+qmkkYwK7igylD/oMGz/QOPMqvEMhUxeqjroz3AQ7QdN1bbyyJdz+h9aOdq4amLZgrQ=
+X-Received: by 2002:a05:6000:186e:: with SMTP id
+ d14mr347046wri.376.1636383024139; 
+ Mon, 08 Nov 2021 06:50:24 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 1/2] microvm: add missing g_free() call
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20211108130718.840216-1-kraxel@redhat.com>
- <20211108130718.840216-2-kraxel@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211108130718.840216-2-kraxel@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.06, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <07e63acb-b756-2586-2ba2-b54b837f7fc8@tribudubois.net>
+ <CAFEAcA89YQ_vN-JpCeB+L==F5g1hM=CNMBzjaf5c3EHF19NVyQ@mail.gmail.com>
+ <c8b89685-7490-328b-51a3-48711c140a84@tribudubois.net>
+ <d19f6d2c-7505-b326-3a67-48c336f111e9@tribudubois.net>
+ <dd45f94c-6110-7251-4f9f-5b4e1fbb73a4@tribudubois.net>
+ <e0a1b786-4b1c-c608-495b-3fb839de2376@tribudubois.net>
+In-Reply-To: <e0a1b786-4b1c-c608-495b-3fb839de2376@tribudubois.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 8 Nov 2021 14:50:12 +0000
+Message-ID: <CAFEAcA-DnbocsRHC3cUM_uX=kGn-KJa3q42TCyaB=isxKTS-Sg@mail.gmail.com>
+Subject: Re: Qemu and ARM secure state.
+To: Jean-Christophe DUBOIS <jcd@tribudubois.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,19 +87,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/8/21 14:07, Gerd Hoffmann wrote:
-> Fixes: CID 1465240
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  hw/i386/microvm-dt.c | 2 ++
->  1 file changed, 2 insertions(+)
+On Sat, 6 Nov 2021 at 18:11, Jean-Christophe DUBOIS <jcd@tribudubois.net> w=
+rote:
+>
+> One small question/remark:
+>
+> According to the the "Arm Power State Coordinate Interface" (DEN0022D.b) =
+document (chapter 5) PSCI calls can only be issued by "normal world" (EL1 o=
+r EL2). Therefore, should we be adding a test for the current secure state =
+in the arm_is_psci_call() function? This would prevent calling the built-in=
+ Qemu PSCI function if SMC is issued  from secure state.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+This shouldn't matter, because if the machine model is configured
+to execute guest code in EL3 at all then it should not be enabling
+QEMU's internal PSCI support. The internal PSCI stuff is only
+there as a kind of "emulated firmware" for when we're running
+guest code that starts at EL2 (notably, when directly booting
+a Linux kernel).
 
+The problem seems to be that fsl_imx6ul_realize() and
+fsl_imx7_realize() unconditionally enable PSCI-via-SMC.
+The imx7 code also puts all the secondaries into
+PSCI-powered-off mode -- this should be checked to
+work out what the right thing is if we're not doing
+emulated PSCI and instead starting the guest at EL3.
+
+-- PMM
 
