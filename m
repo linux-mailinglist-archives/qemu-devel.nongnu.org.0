@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A373A449894
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 16:39:56 +0100 (CET)
-Received: from localhost ([::1]:47592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 973E9449895
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Nov 2021 16:40:32 +0100 (CET)
+Received: from localhost ([::1]:49398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mk6kV-0007vx-AU
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 10:39:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50376)
+	id 1mk6l5-0000ia-Pa
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 10:40:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mk6gq-00055L-Kk
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:36:08 -0500
-Received: from [2a00:1450:4864:20::430] (port=45886
- helo=mail-wr1-x430.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mk6gl-0002Pz-Ls
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:36:08 -0500
-Received: by mail-wr1-x430.google.com with SMTP id w29so16040672wra.12
- for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 07:36:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EMZ7EECikOvT2TbTMZH0qREAomZCGRKfWgmiYWSDBUI=;
- b=mdSWwtLS7S7vyjJezf3bq3yKr4tQi+hetBbKXOHcEQ3qHkwAxrii+x4IQuNoEu2COF
- BB9rdHwkRko2PkdWTdm037H1g3npDNgsMy3Gkif1Q/U5fegIozwmhNKPKY5viDWBP5zY
- 9KbUPxxxFnts2Sn/RORGfBXnsNmwqTYcje5M5H8E4R6XVPbG2HpoFAEk9jdvqFm7PsaT
- 3U+W0fn2Wmhz2fSbtkbUaDvPspUNaS6iasR3u+KnpjjX1+z8i982KcpweITQisFpZp8F
- 7kHEstvz320h8T2hGJB6fD+NdgLeoRKI70K4KZ9NT3mAiCDhUHmh6HUpzglkJKIAv2VU
- 4uJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EMZ7EECikOvT2TbTMZH0qREAomZCGRKfWgmiYWSDBUI=;
- b=ySKUKNu5r94DibQM/4mkrqMMONKUn59r5FA6wxA2kUBddkYlbSmTYXGlYyJ+Juf1qL
- gLus9n8ClnqIrcEL0lAyJTlAopkgf87M+6jakmr3At3z1AN3aP8jxX5lwRy++1LUTxq0
- ygqSSxl457ifFnfSxP+Qsymij0SdRrIsBMoH9XfvEY0KpjTjD7X8bq0AQFTkl12NWNx2
- ArRUiC9gSZ8N0O1FaTqxgey5Z8TrGqZsUcuVSP7zJR+mp03+Vj6inIq3wPBlQQCCh3s2
- a9kZ+S1BMIGjPpQJgdE7e2vmPHN8iKCoqNcLHvJ6Wje/wiJKZI657CdFPrTcJAx6veub
- 0yJw==
-X-Gm-Message-State: AOAM532+m3quFOEY6VySbf1B7nG112j0yopZbhiSypr6GHKVyVkFDzqJ
- 8Px5OqpXeeniqy0IVfPr8MuEW/CWpHaGwSGuSgcflA==
-X-Google-Smtp-Source: ABdhPJyMYd+OUV8/qzhy6nHcjlm+rxtuYD77M8HszvJlQNrLt7boBfdKZGLq4jAqlpclvPm7yD50waW9wMdxECJjZZA=
-X-Received: by 2002:a05:6000:186e:: with SMTP id
- d14mr51478wri.376.1636385762325; 
- Mon, 08 Nov 2021 07:36:02 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mk6ji-0007kL-FM
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:39:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51820)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mk6je-0003Vf-DA
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 10:39:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636385941;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2dtoTIMc9coTp8ujK5cWHSpT1fR8T5J6y2XVwFDr2R4=;
+ b=Xa4AVeu5d/ZoDZ6xMRrsE1ZfGTFsqLWjYWALlpSacPfgSIOvEJdYInVlq5fxChYmdlokqb
+ IRZ97ALIojXjLmemhUzcEb4qUFHAmJOOSjPh++scqOA89v4+3w/28KhYtHCTfPMsotYJpy
+ 8KBkqC402jOWPERXe2diueKxRax0xlI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-542-OBEy6o-eNLKYS6BZTkV95g-1; Mon, 08 Nov 2021 10:39:00 -0500
+X-MC-Unique: OBEy6o-eNLKYS6BZTkV95g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84468101F002
+ for <qemu-devel@nongnu.org>; Mon,  8 Nov 2021 15:38:59 +0000 (UTC)
+Received: from [10.39.192.185] (unknown [10.39.192.185])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE8A960936;
+ Mon,  8 Nov 2021 15:38:58 +0000 (UTC)
+Message-ID: <837be094-8a70-b364-3f85-5e6af8c05304@redhat.com>
+Date: Mon, 8 Nov 2021 16:38:57 +0100
 MIME-Version: 1.0
-References: <20211108130718.840216-1-kraxel@redhat.com>
- <20211108130718.840216-3-kraxel@redhat.com>
-In-Reply-To: <20211108130718.840216-3-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 8 Nov 2021 15:35:51 +0000
-Message-ID: <CAFEAcA9h7FsqcG5L4abq=n1fRW6cZZHGJqH1de3e3R7OE+Aj9g@mail.gmail.com>
-Subject: Re: [PATCH 2/2] microvm: check g_file_set_contents() return value
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: Artificially target-dependend compiles
+To: Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <87czneyaw3.fsf@dusky.pond.sub.org>
+ <2e4b52b0-b1fc-58c5-9631-fbf9d7f927fc@redhat.com>
+ <87fss9u3zj.fsf@dusky.pond.sub.org> <87ilx3nk5p.fsf@dusky.pond.sub.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <87ilx3nk5p.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.06, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,42 +81,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 8 Nov 2021 at 13:11, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> Fixes: CID 1465239
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  hw/i386/microvm-dt.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/i386/microvm-dt.c b/hw/i386/microvm-dt.c
-> index ad4e48e5fe60..774e0bc7fef3 100644
-> --- a/hw/i386/microvm-dt.c
-> +++ b/hw/i386/microvm-dt.c
-> @@ -334,7 +334,10 @@ void dt_setup_microvm(MicrovmMachineState *mms)
->
->      if (debug) {
->          fprintf(stderr, "%s: writing microvm.fdt\n", __func__);
-> -        g_file_set_contents("microvm.fdt", mms->fdt, size, NULL);
-> +        if (!g_file_set_contents("microvm.fdt", mms->fdt, size, NULL)) {
-> +            fprintf(stderr, "%s: writing microvm.fdt failed\n", __func__);
-> +            return;
-> +        }
->          int ret = system("dtc -I dtb -O dts microvm.fdt");
->          if (ret != 0) {
->              fprintf(stderr, "%s: oops, dtc not installed?\n", __func__);
+On 08/11/2021 09.09, Markus Armbruster wrote:
+> Markus Armbruster <armbru@redhat.com> writes:
+> 
+> [...]
+> 
+>> I just ran into an instance that may be clearer.
+>>
+>> The "rocker" device is target-independent (hw/net/meson.build adds it to
+>> softmmu_ss), but linked only for selected targets (hw/net/Kconfig has
+>> depends on PCI && MSI_NONBROKEN).
+>>
+>> This makes our build machinery put CONFIG_ROCKER in
+>> $TARGET-softmmu-config-devices.h, and poison it in config-poison.h.
+>> Feels uncalled for.
+> 
+> Hmm, maybe not.
+> 
+> Our build process links the rocker stuff for selected targets.
+> 
+> The QAPI schema provides rocker definitions unconditionally.
+> QAPI-generated rocker code gets linked for all targets.  The
+> command handlers resolve to the real ones when on the selected targets,
+> else to stubs.
+> 
+> This works and is fairly simple.  We link a bit of useless code
+> (QAPI-generated and stubs).  query-qmp-schema can't tell us whether
+> rocker is present, which is sad, but there's a work-around:
+> qom-list-types.
+> 
+> We may still run into cases where we really want query-qmp-schema to
+> tell, say because there is no easy work-around.
+> 
+> Making the QAPI schema definitions properly conditional does the trick,
+> but makes code artificially target-dependent, slowing down the build.
+> It can also lead to extra #ifdeffery, because now useless code doesn't
+> compile anymore.
+> 
+> Simply not poisoning the CONFIG_FOO when the FOO code is actually
+> target-independent avoids the target-dependency, but also messes up
+> introspection: new the FOO stuff is present for all targets when *any*
+> of them has it.  This cure feels worse than the disease.
+> 
+> Needs more thought.
 
-Side note -- rather than invoking dtc from QEMU like this, it
-would be more in line with the way other machine types deal
-with debugging of autogenerated dtb files to support
-"-machine dumpdtb=file.dtb" and let the end user decompile
-the dtb themselves.
+Hmm, we used to have a config-all-devices.mak file in the past (see commit 
+a98006bc798169e which removed it), maybe we could re-introduce something 
+similar again, but producing a config-all.h header file instead? So that 
+this header file contains switches like CONFIG_ANY_ACPI_VMGENID and 
+CONFIG_ANY_ROCKER that are set if any of the targets uses the device ... and 
+these switches would not get poisoned in common code... ?
 
--- PMM
+  Thomas
+
+
 
