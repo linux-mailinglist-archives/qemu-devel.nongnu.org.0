@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A0244AA6D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 10:18:06 +0100 (CET)
-Received: from localhost ([::1]:38268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CF7D44AA62
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 10:15:49 +0100 (CET)
+Received: from localhost ([::1]:60200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkNGX-0007Gn-7j
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 04:18:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39292)
+	id 1mkNEK-00030y-Be
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 04:15:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mkNBc-00073Y-OP; Tue, 09 Nov 2021 04:13:01 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:53411)
+ id 1mkNBi-00076E-Cd; Tue, 09 Nov 2021 04:13:07 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:50001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mkNBa-00058i-4N; Tue, 09 Nov 2021 04:12:59 -0500
+ id 1mkNBa-00058k-Tj; Tue, 09 Nov 2021 04:13:05 -0500
 Received: from quad ([82.142.14.190]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1N9dbx-1mhVQH1Qlp-015ZRj; Tue, 09
- Nov 2021 10:12:52 +0100
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MMX9b-1n2ro346op-00JX6v; Tue, 09
+ Nov 2021 10:12:53 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/6] meson: Fix 'interpretor' typo
-Date: Tue,  9 Nov 2021 10:12:36 +0100
-Message-Id: <20211109091238.817997-5-laurent@vivier.eu>
+Subject: [PULL 5/6] tests/qtest/virtio-net: fix hotplug test case
+Date: Tue,  9 Nov 2021 10:12:37 +0100
+Message-Id: <20211109091238.817997-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211109091238.817997-1-laurent@vivier.eu>
 References: <20211109091238.817997-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:TtJwTnCxONuZt8znPcHHQdywr9N64GWNKm8l8BcmBE0crn8siIZ
- NNgpmILpKLfMh0A3MlUfTK9wl9KnPa7979oWytJ8oj17fcsla6yvjPg2A2jTx+gxQ60xzfp
- W/zEOnJV9yjs5QkpvJz96EmuXnOT4/55p8bk3FlhEM4x0VDEQyGzczDqsC8L60IWiUFJfCD
- Pq+kX72vFVu8BiNNjHBIg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:3h2T8twt83Q=:uE5iOpuH1pkNYlqdupdcah
- tB/Ov2DuyBxcr75Gp7lbXodHf2zOvfAzH7iJqGVVjJWBDnoSeX3RQs2Rc8wKd1xEOnhN4eQmQ
- lxtjoIBgw0veFL1G19clhPssGmuKCQR7LYyRdVuqPTCpbtjlxc8EMatV1WQ191JIlZiBrmj77
- 95PTy9Io5hw6YMz4pDxH/if/1RzapGCHoSugjfFl3O6ylOoef6/Ainm4GwyLgemK4SR/yC8SA
- trk+SlNM2EiPk6OFvL/86kKche6qdD1a8zi4+CTBgSP5n4JcWlFu0Zj4iHoy0OmV80xFt8GlM
- ldt2BEUw7bCvMjoY/8hrD+dy3tZOVM9myOP9Q7SmdTldEhxj4KqnANYoqm41LzDe+b2y7UEUl
- jNRCaZpklbBjR58ojgh/IkuucKp6nC24AJIw3+M03QV7XKzJAfNDEkeFNf9NA4ndWSUnxdT6M
- 4Jts5lfcPFgQvZkEq6YKVzFItDlqPyyf1y+sQ1eeOVIcN7VcF78pxWAK+kGRfZlz8p6XNVDdd
- w9rC3lKPMDHNyXHgZCJZLW0nD7Ca5K1E4vxwswTK/L0pi9AqziOQVfKVGjDDT6T3hbOBHK0bj
- llYH9wjV70efkdSQLE4oZ5EWWTcUXJCyp16uDUeonso6pbNtihYqqynZErYNvvCCrmUqyPkre
- 8/F84rQP9YHvvpOOFIsmYmD4bIpcPE6gU4tLq6Y59Hx60e3674JVmPGJ//uGcrL1FKp4=
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:s7G/o5rG6ME0gS7ziVPIsjhiZtcvJRxLpWUZbJXdC4uEx7OBoSe
+ i7kq4txyxyQwwE5vojTBV8SbobL50Bj+2GISlfMnGftehK5D9F/hp+VppxmFGhKqKnUBbMt
+ DUyXyFTIlK5ZIf7aGxN+72Ry2Tv/XNy7eIbtvqOIbM/bcO9PsJVi37fgGQuwqcoh/YtDjeq
+ tzOszhPDHuo4i/3k6GrCw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:iK+nkuISu8U=:Wskyrunjxzy9+8LGEtdgSh
+ F2dQbdKUMTb5gQ7044Sj5KFJ7cNI3EWsr3DZCcNnwJ2zQl69Dv6oyPO/BWGOBoWCcoYCjKyzT
+ k5LPMwtoFic54zRZ6atWTbInxQSaO9g3Kuav55HZU5RBniTnUGtrr7+33Y9YOVfAOVG2wE2xA
+ IHu+89Zukh8NQZ8NlsVEC02ziaE7UGlC4tbqx370wRoImkJItH5Zpp6/YgCFFgh64rluJ3Gq5
+ 5TuGDSwGcve/Vh1PnzZ3F9lSxGgn+t4Tlh4KZ6IADaQpMBY7RNaQbEeV6f7Q6R0ir9SskF2t3
+ visjZuP7YUPVs/mDP2Gz+n20AQDmD+Z7JxqvGdAIB13KVo4+dIF0tlH2q4meVYdNS1eDVCkD3
+ xPrcTv1VTXnaNtmrNRkty6wcLz5Ih4wmRsOtxP0iUjeHKEECRM8fzNFIrD/Nx3hkwRu6kZCHz
+ EHuv3DPoxL8XGggOyghhqvt7hoY9pij5rZg0SZSBEJW4TYwZwusaY1jQeonOiHnOsRvEQgsd3
+ qmbwLjsTIlTtcjIAM9ih3WWLnGnXWlYm1LmuYorzM1nRcfYFmRYVQAx/nd185Am/zdp0OiZyf
+ jOYHeo7e+Vj9Lg7PQNYdy1nbkuUQEUcp25SMHh/jH8jcwXrpixj/KO2SnLiozybZEP9lV0J02
+ TKs3IbGDWbZEt0LcO/LgIpjn0Kp6Oh8WrdggmONj/02WahSudrDZ5qPhZ0WGCq43fLvo=
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -65,39 +64,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
 
-Fix a typo from commit fa2f7b0b9b7 ("meson: Warn when TCI is
-selected but TCG backend is available").
+virtio-net-test has an hotplug testcase that is never executed.
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20210521103423.2780345-1-philmd@redhat.com>
+This is because the testcase is attached to virtio-pci interface
+rather than to virtio-net-pci.
+
+  $ QTEST_QEMU_BINARY=./qemu-system-x86_64 tests/qtest/qos-test -l | grep hotplug
+  /x86_64/.../pci-ohci-tests/ohci_pci-test-hotplug
+  /x86_64/.../e1000e/e1000e-tests/hotplug
+  /x86_64/.../virtio-blk-pci/virtio-blk-pci-tests/hotplug
+  /x86_64/.../vhost-user-blk-pci/vhost-user-blk-pci-tests/hotplug
+  /x86_64/.../virtio-rng-pci/virtio-rng-pci-tests/hotplug
+  /x86_64/.../virtio-scsi/virtio-scsi-tests/hotplug
+  /x86_64/.../virtio-serial/virtio-serial-tests/hotplug
+
+With this fix:
+
+  $ QTEST_QEMU_BINARY=./qemu-system-x86_64 tests/qtest/qos-test -l | grep hotplug
+  ...
+  /x86_64/.../vhost-user-blk-pci/vhost-user-blk-pci-tests/hotplug
+  /x86_64/.../virtio-net-pci/virtio-net-pci-tests/hotplug
+  /x86_64/.../virtio-rng-pci/virtio-rng-pci-tests/hotplug
+  ...
+  $ QTEST_QEMU_BINARY=./qemu-system-x86_64 tests/qtest/qos-test -p /x86_64/.../virtio-net-pci-tests/hotplug
+  /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net-pci-tests/hotplug: OK
+
+Fixes: 6ae333f91b99 ("qos-test: virtio-net test node")
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20211028173014.139692-1-lvivier@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- meson.build | 2 +-
+ tests/qtest/virtio-net-test.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index 6bfed294d07b..9702fdce6d03 100644
---- a/meson.build
-+++ b/meson.build
-@@ -340,7 +340,7 @@ if not get_option('tcg').disabled()
-       error('Unsupported CPU @0@, try --enable-tcg-interpreter'.format(cpu))
-     endif
-   elif get_option('tcg_interpreter')
--    warning('Use of the TCG interpretor is not recommended on this host')
-+    warning('Use of the TCG interpreter is not recommended on this host')
-     warning('architecture. There is a native TCG execution backend available')
-     warning('which provides substantially better performance and reliability.')
-     warning('It is strongly recommended to remove the --enable-tcg-interpreter')
+diff --git a/tests/qtest/virtio-net-test.c b/tests/qtest/virtio-net-test.c
+index a08e2ffe123f..8bf74e516cce 100644
+--- a/tests/qtest/virtio-net-test.c
++++ b/tests/qtest/virtio-net-test.c
+@@ -319,7 +319,7 @@ static void register_virtio_net_test(void)
+         .before = virtio_net_test_setup,
+     };
+ 
+-    qos_add_test("hotplug", "virtio-pci", hotplug, &opts);
++    qos_add_test("hotplug", "virtio-net-pci", hotplug, &opts);
+ #ifndef _WIN32
+     qos_add_test("basic", "virtio-net", send_recv_test, &opts);
+     qos_add_test("rx_stop_cont", "virtio-net", stop_cont_test, &opts);
 -- 
 2.31.1
 
