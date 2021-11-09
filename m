@@ -2,149 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C25A44B207
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 18:33:28 +0100 (CET)
-Received: from localhost ([::1]:56684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D84244B1C9
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 18:15:25 +0100 (CET)
+Received: from localhost ([::1]:55992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkUzu-00071d-Lz
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 12:33:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38934)
+	id 1mkUiR-0003bz-Kz
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 12:15:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mkUyM-00068f-VG
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 12:31:50 -0500
-Received: from mail-eopbgr20108.outbound.protection.outlook.com
- ([40.107.2.108]:44655 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
+ id 1mkUh3-0002rp-DX; Tue, 09 Nov 2021 12:13:57 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:13758
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mkUyJ-0003fZ-7e
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 12:31:50 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G/ZHXaRjlYrsUj3AsrB2wLEOsPkowSkiMxyWQLj6Ri1LqekI1q8eO9QqCe6bDtygkboaVRT6XNMykMmLb8O91nmt2Ad8L9v0QMies4op+TR1GRPduqTb+yATE8udLBajxNcIxZoFlqkH1ePmXWKMYMgsPiLPc2EAQou0qcyWTrlqoUg9SWCGuX1GDPQR1Zb1piMGnWgk3SzPXGwmrHkpnXF6LDYrEyfIMVXAQoLCMP5wpTL8lhb1cfutJNKlxcoMlegDtxohWrdTVOZ+/TG1NvEgFgDRM6uF4sPYkf4z937yAB0M21KZHI3UuIcIR0+G8jNi9w6WZhIvFSCPRVZKFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6XfpK1pfzrLuxC7NhPtFotPf8Z2dZKLu1iZeSDFoyOI=;
- b=XnkGlTHZnGkrfhRzec7ykOvX8b5syVa6LQaswp3Nih+MkQgUDq0gZHG3SKn+eO9Jdl+q4ZumeHkSCUa1v4jCPmD76qZ+Xfwjy4vPW9rSRNoBeIkOmX1DOqftt34wQ366D7nRC4y0CtHn8n3eoHcPHWjTdabq19EjQyaXz7xaGeIyhqQm/Ib5G9qM+Bpj+o+ucp7bpY4qC2D7lTeAZr4OK4bmEcD5WLVU4eejK93SiVN0I182CEnDGdvxm71xKrpYKLJ1NNYKpeFqBnCxL9/o7fUyDhaSdJeBPJDZjnTrvelOI9XUWqtdDBYP4tLqS2IvVbTRXiGWV25WtoFS7GAbMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6XfpK1pfzrLuxC7NhPtFotPf8Z2dZKLu1iZeSDFoyOI=;
- b=IyKbmiOoYinAfwA8M5YuS5J9bNwJctOFhVclzT0X25KXyXvx1GHuVnH3wflhQgHrJBk81EVuuMrDsbhjSvaRMVxrALd+55FsezLeIT4X7ZwyQk6IQrldLDETfThVl391/ynvkNNjfSADZcYDzDlYfdRjrJk25zap4DkHNKoNdO4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5334.eurprd08.prod.outlook.com (2603:10a6:20b:10b::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.15; Tue, 9 Nov
- 2021 17:11:21 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a994:9f7c:53a5:84bc]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a994:9f7c:53a5:84bc%5]) with mapi id 15.20.4669.016; Tue, 9 Nov 2021
- 17:11:21 +0000
-Message-ID: <4f4037a7-b729-b086-e663-276b827eefe0@virtuozzo.com>
-Date: Tue, 9 Nov 2021 20:11:19 +0300
+ (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
+ id 1mkUh0-00073T-Ot; Tue, 09 Nov 2021 12:13:57 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A9GD9Re010070; 
+ Tue, 9 Nov 2021 17:13:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=BCYtxosDTuMW4K/xFm6/oHZ0Nn9bQjObYWHj53C61dg=;
+ b=okeoMPIDzHJ+cx8Wqq7xLlnZJ6M8f0Lw8s4xl+3y3q54kFS4+G5EjzzCc/UAoukeT/3M
+ PnA5FuqMbR/qlFnLO/PTdXZwQP6kXuGkU+WO3ZUF5jh/WrTmKoJoCP/iuIxKK1hCrYt8
+ aOJgHxFTFhEAlzV7g0vlEo9KA9ZjyoOaEgSr/1rTZgmgYpSWXMaVPzmRWAYv9+d84KD5
+ xof4D1pE1axcOI0/wtneHAUIn0n++KUY/WqG5i0Q5/a66bdvmc6UxCyXX6thLggemdDY
+ lHlLRproY04rn+DABqZ0CacvJd1+0JuMSv0ZzD7ihqAbIElxh7/VDLeIadsJenBI9HlL Qg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3c7vak9m3h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 09 Nov 2021 17:13:52 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1A9GEbJB017723;
+ Tue, 9 Nov 2021 17:13:52 GMT
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3c7vak9m38-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 09 Nov 2021 17:13:52 +0000
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1A9H8e1N028361;
+ Tue, 9 Nov 2021 17:13:51 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma01wdc.us.ibm.com with ESMTP id 3c5hbb5a9p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 09 Nov 2021 17:13:51 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
+ [9.57.199.108])
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1A9HDp4D47710540
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 9 Nov 2021 17:13:51 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 04A3EB2064;
+ Tue,  9 Nov 2021 17:13:51 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A93BAB205F;
+ Tue,  9 Nov 2021 17:13:50 +0000 (GMT)
+Received: from [9.160.104.209] (unknown [9.160.104.209])
+ by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+ Tue,  9 Nov 2021 17:13:50 +0000 (GMT)
+Message-ID: <230ea036-965f-b3a8-d90d-74dafe49a939@linux.ibm.com>
+Date: Tue, 9 Nov 2021 12:13:50 -0500
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v4 5/5] block: Deprecate transaction type drive-backup
+Subject: Re: [PATCH v2] s390x: kvm: adjust diag318 resets to retain data
 Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, eblake@redhat.com, jsnow@redhat.com,
- marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com,
- libguestfs@redhat.com, libvir-list@redhat.com, berrange@redhat.com,
- pkrempa@redhat.com, kwolf@redhat.com
-References: <20211025042405.3762351-1-armbru@redhat.com>
- <20211025042405.3762351-6-armbru@redhat.com>
- <c505d2d8-955d-7c64-b769-80ed40428ed5@virtuozzo.com>
- <87ee7wh3m6.fsf@dusky.pond.sub.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-In-Reply-To: <87ee7wh3m6.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Janosch Frank <frankja@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20211108211311.33834-1-walling@linux.ibm.com>
+ <430b5c19-73dd-a006-8999-925fd757dbe2@de.ibm.com>
+ <548d32dd-e087-9068-26c4-5facb44392a9@linux.ibm.com>
+ <d02aef01-f620-2094-ce79-976ed1635d1d@linux.ibm.com>
+ <a7cbf646-0ad6-e33d-3e32-ce2400e2f96f@linux.ibm.com>
+From: Collin Walling <walling@linux.ibm.com>
+In-Reply-To: <a7cbf646-0ad6-e33d-3e32-ce2400e2f96f@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0029.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1c::22) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
-MIME-Version: 1.0
-Received: from [192.168.100.10] (185.215.60.243) by
- FR3P281CA0029.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:1c::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4690.4 via Frontend Transport; Tue, 9 Nov 2021 17:11:20 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b3b76ca9-0e04-47c8-dead-08d9a3a3f388
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5334:
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5334C498376120A653FCE10AC1929@AM7PR08MB5334.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KJv4QbG8a78nvCzUsOtVVj+FWcmRFuWNougUOT/B3gQf/3YiwZ+uIK+m2xlGcpUELzhA+fk0Ju0Lcr8l69IZh3odVJAp/iKdjNYwd+AvFBvHjHZbqqMTa7RKCdhRSlYzAvKoVxA9vJLjKugte1vCEqoNQEDa7L3U4eAvloMxym22m6VZCzgM7CF4T7tDlpHxfvbAm+m1NcAdyxAXfRuZHXblXqvyTY5huE4uXnbB1beRZs0Kzpp6zbijakmdnytO27taPniKSMeaUYOQJH2TUyjyBQIANXL0cu3w0X2wYO3TGvEJQy2J3MAGfqay9rP2k9DGB5z4ZFkdDmpFkJLlGFk9sQEGn3tFyakXBOLfFsv/bI2dyJNJgbMTDt0mm251H3no8XgMCXKvWbAnnEOx0PciWPtLE4AlpiUsYD0JK4JKEK+pLZs24MEB47t9O9OWRNPKSxjNB1/tu7tIdscmXCCi5TSuZHjt/QMpA/F4aswj6P/o+32AuFs46zk3zPQIzHHJP+qr6T2WdYSQvxRvh4hzJfoDz+TjWSaPbqXiCgOGyv58EZiXS1+c8W0LhwNuzGQuMnW33mJL+MV5MsoN35+Sl4qcmGWskpxmurX5zxc9RYCN2G9zTMSXDz0M0P0wTsvDg99vx/pFTFh0tF5TLbOhhcfJWtM+c8EfeWLxML5b0eQWYrxb4XnxlVGBuiDqEzyuVK+DPsUsc1ETUtFsN+KKKJ5GnI3fVbLg6kSO7MBwkkSAMLFfUzbDKd4B8hWoAcSuCY7p7dEvYtCCju1tNP/enTt5jcoW4wY9hfXfqs0m2Jy3ZnsOKiHCT39xj5A0iw+GiqUGnlrHQVBW8JJrRFIqyQgkmVv8VShEnGJ6VQ0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(4326008)(2616005)(966005)(6486002)(956004)(26005)(16576012)(316002)(5660300002)(31686004)(2906002)(52116002)(66946007)(66476007)(66556008)(31696002)(186003)(6916009)(8676002)(36756003)(38100700002)(86362001)(83380400001)(38350700002)(508600001)(8936002)(7416002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d00vdXRaeFdtRWN4VFY0MlRmM0drVXE5Qnp5dUk2cFdQM0dNNS9saGlJSGNX?=
- =?utf-8?B?clQ5NTJlTHpKWER3bXRyM3pkRVRHdVVLRlZrRnhFYUo5R250OUYyMS9LN1h5?=
- =?utf-8?B?OXpxSlpBMVc1TGQxU25OeCs1aWl5bVoxRnFiM1JJSGpxS09NM1Fxc1lhcW1a?=
- =?utf-8?B?VlhmYWIyTlZYcHR2UXlzbmFIa0Q2TU0zaG9yblZ0MVdYaFVBZ0FFcytIVmFE?=
- =?utf-8?B?T3c4NEVuZ1hLL1ZLOU52ZnBmWnVKZXp3LzFjdHIxQUxBRWs1NTY5YXZ1Yjh4?=
- =?utf-8?B?Nk5CRkNha3pCcjVmeU1RMXE4MmlKVnNhd2xicHRaQzBmM0JBWkkyME1zckIw?=
- =?utf-8?B?YUZXbGN3RytZSHQvaTVseFVvNVdFeWJ0K1BCUkV0dzlkQzNkM3lweVNiVG44?=
- =?utf-8?B?NEdNTCs5ckRJTXdLTnMwY3VRV0t4Wk9ZTW5zanZQWjc0eU9lZVNQdmdBWUNs?=
- =?utf-8?B?K0lqUjBDaTdZb2p4bGNqZW9pM2ZpWVlqTWZjcnhIcXI5OE9nUWJ6QUkwNmtZ?=
- =?utf-8?B?MW1pdWZhaWMrSkdtRWNQL3N5VVFYSXROTktQaVZQVnpMUDlrOHFSUFg4VDgz?=
- =?utf-8?B?QTh2cHJSWjJJMlpTODN1dlZQOGN6K2FjQWRRbDIrM2hkNzh4QmU4ejJBMDgx?=
- =?utf-8?B?b3ZIUWhIbHN1Y2p1K3lTYnZFRjZHS251b2srMmJQckhnUVIyMHZHV0oyeDVt?=
- =?utf-8?B?V0xmLyt6U2RQRnZCc0Q4RmlKSVdUbkJSR20vZVR0b3AvU3dVcURqdnR0eDc1?=
- =?utf-8?B?MFM3VHdjRGVnaUwxVVBOZTh3VHlGM1VlNE40dU1zQjE0Tk9qdVhiTU82azFa?=
- =?utf-8?B?aVowNllaNjVoMFY4QVBjTlRPckhSMFdyUHNQVzh3bUJZTGxBTG1kOVMzV3VI?=
- =?utf-8?B?YURlSTZ4Y1lTTW5ERlZERFArakoxbVhBL0ZSTU1qRzlsNUdwL2JwRlFxaW1y?=
- =?utf-8?B?a3kzdkpLak5Ma2xUd2d6WjJQMlJ1aFpqNDlJQ3RHMmZjaTA5MStRRnRONFhE?=
- =?utf-8?B?K2xkcnJLRVJ6UGFlR3FST0hrc3kxK2xxdGhkMENGRkI0N1AyaDM5YVVmSURQ?=
- =?utf-8?B?WlBkLzJVSlJLTVU4dGJNUmlGRlRkajg0ZlNVdzhpK21DcGxDeE1KbWZFUHVY?=
- =?utf-8?B?Ulc4NHBiNXhjbllNdEs0SGRqNHovb2JEb1Ezd2l3akkrc0V4YkdweHZ3NGpZ?=
- =?utf-8?B?a3NiUFdMdmhNWFR6YWVUQ2NmbFFkOXB4ekVZS3RrWjB0SFhWYnNvYXZVVTJH?=
- =?utf-8?B?cjNWbTljcVZHZ1Q3ZkYwTVBaTnNrc1lFVnExK05sWGtiTzhFTERDY0M1emVn?=
- =?utf-8?B?L3ZxNHovOUJZUUVVbHBXNDRyY2pOUG13TEhCakxpZk51RlVocFR5OWlsTk9M?=
- =?utf-8?B?TENPVUNlQ1FRZG5vcUdvdXpwYVArZzNCWUNZZVk3UW1yQk00TzdtdjZBOG11?=
- =?utf-8?B?czhVaFdJVUlhdnVhVGpvNHdBeWpPRkIzWE82OTR0NnhERDhvNDdvVjRKRm4y?=
- =?utf-8?B?dWpZbFlvdDgzbVM1dzMxVDhKREdRdEdrYmRONjJzS0hTMGhpTWNqb0lSQlNO?=
- =?utf-8?B?WmFjcXFnTTdmdUExNVNJajVtZlRGa0Y4bDlzUSs0UkF1eThzWUpoSjJDbVBw?=
- =?utf-8?B?NWNMTGEvL1BibGx1VGdabWQwajV6cm5ySkRQNERGemNJT0RJb1JaTG51Q1Ns?=
- =?utf-8?B?NHNhZ0NubzBRVzhZQXl5TXFWcW1WYmV4OC80ZVhOcVpZU21tOThLZlBDY0d3?=
- =?utf-8?B?ZXl1cEQwSG1EeWg2YS9DVWVVZmUvamFTY05VTGVsM0RSdlBucmlRb2xod0p4?=
- =?utf-8?B?Mmx4cEtVZVp4RVhFRmdWK09URmp5TXZQQlV5cjQxaHQwUmh5enUzNEZkMGxF?=
- =?utf-8?B?RXpmbWNEQlA3VjNlNjIyMWRWdEtnU2VVRTNTSTFkZlVEWFMxeTlEM2hqU21Q?=
- =?utf-8?B?cUFPalNOOUV0Q0xnakh4cTFmUTJkc3k1OGlqTnc5VnRiZCs1L2tRSXVtQUJo?=
- =?utf-8?B?cHlHbHR0RHgzVWJBNDBpK21qNlBkREdsVXN1MitJYUUyMHBWV1ZQWUtXMlFH?=
- =?utf-8?B?ZVBUYWhxbm9wczhHT3VJUTNCR2YvUzNIc1l6dVVOUTdzTmlURUZ4eFpEd091?=
- =?utf-8?B?WEJKZ0N3anlJOGhJUEQyaUFjeEx4S2h4MkJqT3ZKdjdnUjJQdE5Dcm5OUzJv?=
- =?utf-8?B?NU04ZDhtckdvWDlDOCtSM2x0dWVpaTRVM3pIV01JWVFEdUNqUVRoaEpEMm5i?=
- =?utf-8?B?bTZxelBnQi9WdWF6UmVMaEowN2VnPT0=?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3b76ca9-0e04-47c8-dead-08d9a3a3f388
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2021 17:11:21.2258 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jF/o6eR6ltrIrrKalpsyS5PeFTxf9l5Pz2TOzxKoMi8Ez7qW6/eLVJh3qUEy3uOLu4Krwxgx88QoF3CrCluPRT3OszlfvflWhcAc1eM9kgA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5334
-Received-SPF: pass client-ip=40.107.2.108;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-VE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: ZFNMETTgdMtLYz49m97EFSQHaUltohr8
+X-Proofpoint-ORIG-GUID: viFLNvFp2y-j4IC8YYvy81G444-LcxGO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-09_04,2021-11-08_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0
+ lowpriorityscore=0 malwarescore=0 suspectscore=0 adultscore=0 spamscore=0
+ mlxscore=0 priorityscore=1501 impostorscore=0 clxscore=1015
+ mlxlogscore=999 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2111090098
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=walling@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -53
+X-Spam_score: -5.4
 X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-3.364, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, CTE_8BIT_MISMATCH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.364,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -158,55 +117,213 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: thuth@redhat.com, cohuck@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-04.11.2021 08:49, Markus Armbruster wrote:
-> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
-> 
->> 25.10.2021 07:24, Markus Armbruster wrote:
->>> Several moons ago, Vladimir posted
+On 11/9/21 12:01, Janosch Frank wrote:
+> On 11/9/21 16:58, Collin Walling wrote:
+>> On 11/9/21 05:48, Janosch Frank wrote:
+>>> On 11/9/21 08:32, Christian Borntraeger wrote:
+>>>>
+>>>>
+>>>> Am 08.11.21 um 22:13 schrieb Collin Walling:
+>>>>> The CPNC portion of the diag 318 data is erroneously reset during an
+>>>>> initial CPU reset caused by SIGP. Let's go ahead and relocate the
+>>>>> diag318_info field within the CPUS390XState struct such that it is
+>>>>> only zeroed during a clear reset. This way, the CPNC will be retained
+>>>>> for each VCPU in the configuration after the diag 318 instruction
+>>>>> has been invoked.
+>>>>>
+>>>>> Additionally, the diag 318 data reset is handled via the CPU reset
+>>>>> code during a clear reset. This means some of the diag 318-specific
+>>>>> reset code can now be removed.
+>>>>>
+>>>>> Signed-off-by: Collin Walling <walling@linux.ibm.com>
+>>>>> Fixes: fabdada9357b ("s390: guest support for diagnose 0x318")
+>>>>> Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
+>>>>
+>>>> It would be good to add at least a comment in the diag308 handlers
+>>>> where the value of cpnc is resetted during the resets that Janosch
+>>>> mentioned.
+>>>>>
+>>>>> ---
+>>>>>
+>>>>> Changelog:
+>>>>>
+>>>>>      v2
+>>>>>      - handler uses run_on_cpu again
+>>>>>      - reworded commit message slightly
+>>>>>      - added fixes and reported-by tags
+>>>>>
+>>>>> ---
+>>>>>     hw/s390x/s390-virtio-ccw.c   |  3 ---
+>>>>>     target/s390x/cpu-sysemu.c    |  7 -------
+>>>>>     target/s390x/cpu.h           |  5 ++---
+>>>>>     target/s390x/kvm/kvm.c       | 14 +++++---------
+>>>>>     target/s390x/kvm/kvm_s390x.h |  1 -
+>>>>>     5 files changed, 7 insertions(+), 23 deletions(-)
+>>>>>
+>>>>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+>>>>> index 653587ea62..51dcb83b0c 100644
+>>>>> --- a/hw/s390x/s390-virtio-ccw.c
+>>>>> +++ b/hw/s390x/s390-virtio-ccw.c
+>>>>> @@ -489,9 +489,6 @@ static void s390_machine_reset(MachineState
+>>>>> *machine)
+>>>>>             g_assert_not_reached();
+>>>>>         }
+>>>>>     -    CPU_FOREACH(t) {
+>>>>> -        run_on_cpu(t, s390_do_cpu_set_diag318,
+>>>>> RUN_ON_CPU_HOST_ULONG(0));
+>>>>> -    }
 >>>
->>>       Subject: [PATCH v2 3/3] qapi: deprecate drive-backup
->>>       Date: Wed,  5 May 2021 16:58:03 +0300
->>>       Message-Id:<20210505135803.67896-4-vsementsov@virtuozzo.com>
->>>       https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg01394.html
+>>> This needs to stay for the move to the clear reset area to work on other
+>>> diag308 subcodes. The reset will then be done twice for the clear reset
+>>> but that's fine.
 >>>
->>> with this
+>>> Moving the diag318 data into the clear area means we only reset it on a
+>>> full cpu reset which is only done for diagnose 308 subcode 0 and maybe a
+>>> QEMU reset, I didn't fully follow the code there.
 >>>
->>>       TODO: We also need to deprecate drive-backup transaction action..
->>>       But union members in QAPI doesn't support 'deprecated' feature. I tried
->>>       to dig a bit, but failed :/ Markus, could you please help with it? At
->>>       least by advice?
+>>> The other subcodes do an initial reset on the calling cpu and normal
+>>> resets on the others or just normal resets which don't touch the 318
+>>> data if we move it into the clear reset area.
+>>>> Or did I miss something fundamental here?
 >>>
->>> This is one way to resolve it.  Sorry it took so long.
 >>>
->>> John explored another way, namely adding feature flags to union
->>> branches.  Could also be useful, say to add different features to
->>> branches in multiple unions sharing the same tag enum.
->>>
->>> Signed-off-by: Markus Armbruster<armbru@redhat.com>
+>> While the diag318 data will not be cleared during an initial and load
+>> normal resets _directly_, the s390_machine_reset function ends with the
+>> call below:
 >>
->> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>>>>         s390_ipl_clear_reset_request();
+>>>>>     }
 >>
->> (with simplified commit message of course :)
+>> The clear reset request is invoked after each of the reset types at the
+>> tail end of the function. Because of this, the diag318 data will be
+>> reset during the 308 subcodes by way of the clear reset at the end.
 > 
-> Your "[PATCH v2 0/3] qapi & doc: deprecate drive-backup" series contains
+> This changes a few values in ipl.c and is not in fact a cpu clear reset.
 > 
->    docs/block-replication: use blockdev-backup
->    docs/interop/bitmaps: use blockdev-backup
->    qapi: deprecate drive-backup
+> QEMU knows a lot of resets. The VM resets here mainly depict diagnose
+> 308 subcodes which set the cpus and the channel subsystem into a
+> specific state for the purpose of IPL (subcode 3 and 4 are how we IPL,
+> subcode 10 is PV IPL).
 > 
-> I figure proper deprecation needs all that, i.e. we need to merge my RFC
-> patch into your 3/3.  Could you take care of that?
+> The CPU resets can be triggered by SIGP (normal and initial, NOT clear
+> reset) or are triggered as part of a VM reset mentioned above.
 > 
 
-Of course, but it depend on your 1-4..
+Makes sense to me now. I had the terminology between our s390-specific
+stuff and the QEMU code jumbled, but it's clear to me what's actually
+happening here. Thank you for the explanation.
 
-Oops, I missed the fact that your 1-4 already applied to master. I will make a pull request with deprecations now, may be it's still applicable for 6.2
+I'll send the next version which simply relocates the diag318_info in
+the CPU state struct. The reset code will remain untouched.
+
+>>
+>>>>>     diff --git a/target/s390x/cpu-sysemu.c b/target/s390x/cpu-sysemu.c
+>>>>> index 5471e01ee8..6d9f6d4402 100644
+>>>>> --- a/target/s390x/cpu-sysemu.c
+>>>>> +++ b/target/s390x/cpu-sysemu.c
+>>>>> @@ -299,10 +299,3 @@ void s390_enable_css_support(S390CPU *cpu)
+>>>>>             kvm_s390_enable_css_support(cpu);
+>>>>>         }
+>>>>>     }
+>>>>> -
+>>>>> -void s390_do_cpu_set_diag318(CPUState *cs, run_on_cpu_data arg)
+>>>>> -{
+>>>>> -    if (kvm_enabled()) {
+>>>>> -        kvm_s390_set_diag318(cs, arg.host_ulong);
+>>>>> -    }
+>>>>> -}
+>>>>> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+>>>>> index 3153d053e9..1b94b91d87 100644
+>>>>> --- a/target/s390x/cpu.h
+>>>>> +++ b/target/s390x/cpu.h
+>>>>> @@ -63,6 +63,8 @@ struct CPUS390XState {
+>>>>>         uint64_t etoken;       /* etoken */
+>>>>>         uint64_t etoken_extension; /* etoken extension */
+>>>>>     +    uint64_t diag318_info;
+>>>>> +
+>>>>>         /* Fields up to this point are not cleared by initial CPU
+>>>>> reset */
+>>>>>         struct {} start_initial_reset_fields;
+>>>>>     @@ -118,8 +120,6 @@ struct CPUS390XState {
+>>>>>         uint16_t external_call_addr;
+>>>>>         DECLARE_BITMAP(emergency_signals, S390_MAX_CPUS);
+>>>>>     -    uint64_t diag318_info;
+>>>>> -
+>>>>>     #if !defined(CONFIG_USER_ONLY)
+>>>>>         uint64_t tlb_fill_tec;   /* translation exception code during
+>>>>> tlb_fill */
+>>>>>         int tlb_fill_exc;        /* exception number seen during
+>>>>> tlb_fill */
+>>>>> @@ -780,7 +780,6 @@ int s390_set_memory_limit(uint64_t new_limit,
+>>>>> uint64_t *hw_limit);
+>>>>>     void s390_set_max_pagesize(uint64_t pagesize, Error **errp);
+>>>>>     void s390_cmma_reset(void);
+>>>>>     void s390_enable_css_support(S390CPU *cpu);
+>>>>> -void s390_do_cpu_set_diag318(CPUState *cs, run_on_cpu_data arg);
+>>>>>     int s390_assign_subch_ioeventfd(EventNotifier *notifier, uint32_t
+>>>>> sch_id,
+>>>>>                                     int vq, bool assign);
+>>>>>     #ifndef CONFIG_USER_ONLY
+>>>>> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+>>>>> index 5b1fdb55c4..8970d9ca55 100644
+>>>>> --- a/target/s390x/kvm/kvm.c
+>>>>> +++ b/target/s390x/kvm/kvm.c
+>>>>> @@ -1576,16 +1576,13 @@ static int handle_sw_breakpoint(S390CPU *cpu,
+>>>>> struct kvm_run *run)
+>>>>>         return -ENOENT;
+>>>>>     }
+>>>>>     -void kvm_s390_set_diag318(CPUState *cs, uint64_t diag318_info)
+>>>>> +static void set_diag_318(CPUState *cs, run_on_cpu_data arg)
+>>>>>     {
+>>>>>         CPUS390XState *env = &S390_CPU(cs)->env;
+>>>>>     -    /* Feat bit is set only if KVM supports sync for diag318 */
+>>>>> -    if (s390_has_feat(S390_FEAT_DIAG_318)) {
+>>>>> -        env->diag318_info = diag318_info;
+>>>>> -        cs->kvm_run->s.regs.diag318 = diag318_info;
+>>>>> -        cs->kvm_run->kvm_dirty_regs |= KVM_SYNC_DIAG318;
+>>>>> -    }
+>>>>> +    env->diag318_info = arg.host_ulong;
+>>>>> +    cs->kvm_run->s.regs.diag318 = arg.host_ulong;
+>>>>> +    cs->kvm_run->kvm_dirty_regs |= KVM_SYNC_DIAG318;
+>>>>>     }
+>>>>>        static void handle_diag_318(S390CPU *cpu, struct kvm_run *run)
+>>>>> @@ -1604,8 +1601,7 @@ static void handle_diag_318(S390CPU *cpu,
+>>>>> struct kvm_run *run)
+>>>>>         }
+>>>>>            CPU_FOREACH(t) {
+>>>>> -        run_on_cpu(t, s390_do_cpu_set_diag318,
+>>>>> -                   RUN_ON_CPU_HOST_ULONG(diag318_info));
+>>>>> +        run_on_cpu(t, set_diag_318,
+>>>>> RUN_ON_CPU_HOST_ULONG(diag318_info));
+>>>>>         }
+>>>>>     }
+>>>>>     diff --git a/target/s390x/kvm/kvm_s390x.h
+>>>>> b/target/s390x/kvm/kvm_s390x.h
+>>>>> index 05a5e1e6f4..8c244ee84d 100644
+>>>>> --- a/target/s390x/kvm/kvm_s390x.h
+>>>>> +++ b/target/s390x/kvm/kvm_s390x.h
+>>>>> @@ -44,6 +44,5 @@ void kvm_s390_set_max_pagesize(uint64_t pagesize,
+>>>>> Error **errp);
+>>>>>     void kvm_s390_crypto_reset(void);
+>>>>>     void kvm_s390_restart_interrupt(S390CPU *cpu);
+>>>>>     void kvm_s390_stop_interrupt(S390CPU *cpu);
+>>>>> -void kvm_s390_set_diag318(CPUState *cs, uint64_t diag318_info);
+>>>>>        #endif /* KVM_S390X_H */
+>>>>>
+>>>
+>>>
+>>
+>>
+> 
 
 
 -- 
-Best regards,
-Vladimir
+Regards,
+Collin
+
+Stay safe and stay healthy
 
