@@ -2,88 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 015CF44A7E4
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 08:52:12 +0100 (CET)
-Received: from localhost ([::1]:56294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9FB044A7F0
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 08:56:26 +0100 (CET)
+Received: from localhost ([::1]:33328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkLvP-000141-1w
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 02:52:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43898)
+	id 1mkLzV-0004kM-SV
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 02:56:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mkLrx-0005d2-0l
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 02:48:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43864)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mkLrr-000055-IM
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 02:48:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636444110;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=UCCUb6vCYFJD0gx4VmuTHbuai9qJ9t/EfbVq5YJUEpQ=;
- b=gLu3hAddU4bbTmz04zpfBkL0/EKUMVtCa37WfjST+wi+Sab/70zh6FEhIArS55V9rzfrgz
- 2x0HH9xKvxdrucSpg0Musvbm8DSQLhMFVGv7BZwBiCMivpK9R5B85t1QyWES+x0w7cNH7W
- 0ND9WdQICK3pxHE5vekFOu1ygR0So58=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-597-vFCZXXYWN52quEFK8XjauQ-1; Tue, 09 Nov 2021 02:48:26 -0500
-X-MC-Unique: vFCZXXYWN52quEFK8XjauQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- q17-20020adfcd91000000b0017bcb12ad4fso4599891wrj.12
- for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 23:48:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mkLy6-00042L-CW
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 02:54:58 -0500
+Received: from [2a00:1450:4864:20::332] (port=45690
+ helo=mail-wm1-x332.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mkLy4-00014Z-R3
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 02:54:57 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ g191-20020a1c9dc8000000b0032fbf912885so1571985wme.4
+ for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 23:54:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=icSrD/MmOw82TfVEb3mGvYibIbHwX57a+2+Q0W2uQHc=;
+ b=KTnDd7vvpuDgI9teVmawkehISxqWIAKRX1IyiEOX++7ToIQ1HgtvTYCL8c3UxyLR5F
+ 9N0ONSu3pMd/cAgHmS9X8sjS1GO4K/UvMqDmc4ZnzkwXfya526EsKPymcUc3uH/jmJI/
+ 8hQG88GcQMgsgYGZlUhyzZkBTsUsyyIIkltee2Cre0YBu7trnIV+JW22UdK2clV8E5HX
+ lFfuhBVox5rF9p65Fb8Dfq1H6eKbUThYLPf1aj6dMt+ChiDOhHIIuvYNIx69Q3FyqQUS
+ 7sCRlrT/l1iaDv060K7fqJRT8N0tF/ezIS5p1G5HtUu7/KAz+vleQYRR4lqW+XTRR+wb
+ HmWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=UCCUb6vCYFJD0gx4VmuTHbuai9qJ9t/EfbVq5YJUEpQ=;
- b=vc/dWnp/+yl/iXbEZfMxFvuOOn8eg7VFeF5gOszsRdB6qrO+itPs15MXIRHvoQ2vPb
- IiFJfXU+pi8HHUnjVCdNFLV1yqdlOWLZEIR5afsEmoKchkdzwJrPa7JinoEu2L+PBS/9
- 4lomfVpTmXf5JFCeY9GLv79CcDERnavUJcia7NksJgFJVy/4bdYEXo5IqSV/bcb6nPPa
- 7Nvi+oK6udvJ5Rtnx5QKfXDnaNkJehLzvTz4CQVNEZwlF5/62/iiWfzNPDuSINEAVd8X
- kjcYKZXjHupPQsf8fLDzvxDbRReJMen0jDbgGBu2/z5mZ/IS5RsCSusxW9xXYv9nJ1mm
- FZhQ==
-X-Gm-Message-State: AOAM5320l3Hi2HZrfjX/nf7YChacVzbwc6xErWDOm7blBARtHhi6YOY1
- 7tLrxhtO9g5cmzWfFKjUT/DOC4N3ToMWQBC6HjAHMlO6XerTB4zEQYtBvO0poTieHTAQbfUQe/H
- AqH74IN8Mzw6fM8o=
-X-Received: by 2002:a5d:64cc:: with SMTP id f12mr6783857wri.322.1636444105003; 
- Mon, 08 Nov 2021 23:48:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxFAHL98mIA9WKQYn9NFAFDLLmEBmFSOJwNLr3zrS+j5a2aBxNRB8YeOQ3+IwVSnsD7US3CvA==
-X-Received: by 2002:a5d:64cc:: with SMTP id f12mr6783832wri.322.1636444104770; 
- Mon, 08 Nov 2021 23:48:24 -0800 (PST)
-Received: from localhost ([178.139.230.94])
- by smtp.gmail.com with ESMTPSA id t11sm18933591wrz.97.2021.11.08.23.48.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Nov 2021 23:48:24 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: "Rao, Lei" <lei.rao@intel.com>
-Subject: Re: [PATCH v7 1/2] Reset the auto-converge counter at every
- checkpoint.
-In-Reply-To: <1636427095-11739-2-git-send-email-lei.rao@intel.com> (Lei Rao's
- message of "Tue, 9 Nov 2021 11:04:54 +0800")
-References: <1636427095-11739-1-git-send-email-lei.rao@intel.com>
- <1636427095-11739-2-git-send-email-lei.rao@intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Tue, 09 Nov 2021 08:48:25 +0100
-Message-ID: <8735o5g46u.fsf@secure.mitica>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=icSrD/MmOw82TfVEb3mGvYibIbHwX57a+2+Q0W2uQHc=;
+ b=uSd0kiHNcTfsTba5uiVqSzJMJLzMffD01fv93nDOobCGpu7ZGabE5+iMRaI3lKIP6j
+ ZneO1/5qr9uwJTLdYUWslAMUO5xSTZ61VnFx/cajl8rJr0zT3ZJh0heq5FpTbGYpuyET
+ d7GqCxtkgPNTrr0WNGtDctyM+IEMXNzmDUooFKuWRZQHzc73fa+7Sw3G7YZ7eR5aFLp+
+ 2H71LrwAQV72c1HPWqVH2diICJYGq/ASEWdPzH1aT8v4jVrVm0dO4fuU42dam7JwfJHs
+ AsTgiw1JhU7eSFQVIdbpfIJRolrcogwqCCWsGsywy7LupLPyh6B+sFmMsAr8LPzk62Zz
+ rsyQ==
+X-Gm-Message-State: AOAM530IRTmMGnngcJs2/0nPfSQSNspZ1G5i4HclI0SD2FoeM0YHvJkJ
+ bAxjj5Nb0tsSB31vACBjZxwElg==
+X-Google-Smtp-Source: ABdhPJzX+RQHhLnjvjWt8AY15Cj/meE++x6BXQkq71YJIsrqbBMED9hHw3bSXdYjYqOq9h4ypfLu8A==
+X-Received: by 2002:a05:600c:3584:: with SMTP id
+ p4mr4997876wmq.65.1636444495216; 
+ Mon, 08 Nov 2021 23:54:55 -0800 (PST)
+Received: from [192.168.8.106] (169.red-37-158-143.dynamicip.rima-tde.net.
+ [37.158.143.169])
+ by smtp.gmail.com with ESMTPSA id u19sm1789424wmm.5.2021.11.08.23.54.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Nov 2021 23:54:54 -0800 (PST)
+Subject: Re: [PATCH v3 2/2] accel/tcg: Register a force_rcu notifier
+To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+References: <20211108113353.133462-1-groug@kaod.org>
+ <20211108113353.133462-3-groug@kaod.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <5892d9dd-5f0c-d745-6a0a-84485e0e29c3@linaro.org>
+Date: Tue, 9 Nov 2021 08:54:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <20211108113353.133462-3-groug@kaod.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.364,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,25 +93,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: qemu-devel@nongnu.org, chen.zhang@intel.com, lukasstraub2@web.de,
- zhang.zhanghailiang@huawei.com, dgilbert@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Rao, Lei" <lei.rao@intel.com> wrote:
-> From: "Rao, Lei" <lei.rao@intel.com>
->
-> if we don't reset the auto-converge counter,
-> it will continue to run with COLO running,
-> and eventually the system will hang due to the
-> CPU throttle reaching DEFAULT_MIGRATE_MAX_CPU_THROTTLE.
->
-> Signed-off-by: Lei Rao <lei.rao@intel.com>
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Reviewed-by: Lukas Straub <lukasstraub2@web.de>
-> Tested-by: Lukas Straub <lukasstraub2@web.de>
+On 11/8/21 12:33 PM, Greg Kurz wrote:
+> +static void rr_force_rcu(Notifier *notify, void *data)
+> +{
+> +    /*
+> +     * Called with rcu_registry_lock held, using async_run_on_cpu() ensures
+> +     * that there are no deadlocks.
+> +     */
+> +    async_run_on_cpu(first_cpu, do_nothing, RUN_ON_CPU_NULL);
+> +}
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Should first_cpu really be rr_current_cpu?
+It's not clear to me that this will work for -smp 2 -cpu thread=single.
 
+
+r~
 
