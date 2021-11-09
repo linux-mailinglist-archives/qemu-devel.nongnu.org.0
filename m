@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E24FB44A6F7
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 07:41:57 +0100 (CET)
-Received: from localhost ([::1]:58220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E9A244A70B
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 07:50:44 +0100 (CET)
+Received: from localhost ([::1]:38542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkKpO-00069h-B6
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 01:41:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50612)
+	id 1mkKxv-0003v5-B5
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 01:50:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mkK52-00068a-0P; Tue, 09 Nov 2021 00:54:01 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76]:54667)
+ id 1mkK55-00068j-3L; Tue, 09 Nov 2021 00:54:03 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:34099)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mkK4y-0006wH-9v; Tue, 09 Nov 2021 00:53:58 -0500
+ id 1mkK52-0006wn-WD; Tue, 09 Nov 2021 00:54:02 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HpHDp5z7wz4xfQ; Tue,  9 Nov 2021 16:52:10 +1100 (AEDT)
+ id 4HpHDp6Fctz4xfN; Tue,  9 Nov 2021 16:52:10 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1636437130;
- bh=zHL9mx2Nt5pGqTNJRuaGsXk8Je4dotdAaWVkIJSuSEY=;
+ bh=Gtzqkeaya8bGBFNQ2+lDube2YCwSoJUkirpHftHQa8Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TFLNwn5+PhnPoO0TCSCt4dWdNi8YIg0h5mZtG+AZkfoCLaISXuYzy48dKtjyYTmyP
- vuSsPI1X2YPba+3MtV5/mHUzELSavET28AlywXFoQuxE6a80w2CS15PN+kGm7Akawj
- I7CTGZSaThZ0AOS2Gg7NYg9wym10jtR5H+lbHGj0=
+ b=NsIE6RWvUyQiP9N/Lbn5N+ZA07uTYy6XNiJFgEbYdh8+sT5HGAYRtGsndyPrjMpBT
+ CNSrf2isVgBSgljR39dek1vO8al84siKXAXxKPBZF4WGIX9J1LaDFCwicd9uRugKMx
+ LJkU/0gyEeHAm4t2sGu0Cmn/pDUrqnJ3ouBd0Tsw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org, clg@kaod.org, danielhb413@gmail.com,
  groug@kaod.org
-Subject: [PULL 45/54] target/ppc: moved XXSPLTW to using decodetree
-Date: Tue,  9 Nov 2021 16:51:55 +1100
-Message-Id: <20211109055204.230765-46-david@gibson.dropbear.id.au>
+Subject: [PULL 47/54] target/ppc: implemented XXSPLTI32DX
+Date: Tue,  9 Nov 2021 16:51:57 +1100
+Message-Id: <20211109055204.230765-48-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211109055204.230765-1-david@gibson.dropbear.id.au>
 References: <20211109055204.230765-1-david@gibson.dropbear.id.au>
@@ -67,93 +67,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
 
-Changed the function that handles XXSPLTW emulation to using decodetree,
-but still using the same logic.
+Implemented XXSPLTI32DX emulation using decodetree
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Message-Id: <20211104123719.323713-19-matheus.ferst@eldorado.org.br>
+Message-Id: <20211104123719.323713-21-matheus.ferst@eldorado.org.br>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/insn32.decode            |  9 +++++++++
- target/ppc/translate/vsx-impl.c.inc | 17 ++++++-----------
- target/ppc/translate/vsx-ops.c.inc  |  1 -
- 3 files changed, 15 insertions(+), 12 deletions(-)
+ target/ppc/insn64.decode            | 11 +++++++++++
+ target/ppc/translate/vsx-impl.c.inc | 17 +++++++++++++++++
+ 2 files changed, 28 insertions(+)
 
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index e4508631b0..5d425ec076 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -116,6 +116,11 @@
- &X_vrt_frbp     vrt frbp
- @X_vrt_frbp     ...... vrt:5 ..... ....0 .......... .           &X_vrt_frbp frbp=%x_frbp
+diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
+index 880ac3edc7..134bc60c57 100644
+--- a/target/ppc/insn64.decode
++++ b/target/ppc/insn64.decode
+@@ -32,6 +32,14 @@
+                 ...... ..... ra:5 ................       \
+                 &PLS_D si=%pls_si rt=%rt_tsxp
  
-+&XX2            xt xb uim:uint8_t
-+%xx2_xt         0:1 21:5
-+%xx2_xb         1:1 11:5
-+@XX2            ...... ..... ... uim:2 ..... ......... ..       &XX2 xt=%xx2_xt xb=%xx2_xb
++# Format 8RR:D
++%8rr_si         32:s16 0:16
++%8rr_xt         16:1 21:5
++&8RR_D_IX       xt ix si
++@8RR_D_IX       ...... .. .... .. .. ................ \
++                ...... ..... ... ix:1 . ................ \
++                &8RR_D_IX si=%8rr_si xt=%8rr_xt
 +
- &Z22_bf_fra     bf fra dm
- @Z22_bf_fra     ...... bf:3 .. fra:5 dm:6 ......... .           &Z22_bf_fra
+ ### Fixed-Point Load Instructions
  
-@@ -406,3 +411,7 @@ LXVX            011111 ..... ..... ..... 0100 - 01100 . @X_TSX
- STXVX           011111 ..... ..... ..... 0110001100 .   @X_TSX
- LXVPX           011111 ..... ..... ..... 0101001101 -   @X_TSXP
- STXVPX          011111 ..... ..... ..... 0111001101 -   @X_TSXP
+ PLBZ            000001 10 0--.-- .................. \
+@@ -156,3 +164,6 @@ PLXVP           000001 00 0--.-- .................. \
+                 111010 ..... ..... ................     @8LS_D_TSXP
+ PSTXVP          000001 00 0--.-- .................. \
+                 111110 ..... ..... ................     @8LS_D_TSXP
 +
-+## VSX splat instruction
-+
-+XXSPLTW         111100 ..... ---.. ..... 010100100 . .  @XX2
++XXSPLTI32DX     000001 01 0000 -- -- ................ \
++                100000 ..... 000 .. ................    @8RR_D_IX
 diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index 6c60e29cca..ce8796d139 100644
+index ad25a0daf0..360593a9ab 100644
 --- a/target/ppc/translate/vsx-impl.c.inc
 +++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -1436,26 +1436,21 @@ static void gen_xxsel(DisasContext *ctx)
-                         vsr_full_offset(rb), vsr_full_offset(ra), 16, 16);
+@@ -1466,6 +1466,23 @@ static bool trans_XXSPLTIB(DisasContext *ctx, arg_X_imm8 *a)
+     return true;
  }
  
--static void gen_xxspltw(DisasContext *ctx)
-+static bool trans_XXSPLTW(DisasContext *ctx, arg_XX2 *a)
- {
--    int rt = xT(ctx->opcode);
--    int rb = xB(ctx->opcode);
--    int uim = UIM(ctx->opcode);
-     int tofs, bofs;
- 
--    if (unlikely(!ctx->vsx_enabled)) {
--        gen_exception(ctx, POWERPC_EXCP_VSXU);
--        return;
--    }
++static bool trans_XXSPLTI32DX(DisasContext *ctx, arg_8RR_D_IX *a)
++{
++    TCGv_i32 imm;
++
++    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
 +    REQUIRE_VSX(ctx);
- 
--    tofs = vsr_full_offset(rt);
--    bofs = vsr_full_offset(rb);
--    bofs += uim << MO_32;
-+    tofs = vsr_full_offset(a->xt);
-+    bofs = vsr_full_offset(a->xb);
-+    bofs += a->uim << MO_32;
- #ifndef HOST_WORDS_BIG_ENDIAN
-     bofs ^= 8 | 4;
- #endif
- 
-     tcg_gen_gvec_dup_mem(MO_32, tofs, bofs, 16, 16);
++
++    imm = tcg_constant_i32(a->si);
++
++    tcg_gen_st_i32(imm, cpu_env,
++        offsetof(CPUPPCState, vsr[a->xt].VsrW(0 + a->ix)));
++    tcg_gen_st_i32(imm, cpu_env,
++        offsetof(CPUPPCState, vsr[a->xt].VsrW(2 + a->ix)));
++
 +    return true;
- }
- 
- #define pattern(x) (((x) & 0xff) * (~(uint64_t)0 / 0xff))
-diff --git a/target/ppc/translate/vsx-ops.c.inc b/target/ppc/translate/vsx-ops.c.inc
-index b94f3fa4e0..b669b64d35 100644
---- a/target/ppc/translate/vsx-ops.c.inc
-+++ b/target/ppc/translate/vsx-ops.c.inc
-@@ -348,7 +348,6 @@ GEN_XX3FORM(xxmrghw, 0x08, 0x02, PPC2_VSX),
- GEN_XX3FORM(xxmrglw, 0x08, 0x06, PPC2_VSX),
- GEN_XX3FORM(xxperm, 0x08, 0x03, PPC2_ISA300),
- GEN_XX3FORM(xxpermr, 0x08, 0x07, PPC2_ISA300),
--GEN_XX2FORM(xxspltw, 0x08, 0x0A, PPC2_VSX),
- GEN_XX1FORM(xxspltib, 0x08, 0x0B, PPC2_ISA300),
- GEN_XX3FORM_DM(xxsldwi, 0x08, 0x00),
- GEN_XX2FORM_EXT(xxextractuw, 0x0A, 0x0A, PPC2_ISA300),
++}
++
+ static void gen_xxsldwi(DisasContext *ctx)
+ {
+     TCGv_i64 xth, xtl;
 -- 
 2.33.1
 
