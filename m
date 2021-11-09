@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C8144B2BE
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 19:32:51 +0100 (CET)
-Received: from localhost ([::1]:60712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6446244B2BF
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 19:33:53 +0100 (CET)
+Received: from localhost ([::1]:35804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkVvO-0008Un-NQ
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 13:32:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54664)
+	id 1mkVwO-0002IQ-Ii
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 13:33:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mkVtU-0006yT-1Q
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 13:30:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31737)
+ id 1mkVv7-0000YJ-K6
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 13:32:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44008)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mkVtQ-0000ZY-NZ
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 13:30:50 -0500
+ id 1mkVv5-0000pM-Q7
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 13:32:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636482647;
+ s=mimecast20190719; t=1636482751;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+hD/dei9tdPVY+pfx0hbFhQIlSdWvqslt6/EvqJwW6c=;
- b=a2nmRalRp6hZYd0/kH17vpNyNaabBS9TlbUXdBP4kVDVDNDamZ9JYV3EPKAiff8GyBLpQH
- HwIl3jiVQW7c+ReIYGddigKNte+pdYDKQh/NMYyLQ1qd5fjuC4/C0uwzHlovj7EjCjWket
- YDy/e7TrBXdXmxnDhKdOHIvnKn3gp9g=
+ bh=Ny0HgQfvUJ/yekUgE1FnPr7sAT1VfRqlJvztvMWJamw=;
+ b=XdYnlXsZegDb+1chzZ4xcBn/hqNO2hvWX3cHEkSSuWJONAkuC+zRAHtgMxNlIYCqFb7xCs
+ EO/nufQ3wj3EWEJRt3e4t0OfyI4Jp5Sk6gXFgdqDBQJG+F9BH2hiScC0E0g1KsHeDuBm/3
+ GPrdVLULyHyl6v2Ot8ILQT6ww/SEOzw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-474-O_AgrDpINTChJ6CneRMiAw-1; Tue, 09 Nov 2021 13:30:35 -0500
-X-MC-Unique: O_AgrDpINTChJ6CneRMiAw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-106-5KbWhQ3aNTmvJazIZsYw0g-1; Tue, 09 Nov 2021 13:32:28 -0500
+X-MC-Unique: 5KbWhQ3aNTmvJazIZsYw0g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C68018358F2;
- Tue,  9 Nov 2021 18:30:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7723C18414A2;
+ Tue,  9 Nov 2021 18:32:27 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.194.190])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 068215D9CA;
- Tue,  9 Nov 2021 18:30:32 +0000 (UTC)
-Date: Tue, 9 Nov 2021 18:30:30 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AEB2360C04;
+ Tue,  9 Nov 2021 18:32:25 +0000 (UTC)
+Date: Tue, 9 Nov 2021 18:32:21 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Weil <sw@weilnetz.de>
-Subject: Re: [PATCH] meson.build: Support ncurses on MacOS
-Message-ID: <YYq+Ri3LXbJwPCZN@redhat.com>
-References: <20210612080358.61176-1-sw@weilnetz.de>
- <202eedd1-eb24-5463-c17a-64e146b95421@comstyle.com>
- <c3f3e9af-c81e-078c-5200-e2532a468cf7@weilnetz.de>
- <ff5fc830-8df8-7bd6-32df-3e8627edd74b@amsat.org>
- <fa1b9eb9-e707-4dd1-78be-dce4c55c5004@comstyle.com>
- <0b6d171d-4ceb-01a3-dbf6-2a7c964463db@weilnetz.de>
+To: "Annie.li" <annie.li@oracle.com>
+Subject: Re: Failure of hot plugging secondary virtio_blk into q35 Windows 2019
+Message-ID: <YYq+tc4dxqSAjRCR@redhat.com>
+References: <57170d20-635b-95fd-171e-e84de0d2d84e@oracle.com>
+ <31c8012c-234f-2bb8-7db2-f7fee7bd311f@oracle.com>
+ <4be352af-f3fc-0ef3-1d97-cd3eafbbb98f@oracle.com>
+ <alpine.DEB.2.22.394.2111091226350.133428@anisinha-lenovo>
+ <YYpE8zhRR2WWFl+j@redhat.com>
+ <CAARzgww63RpHB+40q5=qzy+V2ZoJs-FF1C2WAz8TL58r2dwJ7g@mail.gmail.com>
+ <YYpZOeZkzOa5dB5+@redhat.com>
+ <59be6397-57f8-cd0e-2762-0a3f8b9b4a05@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <0b6d171d-4ceb-01a3-dbf6-2a7c964463db@weilnetz.de>
+In-Reply-To: <59be6397-57f8-cd0e-2762-0a3f8b9b4a05@oracle.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,106 +89,79 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Brad Smith <brad@comstyle.com>
+Cc: Ani Sinha <ani@anisinha.ca>, "imammedo@redhat.com" <imammedo@redhat.com>,
+ jusual@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 09, 2021 at 06:49:57PM +0100, Stefan Weil wrote:
-> Am 15.06.21 um 03:53 schrieb Brad Smith:
-> 
-> > On 6/14/2021 1:45 AM, Philippe Mathieu-Daudé wrote:
-> > > On 6/13/21 8:33 AM, Stefan Weil wrote:
-> > > > Am 13.06.21 um 03:40 schrieb Brad Smith:
+On Tue, Nov 09, 2021 at 12:01:30PM -0500, Annie.li wrote:
+> On 11/9/2021 6:19 AM, Daniel P. Berrangé wrote:
+> > On Tue, Nov 09, 2021 at 04:40:10PM +0530, Ani Sinha wrote:
+> > > On Tue, Nov 9, 2021 at 3:23 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > > > On Tue, Nov 09, 2021 at 12:41:39PM +0530, Ani Sinha wrote:
+> > > > > +gerd
+> > > > > 
+> > > > > On Mon, 8 Nov 2021, Annie.li wrote:
+> > > > > 
+> > > > > > Update:
+> > > > > > 
+> > > > > > I've tested q35 guest w/o OVMF, the APCI PCI hot-plugging works well in q35
+> > > > > > guest. Seems this issue only happens in q35 guest w/ OVMF.
+> > > > > > 
+> > > > > > Looks that there is already a bug filed against this hotplug issue in q35
+> > > > > > guest w/ OVMF,
+> > > > > > 
+> > > > > > https://urldefense.com/v3/__https://bugzilla.redhat.com/show_bug.cgi?id=2004829__;!!ACWV5N9M2RV99hQ!bCogoVXfTRaTu03Bg6dQ8NrSINSha4iSSLuZJerOTVdIdWnu1msYwJ8E_c_jRg$
+> > > > > > 
+> > > > > > In this bug, it is recommended to add "-global
+> > > > > > ICH9-LPC.acpi-pci-hotplug-with-bridge-support=off \" on qemu command for 6.1.
+> > > > > > However, with this option for 6.1(PCIe native hotplug), there still are kinds
+> > > > > > of issues. For example, one of them is the deleted virtio_blk device still
+> > > > > > shows in the Device Manager in Windows q35 guest, the operation of re-scanning
+> > > > > > new hardware takes forever there. This means both PCIe native hotplug and ACPI
+> > > > > > hotplug all have issues in q35 guests.
+> > > > > This is sad.
+> > > > > 
+> > > > > > Per comments in this bug, changes in both OVMF and QEMU are necessary to
+> > > > > > support ACPI hot plug in q35 guest. The fixes may likely be available in QEMU
+> > > > > > 6.2.0.
+> > > > > So we are in soft code freeze for 6.2:
+> > > > > https://urldefense.com/v3/__https://wiki.qemu.org/Planning/6.2__;!!ACWV5N9M2RV99hQ!bCogoVXfTRaTu03Bg6dQ8NrSINSha4iSSLuZJerOTVdIdWnu1msYwJ_pKO8AzA$
+> > > > > 
+> > > > > I am curious about Gerd's comment #10:
+> > > > > "The 6.2 rebase should make hotplug work
+> > > > > again with the default configuration."
+> > > > > 
+> > > > > Sadly I have not seen any public discussion on what we want to do
+> > > > > for the issues with acpi hotplug for bridges in q35.
+> > > > I've raised one of the problems a week ago and there's a promised
+> > > > fix
 > > > > 
-> > > > > This same problem also applies to OpenBSD as we have the same
-> > > > > version of ncurses with support for wide characters. I have a similar
-> > > > > patch in our QEMU port.
-> > > > 
-> > > > Then we should either extend the conditional statement to handle
-> > > > OpenBSD
-> > > > as well, or simply define both macros unconditionally:
-> > > > 
-> > > >      # Newer versions of curses use NCURSES_WIDECHAR.
-> > > >      # Older versions (e. g. on MacOS, OpenBSD) still require
-> > > > _XOPEN_SOURCE_EXTENDED.
-> > > >      curses_compile_args = ['-DNCURSES_WIDECHAR=1',
-> > > > '-D_XOPEN_SOURCE_EXTENDED=1']
-> > > > 
-> > > > Defining only _XOPEN_SOURCE_EXTENDED would also work with old and new
-> > > > versions, so that's another option.
-> > > It is simpler to ask Brad to upstream the OpenBSD patch :)
-> > 
-> > That doesn't answer his question and that's the part that actually
-> > matters.
+> > > >   https://urldefense.com/v3/__https://lists.gnu.org/archive/html/qemu-devel/2021-11/msg00558.html__;!!ACWV5N9M2RV99hQ!bCogoVXfTRaTu03Bg6dQ8NrSINSha4iSSLuZJerOTVdIdWnu1msYwJ-np8GcUA$
+> > > So https://urldefense.com/v3/__https://gitlab.com/qemu-project/qemu/-/issues/641__;!!ACWV5N9M2RV99hQ!bCogoVXfTRaTu03Bg6dQ8NrSINSha4iSSLuZJerOTVdIdWnu1msYwJ86xk2gtg$  is the same as
+> > > https://urldefense.com/v3/__https://bugzilla.redhat.com/show_bug.cgi?id=2006409__;!!ACWV5N9M2RV99hQ!bCogoVXfTRaTu03Bg6dQ8NrSINSha4iSSLuZJerOTVdIdWnu1msYwJ9crT9JKw$
+> > > 
+> > > isn't it?
+> > Yes, one upstream, one downstream.
 > 
+> Thanks for the info.
 > 
-> The question is still unanswered: which alternative is preferred?
+> So q35 guests with either OVMF or SeaBIOS have different ACPI hotplug issues
+> in QEMU 6.1.
 > 
-> - define only _XOPEN_SOURCE_EXTENDED=1 unconditionally
+> As Ani mentioned earlier, QEMU 6.2 is in soft code freeze.
+> Today(Nov 9) is the date of hard feature freeze.
 > 
-> - define DNCURSES_WIDECHAR=1 and _XOPEN_SOURCE_EXTENDED=1 unconditionally
-> 
-> - define DNCURSES_WIDECHAR=1 and _XOPEN_SOURCE_EXTENDED=1 for MacOS and BSD
-> 
-> All of them should work. We could also start and merge my commit which does
-> not fix the issue for BSD but at least fixes it for MacOS.
+> I suppose this means the fix for the issue with SeaBIOS or the feature to
+> cooperate
+> with the coming change in OVMF won't happen in 6.2?
 
-Ignoring ncurses for a minute
+Patches are allowed if they're bug fixes. If a change requires coordination
+with an OVMF change too though, I think that's going to be difficult to
+justify. 
 
- * QEMU sets _GNU_SOURCE=1
- * With GLibc on _GNU_SOURCE forces _XOPEN_SOURCE=700
- * _XOPEN_SOURCE_EXTENDED=1 is implied by _XOPEN_SOURCE >= 500
-
-IOW for Linux/GLibC, none of this matters, we always get wide char
-support via _GNU_SOURCE.
-
-Setting NCURSES_WIDECHAR was added in
-
-  commit b01a4fd3bd7d6f2ebd9eeba9cb6502d423c3bc85
-  Author: Peter Maydell <peter.maydell@linaro.org>
-  Date:   Fri Jun 2 15:35:38 2017 +0100
-
-    configure: Define NCURSES_WIDECHAR if we're using curses
-
-for the benefit for benefit of non-Linux / non_GLibC platforms
-where _GNU_SOURCE doesn't take affect
-
-Note it explicitly rejected the idea of using _XOPEN_SOURCE
-
-[quote]
-    We can't fix this by defining _XOPEN_SOURCE ourselves, because
-    that also means "and don't provide any functions that aren't in
-    that standard", and not all libcs provide any way to override
-    that to also get the non-standard functions. In particular
-    FreeBSD has no such mechanism, and OSX's _DARWIN_C_SOURCE
-    doesn't reenable everything (for instance getpagesize()
-    is still not prototyped if _DARWIN_C_SOURCE and _XOPEN_SOURCE
-    are both defined).
-[/quote]
-
-Based on Stefan / Brad experiance patching in _XOPEN_SOURCE_EXTENDED=1
-it seems it might not be too terrible in its effects, but perhaps we're
-simply not noticing a silent bad effect.
-
-I also don't like adding a global flag like _XOPEN_SOURCE_EXTENDED=1
-in response to a feature that can be turned on/off via a configure
-arg --without-curses.
-
-Overall, I don't think we should be setting _XOPEN_SOURCE_EXTENDED=1
-globally in CFLAGS in response to curses.
-
-We could put it in any .c file that includes curses.h ie
-
-  #if defined(__APPLE__) || defined(__OpenBSD__)
-  #define _XOPEN_SOURCE_EXTENDED=1
-  #endif
-  #include <curses.h>
-
-so that we isolate the effects of the global flag from the rest
-of the QEMU codebase. The meson.build test would also need to
-set this in its test program source.
+Our fallback option is to revert to native hotplug out of the box for
+QEMU machine types in 6.2
 
 Regards,
 Daniel
