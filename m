@@ -2,86 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 472A644A715
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 07:57:15 +0100 (CET)
-Received: from localhost ([::1]:57902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBEC444A71B
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 07:59:20 +0100 (CET)
+Received: from localhost ([::1]:36828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkL4E-0000Df-4w
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 01:57:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57696)
+	id 1mkL6F-0004xp-Si
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 01:59:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkKkw-0005Za-D0
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 01:37:18 -0500
-Received: from [2a00:1450:4864:20::42e] (port=46679
- helo=mail-wr1-x42e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkKku-0002eY-BX
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 01:37:18 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id u1so31073634wru.13
- for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 22:37:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=kpeD7Nfxaud+wWNp3eppygWk3IkUsJ1vlomcvvkmwFo=;
- b=kHir0vuJQU2o2VYeRyMdN4XShe8oURrOT7762ihaBugoNKmMqJhA3e+WDsCRGxgCyF
- oLyPZX5ihDO34wmC0YwntDeWNSQDtWOTbQbePEuIQ7lV0brlgAERd3tXCEXJxrtNbC6s
- SmuzryPphZRWJepd6LurSj9M8S729nW9vsPaHF7TUe6M0mxALb5acEdlUYUuZaB20zVo
- DmbY62jlID94p4swi0l0NHjXoKmix+2/canzgOJecJ7iuL0p4vecV+QwR/wa/acLUnfB
- svbLOWy9SF5IfK4dUjXrUh0uzYHgbnIpyivoFmkLNM9qmns3N66KuI5JGtr6mjo57e6w
- u8lQ==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mkKpz-0000P6-JF
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 01:42:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22804)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mkKpx-0006OX-2B
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 01:42:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636440147;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tOhyohd/vQ8MtgLIjrPgF0wcDaoikIQHblgeW6h4KRo=;
+ b=NbLhr4E6wq+ZVafmMdwPSB/ziypv5FBdSr24jZdxpIptViOkNZn+FNDUeZ5GoqrmbWAWQE
+ zRLh28UWAg5PuDZh6sWY7sXRHTvaTaJc2Hpe1s8kvTCMkA0N0IhCrvUhKnk2ZFhIki8RpI
+ JQ765imm4ymzVt2uFyK+8q4Ynan3Xlo=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-345-XsQjSA1cPUKOye8TsWoyGw-1; Tue, 09 Nov 2021 01:42:24 -0500
+X-MC-Unique: XsQjSA1cPUKOye8TsWoyGw-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ bp10-20020a056512158a00b0040376f60e35so2116116lfb.8
+ for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 22:42:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kpeD7Nfxaud+wWNp3eppygWk3IkUsJ1vlomcvvkmwFo=;
- b=Yp73uOoXwOJaJn6kJHM0WV9+IHqPMkf1HQBepevyRaM+wantxbSi/5DBcFh+vtg5wO
- o0FwfxM0XPs8cxIoc+wS5dcFbiptwRmr64olKsxS+A/IlS26hRuuJWcZ1ugCmHeI94Zh
- qXOhju4WCfwXEiFbdsUqX3G8JKydriFV+tCqk1HBHHoNKOqbosDp14BiG2fkTy33z6Je
- ee0tr9PI83wQAPd6JiDmGKan7ZRf4zetvYJNgypK4TDPXAIo+txXKgBNOiBZP0tWnLxX
- gKd5SKwebUl6xDJxIw6hs2QJm9VcNO9YtIwd0ORmeX5863n6yHlh7Nn6+s5eOhodEUzH
- Sn1Q==
-X-Gm-Message-State: AOAM531fqH9spfy7UFfhsmKQXA6zRnvP9N9UZo6ckReVz/eemg1ShlUP
- 7f19MYPIMvsiuNJPjeYEVJPsVQ==
-X-Google-Smtp-Source: ABdhPJyILaQbtxk4pApk66iV7JyNlTHoa2VARvLd7Oma6il6ErPT7nm+um+W8mdcDr8zM18jjtu5qQ==
-X-Received: by 2002:a05:6000:1a48:: with SMTP id
- t8mr664176wry.66.1636439833502; 
- Mon, 08 Nov 2021 22:37:13 -0800 (PST)
-Received: from [192.168.8.106] (169.red-37-158-143.dynamicip.rima-tde.net.
- [37.158.143.169])
- by smtp.gmail.com with ESMTPSA id g5sm20791010wri.45.2021.11.08.22.37.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Nov 2021 22:37:13 -0800 (PST)
-Subject: Re: [PATCH 09/13] target/riscv: Adjust vector address with ol
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org, Alexey Baturo <baturo.alexey@gmail.com>
-References: <20211101100143.44356-1-zhiwei_liu@c-sky.com>
- <20211101100143.44356-10-zhiwei_liu@c-sky.com>
- <851481b9-e973-b3e1-1722-73db47edb772@linaro.org>
- <f84e607c-e16e-ec3f-a7b3-e779b344fcb6@c-sky.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <52357320-6098-c3da-b9de-89b131b85ffb@linaro.org>
-Date: Tue, 9 Nov 2021 07:37:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=tOhyohd/vQ8MtgLIjrPgF0wcDaoikIQHblgeW6h4KRo=;
+ b=UTO63837ClDfqL4S51JEYKR398Nxe+c2thgJNYz8pIMvw4iJIOX+SYO+F6PLY1BiUY
+ 1oFMCTn3P5i2eUETeaIarCStObKM9zDOVEU+4ErRa7fe5KguVWajNNzBLrnDNsaMtm1W
+ wCg5h7IXRu/c4fKl4R8NOMBPE+YEDBJIKNkNE9DGV3vX6I2vfM8IgQbgbYjVAK9P5vqu
+ WLZ+p334R63/l8rN+9klrWmKDRLikbaMxldiM4gX1pySylMf9IxyPFwd5+VtQcUMhu55
+ KkmWrGzHXpgOp84LgNklmreNSOxqmMy2KrbXduIDyuSISCOi/ajgvCD3I9w/F7kTyED5
+ vzWg==
+X-Gm-Message-State: AOAM53012GMvqJhbfgr5sXXgL/0vo4+DwaJB3cgczpiaGXooDxHnKTWQ
+ TsEXaBYDwcXXDJkG15whQyKmEpsV7AxJBRiXx5eUVwLMkKPh8jGO5fG+jOJJKFwtE0RjY9kNjuS
+ /Hx9UCyJik/fl7t02FnQWEZ7ri8sif/Y=
+X-Received: by 2002:ac2:4e68:: with SMTP id y8mr5002474lfs.348.1636440143192; 
+ Mon, 08 Nov 2021 22:42:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz8McOZLsuPxGmd1N/RljiSlFDGQrCg9fijonxJHlbJlFsiX648ilvt6WXm0clGDkN5gszcN5auVlfZC45nwWo=
+X-Received: by 2002:ac2:4e68:: with SMTP id y8mr5002455lfs.348.1636440142922; 
+ Mon, 08 Nov 2021 22:42:22 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <f84e607c-e16e-ec3f-a7b3-e779b344fcb6@c-sky.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.364,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+References: <20211028090556.3168043-1-chen.zhang@intel.com>
+ <20211028090556.3168043-2-chen.zhang@intel.com>
+ <c603b048-1cee-1396-811d-8be857aa932b@redhat.com>
+ <MWHPR11MB0031A0311824C3DF060B64E39B879@MWHPR11MB0031.namprd11.prod.outlook.com>
+ <CACGkMEsjn0nz4N+O4s9Y0m0gEYXu9WKstP9LHE4F=m5mOR3dcA@mail.gmail.com>
+ <MWHPR11MB00315CFF0E7854146B5C9AE69B8A9@MWHPR11MB0031.namprd11.prod.outlook.com>
+ <MWHPR11MB0031B626425E7815EB78A9E49B8D9@MWHPR11MB0031.namprd11.prod.outlook.com>
+ <94f96089-f8a8-d3d4-18c3-26917952fc14@redhat.com>
+ <DM5PR11MB00276DF408F0DBC3C6EFADB89B8E9@DM5PR11MB0027.namprd11.prod.outlook.com>
+ <CACGkMEvuXhuzSiTebOQqvriD5UnaiPzaY37AOR8bihTC4FTa4Q@mail.gmail.com>
+ <DM5PR11MB002701BF07DCC15BF968A1749B8E9@DM5PR11MB0027.namprd11.prod.outlook.com>
+ <CACGkMEs5q4E3yK_ZjUQsvJ=Ojd6hmTVEwQeh1N0QDPNaPoM7Dw@mail.gmail.com>
+ <MWHPR11MB0031EBF5ACACF7455EA9F4779B8E9@MWHPR11MB0031.namprd11.prod.outlook.com>
+ <CACGkMEsLF6VUDNgnUngrE4LePkM8pFe3fYrPd2W6O8RUpcprNQ@mail.gmail.com>
+ <MWHPR11MB00315078A1A7329E96FAA8F79B919@MWHPR11MB0031.namprd11.prod.outlook.com>
+In-Reply-To: <MWHPR11MB00315078A1A7329E96FAA8F79B919@MWHPR11MB0031.namprd11.prod.outlook.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 9 Nov 2021 14:42:11 +0800
+Message-ID: <CACGkMEsu-1ENupe8xMyKNNpbNjt1aGr5Unr_-4xDwx7OiA0ttQ@mail.gmail.com>
+Subject: Re: [PATCH V5 1/3] net/filter: Optimize transfer protocol for
+ filter-mirror/redirector
+To: "Zhang, Chen" <chen.zhang@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,162 +105,268 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>, qemu-dev <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/8/21 10:28 AM, LIU Zhiwei wrote:
-> On 2021/11/1 下午7:35, Richard Henderson wrote:
-> 
->> On 11/1/21 6:01 AM, LIU Zhiwei wrote:
->>> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
->>> ---
->>>   target/riscv/insn_trans/trans_rvv.c.inc |  8 ++++
->>>   target/riscv/internals.h                |  1 +
->>>   target/riscv/vector_helper.c            | 54 +++++++++++++++++--------
->>>   3 files changed, 46 insertions(+), 17 deletions(-)
->>>
->>> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc 
->>> b/target/riscv/insn_trans/trans_rvv.c.inc
->>> index ed042f7bb9..5cd9b802df 100644
->>> --- a/target/riscv/insn_trans/trans_rvv.c.inc
->>> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
->>> @@ -233,6 +233,7 @@ static bool ld_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t seq)
->>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>       return ldst_us_trans(a->rd, a->rs1, data, fn, s);
->>>   }
->>>   @@ -286,6 +287,7 @@ static bool st_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t seq)
->>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>       return ldst_us_trans(a->rd, a->rs1, data, fn, s);
->>>   }
->>>   @@ -365,6 +367,7 @@ static bool ld_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
->>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>       return ldst_stride_trans(a->rd, a->rs1, a->rs2, data, fn, s);
->>>   }
->>>   @@ -404,6 +407,7 @@ static bool st_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
->>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>       fn =  fns[seq][s->sew];
->>>       if (fn == NULL) {
->>>           return false;
->>> @@ -490,6 +494,7 @@ static bool ld_index_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
->>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s);
->>>   }
->>>   @@ -542,6 +547,7 @@ static bool st_index_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
->>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s);
->>>   }
->>>   @@ -617,6 +623,7 @@ static bool ldff_op(DisasContext *s, arg_r2nfvm *a, uint8_t seq)
->>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>       return ldff_trans(a->rd, a->rs1, data, fn, s);
->>>   }
->>>   @@ -724,6 +731,7 @@ static bool amo_op(DisasContext *s, arg_rwdvm *a, uint8_t seq)
->>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>       data = FIELD_DP32(data, VDATA, WD, a->wd);
->>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>       return amo_trans(a->rd, a->rs1, a->rs2, data, fn, s);
->>>   }
->>>   /*
->>> diff --git a/target/riscv/internals.h b/target/riscv/internals.h
->>> index b15ad394bb..f74b8291e4 100644
->>> --- a/target/riscv/internals.h
->>> +++ b/target/riscv/internals.h
->>> @@ -27,6 +27,7 @@ FIELD(VDATA, VM, 8, 1)
->>>   FIELD(VDATA, LMUL, 9, 2)
->>>   FIELD(VDATA, NF, 11, 4)
->>>   FIELD(VDATA, WD, 11, 1)
->>> +FIELD(VDATA, OL, 15, 2)
->>>     /* float point classify helpers */
->>>   target_ulong fclass_h(uint64_t frs1);
->>> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
->>> index 535420ee66..451688c328 100644
->>> --- a/target/riscv/vector_helper.c
->>> +++ b/target/riscv/vector_helper.c
->>> @@ -112,6 +112,11 @@ static uint32_t vext_wd(uint32_t desc)
->>>       return (simd_data(desc) >> 11) & 0x1;
->>>   }
->>>   +static inline uint32_t vext_ol(uint32_t desc)
->>> +{
->>> +    return FIELD_EX32(simd_data(desc), VDATA, OL);
->>> +}
->>
->> XLEN not OLEN.
-> OK.
->>
->>> @@ -123,6 +128,14 @@ static inline uint32_t vext_maxsz(uint32_t desc)
->>>       return simd_maxsz(desc) << vext_lmul(desc);
->>>   }
->>>   +static inline target_ulong adjust_addr(target_ulong addr, uint32_t olen)
->>> +{
->>> +    if (olen < TARGET_LONG_BITS) {
->>> +        addr &= UINT32_MAX;
->>> +    }
->>> +    return addr;
->>> +}
->>
->> Here's where I'm unsure.  This looks a lot like the changes that are required to support 
->> pointer-masking in vectors, which Alexey said he was going to look at.
->>
->> (1) Do we need to pass anything in VEXT at all?
->>     We do have CPURISCVState, so we could just use cpu_get_ml,
-> Yes, we should use cpu_get_xl.
->> which we would also need for env->mmte etc for pointer masking.
-> 
-> Do you mean env->mpmmask and env->mpmbase? I think yes, we should also adjust these 
-> register behaviors with xlen.
+On Mon, Nov 8, 2021 at 10:50 AM Zhang, Chen <chen.zhang@intel.com> wrote:
+>
+>
+>
+> > -----Original Message-----
+> > From: Jason Wang <jasowang@redhat.com>
+> > Sent: Monday, November 8, 2021 10:42 AM
+> > To: Zhang, Chen <chen.zhang@intel.com>
+> > Cc: Markus Armbruster <armbru@redhat.com>; qemu-dev <qemu-
+> > devel@nongnu.org>; Li Zhijian <lizhijian@cn.fujitsu.com>
+> > Subject: Re: [PATCH V5 1/3] net/filter: Optimize transfer protocol for =
+filter-
+> > mirror/redirector
+> >
+> > On Fri, Nov 5, 2021 at 4:43 PM Zhang, Chen <chen.zhang@intel.com> wrote=
+:
+> > >
+> > >
+> > >
+> > > > -----Original Message-----
+> > > > From: Jason Wang <jasowang@redhat.com>
+> > > > Sent: Friday, November 5, 2021 4:30 PM
+> > > > To: Zhang, Chen <chen.zhang@intel.com>
+> > > > Cc: Markus Armbruster <armbru@redhat.com>; qemu-dev <qemu-
+> > > > devel@nongnu.org>; Li Zhijian <lizhijian@cn.fujitsu.com>
+> > > > Subject: Re: [PATCH V5 1/3] net/filter: Optimize transfer protocol
+> > > > for filter- mirror/redirector
+> > > >
+> > > > On Fri, Nov 5, 2021 at 1:29 PM Zhang, Chen <chen.zhang@intel.com>
+> > wrote:
+> > > > >
+> > > > >
+> > > > >
+> > > > > > -----Original Message-----
+> > > > > > From: Jason Wang <jasowang@redhat.com>
+> > > > > > Sent: Friday, November 5, 2021 12:03 PM
+> > > > > > To: Zhang, Chen <chen.zhang@intel.com>
+> > > > > > Cc: Markus Armbruster <armbru@redhat.com>; qemu-dev <qemu-
+> > > > > > devel@nongnu.org>; Li Zhijian <lizhijian@cn.fujitsu.com>
+> > > > > > Subject: Re: [PATCH V5 1/3] net/filter: Optimize transfer
+> > > > > > protocol for filter- mirror/redirector
+> > > > > >
+> > > > > > On Fri, Nov 5, 2021 at 11:27 AM Zhang, Chen
+> > > > > > <chen.zhang@intel.com>
+> > > > wrote:
+> > > > > > >
+> > > > > > >
+> > > > > > >
+> > > > > > > > -----Original Message-----
+> > > > > > > > From: Jason Wang <jasowang@redhat.com>
+> > > > > > > > Sent: Friday, November 5, 2021 11:17 AM
+> > > > > > > > To: Zhang, Chen <chen.zhang@intel.com>; Markus Armbruster
+> > > > > > > > <armbru@redhat.com>
+> > > > > > > > Cc: qemu-dev <qemu-devel@nongnu.org>; Li Zhijian
+> > > > > > > > <lizhijian@cn.fujitsu.com>
+> > > > > > > > Subject: Re: [PATCH V5 1/3] net/filter: Optimize transfer
+> > > > > > > > protocol for filter- mirror/redirector
+> > > > > > > >
+> > > > > > > >
+> > > > > > > > =E5=9C=A8 2021/11/4 =E4=B8=8B=E5=8D=881:37, Zhang, Chen =E5=
+=86=99=E9=81=93:
+> > > > > > > > >>>>>
+> > > > > > > > >>>>> I wonder if we need to introduce new parameter, e.g
+> > > > > > > > >>>>> force_vnet_hdr here, then we can always send vnet_hdr
+> > > > when
+> > > > > > > > >>>>> it
+> > > > > > is enabled.
+> > > > > > > > >>>>>
+> > > > > > > > >>>>> Otherwise the "vnet_hdr_support" seems meaningless.
+> > > > > > > > >>>> Yes, Current "vnet_hdr_support"  default enabled, and
+> > > > > > > > >>>> vnet_hdr_len
+> > > > > > > > >>> already forced from attached nf->netdev.
+> > > > > > > > >>>> Maybe we can introduce a new parameter
+> > > > "force_no_vnet_hdr"
+> > > > > > here
+> > > > > > > > to
+> > > > > > > > >>> make the vnet_hdr_len always keep 0.
+> > > > > > > > >>>> If you think OK, I will update it in next version.
+> > > > > > > > >>> Let me explain, if I was not wrong:
+> > > > > > > > >>>
+> > > > > > > > >>> "vnet_hdr_support" means whether or not to send vnet
+> > > > > > > > >>> header
+> > > > > > length.
+> > > > > > > > >>> If vnet_hdr_support=3Dfalse, we won't send the vnet hea=
+der.
+> > > > > > > > >>> This looks the same as you "force_no_vent_hdr" above.
+> > > > > > > > >> Yes, It was.  But this series changed it.
+> > > > > > > > >> Current "vnet_hdr_support" can't decide whether send vne=
+t
+> > > > > > > > >> header length, we always send it even 0.
+> > > > > > > > >> It will avoid sender/receiver transfer protocol parse is=
+sues:
+> > > > > > > > >> When sender data with the vnet header length, but
+> > > > > > > > >> receiver can't enable the "vnet_hdr_support".
+> > > > > > > > >> Filters will auto setup vnet_hdr_len as local nf->netdev
+> > > > > > > > >> and found the issue when get different vnet_hdr_len from
+> > > > > > > > >> other
+> > > > filters.
+> > > > > > > > >>
+> > > > > > > > >>> And my "force_vnet_hdr" seems duplicated with
+> > > > > > > > vnet_hdr_support=3Dtrue.
+> > > > > > > > >>> So it looks to me we can leave the mirror code as is an=
+d
+> > > > > > > > >>> just change the compare? (depends on the mgmt to set a
+> > > > > > > > >>> correct
+> > > > > > > > >>> vnet_hdr_support)
+> > > > > > > > >> OK, I will keep the
+> > > > > > > > >> filter-mirror/filter-redirector/filter-rewriter
+> > > > > > > > >> same as this version.
+> > > > > > > > >> For the colo-compare module, It will get primary node's
+> > > > > > > > >> filter data's vnet_hdr_len as the local value, And
+> > > > > > > > >> compare with secondary node's, because it is not attache=
+d any
+> > nf->netdev.
+> > > > > > > > >> So, it looks compare module's "vnet_hdr_support" been
+> > > > > > > > >> auto configuration from the filter transport protocol.
+> > > > > > > > >> If the "force_vnet_hdr" means hard code a compare's loca=
+l
+> > > > > > > > >> vnet_hdr_len rather than come from input filter's data?
+> > > > > > > > >>
+> > > > > > > > >> Thanks
+> > > > > > > > >> Chen
+> > > > > > > > >>
+> > > > > > > > > Hi Jason/Markus,
+> > > > > > > > >
+> > > > > > > > > Rethink about it, How about keep the original
+> > "vnet_hdr_support"
+> > > > > > > > > function, And add a new optional parameter "auto_vnet_hdr=
+"
+> > > > > > > > > for
+> > > > > > > > filters/compare?
+> > > > > > > >
+> > > > > > > >
+> > > > > > > > It's a way but rethink of the whole thing. I wonder what if
+> > > > > > > > we just enable "vnet_hdr_support" by default for filter and
+> > > > > > > > colo-
+> > > > compare?
+> > > > > > >
+> > > > > > > It's works by default for user use -device virtio-net-pci and=
+ e1000...
+> > > > > > > But it can't resolve this series motivation, how to fix/check
+> > > > > > > user
+> > > > > > configuration issue:
+> > > > > > > For example user enable " vnet_hdr_support " filter-mirror an=
+d
+> > > > > > > disable " vnet_hdr_support" filter-redirector And connect bot=
+h
+> > > > > > > filter modules by
+> > > > > > chardev socket.
+> > > > > > > In this case guest will get wrong network workload and filter=
+s
+> > > > > > > didn=E2=80=99t perceive any abnormalities, but in fact, the w=
+hole
+> > > > > > > system is no longer
+> > > > > > working.
+> > > > > > > This series will report error and try to correct it.
+> > > > > >
+> > > > > > The problem is how "auto_vnet_hdr" help in this case. It's a ne=
+w
+> > > > > > parameter which may lead to more wrong configuration?
+> > > > >
+> > > > > No, the "auto_vnet_hdr" will fix most the wrong configuration
+> > > > > issues as
+> > > > "vnet_hdr_support" correct setting.
+> > > > > When we enable the "auto_vnet_hdr", the original
+> > "vnet_hdr_support"
+> > > > will no effect.
+> > > >
+> > > > So it looks to me it still depends on the management to set
+> > "auto_vnet_hdr"
+> > > > to be true? (or make it enabled by default)
+> > >
+> > > Yes, I plan to make "auto_vnet_hdr" enabled by default in next versio=
+n.
+> > >
+> > > >
+> > > > If we can do that, isn't it much more simpler to make
+> > > > vnet_hdr_support by default?
+> > >
+> > > Yes, For compatibility filters and COLO still work with the original
+> > "vnet_hdr_support".
+> > > For new users, they can enable the new "auto_vnet_hdr" to avoid some
+> > issues.
+> >
+> > Question still, so we have
+> >
+> > 1) enable vnet_hdr_support by default
+> > 2) add auto_vnet_hdr and enable it by default
+> >
+> > Using 1) seems much more simpler and can solve this issue. If we depend=
+s
+> > on the default behaviour, it should be almost the same. If we want to t=
+each
+> > the mgmt, both should work. Any other advantages of 2)?
+>
+> Using 1) we can't ensure user configure parts of module by itself. (vnet_=
+hdr_support =3D off).
+> In this case, filter data already wrong and the filters can't report any =
+transfer error here.
 
-I mean the set of [msu]pmmask and [msu]pmbase, selected as appropriate for the current 
-execution mode.
+So I think the point is we can't ensure the user configure parts of
+module in any case even if auto_vnet_hdr is introduced. E.g user can
+choose to disable it manually. That's why I think it should not differ
+too much from making vnet_hdr_support enabled by default.
 
->> (3) Do we try to streamline the computation by passing down composite
->>     mask and base parameters.  This way we don't need to do complex
->>     examination of ENV to determine execution mode, and instead always
->>     compute
->>
->>        addr = (addr & mask) | base;
->>
->>     where mask = -1, base = 0 for "normal" addressing, and when
->>     UXLEN == 32, mask <= UINT32_MAX.
-> 
-> Do you mean add env->pmmask and env->pmbase?
-> 
-> I can initialize them in riscv_tr_init_disas_context, such as by env->xpmmask & UINT32_MAX .
-> 
->>
->> (4) Do we in fact want to pre-compute these into known slots on ENV,
->>     so that we don't have to pass these around as separate parameters?
->>     We would adjust these values during PM CSR changes and when
->>     changing privilege levels.
-For option (3), I was suggesting a mask + base pair passed down from TCG-generated code.
+Thanks
 
-For option (4), I was suggesting embedding a mask + base pair in env, which would be 
-re-computed at every privilege level change, plus reset and vmload.
+>
+> Using 2) filters will find/report this issue and try to fix it from local=
+ vnet_hdr_len.
+>
+> Thanks
+> Chen
+>
+> >
+> > Thanks
+> >
+> > >
+> > > Thanks
+> > > Chen
+> > >
+> > > >
+> > > > I think I may miss something.
+> > > >
+> > > > Thanks
+> > > >
+> > > > >
+> > > > > Thanks
+> > > > > Chen
+> > > > >
+> > > > > >
+> > > > > > Thanks
+> > > > > >
+> > > > > > >
+> > > > > > > Thanks
+> > > > > > > Chen
+> > > > > > >
+> > > > > > > >
+> > > > > > > > Thanks
+> > > > > > > >
+> > > > > > > >
+> > > > > > > > >
+> > > > > > > > > Thanks
+> > > > > > > > > Chen
+> > > > > > > > >
+> > > > > > > > >
+> > > > > > > > >>> Thanks
+> > > > > > > > >>>
+> > > > > > > > >>>> Thanks
+> > > > > > > > >>>> Chen
+> > > > > > > > >>>>
+> > > > > > > > >>>>> Thanks
+> > > > > > > > >>>>>
+> > > > > > > > >>>>>
+> > > > > > >
+> > > > >
+> > >
+>
 
-In both cases, the mask would be a combination of [msu]pmmask & (RV32 ? UINT32_MAX : 
-UINT64_MAX), as you say.
-
-
-r~
 
