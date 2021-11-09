@@ -2,55 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26DED44A823
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 09:07:18 +0100 (CET)
-Received: from localhost ([::1]:46494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F9F44A832
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 09:12:39 +0100 (CET)
+Received: from localhost ([::1]:50564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkMA1-0005S1-9P
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 03:07:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47972)
+	id 1mkMFD-0008NE-3r
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 03:12:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mkM7e-0002R0-8H; Tue, 09 Nov 2021 03:04:50 -0500
-Received: from out28-98.mail.aliyun.com ([115.124.28.98]:47452)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mkM7b-0002PB-8P; Tue, 09 Nov 2021 03:04:49 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.0743639|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.01797-3.63332e-05-0.981994;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047193; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.LpwnR1R_1636445079; 
-Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.LpwnR1R_1636445079) by smtp.aliyun-inc.com(10.147.40.7);
- Tue, 09 Nov 2021 16:04:40 +0800
-Subject: Re: [PATCH 09/13] target/riscv: Adjust vector address with ol
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org, Alexey Baturo <baturo.alexey@gmail.com>
-References: <20211101100143.44356-1-zhiwei_liu@c-sky.com>
- <20211101100143.44356-10-zhiwei_liu@c-sky.com>
- <851481b9-e973-b3e1-1722-73db47edb772@linaro.org>
- <f84e607c-e16e-ec3f-a7b3-e779b344fcb6@c-sky.com>
- <52357320-6098-c3da-b9de-89b131b85ffb@linaro.org>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <e045fba1-8361-dd33-8e9b-c22b8e389cf5@c-sky.com>
-Date: Tue, 9 Nov 2021 16:04:39 +0800
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mkMEG-0007cy-Fe
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 03:11:40 -0500
+Received: from [2a00:1450:4864:20::42b] (port=36529
+ helo=mail-wr1-x42b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mkMEE-0003ft-Tc
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 03:11:40 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id s13so31498580wrb.3
+ for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 00:11:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=0FubAA+wOrZ0I6zl4fQ4prSrIci6ZL5dQ4a6nuto7dI=;
+ b=XJ/uN4StSepnhHc7l3Ine0yT5SjKRL1yOLQ2FVtAGl9FGrVKYm9QvG4sHSy+md3cEE
+ 2m+W2YwIb9E5uEVxRLU5A3HjrZLe9co4lckCdqRe6eqH9HhkRPk//5PsrB2zl4cEJXS7
+ tRkubxsve7kB4hs+Agc0hlVYvphKsCU9IG7p2mhjPLLEFM9zX0vegU+SwWAhb7yR4JH9
+ ayI2yISu85PWZgN9Uo8Eg0bQnfY0dsrk3hsFHMmJchMCnZ2hFGoXOHFqUMZLWOdwrs5f
+ 3Alc/ZQJcPl9Xq01ba401rctOR6owjeS0U87v9EoC1XD9yWlBqOWSqyjZCjjAwAHxEaD
+ KRvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0FubAA+wOrZ0I6zl4fQ4prSrIci6ZL5dQ4a6nuto7dI=;
+ b=3IUFFlLXgPR+qFUK6GXU07R6OpRikxcqTv/Ze7/EwlfmiH+x4nIQgfCQZ5iK9tx8md
+ 5b/Wr3cEK1oAeiUGM5UuSE83Ku5Zw65f7aEBlBNAgTxlL+8RLJAhhTYBrhbNzMCzC63b
+ SpQpnjsy4T8XyHNdm2EBrEiURcuCq6C7+eUHpGd7EF4cPQ+tnMN1QXtHvijCek1JPJqI
+ yhSbZnvjJmEKejRKgrdvnpd/1R6+NjLfnQjVViThd+4FGgOciNVC8ApKcJovuZmXJfWb
+ qLSS5UrljBIF1iuVUIRduJg0pyrmzMJGVtv27zqOtDTK0yCuOUJWWG69z7rZqYKajqju
+ cLng==
+X-Gm-Message-State: AOAM531jazaBdnuPY4GAGRFJ1SgJgUIZDfeVTpawDCfPNOqyQonxwzUk
+ 6nreWRiaioLoAttLcN3Bco03hg==
+X-Google-Smtp-Source: ABdhPJwJqC9sR20rllm2919IHW6y9QP93CC3/G5lakY5DX0vPU/49ZZsh0xvLID7LaPcZxfnANzBPA==
+X-Received: by 2002:adf:fe8b:: with SMTP id l11mr6793320wrr.228.1636445497351; 
+ Tue, 09 Nov 2021 00:11:37 -0800 (PST)
+Received: from [192.168.8.106] (169.red-37-158-143.dynamicip.rima-tde.net.
+ [37.158.143.169])
+ by smtp.gmail.com with ESMTPSA id o63sm1879625wme.2.2021.11.09.00.11.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Nov 2021 00:11:36 -0800 (PST)
+Subject: Re: [RFC 4/4] common-user: Allow return codes to be adjusted after
+ sytsem call
+To: Warner Losh <imp@bsdimp.com>
+References: <20211108023738.42125-1-imp@bsdimp.com>
+ <20211108023738.42125-5-imp@bsdimp.com>
+ <0511aedf-1ecd-666d-034f-55d50306e115@linaro.org>
+ <CANCZdfohHLKjstby1t3vA3u=MU2qdt_FXNTSpWyUPbbyd2p5aw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <22fa61a3-c8ba-e0fe-36b8-86ba1c90ca84@linaro.org>
+Date: Tue, 9 Nov 2021 09:11:34 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <52357320-6098-c3da-b9de-89b131b85ffb@linaro.org>
+In-Reply-To: <CANCZdfohHLKjstby1t3vA3u=MU2qdt_FXNTSpWyUPbbyd2p5aw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: none client-ip=115.124.28.98; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-98.mail.aliyun.com
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.364,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.364,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,188 +94,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
+Cc: Philippe Mathieu-Daude <f4bug@amsat.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021/11/9 下午2:37, Richard Henderson wrote:
+On 11/8/21 7:49 PM, Warner Losh wrote:
+>      >       /* code path for having successfully executed the syscall */
+>      > +     ADJUST_SYSCALL_RETCODE
+>      >       ret
+>      >
+>      >   0:
+> 
+>     Not sure about this, really.  Is it really that much cleaner to insert this than create
+>     separate 10-line files, with the adjustment included?
+...
+> The adjustments have all been 3 lines (gmail seems to hate my formatting):
+> 
+> +#define        ADJUST_SYSCALL_RETCODE \
+> +    jnb 2f;                    \
+> +    neg %rax;                  \
+> +    2:
+> 
+> which is significantly easier to maintain than having to monitor these files for changes 
+> and copying over the changes that happen.
+...
+> The other alternative I considered was having a #ifdef __FreeBSD__ .. #endif in all those 
+> files, but I thought that even more intrusive.
 
-> On 11/8/21 10:28 AM, LIU Zhiwei wrote:
->> On 2021/11/1 下午7:35, Richard Henderson wrote:
->>
->>> On 11/1/21 6:01 AM, LIU Zhiwei wrote:
->>>> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
->>>> ---
->>>>   target/riscv/insn_trans/trans_rvv.c.inc |  8 ++++
->>>>   target/riscv/internals.h                |  1 +
->>>>   target/riscv/vector_helper.c            | 54 
->>>> +++++++++++++++++--------
->>>>   3 files changed, 46 insertions(+), 17 deletions(-)
->>>>
->>>> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc 
->>>> b/target/riscv/insn_trans/trans_rvv.c.inc
->>>> index ed042f7bb9..5cd9b802df 100644
->>>> --- a/target/riscv/insn_trans/trans_rvv.c.inc
->>>> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
->>>> @@ -233,6 +233,7 @@ static bool ld_us_op(DisasContext *s, 
->>>> arg_r2nfvm *a, uint8_t seq)
->>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>>       return ldst_us_trans(a->rd, a->rs1, data, fn, s);
->>>>   }
->>>>   @@ -286,6 +287,7 @@ static bool st_us_op(DisasContext *s, 
->>>> arg_r2nfvm *a, uint8_t seq)
->>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>>       return ldst_us_trans(a->rd, a->rs1, data, fn, s);
->>>>   }
->>>>   @@ -365,6 +367,7 @@ static bool ld_stride_op(DisasContext *s, 
->>>> arg_rnfvm *a, uint8_t seq)
->>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>>       return ldst_stride_trans(a->rd, a->rs1, a->rs2, data, fn, s);
->>>>   }
->>>>   @@ -404,6 +407,7 @@ static bool st_stride_op(DisasContext *s, 
->>>> arg_rnfvm *a, uint8_t seq)
->>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>>       fn =  fns[seq][s->sew];
->>>>       if (fn == NULL) {
->>>>           return false;
->>>> @@ -490,6 +494,7 @@ static bool ld_index_op(DisasContext *s, 
->>>> arg_rnfvm *a, uint8_t seq)
->>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>>       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s);
->>>>   }
->>>>   @@ -542,6 +547,7 @@ static bool st_index_op(DisasContext *s, 
->>>> arg_rnfvm *a, uint8_t seq)
->>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>>       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s);
->>>>   }
->>>>   @@ -617,6 +623,7 @@ static bool ldff_op(DisasContext *s, 
->>>> arg_r2nfvm *a, uint8_t seq)
->>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>>       return ldff_trans(a->rd, a->rs1, data, fn, s);
->>>>   }
->>>>   @@ -724,6 +731,7 @@ static bool amo_op(DisasContext *s, arg_rwdvm 
->>>> *a, uint8_t seq)
->>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>>       data = FIELD_DP32(data, VDATA, WD, a->wd);
->>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>>       return amo_trans(a->rd, a->rs1, a->rs2, data, fn, s);
->>>>   }
->>>>   /*
->>>> diff --git a/target/riscv/internals.h b/target/riscv/internals.h
->>>> index b15ad394bb..f74b8291e4 100644
->>>> --- a/target/riscv/internals.h
->>>> +++ b/target/riscv/internals.h
->>>> @@ -27,6 +27,7 @@ FIELD(VDATA, VM, 8, 1)
->>>>   FIELD(VDATA, LMUL, 9, 2)
->>>>   FIELD(VDATA, NF, 11, 4)
->>>>   FIELD(VDATA, WD, 11, 1)
->>>> +FIELD(VDATA, OL, 15, 2)
->>>>     /* float point classify helpers */
->>>>   target_ulong fclass_h(uint64_t frs1);
->>>> diff --git a/target/riscv/vector_helper.c 
->>>> b/target/riscv/vector_helper.c
->>>> index 535420ee66..451688c328 100644
->>>> --- a/target/riscv/vector_helper.c
->>>> +++ b/target/riscv/vector_helper.c
->>>> @@ -112,6 +112,11 @@ static uint32_t vext_wd(uint32_t desc)
->>>>       return (simd_data(desc) >> 11) & 0x1;
->>>>   }
->>>>   +static inline uint32_t vext_ol(uint32_t desc)
->>>> +{
->>>> +    return FIELD_EX32(simd_data(desc), VDATA, OL);
->>>> +}
->>>
->>> XLEN not OLEN.
->> OK.
->>>
->>>> @@ -123,6 +128,14 @@ static inline uint32_t vext_maxsz(uint32_t desc)
->>>>       return simd_maxsz(desc) << vext_lmul(desc);
->>>>   }
->>>>   +static inline target_ulong adjust_addr(target_ulong addr, 
->>>> uint32_t olen)
->>>> +{
->>>> +    if (olen < TARGET_LONG_BITS) {
->>>> +        addr &= UINT32_MAX;
->>>> +    }
->>>> +    return addr;
->>>> +}
->>>
->>> Here's where I'm unsure.  This looks a lot like the changes that are 
->>> required to support pointer-masking in vectors, which Alexey said he 
->>> was going to look at.
->>>
->>> (1) Do we need to pass anything in VEXT at all?
->>>     We do have CPURISCVState, so we could just use cpu_get_ml,
->> Yes, we should use cpu_get_xl.
->>> which we would also need for env->mmte etc for pointer masking.
->>
->> Do you mean env->mpmmask and env->mpmbase? I think yes, we should 
->> also adjust these register behaviors with xlen.
->
-> I mean the set of [msu]pmmask and [msu]pmbase, selected as appropriate 
-> for the current execution mode.
->
->>> (3) Do we try to streamline the computation by passing down composite
->>>     mask and base parameters.  This way we don't need to do complex
->>>     examination of ENV to determine execution mode, and instead always
->>>     compute
->>>
->>>        addr = (addr & mask) | base;
->>>
->>>     where mask = -1, base = 0 for "normal" addressing, and when
->>>     UXLEN == 32, mask <= UINT32_MAX.
->>
->> Do you mean add env->pmmask and env->pmbase?
->>
->> I can initialize them in riscv_tr_init_disas_context, such as by 
->> env->xpmmask & UINT32_MAX .
->>
->>>
->>> (4) Do we in fact want to pre-compute these into known slots on ENV,
->>>     so that we don't have to pass these around as separate parameters?
->>>     We would adjust these values during PM CSR changes and when
->>>     changing privilege levels.
-> For option (3), I was suggesting a mask + base pair passed down from 
-> TCG-generated code.
->
-> For option (4), I was suggesting embedding a mask + base pair in env, 
-> which would be re-computed at every privilege level change, plus reset 
-> and vmload.
->
-> In both cases, the mask would be a combination of [msu]pmmask & (RV32 
-> ? UINT32_MAX : UINT64_MAX), as you say.
+Actually, the ifdef sounds surprisingly attractive to me.  Is it ENOCOFFEE?
 
-We will calculate [msu]pmmask by  csrrw , and we have ignored high bits 
-there.
+What I find awkward about ADJUST_SYSCALL_RETCODE is that when you're looking at the 
+definition, you have no reference to the context, and vice versa.  Not that it can't be 
+worked out, but it seems like the same amount of code either way, and clearer when it's 
+together.
 
-Can we just use the [msu]pmmmask?
+We've already split the host cpu apart, which is the major point of ifdeffery, so it 
+doesn't seem like we'll wind up with a large amount of ifdefs here; we're not likely to 
+see mynewos-user wanting to share this code any time soon.
 
-Thanks,
-Zhiwei
+I feel sufficiently fuzzy on this to solicit other opinions though.
 
->
->
-> r~
+
+r~
 
