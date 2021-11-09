@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C60DE44A76B
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 08:13:09 +0100 (CET)
-Received: from localhost ([::1]:41614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4875144A773
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 08:19:20 +0100 (CET)
+Received: from localhost ([::1]:50528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkLJc-00026f-LS
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 02:13:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51086)
+	id 1mkLPb-0008VU-AE
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 02:19:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mkK5L-0006U1-Uw; Tue, 09 Nov 2021 00:54:21 -0500
-Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=42747
- helo=gandalf.ozlabs.org)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mkKlv-0006l6-VF; Tue, 09 Nov 2021 01:38:20 -0500
+Received: from out28-1.mail.aliyun.com ([115.124.28.1]:47293)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mkK5K-0006z7-4R; Tue, 09 Nov 2021 00:54:19 -0500
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HpHDq0RH8z4xfX; Tue,  9 Nov 2021 16:52:11 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1636437131;
- bh=+XrjXMLI1dwUOwhjHw1bC0qTv6boNamsXU1qE5Lo9sw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=C/gTF9mgTzM793lh+2ED1gqhcoREdmmvGkTU1dvK2n6QSEDIMAyxebW9mxZQTxjvj
- +2mnHLuEWpagafKlCX06kraigzXQGZGBvy7qmk+0ijgjpqtkKiFEio57Hlf5VEnAc6
- KTqFoOCQOdYfL5xnf9DkjnQfdO5mUhz8yufp6Bzc=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org, clg@kaod.org, danielhb413@gmail.com,
- groug@kaod.org
-Subject: [PULL 54/54] spapr_numa.c: FORM2 table handle nodes with no distance
- info
-Date: Tue,  9 Nov 2021 16:52:04 +1100
-Message-Id: <20211109055204.230765-55-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211109055204.230765-1-david@gibson.dropbear.id.au>
-References: <20211109055204.230765-1-david@gibson.dropbear.id.au>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mkKls-0002iW-OU; Tue, 09 Nov 2021 01:38:19 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436373|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.201897-0.00202343-0.796079;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047203; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.LpsvAyL_1636439890; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.LpsvAyL_1636439890)
+ by smtp.aliyun-inc.com(10.147.44.118);
+ Tue, 09 Nov 2021 14:38:10 +0800
+Subject: Re: [PATCH 11/13] target/riscv: Switch context in exception return
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20211101100143.44356-1-zhiwei_liu@c-sky.com>
+ <20211101100143.44356-12-zhiwei_liu@c-sky.com>
+ <0105910e-fd68-21ea-8ff0-36752dd0b2e7@linaro.org>
+ <272298c9-280d-5b0d-4d57-a8e9a4ab0849@c-sky.com>
+Message-ID: <773503ce-09d2-f6a4-0ee4-307741694575@c-sky.com>
+Date: Tue, 9 Nov 2021 14:38:10 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
+In-Reply-To: <272298c9-280d-5b0d-4d57-a8e9a4ab0849@c-sky.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for
- 2404:9400:2:0:216:3eff:fee2:21ea (failed)
-Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Language: en-US
+Received-SPF: none client-ip=115.124.28.1; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-1.mail.aliyun.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.364,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,65 +63,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- Nicholas Piggin <npiggin@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Alistair.Francis@wdc.com, bin.meng@windriver.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Nicholas Piggin <npiggin@gmail.com>
+We only have to process the special CSRs(like vtype/misa) when xlen 
+changes,  according to the explicitly  specified behavior about the CSR 
+width change behavior.
+For normal CSRs, the default behavior in section 2.4 , CSR Width 
+Modulation, is enough.
 
-A configuration that specifies multiple nodes without distance info
-results in the non-local points in the FORM2 matrix having a distance of
-0. This causes Linux to complain "Invalid distance value range" because
-a node distance is smaller than the local distance.
+And if we split the vill out, we will never need this patch. So I will 
+remove it next patch set.
 
-Fix this by building a simple local / remote fallback for points where
-distance information is missing.
+Thanks,
+Zhiwei
 
-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-Message-Id: <20211105135137.1584840-1-npiggin@gmail.com>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/ppc/spapr_numa.c | 22 +++++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
-
-diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-index 5822938448..56ab2a5fb6 100644
---- a/hw/ppc/spapr_numa.c
-+++ b/hw/ppc/spapr_numa.c
-@@ -546,12 +546,24 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
-              * NUMA nodes, but QEMU adds the default NUMA node without
-              * adding the numa_info to retrieve distance info from.
-              */
--            if (src == dst) {
--                distance_table[i++] = NUMA_DISTANCE_MIN;
--                continue;
-+            distance_table[i] = numa_info[src].distance[dst];
-+            if (distance_table[i] == 0) {
-+                /*
-+                 * In case QEMU adds a default NUMA single node when the user
-+                 * did not add any, or where the user did not supply distances,
-+                 * the value will be 0 here. Populate the table with a fallback
-+                 * simple local / remote distance.
-+                 */
-+                if (src == dst) {
-+                    distance_table[i] = NUMA_DISTANCE_MIN;
-+                } else {
-+                    distance_table[i] = numa_info[src].distance[dst];
-+                    if (distance_table[i] < NUMA_DISTANCE_MIN) {
-+                        distance_table[i] = NUMA_DISTANCE_DEFAULT;
-+                    }
-+                }
-             }
--
--            distance_table[i++] = numa_info[src].distance[dst];
-+            i++;
-         }
-     }
- 
--- 
-2.33.1
-
+On 2021/11/8 下午7:23, LIU Zhiwei wrote:
+>
+> On 2021/11/2 上午12:43, Richard Henderson wrote:
+>> On 11/1/21 6:01 AM, LIU Zhiwei wrote:
+>>> After excpetion return, we should give a xlen view of context in new
+>>> priveledge, including the general registers, pc, and CSRs.
+>>>
+>>> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+>>> ---
+>>>   target/riscv/helper.h                         |  1 +
+>>>   .../riscv/insn_trans/trans_privileged.c.inc   |  2 ++
+>>>   target/riscv/op_helper.c                      | 26 
+>>> +++++++++++++++++++
+>>>   3 files changed, 29 insertions(+)
+>>>
+>>> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+>>> index e198d43981..9b379d7232 100644
+>>> --- a/target/riscv/helper.h
+>>> +++ b/target/riscv/helper.h
+>>> @@ -71,6 +71,7 @@ DEF_HELPER_2(sret, tl, env, tl)
+>>>   DEF_HELPER_2(mret, tl, env, tl)
+>>>   DEF_HELPER_1(wfi, void, env)
+>>>   DEF_HELPER_1(tlb_flush, void, env)
+>>> +DEF_HELPER_1(switch_context_xl, void, env)
+>>>   #endif
+>>>     /* Hypervisor functions */
+>>> diff --git a/target/riscv/insn_trans/trans_privileged.c.inc 
+>>> b/target/riscv/insn_trans/trans_privileged.c.inc
+>>> index 75c6ef80a6..6e39632f83 100644
+>>> --- a/target/riscv/insn_trans/trans_privileged.c.inc
+>>> +++ b/target/riscv/insn_trans/trans_privileged.c.inc
+>>> @@ -78,6 +78,7 @@ static bool trans_sret(DisasContext *ctx, arg_sret 
+>>> *a)
+>>>         if (has_ext(ctx, RVS)) {
+>>>           gen_helper_sret(cpu_pc, cpu_env, cpu_pc);
+>>> +        gen_helper_switch_context_xl(cpu_env);
+>>>           tcg_gen_exit_tb(NULL, 0); /* no chaining */
+>>>           ctx->base.is_jmp = DISAS_NORETURN;
+>>>       } else {
+>>> @@ -94,6 +95,7 @@ static bool trans_mret(DisasContext *ctx, arg_mret 
+>>> *a)
+>>>   #ifndef CONFIG_USER_ONLY
+>>>       tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
+>>>       gen_helper_mret(cpu_pc, cpu_env, cpu_pc);
+>>> +    gen_helper_switch_context_xl(cpu_env);
+>>>       tcg_gen_exit_tb(NULL, 0); /* no chaining */
+>>>       ctx->base.is_jmp = DISAS_NORETURN;
+>>>       return true;
+>>> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+>>> index ee7c24efe7..20cf8ad883 100644
+>>> --- a/target/riscv/op_helper.c
+>>> +++ b/target/riscv/op_helper.c
+>>> @@ -70,6 +70,32 @@ target_ulong helper_csrrw(CPURISCVState *env, int 
+>>> csr,
+>>>   }
+>>>     #ifndef CONFIG_USER_ONLY
+>>> +void helper_switch_context_xl(CPURISCVState *env)
+>>> +{
+>>> +    RISCVMXL xl = cpu_get_xl(env);
+>>> +    if (xl == env->misa_mxl_max) {
+>>> +        return;
+>>> +    }
+>>> +    assert(xl < env->misa_mxl_max);
+>>> +    switch (xl) {
+>>> +    case MXL_RV32:
+>>> +        for (int i = 1; i < 32; i++) {
+>>> +            env->gpr[i] = (int32_t)env->gpr[i];
+>>> +        }
+>>
+>> I think this is wrong.  As I read the spec, the new context ignores 
+>> high bits and writes sign-extended values, but registers that are not 
+>> written should not be changed.
+> I think so.
+>>
+>> I think that a unit test with SXLEN == 64 and UXLEN == 32, where the 
+>> U-mode program executes only the ECALL instruction, should leave the 
+>> high 32 bits of all gprs unchanged on re-entry to S-mode.
+> Re-entry to U-mode?  I think you are right.  But currently I don't 
+> have a hardware has implemented the UXL32.
+>>
+>>> +        env->pc = (int32_t)env->pc;
+>>
+>> I think this will happen naturally via patch 3.
+> Maybe we have to sign extend here as clarified in other reply.
+>>
+>>> +        /*
+>>> +         * For the read-only bits of the previous-width CSR, the 
+>>> bits at the
+>>> +         * same positions in the temporary register are set to zeros.
+>>> +         */
+>>> +        if ((env->priv == PRV_U) && (env->misa_ext & RVV)) {
+>>> +            env->vl = 0;
+>>> +            env->vtype = 0;
+>>> +        }
+>>
+>> I don't understand this.  The return from the S-mode interrupt 
+>> handler to the U-mode program should preserve the U-mode VTYPE.
+>>
+>>
+> According to the privileged architecture specification,  section 2.5,  
+> if the width of a CSR is changed, the read-only bits of the 
+> previous-width CSR are zeroed.
+> More general,  there is an algorithm how to calculate the new CSR 
+> value from the previous CSR.
+>
+> I am not sure which is the right time  to do this context switch. The 
+> write time of  UXL field , or return to the U-mode?
+>
+>
+> Thanks,
+> Zhiwei
+>
+>> r~
+>
 
