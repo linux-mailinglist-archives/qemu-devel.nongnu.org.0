@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D56B644A6C4
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 07:21:42 +0100 (CET)
-Received: from localhost ([::1]:51446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA04444A6C5
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 07:22:47 +0100 (CET)
+Received: from localhost ([::1]:53402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkKVp-0007cF-Vq
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 01:21:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50090)
+	id 1mkKWs-0000bU-UV
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 01:22:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mkK3l-0004UH-FU; Tue, 09 Nov 2021 00:52:44 -0500
-Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=50211
+ id 1mkK3p-0004Vq-8R; Tue, 09 Nov 2021 00:52:45 -0500
+Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=39255
  helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mkK3j-0006gz-16; Tue, 09 Nov 2021 00:52:40 -0500
+ id 1mkK3j-0006h0-1A; Tue, 09 Nov 2021 00:52:42 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HpHDp1250z4xdq; Tue,  9 Nov 2021 16:52:10 +1100 (AEDT)
+ id 4HpHDp1Dl4z4xdr; Tue,  9 Nov 2021 16:52:10 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1636437130;
- bh=la4jD0mygrsjfKVP/LV8XfnLpo0mWqDcG5myMILlX44=;
+ bh=GhARVETZWmDcYd6NUT96zNv6kn9IqcbmhEy/pZssS1Y=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=B0KQNn1bGvj4N3uJjiwIwXmL78DwPQ6PKBv+DSVPWN74vlsoQZby6xMwA1Z4esyCI
- BmMJNVm65LuGDLep+nLRg7pJhRXmoG0j70hCVGYKcmA+XTBYocB/H2Tv5NnJhKic2W
- NvugKQXH9JffLBNIRFjCenofUD1/0ApeXX4XA4AI=
+ b=Yxn8soaeuI3+jy1vl6Y4EUnayyvT1IJvK6aei/oLAW0wbuqTYM/XXmGagTRjH2mx8
+ tFzsldLPpjBljASVOYNPMfIIbhencwwsvbG8cSfn2Vbnhrb28rOUw4P8moTJUopDLU
+ LUzYeSOauzsHzYQkrcAQFnhDtzTJuyW95idkfY0U=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org, clg@kaod.org, danielhb413@gmail.com,
  groug@kaod.org
-Subject: [PULL 15/54] host-utils: Introduce mulu128
-Date: Tue,  9 Nov 2021 16:51:25 +1100
-Message-Id: <20211109055204.230765-16-david@gibson.dropbear.id.au>
+Subject: [PULL 16/54] libdecnumber: Introduce decNumberIntegralToInt128
+Date: Tue,  9 Nov 2021 16:51:26 +1100
+Message-Id: <20211109055204.230765-17-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211109055204.230765-1-david@gibson.dropbear.id.au>
 References: <20211109055204.230765-1-david@gibson.dropbear.id.au>
@@ -69,61 +69,186 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Luis Pires <luis.pires@eldorado.org.br>
 
+This will be used to implement PowerPC's dctfixqq.
+
 Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211029192417.400707-6-luis.pires@eldorado.org.br>
+Message-Id: <20211029192417.400707-7-luis.pires@eldorado.org.br>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- include/qemu/host-utils.h | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ include/libdecnumber/decNumber.h      |  2 +
+ include/libdecnumber/decNumberLocal.h |  2 +-
+ libdecnumber/decContext.c             |  7 +-
+ libdecnumber/decNumber.c              | 95 +++++++++++++++++++++++++++
+ 4 files changed, 102 insertions(+), 4 deletions(-)
 
-diff --git a/include/qemu/host-utils.h b/include/qemu/host-utils.h
-index a3a7ced78d..ca979dc6cc 100644
---- a/include/qemu/host-utils.h
-+++ b/include/qemu/host-utils.h
-@@ -590,6 +590,42 @@ static inline bool umul64_overflow(uint64_t x, uint64_t y, uint64_t *ret)
- #endif
- }
+diff --git a/include/libdecnumber/decNumber.h b/include/libdecnumber/decNumber.h
+index 0cf69c7db2..41bc2a0d36 100644
+--- a/include/libdecnumber/decNumber.h
++++ b/include/libdecnumber/decNumber.h
+@@ -124,6 +124,8 @@
+   uint32_t    decNumberToUInt32(const decNumber *, decContext *);
+   int32_t     decNumberToInt32(const decNumber *, decContext *);
+   int64_t     decNumberIntegralToInt64(const decNumber *dn, decContext *set);
++  void        decNumberIntegralToInt128(const decNumber *dn, decContext *set,
++        uint64_t *plow, uint64_t *phigh);
+   uint8_t   * decNumberGetBCD(const decNumber *, uint8_t *);
+   decNumber * decNumberSetBCD(decNumber *, const uint8_t *, uint32_t);
  
-+/*
-+ * Unsigned 128x64 multiplication.
-+ * Returns true if the result got truncated to 128 bits.
-+ * Otherwise, returns false and the multiplication result via plow and phigh.
-+ */
-+static inline bool mulu128(uint64_t *plow, uint64_t *phigh, uint64_t factor)
+diff --git a/include/libdecnumber/decNumberLocal.h b/include/libdecnumber/decNumberLocal.h
+index 4d53c077f2..6198ca8593 100644
+--- a/include/libdecnumber/decNumberLocal.h
++++ b/include/libdecnumber/decNumberLocal.h
+@@ -98,7 +98,7 @@
+ 
+   /* Shared lookup tables					      */
+   extern const uByte  DECSTICKYTAB[10]; /* re-round digits if sticky  */
+-  extern const uLong  DECPOWERS[19];    /* powers of ten table        */
++  extern const uLong  DECPOWERS[20];    /* powers of ten table        */
+   /* The following are included from decDPD.h			      */
+   extern const uShort DPD2BIN[1024];	/* DPD -> 0-999		      */
+   extern const uShort BIN2DPD[1000];	/* 0-999 -> DPD		      */
+diff --git a/libdecnumber/decContext.c b/libdecnumber/decContext.c
+index 7d97a65ac5..1956edf0a7 100644
+--- a/libdecnumber/decContext.c
++++ b/libdecnumber/decContext.c
+@@ -53,12 +53,13 @@ static	const  Flag *mfctop=(Flag *)&mfcone; /* -> top byte */
+ const uByte DECSTICKYTAB[10]={1,1,2,3,4,6,6,7,8,9}; /* used if sticky */
+ 
+ /* ------------------------------------------------------------------ */
+-/* Powers of ten (powers[n]==10**n, 0<=n<=9)			      */
++/* Powers of ten (powers[n]==10**n, 0<=n<=19)                         */
+ /* ------------------------------------------------------------------ */
+-const uLong DECPOWERS[19] = {1, 10, 100, 1000, 10000, 100000, 1000000,
++const uLong DECPOWERS[20] = {1, 10, 100, 1000, 10000, 100000, 1000000,
+   10000000, 100000000, 1000000000, 10000000000ULL, 100000000000ULL,
+   1000000000000ULL, 10000000000000ULL, 100000000000000ULL, 1000000000000000ULL,
+-  10000000000000000ULL, 100000000000000000ULL, 1000000000000000000ULL, };
++  10000000000000000ULL, 100000000000000000ULL, 1000000000000000000ULL,
++  10000000000000000000ULL,};
+ 
+ /* ------------------------------------------------------------------ */
+ /* decContextClearStatus -- clear bits in current status	      */
+diff --git a/libdecnumber/decNumber.c b/libdecnumber/decNumber.c
+index d7716ce175..31282adafd 100644
+--- a/libdecnumber/decNumber.c
++++ b/libdecnumber/decNumber.c
+@@ -264,6 +264,7 @@ static decNumber * decTrim(decNumber *, decContext *, Flag, Int *);
+ static Int	   decUnitAddSub(const Unit *, Int, const Unit *, Int, Int,
+ 			      Unit *, Int);
+ static Int	   decUnitCompare(const Unit *, Int, const Unit *, Int, Int);
++static bool        mulUInt128ByPowOf10(uLong *, uLong *, uInt);
+ 
+ #if !DECSUBSET
+ /* decFinish == decFinalize when no subset arithmetic needed */
+@@ -542,6 +543,68 @@ Invalid:
+     return 0;
+ } /* decNumberIntegralToInt64 */
+ 
++/* ------------------------------------------------------------------ */
++/* decNumberIntegralToInt128 -- conversion to int128                  */
++/*                                                                    */
++/*  dn is the decNumber to convert.  dn is assumed to have been       */
++/*    rounded to a floating point integer value.                      */
++/*  set is the context for reporting errors                           */
++/*  returns the converted decNumber via plow and phigh                */
++/*                                                                    */
++/* Invalid is set if the decNumber is a NaN, Infinite or is out of    */
++/* range for a signed 128 bit integer.                                */
++/* ------------------------------------------------------------------ */
++
++void decNumberIntegralToInt128(const decNumber *dn, decContext *set,
++        uint64_t *plow, uint64_t *phigh)
 +{
-+#if defined(CONFIG_INT128) && \
-+    (__has_builtin(__builtin_mul_overflow) || __GNUC__ >= 5)
-+    bool res;
-+    __uint128_t r;
-+    __uint128_t f = ((__uint128_t)*phigh << 64) | *plow;
-+    res = __builtin_mul_overflow(f, factor, &r);
++    int d;        /* work */
++    const Unit *up;   /* .. */
++    uint64_t lo = 0, hi = 0;
 +
-+    *plow = r;
-+    *phigh = r >> 64;
-+
-+    return res;
-+#else
-+    uint64_t dhi = *phigh;
-+    uint64_t dlo = *plow;
-+    uint64_t ahi;
-+    uint64_t blo, bhi;
-+
-+    if (dhi == 0) {
-+        mulu64(plow, phigh, dlo, factor);
-+        return false;
++    if (decNumberIsSpecial(dn) || (dn->exponent < 0) ||
++       (dn->digits + dn->exponent > 39)) {
++        goto Invalid;
 +    }
 +
-+    mulu64(plow, &ahi, dlo, factor);
-+    mulu64(&blo, &bhi, dhi, factor);
++    up = dn->lsu;     /* -> lsu */
 +
-+    return uadd64_overflow(ahi, blo, phigh) || bhi != 0;
-+#endif
++    for (d = (dn->digits - 1) / DECDPUN; d >= 0; d--) {
++        if (mulu128(&lo, &hi, DECDPUNMAX + 1)) {
++            /* overflow */
++            goto Invalid;
++        }
++        if (uadd64_overflow(lo, up[d], &lo)) {
++            if (uadd64_overflow(hi, 1, &hi)) {
++                /* overflow */
++                goto Invalid;
++            }
++        }
++    }
++
++    if (mulUInt128ByPowOf10(&lo, &hi, dn->exponent)) {
++        /* overflow */
++        goto Invalid;
++    }
++
++    if (decNumberIsNegative(dn)) {
++        if (lo == 0) {
++            *phigh = -hi;
++            *plow = 0;
++        } else {
++            *phigh = ~hi;
++            *plow = -lo;
++        }
++    } else {
++        *plow = lo;
++        *phigh = hi;
++    }
++
++    return;
++
++Invalid:
++    decContextSetStatus(set, DEC_Invalid_operation);
++} /* decNumberIntegralToInt128 */
+ 
+ /* ------------------------------------------------------------------ */
+ /* to-scientific-string -- conversion to numeric string		      */
+@@ -7885,6 +7948,38 @@ static Int decGetDigits(Unit *uar, Int len) {
+   return digits;
+   } /* decGetDigits */
+ 
++/* ------------------------------------------------------------------ */
++/* mulUInt128ByPowOf10 -- multiply a 128-bit unsigned integer by a    */
++/* power of 10.                                                       */
++/*                                                                    */
++/*   The 128-bit factor composed of plow and phigh is multiplied      */
++/*   by 10^exp.                                                       */
++/*                                                                    */
++/*   plow   pointer to the low 64 bits of the first factor            */
++/*   phigh  pointer to the high 64 bits of the first factor           */
++/*   exp    the exponent of the power of 10 of the second factor      */
++/*                                                                    */
++/* If the result fits in 128 bits, returns false and the              */
++/* multiplication result through plow and phigh.                      */
++/* Otherwise, returns true.                                           */
++/* ------------------------------------------------------------------ */
++static bool mulUInt128ByPowOf10(uLong *plow, uLong *phigh, uInt pow10)
++{
++    while (pow10 >= ARRAY_SIZE(powers)) {
++        if (mulu128(plow, phigh, powers[ARRAY_SIZE(powers) - 1])) {
++            /* Overflow */
++            return true;
++        }
++        pow10 -= ARRAY_SIZE(powers) - 1;
++    }
++
++    if (pow10 > 0) {
++        return mulu128(plow, phigh, powers[pow10]);
++    } else {
++        return false;
++    }
 +}
 +
- /**
-  * uadd64_carry - addition with carry-in and carry-out
-  * @x, @y: addends
+ #if DECTRACE | DECCHECK
+ /* ------------------------------------------------------------------ */
+ /* decNumberShow -- display a number [debug aid]		      */
 -- 
 2.33.1
 
