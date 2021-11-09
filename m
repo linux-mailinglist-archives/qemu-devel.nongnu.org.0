@@ -2,50 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ABC744A711
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 07:54:59 +0100 (CET)
-Received: from localhost ([::1]:49024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 472A644A715
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 07:57:15 +0100 (CET)
+Received: from localhost ([::1]:57902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkL22-0002fM-EN
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 01:54:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50922)
+	id 1mkL4E-0000Df-4w
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 01:57:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mkK5G-0006Jl-8z; Tue, 09 Nov 2021 00:54:14 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76]:36839)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mkK5D-0006yX-NM; Tue, 09 Nov 2021 00:54:13 -0500
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HpHDq0FgTz4xfZ; Tue,  9 Nov 2021 16:52:11 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1636437131;
- bh=VBfYdBAQsD/HFUnwDBV2+uw+GpEQu+btD8mWoxWd0us=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=c2cjmc37EWiHZ9c2SZWDuQRTtU0HIMnawTDX7cN2oauwpjW/M4zme43GjbtXx0kX0
- 7tvHnsSYfL3jEPTNVuo/PHnDzG+qMM6DB+TijVxW+e2e+f497UABIu4eoG6gzoK14M
- to+N6CcSXp+UeGMxqDiguaNVqZZFcWflYR8Ycdcw=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org, clg@kaod.org, danielhb413@gmail.com,
- groug@kaod.org
-Subject: [PULL 53/54] target/ppc, hw/ppc: Change maintainers
-Date: Tue,  9 Nov 2021 16:52:03 +1100
-Message-Id: <20211109055204.230765-54-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211109055204.230765-1-david@gibson.dropbear.id.au>
-References: <20211109055204.230765-1-david@gibson.dropbear.id.au>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mkKkw-0005Za-D0
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 01:37:18 -0500
+Received: from [2a00:1450:4864:20::42e] (port=46679
+ helo=mail-wr1-x42e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mkKku-0002eY-BX
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 01:37:18 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id u1so31073634wru.13
+ for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 22:37:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=kpeD7Nfxaud+wWNp3eppygWk3IkUsJ1vlomcvvkmwFo=;
+ b=kHir0vuJQU2o2VYeRyMdN4XShe8oURrOT7762ihaBugoNKmMqJhA3e+WDsCRGxgCyF
+ oLyPZX5ihDO34wmC0YwntDeWNSQDtWOTbQbePEuIQ7lV0brlgAERd3tXCEXJxrtNbC6s
+ SmuzryPphZRWJepd6LurSj9M8S729nW9vsPaHF7TUe6M0mxALb5acEdlUYUuZaB20zVo
+ DmbY62jlID94p4swi0l0NHjXoKmix+2/canzgOJecJ7iuL0p4vecV+QwR/wa/acLUnfB
+ svbLOWy9SF5IfK4dUjXrUh0uzYHgbnIpyivoFmkLNM9qmns3N66KuI5JGtr6mjo57e6w
+ u8lQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kpeD7Nfxaud+wWNp3eppygWk3IkUsJ1vlomcvvkmwFo=;
+ b=Yp73uOoXwOJaJn6kJHM0WV9+IHqPMkf1HQBepevyRaM+wantxbSi/5DBcFh+vtg5wO
+ o0FwfxM0XPs8cxIoc+wS5dcFbiptwRmr64olKsxS+A/IlS26hRuuJWcZ1ugCmHeI94Zh
+ qXOhju4WCfwXEiFbdsUqX3G8JKydriFV+tCqk1HBHHoNKOqbosDp14BiG2fkTy33z6Je
+ ee0tr9PI83wQAPd6JiDmGKan7ZRf4zetvYJNgypK4TDPXAIo+txXKgBNOiBZP0tWnLxX
+ gKd5SKwebUl6xDJxIw6hs2QJm9VcNO9YtIwd0ORmeX5863n6yHlh7Nn6+s5eOhodEUzH
+ Sn1Q==
+X-Gm-Message-State: AOAM531fqH9spfy7UFfhsmKQXA6zRnvP9N9UZo6ckReVz/eemg1ShlUP
+ 7f19MYPIMvsiuNJPjeYEVJPsVQ==
+X-Google-Smtp-Source: ABdhPJyILaQbtxk4pApk66iV7JyNlTHoa2VARvLd7Oma6il6ErPT7nm+um+W8mdcDr8zM18jjtu5qQ==
+X-Received: by 2002:a05:6000:1a48:: with SMTP id
+ t8mr664176wry.66.1636439833502; 
+ Mon, 08 Nov 2021 22:37:13 -0800 (PST)
+Received: from [192.168.8.106] (169.red-37-158-143.dynamicip.rima-tde.net.
+ [37.158.143.169])
+ by smtp.gmail.com with ESMTPSA id g5sm20791010wri.45.2021.11.08.22.37.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Nov 2021 22:37:13 -0800 (PST)
+Subject: Re: [PATCH 09/13] target/riscv: Adjust vector address with ol
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org, Alexey Baturo <baturo.alexey@gmail.com>
+References: <20211101100143.44356-1-zhiwei_liu@c-sky.com>
+ <20211101100143.44356-10-zhiwei_liu@c-sky.com>
+ <851481b9-e973-b3e1-1722-73db47edb772@linaro.org>
+ <f84e607c-e16e-ec3f-a7b3-e779b344fcb6@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <52357320-6098-c3da-b9de-89b131b85ffb@linaro.org>
+Date: Tue, 9 Nov 2021 07:37:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <f84e607c-e16e-ec3f-a7b3-e779b344fcb6@c-sky.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.364,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,87 +95,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As our day jobs and interests have moved onto other things, Greg and I have
-been struggling to keep on top of maintainership of target/ppc and
-associated pieces like the pseries and powernv machine types, with their
-platform specific devices.
+On 11/8/21 10:28 AM, LIU Zhiwei wrote:
+> On 2021/11/1 下午7:35, Richard Henderson wrote:
+> 
+>> On 11/1/21 6:01 AM, LIU Zhiwei wrote:
+>>> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+>>> ---
+>>>   target/riscv/insn_trans/trans_rvv.c.inc |  8 ++++
+>>>   target/riscv/internals.h                |  1 +
+>>>   target/riscv/vector_helper.c            | 54 +++++++++++++++++--------
+>>>   3 files changed, 46 insertions(+), 17 deletions(-)
+>>>
+>>> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc 
+>>> b/target/riscv/insn_trans/trans_rvv.c.inc
+>>> index ed042f7bb9..5cd9b802df 100644
+>>> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+>>> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+>>> @@ -233,6 +233,7 @@ static bool ld_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t seq)
+>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>>       return ldst_us_trans(a->rd, a->rs1, data, fn, s);
+>>>   }
+>>>   @@ -286,6 +287,7 @@ static bool st_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t seq)
+>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>>       return ldst_us_trans(a->rd, a->rs1, data, fn, s);
+>>>   }
+>>>   @@ -365,6 +367,7 @@ static bool ld_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
+>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>>       return ldst_stride_trans(a->rd, a->rs1, a->rs2, data, fn, s);
+>>>   }
+>>>   @@ -404,6 +407,7 @@ static bool st_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
+>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>>       fn =  fns[seq][s->sew];
+>>>       if (fn == NULL) {
+>>>           return false;
+>>> @@ -490,6 +494,7 @@ static bool ld_index_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
+>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>>       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s);
+>>>   }
+>>>   @@ -542,6 +547,7 @@ static bool st_index_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
+>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>>       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s);
+>>>   }
+>>>   @@ -617,6 +623,7 @@ static bool ldff_op(DisasContext *s, arg_r2nfvm *a, uint8_t seq)
+>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>>       return ldff_trans(a->rd, a->rs1, data, fn, s);
+>>>   }
+>>>   @@ -724,6 +731,7 @@ static bool amo_op(DisasContext *s, arg_rwdvm *a, uint8_t seq)
+>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>>       data = FIELD_DP32(data, VDATA, WD, a->wd);
+>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>>       return amo_trans(a->rd, a->rs1, a->rs2, data, fn, s);
+>>>   }
+>>>   /*
+>>> diff --git a/target/riscv/internals.h b/target/riscv/internals.h
+>>> index b15ad394bb..f74b8291e4 100644
+>>> --- a/target/riscv/internals.h
+>>> +++ b/target/riscv/internals.h
+>>> @@ -27,6 +27,7 @@ FIELD(VDATA, VM, 8, 1)
+>>>   FIELD(VDATA, LMUL, 9, 2)
+>>>   FIELD(VDATA, NF, 11, 4)
+>>>   FIELD(VDATA, WD, 11, 1)
+>>> +FIELD(VDATA, OL, 15, 2)
+>>>     /* float point classify helpers */
+>>>   target_ulong fclass_h(uint64_t frs1);
+>>> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+>>> index 535420ee66..451688c328 100644
+>>> --- a/target/riscv/vector_helper.c
+>>> +++ b/target/riscv/vector_helper.c
+>>> @@ -112,6 +112,11 @@ static uint32_t vext_wd(uint32_t desc)
+>>>       return (simd_data(desc) >> 11) & 0x1;
+>>>   }
+>>>   +static inline uint32_t vext_ol(uint32_t desc)
+>>> +{
+>>> +    return FIELD_EX32(simd_data(desc), VDATA, OL);
+>>> +}
+>>
+>> XLEN not OLEN.
+> OK.
+>>
+>>> @@ -123,6 +128,14 @@ static inline uint32_t vext_maxsz(uint32_t desc)
+>>>       return simd_maxsz(desc) << vext_lmul(desc);
+>>>   }
+>>>   +static inline target_ulong adjust_addr(target_ulong addr, uint32_t olen)
+>>> +{
+>>> +    if (olen < TARGET_LONG_BITS) {
+>>> +        addr &= UINT32_MAX;
+>>> +    }
+>>> +    return addr;
+>>> +}
+>>
+>> Here's where I'm unsure.  This looks a lot like the changes that are required to support 
+>> pointer-masking in vectors, which Alexey said he was going to look at.
+>>
+>> (1) Do we need to pass anything in VEXT at all?
+>>     We do have CPURISCVState, so we could just use cpu_get_ml,
+> Yes, we should use cpu_get_xl.
+>> which we would also need for env->mmte etc for pointer masking.
+> 
+> Do you mean env->mpmmask and env->mpmbase? I think yes, we should also adjust these 
+> register behaviors with xlen.
 
-We've therefore discussed and plan to transfer maintainership to Cédric Le
-Goater (primary) and Daniel Henrique Barboza (backup).  Cédric and Daniel
-have been actively contributing to the area for some time, and they're
-supported in this by their current employer, IBM, who has an obvious
-interest in the platform.
+I mean the set of [msu]pmmask and [msu]pmbase, selected as appropriate for the current 
+execution mode.
 
-Greg and I do plan to stay around in some capacity for at least the next
-6 months, providing reviews and advice to assist the new maintainers into
-the role.
+>> (3) Do we try to streamline the computation by passing down composite
+>>     mask and base parameters.  This way we don't need to do complex
+>>     examination of ENV to determine execution mode, and instead always
+>>     compute
+>>
+>>        addr = (addr & mask) | base;
+>>
+>>     where mask = -1, base = 0 for "normal" addressing, and when
+>>     UXLEN == 32, mask <= UINT32_MAX.
+> 
+> Do you mean add env->pmmask and env->pmbase?
+> 
+> I can initialize them in riscv_tr_init_disas_context, such as by env->xpmmask & UINT32_MAX .
+> 
+>>
+>> (4) Do we in fact want to pre-compute these into known slots on ENV,
+>>     so that we don't have to pass these around as separate parameters?
+>>     We would adjust these values during PM CSR changes and when
+>>     changing privilege levels.
+For option (3), I was suggesting a mask + base pair passed down from TCG-generated code.
 
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Acked-by: Cédric Le Goater <clg@kaod.org>
----
- MAINTAINERS | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+For option (4), I was suggesting embedding a mask + base pair in env, which would be 
+re-computed at every privilege level change, plus reset and vmload.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 53b63df407..d3879aa3c1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -262,8 +262,10 @@ F: hw/openrisc/
- F: tests/tcg/openrisc/
- 
- PowerPC TCG CPUs
--M: David Gibson <david@gibson.dropbear.id.au>
--M: Greg Kurz <groug@kaod.org>
-+M: Cédric Le Goater <clg@kaod.org>
-+M: Daniel Henrique Barboza <danielhb413@gmail.com>
-+R: David Gibson <david@gibson.dropbear.id.au>
-+R: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Maintained
- F: target/ppc/
-@@ -382,8 +384,10 @@ F: target/mips/kvm*
- F: target/mips/sysemu/
- 
- PPC KVM CPUs
--M: David Gibson <david@gibson.dropbear.id.au>
--M: Greg Kurz <groug@kaod.org>
-+M: Cédric Le Goater <clg@kaod.org>
-+M: Daniel Henrique Barboza <danielhb413@gmail.com>
-+R: David Gibson <david@gibson.dropbear.id.au>
-+R: Greg Kurz <groug@kaod.org>
- S: Maintained
- F: target/ppc/kvm.c
- 
-@@ -1321,8 +1325,10 @@ F: include/hw/rtc/m48t59.h
- F: tests/avocado/ppc_prep_40p.py
- 
- sPAPR
--M: David Gibson <david@gibson.dropbear.id.au>
--M: Greg Kurz <groug@kaod.org>
-+M: Cédric Le Goater <clg@kaod.org>
-+M: Daniel Henrique Barboza <danielhb413@gmail.com>
-+R: David Gibson <david@gibson.dropbear.id.au>
-+R: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Maintained
- F: hw/*/spapr*
-@@ -1382,6 +1388,8 @@ F: include/hw/pci-host/mv64361.h
- 
- Virtual Open Firmware (VOF)
- M: Alexey Kardashevskiy <aik@ozlabs.ru>
-+R: Cédric Le Goater <clg@kaod.org>
-+R: Daniel Henrique Barboza <danielhb413@gmail.com>
- R: David Gibson <david@gibson.dropbear.id.au>
- R: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
--- 
-2.33.1
+In both cases, the mask would be a combination of [msu]pmmask & (RV32 ? UINT32_MAX : 
+UINT64_MAX), as you say.
 
+
+r~
 
