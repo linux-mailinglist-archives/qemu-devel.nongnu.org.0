@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8DE44AD45
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 13:15:12 +0100 (CET)
-Received: from localhost ([::1]:60128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B27B44AD5A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 13:17:03 +0100 (CET)
+Received: from localhost ([::1]:36230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkQ1v-0003HV-AJ
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 07:15:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36000)
+	id 1mkQ3i-0006IE-FH
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 07:17:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkPz8-0001CP-W0
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 07:12:22 -0500
-Received: from [2a00:1450:4864:20::42e] (port=42651
- helo=mail-wr1-x42e.google.com)
+ id 1mkQ0v-0002s0-AZ
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 07:14:09 -0500
+Received: from [2a00:1450:4864:20::432] (port=38463
+ helo=mail-wr1-x432.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkPz5-0003Tt-Oi
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 07:12:18 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id c4so32617983wrd.9
- for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 04:12:15 -0800 (PST)
+ id 1mkQ0s-0003fV-M0
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 07:14:08 -0500
+Received: by mail-wr1-x432.google.com with SMTP id u18so32581252wrg.5
+ for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 04:14:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=lRE2zZ18/cc1dhzx3rnZDaP6FKD6dYcwLf/z9SDH8pw=;
- b=IIyCgqIIVGDI0+caMvCRJr6oEMOxoVvItrdscFWdeZ4Z56H2M2aaW00LIMLuuHqXXS
- M7L4BHUUVc9aXqvgY/+/sOMiJcL2fCIZc/sNspPMTmRWZwFBCGVyTKqJeq0X6B1sUIaP
- 8eUZQRn8pmp5WT7XpFhOVkeN6QeQm6FEzoxZX+tw+CJPoh5DIcZ6ggJMerJU/04KFtjk
- QaUMzW97uL0D4oDQZ1pH+CzP7lr6o7TL93Yvjxf1a7NKD1udWT5UHYK50oztZ5+heWOh
- H8wEMKMuU8I+qcaBRdJClz1fo1hgSEZ+8w3x+x/1MA6lvfP08imU3RbfuO1C5YER9oeT
- dB/w==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=BTHG+IHioR9XckfE607EcSZwJKlKt7tdKJYmzr/90Lk=;
+ b=h/hjxf2A8HrwYBgmLk9geoNcFlrWyQrqoRm4G2xNsfGHr9AWX54AkmqJ5otghyIBjW
+ A+FNm9GpLiA257FOt4SKn7OjEH7WlQnNBZg6TWXsO79X+N50W0qcMYq64RL7Qd70bmOx
+ JBWQOAmC7HO1zm3UZm5qdGsh5Kw3TH0qO2XF+XdLtOQucg8a0qZpFrDkfyL87v5xvLzx
+ GhbbIi1I36RkPYShEqzPoZ86qNwE68CoRyf6jjDr/NwzINeTgEqVxBsbxGZVB6Hb2GIf
+ +SbFPEP2eUSTLyVBZthUFFZO/UTUZeWWAwh+3mdRf+z+XXq6yiRCHd6SLAEu+1hM8+nc
+ Ojgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=lRE2zZ18/cc1dhzx3rnZDaP6FKD6dYcwLf/z9SDH8pw=;
- b=DsK07LN/PRG8SSCT7s3YonJ4n8EWKxtvoNFonuPGQd3svaAEa3/D7kxvF8apsEsHq+
- ecz/6Urbr2DefkLe0x3Eu6k2vB1Pd+qZ4nAPfgVrnwf9WBTSUBfGXGKRiiFo99N+c1IB
- GL/nJ27rCuZExSu1NWg7vj8yHxRBLU2Czl09Btz5VOgLGuMUstO6zVjCxd8A3bpeIJpo
- VE9AUNwqnPnw63YdpwygmynlMnUdr8GRU7xYWJpmMhCEtyz80UBC8bgYMMAl0P1All1j
- 21hl4sBmUMmuNJTm+e1+uDfETXbPQqszTxDGOQjOOxpRzw1V3HzkNneS93tqPmJcJgpI
- MqpA==
-X-Gm-Message-State: AOAM530qhs1bBSAhwuZI3PLNaMPmqZAhx08B0txOfdMv9fSubvXiQ8or
- 1hcG6cr8jkosd2CoAsvUMbZi1WWjFQQumxSa0Ks=
-X-Google-Smtp-Source: ABdhPJxI0qKe3NVPe1tfOSaPe4+PqDQS7vk3FPUyoxY9CZAf/rzGipW5mWyk3eCnPqh1qcKRdmMarw==
-X-Received: by 2002:adf:d1e2:: with SMTP id g2mr8403653wrd.179.1636459934236; 
- Tue, 09 Nov 2021 04:12:14 -0800 (PST)
+ bh=BTHG+IHioR9XckfE607EcSZwJKlKt7tdKJYmzr/90Lk=;
+ b=XY9em+JR/CeAHmq/xhUSy6Vxr1Gfg/XjP1HX2FZHPmyg78pomW43oKdzjPkSrt0YZx
+ sO/lmN9m5oNsjMGHz2jFbnBppUkEqme5CuMky3iMmsjwDIuUSX7prxSQ/27W+r4Y7ijO
+ XS04H+l1wH3G6AKwDmlz25X8pPM3p+H6xYC90AOKHMCTQ4lgw2vud5eW4B0eNvgYQZ/s
+ vfNzCEEH+pBMll82wm4KvvUWPDBOzjCUe2fas4p0XZfchxB3ZWvnFQ1jSncF+7KmACiq
+ z2QFsu0eyd3iglwbWAtvZptcFaE0zKroBJ4ashUZZZsnc/5YlnFXLfVtpfmmQUj9Vju5
+ ue5A==
+X-Gm-Message-State: AOAM5320eTZkCbqzp8Yu2r45Gtsa8jDfDypXA4zReoMKdgZnCfPyp64y
+ +c7NDFRQenNXmf9CkVnizikWZQ==
+X-Google-Smtp-Source: ABdhPJzjqq2NFK2z8tOpRRN9ODkv2sE4OX28Sf3nLayGSwWu0EWN3ph0D4l/3st/3jjVSpHL4DSoWw==
+X-Received: by 2002:a5d:5303:: with SMTP id e3mr8645036wrv.73.1636460045190;
+ Tue, 09 Nov 2021 04:14:05 -0800 (PST)
 Received: from [192.168.8.106] (169.red-37-158-143.dynamicip.rima-tde.net.
  [37.158.143.169])
- by smtp.gmail.com with ESMTPSA id f19sm3227279wmq.34.2021.11.09.04.12.13
+ by smtp.gmail.com with ESMTPSA id t4sm2295435wmi.48.2021.11.09.04.14.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Nov 2021 04:12:13 -0800 (PST)
-Subject: Re: [RESEND PATCH v9 00/28] Add LoongArch linux-user emulation support
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <1636340895-5255-1-git-send-email-gaosong@loongson.cn>
+ Tue, 09 Nov 2021 04:14:04 -0800 (PST)
+Subject: Re: [PULL 0/6] Trivial branch for 6.2 patches
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20211109091238.817997-1-laurent@vivier.eu>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <dcf00c11-581d-feb3-f97d-497127ccd9aa@linaro.org>
-Date: Tue, 9 Nov 2021 13:12:10 +0100
+Message-ID: <fce90156-5bfb-5d39-a96d-10125ddbee9a@linaro.org>
+Date: Tue, 9 Nov 2021 13:14:02 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <1636340895-5255-1-git-send-email-gaosong@loongson.cn>
+In-Reply-To: <20211109091238.817997-1-laurent@vivier.eu>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -46
 X-Spam_score: -4.7
 X-Spam_bar: ----
@@ -90,28 +90,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/8/21 4:07 AM, Song Gao wrote:
-> Patches need review:
->    * 0002-target-loongarch-Add-core-definition.patch
+On 11/9/21 10:12 AM, Laurent Vivier wrote:
+> The following changes since commit f10e7b9f6fc18be390b3bc189e04b5147eb8dbf8:
+> 
+>    Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-6.2-20211109' into staging (2021-11-09 07:18:33 +0100)
+> 
+> are available in the Git repository at:
+> 
+>    git://github.com/vivier/qemu.git tags/trivial-branch-for-6.2-pull-request
+> 
+> for you to fetch changes up to 66d96a1901b7d9cfdbc454d407710ca8bfb90947:
+> 
+>    docs/about/deprecated: Remove empty 'related binaries' section (2021-11-09 10:11:27 +0100)
+> 
+> ----------------------------------------------------------------
+> Trivial branch patches pull request 20211109
+> 
+> ----------------------------------------------------------------
+> 
+> BALATON Zoltan (1):
+>    hmp: Add shortcut to stop command to match cont
+> 
+> Laurent Vivier (1):
+>    tests/qtest/virtio-net: fix hotplug test case
+> 
+> Philippe Mathieu-Daudé (4):
+>    hw/m68k: Fix typo in SPDX tag
+>    .mailmap: Fix more contributor entries
+>    meson: Fix 'interpretor' typo
+>    docs/about/deprecated: Remove empty 'related binaries' section
+> 
+>   .mailmap                       | 4 ++++
+>   docs/about/deprecated.rst      | 3 ---
+>   hmp-commands.hx                | 4 ++--
+>   hw/char/goldfish_tty.c         | 2 +-
+>   hw/intc/goldfish_pic.c         | 2 +-
+>   hw/intc/m68k_irqc.c            | 2 +-
+>   hw/m68k/virt.c                 | 2 +-
+>   hw/misc/virt_ctrl.c            | 2 +-
+>   include/hw/char/goldfish_tty.h | 2 +-
+>   include/hw/intc/goldfish_pic.h | 2 +-
+>   include/hw/intc/m68k_irqc.h    | 2 +-
+>   include/hw/misc/virt_ctrl.h    | 2 +-
+>   meson.build                    | 2 +-
+>   tests/qtest/virtio-net-test.c  | 2 +-
+>   14 files changed, 17 insertions(+), 16 deletions(-)
 
-Why are you listing a patch to which I have given review, and you have in fact picked up?
-
->    * 0028-linux-user-host-loongarch64-Populate-host_signal.h.patch
-
-Likewise.
-
-That said, the final two patches belong to Wang Xuerui's tcg/loongarch64 patch set, and 
-have no bearing on compiling target/loongarch64.
-
-Aside from the disassembler, I think the target/loongarch64 parts of this are in good shape.
-
-We cannot include the linux-user/loongarch64 parts until the kernel patches are upstream. 
-  I hope that can make progress during the next qemu development cycle so that this code 
-can be included in qemu 7.0.
-
+Applied, thanks.
 
 r~
+
 
