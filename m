@@ -2,62 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5111044A7A1
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 08:33:16 +0100 (CET)
-Received: from localhost ([::1]:48938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 653BF44A79A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 08:29:04 +0100 (CET)
+Received: from localhost ([::1]:41820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkLd4-0001hn-DZ
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 02:33:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34660)
+	id 1mkLZ1-0005CL-5D
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 02:29:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mkLHl-00015u-23; Tue, 09 Nov 2021 02:11:14 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:37293)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mkLHj-0002sx-B8; Tue, 09 Nov 2021 02:11:12 -0500
-Received: from [192.168.100.1] ([82.142.14.190]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N1gWU-1mZZli12vQ-0120aK; Tue, 09 Nov 2021 08:11:06 +0100
-Message-ID: <6d67f83e-924b-b715-1207-01c14cf80aa5@vivier.eu>
-Date: Tue, 9 Nov 2021 08:11:05 +0100
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mkLNy-0008QJ-2C
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 02:17:39 -0500
+Received: from [2607:f8b0:4864:20::d31] (port=44991
+ helo=mail-io1-xd31.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mkLNu-0004Kk-IL
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 02:17:36 -0500
+Received: by mail-io1-xd31.google.com with SMTP id f9so21441910ioo.11
+ for <qemu-devel@nongnu.org>; Mon, 08 Nov 2021 23:17:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=7WtYJ9EuXMavnS9+dpgw1Dy7dte1tlu66IIFJY/z9ZU=;
+ b=xnyuQ0nES5viJ7WAr3dnaRrFE1THk/0rvcvEQe0ezf/CJShp6z5GQY1fatkhfR/5EH
+ mcV4O7/zMBDyx/dwT6PRdlGtaQvoFvEcie/fh+kArhWUXIY8CInrGCIeLbFE4jKkFEPb
+ ebqkV0CTmjJ70lAuMflgNzIv9Tn4mNxtrVS4V09R2jj9ZTSfTYqMfxyQTb6sAmAjO64F
+ gRJLSHnt0eSTnFv8QN0Fe56pP+uOcQWuBlx9Y0UKA0uPxEIcy8+yUHE/5VLymEmMz+yp
+ IX9rkH+Ykcri78Uv8VT5jRZPCIXGHOH/60LSjbJj7D4PTBUdBMeVh+wEAdFnh7MdNGfj
+ w7eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=7WtYJ9EuXMavnS9+dpgw1Dy7dte1tlu66IIFJY/z9ZU=;
+ b=OjizRSCXrDUesvvrfGSYsD+3G5yFt9UdpgTQNf912IHnkSHkYvpWVMXSExeJBoE32P
+ W8VE/ie33/lg50tOGF/cLCMfEQNST9t/CMbwMybzswWddSRY0eC9KmjGo2zyTqNjPBCA
+ XrIgwuXk+9Kwk+XzKETwoVoucczarH66LV35YkxCwC5CKrycb9oQBjHd+hbNWDwsZKqu
+ IRwpSzJiPgMOhFMF7zcyVxumvOwjl8cb/4ZgUoNeI0KuHqcaqwGeM4/qTCMskwzRhPoy
+ isuDepFA2OtBt6Gl9v0LdBA20u+1aWAHUcb/83VeG+uFBdS+O8BO3VJ+ZafOqPkl0ZrK
+ k8cg==
+X-Gm-Message-State: AOAM532tJg5L468ag4D1ag4hsxfYAHebZkN1IwZmCFVOm5qtRjE7nyT3
+ Z0VuhU7LxqDd2OlOx/DXOFJsFYl5ZdXKzvYu
+X-Google-Smtp-Source: ABdhPJyLIiH+TNcQNc8wazXAm3jFV2Q8AabESuoNXY2XFKFiC6ilia1ILx8vCH3o+Bwhlg0r+ZV+pQ==
+X-Received: by 2002:a65:5ac5:: with SMTP id d5mr4171042pgt.165.1636441905210; 
+ Mon, 08 Nov 2021 23:11:45 -0800 (PST)
+Received: from anisinha-lenovo ([49.207.218.162])
+ by smtp.googlemail.com with ESMTPSA id x2sm15537980pfd.144.2021.11.08.23.11.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Nov 2021 23:11:44 -0800 (PST)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Tue, 9 Nov 2021 12:41:39 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: "Annie.li" <annie.li@oracle.com>
+Subject: Re: Failure of hot plugging secondary virtio_blk into q35 Windows 2019
+In-Reply-To: <4be352af-f3fc-0ef3-1d97-cd3eafbbb98f@oracle.com>
+Message-ID: <alpine.DEB.2.22.394.2111091226350.133428@anisinha-lenovo>
+References: <57170d20-635b-95fd-171e-e84de0d2d84e@oracle.com>
+ <31c8012c-234f-2bb8-7db2-f7fee7bd311f@oracle.com>
+ <4be352af-f3fc-0ef3-1d97-cd3eafbbb98f@oracle.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] tests/qtest/virtio-net: fix hotplug test case
-Content-Language: fr
-To: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- qemu-devel@nongnu.org
-References: <20211028173014.139692-1-lvivier@redhat.com>
- <7380e0bd-f144-c6eb-b370-7b711c09b0e2@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <7380e0bd-f144-c6eb-b370-7b711c09b0e2@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:DchP+IpmJtFb798w7L2RGdt7pep2DCm/gRZ1RiWtBB3KumM1YAz
- YEEFVj2j+kdIJIc93qA4hkJqxwun9mP/f4Eo99Cbe7vtgypciz4/JBVD8gKAyXxEx4SGvyT
- mQMvR9Y8A8HuYt7aGPdQWaGNCwF6LkTGJxCCLAkLiEml2aBiBaCvjmj1aPPoe8RygGp86TP
- 8qvsOj+itbgW7SmeyYBww==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:I/UIdqXQ9Z8=:52DdieO4ADG6/+2DLfWNmC
- 6lVU2FkSfajm0v2pPsJnaWDvPknb6QNdCEox386mvJ7p/Y+FJQudeX7K5RSyzTNncVW67MUki
- 5RYpIoi3dSrZb7mtaI+Ix1tdPiqgY4ywrhMS2XVmT3I4aUPtQ20X5hd1EIlzIUJ4dxJJoCR+F
- HOS21lyAk3ib0F4239gwRdei4NCDw++Lps4r6ik7PA/ZOscNk3tJ0Gppvp9CbVYpI5Pbd44+D
- f4M8XxVP7lUYUkr9QIIr4LVzGQdB7BIp1X793gZUc5RQYNuaRx1A1aL06SP9b99bYP658kRsW
- MZMvzrvMxgvSLKxobnJJwJOc6w/tAkCHXKjUB3hKg4TjvNHK/ijSmWLI2+ai1z72ljyFZ4FuI
- JO8Vs1jVRMeX+HUH1AGnvMd/nlOVipr2mxA4RvCTZmwx23q8D+e53gL/85MMTW+yHXBuNkq3Q
- dBpOfIxzo2nLv+U40TVzj9bSAj5OtAuqCwENWUkS5qI397V3pDGbL44VcTYF+5ArUkCZfniKA
- YFBFjGhKL0Tnu74eFd/bWcgPvWKocwjP4mYZIS0XGTGFhKGQ+4xzJ4DmESm3zz4mUcgIMFoz7
- Ytn7xsefyipdw5dxNJ/cgHzR+42JBnBNk+Z82viutRxywr6kxzOcpC78BfGBanQaqPnDAyTrI
- Z6Yjbp3TB9OpDyURCtrVK++PKfpFYVIXIiv9RDxtikMOSRp9J8waFLnHZUxnjcWETQEA=
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.364,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d31
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=ani@anisinha.ca; helo=mail-io1-xd31.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,65 +88,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Jason Wang <jasowang@redhat.com>
+Cc: ani@anisinha.ca, "imammedo@redhat.com" <imammedo@redhat.com>,
+ jusual@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 08/11/2021 à 18:12, Thomas Huth a écrit :
-> On 28/10/2021 19.30, Laurent Vivier wrote:
->> virtio-net-test has an hotplug testcase that is never executed.
->>
->> This is because the testcase is attached to virtio-pci interface
->> rather than to virtio-net-pci.
->>
->>    $ QTEST_QEMU_BINARY=./qemu-system-x86_64 tests/qtest/qos-test -l | grep hotplug
->>    /x86_64/.../pci-ohci-tests/ohci_pci-test-hotplug
->>    /x86_64/.../e1000e/e1000e-tests/hotplug
->>    /x86_64/.../virtio-blk-pci/virtio-blk-pci-tests/hotplug
->>    /x86_64/.../vhost-user-blk-pci/vhost-user-blk-pci-tests/hotplug
->>    /x86_64/.../virtio-rng-pci/virtio-rng-pci-tests/hotplug
->>    /x86_64/.../virtio-scsi/virtio-scsi-tests/hotplug
->>    /x86_64/.../virtio-serial/virtio-serial-tests/hotplug
->>
->> With this fix:
->>
->>    $ QTEST_QEMU_BINARY=./qemu-system-x86_64 tests/qtest/qos-test -l | grep hotplug
->>    ...
->>    /x86_64/.../vhost-user-blk-pci/vhost-user-blk-pci-tests/hotplug
->>    /x86_64/.../virtio-net-pci/virtio-net-pci-tests/hotplug
->>    /x86_64/.../virtio-rng-pci/virtio-rng-pci-tests/hotplug
->>    ...
->>    $ QTEST_QEMU_BINARY=./qemu-system-x86_64 tests/qtest/qos-test -p 
->> /x86_64/.../virtio-net-pci-tests/hotplug
->>    /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net-pci-tests/hotplug: OK
->>
->> Fixes: 6ae333f91b99 ("qos-test: virtio-net test node")
->> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->> ---
->>   tests/qtest/virtio-net-test.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/tests/qtest/virtio-net-test.c b/tests/qtest/virtio-net-test.c
->> index a08e2ffe123f..8bf74e516cce 100644
->> --- a/tests/qtest/virtio-net-test.c
->> +++ b/tests/qtest/virtio-net-test.c
->> @@ -319,7 +319,7 @@ static void register_virtio_net_test(void)
->>           .before = virtio_net_test_setup,
->>       };
->> -    qos_add_test("hotplug", "virtio-pci", hotplug, &opts);
->> +    qos_add_test("hotplug", "virtio-net-pci", hotplug, &opts);
->>   #ifndef _WIN32
->>       qos_add_test("basic", "virtio-net", send_recv_test, &opts);
->>       qos_add_test("rx_stop_cont", "virtio-net", stop_cont_test, &opts);
->>
-> 
-> Acked-by: Thomas Huth <thuth@redhat.com>
-> 
-> 
 
-Applied to my trivial-patches branch.
++gerd
 
-Thanks,
-Laurent
+On Mon, 8 Nov 2021, Annie.li wrote:
+
+> Update:
+>
+> I've tested q35 guest w/o OVMF, the APCI PCI hot-plugging works well in q35
+> guest. Seems this issue only happens in q35 guest w/ OVMF.
+>
+> Looks that there is already a bug filed against this hotplug issue in q35
+> guest w/ OVMF,
+>
+> https://bugzilla.redhat.com/show_bug.cgi?id=2004829
+>
+> In this bug, it is recommended to add "-global
+> ICH9-LPC.acpi-pci-hotplug-with-bridge-support=off \" on qemu command for 6.1.
+> However, with this option for 6.1(PCIe native hotplug), there still are kinds
+> of issues. For example, one of them is the deleted virtio_blk device still
+> shows in the Device Manager in Windows q35 guest, the operation of re-scanning
+> new hardware takes forever there. This means both PCIe native hotplug and ACPI
+> hotplug all have issues in q35 guests.
+
+This is sad.
+
+>
+> Per comments in this bug, changes in both OVMF and QEMU are necessary to
+> support ACPI hot plug in q35 guest. The fixes may likely be available in QEMU
+> 6.2.0.
+
+So we are in soft code freeze for 6.2:
+https://wiki.qemu.org/Planning/6.2
+
+I am curious about Gerd's comment #10:
+"The 6.2 rebase should make hotplug work
+again with the default configuration."
+
+Sadly I have not seen any public discussion on what we want to do
+for the issues with acpi hotplug for bridges in q35.
 
