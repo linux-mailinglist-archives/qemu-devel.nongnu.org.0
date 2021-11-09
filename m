@@ -2,47 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C3A444ADA4
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 13:37:48 +0100 (CET)
-Received: from localhost ([::1]:38374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D03744AE30
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 13:56:55 +0100 (CET)
+Received: from localhost ([::1]:59196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkQNm-0002GE-OR
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 07:37:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42240)
+	id 1mkQgI-0000IM-EB
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 07:56:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mkQL2-0007Pd-MY; Tue, 09 Nov 2021 07:34:56 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:31878)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mkQKz-0000tk-Ip; Tue, 09 Nov 2021 07:34:56 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 969CD748F58;
- Tue,  9 Nov 2021 13:34:49 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 67C82748F57; Tue,  9 Nov 2021 13:34:49 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 6608E746399;
- Tue,  9 Nov 2021 13:34:49 +0100 (CET)
-Date: Tue, 9 Nov 2021 13:34:49 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PULL 1/2] hw: m68k: virt: Add compat machine for 6.1
-In-Reply-To: <20211109111517.996104-2-laurent@vivier.eu>
-Message-ID: <9537b527-d33e-59d5-e196-e1e84fa01325@eik.bme.hu>
-References: <20211109111517.996104-1-laurent@vivier.eu>
- <20211109111517.996104-2-laurent@vivier.eu>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1mkQc9-0000I2-IO
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 07:52:37 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:37748 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1mkQc4-0006KP-Ib
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 07:52:36 -0500
+Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Cx+dD5bophXJYBAA--.3628S2;
+ Tue, 09 Nov 2021 20:52:09 +0800 (CST)
+From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/30] Add Loongarch softmmu support. 
+Date: Tue,  9 Nov 2021 20:51:39 +0800
+Message-Id: <1636462329-1716-1-git-send-email-yangxiaojuan@loongson.cn>
+X-Mailer: git-send-email 1.8.3.1
+X-CM-TRANSID: AQAAf9Cx+dD5bophXJYBAA--.3628S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxtF1xJrW5CFWfCF15Jw1xGrg_yoWxAF1fpF
+ W7uwn8Kr48GrZrJr95ta45Xr98JFn7Gr4a93Waqry8CrW2vry5Zr1kt3sFqFy7Jay8Gry0
+ qF1Fkw1UWF47Xa7anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -55,53 +52,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org
+Cc: peter.maydell@linaro.org, thuth@redhat.com, philmd@redhat.com,
+ i.qemu@xen0n.name, richard.henderson@linaro.org, laurent@vivier.eu,
+ peterx@redhat.com, f4bug@amsat.org, yangxiaojuan@loongson.cn,
+ alistair.francis@wdc.com, maobibo@loongson.cn, gaosong@loongson.cn,
+ pbonzini@redhat.com, mark.cave-ayland@ilande.co.uk, chenhuacai@loongson.cn,
+ alex.bennee@linaro.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 9 Nov 2021, Laurent Vivier wrote:
-> Add the missing machine type for m68k/virt
->
-> Cc: qemu-stable@nongnu.org
-> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-> Message-Id: <20211106194158.4068596-2-laurent@vivier.eu>
-> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-> ---
-> hw/m68k/virt.c | 9 ++++++++-
-> 1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
-> index 4e8bce5aa6f7..0d9e3f83c169 100644
-> --- a/hw/m68k/virt.c
-> +++ b/hw/m68k/virt.c
-> @@ -304,7 +304,14 @@ type_init(virt_machine_register_types)
->     } \
->     type_init(machvirt_machine_##major##_##minor##_init);
->
-> +static void virt_machine_6_1_options(MachineClass *mc)
-> +{
-> +}
-> +DEFINE_VIRT_MACHINE(6, 1, true)
-> +
-> static void virt_machine_6_0_options(MachineClass *mc)
-> {
-> +    virt_machine_6_1_options(mc);
-> +    compat_props_add(mc->compat_props, hw_compat_6_0, hw_compat_6_0_len);
-> }
-> -DEFINE_VIRT_MACHINE(6, 0, true)
-> +DEFINE_VIRT_MACHINE(6, 0, false)
+This series patch add softmmu support for LoongArch.
+Base on the linux-user emulation support V9 patch.
+  * https://patchew.org/QEMU/1630586467-22463-1-git-send-email-gaosong@loongson.cn/diff/1636340895-5255-1-git-send-email-gaosong@loongson.cn/
 
-I don't understand how these compat machines work but if these are empty 
-and essentially the same as the previous version why do we add a new 
-version in every release? Wouldn't it be enough to add new version when 
-there was an incompatible change? I mean, instead of listing machine and 
-getting a lot of virt-6.1, virt-6.0, virt-5.2,... or so, we'd only get 
-versions that are actually different such as virt-7.0, virt-5.2, virt-5.0 
-(maybe they are called differently, just an example) with the versionless 
-alias always pointing to the latest. Then when QEMU is updated one can see 
-if there was any change so should update the VM or keep using the older 
-versions. Or does it work like that and I'm missing it completely?
+The latest kernel:
+  * https://github.com/loongson/linux/tree/loongarch-next
+The manual:
+  * https://github.com/loongson/LoongArch-Documentation/releases/tag/2021.10.11
 
-Regards,
-BALATON Zoltan
+Changes for v2:
+1.Combine patch 2 and 3 into one.
+2.Adjust the order of the patch.
+3.Modify some emulate errors when use the kernel from the github.
+4.Adjust some format problem.
+5.Others mainly follow Richard's code review comments.
+
+Please review!
+
+Thanks
+
+Xiaojuan Yang (30):
+  target/loongarch: Update README
+  target/loongarch: Add CSR registers definition
+  target/loongarch: Add basic vmstate description of CPU.
+  target/loongarch: Define exceptions for LoongArch.
+  target/loongarch: Implement qmp_query_cpu_definitions()
+  target/loongarch: Add stabletimer support
+  target/loongarch: Add MMU support for LoongArch CPU.
+  target/loongarch: Add LoongArch CSR/IOCSR instruction
+  target/loongarch: Add TLB instruction support
+  target/loongarch: Add other core instructions support
+  target/loongarch: Add LoongArch interrupt and exception handle
+  target/loongarch: Add timer related instructions support.
+  target/loongarch: Add gdb support.
+  target/loongarch: Implement privilege instructions disassembly
+  hw/pci-host: Add ls7a1000 PCIe Host bridge support for Loongson
+    Platform
+  hw/loongarch: Add a virt LoongArch 3A5000 board support
+  hw/loongarch: Add LoongArch cpu interrupt support(CPUINTC)
+  hw/loongarch: Add LoongArch ipi interrupt support(IPI)
+  hw/intc: Add LoongArch ls7a interrupt controller support(PCH-PIC)
+  hw/intc: Add LoongArch ls7a msi interrupt controller support(PCH-MSI)
+  hw/intc: Add LoongArch extioi interrupt controller(EIOINTC)
+  hw/loongarch: Add irq hierarchy for the system
+  hw/loongarch: Add some devices support for 3A5000.
+  hw/loongarch: Add LoongArch ls7a rtc device support
+  hw/loongarch: Add default bios startup support.
+  hw/loongarch: Add -kernel and -initrd options support
+  hw/loongarch: Add LoongArch smbios support
+  hw/loongarch: Add LoongArch acpi support
+  hw/loongarch: Add machine->possible_cpus
+  hw/loongarch: Add Numa support.
+
+ .../devices/loongarch64-softmmu/default.mak   |   3 +
+ configs/targets/loongarch64-softmmu.mak       |   4 +
+ gdb-xml/loongarch-base64.xml                  |  43 +
+ gdb-xml/loongarch-fpu64.xml                   |  57 ++
+ hw/Kconfig                                    |   1 +
+ hw/acpi/Kconfig                               |   4 +
+ hw/acpi/ls7a.c                                | 349 +++++++
+ hw/acpi/meson.build                           |   1 +
+ hw/intc/Kconfig                               |  12 +
+ hw/intc/loongarch_extioi.c                    | 588 ++++++++++++
+ hw/intc/loongarch_pch_msi.c                   |  73 ++
+ hw/intc/loongarch_pch_pic.c                   | 283 ++++++
+ hw/intc/meson.build                           |   3 +
+ hw/loongarch/Kconfig                          |  22 +
+ hw/loongarch/acpi-build.c                     | 653 +++++++++++++
+ hw/loongarch/fw_cfg.c                         |  33 +
+ hw/loongarch/fw_cfg.h                         |  15 +
+ hw/loongarch/ipi.c                            | 146 +++
+ hw/loongarch/loongarch_int.c                  |  59 ++
+ hw/loongarch/ls3a5000_virt.c                  | 647 +++++++++++++
+ hw/loongarch/meson.build                      |   7 +
+ hw/meson.build                                |   1 +
+ hw/pci-host/Kconfig                           |   4 +
+ hw/pci-host/ls7a.c                            | 223 +++++
+ hw/pci-host/meson.build                       |   1 +
+ hw/rtc/Kconfig                                |   3 +
+ hw/rtc/ls7a_rtc.c                             | 323 +++++++
+ hw/rtc/meson.build                            |   1 +
+ include/exec/poison.h                         |   2 +
+ include/hw/acpi/ls7a.h                        |  53 ++
+ include/hw/intc/loongarch_extioi.h            | 101 ++
+ include/hw/intc/loongarch_pch_msi.h           |  16 +
+ include/hw/intc/loongarch_pch_pic.h           |  49 +
+ include/hw/loongarch/gipi.h                   |  37 +
+ include/hw/loongarch/loongarch.h              |  78 ++
+ include/hw/pci-host/ls7a.h                    |  66 ++
+ include/sysemu/arch_init.h                    |   1 +
+ pc-bios/loongarch_bios.bin                    | Bin 0 -> 4128768 bytes
+ qapi/machine-target.json                      |   6 +-
+ qapi/machine.json                             |   2 +-
+ softmmu/qdev-monitor.c                        |   3 +-
+ target/Kconfig                                |   1 +
+ target/loongarch/Kconfig                      |   2 +
+ target/loongarch/README                       |  20 +
+ target/loongarch/cpu-csr.h                    | 334 +++++++
+ target/loongarch/cpu-param.h                  |   3 +
+ target/loongarch/cpu.c                        | 390 ++++++++
+ target/loongarch/cpu.h                        | 220 ++++-
+ target/loongarch/csr_helper.c                 | 331 +++++++
+ target/loongarch/disas.c                      |  86 ++
+ target/loongarch/gdbstub.c                    |  97 ++
+ target/loongarch/helper.h                     |  24 +
+ target/loongarch/insn_trans/trans_core.c.inc  | 570 +++++++++++
+ target/loongarch/insn_trans/trans_extra.c.inc |  32 +
+ target/loongarch/insns.decode                 |  51 +
+ target/loongarch/internals.h                  |  26 +
+ target/loongarch/machine.c                    | 210 ++++
+ target/loongarch/meson.build                  |  10 +
+ target/loongarch/op_helper.c                  |  58 ++
+ target/loongarch/stabletimer.c                |  70 ++
+ target/loongarch/tlb_helper.c                 | 901 ++++++++++++++++++
+ target/loongarch/translate.c                  |   7 +
+ 62 files changed, 7410 insertions(+), 6 deletions(-)
+ create mode 100644 configs/devices/loongarch64-softmmu/default.mak
+ create mode 100644 configs/targets/loongarch64-softmmu.mak
+ create mode 100644 gdb-xml/loongarch-base64.xml
+ create mode 100644 gdb-xml/loongarch-fpu64.xml
+ create mode 100644 hw/acpi/ls7a.c
+ create mode 100644 hw/intc/loongarch_extioi.c
+ create mode 100644 hw/intc/loongarch_pch_msi.c
+ create mode 100644 hw/intc/loongarch_pch_pic.c
+ create mode 100644 hw/loongarch/Kconfig
+ create mode 100644 hw/loongarch/acpi-build.c
+ create mode 100644 hw/loongarch/fw_cfg.c
+ create mode 100644 hw/loongarch/fw_cfg.h
+ create mode 100644 hw/loongarch/ipi.c
+ create mode 100644 hw/loongarch/loongarch_int.c
+ create mode 100644 hw/loongarch/ls3a5000_virt.c
+ create mode 100644 hw/loongarch/meson.build
+ create mode 100644 hw/pci-host/ls7a.c
+ create mode 100644 hw/rtc/ls7a_rtc.c
+ create mode 100644 include/hw/acpi/ls7a.h
+ create mode 100644 include/hw/intc/loongarch_extioi.h
+ create mode 100644 include/hw/intc/loongarch_pch_msi.h
+ create mode 100644 include/hw/intc/loongarch_pch_pic.h
+ create mode 100644 include/hw/loongarch/gipi.h
+ create mode 100644 include/hw/loongarch/loongarch.h
+ create mode 100644 include/hw/pci-host/ls7a.h
+ create mode 100644 pc-bios/loongarch_bios.bin
+ create mode 100644 target/loongarch/Kconfig
+ create mode 100644 target/loongarch/cpu-csr.h
+ create mode 100644 target/loongarch/csr_helper.c
+ create mode 100644 target/loongarch/gdbstub.c
+ create mode 100644 target/loongarch/insn_trans/trans_core.c.inc
+ create mode 100644 target/loongarch/machine.c
+ create mode 100644 target/loongarch/stabletimer.c
+ create mode 100644 target/loongarch/tlb_helper.c
+
+-- 
+2.27.0
+
 
