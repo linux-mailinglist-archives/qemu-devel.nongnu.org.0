@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6299D44A695
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 07:04:05 +0100 (CET)
-Received: from localhost ([::1]:52812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD52944A6A7
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 07:11:13 +0100 (CET)
+Received: from localhost ([::1]:33190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkKEm-0005rR-BH
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 01:04:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50024)
+	id 1mkKLg-0003RB-MB
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 01:11:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mkK3h-0004Su-Gg; Tue, 09 Nov 2021 00:52:40 -0500
-Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=41221
+ id 1mkK3l-0004UE-Ev; Tue, 09 Nov 2021 00:52:44 -0500
+Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=41649
  helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mkK3c-0006fb-S5; Tue, 09 Nov 2021 00:52:36 -0500
+ id 1mkK3g-0006fe-3U; Tue, 09 Nov 2021 00:52:39 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HpHDp06jxz4xdf; Tue,  9 Nov 2021 16:52:10 +1100 (AEDT)
+ id 4HpHDp0Htdz4xdl; Tue,  9 Nov 2021 16:52:10 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1636437130;
- bh=e4FkczxZIuxThYsrdcXOxmMs2Gkqd+il6D9R36eeEY8=;
+ bh=RWIpuhqlOXfGQHIWH7pib8ZM+xennA+m+zn/lpxMIGE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mMXIexsPbkEmDd+EvJIogACXESFp4THYeCRnIf61rcvXYxFfNAWhYGUSZFMwMd3OZ
- vQtED8NKTO7RWdTGg24GzkF1E/e9d/1KppMLnDUuqcWdSrR+htzUyb+6zAKQ53dvks
- dVp41IrVzoPrLvqPi7Sigk72OJh8VryZ1xK2R4mc=
+ b=hTgG9HgStnr2bzaORWZdCk/ALBN9Nc8cjpM/gz8gSd4sHJGOPu26/fEfI3kZKZ/1G
+ Q5PTnMARnE41qAYs6INQkuDHymLsKsgBvxQqTbIQH/XRhxRAAG1Uiocl7gHyd9kks+
+ BDPZsIH150GhzzG7+4SsCIGkYhJoyLYPlO/jBIpk=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org, clg@kaod.org, danielhb413@gmail.com,
  groug@kaod.org
-Subject: [PULL 10/54] target/ppc: Implement pextd instruction
-Date: Tue,  9 Nov 2021 16:51:20 +1100
-Message-Id: <20211109055204.230765-11-david@gibson.dropbear.id.au>
+Subject: [PULL 11/54] libdecnumber: introduce decNumberFrom[U]Int128
+Date: Tue,  9 Nov 2021 16:51:21 +1100
+Message-Id: <20211109055204.230765-12-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211109055204.230765-1-david@gibson.dropbear.id.au>
 References: <20211109055204.230765-1-david@gibson.dropbear.id.au>
@@ -61,98 +61,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Matheus Ferst <matheus.ferst@eldorado.org.br>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Luis Pires <luis.pires@eldorado.org.br>, qemu-ppc@nongnu.org,
  qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+From: Luis Pires <luis.pires@eldorado.org.br>
 
+This will be used to implement PowerPC's dcffixqq.
+
+Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Message-Id: <20211029202424.175401-11-matheus.ferst@eldorado.org.br>
+Message-Id: <20211029192417.400707-2-luis.pires@eldorado.org.br>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/helper.h                        |  1 +
- target/ppc/insn32.decode                   |  1 +
- target/ppc/int_helper.c                    | 18 ++++++++++++++++++
- target/ppc/translate/fixedpoint-impl.c.inc | 12 ++++++++++++
- 4 files changed, 32 insertions(+)
+ include/libdecnumber/decNumber.h |  2 ++
+ libdecnumber/decNumber.c         | 36 ++++++++++++++++++++++++++++++++
+ 2 files changed, 38 insertions(+)
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 3e22957559..808c582382 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -49,6 +49,7 @@ DEF_HELPER_3(sraw, tl, env, tl, tl)
- DEF_HELPER_FLAGS_2(cfuged, TCG_CALL_NO_RWG_SE, i64, i64, i64)
- #if defined(TARGET_PPC64)
- DEF_HELPER_FLAGS_2(PDEPD, TCG_CALL_NO_RWG_SE, i64, i64, i64)
-+DEF_HELPER_FLAGS_2(PEXTD, TCG_CALL_NO_RWG_SE, i64, i64, i64)
- DEF_HELPER_FLAGS_2(cmpeqb, TCG_CALL_NO_RWG_SE, i32, tl, tl)
- DEF_HELPER_FLAGS_1(popcntw, TCG_CALL_NO_RWG_SE, tl, tl)
- DEF_HELPER_FLAGS_2(bpermd, TCG_CALL_NO_RWG_SE, i64, i64, i64)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index c47a6a02e1..e13f920702 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -127,6 +127,7 @@ CFUGED          011111 ..... ..... ..... 0011011100 -   @X
- CNTLZDM         011111 ..... ..... ..... 0000111011 -   @X
- CNTTZDM         011111 ..... ..... ..... 1000111011 -   @X
- PDEPD           011111 ..... ..... ..... 0010011100 -   @X
-+PEXTD           011111 ..... ..... ..... 0010111100 -   @X
+diff --git a/include/libdecnumber/decNumber.h b/include/libdecnumber/decNumber.h
+index aa115fed07..0cf69c7db2 100644
+--- a/include/libdecnumber/decNumber.h
++++ b/include/libdecnumber/decNumber.h
+@@ -116,6 +116,8 @@
+   decNumber * decNumberFromUInt32(decNumber *, uint32_t);
+   decNumber *decNumberFromInt64(decNumber *, int64_t);
+   decNumber *decNumberFromUInt64(decNumber *, uint64_t);
++  decNumber *decNumberFromInt128(decNumber *, uint64_t, int64_t);
++  decNumber *decNumberFromUInt128(decNumber *, uint64_t, uint64_t);
+   decNumber * decNumberFromString(decNumber *, const char *, decContext *);
+   char	    * decNumberToString(const decNumber *, char *);
+   char	    * decNumberToEngString(const decNumber *, char *);
+diff --git a/libdecnumber/decNumber.c b/libdecnumber/decNumber.c
+index 1ffe458ad8..d7716ce175 100644
+--- a/libdecnumber/decNumber.c
++++ b/libdecnumber/decNumber.c
+@@ -167,6 +167,7 @@
+ /* ------------------------------------------------------------------ */
  
- ### Float-Point Load Instructions
+ #include "qemu/osdep.h"
++#include "qemu/host-utils.h"
+ #include "libdecnumber/dconfig.h"
+ #include "libdecnumber/decNumber.h"
+ #include "libdecnumber/decNumberLocal.h"
+@@ -462,6 +463,41 @@ decNumber *decNumberFromUInt64(decNumber *dn, uint64_t uin)
+     return dn;
+ } /* decNumberFromUInt64 */
  
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 337bb7f4d3..913d76be6e 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -404,6 +404,24 @@ uint64_t helper_PDEPD(uint64_t src, uint64_t mask)
- 
-     return result;
- }
-+
-+uint64_t helper_PEXTD(uint64_t src, uint64_t mask)
++decNumber *decNumberFromInt128(decNumber *dn, uint64_t lo, int64_t hi)
 +{
-+    int i, o;
-+    uint64_t result = 0;
-+
-+    if (mask == -1) {
-+        return src;
++    uint64_t unsig_hi = hi;
++    if (hi < 0) {
++        if (lo == 0) {
++            unsig_hi = -unsig_hi;
++        } else {
++            unsig_hi = ~unsig_hi;
++            lo = -lo;
++        }
 +    }
 +
-+    for (o = 0; mask != 0; o++) {
-+        i = ctz64(mask);
-+        mask &= mask - 1;
-+        result |= ((src >> i) & 1) << o;
++    decNumberFromUInt128(dn, lo, unsig_hi);
++    if (hi < 0) {
++        dn->bits = DECNEG;        /* sign needed */
 +    }
++    return dn;
++} /* decNumberFromInt128 */
 +
-+    return result;
-+}
- #endif
- 
- /*****************************************************************************/
-diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
-index f0bf69fbac..220b099fcd 100644
---- a/target/ppc/translate/fixedpoint-impl.c.inc
-+++ b/target/ppc/translate/fixedpoint-impl.c.inc
-@@ -481,3 +481,15 @@ static bool trans_PDEPD(DisasContext *ctx, arg_X *a)
- #endif
-     return true;
- }
-+
-+static bool trans_PEXTD(DisasContext *ctx, arg_X *a)
++decNumber *decNumberFromUInt128(decNumber *dn, uint64_t lo, uint64_t hi)
 +{
-+    REQUIRE_64BIT(ctx);
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
-+#if defined(TARGET_PPC64)
-+    gen_helper_PEXTD(cpu_gpr[a->ra], cpu_gpr[a->rt], cpu_gpr[a->rb]);
-+#else
-+    qemu_build_not_reached();
-+#endif
-+    return true;
-+}
++    uint64_t rem;
++    Unit *up;                             /* work pointer */
++    decNumberZero(dn);                    /* clean */
++    if (lo == 0 && hi == 0) {
++        return dn;                /* [or decGetDigits bad call] */
++    }
++    for (up = dn->lsu; hi > 0 || lo > 0; up++) {
++        rem = divu128(&lo, &hi, DECDPUNMAX + 1);
++        *up = (Unit)rem;
++    }
++    dn->digits = decGetDigits(dn->lsu, up - dn->lsu);
++    return dn;
++} /* decNumberFromUInt128 */
++
+ /* ------------------------------------------------------------------ */
+ /* to-int64 -- conversion to int64                                    */
+ /*                                                                    */
 -- 
 2.33.1
 
