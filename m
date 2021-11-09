@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFE3244B187
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 17:48:33 +0100 (CET)
-Received: from localhost ([::1]:43626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D688E44B18F
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 17:51:28 +0100 (CET)
+Received: from localhost ([::1]:48224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkUIS-0005DY-QW
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 11:48:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54672)
+	id 1mkULI-0008UB-0Z
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 11:51:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mkUGy-00039F-Cg
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 11:47:00 -0500
-Received: from [2607:f8b0:4864:20::130] (port=37873
- helo=mail-il1-x130.google.com)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mkUJw-0007gf-ED
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 11:50:04 -0500
+Received: from [2a00:1450:4864:20::52e] (port=39854
+ helo=mail-ed1-x52e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mkUGo-000128-1g
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 11:47:00 -0500
-Received: by mail-il1-x130.google.com with SMTP id h23so21242390ila.4
- for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 08:46:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mkUJr-0001cA-FF
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 11:50:04 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id r12so78980466edt.6
+ for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 08:49:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=sender:from:mime-version:subject:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=5zpnbzrx/b758IJSWBeC+kgASEsXRnWDdgsTZnWZghI=;
- b=oQaeO/jfYLIoLbsdfSQphRn88a8wv3nLTSxBtuyN2ZCCZApOa1j0qq6gvE50RpnGPH
- Bkj6HAf7Ta1VV9IfgE1HKD6qRHzfqMlWivu3FXAGVKEsQXF9stRhuLccfTdYFHioicJ7
- QVJaSK3jChUDe4HMQXkR5YtlwYpvh4kweiYJRmCzjqYMY8IZi7rYH62wRzp/8OW1UwCa
- kP1QbMWJ9+Cd3QWpgRXuXyVSIbdXztmyd/1yarXmWfJZAJUCfPfrRpgqk3/BnS3xytkn
- HovUZhpneSu2WetE9WOs55hcMNirmHlo9xkyy/EiZCmDt7hkxgmZUkwbLvvF2vH0W/jL
- EJGg==
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=0JMIt8KA4GWBUUzrt6xQerAwuwMWKCXWzN3SdD4H4fM=;
+ b=SYRPCHKo/8qfZ6f5H3MNiet1/zMKB6W7jv7Ovz4nAPAK9FcnEUPVY54Hp1B3ZbSQh8
+ kivX24Ous6rjn+s12GjVle8nx40H+M6cYNL+Kj1KqHOZYN8EGx8VdDqDFauPRtbZLGFd
+ eHX2JbyzoWCco9xlclSd7HGjY2nFRx7MiRWuXvkT/9EyVwo0rZA15hTf/cihTtxWDyZP
+ cNU/x0DAmo+gFa+zouslqQsFYnwS6Z0ZetbUBKyM19kuyfXk8l4Swhvf8ypusagvifK/
+ fV7MqenGx8HmyNPRS2fH3EGuas7h056z5yIDldCYH2g4ukQBFM+gBiEeiFYOjC2cl8Xv
+ MBKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:mime-version:subject:in-reply-to
- :date:cc:content-transfer-encoding:message-id:references:to;
- bh=5zpnbzrx/b758IJSWBeC+kgASEsXRnWDdgsTZnWZghI=;
- b=HNozP/Htr8I6FhjnW6mghuumwlbR0nRnIhkDrEIiJXuO0+SY86AsRDLPcyjbtRPYnN
- +XvxYz2oQf4FVczwc42gyifDGKqTbVU5RWgMKYEVAKCK2P6NcNjHGJ9VqNG+EfRP44DP
- DIDFPjp9/0eHws6m+jrOADhOD/GytMhmiVeg4GFQbY+zmGJKIJ5O/xKK9vMZ0Qyyl/Dn
- PZ61hJMblX1NGIoX2ZQfwU2XtAGsbLTJzpn/MNbw9MCVhrmaR2WDOadvp11gMl01YsWm
- 0uwoPyrVJrcIEOGgA/80Ea3sEIBxEKr3gxLnDkrC443WAG0QCvoAIrmW7ISy2+yPQagY
- vEJw==
-X-Gm-Message-State: AOAM533kLipsnN59w6PWwHxqINxsng1YPdmC4Qdb9XS829XqkBVFHNSJ
- AwAY4BHxC1gZJNpxJcV5cDV4G0k2m+FrxQ==
-X-Google-Smtp-Source: ABdhPJwoXbc0CHDXMXiriVg/4lpoKM9ANqkSZrFziVxgCYLANhfJIPiw9M4oWll43vQzPZaenS/vLQ==
-X-Received: by 2002:a05:6e02:1846:: with SMTP id
- b6mr6092292ilv.164.1636476407586; 
- Tue, 09 Nov 2021 08:46:47 -0800 (PST)
-Received: from ?IPv6:2603:300b:6:5100:3543:ecc0:2149:6a1b?
- ([2603:300b:6:5100:3543:ecc0:2149:6a1b])
- by smtp.gmail.com with ESMTPSA id m13sm12200727ilh.32.2021.11.09.08.46.46
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 09 Nov 2021 08:46:47 -0800 (PST)
-From: Warner Losh <imp@bsdimp.com>
-X-Google-Original-From: Warner Losh <bsdimp@gmail.com>
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.7\))
-Subject: Re: [PATCH 0/4] linux-user: Fix getdents alignment issues (#704)
-In-Reply-To: <20211107124845.1174791-1-richard.henderson@linaro.org>
-Date: Tue, 9 Nov 2021 09:46:46 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=0JMIt8KA4GWBUUzrt6xQerAwuwMWKCXWzN3SdD4H4fM=;
+ b=mvd5HKsdqTHllt8Zfd+Sarcdy658WKCxV0RLu7BEtZu5IwWdkzhYRn6VK/kZTy9Mtt
+ bgliR+3tovnNLptKNvkVVbgKENokl2pV/Io/iQYYC08o904li/TNuhQFDulALrQyFxt1
+ 5CPMlgq6KkfHkGqXQiPwe8WS8Bg12V4AzS+RGpWE2iRwsZCVRLVIOAP/bFU9XqDiqQmt
+ ZgcpShMxYuipN7od5m4myeckhITOtFtSYS+49tr686eZ2Lfw1fX3V0ZTzbdUui7U9Mhx
+ LB599iXqwZPGJpPrRVLn2OlpeuDMVtjB5e1ZnUZPnCmHos8Xd/J0AEXy67BVHkCuFE9I
+ moOw==
+X-Gm-Message-State: AOAM532UoEN6eTOXQgAoYgvTVIQhNzK/F6TVXradIGPlvrtUEMzsnTj2
+ 9wa8jHF2TENQXEhCVYXjoz+H5A0L/5CUV6kk3yoYbQ==
+X-Google-Smtp-Source: ABdhPJxhy/qzoluWYjYOMb7A0KCVNlZhUMsgs9xf7qnzDqzcAnK3IDdLkbBLK2xH2zYjTmbmGcdb5V0ia3byh3KJnKw=
+X-Received: by 2002:a05:6402:17c6:: with SMTP id
+ s6mr12221082edy.11.1636476597585; 
+ Tue, 09 Nov 2021 08:49:57 -0800 (PST)
+MIME-Version: 1.0
+References: <20211109140152.3310657-1-stefanb@linux.ibm.com>
+ <20211109140152.3310657-4-stefanb@linux.ibm.com>
+ <20211109091338-mutt-send-email-mst@kernel.org>
+ <YYqFxgu74BIh0ZjB@redhat.com> <20211109110331-mutt-send-email-mst@kernel.org>
+ <YYqe4o9b+mHzwz0r@redhat.com>
+In-Reply-To: <YYqe4o9b+mHzwz0r@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Tue, 9 Nov 2021 22:19:46 +0530
+Message-ID: <CAARzgwyfB3zd0YBvvTDPu60W0xE_wk99-zGParKtp+jggLqmzg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] tests: acpi: Add updated TPM related tables
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <766F517B-509D-45C7-94B1-51BCE5D4FE36@gmail.com>
-References: <20211107124845.1174791-1-richard.henderson@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-X-Mailer: Apple Mail (2.3608.120.23.2.7)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::130
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52e
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::130;
- envelope-from=wlosh@bsdimp.com; helo=mail-il1-x130.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::52e;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -89,39 +85,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu, qemu-devel@nongnu.org, f4bug@amsat.org
+Cc: marcandre.lureau@redhat.com, Igor Mammedov <imammedo@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Nov 9, 2021 at 9:46 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
+> wrote:
+>
+> On Tue, Nov 09, 2021 at 11:05:28AM -0500, Michael S. Tsirkin wrote:
+> > On Tue, Nov 09, 2021 at 02:29:26PM +0000, Daniel P. Berrang=C3=A9 wrote=
+:
+> > > On Tue, Nov 09, 2021 at 09:14:25AM -0500, Michael S. Tsirkin wrote:
+> > > > On Tue, Nov 09, 2021 at 09:01:52AM -0500, Stefan Berger wrote:
+> > > > > The updated TPM related tables have the following additions:
+> > > > >
+> > > > >    Device (TPM)
+> > > > >    {
+> > > > >        Name (_HID, "MSFT0101" /* TPM 2.0 Security Device */)  // =
+_HID: Hardware ID
+> > > > > +      Name (_STR, "TPM 2.0 Device")  // _STR: Description String
+> > > > > +      Name (_UID, One)  // _UID: Unique ID
+> > > > >        Name (_STA, 0x0F)  // _STA: Status
+> > > > >        Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource=
+ Settings
+> > > > >
+> > > > > Cc: Michael S. Tsirkin <mst@redhat.com>
+> > > > > Cc: Igor Mammedov <imammedo@redhat.com>
+> > > > > Cc: Ani Sinha <ani@anisinha.ca>
+> > > > > Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+> > > > > ---
+> > > > >  tests/data/acpi/q35/DSDT.tis.tpm12          | Bin 0 -> 8900 byte=
+s
+> > > > >  tests/data/acpi/q35/DSDT.tis.tpm2           | Bin 0 -> 8921 byte=
+s
+> > > > >  tests/data/acpi/q35/TCPA.tis.tpm12          | Bin 0 -> 50 bytes
+> > > > >  tests/data/acpi/q35/TPM2.tis.tpm2           | Bin 0 -> 76 bytes
+> > > > >  tests/qtest/bios-tables-test-allowed-diff.h |  11 -----------
+> > > > >  5 files changed, 11 deletions(-)
+> > > >
+> > > > A disadvantage to doing it like this is that git thinks
+> > > > it's ok to replace any empty file with this, so if acpi
+> > > > changed in any way git will happily resolve it
+> > > > replacing it with this version.
+> > >
+> > > Do we actually need to be storing these binary files in git
+> > > at all ?
+> > >
+> > > IIUC, the test will do two things
+> > >
+> > >  - memcmp the expected binary we store, against the new binary
+> > >    we generated.
+> > >  - if they differ, then disassemble both and report the
+> > >    differences in a user friendly-ish way
+> >
+> > Second if iasl is installed.
+> >
+> > > What if we only stored the sha256 checksum of the binary
+> >
+> > Hmm, point being? Same some space?
+> >
+> > > *and*
+> > > the dissasembled output in git, never the full binary.
+> >
+> > We used to. The issue is that dissasembled output depends
+> > very much on the disassembler. Disassembling both
+> > with the same tool is one way to address this.
+>
+> Oh, so new isal releases can change the format, that's
+> annoying :-(
 
+Additionally, depending on iasl binary being used, some tables may or
+may not be properly interpreted or recognized. For example, the
+existing iasl binary that comes with the dostro does not recognize the
+new VIOT tables. One has to use a binary directly compiled from the
+upstream iasl repo at this time.
 
-> On Nov 7, 2021, at 5:48 AM, Richard Henderson =
-<richard.henderson@linaro.org> wrote:
->=20
-> There are a number of alignement issues flagged up by clang,
-> this attempts to fix only one of them: getdents.
-
-Does it make sense to have size asserts for these types? That would =
-catch the alignment issues and are cheap to maintain since ABI sizes =
-should never change=E2=80=A6
-
-Warner
-
-> r~
->=20
-> Richard Henderson (4):
->  linux-user: Split out do_getdents, do_getdents64
->  linux-user: Always use flexible arrays for dirent d_name
->  linux-user: Fix member types of target_dirent64
->  linux-user: Rewrite do_getdents, do_getdents64
->=20
-> linux-user/syscall_defs.h |  12 +-
-> linux-user/syscall.c      | 290 ++++++++++++++++++--------------------
-> 2 files changed, 141 insertions(+), 161 deletions(-)
->=20
-> --=20
-> 2.25.1
->=20
->=20
-
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
 
