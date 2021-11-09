@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF7D44AA62
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 10:15:49 +0100 (CET)
-Received: from localhost ([::1]:60200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1BBE44AA6C
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 10:17:56 +0100 (CET)
+Received: from localhost ([::1]:37290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkNEK-00030y-Be
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 04:15:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39318)
+	id 1mkNGN-0006c5-PI
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 04:17:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mkNBi-00076E-Cd; Tue, 09 Nov 2021 04:13:07 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:50001)
+ id 1mkNCO-0000i4-6R; Tue, 09 Nov 2021 04:13:48 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:53989)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mkNBa-00058k-Tj; Tue, 09 Nov 2021 04:13:05 -0500
+ id 1mkNCM-0005KS-7Q; Tue, 09 Nov 2021 04:13:47 -0500
 Received: from quad ([82.142.14.190]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MMX9b-1n2ro346op-00JX6v; Tue, 09
- Nov 2021 10:12:53 +0100
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1N5FtF-1md7i712KD-0119bP; Tue, 09
+ Nov 2021 10:12:54 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/6] tests/qtest/virtio-net: fix hotplug test case
-Date: Tue,  9 Nov 2021 10:12:37 +0100
-Message-Id: <20211109091238.817997-6-laurent@vivier.eu>
+Subject: [PULL 6/6] docs/about/deprecated: Remove empty 'related binaries'
+ section
+Date: Tue,  9 Nov 2021 10:12:38 +0100
+Message-Id: <20211109091238.817997-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211109091238.817997-1-laurent@vivier.eu>
 References: <20211109091238.817997-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:s7G/o5rG6ME0gS7ziVPIsjhiZtcvJRxLpWUZbJXdC4uEx7OBoSe
- i7kq4txyxyQwwE5vojTBV8SbobL50Bj+2GISlfMnGftehK5D9F/hp+VppxmFGhKqKnUBbMt
- DUyXyFTIlK5ZIf7aGxN+72Ry2Tv/XNy7eIbtvqOIbM/bcO9PsJVi37fgGQuwqcoh/YtDjeq
- tzOszhPDHuo4i/3k6GrCw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:iK+nkuISu8U=:Wskyrunjxzy9+8LGEtdgSh
- F2dQbdKUMTb5gQ7044Sj5KFJ7cNI3EWsr3DZCcNnwJ2zQl69Dv6oyPO/BWGOBoWCcoYCjKyzT
- k5LPMwtoFic54zRZ6atWTbInxQSaO9g3Kuav55HZU5RBniTnUGtrr7+33Y9YOVfAOVG2wE2xA
- IHu+89Zukh8NQZ8NlsVEC02ziaE7UGlC4tbqx370wRoImkJItH5Zpp6/YgCFFgh64rluJ3Gq5
- 5TuGDSwGcve/Vh1PnzZ3F9lSxGgn+t4Tlh4KZ6IADaQpMBY7RNaQbEeV6f7Q6R0ir9SskF2t3
- visjZuP7YUPVs/mDP2Gz+n20AQDmD+Z7JxqvGdAIB13KVo4+dIF0tlH2q4meVYdNS1eDVCkD3
- xPrcTv1VTXnaNtmrNRkty6wcLz5Ih4wmRsOtxP0iUjeHKEECRM8fzNFIrD/Nx3hkwRu6kZCHz
- EHuv3DPoxL8XGggOyghhqvt7hoY9pij5rZg0SZSBEJW4TYwZwusaY1jQeonOiHnOsRvEQgsd3
- qmbwLjsTIlTtcjIAM9ih3WWLnGnXWlYm1LmuYorzM1nRcfYFmRYVQAx/nd185Am/zdp0OiZyf
- jOYHeo7e+Vj9Lg7PQNYdy1nbkuUQEUcp25SMHh/jH8jcwXrpixj/KO2SnLiozybZEP9lV0J02
- TKs3IbGDWbZEt0LcO/LgIpjn0Kp6Oh8WrdggmONj/02WahSudrDZ5qPhZ0WGCq43fLvo=
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:x76QNzdADSPKEOU3OveNFP+BcfK+BGp0E/AgVvF8W/RQtZQnMCa
+ SwLWPnOvUO4JS9npGg94M4s+Mt+uFASHMFRBCWSEDAYuc3RCZ+5zz7TOFIsxAwsAceHXIAN
+ 3gwCB9Wys/CbrLsr85e3C2evIHcuzvX0ZsMwTyylfL7y4s+0PILLDbRjbLNfL78gSxo4+Z2
+ UnS8GB7SYqVd7dpOiA1AA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Q3KA6nlt3rY=:iwQCd16B4r8AVOe9CXeJOe
+ cAU7MxJOOLz9xwJmPGfnbO0jHBMcI1k+ORJRLzaqzezskt3diCRyRvZE9OzfKP1Zv5CoZ3TyG
+ I8MaBdNcBDYDoelzeomf5d0ef2NALAIYbIQF0QJmvjk/ajLO2XCDmxxylNw5fMCmbJw+5Vn6Q
+ LQX/4AcjQ1eI1GrfQH5Y4XYXM4Sq85vOCUXkcEjF55XX+GiABH+gY9pkxYlJ5Es5fq5xfGXYW
+ SKi4EGnvzyTjmDPKzDhEWN287Zy4FAf/0MWP+lmu8eVFq9tMDa3dxQmyTORl6QwqYrxedAxFA
+ 7+7gkhFOWGH+sqTRHkJ/obXzWfBfskSYqzf574xqRrzKKhEuEeaaQ/lo4E81Ii/piWF/f64nQ
+ hupeVameshLMQ/kCkjcZpfhw4P8PlkuqhiuV+U4S6K7LxesvJbZitQFE1oPwLkMWavst5tIJ4
+ s8JpbuWXax4Ie/lNdL2Z90i9VplAzOhs5J/OgjuVoV8kkRGKMfoxMKfm23tp31f/0Al5N7mXt
+ dIcWMdsn0JQau0BpaKV/zh+0+D7cworEXK+bv0PcOo2faajF6t4i97ZiYvRW0vWi1GvenAojV
+ p/bGfQBgacVGWbKTtxf6MoqO6jm6PMuAnSkrEiShIAQy0RdhhkU2yHoIUvNPHTwyLHiJHmGbR
+ TDWxA/nVOoRD15GqDctokehnagLqWITrcWReSaoqWWNzTiVM2v5ZknAFPOwj9krqMYh4=
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -64,60 +66,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <laurent@vivier.eu>
+Cc: Yanan Wang <wangyanan55@huawei.com>, qemu-trivial@nongnu.org,
+ Joaquin de Andres <me@xcancerberox.com.ar>, Laurent Vivier <laurent@vivier.eu>,
+ Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Laurent Vivier <lvivier@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-virtio-net-test has an hotplug testcase that is never executed.
+Commit 497a30dbb06 ("qemu-img: Require -F with -b backing image")
+removed the content of the "Related binaries" section but forgot
+to remove the section title. Since it is now empty, remove it too.
 
-This is because the testcase is attached to virtio-pci interface
-rather than to virtio-net-pci.
-
-  $ QTEST_QEMU_BINARY=./qemu-system-x86_64 tests/qtest/qos-test -l | grep hotplug
-  /x86_64/.../pci-ohci-tests/ohci_pci-test-hotplug
-  /x86_64/.../e1000e/e1000e-tests/hotplug
-  /x86_64/.../virtio-blk-pci/virtio-blk-pci-tests/hotplug
-  /x86_64/.../vhost-user-blk-pci/vhost-user-blk-pci-tests/hotplug
-  /x86_64/.../virtio-rng-pci/virtio-rng-pci-tests/hotplug
-  /x86_64/.../virtio-scsi/virtio-scsi-tests/hotplug
-  /x86_64/.../virtio-serial/virtio-serial-tests/hotplug
-
-With this fix:
-
-  $ QTEST_QEMU_BINARY=./qemu-system-x86_64 tests/qtest/qos-test -l | grep hotplug
-  ...
-  /x86_64/.../vhost-user-blk-pci/vhost-user-blk-pci-tests/hotplug
-  /x86_64/.../virtio-net-pci/virtio-net-pci-tests/hotplug
-  /x86_64/.../virtio-rng-pci/virtio-rng-pci-tests/hotplug
-  ...
-  $ QTEST_QEMU_BINARY=./qemu-system-x86_64 tests/qtest/qos-test -p /x86_64/.../virtio-net-pci-tests/hotplug
-  /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-net-pci/virtio-net-pci-tests/hotplug: OK
-
-Fixes: 6ae333f91b99 ("qos-test: virtio-net test node")
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20211028173014.139692-1-lvivier@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
+Reviewed-by: Joaquin de Andres <me@xcancerberox.com.ar>
+Message-Id: <20211105142656.145791-1-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- tests/qtest/virtio-net-test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ docs/about/deprecated.rst | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/tests/qtest/virtio-net-test.c b/tests/qtest/virtio-net-test.c
-index a08e2ffe123f..8bf74e516cce 100644
---- a/tests/qtest/virtio-net-test.c
-+++ b/tests/qtest/virtio-net-test.c
-@@ -319,7 +319,7 @@ static void register_virtio_net_test(void)
-         .before = virtio_net_test_setup,
-     };
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index 56f9ad15ab54..5e514fb443da 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -370,9 +370,6 @@ The ``I7200`` guest CPU relies on the nanoMIPS ISA, which is deprecated
+ (the ISA has never been upstreamed to a compiler toolchain). Therefore
+ this CPU is also deprecated.
  
--    qos_add_test("hotplug", "virtio-pci", hotplug, &opts);
-+    qos_add_test("hotplug", "virtio-net-pci", hotplug, &opts);
- #ifndef _WIN32
-     qos_add_test("basic", "virtio-net", send_recv_test, &opts);
-     qos_add_test("rx_stop_cont", "virtio-net", stop_cont_test, &opts);
+-Related binaries
+-----------------
+-
+ Backwards compatibility
+ -----------------------
+ 
 -- 
 2.31.1
 
