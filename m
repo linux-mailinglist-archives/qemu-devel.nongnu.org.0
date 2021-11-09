@@ -2,88 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA12F44AAB4
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 10:41:27 +0100 (CET)
-Received: from localhost ([::1]:60158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDDAE44AAC8
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 10:47:38 +0100 (CET)
+Received: from localhost ([::1]:34814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkNd8-000635-Q3
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 04:41:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45984)
+	id 1mkNj7-0008EN-Rb
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 04:47:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mkNba-000538-8D
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 04:39:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31648)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mkNi6-0007XW-27
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 04:46:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49566)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mkNbX-0002p5-M9
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 04:39:48 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mkNhq-0004Bd-1n
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 04:46:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636450787;
+ s=mimecast20190719; t=1636451176;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ON4iYSKFB7Ofnu6MfmmLtGAMi+seJtc6z0qWxcZe/oE=;
- b=Li6nZBzIiWsMPTs/vrR6EOrPk/LsYMefQTTmFnfGVUXHvs1KS6OrxF7zA0W60RJWQupQCT
- OUkaYZxSkzbNNccOj6jCgfgl/m62bG+Qj7TSuxrcO9gwR+7f7SeBXR0jrCU7s71Vx6ZF6D
- t/gxItZT91+TO0jwb5ScZ2GabnraJGY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-CYlsjuu1MbORIJTF8LT2Sg-1; Tue, 09 Nov 2021 04:39:45 -0500
-X-MC-Unique: CYlsjuu1MbORIJTF8LT2Sg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- g81-20020a1c9d54000000b003330e488323so358830wme.0
- for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 01:39:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:from:subject:content-transfer-encoding;
- bh=ON4iYSKFB7Ofnu6MfmmLtGAMi+seJtc6z0qWxcZe/oE=;
- b=L/9ErYkG0iwxtPkqfDlvWq5Vt7LMFhds/1Jj4oYOJx6fbIfGRgD2hnI5V5WhbHHOwI
- pfnhpCV+OOTtrjv8LeGFd4P6vMehA975yDUzwElncXhbuqBQ10kjg6iyjBAUy6FTLEJb
- BrB61ouH4efSYAmVlsafsF8g2eIdGKOCjnM1b2gioqvi5tadwgacBPT5XHB58Ok51U50
- sL8mMhqA10NKSCfKTrf5qHIcZsSSUqzR4B57MOZkYmuXkh4KelNp13QLLbj36UqWuas4
- WUyT45z/bxaYXNvaVzLBieXR6qDVRENRoMZs+7xjNxvX3GJVkg4BjmEUeQLTfX+bIamy
- FPbA==
-X-Gm-Message-State: AOAM533z+ENXH1+65kuQ2F4fDzLAkWhO3vVc1P/CGw0n13hrkI5BhyZt
- BK8buZuDD+16qtt5sxgw1AR2KDBLsnvj28fpepyD3+LvVzy+YDzCS/+D8/g26O/Mvlg+X4oe2HH
- Sx7Uxk0CucHvBHHk=
-X-Received: by 2002:a05:600c:1c07:: with SMTP id
- j7mr5915544wms.12.1636450784270; 
- Tue, 09 Nov 2021 01:39:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy6Z9V7+SK/VAGh+iY/mSgP2C2pjvxK/LFxpbKrrCAbKii9KDN7zCxchdhfZN9eqlbelIuFzA==
-X-Received: by 2002:a05:600c:1c07:: with SMTP id
- j7mr5915532wms.12.1636450784140; 
- Tue, 09 Nov 2021 01:39:44 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id z5sm2614074wmp.26.2021.11.09.01.39.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Nov 2021 01:39:43 -0800 (PST)
-Message-ID: <701011ce-8bc1-9e93-82ed-a4d72c70b2da@redhat.com>
-Date: Tue, 9 Nov 2021 10:39:42 +0100
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=urmnNIRpXCGizDTDHx/0C4jkzHPb1pO0Yz7pJNvwgfg=;
+ b=ExEgGYUEPuzEF4WHDsQ8IB7aBPSXo/KFTSN+AZibasaqdS+iguAmZYKbMwTZfVhRVLI2mJ
+ sJL7hhuMsIA0faaPcokaGYYDd/SqNZgv//g5ClrN7gkPRLMgz4M2Ogp7W8UhhubH3QPuSP
+ SM/k0hf3qjSXOoTwaIQJ7P1b3TugN/o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-380-Cgj3-f5WPBK8mcKy6AZDQA-1; Tue, 09 Nov 2021 04:46:13 -0500
+X-MC-Unique: Cgj3-f5WPBK8mcKy6AZDQA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7672E80415C;
+ Tue,  9 Nov 2021 09:46:12 +0000 (UTC)
+Received: from [10.33.192.183] (dhcp-192-183.str.redhat.com [10.33.192.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BB321105501E;
+ Tue,  9 Nov 2021 09:45:19 +0000 (UTC)
+Message-ID: <4e540821-9bc2-77b5-ad70-ebc5df53e039@redhat.com>
+Date: Tue, 9 Nov 2021 10:45:18 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-To: Ed Maste <emaste@freebsd.org>, Li-Wen Hsu <lwhsu@freebsd.org>,
+Subject: Re: Cirrus-CI all red
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Ed Maste <emaste@freebsd.org>, Li-Wen Hsu <lwhsu@freebsd.org>,
  Yonggang Luo <luoyonggang@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Subject: Cirrus-CI all red
+References: <701011ce-8bc1-9e93-82ed-a4d72c70b2da@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <701011ce-8bc1-9e93-82ed-a4d72c70b2da@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, NICE_REPLY_A=-3.364, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,23 +81,35 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
  qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-FYI, as of today, the latest merge history is red (last 10 days):
-https://cirrus-ci.com/github/qemu/qemu
+On 09/11/2021 10.39, Philippe Mathieu-Daudé wrote:
+> FYI, as of today, the latest merge history is red (last 10 days):
+> https://cirrus-ci.com/github/qemu/qemu
+> 
+> If we want to keep using this, we should somehow plug it to
+> GitLab-CI (i.e. Travis-CI is run as an external job there) so
+> the project maintainer can notice job failures.
 
-If we want to keep using this, we should somehow plug it to
-GitLab-CI (i.e. Travis-CI is run as an external job there) so
-the project maintainer can notice job failures.
+Well, considering that all the cirrus-run based jobs are currently failing 
+due to the non-working API token, that does not seem to work very well either.
 
-Alternatively the windows job could be passed to GitLab:
-https://docs.gitlab.com/ee/ci/runners/runner_cloud/windows_runner_cloud.html
+> Alternatively the windows job could be passed to GitLab:
+> https://docs.gitlab.com/ee/ci/runners/runner_cloud/windows_runner_cloud.html
 
-Regards,
+See:
 
-Phil.
+  https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg02474.html
+
+... the problem is again that the shared runners are only single-threaded, 
+so it's incredibly slow, especially if you have to re-install MSYS2 each 
+time. I once tried to improve the patch by caching the MSYS2 installation, 
+but it did not work that well either... (but if somebody wants to continue 
+my work, I can rebase and send it out again, just let me know).
+
+  Thomas
 
 
