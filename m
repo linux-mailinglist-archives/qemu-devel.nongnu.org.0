@@ -2,53 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 632F044A6DF
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 07:33:15 +0100 (CET)
-Received: from localhost ([::1]:44514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 827C644A6D6
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 07:28:39 +0100 (CET)
+Received: from localhost ([::1]:35830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkKh0-0005OR-7H
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 01:33:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50286)
+	id 1mkKcY-0007vb-HV
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 01:28:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mkK4F-00051H-6k; Tue, 09 Nov 2021 00:53:11 -0500
-Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=56123
- helo=gandalf.ozlabs.org)
+ id 1mkK41-0004lF-6p; Tue, 09 Nov 2021 00:52:57 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:41939)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mkK4D-0006mi-Je; Tue, 09 Nov 2021 00:53:10 -0500
+ id 1mkK3v-0006ph-Mp; Tue, 09 Nov 2021 00:52:56 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HpHDp32QYz4xf4; Tue,  9 Nov 2021 16:52:10 +1100 (AEDT)
+ id 4HpHDp39pYz4xf5; Tue,  9 Nov 2021 16:52:10 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1636437130;
- bh=L2GlPrk/eyuWbcw7Vyab2iKSH6sWGssNTAm24em8Osk=;
+ bh=znVbTx17nZEXrWAYXF466ivna1Y/xkMNQ6gAnyXIBz8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Asngh6jUGrIXXe0E8eGUYryiYlvezajRoktjTAm5dLqryg24UcssIobzuibAvrM2e
- 2OYBlY7XqfzpT9Lx2nWjw4K6Ic1duOQDlbSFHYhGXIaOvQY3sY3qft0vgIkbrIOOL1
- QjuteoB/D9OGTtjlmdyPbQ5Z4Ii+1b84QYbniHNM=
+ b=Di5Kzae++36PnbfQaNCkgZzPQiBH7AsMVNzF3YrK/ZeDBxYbLsTXiQbPSbQecY7FC
+ fSaIWA+ovu5bRiECQOdrqSDacUYvoxT7wrangYcSZNPDxly8QK43FKBHvNLxIAQebT
+ 0UjDTo5KqE0e9KDslEorJ3PY47Ku9WmPujMMtea0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org, clg@kaod.org, danielhb413@gmail.com,
  groug@kaod.org
-Subject: [PULL 27/54] ppc/pegasos2: Suppress warning when qtest enabled
-Date: Tue,  9 Nov 2021 16:51:37 +1100
-Message-Id: <20211109055204.230765-28-david@gibson.dropbear.id.au>
+Subject: [PULL 28/54] target/ppc: Move vcfuged to vmx-impl.c.inc
+Date: Tue,  9 Nov 2021 16:51:38 +1100
+Message-Id: <20211109055204.230765-29-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211109055204.230765-1-david@gibson.dropbear.id.au>
 References: <20211109055204.230765-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for
- 2404:9400:2:0:216:3eff:fee2:21ea (failed)
-Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
+Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -9
-X-Spam_score: -1.0
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_HELO_PASS=-0.001, T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,44 +57,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: BALATON Zoltan <balaton@eik.bme.hu>
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-Id: <20211101151023.F0D02748F5A@zero.eik.bme.hu>
+There's no reason to keep vector-impl.c.inc separate from
+vmx-impl.c.inc. Additionally, let GVec handle the multiple calls to
+helper_cfuged for us.
+
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+Message-Id: <20211104123719.323713-2-matheus.ferst@eldorado.org.br>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pegasos2.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/ppc/helper.h                        |  2 +-
+ target/ppc/int_helper.c                    |  2 +-
+ target/ppc/translate.c                     |  1 -
+ target/ppc/translate/fixedpoint-impl.c.inc |  2 +-
+ target/ppc/translate/vector-impl.c.inc     | 48 ----------------------
+ target/ppc/translate/vmx-impl.c.inc        | 16 ++++++++
+ 6 files changed, 19 insertions(+), 52 deletions(-)
+ delete mode 100644 target/ppc/translate/vector-impl.c.inc
 
-diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-index e427ac2fe0..298e6b93e2 100644
---- a/hw/ppc/pegasos2.c
-+++ b/hw/ppc/pegasos2.c
-@@ -23,6 +23,7 @@
- #include "hw/qdev-properties.h"
- #include "sysemu/reset.h"
- #include "sysemu/runstate.h"
-+#include "sysemu/qtest.h"
- #include "hw/boards.h"
- #include "hw/loader.h"
- #include "hw/fw-path-provider.h"
-@@ -199,7 +200,7 @@ static void pegasos2_init(MachineState *machine)
-         if (!pm->vof) {
-             warn_report("Option -kernel may be ineffective with -bios.");
-         }
--    } else if (pm->vof) {
-+    } else if (pm->vof && !qtest_enabled()) {
-         warn_report("Using Virtual OpenFirmware but no -kernel option.");
-     }
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 72e66c5fe8..401575b935 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -46,7 +46,7 @@ DEF_HELPER_4(divwe, tl, env, tl, tl, i32)
+ DEF_HELPER_FLAGS_1(popcntb, TCG_CALL_NO_RWG_SE, tl, tl)
+ DEF_HELPER_FLAGS_2(cmpb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+ DEF_HELPER_3(sraw, tl, env, tl, tl)
+-DEF_HELPER_FLAGS_2(cfuged, TCG_CALL_NO_RWG_SE, i64, i64, i64)
++DEF_HELPER_FLAGS_2(CFUGED, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+ #if defined(TARGET_PPC64)
+ DEF_HELPER_FLAGS_2(PDEPD, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+ DEF_HELPER_FLAGS_2(PEXTD, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index 913d76be6e..f03c864e48 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -324,7 +324,7 @@ target_ulong helper_popcntb(target_ulong val)
+ }
+ #endif
  
+-uint64_t helper_cfuged(uint64_t src, uint64_t mask)
++uint64_t helper_CFUGED(uint64_t src, uint64_t mask)
+ {
+     /*
+      * Instead of processing the mask bit-by-bit from the most significant to
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 659859ff5f..fc9d35a7a8 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -7407,7 +7407,6 @@ static bool resolve_PLS_D(DisasContext *ctx, arg_D *d, arg_PLS_D *a)
+ #include "translate/vmx-impl.c.inc"
+ 
+ #include "translate/vsx-impl.c.inc"
+-#include "translate/vector-impl.c.inc"
+ 
+ #include "translate/dfp-impl.c.inc"
+ 
+diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
+index 220b099fcd..fa519c2d3e 100644
+--- a/target/ppc/translate/fixedpoint-impl.c.inc
++++ b/target/ppc/translate/fixedpoint-impl.c.inc
+@@ -407,7 +407,7 @@ static bool trans_CFUGED(DisasContext *ctx, arg_X *a)
+     REQUIRE_64BIT(ctx);
+     REQUIRE_INSNS_FLAGS2(ctx, ISA310);
+ #if defined(TARGET_PPC64)
+-    gen_helper_cfuged(cpu_gpr[a->ra], cpu_gpr[a->rt], cpu_gpr[a->rb]);
++    gen_helper_CFUGED(cpu_gpr[a->ra], cpu_gpr[a->rt], cpu_gpr[a->rb]);
+ #else
+     qemu_build_not_reached();
+ #endif
+diff --git a/target/ppc/translate/vector-impl.c.inc b/target/ppc/translate/vector-impl.c.inc
+deleted file mode 100644
+index 197e903337..0000000000
+--- a/target/ppc/translate/vector-impl.c.inc
++++ /dev/null
+@@ -1,48 +0,0 @@
+-/*
+- * Power ISA decode for Vector Facility instructions
+- *
+- * Copyright (c) 2021 Instituto de Pesquisas Eldorado (eldorado.org.br)
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+- *
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+- *
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+- */
+-
+-static bool trans_VCFUGED(DisasContext *ctx, arg_VX *a)
+-{
+-    TCGv_i64 tgt, src, mask;
+-
+-    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
+-    REQUIRE_VECTOR(ctx);
+-
+-    tgt = tcg_temp_new_i64();
+-    src = tcg_temp_new_i64();
+-    mask = tcg_temp_new_i64();
+-
+-    /* centrifuge lower double word */
+-    get_cpu_vsrl(src, a->vra + 32);
+-    get_cpu_vsrl(mask, a->vrb + 32);
+-    gen_helper_cfuged(tgt, src, mask);
+-    set_cpu_vsrl(a->vrt + 32, tgt);
+-
+-    /* centrifuge higher double word */
+-    get_cpu_vsrh(src, a->vra + 32);
+-    get_cpu_vsrh(mask, a->vrb + 32);
+-    gen_helper_cfuged(tgt, src, mask);
+-    set_cpu_vsrh(a->vrt + 32, tgt);
+-
+-    tcg_temp_free_i64(tgt);
+-    tcg_temp_free_i64(src);
+-    tcg_temp_free_i64(mask);
+-
+-    return true;
+-}
+diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+index 92b9527aff..e36c66589c 100644
+--- a/target/ppc/translate/vmx-impl.c.inc
++++ b/target/ppc/translate/vmx-impl.c.inc
+@@ -1559,6 +1559,22 @@ GEN_VXFORM3(vpermxor, 22, 0xFF)
+ GEN_VXFORM_DUAL(vsldoi, PPC_ALTIVEC, PPC_NONE,
+                 vpermxor, PPC_NONE, PPC2_ALTIVEC_207)
+ 
++static bool trans_VCFUGED(DisasContext *ctx, arg_VX *a)
++{
++    static const GVecGen3 g = {
++        .fni8 = gen_helper_CFUGED,
++        .vece = MO_64,
++    };
++
++    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
++    REQUIRE_VECTOR(ctx);
++
++    tcg_gen_gvec_3(avr_full_offset(a->vrt), avr_full_offset(a->vra),
++                   avr_full_offset(a->vrb), 16, 16, &g);
++
++    return true;
++}
++
+ #undef GEN_VR_LDX
+ #undef GEN_VR_STX
+ #undef GEN_VR_LVE
 -- 
 2.33.1
 
