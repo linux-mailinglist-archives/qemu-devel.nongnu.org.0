@@ -2,46 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0704944B350
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 20:37:07 +0100 (CET)
-Received: from localhost ([::1]:41798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D211A44B3AA
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 21:00:56 +0100 (CET)
+Received: from localhost ([::1]:49352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkWvZ-0003uo-KP
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 14:37:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46554)
+	id 1mkXIc-0002CT-Mn
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 15:00:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mkWrM-0002P1-Sj; Tue, 09 Nov 2021 14:32:48 -0500
-Received: from [201.28.113.2] (port=27658 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mkWrK-000865-8p; Tue, 09 Nov 2021 14:32:43 -0500
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Tue, 9 Nov 2021 16:32:38 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 19185800E8B;
- Tue,  9 Nov 2021 16:32:38 -0300 (-03)
-From: matheus.ferst@eldorado.org.br
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Subject: [PATCH] target/ppc: Fix register update on lf[sd]u[x]/stf[sd]u[x]
-Date: Tue,  9 Nov 2021 16:29:11 -0300
-Message-Id: <20211109192911.485507-1-matheus.ferst@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mkXGt-0001HA-O4; Tue, 09 Nov 2021 14:59:07 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:36510)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mkXGp-0006Su-KG; Tue, 09 Nov 2021 14:59:06 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 8E0F3748F48;
+ Tue,  9 Nov 2021 20:58:58 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 3B6AE7475FA; Tue,  9 Nov 2021 20:58:58 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 398567463B7;
+ Tue,  9 Nov 2021 20:58:58 +0100 (CET)
+Date: Tue, 9 Nov 2021 20:58:58 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PULL 1/2] hw: m68k: virt: Add compat machine for 6.1
+In-Reply-To: <YYpvvWLvkhR0/igt@redhat.com>
+Message-ID: <fa213548-ca60-bf7b-2075-83bd7f32462a@eik.bme.hu>
+References: <20211109111517.996104-1-laurent@vivier.eu>
+ <20211109111517.996104-2-laurent@vivier.eu>
+ <9537b527-d33e-59d5-e196-e1e84fa01325@eik.bme.hu>
+ <YYpvvWLvkhR0/igt@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 09 Nov 2021 19:32:38.0539 (UTC)
- FILETIME=[8E0C8DB0:01D7D5A0]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/mixed; boundary="3866299591-978984826-1636487938=:9941"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -54,40 +57,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- groug@kaod.org, clg@kaod.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
- david@gibson.dropbear.id.au
+Cc: qemu-stable@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-These instructions should update the GPR indicated by the field RA
-instead of RT. This error caused a regression on Mac OS 9 boot and some
-graphical glitches in OS X.
+--3866299591-978984826-1636487938=:9941
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Fixes: a39a106634a9 ("target/ppc: Move load and store floating point instructions to decodetree")
-Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
----
- target/ppc/translate/fp-impl.c.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, 9 Nov 2021, Daniel P. Berrangé wrote:
+> On Tue, Nov 09, 2021 at 01:34:49PM +0100, BALATON Zoltan wrote:
+>> On Tue, 9 Nov 2021, Laurent Vivier wrote:
+>>> Add the missing machine type for m68k/virt
+>>>
+>>> Cc: qemu-stable@nongnu.org
+>>> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+>>> Message-Id: <20211106194158.4068596-2-laurent@vivier.eu>
+>>> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+>>> ---
+>>> hw/m68k/virt.c | 9 ++++++++-
+>>> 1 file changed, 8 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+>>> index 4e8bce5aa6f7..0d9e3f83c169 100644
+>>> --- a/hw/m68k/virt.c
+>>> +++ b/hw/m68k/virt.c
+>>> @@ -304,7 +304,14 @@ type_init(virt_machine_register_types)
+>>>     } \
+>>>     type_init(machvirt_machine_##major##_##minor##_init);
+>>>
+>>> +static void virt_machine_6_1_options(MachineClass *mc)
+>>> +{
+>>> +}
+>>> +DEFINE_VIRT_MACHINE(6, 1, true)
+>>> +
+>>> static void virt_machine_6_0_options(MachineClass *mc)
+>>> {
+>>> +    virt_machine_6_1_options(mc);
+>>> +    compat_props_add(mc->compat_props, hw_compat_6_0, hw_compat_6_0_len);
+>>> }
+>>> -DEFINE_VIRT_MACHINE(6, 0, true)
+>>> +DEFINE_VIRT_MACHINE(6, 0, false)
+>>
+>> I don't understand how these compat machines work but if these are empty and
+>> essentially the same as the previous version why do we add a new version in
+>> every release? Wouldn't it be enough to add new version when there was an
+>> incompatible change? I mean, instead of listing machine and getting a lot of
+>> virt-6.1, virt-6.0, virt-5.2,... or so, we'd only get versions that are
+>> actually different such as virt-7.0, virt-5.2, virt-5.0 (maybe they are
+>> called differently, just an example) with the versionless alias always
+>> pointing to the latest. Then when QEMU is updated one can see if there was
+>> any change so should update the VM or keep using the older versions. Or does
+>> it work like that and I'm missing it completely?
+>
+> It doesn't work like that, and that's a good thing.
+>
+> The versioned machine types are for management applications that want
+> to guarantee an ABI across hosts. When a mgmt app wants to set a new
+> baseline for their QEMU machine types, it is way clearer if every
+> versioned machine type across all target arches supports the same
+> versions, regardless of whether there were any changes or not.
+>
+> ie if an app wants to set QEMU 6.1.0 as the baseline, they want
+> to be able to set  virt-6.1 for aarch64, for mips, for riscv,
+> instead of having to figure out which versions exists for each
+> arch
 
-diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
-index d1dbb1b96b..c9e05201d9 100644
---- a/target/ppc/translate/fp-impl.c.inc
-+++ b/target/ppc/translate/fp-impl.c.inc
-@@ -1328,7 +1328,7 @@ static bool do_lsfpsd(DisasContext *ctx, int rt, int ra, TCGv displ,
-         set_fpr(rt, t0);
-     }
-     if (update) {
--        tcg_gen_mov_tl(cpu_gpr[rt], ea);
-+        tcg_gen_mov_tl(cpu_gpr[ra], ea);
-     }
-     tcg_temp_free_i64(t0);
-     tcg_temp_free(ea);
--- 
-2.25.1
+With a bit more logic the management app could easily implement this 
+either by dereferencing the alias when creating the VM, say virt is an 
+alias of virt-6,0 in QEMU 6.2 then put virt-6.0 in the VM config which 
+then will work on anyting newer than QEMU 6.0. Or record the QEMU version 
+in VM config when creating the VM saying this needs at least QEMU 6.1 then 
+if there's no virt-6.1 or virt points to something newer then go back to 
+the biggest version less than 6.1 (this might be more difficult due to 
+changes in QEMU versioning but if we assume that at least they are 
+increasing numbers it should be possible to find the largest version less 
+than 6.1 for example). That way when a user types -machine help they won't 
+get a large list of useless versioned machines that are mostly the same 
+anyway. This looks like a case that a lazy management sofrware pollutes 
+the human interface while it could handle it itself. But that's just my 
+opinion, I don't use these too much so don't care too much either. It just 
+looked like something that is putting a burden both on users and 
+debelopers (having to add more compatiblity stuff to code that's already 
+heavy on boilerplate) for something that could be handled within the 
+management software. But maybe it's too late to change at this point.
 
+Regards,
+BALATON Zoltan
+--3866299591-978984826-1636487938=:9941--
 
