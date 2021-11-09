@@ -2,72 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CFFC44AE4B
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 13:58:37 +0100 (CET)
-Received: from localhost ([::1]:36234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3BA444AE92
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 14:14:41 +0100 (CET)
+Received: from localhost ([::1]:44202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkQhw-0003r4-HX
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 07:58:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48228)
+	id 1mkQxS-0001kX-NM
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 08:14:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mkQf7-00085C-9T
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 07:55:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42739)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mkQtE-0008UZ-Iq; Tue, 09 Nov 2021 08:10:18 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:39439)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mkQf4-0007T2-7q
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 07:55:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636462537;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=SMNeos7lisBc/fJ9dc6XR6LlhvCz7FZFFxE252Hh7Wc=;
- b=GCKpEaXR6lUUnRRs0O6z23ta+nGPpKE5j6hBHEzCPZ0l1PTt7G7NJe4bvehD8zmQZ71KZT
- +Sk3Z6/2gd/zh1XRvaat2fdQ7QAfQ+N7diHxV7U4QCgS02PbMzgwh7a3psKQqPZpEDT1Dk
- OLpwoqhzR9Q2faZ7/bQsEhKXgaL1ljA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-hre7WvzKNIexXo3RZGAuhw-1; Tue, 09 Nov 2021 07:55:30 -0500
-X-MC-Unique: hre7WvzKNIexXo3RZGAuhw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9489518125C0;
- Tue,  9 Nov 2021 12:55:29 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.190])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7EFFA56A87;
- Tue,  9 Nov 2021 12:55:28 +0000 (UTC)
-Date: Tue, 9 Nov 2021 12:55:25 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PULL 1/2] hw: m68k: virt: Add compat machine for 6.1
-Message-ID: <YYpvvWLvkhR0/igt@redhat.com>
-References: <20211109111517.996104-1-laurent@vivier.eu>
- <20211109111517.996104-2-laurent@vivier.eu>
- <9537b527-d33e-59d5-e196-e1e84fa01325@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mkQt6-0003CB-Ho; Tue, 09 Nov 2021 08:10:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=xz2IP+KOjlAlxq5Su+A16FbxMegIAN2cNVhVYSR1wjY=; b=L1Hh7/Gvmps7+StxZb8mRZI9sj
+ SOLkj0sQj833n93Z1bUGzd1F6r6CUuLJ4GPsPDm5AEZQEMoo6okZsx1RymN9VuH2TNsvkT7cIJ9BM
+ dgD5iQj7NihrcBDmkD0US1MEdiWLofAsd4rfbjfGYoOW2LN1usCiabN4dyhjuat5El+zwbGGcu/EJ
+ tCnVntEs1MNerdNxvbAVRuzZVsvfr++meUkbPGuw3f/ljT6ryVrrWd04get0f7GWZvcbwM7L6T6jI
+ JdrjXJc5XAKVpjjjkZQptRCLZBpxTsOjrS9yJ+9r3Fro3ZriRW9GScNQn7TGjJvLJKedH4ZdUzt70
+ ogZkrtfEf5JXDJNlRRvR6Qz3DRzrY41yUB0lc3jwwJCX9vLBXPmLnx5wJAwaeu/Q+4H7Ea8H9ENdx
+ gF8qMwRhpzbR4G51zxoRtfmG1HprF+qULszC7at5fh+yjg+qxRQO7pgusaDHkuwOEnIcJ1sQknDnD
+ kUYyMzTTM0ou4mk0Cc1woBLeI7A6jxX4VEIEdFbgkE3A3BYwkw5cLJFW5ESTsaoJCq7M3gp7LacXh
+ o810r+vZgl004Yoa7Xb2FQHdurNJ4Y1xB0si9WIxl+RfRAtkHhbK+SKCsNRp6H+UlNoWVP/MZ4rOj
+ soKueI70BlQtVteYrnJQCSz4U+dNXHi177VxfFNnw=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Amit Shah <amit@kernel.org>, David Hildenbrand <david@redhat.com>,
+ Greg Kurz <groug@kaod.org>, virtio-fs@redhat.com,
+ Eric Auger <eric.auger@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v2 0/3] virtio: increase VIRTQUEUE_MAX_SIZE to 32k
+Date: Tue, 09 Nov 2021 14:09:59 +0100
+Message-ID: <25571471.tMsSMU6axZ@silver>
+In-Reply-To: <YYpT4ybSiaon19UP@stefanha-x1.localdomain>
+References: <cover.1633376313.git.qemu_oss@crudebyte.com>
+ <10421947.PG2v2feK4y@silver> <YYpT4ybSiaon19UP@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <9537b527-d33e-59d5-e196-e1e84fa01325@eik.bme.hu>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,75 +73,964 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-stable@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 09, 2021 at 01:34:49PM +0100, BALATON Zoltan wrote:
-> On Tue, 9 Nov 2021, Laurent Vivier wrote:
-> > Add the missing machine type for m68k/virt
+On Dienstag, 9. November 2021 11:56:35 CET Stefan Hajnoczi wrote:
+> On Thu, Nov 04, 2021 at 03:41:23PM +0100, Christian Schoenebeck wrote:
+> > On Mittwoch, 3. November 2021 12:33:33 CET Stefan Hajnoczi wrote:
+> > > On Mon, Nov 01, 2021 at 09:29:26PM +0100, Christian Schoenebeck wrote:
+> > > > On Donnerstag, 28. Oktober 2021 11:00:48 CET Stefan Hajnoczi wrote:
+> > > > > On Mon, Oct 25, 2021 at 05:03:25PM +0200, Christian Schoenebeck 
+wrote:
+> > > > > > On Montag, 25. Oktober 2021 12:30:41 CEST Stefan Hajnoczi wrote:
+> > > > > > > On Thu, Oct 21, 2021 at 05:39:28PM +0200, Christian Schoenebeck 
+wrote:
+> > > > > > > > On Freitag, 8. Oktober 2021 18:08:48 CEST Christian 
+Schoenebeck wrote:
+> > > > > > > > > On Freitag, 8. Oktober 2021 16:24:42 CEST Christian 
+Schoenebeck wrote:
+> > > > > > > > > > On Freitag, 8. Oktober 2021 09:25:33 CEST Greg Kurz wrote:
+> > > > > > > > > > > On Thu, 7 Oct 2021 16:42:49 +0100
+> > > > > > > > > > > 
+> > > > > > > > > > > Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > > > > > > > > > > > On Thu, Oct 07, 2021 at 02:51:55PM +0200, Christian 
+Schoenebeck wrote:
+> > > > > > > > > > > > > On Donnerstag, 7. Oktober 2021 07:23:59 CEST Stefan 
+Hajnoczi wrote:
+> > > > > > > > > > > > > > On Mon, Oct 04, 2021 at 09:38:00PM +0200,
+> > > > > > > > > > > > > > Christian
+> > > > > > > > > > > > > > Schoenebeck
+> > > > > > > > > 
+> > > > > > > > > wrote:
+> > > > > > > > > > > > > > > At the moment the maximum transfer size with
+> > > > > > > > > > > > > > > virtio
+> > > > > > > > > > > > > > > is
+> > > > > > > > > > > > > > > limited
+> > > > > > > > > > > > > > > to
+> > > > > > > > > > > > > > > 4M
+> > > > > > > > > > > > > > > (1024 * PAGE_SIZE). This series raises this
+> > > > > > > > > > > > > > > limit to
+> > > > > > > > > > > > > > > its
+> > > > > > > > > > > > > > > maximum
+> > > > > > > > > > > > > > > theoretical possible transfer size of 128M (32k
+> > > > > > > > > > > > > > > pages)
+> > > > > > > > > > > > > > > according
+> > > > > > > > > > > > > > > to
+> > > > > > > > > > > > > > > the
+> > > > > > > > > > > > > > > virtio specs:
+> > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > https://docs.oasis-open.org/virtio/virtio/v1.1/c
+> > > > > > > > > > > > > > > s01/
+> > > > > > > > > > > > > > > virt
+> > > > > > > > > > > > > > > io-v
+> > > > > > > > > > > > > > > 1.1-
+> > > > > > > > > > > > > > > cs
+> > > > > > > > > > > > > > > 01
+> > > > > > > > > > > > > > > .html#
+> > > > > > > > > > > > > > > x1-240006
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > Hi Christian,
+> > > > > > > > > > > 
+> > > > > > > > > > > > > > I took a quick look at the code:
+> > > > > > > > > > > Hi,
+> > > > > > > > > > > 
+> > > > > > > > > > > Thanks Stefan for sharing virtio expertise and helping
+> > > > > > > > > > > Christian
+> > > > > > > > > > > !
+> > > > > > > > > > > 
+> > > > > > > > > > > > > > - The Linux 9p driver restricts descriptor chains
+> > > > > > > > > > > > > > to
+> > > > > > > > > > > > > > 128
+> > > > > > > > > > > > > > elements
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > >   (net/9p/trans_virtio.c:VIRTQUEUE_NUM)
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > Yes, that's the limitation that I am about to remove
+> > > > > > > > > > > > > (WIP);
+> > > > > > > > > > > > > current
+> > > > > > > > > > > > > kernel
+> > > > > > > > > > > > > patches:
+> > > > > > > > > > > > > https://lore.kernel.org/netdev/cover.1632327421.git.
+> > > > > > > > > > > > > linu
+> > > > > > > > > > > > > x_os
+> > > > > > > > > > > > > s@cr
+> > > > > > > > > > > > > udeb
+> > > > > > > > > > > > > yt
+> > > > > > > > > > > > > e.
+> > > > > > > > > > > > > com/>
+> > > > > > > > > > > > 
+> > > > > > > > > > > > I haven't read the patches yet but I'm concerned that
+> > > > > > > > > > > > today
+> > > > > > > > > > > > the
+> > > > > > > > > > > > driver
+> > > > > > > > > > > > is pretty well-behaved and this new patch series
+> > > > > > > > > > > > introduces a
+> > > > > > > > > > > > spec
+> > > > > > > > > > > > violation. Not fixing existing spec violations is
+> > > > > > > > > > > > okay,
+> > > > > > > > > > > > but
+> > > > > > > > > > > > adding
+> > > > > > > > > > > > new
+> > > > > > > > > > > > ones is a red flag. I think we need to figure out a
+> > > > > > > > > > > > clean
+> > > > > > > > > > > > solution.
+> > > > > > > > > > 
+> > > > > > > > > > Nobody has reviewed the kernel patches yet. My main
+> > > > > > > > > > concern
+> > > > > > > > > > therefore
+> > > > > > > > > > actually is that the kernel patches are already too
+> > > > > > > > > > complex,
+> > > > > > > > > > because
+> > > > > > > > > > the
+> > > > > > > > > > current situation is that only Dominique is handling 9p
+> > > > > > > > > > patches on
+> > > > > > > > > > kernel
+> > > > > > > > > > side, and he barely has time for 9p anymore.
+> > > > > > > > > > 
+> > > > > > > > > > Another reason for me to catch up on reading current
+> > > > > > > > > > kernel
+> > > > > > > > > > code
+> > > > > > > > > > and
+> > > > > > > > > > stepping in as reviewer of 9p on kernel side ASAP,
+> > > > > > > > > > independent
+> > > > > > > > > > of
+> > > > > > > > > > this
+> > > > > > > > > > issue.
+> > > > > > > > > > 
+> > > > > > > > > > As for current kernel patches' complexity: I can certainly
+> > > > > > > > > > drop
+> > > > > > > > > > patch
+> > > > > > > > > > 7
+> > > > > > > > > > entirely as it is probably just overkill. Patch 4 is then
+> > > > > > > > > > the
+> > > > > > > > > > biggest
+> > > > > > > > > > chunk, I have to see if I can simplify it, and whether it
+> > > > > > > > > > would
+> > > > > > > > > > make
+> > > > > > > > > > sense to squash with patch 3.
+> > > > > > > > > > 
+> > > > > > > > > > > > > > - The QEMU 9pfs code passes iovecs directly to
+> > > > > > > > > > > > > > preadv(2)
+> > > > > > > > > > > > > > and
+> > > > > > > > > > > > > > will
+> > > > > > > > > > > > > > fail
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > >   with EINVAL when called with more than IOV_MAX
+> > > > > > > > > > > > > >   iovecs
+> > > > > > > > > > > > > >   (hw/9pfs/9p.c:v9fs_read())
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > Hmm, which makes me wonder why I never encountered
+> > > > > > > > > > > > > this
+> > > > > > > > > > > > > error
+> > > > > > > > > > > > > during
+> > > > > > > > > > > > > testing.
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > Most people will use the 9p qemu 'local' fs driver
+> > > > > > > > > > > > > backend
+> > > > > > > > > > > > > in
+> > > > > > > > > > > > > practice,
+> > > > > > > > > > > > > so
+> > > > > > > > > > > > > that v9fs_read() call would translate for most
+> > > > > > > > > > > > > people to
+> > > > > > > > > > > > > this
+> > > > > > > > > > > > > implementation on QEMU side (hw/9p/9p-local.c):
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > static ssize_t local_preadv(FsContext *ctx,
+> > > > > > > > > > > > > V9fsFidOpenState
+> > > > > > > > > > > > > *fs,
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > >                             const struct iovec *iov,
+> > > > > > > > > > > > >                             int iovcnt, off_t
+> > > > > > > > > > > > >                             offset)
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > {
+> > > > > > > > > > > > > #ifdef CONFIG_PREADV
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > >     return preadv(fs->fd, iov, iovcnt, offset);
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > #else
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > >     int err = lseek(fs->fd, offset, SEEK_SET);
+> > > > > > > > > > > > >     if (err == -1) {
+> > > > > > > > > > > > >     
+> > > > > > > > > > > > >         return err;
+> > > > > > > > > > > > >     
+> > > > > > > > > > > > >     } else {
+> > > > > > > > > > > > >     
+> > > > > > > > > > > > >         return readv(fs->fd, iov, iovcnt);
+> > > > > > > > > > > > >     
+> > > > > > > > > > > > >     }
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > #endif
+> > > > > > > > > > > > > }
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > > Unless I misunderstood the code, neither side can
+> > > > > > > > > > > > > > take
+> > > > > > > > > > > > > > advantage
+> > > > > > > > > > > > > > of
+> > > > > > > > > > > > > > the
+> > > > > > > > > > > > > > new 32k descriptor chain limit?
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > Thanks,
+> > > > > > > > > > > > > > Stefan
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > I need to check that when I have some more time. One
+> > > > > > > > > > > > > possible
+> > > > > > > > > > > > > explanation
+> > > > > > > > > > > > > might be that preadv() already has this wrapped into
+> > > > > > > > > > > > > a
+> > > > > > > > > > > > > loop
+> > > > > > > > > > > > > in
+> > > > > > > > > > > > > its
+> > > > > > > > > > > > > implementation to circumvent a limit like IOV_MAX.
+> > > > > > > > > > > > > It
+> > > > > > > > > > > > > might
+> > > > > > > > > > > > > be
+> > > > > > > > > > > > > another
+> > > > > > > > > > > > > "it
+> > > > > > > > > > > > > works, but not portable" issue, but not sure.
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > There are still a bunch of other issues I have to
+> > > > > > > > > > > > > resolve.
+> > > > > > > > > > > > > If
+> > > > > > > > > > > > > you
+> > > > > > > > > > > > > look
+> > > > > > > > > > > > > at
+> > > > > > > > > > > > > net/9p/client.c on kernel side, you'll notice that
+> > > > > > > > > > > > > it
+> > > > > > > > > > > > > basically
+> > > > > > > > > > > > > does
+> > > > > > > > > > > > > this ATM> >
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > >     kmalloc(msize);
+> > > > > > > > > > > 
+> > > > > > > > > > > Note that this is done twice : once for the T message
+> > > > > > > > > > > (client
+> > > > > > > > > > > request)
+> > > > > > > > > > > and
+> > > > > > > > > > > once for the R message (server answer). The 9p driver
+> > > > > > > > > > > could
+> > > > > > > > > > > adjust
+> > > > > > > > > > > the
+> > > > > > > > > > > size
+> > > > > > > > > > > of the T message to what's really needed instead of
+> > > > > > > > > > > allocating
+> > > > > > > > > > > the
+> > > > > > > > > > > full
+> > > > > > > > > > > msize. R message size is not known though.
+> > > > > > > > > > 
+> > > > > > > > > > Would it make sense adding a second virtio ring, dedicated
+> > > > > > > > > > to
+> > > > > > > > > > server
+> > > > > > > > > > responses to solve this? IIRC 9p server already calculates
+> > > > > > > > > > appropriate
+> > > > > > > > > > exact sizes for each response type. So server could just
+> > > > > > > > > > push
+> > > > > > > > > > space
+> > > > > > > > > > that's
+> > > > > > > > > > really needed for its responses.
+> > > > > > > > > > 
+> > > > > > > > > > > > > for every 9p request. So not only does it allocate
+> > > > > > > > > > > > > much
+> > > > > > > > > > > > > more
+> > > > > > > > > > > > > memory
+> > > > > > > > > > > > > for
+> > > > > > > > > > > > > every request than actually required (i.e. say 9pfs
+> > > > > > > > > > > > > was
+> > > > > > > > > > > > > mounted
+> > > > > > > > > > > > > with
+> > > > > > > > > > > > > msize=8M, then a 9p request that actually would just
+> > > > > > > > > > > > > need 1k
+> > > > > > > > > > > > > would
+> > > > > > > > > > > > > nevertheless allocate 8M), but also it allocates >
+> > > > > > > > > > > > > PAGE_SIZE,
+> > > > > > > > > > > > > which
+> > > > > > > > > > > > > obviously may fail at any time.>
+> > > > > > > > > > > > 
+> > > > > > > > > > > > The PAGE_SIZE limitation sounds like a kmalloc() vs
+> > > > > > > > > > > > vmalloc()
+> > > > > > > > > > > > situation.
+> > > > > > > > > > 
+> > > > > > > > > > Hu, I didn't even consider vmalloc(). I just tried the
+> > > > > > > > > > kvmalloc()
+> > > > > > > > > > wrapper
+> > > > > > > > > > as a quick & dirty test, but it crashed in the same way as
+> > > > > > > > > > kmalloc()
+> > > > > > > > > > with
+> > > > > > > > > > large msize values immediately on mounting:
+> > > > > > > > > > 
+> > > > > > > > > > diff --git a/net/9p/client.c b/net/9p/client.c
+> > > > > > > > > > index a75034fa249b..cfe300a4b6ca 100644
+> > > > > > > > > > --- a/net/9p/client.c
+> > > > > > > > > > +++ b/net/9p/client.c
+> > > > > > > > > > @@ -227,15 +227,18 @@ static int parse_opts(char *opts,
+> > > > > > > > > > struct
+> > > > > > > > > > p9_client
+> > > > > > > > > > *clnt)
+> > > > > > > > > > 
+> > > > > > > > > >  static int p9_fcall_init(struct p9_client *c, struct
+> > > > > > > > > >  p9_fcall
+> > > > > > > > > >  *fc,
+> > > > > > > > > >  
+> > > > > > > > > >                          int alloc_msize)
+> > > > > > > > > >  
+> > > > > > > > > >  {
+> > > > > > > > > > 
+> > > > > > > > > > -       if (likely(c->fcall_cache) && alloc_msize ==
+> > > > > > > > > > c->msize)
+> > > > > > > > > > {
+> > > > > > > > > > +       //if (likely(c->fcall_cache) && alloc_msize ==
+> > > > > > > > > > c->msize) {
+> > > > > > > > > > +       if (false) {
+> > > > > > > > > > 
+> > > > > > > > > >                 fc->sdata =
+> > > > > > > > > >                 kmem_cache_alloc(c->fcall_cache,
+> > > > > > > > > >                 GFP_NOFS);
+> > > > > > > > > >                 fc->cache = c->fcall_cache;
+> > > > > > > > > >         
+> > > > > > > > > >         } else {
+> > > > > > > > > > 
+> > > > > > > > > > -               fc->sdata = kmalloc(alloc_msize,
+> > > > > > > > > > GFP_NOFS);
+> > > > > > > > > > +               fc->sdata = kvmalloc(alloc_msize,
+> > > > > > > > > > GFP_NOFS);
+> > > > > > > > > 
+> > > > > > > > > Ok, GFP_NOFS -> GFP_KERNEL did the trick.
+> > > > > > > > > 
+> > > > > > > > > Now I get:
+> > > > > > > > >    virtio: bogus descriptor or out of resources
+> > > > > > > > > 
+> > > > > > > > > So, still some work ahead on both ends.
+> > > > > > > > 
+> > > > > > > > Few hacks later (only changes on 9p client side) I got this
+> > > > > > > > running
+> > > > > > > > stable
+> > > > > > > > now. The reason for the virtio error above was that kvmalloc()
+> > > > > > > > returns
+> > > > > > > > a
+> > > > > > > > non-logical kernel address for any kvmalloc(>4M), i.e. an
+> > > > > > > > address
+> > > > > > > > that
+> > > > > > > > is
+> > > > > > > > inaccessible from host side, hence that "bogus descriptor"
+> > > > > > > > message
+> > > > > > > > by
+> > > > > > > > QEMU.
+> > > > > > > > So I had to split those linear 9p client buffers into sparse
+> > > > > > > > ones
+> > > > > > > > (set
+> > > > > > > > of
+> > > > > > > > individual pages).
+> > > > > > > > 
+> > > > > > > > I tested this for some days with various virtio transmission
+> > > > > > > > sizes
+> > > > > > > > and
+> > > > > > > > it
+> > > > > > > > works as expected up to 128 MB (more precisely: 128 MB read
+> > > > > > > > space
+> > > > > > > > +
+> > > > > > > > 128 MB
+> > > > > > > > write space per virtio round trip message).
+> > > > > > > > 
+> > > > > > > > I did not encounter a show stopper for large virtio
+> > > > > > > > transmission
+> > > > > > > > sizes
+> > > > > > > > (4 MB ... 128 MB) on virtio level, neither as a result of
+> > > > > > > > testing,
+> > > > > > > > nor
+> > > > > > > > after reviewing the existing code.
+> > > > > > > > 
+> > > > > > > > About IOV_MAX: that's apparently not an issue on virtio level.
+> > > > > > > > Most of
+> > > > > > > > the
+> > > > > > > > iovec code, both on Linux kernel side and on QEMU side do not
+> > > > > > > > have
+> > > > > > > > this
+> > > > > > > > limitation. It is apparently however indeed a limitation for
+> > > > > > > > userland
+> > > > > > > > apps
+> > > > > > > > calling the Linux kernel's syscalls yet.
+> > > > > > > > 
+> > > > > > > > Stefan, as it stands now, I am even more convinced that the
+> > > > > > > > upper
+> > > > > > > > virtio
+> > > > > > > > transmission size limit should not be squeezed into the queue
+> > > > > > > > size
+> > > > > > > > argument of virtio_add_queue(). Not because of the previous
+> > > > > > > > argument
+> > > > > > > > that
+> > > > > > > > it would waste space (~1MB), but rather because they are two
+> > > > > > > > different
+> > > > > > > > things. To outline this, just a quick recap of what happens
+> > > > > > > > exactly
+> > > > > > > > when
+> > > > > > > > a bulk message is pushed over the virtio wire (assuming virtio
+> > > > > > > > "split"
+> > > > > > > > layout here):
+> > > > > > > > 
+> > > > > > > > ---------- [recap-start] ----------
+> > > > > > > > 
+> > > > > > > > For each bulk message sent guest <-> host, exactly *one* of
+> > > > > > > > the
+> > > > > > > > pre-allocated descriptors is taken and placed (subsequently)
+> > > > > > > > into
+> > > > > > > > exactly
+> > > > > > > > *one* position of the two available/used ring buffers. The
+> > > > > > > > actual
+> > > > > > > > descriptor table though, containing all the DMA addresses of
+> > > > > > > > the
+> > > > > > > > message
+> > > > > > > > bulk data, is allocated just in time for each round trip
+> > > > > > > > message.
+> > > > > > > > Say,
+> > > > > > > > it
+> > > > > > > > is the first message sent, it yields in the following
+> > > > > > > > structure:
+> > > > > > > > 
+> > > > > > > > Ring Buffer   Descriptor Table      Bulk Data Pages
+> > > > > > > > 
+> > > > > > > >    +-+              +-+           +-----------------+
+> > > > > > > >    
+> > > > > > > >    |D|------------->|d|---------->| Bulk data block |
+> > > > > > > >    
+> > > > > > > >    +-+              |d|--------+  +-----------------+
+> > > > > > > >    
+> > > > > > > >    | |              |d|------+ |
+> > > > > > > >    
+> > > > > > > >    +-+               .       | |  +-----------------+
+> > > > > > > >    
+> > > > > > > >    | |               .       | +->| Bulk data block |
+> > > > > > > >     
+> > > > > > > >     .                .       |    +-----------------+
+> > > > > > > >     .               |d|-+    |
+> > > > > > > >     .               +-+ |    |    +-----------------+
+> > > > > > > >     
+> > > > > > > >    | |                  |    +--->| Bulk data block |
+> > > > > > > >    
+> > > > > > > >    +-+                  |         +-----------------+
+> > > > > > > >    
+> > > > > > > >    | |                  |                 .
+> > > > > > > >    
+> > > > > > > >    +-+                  |                 .
+> > > > > > > >    
+> > > > > > > >                         |                 .
+> > > > > > > >                         |         
+> > > > > > > >                         |         +-----------------+
+> > > > > > > >                         
+> > > > > > > >                         +-------->| Bulk data block |
+> > > > > > > >                         
+> > > > > > > >                                   +-----------------+
+> > > > > > > > 
+> > > > > > > > Legend:
+> > > > > > > > D: pre-allocated descriptor
+> > > > > > > > d: just in time allocated descriptor
+> > > > > > > > -->: memory pointer (DMA)
+> > > > > > > > 
+> > > > > > > > The bulk data blocks are allocated by the respective device
+> > > > > > > > driver
+> > > > > > > > above
+> > > > > > > > virtio subsystem level (guest side).
+> > > > > > > > 
+> > > > > > > > There are exactly as many descriptors pre-allocated (D) as the
+> > > > > > > > size of
+> > > > > > > > a
+> > > > > > > > ring buffer.
+> > > > > > > > 
+> > > > > > > > A "descriptor" is more or less just a chainable DMA memory
+> > > > > > > > pointer;
+> > > > > > > > defined
+> > > > > > > > as:
+> > > > > > > > 
+> > > > > > > > /* Virtio ring descriptors: 16 bytes.  These can chain
+> > > > > > > > together
+> > > > > > > > via
+> > > > > > > > "next". */ struct vring_desc {
+> > > > > > > > 
+> > > > > > > > 	/* Address (guest-physical). */
+> > > > > > > > 	__virtio64 addr;
+> > > > > > > > 	/* Length. */
+> > > > > > > > 	__virtio32 len;
+> > > > > > > > 	/* The flags as indicated above. */
+> > > > > > > > 	__virtio16 flags;
+> > > > > > > > 	/* We chain unused descriptors via this, too */
+> > > > > > > > 	__virtio16 next;
+> > > > > > > > 
+> > > > > > > > };
+> > > > > > > > 
+> > > > > > > > There are 2 ring buffers; the "available" ring buffer is for
+> > > > > > > > sending a
+> > > > > > > > message guest->host (which will transmit DMA addresses of
+> > > > > > > > guest
+> > > > > > > > allocated
+> > > > > > > > bulk data blocks that are used for data sent to device, and
+> > > > > > > > separate
+> > > > > > > > guest allocated bulk data blocks that will be used by host
+> > > > > > > > side to
+> > > > > > > > place
+> > > > > > > > its response bulk data), and the "used" ring buffer is for
+> > > > > > > > sending
+> > > > > > > > host->guest to let guest know about host's response and that
+> > > > > > > > it
+> > > > > > > > could
+> > > > > > > > now
+> > > > > > > > safely consume and then deallocate the bulk data blocks
+> > > > > > > > subsequently.
+> > > > > > > > 
+> > > > > > > > ---------- [recap-end] ----------
+> > > > > > > > 
+> > > > > > > > So the "queue size" actually defines the ringbuffer size. It
+> > > > > > > > does
+> > > > > > > > not
+> > > > > > > > define the maximum amount of descriptors. The "queue size"
+> > > > > > > > rather
+> > > > > > > > defines
+> > > > > > > > how many pending messages can be pushed into either one
+> > > > > > > > ringbuffer
+> > > > > > > > before
+> > > > > > > > the other side would need to wait until the counter side would
+> > > > > > > > step up
+> > > > > > > > (i.e. ring buffer full).
+> > > > > > > > 
+> > > > > > > > The maximum amount of descriptors (what VIRTQUEUE_MAX_SIZE
+> > > > > > > > actually
+> > > > > > > > is)
+> > > > > > > > OTOH defines the max. bulk data size that could be transmitted
+> > > > > > > > with
+> > > > > > > > each
+> > > > > > > > virtio round trip message.
+> > > > > > > > 
+> > > > > > > > And in fact, 9p currently handles the virtio "queue size" as
+> > > > > > > > directly
+> > > > > > > > associative with its maximum amount of active 9p requests the
+> > > > > > > > server
+> > > > > > > > could
+> > > > > > > > 
+> > > > > > > > handle simultaniously:
+> > > > > > > >   hw/9pfs/9p.h:#define MAX_REQ         128
+> > > > > > > >   hw/9pfs/9p.h:    V9fsPDU pdus[MAX_REQ];
+> > > > > > > >   hw/9pfs/virtio-9p-device.c:    v->vq =
+> > > > > > > >   virtio_add_queue(vdev,
+> > > > > > > >   MAX_REQ,
+> > > > > > > >   
+> > > > > > > >                                  handle_9p_output);
+> > > > > > > > 
+> > > > > > > > So if I would change it like this, just for the purpose to
+> > > > > > > > increase
+> > > > > > > > the
+> > > > > > > > max. virtio transmission size:
+> > > > > > > > 
+> > > > > > > > --- a/hw/9pfs/virtio-9p-device.c
+> > > > > > > > +++ b/hw/9pfs/virtio-9p-device.c
+> > > > > > > > @@ -218,7 +218,7 @@ static void
+> > > > > > > > virtio_9p_device_realize(DeviceState
+> > > > > > > > *dev,
+> > > > > > > > Error **errp)>
+> > > > > > > > 
+> > > > > > > >      v->config_size = sizeof(struct virtio_9p_config) +
+> > > > > > > >      strlen(s->fsconf.tag);
+> > > > > > > >      virtio_init(vdev, "virtio-9p", VIRTIO_ID_9P,
+> > > > > > > >      v->config_size,
+> > > > > > > >      
+> > > > > > > >                  VIRTQUEUE_MAX_SIZE);
+> > > > > > > > 
+> > > > > > > > -    v->vq = virtio_add_queue(vdev, MAX_REQ,
+> > > > > > > > handle_9p_output);
+> > > > > > > > +    v->vq = virtio_add_queue(vdev, 32*1024,
+> > > > > > > > handle_9p_output);
+> > > > > > > > 
+> > > > > > > >  }
+> > > > > > > > 
+> > > > > > > > Then it would require additional synchronization code on both
+> > > > > > > > ends
+> > > > > > > > and
+> > > > > > > > therefore unnecessary complexity, because it would now be
+> > > > > > > > possible
+> > > > > > > > that
+> > > > > > > > more requests are pushed into the ringbuffer than server could
+> > > > > > > > handle.
+> > > > > > > > 
+> > > > > > > > There is one potential issue though that probably did justify
+> > > > > > > > the
+> > > > > > > > "don't
+> > > > > > > > exceed the queue size" rule:
+> > > > > > > > 
+> > > > > > > > ATM the descriptor table is allocated (just in time) as *one*
+> > > > > > > > continuous
+> > > > > > > > buffer via kmalloc_array():
+> > > > > > > > https://github.com/torvalds/linux/blob/2f111a6fd5b5297b4e92f53
+> > > > > > > > 798c
+> > > > > > > > a086
+> > > > > > > > f7c7
+> > > > > > > > d33a4/drivers/virtio/virtio_ring.c#L440
+> > > > > > > > 
+> > > > > > > > So assuming transmission size of 2 * 128 MB that
+> > > > > > > > kmalloc_array()
+> > > > > > > > call
+> > > > > > > > would
+> > > > > > > > yield in kmalloc(1M) and the latter might fail if guest had
+> > > > > > > > highly
+> > > > > > > > fragmented physical memory. For such kind of error case there
+> > > > > > > > is
+> > > > > > > > currently a fallback path in virtqueue_add_split() that would
+> > > > > > > > then
+> > > > > > > > use
+> > > > > > > > the required amount of pre-allocated descriptors instead:
+> > > > > > > > https://github.com/torvalds/linux/blob/2f111a6fd5b5297b4e92f53
+> > > > > > > > 798c
+> > > > > > > > a086
+> > > > > > > > f7c7
+> > > > > > > > d33a4/drivers/virtio/virtio_ring.c#L525
+> > > > > > > > 
+> > > > > > > > That fallback recovery path would no longer be viable if the
+> > > > > > > > queue
+> > > > > > > > size
+> > > > > > > > was
+> > > > > > > > exceeded. There would be alternatives though, e.g. by allowing
+> > > > > > > > to
+> > > > > > > > chain
+> > > > > > > > indirect descriptor tables (currently prohibited by the virtio
+> > > > > > > > specs).
+> > > > > > > 
+> > > > > > > Making the maximum number of descriptors independent of the
+> > > > > > > queue
+> > > > > > > size
+> > > > > > > requires a change to the VIRTIO spec since the two values are
+> > > > > > > currently
+> > > > > > > explicitly tied together by the spec.
+> > > > > > 
+> > > > > > Yes, that's what the virtio specs say. But they don't say why, nor
+> > > > > > did
+> > > > > > I
+> > > > > > hear a reason in this dicussion.
+> > > > > > 
+> > > > > > That's why I invested time reviewing current virtio implementation
+> > > > > > and
+> > > > > > specs, as well as actually testing exceeding that limit. And as I
+> > > > > > outlined in detail in my previous email, I only found one
+> > > > > > theoretical
+> > > > > > issue that could be addressed though.
+> > > > > 
+> > > > > I agree that there is a limitation in the VIRTIO spec, but violating
+> > > > > the
+> > > > > spec isn't an acceptable solution:
+> > > > > 
+> > > > > 1. QEMU and Linux aren't the only components that implement VIRTIO.
+> > > > > You
+> > > > > 
+> > > > >    cannot make assumptions about their implementations because it
+> > > > >    may
+> > > > >    break spec-compliant implementations that you haven't looked at.
+> > > > >    
+> > > > >    Your patches weren't able to increase Queue Size because some
+> > > > >    device
+> > > > >    implementations break when descriptor chains are too long. This
+> > > > >    shows
+> > > > >    there is a practical issue even in QEMU.
+> > > > > 
+> > > > > 2. The specific spec violation that we discussed creates the problem
+> > > > > 
+> > > > >    that drivers can no longer determine the maximum description
+> > > > >    chain
+> > > > >    length. This in turn will lead to more implementation-specific
+> > > > >    assumptions being baked into drivers and cause problems with
+> > > > >    interoperability and future changes.
+> > > > > 
+> > > > > The spec needs to be extended instead. I included an idea for how to
+> > > > > do
+> > > > > that below.
+> > > > 
+> > > > Sure, I just wanted to see if there was a non-neglectable "hard" show
+> > > > stopper per se that I probably haven't seen yet. I have not questioned
+> > > > aiming a clean solution.
+> > > > 
+> > > > Thanks for the clarification!
+> > > > 
+> > > > > > > Before doing that, are there benchmark results showing that 1 MB
+> > > > > > > vs
+> > > > > > > 128
+> > > > > > > MB produces a performance improvement? I'm asking because if
+> > > > > > > performance
+> > > > > > > with 1 MB is good then you can probably do that without having
+> > > > > > > to
+> > > > > > > change
+> > > > > > > VIRTIO and also because it's counter-intuitive that 9p needs 128
+> > > > > > > MB
+> > > > > > > for
+> > > > > > > good performance when it's ultimately implemented on top of disk
+> > > > > > > and
+> > > > > > > network I/O that have lower size limits.
+> > > > > > 
+> > > > > > First some numbers, linear reading a 12 GB file:
+> > > > > > 
+> > > > > > msize    average      notes
+> > > > > > 
+> > > > > > 8 kB     52.0 MB/s    default msize of Linux kernel <v5.15
+> > > > > > 128 kB   624.8 MB/s   default msize of Linux kernel >=v5.15
+> > > > > > 512 kB   1961 MB/s    current max. msize with any Linux kernel
+> > > > > > <=v5.15
+> > > > > > 1 MB     2551 MB/s    this msize would already violate virtio
+> > > > > > specs
+> > > > > > 2 MB     2521 MB/s    this msize would already violate virtio
+> > > > > > specs
+> > > > > > 4 MB     2628 MB/s    planned max. msize of my current kernel
+> > > > > > patches
+> > > > > > [1]
+> > > > > 
+> > > > > How many descriptors are used? 4 MB can be covered by a single
+> > > > > descriptor if the data is physically contiguous in memory, so this
+> > > > > data
+> > > > > doesn't demonstrate a need for more descriptors.
+> > > > 
+> > > > No, in the last couple years there was apparently no kernel version
+> > > > that
+> > > > used just one descriptor, nor did my benchmarked version. Even though
+> > > > the
+> > > > Linux 9p client uses (yet) simple linear buffers (contiguous physical
+> > > > memory) on 9p client level, these are however split into PAGE_SIZE
+> > > > chunks
+> > > > by function pack_sg_list() [1] before being fed to virtio level:
+> > > > 
+> > > > static unsigned int rest_of_page(void *data)
+> > > > {
+> > > > 
+> > > > 	return PAGE_SIZE - offset_in_page(data);
+> > > > 
+> > > > }
+> > > > ...
+> > > > static int pack_sg_list(struct scatterlist *sg, int start,
+> > > > 
+> > > > 			int limit, char *data, int count)
+> > > > 
+> > > > {
+> > > > 
+> > > > 	int s;
+> > > > 	int index = start;
+> > > > 	
+> > > > 	while (count) {
+> > > > 	
+> > > > 		s = rest_of_page(data);
+> > > > 		...
+> > > > 		sg_set_buf(&sg[index++], data, s);
+> > > > 		count -= s;
+> > > > 		data += s;
+> > > > 	
+> > > > 	}
+> > > > 	...
+> > > > 
+> > > > }
+> > > > 
+> > > > [1]
+> > > > https://github.com/torvalds/linux/blob/19901165d90fdca1e57c9baa0d5b4c6
+> > > > 3d1
+> > > > 5c476a/net/9p/trans_virtio.c#L171
+> > > > 
+> > > > So when sending 4MB over virtio wire, it would yield in 1k descriptors
+> > > > ATM.
+> > > > 
+> > > > I have wondered about this before, but did not question it, because
+> > > > due to
+> > > > the cross-platform nature I couldn't say for certain whether that's
+> > > > probably needed somewhere. I mean for the case virtio-PCI I know for
+> > > > sure
+> > > > that one descriptor (i.e. >PAGE_SIZE) would be fine, but I don't know
+> > > > if
+> > > > that applies to all buses and architectures.
+> > > 
+> > > VIRTIO does not limit descriptor the descriptor len field to PAGE_SIZE,
+> > > so I don't think there is a limit at the VIRTIO level.
 > > 
-> > Cc: qemu-stable@nongnu.org
-> > Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-> > Message-Id: <20211106194158.4068596-2-laurent@vivier.eu>
-> > Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-> > ---
-> > hw/m68k/virt.c | 9 ++++++++-
-> > 1 file changed, 8 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
-> > index 4e8bce5aa6f7..0d9e3f83c169 100644
-> > --- a/hw/m68k/virt.c
-> > +++ b/hw/m68k/virt.c
-> > @@ -304,7 +304,14 @@ type_init(virt_machine_register_types)
-> >     } \
-> >     type_init(machvirt_machine_##major##_##minor##_init);
-> > 
-> > +static void virt_machine_6_1_options(MachineClass *mc)
-> > +{
-> > +}
-> > +DEFINE_VIRT_MACHINE(6, 1, true)
-> > +
-> > static void virt_machine_6_0_options(MachineClass *mc)
-> > {
-> > +    virt_machine_6_1_options(mc);
-> > +    compat_props_add(mc->compat_props, hw_compat_6_0, hw_compat_6_0_len);
-> > }
-> > -DEFINE_VIRT_MACHINE(6, 0, true)
-> > +DEFINE_VIRT_MACHINE(6, 0, false)
+> > So you are viewing this purely from virtio specs PoV: in the sense, if it
+> > is not prohibited by the virtio specs, then it should work. Maybe.
 > 
-> I don't understand how these compat machines work but if these are empty and
-> essentially the same as the previous version why do we add a new version in
-> every release? Wouldn't it be enough to add new version when there was an
-> incompatible change? I mean, instead of listing machine and getting a lot of
-> virt-6.1, virt-6.0, virt-5.2,... or so, we'd only get versions that are
-> actually different such as virt-7.0, virt-5.2, virt-5.0 (maybe they are
-> called differently, just an example) with the versionless alias always
-> pointing to the latest. Then when QEMU is updated one can see if there was
-> any change so should update the VM or keep using the older versions. Or does
-> it work like that and I'm missing it completely?
+> Limitations must be specified either in the 9P protocol or the VIRTIO
+> specification. Drivers and devices will not be able to operate correctly
+> if there are limitations that aren't covered by the specs.
+> 
+> Do you have something in mind that isn't covered by the specs?
 
-It doesn't work like that, and that's a good thing.
+Not sure whether that's something that should be specified by the virtio 
+specs, probably not. I simply do not know if there was any bus or architecture 
+that would have a limitation for max. size for a memory block passed per one 
+DMA address.
 
-The versioned machine types are for management applications that want
-to guarantee an ABI across hosts. When a mgmt app wants to set a new
-baseline for their QEMU machine types, it is way clearer if every
-versioned machine type across all target arches supports the same
-versions, regardless of whether there were any changes or not.
+> > > If this function coalesces adjacent pages then the descriptor chain
+> > > length issues could be reduced.
+> > > 
+> > > > > > But again, this is not just about performance. My conclusion as
+> > > > > > described
+> > > > > > in my previous email is that virtio currently squeezes
+> > > > > > 
+> > > > > > 	"max. simultanious amount of bulk messages"
+> > > > > > 
+> > > > > > vs.
+> > > > > > 
+> > > > > > 	"max. bulk data transmission size per bulk messaage"
+> > > > > > 
+> > > > > > into the same configuration parameter, which is IMO inappropriate
+> > > > > > and
+> > > > > > hence
+> > > > > > splitting them into 2 separate parameters when creating a queue
+> > > > > > makes
+> > > > > > sense, independent of the performance benchmarks.
+> > > > > > 
+> > > > > > [1]
+> > > > > > https://lore.kernel.org/netdev/cover.1632327421.git.linux_oss@crud
+> > > > > > ebyt
+> > > > > > e.c
+> > > > > > om/
+> > > > > 
+> > > > > Some devices effectively already have this because the device
+> > > > > advertises
+> > > > > a maximum number of descriptors via device-specific mechanisms like
+> > > > > the
+> > > > > struct virtio_blk_config seg_max field. But today these fields can
+> > > > > only
+> > > > > reduce the maximum descriptor chain length because the spec still
+> > > > > limits
+> > > > > the length to Queue Size.
+> > > > > 
+> > > > > We can build on this approach to raise the length above Queue Size.
+> > > > > This
+> > > > > approach has the advantage that the maximum number of segments isn't
+> > > > > per
+> > > > > device or per virtqueue, it's fine-grained. If the device supports
+> > > > > two
+> > > > > requests types then different max descriptor chain limits could be
+> > > > > given
+> > > > > for them by introducing two separate configuration space fields.
+> > > > > 
+> > > > > Here are the corresponding spec changes:
+> > > > > 
+> > > > > 1. A new feature bit called VIRTIO_RING_F_LARGE_INDIRECT_DESC is
+> > > > > added
+> > > > > 
+> > > > >    to indicate that indirect descriptor table size and maximum
+> > > > >    descriptor chain length are not limited by Queue Size value.
+> > > > >    (Maybe
+> > > > >    there still needs to be a limit like 2^15?)
+> > > > 
+> > > > Sounds good to me!
+> > > > 
+> > > > AFAIK it is effectively limited to 2^16 because of vring_desc->next:
+> > > > 
+> > > > /* Virtio ring descriptors: 16 bytes.  These can chain together via
+> > > > "next". */ struct vring_desc {
+> > > > 
+> > > >         /* Address (guest-physical). */
+> > > >         __virtio64 addr;
+> > > >         /* Length. */
+> > > >         __virtio32 len;
+> > > >         /* The flags as indicated above. */
+> > > >         __virtio16 flags;
+> > > >         /* We chain unused descriptors via this, too */
+> > > >         __virtio16 next;
+> > > > 
+> > > > };
+> > > 
+> > > Yes, Split Virtqueues have a fundamental limit on indirect table size
+> > > due to the "next" field. Packed Virtqueue descriptors don't have a
+> > > "next" field so descriptor chains could be longer in theory (currently
+> > > forbidden by the spec).
+> > > 
+> > > > > One thing that's messy is that we've been discussing the maximum
+> > > > > descriptor chain length but 9p has the "msize" concept, which isn't
+> > > > > aware of contiguous memory. It may be necessary to extend the 9p
+> > > > > driver
+> > > > > code to size requests not just according to their length in bytes
+> > > > > but
+> > > > > also according to the descriptor chain length. That's how the Linux
+> > > > > block layer deals with queue limits (struct queue_limits
+> > > > > max_segments vs
+> > > > > max_hw_sectors).
+> > > > 
+> > > > Hmm, can't follow on that one. For what should that be needed in case
+> > > > of
+> > > > 9p? My plan was to limit msize by 9p client simply at session start to
+> > > > whatever is the max. amount virtio descriptors supported by host and
+> > > > using PAGE_SIZE as size per descriptor, because that's what 9p client
+> > > > actually does ATM (see above). So you think that should be changed to
+> > > > e.g. just one descriptor for 4MB, right?
+> > > 
+> > > Limiting msize to the 9p transport device's maximum number of
+> > > descriptors is conservative (i.e. 128 descriptors = 512 KB msize)
+> > > because it doesn't take advantage of contiguous memory. I suggest
+> > > leaving msize alone, adding a separate limit at which requests are split
+> > > according to the maximum descriptor chain length, and tweaking
+> > > pack_sg_list() to coalesce adjacent pages.
+> > > 
+> > > That way msize can be large without necessarily using lots of
+> > > descriptors (depending on the memory layout).
+> > 
+> > That was actually a tempting solution. Because it would neither require
+> > changes to the virtio specs (at least for a while) and it would also work
+> > with older QEMU versions. And for that pack_sg_list() portion of the code
+> > it would work well and easy as the buffer passed to pack_sg_list() is
+> > contiguous already.
+> > 
+> > However I just realized for the zero-copy version of the code that would
+> > be
+> > more tricky. The ZC version already uses individual pages (struct page,
+> > hence PAGE_SIZE each) which are pinned, i.e. it uses pack_sg_list_p() [1]
+> > in combination with p9_get_mapped_pages() [2]
+> > 
+> > [1]
+> > https://github.com/torvalds/linux/blob/7ddb58cb0ecae8e8b6181d736a87667cc9
+> > ab8389/net/9p/trans_virtio.c#L218 [2]
+> > https://github.com/torvalds/linux/blob/7ddb58cb0ecae8e8b6181d736a87667cc9
+> > ab8389/net/9p/trans_virtio.c#L309
+> > 
+> > So that would require much more work and code trying to sort and coalesce
+> > individual pages to contiguous physical memory for the sake of reducing
+> > virtio descriptors. And there is no guarantee that this is even possible.
+> > The kernel may simply return a non-contiguous set of pages which would
+> > eventually end up exceeding the virtio descriptor limit again.
+> 
+> Order must be preserved so pages cannot be sorted by physical address.
+> How about simply coalescing when pages are adjacent?
 
-ie if an app wants to set QEMU 6.1.0 as the baseline, they want
-to be able to set  virt-6.1 for aarch64, for mips, for riscv,
-instead of having to figure out which versions exists for each
-arch
+It would help, but not solve the issue we are talking about here: if 99% of 
+the cases could successfully merge descriptors to stay below the descriptor 
+count limit, but in 1% of the cases it could not, then this still construes a 
+severe runtime issue that could trigger at any time.
 
+> > So looks like it was probably still easier and realistic to just add
+> > virtio
+> > capabilities for now for allowing to exceed current descriptor limit.
+> 
+> I'm still not sure why virtio-net, virtio-blk, virtio-fs, etc perform
+> fine under today's limits while virtio-9p needs a much higher limit to
+> achieve good performance. Maybe there is an issue in a layer above the
+> vring that's causing the virtio-9p performance you've observed?
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Are you referring to (somewhat) recent benchmarks when saying those would all 
+still perform fine today?
+
+Vivek was running detailed benchmarks for virtiofs vs. 9p:
+https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg02704.html
+
+For the virtio aspect discussed here, only the benchmark configurations 
+without cache are relevant (9p-none, vtfs-none) and under this aspect the 
+situation seems to be quite similar between 9p and virtio-fs. You'll also note 
+once DAX is enabled (vtfs-none-dax) that apparently boosts virtio-fs 
+performance significantly, which however seems to corelate to numbers when I 
+am running 9p with msize > 300k. Note: Vivek was presumably running 9p 
+effecively with msize=300k, as this was the kernel limitation at that time.
+
+To bring things into relation: there are known performance aspects in 9p that 
+can be improved, yes, both on Linux kernel side and on 9p server side in QEMU. 
+For instance 9p server uses coroutines [1] and currently dispatches between 
+worker thread(s) and main thread too often per request (partly addressed 
+already [2], but still WIP), which accumulates to overall latency. But Vivek 
+was actually using a 9p patch here which disabled coroutines entirely, which 
+suggests that the virtio transmission size limit still represents a 
+bottleneck.
+
+[1] https://wiki.qemu.org/Documentation/9p#Coroutines
+[2] https://wiki.qemu.org/Documentation/9p#Implementation_Plans
+
+Best regards,
+Christian Schoenebeck
+
 
 
