@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8FFB44A81F
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 09:05:13 +0100 (CET)
-Received: from localhost ([::1]:40424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED78544A820
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 09:05:14 +0100 (CET)
+Received: from localhost ([::1]:40616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkM80-0001Md-Ko
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 03:05:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47212)
+	id 1mkM82-0001UK-48
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 03:05:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mkM5r-0007oT-5A
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 03:02:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23935)
+ id 1mkM5s-0007pA-EU
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 03:03:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32282)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mkM5o-0002Ao-Cq
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 03:02:58 -0500
+ id 1mkM5q-0002BH-Hd
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 03:03:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636444975;
+ s=mimecast20190719; t=1636444978;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P/6Qi49GjgS9oa+N7U8Dbq9g7j3/fB7gPw5LowLrOPE=;
- b=WSse4D7aYZqGrSbTC1IQLTkmGEh9kdQ8eUpKcXRamFYoQ83/gZX0G8/sT/6kDOuEJ84CBD
- 7VNCoJXY4Hu2kUuHhbT5lu0X0p4NO+fodxe0HUGEjCRErdeynEAuQSgoOD3EcJZGs70qsT
- 0NaOPIUGa1OyD0gE75pecTtLqVJ0kRI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-ze7d5rmfNDmIFFfGdWiCGw-1; Tue, 09 Nov 2021 03:02:55 -0500
-X-MC-Unique: ze7d5rmfNDmIFFfGdWiCGw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- q7-20020adff507000000b0017d160d35a8so4621366wro.4
- for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 00:02:54 -0800 (PST)
+ bh=OUKFfAX6yAgWVQ2yA8gX+VIYcGaVp+VqS/JRh00nJhQ=;
+ b=Ks0W9QShyvommCh+kv133m9aB4QT18xu/L4TSlXG3P14sMao0/AERDELoa6453zQP/2RhL
+ gXIyQGZeYD4e2DyCwsYgZvtCDHHEiq8TWv0D93JY9TxW4GQzrt48K9i81tYD7wUl+5QJEZ
+ FyBuG3UgrhPYsgzlV2SB/61buM8aQW0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-20-MC2XV34gPoyLbJXalfJpWw-1; Tue, 09 Nov 2021 03:02:57 -0500
+X-MC-Unique: MC2XV34gPoyLbJXalfJpWw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ v17-20020adfedd1000000b0017c5e737b02so4602850wro.18
+ for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 00:02:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=P/6Qi49GjgS9oa+N7U8Dbq9g7j3/fB7gPw5LowLrOPE=;
- b=dA2haXLbnhi/sDoh9XkwcWZ6ThKr0WvKmNaiH+jS68YVEXTMYp5gVE6duD+lQNe6fm
- o0Xl+e5cMVu+N+BIUXNQGuupRJzBsGIK8Zzzzaa9WMtn6Lj1cB3eOCMf7tIrABJH3svI
- L0pyc3OmAU5m7u0pCoiWY7xK1BTUO+K/yyrSPQbvXKADV2iG1y0bIhX5ObZE3j1sxFh+
- 4bPEh5SQWyVCRcWB4+E17uFUpIxlsBjYepzLaAG4rQMyuv/TNRbAIZre+xho+yc6KMvL
- giIRo3XFSMtek4GOR4QkxgLVw1u2DeP29DdPuTY7eXoP0QYudJHYVJXEH3VRNzJKEEzf
- ytlg==
-X-Gm-Message-State: AOAM533dgtj4jhJNN1hfGKB+EcW5VCQ1dDej2fRhmzmTRfmOhH8gbU70
- aTmg3T4qjOubUiWteLsc3wZ5yC9MoI2yDvNUf8shJZHPDRPL2RKW/P0rgiGM6dZXHJ+rmCQblza
- 51Rp1Sa2h8VGWI/nvPsw8SzhoXH2HrK8UVKFdtz0lVmlcNs8VIEXSFCWtaxbs94lOrvs=
-X-Received: by 2002:a05:600c:6016:: with SMTP id
- az22mr4248434wmb.11.1636444973527; 
- Tue, 09 Nov 2021 00:02:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyr4td6ClbyoVYe/SVAZmPtPzP+oT8fNU7OSnt/CevkB4/bsHBKxjM1jLHdcbddUFF6DWNBBA==
-X-Received: by 2002:a05:600c:6016:: with SMTP id
- az22mr4248400wmb.11.1636444973228; 
- Tue, 09 Nov 2021 00:02:53 -0800 (PST)
+ bh=OUKFfAX6yAgWVQ2yA8gX+VIYcGaVp+VqS/JRh00nJhQ=;
+ b=Y5hMJh6kHEzBzhO0ZQ7UZxgHdSX5cm1iuo6SpDp+N5JzbTLpxSY65xUnbRiiliZ1TS
+ M/X4YxsEJbZxvf2or/blmh9xh3qas745G8GdtZOPefbL3m8xi6NDBDhvqYF60qAAQfbU
+ JoNN8vg6b6h54xGIl3ThnflhJ8iuukzMxOTcR/lACTrYvJ7dEfP/bzt4RbDmNgIWnkwL
+ d2dAulXZkFY4jVlxJI8d4OtC7cvk6uogVw80FbF+844dqK0lHgIp7NRSxcD0yQpUAnH3
+ bNb3LiAq5EXCopa3cDgI82aNUvWYZ0lAEGk9X6ZcenGqQb2DFRWnjumQIBHheZQkEVG5
+ /WMw==
+X-Gm-Message-State: AOAM5302eqZUGJn/P0BuhK+9KYxWs8PY67V5fRnvPtEq1AzXGuXtdGuJ
+ rTlI54q0C8NhtOFfUoCSGX7yiymgLA61pWw6pl9AjGE0HmxP32tgZk8ktcjlxB9d3KqD/+v1Pmw
+ +6AbM2vCUhsxTqJxspD961tu/Mef1b1FYVnmZjdYDGSft8KYv8Y6S9lOGKg6AG6xBO/Q=
+X-Received: by 2002:a5d:65c7:: with SMTP id e7mr6835850wrw.319.1636444974626; 
+ Tue, 09 Nov 2021 00:02:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyiFg1owrd0knkd4H0LvtvH0SwbCWhmzK7ckAop6WYRDctG0TzxTnTCZOO9kKj/oygAdorJ4Q==
+X-Received: by 2002:a5d:65c7:: with SMTP id e7mr6835816wrw.319.1636444974439; 
+ Tue, 09 Nov 2021 00:02:54 -0800 (PST)
 Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
  [188.86.86.233])
- by smtp.gmail.com with ESMTPSA id a22sm1653443wme.19.2021.11.09.00.02.52
+ by smtp.gmail.com with ESMTPSA id l5sm1736899wms.16.2021.11.09.00.02.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Nov 2021 00:02:52 -0800 (PST)
+ Tue, 09 Nov 2021 00:02:54 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/3] Reduce the PVM stop time during Checkpoint
-Date: Tue,  9 Nov 2021 09:02:46 +0100
-Message-Id: <20211109080247.62559-3-quintela@redhat.com>
+Subject: [PULL 3/3] Reset the auto-converge counter at every checkpoint.
+Date: Tue,  9 Nov 2021 09:02:47 +0100
+Message-Id: <20211109080247.62559-4-quintela@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211109080247.62559-1-quintela@redhat.com>
 References: <20211109080247.62559-1-quintela@redhat.com>
@@ -108,96 +106,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Rao, Lei" <lei.rao@intel.com>
 
-When flushing memory from ram cache to ram during every checkpoint
-on secondary VM, we can copy continuous chunks of memory instead of
-4096 bytes per time to reduce the time of VM stop during checkpoint.
+if we don't reset the auto-converge counter,
+it will continue to run with COLO running,
+and eventually the system will hang due to the
+CPU throttle reaching DEFAULT_MIGRATE_MAX_CPU_THROTTLE.
 
 Signed-off-by: Lei Rao <lei.rao@intel.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Lukas Straub <lukasstraub2@web.de>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
 Tested-by: Lukas Straub <lukasstraub2@web.de>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c | 48 +++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 45 insertions(+), 3 deletions(-)
+ migration/ram.h  | 1 +
+ migration/colo.c | 4 ++++
+ migration/ram.c  | 9 +++++++++
+ 3 files changed, 14 insertions(+)
 
+diff --git a/migration/ram.h b/migration/ram.h
+index dda1988f3d..c515396a9a 100644
+--- a/migration/ram.h
++++ b/migration/ram.h
+@@ -50,6 +50,7 @@ bool ramblock_is_ignored(RAMBlock *block);
+ int xbzrle_cache_resize(uint64_t new_size, Error **errp);
+ uint64_t ram_bytes_remaining(void);
+ uint64_t ram_bytes_total(void);
++void mig_throttle_counter_reset(void);
+ 
+ uint64_t ram_pagesize_summary(void);
+ int ram_save_queue_pages(const char *rbname, ram_addr_t start, ram_addr_t len);
+diff --git a/migration/colo.c b/migration/colo.c
+index e3b1f136f4..2415325262 100644
+--- a/migration/colo.c
++++ b/migration/colo.c
+@@ -459,6 +459,10 @@ static int colo_do_checkpoint_transaction(MigrationState *s,
+     if (ret < 0) {
+         goto out;
+     }
++
++    if (migrate_auto_converge()) {
++        mig_throttle_counter_reset();
++    }
+     /*
+      * Only save VM's live state, which not including device state.
+      * TODO: We may need a timeout mechanism to prevent COLO process
 diff --git a/migration/ram.c b/migration/ram.c
-index 847af461f2..f48cf4b0a5 100644
+index f48cf4b0a5..863035d235 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -836,6 +836,41 @@ migration_clear_memory_region_dirty_bitmap_range(RAMBlock *rb,
+@@ -641,6 +641,15 @@ static void mig_throttle_guest_down(uint64_t bytes_dirty_period,
      }
  }
  
-+/*
-+ * colo_bitmap_find_diry:find contiguous dirty pages from start
-+ *
-+ * Returns the page offset within memory region of the start of the contiguout
-+ * dirty page
-+ *
-+ * @rs: current RAM state
-+ * @rb: RAMBlock where to search for dirty pages
-+ * @start: page where we start the search
-+ * @num: the number of contiguous dirty pages
-+ */
-+static inline
-+unsigned long colo_bitmap_find_dirty(RAMState *rs, RAMBlock *rb,
-+                                     unsigned long start, unsigned long *num)
++void mig_throttle_counter_reset(void)
 +{
-+    unsigned long size = rb->used_length >> TARGET_PAGE_BITS;
-+    unsigned long *bitmap = rb->bmap;
-+    unsigned long first, next;
++    RAMState *rs = ram_state;
 +
-+    *num = 0;
-+
-+    if (ramblock_is_ignored(rb)) {
-+        return size;
-+    }
-+
-+    first = find_next_bit(bitmap, size, start);
-+    if (first >= size) {
-+        return first;
-+    }
-+    next = find_next_zero_bit(bitmap, size, first + 1);
-+    assert(next >= first);
-+    *num = next - first;
-+    return first;
++    rs->time_last_bitmap_sync = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
++    rs->num_dirty_pages_period = 0;
++    rs->bytes_xfer_prev = ram_counters.transferred;
 +}
 +
- static inline bool migration_bitmap_clear_dirty(RAMState *rs,
-                                                 RAMBlock *rb,
-                                                 unsigned long page)
-@@ -3886,19 +3921,26 @@ void colo_flush_ram_cache(void)
-         block = QLIST_FIRST_RCU(&ram_list.blocks);
- 
-         while (block) {
--            offset = migration_bitmap_find_dirty(ram_state, block, offset);
-+            unsigned long num = 0;
- 
-+            offset = colo_bitmap_find_dirty(ram_state, block, offset, &num);
-             if (!offset_in_ramblock(block,
-                                     ((ram_addr_t)offset) << TARGET_PAGE_BITS)) {
-                 offset = 0;
-+                num = 0;
-                 block = QLIST_NEXT_RCU(block, next);
-             } else {
--                migration_bitmap_clear_dirty(ram_state, block, offset);
-+                unsigned long i = 0;
-+
-+                for (i = 0; i < num; i++) {
-+                    migration_bitmap_clear_dirty(ram_state, block, offset + i);
-+                }
-                 dst_host = block->host
-                          + (((ram_addr_t)offset) << TARGET_PAGE_BITS);
-                 src_host = block->colo_cache
-                          + (((ram_addr_t)offset) << TARGET_PAGE_BITS);
--                memcpy(dst_host, src_host, TARGET_PAGE_SIZE);
-+                memcpy(dst_host, src_host, TARGET_PAGE_SIZE * num);
-+                offset += num;
-             }
-         }
-     }
+ /**
+  * xbzrle_cache_zero_page: insert a zero page in the XBZRLE cache
+  *
 -- 
 2.33.1
 
