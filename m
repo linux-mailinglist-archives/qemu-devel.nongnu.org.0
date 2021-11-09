@@ -2,49 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E9A244A70B
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 07:50:44 +0100 (CET)
-Received: from localhost ([::1]:38542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E20B44A719
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 07:58:59 +0100 (CET)
+Received: from localhost ([::1]:33684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkKxv-0003v5-B5
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 01:50:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50650)
+	id 1mkL5u-0002tA-GM
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 01:58:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mkK55-00068j-3L; Tue, 09 Nov 2021 00:54:03 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76]:34099)
+ id 1mkK4r-0005xA-Fp; Tue, 09 Nov 2021 00:53:49 -0500
+Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=43341
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mkK52-0006wn-WD; Tue, 09 Nov 2021 00:54:02 -0500
+ id 1mkK4p-0006xh-NL; Tue, 09 Nov 2021 00:53:49 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HpHDp6Fctz4xfN; Tue,  9 Nov 2021 16:52:10 +1100 (AEDT)
+ id 4HpHDp6cJ2z4xfS; Tue,  9 Nov 2021 16:52:10 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1636437130;
- bh=Gtzqkeaya8bGBFNQ2+lDube2YCwSoJUkirpHftHQa8Q=;
+ bh=QHM1F2L6x3jDFv6Y7nkwDtGUZvvzqksaT/ZPWpJHlQ4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NsIE6RWvUyQiP9N/Lbn5N+ZA07uTYy6XNiJFgEbYdh8+sT5HGAYRtGsndyPrjMpBT
- CNSrf2isVgBSgljR39dek1vO8al84siKXAXxKPBZF4WGIX9J1LaDFCwicd9uRugKMx
- LJkU/0gyEeHAm4t2sGu0Cmn/pDUrqnJ3ouBd0Tsw=
+ b=bNoXFm0HcFORRCclXZqcMRCTpIlKjgGL3hK975fUjz+rBhrzHU7r+tOr6T/N8J1r5
+ Tws+YHf40IheUCG/K3aqNVv8VqsMwBAbruCOKKIHCflVi9DD7ixr4lNBBN/c0IM82m
+ xs/HXUr4024t1hpVL/+7arVy/wXk5Ykn1evikvKk=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org, clg@kaod.org, danielhb413@gmail.com,
  groug@kaod.org
-Subject: [PULL 47/54] target/ppc: implemented XXSPLTI32DX
-Date: Tue,  9 Nov 2021 16:51:57 +1100
-Message-Id: <20211109055204.230765-48-david@gibson.dropbear.id.au>
+Subject: [PULL 49/54] target/ppc: implemented XXSPLTIDP instruction
+Date: Tue,  9 Nov 2021 16:51:59 +1100
+Message-Id: <20211109055204.230765-50-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211109055204.230765-1-david@gibson.dropbear.id.au>
 References: <20211109055204.230765-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
+X-Host-Lookup-Failed: Reverse DNS lookup failed for
+ 2404:9400:2:0:216:3eff:fee2:21ea (failed)
+Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+X-Spam_score_int: -9
+X-Spam_score: -1.0
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,72 +71,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
 
-Implemented XXSPLTI32DX emulation using decodetree
+Implemented the instruction XXSPLTIDP using decodetree.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Message-Id: <20211104123719.323713-21-matheus.ferst@eldorado.org.br>
+Message-Id: <20211104123719.323713-23-matheus.ferst@eldorado.org.br>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/insn64.decode            | 11 +++++++++++
- target/ppc/translate/vsx-impl.c.inc | 17 +++++++++++++++++
- 2 files changed, 28 insertions(+)
+ target/ppc/insn64.decode            |  2 ++
+ target/ppc/translate/vsx-impl.c.inc | 10 ++++++++++
+ 2 files changed, 12 insertions(+)
 
 diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
-index 880ac3edc7..134bc60c57 100644
+index bd71f616cc..20aa2b4615 100644
 --- a/target/ppc/insn64.decode
 +++ b/target/ppc/insn64.decode
-@@ -32,6 +32,14 @@
-                 ...... ..... ra:5 ................       \
-                 &PLS_D si=%pls_si rt=%rt_tsxp
- 
-+# Format 8RR:D
-+%8rr_si         32:s16 0:16
-+%8rr_xt         16:1 21:5
-+&8RR_D_IX       xt ix si
-+@8RR_D_IX       ...... .. .... .. .. ................ \
-+                ...... ..... ... ix:1 . ................ \
-+                &8RR_D_IX si=%8rr_si xt=%8rr_xt
-+
- ### Fixed-Point Load Instructions
- 
- PLBZ            000001 10 0--.-- .................. \
-@@ -156,3 +164,6 @@ PLXVP           000001 00 0--.-- .................. \
-                 111010 ..... ..... ................     @8LS_D_TSXP
+@@ -169,6 +169,8 @@ PLXVP           000001 00 0--.-- .................. \
  PSTXVP          000001 00 0--.-- .................. \
                  111110 ..... ..... ................     @8LS_D_TSXP
-+
-+XXSPLTI32DX     000001 01 0000 -- -- ................ \
-+                100000 ..... 000 .. ................    @8RR_D_IX
+ 
++XXSPLTIDP       000001 01 0000 -- -- ................ \
++                100000 ..... 0010 . ................    @8RR_D
+ XXSPLTIW        000001 01 0000 -- -- ................ \
+                 100000 ..... 0011 . ................    @8RR_D
+ XXSPLTI32DX     000001 01 0000 -- -- ................ \
 diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index ad25a0daf0..360593a9ab 100644
+index 7116141a6a..180d329f1a 100644
 --- a/target/ppc/translate/vsx-impl.c.inc
 +++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -1466,6 +1466,23 @@ static bool trans_XXSPLTIB(DisasContext *ctx, arg_X_imm8 *a)
+@@ -1476,6 +1476,16 @@ static bool trans_XXSPLTIW(DisasContext *ctx, arg_8RR_D *a)
      return true;
  }
  
-+static bool trans_XXSPLTI32DX(DisasContext *ctx, arg_8RR_D_IX *a)
++static bool trans_XXSPLTIDP(DisasContext *ctx, arg_8RR_D *a)
 +{
-+    TCGv_i32 imm;
-+
 +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
 +    REQUIRE_VSX(ctx);
 +
-+    imm = tcg_constant_i32(a->si);
-+
-+    tcg_gen_st_i32(imm, cpu_env,
-+        offsetof(CPUPPCState, vsr[a->xt].VsrW(0 + a->ix)));
-+    tcg_gen_st_i32(imm, cpu_env,
-+        offsetof(CPUPPCState, vsr[a->xt].VsrW(2 + a->ix)));
-+
++    tcg_gen_gvec_dup_imm(MO_64, vsr_full_offset(a->xt), 16, 16,
++                         helper_todouble(a->si));
 +    return true;
 +}
 +
- static void gen_xxsldwi(DisasContext *ctx)
+ static bool trans_XXSPLTI32DX(DisasContext *ctx, arg_8RR_D_IX *a)
  {
-     TCGv_i64 xth, xtl;
+     TCGv_i32 imm;
 -- 
 2.33.1
 
