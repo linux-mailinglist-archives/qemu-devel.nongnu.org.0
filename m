@@ -2,88 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED78544A820
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 09:05:14 +0100 (CET)
-Received: from localhost ([::1]:40616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26DED44A823
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 09:07:18 +0100 (CET)
+Received: from localhost ([::1]:46494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkM82-0001UK-48
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 03:05:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47222)
+	id 1mkMA1-0005S1-9P
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 03:07:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mkM5s-0007pA-EU
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 03:03:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32282)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mkM7e-0002R0-8H; Tue, 09 Nov 2021 03:04:50 -0500
+Received: from out28-98.mail.aliyun.com ([115.124.28.98]:47452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mkM5q-0002BH-Hd
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 03:03:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636444978;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OUKFfAX6yAgWVQ2yA8gX+VIYcGaVp+VqS/JRh00nJhQ=;
- b=Ks0W9QShyvommCh+kv133m9aB4QT18xu/L4TSlXG3P14sMao0/AERDELoa6453zQP/2RhL
- gXIyQGZeYD4e2DyCwsYgZvtCDHHEiq8TWv0D93JY9TxW4GQzrt48K9i81tYD7wUl+5QJEZ
- FyBuG3UgrhPYsgzlV2SB/61buM8aQW0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-MC2XV34gPoyLbJXalfJpWw-1; Tue, 09 Nov 2021 03:02:57 -0500
-X-MC-Unique: MC2XV34gPoyLbJXalfJpWw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- v17-20020adfedd1000000b0017c5e737b02so4602850wro.18
- for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 00:02:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=OUKFfAX6yAgWVQ2yA8gX+VIYcGaVp+VqS/JRh00nJhQ=;
- b=Y5hMJh6kHEzBzhO0ZQ7UZxgHdSX5cm1iuo6SpDp+N5JzbTLpxSY65xUnbRiiliZ1TS
- M/X4YxsEJbZxvf2or/blmh9xh3qas745G8GdtZOPefbL3m8xi6NDBDhvqYF60qAAQfbU
- JoNN8vg6b6h54xGIl3ThnflhJ8iuukzMxOTcR/lACTrYvJ7dEfP/bzt4RbDmNgIWnkwL
- d2dAulXZkFY4jVlxJI8d4OtC7cvk6uogVw80FbF+844dqK0lHgIp7NRSxcD0yQpUAnH3
- bNb3LiAq5EXCopa3cDgI82aNUvWYZ0lAEGk9X6ZcenGqQb2DFRWnjumQIBHheZQkEVG5
- /WMw==
-X-Gm-Message-State: AOAM5302eqZUGJn/P0BuhK+9KYxWs8PY67V5fRnvPtEq1AzXGuXtdGuJ
- rTlI54q0C8NhtOFfUoCSGX7yiymgLA61pWw6pl9AjGE0HmxP32tgZk8ktcjlxB9d3KqD/+v1Pmw
- +6AbM2vCUhsxTqJxspD961tu/Mef1b1FYVnmZjdYDGSft8KYv8Y6S9lOGKg6AG6xBO/Q=
-X-Received: by 2002:a5d:65c7:: with SMTP id e7mr6835850wrw.319.1636444974626; 
- Tue, 09 Nov 2021 00:02:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyiFg1owrd0knkd4H0LvtvH0SwbCWhmzK7ckAop6WYRDctG0TzxTnTCZOO9kKj/oygAdorJ4Q==
-X-Received: by 2002:a5d:65c7:: with SMTP id e7mr6835816wrw.319.1636444974439; 
- Tue, 09 Nov 2021 00:02:54 -0800 (PST)
-Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
- [188.86.86.233])
- by smtp.gmail.com with ESMTPSA id l5sm1736899wms.16.2021.11.09.00.02.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Nov 2021 00:02:54 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 3/3] Reset the auto-converge counter at every checkpoint.
-Date: Tue,  9 Nov 2021 09:02:47 +0100
-Message-Id: <20211109080247.62559-4-quintela@redhat.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211109080247.62559-1-quintela@redhat.com>
-References: <20211109080247.62559-1-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mkM7b-0002PB-8P; Tue, 09 Nov 2021 03:04:49 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.0743639|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.01797-3.63332e-05-0.981994;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047193; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.LpwnR1R_1636445079; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.LpwnR1R_1636445079) by smtp.aliyun-inc.com(10.147.40.7);
+ Tue, 09 Nov 2021 16:04:40 +0800
+Subject: Re: [PATCH 09/13] target/riscv: Adjust vector address with ol
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org, Alexey Baturo <baturo.alexey@gmail.com>
+References: <20211101100143.44356-1-zhiwei_liu@c-sky.com>
+ <20211101100143.44356-10-zhiwei_liu@c-sky.com>
+ <851481b9-e973-b3e1-1722-73db47edb772@linaro.org>
+ <f84e607c-e16e-ec3f-a7b3-e779b344fcb6@c-sky.com>
+ <52357320-6098-c3da-b9de-89b131b85ffb@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <e045fba1-8361-dd33-8e9b-c22b8e389cf5@c-sky.com>
+Date: Tue, 9 Nov 2021 16:04:39 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <52357320-6098-c3da-b9de-89b131b85ffb@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: none client-ip=115.124.28.98; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-98.mail.aliyun.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.364,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,81 +63,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>,
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
- Juan Quintela <quintela@redhat.com>, "Rao, Lei" <lei.rao@intel.com>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Rao, Lei" <lei.rao@intel.com>
+On 2021/11/9 下午2:37, Richard Henderson wrote:
 
-if we don't reset the auto-converge counter,
-it will continue to run with COLO running,
-and eventually the system will hang due to the
-CPU throttle reaching DEFAULT_MIGRATE_MAX_CPU_THROTTLE.
+> On 11/8/21 10:28 AM, LIU Zhiwei wrote:
+>> On 2021/11/1 下午7:35, Richard Henderson wrote:
+>>
+>>> On 11/1/21 6:01 AM, LIU Zhiwei wrote:
+>>>> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+>>>> ---
+>>>>   target/riscv/insn_trans/trans_rvv.c.inc |  8 ++++
+>>>>   target/riscv/internals.h                |  1 +
+>>>>   target/riscv/vector_helper.c            | 54 
+>>>> +++++++++++++++++--------
+>>>>   3 files changed, 46 insertions(+), 17 deletions(-)
+>>>>
+>>>> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc 
+>>>> b/target/riscv/insn_trans/trans_rvv.c.inc
+>>>> index ed042f7bb9..5cd9b802df 100644
+>>>> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+>>>> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+>>>> @@ -233,6 +233,7 @@ static bool ld_us_op(DisasContext *s, 
+>>>> arg_r2nfvm *a, uint8_t seq)
+>>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>>>       return ldst_us_trans(a->rd, a->rs1, data, fn, s);
+>>>>   }
+>>>>   @@ -286,6 +287,7 @@ static bool st_us_op(DisasContext *s, 
+>>>> arg_r2nfvm *a, uint8_t seq)
+>>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>>>       return ldst_us_trans(a->rd, a->rs1, data, fn, s);
+>>>>   }
+>>>>   @@ -365,6 +367,7 @@ static bool ld_stride_op(DisasContext *s, 
+>>>> arg_rnfvm *a, uint8_t seq)
+>>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>>>       return ldst_stride_trans(a->rd, a->rs1, a->rs2, data, fn, s);
+>>>>   }
+>>>>   @@ -404,6 +407,7 @@ static bool st_stride_op(DisasContext *s, 
+>>>> arg_rnfvm *a, uint8_t seq)
+>>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>>>       fn =  fns[seq][s->sew];
+>>>>       if (fn == NULL) {
+>>>>           return false;
+>>>> @@ -490,6 +494,7 @@ static bool ld_index_op(DisasContext *s, 
+>>>> arg_rnfvm *a, uint8_t seq)
+>>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>>>       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s);
+>>>>   }
+>>>>   @@ -542,6 +547,7 @@ static bool st_index_op(DisasContext *s, 
+>>>> arg_rnfvm *a, uint8_t seq)
+>>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>>>       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s);
+>>>>   }
+>>>>   @@ -617,6 +623,7 @@ static bool ldff_op(DisasContext *s, 
+>>>> arg_r2nfvm *a, uint8_t seq)
+>>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
+>>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>>>       return ldff_trans(a->rd, a->rs1, data, fn, s);
+>>>>   }
+>>>>   @@ -724,6 +731,7 @@ static bool amo_op(DisasContext *s, arg_rwdvm 
+>>>> *a, uint8_t seq)
+>>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
+>>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>>>>       data = FIELD_DP32(data, VDATA, WD, a->wd);
+>>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
+>>>>       return amo_trans(a->rd, a->rs1, a->rs2, data, fn, s);
+>>>>   }
+>>>>   /*
+>>>> diff --git a/target/riscv/internals.h b/target/riscv/internals.h
+>>>> index b15ad394bb..f74b8291e4 100644
+>>>> --- a/target/riscv/internals.h
+>>>> +++ b/target/riscv/internals.h
+>>>> @@ -27,6 +27,7 @@ FIELD(VDATA, VM, 8, 1)
+>>>>   FIELD(VDATA, LMUL, 9, 2)
+>>>>   FIELD(VDATA, NF, 11, 4)
+>>>>   FIELD(VDATA, WD, 11, 1)
+>>>> +FIELD(VDATA, OL, 15, 2)
+>>>>     /* float point classify helpers */
+>>>>   target_ulong fclass_h(uint64_t frs1);
+>>>> diff --git a/target/riscv/vector_helper.c 
+>>>> b/target/riscv/vector_helper.c
+>>>> index 535420ee66..451688c328 100644
+>>>> --- a/target/riscv/vector_helper.c
+>>>> +++ b/target/riscv/vector_helper.c
+>>>> @@ -112,6 +112,11 @@ static uint32_t vext_wd(uint32_t desc)
+>>>>       return (simd_data(desc) >> 11) & 0x1;
+>>>>   }
+>>>>   +static inline uint32_t vext_ol(uint32_t desc)
+>>>> +{
+>>>> +    return FIELD_EX32(simd_data(desc), VDATA, OL);
+>>>> +}
+>>>
+>>> XLEN not OLEN.
+>> OK.
+>>>
+>>>> @@ -123,6 +128,14 @@ static inline uint32_t vext_maxsz(uint32_t desc)
+>>>>       return simd_maxsz(desc) << vext_lmul(desc);
+>>>>   }
+>>>>   +static inline target_ulong adjust_addr(target_ulong addr, 
+>>>> uint32_t olen)
+>>>> +{
+>>>> +    if (olen < TARGET_LONG_BITS) {
+>>>> +        addr &= UINT32_MAX;
+>>>> +    }
+>>>> +    return addr;
+>>>> +}
+>>>
+>>> Here's where I'm unsure.  This looks a lot like the changes that are 
+>>> required to support pointer-masking in vectors, which Alexey said he 
+>>> was going to look at.
+>>>
+>>> (1) Do we need to pass anything in VEXT at all?
+>>>     We do have CPURISCVState, so we could just use cpu_get_ml,
+>> Yes, we should use cpu_get_xl.
+>>> which we would also need for env->mmte etc for pointer masking.
+>>
+>> Do you mean env->mpmmask and env->mpmbase? I think yes, we should 
+>> also adjust these register behaviors with xlen.
+>
+> I mean the set of [msu]pmmask and [msu]pmbase, selected as appropriate 
+> for the current execution mode.
+>
+>>> (3) Do we try to streamline the computation by passing down composite
+>>>     mask and base parameters.  This way we don't need to do complex
+>>>     examination of ENV to determine execution mode, and instead always
+>>>     compute
+>>>
+>>>        addr = (addr & mask) | base;
+>>>
+>>>     where mask = -1, base = 0 for "normal" addressing, and when
+>>>     UXLEN == 32, mask <= UINT32_MAX.
+>>
+>> Do you mean add env->pmmask and env->pmbase?
+>>
+>> I can initialize them in riscv_tr_init_disas_context, such as by 
+>> env->xpmmask & UINT32_MAX .
+>>
+>>>
+>>> (4) Do we in fact want to pre-compute these into known slots on ENV,
+>>>     so that we don't have to pass these around as separate parameters?
+>>>     We would adjust these values during PM CSR changes and when
+>>>     changing privilege levels.
+> For option (3), I was suggesting a mask + base pair passed down from 
+> TCG-generated code.
+>
+> For option (4), I was suggesting embedding a mask + base pair in env, 
+> which would be re-computed at every privilege level change, plus reset 
+> and vmload.
+>
+> In both cases, the mask would be a combination of [msu]pmmask & (RV32 
+> ? UINT32_MAX : UINT64_MAX), as you say.
 
-Signed-off-by: Lei Rao <lei.rao@intel.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Lukas Straub <lukasstraub2@web.de>
-Tested-by: Lukas Straub <lukasstraub2@web.de>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- migration/ram.h  | 1 +
- migration/colo.c | 4 ++++
- migration/ram.c  | 9 +++++++++
- 3 files changed, 14 insertions(+)
+We will calculate [msu]pmmask by  csrrw , and we have ignored high bits 
+there.
 
-diff --git a/migration/ram.h b/migration/ram.h
-index dda1988f3d..c515396a9a 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -50,6 +50,7 @@ bool ramblock_is_ignored(RAMBlock *block);
- int xbzrle_cache_resize(uint64_t new_size, Error **errp);
- uint64_t ram_bytes_remaining(void);
- uint64_t ram_bytes_total(void);
-+void mig_throttle_counter_reset(void);
- 
- uint64_t ram_pagesize_summary(void);
- int ram_save_queue_pages(const char *rbname, ram_addr_t start, ram_addr_t len);
-diff --git a/migration/colo.c b/migration/colo.c
-index e3b1f136f4..2415325262 100644
---- a/migration/colo.c
-+++ b/migration/colo.c
-@@ -459,6 +459,10 @@ static int colo_do_checkpoint_transaction(MigrationState *s,
-     if (ret < 0) {
-         goto out;
-     }
-+
-+    if (migrate_auto_converge()) {
-+        mig_throttle_counter_reset();
-+    }
-     /*
-      * Only save VM's live state, which not including device state.
-      * TODO: We may need a timeout mechanism to prevent COLO process
-diff --git a/migration/ram.c b/migration/ram.c
-index f48cf4b0a5..863035d235 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -641,6 +641,15 @@ static void mig_throttle_guest_down(uint64_t bytes_dirty_period,
-     }
- }
- 
-+void mig_throttle_counter_reset(void)
-+{
-+    RAMState *rs = ram_state;
-+
-+    rs->time_last_bitmap_sync = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-+    rs->num_dirty_pages_period = 0;
-+    rs->bytes_xfer_prev = ram_counters.transferred;
-+}
-+
- /**
-  * xbzrle_cache_zero_page: insert a zero page in the XBZRLE cache
-  *
--- 
-2.33.1
+Can we just use the [msu]pmmmask?
 
+Thanks,
+Zhiwei
+
+>
+>
+> r~
 
