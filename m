@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBE8B44AA6F
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 10:19:28 +0100 (CET)
-Received: from localhost ([::1]:43520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10A0244AA6D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 10:18:06 +0100 (CET)
+Received: from localhost ([::1]:38268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkNHr-0002IY-U4
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 04:19:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39664)
+	id 1mkNGX-0007Gn-7j
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 04:18:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mkNC6-000870-Qo; Tue, 09 Nov 2021 04:13:31 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:57631)
+ id 1mkNBc-00073Y-OP; Tue, 09 Nov 2021 04:13:01 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:53411)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mkNC5-0005HQ-4i; Tue, 09 Nov 2021 04:13:30 -0500
+ id 1mkNBa-00058i-4N; Tue, 09 Nov 2021 04:12:59 -0500
 Received: from quad ([82.142.14.190]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MIMOy-1mycnn2hZU-00EQjC; Tue, 09
- Nov 2021 10:12:51 +0100
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1N9dbx-1mhVQH1Qlp-015ZRj; Tue, 09
+ Nov 2021 10:12:52 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/6] .mailmap: Fix more contributor entries
-Date: Tue,  9 Nov 2021 10:12:35 +0100
-Message-Id: <20211109091238.817997-4-laurent@vivier.eu>
+Subject: [PULL 4/6] meson: Fix 'interpretor' typo
+Date: Tue,  9 Nov 2021 10:12:36 +0100
+Message-Id: <20211109091238.817997-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211109091238.817997-1-laurent@vivier.eu>
 References: <20211109091238.817997-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:QbeM83FLzidANlyszufo6HJ/9+JS5wRogyeZXqX4ccxhCqwpvOJ
- Iq31+5A2RfN+o/OoJ1FslJAzysOvT/0DO7XgOqTyCAsEkxW0wwH3DXhx2dBcBS8rBz5HbY/
- WRqF57OyvVJ+31liIHwdEZ5xE4/w6a0cN6MLJYgQ2OBItRXUWa7IQbcNfA9JpNnFvPINzjc
- DDGS6OFNxeG7xGBZKllmA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BO8vJEotHjk=:RfERvBGdKfuaiBRY4rwUTT
- DMk+qEwoZIxE3aL38Igfvq5JDnz+qMRmbWpIeIA1bnXKBMBse/iABeI3LjgVWo/dT7aavHorC
- 8Lib5ZSxJWMAy3Ftw+8KosjOKpvsQDp/A3efp7qtd2srmcexxh+f5sc1Bazb7J5VAqUurpqFx
- EauzqHMaucR31mkeT1F3EZal/zApAUYCbm7DSQxhplyOMg7+5C4wMPWVdu+kTDYfeZoKXvmrb
- OvUxxMzocy/dpx+YXrUZ251PUZMe+9lEvJbpW7sVW3TsqEF8PyDOkcREv5mrKDsnvSIwdpIc4
- fzkjlwU+/y8QGguNWms1W5BIy3gxAOob3rKX46k/GzV7dkcUugtPFyVb4O6cRzb2XINKwq5/2
- l/t/X773A1dp88CNv4EEduXMTbydZUPj2WLJaf2tf0I6GFPYr1kLVIp9IeE58oUTaWD0oAiuC
- hY3kL671fy2LStAZIe9MhYIeeOObkw6PdJZ9bQ45zn77l+HkGVKV5ByWuz4Jez3TWDPgxqH5J
- zr7WX5vinC2QesD9mjKFs6RF4reBq6S9CnvdLuUE166KZIb3ZgbCwCelTY8SqNPb34st5MhK4
- 655Ih//8VoLDZuJIaRewKAdO9VXJrqHfh3DT8EbNsjQYKSdgo3yfdJBfkvE13LNFCtSDjDdV+
- iGOApUUAUcPwgFSw8t64UW8Ml7vlPMrEUnXrKMorxhVolqwMH3uWJo0U6okp3c7WqH/Q=
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:TtJwTnCxONuZt8znPcHHQdywr9N64GWNKm8l8BcmBE0crn8siIZ
+ NNgpmILpKLfMh0A3MlUfTK9wl9KnPa7979oWytJ8oj17fcsla6yvjPg2A2jTx+gxQ60xzfp
+ W/zEOnJV9yjs5QkpvJz96EmuXnOT4/55p8bk3FlhEM4x0VDEQyGzczDqsC8L60IWiUFJfCD
+ Pq+kX72vFVu8BiNNjHBIg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3h2T8twt83Q=:uE5iOpuH1pkNYlqdupdcah
+ tB/Ov2DuyBxcr75Gp7lbXodHf2zOvfAzH7iJqGVVjJWBDnoSeX3RQs2Rc8wKd1xEOnhN4eQmQ
+ lxtjoIBgw0veFL1G19clhPssGmuKCQR7LYyRdVuqPTCpbtjlxc8EMatV1WQ191JIlZiBrmj77
+ 95PTy9Io5hw6YMz4pDxH/if/1RzapGCHoSugjfFl3O6ylOoef6/Ainm4GwyLgemK4SR/yC8SA
+ trk+SlNM2EiPk6OFvL/86kKche6qdD1a8zi4+CTBgSP5n4JcWlFu0Zj4iHoy0OmV80xFt8GlM
+ ldt2BEUw7bCvMjoY/8hrD+dy3tZOVM9myOP9Q7SmdTldEhxj4KqnANYoqm41LzDe+b2y7UEUl
+ jNRCaZpklbBjR58ojgh/IkuucKp6nC24AJIw3+M03QV7XKzJAfNDEkeFNf9NA4ndWSUnxdT6M
+ 4Jts5lfcPFgQvZkEq6YKVzFItDlqPyyf1y+sQ1eeOVIcN7VcF78pxWAK+kGRfZlz8p6XNVDdd
+ w9rC3lKPMDHNyXHgZCJZLW0nD7Ca5K1E4vxwswTK/L0pi9AqziOQVfKVGjDDT6T3hbOBHK0bj
+ llYH9wjV70efkdSQLE4oZ5EWWTcUXJCyp16uDUeonso6pbNtihYqqynZErYNvvCCrmUqyPkre
+ 8/F84rQP9YHvvpOOFIsmYmD4bIpcPE6gU4tLq6Y59Hx60e3674JVmPGJ//uGcrL1FKp4=
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -65,61 +65,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Hyman Huang <huangy81@chinatelecom.cn>,
- Pan Nengyuan <pannengyuan@huawei.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>, Alex Chen <alex.chen@huawei.com>,
- Haibin Zhang <haibinzhang@tencent.com>
+Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-These authors have some incorrect author email field.
+Fix a typo from commit fa2f7b0b9b7 ("meson: Warn when TCI is
+selected but TCG backend is available").
 
-Acked-by: Pan Nengyuan <pannengyuan@huawei.com>
-Reviewed-by: Alex Chen <alex.chen@huawei.com>
-Reviewed-by: Hyman Huang <huangy81@chinatelecom.cn>
-Reviewed-by: Haibin Zhang <haibinzhang@tencent.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20211027043254.1248097-1-f4bug@amsat.org>
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20210521103423.2780345-1-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- .mailmap | 4 ++++
- 1 file changed, 4 insertions(+)
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/.mailmap b/.mailmap
-index f029d1c21fe8..8beb2f95ae28 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -69,6 +69,7 @@ Yongbok Kim <yongbok.kim@mips.com> <yongbok.kim@imgtec.com>
- # git author config, or had utf8/latin1 encoding issues.
- Aaron Lindsay <aaron@os.amperecomputing.com>
- Alexey Gerasimenko <x1917x@gmail.com>
-+Alex Chen <alex.chen@huawei.com>
- Alex Ivanov <void@aleksoft.net>
- Andreas Färber <afaerber@suse.de>
- Bandan Das <bsd@redhat.com>
-@@ -99,9 +100,11 @@ Gautham R. Shenoy <ego@in.ibm.com>
- Gautham R. Shenoy <ego@linux.vnet.ibm.com>
- Gonglei (Arei) <arei.gonglei@huawei.com>
- Guang Wang <wang.guang55@zte.com.cn>
-+Haibin Zhang <haibinzhang@tencent.com>
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>
- Hanna Reitz <hreitz@redhat.com> <mreitz@redhat.com>
- Hervé Poussineau <hpoussin@reactos.org>
-+Hyman Huang <huangy81@chinatelecom.cn>
- Jakub Jermář <jakub@jermar.eu>
- Jakub Jermář <jakub.jermar@kernkonzept.com>
- Jean-Christophe Dubois <jcd@tribudubois.net>
-@@ -135,6 +138,7 @@ Nicholas Thomas <nick@bytemark.co.uk>
- Nikunj A Dadhania <nikunj@linux.vnet.ibm.com>
- Orit Wasserman <owasserm@redhat.com>
- Paolo Bonzini <pbonzini@redhat.com>
-+Pan Nengyuan <pannengyuan@huawei.com>
- Pavel Dovgaluk <dovgaluk@ispras.ru>
- Pavel Dovgaluk <pavel.dovgaluk@gmail.com>
- Pavel Dovgaluk <Pavel.Dovgaluk@ispras.ru>
+diff --git a/meson.build b/meson.build
+index 6bfed294d07b..9702fdce6d03 100644
+--- a/meson.build
++++ b/meson.build
+@@ -340,7 +340,7 @@ if not get_option('tcg').disabled()
+       error('Unsupported CPU @0@, try --enable-tcg-interpreter'.format(cpu))
+     endif
+   elif get_option('tcg_interpreter')
+-    warning('Use of the TCG interpretor is not recommended on this host')
++    warning('Use of the TCG interpreter is not recommended on this host')
+     warning('architecture. There is a native TCG execution backend available')
+     warning('which provides substantially better performance and reliability.')
+     warning('It is strongly recommended to remove the --enable-tcg-interpreter')
 -- 
 2.31.1
 
