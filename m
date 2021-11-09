@@ -2,53 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA04444A6C5
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 07:22:47 +0100 (CET)
-Received: from localhost ([::1]:53402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 483B444A6C1
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 07:19:01 +0100 (CET)
+Received: from localhost ([::1]:45510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkKWs-0000bU-UV
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 01:22:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50120)
+	id 1mkKTE-0003Th-Bm
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 01:19:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mkK3p-0004Vq-8R; Tue, 09 Nov 2021 00:52:45 -0500
-Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=39255
- helo=gandalf.ozlabs.org)
+ id 1mkK3l-0004UG-F2; Tue, 09 Nov 2021 00:52:44 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:60631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mkK3j-0006h0-1A; Tue, 09 Nov 2021 00:52:42 -0500
+ id 1mkK3h-0006h7-W0; Tue, 09 Nov 2021 00:52:40 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HpHDp1Dl4z4xdr; Tue,  9 Nov 2021 16:52:10 +1100 (AEDT)
+ id 4HpHDp1NmWz4xds; Tue,  9 Nov 2021 16:52:10 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1636437130;
- bh=GhARVETZWmDcYd6NUT96zNv6kn9IqcbmhEy/pZssS1Y=;
+ bh=T0pNzU+2355ov3ASQRdDwuPooB/sI2v8CbvaHhv5LyA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Yxn8soaeuI3+jy1vl6Y4EUnayyvT1IJvK6aei/oLAW0wbuqTYM/XXmGagTRjH2mx8
- tFzsldLPpjBljASVOYNPMfIIbhencwwsvbG8cSfn2Vbnhrb28rOUw4P8moTJUopDLU
- LUzYeSOauzsHzYQkrcAQFnhDtzTJuyW95idkfY0U=
+ b=eHcmjbo21xC9M2S3e0ixLAeC/9TraQ+MYV6TUkXvhQh+7VyovVqVHa1lqZFlJCqoR
+ 6GPrh2Mcp9QGgOo5XQBkkg92JM0Xwx2vdPcUXrH1cEH7NyHDLi7kDZmoVubA8PixTD
+ VrSHcYALjtMC3HmZZ/jLvdcTr7TxeEfRxGFE0vWE=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org, clg@kaod.org, danielhb413@gmail.com,
  groug@kaod.org
-Subject: [PULL 16/54] libdecnumber: Introduce decNumberIntegralToInt128
-Date: Tue,  9 Nov 2021 16:51:26 +1100
-Message-Id: <20211109055204.230765-17-david@gibson.dropbear.id.au>
+Subject: [PULL 17/54] target/ppc: Implement DCTFIXQQ
+Date: Tue,  9 Nov 2021 16:51:27 +1100
+Message-Id: <20211109055204.230765-18-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211109055204.230765-1-david@gibson.dropbear.id.au>
 References: <20211109055204.230765-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for
- 2404:9400:2:0:216:3eff:fee2:21ea (failed)
-Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
+Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -9
-X-Spam_score: -1.0
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,186 +65,150 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Luis Pires <luis.pires@eldorado.org.br>
 
-This will be used to implement PowerPC's dctfixqq.
+Implement the following PowerISA v3.1 instruction:
+dctfixqq: DFP Convert To Fixed Quadword Quad
 
 Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211029192417.400707-7-luis.pires@eldorado.org.br>
+Message-Id: <20211029192417.400707-8-luis.pires@eldorado.org.br>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- include/libdecnumber/decNumber.h      |  2 +
- include/libdecnumber/decNumberLocal.h |  2 +-
- libdecnumber/decContext.c             |  7 +-
- libdecnumber/decNumber.c              | 95 +++++++++++++++++++++++++++
- 4 files changed, 102 insertions(+), 4 deletions(-)
+ target/ppc/dfp_helper.c             | 52 +++++++++++++++++++++++++++++
+ target/ppc/helper.h                 |  1 +
+ target/ppc/insn32.decode            |  5 +++
+ target/ppc/translate/dfp-impl.c.inc | 17 ++++++++++
+ 4 files changed, 75 insertions(+)
 
-diff --git a/include/libdecnumber/decNumber.h b/include/libdecnumber/decNumber.h
-index 0cf69c7db2..41bc2a0d36 100644
---- a/include/libdecnumber/decNumber.h
-+++ b/include/libdecnumber/decNumber.h
-@@ -124,6 +124,8 @@
-   uint32_t    decNumberToUInt32(const decNumber *, decContext *);
-   int32_t     decNumberToInt32(const decNumber *, decContext *);
-   int64_t     decNumberIntegralToInt64(const decNumber *dn, decContext *set);
-+  void        decNumberIntegralToInt128(const decNumber *dn, decContext *set,
-+        uint64_t *plow, uint64_t *phigh);
-   uint8_t   * decNumberGetBCD(const decNumber *, uint8_t *);
-   decNumber * decNumberSetBCD(decNumber *, const uint8_t *, uint32_t);
+diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
+index 6b837c4450..6ab46d7db5 100644
+--- a/target/ppc/dfp_helper.c
++++ b/target/ppc/dfp_helper.c
+@@ -51,6 +51,11 @@ static void set_dfp128(ppc_fprp_t *dfp, ppc_vsr_t *src)
+     dfp[1].VsrD(0) = src->VsrD(1);
+ }
  
-diff --git a/include/libdecnumber/decNumberLocal.h b/include/libdecnumber/decNumberLocal.h
-index 4d53c077f2..6198ca8593 100644
---- a/include/libdecnumber/decNumberLocal.h
-+++ b/include/libdecnumber/decNumberLocal.h
-@@ -98,7 +98,7 @@
- 
-   /* Shared lookup tables					      */
-   extern const uByte  DECSTICKYTAB[10]; /* re-round digits if sticky  */
--  extern const uLong  DECPOWERS[19];    /* powers of ten table        */
-+  extern const uLong  DECPOWERS[20];    /* powers of ten table        */
-   /* The following are included from decDPD.h			      */
-   extern const uShort DPD2BIN[1024];	/* DPD -> 0-999		      */
-   extern const uShort BIN2DPD[1000];	/* 0-999 -> DPD		      */
-diff --git a/libdecnumber/decContext.c b/libdecnumber/decContext.c
-index 7d97a65ac5..1956edf0a7 100644
---- a/libdecnumber/decContext.c
-+++ b/libdecnumber/decContext.c
-@@ -53,12 +53,13 @@ static	const  Flag *mfctop=(Flag *)&mfcone; /* -> top byte */
- const uByte DECSTICKYTAB[10]={1,1,2,3,4,6,6,7,8,9}; /* used if sticky */
- 
- /* ------------------------------------------------------------------ */
--/* Powers of ten (powers[n]==10**n, 0<=n<=9)			      */
-+/* Powers of ten (powers[n]==10**n, 0<=n<=19)                         */
- /* ------------------------------------------------------------------ */
--const uLong DECPOWERS[19] = {1, 10, 100, 1000, 10000, 100000, 1000000,
-+const uLong DECPOWERS[20] = {1, 10, 100, 1000, 10000, 100000, 1000000,
-   10000000, 100000000, 1000000000, 10000000000ULL, 100000000000ULL,
-   1000000000000ULL, 10000000000000ULL, 100000000000000ULL, 1000000000000000ULL,
--  10000000000000000ULL, 100000000000000000ULL, 1000000000000000000ULL, };
-+  10000000000000000ULL, 100000000000000000ULL, 1000000000000000000ULL,
-+  10000000000000000000ULL,};
- 
- /* ------------------------------------------------------------------ */
- /* decContextClearStatus -- clear bits in current status	      */
-diff --git a/libdecnumber/decNumber.c b/libdecnumber/decNumber.c
-index d7716ce175..31282adafd 100644
---- a/libdecnumber/decNumber.c
-+++ b/libdecnumber/decNumber.c
-@@ -264,6 +264,7 @@ static decNumber * decTrim(decNumber *, decContext *, Flag, Int *);
- static Int	   decUnitAddSub(const Unit *, Int, const Unit *, Int, Int,
- 			      Unit *, Int);
- static Int	   decUnitCompare(const Unit *, Int, const Unit *, Int, Int);
-+static bool        mulUInt128ByPowOf10(uLong *, uLong *, uInt);
- 
- #if !DECSUBSET
- /* decFinish == decFinalize when no subset arithmetic needed */
-@@ -542,6 +543,68 @@ Invalid:
-     return 0;
- } /* decNumberIntegralToInt64 */
- 
-+/* ------------------------------------------------------------------ */
-+/* decNumberIntegralToInt128 -- conversion to int128                  */
-+/*                                                                    */
-+/*  dn is the decNumber to convert.  dn is assumed to have been       */
-+/*    rounded to a floating point integer value.                      */
-+/*  set is the context for reporting errors                           */
-+/*  returns the converted decNumber via plow and phigh                */
-+/*                                                                    */
-+/* Invalid is set if the decNumber is a NaN, Infinite or is out of    */
-+/* range for a signed 128 bit integer.                                */
-+/* ------------------------------------------------------------------ */
-+
-+void decNumberIntegralToInt128(const decNumber *dn, decContext *set,
-+        uint64_t *plow, uint64_t *phigh)
++static void set_dfp128_to_avr(ppc_avr_t *dst, ppc_vsr_t *src)
 +{
-+    int d;        /* work */
-+    const Unit *up;   /* .. */
-+    uint64_t lo = 0, hi = 0;
-+
-+    if (decNumberIsSpecial(dn) || (dn->exponent < 0) ||
-+       (dn->digits + dn->exponent > 39)) {
-+        goto Invalid;
-+    }
-+
-+    up = dn->lsu;     /* -> lsu */
-+
-+    for (d = (dn->digits - 1) / DECDPUN; d >= 0; d--) {
-+        if (mulu128(&lo, &hi, DECDPUNMAX + 1)) {
-+            /* overflow */
-+            goto Invalid;
-+        }
-+        if (uadd64_overflow(lo, up[d], &lo)) {
-+            if (uadd64_overflow(hi, 1, &hi)) {
-+                /* overflow */
-+                goto Invalid;
-+            }
-+        }
-+    }
-+
-+    if (mulUInt128ByPowOf10(&lo, &hi, dn->exponent)) {
-+        /* overflow */
-+        goto Invalid;
-+    }
-+
-+    if (decNumberIsNegative(dn)) {
-+        if (lo == 0) {
-+            *phigh = -hi;
-+            *plow = 0;
-+        } else {
-+            *phigh = ~hi;
-+            *plow = -lo;
-+        }
-+    } else {
-+        *plow = lo;
-+        *phigh = hi;
-+    }
-+
-+    return;
-+
-+Invalid:
-+    decContextSetStatus(set, DEC_Invalid_operation);
-+} /* decNumberIntegralToInt128 */
- 
- /* ------------------------------------------------------------------ */
- /* to-scientific-string -- conversion to numeric string		      */
-@@ -7885,6 +7948,38 @@ static Int decGetDigits(Unit *uar, Int len) {
-   return digits;
-   } /* decGetDigits */
- 
-+/* ------------------------------------------------------------------ */
-+/* mulUInt128ByPowOf10 -- multiply a 128-bit unsigned integer by a    */
-+/* power of 10.                                                       */
-+/*                                                                    */
-+/*   The 128-bit factor composed of plow and phigh is multiplied      */
-+/*   by 10^exp.                                                       */
-+/*                                                                    */
-+/*   plow   pointer to the low 64 bits of the first factor            */
-+/*   phigh  pointer to the high 64 bits of the first factor           */
-+/*   exp    the exponent of the power of 10 of the second factor      */
-+/*                                                                    */
-+/* If the result fits in 128 bits, returns false and the              */
-+/* multiplication result through plow and phigh.                      */
-+/* Otherwise, returns true.                                           */
-+/* ------------------------------------------------------------------ */
-+static bool mulUInt128ByPowOf10(uLong *plow, uLong *phigh, uInt pow10)
-+{
-+    while (pow10 >= ARRAY_SIZE(powers)) {
-+        if (mulu128(plow, phigh, powers[ARRAY_SIZE(powers) - 1])) {
-+            /* Overflow */
-+            return true;
-+        }
-+        pow10 -= ARRAY_SIZE(powers) - 1;
-+    }
-+
-+    if (pow10 > 0) {
-+        return mulu128(plow, phigh, powers[pow10]);
-+    } else {
-+        return false;
-+    }
++    *dst = *src;
 +}
 +
- #if DECTRACE | DECCHECK
- /* ------------------------------------------------------------------ */
- /* decNumberShow -- display a number [debug aid]		      */
+ struct PPC_DFP {
+     CPUPPCState *env;
+     ppc_vsr_t vt, va, vb;
+@@ -1020,6 +1025,53 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)              \
+ DFP_HELPER_CTFIX(dctfix, 64)
+ DFP_HELPER_CTFIX(dctfixq, 128)
+ 
++void helper_DCTFIXQQ(CPUPPCState *env, ppc_avr_t *t, ppc_fprp_t *b)
++{
++    struct PPC_DFP dfp;
++    dfp_prepare_decimal128(&dfp, 0, b, env);
++
++    if (unlikely(decNumberIsSpecial(&dfp.b))) {
++        uint64_t invalid_flags = FP_VX | FP_VXCVI;
++        if (decNumberIsInfinite(&dfp.b)) {
++            if (decNumberIsNegative(&dfp.b)) {
++                dfp.vt.VsrD(0) = INT64_MIN;
++                dfp.vt.VsrD(1) = 0;
++            } else {
++                dfp.vt.VsrD(0) = INT64_MAX;
++                dfp.vt.VsrD(1) = UINT64_MAX;
++            }
++        } else { /* NaN */
++            dfp.vt.VsrD(0) = INT64_MIN;
++            dfp.vt.VsrD(1) = 0;
++            if (decNumberIsSNaN(&dfp.b)) {
++                invalid_flags |= FP_VXSNAN;
++            }
++        }
++        dfp_set_FPSCR_flag(&dfp, invalid_flags, FP_VE);
++    } else if (unlikely(decNumberIsZero(&dfp.b))) {
++        dfp.vt.VsrD(0) = 0;
++        dfp.vt.VsrD(1) = 0;
++    } else {
++        decNumberToIntegralExact(&dfp.b, &dfp.b, &dfp.context);
++        decNumberIntegralToInt128(&dfp.b, &dfp.context,
++                &dfp.vt.VsrD(1), &dfp.vt.VsrD(0));
++        if (decContextTestStatus(&dfp.context, DEC_Invalid_operation)) {
++            if (decNumberIsNegative(&dfp.b)) {
++                dfp.vt.VsrD(0) = INT64_MIN;
++                dfp.vt.VsrD(1) = 0;
++            } else {
++                dfp.vt.VsrD(0) = INT64_MAX;
++                dfp.vt.VsrD(1) = UINT64_MAX;
++            }
++            dfp_set_FPSCR_flag(&dfp, FP_VX | FP_VXCVI, FP_VE);
++        } else {
++            dfp_check_for_XX(&dfp);
++        }
++    }
++
++    set_dfp128_to_avr(t, &dfp.vt);
++}
++
+ static inline void dfp_set_bcd_digit_64(ppc_vsr_t *t, uint8_t digit,
+                                         unsigned n)
+ {
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 8e4f67ceac..3812bb0270 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -739,6 +739,7 @@ DEF_HELPER_3(dcffixq, void, env, fprp, fprp)
+ DEF_HELPER_3(DCFFIXQQ, void, env, fprp, avr)
+ DEF_HELPER_3(dctfix, void, env, fprp, fprp)
+ DEF_HELPER_3(dctfixq, void, env, fprp, fprp)
++DEF_HELPER_3(DCTFIXQQ, void, env, avr, fprp)
+ DEF_HELPER_4(ddedpd, void, env, fprp, fprp, i32)
+ DEF_HELPER_4(ddedpdq, void, env, fprp, fprp, i32)
+ DEF_HELPER_4(denbcd, void, env, fprp, fprp, i32)
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index 36586dfa59..33463c14ea 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -54,6 +54,10 @@
+ %x_frtp         22:4 !function=times_2
+ @X_frtp_vrb     ...... ....0 ..... vrb:5 .......... .           &X_frtp_vrb frtp=%x_frtp
+ 
++&X_vrt_frbp     vrt frbp
++%x_frbp         12:4 !function=times_2
++@X_vrt_frbp     ...... vrt:5 ..... ....0 .......... .           &X_vrt_frbp frbp=%x_frbp
++
+ ### Fixed-Point Load Instructions
+ 
+ LBZ             100010 ..... ..... ................     @D
+@@ -167,6 +171,7 @@ SETNBCR         011111 ..... ..... ----- 0111100000 -   @X_bi
+ ### Decimal Floating-Point Conversion Instructions
+ 
+ DCFFIXQQ        111111 ..... 00000 ..... 1111100010 -   @X_frtp_vrb
++DCTFIXQQ        111111 ..... 00001 ..... 1111100010 -   @X_vrt_frbp
+ 
+ ## Vector Bit Manipulation Instruction
+ 
+diff --git a/target/ppc/translate/dfp-impl.c.inc b/target/ppc/translate/dfp-impl.c.inc
+index d5b66567a6..e149777481 100644
+--- a/target/ppc/translate/dfp-impl.c.inc
++++ b/target/ppc/translate/dfp-impl.c.inc
+@@ -247,3 +247,20 @@ static bool trans_DCFFIXQQ(DisasContext *ctx, arg_DCFFIXQQ *a)
+ 
+     return true;
+ }
++
++static bool trans_DCTFIXQQ(DisasContext *ctx, arg_DCTFIXQQ *a)
++{
++    TCGv_ptr rt, rb;
++
++    REQUIRE_INSNS_FLAGS2(ctx, DFP);
++    REQUIRE_FPU(ctx);
++    REQUIRE_VECTOR(ctx);
++
++    rt = gen_avr_ptr(a->vrt);
++    rb = gen_fprp_ptr(a->frbp);
++    gen_helper_DCTFIXQQ(cpu_env, rt, rb);
++    tcg_temp_free_ptr(rt);
++    tcg_temp_free_ptr(rb);
++
++    return true;
++}
 -- 
 2.33.1
 
