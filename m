@@ -2,49 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D211A44B3AA
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 21:00:56 +0100 (CET)
-Received: from localhost ([::1]:49352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15C5344B450
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 21:50:37 +0100 (CET)
+Received: from localhost ([::1]:37938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkXIc-0002CT-Mn
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 15:00:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54532)
+	id 1mkY4e-000057-Qu
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 15:50:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mkXGt-0001HA-O4; Tue, 09 Nov 2021 14:59:07 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:36510)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mkXGp-0006Su-KG; Tue, 09 Nov 2021 14:59:06 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 8E0F3748F48;
- Tue,  9 Nov 2021 20:58:58 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 3B6AE7475FA; Tue,  9 Nov 2021 20:58:58 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 398567463B7;
- Tue,  9 Nov 2021 20:58:58 +0100 (CET)
-Date: Tue, 9 Nov 2021 20:58:58 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PULL 1/2] hw: m68k: virt: Add compat machine for 6.1
-In-Reply-To: <YYpvvWLvkhR0/igt@redhat.com>
-Message-ID: <fa213548-ca60-bf7b-2075-83bd7f32462a@eik.bme.hu>
-References: <20211109111517.996104-1-laurent@vivier.eu>
- <20211109111517.996104-2-laurent@vivier.eu>
- <9537b527-d33e-59d5-e196-e1e84fa01325@eik.bme.hu>
- <YYpvvWLvkhR0/igt@redhat.com>
+ (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1mkY2G-0007jl-0e
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 15:48:04 -0500
+Received: from [2a00:1450:4864:20::330] (port=51036
+ helo=mail-wm1-x330.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1mkY2E-0003Q4-4n
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 15:48:03 -0500
+Received: by mail-wm1-x330.google.com with SMTP id 133so347242wme.0
+ for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 12:48:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nuviainc-com.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=k/vTwMDMR4QyIkK24vhqvKCKCIJcbcTGzA/yBTZftXQ=;
+ b=SK2upagKKWjYU4zCBFV6O/SrUdku/GcA2wQ9mLDuCQmDNR2nRC7FIsCw9gmanUamRu
+ 45bYnvTFfBhaZZmLENIUXyTNsQA9NaK40SQ8Z5fo5i3aSFS6NHktXwGB+8mWyhrgRPXE
+ 92cBZ7XvRh088+ZFbip5nPeP3gXv/EbiOcePCNR8c5r8+PP960xvaPxKPVM4A8XkQ77l
+ NmUIvg50r0fVPGe0vx5RUfkcslY82KdQZEcwGSwlFE9cENl1oxit8Dw4DPvkf98EWVQ3
+ uuVxTPN4XwpnKGkrt1HYY61IIQbnNQPowH7v9nqhmMu0bp+doR+gsa74g3whRKE35hkc
+ yepQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=k/vTwMDMR4QyIkK24vhqvKCKCIJcbcTGzA/yBTZftXQ=;
+ b=pGzwjHhzIaqcm7vCFr1biAsmRDz9hJvBoM/PK0Yp7GWAoMfsMENYMhoLcfGg9FdiBj
+ j/OhpjnRhxhhH7MAFJHXkrJxIbnHWDqrhTXFJwhjRWjypY+cH+EGEA08xo0UpKOtxd61
+ 7KaZWg+Pm0wii2LiKrGA7E0/4ZexyPanul/yZrlH5o2KG7gMhEcJX9i9wFqSLF+StbGt
+ OoQqvvQirsn/2yYro5sby6weKwfcxlm/1BCDI4fCerZi649Yon6Xbf416samWoBlthqY
+ Ayc2TVp7IiltR+EfY7Rm1g6N1msbG3AGyE2sPZVq4L1XkbfOGN1gsje4LhYrTR45rh+i
+ b8YQ==
+X-Gm-Message-State: AOAM5321DWd6nF0PKjXGo0asFSM0n/6s0M7IeuSMS9YwXxd9JDrGAEXQ
+ WeFTavyWsnaPnRfkl7CU+3o3rvXOy2Z0MitM
+X-Google-Smtp-Source: ABdhPJxtx/MuWT8vk0YkUZAQBaNKy6mNE/e3h/6qtcEsT6es9AdFFdTHBhVBBO5mzUKTthWymUMnVw==
+X-Received: by 2002:a05:600c:4ec7:: with SMTP id
+ g7mr10471850wmq.138.1636490572469; 
+ Tue, 09 Nov 2021 12:42:52 -0800 (PST)
+Received: from leviathan (cpc92314-cmbg19-2-0-cust559.5-4.cable.virginm.net.
+ [82.11.186.48])
+ by smtp.gmail.com with ESMTPSA id a22sm3452736wme.19.2021.11.09.12.42.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Nov 2021 12:42:51 -0800 (PST)
+Date: Tue, 9 Nov 2021 20:42:49 +0000
+From: Leif Lindholm <leif@nuviainc.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v8 07/10] hw/arm/sbsa-ref: add ITS support in SBSA GIC
+Message-ID: <20211109204249.usvfatm3frar3u7a@leviathan>
+References: <20210812165341.40784-1-shashi.mallela@linaro.org>
+ <20210812165341.40784-8-shashi.mallela@linaro.org>
+ <CAFEAcA9WVu+kjfCWwfGQV00yKgmdFDCSUpxNOu1BEBM3AZCWXg@mail.gmail.com>
+ <20210902124258.mqjhx7lqqvkczf6a@leviathan>
+ <CAFEAcA-KeBzOCP1CHVWPHbHzG=KbS_HJmXoYo7B2VBz=oGSd3w@mail.gmail.com>
+ <20211015122351.vc55mwzjbevl6wjy@leviathan>
+ <CAFEAcA-Xe2u8n+og4TMyZSSvdBm8nrma3z4GkVjEJHPdJu8Fnw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="3866299591-978984826-1636487938=:9941"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA-Xe2u8n+og4TMyZSSvdBm8nrma3z4GkVjEJHPdJu8Fnw@mail.gmail.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=leif@nuviainc.com; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,96 +92,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- qemu-devel@nongnu.org
+Cc: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Shashi Mallela <shashi.mallela@linaro.org>,
+ Radoslaw Biernacki <rad@semihalf.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ narmstrong@baylibre.com, Eric Auger <eric.auger@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Tue, Nov 09, 2021 at 13:43:50 +0000, Peter Maydell wrote:
+> On Fri, 15 Oct 2021 at 13:23, Leif Lindholm <leif@nuviainc.com> wrote:
+> > (Apologies for delay. Alex also tells me you are currently away, but
+> > there is no strong urgency here.)
+> 
+> (Thanks for the ping via Alex -- I missed this email when I was
+> scanning through my qemu-devel mail backlog after my holiday...)
+> 
+> > On Thu, Sep 23, 2021 at 17:00:35 +0100, Peter Maydell wrote:
+> > > Leif, what's your plan/preferences here ?
+> >
+> > I discussed this with Alex/Shashi.
+> >
+> > One further complicating aspect is that the EDK2 GIC driver currently
+> > relies on GIC addresses being known at compile-time.
+> >
+> > > Presumably somebody also needs to do the system-software side
+> > > of things to handle the ITS being present and the redistributor
+> > > frames moving...
+> >
+> > Since it *would* be useful to get this support in, I think the most
+> > pragmatic plan would be:
+> > - Add ITS in the location originally proposed by Shashi.
+> > - Add information to DT:
+> >   - Platform version (1).
+> >   - GICD, GICR, and ITS base addresses.
+> > - edk2: Convert GIC driver to support dynamic block addresses.
+> > - TF-A: Parse the DT and add SIP SVC calls:
+> >   - to retrieve it (or return not supported if not found).
+> >   - to retrieve base addresses for GICD, GICR, and ITS.
+> > - edk2-platforms: Query TF-A for platform version.
+> >   If platform version >= 1, request base addresses for GICD, GICR, and
+> >   ITS.
+> >   - Generate IORT if ITS present.
+> > - Update GIC frame layout to match an ARM GIC-?00. (Platform version 2)
+> >
+> > Unrelated to the ITS question, and not requiring any intervention on
+> > the QEMU side, we can then also transition the CPU and DRAM discovery
+> > to SIP SVC calls, and stop sharing the DT with edk2 completely.
+> >
+> > And some way further down the line we could do the SCP thing, which
+> > would let us support different GIC-layouts/configurations based on
+> > platform command line options. (Platform version 3.)
+> > (TF-A makes SCP calls if version >= 3)
+> > This would then require no changes to edk2-platforms.
+> 
+> This sounds good to me.
+> 
+> > (Numeric values described as incrementing integer rather than trying
+> > to guess at specific qemu release numbers.)
+> 
+> This is kind of mixing up two separate things. The above describes
+> three "versions" of this machine type, which you might consider
+> as like revision A/B/C of hardware (and where firmware might for
+> instance read a 'board revision' register or something to tell
+> them apart). QEMU release numbers and versioned board types like virt-6.0
+> are a very specific thing that is taking on a guarantee about
+> maintaining version compatibility of the same board type between
+> different QEMU versions. We can make sbsa-ref a versioned machine
+> type in that sense if you really want to do it, but it makes future
+> changes to the machine rather more painful (everything new
+> immediately needs flags and properties and so on so that it can be
+> added only for newer versions of the machine type and not for the
+> old one -- at a rough count at least  10% of hw/arm/virt.c is purely
+> boilerplate and machinery for versioned machine types).
+> So it's not something we should do for sbsa-ref unless we have a good
+> reason I think.
 
---3866299591-978984826-1636487938=:9941
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Hmm, right. So you're thinking containing the versioning fully in the
+interfaces presented by the model:
+- Is the version node present?
+  - If so, is it greater than X?
+    - If so, is it great enough to support the SCP interface?
+And let the firmware deal with that?
 
-On Tue, 9 Nov 2021, Daniel P. Berrangé wrote:
-> On Tue, Nov 09, 2021 at 01:34:49PM +0100, BALATON Zoltan wrote:
->> On Tue, 9 Nov 2021, Laurent Vivier wrote:
->>> Add the missing machine type for m68k/virt
->>>
->>> Cc: qemu-stable@nongnu.org
->>> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
->>> Message-Id: <20211106194158.4068596-2-laurent@vivier.eu>
->>> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
->>> ---
->>> hw/m68k/virt.c | 9 ++++++++-
->>> 1 file changed, 8 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
->>> index 4e8bce5aa6f7..0d9e3f83c169 100644
->>> --- a/hw/m68k/virt.c
->>> +++ b/hw/m68k/virt.c
->>> @@ -304,7 +304,14 @@ type_init(virt_machine_register_types)
->>>     } \
->>>     type_init(machvirt_machine_##major##_##minor##_init);
->>>
->>> +static void virt_machine_6_1_options(MachineClass *mc)
->>> +{
->>> +}
->>> +DEFINE_VIRT_MACHINE(6, 1, true)
->>> +
->>> static void virt_machine_6_0_options(MachineClass *mc)
->>> {
->>> +    virt_machine_6_1_options(mc);
->>> +    compat_props_add(mc->compat_props, hw_compat_6_0, hw_compat_6_0_len);
->>> }
->>> -DEFINE_VIRT_MACHINE(6, 0, true)
->>> +DEFINE_VIRT_MACHINE(6, 0, false)
->>
->> I don't understand how these compat machines work but if these are empty and
->> essentially the same as the previous version why do we add a new version in
->> every release? Wouldn't it be enough to add new version when there was an
->> incompatible change? I mean, instead of listing machine and getting a lot of
->> virt-6.1, virt-6.0, virt-5.2,... or so, we'd only get versions that are
->> actually different such as virt-7.0, virt-5.2, virt-5.0 (maybe they are
->> called differently, just an example) with the versionless alias always
->> pointing to the latest. Then when QEMU is updated one can see if there was
->> any change so should update the VM or keep using the older versions. Or does
->> it work like that and I'm missing it completely?
->
-> It doesn't work like that, and that's a good thing.
->
-> The versioned machine types are for management applications that want
-> to guarantee an ABI across hosts. When a mgmt app wants to set a new
-> baseline for their QEMU machine types, it is way clearer if every
-> versioned machine type across all target arches supports the same
-> versions, regardless of whether there were any changes or not.
->
-> ie if an app wants to set QEMU 6.1.0 as the baseline, they want
-> to be able to set  virt-6.1 for aarch64, for mips, for riscv,
-> instead of having to figure out which versions exists for each
-> arch
+I was kind of thinking it was expected for incompatible machine
+versions to be qemu versioned. But I'm good with skipping that bit if
+it's not.
 
-With a bit more logic the management app could easily implement this 
-either by dereferencing the alias when creating the VM, say virt is an 
-alias of virt-6,0 in QEMU 6.2 then put virt-6.0 in the VM config which 
-then will work on anyting newer than QEMU 6.0. Or record the QEMU version 
-in VM config when creating the VM saying this needs at least QEMU 6.1 then 
-if there's no virt-6.1 or virt points to something newer then go back to 
-the biggest version less than 6.1 (this might be more difficult due to 
-changes in QEMU versioning but if we assume that at least they are 
-increasing numbers it should be possible to find the largest version less 
-than 6.1 for example). That way when a user types -machine help they won't 
-get a large list of useless versioned machines that are mostly the same 
-anyway. This looks like a case that a lazy management sofrware pollutes 
-the human interface while it could handle it itself. But that's just my 
-opinion, I don't use these too much so don't care too much either. It just 
-looked like something that is putting a burden both on users and 
-debelopers (having to add more compatiblity stuff to code that's already 
-heavy on boilerplate) for something that could be handled within the 
-management software. But maybe it's too late to change at this point.
-
-Regards,
-BALATON Zoltan
---3866299591-978984826-1636487938=:9941--
+/
+    Leif
 
