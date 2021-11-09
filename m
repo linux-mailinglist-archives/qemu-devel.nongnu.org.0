@@ -2,88 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A769B44B24C
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 19:04:30 +0100 (CET)
-Received: from localhost ([::1]:33266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AEFC44B209
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 18:34:41 +0100 (CET)
+Received: from localhost ([::1]:58678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkVTx-0005Rx-JW
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 13:04:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37052)
+	id 1mkV16-0008MJ-8w
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 12:34:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shital_909@yahoo.com>)
- id 1mkUs9-0000Sc-UN
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 12:25:26 -0500
-Received: from sonic304-24.consmr.mail.gq1.yahoo.com ([98.137.68.205]:46202)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shital_909@yahoo.com>)
- id 1mkUs6-0001vb-0y
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 12:25:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1636478717; bh=p+SvCzXYYQJKq2Ki9O6hkadhAMi0aBYbwon4pwTkGAk=;
- h=Date:From:To:Subject:References:From:Subject:Reply-To;
- b=LrGAntYJTIspnibh6PJvVstcl/TJz9DdU1QoHipmm/DW8eYcGs1CVQuKgTsQbp0kLQDWe2+c930p0HoiAgmdJiTmqQ1zlLfzl6lxAghoIHzDjxQGMY9mXkzTUzcVN6SL1tfd9Xc0Id6/ArM/mLMgXbLTvAe93UR46CdMmUJelAmyIGPNffRlGIebyyh6PGTgiBPPCYRMW1oT2+PJ7zbKfLPkmmB5/11iqtwo6QoJhGFXvp+UWSd4jO/XjMehDvG4wTAC5adgf382PYPx8JeOcLf3bCHPbMvirHK2dhK6HW7VF9d5AY0OAdI50vzWbkjrp5E772ru/FuROQLn0xJzow==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1636478717; bh=DYwQt+k3xy+ZVmcO3TaYtxFl/x0DTrcvrmUZx7E1Kvh=;
- h=X-Sonic-MF:Date:From:To:Subject:From:Subject;
- b=A+AK/7inxc/DRtNhqRtrwop9o3478LrOKnB4J76T85rVYNKRdqpUPZEDoCWH5TPRWDhJ4PPif5//yV4UOX8Oo8QbpCSpnGB455vpPde9rV0x1hXGgQkCDLTqBddg9qbqsV39yFaYRRJ+I4UfBs0MkiC6U58x2EvceIsti+JsMVMuVg9tQD74SMs0qxiGiL5KVQyCww1Grv8PP0pAooqD05lAkkw/j9LtJBy19q0gv2IxwdrvesJnjNQh5yOqZgh2P76wzksMK8As2LadAiGZYpJUW5DqScrxs2ZCwc6HVu1u2+b89gwWHMD1byl4gFgDnbjOwKCjV2Vzf/9Bde72kg==
-X-YMail-OSG: NA1gOIMVM1lqwUkvV1JowmNMustIYvEt6FsVH9KXp5GMjr4XiOYSGka.B1N8CCt
- W2LYVSquBmSlj6CvQcf3JMiX8wI.TKaYMr73P9BH9RtKih64UEPM3U49EgPvtckOdj6TUd_TjPm.
- SEac_GNz_m1NOGDKcIoC2SE2WaJlJG3u3884T07VrwVdIdmf3Zssymt_UoIohagL5378iiJ7eUpi
- 9cHBJ1Av7l0NVyqxppbdFtvH83GLAsIrV7OVhH.pjLOgrNNe9SaDeZUl0DBgQBEnVYwhQh1s6y46
- GJ65otY4zeJORd9KLYt0NN_o.ne9qCNmUxurYOcczRHEIH4Gp2Z1Ox.AFvemWK9..J5S3_WTu_uS
- X0ulocVe4f6P4rzazz.eRsmxEB30ipZFPLomUpima1xy34OvrLJnwKvcBSxdZKBgSPdlg9hojig8
- yaKhmmoILS6SiXf2JPj24hZn3l8Bieo9uwwGLqR_116xdeWWOovs8Xt3Vp_NIbjQvLs5ooQgGyII
- F8qlRpc6HEG_1xvrIubwtGIWii0fbmfCjv6KD.gwaTR8ubERvVwFrjXu94D4cmRSVY5e.I7Wj5V6
- natQK1hApcd3Lqj1k91qLxc7WV408xCUzK0pONAnGNS.uWq0iYak.XSHpMYWgZDuObKMyDP8m6Xq
- BheXbD5T6c7Jq8WaKM.YTZnKxjlIS49pW6h9v8S0RfWHpmmS1Nh9bRepELrYjL4GRUumQjN58OtI
- gfvdUJ3GMOaew.vmNokmRln1yEmf3zcWu4M0VWKPf4tgRcT7wJJ1zkkK9FAJMPK8aojh0.D_pyNs
- 0Y7eukl.7JUtBIGOLhlBd6qhi8TPO.e96rNjZByFYAA3pkIdc14EoadkYf5qK6NTHyIFF1ZbhZkl
- UUHio1rLiBTS157TM6_9SUZvmRVAxYW3LAjLD1Z7a7oJRgCRRGADJaetPtzt4nEhIHAntZ0c6gVR
- yB4adYOULACZB2xK8Yft.yWiz79ShPMAQQteYC8nZtydbbWxGB8ryQOgG8cqtBQuvYmPowYd60ch
- 4dS.ck5GJn_yFlaAh3orLXYfI4NNNBXk_hT9anJha5ZhVkCB7v3X1Topo0YzRaXd9_K.dnEzKlC9
- eiUjdgvwG__TvOsn.Sbrxl.5QlMDNaTeiKgLjlhpHs3KGuBMAF5EuBZtYOMfSIJD_cmtfCWahepr
- L2IH39rugR11_81k5ehwHvLpZdJIHPI2xACE3b4Vl6SIrgX_JrJpmxZv7nWKyB74FCtLYr94DVsZ
- .MVttRKkuPzAbREUnkwiqROHLozSAB5x40H8hcWP.OOdIFxPwyJ3aJQunPifKNTPo3KavDkWBKTU
- Nu4BbKQ4vReJ_ncARGsuPbs2dF.DCPHlcpvVv1xRymAhJ95wXqMUBPmOE7rgiEQOTE9uzvI2avqO
- wX3ge.NZWPIyxfK0LX3VYNaTqv4NKCS6KdePONKmSyGjkbBPqgHoAofaRiT_anx4eNZY94NAOD_r
- d4sxJ1UUvbCiQEgGKc83xP7jKz3jz8gAB29_eK6bzfdPe77oJEIDgNw0yyxRTFZ7HjDy9gAfld3r
- 4bJ.g2uXiFTW5lFo3a5gZAs4XQeVMWH.UtXuqLNIupOIrpM.7y0QXkE8XXrbWL4Ekg3z_JjDM2LJ
- Lzy1vfgEp7nKMQiQPVO0n4VWLYqojzPNPG1xg.WDPFd.TxpnCfKYwO0zCGYmj_LW_d5hKEIZIBTX
- 1UEjn5jvGbpsnrAATXd7AnO7zKKCFw0o_yjDq2OTNyIrLaRincuUZgFH_d1TEyRPmhx1BuLRCBCT
- PF36.xu.j1FLmUBFHeOYHVswqEOK8Q73bOLeugvP1kEJsSTYC2Ly5PeS70Nd6MSW5Aad5Aa4.iZt
- tkP4Q3d6L2nuouL3pN4Jb9EUb6VLI9n5MOzDaTS2Icrv9AMUV4y0nlC3rEKPaAOPud0h.kvUnqRH
- l9_H.prqqwmjQT.5zq9UkiVkzkbkKDq6bikXt58Wi5YIXsq_NqwYHgeKt7tjq8y8b59E8qhdL1Sy
- dO507z1wk4a0vpX2G8nO2F2vRe6zN96My9fxEmOKN9QjL.5KR7t8ATPZigQ3veFV3mZgXNPGgaMu
- vyLfcT5.ZgyJY68lepsO8C7N6Z02et__CHBdjso_v.AcM4uMw91PZ_F74cfUVrtoOAtuW5E1mDQd
- D6X2rSIf4PG.GndNuFt1GvBbqbD2InumH8jwYcde6Q28yhxcj935XWqAHaG1qU9OpxYU-
-X-Sonic-MF: <shital_909@yahoo.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic304.consmr.mail.gq1.yahoo.com with HTTP; Tue, 9 Nov 2021 17:25:17 +0000
-Date: Tue, 9 Nov 2021 17:25:14 +0000 (UTC)
-From: Shitalkumar Gandhi <shital_909@yahoo.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Message-ID: <253794259.1853610.1636478714403@mail.yahoo.com>
-Subject: SME : Please review and merge : hw/arm/aspeed: Added eMMC boot
- support for AST2600 image.
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1mkUz5-0006Rn-Tj; Tue, 09 Nov 2021 12:32:36 -0500
+Received: from [201.28.113.2] (port=48658 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1mkUyz-0003hR-LK; Tue, 09 Nov 2021 12:32:35 -0500
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 9 Nov 2021 14:32:14 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id 47353800E8B;
+ Tue,  9 Nov 2021 14:32:14 -0300 (-03)
+Subject: Re: [PATCH v2 03/34] target/ppc: Move load and store floating point
+ instructions to decodetree
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20211029202424.175401-1-matheus.ferst@eldorado.org.br>
+ <20211029202424.175401-4-matheus.ferst@eldorado.org.br>
+ <69796ce5-0709-f9da-ff1e-1dd0ac5de414@ilande.co.uk>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+Message-ID: <c799859a-4fdc-9d69-7a87-5e69cee15ef3@eldorado.org.br>
+Date: Tue, 9 Nov 2021 14:32:14 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
- boundary="----=_Part_1853609_816390374.1636478714403"
-References: <253794259.1853610.1636478714403.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.19266 YMailNorrin
-Received-SPF: pass client-ip=98.137.68.205; envelope-from=shital_909@yahoo.com;
- helo=sonic304-24.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -7
-X-Spam_score: -0.8
-X-Spam_bar: /
-X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, FREEMAIL_REPLY=1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_KAM_HTML_FONT_INVALID=0.01 autolearn=no autolearn_force=no
+In-Reply-To: <69796ce5-0709-f9da-ff1e-1dd0ac5de414@ilande.co.uk>
+Content-Type: multipart/mixed; boundary="------------09DBA87EC5D66C268DC5A2A7"
+Content-Language: en-US
+X-OriginalArrivalTime: 09 Nov 2021 17:32:14.0920 (UTC)
+ FILETIME=[BC6FC480:01D7D58F]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.364,
+ PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 09 Nov 2021 13:02:32 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,114 +61,690 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fernando Eckhardt Valle <phervalle@gmail.com>, lucas.castro@eldorado.org.br,
+ richard.henderson@linaro.org, groug@kaod.org, luis.pires@eldorado.org.br,
+ Fernando Eckhardt Valle <fernando.valle@eldorado.org.br>,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------=_Part_1853609_816390374.1636478714403
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_1853608_1805552017.1636478714342"
+This is a multi-part message in MIME format.
+--------------09DBA87EC5D66C268DC5A2A7
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-------=_Part_1853608_1805552017.1636478714342
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On 09/11/2021 10:43, Mark Cave-Ayland wrote:
+> On 29/10/2021 21:23, matheus.ferst@eldorado.org.br wrote:
+> 
+>> From: Fernando Eckhardt Valle <phervalle@gmail.com>
+>>
+>> Move load floating point instructions (lfs, lfsu, lfsx, lfsux, lfd, 
+>> lfdu, lfdx, lfdux)
+>> and store floating point instructions(stfs, stfsu, stfsx, stfsux, 
+>> stfd, stfdu, stfdx,
+>> stfdux) from legacy system to decodetree.
+>>
+>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>> Signed-off-by: Fernando Eckhardt Valle <fernando.valle@eldorado.org.br>
+>> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>> ---
+>> v2:
+>> - if instead of top-level ternary operator
+>> ---
+>>   target/ppc/insn32.decode           |  24 +++
+>>   target/ppc/translate/fp-impl.c.inc | 247 +++++++++--------------------
+>>   target/ppc/translate/fp-ops.c.inc  |  29 ----
+>>   3 files changed, 95 insertions(+), 205 deletions(-)
+>>
+>> diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+>> index 6aec1c0728..3837b799c8 100644
+>> --- a/target/ppc/insn32.decode
+>> +++ b/target/ppc/insn32.decode
+>> @@ -193,6 +193,30 @@ ADDPCIS         010011 ..... ..... .......... 
+>> 00010 .   @DX
+>>
+>>   CFUGED          011111 ..... ..... ..... 0011011100 -   @X
+>>
+>> +### Float-Point Load Instructions
+>> +
+>> +LFS             110000 ..... ..... ................     @D
+>> +LFSU            110001 ..... ..... ................     @D
+>> +LFSX            011111 ..... ..... ..... 1000010111 -   @X
+>> +LFSUX           011111 ..... ..... ..... 1000110111 -   @X
+>> +
+>> +LFD             110010 ..... ..... ................     @D
+>> +LFDU            110011 ..... ..... ................     @D
+>> +LFDX            011111 ..... ..... ..... 1001010111 -   @X
+>> +LFDUX           011111 ..... ..... ..... 1001110111 -   @X
+>> +
+>> +### Float-Point Store Instructions
+>> +
+>> +STFS            110100 ..... ...... ...............     @D
+>> +STFSU           110101 ..... ...... ...............     @D
+>> +STFSX           011111 ..... ...... .... 1010010111 -   @X
+>> +STFSUX          011111 ..... ...... .... 1010110111 -   @X
+>> +
+>> +STFD            110110 ..... ...... ...............     @D
+>> +STFDU           110111 ..... ...... ...............     @D
+>> +STFDX           011111 ..... ...... .... 1011010111 -   @X
+>> +STFDUX          011111 ..... ...... .... 1011110111 -   @X
+>> +
+>>   ### Move To/From System Register Instructions
+>>
+>>   SETBC           011111 ..... ..... ----- 0110000000 -   @X_bi
+>> diff --git a/target/ppc/translate/fp-impl.c.inc 
+>> b/target/ppc/translate/fp-impl.c.inc
+>> index 9f7868ee28..57a799db1c 100644
+>> --- a/target/ppc/translate/fp-impl.c.inc
+>> +++ b/target/ppc/translate/fp-impl.c.inc
+>> @@ -854,99 +854,6 @@ static void gen_mtfsfi(DisasContext *ctx)
+>>       gen_helper_float_check_status(cpu_env);
+>>   }
+>>
+>> -/***                         Floating-point 
+>> load                           ***/
+>> -#define GEN_LDF(name, ldop, opc, 
+>> type)                                        \
+>> -static void glue(gen_, name)(DisasContext 
+>> *ctx)                               \
+>> -{                                                                             
+>> \
+>> -    TCGv 
+>> EA;                                                                  \
+>> -    TCGv_i64 
+>> t0;                                                              \
+>> -    if (unlikely(!ctx->fpu_enabled)) 
+>> {                                        \
+>> -        gen_exception(ctx, 
+>> POWERPC_EXCP_FPU);                                 \
+>> -        
+>> return;                                                               \
+>> -    
+>> }                                                                         
+>> \
+>> -    gen_set_access_type(ctx, 
+>> ACCESS_FLOAT);                                   \
+>> -    EA = 
+>> tcg_temp_new();                                                      \
+>> -    t0 = 
+>> tcg_temp_new_i64();                                                  \
+>> -    gen_addr_imm_index(ctx, EA, 
+>> 0);                                           \
+>> -    gen_qemu_##ldop(ctx, t0, 
+>> EA);                                             \
+>> -    set_fpr(rD(ctx->opcode), 
+>> t0);                                             \
+>> -    
+>> tcg_temp_free(EA);                                                        
+>> \
+>> -    
+>> tcg_temp_free_i64(t0);                                                    
+>> \
+>> -}
+>> -
+>> -#define GEN_LDUF(name, ldop, opc, 
+>> type)                                       \
+>> -static void glue(gen_, name##u)(DisasContext 
+>> *ctx)                            \
+>> -{                                                                             
+>> \
+>> -    TCGv 
+>> EA;                                                                  \
+>> -    TCGv_i64 
+>> t0;                                                              \
+>> -    if (unlikely(!ctx->fpu_enabled)) 
+>> {                                        \
+>> -        gen_exception(ctx, 
+>> POWERPC_EXCP_FPU);                                 \
+>> -        
+>> return;                                                               \
+>> -    
+>> }                                                                         
+>> \
+>> -    if (unlikely(rA(ctx->opcode) == 0)) 
+>> {                                     \
+>> -        gen_inval_exception(ctx, 
+>> POWERPC_EXCP_INVAL_INVAL);                   \
+>> -        
+>> return;                                                               \
+>> -    
+>> }                                                                         
+>> \
+>> -    gen_set_access_type(ctx, 
+>> ACCESS_FLOAT);                                   \
+>> -    EA = 
+>> tcg_temp_new();                                                      \
+>> -    t0 = 
+>> tcg_temp_new_i64();                                                  \
+>> -    gen_addr_imm_index(ctx, EA, 
+>> 0);                                           \
+>> -    gen_qemu_##ldop(ctx, t0, 
+>> EA);                                             \
+>> -    set_fpr(rD(ctx->opcode), 
+>> t0);                                             \
+>> -    tcg_gen_mov_tl(cpu_gpr[rA(ctx->opcode)], 
+>> EA);                             \
+>> -    
+>> tcg_temp_free(EA);                                                        
+>> \
+>> -    
+>> tcg_temp_free_i64(t0);                                                    
+>> \
+>> -}
+>> -
+>> -#define GEN_LDUXF(name, ldop, opc, 
+>> type)                                      \
+>> -static void glue(gen_, name##ux)(DisasContext 
+>> *ctx)                           \
+>> -{                                                                             
+>> \
+>> -    TCGv 
+>> EA;                                                                  \
+>> -    TCGv_i64 
+>> t0;                                                              \
+>> -    if (unlikely(!ctx->fpu_enabled)) 
+>> {                                        \
+>> -        gen_exception(ctx, 
+>> POWERPC_EXCP_FPU);                                 \
+>> -        
+>> return;                                                               \
+>> -    
+>> }                                                                         
+>> \
+>> -    t0 = 
+>> tcg_temp_new_i64();                                                  \
+>> -    if (unlikely(rA(ctx->opcode) == 0)) 
+>> {                                     \
+>> -        gen_inval_exception(ctx, 
+>> POWERPC_EXCP_INVAL_INVAL);                   \
+>> -        
+>> return;                                                               \
+>> -    
+>> }                                                                         
+>> \
+>> -    gen_set_access_type(ctx, 
+>> ACCESS_FLOAT);                                   \
+>> -    EA = 
+>> tcg_temp_new();                                                      \
+>> -    gen_addr_reg_index(ctx, 
+>> EA);                                              \
+>> -    gen_qemu_##ldop(ctx, t0, 
+>> EA);                                             \
+>> -    set_fpr(rD(ctx->opcode), 
+>> t0);                                             \
+>> -    tcg_gen_mov_tl(cpu_gpr[rA(ctx->opcode)], 
+>> EA);                             \
+>> -    
+>> tcg_temp_free(EA);                                                        
+>> \
+>> -    
+>> tcg_temp_free_i64(t0);                                                    
+>> \
+>> -}
+>> -
+>> -#define GEN_LDXF(name, ldop, opc2, opc3, 
+>> type)                                \
+>> -static void glue(gen_, name##x)(DisasContext 
+>> *ctx)                            \
+>> -{                                                                             
+>> \
+>> -    TCGv 
+>> EA;                                                                  \
+>> -    TCGv_i64 
+>> t0;                                                              \
+>> -    if (unlikely(!ctx->fpu_enabled)) 
+>> {                                        \
+>> -        gen_exception(ctx, 
+>> POWERPC_EXCP_FPU);                                 \
+>> -        
+>> return;                                                               \
+>> -    
+>> }                                                                         
+>> \
+>> -    gen_set_access_type(ctx, 
+>> ACCESS_FLOAT);                                   \
+>> -    EA = 
+>> tcg_temp_new();                                                      \
+>> -    t0 = 
+>> tcg_temp_new_i64();                                                  \
+>> -    gen_addr_reg_index(ctx, 
+>> EA);                                              \
+>> -    gen_qemu_##ldop(ctx, t0, 
+>> EA);                                             \
+>> -    set_fpr(rD(ctx->opcode), 
+>> t0);                                             \
+>> -    
+>> tcg_temp_free(EA);                                                        
+>> \
+>> -    
+>> tcg_temp_free_i64(t0);                                                    
+>> \
+>> -}
+>> -
+>> -#define GEN_LDFS(name, ldop, op, 
+>> type)                                        \
+>> -GEN_LDF(name, ldop, op | 0x20, 
+>> type);                                         \
+>> -GEN_LDUF(name, ldop, op | 0x21, 
+>> type);                                        \
+>> -GEN_LDUXF(name, ldop, op | 0x01, 
+>> type);                                       \
+>> -GEN_LDXF(name, ldop, 0x17, op | 0x00, type)
+>> -
+>>   static void gen_qemu_ld32fs(DisasContext *ctx, TCGv_i64 dest, TCGv 
+>> addr)
+>>   {
+>>       TCGv_i32 tmp = tcg_temp_new_i32();
+>> @@ -955,11 +862,6 @@ static void gen_qemu_ld32fs(DisasContext *ctx, 
+>> TCGv_i64 dest, TCGv addr)
+>>       tcg_temp_free_i32(tmp);
+>>   }
+>>
+>> - /* lfd lfdu lfdux lfdx */
+>> -GEN_LDFS(lfd, ld64_i64, 0x12, PPC_FLOAT);
+>> - /* lfs lfsu lfsux lfsx */
+>> -GEN_LDFS(lfs, ld32fs, 0x10, PPC_FLOAT);
+>> -
+>>   /* lfdepx (external PID lfdx) */
+>>   static void gen_lfdepx(DisasContext *ctx)
+>>   {
+>> @@ -1089,73 +991,6 @@ static void gen_lfiwzx(DisasContext *ctx)
+>>       tcg_temp_free(EA);
+>>       tcg_temp_free_i64(t0);
+>>   }
+>> -/***                         Floating-point 
+>> store                          ***/
+>> -#define GEN_STF(name, stop, opc, 
+>> type)                                        \
+>> -static void glue(gen_, name)(DisasContext 
+>> *ctx)                               \
+>> -{                                                                             
+>> \
+>> -    TCGv 
+>> EA;                                                                  \
+>> -    TCGv_i64 
+>> t0;                                                              \
+>> -    if (unlikely(!ctx->fpu_enabled)) 
+>> {                                        \
+>> -        gen_exception(ctx, 
+>> POWERPC_EXCP_FPU);                                 \
+>> -        
+>> return;                                                               \
+>> -    
+>> }                                                                         
+>> \
+>> -    gen_set_access_type(ctx, 
+>> ACCESS_FLOAT);                                   \
+>> -    EA = 
+>> tcg_temp_new();                                                      \
+>> -    t0 = 
+>> tcg_temp_new_i64();                                                  \
+>> -    gen_addr_imm_index(ctx, EA, 
+>> 0);                                           \
+>> -    get_fpr(t0, 
+>> rS(ctx->opcode));                                             \
+>> -    gen_qemu_##stop(ctx, t0, 
+>> EA);                                             \
+>> -    
+>> tcg_temp_free(EA);                                                        
+>> \
+>> -    
+>> tcg_temp_free_i64(t0);                                                    
+>> \
+>> -}
+>> -
+>> -#define GEN_STUF(name, stop, opc, 
+>> type)                                       \
+>> -static void glue(gen_, name##u)(DisasContext 
+>> *ctx)                            \
+>> -{                                                                             
+>> \
+>> -    TCGv 
+>> EA;                                                                  \
+>> -    TCGv_i64 
+>> t0;                                                              \
+>> -    if (unlikely(!ctx->fpu_enabled)) 
+>> {                                        \
+>> -        gen_exception(ctx, 
+>> POWERPC_EXCP_FPU);                                 \
+>> -        
+>> return;                                                               \
+>> -    
+>> }                                                                         
+>> \
+>> -    if (unlikely(rA(ctx->opcode) == 0)) 
+>> {                                     \
+>> -        gen_inval_exception(ctx, 
+>> POWERPC_EXCP_INVAL_INVAL);                   \
+>> -        
+>> return;                                                               \
+>> -    
+>> }                                                                         
+>> \
+>> -    gen_set_access_type(ctx, 
+>> ACCESS_FLOAT);                                   \
+>> -    EA = 
+>> tcg_temp_new();                                                      \
+>> -    t0 = 
+>> tcg_temp_new_i64();                                                  \
+>> -    gen_addr_imm_index(ctx, EA, 
+>> 0);                                           \
+>> -    get_fpr(t0, 
+>> rS(ctx->opcode));                                             \
+>> -    gen_qemu_##stop(ctx, t0, 
+>> EA);                                             \
+>> -    tcg_gen_mov_tl(cpu_gpr[rA(ctx->opcode)], 
+>> EA);                             \
+>> -    
+>> tcg_temp_free(EA);                                                        
+>> \
+>> -    
+>> tcg_temp_free_i64(t0);                                                    
+>> \
+>> -}
+>> -
+>> -#define GEN_STUXF(name, stop, opc, 
+>> type)                                      \
+>> -static void glue(gen_, name##ux)(DisasContext 
+>> *ctx)                           \
+>> -{                                                                             
+>> \
+>> -    TCGv 
+>> EA;                                                                  \
+>> -    TCGv_i64 
+>> t0;                                                              \
+>> -    if (unlikely(!ctx->fpu_enabled)) 
+>> {                                        \
+>> -        gen_exception(ctx, 
+>> POWERPC_EXCP_FPU);                                 \
+>> -        
+>> return;                                                               \
+>> -    
+>> }                                                                         
+>> \
+>> -    if (unlikely(rA(ctx->opcode) == 0)) 
+>> {                                     \
+>> -        gen_inval_exception(ctx, 
+>> POWERPC_EXCP_INVAL_INVAL);                   \
+>> -        
+>> return;                                                               \
+>> -    
+>> }                                                                         
+>> \
+>> -    gen_set_access_type(ctx, 
+>> ACCESS_FLOAT);                                   \
+>> -    EA = 
+>> tcg_temp_new();                                                      \
+>> -    t0 = 
+>> tcg_temp_new_i64();                                                  \
+>> -    gen_addr_reg_index(ctx, 
+>> EA);                                              \
+>> -    get_fpr(t0, 
+>> rS(ctx->opcode));                                             \
+>> -    gen_qemu_##stop(ctx, t0, 
+>> EA);                                             \
+>> -    tcg_gen_mov_tl(cpu_gpr[rA(ctx->opcode)], 
+>> EA);                             \
+>> -    
+>> tcg_temp_free(EA);                                                        
+>> \
+>> -    
+>> tcg_temp_free_i64(t0);                                                    
+>> \
+>> -}
+>>
+>>   #define GEN_STXF(name, stop, opc2, opc3, 
+>> type)                                \
+>>   static void glue(gen_, name##x)(DisasContext 
+>> *ctx)                            \
+>> @@ -1176,12 +1011,6 @@ static void glue(gen_, name##x)(DisasContext 
+>> *ctx)                            \
+>>       
+>> tcg_temp_free_i64(t0);                                                    
+>> \
+>>   }
+>>
+>> -#define GEN_STFS(name, stop, op, 
+>> type)                                        \
+>> -GEN_STF(name, stop, op | 0x20, 
+>> type);                                         \
+>> -GEN_STUF(name, stop, op | 0x21, 
+>> type);                                        \
+>> -GEN_STUXF(name, stop, op | 0x01, 
+>> type);                                       \
+>> -GEN_STXF(name, stop, 0x17, op | 0x00, type)
+>> -
+>>   static void gen_qemu_st32fs(DisasContext *ctx, TCGv_i64 src, TCGv addr)
+>>   {
+>>       TCGv_i32 tmp = tcg_temp_new_i32();
+>> @@ -1190,11 +1019,6 @@ static void gen_qemu_st32fs(DisasContext *ctx, 
+>> TCGv_i64 src, TCGv addr)
+>>       tcg_temp_free_i32(tmp);
+>>   }
+>>
+>> -/* stfd stfdu stfdux stfdx */
+>> -GEN_STFS(stfd, st64_i64, 0x16, PPC_FLOAT);
+>> -/* stfs stfsu stfsux stfsx */
+>> -GEN_STFS(stfs, st32fs, 0x14, PPC_FLOAT);
+>> -
+>>   /* stfdepx (external PID lfdx) */
+>>   static void gen_stfdepx(DisasContext *ctx)
+>>   {
+>> @@ -1473,6 +1297,77 @@ static void gen_stfqx(DisasContext *ctx)
+>>       tcg_temp_free_i64(t1);
+>>   }
+>>
+>> +/*            Floating-point Load/Store 
+>> Instructions                         */
+>> +static bool do_lsfpsd(DisasContext *ctx, int rt, int ra, TCGv displ,
+>> +                      bool update, bool store, bool single)
+>> +{
+>> +    TCGv ea;
+>> +    TCGv_i64 t0;
+>> +    REQUIRE_INSNS_FLAGS(ctx, FLOAT);
+>> +    REQUIRE_FPU(ctx);
+>> +    if (update && ra == 0) {
+>> +        gen_invalid(ctx);
+>> +        return true;
+>> +    }
+>> +    gen_set_access_type(ctx, ACCESS_FLOAT);
+>> +    t0 = tcg_temp_new_i64();
+>> +    ea = do_ea_calc(ctx, ra, displ);
+>> +    if (store) {
+>> +        get_fpr(t0, rt);
+>> +        if (single) {
+>> +            gen_qemu_st32fs(ctx, t0, ea);
+>> +        } else {
+>> +            gen_qemu_st64_i64(ctx, t0, ea);
+>> +        }
+>> +    } else {
+>> +        if (single) {
+>> +            gen_qemu_ld32fs(ctx, t0, ea);
+>> +        } else {
+>> +            gen_qemu_ld64_i64(ctx, t0, ea);
+>> +        }
+>> +        set_fpr(rt, t0);
+>> +    }
+>> +    if (update) {
+>> +        tcg_gen_mov_tl(cpu_gpr[rt], ea);
+>> +    }
+>> +    tcg_temp_free_i64(t0);
+>> +    tcg_temp_free(ea);
+>> +    return true;
+>> +}
+>> +
+>> +static bool do_lsfp_D(DisasContext *ctx, arg_D *a, bool update, bool 
+>> store,
+>> +                      bool single)
+>> +{
+>> +    return do_lsfpsd(ctx, a->rt, a->ra, tcg_constant_tl(a->si), 
+>> update, store,
+>> +                     single);
+>> +}
+>> +
+>> +static bool do_lsfp_X(DisasContext *ctx, arg_X *a, bool update,
+>> +                      bool store, bool single)
+>> +{
+>> +    return do_lsfpsd(ctx, a->rt, a->ra, cpu_gpr[a->rb], update, 
+>> store, single);
+>> +}
+>> +
+>> +TRANS(LFS, do_lsfp_D, false, false, true)
+>> +TRANS(LFSU, do_lsfp_D, true, false, true)
+>> +TRANS(LFSX, do_lsfp_X, false, false, true)
+>> +TRANS(LFSUX, do_lsfp_X, true, false, true)
+>> +
+>> +TRANS(LFD, do_lsfp_D, false, false, false)
+>> +TRANS(LFDU, do_lsfp_D, true, false, false)
+>> +TRANS(LFDX, do_lsfp_X, false, false, false)
+>> +TRANS(LFDUX, do_lsfp_X, true, false, false)
+>> +
+>> +TRANS(STFS, do_lsfp_D, false, true, true)
+>> +TRANS(STFSU, do_lsfp_D, true, true, true)
+>> +TRANS(STFSX, do_lsfp_X, false, true, true)
+>> +TRANS(STFSUX, do_lsfp_X, true, true, true)
+>> +
+>> +TRANS(STFD, do_lsfp_D, false, true, false)
+>> +TRANS(STFDU, do_lsfp_D, true, true, false)
+>> +TRANS(STFDX, do_lsfp_X, false, true, false)
+>> +TRANS(STFDUX, do_lsfp_X, true, true, false)
+>> +
+>>   #undef _GEN_FLOAT_ACB
+>>   #undef GEN_FLOAT_ACB
+>>   #undef _GEN_FLOAT_AB
+>> diff --git a/target/ppc/translate/fp-ops.c.inc 
+>> b/target/ppc/translate/fp-ops.c.inc
+>> index 88fab65628..4260635a12 100644
+>> --- a/target/ppc/translate/fp-ops.c.inc
+>> +++ b/target/ppc/translate/fp-ops.c.inc
+>> @@ -50,43 +50,14 @@ GEN_FLOAT_B(riz, 0x08, 0x0D, 1, PPC_FLOAT_EXT),
+>>   GEN_FLOAT_B(rip, 0x08, 0x0E, 1, PPC_FLOAT_EXT),
+>>   GEN_FLOAT_B(rim, 0x08, 0x0F, 1, PPC_FLOAT_EXT),
+>>
+>> -#define GEN_LDF(name, ldop, opc, 
+>> type)                                        \
+>> -GEN_HANDLER(name, opc, 0xFF, 0xFF, 0x00000000, type),
+>> -#define GEN_LDUF(name, ldop, opc, 
+>> type)                                       \
+>> -GEN_HANDLER(name##u, opc, 0xFF, 0xFF, 0x00000000, type),
+>> -#define GEN_LDUXF(name, ldop, opc, 
+>> type)                                      \
+>> -GEN_HANDLER(name##ux, 0x1F, 0x17, opc, 0x00000001, type),
+>> -#define GEN_LDXF(name, ldop, opc2, opc3, 
+>> type)                                \
+>> -GEN_HANDLER(name##x, 0x1F, opc2, opc3, 0x00000001, type),
+>> -#define GEN_LDFS(name, ldop, op, 
+>> type)                                        \
+>> -GEN_LDF(name, ldop, op | 0x20, 
+>> type)                                          \
+>> -GEN_LDUF(name, ldop, op | 0x21, 
+>> type)                                         \
+>> -GEN_LDUXF(name, ldop, op | 0x01, 
+>> type)                                        \
+>> -GEN_LDXF(name, ldop, 0x17, op | 0x00, type)
+>> -
+>> -GEN_LDFS(lfd, ld64, 0x12, PPC_FLOAT)
+>> -GEN_LDFS(lfs, ld32fs, 0x10, PPC_FLOAT)
+>>   GEN_HANDLER_E(lfdepx, 0x1F, 0x1F, 0x12, 0x00000001, PPC_NONE, 
+>> PPC2_BOOKE206),
+>>   GEN_HANDLER_E(lfiwax, 0x1f, 0x17, 0x1a, 0x00000001, PPC_NONE, 
+>> PPC2_ISA205),
+>>   GEN_HANDLER_E(lfiwzx, 0x1f, 0x17, 0x1b, 0x1, PPC_NONE, 
+>> PPC2_FP_CVT_ISA206),
+>>   GEN_HANDLER_E(lfdpx, 0x1F, 0x17, 0x18, 0x00200001, PPC_NONE, 
+>> PPC2_ISA205),
+>>
+>> -#define GEN_STF(name, stop, opc, 
+>> type)                                        \
+>> -GEN_HANDLER(name, opc, 0xFF, 0xFF, 0x00000000, type),
+>> -#define GEN_STUF(name, stop, opc, 
+>> type)                                       \
+>> -GEN_HANDLER(name##u, opc, 0xFF, 0xFF, 0x00000000, type),
+>> -#define GEN_STUXF(name, stop, opc, 
+>> type)                                      \
+>> -GEN_HANDLER(name##ux, 0x1F, 0x17, opc, 0x00000001, type),
+>>   #define GEN_STXF(name, stop, opc2, opc3, 
+>> type)                                \
+>>   GEN_HANDLER(name##x, 0x1F, opc2, opc3, 0x00000001, type),
+>> -#define GEN_STFS(name, stop, op, 
+>> type)                                        \
+>> -GEN_STF(name, stop, op | 0x20, 
+>> type)                                          \
+>> -GEN_STUF(name, stop, op | 0x21, 
+>> type)                                         \
+>> -GEN_STUXF(name, stop, op | 0x01, 
+>> type)                                        \
+>> -GEN_STXF(name, stop, 0x17, op | 0x00, type)
+>>
+>> -GEN_STFS(stfd, st64_i64, 0x16, PPC_FLOAT)
+>> -GEN_STFS(stfs, st32fs, 0x14, PPC_FLOAT)
+>>   GEN_STXF(stfiw, st32fiw, 0x17, 0x1E, PPC_FLOAT_STFIWX)
+>>   GEN_HANDLER_E(stfdepx, 0x1F, 0x1F, 0x16, 0x00000001, PPC_NONE, 
+>> PPC2_BOOKE206),
+>>   GEN_HANDLER_E(stfdpx, 0x1F, 0x17, 0x1C, 0x00200001, PPC_NONE, 
+>> PPC2_ISA205),
+> 
+> This commit appears to break both MacOS 9 and OS X under qemu-system-ppc 
+> in my boot
+> tests: MacOS 9 hangs early on startup, whilst OS X now has black box 
+> artifacts on
+> some GUI widgets (see attached).
 
+It seems that we're updating the wrong register (RT instead of RA). Can 
+you test the attached patch?
 
+> Any idea what could be happening here? Note that this series isn't 
+> bisectable - it is
+> necessary to forward-port the REQUIRE_FPU macro in order to build this 
+> commit for
+> PPC32, and I also found errors relating to undefined times_* functions 
+> during bisection.
 
-Hi SME's,
+REQUIRE_FPU and the times_* functions come from the DFP patch series, in 
+which this series is based-on, so "target/ppc: Introduce REQUIRE_FPU" 
+was supposed to be merged before this patch. Maybe something went wrong 
+when these series were partially applied
 
-Please see the attached patch, which has been added to the boot eMMC image =
-for AST2600 machine on QEMU.
+Thanks,
+Matheus K. Ferst
+Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
+Analista de Software
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
-
-qemu should be run as follows:
-
-./qemu-system-arm -m 1G -M ast2600-evb -nographic -drive
-file=3Dmmc-evb-ast2600.img,format=3Draw,if=3Dsd,index=3D2
-
-Tested: Booted AST2600 eMMC image on QEMU.
-
-Suggested-by: Troy Lee=C2=A0leetroy@gmail.com
-Reviewed-by: Troy Lee=C2=A0leetroy@gmail.com
-Reviewed-by: Andrew Jeffery=C2=A0andrew@aj.id.au
-Signed-off-by: Shitalkumar Gandhi=C2=A0shitalkumar.gandhi@seagate.com
-
-
-
-BR,
-Shitalkumar Gandhi
-------=_Part_1853608_1805552017.1636478714342
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<html><head></head><body><div class=3D"ydpdf28a5ceyahoo-style-wrap" style=
-=3D"font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:13px=
-;"><div dir=3D"ltr" data-setdir=3D"false"><div><p style=3D"margin-bottom: 1=
-6px; color: rgb(36, 41, 47); font-family: -apple-system, BlinkMacSystemFont=
-, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji=
-; font-size: 14px; margin-top: 0px !important;" dir=3D"ltr" data-setdir=3D"=
-false"></p><div>Hi SME's,<br><br>Please see the attached patch, which has b=
-een added to the boot eMMC image for AST2600 machine on QEMU.</div><p></p><=
-p style=3D"margin-top: 0px; margin-bottom: 16px; color: rgb(36, 41, 47); fo=
-nt-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, s=
-ans-serif, Apple Color Emoji, Segoe UI Emoji; font-size: 14px;">qemu should=
- be run as follows:</p><p style=3D"margin-top: 0px; margin-bottom: 16px; co=
-lor: rgb(36, 41, 47); font-family: -apple-system, BlinkMacSystemFont, Segoe=
- UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji; font-=
-size: 14px;">./qemu-system-arm -m 1G -M ast2600-evb -nographic -drive<br>fi=
-le=3Dmmc-evb-ast2600.img,format=3Draw,if=3Dsd,index=3D2</p><p style=3D"marg=
-in-top: 0px; margin-bottom: 16px; color: rgb(36, 41, 47); font-family: -app=
-le-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Appl=
-e Color Emoji, Segoe UI Emoji; font-size: 14px;">Tested: Booted AST2600 eMM=
-C image on QEMU.</p><p style=3D"margin-top: 0px; color: rgb(36, 41, 47); fo=
-nt-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, s=
-ans-serif, Apple Color Emoji, Segoe UI Emoji; font-size: 14px; margin-botto=
-m: 0px !important;">Suggested-by: Troy Lee&nbsp;<a href=3D"mailto:leetroy@g=
-mail.com" style=3D"background-color: transparent;" rel=3D"nofollow" target=
-=3D"_blank">leetroy@gmail.com</a><br>Reviewed-by: Troy Lee&nbsp;<a href=3D"=
-mailto:leetroy@gmail.com" style=3D"background-color: transparent;" rel=3D"n=
-ofollow" target=3D"_blank">leetroy@gmail.com</a><br>Reviewed-by: Andrew Jef=
-fery&nbsp;<a href=3D"mailto:andrew@aj.id.au" style=3D"background-color: tra=
-nsparent;" rel=3D"nofollow" target=3D"_blank">andrew@aj.id.au</a><br>Signed=
--off-by: Shitalkumar Gandhi&nbsp;<a href=3D"mailto:shitalkumar.gandhi@seaga=
-te.com" style=3D"background-color: transparent;" rel=3D"nofollow" target=3D=
-"_blank">shitalkumar.gandhi@seagate.com</a></p></div><br><br></div><div><br=
-></div><div class=3D"ydpdf28a5cesignature"><div dir=3D"ltr" style=3D"font-f=
-amily:Helvetica, Arial, sans-serif;font-size:13px;"><div><span style=3D"fon=
-t-family:Helvetica, Arial, sans-serif;">BR,</span><br clear=3D"none" style=
-=3D"font-family:Helvetica, Arial, sans-serif;"><span style=3D"font-family:H=
-elvetica, Arial, sans-serif;">Shitalkumar Gandhi</span></div></div></div></=
-div></body></html>
-------=_Part_1853608_1805552017.1636478714342--
-
-------=_Part_1853609_816390374.1636478714403
-Content-Type: application/octet-stream
-Content-Transfer-Encoding: base64
+--------------09DBA87EC5D66C268DC5A2A7
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-fixup-target-ppc-Move-load-and-store-floating-point-.patch"
+Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-hw-arm-aspeed-Added-eMMC-boot-support-for-AST2600-im.patch"
-Content-ID: <cbb8e1ab-66f5-c9f8-018c-420b0fcbd1de@yahoo.com>
+ filename*0="0001-fixup-target-ppc-Move-load-and-store-floating-point-.pa";
+ filename*1="tch"
 
-RnJvbSA3YTQ4NTZkMDdiYWQxYTk1N2I3ZjZkMDgzNmZiYjJkYTZhOGJlNWI0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBTaGl0YWxrdW1hciBHYW5kaGkgPHNoaXRhbGt1bWFyLmdhbmRo
-aUBzZWFnYXRlLmNvbT4KRGF0ZTogRnJpLCAyNCBTZXAgMjAyMSAyMDo0NjoyMiArMDUzMApTdWJq
-ZWN0OiBbUEFUQ0hdIGh3L2FybS9hc3BlZWQ6IEFkZGVkIGVNTUMgYm9vdCBzdXBwb3J0IGZvciBB
-U1QyNjAwIGltYWdlLgoKVGhpcyBwYXRjaCBoYXMgYmVlbiBhZGRlZCB0byBib290IGVNTUMgaW1h
-Z2UgZm9yIEFTVDI2MDAgbWFjaGluZSBvbgpRRU1VLgoKUnVuIHF1ZW11IGFzIGZvbGxvd3M6Cgou
-L3FlbXUtc3lzdGVtLWFybSAtbSAxRyAtTSBhc3QyNjAwLWV2YiAtbm9ncmFwaGljIC1kcml2ZQpm
-aWxlPW1tYy1ldmItYXN0MjYwMC5pbWcsZm9ybWF0PXJhdyxpZj1zZCxpbmRleD0yCgpUZXN0ZWQ6
-IEJvb3RlZCBBU1QyNjAwIGVNTUMgaW1hZ2Ugb24gUUVNVS4KClN1Z2dlc3RlZC1ieTogVHJveSBM
-ZWUgPGxlZXRyb3lAZ21haWwuY29tPgpSZXZpZXdlZC1ieTogVHJveSBMZWUgPGxlZXRyb3lAZ21h
-aWwuY29tPgpSZXZpZXdlZC1ieTogQW5kcmV3IEplZmZlcnkgPGFuZHJld0Bhai5pZC5hdT4KU2ln
-bmVkLW9mZi1ieTogU2hpdGFsa3VtYXIgR2FuZGhpIDxzaGl0YWxrdW1hci5nYW5kaGlAc2VhZ2F0
-ZS5jb20+Ci0tLQogaHcvYXJtL2FzcGVlZC5jIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5z
-ZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvaHcvYXJtL2FzcGVlZC5jIGIv
-aHcvYXJtL2FzcGVlZC5jCmluZGV4IGJhNWYxZGM1YWYuLjZhODkwYWRiODMgMTAwNjQ0Ci0tLSBh
-L2h3L2FybS9hc3BlZWQuYworKysgYi9ody9hcm0vYXNwZWVkLmMKQEAgLTE0OCw3ICsxNDgsNyBA
-QCBzdHJ1Y3QgQXNwZWVkTWFjaGluZVN0YXRlIHsKICAgICAgICAgU0NVX0FTVDI0MDBfSFdfU1RS
-QVBfQk9PVF9NT0RFKEFTVDI0MDBfU1BJX0JPT1QpKQogCiAvKiBBU1QyNjAwIGV2YiBoYXJkd2Fy
-ZSB2YWx1ZSAqLwotI2RlZmluZSBBU1QyNjAwX0VWQl9IV19TVFJBUDEgMHgwMDAwMDBDMAorI2Rl
-ZmluZSBBU1QyNjAwX0VWQl9IV19TVFJBUDEgKDB4MDAwMDAwQzAgfCBBU1QyNjUwMF9IV19TVFJB
-UF9CT09UX1NSQ19FTU1DKQogI2RlZmluZSBBU1QyNjAwX0VWQl9IV19TVFJBUDIgMHgwMDAwMDAw
-MwogCiAvKiBUYWNvbWEgaGFyZHdhcmUgdmFsdWUgKi8KLS0gCjIuMzAuMgoK
+From 0ae11665ca66f3c304f3027513a140fab28d4bc2 Mon Sep 17 00:00:00 2001
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+Date: Tue, 9 Nov 2021 13:57:30 -0300
+Subject: [PATCH] fixup! target/ppc: Move load and store floating point instructions to decodetree
 
-------=_Part_1853609_816390374.1636478714403--
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+---
+ target/ppc/translate/fp-impl.c.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
+index d1dbb1b96b..c9e05201d9 100644
+--- a/target/ppc/translate/fp-impl.c.inc
++++ b/target/ppc/translate/fp-impl.c.inc
+@@ -1328,7 +1328,7 @@ static bool do_lsfpsd(DisasContext *ctx, int rt, int ra, TCGv displ,
+         set_fpr(rt, t0);
+     }
+     if (update) {
+-        tcg_gen_mov_tl(cpu_gpr[rt], ea);
++        tcg_gen_mov_tl(cpu_gpr[ra], ea);
+     }
+     tcg_temp_free_i64(t0);
+     tcg_temp_free(ea);
+-- 
+2.25.1
+
+
+--------------09DBA87EC5D66C268DC5A2A7--
 
