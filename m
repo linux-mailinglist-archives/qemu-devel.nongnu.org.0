@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D5FE44A540
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 04:14:54 +0100 (CET)
-Received: from localhost ([::1]:36408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79DB244A541
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 04:16:45 +0100 (CET)
+Received: from localhost ([::1]:39546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkHb3-0006xu-Cr
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 22:14:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49776)
+	id 1mkHcq-0000hi-Lu
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 22:16:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1mkHZk-0005aU-4v
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 22:13:32 -0500
-Received: from mga07.intel.com ([134.134.136.100]:45864)
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1mkHZm-0005eL-4z
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 22:13:34 -0500
+Received: from mga07.intel.com ([134.134.136.100]:45865)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1mkHZh-0005I9-Eq
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 22:13:30 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10162"; a="295808364"
-X-IronPort-AV: E=Sophos;i="5.87,219,1631602800"; d="scan'208";a="295808364"
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1mkHZk-0005IH-DG
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 22:13:33 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10162"; a="295808371"
+X-IronPort-AV: E=Sophos;i="5.87,219,1631602800"; d="scan'208";a="295808371"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Nov 2021 19:13:26 -0800
+ 08 Nov 2021 19:13:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,219,1631602800"; d="scan'208";a="491490332"
+X-IronPort-AV: E=Sophos;i="5.87,219,1631602800"; d="scan'208";a="491490340"
 Received: from unknown (HELO localhost.localdomain.bj.intel.com)
  ([10.238.156.105])
- by orsmga007.jf.intel.com with ESMTP; 08 Nov 2021 19:13:23 -0800
+ by orsmga007.jf.intel.com with ESMTP; 08 Nov 2021 19:13:26 -0800
 From: "Rao, Lei" <lei.rao@intel.com>
 To: chen.zhang@intel.com, zhang.zhanghailiang@huawei.com, quintela@redhat.com,
  lukasstraub2@web.de, dgilbert@redhat.com
-Subject: [PATCH v7 1/2] Reset the auto-converge counter at every checkpoint.
-Date: Tue,  9 Nov 2021 11:04:54 +0800
-Message-Id: <1636427095-11739-2-git-send-email-lei.rao@intel.com>
+Subject: [PATCH v7 2/2] Reduce the PVM stop time during Checkpoint
+Date: Tue,  9 Nov 2021 11:04:55 +0800
+Message-Id: <1636427095-11739-3-git-send-email-lei.rao@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1636427095-11739-1-git-send-email-lei.rao@intel.com>
 References: <1636427095-11739-1-git-send-email-lei.rao@intel.com>
@@ -61,68 +61,94 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Rao, Lei" <lei.rao@intel.com>
 
-if we don't reset the auto-converge counter,
-it will continue to run with COLO running,
-and eventually the system will hang due to the
-CPU throttle reaching DEFAULT_MIGRATE_MAX_CPU_THROTTLE.
+When flushing memory from ram cache to ram during every checkpoint
+on secondary VM, we can copy continuous chunks of memory instead of
+4096 bytes per time to reduce the time of VM stop during checkpoint.
 
 Signed-off-by: Lei Rao <lei.rao@intel.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Lukas Straub <lukasstraub2@web.de>
 Tested-by: Lukas Straub <lukasstraub2@web.de>
 ---
- migration/colo.c | 4 ++++
- migration/ram.c  | 9 +++++++++
- migration/ram.h  | 1 +
- 3 files changed, 14 insertions(+)
+ migration/ram.c | 48 +++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 45 insertions(+), 3 deletions(-)
 
-diff --git a/migration/colo.c b/migration/colo.c
-index e3b1f13..2415325 100644
---- a/migration/colo.c
-+++ b/migration/colo.c
-@@ -459,6 +459,10 @@ static int colo_do_checkpoint_transaction(MigrationState *s,
-     if (ret < 0) {
-         goto out;
-     }
-+
-+    if (migrate_auto_converge()) {
-+        mig_throttle_counter_reset();
-+    }
-     /*
-      * Only save VM's live state, which not including device state.
-      * TODO: We may need a timeout mechanism to prevent COLO process
 diff --git a/migration/ram.c b/migration/ram.c
-index 847af46..d5f98e6 100644
+index d5f98e6..863035d 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -641,6 +641,15 @@ static void mig_throttle_guest_down(uint64_t bytes_dirty_period,
+@@ -845,6 +845,41 @@ migration_clear_memory_region_dirty_bitmap_range(RAMBlock *rb,
      }
  }
  
-+void mig_throttle_counter_reset(void)
++/*
++ * colo_bitmap_find_diry:find contiguous dirty pages from start
++ *
++ * Returns the page offset within memory region of the start of the contiguout
++ * dirty page
++ *
++ * @rs: current RAM state
++ * @rb: RAMBlock where to search for dirty pages
++ * @start: page where we start the search
++ * @num: the number of contiguous dirty pages
++ */
++static inline
++unsigned long colo_bitmap_find_dirty(RAMState *rs, RAMBlock *rb,
++                                     unsigned long start, unsigned long *num)
 +{
-+    RAMState *rs = ram_state;
++    unsigned long size = rb->used_length >> TARGET_PAGE_BITS;
++    unsigned long *bitmap = rb->bmap;
++    unsigned long first, next;
 +
-+    rs->time_last_bitmap_sync = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-+    rs->num_dirty_pages_period = 0;
-+    rs->bytes_xfer_prev = ram_counters.transferred;
++    *num = 0;
++
++    if (ramblock_is_ignored(rb)) {
++        return size;
++    }
++
++    first = find_next_bit(bitmap, size, start);
++    if (first >= size) {
++        return first;
++    }
++    next = find_next_zero_bit(bitmap, size, first + 1);
++    assert(next >= first);
++    *num = next - first;
++    return first;
 +}
 +
- /**
-  * xbzrle_cache_zero_page: insert a zero page in the XBZRLE cache
-  *
-diff --git a/migration/ram.h b/migration/ram.h
-index dda1988..c515396 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -50,6 +50,7 @@ bool ramblock_is_ignored(RAMBlock *block);
- int xbzrle_cache_resize(uint64_t new_size, Error **errp);
- uint64_t ram_bytes_remaining(void);
- uint64_t ram_bytes_total(void);
-+void mig_throttle_counter_reset(void);
+ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
+                                                 RAMBlock *rb,
+                                                 unsigned long page)
+@@ -3895,19 +3930,26 @@ void colo_flush_ram_cache(void)
+         block = QLIST_FIRST_RCU(&ram_list.blocks);
  
- uint64_t ram_pagesize_summary(void);
- int ram_save_queue_pages(const char *rbname, ram_addr_t start, ram_addr_t len);
+         while (block) {
+-            offset = migration_bitmap_find_dirty(ram_state, block, offset);
++            unsigned long num = 0;
+ 
++            offset = colo_bitmap_find_dirty(ram_state, block, offset, &num);
+             if (!offset_in_ramblock(block,
+                                     ((ram_addr_t)offset) << TARGET_PAGE_BITS)) {
+                 offset = 0;
++                num = 0;
+                 block = QLIST_NEXT_RCU(block, next);
+             } else {
+-                migration_bitmap_clear_dirty(ram_state, block, offset);
++                unsigned long i = 0;
++
++                for (i = 0; i < num; i++) {
++                    migration_bitmap_clear_dirty(ram_state, block, offset + i);
++                }
+                 dst_host = block->host
+                          + (((ram_addr_t)offset) << TARGET_PAGE_BITS);
+                 src_host = block->colo_cache
+                          + (((ram_addr_t)offset) << TARGET_PAGE_BITS);
+-                memcpy(dst_host, src_host, TARGET_PAGE_SIZE);
++                memcpy(dst_host, src_host, TARGET_PAGE_SIZE * num);
++                offset += num;
+             }
+         }
+     }
 -- 
 1.8.3.1
 
