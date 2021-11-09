@@ -2,78 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99DB044A793
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 08:24:35 +0100 (CET)
-Received: from localhost ([::1]:60300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DF4244A755
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 08:04:22 +0100 (CET)
+Received: from localhost ([::1]:51780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkLUg-0006r0-QB
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 02:24:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58100)
+	id 1mkLB7-0006XK-Jl
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 02:04:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mkKnN-0007Hg-9q
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 01:39:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40360)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mkKyz-0007Pf-Ss; Tue, 09 Nov 2021 01:51:49 -0500
+Received: from out28-172.mail.aliyun.com ([115.124.28.172]:43526)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mkKnK-0002rf-HK
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 01:39:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636439985;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9J7JWOUxwQyGvZ/+4OBRK9ClCQ23YPGpOvJ7Xc6gnjk=;
- b=cNl2siZSvdNwXSB4S6nAO/cWs/XFuVmOL29yfDjsZfmWIRQylv/v7SnkX9rbRWXUi/wKKp
- jnfknUGAdHmU10L9iR1kw0hJ4DleCNF8Br9ybxxG8OCMwrlRviksBartd+O+2lsOgUzuIo
- G/768PFfYWR8CmgVo13bCDNe55raOQU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-292--oPDsaZ-Pyy-nGd_CFUsOg-1; Tue, 09 Nov 2021 01:39:43 -0500
-X-MC-Unique: -oPDsaZ-Pyy-nGd_CFUsOg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98D00E744;
- Tue,  9 Nov 2021 06:39:41 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 367325DF5E;
- Tue,  9 Nov 2021 06:39:31 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D550F11380A7; Tue,  9 Nov 2021 07:39:29 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v3 03/19] docs/devel: document expectations for QAPI
- data modelling for QMP
-References: <20210930132349.3601823-1-berrange@redhat.com>
- <20210930132349.3601823-4-berrange@redhat.com>
- <871r45p6er.fsf@dusky.pond.sub.org> <YXrAr3uTFchrH9+N@redhat.com>
- <YYKUKAJEveBv9FP+@redhat.com> <87ilx8h3wk.fsf@dusky.pond.sub.org>
- <YYOfv0buHL/9UMiy@redhat.com>
-Date: Tue, 09 Nov 2021 07:39:29 +0100
-In-Reply-To: <YYOfv0buHL/9UMiy@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Thu, 4 Nov 2021 08:54:23 +0000")
-Message-ID: <87bl2tg7dq.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mkKyv-00009Q-NW; Tue, 09 Nov 2021 01:51:49 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436373|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.201897-0.00202343-0.796079;
+ FP=13473780182429951569|1|1|5|0|-1|-1|-1; HT=ay29a033018047193;
+ MF=zhiwei_liu@c-sky.com; NM=1; PH=DS; RN=6; RT=6; SR=0;
+ TI=SMTPD_---.LptPzow_1636440699; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.LptPzow_1636440699) by smtp.aliyun-inc.com(10.147.40.2);
+ Tue, 09 Nov 2021 14:51:39 +0800
+Subject: Re: [PATCH 11/13] target/riscv: Switch context in exception return
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20211101100143.44356-1-zhiwei_liu@c-sky.com>
+ <20211101100143.44356-12-zhiwei_liu@c-sky.com>
+ <0105910e-fd68-21ea-8ff0-36752dd0b2e7@linaro.org>
+ <272298c9-280d-5b0d-4d57-a8e9a4ab0849@c-sky.com>
+Message-ID: <797199df-cc8c-9f73-6d01-b2325601f00f@c-sky.com>
+Date: Tue, 9 Nov 2021 14:51:39 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <272298c9-280d-5b0d-4d57-a8e9a4ab0849@c-sky.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: none client-ip=115.124.28.172; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-172.mail.aliyun.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.364,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,50 +63,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, Peter Xu <peterx@redhat.com>,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>
+Cc: Alistair.Francis@wdc.com, bin.meng@windriver.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+We only have to process the special CSRs(like vtype/misa) when xlen 
+changes,  according to the explicitly  specified behavior about the CSR 
+width change behavior.
+For normal CSRs, the default behavior in section 2.4 , CSR Width 
+Modulation, is enough.
 
-> On Thu, Nov 04, 2021 at 06:43:23AM +0100, Markus Armbruster wrote:
->> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
->>=20
->> > On Thu, Oct 28, 2021 at 04:24:31PM +0100, Daniel P. Berrang=C3=A9 wrot=
-e:
->> >> On Thu, Oct 28, 2021 at 04:31:40PM +0200, Markus Armbruster wrote:
->> >> > This clashes with my "[PATCH v2 0/9] Configurable policy for handli=
-ng
->> >> > unstable interfaces", which replaces "you must give unstable stuff =
-names
->> >> > starting with 'x-'" by "you must give unstable stuff feature flag
->> >> > 'unstable' (and may give it a name starting with 'x-')".
->> >>=20
->> >> If your series goes in first, I'll update this to take account of it,
->> >> but for now I'll leave it as is.
->> >
->> > This patch has now merged to git master.
->>=20
->> Merge commit e86e00a2493, Nov 3.
->>=20
->> > If you re-post your series feel free to update the new docs, or let
->> > me know if you want me to do it afterwards.
->>=20
->> The latter, because my series went in before yours, in merge commit
->> dd61b91c080, Oct 29 :)
+And if we split the vill out, we will never need this patch. So I will 
+remove it next patch set.
+
+Thanks,
+Zhiwei
+
+On 2021/11/8 下午7:23, LIU Zhiwei wrote:
 >
-> Sigh, I'm blind ! Dunno how i missed that.
-
-I can do it for you (it's such a simple patch), but I'd rather not do it
-in addition to you :)
-
+> On 2021/11/2 上午12:43, Richard Henderson wrote:
+>> On 11/1/21 6:01 AM, LIU Zhiwei wrote:
+>>> After excpetion return, we should give a xlen view of context in new
+>>> priveledge, including the general registers, pc, and CSRs.
+>>>
+>>> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+>>> ---
+>>>   target/riscv/helper.h                         |  1 +
+>>>   .../riscv/insn_trans/trans_privileged.c.inc   |  2 ++
+>>>   target/riscv/op_helper.c                      | 26 
+>>> +++++++++++++++++++
+>>>   3 files changed, 29 insertions(+)
+>>>
+>>> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+>>> index e198d43981..9b379d7232 100644
+>>> --- a/target/riscv/helper.h
+>>> +++ b/target/riscv/helper.h
+>>> @@ -71,6 +71,7 @@ DEF_HELPER_2(sret, tl, env, tl)
+>>>   DEF_HELPER_2(mret, tl, env, tl)
+>>>   DEF_HELPER_1(wfi, void, env)
+>>>   DEF_HELPER_1(tlb_flush, void, env)
+>>> +DEF_HELPER_1(switch_context_xl, void, env)
+>>>   #endif
+>>>     /* Hypervisor functions */
+>>> diff --git a/target/riscv/insn_trans/trans_privileged.c.inc 
+>>> b/target/riscv/insn_trans/trans_privileged.c.inc
+>>> index 75c6ef80a6..6e39632f83 100644
+>>> --- a/target/riscv/insn_trans/trans_privileged.c.inc
+>>> +++ b/target/riscv/insn_trans/trans_privileged.c.inc
+>>> @@ -78,6 +78,7 @@ static bool trans_sret(DisasContext *ctx, arg_sret 
+>>> *a)
+>>>         if (has_ext(ctx, RVS)) {
+>>>           gen_helper_sret(cpu_pc, cpu_env, cpu_pc);
+>>> +        gen_helper_switch_context_xl(cpu_env);
+>>>           tcg_gen_exit_tb(NULL, 0); /* no chaining */
+>>>           ctx->base.is_jmp = DISAS_NORETURN;
+>>>       } else {
+>>> @@ -94,6 +95,7 @@ static bool trans_mret(DisasContext *ctx, arg_mret 
+>>> *a)
+>>>   #ifndef CONFIG_USER_ONLY
+>>>       tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
+>>>       gen_helper_mret(cpu_pc, cpu_env, cpu_pc);
+>>> +    gen_helper_switch_context_xl(cpu_env);
+>>>       tcg_gen_exit_tb(NULL, 0); /* no chaining */
+>>>       ctx->base.is_jmp = DISAS_NORETURN;
+>>>       return true;
+>>> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+>>> index ee7c24efe7..20cf8ad883 100644
+>>> --- a/target/riscv/op_helper.c
+>>> +++ b/target/riscv/op_helper.c
+>>> @@ -70,6 +70,32 @@ target_ulong helper_csrrw(CPURISCVState *env, int 
+>>> csr,
+>>>   }
+>>>     #ifndef CONFIG_USER_ONLY
+>>> +void helper_switch_context_xl(CPURISCVState *env)
+>>> +{
+>>> +    RISCVMXL xl = cpu_get_xl(env);
+>>> +    if (xl == env->misa_mxl_max) {
+>>> +        return;
+>>> +    }
+>>> +    assert(xl < env->misa_mxl_max);
+>>> +    switch (xl) {
+>>> +    case MXL_RV32:
+>>> +        for (int i = 1; i < 32; i++) {
+>>> +            env->gpr[i] = (int32_t)env->gpr[i];
+>>> +        }
+>>
+>> I think this is wrong.  As I read the spec, the new context ignores 
+>> high bits and writes sign-extended values, but registers that are not 
+>> written should not be changed.
+> I think so.
+>>
+>> I think that a unit test with SXLEN == 64 and UXLEN == 32, where the 
+>> U-mode program executes only the ECALL instruction, should leave the 
+>> high 32 bits of all gprs unchanged on re-entry to S-mode.
+> Re-entry to U-mode?  I think you are right.  But currently I don't 
+> have a hardware has implemented the UXL32.
+>>
+>>> +        env->pc = (int32_t)env->pc;
+>>
+>> I think this will happen naturally via patch 3.
+> Maybe we have to sign extend here as clarified in other reply.
+>>
+>>> +        /*
+>>> +         * For the read-only bits of the previous-width CSR, the 
+>>> bits at the
+>>> +         * same positions in the temporary register are set to zeros.
+>>> +         */
+>>> +        if ((env->priv == PRV_U) && (env->misa_ext & RVV)) {
+>>> +            env->vl = 0;
+>>> +            env->vtype = 0;
+>>> +        }
+>>
+>> I don't understand this.  The return from the S-mode interrupt 
+>> handler to the U-mode program should preserve the U-mode VTYPE.
+>>
+>>
+> According to the privileged architecture specification,  section 2.5,  
+> if the width of a CSR is changed, the read-only bits of the 
+> previous-width CSR are zeroed.
+> More general,  there is an algorithm how to calculate the new CSR 
+> value from the previous CSR.
+>
+> I am not sure which is the right time  to do this context switch. The 
+> write time of  UXL field , or return to the U-mode?
+>
+>
+> Thanks,
+> Zhiwei
+>
+>> r~
+>
 
