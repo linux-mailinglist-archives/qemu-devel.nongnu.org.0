@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 313B244A75B
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 08:11:11 +0100 (CET)
-Received: from localhost ([::1]:37700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CECE44A757
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 08:06:30 +0100 (CET)
+Received: from localhost ([::1]:56070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkLHi-0007ju-6m
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 02:11:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50528)
+	id 1mkLDB-0000wz-Dh
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 02:06:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mkK4n-0005qI-Hh; Tue, 09 Nov 2021 00:53:45 -0500
-Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=56419
+ id 1mkK5E-0006HS-Ub; Tue, 09 Nov 2021 00:54:13 -0500
+Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=39069
  helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mkK4l-0006xF-Sf; Tue, 09 Nov 2021 00:53:45 -0500
+ id 1mkK5A-0006xq-5M; Tue, 09 Nov 2021 00:54:12 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HpHDp6VlJz4xfT; Tue,  9 Nov 2021 16:52:10 +1100 (AEDT)
+ id 4HpHDp6rDnz4xfW; Tue,  9 Nov 2021 16:52:10 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1636437130;
- bh=hDPpXHBeFQYUBzusFfqMeEdDeE+IUBYGanNh8b8+Cs8=;
+ bh=tzSGABQHROvFQdT5cg3E/6PtXOTEMb3PfIhW+tNd4os=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WPVFHxjO+uiW+AZB4dEK/8tFx/GURRBwBTAEEsiq80/i/XHAHlQUiyAU8sXPC3L0p
- vQ7hZMLOMYVPm0/qmiBdeNpAqe6hPi3stePr628ix65DuqB4z7onAeedTpDeKn2z3K
- OYzpAcVzgOGUrQLTJUsJdKFtJ/oXL2rDMptoEors=
+ b=Bq4UeUt7UwAEmn6KAtlalyWiOkl8L85N5IlNuhqfR2nxOmuqIp41qiOUObe8aumGC
+ 5exr86rubMJeDLnwbr2NcsD47cmIJDQpjPlq9hGHLLGIszX0tpYd2fRptbnoZTmTFd
+ P5UqVgy0ZGZrzvDYdCcVAGzPJd9a0KoAx6ioDS7I=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org, clg@kaod.org, danielhb413@gmail.com,
  groug@kaod.org
-Subject: [PULL 48/54] target/ppc: Implemented XXSPLTIW using decodetree
-Date: Tue,  9 Nov 2021 16:51:58 +1100
-Message-Id: <20211109055204.230765-49-david@gibson.dropbear.id.au>
+Subject: [PULL 50/54] target/ppc: Implement
+ xxblendvb/xxblendvh/xxblendvw/xxblendvd instructions
+Date: Tue,  9 Nov 2021 16:52:00 +1100
+Message-Id: <20211109055204.230765-51-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211109055204.230765-1-david@gibson.dropbear.id.au>
 References: <20211109055204.230765-1-david@gibson.dropbear.id.au>
@@ -62,71 +63,167 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org,
- "Bruno Larsen \(billionai\)" <bruno.larsen@eldorado.org.br>,
+ qemu-ppc@nongnu.org, Bruno Larsen <bruno.larsen@eldorado.org.br>,
  Matheus Ferst <matheus.ferst@eldorado.org.br>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-
-Implemented the XXSPLTIW instruction, using decodetree.
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Message-Id: <20211104123719.323713-22-matheus.ferst@eldorado.org.br>
+Message-Id: <20211104123719.323713-24-matheus.ferst@eldorado.org.br>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/insn64.decode            |  6 ++++++
- target/ppc/translate/vsx-impl.c.inc | 10 ++++++++++
- 2 files changed, 16 insertions(+)
+ target/ppc/helper.h                 |  4 +++
+ target/ppc/insn64.decode            | 19 ++++++++++
+ target/ppc/int_helper.c             | 15 ++++++++
+ target/ppc/translate/vsx-impl.c.inc | 55 +++++++++++++++++++++++++++++
+ 4 files changed, 93 insertions(+)
 
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 7ff1d055c4..627811cefc 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -520,6 +520,10 @@ DEF_HELPER_4(xxpermr, void, env, vsr, vsr, vsr)
+ DEF_HELPER_4(xxextractuw, void, env, vsr, vsr, i32)
+ DEF_HELPER_4(xxinsertw, void, env, vsr, vsr, i32)
+ DEF_HELPER_3(xvxsigsp, void, env, vsr, vsr)
++DEF_HELPER_5(XXBLENDVB, void, vsr, vsr, vsr, vsr, i32)
++DEF_HELPER_5(XXBLENDVH, void, vsr, vsr, vsr, vsr, i32)
++DEF_HELPER_5(XXBLENDVW, void, vsr, vsr, vsr, vsr, i32)
++DEF_HELPER_5(XXBLENDVD, void, vsr, vsr, vsr, vsr, i32)
+ 
+ DEF_HELPER_2(efscfsi, i32, env, i32)
+ DEF_HELPER_2(efscfui, i32, env, i32)
 diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
-index 134bc60c57..bd71f616cc 100644
+index 20aa2b4615..39e610913d 100644
 --- a/target/ppc/insn64.decode
 +++ b/target/ppc/insn64.decode
-@@ -39,6 +39,10 @@
- @8RR_D_IX       ...... .. .... .. .. ................ \
-                 ...... ..... ... ix:1 . ................ \
-                 &8RR_D_IX si=%8rr_si xt=%8rr_xt
-+&8RR_D          xt si:int32_t
-+@8RR_D          ...... .. .... .. .. ................ \
-+                ...... ..... ....  . ................ \
-+                &8RR_D si=%8rr_si xt=%8rr_xt
+@@ -44,6 +44,16 @@
+                 ...... ..... ....  . ................ \
+                 &8RR_D si=%8rr_si xt=%8rr_xt
  
++# Format XX4
++&XX4            xt xa xb xc
++%xx4_xt         0:1 21:5
++%xx4_xa         2:1 16:5
++%xx4_xb         1:1 11:5
++%xx4_xc         3:1  6:5
++@XX4            ........ ........ ........ ........ \
++                ...... ..... ..... ..... ..... .. .... \
++                &XX4 xt=%xx4_xt xa=%xx4_xa xb=%xx4_xb xc=%xx4_xc
++
  ### Fixed-Point Load Instructions
  
-@@ -165,5 +169,7 @@ PLXVP           000001 00 0--.-- .................. \
- PSTXVP          000001 00 0--.-- .................. \
-                 111110 ..... ..... ................     @8LS_D_TSXP
- 
-+XXSPLTIW        000001 01 0000 -- -- ................ \
-+                100000 ..... 0011 . ................    @8RR_D
+ PLBZ            000001 10 0--.-- .................. \
+@@ -175,3 +185,12 @@ XXSPLTIW        000001 01 0000 -- -- ................ \
+                 100000 ..... 0011 . ................    @8RR_D
  XXSPLTI32DX     000001 01 0000 -- -- ................ \
                  100000 ..... 000 .. ................    @8RR_D_IX
-diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index 360593a9ab..7116141a6a 100644
---- a/target/ppc/translate/vsx-impl.c.inc
-+++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -1466,6 +1466,16 @@ static bool trans_XXSPLTIB(DisasContext *ctx, arg_X_imm8 *a)
-     return true;
++
++XXBLENDVD       000001 01 0000 -- ------------------ \
++                100001 ..... ..... ..... ..... 11 ....  @XX4
++XXBLENDVW       000001 01 0000 -- ------------------ \
++                100001 ..... ..... ..... ..... 10 ....  @XX4
++XXBLENDVH       000001 01 0000 -- ------------------ \
++                100001 ..... ..... ..... ..... 01 ....  @XX4
++XXBLENDVB       000001 01 0000 -- ------------------ \
++                100001 ..... ..... ..... ..... 00 ....  @XX4
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index b7861776c2..9bc327bcba 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -1737,6 +1737,21 @@ void helper_xxinsertw(CPUPPCState *env, ppc_vsr_t *xt,
+     *xt = t;
  }
  
-+static bool trans_XXSPLTIW(DisasContext *ctx, arg_8RR_D *a)
++#define XXBLEND(name, sz) \
++void glue(helper_XXBLENDV, name)(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b,  \
++                                 ppc_avr_t *c, uint32_t desc)               \
++{                                                                           \
++    for (int i = 0; i < ARRAY_SIZE(t->glue(u, sz)); i++) {                  \
++        t->glue(u, sz)[i] = (c->glue(s, sz)[i] >> (sz - 1)) ?               \
++            b->glue(u, sz)[i] : a->glue(u, sz)[i];                          \
++    }                                                                       \
++}
++XXBLEND(B, 8)
++XXBLEND(H, 16)
++XXBLEND(W, 32)
++XXBLEND(D, 64)
++#undef XXBLEND
++
+ #define VEXT_SIGNED(name, element, cast)                            \
+ void helper_##name(ppc_avr_t *r, ppc_avr_t *b)                      \
+ {                                                                   \
+diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
+index 180d329f1a..d1de0da877 100644
+--- a/target/ppc/translate/vsx-impl.c.inc
++++ b/target/ppc/translate/vsx-impl.c.inc
+@@ -2087,6 +2087,61 @@ TRANS64(PLXV, do_lstxv_PLS_D, false, false)
+ TRANS64(PSTXVP, do_lstxv_PLS_D, true, true)
+ TRANS64(PLXVP, do_lstxv_PLS_D, false, true)
+ 
++static void gen_xxblendv_vec(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b,
++                             TCGv_vec c)
 +{
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
++    TCGv_vec tmp = tcg_temp_new_vec_matching(c);
++    tcg_gen_sari_vec(vece, tmp, c, (8 << vece) - 1);
++    tcg_gen_bitsel_vec(vece, t, tmp, b, a);
++    tcg_temp_free_vec(tmp);
++}
++
++static bool do_xxblendv(DisasContext *ctx, arg_XX4 *a, unsigned vece)
++{
++    static const TCGOpcode vecop_list[] = {
++        INDEX_op_sari_vec, 0
++    };
++    static const GVecGen4 ops[4] = {
++        {
++            .fniv = gen_xxblendv_vec,
++            .fno = gen_helper_XXBLENDVB,
++            .opt_opc = vecop_list,
++            .vece = MO_8
++        },
++        {
++            .fniv = gen_xxblendv_vec,
++            .fno = gen_helper_XXBLENDVH,
++            .opt_opc = vecop_list,
++            .vece = MO_16
++        },
++        {
++            .fniv = gen_xxblendv_vec,
++            .fno = gen_helper_XXBLENDVW,
++            .opt_opc = vecop_list,
++            .vece = MO_32
++        },
++        {
++            .fniv = gen_xxblendv_vec,
++            .fno = gen_helper_XXBLENDVD,
++            .opt_opc = vecop_list,
++            .vece = MO_64
++        }
++    };
++
 +    REQUIRE_VSX(ctx);
 +
-+    tcg_gen_gvec_dup_imm(MO_32, vsr_full_offset(a->xt), 16, 16, a->si);
++    tcg_gen_gvec_4(vsr_full_offset(a->xt), vsr_full_offset(a->xa),
++                   vsr_full_offset(a->xb), vsr_full_offset(a->xc),
++                   16, 16, &ops[vece]);
 +
 +    return true;
 +}
 +
- static bool trans_XXSPLTI32DX(DisasContext *ctx, arg_8RR_D_IX *a)
- {
-     TCGv_i32 imm;
++TRANS(XXBLENDVB, do_xxblendv, MO_8)
++TRANS(XXBLENDVH, do_xxblendv, MO_16)
++TRANS(XXBLENDVW, do_xxblendv, MO_32)
++TRANS(XXBLENDVD, do_xxblendv, MO_64)
++
+ #undef GEN_XX2FORM
+ #undef GEN_XX3FORM
+ #undef GEN_XX2IFORM
 -- 
 2.33.1
 
