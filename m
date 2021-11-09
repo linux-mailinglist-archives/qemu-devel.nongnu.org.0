@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A94B44A756
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 08:04:45 +0100 (CET)
-Received: from localhost ([::1]:51432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 244A244A743
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 08:03:01 +0100 (CET)
+Received: from localhost ([::1]:45402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkLBU-0006It-Bb
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 02:04:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50592)
+	id 1mkL9o-0002Hm-7X
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 02:03:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mkK4x-00066x-EG; Tue, 09 Nov 2021 00:53:55 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76]:58411)
+ id 1mkK53-00068d-J2; Tue, 09 Nov 2021 00:54:01 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:49979)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mkK4v-0006w2-Rc; Tue, 09 Nov 2021 00:53:55 -0500
+ id 1mkK50-0006wU-2J; Tue, 09 Nov 2021 00:54:01 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HpHDp5prbz4xfP; Tue,  9 Nov 2021 16:52:10 +1100 (AEDT)
+ id 4HpHDp66dmz4xfR; Tue,  9 Nov 2021 16:52:10 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1636437130;
- bh=4B6hioPLPxaMVXUD3e4tYCcG7R5ryMDo3i1lahYOlA4=;
+ bh=NtOuuyY8N2Cz9Ll8TVGix9QU5rx7tOTfcz0YdTg3j6A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CLaYaQMc8QZTNdKugd7IcaqNBC2ePmik9aW5cZyKWBItEFu/kBJNLbGBn8+UCy8wO
- plDW/d3KUSeBhjpR4OhYgC4tDbEyKw97q0zHek1uVPHKoVsVfEjnjgGjWf8MJiNpP7
- TcA81WBS2erAPEjiByOeKRrZINEpTM2u3sXHPx3k=
+ b=mpX4DZuTHF7u1IVMhZf9RaqSkM18MiYSPuAkQFlK161ATMV+w/n4mp+lYBv2UuNa6
+ I9ApAs47kRVxslb3Lc/2HApada2ISm8Fxh/vwAwPKlAK/rk/k9KU5Sr0PATLLVn+6A
+ xzuFYVKvJaWFK5HcEHNwoMkP/M2Oa3GIAXpr2S6U=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org, clg@kaod.org, danielhb413@gmail.com,
  groug@kaod.org
-Subject: [PULL 44/54] target/ppc: added the instructions PLXVP and PSTXVP
-Date: Tue,  9 Nov 2021 16:51:54 +1100
-Message-Id: <20211109055204.230765-45-david@gibson.dropbear.id.au>
+Subject: [PULL 46/54] target/ppc: moved XXSPLTIB to using decodetree
+Date: Tue,  9 Nov 2021 16:51:56 +1100
+Message-Id: <20211109055204.230765-47-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211109055204.230765-1-david@gibson.dropbear.id.au>
 References: <20211109055204.230765-1-david@gibson.dropbear.id.au>
@@ -57,64 +57,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Lucas Mateus Castro \(alqotel\)" <lucas.castro@eldorado.org.br>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org,
+ "Bruno Larsen \(billionai\)" <bruno.larsen@eldorado.org.br>,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Lucas Mateus Castro (alqotel)" <lucas.castro@eldorado.org.br>
+From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
 
-Implemented the instructions plxvp and pstxvp using decodetree
+Changed the function that handles XXSPLTIB emulation to using
+decodetree, but still use the same logic as before
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.castro@eldorado.org.br>
+Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Message-Id: <20211104123719.323713-18-matheus.ferst@eldorado.org.br>
+Message-Id: <20211104123719.323713-20-matheus.ferst@eldorado.org.br>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/insn64.decode            | 9 +++++++++
- target/ppc/translate/vsx-impl.c.inc | 2 ++
- 2 files changed, 11 insertions(+)
+ target/ppc/insn32.decode            |  5 +++++
+ target/ppc/translate/vsx-impl.c.inc | 20 ++++++--------------
+ target/ppc/translate/vsx-ops.c.inc  |  1 -
+ 3 files changed, 11 insertions(+), 15 deletions(-)
 
-diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
-index 093439b370..880ac3edc7 100644
---- a/target/ppc/insn64.decode
-+++ b/target/ppc/insn64.decode
-@@ -27,6 +27,11 @@
-                 ..... rt:6 ra:5 ................         \
-                 &PLS_D si=%pls_si
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index 5d425ec076..fd73946122 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -96,6 +96,10 @@
+ &X_bfl          bf l:bool ra rb
+ @X_bfl          ...... bf:3 - l:1 ra:5 rb:5 ..........- &X_bfl
  
-+%rt_tsxp        21:1 22:4 !function=times_2
-+@8LS_D_TSXP     ...... .. . .. r:1 .. .................. \
-+                ...... ..... ra:5 ................       \
-+                &PLS_D si=%pls_si rt=%rt_tsxp
++%x_xt           0:1 21:5
++&X_imm8         xt imm:uint8_t
++@X_imm8         ...... ..... .. imm:8 .......... .              &X_imm8 xt=%x_xt
 +
- ### Fixed-Point Load Instructions
+ &X_tb_sp_rc     rt rb sp rc:bool
+ @X_tb_sp_rc     ...... rt:5 sp:2 ... rb:5 .......... rc:1       &X_tb_sp_rc
  
- PLBZ            000001 10 0--.-- .................. \
-@@ -147,3 +152,7 @@ PLXV            000001 00 0--.-- .................. \
-                 11001 ...... ..... ................     @8LS_D_TSX
- PSTXV           000001 00 0--.-- .................. \
-                 11011 ...... ..... ................     @8LS_D_TSX
-+PLXVP           000001 00 0--.-- .................. \
-+                111010 ..... ..... ................     @8LS_D_TSXP
-+PSTXVP          000001 00 0--.-- .................. \
-+                111110 ..... ..... ................     @8LS_D_TSXP
+@@ -414,4 +418,5 @@ STXVPX          011111 ..... ..... ..... 0111001101 -   @X_TSXP
+ 
+ ## VSX splat instruction
+ 
++XXSPLTIB        111100 ..... 00 ........ 0101101000 .   @X_imm8
+ XXSPLTW         111100 ..... ---.. ..... 010100100 . .  @XX2
 diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index 1972127a22..6c60e29cca 100644
+index ce8796d139..ad25a0daf0 100644
 --- a/target/ppc/translate/vsx-impl.c.inc
 +++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -2060,6 +2060,8 @@ TRANS(STXVPX, do_lstxv_X, true, true)
- TRANS(LXVPX, do_lstxv_X, false, true)
- TRANS64(PSTXV, do_lstxv_PLS_D, true, false)
- TRANS64(PLXV, do_lstxv_PLS_D, false, false)
-+TRANS64(PSTXVP, do_lstxv_PLS_D, true, true)
-+TRANS64(PLXVP, do_lstxv_PLS_D, false, true)
+@@ -1455,23 +1455,15 @@ static bool trans_XXSPLTW(DisasContext *ctx, arg_XX2 *a)
  
- #undef GEN_XX2FORM
- #undef GEN_XX3FORM
+ #define pattern(x) (((x) & 0xff) * (~(uint64_t)0 / 0xff))
+ 
+-static void gen_xxspltib(DisasContext *ctx)
++static bool trans_XXSPLTIB(DisasContext *ctx, arg_X_imm8 *a)
+ {
+-    uint8_t uim8 = IMM8(ctx->opcode);
+-    int rt = xT(ctx->opcode);
+-
+-    if (rt < 32) {
+-        if (unlikely(!ctx->vsx_enabled)) {
+-            gen_exception(ctx, POWERPC_EXCP_VSXU);
+-            return;
+-        }
++    if (a->xt < 32) {
++        REQUIRE_VSX(ctx);
+     } else {
+-        if (unlikely(!ctx->altivec_enabled)) {
+-            gen_exception(ctx, POWERPC_EXCP_VPU);
+-            return;
+-        }
++        REQUIRE_VECTOR(ctx);
+     }
+-    tcg_gen_gvec_dup_imm(MO_8, vsr_full_offset(rt), 16, 16, uim8);
++    tcg_gen_gvec_dup_imm(MO_8, vsr_full_offset(a->xt), 16, 16, a->imm);
++    return true;
+ }
+ 
+ static void gen_xxsldwi(DisasContext *ctx)
+diff --git a/target/ppc/translate/vsx-ops.c.inc b/target/ppc/translate/vsx-ops.c.inc
+index b669b64d35..152d1e5c3b 100644
+--- a/target/ppc/translate/vsx-ops.c.inc
++++ b/target/ppc/translate/vsx-ops.c.inc
+@@ -348,7 +348,6 @@ GEN_XX3FORM(xxmrghw, 0x08, 0x02, PPC2_VSX),
+ GEN_XX3FORM(xxmrglw, 0x08, 0x06, PPC2_VSX),
+ GEN_XX3FORM(xxperm, 0x08, 0x03, PPC2_ISA300),
+ GEN_XX3FORM(xxpermr, 0x08, 0x07, PPC2_ISA300),
+-GEN_XX1FORM(xxspltib, 0x08, 0x0B, PPC2_ISA300),
+ GEN_XX3FORM_DM(xxsldwi, 0x08, 0x00),
+ GEN_XX2FORM_EXT(xxextractuw, 0x0A, 0x0A, PPC2_ISA300),
+ GEN_XX2FORM_EXT(xxinsertw, 0x0A, 0x0B, PPC2_ISA300),
 -- 
 2.33.1
 
