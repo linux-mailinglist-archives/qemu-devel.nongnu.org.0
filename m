@@ -2,103 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B94C544A7CE
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 08:46:59 +0100 (CET)
-Received: from localhost ([::1]:45316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB3D844A7AB
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 08:39:12 +0100 (CET)
+Received: from localhost ([::1]:60512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkLqM-0001hI-T0
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 02:46:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40682)
+	id 1mkLip-00018M-Ty
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 02:39:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1mkLcg-0003Q7-MB; Tue, 09 Nov 2021 02:32:50 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:58574)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mkLeE-0005Ei-MT
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 02:34:28 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:3314
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1mkLcd-00013T-OB; Tue, 09 Nov 2021 02:32:50 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A96Dj6t025412; 
- Tue, 9 Nov 2021 07:32:45 GMT
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mkLeA-0001tS-51
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 02:34:26 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A96IH24024901; 
+ Tue, 9 Nov 2021 07:34:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=YAXJYeSUl9J6WowR0t4CNTYPZaI+8u+jebxuMJ0dXJM=;
- b=VO8evIT76xMNhD6EiOBX3uK0wSkW7laYQusnd4JbGt64lzi/lqPlipRwHoyQzDsQAIUz
- PHwKv9xHIaRCGqmfCXiyhUQ+WBvh8Mi2njkXX/QRjwZvAVpB84f8B29WG/pTP0HuVbD+
- FpGxodXwgLl1wjVZHmUNV94aAz2xlHl2FFnSG4iijuInxYcLdUULXMUJJaJ+Ko/EPCIn
- Zul1YYfdl++6aCWMzQffcL1sFSYk4zxnAMHGTx+LJeYkKul5WOhFFuNZiCHkUsIM9fIS
- aE7npACqJ4cbk14miG0fT2A5KWZGq0IVFNPRj5kFmhyosh+gZE/V2rP+K+ZyEZ5Ojaoz 5w== 
+ bh=VCN/K7wl2XwW6TuhTO1o9dLYEvTVz+042R4CPaX0mJE=;
+ b=iku1DGE6N0W/TN6CkTbiqWxT7I+kZLTLo+ZFi3yhJXhByl/yRrWEt0BoKroJqUsLScNh
+ 3tZiwxy0ZhSysoeRSIfrUT1T1uO9CZ/lnBXI1mc8EGjon+ecZpZhsjtavoUB2nFDFzqw
+ ju7s8IjlPjAZmbWCg3jq6yBRfJjMAlU8J5IF9moy8huua2uSCOq4MrV/ksZE8FDV7P1f
+ Y/haJrPKASBJr+VcyO7E4FtJuNHaPuHgtt8jeKoLvGg4Vs4MkG84fEEiojoIB1NT8Adi
+ 6BQN3jyqxNAAw+C/v3BURswo5wP6hSN/MP/D9wmq3r7SVBfON9ev+SmrAmhMp3E4eNja DQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3c7khh1ppt-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3c7kks9n4w-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 Nov 2021 07:32:45 +0000
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1A97I9PI027752;
- Tue, 9 Nov 2021 07:32:44 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3c7khh1pnw-1
+ Tue, 09 Nov 2021 07:34:11 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1A96KTkv000714;
+ Tue, 9 Nov 2021 07:34:11 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3c7kks9n4p-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 Nov 2021 07:32:44 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1A97WO3q017020;
- Tue, 9 Nov 2021 07:32:42 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma06fra.de.ibm.com with ESMTP id 3c5gyju8nn-1
+ Tue, 09 Nov 2021 07:34:11 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1A97WgrU022150;
+ Tue, 9 Nov 2021 07:34:10 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma01dal.us.ibm.com with ESMTP id 3c5hbbg8ca-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 Nov 2021 07:32:42 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1A97Wdtx24772994
+ Tue, 09 Nov 2021 07:34:10 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1A97Y8S431981950
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 9 Nov 2021 07:32:39 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EC1D242045;
- Tue,  9 Nov 2021 07:32:38 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 961BF4204B;
- Tue,  9 Nov 2021 07:32:38 +0000 (GMT)
-Received: from [9.171.48.35] (unknown [9.171.48.35])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue,  9 Nov 2021 07:32:38 +0000 (GMT)
-Message-ID: <430b5c19-73dd-a006-8999-925fd757dbe2@de.ibm.com>
-Date: Tue, 9 Nov 2021 08:32:38 +0100
+ Tue, 9 Nov 2021 07:34:08 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BD47D7806A;
+ Tue,  9 Nov 2021 07:34:08 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E292F78064;
+ Tue,  9 Nov 2021 07:34:05 +0000 (GMT)
+Received: from [9.160.77.174] (unknown [9.160.77.174])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Tue,  9 Nov 2021 07:34:05 +0000 (GMT)
+Message-ID: <499d939b-24c6-0ea3-89ea-9501e9afe8b8@linux.ibm.com>
+Date: Tue, 9 Nov 2021 09:34:04 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2] s390x: kvm: adjust diag318 resets to retain data
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 0/3] SEV: fixes for -kernel launch with incompatible OVMF
 Content-Language: en-US
-To: Collin Walling <walling@linux.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
-References: <20211108211311.33834-1-walling@linux.ibm.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-In-Reply-To: <20211108211311.33834-1-walling@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org
+References: <20211101102136.1706421-1-dovmurik@linux.ibm.com>
+ <0291b6fc-b613-5eae-77a0-b344020a8376@amd.com>
+ <39de4c3a-4351-3705-0962-7bb8d496fe28@linux.ibm.com>
+ <9e4c0415-4153-e234-7c59-872e903e6567@amd.com>
+ <56fb584f-26c2-5592-e065-5dcf075c72e5@linux.ibm.com>
+ <eb6d99f4-f9d1-4cd2-d391-dc3c57c28112@amd.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
+In-Reply-To: <eb6d99f4-f9d1-4cd2-d391-dc3c57c28112@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: y2rmpz7QdILgWWQJRu2NMtqkUniiLo5L
-X-Proofpoint-ORIG-GUID: rNOsmP5WseHoIXPjEjZ0yh4fgZFZF8Sk
+X-Proofpoint-ORIG-GUID: _8pwrN0WEJUSZv0Yif0nbvqwXF3yVq4A
+X-Proofpoint-GUID: yLFe1AEL9iqX1SdpvvOouPFeqEx9rt5S
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-09_01,2021-11-08_02,2020-04-07_01
+ definitions=2021-11-09_02,2021-11-08_02,2020-04-07_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015
- priorityscore=1501 adultscore=0 spamscore=0 lowpriorityscore=0
- impostorscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111090043
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
+ impostorscore=0 phishscore=0
+ malwarescore=0 bulkscore=0 mlxlogscore=999 suspectscore=0 adultscore=0
+ clxscore=1015 spamscore=0 priorityscore=1501 lowpriorityscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2111090043
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -53
 X-Spam_score: -5.4
 X-Spam_bar: -----
 X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.364,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,154 +119,202 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, cohuck@redhat.com, frankja@linux.ibm.com,
- david@redhat.com
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-Am 08.11.21 um 22:13 schrieb Collin Walling:
-> The CPNC portion of the diag 318 data is erroneously reset during an
-> initial CPU reset caused by SIGP. Let's go ahead and relocate the
-> diag318_info field within the CPUS390XState struct such that it is
-> only zeroed during a clear reset. This way, the CPNC will be retained
-> for each VCPU in the configuration after the diag 318 instruction
-> has been invoked.
+On 08/11/2021 23:22, Brijesh Singh wrote:
 > 
-> Additionally, the diag 318 data reset is handled via the CPU reset
-> code during a clear reset. This means some of the diag 318-specific
-> reset code can now be removed.
 > 
-> Signed-off-by: Collin Walling <walling@linux.ibm.com>
-> Fixes: fabdada9357b ("s390: guest support for diagnose 0x318")
-> Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> On 11/5/21 1:32 PM, Dov Murik wrote:
+>>
+>>
+>> On 02/11/2021 16:48, Brijesh Singh wrote:
+>>>
+>>>
+>>> On 11/2/21 8:22 AM, Dov Murik wrote:
+>>>>
+>>>>
+>>>> On 02/11/2021 12:52, Brijesh Singh wrote:
+>>>>> Hi Dov,
+>>>>>
+>>>>> Overall the patch looks good, only question I have is that now we are
+>>>>> enforce qemu to hash the kernel, initrd and cmdline unconditionally
+>>>>> for
+>>>>> any of the SEV guest launches. This requires anyone wanting to
+>>>>> calculating the expected measurement need to account for it. Should we
+>>>>> make the hash page build optional ?
+>>>>>
+>>>>
+>>>> The problem with adding a -enable-add-kernel-hashes QEMU option (or
+>>>> suboption) is yet another complexity for the user.  I'd also argue that
+>>>> adding these hashes can lead to a more secure VM boot process, so it
+>>>> makes sense for it to be the default (and maybe introduce a
+>>>> -allow-insecure-unmeasured-kernel-via-fw-cfg option to prevent the
+>>>> measurement from changing due to addition of hashes?).
+>>>>
+>>>> Maybe, on the other hand, OVMF should "report" whether it supports
+>>>> hashes verification. If it does, it should have the GUID in the table
+>>>> (near the reset vector), like the current OvmfPkg/AmdSev edk2 build. If
+>>>> it doesn't support that, then the entry should not appear at all, and
+>>>> then QEMU won't add the hashes (with patch 1 from this series).  This
+>>>> means that in edk2 we need to remove the SEV Hash Table block from the
+>>>> ResetVectorVtf0.asm for OvmfPkg, but include it in the AmdSev build.
+>>>>
+>>>
+>>> By leaving it ON is conveying a wrong message to the user. The library
+>>> used for verifying the hash is a NULL library for all the builds of Ovmf
+>>> except the AmdSev package. In the NULL library case, OVMF does not
+>>> perform any checks and hash table is useless. I will raise this on
+>>> concern on your Ovmf patch series.
+>>>
+>>> IMHO, if you want to turn it ON by default then make sure all the OVMF
+>>> package builds supports validating the hash.
+>>>
+>>>
+>>>> But the problem with this approach is that it prevents the future
+>>>> unification of AmdSev and OvmfPkg, which is a possibility we discussed
+>>>> (at least with Dave Gilbert), though not sure it's a good/feasible
+>>>> goal.
+>>>>
+>>>>
+>>>
+>>> This is my exact concern, we are auto enabling the features in Qemu that
+>>> is supported by AmdSev package only.
+>>>
+>>>
+>>>>
+>>>>> I am thinking this more for the SEV-SNP guest. As you may be aware
+>>>>> that
+>>>>> with SEV-SNP the attestation is performed by the guest, and its
+>>>>> possible
+>>>>> for the launch flow to pass 512-bits of host_data that gets
+>>>>> included in
+>>>>> the report. If a user wants to do the hash'e checks for the SNP then
+>>>>> they can pass a hash of kernel, initrd and cmdline through a
+>>>>> launch_finish.ID_BLOCK.host_data and does not require a special hash
+>>>>> page. This it will simplify the expected hash calculation.
+>>>>
+>>>> That is a new measured boot "protocol" that we can discuss, and see
+>>>> whether it's better/easier than the existing one at hand that works on
+>>>> SEV and SEV-ES.
+>>>>
+>>>> What I don't understand in your suggestion is who performs a SHA256 of
+>>>> the fw_cfg blobs (kernel/initrd/cmdline) so they can later be verified
+>>>> (though ideally earlier is better).  Can you describe the details
+>>>> (step-by-step) of an SNP VM boot with -kernel/-initrd/-append and how
+>>>> the measurement/attestation is performed?
+>>>>
+>>>>
+>>>
+>>> There are a multiple ways on how you can do a measured boot with the
+>>> SNP.
+>>>
+>>> 1) VMPL0 (SVSM) can provide a complete vTPM (see the MSFT proposal on
+>>> SNP mailing list).
+>>>
+>>> 2) Use your existing hashing approach with some changes to provide a bit
+>>> more flexibility.
+>>>
+>>> 3) Use your existing hashing approach but zero out the hash page when
+>>> -kernel is not used.
+>>>
+>>> Let me expand #2.
+>>>
+>>> While launching the SNP guest, a guest owner can provide a ID block that
+>>> KVM will pass to the PSP during the guest launch flow. In the ID block
+>>> there is a field called "host_data". A guest owner can do a hash of
+>>> kernel/initrd/cmdline and include it in the "host_data" field. During
+>>> the hash verification, the OVMF can call the SNP_GET_REPORT. The PSP
+>>> will includes the "host_data" passed in the launch process in the report
+>>> and OVMF can use it for the verification. Unlike the current
+>>> implementation, this enables a guest owner to provides the hash without
+>>> requiring any changes in the Qemu and thus affecting the measurement.
+>>>
+>>
+>> Is there a way (in the current NP patches for OVMF) for OVMF to call
+>> SNP_GET_REPORT? Or is this something we need to add support for? Will it
+>> mess up the sequence numbers that are later going to be used by the
+>> kernel as well when managing SNP guest requests?
+>>
+>>
+> 
+> The current OVMF patches does not add a library to query the attestation
+> report yet. If required it should be possible to add such a libraries.
+> The VMGEXIT is available to both Guest OS and Guest BIOS. The sequence
+> number should not be an issue. As per the GHCB spec, the guest BIOS will
+> save the sequence number in the secrets page reserved area and guest
+> kernel can picked the next number from that region (its same as the
+> kexec approach).
+> 
 
-It would be good to add at least a comment in the diag308 handlers
-where the value of cpnc is resetted during the resets that Janosch
-mentioned.
+OK, good to know. *If* we decide to use the host_data field to store the
+hashes, then we would have to add the SNP_GET_REPORT functionality to OVMF.
+
+>>
+>>> One thing to note that both #2 and #3 requires ovmf to connect to guest
+>>> owner to validate the report before using the "host_data" or "hash
+>>> page".
+>>>
+>>
+>> For direct boot (with -kernel/-initrd), I don't understand why OVMF
+>> needs to contact the GO.  If OVMF can fetch the host_data field, and use
+>> that to verify the blobs delivered from QEMU via fw_cfg, it should be
+>> enough.
+>>
 > 
-> ---
+> Well, I am trying to match with the current model in which the Hash's
+> are provided through the secrets injection for the comparision. In other
+> words, the attestation is completed before OVMF does the hash
+> comparison. So, if you want to have the same security property then you
+> need to perform the attestation before comparing the hash'es because a
+> malicious HV may bypass the guid check.
 > 
-> Changelog:
+
+In the current model (works for SEV and SEV-ES) the hashes are not
+provided via secret injection; they are added by QEMU to the designated
+hashes area in the guest.
+
+If we only need the secret later (in userspace) then we can use a
+similar model.  Hashes are either (a) added to the designated page (by
+QEMU), or (b) passed in host_data (by QEMU).  OVMF fetch the hashes: (a)
+by reading a memory page, or (b) by using SNP_GET_REPORT.  It will
+verify them against the blobs from fw_cfg, and will continue to boot
+only if they match.
+
+and then it continues as I previously wrote:
+
 > 
-> 	v2
-> 	- handler uses run_on_cpu again
-> 	- reworded commit message slightly
-> 	- added fixes and reported-by tags
-> 
-> ---
->   hw/s390x/s390-virtio-ccw.c   |  3 ---
->   target/s390x/cpu-sysemu.c    |  7 -------
->   target/s390x/cpu.h           |  5 ++---
->   target/s390x/kvm/kvm.c       | 14 +++++---------
->   target/s390x/kvm/kvm_s390x.h |  1 -
->   5 files changed, 7 insertions(+), 23 deletions(-)
-> 
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index 653587ea62..51dcb83b0c 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -489,9 +489,6 @@ static void s390_machine_reset(MachineState *machine)
->           g_assert_not_reached();
->       }
->   
-> -    CPU_FOREACH(t) {
-> -        run_on_cpu(t, s390_do_cpu_set_diag318, RUN_ON_CPU_HOST_ULONG(0));
-> -    }
->       s390_ipl_clear_reset_request();
->   }
->   
-> diff --git a/target/s390x/cpu-sysemu.c b/target/s390x/cpu-sysemu.c
-> index 5471e01ee8..6d9f6d4402 100644
-> --- a/target/s390x/cpu-sysemu.c
-> +++ b/target/s390x/cpu-sysemu.c
-> @@ -299,10 +299,3 @@ void s390_enable_css_support(S390CPU *cpu)
->           kvm_s390_enable_css_support(cpu);
->       }
->   }
-> -
-> -void s390_do_cpu_set_diag318(CPUState *cs, run_on_cpu_data arg)
-> -{
-> -    if (kvm_enabled()) {
-> -        kvm_s390_set_diag318(cs, arg.host_ulong);
-> -    }
-> -}
-> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-> index 3153d053e9..1b94b91d87 100644
-> --- a/target/s390x/cpu.h
-> +++ b/target/s390x/cpu.h
-> @@ -63,6 +63,8 @@ struct CPUS390XState {
->       uint64_t etoken;       /* etoken */
->       uint64_t etoken_extension; /* etoken extension */
->   
-> +    uint64_t diag318_info;
-> +
->       /* Fields up to this point are not cleared by initial CPU reset */
->       struct {} start_initial_reset_fields;
->   
-> @@ -118,8 +120,6 @@ struct CPUS390XState {
->       uint16_t external_call_addr;
->       DECLARE_BITMAP(emergency_signals, S390_MAX_CPUS);
->   
-> -    uint64_t diag318_info;
-> -
->   #if !defined(CONFIG_USER_ONLY)
->       uint64_t tlb_fill_tec;   /* translation exception code during tlb_fill */
->       int tlb_fill_exc;        /* exception number seen during tlb_fill */
-> @@ -780,7 +780,6 @@ int s390_set_memory_limit(uint64_t new_limit, uint64_t *hw_limit);
->   void s390_set_max_pagesize(uint64_t pagesize, Error **errp);
->   void s390_cmma_reset(void);
->   void s390_enable_css_support(S390CPU *cpu);
-> -void s390_do_cpu_set_diag318(CPUState *cs, run_on_cpu_data arg);
->   int s390_assign_subch_ioeventfd(EventNotifier *notifier, uint32_t sch_id,
->                                   int vq, bool assign);
->   #ifndef CONFIG_USER_ONLY
-> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
-> index 5b1fdb55c4..8970d9ca55 100644
-> --- a/target/s390x/kvm/kvm.c
-> +++ b/target/s390x/kvm/kvm.c
-> @@ -1576,16 +1576,13 @@ static int handle_sw_breakpoint(S390CPU *cpu, struct kvm_run *run)
->       return -ENOENT;
->   }
->   
-> -void kvm_s390_set_diag318(CPUState *cs, uint64_t diag318_info)
-> +static void set_diag_318(CPUState *cs, run_on_cpu_data arg)
->   {
->       CPUS390XState *env = &S390_CPU(cs)->env;
->   
-> -    /* Feat bit is set only if KVM supports sync for diag318 */
-> -    if (s390_has_feat(S390_FEAT_DIAG_318)) {
-> -        env->diag318_info = diag318_info;
-> -        cs->kvm_run->s.regs.diag318 = diag318_info;
-> -        cs->kvm_run->kvm_dirty_regs |= KVM_SYNC_DIAG318;
-> -    }
-> +    env->diag318_info = arg.host_ulong;
-> +    cs->kvm_run->s.regs.diag318 = arg.host_ulong;
-> +    cs->kvm_run->kvm_dirty_regs |= KVM_SYNC_DIAG318;
->   }
->   
->   static void handle_diag_318(S390CPU *cpu, struct kvm_run *run)
-> @@ -1604,8 +1601,7 @@ static void handle_diag_318(S390CPU *cpu, struct kvm_run *run)
->       }
->   
->       CPU_FOREACH(t) {
-> -        run_on_cpu(t, s390_do_cpu_set_diag318,
-> -                   RUN_ON_CPU_HOST_ULONG(diag318_info));
-> +        run_on_cpu(t, set_diag_318, RUN_ON_CPU_HOST_ULONG(diag318_info));
->       }
->   }
->   
-> diff --git a/target/s390x/kvm/kvm_s390x.h b/target/s390x/kvm/kvm_s390x.h
-> index 05a5e1e6f4..8c244ee84d 100644
-> --- a/target/s390x/kvm/kvm_s390x.h
-> +++ b/target/s390x/kvm/kvm_s390x.h
-> @@ -44,6 +44,5 @@ void kvm_s390_set_max_pagesize(uint64_t pagesize, Error **errp);
->   void kvm_s390_crypto_reset(void);
->   void kvm_s390_restart_interrupt(S390CPU *cpu);
->   void kvm_s390_stop_interrupt(S390CPU *cpu);
-> -void kvm_s390_set_diag318(CPUState *cs, uint64_t diag318_info);
->   
->   #endif /* KVM_S390X_H */
-> 
+>> Later in userspace a user program will contact the GO with the
+>> attestation report (which measures host_data and the OVMF memory). If
+>> the measurement is not what the GO expects, then it won't release the
+>> secret (which should be necessary for the actual meaningful workload
+>> performed in the guest).
+>>
+>>
+>> This should mitigate the following attacks:
+>>
+>> 1. Rogue CSP replaces OVMF with a rogue-OVMF that doesn't actually check
+>> the hashes (the GO won't release the secret due to wrong measurement in
+>> attestation report).
+>> 2. Rogue CSP uses "good" host_data content (kernel hash) but delivers
+>> malicious kernel via fw_cfg (stopped by OVMF verifying the hashes).
+>> 3. Rogue CSP uses malicious kernel and its hashes in host_data (the GO
+>> won't release the secret due to wrong host_data in attestation report).
+>>
+
+
+-Dov
+
+
+
 
