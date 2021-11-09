@@ -2,56 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C78D44B2C9
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 19:41:06 +0100 (CET)
-Received: from localhost ([::1]:44438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6948B44B2CA
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 19:41:15 +0100 (CET)
+Received: from localhost ([::1]:44626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkW3M-0008JC-0s
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 13:41:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55970)
+	id 1mkW3W-0008Sy-Af
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 13:41:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mkVy5-0003Rm-4d
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 13:35:37 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:41696)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mkVy3-0001NG-D9
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 13:35:36 -0500
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-283-aTq5WQk6NJehmB_xPE5QGA-1; Tue, 09 Nov 2021 13:35:31 -0500
-X-MC-Unique: aTq5WQk6NJehmB_xPE5QGA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 996FF87D541;
- Tue,  9 Nov 2021 18:35:30 +0000 (UTC)
-Received: from bahia.redhat.com (unknown [10.39.194.211])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1A75660D30;
- Tue,  9 Nov 2021 18:35:28 +0000 (UTC)
-From: Greg Kurz <groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mkVyq-0004gX-61; Tue, 09 Nov 2021 13:36:24 -0500
+Received: from [2607:f8b0:4864:20::430] (port=45885
+ helo=mail-pf1-x430.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mkVyo-0001Sj-9K; Tue, 09 Nov 2021 13:36:23 -0500
+Received: by mail-pf1-x430.google.com with SMTP id x131so135954pfc.12;
+ Tue, 09 Nov 2021 10:36:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FIz6N1TkRCb//X0MGvxpOnIiyD5uU2cb65+D8g5mOBw=;
+ b=QBBDey8X8CmfOhrOa4JuD316PfdZtpPalvf5qmw3PpELvPwCTrrsJI1CvmiVJvJytJ
+ xVIX7RF4EnSoHzjtdurmzOW4hB9y1jBcfJsWx3FK6dVj4pIdI/XcNmb5WDzxFZKVp6md
+ OyvXfkZXRjLFdD1ptqceQehSHzKyiCHTBfvnAKf/KTI5dsj7JP3hEkmTQwDHQ4UqZ8KH
+ fj1kwOznVv2f73fBLqPzszQdjzS+IslXHa8TbHirhPl2dwKicXqgWiQK+oEGlTurh/M5
+ y5E3gdeAIadppIM5dZxmIy2wCq+IjpgPbIDj8OlMvVWEfAKoh5LKh2EkBOo+Nd25TdYH
+ INhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FIz6N1TkRCb//X0MGvxpOnIiyD5uU2cb65+D8g5mOBw=;
+ b=ysfrIhWfAU5if3OwRM9lLlweWkNw4rqwtcjV8uXFFhBIiCnLOa0ZWjPyO5JYaJYz1u
+ 9fGHte6jcElfS+VOH1u+AvZPKX1D6X0lBDlICklKmDPXh450dmDmKadAXAvBVXqaw9ON
+ PpdMc9UjYZXH0Erb+z/6r6o93tG1eX9Reod00ZUks2iUBZa2ifRcl22p0nReUVnCcm9R
+ 20AQMntVC+aB+gnF2T3vwNcC9LFxCHGRXaCidPUmdjPefoH1+gYcVyTPIThbINNvOA5y
+ qy96zEmepZWPwbMr3qd3yq2+t32a+Zz2boaGQTTTzAaSVgDOJzbuLnzyYlFDRblrBTkJ
+ 4Fyg==
+X-Gm-Message-State: AOAM530wjntYaNnyAdxv4rST21QAJPAnWdBvKRPHXNc9kSaofFnduKss
+ ZXjJT1GAPCr9STnLhBX0y2Gszj8Pdlo=
+X-Google-Smtp-Source: ABdhPJzS/WxTLT8B6njP9ivBNRA6isxgK0JqzCtjWmVxk8pobpxfvnhgT7G1FADlUDPnaSREZoqoAA==
+X-Received: by 2002:a05:6a00:26f7:b0:494:72f3:e8a3 with SMTP id
+ p55-20020a056a0026f700b0049472f3e8a3mr41684375pfw.37.1636482980157; 
+ Tue, 09 Nov 2021 10:36:20 -0800 (PST)
+Received: from rekt.ibmuc.com ([189.79.219.109])
+ by smtp.gmail.com with ESMTPSA id y130sm14229734pfg.202.2021.11.09.10.36.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Nov 2021 10:36:19 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/2] accel/tcg: Register a force_rcu notifier
-Date: Tue,  9 Nov 2021 19:35:23 +0100
-Message-Id: <20211109183523.47726-3-groug@kaod.org>
-In-Reply-To: <20211109183523.47726-1-groug@kaod.org>
-References: <20211109183523.47726-1-groug@kaod.org>
+Subject: [PATCH] spapr_numa.c: fix FORM1 distance-less nodes
+Date: Tue,  9 Nov 2021 15:35:53 -0300
+Message-Id: <20211109183553.1844689-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::430
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=danielhb413@gmail.com; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,169 +83,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- qemu-stable@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A TCG vCPU doing a busy loop systematicaly hangs the QEMU monitor
-if the user passes 'device_add' without argument. This is because
-drain_cpu_all() which is called from qmp_device_add() cannot return
-if readers don't exit read-side critical sections. That is typically
-what busy-looping TCG vCPUs do:
+Commit 71e6fae3a99 fixed an issue with FORM2 affinity guests with NUMA
+nodes in which the distance info is absent in
+machine_state->numa_state->nodes. This happens when QEMU adds a default
+NUMA node and when the user adds NUMA nodes without specifying the
+distances.
 
-int cpu_exec(CPUState *cpu)
-{
-[...]
-    rcu_read_lock();
-[...]
-    while (!cpu_handle_exception(cpu, &ret)) {
-        // Busy loop keeps vCPU here
-    }
-[...]
-    rcu_read_unlock();
+During the discussions of the forementioned patch [1] it was found that
+FORM1 guests were behaving in a strange way in the same scenario, with
+the kernel seeing the distances between the nodes as '160', as we can
+see in this example with 4 NUMA nodes without distance information:
 
-    return ret;
-}
+$ numactl -H
+available: 4 nodes (0-3)
+(...)
+node distances:
+node   0   1   2   3
+  0:  10  160  160  160
+  1:  160  10  160  160
+  2:  160  160  10  160
+  3:  160  160  160  10
 
-For MTTCG, have all vCPU threads register a force_rcu notifier that will
-kick them out of the loop using async_run_on_cpu(). The notifier is called
-with the rcu_registry_lock mutex held, using async_run_on_cpu() ensures
-there are no deadlocks.
+Turns out that we have the same problem with FORM1 guests - we are
+calculating associativity domain using zeroed values. And as it also
+turns out, the solution from 71e6fae3a99 applies for FORM1 as well.
 
-For RR, a single thread runs all vCPUs. Just register a single notifier
-that kicks the current vCPU to the next one.
+This patch creates a wrapper called 'get_numa_distance' that contains
+the logic used in FORM2 to define node distances when this information
+is absent. This helper is then used in all places where we need to read
+distance information from machine_state->numa_state->nodes. That way
+we'll guarantee that the NUMA node distance is always being curated
+before being used.
 
-For MTTCG:
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+After this patch, the FORM1 guest mentioned above will have the
+following topology:
 
-For RR:
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+$ numactl -H
+available: 4 nodes (0-3)
+(...)
+node distances:
+node   0   1   2   3
+  0:  10  20  20  20
+  1:  20  10  20  20
+  2:  20  20  10  20
+  3:  20  20  20  10
 
-Fixes: 7bed89958bfb ("device_core: use drain_call_rcu in in qmp_device_add"=
-)
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/650
-Signed-off-by: Greg Kurz <groug@kaod.org>
+This is compatible with what FORM2 guests and other archs do in this
+case.
+
+[1] https://lists.gnu.org/archive/html/qemu-devel/2021-11/msg01960.html
+
+CC: Aneesh Kumar K.V <aneesh.kumar@linux.ibm.com>
+CC: Nicholas Piggin <npiggin@gmail.com>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- accel/tcg/tcg-accel-ops-mttcg.c | 26 ++++++++++++++++++++++++++
- accel/tcg/tcg-accel-ops-rr.c    | 10 ++++++++++
- 2 files changed, 36 insertions(+)
+ hw/ppc/spapr_numa.c | 62 ++++++++++++++++++++++-----------------------
+ 1 file changed, 31 insertions(+), 31 deletions(-)
 
-diff --git a/accel/tcg/tcg-accel-ops-mttcg.c b/accel/tcg/tcg-accel-ops-mttc=
-g.c
-index 847d2079d21f..29632bd4c0af 100644
---- a/accel/tcg/tcg-accel-ops-mttcg.c
-+++ b/accel/tcg/tcg-accel-ops-mttcg.c
-@@ -28,6 +28,7 @@
- #include "sysemu/tcg.h"
- #include "sysemu/replay.h"
- #include "qemu/main-loop.h"
-+#include "qemu/notify.h"
- #include "qemu/guest-random.h"
- #include "exec/exec-all.h"
- #include "hw/boards.h"
-@@ -35,6 +36,26 @@
- #include "tcg-accel-ops.h"
- #include "tcg-accel-ops-mttcg.h"
-=20
-+typedef struct MttcgForceRcuNotifier {
-+    Notifier notifier;
-+    CPUState *cpu;
-+} MttcgForceRcuNotifier;
-+
-+static void do_nothing(CPUState *cpu, run_on_cpu_data d)
+diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+index 56ab2a5fb6..e9ef7e7646 100644
+--- a/hw/ppc/spapr_numa.c
++++ b/hw/ppc/spapr_numa.c
+@@ -66,16 +66,41 @@ static const uint32_t *get_associativity(SpaprMachineState *spapr, int node_id)
+     return spapr->FORM1_assoc_array[node_id];
+ }
+ 
++/*
++ * Wrapper that returns node distance from ms->numa_state->nodes
++ * after handling edge cases where the distance might be absent.
++ */
++static int get_numa_distance(MachineState *ms, int src, int dst)
 +{
-+}
++    NodeInfo *numa_info = ms->numa_state->nodes;
++    int ret = numa_info[src].distance[dst];
 +
-+static void mttcg_force_rcu(Notifier *notify, void *data)
-+{
-+    CPUState *cpu =3D container_of(notify, MttcgForceRcuNotifier, notifier=
-)->cpu;
++    if (ret != 0) {
++        return ret;
++    }
 +
 +    /*
-+     * Called with rcu_registry_lock held, using async_run_on_cpu() ensure=
-s
-+     * that there are no deadlocks.
++     * In case QEMU adds a default NUMA single node when the user
++     * did not add any, or where the user did not supply distances,
++     * the distance will be absent (zero). Return local/remote
++     * distance in this case.
 +     */
-+    async_run_on_cpu(cpu, do_nothing, RUN_ON_CPU_NULL);
++    if (src == dst) {
++        return NUMA_DISTANCE_MIN;
++    }
++
++    return NUMA_DISTANCE_DEFAULT;
 +}
 +
- /*
-  * In the multi-threaded case each vCPU has its own thread. The TLS
-  * variable current_cpu can be used deep in the code to find the
-@@ -43,12 +64,16 @@
-=20
- static void *mttcg_cpu_thread_fn(void *arg)
+ static bool spapr_numa_is_symmetrical(MachineState *ms)
  {
-+    MttcgForceRcuNotifier force_rcu;
-     CPUState *cpu =3D arg;
-=20
-     assert(tcg_enabled());
-     g_assert(!icount_enabled());
-=20
-     rcu_register_thread();
-+    force_rcu.notifier.notify =3D mttcg_force_rcu;
-+    force_rcu.cpu =3D cpu;
-+    rcu_add_force_rcu_notifier(&force_rcu.notifier);
-     tcg_register_thread();
-=20
-     qemu_mutex_lock_iothread();
-@@ -100,6 +125,7 @@ static void *mttcg_cpu_thread_fn(void *arg)
-=20
-     tcg_cpus_destroy(cpu);
-     qemu_mutex_unlock_iothread();
-+    rcu_remove_force_rcu_notifier(&force_rcu.notifier);
-     rcu_unregister_thread();
-     return NULL;
- }
-diff --git a/accel/tcg/tcg-accel-ops-rr.c b/accel/tcg/tcg-accel-ops-rr.c
-index a5fd26190e20..bf59f53dbc2c 100644
---- a/accel/tcg/tcg-accel-ops-rr.c
-+++ b/accel/tcg/tcg-accel-ops-rr.c
-@@ -28,6 +28,7 @@
- #include "sysemu/tcg.h"
- #include "sysemu/replay.h"
- #include "qemu/main-loop.h"
-+#include "qemu/notify.h"
- #include "qemu/guest-random.h"
- #include "exec/exec-all.h"
-=20
-@@ -133,6 +134,11 @@ static void rr_deal_with_unplugged_cpus(void)
-     }
- }
-=20
-+static void rr_force_rcu(Notifier *notify, void *data)
-+{
-+    rr_kick_next_cpu();
-+}
-+
- /*
-  * In the single-threaded case each vCPU is simulated in turn. If
-  * there is more than a single vCPU we create a simple timer to kick
-@@ -143,10 +149,13 @@ static void rr_deal_with_unplugged_cpus(void)
-=20
- static void *rr_cpu_thread_fn(void *arg)
+-    int src, dst;
+     int nb_numa_nodes = ms->numa_state->num_nodes;
+-    NodeInfo *numa_info = ms->numa_state->nodes;
++    int src, dst;
+ 
+     for (src = 0; src < nb_numa_nodes; src++) {
+         for (dst = src; dst < nb_numa_nodes; dst++) {
+-            if (numa_info[src].distance[dst] !=
+-                numa_info[dst].distance[src]) {
++            if (get_numa_distance(ms, src, dst) !=
++                get_numa_distance(ms, dst, src)) {
+                 return false;
+             }
+         }
+@@ -133,7 +158,6 @@ static uint8_t spapr_numa_get_numa_level(uint8_t distance)
+ static void spapr_numa_define_FORM1_domains(SpaprMachineState *spapr)
  {
-+    Notifier force_rcu;
-     CPUState *cpu =3D arg;
-=20
-     assert(tcg_enabled());
-     rcu_register_thread();
-+    force_rcu.notify =3D rr_force_rcu;
-+    rcu_add_force_rcu_notifier(&force_rcu);
-     tcg_register_thread();
-=20
-     qemu_mutex_lock_iothread();
-@@ -255,6 +264,7 @@ static void *rr_cpu_thread_fn(void *arg)
-         rr_deal_with_unplugged_cpus();
+     MachineState *ms = MACHINE(spapr);
+-    NodeInfo *numa_info = ms->numa_state->nodes;
+     int nb_numa_nodes = ms->numa_state->num_nodes;
+     int src, dst, i, j;
+ 
+@@ -170,7 +194,7 @@ static void spapr_numa_define_FORM1_domains(SpaprMachineState *spapr)
+              * The PPC kernel expects the associativity domains of node 0 to
+              * be always 0, and this algorithm will grant that by default.
+              */
+-            uint8_t distance = numa_info[src].distance[dst];
++            uint8_t distance = get_numa_distance(ms, src, dst);
+             uint8_t n_level = spapr_numa_get_numa_level(distance);
+             uint32_t assoc_src;
+ 
+@@ -498,7 +522,6 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
+                                                void *fdt, int rtas)
+ {
+     MachineState *ms = MACHINE(spapr);
+-    NodeInfo *numa_info = ms->numa_state->nodes;
+     int nb_numa_nodes = ms->numa_state->num_nodes;
+     int distance_table_entries = nb_numa_nodes * nb_numa_nodes;
+     g_autofree uint32_t *lookup_index_table = NULL;
+@@ -540,30 +563,7 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
+ 
+     for (src = 0; src < nb_numa_nodes; src++) {
+         for (dst = 0; dst < nb_numa_nodes; dst++) {
+-            /*
+-             * We need to be explicit with the local distance
+-             * value to cover the case where the user didn't added any
+-             * NUMA nodes, but QEMU adds the default NUMA node without
+-             * adding the numa_info to retrieve distance info from.
+-             */
+-            distance_table[i] = numa_info[src].distance[dst];
+-            if (distance_table[i] == 0) {
+-                /*
+-                 * In case QEMU adds a default NUMA single node when the user
+-                 * did not add any, or where the user did not supply distances,
+-                 * the value will be 0 here. Populate the table with a fallback
+-                 * simple local / remote distance.
+-                 */
+-                if (src == dst) {
+-                    distance_table[i] = NUMA_DISTANCE_MIN;
+-                } else {
+-                    distance_table[i] = numa_info[src].distance[dst];
+-                    if (distance_table[i] < NUMA_DISTANCE_MIN) {
+-                        distance_table[i] = NUMA_DISTANCE_DEFAULT;
+-                    }
+-                }
+-            }
+-            i++;
++            distance_table[i++] = get_numa_distance(ms, src, dst);
+         }
      }
-=20
-+    rcu_remove_force_rcu_notifier(&force_rcu);
-     rcu_unregister_thread();
-     return NULL;
- }
---=20
+ 
+-- 
 2.31.1
 
 
