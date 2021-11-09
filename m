@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFE2844AA5F
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 10:15:04 +0100 (CET)
-Received: from localhost ([::1]:57096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B1344AA61
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 10:15:21 +0100 (CET)
+Received: from localhost ([::1]:58230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkNDc-0000tc-0Y
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 04:15:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39102)
+	id 1mkNDs-0001er-C9
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 04:15:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mkNBP-0006aW-Fi; Tue, 09 Nov 2021 04:12:47 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:46071)
+ id 1mkNBX-0006ug-8c; Tue, 09 Nov 2021 04:12:55 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:36319)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mkNBN-00054m-IV; Tue, 09 Nov 2021 04:12:47 -0500
+ id 1mkNBU-000575-V9; Tue, 09 Nov 2021 04:12:54 -0500
 Received: from quad ([82.142.14.190]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MQdtO-1n6yXm2Vew-00Nfq4; Tue, 09
- Nov 2021 10:12:40 +0100
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MsqMq-1mQltZ1ZY8-00t8i6; Tue, 09
+ Nov 2021 10:12:41 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/6] hmp: Add shortcut to stop command to match cont
-Date: Tue,  9 Nov 2021 10:12:33 +0100
-Message-Id: <20211109091238.817997-2-laurent@vivier.eu>
+Subject: [PULL 2/6] hw/m68k: Fix typo in SPDX tag
+Date: Tue,  9 Nov 2021 10:12:34 +0100
+Message-Id: <20211109091238.817997-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211109091238.817997-1-laurent@vivier.eu>
 References: <20211109091238.817997-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:lhRfalLnFpUvJ3sdmhEeBscGz9xw0pJs901+NAEYLiisF9Ro+xK
- KXnpzsZDHoOdkVp37ELJHzb8T3zemf1vZszWBbKo5G0LS9G74r4SJbkG30ijjCLkW+7xAtn
- IYg6Q/7jxX222rKcuS7NgVX9rRhvPYOez83u0shLnLmTCqzP0WJVpzYHm1aTiXh5lsA7BA/
- 0kvjg2qcmgDXNEKG6Zrlw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pOlZqhM0fi8=:Cq6L+eE/Z7ZdVjpKG8yMpD
- xCxD29NsQmISrCxlKnP9ilX0ZZymZZi/7a90aS1VNrfnNrG/bsrq4clEVxz4TOewI3Mx725Vj
- XCnFZep9IbSi6w3wRXW0eGFb0IwFB5Gjf1NbbsxqBDHawi2hoAb1Zp1dQY6NqrgxXyX2ulZR3
- M8kUfMfDwJ26Lm38k0hSdXZw8EAnhLkRGVwZVCQBkKLEq8DUqEvhjoQK7BApjXedQpII5LxOp
- c9b7Bv8Vu33UsfrmOEzsWWTBXEijsclVel6VtGvsLbeCx9jZdzccmhW/ki2Lh9R9r0jA0THbV
- oT9/gb674XyjQppPGIjhBa5jCeA2JNtV+5S/2spVEcKqkK7/fBYrpihtqq06lgNKHR84B3YXX
- KjJflkYcx1PUiNgMSOnWqCWMS5RcowhA1mpIB83zb6yceT4TXYtPHeX/gbXTh4+Z7Y3kCcFRz
- GdorP61w2VXb18Lzhdq7YjwQ1i1YbdNJQPke0M/MJdP/y0pZ54Ex3aY0p7pF0IU5N2/dx+f/I
- hTyjvLmSLGAs6Pr4ezRaCCpzQ4zkEF/X2eAQHWFFefhdTh0EtN4M4fTOIQLgqXhKb0Z2IH56i
- TjPBnIjlq5U+Oo7Kaax5ElbsGfloMwP3RQavm+FQH3ArZwTzFlfejG6oXfVzaM9kwBvxGlpCY
- hJI6UmMdHvRfEmzvuotSkyKhGZ+Y3Ybh1fTu/GznkpCO6EohL+APlP3AmmK15fnxsAI0=
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:xnaBYYy8qwrAvK2Su32Z4pjRS1OQ0RKrWxcoLe9Hf8U8nFUv8PO
+ c1U18RuQsogSjgwcdTbTnV9yWevgmIeWzWwHiITSfUOmVPY3ZqHBbN35F36/GdYr6rwjWxl
+ WojkEB522sqzTYMWWSEZDX84A04j/j4Jzb0z4GuNfOb0UhQlLufFtyy0dqijG6eIDr9xogf
+ H8cj1CYNsyO95RgKIZ4Ew==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kXwSE7LBcfY=:8pd7UEthPc0r4mlfLfrB0x
+ aqF6+p2uIRls7HN529y0n7EjVdPfVnJBCTjgws8PLphX/Rqq0dOVN3m1maXB4uezQfZIY8jZp
+ fucrT2gu/CdsrY43sKnlXYVr+n2m8OU6Z6lbw7cLYS7Z42nyZ6LjZjxjVnfB8IkVA+1bJUlPa
+ /vWI+0PMqPLC7AVSEgjtCe5j8AcaOAKL+pJ+aBrfKP0K+rPWR+1tGeMJ+ST/3Hhnjfis9hbGb
+ I+2yJ/gFAYDQARrxasCGDCjpJTy8gos2hieXbRIF7gtorEU2Yyy1rnDYO7VgCqM/4R0+rRqZ6
+ ejhzNs5eXWtLS931BVkxKItAI7WVMJnYnrjuxo2QKMQ83II7y6QrUTz137p8Gw3MVLzAE9/v/
+ BhCCoKM9OLXGWDSAeXxs0r0Q/sS/KomjdEZ91+3fj2NP+MWPNj3lpiaKu9kfsx0Ki5FMgCfWL
+ shlNHQfC5/4t0LYrIM9TTaur7RnGEW79m8uhtMHvNFStyW8oGPffTGTnby72TPxGsPVwLj2qV
+ o5lFu4qn4EhKyZ4MEG4RA+AD5FXMoYE5K5snP/vvuYqUKHPTODj1tKq8DlLY3ZGNUjiUfnB1c
+ yVWWQphZSsalCtuYcXNZ3m12II78rqAFwjBfp8vUPgZ1YWcjwJuXheLqHLv4vNkvgW9bhyfJ1
+ Fh4LOtQrVhFmP0gI2I+l9P0U1xHJVwPh/DgHciBKpg5sPJHbneytUY7YofGH74wpiHh0=
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,48 +65,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+Cc: qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: BALATON Zoltan <balaton@eik.bme.hu>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Some commands such as quit or cont have one letter alternatives but
-stop is missing that. Add stop|s to match cont|c for consistency and
-convenience.
+Fix 'Identifer' -> 'Identifier' typo.
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20211030095225.513D4748F48@zero.eik.bme.hu>
+Cc: Laurent Vivier <laurent@vivier.eu>
+Fixes: 8c6df16ff60 ("hw/char: add goldfish-tty")
+Fixes: 87855593903 ("hw/intc: add goldfish-pic")
+Fixes: 2fde99ee312 ("m68k: add an interrupt controller")
+Fixes: 0791bc02b8f ("m68k: add a system controller")
+Fixes: e1cecdca559 ("m68k: add Virtual M68k Machine")
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20211103105311.3399293-1-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hmp-commands.hx | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/char/goldfish_tty.c         | 2 +-
+ hw/intc/goldfish_pic.c         | 2 +-
+ hw/intc/m68k_irqc.c            | 2 +-
+ hw/m68k/virt.c                 | 2 +-
+ hw/misc/virt_ctrl.c            | 2 +-
+ include/hw/char/goldfish_tty.h | 2 +-
+ include/hw/intc/goldfish_pic.h | 2 +-
+ include/hw/intc/m68k_irqc.h    | 2 +-
+ include/hw/misc/virt_ctrl.h    | 2 +-
+ 9 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 3a5aeba3fe8a..70a9136ac293 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -382,7 +382,7 @@ SRST
- ERST
- 
-     {
--        .name       = "stop",
-+        .name       = "stop|s",
-         .args_type  = "",
-         .params     = "",
-         .help       = "stop emulation",
-@@ -390,7 +390,7 @@ ERST
-     },
- 
- SRST
--``stop``
-+``stop`` or ``s``
-   Stop emulation.
- ERST
- 
+diff --git a/hw/char/goldfish_tty.c b/hw/char/goldfish_tty.c
+index 8365a1876145..20b77885c180 100644
+--- a/hw/char/goldfish_tty.c
++++ b/hw/char/goldfish_tty.c
+@@ -1,5 +1,5 @@
+ /*
+- * SPDX-License-Identifer: GPL-2.0-or-later
++ * SPDX-License-Identifier: GPL-2.0-or-later
+  *
+  * Goldfish TTY
+  *
+diff --git a/hw/intc/goldfish_pic.c b/hw/intc/goldfish_pic.c
+index e3b43a69f163..dfd53275f692 100644
+--- a/hw/intc/goldfish_pic.c
++++ b/hw/intc/goldfish_pic.c
+@@ -1,5 +1,5 @@
+ /*
+- * SPDX-License-Identifer: GPL-2.0-or-later
++ * SPDX-License-Identifier: GPL-2.0-or-later
+  *
+  * Goldfish PIC
+  *
+diff --git a/hw/intc/m68k_irqc.c b/hw/intc/m68k_irqc.c
+index 2133d2a698ab..0c515e4ecb79 100644
+--- a/hw/intc/m68k_irqc.c
++++ b/hw/intc/m68k_irqc.c
+@@ -1,5 +1,5 @@
+ /*
+- * SPDX-License-Identifer: GPL-2.0-or-later
++ * SPDX-License-Identifier: GPL-2.0-or-later
+  *
+  * QEMU Motorola 680x0 IRQ Controller
+  *
+diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+index 4e8bce5aa6f7..edc58fbddae4 100644
+--- a/hw/m68k/virt.c
++++ b/hw/m68k/virt.c
+@@ -1,5 +1,5 @@
+ /*
+- * SPDX-License-Identifer: GPL-2.0-or-later
++ * SPDX-License-Identifier: GPL-2.0-or-later
+  *
+  * QEMU Vitual M68K Machine
+  *
+diff --git a/hw/misc/virt_ctrl.c b/hw/misc/virt_ctrl.c
+index 3552d7a09abd..e75d1e7e17b3 100644
+--- a/hw/misc/virt_ctrl.c
++++ b/hw/misc/virt_ctrl.c
+@@ -1,5 +1,5 @@
+ /*
+- * SPDX-License-Identifer: GPL-2.0-or-later
++ * SPDX-License-Identifier: GPL-2.0-or-later
+  *
+  * Virt system Controller
+  */
+diff --git a/include/hw/char/goldfish_tty.h b/include/hw/char/goldfish_tty.h
+index b9dd67362a68..7503d2fa1e15 100644
+--- a/include/hw/char/goldfish_tty.h
++++ b/include/hw/char/goldfish_tty.h
+@@ -1,5 +1,5 @@
+ /*
+- * SPDX-License-Identifer: GPL-2.0-or-later
++ * SPDX-License-Identifier: GPL-2.0-or-later
+  *
+  * Goldfish TTY
+  *
+diff --git a/include/hw/intc/goldfish_pic.h b/include/hw/intc/goldfish_pic.h
+index ad13ab37fc3e..e9d552f79682 100644
+--- a/include/hw/intc/goldfish_pic.h
++++ b/include/hw/intc/goldfish_pic.h
+@@ -1,5 +1,5 @@
+ /*
+- * SPDX-License-Identifer: GPL-2.0-or-later
++ * SPDX-License-Identifier: GPL-2.0-or-later
+  *
+  * Goldfish PIC
+  *
+diff --git a/include/hw/intc/m68k_irqc.h b/include/hw/intc/m68k_irqc.h
+index dbcfcfc2e000..ef91f218122e 100644
+--- a/include/hw/intc/m68k_irqc.h
++++ b/include/hw/intc/m68k_irqc.h
+@@ -1,5 +1,5 @@
+ /*
+- * SPDX-License-Identifer: GPL-2.0-or-later
++ * SPDX-License-Identifier: GPL-2.0-or-later
+  *
+  * QEMU Motorola 680x0 IRQ Controller
+  *
+diff --git a/include/hw/misc/virt_ctrl.h b/include/hw/misc/virt_ctrl.h
+index edfadc469505..25a237e51874 100644
+--- a/include/hw/misc/virt_ctrl.h
++++ b/include/hw/misc/virt_ctrl.h
+@@ -1,5 +1,5 @@
+ /*
+- * SPDX-License-Identifer: GPL-2.0-or-later
++ * SPDX-License-Identifier: GPL-2.0-or-later
+  *
+  * Virt system Controller
+  */
 -- 
 2.31.1
 
