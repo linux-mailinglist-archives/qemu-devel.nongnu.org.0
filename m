@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 525F944A01D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 01:59:07 +0100 (CET)
-Received: from localhost ([::1]:57190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96467449FF7
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 01:50:29 +0100 (CET)
+Received: from localhost ([::1]:55108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkFTe-0001sx-Dj
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 19:59:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51798)
+	id 1mkFLI-000694-Nx
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 19:50:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1mkFAt-0005u3-Vz
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 19:39:44 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:40290)
+ id 1mkFAc-0005er-HX
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 19:39:27 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:37718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1mkFAX-00046q-0R
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 19:39:43 -0500
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A907cV2013263
- for <qemu-devel@nongnu.org>; Tue, 9 Nov 2021 00:39:19 GMT
+ id 1mkFAX-00046F-0O
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 19:39:25 -0500
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A902vrD019145
+ for <qemu-devel@nongnu.org>; Tue, 9 Nov 2021 00:39:16 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : subject :
  date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=/hGtN04tTT++QHomhGLmLCscMG2OaMkaYyEohJcV07k=;
- b=W4t2X8sT09DFDo8DL67zXD3nOJffcTqDCnsEcjU6lvaKy91KL6+MHfWTVueE2cMo3WYL
- X2Qk2Hr2A38i9HnlGFZ0r5wYIbI9/pOtkH2DjvfsAmJxpMorhb/Hr2nHS+LsM8+Kw4oT
- agCm7T1dq81xq3/A4kvrKv+kAdgnjRSueAmNS70uBwW4nKmlg+FX9ApUVjTxmFH/nTp+
- AtA0nWKEU1RP+RuRux0s7qK9w/fOFqBpGaRA9L4FcHN4Y2e4608NIiIz44RtB55XWbAq
- ti6kHHwmSiueMvMR0aZWN52LkNj0f6JWGJKLaMEv8PboGovHHOLhi7602UxgVd92fXUt /w== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 3c6st8qyec-1
+ bh=v+jIFvek62PK3XboQP/gFOnb3lTpeJWxb58UHEDdtbY=;
+ b=DnnPUBkgNtwWVJMrxdpRoylRd6AwIptBjk9mq0OeBK1F5su1rO48uJ1t5Ibe88KgVcRX
+ aITB3cnrSF8vmyseV7ASgO0cUp+8L7nWRGFoaGTX5KExRnnIYOmBEjJ1/IG22PiZMkWh
+ uNgrV2cnjQdHRmiWvMOARAnsOrDBY6ccZO/27FafO4oy3qedKLGogqG6GZKgVeWrdPZb
+ jNolqh8BGwa9s4W7cG+fSKCGLIy/a0W1c62T+r4EIwyFX0US1HdsHWAgje4G7ZW7Xjo1
+ 4BFMFS6pV9XyKjW55shC01//Vh7GrOOb89lg35aCE31KcIcl6SaIQAy1fchYpcejxSoT aw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3c6sbk7c83-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 00:39:18 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1A90Zxm3132637
- for <qemu-devel@nongnu.org>; Tue, 9 Nov 2021 00:39:17 GMT
+ for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 00:39:15 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1A90ZLMx129193
+ for <qemu-devel@nongnu.org>; Tue, 9 Nov 2021 00:39:14 GMT
 Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2100.outbound.protection.outlook.com [104.47.70.100])
- by aserp3030.oracle.com with ESMTP id 3c5frd6sqb-2
+ (mail-bn7nam10lp2104.outbound.protection.outlook.com [104.47.70.104])
+ by userp3030.oracle.com with ESMTP id 3c5etuvb6n-2
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 00:39:17 +0000
+ for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 00:39:14 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TcCVdD0wKAYn/thtnEqRJB3BY523NmZNkmzp8Pv2ukRj6sOq27hiGF+JTxmx0XXvNRzgz4SKNHO86kMCPCxu/IHA3QRNhKtlkAMkhWSrD+BWivdxZOer+Ncd81ZD9GTz4ClrrQnS0ekijXz/dLwQwDvWNI8jm2o9L1v/fzqGz+Ll4fBOsyna3Y8dUCWeX2Se1CS+xnmAHu1eefNJc5rtWEQmxU0oP/XWoIpRm25r0HEdJ6WcoaFqbYcATdYFkxpxS6FF3rI/NKPSg8AZpfxNzaT8LO23wM2iKw9kAKs1bsTRB44qZGl9cSIcH4dcjJiw8IAjeEk7ClzxrEb+M8s9+A==
+ b=iww+2uOaoeq9b2/GXNBTyt/GeAeYftnW8Yj8RCw9P1nPwdtas+pOnL+bDHKmP6sIg4n7nNhj8fCYzsX2r0VY9pk7TdIcPjuo4eJrqQ1YVkm7Mr2IDpKIl7C3q9hnHk596HYa3kKRfy3ZLCFqE0exgx1rlzHgpwuG4CHcRWJcPKCeDg1RIlm5dOKBX0ap2/qPOGy16WCLQkkr+m7t8/6gBvoN1dWRRDCjMm+kyeBP3fBj7lwPy6NbmpJY307FOsN0fLdyVEP9U5jgxX37eVvG7no/1j0ppE4g1uCjJFTKJyJzoygR7W8ieRA2IvnESvrC6SVRivQcdjCoHtAbEbmKTQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/hGtN04tTT++QHomhGLmLCscMG2OaMkaYyEohJcV07k=;
- b=n6u04biNrFEtIZV7+RM/KJNE8nAtzNFjSpOwXoOnTTHLVArrS31wLMwmR8pDB5k38HLIZ+uAThNXzK9XztCuFNQnn/6rA+Tsb2jGj7Tdxxyvm5xM0x2M0TjIaaMQrVyKauTxgSgOFf8thM7xO9p2LdbudTmzHfH8/9+GwLety3sk3kJ+XIpZYfr8mfcgSvwgYXIN2eGSGQvp7l+Kafnp3VaeKxKnUBgU8YeP69BPq7C75QoRXVjTzJpKMV9dOd+LEcSZKCVz/n/5WzO6lGKU3XsWG+cw727ccM6f5nMKpDxnvu/COxPEb+FfZorKY/T8kMFR7nbfNDYmzyEKJpwRQQ==
+ bh=v+jIFvek62PK3XboQP/gFOnb3lTpeJWxb58UHEDdtbY=;
+ b=jPJW+LeY4BK7zxMLwzlxVzHI2MJeeI0JSDc7lG54QrGRGnhNR0SKGP+uPlM1b6O5g4dx7KkY8Z7QcV7LqaJ1cmBW3ulzvDmewMoKkjr9CGYkdeP5IEDdvdjHG2j4E+CC6oNi0bqslbS+/w/nhXqp0Cfpg/51qCKUxwDKvogamBMKY+4TVyWKcHcPyTIVvn7nDFU3GwvNJGnM9ZalGFz/sEY0sWlYMa9TzULyx7sslAwHDn43qJWbg4fXA9e7hW0CRz1X6YFBSwt+b+Aq6FkpZwVlJbWw3gH4Uyz8L+5RtkE1asgDGK112iRyYQrX49zWr86INn/LuULmNI9LztChog==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/hGtN04tTT++QHomhGLmLCscMG2OaMkaYyEohJcV07k=;
- b=b0c3tPLt/GLV4DPyPbE8CRW7/UYuVxCIdbkGLjJpJ0BMhb1Y7MubYhSBpPiu3qZ53Uk+ioPkRiXkwM8x91ojRqeWe/5FwiuN1a2OWZsA3lMLLk8rf/OE+3sGXHEL5lAyn+u4cr50g18rRF/deyEfspJP/avhXLmfsyIdRuedjeU=
+ bh=v+jIFvek62PK3XboQP/gFOnb3lTpeJWxb58UHEDdtbY=;
+ b=xK2kBxZR43qVw/UZtFz7IJm2KvEJvOqRUNnv8SWNILeR6jWkunizaJL5I12f1zE/Yg9k00uQvTKGfhMEYh4Nukp53MpiSSwnOhY/eZxX6hYo8gBm4+Ko/Fwqys1MIi/r3YiHCoxFaheM88tMo9iQSfIXzPsyq9ZipFYz7wy9qd8=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from SJ0PR10MB4686.namprd10.prod.outlook.com (2603:10b6:a03:2d7::23)
@@ -72,9 +72,9 @@ Received: from SJ0PR10MB4686.namprd10.prod.outlook.com
  00:39:10 +0000
 From: John Johnson <john.g.johnson@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v3 01/19] vfio-user: introduce vfio-user protocol specification
-Date: Mon,  8 Nov 2021 16:46:29 -0800
-Message-Id: <becb5ac566ba7f94f0e17e487fd9f68b7261351d.1636057885.git.john.g.johnson@oracle.com>
+Subject: [RFC v3 02/19] vfio-user: add VFIO base abstract class
+Date: Mon,  8 Nov 2021 16:46:30 -0800
+Message-Id: <c3c41abc74603d5d2cb56a20bb0a056b8c338b88.1636057885.git.john.g.johnson@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1636057885.git.john.g.johnson@oracle.com>
 References: <cover.1636057885.git.john.g.johnson@oracle.com>
@@ -89,76 +89,76 @@ Received: from bruckner.us.oracle.com (73.71.20.66) by
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.11 via Frontend
  Transport; Tue, 9 Nov 2021 00:39:10 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d4723b79-eec9-4750-d224-08d9a3195887
+X-MS-Office365-Filtering-Correlation-Id: 6f60b171-3581-48a7-3ee0-08d9a31958b5
 X-MS-TrafficTypeDiagnostic: BY5PR10MB4068:
-X-Microsoft-Antispam-PRVS: <BY5PR10MB406817532FC276EDB80ACD6EB6929@BY5PR10MB4068.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Microsoft-Antispam-PRVS: <BY5PR10MB40681C6378EE67DC06A0A853B6929@BY5PR10MB4068.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:60;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QiWUzgCSs3Uo2AHN0sV23yNsLNCOKH+iVBgG90rIkUTkLfIppvuEuU8DFMRcNWH8EebqZIIEmIrUUJIPPam71pXj36cO8CFg/GmfErujBLxVxKRAFYoqYXAxUs9wo/u+COsLyJ+eQ4GnlrkqFChokUSt2LGlEfltEQp+CwbD5DKerPogKBI1ytBHIb62UioV/hJxCQI5607N6MELeXVO10XfnozN3fTw++wnFoBi2IGegoKmOdvBgTrIYgxrOozUEFI+oqioE2BpsIgMCCKmBxBmKH1+SFd83xUSjowe1x53L3hdT2RnVndtzhlzp6VIWUT0lG/7wSCpyzhElmoODpEszyt5LgLhpkMxYRefi3tL1DbDS4y2D2koNyYe/P1cJNuJ2opRFn5y5R3sO9/yVbF14J60SlUBbam8eBPPxqFeeMbdUlN8i3zUkGqnc2bcYgf6eEYwvLV+TOvKbvGLsyRdWpYC3rlRhTtvIjlcpC1tVgt/7XN2KLPaZoQDCHwF6nZLhy4OdvbraHgaGSlKti7RfaQ6xX6L3JskW3n1YixV9I5uBsncC4ObeVIc6xZnfYpG6WT1E/YuwRPiTV/REZOx7C0v4T0Kj9haNJOtP/byNSo3BdtRPbHUVol/5M2AXf5nFAG1pvR49Gyndl5ijL3opHMg6UD3e6DSWke0csZNmSQ4d6Gtxy5hwa9jamq4RVcsmSsiw6z8fTi9Cs57ap+5j2CsK8TY+HkNSMgpHH9s+B26IZN8Rt1e2Grk8XDlc54TYGe8ets+FHyafhSpnvz9+dAh8Js30b2IdQUlH3hns2EC6oN6w02Qait4v0e49LCiZl0p2j1tPDTZ/tAQEw==
+X-Microsoft-Antispam-Message-Info: moS7icyXODn7Ef3B93OspX0V7Z/nDiFbRc0dCJwBIdjTtOcG8NhlmshH7kmscN0lXo5iIiwTL4m9k9VbCU3mprVDBvhDbl2qeKd4MBUYmoA+umT09aWnhILOPq1VD2cuRUDYafDIcHHROmz7ZiVrINfwCWdC7V90r/C+YGdJwWRSUu3qFFvEWkx3Lu7E9KHicpGahqGIFmzg4BNvkZDttXxfdw6u3QdNiwPKkIC1AE3kBEePbhAV2ogpNXp0i7Oba8YMW/8cIxu3BjbT4RDvcnpAaDK5LUZKN5DL1mlrzoLvbZSyaFg3WFxc/xyfqtN2QCBOwKgoC9UtQMQye//zF+9YeiS5qbIIErg+yJK2iClSgrD3JEvipkROHqxmt3IiSvN9oFj+LusmDDSkomxwZ994Gr6BCF0D7knygKRYOx4T1xY8bo1RmtRgoachULY/BekNIOtZvA15dKT/SLuED6EN6fZsMDrfIQD6QtvfP1BxKIy8eIOtXzGEeom6EH4l3b2l+W8TSzHYpR/xEA8dIjynCxr5aGNdm5hqvyl1836DJtiISCpWb1Kouql/75FfNjV/5fvoLRv0gVZoAH05GSY9pnI8fkX05usMwTDFY0tBd1jPW9RCePC1wzxB3vwyhnf6M1SmDcGobYa7aZwx4zCxEJMmlW4OJQ4xPLsQ7wVcmg/pIgCobLeUJO7OD2azP50MnAl2H7n0asWmn82xAQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SJ0PR10MB4686.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(966005)(66476007)(316002)(186003)(66556008)(508600001)(8936002)(8676002)(66946007)(6486002)(26005)(2906002)(6916009)(5660300002)(36756003)(7696005)(52116002)(86362001)(83380400001)(956004)(38100700002)(6666004)(2616005)(30864003)(38350700002)(579004)(559001);
+ SFS:(366004)(66476007)(316002)(186003)(66556008)(508600001)(8936002)(8676002)(66946007)(6486002)(26005)(2906002)(6916009)(5660300002)(36756003)(7696005)(52116002)(86362001)(83380400001)(956004)(38100700002)(6666004)(2616005)(30864003)(38350700002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qunO1f6I0wbIYppRzupYgVq7NWiPbpKex7WmoH7kf0h7tJNMGrV2ItXjw7gY?=
- =?us-ascii?Q?OSVI7o3VbiVKJrbX2VRN31n+5SbORK16W6VUpZjQX/gR4Y5hF0i/OP8vqznz?=
- =?us-ascii?Q?ibUxLuepUWTOh4unKXzpELGHafZPbXDLdcqcjxt0PtehFCpZBkQ1ZKUSJUWu?=
- =?us-ascii?Q?ey3yVrlN7CrccT8TOWnnsc7xvKEswiwKHU+CYR75Co/enklqe29YaEL48sbO?=
- =?us-ascii?Q?K6s+A6cT1nT8Apr6OnAWZMbW7xkSt0entIFa4VGN96Sr8oediy+1PMb8Pp9f?=
- =?us-ascii?Q?dkY5nwoiXQaWbZDCVr0BUyZDOM7Zxfvrt8l4xaKFe4C8C1QUxElCyFwpHYKa?=
- =?us-ascii?Q?6YsZSRlMZosxIWdtvD2Qnjg2PPdocxOrIGgibp2WBt1zPaG//jArD5zAdKE+?=
- =?us-ascii?Q?GC2+w2sxhMajxPVcWEGWH//T1JXRLKK7k2GSsAOp1uKE83E6SGP6eGK6tcZf?=
- =?us-ascii?Q?WLEhBSTSy1v35MiEbBIZImtoRzKyl2+f3MLOk+a7VBFggj9mf64uoykhBIpG?=
- =?us-ascii?Q?BHQzXkXzL8OIVVMcyLXolmyK8vgUNLnZCCIunnBrQPd2mxHVPv2EJ01izgBI?=
- =?us-ascii?Q?8bNd2vQpUwm++udzEmLqvNEk1CVyvUOfl9fwQf/7cioaPDKeLIkkwC4aVuTD?=
- =?us-ascii?Q?nlZKixyxQk6PalQSMlTXDBbIF0OeN42RxRks9jwOSg9N4R9hVIpJIRXm8uSf?=
- =?us-ascii?Q?KRYCdd6L/uNmTk0BLxpyDudK8Lu06QXQygrx7PnCDLjwUgCbmQka+f/YE0mo?=
- =?us-ascii?Q?TDse1yAlD/53Imb3xfDeLagFK2Xtc7Wz44ukjwsCbnkCIOGMv2n9HiPtn7TV?=
- =?us-ascii?Q?Eu2VoY6niQMgKSi6KEIFSWrF9ru0+SLtFlKjZINTHDUTe0c25GZNdxT+2xqy?=
- =?us-ascii?Q?/HTyKmMLsCW/oVZpuj4AE9WqyzcEKk3NeNOsRAv5XVg51cEAMrr06YV4sN5c?=
- =?us-ascii?Q?5G11gVhg8yTvn/MIQgsQjUNWJHkHpWwNo9P6b5vVRwsmwGKd22nHaGbV/qsz?=
- =?us-ascii?Q?GhKpgKeJ9AqleCCZ8YD47T61OvZLOQGCLW4Gub2OyRLUFNm2kME02DgZvNhB?=
- =?us-ascii?Q?I9GvSVV+1aKNpboXDfXrWZMvc/kbwMaZ3+hey5KYUBMUz9fCRaVCbrRFYkEt?=
- =?us-ascii?Q?Rw2w2V34mWk4rhE7RZUjC5aOFoheHIK/qBSQcQ9JKUksCXgVKp7vEy/t7Axp?=
- =?us-ascii?Q?BoIwZVsZCrbVcRSOSvvy5BFacq7cECK6fy4v9ZvnKGGGeTxmMpfEwFDcchUM?=
- =?us-ascii?Q?1QfuaizSazs7BvhRsxQjDfaWcPNDD5jomA7HH7DGprcmu1wvEI8RXCm3J583?=
- =?us-ascii?Q?lHuspwn2qSi8GIGzXxuvky2KW8nJ22p3yCcLuzjBvsUN5HCDf2nz1WQI02g9?=
- =?us-ascii?Q?DrGevjA0RHddZq74iizWVQFiCNLPYX6a6758GqjYJxGn0CootQmtDPGdh8ef?=
- =?us-ascii?Q?62QEZ+9YhmyQd3rynwwRotTTV+AQaL7LXRH+joyvR+F/7ImeCBmxgn6Me4hX?=
- =?us-ascii?Q?yX5Njx3WdGnZ3ywnw2qHkxAhBiVLZ3ubk95dpHbUXi8HaTVNF9WZyN9wXcb2?=
- =?us-ascii?Q?LnP/S03me6C4gfEEU53p6x+BWrOtB7/2pMRu5fHaQ1za1IIq1Qq2vO26SHgF?=
- =?us-ascii?Q?O5gjF8NnGKIxemzXW1BFsRVSmWWL/ipvrU4Nej5zZsIRQ/mO860brr6IGjsX?=
- =?us-ascii?Q?I3lELw=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?REvpdRIjW01BskEQs/fP0eBtxQH+fDAZ5CSbu1ltUTW9M4YBTw6TS/iTMk1b?=
+ =?us-ascii?Q?LvZ7K2q1RfZZLrY2wQpUVPZ4RdmPneyGfOPtvTzYCkBGMOU/9vFcZuAVl8MP?=
+ =?us-ascii?Q?w7KTMJyBhgDjj2xXxQ/i0cEIEUXhVzy3g8Avfoowl0BFgUPt7bn6OoWr8A1d?=
+ =?us-ascii?Q?wLeIKnfoIPbin1mk3f3Bxd2B8o0F3E/3EaaTBfmo9Yc6lKeVeoDnSWilL5fo?=
+ =?us-ascii?Q?UHYEQ2dWBhTG91iSS13+a7RKZ7NTbRNGon0zZD01r+FWe6oHLfWgzUme/IeI?=
+ =?us-ascii?Q?DQQfFWBqsCkhHyFT6Z8BrxdK+eIKELpCtjlR2VJQ5wvv9bIepwtSyUAp3HgM?=
+ =?us-ascii?Q?FIJU3LSSaZu89y9pz4qSxar33MfU9vx/BZqY8U/8RFbATqoNgq+DpWcqKceU?=
+ =?us-ascii?Q?UuPDR9Dcg6UjpA9lWF4LRN271JKtEJBw7mISnrGE4eaH8E+s3s3AYTRkeQfx?=
+ =?us-ascii?Q?QvQwnVMXbfJmceg4yItHvgeyQtUlygDxQ7YvRmqHw1nJL5n/KnioeFdRt16A?=
+ =?us-ascii?Q?wwHWDo0FG2VPy3SI036RZDfcw15VThNBdrK9DiA/uMzx4Jm4VmuskQiuz5Ea?=
+ =?us-ascii?Q?wwv7SwTDf+c37Ezet1n0PDzB2kKcLm4U4VYoG47+Tj9RkzGI+lsMfJJ/5Abz?=
+ =?us-ascii?Q?hE3AejcnXSaGzrdvc5U028vp6dvOyK69cEoQ75PTEk699I78pPxgRKvc7rZT?=
+ =?us-ascii?Q?vZrrNz/0YK2UpnRby9+iE17rtRD1UiIXJwpddLhbxGOFiCzG7UAJIQms51Ty?=
+ =?us-ascii?Q?FP2hidVRx6OaMytOOYyABanXtQBHnLjXK+w2uDv7W3dgoyEq9UfvJVCz8/xP?=
+ =?us-ascii?Q?AULh+9m9Fk8iAAp90k3vjyi/ewyuOxWdk+IQEP/XAxdJ8h4r+QfQe0epS22R?=
+ =?us-ascii?Q?wAbySUQ2/4AOfn8846B4qll4UCA8uIaixppuO7rB8uefkDPRxX3Ji2FKYhGo?=
+ =?us-ascii?Q?PqY76l7TeJXd76+ipVU1s3ROYSvuwPgrDvpxhq1BmpVc0Gw5sg7xa36s5xap?=
+ =?us-ascii?Q?/EguVdbm8jSc6Gt3LSHrixkJtImoZmqUVZ8o2SSEPBQuoiaw1w96JGKyzFOQ?=
+ =?us-ascii?Q?SeEiYKowOS/yUX1bp1tBhyFrhNGJaJ6hH/vEl/3g47BdjS4q4vCCI38G75rS?=
+ =?us-ascii?Q?o7pzXZ1zfg4zzBMVXrE5xB14zNl+R1saQ+3PEJihuu4LbErp7G4ntMBkC2x9?=
+ =?us-ascii?Q?K1gnOcIsEMLtqGUMhw5iZzLbYjoiCRi7CAhJeA9XXsFryt1FJisA1TwpQ1PZ?=
+ =?us-ascii?Q?C+8QVwYc5z4eYyQ2RZJdttvMQRM10SVkxNAYliZ2uyLmB0H3zf/IXOP0ZTbu?=
+ =?us-ascii?Q?AXdevof8sQWuV0EYSI0H0XxPgY/lAZH3DPyjBQSxmQJ0cV60tOJ7ItpODOH0?=
+ =?us-ascii?Q?QFRQngdZdH8XkfIEm6lLWzFh02JgVNyxKHx+dX1T1NPvqXLFN6ngtfRDuJZZ?=
+ =?us-ascii?Q?TtdjVfO4z7f9xqWs8OwdmWB254bMHmU7rZcIDYpyhtt5MYV/Ow3mYgQybKUZ?=
+ =?us-ascii?Q?gcLN+9t1OFk+IeMJ9OEY+iEcPK9OlHXKsc/KH58LvIzYdG/r4lsWJGlmpu9K?=
+ =?us-ascii?Q?L5l12dcJfBzT+IwcyLOf02wcOUlTcXqeySLY7TDtUyj5TOzNMEhvgKl1lWQX?=
+ =?us-ascii?Q?IFxG4u15g0AzHkS3N6bWxcYMHb+/sNIUZqNjhQtXmBR+TCjFeQssV+eBOgL8?=
+ =?us-ascii?Q?HjTyoQ=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d4723b79-eec9-4750-d224-08d9a3195887
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f60b171-3581-48a7-3ee0-08d9a31958b5
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB4686.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2021 00:39:10.6104 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2021 00:39:10.8454 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5Dwlil/xCMKCPYSyF8MSqWdi1LNnNZ6c2eZwh0YExw1RdF/xeJcRN4Im5WEqKfx/dbthfLexEUqIZOb4W2DcswZUdzvBzN1H0mZC5awcXkg=
+X-MS-Exchange-CrossTenant-UserPrincipalName: cJzChfqWGgYp0sJGQMTTDghXLFx/9UCrD5L8krZxlYMnjV0ndhWIDDp3hFgUNjFoOWcHXSsV3tsEzG7iit7GwUpZNT2fnWyqk22QSz6dUmc=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB4068
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10162
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- mlxscore=0
- suspectscore=0 bulkscore=0 spamscore=0 phishscore=0 malwarescore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ adultscore=0
+ mlxlogscore=999 malwarescore=0 phishscore=0 mlxscore=0 suspectscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2111090001
-X-Proofpoint-ORIG-GUID: 29cKrPhRgXkqK6AeiaDcQfmP7qdQYEBe
-X-Proofpoint-GUID: 29cKrPhRgXkqK6AeiaDcQfmP7qdQYEBe
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=john.g.johnson@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-GUID: VgUbZnPM8ewt2VcShjbTGH_2BKJ0zcb4
+X-Proofpoint-ORIG-GUID: VgUbZnPM8ewt2VcShjbTGH_2BKJ0zcb4
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=john.g.johnson@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -174,1871 +174,302 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thanos Makatos <thanos.makatos@nutanix.com>
-
-This patch introduces the vfio-user protocol specification (formerly
-known as VFIO-over-socket), which is designed to allow devices to be
-emulated outside QEMU, in a separate process. vfio-user reuses the
-existing VFIO defines, structs and concepts.
-
-This patch is sourced from:
-https://patchwork.kernel.org/project/qemu-devel/patch/20210614104608.212276-1-thanos.makatos@nutanix.com/
-
-It has been earlier discussed as an RFC in:
-"RFC: use VFIO over a UNIX domain socket to implement device offloading"
+Add an abstract base class both the kernel driver
+and user socket implementations can use to share code.
 
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-Signed-off-by: Thanos Makatos <thanos.makatos@nutanix.com>
-Signed-off-by: John Levon <john.levon@nutanix.com>
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- docs/devel/index.rst     |    1 +
- docs/devel/vfio-user.rst | 1810 ++++++++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS              |    6 +
- 3 files changed, 1817 insertions(+)
- create mode 100644 docs/devel/vfio-user.rst
+ hw/vfio/pci.h |  16 +++++++--
+ hw/vfio/pci.c | 112 +++++++++++++++++++++++++++++++++++-----------------------
+ 2 files changed, 81 insertions(+), 47 deletions(-)
 
-diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index 5522db7..304ca1c 100644
---- a/docs/devel/index.rst
-+++ b/docs/devel/index.rst
-@@ -44,3 +44,4 @@ modifying QEMU's source code.
-    vfio-migration
-    qapi-code-gen
-    writing-qmp-commands
-+   vfio-user
-diff --git a/docs/devel/vfio-user.rst b/docs/devel/vfio-user.rst
-new file mode 100644
-index 0000000..97a7506
---- /dev/null
-+++ b/docs/devel/vfio-user.rst
-@@ -0,0 +1,1810 @@
-+.. include:: <isonum.txt>
-+********************************
-+vfio-user Protocol Specification
-+********************************
-+
-+--------------
-+Version_ 0.9.1
-+--------------
-+
-+.. contents:: Table of Contents
-+
-+Introduction
-+============
-+vfio-user is a protocol that allows a device to be emulated in a separate
-+process outside of a Virtual Machine Monitor (VMM). vfio-user devices consist
-+of a generic VFIO device type, living inside the VMM, which we call the client,
-+and the core device implementation, living outside the VMM, which we call the
-+server.
-+
-+The vfio-user specification is partly based on the
-+`Linux VFIO ioctl interface <https://www.kernel.org/doc/html/latest/driver-api/vfio.html>`_.
-+
-+VFIO is a mature and stable API, backed by an extensively used framework. The
-+existing VFIO client implementation in QEMU (``qemu/hw/vfio/``) can be largely
-+re-used, though there is nothing in this specification that requires that
-+particular implementation. None of the VFIO kernel modules are required for
-+supporting the protocol, on either the client or server side. Some source
-+definitions in VFIO are re-used for vfio-user.
-+
-+The main idea is to allow a virtual device to function in a separate process in
-+the same host over a UNIX domain socket. A UNIX domain socket (``AF_UNIX``) is
-+chosen because file descriptors can be trivially sent over it, which in turn
-+allows:
-+
-+* Sharing of client memory for DMA with the server.
-+* Sharing of server memory with the client for fast MMIO.
-+* Efficient sharing of eventfd's for triggering interrupts.
-+
-+Other socket types could be used which allow the server to run in a separate
-+guest in the same host (``AF_VSOCK``) or remotely (``AF_INET``). Theoretically
-+the underlying transport does not necessarily have to be a socket, however we do
-+not examine such alternatives. In this protocol version we focus on using a UNIX
-+domain socket and introduce basic support for the other two types of sockets
-+without considering performance implications.
-+
-+While passing of file descriptors is desirable for performance reasons, support
-+is not necessary for either the client or the server in order to implement the
-+protocol. There is always an in-band, message-passing fall back mechanism.
-+
-+Overview
-+========
-+
-+VFIO is a framework that allows a physical device to be securely passed through
-+to a user space process; the device-specific kernel driver does not drive the
-+device at all.  Typically, the user space process is a VMM and the device is
-+passed through to it in order to achieve high performance. VFIO provides an API
-+and the required functionality in the kernel. QEMU has adopted VFIO to allow a
-+guest to directly access physical devices, instead of emulating them in
-+software.
-+
-+vfio-user reuses the core VFIO concepts defined in its API, but implements them
-+as messages to be sent over a socket. It does not change the kernel-based VFIO
-+in any way, in fact none of the VFIO kernel modules need to be loaded to use
-+vfio-user. It is also possible for the client to concurrently use the current
-+kernel-based VFIO for one device, and vfio-user for another device.
-+
-+VFIO Device Model
-+-----------------
-+
-+A device under VFIO presents a standard interface to the user process. Many of
-+the VFIO operations in the existing interface use the ``ioctl()`` system call, and
-+references to the existing interface are called the ``ioctl()`` implementation in
-+this document.
-+
-+The following sections describe the set of messages that implement the vfio-user
-+interface over a socket. In many cases, the messages are analogous to data
-+structures used in the ``ioctl()`` implementation. Messages derived from the
-+``ioctl()`` will have a name derived from the ``ioctl()`` command name.  E.g., the
-+``VFIO_DEVICE_GET_INFO`` ``ioctl()`` command becomes a
-+``VFIO_USER_DEVICE_GET_INFO`` message.  The purpose of this reuse is to share as
-+much code as feasible with the ``ioctl()`` implementation``.
-+
-+Connection Initiation
-+^^^^^^^^^^^^^^^^^^^^^
-+
-+After the client connects to the server, the initial client message is
-+``VFIO_USER_VERSION`` to propose a protocol version and set of capabilities to
-+apply to the session. The server replies with a compatible version and set of
-+capabilities it supports, or closes the connection if it cannot support the
-+advertised version.
-+
-+Device Information
-+^^^^^^^^^^^^^^^^^^
-+
-+The client uses a ``VFIO_USER_DEVICE_GET_INFO`` message to query the server for
-+information about the device. This information includes:
-+
-+* The device type and whether it supports reset (``VFIO_DEVICE_FLAGS_``),
-+* the number of device regions, and
-+* the device presents to the client the number of interrupt types the device
-+  supports.
-+
-+Region Information
-+^^^^^^^^^^^^^^^^^^
-+
-+The client uses ``VFIO_USER_DEVICE_GET_REGION_INFO`` messages to query the
-+server for information about the device's regions. This information describes:
-+
-+* Read and write permissions, whether it can be memory mapped, and whether it
-+  supports additional capabilities (``VFIO_REGION_INFO_CAP_``).
-+* Region index, size, and offset.
-+
-+When a device region can be mapped by the client, the server provides a file
-+descriptor which the client can ``mmap()``. The server is responsible for
-+polling for client updates to memory mapped regions.
-+
-+Region Capabilities
-+"""""""""""""""""""
-+
-+Some regions have additional capabilities that cannot be described adequately
-+by the region info data structure. These capabilities are returned in the
-+region info reply in a list similar to PCI capabilities in a PCI device's
-+configuration space.
-+
-+Sparse Regions
-+""""""""""""""
-+A region can be memory-mappable in whole or in part. When only a subset of a
-+region can be mapped by the client, a ``VFIO_REGION_INFO_CAP_SPARSE_MMAP``
-+capability is included in the region info reply. This capability describes
-+which portions can be mapped by the client.
-+
-+.. Note::
-+   For example, in a virtual NVMe controller, sparse regions can be used so
-+   that accesses to the NVMe registers (found in the beginning of BAR0) are
-+   trapped (an infrequent event), while allowing direct access to the doorbells
-+   (an extremely frequent event as every I/O submission requires a write to
-+   BAR0), found in the next page after the NVMe registers in BAR0.
-+
-+Device-Specific Regions
-+"""""""""""""""""""""""
-+
-+A device can define regions additional to the standard ones (e.g. PCI indexes
-+0-8). This is achieved by including a ``VFIO_REGION_INFO_CAP_TYPE`` capability
-+in the region info reply of a device-specific region. Such regions are reflected
-+in ``struct vfio_user_device_info.num_regions``. Thus, for PCI devices this
-+value can be equal to, or higher than, ``VFIO_PCI_NUM_REGIONS``.
-+
-+Region I/O via file descriptors
-+-------------------------------
-+
-+For unmapped regions, region I/O from the client is done via
-+``VFIO_USER_REGION_READ/WRITE``.  As an optimization, ioeventfds or ioregionfds
-+may be configured for sub-regions of some regions. A client may request
-+information on these sub-regions via ``VFIO_USER_DEVICE_GET_REGION_IO_FDS``; by
-+configuring the returned file descriptors as ioeventfds or ioregionfds, the
-+server can be directly notified of I/O (for example, by KVM) without taking a
-+trip through the client.
-+
-+Interrupts
-+^^^^^^^^^^
-+
-+The client uses ``VFIO_USER_DEVICE_GET_IRQ_INFO`` messages to query the server
-+for the device's interrupt types. The interrupt types are specific to the bus
-+the device is attached to, and the client is expected to know the capabilities
-+of each interrupt type. The server can signal an interrupt by directly injecting
-+interrupts into the guest via an event file descriptor. The client configures
-+how the server signals an interrupt with ``VFIO_USER_SET_IRQS`` messages.
-+
-+Device Read and Write
-+^^^^^^^^^^^^^^^^^^^^^
-+
-+When the guest executes load or store operations to an unmapped device region,
-+the client forwards these operations to the server with
-+``VFIO_USER_REGION_READ`` or ``VFIO_USER_REGION_WRITE`` messages. The server
-+will reply with data from the device on read operations or an acknowledgement on
-+write operations. See `Read and Write Operations`_.
-+
-+Client memory access
-+--------------------
-+
-+The client uses ``VFIO_USER_DMA_MAP`` and ``VFIO_USER_DMA_UNMAP`` messages to
-+inform the server of the valid DMA ranges that the server can access on behalf
-+of a device (typically, VM guest memory). DMA memory may be accessed by the
-+server via ``VFIO_USER_DMA_READ`` and ``VFIO_USER_DMA_WRITE`` messages over the
-+socket. In this case, the "DMA" part of the naming is a misnomer.
-+
-+Actual direct memory access of client memory from the server is possible if the
-+client provides file descriptors the server can ``mmap()``. Note that ``mmap()``
-+privileges cannot be revoked by the client, therefore file descriptors should
-+only be exported in environments where the client trusts the server not to
-+corrupt guest memory.
-+
-+See `Read and Write Operations`_.
-+
-+Client/server interactions
-+==========================
-+
-+Socket
-+------
-+
-+A server can serve:
-+
-+1) one or more clients, and/or
-+2) one or more virtual devices, belonging to one or more clients.
-+
-+The current protocol specification requires a dedicated socket per
-+client/server connection. It is a server-side implementation detail whether a
-+single server handles multiple virtual devices from the same or multiple
-+clients. The location of the socket is implementation-specific. Multiplexing
-+clients, devices, and servers over the same socket is not supported in this
-+version of the protocol.
-+
-+Authentication
-+--------------
-+
-+For ``AF_UNIX``, we rely on OS mandatory access controls on the socket files,
-+therefore it is up to the management layer to set up the socket as required.
-+Socket types that span guests or hosts will require a proper authentication
-+mechanism. Defining that mechanism is deferred to a future version of the
-+protocol.
-+
-+Command Concurrency
-+-------------------
-+
-+A client may pipeline multiple commands without waiting for previous command
-+replies.  The server will process commands in the order they are received.  A
-+consequence of this is if a client issues a command with the *No_reply* bit,
-+then subsequently issues a command without *No_reply*, the older command will
-+have been processed before the reply to the younger command is sent by the
-+server.  The client must be aware of the device's capability to process
-+concurrent commands if pipelining is used.  For example, pipelining allows
-+multiple client threads to concurrently access device regions; the client must
-+ensure these accesses obey device semantics.
-+
-+An example is a frame buffer device, where the device may allow concurrent
-+access to different areas of video memory, but may have indeterminate behavior
-+if concurrent accesses are performed to command or status registers.
-+
-+Note that unrelated messages sent from the server to the client can appear in
-+between a client to server request/reply and vice versa.
-+
-+Implementers should be prepared for certain commands to exhibit potentially
-+unbounded latencies.  For example, ``VFIO_USER_DEVICE_RESET`` may take an
-+arbitrarily long time to complete; clients should take care not to block
-+unnecessarily.
-+
-+Socket Disconnection Behavior
-+-----------------------------
-+The server and the client can disconnect from each other, either intentionally
-+or unexpectedly. Both the client and the server need to know how to handle such
-+events.
-+
-+Server Disconnection
-+^^^^^^^^^^^^^^^^^^^^
-+A server disconnecting from the client may indicate that:
-+
-+1) A virtual device has been restarted, either intentionally (e.g. because of a
-+   device update) or unintentionally (e.g. because of a crash).
-+2) A virtual device has been shut down with no intention to be restarted.
-+
-+It is impossible for the client to know whether or not a failure is
-+intermittent or innocuous and should be retried, therefore the client should
-+reset the VFIO device when it detects the socket has been disconnected.
-+Error recovery will be driven by the guest's device error handling
-+behavior.
-+
-+Client Disconnection
-+^^^^^^^^^^^^^^^^^^^^
-+The client disconnecting from the server primarily means that the client
-+has exited. Currently, this means that the guest is shut down so the device is
-+no longer needed therefore the server can automatically exit. However, there
-+can be cases where a client disconnection should not result in a server exit:
-+
-+1) A single server serving multiple clients.
-+2) A multi-process QEMU upgrading itself step by step, which is not yet
-+   implemented.
-+
-+Therefore in order for the protocol to be forward compatible, the server should
-+respond to a client disconnection as follows:
-+
-+ - all client memory regions are unmapped and cleaned up (including closing any
-+   passed file descriptors)
-+ - all IRQ file descriptors passed from the old client are closed
-+ - the device state should otherwise be retained
-+
-+The expectation is that when a client reconnects, it will re-establish IRQ and
-+client memory mappings.
-+
-+If anything happens to the client (such as qemu really did exit), the control
-+stack will know about it and can clean up resources accordingly.
-+
-+Security Considerations
-+-----------------------
-+
-+Speaking generally, vfio-user clients should not trust servers, and vice versa.
-+Standard tools and mechanisms should be used on both sides to validate input and
-+prevent against denial of service scenarios, buffer overflow, etc.
-+
-+Request Retry and Response Timeout
-+----------------------------------
-+A failed command is a command that has been successfully sent and has been
-+responded to with an error code. Failure to send the command in the first place
-+(e.g. because the socket is disconnected) is a different type of error examined
-+earlier in the disconnect section.
-+
-+.. Note::
-+   QEMU's VFIO retries certain operations if they fail. While this makes sense
-+   for real HW, we don't know for sure whether it makes sense for virtual
-+   devices.
-+
-+Defining a retry and timeout scheme is deferred to a future version of the
-+protocol.
-+
-+Message sizes
-+-------------
-+
-+Some requests have an ``argsz`` field. In a request, it defines the maximum
-+expected reply payload size, which should be at least the size of the fixed
-+reply payload headers defined here. The *request* payload size is defined by the
-+usual ``msg_size`` field in the header, not the ``argsz`` field.
-+
-+In a reply, the server sets ``argsz`` field to the size needed for a full
-+payload size. This may be less than the requested maximum size. This may be
-+larger than the requested maximum size: in that case, the full payload is not
-+included in the reply, but the ``argsz`` field in the reply indicates the needed
-+size, allowing a client to allocate a larger buffer for holding the reply before
-+trying again.
-+
-+In addition, during negotiation (see  `Version`_), the client and server may
-+each specify a ``max_data_xfer_size`` value; this defines the maximum data that
-+may be read or written via one of the ``VFIO_USER_DMA/REGION_READ/WRITE``
-+messages; see `Read and Write Operations`_.
-+
-+Protocol Specification
-+======================
-+
-+To distinguish from the base VFIO symbols, all vfio-user symbols are prefixed
-+with ``vfio_user`` or ``VFIO_USER``. In this revision, all data is in the
-+endianness of the host system, although this may be relaxed in future
-+revisions in cases where the client and server run on different hosts
-+with different endianness.
-+
-+Unless otherwise specified, all sizes should be presumed to be in bytes.
-+
-+.. _Commands:
-+
-+Commands
-+--------
-+The following table lists the VFIO message command IDs, and whether the
-+message command is sent from the client or the server.
-+
-+======================================  =========  =================
-+Name                                    Command    Request Direction
-+======================================  =========  =================
-+``VFIO_USER_VERSION``                   1          client -> server
-+``VFIO_USER_DMA_MAP``                   2          client -> server
-+``VFIO_USER_DMA_UNMAP``                 3          client -> server
-+``VFIO_USER_DEVICE_GET_INFO``           4          client -> server
-+``VFIO_USER_DEVICE_GET_REGION_INFO``    5          client -> server
-+``VFIO_USER_DEVICE_GET_REGION_IO_FDS``  6          client -> server
-+``VFIO_USER_DEVICE_GET_IRQ_INFO``       7          client -> server
-+``VFIO_USER_DEVICE_SET_IRQS``           8          client -> server
-+``VFIO_USER_REGION_READ``               9          client -> server
-+``VFIO_USER_REGION_WRITE``              10         client -> server
-+``VFIO_USER_DMA_READ``                  11         server -> client
-+``VFIO_USER_DMA_WRITE``                 12         server -> client
-+``VFIO_USER_DEVICE_RESET``              13         client -> server
-+``VFIO_USER_DIRTY_PAGES``               14         client -> server
-+======================================  =========  =================
-+
-+Header
-+------
-+
-+All messages, both command messages and reply messages, are preceded by a
-+16-byte header that contains basic information about the message. The header is
-+followed by message-specific data described in the sections below.
-+
-++----------------+--------+-------------+
-+| Name           | Offset | Size        |
-++================+========+=============+
-+| Message ID     | 0      | 2           |
-++----------------+--------+-------------+
-+| Command        | 2      | 2           |
-++----------------+--------+-------------+
-+| Message size   | 4      | 4           |
-++----------------+--------+-------------+
-+| Flags          | 8      | 4           |
-++----------------+--------+-------------+
-+|                | +-----+------------+ |
-+|                | | Bit | Definition | |
-+|                | +=====+============+ |
-+|                | | 0-3 | Type       | |
-+|                | +-----+------------+ |
-+|                | | 4   | No_reply   | |
-+|                | +-----+------------+ |
-+|                | | 5   | Error      | |
-+|                | +-----+------------+ |
-++----------------+--------+-------------+
-+| Error          | 12     | 4           |
-++----------------+--------+-------------+
-+| <message data> | 16     | variable    |
-++----------------+--------+-------------+
-+
-+* *Message ID* identifies the message, and is echoed in the command's reply
-+  message. Message IDs belong entirely to the sender, can be re-used (even
-+  concurrently) and the receiver must not make any assumptions about their
-+  uniqueness.
-+* *Command* specifies the command to be executed, listed in Commands_. It is
-+  also set in the reply header.
-+* *Message size* contains the size of the entire message, including the header.
-+* *Flags* contains attributes of the message:
-+
-+  * The *Type* bits indicate the message type.
-+
-+    *  *Command* (value 0x0) indicates a command message.
-+    *  *Reply* (value 0x1) indicates a reply message acknowledging a previous
-+       command with the same message ID.
-+  * *No_reply* in a command message indicates that no reply is needed for this
-+    command.  This is commonly used when multiple commands are sent, and only
-+    the last needs acknowledgement.
-+  * *Error* in a reply message indicates the command being acknowledged had
-+    an error. In this case, the *Error* field will be valid.
-+
-+* *Error* in a reply message is an optional UNIX errno value. It may be zero
-+  even if the Error bit is set in Flags. It is reserved in a command message.
-+
-+Each command message in Commands_ must be replied to with a reply message,
-+unless the message sets the *No_Reply* bit.  The reply consists of the header
-+with the *Reply* bit set, plus any additional data.
-+
-+If an error occurs, the reply message must only include the reply header.
-+
-+As the header is standard in both requests and replies, it is not included in
-+the command-specific specifications below; each message definition should be
-+appended to the standard header, and the offsets are given from the end of the
-+standard header.
-+
-+``VFIO_USER_VERSION``
-+---------------------
-+
-+.. _Version:
-+
-+This is the initial message sent by the client after the socket connection is
-+established; the same format is used for the server's reply.
-+
-+Upon establishing a connection, the client must send a ``VFIO_USER_VERSION``
-+message proposing a protocol version and a set of capabilities. The server
-+compares these with the versions and capabilities it supports and sends a
-+``VFIO_USER_VERSION`` reply according to the following rules.
-+
-+* The major version in the reply must be the same as proposed. If the client
-+  does not support the proposed major, it closes the connection.
-+* The minor version in the reply must be equal to or less than the minor
-+  version proposed.
-+* The capability list must be a subset of those proposed. If the server
-+  requires a capability the client did not include, it closes the connection.
-+
-+The protocol major version will only change when incompatible protocol changes
-+are made, such as changing the message format. The minor version may change
-+when compatible changes are made, such as adding new messages or capabilities,
-+Both the client and server must support all minor versions less than the
-+maximum minor version it supports. E.g., an implementation that supports
-+version 1.3 must also support 1.0 through 1.2.
-+
-+When making a change to this specification, the protocol version number must
-+be included in the form "added in version X.Y"
-+
-+Request
-+^^^^^^^
-+
-+==============  ======  ====
-+Name            Offset  Size
-+==============  ======  ====
-+version major   0       2
-+version minor   2       2
-+version data    4       variable (including terminating NUL). Optional.
-+==============  ======  ====
-+
-+The version data is an optional UTF-8 encoded JSON byte array with the following
-+format:
-+
-++--------------+--------+-----------------------------------+
-+| Name         | Type   | Description                       |
-++==============+========+===================================+
-+| capabilities | object | Contains common capabilities that |
-+|              |        | the sender supports. Optional.    |
-++--------------+--------+-----------------------------------+
-+
-+Capabilities:
-+
-++--------------------+--------+------------------------------------------------+
-+| Name               | Type   | Description                                    |
-++====================+========+================================================+
-+| max_msg_fds        | number | Maximum number of file descriptors that can be |
-+|                    |        | received by the sender in one message.         |
-+|                    |        | Optional. If not specified then the receiver   |
-+|                    |        | must assume a value of ``1``.                  |
-++--------------------+--------+------------------------------------------------+
-+| max_data_xfer_size | number | Maximum ``count`` for data transfer messages;  |
-+|                    |        | see `Read and Write Operations`_. Optional,    |
-+|                    |        | with a default value of 1048576 bytes.         |
-++--------------------+--------+------------------------------------------------+
-+| migration          | object | Migration capability parameters. If missing    |
-+|                    |        | then migration is not supported by the sender. |
-++--------------------+--------+------------------------------------------------+
-+
-+The migration capability contains the following name/value pairs:
-+
-++--------+--------+-----------------------------------------------+
-+| Name   | Type   | Description                                   |
-++========+========+===============================================+
-+| pgsize | number | Page size of dirty pages bitmap. The smallest |
-+|        |        | between the client and the server is used.    |
-++--------+--------+-----------------------------------------------+
-+
-+Reply
-+^^^^^
-+
-+The same message format is used in the server's reply with the semantics
-+described above.
-+
-+``VFIO_USER_DMA_MAP``
-+---------------------
-+
-+This command message is sent by the client to the server to inform it of the
-+memory regions the server can access. It must be sent before the server can
-+perform any DMA to the client. It is normally sent directly after the version
-+handshake is completed, but may also occur when memory is added to the client,
-+or if the client uses a vIOMMU.
-+
-+Request
-+^^^^^^^
-+
-+The request payload for this message is a structure of the following format:
-+
-++-------------+--------+-------------+
-+| Name        | Offset | Size        |
-++=============+========+=============+
-+| argsz       | 0      | 4           |
-++-------------+--------+-------------+
-+| flags       | 4      | 4           |
-++-------------+--------+-------------+
-+|             | +-----+------------+ |
-+|             | | Bit | Definition | |
-+|             | +=====+============+ |
-+|             | | 0   | readable   | |
-+|             | +-----+------------+ |
-+|             | | 1   | writeable  | |
-+|             | +-----+------------+ |
-++-------------+--------+-------------+
-+| offset      | 8      | 8           |
-++-------------+--------+-------------+
-+| address     | 16     | 8           |
-++-------------+--------+-------------+
-+| size        | 24     | 8           |
-++-------------+--------+-------------+
-+
-+* *argsz* is the size of the above structure. Note there is no reply payload,
-+  so this field differs from other message types.
-+* *flags* contains the following region attributes:
-+
-+  * *readable* indicates that the region can be read from.
-+
-+  * *writeable* indicates that the region can be written to.
-+
-+* *offset* is the file offset of the region with respect to the associated file
-+  descriptor, or zero if the region is not mappable
-+* *address* is the base DMA address of the region.
-+* *size* is the size of the region.
-+
-+This structure is 32 bytes in size, so the message size is 16 + 32 bytes.
-+
-+If the DMA region being added can be directly mapped by the server, a file
-+descriptor must be sent as part of the message meta-data. The region can be
-+mapped via the mmap() system call. On ``AF_UNIX`` sockets, the file descriptor
-+must be passed as ``SCM_RIGHTS`` type ancillary data.  Otherwise, if the DMA
-+region cannot be directly mapped by the server, no file descriptor must be sent
-+as part of the message meta-data and the DMA region can be accessed by the
-+server using ``VFIO_USER_DMA_READ`` and ``VFIO_USER_DMA_WRITE`` messages,
-+explained in `Read and Write Operations`_. A command to map over an existing
-+region must be failed by the server with ``EEXIST`` set in error field in the
-+reply.
-+
-+Reply
-+^^^^^
-+
-+There is no payload in the reply message.
-+
-+``VFIO_USER_DMA_UNMAP``
-+-----------------------
-+
-+This command message is sent by the client to the server to inform it that a
-+DMA region, previously made available via a ``VFIO_USER_DMA_MAP`` command
-+message, is no longer available for DMA. It typically occurs when memory is
-+subtracted from the client or if the client uses a vIOMMU. The DMA region is
-+described by the following structure:
-+
-+Request
-+^^^^^^^
-+
-+The request payload for this message is a structure of the following format:
-+
-++--------------+--------+------------------------+
-+| Name         | Offset | Size                   |
-++==============+========+========================+
-+| argsz        | 0      | 4                      |
-++--------------+--------+------------------------+
-+| flags        | 4      | 4                      |
-++--------------+--------+------------------------+
-+|              | +-----+-----------------------+ |
-+|              | | Bit | Definition            | |
-+|              | +=====+=======================+ |
-+|              | | 0   | get dirty page bitmap | |
-+|              | +-----+-----------------------+ |
-++--------------+--------+------------------------+
-+| address      | 8      | 8                      |
-++--------------+--------+------------------------+
-+| size         | 16     | 8                      |
-++--------------+--------+------------------------+
-+
-+* *argsz* is the maximum size of the reply payload.
-+* *flags* contains the following DMA region attributes:
-+
-+  * *get dirty page bitmap* indicates that a dirty page bitmap must be
-+    populated before unmapping the DMA region. The client must provide a
-+    `VFIO Bitmap`_ structure, explained below, immediately following this
-+    entry.
-+
-+* *address* is the base DMA address of the DMA region.
-+* *size* is the size of the DMA region.
-+
-+The address and size of the DMA region being unmapped must match exactly a
-+previous mapping. The size of request message depends on whether or not the
-+*get dirty page bitmap* bit is set in Flags:
-+
-+* If not set, the size of the total request message is: 16 + 24.
-+
-+* If set, the size of the total request message is: 16 + 24 + 16.
-+
-+.. _VFIO Bitmap:
-+
-+VFIO Bitmap Format
-+""""""""""""""""""
-+
-++--------+--------+------+
-+| Name   | Offset | Size |
-++========+========+======+
-+| pgsize | 0      | 8    |
-++--------+--------+------+
-+| size   | 8      | 8    |
-++--------+--------+------+
-+
-+* *pgsize* is the page size for the bitmap, in bytes.
-+* *size* is the size for the bitmap, in bytes, excluding the VFIO bitmap header.
-+
-+Reply
-+^^^^^
-+
-+Upon receiving a ``VFIO_USER_DMA_UNMAP`` command, if the file descriptor is
-+mapped then the server must release all references to that DMA region before
-+replying, which potentially includes in-flight DMA transactions.
-+
-+The server responds with the original DMA entry in the request. If the
-+*get dirty page bitmap* bit is set in flags in the request, then
-+the server also includes the `VFIO Bitmap`_ structure sent in the request,
-+followed by the corresponding dirty page bitmap, where each bit represents
-+one page of size *pgsize* in `VFIO Bitmap`_ .
-+
-+The total size of the total reply message is:
-+16 + 24 + (16 + *size* in `VFIO Bitmap`_ if *get dirty page bitmap* is set).
-+
-+``VFIO_USER_DEVICE_GET_INFO``
-+-----------------------------
-+
-+This command message is sent by the client to the server to query for basic
-+information about the device.
-+
-+Request
-+^^^^^^^
-+
-++-------------+--------+--------------------------+
-+| Name        | Offset | Size                     |
-++=============+========+==========================+
-+| argsz       | 0      | 4                        |
-++-------------+--------+--------------------------+
-+| flags       | 4      | 4                        |
-++-------------+--------+--------------------------+
-+|             | +-----+-------------------------+ |
-+|             | | Bit | Definition              | |
-+|             | +=====+=========================+ |
-+|             | | 0   | VFIO_DEVICE_FLAGS_RESET | |
-+|             | +-----+-------------------------+ |
-+|             | | 1   | VFIO_DEVICE_FLAGS_PCI   | |
-+|             | +-----+-------------------------+ |
-++-------------+--------+--------------------------+
-+| num_regions | 8      | 4                        |
-++-------------+--------+--------------------------+
-+| num_irqs    | 12     | 4                        |
-++-------------+--------+--------------------------+
-+
-+* *argsz* is the maximum size of the reply payload
-+* all other fields must be zero.
-+
-+Reply
-+^^^^^
-+
-++-------------+--------+--------------------------+
-+| Name        | Offset | Size                     |
-++=============+========+==========================+
-+| argsz       | 0      | 4                        |
-++-------------+--------+--------------------------+
-+| flags       | 4      | 4                        |
-++-------------+--------+--------------------------+
-+|             | +-----+-------------------------+ |
-+|             | | Bit | Definition              | |
-+|             | +=====+=========================+ |
-+|             | | 0   | VFIO_DEVICE_FLAGS_RESET | |
-+|             | +-----+-------------------------+ |
-+|             | | 1   | VFIO_DEVICE_FLAGS_PCI   | |
-+|             | +-----+-------------------------+ |
-++-------------+--------+--------------------------+
-+| num_regions | 8      | 4                        |
-++-------------+--------+--------------------------+
-+| num_irqs    | 12     | 4                        |
-++-------------+--------+--------------------------+
-+
-+* *argsz* is the size required for the full reply payload (16 bytes today)
-+* *flags* contains the following device attributes.
-+
-+  * ``VFIO_DEVICE_FLAGS_RESET`` indicates that the device supports the
-+    ``VFIO_USER_DEVICE_RESET`` message.
-+  * ``VFIO_DEVICE_FLAGS_PCI`` indicates that the device is a PCI device.
-+
-+* *num_regions* is the number of memory regions that the device exposes.
-+* *num_irqs* is the number of distinct interrupt types that the device supports.
-+
-+This version of the protocol only supports PCI devices. Additional devices may
-+be supported in future versions.
-+
-+``VFIO_USER_DEVICE_GET_REGION_INFO``
-+------------------------------------
-+
-+This command message is sent by the client to the server to query for
-+information about device regions. The VFIO region info structure is defined in
-+``<linux/vfio.h>`` (``struct vfio_region_info``).
-+
-+Request
-+^^^^^^^
-+
-++------------+--------+------------------------------+
-+| Name       | Offset | Size                         |
-++============+========+==============================+
-+| argsz      | 0      | 4                            |
-++------------+--------+------------------------------+
-+| flags      | 4      | 4                            |
-++------------+--------+------------------------------+
-+| index      | 8      | 4                            |
-++------------+--------+------------------------------+
-+| cap_offset | 12     | 4                            |
-++------------+--------+------------------------------+
-+| size       | 16     | 8                            |
-++------------+--------+------------------------------+
-+| offset     | 24     | 8                            |
-++------------+--------+------------------------------+
-+
-+* *argsz* the maximum size of the reply payload
-+* *index* is the index of memory region being queried, it is the only field
-+  that is required to be set in the command message.
-+* all other fields must be zero.
-+
-+Reply
-+^^^^^
-+
-++------------+--------+------------------------------+
-+| Name       | Offset | Size                         |
-++============+========+==============================+
-+| argsz      | 0      | 4                            |
-++------------+--------+------------------------------+
-+| flags      | 4      | 4                            |
-++------------+--------+------------------------------+
-+|            | +-----+-----------------------------+ |
-+|            | | Bit | Definition                  | |
-+|            | +=====+=============================+ |
-+|            | | 0   | VFIO_REGION_INFO_FLAG_READ  | |
-+|            | +-----+-----------------------------+ |
-+|            | | 1   | VFIO_REGION_INFO_FLAG_WRITE | |
-+|            | +-----+-----------------------------+ |
-+|            | | 2   | VFIO_REGION_INFO_FLAG_MMAP  | |
-+|            | +-----+-----------------------------+ |
-+|            | | 3   | VFIO_REGION_INFO_FLAG_CAPS  | |
-+|            | +-----+-----------------------------+ |
-++------------+--------+------------------------------+
-++------------+--------+------------------------------+
-+| index      | 8      | 4                            |
-++------------+--------+------------------------------+
-+| cap_offset | 12     | 4                            |
-++------------+--------+------------------------------+
-+| size       | 16     | 8                            |
-++------------+--------+------------------------------+
-+| offset     | 24     | 8                            |
-++------------+--------+------------------------------+
-+
-+* *argsz* is the size required for the full reply payload (region info structure
-+  plus the size of any region capabilities)
-+* *flags* are attributes of the region:
-+
-+  * ``VFIO_REGION_INFO_FLAG_READ`` allows client read access to the region.
-+  * ``VFIO_REGION_INFO_FLAG_WRITE`` allows client write access to the region.
-+  * ``VFIO_REGION_INFO_FLAG_MMAP`` specifies the client can mmap() the region.
-+    When this flag is set, the reply will include a file descriptor in its
-+    meta-data. On ``AF_UNIX`` sockets, the file descriptors will be passed as
-+    ``SCM_RIGHTS`` type ancillary data.
-+  * ``VFIO_REGION_INFO_FLAG_CAPS`` indicates additional capabilities found in the
-+    reply.
-+
-+* *index* is the index of memory region being queried, it is the only field
-+  that is required to be set in the command message.
-+* *cap_offset* describes where additional region capabilities can be found.
-+  cap_offset is relative to the beginning of the VFIO region info structure.
-+  The data structure it points is a VFIO cap header defined in
-+  ``<linux/vfio.h>``.
-+* *size* is the size of the region.
-+* *offset* is the offset that should be given to the mmap() system call for
-+  regions with the MMAP attribute. It is also used as the base offset when
-+  mapping a VFIO sparse mmap area, described below.
-+
-+VFIO region capabilities
-+""""""""""""""""""""""""
-+
-+The VFIO region information can also include a capabilities list. This list is
-+similar to a PCI capability list - each entry has a common header that
-+identifies a capability and where the next capability in the list can be found.
-+The VFIO capability header format is defined in ``<linux/vfio.h>`` (``struct
-+vfio_info_cap_header``).
-+
-+VFIO cap header format
-+""""""""""""""""""""""
-+
-++---------+--------+------+
-+| Name    | Offset | Size |
-++=========+========+======+
-+| id      | 0      | 2    |
-++---------+--------+------+
-+| version | 2      | 2    |
-++---------+--------+------+
-+| next    | 4      | 4    |
-++---------+--------+------+
-+
-+* *id* is the capability identity.
-+* *version* is a capability-specific version number.
-+* *next* specifies the offset of the next capability in the capability list. It
-+  is relative to the beginning of the VFIO region info structure.
-+
-+VFIO sparse mmap cap header
-+"""""""""""""""""""""""""""
-+
-++------------------+----------------------------------+
-+| Name             | Value                            |
-++==================+==================================+
-+| id               | VFIO_REGION_INFO_CAP_SPARSE_MMAP |
-++------------------+----------------------------------+
-+| version          | 0x1                              |
-++------------------+----------------------------------+
-+| next             | <next>                           |
-++------------------+----------------------------------+
-+| sparse mmap info | VFIO region info sparse mmap     |
-++------------------+----------------------------------+
-+
-+This capability is defined when only a subrange of the region supports
-+direct access by the client via mmap(). The VFIO sparse mmap area is defined in
-+``<linux/vfio.h>`` (``struct vfio_region_sparse_mmap_area`` and ``struct
-+vfio_region_info_cap_sparse_mmap``).
-+
-+VFIO region info cap sparse mmap
-+""""""""""""""""""""""""""""""""
-+
-++----------+--------+------+
-+| Name     | Offset | Size |
-++==========+========+======+
-+| nr_areas | 0      | 4    |
-++----------+--------+------+
-+| reserved | 4      | 4    |
-++----------+--------+------+
-+| offset   | 8      | 8    |
-++----------+--------+------+
-+| size     | 16     | 9    |
-++----------+--------+------+
-+| ...      |        |      |
-++----------+--------+------+
-+
-+* *nr_areas* is the number of sparse mmap areas in the region.
-+* *offset* and size describe a single area that can be mapped by the client.
-+  There will be *nr_areas* pairs of offset and size. The offset will be added to
-+  the base offset given in the ``VFIO_USER_DEVICE_GET_REGION_INFO`` to form the
-+  offset argument of the subsequent mmap() call.
-+
-+The VFIO sparse mmap area is defined in ``<linux/vfio.h>`` (``struct
-+vfio_region_info_cap_sparse_mmap``).
-+
-+VFIO region type cap header
-+"""""""""""""""""""""""""""
-+
-++------------------+---------------------------+
-+| Name             | Value                     |
-++==================+===========================+
-+| id               | VFIO_REGION_INFO_CAP_TYPE |
-++------------------+---------------------------+
-+| version          | 0x1                       |
-++------------------+---------------------------+
-+| next             | <next>                    |
-++------------------+---------------------------+
-+| region info type | VFIO region info type     |
-++------------------+---------------------------+
-+
-+This capability is defined when a region is specific to the device.
-+
-+VFIO region info type cap
-+"""""""""""""""""""""""""
-+
-+The VFIO region info type is defined in ``<linux/vfio.h>``
-+(``struct vfio_region_info_cap_type``).
-+
-++---------+--------+------+
-+| Name    | Offset | Size |
-++=========+========+======+
-+| type    | 0      | 4    |
-++---------+--------+------+
-+| subtype | 4      | 4    |
-++---------+--------+------+
-+
-+The only device-specific region type and subtype supported by vfio-user is
-+``VFIO_REGION_TYPE_MIGRATION`` (3) and ``VFIO_REGION_SUBTYPE_MIGRATION`` (1).
-+
-+``VFIO_USER_DEVICE_GET_REGION_IO_FDS``
-+--------------------------------------
-+
-+Clients can access regions via ``VFIO_USER_REGION_READ/WRITE`` or, if provided, by
-+``mmap()`` of a file descriptor provided by the server.
-+
-+``VFIO_USER_DEVICE_GET_REGION_IO_FDS`` provides an alternative access mechanism via
-+file descriptors. This is an optional feature intended for performance
-+improvements where an underlying sub-system (such as KVM) supports communication
-+across such file descriptors to the vfio-user server, without needing to
-+round-trip through the client.
-+
-+The server returns an array of sub-regions for the requested region. Each
-+sub-region describes a span (offset and size) of a region, along with the
-+requested file descriptor notification mechanism to use.  Each sub-region in the
-+response message may choose to use a different method, as defined below.  The
-+two mechanisms supported in this specification are ioeventfds and ioregionfds.
-+
-+The server in addition returns a file descriptor in the ancillary data; clients
-+are expected to configure each sub-region's file descriptor with the requested
-+notification method. For example, a client could configure KVM with the
-+requested ioeventfd via a ``KVM_IOEVENTFD`` ``ioctl()``.
-+
-+Request
-+^^^^^^^
-+
-++-------------+--------+------+
-+| Name        | Offset | Size |
-++=============+========+======+
-+| argsz       | 0      | 4    |
-++-------------+--------+------+
-+| flags       | 4      | 4    |
-++-------------+--------+------+
-+| index       | 8      | 4    |
-++-------------+--------+------+
-+| count       | 12     | 4    |
-++-------------+--------+------+
-+
-+* *argsz* the maximum size of the reply payload
-+* *index* is the index of memory region being queried
-+* all other fields must be zero
-+
-+The client must set ``flags`` to zero and specify the region being queried in
-+the ``index``.
-+
-+Reply
-+^^^^^
-+
-++-------------+--------+------+
-+| Name        | Offset | Size |
-++=============+========+======+
-+| argsz       | 0      | 4    |
-++-------------+--------+------+
-+| flags       | 4      | 4    |
-++-------------+--------+------+
-+| index       | 8      | 4    |
-++-------------+--------+------+
-+| count       | 12     | 4    |
-++-------------+--------+------+
-+| sub-regions | 16     | ...  |
-++-------------+--------+------+
-+
-+* *argsz* is the size of the region IO FD info structure plus the
-+  total size of the sub-region array. Thus, each array entry "i" is at offset
-+  i * ((argsz - 32) / count). Note that currently this is 40 bytes for both IO
-+  FD types, but this is not to be relied on. As elsewhere, this indicates the
-+  full reply payload size needed.
-+* *flags* must be zero
-+* *index* is the index of memory region being queried
-+* *count* is the number of sub-regions in the array
-+* *sub-regions* is the array of Sub-Region IO FD info structures
-+
-+The reply message will additionally include at least one file descriptor in the
-+ancillary data. Note that more than one sub-region may share the same file
-+descriptor.
-+
-+Note that it is the client's responsibility to verify the requested values (for
-+example, that the requested offset does not exceed the region's bounds).
-+
-+Each sub-region given in the response has one of two possible structures,
-+depending whether *type* is ``VFIO_USER_IO_FD_TYPE_IOEVENTFD`` or
-+``VFIO_USER_IO_FD_TYPE_IOREGIONFD``:
-+
-+Sub-Region IO FD info format (ioeventfd)
-+""""""""""""""""""""""""""""""""""""""""
-+
-++-----------+--------+------+
-+| Name      | Offset | Size |
-++===========+========+======+
-+| offset    | 0      | 8    |
-++-----------+--------+------+
-+| size      | 8      | 8    |
-++-----------+--------+------+
-+| fd_index  | 16     | 4    |
-++-----------+--------+------+
-+| type      | 20     | 4    |
-++-----------+--------+------+
-+| flags     | 24     | 4    |
-++-----------+--------+------+
-+| padding   | 28     | 4    |
-++-----------+--------+------+
-+| datamatch | 32     | 8    |
-++-----------+--------+------+
-+
-+* *offset* is the offset of the start of the sub-region within the region
-+  requested ("physical address offset" for the region)
-+* *size* is the length of the sub-region. This may be zero if the access size is
-+  not relevant, which may allow for optimizations
-+* *fd_index* is the index in the ancillary data of the FD to use for ioeventfd
-+  notification; it may be shared.
-+* *type* is ``VFIO_USER_IO_FD_TYPE_IOEVENTFD``
-+* *flags* is any of:
-+
-+  * ``KVM_IOEVENTFD_FLAG_DATAMATCH``
-+  * ``KVM_IOEVENTFD_FLAG_PIO``
-+  * ``KVM_IOEVENTFD_FLAG_VIRTIO_CCW_NOTIFY`` (FIXME: makes sense?)
-+
-+* *datamatch* is the datamatch value if needed
-+
-+See https://www.kernel.org/doc/Documentation/virtual/kvm/api.txt, *4.59
-+KVM_IOEVENTFD* for further context on the ioeventfd-specific fields.
-+
-+Sub-Region IO FD info format (ioregionfd)
-+"""""""""""""""""""""""""""""""""""""""""
-+
-++-----------+--------+------+
-+| Name      | Offset | Size |
-++===========+========+======+
-+| offset    | 0      | 8    |
-++-----------+--------+------+
-+| size      | 8      | 8    |
-++-----------+--------+------+
-+| fd_index  | 16     | 4    |
-++-----------+--------+------+
-+| type      | 20     | 4    |
-++-----------+--------+------+
-+| flags     | 24     | 4    |
-++-----------+--------+------+
-+| padding   | 28     | 4    |
-++-----------+--------+------+
-+| user_data | 32     | 8    |
-++-----------+--------+------+
-+
-+* *offset* is the offset of the start of the sub-region within the region
-+  requested ("physical address offset" for the region)
-+* *size* is the length of the sub-region. This may be zero if the access size is
-+  not relevant, which may allow for optimizations; ``KVM_IOREGION_POSTED_WRITES``
-+  must be set in *flags* in this case
-+* *fd_index* is the index in the ancillary data of the FD to use for ioregionfd
-+  messages; it may be shared
-+* *type* is ``VFIO_USER_IO_FD_TYPE_IOREGIONFD``
-+* *flags* is any of:
-+
-+  * ``KVM_IOREGION_PIO``
-+  * ``KVM_IOREGION_POSTED_WRITES``
-+
-+* *user_data* is an opaque value passed back to the server via a message on the
-+  file descriptor
-+
-+For further information on the ioregionfd-specific fields, see:
-+https://lore.kernel.org/kvm/cover.1613828726.git.eafanasova@gmail.com/
-+
-+(FIXME: update with final API docs.)
-+
-+``VFIO_USER_DEVICE_GET_IRQ_INFO``
-+---------------------------------
-+
-+This command message is sent by the client to the server to query for
-+information about device interrupt types. The VFIO IRQ info structure is
-+defined in ``<linux/vfio.h>`` (``struct vfio_irq_info``).
-+
-+Request
-+^^^^^^^
-+
-++-------+--------+---------------------------+
-+| Name  | Offset | Size                      |
-++=======+========+===========================+
-+| argsz | 0      | 4                         |
-++-------+--------+---------------------------+
-+| flags | 4      | 4                         |
-++-------+--------+---------------------------+
-+|       | +-----+--------------------------+ |
-+|       | | Bit | Definition               | |
-+|       | +=====+==========================+ |
-+|       | | 0   | VFIO_IRQ_INFO_EVENTFD    | |
-+|       | +-----+--------------------------+ |
-+|       | | 1   | VFIO_IRQ_INFO_MASKABLE   | |
-+|       | +-----+--------------------------+ |
-+|       | | 2   | VFIO_IRQ_INFO_AUTOMASKED | |
-+|       | +-----+--------------------------+ |
-+|       | | 3   | VFIO_IRQ_INFO_NORESIZE   | |
-+|       | +-----+--------------------------+ |
-++-------+--------+---------------------------+
-+| index | 8      | 4                         |
-++-------+--------+---------------------------+
-+| count | 12     | 4                         |
-++-------+--------+---------------------------+
-+
-+* *argsz* is the maximum size of the reply payload (16 bytes today)
-+* index is the index of IRQ type being queried (e.g. ``VFIO_PCI_MSIX_IRQ_INDEX``)
-+* all other fields must be zero
-+
-+Reply
-+^^^^^
-+
-++-------+--------+---------------------------+
-+| Name  | Offset | Size                      |
-++=======+========+===========================+
-+| argsz | 0      | 4                         |
-++-------+--------+---------------------------+
-+| flags | 4      | 4                         |
-++-------+--------+---------------------------+
-+|       | +-----+--------------------------+ |
-+|       | | Bit | Definition               | |
-+|       | +=====+==========================+ |
-+|       | | 0   | VFIO_IRQ_INFO_EVENTFD    | |
-+|       | +-----+--------------------------+ |
-+|       | | 1   | VFIO_IRQ_INFO_MASKABLE   | |
-+|       | +-----+--------------------------+ |
-+|       | | 2   | VFIO_IRQ_INFO_AUTOMASKED | |
-+|       | +-----+--------------------------+ |
-+|       | | 3   | VFIO_IRQ_INFO_NORESIZE   | |
-+|       | +-----+--------------------------+ |
-++-------+--------+---------------------------+
-+| index | 8      | 4                         |
-++-------+--------+---------------------------+
-+| count | 12     | 4                         |
-++-------+--------+---------------------------+
-+
-+* *argsz* is the size required for the full reply payload (16 bytes today)
-+* *flags* defines IRQ attributes:
-+
-+  * ``VFIO_IRQ_INFO_EVENTFD`` indicates the IRQ type can support server eventfd
-+    signalling.
-+  * ``VFIO_IRQ_INFO_MASKABLE`` indicates that the IRQ type supports the ``MASK``
-+    and ``UNMASK`` actions in a ``VFIO_USER_DEVICE_SET_IRQS`` message.
-+  * ``VFIO_IRQ_INFO_AUTOMASKED`` indicates the IRQ type masks itself after being
-+    triggered, and the client must send an ``UNMASK`` action to receive new
-+    interrupts.
-+  * ``VFIO_IRQ_INFO_NORESIZE`` indicates ``VFIO_USER_SET_IRQS`` operations setup
-+    interrupts as a set, and new sub-indexes cannot be enabled without disabling
-+    the entire type.
-+* index is the index of IRQ type being queried
-+* count describes the number of interrupts of the queried type.
-+
-+``VFIO_USER_DEVICE_SET_IRQS``
-+-----------------------------
-+
-+This command message is sent by the client to the server to set actions for
-+device interrupt types. The VFIO IRQ set structure is defined in
-+``<linux/vfio.h>`` (``struct vfio_irq_set``).
-+
-+Request
-+^^^^^^^
-+
-++-------+--------+------------------------------+
-+| Name  | Offset | Size                         |
-++=======+========+==============================+
-+| argsz | 0      | 4                            |
-++-------+--------+------------------------------+
-+| flags | 4      | 4                            |
-++-------+--------+------------------------------+
-+|       | +-----+-----------------------------+ |
-+|       | | Bit | Definition                  | |
-+|       | +=====+=============================+ |
-+|       | | 0   | VFIO_IRQ_SET_DATA_NONE      | |
-+|       | +-----+-----------------------------+ |
-+|       | | 1   | VFIO_IRQ_SET_DATA_BOOL      | |
-+|       | +-----+-----------------------------+ |
-+|       | | 2   | VFIO_IRQ_SET_DATA_EVENTFD   | |
-+|       | +-----+-----------------------------+ |
-+|       | | 3   | VFIO_IRQ_SET_ACTION_MASK    | |
-+|       | +-----+-----------------------------+ |
-+|       | | 4   | VFIO_IRQ_SET_ACTION_UNMASK  | |
-+|       | +-----+-----------------------------+ |
-+|       | | 5   | VFIO_IRQ_SET_ACTION_TRIGGER | |
-+|       | +-----+-----------------------------+ |
-++-------+--------+------------------------------+
-+| index | 8      | 4                            |
-++-------+--------+------------------------------+
-+| start | 12     | 4                            |
-++-------+--------+------------------------------+
-+| count | 16     | 4                            |
-++-------+--------+------------------------------+
-+| data  | 20     | variable                     |
-++-------+--------+------------------------------+
-+
-+* *argsz* is the size of the VFIO IRQ set request payload, including any *data*
-+  field. Note there is no reply payload, so this field differs from other
-+  message types.
-+* *flags* defines the action performed on the interrupt range. The ``DATA``
-+  flags describe the data field sent in the message; the ``ACTION`` flags
-+  describe the action to be performed. The flags are mutually exclusive for
-+  both sets.
-+
-+  * ``VFIO_IRQ_SET_DATA_NONE`` indicates there is no data field in the command.
-+    The action is performed unconditionally.
-+  * ``VFIO_IRQ_SET_DATA_BOOL`` indicates the data field is an array of boolean
-+    bytes. The action is performed if the corresponding boolean is true.
-+  * ``VFIO_IRQ_SET_DATA_EVENTFD`` indicates an array of event file descriptors
-+    was sent in the message meta-data. These descriptors will be signalled when
-+    the action defined by the action flags occurs. In ``AF_UNIX`` sockets, the
-+    descriptors are sent as ``SCM_RIGHTS`` type ancillary data.
-+    If no file descriptors are provided, this de-assigns the specified
-+    previously configured interrupts.
-+  * ``VFIO_IRQ_SET_ACTION_MASK`` indicates a masking event. It can be used with
-+    ``VFIO_IRQ_SET_DATA_BOOL`` or ``VFIO_IRQ_SET_DATA_NONE`` to mask an interrupt,
-+    or with ``VFIO_IRQ_SET_DATA_EVENTFD`` to generate an event when the guest masks
-+    the interrupt.
-+  * ``VFIO_IRQ_SET_ACTION_UNMASK`` indicates an unmasking event. It can be used
-+    with ``VFIO_IRQ_SET_DATA_BOOL`` or ``VFIO_IRQ_SET_DATA_NONE`` to unmask an
-+    interrupt, or with ``VFIO_IRQ_SET_DATA_EVENTFD`` to generate an event when the
-+    guest unmasks the interrupt.
-+  * ``VFIO_IRQ_SET_ACTION_TRIGGER`` indicates a triggering event. It can be used
-+    with ``VFIO_IRQ_SET_DATA_BOOL`` or ``VFIO_IRQ_SET_DATA_NONE`` to trigger an
-+    interrupt, or with ``VFIO_IRQ_SET_DATA_EVENTFD`` to generate an event when the
-+    server triggers the interrupt.
-+
-+* *index* is the index of IRQ type being setup.
-+* *start* is the start of the sub-index being set.
-+* *count* describes the number of sub-indexes being set. As a special case, a
-+  count (and start) of 0, with data flags of ``VFIO_IRQ_SET_DATA_NONE`` disables
-+  all interrupts of the index.
-+* *data* is an optional field included when the
-+  ``VFIO_IRQ_SET_DATA_BOOL`` flag is present. It contains an array of booleans
-+  that specify whether the action is to be performed on the corresponding
-+  index. It's used when the action is only performed on a subset of the range
-+  specified.
-+
-+Not all interrupt types support every combination of data and action flags.
-+The client must know the capabilities of the device and IRQ index before it
-+sends a ``VFIO_USER_DEVICE_SET_IRQ`` message.
-+
-+In typical operation, a specific IRQ may operate as follows:
-+
-+1. The client sends a ``VFIO_USER_DEVICE_SET_IRQ`` message with
-+   ``flags=(VFIO_IRQ_SET_DATA_EVENTFD|VFIO_IRQ_SET_ACTION_TRIGGER)`` along
-+   with an eventfd. This associates the IRQ with a particular eventfd on the
-+   server side.
-+
-+#. The client may send a ``VFIO_USER_DEVICE_SET_IRQ`` message with
-+   ``flags=(VFIO_IRQ_SET_DATA_EVENTFD|VFIO_IRQ_SET_ACTION_MASK/UNMASK)`` along
-+   with another eventfd. This associates the given eventfd with the
-+   mask/unmask state on the server side.
-+
-+#. The server may trigger the IRQ by writing 1 to the eventfd.
-+
-+#. The server may mask/unmask an IRQ which will write 1 to the corresponding
-+   mask/unmask eventfd, if there is one.
-+
-+5. A client may trigger a device IRQ itself, by sending a
-+   ``VFIO_USER_DEVICE_SET_IRQ`` message with
-+   ``flags=(VFIO_IRQ_SET_DATA_NONE/BOOL|VFIO_IRQ_SET_ACTION_TRIGGER)``.
-+
-+6. A client may mask or unmask the IRQ, by sending a
-+   ``VFIO_USER_DEVICE_SET_IRQ`` message with
-+   ``flags=(VFIO_IRQ_SET_DATA_NONE/BOOL|VFIO_IRQ_SET_ACTION_MASK/UNMASK)``.
-+
-+Reply
-+^^^^^
-+
-+There is no payload in the reply.
-+
-+.. _Read and Write Operations:
-+
-+Note that all of these operations must be supported by the client and/or server,
-+even if the corresponding memory or device region has been shared as mappable.
-+
-+The ``count`` field must not exceed the value of ``max_data_xfer_size`` of the
-+peer, for both reads and writes.
-+
-+``VFIO_USER_REGION_READ``
-+-------------------------
-+
-+If a device region is not mappable, it's not directly accessible by the client
-+via ``mmap()`` of the underlying file descriptor. In this case, a client can
-+read from a device region with this message.
-+
-+Request
-+^^^^^^^
-+
-++--------+--------+----------+
-+| Name   | Offset | Size     |
-++========+========+==========+
-+| offset | 0      | 8        |
-++--------+--------+----------+
-+| region | 8      | 4        |
-++--------+--------+----------+
-+| count  | 12     | 4        |
-++--------+--------+----------+
-+
-+* *offset* into the region being accessed.
-+* *region* is the index of the region being accessed.
-+* *count* is the size of the data to be transferred.
-+
-+Reply
-+^^^^^
-+
-++--------+--------+----------+
-+| Name   | Offset | Size     |
-++========+========+==========+
-+| offset | 0      | 8        |
-++--------+--------+----------+
-+| region | 8      | 4        |
-++--------+--------+----------+
-+| count  | 12     | 4        |
-++--------+--------+----------+
-+| data   | 16     | variable |
-++--------+--------+----------+
-+
-+* *offset* into the region accessed.
-+* *region* is the index of the region accessed.
-+* *count* is the size of the data transferred.
-+* *data* is the data that was read from the device region.
-+
-+``VFIO_USER_REGION_WRITE``
-+--------------------------
-+
-+If a device region is not mappable, it's not directly accessible by the client
-+via mmap() of the underlying fd. In this case, a client can write to a device
-+region with this message.
-+
-+Request
-+^^^^^^^
-+
-++--------+--------+----------+
-+| Name   | Offset | Size     |
-++========+========+==========+
-+| offset | 0      | 8        |
-++--------+--------+----------+
-+| region | 8      | 4        |
-++--------+--------+----------+
-+| count  | 12     | 4        |
-++--------+--------+----------+
-+| data   | 16     | variable |
-++--------+--------+----------+
-+
-+* *offset* into the region being accessed.
-+* *region* is the index of the region being accessed.
-+* *count* is the size of the data to be transferred.
-+* *data* is the data to write
-+
-+Reply
-+^^^^^
-+
-++--------+--------+----------+
-+| Name   | Offset | Size     |
-++========+========+==========+
-+| offset | 0      | 8        |
-++--------+--------+----------+
-+| region | 8      | 4        |
-++--------+--------+----------+
-+| count  | 12     | 4        |
-++--------+--------+----------+
-+
-+* *offset* into the region accessed.
-+* *region* is the index of the region accessed.
-+* *count* is the size of the data transferred.
-+
-+``VFIO_USER_DMA_READ``
-+-----------------------
-+
-+If the client has not shared mappable memory, the server can use this message to
-+read from guest memory.
-+
-+Request
-+^^^^^^^
-+
-++---------+--------+----------+
-+| Name    | Offset | Size     |
-++=========+========+==========+
-+| address | 0      | 8        |
-++---------+--------+----------+
-+| count   | 8      | 8        |
-++---------+--------+----------+
-+
-+* *address* is the client DMA memory address being accessed. This address must have
-+  been previously exported to the server with a ``VFIO_USER_DMA_MAP`` message.
-+* *count* is the size of the data to be transferred.
-+
-+Reply
-+^^^^^
-+
-++---------+--------+----------+
-+| Name    | Offset | Size     |
-++=========+========+==========+
-+| address | 0      | 8        |
-++---------+--------+----------+
-+| count   | 8      | 8        |
-++---------+--------+----------+
-+| data    | 16     | variable |
-++---------+--------+----------+
-+
-+* *address* is the client DMA memory address being accessed.
-+* *count* is the size of the data transferred.
-+* *data* is the data read.
-+
-+``VFIO_USER_DMA_WRITE``
-+-----------------------
-+
-+If the client has not shared mappable memory, the server can use this message to
-+write to guest memory.
-+
-+Request
-+^^^^^^^
-+
-++---------+--------+----------+
-+| Name    | Offset | Size     |
-++=========+========+==========+
-+| address | 0      | 8        |
-++---------+--------+----------+
-+| count   | 8      | 8        |
-++---------+--------+----------+
-+| data    | 16     | variable |
-++---------+--------+----------+
-+
-+* *address* is the client DMA memory address being accessed. This address must have
-+  been previously exported to the server with a ``VFIO_USER_DMA_MAP`` message.
-+* *count* is the size of the data to be transferred.
-+* *data* is the data to write
-+
-+Reply
-+^^^^^
-+
-++---------+--------+----------+
-+| Name    | Offset | Size     |
-++=========+========+==========+
-+| address | 0      | 8        |
-++---------+--------+----------+
-+| count   | 8      | 4        |
-++---------+--------+----------+
-+
-+* *address* is the client DMA memory address being accessed.
-+* *count* is the size of the data transferred.
-+
-+``VFIO_USER_DEVICE_RESET``
-+--------------------------
-+
-+This command message is sent from the client to the server to reset the device.
-+Neither the request or reply have a payload.
-+
-+``VFIO_USER_DIRTY_PAGES``
-+-------------------------
-+
-+This command is analogous to ``VFIO_IOMMU_DIRTY_PAGES``. It is sent by the client
-+to the server in order to control logging of dirty pages, usually during a live
-+migration.
-+
-+Dirty page tracking is optional for server implementation; clients should not
-+rely on it.
-+
-+Request
-+^^^^^^^
-+
-++-------+--------+-----------------------------------------+
-+| Name  | Offset | Size                                    |
-++=======+========+=========================================+
-+| argsz | 0      | 4                                       |
-++-------+--------+-----------------------------------------+
-+| flags | 4      | 4                                       |
-++-------+--------+-----------------------------------------+
-+|       | +-----+----------------------------------------+ |
-+|       | | Bit | Definition                             | |
-+|       | +=====+========================================+ |
-+|       | | 0   | VFIO_IOMMU_DIRTY_PAGES_FLAG_START      | |
-+|       | +-----+----------------------------------------+ |
-+|       | | 1   | VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP       | |
-+|       | +-----+----------------------------------------+ |
-+|       | | 2   | VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP | |
-+|       | +-----+----------------------------------------+ |
-++-------+--------+-----------------------------------------+
-+
-+* *argsz* is the size of the VFIO dirty bitmap info structure for
-+  ``START/STOP``; and for ``GET_BITMAP``, the maximum size of the reply payload
-+
-+* *flags* defines the action to be performed by the server:
-+
-+  * ``VFIO_IOMMU_DIRTY_PAGES_FLAG_START`` instructs the server to start logging
-+    pages it dirties. Logging continues until explicitly disabled by
-+    ``VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP``.
-+
-+  * ``VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP`` instructs the server to stop logging
-+    dirty pages.
-+
-+  * ``VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP`` requests the server to return
-+    the dirty bitmap for a specific IOVA range. The IOVA range is specified by
-+    a "VFIO Bitmap Range" structure, which must immediately follow this
-+    "VFIO Dirty Pages" structure. See `VFIO Bitmap Range Format`_.
-+    This operation is only valid if logging of dirty pages has been previously
-+    started.
-+
-+  These flags are mutually exclusive with each other.
-+
-+This part of the request is analogous to VFIO's ``struct
-+vfio_iommu_type1_dirty_bitmap``.
-+
-+.. _VFIO Bitmap Range Format:
-+
-+VFIO Bitmap Range Format
-+""""""""""""""""""""""""
-+
-++--------+--------+------+
-+| Name   | Offset | Size |
-++========+========+======+
-+| iova   | 0      | 8    |
-++--------+--------+------+
-+| size   | 8      | 8    |
-++--------+--------+------+
-+| bitmap | 16     | 24   |
-++--------+--------+------+
-+
-+* *iova* is the IOVA offset
-+
-+* *size* is the size of the IOVA region
-+
-+* *bitmap* is the VFIO Bitmap explained in `VFIO Bitmap`_.
-+
-+This part of the request is analogous to VFIO's ``struct
-+vfio_iommu_type1_dirty_bitmap_get``.
-+
-+Reply
-+^^^^^
-+
-+For ``VFIO_IOMMU_DIRTY_PAGES_FLAG_START`` or
-+``VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP``, there is no reply payload.
-+
-+For ``VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP``, the reply payload is as follows:
-+
-++--------------+--------+-----------------------------------------+
-+| Name         | Offset | Size                                    |
-++==============+========+=========================================+
-+| argsz        | 0      | 4                                       |
-++--------------+--------+-----------------------------------------+
-+| flags        | 4      | 4                                       |
-++--------------+--------+-----------------------------------------+
-+|              | +-----+----------------------------------------+ |
-+|              | | Bit | Definition                             | |
-+|              | +=====+========================================+ |
-+|              | | 2   | VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP | |
-+|              | +-----+----------------------------------------+ |
-++--------------+--------+-----------------------------------------+
-+| bitmap range | 8      | 40                                      |
-++--------------+--------+-----------------------------------------+
-+| bitmap       | 48     | variable                                |
-++--------------+--------+-----------------------------------------+
-+
-+* *argsz* is the size required for the full reply payload (dirty pages structure
-+  + bitmap range structure + actual bitmap)
-+* *flags* is ``VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP``
-+* *bitmap range* is the same bitmap range struct provided in the request, as
-+  defined in `VFIO Bitmap Range Format`_.
-+* *bitmap* is the actual dirty pages bitmap corresponding to the range request
-+
-+VFIO Device Migration Info
-+--------------------------
-+
-+A device may contain a migration region (of type
-+``VFIO_REGION_TYPE_MIGRATION``).  The beginning of the region must contain
-+``struct vfio_device_migration_info``, defined in ``<linux/vfio.h>``. This
-+subregion is accessed like any other part of a standard vfio-user region
-+using ``VFIO_USER_REGION_READ``/``VFIO_USER_REGION_WRITE``.
-+
-++---------------+--------+-----------------------------+
-+| Name          | Offset | Size                        |
-++===============+========+=============================+
-+| device_state  | 0      | 4                           |
-++---------------+--------+-----------------------------+
-+|               | +-----+----------------------------+ |
-+|               | | Bit | Definition                 | |
-+|               | +=====+============================+ |
-+|               | | 0   | VFIO_DEVICE_STATE_RUNNING  | |
-+|               | +-----+----------------------------+ |
-+|               | | 1   | VFIO_DEVICE_STATE_SAVING   | |
-+|               | +-----+----------------------------+ |
-+|               | | 2   | VFIO_DEVICE_STATE_RESUMING | |
-+|               | +-----+----------------------------+ |
-++---------------+--------+-----------------------------+
-+| reserved      | 4      | 4                           |
-++---------------+--------+-----------------------------+
-+| pending_bytes | 8      | 8                           |
-++---------------+--------+-----------------------------+
-+| data_offset   | 16     | 8                           |
-++---------------+--------+-----------------------------+
-+| data_size     | 24     | 8                           |
-++---------------+--------+-----------------------------+
-+
-+* *device_state* defines the state of the device:
-+
-+  The client initiates device state transition by writing the intended state.
-+  The server must respond only after it has successfully transitioned to the new
-+  state. If an error occurs then the server must respond to the
-+  ``VFIO_USER_REGION_WRITE`` operation with the Error field set accordingly and
-+  must remain at the previous state, or in case of internal error it must
-+  transition to the error state, defined as
-+  ``VFIO_DEVICE_STATE_RESUMING | VFIO_DEVICE_STATE_SAVING``. The client must
-+  re-read the device state in order to determine it afresh.
-+
-+  The following device states are defined:
-+
-+  +-----------+---------+----------+-----------------------------------+
-+  | _RESUMING | _SAVING | _RUNNING | Description                       |
-+  +===========+=========+==========+===================================+
-+  | 0         | 0       | 0        | Device is stopped.                |
-+  +-----------+---------+----------+-----------------------------------+
-+  | 0         | 0       | 1        | Device is running, default state. |
-+  +-----------+---------+----------+-----------------------------------+
-+  | 0         | 1       | 0        | Stop-and-copy state               |
-+  +-----------+---------+----------+-----------------------------------+
-+  | 0         | 1       | 1        | Pre-copy state                    |
-+  +-----------+---------+----------+-----------------------------------+
-+  | 1         | 0       | 0        | Resuming                          |
-+  +-----------+---------+----------+-----------------------------------+
-+  | 1         | 0       | 1        | Invalid state                     |
-+  +-----------+---------+----------+-----------------------------------+
-+  | 1         | 1       | 0        | Error state                       |
-+  +-----------+---------+----------+-----------------------------------+
-+  | 1         | 1       | 1        | Invalid state                     |
-+  +-----------+---------+----------+-----------------------------------+
-+
-+  Valid state transitions are shown in the following table:
-+
-+  +-------------------------+---------+---------+---------------+----------+----------+
-+  | |darr| From / To |rarr| | Stopped | Running | Stop-and-copy | Pre-copy | Resuming |
-+  +=========================+=========+=========+===============+==========+==========+
-+  | Stopped                 |    \-   |    1    |       0       |    0     |     0    |
-+  +-------------------------+---------+---------+---------------+----------+----------+
-+  | Running                 |    1    |    \-   |       1       |    1     |     1    |
-+  +-------------------------+---------+---------+---------------+----------+----------+
-+  | Stop-and-copy           |    1    |    1    |       \-      |    0     |     0    |
-+  +-------------------------+---------+---------+---------------+----------+----------+
-+  | Pre-copy                |    0    |    0    |       1       |    \-    |     0    |
-+  +-------------------------+---------+---------+---------------+----------+----------+
-+  | Resuming                |    0    |    1    |       0       |    0     |     \-   |
-+  +-------------------------+---------+---------+---------------+----------+----------+
-+
-+  A device is migrated to the destination as follows:
-+
-+  * The source client transitions the device state from the running state to
-+    the pre-copy state. This transition is optional for the client but must be
-+    supported by the server. The source server starts sending device state data
-+    to the source client through the migration region while the device is
-+    running.
-+
-+  * The source client transitions the device state from the running state or the
-+    pre-copy state to the stop-and-copy state. The source server stops the
-+    device, saves device state and sends it to the source client through the
-+    migration region.
-+
-+  The source client is responsible for sending the migration data to the
-+  destination client.
-+
-+  A device is resumed on the destination as follows:
-+
-+  * The destination client transitions the device state from the running state
-+    to the resuming state. The destination server uses the device state data
-+    received through the migration region to resume the device.
-+
-+  * The destination client provides saved device state to the destination
-+    server and then transitions the device to back to the running state.
-+
-+* *reserved* This field is reserved and any access to it must be ignored by the
-+  server.
-+
-+* *pending_bytes* Remaining bytes to be migrated by the server. This field is
-+  read only.
-+
-+* *data_offset* Offset in the migration region where the client must:
-+
-+  * read from, during the pre-copy or stop-and-copy state, or
-+
-+  * write to, during the resuming state.
-+
-+  This field is read only.
-+
-+* *data_size* Contains the size, in bytes, of the amount of data copied to:
-+
-+  * the source migration region by the source server during the pre-copy or
-+    stop-and copy state, or
-+
-+  * the destination migration region by the destination client during the
-+    resuming state.
-+
-+Device-specific data must be stored at any position after
-+``struct vfio_device_migration_info``. Note that the migration region can be
-+memory mappable, even partially. In practise, only the migration data portion
-+can be memory mapped.
-+
-+The client processes device state data during the pre-copy and the
-+stop-and-copy state in the following iterative manner:
-+
-+  1. The client reads ``pending_bytes`` to mark a new iteration. Repeated reads
-+     of this field is an idempotent operation. If there are no migration data
-+     to be consumed then the next step depends on the current device state:
-+
-+     * pre-copy: the client must try again.
-+
-+     * stop-and-copy: this procedure can end and the device can now start
-+       resuming on the destination.
-+
-+  2. The client reads ``data_offset``; at this point the server must make
-+     available a portion of migration data at this offset to be read by the
-+     client, which must happen *before* completing the read operation. The
-+     amount of data to be read must be stored in the ``data_size`` field, which
-+     the client reads next.
-+
-+  3. The client reads ``data_size`` to determine the amount of migration data
-+     available.
-+
-+  4. The client reads and processes the migration data.
-+
-+  5. Go to step 1.
-+
-+Note that the client can transition the device from the pre-copy state to the
-+stop-and-copy state at any time; ``pending_bytes`` does not need to become zero.
-+
-+The client initializes the device state on the destination by setting the
-+device state in the resuming state and writing the migration data to the
-+destination migration region at ``data_offset`` offset. The client can write the
-+source migration data in an iterative manner and the server must consume this
-+data before completing each write operation, updating the ``data_offset`` field.
-+The server must apply the source migration data on the device resume state. The
-+client must write data on the same order and transaction size as read.
-+
-+If an error occurs then the server must fail the read or write operation. It is
-+an implementation detail of the client how to handle errors.
-+
-+Appendices
-+==========
-+
-+Unused VFIO ``ioctl()`` commands
-+--------------------------------
-+
-+The following VFIO commands do not have an equivalent vfio-user command:
-+
-+* ``VFIO_GET_API_VERSION``
-+* ``VFIO_CHECK_EXTENSION``
-+* ``VFIO_SET_IOMMU``
-+* ``VFIO_GROUP_GET_STATUS``
-+* ``VFIO_GROUP_SET_CONTAINER``
-+* ``VFIO_GROUP_UNSET_CONTAINER``
-+* ``VFIO_GROUP_GET_DEVICE_FD``
-+* ``VFIO_IOMMU_GET_INFO``
-+
-+However, once support for live migration for VFIO devices is finalized some
-+of the above commands may have to be handled by the client in their
-+corresponding vfio-user form. This will be addressed in a future protocol
-+version.
-+
-+VFIO groups and containers
-+^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+The current VFIO implementation includes group and container idioms that
-+describe how a device relates to the host IOMMU. In the vfio-user
-+implementation, the IOMMU is implemented in SW by the client, and is not
-+visible to the server. The simplest idea would be that the client put each
-+device into its own group and container.
-+
-+Backend Program Conventions
-+---------------------------
-+
-+vfio-user backend program conventions are based on the vhost-user ones.
-+
-+* The backend program must not daemonize itself.
-+* No assumptions must be made as to what access the backend program has on the
-+  system.
-+* File descriptors 0, 1 and 2 must exist, must have regular
-+  stdin/stdout/stderr semantics, and can be redirected.
-+* The backend program must honor the SIGTERM signal.
-+* The backend program must accept the following commands line options:
-+
-+  * ``--socket-path=PATH``: path to UNIX domain socket,
-+  * ``--fd=FDNUM``: file descriptor for UNIX domain socket, incompatible with
-+    ``--socket-path``
-+* The backend program must be accompanied with a JSON file stored under
-+  ``/usr/share/vfio-user``.
-+
-+TODO add schema similar to docs/interop/vhost-user.json.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 694973e..d838b9e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1879,6 +1879,12 @@ F: hw/vfio/ap.c
- F: docs/system/s390x/vfio-ap.rst
- L: qemu-s390x@nongnu.org
+diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
+index 6477751..bbc78aa 100644
+--- a/hw/vfio/pci.h
++++ b/hw/vfio/pci.h
+@@ -114,8 +114,13 @@ typedef struct VFIOMSIXInfo {
+     unsigned long *pending;
+ } VFIOMSIXInfo;
  
-+vfio-user
-+M: John G Johnson <john.g.johnson@oracle.com>
-+M: Thanos Makatos <thanos.makatos@nutanix.com>
-+S: Supported
-+F: docs/devel/vfio-user.rst
+-#define TYPE_VFIO_PCI "vfio-pci"
+-OBJECT_DECLARE_SIMPLE_TYPE(VFIOPCIDevice, VFIO_PCI)
++/*
++ * TYPE_VFIO_PCI_BASE is an abstract type used to share code
++ * between VFIO implementations that use a kernel driver
++ * with those that use user sockets.
++ */
++#define TYPE_VFIO_PCI_BASE "vfio-pci-base"
++OBJECT_DECLARE_SIMPLE_TYPE(VFIOPCIDevice, VFIO_PCI_BASE)
+ 
+ struct VFIOPCIDevice {
+     PCIDevice pdev;
+@@ -175,6 +180,13 @@ struct VFIOPCIDevice {
+     Notifier irqchip_change_notifier;
+ };
+ 
++#define TYPE_VFIO_PCI "vfio-pci"
++OBJECT_DECLARE_SIMPLE_TYPE(VFIOKernPCIDevice, VFIO_PCI)
 +
- vhost
- M: Michael S. Tsirkin <mst@redhat.com>
- S: Supported
++struct VFIOKernPCIDevice {
++    VFIOPCIDevice device;
++};
++
+ /* Use uin32_t for vendor & device so PCI_ANY_ID expands and cannot match hw */
+ static inline bool vfio_pci_is(VFIOPCIDevice *vdev, uint32_t vendor, uint32_t device)
+ {
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index e1ea1d8..122edf8 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -231,7 +231,7 @@ static void vfio_intx_update(VFIOPCIDevice *vdev, PCIINTxRoute *route)
+ 
+ static void vfio_intx_routing_notifier(PCIDevice *pdev)
+ {
+-    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
++    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
+     PCIINTxRoute route;
+ 
+     if (vdev->interrupt != VFIO_INT_INTx) {
+@@ -457,7 +457,7 @@ static void vfio_update_kvm_msi_virq(VFIOMSIVector *vector, MSIMessage msg,
+ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
+                                    MSIMessage *msg, IOHandler *handler)
+ {
+-    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
++    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
+     VFIOMSIVector *vector;
+     int ret;
+ 
+@@ -542,7 +542,7 @@ static int vfio_msix_vector_use(PCIDevice *pdev,
+ 
+ static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
+ {
+-    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
++    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
+     VFIOMSIVector *vector = &vdev->msi_vectors[nr];
+ 
+     trace_vfio_msix_vector_release(vdev->vbasedev.name, nr);
+@@ -1063,7 +1063,7 @@ static const MemoryRegionOps vfio_vga_ops = {
+  */
+ static void vfio_sub_page_bar_update_mapping(PCIDevice *pdev, int bar)
+ {
+-    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
++    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
+     VFIORegion *region = &vdev->bars[bar].region;
+     MemoryRegion *mmap_mr, *region_mr, *base_mr;
+     PCIIORegion *r;
+@@ -1109,7 +1109,7 @@ static void vfio_sub_page_bar_update_mapping(PCIDevice *pdev, int bar)
+  */
+ uint32_t vfio_pci_read_config(PCIDevice *pdev, uint32_t addr, int len)
+ {
+-    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
++    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
+     uint32_t emu_bits = 0, emu_val = 0, phys_val = 0, val;
+ 
+     memcpy(&emu_bits, vdev->emulated_config_bits + addr, len);
+@@ -1142,7 +1142,7 @@ uint32_t vfio_pci_read_config(PCIDevice *pdev, uint32_t addr, int len)
+ void vfio_pci_write_config(PCIDevice *pdev,
+                            uint32_t addr, uint32_t val, int len)
+ {
+-    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
++    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
+     uint32_t val_le = cpu_to_le32(val);
+ 
+     trace_vfio_pci_write_config(vdev->vbasedev.name, addr, val, len);
+@@ -2782,7 +2782,7 @@ static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
+ 
+ static void vfio_realize(PCIDevice *pdev, Error **errp)
+ {
+-    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
++    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
+     VFIODevice *vbasedev_iter;
+     VFIOGroup *group;
+     char *tmp, *subsys, group_path[PATH_MAX], *group_name;
+@@ -3105,7 +3105,7 @@ error:
+ 
+ static void vfio_instance_finalize(Object *obj)
+ {
+-    VFIOPCIDevice *vdev = VFIO_PCI(obj);
++    VFIOPCIDevice *vdev = VFIO_PCI_BASE(obj);
+     VFIOGroup *group = vdev->vbasedev.group;
+ 
+     vfio_display_finalize(vdev);
+@@ -3125,7 +3125,7 @@ static void vfio_instance_finalize(Object *obj)
+ 
+ static void vfio_exitfn(PCIDevice *pdev)
+ {
+-    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
++    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
+ 
+     vfio_unregister_req_notifier(vdev);
+     vfio_unregister_err_notifier(vdev);
+@@ -3144,7 +3144,7 @@ static void vfio_exitfn(PCIDevice *pdev)
+ 
+ static void vfio_pci_reset(DeviceState *dev)
+ {
+-    VFIOPCIDevice *vdev = VFIO_PCI(dev);
++    VFIOPCIDevice *vdev = VFIO_PCI_BASE(dev);
+ 
+     trace_vfio_pci_reset(vdev->vbasedev.name);
+ 
+@@ -3184,7 +3184,7 @@ post_reset:
+ static void vfio_instance_init(Object *obj)
+ {
+     PCIDevice *pci_dev = PCI_DEVICE(obj);
+-    VFIOPCIDevice *vdev = VFIO_PCI(obj);
++    VFIOPCIDevice *vdev = VFIO_PCI_BASE(obj);
+ 
+     device_add_bootindex_property(obj, &vdev->bootindex,
+                                   "bootindex", NULL,
+@@ -3201,38 +3201,75 @@ static void vfio_instance_init(Object *obj)
+     pci_dev->cap_present |= QEMU_PCI_CAP_EXPRESS;
+ }
+ 
+-static Property vfio_pci_dev_properties[] = {
+-    DEFINE_PROP_PCI_HOST_DEVADDR("host", VFIOPCIDevice, host),
+-    DEFINE_PROP_STRING("sysfsdev", VFIOPCIDevice, vbasedev.sysfsdev),
++static Property vfio_pci_base_dev_properties[] = {
+     DEFINE_PROP_ON_OFF_AUTO("x-pre-copy-dirty-page-tracking", VFIOPCIDevice,
+                             vbasedev.pre_copy_dirty_page_tracking,
+                             ON_OFF_AUTO_ON),
++    DEFINE_PROP_UINT32("x-intx-mmap-timeout-ms", VFIOPCIDevice,
++                       intx.mmap_timeout, 1100),
++    DEFINE_PROP_BOOL("x-enable-migration", VFIOPCIDevice,
++                     vbasedev.enable_migration, false),
++    DEFINE_PROP_BOOL("x-no-mmap", VFIOPCIDevice, vbasedev.no_mmap, false),
++    DEFINE_PROP_BOOL("x-no-kvm-intx", VFIOPCIDevice, no_kvm_intx, false),
++    DEFINE_PROP_BOOL("x-no-kvm-msi", VFIOPCIDevice, no_kvm_msi, false),
++    DEFINE_PROP_BOOL("x-no-kvm-msix", VFIOPCIDevice, no_kvm_msix, false),
++    DEFINE_PROP_BOOL("x-no-kvm-ioeventfd", VFIOPCIDevice, no_kvm_ioeventfd,
++                     false),
++    DEFINE_PROP_BOOL("x-no-vfio-ioeventfd", VFIOPCIDevice, no_vfio_ioeventfd,
++                     false),
++    DEFINE_PROP_OFF_AUTO_PCIBAR("x-msix-relocation", VFIOPCIDevice, msix_relo,
++                                OFF_AUTOPCIBAR_OFF),
++    /*
++     * TODO - support passed fds... is this necessary?
++     * DEFINE_PROP_STRING("vfiofd", VFIOPCIDevice, vfiofd_name),
++     * DEFINE_PROP_STRING("vfiogroupfd, VFIOPCIDevice, vfiogroupfd_name),
++     */
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void vfio_pci_base_dev_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    PCIDeviceClass *pdc = PCI_DEVICE_CLASS(klass);
++
++    device_class_set_props(dc, vfio_pci_base_dev_properties);
++    dc->desc = "VFIO PCI base device";
++    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
++    pdc->exit = vfio_exitfn;
++    pdc->config_read = vfio_pci_read_config;
++    pdc->config_write = vfio_pci_write_config;
++}
++
++static const TypeInfo vfio_pci_base_dev_info = {
++    .name = TYPE_VFIO_PCI_BASE,
++    .parent = TYPE_PCI_DEVICE,
++    .instance_size = 0,
++    .abstract = true,
++    .class_init = vfio_pci_base_dev_class_init,
++    .interfaces = (InterfaceInfo[]) {
++        { INTERFACE_PCIE_DEVICE },
++        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
++        { }
++    },
++};
++
++static Property vfio_pci_dev_properties[] = {
++    DEFINE_PROP_PCI_HOST_DEVADDR("host", VFIOPCIDevice, host),
++    DEFINE_PROP_STRING("sysfsdev", VFIOPCIDevice, vbasedev.sysfsdev),
+     DEFINE_PROP_ON_OFF_AUTO("display", VFIOPCIDevice,
+                             display, ON_OFF_AUTO_OFF),
+     DEFINE_PROP_UINT32("xres", VFIOPCIDevice, display_xres, 0),
+     DEFINE_PROP_UINT32("yres", VFIOPCIDevice, display_yres, 0),
+-    DEFINE_PROP_UINT32("x-intx-mmap-timeout-ms", VFIOPCIDevice,
+-                       intx.mmap_timeout, 1100),
+     DEFINE_PROP_BIT("x-vga", VFIOPCIDevice, features,
+                     VFIO_FEATURE_ENABLE_VGA_BIT, false),
+     DEFINE_PROP_BIT("x-req", VFIOPCIDevice, features,
+                     VFIO_FEATURE_ENABLE_REQ_BIT, true),
+     DEFINE_PROP_BIT("x-igd-opregion", VFIOPCIDevice, features,
+                     VFIO_FEATURE_ENABLE_IGD_OPREGION_BIT, false),
+-    DEFINE_PROP_BOOL("x-enable-migration", VFIOPCIDevice,
+-                     vbasedev.enable_migration, false),
+-    DEFINE_PROP_BOOL("x-no-mmap", VFIOPCIDevice, vbasedev.no_mmap, false),
+     DEFINE_PROP_BOOL("x-balloon-allowed", VFIOPCIDevice,
+                      vbasedev.ram_block_discard_allowed, false),
+-    DEFINE_PROP_BOOL("x-no-kvm-intx", VFIOPCIDevice, no_kvm_intx, false),
+-    DEFINE_PROP_BOOL("x-no-kvm-msi", VFIOPCIDevice, no_kvm_msi, false),
+-    DEFINE_PROP_BOOL("x-no-kvm-msix", VFIOPCIDevice, no_kvm_msix, false),
+     DEFINE_PROP_BOOL("x-no-geforce-quirks", VFIOPCIDevice,
+                      no_geforce_quirks, false),
+-    DEFINE_PROP_BOOL("x-no-kvm-ioeventfd", VFIOPCIDevice, no_kvm_ioeventfd,
+-                     false),
+-    DEFINE_PROP_BOOL("x-no-vfio-ioeventfd", VFIOPCIDevice, no_vfio_ioeventfd,
+-                     false),
+     DEFINE_PROP_UINT32("x-pci-vendor-id", VFIOPCIDevice, vendor_id, PCI_ANY_ID),
+     DEFINE_PROP_UINT32("x-pci-device-id", VFIOPCIDevice, device_id, PCI_ANY_ID),
+     DEFINE_PROP_UINT32("x-pci-sub-vendor-id", VFIOPCIDevice,
+@@ -3243,13 +3280,6 @@ static Property vfio_pci_dev_properties[] = {
+     DEFINE_PROP_UNSIGNED_NODEFAULT("x-nv-gpudirect-clique", VFIOPCIDevice,
+                                    nv_gpudirect_clique,
+                                    qdev_prop_nv_gpudirect_clique, uint8_t),
+-    DEFINE_PROP_OFF_AUTO_PCIBAR("x-msix-relocation", VFIOPCIDevice, msix_relo,
+-                                OFF_AUTOPCIBAR_OFF),
+-    /*
+-     * TODO - support passed fds... is this necessary?
+-     * DEFINE_PROP_STRING("vfiofd", VFIOPCIDevice, vfiofd_name),
+-     * DEFINE_PROP_STRING("vfiogroupfd, VFIOPCIDevice, vfiogroupfd_name),
+-     */
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+@@ -3261,25 +3291,16 @@ static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
+     dc->reset = vfio_pci_reset;
+     device_class_set_props(dc, vfio_pci_dev_properties);
+     dc->desc = "VFIO-based PCI device assignment";
+-    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+     pdc->realize = vfio_realize;
+-    pdc->exit = vfio_exitfn;
+-    pdc->config_read = vfio_pci_read_config;
+-    pdc->config_write = vfio_pci_write_config;
+ }
+ 
+ static const TypeInfo vfio_pci_dev_info = {
+     .name = TYPE_VFIO_PCI,
+-    .parent = TYPE_PCI_DEVICE,
+-    .instance_size = sizeof(VFIOPCIDevice),
++    .parent = TYPE_VFIO_PCI_BASE,
++    .instance_size = sizeof(VFIOKernPCIDevice),
+     .class_init = vfio_pci_dev_class_init,
+     .instance_init = vfio_instance_init,
+     .instance_finalize = vfio_instance_finalize,
+-    .interfaces = (InterfaceInfo[]) {
+-        { INTERFACE_PCIE_DEVICE },
+-        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+-        { }
+-    },
+ };
+ 
+ static Property vfio_pci_dev_nohotplug_properties[] = {
+@@ -3298,12 +3319,13 @@ static void vfio_pci_nohotplug_dev_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo vfio_pci_nohotplug_dev_info = {
+     .name = TYPE_VFIO_PCI_NOHOTPLUG,
+     .parent = TYPE_VFIO_PCI,
+-    .instance_size = sizeof(VFIOPCIDevice),
++    .instance_size = sizeof(VFIOKernPCIDevice),
+     .class_init = vfio_pci_nohotplug_dev_class_init,
+ };
+ 
+ static void register_vfio_pci_dev_type(void)
+ {
++    type_register_static(&vfio_pci_base_dev_info);
+     type_register_static(&vfio_pci_dev_info);
+     type_register_static(&vfio_pci_nohotplug_dev_info);
+ }
 -- 
 1.8.3.1
 
