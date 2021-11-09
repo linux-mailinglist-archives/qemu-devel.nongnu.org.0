@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CB3B44B1D5
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 18:17:40 +0100 (CET)
-Received: from localhost ([::1]:58736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DF8A44B1ED
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 18:22:11 +0100 (CET)
+Received: from localhost ([::1]:39104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkUkd-0005Ym-BU
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 12:17:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34444)
+	id 1mkUp0-00039y-7F
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 12:22:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mkUiX-0004DN-MI
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 12:15:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57051)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mkUiU-0007BF-Ie
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 12:15:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636478125;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ixQ1Zw5QLFaoZMtKaSnIwHlVBUS9sh3wazsT217jcuI=;
- b=faVO87zUf7OHavo3TXeX55gylxAsIrAr71xYAM7eYuzNlYQKx16FCir4+Q402ba8ESd3Sv
- jxNCHTQFjbhTvF1a0q7FECWxlfiqkoXnJYqWMU9334JlzxrlqdYRokD99tsFiRY8lGZEoI
- sKkkdmTGBcShKTgcZwHqBWOMs8WdtWs=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-546-r19FPSwdPK6HmiUbWu1R3Q-1; Tue, 09 Nov 2021 12:15:24 -0500
-X-MC-Unique: r19FPSwdPK6HmiUbWu1R3Q-1
-Received: by mail-vk1-f198.google.com with SMTP id
- s12-20020a1ff40c000000b002fa86937165so2941880vkh.8
- for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 09:15:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mkUo3-00027f-IL
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 12:21:11 -0500
+Received: from [2a00:1450:4864:20::42e] (port=33370
+ helo=mail-wr1-x42e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mkUo1-0000w8-2n
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 12:21:11 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id d24so34288811wra.0
+ for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 09:21:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=lqMR6SLocR2JSoRIpr1pTrl/Z8xMtshfc/7O+w5VK14=;
+ b=Haucdk12fF+S6yi9yx8rAVqgyir/ZIs2ovV2Mv9tJ8zV52dNmmfSLHdOeJdJq2AGrU
+ +syT7Vam+Hueqjgp59sAS47LDjAuHa4rXMaEn4X25x2XwPBwzqEytWklPoi2IlXMUmJj
+ LN+XEZpfdKirIPWVwN1P4FmzRuSbPus5oA5ZS9SL1W261nETHIV82mkNuxQc7aQmfeDr
+ XkVz2Sm7hPmY3HAnau2vSg/OfzFJLoZ53PNgF2pqtsuDQ8S0mWEQOM4d81yz8uMd/ahB
+ h0gI7nZ5zbD/ovqMeCCkPILwALZ05ojeMFXOe69IWcVmpM5AAm5PcovvWCVu8l4ripJC
+ A5ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ixQ1Zw5QLFaoZMtKaSnIwHlVBUS9sh3wazsT217jcuI=;
- b=FeZLHnK7H1CHqiBWjWf/RvYw3hb0BGiqTzCHbYkssBCxvvnztVukD9US/5ijMf/kq+
- qxH408RR+vFGjN7igavSGjugqL51jtt+Oz6jdrLMxvEf9PVLl59VpxGAlzUFHs7D4OYg
- 9tS90D4ugz2qrOsX6vjyCeXWfkSZ8i75OD5HttyEU4naayMkqezdRHLBPe/QA2dT/PP1
- 17Uo916JVeT1btARjC7vy9mPUAVbS69sy8uMtHt7tT594sZ/d1s9wVVmyF0vpW6SMXab
- eSE0poBQM5fbbEuio/wnaX3GCDOHmVvv8RcWU/l9HVasDi392LHCzIzQynQVF6T/XRt0
- Dxyw==
-X-Gm-Message-State: AOAM531+H5xptihOSUQVKF3EbISfI42jlqSfn9SZFpLcFn47LR6yCV9r
- FmmUyG9+jTNBfcUHs9LKNqKCGmkKjHk8VRGu/0WCpwv+/DOG6TAHK7kgs9F873oSoIjvG+usEFe
- D8SboiMaTZCg/ODUBa47KQFnLPKpExH4=
-X-Received: by 2002:a67:f685:: with SMTP id n5mr119559073vso.31.1636478123943; 
- Tue, 09 Nov 2021 09:15:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzLrb9SOyrIYNndJa6/I3lrBGY7dvN2XKDwdH/IjRS5JQaVF70ur7z06pDWM2iqN+dp/9+LEcetD5o64wRWiGM=
-X-Received: by 2002:a67:f685:: with SMTP id n5mr119559031vso.31.1636478123746; 
- Tue, 09 Nov 2021 09:15:23 -0800 (PST)
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lqMR6SLocR2JSoRIpr1pTrl/Z8xMtshfc/7O+w5VK14=;
+ b=srBBVqR6xar01ojLHz2W1fWUhX1O61dw5FQu+tzacm9nqYiGYsUdzoEmxs757MVW08
+ NTs5cVThelJI1eC0Qp5H/bGUSGR/+8gGxc/uCaBC8MeOf5i6MRudRteVCG0A2CLYVkGk
+ jrhdz/ara0jnAOIZLkJgGG199j5/DKx+ZrE6LSM7DrpuHAgP8hOYMbsLFE1EsVCCOzUQ
+ 4tQW3+7B64CpofSJm00F0LX7oVrw72fhez/H6kk/mTzQC653l1oa8tVhjNoBCuCRBBOo
+ 4NGo2Qv8fi1BxSJerMkVdtwWrhFPKkZW0MW0FA3eeCuuHfD4quPWmmxa2Olu0CBCxCfk
+ Wtdw==
+X-Gm-Message-State: AOAM533soblEig2LajhpuFva/NAVy4LfnIa8S4+Qb7uJo0ArXR7NGNl2
+ FrdkLL8dRcTf8UOpmKMiL0ktiH880fOvgmgA
+X-Google-Smtp-Source: ABdhPJyANKaLprlXBKnWi5Vje8yV7cKtIXRML2dcI5rYq0CDFIB/yMqr7CMkL1m+LdN0a95zDq8GAw==
+X-Received: by 2002:a5d:4a0a:: with SMTP id m10mr12037599wrq.221.1636478467297; 
+ Tue, 09 Nov 2021 09:21:07 -0800 (PST)
+Received: from [192.168.8.106] (169.red-37-158-143.dynamicip.rima-tde.net.
+ [37.158.143.169])
+ by smtp.gmail.com with ESMTPSA id d15sm19951895wri.50.2021.11.09.09.21.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Nov 2021 09:21:06 -0800 (PST)
+Subject: Re: [PULL 0/1] Q800 for 6.2 patches
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20211109154658.1058842-1-laurent@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <530f28ca-783e-e893-5b48-8a02f629d8ee@linaro.org>
+Date: Tue, 9 Nov 2021 18:21:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20211101173006.656673-1-jsnow@redhat.com>
- <20211101173006.656673-23-jsnow@redhat.com>
- <0c924833-c3eb-4fc2-823b-6a0ece658533@redhat.com>
-In-Reply-To: <0c924833-c3eb-4fc2-823b-6a0ece658533@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 9 Nov 2021 12:15:12 -0500
-Message-ID: <CAFn=p-aTczmhQw2wqc+Tmy_ce--oN3vVZ4RhsALD6zDB3QW0yQ@mail.gmail.com>
-Subject: Re: [PULL 22/22] python, iotests: replace qmp with aqmp
-To: Thomas Huth <thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000003fbfe505d05e414f"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+In-Reply-To: <20211109154658.1058842-1-laurent@vivier.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.364,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,75 +90,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Daniel Berrange <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Willian Rampazzo <willianr@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003fbfe505d05e414f
-Content-Type: text/plain; charset="UTF-8"
+On 11/9/21 4:46 PM, Laurent Vivier wrote:
+> The following changes since commit 2b22e7540d6ab4efe82d442363e3fc900cea6584:
+> 
+>    Merge tag 'm68k-for-6.2-pull-request' of git://github.com/vivier/qemu-m68k into staging (2021-11-09 13:16:56 +0100)
+> 
+> are available in the Git repository at:
+> 
+>    git://github.com/vivier/qemu-m68k.git tags/q800-for-6.2-pull-request
+> 
+> for you to fetch changes up to 5db83c7e90ec6c0b28995b537bb03942edcd4164:
+> 
+>    macfb: fix a memory leak (CID 1465231) (2021-11-09 16:42:49 +0100)
+> 
+> ----------------------------------------------------------------
+> Fix CID 1465231
+> 
+> ----------------------------------------------------------------
+> 
+> Laurent Vivier (1):
+>    macfb: fix a memory leak (CID 1465231)
+> 
+>   hw/display/macfb.c | 11 ++++-------
+>   1 file changed, 4 insertions(+), 7 deletions(-)
 
-On Tue, Nov 9, 2021 at 9:07 AM Thomas Huth <thuth@redhat.com> wrote:
+Applied, thanks.
 
-> On 01/11/2021 18.30, John Snow wrote:
-> > Swap out the synchronous QEMUMonitorProtocol from qemu.qmp with the sync
-> > wrapper from qemu.aqmp instead.
-> >
-> > Add an escape hatch in the form of the environment variable
-> > QEMU_PYTHON_LEGACY_QMP which allows you to cajole QEMUMachine into using
-> > the old implementation, proving that both implementations work
-> > concurrently.
->
->   Hi John,
->
-> seems like this patch broke our device-crash-test script. If I now run
-> "scripts/device-crash-test -q" I get lots of error messages... could you
-> please have a look?
->
->   Thomas
->
-
-I'm on it, thanks for the report and sorry for the inconvenience.
-
---js
-
---0000000000003fbfe505d05e414f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 9, 2021 at 9:07 AM Thomas=
- Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 01/11/2021=
- 18.30, John Snow wrote:<br>
-&gt; Swap out the synchronous QEMUMonitorProtocol from qemu.qmp with the sy=
-nc<br>
-&gt; wrapper from qemu.aqmp instead.<br>
-&gt; <br>
-&gt; Add an escape hatch in the form of the environment variable<br>
-&gt; QEMU_PYTHON_LEGACY_QMP which allows you to cajole QEMUMachine into usi=
-ng<br>
-&gt; the old implementation, proving that both implementations work<br>
-&gt; concurrently.<br>
-<br>
-=C2=A0 Hi John,<br>
-<br>
-seems like this patch broke our device-crash-test script. If I now run <br>
-&quot;scripts/device-crash-test -q&quot; I get lots of error messages... co=
-uld you <br>
-please have a look?<br>
-<br>
-=C2=A0 Thomas<br></blockquote><div><br></div><div>I&#39;m on it, thanks for=
- the report and sorry for the inconvenience.</div><div><br></div><div>--js<=
-br></div></div></div>
-
---0000000000003fbfe505d05e414f--
+r~
 
 
