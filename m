@@ -2,60 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 951B144AA1C
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 10:07:29 +0100 (CET)
-Received: from localhost ([::1]:48360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2734F44AA38
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 10:10:59 +0100 (CET)
+Received: from localhost ([::1]:50918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkN6G-0003Fe-9P
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 04:07:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36258)
+	id 1mkN9e-00059E-1c
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 04:10:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mkN50-0002OK-5h; Tue, 09 Nov 2021 04:06:10 -0500
-Received: from out28-74.mail.aliyun.com ([115.124.28.74]:52869)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1mkN4v-0002Lk-4q; Tue, 09 Nov 2021 04:06:09 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07608247|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_enroll_verification|0.0119141-5.85618e-05-0.988027;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047206; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.LpzfBz0_1636448757; 
-Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.LpzfBz0_1636448757)
- by smtp.aliyun-inc.com(10.147.41.178);
- Tue, 09 Nov 2021 17:05:58 +0800
-Subject: Re: [PATCH 09/13] target/riscv: Adjust vector address with ol
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org, Alexey Baturo <baturo.alexey@gmail.com>
-References: <20211101100143.44356-1-zhiwei_liu@c-sky.com>
- <20211101100143.44356-10-zhiwei_liu@c-sky.com>
- <851481b9-e973-b3e1-1722-73db47edb772@linaro.org>
- <f84e607c-e16e-ec3f-a7b3-e779b344fcb6@c-sky.com>
- <52357320-6098-c3da-b9de-89b131b85ffb@linaro.org>
- <e045fba1-8361-dd33-8e9b-c22b8e389cf5@c-sky.com>
- <1bd3a3ff-8ca8-ed78-1bc7-c4668965f448@linaro.org>
- <08078788-dd46-7e7a-14eb-7eb95c2c9c89@c-sky.com>
-Message-ID: <47b0a429-52ac-4d5e-ce0b-cea67b44c550@c-sky.com>
-Date: Tue, 9 Nov 2021 17:05:57 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mkN82-0004N1-MR
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 04:09:18 -0500
+Received: from [2a00:1450:4864:20::430] (port=42993
+ helo=mail-wr1-x430.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mkN80-0002rQ-UT
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 04:09:18 -0500
+Received: by mail-wr1-x430.google.com with SMTP id c4so31737042wrd.9
+ for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 01:09:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:cc:from:in-reply-to
+ :content-transfer-encoding;
+ bh=NG+PmAiV98mgfLLQ3HO0+ky/htQChjmZk9tS9qy1d/4=;
+ b=lW8Ww1fCqKinwdIScPCyhER8lqG7gNTbh91oBmvTg8WdQRz72AsZh5mfmrQ584mw39
+ YeUJtrQghWc+z+Vm43h0nfmjgEORTjQP68hsP/ReaUv8fHFMUfCgKogZuPkg9CrkE9EX
+ xyO3vfCFCaaMplkrsuRWTybiAJrTJv42a6ae9VvhkfpPXTvk3QCwA7cSRBAMDP0AFVGh
+ vL+Om76ZMJO8iuA2UAXhm4YSZ5IRu9uYfmGrptHpiL8TlUMO+nSk4dyvJUjw9PegBnz1
+ IB3jaJDTJ+Gs+6uCcUL0xFNiJ7x8x3kxIFqY1t1+hOtZ/NDSKWZsIt4fF5ggS6wfdj7E
+ 8k9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:references:cc:from:in-reply-to
+ :content-transfer-encoding;
+ bh=NG+PmAiV98mgfLLQ3HO0+ky/htQChjmZk9tS9qy1d/4=;
+ b=i7D6bhx5EXzbvTqm5bXmiIqpD2x7ux/iHmBnNJUuUIn0KEAvC5hB51ZTXarWaUtlep
+ GeXYqqAC3qV9PQGExsWhyi2bF4dJQOP3ia8Dj8iUFYLxF2ECeBTSMmLcbO79vs0tjaop
+ gMUjISamjN9i4qiXz/NIBKAGwv9zp85y6qFMA4q6qJbN8fdbx/hXoCA/SleX7qJ2cL4C
+ IaXD3maeA54y7j59luT2Myzd7Cr0Xmzrk6Coq2B80rGOgYi6qjqqra9szcbmh7knIGVE
+ pO1acW2HR24KrxKx2Tuhxn6H1P0sijPMZ6nQ/DvS27XgzJgiuEPZUDor3LDEFRBbqa6S
+ MF0Q==
+X-Gm-Message-State: AOAM531xA+v+JUKiyBTJonfzP9tjQ8obAVj7wes4vZwwsUhQKrCK+Knt
+ H1vmqKlrkX/Sf9dUx5S2Apw=
+X-Google-Smtp-Source: ABdhPJzV/NWJTAuaUymaHp/O78PKaLsk1icsmsgm90ekwLP45x8TR1uMoQGeqPt90TpcWA4bNxNkTw==
+X-Received: by 2002:a5d:68cb:: with SMTP id p11mr7081930wrw.262.1636448954502; 
+ Tue, 09 Nov 2021 01:09:14 -0800 (PST)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id z6sm2568532wmp.1.2021.11.09.01.09.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Nov 2021 01:09:13 -0800 (PST)
+Message-ID: <5334140a-dfe6-4c26-28ff-7a06bf581b07@amsat.org>
+Date: Tue, 9 Nov 2021 10:09:12 +0100
 MIME-Version: 1.0
-In-Reply-To: <08078788-dd46-7e7a-14eb-7eb95c2c9c89@c-sky.com>
-Content-Type: multipart/alternative;
- boundary="------------E63463B41C14ADCCF83A9203"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] linux-user: Replace __u64 with uint64_t
 Content-Language: en-US
-Received-SPF: none client-ip=115.124.28.74; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-74.mail.aliyun.com
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-3.364, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+To: Khem Raj <raj.khem@gmail.com>, qemu-devel@nongnu.org
+References: <20211108194230.1836262-1-raj.khem@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20211108194230.1836262-1-raj.khem@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-3.364,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,575 +92,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair.Francis@wdc.com, bin.meng@windriver.com, palmer@dabbelt.com
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------E63463B41C14ADCCF83A9203
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On 11/8/21 20:42, Khem Raj wrote:
+> uint64_t is available in all userspaces via compiler include stdint.h
+> therefore use it instead of __u64 which is linux internal type, it fixes
+> build on some platforms eg. aarch64 systems using musl C library
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  linux-user/host/aarch64/hostdep.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/linux-user/host/aarch64/hostdep.h b/linux-user/host/aarch64/hostdep.h
+> index a8d41a21ad..34d934f665 100644
+> --- a/linux-user/host/aarch64/hostdep.h
+> +++ b/linux-user/host/aarch64/hostdep.h
+> @@ -25,7 +25,7 @@ extern char safe_syscall_end[];
+>  static inline void rewind_if_in_safe_syscall(void *puc)
+>  {
+>      ucontext_t *uc = puc;
+> -    __u64 *pcreg = &uc->uc_mcontext.pc;
+> +    uint64_t *pcreg = &uc->uc_mcontext.pc;
+>  
+>      if (*pcreg > (uintptr_t)safe_syscall_start
+>          && *pcreg < (uintptr_t)safe_syscall_end) {
+> 
 
-
-On 2021/11/9 下午4:39, LIU Zhiwei wrote:
->
->
-> On 2021/11/9 下午4:18, Richard Henderson wrote:
->> On 11/9/21 9:04 AM, LIU Zhiwei wrote:
->>> On 2021/11/9 下午2:37, Richard Henderson wrote:
->>>
->>>> On 11/8/21 10:28 AM, LIU Zhiwei wrote:
->>>>> On 2021/11/1 下午7:35, Richard Henderson wrote:
->>>>>
->>>>>> On 11/1/21 6:01 AM, LIU Zhiwei wrote:
->>>>>>> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
->>>>>>> ---
->>>>>>>   target/riscv/insn_trans/trans_rvv.c.inc |  8 ++++
->>>>>>>   target/riscv/internals.h                |  1 +
->>>>>>>   target/riscv/vector_helper.c            | 54 
->>>>>>> +++++++++++++++++--------
->>>>>>>   3 files changed, 46 insertions(+), 17 deletions(-)
->>>>>>>
->>>>>>> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc 
->>>>>>> b/target/riscv/insn_trans/trans_rvv.c.inc
->>>>>>> index ed042f7bb9..5cd9b802df 100644
->>>>>>> --- a/target/riscv/insn_trans/trans_rvv.c.inc
->>>>>>> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
->>>>>>> @@ -233,6 +233,7 @@ static bool ld_us_op(DisasContext *s, 
->>>>>>> arg_r2nfvm *a, uint8_t seq)
->>>>>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>>>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>>>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->>>>>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>>>>>       return ldst_us_trans(a->rd, a->rs1, data, fn, s);
->>>>>>>   }
->>>>>>>   @@ -286,6 +287,7 @@ static bool st_us_op(DisasContext *s, 
->>>>>>> arg_r2nfvm *a, uint8_t seq)
->>>>>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>>>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>>>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->>>>>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>>>>>       return ldst_us_trans(a->rd, a->rs1, data, fn, s);
->>>>>>>   }
->>>>>>>   @@ -365,6 +367,7 @@ static bool ld_stride_op(DisasContext *s, 
->>>>>>> arg_rnfvm *a, uint8_t seq)
->>>>>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>>>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>>>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->>>>>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>>>>>       return ldst_stride_trans(a->rd, a->rs1, a->rs2, data, fn, s);
->>>>>>>   }
->>>>>>>   @@ -404,6 +407,7 @@ static bool st_stride_op(DisasContext *s, 
->>>>>>> arg_rnfvm *a, uint8_t seq)
->>>>>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>>>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>>>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->>>>>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>>>>>       fn =  fns[seq][s->sew];
->>>>>>>       if (fn == NULL) {
->>>>>>>           return false;
->>>>>>> @@ -490,6 +494,7 @@ static bool ld_index_op(DisasContext *s, 
->>>>>>> arg_rnfvm *a, uint8_t seq)
->>>>>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>>>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>>>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->>>>>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>>>>>       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s);
->>>>>>>   }
->>>>>>>   @@ -542,6 +547,7 @@ static bool st_index_op(DisasContext *s, 
->>>>>>> arg_rnfvm *a, uint8_t seq)
->>>>>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>>>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>>>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->>>>>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>>>>>       return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s);
->>>>>>>   }
->>>>>>>   @@ -617,6 +623,7 @@ static bool ldff_op(DisasContext *s, 
->>>>>>> arg_r2nfvm *a, uint8_t seq)
->>>>>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>>>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>>>>>       data = FIELD_DP32(data, VDATA, NF, a->nf);
->>>>>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>>>>>       return ldff_trans(a->rd, a->rs1, data, fn, s);
->>>>>>>   }
->>>>>>>   @@ -724,6 +731,7 @@ static bool amo_op(DisasContext *s, 
->>>>>>> arg_rwdvm *a, uint8_t seq)
->>>>>>>       data = FIELD_DP32(data, VDATA, VM, a->vm);
->>>>>>>       data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->>>>>>>       data = FIELD_DP32(data, VDATA, WD, a->wd);
->>>>>>> +    data = FIELD_DP32(data, VDATA, OL, s->ol);
->>>>>>>       return amo_trans(a->rd, a->rs1, a->rs2, data, fn, s);
->>>>>>>   }
->>>>>>>   /*
->>>>>>> diff --git a/target/riscv/internals.h b/target/riscv/internals.h
->>>>>>> index b15ad394bb..f74b8291e4 100644
->>>>>>> --- a/target/riscv/internals.h
->>>>>>> +++ b/target/riscv/internals.h
->>>>>>> @@ -27,6 +27,7 @@ FIELD(VDATA, VM, 8, 1)
->>>>>>>   FIELD(VDATA, LMUL, 9, 2)
->>>>>>>   FIELD(VDATA, NF, 11, 4)
->>>>>>>   FIELD(VDATA, WD, 11, 1)
->>>>>>> +FIELD(VDATA, OL, 15, 2)
->>>>>>>     /* float point classify helpers */
->>>>>>>   target_ulong fclass_h(uint64_t frs1);
->>>>>>> diff --git a/target/riscv/vector_helper.c 
->>>>>>> b/target/riscv/vector_helper.c
->>>>>>> index 535420ee66..451688c328 100644
->>>>>>> --- a/target/riscv/vector_helper.c
->>>>>>> +++ b/target/riscv/vector_helper.c
->>>>>>> @@ -112,6 +112,11 @@ static uint32_t vext_wd(uint32_t desc)
->>>>>>>       return (simd_data(desc) >> 11) & 0x1;
->>>>>>>   }
->>>>>>>   +static inline uint32_t vext_ol(uint32_t desc)
->>>>>>> +{
->>>>>>> +    return FIELD_EX32(simd_data(desc), VDATA, OL);
->>>>>>> +}
->>>>>>
->>>>>> XLEN not OLEN.
->>>>> OK.
->>>>>>
->>>>>>> @@ -123,6 +128,14 @@ static inline uint32_t vext_maxsz(uint32_t 
->>>>>>> desc)
->>>>>>>       return simd_maxsz(desc) << vext_lmul(desc);
->>>>>>>   }
->>>>>>>   +static inline target_ulong adjust_addr(target_ulong addr, 
->>>>>>> uint32_t olen)
->>>>>>> +{
->>>>>>> +    if (olen < TARGET_LONG_BITS) {
->>>>>>> +        addr &= UINT32_MAX;
->>>>>>> +    }
->>>>>>> +    return addr;
->>>>>>> +}
->>>>>>
->>>>>> Here's where I'm unsure.  This looks a lot like the changes that 
->>>>>> are required to support pointer-masking in vectors, which Alexey 
->>>>>> said he was going to look at.
->>>>>>
->>>>>> (1) Do we need to pass anything in VEXT at all?
->>>>>>     We do have CPURISCVState, so we could just use cpu_get_ml,
->>>>> Yes, we should use cpu_get_xl.
->>>>>> which we would also need for env->mmte etc for pointer masking.
->>>>>
->>>>> Do you mean env->mpmmask and env->mpmbase? I think yes, we should 
->>>>> also adjust these register behaviors with xlen.
->>>>
->>>> I mean the set of [msu]pmmask and [msu]pmbase, selected as 
->>>> appropriate for the current execution mode.
->>>>
->>>>>> (3) Do we try to streamline the computation by passing down 
->>>>>> composite
->>>>>>     mask and base parameters.  This way we don't need to do complex
->>>>>>     examination of ENV to determine execution mode, and instead 
->>>>>> always
->>>>>>     compute
->>>>>>
->>>>>>        addr = (addr & mask) | base;
->>>>>>
->>>>>>     where mask = -1, base = 0 for "normal" addressing, and when
->>>>>>     UXLEN == 32, mask <= UINT32_MAX.
->>>>>
->>>>> Do you mean add env->pmmask and env->pmbase?
->>>>>
->>>>> I can initialize them in riscv_tr_init_disas_context, such as by 
->>>>> env->xpmmask & UINT32_MAX .
->>>>>
->>>>>>
->>>>>> (4) Do we in fact want to pre-compute these into known slots on ENV,
->>>>>>     so that we don't have to pass these around as separate 
->>>>>> parameters?
->>>>>>     We would adjust these values during PM CSR changes and when
->>>>>>     changing privilege levels.
->>>> For option (3), I was suggesting a mask + base pair passed down 
->>>> from TCG-generated code.
->>>>
->>>> For option (4), I was suggesting embedding a mask + base pair in 
->>>> env, which would be re-computed at every privilege level change, 
->>>> plus reset and vmload.
->>>>
->>>> In both cases, the mask would be a combination of [msu]pmmask & 
->>>> (RV32 ? UINT32_MAX : UINT64_MAX), as you say.
->>>
->>> We will calculate [msu]pmmask by  csrrw , and we have ignored high 
->>> bits there.
->>>
->>> Can we just use the [msu]pmmmask?
->>
->> We could.  However:
->>
->> In order to select [msu]pmmask, we have to look up the current cpu 
->> state.  In order to mask the high bits, we have to look up the 
->> current xl, which requires that we look up the current cpu state then 
->> extract the xl from misa  and mstatus.
->>
->> All of which means that we're doing repeated lookups for every memory 
->> access.  I am suggesting that we either (3) compile those lookups 
->> into the generated code or (4) cache those lookups when state changes 
->> (csr writes and priv changes).
->
->
-> Do you mean we should add this code to riscv_tr_init_disas_context
->
->      if (ctx->pm_enabled) {
->           switch (priv) {
->           case PRV_M:
->               env->mask = env->mpmmask;
->               env->base = env->mpmbase;
->               break;
->           case PRV_S:
->               env->mask = env->spmmask;
->               env->base = env->spmbase;
->               break;
->           case PRV_U:
->               env->mask = env->upmmask;
->               env->base = env->upmbase;
->               break;
->           default:
->               g_assert_not_reached();
->           }
->           ctx->pm_mask = pm_mask[priv];
->           ctx->pm_base = pm_base[priv];
->           ctx->need_mask = true; /* new flag for mask */
->       } else if (get_xlen(ctx)  < TARGET_LONG_BITS) {
->           env->mask = UINT32_MAX;
->           env->base = 0;
->           ctx->pm_mask = tcg_constant_tl(UINT32_MAX);
->           ctx->pm_base = tcg_constant_tl(0);
->          ctx->need_mask = true;
->       } else {
-> 	 env->mask = UINT64_MAX;
->           env->base = 0;
->       }
-
-I think the code is wrong, perhaps we should modify the write_mpmmask
-env->mask = env->mpmmask = value;
-
-Zhiwei
-
-> Thanks,
-> Zhiwei
->>
->>
->> r~
-
---------------E63463B41C14ADCCF83A9203
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2021/11/9 下午4:39, LIU Zhiwei wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:08078788-dd46-7e7a-14eb-7eb95c2c9c89@c-sky.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <p><br>
-      </p>
-      <div class="moz-cite-prefix">On 2021/11/9 下午4:18, Richard
-        Henderson wrote:<br>
-      </div>
-      <blockquote type="cite"
-        cite="mid:1bd3a3ff-8ca8-ed78-1bc7-c4668965f448@linaro.org">On
-        11/9/21 9:04 AM, LIU Zhiwei wrote: <br>
-        <blockquote type="cite">On 2021/11/9 下午2:37, Richard Henderson
-          wrote: <br>
-          <br>
-          <blockquote type="cite">On 11/8/21 10:28 AM, LIU Zhiwei wrote:
-            <br>
-            <blockquote type="cite">On 2021/11/1 下午7:35, Richard
-              Henderson wrote: <br>
-              <br>
-              <blockquote type="cite">On 11/1/21 6:01 AM, LIU Zhiwei
-                wrote: <br>
-                <blockquote type="cite">Signed-off-by: LIU Zhiwei <a
-                    class="moz-txt-link-rfc2396E"
-                    href="mailto:zhiwei_liu@c-sky.com"
-                    moz-do-not-send="true">&lt;zhiwei_liu@c-sky.com&gt;</a>
-                  <br>
-                  --- <br>
-                    target/riscv/insn_trans/trans_rvv.c.inc |  8 ++++ <br>
-                    target/riscv/internals.h                |  1 + <br>
-                    target/riscv/vector_helper.c            | 54
-                  +++++++++++++++++-------- <br>
-                    3 files changed, 46 insertions(+), 17 deletions(-) <br>
-                  <br>
-                  diff --git a/target/riscv/insn_trans/trans_rvv.c.inc
-                  b/target/riscv/insn_trans/trans_rvv.c.inc <br>
-                  index ed042f7bb9..5cd9b802df 100644 <br>
-                  --- a/target/riscv/insn_trans/trans_rvv.c.inc <br>
-                  +++ b/target/riscv/insn_trans/trans_rvv.c.inc <br>
-                  @@ -233,6 +233,7 @@ static bool ld_us_op(DisasContext
-                  *s, arg_r2nfvm *a, uint8_t seq) <br>
-                        data = FIELD_DP32(data, VDATA, VM, a-&gt;vm); <br>
-                        data = FIELD_DP32(data, VDATA, LMUL,
-                  s-&gt;lmul); <br>
-                        data = FIELD_DP32(data, VDATA, NF, a-&gt;nf); <br>
-                  +    data = FIELD_DP32(data, VDATA, OL, s-&gt;ol); <br>
-                        return ldst_us_trans(a-&gt;rd, a-&gt;rs1, data,
-                  fn, s); <br>
-                    } <br>
-                    @@ -286,6 +287,7 @@ static bool
-                  st_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t seq)
-                  <br>
-                        data = FIELD_DP32(data, VDATA, VM, a-&gt;vm); <br>
-                        data = FIELD_DP32(data, VDATA, LMUL,
-                  s-&gt;lmul); <br>
-                        data = FIELD_DP32(data, VDATA, NF, a-&gt;nf); <br>
-                  +    data = FIELD_DP32(data, VDATA, OL, s-&gt;ol); <br>
-                        return ldst_us_trans(a-&gt;rd, a-&gt;rs1, data,
-                  fn, s); <br>
-                    } <br>
-                    @@ -365,6 +367,7 @@ static bool
-                  ld_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t
-                  seq) <br>
-                        data = FIELD_DP32(data, VDATA, VM, a-&gt;vm); <br>
-                        data = FIELD_DP32(data, VDATA, LMUL,
-                  s-&gt;lmul); <br>
-                        data = FIELD_DP32(data, VDATA, NF, a-&gt;nf); <br>
-                  +    data = FIELD_DP32(data, VDATA, OL, s-&gt;ol); <br>
-                        return ldst_stride_trans(a-&gt;rd, a-&gt;rs1,
-                  a-&gt;rs2, data, fn, s); <br>
-                    } <br>
-                    @@ -404,6 +407,7 @@ static bool
-                  st_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t
-                  seq) <br>
-                        data = FIELD_DP32(data, VDATA, VM, a-&gt;vm); <br>
-                        data = FIELD_DP32(data, VDATA, LMUL,
-                  s-&gt;lmul); <br>
-                        data = FIELD_DP32(data, VDATA, NF, a-&gt;nf); <br>
-                  +    data = FIELD_DP32(data, VDATA, OL, s-&gt;ol); <br>
-                        fn =  fns[seq][s-&gt;sew]; <br>
-                        if (fn == NULL) { <br>
-                            return false; <br>
-                  @@ -490,6 +494,7 @@ static bool
-                  ld_index_op(DisasContext *s, arg_rnfvm *a, uint8_t
-                  seq) <br>
-                        data = FIELD_DP32(data, VDATA, VM, a-&gt;vm); <br>
-                        data = FIELD_DP32(data, VDATA, LMUL,
-                  s-&gt;lmul); <br>
-                        data = FIELD_DP32(data, VDATA, NF, a-&gt;nf); <br>
-                  +    data = FIELD_DP32(data, VDATA, OL, s-&gt;ol); <br>
-                        return ldst_index_trans(a-&gt;rd, a-&gt;rs1,
-                  a-&gt;rs2, data, fn, s); <br>
-                    } <br>
-                    @@ -542,6 +547,7 @@ static bool
-                  st_index_op(DisasContext *s, arg_rnfvm *a, uint8_t
-                  seq) <br>
-                        data = FIELD_DP32(data, VDATA, VM, a-&gt;vm); <br>
-                        data = FIELD_DP32(data, VDATA, LMUL,
-                  s-&gt;lmul); <br>
-                        data = FIELD_DP32(data, VDATA, NF, a-&gt;nf); <br>
-                  +    data = FIELD_DP32(data, VDATA, OL, s-&gt;ol); <br>
-                        return ldst_index_trans(a-&gt;rd, a-&gt;rs1,
-                  a-&gt;rs2, data, fn, s); <br>
-                    } <br>
-                    @@ -617,6 +623,7 @@ static bool ldff_op(DisasContext
-                  *s, arg_r2nfvm *a, uint8_t seq) <br>
-                        data = FIELD_DP32(data, VDATA, VM, a-&gt;vm); <br>
-                        data = FIELD_DP32(data, VDATA, LMUL,
-                  s-&gt;lmul); <br>
-                        data = FIELD_DP32(data, VDATA, NF, a-&gt;nf); <br>
-                  +    data = FIELD_DP32(data, VDATA, OL, s-&gt;ol); <br>
-                        return ldff_trans(a-&gt;rd, a-&gt;rs1, data, fn,
-                  s); <br>
-                    } <br>
-                    @@ -724,6 +731,7 @@ static bool amo_op(DisasContext
-                  *s, arg_rwdvm *a, uint8_t seq) <br>
-                        data = FIELD_DP32(data, VDATA, VM, a-&gt;vm); <br>
-                        data = FIELD_DP32(data, VDATA, LMUL,
-                  s-&gt;lmul); <br>
-                        data = FIELD_DP32(data, VDATA, WD, a-&gt;wd); <br>
-                  +    data = FIELD_DP32(data, VDATA, OL, s-&gt;ol); <br>
-                        return amo_trans(a-&gt;rd, a-&gt;rs1, a-&gt;rs2,
-                  data, fn, s); <br>
-                    } <br>
-                    /* <br>
-                  diff --git a/target/riscv/internals.h
-                  b/target/riscv/internals.h <br>
-                  index b15ad394bb..f74b8291e4 100644 <br>
-                  --- a/target/riscv/internals.h <br>
-                  +++ b/target/riscv/internals.h <br>
-                  @@ -27,6 +27,7 @@ FIELD(VDATA, VM, 8, 1) <br>
-                    FIELD(VDATA, LMUL, 9, 2) <br>
-                    FIELD(VDATA, NF, 11, 4) <br>
-                    FIELD(VDATA, WD, 11, 1) <br>
-                  +FIELD(VDATA, OL, 15, 2) <br>
-                      /* float point classify helpers */ <br>
-                    target_ulong fclass_h(uint64_t frs1); <br>
-                  diff --git a/target/riscv/vector_helper.c
-                  b/target/riscv/vector_helper.c <br>
-                  index 535420ee66..451688c328 100644 <br>
-                  --- a/target/riscv/vector_helper.c <br>
-                  +++ b/target/riscv/vector_helper.c <br>
-                  @@ -112,6 +112,11 @@ static uint32_t vext_wd(uint32_t
-                  desc) <br>
-                        return (simd_data(desc) &gt;&gt; 11) &amp; 0x1;
-                  <br>
-                    } <br>
-                    +static inline uint32_t vext_ol(uint32_t desc) <br>
-                  +{ <br>
-                  +    return FIELD_EX32(simd_data(desc), VDATA, OL); <br>
-                  +} <br>
-                </blockquote>
-                <br>
-                XLEN not OLEN. <br>
-              </blockquote>
-              OK. <br>
-              <blockquote type="cite"> <br>
-                <blockquote type="cite">@@ -123,6 +128,14 @@ static
-                  inline uint32_t vext_maxsz(uint32_t desc) <br>
-                        return simd_maxsz(desc) &lt;&lt;
-                  vext_lmul(desc); <br>
-                    } <br>
-                    +static inline target_ulong adjust_addr(target_ulong
-                  addr, uint32_t olen) <br>
-                  +{ <br>
-                  +    if (olen &lt; TARGET_LONG_BITS) { <br>
-                  +        addr &amp;= UINT32_MAX; <br>
-                  +    } <br>
-                  +    return addr; <br>
-                  +} <br>
-                </blockquote>
-                <br>
-                Here's where I'm unsure.  This looks a lot like the
-                changes that are required to support pointer-masking in
-                vectors, which Alexey said he was going to look at. <br>
-                <br>
-                (1) Do we need to pass anything in VEXT at all? <br>
-                    We do have CPURISCVState, so we could just use
-                cpu_get_ml, <br>
-              </blockquote>
-              Yes, we should use cpu_get_xl. <br>
-              <blockquote type="cite">which we would also need for
-                env-&gt;mmte etc for pointer masking. <br>
-              </blockquote>
-              <br>
-              Do you mean env-&gt;mpmmask and env-&gt;mpmbase? I think
-              yes, we should also adjust these register behaviors with
-              xlen. <br>
-            </blockquote>
-            <br>
-            I mean the set of [msu]pmmask and [msu]pmbase, selected as
-            appropriate for the current execution mode. <br>
-            <br>
-            <blockquote type="cite">
-              <blockquote type="cite">(3) Do we try to streamline the
-                computation by passing down composite <br>
-                    mask and base parameters.  This way we don't need to
-                do complex <br>
-                    examination of ENV to determine execution mode, and
-                instead always <br>
-                    compute <br>
-                <br>
-                       addr = (addr &amp; mask) | base; <br>
-                <br>
-                    where mask = -1, base = 0 for "normal" addressing,
-                and when <br>
-                    UXLEN == 32, mask &lt;= UINT32_MAX. <br>
-              </blockquote>
-              <br>
-              Do you mean add env-&gt;pmmask and env-&gt;pmbase? <br>
-              <br>
-              I can initialize them in riscv_tr_init_disas_context, such
-              as by env-&gt;xpmmask &amp; UINT32_MAX . <br>
-              <br>
-              <blockquote type="cite"> <br>
-                (4) Do we in fact want to pre-compute these into known
-                slots on ENV, <br>
-                    so that we don't have to pass these around as
-                separate parameters? <br>
-                    We would adjust these values during PM CSR changes
-                and when <br>
-                    changing privilege levels. <br>
-              </blockquote>
-            </blockquote>
-            For option (3), I was suggesting a mask + base pair passed
-            down from TCG-generated code. <br>
-            <br>
-            For option (4), I was suggesting embedding a mask + base
-            pair in env, which would be re-computed at every privilege
-            level change, plus reset and vmload. <br>
-            <br>
-            In both cases, the mask would be a combination of
-            [msu]pmmask &amp; (RV32 ? UINT32_MAX : UINT64_MAX), as you
-            say. <br>
-          </blockquote>
-          <br>
-          We will calculate [msu]pmmask by  csrrw , and we have ignored
-          high bits there. <br>
-          <br>
-          Can we just use the [msu]pmmmask? <br>
-        </blockquote>
-        <br>
-        We could.  However: <br>
-        <br>
-        In order to select [msu]pmmask, we have to look up the current
-        cpu state.  In order to mask the high bits, we have to look up
-        the current xl, which requires that we look up the current cpu
-        state then extract the xl from misa  and mstatus. <br>
-        <br>
-        All of which means that we're doing repeated lookups for every
-        memory access.  I am suggesting that we either (3) compile those
-        lookups into the generated code or (4) cache those lookups when
-        state changes (csr writes and priv changes). <br>
-      </blockquote>
-      <p><br>
-        Do you mean we should add this code to
-        riscv_tr_init_disas_context</p>
-      <pre>    if (ctx-&gt;pm_enabled) {
-         switch (priv) {
-         case PRV_M:
-             env-&gt;mask = env-&gt;mpmmask;
-             env-&gt;base = env-&gt;mpmbase;
-             break;
-         case PRV_S:
-             env-&gt;mask = env-&gt;spmmask;
-             env-&gt;base = env-&gt;spmbase;
-             break;
-         case PRV_U:
-             env-&gt;mask = env-&gt;upmmask;
-             env-&gt;base = env-&gt;upmbase;
-             break;
-         default:
-             g_assert_not_reached();
-         }
-         ctx-&gt;pm_mask = pm_mask[priv];
-         ctx-&gt;pm_base = pm_base[priv];
-         ctx-&gt;need_mask = true; /* new flag for mask */</pre>
-      <pre>     } else if (get_xlen(ctx)  &lt; TARGET_LONG_BITS) {
-         env-&gt;mask = UINT32_MAX;
-         env-&gt;base = 0;
-         ctx-&gt;pm_mask = tcg_constant_tl(UINT32_MAX);
-         ctx-&gt;pm_base = tcg_constant_tl(0);</pre>
-      <pre>        ctx-&gt;need_mask = true;</pre>
-      <pre>     } else {
-	 env-&gt;mask = UINT64_MAX;
-         env-&gt;base = 0;
-     }
-</pre>
-    </blockquote>
-    <p>I think the code is wrong, perhaps we should modify the
-      write_mpmmask<br>
-      env-&gt;mask = env-&gt;mpmmask = value;</p>
-    <p>Zhiwei<br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:08078788-dd46-7e7a-14eb-7eb95c2c9c89@c-sky.com">
-      <pre>Thanks,
-Zhiwei
-</pre>
-      <blockquote type="cite"
-        cite="mid:1bd3a3ff-8ca8-ed78-1bc7-c4668965f448@linaro.org"> <br>
-        <br>
-        r~ <br>
-      </blockquote>
-    </blockquote>
-  </body>
-</html>
-
---------------E63463B41C14ADCCF83A9203--
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
