@@ -2,92 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C6BD44AA91
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 10:27:20 +0100 (CET)
-Received: from localhost ([::1]:53634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE5E44AAAA
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 10:38:09 +0100 (CET)
+Received: from localhost ([::1]:57638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkNPT-000125-4I
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 04:27:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43214)
+	id 1mkNZv-0004EW-Ps
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 04:38:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkNOA-0008TB-To
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 04:25:59 -0500
-Received: from [2a00:1450:4864:20::42e] (port=41578
- helo=mail-wr1-x42e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkNO7-0000cA-Bl
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 04:25:57 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id d3so31782387wrh.8
- for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 01:25:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=km8peSUDsrSJPOkAr7D3SJJh4u706UcjJZMybmc8qXI=;
- b=ssM9KpUZD6wTaVialVW5GfgoX49VpAfK75eKrmNdWRhnrpJRhYof6nyDQs/GT0m0f1
- OIBtA7clmp5U9ikytJXuzVIewsns6aX7fOkekMmNw+RRAXontySOOFk6+2AHdZN6l6f2
- RgEHoOwEdWU+xnUmSBYAewHTELa6oYlYCiAbbEZrDkfFTRUssqd1K0+A29NtjYox35IK
- N0EUhvFzJxSxth9w3qlvnxy0HzQ4jNZK9Wu/j3iN0XI0V1Vv+qHQJCvGKCNl/t9yue00
- QsDhStwo/59runcxyi9aC4nbG+5YqzTq3cLs4Wr+B20tx9dHhl+OABHkcccFR/JKTEDQ
- I01Q==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mkNYk-0003TW-1r
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 04:36:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44639)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mkNYg-0002Yq-Tf
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 04:36:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636450609;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4rnHG3pp4pUrZkzdU8W7tcOsS3g//MrACbqZtCJjog8=;
+ b=HAMOf+HXY9plPuh7CTxptcC6xwTRdVZcvowF+deUcN6AB8KQ1N29GkO7oLm0aO1ypquAPx
+ 4MDVmef8FxDtJsdMWEotahMW00IC+6TlWrbHUqnepTwb9GMfKTgJ/plUQhXAv5IZGi0n6/
+ nkKlgAJFkNzX1VgFddhtKYBP7QAJhrw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-576-1HSYzV4DOfOI2oiXfPz0mg-1; Tue, 09 Nov 2021 04:36:48 -0500
+X-MC-Unique: 1HSYzV4DOfOI2oiXfPz0mg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ k5-20020a7bc3050000b02901e081f69d80so7421563wmj.8
+ for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 01:36:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=km8peSUDsrSJPOkAr7D3SJJh4u706UcjJZMybmc8qXI=;
- b=TnvJKWrmfgYLw7jdBR7U4lP2ZrolLJRnIRckbfYueknUsOhB9w2xuvfX66+uh+2oXZ
- 2HahWvxsL2vb+1wRrWm9D7uch9jr3Q5cXRALKCVJjm64Wc28PSabwVNv+Rj6LTZFJw5t
- JQLXFC/69yegFgSjp9CJPdywf3FQQDValmyEw+n2C7gI9WcynI21QJRnjPQsWQE54h6V
- NEd58DAE8PXKwcEg4beddzNZ0mBkg6N113TWn+onEXW94NXZvKtjazS8cIR/otiaGbho
- TLNJtcv56FGD/GpSRQIg7buCbR8AKI57/AGx6OAXIs2qpAkiEx7OJK3VZl9+owZYnzky
- t64g==
-X-Gm-Message-State: AOAM532+bCDZLkLOK8OZ3kx0c8W8A/eu04znYfs8XdNNkilFjCwakngY
- AB9HhuHwUMxayXmfXXSi6CDjSA==
-X-Google-Smtp-Source: ABdhPJzklTa0tnRaNJl6HM01RLcaxKJ61nvW45p0kO+7/vPKhoBTl+ukdQ8F92H1ArsfxFa2IjEcrg==
-X-Received: by 2002:a05:6000:128b:: with SMTP id
- f11mr7214817wrx.70.1636449953466; 
- Tue, 09 Nov 2021 01:25:53 -0800 (PST)
-Received: from [192.168.8.106] (169.red-37-158-143.dynamicip.rima-tde.net.
- [37.158.143.169])
- by smtp.gmail.com with ESMTPSA id q123sm1884415wma.30.2021.11.09.01.25.51
+ bh=4rnHG3pp4pUrZkzdU8W7tcOsS3g//MrACbqZtCJjog8=;
+ b=Dv/stisnyeyT1ghrrCD/XIMQMcjQAzi8g8qwmeQD8fSx36s1kpbJcff4MdfH8vuBN0
+ lgvPKAYA/xFVQlslAlkODpPv41BINywlGzfQe2dR4AJor856XthjXliLI8lZBBvoIW2j
+ XRFpUMVzq0KXnSdnjuK4pdLFgVT/BBWgX5LqozvKfz/WXackJ1CHHM92lWqH1ySzpQyN
+ uh5pV7W6CPtQgJ3Nh6E+cVHXYsrpexGLNnEJBkpQsfN0W1YoeX8e5iWM02FRw4wXJXWH
+ IvIm3qKruOnaCpttKiyxo0DwVn+JSfHMiyF+tqCbbkGJWolu3xXx4WTInZmeBVwJrhpK
+ paVA==
+X-Gm-Message-State: AOAM531flAQpzTM5JjWfR5sirIlab166D8+P2hvlm3U5V/QKnoXCyigi
+ UkTuDmrI4sLAnX9YabXw41qpykawTAXCLjAFxhx/dh9yGA2jucquHkNElXstCBdmFKWJJ5Jamzf
+ cXsJmTXUZYoV4EQVWB4B0QAM+VaAvcMil8chmjBLNzN/UcYoSejgJ6jZzABp0V8yl
+X-Received: by 2002:a1c:20cc:: with SMTP id g195mr5565207wmg.42.1636450606832; 
+ Tue, 09 Nov 2021 01:36:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxQ8RDpR3pSRxt4ZVxmrQJA78tFIRnNlcDL1VBK1ui7E1EBm3nGVv7YJsPwOCRII5rydXBteA==
+X-Received: by 2002:a1c:20cc:: with SMTP id g195mr5565169wmg.42.1636450606511; 
+ Tue, 09 Nov 2021 01:36:46 -0800 (PST)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id o9sm19463329wrs.4.2021.11.09.01.36.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Nov 2021 01:25:52 -0800 (PST)
-Subject: Re: [PATCH 09/13] target/riscv: Adjust vector address with ol
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org, Alexey Baturo <baturo.alexey@gmail.com>
-References: <20211101100143.44356-1-zhiwei_liu@c-sky.com>
- <20211101100143.44356-10-zhiwei_liu@c-sky.com>
- <851481b9-e973-b3e1-1722-73db47edb772@linaro.org>
- <f84e607c-e16e-ec3f-a7b3-e779b344fcb6@c-sky.com>
- <52357320-6098-c3da-b9de-89b131b85ffb@linaro.org>
- <e045fba1-8361-dd33-8e9b-c22b8e389cf5@c-sky.com>
- <1bd3a3ff-8ca8-ed78-1bc7-c4668965f448@linaro.org>
- <08078788-dd46-7e7a-14eb-7eb95c2c9c89@c-sky.com>
- <47b0a429-52ac-4d5e-ce0b-cea67b44c550@c-sky.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ace70393-0a40-93c1-f30b-e45b0ba856ca@linaro.org>
-Date: Tue, 9 Nov 2021 10:25:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Tue, 09 Nov 2021 01:36:46 -0800 (PST)
+Message-ID: <cb4307b9-e4b1-da06-3f69-556e8f074a88@redhat.com>
+Date: Tue, 9 Nov 2021 10:36:45 +0100
 MIME-Version: 1.0
-In-Reply-To: <47b0a429-52ac-4d5e-ce0b-cea67b44c550@c-sky.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v4 2/2] tests/unit: Add an unit test for smp parsing
+To: qemu-devel@nongnu.org
+References: <20211028150913.1975305-1-philmd@redhat.com>
+ <20211028150913.1975305-3-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211028150913.1975305-3-philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.364,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.364, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,58 +98,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair.Francis@wdc.com, bin.meng@windriver.com, palmer@dabbelt.com
+Cc: Yanan Wang <wangyanan55@huawei.com>, Andrew Jones <drjones@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/9/21 10:05 AM, LIU Zhiwei wrote:
->> Do you mean we should add this code to riscv_tr_init_disas_context
->>
->>      if (ctx->pm_enabled) {
->>           switch (priv) {
->>           case PRV_M:
->>               env->mask = env->mpmmask;
->>               env->base = env->mpmbase;
->>               break;
->>           case PRV_S:
->>               env->mask = env->spmmask;
->>               env->base = env->spmbase;
->>               break;
->>           case PRV_U:
->>               env->mask = env->upmmask;
->>               env->base = env->upmbase;
->>               break;
->>           default:
->>               g_assert_not_reached();
->>           }
->>           ctx->pm_mask = pm_mask[priv];
->>           ctx->pm_base = pm_base[priv];
->>           ctx->need_mask = true; /* new flag for mask */
->>       } else if (get_xlen(ctx)  < TARGET_LONG_BITS) {
->>           env->mask = UINT32_MAX;
->>           env->base = 0;
+Hi,
 
-Certainly we cannot modify env in riscv_tr_init_disas_context.
-
->>           ctx->pm_mask = tcg_constant_tl(UINT32_MAX);
->>           ctx->pm_base = tcg_constant_tl(0);
->>          ctx->need_mask = true;
->>       } else {
->> 	 env->mask = UINT64_MAX;
->>           env->base = 0;
->>       }
+On 10/28/21 17:09, Philippe Mathieu-Daudé wrote:
+> From: Yanan Wang <wangyanan55@huawei.com>
 > 
-> I think the code is wrong, perhaps we should modify the write_mpmmask
-> env->mask = env->mpmmask = value;
+> Now that we have a generic parser smp_parse(), let's add an unit
+> test for the code. All possible valid/invalid SMP configurations
+> that the user can specify are covered.
+> 
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+> Reviewed-by: Andrew Jones <drjones@redhat.com>
+> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Message-Id: <20211026034659.22040-3-wangyanan55@huawei.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  tests/unit/test-smp-parse.c | 594 ++++++++++++++++++++++++++++++++++++
+>  MAINTAINERS                 |   1 +
+>  tests/unit/meson.build      |   1 +
+>  3 files changed, 596 insertions(+)
+>  create mode 100644 tests/unit/test-smp-parse.c
 
-Something like that, yes.  However, env->mask must be set based on env->priv, etc; you 
-can't just assign the same as mpmmask.
+Could you have a look at this test failure please?
+https://cirrus-ci.com/task/5823855357853696
 
-Then you also need to update env->mask in a hook like you created in patch 11 to switch 
-context (though I would call it from helper_mret and helper_sret directly, and not create 
-a new call from tcg).  Then you need to call the hook as well on exception entry, reset, 
-and vmstate_riscv_cpu.post_load.
+MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+G_TEST_SRCDIR=C:/Users/ContainerAdministrator/AppData/Local/Temp/cirrus-ci-build/tests/unit
+G_TEST_BUILDDIR=C:/Users/ContainerAdministrator/AppData/Local/Temp/cirrus-ci-build/build/tests/unit
+tests/unit/test-smp-parse.exe --tap -k
+Test smp_parse failed!
+Input configuration: (SMPConfiguration) {
+    .has_cpus    =  true, cpus    = 1,
+    .has_sockets = false, sockets = 0,
+    .has_dies    = false, dies    = 0,
+    .has_cores   = false, cores   = 0,
+    .has_threads = false, threads = 0,
+    .has_maxcpus = false, maxcpus = 0,
+}
+Should be valid: no
+Expected error report: Invalid SMP CPUs 1. The min CPUs supported by
+machine '(null)' is 2
+Result is valid: no
+Output error report: Invalid SMP CPUs 1. The min CPUs supported by
+machine '(NULL)' is 2
+ERROR test-smp-parse - too few tests run (expected 2, got 0)
+make: *** [Makefile.mtest:576: run-test-70] Error 1
 
-
-r~
 
