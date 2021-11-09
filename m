@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D08A2449FFF
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 01:53:06 +0100 (CET)
-Received: from localhost ([::1]:38014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC0F449FFA
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 01:51:35 +0100 (CET)
+Received: from localhost ([::1]:59770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkFNp-0005IT-Vd
-	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 19:53:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51752)
+	id 1mkFMM-0000rJ-4b
+	for lists+qemu-devel@lfdr.de; Mon, 08 Nov 2021 19:51:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1mkFAi-0005ju-5O
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 19:39:32 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:44324)
+ id 1mkFAy-0005xg-Ai
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 19:39:51 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:42580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1mkFAY-00047J-7E
- for qemu-devel@nongnu.org; Mon, 08 Nov 2021 19:39:31 -0500
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A905pwf019033
+ id 1mkFAY-00047M-Jk
+ for qemu-devel@nongnu.org; Mon, 08 Nov 2021 19:39:46 -0500
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A90Fxis025521
  for <qemu-devel@nongnu.org>; Tue, 9 Nov 2021 00:39:21 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : subject :
  date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=Dp8yTb3RzSzTBZUXECLNZdNuCarfOD2WRepONbKnpI4=;
- b=PmGVL+gayj637+DSd+g/hkh8srPQz303qkRQsdgQXRuxEPfEvJdpBym+MUEnx07eP2GS
- w7Zl3tR+/gONTU7TFLhjFl7ziM/UV1aqlNqYmpp6Xv+B8ynpdrJ68J27SnOsezn8EXqw
- bogCAQvk1ulEWX1JxOEPvzJTceSXwzYnF4AIzW4AF0q0eNQvoePQDbnhd9ctHakrcvpz
- 6DX8i5Bul1zHqae2LCfp5JqDrox3JdPpH0gmyZZdeE7gfdyukw9N/86t+aHPwfnrGZpz
- P72bmyz7uplQTeOomWY3Wzs5j3WXWFIHmXhDc58B4JhTiCyXNIl/fGvoVIzH2b9po+nl cg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by mx0b-00069f02.pphosted.com with ESMTP id 3c6sbk7c8e-1
+ bh=4ZJh38/1+M0iTGTHCLIJD6efxcVs9FIN5gpC8ePC48w=;
+ b=BjMEF9ToQULU8OulT8VACmz8g7RB2ebKLxaGj29UfVSVuMAJR3yiO0tjGyDYbRvsAS70
+ y/meXGlbR0zfbmj0JFGohCJ2YJTeQ0TI8N0X8Bwf8k5A4lPfzAohZQtOu/lHiWk/YFiB
+ y576TVOeYZBgHOmUPvm773rKkuKWnHzy1smy2/4Dlvel79pOEKf8Py5/djfOSX/eo4Pg
+ S0AbZAaWUGCAoG0DiDazf+2F6taMLCS2bYiKEl8mufj+rSaeus95GBA1a8zj35fzPR09
+ /R+MqwY7QZqbKXGD3J9LmtPcWUw02ZEqyuJtRl+F3REejKE1irki7KLE2t/sK7JE+3N1 cw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3c6t7077ja-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 00:39:20 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1A90ZLN7129193
- for <qemu-devel@nongnu.org>; Tue, 9 Nov 2021 00:39:19 GMT
+ for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 00:39:21 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1A90Zxm8132637
+ for <qemu-devel@nongnu.org>; Tue, 9 Nov 2021 00:39:20 GMT
 Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2104.outbound.protection.outlook.com [104.47.70.104])
- by userp3030.oracle.com with ESMTP id 3c5etuvb6n-10
+ (mail-bn7nam10lp2100.outbound.protection.outlook.com [104.47.70.100])
+ by aserp3030.oracle.com with ESMTP id 3c5frd6sqb-7
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
  for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 00:39:19 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F+8jCVe+Q4EaqzfXzp2UguHiteUJAuuON5h07lb2tDDQL+s++YSq6YoSP6ILkxLFHb9FzzyrLjcwQv0yxLkiSiOPAPYOL1OrvkABK5lLUmncZX7HkTdWDSUg2pA+mUQThW0YojvwFfym3LFS4x+lsL5kFr7Od3d87KWhQPgTHL6Qr0yb23rTddB1OUqZ0hkIFAQg4bMWhq4Sg7bnFWIz6mftl/elbNJ4uq9wcHr2LMc9u3PV7dK187TKV5ijBwdhe+h5uLvbwiToSmVJSygfDHgzA0lw9k8y12VcwAH5oRQsFOov5pEV3gqYRLYmFlvm1qFmr6e3S2pJvNsS33Uw1g==
+ b=B5bZgqiooZRunElXkdC8Hhs6Cii8ND1H89QSGEEViHsO/ZzocGj2rsBHrxIyi/z8j15PoqRKT0ysQLFjcUverY1Ras3Cn/DAUi/zXQ6nRADxnOhrwieoxDGHdz4ID/KbM2QFvlbk+oO+khtXVI9rS7jHW6Yt6rP1h9YKFqwQc3KOv7oXPsRpLfL2Hnn1Tsgu71FeSXX3YcoZ3UczdGR1b2J67vZAYfL/jcU3Ed+wCtMGmOwWxZB+P6NoHzehrq1BZt3qlboTf4dj2hO2UYt/+p8KDOMXBjtSg3OmMHIQA5Ci18D8kXppleWV0q3F2rwP0IP6VZA34jK5tIYadkc/uw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Dp8yTb3RzSzTBZUXECLNZdNuCarfOD2WRepONbKnpI4=;
- b=fmNPeohkEtPKwCbnO68TjvXKNP7M+rvjxQSIvT5yqItcHmgalMCWfy5+g6YAuuxJbGTZQWeBM/pAEfb+o1n4+V9i1wnZu4+7sMtnxG8wExu9A30H6lb/KuHByvK70WhVwbJ/wjU3Yr2us2TJC8MDvrwTP8PXaZr9r9VgcLGxxgsMVqoesNErZ/QzE5pDt6DhAzNM/k2bT7Aa9mSNHk7E1ao3Tjfl5cyOmlBXM1Ulgw0s0W9fSClPiFtthYNAAmeaLMJN7xetrrQwSdRoVNOAfzN2g687I/GuSpU0Pp+KmBZePAayrsftWjwoMBPa77Cc3Xsg8j3fibYZYy68CA/c+Q==
+ bh=4ZJh38/1+M0iTGTHCLIJD6efxcVs9FIN5gpC8ePC48w=;
+ b=j2LjUzkNzi/tO7BK1HMczAaRUtV65lvEBBl8RLFi0n4Qfc1te/W8oMuq0koYtimrmm4eZ+SnDojwd+XYpULQIXIZXXwQpKfTZBnn/zdE8FVPDlcAgXjwdVdwNf4r3ApgHe9+uy3LrNIioXKxjWlFnMOUNEc/+UwRCpGB+GuF1+ohnoq2xgd3INltIUEZPmpuNodRMscEPZVdo0sb+qpVFn+8FUbIG4rxaDtLRAB4OId1kPOEOh95BcyFVYrvBXkklB0LftXAf4kxTofkWUr5t5T61uQklU5pMgXEQwVIErJtC1F225is07ncMoiDRshTcr+aeWVYiggYBGIZ9XbbrA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Dp8yTb3RzSzTBZUXECLNZdNuCarfOD2WRepONbKnpI4=;
- b=tiIy+XVPgyUUgP3CP33lmeCdsIf1+X7CVKSHwNJGZUjRu8IbCTDI4CLRus/mguMFzBBt29vzCU3Blj/PMlqGQlDijCqNgtC92TUsd2xu8Nod+aeksE/pCEEP4BJtuDuQ89PDsHs6VPhS+wicUkyLMU+wF+t2UWZdqVf3sRnQneM=
+ bh=4ZJh38/1+M0iTGTHCLIJD6efxcVs9FIN5gpC8ePC48w=;
+ b=ZJ4sWUTNNDvS/IW2oHphlRFolM66BSVJMMCqeTdtucRXIA4nOP17QnbmDmng4cpo75wRXVVAmNIQXXD5yTE32pdLT2p7wDPQsVtiogoDG4JLG9ZiUt8E+0u5IIHiiMFsiYsMbe2FPzWJAlK+p2LeN27dFi7LYYvPATfczzTAK3k=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from SJ0PR10MB4686.namprd10.prod.outlook.com (2603:10b6:a03:2d7::23)
  by BY5PR10MB4068.namprd10.prod.outlook.com (2603:10b6:a03:1b2::33)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.11; Tue, 9 Nov
- 2021 00:39:16 +0000
+ 2021 00:39:17 +0000
 Received: from SJ0PR10MB4686.namprd10.prod.outlook.com
  ([fe80::1551:92ba:9eb8:a093]) by SJ0PR10MB4686.namprd10.prod.outlook.com
  ([fe80::1551:92ba:9eb8:a093%7]) with mapi id 15.20.4669.016; Tue, 9 Nov 2021
  00:39:16 +0000
 From: John Johnson <john.g.johnson@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v3 14/19] vfio-user: get and set IRQs
-Date: Mon,  8 Nov 2021 16:46:42 -0800
-Message-Id: <e3eba277e9adb8245e3d9d9218c4f47c134765cb.1636057885.git.john.g.johnson@oracle.com>
+Subject: [RFC v3 16/19] vfio-user: dma map/unmap operations
+Date: Mon,  8 Nov 2021 16:46:44 -0800
+Message-Id: <9317e19ef1b2b73864be268b6715fcf53a0704a4.1636057885.git.john.g.johnson@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1636057885.git.john.g.johnson@oracle.com>
 References: <cover.1636057885.git.john.g.johnson@oracle.com>
@@ -89,76 +89,76 @@ Received: from bruckner.us.oracle.com (73.71.20.66) by
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.11 via Frontend
  Transport; Tue, 9 Nov 2021 00:39:13 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f5cc6753-f006-45e2-c49b-08d9a3195a65
+X-MS-Office365-Filtering-Correlation-Id: 91910b1f-1ba7-479f-ad5b-08d9a3195aa9
 X-MS-TrafficTypeDiagnostic: BY5PR10MB4068:
-X-Microsoft-Antispam-PRVS: <BY5PR10MB40687CDDCFE0384F4CE84CB1B6929@BY5PR10MB4068.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1360;
+X-Microsoft-Antispam-PRVS: <BY5PR10MB40688F7D2BD6551F56E35BA4B6929@BY5PR10MB4068.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:272;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LwW3UOcpBGUJtlC930Bxe1YXeH2+nxwsZ4W6OKBlwkDertkwVPM5uuYIauVBKiFYxak1e7RudhsQz6C56SFk4Ev8Q9ZENSXRYSgE+IszX2NPz+8RYVZP0vDvS/k5PJZBJwpQdGKXn2w9OTsQ4LxeNqOm6isQeMdPWVnpn8E1nAs+DSt97n8IAZWNNVHQfvh8BvpCMmHqpSBmyjghb3YDBG2biNBJk05aS3+O2169xOmwWxzf/m1DzmHOwyo/7if86iaVlRYgLMcXlwDL7C0dnxlprRs85fpUxSAPsLk2Zqaa1oVdkxnhbtC4NmwetZxTzDyVgy3Wo4CLpiDITNOCH5tdlflnj1JYS3TqfeCy5DEWPe2ZB94GN0tQGoOKMwzwAn03qKNae8/VZuLaJytZBUh0DavdmOv3/bICnqCIom7Y2voz/TjOvkSvE1UHy9R3ICeo4z6XsSt+c2YvUN6GcAhp/MRJoR9oO0/AgnTFe3FjOFYLFxlpq5KCKN/nWU0WGnP+Ey8t7rQATuRUybwEYG1I405xV64q+xE7Yfga0XsD6bFpk3ZaYeMeUk7sXweRCmioF5bF5N+2hgMkuio4doK8Nm0ZLcP6wHElcyxctAHQVZhTb2rQiX90Moxui0zodTp4v+C+DIDnTmvX9f4/DcMp9uGx9N1t2cqUcs0TYfPu+iVe8ZyHLxsvxryxcHonbs53CIbZ9/3nuq8VS4a/Dg==
+X-Microsoft-Antispam-Message-Info: TJVk8oyCkzlVlCMEWBwYG/dVpFlyn2zIgCMtqqZSALEnyW0Z6i3qJ+/QZvMSjXScJek+kKFwRmaU799m0H74gv5Ph6p1k2rTpCHdwBYs5idaZyX9LtsBvJ6TctZK9Xz/VPaWX+CoSbPfntJ5G85C0v1V+YGcikgH83uK6T2np2Vv9mNGg6ojl0O2xYiTpO5k3GLbrGsGwhItResrU7/C0I7QYpglEDvpl7p7u6ldKdw2hVXr4hrrSnh4WSTBj+OqEntIz8JMEv6y+kih1F+q5ZlaUnZtEz0nh1KI5T9ef4Wd2lPBgs3VYA35nna5zQvsAetJsLxVe4UMbbDW3lz4HHnHmXOP0yIoDfXTu/BroAWarClguLBESO7bM45ia7vvL7+I6sIuTWqrkU5Bl1JxGRojvo+DGxrNRsgSrvJLm8J/SRDx1TG9KySZHKpT+oDJ7/yDhNADQUAvDBxyaTcaZah6Si27nqH8KsrgsWOBTqcSoJz0btRrM1RBWKLblebrj9e6oNyGzHrMolZC+aDV8+9st9g4TV4qPI9VEnTjHEvXmTpUtwrlOtWj6czkANzq2cxp9PsfuR07NxBZDgnfmhjvOhFSeSoutWnkukLYCJ4CZYNZdW5ZEaxNrmeKwW7ilhnUqDZKGNldGByPlOKfYuGhab44xn1CKqTHrljIbC0SZa3VeiTCRtsBDQFBDNK/YuKJQ4MBlH3noK7H+TEsAg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SJ0PR10MB4686.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(66476007)(316002)(186003)(66556008)(508600001)(8936002)(8676002)(66946007)(6486002)(26005)(2906002)(6916009)(5660300002)(36756003)(7696005)(52116002)(86362001)(83380400001)(956004)(38100700002)(6666004)(2616005)(38350700002);
+ SFS:(366004)(66476007)(316002)(186003)(66556008)(508600001)(8936002)(8676002)(66946007)(6486002)(26005)(2906002)(6916009)(5660300002)(36756003)(7696005)(52116002)(86362001)(83380400001)(956004)(38100700002)(6666004)(2616005)(30864003)(38350700002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KvONsHxqxdlpn0GJrYydB9byns0DhyeXzK28vszcDuGPmcCTTNcZ42KGF/wR?=
- =?us-ascii?Q?KfVqL6yhNfTGEEUHmjrI870bbXfdQpAbq4Kq+J7Ysu4Tk9XIb9HUEym4b/h/?=
- =?us-ascii?Q?mJ0lHiU3cbhJPK6KCguWQDGhX4JN6DiDeunbWzqU2P99bSz5KrjnEYrAGd/z?=
- =?us-ascii?Q?K9qpTrmlROtztCx+9j2EStKoXmzqFp3mD9dr5RoYeyt8SLZvpmA3d92ihpuH?=
- =?us-ascii?Q?kxAB4TGpJbmTWTOCRuYSUxsgYc20lPfTtr/sWU+rXOrUE1ycyGCNH68HBRjl?=
- =?us-ascii?Q?VCGDGMcRJ8wh+mJKKEvJ9wJ9na04A1XDXn9/gARYieh4qeRQZJd1HUkbFtDn?=
- =?us-ascii?Q?7ZfvEQ/8D0S5M7NsWbfLCqr6j3a5pQbk/4zASen72Ugy71Kele68ypc/4qOj?=
- =?us-ascii?Q?f9AW751bWcGxKaPuQff4KQYDk25wPgl9c8DWW56WpOUzDQAzE1WPt8sjZpZc?=
- =?us-ascii?Q?FkEHmXuG0aMBGdpDybGiRpSV9cuV0Ru3BKibe6VZWkqLED5wMICDrNX6HejM?=
- =?us-ascii?Q?Op1eyZqMtXL44Nb0L94BmTYAGo+eArAG9m6xVUck2FTXIwRSWyFqApLCcafI?=
- =?us-ascii?Q?1r9ykgqalnU20s7NMxtqRv0LJV05LgaCK5pVz3vofBG9YRrkumPC5hcRDfxd?=
- =?us-ascii?Q?GWfXImz+F/5UPUMRZxPN45eKw480O46nIPCZmI8QLknC7BL0OlCKGjGpAV18?=
- =?us-ascii?Q?ipj71FB4zqq7+zDN+Qmpz8eaj+TXilkHSa93zOUFRGJWvnHsUlfRYzFafDe7?=
- =?us-ascii?Q?fOp9lSIRocHVKRWoqAcghW8ps5CtsbJWAIR/X2TjLQoA9hk8Yihe5DtOOxMV?=
- =?us-ascii?Q?d10rmb1YQfO1dU2LCzjDTBti1r/ELIIgxMSMYJ+A4qZm74m0PrI4B+D2VZiB?=
- =?us-ascii?Q?TWbPrK5O9ve3x3arJj41Ymrbkcx5EJZzOu1OHH4TlCtA55LQ5j2ldpPE3m0k?=
- =?us-ascii?Q?tOjL2efvnrI+ch8w/G09orA6dUv6Flvv4mwgsr0deaMuVROKK6lZ3PPqGnCn?=
- =?us-ascii?Q?W4gofeXjGp0K4wWrsUZ57utCh6CUTcPUCDwKXcOpSqnG6o1UkSJFtiDqPa8f?=
- =?us-ascii?Q?jrJQ0gajuXCCw3jJRn6MBhTbKxcFoxtHtk5i8KJSPO2EkFgB3zAYlR6XwCr/?=
- =?us-ascii?Q?OI1iyg5X/eGyVfgRfsUH2N0BqQnOFRRQj66LQ9FVh7bTyY5DCFGW8l/ORvLU?=
- =?us-ascii?Q?VOZdR+pmvVlpMF6FiICheT4OrqpMrehujBIro9W/JLxw0A0WJGTk/k0ZRjJL?=
- =?us-ascii?Q?kA4Dx73FSFBGqiFpHNYeFxoV9HD+5ntoDB30r/Fw9p1souOzLRBuZe+ahI16?=
- =?us-ascii?Q?FoT7vM1QvH5ogK0rWQ6GCdBjN/o4sC7f9Kr97xhZuCh8po988mmCBNORQIwp?=
- =?us-ascii?Q?SPR59McPGk416yNHX5jiFjWWHhV6nEdrIvprqc6VZ4Y5DMm6ErC5PfsIkcUT?=
- =?us-ascii?Q?/zWEPonmPDJgaSc0NmBFndxKXWooWeeFdijso6Fh3Cux8Pcpf2AXhRt9vFiR?=
- =?us-ascii?Q?RSCPO6zBmIejQrfycw4mIml4CwNITiMLFTIsl2OVF4F4nJrcwVCz5BimFHdl?=
- =?us-ascii?Q?14LZPHBLz8D4wMk+wQ8Kmt5dDntQSyCG6j0O/GTOtFebYnemapOB6XYPwQLA?=
- =?us-ascii?Q?tsJcfy+hJufNMwSW7UjMWQwB2txN9kWknRkIpwNfAR0wfRG2nhEZiBizKk4Y?=
- =?us-ascii?Q?DXlFyQ=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?N/Qy8DvIpDpMoe840yd7KukB6rn+Xs8iV/TP4z9bqySODMrbVNPfFM228sIq?=
+ =?us-ascii?Q?hHHu3vOVqUL8Czk5UcILQCpOGnDC3CB0Y2z6bjg8ShpHywsYz+6H2JMM2ugv?=
+ =?us-ascii?Q?as3L69nhy9lv0L4BL3ZnpuX48nQIdvkNfCmmgsoUZbmPe5MYScPvTspAsjrg?=
+ =?us-ascii?Q?P0EAubsLVJqOvVdOuogYYSTC1NfNGnFGG0oKRnE4TZrOPUqMBf+5t/FZ4LuA?=
+ =?us-ascii?Q?oj6kyWWvrCCVvX/mfc3vrZt93iJfZwcKnBjyjB+C4BOVTa+HPLzAaM+BXWQ/?=
+ =?us-ascii?Q?dLt89KDCO36ZKhcW/qeGa53+akG7p5qnc5JpVEE5FEWfqsMcur5xqxhvxRNc?=
+ =?us-ascii?Q?n1IYKMZsWecTF+xJnZRbfOhRYTAe5y7TqZncJoUJ3fHMSINzv1bBI+zfz8He?=
+ =?us-ascii?Q?hkfhfp9htBkb/oXGBSRKMPXI0xn/JV9Yb583C++X9OPnjFOvZcgCiCEBauOR?=
+ =?us-ascii?Q?FFokCnaVcnNe71jjas/GTpl3vtE+8XA/oLrOZJrfZl23h5aG0SrlEjPfhNjS?=
+ =?us-ascii?Q?U+i4RvG5Sv19YEVz0etMahUvhUYfl48Tt812Vqq1BiyawhahHhUJgSmMlryM?=
+ =?us-ascii?Q?gZguWdcN3C+BTNTr8/StJsovHZ7Qo8cZJNeGRXS5u9225oRsG4Rzo7VuxLKs?=
+ =?us-ascii?Q?Xwwu+Of3kxNzsbPB0ErUBuyia+JswUPNZSAU+zbuGNzsldaL6z4i+pLYMPUm?=
+ =?us-ascii?Q?uX8X4wCe+8lXaN/Wd81CC9gkFy79CvXO20rmOExFYEH7SWBQa6lNjkFAlYFZ?=
+ =?us-ascii?Q?rtaszJCKP4YKBT+ZbpHDnCIGbqgzXJDVJpgp0H+L1xOgXc/MCJdlZQlCioXO?=
+ =?us-ascii?Q?WfWMcwNAAhYq/ww/JXwMGQxG4J3J96ct00GXOyabzrzXDNLpvWajNeNwzNYi?=
+ =?us-ascii?Q?yCZjuzBvd1yeFX+zTOQRfeig13HqVym9tApi5CbkJNUk4KGDmzJi9UOuuiyN?=
+ =?us-ascii?Q?Pl5rYlt+BCrrMwlvs6YFyhwFL9PDSSeYhJ85U4kvqP1CYINS9iGZuP4Jt3M1?=
+ =?us-ascii?Q?Y65r9WXk0STeVXVjBjnsUPEwMDBD8FuVoVa/O+XS7tUQmu1mNd41rUxCTEfk?=
+ =?us-ascii?Q?39l1G1MiFUtTt0YRi8GxQFV9Ul3DkailxqQopquTqdL/IIbRlvcmWUh8YiQ2?=
+ =?us-ascii?Q?QyNs446DPpJ+CHOOsULP4kVTDFA0qlQ6ZeohL1ry4lVkl0FtdR2fZU2T9Jcv?=
+ =?us-ascii?Q?hXWXJrUYN+rKOBbXZtcjPb1K+iK51zxWLefWDwWG3K0QsV29FDiLO6O4wY1x?=
+ =?us-ascii?Q?kpyK9bWPC5fveBMG+CBwUQadQuTb2CAAdQjEvT9va7GP+v0hHm/rxvELxEub?=
+ =?us-ascii?Q?N6kE3aYZtvcGC24wOsxmpGCtIOBBgX9qUT4GJ9H7yUQ9BeZxlSYhHbTwbaJT?=
+ =?us-ascii?Q?8YLMjg8K9GBiV6+8OgB/WA9/5JYPh65rJsn/cHRdLBGiuQ7XGghiE0cFKjfW?=
+ =?us-ascii?Q?/4ofSygaG/QHDD8wsnjuIu9MjNJGJ8aILAIqQhUKKWAlyNvkkU9qlFE4y5GP?=
+ =?us-ascii?Q?g02d45RFbZJvK4wOuY8dn+xtndYubmuFxj64Tx7VoGauN7M2Q/LcOE+c+VaE?=
+ =?us-ascii?Q?+rYGm2hbu4BcPDfomZMhWOO2vxpPwI+o48HnC/wMNpz0emaDa3VcPSn32mLY?=
+ =?us-ascii?Q?1PDuvyqR6kvro1DE5vbyrFVdMB2gUsFJiAZGQ6YVbGmqkaj+0PYvfQJ9hiDi?=
+ =?us-ascii?Q?tEoNnQ=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5cc6753-f006-45e2-c49b-08d9a3195a65
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91910b1f-1ba7-479f-ad5b-08d9a3195aa9
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB4686.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2021 00:39:13.6670 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2021 00:39:14.1121 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /voQMopkfyWqvVA455cBw3GGTOJ1222E8Ku6N6A6D5NyX78zeSmWIEVDkrQwRnpABqh9R9UeD5kOU9H679eZI4u0lRDjjjLrNFvyRhc2uVg=
+X-MS-Exchange-CrossTenant-UserPrincipalName: Jlg60HYRh49K+KYHNALGLmlH+rEF9CwQ2kKTM0yeRv7c051DWlde6g0svIdJKz8jk6yeLMMbYlD2CjKicSgR96S6EvoZae2TmS7vSmYDYUw=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB4068
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10162
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- adultscore=0
- mlxlogscore=999 malwarescore=0 phishscore=0 mlxscore=0 suspectscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ mlxscore=0
+ suspectscore=0 bulkscore=0 spamscore=0 phishscore=0 malwarescore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2111090001
-X-Proofpoint-GUID: sTg_NZcY8FdOgXuzSU04fZNvlMjX2ynK
-X-Proofpoint-ORIG-GUID: sTg_NZcY8FdOgXuzSU04fZNvlMjX2ynK
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=john.g.johnson@oracle.com; helo=mx0b-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Proofpoint-GUID: GslTr3ClqdxN6G-jUHEoquw1P7VqauLo
+X-Proofpoint-ORIG-GUID: GslTr3ClqdxN6G-jUHEoquw1P7VqauLo
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=john.g.johnson@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -174,244 +174,616 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- hw/vfio/user-protocol.h |  25 ++++++++++
- hw/vfio/pci.c           |   9 +++-
- hw/vfio/user.c          | 128 ++++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 160 insertions(+), 2 deletions(-)
+ hw/vfio/pci.h                 |   1 +
+ hw/vfio/user-protocol.h       |  32 +++++++
+ hw/vfio/user.h                |   1 +
+ include/hw/vfio/vfio-common.h |   4 +
+ hw/vfio/common.c              |  76 +++++++++++++---
+ hw/vfio/pci.c                 |   4 +
+ hw/vfio/user.c                | 206 ++++++++++++++++++++++++++++++++++++++++++
+ 7 files changed, 309 insertions(+), 15 deletions(-)
 
+diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
+index 643ff75..156fee2 100644
+--- a/hw/vfio/pci.h
++++ b/hw/vfio/pci.h
+@@ -193,6 +193,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(VFIOUserPCIDevice, VFIO_USER_PCI)
+ struct VFIOUserPCIDevice {
+     VFIOPCIDevice device;
+     char *sock_name;
++    bool secure_dma;    /* disable shared mem for DMA */
+     bool send_queued;   /* all sends are queued */
+     bool no_post;       /* all regions write are sync */
+ };
 diff --git a/hw/vfio/user-protocol.h b/hw/vfio/user-protocol.h
-index 56904cf..5614efa 100644
+index 5614efa..ca53fce 100644
 --- a/hw/vfio/user-protocol.h
 +++ b/hw/vfio/user-protocol.h
-@@ -110,6 +110,31 @@ typedef struct {
- } VFIOUserRegionInfo;
+@@ -83,6 +83,31 @@ typedef struct {
+ 
  
  /*
-+ * VFIO_USER_DEVICE_GET_IRQ_INFO
-+ * imported from struct vfio_irq_info
++ * VFIO_USER_DMA_MAP
++ * imported from struct vfio_iommu_type1_dma_map
 + */
 +typedef struct {
 +    VFIOUserHdr hdr;
 +    uint32_t argsz;
 +    uint32_t flags;
-+    uint32_t index;
-+    uint32_t count;
-+} VFIOUserIRQInfo;
++    uint64_t offset;    /* FD offset */
++    uint64_t iova;
++    uint64_t size;
++} VFIOUserDMAMap;
 +
 +/*
-+ * VFIO_USER_DEVICE_SET_IRQS
-+ * imported from struct vfio_irq_set
++ * VFIO_USER_DMA_UNMAP
++ * imported from struct vfio_iommu_type1_dma_unmap
 + */
 +typedef struct {
 +    VFIOUserHdr hdr;
 +    uint32_t argsz;
 +    uint32_t flags;
-+    uint32_t index;
-+    uint32_t start;
-+    uint32_t count;
-+} VFIOUserIRQSet;
++    uint64_t iova;
++    uint64_t size;
++} VFIOUserDMAUnmap;
 +
 +/*
-  * VFIO_USER_REGION_READ
-  * VFIO_USER_REGION_WRITE
+  * VFIO_USER_DEVICE_GET_INFO
+  * imported from struct_device_info
   */
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index f8729b2..6f2d2fd 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -506,7 +506,7 @@ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
-         vdev->nr_vectors = nr + 1;
-         ret = vfio_enable_vectors(vdev, true);
+@@ -146,4 +171,11 @@ typedef struct {
+     char data[];
+ } VFIOUserRegionRW;
+ 
++/*imported from struct vfio_bitmap */
++typedef struct {
++    uint64_t pgsize;
++    uint64_t size;
++    char data[];
++} VFIOUserBitmap;
++
+ #endif /* VFIO_USER_PROTOCOL_H */
+diff --git a/hw/vfio/user.h b/hw/vfio/user.h
+index 8d03e7c..997f748 100644
+--- a/hw/vfio/user.h
++++ b/hw/vfio/user.h
+@@ -74,6 +74,7 @@ typedef struct VFIOProxy {
+ 
+ /* VFIOProxy flags */
+ #define VFIO_PROXY_CLIENT        0x1
++#define VFIO_PROXY_SECURE        0x2
+ #define VFIO_PROXY_FORCE_QUEUED  0x4
+ #define VFIO_PROXY_NO_POST       0x8
+ 
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index c0e7632..dcfae2c 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -90,6 +90,8 @@ typedef struct VFIOContainer {
+     VFIOContIO *io_ops;
+     bool initialized;
+     bool dirty_pages_supported;
++    bool will_commit;
++    bool need_map_fd;
+     uint64_t dirty_pgsizes;
+     uint64_t max_dirty_bitmap_size;
+     unsigned long pgsizes;
+@@ -210,6 +212,7 @@ struct VFIOContIO {
+     int (*dirty_bitmap)(VFIOContainer *container,
+                         struct vfio_iommu_type1_dirty_bitmap *bitmap,
+                         struct vfio_iommu_type1_dirty_bitmap_get *range);
++    void (*wait_commit)(VFIOContainer *container);
+ };
+ 
+ #define CONT_DMA_MAP(cont, map, fd, will_commit) \
+@@ -218,6 +221,7 @@ struct VFIOContIO {
+     ((cont)->io_ops->dma_unmap((cont), (unmap), (bitmap), (will_commit)))
+ #define CONT_DIRTY_BITMAP(cont, bitmap, range) \
+     ((cont)->io_ops->dirty_bitmap((cont), (bitmap), (range)))
++#define CONT_WAIT_COMMIT(cont) ((cont)->io_ops->wait_commit(cont))
+ 
+ extern VFIODevIO vfio_dev_io_ioctl;
+ extern VFIOContIO vfio_cont_io_ioctl;
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index fdd2702..0840c8f 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -411,6 +411,7 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
+     struct vfio_iommu_type1_dma_unmap *unmap;
+     struct vfio_bitmap *bitmap;
+     uint64_t pages = REAL_HOST_PAGE_ALIGN(size) / qemu_real_host_page_size;
++    bool will_commit = container->will_commit;
+     int ret;
+ 
+     unmap = g_malloc0(sizeof(*unmap) + sizeof(*bitmap));
+@@ -444,7 +445,7 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
+         goto unmap_exit;
+     }
+ 
+-    ret = CONT_DMA_UNMAP(container, unmap, bitmap, false);
++    ret = CONT_DMA_UNMAP(container, unmap, bitmap, will_commit);
+     if (!ret) {
+         cpu_physical_memory_set_dirty_lebitmap((unsigned long *)bitmap->data,
+                 iotlb->translated_addr, pages);
+@@ -471,16 +472,17 @@ static int vfio_dma_unmap(VFIOContainer *container,
+         .iova = iova,
+         .size = size,
+     };
++    bool will_commit = container->will_commit;
+ 
+     if (iotlb && container->dirty_pages_supported &&
+         vfio_devices_all_running_and_saving(container)) {
+         return vfio_dma_unmap_bitmap(container, iova, size, iotlb);
+     }
+ 
+-    return CONT_DMA_UNMAP(container, &unmap, NULL, false);
++    return CONT_DMA_UNMAP(container, &unmap, NULL, will_commit);
+ }
+ 
+-static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
++static int vfio_dma_map(VFIOContainer *container, MemoryRegion *mr, hwaddr iova,
+                         ram_addr_t size, void *vaddr, bool readonly)
+ {
+     struct vfio_iommu_type1_dma_map map = {
+@@ -490,13 +492,23 @@ static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
+         .iova = iova,
+         .size = size,
+     };
+-    int ret;
++    int fd, ret;
++    bool will_commit = container->will_commit;
+ 
+     if (!readonly) {
+         map.flags |= VFIO_DMA_MAP_FLAG_WRITE;
+     }
+ 
+-    ret = CONT_DMA_MAP(container, &map, -1, false);
++    if (container->need_map_fd) {
++        fd = memory_region_get_fd(mr);
++        if (fd != -1) {
++            map.vaddr = qemu_ram_block_host_offset(mr->ram_block, vaddr);
++        }
++    } else {
++        fd = -1;
++    }
++
++    ret = CONT_DMA_MAP(container, &map, fd, will_commit);
+ 
+     if (ret < 0) {
+         error_report("VFIO_MAP_DMA failed: %s", strerror(-ret));
+@@ -557,7 +569,8 @@ static bool vfio_listener_skipped_section(MemoryRegionSection *section)
+ 
+ /* Called with rcu_read_lock held.  */
+ static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
+-                               ram_addr_t *ram_addr, bool *read_only)
++                               ram_addr_t *ram_addr, bool *read_only,
++                               MemoryRegion **mrp)
+ {
+     MemoryRegion *mr;
+     hwaddr xlat;
+@@ -638,6 +651,10 @@ static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
+         *read_only = !writable || mr->readonly;
+     }
+ 
++    if (mrp != NULL) {
++        *mrp = mr;
++    }
++
+     return true;
+ }
+ 
+@@ -645,6 +662,7 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+ {
+     VFIOGuestIOMMU *giommu = container_of(n, VFIOGuestIOMMU, n);
+     VFIOContainer *container = giommu->container;
++    MemoryRegion *mr;
+     hwaddr iova = iotlb->iova + giommu->iommu_offset;
+     void *vaddr;
+     int ret;
+@@ -663,7 +681,7 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+     if ((iotlb->perm & IOMMU_RW) != IOMMU_NONE) {
+         bool read_only;
+ 
+-        if (!vfio_get_xlat_addr(iotlb, &vaddr, NULL, &read_only)) {
++        if (!vfio_get_xlat_addr(iotlb, &vaddr, NULL, &read_only, &mr)) {
+             goto out;
+         }
+         /*
+@@ -673,14 +691,14 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+          * of vaddr will always be there, even if the memory object is
+          * destroyed and its backing memory munmap-ed.
+          */
+-        ret = vfio_dma_map(container, iova,
++        ret = vfio_dma_map(container, mr, iova,
+                            iotlb->addr_mask + 1, vaddr,
+                            read_only);
          if (ret) {
--            error_report("vfio: failed to enable vectors, %d", ret);
-+            error_report("vfio: failed to enable vectors, %s", strerror(-ret));
+             error_report("vfio_dma_map(%p, 0x%"HWADDR_PRIx", "
+-                         "0x%"HWADDR_PRIx", %p) = %d (%m)",
++                         "0x%"HWADDR_PRIx", %p)",
+                          container, iova,
+-                         iotlb->addr_mask + 1, vaddr, ret);
++                         iotlb->addr_mask + 1, vaddr);
          }
      } else {
-         Error *err = NULL;
-@@ -651,7 +651,8 @@ retry:
-     ret = vfio_enable_vectors(vdev, false);
-     if (ret) {
-         if (ret < 0) {
--            error_report("vfio: Error: Failed to setup MSI fds: %m");
-+            error_report("vfio: Error: Failed to setup MSI fds: %s",
-+                         strerror(-ret));
-         } else if (ret != vdev->nr_vectors) {
-             error_report("vfio: Error: Failed to enable %d "
-                          "MSI vectors, retry with %d", vdev->nr_vectors, ret);
-@@ -2662,6 +2663,7 @@ static void vfio_populate_device(VFIOPCIDevice *vdev, Error **errp)
-     irq_info.index = VFIO_PCI_ERR_IRQ_INDEX;
+         ret = vfio_dma_unmap(container, iova, iotlb->addr_mask + 1, iotlb);
+@@ -735,7 +753,7 @@ static int vfio_ram_discard_notify_populate(RamDiscardListener *rdl,
+                section->offset_within_address_space;
+         vaddr = memory_region_get_ram_ptr(section->mr) + start;
  
-     ret = VDEV_GET_IRQ_INFO(vbasedev, &irq_info);
+-        ret = vfio_dma_map(vrdl->container, iova, next - start,
++        ret = vfio_dma_map(vrdl->container, section->mr, iova, next - start,
+                            vaddr, section->readonly);
+         if (ret) {
+             /* Rollback */
+@@ -843,6 +861,23 @@ static void vfio_unregister_ram_discard_listener(VFIOContainer *container,
+     g_free(vrdl);
+ }
+ 
++static void vfio_listener_begin(MemoryListener *listener)
++{
++    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
 +
-     if (ret) {
-         /* This can fail for an old kernel or legacy PCI dev */
-         trace_vfio_populate_device_get_irq_info_failure(strerror(errno));
-@@ -3630,6 +3632,9 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
++    /* cannot drop BQL during the transaction, send maps/demaps async */
++    container->will_commit = true;
++}
++
++static void vfio_listener_commit(MemoryListener *listener)
++{
++    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
++
++    /* wait for any async requests sent during the transaction */
++    CONT_WAIT_COMMIT(container);
++    container->will_commit = false;
++}
++
+ static void vfio_listener_region_add(MemoryListener *listener,
+                                      MemoryRegionSection *section)
+ {
+@@ -1035,12 +1070,12 @@ static void vfio_listener_region_add(MemoryListener *listener,
          }
      }
  
-+    vfio_register_err_notifier(vdev);
-+    vfio_register_req_notifier(vdev);
-+
-     return;
+-    ret = vfio_dma_map(container, iova, int128_get64(llsize),
++    ret = vfio_dma_map(container, section->mr, iova, int128_get64(llsize),
+                        vaddr, section->readonly);
+     if (ret) {
+         error_setg(&err, "vfio_dma_map(%p, 0x%"HWADDR_PRIx", "
+-                   "0x%"HWADDR_PRIx", %p) = %d (%m)",
+-                   container, iova, int128_get64(llsize), vaddr, ret);
++                   "0x%"HWADDR_PRIx", %p)",
++                   container, iova, int128_get64(llsize), vaddr);
+         if (memory_region_is_ram_device(section->mr)) {
+             /* Allow unexpected mappings not to be fatal for RAM devices */
+             error_report_err(err);
+@@ -1301,7 +1336,7 @@ static void vfio_iommu_map_dirty_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+     }
  
- out_deregister:
+     rcu_read_lock();
+-    if (vfio_get_xlat_addr(iotlb, NULL, &translated_addr, NULL)) {
++    if (vfio_get_xlat_addr(iotlb, NULL, &translated_addr, NULL, NULL)) {
+         int ret;
+ 
+         ret = vfio_get_dirty_bitmap(container, iova, iotlb->addr_mask + 1,
+@@ -1418,6 +1453,8 @@ static void vfio_listener_log_sync(MemoryListener *listener,
+ }
+ 
+ static const MemoryListener vfio_memory_listener = {
++    .begin = vfio_listener_begin,
++    .commit = vfio_listener_commit,
+     .region_add = vfio_listener_region_add,
+     .region_del = vfio_listener_region_del,
+     .log_global_start = vfio_listener_log_global_start,
+@@ -1561,6 +1598,7 @@ int vfio_region_setup(Object *obj, VFIODevice *vbasedev, VFIORegion *region,
+     region->size = info->size;
+     region->fd_offset = info->offset;
+     region->nr = index;
++    region->post_wr = false;
+     region->remfd = vfio_get_region_info_remfd(vbasedev, index);
+ 
+     if (region->size) {
+@@ -2047,6 +2085,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+     container->dirty_pages_supported = false;
+     container->dma_max_mappings = 0;
+     container->io_ops = &vfio_cont_io_ioctl;
++    container->need_map_fd = false;
+     QLIST_INIT(&container->giommu_list);
+     QLIST_INIT(&container->hostwin_list);
+     QLIST_INIT(&container->vrdl_list);
+@@ -2230,6 +2269,7 @@ void vfio_connect_proxy(VFIOProxy *proxy, VFIOGroup *group, AddressSpace *as)
+     container->space = space;
+     container->fd = -1;
+     container->io_ops = &vfio_cont_io_sock;
++    container->need_map_fd = (proxy->flags & VFIO_PROXY_SECURE) == 0;
+     QLIST_INIT(&container->giommu_list);
+     QLIST_INIT(&container->hostwin_list);
+     container->proxy = proxy;
+@@ -2879,8 +2919,14 @@ static int vfio_io_dirty_bitmap(VFIOContainer *container,
+     return ret;
+ }
+ 
++static void vfio_io_wait_commit(VFIOContainer *container)
++{
++    /* ioctl()s are synchronous */
++}
++
+ VFIOContIO vfio_cont_io_ioctl = {
+     .dma_map = vfio_io_dma_map,
+     .dma_unmap = vfio_io_dma_unmap,
+     .dirty_bitmap = vfio_io_dirty_bitmap,
++    .wait_commit = vfio_io_wait_commit,
+ };
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index d657b01..ca821da 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -3516,6 +3516,9 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
+     vbasedev->proxy = proxy;
+     vfio_user_set_handler(vbasedev, vfio_user_pci_process_req, vdev);
+ 
++    if (udev->secure_dma) {
++        proxy->flags |= VFIO_PROXY_SECURE;
++    }
+     if (udev->send_queued) {
+         proxy->flags |= VFIO_PROXY_FORCE_QUEUED;
+     }
+@@ -3686,6 +3689,7 @@ static void vfio_user_instance_finalize(Object *obj)
+ 
+ static Property vfio_user_pci_dev_properties[] = {
+     DEFINE_PROP_STRING("socket", VFIOUserPCIDevice, sock_name),
++    DEFINE_PROP_BOOL("secure-dma", VFIOUserPCIDevice, secure_dma, false),
+     DEFINE_PROP_BOOL("x-send-queued", VFIOUserPCIDevice, send_queued, false),
+     DEFINE_PROP_BOOL("x-no-posted-writes", VFIOUserPCIDevice, no_post, false),
+     DEFINE_PROP_END_OF_LIST(),
 diff --git a/hw/vfio/user.c b/hw/vfio/user.c
-index 781cbfd..1e220b9 100644
+index 70fe7a6..cee08b6 100644
 --- a/hw/vfio/user.c
 +++ b/hw/vfio/user.c
-@@ -986,6 +986,113 @@ static int vfio_user_get_region_info(VFIOProxy *proxy,
+@@ -52,8 +52,11 @@ static void vfio_user_request(void *opaque);
+ static int vfio_user_send_queued(VFIOProxy *proxy, VFIOUserMsg *msg);
+ static void vfio_user_send_async(VFIOProxy *proxy, VFIOUserHdr *hdr,
+                                  VFIOUserFDs *fds);
++static void vfio_user_send_nowait(VFIOProxy *proxy, VFIOUserHdr *hdr,
++                                  VFIOUserFDs *fds, int rsize);
+ static void vfio_user_send_wait(VFIOProxy *proxy, VFIOUserHdr *hdr,
+                                 VFIOUserFDs *fds, int rsize, bool nobql);
++static void vfio_user_wait_reqs(VFIOProxy *proxy);
+ static void vfio_user_request_msg(VFIOUserHdr *hdr, uint16_t cmd,
+                                   uint32_t size, uint32_t flags);
+ 
+@@ -562,6 +565,36 @@ static void vfio_user_send_async(VFIOProxy *proxy, VFIOUserHdr *hdr,
+     }
+ }
+ 
++/*
++ * nowait send - vfio_wait_reqs() can wait for it later
++ */
++static void vfio_user_send_nowait(VFIOProxy *proxy, VFIOUserHdr *hdr,
++                                  VFIOUserFDs *fds, int rsize)
++{
++    VFIOUserMsg *msg;
++    int ret;
++
++    if (hdr->flags & VFIO_USER_NO_REPLY) {
++        error_printf("vfio_user_send_nowait on async message\n");
++        return;
++    }
++
++    QEMU_LOCK_GUARD(&proxy->lock);
++
++    msg = vfio_user_getmsg(proxy, hdr, fds);
++    msg->id = hdr->id;
++    msg->rsize = rsize ? rsize : hdr->size;
++    msg->type = VFIO_MSG_NOWAIT;
++
++    ret = vfio_user_send_queued(proxy, msg);
++    if (ret < 0) {
++        vfio_user_recycle(proxy, msg);
++        return;
++    }
++
++    proxy->last_nowait = msg;
++}
++
+ static void vfio_user_send_wait(VFIOProxy *proxy, VFIOUserHdr *hdr,
+                                 VFIOUserFDs *fds, int rsize, bool nobql)
+ {
+@@ -610,6 +643,56 @@ static void vfio_user_send_wait(VFIOProxy *proxy, VFIOUserHdr *hdr,
+     }
+ }
+ 
++static void vfio_user_wait_reqs(VFIOProxy *proxy)
++{
++    VFIOUserMsg *msg;
++    bool iolock = false;
++
++    /*
++     * Any DMA map/unmap requests sent in the middle
++     * of a memory region transaction were sent nowait.
++     * Wait for them here.
++     */
++    qemu_mutex_lock(&proxy->lock);
++    if (proxy->last_nowait != NULL) {
++        iolock = qemu_mutex_iothread_locked();
++        if (iolock) {
++            qemu_mutex_unlock_iothread();
++        }
++
++        /*
++         * Change type to WAIT to wait for reply
++         */
++        msg = proxy->last_nowait;
++        msg->type = VFIO_MSG_WAIT;
++        while (!msg->complete) {
++            if (!qemu_cond_timedwait(&msg->cv, &proxy->lock, wait_time)) {
++                error_printf("vfio_wait_reqs - timed out\n");
++                break;
++            }
++        }
++
++        if (msg->hdr->flags & VFIO_USER_ERROR) {
++            error_printf("vfio_user_wait_reqs - error reply on async request ");
++            error_printf("command %x error %s\n", msg->hdr->command,
++                         strerror(msg->hdr->error_reply));
++        }
++
++        proxy->last_nowait = NULL;
++        /*
++         * Change type back to NOWAIT to free
++         */
++        msg->type = VFIO_MSG_NOWAIT;
++        vfio_user_recycle(proxy, msg);
++    }
++
++    /* lock order is BQL->proxy - don't hold proxy when getting BQL */
++    qemu_mutex_unlock(&proxy->lock);
++    if (iolock) {
++        qemu_mutex_lock_iothread();
++    }
++}
++
+ static QLIST_HEAD(, VFIOProxy) vfio_user_sockets =
+     QLIST_HEAD_INITIALIZER(vfio_user_sockets);
+ 
+@@ -935,6 +1018,102 @@ int vfio_user_validate_version(VFIODevice *vbasedev, Error **errp)
      return 0;
  }
  
-+static int vfio_user_get_irq_info(VFIOProxy *proxy,
-+                                  struct vfio_irq_info *info)
++static int vfio_user_dma_map(VFIOProxy *proxy,
++                             struct vfio_iommu_type1_dma_map *map,
++                             int fd, bool will_commit)
 +{
-+    VFIOUserIRQInfo msg;
++    VFIOUserFDs *fds = NULL;
++    VFIOUserDMAMap *msgp = g_malloc0(sizeof(*msgp));
++    int ret;
 +
-+    memset(&msg, 0, sizeof(msg));
-+    vfio_user_request_msg(&msg.hdr, VFIO_USER_DEVICE_GET_IRQ_INFO,
-+                          sizeof(msg), 0);
-+    msg.argsz = info->argsz;
-+    msg.index = info->index;
++    vfio_user_request_msg(&msgp->hdr, VFIO_USER_DMA_MAP, sizeof(*msgp), 0);
++    msgp->argsz = map->argsz;
++    msgp->flags = map->flags;
++    msgp->offset = map->vaddr;
++    msgp->iova = map->iova;
++    msgp->size = map->size;
 +
-+    vfio_user_send_wait(proxy, &msg.hdr, NULL, 0, false);
-+    if (msg.hdr.flags & VFIO_USER_ERROR) {
-+        return -msg.hdr.error_reply;
-+    }
-+
-+    memcpy(info, &msg.argsz, sizeof(*info));
-+    return 0;
-+}
-+
-+static int irq_howmany(int *fdp, int cur, int max)
-+{
-+    int n = 0;
-+
-+    if (fdp[cur] != -1) {
-+        do {
-+            n++;
-+        } while (n < max && fdp[cur + n] != -1 && n < max_send_fds);
++    /*
++     * The will_commit case sends without blocking or dropping BQL.
++     * They're later waited for in vfio_send_wait_reqs.
++     */
++    if (will_commit) {
++        /* can't use auto variable since we don't block */
++        if (fd != -1) {
++            fds = vfio_user_getfds(1);
++            fds->send_fds = 1;
++            fds->fds[0] = fd;
++        }
++        vfio_user_send_nowait(proxy, &msgp->hdr, fds, 0);
++        ret = 0;
 +    } else {
-+        do {
-+            n++;
-+        } while (n < max && fdp[cur + n] == -1 && n < max_send_fds);
++        VFIOUserFDs local_fds = { 1, 0, &fd };
++
++        fds = fd != -1 ? &local_fds : NULL;
++        vfio_user_send_wait(proxy, &msgp->hdr, fds, 0, will_commit);
++        ret = (msgp->hdr.flags & VFIO_USER_ERROR) ? -msgp->hdr.error_reply : 0;
++        g_free(msgp);
 +    }
 +
-+    return n;
++    return ret;
 +}
 +
-+static int vfio_user_set_irqs(VFIOProxy *proxy, struct vfio_irq_set *irq)
++static int vfio_user_dma_unmap(VFIOProxy *proxy,
++                               struct vfio_iommu_type1_dma_unmap *unmap,
++                               struct vfio_bitmap *bitmap, bool will_commit)
 +{
-+    g_autofree VFIOUserIRQSet *msgp = NULL;
-+    uint32_t size, nfds, send_fds, sent_fds;
++    struct {
++        VFIOUserDMAUnmap msg;
++        VFIOUserBitmap bitmap;
++    } *msgp = NULL;
++    int msize, rsize;
++    bool blocking = !will_commit;
 +
-+    if (irq->argsz < sizeof(*irq)) {
-+        error_printf("vfio_user_set_irqs argsz too small\n");
++    if (bitmap == NULL &&
++        (unmap->flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP)) {
++        error_printf("vfio_user_dma_unmap mismatched flags and bitmap\n");
 +        return -EINVAL;
 +    }
 +
 +    /*
-+     * Handle simple case
++     * If a dirty bitmap is returned, allocate extra space for it
++     * and block for reply even in the will_commit case.
++     * Otherwise, can send the unmap request without waiting.
 +     */
-+    if ((irq->flags & VFIO_IRQ_SET_DATA_EVENTFD) == 0) {
-+        size = sizeof(VFIOUserHdr) + irq->argsz;
-+        msgp = g_malloc0(size);
-+
-+        vfio_user_request_msg(&msgp->hdr, VFIO_USER_DEVICE_SET_IRQS, size, 0);
-+        msgp->argsz = irq->argsz;
-+        msgp->flags = irq->flags;
-+        msgp->index = irq->index;
-+        msgp->start = irq->start;
-+        msgp->count = irq->count;
-+
-+        vfio_user_send_wait(proxy, &msgp->hdr, NULL, 0, false);
-+        if (msgp->hdr.flags & VFIO_USER_ERROR) {
-+            return -msgp->hdr.error_reply;
-+        }
-+
-+        return 0;
++    if (bitmap != NULL) {
++        blocking = true;
++        msize = sizeof(*msgp);
++        rsize = msize + bitmap->size;
++        msgp = g_malloc0(rsize);
++        msgp->bitmap.pgsize = bitmap->pgsize;
++        msgp->bitmap.size = bitmap->size;
++    } else {
++        msize = rsize = sizeof(VFIOUserDMAUnmap);
++        msgp = g_malloc0(rsize);
 +    }
 +
-+    /*
-+     * Calculate the number of FDs to send
-+     * and adjust argsz
-+     */
-+    nfds = (irq->argsz - sizeof(*irq)) / sizeof(int);
-+    irq->argsz = sizeof(*irq);
-+    msgp = g_malloc0(sizeof(*msgp));
-+    /*
-+     * Send in chunks if over max_send_fds
-+     */
-+    for (sent_fds = 0; nfds > sent_fds; sent_fds += send_fds) {
-+        VFIOUserFDs *arg_fds, loop_fds;
++    vfio_user_request_msg(&msgp->msg.hdr, VFIO_USER_DMA_UNMAP, msize, 0);
++    msgp->msg.argsz = unmap->argsz;
++    msgp->msg.flags = unmap->flags;
++    msgp->msg.iova = unmap->iova;
++    msgp->msg.size = unmap->size;
 +
-+        /* must send all valid FDs or all invalid FDs in single msg */
-+        send_fds = irq_howmany((int *)irq->data, sent_fds, nfds - sent_fds);
-+
-+        vfio_user_request_msg(&msgp->hdr, VFIO_USER_DEVICE_SET_IRQS,
-+                              sizeof(*msgp), 0);
-+        msgp->argsz = irq->argsz;
-+        msgp->flags = irq->flags;
-+        msgp->index = irq->index;
-+        msgp->start = irq->start + sent_fds;
-+        msgp->count = send_fds;
-+
-+        loop_fds.send_fds = send_fds;
-+        loop_fds.recv_fds = 0;
-+        loop_fds.fds = (int *)irq->data + sent_fds;
-+        arg_fds = loop_fds.fds[0] != -1 ? &loop_fds : NULL;
-+
-+        vfio_user_send_wait(proxy, &msgp->hdr, arg_fds, 0, false);
-+        if (msgp->hdr.flags & VFIO_USER_ERROR) {
-+            return -msgp->hdr.error_reply;
++    if (blocking) {
++        vfio_user_send_wait(proxy, &msgp->msg.hdr, NULL, rsize, will_commit);
++        if (msgp->msg.hdr.flags & VFIO_USER_ERROR) {
++            return -msgp->msg.hdr.error_reply;
 +        }
++        if (bitmap != NULL) {
++            memcpy(bitmap->data, &msgp->bitmap.data, bitmap->size);
++        }
++        g_free(msgp);
++    } else {
++        vfio_user_send_nowait(proxy, &msgp->msg.hdr, NULL, rsize);
 +    }
 +
 +    return 0;
 +}
 +
- static int vfio_user_region_read(VFIOProxy *proxy, uint8_t index, off_t offset,
-                                  uint32_t count, void *data)
+ static int vfio_user_get_info(VFIOProxy *proxy, struct vfio_device_info *info)
  {
-@@ -1075,6 +1182,25 @@ static int vfio_user_io_get_region_info(VFIODevice *vbasedev,
-     return VDEV_VALID_REGION_INFO(vbasedev, info, fd);
- }
+     VFIOUserDeviceInfo msg;
+@@ -1225,5 +1404,32 @@ VFIODevIO vfio_dev_io_sock = {
+ };
  
-+static int vfio_user_io_get_irq_info(VFIODevice *vbasedev,
-+                                     struct vfio_irq_info *irq)
+ 
++static int vfio_user_io_dma_map(VFIOContainer *container,
++                                struct vfio_iommu_type1_dma_map *map,
++                                int fd, bool will_commit)
 +{
-+    int ret;
-+
-+    ret = vfio_user_get_irq_info(vbasedev->proxy, irq);
-+    if (ret) {
-+        return ret;
++    if (fd != -1) {
++        return vfio_user_dma_map(container->proxy, map, fd, will_commit);
++    } else {
++        map->vaddr = 0;
++        return vfio_user_dma_map(container->proxy, map, -1, will_commit);
 +    }
-+
-+    return VDEV_VALID_IRQ_INFO(vbasedev, irq);
 +}
 +
-+static int vfio_user_io_set_irqs(VFIODevice *vbasedev,
-+                                 struct vfio_irq_set *irqs)
++static int vfio_user_io_dma_unmap(VFIOContainer *container,
++                                  struct vfio_iommu_type1_dma_unmap *unmap,
++                                  struct vfio_bitmap *bitmap, bool will_commit)
 +{
-+    return vfio_user_set_irqs(vbasedev->proxy, irqs);
++    return vfio_user_dma_unmap(container->proxy, unmap, bitmap, will_commit);
 +}
 +
- static int vfio_user_io_region_read(VFIODevice *vbasedev, uint8_t index,
-                                     off_t off, uint32_t size, void *data)
- {
-@@ -1092,6 +1218,8 @@ static int vfio_user_io_region_write(VFIODevice *vbasedev, uint8_t index,
- VFIODevIO vfio_dev_io_sock = {
-     .get_info = vfio_user_io_get_info,
-     .get_region_info = vfio_user_io_get_region_info,
-+    .get_irq_info = vfio_user_io_get_irq_info,
-+    .set_irqs = vfio_user_io_set_irqs,
-     .region_read = vfio_user_io_region_read,
-     .region_write = vfio_user_io_region_write,
++static void vfio_user_io_wait_commit(VFIOContainer *container)
++{
++    vfio_user_wait_reqs(container->proxy);
++}
++
+ VFIOContIO vfio_cont_io_sock = {
++    .dma_map = vfio_user_io_dma_map,
++    .dma_unmap = vfio_user_io_dma_unmap,
++    .wait_commit = vfio_user_io_wait_commit,
  };
 -- 
 1.8.3.1
