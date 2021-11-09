@@ -2,84 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15C5344B450
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 21:50:37 +0100 (CET)
-Received: from localhost ([::1]:37938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 492C844B45D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 21:57:54 +0100 (CET)
+Received: from localhost ([::1]:42166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkY4e-000057-Qu
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 15:50:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47604)
+	id 1mkYBl-0003OF-0v
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 15:57:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1mkY2G-0007jl-0e
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 15:48:04 -0500
-Received: from [2a00:1450:4864:20::330] (port=51036
- helo=mail-wm1-x330.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1mkY2E-0003Q4-4n
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 15:48:03 -0500
-Received: by mail-wm1-x330.google.com with SMTP id 133so347242wme.0
- for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 12:48:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuviainc-com.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=k/vTwMDMR4QyIkK24vhqvKCKCIJcbcTGzA/yBTZftXQ=;
- b=SK2upagKKWjYU4zCBFV6O/SrUdku/GcA2wQ9mLDuCQmDNR2nRC7FIsCw9gmanUamRu
- 45bYnvTFfBhaZZmLENIUXyTNsQA9NaK40SQ8Z5fo5i3aSFS6NHktXwGB+8mWyhrgRPXE
- 92cBZ7XvRh088+ZFbip5nPeP3gXv/EbiOcePCNR8c5r8+PP960xvaPxKPVM4A8XkQ77l
- NmUIvg50r0fVPGe0vx5RUfkcslY82KdQZEcwGSwlFE9cENl1oxit8Dw4DPvkf98EWVQ3
- uuVxTPN4XwpnKGkrt1HYY61IIQbnNQPowH7v9nqhmMu0bp+doR+gsa74g3whRKE35hkc
- yepQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=k/vTwMDMR4QyIkK24vhqvKCKCIJcbcTGzA/yBTZftXQ=;
- b=pGzwjHhzIaqcm7vCFr1biAsmRDz9hJvBoM/PK0Yp7GWAoMfsMENYMhoLcfGg9FdiBj
- j/OhpjnRhxhhH7MAFJHXkrJxIbnHWDqrhTXFJwhjRWjypY+cH+EGEA08xo0UpKOtxd61
- 7KaZWg+Pm0wii2LiKrGA7E0/4ZexyPanul/yZrlH5o2KG7gMhEcJX9i9wFqSLF+StbGt
- OoQqvvQirsn/2yYro5sby6weKwfcxlm/1BCDI4fCerZi649Yon6Xbf416samWoBlthqY
- Ayc2TVp7IiltR+EfY7Rm1g6N1msbG3AGyE2sPZVq4L1XkbfOGN1gsje4LhYrTR45rh+i
- b8YQ==
-X-Gm-Message-State: AOAM5321DWd6nF0PKjXGo0asFSM0n/6s0M7IeuSMS9YwXxd9JDrGAEXQ
- WeFTavyWsnaPnRfkl7CU+3o3rvXOy2Z0MitM
-X-Google-Smtp-Source: ABdhPJxtx/MuWT8vk0YkUZAQBaNKy6mNE/e3h/6qtcEsT6es9AdFFdTHBhVBBO5mzUKTthWymUMnVw==
-X-Received: by 2002:a05:600c:4ec7:: with SMTP id
- g7mr10471850wmq.138.1636490572469; 
- Tue, 09 Nov 2021 12:42:52 -0800 (PST)
-Received: from leviathan (cpc92314-cmbg19-2-0-cust559.5-4.cable.virginm.net.
- [82.11.186.48])
- by smtp.gmail.com with ESMTPSA id a22sm3452736wme.19.2021.11.09.12.42.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Nov 2021 12:42:51 -0800 (PST)
-Date: Tue, 9 Nov 2021 20:42:49 +0000
-From: Leif Lindholm <leif@nuviainc.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v8 07/10] hw/arm/sbsa-ref: add ITS support in SBSA GIC
-Message-ID: <20211109204249.usvfatm3frar3u7a@leviathan>
-References: <20210812165341.40784-1-shashi.mallela@linaro.org>
- <20210812165341.40784-8-shashi.mallela@linaro.org>
- <CAFEAcA9WVu+kjfCWwfGQV00yKgmdFDCSUpxNOu1BEBM3AZCWXg@mail.gmail.com>
- <20210902124258.mqjhx7lqqvkczf6a@leviathan>
- <CAFEAcA-KeBzOCP1CHVWPHbHzG=KbS_HJmXoYo7B2VBz=oGSd3w@mail.gmail.com>
- <20211015122351.vc55mwzjbevl6wjy@leviathan>
- <CAFEAcA-Xe2u8n+og4TMyZSSvdBm8nrma3z4GkVjEJHPdJu8Fnw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
+ id 1mkYAL-0002de-PF; Tue, 09 Nov 2021 15:56:25 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8938
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
+ id 1mkYAK-0005bP-3K; Tue, 09 Nov 2021 15:56:25 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A9JCS5x025140; 
+ Tue, 9 Nov 2021 20:56:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=36LvLjmRaCROleePEe9QVyFoBmeFJm0x8qwWmnVRANU=;
+ b=ThtwLJrB/zs4rNcRr4SWerS11+BHAy3eGbZFzUPOubt6cdq2eZXuSw7mz2w4u9C+UeSY
+ u6J1dCLAbZTqE30bW6wdPrrUiqJAo4O9t83V+I2sn9Iad+iyXwSCFRD6qtTEVpsnTeeh
+ jOaTO2XJWhjb+/grpec4/05mqSHQ5YMc6vLhF3pFe6vjnfLXhuNg6SjK57NX+aOGM4nZ
+ /ZipKQ8/WrWJUf4l9LgYFj/or289iEfUaExNOPhSQNHpbdSzJHaDvt5o7FZ9Y8/LY8Ye
+ 4/ZwwN1tUFJqQf+ifId1p4U1sHt79vH7c5NCrtoS+I3hw3Tp1Ae5OcWKtVdWqpapTjII bw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3c7xxh1vbs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 09 Nov 2021 20:56:21 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1A9KsKxB020630;
+ Tue, 9 Nov 2021 20:56:21 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3c7xxh1vbb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 09 Nov 2021 20:56:21 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1A9KRqbI013272;
+ Tue, 9 Nov 2021 20:56:20 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma04dal.us.ibm.com with ESMTP id 3c5hbbky24-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 09 Nov 2021 20:56:20 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1A9KuE5Z52822374
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 9 Nov 2021 20:56:14 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 53CA4C6059;
+ Tue,  9 Nov 2021 20:56:14 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B839FC6055;
+ Tue,  9 Nov 2021 20:56:12 +0000 (GMT)
+Received: from localhost.localdomain.com (unknown [9.160.104.209])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Tue,  9 Nov 2021 20:56:12 +0000 (GMT)
+From: Collin Walling <walling@linux.ibm.com>
+To: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v3] s390: kvm: adjust diag318 resets to retain data
+Date: Tue,  9 Nov 2021 15:56:02 -0500
+Message-Id: <20211109205602.99732-1-walling@linux.ibm.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA-Xe2u8n+og4TMyZSSvdBm8nrma3z4GkVjEJHPdJu8Fnw@mail.gmail.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=leif@nuviainc.com; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: MnDWtpNRhdnnm9POoNbHlMLPaJPWXRbn
+X-Proofpoint-ORIG-GUID: 1FDJ3Zj6B24n-dhIdj5xrknyHUyQ181Z
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-09_06,2021-11-08_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ mlxlogscore=999 clxscore=1015 impostorscore=0 spamscore=0
+ lowpriorityscore=0 bulkscore=0 mlxscore=0 suspectscore=0
+ priorityscore=1501 phishscore=0 adultscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2111090114
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=walling@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,95 +107,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Shashi Mallela <shashi.mallela@linaro.org>,
- Radoslaw Biernacki <rad@semihalf.com>, QEMU Developers <qemu-devel@nongnu.org>,
- narmstrong@baylibre.com, Eric Auger <eric.auger@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: borntraeger@de.ibm.com, thuth@redhat.com, cohuck@redhat.com,
+ frankja@linux.ibm.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 09, 2021 at 13:43:50 +0000, Peter Maydell wrote:
-> On Fri, 15 Oct 2021 at 13:23, Leif Lindholm <leif@nuviainc.com> wrote:
-> > (Apologies for delay. Alex also tells me you are currently away, but
-> > there is no strong urgency here.)
-> 
-> (Thanks for the ping via Alex -- I missed this email when I was
-> scanning through my qemu-devel mail backlog after my holiday...)
-> 
-> > On Thu, Sep 23, 2021 at 17:00:35 +0100, Peter Maydell wrote:
-> > > Leif, what's your plan/preferences here ?
-> >
-> > I discussed this with Alex/Shashi.
-> >
-> > One further complicating aspect is that the EDK2 GIC driver currently
-> > relies on GIC addresses being known at compile-time.
-> >
-> > > Presumably somebody also needs to do the system-software side
-> > > of things to handle the ITS being present and the redistributor
-> > > frames moving...
-> >
-> > Since it *would* be useful to get this support in, I think the most
-> > pragmatic plan would be:
-> > - Add ITS in the location originally proposed by Shashi.
-> > - Add information to DT:
-> >   - Platform version (1).
-> >   - GICD, GICR, and ITS base addresses.
-> > - edk2: Convert GIC driver to support dynamic block addresses.
-> > - TF-A: Parse the DT and add SIP SVC calls:
-> >   - to retrieve it (or return not supported if not found).
-> >   - to retrieve base addresses for GICD, GICR, and ITS.
-> > - edk2-platforms: Query TF-A for platform version.
-> >   If platform version >= 1, request base addresses for GICD, GICR, and
-> >   ITS.
-> >   - Generate IORT if ITS present.
-> > - Update GIC frame layout to match an ARM GIC-?00. (Platform version 2)
-> >
-> > Unrelated to the ITS question, and not requiring any intervention on
-> > the QEMU side, we can then also transition the CPU and DRAM discovery
-> > to SIP SVC calls, and stop sharing the DT with edk2 completely.
-> >
-> > And some way further down the line we could do the SCP thing, which
-> > would let us support different GIC-layouts/configurations based on
-> > platform command line options. (Platform version 3.)
-> > (TF-A makes SCP calls if version >= 3)
-> > This would then require no changes to edk2-platforms.
-> 
-> This sounds good to me.
-> 
-> > (Numeric values described as incrementing integer rather than trying
-> > to guess at specific qemu release numbers.)
-> 
-> This is kind of mixing up two separate things. The above describes
-> three "versions" of this machine type, which you might consider
-> as like revision A/B/C of hardware (and where firmware might for
-> instance read a 'board revision' register or something to tell
-> them apart). QEMU release numbers and versioned board types like virt-6.0
-> are a very specific thing that is taking on a guarantee about
-> maintaining version compatibility of the same board type between
-> different QEMU versions. We can make sbsa-ref a versioned machine
-> type in that sense if you really want to do it, but it makes future
-> changes to the machine rather more painful (everything new
-> immediately needs flags and properties and so on so that it can be
-> added only for newer versions of the machine type and not for the
-> old one -- at a rough count at least  10% of hw/arm/virt.c is purely
-> boilerplate and machinery for versioned machine types).
-> So it's not something we should do for sbsa-ref unless we have a good
-> reason I think.
+The CPNC portion of the diag 318 data is erroneously reset during an
+initial CPU reset caused by SIGP. Let's go ahead and relocate the
+diag318_info field within the CPUS390XState struct such that it is
+only zeroed during a clear reset. This way, the CPNC will be retained
+for each VCPU in the configuration after the diag 318 instruction
+has been invoked.
 
-Hmm, right. So you're thinking containing the versioning fully in the
-interfaces presented by the model:
-- Is the version node present?
-  - If so, is it greater than X?
-    - If so, is it great enough to support the SCP interface?
-And let the firmware deal with that?
+Signed-off-by: Collin Walling <walling@linux.ibm.com>
+Fixes: fabdada9357b ("s390: guest support for diagnose 0x318")
+Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
+---
 
-I was kind of thinking it was expected for incompatible machine
-versions to be qemu versioned. But I'm good with skipping that bit if
-it's not.
+Changelog:
 
-/
-    Leif
+    v2
+    - handler uses run_on_cpu again
+    - reworded commit message slightly
+    - added fixes and reported-by tags 
+
+    v3
+    - nixed code reduction changes
+    - added a comment to diag318 handler to briefly describe
+        when relevent data is zeroed
+
+---
+ target/s390x/cpu.h     | 4 ++--
+ target/s390x/kvm/kvm.c | 4 ++++
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 3153d053e9..88aace36ff 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -63,6 +63,8 @@ struct CPUS390XState {
+     uint64_t etoken;       /* etoken */
+     uint64_t etoken_extension; /* etoken extension */
+ 
++    uint64_t diag318_info;
++
+     /* Fields up to this point are not cleared by initial CPU reset */
+     struct {} start_initial_reset_fields;
+ 
+@@ -118,8 +120,6 @@ struct CPUS390XState {
+     uint16_t external_call_addr;
+     DECLARE_BITMAP(emergency_signals, S390_MAX_CPUS);
+ 
+-    uint64_t diag318_info;
+-
+ #if !defined(CONFIG_USER_ONLY)
+     uint64_t tlb_fill_tec;   /* translation exception code during tlb_fill */
+     int tlb_fill_exc;        /* exception number seen during tlb_fill */
+diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+index 5b1fdb55c4..6acf14d5ec 100644
+--- a/target/s390x/kvm/kvm.c
++++ b/target/s390x/kvm/kvm.c
+@@ -1585,6 +1585,10 @@ void kvm_s390_set_diag318(CPUState *cs, uint64_t diag318_info)
+         env->diag318_info = diag318_info;
+         cs->kvm_run->s.regs.diag318 = diag318_info;
+         cs->kvm_run->kvm_dirty_regs |= KVM_SYNC_DIAG318;
++        /*
++         * diag 318 info is zeroed during a clear reset and
++         * diag 308 IPL subcodes.
++         */
+     }
+ }
+ 
+-- 
+2.31.1
+
 
