@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DF8A44B1ED
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 18:22:11 +0100 (CET)
-Received: from localhost ([::1]:39104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5401844B1F0
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Nov 2021 18:23:52 +0100 (CET)
+Received: from localhost ([::1]:41992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkUp0-00039y-7F
-	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 12:22:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36086)
+	id 1mkUqc-0005Bn-US
+	for lists+qemu-devel@lfdr.de; Tue, 09 Nov 2021 12:23:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkUo3-00027f-IL
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 12:21:11 -0500
-Received: from [2a00:1450:4864:20::42e] (port=33370
- helo=mail-wr1-x42e.google.com)
+ id 1mkUoy-0003qE-6q
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 12:22:08 -0500
+Received: from [2a00:1450:4864:20::435] (port=37586
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkUo1-0000w8-2n
- for qemu-devel@nongnu.org; Tue, 09 Nov 2021 12:21:11 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id d24so34288811wra.0
- for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 09:21:08 -0800 (PST)
+ id 1mkUow-00019E-98
+ for qemu-devel@nongnu.org; Tue, 09 Nov 2021 12:22:07 -0500
+Received: by mail-wr1-x435.google.com with SMTP id b12so34287978wrh.4
+ for <qemu-devel@nongnu.org>; Tue, 09 Nov 2021 09:22:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=lqMR6SLocR2JSoRIpr1pTrl/Z8xMtshfc/7O+w5VK14=;
- b=Haucdk12fF+S6yi9yx8rAVqgyir/ZIs2ovV2Mv9tJ8zV52dNmmfSLHdOeJdJq2AGrU
- +syT7Vam+Hueqjgp59sAS47LDjAuHa4rXMaEn4X25x2XwPBwzqEytWklPoi2IlXMUmJj
- LN+XEZpfdKirIPWVwN1P4FmzRuSbPus5oA5ZS9SL1W261nETHIV82mkNuxQc7aQmfeDr
- XkVz2Sm7hPmY3HAnau2vSg/OfzFJLoZ53PNgF2pqtsuDQ8S0mWEQOM4d81yz8uMd/ahB
- h0gI7nZ5zbD/ovqMeCCkPILwALZ05ojeMFXOe69IWcVmpM5AAm5PcovvWCVu8l4ripJC
- A5ig==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Wv5dnKs7a8YcRLwEU5JzC3WXIVQH89PG/wyEuMCzqug=;
+ b=Q+KyTk4pqbs6IqwM5Y6wUNUtEKGHigGHBKceDkiBAVzVYL4ajRDzsDSX889KAzaAHh
+ AoYXaICra7jGR4KDs+KRB6BUTOyGDZj/zfS9NdTycR+p43grvthUhJqBu3M9B3wfPtOn
+ zvAF4QlE6Q997QyyuCUwNeO5w6/cpUmEac88foDmfcA35+7m6V22e/hDucq66YVzkglQ
+ Ab53bTL8aCo11PuRpvT1fHNz4B0LTU4tvLBOve3AFmxmrtvA1FC7ROJ/I8tdYPsuTosy
+ XQQxwtZVC9l4tYSP33Yd4WvQJ3a2VqvAVQYlWmafdJHGyEdz7NmSNvDkT5c1IS9rkqds
+ J2qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=lqMR6SLocR2JSoRIpr1pTrl/Z8xMtshfc/7O+w5VK14=;
- b=srBBVqR6xar01ojLHz2W1fWUhX1O61dw5FQu+tzacm9nqYiGYsUdzoEmxs757MVW08
- NTs5cVThelJI1eC0Qp5H/bGUSGR/+8gGxc/uCaBC8MeOf5i6MRudRteVCG0A2CLYVkGk
- jrhdz/ara0jnAOIZLkJgGG199j5/DKx+ZrE6LSM7DrpuHAgP8hOYMbsLFE1EsVCCOzUQ
- 4tQW3+7B64CpofSJm00F0LX7oVrw72fhez/H6kk/mTzQC653l1oa8tVhjNoBCuCRBBOo
- 4NGo2Qv8fi1BxSJerMkVdtwWrhFPKkZW0MW0FA3eeCuuHfD4quPWmmxa2Olu0CBCxCfk
- Wtdw==
-X-Gm-Message-State: AOAM533soblEig2LajhpuFva/NAVy4LfnIa8S4+Qb7uJo0ArXR7NGNl2
- FrdkLL8dRcTf8UOpmKMiL0ktiH880fOvgmgA
-X-Google-Smtp-Source: ABdhPJyANKaLprlXBKnWi5Vje8yV7cKtIXRML2dcI5rYq0CDFIB/yMqr7CMkL1m+LdN0a95zDq8GAw==
-X-Received: by 2002:a5d:4a0a:: with SMTP id m10mr12037599wrq.221.1636478467297; 
- Tue, 09 Nov 2021 09:21:07 -0800 (PST)
+ bh=Wv5dnKs7a8YcRLwEU5JzC3WXIVQH89PG/wyEuMCzqug=;
+ b=zuUKRvCcBI/Rcccdx/AGFgSuG8OickDAVaxhOJ+nRkXyQz5VcUAh1Yj0K31A81zkS2
+ 7q7e4ECSJOBV0+gSV+vtnHr1xioSv+vkyOiKVBPo6OlFkE9CxDGqZRxMptxyH5KAsDQN
+ dF2jmQsImM98BmOkXDC9lD0UUgALiINFTRtmhlM43sYdLcerYQfLu/ekxZjXosB2Da0x
+ Hmq+aeYAO29VyCIFbMceEW+CwhjZi/bpeqkEMQzrzO8Ov0UNc/KB/EzljBvYNdR9buTB
+ FB8Od52+L5mZ18jMZq1d3ANVPpcdQvAyH37k180H25m+G25+rMIXm9ZF9cDdwa8HvWYQ
+ Gwug==
+X-Gm-Message-State: AOAM531WyTL13G9PbhU2zXpl9qdfCi8phESZrhO+c5K5cPVeJnV9FGv7
+ K/FYECFoXhoODQ8tTiukUBnBGQ==
+X-Google-Smtp-Source: ABdhPJx6JU90Wk0HbmUIp6hQVyrIhsB0YptOysAzZwZRqUMwcIImbBqIspa3G+7DUhcdfi6tr21GeQ==
+X-Received: by 2002:adf:df0d:: with SMTP id y13mr11576938wrl.176.1636478524870; 
+ Tue, 09 Nov 2021 09:22:04 -0800 (PST)
 Received: from [192.168.8.106] (169.red-37-158-143.dynamicip.rima-tde.net.
  [37.158.143.169])
- by smtp.gmail.com with ESMTPSA id d15sm19951895wri.50.2021.11.09.09.21.06
+ by smtp.gmail.com with ESMTPSA id w15sm20760056wrk.77.2021.11.09.09.22.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Nov 2021 09:21:06 -0800 (PST)
-Subject: Re: [PULL 0/1] Q800 for 6.2 patches
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20211109154658.1058842-1-laurent@vivier.eu>
+ Tue, 09 Nov 2021 09:22:04 -0800 (PST)
+Subject: Re: [PULL v2 28/60] tcg/optimize: Split out fold_extract2
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20211029043329.1518029-1-richard.henderson@linaro.org>
+ <20211029043329.1518029-29-richard.henderson@linaro.org>
+ <CAFEAcA9U3HqtyJBd-D22zzwVdr0tY3MP8xqemndyJd2JdN8cyg@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <530f28ca-783e-e893-5b48-8a02f629d8ee@linaro.org>
-Date: Tue, 9 Nov 2021 18:21:04 +0100
+Message-ID: <1a06b8c8-f10e-3de7-5a43-fffffce2dd76@linaro.org>
+Date: Tue, 9 Nov 2021 18:22:01 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211109154658.1058842-1-laurent@vivier.eu>
+In-Reply-To: <CAFEAcA9U3HqtyJBd-D22zzwVdr0tY3MP8xqemndyJd2JdN8cyg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -46
 X-Spam_score: -4.7
 X-Spam_bar: ----
@@ -90,35 +92,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Luis Pires <luis.pires@eldorado.org.br>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/9/21 4:46 PM, Laurent Vivier wrote:
-> The following changes since commit 2b22e7540d6ab4efe82d442363e3fc900cea6584:
+On 11/9/21 5:52 PM, Peter Maydell wrote:
+> On Fri, 29 Oct 2021 at 05:59, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
+>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   tcg/optimize.c | 39 ++++++++++++++++++++++-----------------
+>>   1 file changed, 22 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/tcg/optimize.c b/tcg/optimize.c
+>> index 110b3d1cc2..faedbdbfb8 100644
+>> --- a/tcg/optimize.c
+>> +++ b/tcg/optimize.c
+>> @@ -888,6 +888,25 @@ static bool fold_eqv(OptContext *ctx, TCGOp *op)
+>>       return fold_const2(ctx, op);
+>>   }
 > 
->    Merge tag 'm68k-for-6.2-pull-request' of git://github.com/vivier/qemu-m68k into staging (2021-11-09 13:16:56 +0100)
+> Hi; Coverity warns about a shift in here (CID 1465220):
 > 
-> are available in the Git repository at:
+>>
+>> +static bool fold_extract2(OptContext *ctx, TCGOp *op)
+>> +{
+>> +    if (arg_is_const(op->args[1]) && arg_is_const(op->args[2])) {
+>> +        uint64_t v1 = arg_info(op->args[1])->val;
+>> +        uint64_t v2 = arg_info(op->args[2])->val;
+>> +        int shr = op->args[3];
+>> +
+>> +        if (op->opc == INDEX_op_extract2_i64) {
+>> +            v1 >>= shr;
+>> +            v2 <<= 64 - shr;
+>> +        } else {
+>> +            v1 = (uint32_t)v1 >> shr;
+>> +            v2 = (int32_t)v2 << (32 - shr);
 > 
->    git://github.com/vivier/qemu-m68k.git tags/q800-for-6.2-pull-request
-> 
-> for you to fetch changes up to 5db83c7e90ec6c0b28995b537bb03942edcd4164:
-> 
->    macfb: fix a memory leak (CID 1465231) (2021-11-09 16:42:49 +0100)
-> 
-> ----------------------------------------------------------------
-> Fix CID 1465231
-> 
-> ----------------------------------------------------------------
-> 
-> Laurent Vivier (1):
->    macfb: fix a memory leak (CID 1465231)
-> 
->   hw/display/macfb.c | 11 ++++-------
->   1 file changed, 4 insertions(+), 7 deletions(-)
+> Here we do the shift at 32-bits and then assign it into a 64-bit
+> variable, which triggers Coverity's usual OVERFLOW_BEFORE_WIDEN
+> heuristic. Is the 32-bitness intentional?
 
-Applied, thanks.
+Yep.  I'll add another cast.
+
 
 r~
-
 
