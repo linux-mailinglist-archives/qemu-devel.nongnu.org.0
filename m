@@ -2,85 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8086244C53F
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 17:43:16 +0100 (CET)
-Received: from localhost ([::1]:53964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAE6544C551
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 17:46:55 +0100 (CET)
+Received: from localhost ([::1]:33018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkqgt-0001Fg-DV
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 11:43:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59316)
+	id 1mkqkQ-0006Kd-Pn
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 11:46:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkqfs-0000Q0-P1
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 11:42:12 -0500
-Received: from [2a00:1450:4864:20::32b] (port=46879
- helo=mail-wm1-x32b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkqfr-0006si-0A
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 11:42:12 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- b184-20020a1c1bc1000000b0033140bf8dd5so2402264wmb.5
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 08:42:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=BbqcPbwJJQ9LwBZZFl1LAHMnOLQpoh7bsCL50e6xi6E=;
- b=LdxbZieYC+BNAzvXfA8Cw4HGmt6uXqYa7k88f32sIfCp8CiPKaA/QSnabgrE29+GLc
- Ea57jn1RJXgm0x/XlMV9pdCnlGyT2OJZxJx7ClSQFGdCX45UEdQYcxy3L5WjdsNmSTAD
- WZlAucDeNjkwT4wKHmQUiWZ7wyWoxe4f5wg0MNSxG4OAYX++RPszyQH887HJid141dJF
- nVZnW3/0gfIOI3FH41gOpe38FQYK61L9DF4ZkyDZWGFlFlZmqJrzaLSRR7fVs9nUmTR/
- 7mdOsfJl/zNDepheGpwLH3vjlplidk0Tvg7Qo/XxbjvwruTpoD8p/NfvFCEUwvfsivTO
- WrtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BbqcPbwJJQ9LwBZZFl1LAHMnOLQpoh7bsCL50e6xi6E=;
- b=Uh/sn8ODeiYsChOEjY5t1SJ6zKijvNSdb/8gjd8IKpIzU7vRVnCMmuReNaYZ/eQ9oE
- EUrR2x8TbGfaQAXOVbwWDcS0qhMo39StMW4MODCMHrp5BEQBEQrfrjPDAvBbVP9lKEFQ
- +jRWxOG9R+bSx4cjbllr7ZRb9Pw7u86OWJ7LFHbeuPIpzE/9gYRQwU3T7ciP5FsKy7nz
- DRrvj1X8R5Ilez3qgs1Io90zezySv68FnBcBCbXuhw91OIlklijnXRaEkKAYnbOSvIXL
- Ron5Fev2U+RjuAFu48H31vKRM3Yd0fKI6JAbd9CGonWHq7STshRORFge5DUq1blbGBA6
- 3tuw==
-X-Gm-Message-State: AOAM5322zUkjWABgBMkTX/phIhcaGLZqUOIXAAe9qOGQnVdNpPqlkswH
- trvXfrPOi3NmmX32sId/QJ7FDg==
-X-Google-Smtp-Source: ABdhPJxe0aD8ALE+xNTans1CoEy2rtep9mh3zG5nkrrNnRx2dRjKEj4C7RQeaGrWhFtiFdOpa6+9Og==
-X-Received: by 2002:a05:600c:1:: with SMTP id g1mr566892wmc.19.1636562525376; 
- Wed, 10 Nov 2021 08:42:05 -0800 (PST)
-Received: from [192.168.8.106] (104.red-2-142-241.dynamicip.rima-tde.net.
- [2.142.241.104])
- by smtp.gmail.com with ESMTPSA id y6sm403995wrh.18.2021.11.10.08.42.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Nov 2021 08:42:04 -0800 (PST)
-Subject: Re: [RFC v2 1/6] linux-user: Add host_signal_set_pc to set pc in
- mcontext
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-References: <20211110163133.76357-1-imp@bsdimp.com>
- <20211110163133.76357-2-imp@bsdimp.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <32bfbe52-fd12-5997-5697-0267a16415a0@linaro.org>
-Date: Wed, 10 Nov 2021 17:42:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
+ id 1mkqgN-00015S-6m
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 11:42:43 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:36776)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
+ id 1mkqgJ-0006xU-QB
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 11:42:42 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: fahien) with ESMTPSA id 605271F447A0
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+ t=1636562555; bh=2hREvMTbNtU0TD8+avJAhHdqPhByNDMhgzV0XIc0N5c=;
+ h=From:To:Subject:Date:From;
+ b=GrEFrlLeQMKDpxmVzu8IS3Mnom9eBkdfp0j0S3a1jzCqMbqQDijszOsuFvC7YKVg6
+ JQftqtvzb95iHpB8RfAvM40zvxfJCkpWZgMsQ/+WdJN2xaOC3u9Z8FNPxJWMQerMit
+ IYteT1vEZLZwjSVr+2JVAxdVqNgJFG0bTujUDTb4rJ6hhRP2HF02B/iK+kpZLugD0V
+ 41qtaVYObkdcqkKlYszpV9zvlyBIdAXd0/o7wivQuFtLT1tYD/vNWkgKl8EIAvf51z
+ nPuVqjO5SRrmHP+tiAbOcp7S01jljMy7nFFhATxGlxPjBPJM0EosPEtxEKOTnV73ls
+ Y6x8HvQjlthLg==
+From: Antonio Caggiano <antonio.caggiano@collabora.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] virtio-gpu: Shared memory capability
+Date: Wed, 10 Nov 2021 17:42:18 +0100
+Message-Id: <20211110164220.273641-1-antonio.caggiano@collabora.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <20211110163133.76357-2-imp@bsdimp.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.678,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=46.235.227.227;
+ envelope-from=antonio.caggiano@collabora.com; helo=bhuna.collabora.co.uk
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,21 +58,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe Mathieu-Daude <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/10/21 5:31 PM, Warner Losh wrote:
-> +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
-> +{
-> +#ifdef __arch64__
-> +    uc->uc_mcontext.mc_gregs[MC_PC] = pc;
-> +#else
-> +    &uc->uc_mcontext.gregs[REG_PC] = pc;
+Previously RFC [0] part of [0], now a patch series on its own.
 
-Stray & here.  Not that I have a sparc32 host on which to compile this...
+This patch series cherry picks two commits from [1] and applies one fix
+according to [2], which should answer Gerd's comment [3] on previous
+patch.
 
+[0] https://www.mail-archive.com/qemu-devel@nongnu.org/msg840405.html
+[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg826897.html
+[2] https://gitlab.freedesktop.org/virgl/qemu/-/commits/virtio-gpu-next/
+[3] https://github.com/torvalds/linux/commit/0dd4ff93f4c8dba016ad79384007da4938cd54a1
+[4] https://www.mail-archive.com/qemu-devel@nongnu.org/msg827306.html
 
-r~
+Dr. David Alan Gilbert (1):
+  virtio: Add shared memory capability
+
+Gerd Hoffmann (1):
+  virtio-gpu: hostmem
+
+ hw/display/virtio-gpu-pci.c    | 14 ++++++++++++++
+ hw/display/virtio-gpu.c        |  1 +
+ hw/display/virtio-vga.c        | 32 +++++++++++++++++++++++---------
+ hw/virtio/virtio-pci.c         | 19 +++++++++++++++++++
+ hw/virtio/virtio-pci.h         |  4 ++++
+ include/hw/virtio/virtio-gpu.h |  5 +++++
+ 6 files changed, 66 insertions(+), 9 deletions(-)
+
+-- 
+2.32.0
+
 
