@@ -2,84 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E291944C022
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 12:28:59 +0100 (CET)
-Received: from localhost ([::1]:60534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 277BD44C023
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 12:31:11 +0100 (CET)
+Received: from localhost ([::1]:35258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mklmk-0000oR-Pq
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 06:28:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53902)
+	id 1mklos-0002rO-8q
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 06:31:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkllZ-00083v-So
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 06:27:45 -0500
-Received: from [2a00:1450:4864:20::435] (port=42691
- helo=mail-wr1-x435.google.com)
+ id 1mklnh-0001wz-Mw
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 06:29:57 -0500
+Received: from [2a00:1450:4864:20::42f] (port=33724
+ helo=mail-wr1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkllX-0006lq-VR
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 06:27:45 -0500
-Received: by mail-wr1-x435.google.com with SMTP id c4so3395129wrd.9
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 03:27:43 -0800 (PST)
+ id 1mklng-0006zi-1U
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 06:29:57 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id d24so3497065wra.0
+ for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 03:29:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=uOHWk3y22J427Wd6xX012czM+kg5lSjLvu5ZH+phYpY=;
- b=lFXY6f/09udhX6rpwzRBdV090fNcrS11OWPx+o+LvnDYucqotQZcmJnSVDq+GiuJfj
- cuN9bHCqkgiXQOZjW3kOnlpyViFPUWMwfD5WE1udnFMGfE/N8zn0o+wdbzZ8nnkdB1RV
- Ne6eeCYjK/SX2sJJj2McBvjkeq6bJfc2Zx4ep0GYQDAqtFacxuSBNpJXCjTRarBbNWFE
- sNIYreXneMK+1YzLNvbvMi90gj9ZRh6qpYZM/+WG/TzzefPqxHC2mxNTuUkuA2QMCaJN
- A1IzlNxad1lLDfT6Xz6ZnPSpnxrkse2ylS0PTKg7P0vhJZ691lXKGgnGTySAHn3av4HA
- /XCg==
+ bh=gUTkVha6SSPO/CY4p0t9c6x6bwRs/u1y1Klmhtasuas=;
+ b=UVhTO9L6gPwSuDF+nxaEUya8/Qq3WBnBRAEwySM8zsqsr9nXgLhlWgfPjScgFovrbf
+ x+cL5refsVohf/Daub/b+GecMOPsnfA7PjRq9HD9sHzAcSbsLUXdmoJhDRYZ5sxoYM7L
+ 3iOC1h7Q0w1kqWaUBrl+iTdmmbhgQwwzefM4J2hjmmeyI+sRpZIFh3sGL9AdgxwW1DGb
+ i+cdNx10T4rJXXj1cUqGJo/2i7kTT2V8pAf8+bFcYYo8e3psZvGnmEKu4OKEJwgrQbLh
+ KY/0LhHgDIJ2PJnYDCp8fUxJo7cjbkugywlWX5vr8e28wwHqvyyiSSjeZZbbmVor1EzU
+ ZATA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=uOHWk3y22J427Wd6xX012czM+kg5lSjLvu5ZH+phYpY=;
- b=GwoNd0cTO8CsyCJ4CMivOUqY7nj8YoRVLVw+9ILm0TYYRx2mxu/eKrtNq5f8m7IoSn
- 1APiptGs6Du3BFrukD76SE6SHDzC4m0uJj2i4nGEtyZUYE45xpa3G4vJkVA29Lqyx+w8
- aFHICj6Wkn4lYyTXhOrknC+53Blv8ZNnVzTdf/kXcxuycKoNwAmxDZvsen9unBzrW5FQ
- uGnSxQ7alrxXT4mbIodqetuJglWXQ7ujc0WQURBHJnJ8q6ror3imiNb95I/Lq7tO5jXi
- gxqcD6zCgdtH/r48hIzIW+TNwIki+QjI5APLB9eIPS6SQvoQhgiIvejMQly12gdescnE
- nz4A==
-X-Gm-Message-State: AOAM531lGRDJtdHzJZsQFq37wm1bltviU3HRycmavIO8yeW3Rk/NTMJ6
- kWLaZKJRynmubWkgzSRUy1n0XQ==
-X-Google-Smtp-Source: ABdhPJwfVK1xTKBFqlkFg9SGku2UxUW1RcDFnAWEVO04nFqAFYDGUz50g4DT11iPv5RXNKNBUi6AYQ==
-X-Received: by 2002:a5d:5850:: with SMTP id i16mr17833223wrf.410.1636543662503; 
- Wed, 10 Nov 2021 03:27:42 -0800 (PST)
+ bh=gUTkVha6SSPO/CY4p0t9c6x6bwRs/u1y1Klmhtasuas=;
+ b=6HXljPqpXAmTWQEVzujiCIGHmdjlRJLdbZ4XkfgU133Gy6emE1tSKC0ybdynFkhv7e
+ XNNOlcNaevxF5N4NnMzMd8V4KVtIh1uAwKDGCKSvuaRdSA6Mcp2BC6z8tVNb/APTD3E6
+ fux3oBNyuZsAnZiNQsWF6J2xc7lO53pLMyKkIMtgzas9Bt3mnjUHq2u2cmRDAgrWGR/D
+ VFMSe3XSV2mz7CgE3GGu05neCZcN2bQPKfPvPjUL6P0rCsj909cBDQxy8/RXH5sUh/iP
+ vKrUJSwK9jE5ChStGbfQTs426OMdvvX+tcirwIwgSIZBmtnOkaeQ2WX7wWr3Qn9vHSfT
+ +tcA==
+X-Gm-Message-State: AOAM532cUiA4r1Wxf4JCBPbBmd1V3bj4Rr244m5Z3vK97sMKh+zgG3G9
+ wJp1NSajImw2mpmDGO1RD4ThXg==
+X-Google-Smtp-Source: ABdhPJyFQ2lyiAEA098g+4TM9OceWB160jaHS4f/jZHKcVf2yBu72OD8XlJ8vn7gW4W1mPUgpGxxsA==
+X-Received: by 2002:adf:e882:: with SMTP id d2mr18864004wrm.389.1636543793640; 
+ Wed, 10 Nov 2021 03:29:53 -0800 (PST)
 Received: from [192.168.8.106] (104.red-2-142-241.dynamicip.rima-tde.net.
  [2.142.241.104])
- by smtp.gmail.com with ESMTPSA id o5sm8349428wrx.83.2021.11.10.03.27.41
+ by smtp.gmail.com with ESMTPSA id q84sm6506994wme.3.2021.11.10.03.29.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Nov 2021 03:27:42 -0800 (PST)
-Subject: Re: [PATCH v2 14/14] target/riscv: Enable uxl field write
+ Wed, 10 Nov 2021 03:29:53 -0800 (PST)
+Subject: Re: [PATCH v2 11/14] target/riscv: Adjust scalar reg in vector with
+ XLEN
 To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
 References: <20211110070452.48539-1-zhiwei_liu@c-sky.com>
- <20211110070452.48539-15-zhiwei_liu@c-sky.com>
+ <20211110070452.48539-12-zhiwei_liu@c-sky.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <59e04faf-3832-bec9-52f3-d5a91d20b893@linaro.org>
-Date: Wed, 10 Nov 2021 12:27:39 +0100
+Message-ID: <3f4cbf03-5492-3f5c-9e6f-6ff55bd1ba6e@linaro.org>
+Date: Wed, 10 Nov 2021 12:29:50 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211110070452.48539-15-zhiwei_liu@c-sky.com>
+In-Reply-To: <20211110070452.48539-12-zhiwei_liu@c-sky.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.678,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,78 +98,36 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/10/21 8:04 AM, LIU Zhiwei wrote:
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> ---
->   target/riscv/csr.c                      | 5 ++---
->   target/riscv/insn_trans/trans_rvi.c.inc | 4 ++--
->   target/riscv/op_helper.c                | 3 ++-
->   3 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 33e342f529..e07cd522ef 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -555,15 +555,14 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
->            * RV32: MPV and GVA are not in mstatus. The current plan is to
->            * add them to mstatush. For now, we just don't support it.
->            */
-> -        mask |= MSTATUS_MPV | MSTATUS_GVA;
-> +        mask |= MSTATUS_MPV | MSTATUS_GVA | MSTATUS64_UXL;
->       }
->   
->       mstatus = (mstatus & ~mask) | (val & mask);
->   
->       if (riscv_cpu_mxl(env) == MXL_RV64) {
-> -        /* SXL and UXL fields are for now read only */
-> +        /* SXL fields are for now read only */
->           mstatus = set_field(mstatus, MSTATUS64_SXL, MXL_RV64);
-> -        mstatus = set_field(mstatus, MSTATUS64_UXL, MXL_RV64);
->       }
->       env->mstatus = mstatus;
+> diff --git a/target/riscv/internals.h b/target/riscv/internals.h
+> index b15ad394bb..07e882160d 100644
+> --- a/target/riscv/internals.h
+> +++ b/target/riscv/internals.h
+> @@ -27,6 +27,7 @@ FIELD(VDATA, VM, 8, 1)
+>   FIELD(VDATA, LMUL, 9, 2)
+>   FIELD(VDATA, NF, 11, 4)
+>   FIELD(VDATA, WD, 11, 1)
+> +FIELD(VDATA, TRUNC, 15, 1)
 
-Why do you not allow writes to SXL?
+No need for this.
 
-You're missing a change to write_sstatus to allow S-mode to write to UXL.
+> @@ -4756,7 +4762,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
+>               continue;                                                     \
+>           }                                                                 \
+>           if (i == 0) {                                                     \
+> -            *((ETYPE *)vd + H(i)) = s1;                                   \
+> +            *((ETYPE *)vd + H(i)) = trunc ? (s1 & UINT32_MAX) : s1;       \
+>           } else {                                                          \
+>               *((ETYPE *)vd + H(i)) = *((ETYPE *)vs2 + H(i - 1));           \
+>           }                                                                 \
+...
+> @@ -4785,7 +4792,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
+>               continue;                                                     \
+>           }                                                                 \
+>           if (i == vl - 1) {                                                \
+> -            *((ETYPE *)vd + H(i)) = s1;                                   \
+> +            *((ETYPE *)vd + H(i)) = trunc ? (s1 & UINT32_MAX) : s1;       \
 
-> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-> index 7a0b037594..cb73a2f1ee 100644
-> --- a/target/riscv/insn_trans/trans_rvi.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
-> @@ -472,7 +472,7 @@ static bool trans_csrrw(DisasContext *ctx, arg_csrrw *a)
->           return do_csrw(ctx, a->csr, src);
->       }
->   
-> -    TCGv mask = tcg_constant_tl(-1);
-> +    TCGv mask = tcg_constant_tl(get_xl(ctx) == MXL_RV32 ? UINT32_MAX : -1);
->       return do_csrrw(ctx, a->rd, a->csr, src, mask);
->   }
->   
-> @@ -523,7 +523,7 @@ static bool trans_csrrwi(DisasContext *ctx, arg_csrrwi *a)
->           return do_csrw(ctx, a->csr, src);
->       }
->   
-> -    TCGv mask = tcg_constant_tl(-1);
-> +    TCGv mask = tcg_constant_tl(get_xl(ctx) == MXL_RV32 ? UINT32_MAX : -1);
->       return do_csrrw(ctx, a->rd, a->csr, src, mask);
->   }
->   
-> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-> index 095d39671b..561e156bec 100644
-> --- a/target/riscv/op_helper.c
-> +++ b/target/riscv/op_helper.c
-> @@ -50,7 +50,8 @@ target_ulong helper_csrr(CPURISCVState *env, int csr)
->   
->   void helper_csrw(CPURISCVState *env, int csr, target_ulong src)
->   {
-> -    RISCVException ret = riscv_csrrw(env, csr, NULL, src, -1);
-> +    target_ulong mask = cpu_get_xl(env) == MXL_RV32 ? UINT32_MAX : -1;
-> +    RISCVException ret = riscv_csrrw(env, csr, NULL, src, mask);
->   
->       if (ret != RISCV_EXCP_NONE) {
->           riscv_raise_exception(env, ret, GETPC());
-> 
-
-The rest of this should be a separate patch.
+In both of these cases you can simply zero-extend s1 in the translator before passing it in.
 
 
 r~
