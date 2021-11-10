@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96DD844C3E1
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 16:03:03 +0100 (CET)
-Received: from localhost ([::1]:43000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A160144C3E9
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 16:03:45 +0100 (CET)
+Received: from localhost ([::1]:45360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkp7u-0006I0-9i
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 10:03:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58990)
+	id 1mkp8a-0001d5-RB
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 10:03:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkp6S-0005Cp-R4
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 10:01:34 -0500
-Received: from [2a00:1450:4864:20::32b] (port=51079
- helo=mail-wm1-x32b.google.com)
+ id 1mkp7a-0006Yr-QB
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 10:02:42 -0500
+Received: from [2a00:1450:4864:20::336] (port=52185
+ helo=mail-wm1-x336.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkp6O-0000mR-T5
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 10:01:30 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id 133so2506806wme.0
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 07:01:27 -0800 (PST)
+ id 1mkp7Z-0000wT-GK
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 10:02:42 -0500
+Received: by mail-wm1-x336.google.com with SMTP id z200so2484458wmc.1
+ for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 07:02:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6F9tyQWkl1DvdchY5fcBIazC71pRLDxvW7c1e/SgweE=;
- b=UbjaCH6UgHkqwOIsvoX9PXXe/h4XlaVjEacPg5tz3w61NYL8POOkZ/aeqoL7Yhkus3
- qOwnufrn1ONfQh0kgs2dX/xmx+iXCes9FFFBlFgcToDDnPXT6kbddj6J1wriznhuV14Z
- AD6luY6eBPy/nb/soP3QijF/M34DOOMVvB8McvDAJVonCHHGiJRltkORBg9qY9oQZu1n
- igkGgJQosq+Z2aatBbaCISOpAklBG8IE6L8NZbhiPkFezLPy4OpEE0SQDqPczySBSBav
- Xc+nLV2L3ToGlkZWV7FFrGjqAlGX9OIE8GE3EThqnYE+Z/TbkEZ7i/UHwbCwgkentUy4
- E2Rg==
+ bh=dpI2Xz6NLO1nS5zqbS04Ga8aIoKZ333qxRJLl89Qio4=;
+ b=nzga8W5eJlbeNXoLiDkgGpW9iSR7nG66dWnj+NpjT73iT2UvAAEO8d9MnUV5ob/fZz
+ 9K8f0AUZtXZ04+bp+IhIV2qqBOQSu+IjITFwvnej530V3IihEECpUDsxydPWGmN80eXS
+ bBtvLmtbQlSwSo0LCSt1X93Ly19okDhDGzOD81di14tNS05kLBDwn0yWvrpISVbiMobb
+ 1s+T2aOnbcUWOfJJAY8X+imSPJ8ukEAsb8dy2TFuQicIT9+36/C0ODSNXkmZDXezLCdO
+ 2KC/PvrRSYeGDCwmy4VyRR7VIGEcRv7ciV99/d84Px+dbF670pprEf1oNidrs/T7JrZJ
+ cwLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=6F9tyQWkl1DvdchY5fcBIazC71pRLDxvW7c1e/SgweE=;
- b=I8Cn0vOtlaJvLjwtKJx1IZGmtNVaSz6ithT4TUY/dAf5grEi/+Az1HB2nb4uB1VB3W
- eh/2oyelB8Dt62km60hnC9bsaGwtBiAOnBh4O8yi2jLb05lFUrLUXKo3MlcAsKVegZhU
- B1Yx3E8Lgoyo5nIITkrHict4tMdQ69NwF5BLAbvbnmTSgAiaIG6WzWjgkUVA1cvNL3Yj
- cVaeU0/bWjwzn19B8rIo3xZrjvyRP8NyA9/+v6gTJOwiBpQRTEwunE6QP4Tt5EIYnNbX
- 7rcZ4jjmBKpUJpF6rXoK9cgSCGZoL5jNW3qS7ZSA0Ku8Iv7hUSVIZ6/Gf5xL3cIfA0w7
- WIJw==
-X-Gm-Message-State: AOAM533ThtDLvgvZ19KJYsBg2KTBiV85BuG0Lk21TsL0fVJonH8sOrbk
- a/66dWRahwKrDvAwwtFNZ8BAzg==
-X-Google-Smtp-Source: ABdhPJyv5c2Lf5Ai40QBWsrUfdH8yOZYCXnpSRhTU3ZHsYz7zhZczkT7rOkwiQ9FoV87Wl8zAfcVwQ==
-X-Received: by 2002:a05:600c:2118:: with SMTP id
- u24mr16945252wml.0.1636556486241; 
- Wed, 10 Nov 2021 07:01:26 -0800 (PST)
+ bh=dpI2Xz6NLO1nS5zqbS04Ga8aIoKZ333qxRJLl89Qio4=;
+ b=azH9hf7H90lnvZXrEfAtYDOd0mkcUmmYVyPIEaUdd5fijCDq+0UIhY6z/8TrBZUFl6
+ yJPrHC48JVllFkJQyL6NxcuZOhwkXY/jsSSzs1pgsvHmfYXu8eaIaGCPv3yzbqmAa2xs
+ /kUvjo3s8iwqvZ8yRZ3800kO1dSpRLW7AjKRfZx1sIDCZQdchMvr9GydG3VRXaQ1Mxdo
+ bCeCysmqjS/VCfp7SC9odbGqpksEnFdTCyxVBuCn/Ri0ODUv834S7Aw9raShYz79HSEo
+ Rqq9RqZlSRKyQZiiQ8czPOONOUc1iSCPGWJ1DxzET1LFlkQNZppzvF2t2cicgDxFx0jw
+ DW+A==
+X-Gm-Message-State: AOAM533PqSTGhdBfBJjdMj/7tvIRbCIRs02MisLfyEwX9R7RfS3YAu5e
+ kkpZr3VWQhTOkTgLZTsc7r44fQ==
+X-Google-Smtp-Source: ABdhPJwHIvmhPlXQCJbGViZfe+f/A7Sr/0Eaas/lNvptfeKu4up5xTMmEUL2qtltVd10Xww5iCqgHQ==
+X-Received: by 2002:a1c:488:: with SMTP id 130mr224056wme.157.1636556559768;
+ Wed, 10 Nov 2021 07:02:39 -0800 (PST)
 Received: from [192.168.8.106] (104.red-2-142-241.dynamicip.rima-tde.net.
  [2.142.241.104])
- by smtp.gmail.com with ESMTPSA id z15sm102400wrr.65.2021.11.10.07.01.24
+ by smtp.gmail.com with ESMTPSA id u23sm151668wru.21.2021.11.10.07.02.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Nov 2021 07:01:25 -0800 (PST)
-Subject: Re: [PATCH v2 12/14] target/riscv: Split out the vill from vtype
+ Wed, 10 Nov 2021 07:02:39 -0800 (PST)
+Subject: Re: [PATCH v2 14/14] target/riscv: Enable uxl field write
 To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
 References: <20211110070452.48539-1-zhiwei_liu@c-sky.com>
- <20211110070452.48539-13-zhiwei_liu@c-sky.com>
- <df7ad986-8430-9994-83ac-33db2ec1f2e3@linaro.org>
- <6c0631e7-bb7c-f69c-c5fd-4023c392a7e6@c-sky.com>
+ <20211110070452.48539-15-zhiwei_liu@c-sky.com>
+ <59e04faf-3832-bec9-52f3-d5a91d20b893@linaro.org>
+ <b76662ce-7026-196a-7718-e0e825322e9d@c-sky.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5467bfee-b9dd-1f72-c93c-82f9f77481c0@linaro.org>
-Date: Wed, 10 Nov 2021 16:01:20 +0100
+Message-ID: <9b290086-010b-5cb6-23e0-b7188445a546@linaro.org>
+Date: Wed, 10 Nov 2021 16:02:35 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <6c0631e7-bb7c-f69c-c5fd-4023c392a7e6@c-sky.com>
+In-Reply-To: <b76662ce-7026-196a-7718-e0e825322e9d@c-sky.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
@@ -99,32 +98,15 @@ Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/10/21 3:26 PM, LIU Zhiwei wrote:
-> One question here. Even come before patch 6, we don't have a simple way to choose vill and 
-> reserved fields from s2 register in patch 6.
+On 11/10/21 3:38 PM, LIU Zhiwei wrote:
+>> Why do you not allow writes to SXL?
+> 
+> That means we still don't support the change of SXLEN.
+> I didn't check the S-mode CSRs behavior when XLEN changes in this patch set.
+> 
+> For example, the behavior of satp when trap into M-mode from S-mode if SXLEN=32 and MXLEN=64.
 
-You can certainly split out vill before you create a new way to select it based on xlen. 
-In fact, you *should* do that as a separate patch before extending helper_vsetvl to handle 
-multiple xlen.
-
-Note that vill is always at the msb, so it's easy to find without necessarily defining an 
-XLEN32 field.
-
-As for the reserved "field"... how about
-
-     reserved = MAKE_64BIT_MASK(R_VTYPE_RESERVED_START,
-                                xlen - 1 - R_VTYPE_RESERVED_START);
-     reserved &= s2;
-
-> As env->vill will be used in read_vtype,  we still need to covert env->vill type to 
-> target_ulong there.
-
-A cast in read_vtype will do.  Explicit casts to uint32_t/uint64_t would remove the need 
-for an ifdef in that function as well.
-
-> Is there any benefit to use bool instead of target_ulong?
-
-Self-documentation?
+Ah, good answer.
 
 
 r~
