@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A06644C525
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 17:37:43 +0100 (CET)
-Received: from localhost ([::1]:42172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A201E44C51E
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 17:36:00 +0100 (CET)
+Received: from localhost ([::1]:37850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkqbW-0001TY-FH
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 11:37:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56846)
+	id 1mkqZr-0006rW-F1
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 11:35:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mkqWi-0007eu-I0
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 11:32:44 -0500
-Received: from [2607:f8b0:4864:20::d29] (port=40519
- helo=mail-io1-xd29.google.com)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mkqWj-0007jS-L0
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 11:32:45 -0500
+Received: from [2607:f8b0:4864:20::d36] (port=43779
+ helo=mail-io1-xd36.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mkqWf-0005cQ-UR
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 11:32:44 -0500
-Received: by mail-io1-xd29.google.com with SMTP id r8so3488714iog.7
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 08:32:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mkqWg-0005ci-PH
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 11:32:45 -0500
+Received: by mail-io1-xd36.google.com with SMTP id z26so3460245iod.10
+ for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 08:32:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=M3YNJExhThSIbj1o2Es/Nt0wLEmypXnIdeRMVKOi/c8=;
- b=spcPYVd584+LiL84FKldoc4r6gg5FlLc4mL6fts4tEtBIiD6xFICDcK34T7Hp9PA0l
- HjTBIbBK+79mLZbEi8n32xvRRtSulUQkHHydrjFbF6kZQyP2d2BwU9S34Ts/Z82n9IBK
- DCPDmTVwS6VUmJ6AOLLh5KRJq7GBok+XKCYdC9sKqA3YgOQfIO5qYNLyqyzNuDISmSt0
- +lNpEdw4DRbSKfg5Jao6LDoV/8jN7INLZXT4KdRMpNOoF1ZxMAraNd2Y/unFs0IKovLe
- qOOt1nTyy3NLdQU0pqw4p8Y5twbFC6Rj2bX1jPF9r5vmMrEZHOeeG2hUfYiCDe5dKRga
- T0Hg==
+ bh=xX0hIQSZjL8ZR7arM3SqbUY2tpWX5DtaOT38oFoQlVs=;
+ b=XdgKX2MFsNTdPawTvR1a9Guy4tJRvkcuxcrlRPVJbmu3NQI/C79Hk6C0SXy8eUVPBt
+ bTvX0hiBM80gSjOETPZqq5PEE/7HRKd/WEbfxjTDYmOHjNCnjrgfbVDu96lA+OwDSJuz
+ 3YVV2ars5Y+0fusZ1XDH2qkhKXenxlmS2qdsjlnilzSMn9SeIe+EnvXNuGiqiFIBxsKW
+ POumbpC+ZgxyXLDQnamFhCNnuszZFrJWR+5s/36fWaIj72yg4KRkmU2EEcjClEcUJrnL
+ H4vQszMMA5hPvpvvXJLn29Gu2T1XN3jFOG5g+e0LifRKm05EsRkXmOmS95ZX3q32D7ac
+ RxZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=M3YNJExhThSIbj1o2Es/Nt0wLEmypXnIdeRMVKOi/c8=;
- b=LGx9yrngvn46LQRJ18m4PDLQS0UJ7B7hhDC7YCRsdMieGH54ArzgSVA5kH3NJt+Wnt
- EtX33RqTvsvB9kKx04w811nnIByvDgdJjbmIUBIsoJC/yhtaVIehGzvBaT4nRO8NYzgm
- kFcB67G7yTriXO4/GbKf2NvhKaDSraeVMZ8m4bYqyUYQFN8td/pPJNpde2BtMTv5rQSL
- NBrhKROs7QiRcjFysUO3TEpOH/kCnedE2xo5QM3cL3GEdYy9kM5uYov+zfXJCk6TELPh
- KG5wUYB3aw7KIIyFkfXhFp9i3txRo6IbpZasRwXh0crMlbE5FbNnfM2azottDBed2QmO
- 183w==
-X-Gm-Message-State: AOAM533k4avdl1r4nGCQs1VJWXqP74F9Kn1/BQ+M3bVb4KAoSKaPmYAm
- 2d9WIDYdVHZvRv0dAtT6lL5mK6fioGovMQ==
-X-Google-Smtp-Source: ABdhPJyLCvqe2bgMRYt01kGjPKxFWPBlLdcFhMbV5f2cZCG4zztgincKElPTwMlkbgW1aY95HnGIew==
-X-Received: by 2002:a05:6638:22c2:: with SMTP id
- j2mr83356jat.105.1636561960484; 
- Wed, 10 Nov 2021 08:32:40 -0800 (PST)
+ bh=xX0hIQSZjL8ZR7arM3SqbUY2tpWX5DtaOT38oFoQlVs=;
+ b=DlYgA0ceVVSNpf8+7NKGwp+ZDvi5hIlCRVS0Wx6L0PcyXGW0KS2aU9+kkgh0Jktew9
+ 7rlgdsp8tTQh/pIpP8LKd3MVfFT+MIpgKJRQ8eX7lB9GmUwDtE1KS0GPWJsF0SebQlr3
+ QFHcj7ZuD9CzYmBx66yTsZWCI7aQPEDYCWkJGQDdiaQOaP3/x6tAXpgSipE5lxx7TCl5
+ BimLqQB0I7U/A5ulioi3bE7pB4TsA5nRXcPOe3cRw/uNIozG8P+dXiN/Zfy82uX11S4C
+ hXAXMA+plbGc7bNQNNLQFWJNFeek9IZjeZr+zxEPkZtm34pEPDzw7hMaegvS3iEGsWBG
+ oWDA==
+X-Gm-Message-State: AOAM533YDf1HySWufzurPm7APKnyL0hBQlUZZUdgNgIjAY4tNXXoBzlK
+ vqTKCOmP8Qv4Y4zmLtsTk4pCgkiq36FcCQ==
+X-Google-Smtp-Source: ABdhPJx3Rp7gaStEeZ+vhMmC3WNZCyp/+0l7RWaIV4yyju99auh62UIB1TvzWrj3cHsVjn1Ll3ioqg==
+X-Received: by 2002:a02:2345:: with SMTP id u66mr74890jau.129.1636561961495;
+ Wed, 10 Nov 2021 08:32:41 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id x2sm130403iom.46.2021.11.10.08.32.39
+ by smtp.gmail.com with ESMTPSA id x2sm130403iom.46.2021.11.10.08.32.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Nov 2021 08:32:40 -0800 (PST)
+ Wed, 10 Nov 2021 08:32:41 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v2 5/6] common-user/host/mips: create,
- though mips hosts likely don't work reliably
-Date: Wed, 10 Nov 2021 09:31:32 -0700
-Message-Id: <20211110163133.76357-6-imp@bsdimp.com>
+Subject: [RFC v2 6/6] *-user: move safe-syscall.* to common-user
+Date: Wed, 10 Nov 2021 09:31:33 -0700
+Message-Id: <20211110163133.76357-7-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211110163133.76357-1-imp@bsdimp.com>
 References: <20211110163133.76357-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d29
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d36
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d29;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd29.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd36.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -93,19 +91,122 @@ Cc: Warner Losh <imp@bsdimp.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Move linux-user/safe-syscall.S to common-user/common-safe-syscall.S and
+replace it with a #include "common-safe-syscall.S" so that bsd-user can
+also use it. Also move safe-syscall.h so that it can define a few more
+externs.
+
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- common-user/host/mips/safe-syscall.inc.S | 1 +
- 1 file changed, 1 insertion(+)
- create mode 100644 common-user/host/mips/safe-syscall.inc.S
+ common-user/common-safe-syscall.S          | 30 +++++++++++++++++++++
+ {linux-user => common-user}/safe-syscall.h |  0
+ linux-user/safe-syscall.S                  | 31 +---------------------
+ linux-user/signal.c                        |  1 +
+ meson.build                                |  1 +
+ 5 files changed, 33 insertions(+), 30 deletions(-)
+ create mode 100644 common-user/common-safe-syscall.S
+ rename {linux-user => common-user}/safe-syscall.h (100%)
 
-diff --git a/common-user/host/mips/safe-syscall.inc.S b/common-user/host/mips/safe-syscall.inc.S
+diff --git a/common-user/common-safe-syscall.S b/common-user/common-safe-syscall.S
 new file mode 100644
-index 0000000000..72d9064acb
+index 0000000000..42ea7c40ba
 --- /dev/null
-+++ b/common-user/host/mips/safe-syscall.inc.S
-@@ -0,0 +1 @@
-+	.asciiz	"This file is not compiled and mips hosts are likely broken"
++++ b/common-user/common-safe-syscall.S
+@@ -0,0 +1,30 @@
++/*
++ * safe-syscall.S : include the host-specific assembly fragment
++ * to handle signals occurring at the same time as system calls.
++ *
++ * Written by Peter Maydell <peter.maydell@linaro.org>
++ *
++ * Copyright (C) 2016 Linaro Limited
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "hostdep.h"
++#include "target_errno_defs.h"
++
++/* We have the correct host directory on our include path
++ * so that this will pull in the right fragment for the architecture.
++ */
++#ifdef HAVE_SAFE_SYSCALL
++#include "safe-syscall.inc.S"
++#endif
++
++/* We must specifically say that we're happy for the stack to not be
++ * executable, otherwise the toolchain will default to assuming our
++ * assembly needs an executable stack and the whole QEMU binary will
++ * needlessly end up with one. This should be the last thing in this file.
++ */
++#if defined(__linux__) && defined(__ELF__)
++.section        .note.GNU-stack, "", %progbits
++#endif
+diff --git a/linux-user/safe-syscall.h b/common-user/safe-syscall.h
+similarity index 100%
+rename from linux-user/safe-syscall.h
+rename to common-user/safe-syscall.h
+diff --git a/linux-user/safe-syscall.S b/linux-user/safe-syscall.S
+index 42ea7c40ba..c86f0aea74 100644
+--- a/linux-user/safe-syscall.S
++++ b/linux-user/safe-syscall.S
+@@ -1,30 +1 @@
+-/*
+- * safe-syscall.S : include the host-specific assembly fragment
+- * to handle signals occurring at the same time as system calls.
+- *
+- * Written by Peter Maydell <peter.maydell@linaro.org>
+- *
+- * Copyright (C) 2016 Linaro Limited
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#include "hostdep.h"
+-#include "target_errno_defs.h"
+-
+-/* We have the correct host directory on our include path
+- * so that this will pull in the right fragment for the architecture.
+- */
+-#ifdef HAVE_SAFE_SYSCALL
+-#include "safe-syscall.inc.S"
+-#endif
+-
+-/* We must specifically say that we're happy for the stack to not be
+- * executable, otherwise the toolchain will default to assuming our
+- * assembly needs an executable stack and the whole QEMU binary will
+- * needlessly end up with one. This should be the last thing in this file.
+- */
+-#if defined(__linux__) && defined(__ELF__)
+-.section        .note.GNU-stack, "", %progbits
+-#endif
++#include "common-safe-syscall.S"
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index ee038c2399..cfda166f9c 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -31,6 +31,7 @@
+ #include "trace.h"
+ #include "signal-common.h"
+ #include "host-signal.h"
++#include "safe-syscall.h"
+ 
+ static struct target_sigaction sigact_table[TARGET_NSIG];
+ 
+diff --git a/meson.build b/meson.build
+index 728d305403..2f3b0fb2d6 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2873,6 +2873,7 @@ foreach target : target_dirs
+       base_dir = 'linux-user'
+       target_inc += include_directories('linux-user/host/' / config_host['ARCH'])
+       target_inc += include_directories('common-user/host/' / config_host['ARCH'])
++      target_inc += include_directories('common-user')
+     endif
+     if 'CONFIG_BSD_USER' in config_target
+       base_dir = 'bsd-user'
 -- 
 2.33.0
 
