@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57FB144BE72
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 11:18:23 +0100 (CET)
-Received: from localhost ([::1]:56802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DC2144BE7B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 11:20:17 +0100 (CET)
+Received: from localhost ([::1]:60048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkkgP-0005yZ-NJ
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 05:18:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34326)
+	id 1mkkiG-0008B4-2R
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 05:20:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mkkeq-0004dY-F7
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 05:16:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41865)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mkkel-0003kA-Mo
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 05:16:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636539398;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GrB9f1WXPCrn5QI3aeWWIw68+42+wcepHbXoM2kORu8=;
- b=RQQlbkVyUweTH1iRrgu/ptR6/BWyYRi5tOQcV555ORw3gxXuunhmpoLXsUNe0TliO+bCuK
- QbigxetQflUww/RYdW//9ZgUmA/GpXa6fpwyPbGx8jwORqvxCSlFateqrVbZMYRvWTX8SO
- VWVE534RUITBrdl9rNWZUjjFsTP3++w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49-Ru4scFQlMnO72eLp49RG7w-1; Wed, 10 Nov 2021 05:16:36 -0500
-X-MC-Unique: Ru4scFQlMnO72eLp49RG7w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 95E75804140;
- Wed, 10 Nov 2021 10:16:35 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 329CE1055085;
- Wed, 10 Nov 2021 10:16:35 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AF88A11380A7; Wed, 10 Nov 2021 11:16:33 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [PATCH 2/2] tests/unit/test-smp-parse: Fix a check-patch complain
-References: <20211110095208.448-1-wangyanan55@huawei.com>
- <20211110095208.448-3-wangyanan55@huawei.com>
-Date: Wed, 10 Nov 2021 11:16:33 +0100
-In-Reply-To: <20211110095208.448-3-wangyanan55@huawei.com> (Yanan Wang's
- message of "Wed, 10 Nov 2021 17:52:08 +0800")
-Message-ID: <87tugkz56m.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mkkh2-0007OL-Kn
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 05:19:00 -0500
+Received: from [2a00:1450:4864:20::32b] (port=40672
+ helo=mail-wm1-x32b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mkkh0-0004Ao-Th
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 05:19:00 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ az33-20020a05600c602100b00333472fef04so3433769wmb.5
+ for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 02:18:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=s9L95GC+sQ97RM6iP3+cTQRWNeOxAm2i2hF+cRSAy1I=;
+ b=PL6pCHSEDiax81DuDkktkxHSq6kvgihm9ti8XVshdIoFTncE4KHm4VpndfhOBMDyYe
+ iUjaVVVhJizVxNgl8yLzqSBIlHUTy0qY0YK5zVrDkNXdp3T/jGgXMfuPQnV18WY5ktiT
+ dJPwbTqXdB5BW/VdKjOrll77Xv17a8wTx00wEK6JNLDMkfelM6S3znWDrewrK1gi+qET
+ lv+LxDmb1Pj9ItCFazwNdwC1y8SLQxN0kf6kkgeBpTLBsQWGot2rlP/vy7plNg/goX5F
+ zFanrNcebEIc2GTqasNqsFIwq6HtZqqkNK8TvzVg711tuzvNpoL7JvRCq6F997Pr8ph7
+ oltw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=s9L95GC+sQ97RM6iP3+cTQRWNeOxAm2i2hF+cRSAy1I=;
+ b=TQ1nLMb1wDXAkKNV0ixT+5gUZ3Jm9VzmMNkhI5q9LhyB4Nrdejk0ax3hmDYdW6HKCI
+ UHGvu3qOvvDCLp/jMrfcC413TaFJm40w3P5sGZ8ccw3iJhuOqxY0jmUAKSHUC0iTtu9c
+ TdpZcNL28Rmo6blmKF/Fvl34M42qRJBpAOANW0RKzzp+GUvWqfo8GZjh52/8fKuPeoCe
+ LaFlDz+B0yYdG3zG9gSpPpNKNLUo5WvaoSxIGbA87fPuhxV3IESGLnWkTgePkC12jaiS
+ 3zfIHDHBAPwOBjbMhK+eQ25KMYA/eLux1Cz/XwSIzico8STafe649Avl49P/1nUo9aCk
+ 8Rwg==
+X-Gm-Message-State: AOAM533044sWXSosM338bpYIgbM25uwQ/2gs7IPGtgjQssnOahbEUg9+
+ lUPBV/qhZjptDTKhLzxEMmFHZg==
+X-Google-Smtp-Source: ABdhPJzcbkhyOAi54nwZOyJ7K0V+DQRdhu+o8VXwdofcRY00EN7ZTIHAuOTNsbKDl7zIszzvYD9ZGA==
+X-Received: by 2002:a05:600c:4982:: with SMTP id
+ h2mr15258617wmp.4.1636539536972; 
+ Wed, 10 Nov 2021 02:18:56 -0800 (PST)
+Received: from [192.168.8.106] (104.red-2-142-241.dynamicip.rima-tde.net.
+ [2.142.241.104])
+ by smtp.gmail.com with ESMTPSA id a1sm26370437wri.89.2021.11.10.02.18.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Nov 2021 02:18:56 -0800 (PST)
+Subject: Re: [PATCH v2 01/14] target/riscv: Sign extend pc for different XLEN
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20211110070452.48539-1-zhiwei_liu@c-sky.com>
+ <20211110070452.48539-2-zhiwei_liu@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <62d2206d-664b-156b-b23a-74d9d13664f8@linaro.org>
+Date: Wed, 10 Nov 2021 11:18:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+In-Reply-To: <20211110070452.48539-2-zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.678,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,51 +94,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
- wanghaibin.wang@huawei.com,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yanan Wang <wangyanan55@huawei.com> writes:
-
-> Checkpatch.pl reports errors like below for commit 9e8e393bb7. Fix it.
-> ERROR: space required after that close brace '}'
-> +    SMPTestData *data = &(SMPTestData){{ }};
->
-> Fixes: 9e8e393bb7 ("tests/unit: Add an unit test for smp parsing")
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+On 11/10/21 8:04 AM, LIU Zhiwei wrote:
+> When pc is written, it is sign-extended to fill the widest supported XLEN.
+> 
+> Signed-off-by: LIU Zhiwei<zhiwei_liu@c-sky.com>
 > ---
->  tests/unit/test-smp-parse.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/tests/unit/test-smp-parse.c b/tests/unit/test-smp-parse.c
-> index 872512aa37..3627fe61ad 100644
-> --- a/tests/unit/test-smp-parse.c
-> +++ b/tests/unit/test-smp-parse.c
-> @@ -514,7 +514,7 @@ static void test_generic(void)
->      Object *obj = smp_test_machine_init();
->      MachineState *ms = MACHINE(obj);
->      MachineClass *mc = MACHINE_GET_CLASS(obj);
-> -    SMPTestData *data = &(SMPTestData){{ }};
-> +    SMPTestData *data = &(SMPTestData){ {0} };
->      int i;
->  
->      for (i = 0; i < ARRAY_SIZE(data_generic_valid); i++) {
-> @@ -548,7 +548,7 @@ static void test_with_dies(void)
->      Object *obj = smp_test_machine_init();
->      MachineState *ms = MACHINE(obj);
->      MachineClass *mc = MACHINE_GET_CLASS(obj);
-> -    SMPTestData *data = &(SMPTestData){{ }};
-> +    SMPTestData *data = &(SMPTestData){ {0} };
->      unsigned int num_dies = 2;
->      int i;
+>   target/riscv/translate.c | 16 ++++++++++++----
+>   1 file changed, 12 insertions(+), 4 deletions(-)
 
-Why not
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-       SMPTestData *data = &(SMPTestData){};
-
-?
-
+r~
 
