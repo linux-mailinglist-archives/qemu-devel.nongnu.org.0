@@ -2,82 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C88C544C185
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 13:47:26 +0100 (CET)
-Received: from localhost ([::1]:43264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8929844C19C
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 13:51:54 +0100 (CET)
+Received: from localhost ([::1]:52252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkn0f-0001aE-M0
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 07:47:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45108)
+	id 1mkn4z-0007s7-LQ
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 07:51:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mkmug-0006pk-B7; Wed, 10 Nov 2021 07:41:14 -0500
-Received: from [2607:f8b0:4864:20::c2c] (port=42745
- helo=mail-oo1-xc2c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mkmue-0001t2-LF; Wed, 10 Nov 2021 07:41:14 -0500
-Received: by mail-oo1-xc2c.google.com with SMTP id
- x1-20020a4aea01000000b002c296d82604so732798ood.9; 
- Wed, 10 Nov 2021 04:41:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=dy4w2WWIoafyvpC5Lrt7r9xR5OYpz42WszUyq167l6Q=;
- b=n8SlFheXgGffmdB8SAiT0rr1KH9YmxnqqFdI1MngLVJ6V7SfvbHk6c8Pt15ZW8MEZV
- Oq0CYIQTbsWaBAfBF1Us1M5tcsHgMAmXDuu9Kk6J67Upt83/L/3bwjJ9AHMT4h7J9I+C
- 6qE54EQKU9KmP3JByXKhHwpCWlCumyUhTziZPu1M4acCD1AG+ts1hhU94MFPIZeUCS+Z
- mBu1rPIPaEuDIMzBTB8yYnkp4gCpfZkosDdqhV/1ZUPuVBzM3bGs76oju9rdPbRU7cAB
- XWJAE5YcWo4Sc/vxNcnhTVZKFOhGSozU4LEJA2IdwaCLpujOxvXXQgsqdoa7F3Was3uA
- vVRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dy4w2WWIoafyvpC5Lrt7r9xR5OYpz42WszUyq167l6Q=;
- b=x9m0HTWDNT5/z7aitw0m+F60lnMsd4KmV73RCF7GcUXE2SWLmnZhGr8LCXXoHQ7e9r
- IkYne3CjP1wU9CSADsCD5hj4H/YMOydNm6wi2Pn8GPw3acIkJoryaWzfzTXv3oUDzsdg
- DYofGf7c6LAWsaNPNhi7LaeOWXFvX6+/ublJT28Yz6A6rClhRtZqF54+/bmGOBnH11Av
- Y3EO5won1a8gM/qQwIxQT6ZMGY5eTXdIMvN+beEQTz3xIp+SDhr5ye6etHecvykoxRei
- LI4kw4+7K00jqwJbRMqK+r7plxZzVSGSjgzZaZqxF9X6IdVf7yan/6pB3xJKClNOSZSe
- IZvQ==
-X-Gm-Message-State: AOAM533s9L6GuhJzxO4yyON9waARRiZ2YV4FoP4emJNzrUOqOwncNr8u
- YOBmk/5zGUQm+h/AE+mxcdI=
-X-Google-Smtp-Source: ABdhPJwaq98wTTa8eRC+W/Jm1aYI8HaMvxzVQNMi1CTzViKi6OsuoZmM7lGRzVkQqL4nCl5/WmL3yQ==
-X-Received: by 2002:a4a:6342:: with SMTP id r2mr2052312oof.54.1636548070481;
- Wed, 10 Nov 2021 04:41:10 -0800 (PST)
-Received: from [192.168.10.222] ([189.79.219.109])
- by smtp.gmail.com with ESMTPSA id y1sm3650858otu.58.2021.11.10.04.41.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Nov 2021 04:41:10 -0800 (PST)
-Message-ID: <d0f4e167-a0fa-c62f-6a19-201e0a40a116@gmail.com>
-Date: Wed, 10 Nov 2021 09:41:06 -0300
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1mkmvm-00080O-RI; Wed, 10 Nov 2021 07:42:26 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:57822
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1mkmvh-0001zV-HP; Wed, 10 Nov 2021 07:42:21 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AAAIUKn008867; 
+ Wed, 10 Nov 2021 12:42:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=XTKYcE0z2wGc/7R+OAAu8T9gK4wfrSpkuxWfIVR86/U=;
+ b=ne3dMw743Fjj8CYmZQK0X1pYGQ26Ybwrhcd/KAcKvuHKUmgaQ9LxRpocMh+6A/voD7v8
+ VUpLprPu2KZUKPw3DVhg6f+1hwu0Ne4ZFGgYleTDm2pFx3Km6bBmj6or/Sj/tvRMkwpG
+ 0CErCV88+7Kzs7Y+2sb3dCYugXXDjNyK0kkPLMnbZNXgR1+tjBjIGtNEEZIWlceARoyq
+ R+nXRqzFrFIi6etmF5kXeYEjepDpV/8eHAnk+LKqjHgstOvPjM+NJsnBwkc5cSQtr9cm
+ EALtXhvJKwaBC/TzzPvZ5WusaIfpArtXYfz28skIUkpqjh7Ktl/yzHxgMdM4J1/oBrJE Jw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3c8c72tu25-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 Nov 2021 12:42:13 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AACeorc005917;
+ Wed, 10 Nov 2021 12:42:13 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3c8c72tu18-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 Nov 2021 12:42:13 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AACX76x026828;
+ Wed, 10 Nov 2021 12:42:11 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma04ams.nl.ibm.com with ESMTP id 3c5hbahwwe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 Nov 2021 12:42:11 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 1AACZSFq64356684
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 10 Nov 2021 12:35:28 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8F02D52052;
+ Wed, 10 Nov 2021 12:42:07 +0000 (GMT)
+Received: from [9.145.185.56] (unknown [9.145.185.56])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 316E852054;
+ Wed, 10 Nov 2021 12:42:07 +0000 (GMT)
+Message-ID: <695c3358-54e1-e7ea-76fc-14a2ca91eee1@linux.ibm.com>
+Date: Wed, 10 Nov 2021 13:42:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH] spapr_numa.c: fix FORM1 distance-less nodes
+Subject: Re: [PATCH v3] s390: kvm: adjust diag318 resets to retain data
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211109183553.1844689-1-danielhb413@gmail.com>
- <490a7d19-9e16-b77e-2114-032d7c5091d6@linaro.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <490a7d19-9e16-b77e-2114-032d7c5091d6@linaro.org>
+To: Collin Walling <walling@linux.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20211109205602.99732-1-walling@linux.ibm.com>
+From: Janosch Frank <frankja@linux.ibm.com>
+In-Reply-To: <20211109205602.99732-1-walling@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c2c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2c;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2c.google.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.678,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: iy5HS0m2zGVFEGTGOe-yiedo9QA6UCYB
+X-Proofpoint-GUID: 0EB2qwo1vnyHG6i5zvjbPo0ickiY-NZx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-10_03,2021-11-08_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ phishscore=0 priorityscore=1501 bulkscore=0 impostorscore=0 adultscore=0
+ mlxlogscore=999 clxscore=1015 spamscore=0 mlxscore=0 suspectscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2111100064
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.678,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,84 +110,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, Nicholas Piggin <npiggin@gmail.com>, david@gibson.dropbear.id.au
+Cc: borntraeger@de.ibm.com, thuth@redhat.com, cohuck@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 11/9/21 21:56, Collin Walling wrote:
+> The CPNC portion of the diag 318 data is erroneously reset during an
+> initial CPU reset caused by SIGP. Let's go ahead and relocate the
+> diag318_info field within the CPUS390XState struct such that it is
+> only zeroed during a clear reset. This way, the CPNC will be retained
+> for each VCPU in the configuration after the diag 318 instruction
+> has been invoked.
 
-
-On 11/10/21 06:58, Richard Henderson wrote:
-> On 11/9/21 7:35 PM, Daniel Henrique Barboza wrote:
->> Commit 71e6fae3a99 fixed an issue with FORM2 affinity guests with NUMA
->> nodes in which the distance info is absent in
->> machine_state->numa_state->nodes. This happens when QEMU adds a default
->> NUMA node and when the user adds NUMA nodes without specifying the
->> distances.
->>
->> During the discussions of the forementioned patch [1] it was found that
->> FORM1 guests were behaving in a strange way in the same scenario, with
->> the kernel seeing the distances between the nodes as '160', as we can
->> see in this example with 4 NUMA nodes without distance information:
->>
->> $ numactl -H
->> available: 4 nodes (0-3)
->> (...)
->> node distances:
->> node   0   1   2   3
->>    0:  10  160  160  160
->>    1:  160  10  160  160
->>    2:  160  160  10  160
->>    3:  160  160  160  10
->>
->> Turns out that we have the same problem with FORM1 guests - we are
->> calculating associativity domain using zeroed values. And as it also
->> turns out, the solution from 71e6fae3a99 applies for FORM1 as well.
->>
->> This patch creates a wrapper called 'get_numa_distance' that contains
->> the logic used in FORM2 to define node distances when this information
->> is absent. This helper is then used in all places where we need to read
->> distance information from machine_state->numa_state->nodes. That way
->> we'll guarantee that the NUMA node distance is always being curated
->> before being used.
->>
->> After this patch, the FORM1 guest mentioned above will have the
->> following topology:
->>
->> $ numactl -H
->> available: 4 nodes (0-3)
->> (...)
->> node distances:
->> node   0   1   2   3
->>    0:  10  20  20  20
->>    1:  20  10  20  20
->>    2:  20  20  10  20
->>    3:  20  20  20  10
->>
->> This is compatible with what FORM2 guests and other archs do in this
->> case.
->>
->> [1] https://lists.gnu.org/archive/html/qemu-devel/2021-11/msg01960.html
->>
->> CC: Aneesh Kumar K.V <aneesh.kumar@linux.ibm.com>
->> CC: Nicholas Piggin <npiggin@gmail.com>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   hw/ppc/spapr_numa.c | 62 ++++++++++++++++++++++-----------------------
->>   1 file changed, 31 insertions(+), 31 deletions(-)
-> 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-Thanks!
-
-I forgot to add the "Fixes:" tag at the end of the commit msg though, so I
-ended up sending a v2 adding it. Your r-b is kept in the v2.
-
-
-Daniel
-
+I'd add something like:
+The s390 machine reset code takes care of zeroing the diag318 data on VM 
+resets which also cover resets caused by diag308.
 
 > 
+> Signed-off-by: Collin Walling <walling@linux.ibm.com>
+> Fixes: fabdada9357b ("s390: guest support for diagnose 0x318")
+> Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> ---
+
+Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
+
 > 
-> r~
+> Changelog:
+> 
+>      v2
+>      - handler uses run_on_cpu again
+>      - reworded commit message slightly
+>      - added fixes and reported-by tags
+> 
+>      v3
+>      - nixed code reduction changes
+>      - added a comment to diag318 handler to briefly describe
+>          when relevent data is zeroed
+> 
+> ---
+>   target/s390x/cpu.h     | 4 ++--
+>   target/s390x/kvm/kvm.c | 4 ++++
+>   2 files changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+> index 3153d053e9..88aace36ff 100644
+> --- a/target/s390x/cpu.h
+> +++ b/target/s390x/cpu.h
+> @@ -63,6 +63,8 @@ struct CPUS390XState {
+>       uint64_t etoken;       /* etoken */
+>       uint64_t etoken_extension; /* etoken extension */
+>   
+> +    uint64_t diag318_info;
+> +
+>       /* Fields up to this point are not cleared by initial CPU reset */
+>       struct {} start_initial_reset_fields;
+>   
+> @@ -118,8 +120,6 @@ struct CPUS390XState {
+>       uint16_t external_call_addr;
+>       DECLARE_BITMAP(emergency_signals, S390_MAX_CPUS);
+>   
+> -    uint64_t diag318_info;
+> -
+>   #if !defined(CONFIG_USER_ONLY)
+>       uint64_t tlb_fill_tec;   /* translation exception code during tlb_fill */
+>       int tlb_fill_exc;        /* exception number seen during tlb_fill */
+> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+> index 5b1fdb55c4..6acf14d5ec 100644
+> --- a/target/s390x/kvm/kvm.c
+> +++ b/target/s390x/kvm/kvm.c
+> @@ -1585,6 +1585,10 @@ void kvm_s390_set_diag318(CPUState *cs, uint64_t diag318_info)
+>           env->diag318_info = diag318_info;
+>           cs->kvm_run->s.regs.diag318 = diag318_info;
+>           cs->kvm_run->kvm_dirty_regs |= KVM_SYNC_DIAG318;
+> +        /*
+> +         * diag 318 info is zeroed during a clear reset and
+> +         * diag 308 IPL subcodes.
+> +         */
+>       }
+>   }
+>   
+> 
+
 
