@@ -2,90 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF5E744C477
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 16:35:43 +0100 (CET)
-Received: from localhost ([::1]:44624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEE5C44C48B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 16:38:17 +0100 (CET)
+Received: from localhost ([::1]:47032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkpdW-0003FK-Kv
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 10:35:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40492)
+	id 1mkpg0-00050p-Pz
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 10:38:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mkpcT-0002YT-Mf
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 10:34:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28603)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mkpen-0004Bs-Be
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 10:37:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mkpcR-0005Vp-Gb
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 10:34:37 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mkpel-0005yC-9F
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 10:37:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636558474;
+ s=mimecast20190719; t=1636558618;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cPlRjn3y1KpbyOe+KXm1ku0oHkgwrXnzCcLSvMwVYVc=;
- b=O+emVWxWAHfHwYmCXAgfuLtBEaJjI+VrQtWg6hnUt0DqNZNo+W1uyIBTTL36b1h74/WT0O
- 8SOnNYdLoUlK8q6kLRRiqhfuiK0wp2b7RPhJWk0Uj/ze8PjTnGplkeB2qJ7SoHXuA8tiRR
- 67U6PQNaSQM+04rH3HtJgvdp5ospwjw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-265-3ak8pmINNL-h5OVt90lcZw-1; Wed, 10 Nov 2021 10:34:29 -0500
-X-MC-Unique: 3ak8pmINNL-h5OVt90lcZw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- d3-20020adfa343000000b0018ed6dd4629so466289wrb.2
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 07:34:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=cPlRjn3y1KpbyOe+KXm1ku0oHkgwrXnzCcLSvMwVYVc=;
- b=wMxYVlCQ2iidMTlUDS0Nss7OyoQVIC/EZiyo37SfMPi9rvpUbVUbzjIbVtKfsOJ5c5
- m7Ha7rsFbH0QveeCTGSwqZpZXWeBXGthyEkuykioi/+/azs38dA4++85MbJtGQxnLyh4
- 8RBXjwErqKZpV/GWiAAQPipDaRuEtU/MMWC68ys8HzPTRA0RDPRIdWvptTBFwyCds2IE
- Vv3+MvwnE/2ORolG2/liayeSqrB319bg8RBJnPjuiDJ5VZR7t9lsGvoWun5Jz5yDNX4n
- 24dltlYm4zmuOKwnjJaHP1MHfYDQ5JJOqWzbp/7g1rgjLDoLe5WQVpj6KCP6MAJlwkZ7
- 1Z5w==
-X-Gm-Message-State: AOAM530uuCOKm4YbCm8CLm+lLhgMyzfRe6D4VK4eAKUDEpGHEpyexuRu
- 6dADPWASk7XTJ1Qr6gHDiQcgRRwXFl+8Mb+pYmkxwFi9enzxa08wu2I8EpFIJVfJR1EvCs/qlKs
- UJaA53pZvXgzwv+Q=
-X-Received: by 2002:a7b:c5d8:: with SMTP id n24mr22590wmk.51.1636558468019;
- Wed, 10 Nov 2021 07:34:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzu8fc0700T+eUZ2I98csw2w4VSq073uU0QzdzYKKjT6nYNLKepOKWf1Ba38jLhUoX2JnOt5g==
-X-Received: by 2002:a7b:c5d8:: with SMTP id n24mr22551wmk.51.1636558467747;
- Wed, 10 Nov 2021 07:34:27 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id h7sm182608wrt.64.2021.11.10.07.34.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Nov 2021 07:34:27 -0800 (PST)
-Message-ID: <8bbef930-ce62-cfd1-845c-93af2afc2f3a@redhat.com>
-Date: Wed, 10 Nov 2021 16:34:25 +0100
+ bh=TB3z8P8huEG96OOT3ZSQofcOtu11iHt2AtqUlg4DIlE=;
+ b=TjBQAz/WRJJzZuy2F/GJRZ4pa47ONt3muG3h3dIvvv7lBVDWZWUFuX2aTTW2NW0QZbeqQI
+ 2Z8Y8G59EZhhyeoY4AKnk1mKLPgEiYLGlpU8rk4c44qwGeGwvQV2paFEIuegxovzhHXmne
+ n+YJQWCjDKJFclUpF3ykt27HpV9iZTE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-573-m4EYGnFwMRmjEHQZzygnbA-1; Wed, 10 Nov 2021 10:36:55 -0500
+X-MC-Unique: m4EYGnFwMRmjEHQZzygnbA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5AD18F6A92;
+ Wed, 10 Nov 2021 15:36:04 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.237])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BA28B1017CE3;
+ Wed, 10 Nov 2021 15:36:03 +0000 (UTC)
+Date: Wed, 10 Nov 2021 16:36:02 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: Poking around bdrv_is_inserted()
+Message-ID: <YYvm4hkN6XVV4yfC@redhat.com>
+References: <87tuglg7ly.fsf@dusky.pond.sub.org>
+ <8735o5g75w.fsf@dusky.pond.sub.org> <YYo9oSBKUSL80x1b@redhat.com>
+ <87lf1xbbjz.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v3 0/3] rSTify contribution-related wiki pages
-To: Kashyap Chamarthy <kchamart@redhat.com>, qemu-devel@nongnu.org
-References: <20211110144902.388183-1-kchamart@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211110144902.388183-1-kchamart@redhat.com>
+In-Reply-To: <87lf1xbbjz.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.678, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,56 +77,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/10/21 15:48, Kashyap Chamarthy wrote:
-> My main motivation was to convert SubmitAPatch[1] based on a chat with
-> Peter Maydell and Dan Berrangé on #qemu channel (on OFTC).  But the page
-> also links to a couple of other contribution-related pages, so I
-> converted them too:
+Am 09.11.2021 um 16:20 hat Markus Armbruster geschrieben:
+> Kevin Wolf <kwolf@redhat.com> writes:
 > 
->   - SubmitAPullRequest: https://wiki.qemu.org/Contribute/SubmitAPullRequest
->   - TrivialPatches: https://wiki.qemu.org/Contribute/TrivialPatches
+> > Am 09.11.2021 um 07:44 hat Markus Armbruster geschrieben:
+> >> Screwed up qemu-devel@nongnu.org, sorry for the inconvenience.
+> >> 
+> >> Markus Armbruster <armbru@redhat.com> writes:
+> >> 
+> >> > bdrv_is_inserted() returns false when:
+> >> >
+> >> >     /**
+> >> >      * Return TRUE if the media is present
+> >> >      */
+> >> >     bool bdrv_is_inserted(BlockDriverState *bs)
+> >> >     {
+> >> >         BlockDriver *drv = bs->drv;
+> >> >         BdrvChild *child;
+> >> >
+> >> >         if (!drv) {
+> >> >             return false;
+> >> >
+> >> > 1. @bs has no driver (this is how we represent "no medium").
+> >
+> > Not really any more. "No medium" is blk->root == NULL.
 > 
-> [1] https://wiki.qemu.org/Contribute/SubmitAPatch
+> Uh, blk_is_inserted() does *not* check blk->root:
 > 
-> I built with `configure --target-list=x86_64-softmmu --enable-docs &&
-> make -j8`, and verified there isn't any breakage in the rendered docs.
+>     bool blk_is_inserted(BlockBackend *blk)
+>     {
+>         BlockDriverState *bs = blk_bs(blk);
 > 
->                 * * *
-> Changes in v3:
+>         return bs && bdrv_is_inserted(bs);
+>     }
 > 
-> - Update index entry as part of each individual rST conversion patch
->   [PeterM]
-> - Drop the SpellCheck rST [PeterM]
-> - Drop the KeySigning rST [ThomasH]
-> - Drop mjt's Git repo from trivial-patches.rst [LaurentV]
-> 
-> Changes in v2:
-> 
-> - Consistently use the preferred rST headings: ===, ---, and ~~~~
->   [Paolo]
-> - Add entries in the devel/toctree.rst [Paolo]
-> - Clean up the SpellCheck wiki [Peter Maydell]
-> - In trivial-patches.rst, keep only Laurent as the active maintainer
->   [Philippe]
-> - Convert the wiki SubmitAPullRequest to rST, because this is also
->   linked to from the SubmitAPatch wiki page
-> - Convert the KeySigningParty wiki to rST
-> - Update the links to point to the rST-generated HTML files, instead of
->   wiki
-> 
-> Kashyap Chamarthy (3):
->   docs: rSTify the "TrivialPatches" wiki
->   docs: rSTify the "SubmitAPullRequest" wiki
->   docs: rSTify the "SubmitAPatch" wiki
+> Now I'm confused.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+It does. blk_bs(blk) returns NULL for blk->root == NULL.
+
+> >                                                        These days
+> > bs->drv == NULL basically means "the backend is broken". This happens
+> > after qcow2_signal_corruption(), and I'm not sure if we have more
+> > circumstances like it.
+> 
+> I'm not sure having bdrv_is_inserted() return true for "broken"
+> backends makes sense.
+
+I wonder if bdrv_is_inserted() makes sense at all (why not just do
+whatever you were planning to do if it returns true, and handle the
+error?).
+
+But anyway, it returns false for broken backends.
+
+Callers might commonly not be interested in "is a medium inserted?", but
+more in "can I access the medium?". In this case, returning false
+provides the right answer.
+
+> >> >         }
+> >> >         if (drv->bdrv_is_inserted) {
+> >> >             return drv->bdrv_is_inserted(bs);
+> >> >
+> >> > 2. Its driver's ->bdrv_is_inserted() returns false.  This is how
+> >> > passthrough block backends signal "host device has no medium".  Right
+> >> > now, the only user is "host_cdrom".
+> >> >
+> >> >         }
+> >> >         QLIST_FOREACH(child, &bs->children, next) {
+> >> >             if (!bdrv_is_inserted(child->bs)) {
+> >> >                 return false;
+> >> >
+> >> > 3. Any of its children has no medium.  Common use looking through
+> >> > filters, which have a single child.
+> >> >
+> >> >             }
+> >> >         }
+> >> >         return true;
+> >> >     }
+> >> >
+> >> > Makes sense.
+> >> >
+> >> > Now look at the uses of QERR_DEVICE_HAS_NO_MEDIUM.
+> >> >
+> >> > * external_snapshot_prepare() in blockdev.c:
+> >> >
+> >> >     if (!bdrv_is_inserted(state->old_bs)) {
+> >> >         error_setg(errp, QERR_DEVICE_HAS_NO_MEDIUM, device);
+> >> >         goto out;
+> >> >     }
+> >> >
+> >> >   where @device is the device name, i.e. BlockdevSnapshot member @node
+> >> >   or BlockdevSnapshotSync member @device.  Uh-oh: the latter can be
+> >> >   null.  If we can reach the error_setg() then, we crash on some
+> >> >   systems.
+> >
+> > Sounds like we should write a test case and then fix it.
+> >
+> >> > * bdrv_snapshot_delete() and bdrv_snapshot_load_tmp() in
+> >> >   block/snaphot.c:
+> >> >
+> >> >     if (!drv) {
+> >> >         error_setg(errp, QERR_DEVICE_HAS_NO_MEDIUM, bdrv_get_device_name(bs));
+> >> >         return -ENOMEDIUM;
+> >> >     }
+> >> >
+> >> >   where @drv is bs->drv.
+> >> >
+> >> >   Why do we check only for 1. here instead of calling
+> >> >   bdrv_is_inserted()?
+> >
+> > I guess we could philosophise about the theoretically right thing to do,
+> > but last time I checked, host_cdrom didn't support snapshots, so it
+> > probably doesn't matter either way.
+> 
+> We could also philosophize about "any of its children has no medium".
+> As far as I know, nothing stops me from using a host_cdrom as a backing
+> file for a QCOW2, and that I *can* snapshot.
+
+I'm surprised to learn that host_device actually implements
+.bdrv_co_pwritev.
+
+So yes, I suppose if you have a qcow2 formatted CD with a snapshot in
+it, and you insert it into your physical drive and somehow convince the
+kernel to let us open it read-write, and then you eject the CD while the
+guest is running and try to delete the snapshot, then you might get the
+wrong error message.
+
+I think this is still deep in "then don't do that" territory, but if you
+feel like slapping a bdrv_is_inserted() on it, feel free.
+
+> Functions (and methods) bdrv_is_inserted(), bdrv_eject(), and
+> bdrv_lock_medium() are related.  block_int.h groups them under
+> /* removable device specific */, and block.c under /* removable device
+> support */.  But only bdrv_is_inserted() recurses into children.  Is
+> this how it should be?
+
+We don't actually have checks to prevent it, but I doubt you can build
+anything meaningful with the combination of removable media and non-raw
+drivers.
+
+I know qcow2 will be horribly confused if you swap out the file under
+its feet. If you must, you can change bs->file (even without host_cdrom,
+blockdev-reopen should be enough). If it breaks, you get to keep the
+pieces.
+
+So it probably only makes a difference in a case that can't work anyway.
+
+Kevin
 
 
