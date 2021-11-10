@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0977644C296
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 14:56:22 +0100 (CET)
-Received: from localhost ([::1]:52308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0BDA44C28B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 14:54:34 +0100 (CET)
+Received: from localhost ([::1]:47532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mko5M-0006Px-KF
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 08:56:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38442)
+	id 1mko3d-0002nL-Vf
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 08:54:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mko1G-0000Je-Gb
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:52:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27215)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mko1b-0000jB-Bk
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:52:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47897)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mko1B-0006FG-KG
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:52:06 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mko1Y-0006Ki-QQ
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:52:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636552315;
+ s=mimecast20190719; t=1636552344;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=y2xasQ5elESghAIaOqJcB05MPj9E2/OcMNPtqeAj29Q=;
- b=LMmUEuiyUkgXXQqomvdi2Tv9fSoiFuKOXnWKRjv87VEDWeUe5H5qK0khKHMia9rGtlOiZB
- mcD9brGAM47wMCc2bkN57Eh0gd2WS74AaH4bvJtwckJmAhW7ie6kQbKDVAR4r6NML2pW6N
- 5zpXVIFr4L8tFuVUms+LUGesEN7GMdA=
+ bh=V7ZjhBC0nOPfY8YP6cpGqVXAoD1cWheUfX2z/FX683A=;
+ b=eRdgyXJUW+p/l13ayG6msnQwTT5TTUZlA+f4lEV4675wMZnou3flUvqwFtH5fFFmEFv+Oq
+ AbRXqVjSTmYWG4n0EKGqXPQ6qMMyDozV9G6HKHMu9V5EtHU32YN+3MIjH0MhsOoWHipStO
+ BeWJgNwq7p4Eer7r2NLyG4vqWsd2F5g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-417-Tk48Nr6JN66Vtgug7b-3UA-1; Wed, 10 Nov 2021 08:51:52 -0500
-X-MC-Unique: Tk48Nr6JN66Vtgug7b-3UA-1
+ us-mta-525-jjrvw5bZN-2BuQjzZPc1RA-1; Wed, 10 Nov 2021 08:52:20 -0500
+X-MC-Unique: jjrvw5bZN-2BuQjzZPc1RA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB9311882FB1;
- Wed, 10 Nov 2021 13:51:51 +0000 (UTC)
-Received: from paraplu (unknown [10.39.195.97])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3FCF560C0F;
- Wed, 10 Nov 2021 13:51:49 +0000 (UTC)
-Date: Wed, 10 Nov 2021 14:51:47 +0100
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH] cpu-models-x86.rst: Tidy up a couple of things
-Message-ID: <YYvOc2n0IfLIm/Ue@paraplu>
-References: <20211015152259.2948176-1-kchamart@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9113D18D6A2A;
+ Wed, 10 Nov 2021 13:52:18 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2769160C17;
+ Wed, 10 Nov 2021 13:52:18 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C6B0C11380A7; Wed, 10 Nov 2021 14:52:16 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Jonah Palmer <jonah.palmer@oracle.com>
+Subject: Re: [PATCH v9 7/8] qmp: add QMP command x-query-virtio-queue-element
+References: <1636539792-20967-1-git-send-email-jonah.palmer@oracle.com>
+ <1636539792-20967-8-git-send-email-jonah.palmer@oracle.com>
+Date: Wed, 10 Nov 2021 14:52:16 +0100
+In-Reply-To: <1636539792-20967-8-git-send-email-jonah.palmer@oracle.com>
+ (Jonah Palmer's message of "Wed, 10 Nov 2021 05:23:11 -0500")
+Message-ID: <87a6icw227.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20211015152259.2948176-1-kchamart@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kchamart@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -64,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,91 +79,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: mst@redhat.com, qemu_oss@crudebyte.com, qemu-devel@nongnu.org,
+ kraxel@redhat.com, si-wei.liu@oracle.com, joao.m.martins@oracle.com,
+ eblake@redhat.com, qemu-block@nongnu.org, david@redhat.com,
+ arei.gonglei@huawei.com, marcandre.lureau@redhat.com, lvivier@redhat.com,
+ thuth@redhat.com, michael.roth@amd.com, groug@kaod.org, dgilbert@redhat.com,
+ eric.auger@redhat.com, stefanha@redhat.com, boris.ostrovsky@oracle.com,
+ kwolf@redhat.com, mathieu.poirier@linaro.org, raphael.norwitz@nutanix.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 15, 2021 at 05:22:59PM +0200, Kashyap Chamarthy wrote:
-> - Remove stray texinfo syntax (remnants of texinfo to rST conversion)
-> - Clarify the bit about long-term stable CPU models
-> 
-> TODO: In a future patch, include potential examples as discussed
->       here[1].
-> 
-> [1] https://lists.nongnu.org/archive/html/qemu-devel/2021-10/msg03411.html
->     -- On versioned CPU models, aliases, and machine types
+Jonah Palmer <jonah.palmer@oracle.com> writes:
 
-Ping?
+> From: Laurent Vivier <lvivier@redhat.com>
+>
+> This new command shows the information of a VirtQueue element.
+>
+> Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
 
-I'd also appreciate if anyone can also answer the two questions I raised
-in the above thread[1].
+[...]
 
-> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
-> ---
-> Eduardo/DanPB: I'm not 100% sure if my wording got it right; please give
-> it a close reading to make sure I'm not making things worse.
-> ---
->  docs/system/cpu-models-x86.rst.inc | 25 +++++++++++++++++--------
->  1 file changed, 17 insertions(+), 8 deletions(-)
-> 
-> diff --git a/docs/system/cpu-models-x86.rst.inc b/docs/system/cpu-models-x86.rst.inc
-> index 6e8be7d79b..e133753920 100644
-> --- a/docs/system/cpu-models-x86.rst.inc
-> +++ b/docs/system/cpu-models-x86.rst.inc
-> @@ -25,7 +25,7 @@ Two ways to configure CPU models with QEMU / KVM
->      typically refer to specific generations of hardware released by
->      Intel and AMD.  These allow the guest VMs to have a degree of
->      isolation from the host CPU, allowing greater flexibility in live
-> -    migrating between hosts with differing hardware.  @end table
-> +    migrating between hosts with differing hardware.
->  
->  In both cases, it is possible to optionally add or remove individual CPU
->  features, to alter what is presented to the guest by default.
-> @@ -47,11 +47,20 @@ defined. Traditionally most operating systems and toolchains would
->  only target the original baseline ABI. It is expected that in
->  future OS and toolchains are likely to target newer ABIs. The
->  table that follows illustrates which ABI compatibility levels
-> -can be satisfied by the QEMU CPU models. Note that the table only
-> -lists the long term stable CPU model versions (eg Haswell-v4).
-> -In addition to whats listed, there are also many CPU model
-> -aliases which resolve to a different CPU model version,
-> -depending on the machine type is in use.
-> +can be satisfied by the QEMU CPU models. Note that the table only lists
-> +the long term stable CPU model versions (e.g. Haswell-v4, Haswell-v3).
-> +CPU models without a version tag will alias to a CPU model with a
-> +version tag, and the alias varies depending on the machine type.  In
-> +addition to what is listed, there are also many CPU model aliases which
-> +resolve to a different CPU model version, depending on the machine type
-> +in use.
+> diff --git a/qapi/virtio.json b/qapi/virtio.json
+> index 0f65044..c57fbc5 100644
+> --- a/qapi/virtio.json
+> +++ b/qapi/virtio.json
+> @@ -1061,3 +1061,180 @@
+>  { 'command': 'x-query-virtio-vhost-queue-status',
+>    'data': { 'path': 'str', 'queue': 'uint16' },
+>    'returns': 'VirtVhostQueueStatus', 'features': [ 'unstable' ] }
 > +
-> +The versioned CPU models (e.g. ``Cascadelake-Server-v4``,
-> +``Broadwell-v4``) are long-term stable.  Further, when using a versioned
-> +machine type (e.g. ``pc-q35-6.0``), instead of its generic alias
-> +(``q35``), the CPU models that are associated with it are also long-term
-> +stable.  This is because the CPUID features in the CPU models that are
-> +part of a versioned machine type do not change.
->  
->  .. _ABI compatibility levels: https://gitlab.com/x86-psABIs/x86-64-ABI/
->  
-> @@ -185,8 +194,8 @@ features are included if using "Host passthrough" or "Host model".
->    guest.  Instead, the host kernel uses it to populate the MDS
->    vulnerability file in ``sysfs``.
->  
-> -  So it should only be enabled for VMs if the host reports @code{Not
-> -  affected} in the ``/sys/devices/system/cpu/vulnerabilities/mds`` file.
-> +  So it should only be enabled for VMs if the host reports ``Not
-> +  affected`` in the ``/sys/devices/system/cpu/vulnerabilities/mds`` file.
->  
->  ``taa-no``
->    Recommended to inform that the guest that the host is ``not``
-> -- 
-> 2.31.1
-> 
+> +##
+> +# @VirtioRingDescFlags:
+> +#
+> +# An enumeration of the virtio ring descriptor flags
+> +#
+> +# Since: 6.3
+> +#
+> +##
+> +
+> +{ 'enum': 'VirtioRingDescFlags',
+> +  'data': [ 'next', 'write', 'indirect', 'avail', 'used' ]
+> +}
+> +
+> +##
+> +# @VirtioRingDesc:
+> +#
+> +# Information regarding the VRing descriptor area
+> +#
+> +# @addr: guest physical address of the descriptor data
+> +#
+> +# @len: length of the descriptor data
+> +#
+> +# @flags: list of descriptor flags
+> +#
+> +# Since: 6.3
+> +#
+> +##
+> +
+> +{ 'struct': 'VirtioRingDesc',
+> +  'data': { 'addr': 'uint64',
+> +            'len': 'uint32',
+> +            'flags': [ 'VirtioRingDescFlags' ] } }
+> +
+> +##
+> +# @VirtioRingAvail:
+> +#
+> +# Information regarding the avail VRing (also known as the driver
+> +# area)
+> +#
+> +# @flags: VRingAvail flags
+> +#
+> +# @idx: VRingAvail index
+> +#
+> +# @ring: VRingAvail ring[] entry at provided index
+> +#
+> +# Since: 6.3
+> +#
+> +##
+> +
+> +{ 'struct': 'VirtioRingAvail',
+> +  'data': { 'flags': 'uint16',
+> +            'idx': 'uint16',
+> +            'ring': 'uint16' } }
+> +
+> +##
+> +# @VirtioRingUsed:
+> +#
+> +# Information regarding the used VRing (also known as the device
+> +# area)
+> +#
+> +# @flags: VRingUsed flags
+> +#
+> +# @idx: VRingUsed index
+> +#
+> +# Since: 6.3
+> +#
+> +##
+> +
+> +{ 'struct': 'VirtioRingUsed',
+> +  'data': { 'flags': 'uint16',
+> +            'idx': 'uint16' } }
+> +
+> +##
+> +# @VirtioQueueElement:
+> +#
+> +# Information regarding a VirtQueue VirtQueueElement including
+> +# descriptor, driver, and device areas
+> +#
+> +# @device-name: name of the VirtIODevice which this VirtQueue belongs
+> +#               to (for reference)
+> +#
+> +# @index: index of the element in the queue
+> +#
+> +# @ndescs: number of descriptors
+> +#
+> +# @descs: list of the descriptors
 
--- 
-/kashyap
+Can @ndescs ever be not equal to the length of @descs?
+
+If no, it's redundant.
+
+> +#
+> +# @avail: VRingAvail info
+> +#
+> +# @used: VRingUsed info
+> +#
+> +# Since: 6.3
+> +#
+> +##
+> +
+> +{ 'struct': 'VirtioQueueElement',
+> +  'data': { 'device-name': 'str',
+> +            'index': 'uint32',
+> +            'ndescs': 'uint32',
+> +            'descs': [ 'VirtioRingDesc' ],
+> +            'avail': 'VirtioRingAvail',
+> +            'used': 'VirtioRingUsed' } }
+> +
+> +##
+> +# @x-query-virtio-queue-element:
+> +#
+> +# Return the information about a VirtQueue VirtQueueElement (by
+> +# default looks at the head of the queue)
+> +#
+> +# @path: VirtIODevice canonical QOM path
+> +#
+> +# @queue: VirtQueue index to examine
+> +#
+> +# @index: the index in the queue, by default head
+> +#
+> +# Features:
+> +# @unstable: This command is meant for debugging.
+> +#
+> +# Returns: VirtioQueueElement information
+> +#
+> +# Since: 6.3
+> +#
+> +# Examples:
+> +#
+> +# 1. Introspect on virtio-net virtqueue 0 at index 5
+> +#
+> +# -> { "execute": "x-query-virtio-queue-element",
+> +#      "arguments": { "path": "/machine/peripheral-anon/device[1]/virtio-backend",
+> +#                     "queue": 0,
+> +#                     "index": 5 }
+> +#    }
+> +# <- { "return": {
+> +#         "index": 5,
+> +#         "ndescs": 1,
+> +#         "device-name": "virtio-net",
+> +#         "descs": [ { "flags": ["write"], "len": 1536, "addr": 5257305600 } ],
+> +#         "avail": { "idx": 256, "flags": 0, "ring": 5 },
+> +#         "used": { "idx": 13, "flags": 0 } }
+> +#    }
+> +#
+> +# 2. Introspect on virtio-crypto virtqueue 1 at head
+> +#
+> +# -> { "execute": "x-query-virtio-queue-element",
+> +#      "arguments": { "path": "/machine/peripheral/crypto0/virtio-backend",
+> +#                     "queue": 1 }
+> +#    }
+> +# <- { "return": {
+> +#         "index": 0,
+> +#         "ndescs": 1,
+> +#         "device-name": "virtio-crypto",
+> +#         "descs": [ { "flags": [], "len": 0, "addr": 8080268923184214134 } ],
+> +#         "avail": { "idx": 280, "flags": 0, "ring": 0 },
+> +#         "used": { "idx": 280, "flags": 0 } }
+> +#    }
+> +#
+> +# 3. Introspect on virtio-scsi virtqueue 2 at head
+> +#
+> +# -> { "execute": "x-query-virtio-queue-element",
+> +#      "arguments": { "path": "/machine/peripheral-anon/device[2]/virtio-backend",
+> +#                     "queue": 2 }
+> +#    }
+> +# <- { "return": {
+> +#         "index": 19,
+> +#         "ndescs": 1,
+> +#         "device-name": "virtio-scsi",
+> +#         "descs": [ { "flags": ["used", "indirect", "write"], "len": 4099327944,
+> +#                      "addr": 12055409292258155293 } ],
+> +#         "avail": { "idx": 1147, "flags": 0, "ring": 19 },
+> +#         "used": { "idx": 1147, "flags": 0 } }
+> +#    }
+> +#
+> +##
+> +
+> +{ 'command': 'x-query-virtio-queue-element',
+> +  'data': { 'path': 'str', 'queue': 'uint16', '*index': 'uint16' },
+> +  'returns': 'VirtioQueueElement', 'features': [ 'unstable' ] }
 
 
