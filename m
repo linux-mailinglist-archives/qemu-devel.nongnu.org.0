@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBBC244C496
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 16:44:09 +0100 (CET)
-Received: from localhost ([::1]:53148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5362244C49B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 16:45:41 +0100 (CET)
+Received: from localhost ([::1]:55300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkplg-00014m-Vd
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 10:44:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42986)
+	id 1mkpnA-0002YS-9d
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 10:45:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mkpks-0000QO-W8
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 10:43:19 -0500
-Received: from [2a00:1450:4864:20::336] (port=43761
- helo=mail-wm1-x336.google.com)
+ id 1mkpmJ-0001r1-4R
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 10:44:47 -0500
+Received: from [2a00:1450:4864:20::32e] (port=43762
+ helo=mail-wm1-x32e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mkpkr-0006pG-Ex
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 10:43:18 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- 67-20020a1c1946000000b0030d4c90fa87so2296612wmz.2
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 07:43:16 -0800 (PST)
+ id 1mkpmH-0006x3-Ax
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 10:44:46 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 67-20020a1c1946000000b0030d4c90fa87so2299841wmz.2
+ for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 07:44:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=K33v15VkEhnEkXT1oN59ghQgW93IG6p6tQ6WpsAxD5c=;
- b=lsCYqQeLp+Ep9bU+/hzOxnLceRrlQ0rRQdJvW+UF322sZMD4d5kT+gnIjETj4liFd/
- 6HWa0F/5JV8IAcvRRiIwl3jU8V5luil7tCJcJyW2OMG+9clBd4EKboHAkPGiBfYYMNKJ
- PY1+L75TVhDzUPqjyI/9EgbVlNIV9LML7TVEXfo32I7M3RsdaWYEkgS8k40LBxBvVWL8
- 05mW1heoUEBBflB9J1SSM+9eF0ivyPMS/FlQzXN0mGMeMlcNn8Xd9YCJ0+Uv3bnKp/H0
- 8ac6Yv5zcv0N5Oqzjb2ej+0n8eGiofAwIMGj5QfY8eaAmdIG+J/XLfcJx7FBaGqsbNGV
- BFRw==
+ bh=KQmOqBPmjJxvX5ManjcmIKo5PwKng+h5MARKvkbSHmU=;
+ b=eN4zZBrDcYdscNKp6i1OKorVU8uZKfpn25jWofQ9/ZN4AGjuKPRyChCACukhvLjhew
+ 8slafk8hfvSqzFAvpsv3ezk1ejuHldWvhtD0ZJWpHuWrxEjaDoh/c95zcWJN4wclMDyx
+ tsn4CBMsjQdqbuJI/berByNf8qITtktcrDPOvl1dyqyArCkTZjkwWXgmfEzqE6cfrHHB
+ sP+hFuMxv15GSpDOCC0B2asz6nMc2ydAQg6ucEQxv7xsNTsQouyn9iCsXGnsjg9yO1SR
+ gIJ5kwSDLpdtDYmatn3Ql2I2NHCyhhq+AloMd7Pupd/FE4xWISRoztSljVcLxSeLZlX4
+ ZaCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=K33v15VkEhnEkXT1oN59ghQgW93IG6p6tQ6WpsAxD5c=;
- b=HPDmAt7NDvC5yHCaZPubTEHDMMwO3EINIYSGFtrqt8Vl9iwEYjARecqZWnkQ7Fo1iJ
- 7cBkVQiGaV3ZJ8idqWC8A6y+m8G4A8j0wmXn1XuhBst0gSYHgb4mLDyIC86bDcdKGQ0a
- ha/aPsyy/OPNl/a+TYz3jvfWdjUmGKS3OcYr88gv5ddRYmgZdXOpkdtqZriox9rdXfdQ
- 5xf0sDQ+xroYvO2UOZZjlJZYqeXZnvRPzlIeCgxHv1L4U/YOXUvXP8k7obiAMrLoM3pm
- Lr5ZPTAf3Zee743P3fFSzgZXvkbUy67d9nVKz3xA1yY81IDLDmX+dPemPjh1wFxu1r6T
- CqHw==
-X-Gm-Message-State: AOAM532k3rANb1TxDtP7BrKCja6+uWWpC/8h/XnLDAJyXJgUKWBUp9Iv
- PySZoJbs/+M0Lf4M+BrV8so=
-X-Google-Smtp-Source: ABdhPJzOUkQmJInluO5N/lO9n3xMxUGcDYMvX1TZGtK0lRDqYE3Ee+C2JxMvOqQC/ahv5Nkk4+Slwg==
-X-Received: by 2002:a7b:c155:: with SMTP id z21mr16996577wmi.107.1636558995703; 
- Wed, 10 Nov 2021 07:43:15 -0800 (PST)
+ bh=KQmOqBPmjJxvX5ManjcmIKo5PwKng+h5MARKvkbSHmU=;
+ b=JF6cI+EuRVDTaJQrcA2MjzUBmaJ4r8KOQNz/fu7zOkbaZcdtfmuBaeiA3BRrGIBqjv
+ X9BTDQ2+KrAyCH/qcKs7NC8CpcWvn+LeDqiKdZe3/qru9pBnbPhVJTxPM2a81yVE4x7Q
+ eN8S07zs4U8IriYGCMo+8b48SlVEpVSge3tYWIVtMYkWmf5nFHeFMsWGfO+Bqn0Lv+xS
+ DnlT7jWlGL1IIk4sRGLClkqhwwV2OdkVcKhG/vHU0ABe3kSvFPh8ptwMYgAkHUtDCitI
+ /CDZUDYzhl/rLVS/dTPnZTTFq1STi+47bqYzpCEH71HeT9l+43aAqJHAT+dgDj/tOGmg
+ D56w==
+X-Gm-Message-State: AOAM530zpgRMdA/4Rq75xVoDI7ZA+9h8daBmuIk+sfhMcmxWC4o9G5GJ
+ P3Bog0IUEVok00Anku80Peu+RqqPdyY=
+X-Google-Smtp-Source: ABdhPJxDALQqrMSIddCWRw3MimAbk4V6XMNkCSvWZFREoaeIVQwFzwj9et3J0VzgPShDoA48LxxfAg==
+X-Received: by 2002:a05:600c:1e26:: with SMTP id
+ ay38mr172219wmb.14.1636559083856; 
+ Wed, 10 Nov 2021 07:44:43 -0800 (PST)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id l18sm211651wrt.81.2021.11.10.07.43.14
+ by smtp.gmail.com with ESMTPSA id m125sm6034422wmm.39.2021.11.10.07.44.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Nov 2021 07:43:15 -0800 (PST)
-Message-ID: <9c9b2ded-9b5b-e15d-9d4e-019e6277773c@amsat.org>
-Date: Wed, 10 Nov 2021 16:43:14 +0100
+ Wed, 10 Nov 2021 07:44:42 -0800 (PST)
+Message-ID: <552724f4-3f0f-2dc9-45a9-a4a6b0885946@amsat.org>
+Date: Wed, 10 Nov 2021 16:44:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [RFC 1/4] linux-user: Add host_signal_set_pc to set pc in mcontext
+Subject: Re: [RFC 2/4] linux-user/signal.c: Create a common
+ rewind_if_in_safe_syscall
 Content-Language: en-US
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 References: <20211108023738.42125-1-imp@bsdimp.com>
- <20211108023738.42125-2-imp@bsdimp.com>
+ <20211108023738.42125-3-imp@bsdimp.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211108023738.42125-2-imp@bsdimp.com>
+In-Reply-To: <20211108023738.42125-3-imp@bsdimp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -100,22 +102,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/8/21 03:37, Warner Losh wrote:
-> Add a new function host_signal_set_pc to set the next pc in an
-> mcontext. The caller should ensure this is a valid PC for execution.
+> All instances of rewind_if_in_safe_syscall are the same, differing only
+> in how the instruction point is fetched from the ucontext and the size
+> of the registers. Use host_signal_pc and new host_signal_set_pc
+> interfaces to fetch the pointer to the PC and adjust if needed. Delete
+> all the old copies of rewind_if_in_safe_syscall.
 > 
 > Signed-off-by: Warner Losh <imp@bsdimp.com>
 > ---
->  linux-user/host/aarch64/host-signal.h | 5 +++++
->  linux-user/host/alpha/host-signal.h   | 5 +++++
->  linux-user/host/arm/host-signal.h     | 5 +++++
->  linux-user/host/i386/host-signal.h    | 5 +++++
->  linux-user/host/mips/host-signal.h    | 5 +++++
->  linux-user/host/ppc/host-signal.h     | 5 +++++
->  linux-user/host/riscv/host-signal.h   | 5 +++++
->  linux-user/host/s390/host-signal.h    | 5 +++++
->  linux-user/host/sparc/host-signal.h   | 9 +++++++++
->  linux-user/host/x86_64/host-signal.h  | 5 +++++
->  10 files changed, 54 insertions(+)
+>  linux-user/host/aarch64/hostdep.h | 20 --------------------
+>  linux-user/host/arm/hostdep.h     | 20 --------------------
+>  linux-user/host/i386/hostdep.h    | 20 --------------------
+>  linux-user/host/ppc64/hostdep.h   | 20 --------------------
+>  linux-user/host/riscv/hostdep.h   | 20 --------------------
+>  linux-user/host/s390x/hostdep.h   | 20 --------------------
+>  linux-user/host/x86_64/hostdep.h  | 20 --------------------
+>  linux-user/signal.c               | 18 +++++++++++++++++-
+>  8 files changed, 17 insertions(+), 141 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
