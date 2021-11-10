@@ -2,84 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C4D944BE06
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 10:49:03 +0100 (CET)
-Received: from localhost ([::1]:57272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F307A44BE15
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 10:51:42 +0100 (CET)
+Received: from localhost ([::1]:60152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkkE1-0002Uf-Lw
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 04:49:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53434)
+	id 1mkkGb-0004Th-4J
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 04:51:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkkCz-0001N4-QH
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 04:47:57 -0500
-Received: from [2a00:1450:4864:20::336] (port=46029
- helo=mail-wm1-x336.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkkCy-00079q-A4
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 04:47:57 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- g191-20020a1c9dc8000000b0032fbf912885so1473961wme.4
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 01:47:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JguZQVKsYEll5GUvaUPz1KaNIBc1zWoY8cT30MZU/TM=;
- b=WPLWb8yH2a1RjQ/RyCYCXDoUqRXUYgjt35almvdKAY/g2Y/d+6HXDr2h3IDS/joRWG
- 9+Zj801BCmj7uR2jb7yrJkrpvYoTSq7AGWWVDBpM0GyU0xZcI8GNoEAZQXf2rfOXFfQ5
- pa33T4xoq4fUqhkakt6emv+BPs/gz4bn8Yk1JePaeffVbAvvN0B7qJA0yh/eOqwBEpLN
- 1V2eZgcZ+DAmkEO81HBiqK57AgB2ATib7mKYbrpxrgjpA4HhLzqGmwof9lXUJ56Z/so/
- ZkCXTa89nu2qK8Bh/NnYRSA4Rr8nKGcIQDAZLX7iuFpSB5Fo0okOwTUKxNNFIji2RDHt
- ga/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JguZQVKsYEll5GUvaUPz1KaNIBc1zWoY8cT30MZU/TM=;
- b=yw/L7Yy707vP8Ng0stvhjsG4IBwO0sM1uCELE+Iud9Fu1RZz+94ZIHBqEYWamUkLRV
- ONy/Oe+e/XEjOlRf9lBz7S7h35t81tUNeyl6Yyotv/I4D9UsLmmkAE0Oq/4gmTF4mr+8
- zUberF1N8Gvp9/7mgpC4ewSDtchaFxiwDYNQ/SoFq0+Q8FlIXquEqY1V3IrKP47P9bAp
- EB4j/qBtJM7rYrarSvFliGAw6J/laO8XgW2kHV2wqJTaZcNprRn+xE1erlJDaDiFDC4T
- ghRYhbeqnVtxUa2fIYtLFI8Du9F04XYq2zfL5OKnWPmEzRnR2rTGz5gcG5L9fXG1NJ2q
- OMUw==
-X-Gm-Message-State: AOAM530UM2Ev2nFuYboGZsKII14YydDsbxPsEg6XZe/r8RjNNqkVndRE
- gs11MqDkv5irl6qf866xIQKIkg==
-X-Google-Smtp-Source: ABdhPJwL0xz6Q8jP/Wb6JyMA9BUb0ONBtsH3es+xMGl1GgdZeQRcR5Ix/xNZ2xc3XwH6RhmAtingig==
-X-Received: by 2002:a7b:c005:: with SMTP id c5mr14589274wmb.150.1636537674802; 
- Wed, 10 Nov 2021 01:47:54 -0800 (PST)
-Received: from [192.168.8.106] (104.red-2-142-241.dynamicip.rima-tde.net.
- [2.142.241.104])
- by smtp.gmail.com with ESMTPSA id m22sm5614039wmq.38.2021.11.10.01.47.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Nov 2021 01:47:54 -0800 (PST)
-Subject: Re: [PATCH v4 2/2] accel/tcg: Register a force_rcu notifier
-To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
-References: <20211109183523.47726-1-groug@kaod.org>
- <20211109183523.47726-3-groug@kaod.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <87c8f97e-4952-5cf6-d8cb-e465d06f85b3@linaro.org>
-Date: Wed, 10 Nov 2021 10:47:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mkkEO-00036A-HW
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 04:49:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26838)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mkkEI-0007H3-Qj
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 04:49:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636537747;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Eo8Tfa3Rc5y1D8JUe4z6OZdsUyWfqR+nAiLKnhAI2iU=;
+ b=I+URcC1YNnWy9R3oDOd9wwmT7GdASaYevsskQzQnpaQjod9fe8nsU6qns3tD2HJ4dTZncB
+ TLs0WQrWqm62610ZzyPERrW5NJWdheSVonU3gz5EX/OnWF9XjzDPdPsLjjxBiP4erjCHD0
+ Xiq2VPQokc0Ea+GREGiCtWC2UZLLrmY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-10-kDUPnccUPbGsBgsA2dJdtg-1; Wed, 10 Nov 2021 04:49:01 -0500
+X-MC-Unique: kDUPnccUPbGsBgsA2dJdtg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E806C1F764;
+ Wed, 10 Nov 2021 09:49:00 +0000 (UTC)
+Received: from [10.33.192.183] (dhcp-192-183.str.redhat.com [10.33.192.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4BC9B5C1C5;
+ Wed, 10 Nov 2021 09:49:00 +0000 (UTC)
+Message-ID: <23c75589-50a8-5808-dd81-b5045f11e095@redhat.com>
+Date: Wed, 10 Nov 2021 10:48:59 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211109183523.47726-3-groug@kaod.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] meson: remove useless libdl test
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20211110092454.30916-1-pbonzini@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20211110092454.30916-1-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.678,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.678, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,56 +79,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-stable@nongnu.org
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/9/21 7:35 PM, Greg Kurz wrote:
-> A TCG vCPU doing a busy loop systematicaly hangs the QEMU monitor
-> if the user passes 'device_add' without argument. This is because
-> drain_cpu_all() which is called from qmp_device_add() cannot return
-> if readers don't exit read-side critical sections. That is typically
-> what busy-looping TCG vCPUs do:
+On 10/11/2021 10.24, Paolo Bonzini wrote:
+> dlopen is never used after it is sought via cc.find_library, because
+> plugins use gmodule instead; remove the test.
 > 
-> int cpu_exec(CPUState *cpu)
-> {
-> [...]
->      rcu_read_lock();
-> [...]
->      while (!cpu_handle_exception(cpu, &ret)) {
->          // Busy loop keeps vCPU here
->      }
-> [...]
->      rcu_read_unlock();
-> 
->      return ret;
-> }
-> 
-> For MTTCG, have all vCPU threads register a force_rcu notifier that will
-> kick them out of the loop using async_run_on_cpu(). The notifier is called
-> with the rcu_registry_lock mutex held, using async_run_on_cpu() ensures
-> there are no deadlocks.
-> 
-> For RR, a single thread runs all vCPUs. Just register a single notifier
-> that kicks the current vCPU to the next one.
-> 
-> For MTTCG:
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> 
-> For RR:
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-> 
-> Fixes: 7bed89958bfb ("device_core: use drain_call_rcu in in qmp_device_add")
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/650
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->   accel/tcg/tcg-accel-ops-mttcg.c | 26 ++++++++++++++++++++++++++
->   accel/tcg/tcg-accel-ops-rr.c    | 10 ++++++++++
->   2 files changed, 36 insertions(+)
+>   accel/tcg/meson.build | 2 +-
+>   meson.build           | 8 +-------
+>   2 files changed, 2 insertions(+), 8 deletions(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Right. I've just grep'ed for "dlopen" or the related dlfcn.h header in the 
+sources and did not see any direct use.
 
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-r~
 
