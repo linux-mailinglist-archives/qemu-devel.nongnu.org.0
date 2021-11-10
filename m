@@ -2,65 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCABE44BBD9
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 07:57:46 +0100 (CET)
-Received: from localhost ([::1]:60052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D5FC44BBE9
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 08:02:43 +0100 (CET)
+Received: from localhost ([::1]:34452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkhYH-0002mW-IR
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 01:57:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35074)
+	id 1mkhd4-0004nb-Du
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 02:02:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mkhXB-0001Rw-M5
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 01:56:37 -0500
-Received: from 8.mo548.mail-out.ovh.net ([46.105.45.231]:49113)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mkhbv-00045D-I7
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 02:01:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56329)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mkhX9-0002oO-7Z
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 01:56:37 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.132])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 78DFE20AFF;
- Wed, 10 Nov 2021 06:56:32 +0000 (UTC)
-Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Wed, 10 Nov
- 2021 07:56:32 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002763a7d36-7055-4d7b-a3cc-652016661005,
- 931C15AB0B82782E0F6D9848116383441E516CC9) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <db132b26-0025-f573-1006-8a8c7aa2a656@kaod.org>
-Date: Wed, 10 Nov 2021 07:56:31 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mkhbo-0003Xj-JT
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 02:01:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636527682;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AMD9UgIRDBBvz9oN6GwDclh4FqhC5mW1lgxzD6QSb4c=;
+ b=PxT2RESb3nXaMslfQtHPB07PJwdJ6lKfJ+aCAqJA0zcgT/s+LQle/lesp3Jur4CVgmsLLq
+ yDmoFB8eSkbAdz2og+Y37epeVCEmdqceHR0oNStfkUIIHjvs4zO78j/SFFR2daoMRE89ZR
+ oujyfd5KEyywPKGF2LEsXoo40Xs0q7U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-501-sJqIbliHOaWT__PoAjTPMg-1; Wed, 10 Nov 2021 02:01:21 -0500
+X-MC-Unique: sJqIbliHOaWT__PoAjTPMg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CCCD3871803;
+ Wed, 10 Nov 2021 07:00:51 +0000 (UTC)
+Received: from [10.33.192.183] (dhcp-192-183.str.redhat.com [10.33.192.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C17511B4B8;
+ Wed, 10 Nov 2021 07:00:33 +0000 (UTC)
+Message-ID: <e25c33b5-4c0a-ced3-c8fb-079fe4333e6f@redhat.com>
+Date: Wed, 10 Nov 2021 08:00:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 1/2] target/ppc: Fixed call to deferred exception
+ Thunderbird/91.3.0
+Subject: Re: [PULL 05/33] i386: Add 'sgx-epc' device to expose EPC sections to
+ guest
+To: Yang Zhong <yang.zhong@intel.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20210928125116.183620-1-pbonzini@redhat.com>
+ <20210928125116.183620-6-pbonzini@redhat.com>
+ <32078e7f-608c-2c62-b92e-58efb6f6d241@redhat.com>
+ <59c77978-a099-a25f-5d84-7ee3489ac3a3@redhat.com>
+ <20211110064100.GA2950@yangzhon-Virtual>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20211110064100.GA2950@yangzhon-Virtual>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, "Lucas Mateus Castro
- (alqotel)" <lucas.araujo@eldorado.org.br>, <qemu-devel@nongnu.org>,
- <qemu-ppc@nongnu.org>
-References: <20211020125724.78028-1-lucas.araujo@eldorado.org.br>
- <20211020125724.78028-2-lucas.araujo@eldorado.org.br>
- <2458d27b-75eb-e4f8-c588-efd8c50df5fc@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <2458d27b-75eb-e4f8-c588-efd8c50df5fc@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 9f207fee-f292-4504-99c4-dc3c2cf83a07
-X-Ovh-Tracer-Id: 7863284951109503849
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudehgdeliecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
-Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
- helo=8.mo548.mail-out.ovh.net
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.678,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.678, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,40 +84,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Lucas Mateus Castro \(alqotel\)" <lucas.castro@eldorado.org.br>,
- richard.henderson@linaro.org, david@gibson.dropbear.id.au
+Cc: qemu-devel@nongnu.org, sean.j.christopherson@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/9/21 17:37, Daniel Henrique Barboza wrote:
+On 10/11/2021 07.41, Yang Zhong wrote:
+> On Tue, Nov 09, 2021 at 06:48:59PM +0100, Paolo Bonzini wrote:
+>> On 11/9/21 15:25, Thomas Huth wrote:
+>>> Our device-crash-test script reports that this new device can be
+>>> used to crash QEMU:
+>>>
+>>> $ ./qemu-system-x86_64 -M none -device sgx-epc
+>>> /home/thuth/devel/qemu/include/hw/i386/pc.h:128:PC_MACHINE: Object
+>>> 0x55c80d332290 is not an instance of type generic-pc-machine
+>>>
+>>> Should it be marked with:
+>>>
+>>>      dc->user_creatable = false
+>>>
+>>> ?
+>>
+>> Yes, it should.  Thanks for the report!
+>>
 > 
+>    Thanks Thomas reported this issue!
 > 
-> On 10/20/21 09:57, Lucas Mateus Castro (alqotel) wrote:
->> From: "Lucas Mateus Castro (alqotel)" <lucas.castro@eldorado.org.br>
->>
->> mtfsf, mtfsfi and mtfsb1 instructions call helper_float_check_status
->> after updating the value of FPSCR, but helper_float_check_status
->> checks fp_status and fp_status isn't updated based on FPSCR and
->> since the value of fp_status is reset earlier in the instruction,
->> it's always 0.
->>
->> Because of this helper_float_check_status would change the FI bit to 0
->> as this bit checks if the last operation was inexact and
->> float_flag_inexact is always 0.
->>
->> These instructions also don't throw exceptions correctly since
->> helper_float_check_status throw exceptions based on fp_status.
->>
->> This commit created a new helper, helper_fpscr_check_status that checks
->> FPSCR value instead of fp_status and checks for a larger variety of
->> exceptions than do_float_check_status.
->>
->> The hardware used to compare QEMU's behavior to, was a Power9.
+>    I did not know we need do this test before. this test is not
+>    covered into Qemu Gitlab CI build system? or what's kind of tests we
+>    need do before we send the patches to Qemu community? If there is one
+>    guide or CI build including this, which is much better. Thanks!
 
-Do you have a test case for this ? If so, are you collecting them
-on some repo ?
-  
-Thanks,
+No worry, device-crash-test is not mandatory, I just have the habit to run 
+it and report the new problems when QEMU enters the freeze period for the 
+next release.
 
-C.
+But you're right, we should ultimatively try to get this included in the CI, 
+too, so that the script does not bit-rot so easily anymore...
+
+  Thomas
+
+
 
