@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76DAB44C52B
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 17:38:22 +0100 (CET)
-Received: from localhost ([::1]:44764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A3D44C51B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 17:35:06 +0100 (CET)
+Received: from localhost ([::1]:35848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkqc9-0003Ey-KM
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 11:38:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56810)
+	id 1mkqYz-0005WY-5F
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 11:35:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mkqWh-0007Zl-3e
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mkqWh-0007aw-Eb
  for qemu-devel@nongnu.org; Wed, 10 Nov 2021 11:32:43 -0500
-Received: from [2607:f8b0:4864:20::d33] (port=40528
- helo=mail-io1-xd33.google.com)
+Received: from [2607:f8b0:4864:20::d2f] (port=43772
+ helo=mail-io1-xd2f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mkqWc-0005bp-GB
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 11:32:42 -0500
-Received: by mail-io1-xd33.google.com with SMTP id r8so3488481iog.7
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 08:32:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mkqWd-0005bv-MW
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 11:32:43 -0500
+Received: by mail-io1-xd2f.google.com with SMTP id z26so3460085iod.10
+ for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 08:32:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bH8XlQNlVgldgvvPm+sZMzPHlugap+34WnaEJEfYxSY=;
- b=O3XmAygWpA4wpIhfJM2Mui/7zk5/FckhmwJrL69ZJRVV74rIRMabSlZ3ZvzcB4hC4I
- waw6PI04HOFq5rGOBNQhOuWYuVg1RYQ+ugyq6ip2fbeZlKN6vC+rewEPPSmQ8adwheUJ
- l6bm7b3QodWFud7iFKiweSMxuFs2V1zr2Qhx7aB0uytli+hojwpGjBaqwFeL8szbVRG2
- LF/SiIJbKHx0Dam973AphdUO2jMDooHHhaqzo/klbF9c13Jo5waxNcqhsnB9TtLg9eEM
- FRL3NLuiOCaOWpFRs4kwEuKWLjInOTWra3wxMXhnaSR3XxqrZoAhjfnQP2O05irgxa0F
- rkCA==
+ bh=tkJTC1f42Usxm11YPPgsA91Pn7lqAeCzgrwWDOdWQas=;
+ b=8RR7sMM4EixWSP78Cc6SgWRvo2g5czo1DENxkcqfbwo8U7Jt+B9vchBw8y0OTdFdeB
+ J1vIaU0tZ4VpUZ6saCNRiwW8P8+7bVvaRQh3aVy+cB/9IOSy0UXE36+sE3E2wcnt2G2F
+ Giby1UogXkUKs8Y+wxjcUhDoAkUyfYGPdrgA0qdGaGd8l1p6I4rmsPF3OSND6p/9Nz6V
+ gbixi8yVzZ14G7ly+QTR10Y7ENjV8SCZSiFVBgoNYscktrPZ1E4JSIVrlmQ76mcXIbqC
+ 1rYKYaTdj7mettGk6UeEL2Ui3cekr25gBWeHdxSzI5XuRKCuHs3nTjEClcmL+6wiID2V
+ P6CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bH8XlQNlVgldgvvPm+sZMzPHlugap+34WnaEJEfYxSY=;
- b=w9UV2EI2KTl7WzyBDfZQQ89/mx6ogVtAKnqLyHcGluWg0JKjZ+vL5NrE/mZjaVKQri
- HrUm9xO80vOptSMu9zTc01y/fZpFzISyjtTQ9CH8Dou8OBH74ehitvitiHMwQ1TlgQ6Z
- X9nvz+D6jYWQansMxUvIYzBntYuHveSQKcVhm6ZyKUkK/7G1+Bc9Au0iVkEFkXABp6Dq
- /MIGeCX4EnATSkJDgy3oDQMozVe9K8+YwUStxdHI511SZaj17q7waOzV1FqLkdzTCYkG
- TzSJuiIb19fJGgPqoPYCLabO9qP7mnDKnEsUyuPSCxHQCcVOTdOFfa/zN093Z1QEYb3N
- xntA==
-X-Gm-Message-State: AOAM533dLkDok4I4/fkF0ruL2mEW4NfGirFNyoxx0mAoktE0S7TGhkgt
- SXw4Q6DEwOQlD725KP5MZ2MsHYqHIiMXyA==
-X-Google-Smtp-Source: ABdhPJz8j9BNCvvz2m4MaDihTx2H1xo2wyvMxO0Q1MVsrDoMtfSq8xP4yHd56V1jKplTGkeLX8J2eA==
-X-Received: by 2002:a02:734d:: with SMTP id a13mr84220jae.113.1636561956982;
- Wed, 10 Nov 2021 08:32:36 -0800 (PST)
+ bh=tkJTC1f42Usxm11YPPgsA91Pn7lqAeCzgrwWDOdWQas=;
+ b=6oiS0UBek/BF4Md5Qu0pSfIOuOx3R1upX56msYNyrMYdUftKRjzdyv+fL+UUaoWb8e
+ W66XStvYN6t+vp5BsI3viy3rHghZbvQ4i4PmUsjvlM7EpktK8zP8kj8xnB1Qzw+vwkGk
+ Pds5Ar9DKN37Y89oUZCl43CLM9P/pUKQhRsufVSSxag5cmXLWKi8a3qL8WjDxYTyICsi
+ IN3rZZ9jU8VHjF1mXtChSnkkrxOwD4xIROa0S3sg/uQfdDTLBp2BB+QTvJzVVW+o7JDn
+ oiVQLBsMTGlxgBcEPC78QEUlq55qhAFAKZmOfLuWye/Qp+1yBqGaeph1dyXfKPIh+GQM
+ mZ5w==
+X-Gm-Message-State: AOAM531wRFThiC82VEO96usKRnAdxV4igQLqTpcnJk1I/bsTe8MugX8e
+ 3yb8hGs6FMeshdl7dkGmT2HQKBKpjSiyjg==
+X-Google-Smtp-Source: ABdhPJyZfcP8Hj4EfXnfJwS1Z1NRMfw9z1pZHVMx7GB3NgPg0fVgS4cN4t17W34BTL1Bd8chWXMJvQ==
+X-Received: by 2002:a05:6638:16d6:: with SMTP id
+ g22mr106597jat.19.1636561958284; 
+ Wed, 10 Nov 2021 08:32:38 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id x2sm130403iom.46.2021.11.10.08.32.36
+ by smtp.gmail.com with ESMTPSA id x2sm130403iom.46.2021.11.10.08.32.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Nov 2021 08:32:36 -0800 (PST)
+ Wed, 10 Nov 2021 08:32:37 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v2 2/6] linux-user/signal.c: Create a common
- rewind_if_in_safe_syscall
-Date: Wed, 10 Nov 2021 09:31:29 -0700
-Message-Id: <20211110163133.76357-3-imp@bsdimp.com>
+Subject: [RFC v2 3/6] linux-user/safe-syscall.inc.S: Move to common-user
+Date: Wed, 10 Nov 2021 09:31:30 -0700
+Message-Id: <20211110163133.76357-4-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211110163133.76357-1-imp@bsdimp.com>
 References: <20211110163133.76357-1-imp@bsdimp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d33
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2f
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d33;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd33.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2f;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2f.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -93,269 +92,68 @@ Cc: Warner Losh <imp@bsdimp.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All instances of rewind_if_in_safe_syscall are the same, differing only
-in how the instruction point is fetched from the ucontext and the size
-of the registers. Use host_signal_pc and new host_signal_set_pc
-interfaces to fetch the pointer to the PC and adjust if needed. Delete
-all the old copies of rewind_if_in_safe_syscall.
+Move all the safe_syscall.inc.S files to common-user. They are almost
+identical between linux-user and bsd-user to re-use.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- linux-user/host/aarch64/hostdep.h | 20 --------------------
- linux-user/host/arm/hostdep.h     | 20 --------------------
- linux-user/host/i386/hostdep.h    | 20 --------------------
- linux-user/host/ppc64/hostdep.h   | 20 --------------------
- linux-user/host/riscv/hostdep.h   | 20 --------------------
- linux-user/host/s390x/hostdep.h   | 20 --------------------
- linux-user/host/x86_64/hostdep.h  | 20 --------------------
- linux-user/safe-syscall.h         |  3 +++
- linux-user/signal.c               | 14 +++++++++++++-
- 9 files changed, 16 insertions(+), 141 deletions(-)
+ {linux-user => common-user}/host/aarch64/safe-syscall.inc.S | 0
+ {linux-user => common-user}/host/arm/safe-syscall.inc.S     | 0
+ {linux-user => common-user}/host/i386/safe-syscall.inc.S    | 0
+ {linux-user => common-user}/host/ppc64/safe-syscall.inc.S   | 0
+ {linux-user => common-user}/host/riscv/safe-syscall.inc.S   | 0
+ {linux-user => common-user}/host/s390x/safe-syscall.inc.S   | 0
+ {linux-user => common-user}/host/x86_64/safe-syscall.inc.S  | 0
+ meson.build                                                 | 1 +
+ 8 files changed, 1 insertion(+)
+ rename {linux-user => common-user}/host/aarch64/safe-syscall.inc.S (100%)
+ rename {linux-user => common-user}/host/arm/safe-syscall.inc.S (100%)
+ rename {linux-user => common-user}/host/i386/safe-syscall.inc.S (100%)
+ rename {linux-user => common-user}/host/ppc64/safe-syscall.inc.S (100%)
+ rename {linux-user => common-user}/host/riscv/safe-syscall.inc.S (100%)
+ rename {linux-user => common-user}/host/s390x/safe-syscall.inc.S (100%)
+ rename {linux-user => common-user}/host/x86_64/safe-syscall.inc.S (100%)
 
-diff --git a/linux-user/host/aarch64/hostdep.h b/linux-user/host/aarch64/hostdep.h
-index a8d41a21ad..39299d798a 100644
---- a/linux-user/host/aarch64/hostdep.h
-+++ b/linux-user/host/aarch64/hostdep.h
-@@ -15,24 +15,4 @@
- /* We have a safe-syscall.inc.S */
- #define HAVE_SAFE_SYSCALL
- 
--#ifndef __ASSEMBLER__
--
--/* These are defined by the safe-syscall.inc.S file */
--extern char safe_syscall_start[];
--extern char safe_syscall_end[];
--
--/* Adjust the signal context to rewind out of safe-syscall if we're in it */
--static inline void rewind_if_in_safe_syscall(void *puc)
--{
--    ucontext_t *uc = puc;
--    __u64 *pcreg = &uc->uc_mcontext.pc;
--
--    if (*pcreg > (uintptr_t)safe_syscall_start
--        && *pcreg < (uintptr_t)safe_syscall_end) {
--        *pcreg = (uintptr_t)safe_syscall_start;
--    }
--}
--
--#endif /* __ASSEMBLER__ */
--
- #endif
-diff --git a/linux-user/host/arm/hostdep.h b/linux-user/host/arm/hostdep.h
-index 9276fe6ceb..86b137875a 100644
---- a/linux-user/host/arm/hostdep.h
-+++ b/linux-user/host/arm/hostdep.h
-@@ -15,24 +15,4 @@
- /* We have a safe-syscall.inc.S */
- #define HAVE_SAFE_SYSCALL
- 
--#ifndef __ASSEMBLER__
--
--/* These are defined by the safe-syscall.inc.S file */
--extern char safe_syscall_start[];
--extern char safe_syscall_end[];
--
--/* Adjust the signal context to rewind out of safe-syscall if we're in it */
--static inline void rewind_if_in_safe_syscall(void *puc)
--{
--    ucontext_t *uc = puc;
--    unsigned long *pcreg = &uc->uc_mcontext.arm_pc;
--
--    if (*pcreg > (uintptr_t)safe_syscall_start
--        && *pcreg < (uintptr_t)safe_syscall_end) {
--        *pcreg = (uintptr_t)safe_syscall_start;
--    }
--}
--
--#endif /* __ASSEMBLER__ */
--
- #endif
-diff --git a/linux-user/host/i386/hostdep.h b/linux-user/host/i386/hostdep.h
-index 073be74d87..ce7136501f 100644
---- a/linux-user/host/i386/hostdep.h
-+++ b/linux-user/host/i386/hostdep.h
-@@ -15,24 +15,4 @@
- /* We have a safe-syscall.inc.S */
- #define HAVE_SAFE_SYSCALL
- 
--#ifndef __ASSEMBLER__
--
--/* These are defined by the safe-syscall.inc.S file */
--extern char safe_syscall_start[];
--extern char safe_syscall_end[];
--
--/* Adjust the signal context to rewind out of safe-syscall if we're in it */
--static inline void rewind_if_in_safe_syscall(void *puc)
--{
--    ucontext_t *uc = puc;
--    greg_t *pcreg = &uc->uc_mcontext.gregs[REG_EIP];
--
--    if (*pcreg > (uintptr_t)safe_syscall_start
--        && *pcreg < (uintptr_t)safe_syscall_end) {
--        *pcreg = (uintptr_t)safe_syscall_start;
--    }
--}
--
--#endif /* __ASSEMBLER__ */
--
- #endif
-diff --git a/linux-user/host/ppc64/hostdep.h b/linux-user/host/ppc64/hostdep.h
-index 98979ad917..0c290dd904 100644
---- a/linux-user/host/ppc64/hostdep.h
-+++ b/linux-user/host/ppc64/hostdep.h
-@@ -15,24 +15,4 @@
- /* We have a safe-syscall.inc.S */
- #define HAVE_SAFE_SYSCALL
- 
--#ifndef __ASSEMBLER__
--
--/* These are defined by the safe-syscall.inc.S file */
--extern char safe_syscall_start[];
--extern char safe_syscall_end[];
--
--/* Adjust the signal context to rewind out of safe-syscall if we're in it */
--static inline void rewind_if_in_safe_syscall(void *puc)
--{
--    ucontext_t *uc = puc;
--    unsigned long *pcreg = &uc->uc_mcontext.gp_regs[PT_NIP];
--
--    if (*pcreg > (uintptr_t)safe_syscall_start
--        && *pcreg < (uintptr_t)safe_syscall_end) {
--        *pcreg = (uintptr_t)safe_syscall_start;
--    }
--}
--
--#endif /* __ASSEMBLER__ */
--
- #endif
-diff --git a/linux-user/host/riscv/hostdep.h b/linux-user/host/riscv/hostdep.h
-index 2ba07456ae..7f67c22868 100644
---- a/linux-user/host/riscv/hostdep.h
-+++ b/linux-user/host/riscv/hostdep.h
-@@ -11,24 +11,4 @@
- /* We have a safe-syscall.inc.S */
- #define HAVE_SAFE_SYSCALL
- 
--#ifndef __ASSEMBLER__
--
--/* These are defined by the safe-syscall.inc.S file */
--extern char safe_syscall_start[];
--extern char safe_syscall_end[];
--
--/* Adjust the signal context to rewind out of safe-syscall if we're in it */
--static inline void rewind_if_in_safe_syscall(void *puc)
--{
--    ucontext_t *uc = puc;
--    unsigned long *pcreg = &uc->uc_mcontext.__gregs[REG_PC];
--
--    if (*pcreg > (uintptr_t)safe_syscall_start
--        && *pcreg < (uintptr_t)safe_syscall_end) {
--        *pcreg = (uintptr_t)safe_syscall_start;
--    }
--}
--
--#endif /* __ASSEMBLER__ */
--
- #endif
-diff --git a/linux-user/host/s390x/hostdep.h b/linux-user/host/s390x/hostdep.h
-index 4f0171f36f..d801145854 100644
---- a/linux-user/host/s390x/hostdep.h
-+++ b/linux-user/host/s390x/hostdep.h
-@@ -15,24 +15,4 @@
- /* We have a safe-syscall.inc.S */
- #define HAVE_SAFE_SYSCALL
- 
--#ifndef __ASSEMBLER__
--
--/* These are defined by the safe-syscall.inc.S file */
--extern char safe_syscall_start[];
--extern char safe_syscall_end[];
--
--/* Adjust the signal context to rewind out of safe-syscall if we're in it */
--static inline void rewind_if_in_safe_syscall(void *puc)
--{
--    ucontext_t *uc = puc;
--    unsigned long *pcreg = &uc->uc_mcontext.psw.addr;
--
--    if (*pcreg > (uintptr_t)safe_syscall_start
--        && *pcreg < (uintptr_t)safe_syscall_end) {
--        *pcreg = (uintptr_t)safe_syscall_start;
--    }
--}
--
--#endif /* __ASSEMBLER__ */
--
- #endif
-diff --git a/linux-user/host/x86_64/hostdep.h b/linux-user/host/x86_64/hostdep.h
-index a4fefb5114..9c62bd26bd 100644
---- a/linux-user/host/x86_64/hostdep.h
-+++ b/linux-user/host/x86_64/hostdep.h
-@@ -15,24 +15,4 @@
- /* We have a safe-syscall.inc.S */
- #define HAVE_SAFE_SYSCALL
- 
--#ifndef __ASSEMBLER__
--
--/* These are defined by the safe-syscall.inc.S file */
--extern char safe_syscall_start[];
--extern char safe_syscall_end[];
--
--/* Adjust the signal context to rewind out of safe-syscall if we're in it */
--static inline void rewind_if_in_safe_syscall(void *puc)
--{
--    ucontext_t *uc = puc;
--    greg_t *pcreg = &uc->uc_mcontext.gregs[REG_RIP];
--
--    if (*pcreg > (uintptr_t)safe_syscall_start
--        && *pcreg < (uintptr_t)safe_syscall_end) {
--        *pcreg = (uintptr_t)safe_syscall_start;
--    }
--}
--
--#endif /* __ASSEMBLER__ */
--
- #endif
-diff --git a/linux-user/safe-syscall.h b/linux-user/safe-syscall.h
-index 6bc0390262..aaa9ffc0e2 100644
---- a/linux-user/safe-syscall.h
-+++ b/linux-user/safe-syscall.h
-@@ -127,6 +127,9 @@
- #ifdef HAVE_SAFE_SYSCALL
- /* The core part of this function is implemented in assembly */
- extern long safe_syscall_base(int *pending, long number, ...);
-+/* These are defined by the safe-syscall.inc.S file */
-+extern char safe_syscall_start[];
-+extern char safe_syscall_end[];
- 
- #define safe_syscall(...)                                               \
-     ({                                                                  \
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 81c45bfce9..ee038c2399 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -793,7 +793,19 @@ int queue_signal(CPUArchState *env, int sig, int si_type,
-     return 1; /* indicates that the signal was queued */
- }
- 
--#ifndef HAVE_SAFE_SYSCALL
-+#ifdef HAVE_SAFE_SYSCALL
-+/* Adjust the signal context to rewind out of safe-syscall if we're in it */
-+static inline void rewind_if_in_safe_syscall(void *puc)
-+{
-+    ucontext_t *uc = (ucontext_t *)puc;
-+    uintptr_t pcreg = host_signal_pc(uc);
-+
-+    if (pcreg > (uintptr_t)safe_syscall_start
-+        && pcreg < (uintptr_t)safe_syscall_end) {
-+        host_signal_set_pc(uc, (uintptr_t)safe_syscall_start);
-+    }
-+}
-+#else
- static inline void rewind_if_in_safe_syscall(void *puc)
- {
-     /* Default version: never rewind */
+diff --git a/linux-user/host/aarch64/safe-syscall.inc.S b/common-user/host/aarch64/safe-syscall.inc.S
+similarity index 100%
+rename from linux-user/host/aarch64/safe-syscall.inc.S
+rename to common-user/host/aarch64/safe-syscall.inc.S
+diff --git a/linux-user/host/arm/safe-syscall.inc.S b/common-user/host/arm/safe-syscall.inc.S
+similarity index 100%
+rename from linux-user/host/arm/safe-syscall.inc.S
+rename to common-user/host/arm/safe-syscall.inc.S
+diff --git a/linux-user/host/i386/safe-syscall.inc.S b/common-user/host/i386/safe-syscall.inc.S
+similarity index 100%
+rename from linux-user/host/i386/safe-syscall.inc.S
+rename to common-user/host/i386/safe-syscall.inc.S
+diff --git a/linux-user/host/ppc64/safe-syscall.inc.S b/common-user/host/ppc64/safe-syscall.inc.S
+similarity index 100%
+rename from linux-user/host/ppc64/safe-syscall.inc.S
+rename to common-user/host/ppc64/safe-syscall.inc.S
+diff --git a/linux-user/host/riscv/safe-syscall.inc.S b/common-user/host/riscv/safe-syscall.inc.S
+similarity index 100%
+rename from linux-user/host/riscv/safe-syscall.inc.S
+rename to common-user/host/riscv/safe-syscall.inc.S
+diff --git a/linux-user/host/s390x/safe-syscall.inc.S b/common-user/host/s390x/safe-syscall.inc.S
+similarity index 100%
+rename from linux-user/host/s390x/safe-syscall.inc.S
+rename to common-user/host/s390x/safe-syscall.inc.S
+diff --git a/linux-user/host/x86_64/safe-syscall.inc.S b/common-user/host/x86_64/safe-syscall.inc.S
+similarity index 100%
+rename from linux-user/host/x86_64/safe-syscall.inc.S
+rename to common-user/host/x86_64/safe-syscall.inc.S
+diff --git a/meson.build b/meson.build
+index 9702fdce6d..728d305403 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2872,6 +2872,7 @@ foreach target : target_dirs
+     if 'CONFIG_LINUX_USER' in config_target
+       base_dir = 'linux-user'
+       target_inc += include_directories('linux-user/host/' / config_host['ARCH'])
++      target_inc += include_directories('common-user/host/' / config_host['ARCH'])
+     endif
+     if 'CONFIG_BSD_USER' in config_target
+       base_dir = 'bsd-user'
 -- 
 2.33.0
 
