@@ -2,62 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0796C44BCBD
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 09:20:41 +0100 (CET)
-Received: from localhost ([::1]:43958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C90744BCC1
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 09:21:45 +0100 (CET)
+Received: from localhost ([::1]:46940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkiqT-0002on-TP
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 03:20:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54868)
+	id 1mkirY-0004rr-Nv
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 03:21:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mkioa-0001LV-IF
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 03:18:41 -0500
-Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156]:33735)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mkipv-0003Co-Cb; Wed, 10 Nov 2021 03:20:03 -0500
+Received: from [2001:41c9:1:41f::167] (port=34260
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mkioV-0008LZ-UG
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 03:18:40 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.186])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 842EB2079A;
- Wed, 10 Nov 2021 08:18:32 +0000 (UTC)
-Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Wed, 10 Nov
- 2021 09:18:31 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R003af39becd-b509-4bdd-99a0-50229beef47a,
- FF02C7A8D8E58AFC286F2B1DBFB5F34314452EF1) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <9db2efb6-5161-6c17-f7aa-4d8b7e1aba98@kaod.org>
-Date: Wed, 10 Nov 2021 09:18:31 +0100
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mkips-00006b-D8; Wed, 10 Nov 2021 03:20:02 -0500
+Received: from [2a00:23c4:8b9e:9b00:2535:46c:7466:70fe]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mkipf-00071K-9h; Wed, 10 Nov 2021 08:19:51 +0000
+To: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20211020125724.78028-1-lucas.araujo@eldorado.org.br>
+ <20211020125724.78028-2-lucas.araujo@eldorado.org.br>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <c4d2f4e8-b001-519d-ab8c-47e80d1a78ec@ilande.co.uk>
+Date: Wed, 10 Nov 2021 08:19:43 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Fwd: New Defects reported by Coverity Scan for QEMU
-References: <618af1a42c458_27197b2b2515bd79b8920c6@prd-scan-dashboard-0.mail>
+In-Reply-To: <20211020125724.78028-2-lucas.araujo@eldorado.org.br>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>, QEMU Developers
- <qemu-devel@nongnu.org>, QEMU PowerPC <qemu-ppc@nongnu.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <618af1a42c458_27197b2b2515bd79b8920c6@prd-scan-dashboard-0.mail>
-X-Forwarded-Message-Id: <618af1a42c458_27197b2b2515bd79b8920c6@prd-scan-dashboard-0.mail>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 3b0e276c-aac9-44ef-8f7b-8d83ed648c25
-X-Ovh-Tracer-Id: 9248141836485495773
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudeigddtgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfufhfvhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpedufffgfedvfeeutdduhfeiteevgefgteeiheffgfdtieejgeeggfdvhffgkedvgeenucffohhmrghinhepshgvnhgughhrihgurdhnvghtnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
- helo=3.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SENDGRID_REDIR=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8b9e:9b00:2535:46c:7466:70fe
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 1/2] target/ppc: Fixed call to deferred exception
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+ (failed)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.678,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,497 +65,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Lucas Mateus Castro \(alqotel\)" <lucas.castro@eldorado.org.br>,
+ danielhb413@gmail.com, richard.henderson@linaro.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Luis,
+On 20/10/2021 13:57, Lucas Mateus Castro (alqotel) wrote:
 
-Coverity found a couple of issues which seem related to the DFP patchset.
-Could you please take a look ?
+> From: "Lucas Mateus Castro (alqotel)" <lucas.castro@eldorado.org.br>
+> 
+> mtfsf, mtfsfi and mtfsb1 instructions call helper_float_check_status
+> after updating the value of FPSCR, but helper_float_check_status
+> checks fp_status and fp_status isn't updated based on FPSCR and
+> since the value of fp_status is reset earlier in the instruction,
+> it's always 0.
+> 
+> Because of this helper_float_check_status would change the FI bit to 0
+> as this bit checks if the last operation was inexact and
+> float_flag_inexact is always 0.
+> 
+> These instructions also don't throw exceptions correctly since
+> helper_float_check_status throw exceptions based on fp_status.
+> 
+> This commit created a new helper, helper_fpscr_check_status that checks
+> FPSCR value instead of fp_status and checks for a larger variety of
+> exceptions than do_float_check_status.
+> 
+> The hardware used to compare QEMU's behavior to, was a Power9.
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/266
+> Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.castro@eldorado.org.br>
+> ---
+>   target/ppc/fpu_helper.c            | 41 ++++++++++++++++++++++++++++++
+>   target/ppc/helper.h                |  1 +
+>   target/ppc/translate/fp-impl.c.inc |  6 ++---
+>   3 files changed, 45 insertions(+), 3 deletions(-)
+> 
+> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+> index c4896cecc8..f086cb503f 100644
+> --- a/target/ppc/fpu_helper.c
+> +++ b/target/ppc/fpu_helper.c
+> @@ -414,6 +414,47 @@ void helper_store_fpscr(CPUPPCState *env, uint64_t val, uint32_t nibbles)
+>       ppc_store_fpscr(env, val);
+>   }
+>   
+> +void helper_fpscr_check_status(CPUPPCState *env)
+> +{
+> +    CPUState *cs = env_cpu(env);
+> +    target_ulong fpscr = env->fpscr;
+> +    int error = 0;
+> +
+> +    if ((fpscr & FP_VXSOFT) && (fpscr_ve != 0)) {
+> +        error = POWERPC_EXCP_FP_VXSOFT;
+> +    } else if ((fpscr & FP_OX) && (fpscr & FP_OE)) {
+> +        error = POWERPC_EXCP_FP_OX;
+> +    } else if ((fpscr & FP_UX) && (fpscr & FP_UE)) {
+> +        error = POWERPC_EXCP_FP_UX;
+> +    } else if ((fpscr & FP_XX) && (fpscr & FP_XE)) {
+> +        error = POWERPC_EXCP_FP_XX;
+> +    } else if ((fpscr & FP_ZX) && (fpscr & FP_ZE)) {
+> +        error = POWERPC_EXCP_FP_ZX;
+> +    } else if ((fpscr & FP_VXSNAN) && (fpscr_ve != 0)) {
+> +        error = POWERPC_EXCP_FP_VXSNAN;
+> +    } else if ((fpscr & FP_VXISI) && (fpscr_ve != 0)) {
+> +        error = POWERPC_EXCP_FP_VXISI;
+> +    } else if ((fpscr & FP_VXIDI) && (fpscr_ve != 0)) {
+> +        error = POWERPC_EXCP_FP_VXIDI;
+> +    } else if ((fpscr & FP_VXZDZ) && (fpscr_ve != 0)) {
+> +        error = POWERPC_EXCP_FP_VXZDZ;
+> +    } else if ((fpscr & FP_VXIMZ) && (fpscr_ve != 0)) {
+> +        error = POWERPC_EXCP_FP_VXIMZ;
+> +    } else if ((fpscr & FP_VXVC) && (fpscr_ve != 0)) {
+> +        error = POWERPC_EXCP_FP_VXVC;
+> +    }
+> +
+> +    if (error) {
+> +        cs->exception_index = POWERPC_EXCP_PROGRAM;
+> +        env->error_code = error | POWERPC_EXCP_FP;
+> +        /* Deferred floating-point exception after target FPSCR update */
+> +        if (fp_exceptions_enabled(env)) {
+> +            raise_exception_err_ra(env, cs->exception_index,
+> +                                   env->error_code, GETPC());
+> +        }
+> +    }
+> +}
+> +
+>   static void do_float_check_status(CPUPPCState *env, uintptr_t raddr)
+>   {
+>       CPUState *cs = env_cpu(env);
+> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+> index 4076aa281e..baa3715e73 100644
+> --- a/target/ppc/helper.h
+> +++ b/target/ppc/helper.h
+> @@ -61,6 +61,7 @@ DEF_HELPER_FLAGS_1(cntlzw32, TCG_CALL_NO_RWG_SE, i32, i32)
+>   DEF_HELPER_FLAGS_2(brinc, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+>   
+>   DEF_HELPER_1(float_check_status, void, env)
+> +DEF_HELPER_1(fpscr_check_status, void, env)
+>   DEF_HELPER_1(reset_fpstatus, void, env)
+>   DEF_HELPER_2(compute_fprf_float64, void, env, i64)
+>   DEF_HELPER_3(store_fpscr, void, env, i64, i32)
+> diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
+> index 9f7868ee28..0a9b1ecc60 100644
+> --- a/target/ppc/translate/fp-impl.c.inc
+> +++ b/target/ppc/translate/fp-impl.c.inc
+> @@ -782,7 +782,7 @@ static void gen_mtfsb1(DisasContext *ctx)
+>           tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
+>       }
+>       /* We can raise a deferred exception */
+> -    gen_helper_float_check_status(cpu_env);
+> +    gen_helper_fpscr_check_status(cpu_env);
+>   }
+>   
+>   /* mtfsf */
+> @@ -818,7 +818,7 @@ static void gen_mtfsf(DisasContext *ctx)
+>           tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
+>       }
+>       /* We can raise a deferred exception */
+> -    gen_helper_float_check_status(cpu_env);
+> +    gen_helper_fpscr_check_status(cpu_env);
+>       tcg_temp_free_i64(t1);
+>   }
+>   
+> @@ -851,7 +851,7 @@ static void gen_mtfsfi(DisasContext *ctx)
+>           tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
+>       }
+>       /* We can raise a deferred exception */
+> -    gen_helper_float_check_status(cpu_env);
+> +    gen_helper_fpscr_check_status(cpu_env);
+>   }
+>   
+>   /***                         Floating-point load                           ***/
 
-Thanks,
+FWIW the real issue here is that gen_helper_reset_fpstatus() even exists at all: see 
+the comments around enabling hardfloat in the PPC target by Emilio and Richard at 
+https://lists.nongnu.org/archive/html/qemu-devel/2018-11/msg04974.html and 
+https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg00064.html.
 
-C.
+I have tried a few informal experiments on my MacOS images by completely removing all 
+calls to gen_reset_fpstatus(), and whilst there were a few odd behaviours I was 
+surprised to find that the basic OS was usable. The main issue I had was trying to 
+come up with suitable test cases for the various instructions when my only available 
+hardware is a G4 Mac Mini.
 
-
--------- Forwarded Message --------
-Subject: New Defects reported by Coverity Scan for QEMU
-Date: Tue, 9 Nov 2021 22:09:40 +0000
-From: scan-admin@coverity.com
-To: clg@kaod.org
-
-Hi,
-
-Please find the latest report on new defect(s) introduced to QEMU found with Coverity Scan.
-
-16 new defect(s) introduced to QEMU found with Coverity Scan.
-19 defect(s), reported by Coverity Scan earlier, were marked fixed in the recent build analyzed by Coverity Scan.
-
-New defect(s) Reported-by: Coverity Scan
-Showing 16 of 16 defect(s)
-
-
-** CID 1465791:  Uninitialized variables  (UNINIT)
-
-
-________________________________________________________________________________________________________
-*** CID 1465791:  Uninitialized variables  (UNINIT)
-/qemu/target/ppc/dfp_helper.c: 1202 in helper_DENBCD()
-1196         }                                                                        \
-1197         dfp_finalize_decimal##size(&dfp);                                        \
-1198         dfp_set_FPRF_from_FRT(&dfp);                                             \
-1199         set_dfp##size(t, &dfp.vt);                                               \
-1200     }
-1201
->>>     CID 1465791:  Uninitialized variables  (UNINIT)
->>>     Using uninitialized element of array "dfp.vt" when calling "set_dfp64".
-1202     DFP_HELPER_ENBCD(DENBCD, 64)
-1203     DFP_HELPER_ENBCD(DENBCDQ, 128)
-1204
-1205     #define DFP_HELPER_XEX(op, size)                               \
-1206     void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b) \
-1207     {                                                              \
-
-** CID 1465790:  Uninitialized variables  (UNINIT)
-
-
-________________________________________________________________________________________________________
-*** CID 1465790:  Uninitialized variables  (UNINIT)
-/qemu/target/ppc/dfp_helper.c: 461 in helper_DSUB()
-455         dfp_check_for_UX(dfp);
-456         dfp_check_for_XX(dfp);
-457         dfp_check_for_VXSNAN(dfp);
-458         dfp_check_for_VXISI_subtract(dfp);
-459     }
-460
->>>     CID 1465790:  Uninitialized variables  (UNINIT)
->>>     Using uninitialized element of array "dfp.vt" when calling "set_dfp64".
-461     DFP_HELPER_TAB(DSUB, decNumberSubtract, SUB_PPs, 64)
-462     DFP_HELPER_TAB(DSUBQ, decNumberSubtract, SUB_PPs, 128)
-463
-464     static void MUL_PPs(struct PPC_DFP *dfp)
-465     {
-466         dfp_set_FPRF_from_FRT(dfp);
-
-** CID 1465789:  Uninitialized variables  (UNINIT)
-
-
-________________________________________________________________________________________________________
-*** CID 1465789:  Uninitialized variables  (UNINIT)
-/qemu/target/ppc/dfp_helper.c: 876 in helper_DRINTX()
-870     {
-871         dfp_set_FPRF_from_FRT(dfp);
-872         dfp_check_for_XX(dfp);
-873         dfp_check_for_VXSNAN(dfp);
-874     }
-875
->>>     CID 1465789:  Uninitialized variables  (UNINIT)
->>>     Using uninitialized element of array "dfp.vt" when calling "set_dfp64".
-876     DFP_HELPER_RINT(DRINTX, RINTX_PPs, 64)
-877     DFP_HELPER_RINT(DRINTXQ, RINTX_PPs, 128)
-878
-879     static void RINTN_PPs(struct PPC_DFP *dfp)
-880     {
-881         dfp_set_FPRF_from_FRT(dfp);
-
-** CID 1465788:  Uninitialized variables  (UNINIT)
-
-
-________________________________________________________________________________________________________
-*** CID 1465788:  Uninitialized variables  (UNINIT)
-/qemu/target/ppc/dfp_helper.c: 1390 in helper_DSCLI()
-1384             }                                                           \
-1385         }                                                               \
-1386                                                                         \
-1387         set_dfp##size(t, &dfp.vt);                                      \
-1388     }
-1389
->>>     CID 1465788:  Uninitialized variables  (UNINIT)
->>>     Using uninitialized element of array "dfp.vt" when calling "set_dfp64".
-1390     DFP_HELPER_SHIFT(DSCLI, 64, 1)
-1391     DFP_HELPER_SHIFT(DSCLIQ, 128, 1)
-1392     DFP_HELPER_SHIFT(DSCRI, 64, 0)
-
-** CID 1465787:    (BAD_SHIFT)
-/qemu/target/ppc/int_helper.c: 369 in helper_CFUGED()
-/qemu/target/ppc/int_helper.c: 370 in helper_CFUGED()
-/qemu/target/ppc/int_helper.c: 356 in helper_CFUGED()
-/qemu/target/ppc/int_helper.c: 356 in helper_CFUGED()
-/qemu/target/ppc/int_helper.c: 356 in helper_CFUGED()
-/qemu/target/ppc/int_helper.c: 369 in helper_CFUGED()
-/qemu/target/ppc/int_helper.c: 370 in helper_CFUGED()
-/qemu/target/ppc/int_helper.c: 370 in helper_CFUGED()
-/qemu/target/ppc/int_helper.c: 369 in helper_CFUGED()
-
-
-________________________________________________________________________________________________________
-*** CID 1465787:    (BAD_SHIFT)
-/qemu/target/ppc/int_helper.c: 369 in helper_CFUGED()
-363             /*
-364              * Discards the processed bits from 'src' and 'mask'. Note that we are
-365              * removing 'n' trailing zeros from 'mask', but the logical shift will
-366              * add 'n' leading zeros back, so the population count of 'mask' is kept
-367              * the same.
-368              */
->>>     CID 1465787:    (BAD_SHIFT)
->>>     In expression "src >>= n", right shifting by more than 63 bits has undefined behavior.  The shift amount, "n", is as much as 64.
-369             src >>= n;
-370             mask >>= n;
-371             i -= n;
-372             bit = !bit;
-373             mask = ~mask;
-374         }
-/qemu/target/ppc/int_helper.c: 370 in helper_CFUGED()
-364              * Discards the processed bits from 'src' and 'mask'. Note that we are
-365              * removing 'n' trailing zeros from 'mask', but the logical shift will
-366              * add 'n' leading zeros back, so the population count of 'mask' is kept
-367              * the same.
-368              */
-369             src >>= n;
->>>     CID 1465787:    (BAD_SHIFT)
->>>     In expression "mask >>= n", right shifting by more than 63 bits has undefined behavior.  The shift amount, "n", is as much as 64.
-370             mask >>= n;
-371             i -= n;
-372             bit = !bit;
-373             mask = ~mask;
-374         }
-375
-/qemu/target/ppc/int_helper.c: 356 in helper_CFUGED()
-350
-351             /*
-352              * Extracts 'n' trailing bits of src and put them on the leading 'n'
-353              * bits of 'right' or 'left', pushing down the previously extracted
-354              * values.
-355              */
->>>     CID 1465787:    (BAD_SHIFT)
->>>     In expression "1LL << n", left shifting by more than 63 bits has undefined behavior.  The shift amount, "n", is 64.
-356             m = (1ll << n) - 1;
-357             if (bit) {
-358                 right = ror64(right | (src & m), n);
-359             } else {
-360                 left = ror64(left | (src & m), n);
-361             }
-/qemu/target/ppc/int_helper.c: 356 in helper_CFUGED()
-350
-351             /*
-352              * Extracts 'n' trailing bits of src and put them on the leading 'n'
-353              * bits of 'right' or 'left', pushing down the previously extracted
-354              * values.
-355              */
->>>     CID 1465787:    (BAD_SHIFT)
->>>     In expression "1LL << n", left shifting by more than 63 bits has undefined behavior.  The shift amount, "n", is as much as 64.
-356             m = (1ll << n) - 1;
-357             if (bit) {
-358                 right = ror64(right | (src & m), n);
-359             } else {
-360                 left = ror64(left | (src & m), n);
-361             }
-/qemu/target/ppc/int_helper.c: 356 in helper_CFUGED()
-350
-351             /*
-352              * Extracts 'n' trailing bits of src and put them on the leading 'n'
-353              * bits of 'right' or 'left', pushing down the previously extracted
-354              * values.
-355              */
->>>     CID 1465787:    (BAD_SHIFT)
->>>     In expression "1LL << n", left shifting by more than 63 bits has undefined behavior.  The shift amount, "n", is 64.
-356             m = (1ll << n) - 1;
-357             if (bit) {
-358                 right = ror64(right | (src & m), n);
-359             } else {
-360                 left = ror64(left | (src & m), n);
-361             }
-/qemu/target/ppc/int_helper.c: 369 in helper_CFUGED()
-363             /*
-364              * Discards the processed bits from 'src' and 'mask'. Note that we are
-365              * removing 'n' trailing zeros from 'mask', but the logical shift will
-366              * add 'n' leading zeros back, so the population count of 'mask' is kept
-367              * the same.
-368              */
->>>     CID 1465787:    (BAD_SHIFT)
->>>     In expression "src >>= n", right shifting by more than 63 bits has undefined behavior.  The shift amount, "n", is 64.
-369             src >>= n;
-370             mask >>= n;
-371             i -= n;
-372             bit = !bit;
-373             mask = ~mask;
-374         }
-/qemu/target/ppc/int_helper.c: 370 in helper_CFUGED()
-364              * Discards the processed bits from 'src' and 'mask'. Note that we are
-365              * removing 'n' trailing zeros from 'mask', but the logical shift will
-366              * add 'n' leading zeros back, so the population count of 'mask' is kept
-367              * the same.
-368              */
-369             src >>= n;
->>>     CID 1465787:    (BAD_SHIFT)
->>>     In expression "mask >>= n", right shifting by more than 63 bits has undefined behavior.  The shift amount, "n", is 64.
-370             mask >>= n;
-371             i -= n;
-372             bit = !bit;
-373             mask = ~mask;
-374         }
-375
-/qemu/target/ppc/int_helper.c: 370 in helper_CFUGED()
-364              * Discards the processed bits from 'src' and 'mask'. Note that we are
-365              * removing 'n' trailing zeros from 'mask', but the logical shift will
-366              * add 'n' leading zeros back, so the population count of 'mask' is kept
-367              * the same.
-368              */
-369             src >>= n;
->>>     CID 1465787:    (BAD_SHIFT)
->>>     In expression "mask >>= n", right shifting by more than 63 bits has undefined behavior.  The shift amount, "n", is 64.
-370             mask >>= n;
-371             i -= n;
-372             bit = !bit;
-373             mask = ~mask;
-374         }
-375
-/qemu/target/ppc/int_helper.c: 369 in helper_CFUGED()
-363             /*
-364              * Discards the processed bits from 'src' and 'mask'. Note that we are
-365              * removing 'n' trailing zeros from 'mask', but the logical shift will
-366              * add 'n' leading zeros back, so the population count of 'mask' is kept
-367              * the same.
-368              */
->>>     CID 1465787:    (BAD_SHIFT)
->>>     In expression "src >>= n", right shifting by more than 63 bits has undefined behavior.  The shift amount, "n", is 64.
-369             src >>= n;
-370             mask >>= n;
-371             i -= n;
-372             bit = !bit;
-373             mask = ~mask;
-374         }
-
-** CID 1465786:  Uninitialized variables  (UNINIT)
+So yes this patch fixes one particular use case, but the real issue is that the PPC 
+target floating point flags need a bit of work: however once this is done it should 
+be possible for hardfloat to be enabled via a CPU option on suitable hosts which will 
+bring a noticeable improvement in floating point performance.
 
 
-________________________________________________________________________________________________________
-*** CID 1465786:  Uninitialized variables  (UNINIT)
-/qemu/target/ppc/dfp_helper.c: 850 in helper_DRRND()
-844         dfp_finalize_decimal##size(&dfp);                                   \
-845         QUA_PPs(&dfp);                                                      \
-846                                                                             \
-847         set_dfp##size(t, &dfp.vt);                                          \
-848     }
-849
->>>     CID 1465786:  Uninitialized variables  (UNINIT)
->>>     Using uninitialized element of array "dfp.vt" when calling "set_dfp64".
-850     DFP_HELPER_RRND(DRRND, 64)
-851     DFP_HELPER_RRND(DRRNDQ, 128)
-852
-853     #define DFP_HELPER_RINT(op, postprocs, size)                                   \
-854     void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b,               \
-855                  uint32_t r, uint32_t rmc)                                         \
+ATB,
 
-** CID 1465785:  Uninitialized variables  (UNINIT)
-
-
-________________________________________________________________________________________________________
-*** CID 1465785:  Uninitialized variables  (UNINIT)
-/qemu/target/ppc/dfp_helper.c: 489 in helper_DDIV()
-483         dfp_check_for_XX(dfp);
-484         dfp_check_for_VXSNAN(dfp);
-485         dfp_check_for_VXZDZ(dfp);
-486         dfp_check_for_VXIDI(dfp);
-487     }
-488
->>>     CID 1465785:  Uninitialized variables  (UNINIT)
->>>     Using uninitialized element of array "dfp.vt" when calling "set_dfp64".
-489     DFP_HELPER_TAB(DDIV, decNumberDivide, DIV_PPs, 64)
-490     DFP_HELPER_TAB(DDIVQ, decNumberDivide, DIV_PPs, 128)
-491
-492     #define DFP_HELPER_BF_AB(op, dnop, postprocs, size)                            \
-493     uint32_t helper_##op(CPUPPCState *env, ppc_fprp_t *a, ppc_fprp_t *b)           \
-494     {                                                                              \
-
-** CID 1465784:  Uninitialized variables  (UNINIT)
-
-
-________________________________________________________________________________________________________
-*** CID 1465784:  Uninitialized variables  (UNINIT)
-/qemu/target/ppc/dfp_helper.c: 754 in helper_DQUAI()
-748         dfp_finalize_decimal##size(&dfp);                                   \
-749         QUA_PPs(&dfp);                                                      \
-750                                                                             \
-751         set_dfp##size(t, &dfp.vt);                                          \
-752     }
-753
->>>     CID 1465784:  Uninitialized variables  (UNINIT)
->>>     Using uninitialized element of array "dfp.vt" when calling "set_dfp64".
-754     DFP_HELPER_QUAI(DQUAI, 64)
-755     DFP_HELPER_QUAI(DQUAIQ, 128)
-756
-757     #define DFP_HELPER_QUA(op, size)                                        \
-758     void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *a,        \
-759                      ppc_fprp_t *b, uint32_t rmc)                           \
-
-** CID 1465783:  Uninitialized variables  (UNINIT)
-
-
-________________________________________________________________________________________________________
-*** CID 1465783:  Uninitialized variables  (UNINIT)
-/qemu/target/ppc/dfp_helper.c: 885 in helper_DRINTN()
-879     static void RINTN_PPs(struct PPC_DFP *dfp)
-880     {
-881         dfp_set_FPRF_from_FRT(dfp);
-882         dfp_check_for_VXSNAN(dfp);
-883     }
-884
->>>     CID 1465783:  Uninitialized variables  (UNINIT)
->>>     Using uninitialized element of array "dfp.vt" when calling "set_dfp64".
-885     DFP_HELPER_RINT(DRINTN, RINTN_PPs, 64)
-886     DFP_HELPER_RINT(DRINTNQ, RINTN_PPs, 128)
-887
-888     void helper_DCTDP(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
-889     {
-890         struct PPC_DFP dfp;
-
-** CID 1465782:  Uninitialized variables  (UNINIT)
-
-
-________________________________________________________________________________________________________
-*** CID 1465782:  Uninitialized variables  (UNINIT)
-/qemu/target/ppc/dfp_helper.c: 448 in helper_DADD()
-442         dfp_check_for_UX(dfp);
-443         dfp_check_for_XX(dfp);
-444         dfp_check_for_VXSNAN(dfp);
-445         dfp_check_for_VXISI_add(dfp);
-446     }
-447
->>>     CID 1465782:  Uninitialized variables  (UNINIT)
->>>     Using uninitialized element of array "dfp.vt" when calling "set_dfp64".
-448     DFP_HELPER_TAB(DADD, decNumberAdd, ADD_PPs, 64)
-449     DFP_HELPER_TAB(DADDQ, decNumberAdd, ADD_PPs, 128)
-450
-451     static void SUB_PPs(struct PPC_DFP *dfp)
-452     {
-453         dfp_set_FPRF_from_FRT(dfp);
-
-** CID 1465781:  Uninitialized variables  (UNINIT)
-
-
-________________________________________________________________________________________________________
-*** CID 1465781:  Uninitialized variables  (UNINIT)
-/qemu/target/ppc/dfp_helper.c: 1302 in helper_DIEX()
-1296             dfp.t.exponent = exp - bias;                                      \
-1297             dfp_finalize_decimal##size(&dfp);                                 \
-1298         }                                                                     \
-1299         set_dfp##size(t, &dfp.vt);                                            \
-1300     }
-1301
->>>     CID 1465781:  Uninitialized variables  (UNINIT)
->>>     Using uninitialized element of array "dfp.vt" when calling "set_dfp64".
-1302     DFP_HELPER_IEX(DIEX, 64)
-1303     DFP_HELPER_IEX(DIEXQ, 128)
-1304
-1305     static void dfp_clear_lmd_from_g5msb(uint64_t *t)
-1306     {
-1307
-
-** CID 1465780:  Uninitialized variables  (UNINIT)
-
-
-________________________________________________________________________________________________________
-*** CID 1465780:  Uninitialized variables  (UNINIT)
-/qemu/target/ppc/dfp_helper.c: 900 in helper_DCTDP()
-894         get_dfp64(&vb, b);
-895         b_short = (uint32_t)vb.VsrD(1);
-896
-897         dfp_prepare_decimal64(&dfp, 0, 0, env);
-898         decimal32ToNumber((decimal32 *)&b_short, &dfp.t);
-899         dfp_finalize_decimal64(&dfp);
->>>     CID 1465780:  Uninitialized variables  (UNINIT)
->>>     Using uninitialized element of array "dfp.vt" when calling "set_dfp64".
-900         set_dfp64(t, &dfp.vt);
-901         dfp_set_FPRF_from_FRT(&dfp);
-902     }
-903
-904     void helper_DCTQPQ(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b)
-905     {
-
-** CID 1465779:  Uninitialized variables  (UNINIT)
-
-
-________________________________________________________________________________________________________
-*** CID 1465779:  Uninitialized variables  (UNINIT)
-/qemu/target/ppc/dfp_helper.c: 1392 in helper_DSCRI()
-1386                                                                         \
-1387         set_dfp##size(t, &dfp.vt);                                      \
-1388     }
-1389
-1390     DFP_HELPER_SHIFT(DSCLI, 64, 1)
-1391     DFP_HELPER_SHIFT(DSCLIQ, 128, 1)
->>>     CID 1465779:  Uninitialized variables  (UNINIT)
->>>     Using uninitialized element of array "dfp.vt" when calling "set_dfp64".
-1392     DFP_HELPER_SHIFT(DSCRI, 64, 0)
-
-** CID 1465778:  Uninitialized variables  (UNINIT)
-
-
-________________________________________________________________________________________________________
-*** CID 1465778:  Uninitialized variables  (UNINIT)
-/qemu/target/ppc/dfp_helper.c: 772 in helper_DQUA()
-766         dfp_finalize_decimal##size(&dfp);                                   \
-767         QUA_PPs(&dfp);                                                      \
-768                                                                             \
-769         set_dfp##size(t, &dfp.vt);                                          \
-770     }
-771
->>>     CID 1465778:  Uninitialized variables  (UNINIT)
->>>     Using uninitialized element of array "dfp.vt" when calling "set_dfp64".
-772     DFP_HELPER_QUA(DQUA, 64)
-773     DFP_HELPER_QUA(DQUAQ, 128)
-774
-775     static void _dfp_reround(uint8_t rmc, int32_t ref_sig, int32_t xmax,
-776                                  struct PPC_DFP *dfp)
-777     {
-
-** CID 1465777:  Uninitialized variables  (UNINIT)
-
-
-________________________________________________________________________________________________________
-*** CID 1465777:  Uninitialized variables  (UNINIT)
-/qemu/target/ppc/dfp_helper.c: 474 in helper_DMUL()
-468         dfp_check_for_UX(dfp);
-469         dfp_check_for_XX(dfp);
-470         dfp_check_for_VXSNAN(dfp);
-471         dfp_check_for_VXIMZ(dfp);
-472     }
-473
->>>     CID 1465777:  Uninitialized variables  (UNINIT)
->>>     Using uninitialized element of array "dfp.vt" when calling "set_dfp64".
-474     DFP_HELPER_TAB(DMUL, decNumberMultiply, MUL_PPs, 64)
-475     DFP_HELPER_TAB(DMULQ, decNumberMultiply, MUL_PPs, 128)
-476
-477     static void DIV_PPs(struct PPC_DFP *dfp)
-478     {
-479         dfp_set_FPRF_from_FRT(dfp);
-
-** CID 1465776:  Uninitialized variables  (UNINIT)
-
-
-________________________________________________________________________________________________________
-*** CID 1465776:  Uninitialized variables  (UNINIT)
-/qemu/target/ppc/dfp_helper.c: 975 in helper_DCFFIX()
-969     static void CFFIX_PPs(struct PPC_DFP *dfp)
-970     {
-971         dfp_set_FPRF_from_FRT(dfp);
-972         dfp_check_for_XX(dfp);
-973     }
-974
->>>     CID 1465776:  Uninitialized variables  (UNINIT)
->>>     Using uninitialized element of array "dfp.vt" when calling "set_dfp64".
-975     DFP_HELPER_CFFIX(DCFFIX, 64)
-976     DFP_HELPER_CFFIX(DCFFIXQ, 128)
-977
-978     void helper_DCFFIXQQ(CPUPPCState *env, ppc_fprp_t *t, ppc_avr_t *b)
-979     {
-980         struct PPC_DFP dfp;
-
-
-________________________________________________________________________________________________________
-To view the defects in Coverity Scan visit, https://u15810271.ct.sendgrid.net/ls/click?upn=HRESupC-2F2Czv4BOaCWWCy7my0P0qcxCbhZ31OYv50yrzEQNXe51mg-2FlKoEnRoarMq5nOxxfhqLUuo8HvG2S4Ew-3D-3DSg6y_jyh8IR9bgNkJ4PKr7qLTzFnRqr0RKmg-2FcJU-2Be8u6URh40eXk8SJLpxByEhc-2FHPvIxWyMhydV0vZXVmTzBPZ-2BVSCWViuYLMmAIR5XxZXt2gddgEzb7N6x1gfGuSHCIvV6kxmV1Simlh0-2Bmfyq5CLPlJawKTnzpyg4dxdi-2FLlbQOpDEjeIVkjlDfy4yZP6Z84ED8WJ2owwylUWv9UKU583OA-3D-3D
-
-   To manage Coverity Scan email notifications for "clg@kaod.org", click https://u15810271.ct.sendgrid.net/ls/click?upn=HRESupC-2F2Czv4BOaCWWCy7my0P0qcxCbhZ31OYv50yped04pjJnmXOsUBtKYNIXx2NauWs5WCDfljKrISmdyL3cg6CAsWxhlPW2GrQ5yEq8FBQfE5u-2Bnily3YOA1FIrF-2FXjqndOW6gCSzH3lrjI7CUDJXmDu1YXBzBCHeTNmois-3DlHjg_jyh8IR9bgNkJ4PKr7qLTzFnRqr0RKmg-2FcJU-2Be8u6URh40eXk8SJLpxByEhc-2FHPvIjbRF4qvX56Lxl-2FIsYIV7MvJzyKgtlFiORVpoNTHAF4bT2GOICQrh92bFlFRFLNzT3vgnv5xWnA4F0xRP3ylFyhYSV9ixRU9WHX5ecBJtaDvhA86qWpAdGZ8xo20wbbjh0YwTwKopJn4wVCFSzYm0Rg-3D-3D
-
+Mark.
 
