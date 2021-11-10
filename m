@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A4A244C11C
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 13:17:43 +0100 (CET)
-Received: from localhost ([::1]:40032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A851844C11F
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 13:20:06 +0100 (CET)
+Received: from localhost ([::1]:45162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkmXu-0003Xx-Ba
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 07:17:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37466)
+	id 1mkmaD-00071z-Hv
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 07:20:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mkmVm-0002Wz-Ci
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 07:15:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45968)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mkmYB-0004pb-Q6
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 07:17:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mkmVj-0006BW-2d
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 07:15:29 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mkmY7-0006ZN-EB
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 07:17:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636546525;
+ s=mimecast20190719; t=1636546674;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tqGgOw852V5ootcd5wfgw9sIf4z2DBIT3dElpvHQrwM=;
- b=FngInkhR8s+LnK+dRxWT2Ivj1IHkrBG+mIRF3r1QI1eQFsczafVCyyUGFokDbFw2ZA2Oca
- ONQmXCQ5tv8zsOIrVCTa/98SZcO7KNQtjQCtI23fWYtlY6gWyFx+wAAvmty8pfhuEls/dU
- oJ1tkKD7BUqy4sLFVIjcBelb25paGcw=
+ bh=1fF845SalTj5Ls8nGl5fz5nT3i1pWHyvzhtxPrCaCNQ=;
+ b=GGptXemB1UIk+MUakxRL0L1Tq2uTxGXYatu+hZvbGLLfJ24Tdxc8gA6XME2SNHatJV1tzm
+ cjCZw0Cu4PPi1ojRG0JbRC5IcfEt4VtKceGgLkbvKh+5RhfweQElA2r2wCVmW75V9Zz9he
+ I5Zy34ytJeGDhLRfqsQE1tFasSOJMIk=
 Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
  [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-477-HugfiYoBMtWau61Kho9TZg-1; Wed, 10 Nov 2021 07:15:22 -0500
-X-MC-Unique: HugfiYoBMtWau61Kho9TZg-1
+ us-mta-598-61pzmL5iNR6H7HZCR3NtzQ-1; Wed, 10 Nov 2021 07:17:53 -0500
+X-MC-Unique: 61pzmL5iNR6H7HZCR3NtzQ-1
 Received: by mail-ed1-f72.google.com with SMTP id
- w13-20020a05640234cd00b003e2fde5ff8aso2134938edc.14
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 04:15:22 -0800 (PST)
+ d11-20020a50cd4b000000b003da63711a8aso2123545edj.20
+ for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 04:17:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=tqGgOw852V5ootcd5wfgw9sIf4z2DBIT3dElpvHQrwM=;
- b=gWi+6C0OKly1e0J5yIm8WSzftAl6yJmw1hCh0yUAwD6h7fX/kdJtHPc2CGb4f7K6GW
- j3HbPY9zk5/3eyNiDHRIrIuOh4uo7+etibjkrrf+ga50UEk/hgEk5VRtNyNTFoxc/dOs
- cjApRe1+QYl3OhgcKnEoDNMzhQhQhSpGRFZE3aYYmGPsG61YdjdzqLG1T1sjeoC8McX2
- YQs+nKnVOVDH3jUP929rgAQhMR3meotxb4MjX+4Rh+B0WWHAAtHgU2nWNlsQHqHgx8Br
- su5Gsw9WyySLSw5dliU8ojCko9KO/kkCvllpSd5DlClyMBq3l9BR+FXFVIf8xZSjEaCs
- wSOQ==
-X-Gm-Message-State: AOAM533gV6QS2zVQsi8mT5kI4C3mIneewMf3JnzH1m0kDdfbG7qW/N7R
- dyc5TC8+3OTdhyXH3wdq3iMeNcc3Poj6ur/UstGZ0rjYjc2EB0FtFM0IpjPiSF4+zgGXxKucfr6
- /gPxenmTA+3rX8ts=
-X-Received: by 2002:a17:906:7d09:: with SMTP id
- u9mr20364953ejo.120.1636546521177; 
- Wed, 10 Nov 2021 04:15:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyPjSibnLD2a4cduHMW/KRgf8XI/1cm5Azijmc8pbsMRF7ES8/m5iksn85RpStcKwB9bBEjdg==
-X-Received: by 2002:a17:906:7d09:: with SMTP id
- u9mr20364925ejo.120.1636546520943; 
- Wed, 10 Nov 2021 04:15:20 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=1fF845SalTj5Ls8nGl5fz5nT3i1pWHyvzhtxPrCaCNQ=;
+ b=wdAwrjfgR+fezzc/ZpzcxodStHoiFkIRw+m83NI+YPL9/66Pe2wz9kG+XC4lBQpi1F
+ HUwtAIoMn9jgDy2BmlJvflKR8WL9OtrZNB9pVJuyXNRFX9WpahVv921lT3ZKAi4nUlTe
+ 7bz0dn1GZaNCo9XD0GZaRvk6ISIbbIqZw9O4E9QNKujw7V4+kS0SOcolBwlhNyXKZqEQ
+ BNBWqAohlhzUf5B8a9PMHXF3eII7pyfuV9ACbax+Tn29zpO092SwBfzrY/PrRvULdvBT
+ tX8/E1K4Bp3M+FLHyBrYnClhDXRTG3BPnOM5r4qlM6xEnBoyW6NRchiX8GaSMdw3MGIa
+ OHlA==
+X-Gm-Message-State: AOAM533rduIzKRK26e/vzqNPXl4Ao0jfs+3zvlG5WVFkNppKSsr2uIs7
+ ZIBM4u3xXUOmkqZ4qILqBm+7Mh0KDEdTMZlENMhk8pZm2jOT+szfgPb1eWboJ+m9liLLl485ctB
+ cPsZDCzKe0El2RY8=
+X-Received: by 2002:a17:907:728a:: with SMTP id
+ dt10mr19503595ejc.526.1636546672440; 
+ Wed, 10 Nov 2021 04:17:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzdvm8t/+EBoGceemVy+wyt7PIoF1qH7wDjHGCXhJziMvJL6srOYLH66HxmCG0eLzJU3wTr7w==
+X-Received: by 2002:a17:907:728a:: with SMTP id
+ dt10mr19503563ejc.526.1636546672211; 
+ Wed, 10 Nov 2021 04:17:52 -0800 (PST)
 Received: from redhat.com ([2.55.133.41])
- by smtp.gmail.com with ESMTPSA id e20sm12517324edv.64.2021.11.10.04.15.19
+ by smtp.gmail.com with ESMTPSA id p3sm11448528ejy.94.2021.11.10.04.17.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Nov 2021 04:15:20 -0800 (PST)
-Date: Wed, 10 Nov 2021 07:15:16 -0500
+ Wed, 10 Nov 2021 04:17:51 -0800 (PST)
+Date: Wed, 10 Nov 2021 07:17:47 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Stefan Berger <stefanb@linux.ibm.com>
-Subject: Re: [PATCH v2 1/3] tests: acpi: prepare for updated TPM related tables
-Message-ID: <20211110071405-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH v2 2/3] acpi: tpm: Add missing device identification
+ objects
+Message-ID: <20211110071602-mutt-send-email-mst@kernel.org>
 References: <20211109140152.3310657-1-stefanb@linux.ibm.com>
- <20211109140152.3310657-2-stefanb@linux.ibm.com>
- <20211109090952-mutt-send-email-mst@kernel.org>
- <4c77d348-15b4-88e7-049b-9cff936cf2c5@linux.ibm.com>
+ <20211109140152.3310657-3-stefanb@linux.ibm.com>
+ <20211109091432-mutt-send-email-mst@kernel.org>
+ <5f10eeed-e83c-e2c8-b4bb-23116fdcbc51@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <4c77d348-15b4-88e7-049b-9cff936cf2c5@linux.ibm.com>
+In-Reply-To: <5f10eeed-e83c-e2c8-b4bb-23116fdcbc51@linux.ibm.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -100,238 +98,125 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Ani Sinha <ani@anisinha.ca>, marcandre.lureau@redhat.com,
- qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
+ Shannon Zhao <shannon.zhaosl@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 09, 2021 at 09:30:48AM -0500, Stefan Berger wrote:
+On Tue, Nov 09, 2021 at 09:26:46AM -0500, Stefan Berger wrote:
 > 
-> On 11/9/21 09:11, Michael S. Tsirkin wrote:
-> > On Tue, Nov 09, 2021 at 09:01:50AM -0500, Stefan Berger wrote:
-> > > Replace existing TPM related tables, that are about to change, with
-> > > empty files.
+> On 11/9/21 09:20, Michael S. Tsirkin wrote:
+> > On Tue, Nov 09, 2021 at 09:01:51AM -0500, Stefan Berger wrote:
+> > > Add missing device identification objects _STR and _UID. They will appear
+> > > as files 'description' and 'uid' under Linux sysfs.
 > > > 
+> > > Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
 > > > Cc: Michael S. Tsirkin <mst@redhat.com>
 > > > Cc: Igor Mammedov <imammedo@redhat.com>
 > > > Cc: Ani Sinha <ani@anisinha.ca>
+> > > Fixes: https://gitlab.com/qemu-project/qemu/-/issues/708
 > > > Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-> > Why do it though?
+> > Do you want this in 6.2?
 > 
-> With 'it' are you referring to the empty files? Should I just leave the file
-> untouched and just ignore them?
+> Yes.
 > 
-> How many patches should it be? One for ignoring the about-to-change tables,
-> one that does the changes, and one that re-introduces the tables?
-
-This, yes.
-
-> Or squash
-> them together in less patches?
-
-Pls don't squash since this makes it harder to rebase/cherry-pick.
-With this approach one just re-generates patches on rebase.
-
-> > I don't think it's a good idea - will make it harder
-> > to see what the changes are.
-> 
->    Stefan
 > 
 > > 
 > > > ---
-> > >   tests/data/acpi/q35/DSDT.tis.tpm12          | Bin 8894 -> 0 bytes
-> > >   tests/data/acpi/q35/DSDT.tis.tpm2           | Bin 8894 -> 0 bytes
-> > >   tests/data/acpi/q35/TCPA.tis.tpm12          | Bin 50 -> 0 bytes
-> > >   tests/data/acpi/q35/TPM2.tis.tpm2           | Bin 76 -> 0 bytes
-> > >   tests/qtest/bios-tables-test-allowed-diff.h |  11 +++++++++++
-> > >   5 files changed, 11 insertions(+)
+> > >   hw/arm/virt-acpi-build.c | 1 +
+> > >   hw/i386/acpi-build.c     | 8 ++++++++
+> > >   2 files changed, 9 insertions(+)
 > > > 
-> > > diff --git a/tests/data/acpi/q35/DSDT.tis.tpm12 b/tests/data/acpi/q35/DSDT.tis.tpm12
-> > > index c96b5277a14ae98174408d690d6e0246bd932623..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 100644
-> > > GIT binary patch
-> > > literal 0
-> > > HcmV?d00001
+> > > diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> > > index 674f902652..09456424aa 100644
+> > > --- a/hw/arm/virt-acpi-build.c
+> > > +++ b/hw/arm/virt-acpi-build.c
+> > > @@ -228,6 +228,7 @@ static void acpi_dsdt_add_tpm(Aml *scope, VirtMachineState *vms)
+> > >       Aml *dev = aml_device("TPM0");
+> > >       aml_append(dev, aml_name_decl("_HID", aml_string("MSFT0101")));
+> > > +    aml_append(dev, aml_name_decl("_STR", aml_string("TPM 2.0 Device")));
+> > >       aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+> > >       Aml *crs = aml_resource_template();
+> > > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > > index a3ad6abd33..5bd2160a89 100644
+> > > --- a/hw/i386/acpi-build.c
+> > > +++ b/hw/i386/acpi-build.c
+> > > @@ -1808,11 +1808,15 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> > >                       dev = aml_device("TPM");
+> > >                       aml_append(dev, aml_name_decl("_HID",
+> > >                                                     aml_string("MSFT0101")));
+> > > +                    aml_append(dev,
+> > > +                               aml_name_decl("_STR",
+> > > +                                             aml_string("TPM 2.0 Device")));
+> > 
+> > When we support more versions, won't this make us
+> > do annoying tricks to say so in the string?
+> > Why not just "TPM device" to future-proof it?
+> 
+> I am not sure what other version there will be and I haven't seen any other
+> descriptions than the one reported here:
+> 
+> https://gitlab.com/qemu-project/qemu/-/issues/708
+> 
+> That's why I took TPM 2.0 device. My TPM 1.2 machine doesn't report it for a
+> TPM 1.2.
+> 
+> 
+
+ok
+
+> > 
+> > > haven                 } else {
+> > >                       dev = aml_device("ISA.TPM");
+> > >                       aml_append(dev, aml_name_decl("_HID",
+> > >                                                     aml_eisaid("PNP0C31")));
+> > >                   }
+> > > +                aml_append(dev, aml_name_decl("_UID", aml_int(1)));
 > > > 
-> > > literal 8894
-> > > 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
-> > > E11ZdDc>n+a
-> > > 
-> > > diff --git a/tests/data/acpi/q35/DSDT.tis.tpm2 b/tests/data/acpi/q35/DSDT.tis.tpm2
-> > > index c92d4d29c79352a60974ea9f665d0b9a410a4bac..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 100644
-> > > GIT binary patch
-> > > literal 0
-> > > HcmV?d00001
-> > > 
-> > > literal 8894
-> > > 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
-> > > H_Sydd;%I4k
-> > > 
-> > > diff --git a/tests/data/acpi/q35/TCPA.tis.tpm12 b/tests/data/acpi/q35/TCPA.tis.tpm12
-> > > index a56961b413e7715b3d60f9836d1c8f2f4c7347cb..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 100644
-> > > GIT binary patch
-> > > literal 0
-> > > HcmV?d00001
-> > > 
-> > > literal 50
-> > > qcmWG>4sbMLU|?V}a`Jcf2v%^42yj*a0!E-1hz+7a07U<12eAOxRtEt9
-> > > 
-> > > diff --git a/tests/data/acpi/q35/TPM2.tis.tpm2 b/tests/data/acpi/q35/TPM2.tis.tpm2
-> > > index fe0f05987be40f1c1742ae189df7821adc522fc0..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 100644
-> > > GIT binary patch
-> > > literal 0
-> > > HcmV?d00001
-> > > 
-> > > literal 76
-> > > wcmWFu@HO&bU|?Vob@F%i2v%^42yj*a0!E-1hz+8V0UI(0%m%6W&kkY&0CHRh0RR91
-> > > 
-> > > diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> > > index dfb8523c8b..9743422eee 100644
-> > > --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> > > +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> > > @@ -1 +1,12 @@
-> > >   /* List of comma-separated changed AML files to ignore */
-> > > +"tests/data/acpi/q35/APIC.tis.tpm2",
-> > > +"tests/data/acpi/q35/DSDT.tis.tpm12",
-> > > +"tests/data/acpi/q35/DSDT.tis.tpm2",
-> > > +"tests/data/acpi/q35/FACP.tis.tpm2",
-> > > +"tests/data/acpi/q35/FACS.tis.tpm2",
-> > > +"tests/data/acpi/q35/HPET.tis.tpm2",
-> > > +"tests/data/acpi/q35/MCFG.tis.tpm2",
-> > > +"tests/data/acpi/q35/TCPA.tis.dsl",
-> > > +"tests/data/acpi/q35/TCPA.tis.tpm12",
-> > > +"tests/data/acpi/q35/TPM2.tis.tpm2",
-> > > +"tests/data/acpi/q35/WAET.tis.tpm2",
+> > The ACPI spec mentions also matching on _CID.
+> "6.1.2 _CID (Compatible ID)
+> This optional object is used to supply OSPM with a device?s Plug and
+> Play-Compatible Device ID. Use _CID
+> 
+> objects when a device has no other defined hardware standard method to
+> report its compatible IDs"
+> 
+> 
+> 6.1.12 _UID (Unique ID)
+> This object provides OSPM with a logical device ID that does not change
+> across reboots. This object is
+> optional, but is required when the device has no other way to report a
+> persistent unique device ID. The
+> _UID must be unique across all devices with either a common _HID or _CID.
+> 
+> 
+> Is _CID a must-have for TPM now? We have _HID.
+
+
+the spec says UID is unique for all
+devices with a given CID or HID. Does this mean just HID is used
+if no CID? Or that all devices without CID must have unique UIDs?
+
+I think the former but just making sure.
+
+> 
+> > >                   aml_append(dev, aml_name_decl("_STA", aml_int(0xF)));
+> > >                   crs = aml_resource_template();
+> > > @@ -1840,6 +1844,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> > >       if (TPM_IS_CRB(tpm)) {
+> > >           dev = aml_device("TPM");
+> > >           aml_append(dev, aml_name_decl("_HID", aml_string("MSFT0101")));
+> > > +        aml_append(dev, aml_name_decl("_STR",
+> > > +                                      aml_string("TPM 2.0 Device")));
+> > >           crs = aml_resource_template();
+> > >           aml_append(crs, aml_memory32_fixed(TPM_CRB_ADDR_BASE,
+> > >                                              TPM_CRB_ADDR_SIZE, AML_READ_WRITE));
+> > > @@ -1847,6 +1853,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> > >           aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
+> > > +        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+> > > +
+> > >           tpm_build_ppi_acpi(tpm, dev);
+> > >           aml_append(sb_scope, dev);
 > > > -- 
 > > > 2.31.1
 
