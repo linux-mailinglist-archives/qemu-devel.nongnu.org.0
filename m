@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C1E44C366
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 15:52:49 +0100 (CET)
-Received: from localhost ([::1]:59678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DE5344C36B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 15:53:25 +0100 (CET)
+Received: from localhost ([::1]:60838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkoxy-0002jB-A1
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 09:52:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55658)
+	id 1mkoya-0003Wf-6R
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 09:53:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mkouc-0000Qt-Uc
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 09:49:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34346)
+ id 1mkoum-0000eu-0l
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 09:49:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49937)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mkoua-0007Oy-G0
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 09:49:18 -0500
+ id 1mkoui-0007Pm-Ne
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 09:49:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636555755;
+ s=mimecast20190719; t=1636555763;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NeUYQwa9yvn4ixeCrDp6G43rNBPGoPA9tRvu0OivA80=;
- b=N5m1IpU8me6iubjZfMiXcGvhewoux1qjOW2z+tVjyYGVC0Zoo2ay96ZNiP8qGMkI3m2R3R
- BKl6wg2y8cAQdrXrRRneXcFwG6VP0YVx4R8SRCx3bshB0nWNFbXIyWKdf0rcaO+d5vrZqI
- N47GP3k0S5m/NvGyTRz9Rb6c9MU1XZk=
+ bh=kTjhbGJZjZ0S3OT6BXHR7Wc7EFhvJRodEGjxv7ZoFsM=;
+ b=RHTz7+sPAC0S7i8begDkaczdkEaZi5S6YoC5Gj+U2E8pnvVRaHeBUlnl+tx//r7VTsh1JS
+ Xhis80ygZm8K5bqtG8XrtWoNTKh81/bzd7dZ0V0y6mg71cuwOuLGrQdt+xpK+U82dnbnM2
+ jucCRVRpvcmohodo5IloZix0HEN/mCg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-DYL66gpQN5uxNzVPLyK_iw-1; Wed, 10 Nov 2021 09:49:12 -0500
-X-MC-Unique: DYL66gpQN5uxNzVPLyK_iw-1
+ us-mta-260-NLaur5VJNvyQRs3GOitlUg-1; Wed, 10 Nov 2021 09:49:19 -0500
+X-MC-Unique: NLaur5VJNvyQRs3GOitlUg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2880804018;
- Wed, 10 Nov 2021 14:49:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3971100E32C;
+ Wed, 10 Nov 2021 14:49:13 +0000 (UTC)
 Received: from paraplu.lan (unknown [10.39.195.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D298468397;
- Wed, 10 Nov 2021 14:49:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 257C99ECDB;
+ Wed, 10 Nov 2021 14:49:09 +0000 (UTC)
 From: Kashyap Chamarthy <kchamart@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/3] docs: rSTify the "TrivialPatches" wiki
-Date: Wed, 10 Nov 2021 15:49:00 +0100
-Message-Id: <20211110144902.388183-2-kchamart@redhat.com>
+Subject: [PATCH v3 2/3] docs: rSTify the "SubmitAPullRequest" wiki
+Date: Wed, 10 Nov 2021 15:49:01 +0100
+Message-Id: <20211110144902.388183-3-kchamart@redhat.com>
 In-Reply-To: <20211110144902.388183-1-kchamart@redhat.com>
 References: <20211110144902.388183-1-kchamart@redhat.com>
 MIME-Version: 1.0
@@ -91,85 +91,111 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 The original wiki is here[1].  I converted by copying the wiki source
 into a .wiki file and convert to rST using `pandoc`:
 
-        $ pandoc -f Mediawiki -t rst trivial-patches.wiki -o trivial-patches.rst
+    $ pandoc -f Mediawiki -t rst submitting-a-pull-request.wiki \
+        -o submitting-a-pull-request.rst
 
-Update the active maintainer names (and drop Michael Tokarev's inactive
-repo) to reflect current reality.
+This is a 1-1 conversion; no content changes.
 
-[1] https://wiki.qemu.org/Contribute/TrivialPatches
+[1] https://wiki.qemu.org/Contribute/SubmitAPullRequest
 
 Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
 ---
- docs/devel/index.rst           |  1 +
- docs/devel/trivial-patches.rst | 50 ++++++++++++++++++++++++++++++++++
- 2 files changed, 51 insertions(+)
- create mode 100644 docs/devel/trivial-patches.rst
+ docs/devel/index.rst                     |  1 +
+ docs/devel/submitting-a-pull-request.rst | 76 ++++++++++++++++++++++++
+ 2 files changed, 77 insertions(+)
+ create mode 100644 docs/devel/submitting-a-pull-request.rst
 
 diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index f95df10b3e..f1822a35bf 100644
+index f1822a35bf..816eb7b7b0 100644
 --- a/docs/devel/index.rst
 +++ b/docs/devel/index.rst
-@@ -45,3 +45,4 @@ modifying QEMU's source code.
-    vfio-migration
+@@ -46,3 +46,4 @@ modifying QEMU's source code.
     qapi-code-gen
     writing-qmp-commands
-+   trivial-patches
-diff --git a/docs/devel/trivial-patches.rst b/docs/devel/trivial-patches.rst
+    trivial-patches
++   submitting-a-pull-request
+diff --git a/docs/devel/submitting-a-pull-request.rst b/docs/devel/submitting-a-pull-request.rst
 new file mode 100644
-index 0000000000..db3f2001da
+index 0000000000..8729d29036
 --- /dev/null
-+++ b/docs/devel/trivial-patches.rst
-@@ -0,0 +1,50 @@
-+Trivial Patches
-+===============
++++ b/docs/devel/submitting-a-pull-request.rst
+@@ -0,0 +1,76 @@
++Submit a Pull Request
++=====================
 +
-+Overview
-+--------
++QEMU welcomes contributions of code, but we generally expect these to be
++sent as simple patch emails to the mailing list (see our page on
++`submitting a patch
++<https://qemu-project.gitlab.io/qemu/devel/submitting-a-patch.html>`__
++for more details).  Generally only existing submaintainers of a tree
++will need to submit pull requests, although occasionally for a large
++patch series we might ask a submitter to send a pull request. This page
++documents our recommendations on pull requests for those people.
 +
-+Trivial patches that change just a few lines of code sometimes languish
-+on the mailing list even though they require only a small amount of
-+review. This is often the case for patches that do not fall under an
-+actively maintained subsystem and therefore fall through the cracks.
++A good rule of thumb is not to send a pull request unless somebody asks
++you to.
 +
-+The trivial patches team take on the task of reviewing and building pull
-+requests for patches that:
++**Resend the patches with the pull request** as emails which are
++threaded as follow-ups to the pull request itself. The simplest way to
++do this is to use ``git format-patch --cover-letter`` to create the
++emails, and then edit the cover letter to include the pull request
++details that ``git request-pull`` outputs.
 +
-+- Do not fall under an actively maintained subsystem.
-+- Are single patches or short series (max 2-4 patches).
-+- Only touch a few lines of code.
++**Use PULL as the subject line tag** in both the cover letter and the
++retransmitted patch mails (for example, by using
++``--subject-prefix=PULL`` in your ``git format-patch`` command). This
++helps people to filter in or out the resulting emails (especially useful
++if they are only CC'd on one email out of the set).
 +
-+**You should hint that your patch is a candidate by CCing
-+qemu-trivial@nongnu.org.**
++**Each patch must have your own Signed-off-by: line** as well as that of
++the original author if the patch was not written by you. This is because
++with a pull request you're now indicating that the patch has passed via
++you rather than directly from the original author.
 +
-+Repositories
-+------------
++**Don't forget to add Reviewed-by: and Acked-by: lines**. When other
++people have reviewed the patches you're putting in the pull request,
++make sure you've copied their signoffs across. (If you use the `patches
++tool <https://github.com/stefanha/patches>`__ to add patches from email
++directly to your git repo it will include the tags automatically; if
++you're updating patches manually or in some other way you'll need to
++edit the commit messages by hand.)
 +
-+Since the trivial patch team rotates maintainership there is only one
-+active repository at a time:
++**Don't send pull requests for code that hasn't passed review**. A pull
++request says these patches are ready to go into QEMU now, so they must
++have passed the standard code review processes. In particular if you've
++corrected issues in one round of code review, you need to send your
++fixed patch series as normal to the list; you can't put it in a pull
++request until it's gone through. (Extremely trivial fixes may be OK to
++just fix in passing, but if in doubt err on the side of not.)
 +
-+- git://github.com/vivier/qemu.git trivial-patches - `browse <https://github.com/vivier/qemu/tree/trivial-patches>`__
++**Test before sending**. This is an obvious thing to say, but make sure
++everything builds (including that it compiles at each step of the patch
++series) and that "make check" passes before sending out the pull
++request. As a submaintainer you're one of QEMU's lines of defense
++against bad code, so double check the details.
 +
-+Workflow
-+--------
++**All pull requests must be signed**. If your key is not already signed
++by members of the QEMU community, you should make arrangements to attend
++a `KeySigningParty <https://wiki.qemu.org/KeySigningParty>`__ (for
++example at KVM Forum) or make alternative arrangements to have your key
++signed by an attendee.  Key signing requires meeting another community
++member \*in person\* so please make appropriate arrangements.  By
++"signed" here we mean that the pullreq email should quote a tag which is
++a GPG-signed tag (as created with 'gpg tag -s ...').
 +
-+The trivial patches team rotates the duty of collecting trivial patches
-+amongst its members. A team member's job is to:
++**Pull requests not for master should say "not for master" and have
++"PULL SUBSYSTEM whatever" in the subject tag**. If your pull request is
++targeting a stable branch or some submaintainer tree, please include the
++string "not for master" in the cover letter email, and make sure the
++subject tag is "PULL SUBSYSTEM s390/block/whatever" rather than just
++"PULL". This allows it to be automatically filtered out of the set of
++pull requests that should be applied to master.
 +
-+1. Identify trivial patches on the development mailing list.
-+2. Review trivial patches, merge them into a git tree, and reply to state
-+   that the patch is queued.
-+3. Send pull requests to the development mailing list once a week.
-+
-+A single team member can be on duty as long as they like. The suggested
-+time is 1 week before handing off to the next member.
-+
-+Team
-+----
-+
-+If you would like to join the trivial patches team, contact Laurent
-+Vivier. The current team includes:
-+
-+- `Laurent Vivier <mailto:laurent@vivier.eu>`__
++You might be interested in the `make-pullreq
++<https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/make-pullreq>`__
++script which automates some of this process for you and includes a few
++sanity checks. Note that you must edit it to configure it suitably for
++your local situation!
 -- 
 2.31.1
 
