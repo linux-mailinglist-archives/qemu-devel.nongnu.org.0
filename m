@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83B0044CB9A
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 23:08:17 +0100 (CET)
-Received: from localhost ([::1]:38468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE25144CD17
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 23:48:15 +0100 (CET)
+Received: from localhost ([::1]:50280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkvlQ-0007SF-8j
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 17:08:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46538)
+	id 1mkwO6-0001VS-KI
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 17:48:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mkvjx-0006MB-Iw
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 17:06:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25864)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mkvju-0000hx-9i
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 17:06:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636582000;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZB8enz9LI4/KJ8LpLCq66hdNo6gP/ctW2YC5VFWy3hk=;
- b=g9kIn8g3kHuTJt+cRJFYmiyd8dHMFptDhVc2VRo9V0lCJO2CNl/zyQs8Zx6Z/81or5f3lY
- Pbk1ayjCzgpvg6ur6b2uNnJlOR+PkLZevSXzCGRDNgL1glKaTBfkHJmv6zg5riGNNtqnay
- OyYvSBkkGxM95ixw2b/SxJbzlBXS6kU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-109-pkFadyoRPu6XHQtZt12TcA-1; Wed, 10 Nov 2021 17:06:37 -0500
-X-MC-Unique: pkFadyoRPu6XHQtZt12TcA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31DC615721;
- Wed, 10 Nov 2021 22:06:36 +0000 (UTC)
-Received: from localhost (unknown [10.22.16.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC0B660843;
- Wed, 10 Nov 2021 22:06:32 +0000 (UTC)
-Date: Wed, 10 Nov 2021 17:06:32 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v3 3/3] hw/i386: expose a "smbios-entry-point-type" PC
- machine property
-Message-ID: <20211110220632.xaazf2s647r63qm7@habkost.net>
-References: <20211026151100.1691925-1-ehabkost@redhat.com>
- <20211026151100.1691925-4-ehabkost@redhat.com>
- <a2618cf2-a2a6-53f6-a7f0-8bb3a72d32e9@redhat.com>
- <20211102072349-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mkwN5-0000r7-OS
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 17:47:12 -0500
+Received: from [2607:f8b0:4864:20::92c] (port=38858
+ helo=mail-ua1-x92c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mkwN3-0005gx-Fv
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 17:47:11 -0500
+Received: by mail-ua1-x92c.google.com with SMTP id o26so8138759uab.5
+ for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 14:47:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=prwMTKyR06Kx3UIdz+cTcr7Iow7fhDqnvrNRb4Hd1jI=;
+ b=kNCXxjEVZKeaEREKXJrN3uWGsTpvBHqpn/XReealALbYMx2pdOkZP2l3xQbVAac5kU
+ CwTTE85PflBVmKbl36VhjkeDV+j9Jzc801GhJn6n0kNegaBTyQcrW4lprnduOuWtHYtS
+ tXJf1OZP25R/4WBck8ctw3ixYy41QKStehNydYtJkSsuzqSZd4ohWmsASUz3xz0PNMit
+ SqZXN0VHkAb2Y0yxOjnFPR5eptvezylNSVRpfwoGXIXZT6NC7XP16L/b3ieTfBy9ZARY
+ rsb93R+x5AVCyVjg07omixz31X+5QouSbsrakvHDG2OXBt/K+QY4ml1b/UxnQorhv9KP
+ PqVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=prwMTKyR06Kx3UIdz+cTcr7Iow7fhDqnvrNRb4Hd1jI=;
+ b=r6xaJUnBQ+gYozil9EcJbekkftaPEnDR1SgnnwMiLfVX0DlWXval6X26dKuNmthWCC
+ HGbKy2oIce+xAJeXHcE/AIDt4pvhUmbE/ZvoVa5IFdJCb+UqkE5RW83G9/0Xa3nz7iC3
+ PcrHSE6L22iA6THRKpqKTktidmHfHh+zefeAa9Z0Vu2LwhKVrS/8m3sp9q322Hsuswrq
+ ZzC8VKO8WzRTFIa0DTV3wOvBX14OBRkBVqyoRemACWaY9Q6F/RJyIV+fUZazWkTDAUAh
+ BX9zQ+O2lAq6L05DHrKo39+19VDqFRyCYFJ0Qnzfv7ixHagONUjX0AbAarxt3KDrFel+
+ uKnA==
+X-Gm-Message-State: AOAM532PNN9Yb2PXjhk0EIlfAxuLePUQ7eyKVmV7QCRdrMYF2Lp76kog
+ nvJIuajIVmo+H1/NVfUXTnqmXRgmkGM1G1W0EnR2ww==
+X-Google-Smtp-Source: ABdhPJyis0Bpw622BDih2fao/HqP5kM8dl3Uke+Vu6Hop2iX6n5C43zMxL+0VpIgZ6zj8HUBfTfTPyZljFaVdYZx/Ds=
+X-Received: by 2002:a05:6102:d94:: with SMTP id
+ d20mr4113838vst.12.1636584427519; 
+ Wed, 10 Nov 2021 14:47:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211102072349-mutt-send-email-mst@kernel.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20211110163133.76357-1-imp@bsdimp.com>
+ <20211110163133.76357-2-imp@bsdimp.com>
+ <32bfbe52-fd12-5997-5697-0267a16415a0@linaro.org>
+In-Reply-To: <32bfbe52-fd12-5997-5697-0267a16415a0@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Wed, 10 Nov 2021 15:46:56 -0700
+Message-ID: <CANCZdfqhA7h_eTsJKNB5DTaAOQrkkQigq7OC4SbeSo7tYtDmEQ@mail.gmail.com>
+Subject: Re: [RFC v2 1/6] linux-user: Add host_signal_set_pc to set pc in
+ mcontext
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000007293a305d0770131"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92c
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::92c;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92c.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,77 +82,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Eric Blake <eblake@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Laurent Vivier <laurent@vivier.eu>, QEMU Developers <qemu-devel@nongnu.org>,
+ Philippe Mathieu-Daude <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 02, 2021 at 07:25:25AM -0400, Michael S. Tsirkin wrote:
-> On Tue, Nov 02, 2021 at 09:51:35AM +0100, Philippe Mathieu-Daudé wrote:
-> > On 10/26/21 17:11, Eduardo Habkost wrote:
-> > > The i440fx and Q35 machine types are both hardcoded to use the
-> > > legacy SMBIOS 2.1 (32-bit) entry point. This is a sensible
-> > > conservative choice because SeaBIOS only supports SMBIOS 2.1
-> > > 
-> > > EDK2, however, can also support SMBIOS 3.0 (64-bit) entry points,
-> > > and QEMU already uses this on the ARM virt machine type.
-> > > 
-> > > This adds a property to allow the choice of SMBIOS entry point
-> > > versions For example to opt in to 64-bit SMBIOS entry point:
-> > > 
-> > >    $QEMU -machine q35,smbios-entry-point-type=64
-> > 
-> > It would be nice to have a test for this...
-> > 
-> > Otherwise,
-> > Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> 
-> Can we update seabios and the switch the default?
-> Maybe just for q35?
-> Or are there more considerations?
+--0000000000007293a305d0770131
+Content-Type: text/plain; charset="UTF-8"
 
-We can switch the default, but SeaBIOS maintainers won't include
-the SMBIOS 3.0 code I had submitted[1] until this is supported by
-QEMU.
+On Wed, Nov 10, 2021 at 9:42 AM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-After we patch SeaBIOS to support SMBIOS 3.0 and update the
-SeaBIOS binaries in the QEMU tree, we can switch the default in
-Q35 and/or i440fx to SMBIOS 3.0.
+> On 11/10/21 5:31 PM, Warner Losh wrote:
+> > +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+> > +{
+> > +#ifdef __arch64__
+> > +    uc->uc_mcontext.mc_gregs[MC_PC] = pc;
+> > +#else
+> > +    &uc->uc_mcontext.gregs[REG_PC] = pc;
+>
+> Stray & here.  Not that I have a sparc32 host on which to compile this...
+>
 
-[1] https://www.mail-archive.com/seabios@seabios.org/msg12415.html
-    https://www.mail-archive.com/seabios@seabios.org/msg12438.html
+Will fix... Same.  It's left over from the pointer versions and resend.
 
-> 
-> 
-> > > Based on a patch submitted by Daniel Berrangé.
-> > > 
-> > > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> > > ---
-> > > This is patch was previously submitted at:
-> > > https://lore.kernel.org/qemu-devel/20200908165438.1008942-6-berrange@redhat.com
-> > > 
-> > > Changes from v2:
-> > > * Rename "smbios-ep" to "smbios-entry-point-type"
-> > > 
-> > > Changes from v1:
-> > > * Include qapi-visit-smbios.h instead of qapi-visit-machine.h
-> > > * Commit message fix: s/smbios_ep/smbios-ep/
-> > > ---
-> > >  include/hw/i386/pc.h |  4 ++++
-> > >  hw/i386/pc.c         | 26 ++++++++++++++++++++++++++
-> > >  hw/i386/pc_piix.c    |  2 +-
-> > >  hw/i386/pc_q35.c     |  2 +-
-> > >  4 files changed, 32 insertions(+), 2 deletions(-)
-> 
+Warner
 
--- 
-Eduardo
+--0000000000007293a305d0770131
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 10, 2021 at 9:42 AM Richa=
+rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
+nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">On 11/10/21 5:31 PM, Warner Losh wrote:<br>
+&gt; +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)<b=
+r>
+&gt; +{<br>
+&gt; +#ifdef __arch64__<br>
+&gt; +=C2=A0 =C2=A0 uc-&gt;uc_mcontext.mc_gregs[MC_PC] =3D pc;<br>
+&gt; +#else<br>
+&gt; +=C2=A0 =C2=A0 &amp;uc-&gt;uc_mcontext.gregs[REG_PC] =3D pc;<br>
+<br>
+Stray &amp; here.=C2=A0 Not that I have a sparc32 host on which to compile =
+this...<br></blockquote><div><br></div><div>Will fix... Same.=C2=A0 It&#39;=
+s left over from the pointer versions and resend.</div><div><br></div><div>=
+Warner=C2=A0</div></div></div>
+
+--0000000000007293a305d0770131--
 
