@@ -2,56 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C90744BCC1
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 09:21:45 +0100 (CET)
-Received: from localhost ([::1]:46940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B22144BCFD
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 09:38:13 +0100 (CET)
+Received: from localhost ([::1]:49992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkirY-0004rr-Nv
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 03:21:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55324)
+	id 1mkj7T-0008Ee-SV
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 03:38:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mkipv-0003Co-Cb; Wed, 10 Nov 2021 03:20:03 -0500
-Received: from [2001:41c9:1:41f::167] (port=34260
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mkj68-0007aF-Qt
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 03:36:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mkips-00006b-D8; Wed, 10 Nov 2021 03:20:02 -0500
-Received: from [2a00:23c4:8b9e:9b00:2535:46c:7466:70fe]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mkipf-00071K-9h; Wed, 10 Nov 2021 08:19:51 +0000
-To: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20211020125724.78028-1-lucas.araujo@eldorado.org.br>
- <20211020125724.78028-2-lucas.araujo@eldorado.org.br>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <c4d2f4e8-b001-519d-ab8c-47e80d1a78ec@ilande.co.uk>
-Date: Wed, 10 Nov 2021 08:19:43 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mkj5T-00037y-NE
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 03:36:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636533365;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hJ3RF2V8IM9/8XGBNKLXckEbYRI+BW4q9NNTFImo/IQ=;
+ b=iQEEGZ796X8euZiChdDR4HPi6wK5e0BMJ54KYPpxxohuOyVI0yIp8X0C7VJakR0KkNLvMW
+ 6CYkCpE3iTL6RXkbOHG1/5RFHSieG3eZJIOaN3P5XOWsPpZ5RkulBP9MdyQ408qsxRCeu0
+ dXkULva8B96qji4GgVD7I7c4oMCAJC4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-460-lQJABciZMGCeW2Z9MnUf_Q-1; Wed, 10 Nov 2021 03:36:00 -0500
+X-MC-Unique: lQJABciZMGCeW2Z9MnUf_Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 736681023F4E;
+ Wed, 10 Nov 2021 08:35:59 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E5D7D1B4B8;
+ Wed, 10 Nov 2021 08:35:56 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6F53811380A7; Wed, 10 Nov 2021 09:35:55 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Zhang, Chen" <chen.zhang@intel.com>
+Subject: Re: [PATCH] net/filter: Enable the vnet_hdr_support by default
+References: <20211110023915.3797141-1-chen.zhang@intel.com>
+ <87czn88uqc.fsf@dusky.pond.sub.org>
+ <MWHPR11MB00319C2B4ED872EDDB5D43539B939@MWHPR11MB0031.namprd11.prod.outlook.com>
+ <87v9104jlb.fsf@dusky.pond.sub.org>
+ <MWHPR11MB0031DA3FF0E560F0A83C9B759B939@MWHPR11MB0031.namprd11.prod.outlook.com>
+Date: Wed, 10 Nov 2021 09:35:55 +0100
+In-Reply-To: <MWHPR11MB0031DA3FF0E560F0A83C9B759B939@MWHPR11MB0031.namprd11.prod.outlook.com>
+ (Chen Zhang's message of "Wed, 10 Nov 2021 06:53:03 +0000")
+Message-ID: <87czn82ys4.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20211020125724.78028-2-lucas.araujo@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8b9e:9b00:2535:46c:7466:70fe
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 1/2] target/ppc: Fixed call to deferred exception
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
- (failed)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.678,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,157 +82,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Lucas Mateus Castro \(alqotel\)" <lucas.castro@eldorado.org.br>,
- danielhb413@gmail.com, richard.henderson@linaro.org,
- david@gibson.dropbear.id.au
+Cc: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/10/2021 13:57, Lucas Mateus Castro (alqotel) wrote:
+"Zhang, Chen" <chen.zhang@intel.com> writes:
 
-> From: "Lucas Mateus Castro (alqotel)" <lucas.castro@eldorado.org.br>
-> 
-> mtfsf, mtfsfi and mtfsb1 instructions call helper_float_check_status
-> after updating the value of FPSCR, but helper_float_check_status
-> checks fp_status and fp_status isn't updated based on FPSCR and
-> since the value of fp_status is reset earlier in the instruction,
-> it's always 0.
-> 
-> Because of this helper_float_check_status would change the FI bit to 0
-> as this bit checks if the last operation was inexact and
-> float_flag_inexact is always 0.
-> 
-> These instructions also don't throw exceptions correctly since
-> helper_float_check_status throw exceptions based on fp_status.
-> 
-> This commit created a new helper, helper_fpscr_check_status that checks
-> FPSCR value instead of fp_status and checks for a larger variety of
-> exceptions than do_float_check_status.
-> 
-> The hardware used to compare QEMU's behavior to, was a Power9.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/266
-> Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.castro@eldorado.org.br>
-> ---
->   target/ppc/fpu_helper.c            | 41 ++++++++++++++++++++++++++++++
->   target/ppc/helper.h                |  1 +
->   target/ppc/translate/fp-impl.c.inc |  6 ++---
->   3 files changed, 45 insertions(+), 3 deletions(-)
-> 
-> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-> index c4896cecc8..f086cb503f 100644
-> --- a/target/ppc/fpu_helper.c
-> +++ b/target/ppc/fpu_helper.c
-> @@ -414,6 +414,47 @@ void helper_store_fpscr(CPUPPCState *env, uint64_t val, uint32_t nibbles)
->       ppc_store_fpscr(env, val);
->   }
->   
-> +void helper_fpscr_check_status(CPUPPCState *env)
-> +{
-> +    CPUState *cs = env_cpu(env);
-> +    target_ulong fpscr = env->fpscr;
-> +    int error = 0;
-> +
-> +    if ((fpscr & FP_VXSOFT) && (fpscr_ve != 0)) {
-> +        error = POWERPC_EXCP_FP_VXSOFT;
-> +    } else if ((fpscr & FP_OX) && (fpscr & FP_OE)) {
-> +        error = POWERPC_EXCP_FP_OX;
-> +    } else if ((fpscr & FP_UX) && (fpscr & FP_UE)) {
-> +        error = POWERPC_EXCP_FP_UX;
-> +    } else if ((fpscr & FP_XX) && (fpscr & FP_XE)) {
-> +        error = POWERPC_EXCP_FP_XX;
-> +    } else if ((fpscr & FP_ZX) && (fpscr & FP_ZE)) {
-> +        error = POWERPC_EXCP_FP_ZX;
-> +    } else if ((fpscr & FP_VXSNAN) && (fpscr_ve != 0)) {
-> +        error = POWERPC_EXCP_FP_VXSNAN;
-> +    } else if ((fpscr & FP_VXISI) && (fpscr_ve != 0)) {
-> +        error = POWERPC_EXCP_FP_VXISI;
-> +    } else if ((fpscr & FP_VXIDI) && (fpscr_ve != 0)) {
-> +        error = POWERPC_EXCP_FP_VXIDI;
-> +    } else if ((fpscr & FP_VXZDZ) && (fpscr_ve != 0)) {
-> +        error = POWERPC_EXCP_FP_VXZDZ;
-> +    } else if ((fpscr & FP_VXIMZ) && (fpscr_ve != 0)) {
-> +        error = POWERPC_EXCP_FP_VXIMZ;
-> +    } else if ((fpscr & FP_VXVC) && (fpscr_ve != 0)) {
-> +        error = POWERPC_EXCP_FP_VXVC;
-> +    }
-> +
-> +    if (error) {
-> +        cs->exception_index = POWERPC_EXCP_PROGRAM;
-> +        env->error_code = error | POWERPC_EXCP_FP;
-> +        /* Deferred floating-point exception after target FPSCR update */
-> +        if (fp_exceptions_enabled(env)) {
-> +            raise_exception_err_ra(env, cs->exception_index,
-> +                                   env->error_code, GETPC());
-> +        }
-> +    }
-> +}
-> +
->   static void do_float_check_status(CPUPPCState *env, uintptr_t raddr)
->   {
->       CPUState *cs = env_cpu(env);
-> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-> index 4076aa281e..baa3715e73 100644
-> --- a/target/ppc/helper.h
-> +++ b/target/ppc/helper.h
-> @@ -61,6 +61,7 @@ DEF_HELPER_FLAGS_1(cntlzw32, TCG_CALL_NO_RWG_SE, i32, i32)
->   DEF_HELPER_FLAGS_2(brinc, TCG_CALL_NO_RWG_SE, tl, tl, tl)
->   
->   DEF_HELPER_1(float_check_status, void, env)
-> +DEF_HELPER_1(fpscr_check_status, void, env)
->   DEF_HELPER_1(reset_fpstatus, void, env)
->   DEF_HELPER_2(compute_fprf_float64, void, env, i64)
->   DEF_HELPER_3(store_fpscr, void, env, i64, i32)
-> diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
-> index 9f7868ee28..0a9b1ecc60 100644
-> --- a/target/ppc/translate/fp-impl.c.inc
-> +++ b/target/ppc/translate/fp-impl.c.inc
-> @@ -782,7 +782,7 @@ static void gen_mtfsb1(DisasContext *ctx)
->           tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
->       }
->       /* We can raise a deferred exception */
-> -    gen_helper_float_check_status(cpu_env);
-> +    gen_helper_fpscr_check_status(cpu_env);
->   }
->   
->   /* mtfsf */
-> @@ -818,7 +818,7 @@ static void gen_mtfsf(DisasContext *ctx)
->           tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
->       }
->       /* We can raise a deferred exception */
-> -    gen_helper_float_check_status(cpu_env);
-> +    gen_helper_fpscr_check_status(cpu_env);
->       tcg_temp_free_i64(t1);
->   }
->   
-> @@ -851,7 +851,7 @@ static void gen_mtfsfi(DisasContext *ctx)
->           tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
->       }
->       /* We can raise a deferred exception */
-> -    gen_helper_float_check_status(cpu_env);
-> +    gen_helper_fpscr_check_status(cpu_env);
->   }
->   
->   /***                         Floating-point load                           ***/
+>> -----Original Message-----
+>> From: Markus Armbruster <armbru@redhat.com>
+>> Sent: Wednesday, November 10, 2021 2:21 PM
+>> To: Zhang, Chen <chen.zhang@intel.com>
+>> Cc: Jason Wang <jasowang@redhat.com>; qemu-dev <qemu-
+>> devel@nongnu.org>; Li Zhijian <lizhijian@cn.fujitsu.com>
+>> Subject: Re: [PATCH] net/filter: Enable the vnet_hdr_support by default
+>> 
+>> "Zhang, Chen" <chen.zhang@intel.com> writes:
+>> 
+>> >> -----Original Message-----
+>> >> From: Markus Armbruster <armbru@redhat.com>
+>> >> Sent: Wednesday, November 10, 2021 1:07 PM
+>> >> To: Zhang, Chen <chen.zhang@intel.com>
+>> >> Cc: Jason Wang <jasowang@redhat.com>; qemu-dev <qemu-
+>> >> devel@nongnu.org>; Li Zhijian <lizhijian@cn.fujitsu.com>
+>> >> Subject: Re: [PATCH] net/filter: Enable the vnet_hdr_support by
+>> >> default
+>> >>
+>> >> Zhang Chen <chen.zhang@intel.com> writes:
+>> >>
+>> >> > This patch make filters and colo-compare module support vnet_hdr by
+>> >> > default. And also support -device non-virtio-net(like e1000.).
+>> >> > But it can't avoid user manual configuration error between
+>> >> > different filters when enable/disable virtio-net-pci.
+>> >> >
+>> >> > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+>> >>
+>> >> Have you considered backward compatibility?  Can it break usage that
+>> >> now works?
+>> >
+>> > Yes, this patch fully guarantees the compatibility as Jason's comments.
+>> > Original usage still works.
+>> 
+>> Worth a brief explanation in the commit message?
+>
+> OK. Add following statement to commit message:
+> This patch make filters and colo-compare module support vnet_hdr by
+> default. And also support -device non-virtio-net(like e1000.). Because
+> when enabled the support will make the vnet_hdr_len field become must-delivery
+> part of filter transfer protocol(even 0 in use -device e1000). It fully guarantees the
+> compatibility for management layer like libvirt.
+> But it still can't avoid user manual configuration error between
+> different filters connected when enable/disable vnet_hdr_support.
+>
+> How about this explanation?
 
-FWIW the real issue here is that gen_helper_reset_fpstatus() even exists at all: see 
-the comments around enabling hardfloat in the PPC target by Emilio and Richard at 
-https://lists.nongnu.org/archive/html/qemu-devel/2018-11/msg04974.html and 
-https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg00064.html.
+I'm deferring to Jason, because I can't judge this for technical
+accuracy.
 
-I have tried a few informal experiments on my MacOS images by completely removing all 
-calls to gen_reset_fpstatus(), and whilst there were a few odd behaviours I was 
-surprised to find that the basic OS was usable. The main issue I had was trying to 
-come up with suitable test cases for the various instructions when my only available 
-hardware is a G4 Mac Mini.
+> By the way, please let me know your comments on filter passthrough series:
+> https://mail.gnu.org/archive/html/qemu-devel/2021-08/msg01393.html
+> If OK, I will update it.
 
-So yes this patch fixes one particular use case, but the real issue is that the PPC 
-target floating point flags need a bit of work: however once this is done it should 
-be possible for hardfloat to be enabled via a CPU option on suitable hosts which will 
-bring a noticeable improvement in floating point performance.
+Uh, I was under the impression that you'd respin with my comments
+addressed as per your reply to my review.
 
+It's too late for 6.2 now.  Suggest to respin, and adjust the "since:"
+tags to 7.0.
 
-ATB,
-
-Mark.
 
