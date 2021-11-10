@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE25144CD17
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 23:48:15 +0100 (CET)
-Received: from localhost ([::1]:50280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56D4C44CD2A
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 23:55:31 +0100 (CET)
+Received: from localhost ([::1]:52498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkwO6-0001VS-KI
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 17:48:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53088)
+	id 1mkwV8-0003Tj-GY
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 17:55:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mkwN5-0000r7-OS
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 17:47:12 -0500
-Received: from [2607:f8b0:4864:20::92c] (port=38858
- helo=mail-ua1-x92c.google.com)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mkwTo-0002eW-IH
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 17:54:08 -0500
+Received: from [2607:f8b0:4864:20::92f] (port=42551
+ helo=mail-ua1-x92f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mkwN3-0005gx-Fv
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 17:47:11 -0500
-Received: by mail-ua1-x92c.google.com with SMTP id o26so8138759uab.5
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 14:47:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mkwTm-0006L9-CT
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 17:54:08 -0500
+Received: by mail-ua1-x92f.google.com with SMTP id t13so8118908uad.9
+ for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 14:54:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=prwMTKyR06Kx3UIdz+cTcr7Iow7fhDqnvrNRb4Hd1jI=;
- b=kNCXxjEVZKeaEREKXJrN3uWGsTpvBHqpn/XReealALbYMx2pdOkZP2l3xQbVAac5kU
- CwTTE85PflBVmKbl36VhjkeDV+j9Jzc801GhJn6n0kNegaBTyQcrW4lprnduOuWtHYtS
- tXJf1OZP25R/4WBck8ctw3ixYy41QKStehNydYtJkSsuzqSZd4ohWmsASUz3xz0PNMit
- SqZXN0VHkAb2Y0yxOjnFPR5eptvezylNSVRpfwoGXIXZT6NC7XP16L/b3ieTfBy9ZARY
- rsb93R+x5AVCyVjg07omixz31X+5QouSbsrakvHDG2OXBt/K+QY4ml1b/UxnQorhv9KP
- PqVw==
+ :cc; bh=LLriAuiKr1DPf2a/wIoYRfbemI9aa1LA+E7driEk05c=;
+ b=XXzw+gEJ8l4NO3/y1YVtu/U3uOfHdhqaE7SO1yVxmGHu4NJlmyAvWXMtAdo6mmCRtG
+ kGjZpHYlypn++UQ8rYS/MJWPFTBcr5rYvQlmAwe93A1tGm47clm3dYrxaIeoyAy4gWwG
+ v5BZmQsjN1riUTvdlYIS4qx1/Lxzy2RoQd7kiWnemPL9kZpCdT6vFfI/jFmamCN27Owp
+ kPwekk8HjRjkh01WFyI9/cBAqp5CVX5GM3b+Mek9I1yAmkVW3wkcwKoomRk2OjZtEtaL
+ QN86eqdApsY3boXGZSOaX+vj9N+yR80Sp7OLIFnFInmbEC9JRf00yLOnnLH5nCdWEAFr
+ 41YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=prwMTKyR06Kx3UIdz+cTcr7Iow7fhDqnvrNRb4Hd1jI=;
- b=r6xaJUnBQ+gYozil9EcJbekkftaPEnDR1SgnnwMiLfVX0DlWXval6X26dKuNmthWCC
- HGbKy2oIce+xAJeXHcE/AIDt4pvhUmbE/ZvoVa5IFdJCb+UqkE5RW83G9/0Xa3nz7iC3
- PcrHSE6L22iA6THRKpqKTktidmHfHh+zefeAa9Z0Vu2LwhKVrS/8m3sp9q322Hsuswrq
- ZzC8VKO8WzRTFIa0DTV3wOvBX14OBRkBVqyoRemACWaY9Q6F/RJyIV+fUZazWkTDAUAh
- BX9zQ+O2lAq6L05DHrKo39+19VDqFRyCYFJ0Qnzfv7ixHagONUjX0AbAarxt3KDrFel+
- uKnA==
-X-Gm-Message-State: AOAM532PNN9Yb2PXjhk0EIlfAxuLePUQ7eyKVmV7QCRdrMYF2Lp76kog
- nvJIuajIVmo+H1/NVfUXTnqmXRgmkGM1G1W0EnR2ww==
-X-Google-Smtp-Source: ABdhPJyis0Bpw622BDih2fao/HqP5kM8dl3Uke+Vu6Hop2iX6n5C43zMxL+0VpIgZ6zj8HUBfTfTPyZljFaVdYZx/Ds=
-X-Received: by 2002:a05:6102:d94:: with SMTP id
- d20mr4113838vst.12.1636584427519; 
- Wed, 10 Nov 2021 14:47:07 -0800 (PST)
+ bh=LLriAuiKr1DPf2a/wIoYRfbemI9aa1LA+E7driEk05c=;
+ b=vlNO+deOidcEGrqYm9RmDA88m0pTA72FyGyF1WljM9cWeBqv1MPmgRCi9uKAwdOgyF
+ b6ws1ocste7jDTbvE09A+POg96roWigSnHXMFQMbdkit22tYGCUrqXoHSjIp1vW7vUok
+ pA2x2lQo7nVCei/J2G75LCTjNc8e/Tarqu2jeX26aGhhwYisKHD1FgvRcqNCTIrtETL9
+ wxKIkSnsyeNzk0ET6bldGJ0+vmtp9OceGTHvt1GGhMiKb6LnmJt/Fpw+y4IboJbj4mHu
+ fFblf8XnalK5jUlkUrduz4xr9lDsBn9KhUywQ25ZCuOsf6DH7WzyV/WrR1ZHnYHvywT8
+ saTA==
+X-Gm-Message-State: AOAM533Xn4i8xjQpcu9pEq4WloYL5Zb3zBp3dJF3/FqD0J7XZXYDKzpP
+ 2Qsheawss/QD/2PXf1fXeSuGzAeDakeR/3Sn9k5emg==
+X-Google-Smtp-Source: ABdhPJxmclicsrMM3sVmupyTgC4ancR4BmABasOOjRRgUTxuzJUqeSI46BfqrOqanDZOVMPPaO65YsGZr1yUL+HSeF0=
+X-Received: by 2002:a67:fdc3:: with SMTP id l3mr3607694vsq.42.1636584844865;
+ Wed, 10 Nov 2021 14:54:04 -0800 (PST)
 MIME-Version: 1.0
 References: <20211110163133.76357-1-imp@bsdimp.com>
- <20211110163133.76357-2-imp@bsdimp.com>
- <32bfbe52-fd12-5997-5697-0267a16415a0@linaro.org>
-In-Reply-To: <32bfbe52-fd12-5997-5697-0267a16415a0@linaro.org>
+ <20211110163133.76357-5-imp@bsdimp.com>
+ <c9e84889-e365-6277-3a62-3a76c05075db@linaro.org>
+In-Reply-To: <c9e84889-e365-6277-3a62-3a76c05075db@linaro.org>
 From: Warner Losh <imp@bsdimp.com>
-Date: Wed, 10 Nov 2021 15:46:56 -0700
-Message-ID: <CANCZdfqhA7h_eTsJKNB5DTaAOQrkkQigq7OC4SbeSo7tYtDmEQ@mail.gmail.com>
-Subject: Re: [RFC v2 1/6] linux-user: Add host_signal_set_pc to set pc in
- mcontext
+Date: Wed, 10 Nov 2021 15:53:54 -0700
+Message-ID: <CANCZdfotsf8j4wpNwaWYiuoAW+c_wf-qbo3aLbmKdQjebFphcA@mail.gmail.com>
+Subject: Re: [RFC v2 4/6] common-user: Adjust system call return on FreeBSD
 To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000007293a305d0770131"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92c
+Content-Type: multipart/alternative; boundary="00000000000052c85c05d0771aa7"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92f
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::92c;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92c.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::92f;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92f.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -87,49 +85,163 @@ Cc: Laurent Vivier <laurent@vivier.eu>, QEMU Developers <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000007293a305d0770131
+--00000000000052c85c05d0771aa7
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Nov 10, 2021 at 9:42 AM Richard Henderson <
+On Wed, Nov 10, 2021 at 9:59 AM Richard Henderson <
 richard.henderson@linaro.org> wrote:
 
 > On 11/10/21 5:31 PM, Warner Losh wrote:
-> > +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
-> > +{
-> > +#ifdef __arch64__
-> > +    uc->uc_mcontext.mc_gregs[MC_PC] = pc;
-> > +#else
-> > +    &uc->uc_mcontext.gregs[REG_PC] = pc;
+> > All the *-users generally use the Linux style of negative return codes
+> > for errno. FreeBSD returns errno, not -errno. Add ifdefs for FreeBSD to
+> > make the adjustment on the 4 hosts that we have support for.
+> >
+> > Signed-off-by: Warner Losh <imp@bsdimp.com>
+> > ---
+> >   common-user/host/aarch64/safe-syscall.inc.S | 5 +++++
+> >   common-user/host/arm/safe-syscall.inc.S     | 5 +++++
+> >   common-user/host/i386/safe-syscall.inc.S    | 5 +++++
+> >   common-user/host/x86_64/safe-syscall.inc.S  | 5 +++++
+> >   4 files changed, 20 insertions(+)
+> >
+> > diff --git a/common-user/host/aarch64/safe-syscall.inc.S
+> b/common-user/host/aarch64/safe-syscall.inc.S
+> > index bc1f5a9792..6584950ccf 100644
+> > --- a/common-user/host/aarch64/safe-syscall.inc.S
+> > +++ b/common-user/host/aarch64/safe-syscall.inc.S
+> > @@ -64,6 +64,11 @@ safe_syscall_start:
+> >       svc     0x0
+> >   safe_syscall_end:
+> >       /* code path for having successfully executed the syscall */
+> > +#ifdef __FreeBSD__
+> > +        b.cc    2f              /* Convert to Linux -ERRNO convention */
+> > +        neg     x0, x0
+> > +2:
+> > +#endif
 >
-> Stray & here.  Not that I have a sparc32 host on which to compile this...
+> I think it should be a little odd to mention Linux.
 >
 
-Will fix... Same.  It's left over from the pointer versions and resend.
+Yea, from my view of hacking on Unix and Unix-derived systems for the
+last 30 years, Linux is the outlier in returning -errno. However, the
+'norms'
+have shifted, I guess, so I'm happy with your suggestion...
+
+
+> How about
+>
+>      /*
+>       * FreeBSD kernel returns C bit set with positive errno.
+>       * Encode this for use in bsd-user as -errno:
+>       *    x0 = !c ? x0 : -x0
+>       */
+>      csneg  x0, x0, x0, cc
+>
+
+Ah, better assembler. Good!
+
+
+>
+> > +++ b/common-user/host/arm/safe-syscall.inc.S
+> > @@ -78,6 +78,11 @@ safe_syscall_start:
+> >       swi     0
+> >   safe_syscall_end:
+> >       /* code path for having successfully executed the syscall */
+> > +#ifdef __FreeBSD__
+> > +        bcc     2f
+> > +        neg     r0, r0
+>
+>         negcs   r0, r0
+>
+> I just can't help myself.  :-)
+
+
+I can relate... Really :)
+
+I'll rework and resend in the next round.
 
 Warner
 
---0000000000007293a305d0770131
+--00000000000052c85c05d0771aa7
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 10, 2021 at 9:42 AM Richa=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 10, 2021 at 9:59 AM Richa=
 rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
 nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
 " style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
 padding-left:1ex">On 11/10/21 5:31 PM, Warner Losh wrote:<br>
-&gt; +static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)<b=
-r>
-&gt; +{<br>
-&gt; +#ifdef __arch64__<br>
-&gt; +=C2=A0 =C2=A0 uc-&gt;uc_mcontext.mc_gregs[MC_PC] =3D pc;<br>
-&gt; +#else<br>
-&gt; +=C2=A0 =C2=A0 &amp;uc-&gt;uc_mcontext.gregs[REG_PC] =3D pc;<br>
+&gt; All the *-users generally use the Linux style of negative return codes=
 <br>
-Stray &amp; here.=C2=A0 Not that I have a sparc32 host on which to compile =
-this...<br></blockquote><div><br></div><div>Will fix... Same.=C2=A0 It&#39;=
-s left over from the pointer versions and resend.</div><div><br></div><div>=
-Warner=C2=A0</div></div></div>
+&gt; for errno. FreeBSD returns errno, not -errno. Add ifdefs for FreeBSD t=
+o<br>
+&gt; make the adjustment on the 4 hosts that we have support for.<br>
+&gt; <br>
+&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targe=
+t=3D"_blank">imp@bsdimp.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0common-user/host/aarch64/safe-syscall.inc.S | 5 +++++<br>
+&gt;=C2=A0 =C2=A0common-user/host/arm/safe-syscall.inc.S=C2=A0 =C2=A0 =C2=
+=A0| 5 +++++<br>
+&gt;=C2=A0 =C2=A0common-user/host/i386/safe-syscall.inc.S=C2=A0 =C2=A0 | 5 =
++++++<br>
+&gt;=C2=A0 =C2=A0common-user/host/x86_64/safe-syscall.inc.S=C2=A0 | 5 +++++=
+<br>
+&gt;=C2=A0 =C2=A04 files changed, 20 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/common-user/host/aarch64/safe-syscall.inc.S b/common-user=
+/host/aarch64/safe-syscall.inc.S<br>
+&gt; index bc1f5a9792..6584950ccf 100644<br>
+&gt; --- a/common-user/host/aarch64/safe-syscall.inc.S<br>
+&gt; +++ b/common-user/host/aarch64/safe-syscall.inc.S<br>
+&gt; @@ -64,6 +64,11 @@ safe_syscall_start:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0svc=C2=A0 =C2=A0 =C2=A00x0<br>
+&gt;=C2=A0 =C2=A0safe_syscall_end:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/* code path for having successfully execute=
+d the syscall */<br>
+&gt; +#ifdef __FreeBSD__<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 b.cc=C2=A0 =C2=A0 2f=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Convert to Linux -ERRNO convention */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 neg=C2=A0 =C2=A0 =C2=A0x0, x0<br>
+&gt; +2:<br>
+&gt; +#endif<br>
+<br>
+I think it should be a little odd to mention Linux.<br></blockquote><div><b=
+r></div><div>Yea, from my view of hacking on Unix and Unix-derived systems =
+for the</div><div>last 30 years, Linux is the outlier in returning -errno. =
+However, the &#39;norms&#39;</div><div>have shifted, I guess, so I&#39;m ha=
+ppy with your suggestion...</div><div>=C2=A0</div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">
+How about<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0/*<br>
+=C2=A0 =C2=A0 =C2=A0 * FreeBSD kernel returns C bit set with positive errno=
+.<br>
+=C2=A0 =C2=A0 =C2=A0 * Encode this for use in bsd-user as -errno:<br>
+=C2=A0 =C2=A0 =C2=A0 *=C2=A0 =C2=A0 x0 =3D !c ? x0 : -x0<br>
+=C2=A0 =C2=A0 =C2=A0 */<br>
+=C2=A0 =C2=A0 =C2=A0csneg=C2=A0 x0, x0, x0, cc<br></blockquote><div><br></d=
+iv><div>Ah, better assembler. Good!</div><div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+<br>
+&gt; +++ b/common-user/host/arm/safe-syscall.inc.S<br>
+&gt; @@ -78,6 +78,11 @@ safe_syscall_start:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0swi=C2=A0 =C2=A0 =C2=A00<br>
+&gt;=C2=A0 =C2=A0safe_syscall_end:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/* code path for having successfully execute=
+d the syscall */<br>
+&gt; +#ifdef __FreeBSD__<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bcc=C2=A0 =C2=A0 =C2=A02f<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 neg=C2=A0 =C2=A0 =C2=A0r0, r0<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 negcs=C2=A0 =C2=A0r0, r0<br>
+<br>
+I just can&#39;t help myself.=C2=A0 :-)</blockquote><div><br></div><div>I c=
+an relate... Really :)</div><div><br></div><div>I&#39;ll rework and resend =
+in the next round.</div><div><br></div><div>Warner</div></div></div>
 
---0000000000007293a305d0770131--
+--00000000000052c85c05d0771aa7--
 
