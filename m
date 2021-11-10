@@ -2,90 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1DEE44C25F
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 14:48:22 +0100 (CET)
-Received: from localhost ([::1]:34236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0514A44C288
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 14:54:17 +0100 (CET)
+Received: from localhost ([::1]:46312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mknxd-0001x9-UK
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 08:48:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36434)
+	id 1mko3L-0001wy-S8
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 08:54:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mknun-00075w-Tr
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:45:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57346)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mknz5-0006Xs-35
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:49:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39361)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mknuk-0004cu-8d
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:45:24 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mknyz-0005kR-O3
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:49:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636551920;
+ s=mimecast20190719; t=1636552184;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=r8Fy89rvq9DVqoNbJdTOKetA2BT3ILnOxwLnHjSfY3s=;
- b=iZCW1ei1Xcfl+P3RPOsawrQ6xSWu3kV93TwmzUP6WbHWwpWQbK21fyEzQuvBRydnqRJXaC
- Dl/rU7met2WabVHdd2V+5NbHKavPeF7P1Q6wJMfNQG3Nag8WeJ9aMcJmfX6d0H8CBsZ0zG
- 3NsTSLdCaFy3xugMJcgglnNDOB+iR30=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-cvR5r_brNIq9wcC0l-Omyg-1; Wed, 10 Nov 2021 08:45:14 -0500
-X-MC-Unique: cvR5r_brNIq9wcC0l-Omyg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o18-20020a05600c511200b00332fa17a02eso1210151wms.5
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 05:45:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=r8Fy89rvq9DVqoNbJdTOKetA2BT3ILnOxwLnHjSfY3s=;
- b=3V3My15ggbMXpu+gz9V2VN/jPofqXEk19dXWNGVTK0H+Q1uUDl/IPochsWYNOKhNhT
- QwmvpzH66axHDz84dzJFumZ36TPpKCoEsGG/PhsZttWT7gO0SutyIjRxrgVx36rZzdcS
- G9zVQAjYa7ZgzYSfkjM/rRV70JXZzGpipV8k5BvQX0TJna01WB4GFN5AqVc25uWujJO3
- q3BK4IfrnBZDCm6yRGKZ6/pimwbwyqawaR6KNoE2a+6g7cPpMljNpQFcymzju3SON/4W
- qXUy7PUyblgYD8eYOm+K+6C7NLz+xckEUSUXh6Q9Q08f0g9WC6HHK3PjZNOq6TKoKV21
- bqSQ==
-X-Gm-Message-State: AOAM531z6nTkdtAPLL4FID2W+GXvqDf81fouSbyfPqdfZS3oGKL41ghK
- yFLme9h9V140sEq5cOpe/Ra/NFt6KO5DkVpJ8nO9FugwwrDlXBnTqZ0H07dOJ4e932JaSUQUGGB
- 4Vt9CsOyISEUPCEo=
-X-Received: by 2002:a1c:e90a:: with SMTP id q10mr16686375wmc.108.1636551913051; 
- Wed, 10 Nov 2021 05:45:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxOE54d3/5nGnIjNvsXJY5BSrszF5pkY0+qU/wKinlfbSOeO7kVaBdEg9d6EnvpBqrj8I7r5Q==
-X-Received: by 2002:a1c:e90a:: with SMTP id q10mr16686326wmc.108.1636551912715; 
- Wed, 10 Nov 2021 05:45:12 -0800 (PST)
-Received: from localhost ([185.140.112.229])
- by smtp.gmail.com with ESMTPSA id n32sm6619520wms.1.2021.11.10.05.45.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Nov 2021 05:45:12 -0800 (PST)
-Date: Wed, 10 Nov 2021 14:45:11 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Julia Suvorova <jusual@redhat.com>
-Subject: Re: [PATCH 2/5] hw/acpi/ich9: Add compatibility option for
- 'native-hpc-bit'
-Message-ID: <20211110144511.04e9b79c@redhat.com>
-In-Reply-To: <20211110143354.0c14aef0@redhat.com>
-References: <20211110053014.489591-1-jusual@redhat.com>
- <20211110053014.489591-3-jusual@redhat.com>
- <20211110143354.0c14aef0@redhat.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ bh=xjgKrGM3sOsUbQy6Ip4BDMYVFng+0irJ96PV2GBNheQ=;
+ b=hUJlgYxcDWXnd5Dc7wq8lJv7JLF/a9Sy/A9dRmpgdtd5bJKcCPlnOI3jCoJrbz9333soA7
+ 79jBEH/IHFPsEqDnwD3QKKEK8gijWUTg3pvMve4iH7cHmFFKZRgBzRLiAbJPqNpeYksEeW
+ xTaxbJG4AmyAtrp4yT23m7ycQ2/OFOU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-23-9dEEiyk0NLC7E0Sq4FONfA-1; Wed, 10 Nov 2021 08:49:40 -0500
+X-MC-Unique: 9dEEiyk0NLC7E0Sq4FONfA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C82DE871807;
+ Wed, 10 Nov 2021 13:49:20 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 91E885C1D5;
+ Wed, 10 Nov 2021 13:49:19 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1E93A11380A7; Wed, 10 Nov 2021 14:49:18 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Jonah Palmer <jonah.palmer@oracle.com>
+Subject: Re: [PATCH v9 5/8] qmp: decode feature & status bits in virtio-status
+References: <1636539792-20967-1-git-send-email-jonah.palmer@oracle.com>
+ <1636539792-20967-6-git-send-email-jonah.palmer@oracle.com>
+Date: Wed, 10 Nov 2021 14:49:18 +0100
+In-Reply-To: <1636539792-20967-6-git-send-email-jonah.palmer@oracle.com>
+ (Jonah Palmer's message of "Wed, 10 Nov 2021 05:23:09 -0500")
+Message-ID: <87fss4w275.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,146 +79,713 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Marcel Apfelbaum <mapfelba@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: mst@redhat.com, qemu_oss@crudebyte.com, qemu-devel@nongnu.org,
+ kraxel@redhat.com, si-wei.liu@oracle.com, joao.m.martins@oracle.com,
+ eblake@redhat.com, qemu-block@nongnu.org, david@redhat.com,
+ arei.gonglei@huawei.com, marcandre.lureau@redhat.com, lvivier@redhat.com,
+ thuth@redhat.com, michael.roth@amd.com, groug@kaod.org, dgilbert@redhat.com,
+ eric.auger@redhat.com, stefanha@redhat.com, boris.ostrovsky@oracle.com,
+ kwolf@redhat.com, mathieu.poirier@linaro.org, raphael.norwitz@nutanix.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 10 Nov 2021 14:33:54 +0100
-Igor Mammedov <imammedo@redhat.com> wrote:
+Jonah Palmer <jonah.palmer@oracle.com> writes:
 
-> On Wed, 10 Nov 2021 06:30:11 +0100
-> Julia Suvorova <jusual@redhat.com> wrote:
-> 
-> > To solve issues [1-2] the Hot Plug Capable bit in PCIe Slots will be
-> > turned on, while the switch to ACPI Hot-plug will be done in the
-> > DSDT table.
-> > 
-> > Introducing 'x-keep-native-hpc' option disables the HPC bit only
-> > in 6.1 and as a result keeps the forced 'reserve-io' on
-> > pcie-root-ports in 6.1 too.  
-> 
-> using property from the 1st patch (native-hotplug),
-> should be enough to keep 6.1 ABI, so this patch is likely
-> not needed.
+> From: Laurent Vivier <lvivier@redhat.com>
+>
+> Display feature names instead of bitmaps for host, guest, and
+> backend for VirtIODevice.
+>
+> Display status names instead of bitmaps for VirtIODevice.
+>
+> Display feature names instead of bitmaps for backend, protocol,
+> acked, and features (hdev->features) for vhost devices.
+>
+> Decode features according to device type. Decode status
+> according to configuration status bitmap (config_status_map).
+> Decode vhost user protocol features according to vhost user
+> protocol bitmap (vhost_user_protocol_map).
+>
+> Transport features are on the first line. Undecoded bits
+> (if any) are stored in a separate field. Vhost device field
+> wont show if there's no vhost active for a given VirtIODevice.
+>
+> Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
 
-scratch this off, it's conditional on acpihp which
-compat machinery can't handle.
+[...]
 
-> 
-> > 
-> > [1] https://gitlab.com/qemu-project/qemu/-/issues/641
-> > [2] https://bugzilla.redhat.com/show_bug.cgi?id=2006409
-> > 
-> > Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> > ---
-> >  include/hw/acpi/ich9.h |  1 +
-> >  hw/acpi/ich9.c         | 18 ++++++++++++++++++
-> >  hw/i386/pc.c           |  2 ++
-> >  hw/i386/pc_q35.c       |  7 ++++++-
-> >  4 files changed, 27 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/include/hw/acpi/ich9.h b/include/hw/acpi/ich9.h
-> > index f04f1791bd..7ca92843c6 100644
-> > --- a/include/hw/acpi/ich9.h
-> > +++ b/include/hw/acpi/ich9.h
-> > @@ -56,6 +56,7 @@ typedef struct ICH9LPCPMRegs {
-> >      AcpiCpuHotplug gpe_cpu;
-> >      CPUHotplugState cpuhp_state;
-> >  
-> > +    bool keep_pci_slot_hpc;
-> >      bool use_acpi_hotplug_bridge;
-> >      AcpiPciHpState acpi_pci_hotplug;
-> >      MemHotplugState acpi_memory_hotplug;
-> > diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-> > index 1ee2ba2c50..ebe08ed831 100644
-> > --- a/hw/acpi/ich9.c
-> > +++ b/hw/acpi/ich9.c
-> > @@ -419,6 +419,20 @@ static void ich9_pm_set_acpi_pci_hotplug(Object *obj, bool value, Error **errp)
-> >      s->pm.use_acpi_hotplug_bridge = value;
-> >  }
-> >  
-> > +static bool ich9_pm_get_keep_pci_slot_hpc(Object *obj, Error **errp)
-> > +{
-> > +    ICH9LPCState *s = ICH9_LPC_DEVICE(obj);
-> > +
-> > +    return s->pm.keep_pci_slot_hpc;
-> > +}
-> > +
-> > +static void ich9_pm_set_keep_pci_slot_hpc(Object *obj, bool value, Error **errp)
-> > +{
-> > +    ICH9LPCState *s = ICH9_LPC_DEVICE(obj);
-> > +
-> > +    s->pm.keep_pci_slot_hpc = value;
-> > +}
-> > +
-> >  void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
-> >  {
-> >      static const uint32_t gpe0_len = ICH9_PMIO_GPE0_LEN;
-> > @@ -428,6 +442,7 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
-> >      pm->disable_s4 = 0;
-> >      pm->s4_val = 2;
-> >      pm->use_acpi_hotplug_bridge = true;
-> > +    pm->keep_pci_slot_hpc = true;
-> >  
-> >      object_property_add_uint32_ptr(obj, ACPI_PM_PROP_PM_IO_BASE,
-> >                                     &pm->pm_io_base, OBJ_PROP_FLAG_READ);
-> > @@ -454,6 +469,9 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
-> >      object_property_add_bool(obj, ACPI_PM_PROP_ACPI_PCIHP_BRIDGE,
-> >                               ich9_pm_get_acpi_pci_hotplug,
-> >                               ich9_pm_set_acpi_pci_hotplug);
-> > +    object_property_add_bool(obj, "x-keep-pci-slot-hpc",
-> > +                             ich9_pm_get_keep_pci_slot_hpc,
-> > +                             ich9_pm_set_keep_pci_slot_hpc);
-> >  }
-> >  
-> >  void ich9_pm_device_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-> > diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> > index 2592a82148..a2ef40ecbc 100644
-> > --- a/hw/i386/pc.c
-> > +++ b/hw/i386/pc.c
-> > @@ -98,6 +98,7 @@ GlobalProperty pc_compat_6_1[] = {
-> >      { TYPE_X86_CPU, "hv-version-id-build", "0x1bbc" },
-> >      { TYPE_X86_CPU, "hv-version-id-major", "0x0006" },
-> >      { TYPE_X86_CPU, "hv-version-id-minor", "0x0001" },
-> > +    { "ICH9-LPC", "x-keep-pci-slot-hpc", "false" },
-> >  };
-> >  const size_t pc_compat_6_1_len = G_N_ELEMENTS(pc_compat_6_1);
-> >  
-> > @@ -107,6 +108,7 @@ GlobalProperty pc_compat_6_0[] = {
-> >      { "qemu64" "-" TYPE_X86_CPU, "stepping", "3" },
-> >      { TYPE_X86_CPU, "x-vendor-cpuid-only", "off" },
-> >      { "ICH9-LPC", ACPI_PM_PROP_ACPI_PCIHP_BRIDGE, "off" },
-> > +    { "ICH9-LPC", "x-keep-pci-slot-hpc", "true" },
-> >  };
-> >  const size_t pc_compat_6_0_len = G_N_ELEMENTS(pc_compat_6_0);
-> >  
-> > diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> > index ded61f8ef7..06f09dfcc6 100644
-> > --- a/hw/i386/pc_q35.c
-> > +++ b/hw/i386/pc_q35.c
-> > @@ -137,6 +137,7 @@ static void pc_q35_init(MachineState *machine)
-> >      DriveInfo *hd[MAX_SATA_PORTS];
-> >      MachineClass *mc = MACHINE_GET_CLASS(machine);
-> >      bool acpi_pcihp;
-> > +    bool keep_pci_slot_hpc;
-> >  
-> >      /* Check whether RAM fits below 4G (leaving 1/2 GByte for IO memory
-> >       * and 256 Mbytes for PCI Express Enhanced Configuration Access Mapping
-> > @@ -242,7 +243,11 @@ static void pc_q35_init(MachineState *machine)
-> >                                            ACPI_PM_PROP_ACPI_PCIHP_BRIDGE,
-> >                                            NULL);
-> >  
-> > -    if (acpi_pcihp) {
-> > +    keep_pci_slot_hpc = object_property_get_bool(OBJECT(lpc),
-> > +                                                 "x-keep-pci-slot-hpc",
-> > +                                                 NULL);
-> > +
-> > +    if (!keep_pci_slot_hpc && acpi_pcihp) {
-> >          object_register_sugar_prop(TYPE_PCIE_SLOT, "native-hpc-bit",
-> >                                     "false", true);
-> >      }  
-> 
+> diff --git a/qapi/virtio.json b/qapi/virtio.json
+> index 54212f2..6b11d52 100644
+> --- a/qapi/virtio.json
+> +++ b/qapi/virtio.json
+> @@ -67,6 +67,466 @@
+>  }
+>  
+>  ##
+> +# @VirtioType:
+> +#
+> +# An enumeration of Virtio device types (or names)
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'enum': 'VirtioType',
+> +  'data': [ 'virtio-net', 'virtio-blk', 'virtio-serial', 'virtio-rng',
+> +            'virtio-balloon', 'virtio-iomem', 'virtio-rpmsg',
+> +            'virtio-scsi', 'virtio-9p', 'virtio-mac-wlan',
+> +            'virtio-rproc-serial', 'virtio-caif', 'virtio-mem-balloon',
+> +            'virtio-gpu', 'virtio-clk', 'virtio-input', 'vhost-vsock',
+> +            'virtio-crypto', 'virtio-signal', 'virtio-pstore',
+> +            'virtio-iommu', 'virtio-mem', 'virtio-sound', 'vhost-user-fs',
+> +            'virtio-pmem', 'virtio-mac-hwsim', 'vhost-user-i2c',
+> +            'virtio-bluetooth' ]
+> +}
+> +
+> +##
+> +# @VirtioConfigStatus:
+> +#
+> +# An enumeration of Virtio device configuration statuses
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'enum': 'VirtioConfigStatus',
+> +  'data': [ 'driver-ok', 'features-ok', 'driver', 'needs-reset',
+> +            'failed', 'acknowledge' ]
+> +}
+> +
+> +##
+> +# @VirtioDeviceStatus:
+> +#
+> +# A structure defined to list the configuration statuses of a virtio
+> +# device
+> +#
+> +# @dev-status: List of decoded configuration statuses of the virtio
+> +#              device
+> +#
+> +# @unknown-statuses: virtio device statuses bitmap that have not been decoded
+
+
+Why is @dev-status singular, and @unknown-statuses plural?
+
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'struct': 'VirtioDeviceStatus',
+> +  'data': { 'dev-status': [ 'VirtioConfigStatus' ],
+> +            '*unknown-statuses': 'uint8' } }
+> +
+> +##
+> +# @VhostProtocolFeature:
+> +#
+> +# An enumeration of Vhost User protocol features
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'enum': 'VhostProtocolFeature',
+> +  'data': [ 'mq', 'log-shmfd', 'rarp', 'reply-ack', 'net-mtu',
+> +            'slave-req', 'cross-endian', 'crypto-session', 'pagefault',
+> +            'config', 'slave-send-fd', 'host-notifier',
+> +            'inflight-shmfd', 'reset-device', 'inband-notifications',
+> +            'configure-mem-slots' ]
+> +}
+> +
+> +##
+> +# @VhostDeviceProtocols:
+> +#
+> +# A structure defined to list the vhost user protocol features of a
+> +# Vhost User device
+> +#
+> +# @features: List of decoded vhost user protocol features of a vhost
+> +#            user device
+> +#
+> +# @unknown-protocols: vhost user device protocol features bitmap that
+> +#                     have not been decoded
+
+Why are the known protocol features called @features, and the unknown
+ones @unknown-protocols?
+
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'struct': 'VhostDeviceProtocols',
+> +  'data': { 'features': [ 'VhostProtocolFeature' ],
+> +            '*unknown-protocols': 'uint64' } }
+> +
+> +##
+> +# @VirtioTransportFeature:
+> +#
+> +# An enumeration of Virtio device transport features, including virtio-ring
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'enum': 'VirtioTransportFeature',
+> +  'data': [ 'notify-on-empty', 'any-layout', 'protocol-features',
+> +            'version-1', 'iommu-platform', 'ring-packed', 'order-platform',
+> +            'sr-iov', 'indirect-desc', 'event-idx' ]
+> +}
+> +
+> +##
+> +# @VirtioMemFeature:
+> +#
+> +# An enumeration of Virtio mem features
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'enum': 'VirtioMemFeature',
+> +  'data': [ 'acpi-pxm' ]
+> +}
+> +
+> +##
+> +# @VirtioSerialFeature:
+> +#
+> +# An enumeration of Virtio serial/console features
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'enum': 'VirtioSerialFeature',
+> +  'data': [ 'size', 'multiport', 'emerg-write' ]
+> +}
+> +
+> +##
+> +# @VirtioBlkFeature:
+> +#
+> +# An enumeration of Virtio block features
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'enum': 'VirtioBlkFeature',
+> +  'data': [ 'size-max', 'seg-max', 'geometry', 'ro', 'blk-size',
+> +            'topology', 'mq', 'discard', 'write-zeroes', 'barrier',
+> +            'scsi', 'flush', 'config-wce', 'log-all' ]
+> +}
+> +
+> +##
+> +# @VirtioGpuFeature:
+> +#
+> +# An enumeration of Virtio gpu features
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'enum': 'VirtioGpuFeature',
+> +  'data': [ 'virgl', 'edid', 'resource-uuid', 'resource-blob',
+> +            'log-all' ]
+> +}
+> +
+> +##
+> +# @VirtioNetFeature:
+> +#
+> +# An enumeration of Virtio net features
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'enum': 'VirtioNetFeature',
+> +  'data': [ 'csum', 'guest-csum', 'ctrl-guest-offloads', 'mtu', 'mac',
+> +            'guest-tso4', 'guest-tso6', 'guest-ecn', 'guest-ufo',
+> +            'host-tso4', 'host-tso6', 'host-ecn', 'host-ufo',
+> +            'mrg-rxbuf', 'status', 'ctrl-vq', 'ctrl-rx', 'ctrl-vlan',
+> +            'ctrl-rx-extra', 'guest-announce', 'mq', 'ctrl-mac-addr',
+> +            'hash-report', 'rss', 'rsc-ext', 'standby', 'speed-duplex',
+> +            'gso', 'virtio-net-hdr', 'log-all' ]
+> +}
+> +
+> +##
+> +# @VirtioScsiFeature:
+> +#
+> +# An enumeration of Virtio scsi features
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'enum': 'VirtioScsiFeature',
+> +  'data': [ 'inout', 'hotplug', 'change', 't10-pi', 'log-all' ]
+> +}
+> +
+> +##
+> +# @VirtioBalloonFeature:
+> +#
+> +# An enumeration of Virtio balloon features
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'enum': 'VirtioBalloonFeature',
+> +  'data': [ 'must-tell-host', 'stats-vq', 'deflate-on-oom',
+> +            'free-page-hint', 'page-poison', 'reporting' ]
+> +}
+> +
+> +##
+> +# @VirtioIommuFeature:
+> +#
+> +# An enumeration of Virtio iommu features
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'enum': 'VirtioIommuFeature',
+> +  'data': [ 'input-range', 'domain-range', 'map-unmap', 'bypass',
+> +            'probe', 'mmio' ]
+> +}
+> +
+> +##
+> +# @VirtioInputFeature:
+> +#
+> +# An enumeration of Virtio input features. Note that virtio-input
+> +# has no device-specific features except when its vhost is active,
+> +# then it may have the VHOST_F_LOG_ALL feature.
+
+VHOST_F_LOG_ALL is talking C.  Better, I think: "may have the @log-all
+feature.  More of the same below.
+
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'enum': 'VirtioInputFeature',
+> +  'data': [ 'log-all' ]
+> +}
+> +
+> +##
+> +# @VhostUserFsFeature:
+> +#
+> +# An enumeration of vhost user FS features. Note that vhost-user-fs
+> +# has no device-specific features other than the vhost-common
+> +# VHOST_F_LOG_ALL feature.
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'enum': 'VhostUserFsFeature',
+> +  'data': [ 'log-all' ]
+> +}
+> +
+> +##
+> +# @VhostVsockFeature:
+> +#
+> +# An enumeration of vhost vsock features. Note that vhost-vsock has
+> +# no device-specific features other than the vhost-common
+> +# VHOST_F_LOG_ALL feature.
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'enum': 'VhostVsockFeature',
+> +  'data': [ 'log-all' ]
+> +}
+> +
+> +##
+> +# @VirtioCryptoFeature:
+> +#
+> +# An enumeration of virtio crypto features. Not that virtio-crypto
+> +# has no device-specific features other than when it is a vhost
+> +# device, then it may have the VHOST_F_LOG_ALL feature.
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'enum': 'VirtioCryptoFeature',
+> +  'data': [ 'log-all' ]
+> +}
+
+Four identical enum types...  any particular reason against just one?
+
+> +
+> +##
+> +# @VirtioDeviceFeaturesBase:
+> +#
+> +# The common fields that apply to all Virtio devices
+> +#
+> +# @type: virtio device name
+> +# @transport: the list of transport features of the virtio device
+> +# @unknown-features: virtio device features bitmap that have not been decoded
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'struct': 'VirtioDeviceFeaturesBase',
+> +  'data': { 'type': 'VirtioType',
+> +            'transport': [ 'VirtioTransportFeature' ],
+> +            '*unknown-features': 'uint64' } }
+
+Pardon my virtio ignorance... are the @unknown-features unknown
+transport features?
+
+> +
+> +##
+> +# @VirtioDeviceFeaturesOptionsMem:
+> +#
+> +# The options that apply to Virtio mem devices
+> +#
+> +# @features: List of device features
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'struct': 'VirtioDeviceFeaturesOptionsMem',
+> +  'data': { 'features': [ 'VirtioMemFeature' ] } }
+> +
+> +##
+> +# @VirtioDeviceFeaturesOptionsSerial:
+> +#
+> +# The options that apply to Virtio serial devices
+> +#
+> +# @features: List of device features
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'struct': 'VirtioDeviceFeaturesOptionsSerial',
+> +  'data': { 'features': [ 'VirtioSerialFeature' ] } }
+> +
+> +##
+> +# @VirtioDeviceFeaturesOptionsBlk:
+> +#
+> +# The options that apply to Virtio block devices
+> +#
+> +# @features: List of device features
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'struct': 'VirtioDeviceFeaturesOptionsBlk',
+> +  'data': { 'features': [ 'VirtioBlkFeature' ] } }
+> +
+> +##
+> +# @VirtioDeviceFeaturesOptionsGpu:
+> +#
+> +# The options that apply to Virtio GPU devices
+> +#
+> +# @features: List of device features
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'struct': 'VirtioDeviceFeaturesOptionsGpu',
+> +  'data': { 'features': [ 'VirtioGpuFeature' ] } }
+> +
+> +##
+> +# @VirtioDeviceFeaturesOptionsNet:
+> +#
+> +# The options that apply to Virtio net devices
+> +#
+> +# @features: List of device features
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'struct': 'VirtioDeviceFeaturesOptionsNet',
+> +  'data': { 'features': [ 'VirtioNetFeature' ] } }
+> +
+> +##
+> +# @VirtioDeviceFeaturesOptionsScsi:
+> +#
+> +# The options that apply to Virtio SCSI devices
+> +#
+> +# @features: List of device features
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'struct': 'VirtioDeviceFeaturesOptionsScsi',
+> +  'data': { 'features': [ 'VirtioScsiFeature' ] } }
+> +
+> +##
+> +# @VirtioDeviceFeaturesOptionsBalloon:
+> +#
+> +# The options that apply to Virtio balloon devices
+> +#
+> +# @features: List of device features
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'struct': 'VirtioDeviceFeaturesOptionsBalloon',
+> +  'data': { 'features': [ 'VirtioBalloonFeature' ] } }
+> +
+> +##
+> +# @VirtioDeviceFeaturesOptionsIommu:
+> +#
+> +# The options that apply to Virtio IOMMU devices
+> +#
+> +# @features: List of device features
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'struct': 'VirtioDeviceFeaturesOptionsIommu',
+> +  'data': { 'features': [ 'VirtioIommuFeature' ] } }
+> +
+> +##
+> +# @VirtioDeviceFeaturesOptionsInput:
+> +#
+> +# The options that apply to Virtio input devices
+> +#
+> +# @features: List of device features
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'struct': 'VirtioDeviceFeaturesOptionsInput',
+> +  'data': { 'features': [ 'VirtioInputFeature' ] } }
+> +
+> +##
+> +# @VhostDeviceFeaturesOptionsFs:
+> +#
+> +# The options that apply to vhost-user-fs devices
+> +#
+> +# @features: List of device features
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'struct': 'VhostDeviceFeaturesOptionsFs',
+> +  'data': { 'features': [ 'VhostUserFsFeature' ] } }
+> +
+> +##
+> +# @VhostDeviceFeaturesOptionsVsock:
+> +#
+> +# The options that apply to vhost-vsock devices
+> +#
+> +# @features: List of device features
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'struct': 'VhostDeviceFeaturesOptionsVsock',
+> +  'data': { 'features': [ 'VhostVsockFeature' ] } }
+> +
+> +##
+> +# @VirtioDeviceFeaturesOptionsCrypto:
+> +#
+> +# The options that apply to virtio-crypto devices
+> +#
+> +# @features: List of device features
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'struct': 'VirtioDeviceFeaturesOptionsCrypto',
+> +  'data': { 'features': [ 'VirtioCryptoFeature' ] } }
+
+If you replace the four identical enum types by one, you get four
+identical struct types here.  Same treatment.
+
+> +
+> +##
+> +# @VirtioDeviceFeatures:
+> +#
+> +# A union to define the list of features for a virtio device
+> +#
+> +# Since: 6.3
+> +##
+> +
+> +{ 'union': 'VirtioDeviceFeatures',
+> +  'base': 'VirtioDeviceFeaturesBase',
+> +  'discriminator': 'type',
+> +  'data': { 'virtio-serial': 'VirtioDeviceFeaturesOptionsSerial',
+> +            'virtio-blk': 'VirtioDeviceFeaturesOptionsBlk',
+> +            'virtio-gpu': 'VirtioDeviceFeaturesOptionsGpu',
+> +            'virtio-net': 'VirtioDeviceFeaturesOptionsNet',
+> +            'virtio-scsi': 'VirtioDeviceFeaturesOptionsScsi',
+> +            'virtio-balloon': 'VirtioDeviceFeaturesOptionsBalloon',
+> +            'virtio-iommu': 'VirtioDeviceFeaturesOptionsIommu',
+> +            'virtio-input': 'VirtioDeviceFeaturesOptionsInput',
+> +            'vhost-user-fs': 'VhostDeviceFeaturesOptionsFs',
+> +            'vhost-vsock': 'VhostDeviceFeaturesOptionsVsock',
+> +            'virtio-crypto': 'VirtioDeviceFeaturesOptionsCrypto',
+> +            'virtio-mem': 'VirtioDeviceFeaturesOptionsMem' } }
+> +
+> +##
+>  # @VhostStatus:
+>  #
+>  # Information about a vhost device. This information will only be
+> @@ -106,10 +566,10 @@
+>              'n-tmp-sections': 'int',
+>              'nvqs': 'uint32',
+>              'vq-index': 'int',
+> -            'features': 'uint64',
+> -            'acked-features': 'uint64',
+> -            'backend-features': 'uint64',
+> -            'protocol-features': 'uint64',
+> +            'features': 'VirtioDeviceFeatures',
+> +            'acked-features': 'VirtioDeviceFeatures',
+> +            'backend-features': 'VirtioDeviceFeatures',
+> +            'protocol-features': 'VhostDeviceProtocols',
+>              'max-queues': 'uint64',
+>              'backend-cap': 'uint64',
+>              'log-enabled': 'bool',
+> @@ -174,12 +634,12 @@
+>    'data': { 'name': 'str',
+>              'device-id': 'uint16',
+>              'vhost-started': 'bool',
+> -            'guest-features': 'uint64',
+> -            'host-features': 'uint64',
+> -            'backend-features': 'uint64',
+> +            'guest-features': 'VirtioDeviceFeatures',
+> +            'host-features': 'VirtioDeviceFeatures',
+> +            'backend-features': 'VirtioDeviceFeatures',
+>              'device-endian': 'VirtioStatusEndianness',
+>              'num-vqs': 'int',
+> -            'status': 'uint8',
+> +            'status': 'VirtioDeviceStatus',
+>              'isr': 'uint8',
+>              'queue-sel': 'uint16',
+>              'vm-running': 'bool',
+> @@ -191,7 +651,7 @@
+>              'disable-legacy-check': 'bool',
+>              'bus-name': 'str',
+>              'use-guest-notifier-mask': 'bool',
+> -            'vhost-dev': 'VhostStatus' } }
+> +            '*vhost-dev': 'VhostStatus' } }
+>  
+>  ##
+>  # @x-query-virtio-status:
+> @@ -221,28 +681,31 @@
+>  #          "name": "virtio-crypto",
+>  #          "started": true,
+>  #          "device-id": 20,
+> -#          "vhost-dev": {
+> -#               "n-tmp-sections": 0,
+> -#               "n-mem-sections": 0,
+> -#               "max-queues": 0,
+> -#               "backend-cap": 0,
+> -#               "log-size": 0,
+> -#               "backend-features": 0,
+> -#               "nvqs": 0,
+> -#               "protocol-features": 0,
+> -#               "vq-index": 0,
+> -#               "log-enabled": false,
+> -#               "acked-features": 0,
+> -#               "features": 0
+> +#          "backend-features": {
+> +#               "transport": [],
+> +#               "type": "virtio-crypto",
+> +#               "features": []
+>  #          },
+> -#          "backend-features": 0,
+>  #          "start-on-kick": false,
+>  #          "isr": 1,
+>  #          "broken": false,
+> -#          "status": 15,
+> +#          "status": {
+> +#               "dev-status": ["acknowledge", "driver", "features-ok",
+> +#                              "driver-ok"]
+> +#          },
+>  #          "num-vqs": 2,
+> -#          "guest-features": 5100273664,
+> -#          "host-features": 6325010432,
+> +#          "guest-features": {
+> +#               "transport": ["event-idx", "indirect-desc", "version-1"],
+> +#               "type": "virtio-crypto",
+> +#               "features": []
+> +#          },
+> +#          "host-features": {
+> +#               "transport": ["protocol-features", "event-idx",
+> +#                             "indirect-desc", "version-1", "any-layout",
+> +#                             "notify-on-empty"],
+> +#               "type": "virtio-crypto",
+> +#               "features": []
+> +#          },
+>  #          "use-guest-notifier-mask": true,
+>  #          "vm-running": true,
+>  #          "queue-sel": 1,
+> @@ -270,22 +733,71 @@
+>  #               "max-queues": 1,
+>  #               "backend-cap": 2,
+>  #               "log-size": 0,
+> -#               "backend-features": 0,
+> +#               "backend-features": {
+> +#                       "transport": [],
+> +#                       "type": "virtio-net",
+> +#                       "features": []
+> +#               },
+>  #               "nvqs": 2,
+> -#               "protocol-features": 0,
+> +#               "protocol-features": {
+> +#                       "features": []
+> +#               },
+>  #               "vq-index": 0,
+>  #               "log-enabled": false,
+> -#               "acked-features": 5100306432,
+> -#               "features": 13908344832
+> +#               "acked-features": {
+> +#                       "transport": ["event-idx", "indirect-desc", "version-1",
+> +#                                     "any-layout", "notify-on-empty"],
+> +#                       "type": "virtio-net",
+> +#                       "features": ["mrg-rxbuf"]
+> +#               },
+> +#               "features": {
+> +#                       "transport": ["event-idx", "indirect-desc",
+> +#                                     "iommu-platform", "version-1", "any-layout",
+> +#                                     "notify-on-empty"],
+> +#                       "type": "virtio-net",
+> +#                       "features": ["log-all", "mrg-rxbuf"]
+> +#               }
+> +#          },
+> +#          "backend-features": {
+> +#               "transport": ["protocol-features", "event-idx", "indirect-desc",
+> +#                             "version-1", "any-layout", "notify-on-empty"],
+> +#               "type": "virtio-net",
+> +#               "features": ["gso", "ctrl-mac-addr", "guest-announce", "ctrl-rx-extra",
+> +#                            "ctrl-vlan", "ctrl-rx", "ctrl-vq", "status", "mrg-rxbuf",
+> +#                            "host-ufo", "host-ecn", "host-tso6", "host-tso4",
+> +#                            "guest-ufo", "guest-ecn", "guest-tso6", "guest-tso4",
+> +#                            "mac", "ctrl-guest-offloads", "guest-csum", "csum"]
+>  #          },
+> -#          "backend-features": 6337593319,
+>  #          "start-on-kick": false,
+>  #          "isr": 1,
+>  #          "broken": false,
+> -#          "status": 15,
+> +#          "status": {
+> +#               "dev-status": ["acknowledge", "driver", "features-ok", "driver-ok"]
+> +#          },
+>  #          "num-vqs": 3,
+> -#          "guest-features": 5111807911,
+> -#          "host-features": 6337593319,
+> +#          "guest-features": {
+> +#               "transport": ["event-idx", "indirect-desc", "version-1"],
+> +#               "type": "virtio-net",
+> +#               "features": ["ctrl-mac-addr", "guest-announce", "ctrl-vlan",
+> +#                            "ctrl-rx", "ctrl-vq", "status", "mrg-rxbuf",
+> +#                            "host-ufo", "host-ecn", "host-tso6",
+> +#                            "host-tso4", "guest-ufo", "guest-ecn",
+> +#                            "guest-tso6", "guest-tso4", "mac",
+> +#                            "ctrl-guest-offloads", "guest-csum", "csum"]
+> +#          },
+> +#          "host-features": {
+> +#               "transport": ["protocol-features", "event-idx",
+> +#                             "indirect-desc", "version-1", "any-layout",
+> +#                             "notify-on-empty"],
+> +#               "type": "virtio-net",
+> +#               "features": ["gso", "ctrl-mac-addr", "guest-announce",
+> +#                            "ctrl-rx-extra", "ctrl-vlan", "ctrl-rx",
+> +#                            "ctrl-vq", "status", "mrg-rxbuf", "host-ufo",
+> +#                            "host-ecn", "host-tso6", "host-tso4",
+> +#                            "guest-ufo", "guest-ecn", "guest-tso6",
+> +#                            "guest-tso4", "mac", "ctrl-guest-offloads",
+> +#                            "guest-csum", "csum"]
+> +#          },
+>  #          "use-guest-notifier-mask": true,
+>  #          "vm-running": true,
+>  #          "queue-sel": 2,
+
+Sixteen enums total.
+
+If we replaced them by 'str', the schema would be simpler and the
+generated code smaller, but introspection would be less informative.  I
+didn't check how the handwritten could would be affected.
+
+It's a tradeoff.  Can you make an argument either way?
 
 
