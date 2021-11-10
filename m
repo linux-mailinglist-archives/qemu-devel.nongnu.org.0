@@ -2,65 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F20D44C9AE
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 20:52:07 +0100 (CET)
-Received: from localhost ([::1]:43956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE6D44CA4F
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 21:15:20 +0100 (CET)
+Received: from localhost ([::1]:52090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mktde-0003OK-N9
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 14:52:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47944)
+	id 1mku06-00029u-GX
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 15:15:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mktbb-0002cc-QM
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 14:49:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29096)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mktbY-0000Mr-Lm
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 14:49:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636573793;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RPJI7/tE0aThrTF9xga+vQtoXPHKam58uByHjccbN4Q=;
- b=ezMb+X0A38vLeCuAEbPTRjdIdw5+3VMoNBv5ny9+LH0IRnB3uf9ldft71XtvMFZsTxG+J2
- nUTG9ED7PCrdJ2XPA20aOY+n34CtNDZSmE4n2McwSSdmv4CY/0VQ/Oh+QhFslRXcoDSGTK
- grv3TOpUT28EiPcut5lw2TTRoaDHYwQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-EPwBxxicMpOK4_2uID9t3A-1; Wed, 10 Nov 2021 14:49:50 -0500
-X-MC-Unique: EPwBxxicMpOK4_2uID9t3A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 214BC1023F4E;
- Wed, 10 Nov 2021 19:49:49 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.10.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E9015D6D7;
- Wed, 10 Nov 2021 19:48:41 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id B07AB223DF5; Wed, 10 Nov 2021 14:48:40 -0500 (EST)
-Date: Wed, 10 Nov 2021 14:48:40 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [for-6.1 v3 0/3] virtiofsd: Add support for FUSE_SYNCFS request
-Message-ID: <YYwiGN7pfdyH9543@redhat.com>
-References: <20210510155539.998747-1-groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mktz7-0001L9-LC; Wed, 10 Nov 2021 15:14:17 -0500
+Received: from [2607:f8b0:4864:20::934] (port=45992
+ helo=mail-ua1-x934.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mktz5-00036V-RE; Wed, 10 Nov 2021 15:14:17 -0500
+Received: by mail-ua1-x934.google.com with SMTP id ay21so7296898uab.12;
+ Wed, 10 Nov 2021 12:14:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=fR9j95dndfD8ybie40dEBSzFFWDnEbUuSu178/AMUis=;
+ b=htmmBYGgzZ4utyszuVmeUUJiqpAIGzbCFFDTlUNnUT3OfNZBxfOlZwx2IatEIb2CU8
+ svjL+lHBS0BB9E0r0Vg3aYV42tWCPYQlyIQjgC6ZQODkMcGgJzuYcHGzRezOW+8BGQjC
+ FBAxuD9Fyu3oevqqXAGmnIJ4vp/qVHXgtyxQbs8/h0hIyyKrWioH11hUvPUWX/69pfk2
+ d1x0D3XKNdXj53UP1QhbLMk44YM+UjmLC8+EA9JyngphJBOslMr732Wb70uJWaC1pzMQ
+ 27mNQnQHNCwyzBije7XSU/ZRlku2bxA+7kyvFVuDW8+51054lltZvO2aXudDvB5miw+H
+ xLLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fR9j95dndfD8ybie40dEBSzFFWDnEbUuSu178/AMUis=;
+ b=8GXTgwkhGlMHfkKadYpIkpnKGIl58i0hY6KoIzXdakdaqjwobCTjDgxfzGmn46zTvk
+ vjPJtMVFHxDN19WkAoq2Pml89uFRAuBPonTlHoryUbeF3uzwTEbsXl1grD5Qx7vzDkr0
+ 8g2Qv1DUlBlAdFMg5B/pag/hC5QLYxshmm1c3kVrSoQ2K28Oq8XpQKY7d4i90gctCYTM
+ q50FD4QVb1wLYdi9MWF7k0kDx7nirKUc/z8aR4668xcAdD7r0utXemMKsqS/i/44pwS9
+ wPJfghzBc0voHgaf05imB76Lb9flinAcmjNEvkxauijKqSA4lwat+czWKjQGCXydkk6+
+ dU9A==
+X-Gm-Message-State: AOAM532c9Y3oA/UHlbQFcEe7g247R9N4sbv01ieDHXCWOOIlanVPq7ec
+ jf5UhRNJVLVNs2XEQwQjtwI=
+X-Google-Smtp-Source: ABdhPJydvG8ii84AVbiCrdQa6jnMsNQwlsWJTRkf2C6PVd4ISIF5UmWBbYCC7QEct53Jj57D5b0oMA==
+X-Received: by 2002:a9f:2d8c:: with SMTP id v12mr2479809uaj.25.1636575254329; 
+ Wed, 10 Nov 2021 12:14:14 -0800 (PST)
+Received: from [192.168.10.222] ([189.79.219.109])
+ by smtp.gmail.com with ESMTPSA id y28sm628335vkl.22.2021.11.10.12.14.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Nov 2021 12:14:14 -0800 (PST)
+Message-ID: <113918f5-49d5-2dc9-4902-0051c785d3ef@gmail.com>
+Date: Wed, 10 Nov 2021 17:14:10 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210510155539.998747-1-groug@kaod.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 1/1] ppc/mmu_helper.c: do not truncate 'ea' in
+ booke206_invalidate_ea_tlb()
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20211110184545.1981500-1-danielhb413@gmail.com>
+ <00d2bc57-5e12-7db6-7ddc-44bd198b53d0@amsat.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <00d2bc57-5e12-7db6-7ddc-44bd198b53d0@amsat.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::934
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::934;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x934.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.678,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,76 +91,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- virtio-fs@redhat.com, Miklos Szeredi <miklos@szeredi.hu>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Alexander Graf <agraf@csgraf.de>, qemu-ppc@nongnu.org, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Greg,
 
-I don't see FUSE_SYNCFS support in virtiofsd. I see that kernel 
-patches got merged. Did you post another version of patches?
 
-Will be nice to add syncfs support in virtiofsd/virtiofsd_rs as well. 
+On 11/10/21 15:52, Philippe Mathieu-Daudé wrote:
+> +Alexander
+> 
+> On 11/10/21 19:45, Daniel Henrique Barboza wrote:
+>> 'tlbivax' is implemented by gen_tlbivax_booke206() via
+>> gen_helper_booke206_tlbivax(). In case the TLB needs to be flushed,
+>> booke206_invalidate_ea_tlb() is called. All these functions, but
+>> booke206_invalidate_ea_tlb(), uses a 64-bit effective address 'ea'.
+>>
+>> booke206_invalidate_ea_tlb() uses an uint32_t 'ea' argument that
+>> truncates the original 'ea' value for apparently no particular reason.
+>> This function retrieves the tlb pointer by calling booke206_get_tlbm(),
+>> which also uses a target_ulong address as parameter - in this case, a
+>> truncated 'ea' address. All the surrounding logic considers the
+>> effective TLB address as a 64 bit value, aside from the signature of
+>> booke206_invalidate_ea_tlb().
+>>
+>> Last but not the least, PowerISA 2.07B section 6.11.4.9 [2] makes it
+>> clear that the effective address "EA" is a 64 bit value.
+>>
+>> Commit 01662f3e5133 introduced this code and no changes were made ever
+>> since. An user detected a problem with tlbivax [1] stating that this
+>> address truncation was the cause. This same behavior might be the source
+>> of several subtle bugs that were never caught.
+>>
+>> For all these reasons, this patch assumes that this address truncation
+>> is the result of a mistake/oversight of the original commit, and changes
+>> booke206_invalidate_ea_tlb() 'ea' argument to target_ulong.
+>>
+>> [1] https://gitlab.com/qemu-project/qemu/-/issues/52
+>> [2] https://wiki.raptorcs.com/wiki/File:PowerISA_V2.07B.pdf
+>>
+>> Fixes: 01662f3e5133 ("PPC: Implement e500 (FSL) MMU")
+>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/52
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> ---
+>>   target/ppc/mmu_helper.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
+>> index 2cb98c5169..21cdae4c6d 100644
+>> --- a/target/ppc/mmu_helper.c
+>> +++ b/target/ppc/mmu_helper.c
+>> @@ -1216,7 +1216,7 @@ void helper_booke206_tlbsx(CPUPPCState *env, target_ulong address)
+>>   }
+>>   
+>>   static inline void booke206_invalidate_ea_tlb(CPUPPCState *env, int tlbn,
+>> -                                              uint32_t ea)
+>> +                                              target_ulong ea)
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> 
+> But I wonder if vaddr is not more appropriated here,
+> see "hw/core/cpu.h":
 
-Thanks
-Vivek
+Just saw other mmu related code in target/ppc that uses 'vaddr' in this context,
+so I believe it is appropriate to use it here. I'll send a v2.
 
-On Mon, May 10, 2021 at 05:55:36PM +0200, Greg Kurz wrote:
-> FUSE_SYNCFS allows the client to flush the host page cache.
-> This isn't available in upstream linux yet, but the following
-> tree can be used to test:
-> 
-> https://gitlab.com/gkurz/linux/-/tree/virtio-fs-sync
-> 
-> v3: - track submounts and do per-submount syncfs() (Vivek)
->     - based on new version of FUSE_SYNCFS (still not upstream)
->       https://listman.redhat.com/archives/virtio-fs/2021-May/msg00025.html
-> 
-> v2: - based on new version of FUSE_SYNCFS
->       https://listman.redhat.com/archives/virtio-fs/2021-April/msg00166.html
->     - propagate syncfs() errors to client (Vivek)
-> 
-> Greg Kurz (3):
->   Update linux headers to 5.13-rc1 + FUSE_SYNCFS
->   virtiofsd: Track mounts
->   virtiofsd: Add support for FUSE_SYNCFS request
-> 
->  .../infiniband/hw/vmw_pvrdma/pvrdma_verbs.h   |  35 -
->  include/standard-headers/drm/drm_fourcc.h     |  23 +-
->  include/standard-headers/linux/ethtool.h      | 109 ++-
->  include/standard-headers/linux/fuse.h         |  27 +-
->  include/standard-headers/linux/input.h        |   2 +-
->  include/standard-headers/linux/virtio_ids.h   |   2 +
->  .../standard-headers/rdma/vmw_pvrdma-abi.h    |   7 +
->  linux-headers/asm-generic/unistd.h            |  13 +-
->  linux-headers/asm-mips/unistd_n32.h           | 752 +++++++--------
->  linux-headers/asm-mips/unistd_n64.h           | 704 +++++++-------
->  linux-headers/asm-mips/unistd_o32.h           | 844 ++++++++---------
->  linux-headers/asm-powerpc/kvm.h               |   2 +
->  linux-headers/asm-powerpc/unistd_32.h         | 857 +++++++++---------
->  linux-headers/asm-powerpc/unistd_64.h         | 801 ++++++++--------
->  linux-headers/asm-s390/unistd_32.h            |   5 +
->  linux-headers/asm-s390/unistd_64.h            |   5 +
->  linux-headers/asm-x86/kvm.h                   |   1 +
->  linux-headers/asm-x86/unistd_32.h             |   5 +
->  linux-headers/asm-x86/unistd_64.h             |   5 +
->  linux-headers/asm-x86/unistd_x32.h            |   5 +
->  linux-headers/linux/kvm.h                     | 134 +++
->  linux-headers/linux/userfaultfd.h             |  36 +-
->  linux-headers/linux/vfio.h                    |  35 +
->  tools/virtiofsd/fuse_lowlevel.c               |  11 +
->  tools/virtiofsd/fuse_lowlevel.h               |  12 +
->  tools/virtiofsd/passthrough_ll.c              |  80 +-
->  tools/virtiofsd/passthrough_seccomp.c         |   1 +
->  27 files changed, 2465 insertions(+), 2048 deletions(-)
-> 
-> -- 
-> 2.26.3
-> 
-> 
 
+Thanks,
+
+Daniel
+
+> 
+> /**
+>   * vaddr:
+>   * Type wide enough to contain any #target_ulong virtual address.
+>   */
+> 
 
