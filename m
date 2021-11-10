@@ -2,63 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A15744BC8B
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 09:06:19 +0100 (CET)
-Received: from localhost ([::1]:57060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14F0A44BCA3
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 09:12:00 +0100 (CET)
+Received: from localhost ([::1]:60838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkicb-0000bt-R2
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 03:06:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51554)
+	id 1mkii6-0003Mw-Uc
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 03:11:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mkib8-00082V-PZ
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 03:04:46 -0500
-Received: from 9.mo552.mail-out.ovh.net ([87.98.180.222]:58811)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mkigV-0001qO-Me
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 03:10:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44889)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mkib3-0005qT-Gz
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 03:04:46 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.19])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id AAB8821881;
- Wed, 10 Nov 2021 08:04:37 +0000 (UTC)
-Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Wed, 10 Nov
- 2021 09:04:37 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R003aad7dedb-ef21-4b52-8745-79d122275f15,
- FF02C7A8D8E58AFC286F2B1DBFB5F34314452EF1) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <ae379705-5697-4a03-df04-3d20799f7d83@kaod.org>
-Date: Wed, 10 Nov 2021 09:04:36 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mkigO-0006Z0-KC
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 03:10:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636531807;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RDBc9Nexzq98tkCp/mOIFYq2WBzyQAC4q4+nH9I9VP4=;
+ b=EkXOFDZUAywqXed0QQ6ShshWORJBm5TR6z2lCAHd15QAHGz6g61uKgXg//HEF7CWz0vwAA
+ ICleuLiFTfDOPX6b6rzAszFDxQyL9S8Pzc1pG7Zm6U3u7wlOajEoXIRYyt6jkHTRxoC/hC
+ pFBpIn66Kms/xG4GNhL+YhEGU0rcEb4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-321-f7q_ea5yO0ua0XQagHSdfw-1; Wed, 10 Nov 2021 03:10:05 -0500
+X-MC-Unique: f7q_ea5yO0ua0XQagHSdfw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADDF11018720;
+ Wed, 10 Nov 2021 08:10:03 +0000 (UTC)
+Received: from [10.33.192.183] (dhcp-192-183.str.redhat.com [10.33.192.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AEF6D1973B;
+ Wed, 10 Nov 2021 08:10:02 +0000 (UTC)
+Message-ID: <2eac9bd1-099c-bc0c-e5e3-6a04eaa91ddf@redhat.com>
+Date: Wed, 10 Nov 2021 09:10:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] target/ppc: Fix register update on lf[sd]u[x]/stf[sd]u[x]
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v4 2/2] tests/unit: Add an unit test for smp parsing
+To: "wangyanan (Y)" <wangyanan55@huawei.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20211028150913.1975305-1-philmd@redhat.com>
+ <20211028150913.1975305-3-philmd@redhat.com>
+ <cb4307b9-e4b1-da06-3f69-556e8f074a88@redhat.com>
+ <0d991e20-05d7-a182-5270-81c1892656b4@huawei.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <0d991e20-05d7-a182-5270-81c1892656b4@huawei.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: <matheus.ferst@eldorado.org.br>, <qemu-devel@nongnu.org>,
- <qemu-ppc@nongnu.org>
-References: <20211109192911.485507-1-matheus.ferst@eldorado.org.br>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20211109192911.485507-1-matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 45cf279b-fb82-4e2e-bdfb-0d8fad2fb8f4
-X-Ovh-Tracer-Id: 9013110232128523113
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudeigddtudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
- helo=9.mo552.mail-out.ovh.net
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.678,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.678, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,49 +85,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- groug@kaod.org, david@gibson.dropbear.id.au
+Cc: Andrew Jones <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/9/21 20:29, matheus.ferst@eldorado.org.br wrote:
-> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+On 09/11/2021 13.18, wangyanan (Y) wrote:
+> Hi,
 > 
-> These instructions should update the GPR indicated by the field RA
-> instead of RT. This error caused a regression on Mac OS 9 boot and some
-> graphical glitches in OS X.
-
-I could reproduce the issue and the fix on Mac OS 9. I wonder how we could
-automate the MacOS tests since they are graphical.
-
-> Fixes: a39a106634a9 ("target/ppc: Move load and store floating point instructions to decodetree")
-> Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> ---
->   target/ppc/translate/fp-impl.c.inc | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-
-Applied for 6.2
-
-Thanks,
-
-C.
-
+> On 2021/11/9 17:36, Philippe Mathieu-Daudé wrote:
+>> Hi,
+>>
+>> On 10/28/21 17:09, Philippe Mathieu-Daudé wrote:
+>>> From: Yanan Wang <wangyanan55@huawei.com>
+>>>
+>>> Now that we have a generic parser smp_parse(), let's add an unit
+>>> test for the code. All possible valid/invalid SMP configurations
+>>> that the user can specify are covered.
+>>>
+>>> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+>>> Reviewed-by: Andrew Jones <drjones@redhat.com>
+>>> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> Message-Id: <20211026034659.22040-3-wangyanan55@huawei.com>
+>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> ---
+>>>   tests/unit/test-smp-parse.c | 594 ++++++++++++++++++++++++++++++++++++
+>>>   MAINTAINERS                 |   1 +
+>>>   tests/unit/meson.build      |   1 +
+>>>   3 files changed, 596 insertions(+)
+>>>   create mode 100644 tests/unit/test-smp-parse.c
+>> Could you have a look at this test failure please?
+>> https://cirrus-ci.com/task/5823855357853696
+>>
+>> MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+>> G_TEST_SRCDIR=C:/Users/ContainerAdministrator/AppData/Local/Temp/cirrus-ci-build/tests/unit 
+>>
+>> G_TEST_BUILDDIR=C:/Users/ContainerAdministrator/AppData/Local/Temp/cirrus-ci-build/build/tests/unit 
+>>
+>> tests/unit/test-smp-parse.exe --tap -k
+>> Test smp_parse failed!
+>> Input configuration: (SMPConfiguration) {
+>>      .has_cpus    =  true, cpus    = 1,
+>>      .has_sockets = false, sockets = 0,
+>>      .has_dies    = false, dies    = 0,
+>>      .has_cores   = false, cores   = 0,
+>>      .has_threads = false, threads = 0,
+>>      .has_maxcpus = false, maxcpus = 0,
+>> }
+>> Should be valid: no
+>> Expected error report: Invalid SMP CPUs 1. The min CPUs supported by
+>> machine '(null)' is 2
+>> Result is valid: no
+>> Output error report: Invalid SMP CPUs 1. The min CPUs supported by
+>> machine '(NULL)' is 2
+>> ERROR test-smp-parse - too few tests run (expected 2, got 0)
+>> make: *** [Makefile.mtest:576: run-test-70] Error 1
+>>
+>>
+>> .
+> Obviously, the name string for the tested machine type in cirrus-ci is "NULL",
+> while the expected name string is "null". It was also "null" when running on
+> my Arm64 platform locally.
 > 
-> diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
-> index d1dbb1b96b..c9e05201d9 100644
-> --- a/target/ppc/translate/fp-impl.c.inc
-> +++ b/target/ppc/translate/fp-impl.c.inc
-> @@ -1328,7 +1328,7 @@ static bool do_lsfpsd(DisasContext *ctx, int rt, int ra, TCGv displ,
->           set_fpr(rt, t0);
->       }
->       if (update) {
-> -        tcg_gen_mov_tl(cpu_gpr[rt], ea);
-> +        tcg_gen_mov_tl(cpu_gpr[ra], ea);
->       }
->       tcg_temp_free_i64(t0);
->       tcg_temp_free(ea);
-> 
+> Anyway, I shouldn't have hardcoded this expected error message. I can
+> send a fix patch to make it more flexible then more stable. :)
+
+Yes, please do so. The "(null)"/"(NULL)" obviously depends on the libc that 
+is used, so we should not rely on the correct spelling of the string in the 
+tests here.
+
+  Thomas
+
 
 
