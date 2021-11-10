@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38EB544C228
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 14:33:20 +0100 (CET)
-Received: from localhost ([::1]:39452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF6144C22B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 14:35:23 +0100 (CET)
+Received: from localhost ([::1]:42214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mknj5-0002Mp-CK
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 08:33:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59480)
+	id 1mknl4-00032V-Vt
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 08:35:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1mknfq-00089Z-KF
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:29:58 -0500
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:49644)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mkngS-0000BN-T9
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:30:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56132)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1mknfl-0001k6-IK
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:29:57 -0500
-Received: from sas1-4cbebe29391b.qloud-c.yandex.net
- (sas1-4cbebe29391b.qloud-c.yandex.net
- [IPv6:2a02:6b8:c08:789:0:640:4cbe:be29])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 57E812E1974;
- Wed, 10 Nov 2021 16:29:42 +0300 (MSK)
-Received: from myt6-10e59078d438.qloud-c.yandex.net
- (myt6-10e59078d438.qloud-c.yandex.net [2a02:6b8:c12:5209:0:640:10e5:9078])
- by sas1-4cbebe29391b.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- 5plW6CCbEn-TgsaDHkL; Wed, 10 Nov 2021 16:29:42 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1636550982; bh=XGfnkNveMkQymf3FYr4cg0RNdJj5cq1M442tE10yOzU=;
- h=In-Reply-To:References:Date:From:To:Subject:Message-ID:Cc;
- b=GLpPJmtYVB9m2gfzxgzBphMwUYftZwKKMdZJEOtxyTmFZhCLm8Rnc6tgVnQLcYrux
- hinsMs1Zufw8ef5l1s1oRBk+tYxiJeuMuiHcrFOrPl+bsscqp7MF0jeXc8w83LzptE
- ZiZjhMNlUJbNm8QBsPkr79pn+D0VRuJfoDa4Cda4=
-Authentication-Results: sas1-4cbebe29391b.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from [IPv6:2a02:6b8:b081:8007::1:3b] (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b081:8007::1:3b])
- by myt6-10e59078d438.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPS id
- FEkVxdfcDt-Tfx8wnfO; Wed, 10 Nov 2021 16:29:41 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-X-Yandex-Fwd: 2
-Subject: Re: [Ping][PATCH v0] vl: flush all task from rcu queue before exiting
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20211102133901.286027-1-den-plotnikov@yandex-team.ru>
- <96bfe630-fb3d-2ac8-60b8-ae23ed7b3742@yandex-team.ru>
- <5830d625-de03-7dc7-c662-e434ebeaa651@redhat.com>
-From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-Message-ID: <830c8775-4d39-f91c-d223-2934d8cc1c21@yandex-team.ru>
-Date: Wed, 10 Nov 2021 16:29:41 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mkngQ-0001vs-EA
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:30:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636551029;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uV8+7G56fOjZDtB37ZzXyDjEknK6Yte60E35SnXUquE=;
+ b=fW2of18omVz9W7fBSpkYpYz/nmLbC6xkkGj0BRAFdluY8i9MqfMQZoNoU12uhVRODgDdOq
+ i9EThgqqTrixWBIyU7k3OGK9xBazRFRcqdk8fAcIJYeNSTdPY3w4OYGqPwWsSdaU+pS70l
+ WQUnoLfvGXwTrz6yazXZichimDiJtt4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-540-t1zbMLYOO0ah8J_2SPrhCA-1; Wed, 10 Nov 2021 08:30:26 -0500
+X-MC-Unique: t1zbMLYOO0ah8J_2SPrhCA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA9748799EC;
+ Wed, 10 Nov 2021 13:30:24 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 62BCD5C3DF;
+ Wed, 10 Nov 2021 13:30:24 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E42BE11380A7; Wed, 10 Nov 2021 14:30:22 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Jonah Palmer <jonah.palmer@oracle.com>
+Subject: Re: [PATCH v9 8/8] hmp: add virtio commands
+References: <1636539792-20967-1-git-send-email-jonah.palmer@oracle.com>
+ <1636539792-20967-9-git-send-email-jonah.palmer@oracle.com>
+Date: Wed, 10 Nov 2021 14:30:22 +0100
+In-Reply-To: <1636539792-20967-9-git-send-email-jonah.palmer@oracle.com>
+ (Jonah Palmer's message of "Wed, 10 Nov 2021 05:23:12 -0500")
+Message-ID: <87y25ww32p.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <5830d625-de03-7dc7-c662-e434ebeaa651@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=5.45.199.163;
- envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
-X-Spam_score_int: -37
-X-Spam_score: -3.8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.678,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,82 +79,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yc-core@yandex-team.ru, mlevitsk@redhat.com
+Cc: mst@redhat.com, qemu_oss@crudebyte.com, qemu-devel@nongnu.org,
+ kraxel@redhat.com, si-wei.liu@oracle.com, joao.m.martins@oracle.com,
+ eblake@redhat.com, qemu-block@nongnu.org, david@redhat.com,
+ arei.gonglei@huawei.com, marcandre.lureau@redhat.com, lvivier@redhat.com,
+ thuth@redhat.com, michael.roth@amd.com, groug@kaod.org, dgilbert@redhat.com,
+ eric.auger@redhat.com, stefanha@redhat.com, boris.ostrovsky@oracle.com,
+ kwolf@redhat.com, mathieu.poirier@linaro.org, raphael.norwitz@nutanix.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Jonah Palmer <jonah.palmer@oracle.com> writes:
 
-On 09.11.2021 20:46, Paolo Bonzini wrote:
-> On 11/9/21 08:23, Denis Plotnikov wrote:
->> Ping ping!
+> From: Laurent Vivier <lvivier@redhat.com>
 >
-> Looks good, but can you explain why it's okay to call it before 
-> qemu_chr_cleanup() and user_creatable_cleanup()?
+> This patch implements the HMP versions of the virtio QMP commands.
 >
-> I think a better solution to the ordering problem would be:
+> Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
+> ---
+>  hmp-commands-info.hx  | 218 ++++++++++++++++++++++++++++++
+>  include/monitor/hmp.h |   5 +
+>  monitor/hmp-cmds.c    | 358 ++++++++++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 581 insertions(+)
 >
->   qemu_chr_cleanup();
->   user_creatable_cleanup();
->   flush_rcu();
->   monitor_cleanup();
-I agree, this looks better
->
-> with something like this:
->
-> diff --git a/chardev/char-fe.c b/chardev/char-fe.c
-> index 7789f7be9c..f0c3ea5447 100644
-> --- a/chardev/char-fe.c
-> +++ b/chardev/char-fe.c
-> @@ -195,6 +195,7 @@ bool qemu_chr_fe_init(CharBackend *b,
->      int tag = 0;
->
->      if (s) {
-> +        object_ref(OBJECT(s));
->          if (CHARDEV_IS_MUX(s)) {
->              MuxChardev *d = MUX_CHARDEV(s);
->
-> @@ -241,6 +242,7 @@ void qemu_chr_fe_deinit(CharBackend *b, bool del)
->              } else {
->                  object_unref(obj);
->              }
-> +            object_unref(obj);
->          }
->          b->chr = NULL;
->      }
->
-> to keep the chardev live between qemu_chr_cleanup() and 
-> monitor_cleanup().
+> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+> index 407a1da..6bf7359 100644
+> --- a/hmp-commands-info.hx
+> +++ b/hmp-commands-info.hx
+> @@ -877,3 +877,221 @@ SRST
+>    ``info sgx``
+>      Show intel SGX information.
+>  ERST
+> +
+> +    {
+> +        .name      = "virtio",
+> +        .args_type = "",
+> +        .params    = "",
+> +        .help      = "List all available virtio devices",
+> +        .cmd       = hmp_virtio_query,
+> +        .flags     = "p",
+> +    },
+> +
+> +SRST
+> +  ``info virtio``
+> +    List all available virtio devices
+> +
+> +    Example:
+> +
+> +    List all available virtio devices in the machine::
+> +
+> +    (qemu) info virtio
+> +    /machine/peripheral/vsock0/virtio-backend [vhost-vsock]
 
-but frankly speaking I don't understand why we have to do ref/unref in 
-char-fe interface functions, instead of just ref/uref-ing monitor's char 
-device directly like this:
+I get
 
-diff --git a/monitor/monitor.c b/monitor/monitor.c
-index 21c7a68758f5..3692a8e15268 100644
---- a/monitor/monitor.c
-+++ b/monitor/monitor.c
-@@ -611,6 +611,7 @@ void monitor_data_destroy(Monitor *mon)
-  {
-      g_free(mon->mon_cpu_path);
-      qemu_chr_fe_deinit(&mon->chr, false);
-+    object_unref(OBJECT(&mon->chr));
-      if (monitor_is_qmp(mon)) {
-          monitor_data_destroy_qmp(container_of(mon, MonitorQMP, common));
-      } else {
-@@ -737,6 +738,7 @@ int monitor_init(MonitorOptions *opts, bool 
-allow_hmp, Error **errp)
-          error_propagate(errp, local_err);
-          return -1;
-      }
-+    object_ref(OBJECT(chr));
-      return 0;
-  }
+    docs/../hmp-commands-info.hx:899:Inconsistent literal block quoting.
 
-May be this shows the intentions better?
+This is from Sphinx.  I can't see what's wrong.
 
-Denis
+> +    /machine/peripheral/crypto0/virtio-backend [virtio-crypto]
+> +    /machine/peripheral-anon/device[2]/virtio-backend [virtio-scsi]
+> +    /machine/peripheral-anon/device[1]/virtio-backend [virtio-net]
+> +    /machine/peripheral-anon/device[0]/virtio-backend [virtio-serial]
+> +
+> +ERST
 
->
-> Paolo
->
+[...]
+
 
