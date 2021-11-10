@@ -2,71 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB17644C0BD
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 13:06:00 +0100 (CET)
-Received: from localhost ([::1]:34184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA7E344C0D9
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 13:08:13 +0100 (CET)
+Received: from localhost ([::1]:36654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkmMZ-0006kA-L1
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 07:05:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34432)
+	id 1mkmOj-0000I9-0I
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 07:08:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mkmL6-0005Bu-Qp
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 07:04:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20056)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mkmL4-0003cy-H5
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 07:04:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636545865;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9AdTALm8Md5s5+vRA1SHctOAQLfLo9rNyPAQFlujxa0=;
- b=VXadKJwRCCK52Rg06b+DO4pbMGdSHNZ2GvizIiiV9CLA7Y8MUdUzD6tP24VWO18gaCOGD3
- NM13/rwqlgV82Fbu8xYbhD4XaOZGzMYHTFHQ+5lTfCO4OlOfNEiwdfykeI44AOtcLULswe
- ad9dWemNoCMMVJR3jw5S6ckojw81KR8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-qxdAclgtP6WyW1-r69QFdw-1; Wed, 10 Nov 2021 07:04:24 -0500
-X-MC-Unique: qxdAclgtP6WyW1-r69QFdw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B863E802C8F;
- Wed, 10 Nov 2021 12:04:22 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4632256A86;
- Wed, 10 Nov 2021 12:03:03 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C566E11380A7; Wed, 10 Nov 2021 13:03:01 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Jonah Palmer <jonah.palmer@oracle.com>
-Subject: Re: [PATCH v9 3/8] qmp: add QMP command x-query-virtio
-References: <1636539792-20967-1-git-send-email-jonah.palmer@oracle.com>
- <1636539792-20967-4-git-send-email-jonah.palmer@oracle.com>
-Date: Wed, 10 Nov 2021 13:03:01 +0100
-In-Reply-To: <1636539792-20967-4-git-send-email-jonah.palmer@oracle.com>
- (Jonah Palmer's message of "Wed, 10 Nov 2021 05:23:07 -0500")
-Message-ID: <87sfw4xloq.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mkmNo-0007nK-T1
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 07:07:17 -0500
+Received: from [2a00:1450:4864:20::332] (port=41538
+ helo=mail-wm1-x332.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mkmNn-0004EN-1l
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 07:07:16 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ f7-20020a1c1f07000000b0032ee11917ceso1818308wmf.0
+ for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 04:07:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ZPZvhyAHMF6fQv7vvN9CcWvuGq7Ra6AXidp/MDJIZBg=;
+ b=EsP47IDq3jUtyigkbK3Wto/mAZB5XI8Q1tZB0oq6k54/gJBg7XdOVN3tr/SKQkdXoc
+ duWZ7RXHBpIs5RqffA2qx3m96nWfeGFjOb0+5D6nHUZxH+qihq0LXn6jpSvwgD34gno+
+ Df3E3EGQcsHALyzb4x39TrT5Ow5iaORuYj/nOHl1HYs/BvhzKzD3e0xLCvvZEKZ8x7Te
+ BaczYsPdgXefuPvEJzsLfWK91maVwissjIbpGjkbniNMYhF91ufGUFAD6Anx/r7F+sJp
+ dJr+yTlPRGjOgu2oyVJ6HJP1ujqlemkL+zUFBFLEbOHWA7tKwdFa+qBJIeM/UgvX/f0/
+ gwaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZPZvhyAHMF6fQv7vvN9CcWvuGq7Ra6AXidp/MDJIZBg=;
+ b=kBceyg7OPbZTe/ToBWHpcyXwgVar4TOHG0s2RL10prV3MCdtid/tMaJzT8/GpZ6vq5
+ lEJnnEH8RC04DmQjdSA+pS7oQFb7it1ZlGMc0JAfNMb3BUoF1QhmJyYHYUGXD7We9wLT
+ 4pX2DKcLPcnj+bbO+J5Jp5us/b5kge85oRmRgjqEYa37B2aKW32IGGD4k5ruZSsqT24y
+ K3W4mgy6hvXhVdxSN8ihv/DK6LscCMaDTVf0nRW0IIUTfHrlilz74P9Z5+wa+ztzzwh6
+ p/EMYqdhmSrpPbqg8VN+qdg2LSw4yCJbSoHj3JJora3x920FbUGLKUmNHd1JRH6CLqU1
+ 41Pg==
+X-Gm-Message-State: AOAM530kiZsYJiSgK+4McdsnZpFfSbwC0WEp88CjdkFzQv6a/0TgG72E
+ 73CPBz4EDGmn6LSGbgsc8QPRkQ==
+X-Google-Smtp-Source: ABdhPJxXaDlbmXBHLsdzt5YnfVC9mYvU9C1vEzqQ3GoyVKDFkScAEX1QfrOymmPyA8eAOt8uQ8SrYQ==
+X-Received: by 2002:a7b:c841:: with SMTP id c1mr16024089wml.80.1636546033133; 
+ Wed, 10 Nov 2021 04:07:13 -0800 (PST)
+Received: from [192.168.8.106] (104.red-2-142-241.dynamicip.rima-tde.net.
+ [2.142.241.104])
+ by smtp.gmail.com with ESMTPSA id n15sm5886874wmq.38.2021.11.10.04.07.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Nov 2021 04:07:12 -0800 (PST)
+Subject: Re: [PATCH v2] tcg: Remove TCI experimental status
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20211106111457.517546-1-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <74388486-4f19-bfbc-6b0f-8de2a13120b0@linaro.org>
+Date: Wed, 10 Nov 2021 13:07:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+In-Reply-To: <20211106111457.517546-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.678,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,119 +92,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, qemu_oss@crudebyte.com, qemu-devel@nongnu.org,
- kraxel@redhat.com, si-wei.liu@oracle.com, joao.m.martins@oracle.com,
- eblake@redhat.com, qemu-block@nongnu.org, david@redhat.com, armbru@redhat.com,
- arei.gonglei@huawei.com, marcandre.lureau@redhat.com, lvivier@redhat.com,
- thuth@redhat.com, michael.roth@amd.com, groug@kaod.org, dgilbert@redhat.com,
- eric.auger@redhat.com, stefanha@redhat.com, boris.ostrovsky@oracle.com,
- kwolf@redhat.com, mathieu.poirier@linaro.org, raphael.norwitz@nutanix.com,
- pbonzini@redhat.com
+Cc: qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Jonah Palmer <jonah.palmer@oracle.com> writes:
+On 11/6/21 12:14 PM, Philippe Mathieu-Daudé wrote:
+> The following commits (released in v6.0.0) made raised the
+> quality of the TCI backend to the other TCG architectures,
+> thus is is not considerated experimental anymore:
+> - c6fbea47664..2f74f45e32b
+> - dc09f047edd..9e9acb7b348
+> - b6139eb0578..2fc6f16ca5e
+> - dbcbda2cd84..5e8892db93f
+> 
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> ---
+> v2:
+> - rebase
+> - precise sysemu/user (Richard)
+> 
+> Supersedes:<20210920062306.2723797-1-f4bug@amsat.org>
+> ---
+>   docs/about/build-platforms.rst | 10 ++++++----
+>   meson.build                    |  4 ++--
+>   meson_options.txt              |  2 +-
+>   scripts/meson-buildoptions.sh  |  3 +--
+>   4 files changed, 10 insertions(+), 9 deletions(-)
 
-> From: Laurent Vivier <lvivier@redhat.com>
->
-> This new command lists all the instances of VirtIODevice with
-> their QOM paths and virtio type/name.
->
-> Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
+Applied to tcg-next.
 
-[...]
-
-> diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-> index 4912b97..1512ada 100644
-> --- a/qapi/qapi-schema.json
-> +++ b/qapi/qapi-schema.json
-> @@ -93,3 +93,4 @@
->  { 'include': 'audio.json' }
->  { 'include': 'acpi.json' }
->  { 'include': 'pci.json' }
-> +{ 'include': 'virtio.json' }
-> diff --git a/qapi/virtio.json b/qapi/virtio.json
-> new file mode 100644
-> index 0000000..324ba8c
-> --- /dev/null
-> +++ b/qapi/virtio.json
-> @@ -0,0 +1,55 @@
-> +# -*- Mode: Python -*-
-> +# vim: filetype=python
-> +#
-> +
-> +##
-> +# = Virtio devices
-> +##
-> +
-> +##
-> +# @VirtioInfo:
-> +#
-> +# Basic information about a given VirtIODevice
-> +#
-> +# @path: the device's canonical QOM path
-> +#
-> +# @type: VirtIO device name
-> +#
-> +# Since: 6.3
-
-I expect the next release to be numbered 7.0.
-
-> +#
-> +##
-> +{ 'struct': 'VirtioInfo',
-> +  'data': { 'path': 'str',
-> +            'type': 'str' } }
-> +
-> +##
-> +# @x-query-virtio:
-> +#
-> +# Returns a list of all realized VirtIO devices
-> +#
-> +# Features:
-> +# @unstable: This command is meant for debugging.
-> +#
-> +# Returns: list of gathered @VirtioInfo devices
-> +#
-> +# Since: 6.3
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "x-query-virtio" }
-> +# <- { "return": [ { "path": "/machine/peripheral-anon/device[4]/virtio-backend",
-> +#                    "type": "virtio-input" },
-> +#                  { "path": "/machine/peripheral/crypto0/virtio-backend",
-> +#                    "type": "virtio-crypto" },
-> +#                  { "path": "/machine/peripheral-anon/device[2]/virtio-backend",
-> +#                    "type": "virtio-scsi" },
-> +#                  { "path": "/machine/peripheral-anon/device[1]/virtio-backend",
-> +#                    "type": "virtio-net" },
-> +#                  { "path": "/machine/peripheral-anon/device[0]/virtio-backend",
-> +#                    "type": "virtio-serial" }
-> +#                ] }
-
-Any particular reason for reformatting the example?  For what it's
-worth, I'd prefer the previous version.
-
-Aside: consistent formatting of examples would be nice.  Not in this
-series.
-
-> +#
-> +##
-> +
-> +{ 'command': 'x-query-virtio', 'returns': ['VirtioInfo'],
-> +  'features': [ 'unstable' ] }
-> diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-> index 7f103ea..fd00ee2 100644
-> --- a/tests/qtest/qmp-cmd-test.c
-> +++ b/tests/qtest/qmp-cmd-test.c
-> @@ -103,6 +103,7 @@ static bool query_is_ignored(const char *cmd)
->          "query-gic-capabilities", /* arm */
->          /* Success depends on target-specific build configuration: */
->          "query-pci",              /* CONFIG_PCI */
-> +        "x-query-virtio",         /* CONFIG_VIRTIO */
->          /* Success depends on launching SEV guest */
->          "query-sev-launch-measure",
->          /* Success depends on Host or Hypervisor SEV support */
-
+r~
 
