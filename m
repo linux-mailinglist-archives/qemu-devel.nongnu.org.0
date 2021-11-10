@@ -2,83 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3FAE44C5BC
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 18:12:10 +0100 (CET)
-Received: from localhost ([::1]:49474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1542244C5C2
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 18:14:19 +0100 (CET)
+Received: from localhost ([::1]:52630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkr8p-0004Ir-5q
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 12:12:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37272)
+	id 1mkrAw-0006Zm-2D
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 12:14:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkr1H-0004vu-Cj
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 12:04:19 -0500
-Received: from [2a00:1450:4864:20::434] (port=38835
- helo=mail-wr1-x434.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkr1E-0001l2-FZ
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 12:04:18 -0500
-Received: by mail-wr1-x434.google.com with SMTP id u18so5213668wrg.5
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 09:04:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=vZtFX7E7LmMjM7Fb/tkvTW4ySe37pcR3rl2S5wkGSa0=;
- b=IttyLI+neGaJcC8FApQ6Xsrc9O8ennYIXyjJ4Pt+dz4gCCIpbyEuVwTisGK0evgmp3
- Ir1dRVoy7hBKgKSKTHPAsL7AdAImrqwaMZjdkvSXPjdokJ0pVQX4uLAXrlMipFmfiz4p
- 6aJLlc7XixmXzSvFzhrU/LBNFrmEyW+MvCwwvNRq2Mp62CiytMpI+QeejGQqTNWpL1jg
- 5HgqXaUigoXeKSKTlcKseLl7Nb3kzFWJse65KcVOPrkSlfLDakWgsnK6qq8GemLt5Tr9
- Y6xbQWvDXtrmv/7WRhWRmfKh+uVBLsB0tZqUBNX8ouh4Z+vkMFqcs2YXk06HYwDKB9pN
- SoDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vZtFX7E7LmMjM7Fb/tkvTW4ySe37pcR3rl2S5wkGSa0=;
- b=SNuBylzGJxckiz9lwml5NGlwzEIuDJUoLQoXF51hN8BXhqLmSJXH2XKinZiM4qpm7w
- mi9oubysnv6rG7cIfPQ1+7xm9rz/1KSvA+rAFQQfsV9atVZwJWUcgJRJHWV18lUZjXUy
- eLiTfyOrlg2JhrrJu+ePGgnnQGuF6L9OMPC4q/FF7nSmA6/eb368nBVFrdlflQBR+TOS
- ZFOEGmwgWJNjLsP3EMOMRCm8sVAxa8IFfxWB/l81BZf0LvfCsjpjSeX1Vibr1brXRk4j
- M+DnzLwlzMiEEojXi9hbpAWI42rCKJxgWUs7kmacmh/HH68oENAB5zMqXEzqdSpanZog
- Jf1A==
-X-Gm-Message-State: AOAM533ItCq9H/K+sUZSjbL4tayakHnoE+tZZeUt7NG9Ipv54xt9n+BY
- VAIc1/fFHrGMt1iKfoJzJmTPBA==
-X-Google-Smtp-Source: ABdhPJyk5ybY2RqvidcLpS4FicQnzxp2QaaWev5T/Hfr4AN6zQkpzshy6t2khqAlLjbZvzpXoWoDDw==
-X-Received: by 2002:adf:cf05:: with SMTP id o5mr592595wrj.325.1636563854747;
- Wed, 10 Nov 2021 09:04:14 -0800 (PST)
-Received: from [192.168.8.106] (104.red-2-142-241.dynamicip.rima-tde.net.
- [2.142.241.104])
- by smtp.gmail.com with ESMTPSA id f3sm6144562wmb.12.2021.11.10.09.04.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Nov 2021 09:04:14 -0800 (PST)
-Subject: Re: [RFC v2 6/6] *-user: move safe-syscall.* to common-user
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-References: <20211110163133.76357-1-imp@bsdimp.com>
- <20211110163133.76357-7-imp@bsdimp.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b0c5d701-5187-58ab-7b34-aead73ebae68@linaro.org>
-Date: Wed, 10 Nov 2021 18:04:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mkr1g-00066i-48; Wed, 10 Nov 2021 12:04:44 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:47525)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mkr1e-0001nN-7N; Wed, 10 Nov 2021 12:04:43 -0500
+Received: from [192.168.100.42] ([82.142.14.190]) by mrelayeu.kundenserver.de
+ (mreue108 [212.227.15.184]) with ESMTPSA (Nemesis) id
+ 1MQ5jC-1n6ld40ciG-00M5w5; Wed, 10 Nov 2021 18:04:34 +0100
+Message-ID: <26f2b736-bcc7-488c-6f0a-34bacd7dbc70@vivier.eu>
+Date: Wed, 10 Nov 2021 18:04:31 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211110163133.76357-7-imp@bsdimp.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PULL 03/54] target/ppc: Move load and store floating point
+ instructions to decodetree
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, peter.maydell@linaro.org,
+ danielhb413@gmail.com, groug@kaod.org,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+References: <20211109055204.230765-1-david@gibson.dropbear.id.au>
+ <20211109055204.230765-4-david@gibson.dropbear.id.au>
+ <fed70819-21be-b375-b2b8-2c34618f3d11@vivier.eu>
+ <e69dd6b9-dc86-7887-8374-0caa196705ce@kaod.org>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <e69dd6b9-dc86-7887-8374-0caa196705ce@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:V0jVdiIQrx7rsQ8gewIXT4nGv5wwjVicX6E5py9Wdmg/AjObYCW
+ ZagxNkPDlbEyKwI7a28R8AyVD0EsGrFjOfCx5E0mDMKuQhzbO70qpa4dJ7CkD8AoI+NJx6G
+ /YDPEBTn7Ksk1301c82ySsQGZip7ZuJULN6PvO0Osb4hjEs8kaQk3h24pFr6XzloNd1NuWb
+ uIFM+8rWdHRAOiTcg7Csg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Sp62ZCiibDY=:XPsTNJLFhwdOvgNoL+xF8S
+ ZLWNgouUeMcRAH8TWnwDw+dRDUtB3YnIo/xvWZeHSmQEd7yeFiWCizrgbhm0/oNiGNFzUUycy
+ qBfg/8Ld1rmslUhqra0sS8bVSfzJoKZDnxhcHeBoFtkg+ke+ZAiIheDlQWT25d6/yE1GFsjtO
+ Xx+Ck8ZUIozYYTrUXpBHDpZ1of+e6fZudW5lzsHiVQMb5ERAE2sj9kr1wLMdDTNkRBoB4d62A
+ 13a2w+41kZTpKJ4Tt30lAzBkGW2606ZgYwSJGMI6TQTwtfv7aHokI63DPWsB9uFvB7NaiWhc+
+ AmKiUqyqj/+lSTgvn/9Y+b6e4MgnwIqFf4sB7HOJGwlzCFjWyGWz80C7Uh5/v5pjUFMGqgsH5
+ yoBM+jxPXYftbvcDr/hPqU9L+e5kRKFh+wySN9QOqVLe0on4XgDpzBa+WlmloftFtRAq0r3ib
+ z7dGiGXSFPYpKc+B3BIaRAGOFcPGj+oEDHy2np2NFK7UJ4gG9sefv6RFon535VvH14lCF79jU
+ 4kShotOUfkjPwxkPU3xJmuZEA5ER/WndPfO0zdf3nDHXVbLUB2N5DLwXlK1SGqStq6ffHpEEZ
+ +nJWfyMdGzIgmUhlOx+OPa2F1b2Nwue/GP9fUvufUTERpPyuWB/jLrbj3SEhxm8hj8i+4TqcA
+ 6RbyXxitl7aj4qunynCYVBio8madm+uMlMhZVjS5DO5V3FGILd2pIcXtgHw0bhwTMpG4=
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.678,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.678,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,74 +75,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe Mathieu-Daude <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Fernando Eckhardt Valle <phervalle@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Fernando Eckhardt Valle <fernando.valle@eldorado.org.br>, qemu-ppc@nongnu.org,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/10/21 5:31 PM, Warner Losh wrote:
-> Move linux-user/safe-syscall.S to common-user/common-safe-syscall.S and
-> replace it with a #include "common-safe-syscall.S" so that bsd-user can
-> also use it. Also move safe-syscall.h so that it can define a few more
-> externs.
+On 10/11/2021 17:56, Cédric Le Goater wrote:
+> On 11/10/21 17:33, Laurent Vivier wrote:
+>> On 09/11/2021 06:51, David Gibson wrote:
+>>> From: Fernando Eckhardt Valle <phervalle@gmail.com>
+>>>
+>>> Move load floating point instructions (lfs, lfsu, lfsx, lfsux, lfd, lfdu, lfdx, lfdux)
+>>> and store floating point instructions(stfs, stfsu, stfsx, stfsux, stfd, stfdu, stfdx,
+>>> stfdux) from legacy system to decodetree.
+>>>
+>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>> Signed-off-by: Fernando Eckhardt Valle <fernando.valle@eldorado.org.br>
+>>> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>>> Message-Id: <20211029202424.175401-4-matheus.ferst@eldorado.org.br>
+>>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+>>> ---
+>>>   target/ppc/insn32.decode           |  24 +++
+>>>   target/ppc/translate/fp-impl.c.inc | 247 +++++++++--------------------
+>>>   target/ppc/translate/fp-ops.c.inc  |  29 ----
+>>>   3 files changed, 95 insertions(+), 205 deletions(-)
+>>>
+>>
+>> This patch breaks qemu linux-user with an ubuntu bionic chroot.
+>>
+>> The fix proposed by Matheus [1] fixes it for me.
+>> When will it be merged?
+>> It's needed in 6.2
 > 
-> Signed-off-by: Warner Losh <imp@bsdimp.com>
-> ---
->   common-user/common-safe-syscall.S          | 30 +++++++++++++++++++++
->   {linux-user => common-user}/safe-syscall.h |  0
->   linux-user/safe-syscall.S                  | 31 +---------------------
->   linux-user/signal.c                        |  1 +
->   meson.build                                |  1 +
->   5 files changed, 33 insertions(+), 30 deletions(-)
->   create mode 100644 common-user/common-safe-syscall.S
->   rename {linux-user => common-user}/safe-syscall.h (100%)
 > 
-> diff --git a/common-user/common-safe-syscall.S b/common-user/common-safe-syscall.S
-> new file mode 100644
-> index 0000000000..42ea7c40ba
-> --- /dev/null
-> +++ b/common-user/common-safe-syscall.S
-> @@ -0,0 +1,30 @@
-> +/*
-> + * safe-syscall.S : include the host-specific assembly fragment
-> + * to handle signals occurring at the same time as system calls.
-> + *
-> + * Written by Peter Maydell <peter.maydell@linaro.org>
-> + *
-> + * Copyright (C) 2016 Linaro Limited
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#include "hostdep.h"
-> +#include "target_errno_defs.h"
-> +
-> +/* We have the correct host directory on our include path
-> + * so that this will pull in the right fragment for the architecture.
-> + */
-> +#ifdef HAVE_SAFE_SYSCALL
-> +#include "safe-syscall.inc.S"
-> +#endif
-> +
-> +/* We must specifically say that we're happy for the stack to not be
-> + * executable, otherwise the toolchain will default to assuming our
-> + * assembly needs an executable stack and the whole QEMU binary will
-> + * needlessly end up with one. This should be the last thing in this file.
-> + */
-> +#if defined(__linux__) && defined(__ELF__)
-> +.section        .note.GNU-stack, "", %progbits
-> +#endif
+> It's queued for 6.2 :
+> 
+>    https://github.com/legoater/qemu/commits/ppc-6.2
+> 
+> I wanted to wait the end of the week before sending a PR. Unless
+> this is critical for you of course.
 
-Hmm.  If we're going to split this file into safe-syscall.S and common-safe-syscall.S, we 
-shouldn't do the ifdef thing here.  (Why it was present at all for linux-user is a mystery.)
+Not it's not critical. It can wait the end of the week.
 
-What do you have planned for bsd-user that would be more than
+Thanks,
+Laurent
 
-> +#include "common-safe-syscall.S"
-
-this?
-
-
-r~
 
