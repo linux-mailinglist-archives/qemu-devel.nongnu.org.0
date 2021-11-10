@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A83E44C511
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 17:34:07 +0100 (CET)
-Received: from localhost ([::1]:58514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A06644C525
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 17:37:43 +0100 (CET)
+Received: from localhost ([::1]:42172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkqY2-0001or-Dg
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 11:34:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56812)
+	id 1mkqbW-0001TY-FH
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 11:37:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mkqWh-0007Zq-4A
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 11:32:43 -0500
-Received: from [2607:f8b0:4864:20::133] (port=34507
- helo=mail-il1-x133.google.com)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mkqWi-0007eu-I0
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 11:32:44 -0500
+Received: from [2607:f8b0:4864:20::d29] (port=40519
+ helo=mail-io1-xd29.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mkqWe-0005cC-OH
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 11:32:42 -0500
-Received: by mail-il1-x133.google.com with SMTP id j28so3151099ila.1
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 08:32:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mkqWf-0005cQ-UR
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 11:32:44 -0500
+Received: by mail-io1-xd29.google.com with SMTP id r8so3488714iog.7
+ for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 08:32:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pp/SgrJ7oVlk8CEiQ0y2Iv+sqjnUd/aIJ3A0oSLvc2o=;
- b=uWVVrdL2g1xI6fGTzgZyBXhKN6Th/d/5zyTfftPE8PNRC6ZnAOMhDZErNXnsNj3575
- dLw7vJ7DLSg/2ptH+oEEU8AFkEmPxVTtvoQ16jKMXZ/mdf8lXGhZt4IzA2AeqPfgQGfo
- JASm98m8l6nEXhsGn4nE+qL3iludjBEmjYUgEeH39cOl7G+6U34oR7J6yGbIHZwukw9L
- GFZw0rYLkRgADzeub+TN+b59wbGkoeXAgYy8l9m9zmHE+Vnfz36UF+FtF3U35JEaBwgt
- iC6Ve+4jXqTT1BUC6nmOcHXcComOMc+EOaMBIVIAg2t4r0LlsdS43k3To3PMh6e6l/qn
- NviA==
+ bh=M3YNJExhThSIbj1o2Es/Nt0wLEmypXnIdeRMVKOi/c8=;
+ b=spcPYVd584+LiL84FKldoc4r6gg5FlLc4mL6fts4tEtBIiD6xFICDcK34T7Hp9PA0l
+ HjTBIbBK+79mLZbEi8n32xvRRtSulUQkHHydrjFbF6kZQyP2d2BwU9S34Ts/Z82n9IBK
+ DCPDmTVwS6VUmJ6AOLLh5KRJq7GBok+XKCYdC9sKqA3YgOQfIO5qYNLyqyzNuDISmSt0
+ +lNpEdw4DRbSKfg5Jao6LDoV/8jN7INLZXT4KdRMpNOoF1ZxMAraNd2Y/unFs0IKovLe
+ qOOt1nTyy3NLdQU0pqw4p8Y5twbFC6Rj2bX1jPF9r5vmMrEZHOeeG2hUfYiCDe5dKRga
+ T0Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pp/SgrJ7oVlk8CEiQ0y2Iv+sqjnUd/aIJ3A0oSLvc2o=;
- b=V9kJjm6MICL4KfhCdl4S3StnqLX6Gn/3pKNNpI4uBy7YeS1i4+ZRAA9bUKNh2CbmaF
- 6FyXvfWvMUxqEbAovpbQFafWzd99eqCrng3wrtTRdI60YwSNtenuz6UPAbGQiFTjGCy1
- P7YwhffoKva66MQzNRP2pIcERTwhfYzcFd9Wq7SnFORuZOoL5CQwSVO/wv7DfHRAPVwj
- txJF/yzl1SJofC3MQ2ws4Iz50EG27+ccsA6IZeqpiaawD/wtVFahuC7yPw9yYkenpAZy
- 1yfacsMcPf6dMAD7x8yH9/uNKK+wbUMZN+tSc0fUPk6/vsmxml2Ur+WJ+OOr/h+gQXnB
- bsPg==
-X-Gm-Message-State: AOAM533ci5larn/PW1wyMZBWbY8WIdtFk+MpxkW3YnLqDtkRVDmfjMx+
- ks4ZHERSPf97D83g454/ZQRvdD+1/DnQug==
-X-Google-Smtp-Source: ABdhPJyvaTp0lBJgZlIFZX/kXxcsBxcWCX51Oda4B4yR/lfWEosu3Qq6B/+PKD+N86HUuVk8QqfJqw==
-X-Received: by 2002:a05:6e02:1b8a:: with SMTP id
- h10mr181962ili.237.1636561959191; 
- Wed, 10 Nov 2021 08:32:39 -0800 (PST)
+ bh=M3YNJExhThSIbj1o2Es/Nt0wLEmypXnIdeRMVKOi/c8=;
+ b=LGx9yrngvn46LQRJ18m4PDLQS0UJ7B7hhDC7YCRsdMieGH54ArzgSVA5kH3NJt+Wnt
+ EtX33RqTvsvB9kKx04w811nnIByvDgdJjbmIUBIsoJC/yhtaVIehGzvBaT4nRO8NYzgm
+ kFcB67G7yTriXO4/GbKf2NvhKaDSraeVMZ8m4bYqyUYQFN8td/pPJNpde2BtMTv5rQSL
+ NBrhKROs7QiRcjFysUO3TEpOH/kCnedE2xo5QM3cL3GEdYy9kM5uYov+zfXJCk6TELPh
+ KG5wUYB3aw7KIIyFkfXhFp9i3txRo6IbpZasRwXh0crMlbE5FbNnfM2azottDBed2QmO
+ 183w==
+X-Gm-Message-State: AOAM533k4avdl1r4nGCQs1VJWXqP74F9Kn1/BQ+M3bVb4KAoSKaPmYAm
+ 2d9WIDYdVHZvRv0dAtT6lL5mK6fioGovMQ==
+X-Google-Smtp-Source: ABdhPJyLCvqe2bgMRYt01kGjPKxFWPBlLdcFhMbV5f2cZCG4zztgincKElPTwMlkbgW1aY95HnGIew==
+X-Received: by 2002:a05:6638:22c2:: with SMTP id
+ j2mr83356jat.105.1636561960484; 
+ Wed, 10 Nov 2021 08:32:40 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id x2sm130403iom.46.2021.11.10.08.32.38
+ by smtp.gmail.com with ESMTPSA id x2sm130403iom.46.2021.11.10.08.32.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Nov 2021 08:32:38 -0800 (PST)
+ Wed, 10 Nov 2021 08:32:40 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v2 4/6] common-user: Adjust system call return on FreeBSD
-Date: Wed, 10 Nov 2021 09:31:31 -0700
-Message-Id: <20211110163133.76357-5-imp@bsdimp.com>
+Subject: [RFC v2 5/6] common-user/host/mips: create,
+ though mips hosts likely don't work reliably
+Date: Wed, 10 Nov 2021 09:31:32 -0700
+Message-Id: <20211110163133.76357-6-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211110163133.76357-1-imp@bsdimp.com>
 References: <20211110163133.76357-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::133
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d29
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::133;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x133.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd29.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -92,82 +93,19 @@ Cc: Warner Losh <imp@bsdimp.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All the *-users generally use the Linux style of negative return codes
-for errno. FreeBSD returns errno, not -errno. Add ifdefs for FreeBSD to
-make the adjustment on the 4 hosts that we have support for.
-
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- common-user/host/aarch64/safe-syscall.inc.S | 5 +++++
- common-user/host/arm/safe-syscall.inc.S     | 5 +++++
- common-user/host/i386/safe-syscall.inc.S    | 5 +++++
- common-user/host/x86_64/safe-syscall.inc.S  | 5 +++++
- 4 files changed, 20 insertions(+)
+ common-user/host/mips/safe-syscall.inc.S | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 common-user/host/mips/safe-syscall.inc.S
 
-diff --git a/common-user/host/aarch64/safe-syscall.inc.S b/common-user/host/aarch64/safe-syscall.inc.S
-index bc1f5a9792..6584950ccf 100644
---- a/common-user/host/aarch64/safe-syscall.inc.S
-+++ b/common-user/host/aarch64/safe-syscall.inc.S
-@@ -64,6 +64,11 @@ safe_syscall_start:
- 	svc	0x0
- safe_syscall_end:
- 	/* code path for having successfully executed the syscall */
-+#ifdef __FreeBSD__
-+        b.cc    2f              /* Convert to Linux -ERRNO convention */
-+        neg     x0, x0
-+2:
-+#endif
- 	ret
- 
- 0:
-diff --git a/common-user/host/arm/safe-syscall.inc.S b/common-user/host/arm/safe-syscall.inc.S
-index 88c4958504..85c47387f9 100644
---- a/common-user/host/arm/safe-syscall.inc.S
-+++ b/common-user/host/arm/safe-syscall.inc.S
-@@ -78,6 +78,11 @@ safe_syscall_start:
- 	swi	0
- safe_syscall_end:
- 	/* code path for having successfully executed the syscall */
-+#ifdef __FreeBSD__
-+        bcc     2f
-+        neg     r0, r0
-+2:
-+#endif
- 	pop	{ r4, r5, r6, r7, r8, pc }
- 
- 1:
-diff --git a/common-user/host/i386/safe-syscall.inc.S b/common-user/host/i386/safe-syscall.inc.S
-index 9e58fc6504..7bb6a98a8b 100644
---- a/common-user/host/i386/safe-syscall.inc.S
-+++ b/common-user/host/i386/safe-syscall.inc.S
-@@ -75,6 +75,11 @@ safe_syscall_start:
- 	int	$0x80
- safe_syscall_end:
- 	/* code path for having successfully executed the syscall */
-+#ifdef __FreeBSD__
-+        jnb     2f              /* Convert to Linux -ERRNO convention */
-+        neg     %eax
-+2:
-+#endif
- 	pop	%ebx
- 	.cfi_remember_state
- 	.cfi_adjust_cfa_offset -4
-diff --git a/common-user/host/x86_64/safe-syscall.inc.S b/common-user/host/x86_64/safe-syscall.inc.S
-index f36992daa3..7d8792c7ef 100644
---- a/common-user/host/x86_64/safe-syscall.inc.S
-+++ b/common-user/host/x86_64/safe-syscall.inc.S
-@@ -72,6 +72,11 @@ safe_syscall_start:
-         syscall
- safe_syscall_end:
-         /* code path for having successfully executed the syscall */
-+#ifdef __FreeBSD__
-+        jnb     2f	/* Convert to Linux -ERRNO convention */
-+        neg     %rax
-+2:
-+#endif
-         pop     %rbp
-         .cfi_remember_state
-         .cfi_def_cfa_offset 8
+diff --git a/common-user/host/mips/safe-syscall.inc.S b/common-user/host/mips/safe-syscall.inc.S
+new file mode 100644
+index 0000000000..72d9064acb
+--- /dev/null
++++ b/common-user/host/mips/safe-syscall.inc.S
+@@ -0,0 +1 @@
++	.asciiz	"This file is not compiled and mips hosts are likely broken"
 -- 
 2.33.0
 
