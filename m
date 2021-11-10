@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0514A44C288
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 14:54:17 +0100 (CET)
-Received: from localhost ([::1]:46312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0977644C296
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 14:56:22 +0100 (CET)
+Received: from localhost ([::1]:52308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mko3L-0001wy-S8
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 08:54:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37668)
+	id 1mko5M-0006Px-KF
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 08:56:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mknz5-0006Xs-35
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:49:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39361)
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1mko1G-0000Je-Gb
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:52:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27215)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mknyz-0005kR-O3
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:49:49 -0500
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1mko1B-0006FG-KG
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:52:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636552184;
+ s=mimecast20190719; t=1636552315;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=xjgKrGM3sOsUbQy6Ip4BDMYVFng+0irJ96PV2GBNheQ=;
- b=hUJlgYxcDWXnd5Dc7wq8lJv7JLF/a9Sy/A9dRmpgdtd5bJKcCPlnOI3jCoJrbz9333soA7
- 79jBEH/IHFPsEqDnwD3QKKEK8gijWUTg3pvMve4iH7cHmFFKZRgBzRLiAbJPqNpeYksEeW
- xTaxbJG4AmyAtrp4yT23m7ycQ2/OFOU=
+ bh=y2xasQ5elESghAIaOqJcB05MPj9E2/OcMNPtqeAj29Q=;
+ b=LMmUEuiyUkgXXQqomvdi2Tv9fSoiFuKOXnWKRjv87VEDWeUe5H5qK0khKHMia9rGtlOiZB
+ mcD9brGAM47wMCc2bkN57Eh0gd2WS74AaH4bvJtwckJmAhW7ie6kQbKDVAR4r6NML2pW6N
+ 5zpXVIFr4L8tFuVUms+LUGesEN7GMdA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-23-9dEEiyk0NLC7E0Sq4FONfA-1; Wed, 10 Nov 2021 08:49:40 -0500
-X-MC-Unique: 9dEEiyk0NLC7E0Sq4FONfA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-417-Tk48Nr6JN66Vtgug7b-3UA-1; Wed, 10 Nov 2021 08:51:52 -0500
+X-MC-Unique: Tk48Nr6JN66Vtgug7b-3UA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C82DE871807;
- Wed, 10 Nov 2021 13:49:20 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 91E885C1D5;
- Wed, 10 Nov 2021 13:49:19 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1E93A11380A7; Wed, 10 Nov 2021 14:49:18 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Jonah Palmer <jonah.palmer@oracle.com>
-Subject: Re: [PATCH v9 5/8] qmp: decode feature & status bits in virtio-status
-References: <1636539792-20967-1-git-send-email-jonah.palmer@oracle.com>
- <1636539792-20967-6-git-send-email-jonah.palmer@oracle.com>
-Date: Wed, 10 Nov 2021 14:49:18 +0100
-In-Reply-To: <1636539792-20967-6-git-send-email-jonah.palmer@oracle.com>
- (Jonah Palmer's message of "Wed, 10 Nov 2021 05:23:09 -0500")
-Message-ID: <87fss4w275.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB9311882FB1;
+ Wed, 10 Nov 2021 13:51:51 +0000 (UTC)
+Received: from paraplu (unknown [10.39.195.97])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3FCF560C0F;
+ Wed, 10 Nov 2021 13:51:49 +0000 (UTC)
+Date: Wed, 10 Nov 2021 14:51:47 +0100
+From: Kashyap Chamarthy <kchamart@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH] cpu-models-x86.rst: Tidy up a couple of things
+Message-ID: <YYvOc2n0IfLIm/Ue@paraplu>
+References: <20211015152259.2948176-1-kchamart@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20211015152259.2948176-1-kchamart@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kchamart@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,713 +77,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, qemu_oss@crudebyte.com, qemu-devel@nongnu.org,
- kraxel@redhat.com, si-wei.liu@oracle.com, joao.m.martins@oracle.com,
- eblake@redhat.com, qemu-block@nongnu.org, david@redhat.com,
- arei.gonglei@huawei.com, marcandre.lureau@redhat.com, lvivier@redhat.com,
- thuth@redhat.com, michael.roth@amd.com, groug@kaod.org, dgilbert@redhat.com,
- eric.auger@redhat.com, stefanha@redhat.com, boris.ostrovsky@oracle.com,
- kwolf@redhat.com, mathieu.poirier@linaro.org, raphael.norwitz@nutanix.com,
- pbonzini@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Jonah Palmer <jonah.palmer@oracle.com> writes:
+On Fri, Oct 15, 2021 at 05:22:59PM +0200, Kashyap Chamarthy wrote:
+> - Remove stray texinfo syntax (remnants of texinfo to rST conversion)
+> - Clarify the bit about long-term stable CPU models
+> 
+> TODO: In a future patch, include potential examples as discussed
+>       here[1].
+> 
+> [1] https://lists.nongnu.org/archive/html/qemu-devel/2021-10/msg03411.html
+>     -- On versioned CPU models, aliases, and machine types
 
-> From: Laurent Vivier <lvivier@redhat.com>
->
-> Display feature names instead of bitmaps for host, guest, and
-> backend for VirtIODevice.
->
-> Display status names instead of bitmaps for VirtIODevice.
->
-> Display feature names instead of bitmaps for backend, protocol,
-> acked, and features (hdev->features) for vhost devices.
->
-> Decode features according to device type. Decode status
-> according to configuration status bitmap (config_status_map).
-> Decode vhost user protocol features according to vhost user
-> protocol bitmap (vhost_user_protocol_map).
->
-> Transport features are on the first line. Undecoded bits
-> (if any) are stored in a separate field. Vhost device field
-> wont show if there's no vhost active for a given VirtIODevice.
->
-> Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
+Ping?
 
-[...]
+I'd also appreciate if anyone can also answer the two questions I raised
+in the above thread[1].
 
-> diff --git a/qapi/virtio.json b/qapi/virtio.json
-> index 54212f2..6b11d52 100644
-> --- a/qapi/virtio.json
-> +++ b/qapi/virtio.json
-> @@ -67,6 +67,466 @@
->  }
+> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
+> ---
+> Eduardo/DanPB: I'm not 100% sure if my wording got it right; please give
+> it a close reading to make sure I'm not making things worse.
+> ---
+>  docs/system/cpu-models-x86.rst.inc | 25 +++++++++++++++++--------
+>  1 file changed, 17 insertions(+), 8 deletions(-)
+> 
+> diff --git a/docs/system/cpu-models-x86.rst.inc b/docs/system/cpu-models-x86.rst.inc
+> index 6e8be7d79b..e133753920 100644
+> --- a/docs/system/cpu-models-x86.rst.inc
+> +++ b/docs/system/cpu-models-x86.rst.inc
+> @@ -25,7 +25,7 @@ Two ways to configure CPU models with QEMU / KVM
+>      typically refer to specific generations of hardware released by
+>      Intel and AMD.  These allow the guest VMs to have a degree of
+>      isolation from the host CPU, allowing greater flexibility in live
+> -    migrating between hosts with differing hardware.  @end table
+> +    migrating between hosts with differing hardware.
 >  
->  ##
-> +# @VirtioType:
-> +#
-> +# An enumeration of Virtio device types (or names)
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'enum': 'VirtioType',
-> +  'data': [ 'virtio-net', 'virtio-blk', 'virtio-serial', 'virtio-rng',
-> +            'virtio-balloon', 'virtio-iomem', 'virtio-rpmsg',
-> +            'virtio-scsi', 'virtio-9p', 'virtio-mac-wlan',
-> +            'virtio-rproc-serial', 'virtio-caif', 'virtio-mem-balloon',
-> +            'virtio-gpu', 'virtio-clk', 'virtio-input', 'vhost-vsock',
-> +            'virtio-crypto', 'virtio-signal', 'virtio-pstore',
-> +            'virtio-iommu', 'virtio-mem', 'virtio-sound', 'vhost-user-fs',
-> +            'virtio-pmem', 'virtio-mac-hwsim', 'vhost-user-i2c',
-> +            'virtio-bluetooth' ]
-> +}
-> +
-> +##
-> +# @VirtioConfigStatus:
-> +#
-> +# An enumeration of Virtio device configuration statuses
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'enum': 'VirtioConfigStatus',
-> +  'data': [ 'driver-ok', 'features-ok', 'driver', 'needs-reset',
-> +            'failed', 'acknowledge' ]
-> +}
-> +
-> +##
-> +# @VirtioDeviceStatus:
-> +#
-> +# A structure defined to list the configuration statuses of a virtio
-> +# device
-> +#
-> +# @dev-status: List of decoded configuration statuses of the virtio
-> +#              device
-> +#
-> +# @unknown-statuses: virtio device statuses bitmap that have not been decoded
-
-
-Why is @dev-status singular, and @unknown-statuses plural?
-
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'struct': 'VirtioDeviceStatus',
-> +  'data': { 'dev-status': [ 'VirtioConfigStatus' ],
-> +            '*unknown-statuses': 'uint8' } }
-> +
-> +##
-> +# @VhostProtocolFeature:
-> +#
-> +# An enumeration of Vhost User protocol features
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'enum': 'VhostProtocolFeature',
-> +  'data': [ 'mq', 'log-shmfd', 'rarp', 'reply-ack', 'net-mtu',
-> +            'slave-req', 'cross-endian', 'crypto-session', 'pagefault',
-> +            'config', 'slave-send-fd', 'host-notifier',
-> +            'inflight-shmfd', 'reset-device', 'inband-notifications',
-> +            'configure-mem-slots' ]
-> +}
-> +
-> +##
-> +# @VhostDeviceProtocols:
-> +#
-> +# A structure defined to list the vhost user protocol features of a
-> +# Vhost User device
-> +#
-> +# @features: List of decoded vhost user protocol features of a vhost
-> +#            user device
-> +#
-> +# @unknown-protocols: vhost user device protocol features bitmap that
-> +#                     have not been decoded
-
-Why are the known protocol features called @features, and the unknown
-ones @unknown-protocols?
-
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'struct': 'VhostDeviceProtocols',
-> +  'data': { 'features': [ 'VhostProtocolFeature' ],
-> +            '*unknown-protocols': 'uint64' } }
-> +
-> +##
-> +# @VirtioTransportFeature:
-> +#
-> +# An enumeration of Virtio device transport features, including virtio-ring
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'enum': 'VirtioTransportFeature',
-> +  'data': [ 'notify-on-empty', 'any-layout', 'protocol-features',
-> +            'version-1', 'iommu-platform', 'ring-packed', 'order-platform',
-> +            'sr-iov', 'indirect-desc', 'event-idx' ]
-> +}
-> +
-> +##
-> +# @VirtioMemFeature:
-> +#
-> +# An enumeration of Virtio mem features
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'enum': 'VirtioMemFeature',
-> +  'data': [ 'acpi-pxm' ]
-> +}
-> +
-> +##
-> +# @VirtioSerialFeature:
-> +#
-> +# An enumeration of Virtio serial/console features
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'enum': 'VirtioSerialFeature',
-> +  'data': [ 'size', 'multiport', 'emerg-write' ]
-> +}
-> +
-> +##
-> +# @VirtioBlkFeature:
-> +#
-> +# An enumeration of Virtio block features
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'enum': 'VirtioBlkFeature',
-> +  'data': [ 'size-max', 'seg-max', 'geometry', 'ro', 'blk-size',
-> +            'topology', 'mq', 'discard', 'write-zeroes', 'barrier',
-> +            'scsi', 'flush', 'config-wce', 'log-all' ]
-> +}
-> +
-> +##
-> +# @VirtioGpuFeature:
-> +#
-> +# An enumeration of Virtio gpu features
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'enum': 'VirtioGpuFeature',
-> +  'data': [ 'virgl', 'edid', 'resource-uuid', 'resource-blob',
-> +            'log-all' ]
-> +}
-> +
-> +##
-> +# @VirtioNetFeature:
-> +#
-> +# An enumeration of Virtio net features
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'enum': 'VirtioNetFeature',
-> +  'data': [ 'csum', 'guest-csum', 'ctrl-guest-offloads', 'mtu', 'mac',
-> +            'guest-tso4', 'guest-tso6', 'guest-ecn', 'guest-ufo',
-> +            'host-tso4', 'host-tso6', 'host-ecn', 'host-ufo',
-> +            'mrg-rxbuf', 'status', 'ctrl-vq', 'ctrl-rx', 'ctrl-vlan',
-> +            'ctrl-rx-extra', 'guest-announce', 'mq', 'ctrl-mac-addr',
-> +            'hash-report', 'rss', 'rsc-ext', 'standby', 'speed-duplex',
-> +            'gso', 'virtio-net-hdr', 'log-all' ]
-> +}
-> +
-> +##
-> +# @VirtioScsiFeature:
-> +#
-> +# An enumeration of Virtio scsi features
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'enum': 'VirtioScsiFeature',
-> +  'data': [ 'inout', 'hotplug', 'change', 't10-pi', 'log-all' ]
-> +}
-> +
-> +##
-> +# @VirtioBalloonFeature:
-> +#
-> +# An enumeration of Virtio balloon features
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'enum': 'VirtioBalloonFeature',
-> +  'data': [ 'must-tell-host', 'stats-vq', 'deflate-on-oom',
-> +            'free-page-hint', 'page-poison', 'reporting' ]
-> +}
-> +
-> +##
-> +# @VirtioIommuFeature:
-> +#
-> +# An enumeration of Virtio iommu features
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'enum': 'VirtioIommuFeature',
-> +  'data': [ 'input-range', 'domain-range', 'map-unmap', 'bypass',
-> +            'probe', 'mmio' ]
-> +}
-> +
-> +##
-> +# @VirtioInputFeature:
-> +#
-> +# An enumeration of Virtio input features. Note that virtio-input
-> +# has no device-specific features except when its vhost is active,
-> +# then it may have the VHOST_F_LOG_ALL feature.
-
-VHOST_F_LOG_ALL is talking C.  Better, I think: "may have the @log-all
-feature.  More of the same below.
-
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'enum': 'VirtioInputFeature',
-> +  'data': [ 'log-all' ]
-> +}
-> +
-> +##
-> +# @VhostUserFsFeature:
-> +#
-> +# An enumeration of vhost user FS features. Note that vhost-user-fs
-> +# has no device-specific features other than the vhost-common
-> +# VHOST_F_LOG_ALL feature.
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'enum': 'VhostUserFsFeature',
-> +  'data': [ 'log-all' ]
-> +}
-> +
-> +##
-> +# @VhostVsockFeature:
-> +#
-> +# An enumeration of vhost vsock features. Note that vhost-vsock has
-> +# no device-specific features other than the vhost-common
-> +# VHOST_F_LOG_ALL feature.
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'enum': 'VhostVsockFeature',
-> +  'data': [ 'log-all' ]
-> +}
-> +
-> +##
-> +# @VirtioCryptoFeature:
-> +#
-> +# An enumeration of virtio crypto features. Not that virtio-crypto
-> +# has no device-specific features other than when it is a vhost
-> +# device, then it may have the VHOST_F_LOG_ALL feature.
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'enum': 'VirtioCryptoFeature',
-> +  'data': [ 'log-all' ]
-> +}
-
-Four identical enum types...  any particular reason against just one?
-
-> +
-> +##
-> +# @VirtioDeviceFeaturesBase:
-> +#
-> +# The common fields that apply to all Virtio devices
-> +#
-> +# @type: virtio device name
-> +# @transport: the list of transport features of the virtio device
-> +# @unknown-features: virtio device features bitmap that have not been decoded
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'struct': 'VirtioDeviceFeaturesBase',
-> +  'data': { 'type': 'VirtioType',
-> +            'transport': [ 'VirtioTransportFeature' ],
-> +            '*unknown-features': 'uint64' } }
-
-Pardon my virtio ignorance... are the @unknown-features unknown
-transport features?
-
-> +
-> +##
-> +# @VirtioDeviceFeaturesOptionsMem:
-> +#
-> +# The options that apply to Virtio mem devices
-> +#
-> +# @features: List of device features
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'struct': 'VirtioDeviceFeaturesOptionsMem',
-> +  'data': { 'features': [ 'VirtioMemFeature' ] } }
-> +
-> +##
-> +# @VirtioDeviceFeaturesOptionsSerial:
-> +#
-> +# The options that apply to Virtio serial devices
-> +#
-> +# @features: List of device features
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'struct': 'VirtioDeviceFeaturesOptionsSerial',
-> +  'data': { 'features': [ 'VirtioSerialFeature' ] } }
-> +
-> +##
-> +# @VirtioDeviceFeaturesOptionsBlk:
-> +#
-> +# The options that apply to Virtio block devices
-> +#
-> +# @features: List of device features
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'struct': 'VirtioDeviceFeaturesOptionsBlk',
-> +  'data': { 'features': [ 'VirtioBlkFeature' ] } }
-> +
-> +##
-> +# @VirtioDeviceFeaturesOptionsGpu:
-> +#
-> +# The options that apply to Virtio GPU devices
-> +#
-> +# @features: List of device features
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'struct': 'VirtioDeviceFeaturesOptionsGpu',
-> +  'data': { 'features': [ 'VirtioGpuFeature' ] } }
-> +
-> +##
-> +# @VirtioDeviceFeaturesOptionsNet:
-> +#
-> +# The options that apply to Virtio net devices
-> +#
-> +# @features: List of device features
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'struct': 'VirtioDeviceFeaturesOptionsNet',
-> +  'data': { 'features': [ 'VirtioNetFeature' ] } }
-> +
-> +##
-> +# @VirtioDeviceFeaturesOptionsScsi:
-> +#
-> +# The options that apply to Virtio SCSI devices
-> +#
-> +# @features: List of device features
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'struct': 'VirtioDeviceFeaturesOptionsScsi',
-> +  'data': { 'features': [ 'VirtioScsiFeature' ] } }
-> +
-> +##
-> +# @VirtioDeviceFeaturesOptionsBalloon:
-> +#
-> +# The options that apply to Virtio balloon devices
-> +#
-> +# @features: List of device features
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'struct': 'VirtioDeviceFeaturesOptionsBalloon',
-> +  'data': { 'features': [ 'VirtioBalloonFeature' ] } }
-> +
-> +##
-> +# @VirtioDeviceFeaturesOptionsIommu:
-> +#
-> +# The options that apply to Virtio IOMMU devices
-> +#
-> +# @features: List of device features
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'struct': 'VirtioDeviceFeaturesOptionsIommu',
-> +  'data': { 'features': [ 'VirtioIommuFeature' ] } }
-> +
-> +##
-> +# @VirtioDeviceFeaturesOptionsInput:
-> +#
-> +# The options that apply to Virtio input devices
-> +#
-> +# @features: List of device features
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'struct': 'VirtioDeviceFeaturesOptionsInput',
-> +  'data': { 'features': [ 'VirtioInputFeature' ] } }
-> +
-> +##
-> +# @VhostDeviceFeaturesOptionsFs:
-> +#
-> +# The options that apply to vhost-user-fs devices
-> +#
-> +# @features: List of device features
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'struct': 'VhostDeviceFeaturesOptionsFs',
-> +  'data': { 'features': [ 'VhostUserFsFeature' ] } }
-> +
-> +##
-> +# @VhostDeviceFeaturesOptionsVsock:
-> +#
-> +# The options that apply to vhost-vsock devices
-> +#
-> +# @features: List of device features
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'struct': 'VhostDeviceFeaturesOptionsVsock',
-> +  'data': { 'features': [ 'VhostVsockFeature' ] } }
-> +
-> +##
-> +# @VirtioDeviceFeaturesOptionsCrypto:
-> +#
-> +# The options that apply to virtio-crypto devices
-> +#
-> +# @features: List of device features
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'struct': 'VirtioDeviceFeaturesOptionsCrypto',
-> +  'data': { 'features': [ 'VirtioCryptoFeature' ] } }
-
-If you replace the four identical enum types by one, you get four
-identical struct types here.  Same treatment.
-
-> +
-> +##
-> +# @VirtioDeviceFeatures:
-> +#
-> +# A union to define the list of features for a virtio device
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'union': 'VirtioDeviceFeatures',
-> +  'base': 'VirtioDeviceFeaturesBase',
-> +  'discriminator': 'type',
-> +  'data': { 'virtio-serial': 'VirtioDeviceFeaturesOptionsSerial',
-> +            'virtio-blk': 'VirtioDeviceFeaturesOptionsBlk',
-> +            'virtio-gpu': 'VirtioDeviceFeaturesOptionsGpu',
-> +            'virtio-net': 'VirtioDeviceFeaturesOptionsNet',
-> +            'virtio-scsi': 'VirtioDeviceFeaturesOptionsScsi',
-> +            'virtio-balloon': 'VirtioDeviceFeaturesOptionsBalloon',
-> +            'virtio-iommu': 'VirtioDeviceFeaturesOptionsIommu',
-> +            'virtio-input': 'VirtioDeviceFeaturesOptionsInput',
-> +            'vhost-user-fs': 'VhostDeviceFeaturesOptionsFs',
-> +            'vhost-vsock': 'VhostDeviceFeaturesOptionsVsock',
-> +            'virtio-crypto': 'VirtioDeviceFeaturesOptionsCrypto',
-> +            'virtio-mem': 'VirtioDeviceFeaturesOptionsMem' } }
-> +
-> +##
->  # @VhostStatus:
->  #
->  # Information about a vhost device. This information will only be
-> @@ -106,10 +566,10 @@
->              'n-tmp-sections': 'int',
->              'nvqs': 'uint32',
->              'vq-index': 'int',
-> -            'features': 'uint64',
-> -            'acked-features': 'uint64',
-> -            'backend-features': 'uint64',
-> -            'protocol-features': 'uint64',
-> +            'features': 'VirtioDeviceFeatures',
-> +            'acked-features': 'VirtioDeviceFeatures',
-> +            'backend-features': 'VirtioDeviceFeatures',
-> +            'protocol-features': 'VhostDeviceProtocols',
->              'max-queues': 'uint64',
->              'backend-cap': 'uint64',
->              'log-enabled': 'bool',
-> @@ -174,12 +634,12 @@
->    'data': { 'name': 'str',
->              'device-id': 'uint16',
->              'vhost-started': 'bool',
-> -            'guest-features': 'uint64',
-> -            'host-features': 'uint64',
-> -            'backend-features': 'uint64',
-> +            'guest-features': 'VirtioDeviceFeatures',
-> +            'host-features': 'VirtioDeviceFeatures',
-> +            'backend-features': 'VirtioDeviceFeatures',
->              'device-endian': 'VirtioStatusEndianness',
->              'num-vqs': 'int',
-> -            'status': 'uint8',
-> +            'status': 'VirtioDeviceStatus',
->              'isr': 'uint8',
->              'queue-sel': 'uint16',
->              'vm-running': 'bool',
-> @@ -191,7 +651,7 @@
->              'disable-legacy-check': 'bool',
->              'bus-name': 'str',
->              'use-guest-notifier-mask': 'bool',
-> -            'vhost-dev': 'VhostStatus' } }
-> +            '*vhost-dev': 'VhostStatus' } }
+>  In both cases, it is possible to optionally add or remove individual CPU
+>  features, to alter what is presented to the guest by default.
+> @@ -47,11 +47,20 @@ defined. Traditionally most operating systems and toolchains would
+>  only target the original baseline ABI. It is expected that in
+>  future OS and toolchains are likely to target newer ABIs. The
+>  table that follows illustrates which ABI compatibility levels
+> -can be satisfied by the QEMU CPU models. Note that the table only
+> -lists the long term stable CPU model versions (eg Haswell-v4).
+> -In addition to whats listed, there are also many CPU model
+> -aliases which resolve to a different CPU model version,
+> -depending on the machine type is in use.
+> +can be satisfied by the QEMU CPU models. Note that the table only lists
+> +the long term stable CPU model versions (e.g. Haswell-v4, Haswell-v3).
+> +CPU models without a version tag will alias to a CPU model with a
+> +version tag, and the alias varies depending on the machine type.  In
+> +addition to what is listed, there are also many CPU model aliases which
+> +resolve to a different CPU model version, depending on the machine type
+> +in use.
+> +
+> +The versioned CPU models (e.g. ``Cascadelake-Server-v4``,
+> +``Broadwell-v4``) are long-term stable.  Further, when using a versioned
+> +machine type (e.g. ``pc-q35-6.0``), instead of its generic alias
+> +(``q35``), the CPU models that are associated with it are also long-term
+> +stable.  This is because the CPUID features in the CPU models that are
+> +part of a versioned machine type do not change.
 >  
->  ##
->  # @x-query-virtio-status:
-> @@ -221,28 +681,31 @@
->  #          "name": "virtio-crypto",
->  #          "started": true,
->  #          "device-id": 20,
-> -#          "vhost-dev": {
-> -#               "n-tmp-sections": 0,
-> -#               "n-mem-sections": 0,
-> -#               "max-queues": 0,
-> -#               "backend-cap": 0,
-> -#               "log-size": 0,
-> -#               "backend-features": 0,
-> -#               "nvqs": 0,
-> -#               "protocol-features": 0,
-> -#               "vq-index": 0,
-> -#               "log-enabled": false,
-> -#               "acked-features": 0,
-> -#               "features": 0
-> +#          "backend-features": {
-> +#               "transport": [],
-> +#               "type": "virtio-crypto",
-> +#               "features": []
->  #          },
-> -#          "backend-features": 0,
->  #          "start-on-kick": false,
->  #          "isr": 1,
->  #          "broken": false,
-> -#          "status": 15,
-> +#          "status": {
-> +#               "dev-status": ["acknowledge", "driver", "features-ok",
-> +#                              "driver-ok"]
-> +#          },
->  #          "num-vqs": 2,
-> -#          "guest-features": 5100273664,
-> -#          "host-features": 6325010432,
-> +#          "guest-features": {
-> +#               "transport": ["event-idx", "indirect-desc", "version-1"],
-> +#               "type": "virtio-crypto",
-> +#               "features": []
-> +#          },
-> +#          "host-features": {
-> +#               "transport": ["protocol-features", "event-idx",
-> +#                             "indirect-desc", "version-1", "any-layout",
-> +#                             "notify-on-empty"],
-> +#               "type": "virtio-crypto",
-> +#               "features": []
-> +#          },
->  #          "use-guest-notifier-mask": true,
->  #          "vm-running": true,
->  #          "queue-sel": 1,
-> @@ -270,22 +733,71 @@
->  #               "max-queues": 1,
->  #               "backend-cap": 2,
->  #               "log-size": 0,
-> -#               "backend-features": 0,
-> +#               "backend-features": {
-> +#                       "transport": [],
-> +#                       "type": "virtio-net",
-> +#                       "features": []
-> +#               },
->  #               "nvqs": 2,
-> -#               "protocol-features": 0,
-> +#               "protocol-features": {
-> +#                       "features": []
-> +#               },
->  #               "vq-index": 0,
->  #               "log-enabled": false,
-> -#               "acked-features": 5100306432,
-> -#               "features": 13908344832
-> +#               "acked-features": {
-> +#                       "transport": ["event-idx", "indirect-desc", "version-1",
-> +#                                     "any-layout", "notify-on-empty"],
-> +#                       "type": "virtio-net",
-> +#                       "features": ["mrg-rxbuf"]
-> +#               },
-> +#               "features": {
-> +#                       "transport": ["event-idx", "indirect-desc",
-> +#                                     "iommu-platform", "version-1", "any-layout",
-> +#                                     "notify-on-empty"],
-> +#                       "type": "virtio-net",
-> +#                       "features": ["log-all", "mrg-rxbuf"]
-> +#               }
-> +#          },
-> +#          "backend-features": {
-> +#               "transport": ["protocol-features", "event-idx", "indirect-desc",
-> +#                             "version-1", "any-layout", "notify-on-empty"],
-> +#               "type": "virtio-net",
-> +#               "features": ["gso", "ctrl-mac-addr", "guest-announce", "ctrl-rx-extra",
-> +#                            "ctrl-vlan", "ctrl-rx", "ctrl-vq", "status", "mrg-rxbuf",
-> +#                            "host-ufo", "host-ecn", "host-tso6", "host-tso4",
-> +#                            "guest-ufo", "guest-ecn", "guest-tso6", "guest-tso4",
-> +#                            "mac", "ctrl-guest-offloads", "guest-csum", "csum"]
->  #          },
-> -#          "backend-features": 6337593319,
->  #          "start-on-kick": false,
->  #          "isr": 1,
->  #          "broken": false,
-> -#          "status": 15,
-> +#          "status": {
-> +#               "dev-status": ["acknowledge", "driver", "features-ok", "driver-ok"]
-> +#          },
->  #          "num-vqs": 3,
-> -#          "guest-features": 5111807911,
-> -#          "host-features": 6337593319,
-> +#          "guest-features": {
-> +#               "transport": ["event-idx", "indirect-desc", "version-1"],
-> +#               "type": "virtio-net",
-> +#               "features": ["ctrl-mac-addr", "guest-announce", "ctrl-vlan",
-> +#                            "ctrl-rx", "ctrl-vq", "status", "mrg-rxbuf",
-> +#                            "host-ufo", "host-ecn", "host-tso6",
-> +#                            "host-tso4", "guest-ufo", "guest-ecn",
-> +#                            "guest-tso6", "guest-tso4", "mac",
-> +#                            "ctrl-guest-offloads", "guest-csum", "csum"]
-> +#          },
-> +#          "host-features": {
-> +#               "transport": ["protocol-features", "event-idx",
-> +#                             "indirect-desc", "version-1", "any-layout",
-> +#                             "notify-on-empty"],
-> +#               "type": "virtio-net",
-> +#               "features": ["gso", "ctrl-mac-addr", "guest-announce",
-> +#                            "ctrl-rx-extra", "ctrl-vlan", "ctrl-rx",
-> +#                            "ctrl-vq", "status", "mrg-rxbuf", "host-ufo",
-> +#                            "host-ecn", "host-tso6", "host-tso4",
-> +#                            "guest-ufo", "guest-ecn", "guest-tso6",
-> +#                            "guest-tso4", "mac", "ctrl-guest-offloads",
-> +#                            "guest-csum", "csum"]
-> +#          },
->  #          "use-guest-notifier-mask": true,
->  #          "vm-running": true,
->  #          "queue-sel": 2,
+>  .. _ABI compatibility levels: https://gitlab.com/x86-psABIs/x86-64-ABI/
+>  
+> @@ -185,8 +194,8 @@ features are included if using "Host passthrough" or "Host model".
+>    guest.  Instead, the host kernel uses it to populate the MDS
+>    vulnerability file in ``sysfs``.
+>  
+> -  So it should only be enabled for VMs if the host reports @code{Not
+> -  affected} in the ``/sys/devices/system/cpu/vulnerabilities/mds`` file.
+> +  So it should only be enabled for VMs if the host reports ``Not
+> +  affected`` in the ``/sys/devices/system/cpu/vulnerabilities/mds`` file.
+>  
+>  ``taa-no``
+>    Recommended to inform that the guest that the host is ``not``
+> -- 
+> 2.31.1
+> 
 
-Sixteen enums total.
-
-If we replaced them by 'str', the schema would be simpler and the
-generated code smaller, but introspection would be less informative.  I
-didn't check how the handwritten could would be affected.
-
-It's a tradeoff.  Can you make an argument either way?
+-- 
+/kashyap
 
 
