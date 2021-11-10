@@ -2,92 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C03944C42D
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 16:17:48 +0100 (CET)
-Received: from localhost ([::1]:32768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D5844C43F
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 16:19:57 +0100 (CET)
+Received: from localhost ([::1]:35984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkpMA-0002VA-UN
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 10:17:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33814)
+	id 1mkpOG-0004gm-Nm
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 10:19:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mkpHJ-0004zV-IE
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 10:12:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46009)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mkpHD-0002KC-0D
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 10:12:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636557158;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BGKl/Bv95wW/tJskZew89d4B8zJUxZKtWv7ydVfxKlY=;
- b=GfMjCmUWzUfnKKltiGJ6sL+JnzeoJ2srkGpM5nC0sT27AJBORz0UGP2pZzLcCLKG7c8ewb
- pvTMVIgq4KYP0C6mYMO2eOC9qJ+x9S5JzHgC74ZwrME6HXSCtSJDybM+aZSSTqxOpNolfm
- pmihDplNJYLYZsScOUKlEx42ej+a1Xg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-72-SC9i1YOLPKiAM-zPXCWIvw-1; Wed, 10 Nov 2021 10:12:36 -0500
-X-MC-Unique: SC9i1YOLPKiAM-zPXCWIvw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o10-20020a05600c4fca00b0033312e1ed8bso1335812wmq.2
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 07:12:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mkpHd-0005IF-2o
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 10:13:05 -0500
+Received: from [2a00:1450:4864:20::42f] (port=33411
+ helo=mail-wr1-x42f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mkpHb-0002M7-Do
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 10:13:04 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id d24so4684873wra.0
+ for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 07:13:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:references:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=+vZO97VS0HQoQA1kEbR1qtc0TRVa1FhgbgQ6VLxr/bc=;
+ b=mbiI4Ys4JkPY0tcq1NFurJDeMwP0g3q3zKxx/oDiXfvqkWP/uRJQ2KOrAzheFmBRqO
+ oeHfss5MyLfNjCny8+fIwbiueDi5lTK2NiKlg2tn/TgT/hvbCT2CFK2BTICoYLOXmbj6
+ KvYBx3NCZ8UzY898RK0kE41FMgeJTZRTJBbMLHiQGm3pV8+/L2oSYzAMoGlLpPfPSF1f
+ i08gZAV5chAyMtn3eQmNfu2w+HEn/pfT8TfWllyLB0K6luoiNicD73G7kvtf2ZD+7P2/
+ 8m+h6T4lntYVPjCMvgNOW21wpvwkU7jbMR+fcd8lAd22VUg1YSskDe5clccUDFC33498
+ WutA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:subject:from:to:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=BGKl/Bv95wW/tJskZew89d4B8zJUxZKtWv7ydVfxKlY=;
- b=lsIy2oHJ1v8tFEGKmVEGbxSoQreOJAEFviPT4M5xrGpq5wnbSm+L/EHCkFJx4DMgr2
- vPUO9OyD7nuXNsqYAl/FP5uGue3LzmQBf/wzmcP8QqWX++Bl6wouhhzg2qjB17UDN6wP
- trQedueOD0MgsBBjgzMm78gz+b7kT/9uG5+w66sXEpgzSJxB39+kGh1TovrgqsInc8qA
- 03DGFzpX53gAjxArPfh/fL9J7k5KY28QkxMDAem9DBxeRVgfxEmq0znhySshl+RfbiOB
- qezJOaCzwEOSLFw71cYegJZKl9o/n3lSE62o8snWM40BgdbaCu7wQX/2utjtrH/EbH4r
- mvxw==
-X-Gm-Message-State: AOAM530B4B1a0dHm5yudHWEd2l2tEncrIZtCQQALUHRLkwdea+/NyiiV
- zHla38ReilMlKSzKrqSuwf08eiwvuT8e1FSzUdaC9C5jF6VS6XxUWbaDSskQl+OSw/WhmOVU7Xo
- rsDgMl2DSzSfW+Sc=
-X-Received: by 2002:adf:d84c:: with SMTP id k12mr591530wrl.24.1636557155725;
- Wed, 10 Nov 2021 07:12:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy+zfuXTbELkX1yirJ6vcdCzvoqFHHawlAc4j6lAo/ZXtVcPAbYOy5mAFHw6nCZYSIGCKGFSw==
-X-Received: by 2002:adf:d84c:: with SMTP id k12mr591500wrl.24.1636557155539;
- Wed, 10 Nov 2021 07:12:35 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id i17sm23887wmq.48.2021.11.10.07.12.35
+ bh=+vZO97VS0HQoQA1kEbR1qtc0TRVa1FhgbgQ6VLxr/bc=;
+ b=sKMxr2QSnLPl159n1HsZRrFmq29sta4+jGsJIMet04E/IjwxZCIn3GjE2SqksWbjz6
+ TvYhBVjmnTIkKzy0wcdSrzCvvyeQ3JEISl34kjODX0gaCYp0iBvXfg4whEuh6iMfXyXt
+ GWVKWzLUBDVeM7oKbaLbuPzCneR8WhIKinevw3lQQLg76MVbP/2WQc5JmE9cM8FORRsb
+ I4/2JLikeioXcQMlZLYh12tQClv5BC77VWBaXXRAOgD2JC1ZtjHMqZpHvKiUurzItFdC
+ kLuStbIS+tmeBIjwmQX8KrT/bObhP97OTrxAF2GWR9K4CXBp79g9qXQVo63/bfr7czxM
+ ztLw==
+X-Gm-Message-State: AOAM531us96GKzW8UmWh+aQ5ipYwfNftJaq9i/oykcOq7c310UYlxwAy
+ boSbvPno7MmuGZK3xcShrqVXHbk9BunTpgaq
+X-Google-Smtp-Source: ABdhPJzMKf4kN5amPnvulzmPooLQLKlok50e75jMWQiEF7jwW9mJxg7hBbslREf3U1VE/ToI2e3iNA==
+X-Received: by 2002:a5d:4ecd:: with SMTP id s13mr546659wrv.400.1636557181139; 
+ Wed, 10 Nov 2021 07:13:01 -0800 (PST)
+Received: from [192.168.8.106] (104.red-2-142-241.dynamicip.rima-tde.net.
+ [2.142.241.104])
+ by smtp.gmail.com with ESMTPSA id x1sm150141wru.40.2021.11.10.07.12.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Nov 2021 07:12:35 -0800 (PST)
-Message-ID: <2d455772-b384-6af7-f548-3ddaa5bea042@redhat.com>
-Date: Wed, 10 Nov 2021 16:12:34 +0100
+ Wed, 10 Nov 2021 07:13:00 -0800 (PST)
+Subject: Re: [PATCH] linux-user: Replace __u64 with uint64_t
+From: Richard Henderson <richard.henderson@linaro.org>
+To: Khem Raj <raj.khem@gmail.com>, qemu-devel@nongnu.org
+References: <20211108194230.1836262-1-raj.khem@gmail.com>
+ <0242a761-cd00-1a22-e64c-952befad9988@linaro.org>
+Message-ID: <01900319-d1fc-b677-1f35-5ee2da5bc8a4@linaro.org>
+Date: Wed, 10 Nov 2021 16:12:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 2/7] block: Manipulate children list in .attach/.detach
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20211104103849.46855-1-hreitz@redhat.com>
- <20211104103849.46855-3-hreitz@redhat.com>
- <0a45f660-e3d7-7d23-fdaf-ef9e613b19db@virtuozzo.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <0a45f660-e3d7-7d23-fdaf-ef9e613b19db@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <0242a761-cd00-1a22-e64c-952befad9988@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.678, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.678,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,36 +91,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10.11.21 13:51, Vladimir Sementsov-Ogievskiy wrote:
-> 04.11.2021 13:38, Hanna Reitz wrote:
->> The children list is specific to BDS parents.  We should not modify it
->> in the general children modification code, but let BDS parents deal with
->> it in their .attach() and .detach() methods.
+On 11/10/21 10:25 AM, Richard Henderson wrote:
+> On 11/8/21 8:42 PM, Khem Raj wrote:
+>> uint64_t is available in all userspaces via compiler include stdint.h
+>> therefore use it instead of __u64 which is linux internal type, it fixes
+>> build on some platforms eg. aarch64 systems using musl C library
 >>
->> This also has the advantage that a BdrvChild is removed from the
->> children list before its .bs pointer can become NULL.  BDS parents
->> generally assume that their children's .bs pointer is never NULL, so
->> this is actually a bug fix.
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>   linux-user/host/aarch64/hostdep.h | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
 >>
->> Signed-off-by: Hanna Reitz<hreitz@redhat.com>
->
->
-> Interesting that nor child_root neither child_job do similar things in 
-> .attach / .detach ... Should we do something with it?
+>> diff --git a/linux-user/host/aarch64/hostdep.h b/linux-user/host/aarch64/hostdep.h
+>> index a8d41a21ad..34d934f665 100644
+>> --- a/linux-user/host/aarch64/hostdep.h
+>> +++ b/linux-user/host/aarch64/hostdep.h
+>> @@ -25,7 +25,7 @@ extern char safe_syscall_end[];
+>>   static inline void rewind_if_in_safe_syscall(void *puc)
+>>   {
+>>       ucontext_t *uc = puc;
+>> -    __u64 *pcreg = &uc->uc_mcontext.pc;
+>> +    uint64_t *pcreg = &uc->uc_mcontext.pc;
+>>       if (*pcreg > (uintptr_t)safe_syscall_start
+>>           && *pcreg < (uintptr_t)safe_syscall_end) {
+> 
+> Queued to tcg-next, since that's where the original patch came from.
 
-Well, it’s up to them, I thought. :)
+Dequeued.  We need something more, because on debian we now get:
 
-A BB only has a single child, so it doesn’t need a list.  Jobs do have 
-their own child list (BlockJob.nodes).  I thought a bit about this when 
-writing this series, and I figured perhaps they don’t need to care about 
-that in .attach() and .detach(), because they don’t really expect nodes 
-to be detached or attached anyway; child_job.stay_at_node is true, after 
-all.
+../linux-user/host/aarch64/hostdep.h:28:23: error: initialization of 'uint64_t *' {aka 
+'long unsigned int *'} from incompatible pointer type 'long long unsigned int *' 
+[-Werror=incompatible-pointer-types]
+      uint64_t *pcreg = &uc->uc_mcontext.pc;
+                        ^
+cc1: all warnings being treated as errors
 
-Hanna
+Perhaps we need to use __typeof() to get the correct pointer type?  Oh for c++11 auto 
+declarations... :-)
 
+
+r~
 
