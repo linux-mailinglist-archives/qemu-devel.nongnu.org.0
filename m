@@ -2,72 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B56544BBA8
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 07:26:59 +0100 (CET)
-Received: from localhost ([::1]:42958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58E5244BBA5
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 07:24:51 +0100 (CET)
+Received: from localhost ([::1]:39158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkh4T-0006JM-S8
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 01:26:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55384)
+	id 1mkh2Q-0003b9-Ew
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 01:24:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mkgyv-0000F4-25
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 01:21:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37018)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mkh0F-00027G-V9
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 01:22:36 -0500
+Received: from mail.xen0n.name ([115.28.160.31]:50586
+ helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mkgyr-0004g8-SV
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 01:21:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636525269;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3gKMGNejZ1hnEuwnrzoch50ZjyKGv9X5wNvN3NCnZY0=;
- b=Lr0cDGCIiJ9MynGRCU0ylvvECF/fV2grpTIc2Iu85uOa6a5N4rrv8rXCJEkFT4S79Skp3x
- UU9YsRcZKxupozba2QQo5+1aQpflxoXJ4fgPD6Bkljg5Xz3IAbI2QIQr2mNBCebO/OFjqD
- CLmVxM93AG7AOlht1yGjRp5yUkMEWrI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-541-KG-bAsVfM4aMl-vo-tiv-Q-1; Wed, 10 Nov 2021 01:21:07 -0500
-X-MC-Unique: KG-bAsVfM4aMl-vo-tiv-Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mkh0C-00055X-SI
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 01:22:35 -0500
+Received: from [100.100.56.238] (unknown [220.248.53.61])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B7E380A5CA;
- Wed, 10 Nov 2021 06:21:06 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C4BC67849;
- Wed, 10 Nov 2021 06:21:06 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0629411380A7; Wed, 10 Nov 2021 07:21:05 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: "Zhang, Chen" <chen.zhang@intel.com>
-Subject: Re: [PATCH] net/filter: Enable the vnet_hdr_support by default
-References: <20211110023915.3797141-1-chen.zhang@intel.com>
- <87czn88uqc.fsf@dusky.pond.sub.org>
- <MWHPR11MB00319C2B4ED872EDDB5D43539B939@MWHPR11MB0031.namprd11.prod.outlook.com>
-Date: Wed, 10 Nov 2021 07:21:04 +0100
-In-Reply-To: <MWHPR11MB00319C2B4ED872EDDB5D43539B939@MWHPR11MB0031.namprd11.prod.outlook.com>
- (Chen Zhang's message of "Wed, 10 Nov 2021 05:15:14 +0000")
-Message-ID: <87v9104jlb.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 6A933600B5;
+ Wed, 10 Nov 2021 14:22:23 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
+ t=1636525343; bh=DwVE6OALGexr/F0SnrxyoFq0oGX4kiQU8pZAcvvC5xE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=XXjYas4JTkJ0XIVbM+FF425scsnu/Nz62729UZRI8lqrdKVCDi/uE/fBsgxqs6pxO
+ iul59TN39yS/901ODdkTmE89Ed2hsa1wu8v+7w5++tgBmsgjsNvzwL12k63nxXS6TV
+ y3o3352hHIzGo9x4nRg/uN4F+iFYbG54f4pq1w+Q=
+Message-ID: <f1a61afe-9be4-557e-1f35-ed8d9ea53cad@xen0n.name>
+Date: Wed, 10 Nov 2021 14:22:23 +0800
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:95.0)
+ Gecko/20100101 Thunderbird/95.0a1
+Subject: Re: [PATCH] audio: Add sndio backend
+Content-Language: en-US
+To: Brad Smith <brad@comstyle.com>, qemu-devel@nongnu.org
+References: <YYdh3l1HTh+kpONa@humpty.home.comstyle.com>
+From: WANG Xuerui <i.qemu@xen0n.name>
+In-Reply-To: <YYdh3l1HTh+kpONa@humpty.home.comstyle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
+ helo=mailbox.box.xen0n.name
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.678,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,36 +62,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
- Li Zhijian <lizhijian@cn.fujitsu.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Zhang, Chen" <chen.zhang@intel.com> writes:
 
->> -----Original Message-----
->> From: Markus Armbruster <armbru@redhat.com>
->> Sent: Wednesday, November 10, 2021 1:07 PM
->> To: Zhang, Chen <chen.zhang@intel.com>
->> Cc: Jason Wang <jasowang@redhat.com>; qemu-dev <qemu-
->> devel@nongnu.org>; Li Zhijian <lizhijian@cn.fujitsu.com>
->> Subject: Re: [PATCH] net/filter: Enable the vnet_hdr_support by default
->> 
->> Zhang Chen <chen.zhang@intel.com> writes:
->> 
->> > This patch make filters and colo-compare module support vnet_hdr by
->> > default. And also support -device non-virtio-net(like e1000.).
->> > But it can't avoid user manual configuration error between different
->> > filters when enable/disable virtio-net-pci.
->> >
->> > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
->> 
->> Have you considered backward compatibility?  Can it break usage that now
->> works?
+On 2021/11/7 13:19, Brad Smith wrote:
+> audio: Add sndio backend
 >
-> Yes, this patch fully guarantees the compatibility as Jason's comments.
-> Original usage still works.
+> Add a sndio backend.
+>
+> sndio is the native API used by OpenBSD, although it has been ported to
+> other *BSD's and Linux (packages for Ubuntu, Debian, Void, Arch, etc.).
+>
+> The C code is from Alexandre Ratchov <alex@caoua.org> and the rest of
+> the bits are from me.
 
-Worth a brief explanation in the commit message?
+As pointed out by others, this is lacking Signed-off-by lines; IIUC you
+may contact Alexandre to get theirs, and then add yours.
+
+I'm not familiar with this part of qemu, so what follows is only a
+somewhat brief review. That said...
+
+> ---
+>  audio/audio.c          |   1 +
+>  audio/audio_template.h |   2 +
+>  audio/meson.build      |   1 +
+>  audio/sndioaudio.c     | 555 +++++++++++++++++++++++++++++++++++++++++
+>  meson.build            |   7 +
+>  meson_options.txt      |   4 +-
+>  qapi/audio.json        |  25 +-
+>  qemu-options.hx        |   8 +
+>  tests/vm/freebsd       |   3 +
+>  9 files changed, 604 insertions(+), 2 deletions(-)
+>  create mode 100644 audio/sndioaudio.c
+>
+> diff --git a/audio/sndioaudio.c b/audio/sndioaudio.c
+> new file mode 100644
+> index 0000000000..204af07781
+> --- /dev/null
+> +++ b/audio/sndioaudio.c
+> @@ -0,0 +1,555 @@
+> +/*
+> + * Copyright (c) 2019 Alexandre Ratchov <alex@caoua.org>
+> + *
+> + * Permission to use, copy, modify, and distribute this software for any
+> + * purpose with or without fee is hereby granted, provided that the above
+> + * copyright notice and this permission notice appear in all copies.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+> + * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+> + * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+> + * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+> + * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+> + * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+> + * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+> + */
+Perhaps using an SPDX license identifier would be better?
+> +
+> +/*
+> + * TODO :
+> + *
+> + * Use a single device and open it in full-duplex rather than
+> + * opening it twice (once for playback once for recording).
+> + *
+> + * This is the only way to ensure that playback doesn't drift with respect
+> + * to recording, which is what guest systems expect.
+> + */
+> +
+> +#include <poll.h>
+> +#include <sndio.h>
+> +#include "qemu/osdep.h"
+> +#include "qemu-common.h"
+> +#include "qemu/main-loop.h"
+> +#include "audio.h"
+> +#include "trace.h"
+> +
+> +#define AUDIO_CAP "sndio"
+> +#include "audio_int.h"
+> +
+> +/* default latency in ms if no option is set */
+> +#define SNDIO_LATENCY_US   50000
+
+Maybe you mean "microseconds" in the comment? 50 *seconds* seems a bit
+long ;)
 
 
