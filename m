@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92C8744BDC6
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 10:27:24 +0100 (CET)
-Received: from localhost ([::1]:44142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D8E844BDC8
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 10:29:18 +0100 (CET)
+Received: from localhost ([::1]:46884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkjt5-0001Cy-Op
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 04:27:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48342)
+	id 1mkjuv-00034a-65
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 04:29:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkjrF-0006gW-5R
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 04:25:29 -0500
-Received: from [2a00:1450:4864:20::436] (port=43715
- helo=mail-wr1-x436.google.com)
+ id 1mkjtY-0001ye-NU
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 04:27:52 -0500
+Received: from [2a00:1450:4864:20::429] (port=35644
+ helo=mail-wr1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkjrD-0003aj-9k
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 04:25:28 -0500
-Received: by mail-wr1-x436.google.com with SMTP id t30so2762636wra.10
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 01:25:25 -0800 (PST)
+ id 1mkjtV-0003xC-OF
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 04:27:52 -0500
+Received: by mail-wr1-x429.google.com with SMTP id i5so2856609wrb.2
+ for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 01:27:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=/qEKz7Cv5cSWR8MPlEwATB9pEJ9UQviSuOtyBFCKk8Q=;
- b=d0/BaWN/kcZ6JSY0qfbn17YedY2NNY9P6R21RqrnV9yioZSmEn5vq88MhpMqFLP/Qb
- H2OeXPsGuztTTFIniJL7eykBHeeP1xf30K/FusAl48g5dLbEHDguAZsO3Ne0nO1/1XcI
- 64Q/K3ZqISMhroJeZN8bLeOu2whaUnCc+I/w/UcfMcZRZxayjvh6j+V1EFFbWkjN/F1g
- 2dtNlnVbFkvgTV01n//upCjoftWgfJWa0n99+jf3tCLu82NyjMHEQ6J05yaTR3ybbQ5X
- oZ1n+wTNAR/77WJ2EEdqHbhuw/wYquoPZYdkNHjxLLUARJu82QntxL1RIwVDzS1BTLrY
- i1TQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=+rAK/5C6Ul0fmvGRVCiX17P6+L+EE1k/R26N+WmYX1M=;
+ b=sSDNIu2gxvB4zdTQ774P4UenT7Z/eEW/xoRUCf7FQaX9oNFEQO0kxM9JsaEBbcs7EM
+ P7l60yVHp6BpGVhVhEyEkfbdM7cTS+T+awtZWk8+Bcqy4vdF/x1QkltBIfbYpHQ/qz5u
+ yR8tLa7UcibC4Ocwg440s4ahyeFT3Zq+v8KyGBztqITYYcCLcPSm7IOx7Wh+RPQ2r3Al
+ fEesok2iRNNOHTTTM1hqDuOBoQ+aNkNq1SsBwysXmWex21rfdq39tR9AcZv0xY7gl0mY
+ LSHqiZEUo/l3JQaNsvQ7s4bSBZywLILnpyVxJCEwHVesMFcBwtqBV0GXelfJIewlwc6S
+ Iqew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/qEKz7Cv5cSWR8MPlEwATB9pEJ9UQviSuOtyBFCKk8Q=;
- b=qNT3j95MJXNL6rDxYTNOyRsc/ofTVPi63toH0pE/hfQDvO8p68YUvw5Wz1sEjmmqYY
- 2nVscnirfA2zguxv+6VlX9akJYJaMEUNuV6es7jwNg2OqMN2cgi8Ar6pSO8/C27Mtjbk
- x4oSQconGJalhBfjHz9ORiCMOFG6pvpL702kIRC4K5qHM/qrOYXcLaNnHebV4/YOgjGM
- ge4mFR+/zIUgCVQgOF4OgK6zxKeTA6YVLh0iyF8P4D7bJ9kn/lrPGvmb0CiPOU5hXeOc
- UjFW8PTrPmBjTkFRFWBQlPMnxWvRQElk63euT6IkqWeOrucfOLtIl7kajc2tMOP6oVGq
- Ld6A==
-X-Gm-Message-State: AOAM532b/iy6Wg0WsYrwU9U3UZVx2zYTHA+jUPjHkpSA0zETAiY8LMbf
- jx9RffKUCkaHrGPHAGJC4JwZkI477YqXrsJe
-X-Google-Smtp-Source: ABdhPJzEbgUfQWnItuOk9kAp+Rz911uvk3WITO1cdgFvCmuOGZtV89qjLtFibVdXwyUJO656yft1xw==
-X-Received: by 2002:adf:9147:: with SMTP id j65mr17327695wrj.163.1636536324959; 
- Wed, 10 Nov 2021 01:25:24 -0800 (PST)
+ bh=+rAK/5C6Ul0fmvGRVCiX17P6+L+EE1k/R26N+WmYX1M=;
+ b=VHyqw6cVCb5v55QWiE9eEbpC1Efq1GRtWnsnynhbXnru2DsGW47vc62rtjF1oLCuGL
+ swH53cnWDENwO+Kau40uydWeJ2vgenD2Dh2DGcaNGbVUdAaIfJ+Dv5gHwm7+xKN6xj8+
+ meAqI4tNVP6+fJMTHV/DRiFnzDbDBqUt96LTQhz4BADUEDtYGqZId6lIMC5SXrdgXnVD
+ bVos5OXkqNoUKupqOkSknmsRlD7y239kjIUZSqe2JI2H2M/H3D+iMKSXUaWHdvRR3A5+
+ FzJbyxgU2Fh5gmvwmVJLi8T5Zpz5ZA3Uom2FZ7jSavaHlOsXgay+rND3WxawUMg4k9Uf
+ eXcg==
+X-Gm-Message-State: AOAM532HwJkrVRpp87gC999aa55q3H8OJt/wy2inPpY6VJQBJUNJtmq5
+ Ac+xfnvyGz3OoBJVffUT74SUlFvk8IpnDpQ0
+X-Google-Smtp-Source: ABdhPJwmpEvNl1UO71M3nYjlMuqYxx1rVWUQ4Sjif1sMpRGr/3XGkNfCH74l9JaLgk1BGBQxXA8NQA==
+X-Received: by 2002:adf:f551:: with SMTP id j17mr18109558wrp.392.1636536468230; 
+ Wed, 10 Nov 2021 01:27:48 -0800 (PST)
 Received: from [192.168.8.106] (104.red-2-142-241.dynamicip.rima-tde.net.
  [2.142.241.104])
- by smtp.gmail.com with ESMTPSA id 4sm30505677wrz.90.2021.11.10.01.25.23
+ by smtp.gmail.com with ESMTPSA id e3sm22042586wrp.8.2021.11.10.01.27.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Nov 2021 01:25:24 -0800 (PST)
-Subject: Re: [PATCH] linux-user: Replace __u64 with uint64_t
-To: Khem Raj <raj.khem@gmail.com>, qemu-devel@nongnu.org
-References: <20211108194230.1836262-1-raj.khem@gmail.com>
+ Wed, 10 Nov 2021 01:27:47 -0800 (PST)
+Subject: Re: [PATCH 0/4] linux-user: Fix getdents alignment issues (#704)
+To: Warner Losh <imp@bsdimp.com>
+References: <20211107124845.1174791-1-richard.henderson@linaro.org>
+ <766F517B-509D-45C7-94B1-51BCE5D4FE36@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0242a761-cd00-1a22-e64c-952befad9988@linaro.org>
-Date: Wed, 10 Nov 2021 10:25:20 +0100
+Message-ID: <1e9c0dc0-d068-1b91-b346-07290aeb28a2@linaro.org>
+Date: Wed, 10 Nov 2021 10:27:40 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211108194230.1836262-1-raj.khem@gmail.com>
+In-Reply-To: <766F517B-509D-45C7-94B1-51BCE5D4FE36@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
@@ -90,35 +91,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: laurent@vivier.eu, qemu-devel@nongnu.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/8/21 8:42 PM, Khem Raj wrote:
-> uint64_t is available in all userspaces via compiler include stdint.h
-> therefore use it instead of __u64 which is linux internal type, it fixes
-> build on some platforms eg. aarch64 systems using musl C library
+On 11/9/21 5:46 PM, Warner Losh wrote:
 > 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->   linux-user/host/aarch64/hostdep.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/linux-user/host/aarch64/hostdep.h b/linux-user/host/aarch64/hostdep.h
-> index a8d41a21ad..34d934f665 100644
-> --- a/linux-user/host/aarch64/hostdep.h
-> +++ b/linux-user/host/aarch64/hostdep.h
-> @@ -25,7 +25,7 @@ extern char safe_syscall_end[];
->   static inline void rewind_if_in_safe_syscall(void *puc)
->   {
->       ucontext_t *uc = puc;
-> -    __u64 *pcreg = &uc->uc_mcontext.pc;
-> +    uint64_t *pcreg = &uc->uc_mcontext.pc;
->   
->       if (*pcreg > (uintptr_t)safe_syscall_start
->           && *pcreg < (uintptr_t)safe_syscall_end) {
+>> On Nov 7, 2021, at 5:48 AM, Richard Henderson <richard.henderson@linaro.org> wrote:
+>>
+>> There are a number of alignement issues flagged up by clang,
+>> this attempts to fix only one of them: getdents.
+> 
+> Does it make sense to have size asserts for these types? That would catch the alignment issues and are cheap to maintain since ABI sizes should never change…
 
-Queued to tcg-next, since that's where the original patch came from.
+Well, the size of getdents64 doesn't change; it merely lands at a different memory offset. 
+  But we've now told the compiler about it.
+
 
 r~
-
 
