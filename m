@@ -2,48 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B176244BB41
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 06:33:00 +0100 (CET)
-Received: from localhost ([::1]:49406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC8A244BB45
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 06:35:44 +0100 (CET)
+Received: from localhost ([::1]:55836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkgEF-0003Bf-Ah
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 00:32:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47126)
+	id 1mkgGt-0007e5-RX
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 00:35:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1mkgCS-0001st-PH
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 00:31:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44822)
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1mkgD0-0002fA-3C
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 00:31:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25577)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1mkgCP-00053c-0V
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 00:31:07 -0500
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1mkgCx-000577-7E
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 00:31:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636522262;
+ s=mimecast20190719; t=1636522297;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vbS6LaTqTN/wYJ9JK1se3A3YZfldkNzkQ5ZJdcEbyKw=;
- b=hD0FN8tsU+0rLwv+xBaVT4L4RbnVcA9hto6bT9jG5bnANqkrwml2GnKIre355jDxtqTtsU
- tF4JmWO0l8wQKLOEUBSBG+8p+C1ZTp+0vd9UYvTSw3k1AkltF4NCJEBAfMsEYJIZ+D1Hab
- lhsMxvyK5JG4ScGhAZk4NKMKcTqffa8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XV019e6g7BT4wVaTPJF1vBDJmHNVtIgSBzGtSNrD/8g=;
+ b=DZKPSzK7zW57XmXRE+zQO2vmrz4tBzAhFWTRWkj5/xdHZrwcUQedbYgj3OXk6rBdZJ8Ayz
+ GPXUXLeahipcvz3leS271ukvJBy8Y/xo5XxsiiFvWMCP7r5Z5vitXgIbMxOuods8i+jIrd
+ cMdHCUQ+MUbVta5H8+6n0/Yv+fSEgjA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-514-Xsc_oh7hPQaaBL3mekg7IQ-1; Wed, 10 Nov 2021 00:31:01 -0500
-X-MC-Unique: Xsc_oh7hPQaaBL3mekg7IQ-1
+ us-mta-10-PXJ8SH5INoe8auf3qFx8fg-1; Wed, 10 Nov 2021 00:31:34 -0500
+X-MC-Unique: PXJ8SH5INoe8auf3qFx8fg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B1951808312;
- Wed, 10 Nov 2021 05:31:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 409B41006AA0;
+ Wed, 10 Nov 2021 05:31:33 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.40.192.72])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 305815E274;
- Wed, 10 Nov 2021 05:30:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ABBB65D9CA;
+ Wed, 10 Nov 2021 05:31:21 +0000 (UTC)
 From: Julia Suvorova <jusual@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/5] Fix Q35 ACPI PCI Hot-plug I/O issues
-Date: Wed, 10 Nov 2021 06:30:09 +0100
-Message-Id: <20211110053014.489591-1-jusual@redhat.com>
+Subject: [PATCH 1/5] hw/pci/pcie_port: Rename 'native-hotplug' to
+ 'native-hpc-bit'
+Date: Wed, 10 Nov 2021 06:30:10 +0100
+Message-Id: <20211110053014.489591-2-jusual@redhat.com>
+In-Reply-To: <20211110053014.489591-1-jusual@redhat.com>
+References: <20211110053014.489591-1-jusual@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
@@ -80,56 +84,87 @@ Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Attempt [1] to fix I/O allocation with the 'reserve-io' hint on each
-pcie-root-port resulted in regression [2-3]. This patchset aims to fix
-it by addressing the root cause of the problem - the disabled PCIe
-Slot HPC bit.
+Rename the option to better represent its function - toggle Hot-Plug
+Capable bit in the PCIe Slot Capability.
 
-[1] 'hw/pcie-root-port: Fix hotplug for PCI devices requiring IO'
-[2] https://gitlab.com/qemu-project/qemu/-/issues/641
-[3] https://bugzilla.redhat.com/show_bug.cgi?id=2006409
+Signed-off-by: Julia Suvorova <jusual@redhat.com>
+---
+ include/hw/pci/pcie_port.h         | 2 +-
+ hw/i386/pc_q35.c                   | 2 +-
+ hw/pci-bridge/gen_pcie_root_port.c | 6 +++++-
+ hw/pci/pcie.c                      | 2 +-
+ hw/pci/pcie_port.c                 | 2 +-
+ 5 files changed, 9 insertions(+), 5 deletions(-)
 
-Julia Suvorova (5):
-  hw/pci/pcie_port: Rename 'native-hotplug' to 'native-hpc-bit'
-  hw/acpi/ich9: Add compatibility option for 'native-hpc-bit'
-  bios-tables-test: Allow changes in DSDT ACPI tables
-  hw/i386/acpi-build: Deny control on PCIe Native Hot-plug in _OSC
-  bios-tables-test: Update golden binaries
-
- include/hw/acpi/ich9.h                    |   1 +
- include/hw/pci/pcie_port.h                |   2 +-
- hw/acpi/ich9.c                            |  18 ++++++++++++++++++
- hw/i386/acpi-build.c                      |  12 ++++++++----
- hw/i386/pc.c                              |   2 ++
- hw/i386/pc_q35.c                          |   9 +++++++--
- hw/pci-bridge/gen_pcie_root_port.c        |   6 +++++-
- hw/pci/pcie.c                             |   2 +-
- hw/pci/pcie_port.c                        |   2 +-
- tests/data/acpi/q35/DSDT                  | Bin 8289 -> 8289 bytes
- tests/data/acpi/q35/DSDT.acpihmat         | Bin 9614 -> 9614 bytes
- tests/data/acpi/q35/DSDT.bridge           | Bin 11003 -> 11003 bytes
- tests/data/acpi/q35/DSDT.cphp             | Bin 8753 -> 8753 bytes
- tests/data/acpi/q35/DSDT.dimmpxm          | Bin 9943 -> 9943 bytes
- tests/data/acpi/q35/DSDT.dmar             | Bin 0 -> 8289 bytes
- tests/data/acpi/q35/DSDT.ipmibt           | Bin 8364 -> 8364 bytes
- tests/data/acpi/q35/DSDT.ivrs             | Bin 8306 -> 8306 bytes
- tests/data/acpi/q35/DSDT.memhp            | Bin 9648 -> 9648 bytes
- tests/data/acpi/q35/DSDT.mmio64           | Bin 9419 -> 9419 bytes
- tests/data/acpi/q35/DSDT.multi-bridge     | Bin 8583 -> 8583 bytes
- tests/data/acpi/q35/DSDT.nohpet           | Bin 8147 -> 8147 bytes
- tests/data/acpi/q35/DSDT.nosmm            | Bin 0 -> 8289 bytes
- tests/data/acpi/q35/DSDT.numamem          | Bin 8295 -> 8295 bytes
- tests/data/acpi/q35/DSDT.smm-compat       | Bin 0 -> 8289 bytes
- tests/data/acpi/q35/DSDT.smm-compat-nosmm | Bin 0 -> 8289 bytes
- tests/data/acpi/q35/DSDT.tis.tpm12        | Bin 8894 -> 8894 bytes
- tests/data/acpi/q35/DSDT.tis.tpm2         | Bin 8894 -> 8894 bytes
- tests/data/acpi/q35/DSDT.xapic            | Bin 35652 -> 35652 bytes
- 28 files changed, 44 insertions(+), 10 deletions(-)
- create mode 100644 tests/data/acpi/q35/DSDT.dmar
- create mode 100644 tests/data/acpi/q35/DSDT.nosmm
- create mode 100644 tests/data/acpi/q35/DSDT.smm-compat
- create mode 100644 tests/data/acpi/q35/DSDT.smm-compat-nosmm
-
+diff --git a/include/hw/pci/pcie_port.h b/include/hw/pci/pcie_port.h
+index e25b289ce8..0da6d66c95 100644
+--- a/include/hw/pci/pcie_port.h
++++ b/include/hw/pci/pcie_port.h
+@@ -60,7 +60,7 @@ struct PCIESlot {
+     /* Indicates whether any type of hot-plug is allowed on the slot */
+     bool        hotplug;
+ 
+-    bool        native_hotplug;
++    bool        native_hpc_bit;
+ 
+     QLIST_ENTRY(PCIESlot) next;
+ };
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 797e09500b..ded61f8ef7 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -243,7 +243,7 @@ static void pc_q35_init(MachineState *machine)
+                                           NULL);
+ 
+     if (acpi_pcihp) {
+-        object_register_sugar_prop(TYPE_PCIE_SLOT, "native-hotplug",
++        object_register_sugar_prop(TYPE_PCIE_SLOT, "native-hpc-bit",
+                                    "false", true);
+     }
+ 
+diff --git a/hw/pci-bridge/gen_pcie_root_port.c b/hw/pci-bridge/gen_pcie_root_port.c
+index 20099a8ae3..ed079d72b3 100644
+--- a/hw/pci-bridge/gen_pcie_root_port.c
++++ b/hw/pci-bridge/gen_pcie_root_port.c
+@@ -87,7 +87,11 @@ static void gen_rp_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
+-    if (grp->res_reserve.io == -1 && s->hotplug && !s->native_hotplug) {
++    /*
++     * Make sure that IO is assigned in case the slot is hot-pluggable
++     * but it is not visible through the PCIe Slot Capabilities
++     */
++    if (grp->res_reserve.io == -1 && s->hotplug && !s->native_hpc_bit) {
+         grp->res_reserve.io = GEN_PCIE_ROOT_DEFAULT_IO_RANGE;
+     }
+     int rc = pci_bridge_qemu_reserve_cap_init(d, 0,
+diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+index 914a9bf3d1..ebe002831e 100644
+--- a/hw/pci/pcie.c
++++ b/hw/pci/pcie.c
+@@ -535,7 +535,7 @@ void pcie_cap_slot_init(PCIDevice *dev, PCIESlot *s)
+      * hot-plug is disabled on the slot.
+      */
+     if (s->hotplug &&
+-        (s->native_hotplug || DEVICE(dev)->hotplugged)) {
++        (s->native_hpc_bit || DEVICE(dev)->hotplugged)) {
+         pci_long_test_and_set_mask(dev->config + pos + PCI_EXP_SLTCAP,
+                                    PCI_EXP_SLTCAP_HPS |
+                                    PCI_EXP_SLTCAP_HPC);
+diff --git a/hw/pci/pcie_port.c b/hw/pci/pcie_port.c
+index da850e8dde..eae06d10e2 100644
+--- a/hw/pci/pcie_port.c
++++ b/hw/pci/pcie_port.c
+@@ -148,7 +148,7 @@ static Property pcie_slot_props[] = {
+     DEFINE_PROP_UINT8("chassis", PCIESlot, chassis, 0),
+     DEFINE_PROP_UINT16("slot", PCIESlot, slot, 0),
+     DEFINE_PROP_BOOL("hotplug", PCIESlot, hotplug, true),
+-    DEFINE_PROP_BOOL("native-hotplug", PCIESlot, native_hotplug, true),
++    DEFINE_PROP_BOOL("native-hpc-bit", PCIESlot, native_hpc_bit, true),
+     DEFINE_PROP_END_OF_LIST()
+ };
+ 
 -- 
 2.31.1
 
