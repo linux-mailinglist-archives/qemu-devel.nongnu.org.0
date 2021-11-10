@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 968E444C306
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 15:33:45 +0100 (CET)
-Received: from localhost ([::1]:40160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7A0744C311
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 15:38:08 +0100 (CET)
+Received: from localhost ([::1]:44710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkofY-0005Nw-7w
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 09:33:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51094)
+	id 1mkojn-0000G9-Rj
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 09:38:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mkody-0004Vr-5W
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 09:32:06 -0500
-Received: from [2a00:1450:4864:20::432] (port=38605
- helo=mail-wr1-x432.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mkodw-00051F-2a
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 09:32:05 -0500
-Received: by mail-wr1-x432.google.com with SMTP id u18so4379241wrg.5
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 06:32:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WowmwcCU7c0QlNvZnhiifrbRA5recIcDo5LQkBBK2IU=;
- b=tmTyw5Dmm/L9FQ6eZddKAI4I/VHnYHB5cmIFrbIvUfSZNcNAvF1FCHwDMIerkRgoD7
- BqsR5uVZlxDad5gHpS82MlY5VE4SvAr9saxrlYy8thNZdQvR9+1WdT1VvpOVvX50FBwz
- wTNNWi7mDW4DR23/c/fhBtw73pE7hASC6i+tnZI+oi//8FtWXk+UEsclkENoUo2O7Ghx
- dzjvS0x1HUNV0EXKQrBLGRkhBmt+xWbZPTJ+9xlA0K/qc7IwGuWzxIc50FLB1fMcEU8I
- 5pBJmXyiG61s9gI6MilZCt/9pRCfgFsB0pdZTdr7DS5387bCtu9r41Hy9V86mHduco5y
- Fxdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WowmwcCU7c0QlNvZnhiifrbRA5recIcDo5LQkBBK2IU=;
- b=We39EvImVD1OSoqZ6oC1xyK+WGFS0jZzcv8hmPZ7Mob3Jm1g9gIgSg/e22hDGjv3oI
- ve1Rf/7kkpOULxHiSbVdJ9WhFeawzD54Y9krCbAF36IZRe68P9JCPZRHm39569QS62Ew
- eOc+zLFMtTdAAlzGrCLX8EAoIzlMUlRp1CccBjeKLZWaQqrtqOpOh8dHvWmCB3imXcKa
- mXwdsqqV5EUPbe6OaVcWyspwp1Tda0oc42GXT+o7srXUZeImOhP939q59mtfVdarICzo
- g/h/ft+PxIKzcYCOnCw65/Sqmi7kCRT+pSTmCTpxgVQmiRPwrBfJruPLXmQz4/1nXzLf
- VaOw==
-X-Gm-Message-State: AOAM531G7+FCRa/LOkw71XYmvBl3EydsCQZbv/5xUsz7087DxIt5mZZB
- 49m2LwxLqE96DnYT2BtHKwRIpBHu1QC0LYaSYA7YfQ==
-X-Google-Smtp-Source: ABdhPJziYutSt1ybgOfN/hHZOTpcwCfHzdmi1mfS3GBYyARb0f/j/xpz8r8UBOwQpAt5rsd7LwY9sSQHqmUIj+ord1g=
-X-Received: by 2002:a5d:6151:: with SMTP id y17mr155146wrt.275.1636554722565; 
- Wed, 10 Nov 2021 06:32:02 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mkoi8-0007gF-IM
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 09:36:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21448)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mkoi3-0005ns-2r
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 09:36:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636554977;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VxevmmbfWPGJZ01JlIHsJEKU5WpFK4dFTuaqYV1mFrM=;
+ b=FC2xCH0phTUgG/+aLG/OGKJZkQ9I3+Ao/e4/9jHJw3rF0NYXMCeYhzmgdg3OC0F3IobdFe
+ 2wg7SiFXIO9b1cNFcRtWmMphXUMCwXkg93EaZUrRHExW6sixnUZLYaxrzcQt5PWivfyF2j
+ xa41L2dDM6596Bse/Z/uc7OjlzW80AI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-542-Zf07htbrOCuxkPPRsRms4A-1; Wed, 10 Nov 2021 09:36:04 -0500
+X-MC-Unique: Zf07htbrOCuxkPPRsRms4A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7986A107B263;
+ Wed, 10 Nov 2021 14:36:03 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.37.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B6135D6B1;
+ Wed, 10 Nov 2021 14:36:02 +0000 (UTC)
+Date: Wed, 10 Nov 2021 14:35:59 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PULL 1/2] hw: m68k: virt: Add compat machine for 6.1
+Message-ID: <YYvYzyVnFoaHGPIP@redhat.com>
+References: <20211109111517.996104-1-laurent@vivier.eu>
+ <20211109111517.996104-2-laurent@vivier.eu>
+ <9537b527-d33e-59d5-e196-e1e84fa01325@eik.bme.hu>
+ <YYpvvWLvkhR0/igt@redhat.com>
+ <fa213548-ca60-bf7b-2075-83bd7f32462a@eik.bme.hu>
 MIME-Version: 1.0
-References: <CAFEAcA_LUNY7NRt=vDeoHDgaeBYZTzVEx8i8Ce_KopE8Z4_WpQ@mail.gmail.com>
- <YYuusGM1Nn7Dhpv9@redhat.com>
-In-Reply-To: <YYuusGM1Nn7Dhpv9@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 10 Nov 2021 14:31:51 +0000
-Message-ID: <CAFEAcA883VJwuTu6vk_DFTaB40jv2sQYQpDGDsc0R9JZo_gLgg@mail.gmail.com>
-Subject: Re: qemu-img.c possibly overflowing shifts by BDRV_SECTOR_BITS
-To: Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <fa213548-ca60-bf7b-2075-83bd7f32462a@eik.bme.hu>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,30 +85,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hanna Reitz <hreitz@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-stable@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 10 Nov 2021 at 11:36, Kevin Wolf <kwolf@redhat.com> wrote:
->
-> Am 09.11.2021 um 20:07 hat Peter Maydell geschrieben:
-> > Hi; Coverity is complaining about some of the places in qemu-img.c
-> > where it takes a 32-bit variable and shifts it left by BDRV_SECTOR_BITS
-> > to convert a sector count to a byte count, because it's doing the
-> > shift in 32-bits rather than 64 and so Coverity thinks there might
-> > be overflow (CID 1465221, 1465219). Is it right and we need extra
-> > casts to force the shift to be done in 64 bits, or is there some
-> > constraint that means we know the sector counts are always small
-> > enough that the byte count is 2GB or less ?
->
-> These are false positives. n is limited to BDRV_REQUEST_MAX_SECTORS
-> already when it starts out in convert_iteration_sectors() (which is
-> enough to make the calculation safe), but for the specific code path, I
-> think it's even guaranteed to be further limited to s->buf_sectors which
-> is 16 MB at most (MAX_BUF_SECTORS in qemu-img.c).
+On Tue, Nov 09, 2021 at 08:58:58PM +0100, BALATON Zoltan wrote:
+> On Tue, 9 Nov 2021, Daniel P. Berrangé wrote:
+> > On Tue, Nov 09, 2021 at 01:34:49PM +0100, BALATON Zoltan wrote:
+> > > On Tue, 9 Nov 2021, Laurent Vivier wrote:
+> > > > Add the missing machine type for m68k/virt
+> > > > 
+> > > > Cc: qemu-stable@nongnu.org
+> > > > Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> > > > Message-Id: <20211106194158.4068596-2-laurent@vivier.eu>
+> > > > Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> > > > ---
+> > > > hw/m68k/virt.c | 9 ++++++++-
+> > > > 1 file changed, 8 insertions(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+> > > > index 4e8bce5aa6f7..0d9e3f83c169 100644
+> > > > --- a/hw/m68k/virt.c
+> > > > +++ b/hw/m68k/virt.c
+> > > > @@ -304,7 +304,14 @@ type_init(virt_machine_register_types)
+> > > >     } \
+> > > >     type_init(machvirt_machine_##major##_##minor##_init);
+> > > > 
+> > > > +static void virt_machine_6_1_options(MachineClass *mc)
+> > > > +{
+> > > > +}
+> > > > +DEFINE_VIRT_MACHINE(6, 1, true)
+> > > > +
+> > > > static void virt_machine_6_0_options(MachineClass *mc)
+> > > > {
+> > > > +    virt_machine_6_1_options(mc);
+> > > > +    compat_props_add(mc->compat_props, hw_compat_6_0, hw_compat_6_0_len);
+> > > > }
+> > > > -DEFINE_VIRT_MACHINE(6, 0, true)
+> > > > +DEFINE_VIRT_MACHINE(6, 0, false)
+> > > 
+> > > I don't understand how these compat machines work but if these are empty and
+> > > essentially the same as the previous version why do we add a new version in
+> > > every release? Wouldn't it be enough to add new version when there was an
+> > > incompatible change? I mean, instead of listing machine and getting a lot of
+> > > virt-6.1, virt-6.0, virt-5.2,... or so, we'd only get versions that are
+> > > actually different such as virt-7.0, virt-5.2, virt-5.0 (maybe they are
+> > > called differently, just an example) with the versionless alias always
+> > > pointing to the latest. Then when QEMU is updated one can see if there was
+> > > any change so should update the VM or keep using the older versions. Or does
+> > > it work like that and I'm missing it completely?
+> > 
+> > It doesn't work like that, and that's a good thing.
+> > 
+> > The versioned machine types are for management applications that want
+> > to guarantee an ABI across hosts. When a mgmt app wants to set a new
+> > baseline for their QEMU machine types, it is way clearer if every
+> > versioned machine type across all target arches supports the same
+> > versions, regardless of whether there were any changes or not.
+> > 
+> > ie if an app wants to set QEMU 6.1.0 as the baseline, they want
+> > to be able to set  virt-6.1 for aarch64, for mips, for riscv,
+> > instead of having to figure out which versions exists for each
+> > arch
+> 
+> With a bit more logic the management app could easily implement this either
+> by dereferencing the alias when creating the VM, say virt is an alias of
+> virt-6,0 in QEMU 6.2 then put virt-6.0 in the VM config which then will work
+> on anyting newer than QEMU 6.0. Or record the QEMU version in VM config when
+> creating the VM saying this needs at least QEMU 6.1 then if there's no
+> virt-6.1 or virt points to something newer then go back to the biggest
+> version less than 6.1 (this might be more difficult due to changes in QEMU
+> versioning but if we assume that at least they are increasing numbers it
+> should be possible to find the largest version less than 6.1 for example).
+> That way when a user types -machine help they won't get a large list of
+> useless versioned machines that are mostly the same anyway. This looks like
+> a case that a lazy management sofrware pollutes the human interface while it
+> could handle it itself. But that's just my opinion, I don't use these too
+> much so don't care too much either. It just looked like something that is
+> putting a burden both on users and debelopers (having to add more
+> compatiblity stuff to code that's already heavy on boilerplate) for
+> something that could be handled within the management software. But maybe
+> it's too late to change at this point.
 
-Thanks. I've marked them as false-positives in the coverity UI.
+On the contrary, the way we handle this today *reduces* the burden
+on everyone involved both QEMU, management apps & users. The amount
+of code in QEMU for a machine type with zero back compat properties
+is tiny. Simply having this is less burden for QEMU that having to
+check whether we need it or not when adding breaking changes. Whether
+a machine type has back compat props or not is irrelevant to the end
+user / mgmt app, as machine types are opaque objects. They can simply
+decide to use a particular machine type version baseline, and be
+confident it will "do the right thing" on all targets.
 
--- PMM
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
