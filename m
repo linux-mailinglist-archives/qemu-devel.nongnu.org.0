@@ -2,85 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EFDE44C349
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 15:45:39 +0100 (CET)
-Received: from localhost ([::1]:53362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D8344C368
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 15:52:52 +0100 (CET)
+Received: from localhost ([::1]:59946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkor4-0006a4-G1
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 09:45:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54362)
+	id 1mkoy2-0002ut-R4
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 09:52:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkopE-0004tP-PR
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 09:43:45 -0500
-Received: from [2a00:1450:4864:20::42d] (port=42592
- helo=mail-wr1-x42d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkopD-0006iH-Ad
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 09:43:44 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id c4so4412264wrd.9
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 06:43:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=k5xeZMA4nD8SR8uZ1oNgkVFfUpYW4cpJpvhQfqCyHkg=;
- b=hrhpG75vPx1EeNv8NTXMhs4BCNSXQWu2dsvXqEdrYwRpjQh0VleHUPT6lBM3lOvy3r
- 0SxaD8B/C9SJWCfcFyTthK4b/GWBbj0fRq66+GN4uReCtYFBa5IpjnnsxhvbeezDJPw3
- FKoGNdE1tcihzmCProMLQzGR94YGl8e/Y7warBlmlxDjWJV/tzpfb88FUIVuIyUyPO6S
- nK6wWg9blfQucaKD2wh4u5oEMMZjN679it1hiEfWBz/uP8MkG5yY/jIAoN67v960RizS
- wqFYD8eWqLsoGOkZN3H2lvQBV6AXPOUEqI2qB5XXvokYSJG8W834LQPdzSp2YVJADSwN
- Dk0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=k5xeZMA4nD8SR8uZ1oNgkVFfUpYW4cpJpvhQfqCyHkg=;
- b=l97dseBjYqQRNoE+3Jv/fylt1ujQKZArPmBa7QJrUGURxyu/TazVSHgY70XyM1u7pG
- zo6wZDu8RLnlLhgR04nVIoL9MyczgX41dN/Nz8HFW+3fKvKJtN7OBnnKsv8jYDZgrHCd
- laRYxIHV8I2iYm7qiBarXy0ccmSfmXUzkwPbtBBxKvjkmpUyC1zTV/+GLvXFPfXnAUtR
- FmWVJwf4H7LMxgdFgL4NPJxMyvZJPlAD7j+uNOcv7PNCCVKCfV0QM4hE7Gv9UUtzrMmQ
- aFiW10EB/LhCnYh3pAHsSKIsRs4USgwayTzWTZo5tSBDj9h4T6zkEiDzPOVnDUr2iNik
- gbRA==
-X-Gm-Message-State: AOAM530UWmlBY3oSf80l1KSxgQoRe6ihTEKURM+Hj48Vm8d/tDDzUvI3
- w/yDRoJQZhlM76l2bw0bL1UbfQ==
-X-Google-Smtp-Source: ABdhPJwv5ZaK34eMni7tg+F5WyIL3O5TeBpwZfhgAfaDHJWvVtas2JF8f8ChO5h/NOVL7VX6d4XG7A==
-X-Received: by 2002:adf:cc8d:: with SMTP id p13mr311547wrj.274.1636555421514; 
- Wed, 10 Nov 2021 06:43:41 -0800 (PST)
-Received: from [192.168.8.106] (104.red-2-142-241.dynamicip.rima-tde.net.
- [2.142.241.104])
- by smtp.gmail.com with ESMTPSA id m2sm5809484wml.15.2021.11.10.06.43.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Nov 2021 06:43:41 -0800 (PST)
-Subject: Re: [PATCH v2 10/14] target/riscv: Adjust vector address with mask
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211110070452.48539-1-zhiwei_liu@c-sky.com>
- <20211110070452.48539-11-zhiwei_liu@c-sky.com>
- <30642177-1f52-08fb-c3ed-77492fdc7cc8@linaro.org>
- <ffa9073a-92e7-657b-4b43-67a84bd20fb0@c-sky.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0400a881-0084-e65e-ae59-2734a6ea97d1@linaro.org>
-Date: Wed, 10 Nov 2021 15:43:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1mkouc-0000Qr-E5
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 09:49:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33678)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1mkouY-0007Om-Ko
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 09:49:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636555753;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8kV83NXgFHz3XLH059cbtEsqu4Rw929bcOrWsJLYSow=;
+ b=WgPKr4WFiJHCtjHl5OCwSw5i1dESkanosBmjwQvMa2MV8gDi9gCFp8zuhfpYcCf4aO4EsT
+ i2EU98sluqcpsVVgFaUB3lzpqtHn7iUv/8mRyc8WJ9P6PhTQI65bqR1nwwAZ8kjSloAtWS
+ NQFlWFF44gHCVouBVjqlM0lPeqxwK4s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-287-HQ0ET3sNOISUeXvNSFyLew-1; Wed, 10 Nov 2021 09:49:08 -0500
+X-MC-Unique: HQ0ET3sNOISUeXvNSFyLew-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41C851927811;
+ Wed, 10 Nov 2021 14:49:07 +0000 (UTC)
+Received: from paraplu.lan (unknown [10.39.195.97])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A2D5467C64;
+ Wed, 10 Nov 2021 14:49:03 +0000 (UTC)
+From: Kashyap Chamarthy <kchamart@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/3] rSTify contribution-related wiki pages
+Date: Wed, 10 Nov 2021 15:48:59 +0100
+Message-Id: <20211110144902.388183-1-kchamart@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <ffa9073a-92e7-657b-4b43-67a84bd20fb0@c-sky.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kchamart@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.678,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,22 +75,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9=20?= <berrange@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/10/21 3:08 PM, LIU Zhiwei wrote:
->> You'll want to update the translator to use these new fields instead of using the 
->> [msu]pmmask / [msu]pmbase fields directly. (Which means that we will have fewer tcg 
->> variables, and need not copy the "current" into DisasContext.)
->>
-> Do you mean we can remove the global TCG variables pm_mask[] and pc_base[]?
-> If then how to transport env->cur_pmmask and env->cur_pmbase to DisasContext?
+My main motivation was to convert SubmitAPatch[1] based on a chat with=0D
+Peter Maydell and Dan Berrang=C3=A9 on #qemu channel (on OFTC).  But the pa=
+ge=0D
+also links to a couple of other contribution-related pages, so I=0D
+converted them too:=0D
+=0D
+  - SubmitAPullRequest: https://wiki.qemu.org/Contribute/SubmitAPullRequest=
+=0D
+  - TrivialPatches: https://wiki.qemu.org/Contribute/TrivialPatches=0D
+=0D
+[1] https://wiki.qemu.org/Contribute/SubmitAPatch=0D
+=0D
+I built with `configure --target-list=3Dx86_64-softmmu --enable-docs &&=0D
+make -j8`, and verified there isn't any breakage in the rendered docs.=0D
+=0D
+                * * *=0D
+Changes in v3:=0D
+=0D
+- Update index entry as part of each individual rST conversion patch=0D
+  [PeterM]=0D
+- Drop the SpellCheck rST [PeterM]=0D
+- Drop the KeySigning rST [ThomasH]=0D
+- Drop mjt's Git repo from trivial-patches.rst [LaurentV]=0D
+=0D
+Changes in v2:=0D
+=0D
+- Consistently use the preferred rST headings: =3D=3D=3D, ---, and ~~~~=0D
+  [Paolo]=0D
+- Add entries in the devel/toctree.rst [Paolo]=0D
+- Clean up the SpellCheck wiki [Peter Maydell]=0D
+- In trivial-patches.rst, keep only Laurent as the active maintainer=0D
+  [Philippe]=0D
+- Convert the wiki SubmitAPullRequest to rST, because this is also=0D
+  linked to from the SubmitAPatch wiki page=0D
+- Convert the KeySigningParty wiki to rST=0D
+- Update the links to point to the rST-generated HTML files, instead of=0D
+  wiki=0D
+=0D
+Kashyap Chamarthy (3):=0D
+  docs: rSTify the "TrivialPatches" wiki=0D
+  docs: rSTify the "SubmitAPullRequest" wiki=0D
+  docs: rSTify the "SubmitAPatch" wiki=0D
+=0D
+ docs/devel/index.rst                     |   3 +=0D
+ docs/devel/submitting-a-patch.rst        | 456 +++++++++++++++++++++++=0D
+ docs/devel/submitting-a-pull-request.rst |  76 ++++=0D
+ docs/devel/trivial-patches.rst           |  50 +++=0D
+ 4 files changed, 585 insertions(+)=0D
+ create mode 100644 docs/devel/submitting-a-patch.rst=0D
+ create mode 100644 docs/devel/submitting-a-pull-request.rst=0D
+ create mode 100644 docs/devel/trivial-patches.rst=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
-I mean replace the array of pm_mask/pm_base with scalar variables. Remove the cached array 
-value in DisasContext, and use global variables for the tcg variables like we do for 
-everything else.
-
-
-r~
 
