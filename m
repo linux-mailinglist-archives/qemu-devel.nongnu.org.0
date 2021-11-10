@@ -2,70 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6447C44C1F2
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 14:13:38 +0100 (CET)
-Received: from localhost ([::1]:51800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8151144C1FE
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 14:17:35 +0100 (CET)
+Received: from localhost ([::1]:57520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mknQ0-0003RN-ES
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 08:13:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54496)
+	id 1mknTq-0007ZG-L1
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 08:17:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mknM0-0001gy-59
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:09:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29760)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mknRE-0006OG-8R; Wed, 10 Nov 2021 08:14:53 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:37867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mknLx-0007C2-P7
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:09:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636549760;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/CsJkLaMOsANyL6LqgGO+3ApG9HCY1JnljpOqmtBSN0=;
- b=Lso3TOuDdb/QJ1c2QgSwFgozIGFu8drzHrs5F/pc7q5BRf5MQq/HPsCeUAe1DEClWISgv1
- wA0RiJPRkcwXDYd+fQLsqy8bnK4vgoXjKqBjKvnJmGwkKmBs+maxLraf2EKR6Zezp6D97u
- glX4xQFGy854LpNBtqtVgQYSKq6Eb/U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-hQsciqt6MaO_MfAsqGt-mQ-1; Wed, 10 Nov 2021 08:09:17 -0500
-X-MC-Unique: hQsciqt6MaO_MfAsqGt-mQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E24868799FD;
- Wed, 10 Nov 2021 13:09:14 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 13B6479451;
- Wed, 10 Nov 2021 13:08:32 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9352111380A7; Wed, 10 Nov 2021 14:08:30 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Jonah Palmer <jonah.palmer@oracle.com>
-Subject: Re: [PATCH v9 4/8] qmp: add QMP command x-query-virtio-status
-References: <1636539792-20967-1-git-send-email-jonah.palmer@oracle.com>
- <1636539792-20967-5-git-send-email-jonah.palmer@oracle.com>
-Date: Wed, 10 Nov 2021 14:08:30 +0100
-In-Reply-To: <1636539792-20967-5-git-send-email-jonah.palmer@oracle.com>
- (Jonah Palmer's message of "Wed, 10 Nov 2021 05:23:08 -0500")
-Message-ID: <875yt0xinl.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mknRC-0007o9-6F; Wed, 10 Nov 2021 08:14:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=xEbAHzBZGManaZn7xLbPWUqVC2J5Xz3w2kxcX8Y/eSA=; b=pvH94jE/7YJeV/ifdbFPGD+iQr
+ 8R3OyTWRzJZKzt0IuItK2VorxNh0k08VkYRbx2Jw8D3BBbmsNqq/zJlabOekd9DPAHJlp3BaSiPbv
+ jqF4m9kBj07pTaH7hgzrzTg5AbYhSNh6m8Ekq+YGIMKcx2j7FpzSAN+rC5P2onZaiK6Sfvf/aTEnZ
+ BDeyovIkJFDoL5oIlGYAuct7O+BlxLchCd3PO4fQSZDuBkls9b2fCSX4HcYbYCMnJXsZ+oRuU0ozN
+ 8YyCh2t0IFETd9FH3iGc/WwCgHoW5HmNHm1NCBGCtNo0IFYa1XVR3UNybCxwONBUscebF0OFfkpSH
+ y9gMxvACkrVUDiUduMGvXWEPDb0TG//SVMI40iGvylYubkkj4DDIIaumlT2j4Rq8pvryeMLYhrm73
+ eWNMksQIQqBtwFEKuI42za0Zf54GkiZIps6rhUkBIVmBvLi5MIFBhJocuI2Zz9qG8k4iRxymTnMHx
+ vhmMC2e7MeP4HvSmiL6U38e8P+Q/2nnP3wcCgRNPcO8gucyeMlO7ULBgRXHWYAbiZcTSv2chkjPBD
+ S3O0CiTuuwKENZQ5v5HOSMGpXaAlME0q6m7URjp1tHwTyoFFDO0qCCp62H8yVN1DE1XffR8JPYExR
+ 1RrcNWhmx6ychb701dO+wLbMGGFDf4z0GBCCt+FDA=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Amit Shah <amit@kernel.org>, David Hildenbrand <david@redhat.com>,
+ Greg Kurz <groug@kaod.org>, virtio-fs@redhat.com,
+ Eric Auger <eric.auger@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v2 0/3] virtio: increase VIRTQUEUE_MAX_SIZE to 32k
+Date: Wed, 10 Nov 2021 14:14:43 +0100
+Message-ID: <2300275.fgjvgC56zr@silver>
+In-Reply-To: <YYuZfkfbxcX0JDRN@stefanha-x1.localdomain>
+References: <cover.1633376313.git.qemu_oss@crudebyte.com>
+ <25571471.tMsSMU6axZ@silver> <YYuZfkfbxcX0JDRN@stefanha-x1.localdomain>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,297 +73,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, qemu_oss@crudebyte.com, qemu-devel@nongnu.org,
- kraxel@redhat.com, si-wei.liu@oracle.com, joao.m.martins@oracle.com,
- eblake@redhat.com, qemu-block@nongnu.org, david@redhat.com, armbru@redhat.com,
- arei.gonglei@huawei.com, marcandre.lureau@redhat.com, lvivier@redhat.com,
- thuth@redhat.com, michael.roth@amd.com, groug@kaod.org, dgilbert@redhat.com,
- eric.auger@redhat.com, stefanha@redhat.com, boris.ostrovsky@oracle.com,
- kwolf@redhat.com, mathieu.poirier@linaro.org, raphael.norwitz@nutanix.com,
- pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Jonah Palmer <jonah.palmer@oracle.com> writes:
+On Mittwoch, 10. November 2021 11:05:50 CET Stefan Hajnoczi wrote:
+> > > > So looks like it was probably still easier and realistic to just add
+> > > > virtio
+> > > > capabilities for now for allowing to exceed current descriptor limit.
+> > > 
+> > > I'm still not sure why virtio-net, virtio-blk, virtio-fs, etc perform
+> > > fine under today's limits while virtio-9p needs a much higher limit to
+> > > achieve good performance. Maybe there is an issue in a layer above the
+> > > vring that's causing the virtio-9p performance you've observed?
+> > 
+> > Are you referring to (somewhat) recent benchmarks when saying those would
+> > all still perform fine today?
+> 
+> I'm not referring to specific benchmark results. Just that none of those
+> devices needed to raise the descriptor chain length, so I'm surprised
+> that virtio-9p needs it because it's conceptually similar to these
+> devices.
 
-> From: Laurent Vivier <lvivier@redhat.com>
->
-> This new command shows the status of a VirtIODevice, including
-> its corresponding vhost device status (if active).
->
-> Next patch will improve output by decoding feature bits, including
-> vhost device's feature bits (backend, protocol, acked, and features).
-> Also will decode status bits of a VirtIODevice.
->
-> Next patch will also suppress the vhost device field from displaying
-> if no vhost device is active for a given VirtIODevice.
->
-> Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
+I would not say virtio-net and virtio-blk were comparable with virtio-9p and 
+virtio-fs. virtio-9p and virtio-fs are fully fledged file servers which must 
+perform various controller tasks before handling the actually requested I/O 
+task, which inevitably adds latency to each request, whereas virtio-net and 
+virtio-blk are just very thin layers that do not have that controller task 
+overhead per request. And a network device only needs to handle very small 
+messages in the first place.
 
-[...]
+> > Vivek was running detailed benchmarks for virtiofs vs. 9p:
+> > https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg02704.html
+> > 
+> > For the virtio aspect discussed here, only the benchmark configurations
+> > without cache are relevant (9p-none, vtfs-none) and under this aspect the
+> > situation seems to be quite similar between 9p and virtio-fs. You'll also
+> > note once DAX is enabled (vtfs-none-dax) that apparently boosts virtio-fs
+> > performance significantly, which however seems to corelate to numbers
+> > when I am running 9p with msize > 300k. Note: Vivek was presumably
+> > running 9p effecively with msize=300k, as this was the kernel limitation
+> > at that time.
+> Agreed, virtio-9p and virtiofs are similar without caching.
+> 
+> I think we shouldn't consider DAX here since it bypasses the virtqueue.
 
-> diff --git a/qapi/virtio.json b/qapi/virtio.json
-> index 324ba8c..54212f2 100644
-> --- a/qapi/virtio.json
-> +++ b/qapi/virtio.json
-> @@ -53,3 +53,249 @@
->  
->  { 'command': 'x-query-virtio', 'returns': ['VirtioInfo'],
->    'features': [ 'unstable' ] }
-> +
-> +##
-> +# @VirtioStatusEndianness:
-> +#
-> +# Enumeration of endianness for VirtioDevice
-> +#
-> +# Since: 6.3
-> +##
-> +
-> +{ 'enum': 'VirtioStatusEndianness',
-> +  'data': [ 'unknown', 'little', 'big' ]
-> +}
-> +
-> +##
-> +# @VhostStatus:
-> +#
-> +# Information about a vhost device. This information will only be
-> +# displayed if the vhost device is active.
-> +#
-> +# @n-mem-sections: vhost_dev n_mem_sections
-> +#
-> +# @n-tmp-sections: vhost_dev n_tmp_sections
-> +#
-> +# @nvqs: vhost_dev nvqs. This is the number of virtqueues being used
-> +#        by the vhost device.
-> +#
-> +# @vq-index: vhost_dev vq_index
-> +#
-> +# @features: vhost_dev features
-> +#
-> +# @acked-features: vhost_dev acked_features
-> +#
-> +# @backend-features: vhost_dev backend_features
-> +#
-> +# @protocol-features: vhost_dev protocol_features
-> +#
-> +# @max-queues: vhost_dev max_queues
-> +#
-> +# @backend-cap: vhost_dev backend_cap
-> +#
-> +# @log-enabled: vhost_dev log_enabled flag
-> +#
-> +# @log-size: vhost_dev log_size
-> +#
-> +# Since: 6.3
-> +#
-> +##
-> +
-> +{ 'struct': 'VhostStatus',
-> +  'data': { 'n-mem-sections': 'int',
-> +            'n-tmp-sections': 'int',
-> +            'nvqs': 'uint32',
-> +            'vq-index': 'int',
-> +            'features': 'uint64',
-> +            'acked-features': 'uint64',
-> +            'backend-features': 'uint64',
-> +            'protocol-features': 'uint64',
-> +            'max-queues': 'uint64',
-> +            'backend-cap': 'uint64',
-> +            'log-enabled': 'bool',
-> +            'log-size': 'uint64' } }
-> +
-> +##
-> +# @VirtioStatus:
-> +#
-> +# Full status of the virtio device with most VirtIODevice members.
-> +# Also includes the full status of the corresponding vhost device
-> +# if the vhost device is active.
-> +#
-> +# @name: VirtIODevice name
-> +#
-> +# @device-id: VirtIODevice ID
-> +#
-> +# @vhost-started: VirtIODevice vhost_started flag
-> +#
-> +# @guest-features: VirtIODevice guest_features
-> +#
-> +# @host-features: VirtIODevice host_features
-> +#
-> +# @backend-features: VirtIODevice backend_features
-> +#
-> +# @device-endian: VirtIODevice device_endian
-> +#
-> +# @num-vqs: VirtIODevice virtqueue count. This is the number of active
-> +#           virtqueues being used by the VirtIODevice.
-> +#
-> +# @status: VirtIODevice configuration status (e.g. DRIVER_OK,
-> +#          FEATURES_OK, DRIVER, etc.)
-> +#
-> +# @isr: VirtIODevice ISR
-> +#
-> +# @queue-sel: VirtIODevice queue_sel
-> +#
-> +# @vm-running: VirtIODevice vm_running flag
-> +#
-> +# @broken: VirtIODevice broken flag
-> +#
-> +# @disabled: VirtIODevice disabled flag
-> +#
-> +# @use-started: VirtIODevice use_started flag
-> +#
-> +# @started: VirtIODevice started flag
-> +#
-> +# @start-on-kick: VirtIODevice start_on_kick flag
-> +#
-> +# @disable-legacy-check: VirtIODevice disabled_legacy_check flag
-> +#
-> +# @bus-name: VirtIODevice bus_name
-> +#
-> +# @use-guest-notifier-mask: VirtIODevice use_guest_notifier_mask flag
-> +#
-> +# @vhost-dev: corresponding vhost device info for a given VirtIODevice
-> +#
-> +# Since: 6.3
-> +#
-> +##
-> +
-> +{ 'struct': 'VirtioStatus',
-> +  'data': { 'name': 'str',
-> +            'device-id': 'uint16',
-> +            'vhost-started': 'bool',
-> +            'guest-features': 'uint64',
-> +            'host-features': 'uint64',
-> +            'backend-features': 'uint64',
-> +            'device-endian': 'VirtioStatusEndianness',
-> +            'num-vqs': 'int',
-> +            'status': 'uint8',
-> +            'isr': 'uint8',
-> +            'queue-sel': 'uint16',
-> +            'vm-running': 'bool',
-> +            'broken': 'bool',
-> +            'disabled': 'bool',
-> +            'use-started': 'bool',
-> +            'started': 'bool',
-> +            'start-on-kick': 'bool',
-> +            'disable-legacy-check': 'bool',
-> +            'bus-name': 'str',
-> +            'use-guest-notifier-mask': 'bool',
-> +            'vhost-dev': 'VhostStatus' } }
-> +
-> +##
-> +# @x-query-virtio-status:
-> +#
-> +# Poll for a comprehensive status of a given virtio device
-> +#
-> +# @path: Canonical QOM path of the VirtIODevice
-> +#
-> +# Features:
-> +# @unstable: This command is meant for debugging.
-> +#
-> +# Returns: VirtioStatus of the virtio device
-> +#
-> +# Since: 6.3
-> +#
-> +# Examples:
-> +#
-> +# 1. Poll for the status of virtio-crypto (no vhost-crypto active)
-> +#
-> +# -> { "execute": "x-query-virtio-status",
-> +#      "arguments": { "path": "/machine/peripheral/crypto0/virtio-backend" }
-> +#    }
-> +# <- { "return": {
-> +#          "device-endian": "little",
-> +#          "bus-name": "",
-> +#          "disable-legacy-check": false,
-> +#          "name": "virtio-crypto",
-> +#          "started": true,
-> +#          "device-id": 20,
-> +#          "vhost-dev": {
-> +#               "n-tmp-sections": 0,
-> +#               "n-mem-sections": 0,
-> +#               "max-queues": 0,
-> +#               "backend-cap": 0,
-> +#               "log-size": 0,
-> +#               "backend-features": 0,
-> +#               "nvqs": 0,
-> +#               "protocol-features": 0,
-> +#               "vq-index": 0,
-> +#               "log-enabled": false,
-> +#               "acked-features": 0,
-> +#               "features": 0
-> +#          },
-> +#          "backend-features": 0,
-> +#          "start-on-kick": false,
-> +#          "isr": 1,
-> +#          "broken": false,
-> +#          "status": 15,
-> +#          "num-vqs": 2,
-> +#          "guest-features": 5100273664,
-> +#          "host-features": 6325010432,
-> +#          "use-guest-notifier-mask": true,
-> +#          "vm-running": true,
-> +#          "queue-sel": 1,
-> +#          "disabled": false,
-> +#          "vhost-started": false,
-> +#          "use-started": true
-> +#      }
-> +#    }
-> +#
-> +# 2. Poll for the status of virtio-net (vhost-net is active)
-> +#
-> +# -> { "execute": "x-query-virtio-status",
-> +#      "arguments": { "path": "/machine/peripheral-anon/device[1]/virtio-backend" }
-> +#    }
-> +# <- { "return": {
-> +#          "device-endian": "little",
-> +#          "bus-name": "",
-> +#          "disabled-legacy-check": false,
-> +#          "name": "virtio-net",
-> +#          "started": true,
-> +#          "device-id": 1,
-> +#          "vhost-dev": {
-> +#               "n-tmp-sections": 4,
-> +#               "n-mem-sections": 4,
-> +#               "max-queues": 1,
-> +#               "backend-cap": 2,
-> +#               "log-size": 0,
-> +#               "backend-features": 0,
-> +#               "nvqs": 2,
-> +#               "protocol-features": 0,
-> +#               "vq-index": 0,
-> +#               "log-enabled": false,
-> +#               "acked-features": 5100306432,
-> +#               "features": 13908344832
-> +#          },
-> +#          "backend-features": 6337593319,
-> +#          "start-on-kick": false,
-> +#          "isr": 1,
-> +#          "broken": false,
-> +#          "status": 15,
-> +#          "num-vqs": 3,
-> +#          "guest-features": 5111807911,
-> +#          "host-features": 6337593319,
-> +#          "use-guest-notifier-mask": true,
-> +#          "vm-running": true,
-> +#          "queue-sel": 2,
-> +#          "disabled": false,
-> +#          "vhost-started": true,
-> +#          "use-started": true
-> +#      }
-> +#    }
-> +#
-> +##
-> +
-> +{ 'command': 'x-query-virtio-status', 'data': { 'path': 'str' },
-> +  'returns': 'VirtioStatus', 'features': [ 'unstable' ] }
+DAX bypasses virtio, sure, but the performance boost you get with DAX actually 
+shows the limiting factor with virtio pretty well.
 
-There's precedence for this style, but I find
+> > To bring things into relation: there are known performance aspects in 9p
+> > that can be improved, yes, both on Linux kernel side and on 9p server
+> > side in QEMU. For instance 9p server uses coroutines [1] and currently
+> > dispatches between worker thread(s) and main thread too often per request
+> > (partly addressed already [2], but still WIP), which accumulates to
+> > overall latency. But Vivek was actually using a 9p patch here which
+> > disabled coroutines entirely, which suggests that the virtio transmission
+> > size limit still represents a bottleneck.
+> 
+> These results were collected with 4k block size. Neither msize nor the
+> descriptor chain length limits will be stressed, so I don't think these
+> results are relevant here.
+> 
+> Maybe a more relevant comparison would be virtio-9p, virtiofs, and
+> virtio-blk when block size is large (e.g. 1M). The Linux block layer in
+> the guest will split virtio-blk requests when they exceed the block
+> queue limits.
 
-   { 'command': 'x-query-virtio-status',
-     'data': { 'path': 'str' },
-     'returns': 'VirtioStatus',
-     'features': [ 'unstable' ] }
+I am sorry, I cannot spend time for more benchmarks like that. For really 
+making fair comparisons I would need to review all their code on both ends, 
+adjust configuration/sources, etc.
 
-easier to read.
+I do think that I performed enough benchmarks and tests to show that 
+increasing the transmission size can significantly improve performance with 
+9p, and that allowing to exceed the queue size does make sense even for small 
+transmission sizes (e.g. max. active requests on 9p server side vs. max. 
+transmission size per request).
+
+The reason for the performance gain is the minimum latency involved per 
+request, and like I said, that can be improved to a certain extent with 9p, 
+but that will take a long time and it could not be eliminated entirely.
+
+As you are apparently reluctant for changing the virtio specs, what about 
+introducing those discussed virtio capabalities either as experimental ones 
+without specs changes, or even just as 9p specific device capabilities for 
+now. I mean those could be revoked on both sides at any time anyway.
+
+Best regards,
+Christian Schoenebeck
+
 
 
