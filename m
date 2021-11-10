@@ -2,62 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F43444C2A4
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 14:59:43 +0100 (CET)
-Received: from localhost ([::1]:60186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B9C844C2B1
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 15:03:59 +0100 (CET)
+Received: from localhost ([::1]:40186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mko8c-0003u3-HE
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 08:59:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40252)
+	id 1mkoCj-0001K2-Up
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 09:03:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mko5b-00083V-Hx
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:56:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56788)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mko76-0001km-3D
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:58:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30611)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mko5Y-00074r-J2
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:56:35 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mko73-0007Rp-Op
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:58:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636552592;
+ s=mimecast20190719; t=1636552685;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uw7+nk08CeYERSz6vjb4GOJ14QNPmUONUsaK3FhNNsU=;
- b=frUjMrnBew9TmCIMUoW2UCTmKIBiErNABB2NZyLVmnPdNEQTg3n0RbgzWtPtzdlZ5zseWH
- qU+76UVOYUzC59Cg+58S+ofqoPPXJoa0tz0lWJ8B9P/dc4telTmho4KvwIXGnFL/1sq8e8
- 0ki5QWKZw+vzE3Q5myIkknmU2ZZVnZQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-581-uYqXDz2YPWOblq3T1KFnDw-1; Wed, 10 Nov 2021 08:56:29 -0500
-X-MC-Unique: uYqXDz2YPWOblq3T1KFnDw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA17E804141;
- Wed, 10 Nov 2021 13:56:27 +0000 (UTC)
-Received: from thinkpad.redhat.com (unknown [10.39.194.156])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7E0C960843;
- Wed, 10 Nov 2021 13:56:25 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] tests/qtest: add some tests for virtio-net failover
-Date: Wed, 10 Nov 2021 14:56:16 +0100
-Message-Id: <20211110135616.1188725-4-lvivier@redhat.com>
-In-Reply-To: <20211110135616.1188725-1-lvivier@redhat.com>
-References: <20211110135616.1188725-1-lvivier@redhat.com>
+ bh=rlklEYnq5aXOWPWC24ZVE+J2xncWIZY0bymgCLCCRTk=;
+ b=Pv3euuSzjwhqEvHZMi8FU57pqdWI9I2UzWpPXFxE/QgUtib4cecv49gKo7XEYHwD9x+SUI
+ kYFGJFO2c9/9YFUjDl1pvtW5S/zDil83N9MGq6zfB1lTsuS2oFhaW07kFUW0S3e8Rh1SBf
+ FO8Gm/bzV6CYjSnz9dAMbSreGe1FexA=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-491-uJGM_vEYM5i8nCtcbSyZ_Q-1; Wed, 10 Nov 2021 08:58:03 -0500
+X-MC-Unique: uJGM_vEYM5i8nCtcbSyZ_Q-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ g80-20020a1c2053000000b003331a764709so3146638wmg.2
+ for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 05:58:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=rlklEYnq5aXOWPWC24ZVE+J2xncWIZY0bymgCLCCRTk=;
+ b=Z5emQxeBIcPJeOofpKXumEHxerQiV6PyuEW4WI7zIf7EgJPbh6TLTf4ZUA+nNiXRRH
+ figt2MW+wuKAWboqh1ukgmBWnjlIc+LNTHyDj+zGIKPc8KvAD5TtqjTCoNwcbup3I03F
+ W7xm5aRYrdAnpONJnhUKxZseVwjdXlorSmXSglz1c4p996eP6kWKWm2lbZR70g5/AjxU
+ zt6XJF1ZizsXFD25C0ftsWf5Fm6t645rZQxa7LJ33+AYjVoH5z5LMPgmzKuD1nX3FqrS
+ NR0K+R1yTG8ffiGnlClZ7lIbJFJK7HOOp2bzfPQu/YekrEZL0bghXAhRjHC+TxvZlyyV
+ yoCg==
+X-Gm-Message-State: AOAM533gz9Dz2qrKZpkRcXCxXx+gFY/O09NDdWPc0ooBxUb1CVyXawtY
+ iYjWNvwFLy5m4F2OJRDyMjGHgyH5JEPW11PjhucVPLi4cbmpAhFeEf2ecEcAAiP9vJXmSjSX9iF
+ Lf4aO0Fx3v3iMXgE=
+X-Received: by 2002:a5d:69ce:: with SMTP id s14mr19684881wrw.25.1636552682594; 
+ Wed, 10 Nov 2021 05:58:02 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyY0PfDKuExVMSeZ7lphA6ZW2CZuHu76jnggbKdOeea7fPGewVBVN4Zb4f86fGK2Ptm0wjCAQ==
+X-Received: by 2002:a5d:69ce:: with SMTP id s14mr19684852wrw.25.1636552682349; 
+ Wed, 10 Nov 2021 05:58:02 -0800 (PST)
+Received: from localhost ([185.140.112.229])
+ by smtp.gmail.com with ESMTPSA id u2sm22117867wrr.35.2021.11.10.05.58.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Nov 2021 05:58:01 -0800 (PST)
+Date: Wed, 10 Nov 2021 14:57:59 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH 4/5] hw/i386/acpi-build: Deny control on PCIe Native
+ Hot-plug in _OSC
+Message-ID: <20211110145759.6570170e@redhat.com>
+In-Reply-To: <20211110011557-mutt-send-email-mst@kernel.org>
+References: <20211110053014.489591-1-jusual@redhat.com>
+ <20211110053014.489591-5-jusual@redhat.com>
+ <20211110011557-mutt-send-email-mst@kernel.org>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -78,615 +98,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>, Marcel Apfelbaum <mapfelba@redhat.com>,
+ Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add test cases to test several error cases that must be
-generated by invalid failover configuration.
+On Wed, 10 Nov 2021 02:21:34 -0500
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-Add a combination of coldplug and hotplug test cases to be
-sure the primary is correctly managed according the
-presence or not of the STANDBY feature.
+> On Wed, Nov 10, 2021 at 06:30:13AM +0100, Julia Suvorova wrote:
+> > There are two ways to enable ACPI PCI Hot-plug:
+> > 
+> >         * Disable the Hot-plug Capable bit on PCIe slots.
+> > 
+> > This was the first approach which led to regression [1-2], as
+> > I/O space for a port is allocated only when it is hot-pluggable,
+> > which is determined by HPC bit.
+> > 
+> >         * Leave the HPC bit on and disable PCIe Native Hot-plug in _OSC
+> >           method.
+> > 
+> > This removes the (future) ability of hot-plugging switches with PCIe
+> > Native hotplug since ACPI PCI Hot-plug only works with cold-plugged
+> > bridges. If the user wants to explicitely use this feature, they can
+> > disable ACPI PCI Hot-plug with:
+> >         --global ICH9-LPC.acpi-pci-hotplug-with-bridge-support=off
+> > 
+> > Change the bit in _OSC method so that the OS selects ACPI PCI Hot-plug
+> > instead of PCIe Native.
+> > 
+> > [1] https://gitlab.com/qemu-project/qemu/-/issues/641
+> > [2] https://bugzilla.redhat.com/show_bug.cgi?id=2006409
+> > 
+> > Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> > ---
+> >  hw/i386/acpi-build.c | 12 ++++++++----
+> >  1 file changed, 8 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > index a3ad6abd33..a2f92ab32b 100644
+> > --- a/hw/i386/acpi-build.c
+> > +++ b/hw/i386/acpi-build.c
+> > @@ -1337,7 +1337,7 @@ static void build_x86_acpi_pci_hotplug(Aml *table, uint64_t pcihp_addr)
+> >      aml_append(table, scope);
+> >  }
+> >  
+> > -static Aml *build_q35_osc_method(void)
+> > +static Aml *build_q35_osc_method(bool acpi_pcihp)
+> >  {
+> >      Aml *if_ctx;
+> >      Aml *if_ctx2;
+> > @@ -1345,6 +1345,7 @@ static Aml *build_q35_osc_method(void)
+> >      Aml *method;
+> >      Aml *a_cwd1 = aml_name("CDW1");
+> >      Aml *a_ctrl = aml_local(0);
+> > +    const uint64_t hotplug = acpi_pcihp ? 0x1E : 0x1F;  
+> 
+> drop this variable and open-code at use point below.
+> As it is the comment is misplaced.
+> Also a slightly better way to write this:
+> 0x1E | (acpi_pcihp ? 0x0 : 0x1)
+> 
+> 
+> 
+> >  
+> >      method = aml_method("_OSC", 4, AML_NOTSERIALIZED);
+> >      aml_append(method, aml_create_dword_field(aml_arg(3), aml_int(0), "CDW1"));  
+> 
+> So what acpi_pcihp does is enable/disable native pcie hotplug.
+> How about we call the option exactly that?
+> 
+> 
+> > @@ -1359,8 +1360,9 @@ static Aml *build_q35_osc_method(void)
+> >      /*
+> >       * Always allow native PME, AER (no dependencies)
+> >       * Allow SHPC (PCI bridges can have SHPC controller)
+> > +     * Disable PCIe Native Hot-plug if ACPI PCI Hot-plug is enabled.
+> >       */
+> > -    aml_append(if_ctx, aml_and(a_ctrl, aml_int(0x1F), a_ctrl));
+> > +    aml_append(if_ctx, aml_and(a_ctrl, aml_int(hotplug), a_ctrl));
+> >    
+> 
+> using the variable hotplug just made things confusing,
+> open-coding will be clearer.
+> 
+> 
+> >      if_ctx2 = aml_if(aml_lnot(aml_equal(aml_arg(1), aml_int(1))));
+> >      /* Unknown revision */
+> > @@ -1449,7 +1451,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> >          aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
+> >          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+> >          aml_append(dev, aml_name_decl("_UID", aml_int(pcmc->pci_root_uid)));
+> > -        aml_append(dev, build_q35_osc_method());
+> > +        aml_append(dev, build_q35_osc_method(pm->pcihp_bridge_en));
+> >          aml_append(sb_scope, dev);
+> >          if (mcfg_valid) {
+> >              aml_append(sb_scope, build_q35_dram_controller(&mcfg));  
+> 
+> One of the complaints of libvirt people was that the
+> name is confusing. It seems to say whether to describe bridges
+> in ACPI but it also disables native hotplug, but only for PCIe.
+> 
+> Maybe we should address this with flags saying whether to enable each of
+> acpi,pcie,shpc hotplug separately...
 
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
----
- tests/qtest/meson.build           |   3 +
- tests/qtest/virtio-net-failover.c | 567 ++++++++++++++++++++++++++++++
- 2 files changed, 570 insertions(+)
- create mode 100644 tests/qtest/virtio-net-failover.c
+yep, mask with field defines would be better,
+but I'd hold off such change to post 6.2 time.
+ 
+> 
+> > @@ -1565,7 +1567,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> >              if (pci_bus_is_express(bus)) {
+> >                  aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
+> >                  aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
+> > -                aml_append(dev, build_q35_osc_method());
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index c9d8458062ff..6d66bf522156 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -22,6 +22,9 @@ qtests_generic = \
-   (config_all_devices.has_key('CONFIG_VIRTIO_SCSI') ? ['fuzz-virtio-scsi-test'] : []) + \
-   (config_all_devices.has_key('CONFIG_SB16') ? ['fuzz-sb16-test'] : []) + \
-   (config_all_devices.has_key('CONFIG_SDHCI_PCI') ? ['fuzz-sdcard-test'] : []) + \
-+  (config_all_devices.has_key('CONFIG_VIRTIO_NET') and \
-+   config_all_devices.has_key('CONFIG_Q35') and \
-+   config_all_devices.has_key('CONFIG_VIRTIO_PCI') ? ['virtio-net-failover'] : []) + \
-   [
-   'cdrom-test',
-   'device-introspect-test',
-diff --git a/tests/qtest/virtio-net-failover.c b/tests/qtest/virtio-net-failover.c
-new file mode 100644
-index 000000000000..c7b03b887179
---- /dev/null
-+++ b/tests/qtest/virtio-net-failover.c
-@@ -0,0 +1,567 @@
-+#include "qemu/osdep.h"
-+#include "libqos/libqtest.h"
-+#include "libqos/pci.h"
-+#include "libqos/pci-pc.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qapi/qmp/qlist.h"
-+#include "qapi/qmp/qjson.h"
-+#include "libqos/malloc-pc.h"
-+#include "libqos/virtio-pci.h"
-+#include "hw/pci/pci.h"
-+
-+#define BASE_MACHINE "-M q35 -nodefaults " \
-+    "-device pcie-root-port,id=root0,addr=0x1,bus=pcie.0,chassis=1 " \
-+    "-device pcie-root-port,id=root1,addr=0x2,bus=pcie.0,chassis=2 "
-+
-+#define MAC_PRIMARY "52:54:00:11:11:11"
-+#define MAC_STANDBY "52:54:00:22:22:22"
-+
-+static QGuestAllocator guest_malloc;
-+static QPCIBus *pcibus;
-+
-+static QTestState *machine_start(const char *args)
-+{
-+    QTestState *qts;
-+    QPCIDevice *dev;
-+
-+    qts = qtest_init(args);
-+
-+    pc_alloc_init(&guest_malloc, qts, 0);
-+    pcibus = qpci_new_pc(qts, &guest_malloc);
-+    g_assert(qpci_secondary_buses_init(pcibus) == 2);
-+
-+    dev = qpci_device_find(pcibus, QPCI_DEVFN(1, 0)); /* root0 */
-+    g_assert_nonnull(dev);
-+
-+    qpci_device_enable(dev);
-+    qpci_iomap(dev, 4, NULL);
-+
-+    g_free(dev);
-+
-+    dev = qpci_device_find(pcibus, QPCI_DEVFN(2, 0)); /* root1 */
-+    g_assert_nonnull(dev);
-+
-+    qpci_device_enable(dev);
-+    qpci_iomap(dev, 4, NULL);
-+
-+    g_free(dev);
-+
-+    return qts;
-+}
-+
-+static void machine_stop(QTestState *qts)
-+{
-+    qpci_free_pc(pcibus);
-+    alloc_destroy(&guest_malloc);
-+    qtest_quit(qts);
-+}
-+
-+static void test_error_id(void)
-+{
-+    QTestState *qts;
-+    QDict *resp;
-+    QDict *err;
-+
-+    qts = machine_start(BASE_MACHINE
-+                        "-device virtio-net,bus=root0,id=standby0,failover=on");
-+
-+    resp = qtest_qmp(qts, "{'execute': 'device_add',"
-+                          "'arguments': {"
-+                          "'driver': 'virtio-net',"
-+                          "'bus': 'root1',"
-+                          "'failover_pair_id': 'standby0'"
-+                          "} }");
-+    g_assert(qdict_haskey(resp, "error"));
-+
-+    err = qdict_get_qdict(resp, "error");
-+    g_assert(qdict_haskey(err, "desc"));
-+
-+    g_assert_cmpstr(qdict_get_str(err, "desc"), ==,
-+                    "Device with failover_pair_id needs to have id");
-+
-+    qobject_unref(resp);
-+
-+    machine_stop(qts);
-+}
-+
-+static void test_error_pcie(void)
-+{
-+    QTestState *qts;
-+    QDict *resp;
-+    QDict *err;
-+
-+    qts = machine_start(BASE_MACHINE
-+                        "-device virtio-net,bus=root0,id=standby0,failover=on");
-+
-+    resp = qtest_qmp(qts, "{'execute': 'device_add',"
-+                          "'arguments': {"
-+                          "'driver': 'virtio-net',"
-+                          "'id': 'primary0',"
-+                          "'bus': 'pcie.0',"
-+                          "'failover_pair_id': 'standby0'"
-+                          "} }");
-+    g_assert(qdict_haskey(resp, "error"));
-+
-+    err = qdict_get_qdict(resp, "error");
-+    g_assert(qdict_haskey(err, "desc"));
-+
-+    g_assert_cmpstr(qdict_get_str(err, "desc"), ==,
-+                    "Bus 'pcie.0' does not support hotplugging");
-+
-+    qobject_unref(resp);
-+
-+    machine_stop(qts);
-+}
-+
-+static QDict *find_device(QDict *bus, const char *name)
-+{
-+    const QObject *obj;
-+    QList *devices;
-+    QList *list;
-+
-+    devices = qdict_get_qlist(bus, "devices");
-+    if (devices == NULL) {
-+        return NULL;
-+    }
-+
-+    list = qlist_copy(devices);
-+    while ((obj = qlist_pop(list))) {
-+        QDict *device;
-+
-+        device = qobject_to(QDict, obj);
-+
-+        if (qdict_haskey(device, "pci_bridge")) {
-+            QDict *bridge;
-+            QDict *bridge_device;
-+
-+            bridge = qdict_get_qdict(device, "pci_bridge");
-+
-+            if (qdict_haskey(bridge, "devices")) {
-+                bridge_device = find_device(bridge, name);
-+                if (bridge_device) {
-+                    qobject_unref(list);
-+                    return bridge_device;
-+                }
-+            }
-+        }
-+
-+        if (!qdict_haskey(device, "qdev_id")) {
-+            continue;
-+        }
-+
-+        if (strcmp(qdict_get_str(device, "qdev_id"), name) == 0) {
-+            qobject_ref(device);
-+            qobject_unref(list);
-+            return device;
-+        }
-+    }
-+    qobject_unref(list);
-+
-+    return NULL;
-+}
-+
-+static QDict *get_bus(QTestState *qts, int num)
-+{
-+    QObject *obj;
-+    QDict *resp;
-+    QList *ret;
-+
-+    resp = qtest_qmp(qts, "{ 'execute': 'query-pci' }");
-+    g_assert(qdict_haskey(resp, "return"));
-+
-+    ret = qdict_get_qlist(resp, "return");
-+    g_assert_nonnull(ret);
-+
-+    while ((obj = qlist_pop(ret))) {
-+        QDict *bus;
-+
-+        bus = qobject_to(QDict, obj);
-+        if (!qdict_haskey(bus, "bus")) {
-+            continue;
-+        }
-+        if (qdict_get_int(bus, "bus") == num) {
-+            qobject_ref(bus);
-+            qobject_unref(resp);
-+            return bus;
-+        }
-+    }
-+    qobject_unref(resp);
-+
-+    return NULL;
-+}
-+
-+static char *get_mac(QTestState *qts, const char *name)
-+{
-+    QDict *resp;
-+    char *mac;
-+
-+    resp = qtest_qmp(qts, "{ 'execute': 'qom-get', "
-+                     "'arguments': { "
-+                     "'path': %s, "
-+                     "'property': 'mac' } }", name);
-+
-+    g_assert(qdict_haskey(resp, "return"));
-+
-+    mac = g_strdup( qdict_get_str(resp, "return"));
-+
-+    qobject_unref(resp);
-+
-+    return mac;
-+}
-+
-+static void check_cards(QTestState *qts, bool standby, bool primary)
-+{
-+    QDict *device;
-+    QDict *bus;
-+    char *mac;
-+
-+    bus = get_bus(qts, 0);
-+    device = find_device(bus, "standby0");
-+    if (standby) {
-+        g_assert_nonnull(device);
-+        qobject_unref(device);
-+
-+        mac = get_mac(qts, "/machine/peripheral/standby0");
-+        g_assert_cmpstr(mac, ==, MAC_STANDBY);
-+        g_free(mac);
-+    } else {
-+       g_assert_null(device);
-+    }
-+
-+    device = find_device(bus, "primary0");
-+    if (primary) {
-+        g_assert_nonnull(device);
-+        qobject_unref(device);
-+
-+        mac = get_mac(qts, "/machine/peripheral/primary0");
-+        g_assert_cmpstr(mac, ==, MAC_PRIMARY);
-+        g_free(mac);
-+    } else {
-+       g_assert_null(device);
-+    }
-+    qobject_unref(bus);
-+}
-+
-+static void test_on(void)
-+{
-+    QTestState *qts;
-+
-+    qts = machine_start(BASE_MACHINE
-+                        "-netdev user,id=hs0 "
-+                        "-device virtio-net,bus=root0,id=standby0,"
-+                        "failover=on,netdev=hs0,mac="MAC_STANDBY" "
-+                        "-device virtio-net,bus=root1,id=primary0,"
-+                        "failover_pair_id=standby0,netdev=hs1,mac="MAC_PRIMARY);
-+
-+    check_cards(qts, true, false); /* standby, no primary */
-+
-+    machine_stop(qts);
-+}
-+
-+static void test_on_mismatch(void)
-+{
-+    QTestState *qts;
-+
-+    qts = machine_start(BASE_MACHINE
-+                     "-netdev user,id=hs0 "
-+                     "-device virtio-net,bus=root0,id=standby0,"
-+                     "failover=on,netdev=hs0,mac="MAC_STANDBY" "
-+                     "-netdev user,id=hs1 "
-+                     "-device virtio-net,bus=root1,id=primary0,"
-+                     "failover_pair_id=standby1,netdev=hs1,mac="MAC_PRIMARY);
-+
-+    check_cards(qts, true, true); /* standby, primary (but no failover) */
-+
-+    machine_stop(qts);
-+}
-+
-+static void test_off(void)
-+{
-+    QTestState *qts;
-+
-+    qts = machine_start(BASE_MACHINE
-+                     "-netdev user,id=hs0 "
-+                     "-device virtio-net,bus=root0,id=standby0,"
-+                     "failover=off,netdev=hs0,mac="MAC_STANDBY" "
-+                     "-netdev user,id=hs1 "
-+                     "-device virtio-net,bus=root1,id=primary0,"
-+                     "failover_pair_id=standby0,netdev=hs1,mac="MAC_PRIMARY);
-+
-+    check_cards(qts, true, true); /* standby, primary (but no failover) */
-+
-+    machine_stop(qts);
-+}
-+
-+static void start_virtio_net(QTestState *qts)
-+{
-+    QVirtioPCIDevice *dev;
-+    uint64_t features;
-+    QPCIAddress addr;
-+    QDict *resp;
-+    QDict *data;
-+
-+    addr.devfn = QPCI_DEVFN(1 << 5, 0);
-+    dev = virtio_pci_new(pcibus, &addr);
-+    g_assert_nonnull(dev);
-+    qvirtio_pci_device_enable(dev);
-+    qvirtio_start_device(&dev->vdev);
-+    features = qvirtio_get_features(&dev->vdev);
-+    features = features & ~(QVIRTIO_F_BAD_FEATURE |
-+                            (1ull << VIRTIO_RING_F_INDIRECT_DESC) |
-+                            (1ull << VIRTIO_RING_F_EVENT_IDX));
-+    qvirtio_set_features(&dev->vdev, features);
-+    qvirtio_set_driver_ok(&dev->vdev);
-+
-+    resp = qtest_qmp_eventwait_ref(qts, "FAILOVER_NEGOTIATED");
-+    g_assert(qdict_haskey(resp, "data"));
-+
-+    data = qdict_get_qdict(resp, "data");
-+    g_assert(qdict_haskey(data, "device-id"));
-+    g_assert_cmpstr(qdict_get_str(data, "device-id"), ==, "standby0");
-+
-+    qobject_unref(resp);
-+}
-+
-+static void test_enabled(void)
-+{
-+    QTestState *qts;
-+
-+    qts = machine_start(BASE_MACHINE
-+                     "-netdev user,id=hs0 "
-+                     "-device virtio-net,bus=root0,id=standby0,"
-+                     "failover=on,netdev=hs0,mac="MAC_STANDBY" "
-+                     "-netdev user,id=hs1 "
-+                     "-device virtio-net,bus=root1,id=primary0,"
-+                     "failover_pair_id=standby0,netdev=hs1,mac="MAC_PRIMARY" "
-+                     );
-+
-+    check_cards(qts, true, false); /* standby, no primary */
-+
-+    start_virtio_net(qts);
-+
-+    check_cards(qts, true, true); /* standby, primary with failover */
-+
-+    machine_stop(qts);
-+}
-+
-+static void test_hotplug_1(void)
-+{
-+    QTestState *qts;
-+
-+    qts = machine_start(BASE_MACHINE
-+                     "-netdev user,id=hs0 "
-+                     "-device virtio-net,bus=root0,id=standby0,"
-+                     "failover=on,netdev=hs0,mac="MAC_STANDBY" "
-+                     "-netdev user,id=hs1 "
-+                     );
-+
-+    check_cards(qts, true, false); /* no standby, no primary */
-+
-+    start_virtio_net(qts);
-+
-+    check_cards(qts, true, false);
-+
-+    qtest_qmp_device_add(qts, "virtio-net", "primary0",
-+                         "{'bus': 'root1',"
-+                         "'failover_pair_id': 'standby0',"
-+                         "'netdev': 'hs1',"
-+                         "'mac': '"MAC_PRIMARY"'}");
-+
-+    check_cards(qts, true, true);
-+
-+    machine_stop(qts);
-+}
-+
-+static void test_hotplug_1_reverse(void)
-+{
-+    QTestState *qts;
-+
-+    qts = machine_start(BASE_MACHINE
-+                     "-netdev user,id=hs0 "
-+                     "-netdev user,id=hs1 "
-+                     "-device virtio-net,bus=root1,id=primary0,"
-+                     "failover_pair_id=standby0,netdev=hs1,mac="MAC_PRIMARY" "
-+                     );
-+
-+    check_cards(qts, false, true);
-+
-+    qtest_qmp_device_add(qts, "virtio-net", "standby0",
-+                         "{'bus': 'root0',"
-+                         "'failover': 'on',"
-+                         "'netdev': 'hs0',"
-+                         "'mac': '"MAC_STANDBY"'}");
-+
-+    check_cards(qts, true, true); /* XXX: sounds like a bug */
-+
-+    start_virtio_net(qts);
-+
-+    check_cards(qts, true, true);
-+
-+    machine_stop(qts);
-+}
-+
-+static void test_hotplug_2(void)
-+{
-+    QTestState *qts;
-+
-+    qts = machine_start(BASE_MACHINE
-+                     "-netdev user,id=hs0 "
-+                     "-netdev user,id=hs1 "
-+                     );
-+
-+    check_cards(qts, false, false); /* no standby, no primary */
-+
-+    qtest_qmp_device_add(qts, "virtio-net", "standby0",
-+                         "{'bus': 'root0',"
-+                         "'failover': 'on',"
-+                         "'netdev': 'hs0',"
-+                         "'mac': '"MAC_STANDBY"'}");
-+
-+    check_cards(qts, true, false);
-+
-+    start_virtio_net(qts);
-+
-+    check_cards(qts, true, false);
-+
-+    qtest_qmp_device_add(qts, "virtio-net", "primary0",
-+                         "{'bus': 'root1',"
-+                         "'failover_pair_id': 'standby0',"
-+                         "'netdev': 'hs1',"
-+                         "'mac': '"MAC_PRIMARY"'}");
-+
-+    check_cards(qts, true, true);
-+
-+    machine_stop(qts);
-+}
-+
-+static void test_hotplug_2_reverse(void)
-+{
-+    QTestState *qts;
-+
-+    qts = machine_start(BASE_MACHINE
-+                     "-netdev user,id=hs0 "
-+                     "-netdev user,id=hs1 "
-+                     );
-+
-+    check_cards(qts, false, false); /* no standby, no primary */
-+
-+    qtest_qmp_device_add(qts, "virtio-net", "primary0",
-+                         "{'bus': 'root1',"
-+                         "'failover_pair_id': 'standby0',"
-+                         "'netdev': 'hs1',"
-+                         "'mac': '"MAC_PRIMARY"'}");
-+
-+    check_cards(qts, false, true);
-+
-+    qtest_qmp_device_add(qts, "virtio-net", "standby0",
-+                         "{'bus': 'root0',"
-+                         "'failover': 'on',"
-+                         "'netdev': 'hs0',"
-+                         "'mac': '"MAC_STANDBY"'}");
-+
-+    check_cards(qts, true, true); /* XXX: sounds like a bug */
-+
-+    start_virtio_net(qts);
-+
-+    check_cards(qts, true, true);
-+
-+    machine_stop(qts);
-+}
-+
-+static void test_migrate(void)
-+{
-+    QTestState *qts;
-+    QDict *resp, *args, *data;
-+    g_autofree gchar *tmpfile = g_strdup_printf(
-+                                            "/tmp/failover_test_migrate-%u-%u",
-+                                            getpid(), g_test_rand_int());
-+    g_autofree gchar *uri = g_strdup_printf("exec: cat > %s", tmpfile);
-+
-+    qts = machine_start(BASE_MACHINE
-+                     "-netdev user,id=hs0 "
-+                     "-netdev user,id=hs1 "
-+                     );
-+
-+    check_cards(qts, false, false); /* no standby, no primary */
-+
-+    qtest_qmp_device_add(qts, "virtio-net", "standby0",
-+                         "{'bus': 'root0',"
-+                         "'failover': 'on',"
-+                         "'netdev': 'hs0',"
-+                         "'mac': '"MAC_STANDBY"'}");
-+
-+    check_cards(qts, true, false);
-+
-+    start_virtio_net(qts);
-+
-+    check_cards(qts, true, false);
-+
-+    qtest_qmp_device_add(qts, "virtio-net", "primary0",
-+                         "{'bus': 'root1',"
-+                         "'failover_pair_id': 'standby0',"
-+                         "'netdev': 'hs1',"
-+                         "'mac': '"MAC_PRIMARY"'}");
-+
-+    check_cards(qts, true, true);
-+
-+    args = qdict_from_jsonf_nofail("{}");
-+    g_assert_nonnull(args);
-+    qdict_put_str(args, "uri", uri);
-+
-+    resp = qtest_qmp(qts, "{ 'execute': 'migrate', 'arguments': %p}", args);
-+    g_assert(qdict_haskey(resp, "return"));
-+    qobject_unref(resp);
-+
-+    resp = qtest_qmp_eventwait_ref(qts, "UNPLUG_PRIMARY");
-+    g_assert(qdict_haskey(resp, "data"));
-+
-+    data = qdict_get_qdict(resp, "data");
-+    g_assert(qdict_haskey(data, "device-id"));
-+    g_assert_cmpstr(qdict_get_str(data, "device-id"), ==, "primary0");
-+
-+    qobject_unref(resp);
-+
-+    /*
-+     * normaly OS manages the hotunplug request and we should wait for:
-+     *   qtest_qmp_eventwait(qts, "DEVICE_DELETED");
-+     * and then:
-+     *   check_cards(qts, true, false);
-+     */
-+
-+    unlink(tmpfile);
-+
-+    machine_stop(qts);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    const char *arch;
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    arch = qtest_get_arch();
-+    if (strcmp(arch, "i386") && strcmp(arch, "x86_64")) {
-+        g_test_message("Skipping test for non-x86");
-+        return g_test_run();
-+    }
-+
-+    qtest_add_func("failover-virtio-net/params/error/id", test_error_id);
-+    qtest_add_func("failover-virtio-net/params/error/pcie", test_error_pcie);
-+    qtest_add_func("failover-virtio-net/params/error/on", test_on);
-+    qtest_add_func("failover-virtio-net/params/error/on_mismatch",
-+                   test_on_mismatch);
-+    qtest_add_func("failover-virtio-net/params/error/off", test_off);
-+    qtest_add_func("failover-virtio-net/params/error/enabled", test_enabled);
-+    qtest_add_func("failover-virtio-net/params/error/hotplug_1",
-+                   test_hotplug_1);
-+    qtest_add_func("failover-virtio-net/params/error/hotplug_1_reverse",
-+                   test_hotplug_1_reverse);
-+    qtest_add_func("failover-virtio-net/params/error/hotplug_2",
-+                   test_hotplug_2);
-+    qtest_add_func("failover-virtio-net/params/error/hotplug_2_reverse",
-+                   test_hotplug_2_reverse);
-+    qtest_add_func("failover-virtio-net/params/error/migrate",
-+                   test_migrate);
-+
-+    return g_test_run();
-+}
--- 
-2.31.1
+
+> > +                /* Expander bridges do not have ACPI PCI Hot-plug enabled */
+> > +                aml_append(dev, build_q35_osc_method(false));
+
+this's it not obvious, why PXBs aren't capable of ACPI PCI Hot-plug?
+
+> >              } else {
+> >                  aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
+> >              }
+> > -- 
+> > 2.31.1  
+> 
 
 
