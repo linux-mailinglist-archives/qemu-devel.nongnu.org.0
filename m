@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05E8A44BFF7
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 12:12:34 +0100 (CET)
-Received: from localhost ([::1]:52758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1FDD44C01B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 12:24:52 +0100 (CET)
+Received: from localhost ([::1]:55820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mklWq-0002Sz-L5
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 06:12:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49732)
+	id 1mklil-0005AU-FU
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 06:24:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mklVo-0001bN-OH
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 06:11:28 -0500
-Received: from [2a00:1450:4864:20::32e] (port=50736
- helo=mail-wm1-x32e.google.com)
+ id 1mklhg-0004Lj-Qf
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 06:23:44 -0500
+Received: from [2a00:1450:4864:20::42e] (port=44872
+ helo=mail-wr1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mklVm-00047t-OR
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 06:11:28 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id 133so1834399wme.0
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 03:11:26 -0800 (PST)
+ id 1mklhf-0005oF-9i
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 06:23:44 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id n29so3352002wra.11
+ for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 03:23:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hIeV+irR4Vh5jemQpQiqBskCyzTs0BoezXTi4VIE6vA=;
- b=Oi2CrI+6h8Nf1fH+nsozwwDPpJuBNh9ZCE9HWTGZTVNehzzWke3M2yfJ5xhE1/adFm
- V83NlSOUrJ9OJOLrUZ9wV2LObSeGLPk0v1r6PEsQOz11Qq/3bhj/VO1ZyyeKEMP4n9s4
- n/2mHU5jmIxYK87v3mALGVHtxGqY4JI/Angvoq871K12QuNphtoc7XEIf46wRUkX1JiE
- Bgx84vh2GkWfK5kKR8mk82ahCjTLZ4z4ot4Xps7DR6JdndFMdtcXJLJLxw5EWNxPTMKj
- v42l5X1/HkKM/U4aGG4YvPhWVyNtGeBdBzie8G4IvYzQtVuqceYyAvfM5RbQxuo8kEJY
- W5Zw==
+ bh=3PEVz65ReO3xTGcGDsOJ3dE2df8dU/qtSolagATOL7Y=;
+ b=AOCeQ4WnFfrecNgTgHVLn+6IdfLmiL83T6vB0k79ZOdX1/wZ5ETRIYIQBP799lRm1h
+ hmx6axhwbWHJiCc6ddiiKgtSaIQuEPeXxkOKQpuK7luROAeV+1Pw1ep+neXCtNcaP7Hd
+ Qka7QkpN4mlwoaPqX0UR+J5NIZuKiUgevW1vg9AP0IO0Pu61X9U+tOOPMH3V9/ytyM+W
+ 1MUGYVQkWfz2sdprXy7zHo4hYB8QEVyKJdGbUbVTAJZFgcTwEaR5Aa1qwk3Fw2Exp3IK
+ 5MSqCQw2PkLtmR8ewlaS+1WhfT4deiYGr/tFSQfker021PijjznbP4jUj2rQxj4ITEOT
+ 4bpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=hIeV+irR4Vh5jemQpQiqBskCyzTs0BoezXTi4VIE6vA=;
- b=dgo7Gmkc21UbwK8EWpuk5zN0LT0LYFHigTMz/zULIysEX07kgEaj3BsRwq4psxMBwR
- bUULhn6kA4C0jxMWNG0slrAtlia78Riws0AMADJwqnUsyUi/E6q30ojItfPxGfscz1RO
- 4GNIdH9xvFCdKMpFae1+c1yWcDPZfO95Gh1aZQhr6f3Q8aoWtTwNrN7IDWj6W7y03umq
- 0TZTlCelc2bNkXJnMEsEZUg/4hc96da4IUeg4LJCVLCfqPC0YJ56yCdkZCGDFQSr2NVN
- vlm8SppMS+CB4ULagWRkEesya2SA2SOnnxNRWffOUPUynmoBOt4D6fCgPh7MO1UFpem2
- rqXA==
-X-Gm-Message-State: AOAM530RiJYwEqIEBfGtPZ8F31xfSnFfu2ydOZpdm3Te3Nw8RIkopGg1
- +zjdFlv3/TeySymJUykTs4BWdw==
-X-Google-Smtp-Source: ABdhPJznOWZaLwyw7++TEohW/vCek1mNrs/lZDuZinW/s0fSSBGd5mODXU8/CB9Ey8xnLdD13JKwOg==
-X-Received: by 2002:a05:600c:190c:: with SMTP id
- j12mr12929770wmq.117.1636542685079; 
- Wed, 10 Nov 2021 03:11:25 -0800 (PST)
+ bh=3PEVz65ReO3xTGcGDsOJ3dE2df8dU/qtSolagATOL7Y=;
+ b=gnwcHBiop+hMT6/Z+I0Pp/M5vY/5LuYRcAUC9JjY4COLEs1kgajl2o1Ha2L4TkZX0m
+ PS/vJxHevw8v/CH/smTP79TeV6zR21SQ0UFW+vNVr1qZGBysH9+gT5L1Po3Pvm2mEAKv
+ ehw1UW0tL/lNglrC6kYdcI4wZm1Xt7evt6q7sBUSyf2z7Ss2nU0ZkDEu1wZYOG5CjMgD
+ 03pz+3am4UDe8X/5ZHNKCUBc+EO7B/RbvK5W7SArQyparj74bAVzztm5lFfekqMRJKE2
+ X7TdkSMaeKrNXD6W4zUrQU5jKyr8qciChB0SqpqkMYLLa61menPSEdbuh+kV90BrU7x+
+ KmxQ==
+X-Gm-Message-State: AOAM532st200vHlAmon5aYn8IS/DRt2JahV0vtdgZsj/vU9jwmQvU1xX
+ kqy1/NYfy7nLc27pDoAr6FwqLA==
+X-Google-Smtp-Source: ABdhPJy0RtLwhvcHKSNuRzseHFOtfdWR6FT9LVqfvXkDm8v7YB4H3QJ/pzKqNoKM3pUpPUJYcwAVgA==
+X-Received: by 2002:adf:cd06:: with SMTP id w6mr18081256wrm.431.1636543421602; 
+ Wed, 10 Nov 2021 03:23:41 -0800 (PST)
 Received: from [192.168.8.106] (104.red-2-142-241.dynamicip.rima-tde.net.
  [2.142.241.104])
- by smtp.gmail.com with ESMTPSA id o10sm14655694wri.15.2021.11.10.03.11.23
+ by smtp.gmail.com with ESMTPSA id e12sm28350712wrq.20.2021.11.10.03.23.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Nov 2021 03:11:24 -0800 (PST)
-Subject: Re: [PATCH v2 10/14] target/riscv: Adjust vector address with mask
+ Wed, 10 Nov 2021 03:23:41 -0800 (PST)
+Subject: Re: [PATCH v2 12/14] target/riscv: Split out the vill from vtype
 To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
 References: <20211110070452.48539-1-zhiwei_liu@c-sky.com>
- <20211110070452.48539-11-zhiwei_liu@c-sky.com>
+ <20211110070452.48539-13-zhiwei_liu@c-sky.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <30642177-1f52-08fb-c3ed-77492fdc7cc8@linaro.org>
-Date: Wed, 10 Nov 2021 12:11:19 +0100
+Message-ID: <df7ad986-8430-9994-83ac-33db2ec1f2e3@linaro.org>
+Date: Wed, 10 Nov 2021 12:23:37 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211110070452.48539-11-zhiwei_liu@c-sky.com>
+In-Reply-To: <20211110070452.48539-13-zhiwei_liu@c-sky.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
@@ -98,95 +97,50 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/10/21 8:04 AM, LIU Zhiwei wrote:
-> The mask comes from the pointer masking extension, or the max value
-> corresponding to XLEN bits.
-> 
+> We need not specially process vtype when XLEN changes.
 > Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 > ---
->   target/riscv/cpu.c           |  1 +
->   target/riscv/cpu.h           |  4 ++++
->   target/riscv/cpu_helper.c    | 40 ++++++++++++++++++++++++++++++++++++
->   target/riscv/csr.c           | 19 +++++++++++++++++
->   target/riscv/machine.c       | 10 +++++++++
->   target/riscv/vector_helper.c | 23 +++++++++++++--------
->   6 files changed, 88 insertions(+), 9 deletions(-)
-> 
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 0d2d175fa2..886388f066 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -378,6 +378,7 @@ static void riscv_cpu_reset(DeviceState *dev)
->   #ifndef CONFIG_USER_ONLY
->       env->misa_mxl = env->misa_mxl_max;
->       env->priv = PRV_M;
-> +    riscv_cpu_update_mask(env);
->       env->mstatus &= ~(MSTATUS_MIE | MSTATUS_MPRV);
->       if (env->misa_mxl > MXL_RV32) {
->           /*
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 11590a510e..73d7aa9ad7 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -252,6 +252,8 @@ struct CPURISCVState {
->       target_ulong upmmask;
->       target_ulong upmbase;
->   #endif
-> +    target_ulong mask;
-> +    target_ulong base;
+>   target/riscv/cpu.h           |  1 +
+>   target/riscv/csr.c           | 15 ++++++++++++++-
+>   target/riscv/machine.c       |  1 +
+>   target/riscv/vector_helper.c |  7 ++-----
+>   4 files changed, 18 insertions(+), 6 deletions(-)
 
-I think the name here isn't great.  Without the context of the preceeding elements, the 
-question becomes: mask of what?
+This patch should come before patch 6, which is over-complicated.
 
-Better might be cur_pmmask, cur_pmbase.
+> +    target_ulong vill;
 
-Broader than that, you're doing too many things in this patch.  The subject is "adjust 
-vector address with mask", but you're also creating new fields and updating them at priv 
-changes, etc.  Too much.
+This could be bool, though there's no good place to slot it that does not result in unused 
+padding.  Comments should be added to show that this bit is now missing from vtype.
 
-> +void riscv_cpu_update_mask(CPURISCVState *env)
+> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+> index 19e982d3f0..cc4dda4b93 100644
+> --- a/target/riscv/machine.c
+> +++ b/target/riscv/machine.c
+> @@ -104,6 +104,7 @@ static const VMStateDescription vmstate_vector = {
+>               VMSTATE_UINTTL(env.vl, RISCVCPU),
+>               VMSTATE_UINTTL(env.vstart, RISCVCPU),
+>               VMSTATE_UINTTL(env.vtype, RISCVCPU),
+> +            VMSTATE_UINTTL(env.vill, RISCVCPU),
+>               VMSTATE_END_OF_LIST()
 
-... update_pmmask?
+This will need a bump to version.
 
-> +}
-> +
-> +
-> +
+> @@ -45,11 +45,8 @@ target_ulong HELPER(vsetvl)(CPURISCVState *env, target_ulong s1,
+>       }
+>       if ((sew > cpu->cfg.elen) || vill || (ediv != 0) || (reserved != 0)) {
+>           /* only set vill bit. */
+> -        if (xlen < TARGET_LONG_BITS) {
+> -            env->vtype = FIELD_DP64(0, VTYPE, VILL_XLEN32, 1);
+> -        } else {
+> -            env->vtype = FIELD_DP64(0, VTYPE, VILL, 1);
+> -        }
+> +        env->vill = 1;
+> +        env->vtype = 0;
 
-Watch the extra spaces.
+This is fine.
 
-> @@ -1571,6 +1572,9 @@ static RISCVException write_mpmmask(CPURISCVState *env, int csrno,
->       uint64_t mstatus;
->   
->       env->mpmmask = val;
-> +    if ((env->priv == PRV_M) && (env->mmte & M_PM_ENABLE)) {
-> +        env->mask = val;
-> +    }
-
-This needs to use the function; there are pieces missing here, notably the zero-extend for 
-RV32.
-
-I don't see any updates to the exception entry and exception return paths.
-
-You'll want to update the translator to use these new fields instead of using the 
-[msu]pmmask / [msu]pmbase fields directly.  (Which means that we will have fewer tcg 
-variables, and need not copy the "current" into DisasContext.)
-
-
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index 60006b1b1b..0b297f6bc8 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -123,6 +123,11 @@ static inline uint32_t vext_maxsz(uint32_t desc)
->       return simd_maxsz(desc) << vext_lmul(desc);
->   }
->   
-> +static inline target_ulong adjust_addr(CPURISCVState *env, target_ulong addr)
-> +{
-> +    return (addr & env->mask) | env->base;
-> +}
-
-The code here in vector_helper.c looks fine as a patch by itself, under the subject that 
-you have given.
+You're missing the updates to cpu_get_tb_cpu_state.
 
 
 r~
