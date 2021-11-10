@@ -2,61 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD82044C035
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 12:38:33 +0100 (CET)
-Received: from localhost ([::1]:45672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC84A44C057
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 12:51:09 +0100 (CET)
+Received: from localhost ([::1]:55478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mklw0-0001nW-Up
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 06:38:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56104)
+	id 1mkm8C-0000UO-JA
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 06:51:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mklv4-0000W1-44
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 06:37:34 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:3198)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mklv0-0008B5-Si
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 06:37:33 -0500
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Hq2ps6qr5z8vKm;
- Wed, 10 Nov 2021 19:35:49 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.15; Wed, 10 Nov 2021 19:37:26 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.15; Wed, 10 Nov 2021 19:37:25 +0800
-Subject: Re: [PATCH 2/2] tests/unit/test-smp-parse: Fix a check-patch complain
-To: Markus Armbruster <armbru@redhat.com>
-References: <20211110095208.448-1-wangyanan55@huawei.com>
- <20211110095208.448-3-wangyanan55@huawei.com>
- <87tugkz56m.fsf@dusky.pond.sub.org>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <7ea7a0d6-6086-fa8c-73e0-4675acefbb04@huawei.com>
-Date: Wed, 10 Nov 2021 19:37:25 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mkm6Y-0008Br-KI
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 06:49:26 -0500
+Received: from [2a00:1450:4864:20::42d] (port=36411
+ helo=mail-wr1-x42d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mkm6T-0001H6-Hs
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 06:49:26 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id s13so3537052wrb.3
+ for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 03:49:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=qL5j08z9P7HYndli09vF2C3nU3zHApdwNfets98Tx+M=;
+ b=whiC4JHj5JTBPb/tuYkMIDW1P9XZUivhOOqgQ4UtBsyfi8DgNfim83uK5ZMjoqzdfa
+ VPocjOWmWxOZJiVaSLCiesvK8aFpQnBO2LEibiM1r/2PsZZf/q8z0zeDhJUhmvxu8jUZ
+ of5gCRqSEZVcBPlzxcUoa7Zvs3jfH5KS0WCkZZZcUzvHwMNeY2xKlAi7dDpDXrWLnB57
+ mV3a1Z4uGDV6YCstsYarLTv6KpG0Rnpit67MphQWKnSjTqL9A4PS82VUMV2WihODEJM0
+ 2cBvjU6KeONPXXmfxMiFlH1g4wBJYFr/f/nfCtZY0XGP7uP3DUYaI4qIkjZUhiY0E4AJ
+ ZPsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qL5j08z9P7HYndli09vF2C3nU3zHApdwNfets98Tx+M=;
+ b=kyWVGVv4tgn2et0noAaMMYViebuimWZ9bgju6NijR+p9eEKbU6rhUx6EDB6AsXd+sn
+ zuKTJZL+T2xwzbTPqbqUmZGlppdSXCDX9gShpbTUDSGJdS3drdELeItliUAa5Jx4xLM2
+ tMHJO0VhKi9TiFmGQLWkDjg8diHEeusTgEbhWGij2SevPP1yMzJUB1NLv/lFnOYy8Ck/
+ rMyB3C9r0DtsssIhjU8d5OezWzNqVvXeMedMK7OWTeEgt7VHr1dVRpLLsklE/04ITLai
+ Gmth51CgAjBUjJsSMAls5MyLaOUWi4aCrq7ficzbF9vhHZPk4C+Sz7IXpj1s+t9S7YIH
+ x3JA==
+X-Gm-Message-State: AOAM533sc5Lzkv5zcq5h+C+h7mBcpuUSO/Q+T0kuRFYryqEnUYq5+OJY
+ QVw3bvohm/xawtbn46GUngFc5oLcluqCPk7y
+X-Google-Smtp-Source: ABdhPJxW9X/o/Q6idTbSKgujqlHAJcZIz/+aCdZvcVaqWdic2rBKby1zI5ybmrf2PGRGEbJv760SOA==
+X-Received: by 2002:a5d:58fb:: with SMTP id f27mr19155793wrd.10.1636544960071; 
+ Wed, 10 Nov 2021 03:49:20 -0800 (PST)
+Received: from [192.168.8.106] (104.red-2-142-241.dynamicip.rima-tde.net.
+ [2.142.241.104])
+ by smtp.gmail.com with ESMTPSA id d11sm22222693wrs.38.2021.11.10.03.49.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Nov 2021 03:49:19 -0800 (PST)
+Subject: Re: [PULL 0/3] QAPI patches patches for 2021-11-10
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20211110061902.2483109-1-armbru@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <bd1b612b-c4cf-c08f-9ddd-524bc7f14d7f@linaro.org>
+Date: Wed, 10 Nov 2021 12:49:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <87tugkz56m.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20211110061902.2483109-1-armbru@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme711-chm.china.huawei.com (10.1.199.107) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189;
- envelope-from=wangyanan55@huawei.com; helo=szxga03-in.huawei.com
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.678,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.678,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,65 +90,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
- wanghaibin.wang@huawei.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 11/10/21 7:18 AM, Markus Armbruster wrote:
+> The following changes since commit 0a70bcf18caf7a61d480f8448723c15209d128ef:
+> 
+>    Update version for v6.2.0-rc0 release (2021-11-09 18:22:57 +0100)
+> 
+> are available in the Git repository at:
+> 
+>    git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2021-11-10
+> 
+> for you to fetch changes up to 8c0bae5a19478db93371570b57164c63392a2d50:
+> 
+>    qapi: Belatedly mark unstable QMP parts with feature 'unstable' (2021-11-10 06:10:11 +0100)
+> 
+> ----------------------------------------------------------------
+> QAPI patches patches for 2021-11-10
+> 
+> ----------------------------------------------------------------
+> Markus Armbruster (3):
+>        docs/devel/qapi-code-gen: Drop a duplicate paragraph
+>        docs/devel/qapi-code-gen: Belatedly document feature documentation
+>        qapi: Belatedly mark unstable QMP parts with feature 'unstable'
+> 
+>   docs/devel/qapi-code-gen.rst | 29 ++++++++++++------------
+>   qapi/machine.json            | 54 ++++++++++++++++++++++++++++++++++++--------
+>   2 files changed, 60 insertions(+), 23 deletions(-)
 
-On 2021/11/10 18:16, Markus Armbruster wrote:
-> Yanan Wang <wangyanan55@huawei.com> writes:
->
->> Checkpatch.pl reports errors like below for commit 9e8e393bb7. Fix it.
->> ERROR: space required after that close brace '}'
->> +    SMPTestData *data = &(SMPTestData){{ }};
->>
->> Fixes: 9e8e393bb7 ("tests/unit: Add an unit test for smp parsing")
->> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
->> ---
->>   tests/unit/test-smp-parse.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/tests/unit/test-smp-parse.c b/tests/unit/test-smp-parse.c
->> index 872512aa37..3627fe61ad 100644
->> --- a/tests/unit/test-smp-parse.c
->> +++ b/tests/unit/test-smp-parse.c
->> @@ -514,7 +514,7 @@ static void test_generic(void)
->>       Object *obj = smp_test_machine_init();
->>       MachineState *ms = MACHINE(obj);
->>       MachineClass *mc = MACHINE_GET_CLASS(obj);
->> -    SMPTestData *data = &(SMPTestData){{ }};
->> +    SMPTestData *data = &(SMPTestData){ {0} };
->>       int i;
->>   
->>       for (i = 0; i < ARRAY_SIZE(data_generic_valid); i++) {
->> @@ -548,7 +548,7 @@ static void test_with_dies(void)
->>       Object *obj = smp_test_machine_init();
->>       MachineState *ms = MACHINE(obj);
->>       MachineClass *mc = MACHINE_GET_CLASS(obj);
->> -    SMPTestData *data = &(SMPTestData){{ }};
->> +    SMPTestData *data = &(SMPTestData){ {0} };
->>       unsigned int num_dies = 2;
->>       int i;
-> Why not
->
->         SMPTestData *data = &(SMPTestData){};
->
-> ?
->
-Much simpler. Having tested {} format, it also works in zeroing the 
-structure.
-And it seems to have been mostly used in qemu. I will update.
+Applied, thanks.
 
-The original double-layer braces tried to satisfy a clang compile warning:
-"suggest braces around initialization of subobject 
-[-Werror,-Wmissing-braces]".
-But I assume {} *without* explicit 0 in it just won't trigger the 
-warning. (?)
-
-Thanks,
-Yanan
+r~
 
 
