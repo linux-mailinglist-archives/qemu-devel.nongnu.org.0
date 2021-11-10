@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C800244C51F
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 17:36:17 +0100 (CET)
-Received: from localhost ([::1]:38618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8351944C512
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 17:34:09 +0100 (CET)
+Received: from localhost ([::1]:58480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkqa8-0007NG-Vb
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 11:36:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56760)
+	id 1mkqY4-0001nV-Jz
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 11:34:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mkqWf-0007VA-Fj
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mkqWf-0007Vl-Nn
  for qemu-devel@nongnu.org; Wed, 10 Nov 2021 11:32:41 -0500
-Received: from [2607:f8b0:4864:20::129] (port=36673
- helo=mail-il1-x129.google.com)
+Received: from [2607:f8b0:4864:20::d33] (port=45779
+ helo=mail-io1-xd33.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mkqWb-0005bc-8u
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mkqWb-0005bi-D6
  for qemu-devel@nongnu.org; Wed, 10 Nov 2021 11:32:41 -0500
-Received: by mail-il1-x129.google.com with SMTP id l8so3129180ilv.3
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 08:32:36 -0800 (PST)
+Received: by mail-io1-xd33.google.com with SMTP id v23so3448514iom.12
+ for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 08:32:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ckXwvPckg2E5jmckfkNeiTbg8vAvNQC+VuQTgVQ90tI=;
- b=7TtHl05MfwKSbtaHsUbuvrRLbyILndGzjruiIkc0MSl+7O+NWVHUd4Oj+2kJNmOnSI
- 29B7E6qqaes/YSuBS2X766D7M4IOOMOSBz2B6CxacFvqYWw1RUMGuKVNFmgju1cqeFtv
- oU99xAvN+sz6z/fBwIwUs3Xk+XF11xC/k1uCE0GA8MLDjW0wOogZjP9Oc4TRUjBrgfOI
- +neSWTXf3Tr/McwxNFzfoQ+ta6OIQmpEiLYvY5hDdK+hD9zWeUL+lwTnWBAZroGv3rMy
- Cc//nSLgjee/BPW+KtC9gLu7t0vTZxR9yU+nfl+q/yxLloEXXMfWxmPXjDLN7HTDqusC
- NnGQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=UGjqnBrwXclKNyjUNjesMbXpJ87GafcQyfEXdTM32Cg=;
+ b=Z+7Gzl6Rw+3LxZfnOv4qP57M0KRz21kLLGzUv3in4Q956xZ85uxj7md6IFkL2hVSZC
+ Yky+96MMeZ2+t8OtFnLLJrAOKdTKbrmW6CfOJLGMOU66kwIfHM5SiSmkUePm3EHNiAJd
+ 3jws4RnTASJBBkrslf+jkpZax6Sbz3jPLeMi6HmiETjuT3zOdyPTa+9+PUnPKdVlVYjl
+ 2JrvposZWzpmYZoDb6If0J0nzVI/RpoP0q7+8+lNf2bJz0OQGKpvpbd6piiuFHrxweiK
+ Ee6FSG7wTD/B748adTAQzJqo0G67yFrrqhjKZRL3EkjBXQp/tSKjeIiNca67RGBY44Xv
+ mWfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ckXwvPckg2E5jmckfkNeiTbg8vAvNQC+VuQTgVQ90tI=;
- b=03opocQAbyq574KZY/CtZ/F5xLIjBLUgS+QD1BEx7gyYSi5W0i8r2iMJgAopaz8va1
- aEaAQyiGMcGFkd82SY52dhFTIp+e7/k62fb3e88M4oAPQ98DS3fgnFKD/4yXGmLipTVn
- EpR0zKI6atMpxYXzOpsOnBwKYA5MWv4nPU2JfyEBqm9RqoIug5PMPHlhorCuyGLbVo1K
- cXI8xg9Q/QA6L8fEM6rjFzbZ4WCq+5wO74/jxyVGNU12g7cEx3pJRwUZX/XOuUFv9Os3
- GyRpLZBLt+Giaf7TVbz90ISEs+vrAOUY7dGTRvmqI6fDNJizfUFVq6bWmUSeU9wfh5Hs
- rRkw==
-X-Gm-Message-State: AOAM530V403pr0sr325LT6yIxdqiiTNxCmmBXPXWaAGiyHZDc3c7xEv5
- zl2bMAbyar/o+Ym5/FwTbMHDKMrzFAdQVw==
-X-Google-Smtp-Source: ABdhPJzBQpcPcWS0fDPaPqOoomnT9RsRB12AmpB76aZYfJxuqRXZoPFwYaQhYnW0DGqQvrUQXUgiCw==
-X-Received: by 2002:a05:6e02:1709:: with SMTP id
- u9mr218101ill.242.1636561955121; 
- Wed, 10 Nov 2021 08:32:35 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=UGjqnBrwXclKNyjUNjesMbXpJ87GafcQyfEXdTM32Cg=;
+ b=s34/D5tqi15WVoIxK82sp9zqaYhH2zF3YEGz+yU/ZkK6wRJCWACXrcs7r0IVFlgfDd
+ 4M0poiVl8iWnE4StWj09sgAZD7D/h2Qda8pqAxSJ4r0lHEExJrd19mcyBqlJuKoyu5vE
+ 526/HvdX5rSOFP6vMt2TWGvuAfiHdnt8kVsptVj9lEiw288T+PwUFZ2U2kabfwTj/Siu
+ 7YBB7uv4ag8i2jGAWnKWGo7beikLlNfxD+vO+nJzoZS8DTKORRzp/I5sn8Y+p8bRPDU0
+ Rdb0sx9uNtH0u7huj/nWnSxGuoaYt538OifsjQJXV8l/W5bJAIuhA+4IJHkSIxk3bf5t
+ bM6g==
+X-Gm-Message-State: AOAM533F+37HmJhZ7iz1QmJtFaZpt5TN23YMy9S1bC7s+FRPM2243G0+
+ xo7HRwj3BxrCEfFFo4d7AQ5vsTL7UXTLkA==
+X-Google-Smtp-Source: ABdhPJyP6nqoYdtpcjqar2A39OuFVSG0BV4vd0VqEEXdnax+KS3Q/d32OU8IBGjKETeYh2S/EfVBHw==
+X-Received: by 2002:a05:6638:11cb:: with SMTP id
+ g11mr71212jas.139.1636561956001; 
+ Wed, 10 Nov 2021 08:32:36 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id x2sm130403iom.46.2021.11.10.08.32.34
+ by smtp.gmail.com with ESMTPSA id x2sm130403iom.46.2021.11.10.08.32.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Nov 2021 08:32:34 -0800 (PST)
+ Wed, 10 Nov 2021 08:32:35 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v2 0/6] linux-user: simplify safe signal handling
-Date: Wed, 10 Nov 2021 09:31:27 -0700
-Message-Id: <20211110163133.76357-1-imp@bsdimp.com>
+Subject: [RFC v2 1/6] linux-user: Add host_signal_set_pc to set pc in mcontext
+Date: Wed, 10 Nov 2021 09:31:28 -0700
+Message-Id: <20211110163133.76357-2-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211110163133.76357-1-imp@bsdimp.com>
+References: <20211110163133.76357-1-imp@bsdimp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::129
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d33
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::129;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x129.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd33.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -91,98 +93,189 @@ Cc: Warner Losh <imp@bsdimp.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a quick RFC to see if something like this is worth doing.
+Add a new function host_signal_set_pc to set the next pc in an
+mcontext. The caller should ensure this is a valid PC for execution.
 
-I've created a new interface host_signal_set_pc. This allows us to move all the
-nearly identical copies of rewind_if_in_safe_syscall into signal.c.  This
-reduces the amount of code that needs to be rewritten for bsd-user's adaptation
-of both the safe signal handling and the sigsegv/sigbus changes that have
-happened. Since BSD's mcontext_t differs in some cases, we wouldn't be able to
-share this between platforms, but it reduces the number of nearly identical
-routines I'd have to write.
+Signed-off-by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ linux-user/host/aarch64/host-signal.h | 5 +++++
+ linux-user/host/alpha/host-signal.h   | 5 +++++
+ linux-user/host/arm/host-signal.h     | 5 +++++
+ linux-user/host/i386/host-signal.h    | 5 +++++
+ linux-user/host/mips/host-signal.h    | 5 +++++
+ linux-user/host/ppc/host-signal.h     | 5 +++++
+ linux-user/host/riscv/host-signal.h   | 5 +++++
+ linux-user/host/s390/host-signal.h    | 5 +++++
+ linux-user/host/sparc/host-signal.h   | 9 +++++++++
+ linux-user/host/x86_64/host-signal.h  | 5 +++++
+ 10 files changed, 54 insertions(+)
 
-In addition, the assembler glue for the safe system calls is almost identical
-between linux and bsd-user's fork. The only difference is inverting the system
-call return to comply with the -ERRNO convention *-user uses in the rest of the
-code which is native to Linux, but differs for the BSDs and other traditional
-unix targets.
-
-I know the patches may not be sliced and diced in the typical desired
-fashion. This is a RFC, and the changes are short enough to be easily digested
-though since it's quite repetitive. They do now pass a push to gitlab and
-the default CI (see note in v2 section about one ugly kludge that likely
-needs discussion).
-
-These were extracted from the 'blitz' branch we have in the bsd-user fork and
-then that was adapted to use the common code. I've pushed a branch to gitlab
-(viewable at https://gitlab.com/bsdimp/qemu/-/tree/blitz if you prefer that to
-fetching) that shows how these will be used. I'm working on upstreaming
-bsd-user/signal.c next which will take a little bit of time to work into a place
-where it can be reviewed here. I wanted to get feedback because this is
-one chunk I can cleave off and make landing that easier.
-
-v2:
-	o move the externs for the system call setup to safe-syscall.h
-	o move to using the #ifdef __FreeBSD__ code for FreeBSD's adjustment
-	  to return value from system calls.
-	o move safe-syscall.inc to common-user so bsd-user can use it too
-	o create a kludge for mips to allow CI to pass (but maybe we should
-	  remove mips hosts as a supported platform instead)
-	o side note: the blitz bsd-user branch hasn't been updated yet since
-	  I think the first two of this series may be merged early to solve
-	  a different problem.
-
-Warner Losh (6):
-  linux-user: Add host_signal_set_pc to set pc in mcontext
-  linux-user/signal.c: Create a common rewind_if_in_safe_syscall
-  linux-user/safe-syscall.inc.S: Move to common-user
-  common-user: Adjust system call return on FreeBSD
-  common-user/host/mips: create, though mips hosts likely don't work
-    reliably
-  *-user: move safe-syscall.* to common-user
-
- common-user/common-safe-syscall.S             | 30 ++++++++++++++++++
- .../host/aarch64/safe-syscall.inc.S           |  5 +++
- .../host/arm/safe-syscall.inc.S               |  5 +++
- .../host/i386/safe-syscall.inc.S              |  5 +++
- common-user/host/mips/safe-syscall.inc.S      |  1 +
- .../host/ppc64/safe-syscall.inc.S             |  0
- .../host/riscv/safe-syscall.inc.S             |  0
- .../host/s390x/safe-syscall.inc.S             |  0
- .../host/x86_64/safe-syscall.inc.S            |  5 +++
- {linux-user => common-user}/safe-syscall.h    |  3 ++
- linux-user/host/aarch64/host-signal.h         |  5 +++
- linux-user/host/aarch64/hostdep.h             | 20 ------------
- linux-user/host/alpha/host-signal.h           |  5 +++
- linux-user/host/arm/host-signal.h             |  5 +++
- linux-user/host/arm/hostdep.h                 | 20 ------------
- linux-user/host/i386/host-signal.h            |  5 +++
- linux-user/host/i386/hostdep.h                | 20 ------------
- linux-user/host/mips/host-signal.h            |  5 +++
- linux-user/host/ppc/host-signal.h             |  5 +++
- linux-user/host/ppc64/hostdep.h               | 20 ------------
- linux-user/host/riscv/host-signal.h           |  5 +++
- linux-user/host/riscv/hostdep.h               | 20 ------------
- linux-user/host/s390/host-signal.h            |  5 +++
- linux-user/host/s390x/hostdep.h               | 20 ------------
- linux-user/host/sparc/host-signal.h           |  9 ++++++
- linux-user/host/x86_64/host-signal.h          |  5 +++
- linux-user/host/x86_64/hostdep.h              | 20 ------------
- linux-user/safe-syscall.S                     | 31 +------------------
- linux-user/signal.c                           | 15 ++++++++-
- meson.build                                   |  2 ++
- 30 files changed, 125 insertions(+), 171 deletions(-)
- create mode 100644 common-user/common-safe-syscall.S
- rename {linux-user => common-user}/host/aarch64/safe-syscall.inc.S (95%)
- rename {linux-user => common-user}/host/arm/safe-syscall.inc.S (97%)
- rename {linux-user => common-user}/host/i386/safe-syscall.inc.S (96%)
- create mode 100644 common-user/host/mips/safe-syscall.inc.S
- rename {linux-user => common-user}/host/ppc64/safe-syscall.inc.S (100%)
- rename {linux-user => common-user}/host/riscv/safe-syscall.inc.S (100%)
- rename {linux-user => common-user}/host/s390x/safe-syscall.inc.S (100%)
- rename {linux-user => common-user}/host/x86_64/safe-syscall.inc.S (97%)
- rename {linux-user => common-user}/safe-syscall.h (98%)
-
+diff --git a/linux-user/host/aarch64/host-signal.h b/linux-user/host/aarch64/host-signal.h
+index 0c0b08383a..9770b36dc1 100644
+--- a/linux-user/host/aarch64/host-signal.h
++++ b/linux-user/host/aarch64/host-signal.h
+@@ -35,6 +35,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+     return uc->uc_mcontext.pc;
+ }
+ 
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++{
++    uc->uc_mcontext.pc = pc;
++}
++
+ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+ {
+     struct _aarch64_ctx *hdr;
+diff --git a/linux-user/host/alpha/host-signal.h b/linux-user/host/alpha/host-signal.h
+index e080be412f..f4c942948a 100644
+--- a/linux-user/host/alpha/host-signal.h
++++ b/linux-user/host/alpha/host-signal.h
+@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+     return uc->uc_mcontext.sc_pc;
+ }
+ 
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++{
++    uc->uc_mcontext.sc_pc = pc;
++}
++
+ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+ {
+     uint32_t *pc = (uint32_t *)host_signal_pc(uc);
+diff --git a/linux-user/host/arm/host-signal.h b/linux-user/host/arm/host-signal.h
+index efb165c0c5..6c095773c0 100644
+--- a/linux-user/host/arm/host-signal.h
++++ b/linux-user/host/arm/host-signal.h
+@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+     return uc->uc_mcontext.arm_pc;
+ }
+ 
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++{
++    uc->uc_mcontext.arm_pc = pc;
++}
++
+ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+ {
+     /*
+diff --git a/linux-user/host/i386/host-signal.h b/linux-user/host/i386/host-signal.h
+index 4c8eef99ce..abe1ece5c9 100644
+--- a/linux-user/host/i386/host-signal.h
++++ b/linux-user/host/i386/host-signal.h
+@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+     return uc->uc_mcontext.gregs[REG_EIP];
+ }
+ 
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++{
++    uc->uc_mcontext.gregs[REG_EIP] = pc;
++}
++
+ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+ {
+     return uc->uc_mcontext.gregs[REG_TRAPNO] == 0xe
+diff --git a/linux-user/host/mips/host-signal.h b/linux-user/host/mips/host-signal.h
+index ef341f7c20..c666ed8c3f 100644
+--- a/linux-user/host/mips/host-signal.h
++++ b/linux-user/host/mips/host-signal.h
+@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+     return uc->uc_mcontext.pc;
+ }
+ 
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++{
++    uc->uc_mcontext.pc = pc;
++}
++
+ #if defined(__misp16) || defined(__mips_micromips)
+ #error "Unsupported encoding"
+ #endif
+diff --git a/linux-user/host/ppc/host-signal.h b/linux-user/host/ppc/host-signal.h
+index a491c413dc..1d8e658ff7 100644
+--- a/linux-user/host/ppc/host-signal.h
++++ b/linux-user/host/ppc/host-signal.h
+@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+     return uc->uc_mcontext.regs->nip;
+ }
+ 
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++{
++    uc->uc_mcontext.regs->nip = pc;
++}
++
+ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+ {
+     return uc->uc_mcontext.regs->trap != 0x400
+diff --git a/linux-user/host/riscv/host-signal.h b/linux-user/host/riscv/host-signal.h
+index 3b168cb58b..a4f170efb0 100644
+--- a/linux-user/host/riscv/host-signal.h
++++ b/linux-user/host/riscv/host-signal.h
+@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+     return uc->uc_mcontext.__gregs[REG_PC];
+ }
+ 
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++{
++    uc->uc_mcontext.__gregs[REG_PC] = pc;
++}
++
+ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+ {
+     /*
+diff --git a/linux-user/host/s390/host-signal.h b/linux-user/host/s390/host-signal.h
+index 26990e4893..a524f2ab00 100644
+--- a/linux-user/host/s390/host-signal.h
++++ b/linux-user/host/s390/host-signal.h
+@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+     return uc->uc_mcontext.psw.addr;
+ }
+ 
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++{
++    uc->uc_mcontext.psw.addr = pc;
++}
++
+ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+ {
+     uint16_t *pinsn = (uint16_t *)host_signal_pc(uc);
+diff --git a/linux-user/host/sparc/host-signal.h b/linux-user/host/sparc/host-signal.h
+index 5e71d33f8e..e301c2c1ea 100644
+--- a/linux-user/host/sparc/host-signal.h
++++ b/linux-user/host/sparc/host-signal.h
+@@ -20,6 +20,15 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+ #endif
+ }
+ 
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++{
++#ifdef __arch64__
++    uc->uc_mcontext.mc_gregs[MC_PC] = pc;
++#else
++    &uc->uc_mcontext.gregs[REG_PC] = pc;
++#endif
++}
++
+ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+ {
+     uint32_t insn = *(uint32_t *)host_signal_pc(uc);
+diff --git a/linux-user/host/x86_64/host-signal.h b/linux-user/host/x86_64/host-signal.h
+index 883d2fcf65..c71d597eb2 100644
+--- a/linux-user/host/x86_64/host-signal.h
++++ b/linux-user/host/x86_64/host-signal.h
+@@ -15,6 +15,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+     return uc->uc_mcontext.gregs[REG_RIP];
+ }
+ 
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++{
++    uc->uc_mcontext.gregs[REG_RIP] = pc;
++}
++
+ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+ {
+     return uc->uc_mcontext.gregs[REG_TRAPNO] == 0xe
 -- 
 2.33.0
 
