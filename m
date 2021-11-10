@@ -2,87 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4338F44C50F
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 17:33:29 +0100 (CET)
-Received: from localhost ([::1]:55634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3341244C532
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 17:39:43 +0100 (CET)
+Received: from localhost ([::1]:48020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkqXQ-0008Mm-6D
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 11:33:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56390)
+	id 1mkqdS-0005P2-C9
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 11:39:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkqVz-0006mr-9U
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 11:31:59 -0500
-Received: from [2a00:1450:4864:20::432] (port=38479
- helo=mail-wr1-x432.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mkqVw-0005Uy-MF
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 11:31:58 -0500
-Received: by mail-wr1-x432.google.com with SMTP id u18so5043427wrg.5
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 08:31:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=RRiMz3znJmGWhuKEgUxCPJ+EjQg7cBMkSSYp5MG1VIg=;
- b=pP6g+0oU09HXOhwLF3xgKP4RZE4Ur/iBOXkrQHGHzY9cRxTC4oHOb0v3y7bY+/m34D
- DG4tzjPOYBLv3U3GyzoQFIqKEbr2L+1rY3XsCN/VgHul02Q4pt2XIS1ux5Pu9MziQ+Dc
- tECC8sDRUl58rYMWafwD7AE6Slvg0sgIxMkZqt0hc3IuJnTO2V4PBnwX1j5hWJgvVw2p
- m2QCYQ1h4nDqhHl6At0wnHuPG9z4ADKYeUW9nuxhPkGGqrY+AwbC1juW2WuEBUCmO9lK
- uW4huWFO6z8ZnCxTXkNwDCfMGOdx/2Se/9sdxvW9vfzoPgkNNPu/LlN28QO5ANCi66So
- rXBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=RRiMz3znJmGWhuKEgUxCPJ+EjQg7cBMkSSYp5MG1VIg=;
- b=Ft+/bW17gHhTwsQNL+J8qn8HXdFrpu2+mw7Fyumz9kfjGbrqJxcuhboj058JHH+hrF
- anqDq3u5HCJWBO6b9XcnXt6GFPrJCopTHPEbLYTxzk2muDsr2zqada/eypY1pUU+POpG
- +zjGoyKkXv/fGoQB428M1zkUZnQYS4qEdu776gJyg3ocy1T1anM5W7u9Ydv7BeHOGL/I
- hdpTb1vtExcCB4HqnfvrqJvohzBrA9mJkN3MCf//Ihu2AcFaRFMEnwigDrxF63WN6ZFV
- 4nHyKqupVRovf0k/xGau0cHAiiLqcYP0WHB+MTdAIDIVaLEDn4jtjJD3/3vjNU8MDNYS
- JnZw==
-X-Gm-Message-State: AOAM530gBhBDBtIfm10NM/qUe8r6OXRPU2zZwMEPPh7AqO69qKtAsWPB
- aKRg7w7LKEHfvQV94JW9NLV1OA==
-X-Google-Smtp-Source: ABdhPJwqQ6IZmEzBpTk3eru1sebkCdKminCQuwf1a/8S0jG4wpRqBQxOVT8q5YeT/UuLu50BFAj0Fw==
-X-Received: by 2002:adf:d1c2:: with SMTP id b2mr299919wrd.369.1636561914487;
- Wed, 10 Nov 2021 08:31:54 -0800 (PST)
-Received: from [192.168.8.106] (104.red-2-142-241.dynamicip.rima-tde.net.
- [2.142.241.104])
- by smtp.gmail.com with ESMTPSA id p19sm279680wmq.4.2021.11.10.08.31.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Nov 2021 08:31:54 -0800 (PST)
-Subject: Re: [RFC 2/4] linux-user/signal.c: Create a common
- rewind_if_in_safe_syscall
-To: Warner Losh <imp@bsdimp.com>
-References: <20211108023738.42125-1-imp@bsdimp.com>
- <20211108023738.42125-3-imp@bsdimp.com>
- <fa216460-3fa2-a5bc-f974-ea2c8cf6430e@linaro.org>
- <CANCZdfq5SbUE8Wq8MKsHHJdWuu++suZNuL490E7gqEjGHY+V0g@mail.gmail.com>
- <CANCZdfokdTN7QvNwhSCw1VoiZo5qvHM_c+XOU9JF+CMV3GZFjA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <87bcf9b8-499c-c5e2-9d13-7afb0c58d991@linaro.org>
-Date: Wed, 10 Nov 2021 17:31:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mkqXK-0001iB-HY; Wed, 10 Nov 2021 11:33:22 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:45103)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mkqXI-0005g5-Js; Wed, 10 Nov 2021 11:33:22 -0500
+Received: from [192.168.100.42] ([82.142.14.190]) by mrelayeu.kundenserver.de
+ (mreue108 [212.227.15.184]) with ESMTPSA (Nemesis) id
+ 1MqapC-1mOewh3h4a-00mbAP; Wed, 10 Nov 2021 17:33:12 +0100
+Message-ID: <fed70819-21be-b375-b2b8-2c34618f3d11@vivier.eu>
+Date: Wed, 10 Nov 2021 17:33:08 +0100
 MIME-Version: 1.0
-In-Reply-To: <CANCZdfokdTN7QvNwhSCw1VoiZo5qvHM_c+XOU9JF+CMV3GZFjA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PULL 03/54] target/ppc: Move load and store floating point
+ instructions to decodetree
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+To: David Gibson <david@gibson.dropbear.id.au>, peter.maydell@linaro.org,
+ clg@kaod.org, danielhb413@gmail.com, groug@kaod.org,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+References: <20211109055204.230765-1-david@gibson.dropbear.id.au>
+ <20211109055204.230765-4-david@gibson.dropbear.id.au>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20211109055204.230765-4-david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:cBnkTz2TAbv9hcMfXeqi2PymM9veNhZx2YcZD5yzNS52DsB9SLe
+ rnBOALdDBJ7PpMnRQ9tV6hKD7Ppfh8GWnfkjVk1AtbXDtLf19yrC4TeY3llxVIVwJev8uKU
+ jHk8aowyvqZyW/JNHVSbINJY2LDQntF0J5TBE24/3oZRL4XjE7i3wO00dB8J13jYxYmVSfs
+ ivv98Cd1/KUDzbyX0lukQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:MGTwzeB4VIA=:yEnOMFkqNPq4m8Fg6bg+bm
+ +8+QLwMlJdHA471aKui3nbCbq3IiDODM9bRsKKz3sd3xQxulRagZDHgAmLIRM0JjRbFApV2Es
+ 1RHsPVjaZ2n3Xli9z97CzIK32Ywf5jck24WWrC+n4Wyb6mpBD0VeF64EZhlr0yd6vgtW82ahI
+ //F4x5Q8GTdYBihN82xkkAdVF+Usw3Ekift7NEv1luErDpW8zXiT/n/RRTV/DRJbrc8rnwg+w
+ oGN4NgqCAKt4MweOe0H4t8ZAWFPd6KhxoQuUHmWTk4C5OhizlAewa7hSlZcQpUm9jAnIPv6ee
+ mkHd9WCZ5VeSXUlyUhreKfrREHhdn+0GpSOTrMVY1PCJMimjzySrQDkUDCg9vs4hczwQWp3Nk
+ MolOtwRQdUPIG9C/knXbl2HYyPR1LyyqlS/HVqpw7Tli2wd187Ft6cOlVLiYq6ntyUS6v8ZVY
+ Wefw8ZOw/+gW3bsxG4f/4SIseXUXPqsqWrw4jpmzUtOdaewDheMbub2c0ywU848Cy2uw5BAWm
+ LM8sEA0gcNwT0fAJwp2PI6YPKMgjuv34TnH5gRMm128h9eRJCfgzCG694AXae+myArtCYzKHx
+ 1p5l6jQ++Kd5WNNjEoh/LRAsAQJ+dB2ikt6u3AGZzCSlmhJ9hRTWrq0WybYBq6vYm13znTno3
+ DQq2WiO2Ugr3kQmgZE/rT2kVODN1KB5g+lNDDzaiQlYGjbKb1lvcHkiYFfwLdGhRNDGo=
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.678,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.678,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,25 +72,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe Mathieu-Daude <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: Fernando Eckhardt Valle <phervalle@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Fernando Eckhardt Valle <fernando.valle@eldorado.org.br>, qemu-ppc@nongnu.org,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/10/21 5:20 PM, Warner Losh wrote:
->         Although I think we can fairly safely drop HAVE_SAFE_SYSCALL.  It is required for
->         proper
->         operation.  As with host-signal.h, really.
+On 09/11/2021 06:51, David Gibson wrote:
+> From: Fernando Eckhardt Valle <phervalle@gmail.com>
 > 
->     Yes. The only possible use I can see for it is to allow people to bring up new
->     platforms more easily by deferring the signal-safe system call details until later in
->     that process.
+> Move load floating point instructions (lfs, lfsu, lfsx, lfsux, lfd, lfdu, lfdx, lfdux)
+> and store floating point instructions(stfs, stfsu, stfsx, stfsux, stfd, stfdu, stfdx,
+> stfdux) from legacy system to decodetree.
 > 
-> If we do, we'd need to remove the linux-user on a mips host tests from the CI pipeline. 
-> Those are the only ones left that don't use this that we test.
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Fernando Eckhardt Valle <fernando.valle@eldorado.org.br>
+> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> Message-Id: <20211029202424.175401-4-matheus.ferst@eldorado.org.br>
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> ---
+>   target/ppc/insn32.decode           |  24 +++
+>   target/ppc/translate/fp-impl.c.inc | 247 +++++++++--------------------
+>   target/ppc/translate/fp-ops.c.inc  |  29 ----
+>   3 files changed, 95 insertions(+), 205 deletions(-)
+> 
 
-Ack, thanks.  I'll take care of this next release.
+This patch breaks qemu linux-user with an ubuntu bionic chroot.
 
+The fix proposed by Matheus [1] fixes it for me.
+When will it be merged?
+It's needed in 6.2
 
-r~
+Thanks,
+Laurent
+
+[1] 
+https://patchew.org/QEMU/20211029202424.175401-1-matheus.ferst@eldorado.org.br/20211029202424.175401-4-matheus.ferst@eldorado.org.br/#c799859a-4fdc-9d69-7a87-5e69cee15ef3@eldorado.org.br
+
+diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
+index d1dbb1b96b..c9e05201d9 100644
+--- a/target/ppc/translate/fp-impl.c.inc
++++ b/target/ppc/translate/fp-impl.c.inc
+@@ -1328,7 +1328,7 @@ static bool do_lsfpsd(DisasContext *ctx, int rt, int ra, TCGv displ,
+          set_fpr(rt, t0);
+      }
+      if (update) {
+-        tcg_gen_mov_tl(cpu_gpr[rt], ea);
++        tcg_gen_mov_tl(cpu_gpr[ra], ea);
+      }
+      tcg_temp_free_i64(t0);
+      tcg_temp_free(ea);
 
