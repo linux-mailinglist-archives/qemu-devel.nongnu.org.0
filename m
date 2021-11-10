@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8151144C1FE
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 14:17:35 +0100 (CET)
-Received: from localhost ([::1]:57520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E42E44C215
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Nov 2021 14:29:18 +0100 (CET)
+Received: from localhost ([::1]:34810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mknTq-0007ZG-L1
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 08:17:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55462)
+	id 1mknfB-0004ph-1Y
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 08:29:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mknRE-0006OG-8R; Wed, 10 Nov 2021 08:14:53 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:37867)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1mknZN-0002DD-CN
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:23:17 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:42126)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mknRC-0007o9-6F; Wed, 10 Nov 2021 08:14:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=xEbAHzBZGManaZn7xLbPWUqVC2J5Xz3w2kxcX8Y/eSA=; b=pvH94jE/7YJeV/ifdbFPGD+iQr
- 8R3OyTWRzJZKzt0IuItK2VorxNh0k08VkYRbx2Jw8D3BBbmsNqq/zJlabOekd9DPAHJlp3BaSiPbv
- jqF4m9kBj07pTaH7hgzrzTg5AbYhSNh6m8Ekq+YGIMKcx2j7FpzSAN+rC5P2onZaiK6Sfvf/aTEnZ
- BDeyovIkJFDoL5oIlGYAuct7O+BlxLchCd3PO4fQSZDuBkls9b2fCSX4HcYbYCMnJXsZ+oRuU0ozN
- 8YyCh2t0IFETd9FH3iGc/WwCgHoW5HmNHm1NCBGCtNo0IFYa1XVR3UNybCxwONBUscebF0OFfkpSH
- y9gMxvACkrVUDiUduMGvXWEPDb0TG//SVMI40iGvylYubkkj4DDIIaumlT2j4Rq8pvryeMLYhrm73
- eWNMksQIQqBtwFEKuI42za0Zf54GkiZIps6rhUkBIVmBvLi5MIFBhJocuI2Zz9qG8k4iRxymTnMHx
- vhmMC2e7MeP4HvSmiL6U38e8P+Q/2nnP3wcCgRNPcO8gucyeMlO7ULBgRXHWYAbiZcTSv2chkjPBD
- S3O0CiTuuwKENZQ5v5HOSMGpXaAlME0q6m7URjp1tHwTyoFFDO0qCCp62H8yVN1DE1XffR8JPYExR
- 1RrcNWhmx6ychb701dO+wLbMGGFDf4z0GBCCt+FDA=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Amit Shah <amit@kernel.org>, David Hildenbrand <david@redhat.com>,
- Greg Kurz <groug@kaod.org>, virtio-fs@redhat.com,
- Eric Auger <eric.auger@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v2 0/3] virtio: increase VIRTQUEUE_MAX_SIZE to 32k
-Date: Wed, 10 Nov 2021 14:14:43 +0100
-Message-ID: <2300275.fgjvgC56zr@silver>
-In-Reply-To: <YYuZfkfbxcX0JDRN@stefanha-x1.localdomain>
-References: <cover.1633376313.git.qemu_oss@crudebyte.com>
- <25571471.tMsSMU6axZ@silver> <YYuZfkfbxcX0JDRN@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1mknZK-00010d-Ab
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 08:23:17 -0500
+Received: from [192.168.12.10] (unknown [195.68.53.70])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 21D7B20786;
+ Wed, 10 Nov 2021 13:23:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1636550591;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=i+aTsSoQTtoea2eWSXaOJFtXmhmfkcmjA7JOJ+loFV4=;
+ b=syCqRB/FK4o1Zu0DpSYuxLqDindSx2eOtKb8qzmsa5TXDRV/uiWHJ/ESULENEG5PTI1sAk
+ wkFBqKl09wZiWdb4BTE5bo86jint5Zo4/8umcfGf+j1n0myrwnAH6zMAKUYAJ8OWccJNyd
+ FiBcNhVhhLtckTXyPdTQEGLhAvHxuJg=
+Message-ID: <ca9fedf8-92bc-cb74-8448-74793429eaad@greensocs.com>
+Date: Wed, 10 Nov 2021 14:23:09 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.2
+Subject: Re: [PATCH] qmp: Stabilize preconfig
+Content-Language: en-US-large
+To: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <b31f442d28920447690a6b8cee865bdbacde1283.1635160056.git.mprivozn@redhat.com>
+ <87bl3dfg9v.fsf@dusky.pond.sub.org>
+ <bb896561-9d0c-6c6c-4bdb-5e7ef5ed71d5@redhat.com>
+ <YYAATW1JQmzpDPhu@redhat.com> <87zgqlzmxi.fsf@dusky.pond.sub.org>
+ <40bc6df2-496f-b303-2c10-f28ab4f9608c@redhat.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
+In-Reply-To: <40bc6df2-496f-b303-2c10-f28ab4f9608c@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.678,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,92 +71,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 10. November 2021 11:05:50 CET Stefan Hajnoczi wrote:
-> > > > So looks like it was probably still easier and realistic to just add
-> > > > virtio
-> > > > capabilities for now for allowing to exceed current descriptor limit.
-> > > 
-> > > I'm still not sure why virtio-net, virtio-blk, virtio-fs, etc perform
-> > > fine under today's limits while virtio-9p needs a much higher limit to
-> > > achieve good performance. Maybe there is an issue in a layer above the
-> > > vring that's causing the virtio-9p performance you've observed?
-> > 
-> > Are you referring to (somewhat) recent benchmarks when saying those would
-> > all still perform fine today?
+
+
+On 11/10/21 13:54, Michal Prívozník wrote:
+> On 11/3/21 9:02 AM, Markus Armbruster wrote:
+>> Daniel P. Berrangé <berrange@redhat.com> writes:
+>>
+>>> On Mon, Nov 01, 2021 at 03:37:58PM +0100, Michal Prívozník wrote:
+>>>> On 10/25/21 2:19 PM, Markus Armbruster wrote:
+>>>>> Michal Privoznik <mprivozn@redhat.com> writes:
+>>>>>
+>>>>>> The -preconfig option and exit-preconfig command are around for
+>>>>>> quite some time now. However, they are still marked as unstable.
+>>>>>> This is suboptimal because it may block some upper layer in
+>>>>>> consuming it. In this specific case - Libvirt avoids using
+>>>>>> experimental features.
+>>>>>>
+>>>>>> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+>>>>>
+>>>>> If I remember correctly, the motivation for -preconfig was NUMA
+>>>>> configuration via QMP.  More uses may have appeared since.
+>>>>>
+>>>>> Back then, I questioned the need for yet another option and yet another
+>>>>> state: why not -S?
+>>>>>
+>>>>> The answer boiled down to
+>>>>>
+>>>>> 0. Yes, having just one would be a simpler and cleaner interface, but
+>>>>>
+>>>>> 1. the godawful mess QEMU startup has become makes -S unsuitable for
+>>>>>     some things we want to do, so we need -preconfig,
+>>>>>
+>>>>> 2. which is in turn unsuitable for other things we want to do, so we
+>>>>>     still need -S".
+>>>>>
+>>>>> 3. Cleaning up the mess to the point where "simpler and cleaner" becomes
+>>>>>     viable again is not in the cards right now.
+>>>>
+>>>> I see a difference between the two. -preconfig starts QEMU in such a way
+>>>> that its configuration can still be changed (in my particular use case
+>>>> vCPUs can be assigned to NUMA nodes), while -S does not allow that. If
+>>>> we had one state for both, then some commands must be forbidden from
+>>>> executing as soon as 'cont' is issued. Moreover, those commands would
+>>>> need to do much more than they are doing now (e.g. regenerate ACPI table
+>>>> after each run). Subsequently, validating configuration would need to be
+>>>> postponed until the first 'cont' because with just one state QEMU can't
+>>>> know when the last config command was issued.
+>>
+>> Doesn't all this apply to x-exit-preconfig already?
+>>
+>> * Some commands are only allowed before x-exit-preconfig,
+>>    e.g. set-numa-node.
+>>
+>> * The complete (pre-)configuration is only available at
+>>    x-exit-preconfig.  In particular, ACPI tables can be fixed only then.
 > 
-> I'm not referring to specific benchmark results. Just that none of those
-> devices needed to raise the descriptor chain length, so I'm surprised
-> that virtio-9p needs it because it's conceptually similar to these
-> devices.
-
-I would not say virtio-net and virtio-blk were comparable with virtio-9p and 
-virtio-fs. virtio-9p and virtio-fs are fully fledged file servers which must 
-perform various controller tasks before handling the actually requested I/O 
-task, which inevitably adds latency to each request, whereas virtio-net and 
-virtio-blk are just very thin layers that do not have that controller task 
-overhead per request. And a network device only needs to handle very small 
-messages in the first place.
-
-> > Vivek was running detailed benchmarks for virtiofs vs. 9p:
-> > https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg02704.html
-> > 
-> > For the virtio aspect discussed here, only the benchmark configurations
-> > without cache are relevant (9p-none, vtfs-none) and under this aspect the
-> > situation seems to be quite similar between 9p and virtio-fs. You'll also
-> > note once DAX is enabled (vtfs-none-dax) that apparently boosts virtio-fs
-> > performance significantly, which however seems to corelate to numbers
-> > when I am running 9p with msize > 300k. Note: Vivek was presumably
-> > running 9p effecively with msize=300k, as this was the kernel limitation
-> > at that time.
-> Agreed, virtio-9p and virtiofs are similar without caching.
+> So why was preconfig introduced in the first place? I mean, from
+> libvirt's POV it doesn't really matter whether it needs to use both
+> -preconfig and -S or just -S (or some new -option). But ideally, we
+> would start QEMU with nothing but monitor config and then pass whole
+> configuration via the monitor. I thought it would be simpler for QEMU if
+> it had three states.
 > 
-> I think we shouldn't consider DAX here since it bypasses the virtqueue.
-
-DAX bypasses virtio, sure, but the performance boost you get with DAX actually 
-shows the limiting factor with virtio pretty well.
-
-> > To bring things into relation: there are known performance aspects in 9p
-> > that can be improved, yes, both on Linux kernel side and on 9p server
-> > side in QEMU. For instance 9p server uses coroutines [1] and currently
-> > dispatches between worker thread(s) and main thread too often per request
-> > (partly addressed already [2], but still WIP), which accumulates to
-> > overall latency. But Vivek was actually using a 9p patch here which
-> > disabled coroutines entirely, which suggests that the virtio transmission
-> > size limit still represents a bottleneck.
+> Michal
 > 
-> These results were collected with 4k block size. Neither msize nor the
-> descriptor chain length limits will be stressed, so I don't think these
-> results are relevant here.
 > 
-> Maybe a more relevant comparison would be virtio-9p, virtiofs, and
-> virtio-blk when block size is large (e.g. 1M). The Linux block layer in
-> the guest will split virtio-blk requests when they exceed the block
-> queue limits.
 
-I am sorry, I cannot spend time for more benchmarks like that. For really 
-making fair comparisons I would need to review all their code on both ends, 
-adjust configuration/sources, etc.
+IMHO only introducing preconfig allowed to pause qemu at an early-enough 
+stage to do qemu configuration. '-S' was just way too late.
 
-I do think that I performed enough benchmarks and tests to show that 
-increasing the transmission size can significantly improve performance with 
-9p, and that allowing to exceed the queue size does make sense even for small 
-transmission sizes (e.g. max. active requests on 9p server side vs. max. 
-transmission size per request).
+We can hope being able, some day, to start with only preconfig and 
+monitor setup and do all the rest using the monitor. AFAIK, right now 
+accelerator, machine and device options cannot be configured on the 
+monitor even with preconfig. For the devices it should be doable soon.
 
-The reason for the performance gain is the minimum latency involved per 
-request, and like I said, that can be improved to a certain extent with 9p, 
-but that will take a long time and it could not be eliminated entirely.
-
-As you are apparently reluctant for changing the virtio specs, what about 
-introducing those discussed virtio capabalities either as experimental ones 
-without specs changes, or even just as 9p specific device capabilities for 
-now. I mean those could be revoked on both sides at any time anyway.
-
-Best regards,
-Christian Schoenebeck
-
-
+Damien
 
