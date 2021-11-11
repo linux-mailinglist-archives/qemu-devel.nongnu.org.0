@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5068744D861
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 15:34:33 +0100 (CET)
-Received: from localhost ([::1]:34810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6349A44D86C
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 15:37:06 +0100 (CET)
+Received: from localhost ([::1]:44168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlB9s-0000fn-ES
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 09:34:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41802)
+	id 1mlBCL-00070L-Gf
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 09:37:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mlAvU-0007hd-5g
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:19:40 -0500
-Received: from [2a00:1450:4864:20::436] (port=33701
- helo=mail-wr1-x436.google.com)
+ id 1mlAw3-0000HE-Gj
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:20:15 -0500
+Received: from [2a00:1450:4864:20::435] (port=40873
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mlAvS-00079q-DB
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:19:39 -0500
-Received: by mail-wr1-x436.google.com with SMTP id d24so10153741wra.0
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 06:19:38 -0800 (PST)
+ id 1mlAw2-0007GK-0p
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:20:15 -0500
+Received: by mail-wr1-x435.google.com with SMTP id r8so10042396wra.7
+ for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 06:20:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=3fOFkohG3qyA/UV33IdKTYFO67S0NXKRuwHDuPMC+8I=;
- b=ztObB9YL8SX4GZGgoyzns5K6sqMjnpVEWtphKznxvuzQYl/rBMT+0XeeJe5VpWXvOj
- ANJ0ugfJkFCEMOjE0b3P6pk6P2Io0pzo9yQm5PzEKMiulCDAxW0yRYLLh5X4AqLmPmJZ
- ro8Go7P33ScuHae5MACCBahB0ZV7Fj+WT529lxvLiP/wk58nEIfyLvgnyXaDCZmcoq9m
- Q7AuqCCVxtgbcY9bDFhm/tKB42zuYNGUcTaE3Df5ahgIwdrphz2eA+PmCZdRbwnNsNrg
- wR1BOA13AK4dE6LqlxvMHhMsmz/J4bo12B2IH7tcYdZG/dyhK9FG0fXjSXJ6cIS5RwO+
- iNgQ==
+ bh=2wvM7CeXeb/PhI4rNFjtqVANMHU9c8ONHneZAMpEmtQ=;
+ b=oZH0yA/SfmXxNsSCglx9iKXRMUlFu+DD0OQJ1OwMlyQsM34+KUWH7W4RtpIcbPOT98
+ vYuL1J+2Yl9R7tggp6HWz+Dk8hkGn1rXjUECH7HiwoblmVo+4qPQtQlg/cRnzLcaSNrU
+ 7c5RsBd0TE2lKSqjz2sYm1umfa+AzUPtji8yjalxa/lQ6+OjFLrCWYheBsJO6+249gjN
+ iNQDQnW0O+7+rOmcPNh/J43Kv7ZYXMS6L8gGKmyBcV0EJmAn2m8GWMJdxWATUVyZn/5D
+ kBrCWJKTLSiDuB9fzeHAS2b6nXwBW0LmbTnlZQpJDvNGsU+5IRGfwsGpjOmZY3knPFR9
+ a89A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=3fOFkohG3qyA/UV33IdKTYFO67S0NXKRuwHDuPMC+8I=;
- b=lRpEwHo4w9BnuMCbOeiOr7vWoSiw0MN73b5ldrHuNo0up+AMBt/RUwNZU+ffeNtDXK
- dQxYoxt2ZZYbLVDxc8Ej2b2/+u30iBURLLcPngsSW8kpa3wkMT/T6+MyUTtaSb0EH+Ev
- /QsnD2TudGz8GhJHWb8l/W90IevQfFwCGeIhxrqTJuLnv106kOOaqkcwQzGBjG+YGEXn
- xe5gu7YkLzmmBmui/8l35FWRSLdAVe5xXusdmQshlIEZ6qosycNu/d+gcMKPSiOqGpyv
- 7oNXvoL0Mx7r9HxzKA5mGd0HbcrJ+3sVuul9tfC9lWpL7rdEqAQ5YTgS33KAkjuNR7tE
- C4Qg==
-X-Gm-Message-State: AOAM532ryV1u2dw6rX4H6pxo0pEFroLvj0jUabWxnPe/SQyWXl2NqorI
- ud/CqhVPhWjsaOeEzCnM48M/Mg==
-X-Google-Smtp-Source: ABdhPJx7ItYJj2ludhvJHINRzw+Xb0mZavcH30OIMEfn4vzbisA30BVI9EjLr8fRqD1nt1E3xASuFg==
-X-Received: by 2002:a05:6000:1289:: with SMTP id
- f9mr9562948wrx.329.1636640376857; 
- Thu, 11 Nov 2021 06:19:36 -0800 (PST)
+ bh=2wvM7CeXeb/PhI4rNFjtqVANMHU9c8ONHneZAMpEmtQ=;
+ b=awqmosF9PWA5+URr3INK7FEP47PX48HGFBvBN99y0WTEtYR71stGaj7JJLQU6KDy0P
+ 2XBpLijmJMZ/D8t7emiY8lewod/8ftd2XOJi37qP0IAkiDR1DqAIyh6uRuS93Mu+GI6z
+ 8MrMd3lh+9EBgJeQqmp8QJle3H4WzSKw2oi/+mB1i8mejjGk25a7Zu8L0jlhh8Dq6rvB
+ WAkKIwxzyo/AW/zJ8OrJ4yI8s3f98hkv2+dYrezzpNvSLD5Dt1UEKuADmXpcmCcy/OBN
+ rTDHXYJpVO0AGCdPnQ1byGRFlfzhPppY6iadIHbX+Anxb8h7QGvmsjYLfP6IktvXyQfi
+ m50A==
+X-Gm-Message-State: AOAM530ZUYgh08t6Nl1SuvU1pCN1Uxn/oRqqer9TJAl6h8WS5LRXa6ye
+ I6zbcoaqpQDpi0N9F36H4u/fOQ==
+X-Google-Smtp-Source: ABdhPJxpbT+4n2rDjy4awOxAzlcGtmeV3d6OgrZ35GaD7QY9vdyquha3VCrOmk1x9OioNX8sO3YE4Q==
+X-Received: by 2002:a5d:630b:: with SMTP id i11mr9089572wru.316.1636640412292; 
+ Thu, 11 Nov 2021 06:20:12 -0800 (PST)
 Received: from [192.168.8.106] (10.red-95-125-227.dynamicip.rima-tde.net.
  [95.125.227.10])
- by smtp.gmail.com with ESMTPSA id m21sm3001251wrb.2.2021.11.11.06.19.35
+ by smtp.gmail.com with ESMTPSA id z11sm3075045wrt.58.2021.11.11.06.20.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Nov 2021 06:19:36 -0800 (PST)
-Subject: Re: [PATCH-for-6.2 v3 4/6] tests/unit/test-smp-parse: Simplify
- pointer to compound literal use
+ Thu, 11 Nov 2021 06:20:11 -0800 (PST)
+Subject: Re: [PATCH-for-6.2 v3 5/6] tests/unit/test-smp-parse: Constify some
+ pointer/struct
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20211111100351.2153662-1-philmd@redhat.com>
- <20211111100351.2153662-5-philmd@redhat.com>
+ <20211111100351.2153662-6-philmd@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2993b0d3-b9a0-35eb-2a20-c7580220f04e@linaro.org>
-Date: Thu, 11 Nov 2021 15:19:33 +0100
+Message-ID: <ce2f3362-d142-bfe2-4328-f17bb0b462dd@linaro.org>
+Date: Thu, 11 Nov 2021 15:20:09 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211111100351.2153662-5-philmd@redhat.com>
+In-Reply-To: <20211111100351.2153662-6-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -52
 X-Spam_score: -5.3
 X-Spam_bar: -----
@@ -101,13 +100,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/11/21 11:03 AM, Philippe Mathieu-Daudé wrote:
-> We can simply use a local variable (and pass its pointer) instead
-> of a pointer to a compound literal.
+> Declare structures const when we don't need to modify
+> them at runtime.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<philmd@redhat.com>
 > ---
->   tests/unit/test-smp-parse.c | 64 ++++++++++++++++++-------------------
->   1 file changed, 32 insertions(+), 32 deletions(-)
+>   tests/unit/test-smp-parse.c | 12 ++++++------
+>   1 file changed, 6 insertions(+), 6 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
