@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E71E244D295
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 08:40:49 +0100 (CET)
-Received: from localhost ([::1]:55294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC63844D28F
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 08:39:42 +0100 (CET)
+Received: from localhost ([::1]:52698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml4hV-00007Y-40
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 02:40:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36164)
+	id 1ml4gP-0006pm-TX
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 02:39:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ml4d4-0003ed-KM
+ id 1ml4d4-0003ec-KX
  for qemu-devel@nongnu.org; Thu, 11 Nov 2021 02:36:14 -0500
-Received: from [2a00:1450:4864:20::531] (port=35414
- helo=mail-ed1-x531.google.com)
+Received: from [2a00:1450:4864:20::52f] (port=38771
+ helo=mail-ed1-x52f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ml4d2-000797-GO
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 02:36:14 -0500
-Received: by mail-ed1-x531.google.com with SMTP id g14so20708428edz.2
+ id 1ml4d2-000798-Ge
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 02:36:13 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id z21so20618034edb.5
  for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 23:36:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=etGpZnUH6+XeaKsMSHDhZquxTLfs/LFfqt5bm3WGGAM=;
- b=gelcG1ngOydzfjtwEYOUIGjdbIpb5N01vNeYGpj+qthVw47wfeN7dkFPgiQ9LoD2Y3
- H/oVrXLl0zBlL1h+4iKn85DCherPd1WL0WpTfVi1glA1edfSBiGg0TuABmF5zzYLlGhN
- vIhdxozxHfyaVRcVLNjtEiHIOVZwkNwRQfSwhU/6CPSjOeCxoQD6c+jA/MkVqL5bgqGp
- k6hrpjWt9KcAHuO14NvDd9sdT/SLSKI7eyj5AUSaIK78GYmdbGQhTlIhZicbghFteW+o
- Z5xuUfJPEWIlnGPUupIGmMzrh6rTuAHJl60uylZKjLQCe78Dkh0wIIUraw7msWDJWD45
- CSNQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=uf2jq1W6vW08aozBiEOJUT0U2HATlOOWfn5+VD0PxHA=;
+ b=itBzEHnwMQaYiCBtTFYk2UV0rv2UYYqv0nSq2ScJ44xeCWKfeVMcCpOwRfKa6xI5gS
+ 7R32B/jGjQKkCzPTU6VCNUGIMw1Uo5KZ/vGldhAPAl+5yVNMmyDsgugdjw+2AkVAb1f7
+ geAR64+Erpd9dz5QjiMh+cD32G6hDeZtrbuNw0P8WEdXO7v7asgEXO2f8KqXgCJahZ4O
+ 6LPvcmoAXRT09b84PdsFjhvVC8+fWN/kOOApWEVPlmL6fjcdfspT/sPVi+0Yzn3MGYk0
+ KPIzjxyepd0l+5UYTSffUSV8J+Amt7Stx7ANncpwJWSSwakYWleCyWWeMFYA25YOE11s
+ cluQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=etGpZnUH6+XeaKsMSHDhZquxTLfs/LFfqt5bm3WGGAM=;
- b=YcjhYHRqW6pMvnk1AcXHqU7TfiYBB8c2KDFPcvrYsbTvgt6w98+QexGE7A8Gce89Im
- 2nf+SKOQmKl8YbgBsjHzQL9V2+8+AeqmjK4yZC2a4LEHG1ZK1RMWrPmT67W8gEJ0OLnG
- +txpGQHNwC9NCqkOlTiQEeR8i0M2m9padfrKv/Az89S3oW7v9DNVaccHc/UgrWUU3upm
- xStFiPQsRL8eXn3T6X24qe4YPsuPE/TDtgkg6EFwn18fUhVHuOC6pmslJz5bhGsL79KU
- k+8debQ182L+xxGjB/T8wxxh2hDkkCJOJKLwHQTpM2F5MSsV5xyTYRry2/qfvvBJyNe2
- WyEA==
-X-Gm-Message-State: AOAM532w53XQeg3f/dGj3eTBgRlkjOmOk6PiTLeqXeTNmL0mzVgFCtfG
- liOFCLwUauIn8izzNCwH0lubYmuzAHo=
-X-Google-Smtp-Source: ABdhPJyEMNFafb5S5F1d+tQ7I8QFrBH63h/xwra5S8BDiIlY5NZQ2vzycD7s4lXl8jJgfVwcN1Se3w==
-X-Received: by 2002:a17:906:c041:: with SMTP id
- bm1mr6991562ejb.280.1636616169202; 
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=uf2jq1W6vW08aozBiEOJUT0U2HATlOOWfn5+VD0PxHA=;
+ b=cfyvmGLRIXHErE10BeXpSDIK4i9US2oC3tHzsJ/+hSOD3IYefVj/alcWb0Cs5lURVQ
+ lt0GI91j3Eog+N4DBTYwZA/KFADuS23HmCkjhTpCBtP+dcgLSFlS/FixgUxdRvrxsmhd
+ RfPyACESsWtT9OAMcTXtbsuNNRcbdekxYugzv5JeDxdLrCTPEOM4Dddkyb4KYgBGGVPG
+ Gco2zLFIaLwNzueQMaNu6Pb2g0fhsvAZ1uenzx0r4Tss2H3oJ90CSyWW49LyDJsXK+dN
+ HqKXb+FYmNvgHVEiLeUPgFLW30ZQNGYy4e3Xi90bb4CzX03fgpZRRye8GsxuxcFaX1rK
+ DMiA==
+X-Gm-Message-State: AOAM530qRTtKlRtfT9PVhRQ0q3w53fMJHwMbY/8BBLihbu+WJImyClQL
+ jRwlX/dgR/960u04QhlMSOtabEU/xx0=
+X-Google-Smtp-Source: ABdhPJwdXA2lRxzl8/OJ5RQks0WU4oJpFn0foUxmGn5go2PXF2k7BocZp3+QIMB75MiZbleHm65QLQ==
+X-Received: by 2002:a17:907:7242:: with SMTP id
+ ds2mr7017869ejc.269.1636616169805; 
  Wed, 10 Nov 2021 23:36:09 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id w1sm1062098edd.49.2021.11.10.23.36.08
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id w1sm1062098edd.49.2021.11.10.23.36.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Nov 2021 23:36:08 -0800 (PST)
+ Wed, 10 Nov 2021 23:36:09 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/5] x86, RCU/TCG patches for QEMU 6.2-rc1
-Date: Thu, 11 Nov 2021 08:36:02 +0100
-Message-Id: <20211111073607.195697-1-pbonzini@redhat.com>
+Subject: [PULL 1/5] target/i386: sgx: mark device not user creatable
+Date: Thu, 11 Nov 2021 08:36:03 +0100
+Message-Id: <20211111073607.195697-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211111073607.195697-1-pbonzini@redhat.com>
+References: <20211111073607.195697-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::531
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -86,46 +87,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 114f3c8cc427333dbae331dfd2ecae64676b087e:
+The device is created by the machine based on the sgx-epc property.
+It should not be created by users.
 
-  Merge remote-tracking branch 'remotes/philmd/tags/avocado-20211108' into staging (2021-11-08 18:50:09 +0100)
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/i386/sgx-epc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-are available in the Git repository at:
-
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to 2c3132279b9a962c27adaea53b4c8e8480385706:
-
-  sgx: Reset the vEPC regions during VM reboot (2021-11-10 22:57:40 +0100)
-
-----------------------------------------------------------------
-* Fixes for SGX
-* force_rcu notifiers
-
-----------------------------------------------------------------
-Greg Kurz (2):
-      rcu: Introduce force_rcu notifier
-      accel/tcg: Register a force_rcu notifier
-
-Paolo Bonzini (2):
-      target/i386: sgx: mark device not user creatable
-      numa: avoid crash with SGX and "info numa"
-
-Yang Zhong (1):
-      sgx: Reset the vEPC regions during VM reboot
-
- accel/tcg/tcg-accel-ops-mttcg.c | 26 +++++++++++++++++++++
- accel/tcg/tcg-accel-ops-rr.c    | 10 +++++++++
- hw/core/numa.c                  |  7 ++++++
- hw/i386/sgx-epc.c               |  1 +
- hw/i386/sgx.c                   | 50 +++++++++++++++++++++++++++++++++++++++++
- include/qemu/rcu.h              | 15 +++++++++++++
- util/rcu.c                      | 19 ++++++++++++++++
- 7 files changed, 128 insertions(+)
+diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
+index 55e2217eae..e508827e78 100644
+--- a/hw/i386/sgx-epc.c
++++ b/hw/i386/sgx-epc.c
+@@ -154,6 +154,7 @@ static void sgx_epc_class_init(ObjectClass *oc, void *data)
+     dc->realize = sgx_epc_realize;
+     dc->unrealize = sgx_epc_unrealize;
+     dc->desc = "SGX EPC section";
++    dc->user_creatable = false;
+     device_class_set_props(dc, sgx_epc_properties);
+ 
+     mdc->get_addr = sgx_epc_md_get_addr;
 -- 
 2.33.1
+
 
 
