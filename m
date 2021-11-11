@@ -2,72 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67AF944D42B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 10:38:23 +0100 (CET)
-Received: from localhost ([::1]:47594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D00E44D42E
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 10:39:29 +0100 (CET)
+Received: from localhost ([::1]:51044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml6XF-0001tf-Hf
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 04:38:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58490)
+	id 1ml6YK-0004CK-Cz
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 04:39:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ml6VP-0000ve-IT
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 04:36:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56555)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ml6Wl-0002Ao-UE
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 04:37:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52961)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ml6VN-0005yz-IJ
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 04:36:27 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ml6Wj-00066p-Vu
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 04:37:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636623384;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=160JE9bA83uJnldDIUwa+cG1X5X3zgQ0q5li8+afg90=;
- b=IuQHF/ViKLdNMfRoN0NcApTQgreRNtjh94D07UguhvdkXgLEKq7AH6e4B9vnuFxE33+Toh
- vtEo+OVhUPgA8IQ6ObiFgEAj9VQvfx/I0bI/IWFqHPIgkeu/eAJGeVFBd8fl9Ws9WRKiou
- EqRL85W647BalLnPy2eHIXWjIgtlvhQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-10-JUR-1TVDNHyshW6fg--6ZQ-1; Thu, 11 Nov 2021 04:36:23 -0500
-X-MC-Unique: JUR-1TVDNHyshW6fg--6ZQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B9151006AA0;
- Thu, 11 Nov 2021 09:36:22 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.115])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6753B19C59;
- Thu, 11 Nov 2021 09:35:39 +0000 (UTC)
-Date: Thu, 11 Nov 2021 09:35:37 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH 0/6] RfC: try improve native hotplug for pcie root ports
-Message-ID: <YYzj6Yizd+ESnoOE@redhat.com>
-References: <20211011120504.254053-1-kraxel@redhat.com>
- <20211110065942-mutt-send-email-mst@kernel.org>
- <20211111075306.7dvpzewgclsddku6@sirius.home.kraxel.org>
- <20211111031646-mutt-send-email-mst@kernel.org>
+ s=mimecast20190719; t=1636623469;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Vmgu90SmsVXHNpZK8Is++ZKKZKVewMZzDqeSGc2YAk4=;
+ b=BQes9AainssL8OUdalnyWEznumcnJQyDFZhnUAwscDqpIfc/h0iVui3ma4ZgsRCHL0G0Ya
+ uryXuLdQS88pPTFh/nFkRLludxXzbTe/TqGnb2JDyiC06dmaVL4UbOKlOemGoNklD57pVJ
+ aGjkhG0RrgYCvkdU/7EVmtid5xsrJGM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-227-6Abu7Iv3OeGzSRC0bzkupg-1; Thu, 11 Nov 2021 04:37:48 -0500
+X-MC-Unique: 6Abu7Iv3OeGzSRC0bzkupg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ z126-20020a1c7e84000000b003335e5dc26bso1190741wmc.8
+ for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 01:37:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Vmgu90SmsVXHNpZK8Is++ZKKZKVewMZzDqeSGc2YAk4=;
+ b=8OnvI0y1xiZ+OChprchehyydy5y4aEm5nNk+BP7dSwaMxmQ78VkJZ/hVXA6ZaPpRxY
+ S6XQrm6TnGD01mh9jWB8/SKs6xWaILcZa6LfbaYLo7xIqz7lvDTrs6gTtpvA1lR4qo0W
+ CgXlGamqvYnzLNak6qsus37VVwo/SO0/lOQeD8V84FF3uRtd2br1kG1zwogM2LlID2Z8
+ 27gngT2lswpJulkqQhURCHjPyA9GH9Uei88/AlVkYNDh2Pe86KGkbRMDVThdv80TtEnN
+ +hNnySzRqPEms1Paa+F8Q890BASngSqVsfaxCRLNwhGpOxI0FXNJLC4uGtPlhLdXrCYv
+ d0Nw==
+X-Gm-Message-State: AOAM533S/V6FBfjawLqAUJzjWEyRuP8JtgoheSgYHzfHKwfEFkIEVuV6
+ hhGwcAVrmzFB82TySr6wAmG7mYp7VF/eOsSm7EZOEFnCVGjpppD3jz6Bmr+b/7lVO9AaeidfExd
+ BThLxgJ7h/TFm05Y=
+X-Received: by 2002:a1c:23d2:: with SMTP id j201mr2389587wmj.76.1636623467108; 
+ Thu, 11 Nov 2021 01:37:47 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz95fmMUc/+KC4uz0fXK5K+xJYLfHerzU/bBfh5ZPeNIspocf83GwfE/Hr4+RJMZNVcFj9p+A==
+X-Received: by 2002:a1c:23d2:: with SMTP id j201mr2389553wmj.76.1636623466813; 
+ Thu, 11 Nov 2021 01:37:46 -0800 (PST)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id o3sm8900785wms.10.2021.11.11.01.37.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Nov 2021 01:37:46 -0800 (PST)
+Message-ID: <440cee74-13e0-ba38-070f-49f939f33319@redhat.com>
+Date: Thu, 11 Nov 2021 10:37:45 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211111031646-mutt-send-email-mst@kernel.org>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v4 2/2] tests/unit: Add an unit test for smp parsing
+To: "wangyanan (Y)" <wangyanan55@huawei.com>, qemu-devel@nongnu.org
+References: <20211028150913.1975305-1-philmd@redhat.com>
+ <20211028150913.1975305-3-philmd@redhat.com>
+ <fd32e519-f970-d039-8291-897363b20add@redhat.com>
+ <14250bbd-c3fb-9afc-f08d-587326f0382c@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <14250bbd-c3fb-9afc-f08d-587326f0382c@huawei.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -74
+X-Spam_score: -7.5
+X-Spam_bar: -------
+X-Spam_report: (-7.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-3.999, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,49 +101,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Cc: Andrew Jones <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 11, 2021 at 03:20:07AM -0500, Michael S. Tsirkin wrote:
-> On Thu, Nov 11, 2021 at 08:53:06AM +0100, Gerd Hoffmann wrote:
-> >   Hi,
-> > 
-> > > Given it's a bugfix, and given that I hear through internal channels
-> > > that QE results so far have been encouraging, I am inclined to bite the
-> > > bullet and merge this for -rc1.
-> > 
-> > Fine with me.
-> > 
-> > > I don't think this conflicts with Julia's patches as users can still
-> > > disable ACPI hotplug into bridges.  Gerd, agree?  Worth the risk?
-> > 
-> > Combining this with Julia's patches looks a bit risky to me and surely
-> > needs testing.  I expect the problematic case is both native and acpi
-> > hotplug being enabled.
-> >  When the guest uses acpi hotplug nobody will
-> > turn on slot power on the pcie root port ...
+On 11/11/21 10:31, wangyanan (Y) wrote:
 > 
-> I'm not sure I understand what the situation is, and how to trigger it.
-> Could you clarify pls?
-> 
-> > I'd suggest to just revert to pcie native hotplug for 6.2.
-> 
-> Hmm that kind of change seems even riskier to me. I think I'll try with
-> Igor's patches.
+> On 2021/11/11 17:14, Philippe Mathieu-Daudé wrote:
+>> On 10/28/21 17:09, Philippe Mathieu-Daudé wrote:
+>>> From: Yanan Wang <wangyanan55@huawei.com>
+>>>
+>>> Now that we have a generic parser smp_parse(), let's add an unit
+>>> test for the code. All possible valid/invalid SMP configurations
+>>> that the user can specify are covered.
+>>>
+>>> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+>>> Reviewed-by: Andrew Jones <drjones@redhat.com>
+>>> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> Message-Id: <20211026034659.22040-3-wangyanan55@huawei.com>
+>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> ---
+>>>   tests/unit/test-smp-parse.c | 594 ++++++++++++++++++++++++++++++++++++
+>>>   MAINTAINERS                 |   1 +
+>>>   tests/unit/meson.build      |   1 +
+>>>   3 files changed, 596 insertions(+)
+>>>   create mode 100644 tests/unit/test-smp-parse.c
+>>> +static struct SMPTestData data_generic_valid[] = {
+>>> +    {
+>>> +        /* config: no configuration provided
+>>> +         * expect: cpus=1,sockets=1,cores=1,threads=1,maxcpus=1 */
+>> [1]
+>>
+>>> +        .config = SMP_CONFIG_GENERIC(F, 0, F, 0, F, 0, F, 0, F, 0),
+>>> +        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(1, 1, 1, 1, 1),
+>>> +        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(1, 1, 1, 1, 1),
+>>> +    }, {
+>>> +static void test_generic(void)
+>>> +{
+>>> +    Object *obj = object_new(TYPE_MACHINE);
+>>> +    MachineState *ms = MACHINE(obj);
+>>> +    MachineClass *mc = MACHINE_GET_CLASS(obj);
+>> Watch out, while you create a machine instance in each
+>> test, there is only one machine class registered (see
+>> type_register_static(&smp_machine_info) below in [2]),
+>> ...
+> Yes, I noticed this. So on the top of each sub-test function, the
+> properties
+> of the single machine class is re-initialized by
+> smp_machine_class_init(mc).
+> See [*] below.
+>>> +    SMPTestData *data = &(SMPTestData){0};
+>>> +    int i;
+>>> +
+>>> +    smp_machine_class_init(mc);
+> [*]
+>>> +
+>>> +    for (i = 0; i < ARRAY_SIZE(data_generic_valid); i++) {
+>>> +        *data = data_generic_valid[i];
+>>> +        unsupported_params_init(mc, data);
+>>> +
+>>> +        smp_parse_test(ms, data, true);
+>>> +
+>>> +        /* Unsupported parameters can be provided with their values
+>>> as 1 */
+>>> +        data->config.has_dies = true;
+>>> +        data->config.dies = 1;
+>>> +        smp_parse_test(ms, data, true);
+>>> +    }
+>>> +
+>>> +    /* Reset the supported min CPUs and max CPUs */
+>>> +    mc->min_cpus = 2;
+>>> +    mc->max_cpus = 511;
+>> ... and here you are modifying the single machine class state, ...
+>>
+>>> +
+>>> +    for (i = 0; i < ARRAY_SIZE(data_generic_invalid); i++) {
+>>> +        *data = data_generic_invalid[i];
+>>> +        unsupported_params_init(mc, data);
+>>> +
+>>> +        smp_parse_test(ms, data, false);
+>>> +    }
+>>> +
+>>> +    object_unref(obj);
+>>> +}
+>>> +
+>>> +static void test_with_dies(void)
+>>> +{
+>>> +    Object *obj = object_new(TYPE_MACHINE);
+>>> +    MachineState *ms = MACHINE(obj);
+>>> +    MachineClass *mc = MACHINE_GET_CLASS(obj);
+>> ... so here the machine class state is inconsistent, ...
+>>
+>>> +    SMPTestData *data = &(SMPTestData){0};
+>>> +    unsigned int num_dies = 2;
+>>> +    int i;
+>>> +
+>>> +    smp_machine_class_init(mc);
+> And here [*].
+>>> +    mc->smp_props.dies_supported = true;
+>>> +
+>>> +    for (i = 0; i < ARRAY_SIZE(data_generic_valid); i++) {
+>>> +        *data = data_generic_valid[i];
+>>> +        unsupported_params_init(mc, data);
+>>> +
+>>> +        /* when dies parameter is omitted, it will be set as 1 */
+>>> +        data->expect_prefer_sockets.dies = 1;
+>>> +        data->expect_prefer_cores.dies = 1;
+>>> +
+>>> +        smp_parse_test(ms, data, true);
+>> ... in particular the first test [1] is tested with mc->min_cpus = 2.
+>>
+>> I wonder why you are not getting:
+>>
+>> Output error report: Invalid SMP CPUs 1. The min CPUs supported by
+>> machine '(null)' is 2
+>>
+>> for [1].
+> So as I have explained above, we won't get an output error report like
+> this here. :)
 
-Why would it be risky ? PCIE native hotplug is what we've used in
-QEMU for years & years, until 6.1 enabled the buggy ACPI hotplug.
-The behaviour of the current PCIE native hotplug impl is a known
-quantity.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+I see. IMHO this is bad practice example, so I'll send a cleanup patch.
 
 
