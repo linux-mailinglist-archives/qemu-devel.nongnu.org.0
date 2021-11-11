@@ -2,90 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 051A844D3DB
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 10:15:40 +0100 (CET)
-Received: from localhost ([::1]:42768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 410E344D3FC
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 10:23:22 +0100 (CET)
+Received: from localhost ([::1]:44976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml6BG-0003rn-Bs
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 04:15:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53946)
+	id 1ml6Ij-00064g-6T
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 04:23:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ml69r-00039h-Tw
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 04:14:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59628)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ml6Hv-0005Q0-UQ
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 04:22:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37768)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ml69n-000311-UA
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 04:14:10 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ml6Hs-0004BN-VP
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 04:22:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636622045;
+ s=mimecast20190719; t=1636622547;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XwIjkVZjRCDBs+z1W2ncNPi85WKKXgVUn3KRHbfoRj4=;
- b=ZI3vEC4zZ595Lff1ctyj9A3SRHJY8Deg5YUeUZgIDyTTg1Br1YjYr4TOj8TGO/PKn5LRcr
- mKel7mqxO7RDy2tjBQGlM4cI1jRQ2X8ODx4X0reHtb+cJpIlkcqS2WnCZGaqTu3wB9iMkh
- SUlJiAqy6pLyIMdC035pNUST08JQ2Qs=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-mDj9V22sMMG1i_qi3fx8sw-1; Thu, 11 Nov 2021 04:14:04 -0500
-X-MC-Unique: mDj9V22sMMG1i_qi3fx8sw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- w14-20020adfbace000000b001884bf6e902so897933wrg.3
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 01:14:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=XwIjkVZjRCDBs+z1W2ncNPi85WKKXgVUn3KRHbfoRj4=;
- b=qq71jSamOYLCaTmMQOuwLCRy2MiE+S5xylGGFORKraDgmjmgWrbMq/o1SaqGYt9cQE
- e2gZxuSaZO+lZBtMPrP7jCd1MRPMPveemMjbBLfOt4j2+NbEjf3tjKBN7v8/LMSAsG8h
- ykB7jgpQpqOkxNF4LVvs5GSQl4meRBhLnFkkSgthL2r1vPre+lssTKTqTUssYSrmRCVK
- sswgXfn0wWoYq7mX208fTuDAHy8STcx5ExY12/0VRG+j71YGTVo0aSFXT+mJw7n0Sa51
- APdBYQ8LXuMA8LJ2UYtKrhQcqGiba3PFw4q5Gl7/x4ck1buAM0koed2JBD47EmR9InG8
- IUjw==
-X-Gm-Message-State: AOAM533Kc7jLNFEC7WqRMF4d8TxWGkwVBT18GvebQWWs0Ok+RypK1Daz
- SXKtOds7HdR6z90bnBxNM2p9kmKRdjv5PcJC+dzgSUuuCRACdoIkIgxGuUGsG8f6iy7HxliXRXe
- NgH/FiVw9+mwuGx1jbM8tLIa2W0GsrmoKlfzoWgyoLFm3Lvher5/Uq1CAi0qeq2gx
-X-Received: by 2002:adf:eb4b:: with SMTP id u11mr6993662wrn.49.1636622042865; 
- Thu, 11 Nov 2021 01:14:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxGVcZPLxtkxlNKQHkeioAVAATJHPKEGFKuv3fkJ2bPMnKaVUEYkGo9oMlBDP6KMBg0h9MBGw==
-X-Received: by 2002:adf:eb4b:: with SMTP id u11mr6993630wrn.49.1636622042534; 
- Thu, 11 Nov 2021 01:14:02 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id h16sm2648545wrm.27.2021.11.11.01.14.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Nov 2021 01:14:02 -0800 (PST)
-Message-ID: <fd32e519-f970-d039-8291-897363b20add@redhat.com>
-Date: Thu, 11 Nov 2021 10:14:01 +0100
+ bh=uwAIAwf0iA6RLFJXR4Baq3tbG9Z2/cBKn46MptD3VlI=;
+ b=E8Al/YdmW6bEy/Hx2EXehEEeEu6RbkXy0ANsOgVEuAPGJnxL2ggAHaXua1nNtrzgjJjSnw
+ TVpWsAwx6wOBrq+rD2FX3YQfdnhOlVvzQc7u6WRzWLqwOG5+CiSFltwNk993R3/+fdk1OQ
+ mPBns5EPQI5Bqoz22GPgjlOw2Yv4HU0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-36-J8zFI-Q1OMuuYUsR_ns37A-1; Thu, 11 Nov 2021 04:22:21 -0500
+X-MC-Unique: J8zFI-Q1OMuuYUsR_ns37A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBE5287D541;
+ Thu, 11 Nov 2021 09:22:19 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F37C5DEFA;
+ Thu, 11 Nov 2021 09:21:42 +0000 (UTC)
+Date: Thu, 11 Nov 2021 09:21:41 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH v10 00/10]vhost-vdpa: add support for configure interrupt
+Message-ID: <YYzgpa8rkaywN8pW@stefanha-x1.localdomain>
+References: <20211104164827.21911-1-lulu@redhat.com>
+ <YYkBkGdlpeer18e9@stefanha-x1.localdomain>
+ <00d446c0-b5a0-9477-4e63-fc4b768a6f92@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v4 2/2] tests/unit: Add an unit test for smp parsing
-To: qemu-devel@nongnu.org
-References: <20211028150913.1975305-1-philmd@redhat.com>
- <20211028150913.1975305-3-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211028150913.1975305-3-philmd@redhat.com>
+In-Reply-To: <00d446c0-b5a0-9477-4e63-fc4b768a6f92@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="lF5siBtgZRh1sYxE"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -74
-X-Spam_score: -7.5
-X-Spam_bar: -------
-X-Spam_report: (-7.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.999, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,159 +80,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yanan Wang <wangyanan55@huawei.com>, Andrew Jones <drjones@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Cindy Lu <lulu@redhat.com>, mst@redhat.com, dgilbert@redhat.com,
+ qemu-devel@nongnu.org, arei.gonglei@huawei.com, kraxel@redhat.com,
+ marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/28/21 17:09, Philippe Mathieu-Daudé wrote:
-> From: Yanan Wang <wangyanan55@huawei.com>
-> 
-> Now that we have a generic parser smp_parse(), let's add an unit
-> test for the code. All possible valid/invalid SMP configurations
-> that the user can specify are covered.
-> 
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> Reviewed-by: Andrew Jones <drjones@redhat.com>
-> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Message-Id: <20211026034659.22040-3-wangyanan55@huawei.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  tests/unit/test-smp-parse.c | 594 ++++++++++++++++++++++++++++++++++++
->  MAINTAINERS                 |   1 +
->  tests/unit/meson.build      |   1 +
->  3 files changed, 596 insertions(+)
->  create mode 100644 tests/unit/test-smp-parse.c
+--lF5siBtgZRh1sYxE
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> +static struct SMPTestData data_generic_valid[] = {
-> +    {
-> +        /* config: no configuration provided
-> +         * expect: cpus=1,sockets=1,cores=1,threads=1,maxcpus=1 */
+On Thu, Nov 11, 2021 at 12:41:02PM +0800, Jason Wang wrote:
+>=20
+> =E5=9C=A8 2021/11/8 =E4=B8=8B=E5=8D=886:53, Stefan Hajnoczi =E5=86=99=E9=
+=81=93:
+> > On Fri, Nov 05, 2021 at 12:48:17AM +0800, Cindy Lu wrote:
+> > > these patches add the support for configure interrupt
+> > >=20
+> > > These codes are all tested in vp-vdpa (support configure interrupt)
+> > > vdpa_sim (not support configure interrupt), virtio tap device
+> > >=20
+> > > test in virtio-pci bus and virtio-mmio bus
+> > Hi,
+> > vhost-user has a configuration space change notification but it uses a
+> > slave channel message (VHOST_USER_SLAVE_CONFIG_CHANGE_MSG) instead of a=
+n
+> > eventfd. Ideally the vhost kernel ioctl and vhost-user interfaces would
+> > follow the same design.
+> >=20
+> > I'm concerned "common" vhost code is going to end up with lots of
+> > callbacks that are not available uniformly across vhost kernel, vdpa,
+> > and vhost-user. That makes it hard to understand and debug vhost, plus
+> > differences make it harder to to correctly extend these interfaces in
+> > the future.
+> >=20
+> > Is the decision to a new eventfd-based interface instead of
+> > vhost_chr_read/write() deliberate?
+>=20
+>=20
+> I think this is a good question. Here're some reasons for using eventfd f=
+rom
+> the kernel perspective:
+>=20
+> 1) the eventfd is used for relaying interrupts for vqs, so we choose to u=
+se
+> that for the config interrupt
+> 2) make it possible to be used for irq bypassing (posted interrupt)
 
-[1]
+Interesting point. Posted interrupts aren't supported by vhost-user's
+slave channel message. Since configuration change notifications are rare
+it's probably not a performance problem, but still.
 
-> +        .config = SMP_CONFIG_GENERIC(F, 0, F, 0, F, 0, F, 0, F, 0),
-> +        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(1, 1, 1, 1, 1),
-> +        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(1, 1, 1, 1, 1),
-> +    }, {
+This makes me think vhost-user's approach is sub-optimal, it should have
+been an eventfd :(. Maybe the idea was that a slave message is less
+complex than adding an additional interface to set a configuration
+change notification eventfd.
 
-> +static void test_generic(void)
-> +{
-> +    Object *obj = object_new(TYPE_MACHINE);
-> +    MachineState *ms = MACHINE(obj);
-> +    MachineClass *mc = MACHINE_GET_CLASS(obj);
+Let's not worry about it too much. I guess in the long run vhost-user
+can be rebased on top of the vDPA kernel interface (I wrote about that
+here:
+https://blog.vmsplice.net/2020/09/on-unifying-vhost-user-and-virtio.html).
 
-Watch out, while you create a machine instance in each
-test, there is only one machine class registered (see
-type_register_static(&smp_machine_info) below in [2]),
-...
+Stefan
 
-> +    SMPTestData *data = &(SMPTestData){0};
-> +    int i;
-> +
-> +    smp_machine_class_init(mc);
-> +
-> +    for (i = 0; i < ARRAY_SIZE(data_generic_valid); i++) {
-> +        *data = data_generic_valid[i];
-> +        unsupported_params_init(mc, data);
-> +
-> +        smp_parse_test(ms, data, true);
-> +
-> +        /* Unsupported parameters can be provided with their values as 1 */
-> +        data->config.has_dies = true;
-> +        data->config.dies = 1;
-> +        smp_parse_test(ms, data, true);
-> +    }
-> +
-> +    /* Reset the supported min CPUs and max CPUs */
-> +    mc->min_cpus = 2;
-> +    mc->max_cpus = 511;
+--lF5siBtgZRh1sYxE
+Content-Type: application/pgp-signature; name="signature.asc"
 
-... and here you are modifying the single machine class state, ...
+-----BEGIN PGP SIGNATURE-----
 
-> +
-> +    for (i = 0; i < ARRAY_SIZE(data_generic_invalid); i++) {
-> +        *data = data_generic_invalid[i];
-> +        unsupported_params_init(mc, data);
-> +
-> +        smp_parse_test(ms, data, false);
-> +    }
-> +
-> +    object_unref(obj);
-> +}
-> +
-> +static void test_with_dies(void)
-> +{
-> +    Object *obj = object_new(TYPE_MACHINE);
-> +    MachineState *ms = MACHINE(obj);
-> +    MachineClass *mc = MACHINE_GET_CLASS(obj);
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmGM4KUACgkQnKSrs4Gr
+c8jYugf/RPP1RZlP5UTqdD2KZz0JONo8k4R6sdo6h2OlqOTIkDqRJEC9Ak8QVDqP
+RwXv+KV8MEoOlJZB1lQEvBHe/tf4Y0jlhB8RvbUEIv1PAscS7J/HdHhXTRyqUPM2
+3ARicmvXG1mOmqW2dK5KELUSUc7MybF8Ps/yC6YY0MGe+5hidJVsyCCNqJ0bz8xu
+2YGUlffKVyHn+0sAWxDdY8vEMsZTJE5DKdgpv4PWDmn9o/F7slCiWLd7bC5urxlc
+D7oHgojonb14T0SqL+zK12lWvP67ogQO4lAdOphs9bZdp9KoAeqPyaOAsgE3ulk2
+kwL3HHySX5gwGJj9IdBrAP5B7Af8jQ==
+=sNDL
+-----END PGP SIGNATURE-----
 
-... so here the machine class state is inconsistent, ...
-
-> +    SMPTestData *data = &(SMPTestData){0};
-> +    unsigned int num_dies = 2;
-> +    int i;
-> +
-> +    smp_machine_class_init(mc);
-> +    mc->smp_props.dies_supported = true;
-> +
-> +    for (i = 0; i < ARRAY_SIZE(data_generic_valid); i++) {
-> +        *data = data_generic_valid[i];
-> +        unsupported_params_init(mc, data);
-> +
-> +        /* when dies parameter is omitted, it will be set as 1 */
-> +        data->expect_prefer_sockets.dies = 1;
-> +        data->expect_prefer_cores.dies = 1;
-> +
-> +        smp_parse_test(ms, data, true);
-
-... in particular the first test [1] is tested with mc->min_cpus = 2.
-
-I wonder why you are not getting:
-
-Output error report: Invalid SMP CPUs 1. The min CPUs supported by
-machine '(null)' is 2
-
-for [1].
-
-> +
-> +        /* when dies parameter is specified */
-> +        data->config.has_dies = true;
-> +        data->config.dies = num_dies;
-> +        if (data->config.has_cpus) {
-> +            data->config.cpus *= num_dies;
-> +        }
-> +        if (data->config.has_maxcpus) {
-> +            data->config.maxcpus *= num_dies;
-> +        }
-> +
-> +        data->expect_prefer_sockets.dies = num_dies;
-> +        data->expect_prefer_sockets.cpus *= num_dies;
-> +        data->expect_prefer_sockets.max_cpus *= num_dies;
-> +        data->expect_prefer_cores.dies = num_dies;
-> +        data->expect_prefer_cores.cpus *= num_dies;
-> +        data->expect_prefer_cores.max_cpus *= num_dies;
-> +
-> +        smp_parse_test(ms, data, true);
-> +    }
-> +
-> +    for (i = 0; i < ARRAY_SIZE(data_with_dies_invalid); i++) {
-> +        *data = data_with_dies_invalid[i];
-> +        unsupported_params_init(mc, data);
-> +
-> +        smp_parse_test(ms, data, false);
-> +    }
-> +
-> +    object_unref(obj);
-> +}
-> +
-> +int main(int argc, char *argv[])
-> +{
-> +    g_test_init(&argc, &argv, NULL);
-> +
-> +    module_call_init(MODULE_INIT_QOM);
-> +    type_register_static(&smp_machine_info);
-
-[2]
+--lF5siBtgZRh1sYxE--
 
 
