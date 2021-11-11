@@ -2,82 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47F3044D725
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 14:22:58 +0100 (CET)
-Received: from localhost ([::1]:58120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E12344D71C
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 14:21:11 +0100 (CET)
+Received: from localhost ([::1]:53556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlA2b-00067w-Ef
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 08:22:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55626)
+	id 1mlA0s-0002tn-Q4
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 08:21:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ml9xx-0000tg-Uk
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 08:18:11 -0500
-Received: from [2a00:1450:4864:20::42a] (port=39468
- helo=mail-wr1-x42a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ml9xv-0006I2-90
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 08:18:08 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id d27so9763195wrb.6
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 05:18:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=Wgw4Yz/DkPk1BTrZOrkrCwWtrwcWHw0L0y3puY53Og0=;
- b=qyhJHgAd76DZ0j5rBThNb6FIkJo+ojeBjb64LH6CiF1MApE9vbLLAiHP6eg2VoDUi3
- IMihxrU3sV2dJilvALucsfVZBhxMI8OgmPGGfTE61LzgN1m0dVgVtqQMytrx2NwZOWzA
- cn+hm3xcw8MOEzVUIsu/vTSlCcJr3GtUNrPIutYFTye16TDSeSttMF1U5R/VonokjaCQ
- acGqmYHgrie+5q2tZB2nWOMAEhG7tcWr/ysEmpRnYbFrcKlgZhPErjDdEY5m0i4Ay5JG
- T3Dt5I4cpy/KYqmNSjHgVvHkwPv9R3Bs1pq8aIcVpHaBjQyw5q/8ZYVCalAs9IctZjEX
- 1Dwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=Wgw4Yz/DkPk1BTrZOrkrCwWtrwcWHw0L0y3puY53Og0=;
- b=tKlVldRZ0Epm2A/AwPQ2clM6XorSis5XUWtWzsfdFNAOnTdd6XW68/kmfhIYrpEBLR
- cdPVmudD4vx1NxbLJbwY0lnGZhXmV4FJdUYOq73nb6ewPrZnEqlcGyhYTYL1WU4DQVUF
- wrV736QMd7tR1affIWfMH5NC1EQI2syMqiBLurqJPKa1nNLoZAC5MHgLoDCKoLSKYW7O
- +cDI5hyFx00+NwhDPm4VyPh5HkCcabSW5C5k/lM5zCcUz0SeEmKSENgy+LdmYHlor6YJ
- ysCHHZBhMXLNDRvwB09e51OcD9+NwPq4f3X+mlv0Qzh5Xd71lRKRZ9InMRsoSmu0C9ZK
- EPiA==
-X-Gm-Message-State: AOAM530JMiCkzviCkn3bUHttdBOIZUZpG3ovxLJJvCZR+5z/w6XrbMxY
- gQNdETB1hd7CI0C+UWTmLPkkGQ==
-X-Google-Smtp-Source: ABdhPJzxdlOCnPp/QBGD8RSELJDZOwB4GU332rWvBkdSd2nJOtwk3YRO1XfQd6gYxaFA8JEBPhFGVQ==
-X-Received: by 2002:a5d:68d2:: with SMTP id p18mr8836702wrw.21.1636636685596; 
- Thu, 11 Nov 2021 05:18:05 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w10sm2750253wrq.88.2021.11.11.05.18.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Nov 2021 05:18:04 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6E4B11FF96;
- Thu, 11 Nov 2021 13:18:02 +0000 (GMT)
-References: <163662450348.125458.5494710452733592356.stgit@pasha-ThinkPad-X280>
- <163662451431.125458.14945698834107669531.stgit@pasha-ThinkPad-X280>
-User-agent: mu4e 1.7.4; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Subject: Re: [PATCH v2 2/3] softmmu: fix watchpoint-interrupt races
-Date: Thu, 11 Nov 2021 13:15:34 +0000
-In-reply-to: <163662451431.125458.14945698834107669531.stgit@pasha-ThinkPad-X280>
-Message-ID: <87lf1uj0fp.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ml9xR-0000OO-0u
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 08:17:37 -0500
+Received: from [2001:41c9:1:41f::167] (port=36036
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ml9xM-0006DN-E9
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 08:17:35 -0500
+Received: from [2a00:23c4:8b9e:9b00:2535:46c:7466:70fe]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ml9xB-0003Zq-BF; Thu, 11 Nov 2021 13:17:25 +0000
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <1636594528-8175-1-git-send-email-yangxiaojuan@loongson.cn>
+ <1636594528-8175-16-git-send-email-yangxiaojuan@loongson.cn>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <04fe54be-0570-098c-63e0-6f2a5c18ccae@ilande.co.uk>
+Date: Thu, 11 Nov 2021 13:17:22 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+In-Reply-To: <1636594528-8175-16-git-send-email-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8b9e:9b00:2535:46c:7466:70fe
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [RFC PATCH v2 15/30] hw/pci-host: Add ls7a1000 PCIe Host bridge
+ support for Loongson Platform
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.999,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,50 +67,331 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- peterx@redhat.com, david@redhat.com
+Cc: Song Gao <gaosong@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 11/11/2021 01:35, Xiaojuan Yang wrote:
 
-Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
+Hi Xiaojuan,
 
-> Watchpoint may be processed in two phases. First one is detecting
-> the instruction with target memory access. And the second one is
-> executing only one instruction and setting the debug interrupt flag.
-> Hardware interrupts can break this sequence when they happen after
-> the first watchpoint phase.
-> This patch postpones the interrupt request until watchpoint is
-> processed.
->
-> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+> This is a model of the PCIe Host Bridge found on a Loongson-5000
+> processor. It includes a interrupt controller, some interface for
+> pci and nonpci devices we only emulate part devices for tcg mode.
+> It support for MSI and MSIX interrupt sources.
+> 
+> For more detailed info about ls7a1000 you can see the doc at
+> https://github.com/loongson/LoongArch-Documentation/releases/latest/
+> download/Loongson-7A1000-usermanual-2.00-EN.pdf
+> 
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
 > ---
->  accel/tcg/cpu-exec.c |    5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> index df12452b8f..e4526c2f5e 100644
-> --- a/accel/tcg/cpu-exec.c
-> +++ b/accel/tcg/cpu-exec.c
-> @@ -742,6 +742,11 @@ static inline bool cpu_handle_interrupt(CPUState *cp=
-u,
->              qemu_mutex_unlock_iothread();
->              return true;
->          }
-> +        /* Process watchpoints first, or interrupts will ruin everything=
- */
-> +        if (cpu->watchpoint_hit) {
-> +            qemu_mutex_unlock_iothread();
-> +            return false;
-> +        }
+>   hw/pci-host/Kconfig        |   4 +
+>   hw/pci-host/ls7a.c         | 187 +++++++++++++++++++++++++++++++++++++
+>   hw/pci-host/meson.build    |   1 +
+>   include/hw/pci-host/ls7a.h |  47 ++++++++++
+>   4 files changed, 239 insertions(+)
+>   create mode 100644 hw/pci-host/ls7a.c
+>   create mode 100644 include/hw/pci-host/ls7a.h
+> 
+> diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
+> index 2b5f7d58cc..b02a9d1454 100644
+> --- a/hw/pci-host/Kconfig
+> +++ b/hw/pci-host/Kconfig
+> @@ -77,3 +77,7 @@ config MV64361
+>       bool
+>       select PCI
+>       select I8259
+> +
+> +config PCI_EXPRESS_7A
+> +    bool
+> +    select PCI_EXPRESS
+> diff --git a/hw/pci-host/ls7a.c b/hw/pci-host/ls7a.c
+> new file mode 100644
+> index 0000000000..90b9fe4830
+> --- /dev/null
+> +++ b/hw/pci-host/ls7a.c
+> @@ -0,0 +1,187 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * QEMU Loongson 7A1000 North Bridge Emulation
+> + *
+> + * Copyright (C) 2021 Loongson Technology Corporation Limited
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +
+> +#include "hw/pci/pci.h"
+> +#include "hw/pci/pcie_host.h"
+> +#include "qapi/error.h"
+> +#include "hw/irq.h"
+> +#include "hw/pci/pci_bridge.h"
+> +#include "hw/pci/pci_bus.h"
+> +#include "sysemu/reset.h"
+> +#include "hw/pci-host/ls7a.h"
+> +#include "migration/vmstate.h"
+> +
+> +static const VMStateDescription vmstate_ls7a_pcie = {
+> +    .name = "LS7A_PCIE",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_PCI_DEVICE(dev, LS7APCIState),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+> +static void pci_ls7a_config_write(void *opaque, hwaddr addr,
+> +                                  uint64_t val, unsigned size)
+> +{
+> +    pci_data_write(opaque, addr, val, size);
+> +}
+> +
+> +static uint64_t pci_ls7a_config_read(void *opaque,
+> +                                     hwaddr addr, unsigned size)
+> +{
+> +    uint64_t val;
+> +
+> +    val = pci_data_read(opaque, addr, size);
+> +
+> +    return val;
+> +}
+> +
+> +static const MemoryRegionOps pci_ls7a_config_ops = {
+> +    .read = pci_ls7a_config_read,
+> +    .write = pci_ls7a_config_write,
+> +    .valid = {
+> +        .min_access_size = 1,
+> +        .max_access_size = 4,
+> +    },
+> +    .impl = {
+> +        .min_access_size = 1,
+> +        .max_access_size = 4,
+> +    },
+> +    .endianness = DEVICE_NATIVE_ENDIAN,
 
-side note: I wonder if it is time to wrap up the locks up with
-QEMU_LOCK_GUARD or something similar?
+DEVICE_NATIVE_ENDIAN normally isn't the right thing to use: should this be 
+DEVICE_LITTLE_ENDIAN or DEVICE_BIG_ENDIAN?
 
-Anyway seems reasonable:
+> +};
+> +
+> +static void ls7a_pciehost_realize(DeviceState *dev, Error **errp)
+> +{
+> +    LS7APCIEHost *pciehost = LS7A_PCIE_HOST_BRIDGE(dev);
+> +    PCIExpressHost *e = PCIE_HOST_BRIDGE(dev);
+> +    PCIHostState *phb = PCI_HOST_BRIDGE(e);
+> +
+> +    phb->bus = pci_register_root_bus(dev, "pcie.0", NULL,
+> +                                     NULL, pciehost,
+> +                                     get_system_memory(), get_system_io(),
+> +                                     PCI_DEVFN(1, 0), 128, TYPE_PCIE_BUS);
+> +
+> +    memory_region_init_io(&pciehost->pci_conf, OBJECT(dev),
+> +                          &pci_ls7a_config_ops, phb->bus,
+> +                          "ls7a_pci_conf", HT1LO_PCICFG_SIZE);
+> +    memory_region_add_subregion(get_system_memory(), HT1LO_PCICFG_BASE,
+> +                                &pciehost->pci_conf);
+> +
+> +    /* Add ls7a pci-io */
+> +    memory_region_init_alias(&pciehost->pci_io, OBJECT(dev), "ls7a-pci-io",
+> +                             get_system_io(), 0, LS7A_PCI_IO_SIZE);
+> +    memory_region_add_subregion(get_system_memory(), LS7A_PCI_IO_BASE,
+> +                                &pciehost->pci_io);
+> +
+> +    pcie_host_mmcfg_update(e, true, LS_PCIECFG_BASE, LS_PCIECFG_SIZE);
+> +}
+> +
+> +PCIBus *ls7a_init(MachineState *machine, qemu_irq *pic)
+> +{
+> +    DeviceState *dev;
+> +    PCIHostState *phb;
+> +    LS7APCIState *pbs;
+> +    LS7APCIEHost *pciehost;
+> +    PCIDevice *pci_dev;
+> +    PCIExpressHost *e;
+> +
+> +    dev = qdev_new(TYPE_LS7A_PCIE_HOST_BRIDGE);
+> +    e = PCIE_HOST_BRIDGE(dev);
+> +    phb = PCI_HOST_BRIDGE(e);
+> +    pciehost = LS7A_PCIE_HOST_BRIDGE(dev);
+> +    pciehost->pic = pic;
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+pciehost->pic should be configured as a qdev gpio in the LS7A_PCIE_HOST_BRIDGE device 
+.instance_init function using qdev_init_gpio_out() which is then wired up using 
+qdev_connect_gpio_out().
 
---=20
-Alex Benn=C3=A9e
+> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> +
+> +    pci_dev = pci_new(PCI_DEVFN(0, 0), TYPE_LS7A_PCIE);
+> +    pbs = LS7A_PCIE(pci_dev);
+> +    pbs->pciehost = pciehost;
+
+Here pbs->pciehost should be defined as a qdev link property for the LS7A_PCIE device 
+(search for DEFINE_PROP_LINK for an example of this)
+
+> +    pbs->pciehost->pci_dev = pbs;
+
+... which means that this can be set in the ls7a_realize() function for the LS7A_PCIE 
+device that should be added.
+
+> +    pci_realize_and_unref(pci_dev, phb->bus, &error_fatal);
+> +
+> +    return phb->bus;
+> +}
+
+Global init functions such as ls7a_init() above shouldn't be used anymore since they 
+tend to use board-specific logic and prevent future work towards allowing machine 
+configuration from a separate configuration file (hence the reason for removing the 
+use of pointers above).
+
+> +static void ls7a_reset(DeviceState *qdev)
+> +{
+> +    uint64_t wmask;
+> +    wmask = ~(-1);
+
+Can you combine these onto a single line? And doesn't this fail on 32-bit hosts 
+without being ~(-1ULL)?
+
+> +    PCIDevice *dev = PCI_DEVICE(qdev);
+> +
+> +    pci_set_word(dev->config + PCI_STATUS, 0x0010);
+> +    pci_set_word(dev->wmask + PCI_STATUS, wmask & 0xffff);
+> +    pci_set_word(dev->cmask + PCI_STATUS, 0xffff);
+> +    pci_set_byte(dev->config + PCI_HEADER_TYPE, 0x1);
+> +    pci_set_byte(dev->wmask + PCI_HEADER_TYPE, wmask & 0xff);
+> +    pci_set_byte(dev->cmask + PCI_HEADER_TYPE, 0xff);
+> +    pci_set_word(dev->config + PCI_SUBSYSTEM_VENDOR_ID, 0x0014);
+> +    pci_set_word(dev->wmask + PCI_SUBSYSTEM_VENDOR_ID, wmask & 0xffff);
+> +    pci_set_word(dev->cmask + PCI_SUBSYSTEM_VENDOR_ID, 0xffff);
+> +    pci_set_word(dev->config + PCI_SUBSYSTEM_ID, 0x7a00);
+> +    pci_set_word(dev->wmask + PCI_SUBSYSTEM_ID, wmask & 0xffff);
+> +    pci_set_word(dev->cmask + PCI_SUBSYSTEM_ID, 0xffff);
+> +    pci_set_byte(dev->config + PCI_CAPABILITY_LIST, 0x40);
+> +    pci_set_byte(dev->wmask + PCI_CAPABILITY_LIST, wmask & 0xff);
+> +    pci_set_byte(dev->cmask + PCI_CAPABILITY_LIST, 0xff);
+> +}
+> +
+> +static void ls7a_pcie_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+> +
+> +    k->vendor_id = 0x0014;
+> +    k->device_id = 0x7a00;
+> +    k->revision = 0x00;
+> +    k->class_id = PCI_CLASS_BRIDGE_HOST;
+> +    dc->reset = ls7a_reset;
+> +    dc->desc = "LS7A1000 PCIE Host bridge";
+> +    dc->vmsd = &vmstate_ls7a_pcie;
+> +    /*
+> +     * PCI-facing part of the host bridge, not usable without the
+> +     * host-facing part, which can't be device_add'ed, yet.
+> +     */
+> +    dc->user_creatable = false;
+> +}
+> +
+> +static const TypeInfo ls7a_pcie_device_info = {
+> +    .name          = TYPE_LS7A_PCIE,
+> +    .parent        = TYPE_PCI_DEVICE,
+> +    .instance_size = sizeof(LS7APCIState),
+> +    .class_init    = ls7a_pcie_class_init,
+> +    .interfaces = (InterfaceInfo[]) {
+> +        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+> +        { },
+> +    },
+> +};
+> +
+> +static void ls7a_pciehost_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +    dc->realize = ls7a_pciehost_realize;
+> +    dc->fw_name = "pci";
+> +    dc->user_creatable = false;
+> +}
+> +
+> +static const TypeInfo ls7a_pciehost_info = {
+> +    .name          = TYPE_LS7A_PCIE_HOST_BRIDGE,
+> +    .parent        = TYPE_PCIE_HOST_BRIDGE,
+> +    .instance_size = sizeof(LS7APCIEHost),
+> +    .class_init    = ls7a_pciehost_class_init,
+> +};
+> +
+> +static void ls7a_register_types(void)
+> +{
+> +    type_register_static(&ls7a_pciehost_info);
+> +    type_register_static(&ls7a_pcie_device_info);
+> +}
+> +
+> +type_init(ls7a_register_types)
+> diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
+> index 4c4f39c15c..c4955455fd 100644
+> --- a/hw/pci-host/meson.build
+> +++ b/hw/pci-host/meson.build
+> @@ -11,6 +11,7 @@ pci_ss.add(when: 'CONFIG_PCI_SABRE', if_true: files('sabre.c'))
+>   pci_ss.add(when: 'CONFIG_XEN_IGD_PASSTHROUGH', if_true: files('xen_igd_pt.c'))
+>   pci_ss.add(when: 'CONFIG_REMOTE_PCIHOST', if_true: files('remote.c'))
+>   pci_ss.add(when: 'CONFIG_SH_PCI', if_true: files('sh_pci.c'))
+> +pci_ss.add(when: 'CONFIG_PCI_EXPRESS_7A', if_true: files('ls7a.c'))
+>   
+>   # PPC devices
+>   pci_ss.add(when: 'CONFIG_RAVEN_PCI', if_true: files('raven.c'))
+> diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
+> new file mode 100644
+> index 0000000000..6b5ba3b442
+> --- /dev/null
+> +++ b/include/hw/pci-host/ls7a.h
+> @@ -0,0 +1,47 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * QEMU LoongArch CPU
+> + *
+> + * Copyright (c) 2021 Loongson Technology Corporation Limited
+> + */
+> +
+> +#ifndef HW_LS7A_H
+> +#define HW_LS7A_H
+> +
+> +#include "hw/pci/pci.h"
+> +#include "hw/pci/pcie_host.h"
+> +#include "hw/pci-host/pam.h"
+> +#include "qemu/units.h"
+> +#include "qemu/range.h"
+> +#include "qom/object.h"
+> +
+> +#define HT1LO_PCICFG_BASE        0x1a000000
+> +#define HT1LO_PCICFG_SIZE        0x02000000
+> +
+> +#define LS_PCIECFG_BASE          0x20000000
+> +#define LS_PCIECFG_SIZE          0x08000000
+> +
+> +#define LS7A_PCI_IO_BASE        0x18000000UL
+> +#define LS7A_PCI_IO_SIZE        0x00010000
+> +typedef struct LS7APCIState LS7APCIState;
+> +typedef struct LS7APCIEHost {
+> +    PCIExpressHost parent_obj;
+> +    LS7APCIState *pci_dev;
+> +    qemu_irq *pic;
+> +    MemoryRegion pci_conf;
+> +    MemoryRegion pci_io;
+> +} LS7APCIEHost;
+> +
+> +struct LS7APCIState {
+> +    PCIDevice dev;
+> +    LS7APCIEHost *pciehost;
+> +};
+> +
+> +#define TYPE_LS7A_PCIE_HOST_BRIDGE "ls7a1000-pciehost"
+> +OBJECT_DECLARE_SIMPLE_TYPE(LS7APCIEHost, LS7A_PCIE_HOST_BRIDGE)
+> +
+> +#define TYPE_LS7A_PCIE "ls7a1000_pcie"
+> +OBJECT_DECLARE_SIMPLE_TYPE(LS7APCIState, LS7A_PCIE)
+> +
+> +PCIBus *ls7a_init(MachineState *machine, qemu_irq *irq);
+> +#endif /* HW_LS7A_H */
+
+
+ATB,
+
+Mark.
 
