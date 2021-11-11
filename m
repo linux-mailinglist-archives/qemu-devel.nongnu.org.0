@@ -2,74 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75B8B44D1E4
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 07:19:36 +0100 (CET)
-Received: from localhost ([::1]:44868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7171A44D1F4
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 07:35:31 +0100 (CET)
+Received: from localhost ([::1]:36178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml3Qt-0000dD-KS
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 01:19:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49804)
+	id 1ml3gH-0006P3-JR
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 01:35:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ml3Ix-0006O3-MV
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 01:11:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50502)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1ml3eP-0005Wf-Ph
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 01:33:34 -0500
+Received: from mga12.intel.com ([192.55.52.136]:41313)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ml3Ir-0004j7-6Z
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 01:11:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636611076;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YfjMvCSgEZpKpoAWnIRZkxU5PbePFdn8oZmIO2E4v+4=;
- b=Nh14SzRBhM9LoJO2gaqlC2oMdkZQKriE8LH75AwleOu8JCSVuR2QIja02hJ8Tau4tIiR5B
- 7vPBw/U8+QzCk4YTqa8uOLQLMN515vn74nKI23U3D/C8KCm1cMDMfdrKlIFuc0dQbixHOv
- oEvoF7z/W0iNfDWKWmKdohmzJAH7QKM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-54-WXIpIKP5PHCjN5v2wlmFig-1; Thu, 11 Nov 2021 01:11:14 -0500
-X-MC-Unique: WXIpIKP5PHCjN5v2wlmFig-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B05DE102CB77
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 06:11:13 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D3F95C1B4;
- Thu, 11 Nov 2021 06:11:13 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0A63C11380A7; Thu, 11 Nov 2021 07:11:12 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] qmp: Stabilize preconfig
-References: <b31f442d28920447690a6b8cee865bdbacde1283.1635160056.git.mprivozn@redhat.com>
- <87bl3dfg9v.fsf@dusky.pond.sub.org>
- <bb896561-9d0c-6c6c-4bdb-5e7ef5ed71d5@redhat.com>
- <YYAATW1JQmzpDPhu@redhat.com> <87zgqlzmxi.fsf@dusky.pond.sub.org>
- <c4ac9bcc-90ae-302f-d5d4-b95f1419a7a0@redhat.com>
-Date: Thu, 11 Nov 2021 07:11:11 +0100
-In-Reply-To: <c4ac9bcc-90ae-302f-d5d4-b95f1419a7a0@redhat.com> (Paolo
- Bonzini's message of "Wed, 10 Nov 2021 22:56:23 +0100")
-Message-ID: <87pmr7rzls.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1ml3eM-0007ex-Rb
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 01:33:33 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10164"; a="212892137"
+X-IronPort-AV: E=Sophos;i="5.87,225,1631602800"; d="scan'208";a="212892137"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2021 22:33:28 -0800
+X-IronPort-AV: E=Sophos;i="5.87,225,1631602800"; d="scan'208";a="504300339"
+Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
+ ([10.238.144.101])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 10 Nov 2021 22:33:25 -0800
+Date: Thu, 11 Nov 2021 14:18:50 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v3 3/5] numa: Support SGX numa in the monitor and Libvirt
+ interfaces
+Message-ID: <20211111061850.GA4787@yangzhon-Virtual>
+References: <20211101162009.62161-1-yang.zhong@intel.com>
+ <20211101162009.62161-4-yang.zhong@intel.com>
+ <20211110165540.souq5vgqtfn2hsft@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211110165540.souq5vgqtfn2hsft@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: pass client-ip=192.55.52.136; envelope-from=yang.zhong@intel.com;
+ helo=mga12.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,50 +62,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michal =?utf-8?B?UHLDrXZvem7DrWs=?= <mprivozn@redhat.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
+Cc: yang.zhong@intel.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ jarkko@kernel.org, pbonzini@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+On Wed, Nov 10, 2021 at 10:55:40AM -0600, Eric Blake wrote:
+> On Mon, Nov 01, 2021 at 12:20:07PM -0400, Yang Zhong wrote:
+> > Add the SGXEPCSection list into SGXInfo to show the multiple
+> > SGX EPC sections detailed info, not the total size like before.
+> > This patch can enable numa support for 'info sgx' command and
+> > QMP interfaces. The new interfaces show each EPC section info
+> > in one numa node. Libvirt can use QMP interface to get the
+> > detailed host SGX EPC capabilities to decide how to allocate
+> > host EPC sections to guest.
+> > 
+> > (qemu) info sgx
+> >  SGX support: enabled
+> >  SGX1 support: enabled
+> >  SGX2 support: enabled
+> >  FLC support: enabled
+> >  NUMA node #0: size=67108864
+> >  NUMA node #1: size=29360128
+> > 
+> > The QMP interface show:
+> > (QEMU) query-sgx
+> > {"return": {"sgx": true, "sgx2": true, "sgx1": true, "sections": \
+> > [{"node": 0, "size": 67108864}, {"node": 1, "size": 29360128}], "flc": true}}
+> > 
+> > (QEMU) query-sgx-capabilities
+> > {"return": {"sgx": true, "sgx2": true, "sgx1": true, "sections": \
+> > [{"node": 0, "size": 17070817280}, {"node": 1, "size": 17079205888}], "flc": true}}
+> 
+> Other than the different "size" values, how do these commands differ?
 
->> On 11/3/21 09:02, Markus Armbruster wrote:
->>> I wonder whether we really have to step through three states
->>>
->>>           x-exit-preconfig  cont
->>>      preconfig ---> pre run ---> run
->>>
->>> and not two
->>>
->>>              cont
->>>      pre run ---> run
->
-> Devices would be hotplugged between x-exit-preconfig and cont, and
 
-Cold plugged!
+  As for QMP interfaces,
+  The 'query-sgx' to get VM sgx detailed info, and 'query-sgx-capabilities' to get
+  the host sgx capabilities and Libvirt can use this info to decide how to allocate
+  virtual EPC sections to VMs.
 
-> part of the machine until x-exit-preconfig; so there is a need for
-> something like x-exit-preconfig.
+  'info sgx' and 'query-sgx' are same functions, only different interfaces, HMP and QMP.
 
-Can you briefly explain why device_add doesn't work before
-x-exit-preconfig and does after?
+  Yang
 
-> In my prototype of a QMP-only binary, the idea would be that there
-> wouldn't be a single x-exit-preconfig command, but "cont", 
-> "migrate-incoming", "finish-machine-init" (the stable replacement for
-> x-exit-preconfig) and "loadvm" would all complete the configuration of 
-> the machine.  "finish-machine-init" would do nothing else, the others
-> would continue with whatever they were supposed to do.
->
->>> Which of the queries you need work only between x-exit-preconfig and -S?
->> Well before x-exit-preconfig, QMP only permits a very small number
->> of commands - QEMU has loosened that up a bit, but I don't think anyone
->> has checked whether there's enough to cover libvirt's current usage yet.
->
-> Indeed I looked at the commands that operate on the backends, but not
-> that much at query commands.
->
-> Paolo
 
+> 
+> > 
+> > Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> > ---
+> >  qapi/misc-target.json | 19 ++++++++++++++--
+> >  hw/i386/sgx.c         | 51 +++++++++++++++++++++++++++++++++++--------
+> >  2 files changed, 59 insertions(+), 11 deletions(-)
+> > 
+> > diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+> > index 5aa2b95b7d..1022aa0184 100644
+> > --- a/qapi/misc-target.json
+> > +++ b/qapi/misc-target.json
+> > @@ -337,6 +337,21 @@
+> >    'if': 'TARGET_ARM' }
+> >  
+> >  
+> > +##
+> > +# @SGXEPCSection:
+> > +#
+> > +# Information about intel SGX EPC section info
+> > +#
+> > +# @node: the numa node
+> > +#
+> > +# @size: the size of epc section
+> > +#
+> > +# Since: 6.2
+> 
+> Are we still trying to cram this into 6.2, or is now slipping into 7.0?
+
+
+  The numa patches will be merged into Qemu next version, once the new version is
+  ready, i will change this and send V4. thanks!
+
+  Yang 
+
+
+> 
+> > +##
+> > +{ 'struct': 'SGXEPCSection',
+> > +  'data': { 'node': 'int',
+> > +            'size': 'uint64'}}
+> > +
+> >  ##
+> >  # @SGXInfo:
+> >  #
+> > @@ -350,7 +365,7 @@
+> >  #
+> >  # @flc: true if FLC is supported
+> >  #
+> > -# @section-size: The EPC section size for guest
+> > +# @sections: The EPC sections info for guest
+> >  #
+> >  # Since: 6.2
+> >  ##
+> > @@ -359,7 +374,7 @@
+> >              'sgx1': 'bool',
+> >              'sgx2': 'bool',
+> >              'flc': 'bool',
+> > -            'section-size': 'uint64'},
+> > +            'sections': ['SGXEPCSection']},
+> 
+> This would be an incompatible change.  As long as 6.2 isn't released,
+> we can do that; but once it is, we need to be more careful about
+> changing the QMP spec.
+
+
+  Thanks for reminder! I had to use SGXEPCSection lists to show those epc
+  infos because the MAX SGX epc section number is 8, this number in each
+  server maybe different, not one fixed number. Once the new QMP spec release,
+  let me check how to adjust this. thanks!
+
+  Regards,
+
+  Yang
+
+
+
+
+
+> 
+> >     'if': 'TARGET_I386' }
+> >  
+> >  ##
+> > diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
+> > index 9a77519609..b5b710a556 100644
+> > --- a/hw/i386/sgx.c
+> > +++ b/hw/i386/sgx.c
+> > @@ -76,11 +76,13 @@ static uint64_t sgx_calc_section_metric(uint64_t low, uint64_t high)
+> >             ((high & MAKE_64BIT_MASK(0, 20)) << 32);
+> >  }
+> >  
+> > -static uint64_t sgx_calc_host_epc_section_size(void)
+> > +static SGXEPCSectionList *sgx_calc_host_epc_sections(void)
+> ...
+> 
+> -- 
+> Eric Blake, Principal Software Engineer
+> Red Hat, Inc.           +1-919-301-3266
+> Virtualization:  qemu.org | libvirt.org
 
