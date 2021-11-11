@@ -2,86 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B407B44D4DB
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 11:13:23 +0100 (CET)
-Received: from localhost ([::1]:56286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E42044D4D0
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 11:12:05 +0100 (CET)
+Received: from localhost ([::1]:54114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml758-0005GP-Sw
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 05:13:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35754)
+	id 1ml73s-0003gL-BS
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 05:12:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ml6wW-0007PH-30
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 05:04:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53340)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1ml6wO-0007Av-Cv
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 05:04:20 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:11312)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ml6wQ-00012L-Ra
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 05:04:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636625062;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=K6REFy2Z9s6d+bG385Dx3esh0VGm1oiX7Asv3HUk+NQ=;
- b=F9WnHv8hcnxkLzf3SaxS2iGgfPB29oyJniWaO6aO6jEzXrzpLH6B3faainV1b723LK0zIY
- 7nDl+HOhQYoVUH59UtQLJaAa7CN+DqAbyPQYTDbWo6XkDfhBo94BfG24A+29mKQ/wP6lut
- rV2i+6S7pgHyxqcVBZ+OY7xYqgZBC4Y=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-595-jtOGQFFiMymdqmZN19T_Vw-1; Thu, 11 Nov 2021 05:04:20 -0500
-X-MC-Unique: jtOGQFFiMymdqmZN19T_Vw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- r12-20020adfdc8c000000b0017d703c07c0so938036wrj.0
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 02:04:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=K6REFy2Z9s6d+bG385Dx3esh0VGm1oiX7Asv3HUk+NQ=;
- b=sISoAugcLWcT2iwGUgrJAeVclX7X210wHhTrcL8nywMivM7lobASFGuMGcFwHCzbZx
- UMXYT/HiK3L4SnLZQElhj0qK0H1k0k+U1DGHzPbWsX3FlErH9xAKTLHV4fcNRhZNhtBP
- 0d5ACFVAjhsEhF5tLZ1+b7hzNJ6TvN7KoNFtw4kEUgkjI0jGTdGIJnhiIkyVuYR7Q8Pz
- lzBqWQ0xiFWtDK7i+pxOfp49LogztmQD2+e0ksIrxDezIUDaf96Fw+Pn/3BoHuUK+kWC
- Rb8jnVrjNWBBT8S5Z3XKwn2ttu4HL2qVbt3+LpqA407QQ1QIdsXr3esVal7EwDj2kv4y
- DaRw==
-X-Gm-Message-State: AOAM531re3bJA95aB7hl2sfpptcNNaINdkAcMzcAl51E+AcENDrINc+g
- XYsu97NegUFIJSpiidS0cZDYATzK55kvGsC59hIcDOupCAViIbQFajilPUmAhx/8ql9KqFroDNJ
- oN8j38x8wMHqgXNkAf3WSS3Zh9OkDlVcWt4PjlzZ+FWpUt/YHiSqFTI6dzQeGwIg0
-X-Received: by 2002:a5d:4cd1:: with SMTP id c17mr7402559wrt.31.1636625059454; 
- Thu, 11 Nov 2021 02:04:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyYPottiScYoGYWMuBHI1kt1CFDM3B+TKHa93TDks3lkapvWVBg4p8N7CqCNRRw0CvNn/bbEQ==
-X-Received: by 2002:a5d:4cd1:: with SMTP id c17mr7402513wrt.31.1636625059207; 
- Thu, 11 Nov 2021 02:04:19 -0800 (PST)
-Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id
- c1sm2499021wrt.14.2021.11.11.02.04.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Nov 2021 02:04:18 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.2 v3 6/6] hw/core: Rename smp_parse() ->
- machine_parse_smp_config()
-Date: Thu, 11 Nov 2021 11:03:51 +0100
-Message-Id: <20211111100351.2153662-7-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211111100351.2153662-1-philmd@redhat.com>
-References: <20211111100351.2153662-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1ml6wK-00011t-LL
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 05:04:18 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AB9hqVJ010203; 
+ Thu, 11 Nov 2021 10:04:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=61i414Xzna8+NW7wC70mjsGJG1WpCGHc4EbKzVcL3qY=;
+ b=ppiIk+42193GIaukSqP7Qy/3vVcPw2D5U1LcTO4MFlo09LVU4tg5yUmMslXdHNIHRMTF
+ C+1DvRqExSJy7SGtgBqxPGP8rIiZFftH1Vy+DgLSZmBGUf84HMMNO2yXq56ygxzp0Rwq
+ LY7HbuhmHPBAIqVcqVmYW5CJYca8+LcuyT7yiJn+EsBMOdHokw3KyoinRlTmyslarjAk
+ D3YCePFWsK3YwS6sy9+Ghzt8aQyfHzPHY/mxYCN0dy8MPf6DOXdcBjD+HY+chcY1gvot
+ qRCKRvVPI7iVMDv+i9irgjCchCq0s1soaE2mEotGTmw+68ycsb+wAgQKsIs2z50qqLmC HQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3c90t4rh2u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 11 Nov 2021 10:04:11 +0000
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1ABA3lZU011312;
+ Thu, 11 Nov 2021 10:04:10 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3c90t4rh2b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 11 Nov 2021 10:04:10 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AB9vK0o013590;
+ Thu, 11 Nov 2021 10:04:09 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma02dal.us.ibm.com with ESMTP id 3c5hbd10nv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 11 Nov 2021 10:04:09 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1ABA47cO58982866
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 11 Nov 2021 10:04:07 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A5DA978084;
+ Thu, 11 Nov 2021 10:04:07 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C5D497805F;
+ Thu, 11 Nov 2021 10:04:03 +0000 (GMT)
+Received: from [9.160.77.174] (unknown [9.160.77.174])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 11 Nov 2021 10:04:03 +0000 (GMT)
+Message-ID: <ebbef3c2-62be-fb60-63b3-d364559c90fc@linux.ibm.com>
+Date: Thu, 11 Nov 2021 12:04:02 +0200
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v2 0/6] SEV: add kernel-hashes=on for measured -kernel
+ launch
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20211108134840.2757206-1-dovmurik@linux.ibm.com>
+ <YYzkxhd5+gK7wcTf@redhat.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
+In-Reply-To: <YYzkxhd5+gK7wcTf@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: sbJ4YhG_-4XLxsBIgVOVRlzXVDU0LAYh
+X-Proofpoint-GUID: 4cHvKAAc8wiBR81ho6VhKpgr8f13gC1F
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-11_03,2021-11-08_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ priorityscore=1501 spamscore=0 lowpriorityscore=0 clxscore=1015
+ suspectscore=0 malwarescore=0 phishscore=0 mlxscore=0 impostorscore=0
+ bulkscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2111110060
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -59
+X-Spam_score: -6.0
+X-Spam_bar: ------
+X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.999,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,111 +115,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Andrew Jones <drjones@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Yanan Wang <wangyanan55@huawei.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Eric Blake <eblake@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All methods related to MachineState are prefixed with "machine_".
-smp_parse() does not need to be an exception. Rename it and
-const'ify the SMPConfiguration argument, since it doesn't need
-to be modified.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- include/hw/boards.h         | 3 ++-
- hw/core/machine-smp.c       | 6 ++++--
- hw/core/machine.c           | 2 +-
- tests/unit/test-smp-parse.c | 8 ++++----
- 4 files changed, 11 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 9c1c1901046..7597cec4400 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -34,7 +34,8 @@ HotpluggableCPUList *machine_query_hotpluggable_cpus(MachineState *machine);
- void machine_set_cpu_numa_node(MachineState *machine,
-                                const CpuInstanceProperties *props,
-                                Error **errp);
--void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp);
-+void machine_parse_smp_config(MachineState *ms,
-+                              const SMPConfiguration *config, Error **errp);
- 
- /**
-  * machine_class_allow_dynamic_sysbus_dev: Add type to list of valid devices
-diff --git a/hw/core/machine-smp.c b/hw/core/machine-smp.c
-index 116a0cbbfab..2cbfd574293 100644
---- a/hw/core/machine-smp.c
-+++ b/hw/core/machine-smp.c
-@@ -44,7 +44,8 @@ static char *cpu_hierarchy_to_string(MachineState *ms)
- }
- 
- /*
-- * smp_parse - Generic function used to parse the given SMP configuration
-+ * machine_parse_smp_config: Generic function used to parse the given
-+ *                           SMP configuration
-  *
-  * Any missing parameter in "cpus/maxcpus/sockets/cores/threads" will be
-  * automatically computed based on the provided ones.
-@@ -63,7 +64,8 @@ static char *cpu_hierarchy_to_string(MachineState *ms)
-  * introduced topology members which are likely to be target specific should
-  * be directly set as 1 if they are omitted (e.g. dies for PC since 4.1).
-  */
--void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-+void machine_parse_smp_config(MachineState *ms,
-+                              const SMPConfiguration *config, Error **errp)
- {
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
-     unsigned cpus    = config->has_cpus ? config->cpus : 0;
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 26ec54e7261..a2d3c9969d9 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -760,7 +760,7 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
-         return;
-     }
- 
--    smp_parse(ms, config, errp);
-+    machine_parse_smp_config(ms, config, errp);
- }
- 
- static void machine_class_init(ObjectClass *oc, void *data)
-diff --git a/tests/unit/test-smp-parse.c b/tests/unit/test-smp-parse.c
-index 11109752799..b158ebb16b1 100644
---- a/tests/unit/test-smp-parse.c
-+++ b/tests/unit/test-smp-parse.c
-@@ -337,7 +337,7 @@ static const struct SMPTestData data_with_dies_invalid[] = {
-     },
- };
- 
--static char *smp_config_to_string(SMPConfiguration *config)
-+static char *smp_config_to_string(const SMPConfiguration *config)
- {
-     return g_strdup_printf(
-         "(SMPConfiguration) {\n"
-@@ -371,7 +371,7 @@ static char *cpu_topology_to_string(const CpuTopology *topo)
-         topo->cores, topo->threads, topo->max_cpus);
- }
- 
--static void check_parse(MachineState *ms, SMPConfiguration *config,
-+static void check_parse(MachineState *ms, const SMPConfiguration *config,
-                         const CpuTopology *expect_topo, const char *expect_err,
-                         bool is_valid)
- {
-@@ -380,8 +380,8 @@ static void check_parse(MachineState *ms, SMPConfiguration *config,
-     g_autofree char *output_topo_str = NULL;
-     Error *err = NULL;
- 
--    /* call the generic parser smp_parse() */
--    smp_parse(ms, config, &err);
-+    /* call the generic parser */
-+    machine_parse_smp_config(ms, config, &err);
- 
-     output_topo_str = cpu_topology_to_string(&ms->smp);
- 
--- 
-2.31.1
+On 11/11/2021 11:39, Daniel P. Berrangé wrote:
+> On Mon, Nov 08, 2021 at 01:48:34PM +0000, Dov Murik wrote:
+>> Tom Lendacky and Brijesh Singh reported two issues with launching SEV
+>> guests with the -kernel QEMU option when an old [1] or wrongly configured [2]
+>> OVMF images are used.
+>>
+>> To fix these issues, these series "hides" the whole kernel hashes
+>> additions behind a kernel-hashes=on option (with default value of
+>> "off").  This allows existing scenarios to work without change, and
+>> explicitly forces kernel hashes additions for guests that require that.
+> 
+> We need to to get this into 6.2 to adress the regression vs  previous
+> QEMU releases.
+> 
+> There's just a couple of small review points. If you can repost
+> with the easy fixes, then we can get this queued.
+> 
 
+Sent v3 now.
+
+Patch 3/6 (error message rephrase) still misses Reviewed-by.
+
+Thanks,
+-Dov
 
