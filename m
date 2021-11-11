@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E4444D867
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 15:35:21 +0100 (CET)
-Received: from localhost ([::1]:37762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 230B844D831
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 15:24:14 +0100 (CET)
+Received: from localhost ([::1]:33260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlBAe-0002ez-JT
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 09:35:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41612)
+	id 1mlAzt-0005TJ-7D
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 09:24:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mlAuM-0005Eh-Ib
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:18:30 -0500
-Received: from [2a00:1450:4864:20::431] (port=45991
- helo=mail-wr1-x431.google.com)
+ id 1mlAua-0005Y6-MA
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:18:45 -0500
+Received: from [2a00:1450:4864:20::42e] (port=41551
+ helo=mail-wr1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mlAuG-00071B-6j
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:18:25 -0500
-Received: by mail-wr1-x431.google.com with SMTP id w29so10028613wra.12
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 06:18:19 -0800 (PST)
+ id 1mlAuZ-00073f-84
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:18:44 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id d3so10062465wrh.8
+ for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 06:18:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Slh+NSi3CYS+GxwUPInFlVZGmGzOi3/bj3rNvp2OF8k=;
- b=XfMeH3Uf7XK55FXDPytsN1cMPGOaeA1EHnqU6eaViZiPCFvZsInFN5lmFvZXz+cyrM
- 1tOGzusLLcbswqnEMvgHf0d3iKzJdOpJ4Zykatzun52T7uS+BtuTfPA/oR7OUqINds05
- EhuE9PUvZUey/sCmHx5i2mW+OeanBSlxhZQ1aNRXDk/ReP9eF0CcpsApZlvMBFKcOpvx
- MfDqHq151142Lg0r+tDr5D/S7qEwvfzPAPU10kwfrOgi82RLjGsv0MrHZGz0jVq31fcF
- osfcQJQvyhXw/Rrk05xiua7P3qlGZp7yi7dE0jskpXCKGMahhqumM2FbO8lXzZO+Lc2V
- X2Hg==
+ bh=rR+as4B02cSG8PAM14uaiyuoGrHj1v1dYcwDv0GrCrA=;
+ b=R2mN2lrmkZlC2YJqP20wzLJOBd1PwSjmRiUytSsDh/7Jtnf0mMiucwBligD4xATdPi
+ 7OlN6uXIin0a2gwuTRh1RoF4PAsh98c2t4omXFkanRp4oKVfIquIbiWqnGxMbbZDRPhp
+ rKb/RBvMZ6PAext8X5lYKiB65N38rj7Ab8VQbmKCehzgYFNNfwOxi+w7nTenvUoTL3hf
+ SvS+LxGO6lC9AG7mMm8Svsd9ZXZ/Ah4KmFMIgZpx/Q/GCIngyOyl3kaJPgUth8b4SceZ
+ iEe1YaFaC9ZHoKhwoMImEUjx5PUgV1By8rkaLGo77BhIBL/AHkF0t/UVjjiWOBBPUhVm
+ VYPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Slh+NSi3CYS+GxwUPInFlVZGmGzOi3/bj3rNvp2OF8k=;
- b=y5t6LyLYBrYQVyQ9rtxyXAfIl4KrGyV+zJfwtnReEG0GytmRfrKSq3nTpUTM//YRRL
- LVMQD73lOg0fnJSbtrh5Kr9Xm91F0zZIrpEg8blqbG++E45p+0xJ3e5o6TLXQvhluFK+
- GQYxv4Lsnqwb4MyBqlEzDOLTZ0Yg2unw9ZVv7cJ7P0hlfBQGhAVAfceoAGpk2Jg7Mo5L
- VW3tIvGeI0WonggEVDV7qsQw+t4SNYfqLILSo+5gNcTOr7qsz2+/n8x/Y/SZoSPj5496
- KpH1A/1QvQBGZq3xzRbXK+VuUI9xnZhRMIx77N6H2BQbjkbEniZ70t5J922HjdPm9oCm
- bnjA==
-X-Gm-Message-State: AOAM531EO87Yh8RdmpfZSplhovKE4KKiycjon4wdWBDNfP1vyUdHozgS
- mZkAhNzyq67lJATMdamFKzEntQ==
-X-Google-Smtp-Source: ABdhPJysK9Mn7QO6gUkaBkRFKm5HgH59bHgXIhpfcmQCtxXYFvmMdImGtVMKAf5d8NV2D0Lj2ij/iA==
-X-Received: by 2002:a5d:5850:: with SMTP id i16mr9046016wrf.197.1636640297976; 
- Thu, 11 Nov 2021 06:18:17 -0800 (PST)
+ bh=rR+as4B02cSG8PAM14uaiyuoGrHj1v1dYcwDv0GrCrA=;
+ b=J58lUqwkDA/4eUuG/F7ZPNmFOW9UFnjaISY9EE+zsvcx8iicFLxheE/gDd0GjFRblE
+ bdIcj2P1NkvSbayM5tHo6dQdCxeuNQQ/x0BOagOgKO5ROrmOwS0acSqkKuZV6RAP5dbE
+ /R1AZaAaSRO9yM6RwgR+ASIVdjMAAgdPxqPV/WmpTQrVjNGm/2PVSG9oKmTKHh4+SsZx
+ mSQrIdeeTjCEYK8DLqOJmtTcbqREBd1SW4Z67q+EwWv9gTOyCrSLY9NBXYgXsaVcoKIM
+ 8G2lV0ufppinrf1Ff6OA4G8SJuL27IEWfCNP74Q+rQOQwHG1jEKsWnMijVqe03bT94Dq
+ iFGA==
+X-Gm-Message-State: AOAM533Alz7W8sc6HFCWf2MADuQ8wEG+Ld9QrE4/ZD+WfF7IYKfTOKqK
+ LEINxkm+CRFI97yEAit/t7uAjA==
+X-Google-Smtp-Source: ABdhPJy7GB/BHVo/It8agXuqynUMYeu81mW+VmvW36Xbma/pxzPHdkhi9tlRBxqjsyrACElrMlCVNA==
+X-Received: by 2002:a5d:6d07:: with SMTP id e7mr8907566wrq.311.1636640318080; 
+ Thu, 11 Nov 2021 06:18:38 -0800 (PST)
 Received: from [192.168.8.106] (10.red-95-125-227.dynamicip.rima-tde.net.
  [95.125.227.10])
- by smtp.gmail.com with ESMTPSA id w1sm8860918wmc.19.2021.11.11.06.18.16
+ by smtp.gmail.com with ESMTPSA id j134sm3068639wmj.3.2021.11.11.06.18.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Nov 2021 06:18:17 -0800 (PST)
-Subject: Re: [PATCH-for-6.2 v3 2/6] tests/unit/test-smp-parse: QOM'ify
- smp_machine_class_init()
+ Thu, 11 Nov 2021 06:18:37 -0800 (PST)
+Subject: Re: [PATCH-for-6.2 v3 3/6] tests/unit/test-smp-parse: Explicit
+ MachineClass name
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20211111100351.2153662-1-philmd@redhat.com>
- <20211111100351.2153662-3-philmd@redhat.com>
+ <20211111100351.2153662-4-philmd@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <09cf5f54-0e0f-96e4-fac3-d01da5f02503@linaro.org>
-Date: Thu, 11 Nov 2021 15:18:14 +0100
+Message-ID: <1998737b-dc37-11bb-746f-26f55c5cc2f7@linaro.org>
+Date: Thu, 11 Nov 2021 15:18:35 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211111100351.2153662-3-philmd@redhat.com>
+In-Reply-To: <20211111100351.2153662-4-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -52
 X-Spam_score: -5.3
 X-Spam_bar: -----
@@ -100,15 +100,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/11/21 11:03 AM, Philippe Mathieu-Daudé wrote:
-> smp_machine_class_init() is the actual TypeInfo::class_init().
-> Declare it as such in smp_machine_info, and avoid to call it
-> manually in each test. Move smp_machine_info definition just
-> before we register the type to avoid a forward declaration.
+> If the MachineClass::name pointer is not explicitly set, it is NULL.
+> Per the C standard, passing a NULL pointer to printf "%s" format is
+> undefined. Some implementations display it as 'NULL', other as 'null'.
+> Since we are comparing the formatted output, we need a stable value.
+> The easiest is to explicit a machine name string.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<philmd@redhat.com>
 > ---
->   tests/unit/test-smp-parse.c | 25 ++++++++++++-------------
->   1 file changed, 12 insertions(+), 13 deletions(-)
+>   tests/unit/test-smp-parse.c | 8 ++++++--
+>   1 file changed, 6 insertions(+), 2 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
