@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D373944CF44
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 02:51:22 +0100 (CET)
-Received: from localhost ([::1]:60610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E7844CF62
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 02:56:50 +0100 (CET)
+Received: from localhost ([::1]:49110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkzFJ-0003Go-Vy
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 20:51:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53824)
+	id 1mkzKc-0006Wy-04
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 20:56:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1mkz0W-0005io-V2
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 20:36:06 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:54084 helo=loongson.cn)
+ id 1mkz0Z-0005kt-Du
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 20:36:07 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:54106 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1mkz0U-0001ja-8B
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 20:36:04 -0500
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1mkz0W-0001l8-KQ
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 20:36:07 -0500
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxr9Ngc4xh9RMCAA--.4955S16; 
- Thu, 11 Nov 2021 09:35:47 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxr9Ngc4xh9RMCAA--.4955S17; 
+ Thu, 11 Nov 2021 09:35:48 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 14/30] target/loongarch: Implement privilege
- instructions disassembly
-Date: Thu, 11 Nov 2021 09:35:12 +0800
-Message-Id: <1636594528-8175-15-git-send-email-yangxiaojuan@loongson.cn>
+Subject: [RFC PATCH v2 15/30] hw/pci-host: Add ls7a1000 PCIe Host bridge
+ support for Loongson Platform
+Date: Thu, 11 Nov 2021 09:35:13 +0800
+Message-Id: <1636594528-8175-16-git-send-email-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1636594528-8175-1-git-send-email-yangxiaojuan@loongson.cn>
 References: <1636594528-8175-1-git-send-email-yangxiaojuan@loongson.cn>
-X-CM-TRANSID: AQAAf9Dxr9Ngc4xh9RMCAA--.4955S16
-X-Coremail-Antispam: 1UD129KBjvJXoW3Xr4ftrW3CrWxur1DtrWrXwb_yoW7trW5pr
- n8K3sxGry7JFn2k3yxJFyYvFWrWrW5XFy7Z3yavas8AFW7J348Jw10v34jvFy7Z3saqr4U
- Za1xZF48Wa18ZF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf9Dxr9Ngc4xh9RMCAA--.4955S17
+X-Coremail-Antispam: 1UD129KBjvJXoW3Xr13Gry7Gr13JF1DAry5Arb_yoWfAw1fpF
+ n5CasakF4UtF47J393JFn7WF1rXFs3C34UJrW7uw1Iyayxtw1qvrnrKFW5t3y7GrWqqF45
+ XaykG3W2ga18JaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
@@ -59,195 +59,296 @@ Cc: Song Gao <gaosong@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Song Gao <gaosong@loongson.cn>
-Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
----
- target/loongarch/disas.c | 86 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 86 insertions(+)
+This is a model of the PCIe Host Bridge found on a Loongson-5000
+processor. It includes a interrupt controller, some interface for
+pci and nonpci devices we only emulate part devices for tcg mode.
+It support for MSI and MSIX interrupt sources.
 
-diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index 1501462991..65aa0443bd 100644
---- a/target/loongarch/disas.c
-+++ b/target/loongarch/disas.c
-@@ -28,18 +28,28 @@ typedef enum {
-     la_codec_2r_im16,
-     la_codec_2r_im14,
-     la_codec_2r_im12,
-+    la_codec_2r_im8,
-+    la_codec_r_im14,
-     la_codec_r_cd,
-     la_codec_r_cj,
-     la_codec_code,
-     la_codec_whint,
-+    la_codec_invtlb,
-     la_codec_r_ofs21,
-     la_codec_cj_ofs21,
-     la_codec_ofs26,
-     la_codec_cond,
-     la_codec_sel,
-+    la_codec_empty,
-+    la_codec_r_seq,
- 
- } la_codec;
- 
-+#define la_fmt_empty           "nt"
-+#define la_fmt_rd_csr          "nt0,x"
-+#define la_fmt_rj_seq          "nt1,x"
-+#define la_fmt_invtlb          "ntx,1,2"
-+#define la_fmt_rd_rj_csr       "nt0,1,x"
- #define la_fmt_rd_rj           "nt0,1"
- #define la_fmt_rj_rk           "nt1,2"
- #define la_fmt_rd_si20         "nt0,i(x)"
-@@ -68,6 +78,7 @@ typedef enum {
- #define la_fmt_d_cd_fj_fk      "K.dtH,4,5"
- #define la_fmt_fd_fj_fk_fa     "nt3,4,5,6"
- #define la_fmt_fd_fj_fk_ca     "nt3,4,5,L"
-+#define la_fmt_cop_rj_si12     "ntM,1,i(x)"
- 
- typedef struct {
-     uint32_t pc;
-@@ -88,6 +99,8 @@ const char * const fccregnames[8] = {
- };
- 
- /* operand extractors */
-+#define IM_5 5
-+#define IM_8 8
- #define IM_12 12
- #define IM_14 14
- #define IM_15 15
-@@ -170,6 +183,12 @@ static int32_t operand_im12(uint32_t insn)
-     return imm > (1 << 11) ? imm - (1 << 12) : imm;
- }
- 
-+static int32_t operand_im8(uint32_t insn)
+For more detailed info about ls7a1000 you can see the doc at
+https://github.com/loongson/LoongArch-Documentation/releases/latest/
+download/Loongson-7A1000-usermanual-2.00-EN.pdf
+
+Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+Signed-off-by: Song Gao <gaosong@loongson.cn>
+---
+ hw/pci-host/Kconfig        |   4 +
+ hw/pci-host/ls7a.c         | 187 +++++++++++++++++++++++++++++++++++++
+ hw/pci-host/meson.build    |   1 +
+ include/hw/pci-host/ls7a.h |  47 ++++++++++
+ 4 files changed, 239 insertions(+)
+ create mode 100644 hw/pci-host/ls7a.c
+ create mode 100644 include/hw/pci-host/ls7a.h
+
+diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
+index 2b5f7d58cc..b02a9d1454 100644
+--- a/hw/pci-host/Kconfig
++++ b/hw/pci-host/Kconfig
+@@ -77,3 +77,7 @@ config MV64361
+     bool
+     select PCI
+     select I8259
++
++config PCI_EXPRESS_7A
++    bool
++    select PCI_EXPRESS
+diff --git a/hw/pci-host/ls7a.c b/hw/pci-host/ls7a.c
+new file mode 100644
+index 0000000000..90b9fe4830
+--- /dev/null
++++ b/hw/pci-host/ls7a.c
+@@ -0,0 +1,187 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * QEMU Loongson 7A1000 North Bridge Emulation
++ *
++ * Copyright (C) 2021 Loongson Technology Corporation Limited
++ */
++
++#include "qemu/osdep.h"
++
++#include "hw/pci/pci.h"
++#include "hw/pci/pcie_host.h"
++#include "qapi/error.h"
++#include "hw/irq.h"
++#include "hw/pci/pci_bridge.h"
++#include "hw/pci/pci_bus.h"
++#include "sysemu/reset.h"
++#include "hw/pci-host/ls7a.h"
++#include "migration/vmstate.h"
++
++static const VMStateDescription vmstate_ls7a_pcie = {
++    .name = "LS7A_PCIE",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_PCI_DEVICE(dev, LS7APCIState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static void pci_ls7a_config_write(void *opaque, hwaddr addr,
++                                  uint64_t val, unsigned size)
 +{
-+    int32_t imm = (int32_t)((insn >> 10) & 0xff);
-+    return imm > (1 << 7) ? imm - (1 << 8) : imm;
++    pci_data_write(opaque, addr, val, size);
 +}
 +
- static uint32_t operand_cd(uint32_t insn)
- {
-     return insn & 0x7;
-@@ -191,6 +210,12 @@ static int32_t operand_whint(uint32_t insn)
-     return imm > (1 << 14) ? imm - (1 << 15) : imm;
- }
- 
-+static int32_t operand_invop(uint32_t insn)
++static uint64_t pci_ls7a_config_read(void *opaque,
++                                     hwaddr addr, unsigned size)
 +{
-+    int32_t imm = (int32_t)(insn & 0x1f);
-+    return imm > (1 << 4) ? imm - (1 << 5) : imm;
++    uint64_t val;
++
++    val = pci_data_read(opaque, addr, size);
++
++    return val;
 +}
 +
- static int32_t operand_ofs21(uint32_t insn)
- {
-     int32_t imm = (((int32_t)insn & 0x1f) << 16) |
-@@ -220,6 +245,8 @@ static void decode_insn_operands(la_decode *dec)
- {
-     uint32_t insn = dec->insn;
-     switch (dec->codec) {
-+    case la_codec_empty:
-+        break;
-     case la_codec_2r:
-         dec->r1 = operand_r1(insn);
-         dec->r2 = operand_r2(insn);
-@@ -291,6 +318,17 @@ static void decode_insn_operands(la_decode *dec)
-         dec->imm = operand_im12(insn);
-         dec->bit = IM_12;
-         break;
-+    case la_codec_2r_im8:
-+        dec->r1 = operand_r1(insn);
-+        dec->r2 = operand_r2(insn);
-+        dec->imm = operand_im8(insn);
-+        dec->bit = IM_8;
-+        break;
-+    case la_codec_r_im14:
-+        dec->r1 = operand_r1(insn);
-+        dec->imm = operand_im14(insn);
-+        dec->bit = IM_14;
-+        break;
-     case la_codec_r_cd:
-         dec->r1 = operand_cd(insn);
-         dec->r2 = operand_r2(insn);
-@@ -299,6 +337,12 @@ static void decode_insn_operands(la_decode *dec)
-         dec->r1 = operand_r1(insn);
-         dec->r2 = operand_cj(insn);
-         break;
-+    case la_codec_r_seq:
-+        dec->r1 = 0;
-+        dec->r2 = operand_r1(insn);
-+        dec->imm = operand_im8(insn);
-+        dec->bit = IM_8;
-+        break;
-     case la_codec_code:
-         dec->code = operand_code(insn);
-         break;
-@@ -306,6 +350,12 @@ static void decode_insn_operands(la_decode *dec)
-         dec->imm = operand_whint(insn);
-         dec->bit = IM_15;
-         break;
-+    case la_codec_invtlb:
-+        dec->imm = operand_invop(insn);
-+        dec->bit = IM_5;
-+        dec->r2 = operand_r2(insn);
-+        dec->r3 = operand_r3(insn);
-+        break;
-     case la_codec_r_ofs21:
-         dec->imm = operand_ofs21(insn);
-         dec->bit = IM_21;
-@@ -499,6 +549,10 @@ static void format_insn(char *buf, size_t buflen,  const char* name,
-         case 'L': /* ca */
-             append(buf, fccregnames[dec->r4], buflen);
-             break;
-+        case 'M': /* cop */
-+            snprintf(tmp, sizeof(tmp), "0x%x", (dec->imm2) & 0x1f);
-+            append(buf, tmp, buflen);
-+            break;
-         case 'i': /* sixx d */
-             snprintf(tmp, sizeof(tmp), "%d", dec->imm);
-             append(buf, tmp, buflen);
-@@ -509,6 +563,14 @@ static void format_insn(char *buf, size_t buflen,  const char* name,
-             break;
-         case 'x': /* sixx x */
-             switch (dec->bit) {
-+            case IM_5:
-+                snprintf(tmp, sizeof(tmp), "0x%x", (dec->imm) & 0x1f);
-+                append(buf, tmp, buflen);
-+                break;
-+            case IM_8:
-+                snprintf(tmp, sizeof(tmp), "0x%x", (dec->imm) & 0xff);
-+                append(buf, tmp, buflen);
-+                break;
-             case IM_12:
-                 snprintf(tmp, sizeof(tmp), "0x%x", (dec->imm) & 0xfff);
-                 append(buf, tmp, buflen);
-@@ -916,3 +978,27 @@ INSN(blt,          la_fmt_rj_rd_offs16, la_codec_2r_im16)
- INSN(bge,          la_fmt_rj_rd_offs16, la_codec_2r_im16)
- INSN(bltu,         la_fmt_rj_rd_offs16, la_codec_2r_im16)
- INSN(bgeu,         la_fmt_rj_rd_offs16, la_codec_2r_im16)
-+INSN(csrrd,        la_fmt_rd_csr,       la_codec_r_im14)
-+INSN(csrwr,        la_fmt_rd_csr,       la_codec_r_im14)
-+INSN(csrxchg,      la_fmt_rd_rj_csr,    la_codec_2r_im14)
-+INSN(iocsrrd_b,    la_fmt_rd_rj,        la_codec_2r)
-+INSN(iocsrrd_h,    la_fmt_rd_rj,        la_codec_2r)
-+INSN(iocsrrd_w,    la_fmt_rd_rj,        la_codec_2r)
-+INSN(iocsrrd_d,    la_fmt_rd_rj,        la_codec_2r)
-+INSN(iocsrwr_b,    la_fmt_rd_rj,        la_codec_2r)
-+INSN(iocsrwr_h,    la_fmt_rd_rj,        la_codec_2r)
-+INSN(iocsrwr_w,    la_fmt_rd_rj,        la_codec_2r)
-+INSN(iocsrwr_d,    la_fmt_rd_rj,        la_codec_2r)
-+INSN(cacop,        la_fmt_rd_rj_si,     la_codec_2r_im12)
-+INSN(tlbsrch,      la_fmt_empty,        la_codec_empty)
-+INSN(tlbrd,        la_fmt_empty,        la_codec_empty)
-+INSN(tlbwr,        la_fmt_empty,        la_codec_empty)
-+INSN(tlbfill,      la_fmt_empty,        la_codec_empty)
-+INSN(tlbclr,       la_fmt_empty,        la_codec_empty)
-+INSN(tlbflush,     la_fmt_empty,        la_codec_empty)
-+INSN(invtlb,       la_fmt_invtlb,       la_codec_invtlb)
-+INSN(lddir,        la_fmt_rd_rj_si,     la_codec_2r_im8)
-+INSN(ldpte,        la_fmt_rj_seq,       la_codec_r_seq)
-+INSN(ertn,         la_fmt_empty,        la_codec_empty)
-+INSN(idle,         la_fmt_whint,        la_codec_whint)
-+INSN(dbcl,         la_fmt_code,         la_codec_code)
++static const MemoryRegionOps pci_ls7a_config_ops = {
++    .read = pci_ls7a_config_read,
++    .write = pci_ls7a_config_write,
++    .valid = {
++        .min_access_size = 1,
++        .max_access_size = 4,
++    },
++    .impl = {
++        .min_access_size = 1,
++        .max_access_size = 4,
++    },
++    .endianness = DEVICE_NATIVE_ENDIAN,
++};
++
++static void ls7a_pciehost_realize(DeviceState *dev, Error **errp)
++{
++    LS7APCIEHost *pciehost = LS7A_PCIE_HOST_BRIDGE(dev);
++    PCIExpressHost *e = PCIE_HOST_BRIDGE(dev);
++    PCIHostState *phb = PCI_HOST_BRIDGE(e);
++
++    phb->bus = pci_register_root_bus(dev, "pcie.0", NULL,
++                                     NULL, pciehost,
++                                     get_system_memory(), get_system_io(),
++                                     PCI_DEVFN(1, 0), 128, TYPE_PCIE_BUS);
++
++    memory_region_init_io(&pciehost->pci_conf, OBJECT(dev),
++                          &pci_ls7a_config_ops, phb->bus,
++                          "ls7a_pci_conf", HT1LO_PCICFG_SIZE);
++    memory_region_add_subregion(get_system_memory(), HT1LO_PCICFG_BASE,
++                                &pciehost->pci_conf);
++
++    /* Add ls7a pci-io */
++    memory_region_init_alias(&pciehost->pci_io, OBJECT(dev), "ls7a-pci-io",
++                             get_system_io(), 0, LS7A_PCI_IO_SIZE);
++    memory_region_add_subregion(get_system_memory(), LS7A_PCI_IO_BASE,
++                                &pciehost->pci_io);
++
++    pcie_host_mmcfg_update(e, true, LS_PCIECFG_BASE, LS_PCIECFG_SIZE);
++}
++
++PCIBus *ls7a_init(MachineState *machine, qemu_irq *pic)
++{
++    DeviceState *dev;
++    PCIHostState *phb;
++    LS7APCIState *pbs;
++    LS7APCIEHost *pciehost;
++    PCIDevice *pci_dev;
++    PCIExpressHost *e;
++
++    dev = qdev_new(TYPE_LS7A_PCIE_HOST_BRIDGE);
++    e = PCIE_HOST_BRIDGE(dev);
++    phb = PCI_HOST_BRIDGE(e);
++    pciehost = LS7A_PCIE_HOST_BRIDGE(dev);
++    pciehost->pic = pic;
++
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
++
++    pci_dev = pci_new(PCI_DEVFN(0, 0), TYPE_LS7A_PCIE);
++    pbs = LS7A_PCIE(pci_dev);
++    pbs->pciehost = pciehost;
++    pbs->pciehost->pci_dev = pbs;
++
++    pci_realize_and_unref(pci_dev, phb->bus, &error_fatal);
++
++    return phb->bus;
++}
++
++static void ls7a_reset(DeviceState *qdev)
++{
++    uint64_t wmask;
++    wmask = ~(-1);
++    PCIDevice *dev = PCI_DEVICE(qdev);
++
++    pci_set_word(dev->config + PCI_STATUS, 0x0010);
++    pci_set_word(dev->wmask + PCI_STATUS, wmask & 0xffff);
++    pci_set_word(dev->cmask + PCI_STATUS, 0xffff);
++    pci_set_byte(dev->config + PCI_HEADER_TYPE, 0x1);
++    pci_set_byte(dev->wmask + PCI_HEADER_TYPE, wmask & 0xff);
++    pci_set_byte(dev->cmask + PCI_HEADER_TYPE, 0xff);
++    pci_set_word(dev->config + PCI_SUBSYSTEM_VENDOR_ID, 0x0014);
++    pci_set_word(dev->wmask + PCI_SUBSYSTEM_VENDOR_ID, wmask & 0xffff);
++    pci_set_word(dev->cmask + PCI_SUBSYSTEM_VENDOR_ID, 0xffff);
++    pci_set_word(dev->config + PCI_SUBSYSTEM_ID, 0x7a00);
++    pci_set_word(dev->wmask + PCI_SUBSYSTEM_ID, wmask & 0xffff);
++    pci_set_word(dev->cmask + PCI_SUBSYSTEM_ID, 0xffff);
++    pci_set_byte(dev->config + PCI_CAPABILITY_LIST, 0x40);
++    pci_set_byte(dev->wmask + PCI_CAPABILITY_LIST, wmask & 0xff);
++    pci_set_byte(dev->cmask + PCI_CAPABILITY_LIST, 0xff);
++}
++
++static void ls7a_pcie_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
++
++    k->vendor_id = 0x0014;
++    k->device_id = 0x7a00;
++    k->revision = 0x00;
++    k->class_id = PCI_CLASS_BRIDGE_HOST;
++    dc->reset = ls7a_reset;
++    dc->desc = "LS7A1000 PCIE Host bridge";
++    dc->vmsd = &vmstate_ls7a_pcie;
++    /*
++     * PCI-facing part of the host bridge, not usable without the
++     * host-facing part, which can't be device_add'ed, yet.
++     */
++    dc->user_creatable = false;
++}
++
++static const TypeInfo ls7a_pcie_device_info = {
++    .name          = TYPE_LS7A_PCIE,
++    .parent        = TYPE_PCI_DEVICE,
++    .instance_size = sizeof(LS7APCIState),
++    .class_init    = ls7a_pcie_class_init,
++    .interfaces = (InterfaceInfo[]) {
++        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
++        { },
++    },
++};
++
++static void ls7a_pciehost_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    dc->realize = ls7a_pciehost_realize;
++    dc->fw_name = "pci";
++    dc->user_creatable = false;
++}
++
++static const TypeInfo ls7a_pciehost_info = {
++    .name          = TYPE_LS7A_PCIE_HOST_BRIDGE,
++    .parent        = TYPE_PCIE_HOST_BRIDGE,
++    .instance_size = sizeof(LS7APCIEHost),
++    .class_init    = ls7a_pciehost_class_init,
++};
++
++static void ls7a_register_types(void)
++{
++    type_register_static(&ls7a_pciehost_info);
++    type_register_static(&ls7a_pcie_device_info);
++}
++
++type_init(ls7a_register_types)
+diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
+index 4c4f39c15c..c4955455fd 100644
+--- a/hw/pci-host/meson.build
++++ b/hw/pci-host/meson.build
+@@ -11,6 +11,7 @@ pci_ss.add(when: 'CONFIG_PCI_SABRE', if_true: files('sabre.c'))
+ pci_ss.add(when: 'CONFIG_XEN_IGD_PASSTHROUGH', if_true: files('xen_igd_pt.c'))
+ pci_ss.add(when: 'CONFIG_REMOTE_PCIHOST', if_true: files('remote.c'))
+ pci_ss.add(when: 'CONFIG_SH_PCI', if_true: files('sh_pci.c'))
++pci_ss.add(when: 'CONFIG_PCI_EXPRESS_7A', if_true: files('ls7a.c'))
+ 
+ # PPC devices
+ pci_ss.add(when: 'CONFIG_RAVEN_PCI', if_true: files('raven.c'))
+diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
+new file mode 100644
+index 0000000000..6b5ba3b442
+--- /dev/null
++++ b/include/hw/pci-host/ls7a.h
+@@ -0,0 +1,47 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * QEMU LoongArch CPU
++ *
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ */
++
++#ifndef HW_LS7A_H
++#define HW_LS7A_H
++
++#include "hw/pci/pci.h"
++#include "hw/pci/pcie_host.h"
++#include "hw/pci-host/pam.h"
++#include "qemu/units.h"
++#include "qemu/range.h"
++#include "qom/object.h"
++
++#define HT1LO_PCICFG_BASE        0x1a000000
++#define HT1LO_PCICFG_SIZE        0x02000000
++
++#define LS_PCIECFG_BASE          0x20000000
++#define LS_PCIECFG_SIZE          0x08000000
++
++#define LS7A_PCI_IO_BASE        0x18000000UL
++#define LS7A_PCI_IO_SIZE        0x00010000
++typedef struct LS7APCIState LS7APCIState;
++typedef struct LS7APCIEHost {
++    PCIExpressHost parent_obj;
++    LS7APCIState *pci_dev;
++    qemu_irq *pic;
++    MemoryRegion pci_conf;
++    MemoryRegion pci_io;
++} LS7APCIEHost;
++
++struct LS7APCIState {
++    PCIDevice dev;
++    LS7APCIEHost *pciehost;
++};
++
++#define TYPE_LS7A_PCIE_HOST_BRIDGE "ls7a1000-pciehost"
++OBJECT_DECLARE_SIMPLE_TYPE(LS7APCIEHost, LS7A_PCIE_HOST_BRIDGE)
++
++#define TYPE_LS7A_PCIE "ls7a1000_pcie"
++OBJECT_DECLARE_SIMPLE_TYPE(LS7APCIState, LS7A_PCIE)
++
++PCIBus *ls7a_init(MachineState *machine, qemu_irq *irq);
++#endif /* HW_LS7A_H */
 -- 
 2.27.0
 
