@@ -2,80 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CD4A44DADA
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 17:56:54 +0100 (CET)
-Received: from localhost ([::1]:36786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 923C944DAE2
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 17:59:47 +0100 (CET)
+Received: from localhost ([::1]:39984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlDNc-0001I5-QX
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 11:56:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35908)
+	id 1mlDQQ-0003f2-D3
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 11:59:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mlDMC-0000BI-Gd
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 11:55:24 -0500
-Received: from [2a00:1450:4864:20::42e] (port=43647
- helo=mail-wr1-x42e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mlDMA-0000Hc-IQ
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 11:55:24 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id t30so10853091wra.10
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 08:55:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iADQHamfW58+cC1f3g4SsWPLaacjHyMht9a/GpaxB/E=;
- b=PXIzLxxVFz6HcS5NOMSXLisrOJOnG59UkSmF0CgTvUTksJPa/30TNyL3y+KCDrdJpc
- UZAHwv7ODEizWdcKXUiez9Dek7Cc7izREjt7RNMdlQd//meYH4I/Po59ZxyI6cq3ld8n
- UKaL1S2scZX3MCPflChWnmyC4TC6wBac9XA63GIfKjSll6FNrtHWFkpkbkNhZjuPc+M4
- q/iRaosSrrJ6ZrOrZLed8Z5UEJ/RhAq9WfPu041jT4iNQ/F2GPs8pL1JItgyvJeokZLC
- 1eSn7R3uQZ9UvJzVFXiaMk6fusW3Gp4vs8O4zyIIEDUeGIHINZ16Ws9158c8gLhokyQH
- P0qw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mlDPO-0002iN-Qp
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 11:58:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52622)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mlDPL-0000fS-QZ
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 11:58:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636649918;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vHeaTJeY6N4ao/XntS0lMfOBBlCBg8/dgl6+/Wn8GFU=;
+ b=K7PfkRGclMmuf5mCTreROpVeA/kb6p7K6hFkE6FPQn1CBgm1ieY41WUB8sv6e4ZFqIidGU
+ 4Sd+DSjXGFuPPtR/cQcryxcluF+TaMoaqx8AC4tiVDsOJ7khsEkpnM+upWwzI0vbOaIpRe
+ vtjJZrRHDcYQg/NDY2nuM1YENvemV/0=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-215-TYtn7g_bNp-a8kiYIMbTow-1; Thu, 11 Nov 2021 11:58:37 -0500
+X-MC-Unique: TYtn7g_bNp-a8kiYIMbTow-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ r25-20020a05640216d900b003dca3501ab4so5897818edx.15
+ for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 08:58:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iADQHamfW58+cC1f3g4SsWPLaacjHyMht9a/GpaxB/E=;
- b=uf27236BKA4OHzgT3EV/3Fatcxjs45FhGW0An5J+oBw0q0LMm0gLOqXd/E4W79jHya
- IImu8HDUrpeN0J/rQaDdr6r79VaJKOVr2WEP7hdHVRdvafOchY3wPv8daERG+jmJg3X+
- uGf/xR2n4ecw2JK+MVmKKLA/y0Mut8x0TkNNhf4D8F7RzFjHTrTnV/+8bckgy4NJgzKe
- kd9dM802hhRpQt+rklaGIqv8WMIPC11Qi349w+U5RBH73Rnr4Sv9+PatBQH8Q21p2opi
- e3vhIv/Nz+qWdC7nQPPAZH5xo6QAVbYqZVqVpppOW4P2xFQvSAH62DvUOcWaa9Mg7Bn1
- XcUw==
-X-Gm-Message-State: AOAM532Flqj3dAVTazVPdbvISkITBr5+AhcpJ19lNreLX5a3uW0TBz4z
- AE+Pd8MiGgYrZD3ce8bCBNMxsBaatjaBmorfhAbKfA==
-X-Google-Smtp-Source: ABdhPJy0PPv5fSAHpxrT8LFKBZANa72f9OmW7DIrD9SnLrRD09Y4d/oOVWpCo1OwGnJ6SXkXWeNpMglcD1G/sYWbHO8=
-X-Received: by 2002:adf:e984:: with SMTP id h4mr10618461wrm.149.1636649720457; 
- Thu, 11 Nov 2021 08:55:20 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=vHeaTJeY6N4ao/XntS0lMfOBBlCBg8/dgl6+/Wn8GFU=;
+ b=hpZebFp79DWybnMJ5vWh40IfF0/n+BWvT+bK54cR/dl0BW2v6WYCLPQJy1VFBn/kan
+ sv96UqpGBMTAtxNQsZOxXWbCod83786K0d3JF41N/ybU8hFKSY8LABgk433/oWmLn0MB
+ ciwrX09ztalzjU0sg7PBBH+DVgjart6ZhK4rcrf6xfYJtkzl2MWQ4bslZIK5sEDMP+d9
+ FQ+LkYssVTZ+l0/igyC5++68OLWGUryV54Vr+sbUNviV8ZkWAGpj1Qt41/u2pl5n6N6J
+ RI4Ujkb9hEf9yoik7VBUt9hNrrWyeq4zts97ASaSnxUBRWlbyj2r7srdNCCCKB+Ow7Rq
+ VXWA==
+X-Gm-Message-State: AOAM531vv1BzSTio9Oa7aXBSx9ZDD3GDa3Yjc1A1Z3wpGluEYIlaCZI1
+ sj6fewr5belKve/qxclKxNXqwrT2wdS8glidlKhKS3ZKqVAPPgQrY0nsmS85Zq0mCSvu3AZMH8F
+ xhk7/tBD+sVU+tHs=
+X-Received: by 2002:a17:907:9612:: with SMTP id
+ gb18mr11159851ejc.205.1636649916093; 
+ Thu, 11 Nov 2021 08:58:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxml2OcYYyTyP/tzUfOekQF+AGK1i6Xv9/X4IiCpdZpmQxKy9+i1JYMJOYRwjxWH4u8M40TzA==
+X-Received: by 2002:a17:907:9612:: with SMTP id
+ gb18mr11159822ejc.205.1636649915954; 
+ Thu, 11 Nov 2021 08:58:35 -0800 (PST)
+Received: from redhat.com ([2.55.135.246])
+ by smtp.gmail.com with ESMTPSA id r26sm1659037ejd.85.2021.11.11.08.58.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Nov 2021 08:58:35 -0800 (PST)
+Date: Thu, 11 Nov 2021 11:58:31 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 1/5] virtio-gpu: do not byteswap padding
+Message-ID: <20211111115813-mutt-send-email-mst@kernel.org>
+References: <20211111110604.207376-1-pbonzini@redhat.com>
+ <20211111110604.207376-2-pbonzini@redhat.com>
 MIME-Version: 1.0
-References: <20210812165341.40784-1-shashi.mallela@linaro.org>
- <20210812165341.40784-8-shashi.mallela@linaro.org>
- <CAFEAcA9WVu+kjfCWwfGQV00yKgmdFDCSUpxNOu1BEBM3AZCWXg@mail.gmail.com>
- <20210902124258.mqjhx7lqqvkczf6a@leviathan>
- <CAFEAcA-KeBzOCP1CHVWPHbHzG=KbS_HJmXoYo7B2VBz=oGSd3w@mail.gmail.com>
- <20211015122351.vc55mwzjbevl6wjy@leviathan>
- <CAFEAcA-Xe2u8n+og4TMyZSSvdBm8nrma3z4GkVjEJHPdJu8Fnw@mail.gmail.com>
- <20211109204249.usvfatm3frar3u7a@leviathan>
- <CAFEAcA98G_u74G7PQFVZ_FTirKtnO63WQhA5bV_zVJJXAzJang@mail.gmail.com>
- <20211109225251.gfr2mvm3jynvdsnk@leviathan>
-In-Reply-To: <20211109225251.gfr2mvm3jynvdsnk@leviathan>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 11 Nov 2021 16:55:09 +0000
-Message-ID: <CAFEAcA-0NFAM5j8CrUf+hPmCZBGOiAkk2f-n-pfqjsv+OwM38w@mail.gmail.com>
-Subject: Re: [PATCH v8 07/10] hw/arm/sbsa-ref: add ITS support in SBSA GIC
-To: Leif Lindholm <leif@nuviainc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20211111110604.207376-2-pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,50 +94,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Shashi Mallela <shashi.mallela@linaro.org>,
- Radoslaw Biernacki <rad@semihalf.com>, QEMU Developers <qemu-devel@nongnu.org>,
- narmstrong@baylibre.com, Eric Auger <eric.auger@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: cohuck@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+ mlevitsk@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 9 Nov 2021 at 22:52, Leif Lindholm <leif@nuviainc.com> wrote:
->
-> On Tue, Nov 09, 2021 at 21:21:46 +0000, Peter Maydell wrote:
-> > The other thing we should nail down is how the user is going to
-> > select which flavour of machine they want to provide. Three
-> > options:
-> >  (1) no control, QEMU just emulates whatever the newest flavour is.
-> > User needs to go find a firmware image new enough to cope.
-> >  (2) different flavours exposed as different machine types
-> > (analogous to how we have musca-a and musca-b1, or raspi3ap and
-> > raspi3b, for instance). Old user command lines keep working
-> > because -M sbsa-ref doesn't change; the new stuff would be
-> > available via -M sbsa-ref-2 or whatever.
-> >  (3) different flavours exposed via a property
-> > (so you would have -M sbsa-ref,machine-revision=2 or something).
-> > If the revision defaults to 1 then old user setups still work
-> > but everybody starts to have to cart around an extra command
-> > line argument. If it defaults to "newest we know about" you
-> > get the opposite set of tradeoffs.
->
-> I'm leaning towards (1), at least while working towards a "complete"
-> platform (when we may still add/change features, but not how those
-> features are communicated to the firmware).
+On Thu, Nov 11, 2021 at 12:06:00PM +0100, Paolo Bonzini wrote:
+> In Linux 5.16, the padding of struct virtio_gpu_ctrl_hdr has become a
+> single-byte field followed by a uint8_t[3] array of padding bytes,
+> and virtio_gpu_ctrl_hdr_bswap does not compile anymore.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-That's certainly the easiest on the QEMU side; you know the
-userbase so would know whether that kind of compat break is
-going to be OK with them.
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
-Q1: who is going to write the code for this?
+No idea why we bothered swapping it anyway.
+> ---
+>  include/hw/virtio/virtio-gpu-bswap.h | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/include/hw/virtio/virtio-gpu-bswap.h b/include/hw/virtio/virtio-gpu-bswap.h
+> index e2bee8f595..5faac0d8d5 100644
+> --- a/include/hw/virtio/virtio-gpu-bswap.h
+> +++ b/include/hw/virtio/virtio-gpu-bswap.h
+> @@ -24,7 +24,6 @@ virtio_gpu_ctrl_hdr_bswap(struct virtio_gpu_ctrl_hdr *hdr)
+>      le32_to_cpus(&hdr->flags);
+>      le64_to_cpus(&hdr->fence_id);
+>      le32_to_cpus(&hdr->ctx_id);
+> -    le32_to_cpus(&hdr->padding);
+>  }
+>  
+>  static inline void
+> -- 
+> 2.33.1
+> 
 
-Q2: do we want to try to land "ITS in sbsa-ref" in 6.2? Given
-we're in freeze we're quite short of time even if we handwave
-the fact it's a new feature, not a bugfix, so I would lean
-towards 'no'...
-
--- PMM
 
