@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A49B244D5B9
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 12:20:21 +0100 (CET)
-Received: from localhost ([::1]:56622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D080D44D58D
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 12:09:03 +0100 (CET)
+Received: from localhost ([::1]:59174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml87w-00009l-Pu
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 06:20:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51456)
+	id 1ml7x1-0007nE-0Q
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 06:09:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ml7v0-0004qT-Lr
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 06:06:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57397)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ml7uy-0001ig-Ur
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 06:06:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636628816;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iZIX6cRMnaI8/3/8RKmJBVyA+zNvAK13IGGFpXZi56Q=;
- b=LNTzRvtmI+Wern9fWKvrwNg3fYVq2Ow/3kDxMQLWqr+HADkkeVht9CYDvAbli4SGojPV6e
- BDtBkSrmbstXWVUxRz45fmWb5wVdEpUW+8fNMPq9VxvY3StBgq9S5Lr1Ozp1A+TraBsvzS
- kyZ2VzD45z5DJFpmbqV4Vk9JW5gsHpQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-253-XB0cZ4tIMJG89WaIzemoYQ-1; Thu, 11 Nov 2021 06:06:53 -0500
-X-MC-Unique: XB0cZ4tIMJG89WaIzemoYQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16EC99F92A;
- Thu, 11 Nov 2021 11:06:52 +0000 (UTC)
-Received: from avogadro.lan (unknown [10.39.194.214])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 126F610074E0;
- Thu, 11 Nov 2021 11:06:41 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ml7v5-0004xi-4P
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 06:07:03 -0500
+Received: from [2a00:1450:4864:20::42e] (port=44838
+ helo=mail-wr1-x42e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ml7v3-0001iz-3b
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 06:07:02 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id n29so9110304wra.11
+ for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 03:06:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gMRuO5XLSwjHrhtFj2+MvlbXZKFSLLxVaLyxzEOBhp8=;
+ b=PFY+b6p7ausys1GoYT+Is8w6Eq7wBmSiV7oXdkbKD3SLUdQZiqn4H7hGV+dwEo4Nm9
+ Z76ZXzzIv3XuM8gz9l8BZGsfMtx5B7oGyuRedBHTH073NCaDRr0mzkJcYVcis/0OIMCc
+ uBk4oLk06UebhNLZUdAHJOX9+AdyUbOJzT4glaeR67iT+6/8hI475p9Tj7dNNZ1Dautm
+ 0zpAp2hF26EzReuU53ZUk7kT5OlWt6d1hhH1MtZgHNdL7+uFgRPm7+z2f507At94fqQ9
+ wswsEnNd7z2OMsa/CMKquxuAfwA4mQ8a69S1460WIt7Uegm1lAR8C0vfMSsRdycRI1vb
+ KZkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gMRuO5XLSwjHrhtFj2+MvlbXZKFSLLxVaLyxzEOBhp8=;
+ b=18KnyDqKLAi81ejIMoVW4JiTX1tHD0k1wYdPsDFYKJ7plfTaZHcxxj301soV66Hwh4
+ p38Z3+T/tc3b1JFqthRjcwH3x1ZPA4OjG0Kfe67YcgMBjtz/AxNfXLKnwidvyTnXPl9o
+ S501Dxl+85jrG4hcO60f9fRv6G+Y4c/LHeyV+09FN+NJXSZ63U+AP54QS57dI2Uu2bX6
+ jJ2Wnu60l44XI44wWeg/n//JGuUdPCOMusIRzShtWV+QpDC8l8cscBCBS7VZ4LwLMJAR
+ uRztiLQZi2qQAKriIA2BvEVZab8O4p3zXSwznGFmE/vhPd7QFiPtOsowH0ONPRKAHqdF
+ dffg==
+X-Gm-Message-State: AOAM531BwGTCE7ZBOTPc40DhNGDZy2UC9PmtDKMDdpiWCkF/quDFbct7
+ w6bBvMAekUMONac2VW8nryBIaRSi6gPvg5BPplU=
+X-Google-Smtp-Source: ABdhPJzYq9YMGV3M1a7/joe+pyMiIDuYV26ETWbJ6QbZYlG3E5m4KUzifWWUNd6d1U37SdEQLdt3Bg==
+X-Received: by 2002:a5d:4b45:: with SMTP id w5mr7615956wrs.272.1636628818700; 
+ Thu, 11 Nov 2021 03:06:58 -0800 (PST)
+Received: from localhost.localdomain
+ (10.red-95-125-227.dynamicip.rima-tde.net. [95.125.227.10])
+ by smtp.gmail.com with ESMTPSA id j8sm2536684wrh.16.2021.11.11.03.06.57
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Nov 2021 03:06:58 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/5] kvm: add support for KVM_GUESTDBG_BLOCKIRQ
-Date: Thu, 11 Nov 2021 12:06:04 +0100
-Message-Id: <20211111110604.207376-6-pbonzini@redhat.com>
-In-Reply-To: <20211111110604.207376-1-pbonzini@redhat.com>
-References: <20211111110604.207376-1-pbonzini@redhat.com>
+Subject: [PULL 0/4] tcg patch queue
+Date: Thu, 11 Nov 2021 12:06:52 +0100
+Message-Id: <20211111110656.237727-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,65 +86,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, mst@redhat.com, alex.bennee@linaro.org,
- mlevitsk@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxim Levitsky <mlevitsk@redhat.com>
+The following changes since commit 1b9fc6d8ba6667ceb56a3392e84656dcaed0d676:
 
-Use the KVM_GUESTDBG_BLOCKIRQ debug flag if supported. 
+  Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2021-11-11 09:56:22 +0100)
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-[Extracted from Maxim's patch into a separate commit. - Paolo]
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- accel/kvm/kvm-all.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+are available in the Git repository at:
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 2f5597572a..0e66ebb497 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -61,6 +61,10 @@
- #endif
- #define PAGE_SIZE qemu_real_host_page_size
- 
-+#ifndef KVM_GUESTDBG_BLOCKIRQ
-+#define KVM_GUESTDBG_BLOCKIRQ 0
-+#endif
-+
- //#define DEBUG_KVM
- 
- #ifdef DEBUG_KVM
-@@ -2574,6 +2578,15 @@ static int kvm_init(MachineState *ms)
-     kvm_sstep_flags = 0;
-     if (kvm_has_guest_debug) {
-         kvm_sstep_flags = SSTEP_ENABLE;
-+
-+#if defined KVM_CAP_SET_GUEST_DEBUG2
-+        int guest_debug_flags =
-+            kvm_check_extension(s, KVM_CAP_SET_GUEST_DEBUG2);
-+
-+        if (guest_debug_flags & KVM_GUESTDBG_BLOCKIRQ) {
-+            kvm_sstep_flags |= SSTEP_NOIRQ;
-+        }
-+#endif
-     }
- 
-     kvm_state = s;
-@@ -3205,6 +3218,10 @@ int kvm_update_guest_debug(CPUState *cpu, unsigned long reinject_trap)
- 
-     if (cpu->singlestep_enabled) {
-         data.dbg.control |= KVM_GUESTDBG_ENABLE | KVM_GUESTDBG_SINGLESTEP;
-+
-+        if (cpu->singlestep_enabled & SSTEP_NOIRQ) {
-+            data.dbg.control |= KVM_GUESTDBG_BLOCKIRQ;
-+        }
-     }
-     kvm_arch_update_guest_debug(cpu, &data.dbg);
- 
--- 
-2.33.1
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20211111
 
+for you to fetch changes up to d58f01733b94845b0c2232018a2bedb6a2347ec5:
+
+  tcg/s390x: Fix tcg_out_vec_op argument type (2021-11-11 11:47:58 +0100)
+
+----------------------------------------------------------------
+appease coverity vs extract2
+update docs for ctpop opcodes
+tcg/s390x build fix for gcc11
+
+----------------------------------------------------------------
+Miroslav Rezanina (1):
+      tcg/s390x: Fix tcg_out_vec_op argument type
+
+Philippe Mathieu-Daudé (1):
+      tcg: Remove TCI experimental status
+
+Richard Henderson (2):
+      tcg/optimize: Add an extra cast to fold_extract2
+      tcg: Document ctpop opcodes
+
+ docs/about/build-platforms.rst | 10 ++++++----
+ meson.build                    |  4 ++--
+ tcg/optimize.c                 |  2 +-
+ tcg/s390x/tcg-target.c.inc     |  3 ++-
+ meson_options.txt              |  2 +-
+ scripts/meson-buildoptions.sh  |  3 +--
+ tcg/README                     |  6 ++++++
+ 7 files changed, 19 insertions(+), 11 deletions(-)
 
