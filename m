@@ -2,81 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E9144D1C8
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 06:58:35 +0100 (CET)
-Received: from localhost ([::1]:34988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 040F344D1C9
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 07:01:29 +0100 (CET)
+Received: from localhost ([::1]:38752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml36X-0007hv-TY
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 00:58:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47590)
+	id 1ml39L-0002Cv-Vc
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 01:01:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ml349-0006lL-SF
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 00:56:05 -0500
-Received: from [2607:f8b0:4864:20::533] (port=38573
- helo=mail-pg1-x533.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ml348-0002vf-F9
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 00:56:05 -0500
-Received: by mail-pg1-x533.google.com with SMTP id e65so4271171pgc.5
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 21:56:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=vfYTlcLHbAbVB5Q7wTSCJAVxIFIuEU1fhUkRCrwUtdM=;
- b=ATVq4I0y5Nj0jKpf65ofhjd/CezScgbJLAB+Ny1iZZD5dxsSroCYhNa1ygmq52J31m
- e+B5KW2YgQV4xp1v7Wn5xyIXK0DHEegc83H1qAfVN6IY5a23QtmhU6VOz+eF37GM2FyH
- 8GAz5cwp0deEmOYJwcGrBTN/ZLBHERoJ/D0HPYdUddOiDe/sIbPZgc7S0/EuyQYtwd0J
- 0IH0JiAlKW7MqUk3ayeJYj0GONxwqYU/PKY9vZsskvk/EMxx+F9VeVUPersMH9XuaToR
- GJixlOy9AWK1rFPJlJ9+1Hk62E1HOBzx1tYDFz+Ucsf+q4qPiAq+6UPKywYJEYdy1fwo
- sH/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=vfYTlcLHbAbVB5Q7wTSCJAVxIFIuEU1fhUkRCrwUtdM=;
- b=0cxis2kOalmyZe3qmIHF7JmBaWFL77w8t4NMjCsrlFPZ4Ym08Wub22tAc26wkNsgTh
- UVttdeNsvKLiXb9TudzjiBftIkZPOuSrI6sMCwuUmL7/rO/VE8IHzo73oF4efdnwo8Ft
- CDsI986Pfq19UOmPpQlljRgKXJQ6bAH94uh8lwfZGzAuBBLpV+MGW+gHQbi/B3IF9Ujn
- OkOaKHR+PRaLwqEcCceL7aBfKfNpSmFSG6L78HAweBLH2BU1mTInv3OahgmIOW80Z163
- 6BighTKakogm7LSjeQdSwU2eCYSG/I7qyFalWLvNIEWu5M2vY8zPN6Y4OCFcUeESRqTk
- rziw==
-X-Gm-Message-State: AOAM53189RvEG2z6TsuM+plOQy8cByqRWcDsRg6DtoeMnWmj/iZ+Zrhy
- i4Dxtq2mvVhjsX+eTy6ZqSFgfg==
-X-Google-Smtp-Source: ABdhPJyH22OptoxbsqxjgxqnRqS6HZlYnHmlsuChSQ/V/hP0dCn6VV6g7vzB55CeI/VxmUy/IUYn5w==
-X-Received: by 2002:a05:6a00:1a51:b0:4a0:3c1:4f45 with SMTP id
- h17-20020a056a001a5100b004a003c14f45mr4442233pfv.86.1636610163064; 
- Wed, 10 Nov 2021 21:56:03 -0800 (PST)
-Received: from anisinha-lenovo.lan ([49.207.211.103])
- by smtp.googlemail.com with ESMTPSA id s2sm1105944pgd.13.2021.11.10.21.56.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Nov 2021 21:56:02 -0800 (PST)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Thu, 11 Nov 2021 11:25:57 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH for 6.2 v2 3/5] bios-tables-test: Allow changes in DSDT
- ACPI tables
-In-Reply-To: <20211110211140.3057199-4-imammedo@redhat.com>
-Message-ID: <alpine.DEB.2.22.394.2111111125330.133428@anisinha-lenovo>
-References: <20211110211140.3057199-1-imammedo@redhat.com>
- <20211110211140.3057199-4-imammedo@redhat.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1ml36C-0008T4-LI; Thu, 11 Nov 2021 00:58:12 -0500
+Received: from out28-218.mail.aliyun.com ([115.124.28.218]:49498)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1ml369-00038P-BB; Thu, 11 Nov 2021 00:58:12 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07673907|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.0376296-0.000440727-0.96193;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047213; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.Lr1M.qq_1636610282; 
+Received: from roman-VirtualBox.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.Lr1M.qq_1636610282)
+ by smtp.aliyun-inc.com(10.147.43.230);
+ Thu, 11 Nov 2021 13:58:02 +0800
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v3 00/20] Support UXL filed in xstatus
+Date: Thu, 11 Nov 2021 13:57:40 +0800
+Message-Id: <20211111055800.42672-1-zhiwei_liu@c-sky.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::533
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::533;
- envelope-from=ani@anisinha.ca; helo=mail-pg1-x533.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=115.124.28.218; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-218.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,52 +55,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mapfelba@redhat.com, mst@redhat.com, jusual@redhat.com,
- qemu-devel@nongnu.org, kraxel@redhat.com, ani@anisinha.ca
+Cc: palmer@dabbelt.com, richard.henderson@linaro.org, bin.meng@windriver.com,
+ Alistair.Francis@wdc.com, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+In this patch set, we process the pc reigsters writes,
+gdb reads and writes, and address calculation under
+different UXLEN settings.
 
+The patch set v3 mainly address Richard comments on v2.
+Patch 1,2,3,5,6,16,17 have been reviewed.
 
-On Wed, 10 Nov 2021, Igor Mammedov wrote:
+v3:
+  Merge gen_pm_adjust_address into a canonical address function
+  Adjust address for RVA with XLEN
+  Split pm_enabled into pm_mask_enabled and pm_base_enabled
+  Replace array of pm tcg globals with one scalar tcg global
+  Split and change patch sequence
 
-> From: Julia Suvorova <jusual@redhat.com>
->
-> Prepare for changing the _OSC method in q35 DSDT.
->
-> Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+v2:
+  Split out vill from vtype
+  Remove context switch when xlen changes at exception
+  Use XL instead of OL in many places
+  Use pointer masking and XLEN for vector address
+  Define an common fuction to calculate address for ldst
 
-Acked-by: Ani Sinha <ani@anisinha.ca>
+LIU Zhiwei (20):
+  target/riscv: Don't save pc when exception return
+  target/riscv: Sign extend pc for different XLEN
+  target/riscv: Ignore the pc bits above XLEN
+  target/riscv: Extend pc for runtime pc write
+  target/riscv: Use gdb xml according to max mxlen
+  target/riscv: Relax debug check for pm write
+  target/riscv: Adjust csr write mask with XLEN
+  target/riscv: Create current pm fields in env
+  target/riscv: Alloc tcg global for cur_pm[mask|base]
+  target/riscv: Calculate address according to XLEN
+  target/riscv: Split pm_enabled into mask and base
+  target/riscv: Split out the vill from vtype
+  target/riscv: Fix RESERVED field length in VTYPE
+  target/riscv: Adjust vsetvl according to XLEN
+  target/riscv: Remove VILL field in VTYPE
+  target/riscv: Ajdust vector atomic check with XLEN
+  target/riscv: Fix check range for first fault only
+  target/riscv: Adjust vector address with mask
+  target/riscv: Adjust scalar reg in vector with XLEN
+  target/riscv: Enable uxl field write
 
-> ---
->  tests/qtest/bios-tables-test-allowed-diff.h | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->
-> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> index dfb8523c8b..48e5634d4b 100644
-> --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> @@ -1 +1,17 @@
->  /* List of comma-separated changed AML files to ignore */
-> +"tests/data/acpi/q35/DSDT",
-> +"tests/data/acpi/q35/DSDT.tis",
-> +"tests/data/acpi/q35/DSDT.bridge",
-> +"tests/data/acpi/q35/DSDT.mmio64",
-> +"tests/data/acpi/q35/DSDT.ipmibt",
-> +"tests/data/acpi/q35/DSDT.cphp",
-> +"tests/data/acpi/q35/DSDT.memhp",
-> +"tests/data/acpi/q35/DSDT.acpihmat",
-> +"tests/data/acpi/q35/DSDT.numamem",
-> +"tests/data/acpi/q35/DSDT.dimmpxm",
-> +"tests/data/acpi/q35/DSDT.nohpet",
-> +"tests/data/acpi/q35/DSDT.tis.tpm2",
-> +"tests/data/acpi/q35/DSDT.tis.tpm12",
-> +"tests/data/acpi/q35/DSDT.multi-bridge",
-> +"tests/data/acpi/q35/DSDT.ivrs",
-> +"tests/data/acpi/q35/DSDT.xapic",
-> --
-> 2.27.0
->
->
+ target/riscv/cpu.c                            | 23 +++++-
+ target/riscv/cpu.h                            | 13 +++-
+ target/riscv/cpu_helper.c                     | 66 ++++++++++++----
+ target/riscv/csr.c                            | 40 +++++++++-
+ target/riscv/gdbstub.c                        | 71 ++++++++++++-----
+ target/riscv/helper.h                         |  6 +-
+ .../riscv/insn_trans/trans_privileged.c.inc   |  7 +-
+ target/riscv/insn_trans/trans_rva.c.inc       |  9 +--
+ target/riscv/insn_trans/trans_rvd.c.inc       | 19 +----
+ target/riscv/insn_trans/trans_rvf.c.inc       | 19 +----
+ target/riscv/insn_trans/trans_rvi.c.inc       | 22 +-----
+ target/riscv/insn_trans/trans_rvv.c.inc       | 51 ++++++++----
+ target/riscv/machine.c                        | 11 +++
+ target/riscv/op_helper.c                      |  7 +-
+ target/riscv/translate.c                      | 77 +++++++++----------
+ target/riscv/vector_helper.c                  | 38 +++++----
+ 16 files changed, 293 insertions(+), 186 deletions(-)
+
+-- 
+2.25.1
+
 
