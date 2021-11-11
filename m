@@ -2,70 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 841FF44D8A7
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 15:53:39 +0100 (CET)
-Received: from localhost ([::1]:52574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E883C44D8C9
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 15:59:57 +0100 (CET)
+Received: from localhost ([::1]:35710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlBSM-0007nC-CD
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 09:53:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48366)
+	id 1mlBYS-0007rI-VR
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 09:59:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mlBRF-0005r2-Hd
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:52:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21779)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mlBXC-0005vY-P8
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:58:38 -0500
+Received: from [2001:41c9:1:41f::167] (port=36242
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mlBRB-0003Vh-Lb
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:52:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636642344;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/qbZfmAifXB5ON6cAajIYcFGusUrFUDy4nYnqOdWpQU=;
- b=TyLFQA5vflFOnPp70MUZMXdsVSEpJaXcEIJ319pOrEipFfeGBUfoLoKjtOXL/y/gedpr4V
- xsIO0TAvJuosyKy2TxQVxk4Q5bczTaZBMs5dbceVsLuSN3AMamgTUj6q1kC/8nzWn5eenu
- VrisxNsa9mm2+5Jy79Uw6JEWcIetLMo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-522-nLecjbFMO7uixFDyBJBfkw-1; Thu, 11 Nov 2021 09:52:21 -0500
-X-MC-Unique: nLecjbFMO7uixFDyBJBfkw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53F5E804141
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 14:52:20 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2CFDB6418A;
- Thu, 11 Nov 2021 14:52:14 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AD2A211380A7; Thu, 11 Nov 2021 15:52:12 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH for-6.2] docs: Deprecate incorrectly typed device_add
- arguments
-References: <20211111143530.18985-1-kwolf@redhat.com>
-Date: Thu, 11 Nov 2021 15:52:12 +0100
-In-Reply-To: <20211111143530.18985-1-kwolf@redhat.com> (Kevin Wolf's message
- of "Thu, 11 Nov 2021 15:35:30 +0100")
-Message-ID: <87o86qlp7n.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mlBX8-0004KT-Cv
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:58:38 -0500
+Received: from [2a00:23c4:8b9e:9b00:2535:46c:7466:70fe]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mlBWz-000447-De; Thu, 11 Nov 2021 14:58:29 +0000
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <1636594528-8175-1-git-send-email-yangxiaojuan@loongson.cn>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <838eb9b5-c6b7-346f-c031-60435533f551@ilande.co.uk>
+Date: Thu, 11 Nov 2021 14:58:21 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <1636594528-8175-1-git-send-email-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8b9e:9b00:2535:46c:7466:70fe
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [RFC PATCH v2 00/30] Add Loongarch softmmu support.
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+ (failed)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.999,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,96 +65,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, berrange@redhat.com, eblake@redhat.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+On 11/11/2021 01:34, Xiaojuan Yang wrote:
 
-> While introducing a non-QemuOpts code path for device creation for JSON
-> -device, we noticed that QMP device_add doesn't check its input
-> correctly (accepting arguments that should have been rejected), and that
-> users may be relying on this behaviour (libvirt did until it was fixed
-> recently).
+> Sorry only part of the v2 patch succeed. I consulted GNU sysadmin,
+> He said our mail server was getting temporarily banned by fail2ban. Now the ban
+> was removed. I resend the v2 series patch. For uefi is preparing to submit to
+> the community only uefi binary can be provided now. All of the series patch
+> add RFC title.
+> 
+> This series patch add softmmu support for LoongArch.
+> Base on the linux-user emulation support V9 patch.
+>    * https://patchew.org/QEMU/1630586467-22463-1-git-send-email-gaosong@loongson.cn/diff/1636340895-5255-1-git-send-email-gaosong@loongson.cn/
+> 
+> The latest kernel:
+>    * https://github.com/loongson/linux/tree/loongarch-next
+> The manual:
+>    * https://github.com/loongson/LoongArch-Documentation/releases/tag/2021.10.11
+> 
+> Changes for v2:
+> 1.Combine patch 2 and 3 into one.
+> 2.Adjust the order of the patch.
+> 3.Put all the binaries on the github.
+> 4.Modify some emulate errors when use the kernel from the github.
+> 5.Adjust some format problem and the Naming problem
+> 6.Others mainly follow Richard's code review comments.
+> 
+> Please help review!
+> 
+> Thanks
+> 
+> Xiaojuan Yang (30):
+>    target/loongarch: Update README
+>    target/loongarch: Add CSR registers definition
+>    target/loongarch: Add basic vmstate description of CPU.
+>    target/loongarch: Define exceptions for LoongArch.
+>    target/loongarch: Implement qmp_query_cpu_definitions()
+>    target/loongarch: Add stabletimer support
+>    target/loongarch: Add MMU support for LoongArch CPU.
+>    target/loongarch: Add LoongArch CSR/IOCSR instruction
+>    target/loongarch: Add TLB instruction support
+>    target/loongarch: Add other core instructions support
+>    target/loongarch: Add LoongArch interrupt and exception handle
+>    target/loongarch: Add timer related instructions support.
+>    target/loongarch: Add gdb support.
+>    target/loongarch: Implement privilege instructions disassembly
+>    hw/pci-host: Add ls7a1000 PCIe Host bridge support for Loongson
+>      Platform
+>    hw/loongarch: Add a virt LoongArch 3A5000 board support
+>    hw/loongarch: Add LoongArch cpu interrupt support(CPUINTC)
+>    hw/loongarch: Add LoongArch ipi interrupt support(IPI)
+>    hw/intc: Add LoongArch ls7a interrupt controller support(PCH-PIC)
+>    hw/intc: Add LoongArch ls7a msi interrupt controller support(PCH-MSI)
+>    hw/intc: Add LoongArch extioi interrupt controller(EIOINTC)
+>    hw/loongarch: Add irq hierarchy for the system
+>    hw/loongarch: Add some devices support for 3A5000.
+>    hw/loongarch: Add LoongArch ls7a rtc device support
+>    hw/loongarch: Add default bios startup support.
+>    hw/loongarch: Add -kernel and -initrd options support
+>    hw/loongarch: Add LoongArch smbios support
+>    hw/loongarch: Add LoongArch acpi support
+>    hw/loongarch: Add machine->possible_cpus
+>    hw/loongarch: Add Numa support.
+> 
+>   .../devices/loongarch64-softmmu/default.mak   |   3 +
+>   configs/targets/loongarch64-softmmu.mak       |   4 +
+>   gdb-xml/loongarch-base64.xml                  |  43 +
+>   gdb-xml/loongarch-fpu64.xml                   |  57 ++
+>   hw/Kconfig                                    |   1 +
+>   hw/acpi/Kconfig                               |   4 +
+>   hw/acpi/ls7a.c                                | 349 +++++++
+>   hw/acpi/meson.build                           |   1 +
+>   hw/intc/Kconfig                               |  12 +
+>   hw/intc/loongarch_extioi.c                    | 588 ++++++++++++
+>   hw/intc/loongarch_pch_msi.c                   |  73 ++
+>   hw/intc/loongarch_pch_pic.c                   | 283 ++++++
+>   hw/intc/meson.build                           |   3 +
+>   hw/loongarch/Kconfig                          |  22 +
+>   hw/loongarch/acpi-build.c                     | 653 +++++++++++++
+>   hw/loongarch/fw_cfg.c                         |  33 +
+>   hw/loongarch/fw_cfg.h                         |  15 +
+>   hw/loongarch/ipi.c                            | 146 +++
+>   hw/loongarch/loongarch_int.c                  |  59 ++
+>   hw/loongarch/ls3a5000_virt.c                  | 647 +++++++++++++
+>   hw/loongarch/meson.build                      |   7 +
+>   hw/meson.build                                |   1 +
+>   hw/pci-host/Kconfig                           |   4 +
+>   hw/pci-host/ls7a.c                            | 223 +++++
+>   hw/pci-host/meson.build                       |   1 +
+>   hw/rtc/Kconfig                                |   3 +
+>   hw/rtc/ls7a_rtc.c                             | 323 +++++++
+>   hw/rtc/meson.build                            |   1 +
+>   include/exec/poison.h                         |   2 +
+>   include/hw/acpi/ls7a.h                        |  53 ++
+>   include/hw/intc/loongarch_extioi.h            | 101 ++
+>   include/hw/intc/loongarch_pch_msi.h           |  16 +
+>   include/hw/intc/loongarch_pch_pic.h           |  49 +
+>   include/hw/loongarch/gipi.h                   |  37 +
+>   include/hw/loongarch/loongarch.h              |  78 ++
+>   include/hw/pci-host/ls7a.h                    |  66 ++
+>   include/sysemu/arch_init.h                    |   1 +
+>   qapi/machine-target.json                      |   6 +-
+>   qapi/machine.json                             |   2 +-
+>   softmmu/qdev-monitor.c                        |   3 +-
+>   target/Kconfig                                |   1 +
+>   target/loongarch/Kconfig                      |   2 +
+>   target/loongarch/README                       |  20 +
+>   target/loongarch/cpu-csr.h                    | 334 +++++++
+>   target/loongarch/cpu-param.h                  |   3 +
+>   target/loongarch/cpu.c                        | 390 ++++++++
+>   target/loongarch/cpu.h                        | 220 ++++-
+>   target/loongarch/csr_helper.c                 | 331 +++++++
+>   target/loongarch/disas.c                      |  86 ++
+>   target/loongarch/gdbstub.c                    |  97 ++
+>   target/loongarch/helper.h                     |  24 +
+>   target/loongarch/insn_trans/trans_core.c.inc  | 570 +++++++++++
+>   target/loongarch/insn_trans/trans_extra.c.inc |  32 +
+>   target/loongarch/insns.decode                 |  51 +
+>   target/loongarch/internals.h                  |  26 +
+>   target/loongarch/machine.c                    | 210 ++++
+>   target/loongarch/meson.build                  |  10 +
+>   target/loongarch/op_helper.c                  |  58 ++
+>   target/loongarch/stabletimer.c                |  70 ++
+>   target/loongarch/tlb_helper.c                 | 901 ++++++++++++++++++
+>   target/loongarch/translate.c                  |   7 +
+>   61 files changed, 7410 insertions(+), 6 deletions(-)
+>   create mode 100644 configs/devices/loongarch64-softmmu/default.mak
+>   create mode 100644 configs/targets/loongarch64-softmmu.mak
+>   create mode 100644 gdb-xml/loongarch-base64.xml
+>   create mode 100644 gdb-xml/loongarch-fpu64.xml
+>   create mode 100644 hw/acpi/ls7a.c
+>   create mode 100644 hw/intc/loongarch_extioi.c
+>   create mode 100644 hw/intc/loongarch_pch_msi.c
+>   create mode 100644 hw/intc/loongarch_pch_pic.c
+>   create mode 100644 hw/loongarch/Kconfig
+>   create mode 100644 hw/loongarch/acpi-build.c
+>   create mode 100644 hw/loongarch/fw_cfg.c
+>   create mode 100644 hw/loongarch/fw_cfg.h
+>   create mode 100644 hw/loongarch/ipi.c
+>   create mode 100644 hw/loongarch/loongarch_int.c
+>   create mode 100644 hw/loongarch/ls3a5000_virt.c
+>   create mode 100644 hw/loongarch/meson.build
+>   create mode 100644 hw/pci-host/ls7a.c
+>   create mode 100644 hw/rtc/ls7a_rtc.c
+>   create mode 100644 include/hw/acpi/ls7a.h
+>   create mode 100644 include/hw/intc/loongarch_extioi.h
+>   create mode 100644 include/hw/intc/loongarch_pch_msi.h
+>   create mode 100644 include/hw/intc/loongarch_pch_pic.h
+>   create mode 100644 include/hw/loongarch/gipi.h
+>   create mode 100644 include/hw/loongarch/loongarch.h
+>   create mode 100644 include/hw/pci-host/ls7a.h
+>   create mode 100644 target/loongarch/Kconfig
+>   create mode 100644 target/loongarch/cpu-csr.h
+>   create mode 100644 target/loongarch/csr_helper.c
+>   create mode 100644 target/loongarch/gdbstub.c
+>   create mode 100644 target/loongarch/insn_trans/trans_core.c.inc
+>   create mode 100644 target/loongarch/machine.c
+>   create mode 100644 target/loongarch/stabletimer.c
+>   create mode 100644 target/loongarch/tlb_helper.c
 
-Actually, we've known this for years.  netdev_add had the same bug, and
-we delayed its QAPIfication for fear of breaking stuff relying on the
-bug.
+Hi Xiaojuan,
 
-commit db2a380c84574d8c76d7193b8af8535234fe5156
-Author: Eric Blake <eblake@redhat.com>
-Date:   Tue Mar 17 15:17:10 2020 -0500
+I've started to have a look at some of the devices, and replied with a few comments. 
+It feels as if this code has been maintained in a fork for some time, using a lot of 
+design patterns that are no longer recommended for QEMU development.
 
-    net: Complete qapi-fication of netdev_add
-    
-    We've had all the required pieces for doing a type-safe representation
-    of netdev_add as a flat union for quite some time now (since
-    0e55c381f6 in v2.7.0, released in 2016), but did not make the final
-    switch to using it because of concern about whether a command-line
-    regression in accepting "1" in place of 1 for integer arguments would
-    be problematic.  Back then, we did not have the deprecation cycle to
-    allow us to make progress.  But now that we have waited so long, other
-    problems have crept in: for example, our desire to add
-    qemu-storage-daemon is hampered by the inability to express net
-    objects, and we are unable to introspect what we actually accept.
-    Additionally, our round-trip through QemuOpts silently eats any
-    argument that expands to an array, rendering dnssearch, hostfwd, and
-    guestfwd useless through QMP:
-    
-    {"execute": "netdev_add", "arguments": { "id": "netdev0",
-      "type": "user", "dnssearch": [
-        { "str": "8.8.8.8" }, { "str": "8.8.4.4" }
-      ]}}
-    
-    So without further ado, let's turn on proper QAPI.  netdev_add() was a
-[...]
+In particular:
 
-Release note for 5.0:
+- Use qdev GPIOs for IRQs and avoid allocating them with qemu_allocate_irq()
 
-    1.28.1 QMP
-    [...]
-    * netdev_add improvements:
-        - Don't ignore arguments \dnssearch, hostfwd, and guestfwd
-        - Drop undocumented and unwanted argument ipv6-net
-        - Stricter argument type checking
+- Use qdev link properties for passing object references rather than manipulating 
+pointers directly
 
-This is not a demand for a commit message change.
+- Avoid heap allocations (particularly for MemoryRegions) and instead store them 
+within the relevant device
 
->
-> Let's use a deprecation period before we fix this bug in QEMU to avoid
-> nasty surprises for users.
->
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  docs/about/deprecated.rst | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->
-> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-> index 600031210d..c03fcf951f 100644
-> --- a/docs/about/deprecated.rst
-> +++ b/docs/about/deprecated.rst
-> @@ -250,6 +250,20 @@ options are removed in favor of using explicit ``blockdev-create`` and
->  ``blockdev-add`` calls. See :doc:`/interop/live-block-operations` for
->  details.
->  
-> +Incorrectly typed ``device_add`` arguments (since 6.2)
-> +''''''''''''''''''''''''''''''''''''''''''''''''''''''
-> +
-> +Due to shortcomings in the internal implementation of ``device_add``, QEMU
-> +incorrectly accepts certain invalid arguments: Any object or list arguments are
-> +silently ignored. Other argument types are not checked, but an implicit
-> +conversion happens, so that e.g. string values can be assigned to integer
-> +device properties or vice versa.
-> +
-> +This is a bug in QEMU that will be fixed in the future so that previously
-> +accepted incorrect commands will return an error. Users should make sure that
-> +all arguments passed to ``device_add`` are consistent with the documented
-> +property types.
-> +
->  System accelerators
->  -------------------
+- Specify a specific endianness for devices using DEVICE_BIG_ENDIAN and 
+DEVICE_LITTLE_ENDIAN instead of DEVICE_NATIVE_ENDIAN
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+- Having separate functions for each MMIO access size isn't generally required with 
+the memory API
 
+I've stopped reviewing for now as I think these issues will be present throughout the 
+patch series, however I will do my best to answer any questions that you have and 
+will take another look when you post a v3.
+
+
+ATB,
+
+Mark.
 
