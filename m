@@ -2,85 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79E7144D704
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 14:11:52 +0100 (CET)
-Received: from localhost ([::1]:36304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9215B44D6FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 14:04:49 +0100 (CET)
+Received: from localhost ([::1]:58142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml9rq-0007pO-6p
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 08:11:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53622)
+	id 1ml9l2-0002zq-6w
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 08:04:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ml9oN-0005mD-9L
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 08:08:15 -0500
-Received: from [2a00:1450:4864:20::329] (port=44984
- helo=mail-wm1-x329.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ml9oL-0004vu-LA
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 08:08:14 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- c71-20020a1c9a4a000000b0032cdcc8cbafso4350398wme.3
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 05:08:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=xkT9/kfGaAvaE2+jUb7JGrJJVEpv6aTQKHOQaIUQnI0=;
- b=B6BZ8nEU3p2VcAFlxknTr1du4z5sh/OeARBMh8nOjlUdwvOONp6uTy2P6uZdtt1lq6
- g4hEtGJVnu/DwNqyz+ZQlNi8L9uv6WNPb7Oiyesbd5/LXgzyWv4F37gAifOyWNSFvkTP
- Bv7iHUXjkxMgECT/G6nzSKPZDflsvrMaphMTAbYT6OLF2cTtIo2ewk4owneEt0LsUL8a
- vOisZsO6wAM31sI4rJBPtsKrZfPa1U5mPi+VWE+qZRDI5FYijkPTWtrF+flo/OShH5Sz
- yoSvstCSJshjuzAJfPU/f+PoIKJMQAw1zEDr0y+qem6MvANQ1KhHjR66aay/A72zQCqT
- Ub3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=xkT9/kfGaAvaE2+jUb7JGrJJVEpv6aTQKHOQaIUQnI0=;
- b=qGXxcTrhcdhbTWcLZqM0q+TDhP0IIjvWEJdsll9rJuHZj7ShwajmIYm9qmk8Ulm8SZ
- JVfRPBULgirgreN2aLje4uJ/9qtoteHj9Iz4v+GMOYZJhyAJFx67mOaziqOqpKzq2vNH
- OS+XvsnL54eCJd/rMwJruKMPTpHQma2RLGjFqYeY6uVjh8YjuqCxXXywLLLSCNiknu4T
- +DbaK8MrVUB0DjFx2EBnGRUIyMBauWs6IglHXLJSaFoBvpestRDM8lcaF8M0ePKWEAab
- 3tf4flUQ3sPxRcBDZWUO4DzPLbNDFMfSYjtN9GMJfXLmgX5oiW1FbnkxNT7efyQsBaae
- qNIA==
-X-Gm-Message-State: AOAM533DCFLmS+KwfAkSUvIG9nmRShvTVQF/IFsjI/8prezylr9XMMbL
- BLrUJVgDlv0VoKw4eA5wcpO0fg==
-X-Google-Smtp-Source: ABdhPJx/38pN+gG8J7/FI5iIMf1q3UDfQ4aOc/FrKW8IFkQvwg6ef5aPwylXh4TirznOsdMwKvj2Lw==
-X-Received: by 2002:a05:600c:4ed2:: with SMTP id
- g18mr24954055wmq.18.1636636091038; 
- Thu, 11 Nov 2021 05:08:11 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h1sm2841702wmb.7.2021.11.11.05.08.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Nov 2021 05:08:09 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1B5011FF96;
- Thu, 11 Nov 2021 13:08:09 +0000 (GMT)
-References: <163662450348.125458.5494710452733592356.stgit@pasha-ThinkPad-X280>
- <163662450891.125458.6706022775465303586.stgit@pasha-ThinkPad-X280>
-User-agent: mu4e 1.7.4; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Subject: Re: [PATCH v2 1/3] icount: preserve cflags when custom tb is about
- to execute
-Date: Thu, 11 Nov 2021 12:20:13 +0000
-In-reply-to: <163662450891.125458.6706022775465303586.stgit@pasha-ThinkPad-X280>
-Message-ID: <87pmr6j0w6.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1ml9hE-0006I4-Hs
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 08:00:52 -0500
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2897)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1ml9hB-0003fs-Ev
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 08:00:52 -0500
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Hqhbn5Dt1z1DJLR;
+ Thu, 11 Nov 2021 20:58:29 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.15; Thu, 11 Nov 2021 21:00:45 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.15; Thu, 11 Nov 2021 21:00:44 +0800
+Subject: Re: [PATCH v4 2/2] tests/unit: Add an unit test for smp parsing
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ <qemu-devel@nongnu.org>
+References: <20211028150913.1975305-1-philmd@redhat.com>
+ <20211028150913.1975305-3-philmd@redhat.com>
+ <fd32e519-f970-d039-8291-897363b20add@redhat.com>
+ <14250bbd-c3fb-9afc-f08d-587326f0382c@huawei.com>
+ <440cee74-13e0-ba38-070f-49f939f33319@redhat.com>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <36288eb7-328b-3d3d-ad40-02e3be1edcfd@huawei.com>
+Date: Thu, 11 Nov 2021 21:00:44 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <440cee74-13e0-ba38-070f-49f939f33319@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme710-chm.china.huawei.com (10.1.199.106) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -81
+X-Spam_score: -8.2
+X-Spam_bar: --------
+X-Spam_report: (-8.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.999,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,61 +72,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- peterx@redhat.com, david@redhat.com
+Cc: Andrew Jones <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
-
-> When debugging with the watchpoints, qemu may need to create
-> TB with single instruction. This is achieved by setting cpu->cflags_next_=
-tb.
-> But when this block is about to execute, it may be interrupted by another
-> thread. In this case cflags will be lost and next executed TB will not
-> be the special one.
-> This patch checks TB exit reason and restores cflags_next_tb to allow
-> finding the interrupted block.
+On 2021/11/11 17:37, Philippe Mathieu-Daudé wrote:
+> On 11/11/21 10:31, wangyanan (Y) wrote:
+>> On 2021/11/11 17:14, Philippe Mathieu-Daudé wrote:
+>>> On 10/28/21 17:09, Philippe Mathieu-Daudé wrote:
+>>>> From: Yanan Wang <wangyanan55@huawei.com>
+>>>>
+>>>> Now that we have a generic parser smp_parse(), let's add an unit
+>>>> test for the code. All possible valid/invalid SMP configurations
+>>>> that the user can specify are covered.
+>>>>
+>>>> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+>>>> Reviewed-by: Andrew Jones <drjones@redhat.com>
+>>>> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>>> Message-Id: <20211026034659.22040-3-wangyanan55@huawei.com>
+>>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>>> ---
+>>>>    tests/unit/test-smp-parse.c | 594 ++++++++++++++++++++++++++++++++++++
+>>>>    MAINTAINERS                 |   1 +
+>>>>    tests/unit/meson.build      |   1 +
+>>>>    3 files changed, 596 insertions(+)
+>>>>    create mode 100644 tests/unit/test-smp-parse.c
+>>>> +static struct SMPTestData data_generic_valid[] = {
+>>>> +    {
+>>>> +        /* config: no configuration provided
+>>>> +         * expect: cpus=1,sockets=1,cores=1,threads=1,maxcpus=1 */
+>>> [1]
+>>>
+>>>> +        .config = SMP_CONFIG_GENERIC(F, 0, F, 0, F, 0, F, 0, F, 0),
+>>>> +        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(1, 1, 1, 1, 1),
+>>>> +        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(1, 1, 1, 1, 1),
+>>>> +    }, {
+>>>> +static void test_generic(void)
+>>>> +{
+>>>> +    Object *obj = object_new(TYPE_MACHINE);
+>>>> +    MachineState *ms = MACHINE(obj);
+>>>> +    MachineClass *mc = MACHINE_GET_CLASS(obj);
+>>> Watch out, while you create a machine instance in each
+>>> test, there is only one machine class registered (see
+>>> type_register_static(&smp_machine_info) below in [2]),
+>>> ...
+>> Yes, I noticed this. So on the top of each sub-test function, the
+>> properties
+>> of the single machine class is re-initialized by
+>> smp_machine_class_init(mc).
+>> See [*] below.
+>>>> +    SMPTestData *data = &(SMPTestData){0};
+>>>> +    int i;
+>>>> +
+>>>> +    smp_machine_class_init(mc);
+>> [*]
+>>>> +
+>>>> +    for (i = 0; i < ARRAY_SIZE(data_generic_valid); i++) {
+>>>> +        *data = data_generic_valid[i];
+>>>> +        unsupported_params_init(mc, data);
+>>>> +
+>>>> +        smp_parse_test(ms, data, true);
+>>>> +
+>>>> +        /* Unsupported parameters can be provided with their values
+>>>> as 1 */
+>>>> +        data->config.has_dies = true;
+>>>> +        data->config.dies = 1;
+>>>> +        smp_parse_test(ms, data, true);
+>>>> +    }
+>>>> +
+>>>> +    /* Reset the supported min CPUs and max CPUs */
+>>>> +    mc->min_cpus = 2;
+>>>> +    mc->max_cpus = 511;
+>>> ... and here you are modifying the single machine class state, ...
+>>>
+>>>> +
+>>>> +    for (i = 0; i < ARRAY_SIZE(data_generic_invalid); i++) {
+>>>> +        *data = data_generic_invalid[i];
+>>>> +        unsupported_params_init(mc, data);
+>>>> +
+>>>> +        smp_parse_test(ms, data, false);
+>>>> +    }
+>>>> +
+>>>> +    object_unref(obj);
+>>>> +}
+>>>> +
+>>>> +static void test_with_dies(void)
+>>>> +{
+>>>> +    Object *obj = object_new(TYPE_MACHINE);
+>>>> +    MachineState *ms = MACHINE(obj);
+>>>> +    MachineClass *mc = MACHINE_GET_CLASS(obj);
+>>> ... so here the machine class state is inconsistent, ...
+>>>
+>>>> +    SMPTestData *data = &(SMPTestData){0};
+>>>> +    unsigned int num_dies = 2;
+>>>> +    int i;
+>>>> +
+>>>> +    smp_machine_class_init(mc);
+>> And here [*].
+>>>> +    mc->smp_props.dies_supported = true;
+>>>> +
+>>>> +    for (i = 0; i < ARRAY_SIZE(data_generic_valid); i++) {
+>>>> +        *data = data_generic_valid[i];
+>>>> +        unsupported_params_init(mc, data);
+>>>> +
+>>>> +        /* when dies parameter is omitted, it will be set as 1 */
+>>>> +        data->expect_prefer_sockets.dies = 1;
+>>>> +        data->expect_prefer_cores.dies = 1;
+>>>> +
+>>>> +        smp_parse_test(ms, data, true);
+>>> ... in particular the first test [1] is tested with mc->min_cpus = 2.
+>>>
+>>> I wonder why you are not getting:
+>>>
+>>> Output error report: Invalid SMP CPUs 1. The min CPUs supported by
+>>> machine '(null)' is 2
+>>>
+>>> for [1].
+>> So as I have explained above, we won't get an output error report like
+>> this here. :)
+> I see. IMHO this is bad practice example, so I'll send a cleanup patch.
 >
-> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-> ---
->  accel/tcg/cpu-exec.c |   10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> index 2d14d02f6c..df12452b8f 100644
-> --- a/accel/tcg/cpu-exec.c
-> +++ b/accel/tcg/cpu-exec.c
-> @@ -846,6 +846,16 @@ static inline void cpu_loop_exec_tb(CPUState *cpu, T=
-ranslationBlock *tb,
->           * cpu_handle_interrupt.  cpu_handle_interrupt will also
->           * clear cpu->icount_decr.u16.high.
->           */
-> +        if (cpu->cflags_next_tb =3D=3D -1
-> +            && (!use_icount || !(tb->cflags & CF_USE_ICOUNT)
+> .
+Sure! I'm very happy that we can have a better solution. Thank you for 
+doing that.
 
-Why check use_icount here? The cflags should always have CF_USE_ICOUNT
-set when icount is enabled. Lets not over complicate the inverted ||
-tests we have here.
+Thanks,
+Yanan
 
-> +                || cpu_neg(cpu)->icount_decr.u16.low >=3D tb->icount))
-> {
-
-Is u16.low ever set when icount isn't enabled?
-
-> +            /*
-> +             * icount is disabled or there are enough instructions
-> +             * in the budget, do not retranslate this block with
-> +             * different parameters.
-> +             */
-> +            cpu->cflags_next_tb =3D tb->cflags;
-> +        }
->          return;
->      }
->=20=20
-
-
---=20
-Alex Benn=C3=A9e
 
