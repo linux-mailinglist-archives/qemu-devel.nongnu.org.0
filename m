@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1AE244DB77
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 19:15:04 +0100 (CET)
-Received: from localhost ([::1]:48804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21DE844DB7B
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 19:16:43 +0100 (CET)
+Received: from localhost ([::1]:52618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlEbH-0004PO-Af
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 13:15:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56806)
+	id 1mlEcs-00076z-8e
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 13:16:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mlEVg-0001Wg-Lx; Thu, 11 Nov 2021 13:09:16 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:53411)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mlEVc-0004kt-U2; Thu, 11 Nov 2021 13:09:15 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 8ABFB5C0175;
- Thu, 11 Nov 2021 13:09:07 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 11 Nov 2021 13:09:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=AYzN6rX/u99uNmVBDydim/Vj2gA
- XFqH7WFUIxwWl3LE=; b=gPeERHnGy5kqtXB+K3Twpy/rquCRloMYsbX06KclH7O
- DjYfeFHmfYEcqD0nxYsuun//YAUWk84eUqVB4ZoI1+96VdQiIlnEaCLONALch1a3
- jUMwNtsUqJeHHand79ISXHA6yNn2RpJ0adNiuo9jKGF5jU7jwxxucIYHFAvzbFYU
- 1/rjAhMcKRo1lLVBCnXEArN3yPXFHR8wnFI9JPfLJtN6w/uixfiCCzolv4dmVdwh
- 5LwEM9oaKezV0/qjf+2Kxgq6rnmNeHELWHvFMXGYGgRjafHavCbhMonAUPUgY8UH
- HKjwZoBKPPM/K8eX1by6tC0txwwey6ZC0O8uRoqjSCA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=AYzN6r
- X/u99uNmVBDydim/Vj2gAXFqH7WFUIxwWl3LE=; b=TqwIvRcE8iwL7yAPg28Pjr
- yAjE0oXWZjtHPrEUhmXkawOklmuTVePcL3wVEbOpGhoFASh/HozfCnX5Q0slbG4V
- 2NcoVPk9DqCoyhx/fBCgW1kiDHSl//iYUmHxNfVK/B7Gp3O2Otn4qw+dRK8Set4n
- S3eRv0QyiBA9BicwZR+MRHU7Ti0xflcOZRhO3M4bDedcjSMugoJ+8OOlyw3hjMRY
- DQYCsAAoGEEN0fo9i8deGKijIabW85+LVN34Mb+BIN5zPHjO1JOWLLjOS5y48Q5g
- Vz080uV3ya1aJnBW8CTmqTRBy1wqI5BlbixbigAX+dL3X155q8ZU3tZVl0ne5VyQ
- ==
-X-ME-Sender: <xms:Q1yNYfoTvfP3MyyeUJ-tsOaxrEUtOY7eCP2ApoYWpOoxbPNdfOi6Wg>
- <xme:Q1yNYZo54iXgLVuDeT_BtI4BDktBapVuVOYUgEg7k_yrTOJ18nRZ-9K6Q6AXWSZ0-
- EU6KaOrLH2Rdu1KjkU>
-X-ME-Received: <xmr:Q1yNYcM6a_6-E03AJ0UKM7oAewBMpvmK0mAn3wJW6WPLBZxqcHq0qD8BjxDhKDw34yrQnvKDFS41A0AIofougsNdCwMEB9OLui8x3JU9kOv1ryzSGA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrvddugddutdelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpedugeefveegfeduhfeuledugfeufeetheeuhfeuffejgeelgffgtdeffeduvddt
- veenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:Q1yNYS6jGjWam6-cxdMf1y2eddvofoYSqHrDCZIOf0WA00ZloFKkHQ>
- <xmx:Q1yNYe6Snhl29xSq8kcHY5pMVU77i-DaX53E3POa2MKK0vlk3pr8KQ>
- <xmx:Q1yNYaj_1Lid4bjQ5XzMhuvDVQKC53OedftaJpgd4eG12S0H8g6KrA>
- <xmx:Q1yNYUmyLk-DMpEet1ZbweBVld1TN4bMcTv6-WDmiRySHLzk-6mJcA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 11 Nov 2021 13:09:06 -0500 (EST)
-Date: Thu, 11 Nov 2021 19:09:04 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH-for-7.0 0/2] hw/nvme/ctrl: Buffer types cleanups
-Message-ID: <YY1cQEvB+YK1VA01@apples.localdomain>
-References: <20211111154552.2263410-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mlEbK-0005xz-5k
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 13:15:06 -0500
+Received: from [2a00:1450:4864:20::32d] (port=33635
+ helo=mail-wm1-x32d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mlEbI-0005UB-3v
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 13:15:05 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ r9-20020a7bc089000000b00332f4abf43fso5984415wmh.0
+ for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 10:15:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=5o2QArGV+M02jDnobp3PoUb757l9HUJdpSRQ3A9O6BE=;
+ b=nUVoJePiACb/K0XAqFUXO/ARDxqbXZzvZN+uOxG61gCHfymy8BBNcjjtcDdRQEHakm
+ tqa+diG+DVpFQvnhXQaONPcELvW1xhOqObO2wpuc2hkTDh6CtS7M0RdkmCAbpZfoaTyZ
+ 0jTUUOydFTwjsx9X6HkmdxpFxD8lAnyf9V/AgN32FVYRQOVpKz1OW1HbInv8v4xpboFw
+ N9BTPEeah+OOsZR32JZPE55zdx/Q18SaO6XtIHBPu5iIgBFBW/kU9+J4qCBBY5GrR1rH
+ dwENf+UGFbImkgHq+vHImmoxhERM6N8YVP368ErzsMmDv7dCKeH1wa0Hz6pV1VEuboLz
+ bDDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5o2QArGV+M02jDnobp3PoUb757l9HUJdpSRQ3A9O6BE=;
+ b=jmZO9BsVwez/So6c9/NEs79i4Wtz3zH5/ga8etBRmjjm6gWtAmBO7WgQgWWbcQdyr0
+ xvQ4ZtMVSpS96FjY+fj/DunlWVsdt4uT7yRGCRMKp9oiDrqApmYyzJ6VLNdDa2dgO7g5
+ oLJqEVABSULwlv+1rXZo3BPwGsle1Ni6r2CNUonk+FHjg0odqVHuSgeCYU286a8nuKU6
+ HFcvC25Ioba1l0DFG0CGIwf3sja6oaqg8cTfEFmUlfzwEy0l4B5vFpjAX0im2AcHLrhX
+ mbyrmo96XcJKvCmZ6VaIUQh5RODUc7FWJk10T5dHabh3UMo9UBZoW0StKYK8GSD9+2dI
+ DjtQ==
+X-Gm-Message-State: AOAM531yyVpKq//9Bsuu8cfq7H1c6gJFtcot1L3MLvuIuuGM3rIhQMy3
+ +cCz9QEnfmh5AxdWo0R9dOOVtQ==
+X-Google-Smtp-Source: ABdhPJxmmedvun+zwNSH3mys1riFjbACfXRllWdeJm7r0//JMKVbJJPuk+G/Y19JCekkUuyJHR63UA==
+X-Received: by 2002:a7b:c7cb:: with SMTP id z11mr10391725wmk.152.1636654502572; 
+ Thu, 11 Nov 2021 10:15:02 -0800 (PST)
+Received: from [192.168.8.106] (10.red-95-125-227.dynamicip.rima-tde.net.
+ [95.125.227.10])
+ by smtp.gmail.com with ESMTPSA id h13sm3684803wrx.82.2021.11.11.10.15.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Nov 2021 10:15:02 -0800 (PST)
+Subject: Re: [RFC PATCH v2 09/30] target/loongarch: Add TLB instruction support
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <1636594528-8175-1-git-send-email-yangxiaojuan@loongson.cn>
+ <1636594528-8175-10-git-send-email-yangxiaojuan@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <f1059243-06e9-d9d8-673a-55fc6e31b5cc@linaro.org>
+Date: Thu, 11 Nov 2021 19:14:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="uORX5IDRCTsIQ2zU"
-Content-Disposition: inline
-In-Reply-To: <20211111154552.2263410-1-philmd@redhat.com>
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
- helo=out5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1636594528-8175-10-git-send-email-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.999,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,53 +92,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Song Gao <gaosong@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 11/11/21 2:35 AM, Xiaojuan Yang wrote:
+> +static bool trans_tlbwr(DisasContext *ctx, arg_tlbwr *a)
+> +{
+> +    gen_helper_check_plv(cpu_env);
+> +    gen_helper_tlbwr(cpu_env);
+> +    tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next + 4);
+> +    ctx->base.is_jmp = DISAS_EXIT;
+> +    return true;
+> +}
 
---uORX5IDRCTsIQ2zU
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I think you can skip the EXIT if paging is disabled, which it usually will be in the 
+software tlb handler.  You'd be able to tell with the mmu_idx being the one you use for 
+paging disabled.
 
-On Nov 11 16:45, Philippe Mathieu-Daud=C3=A9 wrote:
-> Some trivial notes I took while reviewing CVE-2021-3947:
-> https://lore.kernel.org/qemu-devel/20211111153125.2258176-1-philmd@redhat=
-=2Ecom/
->=20
-> Based-on: <20211111153125.2258176-1-philmd@redhat.com>
->=20
-> *** BLURB HERE ***
->=20
-> Philippe Mathieu-Daud=C3=A9 (2):
->   hw/nvme/ctrl: Have nvme_addr_write() take const buffer
->   hw/nvme/ctrl: Pass buffers as 'void *' types
->=20
->  hw/nvme/nvme.h |  4 ++--
->  hw/nvme/ctrl.c | 12 ++++++------
->  2 files changed, 8 insertions(+), 8 deletions(-)
->=20
+> +static void loongarch_invalidate_tlb_entry(CPULoongArchState *env,
+> +                                           loongarch_tlb *tlb)
+> +{
+> +    CPUState *cs = env_cpu(env);
+> +    target_ulong addr, end, mask;
+> +    int tlb_v0, tlb_v1;
+> +    uint64_t tlb_vppn;
+> +    uint8_t tlb_ps;
+> +
+> +    tlb_v0 = FIELD_EX64(tlb->tlb_entry0, ENTRY0, V);
+> +    tlb_v1 = FIELD_EX64(tlb->tlb_entry1, ENTRY1, V);
+> +    tlb_vppn = FIELD_EX64(tlb->tlb_misc, TLB_MISC, VPPN);
+> +    tlb_ps = FIELD_EX64(tlb->tlb_misc, TLB_MISC, PS);
+> +    mask = (1 << (1 + tlb_ps)) - 1;
 
-Thanks Philippe, LGTM.
+MAKE_64BIT_MASK.
 
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+> +
+> +    if (tlb_v0) {
+> +        addr = tlb_vppn & ~mask;    /* xxx...xxx[0]000..0000 */
+> +        end = addr | (mask >> 1);   /* xxx...xxx[0]111..1111 */
+> +        while (addr < end) {
+> +            tlb_flush_page(cs, addr);
+> +            addr += TARGET_PAGE_SIZE;
 
---uORX5IDRCTsIQ2zU
-Content-Type: application/pgp-signature; name="signature.asc"
+tlb_flush_range_by_mmuidx.
 
------BEGIN PGP SIGNATURE-----
+> +    tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, VPPN, csr_vppn);
+> +    tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, E, 1);
+> +    csr_asid = FIELD_EX64(env->CSR_ASID, CSR_ASID, ASID);
+> +    tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, ASID, csr_asid);
+> +
+> +    csr_g = FIELD_EX64(env->CSR_TLBELO0, CSR_TLBELO0, G) &
+> +             FIELD_EX64(env->CSR_TLBELO1, CSR_TLBELO1, G);
+> +    tlb->tlb_misc = FIELD_DP64(tlb->tlb_misc, TLB_MISC, G, csr_g);
+> +
+> +    tlb->tlb_entry0 = FIELD_DP64(tlb->tlb_entry0, ENTRY0, V,
+> +                                 FIELD_EX64(lo0, CSR_TLBELO0, V));/* [0] */
+> +    tlb->tlb_entry0 = FIELD_DP64(tlb->tlb_entry0, ENTRY0, D,
+> +                                 FIELD_EX64(lo0, CSR_TLBELO0, D));/* [1] */
+> +    tlb->tlb_entry0 = FIELD_DP64(tlb->tlb_entry0, ENTRY0, PLV,
+> +                                 FIELD_EX64(lo0, CSR_TLBELO0, PLV));/* [3:2] */
+> +    tlb->tlb_entry0 = FIELD_DP64(tlb->tlb_entry0, ENTRY0, MAT,
+> +                                 FIELD_EX64(lo0, CSR_TLBELO0, MAT));/* [5:4] */
+> +    tlb->tlb_entry0 = FIELD_DP64(tlb->tlb_entry0, ENTRY0, PPN,
+> +                                 FIELD_EX64(lo0, CSR_TLBELO0, PPN));/* [47:12] */
+> +    tlb->tlb_entry0 = FIELD_DP64(tlb->tlb_entry0, ENTRY0, NR,
+> +                                 FIELD_EX64(lo0, CSR_TLBELO0, NR));/* [61] */
+> +    tlb->tlb_entry0 = FIELD_DP64(tlb->tlb_entry0, ENTRY0, NX,
+> +                                 FIELD_EX64(lo0, CSR_TLBELO0, NX));/* [62] */
+> +    tlb->tlb_entry0 = FIELD_DP64(tlb->tlb_entry0, ENTRY0, RPLV,
+> +                                 FIELD_EX64(lo0, CSR_TLBELO0, RPLV));/* [63] */
+> +
+> +    tlb->tlb_entry1 = FIELD_DP64(tlb->tlb_entry1, ENTRY1, V,
+> +                                 FIELD_EX64(lo1, CSR_TLBELO1, V));/* [0] */
+> +    tlb->tlb_entry1 = FIELD_DP64(tlb->tlb_entry1, ENTRY1, D,
+> +                                 FIELD_EX64(lo1, CSR_TLBELO1, D));/* [1] */
+> +    tlb->tlb_entry1 = FIELD_DP64(tlb->tlb_entry1, ENTRY1, PLV,
+> +                                 FIELD_EX64(lo1, CSR_TLBELO1, PLV));/* [3:2] */
+> +    tlb->tlb_entry1 = FIELD_DP64(tlb->tlb_entry1, ENTRY1, MAT,
+> +                                 FIELD_EX64(lo1, CSR_TLBELO1, MAT));/* [5:4] */
+> +    tlb->tlb_entry1 = FIELD_DP64(tlb->tlb_entry1, ENTRY1, PPN,
+> +                                 FIELD_EX64(lo1, CSR_TLBELO1, PPN));/* [47:12] */
+> +    tlb->tlb_entry1 = FIELD_DP64(tlb->tlb_entry1, ENTRY1, NR,
+> +                                 FIELD_EX64(lo1, CSR_TLBELO1, NR));/* [61] */
+> +    tlb->tlb_entry1 = FIELD_DP64(tlb->tlb_entry1, ENTRY1, NX,
+> +                                 FIELD_EX64(lo1, CSR_TLBELO1, NX));/* [62] */
+> +    tlb->tlb_entry1 = FIELD_DP64(tlb->tlb_entry1, ENTRY1, RPLV,
+> +                                 FIELD_EX64(lo1, CSR_TLBELO1, RPLV));/* [63] */
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmGNXD8ACgkQTeGvMW1P
-Dem3EwgAv55ybgUqMlFw7jwy6d0gmCNKcZ6K2I6gPh5aaPegi71Xf0WQTKjUR22K
-Cb/5/1YOkeEQaYs9iSr2H54QMvMYvIiK9sMxR+8XQEkFhT9q/lyxvPxiHz4CMWqN
-Uv2mowGQaNqYqxbuWkwkfDrHQutHp+sHs0l46fgib1PoRblpltIO4J9R74q+mEEV
-8g8ywapc1/bIXUB6Opgkx8SzG74Afmh51ktbdX1X96933TrLkQm1dP2dKOfPhyNp
-u+NcYkWX85Kpf1RCrHonx0ewrfHwO09pD1McjSSV7JmCXmV0D/cBOHmYVBOfS/A5
-tn0FJvr5u+dVJiNT6o8aSq0wjRgq+w==
-=BHCU
------END PGP SIGNATURE-----
+The point of making the two values have the same field layout is so that you can just 
+assign the whole value across, not extract and re-deposit each field.
 
---uORX5IDRCTsIQ2zU--
+> +void helper_tlbsrch(CPULoongArchState *env)
+> +{
+> +    loongarch_tlb *tlb;
+> +    uint64_t vpn, tlb_vppn;
+> +    uint16_t csr_asid, tlb_asid, tlb_ps, tlb_e, tlb_g;
+> +
+> +    int stlb_size = env->stlb_size;
+> +    int mtlb_size = env->mtlb_size;
+> +    int i;
+> +    csr_asid = FIELD_EX64(env->CSR_ASID, CSR_ASID, ASID);
+> +
+> +    /* Search MTLB + STLB */
+> +    for (i = 0; i < stlb_size + mtlb_size; ++i) {
+> +        tlb = &env->tlb[i];
+> +        vpn = FIELD_EX64(env->CSR_TLBEHI, CSR_TLBEHI, VPPN);
+> +        tlb_asid = FIELD_EX64(tlb->tlb_misc, TLB_MISC, ASID);
+> +        tlb_ps = FIELD_EX64(tlb->tlb_misc, TLB_MISC, PS);
+> +        tlb_e = FIELD_EX64(tlb->tlb_misc, TLB_MISC, E);
+> +        tlb_g = FIELD_EX64(tlb->tlb_misc, TLB_MISC, G);
+> +        tlb_vppn = FIELD_EX64(tlb->tlb_misc, TLB_MISC, VPPN);
+> +
+> +        if ((tlb_g == 1 || tlb_asid == csr_asid) &&
+> +            (vpn >> (tlb_ps + 1 - 13) == tlb_vppn >> (tlb_ps + 1 - 13)) && tlb_e) {
+> +            env->CSR_TLBIDX = FIELD_DP64(env->CSR_TLBIDX, CSR_TLBIDX,
+> +                                         INDEX, (i & 0xfff));
+> +            env->CSR_TLBIDX = FIELD_DP64(env->CSR_TLBIDX, CSR_TLBIDX,
+> +                                         PS, (tlb_ps & 0x3f));
+> +            return;
+> +        }
+> +    }
+> +
+> +    env->CSR_TLBIDX = FIELD_DP64(env->CSR_TLBIDX, CSR_TLBIDX, NE, 1);
+> +}
+
+Surely this should share code with loongarch_map_address.
+
+> +
+> +void helper_tlbrd(CPULoongArchState *env)
+> +{
+> +    loongarch_tlb *tlb;
+> +    int idx;
+> +    uint16_t csr_asid, tlb_asid;
+> +    uint8_t tlb_ps, tlb_e, tlb_v0, tlb_v1, tlb_d0, tlb_d1;
+> +    uint8_t tlb_plv0, tlb_plv1, tlb_mat0, tlb_mat1, tlb_g;
+> +    uint64_t tlb_ppn0, tlb_ppn1;
+> +    uint8_t tlb_nr0, tlb_nr1, tlb_nx0, tlb_nx1, tlb_rplv0, tlb_rplv1;
+> +
+> +    idx = FIELD_EX64(env->CSR_TLBIDX, CSR_TLBIDX, INDEX);
+> +    tlb = &env->tlb[idx];
+> +
+> +    csr_asid = FIELD_EX64(env->CSR_ASID, CSR_ASID, ASID);
+> +    tlb_asid = FIELD_EX64(tlb->tlb_misc, TLB_MISC, ASID);
+> +    tlb_ps = FIELD_EX64(tlb->tlb_misc, TLB_MISC, PS);
+> +    tlb_e = FIELD_EX64(tlb->tlb_misc, TLB_MISC, E);
+> +    tlb_g = FIELD_EX64(tlb->tlb_misc, TLB_MISC, G);
+> +
+> +    tlb_v0 = FIELD_EX64(tlb->tlb_entry0, ENTRY0, V);
+> +    tlb_d0 = FIELD_EX64(tlb->tlb_entry0, ENTRY0, D);
+> +    tlb_plv0 = FIELD_EX64(tlb->tlb_entry0, ENTRY0, PLV);
+> +    tlb_mat0 = FIELD_EX64(tlb->tlb_entry0, ENTRY0, MAT);
+> +    tlb_ppn0 = FIELD_EX64(tlb->tlb_entry0, ENTRY0, PPN);
+> +    tlb_nr0 = FIELD_EX64(tlb->tlb_entry0, ENTRY0, NR);
+> +    tlb_nx0 = FIELD_EX64(tlb->tlb_entry0, ENTRY0, NX);
+> +    tlb_rplv0 = FIELD_EX64(tlb->tlb_entry0, ENTRY0, RPLV);
+> +
+> +    tlb_v1 = FIELD_EX64(tlb->tlb_entry1, ENTRY1, V);
+> +    tlb_d1 = FIELD_EX64(tlb->tlb_entry1, ENTRY1, D);
+> +    tlb_plv1 = FIELD_EX64(tlb->tlb_entry1, ENTRY1, PLV);
+> +    tlb_mat1 = FIELD_EX64(tlb->tlb_entry1, ENTRY1, MAT);
+> +    tlb_ppn1 = FIELD_EX64(tlb->tlb_entry1, ENTRY1, PPN);
+> +    tlb_nr1 = FIELD_EX64(tlb->tlb_entry1, ENTRY1, NR);
+> +    tlb_nx1 = FIELD_EX64(tlb->tlb_entry1, ENTRY1, NX);
+> +    tlb_rplv1 = FIELD_EX64(tlb->tlb_entry1, ENTRY1, RPLV);
+> +
+> +    if (csr_asid != tlb_asid) {
+> +        cpu_loongarch_tlb_flush(env);
+
+Why?  Surely the index selected should not have matched on the previous search?
+
+> +    } else {
+> +        /* Valid TLB entry */
+> +        env->CSR_TLBIDX = FIELD_DP64(env->CSR_TLBIDX, CSR_TLBIDX,
+> +                                     INDEX, (idx & 0xfff));
+> +        env->CSR_TLBIDX = FIELD_DP64(env->CSR_TLBIDX, CSR_TLBIDX,
+> +                                     PS, (tlb_ps & 0x3f));
+> +
+> +        env->CSR_TLBEHI = FIELD_EX64(tlb->tlb_misc, TLB_MISC, VPPN) << 13;
+> +
+> +        env->CSR_TLBELO0 = FIELD_DP64(0, CSR_TLBELO0, V, tlb_v0);
+> +        env->CSR_TLBELO0 = FIELD_DP64(env->CSR_TLBELO0, CSR_TLBELO0, D, tlb_d0);
+> +        env->CSR_TLBELO0 = FIELD_DP64(env->CSR_TLBELO0, CSR_TLBELO0, PLV, tlb_plv0);
+> +        env->CSR_TLBELO0 = FIELD_DP64(env->CSR_TLBELO0, CSR_TLBELO0, MAT, tlb_mat0);
+> +        env->CSR_TLBELO0 = FIELD_DP64(env->CSR_TLBELO0, CSR_TLBELO0, G, tlb_g);
+> +        env->CSR_TLBELO0 = FIELD_DP64(env->CSR_TLBELO0, CSR_TLBELO0, PPN, tlb_ppn0);
+> +        env->CSR_TLBELO0 = FIELD_DP64(env->CSR_TLBELO0, CSR_TLBELO0, NR, tlb_nr0);
+> +        env->CSR_TLBELO0 = FIELD_DP64(env->CSR_TLBELO0, CSR_TLBELO0, NX, tlb_nx0);
+> +        env->CSR_TLBELO0 = FIELD_DP64(env->CSR_TLBELO0, CSR_TLBELO0, RPLV, tlb_rplv0);
+> +
+> +        env->CSR_TLBELO1 = FIELD_DP64(0, CSR_TLBELO1, V, tlb_v1);
+> +        env->CSR_TLBELO1 = FIELD_DP64(env->CSR_TLBELO1, CSR_TLBELO1, D, tlb_d1);
+> +        env->CSR_TLBELO1 = FIELD_DP64(env->CSR_TLBELO1, CSR_TLBELO1, PLV, tlb_plv1);
+> +        env->CSR_TLBELO1 = FIELD_DP64(env->CSR_TLBELO1, CSR_TLBELO1, MAT, tlb_mat1);
+> +        env->CSR_TLBELO1 = FIELD_DP64(env->CSR_TLBELO1, CSR_TLBELO1, G, tlb_g);
+> +        env->CSR_TLBELO1 = FIELD_DP64(env->CSR_TLBELO1, CSR_TLBELO1, PPN, tlb_ppn1);
+> +        env->CSR_TLBELO1 = FIELD_DP64(env->CSR_TLBELO1, CSR_TLBELO1, NR, tlb_nr1);
+> +        env->CSR_TLBELO1 = FIELD_DP64(env->CSR_TLBELO1, CSR_TLBELO1, NX, tlb_nx1);
+> +        env->CSR_TLBELO1 = FIELD_DP64(env->CSR_TLBELO1, CSR_TLBELO1, RPLV, 
+
+Again, these should easily copy across.
+
+> +    env->CSR_ASID  = FIELD_DP64(env->CSR_ASID, CSR_ASID, ASID, tlb_asid);
+
+The documentation for TLBRD does not mention modifications to the current ASID.
+
+> +    default:
+> +        do_raise_exception(env, EXCP_INE, GETPC());
+
+You can detect this during translation, and dispatch to the appropriate invtlb sub-function.
+
+
+r~
 
