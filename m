@@ -2,64 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB7144D88A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 15:48:05 +0100 (CET)
-Received: from localhost ([::1]:39014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBD5E44D895
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 15:50:23 +0100 (CET)
+Received: from localhost ([::1]:42524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlBMy-0006fG-LI
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 09:48:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45236)
+	id 1mlBPD-0000gI-0z
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 09:50:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mlBBb-0006IU-L2
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:36:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21835)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mlBCc-0008Ih-2s
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:37:23 -0500
+Received: from [2001:41c9:1:41f::167] (port=36174
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mlBBY-0001OC-Kq
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:36:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636641373;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=lJsNpjyWbvgVU2c/4XKMEI3UN+050by84MGWYoXykVg=;
- b=UbpMwP0xLBosgxHvyokKozPISFHwWRaCI+3s2+nlCMttMNi+dol8q40AKLQz8YL18AHbY2
- 7Yngp5Th5v+iATK7KlSJgx4VFuwQD0mU5tdWcpAXRKVm9J+HtIDO0eBAuGNvW22FjvI5Gk
- 1oKreJTeb6fnyvxbJyJttaZXBczTSMY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-521-FQtZhxpSPPuB5MNpwae-nQ-1; Thu, 11 Nov 2021 09:36:10 -0500
-X-MC-Unique: FQtZhxpSPPuB5MNpwae-nQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7486718D6A2A
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 14:36:08 +0000 (UTC)
-Received: from merkur.fritz.box (unknown [10.39.193.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 94D6C60C9F;
- Thu, 11 Nov 2021 14:35:35 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.2] docs: Deprecate incorrectly typed device_add arguments
-Date: Thu, 11 Nov 2021 15:35:30 +0100
-Message-Id: <20211111143530.18985-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mlBCZ-0001gh-70
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:37:21 -0500
+Received: from [2a00:23c4:8b9e:9b00:2535:46c:7466:70fe]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mlBCP-0003xY-GX; Thu, 11 Nov 2021 14:37:13 +0000
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <1636594528-8175-1-git-send-email-yangxiaojuan@loongson.cn>
+ <1636594528-8175-20-git-send-email-yangxiaojuan@loongson.cn>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <bb6813d6-de3a-bd08-adcb-bc4fd94ef842@ilande.co.uk>
+Date: Thu, 11 Nov 2021 14:37:10 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <1636594528-8175-20-git-send-email-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-SA-Exim-Connect-IP: 2a00:23c4:8b9e:9b00:2535:46c:7466:70fe
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [RFC PATCH v2 19/30] hw/intc: Add LoongArch ls7a interrupt
+ controller support(PCH-PIC)
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+ (failed)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.999,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,51 +67,440 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berrange@redhat.com, libvir-list@redhat.com,
- armbru@redhat.com, pbonzini@redhat.com, eblake@redhat.com
+Cc: Song Gao <gaosong@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While introducing a non-QemuOpts code path for device creation for JSON
--device, we noticed that QMP device_add doesn't check its input
-correctly (accepting arguments that should have been rejected), and that
-users may be relying on this behaviour (libvirt did until it was fixed
-recently).
+On 11/11/2021 01:35, Xiaojuan Yang wrote:
 
-Let's use a deprecation period before we fix this bug in QEMU to avoid
-nasty surprises for users.
+> This patch realize the PCH-PIC interrupt controller.
+> 
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> ---
+>   hw/intc/Kconfig                     |   4 +
+>   hw/intc/loongarch_pch_pic.c         | 283 ++++++++++++++++++++++++++++
+>   hw/intc/meson.build                 |   1 +
+>   hw/loongarch/Kconfig                |   1 +
+>   include/hw/intc/loongarch_pch_pic.h |  49 +++++
+>   5 files changed, 338 insertions(+)
+>   create mode 100644 hw/intc/loongarch_pch_pic.c
+>   create mode 100644 include/hw/intc/loongarch_pch_pic.h
+> 
+> diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+> index 78aed93c45..3b7eca7b03 100644
+> --- a/hw/intc/Kconfig
+> +++ b/hw/intc/Kconfig
+> @@ -73,3 +73,7 @@ config GOLDFISH_PIC
+>   
+>   config M68K_IRQC
+>       bool
+> +
+> +config LOONGARCH_PCH_PIC
+> +    bool
+> +    select UNIMP
+> diff --git a/hw/intc/loongarch_pch_pic.c b/hw/intc/loongarch_pch_pic.c
+> new file mode 100644
+> index 0000000000..96e4c46174
+> --- /dev/null
+> +++ b/hw/intc/loongarch_pch_pic.c
+> @@ -0,0 +1,283 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * QEMU Loongson 7A1000 I/O interrupt controller.
+> + *
+> + * Copyright (C) 2021 Loongson Technology Corporation Limited
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/irq.h"
+> +#include "hw/intc/loongarch_pch_pic.h"
+> +#include "migration/vmstate.h"
+> +
+> +#define DEBUG_LOONGARCH_PCH_PIC 0
+> +
+> +#define DPRINTF(fmt, ...) \
+> +do { \
+> +    if (DEBUG_LOONGARCH_PCH_PIC) { \
+> +        fprintf(stderr, "LOONGARCH_PCH_PIC: " fmt , ## __VA_ARGS__); \
+> +    } \
+> +} while (0)
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- docs/about/deprecated.rst | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Use of the DPRINTF() macro has been deprecated for new devices: please use 
+trace-events instead.
 
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index 600031210d..c03fcf951f 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -250,6 +250,20 @@ options are removed in favor of using explicit ``blockdev-create`` and
- ``blockdev-add`` calls. See :doc:`/interop/live-block-operations` for
- details.
- 
-+Incorrectly typed ``device_add`` arguments (since 6.2)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+Due to shortcomings in the internal implementation of ``device_add``, QEMU
-+incorrectly accepts certain invalid arguments: Any object or list arguments are
-+silently ignored. Other argument types are not checked, but an implicit
-+conversion happens, so that e.g. string values can be assigned to integer
-+device properties or vice versa.
-+
-+This is a bug in QEMU that will be fixed in the future so that previously
-+accepted incorrect commands will return an error. Users should make sure that
-+all arguments passed to ``device_add`` are consistent with the documented
-+property types.
-+
- System accelerators
- -------------------
- 
--- 
-2.31.1
+> + #define for_each_set_bit(bit, addr, size) \
+> +         for ((bit) = find_first_bit((addr), (size));            \
+> +              (bit) < (size);                                    \
+> +              (bit) = find_next_bit((addr), (size), (bit) + 1))
+> +
+> +static void update_irq(loongarch_pch_pic *s, int mask, int level)
 
+I'd suggest adding a loongarch_pch_ prefix to this function name.
+
+> +{
+> +    int i;
+> +    uint64_t val;
+> +    val = mask & s->intirr & (~s->int_mask);
+> +
+> +    for_each_set_bit(i, &val, 32) {
+> +        if (level == 1) {
+> +            if ((s->intisr & (0x1ULL << i)) == 0) {
+> +                s->intisr |= 1ULL << i;
+> +                qemu_set_irq(s->parent_irq[s->htmsi_vector[i]], 1);
+> +            }
+> +        } else if (level == 0) {
+> +            if (s->intisr & (0x1ULL << i)) {
+> +                s->intisr &= ~(0x1ULL << i);
+> +                qemu_set_irq(s->parent_irq[s->htmsi_vector[i]], 0);
+> +            }
+> +        }
+> +    }
+> +}
+> +
+> +static void irq_handler(void *opaque, int irq, int level)
+
+And also add a loongarch_pch_ prefix to this function name.
+
+> +{
+> +    loongarch_pch_pic *s = opaque;
+
+How about a QOM cast to ensure type safety:
+
+   loongarch_pch_pic *s = LOONGARCH_PCH_PIC(opaque);
+
+> +    assert(irq < 32);
+> +    uint32_t mask = 1ULL << irq;
+> +    DPRINTF("------ %s irq %d %d\n", __func__, irq, level);
+> +
+> +    if (s->intedge & mask) {
+> +        /* Edge triggered */
+> +        if (level) {
+> +            if ((s->last_intirr & mask) == 0) {
+> +                s->intirr |= mask;
+> +            }
+> +            s->last_intirr |= mask;
+> +        } else {
+> +            s->last_intirr &= ~mask;
+> +        }
+> +    } else {
+> +        /* Level triggered */
+> +        if (level) {
+> +            s->intirr |= mask;
+> +            s->last_intirr |= mask;
+> +        } else {
+> +            s->intirr &= ~mask;
+> +            s->last_intirr &= ~mask;
+> +        }
+> +
+> +    }
+> +    update_irq(s, mask, level);
+> +}
+> +
+> +static uint64_t loongarch_pch_pic_reg_read(void *opaque, hwaddr addr,
+> +                                           unsigned size)
+> +{
+> +    loongarch_pch_pic *s = opaque;
+
+Similarly a QOM cast could be added here.
+
+> +    uint32_t val = 0;
+> +    uint32_t offset;
+> +    int32_t offset_tmp;
+> +    offset = addr & 0xfff;
+> +    if (4 == size) {
+
+if (size == 4)? I know swapping the parameters like this used to help detect bugs 
+many years ago, but I'm sure that all modern compilers can cope with this.
+
+> +        switch (offset) {
+> +        case PCH_PIC_INT_ID_OFFSET:
+> +            val = PCH_PIC_INT_ID_VAL;
+> +            break;
+> +        case PCH_PIC_INT_MASK_OFFSET:
+> +            val = s->int_mask;
+> +            break;
+> +        case PCH_PIC_INT_STATUS_OFFSET:
+> +            val = s->intisr & (~s->int_mask);
+> +            break;
+> +        case PCH_PIC_INT_EDGE_OFFSET:
+> +            val = s->intedge;
+> +            break;
+> +        case PCH_PIC_INT_POL_OFFSET:
+> +            val = s->int_polarity;
+> +            break;
+> +        case PCH_PIC_HTMSI_EN_OFFSET:
+> +            val = s->htmsi_en;
+> +            break;
+> +        case PCH_PIC_AUTO_CTRL0_OFFSET:
+> +        case PCH_PIC_AUTO_CTRL1_OFFSET:
+> +            break;
+> +        default:
+> +            break;
+> +        }
+> +    } else if (1 == size) {
+
+Same here.
+
+> +        if (offset >= PCH_PIC_HTMSI_VEC_OFFSET) {
+> +            offset_tmp = offset - PCH_PIC_HTMSI_VEC_OFFSET;
+> +            if (offset_tmp >= 0 && offset_tmp < 32) {
+> +                val = s->htmsi_vector[offset_tmp];
+> +            }
+> +        } else if (offset >=  PCH_PIC_ROUTE_ENTRY_OFFSET) {
+> +            offset_tmp = offset - PCH_PIC_ROUTE_ENTRY_OFFSET;
+> +            if (offset_tmp >= 0 && offset_tmp < 32) {
+> +                val = s->route_entry[offset_tmp];
+> +            }
+> +        }
+> +    }
+> +
+> +    return val;
+> +}
+> +
+> +static void loongarch_pch_pic_reg_write(void *opaque, hwaddr addr,
+> +                                        uint64_t data, unsigned size)
+> +{
+> +    loongarch_pch_pic *s = opaque;
+
+Another QOM cast.
+
+> +    int32_t offset_tmp;
+> +    uint32_t offset, old;
+> +    offset = addr & 0xfff;
+> +
+> +    if (4 == size) {
+
+Again please swap the parameters.
+
+> +        switch (offset) {
+> +        case PCH_PIC_INT_MASK_OFFSET:
+> +            old = s->int_mask;
+> +            s->int_mask = data;
+> +            if (old & ~data) {
+> +                update_irq(s, (old & ~data), 1);
+> +            } else if (~old & data) {
+> +                update_irq(s, (~old & data), 0);
+> +            }
+> +            break;
+> +        case PCH_PIC_INT_STATUS_OFFSET:
+> +            s->intisr = data;
+> +            break;
+> +        case PCH_PIC_INT_EDGE_OFFSET:
+> +            s->intedge = data;
+> +            break;
+> +        case PCH_PIC_INT_CLEAR_OFFSET:
+> +            s->intirr &= (~(data & s->intedge));
+> +            update_irq(s, data, 0);
+> +            s->intisr &= (~data);
+> +            break;
+> +        case PCH_PIC_INT_POL_OFFSET:
+> +            s->int_polarity = data;
+> +            break;
+> +        case PCH_PIC_HTMSI_EN_OFFSET:
+> +            s->htmsi_en = data;
+> +            break;
+> +        case PCH_PIC_AUTO_CTRL0_OFFSET:
+> +        case PCH_PIC_AUTO_CTRL1_OFFSET:
+> +            break;
+> +        default:
+> +            break;
+> +        }
+> +    } else if (1 == size) {
+
+And here.
+
+> +        if (offset >= PCH_PIC_HTMSI_VEC_OFFSET) {
+> +            offset_tmp = offset - PCH_PIC_HTMSI_VEC_OFFSET;
+> +            if (offset_tmp >= 0 && offset_tmp < 32) {
+> +                s->htmsi_vector[offset_tmp] = (uint8_t)(data & 0xff);
+> +            }
+> +        } else if (offset >=  PCH_PIC_ROUTE_ENTRY_OFFSET) {
+> +            offset_tmp = offset - PCH_PIC_ROUTE_ENTRY_OFFSET;
+> +            if (offset_tmp >= 0 && offset_tmp < 32) {
+> +                s->route_entry[offset_tmp] = (uint8_t)(data & 0xff);
+> +            }
+> +        }
+> +    }
+> +}
+> +
+> +static const MemoryRegionOps loongarch_pch_pic_ops = {
+> +    .read = loongarch_pch_pic_reg_read,
+> +    .write = loongarch_pch_pic_reg_write,
+> +    .valid = {
+> +        .min_access_size = 1,
+> +        .max_access_size = 8,
+> +    },
+> +    .impl = {
+> +        .min_access_size = 1,
+> +        .max_access_size = 8,
+> +    },
+> +    .endianness = DEVICE_NATIVE_ENDIAN,
+
+Should this be DEVICE_LITTLE_ENDIAN or DEVICE_BIG_ENDIAN?
+
+> +};
+> +
+> +static void loongarch_pch_pic_reset(DeviceState *d)
+> +{
+> +    loongarch_pch_pic *s = LOONGARCH_PCH_PIC(d);
+> +    int i;
+> +
+> +    s->int_id   = 0x0;
+> +    s->int_mask = 0xffffffff;
+> +    s->htmsi_en = 0x0;
+> +    s->intedge  = 0x0;
+> +    s->intclr   = 0x0;
+> +    s->auto_crtl0 = 0x0;
+> +    s->auto_crtl1 = 0x0;
+> +    for (i = 0; i < 32; i++) {
+> +        s->route_entry[i] = 0x1;
+> +        s->htmsi_vector[i] = 0x0;
+> +    }
+> +    s->intirr = 0x0;
+> +    s->intisr = 0x0;
+> +    s->last_intirr = 0x0;
+> +    s->int_polarity = 0x0;
+> +}
+> +
+> +static void loongarch_pch_pic_init(Object *obj)
+> +{
+> +    loongarch_pch_pic *s = LOONGARCH_PCH_PIC(obj);
+> +    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+> +    int tmp;
+
+Can we use i instead of tmp for the loop counter?
+
+> +    memory_region_init_io(&s->iomem, obj, &loongarch_pch_pic_ops,
+> +                          s, TYPE_LOONGARCH_PCH_PIC, 0x1000);
+> +    sysbus_init_mmio(sbd, &s->iomem);
+> +
+> +    for (tmp = 0; tmp < 32; tmp++) {
+> +        sysbus_init_irq(sbd, &s->parent_irq[tmp]);
+> +    }
+> +    qdev_init_gpio_in(DEVICE(obj), irq_handler, 32);
+> +}
+> +
+> +static const VMStateDescription vmstate_loongarch_pch_pic = {
+> +    .name = TYPE_LOONGARCH_PCH_PIC,
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINT32(int_mask, loongarch_pch_pic),
+> +        VMSTATE_UINT32(htmsi_en, loongarch_pch_pic),
+> +        VMSTATE_UINT32(intedge, loongarch_pch_pic),
+> +        VMSTATE_UINT32(intclr, loongarch_pch_pic),
+> +        VMSTATE_UINT32(auto_crtl0, loongarch_pch_pic),
+> +        VMSTATE_UINT32(auto_crtl1, loongarch_pch_pic),
+> +        VMSTATE_UINT8_ARRAY(route_entry, loongarch_pch_pic, 32),
+> +        VMSTATE_UINT8_ARRAY(htmsi_vector, loongarch_pch_pic, 32),
+> +        VMSTATE_UINT32(last_intirr, loongarch_pch_pic),
+> +        VMSTATE_UINT32(intirr, loongarch_pch_pic),
+> +        VMSTATE_UINT32(intisr, loongarch_pch_pic),
+> +        VMSTATE_UINT32(int_polarity, loongarch_pch_pic),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+> +static void loongarch_pch_pic_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +
+> +    dc->reset = loongarch_pch_pic_reset;
+> +    dc->vmsd = &vmstate_loongarch_pch_pic;
+> +}
+> +
+> +static const TypeInfo loongarch_pch_pic_info = {
+> +    .name          = TYPE_LOONGARCH_PCH_PIC,
+> +    .parent        = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size = sizeof(loongarch_pch_pic),
+> +    .instance_init = loongarch_pch_pic_init,
+> +    .class_init    = loongarch_pch_pic_class_init,
+> +};
+> +
+> +static void loongarch_pch_pic_register_types(void)
+> +{
+> +    type_register_static(&loongarch_pch_pic_info);
+> +}
+> +
+> +type_init(loongarch_pch_pic_register_types)
+> diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+> index c89d2ca180..07b0627468 100644
+> --- a/hw/intc/meson.build
+> +++ b/hw/intc/meson.build
+> @@ -57,3 +57,4 @@ specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
+>   		if_true: files('spapr_xive_kvm.c'))
+>   specific_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
+>   specific_ss.add(when: 'CONFIG_M68K_IRQC', if_true: files('m68k_irqc.c'))
+> +specific_ss.add(when: 'CONFIG_LOONGARCH_PCH_PIC', if_true: files('loongarch_pch_pic.c'))
+> diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+> index 720822f32c..c6d7ebcd5b 100644
+> --- a/hw/loongarch/Kconfig
+> +++ b/hw/loongarch/Kconfig
+> @@ -1,3 +1,4 @@
+>   config LOONGSON_3A5000
+>       bool
+>       select PCI_EXPRESS_7A
+> +    select LOONGARCH_PCH_PIC
+> diff --git a/include/hw/intc/loongarch_pch_pic.h b/include/hw/intc/loongarch_pch_pic.h
+> new file mode 100644
+> index 0000000000..b1b3e24166
+> --- /dev/null
+> +++ b/include/hw/intc/loongarch_pch_pic.h
+> @@ -0,0 +1,49 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * LoongArch 7A1000 I/O interrupt controller definitions
+> + *
+> + * Copyright (c) 2021 Loongson Technology Corporation Limited
+> + */
+> +
+> +#define TYPE_LOONGARCH_PCH_PIC "loongarch_pch_pic"
+> +DECLARE_INSTANCE_CHECKER(struct loongarch_pch_pic, LOONGARCH_PCH_PIC,
+> +                         TYPE_LOONGARCH_PCH_PIC)
+> +
+> +#define PCH_PIC_ROUTE_ENTRY_OFFSET      0x100
+> +#define PCH_PIC_INT_ID_OFFSET           0x00
+> +#define PCH_PIC_INT_ID_VAL              0x7000000UL
+> +#define PCH_PIC_INT_ID_VER              0x1f0001UL
+> +#define PCH_PIC_INT_MASK_OFFSET         0x20
+> +#define PCH_PIC_INT_EDGE_OFFSET         0x60
+> +#define PCH_PIC_INT_CLEAR_OFFSET        0x80
+> +#define PCH_PIC_INT_STATUS_OFFSET       0x3a0
+> +#define PCH_PIC_INT_POL_OFFSET          0x3e0
+> +#define PCH_PIC_HTMSI_EN_OFFSET         0x40
+> +#define PCH_PIC_HTMSI_VEC_OFFSET        0x200
+> +#define PCH_PIC_AUTO_CTRL0_OFFSET       0xc0
+> +#define PCH_PIC_AUTO_CTRL1_OFFSET       0xe0
+> +
+> +typedef struct loongarch_pch_pic {
+> +    SysBusDevice parent_obj;
+> +    qemu_irq parent_irq[32];
+> +    uint32_t int_id;
+> +    uint32_t int_mask; /*0x020 interrupt mask register*/
+> +    uint32_t htmsi_en;/*0x040 1=msi*/
+> +    uint32_t intedge; /*0x060 edge=1 level  =0*/
+> +    uint32_t intclr; /*0x080 for clean edge int,set 1 clean,set 0 is noused*/
+> +    uint32_t auto_crtl0; /*0x0c0*/
+> +    uint32_t auto_crtl1; /*0x0e0*/
+> +    uint8_t route_entry[32]; /*0x100 - 0x120*/
+> +    uint8_t htmsi_vector[32]; /*0x200 - 0x220*/
+> +    uint32_t last_intirr;    /* edge detection */
+> +    uint32_t intirr; /* 0x380 interrupt request register */
+> +    uint32_t intisr; /* 0x3a0 interrupt service register */
+> +    /*
+> +     * 0x3e0 interrupt level polarity selection
+> +     * register 0 for high level trigger
+> +     */
+> +    uint32_t int_polarity;
+> +    MemoryRegion iomem;
+> +} loongarch_pch_pic;
+> +
+> +
+
+
+ATB,
+
+Mark.
 
