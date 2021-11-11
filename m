@@ -2,31 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82BB344D48C
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 11:00:02 +0100 (CET)
-Received: from localhost ([::1]:52416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF5144D477
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 10:56:59 +0100 (CET)
+Received: from localhost ([::1]:41638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml6sD-0008KY-Lh
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 05:00:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33952)
+	id 1ml6pG-0000sA-RI
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 04:56:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1ml6nX-0007Is-Va
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 04:55:12 -0500
-Received: from mail.ispras.ru ([83.149.199.84]:44956)
+ id 1ml6nZ-0007JN-Ci
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 04:55:14 -0500
+Received: from mail.ispras.ru ([83.149.199.84]:44968)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1ml6nV-0008Nx-Mo
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 04:55:11 -0500
+ id 1ml6nX-0008OB-Dv
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 04:55:13 -0500
 Received: from [127.0.1.1] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id B103E40A2BC1;
- Thu, 11 Nov 2021 09:55:03 +0000 (UTC)
-Subject: [PATCH v2 0/3] Some watchpoint-related patches
+ by mail.ispras.ru (Postfix) with ESMTPSA id 1D48740755CE;
+ Thu, 11 Nov 2021 09:55:09 +0000 (UTC)
+Subject: [PATCH v2 1/3] icount: preserve cflags when custom tb is about to
+ execute
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
-Date: Thu, 11 Nov 2021 12:55:03 +0300
-Message-ID: <163662450348.125458.5494710452733592356.stgit@pasha-ThinkPad-X280>
+Date: Thu, 11 Nov 2021 12:55:08 +0300
+Message-ID: <163662450891.125458.6706022775465303586.stgit@pasha-ThinkPad-X280>
+In-Reply-To: <163662450348.125458.5494710452733592356.stgit@pasha-ThinkPad-X280>
+References: <163662450348.125458.5494710452733592356.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.23
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -55,25 +58,39 @@ Cc: pavel.dovgalyuk@ispras.ru, david@redhat.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The series includes several watchpoint-related patches.
+When debugging with the watchpoints, qemu may need to create
+TB with single instruction. This is achieved by setting cpu->cflags_next_tb.
+But when this block is about to execute, it may be interrupted by another
+thread. In this case cflags will be lost and next executed TB will not
+be the special one.
+This patch checks TB exit reason and restores cflags_next_tb to allow
+finding the interrupted block.
 
-v2 changes:
- - added patch to fix races with interrupts
- - added patch to process watchpoints-on-stack
- - removed upstreamed patches
-
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 ---
+ accel/tcg/cpu-exec.c |   10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Pavel Dovgalyuk (3):
-      icount: preserve cflags when custom tb is about to execute
-      softmmu: fix watchpoint-interrupt races
-      softmmu: fix watchpoints on memory used by vCPU internals
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 2d14d02f6c..df12452b8f 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -846,6 +846,16 @@ static inline void cpu_loop_exec_tb(CPUState *cpu, TranslationBlock *tb,
+          * cpu_handle_interrupt.  cpu_handle_interrupt will also
+          * clear cpu->icount_decr.u16.high.
+          */
++        if (cpu->cflags_next_tb == -1
++            && (!use_icount || !(tb->cflags & CF_USE_ICOUNT)
++                || cpu_neg(cpu)->icount_decr.u16.low >= tb->icount)) {
++            /*
++             * icount is disabled or there are enough instructions
++             * in the budget, do not retranslate this block with
++             * different parameters.
++             */
++            cpu->cflags_next_tb = tb->cflags;
++        }
+         return;
+     }
+ 
 
-
- accel/tcg/cpu-exec.c |  5 +++++
- softmmu/physmem.c    | 14 ++++++++++++++
- 2 files changed, 19 insertions(+)
-
---
-Pavel Dovgalyuk
 
