@@ -2,92 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D00E44D42E
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 10:39:29 +0100 (CET)
-Received: from localhost ([::1]:51044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E4BA44D437
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 10:40:26 +0100 (CET)
+Received: from localhost ([::1]:53600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml6YK-0004CK-Cz
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 04:39:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58794)
+	id 1ml6ZF-0005w5-I2
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 04:40:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ml6Wl-0002Ao-UE
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 04:37:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52961)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1ml6Xw-0004Y4-QB
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 04:39:04 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:44450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ml6Wj-00066p-Vu
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 04:37:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636623469;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Vmgu90SmsVXHNpZK8Is++ZKKZKVewMZzDqeSGc2YAk4=;
- b=BQes9AainssL8OUdalnyWEznumcnJQyDFZhnUAwscDqpIfc/h0iVui3ma4ZgsRCHL0G0Ya
- uryXuLdQS88pPTFh/nFkRLludxXzbTe/TqGnb2JDyiC06dmaVL4UbOKlOemGoNklD57pVJ
- aGjkhG0RrgYCvkdU/7EVmtid5xsrJGM=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-6Abu7Iv3OeGzSRC0bzkupg-1; Thu, 11 Nov 2021 04:37:48 -0500
-X-MC-Unique: 6Abu7Iv3OeGzSRC0bzkupg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- z126-20020a1c7e84000000b003335e5dc26bso1190741wmc.8
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 01:37:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Vmgu90SmsVXHNpZK8Is++ZKKZKVewMZzDqeSGc2YAk4=;
- b=8OnvI0y1xiZ+OChprchehyydy5y4aEm5nNk+BP7dSwaMxmQ78VkJZ/hVXA6ZaPpRxY
- S6XQrm6TnGD01mh9jWB8/SKs6xWaILcZa6LfbaYLo7xIqz7lvDTrs6gTtpvA1lR4qo0W
- CgXlGamqvYnzLNak6qsus37VVwo/SO0/lOQeD8V84FF3uRtd2br1kG1zwogM2LlID2Z8
- 27gngT2lswpJulkqQhURCHjPyA9GH9Uei88/AlVkYNDh2Pe86KGkbRMDVThdv80TtEnN
- +hNnySzRqPEms1Paa+F8Q890BASngSqVsfaxCRLNwhGpOxI0FXNJLC4uGtPlhLdXrCYv
- d0Nw==
-X-Gm-Message-State: AOAM533S/V6FBfjawLqAUJzjWEyRuP8JtgoheSgYHzfHKwfEFkIEVuV6
- hhGwcAVrmzFB82TySr6wAmG7mYp7VF/eOsSm7EZOEFnCVGjpppD3jz6Bmr+b/7lVO9AaeidfExd
- BThLxgJ7h/TFm05Y=
-X-Received: by 2002:a1c:23d2:: with SMTP id j201mr2389587wmj.76.1636623467108; 
- Thu, 11 Nov 2021 01:37:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz95fmMUc/+KC4uz0fXK5K+xJYLfHerzU/bBfh5ZPeNIspocf83GwfE/Hr4+RJMZNVcFj9p+A==
-X-Received: by 2002:a1c:23d2:: with SMTP id j201mr2389553wmj.76.1636623466813; 
- Thu, 11 Nov 2021 01:37:46 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id o3sm8900785wms.10.2021.11.11.01.37.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Nov 2021 01:37:46 -0800 (PST)
-Message-ID: <440cee74-13e0-ba38-070f-49f939f33319@redhat.com>
-Date: Thu, 11 Nov 2021 10:37:45 +0100
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1ml6Xt-0006Dh-A9
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 04:39:03 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AB8gH3Y022140; 
+ Thu, 11 Nov 2021 09:38:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=Emb/8/vSlR3qg77k8mDRRsMBMzR0uxv0M71e3fLN+uI=;
+ b=VWDaRzskBAX09hXtTRqBQpd002ux66mYKR0dl3QY82YC8T3T9S+6PhkuXLayaoWscnMo
+ r2D5Ol3BwZCPDfinf62hB3avZ641rc8wAmNVBtAUrEQYiFER6wmjhupK29UCzHQTvSSU
+ IdnYZJZ63SLCsxwPJozsu590uoWLPdo4xOwY5EvvCooIKuJcKGa8zrcQi89BacG2g9Mv
+ FMNoG8Y+1pSVJHLFSLGTX09/lfY+HrQp67KivR8ZOgpQAeSFV529kSitDJjFyZgKcnyy
+ 8NM5voiY8JMq2SpDS0TJmKFWkw0pqHU4jsPtRp5LHPQESxa2WMsJ/DJx3SWuACur7Q6+ zw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3c8wbp4wpk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 11 Nov 2021 09:38:49 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AB9SWPJ014061;
+ Thu, 11 Nov 2021 09:38:49 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3c8wbp4wnt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 11 Nov 2021 09:38:49 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AB9Xed8025035;
+ Thu, 11 Nov 2021 09:38:47 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma05wdc.us.ibm.com with ESMTP id 3c5hbd870y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 11 Nov 2021 09:38:47 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1AB9ckrw45482466
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 11 Nov 2021 09:38:46 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 467BF7806D;
+ Thu, 11 Nov 2021 09:38:46 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5063F7806A;
+ Thu, 11 Nov 2021 09:38:42 +0000 (GMT)
+Received: from [9.160.77.174] (unknown [9.160.77.174])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 11 Nov 2021 09:38:41 +0000 (GMT)
+Message-ID: <968f87c8-6c2f-1bec-9572-376b2806c7ef@linux.ibm.com>
+Date: Thu, 11 Nov 2021 11:38:40 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v4 2/2] tests/unit: Add an unit test for smp parsing
-To: "wangyanan (Y)" <wangyanan55@huawei.com>, qemu-devel@nongnu.org
-References: <20211028150913.1975305-1-philmd@redhat.com>
- <20211028150913.1975305-3-philmd@redhat.com>
- <fd32e519-f970-d039-8291-897363b20add@redhat.com>
- <14250bbd-c3fb-9afc-f08d-587326f0382c@huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <14250bbd-c3fb-9afc-f08d-587326f0382c@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v2 1/6] qapi/qom,target/i386: sev-guest: Introduce
+ kernel-hashes=on|off option
 Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20211108134840.2757206-1-dovmurik@linux.ibm.com>
+ <20211108134840.2757206-2-dovmurik@linux.ibm.com>
+ <87h7cmk5n5.fsf@dusky.pond.sub.org>
+ <32a065bb-ec2e-f2e7-356b-68b41531aab1@linux.ibm.com>
+ <YYzhqUkFqpgsDIyC@redhat.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
+In-Reply-To: <YYzhqUkFqpgsDIyC@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -74
-X-Spam_score: -7.5
-X-Spam_bar: -------
-X-Spam_report: (-7.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.999, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: SC5jJZKrsPaSmNWhej2Bt1E8924e2q35
+X-Proofpoint-GUID: _faYYjPf3cAWunTdm3-tqiFf8Iqfk4rW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-11_02,2021-11-08_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxscore=0
+ malwarescore=0 spamscore=0 phishscore=0 lowpriorityscore=0
+ priorityscore=1501 adultscore=0 impostorscore=0 suspectscore=0 bulkscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2111110056
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -59
+X-Spam_score: -6.0
+X-Spam_bar: ------
+X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.999,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,125 +119,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/11/21 10:31, wangyanan (Y) wrote:
+
+
+On 11/11/2021 11:26, Daniel P. Berrangé wrote:
+> On Mon, Nov 08, 2021 at 08:20:48PM +0200, Dov Murik wrote:
+>>
+>>
+>> On 08/11/2021 17:51, Markus Armbruster wrote:
+>>> Dov Murik <dovmurik@linux.ibm.com> writes:
+>>>
+>>>> Introduce new boolean 'kernel-hashes' option on the sev-guest object.
+>>>> It will be used to to decide whether to add the hashes of
+>>>> kernel/initrd/cmdline to SEV guest memory when booting with -kernel.
+>>>> The default value is 'off'.
+>>>>
+>>>> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+>>>> ---
+>>>>  qapi/qom.json     |  7 ++++++-
+>>>>  target/i386/sev.c | 20 ++++++++++++++++++++
+>>>>  qemu-options.hx   |  6 +++++-
+>>>>  3 files changed, 31 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/qapi/qom.json b/qapi/qom.json
+>>>> index ccd1167808..4fd5d1716b 100644
+>>>> --- a/qapi/qom.json
+>>>> +++ b/qapi/qom.json
+>>>> @@ -769,6 +769,10 @@
+>>>>  # @reduced-phys-bits: number of bits in physical addresses that become
+>>>>  #                     unavailable when SEV is enabled
+>>>>  #
+>>>> +# @kernel-hashes: if true, add hashes of kernel/initrd/cmdline to a
+>>>> +#                 designated guest firmware page for measured boot
+>>>> +#                 with -kernel (default: false)
+>>>
+>>> Missing: (since 7.0)
+>>>
+>>
+>> I agree the "since" clause is missing, but I think this series (at least
+>> patches 1-4) should be considered a bug fix (because booting with
+>> -kernel will break in 6.2 for older OVMF which doesn't have guest
+>> firmware area for hashes).
+>>
+>> I think it should be added for 6.2.
+>>
+>> Paolo?
+>>
+>>
+>> If agreed, the hunk should be:
 > 
-> On 2021/11/11 17:14, Philippe Mathieu-Daudé wrote:
->> On 10/28/21 17:09, Philippe Mathieu-Daudé wrote:
->>> From: Yanan Wang <wangyanan55@huawei.com>
->>>
->>> Now that we have a generic parser smp_parse(), let's add an unit
->>> test for the code. All possible valid/invalid SMP configurations
->>> that the user can specify are covered.
->>>
->>> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
->>> Reviewed-by: Andrew Jones <drjones@redhat.com>
->>> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> Message-Id: <20211026034659.22040-3-wangyanan55@huawei.com>
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> ---
->>>   tests/unit/test-smp-parse.c | 594 ++++++++++++++++++++++++++++++++++++
->>>   MAINTAINERS                 |   1 +
->>>   tests/unit/meson.build      |   1 +
->>>   3 files changed, 596 insertions(+)
->>>   create mode 100644 tests/unit/test-smp-parse.c
->>> +static struct SMPTestData data_generic_valid[] = {
->>> +    {
->>> +        /* config: no configuration provided
->>> +         * expect: cpus=1,sockets=1,cores=1,threads=1,maxcpus=1 */
->> [1]
->>
->>> +        .config = SMP_CONFIG_GENERIC(F, 0, F, 0, F, 0, F, 0, F, 0),
->>> +        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(1, 1, 1, 1, 1),
->>> +        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(1, 1, 1, 1, 1),
->>> +    }, {
->>> +static void test_generic(void)
->>> +{
->>> +    Object *obj = object_new(TYPE_MACHINE);
->>> +    MachineState *ms = MACHINE(obj);
->>> +    MachineClass *mc = MACHINE_GET_CLASS(obj);
->> Watch out, while you create a machine instance in each
->> test, there is only one machine class registered (see
->> type_register_static(&smp_machine_info) below in [2]),
->> ...
-> Yes, I noticed this. So on the top of each sub-test function, the
-> properties
-> of the single machine class is re-initialized by
-> smp_machine_class_init(mc).
-> See [*] below.
->>> +    SMPTestData *data = &(SMPTestData){0};
->>> +    int i;
->>> +
->>> +    smp_machine_class_init(mc);
-> [*]
->>> +
->>> +    for (i = 0; i < ARRAY_SIZE(data_generic_valid); i++) {
->>> +        *data = data_generic_valid[i];
->>> +        unsupported_params_init(mc, data);
->>> +
->>> +        smp_parse_test(ms, data, true);
->>> +
->>> +        /* Unsupported parameters can be provided with their values
->>> as 1 */
->>> +        data->config.has_dies = true;
->>> +        data->config.dies = 1;
->>> +        smp_parse_test(ms, data, true);
->>> +    }
->>> +
->>> +    /* Reset the supported min CPUs and max CPUs */
->>> +    mc->min_cpus = 2;
->>> +    mc->max_cpus = 511;
->> ... and here you are modifying the single machine class state, ...
->>
->>> +
->>> +    for (i = 0; i < ARRAY_SIZE(data_generic_invalid); i++) {
->>> +        *data = data_generic_invalid[i];
->>> +        unsupported_params_init(mc, data);
->>> +
->>> +        smp_parse_test(ms, data, false);
->>> +    }
->>> +
->>> +    object_unref(obj);
->>> +}
->>> +
->>> +static void test_with_dies(void)
->>> +{
->>> +    Object *obj = object_new(TYPE_MACHINE);
->>> +    MachineState *ms = MACHINE(obj);
->>> +    MachineClass *mc = MACHINE_GET_CLASS(obj);
->> ... so here the machine class state is inconsistent, ...
->>
->>> +    SMPTestData *data = &(SMPTestData){0};
->>> +    unsigned int num_dies = 2;
->>> +    int i;
->>> +
->>> +    smp_machine_class_init(mc);
-> And here [*].
->>> +    mc->smp_props.dies_supported = true;
->>> +
->>> +    for (i = 0; i < ARRAY_SIZE(data_generic_valid); i++) {
->>> +        *data = data_generic_valid[i];
->>> +        unsupported_params_init(mc, data);
->>> +
->>> +        /* when dies parameter is omitted, it will be set as 1 */
->>> +        data->expect_prefer_sockets.dies = 1;
->>> +        data->expect_prefer_cores.dies = 1;
->>> +
->>> +        smp_parse_test(ms, data, true);
->> ... in particular the first test [1] is tested with mc->min_cpus = 2.
->>
->> I wonder why you are not getting:
->>
->> Output error report: Invalid SMP CPUs 1. The min CPUs supported by
->> machine '(null)' is 2
->>
->> for [1].
-> So as I have explained above, we won't get an output error report like
-> this here. :)
+> Yes, the kernel hashes feature was introduced in this 6.2 dev
+> cycle, and this patch is fixing a significant behavioural
+> problem with it. We need this included in the 6.2 release
+> 
 
-I see. IMHO this is bad practice example, so I'll send a cleanup patch.
+Thanks for reviewing.
 
+I'll shortly send a v3 with the minor doc/string changes suggested here
+(patches 1 and 3).
+
+-Dov
 
