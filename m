@@ -2,84 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAF5D44D8D9
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 16:04:53 +0100 (CET)
-Received: from localhost ([::1]:45568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA4544D8D7
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 16:03:21 +0100 (CET)
+Received: from localhost ([::1]:42088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlBdE-0007gL-Pg
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 10:04:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49054)
+	id 1mlBbk-0004kE-Dn
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 10:03:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mlBUa-0002bm-ND
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:55:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58539)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mlBZ4-0001mW-PV
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 10:00:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30094)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mlBUX-00043u-4B
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:55:55 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mlBZ2-0004lw-FT
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 10:00:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636642552;
+ s=mimecast20190719; t=1636642830;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z7texmKV8Zq7mKL67E2QaK6ar8VikvSvg/agDvN+KiY=;
- b=GuU+QG8/UkPTFPs1WWA60a8QYB7zAIhBZwC/RbDqND/upG58oRT9q3EgDyScLNO7aSuMb5
- HJQFjslIYoZF6XEyXdzzstWJTeXJBGDAmwiGsYmbw9rMq+rm+WDCdI+o4+7WpQuUn5sNEc
- DykGVvUi0SoT9ww+o7xLMlryPu9mFOE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-472-SA60f0fCNNCbXrkXmNiqwQ-1; Thu, 11 Nov 2021 09:55:51 -0500
-X-MC-Unique: SA60f0fCNNCbXrkXmNiqwQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- o18-20020a05600c511200b00332fa17a02eso2815828wms.5
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 06:55:51 -0800 (PST)
+ bh=E+ZzvzTUoBny6pqvvsrnvCj3GTvggJXorl658c0Jooc=;
+ b=Tgy4YWxIYT0H/Oh+YMM3wFPzeZUU9bJ1WsijTPNQ3NuH0sgVxRXPYqC0waZSF7IYvPr+H0
+ kNvUMGaWmHqQkLKysxST5ekv4w4Vogkej3ChY4cB1+LCpEI6Lqli2Joc77Tssjb+gJrxxe
+ uExF+p/VP8IER2DKo8h741w/rZ+BsLM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-557-J7Dw2cBkO7uhm3OaH1S4tw-1; Thu, 11 Nov 2021 10:00:29 -0500
+X-MC-Unique: J7Dw2cBkO7uhm3OaH1S4tw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ b133-20020a1c808b000000b0032cdd691994so4922991wmd.1
+ for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 07:00:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Z7texmKV8Zq7mKL67E2QaK6ar8VikvSvg/agDvN+KiY=;
- b=jnJYInScvk7FRe6GvcXvZXiuLaJ9iWeeMxeA1N09V5e/kznrk7exiKhsY3KaJcqen0
- 1lRX0rODUtYeBXlwLt3mHsd19kyIXLvydCZbdMuYeiQ8oBtzNUJyLj46cr/2fYjuet6w
- cFFfe+MVAOICAo4gEzvdDTJT4yXrwun9r7YzZy6j7Ea5QSNsefCdX/l6XLWQwZ5qhQnK
- 78o6fDWQ/B4fjBlZKhxQ9HgP+kTgNRLHArJcO2rFDjM8zCCGLa3kUjhQV/FG5M9rGLtc
- YEEhvMbdHxXIdlpUqUajVCka//MJGreq649CJLlTuhQU9Hs5VpS9n2KF+Vh6pnMFxnv+
- RdNA==
-X-Gm-Message-State: AOAM532vjTXOlkik/5uHPhgvnm1Hq0SlVxz/uQs6yy6WRaM9bvHCu8SC
- b0hUm3TAMiz48C1m4HJRswwdDK+PXv2fytG3G82ZvDPvyaRinJJCXt/wte6lYdnJZAmByTLqvN4
- Zf8CcS9319yvVNAE=
-X-Received: by 2002:a05:600c:2252:: with SMTP id
- a18mr27525790wmm.133.1636642550145; 
- Thu, 11 Nov 2021 06:55:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwjWN0bxMhP74bXqDch7iqOGpAYEZys31qZ+AQLY5c2PG1PVDBhgU+7CJ1qexRqTrKv3EDD0Q==
-X-Received: by 2002:a05:600c:2252:: with SMTP id
- a18mr27525767wmm.133.1636642549900; 
- Thu, 11 Nov 2021 06:55:49 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id k8sm2991651wrn.91.2021.11.11.06.55.49
+ bh=E+ZzvzTUoBny6pqvvsrnvCj3GTvggJXorl658c0Jooc=;
+ b=504MsyYATctpTv40LRpwxwuug+LYnNnayz06rSnz1NzADwP0vic6MioyCXUyFt1Fgt
+ uesnwaduQBiF6APIRILHJZw/yuPGtMUASBUA5SCoFIqYwfFkQ5q8BjvtmnFK3BxnhJRP
+ ORWktNZE77BCbz0WnRNadVxmEJqne7xShrt9yTPEowCNN7Xf5GKuC+S+pfZGNP9Txovi
+ ap6Q4UkPmK1tlz7TgRGov4CYLHxF5gueyjQ7M+oOKCwz+JMtgt16mEKStw+3lGjRJqPc
+ xZNeJO6dqMe3/azFuWztg/5MpxutEbPwk5zydgGHz2Opz5AaSG+pYDkwgDUZ4e34McXS
+ rfSA==
+X-Gm-Message-State: AOAM533cYeC416e2tI7hLKjqSf+T3KYiVtK2ZAoi4WevrO8jtWFHlyrr
+ svokIFU4tApWB3/0uzgbYc8v/RdSPrKaT+B7wH9uiTn9/mT/apqxI8axG5pzBchDs9XyU7lP10W
+ yQb2dQ3d5gn44R5s=
+X-Received: by 2002:a05:6000:18c7:: with SMTP id
+ w7mr9544082wrq.411.1636642828104; 
+ Thu, 11 Nov 2021 07:00:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz/5t4x3NbAL8CIowOrCkuV5p1zv0xMRFyyYDnZqgHw6jd3DZMc4aydRkgzxK4BDaiHkRKVtA==
+X-Received: by 2002:a05:6000:18c7:: with SMTP id
+ w7mr9544018wrq.411.1636642827812; 
+ Thu, 11 Nov 2021 07:00:27 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id k27sm9857090wms.41.2021.11.11.07.00.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Nov 2021 06:55:49 -0800 (PST)
-Message-ID: <c9950c92-86c5-ce0d-054e-357db1de851c@redhat.com>
-Date: Thu, 11 Nov 2021 15:55:48 +0100
+ Thu, 11 Nov 2021 07:00:27 -0800 (PST)
+Message-ID: <7cf8a28a-5765-cff8-192e-0fe92fc1ac45@redhat.com>
+Date: Thu, 11 Nov 2021 16:00:26 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH 2/2] hw/core/loader: workaround read() size limit.
-To: Jamie Iles <jamie@nuviainc.com>, qemu-devel@nongnu.org
-References: <20211111141141.3295094-1-jamie@nuviainc.com>
- <20211111141141.3295094-3-jamie@nuviainc.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211111141141.3295094-3-jamie@nuviainc.com>
+Subject: Re: [PATCH v4 02/25] include/block/block: split header into I/O and
+ global state API
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20211025101735.2060852-1-eesposit@redhat.com>
+ <20211025101735.2060852-3-eesposit@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20211025101735.2060852-3-eesposit@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -74
 X-Spam_score: -7.5
@@ -100,78 +101,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lmichel@kalray.eu
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Jamie,
-
-On 11/11/21 15:11, Jamie Iles wrote:
-> On Linux, read() will only ever read a maximum of 0x7ffff000 bytes
-> regardless of what is asked.  If the file is larger than 0x7ffff000
-> bytes the read will need to be broken up into multiple chunks.
-> 
-> Cc: Luc Michel <lmichel@kalray.eu>
-> Signed-off-by: Jamie Iles <jamie@nuviainc.com>
+On 25.10.21 12:17, Emanuele Giuseppe Esposito wrote:
+> block.h currently contains a mix of functions:
+> some of them run under the BQL and modify the block layer graph,
+> others are instead thread-safe and perform I/O in iothreads.
+> It is not easy to understand which function is part of which
+> group (I/O vs GS), and this patch aims to clarify it.
+>
+> The "GS" functions need the BQL, and often use
+> aio_context_acquire/release and/or drain to be sure they
+> can modify the graph safely.
+> The I/O function are instead thread safe, and can run in
+> any AioContext.
+>
+> By splitting the header in two files, block-io.h
+> and block-global-state.h we have a clearer view on what
+> needs what kind of protection. block-common.h
+> contains common structures shared by both headers.
+>
+> block.h is left there for legacy and to avoid changing
+> all includes in all c files that use the block APIs.
+>
+> Assertions are added in the next patch.
+>
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  hw/core/loader.c | 40 ++++++++++++++++++++++++++++++++++------
->  1 file changed, 34 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/core/loader.c b/hw/core/loader.c
-> index 348bbf535bd9..16ca9b99cf0f 100644
-> --- a/hw/core/loader.c
-> +++ b/hw/core/loader.c
-> @@ -80,6 +80,34 @@ int64_t get_image_size(const char *filename)
->      return size;
->  }
->  
-> +static ssize_t read_large(int fd, void *dst, size_t len)
-> +{
-> +    /*
-> +     * man 2 read says:
-> +     *
-> +     * On Linux, read() (and similar system calls) will transfer at most
-> +     * 0x7ffff000 (2,147,479,552) bytes, returning the number of bytes
+>   block.c                            |   3 +
+>   block/meson.build                  |   7 +-
+>   include/block/block-common.h       | 389 +++++++++++++
+>   include/block/block-global-state.h | 286 ++++++++++
+>   include/block/block-io.h           | 306 ++++++++++
+>   include/block/block.h              | 878 +----------------------------
+>   6 files changed, 1012 insertions(+), 857 deletions(-)
+>   create mode 100644 include/block/block-common.h
+>   create mode 100644 include/block/block-global-state.h
+>   create mode 100644 include/block/block-io.h
 
-Could you mention MAX_RW_COUNT from linux/fs.h?
+[...]
 
-> +     * actually transferred.  (This is true on both 32-bit and 64-bit
-> +     * systems.)
+> diff --git a/include/block/block-io.h b/include/block/block-io.h
+> new file mode 100644
+> index 0000000000..9af4609ccb
+> --- /dev/null
+> +++ b/include/block/block-io.h
 
-Maybe "This is true for both ILP32 and LP64 data models used by Linux"?
-(because that would not be the case for the ILP64 model).
+[...]
 
-Otherwise s/systems/Linux variants/?
-
-> +     *
-> +     * So read in chunks no larger than 0x7ffff000 bytes.
-> +     */
-> +    size_t max_chunk_size = 0x7ffff000;
-
-We can declare it static const.
-
-> +    size_t offset = 0;
+> +/*
+> + * I/O API functions. These functions are thread-safe, and therefore
+> + * can run in any thread as long as the thread has called
+> + * aio_context_acquire/release().
+> + */
 > +
-> +    while (offset < len) {
-> +        size_t chunk_len = MIN(max_chunk_size, len - offset);
-> +        ssize_t br = read(fd, dst + offset, chunk_len);
-> +
-> +        if (br < 0) {
-> +            return br;
-> +        }
-> +        offset += br;
-> +    }
-> +
-> +    return (ssize_t)len;
-> +}
+> +int bdrv_replace_child_bs(BdrvChild *child, BlockDriverState *new_bs,
+> +                          Error **errp);
 
-I see other read()/pread() calls:
+Why is this function here?  Naïvely, I would’ve assumed as a 
+graph-modifying function it should be in block-global-state.h.
 
-hw/9pfs/9p-local.c:472:            tsize = read(fd, (void *)buf, bufsz);
-hw/vfio/common.c:269:    if (pread(vbasedev->fd, &buf, size,
-region->fd_offset + addr) != size) {
-...
+I mean, perhaps it’s thread-safe and then it can fit here, too. Still, 
+it surprises me a bit to find this here.
 
-Maybe the read_large() belongs to "sysemu/os-xxx.h"?
+Hanna
 
 
