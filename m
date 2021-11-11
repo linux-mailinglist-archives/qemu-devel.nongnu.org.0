@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F91D44DB0A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 18:19:38 +0100 (CET)
-Received: from localhost ([::1]:43730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 766AC44DB16
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 18:27:50 +0100 (CET)
+Received: from localhost ([::1]:47496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlDjd-0000pq-53
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 12:19:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41494)
+	id 1mlDrZ-0003yL-93
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 12:27:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mlDiH-0007Vq-P7
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 12:18:13 -0500
-Received: from [2a00:1450:4864:20::333] (port=45041
- helo=mail-wm1-x333.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mlDiF-00037c-Ep
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 12:18:13 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- c71-20020a1c9a4a000000b0032cdcc8cbafso4901100wme.3
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 09:18:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=Fjf6WG1Yx+cZ6/eQYv7cwP28ky86kOZclUhiMqlDVP8=;
- b=hKDcJQGSc42Ad6jcvXSe1EpvfxybWElseKzZq6I9jTxPq6hcmdtzORxkeGtn5Vxt5g
- O62TYWxoNqZmhH5Q1+iXdBGHoaO71EimAURgX0wvOst8Q0j2p93DpNRzZEgs0OKUVXc8
- UtbQQHlz3dFepHIYyfTf0gOVmA+DdQ8Tl/ZDcZ2bAo9nJLWOzuqUikWUcT0h43IzBfw6
- geCHJrDDjcmVgtoArMFiIjJcG5QCC+khuB9/SuWyoiWYOrdMLHdjvEUeOGD4kNk1uHD3
- I2gIIMXRMDCyLXvHxHddn6M2w/6UlsAK10YdJoCwkNKrONqU0ihZ6o7KnGQgL8XoOHiv
- liFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=Fjf6WG1Yx+cZ6/eQYv7cwP28ky86kOZclUhiMqlDVP8=;
- b=GYrEa0XmD2anFtC2tEkCbdEpSMoAW+Lq5xRUrKpYftcbJ9yVgnJw+ldI2iXDKKQRDx
- qzL7Pjr7SspdmdVPRMhQBBB9LNNmg9jE0ZhhZlYvkCPApuGI/XXPSW2fXe+DNLJIpjyt
- TQh3C0tRTyMSUeRC+wj3qgB0YwMzHuUQAaFpJl0eSPqxcuXrJoC7f+jKVN+vQVC+gUAd
- UdVCtRs3DsDgqEOGHzqh+CnSuKRcsXzCBpPMNLKH+lrakQHQ3xEpg82nUgjJS7boP5Dt
- Y2xlgQJLMT2g8el3h88uFPK6LuwRGLg0iX/hYHyA7ys9cq+A98pkv44OysavysuQaoC1
- q1Bw==
-X-Gm-Message-State: AOAM532CbencmVtz48DNmerx0oZfheeWJcaasGknTC4NvsQiagw/3Uhw
- vc3ly/GiuNOUNUaS0UQke7SE6ar8PL8E0g==
-X-Google-Smtp-Source: ABdhPJyDs6lmvfFZW5+gQre7oxGR2rH1M1mZuEJoq4E5jGEEq5EgCD1P2Gi8T8Lgxdg+sVdp9QMLBQ==
-X-Received: by 2002:a1c:2:: with SMTP id 2mr10090104wma.41.1636651088301;
- Thu, 11 Nov 2021 09:18:08 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n7sm3444465wro.68.2021.11.11.09.18.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Nov 2021 09:18:06 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9CE0F1FF96;
- Thu, 11 Nov 2021 17:18:05 +0000 (GMT)
-References: <20211111110604.207376-1-pbonzini@redhat.com>
- <20211111110604.207376-6-pbonzini@redhat.com>
-User-agent: mu4e 1.7.4; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 5/5] kvm: add support for KVM_GUESTDBG_BLOCKIRQ
-Date: Thu, 11 Nov 2021 17:17:59 +0000
-In-reply-to: <20211111110604.207376-6-pbonzini@redhat.com>
-Message-ID: <87zgqahar6.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mlDqb-0002kz-A0
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 12:26:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29399)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mlDqY-0004I2-GF
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 12:26:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636651605;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=B8rLN0gSGi4UfsrJ05a+dEpSFWQQDZKLFWdyWmisvKE=;
+ b=JkbW0GpF2c1QMJSJWBxuY3aRPlfzgkqaNryavfWORZwNs8TOwALZq/sHS1PPyF2WWI6arR
+ TrJJmNDihARHVOpCWqo+6RsjCfQLi7W/fLd2YYq7Y9xnRS0JT8qB/WLRVeet7bNKPICzEL
+ lkkPa0qz71wjeL+IGif449ipLVFmkdE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-416-BQosaLHUNKaCORn0dahE_Q-1; Thu, 11 Nov 2021 12:26:43 -0500
+X-MC-Unique: BQosaLHUNKaCORn0dahE_Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C941118125F1;
+ Thu, 11 Nov 2021 17:26:06 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.238])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 96161380;
+ Thu, 11 Nov 2021 17:25:59 +0000 (UTC)
+Date: Thu, 11 Nov 2021 18:25:57 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v2 00/10] block: Attempt on fixing 030-reported errors
+Message-ID: <YY1SJQLbbw7XwCh/@redhat.com>
+References: <20211111120829.81329-1-hreitz@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20211111120829.81329-1-hreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,24 +77,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
- mlevitsk@redhat.com
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Am 11.11.2021 um 13:08 hat Hanna Reitz geschrieben:
+> Hi,
+> 
+> v1 cover letter:
+> https://lists.nongnu.org/archive/html/qemu-devel/2021-11/msg01287.html
+> 
+> In v2 I’ve addressed the comments I’ve received from Kevin and Vladimir.
+> To this end, I’ve retained only the non-controversial part in patch 5,
+> and split everything else (i.e. the stuff relating to
+> bdrv_replace_child_tran()) into the dedicated patches 6 and 8.
+> 
+> Kevin’s most important comments (to my understanding) were that:
+> 
+> (A) When bdrv_remove_file_or_backing_child() uses
+>     bdrv_replace_child_tran(), we have to ensure that the BDS lives as
+>     long as the transaction does.  This is solved by keeping a strong
+>     reference to it that’s released only when the transaction is cleaned
+>     up (and the new patch 7 ensures that the .clean() handler will be
+>     invoked after all .commit()/.abort() handlers, so the reference will
+>     really live as long as the transaction does).
+> 
+> (B) bdrv_replace_node_noperm() passes a pointer to loop-local variable,
+>     which is a really bad idea considering the transaction lives much
+>     longer than one loop iteration.
+>     Luckily, the new_bs it passes is always non-NULL, and so
+>     bdrv_replace_child_tran() actually doesn’t need to store the
+>     BdrvChild ** pointer, because for a non-NULL new_bs, there is
+>     nothing to revert in the abort handler.  We just need to clarify
+>     this, not store the pointer in case of a non-NULL new_bs, and assert
+>     that bdrv_replace_node_noperm() and its relatives are only used to
+>     replace an existing node by some other existing (i.e. non-NULL)
+>     node.
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+Thanks, applied to the block branch.
 
-> From: Maxim Levitsky <mlevitsk@redhat.com>
->
-> Use the KVM_GUESTDBG_BLOCKIRQ debug flag if supported.=20
->
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> [Extracted from Maxim's patch into a separate commit. - Paolo]
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Kevin
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
