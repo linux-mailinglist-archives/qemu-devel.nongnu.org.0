@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A7F244D5AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 12:17:01 +0100 (CET)
-Received: from localhost ([::1]:49520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69C7644D5BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 12:21:43 +0100 (CET)
+Received: from localhost ([::1]:60786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml84i-0003nN-D6
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 06:17:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51528)
+	id 1ml89G-00033E-JZ
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 06:21:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ml7v6-00050w-Dv
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 06:07:04 -0500
-Received: from [2a00:1450:4864:20::430] (port=35536
- helo=mail-wr1-x430.google.com)
+ id 1ml7v7-00055U-Ln
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 06:07:05 -0500
+Received: from [2a00:1450:4864:20::42f] (port=37576
+ helo=mail-wr1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ml7v4-0001jU-Rf
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 06:07:04 -0500
-Received: by mail-wr1-x430.google.com with SMTP id i5so9184246wrb.2
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 03:07:02 -0800 (PST)
+ id 1ml7v6-0001jz-0S
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 06:07:05 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id b12so9159692wrh.4
+ for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 03:07:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bh9kIk+bt83GJ1fKJT1mekYlH7elEbiEfE8/vcn0SLk=;
- b=haHowDRp7jRrau8od0cTGi7Zxo9JjrtoQyrGAhKr0lKsHF9Gw2vcheNXuJJ5p0cixU
- PFL2qywGltAlQtt+OLBY+Cb+I26RIH9KwluwLKMyvzir0AkminSeNPDjl9Iw9CQCLHfa
- JYpEx/zIjM6g9Dd+6slJooyqrgYVN3LeQ5NMO0nGr244rAy6ntk55Ik8M9FN5y1ZCmJg
- oTCiUiY9HTedrGFnOU+b8z9nII/PTyQ1nbMuOGabrz15aC2LfKlUJiCJ+hVEa2gqFLHg
- QQQYrF3WEd6ygfu5j9S1rw2+2fW2+iYGim4OVGtdSRaXFv7ZzYktXlirCgE3Dwqo6kOC
- uHXw==
+ bh=n/Lg6tRRaf0tebXMyPh4xLh7Yicv5KIZg8mfFnBTuXA=;
+ b=Z8+vuNkQAYjTxmQ52CYnP07l42a1u4YnAPm9TyxAHUGrLUihx/MLWIXCtE33elYWcP
+ s7SS66YTB1Ekd+Td3gBYSz+F+4TSi2ba5JzJHFJNnmpvzsNGQu9xrusgrMYyRDO/y7f5
+ 8Y90PVRKgc4M1xBAGgYrk+sqemjsMZ9QjqFe0dTIThBm7Q3IwEKXJdwqtUW30GP2n2R8
+ Te7edOEj3eKo4ijZ/mQv1EbfOwYeX8YHu7v1lKzEYAn+SEYsfgy6AfSEblS075O2Ba7i
+ 11RaTtswMVoER1DvI0YuBgJH9rBdJ1TYilVugEXUrtBVC4wX//1InbhkIcZn/DFO/zUo
+ tmrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bh9kIk+bt83GJ1fKJT1mekYlH7elEbiEfE8/vcn0SLk=;
- b=DTdgk5e8OF8qfWd6KmNBnaSaLyDSkfEra4ybM7Gcq1/f3cYmPquYXZaaNkXRdHLkCt
- u7fsc9AUnfRXcaJ5OXVh1A/MRD7m1arWMcgPayyuGiBzDjFoQzZFlRlX7F7N1FQVmOfr
- qwWxGhZfWmGamI6HlK94RZ06uyAdVTeyAodFa0r9+sSBmb+AD46q4rqd/JsItoNGVW61
- yOrcppq+7He107FIFUsvsQ9Ql3mibBk3BojmvKdnvFcS21a0NVuUZk51kSp+DbxJyPux
- 3PkyzsIppaqy0UZeVfbYMKspX0/pVCKA9/MH7sIQ/DSNEaeyiMUEze5ASJu4PNZsjzqD
- Kipg==
-X-Gm-Message-State: AOAM533qWZ1vhVH5Baj0XHG1IZVVI2zoaCEHMkMNGZYKfuWKE85ZsVbK
- KXhI8Z90I3pMEDsUlny5jAU6cnPb/hML0Pew9pc=
-X-Google-Smtp-Source: ABdhPJwNgotYgQ8s50EJR5QGpMmqJ+84TSOij6Pm/ITA4Q/uCN+tR63FlL6eHIpRXMwzDNfcdndi0A==
-X-Received: by 2002:adf:ee04:: with SMTP id y4mr7732908wrn.0.1636628821389;
- Thu, 11 Nov 2021 03:07:01 -0800 (PST)
+ bh=n/Lg6tRRaf0tebXMyPh4xLh7Yicv5KIZg8mfFnBTuXA=;
+ b=utmZ945pgght6yqoziKorDN1kExCKGCN7WN8GLEfQIrHS8/MSNLpFUaS2oYqK/hdCA
+ kbOceDqOJ6UuOLBr+KF6aiU8mH8iO0u5nDyLDju9MABtBGpIQ9L+s0BypGACqSAMrZUV
+ NBMYMVFpoUXgasWGMvGihwJwGwKhhzSSioiJZuCTxJIjRut5EWJ70pMKtOwyiz0qBVmD
+ uhfZ3jQ6mYqtsi+loDVyQ52jLcuayFOJHX2mVLu04BC6I1IaXUKGQY6ywNKr8bfPmn+F
+ HwI4v7NfgaPlF6CIqgtgVUjlwVUFaok56t74kuDOolC7dOKZfx0T5SyK0gRpmZF+YtLy
+ S04w==
+X-Gm-Message-State: AOAM532yLHAUNGjjMe4ROSZAv4rt5+N/IgEV+pb8RoB7iSSmVVZXlmap
+ FI/gRkBaJbEzkgySK5U03uUOiNnFnEj0BJjhOaw=
+X-Google-Smtp-Source: ABdhPJy8ESNWTKehN3ACex3iKyOLn7uxn6IwfJe6fwJPV13iyvUo2NZqr3OUbSLFrn5iLaMClUu60Q==
+X-Received: by 2002:adf:f0c8:: with SMTP id x8mr7522434wro.290.1636628822630; 
+ Thu, 11 Nov 2021 03:07:02 -0800 (PST)
 Received: from localhost.localdomain
  (10.red-95-125-227.dynamicip.rima-tde.net. [95.125.227.10])
- by smtp.gmail.com with ESMTPSA id j8sm2536684wrh.16.2021.11.11.03.07.00
+ by smtp.gmail.com with ESMTPSA id j8sm2536684wrh.16.2021.11.11.03.07.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Nov 2021 03:07:00 -0800 (PST)
+ Thu, 11 Nov 2021 03:07:02 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/4] tcg: Remove TCI experimental status
-Date: Thu, 11 Nov 2021 12:06:54 +0100
-Message-Id: <20211111110656.237727-3-richard.henderson@linaro.org>
+Subject: [PULL 3/4] tcg: Document ctpop opcodes
+Date: Thu, 11 Nov 2021 12:06:55 +0100
+Message-Id: <20211111110656.237727-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211111110656.237727-1-richard.henderson@linaro.org>
 References: <20211111110656.237727-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,96 +91,31 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-The following commits (released in v6.0.0) made raised the
-quality of the TCI backend to the other TCG architectures,
-thus is is not considerated experimental anymore:
-- c6fbea47664..2f74f45e32b
-- dc09f047edd..9e9acb7b348
-- b6139eb0578..2fc6f16ca5e
-- dbcbda2cd84..5e8892db93f
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20211106111457.517546-1-f4bug@amsat.org>
+Fixes: a768e4e99247
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/658
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- docs/about/build-platforms.rst | 10 ++++++----
- meson.build                    |  4 ++--
- meson_options.txt              |  2 +-
- scripts/meson-buildoptions.sh  |  3 +--
- 4 files changed, 10 insertions(+), 9 deletions(-)
+ tcg/README | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
-index bcb1549721..c29a4b8fe6 100644
---- a/docs/about/build-platforms.rst
-+++ b/docs/about/build-platforms.rst
-@@ -54,10 +54,12 @@ Those hosts are officially supported, with various accelerators:
-    * - x86
-      - hax, hvf (64 bit only), kvm, nvmm, tcg, whpx (64 bit only), xen
+diff --git a/tcg/README b/tcg/README
+index c2e7762a37..bc15cc3b32 100644
+--- a/tcg/README
++++ b/tcg/README
+@@ -254,6 +254,12 @@ t0 = t1 ? clz(t1) : t2
  
--Other host architectures are not supported. It is possible to build QEMU on an
--unsupported host architecture using the configure ``--enable-tcg-interpreter``
--option to enable the experimental TCI support, but note that this is very slow
--and is not recommended.
-+Other host architectures are not supported. It is possible to build QEMU system
-+emulation on an unsupported host architecture using the configure
-+``--enable-tcg-interpreter`` option to enable the TCI support, but note that
-+this is very slow and is not recommended for normal use. QEMU user emulation
-+requires host-specific support for signal handling, therefore TCI won't help
-+on unsupported host architectures.
+ t0 = t1 ? ctz(t1) : t2
  
- Non-supported architectures may be removed in the future following the
- :ref:`deprecation process<Deprecated features>`.
-diff --git a/meson.build b/meson.build
-index 9702fdce6d..2ece4fe088 100644
---- a/meson.build
-+++ b/meson.build
-@@ -335,7 +335,7 @@ tcg_arch = config_host['ARCH']
- if not get_option('tcg').disabled()
-   if cpu not in supported_cpus
-     if get_option('tcg_interpreter')
--      warning('Unsupported CPU @0@, will use TCG with TCI (experimental and slow)'.format(cpu))
-+      warning('Unsupported CPU @0@, will use TCG with TCI (slow)'.format(cpu))
-     else
-       error('Unsupported CPU @0@, try --enable-tcg-interpreter'.format(cpu))
-     endif
-@@ -3290,7 +3290,7 @@ endif
- summary_info += {'TCG support':       config_all.has_key('CONFIG_TCG')}
- if config_all.has_key('CONFIG_TCG')
-   if get_option('tcg_interpreter')
--    summary_info += {'TCG backend':   'TCI (TCG with bytecode interpreter, experimental and slow)'}
-+    summary_info += {'TCG backend':   'TCI (TCG with bytecode interpreter, slow)'}
-   else
-     summary_info += {'TCG backend':   'native (@0@)'.format(cpu)}
-   endif
-diff --git a/meson_options.txt b/meson_options.txt
-index e740dce2a5..411952bc91 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -59,7 +59,7 @@ option('xen_pci_passthrough', type: 'feature', value: 'auto',
- option('tcg', type: 'feature', value: 'auto',
-        description: 'TCG support')
- option('tcg_interpreter', type: 'boolean', value: false,
--       description: 'TCG with bytecode interpreter (experimental and slow)')
-+       description: 'TCG with bytecode interpreter (slow)')
- option('cfi', type: 'boolean', value: 'false',
-        description: 'Control-Flow Integrity (CFI)')
- option('cfi_debug', type: 'boolean', value: 'false',
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index 55b8a78560..45e1f2e20d 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -13,8 +13,7 @@ meson_options_help() {
-   printf "%s\n" '                           jemalloc/system/tcmalloc)'
-   printf "%s\n" '  --enable-slirp[=CHOICE]  Whether and how to find the slirp library'
-   printf "%s\n" '                           (choices: auto/disabled/enabled/internal/system)'
--  printf "%s\n" '  --enable-tcg-interpreter TCG with bytecode interpreter (experimental and'
--  printf "%s\n" '                           slow)'
-+  printf "%s\n" '  --enable-tcg-interpreter TCG with bytecode interpreter (slow)'
-   printf "%s\n" '  --enable-trace-backends=CHOICE'
-   printf "%s\n" '                           Set available tracing backends [log] (choices:'
-   printf "%s\n" '                           dtrace/ftrace/log/nop/simple/syslog/ust)'
++* ctpop_i32/i64 t0, t1
++
++t0 = number of bits set in t1
++With "ctpop" short for "count population", matching
++the function name used in include/qemu/host-utils.h.
++
+ ********* Shifts/Rotates
+ 
+ * shl_i32/i64 t0, t1, t2
 -- 
 2.25.1
 
