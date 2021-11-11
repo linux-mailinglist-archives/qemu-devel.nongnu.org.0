@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 362D944D4C7
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 11:09:14 +0100 (CET)
-Received: from localhost ([::1]:49826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F420544D4BF
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 11:08:26 +0100 (CET)
+Received: from localhost ([::1]:47064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml717-0000en-Bm
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 05:09:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35638)
+	id 1ml70L-0007Fr-SO
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 05:08:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ml6wI-0006z8-Ko
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 05:04:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27434)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ml6wK-000754-9d
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 05:04:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ml6wF-00011G-Cr
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 05:04:13 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ml6wI-00011W-6L
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 05:04:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636625050;
+ s=mimecast20190719; t=1636625053;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6CWt9qvUfdPUYJvJPJwk4S85pT07giVjWWIGVSTBQMQ=;
- b=h/oRLNmgegtPKhJ9ItokFy8DFtXxyNkiAtb0MHuHrRDRfF2AvRI7wdnWBfnj12OzC3/P7R
- feZZVk2fGTMSs7xJegL5gLFlyBKs5+qOEnEK6sdYhFuXh0h8c7/o7H3jpp+PGXe/k2tVtU
- yBn+bL3Wkpwzr9ICEN2OIwhZvR12/cw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-62-DiruEl8AMZCtHMHOY96D3w-1; Thu, 11 Nov 2021 05:04:07 -0500
-X-MC-Unique: DiruEl8AMZCtHMHOY96D3w-1
-Received: by mail-wr1-f72.google.com with SMTP id
- w14-20020adfbace000000b001884bf6e902so929635wrg.3
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 02:04:07 -0800 (PST)
+ bh=Zv98ESowpSBPXuA/RP8hwOuMiWSKWHaIHsyJuURTSP0=;
+ b=BGtaNgEyek+9oscbnckHz8eAuOo+TqkAolRGvj/EUpLA5COOSTyql978p2T66gjDBmAdR2
+ igTvvM1AMJi2u5qALya2/AQD9xnr+sJrUNxhkBuiJtTjsP+KoFJJ3zx5HO6rDwZWKMyI5u
+ Sk0zIARaW7+iyimP5CpHG4KDSUgtquM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-548-3f8Jsl0pP0uXnVvpsGZbCQ-1; Thu, 11 Nov 2021 05:04:12 -0500
+X-MC-Unique: 3f8Jsl0pP0uXnVvpsGZbCQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ m18-20020a05600c3b1200b0033283ea5facso1615532wms.1
+ for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 02:04:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6CWt9qvUfdPUYJvJPJwk4S85pT07giVjWWIGVSTBQMQ=;
- b=6qxty2ELkFInwXa6ld2p2yPy4nZGA1j/o1DhBx5V7MpjXhVdjM8kZK5b+VahYrkFD2
- QvxMp5qUx2YZOqi5Gym4Za8LRKVuCQEWCv6UoEOVeirCdpOZmW9hUsAni+I54rwG3gAx
- 6jA4j229NmDWnEj9JRDnHCoWgsdD1ZL1lN9/j35cOh4Wa6UNNa/HEw0r591MQ+rkHU85
- nFYtgirlXc/Q2QqmcX7LPrQPObJ9S3P8G6qh7Xtfd0XKYxk4MpviairmB6n3cV/xsEz6
- k19fmUp1FJQ4KxKiH62msKesSfzvHaOCmxYLLcKSDlC7wLDeQpcKSbobHOZIdyuBHTJ+
- xMqQ==
-X-Gm-Message-State: AOAM533SZANygc+NPsv/o/X9UOH93qx3fQq2NK/dxQvkea2FkSve4H/w
- bHmcVPucbhFUMUxuHH64ix9FmNphpng2ks8HR3EZtWPe89TeBwICUETCyxo5Rh3W0iV5fUHaIvq
- uxMBAJmXnQneDFAnBwo6DY2URo1ACbGBZcwxUj9d9jo+YgbnXmJQtLKsAd7oS3s+k
-X-Received: by 2002:adf:fb09:: with SMTP id c9mr6997175wrr.223.1636625046282; 
- Thu, 11 Nov 2021 02:04:06 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwjkKP3jlm7WgcixPtOzz5Nu78jHIxpkFcloO0+roEU6MxpDlS9/SXchhwk0sqcXEOXQ2yMJw==
-X-Received: by 2002:adf:fb09:: with SMTP id c9mr6997147wrr.223.1636625046094; 
- Thu, 11 Nov 2021 02:04:06 -0800 (PST)
+ bh=Zv98ESowpSBPXuA/RP8hwOuMiWSKWHaIHsyJuURTSP0=;
+ b=VFWHPJn2T2w4O5mRkWGDmwYt2kQ8PKrk986Jwf0JgA8De02yo3Cv3ZB48QP1A6e2Im
+ APjFb7yq1NGBfTVl9I2uXk8SSl9Spw8dB6Q0xLiRZEf0djUbSwtFoepxmS7EYlOaZEAl
+ L8mMH4wkIubgXAQT2pyECZ+aQchlVdsDRZGe0A3MLZNt5+v6UKYE0npAxHSuP9QE1LX2
+ msIk+y/8W9kQEP6ywiFbyahRxmB5reCCHUqlPKEh7gnNgHuO4vx58QcmY09MiokdqLO7
+ a6m89p6OhkGjPNkvKp6q2qEXOlfLnDC1h3uszQPpIE+LViBi7k1Cak4b7IZJJp6rQraC
+ 0T0Q==
+X-Gm-Message-State: AOAM533bo1c/eqXPoEC4Tw7jT7w1nTewZZED42zOJFAywkovdo7tFUIi
+ aim/UNSsHSZZ2OfIXV/dS6GoOSo7bG2QfAAyHFyWAL1/nxtwyAkLiNYLZg8jfiwE6u6dBTPMxwk
+ oXSZIKwwMeFiTqmOs5mWSn/FfxJTDvpdciS7tnFZbpA56quka0UIMEJrEYiRglla+
+X-Received: by 2002:a05:600c:4108:: with SMTP id
+ j8mr6836688wmi.139.1636625050588; 
+ Thu, 11 Nov 2021 02:04:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy0luYu3xf1hS+4KtALHWN3LTqhBwtMRD6PQCwNB/UpN3JWI0w43AjLo9Ioe0zm7upiSoatXw==
+X-Received: by 2002:a05:600c:4108:: with SMTP id
+ j8mr6836653wmi.139.1636625050400; 
+ Thu, 11 Nov 2021 02:04:10 -0800 (PST)
 Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
  by smtp.gmail.com with ESMTPSA id
- f7sm2727883wri.74.2021.11.11.02.04.05
+ u2sm2366924wrr.35.2021.11.11.02.04.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Nov 2021 02:04:05 -0800 (PST)
+ Thu, 11 Nov 2021 02:04:10 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.2 v3 3/6] tests/unit/test-smp-parse: Explicit
- MachineClass name
-Date: Thu, 11 Nov 2021 11:03:48 +0100
-Message-Id: <20211111100351.2153662-4-philmd@redhat.com>
+Subject: [PATCH-for-6.2 v3 4/6] tests/unit/test-smp-parse: Simplify pointer to
+ compound literal use
+Date: Thu, 11 Nov 2021 11:03:49 +0100
+Message-Id: <20211111100351.2153662-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211111100351.2153662-1-philmd@redhat.com>
 References: <20211111100351.2153662-1-philmd@redhat.com>
@@ -102,55 +104,129 @@ Cc: Thomas Huth <thuth@redhat.com>, Andrew Jones <drjones@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the MachineClass::name pointer is not explicitly set, it is NULL.
-Per the C standard, passing a NULL pointer to printf "%s" format is
-undefined. Some implementations display it as 'NULL', other as 'null'.
-Since we are comparing the formatted output, we need a stable value.
-The easiest is to explicit a machine name string.
+We can simply use a local variable (and pass its pointer) instead
+of a pointer to a compound literal.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/unit/test-smp-parse.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ tests/unit/test-smp-parse.c | 64 ++++++++++++++++++-------------------
+ 1 file changed, 32 insertions(+), 32 deletions(-)
 
 diff --git a/tests/unit/test-smp-parse.c b/tests/unit/test-smp-parse.c
-index 51670297bf9..de6d226b455 100644
+index de6d226b455..83a5b8ffdcf 100644
 --- a/tests/unit/test-smp-parse.c
 +++ b/tests/unit/test-smp-parse.c
-@@ -23,6 +23,8 @@
- #define MIN_CPUS 1   /* set the min CPUs supported by the machine as 1 */
- #define MAX_CPUS 512 /* set the max CPUs supported by the machine as 512 */
+@@ -492,19 +492,19 @@ static void test_generic(void)
+     Object *obj = object_new(TYPE_MACHINE);
+     MachineState *ms = MACHINE(obj);
+     MachineClass *mc = MACHINE_GET_CLASS(obj);
+-    SMPTestData *data = &(SMPTestData){{ }};
++    SMPTestData data = {};
+     int i;
  
-+#define SMP_MACHINE_NAME "TEST-SMP"
-+
- /*
-  * Used to define the generic 3-level CPU topology hierarchy
-  *  -sockets/cores/threads
-@@ -307,13 +309,13 @@ static struct SMPTestData data_generic_invalid[] = {
-          * should tweak the supported min CPUs to 2 for testing */
-         .config = SMP_CONFIG_GENERIC(T, 1, F, 0, F, 0, F, 0, F, 0),
-         .expect_error = "Invalid SMP CPUs 1. The min CPUs supported "
--                        "by machine '(null)' is 2",
-+                        "by machine '" SMP_MACHINE_NAME "' is 2",
-     }, {
-         /* config: -smp 512
-          * should tweak the supported max CPUs to 511 for testing */
-         .config = SMP_CONFIG_GENERIC(T, 512, F, 0, F, 0, F, 0, F, 0),
-         .expect_error = "Invalid SMP CPUs 512. The max CPUs supported "
--                        "by machine '(null)' is 511",
-+                        "by machine '" SMP_MACHINE_NAME "' is 511",
-     },
- };
+     for (i = 0; i < ARRAY_SIZE(data_generic_valid); i++) {
+-        *data = data_generic_valid[i];
+-        unsupported_params_init(mc, data);
++        data = data_generic_valid[i];
++        unsupported_params_init(mc, &data);
  
-@@ -481,6 +483,8 @@ static void machine_class_init(ObjectClass *oc, void *data)
+-        smp_parse_test(ms, data, true);
++        smp_parse_test(ms, &data, true);
  
-     mc->smp_props.prefer_sockets = true;
-     mc->smp_props.dies_supported = false;
-+
-+    mc->name = g_strdup(SMP_MACHINE_NAME);
- }
+         /* Unsupported parameters can be provided with their values as 1 */
+-        data->config.has_dies = true;
+-        data->config.dies = 1;
+-        smp_parse_test(ms, data, true);
++        data.config.has_dies = true;
++        data.config.dies = 1;
++        smp_parse_test(ms, &data, true);
+     }
  
- static void test_generic(void)
+     /* Force invalid min CPUs and max CPUs */
+@@ -512,10 +512,10 @@ static void test_generic(void)
+     mc->max_cpus = 511;
+ 
+     for (i = 0; i < ARRAY_SIZE(data_generic_invalid); i++) {
+-        *data = data_generic_invalid[i];
+-        unsupported_params_init(mc, data);
++        data = data_generic_invalid[i];
++        unsupported_params_init(mc, &data);
+ 
+-        smp_parse_test(ms, data, false);
++        smp_parse_test(ms, &data, false);
+     }
+ 
+     /* Reset the supported min CPUs and max CPUs */
+@@ -530,47 +530,47 @@ static void test_with_dies(void)
+     Object *obj = object_new(TYPE_MACHINE);
+     MachineState *ms = MACHINE(obj);
+     MachineClass *mc = MACHINE_GET_CLASS(obj);
+-    SMPTestData *data = &(SMPTestData){{ }};
++    SMPTestData data = {};
+     unsigned int num_dies = 2;
+     int i;
+ 
+     mc->smp_props.dies_supported = true;
+ 
+     for (i = 0; i < ARRAY_SIZE(data_generic_valid); i++) {
+-        *data = data_generic_valid[i];
+-        unsupported_params_init(mc, data);
++        data = data_generic_valid[i];
++        unsupported_params_init(mc, &data);
+ 
+         /* when dies parameter is omitted, it will be set as 1 */
+-        data->expect_prefer_sockets.dies = 1;
+-        data->expect_prefer_cores.dies = 1;
++        data.expect_prefer_sockets.dies = 1;
++        data.expect_prefer_cores.dies = 1;
+ 
+-        smp_parse_test(ms, data, true);
++        smp_parse_test(ms, &data, true);
+ 
+         /* when dies parameter is specified */
+-        data->config.has_dies = true;
+-        data->config.dies = num_dies;
+-        if (data->config.has_cpus) {
+-            data->config.cpus *= num_dies;
++        data.config.has_dies = true;
++        data.config.dies = num_dies;
++        if (data.config.has_cpus) {
++            data.config.cpus *= num_dies;
+         }
+-        if (data->config.has_maxcpus) {
+-            data->config.maxcpus *= num_dies;
++        if (data.config.has_maxcpus) {
++            data.config.maxcpus *= num_dies;
+         }
+ 
+-        data->expect_prefer_sockets.dies = num_dies;
+-        data->expect_prefer_sockets.cpus *= num_dies;
+-        data->expect_prefer_sockets.max_cpus *= num_dies;
+-        data->expect_prefer_cores.dies = num_dies;
+-        data->expect_prefer_cores.cpus *= num_dies;
+-        data->expect_prefer_cores.max_cpus *= num_dies;
++        data.expect_prefer_sockets.dies = num_dies;
++        data.expect_prefer_sockets.cpus *= num_dies;
++        data.expect_prefer_sockets.max_cpus *= num_dies;
++        data.expect_prefer_cores.dies = num_dies;
++        data.expect_prefer_cores.cpus *= num_dies;
++        data.expect_prefer_cores.max_cpus *= num_dies;
+ 
+-        smp_parse_test(ms, data, true);
++        smp_parse_test(ms, &data, true);
+     }
+ 
+     for (i = 0; i < ARRAY_SIZE(data_with_dies_invalid); i++) {
+-        *data = data_with_dies_invalid[i];
+-        unsupported_params_init(mc, data);
++        data = data_with_dies_invalid[i];
++        unsupported_params_init(mc, &data);
+ 
+-        smp_parse_test(ms, data, false);
++        smp_parse_test(ms, &data, false);
+     }
+ 
+     object_unref(obj);
 -- 
 2.31.1
 
