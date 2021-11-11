@@ -2,85 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D18144D023
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 03:51:18 +0100 (CET)
-Received: from localhost ([::1]:41456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F84C44D05A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 04:18:20 +0100 (CET)
+Received: from localhost ([::1]:50400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml0BJ-00017G-FD
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 21:51:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41104)
+	id 1ml0bT-000166-9Q
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 22:18:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ml0A5-0000QE-NE
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 21:50:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48318)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1ml0aE-0000Q7-Ec
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 22:17:02 -0500
+Received: from mga17.intel.com ([192.55.52.151]:54684)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ml0A1-0003wv-VF
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 21:50:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636598995;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PxIqyxRefd5zP8ZwUjAyxzHwkYke5fstt3jT6bc/Zjw=;
- b=B+mZ4tyrAWzJH35r5hPOn9PHufBU4F/WjGlAVlA4ehOhMIMIhCj0I4ml88UveGLMhFJHz6
- Jpy5NNXKxtrBmr9fLTg8KQ6TiCn1t7pQMZ8il81mRRuRCr9LMyGGQVKjD8OA7iVVMLTOM1
- MBvJAZ94IJggzsOrw6CmYP/HNt6ZTro=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-jQsVQ36zMuufR97vcf9lkQ-1; Wed, 10 Nov 2021 21:49:53 -0500
-X-MC-Unique: jQsVQ36zMuufR97vcf9lkQ-1
-Received: by mail-lf1-f71.google.com with SMTP id
- z1-20020a056512308100b003ff78e6402bso2028340lfd.4
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 18:49:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PxIqyxRefd5zP8ZwUjAyxzHwkYke5fstt3jT6bc/Zjw=;
- b=pJHvh0/BdiJXK+LwT9dsU5ShcbOjqH18M436qLy/QT/M9GHZOLjr9/8jYJG3mqSD6w
- 5AfjTZ5pRHwiLpP1xhRt5rj6zN6PjksJ9dX0T6K5Oc9QdJ1Wj+CGQtrlC328T+otw66Q
- lz/MNlz/KSMsEjQQmYhYIUPyJejLuMiWnRu+rdLxMveY4Sx8a/us0KnNYLmCA7ei1jjb
- xqyNQB5pVzv6rshPn/vGIInmXhFVDEkRkaivdOrvvosSozxAorOiK1jmc7v2LkF9fdOf
- e/WregAHxQyC8S2D0KgtTJL0IA4dvISorfpao3ywsZNBv1jwnFskCDR7BO7kP9nvxznm
- OfkA==
-X-Gm-Message-State: AOAM532rTsAAaNZnyyIwJ820VIsdAaj3kTCAC6GBFDh0lNWWfsEL0b2e
- 4RcBPiNVq+5MipHP9d8BClTGV6RK16eHc60lofwqzOwsph/jqAU/v2RfXYuqmUv/vHFDRYkaZIn
- fCerdiGa7lBhPKQwz7fb9JQH1W3BGWaY=
-X-Received: by 2002:a2e:b88d:: with SMTP id r13mr3841221ljp.362.1636598991733; 
- Wed, 10 Nov 2021 18:49:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw5G85NYgbXCXfVA+iS+G1Vp5XRHyIs0a06bZ31yplzJQcve+LcTkPg6g5N+ouNMvX79AOxK8UeTUZTw7Z05QI=
-X-Received: by 2002:a2e:b88d:: with SMTP id r13mr3841202ljp.362.1636598991510; 
- Wed, 10 Nov 2021 18:49:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1ml0aB-0007Sa-SW
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 22:17:02 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10164"; a="213561467"
+X-IronPort-AV: E=Sophos;i="5.87,225,1631602800"; d="scan'208";a="213561467"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2021 19:16:57 -0800
+X-IronPort-AV: E=Sophos;i="5.87,225,1631602800"; d="scan'208";a="504251960"
+Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2021 19:16:55 -0800
+From: Zhang Chen <chen.zhang@intel.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: [PATCH V2] net/filter: Enable the vnet_hdr_support by default
+Date: Thu, 11 Nov 2021 11:07:32 +0800
+Message-Id: <20211111030732.3859472-1-chen.zhang@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20211110023915.3797141-1-chen.zhang@intel.com>
- <87czn88uqc.fsf@dusky.pond.sub.org>
- <MWHPR11MB00319C2B4ED872EDDB5D43539B939@MWHPR11MB0031.namprd11.prod.outlook.com>
- <87v9104jlb.fsf@dusky.pond.sub.org>
- <MWHPR11MB0031DA3FF0E560F0A83C9B759B939@MWHPR11MB0031.namprd11.prod.outlook.com>
- <87czn82ys4.fsf@dusky.pond.sub.org>
-In-Reply-To: <87czn82ys4.fsf@dusky.pond.sub.org>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 11 Nov 2021 10:49:40 +0800
-Message-ID: <CACGkMEt0UcaOupg3NPM4GZGUWDXrsm9AVnkQ1-bZZM3duuhocQ@mail.gmail.com>
-Subject: Re: [PATCH] net/filter: Enable the vnet_hdr_support by default
-To: Markus Armbruster <armbru@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=chen.zhang@intel.com;
+ helo=mga17.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,79 +55,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Zhang, Chen" <chen.zhang@intel.com>, qemu-dev <qemu-devel@nongnu.org>,
- Li Zhijian <lizhijian@cn.fujitsu.com>
+Cc: Zhang Chen <chen.zhang@intel.com>, qemu-dev <qemu-devel@nongnu.org>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 10, 2021 at 4:36 PM Markus Armbruster <armbru@redhat.com> wrote:
->
-> "Zhang, Chen" <chen.zhang@intel.com> writes:
->
-> >> -----Original Message-----
-> >> From: Markus Armbruster <armbru@redhat.com>
-> >> Sent: Wednesday, November 10, 2021 2:21 PM
-> >> To: Zhang, Chen <chen.zhang@intel.com>
-> >> Cc: Jason Wang <jasowang@redhat.com>; qemu-dev <qemu-
-> >> devel@nongnu.org>; Li Zhijian <lizhijian@cn.fujitsu.com>
-> >> Subject: Re: [PATCH] net/filter: Enable the vnet_hdr_support by default
-> >>
-> >> "Zhang, Chen" <chen.zhang@intel.com> writes:
-> >>
-> >> >> -----Original Message-----
-> >> >> From: Markus Armbruster <armbru@redhat.com>
-> >> >> Sent: Wednesday, November 10, 2021 1:07 PM
-> >> >> To: Zhang, Chen <chen.zhang@intel.com>
-> >> >> Cc: Jason Wang <jasowang@redhat.com>; qemu-dev <qemu-
-> >> >> devel@nongnu.org>; Li Zhijian <lizhijian@cn.fujitsu.com>
-> >> >> Subject: Re: [PATCH] net/filter: Enable the vnet_hdr_support by
-> >> >> default
-> >> >>
-> >> >> Zhang Chen <chen.zhang@intel.com> writes:
-> >> >>
-> >> >> > This patch make filters and colo-compare module support vnet_hdr by
-> >> >> > default. And also support -device non-virtio-net(like e1000.).
-> >> >> > But it can't avoid user manual configuration error between
-> >> >> > different filters when enable/disable virtio-net-pci.
-> >> >> >
-> >> >> > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-> >> >>
-> >> >> Have you considered backward compatibility?  Can it break usage that
-> >> >> now works?
-> >> >
-> >> > Yes, this patch fully guarantees the compatibility as Jason's comments.
-> >> > Original usage still works.
-> >>
-> >> Worth a brief explanation in the commit message?
-> >
-> > OK. Add following statement to commit message:
-> > This patch make filters and colo-compare module support vnet_hdr by
-> > default. And also support -device non-virtio-net(like e1000.). Because
-> > when enabled the support will make the vnet_hdr_len field become must-delivery
-> > part of filter transfer protocol(even 0 in use -device e1000). It fully guarantees the
-> > compatibility for management layer like libvirt.
-> > But it still can't avoid user manual configuration error between
-> > different filters connected when enable/disable vnet_hdr_support.
-> >
-> > How about this explanation?
->
-> I'm deferring to Jason, because I can't judge this for technical
-> accuracy.
+This patch make filters and colo-compare module support vnet_hdr by
+default. And also support -device non-virtio-net(like e1000.).
+Because when enabled the support will make the vnet_hdr_len field
+become must-delivery part of filter transfer protocol(even 0 in use
+-device e1000). It fully guarantees the compatibility for management
+layer like libvirt. But it still can't avoid user manual
+configuration error between different filters connected
+when enable/disable vnet_hdr_support.
 
-I think it should be fine.
+Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+---
+ net/colo-compare.c    | 2 +-
+ net/filter-mirror.c   | 4 ++--
+ net/filter-rewriter.c | 2 +-
+ qemu-options.hx       | 9 +++++----
+ 4 files changed, 9 insertions(+), 8 deletions(-)
 
-Thanks
-
->
-> > By the way, please let me know your comments on filter passthrough series:
-> > https://mail.gnu.org/archive/html/qemu-devel/2021-08/msg01393.html
-> > If OK, I will update it.
->
-> Uh, I was under the impression that you'd respin with my comments
-> addressed as per your reply to my review.
->
-> It's too late for 6.2 now.  Suggest to respin, and adjust the "since:"
-> tags to 7.0.
->
+diff --git a/net/colo-compare.c b/net/colo-compare.c
+index b8876d7fd9..82d4d81710 100644
+--- a/net/colo-compare.c
++++ b/net/colo-compare.c
+@@ -1397,7 +1397,7 @@ static void colo_compare_init(Object *obj)
+                         get_max_queue_size,
+                         set_max_queue_size, NULL, NULL);
+ 
+-    s->vnet_hdr = false;
++    s->vnet_hdr = true;
+     object_property_add_bool(obj, "vnet_hdr_support", compare_get_vnet_hdr,
+                              compare_set_vnet_hdr);
+ }
+diff --git a/net/filter-mirror.c b/net/filter-mirror.c
+index f20240cc9f..adb0c6d89a 100644
+--- a/net/filter-mirror.c
++++ b/net/filter-mirror.c
+@@ -406,14 +406,14 @@ static void filter_mirror_init(Object *obj)
+ {
+     MirrorState *s = FILTER_MIRROR(obj);
+ 
+-    s->vnet_hdr = false;
++    s->vnet_hdr = true;
+ }
+ 
+ static void filter_redirector_init(Object *obj)
+ {
+     MirrorState *s = FILTER_REDIRECTOR(obj);
+ 
+-    s->vnet_hdr = false;
++    s->vnet_hdr = true;
+ }
+ 
+ static void filter_mirror_fini(Object *obj)
+diff --git a/net/filter-rewriter.c b/net/filter-rewriter.c
+index bf05023dc3..5698cd39d1 100644
+--- a/net/filter-rewriter.c
++++ b/net/filter-rewriter.c
+@@ -407,7 +407,7 @@ static void filter_rewriter_init(Object *obj)
+ {
+     RewriterState *s = FILTER_REWRITER(obj);
+ 
+-    s->vnet_hdr = false;
++    s->vnet_hdr = true;
+     s->failover_mode = FAILOVER_MODE_OFF;
+ }
+ 
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 7749f59300..c40e385ede 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4967,13 +4967,13 @@ SRST
+     ``-object filter-mirror,id=id,netdev=netdevid,outdev=chardevid,queue=all|rx|tx[,vnet_hdr_support][,position=head|tail|id=<id>][,insert=behind|before]``
+         filter-mirror on netdev netdevid,mirror net packet to
+         chardevchardevid, if it has the vnet\_hdr\_support flag,
+-        filter-mirror will mirror packet with vnet\_hdr\_len.
++        filter-mirror will mirror packet with vnet\_hdr\_len(default: on).
+ 
+     ``-object filter-redirector,id=id,netdev=netdevid,indev=chardevid,outdev=chardevid,queue=all|rx|tx[,vnet_hdr_support][,position=head|tail|id=<id>][,insert=behind|before]``
+         filter-redirector on netdev netdevid,redirect filter's net
+         packet to chardev chardevid,and redirect indev's packet to
+         filter.if it has the vnet\_hdr\_support flag, filter-redirector
+-        will redirect packet with vnet\_hdr\_len. Create a
++        will redirect packet with vnet\_hdr\_len(default: on). Create a
+         filter-redirector we need to differ outdev id from indev id, id
+         can not be the same. we can just use indev or outdev, but at
+         least one of indev or outdev need to be specified.
+@@ -4983,7 +4983,8 @@ SRST
+         packet to secondary from primary to keep secondary tcp
+         connection,and rewrite tcp packet to primary from secondary make
+         tcp packet can be handled by client.if it has the
+-        vnet\_hdr\_support flag, we can parse packet with vnet header.
++        vnet\_hdr\_support flag, we can parse packet with vnet
++        header(default: on).
+ 
+         usage: colo secondary: -object
+         filter-redirector,id=f1,netdev=hn0,queue=tx,indev=red0 -object
+@@ -5004,7 +5005,7 @@ SRST
+         checkpoint and send primary packet to out\_dev. In order to
+         improve efficiency, we need to put the task of comparison in
+         another iothread. If it has the vnet\_hdr\_support flag,
+-        colo compare will send/recv packet with vnet\_hdr\_len.
++        colo compare will send/recv packet with vnet\_hdr\_len(default: on).
+         The compare\_timeout=@var{ms} determines the maximum time of the
+         colo-compare hold the packet. The expired\_scan\_cycle=@var{ms}
+         is to set the period of scanning expired primary node network packets.
+-- 
+2.25.1
 
 
