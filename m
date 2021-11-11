@@ -2,83 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C25E644D998
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 16:53:27 +0100 (CET)
-Received: from localhost ([::1]:43410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5615D44D9A3
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 16:56:28 +0100 (CET)
+Received: from localhost ([::1]:52642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlCOE-0001mw-Ia
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 10:53:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41180)
+	id 1mlCR9-0008DU-4p
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 10:56:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jamie@nuviainc.com>)
- id 1mlC89-0002Td-Kh
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 10:36:51 -0500
-Received: from [2a00:1450:4864:20::533] (port=43763
- helo=mail-ed1-x533.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jamie@nuviainc.com>)
- id 1mlC85-0004Vf-Jy
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 10:36:48 -0500
-Received: by mail-ed1-x533.google.com with SMTP id w1so25773629edd.10
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 07:36:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuviainc-com.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=QYpdmZPEiJ4TjU6FIvG2S/wL1NN9gU5lZ8S0T/L+Xqo=;
- b=RTeL5UTO8MdJGirs0c7sz7Wmuk+Im46mZAqYcuuzMWzzG4jTU5c5wKJvJtVfnOIxWH
- 3Ixr+fgcOspnw0TuVnDKDPcMhoTicXwdve6pyea+Zns+z3MNt8KxQhJwr2bSlD6klUiw
- e1zHKUBnr4wW4ZqmOkN3VgPol0GTotS8ym2/eII/E+VQgQkgrF4z2Ix3e8lP0/Kv7Whk
- 97KRn/y8GqI1fYnBHoqTPvxl1wdp9Ta2PHEKo/vFRjN9fUF5aQddvgc8TdjCw9XutSP+
- 9jw44g2fzqPynOn/NC/3WE+fKf1YtouQ0gpEevj5B/c34YjK6hcnV3+g7VPdz6zTcq5f
- bnug==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mlCBM-00086F-Qs
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 10:40:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37842)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mlCBK-0004q8-RA
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 10:40:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636645205;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VYuZiQapjSKLaJumoZdZKaYeUFIYbGjigcsN1jhAypY=;
+ b=YHEgBYkhWnHUQjK9cXSwJiaNT2GjvoKK94LfqMYM/4c6FPhwN+hJTPM8WSkLVfjLS2ZeKQ
+ Hi/upLT/2BftdGXZWU1ZHafQMxqZrufWGZE0x7GAZJ9dXmSwwPmefEcvGEqQ1BYzlK82+C
+ RwzxSBRPQKY12khN4oxpNjrfDieIu2Y=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-504-Gjm2cbg1M9ikPFp3FwKxmQ-1; Thu, 11 Nov 2021 10:40:04 -0500
+X-MC-Unique: Gjm2cbg1M9ikPFp3FwKxmQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ i22-20020a05640242d600b003e28aecc0afso5763879edc.1
+ for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 07:40:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=QYpdmZPEiJ4TjU6FIvG2S/wL1NN9gU5lZ8S0T/L+Xqo=;
- b=mJKfdvTCNUlAqpxj1DL6tHrYF/gbAPMShj8eIpVN9VpKW7AV7bwv3zAayJKvgBysZj
- P9unnfm4wDbo+vAFmleq7+SFyISHNIzIGRjWruEo6WuJu6gEe7WcvLZpnNQ+Z2Rrefks
- 3XADOVdMOgVBGWP9AoB1QZYqndQGAJNgc5ULv13SQd9kpS0IOLaJZREPRCbJaxzVvAWd
- UJgVhukobVj22RZkp3OkWbbf74LbwMwdHRsTzC4u+wZQO7p/pVcjVhv4rggxTeqnnKi8
- FFv/5Hh4rA+i7yx/Ej7LwCCT3Obl5k9pq3p9USDpyrop+p+rfUe34AUXqJp80bf/9dot
- ccag==
-X-Gm-Message-State: AOAM532Ey1DU8MPw3Olf7Y2Z870KcmC+MtpWKJLVnKTcjwDS7SemCtIz
- PxGtiMBtOvA/AQ8RPKt6a8Ob7Q==
-X-Google-Smtp-Source: ABdhPJz/872VqV5JbcMvu8Sy3MKtaEa9w3c3lRYmxmgq3TUwsYZ/HLeu6t3AiEfdKo+WueKiuTMenw==
-X-Received: by 2002:a17:906:9144:: with SMTP id
- y4mr10303042ejw.98.1636645003288; 
- Thu, 11 Nov 2021 07:36:43 -0800 (PST)
-Received: from localhost ([82.44.17.50])
- by smtp.gmail.com with ESMTPSA id o14sm1779388edj.15.2021.11.11.07.36.42
+ :mime-version:content-disposition:in-reply-to;
+ bh=VYuZiQapjSKLaJumoZdZKaYeUFIYbGjigcsN1jhAypY=;
+ b=zTylVWHh2To5QiwC2weCB7uTb6VH7+yRhBNMwp6ezfSpVVRiOJH6/oL6e6A/tj/AhM
+ 5im5WSIKOzZHvGzkMJEv4nkBbGAsf9qMqGxYOI2wYaUlhOOnyYIANMup0AL2CAfro+JL
+ vRmyYKmx9fqkgt1WzaV0pee5rgP5ujRPGE8rIXbllKTKp3Zeg2l3CsitZj3DOfUAn5n3
+ rDHKGlFhbbueDmSnOfS3mvJY1i1ussZ+ag20UHabz2rs0HsTkWj/PaN0Pv+P1dOjYx6Z
+ P22E3bU1yErrgowyPAq4VPQyLE8Gt2TYnzsEay0EgqfJ43mukeu3+qMYW/bUuQMRFmPe
+ Nqlg==
+X-Gm-Message-State: AOAM530tiJ3jzi69E4SqzpTLO/zl4l4BaJKikce9n+cCXvMHqO3jb0Yo
+ MbdXkfctE8bRU3xNNNlt3a6daRvk5Ha836ia9TGlAYBUFZO1X3o2nRWg/5V1D/HoUyLj0ZmdQmH
+ bzk/RyOwEaSqRr94=
+X-Received: by 2002:a17:906:11ce:: with SMTP id
+ o14mr10783785eja.457.1636645203508; 
+ Thu, 11 Nov 2021 07:40:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz27NImHr0EGwbc8q2ZC5s7nBtJILvcJGVQ/QWLsrfY4QgiOeuGSCKSzzz6Tijx3BtWhjmxQw==
+X-Received: by 2002:a17:906:11ce:: with SMTP id
+ o14mr10783758eja.457.1636645203317; 
+ Thu, 11 Nov 2021 07:40:03 -0800 (PST)
+Received: from redhat.com ([2.55.135.246])
+ by smtp.gmail.com with ESMTPSA id t6sm1812005edj.27.2021.11.11.07.40.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Nov 2021 07:36:42 -0800 (PST)
-Date: Thu, 11 Nov 2021 15:36:42 +0000
-From: Jamie Iles <jamie@nuviainc.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 2/2] hw/core/loader: workaround read() size limit.
-Message-ID: <YY04ioqviteeKy0c@hazel>
-References: <20211111141141.3295094-1-jamie@nuviainc.com>
- <20211111141141.3295094-3-jamie@nuviainc.com>
- <c9950c92-86c5-ce0d-054e-357db1de851c@redhat.com>
+ Thu, 11 Nov 2021 07:40:02 -0800 (PST)
+Date: Thu, 11 Nov 2021 10:39:59 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 0/6] RfC: try improve native hotplug for pcie root ports
+Message-ID: <20211111103354-mutt-send-email-mst@kernel.org>
+References: <20211011120504.254053-1-kraxel@redhat.com>
+ <20211110065942-mutt-send-email-mst@kernel.org>
+ <20211111075306.7dvpzewgclsddku6@sirius.home.kraxel.org>
+ <20211111031646-mutt-send-email-mst@kernel.org>
+ <20211111093425.6x2a37npcnnewdis@sirius.home.kraxel.org>
+ <20211111120905.ozy5iucoqjhhoc72@sirius.home.kraxel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+In-Reply-To: <20211111120905.ozy5iucoqjhhoc72@sirius.home.kraxel.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c9950c92-86c5-ce0d-054e-357db1de851c@redhat.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::533
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=jamie@nuviainc.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,91 +98,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jamie Iles <jamie@nuviainc.com>, qemu-devel@nongnu.org, lmichel@kalray.eu
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
+On Thu, Nov 11, 2021 at 01:09:05PM +0100, Gerd Hoffmann wrote:
+>   Hi,
+> 
+> > When the acpihp driver is used the linux kernel will just call the aml
+> > methods and I suspect the pci device will stay invisible then because
+> > nobody flips the slot power control bit (with native-hotplug=on, for
+> > native-hotplug=off this isn't a problem of course).
+> 
+> Hmm, on a quick smoke test with both patch series (mine + igors) applied
+> everything seems to work fine on a quick glance.  Dunno why.  Maybe the
+> pcieport driver turns on slot power even in case pciehp is not active.
 
-On Thu, Nov 11, 2021 at 03:55:48PM +0100, Philippe Mathieu-Daudé wrote:
-> Hi Jamie,
-> 
-> On 11/11/21 15:11, Jamie Iles wrote:
-> > On Linux, read() will only ever read a maximum of 0x7ffff000 bytes
-> > regardless of what is asked.  If the file is larger than 0x7ffff000
-> > bytes the read will need to be broken up into multiple chunks.
-> > 
-> > Cc: Luc Michel <lmichel@kalray.eu>
-> > Signed-off-by: Jamie Iles <jamie@nuviainc.com>
-> > ---
-> >  hw/core/loader.c | 40 ++++++++++++++++++++++++++++++++++------
-> >  1 file changed, 34 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/hw/core/loader.c b/hw/core/loader.c
-> > index 348bbf535bd9..16ca9b99cf0f 100644
-> > --- a/hw/core/loader.c
-> > +++ b/hw/core/loader.c
-> > @@ -80,6 +80,34 @@ int64_t get_image_size(const char *filename)
-> >      return size;
-> >  }
-> >  
-> > +static ssize_t read_large(int fd, void *dst, size_t len)
-> > +{
-> > +    /*
-> > +     * man 2 read says:
-> > +     *
-> > +     * On Linux, read() (and similar system calls) will transfer at most
-> > +     * 0x7ffff000 (2,147,479,552) bytes, returning the number of bytes
-> 
-> Could you mention MAX_RW_COUNT from linux/fs.h?
-> 
-> > +     * actually transferred.  (This is true on both 32-bit and 64-bit
-> > +     * systems.)
-> 
-> Maybe "This is true for both ILP32 and LP64 data models used by Linux"?
-> (because that would not be the case for the ILP64 model).
-> 
-> Otherwise s/systems/Linux variants/?
-> 
-> > +     *
-> > +     * So read in chunks no larger than 0x7ffff000 bytes.
-> > +     */
-> > +    size_t max_chunk_size = 0x7ffff000;
-> 
-> We can declare it static const.
+Well power and hotplug capabilities are mostly unrelated, right?
 
-Ack, can fix all of those up.
-
-> > +    size_t offset = 0;
-> > +
-> > +    while (offset < len) {
-> > +        size_t chunk_len = MIN(max_chunk_size, len - offset);
-> > +        ssize_t br = read(fd, dst + offset, chunk_len);
-> > +
-> > +        if (br < 0) {
-> > +            return br;
-> > +        }
-> > +        offset += br;
-> > +    }
-> > +
-> > +    return (ssize_t)len;
-> > +}
+> I still feel a bit nervous about trying the new "both pcie + acpi
+> hotplug enabled" approach that close to the release date ...
 > 
-> I see other read()/pread() calls:
-> 
-> hw/9pfs/9p-local.c:472:            tsize = read(fd, (void *)buf, bufsz);
-> hw/vfio/common.c:269:    if (pread(vbasedev->fd, &buf, size,
-> region->fd_offset + addr) != size) {
-> ...
-> 
-> Maybe the read_large() belongs to "sysemu/os-xxx.h"?
+> take care,
+>   Gerd
 
-I think util/osdep.c would be a good fit for this.  To make sure we're 
-on the same page though are you proposing converting all pread/read 
-calls to a qemu variant or auditing for ones that could potentially take 
-a larger size?
+I feel switching to native so late would be inappropriate, looks more
+like a feature than a bugfix. Given that - we need Igor's patches.
+Given that - would you say I should apply yours? I'm inclined to
+do so but if you prefer waiting until after the release I'll
+defer to your judgement.
 
-Thanks,
+-- 
+MST
 
-Jamie
 
