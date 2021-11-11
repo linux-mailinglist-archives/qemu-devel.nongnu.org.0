@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3739144DA38
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 17:17:42 +0100 (CET)
-Received: from localhost ([::1]:34194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE3F44DA3C
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 17:18:58 +0100 (CET)
+Received: from localhost ([::1]:37064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlClh-0002ry-2V
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 11:17:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51324)
+	id 1mlCmv-0004wl-93
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 11:18:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mlCbq-0001Pj-GF
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 11:07:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22230)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mlCcV-0002fD-HH
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 11:08:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51608)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mlCbn-0001iR-U0
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 11:07:29 -0500
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mlCcS-0001nR-QV
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 11:08:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636646846;
+ s=mimecast20190719; t=1636646888;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Z3JQAsoo6e5Fvxxeewovz7gMHOhF88PdHyRwBZ+N2I0=;
- b=WJ6NK+Jxf8nY/BsFvBNNDDYBMO+6lcFWt7nONEoZhOKWrvhGIsopZysCbg4jhjXtxOAWL9
- wgEj17arAtiJdtP51LwfduqaP3nH42Y2Dba9xMGxzA0LRlwSONDtbMO6p+HUT6ol8kV5Yt
- nuAev97ZYKYXOptiyzVLY/ZfpYYgj1E=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=B3rUtbdaW0ksHke3mFKsSBpLnVhW3Y2O3JCWl3mkrK8=;
+ b=jULEbaKkAxnmNsuRX/GoGDflH9GodNuXmAfnpExOrKDF21S+tDXFcu9ij5HQTUl22tdk97
+ IedALj8rceAlDjXTHOHhMjIF9eircIy52WS8jKxIAwsNBa7lyQQEKDoLVuW5+U+BYcEmU4
+ EtDbVU6lgj6iXaWmrRFXRDDiLIA2Qg8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-282-NjOL5uhvNhyd8YrFRG6CZA-1; Thu, 11 Nov 2021 11:06:16 -0500
-X-MC-Unique: NjOL5uhvNhyd8YrFRG6CZA-1
+ us-mta-194-BhoGC3Q4MCKF_kO1xR4FVg-1; Thu, 11 Nov 2021 11:06:45 -0500
+X-MC-Unique: BhoGC3Q4MCKF_kO1xR4FVg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F3DD871814;
- Thu, 11 Nov 2021 16:06:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C328910168C0;
+ Thu, 11 Nov 2021 16:06:43 +0000 (UTC)
 Received: from p50.localhost.localdomain.com (unknown [10.22.32.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FA4D5D6D7;
- Thu, 11 Nov 2021 16:05:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 543A05D6B1;
+ Thu, 11 Nov 2021 16:06:15 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/1] Jobs based on custom runners: add CentOS Stream 8
-Date: Thu, 11 Nov 2021 11:05:00 -0500
-Message-Id: <20211111160501.862396-1-crosa@redhat.com>
+Subject: [PATCH v2 1/1] Jobs based on custom runners: add CentOS Stream 8
+Date: Thu, 11 Nov 2021 11:05:01 -0500
+Message-Id: <20211111160501.862396-2-crosa@redhat.com>
+In-Reply-To: <20211111160501.862396-1-crosa@redhat.com>
+References: <20211111160501.862396-1-crosa@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=crosa@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,96 +91,526 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds a new custom runner, showing an example of how other=0D
-entities can add their own custom jobs to the GitLab CI pipeline.=0D
-=0D
-The runner (the machine and job) is to be managed by Red Hat, and=0D
-adds, at the very least, bare metal x86_64 KVM testing capabilities to=0D
-the QEMU pipeline.  This brings extra coverage for some unittests, and=0D
-the ability to run the Avocado tests that depend on KVM.=0D
-=0D
-The runner is already completely set up and registered to the=0D
-https://gitlab.com/qemu-project/qemu project instance.  Jobs will be=0D
-triggered according to the same rules for the jobs s390x and aarch64=0D
-jobs running on QEMU project's custom runners, that is, pushes to the=0D
-staging branch of the "qemu-project" project, or by setting a specific=0D
-variable.=0D
-=0D
-Still, the job is set with mode "allow failures", so it should not=0D
-disrupt the existing pipeline.  Once its reliability is proved (rules=0D
-and service levels are to be determined), it can be "upgraded" to=0D
-a "gating" condition.=0D
-=0D
-Even though the formal method of tracking machine/job maintainers have=0D
-not been formalized, it should be known that the contacts/admins for=0D
-this machine and job are:=0D
-=0D
- - Willian Rampazzo=0D
-   <willianr@redhat.com>=0D
-   willianr on #qemu=0D
-=0D
- - Cleber Rosa=0D
-   <crosa@redhat.com>=0D
-   clebergnu on #qemu=0D
-=0D
-One example of a job introduced here, running on the host reserved for=0D
-this purpose can be seen at:=0D
-=0D
- - https://gitlab.com/cleber.gnu/qemu/-/jobs/1773761640=0D
-=0D
-Changes from v1[1]:=0D
-=0D
- * Replaced "--disable-fdt" for "--enable-fdt", given that according=0D
-   to "TARGET_NEED_FDT=3Dy" in "configs/targets/x86_64-softmmu.mak" it=0D
-   is required for x86_64-softmmu.=0D
-=0D
- * Added libfdt-devel to list of package requirements (see previous=0D
-   point for reasoning).=0D
-=0D
- * Removed patch 1 that contained a duplicate bug fix.=0D
-=0D
- * Removed patches 2 and 3 that implemented a "feature probe" and=0D
-   "feature requirement" that would cancel tests if features were not=0D
-   present.  That will be treated in a different patch series.=0D
-=0D
- * Removed --disable-jemalloc and --disabletcmalloc according to=0D
-   3b4da1329.=0D
-=0D
- * Introduced "test-avocado" script with a list of vetted tests=0D
-=0D
- * Do not install meson from CentOS Stream 8 PowerTools repo, instead=0D
-   meson from git submodule due to minimum version requirements.=0D
-=0D
- * Sync with commit f68d21ab8eac56c4097a3d63a8c86689bb507911 (HEAD of=0D
-   c8s-stream-rhel branch) from CentOS repo at=0D
-   https://git.centos.org/rpms/qemu-kvm/.=0D
-=0D
- * Further separated distribution version and architecture specific=0D
-   files into separate sub directories.=0D
-=0D
- * Added a gitlab CI rule and variable to allow other repos/users who=0D
-   have a CentOS Stream 8 x86_64 runner to trigger the job.=0D
-=0D
-[1] https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg02066.html=0D
-=0D
-Cleber Rosa (1):=0D
-  Jobs based on custom runners: add CentOS Stream 8=0D
-=0D
- .gitlab-ci.d/custom-runners.yml               |  29 +++=0D
- docs/devel/ci-jobs.rst.inc                    |   7 +=0D
- .../org.centos/stream/8/build-environment.yml |  51 +++++=0D
- .../ci/org.centos/stream/8/x86_64/configure   | 208 ++++++++++++++++++=0D
- .../org.centos/stream/8/x86_64/test-avocado   |  70 ++++++=0D
- scripts/ci/org.centos/stream/README           |  17 ++=0D
- scripts/ci/setup/build-environment.yml        |  38 ++++=0D
- 7 files changed, 420 insertions(+)=0D
- create mode 100644 scripts/ci/org.centos/stream/8/build-environment.yml=0D
- create mode 100755 scripts/ci/org.centos/stream/8/x86_64/configure=0D
- create mode 100755 scripts/ci/org.centos/stream/8/x86_64/test-avocado=0D
- create mode 100644 scripts/ci/org.centos/stream/README=0D
-=0D
---=20=0D
-2.33.1=0D
-=0D
+This introduces three different parts of a job designed to run
+on a custom runner managed by Red Hat.  The goals include:
+
+  a) propose a model for other organizations that want to onboard
+     their own runners, with their specific platforms, build
+     configuration and tests.
+
+  b) bring awareness to the differences between upstream QEMU and the
+     version available under CentOS Stream, which is "A preview of
+     upcoming Red Hat Enterprise Linux minor and major releases".
+
+  c) because of b), it should be easier to identify and reduce the gap
+     between Red Hat's downstream and upstream QEMU.
+
+The components of this custom job are:
+
+  I) OS build environment setup code:
+
+     - additions to the existing "build-environment.yml" playbook
+       that can be used to set up CentOS/EL 8 systems.
+
+     - a CentOS Stream 8 specific "build-environment.yml" playbook
+       that adds to the generic one.
+
+ II) QEMU build configuration: a script that will produce binaries with
+     features as similar as possible to the ones built and packaged on
+     CentOS stream 8.
+
+III) Scripts that define the minimum amount of testing that the
+     binaries built with the given configuration (point II) under the
+     given OS build environment (point I) should be subjected to.
+
+ IV) Job definition: GitLab CI jobs that will dispatch the build/test
+     jobs (see points #II and #III) to the machine specifically
+     configured according to #I.
+
+Signed-off-by: Cleber Rosa <crosa@redhat.com>
+---
+ .gitlab-ci.d/custom-runners.yml               |  29 +++
+ docs/devel/ci-jobs.rst.inc                    |   7 +
+ .../org.centos/stream/8/build-environment.yml |  51 +++++
+ .../ci/org.centos/stream/8/x86_64/configure   | 208 ++++++++++++++++++
+ .../org.centos/stream/8/x86_64/test-avocado   |  70 ++++++
+ scripts/ci/org.centos/stream/README           |  17 ++
+ scripts/ci/setup/build-environment.yml        |  38 ++++
+ 7 files changed, 420 insertions(+)
+ create mode 100644 scripts/ci/org.centos/stream/8/build-environment.yml
+ create mode 100755 scripts/ci/org.centos/stream/8/x86_64/configure
+ create mode 100755 scripts/ci/org.centos/stream/8/x86_64/test-avocado
+ create mode 100644 scripts/ci/org.centos/stream/README
+
+diff --git a/.gitlab-ci.d/custom-runners.yml b/.gitlab-ci.d/custom-runners.yml
+index a89a20da48..1f56297dfa 100644
+--- a/.gitlab-ci.d/custom-runners.yml
++++ b/.gitlab-ci.d/custom-runners.yml
+@@ -248,3 +248,32 @@ ubuntu-20.04-aarch64-notcg:
+  - ../configure --disable-libssh --disable-tcg
+  - make --output-sync -j`nproc`
+  - make --output-sync -j`nproc` check V=1
++
++centos-stream-8-x86_64:
++ allow_failure: true
++ needs: []
++ stage: build
++ tags:
++ - centos_stream_8
++ - x86_64
++ rules:
++ - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
++ - if: "$CENTOS_STREAM_8_x86_64_RUNNER_AVAILABLE"
++ artifacts:
++   name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
++   when: on_failure
++   expire_in: 7 days
++   paths:
++     - build/tests/results/latest/results.xml
++     - build/tests/results/latest/test-results
++   reports:
++     junit: build/tests/results/latest/results.xml
++ before_script:
++ - JOBS=$(expr $(nproc) + 1)
++ script:
++ - mkdir build
++ - cd build
++ - ../scripts/ci/org.centos/stream/8/x86_64/configure
++ - make -j"$JOBS"
++ - make NINJA=":" check
++ - ../scripts/ci/org.centos/stream/8/x86_64/test-avocado
+diff --git a/docs/devel/ci-jobs.rst.inc b/docs/devel/ci-jobs.rst.inc
+index 277975e4ad..db3f571d5f 100644
+--- a/docs/devel/ci-jobs.rst.inc
++++ b/docs/devel/ci-jobs.rst.inc
+@@ -49,3 +49,10 @@ S390X_RUNNER_AVAILABLE
+ If you've got access to an IBM Z host that can be used as a gitlab-CI
+ runner, you can set this variable to enable the tests that require this
+ kind of host. The runner should be tagged with "s390x".
++
++CENTOS_STREAM_8_x86_64_RUNNER_AVAILABLE
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++If you've got access to a CentOS Stream 8 x86_64 host that can be
++used as a gitlab-CI runner, you can set this variable to enable the
++tests that require this kind of host. The runner should be tagged with
++both "centos_stream_8" and "x86_64".
+diff --git a/scripts/ci/org.centos/stream/8/build-environment.yml b/scripts/ci/org.centos/stream/8/build-environment.yml
+new file mode 100644
+index 0000000000..42b0471634
+--- /dev/null
++++ b/scripts/ci/org.centos/stream/8/build-environment.yml
+@@ -0,0 +1,51 @@
++---
++- name: Installation of extra packages to build QEMU
++  hosts: all
++  tasks:
++    - name: Extra check for CentOS Stream 8
++      lineinfile:
++        path: /etc/redhat-release
++        line: CentOS Stream release 8
++        state: present
++      check_mode: yes
++      register: centos_stream_8
++
++    - name: Enable PowerTools repo on CentOS Stream 8
++      ini_file:
++        path: /etc/yum.repos.d/CentOS-Stream-PowerTools.repo
++        section: powertools
++        option: enabled
++        value: "1"
++      when:
++        - ansible_facts['distribution'] == 'CentOS'
++        - ansible_facts['distribution_major_version'] == '8'
++        - centos_stream_8
++
++    - name: Install basic packages to build QEMU on CentOS Stream 8
++      dnf:
++        name:
++          - device-mapper-multipath-devel
++          - glusterfs-api-devel
++          - gnutls-devel
++          - libcap-ng-devel
++          - libcurl-devel
++          - libfdt-devel
++          - libiscsi-devel
++          - libpmem-devel
++          - librados-devel
++          - librbd-devel
++          - libseccomp-devel
++          - libssh-devel
++          - libxkbcommon-devel
++          - ninja-build
++          - numactl-devel
++          - python3-sphinx
++          - redhat-rpm-config
++          - snappy-devel
++          - spice-server-devel
++          - systemd-devel
++        state: present
++      when:
++        - ansible_facts['distribution'] == 'CentOS'
++        - ansible_facts['distribution_major_version'] == '8'
++        - centos_stream_8
+diff --git a/scripts/ci/org.centos/stream/8/x86_64/configure b/scripts/ci/org.centos/stream/8/x86_64/configure
+new file mode 100755
+index 0000000000..048e80dc49
+--- /dev/null
++++ b/scripts/ci/org.centos/stream/8/x86_64/configure
+@@ -0,0 +1,208 @@
++#!/bin/sh -e
++#
++# Configuration for QEMU based on CentOS Stream 8 x86_64 builds
++#
++# The "configure" command line is based on:
++#
++# https://git.centos.org/rpms/qemu-kvm/blob/c8s-stream-rhel/f/SPECS/qemu-kvm.spec
++#
++# But, because the SPEC file contains a number of conditionals and
++# variable and expansions only available at RPM build time, this version
++# was initially generated from an actual RPM build on an x86_64 platform.
++#
++# From that initial version, options that are required or are a
++# consequence of non-upstream patches have been adapted.  One example
++# is "--without-default-devices" which is *not* present here, given
++# that patches adding downstream specific devices are not available.
++#
++../configure \
++--prefix="/usr" \
++--libdir="/usr/lib64" \
++--datadir="/usr/share" \
++--sysconfdir="/etc" \
++--interp-prefix=/usr/qemu-%M \
++--localstatedir="/var" \
++--docdir="/usr/share/doc" \
++--libexecdir="/usr/libexec" \
++--extra-ldflags="-Wl,--build-id -Wl,-z,relro -Wl,-z,now" \
++--extra-cflags="-O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection" \
++--with-suffix="qemu-kvm" \
++--firmwarepath=/usr/share/qemu-firmware \
++--with-git=meson \
++--with-git-submodules=update \
++--target-list="x86_64-softmmu" \
++--block-drv-rw-whitelist="qcow2,raw,file,host_device,nbd,iscsi,rbd,blkdebug,luks,null-co,nvme,copy-on-read,throttle,gluster" \
++--audio-drv-list="" \
++--block-drv-ro-whitelist="vmdk,vhdx,vpc,https,ssh" \
++--with-coroutine=ucontext \
++--with-git=git \
++--tls-priority=@QEMU,SYSTEM \
++--disable-attr \
++--disable-auth-pam \
++--disable-avx2 \
++--disable-avx512f \
++--disable-bochs \
++--disable-bpf \
++--disable-brlapi \
++--disable-bsd-user \
++--disable-bzip2 \
++--disable-cap-ng \
++--disable-capstone \
++--disable-cfi \
++--disable-cfi-debug \
++--disable-cloop \
++--disable-cocoa \
++--disable-coroutine-pool \
++--disable-crypto-afalg \
++--disable-curl \
++--disable-curses \
++--disable-debug-info \
++--disable-debug-mutex \
++--disable-debug-tcg \
++--disable-dmg \
++--disable-docs \
++--disable-fuse \
++--disable-fuse-lseek \
++--disable-gcrypt \
++--disable-gio \
++--disable-glusterfs \
++--disable-gnutls \
++--disable-gtk \
++--disable-guest-agent \
++--disable-guest-agent-msi \
++--disable-hax \
++--disable-hvf \
++--disable-iconv \
++--disable-kvm \
++--disable-libdaxctl \
++--disable-libiscsi \
++--disable-libnfs \
++--disable-libpmem \
++--disable-libssh \
++--disable-libudev \
++--disable-libusb \
++--disable-libxml2 \
++--disable-linux-aio \
++--disable-linux-io-uring \
++--disable-linux-user \
++--disable-live-block-migration \
++--disable-lto \
++--disable-lzfse \
++--disable-lzo \
++--disable-malloc-trim \
++--disable-membarrier \
++--disable-modules \
++--disable-module-upgrades \
++--disable-mpath \
++--disable-multiprocess \
++--disable-netmap \
++--disable-nettle \
++--disable-numa \
++--disable-nvmm \
++--disable-opengl \
++--disable-parallels \
++--disable-pie \
++--disable-pvrdma \
++--disable-qcow1 \
++--disable-qed \
++--disable-qom-cast-debug \
++--disable-rbd \
++--disable-rdma \
++--disable-replication \
++--disable-rng-none \
++--disable-safe-stack \
++--disable-sanitizers \
++--disable-sdl \
++--disable-sdl-image \
++--disable-seccomp \
++--disable-slirp-smbd \
++--disable-smartcard \
++--disable-snappy \
++--disable-sparse \
++--disable-spice \
++--disable-strip \
++--disable-system \
++--disable-tcg \
++--disable-tools \
++--disable-tpm \
++--disable-u2f \
++--disable-usb-redir \
++--disable-user \
++--disable-vde \
++--disable-vdi \
++--disable-vhost-crypto \
++--disable-vhost-kernel \
++--disable-vhost-net \
++--disable-vhost-scsi \
++--disable-vhost-user \
++--disable-vhost-user-blk-server \
++--disable-vhost-vdpa \
++--disable-vhost-vsock \
++--disable-virglrenderer \
++--disable-virtfs \
++--disable-virtiofsd \
++--disable-vnc \
++--disable-vnc-jpeg \
++--disable-vnc-png \
++--disable-vnc-sasl \
++--disable-vte \
++--disable-vvfat \
++--disable-werror \
++--disable-whpx \
++--disable-xen \
++--disable-xen-pci-passthrough \
++--disable-xfsctl \
++--disable-xkbcommon \
++--disable-zstd \
++--enable-attr \
++--enable-avx2 \
++--enable-cap-ng \
++--enable-capstone \
++--enable-coroutine-pool \
++--enable-curl \
++--enable-debug-info \
++--enable-docs \
++--enable-fdt \
++--enable-gcrypt \
++--enable-glusterfs \
++--enable-gnutls \
++--enable-guest-agent \
++--enable-iconv \
++--enable-kvm \
++--enable-libiscsi \
++--enable-libpmem \
++--enable-libssh \
++--enable-libusb \
++--enable-libudev \
++--enable-linux-aio \
++--enable-lzo \
++--enable-malloc-trim \
++--enable-modules \
++--enable-mpath \
++--enable-numa \
++--enable-opengl \
++--enable-pie \
++--enable-rbd \
++--enable-rdma \
++--enable-seccomp \
++--enable-snappy \
++--enable-smartcard \
++--enable-spice \
++--enable-system \
++--enable-tcg \
++--enable-tools \
++--enable-tpm \
++--enable-trace-backend=dtrace \
++--enable-usb-redir \
++--enable-virtiofsd \
++--enable-vhost-kernel \
++--enable-vhost-net \
++--enable-vhost-user \
++--enable-vhost-user-blk-server \
++--enable-vhost-vdpa \
++--enable-vhost-vsock \
++--enable-vnc \
++--enable-vnc-png \
++--enable-vnc-sasl \
++--enable-werror \
++--enable-xkbcommon
+diff --git a/scripts/ci/org.centos/stream/8/x86_64/test-avocado b/scripts/ci/org.centos/stream/8/x86_64/test-avocado
+new file mode 100755
+index 0000000000..7aeecbcfb8
+--- /dev/null
++++ b/scripts/ci/org.centos/stream/8/x86_64/test-avocado
+@@ -0,0 +1,70 @@
++#!/bin/sh -e
++#
++# Runs a previously vetted list of tests, either marked explicitly for
++# KVM and x86_64, or tests that are generic enough to be valid for all
++# targets. Such a test list can be generated with:
++#
++# ./tests/venv/bin/avocado list --filter-by-tags-include-empty \
++#   --filter-by-tags-include-empty-key -t accel:kvm,arch:x86_64 \
++#   tests/avocado/
++#
++# This is almost the complete list of avocado based tests available at
++# the time this was compile, with the following exceptions:
++#
++# * Require machine type "x-remote":
++#   - tests/avocado/multiprocess.py:Multiprocess.test_multiprocess_x86_64
++#
++# * Needs superuser privileges:
++#   - tests/avocado/virtiofs_submounts.py:VirtiofsSubmountsTest.test_pre_virtiofsd_set_up
++#   - tests/avocado/virtiofs_submounts.py:VirtiofsSubmountsTest.test_pre_launch_set_up
++#   - tests/avocado/virtiofs_submounts.py:VirtiofsSubmountsTest.test_post_launch_set_up
++#   - tests/avocado/virtiofs_submounts.py:VirtiofsSubmountsTest.test_post_mount_set_up
++#   - tests/avocado/virtiofs_submounts.py:VirtiofsSubmountsTest.test_two_runs
++#
++# * Requires display type "egl-headless":
++#   - tests/avocado/virtio-gpu.py:VirtioGPUx86.test_virtio_vga_virgl
++#   - tests/avocado/virtio-gpu.py:VirtioGPUx86.test_vhost_user_vga_virgl
++#
++#  * Test is marked (unconditionally) to be skipped:
++#   - tests/avocado/virtio_check_params.py:VirtioMaxSegSettingsCheck.test_machine_types
++#
++make get-vm-images
++./tests/venv/bin/avocado run \
++    --job-results-dir=tests/results/ \
++    tests/avocado/boot_linux.py:BootLinuxX8664.test_pc_i440fx_kvm \
++    tests/avocado/boot_linux.py:BootLinuxX8664.test_pc_q35_kvm \
++    tests/avocado/boot_linux_console.py:BootLinuxConsole.test_x86_64_pc \
++    tests/avocado/cpu_queries.py:QueryCPUModelExpansion.test \
++    tests/avocado/empty_cpu_model.py:EmptyCPUModel.test \
++    tests/avocado/hotplug_cpu.py:HotPlugCPU.test \
++    tests/avocado/info_usernet.py:InfoUsernet.test_hostfwd \
++    tests/avocado/intel_iommu.py:IntelIOMMU.test_intel_iommu \
++    tests/avocado/intel_iommu.py:IntelIOMMU.test_intel_iommu_pt \
++    tests/avocado/intel_iommu.py:IntelIOMMU.test_intel_iommu_strict \
++    tests/avocado/intel_iommu.py:IntelIOMMU.test_intel_iommu_strict_cm \
++    tests/avocado/linux_initrd.py:LinuxInitrd.test_with_2gib_file_should_exit_error_msg_with_linux_v3_6 \
++    tests/avocado/linux_initrd.py:LinuxInitrd.test_with_2gib_file_should_work_with_linux_v4_16 \
++    tests/avocado/migration.py:Migration.test_migration_with_exec \
++    tests/avocado/migration.py:Migration.test_migration_with_tcp_localhost \
++    tests/avocado/migration.py:Migration.test_migration_with_unix \
++    tests/avocado/pc_cpu_hotplug_props.py:OmittedCPUProps.test_no_die_id \
++    tests/avocado/replay_kernel.py:ReplayKernelNormal.test_x86_64_pc \
++    tests/avocado/reverse_debugging.py:ReverseDebugging_X86_64.test_x86_64_pc \
++    tests/avocado/version.py:Version.test_qmp_human_info_version \
++    tests/avocado/virtio_version.py:VirtioVersionCheck.test_conventional_devs \
++    tests/avocado/virtio_version.py:VirtioVersionCheck.test_modern_only_devs \
++    tests/avocado/vnc.py:Vnc.test_change_password \
++    tests/avocado/vnc.py:Vnc.test_change_password_requires_a_password \
++    tests/avocado/vnc.py:Vnc.test_no_vnc \
++    tests/avocado/vnc.py:Vnc.test_no_vnc_change_password \
++    tests/avocado/x86_cpu_model_versions.py:CascadelakeArchCapabilities.test_4_0 \
++    tests/avocado/x86_cpu_model_versions.py:CascadelakeArchCapabilities.test_4_1 \
++    tests/avocado/x86_cpu_model_versions.py:CascadelakeArchCapabilities.test_set_4_0 \
++    tests/avocado/x86_cpu_model_versions.py:CascadelakeArchCapabilities.test_unset_4_1 \
++    tests/avocado/x86_cpu_model_versions.py:CascadelakeArchCapabilities.test_v1_4_0 \
++    tests/avocado/x86_cpu_model_versions.py:CascadelakeArchCapabilities.test_v1_set_4_0 \
++    tests/avocado/x86_cpu_model_versions.py:CascadelakeArchCapabilities.test_v2_4_0 \
++    tests/avocado/x86_cpu_model_versions.py:CascadelakeArchCapabilities.test_v2_unset_4_1 \
++    tests/avocado/x86_cpu_model_versions.py:X86CPUModelAliases.test_4_0_alias_compatibility \
++    tests/avocado/x86_cpu_model_versions.py:X86CPUModelAliases.test_4_1_alias \
++    tests/avocado/x86_cpu_model_versions.py:X86CPUModelAliases.test_none_alias
+diff --git a/scripts/ci/org.centos/stream/README b/scripts/ci/org.centos/stream/README
+new file mode 100644
+index 0000000000..e3eadfe3ea
+--- /dev/null
++++ b/scripts/ci/org.centos/stream/README
+@@ -0,0 +1,17 @@
++This directory contains scripts for generating a build of QEMU that
++closely matches the CentOS Stream[1] builds of the qemu-kvm package.
++
++To have the environment ready to configure, build QEMU and run tests,
++please start with a CentOS Stream machine and:
++
++ * apply the generic "build-environment.yml" playbook located at
++   scripts/ci/setup
++
++ * apply the "build-environment.yml" in the directory following the
++   CentOS Stream version (such as "8").
++
++This currently only covers CentOS Stream 8 environments and
++packages[2].
++
++[1] https://www.centos.org/centos-stream/
++[2] https://git.centos.org/rpms/qemu-kvm/commits/c8s-stream-rhel
+diff --git a/scripts/ci/setup/build-environment.yml b/scripts/ci/setup/build-environment.yml
+index 581c1c75d1..599896cc5b 100644
+--- a/scripts/ci/setup/build-environment.yml
++++ b/scripts/ci/setup/build-environment.yml
+@@ -114,3 +114,41 @@
+       when:
+         - ansible_facts['distribution'] == 'Ubuntu'
+         - ansible_facts['distribution_version'] == '20.04'
++
++    - name: Install basic packages to build QEMU on EL8
++      dnf:
++        # This list of packages start with tests/docker/dockerfiles/centos8.docker
++        # but only include files that are common to all distro variants and present
++        # in the standard repos (no add-ons)
++        name:
++          - bzip2
++          - bzip2-devel
++          - dbus-daemon
++          - diffutils
++          - gcc
++          - gcc-c++
++          - genisoimage
++          - gettext
++          - git
++          - glib2-devel
++          - libaio-devel
++          - libepoxy-devel
++          - libgcrypt-devel
++          - lzo-devel
++          - make
++          - mesa-libEGL-devel
++          - nettle-devel
++          - nmap-ncat
++          - perl-Test-Harness
++          - pixman-devel
++          - python36
++          - rdma-core-devel
++          - spice-glib-devel
++          - spice-server
++          - systemtap-sdt-devel
++          - tar
++          - zlib-devel
++        state: present
++      when:
++        - ansible_facts['distribution_file_variety'] == 'RedHat'
++        - ansible_facts['distribution_version'] == '8'
+-- 
+2.33.1
 
 
