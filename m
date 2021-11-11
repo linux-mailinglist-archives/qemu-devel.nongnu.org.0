@@ -2,86 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 923C944DAE2
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 17:59:47 +0100 (CET)
-Received: from localhost ([::1]:39984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A504944DAF8
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 18:08:17 +0100 (CET)
+Received: from localhost ([::1]:54086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlDQQ-0003f2-D3
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 11:59:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36522)
+	id 1mlDYe-00050H-Cb
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 12:08:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mlDPO-0002iN-Qp
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 11:58:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52622)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mlDPL-0000fS-QZ
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 11:58:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636649918;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vHeaTJeY6N4ao/XntS0lMfOBBlCBg8/dgl6+/Wn8GFU=;
- b=K7PfkRGclMmuf5mCTreROpVeA/kb6p7K6hFkE6FPQn1CBgm1ieY41WUB8sv6e4ZFqIidGU
- 4Sd+DSjXGFuPPtR/cQcryxcluF+TaMoaqx8AC4tiVDsOJ7khsEkpnM+upWwzI0vbOaIpRe
- vtjJZrRHDcYQg/NDY2nuM1YENvemV/0=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-TYtn7g_bNp-a8kiYIMbTow-1; Thu, 11 Nov 2021 11:58:37 -0500
-X-MC-Unique: TYtn7g_bNp-a8kiYIMbTow-1
-Received: by mail-ed1-f72.google.com with SMTP id
- r25-20020a05640216d900b003dca3501ab4so5897818edx.15
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 08:58:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jamie@nuviainc.com>)
+ id 1mlDVV-0003Qh-OP
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 12:05:01 -0500
+Received: from [2a00:1450:4864:20::534] (port=33343
+ helo=mail-ed1-x534.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jamie@nuviainc.com>)
+ id 1mlDVT-0001Lv-Dk
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 12:05:01 -0500
+Received: by mail-ed1-x534.google.com with SMTP id m14so27099187edd.0
+ for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 09:04:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nuviainc-com.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=yj8x04XlMGJcyZqCdVRk32Ff9/mIwqZahMzALG2V8j8=;
+ b=ztd6W2fMaDQhLVsOCVcIHm4nvHEk4R7VDY79zYU/JRMWnxKnsIRGdfM6AZXHc4+ZMI
+ xzgR5Av9mJLTR2BMGbhBzZp8C8WLx3ZVS75LdBkAoiTyohKEXAFUYeuC9aPyDh2YaHG2
+ xLGUr+JFFKVfCQcG50UYOKUNoIcUXiYFYjLiz/MjCSdCTv/GNmR3kk8/lm1tQam+LrT4
+ 9nAnLfz19iCEWpECIv7HBKIHtIw7Tk4zsWlIDW5VMNgWYGRMf+nf/GrfGEAm63d0LXrR
+ SAIsboAebx+3K4IbO/hZQfylC2qAVhoHqtMpy8446PB1a8zuAU1P24wxafBYPy7GJANq
+ GQYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=vHeaTJeY6N4ao/XntS0lMfOBBlCBg8/dgl6+/Wn8GFU=;
- b=hpZebFp79DWybnMJ5vWh40IfF0/n+BWvT+bK54cR/dl0BW2v6WYCLPQJy1VFBn/kan
- sv96UqpGBMTAtxNQsZOxXWbCod83786K0d3JF41N/ybU8hFKSY8LABgk433/oWmLn0MB
- ciwrX09ztalzjU0sg7PBBH+DVgjart6ZhK4rcrf6xfYJtkzl2MWQ4bslZIK5sEDMP+d9
- FQ+LkYssVTZ+l0/igyC5++68OLWGUryV54Vr+sbUNviV8ZkWAGpj1Qt41/u2pl5n6N6J
- RI4Ujkb9hEf9yoik7VBUt9hNrrWyeq4zts97ASaSnxUBRWlbyj2r7srdNCCCKB+Ow7Rq
- VXWA==
-X-Gm-Message-State: AOAM531vv1BzSTio9Oa7aXBSx9ZDD3GDa3Yjc1A1Z3wpGluEYIlaCZI1
- sj6fewr5belKve/qxclKxNXqwrT2wdS8glidlKhKS3ZKqVAPPgQrY0nsmS85Zq0mCSvu3AZMH8F
- xhk7/tBD+sVU+tHs=
-X-Received: by 2002:a17:907:9612:: with SMTP id
- gb18mr11159851ejc.205.1636649916093; 
- Thu, 11 Nov 2021 08:58:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxml2OcYYyTyP/tzUfOekQF+AGK1i6Xv9/X4IiCpdZpmQxKy9+i1JYMJOYRwjxWH4u8M40TzA==
-X-Received: by 2002:a17:907:9612:: with SMTP id
- gb18mr11159822ejc.205.1636649915954; 
- Thu, 11 Nov 2021 08:58:35 -0800 (PST)
-Received: from redhat.com ([2.55.135.246])
- by smtp.gmail.com with ESMTPSA id r26sm1659037ejd.85.2021.11.11.08.58.33
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=yj8x04XlMGJcyZqCdVRk32Ff9/mIwqZahMzALG2V8j8=;
+ b=YeQ0vgHlYSjN0U7QXtFnT/LTvxFodKMbyDVd5ahWh+jKTtVWwNxsgYKfcEVm3Wx8/6
+ j46O598YPY4M/vAY6QZ902p1P6u3ojmrd/3U2GqjPrfTzo4mf0osMVVhfI1oEH4dKjTW
+ CBVRfJZHaM1KzVxdC2gGLRfWSjzVYQuasEoh3n0DoTDZMHyjqdlYAqgrzPFqw0eT73ma
+ lx8kFcboByt7VVRPQl2EVmp5uQaOtuinqjsK2rxXpCrO3qMAVfShR4AoJnGDzwzL2r51
+ o2ZwE41A/VO1NEnb7u32trkzf5F+HnYDWFa2FvE8HnTVOW6d/WusFly6dKfg981HHbkE
+ Fv+w==
+X-Gm-Message-State: AOAM530sMMKT77oto1iDNL6f1MsZqruxjg1Mr0I8l9W1iDTtYxXs48DP
+ TciBhgiar+Jbm7ZZVdbxQefoRg==
+X-Google-Smtp-Source: ABdhPJxV2V8nKe99CM7//KuAOngZroQA6KesL6jEQXAH3q8RgsX4ZpEFmRPZdZajsY5YnlUlB9CTEQ==
+X-Received: by 2002:aa7:d155:: with SMTP id r21mr11938026edo.341.1636650297298; 
+ Thu, 11 Nov 2021 09:04:57 -0800 (PST)
+Received: from localhost ([82.44.17.50])
+ by smtp.gmail.com with ESMTPSA id e19sm1881048edu.47.2021.11.11.09.04.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Nov 2021 08:58:35 -0800 (PST)
-Date: Thu, 11 Nov 2021 11:58:31 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 1/5] virtio-gpu: do not byteswap padding
-Message-ID: <20211111115813-mutt-send-email-mst@kernel.org>
-References: <20211111110604.207376-1-pbonzini@redhat.com>
- <20211111110604.207376-2-pbonzini@redhat.com>
+ Thu, 11 Nov 2021 09:04:56 -0800 (PST)
+Date: Thu, 11 Nov 2021 17:04:56 +0000
+From: Jamie Iles <jamie@nuviainc.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 2/2] hw/core/loader: workaround read() size limit.
+Message-ID: <YY1NOIdBgzJLYEiv@hazel>
+References: <20211111141141.3295094-1-jamie@nuviainc.com>
+ <20211111141141.3295094-3-jamie@nuviainc.com>
+ <c9950c92-86c5-ce0d-054e-357db1de851c@redhat.com>
+ <YY04ioqviteeKy0c@hazel>
+ <bd0f1a0a-1b5e-9800-069c-764cb9cfb5e1@redhat.com>
+ <7e490883-b723-1ff6-9191-6ef0c91ccd25@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211111110604.207376-2-pbonzini@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7e490883-b723-1ff6-9191-6ef0c91ccd25@redhat.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::534
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=jamie@nuviainc.com; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,39 +93,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
- mlevitsk@redhat.com
+Cc: Jamie Iles <jamie@nuviainc.com>, qemu-devel@nongnu.org, lmichel@kalray.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 11, 2021 at 12:06:00PM +0100, Paolo Bonzini wrote:
-> In Linux 5.16, the padding of struct virtio_gpu_ctrl_hdr has become a
-> single-byte field followed by a uint8_t[3] array of padding bytes,
-> and virtio_gpu_ctrl_hdr_bswap does not compile anymore.
+On Thu, Nov 11, 2021 at 04:55:35PM +0100, Philippe Mathieu-Daudé wrote:
+> On 11/11/21 16:43, Philippe Mathieu-Daudé wrote:
+> > On 11/11/21 16:36, Jamie Iles wrote:
+> >> Hi Philippe,
+> >>
+> >> On Thu, Nov 11, 2021 at 03:55:48PM +0100, Philippe Mathieu-Daudé wrote:
+> >>> Hi Jamie,
+> >>>
+> >>> On 11/11/21 15:11, Jamie Iles wrote:
+> >>>> On Linux, read() will only ever read a maximum of 0x7ffff000 bytes
+> >>>> regardless of what is asked.  If the file is larger than 0x7ffff000
+> >>>> bytes the read will need to be broken up into multiple chunks.
+> >>>>
+> >>>> Cc: Luc Michel <lmichel@kalray.eu>
+> >>>> Signed-off-by: Jamie Iles <jamie@nuviainc.com>
+> >>>> ---
+> >>>>  hw/core/loader.c | 40 ++++++++++++++++++++++++++++++++++------
+> >>>>  1 file changed, 34 insertions(+), 6 deletions(-)
+> >>>>
+> >>>> diff --git a/hw/core/loader.c b/hw/core/loader.c
+> >>>> index 348bbf535bd9..16ca9b99cf0f 100644
+> >>>> --- a/hw/core/loader.c
+> >>>> +++ b/hw/core/loader.c
+> >>>> @@ -80,6 +80,34 @@ int64_t get_image_size(const char *filename)
+> >>>>      return size;
+> >>>>  }
+> >>>>  
+> >>>> +static ssize_t read_large(int fd, void *dst, size_t len)
+> >>>> +{
+> >>>> +    /*
+> >>>> +     * man 2 read says:
+> >>>> +     *
+> >>>> +     * On Linux, read() (and similar system calls) will transfer at most
+> >>>> +     * 0x7ffff000 (2,147,479,552) bytes, returning the number of bytes
+> >>>
+> >>> Could you mention MAX_RW_COUNT from linux/fs.h?
+> >>>
+> >>>> +     * actually transferred.  (This is true on both 32-bit and 64-bit
+> >>>> +     * systems.)
+> >>>
+> >>> Maybe "This is true for both ILP32 and LP64 data models used by Linux"?
+> >>> (because that would not be the case for the ILP64 model).
+> >>>
+> >>> Otherwise s/systems/Linux variants/?
+> >>>
+> >>>> +     *
+> >>>> +     * So read in chunks no larger than 0x7ffff000 bytes.
+> >>>> +     */
+> >>>> +    size_t max_chunk_size = 0x7ffff000;
+> >>>
+> >>> We can declare it static const.
+> >>
+> >> Ack, can fix all of those up.
+> >>
+> >>>> +    size_t offset = 0;
+> >>>> +
+> >>>> +    while (offset < len) {
+> >>>> +        size_t chunk_len = MIN(max_chunk_size, len - offset);
+> >>>> +        ssize_t br = read(fd, dst + offset, chunk_len);
+> >>>> +
+> >>>> +        if (br < 0) {
+> >>>> +            return br;
+> >>>> +        }
+> >>>> +        offset += br;
+> >>>> +    }
+> >>>> +
+> >>>> +    return (ssize_t)len;
+> >>>> +}
+> >>>
+> >>> I see other read()/pread() calls:
+> >>>
+> >>> hw/9pfs/9p-local.c:472:            tsize = read(fd, (void *)buf, bufsz);
+> >>> hw/vfio/common.c:269:    if (pread(vbasedev->fd, &buf, size,
+> >>> region->fd_offset + addr) != size) {
+> >>> ...
+> >>>
+> >>> Maybe the read_large() belongs to "sysemu/os-xxx.h"?
+> >>
+> >> I think util/osdep.c would be a good fit for this.  To make sure we're 
+> > 
+> > Yes.
+> > 
+> >> on the same page though are you proposing converting all pread/read 
+> >> calls to a qemu variant or auditing for ones that could potentially take 
+> >> a larger size?
+> > 
+> > Yes, I took some time wondering beside loading blob in guest memory,
+> > what would be the other issues you might encounter. I couldn't find
+> > many cases. Eventually hw/vfio/. I haven't audit much, only noticed
+> > hw/9pfs/9p-local.c and qga/commands-*.c (not sure if relevant), but
+> > since we want to fix this, I'd rather try to fix it globally.
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Actually what you suggest is simpler, add qemu_read() / qemu_pread()
+> in util/osdep.c, convert all uses without caring about any audit.
 
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Okay, this hasn't worked out too badly - I'll do the same for 
+write/pwrite too and then switch all of the callers over with a 
+coccinelle patch so it'll be a fairly large diff but simple.
 
-No idea why we bothered swapping it anyway.
-> ---
->  include/hw/virtio/virtio-gpu-bswap.h | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/include/hw/virtio/virtio-gpu-bswap.h b/include/hw/virtio/virtio-gpu-bswap.h
-> index e2bee8f595..5faac0d8d5 100644
-> --- a/include/hw/virtio/virtio-gpu-bswap.h
-> +++ b/include/hw/virtio/virtio-gpu-bswap.h
-> @@ -24,7 +24,6 @@ virtio_gpu_ctrl_hdr_bswap(struct virtio_gpu_ctrl_hdr *hdr)
->      le32_to_cpus(&hdr->flags);
->      le64_to_cpus(&hdr->fence_id);
->      le32_to_cpus(&hdr->ctx_id);
-> -    le32_to_cpus(&hdr->padding);
->  }
->  
->  static inline void
-> -- 
-> 2.33.1
-> 
+We could elect to keep any calls with a compile-time constant length 
+with the unwrapped variants but I think that's probably more confusing 
+in the long-run.
 
+Thanks,
+
+Jamie
 
