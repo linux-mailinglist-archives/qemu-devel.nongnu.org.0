@@ -2,91 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB4DC44D5FC
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 12:40:58 +0100 (CET)
-Received: from localhost ([::1]:48912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDF6E44D60F
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 12:48:11 +0100 (CET)
+Received: from localhost ([::1]:54798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml8Ru-00088i-2u
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 06:40:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33724)
+	id 1ml8Ys-000408-G3
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 06:48:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ml8Po-0005Vu-9M
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 06:38:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41939)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ml8Ph-0006xH-Hb
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 06:38:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636630720;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BeEMn3XRyoxAotZLHbBLdwGsYPn3fVTVofhN37DrKSw=;
- b=HXiW6mcyvdW7+uItvS22UQOAWG8B2IdQ9JOlz+wCBET/hQh1p1l5nS9pHuUio6XVJSEL2N
- yW/StmCJc4bpCxf82L4S4tyIwbSRvWNNsed2RMQvLgYBUzrIKrq51LXyXNKcmtc8yjQ/AP
- jSLimaHU6vuBbt626SAr4/b+AlStQQs=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-opSM3dYOPASoTdLq33fSTw-1; Thu, 11 Nov 2021 06:38:39 -0500
-X-MC-Unique: opSM3dYOPASoTdLq33fSTw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- v10-20020a1cf70a000000b00318203a6bd1so2550753wmh.6
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 03:38:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ml8Xl-0003EM-1w
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 06:47:01 -0500
+Received: from [2a00:1450:4864:20::32c] (port=46024
+ helo=mail-wm1-x32c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ml8Xj-0008An-EC
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 06:47:00 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ g191-20020a1c9dc8000000b0032fbf912885so4196060wme.4
+ for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 03:46:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=wuh310FhYzfbx8Y3YdttUDfQL0Gw+6CiVMqPZ7y9UjE=;
+ b=jQdQtB99IhOP+BzBK9T1Q++USERMKSoY+dng0DggMc97t1Acy00WUVJ5zpBJr43/9z
+ HeUGK3DF64qESLthHDysQWo/HvN4qkQ01qVigIGibzWdJ+4ZiRtXSZK3wqHvR3KBOVMO
+ tY3cqjkduLpfMy4m3/O9rNonZF7X7SxLf0ji0z4sJ/Iyi67hgaIF7bt/g1uu7277hYjr
+ VTDTm0fWURlB4fgKTHv3sam6jMeDnTsCn1pqrbllMLBKGaZkREOZUXKLnjvTYuTw3Kd1
+ WY79AAnYE0+2QtKEa01go8bukhjv/LKVITVbjhQBRjVE5tsCcybnh9WelN1ZfCh4dN+a
+ sZJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=BeEMn3XRyoxAotZLHbBLdwGsYPn3fVTVofhN37DrKSw=;
- b=pJ/IAxQsr1ZY/AKTMHGh0MomZpQFR0pwIZJawMtU9gowrIj+OXZydTjVLH/Z++iYnB
- uh2dgShLRcZWdyyydEd6PqTPV7klg6bRVsa/e2BkTCgYCcemVXsJMxb2sh/MYjWdRRhB
- qziOkzyw3mGhVXRTCb/UZLPIFfvt+I2m5lgiFuAx00d0j24LKin2+y7xELSlEx+PxW6O
- eRsZXbM8k3/WRu26qhOMuXCUkaUOoDJU1f4/taqUQDl+WrQsNltlbpF5jvLkQx8yj1Rk
- FSED6hb91+mZ/cxRUiTDNA2yXtGEb2EjZV3wqBJyU0vdfKUFxRccv2eb8vP4jNNQhJXy
- EwcA==
-X-Gm-Message-State: AOAM5314gWWVi1n3iS9IjenzxIZQ4aKlCpw7RYF9ieXxU6k6KzVf3liH
- cAUv5Zbkfqo3CI5/JRclCg8WcGRp2+spE9Mt2ycJDeTRJlkqu7idEq4mIBbj9Kpn+tX273Rh+XN
- P2GB6knUS1iZeF4gZZNjyczw2v9743XA+ljV71csvfM3gX+BMFjLtKQeTsate1pJQ
-X-Received: by 2002:a5d:460d:: with SMTP id t13mr7964497wrq.44.1636630718015; 
- Thu, 11 Nov 2021 03:38:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxUoSqfTU/ZcEmzjdopzlRWf+lRZQH8SzhJJvRrR6UbqttU6h+yPLNs3tXsMgATW6X+jMxfSA==
-X-Received: by 2002:a5d:460d:: with SMTP id t13mr7964464wrq.44.1636630717701; 
- Thu, 11 Nov 2021 03:38:37 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id c79sm2683064wme.43.2021.11.11.03.38.36
+ bh=wuh310FhYzfbx8Y3YdttUDfQL0Gw+6CiVMqPZ7y9UjE=;
+ b=KRiRUsG5rIoi76snmVVcF1r71jFpb8Tm65WfvrOI4IJJvwCPLq9lTlaHzjHsaveal3
+ y041r2QD9t+q6CxKeRQ3bgtMzsa8U4v5PKBCIKc8ohckrdEqZK/3INEVi2O9NYmY5a17
+ 2oAXFrjPoszyMkBJzHrzsLSs6w+eM99+L2ROH5/ezNNRnicr1xGcU8sdSCWwWbfU/Lwg
+ cnAg0jk7JGXd7uNAX2Q3K9v/DhD2lkUwfbVPTx3nDbjnhJHM6s2Q4yPmS4qe02P+SvlP
+ KrvgAcvMcOjZI9rzqzA9WbLEXyESZNlA91hVNSot4LsPyeEoEwwPSinryLaCJObzYXP2
+ T+eQ==
+X-Gm-Message-State: AOAM533EUNBrdcRr76NGj9+aXo9a3yrduZsd0cQSLicqcgwf6c33j/Pr
+ ibgFs9JqaU1VuhvIgnnS9vlURg==
+X-Google-Smtp-Source: ABdhPJxLDnu/ZGN/x9+7Oo/pqGYUZF7nmBdkO28Y0SO7RUrhqUT6s9PRXonIGZSy54A63Q0fTrQGSw==
+X-Received: by 2002:a05:600c:1549:: with SMTP id
+ f9mr7581555wmg.118.1636631217964; 
+ Thu, 11 Nov 2021 03:46:57 -0800 (PST)
+Received: from [192.168.8.106] (10.red-95-125-227.dynamicip.rima-tde.net.
+ [95.125.227.10])
+ by smtp.gmail.com with ESMTPSA id k8sm2583590wrn.91.2021.11.11.03.46.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Nov 2021 03:38:37 -0800 (PST)
-Message-ID: <0063585f-e3e2-dc62-5d85-3864e992c953@redhat.com>
-Date: Thu, 11 Nov 2021 12:38:36 +0100
+ Thu, 11 Nov 2021 03:46:57 -0800 (PST)
+Subject: Re: [PATCH v3 19/20] target/riscv: Adjust scalar reg in vector with
+ XLEN
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20211111055800.42672-1-zhiwei_liu@c-sky.com>
+ <20211111055800.42672-20-zhiwei_liu@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <b1d8f47a-a6fc-3d49-89dd-2ec0af867999@linaro.org>
+Date: Thu, 11 Nov 2021 12:46:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 3/5] gdbstub: reject unsupported flags in
- handle_set_qemu_sstep
-To: qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>
-References: <20211111110604.207376-1-pbonzini@redhat.com>
- <20211111110604.207376-4-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211111110604.207376-4-pbonzini@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20211111055800.42672-20-zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -63
-X-Spam_score: -6.4
-X-Spam_bar: ------
-X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, NICE_REPLY_A=-3.999, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.999,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,85 +95,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, mlevitsk@redhat.com, cohuck@redhat.com,
- alex.bennee@linaro.org, mst@redhat.com
+Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/11/21 12:06, Paolo Bonzini wrote:
-> From: Maxim Levitsky <mlevitsk@redhat.com>
-> 
-> handle_query_qemu_sstepbits is reporting NOIRQ and NOTIMER bits
-> even if they are not supported (as is the case with record/replay).
-> Instead, store the supported singlestep flags and reject
-> any unsupported bits in handle_set_qemu_sstep.  This removes
-> the need for the get_sstep_flags() wrapper.
-> 
-> While at it, move the variables in GDBState, instead of using
-> global variables.
-> 
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> [Extracted from Maxim's patch into a separate commit. - Paolo]
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  gdbstub.c | 73 +++++++++++++++++++++++++++++++++++--------------------
->  1 file changed, 47 insertions(+), 26 deletions(-)
+On 11/11/21 6:57 AM, LIU Zhiwei wrote:
+> @@ -2670,6 +2672,7 @@ static bool trans_vmv_s_x(DisasContext *s, arg_vmv_s_x *a)
+>           /* This instruction ignores LMUL and vector register groups */
+>           int maxsz = s->vlen >> 3;
+>           TCGv_i64 t1;
+> +        TCGv src1 = get_gpr(s, a->rs1, EXT_ZERO);
 
->  static void init_gdbserver_state(void)
-> @@ -399,6 +382,24 @@ static void init_gdbserver_state(void)
->      gdbserver_state.str_buf = g_string_new(NULL);
->      gdbserver_state.mem_buf = g_byte_array_sized_new(MAX_PACKET_LENGTH);
->      gdbserver_state.last_packet = g_byte_array_sized_new(MAX_PACKET_LENGTH + 4);
+A reminder that this is zero-extend for v0.7.1 and sign-extend for v1.0.0.
 
-Simpler:
+> @@ -2679,7 +2682,7 @@ static bool trans_vmv_s_x(DisasContext *s, arg_vmv_s_x *a)
+>           }
+>   
+>           t1 = tcg_temp_new_i64();
+> -        tcg_gen_extu_tl_i64(t1, cpu_gpr[a->rs1]);
+> +        tcg_gen_extu_tl_i64(t1, src1);
 
- gdbserver_state.supported_sstep_flags = SSTEP_ENABLE;
+Likewise.
 
-> +    /*
-> +     * In replay mode all events written into the log should be replayed.
-> +     * That is why NOIRQ flag is removed in this mode.
-> +     */
-
- if (replay_mode == REPLAY_MODE_NONE) {
-   gdbserver_state.supported_sstep_flags |= SSTEP_NOIRQ | SSTEP_NOTIMER;
- }
-
-> +    if (replay_mode != REPLAY_MODE_NONE) {
-> +        gdbserver_state.supported_sstep_flags = SSTEP_ENABLE;
-> +    } else {
-> +        gdbserver_state.supported_sstep_flags =
-> +            SSTEP_ENABLE | SSTEP_NOIRQ | SSTEP_NOTIMER;
-> +    }
+>           vec_element_storei(s, a->rd, 0, t1);
+>           tcg_temp_free_i64(t1);
+>       done:
+> @@ -2748,12 +2751,28 @@ static bool slideup_check(DisasContext *s, arg_rmrr *a)
+>               (a->rd != a->rs2));
+>   }
+>   
+> +/* OPIVXU without GVEC IR */
+> +#define GEN_OPIVXU_TRANS(NAME, CHECK)                                    \
+> +static bool trans_##NAME(DisasContext *s, arg_rmrr *a)                   \
+> +{                                                                        \
+> +    if (CHECK(s, a)) {                                                   \
+> +        static gen_helper_opivx * const fns[4] = {                       \
+> +            gen_helper_##NAME##_b, gen_helper_##NAME##_h,                \
+> +            gen_helper_##NAME##_w, gen_helper_##NAME##_d,                \
+> +        };                                                               \
+> +                                                                         \
+> +        return opivx_trans(a->rd, a->rs1, a->rs2, a->vm,                 \
+> +                           fns[s->sew], s, EXT_ZERO);                    \
+> +    }                                                                    \
+> +    return false;                                                        \
+> +}
 > +
-> +    /*
-> +     * By default use no IRQs and no timers while single stepping so as to
-> +     * make single stepping like an ICE HW step.
-> +     */
-> +    gdbserver_state.sstep_flags = gdbserver_state.supported_sstep_flags;
-> +
->  }
+>   GEN_OPIVX_TRANS(vslideup_vx, slideup_check)
+> -GEN_OPIVX_TRANS(vslide1up_vx, slideup_check)
+> +GEN_OPIVXU_TRANS(vslide1up_vx, slideup_check)
+>   GEN_OPIVI_TRANS(vslideup_vi, 1, vslideup_vx, slideup_check)
+>   
+>   GEN_OPIVX_TRANS(vslidedown_vx, opivx_check)
+> -GEN_OPIVX_TRANS(vslide1down_vx, opivx_check)
+> +GEN_OPIVXU_TRANS(vslide1down_vx, opivx_check)
+>   GEN_OPIVI_TRANS(vslidedown_vi, 1, vslidedown_vx, opivx_check)
 
->  static void handle_set_qemu_sstep(GArray *params, void *user_ctx)
->  {
-> +    int new_sstep_flags;
-> +
->      if (!params->len) {
->          return;
->      }
->  
-> -    sstep_flags = get_param(params, 0)->val_ul;
-> +    new_sstep_flags = get_param(params, 0)->val_ul;
-> +
-> +    if (new_sstep_flags  & ~gdbserver_state.supported_sstep_flags) {
-> +        put_packet("E22");
-> +        return;
-> +    }
+Likewise.
 
-Please does this change in a separate patch, after moving
-to GDBState.
+So if this patch set goes in after rvv 1.0, this whole patch may be dropped.
 
-> +    gdbserver_state.sstep_flags = new_sstep_flags;
->      put_packet("OK");
->  }
 
+r~
 
