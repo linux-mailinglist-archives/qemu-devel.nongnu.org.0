@@ -2,103 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1B7744D4A5
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 11:04:08 +0100 (CET)
-Received: from localhost ([::1]:59518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAC2F44D49A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 11:02:39 +0100 (CET)
+Received: from localhost ([::1]:56034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml6wA-0004lq-So
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 05:04:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35126)
+	id 1ml6uk-0002R2-Pr
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 05:02:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1ml6ty-0002TE-Mu
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 05:01:50 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:48550)
+ id 1ml6tQ-0001FE-3E
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 05:01:16 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48502
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1ml6tx-0000oO-1A
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 05:01:50 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AB9gpjI023199; 
- Thu, 11 Nov 2021 10:01:45 GMT
+ id 1ml6tM-0000aa-D6
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 05:01:15 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AB9llht022735; 
+ Thu, 11 Nov 2021 10:01:06 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=Iha37tuMx1rP44+PH7IxlD2uRV+srxcSMimsr40vZnk=;
- b=B2pXgDYtZattBCdnKvPN1TmUQa4WFkZwA96H82nqSpYRpf5JlMuLdlXt+fsSjPRq50AN
- Q2yBWhP1lhRg1B4u03VuTuG3eKllKyTYr0EQrVgBL1oMifRrl9WU2R9x50BB5HenwtVx
- l3/IlKNOM9ym2JbCGdgwNM9DzH7BMMjho2uojA8Dx/FatORQxgpD+lpYJodRpFKP1/A2
- 2LKQN0btSbOGWzIxtDuPMJ+/MgfP0D0vS3yQZlCWm6z8DFq00O6dq0hyvYfeH2GezNGZ
- IfhNka9xD1uB5+mIUNCHsK/YM3Ye6XVFbJFoZ5qZxbhnpXmCuFVOAfAy0T2tdA1f5Do4 PA== 
+ content-transfer-encoding; s=pp1;
+ bh=tmHUpkuflpz0UgYlehxJew5Efs1ejFRdvUEFmRjRSaQ=;
+ b=TS3dgdijfnwhexuraoyQuUnZBdFMC1dZJkvOobgJz1WfvAni3OjjJ6MHZNoswMbVo3dj
+ 3yAp3RP4hC/RdKsX1m2fiH9veJiqhzG8d/xRo0RWjxmRbhTdUKZKAZoK6b4oufn86WqH
+ d40CNaWh/Xv+t0meLNPeU4pdlqJqqHkpnhvKgvYdAxROEe/HEW1EWt0bOoz25KZgV/SM
+ V4GsMl8QEhRhiffxjDrjvHKcJeBRYZV3PtDiOrCmJCE+zpDbJK+o3UUQfbimg37uQdFp
+ F05Pqj+iZ495s0Ck7g0K9LMfejmidKKlvrdF7L/NzavuUcypmavQPvbQBxo7jApq0FJE Pg== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3c90sp8fxs-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3c90v089f0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Nov 2021 10:01:45 +0000
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AB9iRsU027561;
- Thu, 11 Nov 2021 10:01:44 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3c90sp8fx3-1
+ Thu, 11 Nov 2021 10:01:06 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AB9rZKc014001;
+ Thu, 11 Nov 2021 10:01:06 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3c90v089eb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Nov 2021 10:01:44 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AB9uwje008659;
- Thu, 11 Nov 2021 10:01:43 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma01dal.us.ibm.com with ESMTP id 3c5hbdggvj-1
+ Thu, 11 Nov 2021 10:01:05 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AB9veAN018560;
+ Thu, 11 Nov 2021 10:01:04 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma05wdc.us.ibm.com with ESMTP id 3c5hbd8r9a-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Nov 2021 10:01:43 +0000
+ Thu, 11 Nov 2021 10:01:04 +0000
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1ABA12cI26346156
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1ABA13Y351904898
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Thu, 11 Nov 2021 10:01:03 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B64F4BE0C3;
- Thu, 11 Nov 2021 10:01:01 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 0A03ABE087;
+ Thu, 11 Nov 2021 10:01:03 +0000 (GMT)
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B0D75BE07C;
- Thu, 11 Nov 2021 10:01:00 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id E0FAFBE0B6;
+ Thu, 11 Nov 2021 10:01:01 +0000 (GMT)
 Received: from amdrome3.watson.ibm.com (unknown [9.2.130.16])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 11 Nov 2021 10:01:00 +0000 (GMT)
+ Thu, 11 Nov 2021 10:01:01 +0000 (GMT)
 From: Dov Murik <dovmurik@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/6] target/i386/sev: Add kernel hashes only if
- sev-guest.kernel-hashes=on
-Date: Thu, 11 Nov 2021 10:00:44 +0000
-Message-Id: <20211111100048.3299424-3-dovmurik@linux.ibm.com>
+Subject: [PATCH v3 3/6] target/i386/sev: Rephrase error message when no hashes
+ table in guest firmware
+Date: Thu, 11 Nov 2021 10:00:45 +0000
+Message-Id: <20211111100048.3299424-4-dovmurik@linux.ibm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211111100048.3299424-1-dovmurik@linux.ibm.com>
 References: <20211111100048.3299424-1-dovmurik@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 4mc1jihVpB8ZUNl2EtEUEs3mVypo7ha0
-X-Proofpoint-ORIG-GUID: xBolS8HKhe558Erj4q_iCx0JpOxykR-X
+X-Proofpoint-ORIG-GUID: BqvcYuegLHCnqwKq3UPqOOulFQNjh8wg
+X-Proofpoint-GUID: IGLpM1IQ-6dFfi5v6phbGsC8XZ9q-tZc
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
  definitions=2021-11-11_02,2021-11-08_02,2020-04-07_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0
- priorityscore=1501 adultscore=0 suspectscore=0 malwarescore=0
- lowpriorityscore=0 impostorscore=0 mlxscore=0 spamscore=0 mlxlogscore=999
- clxscore=1015 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ priorityscore=1501
+ clxscore=1015 mlxlogscore=999 spamscore=0 adultscore=0 suspectscore=0
+ mlxscore=0 phishscore=0 malwarescore=0 bulkscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2111110056
-Received-SPF: pass client-ip=148.163.156.1;
+Received-SPF: pass client-ip=148.163.158.5;
  envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,62 +112,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Eric Blake <eblake@redhat.com>,
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Ashish Kalra <ashish.kalra@amd.com>, Eric Blake <eblake@redhat.com>,
  James Bottomley <jejb@linux.ibm.com>, Marcelo Tosatti <mtosatti@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Dov Murik <dovmurik@linux.ibm.com>,
  Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
  Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Brijesh Singh <brijesh.singh@amd.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit cff03145ed3c ("sev/i386: Introduce sev_add_kernel_loader_hashes
-for measured linux boot", 2021-09-30) introduced measured direct boot
-with -kernel, using an OVMF-designated hashes table which QEMU fills.
-
-However, if OVMF doesn't designate such an area, QEMU would completely
-abort the VM launch.  This breaks launching with -kernel using older
-OVMF images which don't publish the SEV_HASH_TABLE_RV_GUID.
-
-Fix that so QEMU will only look for the hashes table if the sev-guest
-kernel-hashes option is set to on.  Otherwise, QEMU won't look for the
-designated area in OVMF and won't fill that area.
-
-To enable addition of kernel hashes, launch the guest with:
-
-    -object sev-guest,...,kernel-hashes=on
-
 Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
-Reported-by: Tom Lendacky <thomas.lendacky@amd.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Acked-by: Brijesh Singh <brijesh.singh@amd.com>
 ---
- target/i386/sev.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ target/i386/sev.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/target/i386/sev.c b/target/i386/sev.c
-index cad32812f5..e3abbeef68 100644
+index e3abbeef68..6ff196f7ad 100644
 --- a/target/i386/sev.c
 +++ b/target/i386/sev.c
-@@ -1223,6 +1223,14 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
-     size_t hash_len = HASH_SIZE;
-     int aligned_len;
+@@ -1232,7 +1232,8 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
+     }
  
-+    /*
-+     * Only add the kernel hashes if the sev-guest configuration explicitly
-+     * stated kernel-hashes=on.
-+     */
-+    if (!sev_guest->kernel_hashes) {
-+        return false;
-+    }
-+
      if (!pc_system_ovmf_table_find(SEV_HASH_TABLE_RV_GUID, &data, NULL)) {
-         error_setg(errp, "SEV: kernel specified but OVMF has no hash table guid");
+-        error_setg(errp, "SEV: kernel specified but OVMF has no hash table guid");
++        error_setg(errp, "SEV: kernel specified but guest firmware "
++                         "has no hashes table GUID");
          return false;
+     }
+     area = (SevHashTableDescriptor *)data;
 -- 
 2.25.1
 
