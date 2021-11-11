@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BC2444D4C8
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 11:09:41 +0100 (CET)
-Received: from localhost ([::1]:50978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1B7744D4A5
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 11:04:08 +0100 (CET)
+Received: from localhost ([::1]:59518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml71Y-0001QK-7I
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 05:09:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35136)
+	id 1ml6wA-0004lq-So
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 05:04:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1ml6tz-0002Wl-S9
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 05:01:51 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:17476)
+ id 1ml6ty-0002TE-Mu
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 05:01:50 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:48550)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1ml6tx-0000oU-VC
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 05:01:51 -0500
+ id 1ml6tx-0000oO-1A
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 05:01:50 -0500
 Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AB9gqtL023266; 
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AB9gpjI023199; 
  Thu, 11 Nov 2021 10:01:45 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-type : content-transfer-encoding; s=pp1;
- bh=gOZbLD+A14bQcgLXkhiLoMVZVgopWIQNmolK079b93A=;
- b=Knkh9GlKT3TeYNykETT4u4ziOnTtxdr5JAQ6Ae3/mY/yTVOFkNidPfOHDEiIIM/s2bq3
- ZGvwUOEBTJaHdh0uDjsDAP4kpAHPUyWwJ/kbprJ2vyLgbrIk+dSWihp3J/Vhg4obK+3L
- dW4M+wXix/ef1HW1oyodTjYGK+pTfxEFRJOdzurc5ul1OFaAFyhQIsmF5Q9B5dUDILWy
- tD39KaVFTZOmtbJLcrAF8aA3USM8Nv4KhMInqgrUax6NBcufx/ovNL4nv+VHPLDfWYID
- hPZhmgeF6rfLKdVPIQWO3G5LOJAtGlqdO9pyzkwjxQ1s4R3vkuXi6sNQTAeomOuaQj6T ww== 
+ bh=Iha37tuMx1rP44+PH7IxlD2uRV+srxcSMimsr40vZnk=;
+ b=B2pXgDYtZattBCdnKvPN1TmUQa4WFkZwA96H82nqSpYRpf5JlMuLdlXt+fsSjPRq50AN
+ Q2yBWhP1lhRg1B4u03VuTuG3eKllKyTYr0EQrVgBL1oMifRrl9WU2R9x50BB5HenwtVx
+ l3/IlKNOM9ym2JbCGdgwNM9DzH7BMMjho2uojA8Dx/FatORQxgpD+lpYJodRpFKP1/A2
+ 2LKQN0btSbOGWzIxtDuPMJ+/MgfP0D0vS3yQZlCWm6z8DFq00O6dq0hyvYfeH2GezNGZ
+ IfhNka9xD1uB5+mIUNCHsK/YM3Ye6XVFbJFoZ5qZxbhnpXmCuFVOAfAy0T2tdA1f5Do4 PA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3c90sp8fxj-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3c90sp8fxs-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 Nov 2021 10:01:44 +0000
+ Thu, 11 Nov 2021 10:01:45 +0000
 Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AB9iPJw027522;
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AB9iRsU027561;
  Thu, 11 Nov 2021 10:01:44 GMT
 Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
  [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3c90sp8fwy-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3c90sp8fx3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 11 Nov 2021 10:01:44 +0000
 Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AB9uwjd008659;
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AB9uwje008659;
  Thu, 11 Nov 2021 10:01:43 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma01dal.us.ibm.com with ESMTP id 3c5hbdggud-1
+Received: from b03cxnp07028.gho.boulder.ibm.com
+ (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+ by ppma01dal.us.ibm.com with ESMTP id 3c5hbdggvj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 11 Nov 2021 10:01:43 +0000
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1ABA104650856356
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1ABA12cI26346156
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 11 Nov 2021 10:01:01 GMT
+ Thu, 11 Nov 2021 10:01:03 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 87740BE099;
+ by IMSVA (Postfix) with ESMTP id B64F4BE0C3;
+ Thu, 11 Nov 2021 10:01:01 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B0D75BE07C;
  Thu, 11 Nov 2021 10:01:00 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7FA1CBE103;
- Thu, 11 Nov 2021 10:00:59 +0000 (GMT)
 Received: from amdrome3.watson.ibm.com (unknown [9.2.130.16])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 11 Nov 2021 10:00:59 +0000 (GMT)
+ Thu, 11 Nov 2021 10:01:00 +0000 (GMT)
 From: Dov Murik <dovmurik@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/6] qapi/qom,
- target/i386: sev-guest: Introduce kernel-hashes=on|off option
-Date: Thu, 11 Nov 2021 10:00:43 +0000
-Message-Id: <20211111100048.3299424-2-dovmurik@linux.ibm.com>
+Subject: [PATCH v3 2/6] target/i386/sev: Add kernel hashes only if
+ sev-guest.kernel-hashes=on
+Date: Thu, 11 Nov 2021 10:00:44 +0000
+Message-Id: <20211111100048.3299424-3-dovmurik@linux.ibm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211111100048.3299424-1-dovmurik@linux.ibm.com>
 References: <20211111100048.3299424-1-dovmurik@linux.ibm.com>
@@ -80,8 +80,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: n1Ht4QPjeL9PlKLadurIvLCmC0IILQCn
-X-Proofpoint-ORIG-GUID: SGb6gleV-_-3Ot08OKeLz_mqKHwXyy7j
+X-Proofpoint-GUID: 4mc1jihVpB8ZUNl2EtEUEs3mVypo7ha0
+X-Proofpoint-ORIG-GUID: xBolS8HKhe558Erj4q_iCx0JpOxykR-X
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
  definitions=2021-11-11_02,2021-11-08_02,2020-04-07_01
@@ -112,126 +112,61 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Eric Blake <eblake@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
- Marcelo Tosatti <mtosatti@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Eric Blake <eblake@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>, Marcelo Tosatti <mtosatti@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Dov Murik <dovmurik@linux.ibm.com>,
  Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
  Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Brijesh Singh <brijesh.singh@amd.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce new boolean 'kernel-hashes' option on the sev-guest object.
-It will be used to to decide whether to add the hashes of
-kernel/initrd/cmdline to SEV guest memory when booting with -kernel.
-The default value is 'off'.
+Commit cff03145ed3c ("sev/i386: Introduce sev_add_kernel_loader_hashes
+for measured linux boot", 2021-09-30) introduced measured direct boot
+with -kernel, using an OVMF-designated hashes table which QEMU fills.
+
+However, if OVMF doesn't designate such an area, QEMU would completely
+abort the VM launch.  This breaks launching with -kernel using older
+OVMF images which don't publish the SEV_HASH_TABLE_RV_GUID.
+
+Fix that so QEMU will only look for the hashes table if the sev-guest
+kernel-hashes option is set to on.  Otherwise, QEMU won't look for the
+designated area in OVMF and won't fill that area.
+
+To enable addition of kernel hashes, launch the guest with:
+
+    -object sev-guest,...,kernel-hashes=on
 
 Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+Reported-by: Tom Lendacky <thomas.lendacky@amd.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Acked-by: Brijesh Singh <brijesh.singh@amd.com>
 ---
- qapi/qom.json     |  7 ++++++-
- target/i386/sev.c | 20 ++++++++++++++++++++
- qemu-options.hx   |  6 +++++-
- 3 files changed, 31 insertions(+), 2 deletions(-)
+ target/i386/sev.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/qapi/qom.json b/qapi/qom.json
-index ccd1167808..eeb5395ff3 100644
---- a/qapi/qom.json
-+++ b/qapi/qom.json
-@@ -769,6 +769,10 @@
- # @reduced-phys-bits: number of bits in physical addresses that become
- #                     unavailable when SEV is enabled
- #
-+# @kernel-hashes: if true, add hashes of kernel/initrd/cmdline to a
-+#                 designated guest firmware page for measured boot
-+#                 with -kernel (default: false) (since 6.2)
-+#
- # Since: 2.12
- ##
- { 'struct': 'SevGuestProperties',
-@@ -778,7 +782,8 @@
-             '*policy': 'uint32',
-             '*handle': 'uint32',
-             '*cbitpos': 'uint32',
--            'reduced-phys-bits': 'uint32' } }
-+            'reduced-phys-bits': 'uint32',
-+            '*kernel-hashes': 'bool' } }
- 
- ##
- # @ObjectType:
 diff --git a/target/i386/sev.c b/target/i386/sev.c
-index eede07f11d..cad32812f5 100644
+index cad32812f5..e3abbeef68 100644
 --- a/target/i386/sev.c
 +++ b/target/i386/sev.c
-@@ -62,6 +62,7 @@ struct SevGuestState {
-     char *session_file;
-     uint32_t cbitpos;
-     uint32_t reduced_phys_bits;
-+    bool kernel_hashes;
+@@ -1223,6 +1223,14 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
+     size_t hash_len = HASH_SIZE;
+     int aligned_len;
  
-     /* runtime state */
-     uint32_t handle;
-@@ -327,6 +328,20 @@ sev_guest_set_sev_device(Object *obj, const char *value, Error **errp)
-     sev->sev_device = g_strdup(value);
- }
- 
-+static bool sev_guest_get_kernel_hashes(Object *obj, Error **errp)
-+{
-+    SevGuestState *sev = SEV_GUEST(obj);
++    /*
++     * Only add the kernel hashes if the sev-guest configuration explicitly
++     * stated kernel-hashes=on.
++     */
++    if (!sev_guest->kernel_hashes) {
++        return false;
++    }
 +
-+    return sev->kernel_hashes;
-+}
-+
-+static void sev_guest_set_kernel_hashes(Object *obj, bool value, Error **errp)
-+{
-+    SevGuestState *sev = SEV_GUEST(obj);
-+
-+    sev->kernel_hashes = value;
-+}
-+
- static void
- sev_guest_class_init(ObjectClass *oc, void *data)
- {
-@@ -345,6 +360,11 @@ sev_guest_class_init(ObjectClass *oc, void *data)
-                                   sev_guest_set_session_file);
-     object_class_property_set_description(oc, "session-file",
-             "guest owners session parameters (encoded with base64)");
-+    object_class_property_add_bool(oc, "kernel-hashes",
-+                                   sev_guest_get_kernel_hashes,
-+                                   sev_guest_set_kernel_hashes);
-+    object_class_property_set_description(oc, "kernel-hashes",
-+            "add kernel hashes to guest firmware for measured Linux boot");
- }
- 
- static void
-diff --git a/qemu-options.hx b/qemu-options.hx
-index f051536b63..a11c2b29f2 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -5189,7 +5189,7 @@ SRST
-                  -object secret,id=sec0,keyid=secmaster0,format=base64,\\
-                      data=$SECRET,iv=$(<iv.b64)
- 
--    ``-object sev-guest,id=id,cbitpos=cbitpos,reduced-phys-bits=val,[sev-device=string,policy=policy,handle=handle,dh-cert-file=file,session-file=file]``
-+    ``-object sev-guest,id=id,cbitpos=cbitpos,reduced-phys-bits=val,[sev-device=string,policy=policy,handle=handle,dh-cert-file=file,session-file=file,kernel-hashes=on|off]``
-         Create a Secure Encrypted Virtualization (SEV) guest object,
-         which can be used to provide the guest memory encryption support
-         on AMD processors.
-@@ -5229,6 +5229,10 @@ SRST
-         session with the guest owner to negotiate keys used for
-         attestation. The file must be encoded in base64.
- 
-+        The ``kernel-hashes`` adds the hashes of given kernel/initrd/
-+        cmdline to a designated guest firmware page for measured Linux
-+        boot with -kernel. The default is off. (Since 6.2)
-+
-         e.g to launch a SEV guest
- 
-         .. parsed-literal::
+     if (!pc_system_ovmf_table_find(SEV_HASH_TABLE_RV_GUID, &data, NULL)) {
+         error_setg(errp, "SEV: kernel specified but OVMF has no hash table guid");
+         return false;
 -- 
 2.25.1
 
