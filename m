@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B0DC44D58A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 12:08:49 +0100 (CET)
-Received: from localhost ([::1]:58622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 864BD44D5AC
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 12:17:07 +0100 (CET)
+Received: from localhost ([::1]:49846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml7wm-0007PO-An
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 06:08:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51386)
+	id 1ml84o-00041i-MS
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 06:17:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ml7uo-0004jK-S5
+ id 1ml7un-0004i4-FF
  for qemu-devel@nongnu.org; Thu, 11 Nov 2021 06:06:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56707)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48823)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ml7uk-0001hH-VV
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 06:06:46 -0500
+ id 1ml7uk-0001hM-Na
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 06:06:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636628801;
+ s=mimecast20190719; t=1636628802;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p7I53uiZePFdcBoualEWYFpBCse+wkFdUB4hbcXMD+w=;
- b=D3RcML4uQlMJPTkjj546ebcZ+QY6gfMplBbgIt+u7XcGjoMO0zswHfh0CgQ8XCACUA+deR
- /O7cSLUbStjeOO+trGGhUePICCDFRKeVCGxKujuJPCC3uQ9ODiM7sSVftp28t/gcvB9w1/
- djpVli9RW6oBeh+xyD916bf+7X7FzLw=
+ bh=EtXZQzHkYnJ7V2Lx5Bxgs92ZNrsLI4S7ap0I/bMsknw=;
+ b=IyIGzec2mRHonwpFGaCkq/InxEyOSy1LXJNa2o/sQQUcKy42UIJ/3ZziHm8IdNx/haCkCb
+ Kpg6eKXX3pvv7+ydN68NziNTn7sm2jzvqap43quJnUd8eEdA1I8wlOZcQ5nXZq/8b4DUjs
+ YLk03KCXgNoOTPaUiXv/gc8coWud/sQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-tkeaoVD0PUOpfdrGYQkHHg-1; Thu, 11 Nov 2021 06:06:38 -0500
-X-MC-Unique: tkeaoVD0PUOpfdrGYQkHHg-1
+ us-mta-461-cedi2cUvMBOKLbhvwBwOQQ-1; Thu, 11 Nov 2021 06:06:40 -0500
+X-MC-Unique: cedi2cUvMBOKLbhvwBwOQQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBDF0802E64;
- Thu, 11 Nov 2021 11:06:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCF5318D6A2E;
+ Thu, 11 Nov 2021 11:06:39 +0000 (UTC)
 Received: from avogadro.lan (unknown [10.39.194.214])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3176B10074E0;
- Thu, 11 Nov 2021 11:06:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 29DAB10074E0;
+ Thu, 11 Nov 2021 11:06:37 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] linux-headers: update to 5.16-rc1
-Date: Thu, 11 Nov 2021 12:06:01 +0100
-Message-Id: <20211111110604.207376-3-pbonzini@redhat.com>
+Subject: [PATCH 3/5] gdbstub: reject unsupported flags in handle_set_qemu_sstep
+Date: Thu, 11 Nov 2021 12:06:02 +0100
+Message-Id: <20211111110604.207376-4-pbonzini@redhat.com>
 In-Reply-To: <20211111110604.207376-1-pbonzini@redhat.com>
 References: <20211111110604.207376-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,15 +57,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,705 +83,158 @@ Cc: cohuck@redhat.com, mst@redhat.com, alex.bennee@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Maxim Levitsky <mlevitsk@redhat.com>
+
+handle_query_qemu_sstepbits is reporting NOIRQ and NOTIMER bits
+even if they are not supported (as is the case with record/replay).
+Instead, store the supported singlestep flags and reject
+any unsupported bits in handle_set_qemu_sstep.  This removes
+the need for the get_sstep_flags() wrapper.
+
+While at it, move the variables in GDBState, instead of using
+global variables.
+
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+[Extracted from Maxim's patch into a separate commit. - Paolo]
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/standard-headers/drm/drm_fourcc.h     | 121 +++++++++++++++++-
- include/standard-headers/linux/ethtool.h      |  31 +++++
- include/standard-headers/linux/fuse.h         |  10 +-
- include/standard-headers/linux/pci_regs.h     |   6 +
- include/standard-headers/linux/virtio_gpu.h   |  18 ++-
- include/standard-headers/linux/virtio_ids.h   |  24 ++++
- include/standard-headers/linux/virtio_vsock.h |   3 +-
- linux-headers/asm-arm64/unistd.h              |   1 +
- linux-headers/asm-generic/unistd.h            |  22 +++-
- linux-headers/asm-mips/unistd_n32.h           |   1 +
- linux-headers/asm-mips/unistd_n64.h           |   1 +
- linux-headers/asm-mips/unistd_o32.h           |   1 +
- linux-headers/asm-powerpc/unistd_32.h         |   1 +
- linux-headers/asm-powerpc/unistd_64.h         |   1 +
- linux-headers/asm-s390/unistd_32.h            |   1 +
- linux-headers/asm-s390/unistd_64.h            |   1 +
- linux-headers/asm-x86/kvm.h                   |   5 +
- linux-headers/asm-x86/unistd_32.h             |   3 +
- linux-headers/asm-x86/unistd_64.h             |   3 +
- linux-headers/asm-x86/unistd_x32.h            |   3 +
- linux-headers/linux/kvm.h                     |  40 +++++-
- 21 files changed, 276 insertions(+), 21 deletions(-)
+ gdbstub.c | 73 +++++++++++++++++++++++++++++++++++--------------------
+ 1 file changed, 47 insertions(+), 26 deletions(-)
 
-diff --git a/include/standard-headers/drm/drm_fourcc.h b/include/standard-headers/drm/drm_fourcc.h
-index 352b51fd0a..2c025cb4fe 100644
---- a/include/standard-headers/drm/drm_fourcc.h
-+++ b/include/standard-headers/drm/drm_fourcc.h
-@@ -103,6 +103,12 @@ extern "C" {
- /* 8 bpp Red */
- #define DRM_FORMAT_R8		fourcc_code('R', '8', ' ', ' ') /* [7:0] R */
+diff --git a/gdbstub.c b/gdbstub.c
+index 23baaef40e..960b9fbcd0 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -368,27 +368,10 @@ typedef struct GDBState {
+     gdb_syscall_complete_cb current_syscall_cb;
+     GString *str_buf;
+     GByteArray *mem_buf;
++    int sstep_flags;
++    int supported_sstep_flags;
+ } GDBState;
  
-+/* 10 bpp Red */
-+#define DRM_FORMAT_R10		fourcc_code('R', '1', '0', ' ') /* [15:0] x:R 6:10 little endian */
+-/* By default use no IRQs and no timers while single stepping so as to
+- * make single stepping like an ICE HW step.
+- */
+-static int sstep_flags = SSTEP_ENABLE|SSTEP_NOIRQ|SSTEP_NOTIMER;
+-
+-/* Retrieves flags for single step mode. */
+-static int get_sstep_flags(void)
+-{
+-    /*
+-     * In replay mode all events written into the log should be replayed.
+-     * That is why NOIRQ flag is removed in this mode.
+-     */
+-    if (replay_mode != REPLAY_MODE_NONE) {
+-        return SSTEP_ENABLE;
+-    } else {
+-        return sstep_flags;
+-    }
+-}
+-
+ static GDBState gdbserver_state;
+ 
+ static void init_gdbserver_state(void)
+@@ -399,6 +382,24 @@ static void init_gdbserver_state(void)
+     gdbserver_state.str_buf = g_string_new(NULL);
+     gdbserver_state.mem_buf = g_byte_array_sized_new(MAX_PACKET_LENGTH);
+     gdbserver_state.last_packet = g_byte_array_sized_new(MAX_PACKET_LENGTH + 4);
 +
-+/* 12 bpp Red */
-+#define DRM_FORMAT_R12		fourcc_code('R', '1', '2', ' ') /* [15:0] x:R 4:12 little endian */
++    /*
++     * In replay mode all events written into the log should be replayed.
++     * That is why NOIRQ flag is removed in this mode.
++     */
++    if (replay_mode != REPLAY_MODE_NONE) {
++        gdbserver_state.supported_sstep_flags = SSTEP_ENABLE;
++    } else {
++        gdbserver_state.supported_sstep_flags =
++            SSTEP_ENABLE | SSTEP_NOIRQ | SSTEP_NOTIMER;
++    }
 +
- /* 16 bpp Red */
- #define DRM_FORMAT_R16		fourcc_code('R', '1', '6', ' ') /* [15:0] R little endian */
- 
-@@ -372,6 +378,12 @@ extern "C" {
- 
- #define DRM_FORMAT_RESERVED	      ((1ULL << 56) - 1)
- 
-+#define fourcc_mod_get_vendor(modifier) \
-+	(((modifier) >> 56) & 0xff)
++    /*
++     * By default use no IRQs and no timers while single stepping so as to
++     * make single stepping like an ICE HW step.
++     */
++    gdbserver_state.sstep_flags = gdbserver_state.supported_sstep_flags;
 +
-+#define fourcc_mod_is_vendor(modifier, vendor) \
-+	(fourcc_mod_get_vendor(modifier) == DRM_FORMAT_MOD_VENDOR_## vendor)
+ }
+ 
+ #ifndef CONFIG_USER_ONLY
+@@ -505,7 +506,7 @@ static int gdb_continue_partial(char *newstates)
+     CPU_FOREACH(cpu) {
+         if (newstates[cpu->cpu_index] == 's') {
+             trace_gdbstub_op_stepping(cpu->cpu_index);
+-            cpu_single_step(cpu, sstep_flags);
++            cpu_single_step(cpu, gdbserver_state.sstep_flags);
+         }
+     }
+     gdbserver_state.running_state = 1;
+@@ -524,7 +525,7 @@ static int gdb_continue_partial(char *newstates)
+                 break; /* nothing to do here */
+             case 's':
+                 trace_gdbstub_op_stepping(cpu->cpu_index);
+-                cpu_single_step(cpu, get_sstep_flags());
++                cpu_single_step(cpu, gdbserver_state.sstep_flags);
+                 cpu_resume(cpu);
+                 flag = 1;
+                 break;
+@@ -1883,7 +1884,7 @@ static void handle_step(GArray *params, void *user_ctx)
+         gdb_set_cpu_pc((target_ulong)get_param(params, 0)->val_ull);
+     }
+ 
+-    cpu_single_step(gdbserver_state.c_cpu, get_sstep_flags());
++    cpu_single_step(gdbserver_state.c_cpu, gdbserver_state.sstep_flags);
+     gdb_continue();
+ }
+ 
+@@ -2017,24 +2018,44 @@ static void handle_v_commands(GArray *params, void *user_ctx)
+ 
+ static void handle_query_qemu_sstepbits(GArray *params, void *user_ctx)
+ {
+-    g_string_printf(gdbserver_state.str_buf, "ENABLE=%x,NOIRQ=%x,NOTIMER=%x",
+-                    SSTEP_ENABLE, SSTEP_NOIRQ, SSTEP_NOTIMER);
++    g_string_printf(gdbserver_state.str_buf, "ENABLE=%x", SSTEP_ENABLE);
 +
- #define fourcc_mod_code(vendor, val) \
- 	((((uint64_t)DRM_FORMAT_MOD_VENDOR_## vendor) << 56) | ((val) & 0x00ffffffffffffffULL))
- 
-@@ -899,9 +911,9 @@ drm_fourcc_canonicalize_nvidia_format_mod(uint64_t modifier)
- 
- /*
-  * The top 4 bits (out of the 56 bits alloted for specifying vendor specific
-- * modifiers) denote the category for modifiers. Currently we have only two
-- * categories of modifiers ie AFBC and MISC. We can have a maximum of sixteen
-- * different categories.
-+ * modifiers) denote the category for modifiers. Currently we have three
-+ * categories of modifiers ie AFBC, MISC and AFRC. We can have a maximum of
-+ * sixteen different categories.
-  */
- #define DRM_FORMAT_MOD_ARM_CODE(__type, __val) \
- 	fourcc_mod_code(ARM, ((uint64_t)(__type) << 52) | ((__val) & 0x000fffffffffffffULL))
-@@ -1016,6 +1028,109 @@ drm_fourcc_canonicalize_nvidia_format_mod(uint64_t modifier)
-  */
- #define AFBC_FORMAT_MOD_USM	(1ULL << 12)
- 
-+/*
-+ * Arm Fixed-Rate Compression (AFRC) modifiers
-+ *
-+ * AFRC is a proprietary fixed rate image compression protocol and format,
-+ * designed to provide guaranteed bandwidth and memory footprint
-+ * reductions in graphics and media use-cases.
-+ *
-+ * AFRC buffers consist of one or more planes, with the same components
-+ * and meaning as an uncompressed buffer using the same pixel format.
-+ *
-+ * Within each plane, the pixel/luma/chroma values are grouped into
-+ * "coding unit" blocks which are individually compressed to a
-+ * fixed size (in bytes). All coding units within a given plane of a buffer
-+ * store the same number of values, and have the same compressed size.
-+ *
-+ * The coding unit size is configurable, allowing different rates of compression.
-+ *
-+ * The start of each AFRC buffer plane must be aligned to an alignment granule which
-+ * depends on the coding unit size.
-+ *
-+ * Coding Unit Size   Plane Alignment
-+ * ----------------   ---------------
-+ * 16 bytes           1024 bytes
-+ * 24 bytes           512  bytes
-+ * 32 bytes           2048 bytes
-+ *
-+ * Coding units are grouped into paging tiles. AFRC buffer dimensions must be aligned
-+ * to a multiple of the paging tile dimensions.
-+ * The dimensions of each paging tile depend on whether the buffer is optimised for
-+ * scanline (SCAN layout) or rotated (ROT layout) access.
-+ *
-+ * Layout   Paging Tile Width   Paging Tile Height
-+ * ------   -----------------   ------------------
-+ * SCAN     16 coding units     4 coding units
-+ * ROT      8  coding units     8 coding units
-+ *
-+ * The dimensions of each coding unit depend on the number of components
-+ * in the compressed plane and whether the buffer is optimised for
-+ * scanline (SCAN layout) or rotated (ROT layout) access.
-+ *
-+ * Number of Components in Plane   Layout      Coding Unit Width   Coding Unit Height
-+ * -----------------------------   ---------   -----------------   ------------------
-+ * 1                               SCAN        16 samples          4 samples
-+ * Example: 16x4 luma samples in a 'Y' plane
-+ *          16x4 chroma 'V' values, in the 'V' plane of a fully-planar YUV buffer
-+ * -----------------------------   ---------   -----------------   ------------------
-+ * 1                               ROT         8 samples           8 samples
-+ * Example: 8x8 luma samples in a 'Y' plane
-+ *          8x8 chroma 'V' values, in the 'V' plane of a fully-planar YUV buffer
-+ * -----------------------------   ---------   -----------------   ------------------
-+ * 2                               DONT CARE   8 samples           4 samples
-+ * Example: 8x4 chroma pairs in the 'UV' plane of a semi-planar YUV buffer
-+ * -----------------------------   ---------   -----------------   ------------------
-+ * 3                               DONT CARE   4 samples           4 samples
-+ * Example: 4x4 pixels in an RGB buffer without alpha
-+ * -----------------------------   ---------   -----------------   ------------------
-+ * 4                               DONT CARE   4 samples           4 samples
-+ * Example: 4x4 pixels in an RGB buffer with alpha
-+ */
++    if (gdbserver_state.supported_sstep_flags & SSTEP_NOIRQ) {
++        g_string_append_printf(gdbserver_state.str_buf, ",NOIRQ=%x",
++                               SSTEP_NOIRQ);
++    }
 +
-+#define DRM_FORMAT_MOD_ARM_TYPE_AFRC 0x02
++    if (gdbserver_state.supported_sstep_flags & SSTEP_NOTIMER) {
++        g_string_append_printf(gdbserver_state.str_buf, ",NOTIMER=%x",
++                               SSTEP_NOTIMER);
++    }
 +
-+#define DRM_FORMAT_MOD_ARM_AFRC(__afrc_mode) \
-+	DRM_FORMAT_MOD_ARM_CODE(DRM_FORMAT_MOD_ARM_TYPE_AFRC, __afrc_mode)
+     put_strbuf();
+ }
+ 
+ static void handle_set_qemu_sstep(GArray *params, void *user_ctx)
+ {
++    int new_sstep_flags;
 +
-+/*
-+ * AFRC coding unit size modifier.
-+ *
-+ * Indicates the number of bytes used to store each compressed coding unit for
-+ * one or more planes in an AFRC encoded buffer. The coding unit size for chrominance
-+ * is the same for both Cb and Cr, which may be stored in separate planes.
-+ *
-+ * AFRC_FORMAT_MOD_CU_SIZE_P0 indicates the number of bytes used to store
-+ * each compressed coding unit in the first plane of the buffer. For RGBA buffers
-+ * this is the only plane, while for semi-planar and fully-planar YUV buffers,
-+ * this corresponds to the luma plane.
-+ *
-+ * AFRC_FORMAT_MOD_CU_SIZE_P12 indicates the number of bytes used to store
-+ * each compressed coding unit in the second and third planes in the buffer.
-+ * For semi-planar and fully-planar YUV buffers, this corresponds to the chroma plane(s).
-+ *
-+ * For single-plane buffers, AFRC_FORMAT_MOD_CU_SIZE_P0 must be specified
-+ * and AFRC_FORMAT_MOD_CU_SIZE_P12 must be zero.
-+ * For semi-planar and fully-planar buffers, both AFRC_FORMAT_MOD_CU_SIZE_P0 and
-+ * AFRC_FORMAT_MOD_CU_SIZE_P12 must be specified.
-+ */
-+#define AFRC_FORMAT_MOD_CU_SIZE_MASK 0xf
-+#define AFRC_FORMAT_MOD_CU_SIZE_16 (1ULL)
-+#define AFRC_FORMAT_MOD_CU_SIZE_24 (2ULL)
-+#define AFRC_FORMAT_MOD_CU_SIZE_32 (3ULL)
+     if (!params->len) {
+         return;
+     }
+ 
+-    sstep_flags = get_param(params, 0)->val_ul;
++    new_sstep_flags = get_param(params, 0)->val_ul;
 +
-+#define AFRC_FORMAT_MOD_CU_SIZE_P0(__afrc_cu_size) (__afrc_cu_size)
-+#define AFRC_FORMAT_MOD_CU_SIZE_P12(__afrc_cu_size) ((__afrc_cu_size) << 4)
++    if (new_sstep_flags  & ~gdbserver_state.supported_sstep_flags) {
++        put_packet("E22");
++        return;
++    }
 +
-+/*
-+ * AFRC scanline memory layout.
-+ *
-+ * Indicates if the buffer uses the scanline-optimised layout
-+ * for an AFRC encoded buffer, otherwise, it uses the rotation-optimised layout.
-+ * The memory layout is the same for all planes.
-+ */
-+#define AFRC_FORMAT_MOD_LAYOUT_SCAN (1ULL << 8)
-+
- /*
-  * Arm 16x16 Block U-Interleaved modifier
-  *
-diff --git a/include/standard-headers/linux/ethtool.h b/include/standard-headers/linux/ethtool.h
-index 053d3fafdf..688eb8dc39 100644
---- a/include/standard-headers/linux/ethtool.h
-+++ b/include/standard-headers/linux/ethtool.h
-@@ -603,6 +603,7 @@ enum ethtool_link_ext_state {
- 	ETHTOOL_LINK_EXT_STATE_CALIBRATION_FAILURE,
- 	ETHTOOL_LINK_EXT_STATE_POWER_BUDGET_EXCEEDED,
- 	ETHTOOL_LINK_EXT_STATE_OVERHEAT,
-+	ETHTOOL_LINK_EXT_STATE_MODULE,
- };
++    gdbserver_state.sstep_flags = new_sstep_flags;
+     put_packet("OK");
+ }
  
- /* More information in addition to ETHTOOL_LINK_EXT_STATE_AUTONEG. */
-@@ -639,6 +640,8 @@ enum ethtool_link_ext_substate_link_logical_mismatch {
- enum ethtool_link_ext_substate_bad_signal_integrity {
- 	ETHTOOL_LINK_EXT_SUBSTATE_BSI_LARGE_NUMBER_OF_PHYSICAL_ERRORS = 1,
- 	ETHTOOL_LINK_EXT_SUBSTATE_BSI_UNSUPPORTED_RATE,
-+	ETHTOOL_LINK_EXT_SUBSTATE_BSI_SERDES_REFERENCE_CLOCK_LOST,
-+	ETHTOOL_LINK_EXT_SUBSTATE_BSI_SERDES_ALOS,
- };
- 
- /* More information in addition to ETHTOOL_LINK_EXT_STATE_CABLE_ISSUE. */
-@@ -647,6 +650,11 @@ enum ethtool_link_ext_substate_cable_issue {
- 	ETHTOOL_LINK_EXT_SUBSTATE_CI_CABLE_TEST_FAILURE,
- };
- 
-+/* More information in addition to ETHTOOL_LINK_EXT_STATE_MODULE. */
-+enum ethtool_link_ext_substate_module {
-+	ETHTOOL_LINK_EXT_SUBSTATE_MODULE_CMIS_NOT_READY = 1,
-+};
-+
- #define ETH_GSTRING_LEN		32
- 
- /**
-@@ -704,6 +712,29 @@ enum ethtool_stringset {
- 	ETH_SS_COUNT
- };
- 
-+/**
-+ * enum ethtool_module_power_mode_policy - plug-in module power mode policy
-+ * @ETHTOOL_MODULE_POWER_MODE_POLICY_HIGH: Module is always in high power mode.
-+ * @ETHTOOL_MODULE_POWER_MODE_POLICY_AUTO: Module is transitioned by the host
-+ *	to high power mode when the first port using it is put administratively
-+ *	up and to low power mode when the last port using it is put
-+ *	administratively down.
-+ */
-+enum ethtool_module_power_mode_policy {
-+	ETHTOOL_MODULE_POWER_MODE_POLICY_HIGH = 1,
-+	ETHTOOL_MODULE_POWER_MODE_POLICY_AUTO,
-+};
-+
-+/**
-+ * enum ethtool_module_power_mode - plug-in module power mode
-+ * @ETHTOOL_MODULE_POWER_MODE_LOW: Module is in low power mode.
-+ * @ETHTOOL_MODULE_POWER_MODE_HIGH: Module is in high power mode.
-+ */
-+enum ethtool_module_power_mode {
-+	ETHTOOL_MODULE_POWER_MODE_LOW = 1,
-+	ETHTOOL_MODULE_POWER_MODE_HIGH,
-+};
-+
- /**
-  * struct ethtool_gstrings - string set for data tagging
-  * @cmd: Command number = %ETHTOOL_GSTRINGS
-diff --git a/include/standard-headers/linux/fuse.h b/include/standard-headers/linux/fuse.h
-index cce105bfba..23ea31708b 100644
---- a/include/standard-headers/linux/fuse.h
-+++ b/include/standard-headers/linux/fuse.h
-@@ -181,6 +181,9 @@
-  *  - add FUSE_OPEN_KILL_SUIDGID
-  *  - extend fuse_setxattr_in, add FUSE_SETXATTR_EXT
-  *  - add FUSE_SETXATTR_ACL_KILL_SGID
-+ *
-+ *  7.34
-+ *  - add FUSE_SYNCFS
-  */
- 
- #ifndef _LINUX_FUSE_H
-@@ -212,7 +215,7 @@
- #define FUSE_KERNEL_VERSION 7
- 
- /** Minor version number of this interface */
--#define FUSE_KERNEL_MINOR_VERSION 33
-+#define FUSE_KERNEL_MINOR_VERSION 34
- 
- /** The node ID of the root inode */
- #define FUSE_ROOT_ID 1
-@@ -505,6 +508,7 @@ enum fuse_opcode {
- 	FUSE_COPY_FILE_RANGE	= 47,
- 	FUSE_SETUPMAPPING	= 48,
- 	FUSE_REMOVEMAPPING	= 49,
-+	FUSE_SYNCFS		= 50,
- 
- 	/* CUSE specific operations */
- 	CUSE_INIT		= 4096,
-@@ -967,4 +971,8 @@ struct fuse_removemapping_one {
- #define FUSE_REMOVEMAPPING_MAX_ENTRY   \
- 		(PAGE_SIZE / sizeof(struct fuse_removemapping_one))
- 
-+struct fuse_syncfs_in {
-+	uint64_t	padding;
-+};
-+
- #endif /* _LINUX_FUSE_H */
-diff --git a/include/standard-headers/linux/pci_regs.h b/include/standard-headers/linux/pci_regs.h
-index e709ae8235..ff6ccbc6ef 100644
---- a/include/standard-headers/linux/pci_regs.h
-+++ b/include/standard-headers/linux/pci_regs.h
-@@ -504,6 +504,12 @@
- #define  PCI_EXP_DEVCTL_URRE	0x0008	/* Unsupported Request Reporting En. */
- #define  PCI_EXP_DEVCTL_RELAX_EN 0x0010 /* Enable relaxed ordering */
- #define  PCI_EXP_DEVCTL_PAYLOAD	0x00e0	/* Max_Payload_Size */
-+#define  PCI_EXP_DEVCTL_PAYLOAD_128B 0x0000 /* 128 Bytes */
-+#define  PCI_EXP_DEVCTL_PAYLOAD_256B 0x0020 /* 256 Bytes */
-+#define  PCI_EXP_DEVCTL_PAYLOAD_512B 0x0040 /* 512 Bytes */
-+#define  PCI_EXP_DEVCTL_PAYLOAD_1024B 0x0060 /* 1024 Bytes */
-+#define  PCI_EXP_DEVCTL_PAYLOAD_2048B 0x0080 /* 2048 Bytes */
-+#define  PCI_EXP_DEVCTL_PAYLOAD_4096B 0x00a0 /* 4096 Bytes */
- #define  PCI_EXP_DEVCTL_EXT_TAG	0x0100	/* Extended Tag Field Enable */
- #define  PCI_EXP_DEVCTL_PHANTOM	0x0200	/* Phantom Functions Enable */
- #define  PCI_EXP_DEVCTL_AUX_PME	0x0400	/* Auxiliary Power PM Enable */
-diff --git a/include/standard-headers/linux/virtio_gpu.h b/include/standard-headers/linux/virtio_gpu.h
-index 1357e4774e..2da48d3d4c 100644
---- a/include/standard-headers/linux/virtio_gpu.h
-+++ b/include/standard-headers/linux/virtio_gpu.h
-@@ -59,6 +59,11 @@
-  * VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB
-  */
- #define VIRTIO_GPU_F_RESOURCE_BLOB       3
-+/*
-+ * VIRTIO_GPU_CMD_CREATE_CONTEXT with
-+ * context_init and multiple timelines
-+ */
-+#define VIRTIO_GPU_F_CONTEXT_INIT        4
- 
- enum virtio_gpu_ctrl_type {
- 	VIRTIO_GPU_UNDEFINED = 0,
-@@ -122,14 +127,20 @@ enum virtio_gpu_shm_id {
- 	VIRTIO_GPU_SHM_ID_HOST_VISIBLE = 1
- };
- 
--#define VIRTIO_GPU_FLAG_FENCE (1 << 0)
-+#define VIRTIO_GPU_FLAG_FENCE         (1 << 0)
-+/*
-+ * If the following flag is set, then ring_idx contains the index
-+ * of the command ring that needs to used when creating the fence
-+ */
-+#define VIRTIO_GPU_FLAG_INFO_RING_IDX (1 << 1)
- 
- struct virtio_gpu_ctrl_hdr {
- 	uint32_t type;
- 	uint32_t flags;
- 	uint64_t fence_id;
- 	uint32_t ctx_id;
--	uint32_t padding;
-+	uint8_t ring_idx;
-+	uint8_t padding[3];
- };
- 
- /* data passed in the cursor vq */
-@@ -269,10 +280,11 @@ struct virtio_gpu_resource_create_3d {
- };
- 
- /* VIRTIO_GPU_CMD_CTX_CREATE */
-+#define VIRTIO_GPU_CONTEXT_INIT_CAPSET_ID_MASK 0x000000ff
- struct virtio_gpu_ctx_create {
- 	struct virtio_gpu_ctrl_hdr hdr;
- 	uint32_t nlen;
--	uint32_t padding;
-+	uint32_t context_init;
- 	char debug_name[64];
- };
- 
-diff --git a/include/standard-headers/linux/virtio_ids.h b/include/standard-headers/linux/virtio_ids.h
-index 4fe842c3a3..80d76b75bc 100644
---- a/include/standard-headers/linux/virtio_ids.h
-+++ b/include/standard-headers/linux/virtio_ids.h
-@@ -54,7 +54,31 @@
- #define VIRTIO_ID_SOUND			25 /* virtio sound */
- #define VIRTIO_ID_FS			26 /* virtio filesystem */
- #define VIRTIO_ID_PMEM			27 /* virtio pmem */
-+#define VIRTIO_ID_RPMB			28 /* virtio rpmb */
- #define VIRTIO_ID_MAC80211_HWSIM	29 /* virtio mac80211-hwsim */
-+#define VIRTIO_ID_VIDEO_ENCODER		30 /* virtio video encoder */
-+#define VIRTIO_ID_VIDEO_DECODER		31 /* virtio video decoder */
-+#define VIRTIO_ID_SCMI			32 /* virtio SCMI */
-+#define VIRTIO_ID_NITRO_SEC_MOD		33 /* virtio nitro secure module*/
-+#define VIRTIO_ID_I2C_ADAPTER		34 /* virtio i2c adapter */
-+#define VIRTIO_ID_WATCHDOG		35 /* virtio watchdog */
-+#define VIRTIO_ID_CAN			36 /* virtio can */
-+#define VIRTIO_ID_DMABUF		37 /* virtio dmabuf */
-+#define VIRTIO_ID_PARAM_SERV		38 /* virtio parameter server */
-+#define VIRTIO_ID_AUDIO_POLICY		39 /* virtio audio policy */
- #define VIRTIO_ID_BT			40 /* virtio bluetooth */
-+#define VIRTIO_ID_GPIO			41 /* virtio gpio */
-+
-+/*
-+ * Virtio Transitional IDs
-+ */
-+
-+#define VIRTIO_TRANS_ID_NET		1000 /* transitional virtio net */
-+#define VIRTIO_TRANS_ID_BLOCK		1001 /* transitional virtio block */
-+#define VIRTIO_TRANS_ID_BALLOON		1002 /* transitional virtio balloon */
-+#define VIRTIO_TRANS_ID_CONSOLE		1003 /* transitional virtio console */
-+#define VIRTIO_TRANS_ID_SCSI		1004 /* transitional virtio SCSI */
-+#define VIRTIO_TRANS_ID_RNG		1005 /* transitional virtio rng */
-+#define VIRTIO_TRANS_ID_9P		1009 /* transitional virtio 9p console */
- 
- #endif /* _LINUX_VIRTIO_IDS_H */
-diff --git a/include/standard-headers/linux/virtio_vsock.h b/include/standard-headers/linux/virtio_vsock.h
-index 3a23488e42..467e751b17 100644
---- a/include/standard-headers/linux/virtio_vsock.h
-+++ b/include/standard-headers/linux/virtio_vsock.h
-@@ -97,7 +97,8 @@ enum virtio_vsock_shutdown {
- 
- /* VIRTIO_VSOCK_OP_RW flags values */
- enum virtio_vsock_rw {
--	VIRTIO_VSOCK_SEQ_EOR = 1,
-+	VIRTIO_VSOCK_SEQ_EOM = 1,
-+	VIRTIO_VSOCK_SEQ_EOR = 2,
- };
- 
- #endif /* _LINUX_VIRTIO_VSOCK_H */
-diff --git a/linux-headers/asm-arm64/unistd.h b/linux-headers/asm-arm64/unistd.h
-index f83a70e07d..ce2ee8f1e3 100644
---- a/linux-headers/asm-arm64/unistd.h
-+++ b/linux-headers/asm-arm64/unistd.h
-@@ -20,5 +20,6 @@
- #define __ARCH_WANT_SET_GET_RLIMIT
- #define __ARCH_WANT_TIME32_SYSCALLS
- #define __ARCH_WANT_SYS_CLONE3
-+#define __ARCH_WANT_MEMFD_SECRET
- 
- #include <asm-generic/unistd.h>
-diff --git a/linux-headers/asm-generic/unistd.h b/linux-headers/asm-generic/unistd.h
-index f211961ce1..4557a8b608 100644
---- a/linux-headers/asm-generic/unistd.h
-+++ b/linux-headers/asm-generic/unistd.h
-@@ -673,15 +673,15 @@ __SYSCALL(__NR_madvise, sys_madvise)
- #define __NR_remap_file_pages 234
- __SYSCALL(__NR_remap_file_pages, sys_remap_file_pages)
- #define __NR_mbind 235
--__SC_COMP(__NR_mbind, sys_mbind, compat_sys_mbind)
-+__SYSCALL(__NR_mbind, sys_mbind)
- #define __NR_get_mempolicy 236
--__SC_COMP(__NR_get_mempolicy, sys_get_mempolicy, compat_sys_get_mempolicy)
-+__SYSCALL(__NR_get_mempolicy, sys_get_mempolicy)
- #define __NR_set_mempolicy 237
--__SC_COMP(__NR_set_mempolicy, sys_set_mempolicy, compat_sys_set_mempolicy)
-+__SYSCALL(__NR_set_mempolicy, sys_set_mempolicy)
- #define __NR_migrate_pages 238
--__SC_COMP(__NR_migrate_pages, sys_migrate_pages, compat_sys_migrate_pages)
-+__SYSCALL(__NR_migrate_pages, sys_migrate_pages)
- #define __NR_move_pages 239
--__SC_COMP(__NR_move_pages, sys_move_pages, compat_sys_move_pages)
-+__SYSCALL(__NR_move_pages, sys_move_pages)
- #endif
- 
- #define __NR_rt_tgsigqueueinfo 240
-@@ -873,8 +873,18 @@ __SYSCALL(__NR_landlock_add_rule, sys_landlock_add_rule)
- #define __NR_landlock_restrict_self 446
- __SYSCALL(__NR_landlock_restrict_self, sys_landlock_restrict_self)
- 
-+#ifdef __ARCH_WANT_MEMFD_SECRET
-+#define __NR_memfd_secret 447
-+__SYSCALL(__NR_memfd_secret, sys_memfd_secret)
-+#endif
-+#define __NR_process_mrelease 448
-+__SYSCALL(__NR_process_mrelease, sys_process_mrelease)
-+
-+#define __NR_futex_waitv 449
-+__SYSCALL(__NR_futex_waitv, sys_futex_waitv)
-+
- #undef __NR_syscalls
--#define __NR_syscalls 447
-+#define __NR_syscalls 450
- 
- /*
-  * 32 bit systems traditionally used different
-diff --git a/linux-headers/asm-mips/unistd_n32.h b/linux-headers/asm-mips/unistd_n32.h
-index 09cd297698..4b3e7ad1ec 100644
---- a/linux-headers/asm-mips/unistd_n32.h
-+++ b/linux-headers/asm-mips/unistd_n32.h
-@@ -376,5 +376,6 @@
- #define __NR_landlock_create_ruleset (__NR_Linux + 444)
- #define __NR_landlock_add_rule (__NR_Linux + 445)
- #define __NR_landlock_restrict_self (__NR_Linux + 446)
-+#define __NR_process_mrelease (__NR_Linux + 448)
- 
- #endif /* _ASM_UNISTD_N32_H */
-diff --git a/linux-headers/asm-mips/unistd_n64.h b/linux-headers/asm-mips/unistd_n64.h
-index 780e0cead6..488d9298d9 100644
---- a/linux-headers/asm-mips/unistd_n64.h
-+++ b/linux-headers/asm-mips/unistd_n64.h
-@@ -352,5 +352,6 @@
- #define __NR_landlock_create_ruleset (__NR_Linux + 444)
- #define __NR_landlock_add_rule (__NR_Linux + 445)
- #define __NR_landlock_restrict_self (__NR_Linux + 446)
-+#define __NR_process_mrelease (__NR_Linux + 448)
- 
- #endif /* _ASM_UNISTD_N64_H */
-diff --git a/linux-headers/asm-mips/unistd_o32.h b/linux-headers/asm-mips/unistd_o32.h
-index 06a2b3b55e..f47399870a 100644
---- a/linux-headers/asm-mips/unistd_o32.h
-+++ b/linux-headers/asm-mips/unistd_o32.h
-@@ -422,5 +422,6 @@
- #define __NR_landlock_create_ruleset (__NR_Linux + 444)
- #define __NR_landlock_add_rule (__NR_Linux + 445)
- #define __NR_landlock_restrict_self (__NR_Linux + 446)
-+#define __NR_process_mrelease (__NR_Linux + 448)
- 
- #endif /* _ASM_UNISTD_O32_H */
-diff --git a/linux-headers/asm-powerpc/unistd_32.h b/linux-headers/asm-powerpc/unistd_32.h
-index cd5a8a41b2..11d54696dc 100644
---- a/linux-headers/asm-powerpc/unistd_32.h
-+++ b/linux-headers/asm-powerpc/unistd_32.h
-@@ -429,6 +429,7 @@
- #define __NR_landlock_create_ruleset 444
- #define __NR_landlock_add_rule 445
- #define __NR_landlock_restrict_self 446
-+#define __NR_process_mrelease 448
- 
- 
- #endif /* _ASM_UNISTD_32_H */
-diff --git a/linux-headers/asm-powerpc/unistd_64.h b/linux-headers/asm-powerpc/unistd_64.h
-index 8458effa8d..cf740bab13 100644
---- a/linux-headers/asm-powerpc/unistd_64.h
-+++ b/linux-headers/asm-powerpc/unistd_64.h
-@@ -401,6 +401,7 @@
- #define __NR_landlock_create_ruleset 444
- #define __NR_landlock_add_rule 445
- #define __NR_landlock_restrict_self 446
-+#define __NR_process_mrelease 448
- 
- 
- #endif /* _ASM_UNISTD_64_H */
-diff --git a/linux-headers/asm-s390/unistd_32.h b/linux-headers/asm-s390/unistd_32.h
-index 0c3cd299e4..8f97d98128 100644
---- a/linux-headers/asm-s390/unistd_32.h
-+++ b/linux-headers/asm-s390/unistd_32.h
-@@ -419,5 +419,6 @@
- #define __NR_landlock_create_ruleset 444
- #define __NR_landlock_add_rule 445
- #define __NR_landlock_restrict_self 446
-+#define __NR_process_mrelease 448
- 
- #endif /* _ASM_S390_UNISTD_32_H */
-diff --git a/linux-headers/asm-s390/unistd_64.h b/linux-headers/asm-s390/unistd_64.h
-index 8dfc08b5e6..021ffc30e6 100644
---- a/linux-headers/asm-s390/unistd_64.h
-+++ b/linux-headers/asm-s390/unistd_64.h
-@@ -367,5 +367,6 @@
- #define __NR_landlock_create_ruleset 444
- #define __NR_landlock_add_rule 445
- #define __NR_landlock_restrict_self 446
-+#define __NR_process_mrelease 448
- 
- #endif /* _ASM_S390_UNISTD_64_H */
-diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
-index a6c327f8ad..5a776a08f7 100644
---- a/linux-headers/asm-x86/kvm.h
-+++ b/linux-headers/asm-x86/kvm.h
-@@ -295,6 +295,7 @@ struct kvm_debug_exit_arch {
- #define KVM_GUESTDBG_USE_HW_BP		0x00020000
- #define KVM_GUESTDBG_INJECT_DB		0x00040000
- #define KVM_GUESTDBG_INJECT_BP		0x00080000
-+#define KVM_GUESTDBG_BLOCKIRQ		0x00100000
- 
- /* for KVM_SET_GUEST_DEBUG */
- struct kvm_guest_debug_arch {
-@@ -503,4 +504,8 @@ struct kvm_pmu_event_filter {
- #define KVM_PMU_EVENT_ALLOW 0
- #define KVM_PMU_EVENT_DENY 1
- 
-+/* for KVM_{GET,SET,HAS}_DEVICE_ATTR */
-+#define KVM_VCPU_TSC_CTRL 0 /* control group for the timestamp counter (TSC) */
-+#define   KVM_VCPU_TSC_OFFSET 0 /* attribute for the TSC offset */
-+
- #endif /* _ASM_X86_KVM_H */
-diff --git a/linux-headers/asm-x86/unistd_32.h b/linux-headers/asm-x86/unistd_32.h
-index 66e96c0c68..9c9ffe312b 100644
---- a/linux-headers/asm-x86/unistd_32.h
-+++ b/linux-headers/asm-x86/unistd_32.h
-@@ -437,6 +437,9 @@
- #define __NR_landlock_create_ruleset 444
- #define __NR_landlock_add_rule 445
- #define __NR_landlock_restrict_self 446
-+#define __NR_memfd_secret 447
-+#define __NR_process_mrelease 448
-+#define __NR_futex_waitv 449
- 
- 
- #endif /* _ASM_UNISTD_32_H */
-diff --git a/linux-headers/asm-x86/unistd_64.h b/linux-headers/asm-x86/unistd_64.h
-index b8ff6f14ee..084f1eef9c 100644
---- a/linux-headers/asm-x86/unistd_64.h
-+++ b/linux-headers/asm-x86/unistd_64.h
-@@ -359,6 +359,9 @@
- #define __NR_landlock_create_ruleset 444
- #define __NR_landlock_add_rule 445
- #define __NR_landlock_restrict_self 446
-+#define __NR_memfd_secret 447
-+#define __NR_process_mrelease 448
-+#define __NR_futex_waitv 449
- 
- 
- #endif /* _ASM_UNISTD_64_H */
-diff --git a/linux-headers/asm-x86/unistd_x32.h b/linux-headers/asm-x86/unistd_x32.h
-index 06a1097c15..a2441affc2 100644
---- a/linux-headers/asm-x86/unistd_x32.h
-+++ b/linux-headers/asm-x86/unistd_x32.h
-@@ -312,6 +312,9 @@
- #define __NR_landlock_create_ruleset (__X32_SYSCALL_BIT + 444)
- #define __NR_landlock_add_rule (__X32_SYSCALL_BIT + 445)
- #define __NR_landlock_restrict_self (__X32_SYSCALL_BIT + 446)
-+#define __NR_memfd_secret (__X32_SYSCALL_BIT + 447)
-+#define __NR_process_mrelease (__X32_SYSCALL_BIT + 448)
-+#define __NR_futex_waitv (__X32_SYSCALL_BIT + 449)
- #define __NR_rt_sigaction (__X32_SYSCALL_BIT + 512)
- #define __NR_rt_sigreturn (__X32_SYSCALL_BIT + 513)
- #define __NR_ioctl (__X32_SYSCALL_BIT + 514)
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index bcaf66cc4d..02c5e7b7bb 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -269,6 +269,7 @@ struct kvm_xen_exit {
- #define KVM_EXIT_AP_RESET_HOLD    32
- #define KVM_EXIT_X86_BUS_LOCK     33
- #define KVM_EXIT_XEN              34
-+#define KVM_EXIT_RISCV_SBI        35
- 
- /* For KVM_EXIT_INTERNAL_ERROR */
- /* Emulate instruction failed. */
-@@ -397,13 +398,23 @@ struct kvm_run {
- 		 * "ndata" is correct, that new fields are enumerated in "flags",
- 		 * and that each flag enumerates fields that are 64-bit aligned
- 		 * and sized (so that ndata+internal.data[] is valid/accurate).
-+		 *
-+		 * Space beyond the defined fields may be used to store arbitrary
-+		 * debug information relating to the emulation failure. It is
-+		 * accounted for in "ndata" but the format is unspecified and is
-+		 * not represented in "flags". Any such information is *not* ABI!
- 		 */
- 		struct {
- 			__u32 suberror;
- 			__u32 ndata;
- 			__u64 flags;
--			__u8  insn_size;
--			__u8  insn_bytes[15];
-+			union {
-+				struct {
-+					__u8  insn_size;
-+					__u8  insn_bytes[15];
-+				};
-+			};
-+			/* Arbitrary debug data may follow. */
- 		} emulation_failure;
- 		/* KVM_EXIT_OSI */
- 		struct {
-@@ -469,6 +480,13 @@ struct kvm_run {
- 		} msr;
- 		/* KVM_EXIT_XEN */
- 		struct kvm_xen_exit xen;
-+		/* KVM_EXIT_RISCV_SBI */
-+		struct {
-+			unsigned long extension_id;
-+			unsigned long function_id;
-+			unsigned long args[6];
-+			unsigned long ret[2];
-+		} riscv_sbi;
- 		/* Fix the size of the union. */
- 		char padding[256];
- 	};
-@@ -1223,11 +1241,16 @@ struct kvm_irqfd {
- 
- /* Do not use 1, KVM_CHECK_EXTENSION returned it before we had flags.  */
- #define KVM_CLOCK_TSC_STABLE		2
-+#define KVM_CLOCK_REALTIME		(1 << 2)
-+#define KVM_CLOCK_HOST_TSC		(1 << 3)
- 
- struct kvm_clock_data {
- 	__u64 clock;
- 	__u32 flags;
--	__u32 pad[9];
-+	__u32 pad0;
-+	__u64 realtime;
-+	__u64 host_tsc;
-+	__u32 pad[4];
- };
- 
- /* For KVM_CAP_SW_TLB */
-@@ -1965,7 +1988,9 @@ struct kvm_stats_header {
- #define KVM_STATS_TYPE_CUMULATIVE	(0x0 << KVM_STATS_TYPE_SHIFT)
- #define KVM_STATS_TYPE_INSTANT		(0x1 << KVM_STATS_TYPE_SHIFT)
- #define KVM_STATS_TYPE_PEAK		(0x2 << KVM_STATS_TYPE_SHIFT)
--#define KVM_STATS_TYPE_MAX		KVM_STATS_TYPE_PEAK
-+#define KVM_STATS_TYPE_LINEAR_HIST	(0x3 << KVM_STATS_TYPE_SHIFT)
-+#define KVM_STATS_TYPE_LOG_HIST		(0x4 << KVM_STATS_TYPE_SHIFT)
-+#define KVM_STATS_TYPE_MAX		KVM_STATS_TYPE_LOG_HIST
- 
- #define KVM_STATS_UNIT_SHIFT		4
- #define KVM_STATS_UNIT_MASK		(0xF << KVM_STATS_UNIT_SHIFT)
-@@ -1988,8 +2013,9 @@ struct kvm_stats_header {
-  * @size: The number of data items for this stats.
-  *        Every data item is of type __u64.
-  * @offset: The offset of the stats to the start of stat structure in
-- *          struture kvm or kvm_vcpu.
-- * @unused: Unused field for future usage. Always 0 for now.
-+ *          structure kvm or kvm_vcpu.
-+ * @bucket_size: A parameter value used for histogram stats. It is only used
-+ *		for linear histogram stats, specifying the size of the bucket;
-  * @name: The name string for the stats. Its size is indicated by the
-  *        &kvm_stats_header->name_size.
-  */
-@@ -1998,7 +2024,7 @@ struct kvm_stats_desc {
- 	__s16 exponent;
- 	__u16 size;
- 	__u32 offset;
--	__u32 unused;
-+	__u32 bucket_size;
- 	char name[];
- };
+ static void handle_query_qemu_sstep(GArray *params, void *user_ctx)
+ {
+-    g_string_printf(gdbserver_state.str_buf, "0x%x", sstep_flags);
++    g_string_printf(gdbserver_state.str_buf, "0x%x",
++                    gdbserver_state.sstep_flags);
+     put_strbuf();
+ }
  
 -- 
 2.33.1
