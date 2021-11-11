@@ -2,48 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B46344D78A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 14:49:25 +0100 (CET)
-Received: from localhost ([::1]:50750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A227044D7B5
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 14:58:34 +0100 (CET)
+Received: from localhost ([::1]:55278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlASB-0001PP-Ro
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 08:49:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34054)
+	id 1mlAb3-0005Ll-Cl
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 08:58:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <t.lamprecht@proxmox.com>)
- id 1mlAQQ-0000V1-D2
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 08:47:35 -0500
-Received: from proxmox-new.maurer-it.com ([94.136.29.106]:19842)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <t.lamprecht@proxmox.com>)
- id 1mlAQM-00023c-Pv
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 08:47:34 -0500
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id AE54242C52;
- Thu, 11 Nov 2021 14:47:12 +0100 (CET)
-Message-ID: <244dd753-3d80-8360-b3f5-83acf4ff6376@proxmox.com>
-Date: Thu, 11 Nov 2021 14:47:11 +0100
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mlAa3-0004fD-93
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 08:57:31 -0500
+Received: from [2a00:1450:4864:20::42e] (port=35517
+ helo=mail-wr1-x42e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mlAa1-00049V-34
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 08:57:30 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id i5so10012627wrb.2
+ for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 05:57:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:references:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=eAgc/SsoaeWsKC104WQEcLTKgKfBAOANOmiDmfOIY1w=;
+ b=mCQ7Aqrogbs59f4us6W8+9TEDZ5z4DXluLAOznRSRrPUvhGvGqptn7vTfzwmXmEiEE
+ suKui11Vp6zJyCt0JBc/CcVZgWTLrLy1qvsL8PIlxKE52tNK8D0zW+ZJTbhO+M0tRVTU
+ 2LatUIFs7tlP/Mfbrj0lb9VKctsvpqMgqF+aMYC7KEcUhTfdYqQaqubNZ8K5vbm+Kp4q
+ D4bICSX+5zaFd9a3/H9F1nJEIu4fyziZ043LZubxncnigdFoZzsihkWeclW9gq2qym2v
+ SegsgQzLj/2LPKxT7iWdfnHeS/rUs2sCYtXJd16tXiqObD92XBFLmy4lZMmauK98sKFb
+ DQwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:from:to:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=eAgc/SsoaeWsKC104WQEcLTKgKfBAOANOmiDmfOIY1w=;
+ b=FemCCXnqObwP2XtgYLac+88vahRp82kqAMJ5kxTw3Que0CCkU+TGIjCOfZSSYqF7uc
+ KcBbWZB28JTVdRvkcgfXrqIIv8IGZNZMVZQUDZ1U6PUM36rV8ZdKdaKcXdekp7kbQQqN
+ T7hekRUfxS24wLbxVeBiA4pA6/RogRCfo8gcl+TxVFheCYoMz1r8nnMqDiWaRqvEVOCl
+ dvTR/zb2CRV+xb1RgtO296pWlQtEdx3LB/XQDWJPrVs4DTxIoM7+JeRmWS1w5k94kzn9
+ PoLz+sDOpcL7fEmV0iirDYSLjsu+b5iX+dK5wjyUJLzLLOZa9XKivdkCFbp42kSLH40G
+ X+aQ==
+X-Gm-Message-State: AOAM530WLJB75vXjPWX2URhSyVfC9h5Hv/dj7pvi8W9aEZAtUSniKDWf
+ TT8boTMbEjM9ThSqxAYL2NO3CgH4ZH3c8/fQvt4=
+X-Google-Smtp-Source: ABdhPJwbwXASzkN3gMUs4RD2iK7DKnPS2xvkII5fWj3v211MSqd2b0TpPrQSNL3ayOR1HpdfZszo5g==
+X-Received: by 2002:adf:f54c:: with SMTP id j12mr9423699wrp.20.1636639047481; 
+ Thu, 11 Nov 2021 05:57:27 -0800 (PST)
+Received: from [192.168.8.106] (10.red-95-125-227.dynamicip.rima-tde.net.
+ [95.125.227.10])
+ by smtp.gmail.com with ESMTPSA id l18sm3095049wrt.81.2021.11.11.05.57.26
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Nov 2021 05:57:26 -0800 (PST)
+Subject: Re: [PULL 0/4] tcg patch queue
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+References: <20211111110656.237727-1-richard.henderson@linaro.org>
+Message-ID: <7d3ab0f0-236e-8b79-864a-b6d5b6f09ae4@linaro.org>
+Date: Thu, 11 Nov 2021 14:57:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:95.0) Gecko/20100101
- Thunderbird/95.0
-Subject: Re: [PATCH for 6.2 v2 5/5] bios-tables-test: Update golden binaries
+In-Reply-To: <20211111110656.237727-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-References: <20211110211140.3057199-1-imammedo@redhat.com>
- <20211110211140.3057199-6-imammedo@redhat.com>
- <20211111033414-mutt-send-email-mst@kernel.org>
- <20211111123236.56714890@redhat.com>
-From: Thomas Lamprecht <t.lamprecht@proxmox.com>
-In-Reply-To: <20211111123236.56714890@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=94.136.29.106;
- envelope-from=t.lamprecht@proxmox.com; helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -58
-X-Spam_score: -5.9
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
 X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.999,
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.999,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,83 +91,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ani@anisinha.ca, mapfelba@redhat.com, jusual@redhat.com,
- qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11.11.21 12:32, Igor Mammedov wrote:
-> On Thu, 11 Nov 2021 03:34:37 -0500
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+On 11/11/21 12:06 PM, Richard Henderson wrote:
+> The following changes since commit 1b9fc6d8ba6667ceb56a3392e84656dcaed0d676:
 > 
->> On Wed, Nov 10, 2021 at 04:11:40PM -0500, Igor Mammedov wrote:
->>> From: Julia Suvorova <jusual@redhat.com>
->>>
->>> The changes are the result of
->>>         'hw/i386/acpi-build: Deny control on PCIe Native Hot-Plug in _OSC'
->>> and listed here:
->>>
->>> Method (_OSC, 4, NotSerialized)  // _OSC: Operating System Capabilities
->>>              {
->>>                  CreateDWordField (Arg3, Zero, CDW1)
->>>                  If ((Arg0 == ToUUID ("33db4d5b-1ff7-401c-9657-7441c03dd766") /* PCI Host Bridge Device */))
->>>                  {
->>>                      CreateDWordField (Arg3, 0x04, CDW2)
->>>                      CreateDWordField (Arg3, 0x08, CDW3)
->>>                      Local0 = CDW3 /* \_SB_.PCI0._OSC.CDW3 */
->>> -                    Local0 &= 0x1F
->>> +                    Local0 &= 0x1E
->>>
->>> Signed-off-by: Julia Suvorova <jusual@redhat.com>
->>> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
->>> ---
->>>  tests/qtest/bios-tables-test-allowed-diff.h |  16 ----------------
->>>  tests/data/acpi/q35/DSDT                    | Bin 8289 -> 8289 bytes
->>>  tests/data/acpi/q35/DSDT.acpihmat           | Bin 9614 -> 9614 bytes
->>>  tests/data/acpi/q35/DSDT.bridge             | Bin 11003 -> 11003 bytes
->>>  tests/data/acpi/q35/DSDT.cphp               | Bin 8753 -> 8753 bytes
->>>  tests/data/acpi/q35/DSDT.dimmpxm            | Bin 9943 -> 9943 bytes
->>>  tests/data/acpi/q35/DSDT.dmar               | Bin 0 -> 8289 bytes
->>>  tests/data/acpi/q35/DSDT.ipmibt             | Bin 8364 -> 8364 bytes
->>>  tests/data/acpi/q35/DSDT.ivrs               | Bin 8306 -> 8306 bytes
->>>  tests/data/acpi/q35/DSDT.memhp              | Bin 9648 -> 9648 bytes
->>>  tests/data/acpi/q35/DSDT.mmio64             | Bin 9419 -> 9419 bytes
->>>  tests/data/acpi/q35/DSDT.multi-bridge       | Bin 8583 -> 8583 bytes
->>>  tests/data/acpi/q35/DSDT.nohpet             | Bin 8147 -> 8147 bytes
->>>  tests/data/acpi/q35/DSDT.nosmm              | Bin 0 -> 8289 bytes
->>>  tests/data/acpi/q35/DSDT.numamem            | Bin 8295 -> 8295 bytes
->>>  tests/data/acpi/q35/DSDT.smm-compat         | Bin 0 -> 8289 bytes
->>>  tests/data/acpi/q35/DSDT.smm-compat-nosmm   | Bin 0 -> 8289 bytes
->>>  tests/data/acpi/q35/DSDT.tis.tpm12          | Bin 8894 -> 8894 bytes
->>>  tests/data/acpi/q35/DSDT.tis.tpm2           | Bin 8894 -> 8894 bytes
->>>  tests/data/acpi/q35/DSDT.xapic              | Bin 35652 -> 35652 bytes  
->> Why do we have all the new files?  What is going on here?
-> I think new files are not necessary.
+>    Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2021-11-11 09:56:22 +0100)
 > 
-> I can update patch if we decide to keep ACPI enabled by default.
+> are available in the Git repository at:
 > 
-> So question is:
->   do we revert to native pcie or stay with apci hootplug for 6.2?
+>    https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20211111
 > 
+> for you to fetch changes up to d58f01733b94845b0c2232018a2bedb6a2347ec5:
+> 
+>    tcg/s390x: Fix tcg_out_vec_op argument type (2021-11-11 11:47:58 +0100)
+> 
+> ----------------------------------------------------------------
+> appease coverity vs extract2
+> update docs for ctpop opcodes
+> tcg/s390x build fix for gcc11
+> 
+> ----------------------------------------------------------------
+> Miroslav Rezanina (1):
+>        tcg/s390x: Fix tcg_out_vec_op argument type
+> 
+> Philippe Mathieu-Daudé (1):
+>        tcg: Remove TCI experimental status
+> 
+> Richard Henderson (2):
+>        tcg/optimize: Add an extra cast to fold_extract2
+>        tcg: Document ctpop opcodes
+> 
+>   docs/about/build-platforms.rst | 10 ++++++----
+>   meson.build                    |  4 ++--
+>   tcg/optimize.c                 |  2 +-
+>   tcg/s390x/tcg-target.c.inc     |  3 ++-
+>   meson_options.txt              |  2 +-
+>   scripts/meson-buildoptions.sh  |  3 +--
+>   tcg/README                     |  6 ++++++
+>   7 files changed, 19 insertions(+), 11 deletions(-)
 
-FWIW, we had to add some compat handling in Proxmox VE for the original change
-as we do not pin Linux VM machines between cold-starts (they normally do not care
-much about some HW/CPU bits added/dropped/moved) and the change here messed a bit
-with the guest OS network configuration, as systemd's predictable interface naming
-changed the name from, e.g., enp18 to ens6p18.
+Applied, thanks.
 
-I mean, we wondered a bit over the original change here and contemplated reverting
-it in our downstream build. While we read the reasons got a report of any of that
-problems happen from our upper 6 digit count of systems reporting to our repos.
-Ultimately we did not went with the revert to avoid problems if this was QEMU's
-way forward, wrong choice it seems, and it now additionally seems that ACPI hotplug
-produces boot-loops in some guests with seabios and serial or no display.
-
-Anyhow (sorry for the whole back-story/rambling), if QEMU reverts this for 6.2 I
-think we'd pull the line now and revert it in our 6.1 build we plan to fully roll
-out soon, to avoid this whole mess for most of our user base in the first place..
-
-
-- Thomas
+r~
 
 
