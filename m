@@ -2,95 +2,172 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6169C44D3B4
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 10:03:31 +0100 (CET)
-Received: from localhost ([::1]:55192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4D944D3C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 10:09:42 +0100 (CET)
+Received: from localhost ([::1]:35572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml5zV-0001BO-KF
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 04:03:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51040)
+	id 1ml65V-0007CE-Ci
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 04:09:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ml5xh-0000Nx-Pl
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 04:01:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27870)
+ (Exim 4.90_1) (envelope-from <jonah.palmer@oracle.com>)
+ id 1ml63s-0005gn-6l; Thu, 11 Nov 2021 04:08:00 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:52272)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ml5xf-0001BK-E7
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 04:01:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636621293;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eeSlpDQmSvAi+4cJ4dWgDhQuGwfmgsy4XSgnInmx6DQ=;
- b=GsGjD1XyiPBFZZMEoIqOTVallvQSFAgdmS1R9rBUuG8ateb8JFOYg5PP3Jg8zag14a/2Lz
- XHFW1g9o9MGXwoHcRY7CyvMXpRjdQ8nK9/z59+R6fKQe1VKaB+dUkjZXDvW6mczP0GAs5l
- E6VYFI5NseWRE96ZhQDo8Uut6Ne65BA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-553-JTBVwJwTMOKhhOERfNZNKA-1; Thu, 11 Nov 2021 04:01:32 -0500
-X-MC-Unique: JTBVwJwTMOKhhOERfNZNKA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 205-20020a1c00d6000000b003335d1384f1so1510712wma.3
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 01:01:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:organization:subject
- :in-reply-to:content-transfer-encoding;
- bh=eeSlpDQmSvAi+4cJ4dWgDhQuGwfmgsy4XSgnInmx6DQ=;
- b=OTEYxZADbqrRkrFqcm9IOG+P0+/EyyWuIFGyVYgfGvwOKXnXsVID2qIjF8URLwW2qV
- r0S66CiDQ3QTctU2XcK0SYTCKctTXscReVzYqo0SP8jPTD8givCePhea7EFNs/ZzYF01
- SxZT8mDuqot+jcDFkrrDJjEiEbDIYSTP/azC/Ecgi8VEuoRBLQgbyAIZW7MW/Xxu0E+3
- qYzb90sBdEcTTPrZSuIVz1cj/9dzz2hzltlN03mo0psxCuYC02IAEXlisiKWg5mHKHwL
- d54NmYvRC7UmKg8g2lRPcefqG38T0l5elGHnm9Jq+B3LTA+Bz2wcvuaAT5MFDN/l0F1/
- 7mEg==
-X-Gm-Message-State: AOAM5322leyxFbGH/OsORIwquCgtviicVgYQKu7NGGRXhBabTqZxv1AK
- IlCRIf0lGsPAof2QjzAIqAuvZy1/STDerrYEpZIANQW6ol9FgAI3JSOP95q6I0xhVr5oV1iywSR
- sg0EEx/oQmrys7Q0=
-X-Received: by 2002:a05:600c:1c87:: with SMTP id
- k7mr24367079wms.103.1636621291130; 
- Thu, 11 Nov 2021 01:01:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwm2WbG/lbBsh2fTF5VRegrw9G68giZP3XQ3k3XkBL/5skXNyVmhiFTJO7LViS7bQrVvMcuyw==
-X-Received: by 2002:a05:600c:1c87:: with SMTP id
- k7mr24367034wms.103.1636621290761; 
- Thu, 11 Nov 2021 01:01:30 -0800 (PST)
-Received: from [192.168.3.132] (p4ff23ee8.dip0.t-ipconnect.de. [79.242.62.232])
- by smtp.gmail.com with ESMTPSA id e7sm2760377wrg.31.2021.11.11.01.01.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Nov 2021 01:01:30 -0800 (PST)
-Message-ID: <13499d9f-652b-ea75-4ad7-32a347297a55@redhat.com>
-Date: Thu, 11 Nov 2021 10:01:29 +0100
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <jonah.palmer@oracle.com>)
+ id 1ml63p-00026O-LU; Thu, 11 Nov 2021 04:07:59 -0500
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AB7KKMT026260; 
+ Thu, 11 Nov 2021 09:07:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=content-type :
+ message-id : date : subject : to : cc : references : from : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=RppTxraCvQU1YXkMT5tPvjfuYb+0kiX6XGGU8iN06mc=;
+ b=OXv/bPpyfk7xP1WsdSJ9tEv6ZXWEsxg43gqc9nNjRfcaGhm4+wpugTnQeDcamXjzQmCN
+ bnAMJBQzE7Dt1R+tEZP4GWcvaqq1Vugm/oyW3T0KbUVY3/Zor9oJDwLIGvfuy4rtucdA
+ uMbqzb5askXrCIMGzWTcEgsIVrF/uQRQ5H0eYeAH2v5i6ZHvnbH1X7lxmztxYovKrl1l
+ cfk94iJJKB+8JeeSMILqMJAj6+RDaekyy8urCrzlPAQVI5WyVpL/gQGKBa1eZbEaX/Tm
+ Uh0FJZmJnJt2vFnMTKYJykcuOZl3+ZeziIpgx5hpRjigImKc4b0xllkBTDcXyZ6DUTRG Rw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3c85nshbd9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 11 Nov 2021 09:07:40 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1AB96NGl160334;
+ Thu, 11 Nov 2021 09:07:38 GMT
+Received: from nam04-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam08lp2041.outbound.protection.outlook.com [104.47.73.41])
+ by aserp3020.oracle.com with ESMTP id 3c5hh6jm1p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 11 Nov 2021 09:07:38 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Cttw6Fdg5GHuvjcrFgXitEjs2iIBfYFew5mZHQ6G7iOTT3y5NcU1c9u6+KGc79Jznf2ogYhkt0JEZgiTtGk6MA//ja8/Bnu8QtfTZ8jJLEmNstu819tivRxRYaS3SKJzzALLuRyUjtqsxzPRv2JjeaCbNpJsi9We+RZHwGXUb0WsMb1UZC1on1xt5OQKmox+qgXPgiRqnmV5a+WXNKoRz5uIUzqBs8roDOU9LfGHUL0if755O8X3hzOn+zQqNdWhEqvGPKSv0UbEy/WSI7EY47oySZR+4u7EGwawEXo4PmwpeinRhhQwTOSIoakXChmHJGtQTelrUHm6eq99xu0+Ag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RppTxraCvQU1YXkMT5tPvjfuYb+0kiX6XGGU8iN06mc=;
+ b=K/1FHztJuEAXbo3PQPm6WHdWLvE7NYKEJdaFbe2WEVvFoF4IgzZqz8yFtMiM5e5sbvRWAKfIYxgXQB29ybjYMUu7TYyOx/aVzQocpg5al3hDuQTJ9nU83cVcqIM7LTWVbZ7oM059ZjJ82gZ4zXdyCIHzjfJrWjGo/dk1OgizMbKcbMvoIEjV7Kvb5FP/y6pUH2eT8j+niunUroZziOmVAp9adjnY7gVwU4bC1b9098NTkX9C8ciyj+KrhUKfyqS8rHD97dVbz0FV5qgd7L6/M99wi5e87pdPwh/5qICogYgxgko2GfmmEt6oZHVtnu+r3f090wp0U2C26MWEEB731g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RppTxraCvQU1YXkMT5tPvjfuYb+0kiX6XGGU8iN06mc=;
+ b=GRWe0v+U0b9PAIG6fyYiuUoTZ46Hmy3TfnYjwzo62At0nybKyUVGfbivThEeKK0SEoVHUWwEPXMDFV3CSIcVbgbvZ2u1Ws/rfiN3IXGpoXM3osxilae+4Ct5Rs0L6AE9fSCGhJHFkZfZ0ipRx6cG5JWBiowA/u3RUopAcHrUSjc=
+Received: from PH0PR10MB4664.namprd10.prod.outlook.com (2603:10b6:510:41::11)
+ by PH0PR10MB4629.namprd10.prod.outlook.com (2603:10b6:510:31::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.15; Thu, 11 Nov
+ 2021 09:07:35 +0000
+Received: from PH0PR10MB4664.namprd10.prod.outlook.com
+ ([fe80::3446:f4ea:c037:4517]) by PH0PR10MB4664.namprd10.prod.outlook.com
+ ([fe80::3446:f4ea:c037:4517%5]) with mapi id 15.20.4669.016; Thu, 11 Nov 2021
+ 09:07:35 +0000
+Content-Type: multipart/alternative;
+ boundary="------------ZOpYfE0xZpQdBOJsrfkKTSyG"
+Message-ID: <5eaea4db-7a5f-4918-3967-05c080f7821e@oracle.com>
+Date: Thu, 11 Nov 2021 04:07:30 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-To: Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Thomas Huth <thuth@redhat.com>
-References: <20211110204528.1378524-1-farman@linux.ibm.com>
- <20211110204528.1378524-3-farman@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [RFC PATCH v3 2/2] s390x: Implement the USER_SIGP_BUSY capability
-In-Reply-To: <20211110204528.1378524-3-farman@linux.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v9 3/8] qmp: add QMP command x-query-virtio
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -74
-X-Spam_score: -7.5
-X-Spam_bar: -------
-X-Spam_report: (-7.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.999, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: Markus Armbruster <armbru@redhat.com>
+References: <1636539792-20967-1-git-send-email-jonah.palmer@oracle.com>
+ <1636539792-20967-4-git-send-email-jonah.palmer@oracle.com>
+ <87sfw4xloq.fsf@dusky.pond.sub.org>
+From: Jonah Palmer <jonah.palmer@oracle.com>
+In-Reply-To: <87sfw4xloq.fsf@dusky.pond.sub.org>
+X-ClientProxiedBy: SA9PR13CA0170.namprd13.prod.outlook.com
+ (2603:10b6:806:28::25) To PH0PR10MB4664.namprd10.prod.outlook.com
+ (2603:10b6:510:41::11)
+MIME-Version: 1.0
+Received: from [10.39.203.104] (209.17.40.41) by
+ SA9PR13CA0170.namprd13.prod.outlook.com (2603:10b6:806:28::25) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4690.5 via Frontend Transport; Thu, 11 Nov 2021 09:07:32 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7511520f-025c-416b-f389-08d9a4f2b385
+X-MS-TrafficTypeDiagnostic: PH0PR10MB4629:
+X-Microsoft-Antispam-PRVS: <PH0PR10MB46298B7E444DE6EC0E8D297CE8949@PH0PR10MB4629.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YcgUqQv5nG5EZON+Eu8n2YUtffC+L05CLzx4kRIYXViOLIWruW/G0xHvFhhx7LGmyC2Xdo1Ha5niccyqKq3FQ6qdbdNI/dMIWHs6YTwLei+N6Z5TQ7t2Xam9FdjQNdmhQpA37XihWilYFFALYMHuD9QvqdxXKjIMdaHMBuMAtiJYiE3gCvOME/feqHj8X3qEg0lYattDqkTEOrDAJB5JPHDd8/UI9IzKFthk7I8yXKr76LlpmAlUXylVqG+HEZ6401VW3IeX1+7BS61TV01Zrozp5WpSUidAaDHPaGPQCZOxSO0LfgrDZsNmBD81lmxj8qhDV787VUKrOivlh88fjmNw5HXJmG0JxH6ZiygezxGff0I1n9poFm6n+ZPVwzSbQMNdL54QyXWjbzy5y9vqCMDeq2sNFiDB9VymxSd4XFrfslBYx6fV2jkkKEkYzNR4wJwEnOlIx+S+lG8ptyQUyNRaHVJZf/XflvWR5J+u2HVRUV2Uy4H08oKwxWeh+Ow4IVCcHFS4cDECV8xu571Hul0K3upUSgmwLjNaG/frvYzeemCChYeXFw0D8drqYzbx32ETzCBRvc84/njoftN55SN+4ai7qIVzywcsjKUoz4WG8BaIbVcKlyP4c0NhMsuPDr80+XhaRFBBa5PGvKvYy6esizq1knyG9YLc79LSdAaG5AyLb1CuXpWvzI/Muhpaur70IPnvCJtYInb58COiC8nIJjjckW1p95eM+ORtC64=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR10MB4664.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(53546011)(2906002)(31696002)(36756003)(508600001)(38100700002)(33964004)(8936002)(66556008)(66476007)(86362001)(5660300002)(7416002)(4326008)(83380400001)(66946007)(8676002)(16576012)(316002)(6486002)(44832011)(2616005)(31686004)(26005)(186003)(6916009)(956004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dWUzMlIwZGd6eHJXOERsTERSbElkTkoxc1pnd0h4citXVUh6My9Hajd1NGh1?=
+ =?utf-8?B?cWphZ0pmVjZkZ3dQVDdjVFRVaHl6RWpac2ZSc1Q3UDF3aTBHTGtlc0Era2h2?=
+ =?utf-8?B?WXFsZHI5bThwQ1VNYmMyejFaaWFBb1hnV0djdG5kUGZ6Qmt4MHowSENIcndu?=
+ =?utf-8?B?dlNHbHBSYTJiUXc5bk45NTB4ei8vRUNmWWJWQUJIdEFwL29VSE5qYWdWUVlR?=
+ =?utf-8?B?a3BYSlVGTHpXb2lmbVVhOGxVaFpaVW5nOUpFc2JNdm5NR09lbW00SEMyZmNM?=
+ =?utf-8?B?THhRbUk5cGQ1LzJicnhGSkxsOW9xZ0dpQWJzbHpRK3FuaWk2eDZDbTNsYThT?=
+ =?utf-8?B?YVhFcUg4aXNSeFlvSjl3SkE3TC9RVTVRNTNhV2pLcDhKZzdIbXNRaEZnaXpu?=
+ =?utf-8?B?a1NKVVpiYzhzcGp1ZWpGOFM2anB3cGxLYVovYjlXWmNlUmlkRzdqUlNqZXhz?=
+ =?utf-8?B?VTJVY0lyQ1loMzhTVWhmMlhwT1NkeitobXdHeEwrVzV6WUhNLzhhbm80RVFw?=
+ =?utf-8?B?N1FMUEVlRUpSN1kzSmI1L1FMckVWbVZPbUhjL1EzdERhRHIzQUNMc2xHZ21Q?=
+ =?utf-8?B?SFNwWWRrTlUxTkdEdEdRVjliUE4wbFVEN3hHZWFhNkhyaC90eTl6SVBjNnNI?=
+ =?utf-8?B?TElmZ1RrZ3plcHVsQkxaSm9tMlN6MDZ6b1lRM3RJbFk4dVo0cjlUaElHMFdN?=
+ =?utf-8?B?UUpCVms1ZDBTdW9VbDVuSXpNRm91Nk5XOTB4b1ZOekVnL01yRjZ6L3gyb3Bs?=
+ =?utf-8?B?OE43ekpHSG9BVnJjUzI2UHF5aDJ5YUVHbCtieVJYeVcrWUlLSENLRUgvcC93?=
+ =?utf-8?B?b3dndG0rN0tGYjBiMVlQakxNVWN3R0dFU1RQRm9wMjl3aWlZWUt0K2Era3dE?=
+ =?utf-8?B?VXFhUjAveVZXejJVUkJhM3EwNlNqSTRySkxpT2diTXVobW1lZzQ3MGRkaWxN?=
+ =?utf-8?B?MGZYYUxHcHUzSFA2M2V2WGxUNUxueGdMQUxYTzYrL2tWNHJ4VWFHTVkxTy9E?=
+ =?utf-8?B?WTlEdFdIVC9DR08xaGFKazNQVHh3NENVUFE3cFloYTlTV25rYXV5NWFELzFC?=
+ =?utf-8?B?RkJiVFlNZUN5V3NGQW0yWXk0VzYrNGoyRW9ScXdpczNlS09DWWJzYUFQTTZI?=
+ =?utf-8?B?WVk3b0NmQXltdlFGWXhxVmhIMDNSRGgrMEV4aGhvVmt1QUtxcS9zSll3akJL?=
+ =?utf-8?B?YlRoQlhKTVRiN3Z4aSs3QVp2SmRLcE9qUncrVXJ2cFNhVzl5ZExkOEZ2a3Ay?=
+ =?utf-8?B?cG40VkVtOWY1RW03TXVuY3RleDJLV2QyVDBLSU5yaXkzT29tWnpQbGdsRm1j?=
+ =?utf-8?B?MHVYVS9zWTVDT2EyVkYxemFpQ0FCK2E5aENxeHRZaWhOZEEwNGtuT01Va0t5?=
+ =?utf-8?B?OGJBcGIvbkVHdDJtNUoybWtNSnlqZERRUTVGTnlKUWdydkF4VHRHdXBFMzRm?=
+ =?utf-8?B?cVQ1RXNNTU1pVThQV3F6ZlYvdnpPMWJjanBGeHh5dUVUaVEzYkpBaWpTRmx6?=
+ =?utf-8?B?Sk96Y2tWbVNOQ3N1dC8xOGdOV2NpYmJBWUV0b0FGSlFpcTZwaStQUEs5R1RB?=
+ =?utf-8?B?VUQxdWJGemNqMzdWRVZhaTZhdldVN3VvL1VsMWwzZWExODVxZlRWK3ZCRXQw?=
+ =?utf-8?B?WUNxOUxYOTdzWjVtbnhJY3ZRclRTNVlWUTdENXVTMkRkOVZsV3RiOWo1aGwz?=
+ =?utf-8?B?aWtDOWh2T3gyeEhKNnhWbTBFY3NaR3gwS3Zoak15N2hpQkZLbzMxRlB0R3FC?=
+ =?utf-8?B?NDM3Y2lvcFlqZFJ4UzdKekw4dndLYzNJYkRxTHQxS0JMV0NUN0ZjWE9RWTdu?=
+ =?utf-8?B?Yi8reVhqakdFWjJBckt2SmxqazUxMHpOdXFhb0tBQlN5QjU5bitCbk5Vdm90?=
+ =?utf-8?B?MWc5TXhiYTRSUDczNmxGWkpBMThPM09CS3ZXSFBuNlY2V2Z5THo4OHNiQkU2?=
+ =?utf-8?B?d1lJY2ZURGdYUThrUU1MWmhpRmN0QlhadHI4Z0hTUnQ1M1NmQUQxc1d4NGgz?=
+ =?utf-8?B?VjczZ0gyZmZUOEd4QTBIMU9kRlNTazJQTFpzc3c0QnQ4MjRhMlkxdjBlN1pV?=
+ =?utf-8?B?dzVJNmtEL1c0YWhrbUNXd1dSTmNTYjR4ZEowbHBzdjE0Q1dqNjA4Y2xjalUw?=
+ =?utf-8?B?ZVU0T2w5RnZiMk1FNEFzWHV2dWZmTVdpSk9WL1lHMTdlcFk0clBycExkSW9Y?=
+ =?utf-8?Q?aLa9vyMRjfStC0p1hnyZOvg=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7511520f-025c-416b-f389-08d9a4f2b385
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4664.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2021 09:07:35.2299 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8/hNhFEKrEZVC5Pk4d/qwEOa2Xv6XnH+/uHPGI8Cynkcr7jRKaVqJD0n7h5FLUAJWcHyABAgdKWHTI7WkiU6MQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4629
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10164
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ bulkscore=0 mlxscore=0
+ malwarescore=0 spamscore=0 adultscore=0 suspectscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2111110054
+X-Proofpoint-GUID: mZql7dFKoxiPSBrU_474SgsbhLM4CVl5
+X-Proofpoint-ORIG-GUID: mZql7dFKoxiPSBrU_474SgsbhLM4CVl5
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=jonah.palmer@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-3.999, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,209 +180,280 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org
+Cc: mst@redhat.com, qemu_oss@crudebyte.com, qemu-devel@nongnu.org,
+ kraxel@redhat.com, si-wei.liu@oracle.com, joao.m.martins@oracle.com,
+ eblake@redhat.com, qemu-block@nongnu.org, david@redhat.com,
+ arei.gonglei@huawei.com, marcandre.lureau@redhat.com, lvivier@redhat.com,
+ thuth@redhat.com, michael.roth@amd.com, groug@kaod.org, dgilbert@redhat.com,
+ eric.auger@redhat.com, stefanha@redhat.com, boris.ostrovsky@oracle.com,
+ kwolf@redhat.com, mathieu.poirier@linaro.org, raphael.norwitz@nutanix.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10.11.21 21:45, Eric Farman wrote:
-> With the USER_SIGP capability, the kernel will pass most (but not all)
-> SIGP orders to userspace for processing. But that means that the kernel
-> is unable to determine if/when the order has been completed by userspace,
-> and could potentially return an incorrect answer (CC1 with status bits
-> versus CC2 indicating BUSY) for one of the remaining in-kernel orders.
-> 
-> With a new USER_SIGP_BUSY capability, userspace can tell the kernel when
-> it is started processing a SIGP order and when it has finished, such that
-> the in-kernel orders can be returned with the BUSY condition between the
-> two IOCTLs.
-> 
-> Let's use the new capability in QEMU.
-
-This looks much better. A suggestion on how to make it even simpler below.
-
->      }
->      si->cc = SIGP_CC_ORDER_CODE_ACCEPTED;
-> @@ -375,6 +378,10 @@ static int handle_sigp_single_dst(S390CPU *cpu, S390CPU *dst_cpu, uint8_t order,
->          return SIGP_CC_BUSY;
->      }
->  
-> +    if (s390_cpu_set_sigp_busy(dst_cpu) == -EBUSY) {
-> +        return SIGP_CC_BUSY;
-> +    }
+--------------ZOpYfE0xZpQdBOJsrfkKTSyG
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-I'd assume we want something like this instead:
+On 11/10/21 07:03, Markus Armbruster wrote:
+> Jonah Palmer<jonah.palmer@oracle.com>  writes:
+>
+>> From: Laurent Vivier<lvivier@redhat.com>
+>>
+>> This new command lists all the instances of VirtIODevice with
+>> their QOM paths and virtio type/name.
+>>
+>> Signed-off-by: Jonah Palmer<jonah.palmer@oracle.com>
+> [...]
+>
+>> diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+>> index 4912b97..1512ada 100644
+>> --- a/qapi/qapi-schema.json
+>> +++ b/qapi/qapi-schema.json
+>> @@ -93,3 +93,4 @@
+>>   { 'include': 'audio.json' }
+>>   { 'include': 'acpi.json' }
+>>   { 'include': 'pci.json' }
+>> +{ 'include': 'virtio.json' }
+>> diff --git a/qapi/virtio.json b/qapi/virtio.json
+>> new file mode 100644
+>> index 0000000..324ba8c
+>> --- /dev/null
+>> +++ b/qapi/virtio.json
+>> @@ -0,0 +1,55 @@
+>> +# -*- Mode: Python -*-
+>> +# vim: filetype=python
+>> +#
+>> +
+>> +##
+>> +# = Virtio devices
+>> +##
+>> +
+>> +##
+>> +# @VirtioInfo:
+>> +#
+>> +# Basic information about a given VirtIODevice
+>> +#
+>> +# @path: the device's canonical QOM path
+>> +#
+>> +# @type: VirtIO device name
+>> +#
+>> +# Since: 6.3
+> I expect the next release to be numbered 7.0.
 
---- a/target/s390x/sigp.c
-+++ b/target/s390x/sigp.c
-@@ -355,6 +355,12 @@ static void sigp_sense_running(S390CPU *dst_cpu, SigpInfo *si)
-     }
- }
- 
-+static bool sigp_dst_is_busy(S390CPU *dst_cpu)
-+{
-+    return dst_cpu->env.sigp_order != 0 ||
-+           s390_cpu_set_sigp_busy(dst_cpu) == -EBUSY;
-+}
+Got it. I'll update this for next series.
+
+>
+>> +#
+>> +##
+>> +{ 'struct': 'VirtioInfo',
+>> +  'data': { 'path': 'str',
+>> +            'type': 'str' } }
+>> +
+>> +##
+>> +# @x-query-virtio:
+>> +#
+>> +# Returns a list of all realized VirtIO devices
+>> +#
+>> +# Features:
+>> +# @unstable: This command is meant for debugging.
+>> +#
+>> +# Returns: list of gathered @VirtioInfo devices
+>> +#
+>> +# Since: 6.3
+>> +#
+>> +# Example:
+>> +#
+>> +# -> { "execute": "x-query-virtio" }
+>> +# <- { "return": [ { "path": "/machine/peripheral-anon/device[4]/virtio-backend",
+>> +#                    "type": "virtio-input" },
+>> +#                  { "path": "/machine/peripheral/crypto0/virtio-backend",
+>> +#                    "type": "virtio-crypto" },
+>> +#                  { "path": "/machine/peripheral-anon/device[2]/virtio-backend",
+>> +#                    "type": "virtio-scsi" },
+>> +#                  { "path": "/machine/peripheral-anon/device[1]/virtio-backend",
+>> +#                    "type": "virtio-net" },
+>> +#                  { "path": "/machine/peripheral-anon/device[0]/virtio-backend",
+>> +#                    "type": "virtio-serial" }
+>> +#                ] }
+> Any particular reason for reformatting the example?  For what it's
+> worth, I'd prefer the previous version.
+>
+> Aside: consistent formatting of examples would be nice.  Not in this
+> series.
+
+I think I got a little too excited reformatting. I'll revert the examples back to
+their original format and make sure the rest of the examples throughout the entire
+series are consistent with each other.
+
+>
+>> +#
+>> +##
+>> +
+>> +{ 'command': 'x-query-virtio', 'returns': ['VirtioInfo'],
+>> +  'features': [ 'unstable' ] }
+>> diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
+>> index 7f103ea..fd00ee2 100644
+>> --- a/tests/qtest/qmp-cmd-test.c
+>> +++ b/tests/qtest/qmp-cmd-test.c
+>> @@ -103,6 +103,7 @@ static bool query_is_ignored(const char *cmd)
+>>           "query-gic-capabilities", /* arm */
+>>           /* Success depends on target-specific build configuration: */
+>>           "query-pci",              /* CONFIG_PCI */
+>> +        "x-query-virtio",         /* CONFIG_VIRTIO */
+>>           /* Success depends on launching SEV guest */
+>>           "query-sev-launch-measure",
+>>           /* Success depends on Host or Hypervisor SEV support */
+--------------ZOpYfE0xZpQdBOJsrfkKTSyG
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 11/10/21 07:03, Markus Armbruster
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:87sfw4xloq.fsf@dusky.pond.sub.org">
+      <pre class="moz-quote-pre" wrap="">Jonah Palmer <a class="moz-txt-link-rfc2396E" href="mailto:jonah.palmer@oracle.com">&lt;jonah.palmer@oracle.com&gt;</a> writes:
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">From: Laurent Vivier <a class="moz-txt-link-rfc2396E" href="mailto:lvivier@redhat.com">&lt;lvivier@redhat.com&gt;</a>
+
+This new command lists all the instances of VirtIODevice with
+their QOM paths and virtio type/name.
+
+Signed-off-by: Jonah Palmer <a class="moz-txt-link-rfc2396E" href="mailto:jonah.palmer@oracle.com">&lt;jonah.palmer@oracle.com&gt;</a>
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+[...]
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+index 4912b97..1512ada 100644
+--- a/qapi/qapi-schema.json
++++ b/qapi/qapi-schema.json
+@@ -93,3 +93,4 @@
+ { 'include': 'audio.json' }
+ { 'include': 'acpi.json' }
+ { 'include': 'pci.json' }
++{ 'include': 'virtio.json' }
+diff --git a/qapi/virtio.json b/qapi/virtio.json
+new file mode 100644
+index 0000000..324ba8c
+--- /dev/null
++++ b/qapi/virtio.json
+@@ -0,0 +1,55 @@
++# -*- Mode: Python -*-
++# vim: filetype=python
++#
 +
- static int handle_sigp_single_dst(S390CPU *cpu, S390CPU *dst_cpu, uint8_t order,
-                                   uint64_t param, uint64_t *status_reg)
- {
-@@ -369,7 +375,7 @@ static int handle_sigp_single_dst(S390CPU *cpu, S390CPU *dst_cpu, uint8_t order,
-     }
- 
-     /* only resets can break pending orders */
--    if (dst_cpu->env.sigp_order != 0 &&
-+    if (sigp_dst_is_busy(dst_cpu) &&
-         order != SIGP_CPU_RESET &&
-         order != SIGP_INITIAL_CPU_RESET) {
-         return SIGP_CC_BUSY;
-
-
-
-
-But as raised, it might be good enough (and simpler) to
-special-case SIGP STOP * only, because pending SIGP STOP that could take
-forever and is processed asynchronously is AFAIU the only real case that's
-problematic. We'll also have to handle the migration case with SIGP STOP,
-so below would be my take (excluding the KVM parts from your patch)
-
-
-
-diff --git a/slirp b/slirp
---- a/slirp
-+++ b/slirp
-@@ -1 +1 @@
--Subproject commit a88d9ace234a24ce1c17189642ef9104799425e0
-+Subproject commit a88d9ace234a24ce1c17189642ef9104799425e0-dirty
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index ccdbaf84d5..6ead62d1fd 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -114,7 +114,7 @@ static void s390_cpu_reset(CPUState *s, cpu_reset_type type)
-     DeviceState *dev = DEVICE(s);
- 
-     scc->parent_reset(dev);
--    cpu->env.sigp_order = 0;
-+    s390_cpu_set_sigp_busy(cpu, 0);
-     s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu);
- 
-     switch (type) {
-diff --git a/target/s390x/machine.c b/target/s390x/machine.c
-index 37a076858c..d4ad2534a5 100644
---- a/target/s390x/machine.c
-+++ b/target/s390x/machine.c
-@@ -41,6 +41,14 @@ static int cpu_post_load(void *opaque, int version_id)
-         tcg_s390_tod_updated(CPU(cpu), RUN_ON_CPU_NULL);
-     }
- 
-+    /*
-+     * Make sure KVM is aware of the BUSY SIGP order, reset it the official
-+     * way.
-+     */
-+    if (cpu->env.sigp_order) {
-+        s390_cpu_set_sigp_busy(cpu, cpu->env.sigp_order);
-+    }
++##
++# = Virtio devices
++##
 +
-     return 0;
- }
- 
-diff --git a/target/s390x/s390x-internal.h b/target/s390x/s390x-internal.h
-index 1a178aed41..690cadef77 100644
---- a/target/s390x/s390x-internal.h
-+++ b/target/s390x/s390x-internal.h
-@@ -402,6 +402,7 @@ void s390x_translate_init(void);
- 
- 
- /* sigp.c */
-+void s390_cpu_set_sigp_busy(S390CPU *cpu, uint8_t sigp_order);
- int handle_sigp(CPUS390XState *env, uint8_t order, uint64_t r1, uint64_t r3);
- void do_stop_interrupt(CPUS390XState *env);
- 
-diff --git a/target/s390x/sigp.c b/target/s390x/sigp.c
-index 51c727834c..9640267124 100644
---- a/target/s390x/sigp.c
-+++ b/target/s390x/sigp.c
-@@ -27,6 +27,33 @@ typedef struct SigpInfo {
-     uint64_t *status_reg;
- } SigpInfo;
- 
-+void s390_cpu_set_sigp_busy(S390CPU *cpu, uint8_t sigp_order)
-+{
-+    /*
-+     * For now we only expect one of these orders that are processed
-+     * asynchronously, or clearing the busy order.
-+     */
-+    g_assert(sigp_order == SIGP_STOP || sigp_order == SIGP_STOP_STORE_STATUS ||
-+             !sigp_order);
-+    if (kvm_enabled()) {
-+        /*
-+         * Note: We're the only ones setting/resetting a CPU in KVM busy, and
-+         * we always update the state in KVM when updating the state
-+         * (cpu->env.sigp_order) in QEMU.
-+         */
-+        if (sigp_order)
-+            kvm_s390_vcpu_set_sigp_busy(cpu);
-+        else
-+            kvm_s390_vcpu_reset_sigp_busy(cpu);
-+    }
-+    cpu->env.sigp_order = sigp_order;
-+}
++##
++# @VirtioInfo:
++#
++# Basic information about a given VirtIODevice
++#
++# @path: the device's canonical QOM path
++#
++# @type: VirtIO device name
++#
++# Since: 6.3
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+I expect the next release to be numbered 7.0.</pre>
+    </blockquote>
+    <pre>Got it. I'll update this for next series.
+</pre>
+    <blockquote type="cite" cite="mid:87sfw4xloq.fsf@dusky.pond.sub.org">
+      <pre class="moz-quote-pre" wrap="">
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">+#
++##
++{ 'struct': 'VirtioInfo',
++  'data': { 'path': 'str',
++            'type': 'str' } }
 +
-+static bool s390x_cpu_is_sigp_busy(S390CPU *cpu)
-+{
-+    return cpu->env.sigp_order != 0;
-+}
++##
++# @x-query-virtio:
++#
++# Returns a list of all realized VirtIO devices
++#
++# Features:
++# @unstable: This command is meant for debugging.
++#
++# Returns: list of gathered @VirtioInfo devices
++#
++# Since: 6.3
++#
++# Example:
++#
++# -&gt; { &quot;execute&quot;: &quot;x-query-virtio&quot; }
++# &lt;- { &quot;return&quot;: [ { &quot;path&quot;: &quot;/machine/peripheral-anon/device[4]/virtio-backend&quot;,
++#                    &quot;type&quot;: &quot;virtio-input&quot; },
++#                  { &quot;path&quot;: &quot;/machine/peripheral/crypto0/virtio-backend&quot;,
++#                    &quot;type&quot;: &quot;virtio-crypto&quot; },
++#                  { &quot;path&quot;: &quot;/machine/peripheral-anon/device[2]/virtio-backend&quot;,
++#                    &quot;type&quot;: &quot;virtio-scsi&quot; },
++#                  { &quot;path&quot;: &quot;/machine/peripheral-anon/device[1]/virtio-backend&quot;,
++#                    &quot;type&quot;: &quot;virtio-net&quot; },
++#                  { &quot;path&quot;: &quot;/machine/peripheral-anon/device[0]/virtio-backend&quot;,
++#                    &quot;type&quot;: &quot;virtio-serial&quot; }
++#                ] }
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Any particular reason for reformatting the example?  For what it's
+worth, I'd prefer the previous version.
+
+Aside: consistent formatting of examples would be nice.  Not in this
+series.</pre>
+    </blockquote>
+    <pre>I think I got a little too excited reformatting. I'll revert the examples back to
+their original format and make sure the rest of the examples throughout the entire
+series are consistent with each other. 
+</pre>
+    <blockquote type="cite" cite="mid:87sfw4xloq.fsf@dusky.pond.sub.org">
+      <pre class="moz-quote-pre" wrap="">
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">+#
++##
 +
- static void set_sigp_status(SigpInfo *si, uint64_t status)
- {
-     *si->status_reg &= 0xffffffff00000000ULL;
-@@ -119,7 +146,7 @@ static void sigp_stop(CPUState *cs, run_on_cpu_data arg)
-         s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu);
-     } else {
-         /* execute the stop function */
--        cpu->env.sigp_order = SIGP_STOP;
-+        s390_cpu_set_sigp_busy(cpu, SIGP_STOP);
-         cpu_inject_stop(cpu);
-     }
-     si->cc = SIGP_CC_ORDER_CODE_ACCEPTED;
-@@ -137,7 +164,7 @@ static void sigp_stop_and_store_status(CPUState *cs, run_on_cpu_data arg)
- 
-     switch (s390_cpu_get_state(cpu)) {
-     case S390_CPU_STATE_OPERATING:
--        cpu->env.sigp_order = SIGP_STOP_STORE_STATUS;
-+        s390_cpu_set_sigp_busy(cpu, SIGP_STOP_STORE_STATUS);
-         cpu_inject_stop(cpu);
-         /* store will be performed in do_stop_interrup() */
-         break;
-@@ -369,7 +396,7 @@ static int handle_sigp_single_dst(S390CPU *cpu, S390CPU *dst_cpu, uint8_t order,
-     }
- 
-     /* only resets can break pending orders */
--    if (dst_cpu->env.sigp_order != 0 &&
-+    if (s390x_cpu_is_sigp_busy(dst_cpu) &&
-         order != SIGP_CPU_RESET &&
-         order != SIGP_INITIAL_CPU_RESET) {
-         return SIGP_CC_BUSY;
-@@ -485,7 +512,7 @@ void do_stop_interrupt(CPUS390XState *env)
-     if (cpu->env.sigp_order == SIGP_STOP_STORE_STATUS) {
-         s390_store_status(cpu, S390_STORE_STATUS_DEF_ADDR, true);
-     }
--    env->sigp_order = 0;
-+    s390_cpu_set_sigp_busy(cpu, 0);
-     env->pending_int &= ~INTERRUPT_STOP;
- }
- 
-
-
-We can optimize in s390_cpu_set_sigp_busy() to not trigger an ioctl
-if not necessary based on the old value of env->sigp_order. Only the
-migration path needs some tweaking then.
-
--- 
-Thanks,
-
-David / dhildenb
-
++{ 'command': 'x-query-virtio', 'returns': ['VirtioInfo'],
++  'features': [ 'unstable' ] }
+diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
+index 7f103ea..fd00ee2 100644
+--- a/tests/qtest/qmp-cmd-test.c
++++ b/tests/qtest/qmp-cmd-test.c
+@@ -103,6 +103,7 @@ static bool query_is_ignored(const char *cmd)
+         &quot;query-gic-capabilities&quot;, /* arm */
+         /* Success depends on target-specific build configuration: */
+         &quot;query-pci&quot;,              /* CONFIG_PCI */
++        &quot;x-query-virtio&quot;,         /* CONFIG_VIRTIO */
+         /* Success depends on launching SEV guest */
+         &quot;query-sev-launch-measure&quot;,
+         /* Success depends on Host or Hypervisor SEV support */
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+    </blockquote>
+  </body>
+</html>
+--------------ZOpYfE0xZpQdBOJsrfkKTSyG--
 
