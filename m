@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79EC444D828
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 15:20:59 +0100 (CET)
-Received: from localhost ([::1]:53796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9DBF44D845
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 15:30:23 +0100 (CET)
+Received: from localhost ([::1]:51092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlAwk-00007o-Gp
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 09:20:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40840)
+	id 1mlB5q-0000vM-W5
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 09:30:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1mlAsT-0002Q1-Ns
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:16:33 -0500
-Received: from mga12.intel.com ([192.55.52.136]:9363)
+ id 1mlAse-00032u-CQ
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:16:44 -0500
+Received: from mga11.intel.com ([192.55.52.93]:59254)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1mlAsR-0006fp-EZ
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:16:33 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10164"; a="212952190"
-X-IronPort-AV: E=Sophos;i="5.87,226,1631602800"; d="scan'208";a="212952190"
+ id 1mlAsc-0006gt-D6
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:16:44 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10164"; a="230378286"
+X-IronPort-AV: E=Sophos;i="5.87,226,1631602800"; d="scan'208";a="230378286"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Nov 2021 06:16:29 -0800
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Nov 2021 06:16:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,226,1631602800"; d="scan'208";a="492556049"
+X-IronPort-AV: E=Sophos;i="5.87,226,1631602800"; d="scan'208";a="492556158"
 Received: from chaop.bj.intel.com ([10.240.192.101])
- by orsmga007.jf.intel.com with ESMTP; 11 Nov 2021 06:16:18 -0800
+ by orsmga007.jf.intel.com with ESMTP; 11 Nov 2021 06:16:29 -0800
 From: Chao Peng <chao.p.peng@linux.intel.com>
 To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org
-Subject: [RFC PATCH 09/13] qmp: Include "guest-private" property for memory
- backends
-Date: Thu, 11 Nov 2021 22:13:48 +0800
-Message-Id: <20211111141352.26311-10-chao.p.peng@linux.intel.com>
+Subject: [RFC PATCH 10/13] softmmu/physmem: Add private memory address space
+Date: Thu, 11 Nov 2021 22:13:49 +0800
+Message-Id: <20211111141352.26311-11-chao.p.peng@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20211111141352.26311-1-chao.p.peng@linux.intel.com>
 References: <20211111141352.26311-1-chao.p.peng@linux.intel.com>
-Received-SPF: none client-ip=192.55.52.136;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga12.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=192.55.52.93;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga11.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,80 +75,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
 ---
- hw/core/machine-hmp-cmds.c | 3 +++
- hw/core/machine-qmp-cmds.c | 1 +
- qapi/machine.json          | 3 +++
- qapi/qom.json              | 3 +++
- 4 files changed, 10 insertions(+)
+ include/exec/address-spaces.h |  2 ++
+ softmmu/physmem.c             | 13 +++++++++++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/hw/core/machine-hmp-cmds.c b/hw/core/machine-hmp-cmds.c
-index 76b22b00d6..6bd66c25b7 100644
---- a/hw/core/machine-hmp-cmds.c
-+++ b/hw/core/machine-hmp-cmds.c
-@@ -112,6 +112,9 @@ void hmp_info_memdev(Monitor *mon, const QDict *qdict)
-                        m->value->prealloc ? "true" : "false");
-         monitor_printf(mon, "  share: %s\n",
-                        m->value->share ? "true" : "false");
-+        monitor_printf(mon, "  guest private: %s\n",
-+                       m->value->guest_private ? "true" : "false");
+diff --git a/include/exec/address-spaces.h b/include/exec/address-spaces.h
+index db8bfa9a92..b3f45001c0 100644
+--- a/include/exec/address-spaces.h
++++ b/include/exec/address-spaces.h
+@@ -27,6 +27,7 @@
+  * until a proper bus interface is available.
+  */
+ MemoryRegion *get_system_memory(void);
++MemoryRegion *get_system_private_memory(void);
+ 
+ /* Get the root I/O port region.  This interface should only be used
+  * temporarily until a proper bus interface is available.
+@@ -34,6 +35,7 @@ MemoryRegion *get_system_memory(void);
+ MemoryRegion *get_system_io(void);
+ 
+ extern AddressSpace address_space_memory;
++extern AddressSpace address_space_private_memory;
+ extern AddressSpace address_space_io;
+ 
+ #endif
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index f4d6eeaa17..a2d339fd88 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -85,10 +85,13 @@
+ RAMList ram_list = { .blocks = QLIST_HEAD_INITIALIZER(ram_list.blocks) };
+ 
+ static MemoryRegion *system_memory;
++static MemoryRegion *system_private_memory;
+ static MemoryRegion *system_io;
+ 
+ AddressSpace address_space_io;
+ AddressSpace address_space_memory;
++AddressSpace address_space_private_memory;
 +
-         if (m->value->has_reserve) {
-             monitor_printf(mon, "  reserve: %s\n",
-                            m->value->reserve ? "true" : "false");
-diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
-index 216fdfaf3a..2c1c1de73f 100644
---- a/hw/core/machine-qmp-cmds.c
-+++ b/hw/core/machine-qmp-cmds.c
-@@ -174,6 +174,7 @@ static int query_memdev(Object *obj, void *opaque)
-         m->dump = object_property_get_bool(obj, "dump", &error_abort);
-         m->prealloc = object_property_get_bool(obj, "prealloc", &error_abort);
-         m->share = object_property_get_bool(obj, "share", &error_abort);
-+        m->guest_private = object_property_get_bool(obj, "guest-private", &error_abort);
-         m->reserve = object_property_get_bool(obj, "reserve", &err);
-         if (err) {
-             error_free_or_abort(&err);
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 157712f006..f568a6a0bf 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -798,6 +798,8 @@
- #
- # @share: whether memory is private to QEMU or shared (since 6.1)
- #
-+# @guest-private: whether memory is private to guest (since X.X)
-+#
- # @reserve: whether swap space (or huge pages) was reserved if applicable.
- #           This corresponds to the user configuration and not the actual
- #           behavior implemented in the OS to perform the reservation.
-@@ -818,6 +820,7 @@
-     'dump':       'bool',
-     'prealloc':   'bool',
-     'share':      'bool',
-+    'guest-private':      'bool',
-     '*reserve':    'bool',
-     'host-nodes': ['uint16'],
-     'policy':     'HostMemPolicy' }}
-diff --git a/qapi/qom.json b/qapi/qom.json
-index a25616bc7a..93af9b106e 100644
---- a/qapi/qom.json
-+++ b/qapi/qom.json
-@@ -550,6 +550,8 @@
- # @share: if false, the memory is private to QEMU; if true, it is shared
- #         (default: false)
- #
-+# @guest-private: if true, the memory is guest private memory (default: false)
-+#
- # @reserve: if true, reserve swap space (or huge pages) if applicable
- #           (default: true) (since 6.1)
- #
-@@ -580,6 +582,7 @@
-             '*prealloc': 'bool',
-             '*prealloc-threads': 'uint32',
-             '*share': 'bool',
-+            '*guest-private': 'bool',
-             '*reserve': 'bool',
-             'size': 'size',
-             '*x-use-canonical-path-for-ramblock-id': 'bool' } }
+ 
+ static MemoryRegion io_mem_unassigned;
+ 
+@@ -2669,6 +2672,11 @@ static void memory_map_init(void)
+     memory_region_init(system_memory, NULL, "system", UINT64_MAX);
+     address_space_init(&address_space_memory, system_memory, "memory");
+ 
++    system_private_memory = g_malloc(sizeof(*system_private_memory));
++
++    memory_region_init(system_private_memory, NULL, "system-private", UINT64_MAX);
++    address_space_init(&address_space_private_memory, system_private_memory, "private-memory");
++
+     system_io = g_malloc(sizeof(*system_io));
+     memory_region_init_io(system_io, NULL, &unassigned_io_ops, NULL, "io",
+                           65536);
+@@ -2680,6 +2688,11 @@ MemoryRegion *get_system_memory(void)
+     return system_memory;
+ }
+ 
++MemoryRegion *get_system_private_memory(void)
++{
++    return system_private_memory;
++}
++
+ MemoryRegion *get_system_io(void)
+ {
+     return system_io;
 -- 
 2.17.1
 
