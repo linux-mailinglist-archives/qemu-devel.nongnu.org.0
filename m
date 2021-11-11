@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F8144CF6D
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 03:01:57 +0100 (CET)
-Received: from localhost ([::1]:35882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAD6B44CF70
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 03:04:07 +0100 (CET)
+Received: from localhost ([::1]:39128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mkzPY-0008JJ-Pq
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 21:01:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54100)
+	id 1mkzRe-0002Bg-Qj
+	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 21:04:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1mkz0v-0006c4-Sl
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 20:36:31 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:54320 helo=loongson.cn)
+ id 1mkz0z-0006di-FT
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 20:36:36 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:54360 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1mkz0t-0001sS-UH
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 20:36:29 -0500
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1mkz0w-0001sv-3h
+ for qemu-devel@nongnu.org; Wed, 10 Nov 2021 20:36:31 -0500
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxr9Ngc4xh9RMCAA--.4955S28; 
- Thu, 11 Nov 2021 09:36:14 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxr9Ngc4xh9RMCAA--.4955S29; 
+ Thu, 11 Nov 2021 09:36:15 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 26/30] hw/loongarch: Add -kernel and -initrd options
- support
-Date: Thu, 11 Nov 2021 09:35:24 +0800
-Message-Id: <1636594528-8175-27-git-send-email-yangxiaojuan@loongson.cn>
+Subject: [RFC PATCH v2 27/30] hw/loongarch: Add LoongArch smbios support
+Date: Thu, 11 Nov 2021 09:35:25 +0800
+Message-Id: <1636594528-8175-28-git-send-email-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1636594528-8175-1-git-send-email-yangxiaojuan@loongson.cn>
 References: <1636594528-8175-1-git-send-email-yangxiaojuan@loongson.cn>
-X-CM-TRANSID: AQAAf9Dxr9Ngc4xh9RMCAA--.4955S28
-X-Coremail-Antispam: 1UD129KBjvJXoWxGryUCr1fWr17ZryUKF1Utrb_yoWrCFW8pr
- ZxZF1qgr4rAFWfAw12qFyrury5Aw4DG3Wag3Zxur1FqanFgr1UZw18Wr12vFWDGan5WF90
- qrn0krW29a4DJ3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf9Dxr9Ngc4xh9RMCAA--.4955S29
+X-Coremail-Antispam: 1UD129KBjvJXoWxGry8Zw18trWkCw1xGw4xCrg_yoW5uw4xpF
+ y7CF1kurs5Xrn3KrZIq347WFn5Zws7Kw12qFWIy3yFkFZrAr1Uuw4kA34qyFy8J3y8Ga4j
+ vFn5K3W3Xa1UJ37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
@@ -62,134 +61,102 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- hw/loongarch/ls3a5000_virt.c     | 81 ++++++++++++++++++++++++++++++++
- include/hw/loongarch/loongarch.h |  5 ++
- 2 files changed, 86 insertions(+)
+ hw/loongarch/Kconfig             |  1 +
+ hw/loongarch/ls3a5000_virt.c     | 41 ++++++++++++++++++++++++++++++++
+ include/hw/loongarch/loongarch.h |  2 ++
+ 3 files changed, 44 insertions(+)
 
+diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+index b59cd98a7a..595c19ad83 100644
+--- a/hw/loongarch/Kconfig
++++ b/hw/loongarch/Kconfig
+@@ -14,6 +14,7 @@ config LOONGSON_3A5000
+     select LOONGARCH_EXTIOI
+     select LS7A_RTC
+     select FW_CFG_LOONGARCH
++    select SMBIOS
+ 
+ config FW_CFG_LOONGARCH
+     bool
 diff --git a/hw/loongarch/ls3a5000_virt.c b/hw/loongarch/ls3a5000_virt.c
-index 85c8466d75..902a0c7630 100644
+index 902a0c7630..bfe8dd4757 100644
 --- a/hw/loongarch/ls3a5000_virt.c
 +++ b/hw/loongarch/ls3a5000_virt.c
-@@ -29,8 +29,78 @@
+@@ -26,6 +26,7 @@
+ #include "hw/pci-host/ls7a.h"
+ #include "hw/misc/unimp.h"
+ #include "hw/loongarch/fw_cfg.h"
++#include "hw/firmware/smbios.h"
  
  #define LOONGSON3_BIOSNAME "loongarch_bios.bin"
  
-+static struct _loaderparams {
-+    unsigned long ram_size;
-+    const char *kernel_filename;
-+    const char *kernel_cmdline;
-+    const char *initrd_filename;
-+} loaderparams;
-+
- CPULoongArchState *cpu_states[LOONGARCH_MAX_VCPUS];
+@@ -101,6 +102,43 @@ static void fw_cfg_add_kernel_info(FWCfgState *fw_cfg)
+     fw_cfg_add_string(fw_cfg, FW_CFG_CMDLINE_DATA, (const char *)cmdline_buf);
+ }
  
-+static uint64_t cpu_loongarch_virt_to_phys(void *opaque, uint64_t addr)
++static void loongarch_build_smbios(LoongArchMachineState *lams)
 +{
-+    return addr & 0x1fffffffll;
++    MachineState *ms = MACHINE(lams);
++    MachineClass *mc = MACHINE_GET_CLASS(lams);
++    uint8_t *smbios_tables, *smbios_anchor;
++    size_t smbios_tables_len, smbios_anchor_len;
++    const char *product = "QEMU Virtual Machine";
++    ms->smp.cores = 4;
++
++    if (!lams->fw_cfg) {
++        return;
++    }
++
++    product = "LoongArch-3A5K-7A1000-TCG";
++
++    smbios_set_defaults("QEMU", product, mc->name, false,
++                        true, SMBIOS_ENTRY_POINT_30);
++
++    smbios_get_tables(ms, NULL, 0, &smbios_tables, &smbios_tables_len,
++                      &smbios_anchor, &smbios_anchor_len, &error_fatal);
++
++    if (smbios_anchor) {
++        fw_cfg_add_file(lams->fw_cfg, "etc/smbios/smbios-tables",
++                        smbios_tables, smbios_tables_len);
++        fw_cfg_add_file(lams->fw_cfg, "etc/smbios/smbios-anchor",
++                        smbios_anchor, smbios_anchor_len);
++    }
 +}
 +
-+static void fw_cfg_add_kernel_info(FWCfgState *fw_cfg)
++static
++void loongarch_machine_done(Notifier *notifier, void *data)
 +{
-+    int64_t kernel_entry, kernel_low, kernel_high, initrd_size = 0;
-+    long kernel_size;
-+    ram_addr_t initrd_offset = 0;
-+    void *cmdline_buf;
-+    int ret = 0;
-+
-+    kernel_size = load_elf(loaderparams.kernel_filename, NULL,
-+                           cpu_loongarch_virt_to_phys, NULL,
-+                           (uint64_t *)&kernel_entry, (uint64_t *)&kernel_low,
-+                           (uint64_t *)&kernel_high, NULL, 0,
-+                           EM_LOONGARCH, 1, 0);
-+
-+    if (kernel_size < 0) {
-+        error_report("could not load kernel '%s': %s",
-+                     loaderparams.kernel_filename,
-+                     load_elf_strerror(kernel_size));
-+        exit(1);
-+    }
-+
-+    fw_cfg_add_i64(fw_cfg, FW_CFG_KERNEL_ENTRY, kernel_entry);
-+
-+    if (loaderparams.initrd_filename) {
-+        initrd_size = get_image_size(loaderparams.initrd_filename);
-+
-+        if (initrd_size > 0) {
-+            initrd_offset = MAX(INITRD_BASE,
-+                                ROUND_UP(kernel_high, INITRD_PAGE_SIZE));
-+            if (initrd_offset + initrd_size > 0x10000000) {
-+                error_report("ramdisk '%s' is too big",
-+                             loaderparams.initrd_filename);
-+                exit(1);
-+            }
-+            initrd_size = load_image_targphys(loaderparams.initrd_filename,
-+                                              initrd_offset,
-+                                              loaderparams.ram_size - initrd_offset);
-+        }
-+        if (initrd_size == (target_ulong) -1) {
-+            error_report("could not load initial ram disk '%s'",
-+                         loaderparams.initrd_filename);
-+            exit(1);
-+        }
-+    }
-+
-+    cmdline_buf = g_malloc0(COMMAND_LINE_SIZE);
-+    if (initrd_size > 0)
-+        ret = (1 + snprintf(cmdline_buf, COMMAND_LINE_SIZE,
-+                "initrd=0x%lx,%li %s", initrd_offset,
-+                initrd_size, loaderparams.kernel_cmdline));
-+    else
-+        ret = (1 + snprintf(cmdline_buf, COMMAND_LINE_SIZE, "%s",
-+                loaderparams.kernel_cmdline));
-+
-+    fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_SIZE, ret);
-+    fw_cfg_add_string(fw_cfg, FW_CFG_CMDLINE_DATA, (const char *)cmdline_buf);
++    LoongArchMachineState *lams = container_of(notifier,
++                                        LoongArchMachineState, machine_done);
++    loongarch_build_smbios(lams);
 +}
 +
  static void main_cpu_reset(void *opaque)
  {
      LoongArchCPU *cpu = opaque;
-@@ -198,6 +268,9 @@ static void network_init(PCIBus *pci_bus)
- static void ls3a5000_virt_init(MachineState *machine)
- {
-     const char *cpu_model = machine->cpu_type;
-+    const char *kernel_filename = machine->kernel_filename;
-+    const char *kernel_cmdline = machine->kernel_cmdline;
-+    const char *initrd_filename = machine->initrd_filename;
-     LoongArchCPU *cpu;
-     CPULoongArchState *env;
-     uint64_t highram_size = 0;
-@@ -291,6 +364,14 @@ static void ls3a5000_virt_init(MachineState *machine)
-         exit(1);
-     }
- 
-+    if (kernel_filename) {
-+        loaderparams.ram_size = ram_size;
-+        loaderparams.kernel_filename = kernel_filename;
-+        loaderparams.kernel_cmdline = kernel_cmdline;
-+        loaderparams.initrd_filename = initrd_filename;
-+        fw_cfg_add_kernel_info(lams->fw_cfg);
-+    }
-+
-     memory_region_init_ram(bios, NULL, "loongarch.bios",
-                            LA_BIOS_SIZE, &error_fatal);
+@@ -377,6 +415,9 @@ static void ls3a5000_virt_init(MachineState *machine)
      memory_region_set_readonly(bios, true);
+     memory_region_add_subregion(get_system_memory(), LA_BIOS_BASE, bios);
+ 
++    lams->machine_done.notify = loongarch_machine_done;
++    qemu_add_machine_init_done_notifier(&lams->machine_done);
++
+     /* Add PM mmio memory for reboot and shutdown*/
+     iomem = g_new(MemoryRegion, 1);
+     memory_region_init_io(iomem, NULL, &loongarch_pm_ops, NULL,
 diff --git a/include/hw/loongarch/loongarch.h b/include/hw/loongarch/loongarch.h
-index 2eb43e1263..dc7617ab64 100644
+index dc7617ab64..b165b4fd07 100644
 --- a/include/hw/loongarch/loongarch.h
 +++ b/include/hw/loongarch/loongarch.h
-@@ -37,6 +37,11 @@
- #define LA_BIOS_BASE            0x1c000000
- #define LA_BIOS_SIZE            (4 * 1024 * 1024)
+@@ -49,6 +49,8 @@ typedef struct LoongArchMachineState {
+     AddressSpace *address_space_iocsr;
+     MemoryRegion *system_iocsr;
  
-+/* Kernels can be configured with 64KB pages */
-+#define INITRD_PAGE_SIZE        (64 * KiB)
-+#define INITRD_BASE             0x04000000
-+#define COMMAND_LINE_SIZE       4096
-+
- typedef struct LoongArchMachineState {
-     /*< private >*/
-     MachineState parent_obj;
++    /* State for other subsystems/APIs: */
++    Notifier machine_done;
+     gipiState   *gipi;
+     qemu_irq    *pch_irq;
+     FWCfgState  *fw_cfg;
 -- 
 2.27.0
 
