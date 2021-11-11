@@ -2,92 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C16D344DB00
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 18:13:20 +0100 (CET)
-Received: from localhost ([::1]:35138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DF2C44DB08
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 18:18:30 +0100 (CET)
+Received: from localhost ([::1]:40378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlDdX-00038T-Ku
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 12:13:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39594)
+	id 1mlDiX-0006sj-B4
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 12:18:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mlDbu-0001jh-Tz
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 12:11:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40847)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mlDbs-0002Lk-9L
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 12:11:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636650694;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=S97dAS51ngt0lc3om5cP3fO5Tio6hbeGZK5FtI51I1E=;
- b=R/TDqu2lWXKuVeHNUv3OmZzt3K27qT/6RHqh6ABjs9YtBHk+qYBCoAkwJLqg8j4vrydMQu
- rDx3yD8VColpjlXFjL3gzT+owy10zVtRl6nJlHmdd0tPsppIBg3PNRVuIZwjouRpK4XQmO
- J1k5j6gMPCvwOkKtZt0OpDViP/2MtGY=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-433-RGIH1FwGMpGIBzLfyZkDVA-1; Thu, 11 Nov 2021 12:11:25 -0500
-X-MC-Unique: RGIH1FwGMpGIBzLfyZkDVA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- g3-20020a056402424300b003e2981e1edbso6009086edb.3
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 09:11:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mlDga-0005W2-Gg
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 12:16:31 -0500
+Received: from [2a00:1450:4864:20::429] (port=36734
+ helo=mail-wr1-x429.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mlDgZ-0002tW-16
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 12:16:28 -0500
+Received: by mail-wr1-x429.google.com with SMTP id s13so11002321wrb.3
+ for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 09:16:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=jEKRUxlJ+6aLqXJR2iEGZlItiFsE+G1HoCcl0IPhv5Q=;
+ b=hSr6k9ylVyfsaNuvbjbQLNCUOhmZH5AhmBFfiHJzMHGa9FnqZLLgsRZ8wAAXMeTKyF
+ PVNcnhRr5PKo+4PA544G2RIHCgQOtW9MEYI874BKLt7NxhvXhw4Spi1uCz08ul8G0kaC
+ yrTQHg4A8QxzCukkX7NgljJHDWB78c+mk5J1L7jEcvmOGaOLt04UpfLEDZA1DSfGaR38
+ r5Rx2TEYae3wG4g/pGoIG3YMI/XQdQ0MEgyzIQS0IT59xAegFPdbXZHfYxtr4NNnZ6Tc
+ D9FHQs0kOfXv0eJBLuFuY0a43H19CyqM13O4xC48UKIDrOXHSUbKy3hGokcc7/ncdgBL
+ TWtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=S97dAS51ngt0lc3om5cP3fO5Tio6hbeGZK5FtI51I1E=;
- b=Eebh5JRYtrJXVtRkqgOR2vrXikeX9gfBScCw0ebDk5/lOHDPZbt8+oNkECQNE1ncVL
- pa66eKUIS2tBccjPDzrPc5u+HQQ7/WDP0TDyneX2vzogtxND7I1Ulo9YOkG61fEOGzGc
- SGowA83NxG18upLTd4MIIZW2vNGfl3IO8F6MnrK9/gMM1rU/M2BjUsjSXtXpzbjM3Z+c
- LAcMicaWH3wyEiL9stQqo7yF5Q3t/7c6fs1zYzmQNvlDMj3jqfmkh8eIdHojflRuUEI2
- U7r0R5X/SiJAqheYq60Rt1f9VCTSWfELuUeYs0ueLCs4G2IWLcDoZWLxqDHG2/EGEovP
- e4YQ==
-X-Gm-Message-State: AOAM530Dx+uYwm+GVAkeNRDCgzZolzWKGF/KGvlApASPQU8/diO40AmT
- sV0jiRMduqbdxsIaKDl4X3GST+rnYOIewvmxy9S34fur4UUk6RWzRBcArJ5StccTEpXQjMRC88x
- iromsxVXsZofPCEU=
-X-Received: by 2002:a05:6402:44c:: with SMTP id
- p12mr11896314edw.234.1636650683572; 
- Thu, 11 Nov 2021 09:11:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzXiUmekehcDH7aUFaoL2KhPWPQTyO1O0SIAhmTt6s4n6ZHKWC+aHOKdI0zwc0Xp9azL4Ctzw==
-X-Received: by 2002:a05:6402:44c:: with SMTP id
- p12mr11896276edw.234.1636650683356; 
- Thu, 11 Nov 2021 09:11:23 -0800 (PST)
-Received: from redhat.com ([2.55.135.246])
- by smtp.gmail.com with ESMTPSA id x14sm1615259ejs.124.2021.11.11.09.11.21
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=jEKRUxlJ+6aLqXJR2iEGZlItiFsE+G1HoCcl0IPhv5Q=;
+ b=6G+R7hdFUIZddkyDXmDfyHkkcxJ+R7XFzql18pjDZ9NZleuI0tAeiD5fvXtToritsl
+ hiuK9lFBGHPJcf5ODQf59K6+R6jxELs1bqmQGnV03hNkLhSAJjId38UQK4zWvUCz6B/Z
+ s8HBu+l5025vxZp2mlD1UD1hIy1DDrq4DZty0iGMSSEjYW/3uqfXVaX7jtBaN5TdeKjX
+ Yg1V1iraYDqd/U9W5iSEcKRstzv4QETrRu8d6RC9De45cnu/QOCKWNQLtyTL/aRY2dfP
+ prdu6/z2KCs+BcMDniiCzhc7mwCxg9HZv2WrpIMVIsHKpOyeshz61ifRN4ugHf7SbKa8
+ ntHA==
+X-Gm-Message-State: AOAM530iD25uAshEiNCKnay7Soer3qVdZ0I4SiWHHG44VmmRUVRMrAkq
+ kkk5cs/2e0+577Uw2UQb33hHzS52v6OcMA==
+X-Google-Smtp-Source: ABdhPJyfu2g6b+R+hCoZpER9Db3qgpH5tMy8CT7DZo9HrbanRJc24YQonCr7FpiIq+B78P/GWKOk8w==
+X-Received: by 2002:adf:ea90:: with SMTP id s16mr10693556wrm.288.1636650984298; 
+ Thu, 11 Nov 2021 09:16:24 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id o4sm11813432wmq.31.2021.11.11.09.16.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Nov 2021 09:11:22 -0800 (PST)
-Date: Thu, 11 Nov 2021 12:11:19 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 0/6] RfC: try improve native hotplug for pcie root ports
-Message-ID: <20211111120439-mutt-send-email-mst@kernel.org>
-References: <20211011120504.254053-1-kraxel@redhat.com>
- <20211110065942-mutt-send-email-mst@kernel.org>
- <20211111075306.7dvpzewgclsddku6@sirius.home.kraxel.org>
- <20211111031646-mutt-send-email-mst@kernel.org>
- <YYzj6Yizd+ESnoOE@redhat.com>
+ Thu, 11 Nov 2021 09:16:23 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8790D1FF96;
+ Thu, 11 Nov 2021 17:16:22 +0000 (GMT)
+References: <20211111110604.207376-1-pbonzini@redhat.com>
+ <20211111110604.207376-5-pbonzini@redhat.com>
+User-agent: mu4e 1.7.4; emacs 28.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 4/5] gdbstub, kvm: let KVM report supported singlestep
+ flags
+Date: Thu, 11 Nov 2021 17:14:30 +0000
+In-reply-to: <20211111110604.207376-5-pbonzini@redhat.com>
+Message-ID: <874k8iipeh.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <YYzj6Yizd+ESnoOE@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,57 +91,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Cc: cohuck@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ mlevitsk@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 11, 2021 at 09:35:37AM +0000, Daniel P. Berrangé wrote:
-> On Thu, Nov 11, 2021 at 03:20:07AM -0500, Michael S. Tsirkin wrote:
-> > On Thu, Nov 11, 2021 at 08:53:06AM +0100, Gerd Hoffmann wrote:
-> > >   Hi,
-> > > 
-> > > > Given it's a bugfix, and given that I hear through internal channels
-> > > > that QE results so far have been encouraging, I am inclined to bite the
-> > > > bullet and merge this for -rc1.
-> > > 
-> > > Fine with me.
-> > > 
-> > > > I don't think this conflicts with Julia's patches as users can still
-> > > > disable ACPI hotplug into bridges.  Gerd, agree?  Worth the risk?
-> > > 
-> > > Combining this with Julia's patches looks a bit risky to me and surely
-> > > needs testing.  I expect the problematic case is both native and acpi
-> > > hotplug being enabled.
-> > >  When the guest uses acpi hotplug nobody will
-> > > turn on slot power on the pcie root port ...
-> > 
-> > I'm not sure I understand what the situation is, and how to trigger it.
-> > Could you clarify pls?
-> > 
-> > > I'd suggest to just revert to pcie native hotplug for 6.2.
-> > 
-> > Hmm that kind of change seems even riskier to me. I think I'll try with
-> > Igor's patches.
-> 
-> Why would it be risky ? PCIE native hotplug is what we've used in
-> QEMU for years & years, until 6.1 enabled the buggy ACPI hotplug.
-> The behaviour of the current PCIE native hotplug impl is a known
-> quantity.
-> 
-> Regards,
-> Daniel
 
-For example we might regress some of the bugs that the switch to ACPI fixed back to
-6.0 state. There were a bunch of these. For example it should be
-possible for guests to disable native and use ACPI then, but isn't.
-I'm very willing to consider the switch back to native by default
-but given the timing doing big changes like that at the last
-minute seems unusual.
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> From: Maxim Levitsky <mlevitsk@redhat.com>
+>
+> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> [Extracted from Maxim's patch into a separate commit. - Paolo]
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
