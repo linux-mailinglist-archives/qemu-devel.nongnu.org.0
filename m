@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5498144D65D
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 13:11:55 +0100 (CET)
-Received: from localhost ([::1]:46136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCA9444D66C
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 13:13:50 +0100 (CET)
+Received: from localhost ([::1]:53472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml8vo-0003HN-VF
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 07:11:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40032)
+	id 1ml8xh-00089M-UA
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 07:13:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1ml8sp-0008QW-8m
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 07:08:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41153)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1ml8sr-0008SV-U6
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 07:08:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1ml8sm-00032X-TV
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 07:08:46 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1ml8sq-00035g-41
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 07:08:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636632521;
+ s=mimecast20190719; t=1636632527;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2Qf2yowMAttbNAAjdTZUK5uUohwtUk695K3OtJ96ke0=;
- b=TzAKUN1oV3lmtZsdqY4ImQ80u+hXHBL5icm3iPs8sVJqcj5Orl7tsgRbBfDfxcr6OPlEDc
- HLRPj+K/gdjzL7KQGsqCaG7pKuvpSYWzTq5mX9x0hR6rTLfxi6LrMb/NtQsc85fzOECxaA
- 76jBzHFb3ox6zBQLVDKMmZlTHssZmg8=
+ bh=o+PAHv2V7jz95XP5m5W8oPbjYDrXB+UXUyRgmX9RjKU=;
+ b=hhtjRVZ9wBW2W+83zyw7P9zMi3irLAbmtdTNfWUWb47Kp1F7zhSsLe+Oc/3OC35ycsa0cu
+ +Pv6o33XiTZlYSBVT46ZuTakiDUKyLmAfVI/lRrhPvP3lGjRkzvhhhWBSs/dRTwy8Pohlj
+ FaHe9rqBvdRGhTrtFYluRHz96Izn2hg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-593-7K8bEA2LMOG7CptutArtBQ-1; Thu, 11 Nov 2021 07:08:38 -0500
-X-MC-Unique: 7K8bEA2LMOG7CptutArtBQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-178-dHYKbJ0dMiOp1RTUJ41Lrg-1; Thu, 11 Nov 2021 07:08:44 -0500
+X-MC-Unique: dHYKbJ0dMiOp1RTUJ41Lrg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C8D3425C8;
- Thu, 11 Nov 2021 12:08:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CBA21017965;
+ Thu, 11 Nov 2021 12:08:43 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 011785D6B1;
- Thu, 11 Nov 2021 12:08:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 16402197FC;
+ Thu, 11 Nov 2021 12:08:38 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 01/10] stream: Traverse graph after modification
-Date: Thu, 11 Nov 2021 13:08:20 +0100
-Message-Id: <20211111120829.81329-2-hreitz@redhat.com>
+Subject: [PATCH v2 02/10] block: Manipulate children list in .attach/.detach
+Date: Thu, 11 Nov 2021 13:08:21 +0100
+Message-Id: <20211111120829.81329-3-hreitz@redhat.com>
 In-Reply-To: <20211111120829.81329-1-hreitz@redhat.com>
 References: <20211111120829.81329-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,46 +81,81 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bdrv_cor_filter_drop() modifies the block graph.  That means that other
-parties can also modify the block graph before it returns.  Therefore,
-we cannot assume that the result of a graph traversal we did before
-remains valid afterwards.
+The children list is specific to BDS parents.  We should not modify it
+in the general children modification code, but let BDS parents deal with
+it in their .attach() and .detach() methods.
 
-We should thus fetch `base` and `unfiltered_base` afterwards instead of
-before.
+This also has the advantage that a BdrvChild is removed from the
+children list before its .bs pointer can become NULL.  BDS parents
+generally assume that their children's .bs pointer is never NULL, so
+this is actually a bug fix.
 
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/stream.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ block.c | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
-diff --git a/block/stream.c b/block/stream.c
-index 97bee482dc..e45113aed6 100644
---- a/block/stream.c
-+++ b/block/stream.c
-@@ -54,8 +54,8 @@ static int stream_prepare(Job *job)
+diff --git a/block.c b/block.c
+index 580cb77a70..ca024ffced 100644
+--- a/block.c
++++ b/block.c
+@@ -1387,6 +1387,8 @@ static void bdrv_child_cb_attach(BdrvChild *child)
  {
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
-     BlockDriverState *unfiltered_bs = bdrv_skip_filters(s->target_bs);
--    BlockDriverState *base = bdrv_filter_or_cow_bs(s->above_base);
--    BlockDriverState *unfiltered_base = bdrv_skip_filters(base);
-+    BlockDriverState *base;
-+    BlockDriverState *unfiltered_base;
-     Error *local_err = NULL;
-     int ret = 0;
+     BlockDriverState *bs = child->opaque;
  
-@@ -63,6 +63,9 @@ static int stream_prepare(Job *job)
-     bdrv_cor_filter_drop(s->cor_filter_bs);
-     s->cor_filter_bs = NULL;
- 
-+    base = bdrv_filter_or_cow_bs(s->above_base);
-+    unfiltered_base = bdrv_skip_filters(base);
++    QLIST_INSERT_HEAD(&bs->children, child, next);
 +
-     if (bdrv_cow_child(unfiltered_bs)) {
-         const char *base_id = NULL, *base_fmt = NULL;
-         if (unfiltered_base) {
+     if (child->role & BDRV_CHILD_COW) {
+         bdrv_backing_attach(child);
+     }
+@@ -1403,6 +1405,8 @@ static void bdrv_child_cb_detach(BdrvChild *child)
+     }
+ 
+     bdrv_unapply_subtree_drain(child, bs);
++
++    QLIST_REMOVE(child, next);
+ }
+ 
+ static int bdrv_child_cb_update_filename(BdrvChild *c, BlockDriverState *base,
+@@ -2747,7 +2751,7 @@ static void bdrv_child_free(void *opaque)
+ static void bdrv_remove_empty_child(BdrvChild *child)
+ {
+     assert(!child->bs);
+-    QLIST_SAFE_REMOVE(child, next);
++    assert(!child->next.le_prev); /* not in children list */
+     bdrv_child_free(child);
+ }
+ 
+@@ -2913,12 +2917,6 @@ static int bdrv_attach_child_noperm(BlockDriverState *parent_bs,
+         return ret;
+     }
+ 
+-    QLIST_INSERT_HEAD(&parent_bs->children, *child, next);
+-    /*
+-     * child is removed in bdrv_attach_child_common_abort(), so don't care to
+-     * abort this change separately.
+-     */
+-
+     return 0;
+ }
+ 
+@@ -4851,7 +4849,6 @@ static void bdrv_remove_filter_or_cow_child_abort(void *opaque)
+     BdrvRemoveFilterOrCowChild *s = opaque;
+     BlockDriverState *parent_bs = s->child->opaque;
+ 
+-    QLIST_INSERT_HEAD(&parent_bs->children, s->child, next);
+     if (s->is_backing) {
+         parent_bs->backing = s->child;
+     } else {
+@@ -4906,7 +4903,6 @@ static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
+     };
+     tran_add(tran, &bdrv_remove_filter_or_cow_child_drv, s);
+ 
+-    QLIST_SAFE_REMOVE(child, next);
+     if (s->is_backing) {
+         bs->backing = NULL;
+     } else {
 -- 
 2.33.1
 
