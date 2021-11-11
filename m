@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7224F44D5CA
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 12:29:34 +0100 (CET)
-Received: from localhost ([::1]:45214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 418DC44D5C1
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 12:23:40 +0100 (CET)
+Received: from localhost ([::1]:36040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml8Gq-0003Qr-Vc
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 06:29:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54724)
+	id 1ml8B9-0005NQ-3L
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 06:23:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ml86p-0007lD-Gq
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 06:19:11 -0500
-Received: from [2a00:1450:4864:20::32e] (port=52878
- helo=mail-wm1-x32e.google.com)
+ id 1ml89e-0003sA-NX
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 06:22:06 -0500
+Received: from [2a00:1450:4864:20::333] (port=40903
+ helo=mail-wm1-x333.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ml86n-0003QY-Fm
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 06:19:11 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id o29so4749758wms.2
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 03:19:08 -0800 (PST)
+ id 1ml89a-0004DU-Jd
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 06:22:05 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ az33-20020a05600c602100b00333472fef04so6234670wmb.5
+ for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 03:22:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=BcqqGqjgY8o0Ij5kcwPiiQfeHEMKU/qpJ8OKYCo3ky4=;
- b=XcRpEKvLxGVoVLN10akrx2/0VkI/J+stBumhTWKDk8IMnUlqeFiGWM1my5bIcgGpPE
- h2SrjMhEbkIUaLDm7xG/u+rFNXx38xmsk2U16KYuoW1NVXKryJKgI2/bjiEdY0Snmau8
- OkJT3EFsnX8AjJrie0SbfvbreJ6TYEJxPJU/dOpcPEcFA05YHRheuG0Rfl7GsAHw+m96
- k7xwsS3sdo1y8FTUPNzZzaUmur2jk1ymY/Ftd1TZoWNIyYr3M53kfsNOLJEv9ME/ke9k
- QkQWUtNgid038UEe/zX6IKOaD/d8QLl5IstMXs/pa1woKhk+dmLjnIQZQe5vK/GCCjCv
- k33Q==
+ bh=hvkKwz5PejTRCPwJ8yb5WvmQrjXes9k/z2Zzq4nho2I=;
+ b=jQLLV9ku4BDg1Pal9Ws0f0Ilxn0+A/46G3QVEZzG2ZOreGfmsgAds7yCUtLz54Bjfy
+ FsfPZ8WM0eYf2JKiRu4oMS3AmBX8aoFHINN7JhMEa63BCuicFH+jvFlL0EQuathXSGsE
+ C58d7yZBD9LQH4nIX61FE55WUF86zIxo1ocdM0/4nEgjGf7Fp8S1wy+hPB7Z+ze4Ll6U
+ 32O2i7Ig1357oT+IU0iOdSmPxvqq4I7t+pm/KAEIH+6dwgkir74SRIV//ZDwgx/P7Gpt
+ HEmbdfWpcxtIX3O0lFWRiCg8USxGH+7GSmDKBtIcpZ9JfyQECmVSxPbs0BpneC1TWDCA
+ H2Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=BcqqGqjgY8o0Ij5kcwPiiQfeHEMKU/qpJ8OKYCo3ky4=;
- b=rF3LqazRy1srVbwNZGvJjVWiY2fUiNwD2tcNIYG9E/f0W+aQHmErl4CXcYQcg4jtz7
- ZKR4GCU5p9Qw5VPtiNz4jeXeQpTX+cYIdBuHoo4kSxFw2pJ4ltIlCvcBJR8tnESETd+U
- xUWBZJ0SsjvDRJpbKpYZzf2KAeDwroMiFIyBY97EiZ0eL6URXc4XSUz8m1TbXA0MDDQo
- 8V6S/Zfny9bIpbkvSvr5onvsV6ilznNQlwPJr4RvaTMWpxvrrSeWNZgUdKsgkRtUUmyr
- 3pyhZLInvkwHB8iTv+LFlrNCjI7GElCgo2WRHTYcNuOu5hWv/Cft/JMeMWt01TjSdPdC
- D/nQ==
-X-Gm-Message-State: AOAM532tfRiYaoMs/BLC//RM+H06Ro4DqZ1LLAYZXD60W1D+SlYu3UWf
- mSBk3BzsZ96mC8rJ0H2BPESWgA==
-X-Google-Smtp-Source: ABdhPJwROvMtfzsEXSgNq9dT/RMVlOlNlHRgC4ykm9NI7Blp1x0PB0wgl4S/fDXUeBqYXGgXtHhAhw==
-X-Received: by 2002:a05:600c:350c:: with SMTP id
- h12mr7097137wmq.123.1636629547308; 
- Thu, 11 Nov 2021 03:19:07 -0800 (PST)
+ bh=hvkKwz5PejTRCPwJ8yb5WvmQrjXes9k/z2Zzq4nho2I=;
+ b=FcQZ8msxLMTd15sd/GKIqqd+lJWVcb6rsqyP+b6DO+jA/B1/EC/0JYh9XoPCKz/u92
+ /OX3sQ7Y3Gp1FYbWUoKzFX/1H4whDakNO0BavunchbsdnxosaRhCHqHPOsExtTqQAbNs
+ +rLjqosvzwuiNZmc0jxdY2fPJ7/8sG9+diXozixRlfWSxR7+YELjodf+ZYIiP586fwZA
+ lohNeDyi5YXe9cGXqnqRFOV+ahdFnnLSsl4whrxjhWdz8eV3+EI/KpMcHd4qjjGPxG0+
+ hLO6rwYJkD/DUcR0xL7mAcaZaqdHawK7uFV9HyAB8v6MWUepfcZvZlWNwWp1RrbxJ8qo
+ wbwA==
+X-Gm-Message-State: AOAM530CZHqfB7B8ePBiDqb6431vxVqsQvFhix8l1f8L7Pc4BvEpRSoy
+ VGuPafELQdqn7hYzZfNwnXOmYA==
+X-Google-Smtp-Source: ABdhPJwhK2LujHpDP4qyMJMsITjSs852P52hfjmYXeMME6/2wlHBMny59dvriEW9iV83l1EqrBZ8Kg==
+X-Received: by 2002:a05:600c:1e27:: with SMTP id
+ ay39mr14245620wmb.84.1636629720861; 
+ Thu, 11 Nov 2021 03:22:00 -0800 (PST)
 Received: from [192.168.8.106] (10.red-95-125-227.dynamicip.rima-tde.net.
  [95.125.227.10])
- by smtp.gmail.com with ESMTPSA id c11sm3596164wmq.27.2021.11.11.03.19.06
+ by smtp.gmail.com with ESMTPSA id l2sm8434367wmi.1.2021.11.11.03.21.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Nov 2021 03:19:06 -0800 (PST)
-Subject: Re: [PATCH v3 04/20] target/riscv: Extend pc for runtime pc write
+ Thu, 11 Nov 2021 03:22:00 -0800 (PST)
+Subject: Re: [PATCH v3 07/20] target/riscv: Adjust csr write mask with XLEN
 To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
 References: <20211111055800.42672-1-zhiwei_liu@c-sky.com>
- <20211111055800.42672-5-zhiwei_liu@c-sky.com>
+ <20211111055800.42672-8-zhiwei_liu@c-sky.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <38b9d081-b132-940d-78d1-2aa579b55dde@linaro.org>
-Date: Thu, 11 Nov 2021 12:19:03 +0100
+Message-ID: <0a901c8e-28b6-1390-f0f1-89b5d4949a33@linaro.org>
+Date: Thu, 11 Nov 2021 12:21:57 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211111055800.42672-5-zhiwei_liu@c-sky.com>
+In-Reply-To: <20211111055800.42672-8-zhiwei_liu@c-sky.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -52
 X-Spam_score: -5.3
 X-Spam_bar: -----
@@ -98,16 +99,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/11/21 6:57 AM, LIU Zhiwei wrote:
-> In some cases, we must restore the guest PC to the address of the start of
-> the TB, such as when the instruction counter hits zero. So extend pc register
-> according to current xlen for these cases.
+> Write mask is representing the bits we care about.
 > 
 > Signed-off-by: LIU Zhiwei<zhiwei_liu@c-sky.com>
 > ---
->   target/riscv/cpu.c        | 22 +++++++++++++++++++---
->   target/riscv/cpu.h        |  2 ++
->   target/riscv/cpu_helper.c |  2 +-
->   3 files changed, 22 insertions(+), 4 deletions(-)
+>   target/riscv/insn_trans/trans_rvi.c.inc | 4 ++--
+>   target/riscv/op_helper.c                | 3 ++-
+>   2 files changed, 4 insertions(+), 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
