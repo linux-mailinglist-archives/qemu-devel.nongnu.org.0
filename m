@@ -2,94 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1FD744D9AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 16:58:29 +0100 (CET)
-Received: from localhost ([::1]:59202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3739144DA38
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 17:17:42 +0100 (CET)
+Received: from localhost ([::1]:34194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlCT6-0004Sb-Vp
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 10:58:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47288)
+	id 1mlClh-0002ry-2V
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 11:17:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mlCQU-0000Rx-0q
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 10:55:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32880)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mlCbq-0001Pj-GF
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 11:07:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22230)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mlCQP-00084P-KD
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 10:55:44 -0500
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mlCbn-0001iR-U0
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 11:07:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636646139;
+ s=mimecast20190719; t=1636646846;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Sx5EdwsXZEz/jV37SqDSp6MluJz7F8Q6qbQFChBZWO4=;
- b=UUfNZulOyeKej6rrWOPcTXi/JIrrZ7YZmOIWAqnw2pmqvjYyksjdwtoK/VFXYk8xCqX313
- RRlEJBK/kDaUhrKM/5EvNN0qf9DmnprWpl2VoYwzDrAQuxi2KVWYZzQFzrW0mAfykRWIEE
- HfJxo/PFo3ExvJfYAyGQsjqTQG9ISBE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-nbip1cPZPzK2B2xt6ZjZiQ-1; Thu, 11 Nov 2021 10:55:38 -0500
-X-MC-Unique: nbip1cPZPzK2B2xt6ZjZiQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- o18-20020a05600c511200b00332fa17a02eso2882647wms.5
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 07:55:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=Sx5EdwsXZEz/jV37SqDSp6MluJz7F8Q6qbQFChBZWO4=;
- b=j/uhpAxqdSjeX86cbFOVIbrVXTh9wXgrNPYfTnCUi9llK/XtpnZoBdEv6Lw2kg6cvK
- 8jHBLvYBx7YT0xJ0zpSHY/RVzdnt7J6+eQo9gU+N1NyXsiOJikpnBr8uttXUuxED+Jko
- 8ESnFJgtgsjYH2BqnBWU/aw9jiEkzJs5qDE63aYUZ3wIiQFLhhzf4At7NyGkebC5l8A7
- RolL89r+KWlByJDt1VJzAwqWTj92TcD6nScbrh9j8FA/pe3I8e+9BN5M7pdpZKOJ6Mbr
- QSl09S/4ws1caxaTgy6fklqhPCP7vsrJVH8JRuH4w+Nt4imUQbupDTGwbrhCaw6s0mjX
- wStw==
-X-Gm-Message-State: AOAM530Bmla8JW3ldhupPMazC43sKO3hu8rG5hK8kt5aLfUY/qjnU0UY
- EqZnWVB3LR9aPZLkgf4s9aJ8Cg0qS95wHq0v99+V/r1j6WVUgDhNYHqF/Xh9x11MXnkoKIovpYT
- miJUhhsm93H3IAEU=
-X-Received: by 2002:a05:600c:202:: with SMTP id
- 2mr9171356wmi.167.1636646136786; 
- Thu, 11 Nov 2021 07:55:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzr1GL9MLSekHN0zRpKNhhmeMtO3is9M4hqnEBCJOCR5ZNytavasoUpiHY8OlbnUYISsFx0nw==
-X-Received: by 2002:a05:600c:202:: with SMTP id
- 2mr9171323wmi.167.1636646136515; 
- Thu, 11 Nov 2021 07:55:36 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id h3sm3172130wrv.69.2021.11.11.07.55.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Nov 2021 07:55:36 -0800 (PST)
-Message-ID: <7e490883-b723-1ff6-9191-6ef0c91ccd25@redhat.com>
-Date: Thu, 11 Nov 2021 16:55:35 +0100
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Z3JQAsoo6e5Fvxxeewovz7gMHOhF88PdHyRwBZ+N2I0=;
+ b=WJ6NK+Jxf8nY/BsFvBNNDDYBMO+6lcFWt7nONEoZhOKWrvhGIsopZysCbg4jhjXtxOAWL9
+ wgEj17arAtiJdtP51LwfduqaP3nH42Y2Dba9xMGxzA0LRlwSONDtbMO6p+HUT6ol8kV5Yt
+ nuAev97ZYKYXOptiyzVLY/ZfpYYgj1E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-282-NjOL5uhvNhyd8YrFRG6CZA-1; Thu, 11 Nov 2021 11:06:16 -0500
+X-MC-Unique: NjOL5uhvNhyd8YrFRG6CZA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F3DD871814;
+ Thu, 11 Nov 2021 16:06:15 +0000 (UTC)
+Received: from p50.localhost.localdomain.com (unknown [10.22.32.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FA4D5D6D7;
+ Thu, 11 Nov 2021 16:05:06 +0000 (UTC)
+From: Cleber Rosa <crosa@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/1] Jobs based on custom runners: add CentOS Stream 8
+Date: Thu, 11 Nov 2021 11:05:00 -0500
+Message-Id: <20211111160501.862396-1-crosa@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 2/2] hw/core/loader: workaround read() size limit.
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: Jamie Iles <jamie@nuviainc.com>
-References: <20211111141141.3295094-1-jamie@nuviainc.com>
- <20211111141141.3295094-3-jamie@nuviainc.com>
- <c9950c92-86c5-ce0d-054e-357db1de851c@redhat.com> <YY04ioqviteeKy0c@hazel>
- <bd0f1a0a-1b5e-9800-069c-764cb9cfb5e1@redhat.com>
-In-Reply-To: <bd0f1a0a-1b5e-9800-069c-764cb9cfb5e1@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -74
-X-Spam_score: -7.5
-X-Spam_bar: -------
-X-Spam_report: (-7.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.999, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,102 +73,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, lmichel@kalray.eu
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, Erik Skultety <eskultet@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/11/21 16:43, Philippe Mathieu-Daudé wrote:
-> On 11/11/21 16:36, Jamie Iles wrote:
->> Hi Philippe,
->>
->> On Thu, Nov 11, 2021 at 03:55:48PM +0100, Philippe Mathieu-Daudé wrote:
->>> Hi Jamie,
->>>
->>> On 11/11/21 15:11, Jamie Iles wrote:
->>>> On Linux, read() will only ever read a maximum of 0x7ffff000 bytes
->>>> regardless of what is asked.  If the file is larger than 0x7ffff000
->>>> bytes the read will need to be broken up into multiple chunks.
->>>>
->>>> Cc: Luc Michel <lmichel@kalray.eu>
->>>> Signed-off-by: Jamie Iles <jamie@nuviainc.com>
->>>> ---
->>>>  hw/core/loader.c | 40 ++++++++++++++++++++++++++++++++++------
->>>>  1 file changed, 34 insertions(+), 6 deletions(-)
->>>>
->>>> diff --git a/hw/core/loader.c b/hw/core/loader.c
->>>> index 348bbf535bd9..16ca9b99cf0f 100644
->>>> --- a/hw/core/loader.c
->>>> +++ b/hw/core/loader.c
->>>> @@ -80,6 +80,34 @@ int64_t get_image_size(const char *filename)
->>>>      return size;
->>>>  }
->>>>  
->>>> +static ssize_t read_large(int fd, void *dst, size_t len)
->>>> +{
->>>> +    /*
->>>> +     * man 2 read says:
->>>> +     *
->>>> +     * On Linux, read() (and similar system calls) will transfer at most
->>>> +     * 0x7ffff000 (2,147,479,552) bytes, returning the number of bytes
->>>
->>> Could you mention MAX_RW_COUNT from linux/fs.h?
->>>
->>>> +     * actually transferred.  (This is true on both 32-bit and 64-bit
->>>> +     * systems.)
->>>
->>> Maybe "This is true for both ILP32 and LP64 data models used by Linux"?
->>> (because that would not be the case for the ILP64 model).
->>>
->>> Otherwise s/systems/Linux variants/?
->>>
->>>> +     *
->>>> +     * So read in chunks no larger than 0x7ffff000 bytes.
->>>> +     */
->>>> +    size_t max_chunk_size = 0x7ffff000;
->>>
->>> We can declare it static const.
->>
->> Ack, can fix all of those up.
->>
->>>> +    size_t offset = 0;
->>>> +
->>>> +    while (offset < len) {
->>>> +        size_t chunk_len = MIN(max_chunk_size, len - offset);
->>>> +        ssize_t br = read(fd, dst + offset, chunk_len);
->>>> +
->>>> +        if (br < 0) {
->>>> +            return br;
->>>> +        }
->>>> +        offset += br;
->>>> +    }
->>>> +
->>>> +    return (ssize_t)len;
->>>> +}
->>>
->>> I see other read()/pread() calls:
->>>
->>> hw/9pfs/9p-local.c:472:            tsize = read(fd, (void *)buf, bufsz);
->>> hw/vfio/common.c:269:    if (pread(vbasedev->fd, &buf, size,
->>> region->fd_offset + addr) != size) {
->>> ...
->>>
->>> Maybe the read_large() belongs to "sysemu/os-xxx.h"?
->>
->> I think util/osdep.c would be a good fit for this.  To make sure we're 
-> 
-> Yes.
-> 
->> on the same page though are you proposing converting all pread/read 
->> calls to a qemu variant or auditing for ones that could potentially take 
->> a larger size?
-> 
-> Yes, I took some time wondering beside loading blob in guest memory,
-> what would be the other issues you might encounter. I couldn't find
-> many cases. Eventually hw/vfio/. I haven't audit much, only noticed
-> hw/9pfs/9p-local.c and qga/commands-*.c (not sure if relevant), but
-> since we want to fix this, I'd rather try to fix it globally.
-
-Actually what you suggest is simpler, add qemu_read() / qemu_pread()
-in util/osdep.c, convert all uses without caring about any audit.
+This adds a new custom runner, showing an example of how other=0D
+entities can add their own custom jobs to the GitLab CI pipeline.=0D
+=0D
+The runner (the machine and job) is to be managed by Red Hat, and=0D
+adds, at the very least, bare metal x86_64 KVM testing capabilities to=0D
+the QEMU pipeline.  This brings extra coverage for some unittests, and=0D
+the ability to run the Avocado tests that depend on KVM.=0D
+=0D
+The runner is already completely set up and registered to the=0D
+https://gitlab.com/qemu-project/qemu project instance.  Jobs will be=0D
+triggered according to the same rules for the jobs s390x and aarch64=0D
+jobs running on QEMU project's custom runners, that is, pushes to the=0D
+staging branch of the "qemu-project" project, or by setting a specific=0D
+variable.=0D
+=0D
+Still, the job is set with mode "allow failures", so it should not=0D
+disrupt the existing pipeline.  Once its reliability is proved (rules=0D
+and service levels are to be determined), it can be "upgraded" to=0D
+a "gating" condition.=0D
+=0D
+Even though the formal method of tracking machine/job maintainers have=0D
+not been formalized, it should be known that the contacts/admins for=0D
+this machine and job are:=0D
+=0D
+ - Willian Rampazzo=0D
+   <willianr@redhat.com>=0D
+   willianr on #qemu=0D
+=0D
+ - Cleber Rosa=0D
+   <crosa@redhat.com>=0D
+   clebergnu on #qemu=0D
+=0D
+One example of a job introduced here, running on the host reserved for=0D
+this purpose can be seen at:=0D
+=0D
+ - https://gitlab.com/cleber.gnu/qemu/-/jobs/1773761640=0D
+=0D
+Changes from v1[1]:=0D
+=0D
+ * Replaced "--disable-fdt" for "--enable-fdt", given that according=0D
+   to "TARGET_NEED_FDT=3Dy" in "configs/targets/x86_64-softmmu.mak" it=0D
+   is required for x86_64-softmmu.=0D
+=0D
+ * Added libfdt-devel to list of package requirements (see previous=0D
+   point for reasoning).=0D
+=0D
+ * Removed patch 1 that contained a duplicate bug fix.=0D
+=0D
+ * Removed patches 2 and 3 that implemented a "feature probe" and=0D
+   "feature requirement" that would cancel tests if features were not=0D
+   present.  That will be treated in a different patch series.=0D
+=0D
+ * Removed --disable-jemalloc and --disabletcmalloc according to=0D
+   3b4da1329.=0D
+=0D
+ * Introduced "test-avocado" script with a list of vetted tests=0D
+=0D
+ * Do not install meson from CentOS Stream 8 PowerTools repo, instead=0D
+   meson from git submodule due to minimum version requirements.=0D
+=0D
+ * Sync with commit f68d21ab8eac56c4097a3d63a8c86689bb507911 (HEAD of=0D
+   c8s-stream-rhel branch) from CentOS repo at=0D
+   https://git.centos.org/rpms/qemu-kvm/.=0D
+=0D
+ * Further separated distribution version and architecture specific=0D
+   files into separate sub directories.=0D
+=0D
+ * Added a gitlab CI rule and variable to allow other repos/users who=0D
+   have a CentOS Stream 8 x86_64 runner to trigger the job.=0D
+=0D
+[1] https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg02066.html=0D
+=0D
+Cleber Rosa (1):=0D
+  Jobs based on custom runners: add CentOS Stream 8=0D
+=0D
+ .gitlab-ci.d/custom-runners.yml               |  29 +++=0D
+ docs/devel/ci-jobs.rst.inc                    |   7 +=0D
+ .../org.centos/stream/8/build-environment.yml |  51 +++++=0D
+ .../ci/org.centos/stream/8/x86_64/configure   | 208 ++++++++++++++++++=0D
+ .../org.centos/stream/8/x86_64/test-avocado   |  70 ++++++=0D
+ scripts/ci/org.centos/stream/README           |  17 ++=0D
+ scripts/ci/setup/build-environment.yml        |  38 ++++=0D
+ 7 files changed, 420 insertions(+)=0D
+ create mode 100644 scripts/ci/org.centos/stream/8/build-environment.yml=0D
+ create mode 100755 scripts/ci/org.centos/stream/8/x86_64/configure=0D
+ create mode 100755 scripts/ci/org.centos/stream/8/x86_64/test-avocado=0D
+ create mode 100644 scripts/ci/org.centos/stream/README=0D
+=0D
+--=20=0D
+2.33.1=0D
+=0D
 
 
