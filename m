@@ -2,87 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7027244DB90
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 19:24:55 +0100 (CET)
-Received: from localhost ([::1]:34800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC25544DB95
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 19:26:19 +0100 (CET)
+Received: from localhost ([::1]:37446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlEkn-0006EQ-Cj
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 13:24:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59728)
+	id 1mlEmA-0008Fp-TB
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 13:26:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1mlEhv-0005Gl-At
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 13:21:55 -0500
-Received: from [2a00:1450:4864:20::434] (port=44772
- helo=mail-wr1-x434.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mlEjw-0006QL-72
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 13:24:00 -0500
+Received: from [2a00:1450:4864:20::32f] (port=35602
+ helo=mail-wm1-x32f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1mlEht-0006Z7-2i
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 13:21:54 -0500
-Received: by mail-wr1-x434.google.com with SMTP id n29so11245266wra.11
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 10:21:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuviainc-com.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=1nDfgExPLVmPjrHAgq5VjwgrVgGQAem5IuVIe5/76Gk=;
- b=UGhHc4TFB2k+7wS5DHjiEITIVyZrXuCcKONzlu8VgFClKneznjC3TAqo/mWe7sI3xa
- rv1CQQg7A/FOxG4XVD1vC+X50rAc+HJb2c+Lek3joHgtuES86dWD1f6U/AukNHzFHN5n
- huaf9DmwRFF/kOV3rUAndqdPQIM6NcK+JDqzhBFWGfZUh0OVamZZC6oS8vxt1e/xzsb4
- rvsOL+0/7E1y6VLc5mQmdfHrwqB+sgFHT6JaL4D36k8lOvF/4YcjFTqA4Y33ZRWX6N5i
- ZCl73Iiy1dHfd5XugPNaOEpv2bkAzHGLvg+yAwUktse0VgJpgzCfrOdorG9ETkhFcPec
- GHTg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mlEju-0006kt-QK
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 13:23:59 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 77-20020a1c0450000000b0033123de3425so8015983wme.0
+ for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 10:23:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=LiKQTfDFTcUdA2uHeAIzHEkUVjj8NVepU8jX+25hL14=;
+ b=zWlafTBoU8U1+QFKoQylKbVMYTG41GKZYZtd1jkVWS9X7Rlmsu7XhgSh2p595hF2Px
+ z6e9+3t9EpbEAZE7HAu73J3ENXQpblFT7q3Air+YWLhH42ez5XB8qnlbJfAL8EoLN5NH
+ VQJ9afxlQEqXMN1CLuyuZe9xe/ABurhjAsULWfG5Eld2CeqELr8dk1iKAkmumglGKIzl
+ 498ms8/U8Gro3VucmJ0j6sWNpy33BcxEGAh8qZSNV36ycooMC+hIapyduGhh4rgBlVug
+ EV3gY8pEsqb4ekkY5u7XKH6zOJTM5XV5VXm/rvWTKg7vzR0lXZJkNJYg9uT0ibFQrfEC
+ lOoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=1nDfgExPLVmPjrHAgq5VjwgrVgGQAem5IuVIe5/76Gk=;
- b=z5T4poLsddXLkzaEvMcQb79HSRCrRvnQnwc4ka+Qq364FsDIyWNjMhNbGmd4vCN4At
- 7FxCKJ3MAfzDGFYTurR6X8b/gw39/ahiMZiuxYB2GZsqmwuK92HWesPBiHSqyfVtM1Cp
- x+SCiHeJTznUMxZSyR+oVpCLdZmiwHsqe1nGEoDkxd/lsNaq3yCgNr/vJkylAeiKiXoD
- lwLUn98DLq/HKmFAhGge1E7cQ484SXN+bSnoBBR0xvuNX1iCnaOnjEIf/bDhDz95O6t1
- sJ2Uhp6HoOwwUlNW5Zq8o7Kn4ZMZgCym7JwWCCK6dm5mNqXMdRFcd39LxrfI6jq6tFf+
- 4N9Q==
-X-Gm-Message-State: AOAM533tiseEHTUIjUrO65K7iVDZo9BctwUPAwU/3kJuM1LPnKHvsHkG
- EsVogjfGfjojwvYgdULphrrWRA==
-X-Google-Smtp-Source: ABdhPJzfqpatzU8RaPRMu6+pUprPNM3lLb7nzJ4fswLhkBrpO8jx0tR9hTF1vJWfrLd8Nc4XpQvD0A==
-X-Received: by 2002:a05:6000:15c8:: with SMTP id
- y8mr11340278wry.101.1636654911055; 
- Thu, 11 Nov 2021 10:21:51 -0800 (PST)
-Received: from leviathan (cpc92314-cmbg19-2-0-cust559.5-4.cable.virginm.net.
- [82.11.186.48])
- by smtp.gmail.com with ESMTPSA id n32sm3374467wms.42.2021.11.11.10.21.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Nov 2021 10:21:50 -0800 (PST)
-Date: Thu, 11 Nov 2021 18:21:48 +0000
-From: Leif Lindholm <leif@nuviainc.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v8 07/10] hw/arm/sbsa-ref: add ITS support in SBSA GIC
-Message-ID: <YY1fPNywEOvSaJ/a@leviathan>
-References: <20210812165341.40784-8-shashi.mallela@linaro.org>
- <CAFEAcA9WVu+kjfCWwfGQV00yKgmdFDCSUpxNOu1BEBM3AZCWXg@mail.gmail.com>
- <20210902124258.mqjhx7lqqvkczf6a@leviathan>
- <CAFEAcA-KeBzOCP1CHVWPHbHzG=KbS_HJmXoYo7B2VBz=oGSd3w@mail.gmail.com>
- <20211015122351.vc55mwzjbevl6wjy@leviathan>
- <CAFEAcA-Xe2u8n+og4TMyZSSvdBm8nrma3z4GkVjEJHPdJu8Fnw@mail.gmail.com>
- <20211109204249.usvfatm3frar3u7a@leviathan>
- <CAFEAcA98G_u74G7PQFVZ_FTirKtnO63WQhA5bV_zVJJXAzJang@mail.gmail.com>
- <20211109225251.gfr2mvm3jynvdsnk@leviathan>
- <CAFEAcA-0NFAM5j8CrUf+hPmCZBGOiAkk2f-n-pfqjsv+OwM38w@mail.gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=LiKQTfDFTcUdA2uHeAIzHEkUVjj8NVepU8jX+25hL14=;
+ b=ysRF08zxYrXQ/C1HP4YRbC2e3grwRXPD/DtkQqIzEAkyKVB0hQHTkBJKXsbsxAb6gG
+ JC/XugdWM/bGytZqmmNo700vPA/mj2uVLhM9DIEmfcN9BjeYBz0WxzJcNlNQ35rpuJUY
+ jVgyfH7VpI5WZJgzYKvfm8L16o7udJJLKh/MtAltfT+iy2zvksUi7J+DRb93pJXsaPAB
+ XEujl/D6jAbLkvbpDaWs1jHC33xoacOdjHeAzqsy5KDsb15DkN8YLzJAKE1736fcig7t
+ sLtenmmCpPZura4QoaYeIDoyYTsaMU4aXhi/WP0f/kANRvqY9sPU+MwOEzGzADMv3HLZ
+ h92Q==
+X-Gm-Message-State: AOAM5300Qlq5kUN6WzS/26XxnBLPOOq0H0V0pxjeSNQSxTODO0D5IPln
+ H+OrIMF08/81jpVwVsxWFOKKSQ==
+X-Google-Smtp-Source: ABdhPJzIjOgBixQA6eA0+xsgxCHmztyhR8+odnEpGCKxC/OlxkasOFNF+M1K2mq/84mQ3uN/sT0Rkw==
+X-Received: by 2002:a1c:1b08:: with SMTP id b8mr26624649wmb.28.1636655037339; 
+ Thu, 11 Nov 2021 10:23:57 -0800 (PST)
+Received: from [192.168.8.106] (10.red-95-125-227.dynamicip.rima-tde.net.
+ [95.125.227.10])
+ by smtp.gmail.com with ESMTPSA id 9sm5178350wry.0.2021.11.11.10.23.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Nov 2021 10:23:56 -0800 (PST)
+Subject: Re: [PATCH v4 20/20] target/riscv: Enable uxl field write
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20211111155149.58172-1-zhiwei_liu@c-sky.com>
+ <20211111155149.58172-21-zhiwei_liu@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <74807b5d-debd-6140-aea7-d80b040a1d27@linaro.org>
+Date: Thu, 11 Nov 2021 19:23:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA-0NFAM5j8CrUf+hPmCZBGOiAkk2f-n-pfqjsv+OwM38w@mail.gmail.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+In-Reply-To: <20211111155149.58172-21-zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=leif@nuviainc.com; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.999,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,62 +93,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Shashi Mallela <shashi.mallela@linaro.org>,
- Radoslaw Biernacki <rad@semihalf.com>, QEMU Developers <qemu-devel@nongnu.org>,
- narmstrong@baylibre.com, Eric Auger <eric.auger@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 11, 2021 at 16:55:09 +0000, Peter Maydell wrote:
-> On Tue, 9 Nov 2021 at 22:52, Leif Lindholm <leif@nuviainc.com> wrote:
-> >
-> > On Tue, Nov 09, 2021 at 21:21:46 +0000, Peter Maydell wrote:
-> > > The other thing we should nail down is how the user is going to
-> > > select which flavour of machine they want to provide. Three
-> > > options:
-> > >  (1) no control, QEMU just emulates whatever the newest flavour is.
-> > > User needs to go find a firmware image new enough to cope.
-> > >  (2) different flavours exposed as different machine types
-> > > (analogous to how we have musca-a and musca-b1, or raspi3ap and
-> > > raspi3b, for instance). Old user command lines keep working
-> > > because -M sbsa-ref doesn't change; the new stuff would be
-> > > available via -M sbsa-ref-2 or whatever.
-> > >  (3) different flavours exposed via a property
-> > > (so you would have -M sbsa-ref,machine-revision=2 or something).
-> > > If the revision defaults to 1 then old user setups still work
-> > > but everybody starts to have to cart around an extra command
-> > > line argument. If it defaults to "newest we know about" you
-> > > get the opposite set of tradeoffs.
-> >
-> > I'm leaning towards (1), at least while working towards a "complete"
-> > platform (when we may still add/change features, but not how those
-> > features are communicated to the firmware).
-> 
-> That's certainly the easiest on the QEMU side; you know the
-> userbase so would know whether that kind of compat break is
-> going to be OK with them.
-> 
-> Q1: who is going to write the code for this?
+On 11/11/21 4:51 PM, LIU Zhiwei wrote:
+> Signed-off-by: LIU Zhiwei<zhiwei_liu@c-sky.com>
+> ---
+>   target/riscv/cpu_bits.h | 2 ++
+>   target/riscv/csr.c      | 8 +++++---
+>   2 files changed, 7 insertions(+), 3 deletions(-)
 
-Me, my team, and perhaps a little bit of help from Shashi where it
-intersects his code.
+Works for me.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> Q2: do we want to try to land "ITS in sbsa-ref" in 6.2? Given
-> we're in freeze we're quite short of time even if we handwave
-> the fact it's a new feature, not a bugfix, so I would lean
-> towards 'no'...
 
-Shashi - what is your feeling?
-If we could make ITS support depend on the platform version being
-communicated through TF-A, we could simplify the transition a lot.
-But that would definitely mean missing 6.2.
-
-Peter - could we sneak in an "add version node to DT" into 6.2?
-
-/
-    Leif
+r~
 
