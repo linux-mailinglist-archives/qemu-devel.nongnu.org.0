@@ -2,59 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1BB444DB2E
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 18:38:08 +0100 (CET)
-Received: from localhost ([::1]:40542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D47A44DB3A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 18:45:02 +0100 (CET)
+Received: from localhost ([::1]:49186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlE1W-0002ng-IU
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 12:38:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48482)
+	id 1mlE8C-0000qH-Ue
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 12:45:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mlE0J-0001wz-2T
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 12:36:51 -0500
-Received: from [2001:41c9:1:41f::167] (port=36482
- helo=mail.default.ilande.bv.iomart.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mlE0H-0008Np-0m
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 12:36:50 -0500
-Received: from [2a00:23c4:8b9e:9b00:2535:46c:7466:70fe]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mlE07-0004iA-Of; Thu, 11 Nov 2021 17:36:43 +0000
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20211101203049.28925-1-mark.cave-ayland@ilande.co.uk>
- <CAFEAcA9ApYeHVYN_MPU4VLLt3kYeg5mQbPJMCH1Hq=3tcO9Gfw@mail.gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <6782a57d-c435-a563-23dd-7fc53b65fb82@ilande.co.uk>
-Date: Thu, 11 Nov 2021 17:36:40 +0000
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mlE74-0008VN-57
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 12:43:50 -0500
+Received: from [2a00:1450:4864:20::429] (port=34536
+ helo=mail-wr1-x429.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mlE72-000137-9s
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 12:43:49 -0500
+Received: by mail-wr1-x429.google.com with SMTP id d5so11142937wrc.1
+ for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 09:43:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=NOmxvWPrb4yAa+Yk9YdjBvay1QHaPc9HYShBGeOF95k=;
+ b=HO+OfAK44kdHEK++/MBtfj3ASUAxbk8L+d5sKlFx+M4fFEkvVXU0tGCN/1c5xpzWts
+ 86xeRG5X4th/b1JRM+BEZfSexU84uSSfWzvzPJPnVIZOXBORKBlNTycy431SLd6KCStB
+ wGL6AoINN7VuFG86wbn8VBRV80TdUfz70oIgJFV75/sggoVjZODSAYr/noVxof0c9iJV
+ QmvqHgAUTQsILxz8aEQMm+By/Uord9JYzKSzpP2g9F04W3OTs7aKSSb2iXl93pUswqhG
+ cLmjrfSlS0Oywo9cTGejMvOTQHcOZL4eBinwq7kaI+AS5U2ECRZd7Ong9plp+T8pTRDQ
+ 4xXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=NOmxvWPrb4yAa+Yk9YdjBvay1QHaPc9HYShBGeOF95k=;
+ b=gR6+u1OqQt5EfGSM8ZrbutqcZhHlO8Pk6zNXtQDFjnNGkPCQ3uWPTwKEnAcpTSZPhm
+ X6l3hq7zh58Elji5zNSAZnSMJHe8TssfBNMMGZxbsPtUNbcaBpUILZ92aQLfqW0nOnP6
+ x4ErTg+W41X5eNjoqWIFx63yPgkAIaz9oK5q8f9vzL0sG2ZnMX2sefQwISs3BSD18HL9
+ EC5t+8TFutYMJiVZ32GY4lDlbclFhJpxIWW9Iw7DLMi62LAvnOqt6aE2TTS1x8pSPVo2
+ noClgcHkH+SDwaqLOLnAL1pT8sJGKDv/mng0nPfpeknoqSWVlsQeJsiu5Ml1xy5CJG04
+ 0LwA==
+X-Gm-Message-State: AOAM531dhxRyHNKxTA+i7qaD3EA8ws2wmXp0yMsFOAUXvfUILjeTF0xQ
+ LVt6DmZCms1RZU7favpz9YjdOQ==
+X-Google-Smtp-Source: ABdhPJx8ZA7WF0Ip+w2+Gkb5mZqhqynUdq5Ce2vVUzIzrOxY1GrAKURk0LPklWJnd0OGXjIDr+jNhg==
+X-Received: by 2002:a5d:4582:: with SMTP id p2mr10889380wrq.364.1636652625429; 
+ Thu, 11 Nov 2021 09:43:45 -0800 (PST)
+Received: from [192.168.8.106] (10.red-95-125-227.dynamicip.rima-tde.net.
+ [95.125.227.10])
+ by smtp.gmail.com with ESMTPSA id t11sm3492195wrz.97.2021.11.11.09.43.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Nov 2021 09:43:44 -0800 (PST)
+Subject: Re: [RFC PATCH v2 08/30] target/loongarch: Add LoongArch CSR/IOCSR
+ instruction
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <1636594528-8175-1-git-send-email-yangxiaojuan@loongson.cn>
+ <1636594528-8175-9-git-send-email-yangxiaojuan@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <f8e9fc82-ee40-fd40-3a8c-733c315b726e@linaro.org>
+Date: Thu, 11 Nov 2021 18:43:40 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9ApYeHVYN_MPU4VLLt3kYeg5mQbPJMCH1Hq=3tcO9Gfw@mail.gmail.com>
+In-Reply-To: <1636594528-8175-9-git-send-email-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8b9e:9b00:2535:46c:7466:70fe
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH] escc: update transmit status bits when switching to async
- mode
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -50
-X-Spam_score: -5.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
 X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.999,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.999,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,130 +92,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Song Gao <gaosong@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/11/2021 14:46, Peter Maydell wrote:
+On 11/11/21 2:35 AM, Xiaojuan Yang wrote:
+> This includes:
+> - CSRRD
+> - CSRWR
+> - CSRXCHG
+> - IOCSR{RD/WR}.{B/H/W/D}
 
-> On Mon, 1 Nov 2021 at 20:31, Mark Cave-Ayland
-> <mark.cave-ayland@ilande.co.uk> wrote:
->>
->> The recent ESCC reset changes cause a regression when attemping to use a real
->> SS-5 Sun PROM instead of OpenBIOS. The Sun PROM doesn't send an explicit reset
->> command to the ESCC but gets stuck in a loop probing the keyboard waiting for
->> STATUS_TXEMPTY to be set in R_STATUS followed by SPEC_ALLSENT in R_SPEC.
->>
->> Reading through the ESCC datasheet again indicates that SPEC_ALLSENT is updated
->> when a write to W_TXCTRL1 selects async mode, or remains high if sync mode is
->> selected. Whilst there is no explicit mention of STATUS_TXEMPTY, the ESCC device
->> emulation always updates these two register bits together when transmitting data.
-> 
-> My reading of the spec is that this isn't the right behaviour. I think
-> what we ought to have is:
->   * in both async and sync mode, TXEMPTY tracks the tx fifo status
->     (which I think means "set if there is any space in it", contrary to
->     what the name of the bit implies)
+I think IOCSR should be in a separate patch.
+It's completely unrelated to the other CSRs.
 
-The wording is certainly confusing but the description on p.177 does state "This bit 
-is set to 1 when the transmit buffer is empty". My impression from reading the 
-initial paragraph is that the bit is reset to 0 whenever a character is added into 
-the TX FIFO suggesting that if this bit is set to 1 then the TX FIFO is empty.
+> +target_ulong helper_csr_rdq(CPULoongArchState *env, uint64_t csr)
+> +{
+> +    int64_t v;
+> +
+> +    switch (csr) {
+> +    case LOONGARCH_CSR_PGD:
+> +        if (env->CSR_TLBRERA & 0x1) {
+> +            v = env->CSR_TLBRBADV;
+> +        } else {
+> +            v = env->CSR_BADV;
+> +        }
+> +
+> +        if ((v >> 63) & 0x1) {
+> +            v = env->CSR_PGDH;
+> +        } else {
+> +            v = env->CSR_PGDL;
+> +        }
+> +        v = v & TARGET_PHYS_MASK;
 
->   * in sync mode, ALLSENT is always high
+This csr is defined to be GRLEN bits; I this mask looks wrong.
 
-Yes, agreed.
+> +    default:
+> +        assert(0);
 
->   * in async mode, ALLSENT reads the same as TXEMPTY (for us, since we have
->     no extra delay between "data left the FIFO" and "data actually on the wire")
+g_assert_not_reached.
 
-When I wrote the patch I was assuming that this might not be the case for escc_kbd 
-and escc_mouse but I think you could be right here.
+> +    switch (csr) {
+> +    case LOONGARCH_CSR_ASID:
+> +        old_v = env->CSR_ASID;
+> +        env->CSR_ASID = val;
 
->   * in sync mode TXEMPTY is apparently also set "when the last bit of the CRC
->     has cleared the transmit shift register". I don't think I really understand
->     what sync mode TXEMPTY does overall, but clearly it is not "always 0".
+Mask the write to the field; you don't want to corrupt ASIDBITS, or the other read-only bits.
 
-Again the wording isn't particularly helpful here but I think what it is trying to 
-say is that TXEMPTY remains reset to 0, even when the TX FIFO is empty, until after 
-the hardware-generated CRC has been shifted out onto the wire.
+> +    case LOONGARCH_CSR_TCFG:
+> +        old_v = env->CSR_TCFG;
+> +        cpu_loongarch_store_stable_timer_config(env, val);
+> +        break;
+> +    case LOONGARCH_CSR_TINTCLR:
+> +        old_v = 0;
+> +        qemu_irq_lower(env->irq[IRQ_TIMER]);
 
->> Add extra logic to update both transmit status bits accordingly when writing to
->> W_TXCTRL1 which enables the Sun PROM to initialise and boot again under QEMU.
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> ---
->>   hw/char/escc.c | 12 ++++++++++++
->>   1 file changed, 12 insertions(+)
->>
->> diff --git a/hw/char/escc.c b/hw/char/escc.c
->> index 0fce4f6324..b33cdc229f 100644
->> --- a/hw/char/escc.c
->> +++ b/hw/char/escc.c
->> @@ -575,6 +575,18 @@ static void escc_mem_write(void *opaque, hwaddr addr,
->>               s->wregs[s->reg] = val;
->>               break;
->>           case W_TXCTRL1:
->> +            s->wregs[s->reg] = val;
->> +            if (val & TXCTRL1_STPMSK) {
->> +                ESCCSERIOQueue *q = &s->queue;
->> +                if (s->type == escc_serial || q->count == 0) {
->> +                    s->rregs[R_STATUS] |= STATUS_TXEMPTY;
->> +                    s->rregs[R_SPEC] |= SPEC_ALLSENT;
->> +                }
-> 
-> ...should there be an 'else' clause here which clears these
-> bits if we are now in async mode and the tx queue is not empty ?
-> 
->> +            } else {
->> +                s->rregs[R_STATUS] &= ~STATUS_TXEMPTY;
->> +                s->rregs[R_SPEC] |= SPEC_ALLSENT;
->> +            }
-> 
-> Something is a bit odd with how we currently handle both these bits
-> For SPEC_ALLSENT:
->   * it is zero on power-on
->   * soft-reset leaves it unchanged
->   * we set it on a write to SERIAL_DATA
->   * this new code adds two places where we set it
->   * but there is nowhere where we clear it
-> 
-> For STATUS_TXEMPTY:
->   * it is set on power-on and soft-reset
->   * it is set on write to SERIAL_DATA
->   * it is never cleared
-> 
-> Shouldn't we be clearing these bits somewhere ?
-> 
->> +            /* fallthrough */
->>           case W_TXCTRL2:
->>               s->wregs[s->reg] = val;
->>               escc_update_parameters(s);
-> 
-> At this point all the "fallthrough" is doing is (1) repeat the
-> setting of s->wregs[s->reg] and (2) call escc_update_parameters().
-> So I think it would be clearer to instead make the two cases
-> completely separate, and have
->     escc_update_parameters(s);
->     break;
-> 
-> instead of the /* fallthrough */.
+The interrupt is not documented to clear on any write; only writes of 1 to bit 0.
 
-I'm starting to wonder if asserting the reset signal does do the same as setting the 
-hardware reset bit, since this would then enable the Sun PROM to pass the 
-STATUS_TXEMPTY check. This would just leave the SPEC_ALLSENT bit which would be 
-updated on a write to W_TXCTRL1 to pass the second check.
+> +    default:
+> +        assert(0);
 
-Assuming that QEMU will always accept the data then I think it would be a case of 
-setting SPEC_ALLSENT regardless, since if there is no delay in transmitting the data 
-then a transition of SPEC_ALLSENT will never be visible to the guest.
+g_assert_not_reached.
 
-Certainly we need a solution for 6.2 since the majority of qemu-system-sparc users 
-who boot Solaris use the real Sun PROM (many of the online tutorials were written 
-when Artyom first merged his changes which was before OpenBIOS could boot Solaris).
+> +    }
+> +
+> +    return old_v;
+> +}
+> +
+> +target_ulong helper_csr_xchgq(CPULoongArchState *env, target_ulong val,
+> +                              target_ulong mask, uint64_t csr)
+> +{
+> +    target_ulong tmp;
+> +    target_ulong v = val & mask;
+
+I think it would be less confusing to name the input parameter new_val, and the local 
+temporary old_val.
+
+> +#define CASE_CSR_XCHGQ(csr)                                 \
+> +    case LOONGARCH_CSR_ ## csr:                             \
+> +    {                                                       \
+> +        val = env->CSR_ ## csr;                             \
+> +        env->CSR_ ## csr = (env->CSR_ ## csr) & (~mask);    \
+> +        env->CSR_ ## csr = (env->CSR_ ## csr) | v;          \
+
+   old_val = env->CSR_##csr;
+   env->CSR_##csr = (old_val & ~mask) | (new_val & mask);
 
 
-ATB,
+> +    switch (csr) {
+> +    CASE_CSR_XCHGQ(CRMD)
 
-Mark.
+I wonder if all of this would be better with a table of offsets, which could be shared 
+with the translator.
+
+#define CSR_OFF(X)  [LOONGARCH_CSR_##X] = offsetof(CPUArchState, CSR_##X)
+
+static const int csr_offsets[] = {
+     CSR_OFF(CRMD),
+     ...
+};
+
+int cpu_csr_offset(unsigned csr_num)
+{
+     if (csr_num < ARRAY_SIZE(csr_offsets)) {
+         return csr_offsets[csr_num];
+     }
+     return 0;
+}
+
+Which reduces this function to
+
+     unsigned csr_offset = cpu_csr_offset(csr_num);
+     if (csr_offset == 0) {
+         /* CSR is undefined: read as 0, write ignored. */
+         return 0;
+     }
+
+     uint64_t *csr = (void *)env + csr_offset;
+     uint64_t old_val = *csr;
+
+     new_val = (new_val & mask) | (old_val & ~mask);
+
+     *csr = (old_val & ~mask) | (new_val & mask);
+
+     if (csr_num == LOONGARCH_CSR_TCFG) {
+         cpu_loongarch_store_stable_timer_config(env, new_val);
+     } else {
+         *csr = new_val;
+     }
+     return old_val;
+
+> +uint64_t helper_iocsr_read(CPULoongArchState *env, target_ulong r_addr,
+> +                           uint32_t size)
+> +{
+> +    LoongArchMachineState *lams = LOONGARCH_MACHINE(qdev_get_machine());
+> +    int cpuid = env_cpu(env)->cpu_index;
+> +
+> +    if (((r_addr & 0xff00) == 0x1000) || ((r_addr & 0xff00) == 0x1800)) {
+> +        r_addr = r_addr + ((target_ulong)(cpuid & 0x3) << 8);
+> +    }
+
+This looks to be something that should be controlled by the address space assigned to each 
+cpu.
+
+   But it's hard to tell.
+
+Where is the documentation for this?  I didn't immediately find it in 3A5000 Technical 
+Reference Manual, Chapter 10.
+
+> +void helper_iocsr_write(CPULoongArchState *env, target_ulong w_addr,
+> +                        target_ulong val, uint32_t size)
+> +{
+> +    LoongArchMachineState *lams = LOONGARCH_MACHINE(qdev_get_machine());
+> +    int cpuid = env_cpu(env)->cpu_index;
+> +    int mask, i;
+> +
+> +    /*
+> +     * For IPI send, Mail send, ANY send adjust addr and val
+> +     * according to their real meaning
+> +     */
+> +    if (w_addr == 0x1040) { /* IPI send */
+> +        cpuid = (val >> 16) & 0x3ff;
+> +        val = 1UL << (val & 0x1f);
+> +        w_addr = 0x1008;
+
+I don't see any interrupts actually being raised?
+
+> +static bool trans_csrrd(DisasContext *ctx, arg_csrrd *a)
+> +{
+> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
+> +
+> +    gen_helper_check_plv(cpu_env);
+
+You don't need an external call.  PLV should be part of TB_FLAGS, so you can check this 
+during translation.
+
+> +    case LOONGARCH_CSR_TVAL:
+> +        gen_helper_csr_rdq(dest, cpu_env, tcg_constant_i64(a->csr));
+> +        break;
+> +    default:
+> +        assert(0);
+
+The assert was definitely wrong, as it allows incorrect programs to crash qemu.  In 
+addition, unknown csr read as 0.
+
+> +    CASE_CSR_WRQ(MISC)
+
+You don't actually support any of the MISC bits yet.
+You should make this register read-only until you do.
+
+How many more registers are read-only, or have read-only fields that you are not checking?
+
+
+r~
 
