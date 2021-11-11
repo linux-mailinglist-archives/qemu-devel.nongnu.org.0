@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B87144DB76
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 19:14:14 +0100 (CET)
-Received: from localhost ([::1]:47310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AE244DB77
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 19:15:04 +0100 (CET)
+Received: from localhost ([::1]:48804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlEaS-0003Ml-Mc
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 13:14:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56696)
+	id 1mlEbH-0004PO-Af
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 13:15:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mlEV7-0001GZ-FW; Thu, 11 Nov 2021 13:08:41 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:56053)
+ id 1mlEVg-0001Wg-Lx; Thu, 11 Nov 2021 13:09:16 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:53411)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mlEV5-0004fR-ER; Thu, 11 Nov 2021 13:08:41 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id B47315C0143;
- Thu, 11 Nov 2021 13:08:35 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 11 Nov 2021 13:08:35 -0500
+ id 1mlEVc-0004kt-U2; Thu, 11 Nov 2021 13:09:15 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 8ABFB5C0175;
+ Thu, 11 Nov 2021 13:09:07 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 11 Nov 2021 13:09:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=3N3X4M46KaoEm+rl7bc2SpYmkGz
- xw3ZPaducmOSVCYI=; b=MYq5DObpldHeMm/MFxm016/JSeI/wy0Fy3yG952CNvm
- z1okmqZ98QLQYewWEjeEr7XRDGMPITKe17lbrFmmX6Tz85HFoliTtzvqGY9wFuM0
- e8eF2d7UgstdWXBb6GbqnTr4zgn3jc8jfxQRHAwsDEXhXUboNpAeLgv+XALR+I8o
- 9S09IRk3kJKI6y/i/Oze5ZUXnufnpYqc3yr7e7pjroD4lRK7roYngGsal3G7sZQh
- 3TXp8F28ndDTF6EbYMQTY8r7OhRAodiLDbJGR8qOAu3uIY6TnReXYHtQIfZ8zELe
- yk/+OthKLPGmv8KB3PrkoKo9RVLmJEGlW+vjhCOB4pQ==
+ :content-type:in-reply-to; s=fm1; bh=AYzN6rX/u99uNmVBDydim/Vj2gA
+ XFqH7WFUIxwWl3LE=; b=gPeERHnGy5kqtXB+K3Twpy/rquCRloMYsbX06KclH7O
+ DjYfeFHmfYEcqD0nxYsuun//YAUWk84eUqVB4ZoI1+96VdQiIlnEaCLONALch1a3
+ jUMwNtsUqJeHHand79ISXHA6yNn2RpJ0adNiuo9jKGF5jU7jwxxucIYHFAvzbFYU
+ 1/rjAhMcKRo1lLVBCnXEArN3yPXFHR8wnFI9JPfLJtN6w/uixfiCCzolv4dmVdwh
+ 5LwEM9oaKezV0/qjf+2Kxgq6rnmNeHELWHvFMXGYGgRjafHavCbhMonAUPUgY8UH
+ HKjwZoBKPPM/K8eX1by6tC0txwwey6ZC0O8uRoqjSCA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=3N3X4M
- 46KaoEm+rl7bc2SpYmkGzxw3ZPaducmOSVCYI=; b=D5tQz4w8S8ghBXjlgQ0Hsz
- mwogNF5SoMvLw7x4+N4izw2QxCb3G0pC38WR6lXpYPuktcMsrq/j56cor5Nc9g/p
- hxiWUsbmyR+hNe9MoeGt0NTSb0jmiwCWe/KIYvGxHwMommiuz+kIm+vgKZEkYoTN
- u9V4mQHgI50kShyIRMcA0jABxKfXxuV5uPxya/oIq6lvt8Bk9PQNdtO4O0XR+1nO
- U87gz7VIdGWPAx/55+uTFRLoGpxVzWJUuPcmp10UMDuWG2hZhofxWCfPgnEzNTzQ
- gV5WtZTRWcOnbjXLEOqlj/1Olrod7IBkvQgjQN3d2DQ8+II7rkdVhdN8yRZymzsQ
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=AYzN6r
+ X/u99uNmVBDydim/Vj2gAXFqH7WFUIxwWl3LE=; b=TqwIvRcE8iwL7yAPg28Pjr
+ yAjE0oXWZjtHPrEUhmXkawOklmuTVePcL3wVEbOpGhoFASh/HozfCnX5Q0slbG4V
+ 2NcoVPk9DqCoyhx/fBCgW1kiDHSl//iYUmHxNfVK/B7Gp3O2Otn4qw+dRK8Set4n
+ S3eRv0QyiBA9BicwZR+MRHU7Ti0xflcOZRhO3M4bDedcjSMugoJ+8OOlyw3hjMRY
+ DQYCsAAoGEEN0fo9i8deGKijIabW85+LVN34Mb+BIN5zPHjO1JOWLLjOS5y48Q5g
+ Vz080uV3ya1aJnBW8CTmqTRBy1wqI5BlbixbigAX+dL3X155q8ZU3tZVl0ne5VyQ
  ==
-X-ME-Sender: <xms:IlyNYXS3rIp3sfEBtFYfY0Othlj54i42-ozp8CoNtLjhSJExlbEeFA>
- <xme:IlyNYYxwQjdkp53wqb9PavAvlnIBZyX0YcUWCZ9GnDj5KFchWnQVqayTrQ7iV-qhQ
- ZMxy8TYhJ4owmb37OM>
-X-ME-Received: <xmr:IlyNYc0L2FiZ6u72CCbt7uBNY7l0cOfYerAA4sJ_vM3hPqdUtlG7nSC4pYBMe2uHFlMWFsTOiZYXT2ajrf-C--ZpRD0FZJGa8P7zjMsf_VSQ3vYrMQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrvddugddutdekucetufdoteggodetrfdotf
+X-ME-Sender: <xms:Q1yNYfoTvfP3MyyeUJ-tsOaxrEUtOY7eCP2ApoYWpOoxbPNdfOi6Wg>
+ <xme:Q1yNYZo54iXgLVuDeT_BtI4BDktBapVuVOYUgEg7k_yrTOJ18nRZ-9K6Q6AXWSZ0-
+ EU6KaOrLH2Rdu1KjkU>
+X-ME-Received: <xmr:Q1yNYcM6a_6-E03AJ0UKM7oAewBMpvmK0mAn3wJW6WPLBZxqcHq0qD8BjxDhKDw34yrQnvKDFS41A0AIofougsNdCwMEB9OLui8x3JU9kOv1ryzSGA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrvddugddutdelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
- hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:IlyNYXCgdtoJfZDS5iUGcOOVXD6plLojwL65H3sC8csGpNvZmGaQng>
- <xmx:IlyNYQi0Ktz-0IfLz3ap57FpYWLXHRTKmQv6xtoxcHTlVWEra-DFsg>
- <xmx:IlyNYbpzNIQ-WB3uOEXApt_oOWrWttHWLFw1m4j5sYbMWjNEKU3mUA>
- <xmx:I1yNYbXhRtvzDnsuJZn1yacbtMesxFalxQS6C_eztrd4TPuLSrV87w>
+ gvrhhnpedugeefveegfeduhfeuledugfeufeetheeuhfeuffejgeelgffgtdeffeduvddt
+ veenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:Q1yNYS6jGjWam6-cxdMf1y2eddvofoYSqHrDCZIOf0WA00ZloFKkHQ>
+ <xmx:Q1yNYe6Snhl29xSq8kcHY5pMVU77i-DaX53E3POa2MKK0vlk3pr8KQ>
+ <xmx:Q1yNYaj_1Lid4bjQ5XzMhuvDVQKC53OedftaJpgd4eG12S0H8g6KrA>
+ <xmx:Q1yNYUmyLk-DMpEet1ZbweBVld1TN4bMcTv6-WDmiRySHLzk-6mJcA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 11 Nov 2021 13:08:33 -0500 (EST)
-Date: Thu, 11 Nov 2021 19:08:31 +0100
+ 11 Nov 2021 13:09:06 -0500 (EST)
+Date: Thu, 11 Nov 2021 19:09:04 +0100
 From: Klaus Jensen <its@irrelevant.dk>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH-for-6.2] hw/nvme/ctrl: Fix buffer overrun (CVE-2021-3947)
-Message-ID: <YY1cH52EbS1sEUDn@apples.localdomain>
-References: <20211111153125.2258176-1-philmd@redhat.com>
+Subject: Re: [PATCH-for-7.0 0/2] hw/nvme/ctrl: Buffer types cleanups
+Message-ID: <YY1cQEvB+YK1VA01@apples.localdomain>
+References: <20211111154552.2263410-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="jeh2Oa3I6of18xAP"
+ protocol="application/pgp-signature"; boundary="uORX5IDRCTsIQ2zU"
 Content-Disposition: inline
-In-Reply-To: <20211111153125.2258176-1-philmd@redhat.com>
+In-Reply-To: <20211111154552.2263410-1-philmd@redhat.com>
 Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
  helo=out5-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -92,99 +92,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mauro Matteo Cascella <mcascell@redhat.com>, qemu-block@nongnu.org,
- qemu-stable@nongnu.org, Qiuhao Li <Qiuhao.Li@outlook.com>,
- qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>
+Cc: Keith Busch <kbusch@kernel.org>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---jeh2Oa3I6of18xAP
+--uORX5IDRCTsIQ2zU
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Nov 11 16:31, Philippe Mathieu-Daud=C3=A9 wrote:
-> Both 'buf_len' and 'off' arguments are under guest control.
-> Since nvme_c2h() doesn't check out of boundary access, the
-> caller must check for eventual buffer overrun on 'trans_len'.
+On Nov 11 16:45, Philippe Mathieu-Daud=C3=A9 wrote:
+> Some trivial notes I took while reviewing CVE-2021-3947:
+> https://lore.kernel.org/qemu-devel/20211111153125.2258176-1-philmd@redhat=
+=2Ecom/
 >=20
-> Cc: qemu-stable@nongnu.org
-> Reported-by: Qiuhao Li <Qiuhao.Li@outlook.com>
-> Fixes: f432fdfa121 ("support changed namespace asynchronous event")
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  hw/nvme/ctrl.c | 22 ++++++++++++----------
->  1 file changed, 12 insertions(+), 10 deletions(-)
+> Based-on: <20211111153125.2258176-1-philmd@redhat.com>
 >=20
-> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index 6a571d18cfa..634b290e069 100644
-> --- a/hw/nvme/ctrl.c
-> +++ b/hw/nvme/ctrl.c
-> @@ -4072,7 +4072,8 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_=
-t rae, uint32_t buf_len,
->      NvmeNamespace *ns;
->      time_t current_ms;
-> =20
-> -    if (off >=3D sizeof(smart)) {
-> +    trans_len =3D MIN(sizeof(smart) - off, buf_len);
-> +    if (trans_len >=3D sizeof(smart)) {
->          return NVME_INVALID_FIELD | NVME_DNR;
->      }
-> =20
-> @@ -4094,7 +4095,6 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_=
-t rae, uint32_t buf_len,
->          }
->      }
-> =20
-> -    trans_len =3D MIN(sizeof(smart) - off, buf_len);
->      smart.critical_warning =3D n->smart_critical_warning;
-> =20
->      smart.data_units_read[0] =3D cpu_to_le64(DIV_ROUND_UP(stats.units_re=
-ad,
+> *** BLURB HERE ***
+>=20
+> Philippe Mathieu-Daud=C3=A9 (2):
+>   hw/nvme/ctrl: Have nvme_addr_write() take const buffer
+>   hw/nvme/ctrl: Pass buffers as 'void *' types
+>=20
+>  hw/nvme/nvme.h |  4 ++--
+>  hw/nvme/ctrl.c | 12 ++++++------
+>  2 files changed, 8 insertions(+), 8 deletions(-)
+>=20
 
-Uhm. Hehe.
+Thanks Philippe, LGTM.
 
-This "fix" breaks all log pages. Take smart_info as an example. Say the
-offset is zero and the buffer length is 512. The transfer length
-(trans_len) then becomes 512 and it ends up returning Invalid Field in
-Command because trans_len equals sizeof(smart).
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 
-Worse, this "fix" actually *introduce* oob's all over the place if
-
-    off > sizeof(smart) && buf_len < sizeof(smart)
-
-
-Example
-
-   sizeof(smart) =3D 512
-   off =3D 516 (must be dword aligned to get to this spot)
-   buf_len =3D 4 (same, but is always aligned)
-   =3D> trans_len =3D min(512 - 516, 4) =3D 4
-   if (1 >=3D 512) =3D> false
-
-And we end up with
-
-   nvme_c2h(n, &smart + 516, 4, req);
-
-
-
-I suggest that we only fix nvme_changed_nslist ;)
-
---jeh2Oa3I6of18xAP
+--uORX5IDRCTsIQ2zU
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmGNXB0ACgkQTeGvMW1P
-DemOjAf+LL5K4DD6Nvc6ms/AkFKYsYHsvGTqgRmzeqJ1sNWxUO/YvAthZDEWK4jh
-T/1PnWS6IU3JbAMtn/4rvC9JEte1Q8pCudt9Rc66FmZt9acABofxYdhHm/Ab9gQI
-qdUgyT3FztMKp8wjgqXWCsegC0DCGy0fhraU7jw8XCMmIrD3zLcq4ItD/KpKXiQC
-ItEDpUqEWXUjX4BmS9HtDE76SKq/579xBF4P3WrusS9TRx+3lxn237y/5RI2byGF
-cwWvGHttr+9iK0uMb8O88plL3cju4uJjyLFJLnWjbG+tHdRZBQgCNn/xlLOrKkjl
-E2Pxx2pHibVEtTxbhbc/mwtRJcqnbw==
-=vSah
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmGNXD8ACgkQTeGvMW1P
+Dem3EwgAv55ybgUqMlFw7jwy6d0gmCNKcZ6K2I6gPh5aaPegi71Xf0WQTKjUR22K
+Cb/5/1YOkeEQaYs9iSr2H54QMvMYvIiK9sMxR+8XQEkFhT9q/lyxvPxiHz4CMWqN
+Uv2mowGQaNqYqxbuWkwkfDrHQutHp+sHs0l46fgib1PoRblpltIO4J9R74q+mEEV
+8g8ywapc1/bIXUB6Opgkx8SzG74Afmh51ktbdX1X96933TrLkQm1dP2dKOfPhyNp
+u+NcYkWX85Kpf1RCrHonx0ewrfHwO09pD1McjSSV7JmCXmV0D/cBOHmYVBOfS/A5
+tn0FJvr5u+dVJiNT6o8aSq0wjRgq+w==
+=BHCU
 -----END PGP SIGNATURE-----
 
---jeh2Oa3I6of18xAP--
+--uORX5IDRCTsIQ2zU--
 
