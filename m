@@ -2,86 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6164A44D75E
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 14:38:09 +0100 (CET)
-Received: from localhost ([::1]:44260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B46344D78A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 14:49:25 +0100 (CET)
+Received: from localhost ([::1]:50750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlAHI-0005Ch-HZ
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 08:38:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59674)
+	id 1mlASB-0001PP-Ro
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 08:49:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mlAFc-00025x-7M
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 08:36:24 -0500
-Received: from [2a00:1450:4864:20::334] (port=45659
- helo=mail-wm1-x334.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mlAFa-00009L-DA
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 08:36:23 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- g191-20020a1c9dc8000000b0032fbf912885so4413444wme.4
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 05:36:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=zOJL7ZOhQNwKjDj9tP1c8yfpUGaZGjnsnvziFOIUEEw=;
- b=gIdzprSeyLt+vB9W3YZcnj2euAAYFYAJtPrrA1E5CpNcp9eZT1xwXf1Ps9aiTW1yV1
- 7HYsdA2IpPdLKk1c5wMqmM3T5IO2ImGKoLYMSBhuLIjRMjmI6iIUQZluYmt8fIQZAdoK
- 04TahpIWgpVwciHbkNgYMWA1Jdln4EFU6Slea3BjefkA5ujbv8u/IXhsoHM4r6RSsaM7
- PoW6ezFEhL5hjeqpF3vqdG/mbhD7Jq5E9bgqyrNwhUs5a0EbtkXpvifJBriXDYHwXCCY
- MDpD7FarAMLB0+L8C4INf8zyv5/fJ10OEJyP1zkzPhSZjNb/37OwlgCyb90bA+WRq2Bk
- pasg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zOJL7ZOhQNwKjDj9tP1c8yfpUGaZGjnsnvziFOIUEEw=;
- b=VffWhjAOGHyVdlAfXg7/ya5U0CV6AXHP3vqhOQ5co233+gkpa0SOt3Y0POO7/DqvSP
- ZaYJ+78xbo0eEUX2TnyYPKZ1VDeN18mrYVCKvkaWoCIKr99Mmf1Yx5JT1GYRky+F/CbC
- GwmYF7IHXBJNNOpjcLO2hdLkEcQoyEZpvp1cyoHS5Ac1pvpG0R2urug8n838pVJlIfY3
- mTsGJqd+dBx4W2mWSvkSkjS6Fk/UTqdCs/iwEk2JBxkXFKIyw8UOerBYj/XtvNlbCZ+U
- mLpE67S9y/TGkVG59j6R+6d8FyJuQt5HFN+vDjFZGkzlt5Mo3K4fN9UXBgXndXrK+5f0
- /fFw==
-X-Gm-Message-State: AOAM530vYpgTMbmVJX7DJmMnSYxB7cKriG/fPGJkuHXZdizesrJnfmJ2
- wGc/QZ3WaAKNmlXqe19B7UDJRA==
-X-Google-Smtp-Source: ABdhPJzzzbkDELkFsm4Dbim/hMIma0wevTQDU5dysX+Am6qC4QOMNkIVFTfbOLZsJ/FoJjyuHP3OGA==
-X-Received: by 2002:a7b:cf10:: with SMTP id l16mr25881341wmg.17.1636637780937; 
- Thu, 11 Nov 2021 05:36:20 -0800 (PST)
-Received: from [192.168.8.106] (10.red-95-125-227.dynamicip.rima-tde.net.
- [95.125.227.10])
- by smtp.gmail.com with ESMTPSA id e18sm2909236wrs.48.2021.11.11.05.36.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Nov 2021 05:36:20 -0800 (PST)
-Subject: Re: [RFC PATCH v2 04/30] target/loongarch: Define exceptions for
- LoongArch.
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-References: <1636594528-8175-1-git-send-email-yangxiaojuan@loongson.cn>
- <1636594528-8175-5-git-send-email-yangxiaojuan@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0604327e-4434-8ebf-ecbf-b4e55dec5e78@linaro.org>
-Date: Thu, 11 Nov 2021 14:36:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <t.lamprecht@proxmox.com>)
+ id 1mlAQQ-0000V1-D2
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 08:47:35 -0500
+Received: from proxmox-new.maurer-it.com ([94.136.29.106]:19842)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <t.lamprecht@proxmox.com>)
+ id 1mlAQM-00023c-Pv
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 08:47:34 -0500
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id AE54242C52;
+ Thu, 11 Nov 2021 14:47:12 +0100 (CET)
+Message-ID: <244dd753-3d80-8360-b3f5-83acf4ff6376@proxmox.com>
+Date: Thu, 11 Nov 2021 14:47:11 +0100
 MIME-Version: 1.0
-In-Reply-To: <1636594528-8175-5-git-send-email-yangxiaojuan@loongson.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:95.0) Gecko/20100101
+ Thunderbird/95.0
+Subject: Re: [PATCH for 6.2 v2 5/5] bios-tables-test: Update golden binaries
 Content-Language: en-US
+To: Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+References: <20211110211140.3057199-1-imammedo@redhat.com>
+ <20211110211140.3057199-6-imammedo@redhat.com>
+ <20211111033414-mutt-send-email-mst@kernel.org>
+ <20211111123236.56714890@redhat.com>
+From: Thomas Lamprecht <t.lamprecht@proxmox.com>
+In-Reply-To: <20211111123236.56714890@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -52
-X-Spam_score: -5.3
+Received-SPF: pass client-ip=94.136.29.106;
+ envelope-from=t.lamprecht@proxmox.com; helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -58
+X-Spam_score: -5.9
 X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.999,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UPPERCASE_50_75=0.008 autolearn=ham autolearn_force=no
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.999,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,37 +57,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Song Gao <gaosong@loongson.cn>
+Cc: ani@anisinha.ca, mapfelba@redhat.com, jusual@redhat.com,
+ qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/11/21 2:35 AM, Xiaojuan Yang wrote:
-> +++ b/target/loongarch/cpu.h
-> @@ -369,8 +369,21 @@ enum {
->       EXCP_BREAK,
->       EXCP_INE,
->       EXCP_FPE,
-> -
-> -    EXCP_LAST = EXCP_FPE,
-> +    EXCP_IPE,
-> +    EXCP_TLBL,
-> +    EXCP_TLBS,
-> +    EXCP_INST_NOTAVAIL,
-> +    EXCP_TLBM,
-> +    EXCP_TLBPE,
-> +    EXCP_TLBNX,
-> +    EXCP_TLBNR,
-> +    EXCP_EXT_INTERRUPT,
-> +    EXCP_DBP,
-> +    EXCP_IBE,
-> +    EXCP_DBE,
-> +    EXCP_DINT,
-> +
-> +    EXCP_LAST = EXCP_DINT,
+On 11.11.21 12:32, Igor Mammedov wrote:
+> On Thu, 11 Nov 2021 03:34:37 -0500
+> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> 
+>> On Wed, Nov 10, 2021 at 04:11:40PM -0500, Igor Mammedov wrote:
+>>> From: Julia Suvorova <jusual@redhat.com>
+>>>
+>>> The changes are the result of
+>>>         'hw/i386/acpi-build: Deny control on PCIe Native Hot-Plug in _OSC'
+>>> and listed here:
+>>>
+>>> Method (_OSC, 4, NotSerialized)  // _OSC: Operating System Capabilities
+>>>              {
+>>>                  CreateDWordField (Arg3, Zero, CDW1)
+>>>                  If ((Arg0 == ToUUID ("33db4d5b-1ff7-401c-9657-7441c03dd766") /* PCI Host Bridge Device */))
+>>>                  {
+>>>                      CreateDWordField (Arg3, 0x04, CDW2)
+>>>                      CreateDWordField (Arg3, 0x08, CDW3)
+>>>                      Local0 = CDW3 /* \_SB_.PCI0._OSC.CDW3 */
+>>> -                    Local0 &= 0x1F
+>>> +                    Local0 &= 0x1E
+>>>
+>>> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+>>> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+>>> ---
+>>>  tests/qtest/bios-tables-test-allowed-diff.h |  16 ----------------
+>>>  tests/data/acpi/q35/DSDT                    | Bin 8289 -> 8289 bytes
+>>>  tests/data/acpi/q35/DSDT.acpihmat           | Bin 9614 -> 9614 bytes
+>>>  tests/data/acpi/q35/DSDT.bridge             | Bin 11003 -> 11003 bytes
+>>>  tests/data/acpi/q35/DSDT.cphp               | Bin 8753 -> 8753 bytes
+>>>  tests/data/acpi/q35/DSDT.dimmpxm            | Bin 9943 -> 9943 bytes
+>>>  tests/data/acpi/q35/DSDT.dmar               | Bin 0 -> 8289 bytes
+>>>  tests/data/acpi/q35/DSDT.ipmibt             | Bin 8364 -> 8364 bytes
+>>>  tests/data/acpi/q35/DSDT.ivrs               | Bin 8306 -> 8306 bytes
+>>>  tests/data/acpi/q35/DSDT.memhp              | Bin 9648 -> 9648 bytes
+>>>  tests/data/acpi/q35/DSDT.mmio64             | Bin 9419 -> 9419 bytes
+>>>  tests/data/acpi/q35/DSDT.multi-bridge       | Bin 8583 -> 8583 bytes
+>>>  tests/data/acpi/q35/DSDT.nohpet             | Bin 8147 -> 8147 bytes
+>>>  tests/data/acpi/q35/DSDT.nosmm              | Bin 0 -> 8289 bytes
+>>>  tests/data/acpi/q35/DSDT.numamem            | Bin 8295 -> 8295 bytes
+>>>  tests/data/acpi/q35/DSDT.smm-compat         | Bin 0 -> 8289 bytes
+>>>  tests/data/acpi/q35/DSDT.smm-compat-nosmm   | Bin 0 -> 8289 bytes
+>>>  tests/data/acpi/q35/DSDT.tis.tpm12          | Bin 8894 -> 8894 bytes
+>>>  tests/data/acpi/q35/DSDT.tis.tpm2           | Bin 8894 -> 8894 bytes
+>>>  tests/data/acpi/q35/DSDT.xapic              | Bin 35652 -> 35652 bytes  
+>> Why do we have all the new files?  What is going on here?
+> I think new files are not necessary.
+> 
+> I can update patch if we decide to keep ACPI enabled by default.
+> 
+> So question is:
+>   do we revert to native pcie or stay with apci hootplug for 6.2?
+> 
 
-Surely this is (essentially) a duplicate of EXCCODE_*.
-I think we should have only one copy of this.
+FWIW, we had to add some compat handling in Proxmox VE for the original change
+as we do not pin Linux VM machines between cold-starts (they normally do not care
+much about some HW/CPU bits added/dropped/moved) and the change here messed a bit
+with the guest OS network configuration, as systemd's predictable interface naming
+changed the name from, e.g., enp18 to ens6p18.
+
+I mean, we wondered a bit over the original change here and contemplated reverting
+it in our downstream build. While we read the reasons got a report of any of that
+problems happen from our upper 6 digit count of systems reporting to our repos.
+Ultimately we did not went with the revert to avoid problems if this was QEMU's
+way forward, wrong choice it seems, and it now additionally seems that ACPI hotplug
+produces boot-loops in some guests with seabios and serial or no display.
+
+Anyhow (sorry for the whole back-story/rambling), if QEMU reverts this for 6.2 I
+think we'd pull the line now and revert it in our 6.1 build we plan to fully roll
+out soon, to avoid this whole mess for most of our user base in the first place..
 
 
-r~
+- Thomas
+
 
