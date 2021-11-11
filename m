@@ -2,93 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE54644D100
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 05:42:40 +0100 (CET)
-Received: from localhost ([::1]:57142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B37B44D133
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 06:07:08 +0100 (CET)
+Received: from localhost ([::1]:42522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml1v5-00059k-AW
-	for lists+qemu-devel@lfdr.de; Wed, 10 Nov 2021 23:42:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34216)
+	id 1ml2Il-0007WA-68
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 00:07:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ml1tn-0004MV-0d
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 23:41:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59390)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1ml2G7-0006fZ-Dw; Thu, 11 Nov 2021 00:04:23 -0500
+Received: from out28-173.mail.aliyun.com ([115.124.28.173]:56849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ml1tj-0001iF-Bc
- for qemu-devel@nongnu.org; Wed, 10 Nov 2021 23:41:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636605674;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Uk7mDfidkM98s/y/d6e/iF76RgWhwjLz/jw+cAeRORk=;
- b=cXqfxTxR+b9g+M+d1g0aELgBSWXfi2ymqtey9zKWjNC26Qgf0R7M0T6I3CDCnziPkXAKGA
- oloWRBetqk49LBecN8mSMP+2CAUJ+5iCylx/xUnfDr+/jmgynf8eJDW/0h/cVBEK9EHqSk
- bW5E84pmkBbOAB640Gwc5u7FRJCcI1c=
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-528-cIceSNEYO9yKEFz90FTtpQ-1; Wed, 10 Nov 2021 23:41:13 -0500
-X-MC-Unique: cIceSNEYO9yKEFz90FTtpQ-1
-Received: by mail-pg1-f198.google.com with SMTP id
- k22-20020a635a56000000b002df9863aa74so1182217pgm.19
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 20:41:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=Uk7mDfidkM98s/y/d6e/iF76RgWhwjLz/jw+cAeRORk=;
- b=XdlVY4CXKX+T/FTc15VczZ1b/x4VrHvitUewqT2csAIa26ELRti61XB+ud4a+b36N0
- GQNOe0WoVAOlXZo4ve8JWViOl0bRTYqiLkW8m2UDUifGzlFpdxXJ+czyXQiGcQFccDh4
- H7BedM9KMYkpYbes4WTIlQJJUEnQtEYtldR3VJ0vcrianreN/T+USOKKmyAArbV7Twsk
- O5OYotbc2Kfm71oIVlEaxir6Kh1aNiVWH+Emutmq58bv/YIl8Xg7d9Mk5DeYmdExTKOc
- 11Mzhaf0Bfk7GukKOGoz8gN7i8nmLisYz2XqYMJcuX9pnUtdfhJtq4lB5BhQs/WEk4QU
- VGfA==
-X-Gm-Message-State: AOAM531JYjfeKkeEu2oDIPm0Miiu2gGv3pDItG5j9EV81vE/W1tGeiHT
- S4Tf9GzeQ+s3wXjQuWVMMENLAroRiitfucWfK5Tv4w6hODd/fVdwA4mdvcB03uFaoxk7Bn2BrRh
- Vr9YNUdAO+YVxJq1KezmL2Kxmb7u0cnB69pOQFPj+AIsSZILS7P5P++b8l6ETutwcUO8=
-X-Received: by 2002:a17:90a:e40f:: with SMTP id
- hv15mr5047306pjb.5.1636605671953; 
- Wed, 10 Nov 2021 20:41:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw67pFcxKTnDIqEx8SfqfwkgWY1j8VdW4QwJlPqomUSzvdf0eTh3a787hRpxMnDg/UOE1rcJw==
-X-Received: by 2002:a17:90a:e40f:: with SMTP id
- hv15mr5047245pjb.5.1636605671464; 
- Wed, 10 Nov 2021 20:41:11 -0800 (PST)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id w7sm917534pgo.56.2021.11.10.20.41.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Nov 2021 20:41:10 -0800 (PST)
-Subject: Re: [PATCH v10 00/10]vhost-vdpa: add support for configure interrupt
-To: Stefan Hajnoczi <stefanha@redhat.com>, Cindy Lu <lulu@redhat.com>
-References: <20211104164827.21911-1-lulu@redhat.com>
- <YYkBkGdlpeer18e9@stefanha-x1.localdomain>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <00d446c0-b5a0-9477-4e63-fc4b768a6f92@redhat.com>
-Date: Thu, 11 Nov 2021 12:41:02 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1ml2G4-0005Ht-PY; Thu, 11 Nov 2021 00:04:23 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07488026|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.0747163-0.000108977-0.925175;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047211; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.Lr.NZVx_1636607049; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.Lr.NZVx_1636607049)
+ by smtp.aliyun-inc.com(10.147.41.199);
+ Thu, 11 Nov 2021 13:04:09 +0800
+Subject: Re: [PATCH v2 05/14] target/riscv: Calculate address according to XLEN
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org, Alexey Baturo <baturo.alexey@gmail.com>
+References: <20211110070452.48539-1-zhiwei_liu@c-sky.com>
+ <20211110070452.48539-6-zhiwei_liu@c-sky.com>
+ <7dace3b5-1320-20b3-703c-bbdf7e745fb9@linaro.org>
+ <df0a3a5a-7ca5-b2dc-36c0-d802df99b5b0@c-sky.com>
+ <bbafca7f-1984-f030-cabc-b5f62ef5afd5@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <d1a38044-4ec2-0b5d-fb24-d7b88928ac7a@c-sky.com>
+Date: Thu, 11 Nov 2021 13:04:09 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <YYkBkGdlpeer18e9@stefanha-x1.localdomain>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <bbafca7f-1984-f030-cabc-b5f62ef5afd5@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.678, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=115.124.28.173; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-173.mail.aliyun.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.678,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,54 +64,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- arei.gonglei@huawei.com, kraxel@redhat.com, marcandre.lureau@redhat.com
+Cc: palmer@dabbelt.com, bin.meng@windriver.com, Alistair.Francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2021/11/8 下午6:53, Stefan Hajnoczi 写道:
-> On Fri, Nov 05, 2021 at 12:48:17AM +0800, Cindy Lu wrote:
->> these patches add the support for configure interrupt
+On 2021/11/10 下午10:40, Richard Henderson wrote:
+> On 11/10/21 2:44 PM, LIU Zhiwei wrote:
+>>> I suspect the extend should come before the pointer mask and not 
+>>> after, but this is is a weakness in the current RVJ spec that it 
+>>> does not specify how the extension interacts with UXL.  (The reverse 
+>>> ordering would allow a 64-bit os to place a 32-bit application at a 
+>>> base address above 4gb, which could allow address separation without 
+>>> paging enabled.)
 >>
->> These codes are all tested in vp-vdpa (support configure interrupt)
->> vdpa_sim (not support configure interrupt), virtio tap device
+>> Agree. Should we adjust currently, or just add a TODO comment here?
+>
+> Let's add a todo comment for sure.
+>
+>>> I do think we should merge gen_pm_adjust_address into this function 
+>>> so that we only create one new temporary.
 >>
->> test in virtio-pci bus and virtio-mmio bus
-> Hi,
-> vhost-user has a configuration space change notification but it uses a
-> slave channel message (VHOST_USER_SLAVE_CONFIG_CHANGE_MSG) instead of an
-> eventfd. Ideally the vhost kernel ioctl and vhost-user interfaces would
-> follow the same design.
+>> I think custom instructions will be added in the future. And possibly 
+>> there will be  some custom load/store instructions.
+>> If we merge gen_pm_adjust_address,  we may have to split it once 
+>> again at that time.
 >
-> I'm concerned "common" vhost code is going to end up with lots of
-> callbacks that are not available uniformly across vhost kernel, vdpa,
-> and vhost-user. That makes it hard to understand and debug vhost, plus
-> differences make it harder to to correctly extend these interfaces in
-> the future.
+> I don't think so.  We're simply having one function to compute a 
+> canonical address from a register plus offset plus mods.
 >
-> Is the decision to a new eventfd-based interface instead of
-> vhost_chr_read/write() deliberate?
-
-
-I think this is a good question. Here're some reasons for using eventfd 
-from the kernel perspective:
-
-1) the eventfd is used for relaying interrupts for vqs, so we choose to 
-use that for the config interrupt
-2) make it possible to be used for irq bypassing (posted interrupt)
-
- From Qemu's perspective, as shown in this series, it looks more easier 
-to be integrated with the both vhost and transport layer (e.g vector 
-masking etc).
-
-Thanks
-
-
+> Also, patch 10 combines pm-mask with zero-extension, so we shouldn't 
+> need to do both here.  The checks should be combined like
 >
-> If yes, do you think VHOST_USER_SLAVE_CONFIG_CHANGE_MSG was a design
-> mistake in vhost-user that needs to be fixed?
+>     tcg_gen_addi_tl(addr, src1, imm);
+>     if (ctx->pm_enabled) {
+>         tcg_gen_and_tl(addr, addr, pm_mask);
+>         tcg_gen_or_tl(addr, addr, pm_base);
+>     } else if (get_xl(ctx) == MXL_RV32) {
+>         tcg_gen_ext32u_tl(addr, addr);
+>     }
 >
-> Stefan
+> and could possibly be extended to
+>
+>     if (ctx->pm_mask_enabled) {
+>         tcg_gen_and_tl(addr, addr, pm_mask);
+>     } else if (get_xl(ctx) == MXL_RV32) {
+>         tcg_gen_ext32u_tl(addr, addr);
+>     }
+>     if (ctx->pm_base_enabled) {
+>         tcg_gen_or_tl(addr, addr, pm_base);
+>     }
+>
+Can we just use
 
+  tcg_gen_and_tl(addr, addr, pm_mask);
+  tcg_gen_or_tl(addr, addr, pm_base);
+
+Therefore we can remove all PM flags in TB_FLAGS.
+
+Thanks,
+Zhiwei
+
+> with one more bit in TB_FLAGS, e.g.
+>
+>     if (env->cur_pm_mask < (xl == MVL_RV32 ? UINT32_MAX : UINT64_MAX)) {
+>         flags = FIELD_DP32(flags, TB_FLAGS, PM_MASK_ENABLED, 1);
+>     }
+>     if (env->cur_pm_base != 0) {
+>         flags = FIELD_DP32(flags, TB_FLAGS, PM_BASE_ENABLED, 1);
+>     }
+>
+>
+> r~
 
