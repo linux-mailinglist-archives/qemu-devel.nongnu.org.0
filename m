@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4799E44D942
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 16:37:12 +0100 (CET)
-Received: from localhost ([::1]:34366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86C5144D948
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 16:39:36 +0100 (CET)
+Received: from localhost ([::1]:40888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlC8V-0000se-10
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 10:37:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40462)
+	id 1mlCAp-0005V3-MU
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 10:39:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1mlC5c-0004Rl-QZ; Thu, 11 Nov 2021 10:34:13 -0500
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:40958)
+ id 1mlC5c-0004Ri-Qc; Thu, 11 Nov 2021 10:34:13 -0500
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:40966)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1mlC5U-00041n-C2; Thu, 11 Nov 2021 10:34:07 -0500
+ id 1mlC5V-00041r-1v; Thu, 11 Nov 2021 10:34:08 -0500
 Received: from iva8-d2cd82b7433e.qloud-c.yandex.net
  (iva8-d2cd82b7433e.qloud-c.yandex.net
  [IPv6:2a02:6b8:c0c:a88e:0:640:d2cd:82b7])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id ED2E22E1EB3;
- Thu, 11 Nov 2021 18:33:57 +0300 (MSK)
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 4D8D82E1EC3;
+ Thu, 11 Nov 2021 18:33:59 +0300 (MSK)
 Received: from iva8-3a65cceff156.qloud-c.yandex.net
  (iva8-3a65cceff156.qloud-c.yandex.net [2a02:6b8:c0c:2d80:0:640:3a65:ccef])
  by iva8-d2cd82b7433e.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- zsePPL9uyc-XvsCs8cq; Thu, 11 Nov 2021 18:33:57 +0300
+ H1Ua6G5fdL-Xwsa2Q65; Thu, 11 Nov 2021 18:33:59 +0300
 Precedence: bulk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1636644837; bh=nX/VQTsziIB/0PxDV+dfQg83qC3n/hyFTLwjB7EMJwU=;
+ t=1636644839; bh=8CLtawSVTMjVLImwVYJk/7fg/KIi9Awuv7yUq/I54DY=;
  h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
- b=bG4T5+N1cts9NmH8kQHz4aaAo3pvHaUz7hLaIdUODcRGH2ulWEuzLK2aY2Fuq7v2V
- LtwNd6oT6aB6HkYKAOsBIINGNctQ4aNmtFib2OsJTGp2w47EvWJwLLzZy9P6413vCe
- ajyjz5byzjgEEQwR+WL05Havmf6++94NYshfDZ4Q=
+ b=EGa8LcsDnOeTgKUGLDcQu51zUPAc28bzQfoxBvsm46GAuVmOhOrzQwFBiGjJYvHl5
+ YOd4tYJpFN8MNKsoBV0f+5UQIb2EVzoi0EWvXeu7A4zJtXByFped65QucfZWmyLOPd
+ rFBARVQWjhke7OWFc31FMzrdSh4VCL6B8UsUzWBs=
 Authentication-Results: iva8-d2cd82b7433e.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 Received: from rvkaganb.lan (dynamic-vpn.dhcp.yndx.net
  [2a02:6b8:b081:8830::1:2d])
  by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPS id
- WgGv8YbvMJ-XuwCbZVu; Thu, 11 Nov 2021 18:33:57 +0300
+ WgGv8YbvMJ-XwwCc4Ee; Thu, 11 Nov 2021 18:33:58 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 X-Yandex-Fwd: 2
 From: Roman Kagan <rvkagan@yandex-team.ru>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/10] vhost-user-blk: reconnect on any error during realize
-Date: Thu, 11 Nov 2021 18:33:45 +0300
-Message-Id: <20211111153354.18807-2-rvkagan@yandex-team.ru>
+Subject: [PATCH 02/10] chardev/char-socket: tcp_chr_recv: don't clobber errno
+Date: Thu, 11 Nov 2021 18:33:46 +0300
+Message-Id: <20211111153354.18807-3-rvkagan@yandex-team.ru>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211111153354.18807-1-rvkagan@yandex-team.ru>
 References: <20211111153354.18807-1-rvkagan@yandex-team.ru>
@@ -81,42 +81,49 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vhost-user-blk realize only attempts to reconnect if the previous
-connection attempt failed on "a problem with the connection and not an
-error related to the content (which would fail again the same way in the
-next attempt)".
+tcp_chr_recv communicates the specific error condition to the caller via
+errno.  However, after setting it, it may call into some system calls or
+library functions which can clobber the errno.
 
-However this distinction is very subtle, and may be inadvertently broken
-if the code changes somewhere deep down the stack and a new error gets
-propagated up to here.
-
-OTOH now that the number of reconnection attempts is limited it seems
-harmless to try reconnecting on any error.
-
-So relax the condition of whether to retry connecting to check for any
-error.
-
-This patch amends a527e312b5 "vhost-user-blk: Implement reconnection
-during realize".
+Avoid this by moving the errno assignment to the end of the function.
 
 Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
 ---
- hw/block/vhost-user-blk.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ chardev/char-socket.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index ba13cb87e5..f9b17f6813 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -511,7 +511,7 @@ static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
-             *errp = NULL;
-         }
-         ret = vhost_user_blk_realize_connect(s, errp);
--    } while (ret == -EPROTO && retries--);
-+    } while (ret < 0 && retries--);
+diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+index 836cfa0bc2..90054ce58c 100644
+--- a/chardev/char-socket.c
++++ b/chardev/char-socket.c
+@@ -346,13 +346,6 @@ static ssize_t tcp_chr_recv(Chardev *chr, char *buf, size_t len)
+                                      NULL);
+     }
  
-     if (ret < 0) {
-         goto virtio_err;
+-    if (ret == QIO_CHANNEL_ERR_BLOCK) {
+-        errno = EAGAIN;
+-        ret = -1;
+-    } else if (ret == -1) {
+-        errno = EIO;
+-    }
+-
+     if (msgfds_num) {
+         /* close and clean read_msgfds */
+         for (i = 0; i < s->read_msgfds_num; i++) {
+@@ -381,6 +374,13 @@ static ssize_t tcp_chr_recv(Chardev *chr, char *buf, size_t len)
+ #endif
+     }
+ 
++    if (ret == QIO_CHANNEL_ERR_BLOCK) {
++        errno = EAGAIN;
++        ret = -1;
++    } else if (ret == -1) {
++        errno = EIO;
++    }
++
+     return ret;
+ }
+ 
 -- 
 2.33.1
 
