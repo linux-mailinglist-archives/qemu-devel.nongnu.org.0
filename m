@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B39C044D2A6
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 08:46:12 +0100 (CET)
-Received: from localhost ([::1]:37590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D954944D29E
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 08:43:41 +0100 (CET)
+Received: from localhost ([::1]:34392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml4mh-0007HX-Tv
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 02:46:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36194)
+	id 1ml4kG-000571-Lh
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 02:43:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ml4d6-0003f6-41
+ id 1ml4d6-0003f8-2w
  for qemu-devel@nongnu.org; Thu, 11 Nov 2021 02:36:16 -0500
-Received: from [2a00:1450:4864:20::535] (port=45989
- helo=mail-ed1-x535.google.com)
+Received: from [2a00:1450:4864:20::52e] (port=42968
+ helo=mail-ed1-x52e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ml4d2-00079B-H2
+ id 1ml4d3-00079H-0d
  for qemu-devel@nongnu.org; Thu, 11 Nov 2021 02:36:15 -0500
-Received: by mail-ed1-x535.google.com with SMTP id f4so20549349edx.12
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 23:36:11 -0800 (PST)
+Received: by mail-ed1-x52e.google.com with SMTP id v11so20689812edc.9
+ for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 23:36:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iA8vB4TfqWHRgjLEj3itlzFwZkdkH8YIgO+YxnoGWAo=;
- b=XwM4fEyrzBLX4JUQPx4bpU7Bgs4vA7GVWppSHfcs2NkUoGrps5QmvdvfwJYU1Kgd0a
- CkWDNoA3s2RTUjvdVfINB+15oQLzHgYh+g3z/3r+3tXddYhSox0MeuabcgB5OZ5BHLDr
- HDP/D2rkxrrlqe4Is7XZh4e0Zo0uhuJr/GrCes7ZOZ9mZtGNn+htJe7o5oTvM2m4hR/c
- j4vZmEPgzn/zL7cWuZX6+fwjZRbDUAhAfifd85Z4gj2WI1XXj7eFFXyAnOtzEHDtx/nR
- YB8pfA235Bo3PQDHD/fYPEb0JDSjqHI2F+H1MYtCJbsEuKEx+s8cQLHgG/jPBo7hMLRa
- yDBg==
+ bh=c76gKdka3+70DvRFkGRLX7+gFfnrCbIIFnpyii1x3Ts=;
+ b=DH88N2SoIoqMT4HxyLHhIQ/D2/QgiF+YJwCtv7Or2yvpS/tPQiszib7wZV8MEoGDz8
+ zQhaSytOaI/ujpoaUK6EgWuxngO1qV1cbsIBS+Be+2M8Ut04XhPzi7T41Y/iI88ce13z
+ dT1S86sAxtQvhk1WQ35nAiRucViZP1Xiyuln3jhqAv04WD5L+WE+xm+qu5pyc6V8nMG5
+ zjtOxwbicAAPEEkSERVG7huNXYRjXZFhV8YMxUUFldtl3UlANmjQWs5n+XRsDT6qNC4a
+ p/WYM48qgbruGI4WBF6YV8otBNpS6EQRMXzrdXVRyNz7MifPTFmhGpd91l9MZWQsjany
+ DdyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=iA8vB4TfqWHRgjLEj3itlzFwZkdkH8YIgO+YxnoGWAo=;
- b=AnGszSqfHlHz9ChqPJGPmlzkSGcC0FV3QreqpEVjFBDHTf107NqgG0Qut7QWiLRV2Y
- Jzwa7B8iqF/HgVa45fXY37lKe+g3zsQg8HnwTmtfpGx2vqK2GoYWu1IdGcNprvxuRWAK
- MXEoi8PeO1/hiEKdXZOgqcS9cchLJQXwi7oNCoR9fj0g83pJBKYIXiqiyi0vKDBFXlQd
- lrRB9HaN/KucY9RFccZyku8qT0N2D5gh53HfCVarQl3bRorpplBqB7FlYLsjMt+a86uB
- ibhcZWqbLIRh6vbdYxoa0F//wtgnzUW5fxwFz+FIqoNuHac9dknJWWO+uK/pll3xhxrN
- nA8A==
-X-Gm-Message-State: AOAM533y5I2I1Ubu7h3lFihM/93stdVvv2QIiaa4l7O2rBCDG8bAO3vV
- KtfTej7d3ycRNmGN16bO3i0kHKZeco0=
-X-Google-Smtp-Source: ABdhPJyPENLq0q1xzQBHKViFdnQO6HiDGeFs7YfDF9bMUD/6gC41EdOnQhUpVVRJq9Vo1mMkbExFoQ==
-X-Received: by 2002:a05:6402:1744:: with SMTP id
- v4mr7294297edx.366.1636616170474; 
- Wed, 10 Nov 2021 23:36:10 -0800 (PST)
+ bh=c76gKdka3+70DvRFkGRLX7+gFfnrCbIIFnpyii1x3Ts=;
+ b=V8pUA1VeJ6SEnjTp70Ggus9OAaTo4zBeFbI1Qc7lZvXv1lTTx0rQxhb+NJKBMYJVOC
+ FR2e4tSl3uPLBo3Pt1HGlzGZFL2AHGcDLu7VCA/WSa6hoNOh4AHeZM2ZsAhiNNySSUPs
+ MUrjjLJCllPpU91KfqLRKHQMXj7z+EmMd29ZKTVVA3FQAzdfTfFmJF3qPePmYHpykXGB
+ QKketxGaSRDEXDFm2aUNSr7Dpl4vrAHocHhuv7fS0yQ5Zrc3ndhWSxdNYvn745kn4puC
+ gzrCLvo1zEv4lWRJoddbTZb9/vU7LPXu5FbSetfdnz9mwDvkW+CkKgyuyFZB0aTw9X0t
+ x/dg==
+X-Gm-Message-State: AOAM532xtRGAW8obr9RZB5kDQ8GujeeKqUHsTVLSh690nxzqWg8RupRC
+ 3A7aiblpZRRM80YWQolJZaqLqv7Mwzo=
+X-Google-Smtp-Source: ABdhPJxm32R9g2K+FEClMeQ76Omp7yKifrjnCVydffVp9SHLV8bkbyplq8eZ2iANGCwEJbJtHlu3xA==
+X-Received: by 2002:a17:907:1c15:: with SMTP id
+ nc21mr6765508ejc.260.1636616171195; 
+ Wed, 10 Nov 2021 23:36:11 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id w1sm1062098edd.49.2021.11.10.23.36.09
+ by smtp.gmail.com with ESMTPSA id w1sm1062098edd.49.2021.11.10.23.36.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 10 Nov 2021 23:36:10 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/5] rcu: Introduce force_rcu notifier
-Date: Thu, 11 Nov 2021 08:36:04 +0100
-Message-Id: <20211111073607.195697-3-pbonzini@redhat.com>
+Subject: [PULL 3/5] accel/tcg: Register a force_rcu notifier
+Date: Thu, 11 Nov 2021 08:36:05 +0100
+Message-Id: <20211111073607.195697-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211111073607.195697-1-pbonzini@redhat.com>
 References: <20211111073607.195697-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,124 +94,161 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-The drain_rcu_call() function can be blocked as long as an RCU reader
-stays in a read-side critical section. This is typically what happens
-when a TCG vCPU is executing a busy loop. It can deadlock the QEMU
-monitor as reported in https://gitlab.com/qemu-project/qemu/-/issues/650 .
+A TCG vCPU doing a busy loop systematicaly hangs the QEMU monitor
+if the user passes 'device_add' without argument. This is because
+drain_cpu_all() which is called from qmp_device_add() cannot return
+if readers don't exit read-side critical sections. That is typically
+what busy-looping TCG vCPUs do:
 
-This can be avoided by allowing drain_rcu_call() to enforce an RCU grace
-period. Since each reader might need to do specific actions to end a
-read-side critical section, do it with notifiers.
+int cpu_exec(CPUState *cpu)
+{
+[...]
+    rcu_read_lock();
+[...]
+    while (!cpu_handle_exception(cpu, &ret)) {
+        // Busy loop keeps vCPU here
+    }
+[...]
+    rcu_read_unlock();
 
-Prepare ground for this by adding a notifier list to the RCU reader
-struct and use it in wait_for_readers() if drain_rcu_call() is in
-progress. An API is added for readers to register their notifiers.
+    return ret;
+}
 
-This is largely based on a draft from Paolo Bonzini.
+For MTTCG, have all vCPU threads register a force_rcu notifier that will
+kick them out of the loop using async_run_on_cpu(). The notifier is called
+with the rcu_registry_lock mutex held, using async_run_on_cpu() ensures
+there are no deadlocks.
 
+For RR, a single thread runs all vCPUs. Just register a single notifier
+that kicks the current vCPU to the next one.
+
+For MTTCG:
 Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+
+For RR:
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+
+Fixes: 7bed89958bfb ("device_core: use drain_call_rcu in in qmp_device_add")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/650
 Signed-off-by: Greg Kurz <groug@kaod.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211109183523.47726-2-groug@kaod.org>
+Message-Id: <20211109183523.47726-3-groug@kaod.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/rcu.h | 15 +++++++++++++++
- util/rcu.c         | 19 +++++++++++++++++++
- 2 files changed, 34 insertions(+)
+ accel/tcg/tcg-accel-ops-mttcg.c | 26 ++++++++++++++++++++++++++
+ accel/tcg/tcg-accel-ops-rr.c    | 10 ++++++++++
+ 2 files changed, 36 insertions(+)
 
-diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
-index 515d327cf1..e69efbd47f 100644
---- a/include/qemu/rcu.h
-+++ b/include/qemu/rcu.h
-@@ -27,6 +27,7 @@
- #include "qemu/thread.h"
- #include "qemu/queue.h"
- #include "qemu/atomic.h"
+diff --git a/accel/tcg/tcg-accel-ops-mttcg.c b/accel/tcg/tcg-accel-ops-mttcg.c
+index 847d2079d2..29632bd4c0 100644
+--- a/accel/tcg/tcg-accel-ops-mttcg.c
++++ b/accel/tcg/tcg-accel-ops-mttcg.c
+@@ -28,6 +28,7 @@
+ #include "sysemu/tcg.h"
+ #include "sysemu/replay.h"
+ #include "qemu/main-loop.h"
 +#include "qemu/notify.h"
- #include "qemu/sys_membarrier.h"
+ #include "qemu/guest-random.h"
+ #include "exec/exec-all.h"
+ #include "hw/boards.h"
+@@ -35,6 +36,26 @@
+ #include "tcg-accel-ops.h"
+ #include "tcg-accel-ops-mttcg.h"
  
- #ifdef __cplusplus
-@@ -66,6 +67,13 @@ struct rcu_reader_data {
- 
-     /* Data used for registry, protected by rcu_registry_lock */
-     QLIST_ENTRY(rcu_reader_data) node;
++typedef struct MttcgForceRcuNotifier {
++    Notifier notifier;
++    CPUState *cpu;
++} MttcgForceRcuNotifier;
++
++static void do_nothing(CPUState *cpu, run_on_cpu_data d)
++{
++}
++
++static void mttcg_force_rcu(Notifier *notify, void *data)
++{
++    CPUState *cpu = container_of(notify, MttcgForceRcuNotifier, notifier)->cpu;
 +
 +    /*
-+     * NotifierList used to force an RCU grace period.  Accessed under
-+     * rcu_registry_lock.  Note that the notifier is called _outside_
-+     * the thread!
++     * Called with rcu_registry_lock held, using async_run_on_cpu() ensures
++     * that there are no deadlocks.
 +     */
-+    NotifierList force_rcu;
- };
- 
- extern __thread struct rcu_reader_data rcu_reader;
-@@ -180,6 +188,13 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC(RCUReadAuto, rcu_read_auto_unlock)
- #define RCU_READ_LOCK_GUARD() \
-     g_autoptr(RCUReadAuto) _rcu_read_auto __attribute__((unused)) = rcu_read_auto_lock()
- 
-+/*
-+ * Force-RCU notifiers tell readers that they should exit their
-+ * read-side critical section.
-+ */
-+void rcu_add_force_rcu_notifier(Notifier *n);
-+void rcu_remove_force_rcu_notifier(Notifier *n);
-+
- #ifdef __cplusplus
- }
- #endif
-diff --git a/util/rcu.c b/util/rcu.c
-index 13ac0f75cb..c91da9f137 100644
---- a/util/rcu.c
-+++ b/util/rcu.c
-@@ -46,6 +46,7 @@
- unsigned long rcu_gp_ctr = RCU_GP_LOCKED;
- 
- QemuEvent rcu_gp_event;
-+static int in_drain_call_rcu;
- static QemuMutex rcu_registry_lock;
- static QemuMutex rcu_sync_lock;
- 
-@@ -107,6 +108,8 @@ static void wait_for_readers(void)
-                  * get some extra futex wakeups.
-                  */
-                 qatomic_set(&index->waiting, false);
-+            } else if (qatomic_read(&in_drain_call_rcu)) {
-+                notifier_list_notify(&index->force_rcu, NULL);
-             }
-         }
- 
-@@ -339,8 +342,10 @@ void drain_call_rcu(void)
-      * assumed.
-      */
- 
-+    qatomic_inc(&in_drain_call_rcu);
-     call_rcu1(&rcu_drain.rcu, drain_rcu_callback);
-     qemu_event_wait(&rcu_drain.drain_complete_event);
-+    qatomic_dec(&in_drain_call_rcu);
- 
-     if (locked) {
-         qemu_mutex_lock_iothread();
-@@ -363,6 +368,20 @@ void rcu_unregister_thread(void)
-     qemu_mutex_unlock(&rcu_registry_lock);
- }
- 
-+void rcu_add_force_rcu_notifier(Notifier *n)
-+{
-+    qemu_mutex_lock(&rcu_registry_lock);
-+    notifier_list_add(&rcu_reader.force_rcu, n);
-+    qemu_mutex_unlock(&rcu_registry_lock);
++    async_run_on_cpu(cpu, do_nothing, RUN_ON_CPU_NULL);
 +}
 +
-+void rcu_remove_force_rcu_notifier(Notifier *n)
-+{
-+    qemu_mutex_lock(&rcu_registry_lock);
-+    notifier_remove(n);
-+    qemu_mutex_unlock(&rcu_registry_lock);
-+}
-+
- static void rcu_init_complete(void)
+ /*
+  * In the multi-threaded case each vCPU has its own thread. The TLS
+  * variable current_cpu can be used deep in the code to find the
+@@ -43,12 +64,16 @@
+ 
+ static void *mttcg_cpu_thread_fn(void *arg)
  {
-     QemuThread thread;
++    MttcgForceRcuNotifier force_rcu;
+     CPUState *cpu = arg;
+ 
+     assert(tcg_enabled());
+     g_assert(!icount_enabled());
+ 
+     rcu_register_thread();
++    force_rcu.notifier.notify = mttcg_force_rcu;
++    force_rcu.cpu = cpu;
++    rcu_add_force_rcu_notifier(&force_rcu.notifier);
+     tcg_register_thread();
+ 
+     qemu_mutex_lock_iothread();
+@@ -100,6 +125,7 @@ static void *mttcg_cpu_thread_fn(void *arg)
+ 
+     tcg_cpus_destroy(cpu);
+     qemu_mutex_unlock_iothread();
++    rcu_remove_force_rcu_notifier(&force_rcu.notifier);
+     rcu_unregister_thread();
+     return NULL;
+ }
+diff --git a/accel/tcg/tcg-accel-ops-rr.c b/accel/tcg/tcg-accel-ops-rr.c
+index a5fd26190e..bf59f53dbc 100644
+--- a/accel/tcg/tcg-accel-ops-rr.c
++++ b/accel/tcg/tcg-accel-ops-rr.c
+@@ -28,6 +28,7 @@
+ #include "sysemu/tcg.h"
+ #include "sysemu/replay.h"
+ #include "qemu/main-loop.h"
++#include "qemu/notify.h"
+ #include "qemu/guest-random.h"
+ #include "exec/exec-all.h"
+ 
+@@ -133,6 +134,11 @@ static void rr_deal_with_unplugged_cpus(void)
+     }
+ }
+ 
++static void rr_force_rcu(Notifier *notify, void *data)
++{
++    rr_kick_next_cpu();
++}
++
+ /*
+  * In the single-threaded case each vCPU is simulated in turn. If
+  * there is more than a single vCPU we create a simple timer to kick
+@@ -143,10 +149,13 @@ static void rr_deal_with_unplugged_cpus(void)
+ 
+ static void *rr_cpu_thread_fn(void *arg)
+ {
++    Notifier force_rcu;
+     CPUState *cpu = arg;
+ 
+     assert(tcg_enabled());
+     rcu_register_thread();
++    force_rcu.notify = rr_force_rcu;
++    rcu_add_force_rcu_notifier(&force_rcu);
+     tcg_register_thread();
+ 
+     qemu_mutex_lock_iothread();
+@@ -255,6 +264,7 @@ static void *rr_cpu_thread_fn(void *arg)
+         rr_deal_with_unplugged_cpus();
+     }
+ 
++    rcu_remove_force_rcu_notifier(&force_rcu);
+     rcu_unregister_thread();
+     return NULL;
+ }
 -- 
 2.33.1
 
