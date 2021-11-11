@@ -2,91 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1931344DBF9
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 20:13:01 +0100 (CET)
-Received: from localhost ([::1]:38112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B6C044DC25
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 20:24:24 +0100 (CET)
+Received: from localhost ([::1]:46254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlFVL-0007to-Ny
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 14:12:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42482)
+	id 1mlFgN-0005S8-2T
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 14:24:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1mlFU7-0007DY-Ij
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 14:11:43 -0500
-Received: from [2607:f8b0:4864:20::736] (port=45667
- helo=mail-qk1-x736.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1mlFU5-0004nb-Do
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 14:11:43 -0500
-Received: by mail-qk1-x736.google.com with SMTP id d2so1862831qki.12
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 11:11:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:date:from:subject:thread-topic:in-reply-to:message-id
- :references:to:cc:content-transfer-encoding;
- bh=40psO49aEbAyKCgCs8y8rUw0kxOHQeZ1SyNXvGDIZxs=;
- b=wAV8oxrWse+0cDoFviOSAjLGvHspe4rba25v6Jgy3HIbT1b3kdz5ngR3BV2iu7nKZv
- iSpGz+WK/hx/2O7txMBAYp5rQavscBLV8i5zj7Lg9H/AtZotqgsKFslXErgsIvtDHNdT
- celSsxzlPDvbotvpTjxzyW0/5eC1RlRKG86z+QIoZ8F23uYY8+AYJl7jC9Yny0iEtfjz
- Z0EJpM0i+K3l12atMlzAauwDoBkixJFzHFPnHVbP+JH3Dq9PudFVrOgucHykBZ/G2osj
- P0Jt5rgxJAW2P4v3xfklvN74oCsPgj/xJiwpkXYuOMuT1E+iveTLGNyGQqF0B/iGkcg8
- t2DA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mlFeO-0003nt-BO
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 14:22:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20213)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mlFeK-0006GB-7p
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 14:22:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636658533;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fxjI3IFKEIxQi2zXRb5y0n/o6XdmhZrmMRzshktFfZU=;
+ b=CzEl27TehXUBaVUj1XbB2DsJINwVkzrgAb8n7i0ZsU1tfNoV7lbLcdGqydfjngFMPKw0oE
+ GRBE5M4QRDDkIFRjKCeo8v4ahvmZ6rfKNRXv5acRsilyroXMXxOR/euE3wHliLLXgmQZK0
+ Po9XwWSgciR22lrifHGWMvk909NlKSc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-336-z02_7uVeMZeSJJ8szutZSQ-1; Thu, 11 Nov 2021 14:22:12 -0500
+X-MC-Unique: z02_7uVeMZeSJJ8szutZSQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ j193-20020a1c23ca000000b003306ae8bfb7so3157471wmj.7
+ for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 11:22:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:date:from:subject:thread-topic
- :in-reply-to:message-id:references:to:cc:content-transfer-encoding;
- bh=40psO49aEbAyKCgCs8y8rUw0kxOHQeZ1SyNXvGDIZxs=;
- b=dMNrAt4Pl0/CjAKPoblBAhuI0MXUEDi0ojt9jLYbu4Yz88ogIwlATMtK3+IE/hxRXs
- lVtzh+ibFoGwEqwIbFKnwp8pI3VWCn2kcLtJ99++HYK/6fnll9a5ZZ4FPmatM8wJl6aH
- BtLUy+kSbcoqYo7s609adsVgQ5URF9NeP8rfkukWlX/Phblglt5bUVoLWcH1vAhrqHkb
- SGvtoRC4/cP/0bRLcJmep5icUv0EM8hhicdFyrh1GJn1ZKQn98WAlOnO46QDLZPIV5oF
- Ayrp2WuH0gWAdOu56qXsUeykqG60fHgTg4mwFfCa4//Ph+JF4k+YBd5gkCms+aqwtJ7d
- /yAw==
-X-Gm-Message-State: AOAM533pbLpJSYSPu+iXbBUsSKE7VxNNqqlWpsaUBb5gJ4Yhb4PHp3u1
- PTNQMm03xcEPNEBDolRfh56QY3fvx9q2lA==
-X-Google-Smtp-Source: ABdhPJzd0nMCSM5mvcN8ga+Y8Pk6LREDfyjPEZolZbAbOIg3bHssEMs90wroWJiZ9XrJMK0p3HI/wg==
-X-Received: by 2002:a37:b307:: with SMTP id c7mr8171908qkf.134.1636657489759; 
- Thu, 11 Nov 2021 11:04:49 -0800 (PST)
-Received: from LAPTOP-T2OT88E8
- (bras-base-stsvon1503w-grc-20-142-114-141-224.dsl.bell.ca. [142.114.141.224])
- by smtp.gmail.com with ESMTPSA id x10sm1626242qkn.41.2021.11.11.11.04.48
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 11 Nov 2021 11:04:49 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fxjI3IFKEIxQi2zXRb5y0n/o6XdmhZrmMRzshktFfZU=;
+ b=UfvIonDjvjkJSj/W0F6+X+TTXfL80hc9vaP6WuXiQVf5ypqyg/lLPxsc2AGOb7KJZ1
+ NdhcYQHzsrHnZuo8Nwzy+cdG+oZORxTl4GJEJfDrfoCvTIYf+7WeKqRdkzsCZii9CDvE
+ lNMcu3Bnk1P6E3r4FzS4mPBu08fFLzB8ry3RebnjpSUSH3PP0sfi1t3cp2sv10QXYr/s
+ Ls1etJz0IReBdwhT7DcovX9tJ23hIzMNHhgWaU1Q3oQtDllKN9ioSxNHDNZgLJdcAXWC
+ B9XYikBN4WaTI7HoB3261h3Kd2H0BAPUagoODWsYKFJ7dZYgtCN6MIkZs+SkkfigC/ep
+ JXgA==
+X-Gm-Message-State: AOAM5325EeONsJuwhb48lkYD2i8vK7s2qm+pqJivxS1vydm7oBJ8dBoi
+ ljfw5GmAw/aK/5oO3blU7hqazo9lw7SkYTVYTKheY6q8g6ql5oW7eQSHGntxM9nNt37FiaPyQbA
+ VSM783C+s2zDZY2A=
+X-Received: by 2002:adf:c78d:: with SMTP id l13mr11505468wrg.134.1636658531239; 
+ Thu, 11 Nov 2021 11:22:11 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzXsefGYAqnOv+WPp7l1gQDwTnP8MKudjbp1jHiFsqc5XjuYEH9WupHlwVZ+jlnKJ0GGE5E+w==
+X-Received: by 2002:adf:c78d:: with SMTP id l13mr11505431wrg.134.1636658530884; 
+ Thu, 11 Nov 2021 11:22:10 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
+ ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ by smtp.gmail.com with ESMTPSA id o10sm4992249wri.15.2021.11.11.11.22.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Nov 2021 11:22:10 -0800 (PST)
+Message-ID: <13efddef-cc30-9a6a-a700-060d6fca57e3@redhat.com>
+Date: Thu, 11 Nov 2021 20:22:09 +0100
 MIME-Version: 1.0
-Date: Thu, 11 Nov 2021 14:04:48 -0500
-From: Shashi Mallela <shashi.mallela@linaro.org>
-Subject: RE: [PATCH v8 07/10] hw/arm/sbsa-ref: add ITS support in SBSA GIC
-Thread-Topic: RE: [PATCH v8 07/10] hw/arm/sbsa-ref: add ITS support in SBSA GIC
-In-Reply-To: <YY1fPNywEOvSaJ/a@leviathan>
-Message-ID: <2456772B-463A-401E-BDA9-07EEB61047BB@hxcore.ol>
-References: <20210812165341.40784-8-shashi.mallela@linaro.org>
- <CAFEAcA9WVu+kjfCWwfGQV00yKgmdFDCSUpxNOu1BEBM3AZCWXg@mail.gmail.com>
- <20210902124258.mqjhx7lqqvkczf6a@leviathan>
- <CAFEAcA-KeBzOCP1CHVWPHbHzG=KbS_HJmXoYo7B2VBz=oGSd3w@mail.gmail.com>
- <20211015122351.vc55mwzjbevl6wjy@leviathan>
- <CAFEAcA-Xe2u8n+og4TMyZSSvdBm8nrma3z4GkVjEJHPdJu8Fnw@mail.gmail.com>
- <20211109204249.usvfatm3frar3u7a@leviathan>
- <CAFEAcA98G_u74G7PQFVZ_FTirKtnO63WQhA5bV_zVJJXAzJang@mail.gmail.com>
- <20211109225251.gfr2mvm3jynvdsnk@leviathan>
- <CAFEAcA-0NFAM5j8CrUf+hPmCZBGOiAkk2f-n-pfqjsv+OwM38w@mail.gmail.com>,
- <YY1fPNywEOvSaJ/a@leviathan>
-To: Leif Lindholm <leif@nuviainc.com>, 
- Peter Maydell <peter.maydell@linaro.org>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html; charset="utf-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::736
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
- envelope-from=shashi.mallela@linaro.org; helo=mail-qk1-x736.google.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- MIME_HTML_ONLY=0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] qmp: Stabilize preconfig
+To: Markus Armbruster <armbru@redhat.com>
+References: <b31f442d28920447690a6b8cee865bdbacde1283.1635160056.git.mprivozn@redhat.com>
+ <87bl3dfg9v.fsf@dusky.pond.sub.org>
+ <bb896561-9d0c-6c6c-4bdb-5e7ef5ed71d5@redhat.com>
+ <YYAATW1JQmzpDPhu@redhat.com> <87zgqlzmxi.fsf@dusky.pond.sub.org>
+ <c4ac9bcc-90ae-302f-d5d4-b95f1419a7a0@redhat.com>
+ <87pmr7rzls.fsf@dusky.pond.sub.org>
+ <bc437ccb-0487-a5ff-8e6a-50067715c4d4@redhat.com>
+ <87mtman4h1.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <87mtman4h1.fsf@dusky.pond.sub.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -74
+X-Spam_score: -7.5
+X-Spam_bar: -------
+X-Spam_report: (-7.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.999, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,109 +106,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Radoslaw Biernacki <rad@semihalf.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
- Eric Auger <eric.auger@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>,
- =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" xmlns:w=3D"urn:sc=
-hemas-microsoft-com:office:word" xmlns:m=3D"http://schemas.microsoft.com/of=
-fice/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta ht=
-tp-equiv=3DContent-Type content=3D"text/html; charset=3Dutf-8"><meta name=
-=3DGenerator content=3D"Microsoft Word 15 (filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-.MsoChpDefault
-	{mso-style-type:export-only;}
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style></head><body lang=3DEN-CA link=3Dblue vlink=3D"#954F72" style=3D=
-'word-wrap:break-word'><div class=3DWordSection1><p class=3DMsoNormal><b>Fr=
-om: </b><a href=3D"mailto:leif@nuviainc.com">Leif Lindholm</a><br><b>Sent: =
-</b>November 11, 2021 1:21 PM<br><b>To: </b><a href=3D"mailto:peter.maydell=
-@linaro.org">Peter Maydell</a><br><b>Cc: </b><a href=3D"mailto:shashi.malle=
-la@linaro.org">Shashi Mallela</a>; <a href=3D"mailto:rad@semihalf.com">Rado=
-slaw Biernacki</a>; <a href=3D"mailto:mst@redhat.com">Michael S. Tsirkin</a=
->; <a href=3D"mailto:imammedo@redhat.com">Igor Mammedov</a>; <a href=3D"mai=
-lto:qemu-arm@nongnu.org">qemu-arm</a>; <a href=3D"mailto:qemu-devel@nongnu.=
-org">QEMU Developers</a>; <a href=3D"mailto:eric.auger@redhat.com">Eric Aug=
-er</a>; <a href=3D"mailto:narmstrong@baylibre.com">narmstrong@baylibre.com<=
-/a>; <a href=3D"mailto:alex.bennee@linaro.org">Alex Benn=C3=A9e</a>; <a hre=
-f=3D"mailto:marcin.juszkiewicz@linaro.org">Marcin Juszkiewicz</a><br><b>Sub=
-ject: </b>Re: [PATCH v8 07/10] hw/arm/sbsa-ref: add ITS support in SBSA GIC=
-</p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal>On Thu, =
-Nov 11, 2021 at 16:55:09 +0000, Peter Maydell wrote:</p><p class=3DMsoNorma=
-l>&gt; On Tue, 9 Nov 2021 at 22:52, Leif Lindholm &lt;leif@nuviainc.com&gt;=
- wrote:</p><p class=3DMsoNormal>&gt; &gt;</p><p class=3DMsoNormal>&gt; &gt;=
- On Tue, Nov 09, 2021 at 21:21:46 +0000, Peter Maydell wrote:</p><p class=
-=3DMsoNormal>&gt; &gt; &gt; The other thing we should nail down is how the =
-user is going to</p><p class=3DMsoNormal>&gt; &gt; &gt; select which flavou=
-r of machine they want to provide. Three</p><p class=3DMsoNormal>&gt; &gt; =
-&gt; options:</p><p class=3DMsoNormal>&gt; &gt; &gt;=C2=A0 (1) no control, =
-QEMU just emulates whatever the newest flavour is.</p><p class=3DMsoNormal>=
-&gt; &gt; &gt; User needs to go find a firmware image new enough to cope.</=
-p><p class=3DMsoNormal>&gt; &gt; &gt;=C2=A0 (2) different flavours exposed =
-as different machine types</p><p class=3DMsoNormal>&gt; &gt; &gt; (analogou=
-s to how we have musca-a and musca-b1, or raspi3ap and</p><p class=3DMsoNor=
-mal>&gt; &gt; &gt; raspi3b, for instance). Old user command lines keep work=
-ing</p><p class=3DMsoNormal>&gt; &gt; &gt; because -M sbsa-ref doesn't chan=
-ge; the new stuff would be</p><p class=3DMsoNormal>&gt; &gt; &gt; available=
- via -M sbsa-ref-2 or whatever.</p><p class=3DMsoNormal>&gt; &gt; &gt;=C2=
-=A0 (3) different flavours exposed via a property</p><p class=3DMsoNormal>&=
-gt; &gt; &gt; (so you would have -M sbsa-ref,machine-revision=3D2 or someth=
-ing).</p><p class=3DMsoNormal>&gt; &gt; &gt; If the revision defaults to 1 =
-then old user setups still work</p><p class=3DMsoNormal>&gt; &gt; &gt; but =
-everybody starts to have to cart around an extra command</p><p class=3DMsoN=
-ormal>&gt; &gt; &gt; line argument. If it defaults to &quot;newest we know =
-about&quot; you</p><p class=3DMsoNormal>&gt; &gt; &gt; get the opposite set=
- of tradeoffs.</p><p class=3DMsoNormal>&gt; &gt;</p><p class=3DMsoNormal>&g=
-t; &gt; I'm leaning towards (1), at least while working towards a &quot;com=
-plete&quot;</p><p class=3DMsoNormal>&gt; &gt; platform (when we may still a=
-dd/change features, but not how those</p><p class=3DMsoNormal>&gt; &gt; fea=
-tures are communicated to the firmware).</p><p class=3DMsoNormal>&gt; </p><=
-p class=3DMsoNormal>&gt; That's certainly the easiest on the QEMU side; you=
- know the</p><p class=3DMsoNormal>&gt; userbase so would know whether that =
-kind of compat break is</p><p class=3DMsoNormal>&gt; going to be OK with th=
-em.</p><p class=3DMsoNormal>&gt; </p><p class=3DMsoNormal>&gt; Q1: who is g=
-oing to write the code for this?</p><p class=3DMsoNormal><o:p>&nbsp;</o:p><=
-/p><p class=3DMsoNormal>Me, my team, and perhaps a little bit of help from =
-Shashi where it</p><p class=3DMsoNormal>intersects his code.</p><p class=3D=
-MsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal>&gt; Q2: do we want to =
-try to land &quot;ITS in sbsa-ref&quot; in 6.2? Given</p><p class=3DMsoNorm=
-al>&gt; we're in freeze we're quite short of time even if we handwave</p><p=
- class=3DMsoNormal>&gt; the fact it's a new feature, not a bugfix, so I wou=
-ld lean</p><p class=3DMsoNormal>&gt; towards 'no'...</p><p class=3DMsoNorma=
-l><o:p>&nbsp;</o:p></p><p class=3DMsoNormal>Shashi - what is your feeling?<=
-/p><p class=3DMsoNormal>If we could make ITS support depend on the platform=
- version being</p><p class=3DMsoNormal>communicated through TF-A, we could =
-simplify the transition a lot.</p><p class=3DMsoNormal>But that would defin=
-itely mean missing 6.2.</p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p cla=
-ss=3DMsoNormal>Sounds okay to me too.</p><p class=3DMsoNormal><o:p>&nbsp;</=
-o:p></p><p class=3DMsoNormal>Peter - could we sneak in an &quot;add version=
- node to DT&quot; into 6.2?</p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p=
- class=3DMsoNormal>/</p><p class=3DMsoNormal>=C2=A0=C2=A0=C2=A0 Leif</p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>=
+On 11/11/21 15:37, Markus Armbruster wrote:
+>> 1) PHASE_NO_MACHINE - backends can already be created here, but no
+>> machine exists yet
+>>
+>> 2) PHASE_MACHINE_CREATED - the machine object has been created.  It's
+>> not initialized, but it's there.
+>>
+>> 3) PHASE_ACCEL_CREATED - the accelerator object has been created.  The
+>> accelerator needs the machine object, because for example KVM might
+>> not support all machine types.  So the accelerator queries the machine
+>> object and fails creation in case of incompatibility.  This enables
+>> e.g. fallback to TCG.  -preconfig starts the monitor here.
+> 
+> We should be able to start monitors first, if we put in the work.
+
+The monitor starts, the question is the availability of the event loop. 
+  This requires a command (or a something) to advance to the next phase. 
+   x-exit-preconfig is such a command.
+
+In addition, one thing I don't like of preconfig is that command line 
+arguments linger until they are triggered by x-exit-preconfig.  Adding 
+more such commands makes things worse.
+
+>> 4) PHASE_MACHINE_INIT - machine initialization consists mostly in
+>> creating the onboard devices.  For this to happen, the machine needs
+>> to learn about the accelerator, because onboard devices include CPUs
+>> and other accelerator-dependent devices.  Devices plugged in this
+>> phase are cold-plugged.
+>>
+>> 5) PHASE_MACHINE_READY - machine init done notifiers have been called
+>> and the VM is ready.  Devices plugged in this phase already count as
+>> hot-plugged.  -S starts the monitor here.
+> 
+> Remind us: what work is done in the machine init done notifiers?
+
+It depends, but---generally speaking---what they do applies only to 
+cold-plugged devices.  For example, fw_cfg gathers the boot order in the 
+machine-init-done notifier (via get_boot_devices_list).
+
+> What exactly necessitates "count as hot-plugged"?  Is it something done
+> in these notifiers?
+
+It depends on the bus.  It boils down to this code in device_initfn:
+
+     if (phase_check(PHASE_MACHINE_READY)) {
+         dev->hotplugged = 1;
+         qdev_hot_added = true;
+     }
+
+For example, hotplugged PCI devices must define function 0 last; 
+coldplugged PCI devices can define functions in any order 
+(do_pci_register_device, called by pci_qdev_realize).
+
+Another example, a device_add after machine-done causes an ACPI hotplug 
+event, because acpi_pcihp_device_plug_cb checks dev->hotplugged.
+
+>> x-exit-preconfig goes straight from PHASE_ACCEL_CREATED to
+>> PHASE_MACHINE_READY.  Devices can only be created after
+>> PHASE_MACHINE_INIT, so device_add cannot be enabled at preconfig
+>> stage.
+> 
+> Now I am confused again.  Can you cold plug devices with device_add in
+> presence of -preconfig, and if yes, how?
+
+No, because the monitor goes directly from a point where device_add 
+fails (PHASE_ACCEL_CREATED) to a point where devices are hotplugged 
+(PHASE_MACHINE_READY).
+
+> Related question: when exactly in these phases do we create devices
+> specified with -device?
+
+In PHASE_MACHINE_INIT---that is, after the machine has been initialized 
+and before machine-done-notifiers have been called.
+
+>> With a pure-QMP configuration flow, PHASE_MACHINE_CREATED would be
+>> reached with a machine-set command (corresponding to the
+>> non-deprecated parts of -machine) and PHASE_ACCEL_CREATED would be
+>> reached with an accel-set command (corresponding to -accel).
+> 
+> I don't think this depends on "pure-QMP configuration flow".  -machine
+> and -accel could advance the phase just like their buddies machine-set
+> and accel-set.
+
+They already do (see qemu_init's calls to phase_advance).
+
+> State transition diagram:
+> 
+>      PHASE_NO_MACHINE (initial state)
+>              |
+>              |  -machine or machine-set
+>              v
+>      PHASE_MACHINE_CREATED
+>              |
+>              |  -accel or accel-set
+>              v
+>      PHASE_ACCEL_CREATED
+>              |
+>              |  ???
+
+qmp_x_exit_preconfig() -> qemu_init_board() -> machine_run_board_init()
+
+>              v
+>      PHASE_MACHINE_INIT
+>              |
+>              |  ???
+
+qmp_x_exit_preconfig() -> qemu_machine_creation_done() -> 
+qdev_machine_creation_done()
+
+The steps in qmp_x_exit_preconfig() are pretty self-explanatory:
+
+     qemu_init_board();
+     qemu_create_cli_devices();
+     qemu_machine_creation_done();
+
+qemu_init() calls qmp_x_exit_preconfig() if -preconfig is not passed on 
+the command line.
+
+>              v
+>      PHASE_MACHINE_READY
+>              |
+>              |  cont
+>              v
+>             ???
+
+No phases anymore, it's always PHASE_MACHINE_READY.  cont simply changes 
+the runstate to RUNNING.
+
+> The earlier the monitor becomes available, the better.
+> Ideally, we'd process the command line strictly left to right, and fail
+> options that are "out of phase".  Make the monitor available right when
+> we process its -mon.  The -chardev for its character device must precede
+> it.
+
+The boat for this has sailed.  The only sane way to do this is a new binary.
+
+> Likewise, we'd fail QMP commands that are "out of phase".
+> @allow-preconfig is a crutch that only exists because we're afraid (with
+> reason) of hidden assumptions in QMP commands.
+
+At this point, it's not even like that anymore (except for block devices 
+because my patches haven't been applied).  allow-preconfig is just a 
+quick way to avoid writing
+
+     if (!phase_check(PHASE_MACHINE_READY)) {
+         error_setg(errp, "Please configure the machine first");
+         return;
+     }
+
+over and over in many commands.
+
+Paolo
 
 
