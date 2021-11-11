@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BF7344D686
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 13:21:56 +0100 (CET)
-Received: from localhost ([::1]:45476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C597244D67B
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 13:17:31 +0100 (CET)
+Received: from localhost ([::1]:34990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml95X-0005Jy-M4
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 07:21:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40414)
+	id 1ml91G-0006R7-Tz
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 07:17:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1ml8tH-0000TE-0f
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1ml8tG-0000T2-K1
  for qemu-devel@nongnu.org; Thu, 11 Nov 2021 07:09:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42850)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44492)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1ml8tD-00039v-6N
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1ml8tE-0003A4-NZ
  for qemu-devel@nongnu.org; Thu, 11 Nov 2021 07:09:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636632549;
+ s=mimecast20190719; t=1636632552;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=foivRn0VHMxBDwXJV39FICcad0Dz9e5GvpRGWcZNLi4=;
- b=OU+BIRK9D26Py7DxnVAgnUL24Ys4yoKKNRALhM/khLijX6QwrwW6FFOeqJ6ftDXMZiptoW
- c2MAxROzzu6W33Hp43wmN4Y9a77SQPgsrFt4c34JqB0aijjAebyO/aIzvUBm512hB5IyE7
- 5gZNgYCNfBIgbtqruPYL2Q/J/S7I5W4=
+ bh=shVN2QICfYZ2g0c6Fg0kFCLqBxPQx2O4ZEwnCnj642E=;
+ b=HCcQ6xgQ8dn3o9t7ruEKwWnKeaxvDK2tMmDVyq87lQk2jY22V6TeSnKb2RsUejjr3v6yf3
+ 93HBBbdUmn+obiOpS3BmCbqoa5TOwggC39rfBmDRfaTVqMmBhlTGpa44jeJp70ujzJ3zas
+ aLx/IM0NYowHfv8BRN1xLz4LcQmEEB4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-5ppcTJKlNb-uqQP-Vs249Q-1; Thu, 11 Nov 2021 07:09:05 -0500
-X-MC-Unique: 5ppcTJKlNb-uqQP-Vs249Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-332-ksdD1x2XN8O9tQiebYt8IA-1; Thu, 11 Nov 2021 07:09:09 -0500
+X-MC-Unique: ksdD1x2XN8O9tQiebYt8IA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD88C1006AA1;
- Thu, 11 Nov 2021 12:09:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2247E1017968;
+ Thu, 11 Nov 2021 12:09:07 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 590351048127;
- Thu, 11 Nov 2021 12:09:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BB5AC19C59;
+ Thu, 11 Nov 2021 12:09:06 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 09/10] block: Let replace_child_noperm free children
-Date: Thu, 11 Nov 2021 13:08:28 +0100
-Message-Id: <20211111120829.81329-10-hreitz@redhat.com>
+Subject: [PATCH v2 10/10] iotests/030: Unthrottle parallel jobs in reverse
+Date: Thu, 11 Nov 2021 13:08:29 +0100
+Message-Id: <20211111120829.81329-11-hreitz@redhat.com>
 In-Reply-To: <20211111120829.81329-1-hreitz@redhat.com>
 References: <20211111120829.81329-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,278 +81,35 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In most of the block layer, especially when traversing down from other
-BlockDriverStates, we assume that BdrvChild.bs can never be NULL.  When
-it becomes NULL, it is expected that the corresponding BdrvChild pointer
-also becomes NULL and the BdrvChild object is freed.
-
-Therefore, once bdrv_replace_child_noperm() sets the BdrvChild.bs
-pointer to NULL, it should also immediately set the corresponding
-BdrvChild pointer (like bs->file or bs->backing) to NULL.
-
-In that context, it also makes sense for this function to free the
-child.  Sometimes we cannot do so, though, because it is called in a
-transactional context where the caller might still want to reinstate the
-child in the abort branch (and free it only on commit), so this behavior
-has to remain optional.
-
-In bdrv_replace_child_tran()'s abort handler, we now rely on the fact
-that the BdrvChild passed to bdrv_replace_child_tran() must have had a
-non-NULL .bs pointer initially.  Make a note of that and assert it.
+See the comment for why this is necessary.
 
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- block.c | 102 +++++++++++++++++++++++++++++++++++++++++++-------------
- 1 file changed, 79 insertions(+), 23 deletions(-)
+ tests/qemu-iotests/030 | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/block.c b/block.c
-index a40027161c..0ac5b163d2 100644
---- a/block.c
-+++ b/block.c
-@@ -87,8 +87,10 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
- static bool bdrv_recurse_has_child(BlockDriverState *bs,
-                                    BlockDriverState *child);
+diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
+index 5fb65b4bef..567bf1da67 100755
+--- a/tests/qemu-iotests/030
++++ b/tests/qemu-iotests/030
+@@ -251,7 +251,16 @@ class TestParallelOps(iotests.QMPTestCase):
+                                  speed=1024)
+             self.assert_qmp(result, 'return', {})
  
-+static void bdrv_child_free(BdrvChild *child);
- static void bdrv_replace_child_noperm(BdrvChild **child,
--                                      BlockDriverState *new_bs);
-+                                      BlockDriverState *new_bs,
-+                                      bool free_empty_child);
- static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
-                                               BdrvChild *child,
-                                               Transaction *tran);
-@@ -2256,12 +2258,16 @@ typedef struct BdrvReplaceChildState {
-     BdrvChild *child;
-     BdrvChild **childp;
-     BlockDriverState *old_bs;
-+    bool free_empty_child;
- } BdrvReplaceChildState;
+-        for job in pending_jobs:
++        # Do this in reverse: After unthrottling them, some jobs may finish
++        # before we have unthrottled all of them.  This will drain their
++        # subgraph, and this will make jobs above them advance (despite those
++        # jobs on top being throttled).  In the worst case, all jobs below the
++        # top one are finished before we can unthrottle it, and this makes it
++        # advance so far that it completes before we can unthrottle it - which
++        # results in an error.
++        # Starting from the top (i.e. in reverse) does not have this problem:
++        # When a job finishes, the ones below it are not advanced.
++        for job in reversed(pending_jobs):
+             result = self.vm.qmp('block-job-set-speed', device=job, speed=0)
+             self.assert_qmp(result, 'return', {})
  
- static void bdrv_replace_child_commit(void *opaque)
- {
-     BdrvReplaceChildState *s = opaque;
- 
-+    if (s->free_empty_child && !s->child->bs) {
-+        bdrv_child_free(s->child);
-+    }
-     bdrv_unref(s->old_bs);
- }
- 
-@@ -2278,22 +2284,26 @@ static void bdrv_replace_child_abort(void *opaque)
-      *     modify the BdrvChild * pointer we indirectly pass to it, i.e. it
-      *     will not modify s->child.  From that perspective, it does not matter
-      *     whether we pass s->childp or &s->child.
--     *     (TODO: Right now, bdrv_replace_child_noperm() never modifies that
--     *     pointer anyway (though it will in the future), so at this point it
--     *     absolutely does not matter whether we pass s->childp or &s->child.)
-      * (2) If new_bs is not NULL, s->childp will be NULL.  We then cannot use
-      *     it here.
-      * (3) If new_bs is NULL, *s->childp will have been NULLed by
-      *     bdrv_replace_child_tran()'s bdrv_replace_child_noperm() call, and we
-      *     must not pass a NULL *s->childp here.
--     *     (TODO: In its current state, bdrv_replace_child_noperm() will not
--     *     have NULLed *s->childp, so this does not apply yet.  It will in the
--     *     future.)
-      *
-      * So whether new_bs was NULL or not, we cannot pass s->childp here; and in
-      * any case, there is no reason to pass it anyway.
-      */
--    bdrv_replace_child_noperm(&s->child, s->old_bs);
-+    bdrv_replace_child_noperm(&s->child, s->old_bs, true);
-+    /*
-+     * The child was pre-existing, so s->old_bs must be non-NULL, and
-+     * s->child thus must not have been freed
-+     */
-+    assert(s->child != NULL);
-+    if (!new_bs) {
-+        /* As described above, *s->childp was cleared, so restore it */
-+        assert(s->childp != NULL);
-+        *s->childp = s->child;
-+    }
-     bdrv_unref(new_bs);
- }
- 
-@@ -2310,30 +2320,44 @@ static TransactionActionDrv bdrv_replace_child_drv = {
-  *
-  * The function doesn't update permissions, caller is responsible for this.
-  *
-+ * (*childp)->bs must not be NULL.
-+ *
-  * Note that if new_bs == NULL, @childp is stored in a state object attached
-  * to @tran, so that the old child can be reinstated in the abort handler.
-  * Therefore, if @new_bs can be NULL, @childp must stay valid until the
-  * transaction is committed or aborted.
-  *
-- * (TODO: The reinstating does not happen yet, but it will once
-- * bdrv_replace_child_noperm() NULLs *childp when new_bs is NULL.)
-+ * If @free_empty_child is true and @new_bs is NULL, the BdrvChild is
-+ * freed (on commit).  @free_empty_child should only be false if the
-+ * caller will free the BDrvChild themselves (which may be important
-+ * if this is in turn called in another transactional context).
-  */
- static void bdrv_replace_child_tran(BdrvChild **childp,
-                                     BlockDriverState *new_bs,
--                                    Transaction *tran)
-+                                    Transaction *tran,
-+                                    bool free_empty_child)
- {
-     BdrvReplaceChildState *s = g_new(BdrvReplaceChildState, 1);
-     *s = (BdrvReplaceChildState) {
-         .child = *childp,
-         .childp = new_bs == NULL ? childp : NULL,
-         .old_bs = (*childp)->bs,
-+        .free_empty_child = free_empty_child,
-     };
-     tran_add(tran, &bdrv_replace_child_drv, s);
- 
-+    /* The abort handler relies on this */
-+    assert(s->old_bs != NULL);
-+
-     if (new_bs) {
-         bdrv_ref(new_bs);
-     }
--    bdrv_replace_child_noperm(childp, new_bs);
-+    /*
-+     * Pass free_empty_child=false, we will free the child (if
-+     * necessary) in bdrv_replace_child_commit() (if our
-+     * @free_empty_child parameter was true).
-+     */
-+    bdrv_replace_child_noperm(childp, new_bs, false);
-     /* old_bs reference is transparently moved from *childp to @s */
- }
- 
-@@ -2705,8 +2729,22 @@ uint64_t bdrv_qapi_perm_to_blk_perm(BlockPermission qapi_perm)
-     return permissions[qapi_perm];
- }
- 
-+/**
-+ * Replace (*childp)->bs by @new_bs.
-+ *
-+ * If @new_bs is NULL, *childp will be set to NULL, too: BDS parents
-+ * generally cannot handle a BdrvChild with .bs == NULL, so clearing
-+ * BdrvChild.bs should generally immediately be followed by the
-+ * BdrvChild pointer being cleared as well.
-+ *
-+ * If @free_empty_child is true and @new_bs is NULL, the BdrvChild is
-+ * freed.  @free_empty_child should only be false if the caller will
-+ * free the BdrvChild themselves (this may be important in a
-+ * transactional context, where it may only be freed on commit).
-+ */
- static void bdrv_replace_child_noperm(BdrvChild **childp,
--                                      BlockDriverState *new_bs)
-+                                      BlockDriverState *new_bs,
-+                                      bool free_empty_child)
- {
-     BdrvChild *child = *childp;
-     BlockDriverState *old_bs = child->bs;
-@@ -2743,6 +2781,9 @@ static void bdrv_replace_child_noperm(BdrvChild **childp,
-     }
- 
-     child->bs = new_bs;
-+    if (!new_bs) {
-+        *childp = NULL;
-+    }
- 
-     if (new_bs) {
-         QLIST_INSERT_HEAD(&new_bs->parents, child, next_parent);
-@@ -2772,6 +2813,10 @@ static void bdrv_replace_child_noperm(BdrvChild **childp,
-         bdrv_parent_drained_end_single(child);
-         drain_saldo++;
-     }
-+
-+    if (free_empty_child && !child->bs) {
-+        bdrv_child_free(child);
-+    }
- }
- 
- /**
-@@ -2801,7 +2846,14 @@ static void bdrv_attach_child_common_abort(void *opaque)
-     BdrvChild *child = *s->child;
-     BlockDriverState *bs = child->bs;
- 
--    bdrv_replace_child_noperm(s->child, NULL);
-+    /*
-+     * Pass free_empty_child=false, because we still need the child
-+     * for the AioContext operations on the parent below; those
-+     * BdrvChildClass methods all work on a BdrvChild object, so we
-+     * need to keep it as an empty shell (after this function, it will
-+     * not be attached to any parent, and it will not have a .bs).
-+     */
-+    bdrv_replace_child_noperm(s->child, NULL, false);
- 
-     if (bdrv_get_aio_context(bs) != s->old_child_ctx) {
-         bdrv_try_set_aio_context(bs, s->old_child_ctx, &error_abort);
-@@ -2823,7 +2875,6 @@ static void bdrv_attach_child_common_abort(void *opaque)
- 
-     bdrv_unref(bs);
-     bdrv_child_free(child);
--    *s->child = NULL;
- }
- 
- static TransactionActionDrv bdrv_attach_child_common_drv = {
-@@ -2901,7 +2952,9 @@ static int bdrv_attach_child_common(BlockDriverState *child_bs,
-     }
- 
-     bdrv_ref(child_bs);
--    bdrv_replace_child_noperm(&new_child, child_bs);
-+    bdrv_replace_child_noperm(&new_child, child_bs, true);
-+    /* child_bs was non-NULL, so new_child must not have been freed */
-+    assert(new_child != NULL);
- 
-     *child = new_child;
- 
-@@ -2960,8 +3013,7 @@ static void bdrv_detach_child(BdrvChild **childp)
- {
-     BlockDriverState *old_bs = (*childp)->bs;
- 
--    bdrv_replace_child_noperm(childp, NULL);
--    bdrv_child_free(*childp);
-+    bdrv_replace_child_noperm(childp, NULL, true);
- 
-     if (old_bs) {
-         /*
-@@ -4951,7 +5003,11 @@ static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
-     }
- 
-     if (child->bs) {
--        bdrv_replace_child_tran(childp, NULL, tran);
-+        /*
-+         * Pass free_empty_child=false, we will free the child in
-+         * bdrv_remove_filter_or_cow_child_commit()
-+         */
-+        bdrv_replace_child_tran(childp, NULL, tran, false);
-     }
- 
-     s = g_new(BdrvRemoveFilterOrCowChild, 1);
-@@ -4961,8 +5017,6 @@ static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
-         .is_backing = (childp == &bs->backing),
-     };
-     tran_add(tran, &bdrv_remove_filter_or_cow_child_drv, s);
--
--    *childp = NULL;
- }
- 
- /*
-@@ -5005,7 +5059,7 @@ static int bdrv_replace_node_noperm(BlockDriverState *from,
-          * Passing a pointer to the local variable @c is fine here, because
-          * @to is not NULL, and so &c will not be attached to the transaction.
-          */
--        bdrv_replace_child_tran(&c, to, tran);
-+        bdrv_replace_child_tran(&c, to, tran, true);
-     }
- 
-     return 0;
-@@ -5161,7 +5215,9 @@ int bdrv_replace_child_bs(BdrvChild *child, BlockDriverState *new_bs,
-     bdrv_drained_begin(old_bs);
-     bdrv_drained_begin(new_bs);
- 
--    bdrv_replace_child_tran(&child, new_bs, tran);
-+    bdrv_replace_child_tran(&child, new_bs, tran, true);
-+    /* @new_bs must have been non-NULL, so @child must not have been freed */
-+    assert(child != NULL);
- 
-     found = g_hash_table_new(NULL, NULL);
-     refresh_list = bdrv_topological_dfs(refresh_list, found, old_bs);
 -- 
 2.33.1
 
