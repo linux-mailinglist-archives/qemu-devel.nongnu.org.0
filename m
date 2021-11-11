@@ -2,48 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF4644D84B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 15:31:20 +0100 (CET)
-Received: from localhost ([::1]:52596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F0D544D839
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 15:26:50 +0100 (CET)
+Received: from localhost ([::1]:42766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlB6l-000206-5q
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 09:31:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41146)
+	id 1mlB2P-0003as-Fw
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 09:26:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1mlAtD-00049f-9n
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:17:19 -0500
-Received: from mga07.intel.com ([134.134.136.100]:50703)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1mlAtB-0006ra-44
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:17:19 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10164"; a="296353429"
-X-IronPort-AV: E=Sophos;i="5.87,226,1631602800"; d="scan'208";a="296353429"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Nov 2021 06:17:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,226,1631602800"; d="scan'208";a="492556372"
-Received: from chaop.bj.intel.com ([10.240.192.101])
- by orsmga007.jf.intel.com with ESMTP; 11 Nov 2021 06:17:01 -0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org
-Subject: [RFC PATCH 13/13] machine: Add 'private-memory-backend' property
-Date: Thu, 11 Nov 2021 22:13:52 +0800
-Message-Id: <20211111141352.26311-14-chao.p.peng@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211111141352.26311-1-chao.p.peng@linux.intel.com>
-References: <20211111141352.26311-1-chao.p.peng@linux.intel.com>
-Received-SPF: none client-ip=134.134.136.100;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga07.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mlAsl-0003Sc-SC
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:16:51 -0500
+Received: from [2a00:1450:4864:20::42a] (port=45967
+ helo=mail-wr1-x42a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mlAsj-0006kx-9M
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 09:16:50 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id w29so10020946wra.12
+ for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 06:16:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=YfHVyEB68vNscGi6JjU9NGgL1Ud9paGUEUfcsooGgTI=;
+ b=lIwJscutmuBFvjpbv8EpGZAzOBHfqLouIr5SFHkH3E54VQNVF48c+heTwzC/6I5hdz
+ GtsMI4CsTmZ2JkrIxRYD5pfM1g0REV4XOfoMA/neza4IDaTUeKcNqEwr7vlupkD8EI6r
+ Az8Xc1txg08f9a1p5odw7iv/aj50XZXwsxmO5TIhPeIY2lT6qjpekVXrYrJOvltlqaMv
+ o/SU1LgekUg9WF99DDPik9WAkOdu1pbMX/ICMToBYrVif+ckVHUVyJWsbGWGbYob7s+T
+ a9c38NQUmjTYIrQwsj4KvlAITBQvty4uCRIB/7Jm6gyJRUx13NJbNEPnTDIYnKeyRcy9
+ GRJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=YfHVyEB68vNscGi6JjU9NGgL1Ud9paGUEUfcsooGgTI=;
+ b=7H+wAizIy7g8sVWh7CzaMgtH9txliRv/SnJm+hB8t9H/ueYiEuWBcLHKPTsYpmy26L
+ d3moys6bJIo9cm5Wp4NlAj4JNhso5JWSWi7Vg6Gb7oYtqDzbCjwKIzZF+ge4eBVdT2K2
+ iVv3YGCZ6kuv1nteTPWu2LYxBb+hLqL7DGhBWiKudXNG5EMIwmv7xRSA356jzjJXjFFU
+ bxacYP4UQrk//ZTExiD3ZESpOn/2svsBGY0iE1JilS7TRtygDXe57zAq2rp3spjeK/fk
+ Lrir3m4kgn3+adkZuswZCvkAyg5ZmWoLSwbH57E7G4WkdGpDBm3V6JjAqZAHUQzDvazc
+ tgsA==
+X-Gm-Message-State: AOAM5311jBM+JqGuG6Czw6vZIMOlro53/Jq8LY2OVQlr93RVas+RUT4s
+ 42cAOcnvgIzHdHZWN+WbjQqKXw==
+X-Google-Smtp-Source: ABdhPJxYCs7dAk9f+xFPYwVl2JxA6aUdaXrCBHAujhsouBpk2QsWBswK0XfMTy7VWlNDJj5ZWW3QXA==
+X-Received: by 2002:a5d:4e52:: with SMTP id r18mr8609309wrt.224.1636640207485; 
+ Thu, 11 Nov 2021 06:16:47 -0800 (PST)
+Received: from [192.168.8.106] (10.red-95-125-227.dynamicip.rima-tde.net.
+ [95.125.227.10])
+ by smtp.gmail.com with ESMTPSA id o4sm3866852wry.80.2021.11.11.06.16.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Nov 2021 06:16:46 -0800 (PST)
+Subject: Re: [PATCH-for-6.2 v3 1/6] tests/unit/test-smp-parse: Restore
+ MachineClass fields after modifying
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20211111100351.2153662-1-philmd@redhat.com>
+ <20211111100351.2153662-2-philmd@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <b5c52ca2-72bd-74e7-37bb-f721891d1114@linaro.org>
+Date: Thu, 11 Nov 2021 15:16:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <20211111100351.2153662-2-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.999,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -56,203 +93,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- david@redhat.com, "J . Bruce Fields" <bfields@fieldses.org>,
- dave.hansen@intel.com, "H . Peter Anvin" <hpa@zytor.com>,
- Chao Peng <chao.p.peng@linux.intel.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
- Sean Christopherson <seanjc@google.com>, susie.li@intel.com,
- Jeff Layton <jlayton@kernel.org>, john.ji@intel.com,
- Yu Zhang <yu.c.zhang@linux.intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: Yanan Wang <wangyanan55@huawei.com>, Markus Armbruster <armbru@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Andrew Jones <drjones@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
----
- hw/core/machine.c   | 38 ++++++++++++++++++++++++++++++++++++++
- hw/i386/pc.c        | 22 ++++++++++++++++------
- include/hw/boards.h |  2 ++
- softmmu/vl.c        | 16 ++++++++++------
- 4 files changed, 66 insertions(+), 12 deletions(-)
+On 11/11/21 11:03 AM, Philippe Mathieu-Daudé wrote:
+> There is a single MachineClass object, registered with
+> type_register_static(&smp_machine_info). Since the same
+> object is used multiple times (an MachineState object
+> is instantiated in both test_generic and test_with_dies),
+> we should restore its internal state after modifying for
+> the test purpose.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé<philmd@redhat.com>
+> ---
+>   tests/unit/test-smp-parse.c | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 067f42b528..d092bf400b 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -589,6 +589,22 @@ static void machine_set_memdev(Object *obj, const char *value, Error **errp)
-     ms->ram_memdev_id = g_strdup(value);
- }
- 
-+static char *machine_get_private_memdev(Object *obj, Error **errp)
-+{
-+    MachineState *ms = MACHINE(obj);
-+
-+    return g_strdup(ms->private_ram_memdev_id);
-+}
-+
-+static void machine_set_private_memdev(Object *obj, const char *value,
-+                                       Error **errp)
-+{
-+    MachineState *ms = MACHINE(obj);
-+
-+    g_free(ms->private_ram_memdev_id);
-+    ms->private_ram_memdev_id = g_strdup(value);
-+}
-+
- static void machine_init_notify(Notifier *notifier, void *data)
- {
-     MachineState *machine = MACHINE(qdev_get_machine());
-@@ -962,6 +978,13 @@ static void machine_class_init(ObjectClass *oc, void *data)
-     object_class_property_set_description(oc, "memory-backend",
-                                           "Set RAM backend"
-                                           "Valid value is ID of hostmem based backend");
-+
-+    object_class_property_add_str(oc, "private-memory-backend",
-+                                  machine_get_private_memdev,
-+                                  machine_set_private_memdev);
-+    object_class_property_set_description(oc, "private-memory-backend",
-+                                          "Set guest private RAM backend"
-+                                          "Valid value is ID of hostmem based backend");
- }
- 
- static void machine_class_base_init(ObjectClass *oc, void *data)
-@@ -1208,6 +1231,21 @@ void machine_run_board_init(MachineState *machine)
-         machine->ram = machine_consume_memdev(machine, MEMORY_BACKEND(o));
-     }
- 
-+    if (machine->private_ram_memdev_id) {
-+        Object *o;
-+        HostMemoryBackend *backend;
-+        o = object_resolve_path_type(machine->private_ram_memdev_id,
-+                                     TYPE_MEMORY_BACKEND, NULL);
-+        backend = MEMORY_BACKEND(o);
-+        if (backend->guest_private) {
-+            machine->private_ram = machine_consume_memdev(machine, backend);
-+        } else {
-+            error_report("memorybaend %s is not guest private memory.",
-+                         object_get_canonical_path_component(OBJECT(backend)));
-+            exit(EXIT_FAILURE);
-+        }
-+    }
-+
-     if (machine->numa_state) {
-         numa_complete_configuration(machine);
-         if (machine->numa_state->num_nodes) {
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 1276bfeee4..e6209428c1 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -865,30 +865,40 @@ void pc_memory_init(PCMachineState *pcms,
-     MachineClass *mc = MACHINE_GET_CLASS(machine);
-     PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
-     X86MachineState *x86ms = X86_MACHINE(pcms);
-+    MemoryRegion *ram, *root_region;
- 
-     assert(machine->ram_size == x86ms->below_4g_mem_size +
-                                 x86ms->above_4g_mem_size);
- 
-     linux_boot = (machine->kernel_filename != NULL);
- 
-+    *ram_memory = machine->ram;
-+
-+    /* Map private memory if set. Shared memory will be mapped per request. */
-+    if (machine->private_ram) {
-+        ram = machine->private_ram;
-+        root_region = get_system_private_memory();
-+    } else {
-+        ram = machine->ram;
-+        root_region = system_memory;
-+    }
-+
-     /*
-      * Split single memory region and use aliases to address portions of it,
-      * done for backwards compatibility with older qemus.
-      */
--    *ram_memory = machine->ram;
-     ram_below_4g = g_malloc(sizeof(*ram_below_4g));
--    memory_region_init_alias(ram_below_4g, NULL, "ram-below-4g", machine->ram,
-+    memory_region_init_alias(ram_below_4g, NULL, "ram-below-4g", ram,
-                              0, x86ms->below_4g_mem_size);
--    memory_region_add_subregion(system_memory, 0, ram_below_4g);
-+    memory_region_add_subregion(root_region, 0, ram_below_4g);
-     e820_add_entry(0, x86ms->below_4g_mem_size, E820_RAM);
-     if (x86ms->above_4g_mem_size > 0) {
-         ram_above_4g = g_malloc(sizeof(*ram_above_4g));
-         memory_region_init_alias(ram_above_4g, NULL, "ram-above-4g",
--                                 machine->ram,
-+                                 ram,
-                                  x86ms->below_4g_mem_size,
-                                  x86ms->above_4g_mem_size);
--        memory_region_add_subregion(system_memory, 0x100000000ULL,
--                                    ram_above_4g);
-+        memory_region_add_subregion(root_region, 0x100000000ULL, ram_above_4g);
-         e820_add_entry(0x100000000ULL, x86ms->above_4g_mem_size, E820_RAM);
-     }
- 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 463a5514f9..dd6a3a3e03 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -313,11 +313,13 @@ struct MachineState {
-     bool enable_graphics;
-     ConfidentialGuestSupport *cgs;
-     char *ram_memdev_id;
-+    char *private_ram_memdev_id;
-     /*
-      * convenience alias to ram_memdev_id backend memory region
-      * or to numa container memory region
-      */
-     MemoryRegion *ram;
-+    MemoryRegion *private_ram;
-     DeviceMemoryState *device_memory;
- 
-     ram_addr_t ram_size;
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index ea05bb39c5..9665ccdb16 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -1985,17 +1985,15 @@ static bool have_custom_ram_size(void)
-     return !!qemu_opt_get_size(opts, "size", 0);
- }
- 
--static void qemu_resolve_machine_memdev(void)
-+static void check_memdev(char *id)
- {
--    if (current_machine->ram_memdev_id) {
-+    if (id) {
-         Object *backend;
-         ram_addr_t backend_size;
- 
--        backend = object_resolve_path_type(current_machine->ram_memdev_id,
--                                           TYPE_MEMORY_BACKEND, NULL);
-+        backend = object_resolve_path_type(id, TYPE_MEMORY_BACKEND, NULL);
-         if (!backend) {
--            error_report("Memory backend '%s' not found",
--                         current_machine->ram_memdev_id);
-+            error_report("Memory backend '%s' not found", id);
-             exit(EXIT_FAILURE);
-         }
-         backend_size = object_property_get_uint(backend, "size",  &error_abort);
-@@ -2011,6 +2009,12 @@ static void qemu_resolve_machine_memdev(void)
-         }
-         ram_size = backend_size;
-     }
-+}
-+
-+static void qemu_resolve_machine_memdev(void)
-+{
-+    check_memdev(current_machine->ram_memdev_id);
-+    check_memdev(current_machine->private_ram_memdev_id);
- 
-     if (!xen_enabled()) {
-         /* On 32-bit hosts, QEMU is limited by virtual address space */
--- 
-2.17.1
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+r~
 
