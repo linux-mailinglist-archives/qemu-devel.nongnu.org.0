@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80E6344D31B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 09:23:17 +0100 (CET)
-Received: from localhost ([::1]:33110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BD8844D333
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 09:29:09 +0100 (CET)
+Received: from localhost ([::1]:38036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml5Ma-0000Dm-Ll
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 03:23:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43232)
+	id 1ml5SG-0003uI-6N
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 03:29:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ml5Jj-0007AS-Mh
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 03:20:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38084)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ml5QX-00031f-3J
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 03:27:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ml5Je-00041z-UG
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 03:20:19 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ml5QQ-000561-3T
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 03:27:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636618813;
+ s=mimecast20190719; t=1636619233;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=fUPyFRYCzcyMWwwHb4KeWuwPqch2061FAWTuKXOS1jU=;
- b=fywo11FHvkO2ttCRaz/K0My9JPd5fxsMs2IsfeoajCgOVPr6VODzgABYDIW64XjSXPBX9K
- I55p/nk56LBaXZmT35xKJypXhMMJyzg7foAvKLkA5gR/NyzusDmo3J9j5FJ4zWjMeS9PWs
- gkbf2bqxRauf8n+46ojBEeVy+tZ44CI=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-364-aQurlGMePu-1hHSIOyS4CQ-1; Thu, 11 Nov 2021 03:20:12 -0500
-X-MC-Unique: aQurlGMePu-1hHSIOyS4CQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- o4-20020adfca04000000b0018f07ad171aso732538wrh.20
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 00:20:12 -0800 (PST)
+ bh=TTPg2UPzRNte4/na9y9JvufkgegGrd3/aAL9CRoKR3A=;
+ b=D8Y2aD7rmwn/epPVQ//PK6sFnsjbrSlWqvVp60TSpkWtTp3EqEts+zGff7OqHEjfIKffwr
+ q6DdlP2QyYHE/eF9W7BcW5PGezE5bmMWOBYukBaRdGVjCwy/OKv4ZxzcR2az7sUSnwWHe5
+ UUN59LQUO/3/DSpvhIFd6dQE10YBoOk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-512-ysEXMN_2OUyos5JCRqH6HQ-1; Thu, 11 Nov 2021 03:27:12 -0500
+X-MC-Unique: ysEXMN_2OUyos5JCRqH6HQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ g80-20020a1c2053000000b003331a764709so4425450wmg.2
+ for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 00:27:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=fUPyFRYCzcyMWwwHb4KeWuwPqch2061FAWTuKXOS1jU=;
- b=BnxUlNGNFGSUKyHHoE0egoMeHCY/ZI3Sz7b57C9atD4eQWxu0f8bQ9JNmckgowh9Wr
- Q/uRzAolw0q76cAi6x0RVZyKlXuOsQgVzlQXDur2zVf1SLh7qvHjwWB988ReNElse180
- CbYjXl67LB9otzKMnSpMWhuk8UutQjyWkZTDfgV51XiZYisHnEKtxg+Og2bjBxMmMxvR
- XRxahJnGOPv/o7uvNINMaAwwBWd/1jCQeDXMfsInbDGxHKsFICrZAyr+rhFcXy/hebq4
- 7YdrvCB3jP6hJuddmRnLaQE3kQlxbftbvdMf80D9/c0ZKSda1q94aBAEQ+Kd3i8Op7KC
- xMnw==
-X-Gm-Message-State: AOAM532/Cd/WrxH43gfrgfYo09l8rRuU+ZCwdko/j3sDbdDOT3bk1ipu
- 5N+axCmhi98ybu2AjK8/3Mu5MTYOgTA2QcRJPJqHEQC5tl7Uq29fOnZqp+zggZoBVeIplKpqej/
- e//rK02ik5kY3YNo=
-X-Received: by 2002:a05:6000:18a7:: with SMTP id
- b7mr6753116wri.308.1636618811038; 
- Thu, 11 Nov 2021 00:20:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx9SLif6us2IYSAl7ngv0KqxxlWAsG4Yq6dyw+WVVICl/sKMPGKHitQ0QDD/DFM3gZH2uaqEg==
-X-Received: by 2002:a05:6000:18a7:: with SMTP id
- b7mr6753079wri.308.1636618810804; 
- Thu, 11 Nov 2021 00:20:10 -0800 (PST)
+ bh=TTPg2UPzRNte4/na9y9JvufkgegGrd3/aAL9CRoKR3A=;
+ b=svq0SsNHgWsYSMfBsCZaeK/puQWcS4N358YFlZDCnt5+zgCWOhLOzTUOMJ15yCjO5Y
+ QiVCqlRBQ43wpOlWeICRqoAd33xMYdaYGmcYZCWsJs0DwRirHFACiz4hYdmrSTmFKOi1
+ gaVAgs22NJeDzCq4BgLv08MeoOQFGaPebOZLukdNGSRy7fD2i2HiBVARsYeqkm2WFA3c
+ Zhh6O0iIygoKSTqGYm9nQrRD3Bz39jW5zvrHgC4SIcBD0sqfqB4tRpz63FLbSS4A+RIB
+ QMtBFllYnNGVVhEDZnnx87p41x5Zq6YEWNFZzJx4WmiEGxvgmCBkj1JQN9zVLkf8IfzK
+ dB6Q==
+X-Gm-Message-State: AOAM532cy8hXmiMnS7x5Pcf6SRBkxEyzhKQUve7iVjyZE1dI64pLdv2U
+ oZQCYzMNZJN9HHM0DJjgE4SbMo+3V65WS5no2nVWn+p9Ax64HAdU3KCaAQwLYZxq4dprVheBxIp
+ +2lwGHSeBIMVQ/Lk=
+X-Received: by 2002:a05:600c:1993:: with SMTP id
+ t19mr23773136wmq.21.1636619231055; 
+ Thu, 11 Nov 2021 00:27:11 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx2LvQxbp3jmSxgKDG7L0jfr/RSzq7tVa6hd49jArd7AWK7zz+caiicuLWgIXrV/AM4UKPa3w==
+X-Received: by 2002:a05:600c:1993:: with SMTP id
+ t19mr23773112wmq.21.1636619230842; 
+ Thu, 11 Nov 2021 00:27:10 -0800 (PST)
 Received: from redhat.com ([2.55.129.247])
- by smtp.gmail.com with ESMTPSA id u5sm2214224wrg.57.2021.11.11.00.20.09
+ by smtp.gmail.com with ESMTPSA id w1sm7965925wmc.19.2021.11.11.00.27.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Nov 2021 00:20:10 -0800 (PST)
-Date: Thu, 11 Nov 2021 03:20:07 -0500
+ Thu, 11 Nov 2021 00:27:10 -0800 (PST)
+Date: Thu, 11 Nov 2021 03:27:07 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 0/6] RfC: try improve native hotplug for pcie root ports
-Message-ID: <20211111031646-mutt-send-email-mst@kernel.org>
-References: <20211011120504.254053-1-kraxel@redhat.com>
- <20211110065942-mutt-send-email-mst@kernel.org>
- <20211111075306.7dvpzewgclsddku6@sirius.home.kraxel.org>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH 1/2] virtio: use virtio accessor to access packed
+ descriptor flags
+Message-ID: <20211111032649-mutt-send-email-mst@kernel.org>
+References: <20211111063854.29060-1-jasowang@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211111075306.7dvpzewgclsddku6@sirius.home.kraxel.org>
+In-Reply-To: <20211111063854.29060-1-jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -95,43 +94,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: eperezma@redhat.com, qemu-devel@nongnu.org, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 11, 2021 at 08:53:06AM +0100, Gerd Hoffmann wrote:
->   Hi,
-> 
-> > Given it's a bugfix, and given that I hear through internal channels
-> > that QE results so far have been encouraging, I am inclined to bite the
-> > bullet and merge this for -rc1.
-> 
-> Fine with me.
-> 
-> > I don't think this conflicts with Julia's patches as users can still
-> > disable ACPI hotplug into bridges.  Gerd, agree?  Worth the risk?
-> 
-> Combining this with Julia's patches looks a bit risky to me and surely
-> needs testing.  I expect the problematic case is both native and acpi
-> hotplug being enabled.
->  When the guest uses acpi hotplug nobody will
-> turn on slot power on the pcie root port ...
+On Thu, Nov 11, 2021 at 02:38:53PM +0800, Jason Wang wrote:
+> We used to access packed descriptor flags via
+> address_space_{write|read}_cached(). When we hit the cache, memcpy()
+> is used which is not an atomic operation which may lead a wrong value
+> is read or wrote.
 
-I'm not sure I understand what the situation is, and how to trigger it.
-Could you clarify pls?
+Could you clarify where's the memcpy that you see?
+Thanks!
 
-> I'd suggest to just revert to pcie native hotplug for 6.2.
-
-Hmm that kind of change seems even riskier to me. I think I'll try with
-Igor's patches.
-
-> Give acpi
-> hotplug another try for 7.0, and post patches early in the devel cycle
-> then instead of waiting until -rc0 is released.
+> So this patch switches to use virito_{stw|lduw}_phys_cached() to make
+> sure the aceess is atomic.
 > 
-> take care,
->   Gerd
+> Fixes: 86044b24e865f ("virtio: basic packed virtqueue support")
+> Cc: qemu-stable@nongnu.org
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> ---
+>  hw/virtio/virtio.c | 11 ++++-------
+>  1 file changed, 4 insertions(+), 7 deletions(-)
+> 
+> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> index cc69a9b881..939bcbfeb9 100644
+> --- a/hw/virtio/virtio.c
+> +++ b/hw/virtio/virtio.c
+> @@ -507,11 +507,9 @@ static void vring_packed_desc_read_flags(VirtIODevice *vdev,
+>                                           MemoryRegionCache *cache,
+>                                           int i)
+>  {
+> -    address_space_read_cached(cache,
+> -                              i * sizeof(VRingPackedDesc) +
+> -                              offsetof(VRingPackedDesc, flags),
+> -                              flags, sizeof(*flags));
+> -    virtio_tswap16s(vdev, flags);
+> +    hwaddr off = i * sizeof(VRingPackedDesc) + offsetof(VRingPackedDesc, flags);
+> +
+> +    *flags = virtio_lduw_phys_cached(vdev, cache, off);
+>  }
+>  
+>  static void vring_packed_desc_read(VirtIODevice *vdev,
+> @@ -564,8 +562,7 @@ static void vring_packed_desc_write_flags(VirtIODevice *vdev,
+>  {
+>      hwaddr off = i * sizeof(VRingPackedDesc) + offsetof(VRingPackedDesc, flags);
+>  
+> -    virtio_tswap16s(vdev, &desc->flags);
+> -    address_space_write_cached(cache, off, &desc->flags, sizeof(desc->flags));
+> +    virtio_stw_phys_cached(vdev, cache, off, desc->flags);
+>      address_space_cache_invalidate(cache, off, sizeof(desc->flags));
+>  }
+>  
+> -- 
+> 2.25.1
 
 
