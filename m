@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC63844D28F
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 08:39:42 +0100 (CET)
-Received: from localhost ([::1]:52698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B39C044D2A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 08:46:12 +0100 (CET)
+Received: from localhost ([::1]:37590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ml4gP-0006pm-TX
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 02:39:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36162)
+	id 1ml4mh-0007HX-Tv
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 02:46:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ml4d4-0003ec-KX
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 02:36:14 -0500
-Received: from [2a00:1450:4864:20::52f] (port=38771
- helo=mail-ed1-x52f.google.com)
+ id 1ml4d6-0003f6-41
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 02:36:16 -0500
+Received: from [2a00:1450:4864:20::535] (port=45989
+ helo=mail-ed1-x535.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ml4d2-000798-Ge
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 02:36:13 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id z21so20618034edb.5
- for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 23:36:10 -0800 (PST)
+ id 1ml4d2-00079B-H2
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 02:36:15 -0500
+Received: by mail-ed1-x535.google.com with SMTP id f4so20549349edx.12
+ for <qemu-devel@nongnu.org>; Wed, 10 Nov 2021 23:36:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uf2jq1W6vW08aozBiEOJUT0U2HATlOOWfn5+VD0PxHA=;
- b=itBzEHnwMQaYiCBtTFYk2UV0rv2UYYqv0nSq2ScJ44xeCWKfeVMcCpOwRfKa6xI5gS
- 7R32B/jGjQKkCzPTU6VCNUGIMw1Uo5KZ/vGldhAPAl+5yVNMmyDsgugdjw+2AkVAb1f7
- geAR64+Erpd9dz5QjiMh+cD32G6hDeZtrbuNw0P8WEdXO7v7asgEXO2f8KqXgCJahZ4O
- 6LPvcmoAXRT09b84PdsFjhvVC8+fWN/kOOApWEVPlmL6fjcdfspT/sPVi+0Yzn3MGYk0
- KPIzjxyepd0l+5UYTSffUSV8J+Amt7Stx7ANncpwJWSSwakYWleCyWWeMFYA25YOE11s
- cluQ==
+ bh=iA8vB4TfqWHRgjLEj3itlzFwZkdkH8YIgO+YxnoGWAo=;
+ b=XwM4fEyrzBLX4JUQPx4bpU7Bgs4vA7GVWppSHfcs2NkUoGrps5QmvdvfwJYU1Kgd0a
+ CkWDNoA3s2RTUjvdVfINB+15oQLzHgYh+g3z/3r+3tXddYhSox0MeuabcgB5OZ5BHLDr
+ HDP/D2rkxrrlqe4Is7XZh4e0Zo0uhuJr/GrCes7ZOZ9mZtGNn+htJe7o5oTvM2m4hR/c
+ j4vZmEPgzn/zL7cWuZX6+fwjZRbDUAhAfifd85Z4gj2WI1XXj7eFFXyAnOtzEHDtx/nR
+ YB8pfA235Bo3PQDHD/fYPEb0JDSjqHI2F+H1MYtCJbsEuKEx+s8cQLHgG/jPBo7hMLRa
+ yDBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=uf2jq1W6vW08aozBiEOJUT0U2HATlOOWfn5+VD0PxHA=;
- b=cfyvmGLRIXHErE10BeXpSDIK4i9US2oC3tHzsJ/+hSOD3IYefVj/alcWb0Cs5lURVQ
- lt0GI91j3Eog+N4DBTYwZA/KFADuS23HmCkjhTpCBtP+dcgLSFlS/FixgUxdRvrxsmhd
- RfPyACESsWtT9OAMcTXtbsuNNRcbdekxYugzv5JeDxdLrCTPEOM4Dddkyb4KYgBGGVPG
- Gco2zLFIaLwNzueQMaNu6Pb2g0fhsvAZ1uenzx0r4Tss2H3oJ90CSyWW49LyDJsXK+dN
- HqKXb+FYmNvgHVEiLeUPgFLW30ZQNGYy4e3Xi90bb4CzX03fgpZRRye8GsxuxcFaX1rK
- DMiA==
-X-Gm-Message-State: AOAM530qRTtKlRtfT9PVhRQ0q3w53fMJHwMbY/8BBLihbu+WJImyClQL
- jRwlX/dgR/960u04QhlMSOtabEU/xx0=
-X-Google-Smtp-Source: ABdhPJwdXA2lRxzl8/OJ5RQks0WU4oJpFn0foUxmGn5go2PXF2k7BocZp3+QIMB75MiZbleHm65QLQ==
-X-Received: by 2002:a17:907:7242:: with SMTP id
- ds2mr7017869ejc.269.1636616169805; 
- Wed, 10 Nov 2021 23:36:09 -0800 (PST)
+ bh=iA8vB4TfqWHRgjLEj3itlzFwZkdkH8YIgO+YxnoGWAo=;
+ b=AnGszSqfHlHz9ChqPJGPmlzkSGcC0FV3QreqpEVjFBDHTf107NqgG0Qut7QWiLRV2Y
+ Jzwa7B8iqF/HgVa45fXY37lKe+g3zsQg8HnwTmtfpGx2vqK2GoYWu1IdGcNprvxuRWAK
+ MXEoi8PeO1/hiEKdXZOgqcS9cchLJQXwi7oNCoR9fj0g83pJBKYIXiqiyi0vKDBFXlQd
+ lrRB9HaN/KucY9RFccZyku8qT0N2D5gh53HfCVarQl3bRorpplBqB7FlYLsjMt+a86uB
+ ibhcZWqbLIRh6vbdYxoa0F//wtgnzUW5fxwFz+FIqoNuHac9dknJWWO+uK/pll3xhxrN
+ nA8A==
+X-Gm-Message-State: AOAM533y5I2I1Ubu7h3lFihM/93stdVvv2QIiaa4l7O2rBCDG8bAO3vV
+ KtfTej7d3ycRNmGN16bO3i0kHKZeco0=
+X-Google-Smtp-Source: ABdhPJyPENLq0q1xzQBHKViFdnQO6HiDGeFs7YfDF9bMUD/6gC41EdOnQhUpVVRJq9Vo1mMkbExFoQ==
+X-Received: by 2002:a05:6402:1744:: with SMTP id
+ v4mr7294297edx.366.1636616170474; 
+ Wed, 10 Nov 2021 23:36:10 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
  by smtp.gmail.com with ESMTPSA id w1sm1062098edd.49.2021.11.10.23.36.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Nov 2021 23:36:09 -0800 (PST)
+ Wed, 10 Nov 2021 23:36:10 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/5] target/i386: sgx: mark device not user creatable
-Date: Thu, 11 Nov 2021 08:36:03 +0100
-Message-Id: <20211111073607.195697-2-pbonzini@redhat.com>
+Subject: [PULL 2/5] rcu: Introduce force_rcu notifier
+Date: Thu, 11 Nov 2021 08:36:04 +0100
+Message-Id: <20211111073607.195697-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211111073607.195697-1-pbonzini@redhat.com>
 References: <20211111073607.195697-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -87,31 +87,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The device is created by the machine based on the sgx-epc property.
-It should not be created by users.
+From: Greg Kurz <groug@kaod.org>
 
-Reported-by: Thomas Huth <thuth@redhat.com>
+The drain_rcu_call() function can be blocked as long as an RCU reader
+stays in a read-side critical section. This is typically what happens
+when a TCG vCPU is executing a busy loop. It can deadlock the QEMU
+monitor as reported in https://gitlab.com/qemu-project/qemu/-/issues/650 .
+
+This can be avoided by allowing drain_rcu_call() to enforce an RCU grace
+period. Since each reader might need to do specific actions to end a
+read-side critical section, do it with notifiers.
+
+Prepare ground for this by adding a notifier list to the RCU reader
+struct and use it in wait_for_readers() if drain_rcu_call() is in
+progress. An API is added for readers to register their notifiers.
+
+This is largely based on a draft from Paolo Bonzini.
+
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20211109183523.47726-2-groug@kaod.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/sgx-epc.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/qemu/rcu.h | 15 +++++++++++++++
+ util/rcu.c         | 19 +++++++++++++++++++
+ 2 files changed, 34 insertions(+)
 
-diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
-index 55e2217eae..e508827e78 100644
---- a/hw/i386/sgx-epc.c
-+++ b/hw/i386/sgx-epc.c
-@@ -154,6 +154,7 @@ static void sgx_epc_class_init(ObjectClass *oc, void *data)
-     dc->realize = sgx_epc_realize;
-     dc->unrealize = sgx_epc_unrealize;
-     dc->desc = "SGX EPC section";
-+    dc->user_creatable = false;
-     device_class_set_props(dc, sgx_epc_properties);
+diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
+index 515d327cf1..e69efbd47f 100644
+--- a/include/qemu/rcu.h
++++ b/include/qemu/rcu.h
+@@ -27,6 +27,7 @@
+ #include "qemu/thread.h"
+ #include "qemu/queue.h"
+ #include "qemu/atomic.h"
++#include "qemu/notify.h"
+ #include "qemu/sys_membarrier.h"
  
-     mdc->get_addr = sgx_epc_md_get_addr;
+ #ifdef __cplusplus
+@@ -66,6 +67,13 @@ struct rcu_reader_data {
+ 
+     /* Data used for registry, protected by rcu_registry_lock */
+     QLIST_ENTRY(rcu_reader_data) node;
++
++    /*
++     * NotifierList used to force an RCU grace period.  Accessed under
++     * rcu_registry_lock.  Note that the notifier is called _outside_
++     * the thread!
++     */
++    NotifierList force_rcu;
+ };
+ 
+ extern __thread struct rcu_reader_data rcu_reader;
+@@ -180,6 +188,13 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC(RCUReadAuto, rcu_read_auto_unlock)
+ #define RCU_READ_LOCK_GUARD() \
+     g_autoptr(RCUReadAuto) _rcu_read_auto __attribute__((unused)) = rcu_read_auto_lock()
+ 
++/*
++ * Force-RCU notifiers tell readers that they should exit their
++ * read-side critical section.
++ */
++void rcu_add_force_rcu_notifier(Notifier *n);
++void rcu_remove_force_rcu_notifier(Notifier *n);
++
+ #ifdef __cplusplus
+ }
+ #endif
+diff --git a/util/rcu.c b/util/rcu.c
+index 13ac0f75cb..c91da9f137 100644
+--- a/util/rcu.c
++++ b/util/rcu.c
+@@ -46,6 +46,7 @@
+ unsigned long rcu_gp_ctr = RCU_GP_LOCKED;
+ 
+ QemuEvent rcu_gp_event;
++static int in_drain_call_rcu;
+ static QemuMutex rcu_registry_lock;
+ static QemuMutex rcu_sync_lock;
+ 
+@@ -107,6 +108,8 @@ static void wait_for_readers(void)
+                  * get some extra futex wakeups.
+                  */
+                 qatomic_set(&index->waiting, false);
++            } else if (qatomic_read(&in_drain_call_rcu)) {
++                notifier_list_notify(&index->force_rcu, NULL);
+             }
+         }
+ 
+@@ -339,8 +342,10 @@ void drain_call_rcu(void)
+      * assumed.
+      */
+ 
++    qatomic_inc(&in_drain_call_rcu);
+     call_rcu1(&rcu_drain.rcu, drain_rcu_callback);
+     qemu_event_wait(&rcu_drain.drain_complete_event);
++    qatomic_dec(&in_drain_call_rcu);
+ 
+     if (locked) {
+         qemu_mutex_lock_iothread();
+@@ -363,6 +368,20 @@ void rcu_unregister_thread(void)
+     qemu_mutex_unlock(&rcu_registry_lock);
+ }
+ 
++void rcu_add_force_rcu_notifier(Notifier *n)
++{
++    qemu_mutex_lock(&rcu_registry_lock);
++    notifier_list_add(&rcu_reader.force_rcu, n);
++    qemu_mutex_unlock(&rcu_registry_lock);
++}
++
++void rcu_remove_force_rcu_notifier(Notifier *n)
++{
++    qemu_mutex_lock(&rcu_registry_lock);
++    notifier_remove(n);
++    qemu_mutex_unlock(&rcu_registry_lock);
++}
++
+ static void rcu_init_complete(void)
+ {
+     QemuThread thread;
 -- 
 2.33.1
 
