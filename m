@@ -2,59 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E12344D71C
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 14:21:11 +0100 (CET)
-Received: from localhost ([::1]:53556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F9444D744
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Nov 2021 14:33:30 +0100 (CET)
+Received: from localhost ([::1]:39242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlA0s-0002tn-Q4
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 08:21:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55542)
+	id 1mlACn-0008RY-J3
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 08:33:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ml9xR-0000OO-0u
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 08:17:37 -0500
-Received: from [2001:41c9:1:41f::167] (port=36036
- helo=mail.default.ilande.bv.iomart.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ml9xM-0006DN-E9
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 08:17:35 -0500
-Received: from [2a00:23c4:8b9e:9b00:2535:46c:7466:70fe]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ml9xB-0003Zq-BF; Thu, 11 Nov 2021 13:17:25 +0000
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mlA8f-0003tK-Ov
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 08:29:13 -0500
+Received: from [2a00:1450:4864:20::334] (port=34370
+ helo=mail-wm1-x334.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mlA8d-0007k8-Qv
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 08:29:13 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ o4-20020a1c7504000000b0032cab7473caso5494459wmc.1
+ for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 05:29:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=q1ugXooJsnYEqPpdG6QE0vPVdMribxBKN6NIvQctjSs=;
+ b=EDa6r/YMtiurTuqAfSR8bDoiwp5KpMHxl9qSLhDqJwAWeVI5MyZRbvTFFySHQbYV3+
+ NO2JYjfknxY4CxyVg+y0BQfEDOZsljfWfxm7HQl7VFiTXKKSrhCxS9GlW6igLwqFJmpl
+ CmhOmMiu3ExJi6XVhFB44EC9oyJL8cdXS3JNJcOcswp6llqae+eRjDdG5F7TQagzWzaa
+ rykp5uO/jSo2VjvSZYIT2dHjaU2Zd8o3QRKqWVeiSuOERbIsy+/WvrDlyAPUL2mCM7+N
+ bdlYwNUXZ36raJhHyrxLpuPHlewIms3Knj4Hj6nspJ4qzfT1LNyPMln3JtFrQRFy9yvF
+ 6YmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=q1ugXooJsnYEqPpdG6QE0vPVdMribxBKN6NIvQctjSs=;
+ b=lYu2ckzeAXtQQqXf1/+H73pKt5OKVKT75sxjVnXTmOmRPRHGpMDtRiyo9uQH4ccg6a
+ va2v6o973hBlR12bmWLZiUHYMTHZGTC9Y6fto4l+jxnyeuZhhH/5yr5uywLAI7+X0kgv
+ bYsSMEUzUPsTQsmFI/UBlvsY+5ddxfrOBjuhlG8x/7E0brgfiVSpOw61QuWkK2h2hcpx
+ TwqkV5Acwqd+yytVahf/C1cx5g2BYAYwRGh9CLuRbuPLeP02Q9QhnUgbQ6EGGS9Mk/VK
+ KX7kY7ICtDLfRUoRJM1TkzBef6rHs0oZ1hRND8BmD0oBkWkwQGkfOJL8iiSouNfdrRtL
+ 6mzA==
+X-Gm-Message-State: AOAM5306K4C4KhTJH9dFbK0P1jQRkcFO/xANCxCR6Qxkdv/pBA64LLoZ
+ OmAQO1RPCcbCe/FA9056M5aIDY47BDW8gCh5u/o=
+X-Google-Smtp-Source: ABdhPJxkJoFDTjgkd/XcLCy7G1ywGy+N9NElrHJQNcAoLRNZtJE+80ldqf3n76LlojtzRwTLahvJHQ==
+X-Received: by 2002:a1c:1dd8:: with SMTP id d207mr25885193wmd.46.1636637349912; 
+ Thu, 11 Nov 2021 05:29:09 -0800 (PST)
+Received: from [192.168.8.106] (10.red-95-125-227.dynamicip.rima-tde.net.
+ [95.125.227.10])
+ by smtp.gmail.com with ESMTPSA id z6sm3783766wmp.1.2021.11.11.05.29.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Nov 2021 05:29:09 -0800 (PST)
+Subject: Re: [RFC PATCH v2 02/30] target/loongarch: Add CSR registers
+ definition
 To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
 References: <1636594528-8175-1-git-send-email-yangxiaojuan@loongson.cn>
- <1636594528-8175-16-git-send-email-yangxiaojuan@loongson.cn>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <04fe54be-0570-098c-63e0-6f2a5c18ccae@ilande.co.uk>
-Date: Thu, 11 Nov 2021 13:17:22 +0000
+ <1636594528-8175-3-git-send-email-yangxiaojuan@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7bb438bb-e4ae-8f28-8f9e-7baecbccc1ac@linaro.org>
+Date: Thu, 11 Nov 2021 14:29:06 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <1636594528-8175-16-git-send-email-yangxiaojuan@loongson.cn>
+In-Reply-To: <1636594528-8175-3-git-send-email-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8b9e:9b00:2535:46c:7466:70fe
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [RFC PATCH v2 15/30] hw/pci-host: Add ls7a1000 PCIe Host bridge
- support for Loongson Platform
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
  (failed)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -50
-X-Spam_score: -5.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
 X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.999,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.999,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,327 +97,214 @@ Cc: Song Gao <gaosong@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/11/2021 01:35, Xiaojuan Yang wrote:
+On 11/11/21 2:35 AM, Xiaojuan Yang wrote:
+> +#define LOONGARCH_CSR_MISC           0x3 /* Misc config */
+> +
 
-Hi Xiaojuan,
+Missing bitfield definitions for misc.
 
-> This is a model of the PCIe Host Bridge found on a Loongson-5000
-> processor. It includes a interrupt controller, some interface for
-> pci and nonpci devices we only emulate part devices for tcg mode.
-> It support for MSI and MSIX interrupt sources.
-> 
-> For more detailed info about ls7a1000 you can see the doc at
-> https://github.com/loongson/LoongArch-Documentation/releases/latest/
-> download/Loongson-7A1000-usermanual-2.00-EN.pdf
-> 
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> ---
->   hw/pci-host/Kconfig        |   4 +
->   hw/pci-host/ls7a.c         | 187 +++++++++++++++++++++++++++++++++++++
->   hw/pci-host/meson.build    |   1 +
->   include/hw/pci-host/ls7a.h |  47 ++++++++++
->   4 files changed, 239 insertions(+)
->   create mode 100644 hw/pci-host/ls7a.c
->   create mode 100644 include/hw/pci-host/ls7a.h
-> 
-> diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
-> index 2b5f7d58cc..b02a9d1454 100644
-> --- a/hw/pci-host/Kconfig
-> +++ b/hw/pci-host/Kconfig
-> @@ -77,3 +77,7 @@ config MV64361
->       bool
->       select PCI
->       select I8259
-> +
-> +config PCI_EXPRESS_7A
-> +    bool
-> +    select PCI_EXPRESS
-> diff --git a/hw/pci-host/ls7a.c b/hw/pci-host/ls7a.c
-> new file mode 100644
-> index 0000000000..90b9fe4830
-> --- /dev/null
-> +++ b/hw/pci-host/ls7a.c
-> @@ -0,0 +1,187 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * QEMU Loongson 7A1000 North Bridge Emulation
-> + *
-> + * Copyright (C) 2021 Loongson Technology Corporation Limited
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +
-> +#include "hw/pci/pci.h"
-> +#include "hw/pci/pcie_host.h"
-> +#include "qapi/error.h"
-> +#include "hw/irq.h"
-> +#include "hw/pci/pci_bridge.h"
-> +#include "hw/pci/pci_bus.h"
-> +#include "sysemu/reset.h"
-> +#include "hw/pci-host/ls7a.h"
-> +#include "migration/vmstate.h"
-> +
-> +static const VMStateDescription vmstate_ls7a_pcie = {
-> +    .name = "LS7A_PCIE",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_PCI_DEVICE(dev, LS7APCIState),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
-> +static void pci_ls7a_config_write(void *opaque, hwaddr addr,
-> +                                  uint64_t val, unsigned size)
-> +{
-> +    pci_data_write(opaque, addr, val, size);
-> +}
-> +
-> +static uint64_t pci_ls7a_config_read(void *opaque,
-> +                                     hwaddr addr, unsigned size)
-> +{
-> +    uint64_t val;
-> +
-> +    val = pci_data_read(opaque, addr, size);
-> +
-> +    return val;
-> +}
-> +
-> +static const MemoryRegionOps pci_ls7a_config_ops = {
-> +    .read = pci_ls7a_config_read,
-> +    .write = pci_ls7a_config_write,
-> +    .valid = {
-> +        .min_access_size = 1,
-> +        .max_access_size = 4,
-> +    },
-> +    .impl = {
-> +        .min_access_size = 1,
-> +        .max_access_size = 4,
-> +    },
-> +    .endianness = DEVICE_NATIVE_ENDIAN,
+> +#define  EXCODE_IP                   64
 
-DEVICE_NATIVE_ENDIAN normally isn't the right thing to use: should this be 
-DEVICE_LITTLE_ENDIAN or DEVICE_BIG_ENDIAN?
+What's this?
 
-> +};
-> +
-> +static void ls7a_pciehost_realize(DeviceState *dev, Error **errp)
-> +{
-> +    LS7APCIEHost *pciehost = LS7A_PCIE_HOST_BRIDGE(dev);
-> +    PCIExpressHost *e = PCIE_HOST_BRIDGE(dev);
-> +    PCIHostState *phb = PCI_HOST_BRIDGE(e);
-> +
-> +    phb->bus = pci_register_root_bus(dev, "pcie.0", NULL,
-> +                                     NULL, pciehost,
-> +                                     get_system_memory(), get_system_io(),
-> +                                     PCI_DEVFN(1, 0), 128, TYPE_PCIE_BUS);
-> +
-> +    memory_region_init_io(&pciehost->pci_conf, OBJECT(dev),
-> +                          &pci_ls7a_config_ops, phb->bus,
-> +                          "ls7a_pci_conf", HT1LO_PCICFG_SIZE);
-> +    memory_region_add_subregion(get_system_memory(), HT1LO_PCICFG_BASE,
-> +                                &pciehost->pci_conf);
-> +
-> +    /* Add ls7a pci-io */
-> +    memory_region_init_alias(&pciehost->pci_io, OBJECT(dev), "ls7a-pci-io",
-> +                             get_system_io(), 0, LS7A_PCI_IO_SIZE);
-> +    memory_region_add_subregion(get_system_memory(), LS7A_PCI_IO_BASE,
-> +                                &pciehost->pci_io);
-> +
-> +    pcie_host_mmcfg_update(e, true, LS_PCIECFG_BASE, LS_PCIECFG_SIZE);
-> +}
-> +
-> +PCIBus *ls7a_init(MachineState *machine, qemu_irq *pic)
-> +{
-> +    DeviceState *dev;
-> +    PCIHostState *phb;
-> +    LS7APCIState *pbs;
-> +    LS7APCIEHost *pciehost;
-> +    PCIDevice *pci_dev;
-> +    PCIExpressHost *e;
-> +
-> +    dev = qdev_new(TYPE_LS7A_PCIE_HOST_BRIDGE);
-> +    e = PCIE_HOST_BRIDGE(dev);
-> +    phb = PCI_HOST_BRIDGE(e);
-> +    pciehost = LS7A_PCIE_HOST_BRIDGE(dev);
-> +    pciehost->pic = pic;
+> +#define  EXCCODE_INT                 0
+> +#define  EXCCODE_PIL                 1
+> +#define  EXCCODE_PIS                 2
+> +#define  EXCCODE_PIF                 3
+> +#define  EXCCODE_PME                 4
+> +#define  EXCCODE_PNR                 5
+> +#define  EXCCODE_PNX                 6
+> +#define  EXCCODE_PPI                 7
+> +#define  EXCCODE_ADE                 8
 
-pciehost->pic should be configured as a qdev gpio in the LS7A_PCIE_HOST_BRIDGE device 
-.instance_init function using qdev_init_gpio_out() which is then wired up using 
-qdev_connect_gpio_out().
+ADEF vs ADEM?
 
-> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-> +
-> +    pci_dev = pci_new(PCI_DEVFN(0, 0), TYPE_LS7A_PCIE);
-> +    pbs = LS7A_PCIE(pci_dev);
-> +    pbs->pciehost = pciehost;
+> +#define  EXCCODE_ALE                 9
+> +#define  EXCCODE_BCE                 10
+> +#define  EXCCODE_SYS                 11
+> +#define  EXCCODE_BRK                 12
+> +#define  EXCCODE_INE                 13
+> +#define  EXCCODE_IPE                 14
+> +#define  EXCCODE_FPD                 15
+> +#define  EXCCODE_SXD                 16
+> +#define  EXCCODE_ASXD                17
+> +#define  EXCCODE_FPE                 18 /* Have different expsubcode */
+> +#define  EXCCODE_VFPE                18
+> +#define  EXCCODE_WPEF                19 /* Have different expsubcode */
+> +#define  EXCCODE_WPEM                19
+> +#define  EXCCODE_BTD                 20
+> +#define  EXCCODE_BTE                 21
 
-Here pbs->pciehost should be defined as a qdev link property for the LS7A_PCIE device 
-(search for DEFINE_PROP_LINK for an example of this)
+Missing BSPR, HVC, GCSC, GCHC.
 
-> +    pbs->pciehost->pci_dev = pbs;
+> +#define LOONGARCH_CSR_ERA            0x6 /* ERA */
 
-... which means that this can be set in the ls7a_realize() function for the LS7A_PCIE 
-device that should be added.
+Not really helpful to name the acronym with the acronym.
+"Exception return address".
 
-> +    pci_realize_and_unref(pci_dev, phb->bus, &error_fatal);
+> +#define LOONGARCH_CSR_TLBELO0        0x12 /* TLB EntryLo0 */
+> +FIELD(CSR_TLBELO0, V, 0, 1)
+> +FIELD(CSR_TLBELO0, D, 1, 1)
+> +FIELD(CSR_TLBELO0, PLV, 2, 2)
+> +FIELD(CSR_TLBELO0, MAT, 4, 2)
+> +FIELD(CSR_TLBELO0, G, 6, 1)
+> +FIELD(CSR_TLBELO0, PPN, 12, 36)
+> +FIELD(CSR_TLBELO0, NR, 61, 1)
+> +FIELD(CSR_TLBELO0, NX, 62, 1)
+> +FIELD(CSR_TLBELO0, RPLV, 63, 1)
 > +
-> +    return phb->bus;
-> +}
+> +#define LOONGARCH_CSR_TLBELO1        0x13 /* 64 TLB EntryLo1 */
+> +FIELD(CSR_TLBELO1, V, 0, 1)
+> +FIELD(CSR_TLBELO1, D, 1, 1)
+> +FIELD(CSR_TLBELO1, PLV, 2, 2)
+> +FIELD(CSR_TLBELO1, MAT, 4, 2)
+> +FIELD(CSR_TLBELO1, G, 6, 1)
+> +FIELD(CSR_TLBELO1, PPN, 12, 36)
+> +FIELD(CSR_TLBELO1, NR, 61, 1)
+> +FIELD(CSR_TLBELO1, NX, 62, 1)
+> +FIELD(CSR_TLBELO1, RPLV, 63, 1)
 
-Global init functions such as ls7a_init() above shouldn't be used anymore since they 
-tend to use board-specific logic and prevent future work towards allowing machine 
-configuration from a separate configuration file (hence the reason for removing the 
-use of pointers above).
+Better to define the fields once, dropping the 0/1 from the name.
 
-> +static void ls7a_reset(DeviceState *qdev)
-> +{
-> +    uint64_t wmask;
-> +    wmask = ~(-1);
+> +#define LOONGARCH_CSR_PWCL           0x1c /* PWCl */
 
-Can you combine these onto a single line? And doesn't this fail on 32-bit hosts 
-without being ~(-1ULL)?
+"Page walk controller, low addr"
 
-> +    PCIDevice *dev = PCI_DEVICE(qdev);
-> +
-> +    pci_set_word(dev->config + PCI_STATUS, 0x0010);
-> +    pci_set_word(dev->wmask + PCI_STATUS, wmask & 0xffff);
-> +    pci_set_word(dev->cmask + PCI_STATUS, 0xffff);
-> +    pci_set_byte(dev->config + PCI_HEADER_TYPE, 0x1);
-> +    pci_set_byte(dev->wmask + PCI_HEADER_TYPE, wmask & 0xff);
-> +    pci_set_byte(dev->cmask + PCI_HEADER_TYPE, 0xff);
-> +    pci_set_word(dev->config + PCI_SUBSYSTEM_VENDOR_ID, 0x0014);
-> +    pci_set_word(dev->wmask + PCI_SUBSYSTEM_VENDOR_ID, wmask & 0xffff);
-> +    pci_set_word(dev->cmask + PCI_SUBSYSTEM_VENDOR_ID, 0xffff);
-> +    pci_set_word(dev->config + PCI_SUBSYSTEM_ID, 0x7a00);
-> +    pci_set_word(dev->wmask + PCI_SUBSYSTEM_ID, wmask & 0xffff);
-> +    pci_set_word(dev->cmask + PCI_SUBSYSTEM_ID, 0xffff);
-> +    pci_set_byte(dev->config + PCI_CAPABILITY_LIST, 0x40);
-> +    pci_set_byte(dev->wmask + PCI_CAPABILITY_LIST, wmask & 0xff);
-> +    pci_set_byte(dev->cmask + PCI_CAPABILITY_LIST, 0xff);
-> +}
-> +
-> +static void ls7a_pcie_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-> +
-> +    k->vendor_id = 0x0014;
-> +    k->device_id = 0x7a00;
-> +    k->revision = 0x00;
-> +    k->class_id = PCI_CLASS_BRIDGE_HOST;
-> +    dc->reset = ls7a_reset;
-> +    dc->desc = "LS7A1000 PCIE Host bridge";
-> +    dc->vmsd = &vmstate_ls7a_pcie;
-> +    /*
-> +     * PCI-facing part of the host bridge, not usable without the
-> +     * host-facing part, which can't be device_add'ed, yet.
-> +     */
-> +    dc->user_creatable = false;
-> +}
-> +
-> +static const TypeInfo ls7a_pcie_device_info = {
-> +    .name          = TYPE_LS7A_PCIE,
-> +    .parent        = TYPE_PCI_DEVICE,
-> +    .instance_size = sizeof(LS7APCIState),
-> +    .class_init    = ls7a_pcie_class_init,
-> +    .interfaces = (InterfaceInfo[]) {
-> +        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-> +        { },
-> +    },
-> +};
-> +
-> +static void ls7a_pciehost_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +    dc->realize = ls7a_pciehost_realize;
-> +    dc->fw_name = "pci";
-> +    dc->user_creatable = false;
-> +}
-> +
-> +static const TypeInfo ls7a_pciehost_info = {
-> +    .name          = TYPE_LS7A_PCIE_HOST_BRIDGE,
-> +    .parent        = TYPE_PCIE_HOST_BRIDGE,
-> +    .instance_size = sizeof(LS7APCIEHost),
-> +    .class_init    = ls7a_pciehost_class_init,
-> +};
-> +
-> +static void ls7a_register_types(void)
-> +{
-> +    type_register_static(&ls7a_pciehost_info);
-> +    type_register_static(&ls7a_pcie_device_info);
-> +}
-> +
-> +type_init(ls7a_register_types)
-> diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
-> index 4c4f39c15c..c4955455fd 100644
-> --- a/hw/pci-host/meson.build
-> +++ b/hw/pci-host/meson.build
-> @@ -11,6 +11,7 @@ pci_ss.add(when: 'CONFIG_PCI_SABRE', if_true: files('sabre.c'))
->   pci_ss.add(when: 'CONFIG_XEN_IGD_PASSTHROUGH', if_true: files('xen_igd_pt.c'))
->   pci_ss.add(when: 'CONFIG_REMOTE_PCIHOST', if_true: files('remote.c'))
->   pci_ss.add(when: 'CONFIG_SH_PCI', if_true: files('sh_pci.c'))
-> +pci_ss.add(when: 'CONFIG_PCI_EXPRESS_7A', if_true: files('ls7a.c'))
->   
->   # PPC devices
->   pci_ss.add(when: 'CONFIG_RAVEN_PCI', if_true: files('raven.c'))
-> diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
-> new file mode 100644
-> index 0000000000..6b5ba3b442
-> --- /dev/null
-> +++ b/include/hw/pci-host/ls7a.h
-> @@ -0,0 +1,47 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * QEMU LoongArch CPU
-> + *
-> + * Copyright (c) 2021 Loongson Technology Corporation Limited
-> + */
-> +
-> +#ifndef HW_LS7A_H
-> +#define HW_LS7A_H
-> +
-> +#include "hw/pci/pci.h"
-> +#include "hw/pci/pcie_host.h"
-> +#include "hw/pci-host/pam.h"
-> +#include "qemu/units.h"
-> +#include "qemu/range.h"
-> +#include "qom/object.h"
-> +
-> +#define HT1LO_PCICFG_BASE        0x1a000000
-> +#define HT1LO_PCICFG_SIZE        0x02000000
-> +
-> +#define LS_PCIECFG_BASE          0x20000000
-> +#define LS_PCIECFG_SIZE          0x08000000
-> +
-> +#define LS7A_PCI_IO_BASE        0x18000000UL
-> +#define LS7A_PCI_IO_SIZE        0x00010000
-> +typedef struct LS7APCIState LS7APCIState;
-> +typedef struct LS7APCIEHost {
-> +    PCIExpressHost parent_obj;
-> +    LS7APCIState *pci_dev;
-> +    qemu_irq *pic;
-> +    MemoryRegion pci_conf;
-> +    MemoryRegion pci_io;
-> +} LS7APCIEHost;
-> +
-> +struct LS7APCIState {
-> +    PCIDevice dev;
-> +    LS7APCIEHost *pciehost;
-> +};
-> +
-> +#define TYPE_LS7A_PCIE_HOST_BRIDGE "ls7a1000-pciehost"
-> +OBJECT_DECLARE_SIMPLE_TYPE(LS7APCIEHost, LS7A_PCIE_HOST_BRIDGE)
-> +
-> +#define TYPE_LS7A_PCIE "ls7a1000_pcie"
-> +OBJECT_DECLARE_SIMPLE_TYPE(LS7APCIState, LS7A_PCIE)
-> +
-> +PCIBus *ls7a_init(MachineState *machine, qemu_irq *irq);
-> +#endif /* HW_LS7A_H */
+> +#define LOONGARCH_CSR_PWCH           0x1d /* PWCh */
+
+"Page walk controller, high addr"
+
+> +#define LOONGARCH_CSR_STLBPS     0x1e /* 64 */
+
+64?  "STLB Page size".
+
+> +#define LOONGARCH_CSR_RVACFG         0x1f
+
+"Reduced virtual address config"
+
+> +/* Save registers */
+> +#define LOONGARCH_CSR_SAVE0            0x30
+> +#define LOONGARCH_CSR_SAVE1            0x31
+> +#define LOONGARCH_CSR_SAVE2            0x32
+> +#define LOONGARCH_CSR_SAVE3            0x33
+> +#define LOONGARCH_CSR_SAVE4            0x34
+> +#define LOONGARCH_CSR_SAVE5            0x35
+> +#define LOONGARCH_CSR_SAVE6            0x36
+> +#define LOONGARCH_CSR_SAVE7            0x37
+
+Might as well must define SAVE0, and comment that the count is in PRCFG1.SAVE_NUM.
+
+> +#define  CSR_DMW_BASE_SH             48
+
+What's this?  It looks like you should be using TARGET_VIRT_ADDR_SPACE_BITS anyway.
+
+> +#define dmwin_va2pa(va) \
+> +    (va & (((unsigned long)1 << CSR_DMW_BASE_SH) - 1))
+
+Using unsigned long is wrong, breaking 32-bit hosts.
+You want
+
+     ((va) & MAKE_64BIT_MASK(0, TARGET_VIRT_ADDR_SPACE_BITS))
+
+> +/* Performance Counter registers */
+> +#define LOONGARCH_CSR_PERFCTRL0      0x200 /* 32 perf event 0 config */
+> +#define LOONGARCH_CSR_PERFCNTR0      0x201 /* 64 perf event 0 count value */
+> +#define LOONGARCH_CSR_PERFCTRL1      0x202 /* 32 perf event 1 config */
+> +#define LOONGARCH_CSR_PERFCNTR1      0x203 /* 64 perf event 1 count value */
+> +#define LOONGARCH_CSR_PERFCTRL2      0x204 /* 32 perf event 2 config */
+> +#define LOONGARCH_CSR_PERFCNTR2      0x205 /* 64 perf event 2 count value */
+> +#define LOONGARCH_CSR_PERFCTRL3      0x206 /* 32 perf event 3 config */
+> +#define LOONGARCH_CSR_PERFCNTR3      0x207 /* 64 perf event 3 count value */
+
+Perhaps better to define
+
+#define LOONGARCH_CSR_PERFCTRL(N)  (0x200 + 2 * N)
+
+etc.
+
+> +#define LOONGARCH_CSR_DB0ADDR        0x310 /* data breakpoint 0 address */
+> +#define LOONGARCH_CSR_DB0MASK        0x311 /* data breakpoint 0 mask */
+> +#define LOONGARCH_CSR_DB0CTL         0x312 /* data breakpoint 0 control */
+> +#define LOONGARCH_CSR_DB0ASID        0x313 /* data breakpoint 0 asid */
+
+Likewise.
+
+> +    uint64_t CSR_SAVE0;
+> +    uint64_t CSR_SAVE1;
+> +    uint64_t CSR_SAVE2;
+> +    uint64_t CSR_SAVE3;
+> +    uint64_t CSR_SAVE4;
+> +    uint64_t CSR_SAVE5;
+> +    uint64_t CSR_SAVE6;
+> +    uint64_t CSR_SAVE7;
+
+Better as an array.
+
+> +    uint64_t CSR_PERFCTRL0;
+> +    uint64_t CSR_PERFCNTR0;
+> +    uint64_t CSR_PERFCTRL1;
+> +    uint64_t CSR_PERFCNTR1;
+> +    uint64_t CSR_PERFCTRL2;
+> +    uint64_t CSR_PERFCNTR2;
+> +    uint64_t CSR_PERFCTRL3;
+> +    uint64_t CSR_PERFCNTR3;
+
+Likewise.
+
+> +    uint64_t CSR_DB0ADDR;
+> +    uint64_t CSR_DB0MASK;
+> +    uint64_t CSR_DB0CTL;
+> +    uint64_t CSR_DB0ASID;
+> +    uint64_t CSR_DB1ADDR;
+> +    uint64_t CSR_DB1MASK;
+> +    uint64_t CSR_DB1CTL;
+> +    uint64_t CSR_DB1ASID;
+> +    uint64_t CSR_DB2ADDR;
+> +    uint64_t CSR_DB2MASK;
+> +    uint64_t CSR_DB2CTL;
+> +    uint64_t CSR_DB2ASID;
+> +    uint64_t CSR_DB3ADDR;
+> +    uint64_t CSR_DB3MASK;
+> +    uint64_t CSR_DB3CTL;
+> +    uint64_t CSR_DB3ASID;
+
+Likewise.
+
+> +    uint64_t CSR_IB0ADDR;
+> +    uint64_t CSR_IB0MASK;
+> +    uint64_t CSR_IB0CTL;
+> +    uint64_t CSR_IB0ASID;
+> +    uint64_t CSR_IB1ADDR;
+> +    uint64_t CSR_IB1MASK;
+> +    uint64_t CSR_IB1CTL;
+> +    uint64_t CSR_IB1ASID;
+> +    uint64_t CSR_IB2ADDR;
+> +    uint64_t CSR_IB2MASK;
+> +    uint64_t CSR_IB2CTL;
+> +    uint64_t CSR_IB2ASID;
+> +    uint64_t CSR_IB3ADDR;
+> +    uint64_t CSR_IB3MASK;
+> +    uint64_t CSR_IB3CTL;
+> +    uint64_t CSR_IB3ASID;
+> +    uint64_t CSR_IB4ADDR;
+> +    uint64_t CSR_IB4MASK;
+> +    uint64_t CSR_IB4CTL;
+> +    uint64_t CSR_IB4ASID;
+> +    uint64_t CSR_IB5ADDR;
+> +    uint64_t CSR_IB5MASK;
+> +    uint64_t CSR_IB5CTL;
+> +    uint64_t CSR_IB5ASID;
+> +    uint64_t CSR_IB6ADDR;
+> +    uint64_t CSR_IB6MASK;
+> +    uint64_t CSR_IB6CTL;
+> +    uint64_t CSR_IB6ASID;
+> +    uint64_t CSR_IB7ADDR;
+> +    uint64_t CSR_IB7MASK;
+> +    uint64_t CSR_IB7CTL;
+> +    uint64_t CSR_IB7ASID;
+
+Likewise.
 
 
-ATB,
-
-Mark.
+r~
 
