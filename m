@@ -2,90 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10EC844EAD1
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 16:47:41 +0100 (CET)
-Received: from localhost ([::1]:37150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 552B944EAE3
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 16:56:36 +0100 (CET)
+Received: from localhost ([::1]:40930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlYmC-0002op-5v
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 10:47:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38320)
+	id 1mlYuo-0006Nj-H6
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 10:56:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mlYky-0001y5-Mm
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 10:46:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59782)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mlYtb-0005Gz-Rw
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 10:55:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31981)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mlYkx-0003og-1F
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 10:46:24 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mlYtZ-0004mp-CD
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 10:55:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636731982;
+ s=mimecast20190719; t=1636732516;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M8sLP8hE3TPBWWVrdTsz7rOMIHbNCU6sRVBYqo9yzvw=;
- b=KvceB6t2kwgqYtAdxiGb3Z0MxD919KwrC7W4ZGGIPWCnIfIfmo+ekmSO2qY76hILbyOkgW
- 7WlgM6CMRt+R5hWtUNDK/gGnZ6KUbZGdQpQCplgIMUrUBJ0ORLyMLaOV5UxszUxcfiekip
- WoMBw0qHK4v8zGaFFlJMwEqCRkVYlyQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-437-8wzNudeRMzqISHwv8FXhfg-1; Fri, 12 Nov 2021 10:46:19 -0500
-X-MC-Unique: 8wzNudeRMzqISHwv8FXhfg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- k25-20020a05600c1c9900b00332f798ba1dso6467114wms.4
- for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 07:46:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=M8sLP8hE3TPBWWVrdTsz7rOMIHbNCU6sRVBYqo9yzvw=;
- b=Ng44iw3iC5tdsL7FExs3ZuM8l8ZzzGdywOofHfZXaT2KJv6OYcuM5OCmLZZxgXntKT
- yqjEMJg0zFlmfrD6oBVyB0QCXt6sf7mI1LxJQ+lXvK4rdTfkw8vjWd0lROe+/EWnaaXc
- /sBmnB3Y8n0Dk2JUsh7EWBeFAtHcoSFlr081Cu5BtW9kHwHsXgtOcHAy6E2u7GuhiE5J
- JHh46Ke0HHFmuUNRHaETT35r7hPfoERiQERTpVyrX64SmBaWwdOFuHkctOMg09ysyjhL
- 3MRu8BhHI2KgVOaEM8eJXjV+niG83RnfCP293IWT4g7fUNJNnqqvwrn+pY3BdqNvYAQ5
- xOTw==
-X-Gm-Message-State: AOAM530l8Uprrenkayx7bTQsce21h0H7R75dFZsLiUeCw/b0ei8YLf0X
- o822K/18GkEKwa9lZdIVzZYtHmnR8INKBSAYPIpDYczEi/4GSC7tlLR8tZU19nHMhW4UvkAbnA8
- yeEui/nklEwt5IOA=
-X-Received: by 2002:adf:efc6:: with SMTP id i6mr20029576wrp.428.1636731978084; 
- Fri, 12 Nov 2021 07:46:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzL3sQPgaOy1r2lC8NvOwfdxOle91NNtr43vVUwDVvsRMQkKBNEK41lVHe6JPnYveD2sG+4dA==
-X-Received: by 2002:adf:efc6:: with SMTP id i6mr20029549wrp.428.1636731977881; 
- Fri, 12 Nov 2021 07:46:17 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id m125sm11872168wmm.39.2021.11.12.07.46.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Nov 2021 07:46:17 -0800 (PST)
-Message-ID: <58bc9ed4-d8b5-4ec6-dbca-8ed12e576e99@redhat.com>
-Date: Fri, 12 Nov 2021 16:46:16 +0100
+ bh=+760LTtoGvK9S9T3GKPAud3xCXdNFrISENCZFhQLwA4=;
+ b=e6+jjRhXBKW5WEL4+OXPIMStZSSHgImBOnIuZy8Xo9Bmqy8QsjsVcF+xeu0DMFgA2U1xWG
+ xvHSvxdIdYiXej9Xm+5leuBXtsXQyhScZmyE1t9+GNU7B+aUzeQ4sw7R41PbJfZ7HyzZxz
+ cwdga5fCreNGe5iFkMVqh1hXZbpahqU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-493-e-1yC0azOX6JnkoxNey93w-1; Fri, 12 Nov 2021 10:55:13 -0500
+X-MC-Unique: e-1yC0azOX6JnkoxNey93w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F17C101AFA7;
+ Fri, 12 Nov 2021 15:55:12 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B55C35D9DC;
+ Fri, 12 Nov 2021 15:55:11 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Halil Pasic <pasic@linux.ibm.com>
+Subject: Re: [RFC PATCH v1 1/3] virtio: introduce virtio_force_modern()
+In-Reply-To: <20211112164208.71a2ca73.pasic@linux.ibm.com>
+Organization: Red Hat GmbH
+References: <20211028220017.930806-1-pasic@linux.ibm.com>
+ <20211028220017.930806-2-pasic@linux.ibm.com> <87tugzc26y.fsf@redhat.com>
+ <20211112164208.71a2ca73.pasic@linux.ibm.com>
+User-Agent: Notmuch/0.33.1 (https://notmuchmail.org)
+Date: Fri, 12 Nov 2021 16:55:10 +0100
+Message-ID: <874k8hmkrl.fsf@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v4 14/25] include/systemu/blockdev.h: global state API
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20211025101735.2060852-1-eesposit@redhat.com>
- <20211025101735.2060852-15-eesposit@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20211025101735.2060852-15-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.449, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,80 +78,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Subject: s/systemu/sysemu/
+On Fri, Nov 12 2021, Halil Pasic <pasic@linux.ibm.com> wrote:
 
-On 25.10.21 12:17, Emanuele Giuseppe Esposito wrote:
-> blockdev functions run always under the BQL lock.
+> On Fri, 29 Oct 2021 16:53:25 +0200
+> Cornelia Huck <cohuck@redhat.com> wrote:
 >
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->   include/sysemu/blockdev.h | 18 ++++++++++++++----
->   1 file changed, 14 insertions(+), 4 deletions(-)
+>> On Fri, Oct 29 2021, Halil Pasic <pasic@linux.ibm.com> wrote:
+>> 
+>> > Legacy vs modern should be detected via transport specific means. We
+>> > can't wait till feature negotiation is done. Let us introduce
+>> > virtio_force_modern() as a means for the transport code to signal
+>> > that the device should operate in modern mode (because a modern driver
+>> > was detected).
+>> >
+>> > Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+>> > ---
+>> >
+>> > I'm still struggling with how to deal with vhost-user and co. The
+>> > problem is that I'm not very familiar with the life-cycle of, let us
+>> > say, a vhost_user device.
+>> >
+>> > Looks to me like the vhost part might be just an implementation detail,
+>> > and could even become a hot swappable thing.
+>> >
+>> > Another thing is, that vhost processes set_features differently. It
+>> > might or might not be a good idea to change this.
+>> >
+>> > Does anybody know why don't we propagate the features on features_set,
+>> > but under a set of different conditions, one of which is the vhost
+>> > device is started?
+>> > ---
+>> >  hw/virtio/virtio.c         | 12 ++++++++++++
+>> >  include/hw/virtio/virtio.h |  1 +
+>> >  2 files changed, 13 insertions(+)
+>> >
+>> > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+>> > index 3a1f6c520c..75aee0e098 100644
+>> > --- a/hw/virtio/virtio.c
+>> > +++ b/hw/virtio/virtio.c
+>> > @@ -3281,6 +3281,18 @@ void virtio_init(VirtIODevice *vdev, const char *name,
+>> >      vdev->use_guest_notifier_mask = true;
+>> >  }
+>> >  
+>> > +void  virtio_force_modern(VirtIODevice *vdev)  
+>> 
+>> <bikeshed> I'm not sure I like that name. We're not actually forcing the
+>> device to be modern, we just set an early indication in the device
+>> before proper feature negotiation has finished. Maybe
+>> virtio_indicate_modern()? </bikeshed>
 >
-> diff --git a/include/sysemu/blockdev.h b/include/sysemu/blockdev.h
-> index 960b54d320..b07f15df09 100644
-> --- a/include/sysemu/blockdev.h
-> +++ b/include/sysemu/blockdev.h
-> @@ -13,9 +13,6 @@
->   #include "block/block.h"
->   #include "qemu/queue.h"
->   
-> -void blockdev_mark_auto_del(BlockBackend *blk);
-> -void blockdev_auto_del(BlockBackend *blk);
-> -
->   typedef enum {
->       IF_DEFAULT = -1,            /* for use with drive_add() only */
->       /*
-> @@ -40,6 +37,16 @@ struct DriveInfo {
->       QTAILQ_ENTRY(DriveInfo) next;
->   };
->   
-> +/*
-> + * Global state (GS) API. These functions run under the BQL lock.
-> + *
-> + * See include/block/block-global-state.h for more information about
-> + * the GS API.
-> + */
-> +
-> +void blockdev_mark_auto_del(BlockBackend *blk);
-> +void blockdev_auto_del(BlockBackend *blk);
-> +
->   DriveInfo *blk_legacy_dinfo(BlockBackend *blk);
->   DriveInfo *blk_set_legacy_dinfo(BlockBackend *blk, DriveInfo *dinfo);
->   BlockBackend *blk_by_legacy_dinfo(DriveInfo *dinfo);
-> @@ -50,10 +57,13 @@ DriveInfo *drive_get(BlockInterfaceType type, int bus, int unit);
->   void drive_check_orphaned(void);
->   DriveInfo *drive_get_by_index(BlockInterfaceType type, int index);
->   int drive_get_max_bus(BlockInterfaceType type);
-> -int drive_get_max_devs(BlockInterfaceType type);
->   DriveInfo *drive_get_next(BlockInterfaceType type);
->   
->   DriveInfo *drive_new(QemuOpts *arg, BlockInterfaceType block_default_type,
->                        Error **errp);
->   
-> +/* Common functions that are neither I/O nor Global State */
-> +
-> +int drive_get_max_devs(BlockInterfaceType type);
-> +
+>
+> I don't like virtio_indicate_modern(dev) form object orientation
+> perspective. In an OO language one would write it like
+> dev.virtio_indicate_modern()
+> which would read like the device should indicate modern to somebody.
 
-It seems to me like this function is never used and could just be 
-dropped.  In any case, if it were used, it looks to me like it’d be used 
-in a GS context.  (Not that I know anything about it, but I don’t see 
-what makes it different from the other functions here.)
+I think that is actually what happens: we indicate that it is a modern
+device to the code making the endianness decisions.
 
-Hanna
+>
+> In my opinion what happens is that we want to disable the legacy
+> interface if it is exposed by the device, or in other words instruct the
+> device that should act (precisely and exclusively) according to the
+> interface specification of the modern interface.
+
+I don't see us disabling anything; the driver has already chosen what
+they want, and we simply need to make sure that all code honours that
+decision.
+
+>
+> Maybe we can find a better name than force_modern, but I don't think
+> indicate_modern is a better name.
+>
+>> 
+>> > +{
+>> > +    /*
+>> > +     * This takes care of the devices that implement config space access
+>> > +     * in QEMU. For vhost-user and similar we need to make sure the features
+>> > +     * are actually propagated to the device implementing the config space.
+>> > +     *
+>> > +     * A VirtioDeviceClass callback may be a good idea.
+>> > +     */
+>> > +    virtio_set_features(vdev, (1ULL << VIRTIO_F_VERSION_1));  
+>> 
+>> Do we really need/want to do the whole song-and-dance for setting
+>> features, just for setting VERSION_1? 
+>
+> When doing the whole song-and-dance the chance is higher that the
+> information will propagate to every place it needs to reach. For
+> example to the acked_features of vhost_dev. I've just posted a v2 RFC.
+> It should not be hard to see what I mean after examining that RFC.
+>
+>> Devices may modify some of their
+>> behaviour or features, depending on what features they are called with,
+>
+> I believe, if this is the case, we want the behavior that corresponds to
+> VERSION_1 set, i.e. 'modern'. So in my understanding this is rather good
+> than bad.
+>
+>> and we will be calling this one again later with what is likely a
+>> different feature set. 
+>
+> That is true, but the driver is allowed to set the features multiple
+> times, and since transports only support piecemeal access to the
+> features (32 bits at a time), I guess this is biz as usual.
+
+Also see my comment in the v2: I'm not sure how well tested that
+actually is.
+
+>
+>>Also, the return code is not checked.
+>> 
+>
+> That is true! It might be a good idea to log an error. Unfortunately I
+> don't think there is anything else we can sanely do.
+>
+>> Maybe introduce a new function that sets guest_features directly and
+>> errors out if the features are not set in host_features? 
+>
+> See above.
+>
+>> If we try to
+>> set VERSION_1 here despite the device not offering it, we are in a
+>> pickle anyway, as we should not have gotten here if we did not offer it,
+>> and we really should moan and fail in that case.
+>
+> I agree about the moan part. I'm not sure what is the best way to
+> 'fail'. Maybe we should continue this discussion in the v2 thread.
+
+Yeah, let's continue there, since that code is a bit different.
 
 
