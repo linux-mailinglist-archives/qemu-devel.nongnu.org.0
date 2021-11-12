@@ -2,70 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7C5D44EA84
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 16:38:33 +0100 (CET)
-Received: from localhost ([::1]:56692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD0F644EABC
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 16:42:41 +0100 (CET)
+Received: from localhost ([::1]:59794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlYdM-0004kT-D6
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 10:38:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35922)
+	id 1mlYhM-0007Am-O5
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 10:42:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mlYcP-0003wb-6D
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 10:37:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36766)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mlYg7-0006A5-9p
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 10:41:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mlYcK-0002bM-C0
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 10:37:32 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mlYg5-000339-Dq
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 10:41:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636731447;
+ s=mimecast20190719; t=1636731680;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cKvEVquHCvgYrQZHZHxGtBJgZb8WTD6/DM56FB+sVVM=;
- b=b1Y7kPoJ8+2GqlKnZ3465kQVismgD+dhT6leSXuDqlhvqhQvc0+a+Ru9q1QAKBq4LX7Ujh
- 7mD8PdgZixhkSgk4n01nj+1UtSdaXN2MFMgGR/Dpm/YDAsxGpojCvBeHCCdX2o6wgWx+f5
- f5je1RQzI1TRgKKAaUEIHD/lTMWo7+8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-303-h-dwZHDRNYCQWS6KotJitw-1; Fri, 12 Nov 2021 10:37:24 -0500
-X-MC-Unique: h-dwZHDRNYCQWS6KotJitw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA1E01006AA0;
- Fri, 12 Nov 2021 15:37:22 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.90])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B9BD5D9DC;
- Fri, 12 Nov 2021 15:37:21 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- qemu-s390x@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH v2 1/5] virtio: introduce virtio_force_modern()
-In-Reply-To: <20211112145749.618157-2-pasic@linux.ibm.com>
-Organization: Red Hat GmbH
-References: <20211112145749.618157-1-pasic@linux.ibm.com>
- <20211112145749.618157-2-pasic@linux.ibm.com>
-User-Agent: Notmuch/0.33.1 (https://notmuchmail.org)
-Date: Fri, 12 Nov 2021 16:37:20 +0100
-Message-ID: <877dddmllb.fsf@redhat.com>
+ bh=ULCgYqNfuZncLMcsUwtrcHVs0kdWj+5em5WxY2UzzJs=;
+ b=VeuPhhWZXWMr3a+NxleLXFOevS//LfhqqLWpnOJRsxFIVsqLZthtkgE/nBnqDJYRukT7Sw
+ hMcMgr2g+iMSIwnyuDl7VMQYlHg+NflYHiEPgMNSzckwc+aN7LDIsfRRkmHLVw94Xjwn11
+ 6YpMuYgJoRP1QCQ5lr08a++u4Oa5WIc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-459-6FzNMvScOvauyoYDOThgbA-1; Fri, 12 Nov 2021 10:41:19 -0500
+X-MC-Unique: 6FzNMvScOvauyoYDOThgbA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ c1-20020a05600c0ac100b00322fcaa2bc7so4460117wmr.4
+ for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 07:41:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ULCgYqNfuZncLMcsUwtrcHVs0kdWj+5em5WxY2UzzJs=;
+ b=0XJygXB9FKu0bhcCPb5MNb7G42U9rVZFIfFUycyHUDRFfHIGQmBz0lBH0fxbdZuRcu
+ xbsyOP68YgSnZ1wrSHOXKUwUuGzv0/2NOKO+s6PrdWjA3eNU6tHJ+wn9/Pfe/ndvxaA+
+ SNKRLnVpqagh/VetPkKXFOd5aPVRhAiA2sL3deggp/HQpFvl1Zov1drMSN5hPUhLnHfZ
+ AD7TgcZnRWInFb/dp1G0RE5J6NSGthuGymIMhsm904jSkiP3hUhwCg0rZQHFv9gnjJXB
+ CGYFNI4MXgdhQZQhXJsqXlOjOdxSut51d/jNKBWGCMYZrHF96DOu6DpsFA4qaPG9Nx22
+ 5Jkw==
+X-Gm-Message-State: AOAM533FO/Hby0xuC1MaZCaAqV4CZS2xbjeLut4E80HK/Z84HG2i01f0
+ RaPaPIqrFZCdR8gtaGZtgEgKXIa+3frqcyqT7Dy0DuzXufaybZBOs45UewxywYUzI/tIac25qBB
+ LiEB+k5hZc6CLEe8=
+X-Received: by 2002:a5d:64e7:: with SMTP id g7mr20082078wri.350.1636731678413; 
+ Fri, 12 Nov 2021 07:41:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwWV7pxXmBROnoAHefzntJ3B4+V6QVqpPmem7oqx7Q77gCv9d6XueSw+oI5JZKK2tqBizDl1Q==
+X-Received: by 2002:a5d:64e7:: with SMTP id g7mr20082038wri.350.1636731678214; 
+ Fri, 12 Nov 2021 07:41:18 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id y6sm6525221wrh.18.2021.11.12.07.41.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Nov 2021 07:41:17 -0800 (PST)
+Message-ID: <206c5528-1159-db71-9e58-bb615fe95eae@redhat.com>
+Date: Fri, 12 Nov 2021 16:41:16 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v4 13/25] include/sysemu/blockdev.h: move drive_add and
+ inline drive_def
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20211025101735.2060852-1-eesposit@redhat.com>
+ <20211025101735.2060852-14-eesposit@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20211025101735.2060852-14-eesposit@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ NICE_REPLY_A=-3.449, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,90 +99,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
- Thomas Huth <thuth@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 12 2021, Halil Pasic <pasic@linux.ibm.com> wrote:
-
-> Legacy vs modern should be detected via transport specific means. We
-> can't wait till feature negotiation is done. Let us introduce
-> virtio_force_modern() as a means for the transport code to signal
-> that the device should operate in modern mode (because a modern driver
-> was detected).
+On 25.10.21 12:17, Emanuele Giuseppe Esposito wrote:
+> drive_add is only used in softmmu/vl.c, so it can be a static
+> function there,and drive_def is only a particular use case of
+> qemu_opts_parse_noisily, so it can be inlined.
 >
-> A new callback is added for the situations where the device needs
-> to do more than just setting the VIRTIO_F_VERSION_1 feature bit. For
-> example, when vhost is involved, we may need to propagate the features
-> to the vhost device.
+> Also remove drive_mark_claimed_by_board, as it is only defined
+> but not implemented (nor used) anywhere.
 >
-> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+> This also helps simplifying next patch.
+>
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->
-> I'm still struggling with how to deal with vhost-user and co. The
-> problem is that I'm not very familiar with the life-cycle of, let us
-> say, a vhost_user device.
->
-> Looks to me like the vhost part might be just an implementation detail,
-> and could even become a hot swappable thing.
->
-> Another thing is, that vhost processes set_features differently. It
-> might or might not be a good idea to change this.
->
-> Does anybody know why don't we propagate the features on features_set,
-> but under a set of different conditions, one of which is the vhost
-> device is started?
-> ---
->  hw/virtio/virtio.c         | 13 +++++++++++++
->  include/hw/virtio/virtio.h |  2 ++
->  2 files changed, 15 insertions(+)
->
+>   block/monitor/block-hmp-cmds.c |  2 +-
+>   blockdev.c                     | 27 +--------------------------
+>   include/sysemu/blockdev.h      |  6 ++----
+>   softmmu/vl.c                   | 25 ++++++++++++++++++++++++-
+>   4 files changed, 28 insertions(+), 32 deletions(-)
 
-Did you see my feedback in
-https://lore.kernel.org/qemu-devel/87tugzc26y.fsf@redhat.com/? I think
-at least some of it still applies.
+[...]
 
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index 3a1f6c520c..26db1b31e6 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -3281,6 +3281,19 @@ void virtio_init(VirtIODevice *vdev, const char *name,
->      vdev->use_guest_notifier_mask = true;
->  }
->  
-> +void  virtio_force_modern(VirtIODevice *vdev)
+> diff --git a/blockdev.c b/blockdev.c
+> index c1f6171c6c..1bf49ef610 100644
+> --- a/blockdev.c
+> +++ b/blockdev.c
+> @@ -73,7 +73,7 @@ void bdrv_set_monitor_owned(BlockDriverState *bs)
+>       QTAILQ_INSERT_TAIL(&monitor_bdrv_states, bs, monitor_list);
+>   }
+>   
+> -static const char *const if_name[IF_COUNT] = {
+> +const char *const if_name[IF_COUNT] = {
 
-I'd still prefer to call this virtio_indicate_modern: we don't really
-force anything; the driver has simply already decided that it will use
-the modern interface and we provide an early indication in the features
-so that code looking at them makes the right decisions.
+When making this global, I’d give its name a prefix, like 
+`block_if_name` (or even `block_if_type_to_name`).
 
-> +{
-> +    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-> +
-> +    virtio_add_feature(&vdev->guest_features, VIRTIO_F_VERSION_1);
-> +    /* Let the device do it's normal thing. */
-> +    virtio_set_features(vdev, vdev->guest_features);
+Hanna
 
-I don't think this is substantially different from setting VERSION_1
-only: At least the callers you introduce call this during reset,
-i.e. when guest_features is 0 anyway. We still have the whole processing
-that is done after feature setting that may have effects different from
-what the ultimate feature setting will give us. While I don't think
-calling set_features twice is forbidden, that sequence is likely quite
-untested, and I'm not sure we can exclude side effects.
-
-> +    /* For example for vhost-user we have to propagate to the vhost dev. */
-> +    if (k->force_modern) {
-> +        k->force_modern(vdev);
-> +    }
-> +}
-> +
->  /*
->   * Only devices that have already been around prior to defining the virtio
->   * standard support legacy mode; this includes devices not specified in the
+>       [IF_NONE] = "none",
+>       [IF_IDE] = "ide",
+>       [IF_SCSI] = "scsi",
 
 
