@@ -2,62 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72D6A44E07A
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 03:47:58 +0100 (CET)
-Received: from localhost ([::1]:57094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 945E344E0F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 05:09:06 +0100 (CET)
+Received: from localhost ([::1]:51948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlMbd-0001xq-25
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 21:47:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60786)
+	id 1mlNs9-0001Wd-60
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 23:09:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mlMas-0001I7-SQ
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 21:47:10 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3494)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mlNo0-0000VU-5I; Thu, 11 Nov 2021 23:04:48 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:43055)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mlMap-0001C3-EV
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 21:47:10 -0500
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Hr2x72CLfzZcww;
- Fri, 12 Nov 2021 10:44:43 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.15; Fri, 12 Nov 2021 10:46:59 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.15; Fri, 12 Nov 2021 10:46:58 +0800
-Subject: Re: [PATCH-for-6.2 v3 4/6] tests/unit/test-smp-parse: Simplify
- pointer to compound literal use
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- <qemu-devel@nongnu.org>
-References: <20211111100351.2153662-1-philmd@redhat.com>
- <20211111100351.2153662-5-philmd@redhat.com>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <839fc70e-6a0f-f762-fb46-231c5c6fb7c3@huawei.com>
-Date: Fri, 12 Nov 2021 10:46:58 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mlNnt-00024W-O1; Thu, 11 Nov 2021 23:04:45 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4Hr4jD11QFz4xdN; Fri, 12 Nov 2021 15:04:32 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1636689872;
+ bh=NL+sBxKZnX12Zpn1kqa8t80ve7jlZNUIW9axQPI/Sis=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FXIchiUI3CcXHxVzdQEu+IMejioHhzt1IRswycyYVSg+gce5B1vkLZTIM2zC0PMCO
+ JxDoaEybZy2lFfNIVjnuSeKf5kzc1FV2n6WVQ2eCsfOjkGaxxkQ2rL3fSdDyL/zcy6
+ VSD4pH3QhWqbcaQVSG9JFH55LJ3VMRTuK6ip+whE=
+Date: Fri, 12 Nov 2021 14:02:21 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v6 01/10] target/ppc: introduce PMUEventType and PMU
+ overflow timers
+Message-ID: <YY3ZPV5C1O/gu9sj@yekko>
+References: <20211108225047.1733607-1-danielhb413@gmail.com>
+ <20211108225047.1733607-2-danielhb413@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20211111100351.2153662-5-philmd@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme710-chm.china.huawei.com (10.1.199.106) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -81
-X-Spam_score: -8.2
-X-Spam_bar: --------
-X-Spam_report: (-8.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.999,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="kWByZisSCvRJjMVH"
+Content-Disposition: inline
+In-Reply-To: <20211108225047.1733607-2-danielhb413@gmail.com>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,139 +59,249 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Andrew Jones <drjones@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: richard.henderson@linaro.org, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, matheus.ferst@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2021/11/11 18:03, Philippe Mathieu-Daudé wrote:
-> We can simply use a local variable (and pass its pointer) instead
-> of a pointer to a compound literal.
->
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+--kWByZisSCvRJjMVH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Nov 08, 2021 at 07:50:38PM -0300, Daniel Henrique Barboza wrote:
+> This patch starts an IBM Power8+ compatible PMU implementation by adding
+> the representation of PMU events that we are going to sample,
+> PMUEventType. This enum represents a Perf event that is being sampled by
+> a specific counter 'sprn'. Events that aren't available (i.e. no event
+> was set in MMCR1) will be of type 'PMU_EVENT_INVALID'. Other types added
+> in this patch are PMU_EVENT_CYCLES and PMU_EVENT_INSTRUCTIONS. More
+> types will be added later on.
+>=20
+> Let's also add the required PMU cycle overflow timers. They will be used
+> to trigger cycle overflows when cycle events are being sampled. This
+> timer will call cpu_ppc_pmu_timer_cb(), which in turn calls
+> fire_PMC_interrupt().  Both functions are stubs that will be implemented
+> later on when EBB support is added.
+>=20
+> Two new helper files are created to host this new logic.
+> cpu_ppc_pmu_init() will init all overflow timers during CPU init time.
+>=20
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
->   tests/unit/test-smp-parse.c | 64 ++++++++++++++++++-------------------
->   1 file changed, 32 insertions(+), 32 deletions(-)
-Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
-Tested-by: Yanan Wang <wangyanan55@huawei.com>
+>  hw/ppc/spapr_cpu_core.c |  6 +++++
+>  target/ppc/cpu.h        | 15 +++++++++++
+>  target/ppc/meson.build  |  1 +
+>  target/ppc/power8-pmu.c | 57 +++++++++++++++++++++++++++++++++++++++++
+>  target/ppc/power8-pmu.h | 25 ++++++++++++++++++
+>  5 files changed, 104 insertions(+)
+>  create mode 100644 target/ppc/power8-pmu.c
+>  create mode 100644 target/ppc/power8-pmu.h
+>=20
+> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+> index 58e7341cb7..45abffd891 100644
+> --- a/hw/ppc/spapr_cpu_core.c
+> +++ b/hw/ppc/spapr_cpu_core.c
+> @@ -20,6 +20,7 @@
+>  #include "target/ppc/kvm_ppc.h"
+>  #include "hw/ppc/ppc.h"
+>  #include "target/ppc/mmu-hash64.h"
+> +#include "target/ppc/power8-pmu.h"
+>  #include "sysemu/numa.h"
+>  #include "sysemu/reset.h"
+>  #include "sysemu/hw_accel.h"
+> @@ -266,6 +267,11 @@ static bool spapr_realize_vcpu(PowerPCCPU *cpu, Spap=
+rMachineState *spapr,
+>          return false;
+>      }
+> =20
+> +    /* Init PMU interrupt timer (TCG only) */
+> +    if (!kvm_enabled()) {
+> +        cpu_ppc_pmu_init(env);
 
-Thanks,
-Yanan
-> diff --git a/tests/unit/test-smp-parse.c b/tests/unit/test-smp-parse.c
-> index de6d226b455..83a5b8ffdcf 100644
-> --- a/tests/unit/test-smp-parse.c
-> +++ b/tests/unit/test-smp-parse.c
-> @@ -492,19 +492,19 @@ static void test_generic(void)
->       Object *obj = object_new(TYPE_MACHINE);
->       MachineState *ms = MACHINE(obj);
->       MachineClass *mc = MACHINE_GET_CLASS(obj);
-> -    SMPTestData *data = &(SMPTestData){{ }};
-> +    SMPTestData data = {};
->       int i;
->   
->       for (i = 0; i < ARRAY_SIZE(data_generic_valid); i++) {
-> -        *data = data_generic_valid[i];
-> -        unsupported_params_init(mc, data);
-> +        data = data_generic_valid[i];
-> +        unsupported_params_init(mc, &data);
->   
-> -        smp_parse_test(ms, data, true);
-> +        smp_parse_test(ms, &data, true);
->   
->           /* Unsupported parameters can be provided with their values as 1 */
-> -        data->config.has_dies = true;
-> -        data->config.dies = 1;
-> -        smp_parse_test(ms, data, true);
-> +        data.config.has_dies = true;
-> +        data.config.dies = 1;
-> +        smp_parse_test(ms, &data, true);
->       }
->   
->       /* Force invalid min CPUs and max CPUs */
-> @@ -512,10 +512,10 @@ static void test_generic(void)
->       mc->max_cpus = 511;
->   
->       for (i = 0; i < ARRAY_SIZE(data_generic_invalid); i++) {
-> -        *data = data_generic_invalid[i];
-> -        unsupported_params_init(mc, data);
-> +        data = data_generic_invalid[i];
-> +        unsupported_params_init(mc, &data);
->   
-> -        smp_parse_test(ms, data, false);
-> +        smp_parse_test(ms, &data, false);
->       }
->   
->       /* Reset the supported min CPUs and max CPUs */
-> @@ -530,47 +530,47 @@ static void test_with_dies(void)
->       Object *obj = object_new(TYPE_MACHINE);
->       MachineState *ms = MACHINE(obj);
->       MachineClass *mc = MACHINE_GET_CLASS(obj);
-> -    SMPTestData *data = &(SMPTestData){{ }};
-> +    SMPTestData data = {};
->       unsigned int num_dies = 2;
->       int i;
->   
->       mc->smp_props.dies_supported = true;
->   
->       for (i = 0; i < ARRAY_SIZE(data_generic_valid); i++) {
-> -        *data = data_generic_valid[i];
-> -        unsupported_params_init(mc, data);
-> +        data = data_generic_valid[i];
-> +        unsupported_params_init(mc, &data);
->   
->           /* when dies parameter is omitted, it will be set as 1 */
-> -        data->expect_prefer_sockets.dies = 1;
-> -        data->expect_prefer_cores.dies = 1;
-> +        data.expect_prefer_sockets.dies = 1;
-> +        data.expect_prefer_cores.dies = 1;
->   
-> -        smp_parse_test(ms, data, true);
-> +        smp_parse_test(ms, &data, true);
->   
->           /* when dies parameter is specified */
-> -        data->config.has_dies = true;
-> -        data->config.dies = num_dies;
-> -        if (data->config.has_cpus) {
-> -            data->config.cpus *= num_dies;
-> +        data.config.has_dies = true;
-> +        data.config.dies = num_dies;
-> +        if (data.config.has_cpus) {
-> +            data.config.cpus *= num_dies;
->           }
-> -        if (data->config.has_maxcpus) {
-> -            data->config.maxcpus *= num_dies;
-> +        if (data.config.has_maxcpus) {
-> +            data.config.maxcpus *= num_dies;
->           }
->   
-> -        data->expect_prefer_sockets.dies = num_dies;
-> -        data->expect_prefer_sockets.cpus *= num_dies;
-> -        data->expect_prefer_sockets.max_cpus *= num_dies;
-> -        data->expect_prefer_cores.dies = num_dies;
-> -        data->expect_prefer_cores.cpus *= num_dies;
-> -        data->expect_prefer_cores.max_cpus *= num_dies;
-> +        data.expect_prefer_sockets.dies = num_dies;
-> +        data.expect_prefer_sockets.cpus *= num_dies;
-> +        data.expect_prefer_sockets.max_cpus *= num_dies;
-> +        data.expect_prefer_cores.dies = num_dies;
-> +        data.expect_prefer_cores.cpus *= num_dies;
-> +        data.expect_prefer_cores.max_cpus *= num_dies;
->   
-> -        smp_parse_test(ms, data, true);
-> +        smp_parse_test(ms, &data, true);
->       }
->   
->       for (i = 0; i < ARRAY_SIZE(data_with_dies_invalid); i++) {
-> -        *data = data_with_dies_invalid[i];
-> -        unsupported_params_init(mc, data);
-> +        data = data_with_dies_invalid[i];
-> +        unsupported_params_init(mc, &data);
->   
-> -        smp_parse_test(ms, data, false);
-> +        smp_parse_test(ms, &data, false);
->       }
->   
->       object_unref(obj);
+AFAIK, the PMU should be universal in the cpu model, not tied to spapr
+specifically, so this looks like the wrong place to trigger the
+initialization.
 
+> +    }
+> +
+>      if (!sc->pre_3_0_migration) {
+>          vmstate_register(NULL, cs->cpu_index, &vmstate_spapr_cpu_state,
+>                           cpu->machine_data);
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index e946da5f3a..04ef9300af 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -296,6 +296,15 @@ typedef struct ppc_v3_pate_t {
+>      uint64_t dw1;
+>  } ppc_v3_pate_t;
+> =20
+> +/* PMU related structs and defines */
+> +#define PMU_COUNTERS_NUM 6
+> +#define PMU_TIMERS_NUM   (PMU_COUNTERS_NUM - 1) /* PMC5 doesn't count cy=
+cles */
+> +typedef enum {
+> +    PMU_EVENT_INVALID =3D 0,
+> +    PMU_EVENT_CYCLES,
+> +    PMU_EVENT_INSTRUCTIONS,
+> +} PMUEventType;
+> +
+>  /***********************************************************************=
+******/
+>  /* Machine state register bits definition                               =
+     */
+>  #define MSR_SF   63 /* Sixty-four-bit mode                            hf=
+lags */
+> @@ -1191,6 +1200,12 @@ struct CPUPPCState {
+>      uint32_t tm_vscr;
+>      uint64_t tm_dscr;
+>      uint64_t tm_tar;
+> +
+> +    /*
+> +     * Timers used to fire performance monitor alerts
+> +     * when counting cycles.
+> +     */
+> +    QEMUTimer *pmu_cyc_overflow_timers[PMU_TIMERS_NUM];
+>  };
+> =20
+>  #define SET_FIT_PERIOD(a_, b_, c_, d_)          \
+> diff --git a/target/ppc/meson.build b/target/ppc/meson.build
+> index b85f295703..a49a8911e0 100644
+> --- a/target/ppc/meson.build
+> +++ b/target/ppc/meson.build
+> @@ -51,6 +51,7 @@ ppc_softmmu_ss.add(when: 'TARGET_PPC64', if_true: files(
+>    'mmu-book3s-v3.c',
+>    'mmu-hash64.c',
+>    'mmu-radix64.c',
+> +  'power8-pmu.c',
+>  ))
+> =20
+>  target_arch +=3D {'ppc': ppc_ss}
+> diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
+> new file mode 100644
+> index 0000000000..3c2f73896f
+> --- /dev/null
+> +++ b/target/ppc/power8-pmu.c
+> @@ -0,0 +1,57 @@
+> +/*
+> + * PMU emulation helpers for TCG IBM POWER chips
+> + *
+> + *  Copyright IBM Corp. 2021
+> + *
+> + * Authors:
+> + *  Daniel Henrique Barboza      <danielhb413@gmail.com>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +
+> +#include "power8-pmu.h"
+> +#include "cpu.h"
+> +#include "helper_regs.h"
+> +#include "exec/exec-all.h"
+> +#include "exec/helper-proto.h"
+> +#include "qemu/error-report.h"
+> +#include "qemu/main-loop.h"
+> +#include "hw/ppc/ppc.h"
+> +
+> +#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
+> +
+> +static void fire_PMC_interrupt(PowerPCCPU *cpu)
+> +{
+> +    CPUPPCState *env =3D &cpu->env;
+> +
+> +    if (!(env->spr[SPR_POWER_MMCR0] & MMCR0_EBE)) {
+> +        return;
+> +    }
+> +
+> +    /* PMC interrupt not implemented yet */
+> +    return;
+> +}
+> +
+> +static void cpu_ppc_pmu_timer_cb(void *opaque)
+> +{
+> +    PowerPCCPU *cpu =3D opaque;
+> +
+> +    fire_PMC_interrupt(cpu);
+> +}
+> +
+> +void cpu_ppc_pmu_init(CPUPPCState *env)
+> +{
+> +    PowerPCCPU *cpu =3D env_archcpu(env);
+> +    int i;
+> +
+> +    for (i =3D 0; i < PMU_TIMERS_NUM; i++) {
+> +        env->pmu_cyc_overflow_timers[i] =3D timer_new_ns(QEMU_CLOCK_VIRT=
+UAL,
+> +                                                       &cpu_ppc_pmu_time=
+r_cb,
+> +                                                       cpu);
+> +    }
+> +}
+> +
+> +#endif /* defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY) */
+> diff --git a/target/ppc/power8-pmu.h b/target/ppc/power8-pmu.h
+> new file mode 100644
+> index 0000000000..49a813a443
+> --- /dev/null
+> +++ b/target/ppc/power8-pmu.h
+> @@ -0,0 +1,25 @@
+> +/*
+> + * PMU emulation helpers for TCG IBM POWER chips
+> + *
+> + *  Copyright IBM Corp. 2021
+> + *
+> + * Authors:
+> + *  Daniel Henrique Barboza      <danielhb413@gmail.com>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#ifndef POWER8_PMU
+> +#define POWER8_PMU
+> +
+> +#include "qemu/osdep.h"
+> +#include "cpu.h"
+> +#include "exec/exec-all.h"
+> +#include "exec/helper-proto.h"
+> +#include "qemu/error-report.h"
+> +#include "qemu/main-loop.h"
+> +
+> +void cpu_ppc_pmu_init(CPUPPCState *env);
+> +
+> +#endif
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--kWByZisSCvRJjMVH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGN2TsACgkQbDjKyiDZ
+s5IxsQ//VcRPe7CETUSkY/1e+YDfbMujjj6XbAuCSzXcZ2FOAl7EPKiHqgI2q4Zq
+0KhDn+On9aJUWVAWX0W0tL1F1U1y+HYQiPYci6kyKMfvonFtpz3Z2jOoybz+yFEz
+C3gSxHgNhp3eIBgoAewOkYOSle1XbNTN5bYPgi1f37aH//oTJFHDg7cGhfE7sH8W
+vIV3h9RLMo6gX6+IUZ43YuQMO4yLbA05HBALl6Zc9NqfclVnloT33ZXLEHhHegLF
+X8JueYUcDw7YEV1+1g5z7GBYHcQDy3xk9uZGrj52l0qhLe0INVdy1A9vXqgCRdPs
+Ljil/wFKpUxeyZGMKwTdtrtXNuKvq08+uJGTv6YEp4G8caBca/PcSqUvarqxgpfv
+m5WxrULC5HzOU57+0g7xrgIfhyj3i4zi2H1pMyzpL5amEOjUy4qTKtZmhkpubmwY
+DpWganUzkksALl+VQ1cCLNnLfGTrssmjjEieXVJa2UuKVoZkmY/DSDduUypzFPqN
+pSu0rT4K/s2FaVuV6ksrR4fMA/GP7VtB5SsoWphr/eLZCME4abWOMVY71BeQhF6e
+qWyE+1Z109wFdLpEMUqChTsbbISYpHlG3oAd9d68sT8GjudCS96sLbDAyNG9tzOY
+f2klYRRfL7e0ezmt7fFZ3m2jlSY8acR+nM7PfM1xkzjAI2XBioo=
+=ni8n
+-----END PGP SIGNATURE-----
+
+--kWByZisSCvRJjMVH--
 
