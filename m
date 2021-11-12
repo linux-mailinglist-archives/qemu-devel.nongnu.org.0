@@ -2,65 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0756744E043
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 03:26:11 +0100 (CET)
-Received: from localhost ([::1]:40724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C72B44E049
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 03:29:20 +0100 (CET)
+Received: from localhost ([::1]:42932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlMGY-0005j3-17
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 21:26:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57052)
+	id 1mlMJb-0007Ny-72
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 21:29:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1mlMFW-00052I-B7
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 21:25:06 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:45068 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1mlMFT-0006w9-Mk
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 21:25:06 -0500
-Received: from localhost.localdomain (unknown [10.20.42.11])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9CxudB00I1hL2kCAA--.5694S3;
- Fri, 12 Nov 2021 10:24:53 +0800 (CST)
-Subject: Re: [RFC PATCH v2 04/30] target/loongarch: Define exceptions for
- LoongArch.
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <1636594528-8175-1-git-send-email-yangxiaojuan@loongson.cn>
- <1636594528-8175-5-git-send-email-yangxiaojuan@loongson.cn>
- <0604327e-4434-8ebf-ecbf-b4e55dec5e78@linaro.org>
-From: yangxiaojuan <yangxiaojuan@loongson.cn>
-Message-ID: <4249cb0b-739c-0ca6-8a26-4edc0d45a572@loongson.cn>
-Date: Fri, 12 Nov 2021 10:24:52 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
- Thunderbird/45.4.0
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mlMIs-0006jV-Fe
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 21:28:34 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:3493)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mlMIo-0007Ni-GV
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 21:28:33 -0500
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Hr2Wj6ZrHzZcv6;
+ Fri, 12 Nov 2021 10:26:09 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.15; Fri, 12 Nov 2021 10:28:26 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.15; Fri, 12 Nov 2021 10:28:25 +0800
+Subject: Re: [PATCH-for-6.2 v3 3/6] tests/unit/test-smp-parse: Explicit
+ MachineClass name
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ <qemu-devel@nongnu.org>
+References: <20211111100351.2153662-1-philmd@redhat.com>
+ <20211111100351.2153662-4-philmd@redhat.com>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <fee6d60b-9070-7fbb-3275-cdd4aa7ee144@huawei.com>
+Date: Fri, 12 Nov 2021 10:28:24 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <0604327e-4434-8ebf-ecbf-b4e55dec5e78@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf9CxudB00I1hL2kCAA--.5694S3
-X-Coremail-Antispam: 1UD129KBjvdXoW7Gr48tFWkJF1DWF45XFyrZwb_yoWxAFX_JF
- 1UAr47CrZavF9rXr15Crn8Ar45Jw4qyFy0q3W8XrnxWrWUX3s7ta12qr95Aa45trykAF43
- Gr17JFWfCrn8XjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbfxFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
- 6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
- 4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
- 7VACjcxG62k0Y48FwI0_Jr0_Gr1lYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14
- v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAq
- YI8I648v4I1lc7I2V7IY0VAS07AlzVAYIcxG8wCY02Avz4vE-syl42xK82IYc2Ij64vIr4
- 1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK
- 67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI
- 8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAv
- wI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I
- 0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUsJ5rUUUUU=
-X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.999,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211111100351.2153662-4-philmd@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme712-chm.china.huawei.com (10.1.199.108) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -81
+X-Spam_score: -8.2
+X-Spam_bar: --------
+X-Spam_report: (-8.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.999,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,46 +70,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Song Gao <gaosong@loongson.cn>
+Cc: Thomas Huth <thuth@redhat.com>, Andrew Jones <drjones@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
 
-On 11/11/2021 09:36 PM, Richard Henderson wrote:
-> On 11/11/21 2:35 AM, Xiaojuan Yang wrote:
->> +++ b/target/loongarch/cpu.h
->> @@ -369,8 +369,21 @@ enum {
->>       EXCP_BREAK,
->>       EXCP_INE,
->>       EXCP_FPE,
->> -
->> -    EXCP_LAST = EXCP_FPE,
->> +    EXCP_IPE,
->> +    EXCP_TLBL,
->> +    EXCP_TLBS,
->> +    EXCP_INST_NOTAVAIL,
->> +    EXCP_TLBM,
->> +    EXCP_TLBPE,
->> +    EXCP_TLBNX,
->> +    EXCP_TLBNR,
->> +    EXCP_EXT_INTERRUPT,
->> +    EXCP_DBP,
->> +    EXCP_IBE,
->> +    EXCP_DBE,
->> +    EXCP_DINT,
->> +
->> +    EXCP_LAST = EXCP_DINT,
-> 
-> Surely this is (essentially) a duplicate of EXCCODE_*.
-> I think we should have only one copy of this.
-> 
+On 2021/11/11 18:03, Philippe Mathieu-Daudé wrote:
+> If the MachineClass::name pointer is not explicitly set, it is NULL.
+> Per the C standard, passing a NULL pointer to printf "%s" format is
+> undefined. Some implementations display it as 'NULL', other as 'null'.
+> Since we are comparing the formatted output, we need a stable value.
+> The easiest is to explicit a machine name string.
+>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>   tests/unit/test-smp-parse.c | 8 ++++++--
+>   1 file changed, 6 insertions(+), 2 deletions(-)
+>
+> diff --git a/tests/unit/test-smp-parse.c b/tests/unit/test-smp-parse.c
+> index 51670297bf9..de6d226b455 100644
+> --- a/tests/unit/test-smp-parse.c
+> +++ b/tests/unit/test-smp-parse.c
+> @@ -23,6 +23,8 @@
+>   #define MIN_CPUS 1   /* set the min CPUs supported by the machine as 1 */
+>   #define MAX_CPUS 512 /* set the max CPUs supported by the machine as 512 */
+>   
+> +#define SMP_MACHINE_NAME "TEST-SMP"
+> +
+>   /*
+>    * Used to define the generic 3-level CPU topology hierarchy
+>    *  -sockets/cores/threads
+> @@ -307,13 +309,13 @@ static struct SMPTestData data_generic_invalid[] = {
+>            * should tweak the supported min CPUs to 2 for testing */
+>           .config = SMP_CONFIG_GENERIC(T, 1, F, 0, F, 0, F, 0, F, 0),
+>           .expect_error = "Invalid SMP CPUs 1. The min CPUs supported "
+> -                        "by machine '(null)' is 2",
+> +                        "by machine '" SMP_MACHINE_NAME "' is 2",
+>       }, {
+>           /* config: -smp 512
+>            * should tweak the supported max CPUs to 511 for testing */
+>           .config = SMP_CONFIG_GENERIC(T, 512, F, 0, F, 0, F, 0, F, 0),
+>           .expect_error = "Invalid SMP CPUs 512. The max CPUs supported "
+> -                        "by machine '(null)' is 511",
+> +                        "by machine '" SMP_MACHINE_NAME "' is 511",
+>       },
+>   };
+>   
+> @@ -481,6 +483,8 @@ static void machine_class_init(ObjectClass *oc, void *data)
+>   
+>       mc->smp_props.prefer_sockets = true;
+>       mc->smp_props.dies_supported = false;
+> +
+> +    mc->name = g_strdup(SMP_MACHINE_NAME);
+I'm not very familiar with Qom code, so it may be a stupid question.
+The mc->name will be automatically freed elsewhere when all the
+testing is finished and exits, right? :)
+>   }
+>   
+>   static void test_generic(void)
+With my uncertainty clarified:
+Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
+Tested-by: Yanan Wang <wangyanan55@huawei.com>
 
-OK, I will use EXCCODE_* directly. Thanks
-
-Xiaojuan
-
-> 
-> r~
-
+Thanks,
+Yanan
 
