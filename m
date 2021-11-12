@@ -2,97 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C852A44E754
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 14:29:54 +0100 (CET)
-Received: from localhost ([::1]:46192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D07E44E76A
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 14:33:09 +0100 (CET)
+Received: from localhost ([::1]:49646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlWcr-0005Fd-Dn
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 08:29:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36406)
+	id 1mlWfs-0001FB-EF
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 08:33:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mlWb1-000412-GZ
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 08:27:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46556)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mlWaz-00010r-1U
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 08:27:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636723676;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dFzVPbMHKlplAqZ9XZ7dRJkRoxUC1hib/gV8XU6YgKs=;
- b=GWW4KmS5GLHtK1skBvOUOBnns+JJBg7wTyr5L61oGYPSO3B/dnze4eaZ8K2SSZjNu1vZcz
- Or5b5bDKZiUVDaqiH2BuvK4UdjmLYClZJdXtJ9v4PWcj44b3UD/ctfK1kMkjLsGEESnVpw
- nxeqTK6jMiEyOCcILKPlONgDMLFz1yQ=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-359-y38QPiVdObiKfUTjLd5XDw-1; Fri, 12 Nov 2021 08:27:55 -0500
-X-MC-Unique: y38QPiVdObiKfUTjLd5XDw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- l15-20020a056402124f00b003e57269ab87so1603004edw.6
- for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 05:27:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mlWdr-00082G-3v
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 08:30:55 -0500
+Received: from [2a00:1450:4864:20::430] (port=46051
+ helo=mail-wr1-x430.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mlWdp-0001M7-FB
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 08:30:54 -0500
+Received: by mail-wr1-x430.google.com with SMTP id w29so15484714wra.12
+ for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 05:30:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=maOtloYsjPfwyPevL6j/L4ahjAKq81+0olB2bsPdgh8=;
+ b=ARSTYnV1twIBbUGQ/APl6B6oSUPKNfisbxkzN3OOOFAg7p2gf1ujN9qN9UMynmWp11
+ eki74hUOFUEAEUb+8VClmoZWUU/pMN6pX2rzYAOqgm09jmjhpYG/Tem6eUnptYKBqMrS
+ LuVc5Kta8A9CB8uoKQ91fezDH6B0+45s3hhLx7NzYgoIWBmSQkdqzSl1kebqenaNJYa6
+ iv+473dyJkJBay2sDKq8IGydH/xzOG5XkVqaF+pqbDmengEBz/Tnc7i89dPH2EgCtJjg
+ Ifk4T5EgT6IWwbM42tUK/TKUD+SCoY6KgzLEKR+uLsnbLE/s9wFuiL5GcvQ9RmYeGG6l
+ FcKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dFzVPbMHKlplAqZ9XZ7dRJkRoxUC1hib/gV8XU6YgKs=;
- b=Vt6lwoN/xO/jMvgjPNtWYbREZIT5p/tSry97oB5rvoOAbO6cAIjGP0PwfO7adV+Nv/
- 3bllbqBKotnUREKHfAPN+iIayU7oBfbv+B1qfzknpsO4aFjNk9HH8ZFzWoHp2wAcYXar
- ak7zdhb8HvX5Kmh2sEt04VCsIjfI/r4hac9R2rUgrpzogVkdktKUTBdja1u9J7FXyZT8
- Hm87WI8hh39E7445cAkxZ8TXqwpmxK9nhqKOsWOk7YIiExtTQhQ82FReR11RlU069ICV
- N5rrL33QZebvkHqNb6d3ueD0rxlP4eGFrjjOYyRstmN/SsZ4wG6lC9+1yIaTDYc5yhWM
- h36w==
-X-Gm-Message-State: AOAM531S89iUx+53gGBLLSuB0TiEeWTuZVE8MGugpywoa6QtmpaOELZx
- uX+w8Rfmj/uF5A99rG/SKHFTrtKP75d4IkVGGepKd2jsKOCMCvZ8ZJDySJQSqR9RPuzSaHeX9f9
- K2+YkbISsSCJefEA=
-X-Received: by 2002:a17:906:6a0a:: with SMTP id
- qw10mr18891885ejc.547.1636723673927; 
- Fri, 12 Nov 2021 05:27:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx+CkdwbGCj3itKiwwddb0CjbZm2CsLjeoZlHZQ67i3YzOGlF6n2U4EcDnNa5vRellAznSlOQ==
-X-Received: by 2002:a17:906:6a0a:: with SMTP id
- qw10mr18891853ejc.547.1636723673651; 
- Fri, 12 Nov 2021 05:27:53 -0800 (PST)
-Received: from localhost ([185.140.112.229])
- by smtp.gmail.com with ESMTPSA id jg32sm2673956ejc.43.2021.11.12.05.27.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Nov 2021 05:27:52 -0800 (PST)
-Date: Fri, 12 Nov 2021 14:27:51 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v2] hw/arm/virt: Expose empty NUMA nodes through ACPI
-Message-ID: <20211112142751.4807ab50@redhat.com>
-In-Reply-To: <5180ecee-62e2-cd6f-d595-c7c29eff6039@redhat.com>
-References: <20211027052958.280741-1-gshan@redhat.com>
- <20211027174028.1f16fcfb@redhat.com>
- <fecb9351-ae78-8fcd-e377-623243ef80df@redhat.com>
- <20211101094431.71e1a50a@redhat.com>
- <47dc3a95-ed77-6c0e-d024-27cb22c338eb@redhat.com>
- <20211102073948.am3p3hcqqd3cfvru@gator.home>
- <b8ed4687-e30a-d70f-0816-bd8ba490ceb7@redhat.com>
- <20211110113304.2d713d4a@redhat.com>
- <5180ecee-62e2-cd6f-d595-c7c29eff6039@redhat.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=maOtloYsjPfwyPevL6j/L4ahjAKq81+0olB2bsPdgh8=;
+ b=fZmx/SQFb4vrRwNJcIfgJOEYNImGVVkk85t2mA8c3bgH2wY1fz6aTav190u9WrePlg
+ 7VuLpLaMjjla6V/7Hvutjz8P0/NRqaPl032cjqMnLhILk8zyEUQuU1FKN5yGgjH08Eqq
+ VdHHRV7ClolOt1zZ2O81Cj2C2C/xjecpU2w0jf/t7JI0f0cjAS5ab2DKG+SQiRVO4OSO
+ 7SNdoagFcQc8AS91KbMs4aPTpM2dBGH8+kwhQ8ZUpQG/PW8nPrhCQXQALb0c87myhvQB
+ +F2F9bA1D0silvonbbUkpjKevj9d4ZkyKL7YqHPhYT0LnX0G43jc9Y4Qwmw6Rpk2506g
+ 7+MQ==
+X-Gm-Message-State: AOAM533OUyJsytvBhwl4KORtFT7gZKLyvyJyQdaS3i9Gar7QqisgXGbP
+ e0TpJqRgTBGwrk2Q0LenfRjLXg==
+X-Google-Smtp-Source: ABdhPJx8F2Zajaec1O4Ez5zV2w4V6FGGvFZhKa3h/7ZnWC0iETjm753ZUfSTz4r2c9SxMnP4hI2bOg==
+X-Received: by 2002:a5d:5850:: with SMTP id i16mr18252200wrf.197.1636723851952; 
+ Fri, 12 Nov 2021 05:30:51 -0800 (PST)
+Received: from [192.168.8.106] (18.red-2-142-115.dynamicip.rima-tde.net.
+ [2.142.115.18])
+ by smtp.gmail.com with ESMTPSA id a141sm1564323wme.37.2021.11.12.05.30.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Nov 2021 05:30:51 -0800 (PST)
+Subject: Re: [PULL 0/3] ppc 6.2 queue
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+References: <20211112111543.2556837-1-clg@kaod.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <93cc3866-55dd-8bb6-82f9-cfd2b211617c@linaro.org>
+Date: Fri, 12 Nov 2021 14:30:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211112111543.2556837-1-clg@kaod.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.449,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,108 +91,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Andrew Jones <drjones@redhat.com>,
- Gavin Shan <gshan@redhat.com>, ehabkost@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- shan.gavin@gmail.com
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 10 Nov 2021 12:01:11 +0100
-David Hildenbrand <david@redhat.com> wrote:
+On 11/12/21 12:15 PM, Cédric Le Goater wrote:
+> The following changes since commit 0a70bcf18caf7a61d480f8448723c15209d128ef:
+> 
+>    Update version for v6.2.0-rc0 release (2021-11-09 18:22:57 +0100)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/legoater/qemu/ tags/pull-ppc-20211112
+> 
+> for you to fetch changes up to d139786e1b3d67991e6cb49a8a59bb2182350285:
+> 
+>    ppc/mmu_helper.c: do not truncate 'ea' in booke206_invalidate_ea_tlb() (2021-11-11 11:35:13 +0100)
+> 
+> ----------------------------------------------------------------
+> ppc 6.2 queue :
+> 
+> * Fix of a regression in floating point load instructions (Matheus)
+> * Associativity fix for pseries machine (Daniel)
+> * tlbivax fix for BookE machines (Danel)
+> 
+> ----------------------------------------------------------------
+> Daniel Henrique Barboza (2):
+>        spapr_numa.c: fix FORM1 distance-less nodes
+>        ppc/mmu_helper.c: do not truncate 'ea' in booke206_invalidate_ea_tlb()
+> 
+> Matheus Ferst (1):
+>        target/ppc: Fix register update on lf[sd]u[x]/stf[sd]u[x]
+> 
+>   hw/ppc/spapr_numa.c                | 62 +++++++++++++++++++-------------------
+>   target/ppc/mmu_helper.c            |  2 +-
+>   target/ppc/translate/fp-impl.c.inc |  2 +-
+>   3 files changed, 33 insertions(+), 33 deletions(-)
 
-> On 10.11.21 11:33, Igor Mammedov wrote:
-> > On Fri, 5 Nov 2021 23:47:37 +1100
-> > Gavin Shan <gshan@redhat.com> wrote:
-> >   
-> >> Hi Drew and Igor,
-> >>
-> >> On 11/2/21 6:39 PM, Andrew Jones wrote:  
-> >>> On Tue, Nov 02, 2021 at 10:44:08AM +1100, Gavin Shan wrote:    
-> >>>>
-> >>>> Yeah, I agree. I don't have strong sense to expose these empty nodes
-> >>>> for now. Please ignore the patch.
-> >>>>    
-> >>>
-> >>> So were describing empty numa nodes on the command line ever a reasonable
-> >>> thing to do? What happens on x86 machine types when describing empty numa
-> >>> nodes? I'm starting to think that the solution all along was just to
-> >>> error out when a numa node has memory size = 0...  
-> > 
-> > memory less nodes are fine as long as there is another type of device
-> > that describes  a node (apic/gic/...).
-> > But there is no way in spec to describe completely empty nodes,
-> > and I dislike adding out of spec entries just to fake an empty node.
-> >   
-> 
-> There are reasonable *upcoming* use cases for initially completely empty
-> NUMA nodes with virtio-mem: being able to expose a dynamic amount of
-> performance-differentiated memory to a VM. I don't know of any existing
-> use cases that would require that as of now.
-> 
-> Examples include exposing HBM or PMEM to the VM. Just like on real HW,
-> this memory is exposed via cpu-less, special nodes. In contrast to real
-> HW, the memory is hotplugged later (I don't think HW supports hotplug
-> like that yet, but it might just be a matter of time).
+Applied, thanks.
 
-I suppose some of that maybe covered by GENERIC_AFFINITY entries in SRAT
-some by MEMORY entries. Or nodes created dynamically like with normal
-hotplug memory.
-
-
-> The same should be true when using DIMMs instead of virtio-mem in this
-> example.
-> 
-> >   
-> >> Sorry for the delay as I spent a few days looking into linux virtio-mem
-> >> driver. I'm afraid we still need this patch for ARM64. I don't think x86  
-> > 
-> > does it behave the same way is using pc-dimm hotplug instead of virtio-mem?
-> > 
-> > CCing David
-> > as it might be virtio-mem issue.  
-> 
-> Can someone share the details why it's a problem on arm64 but not on
-> x86-64? I assume this really only applies when having a dedicated, empty
-> node -- correct?
-> 
-> > 
-> > PS:
-> > maybe for virtio-mem-pci, we need to add GENERIC_AFFINITY entry into SRAT
-> > and describe it as PCI device (we don't do that yet if I'm no mistaken).  
-> 
-> virtio-mem exposes the PXM itself, and avoids exposing it memory via any
-> kind of platform specific firmware maps. The PXM gets translated in the
-> guest accordingly. For now there was no need to expose this in SRAT --
-> the SRAT is really only used to expose the maximum possible PFN to the
-> VM, just like it would have to be used to expose "this is a possible node".
-> 
-> Of course, we could use any other paravirtualized interface to expose
-> both information. For example, on s390x, I'll have to introduce a new
-> hypercall to query the "device memory region" to detect the maximum
-> possible PFN, because existing interfaces don't allow for that. For now
-> we're ruinning SRAT to expose "maximum possible PFN" simply because it's
-> easy to re-use.
-> 
-> But I assume that hotplugging a DIMM to an empty node will have similar
-> issues on arm64.
-> 
-> >   
-> >> has this issue even though I didn't experiment on X86. For example, I
-> >> have the following command lines. The hot added memory is put into node#0
-> >> instead of node#2, which is wrong.  
-> 
-> I assume Linux will always fallback to node 0 if node X is not possible
-> when translating the PXM.
-
-I tested how x86 behaves, with pc-dimm, and it seems that
-fc43 guest works only sometimes.
-cmd:
-  -numa node,memdev=mem,cpus=0 -numa node,cpus=1 -numa node -numa node
-
-1: hotplug into the empty last node creates a new node dynamically 
-2: hotplug into intermediate empty node (last-1) is broken, memory goes into the first node
-
-We should check if it possible to fix guest instead of adding bogus SRAT entries.
+r~
 
 
