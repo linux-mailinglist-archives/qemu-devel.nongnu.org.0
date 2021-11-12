@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68B1044E77A
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 14:36:24 +0100 (CET)
-Received: from localhost ([::1]:52432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B87444E7B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 14:43:34 +0100 (CET)
+Received: from localhost ([::1]:56988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlWj9-0004Xk-C9
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 08:36:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37628)
+	id 1mlWq4-0007o6-Sy
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 08:43:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mlWgz-0002m5-GH
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 08:34:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56655)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mlWmX-0006LN-K6
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 08:39:53 -0500
+Received: from 4.mo552.mail-out.ovh.net ([178.33.43.201]:60509)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mlWgy-0001lK-79
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 08:34:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636724046;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Ldp9kCiPeydNgVBLIGoux5HNCLclk8NgTLxVPgoZYiw=;
- b=gWVppbpU7jDvlB6o/SOiqyxUslkDwrDu4wP+yQKM0PTBst9bgmhyPtSgocMwKQ7BPpzNs7
- b3h9r6O1T0KpoqKAXkYrK9tJlpshuOEjOWhpOOBh+d5ruQ3JACvITmgszIspeCx3m/QdFM
- Q78L0WVs41Tkk4zQ9CBTUpAXzTi5+0k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-T9ykIdPiP6Od6HXnXH41HQ-1; Fri, 12 Nov 2021 08:34:01 -0500
-X-MC-Unique: T9ykIdPiP6Od6HXnXH41HQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F17881082FA1;
- Fri, 12 Nov 2021 13:33:59 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 936AF10023B8;
- Fri, 12 Nov 2021 13:33:59 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1192011380A7; Fri, 12 Nov 2021 14:33:58 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: does drive_get_next(IF_NONE) make sense?
-References: <CAFEAcA9zmPds0+jHm8VY465XEhK6bbVPd+nDob1ruRPaHOua_Q@mail.gmail.com>
- <87r1bxzl5c.fsf@dusky.pond.sub.org>
- <e7ec3afc-6db9-822e-5a5e-dee7c4db8f34@redhat.com>
-Date: Fri, 12 Nov 2021 14:33:58 +0100
-In-Reply-To: <e7ec3afc-6db9-822e-5a5e-dee7c4db8f34@redhat.com> (Thomas Huth's
- message of "Wed, 3 Nov 2021 10:19:26 +0100")
-Message-ID: <87pmr5cxbt.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mlWmU-0002La-MW
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 08:39:53 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.210])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id B42FD21DE0;
+ Fri, 12 Nov 2021 13:39:47 +0000 (UTC)
+Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Fri, 12 Nov
+ 2021 14:39:46 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R00630c9dee5-19f8-4b6b-bacf-fb5b5be588ff,
+ F9CF0200ECD1631E1678AE6CCE6AA99FD507468A) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <abb852e2-32f4-aefa-b7d0-9cac4c43a372@kaod.org>
+Date: Fri, 12 Nov 2021 14:39:46 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PULL 03/54] target/ppc: Move load and store floating point
+ instructions to decodetree
+Content-Language: en-US
+To: Laurent Vivier <laurent@vivier.eu>, David Gibson
+ <david@gibson.dropbear.id.au>, <peter.maydell@linaro.org>,
+ <danielhb413@gmail.com>, <groug@kaod.org>, Mark Cave-Ayland
+ <mark.cave-ayland@ilande.co.uk>
+References: <20211109055204.230765-1-david@gibson.dropbear.id.au>
+ <20211109055204.230765-4-david@gibson.dropbear.id.au>
+ <fed70819-21be-b375-b2b8-2c34618f3d11@vivier.eu>
+ <e69dd6b9-dc86-7887-8374-0caa196705ce@kaod.org>
+ <26f2b736-bcc7-488c-6f0a-34bacd7dbc70@vivier.eu>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <26f2b736-bcc7-488c-6f0a-34bacd7dbc70@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: b66c0050-ebc0-44e9-b753-a8e7aa7eb79a
+X-Ovh-Tracer-Id: 7972215767573171192
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrvdefgdehudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuveelvdejteegteefieevfeetffefvddvieekteevleefgeelgfeutedvfedvfeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=178.33.43.201; envelope-from=clg@kaod.org;
+ helo=4.mo552.mail-out.ovh.net
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.449,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,24 +77,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Qemu-block <qemu-block@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Hao Wu <wuhaotsh@google.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Fernando Eckhardt Valle <phervalle@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Fernando Eckhardt Valle <fernando.valle@eldorado.org.br>, qemu-ppc@nongnu.org,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thomas Huth <thuth@redhat.com> writes:
+On 11/10/21 18:04, Laurent Vivier wrote:
+> On 10/11/2021 17:56, Cédric Le Goater wrote:
+>> On 11/10/21 17:33, Laurent Vivier wrote:
+>>> On 09/11/2021 06:51, David Gibson wrote:
+>>>> From: Fernando Eckhardt Valle <phervalle@gmail.com>
+>>>>
+>>>> Move load floating point instructions (lfs, lfsu, lfsx, lfsux, lfd, lfdu, lfdx, lfdux)
+>>>> and store floating point instructions(stfs, stfsu, stfsx, stfsux, stfd, stfdu, stfdx,
+>>>> stfdux) from legacy system to decodetree.
+>>>>
+>>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>>> Signed-off-by: Fernando Eckhardt Valle <fernando.valle@eldorado.org.br>
+>>>> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>>>> Message-Id: <20211029202424.175401-4-matheus.ferst@eldorado.org.br>
+>>>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+>>>> ---
+>>>>   target/ppc/insn32.decode           |  24 +++
+>>>>   target/ppc/translate/fp-impl.c.inc | 247 +++++++++--------------------
+>>>>   target/ppc/translate/fp-ops.c.inc  |  29 ----
+>>>>   3 files changed, 95 insertions(+), 205 deletions(-)
+>>>>
+>>>
+>>> This patch breaks qemu linux-user with an ubuntu bionic chroot.
+>>>
+>>> The fix proposed by Matheus [1] fixes it for me.
+>>> When will it be merged?
+>>> It's needed in 6.2
+>>
+>>
+>> It's queued for 6.2 :
+>>
+>>    https://github.com/legoater/qemu/commits/ppc-6.2
+>>
+>> I wanted to wait the end of the week before sending a PR. Unless
+>> this is critical for you of course.
+> 
+> Not it's not critical. It can wait the end of the week.
 
-> On 03/11/2021 09.41, Markus Armbruster wrote:
->> Peter Maydell <peter.maydell@linaro.org> writes:
->> 
->>> Does it make sense for a device/board to do drive_get_next(IF_NONE) ?
->> Short answer: hell, no!  ;)
->
-> Would it make sense to add an "assert(type != IF_NONE)" to drive_get()
-> to avoid such mistakes in the future?
+It's merged.
 
-Worth a try.
+Thanks,
 
+C.
+  
 
