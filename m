@@ -2,84 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB7BE44E574
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 12:14:29 +0100 (CET)
-Received: from localhost ([::1]:46900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A00D744E577
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 12:18:14 +0100 (CET)
+Received: from localhost ([::1]:53684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlUVo-0003Et-Rq
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 06:14:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38238)
+	id 1mlUZR-0007sz-Og
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 06:18:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1mlURz-0005AY-Eb; Fri, 12 Nov 2021 06:10:36 -0500
-Received: from [2a02:6b8:0:1472:2741:0:8b6:217] (port=51962
- helo=forwardcorp1p.mail.yandex.net)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mlUWx-0005GM-Hf
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 06:15:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1mlURu-0006Pa-NT; Fri, 12 Nov 2021 06:10:30 -0500
-Received: from iva8-d2cd82b7433e.qloud-c.yandex.net
- (iva8-d2cd82b7433e.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:a88e:0:640:d2cd:82b7])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 8D48E2E1265;
- Fri, 12 Nov 2021 14:10:20 +0300 (MSK)
-Received: from myt6-10e59078d438.qloud-c.yandex.net
- (myt6-10e59078d438.qloud-c.yandex.net [2a02:6b8:c12:5209:0:640:10e5:9078])
- by iva8-d2cd82b7433e.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- EmzLDz0AFM-AJs4Nk5n; Fri, 12 Nov 2021 14:10:20 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1636715420; bh=J8mlaB4OTznuEBlxYpowCxnMo45igcw4N9gQfvFWiPY=;
- h=In-Reply-To:Subject:To:From:Message-ID:Cc:References:Date;
- b=nTAva20WKylM706AlMWrCnY4Ev80mdZeJm7vV71Pk0u7TiEhkMVMH4qaFEpbMTa6k
- i/hOiXKXyo9fMVBIT2ezwOlKa4DTBS7rD2fj1tEdSBpS7sGOWNS8kW1XWEOKcu6RUO
- HONCRk1yLmVGynPAPVy9h3kXwOCMMmOcanQfvSls=
-Authentication-Results: iva8-d2cd82b7433e.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from rvkaganb.lan (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b081:1211::1:29])
- by myt6-10e59078d438.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPS id
- booG69A0BB-AIwWW7lh; Fri, 12 Nov 2021 14:10:19 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-X-Yandex-Fwd: 2
-Date: Fri, 12 Nov 2021 14:10:17 +0300
-From: Roman Kagan <rvkagan@yandex-team.ru>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 05/10] vhost-backend: avoid overflow on memslots_limit
-Message-ID: <YY5LmZtVBzX+PpYm@rvkaganb.lan>
-Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Hanna Reitz <hreitz@redhat.com>, yc-core@yandex-team.ru,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20211111153354.18807-1-rvkagan@yandex-team.ru>
- <20211111153354.18807-6-rvkagan@yandex-team.ru>
- <681e58cf-af57-3c5d-423d-49f32c86dfcf@redhat.com>
- <YY4b5rZLB9151ZSN@rvkaganb.lan> <YY46QcVhFa2qEMcB@redhat.com>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mlUWv-000764-Nm
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 06:15:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636715737;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=eFUJuemGpZi+MWRaqnbmU1c3l4SJA2ly6CZz2LQQdSo=;
+ b=JTRVBT5nEPADU/nnpu1DUIi5TdVraXLFhbjLG9b68YHLXFiTlNS8njt2D1x+ip4eW4CbBp
+ mVGywrvPHgPXbLLlFESQEY50K70neD3Fx+Ih0OjSUdI/9/DayO2O+Krwo9mt4b0GIWAWaA
+ 57cjuHL35MFz/kmVzPgd7Ao91etCOt8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-201-ka-kWVTcPuyRVq9LfawanA-1; Fri, 12 Nov 2021 06:15:34 -0500
+X-MC-Unique: ka-kWVTcPuyRVq9LfawanA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37EAA875047
+ for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 11:15:33 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.193.245])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C641577E26;
+ Fri, 12 Nov 2021 11:15:29 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 1576718003BE; Fri, 12 Nov 2021 12:15:28 +0100 (CET)
+Date: Fri, 12 Nov 2021 12:15:28 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH 0/6] RfC: try improve native hotplug for pcie root ports
+Message-ID: <20211112111528.i43jhiybvwc2eyfz@sirius.home.kraxel.org>
+References: <20211011120504.254053-1-kraxel@redhat.com>
+ <20211110065942-mutt-send-email-mst@kernel.org>
+ <20211111075306.7dvpzewgclsddku6@sirius.home.kraxel.org>
+ <20211111031646-mutt-send-email-mst@kernel.org>
+ <20211111093425.6x2a37npcnnewdis@sirius.home.kraxel.org>
+ <20211111120905.ozy5iucoqjhhoc72@sirius.home.kraxel.org>
+ <20211111103354-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+In-Reply-To: <20211111103354-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YY46QcVhFa2qEMcB@redhat.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for
- 2a02:6b8:0:1472:2741:0:8b6:217 (failed)
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,53 +83,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Raphael Norwitz <raphael.norwitz@nutanix.com>, Hanna Reitz <hreitz@redhat.com>,
- yc-core@yandex-team.ru, Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 12, 2021 at 09:56:17AM +0000, Daniel P. Berrangé wrote:
-> On Fri, Nov 12, 2021 at 10:46:46AM +0300, Roman Kagan wrote:
-> > On Thu, Nov 11, 2021 at 06:59:43PM +0100, Philippe Mathieu-Daudé wrote:
-> > > On 11/11/21 16:33, Roman Kagan wrote:
-> > > > Fix the (hypothetical) potential problem when the value parsed out of
-> > > > the vhost module parameter in sysfs overflows the return value from
-> > > > vhost_kernel_memslots_limit.
-> > > > 
-> > > > Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
-> > > > ---
-> > > >  hw/virtio/vhost-backend.c | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
-> > > > index b65f8f7e97..44f7dbb243 100644
-> > > > --- a/hw/virtio/vhost-backend.c
-> > > > +++ b/hw/virtio/vhost-backend.c
-> > > > @@ -58,7 +58,7 @@ static int vhost_kernel_memslots_limit(struct vhost_dev *dev)
-> > > >      if (g_file_get_contents("/sys/module/vhost/parameters/max_mem_regions",
-> > > >                              &s, NULL, NULL)) {
-> > > >          uint64_t val = g_ascii_strtoull(s, NULL, 10);
-> > > 
-> > > Would using qemu_strtou64() simplify this?
+On Thu, Nov 11, 2021 at 10:39:59AM -0500, Michael S. Tsirkin wrote:
+> On Thu, Nov 11, 2021 at 01:09:05PM +0100, Gerd Hoffmann wrote:
+> >   Hi,
 > > 
-> > I'm afraid not.  None of the existing strtoXX converting functions has
-> > the desired output range (0 < retval < INT_MAX), so the following
-> > condition will remain necessary anyway; then it doesn't seem to matter
-> > which particular parser is used to extract the value which is in the
-> > range, so I left the one that was already there to reduce churn.
-> 
-> If  qemu_strtou64() can't handle all values in (0 < retval < INT_MAX)
-> isn't that a bug in qemu_strtou64 ?
+> > > When the acpihp driver is used the linux kernel will just call the aml
+> > > methods and I suspect the pci device will stay invisible then because
+> > > nobody flips the slot power control bit (with native-hotplug=on, for
+> > > native-hotplug=off this isn't a problem of course).
+> > 
+> > Hmm, on a quick smoke test with both patch series (mine + igors) applied
+> > everything seems to work fine on a quick glance.  Dunno why.  Maybe the
+> > pcieport driver turns on slot power even in case pciehp is not active.
 
-I must have been unclear.  It sure can handle all values in this range;
-the point is that the range check after it would still be needed, so
-switching from g_ascii_strtoull to qemu_strtoXX saves nothing, therefore
-I left it as it was.
+Digged deeper.  Updating power status is handled by the plug() callback,
+which is never called in case acpi hotplug is active.  The guest seems
+to never touch slot power control either, so it's working fine.  Still
+feels a bit fragile though.
 
-Thanks,
-Roman.
+> Well power and hotplug capabilities are mostly unrelated, right?
+
+At least they are separate slot capabilities.  The linux pciehp driver
+checks whenever the power control is present before using it, so having
+PwrCtrl- HotPlug+ seems to be a valid combination.
+
+We even have an option for that: pcie-root-port.power_controller_present
+
+So flipping that to off in case apci hotplug is active should make sure
+we never run into trouble with pci devices being powered off.
+
+Igor?  Can you add that to your patch series?
+
+> I feel switching to native so late would be inappropriate, looks more
+> like a feature than a bugfix. Given that - we need Igor's patches.
+> Given that - would you say I should apply yours?
+
+I think when setting power_controller_present=off for acpi hotplug it is
+safe to merge both mine and igor's.
+
+take care,
+  Gerd
+
 
