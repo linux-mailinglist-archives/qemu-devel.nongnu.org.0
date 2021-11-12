@@ -2,78 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 060F244EDA9
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 21:00:58 +0100 (CET)
-Received: from localhost ([::1]:59696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5575B44EDFB
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 21:40:37 +0100 (CET)
+Received: from localhost ([::1]:51516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlcjD-0007WZ-Ja
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 15:00:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36322)
+	id 1mldLg-0000dO-0i
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 15:40:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1mlchv-0006g0-Gm; Fri, 12 Nov 2021 14:59:32 -0500
-Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:39360)
+ id 1mldKS-0008N5-4L
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 15:39:20 -0500
+Received: from [2a02:6b8:0:1472:2741:0:8b6:217] (port=40856
+ helo=forwardcorp1p.mail.yandex.net)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1mlchn-0002du-AQ; Fri, 12 Nov 2021 14:59:28 -0500
-Received: from sas1-4cbebe29391b.qloud-c.yandex.net
- (sas1-4cbebe29391b.qloud-c.yandex.net
- [IPv6:2a02:6b8:c08:789:0:640:4cbe:be29])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 41FA32E1273;
- Fri, 12 Nov 2021 22:59:18 +0300 (MSK)
-Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
- (myt5-70c90f7d6d7d.qloud-c.yandex.net [2a02:6b8:c12:3e2c:0:640:70c9:f7d])
- by sas1-4cbebe29391b.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- rhOtb5Vzff-xGsaqB15; Fri, 12 Nov 2021 22:59:18 +0300
-Precedence: bulk
+ id 1mldKN-0007iA-Gw
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 15:39:18 -0500
+Received: from vla1-a78d115f8d22.qloud-c.yandex.net
+ (vla1-a78d115f8d22.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0d:2906:0:640:a78d:115f])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id AFC602E1272;
+ Fri, 12 Nov 2021 23:39:09 +0300 (MSK)
+Received: from vla5-d6d5ce7a4718.qloud-c.yandex.net
+ (vla5-d6d5ce7a4718.qloud-c.yandex.net [2a02:6b8:c18:341e:0:640:d6d5:ce7a])
+ by vla1-a78d115f8d22.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ uPXVCxPvCp-d9suoWJ7; Fri, 12 Nov 2021 23:39:09 +0300
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1636747158; bh=EyVHS8E4c2j7QyDfgjw3yvYNlFMalNlDirV6vad05Dg=;
+ t=1636749549; bh=+YPp49mlvnOWmu13OU3H2BKA73rQ0rKBTzdu3YPETF0=;
  h=In-Reply-To:Subject:To:From:Message-ID:Cc:References:Date;
- b=bZEBb9t6jiXNVs08HIiKYysfVCgtawF9IsHuDHvRwjc0pd/yjvrwfZJ2cte3fOye5
- x9dlLcCAMJWwa0vnhldq8JzWhmZPuaD4mE/qcgkHPUX7me8gS7V7gqhXh/X8IdDCK3
- Xt9/Q7egF3IXh1fHhKyyGGp8mmp+/1iyfI0swCtI=
-Authentication-Results: sas1-4cbebe29391b.qloud-c.yandex.net;
+ b=u3kN1EGcB8t/jBDNe4+9CVH8w73CV0yAqxCJSkrOGFnsH/BDhG9NXr5Pwq+/03j9j
+ JZfz6RJpe0wHEDl7/OZdan/cFJs00hbgr8oBdmTI9yGcsIdwbuVG1A3OkOuXGNzie1
+ i1HQlsEQg3OGg8Icup+2w65mzYJPC6JLuxQVTT8A=
+Authentication-Results: vla1-a78d115f8d22.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 Received: from rvkaganb.lan (dynamic-vpn.dhcp.yndx.net
  [2a02:6b8:b081:1206::1:19])
- by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPS id
- sDrSepsqEf-xGxaQYeL; Fri, 12 Nov 2021 22:59:16 +0300
+ by vla5-d6d5ce7a4718.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPS id
+ kBSkBxChz7-d9xmoDod; Fri, 12 Nov 2021 23:39:09 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 X-Yandex-Fwd: 2
-Date: Fri, 12 Nov 2021 22:59:14 +0300
+Date: Fri, 12 Nov 2021 23:39:07 +0300
 From: Roman Kagan <rvkagan@yandex-team.ru>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 01/10] vhost-user-blk: reconnect on any error during
- realize
-Message-ID: <YY7Hkl0uftx8TPZS@rvkaganb.lan>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v4 0/1] hw/hyperv/vmbus: Is it maintained?
+Message-ID: <YY7Q62ltAyfAUYJp@rvkaganb.lan>
 Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
- Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, yc-core@yandex-team.ru,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20211111153354.18807-1-rvkagan@yandex-team.ru>
- <20211111153354.18807-2-rvkagan@yandex-team.ru>
- <YY1YXrCPgt+Fcb2+@redhat.com> <YY4aGok6e8Z6BRQu@rvkaganb.lan>
- <YY5SF0uPkoEvX9qM@redhat.com>
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Jon Doron <arilou@gmail.com>,
+ qemu-trivial@nongnu.org, Roman Kagan <rkagan@virtuozzo.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Maciej S . Szmigiero" <maciej.szmigiero@oracle.com>,
+ "Denis V. Lunev" <den@openvz.org>
+References: <20211106134155.582312-1-philmd@redhat.com>
+ <54b75db4-8867-d1ee-e32c-bc3e4c23ec28@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <YY5SF0uPkoEvX9qM@redhat.com>
-Received-SPF: pass client-ip=77.88.29.217; envelope-from=rvkagan@yandex-team.ru;
- helo=forwardcorp1p.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <54b75db4-8867-d1ee-e32c-bc3e4c23ec28@virtuozzo.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for
+ 2a02:6b8:0:1472:2741:0:8b6:217 (failed)
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,74 +87,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>, yc-core@yandex-team.ru,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
+Cc: Jon Doron <arilou@gmail.com>, qemu-trivial@nongnu.org,
+ qemu-devel@nongnu.org, Roman Kagan <rkagan@virtuozzo.com>,
+ "Denis V. Lunev" <den@openvz.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Maciej S . Szmigiero" <maciej.szmigiero@oracle.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 12, 2021 at 12:37:59PM +0100, Kevin Wolf wrote:
-> Am 12.11.2021 um 08:39 hat Roman Kagan geschrieben:
-> > On Thu, Nov 11, 2021 at 06:52:30PM +0100, Kevin Wolf wrote:
-> > > Am 11.11.2021 um 16:33 hat Roman Kagan geschrieben:
-> > > > vhost-user-blk realize only attempts to reconnect if the previous
-> > > > connection attempt failed on "a problem with the connection and not an
-> > > > error related to the content (which would fail again the same way in the
-> > > > next attempt)".
-> > > > 
-> > > > However this distinction is very subtle, and may be inadvertently broken
-> > > > if the code changes somewhere deep down the stack and a new error gets
-> > > > propagated up to here.
-> > > > 
-> > > > OTOH now that the number of reconnection attempts is limited it seems
-> > > > harmless to try reconnecting on any error.
-> > > > 
-> > > > So relax the condition of whether to retry connecting to check for any
-> > > > error.
-> > > > 
-> > > > This patch amends a527e312b5 "vhost-user-blk: Implement reconnection
-> > > > during realize".
-> > > > 
-> > > > Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
-> > > 
-> > > It results in less than perfect error messages. With a modified export
-> > > that just crashes qemu-storage-daemon during get_features, I get:
-> > > 
-> > > qemu-system-x86_64: -device vhost-user-blk-pci,chardev=c: Failed to read msg header. Read 0 instead of 12. Original request 1.
-> > > qemu-system-x86_64: -device vhost-user-blk-pci,chardev=c: Reconnecting after error: vhost_backend_init failed: Protocol error
-> > > qemu-system-x86_64: -device vhost-user-blk-pci,chardev=c: Reconnecting after error: Failed to connect to '/tmp/vsock': Connection refused
-> > > qemu-system-x86_64: -device vhost-user-blk-pci,chardev=c: Reconnecting after error: Failed to connect to '/tmp/vsock': Connection refused
-> > > qemu-system-x86_64: -device vhost-user-blk-pci,chardev=c: Failed to connect to '/tmp/vsock': Connection refused
+On Fri, Nov 12, 2021 at 09:32:31PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> Add Den and Roman (his new address)
+
+Thanks, I missed it on the list indeed.
+
+> 06.11.2021 16:41, Philippe Mathieu-Daudé wrote:
+> > This is the 4th time I send this patch. Is the VMBus infrastructure
+> > used / maintained? Should we deprecate & remove?
+
+I think it's fair to say it's not maintained.  The whole
+hw/hyperv/vmbus.c was submitted as a part of the work by Jon to enable
+some obscure windows debugging feature which only worked in presence of
+VMBus.  It was mostly taken from the respective branch of the (now
+effectively abandoned) downstream tree with an implementation of the
+core VMBus infrastructure and the devices using it; however, none of the
+actual VMBus devices ever made it into the mainline tree.
+
 > > 
-> > This patch doesn't change any error messages.  Which ones specifically
-> > became less than perfect as a result of this patch?
-> 
-> But it adds error messages (for each retry), which are different from
-> the first error message. As I said this is not the end of the world, but
-> maybe a bit more confusing.
-
-Ah, now I see what you mean: it adds reconnection attempts where there
-used to be immediate failure return, so now every failed attempt logs
-its own message.
-
-> > > I guess this might be tolerable. On the other hand, the patch doesn't
-> > > really fix anything either, but just gets rid of possible subtleties.
+> >    $ ./scripts/get_maintainer.pl -f hw/hyperv/vmbus.c -f include/hw/hyperv/vmbus.h
+> >    get_maintainer.pl: No maintainers found
 > > 
-> > The remaining patches in the series make other errors beside -EPROTO
-> > propagate up to this point, and some (most) of them are retryable.  This
-> > was the reason to include this patch at the beginning of the series (I
-> > guess I should've mentioned that in the patch log).
-> 
-> I see. I hadn't looked at the rest of the series yet because I ran out
-> of time, but now that I'm skimming them, I see quite a few places that
-> use non-EPROTO, but I wonder which of them actually should be
-> reconnected. So far all I saw were presumably persistent errors where a
-> retry won't help. Can you give me some examples?
+> > Philippe Mathieu-Daudé (1):
+> >    hw/hyperv/vmbus: Remove unused vmbus_load/save_req()
+> > 
+> >   include/hw/hyperv/vmbus.h |  3 --
+> >   hw/hyperv/vmbus.c         | 59 ---------------------------------------
+> >   2 files changed, 62 deletions(-)
 
-E.g. the particular case you mention earlier, -ECONNREFUSED, is not
-unlikely to happen due to the vhost-user server restart for maintenance;
-in this case retying looks like a reasonable thing to do, doesn't it?
+This seems to basically be the revert of 4dd8a7064b "vmbus: add
+infrastructure to save/load vmbus requests"; it was originally meant to
+be submitted with the code that would use it, vmbus scsi controller, but
+that never happened.  It believe it's safe to remove without affecting
+Jon's work, but I'd rather check with him.
 
 Thanks,
 Roman.
