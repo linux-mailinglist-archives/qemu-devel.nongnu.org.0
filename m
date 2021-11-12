@@ -2,46 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 834B644E247
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 08:14:57 +0100 (CET)
-Received: from localhost ([::1]:60686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1387944E248
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 08:16:08 +0100 (CET)
+Received: from localhost ([::1]:34468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlQm0-0005jx-Hv
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 02:14:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47856)
+	id 1mlQn9-00078k-76
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 02:16:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mlQZa-0002ic-Ez
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 02:02:06 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:51478 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mlQZX-0000Ir-Oz
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 02:02:06 -0500
-Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9CxydCRD45hHoQCAA--.6006S28; 
- Fri, 12 Nov 2021 14:54:57 +0800 (CST)
-From: Song Gao <gaosong@loongson.cn>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v10 26/26] scripts: add loongarch64 binfmt config
-Date: Fri, 12 Nov 2021 14:54:09 +0800
-Message-Id: <1636700049-24381-27-git-send-email-gaosong@loongson.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1636700049-24381-1-git-send-email-gaosong@loongson.cn>
-References: <1636700049-24381-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9CxydCRD45hHoQCAA--.6006S28
-X-Coremail-Antispam: 1UD129KBjvJXoW7Zw4xCw4fGw47uw48uFWfXwb_yoW8WF4Dpr
- 15A3W8CF4jg3WUA3WkXw13Gr1DJr1Ykas7Xr43tr1UAF15tw1rZr1fJr18J3WDJF4UJF1j
- 9F95Ja1DJF4IkF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mlQlM-0005im-1P
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 02:14:18 -0500
+Received: from [2a00:1450:4864:20::435] (port=45046
+ helo=mail-wr1-x435.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mlQlK-0001sD-Jj
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 02:14:15 -0500
+Received: by mail-wr1-x435.google.com with SMTP id n29so13857221wra.11
+ for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 23:14:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=8oMzq9xtuA+Mva9yi0wpA3o9ClRLIrnmOhkLoHwnO9M=;
+ b=xA22sG3Vxa8j5q+hqcQN2QBFdZhH7J+/6T4xOv4Zd75B0/h1qBE4X8WxO8BFZ/AhzZ
+ WXUqd/WDvrinFSwNoMbD8Jhuo8+8f7nD/eVwl9615iih7pEADqWVOG8NBJlYgW645DaZ
+ 52Z+tqGbKp/CIiIKqXFcamnW1R4dxXVX4FmV3pjQMfSqbSBR4w3t3cu1b7jlFYUm+4wH
+ ZdaWA8OBG9jMdpRqkHOQLE7e7FfySx6AeIxowYXD60OPJZvj2jj8la4LgJE7uprOTn3K
+ oDvF7gqQLPToT6NuJKWVdKdyG3RnEDg318RkBJiahGoGxX5eqKhCqT/+M0DPUiq7CrKE
+ 0XGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8oMzq9xtuA+Mva9yi0wpA3o9ClRLIrnmOhkLoHwnO9M=;
+ b=DdoboMdxVkaQqm2nGexoy3lmJz7/dfXbRq1W3qGY5w7s7Bv930HHKWKLfWs+TMJXLW
+ KG7m7sfUl9ph3jjIk8+v3jGeZiZse0ovE+FNWl/VsQZQ5qRJy8ysdKgirxpOSd7IlWn3
+ 39mubzriUapFufe+sQCDvP3HFkIwrYWH89DImuSQqWUAcwO124z9OpyT1v53XrxHZqkZ
+ WPdciZn6YNAXSsXOk23h2RU2yLT0kNuK8FEhb2jJ2IbiRuDPuobVF0RibLSz3//bw5lH
+ NxlqIqRfGLeboKmWBRimjVASteXJ3QkFh3EjWjIJj67Ijbqkn8P+cI//8ra+46SnP4Np
+ i64Q==
+X-Gm-Message-State: AOAM530dB522xkx8oc6FSegI13mU+bH+kkaFsVwT91/yPIoZX10SWA1L
+ PslZO/fGy0mSCqYYpDeboqZ57Q==
+X-Google-Smtp-Source: ABdhPJwyboQQx9b/MG5iXvambfsCUcLyIIwML48gFhpQAYtk5f8TNUung9gRT7mcLkICbNfwlvRUFA==
+X-Received: by 2002:a5d:66cb:: with SMTP id k11mr15653190wrw.253.1636701253136; 
+ Thu, 11 Nov 2021 23:14:13 -0800 (PST)
+Received: from [192.168.8.106] (18.red-2-142-115.dynamicip.rima-tde.net.
+ [2.142.115.18])
+ by smtp.gmail.com with ESMTPSA id n15sm11600331wmq.38.2021.11.11.23.14.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Nov 2021 23:14:12 -0800 (PST)
+Subject: Re: [RFC PATCH v2 02/30] target/loongarch: Add CSR registers
+ definition
+To: yangxiaojuan <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <1636594528-8175-1-git-send-email-yangxiaojuan@loongson.cn>
+ <1636594528-8175-3-git-send-email-yangxiaojuan@loongson.cn>
+ <7bb438bb-e4ae-8f28-8f9e-7baecbccc1ac@linaro.org>
+ <bd00cd00-2dea-d6dc-f151-62ca3d90003d@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <a8559cea-1441-57fd-e44f-e19219199dbc@linaro.org>
+Date: Fri, 12 Nov 2021 08:14:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <bd00cd00-2dea-d6dc-f151-62ca3d90003d@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.449,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -54,43 +94,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, richard.henderson@linaro.org,
- laurent@vivier.eu
+Cc: Song Gao <gaosong@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Song Gao <gaosong@loongson.cn>
-Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- scripts/qemu-binfmt-conf.sh | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
-index 7de996d..da6a937 100755
---- a/scripts/qemu-binfmt-conf.sh
-+++ b/scripts/qemu-binfmt-conf.sh
-@@ -4,7 +4,7 @@
- qemu_target_list="i386 i486 alpha arm armeb sparc sparc32plus sparc64 \
- ppc ppc64 ppc64le m68k mips mipsel mipsn32 mipsn32el mips64 mips64el \
- sh4 sh4eb s390x aarch64 aarch64_be hppa riscv32 riscv64 xtensa xtensaeb \
--microblaze microblazeel or1k x86_64 hexagon"
-+microblaze microblazeel or1k x86_64 hexagon loongarch64"
- 
- i386_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x03\x00'
- i386_mask='\xff\xff\xff\xff\xff\xfe\xfe\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
-@@ -140,6 +140,10 @@ hexagon_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x
- hexagon_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
- hexagon_family=hexagon
- 
-+loongarch64_magic='\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x02\x01'
-+loongarch64_mask='\xff\xff\xff\xff\xff\xff\xff\xfc\x00\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
-+loongarch64_family=loongarch
-+
- qemu_get_family() {
-     cpu=${HOST_ARCH:-$(uname -m)}
-     case "$cpu" in
--- 
-1.8.3.1
+On 11/12/21 3:14 AM, yangxiaojuan wrote:
+>>> +#define  EXCODE_IP                   64
+>>
+>> What's this?
+>>
+> 
+> The manual 6.1.3 says the exception number of an interrupt is the exception number plus an offset of 64. This defines the offset, sorry, the name is bad, maybe change a name or just use 64 directly in the exception handle is better.
+Perhaps
 
+#define EXCCODE_EXTERNAL_INT   64   /* plus external interrupt number */
+
+?
+
+r~
 
