@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41EEF44ED6E
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 20:40:38 +0100 (CET)
-Received: from localhost ([::1]:49866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 060F244EDA9
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 21:00:58 +0100 (CET)
+Received: from localhost ([::1]:59696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlcPd-0008DY-Cm
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 14:40:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60198)
+	id 1mlcjD-0007WZ-Ja
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 15:00:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mlcKJ-0003Wg-4s
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 14:35:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27930)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1mlchv-0006g0-Gm; Fri, 12 Nov 2021 14:59:32 -0500
+Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:39360)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mlcKG-0007z6-Uq
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 14:35:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636745700;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3NlTKCv+dB2uLiS+nu6ZWpM01wn+xk+NhHBbif2PWUE=;
- b=BuyePA1h9ILeytKtiTI/V7V1OauNmZSfWn8g3F28YECXVa9z1GIb7AZixrdA4RnyzV53UB
- gDC/lxyMKsMWRbSaEQbGZynISUNzNvhATG99u/qMiNG0+uMciGk9kIa8pdJTuNE4yjsYt6
- x7npCu2bGojdkDIdjOFrSph6o5j6XTs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-229-x2k6HkZrMLm8leF4R445WA-1; Fri, 12 Nov 2021 14:34:57 -0500
-X-MC-Unique: x2k6HkZrMLm8leF4R445WA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AF7315722;
- Fri, 12 Nov 2021 19:34:56 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.192.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EE6F419723;
- Fri, 12 Nov 2021 19:34:50 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-trivial@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 2/2] vdpa: Check for existence of opts.vhostdev
-Date: Fri, 12 Nov 2021 20:34:31 +0100
-Message-Id: <20211112193431.2379298-3-eperezma@redhat.com>
-In-Reply-To: <20211112193431.2379298-1-eperezma@redhat.com>
-References: <20211112193431.2379298-1-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1mlchn-0002du-AQ; Fri, 12 Nov 2021 14:59:28 -0500
+Received: from sas1-4cbebe29391b.qloud-c.yandex.net
+ (sas1-4cbebe29391b.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:789:0:640:4cbe:be29])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 41FA32E1273;
+ Fri, 12 Nov 2021 22:59:18 +0300 (MSK)
+Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
+ (myt5-70c90f7d6d7d.qloud-c.yandex.net [2a02:6b8:c12:3e2c:0:640:70c9:f7d])
+ by sas1-4cbebe29391b.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ rhOtb5Vzff-xGsaqB15; Fri, 12 Nov 2021 22:59:18 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1636747158; bh=EyVHS8E4c2j7QyDfgjw3yvYNlFMalNlDirV6vad05Dg=;
+ h=In-Reply-To:Subject:To:From:Message-ID:Cc:References:Date;
+ b=bZEBb9t6jiXNVs08HIiKYysfVCgtawF9IsHuDHvRwjc0pd/yjvrwfZJ2cte3fOye5
+ x9dlLcCAMJWwa0vnhldq8JzWhmZPuaD4mE/qcgkHPUX7me8gS7V7gqhXh/X8IdDCK3
+ Xt9/Q7egF3IXh1fHhKyyGGp8mmp+/1iyfI0swCtI=
+Authentication-Results: sas1-4cbebe29391b.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from rvkaganb.lan (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:1206::1:19])
+ by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPS id
+ sDrSepsqEf-xGxaQYeL; Fri, 12 Nov 2021 22:59:16 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 2
+Date: Fri, 12 Nov 2021 22:59:14 +0300
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH 01/10] vhost-user-blk: reconnect on any error during
+ realize
+Message-ID: <YY7Hkl0uftx8TPZS@rvkaganb.lan>
+Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, yc-core@yandex-team.ru,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20211111153354.18807-1-rvkagan@yandex-team.ru>
+ <20211111153354.18807-2-rvkagan@yandex-team.ru>
+ <YY1YXrCPgt+Fcb2+@redhat.com> <YY4aGok6e8Z6BRQu@rvkaganb.lan>
+ <YY5SF0uPkoEvX9qM@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YY5SF0uPkoEvX9qM@redhat.com>
+Received-SPF: pass client-ip=77.88.29.217; envelope-from=rvkagan@yandex-team.ru;
+ helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,36 +82,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Cindy Lu <lulu@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
+Cc: qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>, yc-core@yandex-team.ru,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since net_init_vhost_vdpa is trying to open it. Not specifying it in the
-command line crash qemu.
+On Fri, Nov 12, 2021 at 12:37:59PM +0100, Kevin Wolf wrote:
+> Am 12.11.2021 um 08:39 hat Roman Kagan geschrieben:
+> > On Thu, Nov 11, 2021 at 06:52:30PM +0100, Kevin Wolf wrote:
+> > > Am 11.11.2021 um 16:33 hat Roman Kagan geschrieben:
+> > > > vhost-user-blk realize only attempts to reconnect if the previous
+> > > > connection attempt failed on "a problem with the connection and not an
+> > > > error related to the content (which would fail again the same way in the
+> > > > next attempt)".
+> > > > 
+> > > > However this distinction is very subtle, and may be inadvertently broken
+> > > > if the code changes somewhere deep down the stack and a new error gets
+> > > > propagated up to here.
+> > > > 
+> > > > OTOH now that the number of reconnection attempts is limited it seems
+> > > > harmless to try reconnecting on any error.
+> > > > 
+> > > > So relax the condition of whether to retry connecting to check for any
+> > > > error.
+> > > > 
+> > > > This patch amends a527e312b5 "vhost-user-blk: Implement reconnection
+> > > > during realize".
+> > > > 
+> > > > Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
+> > > 
+> > > It results in less than perfect error messages. With a modified export
+> > > that just crashes qemu-storage-daemon during get_features, I get:
+> > > 
+> > > qemu-system-x86_64: -device vhost-user-blk-pci,chardev=c: Failed to read msg header. Read 0 instead of 12. Original request 1.
+> > > qemu-system-x86_64: -device vhost-user-blk-pci,chardev=c: Reconnecting after error: vhost_backend_init failed: Protocol error
+> > > qemu-system-x86_64: -device vhost-user-blk-pci,chardev=c: Reconnecting after error: Failed to connect to '/tmp/vsock': Connection refused
+> > > qemu-system-x86_64: -device vhost-user-blk-pci,chardev=c: Reconnecting after error: Failed to connect to '/tmp/vsock': Connection refused
+> > > qemu-system-x86_64: -device vhost-user-blk-pci,chardev=c: Failed to connect to '/tmp/vsock': Connection refused
+> > 
+> > This patch doesn't change any error messages.  Which ones specifically
+> > became less than perfect as a result of this patch?
+> 
+> But it adds error messages (for each retry), which are different from
+> the first error message. As I said this is not the end of the world, but
+> maybe a bit more confusing.
 
-Fixes: 7327813d17 ("vhost-vdpa: open device fd in net_init_vhost_vdpa()")
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
----
- net/vhost-vdpa.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Ah, now I see what you mean: it adds reconnection attempts where there
+used to be immediate failure return, so now every failed attempt logs
+its own message.
 
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 6ffb29f4da..bbd3576f23 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -260,6 +260,10 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
- 
-     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-     opts = &netdev->u.vhost_vdpa;
-+    if (!opts->vhostdev) {
-+        error_setg(errp, "vdpa character device not specified with vhostdev");
-+        return -1;
-+    }
- 
-     vdpa_device_fd = qemu_open(opts->vhostdev, O_RDWR, errp);
-     if (vdpa_device_fd == -1) {
--- 
-2.27.0
+> > > I guess this might be tolerable. On the other hand, the patch doesn't
+> > > really fix anything either, but just gets rid of possible subtleties.
+> > 
+> > The remaining patches in the series make other errors beside -EPROTO
+> > propagate up to this point, and some (most) of them are retryable.  This
+> > was the reason to include this patch at the beginning of the series (I
+> > guess I should've mentioned that in the patch log).
+> 
+> I see. I hadn't looked at the rest of the series yet because I ran out
+> of time, but now that I'm skimming them, I see quite a few places that
+> use non-EPROTO, but I wonder which of them actually should be
+> reconnected. So far all I saw were presumably persistent errors where a
+> retry won't help. Can you give me some examples?
 
+E.g. the particular case you mention earlier, -ECONNREFUSED, is not
+unlikely to happen due to the vhost-user server restart for maintenance;
+in this case retying looks like a reasonable thing to do, doesn't it?
+
+Thanks,
+Roman.
 
