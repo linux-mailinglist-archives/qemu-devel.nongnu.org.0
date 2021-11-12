@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4146844E23C
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 08:08:00 +0100 (CET)
-Received: from localhost ([::1]:47796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD5C844E23E
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 08:09:12 +0100 (CET)
+Received: from localhost ([::1]:51506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlQfH-0005BH-DP
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 02:07:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46336)
+	id 1mlQgR-0007iC-Uc
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 02:09:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mlQSr-0006xF-7w
+ id 1mlQSr-0006xd-B9
  for qemu-devel@nongnu.org; Fri, 12 Nov 2021 01:55:09 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:49674 helo=loongson.cn)
+Received: from mail.loongson.cn ([114.242.206.163]:49694 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mlQSo-0007k4-4D
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 01:55:08 -0500
+ (envelope-from <gaosong@loongson.cn>) id 1mlQSo-0007kI-U9
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 01:55:09 -0500
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9CxydCRD45hHoQCAA--.6006S19; 
- Fri, 12 Nov 2021 14:54:52 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9CxydCRD45hHoQCAA--.6006S20; 
+ Fri, 12 Nov 2021 14:54:53 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 17/26] linux-user: Add LoongArch generic header files
-Date: Fri, 12 Nov 2021 14:54:00 +0800
-Message-Id: <1636700049-24381-18-git-send-email-gaosong@loongson.cn>
+Subject: [PATCH v10 18/26] linux-user: Add LoongArch specific structures
+Date: Fri, 12 Nov 2021 14:54:01 +0800
+Message-Id: <1636700049-24381-19-git-send-email-gaosong@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1636700049-24381-1-git-send-email-gaosong@loongson.cn>
 References: <1636700049-24381-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9CxydCRD45hHoQCAA--.6006S19
-X-Coremail-Antispam: 1UD129KBjvJXoW7Zw4xCw4DXF1rWrykJF45GFg_yoW8ZFWDpF
- s5ur1xGr48GrZ7t34DX345XF15Xa1q9F47ua4fWry8Jry8C34UZwnxKr98Wa43Zw1YkFW0
- gryDGa1UKFWDXFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf9CxydCRD45hHoQCAA--.6006S20
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zw4xCw4DXFy5WrWkCryUJrb_yoW8Zr13pF
+ 4rA3Z8Ar47JrWIqwn3GFWUXryaq3W8CFW7XayfAry8Aw4xt3yrZF15KrW7Aa9xXw1UGry3
+ ZFyktr1UCa1UGFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -59,64 +59,67 @@ Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This includes:
-- sockbits.h
-- target_errno_defs.h
-- target_fcntl.h
-- termbits.h
-
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 ---
- linux-user/loongarch64/sockbits.h          | 1 +
- linux-user/loongarch64/target_errno_defs.h | 7 +++++++
- linux-user/loongarch64/target_fcntl.h      | 6 ++++++
- linux-user/loongarch64/termbits.h          | 1 +
- 4 files changed, 15 insertions(+)
- create mode 100644 linux-user/loongarch64/sockbits.h
- create mode 100644 linux-user/loongarch64/target_errno_defs.h
- create mode 100644 linux-user/loongarch64/target_fcntl.h
- create mode 100644 linux-user/loongarch64/termbits.h
+ linux-user/loongarch64/target_structs.h | 48 +++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
+ create mode 100644 linux-user/loongarch64/target_structs.h
 
-diff --git a/linux-user/loongarch64/sockbits.h b/linux-user/loongarch64/sockbits.h
+diff --git a/linux-user/loongarch64/target_structs.h b/linux-user/loongarch64/target_structs.h
 new file mode 100644
-index 0000000..0e4c8f0
+index 0000000..cc7928a
 --- /dev/null
-+++ b/linux-user/loongarch64/sockbits.h
-@@ -0,0 +1 @@
-+#include "../generic/sockbits.h"
-diff --git a/linux-user/loongarch64/target_errno_defs.h b/linux-user/loongarch64/target_errno_defs.h
-new file mode 100644
-index 0000000..17165c1
---- /dev/null
-+++ b/linux-user/loongarch64/target_errno_defs.h
-@@ -0,0 +1,7 @@
-+#ifndef LOONGARCH_TARGET_ERRNO_DEFS_H
-+#define LOONGARCH_TARGET_ERRNO_DEFS_H
++++ b/linux-user/loongarch64/target_structs.h
+@@ -0,0 +1,48 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * LoongArch specific structures for linux-user
++ *
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ */
 +
-+/* Target uses generic errno */
-+#include "../generic/target_errno_defs.h"
++#ifndef LOONGARCH_TARGET_STRUCTS_H
++#define LOONGARCH_TARGET_STRUCTS_H
++
++struct target_ipc_perm {
++    abi_int __key;                      /* Key.  */
++    abi_uint uid;                       /* Owner's user ID.  */
++    abi_uint gid;                       /* Owner's group ID.  */
++    abi_uint cuid;                      /* Creator's user ID.  */
++    abi_uint cgid;                      /* Creator's group ID.  */
++    abi_uint mode;                      /* Read/write permission.  */
++    abi_ushort __seq;                   /* Sequence number.  */
++    abi_ushort __pad1;
++    abi_ulong __unused1;
++    abi_ulong __unused2;
++};
++
++struct target_shmid_ds {
++    struct target_ipc_perm shm_perm;    /* operation permission struct */
++    abi_long shm_segsz;                 /* size of segment in bytes */
++    abi_ulong shm_atime;                /* time of last shmat() */
++    abi_ulong shm_dtime;                /* time of last shmdt() */
++    abi_ulong shm_ctime;                /* time of last change by shmctl() */
++    abi_int shm_cpid;                   /* pid of creator */
++    abi_int shm_lpid;                   /* pid of last shmop */
++    abi_ulong shm_nattch;               /* number of current attaches */
++    abi_ulong __unused1;
++    abi_ulong __unused2;
++};
++
++#define TARGET_SEMID64_DS
++
++struct target_semid64_ds {
++    struct target_ipc_perm sem_perm;
++    abi_ulong sem_otime;
++    abi_ulong sem_ctime;
++    abi_ulong sem_nsems;
++    abi_ulong __unused1;
++    abi_ulong __unused2;
++};
 +
 +#endif
-diff --git a/linux-user/loongarch64/target_fcntl.h b/linux-user/loongarch64/target_fcntl.h
-new file mode 100644
-index 0000000..9fa3c99
---- /dev/null
-+++ b/linux-user/loongarch64/target_fcntl.h
-@@ -0,0 +1,6 @@
-+#ifndef LOONGARCH_TARGET_FCNTL_H
-+#define LOONGARCH_TARGET_FCNTL_H
-+
-+#include "../generic/fcntl.h"
-+
-+#endif  /* LOONGARCH_TARGET_FCNTL_H */
-diff --git a/linux-user/loongarch64/termbits.h b/linux-user/loongarch64/termbits.h
-new file mode 100644
-index 0000000..b1d4f4f
---- /dev/null
-+++ b/linux-user/loongarch64/termbits.h
-@@ -0,0 +1 @@
-+#include "../generic/termbits.h"
 -- 
 1.8.3.1
 
