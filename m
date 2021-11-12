@@ -2,144 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2F6144E62B
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 13:13:13 +0100 (CET)
-Received: from localhost ([::1]:38272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ACBB44E63C
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 13:19:01 +0100 (CET)
+Received: from localhost ([::1]:44152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlVQe-0006mV-5u
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 07:13:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50018)
+	id 1mlVWG-0002v6-6u
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 07:19:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mlVPk-0005yh-4G; Fri, 12 Nov 2021 07:12:16 -0500
-Received: from mail-eopbgr130139.outbound.protection.outlook.com
- ([40.107.13.139]:31546 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mlVUb-0001P2-1e
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 07:17:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29039)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mlVPi-000715-81; Fri, 12 Nov 2021 07:12:15 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B0NzBVqgqxsOwzgv4HudTdZW2ksea0gA/zZqmYk3IFcRfBTwLErG24nDvINmjvqk4A8TNJxU1vCCq7WCTi33HoMCb/7X+NddM1WRWKAqVovDd334MAwGkhnAckWglxhs7I6U0mInPD29lczEPClKFfp//4BoVWCWk523Yx1Bml+lTg90SNakyjlMgmtZJk7XdrOTkp6T2/t82SYUPoZ9Ql/4B0EfcUey9UZqyc0nPgt/id7RDohUySb6x7A+GjRF0vQ0eDeHuSBUqBnUjx3iYZz16eBj8NnVjUoJ7WtsNeyPg17aVL7yBPGJZj/0L9GpocFe2+cO+znk/1EM4pB+jw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oU0GX8HxAp+x1rVWs5beUkLSVl8CyOGjCNb9c0b4tuE=;
- b=mEl5wxDnNt8mK4V9ARjfjcRALdoBYsUl/5tou+cbVN0dzzkns2anxBRKOAE8tzwzd2azBUJxGzsvs1c7dyyha/CdkqVO3sY2rzR7r/X6/lpqdYaWp+TTWfzVIE1NK2YjKoFPIF9jx82FKUNUkLPYaD7a0rhyTmxDESd/99qyPguj0Ry2kt102YU8PuWC7y5Dya/WJYow5wYa6gwZp6ZRfFvI+7GQn/+meVpxPneEkoNJ7nnONMkUZX1xga7jhNBUXea0tprM6hpNUyImO54urKibAvho0LnHzWjL1xdHmWeHSoOu3zlZXyqhXnXEA65aNNWbfUOZPj48KRGSaB9FlQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oU0GX8HxAp+x1rVWs5beUkLSVl8CyOGjCNb9c0b4tuE=;
- b=g1tJ7PyEILb8oE/moeaE8VlGef/FSq9zlJ2qNUl5d+s5tZCy8FM22hwg/gHQoAKNytDm2UahwhMvFFMpOrwhNgxf0qbUkmbqDk0ReBlCddPXWOBj2YV8hAjtFSMu9ejdqvURfJ/rF2VDzzGewZSMXs1wz3Or2DxBBdLTiCPheEQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4279.eurprd08.prod.outlook.com (2603:10a6:20b:bb::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.15; Fri, 12 Nov
- 2021 12:12:10 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a994:9f7c:53a5:84bc]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a994:9f7c:53a5:84bc%4]) with mapi id 15.20.4690.018; Fri, 12 Nov 2021
- 12:12:10 +0000
-Message-ID: <7297d2ff-f593-2649-0524-b032657acfc3@virtuozzo.com>
-Date: Fri, 12 Nov 2021 15:12:08 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v2 06/10] block: Restructure remove_file_or_backing_child()
-Content-Language: en-US
-To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>
-References: <20211111120829.81329-1-hreitz@redhat.com>
- <20211111120829.81329-7-hreitz@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-In-Reply-To: <20211111120829.81329-7-hreitz@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS9PR0301CA0006.eurprd03.prod.outlook.com
- (2603:10a6:20b:468::35) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mlVUX-0007jV-J8
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 07:17:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636719431;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FZ8/fWHejHA/B7tsx0BZVClJsSkbt5ZoYDa9x7Swns0=;
+ b=P2g7KipJDAJ1P2EnY6d0OZtM834Aq6DIRZFNKDhgJLGCM2i8hdQn9iV8DJQtGobuOSC+Sk
+ a+hgPapDNkgbOKmkpRR1rgf7ity1IX0dn+fIfQlQcFp54V9Ycg+wutT/EPXP4Nq3uXEksy
+ 1XdwI3vW48yjGnGX5OX0Z721Kob7fyQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-231-II9qpt8fOBS1tIsxrnkbxA-1; Fri, 12 Nov 2021 07:17:10 -0500
+X-MC-Unique: II9qpt8fOBS1tIsxrnkbxA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ b133-20020a1c808b000000b0032cdd691994so6217963wmd.1
+ for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 04:17:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=FZ8/fWHejHA/B7tsx0BZVClJsSkbt5ZoYDa9x7Swns0=;
+ b=ABqR82QRV+qE6TNm+lP3GrNwEfAKnJrY1IG8X8jDY4NEje2IIRskVErJEvT7ILsTDq
+ hJH7jXqs7g49OrGtdpQjfZuGSYHQvFFAX67flPuMB22Dlxrs37ZzryB02V7c3g1amgYb
+ 7bprnGORJPT77BsHrItZzfK1kGoYHDem1g6XzkSw0xLhTqoxC6Vw9KHnn3sffAtCtYr3
+ a4o68aP/xUAE+hf6zEmmD0aCtl/Uy0JEHpoY5czeBlCIAPTIxhMJLQyMeXt6U0tc+Ytf
+ 01R6JCEPMuzv7zvYi/XDIawRrUStp6/iisngWctwoy5nHE425cGxR930+rxWC9DJSwJn
+ NAvQ==
+X-Gm-Message-State: AOAM530uASOw74d80IZoJ7BdqDBaKy7rN+3j9VoZGFB6SeY6sMW6dUdN
+ iB11B3zUhKRT6iu6KjkuPeky+fsydPL9AfkX9+9+aYFEAr9828SoyGQnTH59ejOOmJbhC/GSqRm
+ dPybdXuKO5ktbVT8=
+X-Received: by 2002:a7b:ca4c:: with SMTP id m12mr17102426wml.119.1636719429061; 
+ Fri, 12 Nov 2021 04:17:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw6//6x5D+95S6l3HryNCT1ZcM+Q6F/BRjY4jhKEM31O1+YYHbFwgH7JkhO0+N7tzPJpuxfRw==
+X-Received: by 2002:a7b:ca4c:: with SMTP id m12mr17102383wml.119.1636719428813; 
+ Fri, 12 Nov 2021 04:17:08 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id o4sm14227204wmq.31.2021.11.12.04.17.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Nov 2021 04:17:08 -0800 (PST)
+Message-ID: <3f91c9e4-fac9-f03c-a8a3-5940ac49434b@redhat.com>
+Date: Fri, 12 Nov 2021 13:17:07 +0100
 MIME-Version: 1.0
-Received: from [192.168.100.10] (185.215.60.229) by
- AS9PR0301CA0006.eurprd03.prod.outlook.com (2603:10a6:20b:468::35) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.15 via Frontend
- Transport; Fri, 12 Nov 2021 12:12:09 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 57aa50e0-a215-485b-2c62-08d9a5d5a719
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4279:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB427934B5B1B44AF1F5BD3276C1959@AM6PR08MB4279.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:913;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: P1ZXHqUZMFyC9hRmv3fud1cE5gCK2Nz+UekhIh7R6Udai+YII3+Z9BZX9VSwG8cDdTvS0ZSE91SXfSjiVkR/GctRSLW3ZVMxecbsBZTfMlQdqeH4vafXY5wgJHJu4ZIEWlL9xpd42MGS8rNITSajvmNPRUHHJxrSdqTPtU2/xVqZjpY/hnsTqikzAMRXVvp+6PF3uY0VXpuRzyFhprBVtUzpkHt53UWZ0sff4pohWEEmrgyAa/EDGYeXyiGBBpex7T6EFrch2avXOnkD5Z2FwbXTDNdCabNSmTMfmAwDEJ1VM34ttFNWLot8Uk/BvrDHrommLbwCCeD5H3Hrd8uFGQC+ZycEo0BQOAnoknZv3zX7vqQeVJMfzIhEmtBFTOgdhHxM36a3L+4n2ir3/QeA7I1MxdPrUza6rl7UQzTyVPHVYLIq8y/ETyrmm/zy/Y3PSTg8p5m0N/Afl8ELtRcicbmyaBnEmSfJCmoEcQLA5KZrpkKVG5rlTFMTv+HgStCZCHzXpwUj8G4stf0eh4ZyW3I+7R3DiabSuZ2j4L2RxBk1GzjMeLWtlfg+zpsUKJqQcWAompCZE3jrU6Swhnp++TJCV2ToxlSLP78D205/VjdWMlkSk+zepwcbuZuZm4kRDc98UjFQQTLL+xpYaPdZiVIornx+/KCD8BoH1L9RcL0V8iW9KdR0DyuBo72cDBrGOZ1fTs6Nnq5Izoubp8w8pmUpwZnMD1SuaMvXje9klPlJrl7PwFV+PxVTWcAbDDnzEOgiX0R3hMa7LltKgWPhhQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(31686004)(52116002)(16576012)(316002)(4326008)(2906002)(4744005)(2616005)(86362001)(31696002)(66476007)(66556008)(8676002)(36756003)(26005)(956004)(66946007)(38100700002)(508600001)(186003)(38350700002)(5660300002)(8936002)(6486002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NXAwQkt1Z3VBd0p3dVhmVU1sTHZZVVBxVDFrRi9TZS9Bdm0xSW9ZZnBDd0Zn?=
- =?utf-8?B?WXIycnFuTEdlVERzYUt2WmhCakFHTGFzcGcvMEtDMkZzNVpGUTJQNU9IV1F3?=
- =?utf-8?B?aXliR2ZLZG5OcUkzcW5heFhGQU90WnBHYmRadVkycTIyUGlqdFMwYWthNUVI?=
- =?utf-8?B?ODdSU2hBL09WMVRKS05YZmMzUXBqYk01NUc1Vy91L3preU9HR1JXcUJnV1R4?=
- =?utf-8?B?cW1BMlAvT0lmLzF4MENVRWZxVGcxcVVoVTBLVy9MVERLdWFRam82eHRHNGNW?=
- =?utf-8?B?RHRnSkhUckdrWURkaHRsZU5xNG1qWEwxeStzRHI2blRzanNFU1QraGNwT2I3?=
- =?utf-8?B?Q0RXN0ZkRFFobU9xOFlIUkpqaUVYcE1LUDJMcDNmcnE5YkpsNklMVDdpMXVC?=
- =?utf-8?B?NU1NSDF4aGNsei8xYWdySHFBNFBLd1dXd3RsQ3R5aHBtNG1lclZQOHNXNits?=
- =?utf-8?B?MDVZVkNtbEVGWkY3azJxdVJ5ZVVZd0hlTDFCYzVvZWN2UVZ2Nktsdk96TWsr?=
- =?utf-8?B?VUpvRnI0dUk1VUVFWlE5bmdJVHIrSmZRazcxclF2Vy9HMjF1SHROeTkxVnpj?=
- =?utf-8?B?TUd5UkxkRHAzbGJqVHJ0ZlZ6dDc4ZlZseklIWnB5UkpIc1dCeHY0aW9PL1M5?=
- =?utf-8?B?UlBiSWsvUWk0Q2dSbTVKMWZzSFI3alFwSlFFdlFSVGJENzk3RjkyOTJxM0pW?=
- =?utf-8?B?OWFIWFJqYlFlQW9NUGRJaHhHK3BQUjNvS0xmak5oT2tsV3l6S2FXMUhtcXhL?=
- =?utf-8?B?M1Y5L1pEdzF2VXhhcFBYU0kwWDJpbDNPdlptRGNZUkNXRnBwZDVla2Nqb1l0?=
- =?utf-8?B?eTd6aGJGUmp4dlJkelJqc3owS3J3TjIydG0vL29iampsS2RmUW4xT3l2OFFL?=
- =?utf-8?B?eGZVeTdaZW5hRDNTeXltSklrWHMvWkdoNlZvMDBzQ2NBTjVvMTdoeHRBSXVR?=
- =?utf-8?B?T1pBQXFGRno5U1RwM2NpTGtiLzhBVUhDTDc5UjlrWjRuTVg4ZTdMbVdhZHIr?=
- =?utf-8?B?K1hjWFpiZm03MS96RCtGYXdUOUtJVUJENGR5alhtb0ZVZEpKajZ0UCtMeHIr?=
- =?utf-8?B?RWExb0poUFR6Z3lzUE5ad3IyNGpqSzczd2xQcHdOY1MybEFMcTdMU09rWDJ1?=
- =?utf-8?B?VHpaRDc1WDZNak1xdVdrUm96d29maERzTlYwc1pPbkplR21sNit6cVBlY3Nn?=
- =?utf-8?B?UStaU3Ixc2RSZDhiM3dBMC8xb0lhcHhndys0dExnZ2NpRmxjSEtvcXZ0aTQ2?=
- =?utf-8?B?c3J6a2dLeHpBWld5N3Myemxzanhwb0Y2TXlRQlA0d2k5UkthNHUrbHdkREpY?=
- =?utf-8?B?YkxnaDdmeGhsOGJpbCtFZ3pBbDhVVTh2VE5xMGlhdEpUL2JIbmM3dU1pT3Za?=
- =?utf-8?B?bmhTdVd3bi8yVmk1N0NreElNSmxnTU0vV0lBQUk5bGdlVTJjb3JvWHVueGhl?=
- =?utf-8?B?M0tpUkVSMG4vR0EzVkVCRzR4clhPeEd6VjdSZ3EzT0NHYkloVHVubGtNaU9u?=
- =?utf-8?B?TlNsUGp2bjhjYlIvZ2tDUGNXNjM3K3N3Z0pNTjFJbnB5R09VNEZvQ2VsMkZk?=
- =?utf-8?B?TnF0R0NLMTg4aWZhQ21KTW00VEllUGhkSW9CTEltUUpjd1BYSkpCNjZWdjBB?=
- =?utf-8?B?RUR1a2hPRlZIS2YyblNRbWUzU3JSbVhwTEZqZjIwL3hlVk5DOXNUWC9SOC9F?=
- =?utf-8?B?ME9JdlF3SEZrRTRxaUxWRWVmUzJUb21zS0N2UU51T2cvejRnTGx4VWFQTERW?=
- =?utf-8?B?WDhYVlM0N3RKbytFa1pKaXpyRWZIck5zRnRzV3FCQnprcnJEMEFraTB5SG5O?=
- =?utf-8?B?ZVh1S3hKOCs2QlAyLys1dUVmaHl0cFVlc1YweTNkWkpra3NEempwYlkwcllL?=
- =?utf-8?B?cmcwR01OTFFxWDlOWXJObTR1T2R0T0FtbG5wVlk1MnBpTi9na3AzYlFGSmQx?=
- =?utf-8?B?U1hidGQvSjVod3ROWmZoWk81RUtMUURpcnZqZnVDU3RDam1ZWHQwWmUwT1Nh?=
- =?utf-8?B?cVorVGJ1T1cvMDN3alBVNWVrbjhacTNMTzBBR1Y1b2M1YmRTOXZIZ0NlSjVL?=
- =?utf-8?B?ME9oRzFwWk5hYW95RlFoOHIvTk5rU2RHYW9MbzBZSnVIRGhzK29HYW51Ty9n?=
- =?utf-8?B?QWJ2UXh5LzhzRWI2SlArWno1NWZjY2owZ1MzaUNWSk10WFBCZFJuRktyM3o1?=
- =?utf-8?B?UnIxbjJqMTRqSUtUeFNYNHlGYkNXMlNCYUpTQll5ZENnZnNyN0pvaWRPWEFz?=
- =?utf-8?Q?6dpHmzFMKPcNBIw6IpCjwaEO2oQ2CRCiZ+bPuIaxZU=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 57aa50e0-a215-485b-2c62-08d9a5d5a719
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2021 12:12:10.1280 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0f8Dt80PtHQe5lIZunDAPNs73BDTtt14neOImSYCKN6iDkmQpXKu0ytbNHt62UkL05PJ9MgktuK9uQDZR7gGYMQ2fy/G5K0c+nNUNnsTtGw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4279
-Received-SPF: pass client-ip=40.107.13.139;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-3.449, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v4 06/25] include/block/block_int: split header into I/O
+ and global state API
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20211025101735.2060852-1-eesposit@redhat.com>
+ <20211025101735.2060852-7-eesposit@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20211025101735.2060852-7-eesposit@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.449, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -152,20 +100,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-11.11.2021 15:08, Hanna Reitz wrote:
-> As of a future patch, bdrv_replace_child_tran() will take a BdrvChild **
-> pointer.  Prepare for that by getting such a pointer and using it where
-> applicable, and (dereferenced) as a parameter for
-> bdrv_replace_child_tran().
-> 
-> Signed-off-by: Hanna Reitz<hreitz@redhat.com>
+On 25.10.21 12:17, Emanuele Giuseppe Esposito wrote:
+> Similarly to the previous patch, split block_int.h
+> in block_int-io.h and block_int-global-state.h
+>
+> block_int-common.h contains the structures shared between
+> the two headers, and the functions that can't be categorized as
+> I/O or global state.
+>
+> Assertions are added in the next patch.
+>
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>   blockdev.c                             |    5 +
+>   include/block/block_int-common.h       | 1164 +++++++++++++++++++
+>   include/block/block_int-global-state.h |  319 +++++
+>   include/block/block_int-io.h           |  163 +++
+>   include/block/block_int.h              | 1478 +-----------------------
+>   5 files changed, 1654 insertions(+), 1475 deletions(-)
+>   create mode 100644 include/block/block_int-common.h
+>   create mode 100644 include/block/block_int-global-state.h
+>   create mode 100644 include/block/block_int-io.h
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+[...]
 
--- 
-Best regards,
-Vladimir
+> diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+> new file mode 100644
+> index 0000000000..79a3d801d2
+> --- /dev/null
+> +++ b/include/block/block_int-common.h
+
+[...]
+
+> +struct BlockDriver {
+
+[...]
+
+> +    /**
+> +     * Try to get @bs's logical and physical block size.
+> +     * On success, store them in @bsz and return zero.
+> +     * On failure, return negative errno.
+> +     */
+> +    /* I/O API, even though if it's a filter jumps on parent */
+
+I don’t understand this...
+
+> +    int (*bdrv_probe_blocksizes)(BlockDriverState *bs, BlockSizes *bsz);
+> +    /**
+> +     * Try to get @bs's geometry (cyls, heads, sectors)
+> +     * On success, store them in @geo and return 0.
+> +     * On failure return -errno.
+> +     * Only drivers that want to override guest geometry implement this
+> +     * callback; see hd_geometry_guess().
+> +     */
+> +    /* I/O API, even though if it's a filter jumps on parent */
+
+...or this comment.  bdrv_probe_blocksizes() and bdrv_probe_geometry() 
+are in block-global-state.h, so why are these methods part of the I/O 
+API?  (And I’m afraid I can’t parse “even though if it’s a filter jumps 
+on parent”.)
+
+Hanna
+
+> +    int (*bdrv_probe_geometry)(BlockDriverState *bs, HDGeometry *geo);
+
 
