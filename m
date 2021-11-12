@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 062AD44EBCD
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 18:07:52 +0100 (CET)
-Received: from localhost ([::1]:47054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B17C744EC20
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 18:43:57 +0100 (CET)
+Received: from localhost ([::1]:60108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mla1m-0004ND-Kq
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 12:07:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56526)
+	id 1mlaai-0007nl-BT
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 12:43:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mlZzL-0002OC-0t
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 12:05:20 -0500
-Received: from [2a00:1450:4864:20::42f] (port=35790
- helo=mail-wr1-x42f.google.com)
+ (Exim 4.90_1) (envelope-from <brak@vultr.com>) id 1mlaZL-0006Nj-Np
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 12:42:31 -0500
+Received: from [2607:f8b0:4864:20::102a] (port=46607
+ helo=mail-pj1-x102a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mlZz9-0005fQ-Lr
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 12:05:13 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id i5so16722682wrb.2
- for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 09:05:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=95Wgalf5MOiFzNlLWuVk8PBNFBGJmLjT5TdyR/c1o0o=;
- b=p56ZP+oTY9nQ0eGR4g/g4Ex5NmkK42JYLPP08I56yxKe/CWy4XhdD7bovhNN9lEwdW
- Fm8n+jVpUrvgN5DAsbY1OhEyImUO0mntNPqi0mQJzgp1D/anTe2y41Z2v1Asat3xJEFK
- yhhoO5nggJIEoJdA6y9dB7pqak5XYdVBPbO8Ot76G3RxdbD+hnQ8XlA6SVuyMRTKBDYw
- NLuNENvteeHfgwBzMcZhuMcESM9SVlgrx3nREdFCIYpuiv7TR2zJjZJqHCydoA6uhuJc
- bY9iSMyguPqu9t03la1o402YjAeYdDFqr3N0tynv4R2HTcv46dMu/O/INgdH3KCQuAPA
- W42w==
+ (Exim 4.90_1) (envelope-from <brak@vultr.com>) id 1mlaZK-0002Et-1k
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 12:42:31 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ np6-20020a17090b4c4600b001a90b011e06so6966045pjb.5
+ for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 09:42:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vultr.com; s=google;
+ h=from:message-id:date:mime-version:user-agent:subject:reply-to:to
+ :content-language:content-transfer-encoding;
+ bh=Mq3tDg0k6CX8E6nbDfGC1ENHbcQ1qSwdqVpvns+s3GI=;
+ b=ob4iRJGrZO4WOrxRysbiwoJ/og4A/LfSMaMrhsnchv7RU3iTeYsnZ4uv80Zo6E9/8f
+ HpLwdsE0FrHxcKgQyVdRX1NQLexP59focnkWcbFqUGCcbdR48+GUHt4zmlNrLZG0hlaw
+ 3P3QJSEEM+DE3aqh7H4qtbPiqB2obgQWMElgxHlvw9b/eP1FghcfJ6PpWjUD11lXn2wW
+ Q3Vu1gbkU1EF3ljv9GuRg19HqiDHDAtCQlF+GyPe4eAWl/Jz3oxq33wBrNANT/wfyr2e
+ Mc7L3EW1lkvTWG81zGfGOz/BKrqgzVyNgi3VMcjsKPXUgVFqE9wyBGjcmIZHSuojbCLG
+ QJZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=95Wgalf5MOiFzNlLWuVk8PBNFBGJmLjT5TdyR/c1o0o=;
- b=bjl1DLhe8TyCR3c8V0DKTG+jjAhgTTfKIFy06pDBiG0q7TLo4dGKas6R3nJuklyF59
- XImJMCyxC/gglHO44Ct6EvY82/zRNs64CXfb/j4dKndesr90zPffw+mZ1EMB5SS/kjBj
- SNdobTUJm4qPTy5XUlMlbKl9eqPaarL/9azTH7fDBdNbNvxgmh2tof7C6UCMQGelQ9pT
- ghhCXOXfXUoYHoCfHqS+fubUkXGbPUjfTo27O5/po40nMrHP4/VT2TvAaknEZnMuk9lP
- RPN8D2EsPSlDyUvtzk2F8bPS9ZX7gFOESiiuXV4xVZgvdMQOyT4L9DJYabs/tR1ceD8O
- FOeQ==
-X-Gm-Message-State: AOAM531jtiDEqo8R1HaJfdsVqvx4N7O0MzXuX3DNhSyDOzTM0moP1UTi
- evln6g4JdHk7E5w+fdcgKA0J4w==
-X-Google-Smtp-Source: ABdhPJwVcsyTCTATt4hAIDb5PStbqWFbdJMqE+8VJH242YAiPkY/XR0Qu1AIopKUU/pTsnkxfi3yKg==
-X-Received: by 2002:adf:ea0c:: with SMTP id q12mr20026255wrm.299.1636736703896; 
- Fri, 12 Nov 2021 09:05:03 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c11sm8729789wmq.27.2021.11.12.09.05.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Nov 2021 09:05:02 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 316421FF96;
- Fri, 12 Nov 2021 17:05:02 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] hw/intc: clean-up error reporting for failed ITS cmd
-Date: Fri, 12 Nov 2021 17:04:54 +0000
-Message-Id: <20211112170454.3158925-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ h=x-gm-message-state:from:message-id:date:mime-version:user-agent
+ :subject:reply-to:to:content-language:content-transfer-encoding;
+ bh=Mq3tDg0k6CX8E6nbDfGC1ENHbcQ1qSwdqVpvns+s3GI=;
+ b=ky5ru8uxDhlZhbeo9LiaeneEcHOpdXhgEsNlFr9N0nQC7VaKbxZ6sT6vAaq0amWYz6
+ TBIWAX26HiR4z5Pez7na9HCK0H9WaoBlrPO3gnINfcRKTOC0qAl7vkWrDH8T617NIUL5
+ aJaGyTD702DCIYPsjHyckmGeAPiQ0tgDv+D3azEZCTiVcA9QvlInkzYa/gzHH3PZwX1X
+ suAras5F4MrNuLA4pLm6n141tB1a37lIxwPQqWGhCtYXpC0dP0WT/+8UxD/rX6X7t6+r
+ W0gvn/RAMlr5gjT7XFd6IZGEQ/2xGhCIpnl5p2XnIrDLn3BgrdAX4wRqSY/EXHfneL6u
+ Q9zw==
+X-Gm-Message-State: AOAM533RXY7TRGMLOSdgtrzFMiGCdKYONyVs8HZasilDxQO0+/miNNwX
+ mdN90b5A5kthSYYQ7LusdELxV9hn9dE00r+Vt0Q07g3CIMYP5ZwQH5+CSSsmluOApfOIMjsgvRN
+ S7zx2Is3IMBfqy+obiFxOV+SoyMRfx3J0L1qz2u7oeP1r/nCLiDYGWALwlMV/ZxQ=
+X-Google-Smtp-Source: ABdhPJz9DpH4ZFhevewXjnTdEDpUrlq/yxH4L05L7o5V8E5nRQxsBpJYXRvG5srxc5FNCiwm85kmXA==
+X-Received: by 2002:a05:6214:e8b:: with SMTP id
+ hf11mr16662770qvb.40.1636738508440; 
+ Fri, 12 Nov 2021 09:35:08 -0800 (PST)
+Received: from [192.168.5.229] (ool-44c536c3.dyn.optonline.net.
+ [68.197.54.195])
+ by smtp.gmail.com with ESMTPSA id 1sm3453755qtx.65.2021.11.12.09.35.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Nov 2021 09:35:08 -0800 (PST)
+From: Brian Rak <brak@vultr.com>
+X-Google-Original-From: Brian Rak <brak@gameservers.com>
+Message-ID: <abff2095-9ac8-c115-bc7f-6a19b9defe51@gameservers.com>
+Date: Fri, 12 Nov 2021 12:35:07 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.3.0
+Subject: Guests wont start with 15 pcie-root-port devices
+To: qemu-devel <qemu-devel@nongnu.org>, marcel.apfelbaum@gmail.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=brak@vultr.com; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -87,90 +89,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Shashi Mallela <shashi.mallela@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Reply-To: brak@gameservers.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While trying to debug a GIC ITS failure I saw some guest errors that
-had poor formatting as well as leaving me confused as to what failed.
-As most of the checks aren't possible without a valid dte split that
-check apart and then check the other conditions in steps. This avoids
-us relying on undefined data.
+In 6.1, a guest with 15 empty pcie-root-port devices will not boot 
+properly - it just hangs on "Guest has not initialized the display 
+(yet).".  As soon as I remove the last pcie-root-port, the guest begins 
+starting up normally.  My qemu command line:
 
-I still get a failure with the current kvm-unit-tests but at least I
-know (partially) why now:
+/usr/libexec/qemu-kvm -name guest=xxx,debug-threads=on -S -object 
+{"qom-type":"secret","id":"masterKey0","format":"raw","file":"/var/lib/libvirt/qemu/domain-29-xxx/master-key.aes"} 
+-machine 
+pc-q35-6.1,accel=kvm,usb=off,dump-guest-core=off,memory-backend=pc.ram 
+-cpu Haswell-noTSX-IBRS -m 4096 -object 
+{"qom-type":"memory-backend-ram","id":"pc.ram","size":4294967296} 
+-overcommit mem-lock=off -smp 2,sockets=2,cores=1,threads=1 -uuid 
+daf2c139-4991-4079-9b8a-b4c98fc675e0 -no-user-config -nodefaults 
+-chardev socket,id=charmonitor,fd=31,server=on,wait=off -mon 
+chardev=charmonitor,id=monitor,mode=control -rtc base=utc -no-shutdown 
+-boot strict=on -device 
+pcie-root-port,port=0x10,chassis=1,id=pci.1,bus=pcie.0,multifunction=on,addr=0x2 
+-device 
+pcie-root-port,port=0x11,chassis=2,id=pci.2,bus=pcie.0,addr=0x2.0x1 
+-device 
+pcie-root-port,port=0x12,chassis=3,id=pci.3,bus=pcie.0,addr=0x2.0x2 
+-device 
+pcie-root-port,port=0x13,chassis=4,id=pci.4,bus=pcie.0,addr=0x2.0x3 
+-device 
+pcie-root-port,port=0x14,chassis=5,id=pci.5,bus=pcie.0,addr=0x2.0x4 
+-device 
+pcie-root-port,port=0x15,chassis=6,id=pci.6,bus=pcie.0,addr=0x2.0x5 
+-device 
+pcie-root-port,port=0x16,chassis=7,id=pci.7,bus=pcie.0,addr=0x2.0x6 
+-device 
+pcie-root-port,port=0x17,chassis=8,id=pci.8,bus=pcie.0,addr=0x2.0x7 
+-device 
+pcie-root-port,port=0x18,chassis=9,id=pci.9,bus=pcie.0,multifunction=on,addr=0x3 
+-device 
+pcie-root-port,port=0x19,chassis=10,id=pci.10,bus=pcie.0,addr=0x3.0x1 
+-device 
+pcie-root-port,port=0x1a,chassis=11,id=pci.11,bus=pcie.0,addr=0x3.0x2 
+-device 
+pcie-root-port,port=0x1b,chassis=12,id=pci.12,bus=pcie.0,addr=0x3.0x3 
+-device 
+pcie-root-port,port=0x1c,chassis=13,id=pci.13,bus=pcie.0,addr=0x3.0x4 
+-device 
+pcie-root-port,port=0x1d,chassis=14,id=pci.14,bus=pcie.0,addr=0x3.0x5 
+-device 
+pcie-root-port,port=0x1e,chassis=15,id=pci.15,bus=pcie.0,addr=0x3.0x6 
+-device qemu-xhci,id=usb,bus=pci.1,addr=0x0 -audiodev 
+id=audio1,driver=none -vnc 
+127.0.0.1:5410,websocket=41310,password=on,audiodev=audio1 -device 
+cirrus-vga,id=video0,bus=pcie.0,addr=0x1 -device 
+virtio-balloon-pci,id=balloon0,bus=pci.2,addr=0x0 -sandbox 
+on,obsolete=deny,elevateprivileges=deny,spawn=deny,resourcecontrol=deny 
+-msg timestamp=on
 
-  Exception return from AArch64 EL1 to AArch64 EL1 PC 0x40080588
-  PASS: gicv3: its-trigger: inv/invall: dev2/eventid=20 now triggers an LPI
-  ITS: MAPD devid=2 size = 0x8 itt=0x40430000 valid=0
-  INT dev_id=2 event_id=20
-  process_its_cmd: invalid command attributes: invalid dte: 0 for 2 (MEM_TX: 0)
-  PASS: gicv3: its-trigger: mapd valid=false: no LPI after device unmap
-  SUMMARY: 6 tests, 1 unexpected failures
+The same guest XML that produced this worked fine in 5.2  I was able to 
+bisect this down to this commit:
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Shashi Mallela <shashi.mallela@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>
----
- hw/intc/arm_gicv3_its.c | 39 +++++++++++++++++++++++++++------------
- 1 file changed, 27 insertions(+), 12 deletions(-)
 
-diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index 84bcbb5f56..d5267814ab 100644
---- a/hw/intc/arm_gicv3_its.c
-+++ b/hw/intc/arm_gicv3_its.c
-@@ -274,21 +274,36 @@ static bool process_its_cmd(GICv3ITSState *s, uint64_t value, uint32_t offset,
-         if (res != MEMTX_OK) {
-             return result;
-         }
-+    } else {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: invalid command attributes: "
-+                      "invalid dte: %"PRIx64" for %d (MEM_TX: %d)\n",
-+                      __func__, dte, devid, res);
-+        return result;
-     }
- 
--    if ((devid > s->dt.maxids.max_devids) || !dte_valid || !ite_valid ||
--            !cte_valid || (eventid > max_eventid)) {
-+
-+    /*
-+     * In this implementation, in case of guest errors we ignore the
-+     * command and move onto the next command in the queue.
-+     */
-+    if (devid > s->dt.maxids.max_devids) {
-         qemu_log_mask(LOG_GUEST_ERROR,
--                      "%s: invalid command attributes "
--                      "devid %d or eventid %d or invalid dte %d or"
--                      "invalid cte %d or invalid ite %d\n",
--                      __func__, devid, eventid, dte_valid, cte_valid,
--                      ite_valid);
--        /*
--         * in this implementation, in case of error
--         * we ignore this command and move onto the next
--         * command in the queue
--         */
-+                      "%s: invalid command attributes: devid %d>%d",
-+                      __func__, devid, s->dt.maxids.max_devids);
-+
-+    } else if (!dte_valid || !ite_valid || !cte_valid) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: invalid command attributes: "
-+                      "dte: %s, ite: %s, cte: %s\n",
-+                      __func__,
-+                      dte_valid ? "valid" : "invalid",
-+                      ite_valid ? "valid" : "invalid",
-+                      cte_valid ? "valid" : "invalid");
-+    } else if (eventid > max_eventid) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: invalid command attributes: eventid %d > %d\n",
-+                      __func__, eventid, max_eventid);
-     } else {
-         /*
-          * Current implementation only supports rdbase == procnum
--- 
-2.30.2
+commit e2a6290aab578b2170c1f5909fa556385dc0d820
+Author: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Date:   Mon Aug 2 12:00:57 2021 +0300
+
+     hw/pcie-root-port: Fix hotplug for PCI devices requiring IO
+
+Although I can't say I really understand why that commit triggered it.
 
 
