@@ -2,91 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65C9A44E666
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 13:32:02 +0100 (CET)
-Received: from localhost ([::1]:54908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9164144E727
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 14:13:45 +0100 (CET)
+Received: from localhost ([::1]:38206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlVir-0003YI-Cm
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 07:32:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54190)
+	id 1mlWNE-0006NS-8f
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 08:13:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mlVhX-0002jF-TL
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 07:30:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34213)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mlVhW-0001hz-2T
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 07:30:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636720237;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ed5rdzvGKGIDyWa0w+gGqCyvD9zDl1auFtkLMUWnQek=;
- b=RV3zRifW0z8X4uJVBbELhSy8yHht61S7Bxl23ksd2ZXjYU5nC2ae+Y3HJ/w5TuXIIzWMjC
- BN7Ka09GnA+Y+UwFScutPvjVN4gxyTs+vEa9ZaGkd54Ykudgpl7OshnvEX46ZpYhkkVnvJ
- XypKwHP3vbo6SeFr1hZRrKwTDZApFes=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-YD_Nwv8JPmiAHQCS0_Z_sg-1; Fri, 12 Nov 2021 07:30:36 -0500
-X-MC-Unique: YD_Nwv8JPmiAHQCS0_Z_sg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- k25-20020a05600c1c9900b00332f798ba1dso6231932wms.4
- for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 04:30:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mlWLA-0005hU-QM
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 08:11:36 -0500
+Received: from [2a00:1450:4864:20::534] (port=43686
+ helo=mail-ed1-x534.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mlWL7-0007P2-Ue
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 08:11:36 -0500
+Received: by mail-ed1-x534.google.com with SMTP id w1so37616938edd.10
+ for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 05:11:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fCrFGESCWdN/0+Ozk0fuJhJYWR9TULIGXii8VQY6mBU=;
+ b=xyHvHr+0fVdMlVXCHZYP9mdqt0tRgVZr/PUgRxIcRcvmVoMoCmCzs/wDfs6YWgoku/
+ xrCgQExevSfpcVALVb0TBSLvW1Tcgg+ZqOjPRneMqsACzjPJUruz/GQA7eGVbnfVBfVL
+ UMeOx2GalgTMtWNOA4Z4ta2Fxa9/R2eUrRJGxr9z4qJzVNigM5OQOn+FHsCgPNaCZbpN
+ dWZ9Qbfr4lIYCYr8gt7yMmc+eUKOFhtC+74TvLTOwftqTRWVALIVju/gy8w814J6xOrg
+ 58zEmWc9cV98bArzpDzX5Vy7tEj8hIhFob+BRBS7flgH3SnYa7G+FYzjTvu4gG0dhEXW
+ yvGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ed5rdzvGKGIDyWa0w+gGqCyvD9zDl1auFtkLMUWnQek=;
- b=fzoOJyGXTMCBnUWZC2PJyxZwZC9/pkfzjMYC26S0TBAOi1vd7Bhc8bEhzy1jvY6teU
- ZxSfusnw+8Cpe3eE9+8DVnythdA3jFUIJoYh170CDneNgWfNTShb5wiQcOJ4DiQ0ON5V
- QbGC2do8tirLO7y91M+K8frVZKkUDDldz9f/ngBntCnewdCu6tNUT4BHlT3GZpcpiqtI
- DLmC2wwJyfzOzgx3LuF07djrQzmk4jn0iXOlOYSvgiyxPH9zbYBBFcRDWj5da1rBy53Q
- GIzHD+TKTq1uAUeofTjVo5viUp0Z3SxfUkbECwFHpcR/57ggJYQuOah+ZQb5NG8u6Jbj
- Puvw==
-X-Gm-Message-State: AOAM532p37KEx/fXG6lrJBKoFpax1phi2ciN/Ksi3FtAlaENsckAvsA9
- KpOekRTPKMe0RpQYaTAa+rBV7GM71Hf0OMQPMvPS266L4ktCAlW4E5QBMy1nB0YSatPWaGd5cKg
- nRjowESLgB0nk0t4=
-X-Received: by 2002:a5d:6d84:: with SMTP id l4mr18667283wrs.266.1636720234931; 
- Fri, 12 Nov 2021 04:30:34 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyVXnsUbIQyyoSs059FXh7lXIgXQe1zAW1Kc4KaO+N3knWcWAZZiYhNbfrfz5sVFBgffY9J1g==
-X-Received: by 2002:a5d:6d84:: with SMTP id l4mr18667231wrs.266.1636720234617; 
- Fri, 12 Nov 2021 04:30:34 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id n32sm13225948wms.1.2021.11.12.04.30.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Nov 2021 04:30:34 -0800 (PST)
-Message-ID: <5a92135c-5d41-96e4-bcd1-68f0cbb0e0b4@redhat.com>
-Date: Fri, 12 Nov 2021 13:30:33 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fCrFGESCWdN/0+Ozk0fuJhJYWR9TULIGXii8VQY6mBU=;
+ b=Lhki6z4jVhYne3BwpP0WRMBNYI5RyGwgr7H9P1ihVaCuz7DeS674GUMW/buxnK2Vml
+ vZmxJdCCM+7XIK1At/0nXVVDv0BMSXO01TyYxqdSI/Z2hE5Ti/HI4bSbAUzHU2a1XUiS
+ CYc/TBoffQcGqY3RXv9UQ3FaXIluI37yGu5GQZUynAjjh2xXRAWSTqRCbWWzU1k579oy
+ A6qUE0Cc2q85OJK0MhhnEEB0ouc3SFuvrooNE+a23pRnK+OvylfagwCHyR+VBEsZ7SYD
+ B9RF7LUUHiL9ZzEgsTt4+NwpUX2tpFWVx7WJ6XdosFJY6nhokrwrXykrgUDQmPZtdGZk
+ DBGQ==
+X-Gm-Message-State: AOAM532mlz7mL1zz9ukZEJZvTTJbAidivdG43VmfvKQf9mkc710cttZm
+ n8QJKdkJEGaeREFEzmhBR4iNz1358j5RR3GtDOHdYw==
+X-Google-Smtp-Source: ABdhPJzPdHTt7Fj5vXw3YtsrmVH1Qr7sWJ8CtfAY0Aj+W0IlvVjSeGCztcBKprWQgUqd6VNapaUDtc9GXxecIm9jhfk=
+X-Received: by 2002:a17:907:e8b:: with SMTP id
+ ho11mr20169211ejc.430.1636722691424; 
+ Fri, 12 Nov 2021 05:11:31 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v4 04/25] include/sysemu/block-backend: split header into
- I/O and global state (GS) API
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20211025101735.2060852-1-eesposit@redhat.com>
- <20211025101735.2060852-5-eesposit@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20211025101735.2060852-5-eesposit@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.449, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211112110857.3116853-1-imammedo@redhat.com>
+ <20211112110857.3116853-5-imammedo@redhat.com>
+In-Reply-To: <20211112110857.3116853-5-imammedo@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 12 Nov 2021 18:41:20 +0530
+Message-ID: <CAARzgwwy0V5FejMZwuq2H3M4H_2YdL5dpwr3Yp=F3uMKsRjr=g@mail.gmail.com>
+Subject: Re: [PATCH for 6.2 v3 4/5] hw/i386/acpi-build: Deny control on PCIe
+ Native Hot-plug in _OSC
+To: Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::534
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::534;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,72 +81,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: mapfelba@redhat.com, mst@redhat.com, jusual@redhat.com,
+ qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25.10.21 12:17, Emanuele Giuseppe Esposito wrote:
-> Similarly to the previous patches, split block-backend.h
-> in block-backend-io.h and block-backend-global-state.h
+On Fri, Nov 12, 2021 at 4:41 PM Igor Mammedov <imammedo@redhat.com> wrote:
 >
-> In addition, remove "block/block.h" include as it seems
-> it is not necessary anymore, together with "qemu/iov.h"
+> From: Julia Suvorova <jusual@redhat.com>
 >
-> block-backend-common.h contains the structures shared between
-> the two headers, and the functions that can't be categorized as
-> I/O or global state.
+> There are two ways to enable ACPI PCI Hot-plug:
 >
-> Assertions are added in the next patch.
+>         * Disable the Hot-plug Capable bit on PCIe slots.
 >
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> This was the first approach which led to regression [1-2], as
+> I/O space for a port is allocated only when it is hot-pluggable,
+> which is determined by HPC bit.
+>
+>         * Leave the HPC bit on and disable PCIe Native Hot-plug in _OSC
+>           method.
+>
+> This removes the (future) ability of hot-plugging switches with PCIe
+> Native hotplug since ACPI PCI Hot-plug only works with cold-plugged
+> bridges. If the user wants to explicitely use this feature, they can
+> disable ACPI PCI Hot-plug with:
+>         --global ICH9-LPC.acpi-pci-hotplug-with-bridge-support=off
+>
+> Change the bit in _OSC method so that the OS selects ACPI PCI Hot-plug
+> instead of PCIe Native.
+>
+> [1] https://gitlab.com/qemu-project/qemu/-/issues/641
+> [2] https://bugzilla.redhat.com/show_bug.cgi?id=2006409
+>
+> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
+
 > ---
->   block/block-backend.c                       |   9 +-
->   include/sysemu/block-backend-common.h       |  74 ++++++
->   include/sysemu/block-backend-global-state.h | 122 +++++++++
->   include/sysemu/block-backend-io.h           | 139 ++++++++++
->   include/sysemu/block-backend.h              | 269 +-------------------
->   5 files changed, 344 insertions(+), 269 deletions(-)
->   create mode 100644 include/sysemu/block-backend-common.h
->   create mode 100644 include/sysemu/block-backend-global-state.h
->   create mode 100644 include/sysemu/block-backend-io.h
-
-[...]
-
-> diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
-> index e5e1524f06..038be9fc40 100644
-> --- a/include/sysemu/block-backend.h
-> +++ b/include/sysemu/block-backend.h
-> @@ -13,272 +13,9 @@
->   #ifndef BLOCK_BACKEND_H
->   #define BLOCK_BACKEND_H
->   
-> -#include "qemu/iov.h"
-> -#include "block/throttle-groups.h"
-> +#include "block-backend-global-state.h"
-> +#include "block-backend-io.h"
->   
-> -/*
-> - * TODO Have to include block/block.h for a bunch of block layer
-> - * types.  Unfortunately, this pulls in the whole BlockDriverState
-> - * API, which we don't want used by many BlockBackend users.  Some of
-> - * the types belong here, and the rest should be split into a common
-> - * header and one for the BlockDriverState API.
-> - */
-> -#include "block/block.h"
-
-This note and the include is gone.  Sounds like something positive, but 
-why is this possible?
-
-Hanna
-
+> v2:
+>   - (mst)
+>       * drop local hotplug var and opencode it
+>       * rename acpi_pcihp parameter to enable_native_pcie_hotplug
+>         to reflect what it actually does
+>
+> tested:
+>   with hotplugging nic into 1 root port with seabios/ovmf/Fedora34
+>   Windows tested only with seabios (using exiting images)
+>   (installer fails to install regardless on bios)
+> ---
+>  hw/i386/acpi-build.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+>
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index a3ad6abd33..a99c6e4fe3 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -1337,7 +1337,7 @@ static void build_x86_acpi_pci_hotplug(Aml *table, uint64_t pcihp_addr)
+>      aml_append(table, scope);
+>  }
+>
+> -static Aml *build_q35_osc_method(void)
+> +static Aml *build_q35_osc_method(bool enable_native_pcie_hotplug)
+>  {
+>      Aml *if_ctx;
+>      Aml *if_ctx2;
+> @@ -1359,8 +1359,10 @@ static Aml *build_q35_osc_method(void)
+>      /*
+>       * Always allow native PME, AER (no dependencies)
+>       * Allow SHPC (PCI bridges can have SHPC controller)
+> +     * Disable PCIe Native Hot-plug if ACPI PCI Hot-plug is enabled.
+>       */
+> -    aml_append(if_ctx, aml_and(a_ctrl, aml_int(0x1F), a_ctrl));
+> +    aml_append(if_ctx, aml_and(a_ctrl,
+> +        aml_int(0x1E | (enable_native_pcie_hotplug ? 0x1 : 0x0)), a_ctrl));
+>
+>      if_ctx2 = aml_if(aml_lnot(aml_equal(aml_arg(1), aml_int(1))));
+>      /* Unknown revision */
+> @@ -1449,7 +1451,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>          aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
+>          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+>          aml_append(dev, aml_name_decl("_UID", aml_int(pcmc->pci_root_uid)));
+> -        aml_append(dev, build_q35_osc_method());
+> +        aml_append(dev, build_q35_osc_method(!pm->pcihp_bridge_en));
+>          aml_append(sb_scope, dev);
+>          if (mcfg_valid) {
+>              aml_append(sb_scope, build_q35_dram_controller(&mcfg));
+> @@ -1565,7 +1567,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>              if (pci_bus_is_express(bus)) {
+>                  aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
+>                  aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
+> -                aml_append(dev, build_q35_osc_method());
+> +
+> +                /* Expander bridges do not have ACPI PCI Hot-plug enabled */
+> +                aml_append(dev, build_q35_osc_method(true));
+>              } else {
+>                  aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
+>              }
+> --
+> 2.27.0
+>
 
