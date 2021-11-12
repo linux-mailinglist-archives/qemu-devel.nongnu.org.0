@@ -2,84 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA6144E4E1
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 11:52:34 +0100 (CET)
-Received: from localhost ([::1]:43476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4E744E4F1
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 11:55:53 +0100 (CET)
+Received: from localhost ([::1]:46542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlUAb-0005tP-Kw
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 05:52:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34640)
+	id 1mlUDo-0007z2-G3
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 05:55:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mlU9m-0005CF-2A
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 05:51:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54018)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mlUCj-0006lW-CH
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 05:54:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40509)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mlU9g-0004OW-8R
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 05:51:41 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mlUCg-0004cc-2s
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 05:54:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636714295;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8FfOverAgqcG/kkt56CxhjKtOK+TC3sl4Pl1dV5GpbU=;
- b=QjRHFnGfUjBSwEwFK2712f6FQW3QboI43eYpRUWoFkZFdq8+CUvW4RPrHPGvjTSOK/gHxJ
- 9IHi5TKfD1q+knyaYdOqtR3LWB50zLIXuh28tnC5hyfErUsoDig9324Xwk0jXqf3IklmCk
- o36hdnEV0fvLjV6lsL9xcT6pvcNYpEw=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-t4fSegfIM1-_WxHAW1TyGg-1; Fri, 12 Nov 2021 05:51:31 -0500
-X-MC-Unique: t4fSegfIM1-_WxHAW1TyGg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- f4-20020a50e084000000b003db585bc274so7875864edl.17
- for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 02:51:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=8FfOverAgqcG/kkt56CxhjKtOK+TC3sl4Pl1dV5GpbU=;
- b=69wd9sVsuT8RWwBE4FT5L7ytdt9oDNo6mnpCYtLKEYVAXJgUttQhYhS4sDrmnlZJNS
- KQLfNxHPYmI7P4Wry/ub647F3zNQM1IwOwHrX6nT5SlwqL7mkcxo4aG86EJgbDeWbWvn
- cfhqRLL8eHWksrOIWHOdN+R6mYe/PzGWWSfEgPK5iqGladcgxuVvj+Bcl+hUs123CGOa
- WrDsgN23oWWyuFEFcXJnnmG2vjSy1zutJipgKY7fKU9+HBjfNjfH011c5K4zhcpUYFZx
- ouJJIFV2AkB9xDfTFAR85QR0hYExn3r46R28Bys2+KBNcZkTC/lbJp5l1vu31ErrATkk
- 9tKQ==
-X-Gm-Message-State: AOAM532O8PK1kAiCcTrAC362cc3YzRVQMgXu8yFwkhsx3AsPSl9wDd9+
- FE/oH8MbLKkzrB0BfV/wrljTGd4aFMryU8ayA1ezMoUjachecKSIA8X1Vd5mu89NYqZWQvwlqXR
- iGBfGXdoMfpRJr9g=
-X-Received: by 2002:a17:906:7ccf:: with SMTP id
- h15mr18397310ejp.386.1636714290538; 
- Fri, 12 Nov 2021 02:51:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzLHbO4KABCe1C6UtM2+PZqsza40ceybloEnw70GorYTN3M6oYrcACReabhYcDGePEmlOPUeA==
-X-Received: by 2002:a17:906:7ccf:: with SMTP id
- h15mr18397284ejp.386.1636714290351; 
- Fri, 12 Nov 2021 02:51:30 -0800 (PST)
-Received: from localhost ([185.140.112.229])
- by smtp.gmail.com with ESMTPSA id cz7sm2835403edb.55.2021.11.12.02.51.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Nov 2021 02:51:29 -0800 (PST)
-Date: Fri, 12 Nov 2021 11:51:28 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH for 6.2 v2 4/5] hw/i386/acpi-build: Deny control on PCIe
- Native Hot-plug in _OSC
-Message-ID: <20211112115128.66230040@redhat.com>
-In-Reply-To: <alpine.DEB.2.22.394.2111111104320.133428@anisinha-lenovo>
-References: <20211110211140.3057199-1-imammedo@redhat.com>
- <20211110211140.3057199-5-imammedo@redhat.com>
- <alpine.DEB.2.22.394.2111111104320.133428@anisinha-lenovo>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ s=mimecast20190719; t=1636714481;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=3aowqIO2GRnILaq9DnlcNnswCnH3I2GVZkkREsNZJ/Q=;
+ b=WqA95Qv7YoP+1GpxK6de5J0atx8V/SptiB5Q4DZjzloOJnhHRkEc4kqdKx8cSZt96pb36E
+ 0c8PNqLEHKih8fC4ZRUHy8m5IQFg/aqNiTKwz/dYJUK/vtn7hTpjDLA6VgtnXs2t0O27o9
+ Ayytge3FtHHmGIpYNatMJ9UrcbgNdss=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-436-whsnL01FM9KAQHqq1dLhGw-1; Fri, 12 Nov 2021 05:54:39 -0500
+X-MC-Unique: whsnL01FM9KAQHqq1dLhGw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4895615720
+ for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 10:54:38 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 24B18607CB;
+ Fri, 12 Nov 2021 10:54:20 +0000 (UTC)
+Date: Fri, 12 Nov 2021 10:54:18 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Leonardo Bras <leobras@redhat.com>
+Subject: Re: [PATCH v5 3/6] QIOChannelSocket: Implement io_writev_zerocopy &
+ io_flush_zerocopy for CONFIG_LINUX
+Message-ID: <YY5H2ixqGpfbo5jI@redhat.com>
+References: <20211112051040.923746-1-leobras@redhat.com>
+ <20211112051040.923746-4-leobras@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20211112051040.923746-4-leobras@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -100,118 +80,325 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mapfelba@redhat.com, kraxel@redhat.com, jusual@redhat.com,
- qemu-devel@nongnu.org, mst@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Nov 2021 11:19:30 +0530 (IST)
-Ani Sinha <ani@anisinha.ca> wrote:
+On Fri, Nov 12, 2021 at 02:10:38AM -0300, Leonardo Bras wrote:
+> For CONFIG_LINUX, implement the new optional callbacks io_write_zerocopy and
+> io_flush_zerocopy on QIOChannelSocket, but enables it only when MSG_ZEROCOPY
+> feature is available in the host kernel, which is checked on
+> qio_channel_socket_connect_sync()
+> 
+> qio_channel_socket_flush_zerocopy() was implemented by counting how many times
+> sendmsg(...,MSG_ZEROCOPY) was successfully called, and then reading the
+> socket's error queue, in order to find how many of them finished sending.
+> Flush will loop until those counters are the same, or until some error occurs.
+> 
+> A new function qio_channel_socket_poll() was also created in order to avoid
+> busy-looping recvmsg() in qio_channel_socket_flush_zerocopy() while waiting for
+> updates in socket's error queue.
+> 
+> Notes on using writev_zerocopy():
+> 1: Buffer
+> - As MSG_ZEROCOPY tells the kernel to use the same user buffer to avoid copying,
+> some caution is necessary to avoid overwriting any buffer before it's sent.
+> If something like this happen, a newer version of the buffer may be sent instead.
+> - If this is a problem, it's recommended to call flush_zerocopy() before freeing
+> or re-using the buffer.
+> 
+> 2: Locked memory
+> - When using MSG_ZERCOCOPY, the buffer memory will be locked after queued, and
+> unlocked after it's sent.
+> - Depending on the size of each buffer, and how often it's sent, it may require
+> a larger amount of locked memory than usually available to non-root user.
+> - If the required amount of locked memory is not available, writev_zerocopy
+> will return an error, which can abort an operation like migration,
+> - Because of this, when an user code wants to add zerocopy as a feature, it
+> requires a mechanism to disable it, so it can still be accessible to less
+> privileged users.
+> 
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> ---
+>  include/io/channel-socket.h |   2 +
+>  include/io/channel.h        |   1 +
+>  io/channel-socket.c         | 150 +++++++++++++++++++++++++++++++++++-
+>  3 files changed, 150 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/io/channel-socket.h b/include/io/channel-socket.h
+> index e747e63514..81d04baa4c 100644
+> --- a/include/io/channel-socket.h
+> +++ b/include/io/channel-socket.h
+> @@ -47,6 +47,8 @@ struct QIOChannelSocket {
+>      socklen_t localAddrLen;
+>      struct sockaddr_storage remoteAddr;
+>      socklen_t remoteAddrLen;
+> +    ssize_t zerocopy_queued;
+> +    ssize_t zerocopy_sent;
+>  };
+>  
+>  
+> diff --git a/include/io/channel.h b/include/io/channel.h
+> index a19c09bb84..051fff4197 100644
+> --- a/include/io/channel.h
+> +++ b/include/io/channel.h
+> @@ -31,6 +31,7 @@ OBJECT_DECLARE_TYPE(QIOChannel, QIOChannelClass,
+>  
+>  
+>  #define QIO_CHANNEL_ERR_BLOCK -2
+> +#define QIO_CHANNEL_ERR_NOBUFS -3
+>  
+>  #define QIO_CHANNEL_WRITE_FLAG_ZEROCOPY 0x1
+>  
+> diff --git a/io/channel-socket.c b/io/channel-socket.c
+> index b57a27bf91..c724b849ad 100644
+> --- a/io/channel-socket.c
+> +++ b/io/channel-socket.c
+> @@ -26,6 +26,10 @@
+>  #include "io/channel-watch.h"
+>  #include "trace.h"
+>  #include "qapi/clone-visitor.h"
+> +#ifdef CONFIG_LINUX
+> +#include <linux/errqueue.h>
+> +#include <poll.h>
+> +#endif
+>  
+>  #define SOCKET_MAX_FDS 16
+>  
+> @@ -55,6 +59,8 @@ qio_channel_socket_new(void)
+>  
+>      sioc = QIO_CHANNEL_SOCKET(object_new(TYPE_QIO_CHANNEL_SOCKET));
+>      sioc->fd = -1;
+> +    sioc->zerocopy_queued = 0;
+> +    sioc->zerocopy_sent = 0;
+>  
+>      ioc = QIO_CHANNEL(sioc);
+>      qio_channel_set_feature(ioc, QIO_CHANNEL_FEATURE_SHUTDOWN);
+> @@ -140,6 +146,7 @@ int qio_channel_socket_connect_sync(QIOChannelSocket *ioc,
+>                                      Error **errp)
+>  {
+>      int fd;
+> +    int ret, v = 1;
+>  
+>      trace_qio_channel_socket_connect_sync(ioc, addr);
+>      fd = socket_connect(addr, errp);
+> @@ -154,6 +161,15 @@ int qio_channel_socket_connect_sync(QIOChannelSocket *ioc,
+>          return -1;
+>      }
+>  
+> +#ifdef CONFIG_LINUX
+> +    ret = qemu_setsockopt(fd, SOL_SOCKET, SO_ZEROCOPY, &v, sizeof(v));
+> +    if (ret == 0) {
+> +        /* Zerocopy available on host */
+> +        qio_channel_set_feature(QIO_CHANNEL(ioc),
+> +                                QIO_CHANNEL_FEATURE_WRITE_ZEROCOPY);
+> +    }
+> +#endif
+> +
+>      return 0;
+>  }
+>  
+> @@ -561,12 +577,15 @@ static ssize_t qio_channel_socket_writev_flags(QIOChannel *ioc,
+>   retry:
+>      ret = sendmsg(sioc->fd, &msg, flags);
+>      if (ret <= 0) {
+> -        if (errno == EAGAIN) {
+> +        switch (errno) {
+> +        case EAGAIN:
+>              return QIO_CHANNEL_ERR_BLOCK;
+> -        }
+> -        if (errno == EINTR) {
+> +        case EINTR:
+>              goto retry;
+> +        case ENOBUFS:
+> +            return QIO_CHANNEL_ERR_NOBUFS;
 
-> On Wed, 10 Nov 2021, Igor Mammedov wrote:
-> 
-> > From: Julia Suvorova <jusual@redhat.com>
-> >
-> > There are two ways to enable ACPI PCI Hot-plug:
-> >
-> >         * Disable the Hot-plug Capable bit on PCIe slots.
-> >
-> > This was the first approach which led to regression [1-2], as
-> > I/O space for a port is allocated only when it is hot-pluggable,
-> > which is determined by HPC bit.
-> >
-> >         * Leave the HPC bit on and disable PCIe Native Hot-plug in _OSC
-> >           method.
-> >
-> > This removes the (future) ability of hot-plugging switches with PCIe
-> > Native hotplug since ACPI PCI Hot-plug only works with cold-plugged
-> > bridges. If the user wants to explicitely use this feature, they can
-> > disable ACPI PCI Hot-plug with:
-> >         --global ICH9-LPC.acpi-pci-hotplug-with-bridge-support=off
-> >
-> > Change the bit in _OSC method so that the OS selects ACPI PCI Hot-plug
-> > instead of PCIe Native.
-> >
-> > [1] https://gitlab.com/qemu-project/qemu/-/issues/641
-> > [2] https://bugzilla.redhat.com/show_bug.cgi?id=2006409
-> >
-> > Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > ---
-> > v2:
-> >   - (mst)
-> >       * drop local hotplug var and opencode it
-> >       * rename acpi_pcihp parameter to enable_native_pcie_hotplug
-> >         to reflect what it actually does
-> >
-> > tested:
-> >   with hotplugging nic into 1 root port with seabios/ovmf/Fedora34
-> >   Windows tested only with seabios (using exiting images)
-> >   (installer fails to install regardless on bios)
-> > ---
-> >  hw/i386/acpi-build.c | 12 ++++++++----
-> >  1 file changed, 8 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > index a3ad6abd33..a99c6e4fe3 100644
-> > --- a/hw/i386/acpi-build.c
-> > +++ b/hw/i386/acpi-build.c
-> > @@ -1337,7 +1337,7 @@ static void build_x86_acpi_pci_hotplug(Aml *table, uint64_t pcihp_addr)
-> >      aml_append(table, scope);
-> >  }
-> >
-> > -static Aml *build_q35_osc_method(void)
-> > +static Aml *build_q35_osc_method(bool enable_native_pcie_hotplug)
-> >  {
-> >      Aml *if_ctx;
-> >      Aml *if_ctx2;
-> > @@ -1359,8 +1359,10 @@ static Aml *build_q35_osc_method(void)
-> >      /*
-> >       * Always allow native PME, AER (no dependencies)
-> >       * Allow SHPC (PCI bridges can have SHPC controller)
-> > +     * Disable PCIe Native Hot-plug if ACPI PCI Hot-plug is enabled.
-> >       */  
-> 
-> Based on v2, I think its more useful to have this comment where the
-> function is called.
-I'd leave it as is, which is consistent with other bits described here
+Why does ENOBUFS need handling separately instead of letting
+the error_setg_errno below handle it ?
 
-> 
-> > -    aml_append(if_ctx, aml_and(a_ctrl, aml_int(0x1F), a_ctrl));
-> > +    aml_append(if_ctx, aml_and(a_ctrl,
-> > +        aml_int(0x1E | (enable_native_pcie_hotplug ? 0x1 : 0x0)), a_ctrl));
-> >
-> >      if_ctx2 = aml_if(aml_lnot(aml_equal(aml_arg(1), aml_int(1))));
-> >      /* Unknown revision */
-> > @@ -1449,7 +1451,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> >          aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
-> >          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
-> >          aml_append(dev, aml_name_decl("_UID", aml_int(pcmc->pci_root_uid)));
-> > -        aml_append(dev, build_q35_osc_method());
-> > +        aml_append(dev, build_q35_osc_method(!pm->pcihp_bridge_en));  
-> 
-> See above. I think it helps to add a comment here saying native hotplug is
-> enabled when acpi hotplug is disabled for cold plugged bridges.
-> 
-> 
-> >          aml_append(sb_scope, dev);
-> >          if (mcfg_valid) {
-> >              aml_append(sb_scope, build_q35_dram_controller(&mcfg));
-> > @@ -1565,7 +1567,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> >              if (pci_bus_is_express(bus)) {
-> >                  aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
-> >                  aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
-> > -                aml_append(dev, build_q35_osc_method());
-> > +
-> > +                /* Expander bridges do not have ACPI PCI Hot-plug enabled */
-> > +                aml_append(dev, build_q35_osc_method(true));
-> >              } else {
-> >                  aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
-> >              }
-> > --
-> > 2.27.0
-> >
-> >  
-> 
+The caller immediately invokes error_setg_errno() again,
+just with different error message.
+
+No code in this series ever looks at QIO_CHANNEL_ERR_NOBUFS
+either, so we don't even need that special error return code
+added AFAICT ?
+
+>          }
+> +
+>          error_setg_errno(errp, errno,
+>                           "Unable to write to socket");
+>          return -1;
+> @@ -670,6 +689,127 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
+>  }
+>  #endif /* WIN32 */
+>  
+> +
+> +#ifdef CONFIG_LINUX
+> +
+> +static int qio_channel_socket_poll(QIOChannelSocket *sioc, bool zerocopy,
+> +                                   Error **errp)
+
+There's only one caller and it always passes zerocopy=true,
+so this parmeter looks pointless.
+
+> +{
+> +    struct pollfd pfd;
+> +    int ret;
+> +
+> +    pfd.fd = sioc->fd;
+> +    pfd.events = 0;
+> +
+> + retry:
+> +    ret = poll(&pfd, 1, -1);
+> +    if (ret < 0) {
+> +        switch (errno) {
+> +        case EAGAIN:
+> +        case EINTR:
+> +            goto retry;
+> +        default:
+> +            error_setg_errno(errp, errno,
+> +                             "Poll error");
+> +            return ret;
+
+       return -1;
+
+> +        }
+> +    }
+> +
+> +    if (pfd.revents & (POLLHUP | POLLNVAL)) {
+> +        error_setg(errp, "Poll error: Invalid or disconnected fd");
+> +        return -1;
+> +    }
+> +
+> +    if (!zerocopy && (pfd.revents & POLLERR)) {
+> +        error_setg(errp, "Poll error: Errors present in errqueue");
+> +        return -1;
+> +    }
+
+> +
+> +    return ret;
+
+  return 0;
+
+> +}
+> +
+> +static ssize_t qio_channel_socket_writev_zerocopy(QIOChannel *ioc,
+> +                                                  const struct iovec *iov,
+> +                                                  size_t niov,
+> +                                                  Error **errp)
+> +{
+> +    QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(ioc);
+> +    ssize_t ret;
+> +
+> +    ret = qio_channel_socket_writev_flags(ioc, iov, niov, NULL, 0,
+> +                                          MSG_ZEROCOPY, errp);
+> +    if (ret == QIO_CHANNEL_ERR_NOBUFS) {
+> +        error_setg_errno(errp, errno,
+> +                         "Process can't lock enough memory for using MSG_ZEROCOPY");
+
+This should not be touching errno - the method should be setting the
+errp directly, not leaving it to the caller.
+
+> +        return -1;
+> +    }
+> +
+> +    sioc->zerocopy_queued++;
+
+ if (ret > 0)
+    sio->zerocopy_queued++
+
+since the kernel doesn't increase the counter if the data sent
+was zero length. A caller shouldn't be passing us a zero length
+iov data element, but it is wise to be cautious
+
+> +    return ret;
+> +}
+> +
+> +static int qio_channel_socket_flush_zerocopy(QIOChannel *ioc,
+> +                                             Error **errp)
+> +{
+> +    QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(ioc);
+> +    struct msghdr msg = {};
+> +    struct sock_extended_err *serr;
+> +    struct cmsghdr *cm;
+> +    char control[CMSG_SPACE(sizeof(*serr))];
+> +    int ret;
+
+Add
+
+   int rv = 0;
+
+> +
+> +    msg.msg_control = control;
+> +    msg.msg_controllen = sizeof(control);
+> +    memset(control, 0, sizeof(control));
+> +
+> +    while (sioc->zerocopy_sent < sioc->zerocopy_queued) {
+> +        ret = recvmsg(sioc->fd, &msg, MSG_ERRQUEUE);
+> +        if (ret < 0) {
+> +            switch (errno) {
+> +            case EAGAIN:
+> +                /* Nothing on errqueue, wait until something is available */
+> +                ret = qio_channel_socket_poll(sioc, true, errp);
+> +                if (ret < 0) {
+> +                    return -1;
+> +                }
+> +                continue;
+> +            case EINTR:
+> +                continue;
+> +            default:
+> +                error_setg_errno(errp, errno,
+> +                                 "Unable to read errqueue");
+> +                return -1;
+> +            }
+> +        }
+> +
+> +        cm = CMSG_FIRSTHDR(&msg);
+> +        if (cm->cmsg_level != SOL_IP &&
+> +            cm->cmsg_type != IP_RECVERR) {
+> +            error_setg_errno(errp, EPROTOTYPE,
+> +                             "Wrong cmsg in errqueue");
+> +            return -1;
+> +        }
+> +
+> +        serr = (void *) CMSG_DATA(cm);
+> +        if (serr->ee_errno != SO_EE_ORIGIN_NONE) {
+> +            error_setg_errno(errp, serr->ee_errno,
+> +                             "Error on socket");
+> +            return -1;
+> +        }
+> +        if (serr->ee_origin != SO_EE_ORIGIN_ZEROCOPY) {
+> +            error_setg_errno(errp, serr->ee_origin,
+> +                             "Error not from zerocopy");
+> +            return -1;
+> +        }
+> +
+> +        /* No errors, count successfully finished sendmsg()*/
+> +        sioc->zerocopy_sent += serr->ee_data - serr->ee_info + 1;
+
+Here add
+
+
+     if (ee_code ==  SO_EE_CODE_ZEROCOPY_COPIED)
+        rv = 1;
+
+> +    }
+> +    return 0;
+
+return rv;
+
+> +}
+
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
