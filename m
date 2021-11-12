@@ -2,92 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ACBB44E63C
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 13:19:01 +0100 (CET)
-Received: from localhost ([::1]:44152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 256A744E63D
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 13:19:16 +0100 (CET)
+Received: from localhost ([::1]:45198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlVWG-0002v6-6u
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 07:19:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50698)
+	id 1mlVWV-0003cH-9f
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 07:19:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mlVUb-0001P2-1e
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 07:17:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29039)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mlVUg-0001RB-NL
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 07:17:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24601)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mlVUX-0007jV-J8
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 07:17:16 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mlVUe-0007l7-S8
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 07:17:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636719431;
+ s=mimecast20190719; t=1636719439;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FZ8/fWHejHA/B7tsx0BZVClJsSkbt5ZoYDa9x7Swns0=;
- b=P2g7KipJDAJ1P2EnY6d0OZtM834Aq6DIRZFNKDhgJLGCM2i8hdQn9iV8DJQtGobuOSC+Sk
- a+hgPapDNkgbOKmkpRR1rgf7ity1IX0dn+fIfQlQcFp54V9Ycg+wutT/EPXP4Nq3uXEksy
- 1XdwI3vW48yjGnGX5OX0Z721Kob7fyQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-II9qpt8fOBS1tIsxrnkbxA-1; Fri, 12 Nov 2021 07:17:10 -0500
-X-MC-Unique: II9qpt8fOBS1tIsxrnkbxA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- b133-20020a1c808b000000b0032cdd691994so6217963wmd.1
- for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 04:17:10 -0800 (PST)
+ bh=Va8CaTNjsi5vy5PvQVgHseyzfMb5Hv7M9txYpSClpcw=;
+ b=GzVQ4FKJrXxIqb7a+a2csMiptxd38RydkYKndEv204SlxTSdvEHXEFQ0DTDMAb+k8V0b3D
+ nF3D4i4CWXGEFByT1ak2pVcov1F/f33kdRd4hdFdO2qdnsWApA/yR+YBYrTCO0V6neA2hg
+ zVPfugHyw55ahcu/6O97PpMbBmevR08=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-574-2hFNJL3aN7CCgaj-m71-vA-1; Fri, 12 Nov 2021 07:17:18 -0500
+X-MC-Unique: 2hFNJL3aN7CCgaj-m71-vA-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ q6-20020a056402518600b003e28d92bb85so8084057edd.7
+ for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 04:17:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=FZ8/fWHejHA/B7tsx0BZVClJsSkbt5ZoYDa9x7Swns0=;
- b=ABqR82QRV+qE6TNm+lP3GrNwEfAKnJrY1IG8X8jDY4NEje2IIRskVErJEvT7ILsTDq
- hJH7jXqs7g49OrGtdpQjfZuGSYHQvFFAX67flPuMB22Dlxrs37ZzryB02V7c3g1amgYb
- 7bprnGORJPT77BsHrItZzfK1kGoYHDem1g6XzkSw0xLhTqoxC6Vw9KHnn3sffAtCtYr3
- a4o68aP/xUAE+hf6zEmmD0aCtl/Uy0JEHpoY5czeBlCIAPTIxhMJLQyMeXt6U0tc+Ytf
- 01R6JCEPMuzv7zvYi/XDIawRrUStp6/iisngWctwoy5nHE425cGxR930+rxWC9DJSwJn
- NAvQ==
-X-Gm-Message-State: AOAM530uASOw74d80IZoJ7BdqDBaKy7rN+3j9VoZGFB6SeY6sMW6dUdN
- iB11B3zUhKRT6iu6KjkuPeky+fsydPL9AfkX9+9+aYFEAr9828SoyGQnTH59ejOOmJbhC/GSqRm
- dPybdXuKO5ktbVT8=
-X-Received: by 2002:a7b:ca4c:: with SMTP id m12mr17102426wml.119.1636719429061; 
- Fri, 12 Nov 2021 04:17:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw6//6x5D+95S6l3HryNCT1ZcM+Q6F/BRjY4jhKEM31O1+YYHbFwgH7JkhO0+N7tzPJpuxfRw==
-X-Received: by 2002:a7b:ca4c:: with SMTP id m12mr17102383wml.119.1636719428813; 
- Fri, 12 Nov 2021 04:17:08 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id o4sm14227204wmq.31.2021.11.12.04.17.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Nov 2021 04:17:08 -0800 (PST)
-Message-ID: <3f91c9e4-fac9-f03c-a8a3-5940ac49434b@redhat.com>
-Date: Fri, 12 Nov 2021 13:17:07 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Va8CaTNjsi5vy5PvQVgHseyzfMb5Hv7M9txYpSClpcw=;
+ b=5fpOzstQRBcYP5z3+FcF55ZRODMra6srkuvjVCF2/EtszFuwHczzomnxiTOxWJFEq1
+ 79X0+QVdFvh0ApZlQIXraxntkn/NFotz1Q+IJ7gWqVW0gETdyrBKXrbZyEAJkuzPiLDd
+ bdLzgRtyvtkhD+wtoaJeh3OKdRZ9byw5of+x7TADzoGxSNTyiYbHuAXJFGTCYAHOn7mZ
+ V/2ZYoDnO9dhu1Z7ah46MaR6ZXvVl/56I3tv2UIFNaPed3BjqtpDm0RHOPeKZjOvg8bH
+ 34HGlNOuQF6yGov3qgg/hZz5KAmnQcscwLDZ8dj5hO8Bo//JrGiMG75bF+WoJnoACfrf
+ SgBA==
+X-Gm-Message-State: AOAM5337eS1Y2o8WWLZq3dLIzKkLdJ1VqgP7wgkYkgKJEAw3urOSD4EP
+ wOCvMgi0sRuCFD8NsJvasxHnM2VZlVBaTzx7bFkPo1RoK3l+PEUsVFsQbakeCNQxErHTFzwdClj
+ RRGLSb3vlgJN59/I=
+X-Received: by 2002:a17:906:3157:: with SMTP id
+ e23mr18632650eje.359.1636719436989; 
+ Fri, 12 Nov 2021 04:17:16 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxVomCZ8PEk5wzuaEtVzQLf/cFVlPmq2R6Hhxw917tmMkCZHZe02Zke05NR/Eg4aFeDcasDdg==
+X-Received: by 2002:a17:906:3157:: with SMTP id
+ e23mr18632482eje.359.1636719435765; 
+ Fri, 12 Nov 2021 04:17:15 -0800 (PST)
+Received: from localhost ([185.140.112.229])
+ by smtp.gmail.com with ESMTPSA id g21sm3155171edb.89.2021.11.12.04.17.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Nov 2021 04:17:15 -0800 (PST)
+Date: Fri, 12 Nov 2021 13:17:14 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 0/6] RfC: try improve native hotplug for pcie root ports
+Message-ID: <20211112131714.5a54eb8a@redhat.com>
+In-Reply-To: <20211112111528.i43jhiybvwc2eyfz@sirius.home.kraxel.org>
+References: <20211011120504.254053-1-kraxel@redhat.com>
+ <20211110065942-mutt-send-email-mst@kernel.org>
+ <20211111075306.7dvpzewgclsddku6@sirius.home.kraxel.org>
+ <20211111031646-mutt-send-email-mst@kernel.org>
+ <20211111093425.6x2a37npcnnewdis@sirius.home.kraxel.org>
+ <20211111120905.ozy5iucoqjhhoc72@sirius.home.kraxel.org>
+ <20211111103354-mutt-send-email-mst@kernel.org>
+ <20211112111528.i43jhiybvwc2eyfz@sirius.home.kraxel.org>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v4 06/25] include/block/block_int: split header into I/O
- and global state API
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20211025101735.2060852-1-eesposit@redhat.com>
- <20211025101735.2060852-7-eesposit@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20211025101735.2060852-7-eesposit@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.449, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,82 +104,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25.10.21 12:17, Emanuele Giuseppe Esposito wrote:
-> Similarly to the previous patch, split block_int.h
-> in block_int-io.h and block_int-global-state.h
->
-> block_int-common.h contains the structures shared between
-> the two headers, and the functions that can't be categorized as
-> I/O or global state.
->
-> Assertions are added in the next patch.
->
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->   blockdev.c                             |    5 +
->   include/block/block_int-common.h       | 1164 +++++++++++++++++++
->   include/block/block_int-global-state.h |  319 +++++
->   include/block/block_int-io.h           |  163 +++
->   include/block/block_int.h              | 1478 +-----------------------
->   5 files changed, 1654 insertions(+), 1475 deletions(-)
->   create mode 100644 include/block/block_int-common.h
->   create mode 100644 include/block/block_int-global-state.h
->   create mode 100644 include/block/block_int-io.h
+On Fri, 12 Nov 2021 12:15:28 +0100
+Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-[...]
+> On Thu, Nov 11, 2021 at 10:39:59AM -0500, Michael S. Tsirkin wrote:
+> > On Thu, Nov 11, 2021 at 01:09:05PM +0100, Gerd Hoffmann wrote:  
+> > >   Hi,
+> > >   
+> > > > When the acpihp driver is used the linux kernel will just call the aml
+> > > > methods and I suspect the pci device will stay invisible then because
+> > > > nobody flips the slot power control bit (with native-hotplug=on, for
+> > > > native-hotplug=off this isn't a problem of course).  
+> > > 
+> > > Hmm, on a quick smoke test with both patch series (mine + igors) applied
+> > > everything seems to work fine on a quick glance.  Dunno why.  Maybe the
+> > > pcieport driver turns on slot power even in case pciehp is not active.  
+> 
+> Digged deeper.  Updating power status is handled by the plug() callback,
+> which is never called in case acpi hotplug is active.  The guest seems
+> to never touch slot power control either, so it's working fine.  Still
+> feels a bit fragile though.
+> 
+> > Well power and hotplug capabilities are mostly unrelated, right?  
+> 
+> At least they are separate slot capabilities.  The linux pciehp driver
+> checks whenever the power control is present before using it, so having
+> PwrCtrl- HotPlug+ seems to be a valid combination.
+> 
+> We even have an option for that: pcie-root-port.power_controller_present
+> 
+> So flipping that to off in case apci hotplug is active should make sure
+> we never run into trouble with pci devices being powered off.
+> 
+> Igor?  Can you add that to your patch series?
 
-> diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-> new file mode 100644
-> index 0000000000..79a3d801d2
-> --- /dev/null
-> +++ b/include/block/block_int-common.h
+Sorry, saw it too late.
+I'll test idea with my set of guests to see if there are any adverse effects.
 
-[...]
 
-> +struct BlockDriver {
-
-[...]
-
-> +    /**
-> +     * Try to get @bs's logical and physical block size.
-> +     * On success, store them in @bsz and return zero.
-> +     * On failure, return negative errno.
-> +     */
-> +    /* I/O API, even though if it's a filter jumps on parent */
-
-I don’t understand this...
-
-> +    int (*bdrv_probe_blocksizes)(BlockDriverState *bs, BlockSizes *bsz);
-> +    /**
-> +     * Try to get @bs's geometry (cyls, heads, sectors)
-> +     * On success, store them in @geo and return 0.
-> +     * On failure return -errno.
-> +     * Only drivers that want to override guest geometry implement this
-> +     * callback; see hd_geometry_guess().
-> +     */
-> +    /* I/O API, even though if it's a filter jumps on parent */
-
-...or this comment.  bdrv_probe_blocksizes() and bdrv_probe_geometry() 
-are in block-global-state.h, so why are these methods part of the I/O 
-API?  (And I’m afraid I can’t parse “even though if it’s a filter jumps 
-on parent”.)
-
-Hanna
-
-> +    int (*bdrv_probe_geometry)(BlockDriverState *bs, HDGeometry *geo);
+> > I feel switching to native so late would be inappropriate, looks more
+> > like a feature than a bugfix. Given that - we need Igor's patches.
+> > Given that - would you say I should apply yours?  
+> 
+> I think when setting power_controller_present=off for acpi hotplug it is
+> safe to merge both mine and igor's.
+> 
+> take care,
+>   Gerd
+> 
 
 
