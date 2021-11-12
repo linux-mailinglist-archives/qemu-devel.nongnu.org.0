@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2810B44E5E1
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 13:00:58 +0100 (CET)
-Received: from localhost ([::1]:54528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08B9B44E5E3
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 13:02:41 +0100 (CET)
+Received: from localhost ([::1]:57262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlVEm-00058a-PS
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 07:00:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47514)
+	id 1mlVGS-00078X-4u
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 07:02:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mlVDn-0004RW-Lv
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 06:59:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20043)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mlVF5-00060p-45
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 07:01:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23865)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mlVDb-0004Nv-Ej
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 06:59:54 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mlVF3-0004dS-EQ
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 07:01:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636718382;
+ s=mimecast20190719; t=1636718472;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=orQ2KeswGubGNsAyOQY9peWNrf38LmBL/GCwH5WxRPU=;
- b=MtHwBMMmJ1UtfADs0ZCaFOsko1JRhjvX/qyyABoqTaxsy3ABnB8xmR7Gi1PfXG8mjHxnim
- qL7AvgrmWJt8WmPAyAqjPYrr18NBPKUKnvqo8LtfZCWDlepW0gttHRXT/4ZcsoQWMFFuq/
- IkdF9cUCkwsNPjiwc6+wkeLvXHUx2js=
+ bh=wTEyPlvdf60rLi3spfcsTgfafm6bE8M9avU8DjZOC/o=;
+ b=fBL7MUwJGm1nPRLzqtjQm5AyRhrToCjo7LUUQrbzszmRiG2yVotHOlNCDPcu9iLskonr6f
+ uPKSGOafWcz8dA41bhOfavDs/GxOnVfA5Xuowi8S7wyg86RKqmac4WF+GCaOk01JecngcG
+ eClQS39JrPUuCkBYOIVPSIB7oiGrNkw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-554-DgM1TZlsOZaP6T2ptrTTjg-1; Fri, 12 Nov 2021 06:59:40 -0500
-X-MC-Unique: DgM1TZlsOZaP6T2ptrTTjg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-14-ZyZZhNm_O7yMvFqn07D3SA-1; Fri, 12 Nov 2021 07:01:11 -0500
+X-MC-Unique: ZyZZhNm_O7yMvFqn07D3SA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16F5E6417A
- for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 11:59:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D59E018A0728
+ for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 12:01:10 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3EBE419C59;
- Fri, 12 Nov 2021 11:59:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D9FD960862;
+ Fri, 12 Nov 2021 12:01:03 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7CC8211380A7; Fri, 12 Nov 2021 12:59:35 +0100 (CET)
+ id 80A1411380A7; Fri, 12 Nov 2021 13:01:02 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
 Subject: Re: [PATCH v5 4/6] migration: Add zerocopy parameter for QMP/HMP
  for Linux
 References: <20211112051040.923746-1-leobras@redhat.com>
  <20211112051040.923746-5-leobras@redhat.com>
- <87pmr5vdmm.fsf@secure.mitica> <YY5LFM6dAF/+enCP@redhat.com>
-Date: Fri, 12 Nov 2021 12:59:35 +0100
-In-Reply-To: <YY5LFM6dAF/+enCP@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Fri, 12 Nov 2021 11:08:04 +0000")
-Message-ID: <87a6i9h9eg.fsf@dusky.pond.sub.org>
+ <87pmr5vdmm.fsf@secure.mitica>
+Date: Fri, 12 Nov 2021 13:01:02 +0100
+In-Reply-To: <87pmr5vdmm.fsf@secure.mitica> (Juan Quintela's message of "Fri, 
+ 12 Nov 2021 12:04:33 +0100")
+Message-ID: <8735o1h9c1.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,87 +81,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Leonardo Bras <leobras@redhat.com>,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>, Leonardo Bras <leobras@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+Juan Quintela <quintela@redhat.com> writes:
 
-> On Fri, Nov 12, 2021 at 12:04:33PM +0100, Juan Quintela wrote:
->> Leonardo Bras <leobras@redhat.com> wrote:
+> Leonardo Bras <leobras@redhat.com> wrote:
+>> Add property that allows zerocopy migration of memory pages,
+>> and also includes a helper function migrate_use_zerocopy() to check
+>> if it's enabled.
+>>
+>> No code is introduced to actually do the migration, but it allow
+>> future implementations to enable/disable this feature.
+>>
+>> On non-Linux builds this parameter is compiled-out.
+>>
+>> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+>
+> Hi
+>
+>> +# @zerocopy: Controls behavior on sending memory pages on migration.
+>> +#            When true, enables a zerocopy mechanism for sending memory
+>> +#            pages, if host supports it.
+>> +#            Defaults to false. (Since 6.2)
+>> +#
+>
+> This needs to be changed to next release, but not big deal.
+
+Rename to zero-copy while there.  QAPI/QMP strongly prefer separating
+words with dashes.  "zerocopy" is not a word, "zero" and "copy" are.
 
 [...]
-
->> > diff --git a/migration/migration.c b/migration/migration.c
->> > index abaf6f9e3d..add3dabc56 100644
->> > --- a/migration/migration.c
->> > +++ b/migration/migration.c
->> > @@ -886,6 +886,10 @@ MigrationParameters *qmp_query_migrate_parameters=
-(Error **errp)
->> >      params->multifd_zlib_level =3D s->parameters.multifd_zlib_level;
->> >      params->has_multifd_zstd_level =3D true;
->> >      params->multifd_zstd_level =3D s->parameters.multifd_zstd_level;
->> > +#ifdef CONFIG_LINUX
->> > +    params->has_zerocopy =3D true;
->> > +    params->zerocopy =3D s->parameters.zerocopy;
->> > +#endif
->> >      params->has_xbzrle_cache_size =3D true;
->> >      params->xbzrle_cache_size =3D s->parameters.xbzrle_cache_size;
->> >      params->has_max_postcopy_bandwidth =3D true;
->> > @@ -1538,6 +1542,11 @@ static void migrate_params_test_apply(MigrateSe=
-tParameters *params,
->> >      if (params->has_multifd_compression) {
->> >          dest->multifd_compression =3D params->multifd_compression;
->> >      }
->> > +#ifdef CONFIG_LINUX
->> > +    if (params->has_zerocopy) {
->> > +        dest->zerocopy =3D params->zerocopy;
->> > +    }
->> > +#endif
->> >      if (params->has_xbzrle_cache_size) {
->> >          dest->xbzrle_cache_size =3D params->xbzrle_cache_size;
->> >      }
->> > @@ -1650,6 +1659,11 @@ static void migrate_params_apply(MigrateSetPara=
-meters *params, Error **errp)
->> >      if (params->has_multifd_compression) {
->> >          s->parameters.multifd_compression =3D params->multifd_compres=
-sion;
->> >      }
->> > +#ifdef CONFIG_LINUX
->> > +    if (params->has_zerocopy) {
->> > +        s->parameters.zerocopy =3D params->zerocopy;
->> > +    }
->> > +#endif
->>=20
->> After seing all this CONFIG_LINUX mess, I am not sure that it is a good
->> idea to add the parameter only for LINUX.  It appears that it is better
->> to add it for all OS's and just not allow to set it to true there.
->>=20
->> But If QAPI/QOM people preffer that way, I am not going to get into the =
-middle.
->
-> I don't like all the conditionals either, but QAPI design wants the
-> conditionals, as that allows mgmt apps to query whether the feature
-> is supported in a build or not.
-
-Specifically, the conditionals keep @zerocopy out of query-qmp-schema
-(a.k.a. schema introspection) when it's not actually supported.
-
-This lets management applications recognize zero-copy support.
-
-Without conditionals, the only way to probe for it is trying to switch
-it on.  This is inconvenient and error-prone.
-
-Immature ideas to avoid conditionals:
-
-1. Make *values* conditional, i.e. unconditional false, but true only if
-CONFIG_LINUX.  The QAPI schema language lets you do this for
-enumerations today, but not for bool.
-
-2. A new kind of conditional that only applies to schema introspection,
-so you can eat your introspection cake and keep the #ifdef-less code
-cake (and the slight binary bloat that comes with it).
 
 
