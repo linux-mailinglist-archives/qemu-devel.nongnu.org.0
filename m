@@ -2,93 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B906C44E7F2
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 14:53:22 +0100 (CET)
-Received: from localhost ([::1]:33148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 761EA44E82D
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 15:08:15 +0100 (CET)
+Received: from localhost ([::1]:38914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlWzZ-0003lk-1z
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 08:53:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40364)
+	id 1mlXDy-0001HY-2W
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 09:08:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mlWxc-0002tf-Hk
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 08:51:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35362)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mlWxW-0004pj-SF
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 08:51:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636725073;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DwYtwAKFpzVCqwlg+u0S+BdezLvdzII6ZWzxwh0D+OY=;
- b=IuD0koyzqlYJD/KBI7PBYlSsfTyUUvzzYv/5URlFxYfwKXyHHCAI0fXOl5ds3fO24SDCsx
- GY8+AHhLd8irpA/DLW/tFSFmHIR3J7wE+r/gw9O0uCMw5WCwJkL48FR2PFuLycv+W/O/cB
- 070Fb+ITvHk0TBFUV8MoaNlz0RKW9AY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-IqdIQATBPZyXCz-AyfQmVQ-1; Fri, 12 Nov 2021 08:51:12 -0500
-X-MC-Unique: IqdIQATBPZyXCz-AyfQmVQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- j25-20020a05600c1c1900b00332372c252dso4312596wms.1
- for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 05:51:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mlXBy-0000W9-Jg
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 09:06:10 -0500
+Received: from [2a00:1450:4864:20::32b] (port=42718
+ helo=mail-wm1-x32b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mlXBu-0006vq-TW
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 09:06:10 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ d72-20020a1c1d4b000000b00331140f3dc8so6866260wmd.1
+ for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 06:06:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=w0c3ILhcB99anUMzEU8xoK7xv/OZpLAbzriVjG4tAnk=;
+ b=oUGezKj+KhJ+Rz9AuWxiHS1tIG/g0N+FbX4UAVhjcy8neilf88gwLns+g55mKYSUbY
+ 2i4Smaf3QUL+74y99pyTS5Y+F1VpoiD5trKlVfix2nH5nCin6UsPIMQWtBZGJq1dKtY3
+ mrz+q6CaC5zf+i6cKuSdBj6cdTs6jRt0zirIf3fKKOJJYx8oLE6u94U4xVOEY9SokDJ8
+ tuj2ASO7mADw0eKbzY5pwiJBipiM1IY3E3IHw8tYCh4kyDvRl9poleGncuZ0zm93O11C
+ AB5Lw6qrLMRVF7qF/YMCtQ0bpuI0OPzmUx0LbITRTFQq16nd05zuQulB1GH7XHirGXmS
+ CHHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=DwYtwAKFpzVCqwlg+u0S+BdezLvdzII6ZWzxwh0D+OY=;
- b=Lb7Ch43n2pyk49BMSgm4vOQeqcdDuhOpCjwmkjkUOstU2BHfwbgXec/lbOWd+Of1Ku
- NofQi4xoZvoWU2a6r41Ohvp7p6sR3MZC4GFq6cB6HYnSpKGJNeeeIos34sX/P5HOU2js
- 3H3YLroiD3BhCFDv3bhZDeTIoXt4hOiia08yKMTwBo0Gff0BBVv7IWtaYDaX/s7AtzGu
- OkhxzZ6I2kYT2rni06Ip+Whb8WGKSdZjvxSCsMVvtg21GU5rYHErCUVU7/0ekLKpFMGn
- GYbzdOrHMtQ0h9ZyPTDoO/bI9UwUJay1pi9hx/mOYPiWuJY7PcqCstYfGkn/bHfB7tNk
- COmw==
-X-Gm-Message-State: AOAM5321bTE8DQpngGinW1mq9D1bS57iOnwlTFcb2+4U43c8/xQpX6IJ
- LPmEtDne+FALmX/XXTtX4Ch+XY0llN1lo1PxXNxHHrCPQbEBbDd22yE1xp2We1bHxZYy4G6grTa
- 4qIfhvO32cfeo2QI=
-X-Received: by 2002:a05:600c:364f:: with SMTP id
- y15mr16410616wmq.7.1636725071101; 
- Fri, 12 Nov 2021 05:51:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyt2y/8FgHymTD8Rf4D2ak77518xNs4SLg7xLEi3YizN84NfBJ3Yn7wrFna4R5VbcBngJufng==
-X-Received: by 2002:a05:600c:364f:: with SMTP id
- y15mr16410583wmq.7.1636725070774; 
- Fri, 12 Nov 2021 05:51:10 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id x1sm5745392wru.40.2021.11.12.05.51.10
+ bh=w0c3ILhcB99anUMzEU8xoK7xv/OZpLAbzriVjG4tAnk=;
+ b=ISxAyzy4baGevtQ3nVxHswvAvYsyvIpFlY8akh7rLb9LTl7FEp5Iac/89YqqHOIsKG
+ VhJLkVmAEryTTa65u8GMkK74R4vgKnbLn7ln+KCq9IpQXhWNA+3mciiGePQT9YS0t5fn
+ sSPqjnyhMnS3KXTUYjJOePSxNiGhwEhAB2X9p04/r2+GfWKX+jaIWg0cL3XUY8y9iBN1
+ KlXlJi39kWiwT/fR3Kgs2qSHMFoAZbUqE3lScIy3yLUFVA1Vd5gUMUXf0KV9KXRavKxV
+ dWu2Bz3rX/H2nTJzK/7yv/H0bmJrBd/SE4R7UjyEFzVXt5JmUSOSxOfnuTgPUfMniLR9
+ MDTQ==
+X-Gm-Message-State: AOAM530sFFhdhrZOA5CbpBEZz1gZabkTwRunxEFGuB2PZ+zphc66F3Zq
+ 5NM9tEnGSXE43XJ5U8LKEIb2XTbajoBRS8Uj4DI=
+X-Google-Smtp-Source: ABdhPJzV+k7jf0N/mkJCasWlCjVG5UfSBDAQoaHsLZvmK3yNeigpQT+REBTmPRWJE4O6mY/bV+aSZA==
+X-Received: by 2002:a05:600c:1f0e:: with SMTP id
+ bd14mr4739290wmb.3.1636725965249; 
+ Fri, 12 Nov 2021 06:06:05 -0800 (PST)
+Received: from [192.168.8.106] (18.red-2-142-115.dynamicip.rima-tde.net.
+ [2.142.115.18])
+ by smtp.gmail.com with ESMTPSA id o12sm6513035wmq.12.2021.11.12.06.06.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Nov 2021 05:51:10 -0800 (PST)
-Message-ID: <3a330894-9276-7357-ab6d-4386151661f7@redhat.com>
-Date: Fri, 12 Nov 2021 14:51:09 +0100
+ Fri, 12 Nov 2021 06:06:04 -0800 (PST)
+Subject: Re: [PATCH v10 04/26] target/loongarch: Add fixed point arithmetic
+ instruction translation
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <1636700049-24381-1-git-send-email-gaosong@loongson.cn>
+ <1636700049-24381-5-git-send-email-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7e6e5c26-2c1a-e4b5-a724-c2db33a36180@linaro.org>
+Date: Fri, 12 Nov 2021 15:05:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v4 07/25] assertions for block_int global state API
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20211025101735.2060852-1-eesposit@redhat.com>
- <20211025101735.2060852-8-eesposit@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20211025101735.2060852-8-eesposit@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <1636700049-24381-5-git-send-email-gaosong@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.449, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.449,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,84 +94,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25.10.21 12:17, Emanuele Giuseppe Esposito wrote:
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->   block.c                         | 17 +++++++++++++++++
->   block/backup.c                  |  1 +
->   block/block-backend.c           |  3 +++
->   block/commit.c                  |  2 ++
->   block/dirty-bitmap.c            |  1 +
->   block/io.c                      |  6 ++++++
->   block/mirror.c                  |  4 ++++
->   block/monitor/bitmap-qmp-cmds.c |  6 ++++++
->   block/stream.c                  |  2 ++
->   blockdev.c                      |  7 +++++++
->   10 files changed, 49 insertions(+)
->
-> diff --git a/block.c b/block.c
-> index 672f946065..41c5883c5c 100644
-> --- a/block.c
-> +++ b/block.c
+On 11/12/21 7:53 AM, Song Gao wrote:
+> +#
+> +# Fields
+> +#
+> +%rd      0:5
+> +%rj      5:5
+> +%rk      10:5
+> +%sa2     15:2
+> +%si12    10:s12
+> +%ui12    10:12
+> +%si16    10:s16
+> +%si20    5:s20
 
-[...]
+You should only create separate field definitions like this when they are complex: e.g. 
+the logical field is disjoint or there's a need for !function.
 
-> @@ -7473,6 +7488,7 @@ static bool append_strong_runtime_options(QDict *d, BlockDriverState *bs)
->    * would result in exactly bs->backing. */
->   bool bdrv_backing_overridden(BlockDriverState *bs)
->   {
-> +    assert(qemu_in_main_thread());
->       if (bs->backing) {
->           return strcmp(bs->auto_backing_file,
->                         bs->backing->bs->filename);
+> +
+> +#
+> +# Argument sets
+> +#
+> +&fmt_rdrjrk         rd rj rk
+> +&fmt_rdrjsi12       rd rj si12
+> +&fmt_rdrjrksa2      rd rj rk sa2
+> +&fmt_rdrjsi16       rd rj si16
+> +&fmt_rdrjui12       rd rj ui12
+> +&fmt_rdsi20         rd si20
 
-This function is in block_int-common.h, though.
+Some of these should be combined.  The width of the immediate is a detail of the format, 
+not the decoded argument set.  Thus you should have
 
-[...]
+&fmt_rdimm     rd imm
+&fmt_rdrjimm   rd rj imm
+&fmt_rdrjrk    rd rj rk
+&fmt_rdrjrksa  rd rj rk sa
 
-> diff --git a/block/io.c b/block/io.c
-> index c5d7f8495e..f271ab3684 100644
-> --- a/block/io.c
-> +++ b/block/io.c
+> +alsl_w           0000 00000000 010 .. ..... ..... .....   @fmt_rdrjrksa2
+> +alsl_wu          0000 00000000 011 .. ..... ..... .....   @fmt_rdrjrksa2
+> +alsl_d           0000 00000010 110 .. ..... ..... .....   @fmt_rdrjrksa2
 
-[...]
+The encoding of these insns is that the shift is sa+1.
 
-> @@ -3419,6 +3423,7 @@ int coroutine_fn bdrv_co_copy_range_from(BdrvChild *src, int64_t src_offset,
->   {
->       trace_bdrv_co_copy_range_from(src, src_offset, dst, dst_offset, bytes,
->                                     read_flags, write_flags);
-> +    assert(qemu_in_main_thread());
->       return bdrv_co_copy_range_internal(src, src_offset, dst, dst_offset,
->                                          bytes, read_flags, write_flags, true);
->   }
+While you compensate for this in gen_alsl_*, we print the "wrong" number in the 
+disassembly.  I think it would be better to do
 
-This is a block_int-io.h function.
+%sa2p1     15:2 !function=plus_1
+@fmt_rdrjrksa2p1  .... ........ ... .. rk:5 rj:5 rd:5 \
+                   &fmt_rdrjrksa sa=%sa2p1
 
-> @@ -3435,6 +3440,7 @@ int coroutine_fn bdrv_co_copy_range_to(BdrvChild *src, int64_t src_offset,
->   {
->       trace_bdrv_co_copy_range_to(src, src_offset, dst, dst_offset, bytes,
->                                   read_flags, write_flags);
-> +    assert(qemu_in_main_thread());
->       return bdrv_co_copy_range_internal(src, src_offset, dst, dst_offset,
->                                          bytes, read_flags, write_flags, false);
->   }
 
-This, too.
-
-Hanna
-
+r~
 
