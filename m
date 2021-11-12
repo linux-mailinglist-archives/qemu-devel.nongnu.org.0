@@ -2,88 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D7E744E454
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 11:06:21 +0100 (CET)
-Received: from localhost ([::1]:34534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F4B444E465
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 11:11:22 +0100 (CET)
+Received: from localhost ([::1]:36842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlTRs-0002Zs-Ie
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 05:06:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54738)
+	id 1mlTWi-0004Zh-K5
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 05:11:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mlTQN-0001dj-8G
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 05:04:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21915)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mlTVa-0003i3-Ih
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 05:10:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37742)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mlTQK-0006ve-8Q
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 05:04:46 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mlTVY-0007Rr-RZ
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 05:10:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636711483;
+ s=mimecast20190719; t=1636711807;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BT9XVXOYZ95+faaoAyDJniYkFAQSnjuX3KrtsEGlyGQ=;
- b=DhmeWByain2w665RMikEx0qIRCU98i8tdlXO5nBvHRAltulaXh6lw0IoHfm0Vfk+VnZRVf
- 0gLHpxbzGA28JawpQRlLkfmo+j69mn142EbwVutCaQC4cvNvQ8JWI21MCOUy8oqtIxMotw
- TfmUb0OhBjg2wfVaDr1CjimcCEeGcus=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348-FPBPp5wdNg-oeZvnlPIPMw-1; Fri, 12 Nov 2021 05:04:42 -0500
-X-MC-Unique: FPBPp5wdNg-oeZvnlPIPMw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- w26-20020a056402071a00b003e28a389d04so7819073edx.4
- for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 02:04:41 -0800 (PST)
+ bh=w98aVl1ip97mF28Ma7KmSO+gINZIB1etkH5xjqxorzo=;
+ b=BefUYihbR5/DW2fhdrme02Ow4q+jRhVN6d8hDB498WEG9gkEULIGkkzeDPW+wI0Gk0FtCj
+ 4+ty0ZRWUBrn4FcDDAoP8/jfISLvJEF2NYbF8L4wmCkOpfZhfYCpIunzl+uy+cj7Sfn5Yl
+ EstChe9YbLgI3BbWKqGX7megm/U0L6c=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-588-zdS0mhroNPOJmPpGTmsb8Q-1; Fri, 12 Nov 2021 05:10:03 -0500
+X-MC-Unique: zdS0mhroNPOJmPpGTmsb8Q-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ v17-20020adfedd1000000b0017c5e737b02so1456403wro.18
+ for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 02:10:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=BT9XVXOYZ95+faaoAyDJniYkFAQSnjuX3KrtsEGlyGQ=;
- b=bkdNbBMXaCo1SFRy27isn4ulq5gR0tFIlc50VJiQ05AXgLdSktbxx9eR7zRkN84XtF
- o4Y52KqQKnmVIYHri1+yGD1F+8PUY9Rqh50lnj3DamlMv3Eupf9ssRLfGQ8X9Jub5XR5
- ujorKMd2lmPW/WJXdUW6/RRHIDXrznK/niW3T6GR1HxYhk/Bf5XI8grwACDZy2wPOAYP
- ySy8mxx1SAuYfykX59OKw6Z5djZyCDi64uC8rxqXzqEjBCvd/HbTVLpQBN+yy4i7+ofD
- 5z8eZaCrh6wDGGr8KntICRcLZO4gUewiYtERZhahqpym3Pe9UG7qM0JPPwmdgxvrQvAq
- XMTw==
-X-Gm-Message-State: AOAM530CK02xyiIF0pNib/hkbz6no7H9DNIH22doUbuDKpH0AckY2dQV
- Z20oPS/T/hpIY2s3vIrK8Xv4EoiUXseKw+poHTbsMjnUyI5A+ysxXov+b8Cut/m2nH7JG2nk1uw
- 8leJiT0Eg273688s=
-X-Received: by 2002:a17:906:d187:: with SMTP id
- c7mr3479550ejz.477.1636711480965; 
- Fri, 12 Nov 2021 02:04:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwwnqAG58NxrtTiAPgbgKeDq9z/zq3H4CYACjv2iR8nUVnS1+6Xmzs0SWchr7uRaBQFgXTHqQ==
-X-Received: by 2002:a17:906:d187:: with SMTP id
- c7mr3479512ejz.477.1636711480727; 
- Fri, 12 Nov 2021 02:04:40 -0800 (PST)
-Received: from redhat.com ([2a03:c5c0:207e:ac28:448d:9310:293c:3a8b])
- by smtp.gmail.com with ESMTPSA id e19sm2800922edu.47.2021.11.12.02.04.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Nov 2021 02:04:39 -0800 (PST)
-Date: Fri, 12 Nov 2021 05:04:23 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH 1/2] virtio: use virtio accessor to access packed
- descriptor flags
-Message-ID: <20211112045035-mutt-send-email-mst@kernel.org>
-References: <20211111063854.29060-1-jasowang@redhat.com>
- <20211111032649-mutt-send-email-mst@kernel.org>
- <CACGkMEv1LVXBV2Pq00jWCbxnr18Ar=df7Lirw2j973Q-hM2MRw@mail.gmail.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:organization:subject
+ :in-reply-to:content-transfer-encoding;
+ bh=w98aVl1ip97mF28Ma7KmSO+gINZIB1etkH5xjqxorzo=;
+ b=KObhhME41Deyp2rKuZAqEVoTvXOjsXZyPYN5A4JHYtG8BMJCWJkjv3JQxJln6k+2xZ
+ IqwOpxjuXgTaV3pYo1fMu8Gl7V9aDMME0DghyIFzAx4OteDhPstYq48OlQegOsJ1v0oA
+ ac1HY4k3PO08yOggiWB5RQkkkRcMeqQOcmxaWE/CmTmDl9lnNKwZ7Zduxfrr+GfpHKO/
+ X8aTMlH1raUyDXWyLEkLpW73dNoTfFYN2pAlkWDn1947L2Foc1aHPPkoHkFRjNKECjho
+ yOsFNDUQPSrUMOWdnw25AsAbkJ6Ai4Xrh48GUezwPMctrt06vbhrvaZNeBIv9VdKEr9m
+ 2z1A==
+X-Gm-Message-State: AOAM533yLpJE3UY+FUORSeCW69byEzHe3Iy50ddZAVEz7kC7cgcML5Ek
+ e8VJ7p0h/Nku7lABQNDT2W4WH4RFHGzC9uUcqC2WUbUlaG3FaVMhlu2NCM1BPlOWKZ/WQNnHJOf
+ lpRaCzKeOR6L/JCw=
+X-Received: by 2002:adf:dd46:: with SMTP id u6mr17637943wrm.280.1636711802504; 
+ Fri, 12 Nov 2021 02:10:02 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwoRmcZqi9hwvRP6G29EFGhM+hqhcDjbOw5Db9G/9QsPDuDgjKP9DILFtMylXgyfVSXz4Ywqg==
+X-Received: by 2002:adf:dd46:: with SMTP id u6mr17637911wrm.280.1636711802335; 
+ Fri, 12 Nov 2021 02:10:02 -0800 (PST)
+Received: from [192.168.3.132] (p4ff23f5f.dip0.t-ipconnect.de. [79.242.63.95])
+ by smtp.gmail.com with ESMTPSA id
+ p27sm5027477wmi.28.2021.11.12.02.10.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 Nov 2021 02:10:01 -0800 (PST)
+Message-ID: <81cc6f3a-ba15-4278-5481-76206a8a4a13@redhat.com>
+Date: Fri, 12 Nov 2021 11:10:01 +0100
 MIME-Version: 1.0
-In-Reply-To: <CACGkMEv1LVXBV2Pq00jWCbxnr18Ar=df7Lirw2j973Q-hM2MRw@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
+References: <163662450348.125458.5494710452733592356.stgit@pasha-ThinkPad-X280>
+ <163662451431.125458.14945698834107669531.stgit@pasha-ThinkPad-X280>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v2 2/3] softmmu: fix watchpoint-interrupt races
+In-Reply-To: <163662451431.125458.14945698834107669531.stgit@pasha-ThinkPad-X280>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-3.449, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,88 +99,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eperezma <eperezma@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- qemu-stable@nongnu.org
+Cc: pbonzini@redhat.com, richard.henderson@linaro.org, alex.bennee@linaro.org,
+ peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 12, 2021 at 10:23:12AM +0800, Jason Wang wrote:
-> On Thu, Nov 11, 2021 at 4:27 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Thu, Nov 11, 2021 at 02:38:53PM +0800, Jason Wang wrote:
-> > > We used to access packed descriptor flags via
-> > > address_space_{write|read}_cached(). When we hit the cache, memcpy()
-> > > is used which is not an atomic operation which may lead a wrong value
-> > > is read or wrote.
-> >
-> > Could you clarify where's the memcpy that you see?
-> > Thanks!
+On 11.11.21 10:55, Pavel Dovgalyuk wrote:
+> Watchpoint may be processed in two phases. First one is detecting
+> the instruction with target memory access. And the second one is
+> executing only one instruction and setting the debug interrupt flag.
+> Hardware interrupts can break this sequence when they happen after
+> the first watchpoint phase.
+> This patch postpones the interrupt request until watchpoint is
+> processed.
 > 
-> In the address_space_{write|read}_cached it self:
+> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+> ---
+>  accel/tcg/cpu-exec.c |    5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> static inline MemTxResult
-> =>dress_space_write_cached(MemoryRegionCache *cache, hwaddr addr,
->                            const void *buf, hwaddr len)
-> {
->     assert(addr < cache->len && len <= cache->len - addr);
->     if (likely(cache->ptr)) {
->         memcpy(cache->ptr + addr, buf, len);
->         return MEMTX_OK;
->     } else {
->         return address_space_write_cached_slow(cache, addr, buf, len);
->     }
-> }
+> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+> index df12452b8f..e4526c2f5e 100644
+> --- a/accel/tcg/cpu-exec.c
+> +++ b/accel/tcg/cpu-exec.c
+> @@ -742,6 +742,11 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
+>              qemu_mutex_unlock_iothread();
+>              return true;
+>          }
+> +        /* Process watchpoints first, or interrupts will ruin everything */
+> +        if (cpu->watchpoint_hit) {
+> +            qemu_mutex_unlock_iothread();
+> +            return false;
+> +        }
+>  #if !defined(CONFIG_USER_ONLY)
+>          if (replay_mode == REPLAY_MODE_PLAY && !replay_has_interrupt()) {
+>              /* Do nothing */
 > 
-> Thanks
 
-But that's a copy from the cache, not from guest memory.
-I don't see how it can change so I don't see why it needs
-to be atomic. Was there an actual issue you observed or
-is this theoretical?
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
+-- 
+Thanks,
 
-> >
-> > > So this patch switches to use virito_{stw|lduw}_phys_cached() to make
-> > > sure the aceess is atomic.
-> > >
-> > > Fixes: 86044b24e865f ("virtio: basic packed virtqueue support")
-> > > Cc: qemu-stable@nongnu.org
-> > > Signed-off-by: Jason Wang <jasowang@redhat.com>
-> > > ---
-> > >  hw/virtio/virtio.c | 11 ++++-------
-> > >  1 file changed, 4 insertions(+), 7 deletions(-)
-> > >
-> > > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> > > index cc69a9b881..939bcbfeb9 100644
-> > > --- a/hw/virtio/virtio.c
-> > > +++ b/hw/virtio/virtio.c
-> > > @@ -507,11 +507,9 @@ static void vring_packed_desc_read_flags(VirtIODevice *vdev,
-> > >                                           MemoryRegionCache *cache,
-> > >                                           int i)
-> > >  {
-> > > -    address_space_read_cached(cache,
-> > > -                              i * sizeof(VRingPackedDesc) +
-> > > -                              offsetof(VRingPackedDesc, flags),
-> > > -                              flags, sizeof(*flags));
-> > > -    virtio_tswap16s(vdev, flags);
-> > > +    hwaddr off = i * sizeof(VRingPackedDesc) + offsetof(VRingPackedDesc, flags);
-> > > +
-> > > +    *flags = virtio_lduw_phys_cached(vdev, cache, off);
-> > >  }
-> > >
-> > >  static void vring_packed_desc_read(VirtIODevice *vdev,
-> > > @@ -564,8 +562,7 @@ static void vring_packed_desc_write_flags(VirtIODevice *vdev,
-> > >  {
-> > >      hwaddr off = i * sizeof(VRingPackedDesc) + offsetof(VRingPackedDesc, flags);
-> > >
-> > > -    virtio_tswap16s(vdev, &desc->flags);
-> > > -    address_space_write_cached(cache, off, &desc->flags, sizeof(desc->flags));
-> > > +    virtio_stw_phys_cached(vdev, cache, off, desc->flags);
-> > >      address_space_cache_invalidate(cache, off, sizeof(desc->flags));
-> > >  }
-> > >
-> > > --
-> > > 2.25.1
-> >
+David / dhildenb
 
 
