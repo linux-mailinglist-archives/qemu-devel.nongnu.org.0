@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 933A544E225
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 07:59:58 +0100 (CET)
-Received: from localhost ([::1]:49290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 067BE44E21D
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 07:58:12 +0100 (CET)
+Received: from localhost ([::1]:40738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlQXV-0003Gm-OI
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 01:59:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45986)
+	id 1mlQVn-0005ia-4c
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 01:58:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mlQSY-000649-5x
+ id 1mlQSY-000642-5M
  for qemu-devel@nongnu.org; Fri, 12 Nov 2021 01:54:50 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:49446 helo=loongson.cn)
+Received: from mail.loongson.cn ([114.242.206.163]:49488 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mlQST-0007hl-1U
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 01:54:48 -0500
+ (envelope-from <gaosong@loongson.cn>) id 1mlQSS-0007hc-Mx
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 01:54:46 -0500
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9CxydCRD45hHoQCAA--.6006S11; 
- Fri, 12 Nov 2021 14:54:37 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9CxydCRD45hHoQCAA--.6006S13; 
+ Fri, 12 Nov 2021 14:54:40 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 09/26] target/loongarch: Add fixed point extra instruction
- translation
-Date: Fri, 12 Nov 2021 14:53:52 +0800
-Message-Id: <1636700049-24381-10-git-send-email-gaosong@loongson.cn>
+Subject: [PATCH v10 11/26] target/loongarch: Add floating point comparison
+ instruction translation
+Date: Fri, 12 Nov 2021 14:53:54 +0800
+Message-Id: <1636700049-24381-12-git-send-email-gaosong@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1636700049-24381-1-git-send-email-gaosong@loongson.cn>
 References: <1636700049-24381-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9CxydCRD45hHoQCAA--.6006S11
-X-Coremail-Antispam: 1UD129KBjvJXoW3Xr4DJF18GrWxGr4UAryUAwb_yoW3Aw4UpF
- 18CryUGrW8Jry7Zwn5tw45tr15Xr4fuF47X3yftw1rAF17XF1DJr48t39IkFWUJw1DXryj
- qa13AryDKFyUXaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf9CxydCRD45hHoQCAA--.6006S13
+X-Coremail-Antispam: 1UD129KBjvJXoW3Xr4DJF17KFyfurW8XryrJFb_yoW3Jr4rpF
+ W7Zry3KFW8WFWfJas29ay3GFn8Wr48Ka129FWft34vyF45XFn7ZFykta429FWUG34Dury8
+ X3WSyryUWFy7XaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -61,231 +61,232 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This includes:
-- CRC[C].W.{B/H/W/D}.W
-- SYSCALL
-- BREAK
-- ASRT{LE/GT}.D
-- RDTIME{L/H}.W, RDTIME.D
-- CPUCFG
+- FCMP.cond.{S/D}
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/loongarch/helper.h                     |  4 ++
- target/loongarch/insn_trans/trans_extra.c.inc | 84 +++++++++++++++++++++++++++
- target/loongarch/insns.decode                 | 25 ++++++++
- target/loongarch/op_helper.c                  | 26 +++++++++
- target/loongarch/translate.c                  |  1 +
- 5 files changed, 140 insertions(+)
- create mode 100644 target/loongarch/insn_trans/trans_extra.c.inc
+ target/loongarch/fpu_helper.c                | 60 ++++++++++++++++++++++++++++
+ target/loongarch/helper.h                    |  9 +++++
+ target/loongarch/insn_trans/trans_fcmp.c.inc | 56 ++++++++++++++++++++++++++
+ target/loongarch/insns.decode                | 10 +++++
+ target/loongarch/internals.h                 |  5 +++
+ target/loongarch/translate.c                 |  1 +
+ 6 files changed, 141 insertions(+)
+ create mode 100644 target/loongarch/insn_trans/trans_fcmp.c.inc
 
+diff --git a/target/loongarch/fpu_helper.c b/target/loongarch/fpu_helper.c
+index d0ef675..807ffd0 100644
+--- a/target/loongarch/fpu_helper.c
++++ b/target/loongarch/fpu_helper.c
+@@ -403,3 +403,63 @@ uint64_t helper_fmuladd_d(CPULoongArchState *env, uint64_t fj,
+     update_fcsr0(env, GETPC());
+     return fd;
+ }
++
++static uint64_t fcmp_common(CPULoongArchState *env, FloatRelation cmp,
++                            uint32_t flags)
++{
++    bool ret;
++
++    switch (cmp) {
++    case float_relation_less:
++        ret = (flags & FCMP_LT);
++        break;
++    case float_relation_equal:
++        ret = (flags & FCMP_EQ);
++        break;
++    case float_relation_greater:
++        ret = (flags & FCMP_GT);
++        break;
++    case float_relation_unordered:
++        ret = (flags & FCMP_UN);
++        break;
++    default:
++        g_assert_not_reached();
++    }
++    update_fcsr0(env, GETPC());
++
++    return ret;
++}
++
++/* fcmp_cXXX_s */
++uint64_t helper_fcmp_c_s(CPULoongArchState *env, uint64_t fj,
++                         uint64_t fk, uint32_t flags)
++{
++    FloatRelation cmp = float32_compare_quiet((uint32_t)fj,
++                                              (uint32_t)fk, &env->fp_status);
++    return fcmp_common(env, cmp, flags);
++}
++
++/* fcmp_sXXX_s */
++uint64_t helper_fcmp_s_s(CPULoongArchState *env, uint64_t fj,
++                         uint64_t fk, uint32_t flags)
++{
++    FloatRelation cmp = float32_compare((uint32_t)fj,
++                                        (uint32_t)fk, &env->fp_status);
++    return fcmp_common(env, cmp, flags);
++}
++
++/* fcmp_cXXX_d */
++uint64_t helper_fcmp_c_d(CPULoongArchState *env, uint64_t fj,
++                         uint64_t fk, uint32_t flags)
++{
++    FloatRelation cmp = float64_compare_quiet(fj, fk, &env->fp_status);
++    return fcmp_common(env, cmp, flags);
++}
++
++/* fcmp_sXXX_d */
++uint64_t helper_fcmp_s_d(CPULoongArchState *env, uint64_t fj,
++                         uint64_t fk, uint32_t flags)
++{
++    FloatRelation cmp = float64_compare(fj, fk, &env->fp_status);
++    return fcmp_common(env, cmp, flags);
++}
 diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index 2fe4e63..ec6760d 100644
+index d6bb412..30b270a 100644
 --- a/target/loongarch/helper.h
 +++ b/target/loongarch/helper.h
-@@ -11,3 +11,7 @@ DEF_HELPER_FLAGS_1(bitswap, TCG_CALL_NO_RWG_SE, tl, tl)
+@@ -52,3 +52,12 @@ DEF_HELPER_2(frecip_d, i64, env, i64)
  
- DEF_HELPER_3(asrtle_d, void, env, tl, tl)
- DEF_HELPER_3(asrtgt_d, void, env, tl, tl)
+ DEF_HELPER_FLAGS_2(fclass_s, TCG_CALL_NO_RWG_SE, i64, env, i64)
+ DEF_HELPER_FLAGS_2(fclass_d, TCG_CALL_NO_RWG_SE, i64, env, i64)
 +
-+DEF_HELPER_3(crc32, tl, tl, tl, tl)
-+DEF_HELPER_3(crc32c, tl, tl, tl, tl)
-+DEF_HELPER_2(cpucfg, tl, env, tl)
-diff --git a/target/loongarch/insn_trans/trans_extra.c.inc b/target/loongarch/insn_trans/trans_extra.c.inc
++/* fcmp.cXXX.s */
++DEF_HELPER_4(fcmp_c_s, i64, env, i64, i64, i32)
++/* fcmp.sXXX.s */
++DEF_HELPER_4(fcmp_s_s, i64, env, i64, i64, i32)
++/* fcmp.cXXX.d */
++DEF_HELPER_4(fcmp_c_d, i64, env, i64, i64, i32)
++/* fcmp.sXXX.d */
++DEF_HELPER_4(fcmp_s_d, i64, env, i64, i64, i32)
+diff --git a/target/loongarch/insn_trans/trans_fcmp.c.inc b/target/loongarch/insn_trans/trans_fcmp.c.inc
 new file mode 100644
-index 0000000..76f0698
+index 0000000..ce39c07
 --- /dev/null
-+++ b/target/loongarch/insn_trans/trans_extra.c.inc
-@@ -0,0 +1,84 @@
++++ b/target/loongarch/insn_trans/trans_fcmp.c.inc
+@@ -0,0 +1,56 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
 + * Copyright (c) 2021 Loongson Technology Corporation Limited
 + */
 +
-+static bool trans_break(DisasContext *ctx, arg_break *a)
++/* bit0(signaling/quiet) bit1(lt) bit2(eq) bit3(un) bit4(neq) */
++static uint32_t get_fcmp_flags(int cond)
 +{
-+    generate_exception(ctx, EXCP_BREAK);
++    uint32_t flags = 0;
++
++    if (cond & 0x1) {
++        flags |= FCMP_LT;
++    }
++    if (cond & 0x2) {
++        flags |= FCMP_EQ;
++    }
++    if (cond & 0x4) {
++        flags |= FCMP_UN;
++    }
++    if (cond & 0x8) {
++        flags |= FCMP_GT | FCMP_LT;
++    }
++    return flags;
++}
++
++static bool trans_fcmp_cond_s(DisasContext *ctx, arg_fcmp_cond_s *a)
++{
++    TCGv var = tcg_temp_new();
++    uint32_t flags;
++    void (*fn)(TCGv, TCGv_env, TCGv, TCGv, TCGv_i32);
++
++    fn = (a->fcond & 1 ? gen_helper_fcmp_s_s : gen_helper_fcmp_c_s);
++    flags = get_fcmp_flags(a->fcond >> 1);
++
++    fn(var, cpu_env, cpu_fpr[a->fj], cpu_fpr[a->fk], tcg_constant_i32(flags));
++
++    tcg_gen_st8_tl(var, cpu_env, offsetof(CPULoongArchState, cf[a->cd & 0x7]));
++    tcg_temp_free(var);
 +    return true;
 +}
 +
-+static bool trans_syscall(DisasContext *ctx, arg_syscall *a)
++static bool trans_fcmp_cond_d(DisasContext *ctx, arg_fcmp_cond_d *a)
 +{
-+    generate_exception(ctx, EXCP_SYSCALL);
++    TCGv var = tcg_temp_new();
++    uint32_t flags;
++    void (*fn)(TCGv, TCGv_env, TCGv, TCGv, TCGv_i32);
++    fn = (a->fcond & 1 ? gen_helper_fcmp_s_d : gen_helper_fcmp_c_d);
++    flags = get_fcmp_flags(a->fcond >> 1);
++
++    fn(var, cpu_env, cpu_fpr[a->fj], cpu_fpr[a->fk], tcg_constant_i32(flags));
++
++    tcg_gen_st8_tl(var, cpu_env, offsetof(CPULoongArchState, cf[a->cd & 0x7]));
++
++    tcg_temp_free(var);
 +    return true;
 +}
-+
-+static bool trans_asrtle_d(DisasContext *ctx, arg_asrtle_d * a)
-+{
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+
-+    gen_helper_asrtle_d(cpu_env, src1, src2);
-+    return true;
-+}
-+
-+static bool trans_asrtgt_d(DisasContext *ctx, arg_asrtgt_d * a)
-+{
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+
-+    gen_helper_asrtgt_d(cpu_env, src1, src2);
-+    return true;
-+}
-+
-+static bool trans_rdtimel_w(DisasContext *ctx, arg_rdtimel_w *a)
-+{
-+    tcg_gen_movi_tl(cpu_gpr[a->rd], 0);
-+    return true;
-+}
-+
-+static bool trans_rdtimeh_w(DisasContext *ctx, arg_rdtimeh_w *a)
-+{
-+    tcg_gen_movi_tl(cpu_gpr[a->rd], 0);
-+    return true;
-+}
-+
-+static bool trans_rdtime_d(DisasContext *ctx, arg_rdtime_d *a)
-+{
-+    tcg_gen_movi_tl(cpu_gpr[a->rd], 0);
-+    return true;
-+}
-+
-+static bool trans_cpucfg(DisasContext *ctx, arg_cpucfg *a)
-+{
-+    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+
-+    gen_helper_cpucfg(dest, cpu_env, src1);
-+    return true;
-+}
-+
-+static bool gen_crc(DisasContext *ctx, arg_fmt_rdrjrk *a,
-+                    void (*func)(TCGv, TCGv, TCGv, TCGv),
-+                    TCGv tsz)
-+{
-+    TCGv dest = gpr_dst(ctx, a->rd, EXT_SIGN);
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
-+
-+    func(dest, src2, src1, tsz);
-+
-+    gen_set_gpr(a->rd, dest, EXT_SIGN);
-+    return true;
-+}
-+
-+TRANS(crc_w_b_w, gen_crc, gen_helper_crc32, tcg_constant_tl(1))
-+TRANS(crc_w_h_w, gen_crc, gen_helper_crc32, tcg_constant_tl(2))
-+TRANS(crc_w_w_w, gen_crc, gen_helper_crc32, tcg_constant_tl(4))
-+TRANS(crc_w_d_w, gen_crc, gen_helper_crc32, tcg_constant_tl(8))
-+TRANS(crcc_w_b_w, gen_crc, gen_helper_crc32c, tcg_constant_tl(1))
-+TRANS(crcc_w_h_w, gen_crc, gen_helper_crc32c, tcg_constant_tl(2))
-+TRANS(crcc_w_w_w, gen_crc, gen_helper_crc32c, tcg_constant_tl(4))
-+TRANS(crcc_w_d_w, gen_crc, gen_helper_crc32c, tcg_constant_tl(8))
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index 9854d56..5e205ad 100644
+index 1007036..01e4c58 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -26,6 +26,7 @@
- %si14    10:s14
- %hint    0:5
- %whint   0:15
-+%code    0:15
+@@ -31,6 +31,8 @@
+ %fj      5:5
+ %fk      10:5
+ %fa      15:5
++%cd      0:3
++%fcond   15:5
  
  #
  # Argument sets
-@@ -45,6 +46,8 @@
- &fmt_rdrjsi14       rd rj si14
- &fmt_hintrjsi12     hint rj si12
- &fmt_whint          whint
-+&fmt_rjrk           rj rk
-+&fmt_code           code
+@@ -55,6 +57,7 @@
+ &fmt_fdfjfk         fd fj fk
+ &fmt_fdfjfkfa       fd fj fk fa
+ &fmt_fdfj           fd fj
++&fmt_cdfjfkfcond    cd fj fk fcond
  
  #
  # Formats
-@@ -64,6 +67,8 @@
- @fmt_hintrjsi12      .... ...... ............ ..... .....     &fmt_hintrjsi12     %hint %rj %si12
- @fmt_whint           .... ........ ..... ...............      &fmt_whint          %whint
- @fmt_rdrjsi14        .... .... .............. ..... .....     &fmt_rdrjsi14       %rd %rj %si14
-+@fmt_rjrk            .... ........ ..... ..... ..... .....    &fmt_rjrk           %rj %rk
-+@fmt_code            .... ........ ..... ...............      &fmt_code           %code
+@@ -79,6 +82,7 @@
+ @fmt_fdfjfk          .... ........ ..... ..... ..... .....    &fmt_fdfjfk         %fd %fj %fk
+ @fmt_fdfjfkfa        .... ........ ..... ..... ..... .....    &fmt_fdfjfkfa       %fd %fj %fk %fa
+ @fmt_fdfj            .... ........ ..... ..... ..... .....    &fmt_fdfj           %fd %fj
++@fmt_cdfjfkfcond     .... ........ ..... ..... ..... .. ...   &fmt_cdfjfkfcond    %cd %fj %fk %fcond
  
  #
  # Fixed point arithmetic operation instruction
-@@ -259,3 +264,23 @@ ammax_db_wu      0011 10000111 00000 ..... ..... .....    @fmt_rdrjrk
- ammax_db_du      0011 10000111 00001 ..... ..... .....    @fmt_rdrjrk
- ammin_db_wu      0011 10000111 00010 ..... ..... .....    @fmt_rdrjrk
- ammin_db_du      0011 10000111 00011 ..... ..... .....    @fmt_rdrjrk
+@@ -340,3 +344,9 @@ fcopysign_s      0000 00010001 00101 ..... ..... .....    @fmt_fdfjfk
+ fcopysign_d      0000 00010001 00110 ..... ..... .....    @fmt_fdfjfk
+ fclass_s         0000 00010001 01000 01101 ..... .....    @fmt_fdfj
+ fclass_d         0000 00010001 01000 01110 ..... .....    @fmt_fdfj
 +
 +#
-+# Fixed point extra instruction
++# Floating point compare instruction
 +#
-+crc_w_b_w        0000 00000010 01000 ..... ..... .....    @fmt_rdrjrk
-+crc_w_h_w        0000 00000010 01001 ..... ..... .....    @fmt_rdrjrk
-+crc_w_w_w        0000 00000010 01010 ..... ..... .....    @fmt_rdrjrk
-+crc_w_d_w        0000 00000010 01011 ..... ..... .....    @fmt_rdrjrk
-+crcc_w_b_w       0000 00000010 01100 ..... ..... .....    @fmt_rdrjrk
-+crcc_w_h_w       0000 00000010 01101 ..... ..... .....    @fmt_rdrjrk
-+crcc_w_w_w       0000 00000010 01110 ..... ..... .....    @fmt_rdrjrk
-+crcc_w_d_w       0000 00000010 01111 ..... ..... .....    @fmt_rdrjrk
-+break            0000 00000010 10100 ...............      @fmt_code
-+syscall          0000 00000010 10110 ...............      @fmt_code
-+asrtle_d         0000 00000000 00010 ..... ..... 00000    @fmt_rjrk
-+asrtgt_d         0000 00000000 00011 ..... ..... 00000    @fmt_rjrk
-+rdtimel_w        0000 00000000 00000 11000 ..... .....    @fmt_rdrj
-+rdtimeh_w        0000 00000000 00000 11001 ..... .....    @fmt_rdrj
-+rdtime_d         0000 00000000 00000 11010 ..... .....    @fmt_rdrj
-+cpucfg           0000 00000000 00000 11011 ..... .....    @fmt_rdrj
-diff --git a/target/loongarch/op_helper.c b/target/loongarch/op_helper.c
-index 53ee9ff..fdd4303 100644
---- a/target/loongarch/op_helper.c
-+++ b/target/loongarch/op_helper.c
-@@ -13,6 +13,8 @@
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
- #include "internals.h"
-+#include "qemu/crc32c.h"
-+#include <zlib.h>
++fcmp_cond_s      0000 11000001 ..... ..... ..... 00 ...   @fmt_cdfjfkfcond
++fcmp_cond_d      0000 11000010 ..... ..... ..... 00 ...   @fmt_cdfjfkfcond
+diff --git a/target/loongarch/internals.h b/target/loongarch/internals.h
+index 17219d4..e9e6374 100644
+--- a/target/loongarch/internals.h
++++ b/target/loongarch/internals.h
+@@ -8,6 +8,11 @@
+ #ifndef LOONGARCH_INTERNALS_H
+ #define LOONGARCH_INTERNALS_H
  
- /* Exceptions helpers */
- void helper_raise_exception(CPULoongArchState *env, uint32_t exception)
-@@ -56,3 +58,27 @@ void helper_asrtgt_d(CPULoongArchState *env, target_ulong rj, target_ulong rk)
-         do_raise_exception(env, EXCP_ADE, GETPC());
-     }
- }
++#define FCMP_LT   0x0001  /* fp0 < fp1 */
++#define FCMP_EQ   0x0010  /* fp0 = fp1 */
++#define FCMP_UN   0x0100  /* unordered */
++#define FCMP_GT   0x1000  /* fp0 > fp1 */
 +
-+target_ulong helper_crc32(target_ulong val, target_ulong m, uint64_t sz)
-+{
-+    uint8_t buf[8];
-+    target_ulong mask = ((sz * 8) == 64) ? -1ULL : ((1ULL << (sz * 8)) - 1);
-+
-+    m &= mask;
-+    stq_le_p(buf, m);
-+    return (int32_t) (crc32(val ^ 0xffffffff, buf, sz) ^ 0xffffffff);
-+}
-+
-+target_ulong helper_crc32c(target_ulong val, target_ulong m, uint64_t sz)
-+{
-+    uint8_t buf[8];
-+    target_ulong mask = ((sz * 8) == 64) ? -1ULL : ((1ULL << (sz * 8)) - 1);
-+    m &= mask;
-+    stq_le_p(buf, m);
-+    return (int32_t) (crc32c(val, buf, sz) ^ 0xffffffff);
-+}
-+
-+target_ulong helper_cpucfg(CPULoongArchState *env, target_ulong rj)
-+{
-+    return env->cpucfg[rj];
-+}
+ void loongarch_translate_init(void);
+ 
+ void loongarch_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
 diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-index 37755c4..e1949c2 100644
+index e34b540..520d95f 100644
 --- a/target/loongarch/translate.c
 +++ b/target/loongarch/translate.c
-@@ -174,6 +174,7 @@ static void gen_set_gpr(int reg_num, TCGv t, DisasExtend dst_ext)
- #include "insn_trans/trans_bit.c.inc"
- #include "insn_trans/trans_memory.c.inc"
+@@ -186,6 +186,7 @@ static void gen_set_gpr(int reg_num, TCGv t, DisasExtend dst_ext)
  #include "insn_trans/trans_atomic.c.inc"
-+#include "insn_trans/trans_extra.c.inc"
+ #include "insn_trans/trans_extra.c.inc"
+ #include "insn_trans/trans_farith.c.inc"
++#include "insn_trans/trans_fcmp.c.inc"
  
  static void loongarch_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
  {
