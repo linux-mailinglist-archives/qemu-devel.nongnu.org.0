@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B9EE44E874
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 15:18:34 +0100 (CET)
-Received: from localhost ([::1]:48822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF59944E878
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 15:18:38 +0100 (CET)
+Received: from localhost ([::1]:49030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlXNw-0008Rq-Mw
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 09:18:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45272)
+	id 1mlXO1-00008v-U1
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 09:18:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mlXKU-0005zH-Qy; Fri, 12 Nov 2021 09:14:58 -0500
+ id 1mlXKb-00062x-6K; Fri, 12 Nov 2021 09:15:05 -0500
 Received: from [201.28.113.2] (port=37434 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mlXKS-0007oL-In; Fri, 12 Nov 2021 09:14:58 -0500
+ id 1mlXKW-0007oL-2Z; Fri, 12 Nov 2021 09:15:02 -0500
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Fri, 12 Nov 2021 11:14:50 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 1C61680009B;
+ by power9a (Postfix) with ESMTP id 83D78800E9B;
  Fri, 12 Nov 2021 11:14:50 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 0/3] target/ppc: Implement Vector Expand/Extract Mask and
- Vector Mask
-Date: Fri, 12 Nov 2021 11:14:27 -0300
-Message-Id: <20211112141430.631732-1-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v2 1/3] target/ppc: Implement Vector Expand Mask
+Date: Fri, 12 Nov 2021 11:14:28 -0300
+Message-Id: <20211112141430.631732-2-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211112141430.631732-1-matheus.ferst@eldorado.org.br>
+References: <20211112141430.631732-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 12 Nov 2021 14:14:50.0544 (UTC)
- FILETIME=[A7E0AB00:01D7D7CF]
+X-OriginalArrivalTime: 12 Nov 2021 14:14:50.0921 (UTC)
+ FILETIME=[A81A3190:01D7D7CF]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -63,24 +64,94 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-This is a small patch series just to allow Ubuntu 21.10 to boot with
--cpu POWER10. Glibc 2.34 is using vextractbm, so the init is killed by
-SIGILL without the second patch of this series. The other two insns. are
-included as they are somewhat close to Vector Extract Mask (at least in
-pseudocode).
+Implement the following PowerISA v3.1 instructions:
+vexpandbm: Vector Expand Byte Mask
+vexpandhm: Vector Expand Halfword Mask
+vexpandwm: Vector Expand Word Mask
+vexpanddm: Vector Expand Doubleword Mask
+vexpandqm: Vector Expand Quadword Mask
 
-v2:
-- Applied rth suggestions to VEXTRACT[BHWDQ]M and MTVSR[BHWDQ]M[I]
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+---
+ target/ppc/insn32.decode            | 11 ++++++++++
+ target/ppc/translate/vmx-impl.c.inc | 34 +++++++++++++++++++++++++++++
+ 2 files changed, 45 insertions(+)
 
-Matheus Ferst (3):
-  target/ppc: Implement Vector Expand Mask
-  target/ppc: Implement Vector Extract Mask
-  target/ppc: Implement Vector Mask Move insns
-
- target/ppc/insn32.decode            |  28 ++++
- target/ppc/translate/vmx-impl.c.inc | 209 ++++++++++++++++++++++++++++
- 2 files changed, 237 insertions(+)
-
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index e135b8aba4..9a28f1d266 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -56,6 +56,9 @@
+ &VX_uim4        vrt uim vrb
+ @VX_uim4        ...... vrt:5 . uim:4 vrb:5 ...........  &VX_uim4
+ 
++&VX_tb          vrt vrb
++@VX_tb          ...... vrt:5 ..... vrb:5 ...........    &VX_tb
++
+ &X              rt ra rb
+ @X              ...... rt:5 ra:5 rb:5 .......... .      &X
+ 
+@@ -408,6 +411,14 @@ VINSWVRX        000100 ..... ..... ..... 00110001111    @VX
+ VSLDBI          000100 ..... ..... ..... 00 ... 010110  @VN
+ VSRDBI          000100 ..... ..... ..... 01 ... 010110  @VN
+ 
++## Vector Mask Manipulation Instructions
++
++VEXPANDBM       000100 ..... 00000 ..... 11001000010    @VX_tb
++VEXPANDHM       000100 ..... 00001 ..... 11001000010    @VX_tb
++VEXPANDWM       000100 ..... 00010 ..... 11001000010    @VX_tb
++VEXPANDDM       000100 ..... 00011 ..... 11001000010    @VX_tb
++VEXPANDQM       000100 ..... 00100 ..... 11001000010    @VX_tb
++
+ # VSX Load/Store Instructions
+ 
+ LXV             111101 ..... ..... ............ . 001   @DQ_TSX
+diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+index b361f73a67..58aca58f0f 100644
+--- a/target/ppc/translate/vmx-impl.c.inc
++++ b/target/ppc/translate/vmx-impl.c.inc
+@@ -1505,6 +1505,40 @@ static bool trans_VSRDBI(DisasContext *ctx, arg_VN *a)
+     return true;
+ }
+ 
++static bool do_vexpand(DisasContext *ctx, arg_VX_tb *a, unsigned vece)
++{
++    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
++    REQUIRE_VECTOR(ctx);
++
++    tcg_gen_gvec_sari(vece, avr_full_offset(a->vrt), avr_full_offset(a->vrb),
++                      (8 << vece) - 1, 16, 16);
++
++    return true;
++}
++
++TRANS(VEXPANDBM, do_vexpand, MO_8)
++TRANS(VEXPANDHM, do_vexpand, MO_16)
++TRANS(VEXPANDWM, do_vexpand, MO_32)
++TRANS(VEXPANDDM, do_vexpand, MO_64)
++
++static bool trans_VEXPANDQM(DisasContext *ctx, arg_VX_tb *a)
++{
++    TCGv_i64 tmp;
++
++    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
++    REQUIRE_VECTOR(ctx);
++
++    tmp = tcg_temp_new_i64();
++
++    get_avr64(tmp, a->vrb, true);
++    tcg_gen_sari_i64(tmp, tmp, 63);
++    set_avr64(a->vrt, tmp, false);
++    set_avr64(a->vrt, tmp, true);
++
++    tcg_temp_free_i64(tmp);
++    return true;
++}
++
+ #define GEN_VAFORM_PAIRED(name0, name1, opc2)                           \
+ static void glue(gen_, name0##_##name1)(DisasContext *ctx)              \
+     {                                                                   \
 -- 
 2.25.1
 
