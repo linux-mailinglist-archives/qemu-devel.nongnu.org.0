@@ -2,136 +2,139 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F4A244EC6D
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 19:06:41 +0100 (CET)
-Received: from localhost ([::1]:40048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AEF044ECA7
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 19:33:54 +0100 (CET)
+Received: from localhost ([::1]:49100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlawh-0007jE-Kd
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 13:06:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41768)
+	id 1mlbN2-0008HO-Je
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 13:33:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mlauV-0006op-Qh; Fri, 12 Nov 2021 13:04:23 -0500
-Received: from mail-db8eur05on2127.outbound.protection.outlook.com
- ([40.107.20.127]:58853 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ id 1mlbLv-0007JS-6z; Fri, 12 Nov 2021 13:32:43 -0500
+Received: from mail-eopbgr60132.outbound.protection.outlook.com
+ ([40.107.6.132]:51334 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mlauS-00059G-65; Fri, 12 Nov 2021 13:04:23 -0500
+ id 1mlbLp-0000Qn-A4; Fri, 12 Nov 2021 13:32:39 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=f3cBvtb6QsI9GY43C9gtlzE4A1nIWMHxyTjKvZV09/U+WTDPtf0PZccuXGVNmt+Y53iFH+yhvD5A1kZHgB9ePAOAzXWg4xpbe0LEM3q/v01sxDIkBqT1sPdN96ZMoe4/+gZk6H0sW/iGHw4M1+B0ilUYk+V8r+bj971OfIi5j+rIeOjXHiKDOMqRKxdQ9+HJCj8wfscEOhNqoZRV278Tb6i9mDRWj7O/of0Mx+sTZEkIz9TAOP/MUAfWLlRZoDSIp1Edd0JvdsIlm3FTrmNCuq82+U+8LGEj/FcGTp+f4KfRlfWl2R5zqSFfuE0b36DBWCrtDCGQV5S/ENWlPmQXig==
+ b=mjyhXPWyTZTx0SJWyWz1rq7EFpvVjiyoMQbGfCmWhKkbC8CpZxvI/qoNYJOvJZPVkEW5434VPOkglr9z+U0thbtx3LtfQNzoeta4aSpkR40LgSKXxIsXipfmCxJ2tk1YvWJXyuJJxteo9OWQTjx0yJF7SZ/UKHdxYbDfkovu9jLZYPeYaaeVWi/k2mGRzLkUDHebeLtHZYTdSPW5QK5kybY1tjtKJrzhlu7oDkpd9EfIHU2cx/wjyhFT4udi3nVW0/lNuH51/0/2YCXZbfQuwe4kOzEmvQqvHWQO/OChxSfKbQkCBWp+rIKL5uZv5Eec2PH0hg1H7TQPCo3QVruunA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=321JuUyu6KrcL5c8SpcuvVaOsZLik7mQXvXZH7LTA8Q=;
- b=YDe4szDxkGlXvMYPHyb+wHysrjKSpKx9tsnoCdOUVvfLJyZppgTtcApFZErI3TIv0jKkbgo4r9PNgjtieMsVARcFT1JjC8OeFGfhcyjB0a1wsVNofm+UiV8eVrh/6dreYRo8pG8jueT5ifGgQJ2lmhS0ua7NJ1JV8CPZOLPyHnUQluB7a7QiUyjJbOHIyVz/yv8IGtLaa/M8EE6SXiYc2vihu78Ybx3Gp1/J5Te4irftUMcrFze2B/f6wxC3moxEkk2gRB7iCgPR0TZkJiXGEzsUdLvAj3MGTXiaVVQaXFFkInYz8nqu+kr+LmeessxxK0SQF6PJqPv4WcrodqaL2g==
+ bh=9fheNvSAf7dz/AhsaD2culb7jluJRlXd1ZdejTVzlkc=;
+ b=RmAccDffeoq16LpfQ2LpElOkasuA26bcQZBPmxTYNYYq3bfJwcmAQwcXHty+WT464+SthxoKsa0f6h68OGm+Ry9x9EDy6p2+1KgLLbhoC9eNwkzuVvIPa1d+MgUT+qfVZP2PKw9nXMILEcHwV9JuAjdX6VkcHbv2PfbPTL5P9iCuzhUiwVhvY9/9BdbRHi45T89hrzpC1dpD0xnOKYNCS4/+4Fj9JJK41nhKdojrzNmEt/nmVe26nZ9TW031oNcD+BU96g+YjFMEKrMyBa+KDP+hBFWE8sai479XsVUYeI+/hdhg65pcXyuvfLpx/HHF/e6T7RheZ92CRNEChjcCrQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=321JuUyu6KrcL5c8SpcuvVaOsZLik7mQXvXZH7LTA8Q=;
- b=dz5EAmIhyDr367Aj7q+5OtjM2RZs0zZPFdOQP9euinlmhCa2L3ljWsTIMnnNsPQrhr/ANoBp08i3kC2fL6ZrJb8KjwMf6p4f/SVCZwG5cQPiOme1KxIJNilME8KH7jMnMHar/jenx0JBSidAp33JilVIrVXjJ5VmPpKdXuZy8XE=
+ bh=9fheNvSAf7dz/AhsaD2culb7jluJRlXd1ZdejTVzlkc=;
+ b=LBiJeXm50tSy0W42WmmfapWHYmQ2PA3mh/xl/wYmBoSKIt295kPNWdwr/jeDvvJSpYRYaYa0J/421CfVccOpunYh7lOc7mfAnVR0Li01JonUrDrUMUmcmE9gZpuCvNESr0X3Wz6pznTrFiURsqvs6kOK32aumChjsekZrSOog24=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3575.eurprd08.prod.outlook.com (2603:10a6:20b:48::19)
+ by AS8PR08MB6102.eurprd08.prod.outlook.com (2603:10a6:20b:23d::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.11; Fri, 12 Nov
- 2021 18:04:16 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.19; Fri, 12 Nov
+ 2021 18:32:34 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a994:9f7c:53a5:84bc]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a994:9f7c:53a5:84bc%4]) with mapi id 15.20.4690.018; Fri, 12 Nov 2021
- 18:04:15 +0000
-Message-ID: <363f6749-90c6-9336-d013-ede3a35df5bf@virtuozzo.com>
-Date: Fri, 12 Nov 2021 21:04:14 +0300
+ 18:32:34 +0000
+Message-ID: <54b75db4-8867-d1ee-e32c-bc3e4c23ec28@virtuozzo.com>
+Date: Fri, 12 Nov 2021 21:32:31 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v1] job.c: add missing notifier initialization
+Subject: Re: [PATCH v4 0/1] hw/hyperv/vmbus: Is it maintained?
 Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20211103162155.791482-1-eesposit@redhat.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Jon Doron <arilou@gmail.com>, qemu-trivial@nongnu.org,
+ Roman Kagan <rkagan@virtuozzo.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Maciej S . Szmigiero" <maciej.szmigiero@oracle.com>,
+ "Denis V. Lunev" <den@openvz.org>, Roman Kagan <rvkagan@yandex-team.ru>
+References: <20211106134155.582312-1-philmd@redhat.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-In-Reply-To: <20211103162155.791482-1-eesposit@redhat.com>
+In-Reply-To: <20211106134155.582312-1-philmd@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM5PR0101CA0013.eurprd01.prod.exchangelabs.com
- (2603:10a6:206:16::26) To AM7PR08MB5494.eurprd08.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AS9PR05CA0047.eurprd05.prod.outlook.com
+ (2603:10a6:20b:489::26) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 Received: from [192.168.100.10] (185.215.60.229) by
- AM5PR0101CA0013.eurprd01.prod.exchangelabs.com (2603:10a6:206:16::26) with
+ AS9PR05CA0047.eurprd05.prod.outlook.com (2603:10a6:20b:489::26) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.15 via Frontend
- Transport; Fri, 12 Nov 2021 18:04:15 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.16 via Frontend
+ Transport; Fri, 12 Nov 2021 18:32:33 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 61f25bde-9bd1-4b99-fb54-08d9a606d70f
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3575:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB35757B4C69253B39E728795DC1959@AM6PR08MB3575.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Office365-Filtering-Correlation-Id: a0f58e79-895f-4d8f-80d3-08d9a60acb1d
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6102:
+X-Microsoft-Antispam-PRVS: <AS8PR08MB610239174DEB98FC65767295C1959@AS8PR08MB6102.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KFvVyU73zPZxTO8MIYpNx8vGCuILaPj/tFNsAX34eVkiYSm9EyZ2T0vVHQ+H7HVT2Oz42uDyY0gDPv+QvD5Gz1Bn4GluiCSnwrmJOq4HHhT72Sua8kQhUByD3PZxatcEECvrdB+v61etpDTsmQWMZk3Z4HvaEvQz8IqX+vmYQTkxOaSI9WNM/dWu66dDcU7dJIA6cg2vE+JvtAXnm74MeO/RG5Q5xHPUmt/EJpfulOooElDIe6PTVEozIn0VCmvIQe2AHWuw/+2hbdDQwyzY+PgSbJZ9QhgixxWzqjSwd59RxUEwS5i82/6kHsoCz7Nzd8WEjtVTUhf/FNkfa2PbsO/ncbqCEDBVrRNYdX6ZjbRePvxXoF13r48MMUtmXfdWhLqSDgWUTciUugjHlGyHdaYDrxc1lsYfprTQuVwudKWZJj06Qqsuu9cevA0SKFiAG7NZDu3+PcwunXmhBDZz1pXEKlfW9EF48mTL51gaVXA2CEoVBUaVZ2nV/ZwZNFKtDc/18ahp0sRDvsmsI4V0Ye4ND0cAWSIPhXIMzZpUqQitxdIs+1CMh1yYCUze8SJPMifoBbEEHRyeu3jBVLP72P3hd2qxPThWvvEpkRHvCDcWJ4+EvdMq73noiWs89Ts8JCs3VItF9XnM8/2RaVaj1VjGTyOj14w+h8etHTvPe19Ejua6RhTljHmVYFNrqUQfj4Ra/d1rDzYasUeILwV6AqITFYrK5BamnF4JzwKX7YrgoMPCJNmnxffw4kxPJSPG
+X-Microsoft-Antispam-Message-Info: sJ161wymCV1kGrmQGfK9aTEzp6wsL16+Mu5v0tzvDhBryrsjzqfyf1W+KlJP3N57hhr3SBu5XOzJ9jkbB75rO1JLMpNNIfe8kle3hfTtBbIrSdxuqXPS7CEya3ZB0dRgSc4HTR4omZ+NCy+vYd49zDGTWBzAzhglC7n6NzA7VtT6cqM+qmLEEtNt/9CVUEUCdsNPBpllddTebSWBLiFXw0kQpWlHJlqXbHu1PRjYdNPaIb9VAfJtalCkH3zhipaCdsDjwnHLdF2460tkce3rTGEWXs8YvaM1JNzJCrkHlpwWvX59EvnZ2dwdLKPpPcRs+vos4VYUgz/g18Z5r+fxyx7KoxxvXA9w/aIYYAcZTocDenfJQMBQpOG1c9UMEg18Jrlp5hD6pE1DetdGXa60wvI8hictau+ABElhlO4eu3NadeXjHDjYGONJo1yUGGAIbnR58ftPnt1/I87cBHTfBXnJS6197gfhcmFcwC0NUDLA6xlkyF1hFGVpvK6SdG4jr8OMERglmD4Xp/MxI7yGaOrZeuToVZg5wOOv3+mmkqVmGIiBYBu+0t9Nd/3mZ2JmjOXY3KJU/AqnhicmGb8x+Ie6AeFLZznsf3arCXTDzadl3rcWbgh8/mOZX4IiX3IgbcnVfuV9P0IX6TjYaiewLWCDKDFQDF5hY9LBZqXvPVfQbr/DwAOuZFxOXYV6R4hXixEOZaYzKeF7xDiUqQHbDB1MJXVVWinVwy3srgfemQUw/2d6ykpXAjmU2QUFpcTj3+Roj+WrzMHXq3+Q461/EQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(52116002)(2616005)(5660300002)(508600001)(186003)(956004)(26005)(83380400001)(36756003)(66476007)(6486002)(8676002)(8936002)(31686004)(316002)(38100700002)(66556008)(54906003)(86362001)(38350700002)(2906002)(16576012)(4326008)(66946007)(31696002)(43740500002);
+ SFS:(4636009)(366004)(52116002)(83380400001)(186003)(31686004)(8936002)(6486002)(26005)(86362001)(66476007)(66556008)(2906002)(956004)(66946007)(316002)(2616005)(16576012)(4326008)(5660300002)(508600001)(8676002)(4744005)(31696002)(38350700002)(38100700002)(36756003)(54906003)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WHl2RGZHaUtLa1A4dWM2Nm5kS1JmZkpyZ2xpaUxEbStuZWZqS1hMN0ZqYUhs?=
- =?utf-8?B?ZVdGZUpjOUVWQ3o3d2dJck5CckdJN1lyUmY4Witsc3FGZkY4YTYveDZuNTA2?=
- =?utf-8?B?N245ZmE4Qk4xTlRXNk9Ea2d0OVMvZmVpQ25keE1OQmFPdUY0NVVYdzQ2Vytz?=
- =?utf-8?B?a0JmbTh6K1VwWWF4TVowZ2l4RzgrUHMxKzUyM0lnYmRxRlFVcTgwUGdwU0p4?=
- =?utf-8?B?OTdnWm1BZ2dFamJRYzZEUjI2bGJnOWIwbnFvT2J3UGlLOFcydUR6TDV4ZmFC?=
- =?utf-8?B?dlp0UzJpM1VoMFFCZldxc2VhVUdCUHkrRUtZQW5ReFQ2Y0ZPZnh4MVY1bnRt?=
- =?utf-8?B?anNueHh3OVNucW5xdWZ3YjNBN1ZyR0ZvK0N6cEROdGl4U3NWb3ZwUGpJQ0Ir?=
- =?utf-8?B?R2l1RHV6eWVkOFd0dGR0Rk40QVczYmRkY1gwc3hIMEZ5UFNFaysrc3oxMUNI?=
- =?utf-8?B?QTV4WEtiNUJOdWo5Z2lzaHVTRnVKSGpBVjIrdGl0aG1kN2hGT2xLbXN2SXNM?=
- =?utf-8?B?TC9neVl0cG5SVkMyMHNaR2lNejJRYlEwNU9mSk1xNGRqcWhXVzZDYjdwdUxY?=
- =?utf-8?B?c1lwRkxFRW5SbnhJQUtNWDhaTGQ0UFYybzNubVg1Y3QwcXRILzYrQlMrSEFa?=
- =?utf-8?B?bW9tL1ByRFRqOTU3OXg4TTBDdEEyQ1lVbExUSjYycHBCUUhYeFNUNVgrQXls?=
- =?utf-8?B?eWVYNnNBVFNBc24vMEJZSStIZVZVbkNWWWJmSkthWEt1TmpYeVBsZDdNeDhr?=
- =?utf-8?B?TWs5WllnQjNBSmlKRE5lSWNUL2VxMGd2MjF2MGFoVWtDb1M0OVUvQVhFNk5J?=
- =?utf-8?B?eW9UckNoSUhrWDAyU1NMUmprcmg2dWUzb0JxWExwYzlyZklCUjRGTkh1Snh6?=
- =?utf-8?B?RitjT0pSSUVMZCs3QTU1RW4xN05IRDNPS2tLS1NFQ3FmVyswMmdiM0Q2b2cz?=
- =?utf-8?B?WFpJZWQrcGNmSks5RmlMQWtMU0pGbVUrcmhqN3Q5M1Byc2NDSHBrdS9CVzBM?=
- =?utf-8?B?dWFHVEhFZXdqVnd6bTdMWlplRmxZS1FQYW0vRjFzeWNQcDhLVHFlM3Z5SDBs?=
- =?utf-8?B?NUlzQVhtbnRiQ2RHdE84OERtK3VZOWxCQUtPcldOTTVtMi93N2tJbVR5UjFj?=
- =?utf-8?B?V01nbWYyN1FyUlFmVkxoYmhjWnhpU1lHMkZYWWdhaEFVd2txNXZnVkM4TVhQ?=
- =?utf-8?B?UDIvZ2JtcE1MTHlWR2tjQTBjRGVBSTc4ZmxhNlBtbjRDOThmejZaMXVLMjht?=
- =?utf-8?B?SUtWczFhM1E2ZFpiNGExWGM2N29ucmpQdlZzNE14VFNtRjAzM1YvYkE2V2hy?=
- =?utf-8?B?YUNWcytGbFpuUVVsK2FoSUlDVzd1YjhSNy9JdkR2K2dxd0xyM1YvckU3SGg2?=
- =?utf-8?B?em1xaWZHK1JJYlFPV0tFUzA0U2dnSmhnNDNTYytDZkRTbzR2dEJEZGlZejVh?=
- =?utf-8?B?bWkvYnpkMkRKaUYwNmxzbllzdTl0eUdkMWhrREVBdHlwUXhuWjdMREFBZ2cx?=
- =?utf-8?B?MVRHdVAyVk5LL05sQUs3Z3RqR01Jc2NrWWlOL09zd21RM0FpdXRsdU9PYjVi?=
- =?utf-8?B?bkJMNElEb2pSQzhhaU9WczJKNVFuOS8ra3NiZVp1dkdnTlFlL0I0QUJVNkpT?=
- =?utf-8?B?NjlMVC9Lc2pMR1dyNE81MHBTOGRPZ2xpV2JYcXZnZitjckV4Rm1SSnRyWkNB?=
- =?utf-8?B?L0pQd2twU1Y4SlpadCs0TTk2c0JaQnc3R21rT0FXMTEyUmxOc1AySDhZc3ZW?=
- =?utf-8?B?d2ZlbHRuWC9sOUFFZytWUWxaSi9iazhhSllwVXI2TU5leStub0RQaytmcFdS?=
- =?utf-8?B?a3lPS2VIMk0ycFZPSDBicyt3eElkVUZDeFN3d1hhdVJKZTlFbFlha3ZZeEQz?=
- =?utf-8?B?b1J2dmZGR3BNd284Tk83L3M3MVhyOTJFVmIxaWRmRXQ2QVRWQVpHRXZNbzhV?=
- =?utf-8?B?US8rZm5LbmpOcmdnc2xBOFNIT1ltck4vRlR6SjBuVG9XUzFPcGFuUE92S0ZQ?=
- =?utf-8?B?bnVtL1d1SmQrdG0yV0FTK0lCZkMxN29MUDJ5MVBnMmhlR2c0V2pYeExCUTdi?=
- =?utf-8?B?R0Z6L2pYMXM5bGQxZGNXM1hsTFVhQkliMnkwTGErMUJLK21nb3NteEJEREZS?=
- =?utf-8?B?aGlrZUs3aU94RzZNM1JkcjYvaXZ6L1Y3S0FwZ1p5NTZVT3NFT0g3b1hLWXBk?=
- =?utf-8?B?dW10R3Z6RVdydDFZbXFyR1dXODhIWEVGcFJhQ1JHYzJEMTh0STFSeUJ6WWs5?=
- =?utf-8?Q?6rQ/HD5EcknbgNPquVqRnCIoeSvPdnVbI5KqJv+6Zk=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eUptaUIzbm1zbWFaZHVqMTVZZklBenVjY2grUjhmajhWbVhDa1pkRWhwUmRT?=
+ =?utf-8?B?YWpyM2tRekRnRnpPRG5XUVV6NXV2WGlhWng5cFlqL1BzZ3B5aXgwOEd4QTFw?=
+ =?utf-8?B?SnRDS3F0d2J3MXJja1RaSHRNSmcyM0lnNW9tUGlJQk5vaTJVL0NTSnhGRjk4?=
+ =?utf-8?B?dC81OGh1YkZtL2QvRkhxNkpEcDUwcmJDSUs1MUZxTk0xbk5TU0hmY3FwN0gw?=
+ =?utf-8?B?QytyK1VqZGU5Q0dLZ0M5UEtEanVXTG1TK0VmUVNxYXNPYzRjSDZ2Q1REQVpk?=
+ =?utf-8?B?ckZkM0wyWG1FMGd5WGRDTzJYOGF4QjJ6Sm5YRm9vR0owRTFYeWl1b1hKZ0RW?=
+ =?utf-8?B?N0UzOWg0T1VVQUlLTlp3N3QvRVBuZkp0NlBBendxRmdUVGxtbXBVUnU5UFU0?=
+ =?utf-8?B?ZU1FUHFpNnBQaU5RY1ZYOGszMCtjbmpYQUdNODVIT3FwaVhqT1VEOEgyQ1RB?=
+ =?utf-8?B?Vi9tZDBWc0NEUXBYVUpwTXRhNUI5VGJjeXpRM1VBd2ltL081M1R3TXh4Y0Iv?=
+ =?utf-8?B?bVZjbllzbzBkZXZ4UG1kT2tTelZwREY2MWFLbnR4cjBEazZOc2k0eEQ4ZXR2?=
+ =?utf-8?B?UkVjeGtNd3oxa3E3RGZBaWZ3djRvUUNBUDBEdU94UVZidjJXaVBhNFdzS3dy?=
+ =?utf-8?B?N1NaMUhSYU1WamdhYzFBVjRzL2RmcmdDYVZWejZQV0xNUHRRNjJ6NEpQZWhV?=
+ =?utf-8?B?dXJjQktCUE1LU0Z2dmcxY09RdXlwNTBUYmhhSFRITGVQc1JDdzJYN3U3S050?=
+ =?utf-8?B?MU5KbFp5YVFITGxPTGRxUlg2NGtOVDVXQ0l2cE5pQmdUUC9yZFY2MDUyUnUx?=
+ =?utf-8?B?V3RsVExBd1lqdUtod0xrb2NLTzVNdTFQTkVCamlXQ01xdmlxQlV1K1ExUUkz?=
+ =?utf-8?B?aldMV1FpeHNabzc3bTFFeVA3S1dIbm5XN3U2UHBzZysyQUdaMVVWa1VmUU94?=
+ =?utf-8?B?WE8xUzRqUDlzb0wySVpMOVZzL3RkV0VxdWZ3djd3OFAzZmcwVFY3ZWJFSEJ3?=
+ =?utf-8?B?Sjh2RHpObVAzQks4akx2SFJycjY1WXdWVlNHRmU4M1dnbmw4Q3Q2ZHI3YVBY?=
+ =?utf-8?B?TWYrdTlkK3hoUmRjTCtMc3lXaUtpaUc4WnRFTFpDc0RWZnROd2NvNG4wNUhy?=
+ =?utf-8?B?dklqVm5yY3IxREpRcnNHRmhQbkJMek9INU9xVWxZa1pHYkIxQ1VWYUxiWVVX?=
+ =?utf-8?B?TWozWHNVN2FoZlFjeHhYUHU4RzNYMk1lOEZuZ0tkU1pJY3NIdW1VSC9kcDB4?=
+ =?utf-8?B?c0FQb2dKckFRSHREN2JKeHFaVzRuREl4bjEra3dVOTA1Y0x4eHVNRndqaFU0?=
+ =?utf-8?B?T28rZTkzNTh3bitGMWQvZVJ4ODFraVRwQmpNZEFROUhKSTQzempqQVRYUUlz?=
+ =?utf-8?B?K1l2eGU4eitnTGVIVnl3VjNBTzBjVGhMQ0VhZXpNSDRlUHM1RjBSM3F2VmNU?=
+ =?utf-8?B?MG5FNFNXUkJwc3FTSm1oa3p5ejdCR1Noa0QxOTN2WEFqeGp5Sk5hUEZmaEZJ?=
+ =?utf-8?B?cDVtelIvYzFyU1FDMEdFMlJtT3ZJV3RsZlhFRnluOVViakp0MGUyTzNiWW8z?=
+ =?utf-8?B?alpEdmRlNWY5MXFMeE1XeW5XczQ4d0lkbDRkNkxSVE1mekxZR1R2VUpYbkty?=
+ =?utf-8?B?Y2Q1dmlXMXRjalhRc0d4cjU1N2JlZFQ3Q05KTXowS1pPOStjUklQQm4vcEJr?=
+ =?utf-8?B?TUJhRklCYWlaZTdOcHdzcUpQY3o0ZFY1WTFFaExGT29rNDcwdVlmcWtsOW1E?=
+ =?utf-8?B?QXN4TFJRdEM2cDVxeFVleVJ4ZnhjZFRKbmE2ckZvOXErY0U3TmxzUFpuQ2ww?=
+ =?utf-8?B?bW95UVlGckdZeXdWaHAreGt1bTM0Zk9rWUt2TEdoeFFJNjFuQzhWZGtFSU1i?=
+ =?utf-8?B?cGcvWGJmeVBtUTZKdlpmYWh2RE1kUS9zb2pyL2xPb3R5SklXR1B1ZEkvYTJE?=
+ =?utf-8?B?L1YrdEtPb1dROXBONjNESVhHYlAyUlNwd1N5cytsUWdVN09yTWFaTVRMQTNz?=
+ =?utf-8?B?SzlzWnoxbWhHeWtJdU8vRlFwZ0ZYOU8wTDJHbjlmNnlNUmVGUWtKdkE3SWRa?=
+ =?utf-8?B?QmlnWHBja3h3SURYL1JJTzJMcE9INEk0SUZ5eTlPbUdCeElOTFh0SmQ5cXRW?=
+ =?utf-8?B?ck9SMzBObTQ0SXdiVmh0ZitkK0pCQWlTWFR3Y2xOWHQxblFmZ2FROTlTbnV3?=
+ =?utf-8?B?OWkzTmZIbTlhcU05RE5aSG16aW9QSnhJSW5NQjhaUlp5UlBGejNUd0hZMVly?=
+ =?utf-8?Q?ii0ob9O0pNCWbc6yoqMYQp0W8YIFsri0kScRY4Uank=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61f25bde-9bd1-4b99-fb54-08d9a606d70f
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0f58e79-895f-4d8f-80d3-08d9a60acb1d
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2021 18:04:15.8545 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2021 18:32:33.9059 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: W5vhB/hYl/iJlR7/J3tolOgwfkEUjOUc4Fir/86LzL5hdR5mWw+XphAHkFRZecN/VOS1rLVp3JmHcb9WLaLdV9n9wmyL7qmeugOzPV+wTHk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3575
-Received-SPF: pass client-ip=40.107.20.127;
+X-MS-Exchange-CrossTenant-UserPrincipalName: ENMIOkcrb57XTznR1YGb0HWHPU/U0maQ5lP6fQKgMpTpqtcHhdc+qpJ7pvgyUVTmFstYavm5VHb6c/t0z48jo/3HI9PLkXQJD9Sefy4L0FA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6102
+Received-SPF: pass client-ip=40.107.6.132;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
 X-Spam_score_int: -55
 X-Spam_score: -5.6
 X-Spam_bar: -----
@@ -155,41 +158,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-03.11.2021 19:21, Emanuele Giuseppe Esposito wrote:
-> It seems that on_idle list is not properly initialized like
-> the other notifiers.
+Add Den and Roman (his new address)
+
+06.11.2021 16:41, Philippe Mathieu-Daudé wrote:
+> This is the 4th time I send this patch. Is the VMBus infrastructure
+> used / maintained? Should we deprecate & remove?
 > 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->   job.c | 1 +
->   1 file changed, 1 insertion(+)
+>    $ ./scripts/get_maintainer.pl -f hw/hyperv/vmbus.c -f include/hw/hyperv/vmbus.h
+>    get_maintainer.pl: No maintainers found
 > 
-> diff --git a/job.c b/job.c
-> index dbfa67bb0a..54db80df66 100644
-> --- a/job.c
-> +++ b/job.c
-> @@ -352,6 +352,7 @@ void *job_create(const char *job_id, const JobDriver *driver, JobTxn *txn,
->       notifier_list_init(&job->on_finalize_completed);
->       notifier_list_init(&job->on_pending);
->       notifier_list_init(&job->on_ready);
-> +    notifier_list_init(&job->on_idle);
->   
->       job_state_transition(job, JOB_STATUS_CREATED);
->       aio_timer_init(qemu_get_aio_context(), &job->sleep_timer,
+> Philippe Mathieu-Daudé (1):
+>    hw/hyperv/vmbus: Remove unused vmbus_load/save_req()
+> 
+>   include/hw/hyperv/vmbus.h |  3 --
+>   hw/hyperv/vmbus.c         | 59 ---------------------------------------
+>   2 files changed, 62 deletions(-)
 > 
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
-
-I don't think it worth applying it now:
-
-job object is alloced with g_malloc0, so job->on_idle is initialized to zero.
-
-notifier_list_init() simply calls QLIST_INIT(), which initializes the only field of QLIST structure to NULL. So, actually these notifier_list_init() calls are no-op in this context.
-
-I queue it in jobs branch, but will not send a pull request until more critical fix comes for 6.2 or 6.3 development starts.
-
-Thanks!
 
 -- 
 Best regards,
