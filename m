@@ -2,95 +2,143 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 256A744E63D
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 13:19:16 +0100 (CET)
-Received: from localhost ([::1]:45198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A13444E653
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 13:27:05 +0100 (CET)
+Received: from localhost ([::1]:50510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlVWV-0003cH-9f
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 07:19:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50740)
+	id 1mlVe4-0007j8-3H
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 07:27:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mlVUg-0001RB-NL
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 07:17:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24601)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mlVc8-00064s-V9; Fri, 12 Nov 2021 07:25:04 -0500
+Received: from mail-eopbgr60138.outbound.protection.outlook.com
+ ([40.107.6.138]:42514 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mlVUe-0007l7-S8
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 07:17:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636719439;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Va8CaTNjsi5vy5PvQVgHseyzfMb5Hv7M9txYpSClpcw=;
- b=GzVQ4FKJrXxIqb7a+a2csMiptxd38RydkYKndEv204SlxTSdvEHXEFQ0DTDMAb+k8V0b3D
- nF3D4i4CWXGEFByT1ak2pVcov1F/f33kdRd4hdFdO2qdnsWApA/yR+YBYrTCO0V6neA2hg
- zVPfugHyw55ahcu/6O97PpMbBmevR08=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-574-2hFNJL3aN7CCgaj-m71-vA-1; Fri, 12 Nov 2021 07:17:18 -0500
-X-MC-Unique: 2hFNJL3aN7CCgaj-m71-vA-1
-Received: by mail-ed1-f70.google.com with SMTP id
- q6-20020a056402518600b003e28d92bb85so8084057edd.7
- for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 04:17:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Va8CaTNjsi5vy5PvQVgHseyzfMb5Hv7M9txYpSClpcw=;
- b=5fpOzstQRBcYP5z3+FcF55ZRODMra6srkuvjVCF2/EtszFuwHczzomnxiTOxWJFEq1
- 79X0+QVdFvh0ApZlQIXraxntkn/NFotz1Q+IJ7gWqVW0gETdyrBKXrbZyEAJkuzPiLDd
- bdLzgRtyvtkhD+wtoaJeh3OKdRZ9byw5of+x7TADzoGxSNTyiYbHuAXJFGTCYAHOn7mZ
- V/2ZYoDnO9dhu1Z7ah46MaR6ZXvVl/56I3tv2UIFNaPed3BjqtpDm0RHOPeKZjOvg8bH
- 34HGlNOuQF6yGov3qgg/hZz5KAmnQcscwLDZ8dj5hO8Bo//JrGiMG75bF+WoJnoACfrf
- SgBA==
-X-Gm-Message-State: AOAM5337eS1Y2o8WWLZq3dLIzKkLdJ1VqgP7wgkYkgKJEAw3urOSD4EP
- wOCvMgi0sRuCFD8NsJvasxHnM2VZlVBaTzx7bFkPo1RoK3l+PEUsVFsQbakeCNQxErHTFzwdClj
- RRGLSb3vlgJN59/I=
-X-Received: by 2002:a17:906:3157:: with SMTP id
- e23mr18632650eje.359.1636719436989; 
- Fri, 12 Nov 2021 04:17:16 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxVomCZ8PEk5wzuaEtVzQLf/cFVlPmq2R6Hhxw917tmMkCZHZe02Zke05NR/Eg4aFeDcasDdg==
-X-Received: by 2002:a17:906:3157:: with SMTP id
- e23mr18632482eje.359.1636719435765; 
- Fri, 12 Nov 2021 04:17:15 -0800 (PST)
-Received: from localhost ([185.140.112.229])
- by smtp.gmail.com with ESMTPSA id g21sm3155171edb.89.2021.11.12.04.17.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Nov 2021 04:17:15 -0800 (PST)
-Date: Fri, 12 Nov 2021 13:17:14 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 0/6] RfC: try improve native hotplug for pcie root ports
-Message-ID: <20211112131714.5a54eb8a@redhat.com>
-In-Reply-To: <20211112111528.i43jhiybvwc2eyfz@sirius.home.kraxel.org>
-References: <20211011120504.254053-1-kraxel@redhat.com>
- <20211110065942-mutt-send-email-mst@kernel.org>
- <20211111075306.7dvpzewgclsddku6@sirius.home.kraxel.org>
- <20211111031646-mutt-send-email-mst@kernel.org>
- <20211111093425.6x2a37npcnnewdis@sirius.home.kraxel.org>
- <20211111120905.ozy5iucoqjhhoc72@sirius.home.kraxel.org>
- <20211111103354-mutt-send-email-mst@kernel.org>
- <20211112111528.i43jhiybvwc2eyfz@sirius.home.kraxel.org>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mlVc5-0000kE-R1; Fri, 12 Nov 2021 07:25:04 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JD495NkU2KxZq6JderX80bBDBCYpPnfvBAsFnd4h8yRmrr+0s2Eb5C4i7Kwiq1JKiGa4f4OA4Q3/DaFrlbzm92rPqRaG9ILZUMPhCit5XW6C4w8STMllukP3JGfGlz5r6L+PgAes2clQCKJYNyZWyHZiB3Knf+tYDVJIb3OYRcSgtCU9OE9xtEoa7E857/PmCVV8t0UqKEc/SsHFl07Eq/SgJnfWrxUARIqElRzi3K1d0umFF4OlQGHAUpsvAzXIuTvB/os8QfYh3nA4qS+lZXC812lOWCV3AnWPKyQtMmES2KtOEHvaZ5rPOnxo9GjX8DKSrAzloNQrHWchNwnTEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZbA7lePfdOcUamBKhATINw7Rjd9AO3H2Jtm6kAOlsFY=;
+ b=WG07TgakHphbBCxBPsB89b9eHnJfXL23rEr2FkVLIo2SJ6dDlU8uIGv/Z46SDb5SY+3uFKNlZ2mGWY6C2e4s36M80IEew5O6m0gOpfH10oeAxoWbWgIDHHjhAm6J5rJyfvXiPePBJzXjw5LS23T7uQbxCII0qrQkvrfRmNYJDY7ztZaebfNcaiDd0+4GsVeT4qzHfs10fvNYOWTinRScjxkOjvRfC+EUn5Lh54kzEIAM2rAohm1qIhPLHfpza90+whWdOU2dGAmWHGYaBsXLpU2/gTnuSl2xU8QPVvkAbqxWDAoqJdfnP1wtVSd+3EgONsmX2uW6IdWJRYenazKj1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZbA7lePfdOcUamBKhATINw7Rjd9AO3H2Jtm6kAOlsFY=;
+ b=TJ2ACR3wM5E1CVI386BMq+c0/RfF7+TMagUkj1TMXIC/HKHPmNcDB4Duu1xrsxNRHTkxdgqArsHmPP+u0eeIZOW0TH6wuv07n+JMtHzfeXBnrcAYs1oWvzC8rZ9slQfwUIpe74urCOJY6hIIngpwFoAj4JpZT+S5Rcchy9juOgc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4915.eurprd08.prod.outlook.com (2603:10a6:20b:d1::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.19; Fri, 12 Nov
+ 2021 12:24:58 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a994:9f7c:53a5:84bc]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a994:9f7c:53a5:84bc%4]) with mapi id 15.20.4690.018; Fri, 12 Nov 2021
+ 12:24:58 +0000
+Message-ID: <32347302-eae4-1af9-b682-272f8b88d28f@virtuozzo.com>
+Date: Fri, 12 Nov 2021 15:24:57 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v2 07/10] transactions: Invoke clean() after everything
+ else
+Content-Language: en-US
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>
+References: <20211111120829.81329-1-hreitz@redhat.com>
+ <20211111120829.81329-8-hreitz@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+In-Reply-To: <20211111120829.81329-8-hreitz@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-ClientProxiedBy: AM6P194CA0049.EURP194.PROD.OUTLOOK.COM
+ (2603:10a6:209:84::26) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+Received: from [192.168.100.10] (185.215.60.229) by
+ AM6P194CA0049.EURP194.PROD.OUTLOOK.COM (2603:10a6:209:84::26) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4690.25 via Frontend Transport; Fri, 12 Nov 2021 12:24:57 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e1b0f9af-ac1e-4c37-957e-08d9a5d770f6
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4915:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB491549DC8ACD56FF9E7CCC97C1959@AM6PR08MB4915.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: WhC5ZY6Heaz1oHEDt3BIqISWdf/ZRt6cMdqoSmD2p14MsJbVTE1wtXarC/KcOcQQNb7GgwzM3WpiChhSll156HBEi5AEOq7N9adhrGp0YqZfr/FfKox2i1EY5KzRTroYpzDUm5x+3f8erDuX145agmO0M/ZW5hGoyoLc26gijMV7K3RMvotMrF7z+unkTKfU34wOH/AR206Sf01WrPI0XiBi73GbDsvQBdMRD26HAF+n+vHEPU/mEA6UjUKXAZUoZT16Q+gzlOzHs9UL+Hr76L89rBRZYD5KSwnVgpzPGz3e4Yk9gU/CdOrjFkkqItpvsnSYNZJWWwD4TKvfZyM5iT5fqWz7DURywnKbywbw82l6AFB1NKs4n/CRmVax9C979iWkv0Q+SzkmdoyPCMUiabicFhdtQWCCdzsjq2UAr5sXIeyZusKEP7Cx1HubrlTu0KYq5E5GSTkiFIq9b794fGzmWl0og8RwN1A+u4lebTbi0b3Ljl6GFMdFpumhYo8Otb+xG18bpper+VeNGSkAxScmHDC4Ggy5Hh34mmC2zmPpxu8W24bcafSnQQnEPKuq4pR69+HSUqEeGRjmoi+xb7GbJN5Uz0S4/oY/lqCbcDKQX61vUnwArE+mZl7LbdMk3VlS7s5iZNUur2NFjYRN2HWUUKsOIjklGuRwaY3MtV9L0YxCSoaMjlcjuimMMQnPuJpLWrKqmPh1JhWRI/XMxFscc5oZ+muppd2jHW38/FkBfixYax3YLA8zgyUgPJJIopIuQNq70ZIO4KnrTw8HWQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(956004)(31696002)(2616005)(8936002)(6486002)(508600001)(86362001)(38100700002)(52116002)(8676002)(36756003)(38350700002)(4326008)(26005)(66476007)(83380400001)(4744005)(66556008)(16576012)(186003)(316002)(66946007)(5660300002)(2906002)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VGNUMHJ1djFyTWc2UG5DMjBBYjA2bGRZZHJLdXd6RE1LV1REL2poZ1BsazQw?=
+ =?utf-8?B?VEJMNks0T2VYaVQzWmxMb09VcmR1aCsrbysrQmlQK0JaT3pKOG9ZaEJvRkUy?=
+ =?utf-8?B?Zmc2MTd4UU1vcjNCUmx1SGhYMEFPR2twYXBHRjliUnVla09JOVVWTTA3aCtX?=
+ =?utf-8?B?b1pzMkJlcEVTNld1cThBWnJXS010cXdJUUUwdndNZ3BTZ0tjZklRc3lLUmU2?=
+ =?utf-8?B?dklYUncrYngzNGVMSFBoWDIvUzUvNzVvSlZuZ1FVNDFGbGJDMm9ZTEJXMTIw?=
+ =?utf-8?B?eGhaS0J6cFcrMGJzdHhNR09uUWhJY2IrOVdJcmNSZnNsTmJ1WVNkL2Ivd2pI?=
+ =?utf-8?B?MmE1bTdJdUFGOVFzcDQ2V1ZUdk5SbUpjOU14b01USXF6RGNpbnorSGpVNFgy?=
+ =?utf-8?B?a3R1TC9hWFNkQzQrOXppOWRKUGdXS1Q1bjc3SjYxOHJjSk1EbTVWOGhHaTVK?=
+ =?utf-8?B?dy82TFNDWmVQaUVRWkZ1MVFDQ0pnNDRmd3h3Q3VrUVN3SmJnb0VTUG9BWlVG?=
+ =?utf-8?B?cXVZRnBXR3FwZVp0VU5JSm5XYWM0MjNydlJOMkVJQlVpQ0JrYlhaWksrMDlq?=
+ =?utf-8?B?WUc2MW15S1grWTFLMjFXcFg2OWJraUJYdURXQ2toZEZBSnJUWTNuKzE0WVA4?=
+ =?utf-8?B?bTl2T29rREpJY1pUemJoZDF6Q092VUxwQzNRWG14Wm5vM1V5dFQ2Z2JGb3NW?=
+ =?utf-8?B?cFlVYUgzb3lTZXdhRXFxNU10Qm40ZVJqbzhSbkw5VitCUE1XRDAreEd4NVpu?=
+ =?utf-8?B?ZmdWU24yZElkMExXM1l0N3NZQVhhMmQrNHJMU0tFMEpJQkhDMTRyK2VpNG1C?=
+ =?utf-8?B?SVNYZ21wT0JDNG94VDg1Y2VJdlNZMVJKVUJIMTRMK0t6VXlDcWtrYUJxT3J6?=
+ =?utf-8?B?aGFYS1Jyamd4L2E2a3FKREMvTFlLc0lWcEZtRUdJeVArQ3lwQ0QySUVxSkNB?=
+ =?utf-8?B?VVFkVFRyaXJBaytuRVRoMjRLSC9aK1RUUzNzZWNuaTlYUUdiWGM0ekxwREwv?=
+ =?utf-8?B?M1orTG1PSE4xbnFHajFIOGZwQ1M0ZWFtWTNybys1WGNEQmRocE5TQkhZR3gx?=
+ =?utf-8?B?NVYwaHFXaE5mSXpzckFZREJhRFh1WkRsSENmQTBncmJxM3pvRWc5ZWEyblF5?=
+ =?utf-8?B?cFhuRU01TXhBMDZnaWpBWURsVkVGZlNTSjZaRkdzQkloN0lnSlIyZGR6dWZw?=
+ =?utf-8?B?bmNYalRvL0czSVB2RVR2UnlIQ3NnR3FEenJKVElxMUxrVGtJNkk5V0lndXlI?=
+ =?utf-8?B?UGhQQktIbWcyRk1iQ1ZJQ1lSbWFzNnRmZ0RRSkxGd3pmdXZPUEZiMUllbnBF?=
+ =?utf-8?B?by9DZlN1aFdkSTBabytBbzBTeFdCTDBwN3orZTFXSmJEcTdVTm1zK2liVWRC?=
+ =?utf-8?B?YVZWdTFXM2xzYjZ0UFlIUllNcnhIRWljbnhWQ1MyUmtYVC9wZTlpcXlhYjVM?=
+ =?utf-8?B?b3ZtK1Q2WlMvZWdQU1BDdi81ajhvakpXWEpDZGxmWGxOOElja1ZRVEhkaEdm?=
+ =?utf-8?B?YWozZGY1R1FUSGd4Zi9BQWIrVk9McElyRDVkdThWd01odTVXdmJJWERuQlc4?=
+ =?utf-8?B?cGVveXgxa3IrNlJFa01jaXhmTmJhaFRUVFJ0WktQVTRZOFNsdnRnZDFMUGI4?=
+ =?utf-8?B?cHZtelZtaXhtQ09tdVdlT2J4VkJRRit6Tm0wdTdROCtQbiswTVNlQTduQmpB?=
+ =?utf-8?B?Zmc1dk81dkFXOGEwYkFMeWd0NUlUci9rQlJ4K0JzM05FSmdZS3RqMG50aDZX?=
+ =?utf-8?B?TFJqQ3UrdFVPRndVNTFUcHc1OVhack1ZWWNmejFrcDhISnVkVnFDNWs1ZzVI?=
+ =?utf-8?B?Vnk5a1M4R0lTTXlpOUdFZnFZS3pzZTgrbHB3VW5XUVpvZ2sydVR1cldRUnJn?=
+ =?utf-8?B?L1VUbEE3bk1kdWd2eitEU21DMkg0Yk1kNncvd0VscjVZMXczTTM2VkczSjd5?=
+ =?utf-8?B?Sm14YjNQL2JRdmNoNllFRkpQQUpSMHAyWDk5YTczR1E3SUl1dkI5cm5zRm9k?=
+ =?utf-8?B?dERhUTE1OUpIR085Qmx2a0VLbVNYcTFKSDZqQXdBbDdsb2h4UlRaMXlFN1F6?=
+ =?utf-8?B?SElhREE3Mk44U0hrbHRzUFBPQWh3V1JvNXVveGhiVlR6V1I0aG4zbEJPU1Yr?=
+ =?utf-8?B?MGpVcGRCK1VaTGNyU2Q3L0srQVU1WmRmWksrL1Z6M211ZnRZUEkzUHN6QzN5?=
+ =?utf-8?B?TlNsd3drbmdKVThsaGp2elpoaTVvNVljdGx3MEsyMU42d2dGMGdHb3lXY0RH?=
+ =?utf-8?Q?RPP8rYpGMcOUaiteleMMPULM5YXj2ZiYqCsEKpIKcw=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e1b0f9af-ac1e-4c37-957e-08d9a5d770f6
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2021 12:24:58.2262 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NfEeKzjQW7iyqusG+7A4OvdV/KtBe8z6H+N0lr37HFTHkpfNpSg5zkVHyPj1LREVT7egiXQAILpF4XfYZif+JPVAQRz32+ctQYVRoMunLCo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4915
+Received-SPF: pass client-ip=40.107.6.138;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -55
+X-Spam_score: -5.6
+X-Spam_bar: -----
+X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-3.449, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,60 +152,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 12 Nov 2021 12:15:28 +0100
-Gerd Hoffmann <kraxel@redhat.com> wrote:
+11.11.2021 15:08, Hanna Reitz wrote:
+> Invoke the transaction drivers' .clean() methods only after all
+> .commit() or .abort() handlers are done.
+> 
+> This makes it easier to have nested transactions where the top-level
+> transactions pass objects to lower transactions that the latter can
+> still use throughout their commit/abort phases, while the top-level
+> transaction keeps a reference that is released in its .clean() method.
+> 
+> (Before this commit, that is also possible, but the top-level
+> transaction would need to take care to invoke tran_add() before the
+> lower-level transaction does.  This commit makes the ordering
+> irrelevant, which is just a bit nicer.)
+> 
+> Signed-off-by: Hanna Reitz<hreitz@redhat.com>
 
-> On Thu, Nov 11, 2021 at 10:39:59AM -0500, Michael S. Tsirkin wrote:
-> > On Thu, Nov 11, 2021 at 01:09:05PM +0100, Gerd Hoffmann wrote:  
-> > >   Hi,
-> > >   
-> > > > When the acpihp driver is used the linux kernel will just call the aml
-> > > > methods and I suspect the pci device will stay invisible then because
-> > > > nobody flips the slot power control bit (with native-hotplug=on, for
-> > > > native-hotplug=off this isn't a problem of course).  
-> > > 
-> > > Hmm, on a quick smoke test with both patch series (mine + igors) applied
-> > > everything seems to work fine on a quick glance.  Dunno why.  Maybe the
-> > > pcieport driver turns on slot power even in case pciehp is not active.  
-> 
-> Digged deeper.  Updating power status is handled by the plug() callback,
-> which is never called in case acpi hotplug is active.  The guest seems
-> to never touch slot power control either, so it's working fine.  Still
-> feels a bit fragile though.
-> 
-> > Well power and hotplug capabilities are mostly unrelated, right?  
-> 
-> At least they are separate slot capabilities.  The linux pciehp driver
-> checks whenever the power control is present before using it, so having
-> PwrCtrl- HotPlug+ seems to be a valid combination.
-> 
-> We even have an option for that: pcie-root-port.power_controller_present
-> 
-> So flipping that to off in case apci hotplug is active should make sure
-> we never run into trouble with pci devices being powered off.
-> 
-> Igor?  Can you add that to your patch series?
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Sorry, saw it too late.
-I'll test idea with my set of guests to see if there are any adverse effects.
-
-
-> > I feel switching to native so late would be inappropriate, looks more
-> > like a feature than a bugfix. Given that - we need Igor's patches.
-> > Given that - would you say I should apply yours?  
-> 
-> I think when setting power_controller_present=off for acpi hotplug it is
-> safe to merge both mine and igor's.
-> 
-> take care,
->   Gerd
-> 
-
+-- 
+Best regards,
+Vladimir
 
