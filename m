@@ -2,84 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D98F244E041
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 03:24:40 +0100 (CET)
-Received: from localhost ([::1]:38578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0756744E043
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 03:26:11 +0100 (CET)
+Received: from localhost ([::1]:40724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlMF5-0004Fq-Ln
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 21:24:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56900)
+	id 1mlMGY-0005j3-17
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 21:26:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mlMDx-0003O9-5X
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 21:23:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28463)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mlMDu-0006rE-QI
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 21:23:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636683806;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lPcdZgz3SPc7dJ8Igl7p6pgBz1q0pJtq+wP491SCe5o=;
- b=jPDosQ0L7BJ5VosscVhfcvehinQQlIzjntksUVhRhOc8H2aKdVQGpjNSPhtZxqk+R4fZYv
- KlLrzbOvOh2zzUX3n2lkvxCyMCTMhHdP917y4N0kwbM8ODs6LIktBuXXQSaH1W+8Wo6DUF
- RU3Kpj6/8mGqSeMdVbbbOIGEP5Sq6Xw=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259-2npQdaI0NV252KHwCLEKSQ-1; Thu, 11 Nov 2021 21:23:25 -0500
-X-MC-Unique: 2npQdaI0NV252KHwCLEKSQ-1
-Received: by mail-lf1-f72.google.com with SMTP id
- u20-20020a056512129400b0040373ffc60bso3222041lfs.15
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 18:23:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lPcdZgz3SPc7dJ8Igl7p6pgBz1q0pJtq+wP491SCe5o=;
- b=5P1qT7F3EseGcRor3uXjeNN4Af0OR8kqhaIdCdRqkTh4p2HW2ckQJQrUOQCBwZ9MGU
- P9p0eAF1mdsV/Q0eusABFbFlCHREAkyftpuov6Cjd3/m9iXwHZD4KYSBqxUU3ZJkET1P
- YhuS2Z/FV2PnmnFuBVjZGeAmE4xJzpdD67CZ8gYZmkQh8gD5XQKWs4Q79eqJjrlsnKa8
- XgkgxMYtsWWypoQ1Wnbir10BuDAFy2UZtVfBvVDct+ij9jbV808hLnLvhE7k6PSEDcVS
- Asl/2jH1LeOHVPSPvgY9N5SGNPii4npgzbwuYoGM9inrFCNq45vOtbK7Dqo8IP2Qju1b
- U4sA==
-X-Gm-Message-State: AOAM530+ry5+zAJAUJaz0MROyKo1nQQIbr8L3EgXv5wUr5I1lJYCJuxi
- gehcaQ92gK1XsPya8c9I5KFfMf+yiSu6CMz7iyXxEF+tu7CkpNrxArj6oGa9/L8PtShSpJM270j
- FeYS2vgwDz/zSAPHWskfLQdPg7Lp4AfM=
-X-Received: by 2002:a05:6512:3d09:: with SMTP id
- d9mr11017312lfv.481.1636683803613; 
- Thu, 11 Nov 2021 18:23:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxIDP2pVS6dnayKG4E4dV8V+7VXG1V7/YELwxv2Oepfvzkx9G4nIk9TTsksQE9yIU+9QpzeIDz4y3uHlrPgIFA=
-X-Received: by 2002:a05:6512:3d09:: with SMTP id
- d9mr11017281lfv.481.1636683803265; 
- Thu, 11 Nov 2021 18:23:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1mlMFW-00052I-B7
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 21:25:06 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:45068 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1mlMFT-0006w9-Mk
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 21:25:06 -0500
+Received: from localhost.localdomain (unknown [10.20.42.11])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9CxudB00I1hL2kCAA--.5694S3;
+ Fri, 12 Nov 2021 10:24:53 +0800 (CST)
+Subject: Re: [RFC PATCH v2 04/30] target/loongarch: Define exceptions for
+ LoongArch.
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <1636594528-8175-1-git-send-email-yangxiaojuan@loongson.cn>
+ <1636594528-8175-5-git-send-email-yangxiaojuan@loongson.cn>
+ <0604327e-4434-8ebf-ecbf-b4e55dec5e78@linaro.org>
+From: yangxiaojuan <yangxiaojuan@loongson.cn>
+Message-ID: <4249cb0b-739c-0ca6-8a26-4edc0d45a572@loongson.cn>
+Date: Fri, 12 Nov 2021 10:24:52 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
+ Thunderbird/45.4.0
 MIME-Version: 1.0
-References: <20211111063854.29060-1-jasowang@redhat.com>
- <20211111032649-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20211111032649-mutt-send-email-mst@kernel.org>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 12 Nov 2021 10:23:12 +0800
-Message-ID: <CACGkMEv1LVXBV2Pq00jWCbxnr18Ar=df7Lirw2j973Q-hM2MRw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] virtio: use virtio accessor to access packed
- descriptor flags
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <0604327e-4434-8ebf-ecbf-b4e55dec5e78@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf9CxudB00I1hL2kCAA--.5694S3
+X-Coremail-Antispam: 1UD129KBjvdXoW7Gr48tFWkJF1DWF45XFyrZwb_yoWxAFX_JF
+ 1UAr47CrZavF9rXr15Crn8Ar45Jw4qyFy0q3W8XrnxWrWUX3s7ta12qr95Aa45trykAF43
+ Gr17JFWfCrn8XjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbfxFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+ 6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
+ 4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VACjcxG62k0Y48FwI0_Jr0_Gr1lYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14
+ v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAq
+ YI8I648v4I1lc7I2V7IY0VAS07AlzVAYIcxG8wCY02Avz4vE-syl42xK82IYc2Ij64vIr4
+ 1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK
+ 67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI
+ 8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAv
+ wI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I
+ 0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUsJ5rUUUUU=
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.999,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,81 +73,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eperezma <eperezma@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- qemu-stable@nongnu.org
+Cc: Song Gao <gaosong@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 11, 2021 at 4:27 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Thu, Nov 11, 2021 at 02:38:53PM +0800, Jason Wang wrote:
-> > We used to access packed descriptor flags via
-> > address_space_{write|read}_cached(). When we hit the cache, memcpy()
-> > is used which is not an atomic operation which may lead a wrong value
-> > is read or wrote.
->
-> Could you clarify where's the memcpy that you see?
-> Thanks!
+Hi Richard,
 
-In the address_space_{write|read}_cached it self:
+On 11/11/2021 09:36 PM, Richard Henderson wrote:
+> On 11/11/21 2:35 AM, Xiaojuan Yang wrote:
+>> +++ b/target/loongarch/cpu.h
+>> @@ -369,8 +369,21 @@ enum {
+>>       EXCP_BREAK,
+>>       EXCP_INE,
+>>       EXCP_FPE,
+>> -
+>> -    EXCP_LAST = EXCP_FPE,
+>> +    EXCP_IPE,
+>> +    EXCP_TLBL,
+>> +    EXCP_TLBS,
+>> +    EXCP_INST_NOTAVAIL,
+>> +    EXCP_TLBM,
+>> +    EXCP_TLBPE,
+>> +    EXCP_TLBNX,
+>> +    EXCP_TLBNR,
+>> +    EXCP_EXT_INTERRUPT,
+>> +    EXCP_DBP,
+>> +    EXCP_IBE,
+>> +    EXCP_DBE,
+>> +    EXCP_DINT,
+>> +
+>> +    EXCP_LAST = EXCP_DINT,
+> 
+> Surely this is (essentially) a duplicate of EXCCODE_*.
+> I think we should have only one copy of this.
+> 
 
-static inline MemTxResult
-=>dress_space_write_cached(MemoryRegionCache *cache, hwaddr addr,
-                           const void *buf, hwaddr len)
-{
-    assert(addr < cache->len && len <= cache->len - addr);
-    if (likely(cache->ptr)) {
-        memcpy(cache->ptr + addr, buf, len);
-        return MEMTX_OK;
-    } else {
-        return address_space_write_cached_slow(cache, addr, buf, len);
-    }
-}
+OK, I will use EXCCODE_* directly. Thanks
 
-Thanks
+Xiaojuan
 
->
-> > So this patch switches to use virito_{stw|lduw}_phys_cached() to make
-> > sure the aceess is atomic.
-> >
-> > Fixes: 86044b24e865f ("virtio: basic packed virtqueue support")
-> > Cc: qemu-stable@nongnu.org
-> > Signed-off-by: Jason Wang <jasowang@redhat.com>
-> > ---
-> >  hw/virtio/virtio.c | 11 ++++-------
-> >  1 file changed, 4 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> > index cc69a9b881..939bcbfeb9 100644
-> > --- a/hw/virtio/virtio.c
-> > +++ b/hw/virtio/virtio.c
-> > @@ -507,11 +507,9 @@ static void vring_packed_desc_read_flags(VirtIODevice *vdev,
-> >                                           MemoryRegionCache *cache,
-> >                                           int i)
-> >  {
-> > -    address_space_read_cached(cache,
-> > -                              i * sizeof(VRingPackedDesc) +
-> > -                              offsetof(VRingPackedDesc, flags),
-> > -                              flags, sizeof(*flags));
-> > -    virtio_tswap16s(vdev, flags);
-> > +    hwaddr off = i * sizeof(VRingPackedDesc) + offsetof(VRingPackedDesc, flags);
-> > +
-> > +    *flags = virtio_lduw_phys_cached(vdev, cache, off);
-> >  }
-> >
-> >  static void vring_packed_desc_read(VirtIODevice *vdev,
-> > @@ -564,8 +562,7 @@ static void vring_packed_desc_write_flags(VirtIODevice *vdev,
-> >  {
-> >      hwaddr off = i * sizeof(VRingPackedDesc) + offsetof(VRingPackedDesc, flags);
-> >
-> > -    virtio_tswap16s(vdev, &desc->flags);
-> > -    address_space_write_cached(cache, off, &desc->flags, sizeof(desc->flags));
-> > +    virtio_stw_phys_cached(vdev, cache, off, desc->flags);
-> >      address_space_cache_invalidate(cache, off, sizeof(desc->flags));
-> >  }
-> >
-> > --
-> > 2.25.1
->
+> 
+> r~
 
 
