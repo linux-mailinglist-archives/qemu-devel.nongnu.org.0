@@ -2,136 +2,135 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC15D44EB1E
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 17:12:23 +0100 (CET)
-Received: from localhost ([::1]:45844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F03D344EB55
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 17:27:12 +0100 (CET)
+Received: from localhost ([::1]:50514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlZA6-0003JL-J3
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 11:12:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43444)
+	id 1mlZOQ-0007GA-Hi
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 11:27:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mlZ8Q-0001gR-EF; Fri, 12 Nov 2021 11:10:38 -0500
-Received: from mail-am6eur05on2126.outbound.protection.outlook.com
- ([40.107.22.126]:22180 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ id 1mlZN3-0006IK-2p; Fri, 12 Nov 2021 11:25:45 -0500
+Received: from mail-eopbgr80095.outbound.protection.outlook.com
+ ([40.107.8.95]:57109 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mlZ8N-0006su-Gx; Fri, 12 Nov 2021 11:10:37 -0500
+ id 1mlZN1-0000Wz-1r; Fri, 12 Nov 2021 11:25:44 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kFOmeeacrSVzN0o4wyf1dkBBocdH2Z1DAKoT/C0BTFkn60U0D1FB1Mk9JBjCz9SNP91UNlmLIxv0h9qOgrztVFBRkhtx+lioSFw59UItNL+s0XI3I9NxMJpldTsNCwrkDWeOxbbNImrvitSEXRe8tQOh0YYr0naPDMv4WfJQ3wNUBFG1u474A8hHHvTufQF674LrtDpN4+g0SLc1J33U4QXx5osd+eaj7mEvP/tN9c+7G4EVOS5R+LFCQrgh8TykftkbqkyZBIHLRY2KeQxwQuPvYE5IH6GycXIvzOJqMMmxEyoeESl2infSLgq64pNiL8gzeS4oGEslhi35qGeF7A==
+ b=eXrYAwGhoiXnQ7aUqFJz/WuyBveO//8JOv6gT3Wn7mjzSI3YPR+oZOO05i63B8T2u8C8PMq1hXfCwevSbawc59Kb7fTbKQgO3c89yYOSVP5LjQi6rDSDC//BsTR3E2dj5KmcBywcTrEj2iM1jZmJ8QQuplRMurl7aA12/tM6MGshGFUdQLAcTkvCiD1a/0SOWkIVisnFuyCjivtGaqw8SFpqNsXoCeew0P/URphkU+NlLE2xGZ1QYNos68HURn5hPX42xopk44kmyPmWCPmDv/v7pS0Lhcp3PT6KyERzUJ7N0Xw4h2/NYxKecrPltoRwQDgNFpuO17Aw3gUv33c+zA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K5+ptbaVNWW/UTMtXeMi7S3a+IxRpqhXrZkH3j53aZ4=;
- b=ZlAZsLv0dI23OtubqSXVHAT4k86xfn+NZnlyJectvmpSyEZb0nXBk1Dvbsctf3LSqkZMS1o3gYKNKzMu40cxVca74TPqFxy6hx+4vLjDDZJv5En8blobaaWQsZ/WcSCJVjVN5tt4tcB4NxkRNGqGhfB1qKV4/8lgifUUzeB8v0iqMy2vlmCCIEOXEsCae5PwOhTLiPw+oQ9JNQMv+NQNYK+86vpd33EUhRGrOiaq/NQgzM+dzW4YqAfsNsh9XTqn85PMCwZS2fTn5yiDTiLxVns5RWCLKa00olDGnOq9XuPeYwD/CXTE2OqguQxpc3rqvXs9N+p9EyOPDXBssXspWQ==
+ bh=FpoHT/fyxBtLzIyMDQl4N3whXLf8Za5K+uq0KFb960M=;
+ b=lqpvk2PDFJ8hzJ1f3w/a2AqHsy89Mc1hjpCG9c2NxGUdyeubx5RsnvwEsYrUoOAe/iCq85qSAqvSi4TiQKqwF7JCpSrTTWEZP4e6aobMxaTlYWzGcVIR2sYxJD7JeFqDHajSMIpehMuAj+eoToXlNt7R4uT1XuOIsAUj+XBAu8SL7XwzuSwknt5rUHucMabKX11YKuDJeDnFjYz9TDOXNGi6HYD4s/hDR3zD0WxfVTJdIP3jTVCp/SIL/022mt1vNW9CjC9vxu2h3I/dAnT63HB8rFDc7R0IZEn+n7qwU5lpdQXo0wfX3fD39Hj3AqPjt8vf61a0dlUn6oFkXDsvCA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K5+ptbaVNWW/UTMtXeMi7S3a+IxRpqhXrZkH3j53aZ4=;
- b=ZPGMxRcwihqXLqF5XLEn6/aQQMEQtkruTY4mpdAvRPOIJEid8qLXMiygCRasC1hIHswCH44ZCO8SeyFdff7xQo6b4dSFutRIn0MxjQc+mJJ8UcWc+DwG7EHPBR6f3zp0YW7ld+Pm/iWN6coG3SDE1RT4/tJVMyi7mw4y4bCpFjc=
+ bh=FpoHT/fyxBtLzIyMDQl4N3whXLf8Za5K+uq0KFb960M=;
+ b=QhV6THaFGSrOYK8SjgxcD1G2rAqC/JLpdE+F2PDaEpGj1OSC8VNHvVl47VzWEoFNXXZZdvP05hpkyXbfNF0t7Rpf/+sWdEInclWLRf42S/w97Hk/xLUKYB/2/h5eUarWzWMwTgWcd9jesmXqchb67wEIfc209OtGw9JgmYltaLU=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB7011.eurprd08.prod.outlook.com (2603:10a6:20b:34e::19)
+ by AM6PR08MB4600.eurprd08.prod.outlook.com (2603:10a6:20b:84::29)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.16; Fri, 12 Nov
- 2021 16:10:31 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.15; Fri, 12 Nov
+ 2021 16:25:38 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a994:9f7c:53a5:84bc]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a994:9f7c:53a5:84bc%4]) with mapi id 15.20.4690.018; Fri, 12 Nov 2021
- 16:10:31 +0000
-Message-ID: <c631468b-2e2d-f5d9-6afb-6868ce00d2f9@virtuozzo.com>
-Date: Fri, 12 Nov 2021 19:10:29 +0300
+ 16:25:38 +0000
+Message-ID: <243c7e9a-88e4-ded3-721a-5f040aee36d5@virtuozzo.com>
+Date: Fri, 12 Nov 2021 19:25:37 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v2 09/10] block: Let replace_child_noperm free children
+Subject: Re: [PATCH v2 10/10] iotests/030: Unthrottle parallel jobs in reverse
 Content-Language: en-US
 To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>
 References: <20211111120829.81329-1-hreitz@redhat.com>
- <20211111120829.81329-10-hreitz@redhat.com>
+ <20211111120829.81329-11-hreitz@redhat.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-In-Reply-To: <20211111120829.81329-10-hreitz@redhat.com>
+In-Reply-To: <20211111120829.81329-11-hreitz@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS9PR0301CA0054.eurprd03.prod.outlook.com
- (2603:10a6:20b:469::12) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: AS9PR04CA0072.eurprd04.prod.outlook.com
+ (2603:10a6:20b:48b::7) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 Received: from [192.168.100.10] (185.215.60.229) by
- AS9PR0301CA0054.eurprd03.prod.outlook.com (2603:10a6:20b:469::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.19 via Frontend
- Transport; Fri, 12 Nov 2021 16:10:30 +0000
+ AS9PR04CA0072.eurprd04.prod.outlook.com (2603:10a6:20b:48b::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4690.25 via Frontend Transport; Fri, 12 Nov 2021 16:25:38 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fa502a12-ed32-4950-3bcf-08d9a5f6f354
-X-MS-TrafficTypeDiagnostic: AS8PR08MB7011:
-X-Microsoft-Antispam-PRVS: <AS8PR08MB701144E51781A794323BF641C1959@AS8PR08MB7011.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:339;
+X-MS-Office365-Filtering-Correlation-Id: 0a59d827-f78d-4b5f-12b1-08d9a5f9102a
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4600:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4600036569DAF8346B9DF3DFC1959@AM6PR08MB4600.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WShiQBw4WgOS6a0vCNpm9UxqTKdcJ1HV01d3F8AJ2PJcNStq/Gh4GxVtEMeu/YT6xv0GKz8LqppAOyOLXpdyjCHDIPg/bDmU3mHERt2uja+PgG3OLGjv1Kvlok1sV28pDj2Urhr514QR2KNtYKdS/rB8tcwYvlJK9tPX16TZNEsvEN5qlseRkQSShQKJg6wBDPmgF2wiGRuaERwtTd85i9jbyVCDvBtENGbGRyVSjbfaeZ7s16dNecKZRuKNVf11nvbCEreaA1lkltjAGeI/XdfhsmieJIymEMGq+ld1w4484Sa+y0/wu4Un7NuOaW+DkWpjucFJiH/K4ysEIhjdjy3/EHlkt9hFxKNVmiaKmcKd3tmTBhj0VgHy7/GYUQDC6rg4IjC1mdARJVOPYYHjdvd6Zym1e7B52gyh7HPaWJ8NKUqnXRZd5ngZxKnTo7R5Tyo+ydo1jj27sEA+V4aQWYTFkgLTcRAo09ypCry6P3raLDDMWrF9PhtfSJbYnmuCD/RShPvHw8rbGHcGs83XAEcmwFjOVi0wJrcUIXiH4VvdrxVYNqYmvIlreO5EaAi5tEgOHinDAtzl2UpSS4qeOKZ8CNQZeMcEV1hA5yRiR36BEN6MG6L+gO2tWpRJNoesMM0pFwF7upzCvZ4nuaty3VeSxdZEJziBAtE8KqPwwyoQkCzohKzjPvnCytoAdrI1F7edstlqEQd1LrKzbcL5VcZ/3ESOHUJTfLGM/m/fm/Ri/r2I24om5zLDa1m3/4v1N6audUTAM6yenkk4iyx8+g==
+X-Microsoft-Antispam-Message-Info: 5q7LF3xTE98dO6J2+yVqpXVdQh55we4SnRQf5mkSleqAof9ZQEsJWyRUUzzMxjSrtfMZwakmlJBqzim0kjEFRQJpKCyR4oPOYdWI7js6fjXIYe5Cxfos079d16IEv1Taa0HSo1D6pDvq/qOmUOz9tJowuPpbdxdznDosdNwo69gjb14I0u5ICtzQlBga6dXC7ZZDagfp+L3z7RqoojWHYdn/e3uw3LIRe2bSbmfTQEZB6/e/nLdBnA2V4sJjJKJF3NhXzn1Xh0wZxeBND0TPQJ4GG6zvnK4plge9BKe+uFTVGLpWC9DSy7VsOWVETUBMEcWqYy9+14qFI/SY4yqyYmxOi5IQtqhjdovo46n86WcHP3u1sc6DuQX+oxhQlfNIVg+JCQyv3SEZOIxt4vUBTMA1nhgj8wVqoK8mlhZdIrLpvzFlYEmSQCg2oI/jrmEfkKsE9c5S9qJj3H2mU9V8K0Ws160dYV7Hr+C2iQmFW726Ey7FhWg5CQwKGqKy0sQrZSZkY+Sp0xSUxQjaoH6vtzCCTHJhXWR88V3EbPOkptKPB+2BEIBIUZZt5uWkmUxwLahdVyNbAyf00r44kN4z/6uaQKTEN18glefq/7Yg9PRZSt03WLRxqanXUDIZrrn2KkUFGopTrswIEt1DJVMz6A1cyjwvNQuGe7J8iNAIkNNcUmvKeR/CYQTVHdzIdpyTNVTKcbEOe8Z79SbypQ8NhLFjXVOw3pwuag/4ATwLvGu2QiuNNU7Bbg0MN4bzEVlTuQ1oKtz8s+lK3Rj5sZLdlQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(956004)(83380400001)(8676002)(2616005)(36756003)(66476007)(66946007)(86362001)(31686004)(508600001)(26005)(186003)(2906002)(316002)(16576012)(66556008)(8936002)(31696002)(6486002)(5660300002)(4326008)(38100700002)(52116002)(38350700002)(43740500002)(45980500001);
+ SFS:(4636009)(366004)(2616005)(5660300002)(16576012)(956004)(508600001)(36756003)(31686004)(316002)(186003)(38350700002)(38100700002)(31696002)(86362001)(66476007)(6486002)(2906002)(66946007)(66556008)(26005)(83380400001)(52116002)(8676002)(4326008)(8936002)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dDNQUnBOTlhTTWhkVVI0Q3QyTE5SWDRVYTduUjBoNG02aks5WndkUGxtc3BG?=
- =?utf-8?B?SXFmZGlmRVdPcnJsYUlCQTVrd1NqNHprVHErdWJIMGlIaFVLWkRtcjhTbGNH?=
- =?utf-8?B?anNTSnNST1lhUWtJS2ZHdFYrdTRlc0pWR3h3bkk0VVFaRXI0ZGhRSGNBV2lt?=
- =?utf-8?B?TFk5d2JJZTJ6TWU1NGtoSjdUY0lmTnVpVHQ1MTNUd1czZFBCSzMzS3JEbXNr?=
- =?utf-8?B?R0pnaEhEZ2FNQVBqRGxDQUdnSjVocC9jMFBheVRVeHY2dDU4aUM3d0dsY05n?=
- =?utf-8?B?NWYzdjNzcXRrRVBta0VYbUVxQUxhTXAwSE40UVZLcVVZbzNISVpaQ0RNMnht?=
- =?utf-8?B?VmhkVzdSRHlwWmdtbG5KVWIvRUZsRFUrUHNnMHhRTlBmMjJjc1JnM2dUSVM0?=
- =?utf-8?B?VGNGT1JIRTBRaEJCMTNPTXFTTUs2Q1ZEbHFZakNURkNrc3JWU05VUkpxb2Nm?=
- =?utf-8?B?bkpRVnJmZUpOZEpzN2RYOWlKRHgxRVlJNWc4WWZyOVJGVmdleVVtZ0hSNFpv?=
- =?utf-8?B?bHN1TE50akUwcTVZOFhOYU1BZTFpajF5aGVuN2tKQjE0VnZmZTYwZ2JaemM1?=
- =?utf-8?B?ZEllRWxtdm9YdnFFUHpWN2lWT0RjeVNhK0hQcHlqaWhJOXVSd1dRZ1dyWWxW?=
- =?utf-8?B?Z0h5eUpyc2E4ejhoNjFTaHVsYWRpS0svcU92eGtXcThDdzNMMWpKZWlMS1VZ?=
- =?utf-8?B?QXE0YmllTlEwZXpOdXlyOUp4RjBaaXVrY2NWNmxKaytOenhKdVlQdTdTYkVT?=
- =?utf-8?B?a1RTaVp5dDNQV2wrcTFOdXRBZjVYNGhXenlGM2prYjNkVk1FU205OVNMRWht?=
- =?utf-8?B?ZmJsQm5BUGdCamNDbG9EQjlqTFdLNHp2dExmUDhKQVdyUCs5UThLcTBZTExx?=
- =?utf-8?B?QkhrVVMwcVRWcUxjY3IrV2swOGZRaFlqUmxlVnBqOGt5OFUwdDBYQ3plTTJS?=
- =?utf-8?B?MVduZTl2OW1QMnNwQ1FnaStrNEpwdjRRMTBGN2txMDZJaFpMRzE2bkduZ2E1?=
- =?utf-8?B?aXdHLzdJRG42Z0JPUi9jQjFuSExHT1dOeUg0R3BDbEdFWE1IbG9pOTB1SUEx?=
- =?utf-8?B?eTdraFZwM3FCS2ZnVlo2SzQrZHZoWlNxdk1ocDJpZjVKcmNFK0tvaEh6Wkwy?=
- =?utf-8?B?bWhxRUFBVzQ5RzlaU3lwa3V3eXdjeEd5RGlOWThxOWlVcUp0Vk54VkxZTWlG?=
- =?utf-8?B?cDU4aENHdFJvMXFIN0xta015UUhuTlVZeHp5dmFJclMwaDZ0SE5Ja2J5SU4y?=
- =?utf-8?B?S2k2STF5QzlIODdIandRUzNROVBEcW43UUIvTWk4TUp0OUtmVnlGVDRuV3B3?=
- =?utf-8?B?eDJ3eTltOUxwSWhEYUVoUnBmZXlveFZiejRCYm9pTUhWTitXK3FFTzg5TEg4?=
- =?utf-8?B?YVg0VlVLYjNOREJWL1VhRndWdTZzbzZ3YmplaENQVWdtK0htaEljWUFYSS9S?=
- =?utf-8?B?Ums0TndpQmJMTEV4UHltUE5nWU9yWHp5OWdISTU1VGJoOU85T2VoY3pBRFVQ?=
- =?utf-8?B?SGJKN0VUVFZjWVhCZTJMdWRLRmJ5eDlLMUlUZ0o1V3RzdDlNYkxsWWxqU3li?=
- =?utf-8?B?L1F6Nks3cXJ5ZDBzVDVObFdlbnJXeTlpcmdaalhSb1d2RG1BVE4zRDNqQXla?=
- =?utf-8?B?SkFjZFpxbFVHQi9IblpheVhHUW52dnYxTi9jbnBGZmtYNTQ2Y05YbndjM3BZ?=
- =?utf-8?B?eTkweWZkSE90eDc4VC9kamJpOW5GODB6OW0vbUhYeDYyNytKSnZpYVBEaHFw?=
- =?utf-8?B?TVAyNkRORWM5aVREQmJraUZyMDNPaFpYRkUxLzI1ek5Hd29HZWh5TXNHek05?=
- =?utf-8?B?WWNNc2xaYWZsTDRXRzUrQWdRdG5zUm0wK2dkWml6d0hTTWdiN2hndnlKNUpQ?=
- =?utf-8?B?NlFSNE1iRko0WG9hUjM4NGhxQ3BUK3l2ZjZuUWxkREpPZEs5amkveWFWS01S?=
- =?utf-8?B?VDY4dm05TnJmeEhIT3g2Q3pOWHd0Q3ZpbGZRS2YwOWppa0kvVGIzd0xwaUxw?=
- =?utf-8?B?K1cxcmhHdGNVc1pETjhVcE5aTmMvd2hjRTRPVktzM1kyMFVyRlZ3V1V6Z1JT?=
- =?utf-8?B?VjloZEZ3OGFyaERjc0NJSndpN21oejlBQzRrS3NnMTNXSmNERnFMTlpVZk43?=
- =?utf-8?B?c0djMnkrZW5HbHpjbjZqTTZTUWF0ZExFSGdVazU2SUtKZzRGNTFYeVBGY1Bl?=
- =?utf-8?B?eit2cVYwQ0NQdlRNY2EwT1pQQ2JmUDFoaEZ0a1JyOXcxMFdxV0FmRFpUWHBl?=
- =?utf-8?Q?V2xwWDO0orYbrptZ4khJQV4m+p/G304KTFQR3elrrA=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WFRDdXV5OFZ2K0tiTlA3OWpMRGpINURiSTl5NmhKRUo4eEppTXVHbk1XTUxh?=
+ =?utf-8?B?Q0gySWxKeFcxUWp6NXZvY3lPMmszaVFmSWhvSnk5NjhyNzZYakhaYjR5WjRq?=
+ =?utf-8?B?WHBGOHJocU1WOEhYWE0wUERUK3IvQ1ZhbkcwSjlLUy8vYk1Md2VadnJ5RUNY?=
+ =?utf-8?B?bHppYktHbXJtZjlSb3d2NTlMNXg4Nmt3eEVRMWVtN3gxSEpxTi90UUVOTi9N?=
+ =?utf-8?B?a1UvN2JDN1FVRUV0QVFiamlkKzliQUpHdlZVSTdLSEgyb2ZIcCttWmVjRnVO?=
+ =?utf-8?B?eklRcVR1Y0hKMU5XUDdOLzdKNGk0ZkdoSU9jTTNkTTQ2SEVxWUNXRmxEYjla?=
+ =?utf-8?B?d0RkcHlQa1U1T1MzVm4ySnA2dm5vYlZzbUo4blFtUWNVZCsrclNCVFlUU1Fh?=
+ =?utf-8?B?aVpraDVIQlBHSzE2RHRLbVk0K3FwWE5rbkdQNjlRWERvRzZpeUliUEJaYldv?=
+ =?utf-8?B?cFlxMDhlVXJFeGJFVkZRQ3c2RzREaDRiR3NuYzFpdjdUR25yb01PcDRPdXp0?=
+ =?utf-8?B?OTN0SlpxYStIK1dhb24zT3lLZnNZcFVrZUxEWkNQM3gzbzVjYXpQZHJ2NGR1?=
+ =?utf-8?B?ekJpaE1vdi8wZFdhMG5lVE5waTE2M0k3VWE4U1dQZVo5VnoyTHAyclpkZmtD?=
+ =?utf-8?B?SllwNGtSYWRobitqbmQ1eVI3V1ROUHBRN21MWEhIY254OHdiRTA1bmZTdFNI?=
+ =?utf-8?B?bjg2K1YxK1M3aDdQSitqYVdna2hMK0R1SkQwVjFsMGYrNU1rckxDOWZnUkZi?=
+ =?utf-8?B?Zklvb0pmNTVkK1dqZ0hqTDF5T01KVkttakFDTmNuVWpWZVJjYUlUZnZhWFF1?=
+ =?utf-8?B?T1RSaEt6dENwUm9MWDBrTU5oZlROVFRQcUw1eW5ZQ1BXQ09VQXlDSjYzMlgy?=
+ =?utf-8?B?RzVuWlQ1VStKQkYya1NkUnkxd3FyYjRWR3R5T1JxZXEzc3g2NG5UWjhqa2JE?=
+ =?utf-8?B?SXhLNXBndmp1MENrOUI2b2ZxK0FUcDVmOVVuUFZrdHl2TzRnaVdNeE13VklH?=
+ =?utf-8?B?QW5HajZjUmFZcitPdWNmTmhUOXpyUHAvaHpBdEZTdWp4cTVsdFRMVjRRN3Y1?=
+ =?utf-8?B?ZXJ3RldTWEhRMDZ6aFY3aTd4VWFsQnUxbklNMkdUbDQvM3pISm01V3BWdTRN?=
+ =?utf-8?B?NXRsN2xHSU1vRk1KOCtaZGpXMW5yWEVIdW1LTGxPNllrUHVybElCWitreWJz?=
+ =?utf-8?B?TDBtVEdUL0VxUmhHNUUyQXo1aGFzU1Y1R0FScmJ0WmFHS1did3F2Qk5HMXFV?=
+ =?utf-8?B?YnRiTkkzRFd6b1luMGNab0ZSRXlDbC9ndlY5VElIVzFQeHRyNW9VV3dFQjZM?=
+ =?utf-8?B?bzVhWUw1N0JZSEpaUU5FRXhtbVNHamdiV2xUS0FEb1RvN2lYUTZxQnRFZzdF?=
+ =?utf-8?B?cGxrWmw2T3N6N284VEtIemRMT0F2OEdyRCtzSXd6MHBBZysrbUs3UGZNTmpS?=
+ =?utf-8?B?TGszTUplMjIzMUNQSTJKWDlXN1JySFM1YitJNG9OdUNRNWNoMHJmZVFTRzVq?=
+ =?utf-8?B?TWdRVzMwVUJDVFFXZW9ySFcwT2VzNE1aM3dPQmlZTWFPL0J6YXNQakIwUGtI?=
+ =?utf-8?B?eGpENkNpTTM2eUk5aDBDZFh6N3FTeW9Wa0VpTEdxOXgrZkJVTk5RVDBoVXg0?=
+ =?utf-8?B?QnFTdDVCWW0zN25ScXA5Zm0yYVFsUVlwNTJrb2tZWTVpK09zOVJlN05lV1dv?=
+ =?utf-8?B?N3lON2NaWUhSS2FSVWVrbHQ1akFNcVRickZNK0NqbkpIeVRRbERJNnZEU2Nj?=
+ =?utf-8?B?Z0txR0NNcEVuNW9xTnVWVHY3RDJqSk1wQXArSVNVOWlDeExLa3VyalhYbmJQ?=
+ =?utf-8?B?bll3anRDRVZ3ZlJNQ2NyU1J1U2Y0NEFkdjZrMjhaN2JadEl1dmV4bFFpeW1E?=
+ =?utf-8?B?MHF3U01ERWJISnVES2ZGa05ydlBaWmNYa0lXdy9XemRhZGk5YzhJM2k2NTI3?=
+ =?utf-8?B?VCtBc1hoSGhMS1hzODlVU3F1elNocGFiUnljMDlBTDhjVm14YjBBT3pvS0Nq?=
+ =?utf-8?B?U2dVSEw1K25YQXRPMXlqenRsUnFxQWxTMHZNRU1wNEs1Rnp1a1pUUkhMVTUy?=
+ =?utf-8?B?c1habHlGYVdPeEFFUkNZWlNOUXpaaUY0STRIZGpWcThQR08zSzZ0RVlKdXl5?=
+ =?utf-8?B?OXJ5NWcvQklMRVhaOGFNNFRkZkQvekUwa0Z0c3VkZ0FjUUtqSjBCRUpEM0ZN?=
+ =?utf-8?B?bG5ZL01nTWNEVHlWbHdWeFhWRS9vdzIyQWxYb2lNY3R1cVJtTTBpckdqdFFX?=
+ =?utf-8?Q?glzwO/lhEgTyPlHdQ7LZris/SdSiC2ll7QiQrKA8Q4=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa502a12-ed32-4950-3bcf-08d9a5f6f354
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a59d827-f78d-4b5f-12b1-08d9a5f9102a
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2021 16:10:31.4329 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2021 16:25:38.6975 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OyDimrpLV3A4beDnPCtaDPC9cydVoGBG1a6Jid8yRKY6VYvVE8SPuXposCIJFNdc7eFbqY6fk2ukoLkLUdF3SpoBP1lR3W27cooa7+XXwic=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB7011
-Received-SPF: pass client-ip=40.107.22.126;
+X-MS-Exchange-CrossTenant-UserPrincipalName: r9tt9AQJv1TZ2mig3F/D4DCLvI1AdWbs0/3PlVFy/WASxVSy4x0vXX8w26RvC24v/iy8B5PHyDNc2i9n4uIPVb8MVLaBg9eaymjzSk3/a2k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4600
+Received-SPF: pass client-ip=40.107.8.95;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -55
 X-Spam_score: -5.6
 X-Spam_bar: -----
@@ -156,118 +155,52 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 11.11.2021 15:08, Hanna Reitz wrote:
-> In most of the block layer, especially when traversing down from other
-> BlockDriverStates, we assume that BdrvChild.bs can never be NULL.  When
-> it becomes NULL, it is expected that the corresponding BdrvChild pointer
-> also becomes NULL and the BdrvChild object is freed.
-> 
-> Therefore, once bdrv_replace_child_noperm() sets the BdrvChild.bs
-> pointer to NULL, it should also immediately set the corresponding
-> BdrvChild pointer (like bs->file or bs->backing) to NULL.
-> 
-> In that context, it also makes sense for this function to free the
-> child.  Sometimes we cannot do so, though, because it is called in a
-> transactional context where the caller might still want to reinstate the
-> child in the abort branch (and free it only on commit), so this behavior
-> has to remain optional.
-> 
-> In bdrv_replace_child_tran()'s abort handler, we now rely on the fact
-> that the BdrvChild passed to bdrv_replace_child_tran() must have had a
-> non-NULL .bs pointer initially.  Make a note of that and assert it.
+> See the comment for why this is necessary.
 > 
 > Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 > ---
->   block.c | 102 +++++++++++++++++++++++++++++++++++++++++++-------------
->   1 file changed, 79 insertions(+), 23 deletions(-)
+>   tests/qemu-iotests/030 | 11 ++++++++++-
+>   1 file changed, 10 insertions(+), 1 deletion(-)
 > 
-> diff --git a/block.c b/block.c
-> index a40027161c..0ac5b163d2 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -87,8 +87,10 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
->   static bool bdrv_recurse_has_child(BlockDriverState *bs,
->                                      BlockDriverState *child);
+> diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
+> index 5fb65b4bef..567bf1da67 100755
+> --- a/tests/qemu-iotests/030
+> +++ b/tests/qemu-iotests/030
+> @@ -251,7 +251,16 @@ class TestParallelOps(iotests.QMPTestCase):
+>                                    speed=1024)
+>               self.assert_qmp(result, 'return', {})
 >   
-> +static void bdrv_child_free(BdrvChild *child);
->   static void bdrv_replace_child_noperm(BdrvChild **child,
-> -                                      BlockDriverState *new_bs);
-> +                                      BlockDriverState *new_bs,
-> +                                      bool free_empty_child);
->   static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
->                                                 BdrvChild *child,
->                                                 Transaction *tran);
-> @@ -2256,12 +2258,16 @@ typedef struct BdrvReplaceChildState {
->       BdrvChild *child;
->       BdrvChild **childp;
->       BlockDriverState *old_bs;
-> +    bool free_empty_child;
->   } BdrvReplaceChildState;
+> -        for job in pending_jobs:
+> +        # Do this in reverse: After unthrottling them, some jobs may finish
+> +        # before we have unthrottled all of them.  This will drain their
+> +        # subgraph, and this will make jobs above them advance (despite those
+> +        # jobs on top being throttled).  In the worst case, all jobs below the
+> +        # top one are finished before we can unthrottle it, and this makes it
+> +        # advance so far that it completes before we can unthrottle it - which
+> +        # results in an error.
+> +        # Starting from the top (i.e. in reverse) does not have this problem:
+> +        # When a job finishes, the ones below it are not advanced.
+
+Hmm, interesting why only jobs above the finished job may advance in the situation..
+
+Looks like something may change and this workaround will stop working.
+
+Isn't it better just handle the error, and don't care if job was just finished?
+
+Something like
+
+if result['return'] != {}:
+    # Job was finished during drain caused by finish of already unthrottled job
+    self.assert_qmp(result, 'error/class', 'DeviceNotActive')
+
+Next thing in the test case is checking for completion events, so we'll get all events anyway.
+
+
+> +        for job in reversed(pending_jobs):
+>               result = self.vm.qmp('block-job-set-speed', device=job, speed=0)
+>               self.assert_qmp(result, 'return', {})
 >   
->   static void bdrv_replace_child_commit(void *opaque)
->   {
->       BdrvReplaceChildState *s = opaque;
->   
-> +    if (s->free_empty_child && !s->child->bs) {
-> +        bdrv_child_free(s->child);
-> +    }
->       bdrv_unref(s->old_bs);
->   }
->   
-> @@ -2278,22 +2284,26 @@ static void bdrv_replace_child_abort(void *opaque)
->        *     modify the BdrvChild * pointer we indirectly pass to it, i.e. it
->        *     will not modify s->child.  From that perspective, it does not matter
->        *     whether we pass s->childp or &s->child.
-> -     *     (TODO: Right now, bdrv_replace_child_noperm() never modifies that
-> -     *     pointer anyway (though it will in the future), so at this point it
-> -     *     absolutely does not matter whether we pass s->childp or &s->child.)
->        * (2) If new_bs is not NULL, s->childp will be NULL.  We then cannot use
->        *     it here.
->        * (3) If new_bs is NULL, *s->childp will have been NULLed by
->        *     bdrv_replace_child_tran()'s bdrv_replace_child_noperm() call, and we
->        *     must not pass a NULL *s->childp here.
-> -     *     (TODO: In its current state, bdrv_replace_child_noperm() will not
-> -     *     have NULLed *s->childp, so this does not apply yet.  It will in the
-> -     *     future.)
-
-What I don't like about this patch is that it does two different things: zeroing the pointer and clearing the object. And if we look at the latter in separate, it seems that it's not needed:
-
-Look: bdrv_replace_child_tran(): new parameter is set to true in two places, in both of them we are sure (and do assertion and comment) that new bs is not NULL and nothing will be freed.
-
-Similarly, bdrv_replace_child_noperm() is called with true in two places where we sure that new bs is not NULL.
-
-and only one place where new parameter set to true really do something:
-
-> @@ -2960,8 +3013,7 @@ static void bdrv_detach_child(BdrvChild **childp)
->   {
->       BlockDriverState *old_bs = (*childp)->bs;
->   
-> -    bdrv_replace_child_noperm(childp, NULL);
-> -    bdrv_child_free(*childp);
-> +    bdrv_replace_child_noperm(childp, NULL, true);
->   
->       if (old_bs) {
->           /*
-
-And it doesn't worth the whole complexity of new parameters for two functions.
-
-In this place we can simply do something like
-
-BdrvChild *child = *childp;
-
-bdrv_replace_child_noperm(childp, NULL);
-
-bdrv_child_free(child);
-
-
-I understand the idea: it seems good and intuitive to do zeroing the pointer and clearing the object in one shot. But this patch itself shows that we just can't do it in 90% of cases. So, I think better is not do it and live with only "zeroing the pointer" part of this patch.
-
-
-
-
-
-Another idea that come to my mind while reviewing this series: did you consider zeroing bs->file / bs->backing in .detach, like you do with bs->children list at start of the series?  We can argue the same way that file and backing pointers are property of parent, and they should be zeroed in .detach, where element is removed from bs->children.
-
-
+> 
 
 
 -- 
