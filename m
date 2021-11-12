@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8070844E654
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 13:27:37 +0100 (CET)
-Received: from localhost ([::1]:51520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C9A44E666
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 13:32:02 +0100 (CET)
+Received: from localhost ([::1]:54908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlVea-0008Rp-CS
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 07:27:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52266)
+	id 1mlVir-0003YI-Cm
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 07:32:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mlVcm-0006qZ-0Q
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 07:25:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38373)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mlVhX-0002jF-TL
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 07:30:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34213)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mlVci-0000pf-I9
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 07:25:43 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mlVhW-0001hz-2T
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 07:30:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636719939;
+ s=mimecast20190719; t=1636720237;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MnleM2nclZSZtiEGVon7lV9NbFSZ13G5iSmOJtCL0Y8=;
- b=ZR/oo0n4huo/95hLApm+cILfl7jj0UCUMZJ4q5Tz8hh6QgXEUePxJhM3sUlN0wiFrrxUAB
- Usrfhcm1ok7ac8bbES4ulnZ9va09Ks7bfnrul4lo9ar5mC95f+eInfusgcL0z1ofZfIaKo
- GX/nFJkz1sJv9mfx6TmfQSB5I2NZDGw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-SrZc4DLwMymsIgr6JfpMZQ-1; Fri, 12 Nov 2021 07:25:38 -0500
-X-MC-Unique: SrZc4DLwMymsIgr6JfpMZQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- r12-20020adfdc8c000000b0017d703c07c0so1561812wrj.0
- for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 04:25:38 -0800 (PST)
+ bh=ed5rdzvGKGIDyWa0w+gGqCyvD9zDl1auFtkLMUWnQek=;
+ b=RV3zRifW0z8X4uJVBbELhSy8yHht61S7Bxl23ksd2ZXjYU5nC2ae+Y3HJ/w5TuXIIzWMjC
+ BN7Ka09GnA+Y+UwFScutPvjVN4gxyTs+vEa9ZaGkd54Ykudgpl7OshnvEX46ZpYhkkVnvJ
+ XypKwHP3vbo6SeFr1hZRrKwTDZApFes=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-384-YD_Nwv8JPmiAHQCS0_Z_sg-1; Fri, 12 Nov 2021 07:30:36 -0500
+X-MC-Unique: YD_Nwv8JPmiAHQCS0_Z_sg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ k25-20020a05600c1c9900b00332f798ba1dso6231932wms.4
+ for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 04:30:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=MnleM2nclZSZtiEGVon7lV9NbFSZ13G5iSmOJtCL0Y8=;
- b=pop6m098o0VyIbBdTOeSge1lQw2DuTvamAwiyCgUcUZ59PYY7t/TQuay+Y22/8oFUA
- hOIo21sKlK5QgNrjSPQAbVNYMQ3qxr8+H/41PeP7W+1tPSp4yveGcM3FoSKsYwdpUnKb
- ys+IEssXu8WPWipubaSUK56BpzleupBhgOlPmmE5nHqVO+CFw4aGGiHyu2bUTgoM1r2Q
- arCZO7NDgoZk3cgh4iSe5fIQGybebHl2B/ziMj45hdXeGY9UKz/XMyUxTjGKJ1t0nz0i
- YLYCiXL7ZtLvuWWp6nCz6rr979eaTnbzSPndaQgB52HdsM8fmpoZjD+i0PHY4vLiRS43
- kQEw==
-X-Gm-Message-State: AOAM532MoSdwsKQI3BukjzPLLVAlOasKTw/gm+zW/7dAT51Tx2H0GO93
- K2nBS7tvGtrLDGPo8MCCwO3ZOeIE2DZdDT8VEiJ7NIH7l6jXsJKyMSRR7DvYLhOApVl74zb5wta
- +lzoYkkPQYSCrGUo=
-X-Received: by 2002:a05:600c:ac2:: with SMTP id
- c2mr33811113wmr.118.1636719937475; 
- Fri, 12 Nov 2021 04:25:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzf3dGkf/OZ9475m+uMFwJXHU4YRqUuXbi3I8vxGwFG5SZrWo5igj0Jepp3KsvEQrOI+Uq+JQ==
-X-Received: by 2002:a05:600c:ac2:: with SMTP id
- c2mr33811076wmr.118.1636719937274; 
- Fri, 12 Nov 2021 04:25:37 -0800 (PST)
+ bh=ed5rdzvGKGIDyWa0w+gGqCyvD9zDl1auFtkLMUWnQek=;
+ b=fzoOJyGXTMCBnUWZC2PJyxZwZC9/pkfzjMYC26S0TBAOi1vd7Bhc8bEhzy1jvY6teU
+ ZxSfusnw+8Cpe3eE9+8DVnythdA3jFUIJoYh170CDneNgWfNTShb5wiQcOJ4DiQ0ON5V
+ QbGC2do8tirLO7y91M+K8frVZKkUDDldz9f/ngBntCnewdCu6tNUT4BHlT3GZpcpiqtI
+ DLmC2wwJyfzOzgx3LuF07djrQzmk4jn0iXOlOYSvgiyxPH9zbYBBFcRDWj5da1rBy53Q
+ GIzHD+TKTq1uAUeofTjVo5viUp0Z3SxfUkbECwFHpcR/57ggJYQuOah+ZQb5NG8u6Jbj
+ Puvw==
+X-Gm-Message-State: AOAM532p37KEx/fXG6lrJBKoFpax1phi2ciN/Ksi3FtAlaENsckAvsA9
+ KpOekRTPKMe0RpQYaTAa+rBV7GM71Hf0OMQPMvPS266L4ktCAlW4E5QBMy1nB0YSatPWaGd5cKg
+ nRjowESLgB0nk0t4=
+X-Received: by 2002:a5d:6d84:: with SMTP id l4mr18667283wrs.266.1636720234931; 
+ Fri, 12 Nov 2021 04:30:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyVXnsUbIQyyoSs059FXh7lXIgXQe1zAW1Kc4KaO+N3knWcWAZZiYhNbfrfz5sVFBgffY9J1g==
+X-Received: by 2002:a5d:6d84:: with SMTP id l4mr18667231wrs.266.1636720234617; 
+ Fri, 12 Nov 2021 04:30:34 -0800 (PST)
 Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
  ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id o12sm6248589wmq.12.2021.11.12.04.25.36
+ by smtp.gmail.com with ESMTPSA id n32sm13225948wms.1.2021.11.12.04.30.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Nov 2021 04:25:37 -0800 (PST)
-Message-ID: <7b87d8bd-b742-8fbc-a127-a6b47b2b03d4@redhat.com>
-Date: Fri, 12 Nov 2021 13:25:36 +0100
+ Fri, 12 Nov 2021 04:30:34 -0800 (PST)
+Message-ID: <5a92135c-5d41-96e4-bcd1-68f0cbb0e0b4@redhat.com>
+Date: Fri, 12 Nov 2021 13:30:33 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH v4 02/25] include/block/block: split header into I/O and
- global state API
+Subject: Re: [PATCH v4 04/25] include/sysemu/block-backend: split header into
+ I/O and global state (GS) API
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
 References: <20211025101735.2060852-1-eesposit@redhat.com>
- <20211025101735.2060852-3-eesposit@redhat.com>
+ <20211025101735.2060852-5-eesposit@redhat.com>
 From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20211025101735.2060852-3-eesposit@redhat.com>
+In-Reply-To: <20211025101735.2060852-5-eesposit@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -115,113 +113,58 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 25.10.21 12:17, Emanuele Giuseppe Esposito wrote:
-> block.h currently contains a mix of functions:
-> some of them run under the BQL and modify the block layer graph,
-> others are instead thread-safe and perform I/O in iothreads.
-> It is not easy to understand which function is part of which
-> group (I/O vs GS), and this patch aims to clarify it.
+> Similarly to the previous patches, split block-backend.h
+> in block-backend-io.h and block-backend-global-state.h
 >
-> The "GS" functions need the BQL, and often use
-> aio_context_acquire/release and/or drain to be sure they
-> can modify the graph safely.
-> The I/O function are instead thread safe, and can run in
-> any AioContext.
+> In addition, remove "block/block.h" include as it seems
+> it is not necessary anymore, together with "qemu/iov.h"
 >
-> By splitting the header in two files, block-io.h
-> and block-global-state.h we have a clearer view on what
-> needs what kind of protection. block-common.h
-> contains common structures shared by both headers.
->
-> block.h is left there for legacy and to avoid changing
-> all includes in all c files that use the block APIs.
+> block-backend-common.h contains the structures shared between
+> the two headers, and the functions that can't be categorized as
+> I/O or global state.
 >
 > Assertions are added in the next patch.
 >
 > Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->   block.c                            |   3 +
->   block/meson.build                  |   7 +-
->   include/block/block-common.h       | 389 +++++++++++++
->   include/block/block-global-state.h | 286 ++++++++++
->   include/block/block-io.h           | 306 ++++++++++
->   include/block/block.h              | 878 +----------------------------
->   6 files changed, 1012 insertions(+), 857 deletions(-)
->   create mode 100644 include/block/block-common.h
->   create mode 100644 include/block/block-global-state.h
->   create mode 100644 include/block/block-io.h
+>   block/block-backend.c                       |   9 +-
+>   include/sysemu/block-backend-common.h       |  74 ++++++
+>   include/sysemu/block-backend-global-state.h | 122 +++++++++
+>   include/sysemu/block-backend-io.h           | 139 ++++++++++
+>   include/sysemu/block-backend.h              | 269 +-------------------
+>   5 files changed, 344 insertions(+), 269 deletions(-)
+>   create mode 100644 include/sysemu/block-backend-common.h
+>   create mode 100644 include/sysemu/block-backend-global-state.h
+>   create mode 100644 include/sysemu/block-backend-io.h
 
 [...]
 
-> diff --git a/include/block/block-common.h b/include/block/block-common.h
-> new file mode 100644
-> index 0000000000..4f1fd8de21
-> --- /dev/null
-> +++ b/include/block/block-common.h
-
-[...]
-
-> +#define BLKDBG_EVENT(child, evt) \
-> +    do { \
-> +        if (child) { \
-> +            bdrv_debug_event(child->bs, evt); \
-> +        } \
-> +    } while (0)
-
-This is defined twice, once here, and...
-
-> diff --git a/include/block/block-io.h b/include/block/block-io.h
-> new file mode 100644
-> index 0000000000..9af4609ccb
-> --- /dev/null
-> +++ b/include/block/block-io.h
-
-[...]
-
-> +#define BLKDBG_EVENT(child, evt) \
-> +    do { \
-> +        if (child) { \
-> +            bdrv_debug_event(child->bs, evt); \
-> +        } \
-> +    } while (0)
-
-...once here.
-
-[...]
-
-> +/**
-> + * bdrv_drained_begin:
-> + *
-> + * Begin a quiesced section for exclusive access to the BDS, by disabling
-> + * external request sources including NBD server and device model. Note that
-> + * this doesn't block timers or coroutines from submitting more requests, which
-> + * means block_job_pause is still necessary.
-
-Where does this sentence come from?  I can’t see it in master or in the 
-lines removed from block.h:
-
-> + *
-> + * This function can be recursive.
-> + */
-> +void bdrv_drained_begin(BlockDriverState *bs);
-
-[...]
-
-> diff --git a/include/block/block.h b/include/block/block.h
-> index e5dd22b034..1e6b8fef1e 100644
-> --- a/include/block/block.h
-> +++ b/include/block/block.h
-
-[...]
-
-> -/**
-> - * bdrv_drained_begin:
-> - *
-> - * Begin a quiesced section for exclusive access to the BDS, by disabling
-> - * external request sources including NBD server, block jobs, and device model.
-> - *
-> - * This function can be recursive.
+> diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
+> index e5e1524f06..038be9fc40 100644
+> --- a/include/sysemu/block-backend.h
+> +++ b/include/sysemu/block-backend.h
+> @@ -13,272 +13,9 @@
+>   #ifndef BLOCK_BACKEND_H
+>   #define BLOCK_BACKEND_H
+>   
+> -#include "qemu/iov.h"
+> -#include "block/throttle-groups.h"
+> +#include "block-backend-global-state.h"
+> +#include "block-backend-io.h"
+>   
+> -/*
+> - * TODO Have to include block/block.h for a bunch of block layer
+> - * types.  Unfortunately, this pulls in the whole BlockDriverState
+> - * API, which we don't want used by many BlockBackend users.  Some of
+> - * the types belong here, and the rest should be split into a common
+> - * header and one for the BlockDriverState API.
 > - */
-> -void bdrv_drained_begin(BlockDriverState *bs);
+> -#include "block/block.h"
+
+This note and the include is gone.  Sounds like something positive, but 
+why is this possible?
+
+Hanna
 
 
