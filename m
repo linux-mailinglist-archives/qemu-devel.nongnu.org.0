@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDC8444E88F
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 15:22:15 +0100 (CET)
-Received: from localhost ([::1]:54128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 441F244E879
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 15:18:56 +0100 (CET)
+Received: from localhost ([::1]:49820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlXRV-0003lG-V8
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 09:22:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45330)
+	id 1mlXOJ-0000hj-Bv
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 09:18:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mlXKe-000676-Vb; Fri, 12 Nov 2021 09:15:09 -0500
+ id 1mlXKi-0006DK-98; Fri, 12 Nov 2021 09:15:15 -0500
 Received: from [201.28.113.2] (port=37434 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mlXKd-0007oL-51; Fri, 12 Nov 2021 09:15:08 -0500
+ id 1mlXKg-0007oL-8a; Fri, 12 Nov 2021 09:15:12 -0500
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Fri, 12 Nov 2021 11:14:51 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id E44FB80009B;
- Fri, 12 Nov 2021 11:14:50 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 56276800E9B;
+ Fri, 12 Nov 2021 11:14:51 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 2/3] target/ppc: Implement Vector Extract Mask
-Date: Fri, 12 Nov 2021 11:14:29 -0300
-Message-Id: <20211112141430.631732-3-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v2 3/3] target/ppc: Implement Vector Mask Move insns
+Date: Fri, 12 Nov 2021 11:14:30 -0300
+Message-Id: <20211112141430.631732-4-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211112141430.631732-1-matheus.ferst@eldorado.org.br>
 References: <20211112141430.631732-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 12 Nov 2021 14:14:51.0343 (UTC)
- FILETIME=[A85A95F0:01D7D7CF]
+X-OriginalArrivalTime: 12 Nov 2021 14:14:51.0734 (UTC)
+ FILETIME=[A8963F60:01D7D7CF]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -65,90 +65,132 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
 Implement the following PowerISA v3.1 instructions:
-vextractbm: Vector Extract Byte Mask
-vextracthm: Vector Extract Halfword Mask
-vextractwm: Vector Extract Word Mask
-vextractdm: Vector Extract Doubleword Mask
-vextractqm: Vector Extract Quadword Mask
+mtvsrbm: Move to VSR Byte Mask
+mtvsrhm: Move to VSR Halfword Mask
+mtvsrwm: Move to VSR Word Mask
+mtvsrdm: Move to VSR Doubleword Mask
+mtvsrqm: Move to VSR Quadword Mask
+mtvsrbmi: Move to VSR Byte Mask Immediate
 
 Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
 v2:
-- Applied rth suggestion to do_vextractm
+- Applied rth suggestions to do_mtvsrm and trans_MTVSRBMI
 ---
- target/ppc/insn32.decode            |  6 +++
- target/ppc/translate/vmx-impl.c.inc | 60 +++++++++++++++++++++++++++++
- 2 files changed, 66 insertions(+)
+ target/ppc/insn32.decode            |  11 +++
+ target/ppc/translate/vmx-impl.c.inc | 115 ++++++++++++++++++++++++++++
+ 2 files changed, 126 insertions(+)
 
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 9a28f1d266..639ac22bf0 100644
+index 639ac22bf0..f68931f4f3 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -419,6 +419,12 @@ VEXPANDWM       000100 ..... 00010 ..... 11001000010    @VX_tb
- VEXPANDDM       000100 ..... 00011 ..... 11001000010    @VX_tb
- VEXPANDQM       000100 ..... 00100 ..... 11001000010    @VX_tb
+@@ -40,6 +40,10 @@
+ %ds_rtp         22:4   !function=times_2
+ @DS_rtp         ...... ....0 ra:5 .............. ..             &D rt=%ds_rtp si=%ds_si
  
-+VEXTRACTBM      000100 ..... 01000 ..... 11001000010    @VX_tb
-+VEXTRACTHM      000100 ..... 01001 ..... 11001000010    @VX_tb
-+VEXTRACTWM      000100 ..... 01010 ..... 11001000010    @VX_tb
-+VEXTRACTDM      000100 ..... 01011 ..... 11001000010    @VX_tb
-+VEXTRACTQM      000100 ..... 01100 ..... 11001000010    @VX_tb
++&DX_b           vrt b
++%dx_b           6:10 16:5 0:1
++@DX_b           ...... vrt:5  ..... .......... ..... .          &DX_b b=%dx_b
 +
- # VSX Load/Store Instructions
+ &DX             rt d
+ %dx_d           6:s10 16:5 0:1
+ @DX             ...... rt:5  ..... .......... ..... .   &DX d=%dx_d
+@@ -413,6 +417,13 @@ VSRDBI          000100 ..... ..... ..... 01 ... 010110  @VN
  
- LXV             111101 ..... ..... ............ . 001   @DQ_TSX
+ ## Vector Mask Manipulation Instructions
+ 
++MTVSRBM         000100 ..... 10000 ..... 11001000010    @VX_tb
++MTVSRHM         000100 ..... 10001 ..... 11001000010    @VX_tb
++MTVSRWM         000100 ..... 10010 ..... 11001000010    @VX_tb
++MTVSRDM         000100 ..... 10011 ..... 11001000010    @VX_tb
++MTVSRQM         000100 ..... 10100 ..... 11001000010    @VX_tb
++MTVSRBMI        000100 ..... ..... .......... 01010 .   @DX_b
++
+ VEXPANDBM       000100 ..... 00000 ..... 11001000010    @VX_tb
+ VEXPANDHM       000100 ..... 00001 ..... 11001000010    @VX_tb
+ VEXPANDWM       000100 ..... 00010 ..... 11001000010    @VX_tb
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index 58aca58f0f..dd7337c2f2 100644
+index dd7337c2f2..404767e4ec 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -1539,6 +1539,66 @@ static bool trans_VEXPANDQM(DisasContext *ctx, arg_VX_tb *a)
+@@ -1599,6 +1599,121 @@ static bool trans_VEXTRACTQM(DisasContext *ctx, arg_VX_tb *a)
      return true;
  }
  
-+static bool do_vextractm(DisasContext *ctx, arg_VX_tb *a, unsigned vece)
++static bool do_mtvsrm(DisasContext *ctx, arg_VX_tb *a, unsigned vece)
 +{
 +    const uint64_t elem_width = 8 << vece, elem_count_half = 8 >> vece;
-+    TCGv_i64 t, b, tmp;
++    uint64_t c;
++    int i, j;
++    TCGv_i64 hi, lo, t0, t1;
 +
 +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
 +    REQUIRE_VECTOR(ctx);
 +
-+    t = tcg_const_i64(0);
-+    b = tcg_temp_new_i64();
-+    tmp = tcg_temp_new_i64();
++    hi = tcg_temp_new_i64();
++    lo = tcg_temp_new_i64();
++    t0 = tcg_temp_new_i64();
++    t1 = tcg_temp_new_i64();
 +
-+    for (int w = 0; w < 2; w++) {
-+        get_avr64(b, a->vrb, w);
++    tcg_gen_extu_tl_i64(t0, cpu_gpr[a->vrb]);
++    tcg_gen_extract_i64(hi, t0, elem_count_half, elem_count_half);
++    tcg_gen_extract_i64(lo, t0, 0, elem_count_half);
 +
-+        for (int i = 0; i < elem_count_half; i++) {
-+            int in_bit = (i + 1) * elem_width - 1;
-+            int out_bit = w * elem_count_half + i;
-+
-+            if (in_bit > out_bit) {
-+                tcg_gen_shri_i64(tmp, b, in_bit - out_bit);
-+            } else {
-+                tcg_gen_shli_i64(tmp, b, out_bit - in_bit);
-+            }
-+            tcg_gen_andi_i64(tmp, tmp, 1 << out_bit);
-+            tcg_gen_or_i64(t, t, tmp);
-+        }
++    /*
++     * Spread the bits into their respective elements.
++     * E.g. for bytes:
++     * 00000000000000000000000000000000000000000000000000000000abcdefgh
++     *   << 32 - 4
++     * 0000000000000000000000000000abcdefgh0000000000000000000000000000
++     *   |
++     * 0000000000000000000000000000abcdefgh00000000000000000000abcdefgh
++     *   << 16 - 2
++     * 00000000000000abcdefgh00000000000000000000abcdefgh00000000000000
++     *   |
++     * 00000000000000abcdefgh000000abcdefgh000000abcdefgh000000abcdefgh
++     *   << 8 - 1
++     * 0000000abcdefgh000000abcdefgh000000abcdefgh000000abcdefgh0000000
++     *   |
++     * 0000000abcdefgXbcdefgXbcdefgXbcdefgXbcdefgXbcdefgXbcdefgXbcdefgh
++     *   & dup(1)
++     * 0000000a0000000b0000000c0000000d0000000e0000000f0000000g0000000h
++     *   * 0xff
++     * aaaaaaaabbbbbbbbccccccccddddddddeeeeeeeeffffffffgggggggghhhhhhhh
++     */
++    for (i = elem_count_half / 2, j = 32; i > 0; i >>= 1, j >>= 1) {
++        tcg_gen_shli_i64(t0, hi, j - i);
++        tcg_gen_shli_i64(t1, lo, j - i);
++        tcg_gen_or_i64(hi, hi, t0);
++        tcg_gen_or_i64(lo, lo, t1);
 +    }
-+    tcg_gen_trunc_i64_tl(cpu_gpr[a->vrt], t);
 +
-+    tcg_temp_free_i64(t);
-+    tcg_temp_free_i64(b);
-+    tcg_temp_free_i64(tmp);
++    c = dup_const(vece, 1);
++    tcg_gen_andi_i64(hi, hi, c);
++    tcg_gen_andi_i64(lo, lo, c);
++
++    c = MAKE_64BIT_MASK(0, elem_width);
++    tcg_gen_muli_i64(hi, hi, c);
++    tcg_gen_muli_i64(lo, lo, c);
++
++    set_avr64(a->vrt, lo, false);
++    set_avr64(a->vrt, hi, true);
++
++    tcg_temp_free_i64(hi);
++    tcg_temp_free_i64(lo);
++    tcg_temp_free_i64(t0);
++    tcg_temp_free_i64(t1);
 +
 +    return true;
 +}
 +
-+TRANS(VEXTRACTBM, do_vextractm, MO_8)
-+TRANS(VEXTRACTHM, do_vextractm, MO_16)
-+TRANS(VEXTRACTWM, do_vextractm, MO_32)
-+TRANS(VEXTRACTDM, do_vextractm, MO_64)
++TRANS(MTVSRBM, do_mtvsrm, MO_8)
++TRANS(MTVSRHM, do_mtvsrm, MO_16)
++TRANS(MTVSRWM, do_mtvsrm, MO_32)
++TRANS(MTVSRDM, do_mtvsrm, MO_64)
 +
-+static bool trans_VEXTRACTQM(DisasContext *ctx, arg_VX_tb *a)
++static bool trans_MTVSRQM(DisasContext *ctx, arg_VX_tb *a)
 +{
 +    TCGv_i64 tmp;
 +
@@ -157,11 +199,37 @@ index 58aca58f0f..dd7337c2f2 100644
 +
 +    tmp = tcg_temp_new_i64();
 +
-+    get_avr64(tmp, a->vrb, true);
-+    tcg_gen_shri_i64(tmp, tmp, 63);
-+    tcg_gen_trunc_i64_tl(cpu_gpr[a->vrt], tmp);
++    tcg_gen_ext_tl_i64(tmp, cpu_gpr[a->vrb]);
++    tcg_gen_sextract_i64(tmp, tmp, 0, 1);
++    set_avr64(a->vrt, tmp, false);
++    set_avr64(a->vrt, tmp, true);
 +
 +    tcg_temp_free_i64(tmp);
++
++    return true;
++}
++
++static bool trans_MTVSRBMI(DisasContext *ctx, arg_DX_b *a)
++{
++    const uint64_t mask = dup_const(MO_8, 1);
++    uint64_t hi, lo;
++
++    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
++    REQUIRE_VECTOR(ctx);
++
++    hi = extract16(a->b, 8, 8);
++    lo = extract16(a->b, 0, 8);
++
++    for (int i = 4, j = 32; i > 0; i >>= 1, j >>= 1) {
++        hi |= hi << (j - i);
++        lo |= lo << (j - i);
++    }
++
++    hi = (hi & mask) * 0xFF;
++    lo = (lo & mask) * 0xFF;
++
++    set_avr64(a->vrt, tcg_constant_i64(hi), true);
++    set_avr64(a->vrt, tcg_constant_i64(lo), false);
 +
 +    return true;
 +}
