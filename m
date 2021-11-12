@@ -2,53 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4368D44E0C2
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 04:23:04 +0100 (CET)
-Received: from localhost ([::1]:48102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94A6E44E0B3
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 04:14:31 +0100 (CET)
+Received: from localhost ([::1]:39426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlN9b-0000c4-AZ
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 22:23:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37652)
+	id 1mlN1K-0002sV-4R
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 22:14:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1mlN8D-0006Kf-ND
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 22:21:37 -0500
-Received: from mga03.intel.com ([134.134.136.65]:4409)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mlN02-0002B9-HI
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 22:13:10 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:4104)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1mlN8B-0005U8-G6
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 22:21:37 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10165"; a="233009118"
-X-IronPort-AV: E=Sophos;i="5.87,227,1631602800"; d="scan'208";a="233009118"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Nov 2021 19:21:34 -0800
-X-IronPort-AV: E=Sophos;i="5.87,227,1631602800"; d="scan'208";a="504711499"
-Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Nov 2021 19:21:32 -0800
-From: Zhang Chen <chen.zhang@intel.com>
-To: Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>
-Subject: [PATCH for 7.0 V10 6/6] net/net.c: Add handler for passthrough filter
- command
-Date: Fri, 12 Nov 2021 11:11:12 +0800
-Message-Id: <20211112031112.9303-7-chen.zhang@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211112031112.9303-1-chen.zhang@intel.com>
-References: <20211112031112.9303-1-chen.zhang@intel.com>
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mlMzx-0004Xa-Fo
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 22:13:10 -0500
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Hr3YT1F9vz915Z;
+ Fri, 12 Nov 2021 11:12:45 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.15; Fri, 12 Nov 2021 11:12:58 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.15; Fri, 12 Nov 2021 11:12:57 +0800
+Subject: Re: [PATCH-for-6.2 v3 5/6] tests/unit/test-smp-parse: Constify some
+ pointer/struct
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ <qemu-devel@nongnu.org>
+References: <20211111100351.2153662-1-philmd@redhat.com>
+ <20211111100351.2153662-6-philmd@redhat.com>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <45438a56-693e-6483-820e-bdc0f48e9661@huawei.com>
+Date: Fri, 12 Nov 2021 11:12:57 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+In-Reply-To: <20211111100351.2153662-6-philmd@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.65; envelope-from=chen.zhang@intel.com;
- helo=mga03.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme707-chm.china.huawei.com (10.1.199.103) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -81
+X-Spam_score: -8.2
+X-Spam_bar: --------
+X-Spam_report: (-8.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.999,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,244 +70,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, qemu-dev <qemu-devel@nongnu.org>,
- Li Zhijian <lizhijian@cn.fujitsu.com>
+Cc: Thomas Huth <thuth@redhat.com>, Andrew Jones <drjones@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the connection protocol,src port,dst port,src ip,dst ip as the key
-to passthrough certain network traffic in object with network packet
-processing function.
 
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
----
- net/net.c | 199 +++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 197 insertions(+), 2 deletions(-)
+On 2021/11/11 18:03, Philippe Mathieu-Daudé wrote:
+> Declare structures const when we don't need to modify
+> them at runtime.
+>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>   tests/unit/test-smp-parse.c | 12 ++++++------
+>   1 file changed, 6 insertions(+), 6 deletions(-)
+Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
+Tested-by: Yanan Wang <wangyanan55@huawei.com>
 
-diff --git a/net/net.c b/net/net.c
-index 5d0d5914fb..443e88d396 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -55,6 +55,8 @@
- #include "net/colo-compare.h"
- #include "net/filter.h"
- #include "qapi/string-output-visitor.h"
-+#include "net/colo-compare.h"
-+#include "qom/object_interfaces.h"
- 
- /* Net bridge is currently not supported for W32. */
- #if !defined(_WIN32)
-@@ -1215,14 +1217,207 @@ void qmp_netdev_del(const char *id, Error **errp)
-     }
- }
- 
-+static int check_addr(InetSocketAddressBase *addr)
-+{
-+    if (!addr || (addr->host && !qemu_isdigit(addr->host[0]))) {
-+        return -1;
-+    }
-+
-+    if (atoi(addr->port) > 65536 || atoi(addr->port) < 0) {
-+        return -1;
-+    }
-+
-+    return 0;
-+}
-+
-+/* The initial version only supports colo-compare */
-+static CompareState *passthrough_filter_check(IPFlowSpec *spec, Error **errp)
-+{
-+    Object *container;
-+    Object *obj;
-+    CompareState *s;
-+
-+    if (!spec->object_name) {
-+        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "object-name",
-+                   "Need input object name");
-+        return NULL;
-+    }
-+
-+    container = object_get_objects_root();
-+    obj = object_resolve_path_component(container, spec->object_name);
-+    if (!obj) {
-+        error_setg(errp, "object '%s' not found", spec->object_name);
-+        return NULL;
-+    }
-+
-+    s = COLO_COMPARE(obj);
-+
-+    if (!getprotobyname(spec->protocol)) {
-+        error_setg(errp, "Passthrough filter get wrong protocol");
-+        return NULL;
-+    }
-+
-+    if (spec->source) {
-+        if (check_addr(spec->source)) {
-+            error_setg(errp, "Passthrough filter get wrong source");
-+            return NULL;
-+        }
-+    }
-+
-+    if (spec->destination) {
-+        if (check_addr(spec->destination)) {
-+            error_setg(errp, "Passthrough filter get wrong destination");
-+            return NULL;
-+        }
-+    }
-+
-+    return s;
-+}
-+
-+/* The initial version only supports colo-compare */
-+static COLOPassthroughEntry *passthrough_filter_find(CompareState *s,
-+                                                     COLOPassthroughEntry *ent)
-+{
-+    COLOPassthroughEntry *next = NULL, *origin = NULL;
-+
-+    if (!QLIST_EMPTY(&s->passthroughlist)) {
-+        QLIST_FOREACH_SAFE(origin, &s->passthroughlist, node, next) {
-+            if ((ent->l4_protocol.p_proto == origin->l4_protocol.p_proto) &&
-+                (ent->src_port == origin->src_port) &&
-+                (ent->dst_port == origin->dst_port) &&
-+                (ent->src_ip.s_addr == origin->src_ip.s_addr) &&
-+                (ent->dst_ip.s_addr == origin->dst_ip.s_addr)) {
-+                return origin;
-+            }
-+        }
-+    }
-+
-+    return NULL;
-+}
-+
-+/* The initial version only supports colo-compare */
-+static void passthrough_filter_add(CompareState *s,
-+                                   IPFlowSpec *spec,
-+                                   Error **errp)
-+{
-+    COLOPassthroughEntry *pass = NULL;
-+
-+    pass = g_new0(COLOPassthroughEntry, 1);
-+
-+    if (spec->protocol) {
-+        memcpy(&pass->l4_protocol, getprotobyname(spec->protocol),
-+               sizeof(struct protoent));
-+    }
-+
-+    if (spec->source) {
-+        if (!inet_aton(spec->source->host, &pass->src_ip)) {
-+            pass->src_ip.s_addr = 0;
-+        }
-+
-+        pass->src_port = atoi(spec->source->port);
-+    }
-+
-+    if (spec->destination) {
-+        if (!inet_aton(spec->destination->host, &pass->dst_ip)) {
-+            pass->dst_ip.s_addr = 0;
-+        }
-+
-+        pass->dst_port = atoi(spec->destination->port);
-+    }
-+
-+    qemu_mutex_lock(&s->passthroughlist_mutex);
-+    if (passthrough_filter_find(s, pass)) {
-+        error_setg(errp, "The pass through connection already exists");
-+        g_free(pass);
-+        qemu_mutex_unlock(&s->passthroughlist_mutex);
-+        return;
-+    }
-+
-+    QLIST_INSERT_HEAD(&s->passthroughlist, pass, node);
-+    qemu_mutex_unlock(&s->passthroughlist_mutex);
-+}
-+
-+/* The initial version only supports colo-compare */
-+static void passthrough_filter_del(CompareState *s,
-+                                   IPFlowSpec *spec,
-+                                   Error **errp)
-+{
-+    COLOPassthroughEntry *pass = NULL, *result = NULL;
-+
-+    pass = g_new0(COLOPassthroughEntry, 1);
-+
-+    if (spec->protocol) {
-+        memcpy(&pass->l4_protocol, getprotobyname(spec->protocol),
-+               sizeof(struct protoent));
-+    }
-+
-+    if (spec->source) {
-+        if (!inet_aton(spec->source->host, &pass->src_ip)) {
-+            pass->src_ip.s_addr = 0;
-+        }
-+
-+        pass->src_port = atoi(spec->source->port);
-+    }
-+
-+    if (spec->destination) {
-+        if (!inet_aton(spec->destination->host, &pass->dst_ip)) {
-+            pass->dst_ip.s_addr = 0;
-+        }
-+
-+        pass->dst_port = atoi(spec->destination->port);
-+    }
-+
-+    qemu_mutex_lock(&s->passthroughlist_mutex);
-+
-+    result = passthrough_filter_find(s, pass);
-+    if (result) {
-+        QLIST_REMOVE(result, node);
-+        g_free(result);
-+    } else {
-+        error_setg(errp, "Can't find the IP flow Spec");
-+    }
-+
-+    g_free(pass);
-+    g_free(spec);
-+    qemu_mutex_unlock(&s->passthroughlist_mutex);
-+}
-+
-+/* The initial version only supports colo-compare */
- void qmp_passthrough_filter_add(IPFlowSpec *spec, Error **errp)
- {
--    /* TODO implement setup passthrough rule */
-+    CompareState *s;
-+    Error *err = NULL;
-+
-+    s = passthrough_filter_check(spec, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+
-+    passthrough_filter_add(s, spec, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
- }
- 
-+/* The initial version only supports colo-compare */
- void qmp_passthrough_filter_del(IPFlowSpec *spec, Error **errp)
- {
--    /* TODO implement delete passthrough rule */
-+    CompareState *s;
-+    Error *err = NULL;
-+
-+    s = passthrough_filter_check(spec, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+
-+    passthrough_filter_del(s, spec, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
- }
- 
- static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
--- 
-2.25.1
+Thanks,
+Yanan
+> diff --git a/tests/unit/test-smp-parse.c b/tests/unit/test-smp-parse.c
+> index 83a5b8ffdcf..11109752799 100644
+> --- a/tests/unit/test-smp-parse.c
+> +++ b/tests/unit/test-smp-parse.c
+> @@ -83,7 +83,7 @@ typedef struct SMPTestData {
+>    * then test the automatic calculation algorithm of the missing
+>    * values in the parser.
+>    */
+> -static struct SMPTestData data_generic_valid[] = {
+> +static const struct SMPTestData data_generic_valid[] = {
+>       {
+>           /* config: no configuration provided
+>            * expect: cpus=1,sockets=1,cores=1,threads=1,maxcpus=1 */
+> @@ -285,7 +285,7 @@ static struct SMPTestData data_generic_valid[] = {
+>       },
+>   };
+>   
+> -static struct SMPTestData data_generic_invalid[] = {
+> +static const struct SMPTestData data_generic_invalid[] = {
+>       {
+>           /* config: -smp 2,dies=2 */
+>           .config = SMP_CONFIG_WITH_DIES(T, 2, F, 0, T, 2, F, 0, F, 0, F, 0),
+> @@ -319,7 +319,7 @@ static struct SMPTestData data_generic_invalid[] = {
+>       },
+>   };
+>   
+> -static struct SMPTestData data_with_dies_invalid[] = {
+> +static const struct SMPTestData data_with_dies_invalid[] = {
+>       {
+>           /* config: -smp 16,sockets=2,dies=2,cores=4,threads=2,maxcpus=16 */
+>           .config = SMP_CONFIG_WITH_DIES(T, 16, T, 2, T, 2, T, 4, T, 2, T, 16),
+> @@ -356,7 +356,7 @@ static char *smp_config_to_string(SMPConfiguration *config)
+>           config->has_maxcpus ? "true" : "false", config->maxcpus);
+>   }
+>   
+> -static char *cpu_topology_to_string(CpuTopology *topo)
+> +static char *cpu_topology_to_string(const CpuTopology *topo)
+>   {
+>       return g_strdup_printf(
+>           "(CpuTopology) {\n"
+> @@ -372,7 +372,7 @@ static char *cpu_topology_to_string(CpuTopology *topo)
+>   }
+>   
+>   static void check_parse(MachineState *ms, SMPConfiguration *config,
+> -                        CpuTopology *expect_topo, const char *expect_err,
+> +                        const CpuTopology *expect_topo, const char *expect_err,
+>                           bool is_valid)
+>   {
+>       g_autofree char *config_str = smp_config_to_string(config);
+> @@ -466,7 +466,7 @@ static void smp_parse_test(MachineState *ms, SMPTestData *data, bool is_valid)
+>   }
+>   
+>   /* The parsed results of the unsupported parameters should be 1 */
+> -static void unsupported_params_init(MachineClass *mc, SMPTestData *data)
+> +static void unsupported_params_init(const MachineClass *mc, SMPTestData *data)
+>   {
+>       if (!mc->smp_props.dies_supported) {
+>           data->expect_prefer_sockets.dies = 1;
 
 
