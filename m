@@ -2,90 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE86C44E5A0
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 12:33:24 +0100 (CET)
-Received: from localhost ([::1]:40128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E1BD44E5A6
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 12:39:28 +0100 (CET)
+Received: from localhost ([::1]:42524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlUo7-0002mn-Dr
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 06:33:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42358)
+	id 1mlUtz-0004dG-9B
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 06:39:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mlUmZ-0001Gl-OW
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 06:31:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30049)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mlUt5-0003oa-TQ
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 06:38:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mlUmW-00016c-Ir
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 06:31:46 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mlUt1-0001j7-LM
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 06:38:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636716703;
+ s=mimecast20190719; t=1636717105;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vN/Fu+GJXa3fskk8XkIlq+14Fi5o7Jrmx02H9bIiKl0=;
- b=P3iCeuHYcceMm0TN25F++eVTPtw8gsuf6DB5VJcVYaLjTiz7cjPMKUhuBmxS6H7aFQi5JK
- WAX/65gO42KQo0ix1IfvHVtYKfpKqkKX4BZWlETV8EpH+w09voCJhB9hhwFvrAm7do0TA+
- hszzew3dUSFYjAX2uGPJijcDIfGAXCY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-529-HrsdTHisPAuI_Zx_LqbyKQ-1; Fri, 12 Nov 2021 06:31:39 -0500
-X-MC-Unique: HrsdTHisPAuI_Zx_LqbyKQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- m1-20020a1ca301000000b003231d5b3c4cso6154344wme.5
- for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 03:31:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=vN/Fu+GJXa3fskk8XkIlq+14Fi5o7Jrmx02H9bIiKl0=;
- b=EQIVAff80jkyBhX4fGh8jobeM9/8I9qgmePKDVsXddI+wQCs2qAgZwM6e13snSYIcG
- 8m5mZ914QJNxEQEK3QV1Ijaei3dprydJKk8ISEGq5o57u7Jpo0mYpskgJylVgSIRTSet
- QBtNxha/P2KQqd1tU7DEOiF+Tk46dsE3NzuzHRnlR+4nnSqHZzOVWgvHI3LS4cPIzDpJ
- ftjGRZZpyHP0O1pIYnEh0HzHODo58pYzNiPjl0loMCtZZxIg73I8v0J6TDn9ktlVEocw
- ChflG1dv9Pxnf13bCXnLQqNIrbIry8x5VtR2aBrvHwrS0+dzyy065ys1aPn3XkSayu9U
- sP6Q==
-X-Gm-Message-State: AOAM531dJo0hdvy6T3Q+VhKBfJD6hC+23bYGsziHclVMigE3mVhQ/0bu
- rIu4BwfoZm58pScJcXCxV9oGPUSBVTDIILsyBl06AtVYj3dX+Y/bGvvoZSWgjfIqeYaZ42tGPzV
- xGwImWX4i/xt84Ow=
-X-Received: by 2002:a5d:6043:: with SMTP id j3mr17485355wrt.375.1636716698198; 
- Fri, 12 Nov 2021 03:31:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyU7ByB2rNaGtwMCf7Wnr9a7MeFHh6IsuV9bqRRUXW029brQLYvsuPqWSQ5KAmL1aOWkPDO3Q==
-X-Received: by 2002:a5d:6043:: with SMTP id j3mr17485320wrt.375.1636716698007; 
- Fri, 12 Nov 2021 03:31:38 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id a12sm5363933wrm.62.2021.11.12.03.31.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Nov 2021 03:31:37 -0800 (PST)
-Message-ID: <702bbf7a-15f9-8be3-98f2-40a5eebdd5a1@redhat.com>
-Date: Fri, 12 Nov 2021 12:31:36 +0100
+ bh=52uo0Bxw+j8SuaLywxAcQfiO/qAfqfMRlqofKg11Y+Q=;
+ b=XjxJ1mw+6ZSyyVsF1QTO+OPyjOnb3XqQjgHzhYWrNsQrd+hzs4O9i5IeHWBX984OBVQP4k
+ X9wA/yIxie0ywqXv1C4kOOBSXddG6044G9OFsem0ijwfjO9FeTrOFfFtKcBQYqTnFfY+Ai
+ 2JjSXNWpjXfE93Nsq/cHA6FcywI0BZM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-434-OKkQx6GYMVKaOKLIkaRNhQ-1; Fri, 12 Nov 2021 06:38:22 -0500
+X-MC-Unique: OKkQx6GYMVKaOKLIkaRNhQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50E2D1023F4E;
+ Fri, 12 Nov 2021 11:38:21 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.237])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1CF595C1B4;
+ Fri, 12 Nov 2021 11:38:00 +0000 (UTC)
+Date: Fri, 12 Nov 2021 12:37:59 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Roman Kagan <rvkagan@yandex-team.ru>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, yc-core@yandex-team.ru,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 01/10] vhost-user-blk: reconnect on any error during
+ realize
+Message-ID: <YY5SF0uPkoEvX9qM@redhat.com>
+References: <20211111153354.18807-1-rvkagan@yandex-team.ru>
+ <20211111153354.18807-2-rvkagan@yandex-team.ru>
+ <YY1YXrCPgt+Fcb2+@redhat.com> <YY4aGok6e8Z6BRQu@rvkaganb.lan>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v4 03/25] assertions for block global state API
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20211025101735.2060852-1-eesposit@redhat.com>
- <20211025101735.2060852-4-eesposit@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20211025101735.2060852-4-eesposit@redhat.com>
+In-Reply-To: <YY4aGok6e8Z6BRQu@rvkaganb.lan>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.449, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,37 +82,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25.10.21 12:17, Emanuele Giuseppe Esposito wrote:
-> All the global state (GS) API functions will check that
-> qemu_in_main_thread() returns true. If not, it means
-> that the safety of BQL cannot be guaranteed, and
-> they need to be moved to I/O.
->
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->   block.c        | 136 +++++++++++++++++++++++++++++++++++++++++++++++--
->   block/commit.c |   2 +
->   block/io.c     |  20 ++++++++
->   blockdev.c     |   1 +
->   4 files changed, 156 insertions(+), 3 deletions(-)
+Am 12.11.2021 um 08:39 hat Roman Kagan geschrieben:
+> On Thu, Nov 11, 2021 at 06:52:30PM +0100, Kevin Wolf wrote:
+> > Am 11.11.2021 um 16:33 hat Roman Kagan geschrieben:
+> > > vhost-user-blk realize only attempts to reconnect if the previous
+> > > connection attempt failed on "a problem with the connection and not an
+> > > error related to the content (which would fail again the same way in the
+> > > next attempt)".
+> > > 
+> > > However this distinction is very subtle, and may be inadvertently broken
+> > > if the code changes somewhere deep down the stack and a new error gets
+> > > propagated up to here.
+> > > 
+> > > OTOH now that the number of reconnection attempts is limited it seems
+> > > harmless to try reconnecting on any error.
+> > > 
+> > > So relax the condition of whether to retry connecting to check for any
+> > > error.
+> > > 
+> > > This patch amends a527e312b5 "vhost-user-blk: Implement reconnection
+> > > during realize".
+> > > 
+> > > Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
+> > 
+> > It results in less than perfect error messages. With a modified export
+> > that just crashes qemu-storage-daemon during get_features, I get:
+> > 
+> > qemu-system-x86_64: -device vhost-user-blk-pci,chardev=c: Failed to read msg header. Read 0 instead of 12. Original request 1.
+> > qemu-system-x86_64: -device vhost-user-blk-pci,chardev=c: Reconnecting after error: vhost_backend_init failed: Protocol error
+> > qemu-system-x86_64: -device vhost-user-blk-pci,chardev=c: Reconnecting after error: Failed to connect to '/tmp/vsock': Connection refused
+> > qemu-system-x86_64: -device vhost-user-blk-pci,chardev=c: Reconnecting after error: Failed to connect to '/tmp/vsock': Connection refused
+> > qemu-system-x86_64: -device vhost-user-blk-pci,chardev=c: Failed to connect to '/tmp/vsock': Connection refused
+> 
+> This patch doesn't change any error messages.  Which ones specifically
+> became less than perfect as a result of this patch?
 
-bdrv_make_zero() seems missing here – it can be considered an I/O or a 
-GS function, but patch 2 classified it as GS.
+But it adds error messages (for each retry), which are different from
+the first error message. As I said this is not the end of the world, but
+maybe a bit more confusing.
 
-Hanna
+> > I guess this might be tolerable. On the other hand, the patch doesn't
+> > really fix anything either, but just gets rid of possible subtleties.
+> 
+> The remaining patches in the series make other errors beside -EPROTO
+> propagate up to this point, and some (most) of them are retryable.  This
+> was the reason to include this patch at the beginning of the series (I
+> guess I should've mentioned that in the patch log).
+
+I see. I hadn't looked at the rest of the series yet because I ran out
+of time, but now that I'm skimming them, I see quite a few places that
+use non-EPROTO, but I wonder which of them actually should be
+reconnected. So far all I saw were presumably persistent errors where a
+retry won't help. Can you give me some examples?
+
+Kevin
 
 
