@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83E6344ED55
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 20:37:59 +0100 (CET)
-Received: from localhost ([::1]:45446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 004D144ED56
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 20:38:01 +0100 (CET)
+Received: from localhost ([::1]:45498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlcN4-0005Bt-Ci
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 14:37:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60138)
+	id 1mlcN6-0005Dl-3j
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 14:38:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mlcKA-0003Mj-AL
+ id 1mlcKA-0003Mh-6O
  for qemu-devel@nongnu.org; Fri, 12 Nov 2021 14:34:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60552)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26814)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mlcK7-0007y6-E9
+ id 1mlcK7-0007y2-EU
  for qemu-devel@nongnu.org; Fri, 12 Nov 2021 14:34:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636745693;
+ s=mimecast20190719; t=1636745692;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=NbE7WayWwdAGEcPzj8kDVfJsHiYbIeGQpX9BLOYf7Dg=;
- b=MNDhAJkfRL5ccMu/8k6NrEy7sVaD+5neGplcou6zn71RaUn07+hLWf422PLpnVoZL4MWTJ
- ft3RD/N8+mHFuFH5MLGms6CsUu7YsLw+lwIcy8/+uqA+DEThEiwePRg+p4cHTtQQlxHORf
- +Onc5B+P5/ShRujF7/ZN5i01FRJ91KQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=v7wWWwLuA0w2/3OXVrR2o4AEAv2i1t0oR12O6Lnvd1Y=;
+ b=BN7gTY+nX58RqI6yLfUjAsy9PG315FDs0rZMJYrnaecs6/N2n+Eb7+z36w3j7iEwnmf8z3
+ GI/JU8TpIUyCYxB0xcuEmbkqs6wlYPyVeGcZW8WAL25cD4ElF4mPrlZFAniWsaUnele7z9
+ Fp3+r9vAed8KxAcKKSftt9egd12/A+k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-479-HoJYfpXkP2aBsEOrqkLkbQ-1; Fri, 12 Nov 2021 14:34:49 -0500
-X-MC-Unique: HoJYfpXkP2aBsEOrqkLkbQ-1
+ us-mta-414-HypJtP8UPEafYyulfsG-ng-1; Fri, 12 Nov 2021 14:34:51 -0500
+X-MC-Unique: HypJtP8UPEafYyulfsG-ng-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A973618125C0;
- Fri, 12 Nov 2021 19:34:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 960411023F4F;
+ Fri, 12 Nov 2021 19:34:50 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A917C19724;
- Fri, 12 Nov 2021 19:34:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0DDB119723;
+ Fri, 12 Nov 2021 19:34:48 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-trivial@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 0/2] vdpa: Check for existence of opts.vhostdev
-Date: Fri, 12 Nov 2021 20:34:29 +0100
-Message-Id: <20211112193431.2379298-1-eperezma@redhat.com>
+Subject: [PATCH 1/2] vdpa: Replace qemu_open_old by qemu_open at
+Date: Fri, 12 Nov 2021 20:34:30 +0100
+Message-Id: <20211112193431.2379298-2-eperezma@redhat.com>
+In-Reply-To: <20211112193431.2379298-1-eperezma@redhat.com>
+References: <20211112193431.2379298-1-eperezma@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -81,20 +84,32 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since net_init_vhost_vdpa is trying to open it. Not specifying it in the=0D
-command line crash qemu.=0D
-=0D
-While we're at it, stop using qemu_open_old.=0D
-=0D
-Eugenio P=C3=A9rez (2):=0D
-  vdpa: Replace qemu_open_old by qemu_open at=0D
-  vdpa: Check for existence of opts.vhostdev=0D
-=0D
- net/vhost-vdpa.c | 6 +++++-=0D
- 1 file changed, 5 insertions(+), 1 deletion(-)=0D
-=0D
---=20=0D
-2.27.0=0D
-=0D
+There is no reason to keep using the old one, since we neither use the
+variadics arguments nor open it with O_DIRECT.
+
+Also, net_client_init1, the caller of net_init_vhost_vdpa, wants all
+net_client_init_fun to use Error API, so it's a good step in that
+direction.
+
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ net/vhost-vdpa.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 49ab322511..6ffb29f4da 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -261,7 +261,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+     opts = &netdev->u.vhost_vdpa;
+ 
+-    vdpa_device_fd = qemu_open_old(opts->vhostdev, O_RDWR);
++    vdpa_device_fd = qemu_open(opts->vhostdev, O_RDWR, errp);
+     if (vdpa_device_fd == -1) {
+         return -errno;
+     }
+-- 
+2.27.0
 
 
