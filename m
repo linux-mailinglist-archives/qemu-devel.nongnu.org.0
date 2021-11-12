@@ -2,87 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5AD744ECAE
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 19:38:07 +0100 (CET)
-Received: from localhost ([::1]:51902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44CD244ED0B
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 20:06:20 +0100 (CET)
+Received: from localhost ([::1]:34106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlbR8-0001zp-Nn
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 13:38:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48362)
+	id 1mlbsP-00039O-W5
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 14:06:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mlbPN-0000uG-0t
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 13:36:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25169)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1mlbrL-0002NA-BQ; Fri, 12 Nov 2021 14:05:11 -0500
+Received: from [2a02:6b8:0:1619::183] (port=56608
+ helo=forwardcorp1j.mail.yandex.net)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mlbPJ-0000rs-HT
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 13:36:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636742171;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=P5dzK+g+UWfDK/Sec0xZ+oIxKlA9LWe9DLOvoKPdtOI=;
- b=XZkElOrUpgDqAQYUkp+gErne7vM+EIwmbpv7rz/D/w7kzVFV4SNIw5ZKv99lLwlQYjnEb5
- cXpZxyoB3O9SpYkUBOjcqAPw7Lh/H4FPBBYPV8A3zv4A8W6a2oWVUKuqklIQmQ83d5zjGz
- uXxssxxgqsnEUw5laTM1hZYNgD6WIts=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-280-WRSgTuxsNvGZsuUStjeWnw-1; Fri, 12 Nov 2021 13:36:08 -0500
-X-MC-Unique: WRSgTuxsNvGZsuUStjeWnw-1
-Received: by mail-pf1-f199.google.com with SMTP id
- g142-20020a625294000000b004946d789d14so6174094pfb.3
- for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 10:36:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=P5dzK+g+UWfDK/Sec0xZ+oIxKlA9LWe9DLOvoKPdtOI=;
- b=6dYemPnlYMGzCIwVmAShfKjl00+c2ig/j2bvHrfj3Q54qE+X8GDOOaw2HQUeztZMWG
- +q2VxZhcaeOnyUq73A7z6YGCOdj3LJYM4SixVCxWlz7toXk9np5/T11rC/3ONkncOouV
- awuyzVMhd/pb5w5nZspptJYTlkBYAu5V3yuDKpI6Gy9MFEYThCOdW3rpJU0E5egbrgFM
- R1c3a9pmXKkKuSaJwj7utIlKyyf14rwJRoerxD6YMouHEXxCUhObbyP1g/e+CfIAZ0N3
- NGO02MoDU5LHo7uGYGBVpV7IA1MmGDDZSI9M3prpq3tvfUwn/24T935JlKO6GwuB60Wi
- UfSg==
-X-Gm-Message-State: AOAM532NMpSwCCVTw+j6xw4O8q2kz6M8SkdKDQgG+IFMzQiDD2inj1sn
- 6FdvKIGVLQx/3137NfAVxZYswpq3EfUlNfaYdNb/jwHwYPxRmJBQgp9Y0zppFRVWeVw4fScwOfT
- YwFjylvhDymAjFNufcBwTRLD5WIRJF7s=
-X-Received: by 2002:a17:90b:1057:: with SMTP id
- gq23mr20137675pjb.203.1636742167260; 
- Fri, 12 Nov 2021 10:36:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyJ4tf7FQhDr6pqkDDfyS85cknkISn+b10BZ4Mjj0aVqJ6Im5W0XzSuY2LuYLcGw/xONFwuc7Dp2FcsSp+aD2Y=
-X-Received: by 2002:a17:90b:1057:: with SMTP id
- gq23mr20137623pjb.203.1636742166898; 
- Fri, 12 Nov 2021 10:36:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1mlbrF-0004ES-RN; Fri, 12 Nov 2021 14:05:10 -0500
+Received: from iva8-d2cd82b7433e.qloud-c.yandex.net
+ (iva8-d2cd82b7433e.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:a88e:0:640:d2cd:82b7])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 6D1112E1D66;
+ Fri, 12 Nov 2021 22:04:57 +0300 (MSK)
+Received: from iva8-3a65cceff156.qloud-c.yandex.net
+ (iva8-3a65cceff156.qloud-c.yandex.net [2a02:6b8:c0c:2d80:0:640:3a65:ccef])
+ by iva8-d2cd82b7433e.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ BhSK4sSUlg-4usKn3OS; Fri, 12 Nov 2021 22:04:57 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1636743897; bh=11MecmbV4238I742S6pPWzuLFzr3cc6qqA7MZemzAoE=;
+ h=In-Reply-To:Subject:To:From:Message-ID:Cc:References:Date;
+ b=EI8nIk8D0/mjQlWBDvH7rsjKfle//7/qc9+EwU9DOThPK0nPC4Hqk/jn8v0dvKXPR
+ 9Xk/fHxIewGBmp2YkTNxSoOofg0KRtLi9Fz50LbqfnVJUWraUvu1Uan2RxAPIZa4Cp
+ dJPBSHKliCfjK/gDeBdSZr1BU5OuiEf1tiQhNBIk=
+Authentication-Results: iva8-d2cd82b7433e.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from rvkaganb.lan (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:1206::1:19])
+ by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPS id
+ 9wHKkIfIe3-4uw0CKTq; Fri, 12 Nov 2021 22:04:56 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 2
+Date: Fri, 12 Nov 2021 22:04:54 +0300
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: [PATCH 04/10] chardev/char-fe: don't allow EAGAIN from blocking
+ read
+Message-ID: <YY661s3JqoL6GQMZ@rvkaganb.lan>
+Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Hanna Reitz <hreitz@redhat.com>, yc-core@yandex-team.ru,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20211111153354.18807-1-rvkagan@yandex-team.ru>
+ <20211111153354.18807-5-rvkagan@yandex-team.ru>
+ <CAJ+F1CKmAR9K6_HRr66+rTxzBVUTbw+GNJ22tByuLyx+CHYfVw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20211111160501.862396-1-crosa@redhat.com>
- <20211111160501.862396-2-crosa@redhat.com>
-In-Reply-To: <20211111160501.862396-2-crosa@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 12 Nov 2021 15:35:40 -0300
-Message-ID: <CAKJDGDYihwY+pLrxQ=6j-GtAfc++1bKE8yWVcyqm9WZJyZ1daQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] Jobs based on custom runners: add CentOS Stream 8
-To: Cleber Rosa <crosa@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJ+F1CKmAR9K6_HRr66+rTxzBVUTbw+GNJ22tByuLyx+CHYfVw@mail.gmail.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a02:6b8:0:1619::183
+ (failed)
+Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -91,79 +89,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, Erik Skultety <eskultet@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Beraldo Leal <bleal@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- John Snow <jsnow@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>, Hanna Reitz <hreitz@redhat.com>,
+ yc-core@yandex-team.ru, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 11, 2021 at 1:06 PM Cleber Rosa <crosa@redhat.com> wrote:
->
-> This introduces three different parts of a job designed to run
-> on a custom runner managed by Red Hat.  The goals include:
->
->   a) propose a model for other organizations that want to onboard
->      their own runners, with their specific platforms, build
->      configuration and tests.
->
->   b) bring awareness to the differences between upstream QEMU and the
->      version available under CentOS Stream, which is "A preview of
->      upcoming Red Hat Enterprise Linux minor and major releases".
->
->   c) because of b), it should be easier to identify and reduce the gap
->      between Red Hat's downstream and upstream QEMU.
->
-> The components of this custom job are:
->
->   I) OS build environment setup code:
->
->      - additions to the existing "build-environment.yml" playbook
->        that can be used to set up CentOS/EL 8 systems.
->
->      - a CentOS Stream 8 specific "build-environment.yml" playbook
->        that adds to the generic one.
->
->  II) QEMU build configuration: a script that will produce binaries with
->      features as similar as possible to the ones built and packaged on
->      CentOS stream 8.
->
-> III) Scripts that define the minimum amount of testing that the
->      binaries built with the given configuration (point II) under the
->      given OS build environment (point I) should be subjected to.
->
->  IV) Job definition: GitLab CI jobs that will dispatch the build/test
->      jobs (see points #II and #III) to the machine specifically
->      configured according to #I.
->
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> ---
->  .gitlab-ci.d/custom-runners.yml               |  29 +++
->  docs/devel/ci-jobs.rst.inc                    |   7 +
->  .../org.centos/stream/8/build-environment.yml |  51 +++++
->  .../ci/org.centos/stream/8/x86_64/configure   | 208 ++++++++++++++++++
->  .../org.centos/stream/8/x86_64/test-avocado   |  70 ++++++
->  scripts/ci/org.centos/stream/README           |  17 ++
->  scripts/ci/setup/build-environment.yml        |  38 ++++
->  7 files changed, 420 insertions(+)
->  create mode 100644 scripts/ci/org.centos/stream/8/build-environment.yml
->  create mode 100755 scripts/ci/org.centos/stream/8/x86_64/configure
->  create mode 100755 scripts/ci/org.centos/stream/8/x86_64/test-avocado
->  create mode 100644 scripts/ci/org.centos/stream/README
->
+On Fri, Nov 12, 2021 at 12:24:06PM +0400, Marc-André Lureau wrote:
+> Hi
+> 
+> On Thu, Nov 11, 2021 at 7:44 PM Roman Kagan <rvkagan@yandex-team.ru> wrote:
+> 
+> > As its name suggests, ChardevClass.chr_sync_read is supposed to do a
+> > blocking read.  The only implementation of it, tcp_chr_sync_read, does
+> > set the underlying io channel to the blocking mode indeed.
+> >
+> > Therefore a failure return with EAGAIN is not expected from this call.
+> >
+> > So do not retry it in qemu_chr_fe_read_all; instead place an assertion
+> > that it doesn't fail with EAGAIN.
+> >
+> 
+> The code was introduced in :
+> commit 7b0bfdf52d694c9a3a96505aa42ce3f8d63acd35
+> Author: Nikolay Nikolaev <n.nikolaev@virtualopensystems.com>
+> Date:   Tue May 27 15:03:48 2014 +0300
+> 
+>     Add chardev API qemu_chr_fe_read_all
 
-Maybe it is too late, but just for the records:
+Right, but at that point chr_sync_read wasn't made to block.  It
+happened later in
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Tested-by: Willian Rampazzo <willianr@redhat.com>
+commit bcdeb9be566ded2eb35233aaccf38742a21e5daa
+Author: Marc-André Lureau <marcandre.lureau@redhat.com>
+Date:   Thu Jul 6 19:03:53 2017 +0200
 
-CI job on a custom VM runner:
-https://gitlab.com/willianrampazzo/qemu/-/jobs/1778451942
+    chardev: block during sync read
+    
+    A sync read should block until all requested data is
+    available (instead of retrying in qemu_chr_fe_read_all). Change the
+    channel to blocking during sync_read.
 
+> > @@ -68,13 +68,10 @@ int qemu_chr_fe_read_all(CharBackend *be, uint8_t
+> > *buf, int len)
+> >      }
+> >
+> >      while (offset < len) {
+> > -    retry:
+> >          res = CHARDEV_GET_CLASS(s)->chr_sync_read(s, buf + offset,
+> >                                                    len - offset);
+> > -        if (res == -1 && errno == EAGAIN) {
+> > -            g_usleep(100);
+> > -            goto retry;
+> > -        }
+> > +        /* ->chr_sync_read should block */
+> > +        assert(!(res < 0 && errno == EAGAIN));
+> >
+> >
+> While I agree with the rationale to clean this code a bit, I am not so sure
+> about replacing it with an assert(). In the past, when we did such things
+> we had unexpected regressions :)
+
+Valid point, qemu may be run against some OS where a blocking call may
+sporadically return -EAGAIN, and it would be hard to reliably catch this
+with testing.
+
+> A slightly better approach perhaps is g_warn_if_fail(), although it's not
+> very popular in qemu.
+
+I think the first thing to decide is whether -EAGAIN from a blocking
+call isn't broken enough, and justifies (unlimited) retries.  I'm
+tempted to just remove any special handling of -EAGAIN and treat it as
+any other error, leaving up to the caller to handle (most probably to
+fail the call and initiate a recovery, if possible).
+
+Does this make sense?
+
+Thanks,
+Roman.
 
