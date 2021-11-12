@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A6E44E0B3
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 04:14:31 +0100 (CET)
-Received: from localhost ([::1]:39426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9629644E0CC
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 04:27:34 +0100 (CET)
+Received: from localhost ([::1]:33780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlN1K-0002sV-4R
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 22:14:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36486)
+	id 1mlNDx-0001YM-N9
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 22:27:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mlN02-0002B9-HI
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 22:13:10 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:4104)
+ id 1mlN9d-0002nF-Dg
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 22:23:05 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:3495)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mlMzx-0004Xa-Fo
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 22:13:10 -0500
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Hr3YT1F9vz915Z;
- Fri, 12 Nov 2021 11:12:45 +0800 (CST)
+ id 1mlN9a-0005dN-Ay
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 22:23:05 -0500
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Hr3kf2DWkzZccf;
+ Fri, 12 Nov 2021 11:20:42 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.15; Fri, 12 Nov 2021 11:12:58 +0800
+ 15.1.2308.15; Fri, 12 Nov 2021 11:22:58 +0800
 Received: from [10.174.187.128] (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.15; Fri, 12 Nov 2021 11:12:57 +0800
-Subject: Re: [PATCH-for-6.2 v3 5/6] tests/unit/test-smp-parse: Constify some
- pointer/struct
+ 15.1.2308.15; Fri, 12 Nov 2021 11:22:58 +0800
+Subject: Re: [PATCH-for-6.2 v3 6/6] hw/core: Rename smp_parse() ->
+ machine_parse_smp_config()
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  <qemu-devel@nongnu.org>
 References: <20211111100351.2153662-1-philmd@redhat.com>
- <20211111100351.2153662-6-philmd@redhat.com>
+ <20211111100351.2153662-7-philmd@redhat.com>
 From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <45438a56-693e-6483-820e-bdc0f48e9661@huawei.com>
-Date: Fri, 12 Nov 2021 11:12:57 +0800
+Message-ID: <83bd90b3-9593-9af3-68ec-e8a9d17d80fa@huawei.com>
+Date: Fri, 12 Nov 2021 11:22:57 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20211111100351.2153662-6-philmd@redhat.com>
+In-Reply-To: <20211111100351.2153662-7-philmd@redhat.com>
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme707-chm.china.huawei.com (10.1.199.103) To
+X-ClientProxiedBy: dggeme712-chm.china.huawei.com (10.1.199.108) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
 X-Spam_score_int: -81
 X-Spam_score: -8.2
 X-Spam_bar: --------
@@ -77,75 +77,106 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 2021/11/11 18:03, Philippe Mathieu-Daudé wrote:
-> Declare structures const when we don't need to modify
-> them at runtime.
+> All methods related to MachineState are prefixed with "machine_".
+> smp_parse() does not need to be an exception. Rename it and
+> const'ify the SMPConfiguration argument, since it doesn't need
+> to be modified.
 >
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->   tests/unit/test-smp-parse.c | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
+>   include/hw/boards.h         | 3 ++-
+>   hw/core/machine-smp.c       | 6 ++++--
+>   hw/core/machine.c           | 2 +-
+>   tests/unit/test-smp-parse.c | 8 ++++----
+>   4 files changed, 11 insertions(+), 8 deletions(-)
 Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
 Tested-by: Yanan Wang <wangyanan55@huawei.com>
 
 Thanks,
 Yanan
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index 9c1c1901046..7597cec4400 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -34,7 +34,8 @@ HotpluggableCPUList *machine_query_hotpluggable_cpus(MachineState *machine);
+>   void machine_set_cpu_numa_node(MachineState *machine,
+>                                  const CpuInstanceProperties *props,
+>                                  Error **errp);
+> -void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp);
+> +void machine_parse_smp_config(MachineState *ms,
+> +                              const SMPConfiguration *config, Error **errp);
+>   
+>   /**
+>    * machine_class_allow_dynamic_sysbus_dev: Add type to list of valid devices
+> diff --git a/hw/core/machine-smp.c b/hw/core/machine-smp.c
+> index 116a0cbbfab..2cbfd574293 100644
+> --- a/hw/core/machine-smp.c
+> +++ b/hw/core/machine-smp.c
+> @@ -44,7 +44,8 @@ static char *cpu_hierarchy_to_string(MachineState *ms)
+>   }
+>   
+>   /*
+> - * smp_parse - Generic function used to parse the given SMP configuration
+> + * machine_parse_smp_config: Generic function used to parse the given
+> + *                           SMP configuration
+>    *
+>    * Any missing parameter in "cpus/maxcpus/sockets/cores/threads" will be
+>    * automatically computed based on the provided ones.
+> @@ -63,7 +64,8 @@ static char *cpu_hierarchy_to_string(MachineState *ms)
+>    * introduced topology members which are likely to be target specific should
+>    * be directly set as 1 if they are omitted (e.g. dies for PC since 4.1).
+>    */
+> -void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+> +void machine_parse_smp_config(MachineState *ms,
+> +                              const SMPConfiguration *config, Error **errp)
+>   {
+>       MachineClass *mc = MACHINE_GET_CLASS(ms);
+>       unsigned cpus    = config->has_cpus ? config->cpus : 0;
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 26ec54e7261..a2d3c9969d9 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -760,7 +760,7 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
+>           return;
+>       }
+>   
+> -    smp_parse(ms, config, errp);
+> +    machine_parse_smp_config(ms, config, errp);
+>   }
+>   
+>   static void machine_class_init(ObjectClass *oc, void *data)
 > diff --git a/tests/unit/test-smp-parse.c b/tests/unit/test-smp-parse.c
-> index 83a5b8ffdcf..11109752799 100644
+> index 11109752799..b158ebb16b1 100644
 > --- a/tests/unit/test-smp-parse.c
 > +++ b/tests/unit/test-smp-parse.c
-> @@ -83,7 +83,7 @@ typedef struct SMPTestData {
->    * then test the automatic calculation algorithm of the missing
->    * values in the parser.
->    */
-> -static struct SMPTestData data_generic_valid[] = {
-> +static const struct SMPTestData data_generic_valid[] = {
->       {
->           /* config: no configuration provided
->            * expect: cpus=1,sockets=1,cores=1,threads=1,maxcpus=1 */
-> @@ -285,7 +285,7 @@ static struct SMPTestData data_generic_valid[] = {
+> @@ -337,7 +337,7 @@ static const struct SMPTestData data_with_dies_invalid[] = {
 >       },
 >   };
 >   
-> -static struct SMPTestData data_generic_invalid[] = {
-> +static const struct SMPTestData data_generic_invalid[] = {
->       {
->           /* config: -smp 2,dies=2 */
->           .config = SMP_CONFIG_WITH_DIES(T, 2, F, 0, T, 2, F, 0, F, 0, F, 0),
-> @@ -319,7 +319,7 @@ static struct SMPTestData data_generic_invalid[] = {
->       },
->   };
->   
-> -static struct SMPTestData data_with_dies_invalid[] = {
-> +static const struct SMPTestData data_with_dies_invalid[] = {
->       {
->           /* config: -smp 16,sockets=2,dies=2,cores=4,threads=2,maxcpus=16 */
->           .config = SMP_CONFIG_WITH_DIES(T, 16, T, 2, T, 2, T, 4, T, 2, T, 16),
-> @@ -356,7 +356,7 @@ static char *smp_config_to_string(SMPConfiguration *config)
->           config->has_maxcpus ? "true" : "false", config->maxcpus);
->   }
->   
-> -static char *cpu_topology_to_string(CpuTopology *topo)
-> +static char *cpu_topology_to_string(const CpuTopology *topo)
+> -static char *smp_config_to_string(SMPConfiguration *config)
+> +static char *smp_config_to_string(const SMPConfiguration *config)
 >   {
 >       return g_strdup_printf(
->           "(CpuTopology) {\n"
-> @@ -372,7 +372,7 @@ static char *cpu_topology_to_string(CpuTopology *topo)
+>           "(SMPConfiguration) {\n"
+> @@ -371,7 +371,7 @@ static char *cpu_topology_to_string(const CpuTopology *topo)
+>           topo->cores, topo->threads, topo->max_cpus);
 >   }
 >   
->   static void check_parse(MachineState *ms, SMPConfiguration *config,
-> -                        CpuTopology *expect_topo, const char *expect_err,
-> +                        const CpuTopology *expect_topo, const char *expect_err,
+> -static void check_parse(MachineState *ms, SMPConfiguration *config,
+> +static void check_parse(MachineState *ms, const SMPConfiguration *config,
+>                           const CpuTopology *expect_topo, const char *expect_err,
 >                           bool is_valid)
 >   {
->       g_autofree char *config_str = smp_config_to_string(config);
-> @@ -466,7 +466,7 @@ static void smp_parse_test(MachineState *ms, SMPTestData *data, bool is_valid)
->   }
+> @@ -380,8 +380,8 @@ static void check_parse(MachineState *ms, SMPConfiguration *config,
+>       g_autofree char *output_topo_str = NULL;
+>       Error *err = NULL;
 >   
->   /* The parsed results of the unsupported parameters should be 1 */
-> -static void unsupported_params_init(MachineClass *mc, SMPTestData *data)
-> +static void unsupported_params_init(const MachineClass *mc, SMPTestData *data)
->   {
->       if (!mc->smp_props.dies_supported) {
->           data->expect_prefer_sockets.dies = 1;
+> -    /* call the generic parser smp_parse() */
+> -    smp_parse(ms, config, &err);
+> +    /* call the generic parser */
+> +    machine_parse_smp_config(ms, config, &err);
+>   
+>       output_topo_str = cpu_topology_to_string(&ms->smp);
+>   
 
 
