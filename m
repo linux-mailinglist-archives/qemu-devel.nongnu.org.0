@@ -2,54 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76AA144E1B8
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 06:53:26 +0100 (CET)
-Received: from localhost ([::1]:35212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88B0344E216
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 07:56:11 +0100 (CET)
+Received: from localhost ([::1]:60028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlPV7-0002jD-JI
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 00:53:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59934)
+	id 1mlQTp-0008Bn-SG
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 01:56:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1mlPTS-0001uQ-9a
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 00:51:42 -0500
-Received: from mga02.intel.com ([134.134.136.20]:14873)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1mlPTP-00079c-Ax
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 00:51:41 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10165"; a="220289077"
-X-IronPort-AV: E=Sophos;i="5.87,228,1631602800"; d="scan'208";a="220289077"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Nov 2021 21:51:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,228,1631602800"; d="scan'208";a="492855072"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
- by orsmga007.jf.intel.com with ESMTP; 11 Nov 2021 21:51:27 -0800
-Date: Fri, 12 Nov 2021 13:50:38 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Mika =?iso-8859-1?Q?Penttil=E4?= <mika.penttila@nextfour.com>
-Subject: Re: [RFC PATCH 5/6] kvm: x86: add KVM_EXIT_MEMORY_ERROR exit
-Message-ID: <20211112055038.GB27969@chaop.bj.intel.com>
-References: <20211111141352.26311-1-chao.p.peng@linux.intel.com>
- <20211111141352.26311-6-chao.p.peng@linux.intel.com>
- <f7155c5b-fc87-c1a6-9ee7-06f08a25bdb4@nextfour.com>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1mlQSB-0005Y0-49
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 01:54:27 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:49252 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1mlQS6-0007eV-Eh
+ for qemu-devel@nongnu.org; Fri, 12 Nov 2021 01:54:26 -0500
+Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9CxydCRD45hHoQCAA--.6006S2;
+ Fri, 12 Nov 2021 14:54:09 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v10 00/26] Add LoongArch linux-user emulation support
+Date: Fri, 12 Nov 2021 14:53:43 +0800
+Message-Id: <1636700049-24381-1-git-send-email-gaosong@loongson.cn>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <f7155c5b-fc87-c1a6-9ee7-06f08a25bdb4@nextfour.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: none client-ip=134.134.136.20;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga02.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-CM-TRANSID: AQAAf9CxydCRD45hHoQCAA--.6006S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3Ww45Ar15Gw45tF17GFyfZwb_yoW3CFW3pr
+ W3ur15Kr48GrZ7Jrsaga45XF1rXa1xGr42g3WSq3s5ArWxZryfZF1kK3sxKFy3X3W0gry0
+ qFnYkw1UWF4UXa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,119 +55,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: Wanpeng Li <wanpengli@tencent.com>, luto@kernel.org, kvm@vger.kernel.org,
- david@redhat.com, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, dave.hansen@intel.com,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- jun.nakajima@intel.com, Thomas Gleixner <tglx@linutronix.de>,
- Andrew Morton <akpm@linux-foundation.org>, Jim Mattson <jmattson@google.com>,
- linux-mm@kvack.org, Sean Christopherson <seanjc@google.com>,
- susie.li@intel.com, Jeff Layton <jlayton@kernel.org>,
- linux-kernel@vger.kernel.org, john.ji@intel.com,
- Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: richard.henderson@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 11, 2021 at 05:08:47PM +0200, Mika Penttilä wrote:
-> 
-> 
-> On 11.11.2021 16.13, Chao Peng wrote:
-> > Currently support to exit to userspace for private/shared memory
-> > conversion.
-> > 
-> > Signed-off-by: Sean Christopherson <seanjc@google.com>
-> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > ---
-> >   arch/x86/kvm/mmu/mmu.c   | 20 ++++++++++++++++++++
-> >   include/uapi/linux/kvm.h | 15 +++++++++++++++
-> >   2 files changed, 35 insertions(+)
-> > 
-> > diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> > index af5ecf4ef62a..780868888aa8 100644
-> > --- a/arch/x86/kvm/mmu/mmu.c
-> > +++ b/arch/x86/kvm/mmu/mmu.c
-> > @@ -3950,6 +3950,17 @@ static bool try_async_pf(struct kvm_vcpu *vcpu, bool prefault, gfn_t gfn,
-> >   	slot = __kvm_vcpu_gfn_to_memslot(vcpu, gfn, private);
-> > +	/*
-> > +	 * Exit to userspace to map the requested private/shared memory region
-> > +	 * if there is no memslot and (a) the access is private or (b) there is
-> > +	 * an existing private memslot.  Emulated MMIO must be accessed through
-> > +	 * shared GPAs, thus a memslot miss on a private GPA is always handled
-> > +	 * as an implicit conversion "request".
-> > +	 */
-> > +	if (!slot &&
-> > +	    (private || __kvm_vcpu_gfn_to_memslot(vcpu, gfn, true)))
-> > +		goto out_convert;
-> > +
-> >   	/* Don't expose aliases for no slot GFNs or private memslots */
-> >   	if ((cr2_or_gpa & vcpu_gpa_stolen_mask(vcpu)) &&
-> >   	    !kvm_is_visible_memslot(slot)) {
-> > @@ -3994,6 +4005,15 @@ static bool try_async_pf(struct kvm_vcpu *vcpu, bool prefault, gfn_t gfn,
-> >   	*pfn = __gfn_to_pfn_memslot(slot, gfn, false, NULL,
-> >   				    write, writable, hva);
-> >   	return false;
-> > +
-> > +out_convert:
-> > +	vcpu->run->exit_reason = KVM_EXIT_MEMORY_ERROR;
-> > +	vcpu->run->mem.type = private ? KVM_EXIT_MEM_MAP_PRIVATE
-> > +				      : KVM_EXIT_MEM_MAP_SHARE;
-> > +	vcpu->run->mem.u.map.gpa = cr2_or_gpa;
-> > +	vcpu->run->mem.u.map.size = PAGE_SIZE;
-> > +	return true;
-> > +
-> I think this does just retry, no exit to user space?
+Hi all,
 
-Good catch, thanks.
-Chao
-> 
-> 
-> 
-> 
-> > }
-> >   static int direct_page_fault(struct kvm_vcpu *vcpu, gpa_t gpa, u32 error_code,
-> > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> > index 8d20caae9180..470c472a9451 100644
-> > --- a/include/uapi/linux/kvm.h
-> > +++ b/include/uapi/linux/kvm.h
-> > @@ -233,6 +233,18 @@ struct kvm_xen_exit {
-> >   	} u;
-> >   };
-> > +struct kvm_memory_exit {
-> > +#define KVM_EXIT_MEM_MAP_SHARE          1
-> > +#define KVM_EXIT_MEM_MAP_PRIVATE        2
-> > +	__u32 type;
-> > +	union {
-> > +		struct {
-> > +			__u64 gpa;
-> > +			__u64 size;
-> > +		} map;
-> > +	} u;
-> > +};
-> > +
-> >   #define KVM_S390_GET_SKEYS_NONE   1
-> >   #define KVM_S390_SKEYS_MAX        1048576
-> > @@ -272,6 +284,7 @@ struct kvm_xen_exit {
-> >   #define KVM_EXIT_X86_BUS_LOCK     33
-> >   #define KVM_EXIT_XEN              34
-> >   #define KVM_EXIT_TDVMCALL         35
-> > +#define KVM_EXIT_MEMORY_ERROR	  36
-> >   /* For KVM_EXIT_INTERNAL_ERROR */
-> >   /* Emulate instruction failed. */
-> > @@ -455,6 +468,8 @@ struct kvm_run {
-> >   			__u64 subfunc;
-> >   			__u64 param[4];
-> >   		} tdvmcall;
-> > +		/* KVM_EXIT_MEMORY_ERROR */
-> > +		struct kvm_memory_exit mem;
-> >   		/* Fix the size of the union. */
-> >   		char padding[256];
-> >   	};
-> 
+This series only support linux-user emulation.
+More about LoongArch at: https://github.com/loongson/
+
+The latest kernel:
+  * https://github.com/loongson/linux/tree/loongarch-next
+
+Patches need review:
+  * 0016-target-loongarch-Add-disassembler.patch
+  * 0017-linux-user-Add-LoongArch-generic-header-files.patch
+  * 0018-linux-user-Add-LoongArch-specific-structures.patch
+  * 0019-linux-user-Add-LoongArch-signal-support.patch
+  * 0020-linux-user-Add-LoongArch-elf-support.patch
+  * 0021-linux-user-Add-LoongArch-syscall-support.patch
+  * 0022-linux-user-Add-LoongArch-cpu_loop-support.patch
+
+
+Changes for v10:
+  * Delete format_insn(), use output_XXX. 
+
+Changes for v9:
+  * Use GPL-2.0+ SPDX license identifier.
+  * Move set_loongarch_cpucfg() in loongarch_3a5000_initfn().
+  * target/loongarch/insn_trans/trans_xxx.c rename to
+    target/loongarch/insn_trans/trans_xxx.c.inc.
+  * Split host_signal_pc and host_signal_write out of user-exec.c.
+
+Changes for v8:
+  * Use the FIELD functions to define cpucfg[i].
+  * Re-use the decodetree to disassembler description.
+  * Split v7 patch(0017-LoongArch-Linux-User-Emulation.patch).
+
+Changes for v7:
+  * scripts/gensyscalls.sh support loongarch64
+    if we use gensyscalls.sh, we need disable __BITS_PER_LONG at arch/loongarch/include/uapi/asm/bitsperlong.h
+
+V9: https://patchew.org/QEMU/1636340895-5255-1-git-send-email-gaosong@loongson.cn/
+V8: https://patchew.org/QEMU/1635760311-20015-1-git-send-email-gaosong@loongson.cn/
+V7: https://patchew.org/QEMU/1634561247-25499-1-git-send-email-gaosong@loongson.cn/
+
+Please review!
+
+Thanks.
+
+Song Gao (26):
+  target/loongarch: Add README
+  target/loongarch: Add core definition
+  target/loongarch: Add main translation routines
+  target/loongarch: Add fixed point arithmetic instruction translation
+  target/loongarch: Add fixed point shift instruction translation
+  target/loongarch: Add fixed point bit instruction translation
+  target/loongarch: Add fixed point load/store instruction translation
+  target/loongarch: Add fixed point atomic instruction translation
+  target/loongarch: Add fixed point extra instruction translation
+  target/loongarch: Add floating point arithmetic instruction
+    translation
+  target/loongarch: Add floating point comparison instruction
+    translation
+  target/loongarch: Add floating point conversion instruction
+    translation
+  target/loongarch: Add floating point move instruction translation
+  target/loongarch: Add floating point load/store instruction
+    translation
+  target/loongarch: Add branch instruction translation
+  target/loongarch: Add disassembler
+  linux-user: Add LoongArch generic header files
+  linux-user: Add LoongArch specific structures
+  linux-user: Add LoongArch signal support
+  linux-user: Add LoongArch elf support
+  linux-user: Add LoongArch syscall support
+  linux-user: Add LoongArch cpu_loop support
+  default-configs: Add loongarch linux-user support
+  target/loongarch: Add target build suport
+  target/loongarch: 'make check-tcg' support
+  scripts: add loongarch64 binfmt config
+
+ MAINTAINERS                                     |   5 +
+ configs/targets/loongarch64-linux-user.mak      |   3 +
+ configure                                       |   5 +
+ include/disas/dis-asm.h                         |   2 +
+ include/elf.h                                   |   2 +
+ linux-user/elfload.c                            |  58 ++
+ linux-user/loongarch64/cpu_loop.c               |  97 +++
+ linux-user/loongarch64/signal.c                 | 162 +++++
+ linux-user/loongarch64/sockbits.h               |   1 +
+ linux-user/loongarch64/syscall_nr.h             | 312 +++++++++
+ linux-user/loongarch64/target_cpu.h             |  34 +
+ linux-user/loongarch64/target_elf.h             |  12 +
+ linux-user/loongarch64/target_errno_defs.h      |   7 +
+ linux-user/loongarch64/target_fcntl.h           |   6 +
+ linux-user/loongarch64/target_signal.h          |  29 +
+ linux-user/loongarch64/target_structs.h         |  48 ++
+ linux-user/loongarch64/target_syscall.h         |  45 ++
+ linux-user/loongarch64/termbits.h               |   1 +
+ linux-user/syscall_defs.h                       |  10 +-
+ meson.build                                     |   3 +-
+ scripts/gensyscalls.sh                          |   1 +
+ scripts/qemu-binfmt-conf.sh                     |   6 +-
+ target/loongarch/README                         |  76 +++
+ target/loongarch/cpu-param.h                    |  18 +
+ target/loongarch/cpu.c                          | 315 +++++++++
+ target/loongarch/cpu.h                          | 253 +++++++
+ target/loongarch/disas.c                        | 696 +++++++++++++++++++
+ target/loongarch/fpu_helper.c                   | 864 ++++++++++++++++++++++++
+ target/loongarch/helper.h                       |  94 +++
+ target/loongarch/insn_trans/trans_arith.c.inc   | 319 +++++++++
+ target/loongarch/insn_trans/trans_atomic.c.inc  | 130 ++++
+ target/loongarch/insn_trans/trans_bit.c.inc     | 252 +++++++
+ target/loongarch/insn_trans/trans_branch.c.inc  |  82 +++
+ target/loongarch/insn_trans/trans_extra.c.inc   |  84 +++
+ target/loongarch/insn_trans/trans_farith.c.inc  | 105 +++
+ target/loongarch/insn_trans/trans_fcmp.c.inc    |  56 ++
+ target/loongarch/insn_trans/trans_fcnv.c.inc    |  33 +
+ target/loongarch/insn_trans/trans_fmemory.c.inc | 184 +++++
+ target/loongarch/insn_trans/trans_fmov.c.inc    | 150 ++++
+ target/loongarch/insn_trans/trans_memory.c.inc  | 232 +++++++
+ target/loongarch/insn_trans/trans_shift.c.inc   | 128 ++++
+ target/loongarch/insns.decode                   | 479 +++++++++++++
+ target/loongarch/internals.h                    |  28 +
+ target/loongarch/meson.build                    |  19 +
+ target/loongarch/op_helper.c                    |  84 +++
+ target/loongarch/translate.c                    | 287 ++++++++
+ target/loongarch/translate.h                    |  45 ++
+ target/meson.build                              |   1 +
+ tests/tcg/configure.sh                          |   1 +
+ 49 files changed, 5858 insertions(+), 6 deletions(-)
+ create mode 100644 configs/targets/loongarch64-linux-user.mak
+ create mode 100644 linux-user/loongarch64/cpu_loop.c
+ create mode 100644 linux-user/loongarch64/signal.c
+ create mode 100644 linux-user/loongarch64/sockbits.h
+ create mode 100644 linux-user/loongarch64/syscall_nr.h
+ create mode 100644 linux-user/loongarch64/target_cpu.h
+ create mode 100644 linux-user/loongarch64/target_elf.h
+ create mode 100644 linux-user/loongarch64/target_errno_defs.h
+ create mode 100644 linux-user/loongarch64/target_fcntl.h
+ create mode 100644 linux-user/loongarch64/target_signal.h
+ create mode 100644 linux-user/loongarch64/target_structs.h
+ create mode 100644 linux-user/loongarch64/target_syscall.h
+ create mode 100644 linux-user/loongarch64/termbits.h
+ create mode 100644 target/loongarch/README
+ create mode 100644 target/loongarch/cpu-param.h
+ create mode 100644 target/loongarch/cpu.c
+ create mode 100644 target/loongarch/cpu.h
+ create mode 100644 target/loongarch/disas.c
+ create mode 100644 target/loongarch/fpu_helper.c
+ create mode 100644 target/loongarch/helper.h
+ create mode 100644 target/loongarch/insn_trans/trans_arith.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_atomic.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_bit.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_branch.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_extra.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_farith.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_fcmp.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_fcnv.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_fmemory.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_fmov.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_memory.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_shift.c.inc
+ create mode 100644 target/loongarch/insns.decode
+ create mode 100644 target/loongarch/internals.h
+ create mode 100644 target/loongarch/meson.build
+ create mode 100644 target/loongarch/op_helper.c
+ create mode 100644 target/loongarch/translate.c
+ create mode 100644 target/loongarch/translate.h
+
+-- 
+1.8.3.1
+
 
