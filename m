@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C09B244E0BF
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 04:22:42 +0100 (CET)
-Received: from localhost ([::1]:46850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D552544E0C3
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 04:24:25 +0100 (CET)
+Received: from localhost ([::1]:53778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlN9F-0008EI-Nw
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 22:22:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37538)
+	id 1mlNAu-0004No-VT
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 22:24:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1mlN82-0005pV-4N
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 22:21:26 -0500
-Received: from mga03.intel.com ([134.134.136.65]:4407)
+ id 1mlN84-0005q1-6V
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 22:21:28 -0500
+Received: from mga03.intel.com ([134.134.136.65]:4409)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1mlN7z-0005Ty-Pp
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 22:21:25 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10165"; a="233009080"
-X-IronPort-AV: E=Sophos;i="5.87,227,1631602800"; d="scan'208";a="233009080"
+ id 1mlN81-0005U8-FF
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 22:21:27 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10165"; a="233009086"
+X-IronPort-AV: E=Sophos;i="5.87,227,1631602800"; d="scan'208";a="233009086"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Nov 2021 19:21:21 -0800
-X-IronPort-AV: E=Sophos;i="5.87,227,1631602800"; d="scan'208";a="504711459"
+ 11 Nov 2021 19:21:24 -0800
+X-IronPort-AV: E=Sophos;i="5.87,227,1631602800"; d="scan'208";a="504711467"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Nov 2021 19:21:19 -0800
+ 11 Nov 2021 19:21:21 -0800
 From: Zhang Chen <chen.zhang@intel.com>
 To: Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eric Blake <eblake@redhat.com>
-Subject: [PATCH for 7.0 V10 1/6] qapi/net: Add IPFlowSpec and QMP command for
- filter passthrough
-Date: Fri, 12 Nov 2021 11:11:07 +0800
-Message-Id: <20211112031112.9303-2-chen.zhang@intel.com>
+Subject: [PATCH for 7.0 V10 2/6] util/qemu-sockets.c: Add inet_parse_base to
+ handle InetSocketAddressBase
+Date: Fri, 12 Nov 2021 11:11:08 +0800
+Message-Id: <20211112031112.9303-3-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211112031112.9303-1-chen.zhang@intel.com>
 References: <20211112031112.9303-1-chen.zhang@intel.com>
@@ -66,127 +66,51 @@ Cc: Zhang Chen <chen.zhang@intel.com>, qemu-dev <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since the real user scenario does not need to monitor all traffic.
-Add passthrough-filter-add and passthrough-filter-del to maintain
-a network passthrough list in object with network packet processing
-function. Add IPFlowSpec struct for all QMP commands.
-Most the fields of IPFlowSpec are optional,except object-name.
+No need to carry the flag all the time in many scenarios.
 
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- net/net.c     | 10 +++++++
- qapi/net.json | 73 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 83 insertions(+)
+ include/qemu/sockets.h |  1 +
+ util/qemu-sockets.c    | 14 ++++++++++++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/net/net.c b/net/net.c
-index f0d14dbfc1..5d0d5914fb 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -1215,6 +1215,16 @@ void qmp_netdev_del(const char *id, Error **errp)
-     }
+diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
+index 0c34bf2398..3a0f8fa8f2 100644
+--- a/include/qemu/sockets.h
++++ b/include/qemu/sockets.h
+@@ -32,6 +32,7 @@ int socket_set_fast_reuse(int fd);
+ int inet_ai_family_from_address(InetSocketAddress *addr,
+                                 Error **errp);
+ int inet_parse(InetSocketAddress *addr, const char *str, Error **errp);
++int inet_parse_base(InetSocketAddressBase *addr, const char *str, Error **errp);
+ int inet_connect(const char *str, Error **errp);
+ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp);
+ 
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index 0585e7a629..f444921918 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -713,6 +713,20 @@ int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)
+     return 0;
  }
  
-+void qmp_passthrough_filter_add(IPFlowSpec *spec, Error **errp)
++int inet_parse_base(InetSocketAddressBase *base, const char *str, Error **errp)
 +{
-+    /* TODO implement setup passthrough rule */
++    InetSocketAddress *addr;
++    int ret = 0;
++
++    addr = g_new0(InetSocketAddress, 1);
++    ret = inet_parse(addr, str, errp);
++
++    base->host = addr->host;
++    base->port = addr->port;
++
++    g_free(addr);
++    return ret;
 +}
-+
-+void qmp_passthrough_filter_del(IPFlowSpec *spec, Error **errp)
-+{
-+    /* TODO implement delete passthrough rule */
-+}
-+
- static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
- {
-     char *str;
-diff --git a/qapi/net.json b/qapi/net.json
-index 7fab2e7cd8..5194aedcf5 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -7,6 +7,7 @@
- ##
  
- { 'include': 'common.json' }
-+{ 'include': 'sockets.json' }
- 
- ##
- # @set_link:
-@@ -696,3 +697,75 @@
- ##
- { 'event': 'FAILOVER_NEGOTIATED',
-   'data': {'device-id': 'str'} }
-+
-+##
-+# @IPFlowSpec:
-+#
-+# IP flow specification.
-+#
-+# @protocol: Transport layer protocol like TCP/UDP, etc. This will be
-+#            passed to getprotobyname(3).
-+#
-+# @object-name: The @object-name means a QEMU object with network
-+#               packet processing function, for example colo-compare,
-+#               filter-redirector, filter-mirror, etc. QOM path to
-+#               a QOM object that implements their own passthrough
-+#               work in the original data processing flow. What is
-+#               exposed to the outside world is an operable
-+#               passthrough list.
-+#
-+# @source: Source address and port.
-+#
-+# @destination: Destination address and port.
-+#
-+# Since: 7.0
-+##
-+{ 'struct': 'IPFlowSpec',
-+  'data': { '*protocol': 'str', 'object-name': 'str',
-+    '*source': 'InetSocketAddressBase',
-+    '*destination': 'InetSocketAddressBase' } }
-+
-+##
-+# @passthrough-filter-add:
-+#
-+# Add an entry to the QOM object own network passthrough list.
-+# Absent protocol, host addresses and ports match anything.
-+#
-+# Returns: Nothing on success
-+#
-+# Since: 7.0
-+#
-+# Example:
-+#
-+# -> { "execute": "passthrough-filter-add",
-+#      "arguments": { "protocol": "tcp", "object-name": "object0",
-+#      "source": {"host": "192.168.1.1", "port": "1234"},
-+#      "destination": {"host": "192.168.1.2", "port": "4321"} } }
-+# <- { "return": {} }
-+#
-+##
-+{ 'command': 'passthrough-filter-add', 'boxed': true,
-+     'data': 'IPFlowSpec' }
-+
-+##
-+# @passthrough-filter-del:
-+#
-+# Delete an entry from the QOM object own network passthrough list.
-+# Deletes the entry with exactly this protocol, host addresses
-+# and ports.
-+#
-+# Returns: Nothing on success
-+#
-+# Since: 7.0
-+#
-+# Example:
-+#
-+# -> { "execute": "passthrough-filter-del",
-+#      "arguments": { "protocol": "tcp", "object-name": "object0",
-+#      "source": {"host": "192.168.1.1", "port": "1234"},
-+#      "destination": {"host": "192.168.1.2", "port": "4321"} } }
-+# <- { "return": {} }
-+#
-+##
-+{ 'command': 'passthrough-filter-del', 'boxed': true,
-+     'data': 'IPFlowSpec' }
+ /**
+  * Create a blocking socket and connect it to an address.
 -- 
 2.25.1
 
