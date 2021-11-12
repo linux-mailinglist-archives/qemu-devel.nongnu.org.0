@@ -2,87 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B315544E0E0
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 04:41:26 +0100 (CET)
-Received: from localhost ([::1]:42566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37F8944E0EF
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Nov 2021 05:01:27 +0100 (CET)
+Received: from localhost ([::1]:47992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mlNRN-0000xy-Aj
-	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 22:41:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40540)
+	id 1mlNkj-0006tJ-VE
+	for lists+qemu-devel@lfdr.de; Thu, 11 Nov 2021 23:01:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mlNQL-0000Av-Md
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 22:40:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31061)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1mlNjL-0006B0-VL
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 22:59:59 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:3496)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mlNQH-0007fR-JW
- for qemu-devel@nongnu.org; Thu, 11 Nov 2021 22:40:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636688416;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QOvStpvh2o3RHAwopsigUNKxWZBhWRmAIhlDpbEy1aw=;
- b=AricLOYSu22QMaCx886ae8SqSLqNtA5lVLhiCSexs8SqC1Amm3dTaVJKe9JBH8K7w8iD7D
- gE87z4HO8pvFp2by+9rwlOrpDvzrbkGB1yCv2jTAikNUDp5zIe534/XQmr8LS5se5Fe9Fl
- 1mKYONjdA0KX9aDie76T7GGlPgl2T6c=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-QDM49UhLP9unwLOKDxC4oQ-1; Thu, 11 Nov 2021 22:40:11 -0500
-X-MC-Unique: QDM49UhLP9unwLOKDxC4oQ-1
-Received: by mail-lf1-f72.google.com with SMTP id
- f15-20020a056512228f00b004037c0ab223so3279234lfu.16
- for <qemu-devel@nongnu.org>; Thu, 11 Nov 2021 19:40:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=QOvStpvh2o3RHAwopsigUNKxWZBhWRmAIhlDpbEy1aw=;
- b=KkI7g71fIJTYIYSVDBb1SCN3kdRFjhnOYhaDNSGWIMTIZphn5p6OFl230Gb0b1zZZY
- Om3tI/OZX1y9f5Egkg1Qe7KOcyn4Z2FS4IJxz89+QCVN9u1fNq91TukCTtnx85Rn8a32
- iWXa4xRgDTgISNtx3EN9IWjHdqtJR28ni4n3tunSXmP41TyB9E8rSaY1PrLwC3fKeU0x
- lbpBIKKnqydlyPAMYMKivrt80d0w9mZdnM+Cs8l8kiX5WcSftAD73CO8nlj7hAJc4Cf6
- KlRkAgx9Pz/uuwJGI5y6A8kDFF1ZuUwVqz01go7CpwY5SmitRvLe9rBGgtVqmAEbAgY0
- o1Vw==
-X-Gm-Message-State: AOAM530xlPp61crMeghrq8/tPF5inMLO8zNdfVCZW64/pZwNvPn5d8Bv
- vzJVfXUj4I12z80VuaO/jDPZjmgn7kH4WdPGtkcUKRpkh8o4h3WYd6AQ5lkh/4lOTS54i1ROWyb
- hdeJ0/xFjKXmB1iC+fXrrPhEGuIyYKZ4=
-X-Received: by 2002:a05:6512:685:: with SMTP id
- t5mr11392983lfe.84.1636688410276; 
- Thu, 11 Nov 2021 19:40:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyBz2ZakbDpZ3TN9P+12CDRGF7eBqzcZhmEJnbnpyUfkFg534eBCETmo3f2YXvY28+9ciRhnyCaKDLQQgkCW9g=
-X-Received: by 2002:a05:6512:685:: with SMTP id
- t5mr11392961lfe.84.1636688410028; 
- Thu, 11 Nov 2021 19:40:10 -0800 (PST)
-MIME-Version: 1.0
-References: <20211104164827.21911-1-lulu@redhat.com>
- <YYkBkGdlpeer18e9@stefanha-x1.localdomain>
- <00d446c0-b5a0-9477-4e63-fc4b768a6f92@redhat.com>
- <YYzgpa8rkaywN8pW@stefanha-x1.localdomain>
-In-Reply-To: <YYzgpa8rkaywN8pW@stefanha-x1.localdomain>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 12 Nov 2021 11:39:59 +0800
-Message-ID: <CACGkMEte6cu1ox3SkLiLCj71cf+Jnaa67seKy3TtNUqg3JCSCQ@mail.gmail.com>
-Subject: Re: [PATCH v10 00/10]vhost-vdpa: add support for configure interrupt
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1mlNjI-0001XA-PL
+ for qemu-devel@nongnu.org; Thu, 11 Nov 2021 22:59:59 -0500
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Hr4Y66YfzzZd1X;
+ Fri, 12 Nov 2021 11:57:30 +0800 (CST)
+Received: from dggpemm100007.china.huawei.com (7.185.36.116) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.15; Fri, 12 Nov 2021 11:59:47 +0800
+Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
+ dggpemm100007.china.huawei.com (7.185.36.116) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.15; Fri, 12 Nov 2021 11:59:46 +0800
+Received: from dggpeml100016.china.huawei.com ([7.185.36.216]) by
+ dggpeml100016.china.huawei.com ([7.185.36.216]) with mapi id 15.01.2308.015;
+ Fri, 12 Nov 2021 11:59:46 +0800
+From: "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>
+To: "pbonzini@redhat.com" <pbonzini@redhat.com>
+Subject: RE: [PATCH v5 4/6] kvm: irqchip: extract
+ kvm_irqchip_add_deferred_msi_route
+Thread-Topic: [PATCH v5 4/6] kvm: irqchip: extract
+ kvm_irqchip_add_deferred_msi_route
+Thread-Index: AQHX0IsxWviLXRP53kGau6vBqNcnCav/UFjg
+Date: Fri, 12 Nov 2021 03:59:46 +0000
+Message-ID: <dcdeba83881c4fe289092ed55cb9500b@huawei.com>
+References: <20211103081657.1945-1-longpeng2@huawei.com>
+ <20211103081657.1945-5-longpeng2@huawei.com>
+In-Reply-To: <20211103081657.1945-5-longpeng2@huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.148.223]
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187; envelope-from=longpeng2@huawei.com;
+ helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,85 +75,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cindy Lu <lulu@redhat.com>, mst <mst@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
+Cc: "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
  "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 11, 2021 at 5:22 PM Stefan Hajnoczi <stefanha@redhat.com> wrote=
-:
->
-> On Thu, Nov 11, 2021 at 12:41:02PM +0800, Jason Wang wrote:
-> >
-> > =E5=9C=A8 2021/11/8 =E4=B8=8B=E5=8D=886:53, Stefan Hajnoczi =E5=86=99=
-=E9=81=93:
-> > > On Fri, Nov 05, 2021 at 12:48:17AM +0800, Cindy Lu wrote:
-> > > > these patches add the support for configure interrupt
-> > > >
-> > > > These codes are all tested in vp-vdpa (support configure interrupt)
-> > > > vdpa_sim (not support configure interrupt), virtio tap device
-> > > >
-> > > > test in virtio-pci bus and virtio-mmio bus
-> > > Hi,
-> > > vhost-user has a configuration space change notification but it uses =
-a
-> > > slave channel message (VHOST_USER_SLAVE_CONFIG_CHANGE_MSG) instead of=
- an
-> > > eventfd. Ideally the vhost kernel ioctl and vhost-user interfaces wou=
-ld
-> > > follow the same design.
-> > >
-> > > I'm concerned "common" vhost code is going to end up with lots of
-> > > callbacks that are not available uniformly across vhost kernel, vdpa,
-> > > and vhost-user. That makes it hard to understand and debug vhost, plu=
-s
-> > > differences make it harder to to correctly extend these interfaces in
-> > > the future.
-> > >
-> > > Is the decision to a new eventfd-based interface instead of
-> > > vhost_chr_read/write() deliberate?
-> >
-> >
-> > I think this is a good question. Here're some reasons for using eventfd=
- from
-> > the kernel perspective:
-> >
-> > 1) the eventfd is used for relaying interrupts for vqs, so we choose to=
- use
-> > that for the config interrupt
-> > 2) make it possible to be used for irq bypassing (posted interrupt)
->
-> Interesting point. Posted interrupts aren't supported by vhost-user's
-> slave channel message. Since configuration change notifications are rare
-> it's probably not a performance problem, but still.
+Hi Paolo,
 
-Yes.
+Ping...
 
->
-> This makes me think vhost-user's approach is sub-optimal, it should have
-> been an eventfd :(. Maybe the idea was that a slave message is less
-> complex than adding an additional interface to set a configuration
-> change notification eventfd.
+Do you have any suggestions about this change ? It seems Alex has no
+objection on this series now, but we need your ACK, thanks.
 
-I agree.
 
->
-> Let's not worry about it too much. I guess in the long run vhost-user
-> can be rebased on top of the vDPA kernel interface (I wrote about that
-> here:
-> https://blog.vmsplice.net/2020/09/on-unifying-vhost-user-and-virtio.html)=
-.
-
-Interesting blog, I think this is a good direction we might go. A full
-"transport" of virtio instead of just the datapath offloading.
-
-Thanks
-
->
-> Stefan
+> -----Original Message-----
+> From: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
+> Sent: Wednesday, November 3, 2021 4:17 PM
+> To: alex.williamson@redhat.com; pbonzini@redhat.com
+> Cc: qemu-devel@nongnu.org; kvm@vger.kernel.org; Gonglei (Arei)
+> <arei.gonglei@huawei.com>; Longpeng (Mike, Cloud Infrastructure Service
+> Product Dept.) <longpeng2@huawei.com>
+> Subject: [PATCH v5 4/6] kvm: irqchip: extract
+> kvm_irqchip_add_deferred_msi_route
+>=20
+> Extract a common helper that add MSI route for specific vector
+> but does not commit immediately.
+>=20
+> Signed-off-by: Longpeng(Mike) <longpeng2@huawei.com>
+> ---
+>  accel/kvm/kvm-all.c  | 15 +++++++++++++--
+>  include/sysemu/kvm.h |  6 ++++++
+>  2 files changed, 19 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index db8d83b..8627f7c 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -1953,7 +1953,7 @@ int kvm_irqchip_send_msi(KVMState *s, MSIMessage ms=
+g)
+>      return kvm_set_irq(s, route->kroute.gsi, 1);
+>  }
+>=20
+> -int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
+> +int kvm_irqchip_add_deferred_msi_route(KVMState *s, int vector, PCIDevic=
+e
+> *dev)
+>  {
+>      struct kvm_irq_routing_entry kroute =3D {};
+>      int virq;
+> @@ -1996,7 +1996,18 @@ int kvm_irqchip_add_msi_route(KVMState *s, int vec=
+tor,
+> PCIDevice *dev)
+>=20
+>      kvm_add_routing_entry(s, &kroute);
+>      kvm_arch_add_msi_route_post(&kroute, vector, dev);
+> -    kvm_irqchip_commit_routes(s);
+> +
+> +    return virq;
+> +}
+> +
+> +int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
+> +{
+> +    int virq;
+> +
+> +    virq =3D kvm_irqchip_add_deferred_msi_route(s, vector, dev);
+> +    if (virq >=3D 0) {
+> +        kvm_irqchip_commit_routes(s);
+> +    }
+>=20
+>      return virq;
+>  }
+> diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+> index a1ab1ee..8de0d9a 100644
+> --- a/include/sysemu/kvm.h
+> +++ b/include/sysemu/kvm.h
+> @@ -476,6 +476,12 @@ void kvm_init_cpu_signals(CPUState *cpu);
+>   * @return: virq (>=3D0) when success, errno (<0) when failed.
+>   */
+>  int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev);
+> +/**
+> + * Add MSI route for specific vector but does not commit to KVM
+> + * immediately
+> + */
+> +int kvm_irqchip_add_deferred_msi_route(KVMState *s, int vector,
+> +                                       PCIDevice *dev);
+>  int kvm_irqchip_update_msi_route(KVMState *s, int virq, MSIMessage msg,
+>                                   PCIDevice *dev);
+>  void kvm_irqchip_commit_routes(KVMState *s);
+> --
+> 1.8.3.1
 
 
