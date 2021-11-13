@@ -2,173 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 166E344F3F2
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Nov 2021 16:27:36 +0100 (CET)
-Received: from localhost ([::1]:56328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DB0B44F40E
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Nov 2021 16:56:43 +0100 (CET)
+Received: from localhost ([::1]:47136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mluwJ-0001MJ-0t
-	for lists+qemu-devel@lfdr.de; Sat, 13 Nov 2021 10:27:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47576)
+	id 1mlvOT-000795-R4
+	for lists+qemu-devel@lfdr.de; Sat, 13 Nov 2021 10:56:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maciej.szmigiero@oracle.com>)
- id 1mlusv-00063U-PT; Sat, 13 Nov 2021 10:24:05 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:20906)
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1mlvNB-0006PC-5m
+ for qemu-devel@nongnu.org; Sat, 13 Nov 2021 10:55:21 -0500
+Received: from mailout01.t-online.de ([194.25.134.80]:43484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maciej.szmigiero@oracle.com>)
- id 1mlust-0001ZI-Ow; Sat, 13 Nov 2021 10:24:05 -0500
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1ADERisL005227; 
- Sat, 13 Nov 2021 15:24:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : subject : to :
- cc : references : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=wA4A+hjv0pJqTgojdjhVagTI8XnbFTxodneZwqmCQSs=;
- b=0vS1F63UlBF3LhSrGzPVp/o+hy7rejo7KYxeHl0YwOQ6V1ffpJuVc7ubSnhEhms5ceQ9
- kLkuHRXB1uCQfVH1DsBDzOlK9OmZTlY0fD3iB7YKjUKbYyDZUTBmoR5vwPXaoJwxzYgM
- YGHdAboLnHCYltvmBREntOzglWJ3+EqEiGHUsNgUHyfKOI8wLlZxljfdu7gYTUYNPRW6
- aEFA3LWMLev48YDpE5O83+R3juSV43zLCfzlCW4371T68M6EcdLrkxnb4xw7pgmDwTMw
- +qWTwSj+qf/+CLyToBwy8+WphPBPtE3Aom+qGegGGDsrlGaIPPBh3aNe8b+Pt/+fgr5w Pw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3ca4yth6y6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 13 Nov 2021 15:24:02 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1ADF6SCV154166;
- Sat, 13 Nov 2021 15:24:01 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2106.outbound.protection.outlook.com [104.47.55.106])
- by aserp3020.oracle.com with ESMTP id 3ca5625cq4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 13 Nov 2021 15:24:01 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UglkYAbOIyYQdZgDuNjarHJ2rHMJH95owDAZc9XqG09RVWEeZmRy8m2bz+i6aO593q8AMAU2ZNbBR0oBNYfggYH2ahm+vHlAksNck8K2P3SRVa0sPD/uDJJAK5QQab1EQks7kwzyhu1dJvCJbj9/Ii7yUltC57K2QVGbXEGluORI3tp7vkElc1YcXzx8wlSdhkv/wlePNUNKKKf/N3meM56W6ZBmk0jkW4xYa+crvQFiBdy3JLXrlM9oTB/YLWkCF5IFTEteK7QjgfJGIXWXZzMf7093SpsphPQFAyHfWkM3t4QiazjdsLbEGuytDVSMDoAw6jFss0Zi6XzuMlE/Dw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wA4A+hjv0pJqTgojdjhVagTI8XnbFTxodneZwqmCQSs=;
- b=Ay2omDhXslL2XNdUx/9JBTQ+xyaIep9QNBfto6ydeSJBkYjHEAk+hPh5zYqvoJiIYStG/gZXZPww5qnmh+KQSJfMVXbzMpBc1AApBVWra+YNgHGJOE0TyCEU+crvTsZ407G+7secvEPCjVDr8put9uBOMbXDfu6S9pvVL5dyKYeZi3qFuGbBRX/5pjQpM3swwyN6FKyejEvWZNgaiECni3yBPq4WBsWhJDOkotEG+6Dxbt9XOZWQidkOtMusTIQEbcL1wnXa+/k2iVryUoVm7/5JQFKGpN0HOPaCJA8Lj2uLRhmvInP9g9ZOd74Q6cSpEWl053ju6bqy5EPCgzSJ2w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wA4A+hjv0pJqTgojdjhVagTI8XnbFTxodneZwqmCQSs=;
- b=wa6S+x+XKHoWUCucswWTijtBhZVZpr/H4Rad2Q+EZHZZnfiK+3HvBbAMo8F6WT4RJL1Ji9j+Rvpsrmxx3rSORKjJkyw07Jx4gQue0OUnTuGqMugcKRPnfZUSEx30ok+K9bI3yQiQJJKU+hfQYr11Z0CVd8JHw1hYj7BTRVeaHo4=
-Received: from CH2PR10MB4008.namprd10.prod.outlook.com (2603:10b6:610:c::22)
- by CH2PR10MB3928.namprd10.prod.outlook.com (2603:10b6:610:6::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.16; Sat, 13 Nov
- 2021 15:23:59 +0000
-Received: from CH2PR10MB4008.namprd10.prod.outlook.com
- ([fe80::74b8:818d:18e5:e6c6]) by CH2PR10MB4008.namprd10.prod.outlook.com
- ([fe80::74b8:818d:18e5:e6c6%6]) with mapi id 15.20.4690.026; Sat, 13 Nov 2021
- 15:23:59 +0000
-From: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>
-Subject: Re: [PATCH v4 0/1] hw/hyperv/vmbus: Is it maintained?
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20211106134155.582312-1-philmd@redhat.com>
- <e9c29f4d-d5d5-34aa-8311-7ad1fc05b7d6@oracle.com>
- <96683e8d-9633-7cb8-98ab-0a8791e1c63e@redhat.com>
-Message-ID: <ec422556-2152-cda8-a2df-24b9cc41bd2c@oracle.com>
-Date: Sat, 13 Nov 2021 16:23:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <96683e8d-9633-7cb8-98ab-0a8791e1c63e@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM6PR08CA0030.eurprd08.prod.outlook.com
- (2603:10a6:20b:c0::18) To CH2PR10MB4008.namprd10.prod.outlook.com
- (2603:10b6:610:c::22)
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1mlvN2-00050u-At
+ for qemu-devel@nongnu.org; Sat, 13 Nov 2021 10:55:19 -0500
+Received: from fwd71.dcpf.telekom.de (fwd71.aul.t-online.de [10.223.144.97])
+ by mailout01.t-online.de (Postfix) with SMTP id D1E8E6FC1;
+ Sat, 13 Nov 2021 16:55:08 +0100 (CET)
+Received: from [192.168.211.200] ([46.86.48.20]) by fwd71.t-online.de
+ with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+ esmtp id 1mlvMr-2lqBur0; Sat, 13 Nov 2021 16:55:01 +0100
+Message-ID: <eb4a76b8-77e5-7ff4-40c4-ac55026cc0c2@t-online.de>
+Date: Sat, 13 Nov 2021 16:55:01 +0100
 MIME-Version: 1.0
-Received: from [172.20.10.2] (37.248.222.61) by
- AM6PR08CA0030.eurprd08.prod.outlook.com (2603:10a6:20b:c0::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4690.15 via Frontend Transport; Sat, 13 Nov 2021 15:23:57 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 05ebae99-a0c1-42c1-c891-08d9a6b99d86
-X-MS-TrafficTypeDiagnostic: CH2PR10MB3928:
-X-Microsoft-Antispam-PRVS: <CH2PR10MB392823D769707A99A4A678E6FF969@CH2PR10MB3928.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 35syN+uqhovA+aeeMJgcDHEo3ojtfo5AIxwISk1OoYIcIIdkIfom0WNyQDewVm9wXOXndrbMtslepKRM5XZI0vO0YKEWEkqp++5RI020TxOl1Z71VZOgkBKHcJaFHbMS9TUCHWwjiUPvl6lUPxeRbxER4Yp2/od3SlxS5ZmtWHtwbxLsdJorFQ8VZDckJoBHV8XUQMFJmAKHIv0icjdh0+VrMEogaDnH1sJ+ho9Yuk+31cHJJ6/o55g2pWRQv9vgmseDRJd/7PplOudq8sMXKTSSWKDp7GY45Ivn/d4cE0w2TZL43b9JnJ6eqRQXULXiT/v0qmbKVkhjtvj9uQRU8xgmXCqPX0/5ZCKqM/xFBj7/DUJiV6BLevq0yeCx+zM6CTJMGFJfzm2H8z4ufRpNEMJkHU68gGOONGv/CZ/EkrIursF5itTm2JRGG8nb72Mbpuq9SKH5NjNbwUF2+1vhFG/Lb2bWKMjx5kvUcMJdKswPtx7OyCmsTS5ja5tDhNXfj2UUKHWuqzOS+odkodw/rxUyogTD+SODMpzk+12OWsygPZrTJ/p0AbJol7DtNli5IBkyvtTafRS+t/GeFu6jWBLZcZYNyK5kXnOUKvSoEuE5adA5ms0EJ9kc41fGnbtYsTLf+Pk2FRFcGxIT+S9hn3NY8MNwYo7lYCi2Vodyw5b4v4OjzFnWYBbxskUMqi9Ntr87KlCUaV8nbRu6+Y2dJiNOsPxZgpszONBaxJqg9tM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR10MB4008.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(53546011)(5660300002)(31696002)(8676002)(6486002)(4326008)(66476007)(66556008)(86362001)(2906002)(66946007)(956004)(8936002)(26005)(36756003)(2616005)(186003)(16576012)(316002)(54906003)(6916009)(508600001)(6666004)(38100700002)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WXl2S1hCWHNGQm55Y3d2QmtCejY0RlZ2Um1SaTBHc1pqdjQwYjlrZVIvSHh6?=
- =?utf-8?B?dWNkRjlyejAwL1RFTXZnT1pxSEkwRHFRa2l3eW5PTy9vWkh1OHB4Wk5jdHZO?=
- =?utf-8?B?Tm5aUE1rRGhWVnlhR0QrUFl3WGVmYjJ5cUdUMXFKcld1TTZHazN0elhyclJH?=
- =?utf-8?B?NE1haU9yQ3J0SWNJdDFsbFVKZjJlSWhDdTBSNlJIVEJBZGNoWWxQbGdIM0lS?=
- =?utf-8?B?L1A2TGkya1E1OUdtYXNuZ3BYTm5rZEhqMm51MFFKbkRPMEgwUjBjN3hBM0ZF?=
- =?utf-8?B?VThRRzZWU0d6dVJRTi9KT0lCY0FEbTcvUTc3eWZqQTA0bEpZSm1RN1VEa3RN?=
- =?utf-8?B?M2xnMGdjZUxldmtUcG9xQXFEN1Qrc2hkM2Fzb0VEbkFKZ3NrdUdINHgxU1BN?=
- =?utf-8?B?NjVDdzFJK2hWTE1nQWZtcGExQTR4bGZKK2podERBa1dPUGNnVkdjdW1JVk8w?=
- =?utf-8?B?MnBzMjNqdnZ5aExaaDFYM21PSm1VNWFmODZGMDdhV0hKTEoyZXQ0UjZGOTRq?=
- =?utf-8?B?UUtmeGVtak02KzZzM2FGeFJCNGJteFkyMjhTK0NYRnJyVy9jdWEzbmRBRTBu?=
- =?utf-8?B?aXR4Y1dtSEFERGVoU1lqZ2VoTU00YSttcGpBK083OU5JMFJBWTJnU0ZPQmZy?=
- =?utf-8?B?MjZoUk92T1k0Ynl3MUwrQnJjaUw1WjF0VzhqeGNxK0d1NTdGUEhOT3JUUkJm?=
- =?utf-8?B?cC9CYjFLREJSU0EyVlgvb2l3VnF3VXE0dFBIL2Z0aU5tWVRGUGRnMjFTMlFn?=
- =?utf-8?B?QmhKTjk2aFhDc21GT3dkVjRwcmVhQUNPUlB4UEhVZW92M3hPeDBJT1NzTmRN?=
- =?utf-8?B?QnA3NEloOFpleGs1bXg3K3ZDandDUVNyU3FRMnNDS0VsNEk4MTZkc3U4bFlS?=
- =?utf-8?B?L1FVRFNKVnp1akxmcnFBYVc3SzhVdW8vRlVZSkFHQ3B4TTViOFg5amRQTFN5?=
- =?utf-8?B?aFlMMCtONitJTnZqVDlVcERLV3VLSytrWXg5WC9JenEvUDF3SGpQTHNhL2JQ?=
- =?utf-8?B?VU9QbGdYYi9hd0t4MXlRUlMzVXVpVlZDK0Q1eGNYQW9TaURXZE9CK09vNVA0?=
- =?utf-8?B?aFNGY2p1MXNIZVhNU1lDbWYrWHhqMGlRQTFCOVVLYmhJZzRwWWhHSktlaGRL?=
- =?utf-8?B?Y2V3V3RCQ0RDSWVyY1J5TkNTSTQvdkl3YzZ2YzFEeTZXZTZSbHU5d1FIWS95?=
- =?utf-8?B?RUdoM1V0a2lJNVEzNEFEcnFoaDYrLytDOU9reUJhd2JIVFlwenNGUnRFdkdq?=
- =?utf-8?B?OWY0aytHLzdSNHpheGZxQ3M4WXIyOTZza0J1cFlqYitLTWpJWlRHSjhWZGM3?=
- =?utf-8?B?U3hPWGkzZDdReWtLQ0FyNlRQU0xlbDFLQ0U1bnd6Vng5Y1VETmg3cGdtblhY?=
- =?utf-8?B?ZUE0c1pOU3AwUzkwU3JIUm9YYmx1eU0xdWxCL054VlZhOVlmbFJFaWQ0SlVG?=
- =?utf-8?B?eFh5VUFkUGMzaGVPR3YzczVzZ2JyN1J2US9vbytFVmFIRSt1S0o4ZmV4b1NZ?=
- =?utf-8?B?NEtyR1psaWdHcW01cjJrUUNWclBnUEsrSm0rbE9QVTN0YXFRZlJVbHhTQmtW?=
- =?utf-8?B?emkrYzlvcVVKbWJodWdLRGhQYkJPUjJ1ZWlOaElqSDZjeFNSYUFRZGtLZ08x?=
- =?utf-8?B?WWNqYUFNdzIzRkw4c3E4MFMzWmJqWGlLL1JwRVltQ29DVFJ0b1A2WE5DS3VW?=
- =?utf-8?B?b09pUzhDZDBUMEFFYzF4NWJNd0N3TFJqb0xqeWZRd2RXenJ6aVpyQzNTNU1G?=
- =?utf-8?B?QlhlbXRaNXZyRDh0Vk1MY1Q1aXVTT2VmZ2p2T01QRTRaeVFoWkt2VExHRTV5?=
- =?utf-8?B?UENCU2x4VjBFSUplWFJhTVA1ZFVEVE5CaVBNL2NFVm5xeE42Y0pWMkhqYzM2?=
- =?utf-8?B?OVhoOGFmV2lhemVkQW9Rc000OFZ2TnlnMWRVc0pIcGNzci9uQ09vVzdjNHF3?=
- =?utf-8?B?TUQ2bjVCemU0ay8xWHBwZ2lkZ1g1T01Jd0Z1QU9JekpqR3gxZXB3cTlXUzVv?=
- =?utf-8?B?M0JKYkRySEUxZFVWcDNvWU1jY05RajJJaWdoNXJJd095UXo3YzhHT2pQNkF2?=
- =?utf-8?B?Q2JEcW1xTFBCaEQwNjZDVmtFSm9Bc1hFeWtqWEN1ZSs1TjY5MFI1eVUya0t3?=
- =?utf-8?B?OWp0RHdnZ0dJVjJ6R2JEM2JLUSsxVG8vSC9IbUpodHMvSVNUdWdZaS9CNTFn?=
- =?utf-8?B?Vk9CQzNRNGd6Y2lCTm9Sd2l1cDB6OG4rNU4yR0cvMGZSNWdKTk5xV0MyV0ZB?=
- =?utf-8?B?aXF1L1FnWnNxTkJNNTBNOW13QXZRPT0=?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 05ebae99-a0c1-42c1-c891-08d9a6b99d86
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR10MB4008.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2021 15:23:59.2502 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: x2F3puj3R7z/iJbeB22y6SlZW7Fjv6SHZ2TNi+9zwPDC23aMhHTTWccOjo15igq9SfFbc+VsA3paE19OodXspUqrH1w54O9t9UPieeKr3YE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR10MB3928
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10166
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=723
- adultscore=0 mlxscore=0
- spamscore=0 malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2111130088
-X-Proofpoint-GUID: 4CRqfcqCylj-Uma1z8lv7C26zJulOS-x
-X-Proofpoint-ORIG-GUID: 4CRqfcqCylj-Uma1z8lv7C26zJulOS-x
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=maciej.szmigiero@oracle.com; helo=mx0b-00069f02.pphosted.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-1.852, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+Subject: Re: [PATCH] audio: Add sndio backend
+To: Brad Smith <brad@comstyle.com>, qemu-devel@nongnu.org
+References: <YYdh3l1HTh+kpONa@humpty.home.comstyle.com>
+Content-Language: en-US
+In-Reply-To: <YYdh3l1HTh+kpONa@humpty.home.comstyle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1636818901-00001441-EA836EB5/0/0 CLEAN NORMAL
+X-TOI-MSGID: 121da8f6-b3f1-417a-82af-14e769a38ed2
+Received-SPF: none client-ip=194.25.134.80; envelope-from=vr_qemu@t-online.de;
+ helo=mailout01.t-online.de
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-1.852, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -181,39 +60,813 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Jon Doron <arilou@gmail.com>, qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- Roman Kagan <rvkagan@yandex-team.ru>, "Denis V. Lunev" <den@openvz.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08.11.2021 08:30, Philippe Mathieu-Daudé wrote:
-> On 11/6/21 20:28, Maciej S. Szmigiero wrote:
->> On 06.11.2021 14:41, Philippe Mathieu-Daudé wrote:
->>> This is the 4th time I send this patch. Is the VMBus infrastructure
->>> used / maintained? Should we deprecate & remove?
->>>
->>>     $ ./scripts/get_maintainer.pl -f hw/hyperv/vmbus.c -f
->>> include/hw/hyperv/vmbus.h
->>>     get_maintainer.pl: No maintainers found
->>
->> There's an email thread at [1] explaining the reasons for having VMBus
->> infrastructure last time such question was asked.
->>
->> In short: mere presence of a working VMBus is needed for some high-speed
->> Windows debugging, also people are working on VMBus host device drivers.
-> 
-> Great. Do you mind adding an entry in MAINTAINERS to
-> cover these files, so we stop wondering about them?
-> 
+Hi Brad,
 
-I will submit a patch next week adding myself as a reviewer of VMBus code
-so there is at least some contact point for incoming patches.
+> audio: Add sndio backend
+>
+> Add a sndio backend.
+>
+> sndio is the native API used by OpenBSD, although it has been ported to
+> other *BSD's and Linux (packages for Ubuntu, Debian, Void, Arch, etc.).
+>
+> The C code is from Alexandre Ratchov<alex@caoua.org>  and the rest of
+> the bits are from me.
+> ---
+>   audio/audio.c          |   1 +
+>   audio/audio_template.h |   2 +
+>   audio/meson.build      |   1 +
+>   audio/sndioaudio.c     | 555 +++++++++++++++++++++++++++++++++++++++++
+>   meson.build            |   7 +
+>   meson_options.txt      |   4 +-
+>   qapi/audio.json        |  25 +-
+>   qemu-options.hx        |   8 +
+>   tests/vm/freebsd       |   3 +
+>   9 files changed, 604 insertions(+), 2 deletions(-)
+>   create mode 100644 audio/sndioaudio.c
+>
+> diff --git a/audio/audio.c b/audio/audio.c
+> index 54a153c0ef..bad1ceb69e 100644
+> --- a/audio/audio.c
+> +++ b/audio/audio.c
+> @@ -2005,6 +2005,7 @@ void audio_create_pdos(Audiodev *dev)
+>           CASE(OSS, oss, Oss);
+>           CASE(PA, pa, Pa);
+>           CASE(SDL, sdl, Sdl);
+> +        CASE(SNDIO, sndio, );
+>           CASE(SPICE, spice, );
+>           CASE(WAV, wav, );
+>   
+> diff --git a/audio/audio_template.h b/audio/audio_template.h
+> index c6714946aa..ecc5a0bc6d 100644
+> --- a/audio/audio_template.h
+> +++ b/audio/audio_template.h
+> @@ -337,6 +337,8 @@ AudiodevPerDirectionOptions *glue(audio_get_pdo_, TYPE)(Audiodev *dev)
+>           return qapi_AudiodevPaPerDirectionOptions_base(dev->u.pa.TYPE);
+>       case AUDIODEV_DRIVER_SDL:
+>           return qapi_AudiodevSdlPerDirectionOptions_base(dev->u.sdl.TYPE);
+> +    case AUDIODEV_DRIVER_SNDIO:
+> +        return dev->u.sndio.TYPE;
+>       case AUDIODEV_DRIVER_SPICE:
+>           return dev->u.spice.TYPE;
+>       case AUDIODEV_DRIVER_WAV:
+> diff --git a/audio/meson.build b/audio/meson.build
+> index 462533bb8c..e24c86e7e6 100644
+> --- a/audio/meson.build
+> +++ b/audio/meson.build
+> @@ -17,6 +17,7 @@ foreach m : [
+>     ['pa', pulse, files('paaudio.c')],
+>     ['sdl', sdl, files('sdlaudio.c')],
+>     ['jack', jack, files('jackaudio.c')],
+> +  ['sndio', sndio, files('sndioaudio.c')],
+>     ['spice', spice, files('spiceaudio.c')]
+>   ]
+>     if m[1].found()
+> diff --git a/audio/sndioaudio.c b/audio/sndioaudio.c
+> new file mode 100644
+> index 0000000000..204af07781
+> --- /dev/null
+> +++ b/audio/sndioaudio.c
+> @@ -0,0 +1,555 @@
+> +/*
+> + * Copyright (c) 2019 Alexandre Ratchov<alex@caoua.org>
+> + *
+> + * Permission to use, copy, modify, and distribute this software for any
+> + * purpose with or without fee is hereby granted, provided that the above
+> + * copyright notice and this permission notice appear in all copies.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+> + * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+> + * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+> + * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+> + * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+> + * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+> + * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+> + */
+> +
+> +/*
+> + * TODO :
+> + *
+> + * Use a single device and open it in full-duplex rather than
+> + * opening it twice (once for playback once for recording).
+> + *
+> + * This is the only way to ensure that playback doesn't drift with respect
+> + * to recording, which is what guest systems expect.
+> + */
+> +
+> +#include <poll.h>
+> +#include <sndio.h>
+> +#include "qemu/osdep.h"
+> +#include "qemu-common.h"
+> +#include "qemu/main-loop.h"
+> +#include "audio.h"
+> +#include "trace.h"
+> +
+> +#define AUDIO_CAP "sndio"
+> +#include "audio_int.h"
+> +
+> +/* default latency in ms if no option is set */
+> +#define SNDIO_LATENCY_US   50000
+> +
+> +typedef struct SndioVoice {
+> +    union {
+> +        HWVoiceOut out;
+> +        HWVoiceIn in;
+> +    } hw;
+> +    struct sio_par par;
+> +    struct sio_hdl *hdl;
+> +    struct pollfd *pfds;
+> +    struct pollindex {
+> +        struct SndioVoice *self;
+> +        int index;
+> +    } *pindexes;
+> +    unsigned char *buf;
+> +    size_t buf_size;
+> +    size_t sndio_pos;
+> +    size_t qemu_pos;
+> +    unsigned int mode;
+> +    unsigned int nfds;
+> +} SndioVoice;
+> +
+> +typedef struct SndioConf {
+> +    const char *devname;
+> +    unsigned int latency;
+> +} SndioConf;
+> +
+> +/* needed for forward reference */
+> +static void sndio_poll_in(void *arg);
+> +static void sndio_poll_out(void *arg);
+> +
+> +/*
+> + * stop polling descriptors
+> + */
+> +static void sndio_poll_clear(SndioVoice *self)
+> +{
+> +    struct pollfd *pfd;
+> +    int i;
+> +
+> +    for (i = 0; i < self->nfds; i++) {
+> +        pfd = &self->pfds[i];
+> +        qemu_set_fd_handler (pfd->fd, NULL, NULL, NULL);
+> +    }
+> +
+> +    self->nfds = 0;
+> +}
+> +
+> +/*
+> + * write data to the device until it blocks or
+> + * all of our buffered data is written
+> + */
+> +static void sndio_write(SndioVoice *self)
+> +{
+> +    size_t todo, n;
+> +
+> +    todo = self->qemu_pos - self->sndio_pos;
+> +
+> +    /*
+> +     * transfer data to device, until it blocks
+> +     */
+> +    while (todo > 0) {
+> +        n = sio_write(self->hdl, self->buf + self->sndio_pos, todo);
+> +        if (n == 0) {
+> +            break;
+> +        }
+> +        self->sndio_pos += n;
+> +        todo -= n;
+> +    }
+> +
+> +    if (self->sndio_pos == self->buf_size) {
+> +        /*
+> +         * we complete the block
+> +         */
+> +        self->sndio_pos = 0;
+> +        self->qemu_pos = 0;
+> +    }
+> +}
+> +
+> +/*
+> + * read data from the device until it blocks or
+> + * there no room any longer
+> + */
+> +static void sndio_read(SndioVoice *self)
+> +{
+> +    size_t todo, n;
+> +
+> +    todo = self->buf_size - self->sndio_pos;
+> +
+> +    /*
+> +     * transfer data from the device, until it blocks
+> +     */
+> +    while (todo > 0) {
+> +        n = sio_read(self->hdl, self->buf + self->sndio_pos, todo);
+> +        if (n == 0) {
+> +            break;
+> +        }
+> +        self->sndio_pos += n;
+> +        todo -= n;
+> +    }
+> +}
+> +
+> +/*
+> + * Set handlers for all descriptors libsndio needs to
+> + * poll
+> + */
+> +static void sndio_poll_wait(SndioVoice *self)
+> +{
+> +    struct pollfd *pfd;
+> +    int events, i;
+> +
+> +    events = 0;
+> +    if (self->mode == SIO_PLAY) {
+> +        if (self->sndio_pos < self->qemu_pos) {
+> +            events |= POLLOUT;
+> +        }
+> +    } else {
+> +        if (self->sndio_pos < self->buf_size) {
+> +            events |= POLLIN;
+> +        }
+> +    }
+> +
+> +    /*
+> +     * fill the given array of descriptors with the events sndio
+> +     * wants, they are different from our 'event' variable because
+> +     * sndio may use descriptors internally.
+> +     */
+> +    self->nfds = sio_pollfd(self->hdl, self->pfds, events);
+> +
+> +    for (i = 0; i < self->nfds; i++) {
+> +        pfd = &self->pfds[i];
+> +        if (pfd->fd < 0) {
+> +                continue;
+> +        }
+> +        qemu_set_fd_handler(pfd->fd,
+> +                (pfd->events & POLLIN) ? sndio_poll_in : NULL,
+> +                (pfd->events & POLLOUT) ? sndio_poll_out : NULL,
+> +                &self->pindexes[i]);
+> +        pfd->revents = 0;
+> +    }
+> +}
+> +
+> +/*
+> + * call-back called when one of the descriptors
+> + * became readable or writable
+> + */
+> +static void sndio_poll_event(SndioVoice *self, int index, int event)
+> +{
+> +    int revents;
+> +
+> +    /*
+> +     * ensure we're not called twice this cycle
+> +     */
+> +    sndio_poll_clear(self);
+> +
+> +    /*
+> +     * make self->pfds[] look as we're returning from poll syscal,
+> +     * this is how sio_revents expects events to be.
+> +     */
+> +    self->pfds[index].revents = event;
+> +
+> +    /*
+> +     * tell sndio to handle events and return whether we can read or
+> +     * write without blocking.
+> +     */
+> +    revents = sio_revents(self->hdl, self->pfds);
+> +    if (self->mode == SIO_PLAY) {
+> +        if (revents & POLLOUT) {
+> +            sndio_write(self);
+> +        }
+> +
+> +        if (self->qemu_pos < self->buf_size) {
+> +            audio_run(self->hw.out.s, "sndio_out");
+> +        }
+> +    } else {
+> +        if (revents & POLLIN) {
+> +            sndio_read(self);
+> +        }
+> +
+> +        if (self->qemu_pos < self->sndio_pos) {
+> +            audio_run(self->hw.in.s, "sndio_in");
+> +        }
+> +    }
+> +
+> +    sndio_poll_wait(self);
+> +}
+> +
+> +/*
+> + * return a buffer where data to play can be stored,
+> + * its size is stored in the location pointed by the size argument.
+> + */
+> +static void *sndio_get_buffer_out(HWVoiceOut *hw, size_t *size)
+> +{
+> +    SndioVoice *self = (SndioVoice *) hw;
+> +
+> +    /* size is not set by the caller */
 
-We'll see whether the code still gets just a random patch a few times
-a year or whether it requires a permanent maintainer to take care of it.
+This is an outdated comment. Size is set by the caller, but the backend 
+is still free to ignore the size.
 
-Thanks,
-Maciej
+> +    *size = self->buf_size - self->qemu_pos;
+> +    return self->buf + self->qemu_pos;
+> +}
+> +
+> +/*
+> + * return a buffer where data to play can be stored
+> + */
+> +static size_t sndio_put_buffer_out(HWVoiceOut *hw, void *buf, size_t size)
+> +{
+> +    SndioVoice *self = (SndioVoice *) hw;
+> +
+> +    self->qemu_pos += size;
+> +    sndio_poll_wait(self);
+> +    return size;
+> +}
+> +
+> +/*
+> + * return a buffer from where recorded data is available,
+> + * its size is stored in the location pointed by the size argument.
+> + * it may not exceed the initial value of "*size".
+> + */
+> +static void *sndio_get_buffer_in(HWVoiceIn *hw, size_t *size)
+> +{
+> +    SndioVoice *self = (SndioVoice *) hw;
+> +    size_t todo, max_todo;
+> +
+> +    /*
+> +     * unlike the get_buffer_out() method, get_buffer_in()
+> +     * must return a buffer of at most the given size, see audio.c
+> +     */
+> +    max_todo = *size;
+> +
+> +    todo = self->sndio_pos - self->qemu_pos;
+> +    if (todo > max_todo) {
+> +        todo = max_todo;
+> +    }
+> +
+> +    *size = todo;
+> +    return self->buf + self->qemu_pos;
+> +}
+> +
+> +/*
+> + * discard the given amount of recorded data
+> + */
+> +static void sndio_put_buffer_in(HWVoiceIn *hw, void *buf, size_t size)
+> +{
+> +    SndioVoice *self = (SndioVoice *) hw;
+> +
+> +    self->qemu_pos += size;
+> +    if (self->qemu_pos == self->buf_size) {
+> +        self->qemu_pos = 0;
+> +        self->sndio_pos = 0;
+> +    }
+> +    sndio_poll_wait(self);
+> +}
+> +
+> +/*
+> + * call-back called when one of our descriptors becomes writable
+> + */
+> +static void sndio_poll_out(void *arg)
+> +{
+> +    struct pollindex *pindex = (struct pollindex *) arg;
+> +
+> +    sndio_poll_event(pindex->self, pindex->index, POLLOUT);
+> +}
+> +
+> +/*
+> + * call-back called when one of our descriptors becomes readable
+> + */
+> +static void sndio_poll_in(void *arg)
+> +{
+> +    struct pollindex *pindex = (struct pollindex *) arg;
+> +
+> +    sndio_poll_event(pindex->self, pindex->index, POLLIN);
+> +}
+> +
+> +static void sndio_fini(SndioVoice *self)
+> +{
+> +    if (self->hdl) {
+> +        sio_close(self->hdl);
+> +        self->hdl = NULL;
+> +    }
+> +
+> +    g_free(self->pfds);
+> +    g_free(self->pindexes);
+> +    g_free(self->buf);
+> +}
+> +
+> +static int sndio_init(SndioVoice *self,
+> +                      struct audsettings *as, int mode, Audiodev *dev)
+> +{
+> +    AudiodevSndioOptions *opts = &dev->u.sndio;
+> +    unsigned long long latency;
+> +    const char *dev_name;
+> +    struct sio_par req;
+> +    unsigned int nch;
+> +    int i, nfds;
+> +
+> +    dev_name = opts->has_dev ? opts->dev : SIO_DEVANY;
+> +    latency = opts->has_latency ? opts->latency : SNDIO_LATENCY_US;
+> +
+> +    /* open the device in non-blocking mode */
+> +    self->hdl = sio_open(dev_name, mode, 1);
+> +    if (self->hdl == NULL) {
+> +        dolog("failed to open device\n");
+> +        return -1;
+> +    }
+> +
+> +    self->mode = mode;
+> +
+> +    sio_initpar(&req);
+> +
+> +    switch (as->fmt) {
+> +    case AUDIO_FORMAT_S8:
+> +        req.bits = 8;
+> +        req.sig = 1;
+> +        break;
+> +    case AUDIO_FORMAT_U8:
+> +        req.bits = 8;
+> +        req.sig = 0;
+> +        break;
+> +    case AUDIO_FORMAT_S16:
+> +        req.bits = 16;
+> +        req.sig = 1;
+> +        break;
+> +    case AUDIO_FORMAT_U16:
+> +        req.bits = 16;
+> +        req.sig = 0;
+> +        break;
+> +    case AUDIO_FORMAT_S32:
+> +        req.bits = 32;
+> +        req.sig = 1;
+> +        break;
+> +    case AUDIO_FORMAT_U32:
+> +        req.bits = 32;
+> +        req.sig = 0;
+
+../qemu-master/audio/sndioaudio.c: In function ‘sndio_init’:
+../qemu-master/audio/sndioaudio.c:369:17: error: this statement may fall 
+through [-Werror=implicit-fallthrough=]
+          req.sig = 0;
+          ~~~~~~~~^~~
+../qemu-master/audio/sndioaudio.c:370:5: note: here
+      default:
+      ^~~~~~~
+cc1: all warnings being treated as errors
+
+> +    default:
+> +        dolog("unknown audio sample format\n");
+> +        return -1;
+> +    }
+> +
+> +    if (req.bits > 8) {
+> +        req.le = as->endianness ? 0 : 1;
+> +    }
+> +
+> +    req.rate = as->freq;
+> +    if (mode == SIO_PLAY) {
+> +            req.pchan = as->nchannels;
+> +    } else {
+> +            req.rchan = as->nchannels;
+> +    }
+> +
+> +    /* set on-device buffer size */
+> +    req.appbufsz = req.rate * latency / 1000000;
+> +
+> +    if (!sio_setpar(self->hdl, &req)) {
+> +        dolog("failed set audio params\n");
+> +        goto fail;
+> +    }
+> +
+> +    if (!sio_getpar(self->hdl, &self->par)) {
+> +        dolog("failed get audio params\n");
+> +        goto fail;
+> +    }
+> +
+> +    nch = (mode == SIO_PLAY) ? self->par.pchan : self->par.rchan;
+> +
+> +    /*
+> +     * With the default setup, sndio supports any combination of parameters
+> +     * so these checks are mostly to catch configuration errors.
+> +     */
+> +    if (self->par.bits != req.bits || self->par.bps != req.bits / 8 ||
+> +        self->par.sig != req.sig || (req.bits > 8 && self->par.le != req.le) ||
+> +        self->par.rate != as->freq || nch != as->nchannels) {
+> +        dolog("unsupported audio params\n");
+> +        goto fail;
+> +    }
+> +
+> +    /*
+> +     * we use one block as buffer size; this is how
+> +     * transfers get well aligned
+> +     */
+> +    self->buf_size = self->par.round * self->par.bps * nch;
+> +
+> +    self->buf = g_malloc(self->buf_size);
+> +    if (self->buf == NULL) {
+> +        dolog("failed to allocate audio buffer\n");
+> +        goto fail;
+> +    }
+> +
+> +    nfds = sio_nfds(self->hdl);
+> +
+> +    self->pfds = g_malloc_n(nfds, sizeof(struct pollfd));
+> +    if (self->pfds == NULL) {
+> +        dolog("failed to allocate pollfd structures\n");
+> +        goto fail;
+> +    }
+> +
+> +    self->pindexes = g_malloc_n(nfds, sizeof(struct pollindex));
+> +    if (self->pindexes == NULL) {
+> +        dolog("failed to allocate pollindex structures\n");
+> +        goto fail;
+> +    }
+> +
+> +    for (i = 0; i < nfds; i++) {
+> +        self->pindexes[i].self = self;
+> +        self->pindexes[i].index = i;
+> +    }
+> +
+> +    return 0;
+> +fail:
+> +    sndio_fini(self);
+> +    return -1;
+> +}
+> +
+> +static void sndio_enable(SndioVoice *self, bool enable)
+> +{
+> +    if (enable) {
+> +        sio_start(self->hdl);
+> +        sndio_poll_wait(self);
+> +    } else {
+> +        sndio_poll_clear(self);
+> +        sio_stop(self->hdl);
+> +    }
+> +}
+> +
+> +static void sndio_enable_out(HWVoiceOut *hw, bool enable)
+> +{
+> +    SndioVoice *self = (SndioVoice *) hw;
+> +
+> +    return sndio_enable(self, enable);
+> +}
+> +
+> +static void sndio_enable_in(HWVoiceIn *hw, bool enable)
+> +{
+> +    SndioVoice *self = (SndioVoice *) hw;
+> +
+> +    return sndio_enable(self, enable);
+> +}
+> +
+> +static int sndio_init_out(HWVoiceOut *hw, struct audsettings *as, void *opaque)
+> +{
+> +    SndioVoice *self = (SndioVoice *) hw;
+> +
+> +    if (sndio_init(self, as, SIO_PLAY, opaque) == -1) {
+> +        return -1;
+> +    }
+> +
+> +    audio_pcm_init_info(&hw->info, as);
+> +    hw->samples = self->par.round;
+> +    return 0;
+> +}
+> +
+> +static int sndio_init_in(HWVoiceIn *hw, struct audsettings *as, void *opaque)
+> +{
+> +    SndioVoice *self = (SndioVoice *) hw;
+> +
+> +    if (sndio_init(self, as, SIO_REC, opaque) == -1) {
+> +        return -1;
+> +    }
+> +
+> +    audio_pcm_init_info(&hw->info, as);
+> +    hw->samples = self->par.round;
+> +    return 0;
+> +}
+> +
+> +static void sndio_fini_out(HWVoiceOut *hw)
+> +{
+> +    SndioVoice *self = (SndioVoice *) hw;
+> +
+> +    return sndio_fini(self);
+> +}
+> +
+> +static void sndio_fini_in(HWVoiceIn *hw)
+> +{
+> +    SndioVoice *self = (SndioVoice *) hw;
+> +
+> +    return sndio_fini(self);
+> +}
+> +
+> +static void *sndio_audio_init(Audiodev *dev)
+> +{
+> +    assert(dev->driver == AUDIODEV_DRIVER_SNDIO);
+> +    return dev;
+> +}
+> +
+> +static void sndio_audio_fini(void *opaque)
+> +{
+> +}
+> +
+> +static struct audio_pcm_ops sndio_pcm_ops = {
+> +    .init_out       = sndio_init_out,
+> +    .fini_out       = sndio_fini_out,
+
++    .write          = audio_generic_write,
+
+> +    .enable_out     = sndio_enable_out,
+> +    .get_buffer_out = sndio_get_buffer_out,
+> +    .put_buffer_out = sndio_put_buffer_out,
+> +    .init_in        = sndio_init_in,
+> +    .fini_in        = sndio_fini_in,
+
++    .read           = audio_generic_read,
+
+With . write = NULL and .read = NULL and -audiodev 
+sndio,id=audio0,in.mixing-engine=off,out.mixing-engine=off you will see
+Program terminated with signal SIGSEGV, Segmentation fault.
+
+> +    .enable_in      = sndio_enable_in,
+> +    .get_buffer_in  = sndio_get_buffer_in,
+> +    .put_buffer_in  = sndio_put_buffer_in,
+> +};
+> +
+> +static struct audio_driver sndio_audio_driver = {
+> +    .name           = "sndio",
+> +    .descr          ="https://man.openbsd.org/sndio",
+> +    .init           = sndio_audio_init,
+> +    .fini           = sndio_audio_fini,
+> +    .pcm_ops        = &sndio_pcm_ops,
+> +    .can_be_default = 1,
+> +    .max_voices_out = INT_MAX,
+> +    .max_voices_in  = INT_MAX,
+> +    .voice_size_out = sizeof(SndioVoice),
+> +    .voice_size_in  = sizeof(SndioVoice)
+> +};
+> +
+> +static void register_audio_sndio(void)
+> +{
+> +    audio_driver_register(&sndio_audio_driver);
+> +}
+> +
+> +type_init(register_audio_sndio);
+> diff --git a/meson.build b/meson.build
+> index 47df10afc2..551e8e3549 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -546,6 +546,11 @@ if not get_option('jack').auto() or have_system
+>     jack = dependency('jack', required: get_option('jack'),
+>                       method: 'pkg-config', kwargs: static_kwargs)
+>   endif
+> +sndio = not_found
+> +if not get_option('sndio').auto() or have_system
+> +  sndio = dependency('sndio', required: get_option('sndio'),
+> +                    method: 'pkg-config', kwargs: static_kwargs)
+> +endif
+>   
+>   spice_protocol = not_found
+>   if not get_option('spice_protocol').auto() or have_system
+> @@ -1301,6 +1306,7 @@ if have_system
+>       'oss': oss.found(),
+>       'pa': pulse.found(),
+>       'sdl': sdl.found(),
+> +    'sndio': sndio.found(),
+>     }
+>     foreach k, v: audio_drivers_available
+>       config_host_data.set('CONFIG_AUDIO_' + k.to_upper(), v)
+> @@ -3367,6 +3373,7 @@ if vnc.found()
+>   endif
+>   if targetos not in ['darwin', 'haiku', 'windows']
+>     summary_info += {'OSS support':     oss}
+> +  summary_info += {'sndio support':   sndio}
+>   elif targetos == 'darwin'
+>     summary_info += {'CoreAudio support': coreaudio}
+>   elif targetos == 'windows'
+> diff --git a/meson_options.txt b/meson_options.txt
+> index e740dce2a5..0f67c0a27b 100644
+> --- a/meson_options.txt
+> +++ b/meson_options.txt
+> @@ -13,7 +13,7 @@ option('sphinx_build', type : 'string', value : '',
+>   option('default_devices', type : 'boolean', value : true,
+>          description: 'Include a default selection of devices in emulators')
+>   option('audio_drv_list', type: 'array', value: ['default'],
+> -       choices: ['alsa', 'coreaudio', 'default', 'dsound', 'jack', 'oss', 'pa', 'sdl'],
+> +       choices: ['alsa', 'coreaudio', 'default', 'dsound', 'jack', 'oss', 'pa', 'sdl', 'sndio'],
+>          description: 'Set audio driver list')
+>   option('fuzzing_engine', type : 'string', value : '',
+>          description: 'fuzzing engine library for OSS-Fuzz')
+> @@ -184,6 +184,8 @@ option('oss', type: 'feature', value: 'auto',
+>          description: 'OSS sound support')
+>   option('pa', type: 'feature', value: 'auto',
+>          description: 'PulseAudio sound support')
+> +option('sndio', type: 'feature', value: 'auto',
+> +       description: 'sndio sound support')
+>   
+>   option('vhost_user_blk_server', type: 'feature', value: 'auto',
+>          description: 'build vhost-user-blk server')
+> diff --git a/qapi/audio.json b/qapi/audio.json
+> index 9cba0df8a4..99c5c68ba6 100644
+> --- a/qapi/audio.json
+> +++ b/qapi/audio.json
+> @@ -105,6 +105,28 @@
+>       '*out':       'AudiodevAlsaPerDirectionOptions',
+>       '*threshold': 'uint32' } }
+>   
+> +##
+> +# @AudiodevSndioOptions:
+> +#
+> +# Options of the sndio audio backend.
+> +#
+> +# @in: options of the capture stream
+> +#
+> +# @out: options of the playback stream
+> +#
+> +# @dev: the name of the sndio device to use (default 'default')
+> +#
+> +# @latency: play buffer size (in microseconds)
+> +#
+> +# Since: 6.2
+
+I don't think this patch will be accepted for 6.2. See 
+https://wiki.qemu.org/Planning/6.2
+Since: 7.0 is probably correct.
+
+> +##
+> +{ 'struct': 'AudiodevSndioOptions',
+> +  'data': {
+> +    '*in':        'AudiodevPerDirectionOptions',
+> +    '*out':       'AudiodevPerDirectionOptions',
+> +    '*dev':       'str',
+> +    '*latency':   'uint32'} }
+> +
+>   ##
+>   # @AudiodevCoreaudioPerDirectionOptions:
+>   #
+> @@ -387,7 +409,7 @@
+>   ##
+>   { 'enum': 'AudiodevDriver',
+>     'data': [ 'none', 'alsa', 'coreaudio', 'dsound', 'jack', 'oss', 'pa',
+> -            'sdl', 'spice', 'wav' ] }
+> +            'sdl', 'sndio', 'spice', 'wav' ] }
+>   
+>   ##
+>   # @Audiodev:
+> @@ -417,5 +439,6 @@
+>       'oss':       'AudiodevOssOptions',
+>       'pa':        'AudiodevPaOptions',
+>       'sdl':       'AudiodevSdlOptions',
+> +    'sndio':     'AudiodevSndioOptions',
+>       'spice':     'AudiodevGenericOptions',
+>       'wav':       'AudiodevWavOptions' } }
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index f051536b63..4a027b1abc 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -657,6 +657,9 @@ DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
+>       "-audiodev sdl,id=id[,prop[=value][,...]]\n"
+>       "                in|out.buffer-count= number of buffers\n"
+>   #endif
+> +#ifdef CONFIG_AUDIO_SNDIO
+> +    "-audiodev sndio,id=id[,prop[=value][,...]]\n"
+> +#endif
+>   #ifdef CONFIG_SPICE
+>       "-audiodev spice,id=id[,prop[=value][,...]]\n"
+>   #endif
+> @@ -820,6 +823,11 @@ SRST
+>       ``in|out.buffer-count=count``
+>           Sets the count of the buffers.
+>   
+> +``-audiodev sndio,id=id[,prop[=value][,...]]``
+> +    Creates a backend using SNDIO. This backend is available on
+> +    OpenBSD and most other Unix-like systems. This backend has no
+> +    backend specific properties.
+
+The properties latency and dev are backend specific properties.
+
+> +
+>   ``-audiodev spice,id=id[,prop[=value][,...]]``
+>       Creates a backend that sends audio through SPICE. This backend
+>       requires ``-spice`` and automatically selected in that case, so
+> diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+> index 6e20e84322..a387f5c9df 100755
+> --- a/tests/vm/freebsd
+> +++ b/tests/vm/freebsd
+> @@ -63,6 +63,9 @@ class FreeBSDVM(basevm.BaseVM):
+>   
+>           # libs: migration
+>           "zstd",
+> +
+> +        # libs: sndio
+> +        "sndio",
+>       ]
+>   
+>       # TODO: Enable gnutls again once FreeBSD's libtasn1 got fixed
+
+I think the rest of the code looks good. Don't forget to use 
+./scripts/get_maintainer.pl 0001-audio-Add-sndio-backend.patch to cc all 
+maintainers.
+
+With best regards,
+Volker
 
