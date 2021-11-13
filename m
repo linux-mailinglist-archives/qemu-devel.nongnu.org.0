@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDEBA44F149
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Nov 2021 05:58:44 +0100 (CET)
-Received: from localhost ([::1]:37888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 682CE44F151
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Nov 2021 06:02:16 +0100 (CET)
+Received: from localhost ([::1]:46328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mll7j-0000l0-Up
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 23:58:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53428)
+	id 1mllB9-0006bk-E3
+	for lists+qemu-devel@lfdr.de; Sat, 13 Nov 2021 00:02:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mll5z-00075Y-4g
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mll5z-00075d-7O
  for qemu-devel@nongnu.org; Fri, 12 Nov 2021 23:56:55 -0500
-Received: from [2607:f8b0:4864:20::12d] (port=38872
- helo=mail-il1-x12d.google.com)
+Received: from [2607:f8b0:4864:20::d34] (port=37857
+ helo=mail-io1-xd34.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mll5x-0003MM-FI
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mll5v-0003M9-T3
  for qemu-devel@nongnu.org; Fri, 12 Nov 2021 23:56:54 -0500
-Received: by mail-il1-x12d.google.com with SMTP id m11so11007339ilh.5
- for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 20:56:53 -0800 (PST)
+Received: by mail-io1-xd34.google.com with SMTP id k21so13845792ioh.4
+ for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 20:56:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/cI7/lZ29fPR8PehHUnyTqOz707sUTy3NDk8wdWBImQ=;
- b=wNsPTT8KprmBo+K671mMfXxdGVVbUpGXQDBDRatJMCX3MLsNTK0WvMhTNVxEvy8cej
- RyMs3OiE8PmExD6umrZaBdP4DoVnijqD1eU4CkZpVfXEQ+4ne2u7ulMI/APppMBWFo+A
- qH6vlPyq0ERzOkQMtwZbveht1bY+Z2oN0M30qNRSkk/aWdYEEMkn8LfsiKGP4pIpn6fA
- 5AM2o8dLb6ak9uaBnTEvXJEUd+rF/8+qvvI5++dlIMQMh4C14wF4jg4XACCqT1DODBl5
- RpDySDvBwe7pqkOtxIhSJuxF12S/7EUvE1jWkTCSEqwsxlUnRnpdzUcEgN/vkMWEe5nd
- JO3w==
+ bh=8S4suhXJjmAAl79YQ+hrQqaT6PvDtJNGpGFTtHdTrfM=;
+ b=mMdEyPNIC9UjoKWbKLJOddGy+fasHBMM3XvOjx3DegIbxZ+O/fLUNdQq4r2BDZvZfz
+ aZyql13EMuwwmxW4XrRCtYiP9H62X4hVCCHqrDJVBL/W36wZl9P4fAT0Whv8fWdWzhjJ
+ tCeTL4BrYSLk4UZ+oyejlXLQbSPyADrefKyACclKWy8wk3qpZc4oHPCaQ5M3gXLiWSaw
+ EK7oD0S3vcHRSfEtRaYKjBaje6ZmKomQn7pBuNq7JV9HJjufh27y5hx+JZjRTBnA3f1i
+ rxFQzgUMBQtqgSh+B0sizTLtjFp+y0/is4UfSoRv4vS3LGTVjs5C+3syu3GIWPcONcpg
+ +0Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/cI7/lZ29fPR8PehHUnyTqOz707sUTy3NDk8wdWBImQ=;
- b=0oBhAPoTCM18rUYXNiIR/guoG+3uPnuL70aR5py5hWjj2SHKn71JNgh5kHocpRmVCp
- UCnXgb2h8y7QSRqhQIADqdz0C0T3qoP5d/Hipiu6aexSR0zTIW20wtKU7Ilik0uupPRv
- 4eCeSNxjOg7f4OC1agvhcofeYiD0DPOoRL06a071ky7Jb7N5wraKU+HrvWCZbTfimDSP
- BQ38bTpXPL3ZSSWhca//M0kc4AKn+84DUw+OvhmJBNLxMTmIrbSVXJqhU/XmSKUQQKGW
- cQLAMs3bDaGSy1g7NBoJq+8tCWJ1dohelvvcIepj0XUiWCc8ipGcWRjEtTeaH0kon4zG
- edFA==
-X-Gm-Message-State: AOAM533IewQvC8L/L+gQZKw5bvhRpN6qOKoe8Mle1BFKkxuXHLjEisfk
- Tccl+pv+Kt6cI1TuY2FpvyBUlOpqJStCSQ==
-X-Google-Smtp-Source: ABdhPJwwUkbnhVXXSkrNm1ndNv+N7RIj22056XGlV6NksiW9pGA7sfyWCdtE5bHVWofno3vF42mUSg==
-X-Received: by 2002:a05:6e02:144e:: with SMTP id
- p14mr12271986ilo.180.1636779412254; 
- Fri, 12 Nov 2021 20:56:52 -0800 (PST)
+ bh=8S4suhXJjmAAl79YQ+hrQqaT6PvDtJNGpGFTtHdTrfM=;
+ b=VLhqKFONvLYIy92QwQuVdIJ8T9OcMmIodMpJv4vGVyZcTvVCKjMAFVdYfperpL4qei
+ XRS2C1QTegJRrPtwD/XC1NBbE6tEU9XxBceyQj7Elhtc1XrK5hLDgZ04+8zai+cYGH5u
+ kcEuST6Pqs32KqTOKx/RQmB/JudieKeTPoUPMcH6hmpCALkMSfwanjlbJn1gW+HztZS8
+ pFsaGxCugYwzmKtQq+lZXki0NsWeGOJPhRvEWrt3RhJDjPxzPXHovK1yYGUzbZ2427Fu
+ pg29wqJmRF5q1KlKeAp32cuUgzvpWBnQFNzLfedvyJh3JfsoMns+vQqd5AtwvaSEfXNw
+ ue5Q==
+X-Gm-Message-State: AOAM53211JPDuFaDKlSjeb+eyn5FbUw5Tz/ebrANsbNsF+IOyur4UMdK
+ WJ/dmnMhWv49E5Xqgz0IO/CRyaNjbfMARQ==
+X-Google-Smtp-Source: ABdhPJwXQgHe+iZ4KAuri0BmoecC9vLQcQALUXkUGlBdLY7idOz0aioQ3cIdGgYMEXcU/e+MbaCB/Q==
+X-Received: by 2002:a02:caac:: with SMTP id e12mr16035487jap.29.1636779409492; 
+ Fri, 12 Nov 2021 20:56:49 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id r14sm5414455iov.14.2021.11.12.20.56.51
+ by smtp.gmail.com with ESMTPSA id r14sm5414455iov.14.2021.11.12.20.56.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Nov 2021 20:56:51 -0800 (PST)
+ Fri, 12 Nov 2021 20:56:49 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v3 4/5] common-user: Adjust system call return on FreeBSD
-Date: Fri, 12 Nov 2021 21:56:02 -0700
-Message-Id: <20211113045603.60391-5-imp@bsdimp.com>
+Subject: [RFC v3 1/5] linux-user: Add host_signal_set_pc to set pc in mcontext
+Date: Fri, 12 Nov 2021 21:55:59 -0700
+Message-Id: <20211113045603.60391-2-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211113045603.60391-1-imp@bsdimp.com>
 References: <20211113045603.60391-1-imp@bsdimp.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d34
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::12d;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12d.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd34.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -92,96 +92,189 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All the *-users generally use the negative errno return codes to signal
-errno for a system call.  FreeBSD's system calls, on the other hand,
-returns errno, not -errno. Add ifdefs for FreeBSD to make the adjustment
-on the 4 hosts that we have support for.
+Add a new function host_signal_set_pc to set the next pc in an
+mcontext. The caller should ensure this is a valid PC for execution.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- common-user/host/aarch64/safe-syscall.inc.S | 8 ++++++++
- common-user/host/arm/safe-syscall.inc.S     | 7 +++++++
- common-user/host/i386/safe-syscall.inc.S    | 9 +++++++++
- common-user/host/x86_64/safe-syscall.inc.S  | 9 +++++++++
- 4 files changed, 33 insertions(+)
+ linux-user/host/aarch64/host-signal.h | 5 +++++
+ linux-user/host/alpha/host-signal.h   | 5 +++++
+ linux-user/host/arm/host-signal.h     | 5 +++++
+ linux-user/host/i386/host-signal.h    | 5 +++++
+ linux-user/host/mips/host-signal.h    | 5 +++++
+ linux-user/host/ppc/host-signal.h     | 5 +++++
+ linux-user/host/riscv/host-signal.h   | 5 +++++
+ linux-user/host/s390/host-signal.h    | 5 +++++
+ linux-user/host/sparc/host-signal.h   | 9 +++++++++
+ linux-user/host/x86_64/host-signal.h  | 5 +++++
+ 10 files changed, 54 insertions(+)
 
-diff --git a/common-user/host/aarch64/safe-syscall.inc.S b/common-user/host/aarch64/safe-syscall.inc.S
-index bc1f5a9792..9f9525fe25 100644
---- a/common-user/host/aarch64/safe-syscall.inc.S
-+++ b/common-user/host/aarch64/safe-syscall.inc.S
-@@ -64,6 +64,14 @@ safe_syscall_start:
- 	svc	0x0
- safe_syscall_end:
- 	/* code path for having successfully executed the syscall */
-+#ifdef __FreeBSD__
-+        /*
-+         * FreeBSD kernel returns C bit set with positive errno.
-+         * Encode this for use in bsd-user as -errno:
-+	 *    x0 = !c ? x0 : -x0
-+	 */
-+	csneg  x0, x0, x0, cc
-+#endif
- 	ret
+diff --git a/linux-user/host/aarch64/host-signal.h b/linux-user/host/aarch64/host-signal.h
+index 0c0b08383a..9770b36dc1 100644
+--- a/linux-user/host/aarch64/host-signal.h
++++ b/linux-user/host/aarch64/host-signal.h
+@@ -35,6 +35,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+     return uc->uc_mcontext.pc;
+ }
  
- 0:
-diff --git a/common-user/host/arm/safe-syscall.inc.S b/common-user/host/arm/safe-syscall.inc.S
-index 88c4958504..459e5f87c2 100644
---- a/common-user/host/arm/safe-syscall.inc.S
-+++ b/common-user/host/arm/safe-syscall.inc.S
-@@ -78,6 +78,13 @@ safe_syscall_start:
- 	swi	0
- safe_syscall_end:
- 	/* code path for having successfully executed the syscall */
-+#ifdef __FreeBSD__
-+        /*
-+         * FreeBSD kernel returns C bit set with positive errno.
-+         * Encode this for use in bsd-user as -errno:
-+         */
-+        negcs   r0, r0
-+#endif
- 	pop	{ r4, r5, r6, r7, r8, pc }
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++{
++    uc->uc_mcontext.pc = pc;
++}
++
+ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+ {
+     struct _aarch64_ctx *hdr;
+diff --git a/linux-user/host/alpha/host-signal.h b/linux-user/host/alpha/host-signal.h
+index e080be412f..f4c942948a 100644
+--- a/linux-user/host/alpha/host-signal.h
++++ b/linux-user/host/alpha/host-signal.h
+@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+     return uc->uc_mcontext.sc_pc;
+ }
  
- 1:
-diff --git a/common-user/host/i386/safe-syscall.inc.S b/common-user/host/i386/safe-syscall.inc.S
-index 9e58fc6504..ba55a35e92 100644
---- a/common-user/host/i386/safe-syscall.inc.S
-+++ b/common-user/host/i386/safe-syscall.inc.S
-@@ -75,6 +75,15 @@ safe_syscall_start:
- 	int	$0x80
- safe_syscall_end:
- 	/* code path for having successfully executed the syscall */
-+#ifdef __FreeBSD__
-+        /*
-+         * FreeBSD kernel returns C bit set with positive errno.
-+         * Encode this for use in bsd-user as -errno:
-+         */
-+        jnb     2f
-+        neg     %eax
-+2:
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++{
++    uc->uc_mcontext.sc_pc = pc;
++}
++
+ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+ {
+     uint32_t *pc = (uint32_t *)host_signal_pc(uc);
+diff --git a/linux-user/host/arm/host-signal.h b/linux-user/host/arm/host-signal.h
+index efb165c0c5..6c095773c0 100644
+--- a/linux-user/host/arm/host-signal.h
++++ b/linux-user/host/arm/host-signal.h
+@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+     return uc->uc_mcontext.arm_pc;
+ }
+ 
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++{
++    uc->uc_mcontext.arm_pc = pc;
++}
++
+ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+ {
+     /*
+diff --git a/linux-user/host/i386/host-signal.h b/linux-user/host/i386/host-signal.h
+index 4c8eef99ce..abe1ece5c9 100644
+--- a/linux-user/host/i386/host-signal.h
++++ b/linux-user/host/i386/host-signal.h
+@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+     return uc->uc_mcontext.gregs[REG_EIP];
+ }
+ 
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++{
++    uc->uc_mcontext.gregs[REG_EIP] = pc;
++}
++
+ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+ {
+     return uc->uc_mcontext.gregs[REG_TRAPNO] == 0xe
+diff --git a/linux-user/host/mips/host-signal.h b/linux-user/host/mips/host-signal.h
+index ef341f7c20..c666ed8c3f 100644
+--- a/linux-user/host/mips/host-signal.h
++++ b/linux-user/host/mips/host-signal.h
+@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+     return uc->uc_mcontext.pc;
+ }
+ 
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++{
++    uc->uc_mcontext.pc = pc;
++}
++
+ #if defined(__misp16) || defined(__mips_micromips)
+ #error "Unsupported encoding"
+ #endif
+diff --git a/linux-user/host/ppc/host-signal.h b/linux-user/host/ppc/host-signal.h
+index a491c413dc..1d8e658ff7 100644
+--- a/linux-user/host/ppc/host-signal.h
++++ b/linux-user/host/ppc/host-signal.h
+@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+     return uc->uc_mcontext.regs->nip;
+ }
+ 
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++{
++    uc->uc_mcontext.regs->nip = pc;
++}
++
+ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+ {
+     return uc->uc_mcontext.regs->trap != 0x400
+diff --git a/linux-user/host/riscv/host-signal.h b/linux-user/host/riscv/host-signal.h
+index 3b168cb58b..a4f170efb0 100644
+--- a/linux-user/host/riscv/host-signal.h
++++ b/linux-user/host/riscv/host-signal.h
+@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+     return uc->uc_mcontext.__gregs[REG_PC];
+ }
+ 
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++{
++    uc->uc_mcontext.__gregs[REG_PC] = pc;
++}
++
+ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+ {
+     /*
+diff --git a/linux-user/host/s390/host-signal.h b/linux-user/host/s390/host-signal.h
+index 26990e4893..a524f2ab00 100644
+--- a/linux-user/host/s390/host-signal.h
++++ b/linux-user/host/s390/host-signal.h
+@@ -16,6 +16,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+     return uc->uc_mcontext.psw.addr;
+ }
+ 
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++{
++    uc->uc_mcontext.psw.addr = pc;
++}
++
+ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+ {
+     uint16_t *pinsn = (uint16_t *)host_signal_pc(uc);
+diff --git a/linux-user/host/sparc/host-signal.h b/linux-user/host/sparc/host-signal.h
+index 5e71d33f8e..7342936071 100644
+--- a/linux-user/host/sparc/host-signal.h
++++ b/linux-user/host/sparc/host-signal.h
+@@ -20,6 +20,15 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+ #endif
+ }
+ 
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++{
++#ifdef __arch64__
++    uc->uc_mcontext.mc_gregs[MC_PC] = pc;
++#else
++    uc->uc_mcontext.gregs[REG_PC] = pc;
 +#endif
- 	pop	%ebx
- 	.cfi_remember_state
- 	.cfi_adjust_cfa_offset -4
-diff --git a/common-user/host/x86_64/safe-syscall.inc.S b/common-user/host/x86_64/safe-syscall.inc.S
-index f36992daa3..46c527e058 100644
---- a/common-user/host/x86_64/safe-syscall.inc.S
-+++ b/common-user/host/x86_64/safe-syscall.inc.S
-@@ -72,6 +72,15 @@ safe_syscall_start:
-         syscall
- safe_syscall_end:
-         /* code path for having successfully executed the syscall */
-+#ifdef __FreeBSD__
-+        /*
-+         * FreeBSD kernel returns C bit set with positive errno.
-+         * Encode this for use in bsd-user as -errno:
-+         */
-+        jnb     2f
-+        neg     %rax
-+2:
-+#endif
-         pop     %rbp
-         .cfi_remember_state
-         .cfi_def_cfa_offset 8
++}
++
+ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+ {
+     uint32_t insn = *(uint32_t *)host_signal_pc(uc);
+diff --git a/linux-user/host/x86_64/host-signal.h b/linux-user/host/x86_64/host-signal.h
+index 883d2fcf65..c71d597eb2 100644
+--- a/linux-user/host/x86_64/host-signal.h
++++ b/linux-user/host/x86_64/host-signal.h
+@@ -15,6 +15,11 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+     return uc->uc_mcontext.gregs[REG_RIP];
+ }
+ 
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++{
++    uc->uc_mcontext.gregs[REG_RIP] = pc;
++}
++
+ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+ {
+     return uc->uc_mcontext.gregs[REG_TRAPNO] == 0xe
 -- 
 2.33.0
 
