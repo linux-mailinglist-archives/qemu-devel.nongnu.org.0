@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70A0E44F152
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Nov 2021 06:03:42 +0100 (CET)
-Received: from localhost ([::1]:48550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2980544F216
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Nov 2021 08:54:53 +0100 (CET)
+Received: from localhost ([::1]:52080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mllCX-00088X-JP
-	for lists+qemu-devel@lfdr.de; Sat, 13 Nov 2021 00:03:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53440)
+	id 1mlnsB-0003ip-PN
+	for lists+qemu-devel@lfdr.de; Sat, 13 Nov 2021 02:54:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mll60-00077c-7C
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 23:56:56 -0500
-Received: from [2607:f8b0:4864:20::d2c] (port=43648
- helo=mail-io1-xd2c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mll5y-0003Me-FI
- for qemu-devel@nongnu.org; Fri, 12 Nov 2021 23:56:55 -0500
-Received: by mail-io1-xd2c.google.com with SMTP id z26so13786506iod.10
- for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 20:56:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xX0hIQSZjL8ZR7arM3SqbUY2tpWX5DtaOT38oFoQlVs=;
- b=s0+R+QnZ9cRezKbYnHenbv8CsI8Km6OGbbyFZwKt4kn3+r2AfTceoa/JsL3VJaAU1P
- 20o/siBSLhNSN3rGDlPOq6h53ZFpb3z5qF62MirR8lTtR9X/X1IJiiVgjcQgj8jAk57P
- eb8m4Mz761hDg1X3hlXMTM/HCVvaH5exYihgdGqw/yV9wq91o4h7D7VvQ1zVoFJgOt3d
- Q8hq0peLkIjRN2A4k2nsHfAIgeBzDI2t+jJLX1K9Pshbx9QwQtG/3smA2rRh8erwUxMA
- d616gtSYZ1Mo5vsmIkSNj9aEAMMIJzAbhXXQxOXrEi9j3Ivg/wC0/xr0vOEP58VWp+sj
- +PaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xX0hIQSZjL8ZR7arM3SqbUY2tpWX5DtaOT38oFoQlVs=;
- b=SMEaANdVUGrGIONxPpwU1m1Ie+L3DqFpHfrjaVmmg+Bm/JUhshryjSivcMEsLNfKhw
- 0jsIcJzbirGbKaleEJePsTIsD+DaQQyEmo5/9o1Gto+hnHgVO4sIIWYF/q6MYYh5BU81
- o0rU3Q9OKdZYqITs64XdoKhZrbGOcSH+wopLP76Vz7+67GcNetz9sTi4WAF1G/EWeIXY
- qwCvihLglJ6va2DaBGM3O+emncWooFJgqejy6tDJIlF1gzs5+9fmTeCPIZ5OW8eECDac
- aFQXQpo9w1Ih6JpPDTfOVdEASaRxJFPeaDGmrZLjMiiLhdlSsaIrf7hEi7fUSctSwfcG
- Z0CQ==
-X-Gm-Message-State: AOAM530yKZCVfff4wy/2Ne5/yq/Qh2kg3eciSbvjyFJlPinllFMHQH8d
- UWk3fcx3Hm5PJNlXBTPCrTUVawT0k2MkmQ==
-X-Google-Smtp-Source: ABdhPJwFiF+wTum5KPwky+ZyWA7aN/BZot1XPStRVIsidCK/Z2SVJQX+NRrtNnvgaIYWJG+v3O295w==
-X-Received: by 2002:a05:6638:f83:: with SMTP id
- h3mr15598889jal.102.1636779413104; 
- Fri, 12 Nov 2021 20:56:53 -0800 (PST)
-Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
- [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id r14sm5414455iov.14.2021.11.12.20.56.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Nov 2021 20:56:52 -0800 (PST)
-From: Warner Losh <imp@bsdimp.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC v3 5/5] *-user: move safe-syscall.* to common-user
-Date: Fri, 12 Nov 2021 21:56:03 -0700
-Message-Id: <20211113045603.60391-6-imp@bsdimp.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211113045603.60391-1-imp@bsdimp.com>
-References: <20211113045603.60391-1-imp@bsdimp.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mlnqM-0002Dt-Pn
+ for qemu-devel@nongnu.org; Sat, 13 Nov 2021 02:52:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53355)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mlnqI-0004RA-UU
+ for qemu-devel@nongnu.org; Sat, 13 Nov 2021 02:52:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636789973;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dPeRYQX77dsN2wwaMHYGKJYtOKjpnPT17mH9IVuxslQ=;
+ b=V2dYAHKwSUa76kebxHAbDSIZLFoirklelFjHx21BoTEESKXxupeJyY3JEclt8q3FTFF4fX
+ qZhDpGStoXAmHDI1XQh5riaKkVHl33B8Nf8at61hntiAW+k4pv6o08YmDpukujKnrdvUwW
+ l2bmN6rPvrgKQfV4niHW08lhof8cvzs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-153-hSTuXD_JP9CIfoF32g_hFQ-1; Sat, 13 Nov 2021 02:52:52 -0500
+X-MC-Unique: hSTuXD_JP9CIfoF32g_hFQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A8B487D542
+ for <qemu-devel@nongnu.org>; Sat, 13 Nov 2021 07:52:51 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B7EE71017CF2;
+ Sat, 13 Nov 2021 07:52:50 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2D46311380A7; Sat, 13 Nov 2021 08:52:49 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] qmp: Stabilize preconfig
+References: <b31f442d28920447690a6b8cee865bdbacde1283.1635160056.git.mprivozn@redhat.com>
+ <87bl3dfg9v.fsf@dusky.pond.sub.org>
+ <bb896561-9d0c-6c6c-4bdb-5e7ef5ed71d5@redhat.com>
+ <YYAATW1JQmzpDPhu@redhat.com> <87zgqlzmxi.fsf@dusky.pond.sub.org>
+ <c4ac9bcc-90ae-302f-d5d4-b95f1419a7a0@redhat.com>
+ <87pmr7rzls.fsf@dusky.pond.sub.org>
+ <bc437ccb-0487-a5ff-8e6a-50067715c4d4@redhat.com>
+ <87mtman4h1.fsf@dusky.pond.sub.org>
+ <13efddef-cc30-9a6a-a700-060d6fca57e3@redhat.com>
+ <87ee7lh9x2.fsf@dusky.pond.sub.org>
+ <e1411df1-696c-ceec-ef77-8cc4d538de70@redhat.com>
+Date: Sat, 13 Nov 2021 08:52:49 +0100
+In-Reply-To: <e1411df1-696c-ceec-ef77-8cc4d538de70@redhat.com> (Paolo
+ Bonzini's message of "Fri, 12 Nov 2021 23:18:58 +0100")
+Message-ID: <87wnlcsd9q.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2c
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2c;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2c.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,129 +88,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Philippe Mathieu-Daude <f4bug@amsat.org>, Laurent Vivier <laurent@vivier.eu>,
- Konrad Witaszczyk <def@freebsd.org>, Warner Losh <imp@bsdimp.com>
+Cc: Michal =?utf-8?B?UHLDrXZvem7DrWs=?= <mprivozn@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move linux-user/safe-syscall.S to common-user/common-safe-syscall.S and
-replace it with a #include "common-safe-syscall.S" so that bsd-user can
-also use it. Also move safe-syscall.h so that it can define a few more
-externs.
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Signed-off-by: Warner Losh <imp@bsdimp.com>
----
- common-user/common-safe-syscall.S          | 30 +++++++++++++++++++++
- {linux-user => common-user}/safe-syscall.h |  0
- linux-user/safe-syscall.S                  | 31 +---------------------
- linux-user/signal.c                        |  1 +
- meson.build                                |  1 +
- 5 files changed, 33 insertions(+), 30 deletions(-)
- create mode 100644 common-user/common-safe-syscall.S
- rename {linux-user => common-user}/safe-syscall.h (100%)
+> On 11/12/21 12:48, Markus Armbruster wrote:
+>>> The monitor starts, the question is the availability of the event loop.
+>> 
+>> What does the event loop depend on?
+>
+> It depends on moving the relevant code out of qemu_init (at least 
+> conditionally, as is the case for what is in qmp_x_exit_preconfig). 
+> This in turn has the problem that it's ugly to have lingering unapplied 
+> settings from the command line.
+>
+>>>>> 5) PHASE_MACHINE_READY - machine init done notifiers have been called
+>>>>> and the VM is ready.  Devices plugged in this phase already count as
+>>>>> hot-plugged.  -S starts the monitor here.
+>> 
+>> Why would anyone *want* to plug a device in PHASE_MACHINE_READY (when
+>> the plug is hot) instead of earlier (when it's cold)?
+>
+> Well, PHASE_MACHINE_READY includes the whole time the guest is running. 
+>   So the simplest thing to do is to tell the user "if it hurts, don't do 
+> it".  If you want a cold-plugged device, plug it during 
+> PHASE_MACHINE_INIT, which right now means on the command line.
 
-diff --git a/common-user/common-safe-syscall.S b/common-user/common-safe-syscall.S
-new file mode 100644
-index 0000000000..42ea7c40ba
---- /dev/null
-+++ b/common-user/common-safe-syscall.S
-@@ -0,0 +1,30 @@
-+/*
-+ * safe-syscall.S : include the host-specific assembly fragment
-+ * to handle signals occurring at the same time as system calls.
-+ *
-+ * Written by Peter Maydell <peter.maydell@linaro.org>
-+ *
-+ * Copyright (C) 2016 Linaro Limited
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "hostdep.h"
-+#include "target_errno_defs.h"
-+
-+/* We have the correct host directory on our include path
-+ * so that this will pull in the right fragment for the architecture.
-+ */
-+#ifdef HAVE_SAFE_SYSCALL
-+#include "safe-syscall.inc.S"
-+#endif
-+
-+/* We must specifically say that we're happy for the stack to not be
-+ * executable, otherwise the toolchain will default to assuming our
-+ * assembly needs an executable stack and the whole QEMU binary will
-+ * needlessly end up with one. This should be the last thing in this file.
-+ */
-+#if defined(__linux__) && defined(__ELF__)
-+.section        .note.GNU-stack, "", %progbits
-+#endif
-diff --git a/linux-user/safe-syscall.h b/common-user/safe-syscall.h
-similarity index 100%
-rename from linux-user/safe-syscall.h
-rename to common-user/safe-syscall.h
-diff --git a/linux-user/safe-syscall.S b/linux-user/safe-syscall.S
-index 42ea7c40ba..c86f0aea74 100644
---- a/linux-user/safe-syscall.S
-+++ b/linux-user/safe-syscall.S
-@@ -1,30 +1 @@
--/*
-- * safe-syscall.S : include the host-specific assembly fragment
-- * to handle signals occurring at the same time as system calls.
-- *
-- * Written by Peter Maydell <peter.maydell@linaro.org>
-- *
-- * Copyright (C) 2016 Linaro Limited
-- *
-- * This work is licensed under the terms of the GNU GPL, version 2 or later.
-- * See the COPYING file in the top-level directory.
-- */
--
--#include "hostdep.h"
--#include "target_errno_defs.h"
--
--/* We have the correct host directory on our include path
-- * so that this will pull in the right fragment for the architecture.
-- */
--#ifdef HAVE_SAFE_SYSCALL
--#include "safe-syscall.inc.S"
--#endif
--
--/* We must specifically say that we're happy for the stack to not be
-- * executable, otherwise the toolchain will default to assuming our
-- * assembly needs an executable stack and the whole QEMU binary will
-- * needlessly end up with one. This should be the last thing in this file.
-- */
--#if defined(__linux__) && defined(__ELF__)
--.section        .note.GNU-stack, "", %progbits
--#endif
-+#include "common-safe-syscall.S"
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index ee038c2399..cfda166f9c 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -31,6 +31,7 @@
- #include "trace.h"
- #include "signal-common.h"
- #include "host-signal.h"
-+#include "safe-syscall.h"
- 
- static struct target_sigaction sigact_table[TARGET_NSIG];
- 
-diff --git a/meson.build b/meson.build
-index 728d305403..2f3b0fb2d6 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2873,6 +2873,7 @@ foreach target : target_dirs
-       base_dir = 'linux-user'
-       target_inc += include_directories('linux-user/host/' / config_host['ARCH'])
-       target_inc += include_directories('common-user/host/' / config_host['ARCH'])
-+      target_inc += include_directories('common-user')
-     endif
-     if 'CONFIG_BSD_USER' in config_target
-       base_dir = 'bsd-user'
--- 
-2.33.0
+One, we don't tell users anything of the sort as far as I can tell, and
+two, I'm afraid you missed my question :)
+
+I'm not asking what to do "if it hurts", or "if you want a cold-plugged
+device".  I'm asking whether there's a reason for ever wanting hot plug
+instead of cold plug.  Or in other words, what can hot plug possibly
+gain us over cold plug?
+
+As far as I know, the answer is "nothing but trouble".
+
+If that's true, then what we should tell users is to stick to -device
+for initial configuration, and stay away from device_add.
+
+Such advice would rain on the "configure everything with QMP" parade.
+No big deal, we already know that parade needs plenty of work before it
+can hit main street, and having to provide a way to cold plug with QMP
+is merely yet another sub-task.
+
+>>>> Related question: when exactly in these phases do we create devices
+>>>> specified with -device?
+>>>
+>>> In PHASE_MACHINE_INIT---that is, after the machine has been initialized
+>>> and before machine-done-notifiers have been called.
+>> 
+>> In other words, you should never use device_add where -device would do,
+>> because the latter gives you cold plug (which is simple and reliable),
+>> and the former hot plug (which is the opposite).
+>
+> Exactly.
+>
+>>> No, because the monitor goes directly from a point where device_add 
+>>> fails (PHASE_ACCEL_CREATED) to a point where devices are hotplugged 
+>>> (PHASE_MACHINE_READY).
+>> 
+>> Bummer.
+>
+> True, but consider that these "phases" were reconstructed ex post.  It's 
+> not like x-exit-preconfig was designed to skip PHASE_MACHINE_INIT; it's 
+> just that preconfig used to call qemu_main_loop() at the point which is 
+> now known as PHASE_ACCEL_CREATED.
+
+Understand.  I'm just trying to map the terrain so we can hopefully get
+from here to a better place.
+
+
+[...]
+
+>>>> The earlier the monitor becomes available, the better.
+>>>> Ideally, we'd process the command line strictly left to right, and fail
+>>>> options that are "out of phase".  Make the monitor available right when
+>>>> we process its -mon.  The -chardev for its character device must precede
+>>>> it.
+>>>
+>>> The boat for this has sailed.  The only sane way to do this is a new binary.
+>> 
+>> "Ideally" still applies to any new binary.
+>
+> Well, "ideally" any new binary would only have a few command line 
+> options, and ordering would be mostly irrelevant.  For example I'd 
+> expect a QMP binary to only have a few options, mostly for 
+> debugging/development (-L, -trace) and for process-wide settings (such 
+> as -name).
+
+This is where we disagree.
+
+For me, a new, alternative qemu-system-FOO binary should be able to
+replace the warty one we have.
+
+One important kind of user is management applications.  Libvirt
+developers tell us that they'd like to configure as much as possible via
+QMP.
+
+Another kind of user dear to me is me^H^Hdevelopers.  For ad hoc
+testing, having to configure via QMP is a pain we'd rathe do without.  A
+combination of configuration file(s), CLI and HMP is much quicker.  I
+don't want to remain stuck on the traditional binary, I want to do this
+with the new one.
+
+Catering to this kind of users should not be hard.  All it takes is a
+sensiblly designed startup.  Rough sketch without much thought:
+
+1. Start event loop
+
+2. Feed it CLI left to right.  Each option runs a handler just like each
+   QMP command does.
+
+   Options that read a configuration file inject the file into the feed.
+
+   Options that create a monitor create it suspended.
+
+   Options may advance the phase / run state, and they may require
+   certain phase(s).
+
+3. When we're done with CLI, resume any monitors we created.
+
+4. Monitors now feed commands to the event loop.  Commands may advance
+   the phase / run state, and they may require certain phase(s).
+
+>>>> Likewise, we'd fail QMP commands that are "out of phase".
+>>>> @allow-preconfig is a crutch that only exists because we're afraid (with
+>>>> reason) of hidden assumptions in QMP commands.
+>>>
+>>> At this point, it's not even like that anymore (except for block devices
+>>> because my patches haven't been applied).
+>>
+>> My point is that we still have quite a few commands without
+>> 'allow-preconfig' mostly because we are afraid of allowing them in
+>> preconfig state, not because of true phase dependencies.
+>
+> I think there's very few of them, if any (outside the block layer for 
+> which patches exist), and those are due to distraction more than fear.
+
+qapi/*.json has 216 commands, of which 26 carry 'allow-preconfig'.
 
 
