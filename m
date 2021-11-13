@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB12344F148
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Nov 2021 05:58:41 +0100 (CET)
-Received: from localhost ([::1]:37788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDEBA44F149
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Nov 2021 05:58:44 +0100 (CET)
+Received: from localhost ([::1]:37888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mll7g-0000ge-In
-	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 23:58:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53426)
+	id 1mll7j-0000l0-Up
+	for lists+qemu-devel@lfdr.de; Fri, 12 Nov 2021 23:58:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mll5z-00075P-1r
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mll5z-00075Y-4g
  for qemu-devel@nongnu.org; Fri, 12 Nov 2021 23:56:55 -0500
-Received: from [2607:f8b0:4864:20::12d] (port=46748
+Received: from [2607:f8b0:4864:20::12d] (port=38872
  helo=mail-il1-x12d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mll5w-0003MI-Mu
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mll5x-0003MM-FI
  for qemu-devel@nongnu.org; Fri, 12 Nov 2021 23:56:54 -0500
-Received: by mail-il1-x12d.google.com with SMTP id i11so10935874ilv.13
- for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 20:56:52 -0800 (PST)
+Received: by mail-il1-x12d.google.com with SMTP id m11so11007339ilh.5
+ for <qemu-devel@nongnu.org>; Fri, 12 Nov 2021 20:56:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1RfAt+Gj4t0D2XZYXWOpd5I5gxE3FaCADzEKGgm/8V0=;
- b=CMsX56wYPh2FbALXg2ax8x+gMQA+TFxhW6C1PgIL2kF/1qkRqQAkZC2V/BiaLyq6TD
- Z3nTZk+uujQUzd1YR6m7JIxRdEMRh870oNXozOlvulv7ZJgKqRdMttoglTBe5eKuFEPn
- jVCEwayIoYAAxMholF8mZ2tERl8qV7QTXZYeHJNTjwXTgHdFfnbzKta35Oa/zm3cshGO
- 9JqJSUmrWO2iCSZfJnymfnJvOmh+FUNAuUqJ7hnd0HZifFz02J5vl7aLrCUiUqrzkBcC
- iDREQNG/2IsqkzzOjx5kpKJlG/mk4uL7vdBicHQUfDKYCvG4TSoNlFaq6R1y866RXFiX
- m0Jw==
+ bh=/cI7/lZ29fPR8PehHUnyTqOz707sUTy3NDk8wdWBImQ=;
+ b=wNsPTT8KprmBo+K671mMfXxdGVVbUpGXQDBDRatJMCX3MLsNTK0WvMhTNVxEvy8cej
+ RyMs3OiE8PmExD6umrZaBdP4DoVnijqD1eU4CkZpVfXEQ+4ne2u7ulMI/APppMBWFo+A
+ qH6vlPyq0ERzOkQMtwZbveht1bY+Z2oN0M30qNRSkk/aWdYEEMkn8LfsiKGP4pIpn6fA
+ 5AM2o8dLb6ak9uaBnTEvXJEUd+rF/8+qvvI5++dlIMQMh4C14wF4jg4XACCqT1DODBl5
+ RpDySDvBwe7pqkOtxIhSJuxF12S/7EUvE1jWkTCSEqwsxlUnRnpdzUcEgN/vkMWEe5nd
+ JO3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1RfAt+Gj4t0D2XZYXWOpd5I5gxE3FaCADzEKGgm/8V0=;
- b=n+VFauWLYOiprU7sdfYTDM+XDHz0oV2VYYDAvtrexzzVh/4JsmCMxvskNlIELYpMdj
- cU8t08hVh1g6l5H/auY8thR0q3QihNQuVlbhqVjo/ad+3E/pey7c99/L6dAux4CH4f/E
- ukmklq68/y4UjOnnCp62zBnZE8GruVsdIhveIUPx15I2M5LC2XqXQnInWxkQ0J8aNaiC
- puCcNlKlrOjNRotDx62wEaRocSaHBc1yZWTu+UJaBc9NB0le0k7o7Ak9AActS4vHcoig
- z05r2oAezCvvHsW7YXLtJ0HiD/06UkUguDNU23XKSuOxTVh0+B2CsZL6xxt0AV68BepA
- bR1A==
-X-Gm-Message-State: AOAM531e+s+n9oe1x4y3JcJC8tF9TwpV03bivS9Uw4gnuKwl0b8OhS1K
- Ij3oupxn4JO6uVDv3qoKqDfihlryhdVVFA==
-X-Google-Smtp-Source: ABdhPJyPSbKsX67YHdeU6VnQ0zBg70+vNbFNJvRqQvCWqVYFKCOmDyqnCpbPktPDMDyUQeiU1V38RA==
-X-Received: by 2002:a05:6e02:b4f:: with SMTP id
- f15mr3429926ilu.38.1636779411345; 
- Fri, 12 Nov 2021 20:56:51 -0800 (PST)
+ bh=/cI7/lZ29fPR8PehHUnyTqOz707sUTy3NDk8wdWBImQ=;
+ b=0oBhAPoTCM18rUYXNiIR/guoG+3uPnuL70aR5py5hWjj2SHKn71JNgh5kHocpRmVCp
+ UCnXgb2h8y7QSRqhQIADqdz0C0T3qoP5d/Hipiu6aexSR0zTIW20wtKU7Ilik0uupPRv
+ 4eCeSNxjOg7f4OC1agvhcofeYiD0DPOoRL06a071ky7Jb7N5wraKU+HrvWCZbTfimDSP
+ BQ38bTpXPL3ZSSWhca//M0kc4AKn+84DUw+OvhmJBNLxMTmIrbSVXJqhU/XmSKUQQKGW
+ cQLAMs3bDaGSy1g7NBoJq+8tCWJ1dohelvvcIepj0XUiWCc8ipGcWRjEtTeaH0kon4zG
+ edFA==
+X-Gm-Message-State: AOAM533IewQvC8L/L+gQZKw5bvhRpN6qOKoe8Mle1BFKkxuXHLjEisfk
+ Tccl+pv+Kt6cI1TuY2FpvyBUlOpqJStCSQ==
+X-Google-Smtp-Source: ABdhPJwwUkbnhVXXSkrNm1ndNv+N7RIj22056XGlV6NksiW9pGA7sfyWCdtE5bHVWofno3vF42mUSg==
+X-Received: by 2002:a05:6e02:144e:: with SMTP id
+ p14mr12271986ilo.180.1636779412254; 
+ Fri, 12 Nov 2021 20:56:52 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id r14sm5414455iov.14.2021.11.12.20.56.50
+ by smtp.gmail.com with ESMTPSA id r14sm5414455iov.14.2021.11.12.20.56.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Nov 2021 20:56:50 -0800 (PST)
+ Fri, 12 Nov 2021 20:56:51 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v3 3/5] linux-user/safe-syscall.inc.S: Move to common-user
-Date: Fri, 12 Nov 2021 21:56:01 -0700
-Message-Id: <20211113045603.60391-4-imp@bsdimp.com>
+Subject: [RFC v3 4/5] common-user: Adjust system call return on FreeBSD
+Date: Fri, 12 Nov 2021 21:56:02 -0700
+Message-Id: <20211113045603.60391-5-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211113045603.60391-1-imp@bsdimp.com>
 References: <20211113045603.60391-1-imp@bsdimp.com>
@@ -92,69 +92,96 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move all the safe_syscall.inc.S files to common-user. They are almost
-identical between linux-user and bsd-user to re-use.
+All the *-users generally use the negative errno return codes to signal
+errno for a system call.  FreeBSD's system calls, on the other hand,
+returns errno, not -errno. Add ifdefs for FreeBSD to make the adjustment
+on the 4 hosts that we have support for.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- {linux-user => common-user}/host/aarch64/safe-syscall.inc.S | 0
- {linux-user => common-user}/host/arm/safe-syscall.inc.S     | 0
- {linux-user => common-user}/host/i386/safe-syscall.inc.S    | 0
- {linux-user => common-user}/host/ppc64/safe-syscall.inc.S   | 0
- {linux-user => common-user}/host/riscv/safe-syscall.inc.S   | 0
- {linux-user => common-user}/host/s390x/safe-syscall.inc.S   | 0
- {linux-user => common-user}/host/x86_64/safe-syscall.inc.S  | 0
- meson.build                                                 | 1 +
- 8 files changed, 1 insertion(+)
- rename {linux-user => common-user}/host/aarch64/safe-syscall.inc.S (100%)
- rename {linux-user => common-user}/host/arm/safe-syscall.inc.S (100%)
- rename {linux-user => common-user}/host/i386/safe-syscall.inc.S (100%)
- rename {linux-user => common-user}/host/ppc64/safe-syscall.inc.S (100%)
- rename {linux-user => common-user}/host/riscv/safe-syscall.inc.S (100%)
- rename {linux-user => common-user}/host/s390x/safe-syscall.inc.S (100%)
- rename {linux-user => common-user}/host/x86_64/safe-syscall.inc.S (100%)
+ common-user/host/aarch64/safe-syscall.inc.S | 8 ++++++++
+ common-user/host/arm/safe-syscall.inc.S     | 7 +++++++
+ common-user/host/i386/safe-syscall.inc.S    | 9 +++++++++
+ common-user/host/x86_64/safe-syscall.inc.S  | 9 +++++++++
+ 4 files changed, 33 insertions(+)
 
-diff --git a/linux-user/host/aarch64/safe-syscall.inc.S b/common-user/host/aarch64/safe-syscall.inc.S
-similarity index 100%
-rename from linux-user/host/aarch64/safe-syscall.inc.S
-rename to common-user/host/aarch64/safe-syscall.inc.S
-diff --git a/linux-user/host/arm/safe-syscall.inc.S b/common-user/host/arm/safe-syscall.inc.S
-similarity index 100%
-rename from linux-user/host/arm/safe-syscall.inc.S
-rename to common-user/host/arm/safe-syscall.inc.S
-diff --git a/linux-user/host/i386/safe-syscall.inc.S b/common-user/host/i386/safe-syscall.inc.S
-similarity index 100%
-rename from linux-user/host/i386/safe-syscall.inc.S
-rename to common-user/host/i386/safe-syscall.inc.S
-diff --git a/linux-user/host/ppc64/safe-syscall.inc.S b/common-user/host/ppc64/safe-syscall.inc.S
-similarity index 100%
-rename from linux-user/host/ppc64/safe-syscall.inc.S
-rename to common-user/host/ppc64/safe-syscall.inc.S
-diff --git a/linux-user/host/riscv/safe-syscall.inc.S b/common-user/host/riscv/safe-syscall.inc.S
-similarity index 100%
-rename from linux-user/host/riscv/safe-syscall.inc.S
-rename to common-user/host/riscv/safe-syscall.inc.S
-diff --git a/linux-user/host/s390x/safe-syscall.inc.S b/common-user/host/s390x/safe-syscall.inc.S
-similarity index 100%
-rename from linux-user/host/s390x/safe-syscall.inc.S
-rename to common-user/host/s390x/safe-syscall.inc.S
-diff --git a/linux-user/host/x86_64/safe-syscall.inc.S b/common-user/host/x86_64/safe-syscall.inc.S
-similarity index 100%
-rename from linux-user/host/x86_64/safe-syscall.inc.S
-rename to common-user/host/x86_64/safe-syscall.inc.S
-diff --git a/meson.build b/meson.build
-index 9702fdce6d..728d305403 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2872,6 +2872,7 @@ foreach target : target_dirs
-     if 'CONFIG_LINUX_USER' in config_target
-       base_dir = 'linux-user'
-       target_inc += include_directories('linux-user/host/' / config_host['ARCH'])
-+      target_inc += include_directories('common-user/host/' / config_host['ARCH'])
-     endif
-     if 'CONFIG_BSD_USER' in config_target
-       base_dir = 'bsd-user'
+diff --git a/common-user/host/aarch64/safe-syscall.inc.S b/common-user/host/aarch64/safe-syscall.inc.S
+index bc1f5a9792..9f9525fe25 100644
+--- a/common-user/host/aarch64/safe-syscall.inc.S
++++ b/common-user/host/aarch64/safe-syscall.inc.S
+@@ -64,6 +64,14 @@ safe_syscall_start:
+ 	svc	0x0
+ safe_syscall_end:
+ 	/* code path for having successfully executed the syscall */
++#ifdef __FreeBSD__
++        /*
++         * FreeBSD kernel returns C bit set with positive errno.
++         * Encode this for use in bsd-user as -errno:
++	 *    x0 = !c ? x0 : -x0
++	 */
++	csneg  x0, x0, x0, cc
++#endif
+ 	ret
+ 
+ 0:
+diff --git a/common-user/host/arm/safe-syscall.inc.S b/common-user/host/arm/safe-syscall.inc.S
+index 88c4958504..459e5f87c2 100644
+--- a/common-user/host/arm/safe-syscall.inc.S
++++ b/common-user/host/arm/safe-syscall.inc.S
+@@ -78,6 +78,13 @@ safe_syscall_start:
+ 	swi	0
+ safe_syscall_end:
+ 	/* code path for having successfully executed the syscall */
++#ifdef __FreeBSD__
++        /*
++         * FreeBSD kernel returns C bit set with positive errno.
++         * Encode this for use in bsd-user as -errno:
++         */
++        negcs   r0, r0
++#endif
+ 	pop	{ r4, r5, r6, r7, r8, pc }
+ 
+ 1:
+diff --git a/common-user/host/i386/safe-syscall.inc.S b/common-user/host/i386/safe-syscall.inc.S
+index 9e58fc6504..ba55a35e92 100644
+--- a/common-user/host/i386/safe-syscall.inc.S
++++ b/common-user/host/i386/safe-syscall.inc.S
+@@ -75,6 +75,15 @@ safe_syscall_start:
+ 	int	$0x80
+ safe_syscall_end:
+ 	/* code path for having successfully executed the syscall */
++#ifdef __FreeBSD__
++        /*
++         * FreeBSD kernel returns C bit set with positive errno.
++         * Encode this for use in bsd-user as -errno:
++         */
++        jnb     2f
++        neg     %eax
++2:
++#endif
+ 	pop	%ebx
+ 	.cfi_remember_state
+ 	.cfi_adjust_cfa_offset -4
+diff --git a/common-user/host/x86_64/safe-syscall.inc.S b/common-user/host/x86_64/safe-syscall.inc.S
+index f36992daa3..46c527e058 100644
+--- a/common-user/host/x86_64/safe-syscall.inc.S
++++ b/common-user/host/x86_64/safe-syscall.inc.S
+@@ -72,6 +72,15 @@ safe_syscall_start:
+         syscall
+ safe_syscall_end:
+         /* code path for having successfully executed the syscall */
++#ifdef __FreeBSD__
++        /*
++         * FreeBSD kernel returns C bit set with positive errno.
++         * Encode this for use in bsd-user as -errno:
++         */
++        jnb     2f
++        neg     %rax
++2:
++#endif
+         pop     %rbp
+         .cfi_remember_state
+         .cfi_def_cfa_offset 8
 -- 
 2.33.0
 
