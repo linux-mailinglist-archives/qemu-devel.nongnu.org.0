@@ -2,40 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9335344F778
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Nov 2021 11:57:54 +0100 (CET)
-Received: from localhost ([::1]:38480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 601A244F7F2
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Nov 2021 13:51:33 +0100 (CET)
+Received: from localhost ([::1]:47028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmDCr-0007lP-9X
-	for lists+qemu-devel@lfdr.de; Sun, 14 Nov 2021 05:57:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49434)
+	id 1mmEyp-0006kg-L3
+	for lists+qemu-devel@lfdr.de; Sun, 14 Nov 2021 07:51:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1mmDBz-0006fT-Cq; Sun, 14 Nov 2021 05:56:59 -0500
-Received: from mail.csgraf.de ([85.25.223.15]:39320 helo=zulu616.server4you.de)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1mmDBu-00034M-Gr; Sun, 14 Nov 2021 05:56:58 -0500
-Received: from localhost.localdomain
- (dynamic-095-118-029-131.95.118.pool.telefonica.de [95.118.29.131])
- by csgraf.de (Postfix) with ESMTPSA id 27F376080090;
- Sun, 14 Nov 2021 11:56:46 +0100 (CET)
-From: Alexander Graf <agraf@csgraf.de>
-To: qemu-arm@nongnu.org
-Subject: [PATCH] arm: Don't remove EL3 exposure for SMC conduit
-Date: Sun, 14 Nov 2021 11:56:45 +0100
-Message-Id: <20211114105645.16841-1-agraf@csgraf.de>
-X-Mailer: git-send-email 2.30.1 (Apple Git-130)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mmEwu-0005Pf-Jb
+ for qemu-devel@nongnu.org; Sun, 14 Nov 2021 07:49:32 -0500
+Received: from [2a00:1450:4864:20::336] (port=42737
+ helo=mail-wm1-x336.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mmEws-0008Tn-LO
+ for qemu-devel@nongnu.org; Sun, 14 Nov 2021 07:49:32 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ d72-20020a1c1d4b000000b00331140f3dc8so10279033wmd.1
+ for <qemu-devel@nongnu.org>; Sun, 14 Nov 2021 04:49:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=64gnf7OEU6vtYppEekQ9uumBMuERG1RHir8D4b/tj1k=;
+ b=WQsoiNqRBLDVDIiy5ccYlFGxa6sq76AHNi7QOKpk31zjt8/w6ASKu3S5inqvVG5yLZ
+ ta0f+YNmExpy4DKP5AUhphOOH3bHWFElEYt1OaVrWnWmTvg+aBX/N5EVnsOyPYptFDTy
+ YWu7knk9EWOpzoRss7XYCCw2P0RjHp+Me4t3DbH7rp+6zbFwthDVJZtV8OkoiXd3DI2j
+ mhol/+kqnvxYPzIieCdWnDid+burovVZB+BwawME7/iT6/Bqv/y7/9husTqdYe84BqN/
+ Ar9WHQh5VGfNAoUMSjVldfox5SFb6Yr+GyZuyTBQV/6sm6uWwTKQbuiaNnciLHlvJw/y
+ rBvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=64gnf7OEU6vtYppEekQ9uumBMuERG1RHir8D4b/tj1k=;
+ b=SwSbF7cpcuP94Qf0M4OYaG85vTb7DhPMf3DYCMGTG1BOezwppS9HrXLpYXVHyaT79g
+ iSS30xVKcB6olGoeUSy7Op6++pQCPwY8JNNm/PV2mqGMcUrrXFfJnP3hn1wUXhvut/im
+ 8l3Sg8mgW8VxYJhEfWenUqe5f/iIKav+S39xjsRsz5pE9tmBIcpoxcfuaOz4Ix6+9Dny
+ f+Ui8g0YEgO1VsD+CW+Sun2IeQLCdfHlO8E/HrOQUE/Gj9ZJ0/S81LwrhCNGu3aU3V/a
+ w4CYC/z7SxCuHrG1CM4GRkexSdsIMjzsAGT+IowVRvZibyMmviBT1dO3PS/mXt9qx3oV
+ d5aQ==
+X-Gm-Message-State: AOAM530sbHBefdMDOr8nGCXJtHZopBHtuCn9t5zc9yIWNyU072A6pUWw
+ qGB2LwhO916TFU+VdDzMcVzhBA==
+X-Google-Smtp-Source: ABdhPJxQTZspoMDsbA4TaVNgx99ZUSk9SbySADR4NOnmJ230TQq+aAEWvN3lNMRwvlZwnjNJ9FyIqg==
+X-Received: by 2002:a05:600c:1c8d:: with SMTP id
+ k13mr50641719wms.177.1636894169192; 
+ Sun, 14 Nov 2021 04:49:29 -0800 (PST)
+Received: from [192.168.8.105] (60.red-95-126-179.staticip.rima-tde.net.
+ [95.126.179.60])
+ by smtp.gmail.com with ESMTPSA id g5sm16690867wri.45.2021.11.14.04.49.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 14 Nov 2021 04:49:28 -0800 (PST)
+Subject: Re: [PATCH v5 01/18] exec/memop: Adding signedness to quad definitions
+To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20211112145902.205131-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <20211112145902.205131-2-frederic.petrot@univ-grenoble-alpes.fr>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <dd4da247-4849-48f8-f9b4-aa312a370cd6@linaro.org>
+Date: Sun, 14 Nov 2021 13:49:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <20211112145902.205131-2-frederic.petrot@univ-grenoble-alpes.fr>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.402,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -48,59 +95,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Andrei Warkentin <andrey.warkentin@gmail.com>
+Cc: bin.meng@windriver.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ alistair.francis@wdc.com, fabien.portas@grenoble-inp.org, palmer@dabbelt.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When we expose an SMC conduit, we're implicitly telling the guest that
-there is EL3 available because it needs to call it. While that EL3 then
-is not backed by the emulated CPU, from the guest's EL2 point of view,
-it still means there is an EL3 to call into.
+On 11/12/21 3:58 PM, Frédéric Pétrot wrote:
+> Renaming defines for quad in their various forms so that their signedness is
+> now explicit.
+> Done using git grep as suggested by Philippe, with a bit of hand edition to
+> keep assignments aligned.
+> 
+> Signed-off-by: Frédéric Pétrot<frederic.petrot@univ-grenoble-alpes.fr>
+> Reviewed-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> ---
 
-This is a problem for VMware ESXi, which validates EL3 availability before
-doing SMC calls. With this patch, VMware ESXi works with SMP in TCG.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reported-by: Andrei Warkentin <andrey.warkentin@gmail.com>
-Signed-off-by: Alexander Graf <agraf@csgraf.de>
----
- target/arm/cpu.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
-
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index a211804fd3..21092c5242 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1782,11 +1782,21 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-          */
-         unset_feature(env, ARM_FEATURE_EL3);
- 
--        /* Disable the security extension feature bits in the processor feature
--         * registers as well. These are id_pfr1[7:4] and id_aa64pfr0[15:12].
--         */
--        cpu->isar.id_pfr1 &= ~0xf0;
--        cpu->isar.id_aa64pfr0 &= ~0xf000;
-+        if (cpu->psci_conduit == QEMU_PSCI_CONDUIT_SMC) {
-+            /*
-+             * We tell the guest to use SMC calls into EL3 for PSCI calls, so
-+             * there has to be EL3 available. We merely execute it on the host
-+             * in QEMU rather than in actual EL3 inside the guest.
-+             */
-+        } else {
-+            /*
-+             * Disable the security extension feature bits in the processor
-+             * feature registers as well. These are id_pfr1[7:4] and
-+             * id_aa64pfr0[15:12].
-+             */
-+            cpu->isar.id_pfr1 &= ~0xf0;
-+            cpu->isar.id_aa64pfr0 &= ~0xf000;
-+        }
-     }
- 
-     if (!cpu->has_el2) {
--- 
-2.30.1 (Apple Git-130)
-
+r~
 
