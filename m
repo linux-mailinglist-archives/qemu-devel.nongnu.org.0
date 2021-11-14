@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B10444FBA7
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Nov 2021 21:58:22 +0100 (CET)
-Received: from localhost ([::1]:57622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E382C44FBB9
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Nov 2021 22:10:53 +0100 (CET)
+Received: from localhost ([::1]:60946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmMZw-0003iy-O7
-	for lists+qemu-devel@lfdr.de; Sun, 14 Nov 2021 15:58:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36902)
+	id 1mmMm3-0006dd-Bf
+	for lists+qemu-devel@lfdr.de; Sun, 14 Nov 2021 16:10:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mmMYm-0002tl-HD
- for qemu-devel@nongnu.org; Sun, 14 Nov 2021 15:57:08 -0500
-Received: from [2a00:1450:4864:20::42a] (port=37831
- helo=mail-wr1-x42a.google.com)
+ id 1mmMlB-0005yY-Ip
+ for qemu-devel@nongnu.org; Sun, 14 Nov 2021 16:09:57 -0500
+Received: from [2a00:1450:4864:20::331] (port=51717
+ helo=mail-wm1-x331.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mmMYl-00040P-1R
- for qemu-devel@nongnu.org; Sun, 14 Nov 2021 15:57:08 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id b12so26607179wrh.4
- for <qemu-devel@nongnu.org>; Sun, 14 Nov 2021 12:57:06 -0800 (PST)
+ id 1mmMl9-00059L-O2
+ for qemu-devel@nongnu.org; Sun, 14 Nov 2021 16:09:57 -0500
+Received: by mail-wm1-x331.google.com with SMTP id z200so12217715wmc.1
+ for <qemu-devel@nongnu.org>; Sun, 14 Nov 2021 13:09:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=6nQq9IeF0xuDftpamoA6jpmxW+t9OUIkVSBX8QHdAlE=;
- b=UqXY/UvtF19Zb4z87gx9y7K0jplf683r5NnrdWhGWcddFV6AIOXPBz8n6LGpTJOeCg
- iNN0LGee7lj/IFoNbVwzUqYanFV3IBwWeNdIQG8vE6CpOzm+JuuEJKGLhAQpN20aqohU
- 3WlOseBGIWRZfWCzY/bY7RP2s6sM+5dmLPXqHEOjgxmBXx1PI3g08jXa1x3wkXDCEcDD
- RuEVUffhChhaD3ZKiSmB6/Wxogcj9p+niIkwrS2ihfitPnn1W9sQem3FnddZXbZpU9Fc
- QMg1YIjaX+AVwrN9mUgzjMqK0Ol5ShYV9kb/PDQ91S9+KcAOlN1UPM01xaDxaVx6khmN
- yf8g==
+ bh=iNzqiY7dxyNKsEM5AmRZEy0Gfz/ngd1zgpXymaRkETQ=;
+ b=OPojouGpprPqrBkE6B0njShQXpaop1B6zmgejshV9GE28BeI4T1DsrrQWVDWIdzxo+
+ 4r3R+6w1iiIe4MB+6+Z7FcIjsmg7fqaE69iiS0gfO2thuvWxzPzCsxWrZ46C9K3244pX
+ COvyL8k58CZJEY0UWcdSmCgh+slDty16WrL1Bz6jOQ8mbqcLPRKSWpUHhwNkv/rubT94
+ mST7YTTdSn+6LAuJdAH4hLBkfvS1ea4Ee1nDJf+UsepvyvvVYU8oTS4Eb24Wst+PuCH+
+ P41UoSfGSp8Oy4oHoSV8EqlOjc70t8icncHw49UC0s6ySWnDPzsKaIdPLtyqNXTveH8W
+ Lyrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=6nQq9IeF0xuDftpamoA6jpmxW+t9OUIkVSBX8QHdAlE=;
- b=vqCN1QsOYqCD7OlvvdKPcIP9RUpsz5PzHP0uGeW8S65ngETCBzvH5La4febBh4Mnvt
- rXqN1fSYkYM530sF+IGV41MahLdXXeOEyaLCc+JCMP+CoSfbTDvsELyd1Dx0r93DY/1E
- xVGjq0v8Rioo/n/YspDu6QC9w2Q9qf7Gj6KE5mtKIs0jQGQ+YyAI1kS4iIfJwlLHKXAM
- oISniHIHld4QaAdbhhizdWV1sRsLJthXoxnuOFQHJK0Xp7i3M3iSWiNXeK4z0RoJHfAe
- J8bjxRXawMjdpxmcDrpVcNq4SYoFohr+LpKihGJeY5AfqWXOO+6k1N+JaZ/tDs670DY5
- x+Pw==
-X-Gm-Message-State: AOAM533ZA7yPHMXi67C+GJowbRd81jgV4b1IqV39Z/DEk0+ms4+b0Sb2
- uftwRvQi6Lcs5sie3oPmh9c=
-X-Google-Smtp-Source: ABdhPJyqXUQFJ0naBIB2drfRljlPxXvxqTKdvQNxlvwyOiw+xprmDkYz33ZgtuVE7ZGDAnKUhzyfQQ==
-X-Received: by 2002:a05:6000:1862:: with SMTP id
- d2mr40476232wri.203.1636923425079; 
- Sun, 14 Nov 2021 12:57:05 -0800 (PST)
+ bh=iNzqiY7dxyNKsEM5AmRZEy0Gfz/ngd1zgpXymaRkETQ=;
+ b=CyGFLWpJeDWqyP8rQxN5yIkncn43Kr9b9wixKfq8e0+kISx3JP3IyJ90U35SoOlgOA
+ r8kbeYjhcsBkTwj3br45DFG/iIsXjANvjn4aU4zh0V2MP94ZIexO+Z4u4RzsYkfs/Og0
+ kBYw6VLuAPGXNrDjMhgR/QLqfGDpP5reQMEbbu4CxS/kbqlM4XTNVRteG9q4YcCekMBu
+ Gggne1qr8qZ6oSdy4qNZehPJlPCiw8AQZdfpxH2hp6sm+qAfzvfk9qFsfAkgzR8fXh3a
+ DopYYFx1A6t2fFJMT4ekjnBlzBOLKsgMCenFnQLl/dSNRqWmGnNmtizF+/FAqqq7+1Bu
+ VVAg==
+X-Gm-Message-State: AOAM531lkmr62XUqI6ApTQkrbCPbbvEFGcY+gJco0Azd93zhtEKHz+eB
+ tb5+3Jonlvzu82H+WqYmxCE=
+X-Google-Smtp-Source: ABdhPJzSH8ESTe8mCIvi+5w+BVRjUpe60+s+Z3gjT7re1CzdAYXmJ2AKbUEFgwgI6NwgG4FSTwWgDA==
+X-Received: by 2002:a1c:1f06:: with SMTP id f6mr36214532wmf.55.1636924194236; 
+ Sun, 14 Nov 2021 13:09:54 -0800 (PST)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id c79sm12063171wme.43.2021.11.14.12.57.03
+ by smtp.gmail.com with ESMTPSA id e18sm12276087wrs.48.2021.11.14.13.09.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 14 Nov 2021 12:57:04 -0800 (PST)
-Message-ID: <3a192e75-d2a8-5582-58c5-b3cedc378f5b@amsat.org>
-Date: Sun, 14 Nov 2021 21:57:03 +0100
+ Sun, 14 Nov 2021 13:09:53 -0800 (PST)
+Message-ID: <437850ec-b8d5-fdc6-9bd7-185391eac85e@amsat.org>
+Date: Sun, 14 Nov 2021 22:09:52 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH v2 3/4] linux-user: Fix member types of target_dirent64
+Subject: Re: [PATCH v2 1/4] linux-user: Split out do_getdents, do_getdents64
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20211114103539.298686-1-richard.henderson@linaro.org>
- <20211114103539.298686-4-richard.henderson@linaro.org>
+ <20211114103539.298686-2-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211114103539.298686-4-richard.henderson@linaro.org>
+In-Reply-To: <20211114103539.298686-2-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
@@ -99,13 +98,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/14/21 11:35, Richard Henderson wrote:
-> The host uint64_t (etc) does not have the correct
-> alignment constraint as the guest: use abi_* types.
+> Retain all 3 implementations of getdents for now.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  linux-user/syscall_defs.h | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  linux-user/syscall.c | 325 +++++++++++++++++++++++--------------------
+>  1 file changed, 172 insertions(+), 153 deletions(-)
 
+Same as v1:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
