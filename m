@@ -2,87 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 601A244F7F2
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Nov 2021 13:51:33 +0100 (CET)
-Received: from localhost ([::1]:47028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9527E44F808
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Nov 2021 14:21:07 +0100 (CET)
+Received: from localhost ([::1]:58748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmEyp-0006kg-L3
-	for lists+qemu-devel@lfdr.de; Sun, 14 Nov 2021 07:51:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35676)
+	id 1mmFRS-0007wS-63
+	for lists+qemu-devel@lfdr.de; Sun, 14 Nov 2021 08:21:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mmEwu-0005Pf-Jb
- for qemu-devel@nongnu.org; Sun, 14 Nov 2021 07:49:32 -0500
-Received: from [2a00:1450:4864:20::336] (port=42737
- helo=mail-wm1-x336.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mmEws-0008Tn-LO
- for qemu-devel@nongnu.org; Sun, 14 Nov 2021 07:49:32 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- d72-20020a1c1d4b000000b00331140f3dc8so10279033wmd.1
- for <qemu-devel@nongnu.org>; Sun, 14 Nov 2021 04:49:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=64gnf7OEU6vtYppEekQ9uumBMuERG1RHir8D4b/tj1k=;
- b=WQsoiNqRBLDVDIiy5ccYlFGxa6sq76AHNi7QOKpk31zjt8/w6ASKu3S5inqvVG5yLZ
- ta0f+YNmExpy4DKP5AUhphOOH3bHWFElEYt1OaVrWnWmTvg+aBX/N5EVnsOyPYptFDTy
- YWu7knk9EWOpzoRss7XYCCw2P0RjHp+Me4t3DbH7rp+6zbFwthDVJZtV8OkoiXd3DI2j
- mhol/+kqnvxYPzIieCdWnDid+burovVZB+BwawME7/iT6/Bqv/y7/9husTqdYe84BqN/
- Ar9WHQh5VGfNAoUMSjVldfox5SFb6Yr+GyZuyTBQV/6sm6uWwTKQbuiaNnciLHlvJw/y
- rBvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=64gnf7OEU6vtYppEekQ9uumBMuERG1RHir8D4b/tj1k=;
- b=SwSbF7cpcuP94Qf0M4OYaG85vTb7DhPMf3DYCMGTG1BOezwppS9HrXLpYXVHyaT79g
- iSS30xVKcB6olGoeUSy7Op6++pQCPwY8JNNm/PV2mqGMcUrrXFfJnP3hn1wUXhvut/im
- 8l3Sg8mgW8VxYJhEfWenUqe5f/iIKav+S39xjsRsz5pE9tmBIcpoxcfuaOz4Ix6+9Dny
- f+Ui8g0YEgO1VsD+CW+Sun2IeQLCdfHlO8E/HrOQUE/Gj9ZJ0/S81LwrhCNGu3aU3V/a
- w4CYC/z7SxCuHrG1CM4GRkexSdsIMjzsAGT+IowVRvZibyMmviBT1dO3PS/mXt9qx3oV
- d5aQ==
-X-Gm-Message-State: AOAM530sbHBefdMDOr8nGCXJtHZopBHtuCn9t5zc9yIWNyU072A6pUWw
- qGB2LwhO916TFU+VdDzMcVzhBA==
-X-Google-Smtp-Source: ABdhPJxQTZspoMDsbA4TaVNgx99ZUSk9SbySADR4NOnmJ230TQq+aAEWvN3lNMRwvlZwnjNJ9FyIqg==
-X-Received: by 2002:a05:600c:1c8d:: with SMTP id
- k13mr50641719wms.177.1636894169192; 
- Sun, 14 Nov 2021 04:49:29 -0800 (PST)
-Received: from [192.168.8.105] (60.red-95-126-179.staticip.rima-tde.net.
- [95.126.179.60])
- by smtp.gmail.com with ESMTPSA id g5sm16690867wri.45.2021.11.14.04.49.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 14 Nov 2021 04:49:28 -0800 (PST)
-Subject: Re: [PATCH v5 01/18] exec/memop: Adding signedness to quad definitions
-To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211112145902.205131-1-frederic.petrot@univ-grenoble-alpes.fr>
- <20211112145902.205131-2-frederic.petrot@univ-grenoble-alpes.fr>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <dd4da247-4849-48f8-f9b4-aa312a370cd6@linaro.org>
-Date: Sun, 14 Nov 2021 13:49:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mmFOp-0006Vz-BY
+ for qemu-devel@nongnu.org; Sun, 14 Nov 2021 08:18:23 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:50037)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mmFOj-00048Q-CM
+ for qemu-devel@nongnu.org; Sun, 14 Nov 2021 08:18:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=41fqTssd1Yr2htSMS74dKwTljkEunl39B4yAhA8TC1w=; b=SNK5PZVUjDuZ8SVXwaDttiUcDp
+ 0FCx15MhRJa6JT01ZlgL0+1GxJGBO0S3YrmB+kYj8ry/GyhWEoUWMJWeoo8XUQxmPqh/4+dlGfYhL
+ q3CDFut62y0UuOO2NJT2/FsmAp9YhlcenG2dTd7iiOuN1zF0Sddm9dgBiv0nv0gYEWCtuwG5zRfje
+ fzLlOcNg+98o737AWn0pC8UoJDN4/Xho99rXneFuUnNg7qbXxwfFJrA90XA0Hcqij4dUFExvaOirh
+ Zr2QV7ynLiyirqCwd/XuN6E+oltuZwhRhhwSvnk8JBGsd4SCZndfdHYfjSiH9fT78T4/m3fcsrSGT
+ nb2C3XzL9Iyr1FLAOEa3+MBJEzyHaudF+kyPrxgedywPh9nX/vnHTgV2CfWVsgTx2TemRm+Yj9+HF
+ B5A4AUmbbvV3OM7ESs7dXQMwZ7rcbLuaqUOz4O5a9KmppfgEtdD8ATpviO+ZCybVD4vgWWJdtX8Ff
+ Z9Xi6K8aouuoXiztBaaq2GBIAU346DSc+fyoOdYvEEs81GroyA8820KQcK4AytIv45cMabMAnzZFO
+ IYt/jeVxzYU9TaiwrezqrHkzGhFfCqKX1CNYjFDm4XUXqNdLQfSsJ5GH7N0tKNW5c81Ud3yCYM7nK
+ kEZQpy7XdaLO7sEpSZrJDhFAp3C46Y7VtBuKVCjkU=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Brad Smith <brad@comstyle.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Alexandre Ratchov <alex@caoua.org>
+Subject: Re: [PATCH] audio: Add sndio backend
+Date: Sun, 14 Nov 2021 14:18:10 +0100
+Message-ID: <1891902.ENMEkzpEdO@silver>
+In-Reply-To: <73252f43-1e30-7c0b-bcc7-1df399290e10@comstyle.com>
+References: <YYdh3l1HTh+kpONa@humpty.home.comstyle.com>
+ <2813395.O5pCCIcrDs@silver>
+ <73252f43-1e30-7c0b-bcc7-1df399290e10@comstyle.com>
 MIME-Version: 1.0
-In-Reply-To: <20211112145902.205131-2-frederic.petrot@univ-grenoble-alpes.fr>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.402,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,24 +67,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bin.meng@windriver.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- alistair.francis@wdc.com, fabien.portas@grenoble-inp.org, palmer@dabbelt.com,
- philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/12/21 3:58 PM, Frédéric Pétrot wrote:
-> Renaming defines for quad in their various forms so that their signedness is
-> now explicit.
-> Done using git grep as suggested by Philippe, with a bit of hand edition to
-> keep assignments aligned.
+On Samstag, 13. November 2021 21:40:39 CET Brad Smith wrote:
+> On 11/8/2021 8:03 AM, Christian Schoenebeck wrote:
+> > On Sonntag, 7. November 2021 06:19:26 CET Brad Smith wrote:
+> >> audio: Add sndio backend
+> >> 
+> >> Add a sndio backend.
+> > 
+> > Hi Brad!
+> > 
+> >> sndio is the native API used by OpenBSD, although it has been ported to
+> >> other *BSD's and Linux (packages for Ubuntu, Debian, Void, Arch, etc.).
+> >> 
+> >> The C code is from Alexandre Ratchov <alex@caoua.org> and the rest of
+> >> the bits are from me.
+> > 
+> > A Signed-off-by: line is mandatory for all QEMU patches:
+> > https://wiki.qemu.org/Contribute/SubmitAPatch
 > 
-> Signed-off-by: Frédéric Pétrot<frederic.petrot@univ-grenoble-alpes.fr>
-> Reviewed-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> ---
+> Ah, I was not aware of that. I usually include it but it was an
+> oversight this time.
+> 
+> > Also, it should be clear from the patches who did what exactly, either by
+> > splitting the patches up and assigning the respective authors accordingly,
+> > or by making the person with the most relevant work the patch author and
+> > describing in the commit log additional authors and what they have added/
+> > changed, along with their Signed-off-by: line:
+> > 
+> > Signed-off-by: Alexandre Ratchov <alex@caoua.org>
+> > [Brad Smith: - Added foo
+> > 
+> >               - Some other change]
+> > 
+> > Signed-off-by: Brad Smith <brad@comstyle.com>
+> 
+> I think I'll go with this.
+> 
+> > http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/
+> > Documentation/SubmittingPatches?
+> > id=f6f94e2ab1b33f0082ac22d71f66385a60d8157f#n297
+> > 
+> > Please CC those involved authors.
+> 
+> Will do.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I added Alexandre Ratchov on CC as he seems to be the primary author of this 
+patch series.
 
-r~
+> >> ---
+> >> 
+> >>   audio/audio.c          |   1 +
+> >>   audio/audio_template.h |   2 +
+> >>   audio/meson.build      |   1 +
+> >>   audio/sndioaudio.c     | 555 +++++++++++++++++++++++++++++++++++++++++
+> >>   meson.build            |   7 +
+> >>   meson_options.txt      |   4 +-
+> >>   qapi/audio.json        |  25 +-
+> >>   qemu-options.hx        |   8 +
+> >>   tests/vm/freebsd       |   3 +
+> >>   9 files changed, 604 insertions(+), 2 deletions(-)
+> > 
+> > An additional subsection for this backend should be added to MAINTAINERS.
+> 
+> I did not add anything here as I figured it implies a certain level of
+> obligation. His time
+> available varies quite a bit (especially at the current time) and I
+> wasn't sure if it's
+> appropriate listing him.
+
+Yes, that's an unpleasant but legitimate question: will there be anybody 
+caring for this sndio backend in QEMU or would it go orphaned right from the 
+start?
+
+It would be good to have at least somebody familiar with this code to 
+volunteer as reviewer(s) ("R:" line(s) in MAINTAINERS file). Reviewers are 
+automatically CCed, so that they can (optionally) give their feedback on 
+future changes to the sndio backend, i.e. when somebody sends sndio patches to 
+qemu-devel. This is voluntary and can be revoked at any time, and I do not 
+expect that you would frequently get emailed for this either.
+
+As this is a BSD-specific audio backend, it is not likely that an active QEMU 
+developer would be able to care for it.
+
+
+> >>   create mode 100644 audio/sndioaudio.c
+> >> 
+> >> diff --git a/audio/audio.c b/audio/audio.c
+> >> index 54a153c0ef..bad1ceb69e 100644
+> >> --- a/audio/audio.c
+> >> +++ b/audio/audio.c
+> >> @@ -2005,6 +2005,7 @@ void audio_create_pdos(Audiodev *dev)
+> >> 
+> >>           CASE(OSS, oss, Oss);
+> >>           CASE(PA, pa, Pa);
+> >>           CASE(SDL, sdl, Sdl);
+> >> 
+> >> +        CASE(SNDIO, sndio, );
+> >> 
+> >>           CASE(SPICE, spice, );
+> >>           CASE(WAV, wav, );
+> >> 
+> >> diff --git a/audio/audio_template.h b/audio/audio_template.h
+> >> index c6714946aa..ecc5a0bc6d 100644
+> >> --- a/audio/audio_template.h
+> >> +++ b/audio/audio_template.h
+> >> @@ -337,6 +337,8 @@ AudiodevPerDirectionOptions *glue(audio_get_pdo_,
+> >> TYPE)(Audiodev *dev) return
+> >> qapi_AudiodevPaPerDirectionOptions_base(dev->u.pa.TYPE); case
+> >> 
+> >> AUDIODEV_DRIVER_SDL:
+> >>           return
+> >>           qapi_AudiodevSdlPerDirectionOptions_base(dev->u.sdl.TYPE);
+> >> 
+> >> +    case AUDIODEV_DRIVER_SNDIO:
+> >> +        return dev->u.sndio.TYPE;
+> >> 
+> >>       case AUDIODEV_DRIVER_SPICE:
+> >>           return dev->u.spice.TYPE;
+> >>       
+> >>       case AUDIODEV_DRIVER_WAV:
+> >> diff --git a/audio/meson.build b/audio/meson.build
+> >> index 462533bb8c..e24c86e7e6 100644
+> >> --- a/audio/meson.build
+> >> +++ b/audio/meson.build
+> >> @@ -17,6 +17,7 @@ foreach m : [
+> >> 
+> >>     ['pa', pulse, files('paaudio.c')],
+> >>     ['sdl', sdl, files('sdlaudio.c')],
+> >>     ['jack', jack, files('jackaudio.c')],
+> >> 
+> >> +  ['sndio', sndio, files('sndioaudio.c')],
+> >> 
+> >>     ['spice', spice, files('spiceaudio.c')]
+> >>   
+> >>   ]
+> >>   
+> >>     if m[1].found()
+> >> 
+> >> diff --git a/audio/sndioaudio.c b/audio/sndioaudio.c
+> >> new file mode 100644
+> >> index 0000000000..204af07781
+> >> --- /dev/null
+> >> +++ b/audio/sndioaudio.c
+> >> @@ -0,0 +1,555 @@
+> >> +/*
+> >> + * Copyright (c) 2019 Alexandre Ratchov <alex@caoua.org>
+> >> + *
+> > 
+> > It is quite common for new source files in QEMU to have an authors list
+> > 
+> > section in the header here like:
+> >    * Autors:
+> >    *  Alexandre Ratchov <alex@caoua.org>
+> 
+> I was looking through the tree and all of the examples I came across
+> were using this
+> with a Copyright for a company as opposed to an individual. What would
+> be the
+> format?
+
+There was nothing wrong with the copyright line. If it was an individual, then 
+the copyright line is an individual. And like I said, it does not seem to be 
+required in QEMU to have an "Authors:" block in the file header at all. So on 
+doubt just ignore this.
+
+Deflating the file header by using SPDX license identifier as suggested would 
+make sense though.
+
+> > That way scripts/get_maintainer.pl can suggest those people as well in
+> > case
+> > they are not explicitly listed in MAINTAINERS. Does not seem to be
+> > mandatory for QEMU though. Just saying.
+
+Best regards,
+Christian Schoenebeck
+
+
 
