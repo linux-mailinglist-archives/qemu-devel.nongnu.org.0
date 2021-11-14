@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F29CC44F767
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Nov 2021 11:16:36 +0100 (CET)
-Received: from localhost ([::1]:39960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58A9144F769
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Nov 2021 11:21:15 +0100 (CET)
+Received: from localhost ([::1]:45604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmCYt-0004kz-GH
-	for lists+qemu-devel@lfdr.de; Sun, 14 Nov 2021 05:16:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43382)
+	id 1mmCdO-00008g-1f
+	for lists+qemu-devel@lfdr.de; Sun, 14 Nov 2021 05:21:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1mmCXu-0003rl-RE; Sun, 14 Nov 2021 05:15:34 -0500
-Received: from [2607:f8b0:4864:20::92d] (port=44635
- helo=mail-ua1-x92d.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mmCcD-0007kY-8w
+ for qemu-devel@nongnu.org; Sun, 14 Nov 2021 05:20:01 -0500
+Received: from [2a00:1450:4864:20::436] (port=42660
+ helo=mail-wr1-x436.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1mmCXt-0006bd-Bc; Sun, 14 Nov 2021 05:15:34 -0500
-Received: by mail-ua1-x92d.google.com with SMTP id p2so28317084uad.11;
- Sun, 14 Nov 2021 02:15:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=YW2cOITpy4D1kAh47chpsTtHyFf7E4Jqgxlxdztfy5o=;
- b=a6nW9tnxOdFnAGDKh37QSr0ocaHmEDpQ1bkPtXjPz6oOkWpeNWOPDEe3Oe8np/nhMt
- DhRQ3Vi2FPyF556LfqGC2Iyf07HI7lVpaRJKgrkjKJgqmxzFkad4AKrKNHmjlvuUBZ+d
- AQKcjJU/2DtNiuumFWRoAmuM2MkU0BZdoqv1WxhVQCo4eATxNCwVKOgb7dC5sjA2Rnmm
- mrqQ9nindLk1uqmr1Ibi86Jm6NO8/Omad9+aXQ5TNED1DZ7jQnh/EhC0NRZOlJR8dOKT
- aFNFc5vY4rAp0C0BpFTazLm+fvsBEs+I/PUWVdh44BHDMLqIyj2iLMRUsv51pfPyUo/R
- f9IA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mmCcB-000731-LF
+ for qemu-devel@nongnu.org; Sun, 14 Nov 2021 05:20:00 -0500
+Received: by mail-wr1-x436.google.com with SMTP id c4so24239820wrd.9
+ for <qemu-devel@nongnu.org>; Sun, 14 Nov 2021 02:19:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=vZyljje3vM3fE4FVWVkrlWGwysR2QZIrT70zT9HJsGQ=;
+ b=mKCaoQzi7SycqG+yAUCATkVjNrL+MSTBYAoTgpLMCM+ALOA78yaai3WUlIcMdA08hY
+ eufVJZ9Fnwya806VoJf6L86A+7R1EDK8GhyJq6XpWxXCdgUyn8om+E/XvHYjQfx3hd1k
+ b+/BD/ZlktiOR0Lv2SuP2jfuEpIeMU875PAZepgSvlOwACmxaN6rLqqZLZTT+Ag3AXrP
+ CTLwPkdFk4HujUQrAkXzNHWWnlZjRoxBAh2tV0OyYsrej1zPiBTiDW7ltU2EDoqawIVy
+ ZQAXh5obkjcuX+fRAL10Gkg3VtKRcbu6BwDNUjLbvYuwntCw27tDBLt9Ss0V4LxtUWce
+ 1k+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=YW2cOITpy4D1kAh47chpsTtHyFf7E4Jqgxlxdztfy5o=;
- b=eGSrQAHzYUGOUn0gDjoKdzx1Tv4Occ7TyAKnstytx9MWrkG/lNFYgYlXSuEqOYM35o
- wNBFg8CKKrx3LRIYpe7z78li1OCfsVPqdw2DPyO4U7J6A37t8eeMgm8eV4G8ERL7Gn6s
- fZyC72gD3Y1ea3YbsKTzyW6vkaP7FYTAeWY5B6wDnYX2CzsYYrVPFfLDsqwC7FlOoPou
- Okl4F9x/o8soptLGzxVKcBdJjbVKo4NW141o8d0dz/o88RS4FoX8aoO/j3i8h2Q8NIak
- lkrSMNvfsveWYwZSXhb8IiZSuWT0EHy/RRQRJb64a73SE4G/9gyxiWKaFxKUk5St4xry
- UFYg==
-X-Gm-Message-State: AOAM531Jn+hqVMHnZDtLSH1PQbSmjBLrSdNbI9bkCH5T8CbLUCzzuMLa
- GAuMvXqSKxnUyTGFd8UAVVCV6AjOoT9HsAbOqqXrcUJuo7g9gg==
-X-Google-Smtp-Source: ABdhPJwRyeLLIlITrW2nJQ3Frf6fPgjhKO5AIErd9LXYnzjKuoeg8+uV/5mnGBazl/+9dCwXInNZwy1sEWqS2M7aJao=
-X-Received: by 2002:a05:6102:2924:: with SMTP id
- cz36mr30216896vsb.33.1636884931651; 
- Sun, 14 Nov 2021 02:15:31 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vZyljje3vM3fE4FVWVkrlWGwysR2QZIrT70zT9HJsGQ=;
+ b=57YPHzInudpYU5B9IIEAUdWNj7kyCvG0pxC5PElR28nEjHjxu8HviCwZm3CavmbN85
+ qUzDpdB47KB3kl18c1nX+URdY9BRWDaDT7l39dHatutcZ1YCF393jW32aQtYVyLtEND5
+ n+9PywHi6uMiYxJlFs9siF9/HYKVXY2u7yE9oMu4eVoxn1WRcDVNa5J9F0P91Vy03+sO
+ iz1H+UH+5DsnVLIOxxC552IictdYZY48HLaKWzZIQ0iYCus751BzYhMtOot6uvkCsG72
+ LxPuwtIj7CQ23Hattdec6gCRxFxjWLcbmZoIE6Mz1zzbAyX8tvSwaUHJkNRODdcNhkf9
+ yRTA==
+X-Gm-Message-State: AOAM5330/U8n17MktNFyeW7jXQODo7eNz0kK4Db97foZUz1fnh5LjlH9
+ Y16oWWGCWwxHqHgJhRHSlfQkfb5cngL4D9t87lk=
+X-Google-Smtp-Source: ABdhPJy3Qf7tGwvIKCRzM++R77m22wm6S/FXNWramLWCVnpmoKLFg0ZfSJxzCuO5IjtYGUGZIRzEWg==
+X-Received: by 2002:a5d:47a9:: with SMTP id 9mr36314055wrb.42.1636885197708;
+ Sun, 14 Nov 2021 02:19:57 -0800 (PST)
+Received: from [192.168.8.105] (60.red-95-126-179.staticip.rima-tde.net.
+ [95.126.179.60])
+ by smtp.gmail.com with ESMTPSA id v8sm10987927wrd.84.2021.11.14.02.19.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 14 Nov 2021 02:19:57 -0800 (PST)
+Subject: Re: [RFC PATCH v2 10/30] target/loongarch: Add other core
+ instructions support
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <1636594528-8175-1-git-send-email-yangxiaojuan@loongson.cn>
+ <1636594528-8175-11-git-send-email-yangxiaojuan@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ec560b32-c0f2-a47a-21e6-b2b64c674939@linaro.org>
+Date: Sun, 14 Nov 2021 11:19:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <CAE2XoE_1ajznMKob+r3OEHKztPueiqWxSAOE+PKF_hNS6nktjg@mail.gmail.com>
- <77cac06d-f68f-ec30-5c7e-0d32a49a162d@linaro.org>
-In-Reply-To: <77cac06d-f68f-ec30-5c7e-0d32a49a162d@linaro.org>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Sun, 14 Nov 2021 18:15:22 +0800
-Message-ID: <CAE2XoE8sNeMqx7xMVzArVzyU_n-G4-ZXh15gMMnf3PbmfcebXA@mail.gmail.com>
-Subject: Re: ppc/fpu_helper.c
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000e3ac7705d0bcf8b6"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92d
+In-Reply-To: <1636594528-8175-11-git-send-email-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92d;
- envelope-from=luoyonggang@gmail.com; helo=mail-ua1-x92d.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.402,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,71 +92,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: qemu-ppc@nongnu.org, qemu-level <qemu-devel@nongnu.org>
+Cc: Song Gao <gaosong@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e3ac7705d0bcf8b6
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 11/11/21 2:35 AM, Xiaojuan Yang wrote:
+> +        if (qemu_loglevel_mask(CPU_LOG_INT)) {
+> +            qemu_log("%s: TLBRERA 0x%lx\n", __func__, env->CSR_TLBRERA);
+> +        }
 
-On Sun, Nov 14, 2021 at 5:07 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
->
-> On 11/13/21 11:07 AM, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) wrote:
-> > I've seen nothing in fpu_helper.c to update
-> > the fpscr to FP_FR,
-> > that is there is no code with `fpscr |=3D FP_FR`,
-> > is that valid for PowerPC? or it's just because this is hard
-> > to implement and then the FP_FR  are always not set  for  fpscr
->
-> It is unimplemented, yes.  I think that no one has spent the time; I
-don't think that it
-> should be hard, necessarily.
+This is qemu_log_mask, two instances.  With that,
 
-Thanks, I also have a question, where is the complete PowerPC floating
-point instrunctions tests case?
-I wanna improve the performance of powerpc floating point calculation and
-don't lost the accuracy of it
-So I need a complete testsuite for it.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+> +void helper_ldpte(CPULoongArchState *env, target_ulong base, target_ulong odd,
+> +                  uint32_t mem_idx)
+
+It it is a bit disappointing that the manual does not describe this function in detail, 
+only a high-level description.
 
 
->
->
-> r~
-
-
-
---
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
-
---000000000000e3ac7705d0bcf8b6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><br>On Sun, Nov 14, 2021 at 5:07 PM Richard Henderson =
-&lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.henderson@linar=
-o.org</a>&gt; wrote:<br>&gt;<br>&gt; On 11/13/21 11:07 AM, =E7=BD=97=E5=8B=
-=87=E5=88=9A(Yonggang Luo) wrote:<br>&gt; &gt; I&#39;ve seen nothing in fpu=
-_helper.c to update<br>&gt; &gt; the fpscr to FP_FR,<br>&gt; &gt; that is t=
-here is no code with `fpscr |=3D FP_FR`,<br>&gt; &gt; is that valid for Pow=
-erPC? or it&#39;s just because this is hard<br>&gt; &gt; to implement and t=
-hen the FP_FR =C2=A0are always not set =C2=A0for =C2=A0fpscr<br>&gt;<br>&gt=
-; It is unimplemented, yes.=C2=A0 I think that no one has spent the time; I=
- don&#39;t think that it<br>&gt; should be hard, necessarily.<div><br></div=
-><div>Thanks, I also have a question, where is the complete PowerPC floatin=
-g point instrunctions tests case?</div><div>I wanna improve the performance=
- of powerpc floating point calculation and don&#39;t lost the accuracy of i=
-t=C2=A0=C2=A0</div><div>So I need a complete testsuite for it.</div><div><b=
-r></div><div><br>&gt;<br>&gt;<br>&gt; r~<br><br><br><br>--<br>=C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=
-=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo</div></div>
-
---000000000000e3ac7705d0bcf8b6--
+r~
 
