@@ -2,61 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D5B045177A
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 23:29:59 +0100 (CET)
-Received: from localhost ([::1]:51860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6FAB4517AF
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 23:38:44 +0100 (CET)
+Received: from localhost ([::1]:33118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmkU9-0005si-26
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 17:29:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53056)
+	id 1mmkcd-0004Iw-Lo
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 17:38:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mmkTD-0005CG-Da
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 17:28:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26924)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mmkaS-0002F9-GJ
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 17:36:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mmkTA-0001cv-PI
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 17:28:58 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mmkaQ-0002hf-G1
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 17:36:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637015330;
+ s=mimecast20190719; t=1637015783;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=z8a58Jy/FLh5y4bWxb0zY7UAJ0bhjn9sg5jlk+OwKH8=;
- b=E9e5OLHzOUNZoOD94nE6C9YS+rN9xZGedtHSJq4/FjaOj1cq7dvSA7yxvl4HAexPJkTw7Y
- dBaetJgrCczQdhoEz6pX55MxSfjd5oCK+USfWQ1sIGclR++gHaGFeJuAC5aU+BqZ/uwpMN
- 8UPgzvjI3zaIxhPp78xYE7BxN47zhRg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-487-ZrCNG16dOaWUDm7eE95t-g-1; Mon, 15 Nov 2021 17:28:46 -0500
-X-MC-Unique: ZrCNG16dOaWUDm7eE95t-g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C8FE1019982;
- Mon, 15 Nov 2021 22:28:45 +0000 (UTC)
-Received: from redhat.com (ovpn-114-146.phx2.redhat.com [10.3.114.146])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 353DD5C1A1;
- Mon, 15 Nov 2021 22:28:45 +0000 (UTC)
-Date: Mon, 15 Nov 2021 16:28:43 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: "make check" fails in a clang sanitizer build on
- "nbd-qemu-allocation" iotest
-Message-ID: <20211115222843.kvzun266pgav2zqo@redhat.com>
-References: <CAFEAcA-8jo5SmV41CP6aquyWWvrQQo5OoXbac=knD4z6A3fHxw@mail.gmail.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/OPJ8eHGaKUPhjbn+xYxHNLdw0YY9X/lgt43EhZYKAw=;
+ b=XwK5b4H2H5qiFMAuEDZcBe+yrTIwRKpIyl31mriGsLxvCGtt2GZgRSkfugt7ZIx1lGP2iq
+ S+9fa5OLlLEs7WC/j2beAflwM2sS5iBM4BDtiAdFNha5Lpz60MOZvxU2E+mN2cA32BAv4l
+ ukfiay2MQZ1Rf/3RqEv4Bm0HKE+e8Io=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-89-ylqLpXDKP-6ysDONJFk1ZA-1; Mon, 15 Nov 2021 17:36:22 -0500
+X-MC-Unique: ylqLpXDKP-6ysDONJFk1ZA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 205-20020a1c00d6000000b003335d1384f1so237437wma.3
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 14:36:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/PWOHUZi2PgaSlm9zifAoFcf6hnwEgCyfNfgwKpbKgQ=;
+ b=2dBHUu+ou5BxzAczhXK24TLTixh7oXCPWRTIDRvkTSnIPxxSXc0NqdN4yPp0rPuSsJ
+ 0DzaDYOkShcmHj60cZvpqtG5b/5AiRokHGT+AbRX6IHccHW3FNJQjGq82bRqTo8esG7/
+ lxHxDJIU2g6Q2v1aV9s87ZwBDihkUOaGqd/9xC83f4iYzh+POTtKuGQKyCiky26myN6U
+ 9n754DbJvMQWNjBRMWVfIL+8L3etxKg83pyMelsne0gM8ITirNWVuZc/heqhtXsckYuS
+ gfFCfTNkdTtBucdar7+IZWGuGjEU25aBDhbxmjxaZRmJ6+wq1wzCOmt8aLRh5GVBnmq7
+ sAsA==
+X-Gm-Message-State: AOAM531251c1a8cmInVcUuUb6AukgHaYZ1JEm6D22GG9XfRppcLeohcJ
+ +Kh6CbwsgC1C9L+qfX7UGmCeF7qtqtsOXcReP9RsKtfUwS0bTAZF3RVjqqCqHnclkeyZqOSh/Ua
+ u11YSmuHCWs7sTFX8VUha0e75IdkDnRWc7XiF05LngZltXXfV0wiN5NET20t6UEYW
+X-Received: by 2002:a05:6000:1a41:: with SMTP id
+ t1mr3164199wry.261.1637015780916; 
+ Mon, 15 Nov 2021 14:36:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzHbTTcETlZkUZNmzipkjPJthSJUgeavYoyS9PXf+0iKvGrPQ4KG5H2z0dbPYdAcWbtdXw4gw==
+X-Received: by 2002:a05:6000:1a41:: with SMTP id
+ t1mr3164163wry.261.1637015780604; 
+ Mon, 15 Nov 2021 14:36:20 -0800 (PST)
+Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id
+ c5sm16570147wrd.13.2021.11.15.14.36.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Nov 2021 14:36:20 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-6.2? 0/2] hw/intc/arm_gicv3: Introduce CONFIG_ARM_GIC_TCG
+ Kconfig selector
+Date: Mon, 15 Nov 2021 23:36:17 +0100
+Message-Id: <20211115223619.2599282-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-8jo5SmV41CP6aquyWWvrQQo5OoXbac=knD4z6A3fHxw@mail.gmail.com>
-User-Agent: NeoMutt/20211029-16-b680fe
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -64,7 +81,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,44 +94,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Miroslav Rezanina <mrezanin@redhat.com>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Shashi Mallela <shashi.mallela@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 15, 2021 at 05:11:54PM +0000, Peter Maydell wrote:
-> Hi; running a 'make check' on a clang sanitizer build one of
-> the iotests falls over due to a NULL pointer being passed to
-> memset():
-> 
-> 
->   TEST   iotest-qcow2: nbd-qemu-allocation [fail]
-
-> +../../nbd/server.c:1027:16: runtime error: null pointer passed as
-> argument 1, which is declared to never be null
-
-The code in question:
-
-    if (client->opt == NBD_OPT_LIST_META_CONTEXT && !nb_queries) {
-        /* enable all known contexts */
-        meta->base_allocation = true;
-        meta->allocation_depth = meta->exp->allocation_depth;
-        memset(meta->bitmaps, 1, meta->exp->nr_export_bitmaps);
-
-I suspect what is happening is that meta->bitmaps is NULL when
-meta->exp->nr_export_bitmaps is 0. It's annoying that clang's
-sanitizer whines even for a 0-length memset, but a strict reading of
-POSIX says that we really are in the technically undefined behavior
-when passing NULL (even with 0 length), so such whiny behavior is
-permitted.  So I'll post a patch.
-
-> 
-> Does this look familiar ?
-
-First I've heard of it; thanks for alerting me.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+The GICv3 ITS support has been introduced uring the 6.2 development=0D
+window (commits 18f6290a6a9..17fb5e36aab). This device is for=0D
+emulation. When building virtualization-only binary, it might be=0D
+desirable to not include this device.=0D
+=0D
+Introduce the CONFIG_ARM_GIC_TCG Kconfig selector to allow downstream=0D
+distributions to deselect this device.=0D
+=0D
+Based-on: pull-target-arm-20211115-1=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  hw/intc/arm_gicv3: Extract gicv3_set_gicv3state from arm_gicv3_cpuif.c=0D
+  hw/intc/arm_gicv3: Introduce CONFIG_ARM_GIC_TCG Kconfig selector=0D
+=0D
+ hw/intc/arm_gicv3.c              |  2 +-=0D
+ hw/intc/arm_gicv3_cpuif.c        | 10 +---------=0D
+ hw/intc/arm_gicv3_cpuif_common.c | 22 ++++++++++++++++++++++=0D
+ hw/intc/Kconfig                  |  5 +++++=0D
+ hw/intc/meson.build              | 11 +++++++----=0D
+ 5 files changed, 36 insertions(+), 14 deletions(-)=0D
+ create mode 100644 hw/intc/arm_gicv3_cpuif_common.c=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
