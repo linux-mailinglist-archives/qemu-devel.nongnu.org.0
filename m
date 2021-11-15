@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3992B450A63
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 17:59:49 +0100 (CET)
-Received: from localhost ([::1]:38944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D2A450A61
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 17:59:29 +0100 (CET)
+Received: from localhost ([::1]:37562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmfKe-0001bS-C8
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 11:59:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59282)
+	id 1mmfKK-0000dj-Ui
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 11:59:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mmfJ1-0008Ci-Hj
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:58:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37936)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mmfIx-0008Gg-Nm
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:58:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636995482;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KLiWkzeA2BsA9hGhoOnhkNxViSX5PriOc4z8Bd3FTqk=;
- b=i5hHI+ShP+ijwxsgDcKY7E8HBnnZxtkmCGP+AuOZxp22fvSbL+BqhHi1Al3WtaLoUUlnmd
- /kbXZqhOIwOAguARSfBCWYRxBnzQU8LKfRDdmFxWANEug+c8GU6eSgxMQsdTBVCDjzkrcW
- fgjDD8g2ks3bwMaLewb20jJQvTm6Bws=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-487-XaWVnig9P_2oqmFpfW-NHA-1; Mon, 15 Nov 2021 11:57:59 -0500
-X-MC-Unique: XaWVnig9P_2oqmFpfW-NHA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C63DA87D541;
- Mon, 15 Nov 2021 16:57:57 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.74])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C5FB917155;
- Mon, 15 Nov 2021 16:57:29 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [RFC PATCH v2 1/5] virtio: introduce virtio_force_modern()
-In-Reply-To: <20211115142605.44f452aa.pasic@linux.ibm.com>
-Organization: Red Hat GmbH
-References: <20211112145749.618157-1-pasic@linux.ibm.com>
- <20211112145749.618157-2-pasic@linux.ibm.com> <877dddmllb.fsf@redhat.com>
- <20211115142605.44f452aa.pasic@linux.ibm.com>
-User-Agent: Notmuch/0.33.1 (https://notmuchmail.org)
-Date: Mon, 15 Nov 2021 17:57:28 +0100
-Message-ID: <87v90tl5l3.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <brak@vultr.com>) id 1mmfIj-0007SG-3c
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:57:49 -0500
+Received: from [2607:f8b0:4864:20::82f] (port=39872
+ helo=mail-qt1-x82f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <brak@vultr.com>) id 1mmfIg-00088K-NH
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:57:48 -0500
+Received: by mail-qt1-x82f.google.com with SMTP id l8so16208202qtk.6
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 08:57:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vultr.com; s=google;
+ h=from:message-id:date:mime-version:user-agent:reply-to:subject
+ :content-language:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=qTdgt6s8fofsYEltV9WeXHRdD7evrMMFYkFyMqtPmq4=;
+ b=TDwCtxYEK5S9hE291jPuyJEk6AcG9X9wHmLpgUyL6H4235sqM0FfhiNjWQd1Cc3oda
+ 7X9jMMt6uKFGB0NnELXAXOjCmIsyf2tsW4DADSD8XtlnDS0QRZQqKWRRlqdaJFUjgPj+
+ FYCiTR1T+WyC8t/hM2EuCg3at0vPls9zcOEg5gGDk08S5ySeqSAP0Gt1M1Lt4NETyTIr
+ UvfZNHwd86V1tmxNf81851ZsfZ8nPrHELhxzzbHt12n2xUOFUBEaQtNqJr8/taKCI12l
+ GD3pCX4v34n7CHNhadNSJtS3a6CIDfQhoQbAbnfE20XvkGwZ+sJpQl2Ey06XQpG+6wxo
+ zKAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:message-id:date:mime-version:user-agent
+ :reply-to:subject:content-language:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=qTdgt6s8fofsYEltV9WeXHRdD7evrMMFYkFyMqtPmq4=;
+ b=TjrLgzTSzNbJTVsjD+T8bh3TcGmt2rLojDLq7FUD09flJ9jDFoZi1GYeCYNuSK+gAw
+ q+9dACeMGdH2C0N2beByrvUepAB+xqpSPCgjO2niJ2zPZOpNvICPu98G+kvIKOvGGBUK
+ 9iYP7jyVxaj6LI1jpoQM6HH04MdYO5B1RhceNX/XEfi/e2vw2gVF3iWPM59MbYWBxP+R
+ CbQ2ACfnOyfizoEWmEJrjMYxc7nad4IM2u78q5ksmxRr0vH/jAMCLSvZraGPJIfejUBu
+ lN1hP2ihDb+aEkjZI4hb3JxwsWVdqqCBf0CHVYQjRQEeYUlkUJVq6uJv7acRnHG6147K
+ oSmA==
+X-Gm-Message-State: AOAM533aUEWleRIPif6t3qNVRzwmaVnMHioeYnRnbCitWrEUEJuHEcw6
+ N1MX2GvuXnYDcroXtI9tKGASiQ==
+X-Google-Smtp-Source: ABdhPJwUV1mHVF3EJ9JSGQ8fn3Ku1jP0lGdPNXxADf3x0kz5UEfZt2WceDxPWMMB6f7cXF+ZeFa9Tw==
+X-Received: by 2002:ac8:1c6:: with SMTP id b6mr413819qtg.221.1636995465115;
+ Mon, 15 Nov 2021 08:57:45 -0800 (PST)
+Received: from [192.168.5.229] (ool-44c536c3.dyn.optonline.net.
+ [68.197.54.195])
+ by smtp.gmail.com with ESMTPSA id k23sm7538778qtm.49.2021.11.15.08.57.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Nov 2021 08:57:44 -0800 (PST)
+From: Brian Rak <brak@vultr.com>
+X-Google-Original-From: Brian Rak <brak@gameservers.com>
+Message-ID: <7ffcc650-0d75-f327-6508-ec3805316a6c@gameservers.com>
+Date: Mon, 15 Nov 2021 11:57:43 -0500
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.3.0
+Subject: Re: Guests wont start with 15 pcie-root-port devices
+Content-Language: en-US
+To: Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
+References: <abff2095-9ac8-c115-bc7f-6a19b9defe51@gameservers.com>
+ <YY6qJt0lXEc2SAtc@redhat.com> <20211112215111.6f854f7a@redhat.com>
+In-Reply-To: <20211112215111.6f854f7a@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82f
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82f;
+ envelope-from=brak@vultr.com; helo=mail-qt1-x82f.google.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.278,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,131 +93,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
+Reply-To: brak@gameservers.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 15 2021, Halil Pasic <pasic@linux.ibm.com> wrote:
+Will this fix make it into 6.2?
 
-> On Fri, 12 Nov 2021 16:37:20 +0100
-> Cornelia Huck <cohuck@redhat.com> wrote:
+On 11/12/2021 3:51 PM, Igor Mammedov wrote:
+> On Fri, 12 Nov 2021 17:53:42 +0000
+> Daniel P. Berrangé <berrange@redhat.com> wrote:
 >
->> On Fri, Nov 12 2021, Halil Pasic <pasic@linux.ibm.com> wrote:
->> 
->> > Legacy vs modern should be detected via transport specific means. We
->> > can't wait till feature negotiation is done. Let us introduce
->> > virtio_force_modern() as a means for the transport code to signal
->> > that the device should operate in modern mode (because a modern driver
->> > was detected).
->> >
->> > A new callback is added for the situations where the device needs
->> > to do more than just setting the VIRTIO_F_VERSION_1 feature bit. For
->> > example, when vhost is involved, we may need to propagate the features
->> > to the vhost device.
->> >
->> > Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
->> > ---
->> >
->> > I'm still struggling with how to deal with vhost-user and co. The
->> > problem is that I'm not very familiar with the life-cycle of, let us
->> > say, a vhost_user device.
->> >
->> > Looks to me like the vhost part might be just an implementation detail,
->> > and could even become a hot swappable thing.
->> >
->> > Another thing is, that vhost processes set_features differently. It
->> > might or might not be a good idea to change this.
->> >
->> > Does anybody know why don't we propagate the features on features_set,
->> > but under a set of different conditions, one of which is the vhost
->> > device is started?
->> > ---
->> >  hw/virtio/virtio.c         | 13 +++++++++++++
->> >  include/hw/virtio/virtio.h |  2 ++
->> >  2 files changed, 15 insertions(+)
->> >  
->> 
->> Did you see my feedback in
->> https://lore.kernel.org/qemu-devel/87tugzc26y.fsf@redhat.com/? I think
->> at least some of it still applies.
->> 
+>> On Fri, Nov 12, 2021 at 12:35:07PM -0500, Brian Rak wrote:
+>>> In 6.1, a guest with 15 empty pcie-root-port devices will not boot properly
+>>> - it just hangs on "Guest has not initialized the display (yet).".  As soon
+>>> as I remove the last pcie-root-port, the guest begins starting up normally.
+>> Yes, QEMU 6.1 has a regression
+>>
+>>    https://gitlab.com/qemu-project/qemu/-/issues/641
+>>
+>>
+>>> commit e2a6290aab578b2170c1f5909fa556385dc0d820
+>>> Author: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+>>> Date:   Mon Aug 2 12:00:57 2021 +0300
+>>>
+>>>      hw/pcie-root-port: Fix hotplug for PCI devices requiring IO
+>>>
+>>> Although I can't say I really understand why that commit triggered it.
+>> It caused the firmware to always allocate I/O space for every port
+>> and there's limited total I/O space, so it runs out at 15 devices.
+> alternatively instead of reverting to native PCIe hotplug as in the issue
+> Daniel's mentioned, you can apply following fix
+>   https://patchew.org/QEMU/20211112110857.3116853-1-imammedo@redhat.com/
 >
-> Sure. My idea was to send out a v2 first which helps us think about the
-> bigger picture, and then answer that mail. Now I realize I should have
-> sent the response first, and then the v2 immediately afterwards.
->
->> > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
->> > index 3a1f6c520c..26db1b31e6 100644
->> > --- a/hw/virtio/virtio.c
->> > +++ b/hw/virtio/virtio.c
->> > @@ -3281,6 +3281,19 @@ void virtio_init(VirtIODevice *vdev, const char *name,
->> >      vdev->use_guest_notifier_mask = true;
->> >  }
->> >  
->> > +void  virtio_force_modern(VirtIODevice *vdev)  
->> 
->> I'd still prefer to call this virtio_indicate_modern: we don't really
->> force anything; the driver has simply already decided that it will use
->> the modern interface and we provide an early indication in the features
->> so that code looking at them makes the right decisions.
->
-> I tried to explain my dislike for virtio_indicate_modern in my response
-> to that email. In somewhat different words: IMHO indication is about an
-> external observer and has a symbolic dimension to it. Please see
-> https://www.oxfordlearnersdictionaries.com/definition/english/indicate
-> This function is about changing the behavior of the device. Its
-> post-condition is: the device acts compliant to virtio 1.0 or higher.
-
-My personal preference is "indicate", I don't like "force". I don't want
-a semantics discussion; I'll leave the decision to the virtio
-maintainers.
-
->
->> 
->> > +{
->> > +    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
->> > +
->> > +    virtio_add_feature(&vdev->guest_features, VIRTIO_F_VERSION_1);
->> > +    /* Let the device do it's normal thing. */
->> > +    virtio_set_features(vdev, vdev->guest_features);  
->> 
->> I don't think this is substantially different from setting VERSION_1
->> only: At least the callers you introduce call this during reset,
->> i.e. when guest_features is 0 anyway. 
->
-> I agree. Just wanted to be conservative, and preserve whatever is there.
->
->
->> We still have the whole processing
->> that is done after feature setting that may have effects different from
->> what the ultimate feature setting will give us.
->
-> Yes, this is an intermediate state. As I pointed out, intermediate states
-> are necessary.
-
-Why? We just want VERSION_1 so that the checks work, why do we need to
-fiddle with other settings? We only need to propagate it to e.g. vhost.
-
->
->> While I don't think
->> calling set_features twice is forbidden, that sequence is likely quite
->> untested, and I'm not sure we can exclude side effects.
->
-> I can't disagree with that. But IMHO we can just say: such problems, if
-> any, are bugs that need to be fixed.
-
-Well, what about first fixing the endianness bugs, before we potentially
-open up a can of worms?
-
->
-> I think not doing the whole song-and-dance is conceptually more
-> problematic because it is more likely to lead to inconsistent internal
-> state. For example check out: vhost acked_features <-> guest_features.
-
-What is wrong with verifying with one single feature?
-
+>> Regards,
+>> Daniel
 
