@@ -2,47 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA674504BB
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 13:55:39 +0100 (CET)
-Received: from localhost ([::1]:60236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C35544504C4
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 13:58:03 +0100 (CET)
+Received: from localhost ([::1]:38858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmbWM-0000nE-Tl
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 07:55:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52196)
+	id 1mmbYg-0005Ty-SK
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 07:58:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1mmbV3-00085B-Uc; Mon, 15 Nov 2021 07:54:17 -0500
-Received: from mail.csgraf.de ([85.25.223.15]:39712 helo=zulu616.server4you.de)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1mmbV2-0005ER-3k; Mon, 15 Nov 2021 07:54:17 -0500
-Received: from [10.95.147.162]
- (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com [3.122.114.9])
- by csgraf.de (Postfix) with ESMTPSA id 7749A6080381;
- Mon, 15 Nov 2021 13:54:13 +0100 (CET)
-Message-ID: <2acb8b24-d0aa-d9c7-0af9-5814819c875b@csgraf.de>
-Date: Mon, 15 Nov 2021 13:54:11 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mmbWd-0001gl-18
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 07:55:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42041)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mmbWW-0005Wr-KA
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 07:55:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636980948;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PWNgJ5yREbVUL4cueOOSpyMLOmwhu2CnPaawQtlSMyM=;
+ b=M270V2qspe+0RSPNQJqvNWWqkWrwZzvMXGELsQtPDLBaZSQFy6E3yYNpYkpYhm9fRBRYhS
+ m196preKle19OtI/7QzLN6TLGoTbF1EYnv4uyU6IHxguTq3JlyJak0+c4wSIlLqirMmSCk
+ nfMuGWj5XcIRUlh/I6wcnzr/+a399X0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-310-KyDG0duiPEmvhKHBzzUj3w-1; Mon, 15 Nov 2021 07:55:44 -0500
+X-MC-Unique: KyDG0duiPEmvhKHBzzUj3w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 413D318D6A25;
+ Mon, 15 Nov 2021 12:55:42 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 03CF15D6D7;
+ Mon, 15 Nov 2021 12:55:37 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 71FE611380A7; Mon, 15 Nov 2021 13:55:36 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH RFC 0/2] Eliminate drive_get_next()
+Date: Mon, 15 Nov 2021 13:55:34 +0100
+Message-Id: <20211115125536.3341681-1-armbru@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.3.0
-Subject: Re: [PATCH] arm: Don't remove EL3 exposure for SMC conduit
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <CAFEAcA8vRNC8RTAAxgYzZsGdqGfzDSr3m0UXmeZoF115z=6N3Q@mail.gmail.com>
- <8639608F-1685-48B8-B965-255D30B213F8@csgraf.de>
- <CAFEAcA_SzCtyDJfnJLLT57Xuf-TdJHRLEW00E7tQkdresxokMg@mail.gmail.com>
- <67c00a6a-e50a-3ea6-ef1d-98494fdbd729@csgraf.de> <875ysty5yo.fsf@linaro.org>
-From: Alexander Graf <agraf@csgraf.de>
-In-Reply-To: <875ysty5yo.fsf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.278,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -55,60 +75,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Andrei Warkentin <andrey.warkentin@gmail.com>
+Cc: peter.maydell@linaro.org, bin.meng@windriver.com,
+ mark.cave-ayland@ilande.co.uk, edgar.iglesias@gmail.com,
+ sundeep.lkml@gmail.com, qemu-block@nongnu.org, andrew.smirnov@gmail.com,
+ hskinnemoen@google.com, joel@jms.id.au, atar4qemu@gmail.com,
+ alistair@alistair23.me, b.galvani@gmail.com, nieklinnenbank@gmail.com,
+ qemu-arm@nongnu.org, clg@kaod.org, kwolf@redhat.com, qemu-riscv@nongnu.org,
+ andrew@aj.id.au, f4bug@amsat.org, Andrew.Baumann@microsoft.com,
+ jcd@tribudubois.net, kfting@nuvoton.com, hreitz@redhat.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is RFC because I'm unsure about the removal of
 
-On 15.11.21 13:08, Alex Bennée wrote:
-> Alexander Graf <agraf@csgraf.de> writes:
->
->> On 15.11.21 11:46, Peter Maydell wrote:
->>> On Sun, 14 Nov 2021 at 17:41, Alexander Graf <agraf@csgraf.de> wrote:
->>>>
->>>>> Am 14.11.2021 um 18:20 schrieb Peter Maydell <peter.maydell@linaro.org>:
->>>>> This is tricky, because we use the cpu->isar values to determine whether
->>>>> we should be emulating things. So this change means we now create an
->>>>> inconsistent CPU which in some ways claims to have EL3 (the ISAR ID
->>>>> bits say so) and in some ways does not (the ARM_FEATURE_EL3 flag is
->>>>> unset), and depending on which of the two "do we have EL3?" methods
->>>>> any bit of the TCG code is using will give different results...
->>>> Do you think it would be sufficient to go through all readers of
->>>> the isar bits and guard them behind an ARM_FEATURE_EL3 check in
->>>> addition? I'll be happy to do so then! :)
->>> That would be a big reverse-course on a design choice we made that
->>> the preference is to look at the ID registers and phase out the
->>> use of ARM_FEATURE bits where possible.
->>
->> I'm open to alternatives. As it stands, we're lying to the guest
->> because we tell it "SMC is not available" but ask it to call SMC for
->> PSCI, which is bad too.
-> Is testing the ISAR bits actually telling a guest that SMC exists or
-> just the CPU is capable of handling it? I guess -kernel only is a weird
+    /* Reason: init() method uses drive_get_next() */
+    dc->user_creatable = false;
 
+in PATCH 1.  Both users appear to wire up some GPIO.  If that's
+necessary for the thing to work, we should just replace the comment.
 
-The way I understand it, it tells you whether SMC is a #UD or not. 
-Whether that SMC call goes into happy PSCI land or into nirvana is a 
-different question - but there's nothing you can do from EL<3 to figure 
-that out I believe?
+Aside: there may be devices that need manual wiring to work, yet don't
+have user_creatable unset.  Bugs if you ask me.  I don't have smart
+ideas on how to track them down.
 
+Markus Armbruster (2):
+  hw/sd/ssi-sd: Do not create SD card within controller's realize
+  hw: Replace drive_get_next() by drive_get()
 
-> case because otherwise if EL3 is available some sort of firmware has to
-> have gotten the CPU into a state a kernel can boot. It doesn't imply
-> that firmware knows how to do a PSCI call though - surely there is some
-> firmware configuration/probing mechanism you need to rely on for that?
+ include/sysemu/blockdev.h           |  1 -
+ blockdev.c                          | 10 ----------
+ hw/arm/aspeed.c                     | 21 +++++++++++++--------
+ hw/arm/cubieboard.c                 |  2 +-
+ hw/arm/imx25_pdk.c                  |  2 +-
+ hw/arm/integratorcp.c               |  2 +-
+ hw/arm/mcimx6ul-evk.c               |  2 +-
+ hw/arm/mcimx7d-sabre.c              |  2 +-
+ hw/arm/msf2-som.c                   |  2 +-
+ hw/arm/npcm7xx_boards.c             |  6 +++---
+ hw/arm/orangepi.c                   |  2 +-
+ hw/arm/raspi.c                      |  2 +-
+ hw/arm/realview.c                   |  2 +-
+ hw/arm/sabrelite.c                  |  2 +-
+ hw/arm/stellaris.c                  | 15 ++++++++++++++-
+ hw/arm/versatilepb.c                |  4 ++--
+ hw/arm/vexpress.c                   |  6 +++---
+ hw/arm/xilinx_zynq.c                | 16 +++++++++-------
+ hw/arm/xlnx-versal-virt.c           |  3 ++-
+ hw/arm/xlnx-zcu102.c                |  6 +++---
+ hw/microblaze/petalogix_ml605_mmu.c |  2 +-
+ hw/misc/sifive_u_otp.c              |  2 +-
+ hw/riscv/microchip_pfsoc.c          |  2 +-
+ hw/riscv/sifive_u.c                 | 15 +++++++++++++--
+ hw/sd/ssi-sd.c                      | 29 -----------------------------
+ hw/sparc64/niagara.c                |  2 +-
+ 26 files changed, 76 insertions(+), 84 deletions(-)
 
-
-Oh, absolutely! As an OS, you should look up in ACPI or DT whether to do 
-an SMC call for PSCI operations or not.
-
-The problem here is that we tell the OS in ACPI to do an SMC call, yet 
-we tell it in AA64PFR0 that SMC is not implemented and thus would 
-trigger a #UD.
-
-
-Alex
+-- 
+2.31.1
 
 
