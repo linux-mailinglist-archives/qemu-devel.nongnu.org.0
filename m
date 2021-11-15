@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51D304507BE
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 15:59:42 +0100 (CET)
-Received: from localhost ([::1]:35486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E58F4507B8
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 15:58:40 +0100 (CET)
+Received: from localhost ([::1]:59168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmdSP-0006CP-Er
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 09:59:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54884)
+	id 1mmdRP-0003CJ-Ej
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 09:58:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mmdNK-0003Lz-Ix
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:54:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59843)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mmdNJ-0003Hq-HB
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:54:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mmdNH-0007mX-I3
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:54:26 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mmdNG-0007m7-OS
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:54:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636988063;
+ s=mimecast20190719; t=1636988062;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bz96UtPE3myvzdapdLmAF+2XWx2TRaJMMfM4QfF/ssE=;
- b=B9z08kxWh9I5C92bl/sQ8ws/Aeh1dBoaBxC4/s65DV1HAtQXjAOcXYQgH8OLAcOmF1W0Z+
- 9RELy+fLQg65Z4reC5qyaO5EE+nPNUcS1k90PyRq5LyesjSdm6hcdJ4ZSW122tHwQI1QuK
- x/H7ZEhIRs3ONWUu7qwcBM5Tgiffqj0=
+ bh=Q9i98B6FfifASQ8YRx9sl+umM4N4n2zAtTX381Z51PI=;
+ b=MoM+m3ThC9q4EUaDkK5NQt1PIqkM0vgeB14+TEo51OYo6zZjQuUT1Ef73JbyVvhfVcMDdB
+ M5NHtb2F3OnrzjkDA+cchhgEw+uqnP9O2WcVMEAwESyWYR2RIOqOSX8LEacypiWo97jBER
+ i1NuLFuJyxrSRbeNhefGdhZwZ2qHfjI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-485-6QpJeImnMTW93J6Ny2l2rQ-1; Mon, 15 Nov 2021 09:54:19 -0500
-X-MC-Unique: 6QpJeImnMTW93J6Ny2l2rQ-1
+ us-mta-433-MJpWrEZgP6KDfnA3puobuw-1; Mon, 15 Nov 2021 09:54:21 -0500
+X-MC-Unique: MJpWrEZgP6KDfnA3puobuw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 871F81015DC9;
- Mon, 15 Nov 2021 14:54:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF28F1015DA4;
+ Mon, 15 Nov 2021 14:54:19 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.193.157])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8A49E19D9F;
- Mon, 15 Nov 2021 14:54:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D215E19723;
+ Mon, 15 Nov 2021 14:54:18 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 03/13] block: Unite remove_empty_child and child_free
-Date: Mon, 15 Nov 2021 15:53:59 +0100
-Message-Id: <20211115145409.176785-4-kwolf@redhat.com>
+Subject: [PULL 04/13] block: Drop detached child from ignore list
+Date: Mon, 15 Nov 2021 15:54:00 +0100
+Message-Id: <20211115145409.176785-5-kwolf@redhat.com>
 In-Reply-To: <20211115145409.176785-1-kwolf@redhat.com>
 References: <20211115145409.176785-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,83 +82,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hanna Reitz <hreitz@redhat.com>
 
-Now that bdrv_remove_empty_child() no longer removes the child from the
-parent's children list but only checks that it is not in such a list, it
-is only a wrapper around bdrv_child_free() that checks that the child is
-empty and unused.  That should apply to all children that we free, so
-put those checks into bdrv_child_free() and drop
-bdrv_remove_empty_child().
+bdrv_attach_child_common_abort() restores the parent's AioContext.  To
+do so, the child (which was supposed to be attached, but is now detached
+again by this abort handler) is added to the ignore list for the
+AioContext changing functions.
+
+However, since we modify a BDS's children list in the BdrvChildClass's
+.attach and .detach handlers, the child is already effectively detached
+from the parent by this point.  We do not need to put it into the ignore
+list.
+
+Use this opportunity to clean up the empty line structure: Keep setting
+the ignore list, invoking the AioContext function, and freeing the
+ignore list in blocks separated by empty lines.
 
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20211111120829.81329-4-hreitz@redhat.com>
+Message-Id: <20211111120829.81329-5-hreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ block.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/block.c b/block.c
-index ca024ffced..19bff4f95c 100644
+index 19bff4f95c..c7d5aa5254 100644
 --- a/block.c
 +++ b/block.c
-@@ -2740,19 +2740,19 @@ static void bdrv_replace_child_noperm(BdrvChild *child,
-     }
- }
- 
--static void bdrv_child_free(void *opaque)
--{
--    BdrvChild *c = opaque;
--
--    g_free(c->name);
--    g_free(c);
--}
--
--static void bdrv_remove_empty_child(BdrvChild *child)
-+/**
-+ * Free the given @child.
-+ *
-+ * The child must be empty (i.e. `child->bs == NULL`) and it must be
-+ * unused (i.e. not in a children list).
-+ */
-+static void bdrv_child_free(BdrvChild *child)
- {
-     assert(!child->bs);
-     assert(!child->next.le_prev); /* not in children list */
--    bdrv_child_free(child);
-+
-+    g_free(child->name);
-+    g_free(child);
- }
- 
- typedef struct BdrvAttachChildCommonState {
-@@ -2786,7 +2786,7 @@ static void bdrv_attach_child_common_abort(void *opaque)
+@@ -2774,14 +2774,16 @@ static void bdrv_attach_child_common_abort(void *opaque)
      }
  
-     bdrv_unref(bs);
--    bdrv_remove_empty_child(child);
-+    bdrv_child_free(child);
-     *s->child = NULL;
- }
+     if (bdrv_child_get_parent_aio_context(child) != s->old_parent_ctx) {
+-        GSList *ignore = g_slist_prepend(NULL, child);
++        GSList *ignore;
  
-@@ -2859,7 +2859,7 @@ static int bdrv_attach_child_common(BlockDriverState *child_bs,
++        /* No need to ignore `child`, because it has been detached already */
++        ignore = NULL;
+         child->klass->can_set_aio_ctx(child, s->old_parent_ctx, &ignore,
+                                       &error_abort);
+         g_slist_free(ignore);
+-        ignore = g_slist_prepend(NULL, child);
+-        child->klass->set_aio_ctx(child, s->old_parent_ctx, &ignore);
  
-         if (ret < 0) {
-             error_propagate(errp, local_err);
--            bdrv_remove_empty_child(new_child);
-+            bdrv_child_free(new_child);
-             return ret;
-         }
++        ignore = NULL;
++        child->klass->set_aio_ctx(child, s->old_parent_ctx, &ignore);
+         g_slist_free(ignore);
      }
-@@ -2925,7 +2925,7 @@ static void bdrv_detach_child(BdrvChild *child)
-     BlockDriverState *old_bs = child->bs;
  
-     bdrv_replace_child_noperm(child, NULL);
--    bdrv_remove_empty_child(child);
-+    bdrv_child_free(child);
- 
-     if (old_bs) {
-         /*
 -- 
 2.31.1
 
