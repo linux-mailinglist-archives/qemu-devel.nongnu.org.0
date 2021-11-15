@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE8BA450A49
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 17:56:06 +0100 (CET)
-Received: from localhost ([::1]:55696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C5BB4509D3
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 17:40:10 +0100 (CET)
+Received: from localhost ([::1]:37002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmfH3-00025m-RN
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 11:56:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55026)
+	id 1mmf1d-0004AK-Eh
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 11:40:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmf1h-0006R6-4o
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:40:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46528)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmezU-0001Z5-Ml
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:37:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23305)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmf1f-0005Qv-8b
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:40:12 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmezS-0005C2-U4
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:37:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636994410;
+ s=mimecast20190719; t=1636994274;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R01BxX4l5C5eaCov7FEv3t7wD4gp/yqC3ffLI+K8L7g=;
- b=Zg5wRL8Nmqcx9/zLqkWJvG4fKLH0RKidtHJvxEmD8zwcpVwWHj1WFcUaH9UbZqCiVJ3MZe
- FKNYneB/PcHWvqqPmBWF77mwMvCDU0ZCm72WJZCOieClEq/p7xO9ghr+eeGRi+4XAGhzBF
- WuOpXsw9hwM5IHZHYMR9obMMinRiqR4=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-529-RrbbeYIUPtOKDgnbNmq8Wg-1; Mon, 15 Nov 2021 11:37:47 -0500
-X-MC-Unique: RrbbeYIUPtOKDgnbNmq8Wg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- b15-20020aa7c6cf000000b003e7cf0f73daso2197113eds.22
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 08:37:47 -0800 (PST)
+ bh=Hy/vWSY8IlvPxeCX7j4JnR+xb/lMTd0Fc3iOQKHkO6g=;
+ b=UhIEZSfzHoBHffkao4pzMr+EG/rNCMXhFwsN8M7zaN1WnCiiFb6wXl5vQpkLVr2WOX5qPw
+ +X/BR1aFrMrGeAWTxJ4JzNbbJM6pvvAOme5oaycHc++UQVl/LxyRLCZwg5oReGYE8jDj8l
+ 5yJGVMNcc3N/u+zavfIMHaSt2XjFkwo=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-243-OZXEyNkSN867umvIpWybEA-1; Mon, 15 Nov 2021 11:37:52 -0500
+X-MC-Unique: OZXEyNkSN867umvIpWybEA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ m17-20020aa7d351000000b003e7c0bc8523so2839650edr.1
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 08:37:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=R01BxX4l5C5eaCov7FEv3t7wD4gp/yqC3ffLI+K8L7g=;
- b=qr4kk5UapLATOrUdpne2lUTLI4zSFxZ2pVXi3X+4GOinyYIyZX+RRVOdgzFgeBovhV
- hV52QzEeKTsKP0gD90KE8IynBwiVqPqOVReacVPivQG3tkR3j7FRV61RrKJpcSAQnd81
- q3BsT3+0cSYa3TdHw2cSWba00q6qZTt+vJ1+1CIWiLmoslEvhWMVhRMNY0rdC08mR+6L
- ZWFnvAXdUlR7vBCepOdUaSve0BF0e1jzkw/Dt9EGK1XcVo87I56rhdeBXSsl5F8bCdBc
- 1XcXDMMXRZY2NKn/L7a0AKFFKcLlAg3Pf4XysooRW5mTM9Ri1aJm+D1b1d772gBc06le
- w3zw==
-X-Gm-Message-State: AOAM531P6TAiUguCdys+tSS7ou1bljjMeoomg9DQG/IToIzV+SLLJIKe
- 1Kle2WMOJxjolttKM6K2PR3hb3PJbNy+V08eZiasa8kZH4bDqjo5klZKp2ro21H9uXbDtVzak2X
- RAHfX+Quz+cMmoYKyC/W+14BILN7E3PM5zuDli7eOe1/XajR4KHtLIRIy/u9Q
-X-Received: by 2002:a17:906:608:: with SMTP id s8mr320964ejb.405.1636994265822; 
- Mon, 15 Nov 2021 08:37:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxiF0n5b+00BhpsJb9KilgdOrcFfAH8saZZW6AvLsqG442RZGW2VU3WgMydYM7dr20iP9QKfg==
-X-Received: by 2002:a17:906:608:: with SMTP id s8mr320937ejb.405.1636994265662; 
- Mon, 15 Nov 2021 08:37:45 -0800 (PST)
+ bh=Hy/vWSY8IlvPxeCX7j4JnR+xb/lMTd0Fc3iOQKHkO6g=;
+ b=WD6bjf3Z9ooR1qRmdQKqj3ldqieXW96rBgp+vtWbwE0vzoO+fwCyo1qld70hxexzy5
+ D3YYT4e78GMmZd0/vYfxivOlbim+iyMsMMkaiMrOuGYO4k92ara/F8dtKgzLIktipRYF
+ JjZmkCAFPneIxBK81HkrsV/tR2H8u4Qf2LhfavcUG7AOClLIbHwQnbFdqIQ5ozuRWCh1
+ aaYOW7tkCB9E3qIH2fiGQr0aNt3jaV4BjtlWjppQA/OMJzuozCz2IHAZpKt8iFeoy8rF
+ hp4vyDqr5ZuRDoEG/WgN4nLA6iIXapFDAMH0lk0d/dg6sQ5nbNZABmOhqWGdktIyKb5H
+ 73RA==
+X-Gm-Message-State: AOAM530ewcVQn3TC2iPozCeVu0Pgn7PqtH00/eN6VHvIyUOalBE3rxXs
+ qEXRiMiZ/Ur5PuPofZ32Ot8vreObk9q4DTfEhGqVwe9jH0UKVxVruV7YnUontMXkTFw6SfMw/Br
+ 5OZJHpiD/SbJFfVKX4qC+L5wGz++4h2f0fgAq0ttZpUgQfeVxh09r7T1JUtfH
+X-Received: by 2002:a17:906:b2c7:: with SMTP id
+ cf7mr329155ejb.303.1636994270544; 
+ Mon, 15 Nov 2021 08:37:50 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxFO6TuV/ifdBOkA9g4lR3KoFi+m65NuJgLmTN6TTFGzRmjP2UfnWKubqY7Wf3hq8ejgI1OUA==
+X-Received: by 2002:a17:906:b2c7:: with SMTP id
+ cf7mr329111ejb.303.1636994270300; 
+ Mon, 15 Nov 2021 08:37:50 -0800 (PST)
 Received: from redhat.com ([2a03:c5c0:207e:9a71:d0b:1947:b534:3230])
- by smtp.gmail.com with ESMTPSA id s3sm6739305ejm.49.2021.11.15.08.37.42
+ by smtp.gmail.com with ESMTPSA id kx3sm2550405ejc.112.2021.11.15.08.37.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Nov 2021 08:37:44 -0800 (PST)
-Date: Mon, 15 Nov 2021 11:37:40 -0500
+ Mon, 15 Nov 2021 08:37:49 -0800 (PST)
+Date: Mon, 15 Nov 2021 11:37:45 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/20] vhost: Rename last_index to vq_index_end
-Message-ID: <20211115163607.177432-4-mst@redhat.com>
+Subject: [PULL 04/20] vhost: Fix last vq queue index of devices with no cvq
+Message-ID: <20211115163607.177432-5-mst@redhat.com>
 References: <20211115163607.177432-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211115163607.177432-1-mst@redhat.com>
@@ -104,68 +106,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eugenio Pérez <eperezma@redhat.com>
 
-The doc of this field pointed out that last_index is the last vq index.
-This is misleading, since it's actually one past the end of the vqs.
+The -1 assumes that cvq device model is accounted in data_queue_pairs,
+if cvq does not exists, but it's actually the opposite: Devices with
+!cvq are ok but devices with cvq does not add the last queue to
+data_queue_pairs.
 
-Renaming and modifying comment.
+This is not a problem to vhost-net, but it is to vhost-vdpa:
+* Devices with cvq gets initialized at last data vq device model, not
+at cvq one.
+* Devices with !cvq never gets initialized, since last_index is the
+first queue of the last device model.
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20211104085625.2054959-2-eperezma@redhat.com>
+Because of that, the right change in last_index is to actually add the
+cvq, not to remove the missing one.
+
+This is not a problem to vhost-net, but it is to vhost-vdpa, which
+device model trust to reach the last index to finish starting the
+device.
+
+Also, as the previous commit, rename it to index_end.
+
+Tested with vp_vdpa with host's vhost=on and vhost=off, with ctrl_vq=on
+and ctrl_vq=off.
+
+Fixes: 049eb15b5fc9 ("vhost: record the last virtqueue index for the virtio device")
 Reviewed-by: Juan Quintela <quintela@redhat.com>
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Message-Id: <20211104085625.2054959-3-eperezma@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/vhost.h | 4 ++--
- hw/net/vhost_net.c        | 4 ++--
- hw/virtio/vhost-vdpa.c    | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ hw/net/vhost_net.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index 3fa0b554ef..58a73e7b7a 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -74,8 +74,8 @@ struct vhost_dev {
-     unsigned int nvqs;
-     /* the first virtqueue which would be used by this vhost dev */
-     int vq_index;
--    /* the last vq index for the virtio device (not vhost) */
--    int last_index;
-+    /* one past the last vq index for the virtio device (not vhost) */
-+    int vq_index_end;
-     /* if non-zero, minimum required value for max_queues */
-     int num_queues;
-     uint64_t features;
 diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index 0d888f29a6..29f2c4212f 100644
+index 29f2c4212f..30379d2ca4 100644
 --- a/hw/net/vhost_net.c
 +++ b/hw/net/vhost_net.c
-@@ -232,10 +232,10 @@ fail:
- }
+@@ -326,11 +326,11 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+     VirtIONet *n = VIRTIO_NET(dev);
+     int nvhosts = data_queue_pairs + cvq;
+     struct vhost_net *net;
+-    int r, e, i, last_index = data_queue_pairs * 2;
++    int r, e, i, index_end = data_queue_pairs * 2;
+     NetClientState *peer;
  
- static void vhost_net_set_vq_index(struct vhost_net *net, int vq_index,
--                                   int last_index)
-+                                   int vq_index_end)
- {
-     net->dev.vq_index = vq_index;
--    net->dev.last_index = last_index;
-+    net->dev.vq_index_end = vq_index_end;
- }
- 
- static int vhost_net_start_one(struct vhost_net *net,
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 0d8051426c..bcaf00e09f 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -645,7 +645,7 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
-         vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
+-    if (!cvq) {
+-        last_index -= 1;
++    if (cvq) {
++        index_end += 1;
      }
  
--    if (dev->vq_index + dev->nvqs != dev->last_index) {
-+    if (dev->vq_index + dev->nvqs != dev->vq_index_end) {
-         return 0;
-     }
+     if (!k->set_guest_notifiers) {
+@@ -347,7 +347,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+         }
  
+         net = get_vhost_net(peer);
+-        vhost_net_set_vq_index(net, i * 2, last_index);
++        vhost_net_set_vq_index(net, i * 2, index_end);
+ 
+         /* Suppress the masking guest notifiers on vhost user
+          * because vhost user doesn't interrupt masking/unmasking
 -- 
 MST
 
