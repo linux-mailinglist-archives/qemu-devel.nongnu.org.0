@@ -2,75 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 432544509CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 17:38:34 +0100 (CET)
-Received: from localhost ([::1]:32842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75D7E4509D7
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 17:41:02 +0100 (CET)
+Received: from localhost ([::1]:40022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmf03-0001I2-UD
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 11:38:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53940)
+	id 1mmf2T-0006D0-IF
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 11:41:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mmeya-0000cE-KC
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:37:00 -0500
-Received: from [2a00:1450:4864:20::32e] (port=42730
- helo=mail-wm1-x32e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mmeyY-00057L-VQ
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:37:00 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- d72-20020a1c1d4b000000b00331140f3dc8so280317wmd.1
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 08:36:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=GFw+g2xUedEX8pG28zZ/4UhDi6aIJFVv6MSwVCG0eQs=;
- b=TkcdtP3jZ6p+pTXbzyFXJhuTfnjUxjqPAxlDFTL/20Li/B6n3lrXGW2kV9lG8PSQZ7
- fj0dol/xjktpngMLQS/MkgOpTlTSZRQQImfJ9pjo4/XgsrpxbYOSyBm6uV/PC4zD8CZQ
- BAx6xDLTxGRaI5yBpwINQ793QWndBcku0nzOcSYGhSbMl0JgrhQFjypi7KPdEy/h4JHn
- eJV8ROTE5rGXqOIqi+6TFBFPJXWwryhM6sl5VNGu9Ja3E/TjKeit50Nr3s1aF+FSpqg+
- ZdGh/U6+3qwdLqkoswEa3rl2OkfOhON+jDrGGANXcHOQ+8gnIB/i8cUW2m8lUGtqwuBi
- J9Xw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmeyw-00010R-AZ
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:37:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22500)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmeyt-00057r-Uk
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:37:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636994238;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=v7jRFAvJCzt9q5CrEPPe96TK6LHgUouW+Ir6hVJun68=;
+ b=By/QDoGsts5I40qOzpBErsFN9MzAFjUij+WPBuB4tTurZNFjkP5QdQclhPKqvpbsVA2vZt
+ KTQoMEnYpV/Pn7wInUMWTrAzqOANEmeIqLb/+yeaXdA+dLQWH2Vnx+56Viawql8QyoD/QA
+ XG29ZHhYT81YNUr09exePwBQ2xlE4Tc=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-320-fNs3PfeyNCeyIPwJvP9pmg-1; Mon, 15 Nov 2021 11:37:17 -0500
+X-MC-Unique: fNs3PfeyNCeyIPwJvP9pmg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ g3-20020a056402424300b003e2981e1edbso14631901edb.3
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 08:37:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=GFw+g2xUedEX8pG28zZ/4UhDi6aIJFVv6MSwVCG0eQs=;
- b=rtMd/jjTau4qbu/p4Hm3JPY2z3Fmktw80bd9taxCMiMDGtlVBsbTDBDEQAZno7E37R
- yRApoqQD5DsRy1JDmIHEmj1WkL4UkU/B6zZhggJDQgkb4+TQ3epJlS7DtLatsEfrLb38
- gC0065RCggTukhXHWsMTFVf9dRMrod4IXL9Ylq6PNwF/546HBI4hFW/kObuoHzoJiL+t
- g4AGaUSp1H/gGaCTOOocWRTM9T1lsUss1z80bSf7fxdepxIxycQwDyuu9hlTXx309YIe
- Qe1yxC54dwjrkegAeh7EoQXHQ4AmkgHokyFurikgi6sxug5PFhyF5i8PEPWXH6RP0gzI
- TBQw==
-X-Gm-Message-State: AOAM530uJqB8oJYmjBRVQXzAj/ohoW4jBuR9IKVFp9jdt9/H54aZpKd7
- O6KxLRZDKldENDEpCfu9P1v0bJ57qC1XiGvcV2KARQ==
-X-Google-Smtp-Source: ABdhPJxAnqjLKz3fgV5EEy4iuAVJi0Ve0KDnF+NZUP2cj53n4y4sdVwIye+OcDHz1OIOue0aLbJ/gI1jgF0nir9xZHk=
-X-Received: by 2002:a05:600c:3486:: with SMTP id a6mr13843wmq.32.1636994217284; 
- Mon, 15 Nov 2021 08:36:57 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=v7jRFAvJCzt9q5CrEPPe96TK6LHgUouW+Ir6hVJun68=;
+ b=Lxr7ccZNTccNZA6eFUBb6gaRaZAyX3hJm9cIjvuo9AZMIiVU4oeZ+q1s3XekcQh0z2
+ aH7sw7RXKC4AGrat3xnjfXr7lycOLKMv4kc5Ovly+ixWZNXSS4R0F1JgaD3xTewLCaGk
+ x1w9h5RndkaB2h0f4XthDnau4GHGVRqWJFvKry3lvbMnPui7s/81lOekuMK/mxQTtgc3
+ CCfuWtKQWyJBjbJc/OYyz97UvECsb2MB/SWaPg/qOnenoILq6KDomEkQFXoOqlUttVmo
+ 5VkwRK/IgPeH0GkhkT8pVnr/zx3780NugfLQ7Hi2/6PhE6hDKXr6UzDqKiwsVnYnv5eW
+ CCIw==
+X-Gm-Message-State: AOAM530e4sSFAgbGnfKWtZ3/5nQwdxnYQupWT2S0Yz3D0XhngUEuaejU
+ /ZEcNVaHep5tQWEWMdk0vx6VejgGETp8OuGnjukHNL3f24wFNJ+7uwgd11ovIyAGk69mJj1LooM
+ SgfKSa5P6HD+g4NHS3ArAGLOSv6gIdmwwRHE9XdSgrpC6mlaoUwSdGov3SF/D
+X-Received: by 2002:a17:906:b884:: with SMTP id
+ hb4mr379688ejb.376.1636994235990; 
+ Mon, 15 Nov 2021 08:37:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw/C8W0nh1VTGEHpPgA9r1zjj3s2g9Z6L5uKK12C4UHPhisKKni4l5OBPO+nDFZRw4YabMdqA==
+X-Received: by 2002:a17:906:b884:: with SMTP id
+ hb4mr379644ejb.376.1636994235760; 
+ Mon, 15 Nov 2021 08:37:15 -0800 (PST)
+Received: from redhat.com ([2a03:c5c0:207e:9a71:d0b:1947:b534:3230])
+ by smtp.gmail.com with ESMTPSA id y15sm3061241edr.35.2021.11.15.08.37.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Nov 2021 08:37:15 -0800 (PST)
+Date: Mon, 15 Nov 2021 11:37:12 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/20] pci,pc,virtio: bugfixes
+Message-ID: <20211115163607.177432-1-mst@redhat.com>
 MIME-Version: 1.0
-References: <20211014162938.430211-1-pbonzini@redhat.com>
- <20211014162938.430211-22-pbonzini@redhat.com>
-In-Reply-To: <20211014162938.430211-22-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 15 Nov 2021 16:36:46 +0000
-Message-ID: <CAFEAcA8dxLqx4uXGRmhdWmP2aRXChk6gqO3t_RY54UVMHPEjWQ@mail.gmail.com>
-Subject: Re: [PULL 21/26] configure, meson: move more compiler checks to Meson
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,152 +94,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 14 Oct 2021 at 17:49, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Message-Id: <20211007130829.632254-15-pbonzini@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  configure        | 91 ------------------------------------------------
->  meson.build      | 44 +++++++++++++++++++++++
->  util/meson.build |  4 ++-
->  3 files changed, 47 insertions(+), 92 deletions(-)
+The following changes since commit 0a70bcf18caf7a61d480f8448723c15209d128ef:
 
+  Update version for v6.2.0-rc0 release (2021-11-09 18:22:57 +0100)
 
-> diff --git a/meson.build b/meson.build
-> index 6bf43e6d30..6b7487b725 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1550,6 +1550,8 @@ config_host_data.set('CONFIG_INOTIFY',
->                       cc.has_header_symbol('sys/inotify.h', 'inotify_init=
-'))
->  config_host_data.set('CONFIG_INOTIFY1',
->                       cc.has_header_symbol('sys/inotify.h', 'inotify_init=
-1'))
-> +config_host_data.set('CONFIG_IOVEC',
-> +                     cc.has_header_symbol('sys/uio.h', 'struct iovec'))
->  config_host_data.set('CONFIG_MACHINE_BSWAP_H',
->                       cc.has_header_symbol('machine/bswap.h', 'bswap32',
->                                            prefix: '''#include <sys/endia=
-n.h>
+are available in the Git repository at:
 
-Hi -- I've just noticed that this change breaks compilation for me,
-because this test incorrectly fails to set CONFIG_IOVEC on a system
-where the header defines 'struct iovec'. This seems to be because
-"struct iovec" isn't a valid thing to test with has_header_symbol,
-because it provokes a compiler error from clang.
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
 
-The meson-log.txt shows:
+for you to fetch changes up to 18416c62e36a79823a9e28f6b2260aa13c25e1d9:
 
-Running compile:
-Working directory:
-/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/arm-clang/meson-private/tm=
-pfspzse_8
-Command line:  clang-7 -m64 -mcx16
-/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/arm-clang/meson-private/tm=
-pfspzse_8/testfile.c
--o /mnt/nvme
-disk/linaro/qemu-from-laptop/qemu/build/arm-clang/meson-private/tmpfspzse_8=
-/output.obj
--c -fsanitize=3Dundefined -fno-sanitize=3Dshift-base -Werror
- -D_FILE_OFFSET_BITS=3D64 -O0 -Werror=3Dimplicit-function-declaration
--Werror=3Dunknown-warning-option -Werror=3Dunused-command-line-argument
--Werror=3Di
-gnored-optimization-argument -std=3Dgnu11
+  pcie: expire pending delete (2021-11-15 11:10:11 -0500)
 
-Code:
+----------------------------------------------------------------
+pci,pc,virtio: bugfixes
 
-        #include <sys/uio.h>
-        int main(void) {
-            /* If it's not defined as a macro, try to use as a symbol */
-            #ifndef struct iovec
-                struct iovec;
-            #endif
-            return 0;
-        }
-Compiler stdout:
+pci power management fixes
+acpi hotplug fixes
+misc other fixes
 
-Compiler stderr:
- /mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/arm-clang/meson-private/t=
-mpfspzse_8/testfile.c:5:28:
-error: extra tokens at end of #ifndef di
-rective [-Werror,-Wextra-tokens]
-            #ifndef struct iovec
-                           ^
-                           //
-1 error generated.
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 
-...skipping...
-            #ifndef struct iovec
-                struct iovec;
-            #endif
-            return 0;
-        }
-Compiler stdout:
+----------------------------------------------------------------
+Eugenio Pérez (4):
+      vhost: Rename last_index to vq_index_end
+      vhost: Fix last vq queue index of devices with no cvq
+      vdpa: Replace qemu_open_old by qemu_open at
+      vdpa: Check for existence of opts.vhostdev
 
-Compiler stderr:
- /mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/arm-clang/meson-private/t=
-mpfspzse_8/testfile.c:5:28:
-error: extra tokens at end of #ifndef r]
-            #ifndef struct iovec
-                           ^
-                           //
-1 error generated.
+Gerd Hoffmann (6):
+      pci: implement power state
+      pcie: implement slot power control for pcie root ports
+      pcie: add power indicator blink check
+      pcie: factor out pcie_cap_slot_unplug()
+      pcie: fast unplug when slot power is off
+      pcie: expire pending delete
 
-Header <sys/uio.h> has symbol "struct iovec" : NO
+Igor Mammedov (2):
+      pcie: rename 'native-hotplug' to 'x-native-hotplug'
+      tests: bios-tables-test update expected blobs
 
+Jason Wang (2):
+      virtio: use virtio accessor to access packed descriptor flags
+      virtio: use virtio accessor to access packed event
 
-For comparison, with a gcc build the test works because gcc
-happens to merely warn rather than fail for the syntax issue:
+Julia Suvorova (3):
+      hw/acpi/ich9: Add compat prop to keep HPC bit set for 6.1 machine type
+      bios-tables-test: Allow changes in DSDT ACPI tables
+      hw/i386/acpi-build: Deny control on PCIe Native Hot-plug in _OSC
 
-Running compile:
-Working directory:
-/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/x86/meson-private/tmpidzeb=
-j6t
-Command line:  ccache gcc -m64 -mcx16
-/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/x86/meson-private/tmpidzeb=
-j6t/testfile.c
--o /mnt/nvmedis
-k/linaro/qemu-from-laptop/qemu/build/x86/meson-private/tmpidzebj6t/output.o=
-bj
--c -D_FILE_OFFSET_BITS=3D64 -O0 -std=3Dgnu11
+Philippe Mathieu-Daudé (1):
+      hw/mem/pc-dimm: Restrict NUMA-specific code to NUMA machines
 
-Code:
+Stefan Hajnoczi (1):
+      softmmu/qdev-monitor: fix use-after-free in qdev_set_id()
 
-        #include <sys/uio.h>
-        int main(void) {
-            /* If it's not defined as a macro, try to use as a symbol */
- int main(void) { return 0; }
+Stefano Garzarella (1):
+      net/vhost-vdpa: fix memory leak in vhost_vdpa_get_max_queue_pairs()
 
-Compiler stdout:
+ include/hw/acpi/ich9.h                |   1 +
+ include/hw/pci/pci.h                  |   2 +
+ include/hw/qdev-core.h                |   1 +
+ include/hw/virtio/vhost.h             |   4 +-
+ hw/acpi/ich9.c                        |  18 ++++++++
+ hw/i386/acpi-build.c                  |  12 ++++--
+ hw/i386/pc.c                          |   2 +
+ hw/i386/pc_q35.c                      |   9 +++-
+ hw/mem/pc-dimm.c                      |  23 ++++++----
+ hw/net/vhost_net.c                    |  12 +++---
+ hw/pci/pci.c                          |  25 ++++++++++-
+ hw/pci/pci_host.c                     |   6 ++-
+ hw/pci/pcie.c                         |  79 ++++++++++++++++++++++++++++------
+ hw/pci/pcie_port.c                    |   2 +-
+ hw/virtio/vhost-vdpa.c                |   2 +-
+ hw/virtio/virtio.c                    |  24 ++++-------
+ net/vhost-vdpa.c                      |   8 +++-
+ softmmu/qdev-monitor.c                |   6 ++-
+ tests/data/acpi/q35/DSDT              | Bin 8289 -> 8289 bytes
+ tests/data/acpi/q35/DSDT.acpihmat     | Bin 9614 -> 9614 bytes
+ tests/data/acpi/q35/DSDT.bridge       | Bin 11003 -> 11003 bytes
+ tests/data/acpi/q35/DSDT.cphp         | Bin 8753 -> 8753 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm      | Bin 9943 -> 9943 bytes
+ tests/data/acpi/q35/DSDT.ipmibt       | Bin 8364 -> 8364 bytes
+ tests/data/acpi/q35/DSDT.ivrs         | Bin 8306 -> 8306 bytes
+ tests/data/acpi/q35/DSDT.memhp        | Bin 9648 -> 9648 bytes
+ tests/data/acpi/q35/DSDT.mmio64       | Bin 9419 -> 9419 bytes
+ tests/data/acpi/q35/DSDT.multi-bridge | Bin 8583 -> 8583 bytes
+ tests/data/acpi/q35/DSDT.nohpet       | Bin 8147 -> 8147 bytes
+ tests/data/acpi/q35/DSDT.numamem      | Bin 8295 -> 8295 bytes
+ tests/data/acpi/q35/DSDT.tis.tpm12    | Bin 8894 -> 8894 bytes
+ tests/data/acpi/q35/DSDT.tis.tpm2     | Bin 8894 -> 8894 bytes
+ tests/data/acpi/q35/DSDT.xapic        | Bin 35652 -> 35652 bytes
+ 33 files changed, 176 insertions(+), 60 deletions(-)
 
-Compiler stderr:
-...skipping...
-            #ifndef struct iovec
-                struct iovec;
-            #endif
-            return 0;
-        }
-Compiler stdout:
-
-Compiler stderr:
- /mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/x86/meson-private/tmpidze=
-bj6t/testfile.c:
-In function 'main':
-/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/x86/meson-private/tmpidzeb=
-j6t/testfile.c:5:28:
-warning: extra tokens at end of #ifndef direcve
-    5 |             #ifndef struct iovec
-      |                            ^~~~~
-
-Header <sys/uio.h> has symbol "struct iovec" : YES
-
-
-
--- PMM
 
