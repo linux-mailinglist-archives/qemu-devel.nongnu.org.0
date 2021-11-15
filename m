@@ -2,89 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACDC54515F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 22:02:01 +0100 (CET)
-Received: from localhost ([::1]:40982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 577A145163E
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 22:16:44 +0100 (CET)
+Received: from localhost ([::1]:50702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmj72-00007M-In
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 16:02:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34592)
+	id 1mmjLG-0007Sy-Uc
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 16:16:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mmj4b-0007aM-OX
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 15:59:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50841)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mmj4Y-00079L-T1
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 15:59:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637009966;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uyxlz/iVHj8cTsslJ5NsEb1Z2oiFt/mtBa0vcagBudQ=;
- b=BYxUd15eFvgFtAi8XFEfBdzok2EnokTn6TMxdx7yUZ6QDOZH5s61iqNkITTbZc/vUu5WWe
- gaodaoahapclEmmXQ0ORtO4vS39gHZB/daZ+hOzUO9m7JhvdauhUavpiarmcZ38vjyl0J3
- fRFo31F/7sK+giDaEwyGXBjTtxoUl0k=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-166-HcgeDBiIMbaF5FX7r43X4Q-1; Mon, 15 Nov 2021 15:59:22 -0500
-X-MC-Unique: HcgeDBiIMbaF5FX7r43X4Q-1
-Received: by mail-wr1-f71.google.com with SMTP id
- q17-20020adfcd91000000b0017bcb12ad4fso3998909wrj.12
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 12:59:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mmjJw-0006CE-77; Mon, 15 Nov 2021 16:15:22 -0500
+Received: from [2a00:1450:4864:20::333] (port=37657
+ helo=mail-wm1-x333.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mmjJu-0000xS-BZ; Mon, 15 Nov 2021 16:15:19 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ k37-20020a05600c1ca500b00330cb84834fso299144wms.2; 
+ Mon, 15 Nov 2021 13:15:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=uyxlz/iVHj8cTsslJ5NsEb1Z2oiFt/mtBa0vcagBudQ=;
- b=nYMtqDHdpEq4GmYNjHaIXX4cFJibMn4DOFqtrCKFXWgex0R8lzDRqHW1l7TmkTVlRI
- ZtIbipR5n5Z7p+hhopmYGuIhZpo7zPVMXXk2ZD+6aeADJ5pAfDUqBErsHTuE3a2yN/B1
- O+n4/vdr4cuijW0xlaQj56FGFTRWevFCWQk3hM6NtXGvnLwkiMr5DGFzFJHfOucXNcDG
- m20dqsQ4ii0W92daMuwwUiKrlTwrXp2xOUacBZtbpC9sYHHxK4MYD0Ggy6C+WRj46Qp5
- /734VKM3fucs8ZPcyPLGfeGynUM3rU+gtF6m7GRH7VSsIzhaPE9nENvWKRInWPelD7l8
- vtsw==
-X-Gm-Message-State: AOAM533zVMaqBG1ClwRFROFvIZYHSrs8kihjmTbn8Tjq2FqWIqSFFqS6
- HREB2gxzYYt/Czs/AhpryOFyv6IwbaxqEN+FQeywQjbzFaJZU6LMM1PQCZFe2XFjCVSZhWnAbcm
- vhHu7Cw0eTTNgYLA=
-X-Received: by 2002:adf:cd02:: with SMTP id w2mr2429197wrm.269.1637009960458; 
- Mon, 15 Nov 2021 12:59:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy75okP1X8q+xmcHKs0sOM930p9Csl4jdLBJOvQv4w+dAkGIy6i2TdPq/rwiDoIpXnsKsRcQQ==
-X-Received: by 2002:adf:cd02:: with SMTP id w2mr2429166wrm.269.1637009960214; 
- Mon, 15 Nov 2021 12:59:20 -0800 (PST)
+ bh=gLBB7GvS8taID4QM2gxUg/JMlAdr4wytikovWMtKvYw=;
+ b=dZiVR8qR5cOST21bBhpa97EXFRAY13N6VVIo7Gece4f1XIyEiFQ/BZzJpjmZSsPAtP
+ 8o4nQGIiLG1TgSwn+WFVUDdAYr3Qvi2tSygk0s2g2jgw/t5fKCwoZBrw+NGxLXVYW2J9
+ FHYjztsTiLZ5pTcm+jE+oFVMNOSv3UPEw7fwFZPuygeqBP8Pnqm6ToAwFOFNRpdHcK8W
+ LlNQT/1vKJqdP/xt8lTs2Y7CN2vCK0oM1eKgbDrkLPgtDB9BKFKpuFp83BX53CTS3WQF
+ 9EjjfOxhrhyhav9mPk9pVOHUdYVnkwA61pYxoacxc1iB8s3DzOPstP+ci1ckAbArTLyZ
+ 83HA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=gLBB7GvS8taID4QM2gxUg/JMlAdr4wytikovWMtKvYw=;
+ b=ry6A4OBPvpv8wmNz9+72AIGg6l/EOZ8xM5mOhMC5BTvpyNG6DROeCifSghF/dIUfbQ
+ J46XD5rRGcXN2A4hnaCaS3pxSBHxaChyiUO59Lbek1lbcmO3sebwOzEJYd/IFQsRPYX3
+ e8bSltUxGwXXFCeXz7Q5QykfFVNI7jhWdqbtDptQqwjKBxkqqMzXvCaNgeaI9MrdWo1y
+ vkBPM1s2XyJzoQKC6bIJqEauuAFgnKLXxmZeyoFWsb7KLvojbz2rL+vt2JPQzmugMkU2
+ L638rbtgDPLkdKo1DY5kq+VnfrRKrsZQUTNX6KvgwjPuAiZn8iwIip78ZhF5HC4WIJMz
+ 2ggQ==
+X-Gm-Message-State: AOAM532Pgbwlpzn1YrX7cBj0GMsJ7Fw5ynh+874c+rXNxdSiUQD5R2IK
+ bIxpD9OhQDRyrPji+sk97Fg=
+X-Google-Smtp-Source: ABdhPJzTc1s7attfuMYNbHc3hTvn29T23PY0kWp6EvxkRgoKMdP843ZaMacIDm1rCrRScK35n2L0qA==
+X-Received: by 2002:a1c:a301:: with SMTP id m1mr5903433wme.118.1637010915563; 
+ Mon, 15 Nov 2021 13:15:15 -0800 (PST)
 Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id ay21sm402177wmb.7.2021.11.15.12.59.19
+ by smtp.gmail.com with ESMTPSA id n4sm18195894wri.41.2021.11.15.13.15.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Nov 2021 12:59:19 -0800 (PST)
-Message-ID: <3de465a4-73ec-99b6-6bdc-7c030817b9e0@redhat.com>
-Date: Mon, 15 Nov 2021 21:59:19 +0100
+ Mon, 15 Nov 2021 13:15:14 -0800 (PST)
+Message-ID: <b18519f7-7198-0965-a528-2d1a45c7c93c@amsat.org>
+Date: Mon, 15 Nov 2021 22:15:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PULL 00/13] Block layer patches
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20211115145409.176785-1-kwolf@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211115145409.176785-1-kwolf@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH RFC 2/2] hw: Replace drive_get_next() by drive_get()
 Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>
+References: <20211115125536.3341681-1-armbru@redhat.com>
+ <20211115125536.3341681-3-armbru@redhat.com>
+ <5b799ad5-a552-454f-dcc7-1ea6de22b397@amsat.org>
+ <87lf1pfm2z.fsf@dusky.pond.sub.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <87lf1pfm2z.fsf@dusky.pond.sub.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.278, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.278,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,77 +94,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, bin.meng@windriver.com,
+ mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org, sundeep.lkml@gmail.com,
+ qemu-block@nongnu.org, andrew.smirnov@gmail.com, hskinnemoen@google.com,
+ joel@jms.id.au, atar4qemu@gmail.com, alistair@alistair23.me,
+ b.galvani@gmail.com, nieklinnenbank@gmail.com, qemu-arm@nongnu.org,
+ clg@kaod.org, kwolf@redhat.com, qemu-riscv@nongnu.org, andrew@aj.id.au,
+ Andrew.Baumann@microsoft.com, jcd@tribudubois.net, kfting@nuvoton.com,
+ hreitz@redhat.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Kevin,
+On 11/15/21 16:57, Markus Armbruster wrote:
+> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
+>> On 11/15/21 13:55, Markus Armbruster wrote:
+>>> drive_get_next() is basically a bad idea.  It returns the "next" block
+>>> backend of a certain interface type.  "Next" means bus=0,unit=N, where
+>>> subsequent calls count N up from zero, per interface type.
+>>>
+>>> This lets you define unit numbers implicitly by execution order.  If the
+>>> order changes, or new calls appear "in the middle", unit numbers change.
+>>> ABI break.  Hard to spot in review.
+>>>
+>>> Explicit is better than implicit: use drive_get() directly.
+>>>
+>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>>> ---
 
-On 11/15/21 15:53, Kevin Wolf wrote:
-> The following changes since commit 42f6c9179be4401974dd3a75ee72defd16b5092d:
+>>> @@ -435,11 +438,13 @@ static void aspeed_machine_init(MachineState *machine)
+>>>      }
+>>>  
+>>>      for (i = 0; i < bmc->soc.sdhci.num_slots; i++) {
+>>> -        sdhci_attach_drive(&bmc->soc.sdhci.slots[i], drive_get_next(IF_SD));
+>>> +        sdhci_attach_drive(&bmc->soc.sdhci.slots[i],
+>>> +                           drive_get(IF_SD, 0, i));
+>>
+>> If we put SD on bus #0, ...
+>>
+>>>      }
+>>>  
+>>>      if (bmc->soc.emmc.num_slots) {
+>>> -        sdhci_attach_drive(&bmc->soc.emmc.slots[0], drive_get_next(IF_SD));
+>>> +        sdhci_attach_drive(&bmc->soc.emmc.slots[0],
+>>> +                           drive_get(IF_SD, 0, bmc->soc.sdhci.num_slots));
+>>
+>> ... we'd want to put eMMC on bus #1
 > 
->   Merge tag 'pull-ppc-20211112' of https://github.com/legoater/qemu into staging (2021-11-12 12:28:25 +0100)
+> Using separate buses for different kinds of devices would be neater, but
+> it also would be an incompatible change.  This patch keeps existing
+> bus/unit numbers working.  drive_get_next() can only use bus 0.
 > 
-> are available in the Git repository at:
+>>                                      but I see having eMMC cards on a
+>> IF_SD bus as a bug, since these cards are soldered on the board.
 > 
->   git://repo.or.cz/qemu/kevin.git tags/for-upstream
-> 
-> for you to fetch changes up to 7461272c5f6032436ef9032c091c0118539483e4:
-> 
->   softmmu/qdev-monitor: fix use-after-free in qdev_set_id() (2021-11-15 15:49:46 +0100)
-> 
-> ----------------------------------------------------------------
-> Block layer patches
-> 
-> - Fixes to image streaming job and block layer reconfiguration to make
->   iotest 030 pass again
-> - docs: Deprecate incorrectly typed device_add arguments
-> - file-posix: Fix alignment after reopen changing O_DIRECT
-> 
-> ----------------------------------------------------------------
-> Hanna Reitz (10):
->       stream: Traverse graph after modification
->       block: Manipulate children list in .attach/.detach
->       block: Unite remove_empty_child and child_free
->       block: Drop detached child from ignore list
->       block: Pass BdrvChild ** to replace_child_noperm
->       block: Restructure remove_file_or_backing_child()
->       transactions: Invoke clean() after everything else
->       block: Let replace_child_tran keep indirect pointer
->       block: Let replace_child_noperm free children
->       iotests/030: Unthrottle parallel jobs in reverse
-> 
-> Kevin Wolf (2):
->       docs: Deprecate incorrectly typed device_add arguments
->       file-posix: Fix alignment after reopen changing O_DIRECT
-> 
-> Stefan Hajnoczi (1):
->       softmmu/qdev-monitor: fix use-after-free in qdev_set_id()
-> 
->  docs/about/deprecated.rst   |  14 +++
->  include/qemu/transactions.h |   3 +
->  block.c                     | 233 +++++++++++++++++++++++++++++++++-----------
->  block/file-posix.c          |  20 +++-
->  block/stream.c              |   7 +-
->  softmmu/qdev-monitor.c      |   2 +-
->  util/transactions.c         |   8 +-
->  tests/qemu-iotests/030      |  11 ++-
->  tests/qemu-iotests/142      |  22 +++++
->  tests/qemu-iotests/142.out  |  15 +++
->  10 files changed, 269 insertions(+), 66 deletions(-)
+> IF_SD is not a bus, it's an "block interface type", which is really just
+> a user interface thing.
 
-Looking at current /staging I noticed iotest#142 failed,
-build-tcg-disabled job:
+Why are we discriminating by "block interface type" then?
 
-+++ 142.out.bad
-@@ -750,6 +750,7 @@
- --- Alignment after changing O_DIRECT ---
-+qemu-io: Cannot get 'write' permission without 'resize': Image size is
-not a multiple of request alignment
- read 42/42 bytes at offset 42
- 42 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- read 42/42 bytes at offset 42
+What is the difference between "block interfaces"? I see a block drive
+as a generic unit, usable on multiple hardware devices.
 
-https://gitlab.com/qemu-project/qemu/-/jobs/1784955950#L2794
-
+I never really understood how this "block interface type" helps
+developers and users. I thought BlockInterfaceType and DriveInfo
+were legacy / deprecated APIs we want to get rid of; and we would
+come up with a replacement API using BlockDeviceInfo or providing
+a BlockFrontend state of the art object.
+Anyway, I suppose the explanation is buried in the git history
+before the last 8 years. I need to keep reading.
 
