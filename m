@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 618D8450A2C
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 17:52:51 +0100 (CET)
-Received: from localhost ([::1]:44988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD5A84509EF
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 17:46:17 +0100 (CET)
+Received: from localhost ([::1]:54308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmfDu-0003Jh-H3
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 11:52:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54496)
+	id 1mmf7Y-0007PH-V5
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 11:46:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmf0F-00033V-Mx
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:38:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52938)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmf0I-0003Ds-Hf
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:38:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmf0D-0005Fj-S0
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:38:43 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmf0H-0005G5-3L
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:38:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636994321;
+ s=mimecast20190719; t=1636994324;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=40DjtVawOkvSfGu4Q5CJerXc3MdyuapDarfgCyKOILc=;
- b=TJaivcPyrbVQQvHcpShvz+4tnzGJQn/g7LFBoYcqnAMkm1gU524QwaVjYErLz/2YVrWq/f
- dBXNaZQI68c4EOE0ObiEmgmkrDlMBFoqPjhXwu9HM2QbV4kjHyYV0ITMz/E7MXs2i4wEf0
- 3RdkPi9tjkuYXpo4o32CZIxz8pOfJQo=
+ bh=Y05iFeqDcZmIQw96oojBdfWCBMxpMBgO3kDemc5FvLM=;
+ b=ZTVvZNW54qv+rTwloBsPW6bhOPknL8qZYO82anCJZql6CFkbfDFcgneIU3CIKMKAyqrGTC
+ RnsSSUSfidM41cVZD9U77us7SkCqVviKfHO9GPssU5CTE2eLl3cK0CIHHfCzIt6VPFQywC
+ G+LDnNKxp5O2RCCPseUuzRGohPnkweA=
 Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
  [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-540-KprIiqXuOXSu-ne5H3obug-1; Mon, 15 Nov 2021 11:38:39 -0500
-X-MC-Unique: KprIiqXuOXSu-ne5H3obug-1
+ us-mta-485-5zph96HSN8il0DtEFA8cdA-1; Mon, 15 Nov 2021 11:38:43 -0500
+X-MC-Unique: 5zph96HSN8il0DtEFA8cdA-1
 Received: by mail-ed1-f71.google.com with SMTP id
- w13-20020a05640234cd00b003e2fde5ff8aso14469725edc.14
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 08:38:39 -0800 (PST)
+ c1-20020aa7c741000000b003e7bf1da4bcso3256526eds.21
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 08:38:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=40DjtVawOkvSfGu4Q5CJerXc3MdyuapDarfgCyKOILc=;
- b=0z5UUO1lMFszCvJl+wj7Bux8j6IDfPsQgxGX3Xaa5X26689yPBc//137A5EBwWy+s9
- 45yEDBagmpBv93A6W1VRX3ZGwQP5ndrhpe5AbHJZiJTVdpNTuWKKEzbwio/tUIOFMgff
- DEpzue/uMgdbjqifJ47efGt+Vgq3MQwJ0zh7x8jWmUurTy2yFKYI1jvABjdxeN7KIeXH
- SBrDI9naUQzbHUJRRjcdBAoIzVeE//TlpKI/zUVri6cXzptYUV+mEn3A16zGP7dHJP8X
- nMXrsJMxHEvMue3wLPWxf9Hemh1PKsuPFDouyw7ciVpaqE9+mhjNasD2H11+bujOshNj
- qqTw==
-X-Gm-Message-State: AOAM531c8S1ZpNV/j4b4mCWdpALhMtQsAU+xw41kouHgOoR/ip46NtVH
- qv1gWl/WzkbuZp0WC/kDBlr+vF5YRFctcJIm5fwRiALi5Em6hVDEN4vMK+QkbsIIClSZFCQ9Q9F
- AfcLlXd8sh8Tceje94Rk/RpjgdMQnNESQoKuHLRt8h/U7AG8dJZ9yFz32DZ4x
-X-Received: by 2002:a05:6402:2155:: with SMTP id
- bq21mr56414514edb.181.1636994317967; 
- Mon, 15 Nov 2021 08:38:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz5M+QVzE1CSmxBOJ6M7xiOp7SeBwT4kunxC7zwG0nttNwIvbI2YyJdUN2negWqQ/vZFruLCA==
-X-Received: by 2002:a05:6402:2155:: with SMTP id
- bq21mr56414462edb.181.1636994317688; 
- Mon, 15 Nov 2021 08:38:37 -0800 (PST)
+ bh=Y05iFeqDcZmIQw96oojBdfWCBMxpMBgO3kDemc5FvLM=;
+ b=DABcHp+NWDJqod6e9v48yoOSyQ4C8uqUg/76Nod7P0qE2IP04C2IyxF7RwZV58ebpr
+ QoWD5Mocvni4GIq4Fg/ey8u/O5OPYjnL3HSANXj89yRbRkyBpm/c3Q7r6l+okL26s0tT
+ CSzP5rir0hcnXt237GsLgTJjizDfLL2gRpcwWfkFvK24FHi5b4DxPAvKMQeCvPtZKVzT
+ WGQKH5FToLmeovJEwYOQVPPpgXdVkO/7MvLlUagjGO7Cl8OfDsjhSfXmjXWK/KkMUE9B
+ oTw3HM7Gi4qwKqlr4BsH+MXc+kUhFtbXpKMHoNDqlnn3oAjFqholL2BZShXqZJkmOs/q
+ yd2A==
+X-Gm-Message-State: AOAM532Fdbh8HgDtvXUcbiYt0Pcjs+c0WhIlBtS//Uf32Bcjh5Lvi+uR
+ P/5oqd00U+7WATyBAn3onMj5irEJi6NcYGDseGeCY787dTX8Lm580Y4oRGFOaVosGXBXW/losbd
+ UunkQMLLlpglHzIAMv5YOtHanrnhicPcIQx2QgHrBOAZrTyi/k4DAdduqTwMS
+X-Received: by 2002:aa7:cd5c:: with SMTP id v28mr106897edw.6.1636994322072;
+ Mon, 15 Nov 2021 08:38:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwEt4CYrSiztWCX/tzsaTrSvt+SQ3Grz7dYf5kGA/6jU+Gqgh3UqTjV6/7+NSOMLtI2chX6IA==
+X-Received: by 2002:aa7:cd5c:: with SMTP id v28mr106857edw.6.1636994321865;
+ Mon, 15 Nov 2021 08:38:41 -0800 (PST)
 Received: from redhat.com ([2a03:c5c0:207e:9a71:d0b:1947:b534:3230])
- by smtp.gmail.com with ESMTPSA id dp16sm7220349ejc.34.2021.11.15.08.38.35
+ by smtp.gmail.com with ESMTPSA id m22sm5349428eda.97.2021.11.15.08.38.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Nov 2021 08:38:37 -0800 (PST)
-Date: Mon, 15 Nov 2021 11:38:34 -0500
+ Mon, 15 Nov 2021 08:38:41 -0800 (PST)
+Date: Mon, 15 Nov 2021 11:38:38 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/20] virtio: use virtio accessor to access packed event
-Message-ID: <20211115163607.177432-13-mst@redhat.com>
+Subject: [PULL 13/20] vdpa: Replace qemu_open_old by qemu_open at
+Message-ID: <20211115163607.177432-14-mst@redhat.com>
 References: <20211115163607.177432-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211115163607.177432-1-mst@redhat.com>
@@ -77,7 +75,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -85,7 +83,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,72 +97,41 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-stable@nongnu.org
+ Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jason Wang <jasowang@redhat.com>
+From: Eugenio Pérez <eperezma@redhat.com>
 
-We used to access packed descriptor event and off_wrap via
-address_space_{write|read}_cached(). When we hit the cache, memcpy()
-is used which is not atomic which may lead a wrong value to be read or
-wrote.
+There is no reason to keep using the old one, since we neither use the
+variadics arguments nor open it with O_DIRECT.
 
-This patch fixes this by switching to use
-virito_{stw|lduw}_phys_cached() to make sure the access is atomic.
+Also, net_client_init1, the caller of net_init_vhost_vdpa, wants all
+net_client_init_fun to use Error API, so it's a good step in that
+direction.
 
-Fixes: 683f7665679c1 ("virtio: event suppression support for packed ring")
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20211111063854.29060-2-jasowang@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Message-Id: <20211112193431.2379298-2-eperezma@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio.c | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ net/vhost-vdpa.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 939bcbfeb9..ea7c079fb0 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -247,13 +247,10 @@ static void vring_packed_event_read(VirtIODevice *vdev,
-     hwaddr off_off = offsetof(VRingPackedDescEvent, off_wrap);
-     hwaddr off_flags = offsetof(VRingPackedDescEvent, flags);
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 373b706b90..1a7250b980 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -261,7 +261,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+     opts = &netdev->u.vhost_vdpa;
  
--    address_space_read_cached(cache, off_flags, &e->flags,
--                              sizeof(e->flags));
-+    e->flags = virtio_lduw_phys_cached(vdev, cache, off_flags);
-     /* Make sure flags is seen before off_wrap */
-     smp_rmb();
--    address_space_read_cached(cache, off_off, &e->off_wrap,
--                              sizeof(e->off_wrap));
--    virtio_tswap16s(vdev, &e->off_wrap);
-+    e->off_wrap = virtio_lduw_phys_cached(vdev, cache, off_off);
-     virtio_tswap16s(vdev, &e->flags);
- }
- 
-@@ -263,8 +260,7 @@ static void vring_packed_off_wrap_write(VirtIODevice *vdev,
- {
-     hwaddr off = offsetof(VRingPackedDescEvent, off_wrap);
- 
--    virtio_tswap16s(vdev, &off_wrap);
--    address_space_write_cached(cache, off, &off_wrap, sizeof(off_wrap));
-+    virtio_stw_phys_cached(vdev, cache, off, off_wrap);
-     address_space_cache_invalidate(cache, off, sizeof(off_wrap));
- }
- 
-@@ -273,8 +269,7 @@ static void vring_packed_flags_write(VirtIODevice *vdev,
- {
-     hwaddr off = offsetof(VRingPackedDescEvent, flags);
- 
--    virtio_tswap16s(vdev, &flags);
--    address_space_write_cached(cache, off, &flags, sizeof(flags));
-+    virtio_stw_phys_cached(vdev, cache, off, flags);
-     address_space_cache_invalidate(cache, off, sizeof(flags));
- }
- 
+-    vdpa_device_fd = qemu_open_old(opts->vhostdev, O_RDWR);
++    vdpa_device_fd = qemu_open(opts->vhostdev, O_RDWR, errp);
+     if (vdpa_device_fd == -1) {
+         return -errno;
+     }
 -- 
 MST
 
