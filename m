@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8763C450A41
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 17:55:43 +0100 (CET)
-Received: from localhost ([::1]:54010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 644BF450A57
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 17:57:50 +0100 (CET)
+Received: from localhost ([::1]:33280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmfGg-0000wj-Lr
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 11:55:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55768)
+	id 1mmfIj-000687-G1
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 11:57:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mmf46-00040B-Tu
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:42:43 -0500
-Received: from [2a00:1450:4864:20::431] (port=35462
- helo=mail-wr1-x431.google.com)
+ id 1mmfGL-0002OP-M1
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:55:22 -0500
+Received: from [2a00:1450:4864:20::434] (port=45834
+ helo=mail-wr1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mmf44-000619-NN
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:42:42 -0500
-Received: by mail-wr1-x431.google.com with SMTP id i5so31992867wrb.2
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 08:42:39 -0800 (PST)
+ id 1mmfGJ-0007bz-Op
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:55:20 -0500
+Received: by mail-wr1-x434.google.com with SMTP id w29so31964392wra.12
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 08:55:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=12DpytWwjDVn6vQ4CTNZbM0o9T6fzPDHcaSd+k2vdC0=;
- b=J8WhDUUIwPp9A2Vr88zkazXrHcPwGDtYx/sbGn+qhYlW6ODWkW5ViEfVWG1oGpXnhf
- IasTAVie+9uCZkIUTbENrFcIEXPBgKIyHu4T1jMGdkZy5FEq0zcQYYWUthJs5dqc4SYJ
- wvlORELXL+x6JiqlaGDDt+pMTHd63cTp0QcmRn971EypHuK60r+4+PeexM2eEOferRsM
- Ft9VKkMgtP+UjpgA8Bl00xKZwNf1z/G132xVwGKjiTy9Mnew2r1NAqIhk1V+d0LTthni
- RiJAYatgzW9Rb92ZKC3M1oe7A5R+w9+6ArFbm9dbM8QmNweevwu9iAGZ+pK9TEH5tsmF
- c5ug==
+ bh=B/OXPmI3RngCNkk8ICOVeLicfkuhNzNjtyo/vtKuFDU=;
+ b=E9W9KbTE/1BbmatVaaNw8/l07z5Jx1dTF7BrH7u2o1XjekujbZvagJpC8ztCBlCTsS
+ 8ct5lENovoNVR4S1IlKLzRbczXF0pJxdAr3uPWjKHp9F/mMnQBMgdgOoUyYD+9w5UACP
+ 15biYeed2AGIO+djL08znGa8Db9AZ8I8VcBDRkvo54IBUQSEkJWXpoKwTCFsvDjEllh/
+ 8EosaWanLBY3K2KKFLOTgUYtlyOtIcjgrxuoMJC0YuXIUl+w/VwYAb2HwFS1zlrNkUF4
+ B+k+iEWlkVJOok0KDEQhsQ8nqLNy3glYpMb/+nNmgwMil+Nu1DsHt/50AnN4wApFddxu
+ qmeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=12DpytWwjDVn6vQ4CTNZbM0o9T6fzPDHcaSd+k2vdC0=;
- b=CWmSj7FILmY4rtTpkrpy/AMZ+GAfh9u8VPfhI1KwkdecHlrxkh5uQZ0vUtaXyU77Rt
- IwOp7zdBzZEln+GHZrQf0TPontI3TjmUYrlG/Cl8V/svfxaRte3sIwM3yX9/q+eVC9GJ
- OtTX+3v0bnbu+zjqnbZ2ZkyJxr2eJZTs3Fk6/KEe9ODPR4BZwj99KUYYXx0IjTWiybcr
- v4CJifP3q43GC0srLZGunilIIdFsKvkQcohHuT7Xq7tDqcBijYtbE//K2APeemTVRKXw
- pSWwYhZyF9uofHZ92AUesyno/ymgIGrEv1/WJ6DW3OXQLeys5jgMuUIGpP/z/9krGhWk
- N8+A==
-X-Gm-Message-State: AOAM533ibJgxNaKQtjMcGIUO/vYCtw9hvjkD7aNFJ7fFH90cFXf8l9oo
- ib6qctOseebTe/pYMuzQmo1e6qGXiU2KBpuDly6T6Q==
-X-Google-Smtp-Source: ABdhPJyq2c2YUai22i/Rk7kRKE2wsCmYmtXhQwrM7Re6IVClxMvvjSHCL2jh3YDaeXj4wL+EmcvDnEkz+ozMeOQ/Jho=
-X-Received: by 2002:a05:6000:186e:: with SMTP id
- d14mr448610wri.376.1636994558519; 
- Mon, 15 Nov 2021 08:42:38 -0800 (PST)
+ bh=B/OXPmI3RngCNkk8ICOVeLicfkuhNzNjtyo/vtKuFDU=;
+ b=XfLNHMjRH7X3aoQ5B3mQBipeuQzi9kd1+9X4qKq7nI1Ljno/MDIYYK5JazTB7XwZKC
+ Cmu5pGwsNqMcuc3u+UMMu5qcDgIQd0Blc1wDNWH0s7qnIjng5zdOwbtCstsetrx0IRMB
+ x1ROnuyx6zbT7iaLaiJzf49pxfXFzqbx9kYH3sMzllWh3O65tUI6mQ89thIauq+JvSef
+ aTpbUuoB74RPccTAg0IIN9Jxc3mMI0DPnHgR2MMiW+kbzU4p7GwGJ8GwB3tQVpXYhFrv
+ 37WYYmlP3RX6f5YizWBo5UaNXgV6hlqbzLuVNW4V/uTaHty6HLvs2Id22mhMKIJuBAR4
+ 9SpA==
+X-Gm-Message-State: AOAM531wzWr4AJtjQx3xnRnSpRih4Qjqq5DG6UQWGZFglp9jz2RX4Edp
+ d75TX80xzK2eLsQ61vN3bCcjYngdDlHAD/2FI3ZJTg==
+X-Google-Smtp-Source: ABdhPJzuIRffkCJ8Mbut5l9qHMlvYjq1U3NCTQLQ67aghm4c9MeYaU7jXN834Mezje6Q5qJzDlXGokEVPt1UN9RYL+Q=
+X-Received: by 2002:a05:6000:381:: with SMTP id
+ u1mr581394wrf.302.1636995318277; 
+ Mon, 15 Nov 2021 08:55:18 -0800 (PST)
 MIME-Version: 1.0
 References: <20211014162938.430211-1-pbonzini@redhat.com>
  <20211014162938.430211-22-pbonzini@redhat.com>
  <CAFEAcA8dxLqx4uXGRmhdWmP2aRXChk6gqO3t_RY54UVMHPEjWQ@mail.gmail.com>
 In-Reply-To: <CAFEAcA8dxLqx4uXGRmhdWmP2aRXChk6gqO3t_RY54UVMHPEjWQ@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 15 Nov 2021 16:42:27 +0000
-Message-ID: <CAFEAcA9HoX9riUjU_N6erkLu0r5gRawDTKSJgwjNb+2Mcn+0=g@mail.gmail.com>
+Date: Mon, 15 Nov 2021 16:55:07 +0000
+Message-ID: <CAFEAcA-_Odr5ep9mAHURSrmeG9KjJiCorNSc9Afje+RvJ-zWdg@mail.gmail.com>
 Subject: Re: [PULL 21/26] configure, meson: move more compiler checks to Meson
 To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -125,18 +125,14 @@ ian.h>
 >
 > Hi -- I've just noticed that this change breaks compilation for me,
 > because this test incorrectly fails to set CONFIG_IOVEC on a system
-> where the header defines 'struct iovec'. This seems to be because
-> "struct iovec" isn't a valid thing to test with has_header_symbol,
-> because it provokes a compiler error from clang.
+> where the header defines 'struct iovec'.
 
-https://github.com/mesonbuild/meson/issues/1975 says that for gcc
-it's actually going to be wrong the other way (always setting CONFIG_IOVEC
-whether the system header has the struct or not), because "struct wombat;"
-is syntactically OK as a *declaration*, not a use.
-
-Maybe we can work around this by testing for the presence of something else=
-,
-eg IOV_MAX or the readv or writev functions ?
+That wasn't quite right. On further investigation, the problem is that
+the meson tests silently misbehave if you included "-Werror" in your
+--extra-cflags. This results in meson building all the tests with -Werror,
+but meson's generated code for tests can't handle that. (configure
+gets this right because it has code in that specifically checks
+"does this test case give the same result for -Werror and not".)
 
 -- PMM
 
