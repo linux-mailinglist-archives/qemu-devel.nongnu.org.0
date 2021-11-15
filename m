@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C87E1450711
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 15:33:38 +0100 (CET)
-Received: from localhost ([::1]:59636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B77F7450701
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 15:31:58 +0100 (CET)
+Received: from localhost ([::1]:55260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmd3B-0006vU-Tu
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 09:33:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48818)
+	id 1mmd1Z-00040N-JR
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 09:31:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mmcz8-0001De-VD
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:29:27 -0500
-Received: from [2a00:1450:4864:20::429] (port=34344
- helo=mail-wr1-x429.google.com)
+ id 1mmczA-0001HJ-Jy
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:29:28 -0500
+Received: from [2a00:1450:4864:20::434] (port=34355
+ helo=mail-wr1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mmcz4-0004Mb-NX
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:29:26 -0500
-Received: by mail-wr1-x429.google.com with SMTP id d5so31117274wrc.1
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 06:29:22 -0800 (PST)
+ id 1mmcz8-0004NE-34
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:29:28 -0500
+Received: by mail-wr1-x434.google.com with SMTP id d5so31117669wrc.1
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 06:29:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KyWAPp1xuJA1TgR/nKiRs9GzqMMIIWAboE5PWMbSQ2g=;
- b=RDLre2ndy2SVTVDKA5yZwm4p7ZstDWAHXlg+gnnaAbhyC8prfjxsdVO17kQZnpNRKQ
- uaLcvjmyznd2iGzHOm9Xrqj/urNbSgtO0a6BbyBa95DbYe0jg6wnoNOFmjukpwdCDPbe
- k+bbbzHTrYZ1g6f4Eqh7yAyjY9b1MTeUAqA8y5ocTNFgkVMoiTXK3OJjGIa37LBYYiOK
- Wi/FaKN8PGDlpGzOU70gJdlAyh57UJ7AzMYNPExkKg7u0xBomh+9xD+5qQlqGZ0hlgnT
- WVck+M5JQJsyOFYIY9RwrHH/YrRjh6ng24Jb9+1pwhZONVZj7QFm0BDcbuWYt5C+e6r7
- NPYA==
+ bh=ugXBxSmeupCizDXfYa8He48thNIJcW9wKUQYZQowkzE=;
+ b=CK4Sb2r6X8vAQL0REB88Z65LkMv4g+fkrWCUWd1LLzNQxtPhnvq8B6EujoHO7SCKgk
+ nkIPs+2EOMT5zFrFPfaloYy0elWN8KJhT2K6gCXAaJFS0pX2vbvPLf8llk2btnp5TJRX
+ mS/hPo/mz31lhud3h+4v7HEOZIiivY+/wftgzrke0xlShZfamep9Zmylmwhh9mZIfSbm
+ cqEdqFE+hufho/aKov8q0hpNrdkrtGkkIIVCUUTN9BMr2JxvCdd+bWnpYHTTm6tlIUwi
+ c4AF2dEQ7nPpxpGY7t+a+55Wt11fjbQgdCyzgHohkGekBQPTmlvKwMI+s+rUp/QVTgJC
+ 54JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KyWAPp1xuJA1TgR/nKiRs9GzqMMIIWAboE5PWMbSQ2g=;
- b=VmFO52h530lhpdIMN8h7SYB4yVHy+gAKWtruDnixkJZ5Ws4jKD0NyVYSpeO2i4OBap
- 8cFIt6FK0uIUpsdqtOvA4EYdgedO2EkZ+mhBB/d500d/eYj2tAjcRGg7b4AXDCKMpSBa
- pM92ewCELHW9ioTv1NXptfzHuBTJYvbvzdCIHENTWB9Pa/SJig/rysB3XPFERzFVIOXy
- dRa1clZO4bt19UWjHRYguC0p8dfIejB5cSB9EG+y2H7QuQvT+WKTQCbAEVN1MFNXeIOF
- ETwC+q2PyJEGU8oRiHOkxkNNXAWc9CsniozDZygVk0fEbSzumOuGWI+cpgiweV61HuxW
- Sjeg==
-X-Gm-Message-State: AOAM533PXGidRMKEjgxm+ACae1vGxyC8Eh+OeljS2d/S6T8gkVk/7yu1
- RyxigJOmmbfKaAHEcHGvZKwluPNZn0Q11g==
-X-Google-Smtp-Source: ABdhPJwB46kdMxJGqXhB3VLIkD5uupFh6MvRw2PL+EZfRfBYQ/LVsbWfjnx95J2XppHaa3znbX88AQ==
-X-Received: by 2002:adf:e882:: with SMTP id d2mr48183741wrm.389.1636986561295; 
- Mon, 15 Nov 2021 06:29:21 -0800 (PST)
+ bh=ugXBxSmeupCizDXfYa8He48thNIJcW9wKUQYZQowkzE=;
+ b=zdgu2tVm8FAkbZ80wG+753N5O3WrKRFWvqxa3xJ+otAMVC+m+G38Y4jmzyXOCbzk8/
+ tuO/xOmUOhqPaYkEIj+m04VG7BrMB3NSvZ6PYm2EDrgP66n0a6PnT5g8GPxmnGJnuWw4
+ LAum5DK8AccOG1Co1hY63wnxCsec/AwoDdEufoSc+//AU858tULubgEQECC1SJFizgSD
+ tVsu3tLzi5DvS7wP9AHldJ2zvh8a5rBx5O/GJuvZh7Mt5YTGPlbM3IA+CuENl4zYHK2o
+ KgdMbndjHoH9hWBytbcJzW/k1B+CSheTMNwO2sM8D8u/hNp8ezG2H+L+8ySKm6UI0uEc
+ Yqhw==
+X-Gm-Message-State: AOAM530PzXhnxN/mW9mwKEeJl2qhXCXRS6xNAEsjdm7/vtf+693wvuwY
+ AOP9QfUwZdHkgO1mhCIJnjM1jEf2Zv0rvA==
+X-Google-Smtp-Source: ABdhPJx/iNuvJrQ5wL5ZWXSunaEvDaFJTvP18bgc6o8nnnC4exf6KJXsSZVqm0ulhjI6X90t7lwCig==
+X-Received: by 2002:adf:e747:: with SMTP id c7mr47899656wrn.38.1636986564797; 
+ Mon, 15 Nov 2021 06:29:24 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 8sm12292077wmg.24.2021.11.15.06.29.16
+ by smtp.gmail.com with ESMTPSA id s13sm20895835wmc.47.2021.11.15.06.29.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Nov 2021 06:29:17 -0800 (PST)
+ Mon, 15 Nov 2021 06:29:20 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 372D31FF99;
+ by zen.linaroharston (Postfix) with ESMTP id 4390E1FF9A;
  Mon, 15 Nov 2021 14:29:16 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 2/6] tests/vm: sort the special variable list
-Date: Mon, 15 Nov 2021 14:29:11 +0000
-Message-Id: <20211115142915.3797652-3-alex.bennee@linaro.org>
+Subject: [PATCH  v1 3/6] tests/vm: don't build using TCG by default
+Date: Mon, 15 Nov 2021 14:29:12 +0000
+Message-Id: <20211115142915.3797652-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211115142915.3797652-1-alex.bennee@linaro.org>
 References: <20211115142915.3797652-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -97,46 +97,62 @@ Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Making the list alphabetical makes it easier to find the config option
-you are looking for.
+While it is useful to run these images using TCG their performance
+will not be anything like the native guests. Don't do it by default.
 
+Fixes: https://gitlab.com/qemu-project/qemu/-/issues/393
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/vm/Makefile.include | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ tests/vm/Makefile.include | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
 diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
-index f3a3a1c751..f8ca619cf2 100644
+index f8ca619cf2..ae91f5043e 100644
 --- a/tests/vm/Makefile.include
 +++ b/tests/vm/Makefile.include
-@@ -52,21 +52,21 @@ endif
+@@ -2,14 +2,22 @@
+ 
+ .PHONY: vm-build-all vm-clean-all
+ 
++HOST_ARCH = $(if $(ARCH),$(ARCH),$(shell uname -m))
++
+ EFI_AARCH64 = $(wildcard $(BUILD_DIR)/pc-bios/edk2-aarch64-code.fd)
+ 
+-IMAGES := freebsd netbsd openbsd centos fedora haiku.x86_64
++X86_IMAGES := freebsd netbsd openbsd centos fedora haiku.x86_64
+ ifneq ($(GENISOIMAGE),)
+-IMAGES += ubuntu.i386 centos
++X86_IMAGES += ubuntu.i386 centos
+ ifneq ($(EFI_AARCH64),)
+-IMAGES += ubuntu.aarch64 centos.aarch64
++ARM64_IMAGES += ubuntu.aarch64 centos.aarch64
++endif
+ endif
++
++ifeq ($(HOST_ARCH),x86_64)
++IMAGES=$(X86_IMAGES) $(if $(USE_TCG),$(ARM64_IMAGES))
++else ifeq ($(HOST_ARCH),aarch64)
++IMAGES=$(ARM64_IMAGES) $(if $(USE_TCG),$(X86_IMAGES))
+ endif
+ 
+ IMAGES_DIR := $(HOME)/.cache/qemu-vm/images
+@@ -43,7 +51,7 @@ else
+ endif
+ 	@echo "  vm-build-haiku.x86_64           - Build QEMU in Haiku VM"
+ 	@echo ""
+-	@echo "  vm-build-all                    - Build QEMU in all VMs"
++	@echo "  vm-build-all                    - Build QEMU in: $(IMAGES)"
+ 	@echo "  vm-clean-all                    - Clean up VM images"
  	@echo
- 	@echo "Special variables:"
- 	@echo "    BUILD_TARGET=foo		 - Override the build target"
--	@echo "    TARGET_LIST=a,b,c    	 - Override target list in builds"
--	@echo '    EXTRA_CONFIGURE_OPTS="..."'
--	@echo "    J=[0..9]*            	 - Override the -jN parameter for make commands"
- 	@echo "    DEBUG=1              	 - Enable verbose output on host and interactive debugging"
-+	@echo '    EXTRA_CONFIGURE_OPTS="..."   - Pass to configure step'
-+	@echo "    J=[0..9]*            	 - Override the -jN parameter for make commands"
+ 	@echo "For trouble-shooting:"
+@@ -56,6 +64,7 @@ endif
+ 	@echo '    EXTRA_CONFIGURE_OPTS="..."   - Pass to configure step'
+ 	@echo "    J=[0..9]*            	 - Override the -jN parameter for make commands"
  	@echo "    LOG_CONSOLE=1        	 - Log console to file in: ~/.cache/qemu-vm "
--	@echo "    V=1				 - Enable verbose ouput on host and guest commands"
--	@echo "    QEMU_LOCAL=1                 - Use QEMU binary local to this build."
++	@echo "    USE_TCG=1        	         - Use TCG for cross-arch images"
  	@echo "    QEMU=/path/to/qemu		 - Change path to QEMU binary"
--	@echo "    QEMU_IMG=/path/to/qemu-img	 - Change path to qemu-img tool"
  ifeq ($(HAVE_PYTHON_YAML),yes)
  	@echo "    QEMU_CONFIG=/path/conf.yml   - Change path to VM configuration .yml file."
- else
- 	@echo "    (install python3-yaml to enable support for yaml file to configure a VM.)"
- endif
- 	@echo "                                   See conf_example_*.yml for file format details."
-+	@echo "    QEMU_IMG=/path/to/qemu-img	 - Change path to qemu-img tool"
-+	@echo "    QEMU_LOCAL=1                 - Use QEMU binary local to this build."
-+	@echo "    TARGET_LIST=a,b,c    	 - Override target list in builds"
-+	@echo "    V=1				 - Enable verbose ouput on host and guest commands"
- 
- vm-build-all: $(addprefix vm-build-, $(IMAGES))
- 
 -- 
 2.30.2
 
