@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81A69450A0A
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 17:48:37 +0100 (CET)
-Received: from localhost ([::1]:34470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 451A34509D6
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 17:40:23 +0100 (CET)
+Received: from localhost ([::1]:37936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmf9o-0004bz-LD
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 11:48:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54280)
+	id 1mmf1q-0004nI-CR
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 11:40:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmezk-0001gj-SQ
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:38:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30630)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmezu-0001s8-16
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:38:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38271)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmezi-0005Cy-L2
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:38:12 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmezs-0005Dd-6B
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:38:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636994290;
+ s=mimecast20190719; t=1636994299;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=y6C9J2NVK01b40eeKRTUlDWMs2jNYZycxWavDBC4bcI=;
- b=EvTQ5ouW6sx5Az9uau85ej4dKOIfrK+ozMHlFrrrGUSjn0G4ubtI41zxS6iplVLDKO+BMS
- LWwm8HgkU5dqL8MgqQfV+HAaO260fACeKMa7/Et5bHXBLFUilPHlfAbhrDrLIFSE93YhB3
- w28sWaZd0casHfbJZnPahilMVTK4FkA=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-zQCPl7a_MpGGyWsux6gFQQ-1; Mon, 15 Nov 2021 11:38:08 -0500
-X-MC-Unique: zQCPl7a_MpGGyWsux6gFQQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- c1-20020aa7c741000000b003e7bf1da4bcso3255079eds.21
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 08:38:08 -0800 (PST)
+ bh=7LKzhPmlwv3YmOh8UQfZKtlFJjRhICzQOr6bT4AaevY=;
+ b=Y6Khm4IpK4wYQ/xOs45T9Z4tsFDCgaJYceWV7vkYB+Zxhgdhot4zw4KbVXdRsJ9RWeD6Ku
+ 1XEPdIfYLfmy+VGVaThPkyLEW2zUYULVHiiLu8HVQSc/zJzT06Cg9Eg7e2Hxu8L02Fqcs6
+ 15mTVafw38RGGW4dZzOg3dxXF+/vSvQ=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-373-da9gyuvcM7SnOE7GfsXuGw-1; Mon, 15 Nov 2021 11:38:18 -0500
+X-MC-Unique: da9gyuvcM7SnOE7GfsXuGw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ c1-20020aa7c741000000b003e7bf1da4bcso3255469eds.21
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 08:38:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=y6C9J2NVK01b40eeKRTUlDWMs2jNYZycxWavDBC4bcI=;
- b=X8pmREksOo6YYKfiMIFWBBoEb2gL5NOyF97sMD1KQHJ9U3XGIZO3fRmwLFYKueiaJi
- RjAQYmRbTWF2q7NQ8GWx3maACoa+FJgYImfXKKDKSgjSrPZvNnyzGA3EbQbVASZRZPda
- KcOslS3KlLWJowDRJH6Ows6CWkXQvap7QL5CRr5YcP32Ym9DY0qHKgtAYQ97giZr7AA4
- shpcfBjiqVokwIvAKrTPGWcho7d6pHyNUcmW2m9fOh3//XJk+HR5IwfKCMp2k48fvhnA
- KH9ntrz7A+evnQ7FkWkLS0Tlx2orNmALNxFuuhu1gitdlTMr6P1vdvMQ9k96FyUayOu3
- 0hzg==
-X-Gm-Message-State: AOAM530ogyAvX9t/7tcL6yJipG2wJtq4yst4QDMetVX4f4khFxtxgdfQ
- y2ZZh4oTkLFajwwJKt8no/XF5UzfnSX23XJHzwi9G0VdFRJBJU/bg6ft0Ad8h1TQvlNXaxL8sSm
- CaisPgMgDpgBzfBKisuHhbpEknzvVy889Cf4hbakmn4ngVaYVkPXLzrM4rTac
-X-Received: by 2002:a05:6402:190c:: with SMTP id
- e12mr31779341edz.309.1636994287243; 
- Mon, 15 Nov 2021 08:38:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyvoi0H5ZibPX/as6v4jJLGmJru0YsrPMeauF4+jTrl6X8AQsCU+H1gdBplEzv+43oBrcvy0g==
-X-Received: by 2002:a05:6402:190c:: with SMTP id
- e12mr31779301edz.309.1636994287047; 
- Mon, 15 Nov 2021 08:38:07 -0800 (PST)
+ bh=7LKzhPmlwv3YmOh8UQfZKtlFJjRhICzQOr6bT4AaevY=;
+ b=ZYC9SlyTreLUx3jiRhQfMfH+IjI8eYQygmHxnrTMPv4L/BttRFhgufKAXBC5SN9J7S
+ MN+6+2HN5+1TXyi5D9S7Zn4YmNqjiGaKWJjmrAnDiC7yT9rw+jmEoSy177EGCNZO7UnX
+ vfcyUGofdFsx5zOeCFXDhIS1Xwb6/g/j3pklCJpAVMhyXJdysFjxB2ISoRZPPePD/YJK
+ azLrydjg1n+sKkkqxq+7K1zLvtn+Kv4Ed6OSkfIZdi39qoB5tjSITqQS++4nt4/X34Oj
+ fBGeY8gpXip+yquIE2GlyfgdINmCfvv+Wc5lZQh4mhMGOU3C9OkRgMvLAp8GFAz5m6Xm
+ 6hXA==
+X-Gm-Message-State: AOAM532zAsb767kl3bycP70I17g7f+XVy6gwMEulNpG9jnjsDic/tHdX
+ waXoq0UvspjGwtXmP2RtVl0OklLEROBEmf8ntFly0LPrlx1q8hweqnPbGVUn5Y1MtcU9dP+s0VH
+ 4ObHBBnx7QDEdXnhxRKVlUBpxKVNvdq8HI+aiBJCFstXcrRZ0VSTf816lO3/a
+X-Received: by 2002:a05:6402:510b:: with SMTP id
+ m11mr57318288edd.215.1636994295228; 
+ Mon, 15 Nov 2021 08:38:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyeX++5K+rXXkVRoeBB6GQKwuwzFSgCLZ0SCIvhStyam1LSo2acxLV0Pj7R1F/l76jeW8m4Hg==
+X-Received: by 2002:a05:6402:510b:: with SMTP id
+ m11mr57318004edd.215.1636994293569; 
+ Mon, 15 Nov 2021 08:38:13 -0800 (PST)
 Received: from redhat.com ([2a03:c5c0:207e:9a71:d0b:1947:b534:3230])
- by smtp.gmail.com with ESMTPSA id v13sm6673186ejo.36.2021.11.15.08.38.03
+ by smtp.gmail.com with ESMTPSA id lk22sm6906329ejb.83.2021.11.15.08.38.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Nov 2021 08:38:06 -0800 (PST)
-Date: Mon, 15 Nov 2021 11:38:01 -0500
+ Mon, 15 Nov 2021 08:38:12 -0800 (PST)
+Date: Mon, 15 Nov 2021 11:38:07 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/20] hw/acpi/ich9: Add compat prop to keep HPC bit set for
- 6.1 machine type
-Message-ID: <20211115163607.177432-8-mst@redhat.com>
+Subject: [PULL 08/20] bios-tables-test: Allow changes in DSDT ACPI tables
+Message-ID: <20211115163607.177432-9-mst@redhat.com>
 References: <20211115163607.177432-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211115163607.177432-1-mst@redhat.com>
@@ -96,139 +95,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Julia Suvorova <jusual@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
+ Julia Suvorova <jusual@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Julia Suvorova <jusual@redhat.com>
 
-To solve issues [1-2] the Hot Plug Capable bit in PCIe Slots will be
-turned on, while the switch to ACPI Hot-plug will be done in the
-DSDT table.
-
-Introducing 'x-keep-native-hpc' property disables the HPC bit only
-in 6.1 and as a result keeps the forced 'reserve-io' on
-pcie-root-ports in 6.1 too.
-
-[1] https://gitlab.com/qemu-project/qemu/-/issues/641
-[2] https://bugzilla.redhat.com/show_bug.cgi?id=2006409
+Prepare for changing the _OSC method in q35 DSDT.
 
 Signed-off-by: Julia Suvorova <jusual@redhat.com>
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20211112110857.3116853-3-imammedo@redhat.com>
+Acked-by: Ani Sinha <ani@anisinha.ca>
+Message-Id: <20211112110857.3116853-4-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/acpi/ich9.h |  1 +
- hw/acpi/ich9.c         | 18 ++++++++++++++++++
- hw/i386/pc.c           |  2 ++
- hw/i386/pc_q35.c       |  7 ++++++-
- 4 files changed, 27 insertions(+), 1 deletion(-)
+ tests/qtest/bios-tables-test-allowed-diff.h | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/include/hw/acpi/ich9.h b/include/hw/acpi/ich9.h
-index f04f1791bd..7ca92843c6 100644
---- a/include/hw/acpi/ich9.h
-+++ b/include/hw/acpi/ich9.h
-@@ -56,6 +56,7 @@ typedef struct ICH9LPCPMRegs {
-     AcpiCpuHotplug gpe_cpu;
-     CPUHotplugState cpuhp_state;
- 
-+    bool keep_pci_slot_hpc;
-     bool use_acpi_hotplug_bridge;
-     AcpiPciHpState acpi_pci_hotplug;
-     MemHotplugState acpi_memory_hotplug;
-diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-index 1ee2ba2c50..ebe08ed831 100644
---- a/hw/acpi/ich9.c
-+++ b/hw/acpi/ich9.c
-@@ -419,6 +419,20 @@ static void ich9_pm_set_acpi_pci_hotplug(Object *obj, bool value, Error **errp)
-     s->pm.use_acpi_hotplug_bridge = value;
- }
- 
-+static bool ich9_pm_get_keep_pci_slot_hpc(Object *obj, Error **errp)
-+{
-+    ICH9LPCState *s = ICH9_LPC_DEVICE(obj);
-+
-+    return s->pm.keep_pci_slot_hpc;
-+}
-+
-+static void ich9_pm_set_keep_pci_slot_hpc(Object *obj, bool value, Error **errp)
-+{
-+    ICH9LPCState *s = ICH9_LPC_DEVICE(obj);
-+
-+    s->pm.keep_pci_slot_hpc = value;
-+}
-+
- void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
- {
-     static const uint32_t gpe0_len = ICH9_PMIO_GPE0_LEN;
-@@ -428,6 +442,7 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
-     pm->disable_s4 = 0;
-     pm->s4_val = 2;
-     pm->use_acpi_hotplug_bridge = true;
-+    pm->keep_pci_slot_hpc = true;
- 
-     object_property_add_uint32_ptr(obj, ACPI_PM_PROP_PM_IO_BASE,
-                                    &pm->pm_io_base, OBJ_PROP_FLAG_READ);
-@@ -454,6 +469,9 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
-     object_property_add_bool(obj, ACPI_PM_PROP_ACPI_PCIHP_BRIDGE,
-                              ich9_pm_get_acpi_pci_hotplug,
-                              ich9_pm_set_acpi_pci_hotplug);
-+    object_property_add_bool(obj, "x-keep-pci-slot-hpc",
-+                             ich9_pm_get_keep_pci_slot_hpc,
-+                             ich9_pm_set_keep_pci_slot_hpc);
- }
- 
- void ich9_pm_device_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 2592a82148..a2ef40ecbc 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -98,6 +98,7 @@ GlobalProperty pc_compat_6_1[] = {
-     { TYPE_X86_CPU, "hv-version-id-build", "0x1bbc" },
-     { TYPE_X86_CPU, "hv-version-id-major", "0x0006" },
-     { TYPE_X86_CPU, "hv-version-id-minor", "0x0001" },
-+    { "ICH9-LPC", "x-keep-pci-slot-hpc", "false" },
- };
- const size_t pc_compat_6_1_len = G_N_ELEMENTS(pc_compat_6_1);
- 
-@@ -107,6 +108,7 @@ GlobalProperty pc_compat_6_0[] = {
-     { "qemu64" "-" TYPE_X86_CPU, "stepping", "3" },
-     { TYPE_X86_CPU, "x-vendor-cpuid-only", "off" },
-     { "ICH9-LPC", ACPI_PM_PROP_ACPI_PCIHP_BRIDGE, "off" },
-+    { "ICH9-LPC", "x-keep-pci-slot-hpc", "true" },
- };
- const size_t pc_compat_6_0_len = G_N_ELEMENTS(pc_compat_6_0);
- 
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index fc34b905ee..e1e100316d 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -137,6 +137,7 @@ static void pc_q35_init(MachineState *machine)
-     DriveInfo *hd[MAX_SATA_PORTS];
-     MachineClass *mc = MACHINE_GET_CLASS(machine);
-     bool acpi_pcihp;
-+    bool keep_pci_slot_hpc;
- 
-     /* Check whether RAM fits below 4G (leaving 1/2 GByte for IO memory
-      * and 256 Mbytes for PCI Express Enhanced Configuration Access Mapping
-@@ -242,7 +243,11 @@ static void pc_q35_init(MachineState *machine)
-                                           ACPI_PM_PROP_ACPI_PCIHP_BRIDGE,
-                                           NULL);
- 
--    if (acpi_pcihp) {
-+    keep_pci_slot_hpc = object_property_get_bool(OBJECT(lpc),
-+                                                 "x-keep-pci-slot-hpc",
-+                                                 NULL);
-+
-+    if (!keep_pci_slot_hpc && acpi_pcihp) {
-         object_register_sugar_prop(TYPE_PCIE_SLOT, "x-native-hotplug",
-                                    "false", true);
-     }
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..48e5634d4b 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,17 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/q35/DSDT",
++"tests/data/acpi/q35/DSDT.tis",
++"tests/data/acpi/q35/DSDT.bridge",
++"tests/data/acpi/q35/DSDT.mmio64",
++"tests/data/acpi/q35/DSDT.ipmibt",
++"tests/data/acpi/q35/DSDT.cphp",
++"tests/data/acpi/q35/DSDT.memhp",
++"tests/data/acpi/q35/DSDT.acpihmat",
++"tests/data/acpi/q35/DSDT.numamem",
++"tests/data/acpi/q35/DSDT.dimmpxm",
++"tests/data/acpi/q35/DSDT.nohpet",
++"tests/data/acpi/q35/DSDT.tis.tpm2",
++"tests/data/acpi/q35/DSDT.tis.tpm12",
++"tests/data/acpi/q35/DSDT.multi-bridge",
++"tests/data/acpi/q35/DSDT.ivrs",
++"tests/data/acpi/q35/DSDT.xapic",
 -- 
 MST
 
