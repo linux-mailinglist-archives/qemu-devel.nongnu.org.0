@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9561345049F
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 13:42:55 +0100 (CET)
-Received: from localhost ([::1]:37544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14E1A4504B4
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 13:50:18 +0100 (CET)
+Received: from localhost ([::1]:45620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmbK2-0001md-5f
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 07:42:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48938)
+	id 1mmbRA-0007b2-NX
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 07:50:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mmbF2-0000R2-RL
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 07:37:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35471)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mmbJ3-00028l-Dq
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 07:41:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59514)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mmbEz-0002ZI-7Q
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 07:37:43 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mmbIz-00034L-WF
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 07:41:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636979859;
+ s=mimecast20190719; t=1636980102;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LansR1gII2ghz1sm9gjZryPnD/BRb5dvAQj1Xjpf0SU=;
- b=BTJ5d4Mrwva1gwE1LS9ldkk4AGqbhZyRfBLMiK7M5D5FQVhBgveNwrlWCdjDM5VdC5bfcR
- m6SdcGwzRehk9/h95+j3Eh+omOQUGrW6anlT/FfHqhnUuOeUEf5IbdQt94RrqhEvWlYeFf
- AgnKlk7qv+dodqa3gf8HfjnWOcA9F4o=
+ bh=pnYRldyG8BnphLUsaoz6OT1QsTPt7lqRizbnWFee0ms=;
+ b=GZelJ3RQvdBmt+r7ovLZmI7cSC/lQb2k8hd7/bcCNMc03BlI47OI2s+GE/LnnSKfgMuEXE
+ PBGJ9S7Ab1hQAyn4gVQwU8xTwUhT32SDLY8EhCs2TnaskmbLPqeFo2/wUCaP08fdEKkMW5
+ 6fUpRGll1ygvjgC554Ax5qhhp232vRs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-umAg8z6zPQuADiPtOgY5gA-1; Mon, 15 Nov 2021 07:37:37 -0500
-X-MC-Unique: umAg8z6zPQuADiPtOgY5gA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-427-YvNxRxrVOtGaOAradN69pQ-1; Mon, 15 Nov 2021 07:41:39 -0500
+X-MC-Unique: YvNxRxrVOtGaOAradN69pQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F15015728
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 12:37:36 +0000 (UTC)
-Received: from [10.39.195.133] (unknown [10.39.195.133])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AA76D67840;
- Mon, 15 Nov 2021 12:37:34 +0000 (UTC)
-Message-ID: <0fba39ee-4a1a-b388-82d3-4dc44cf3b9fb@redhat.com>
-Date: Mon, 15 Nov 2021 13:37:33 +0100
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AA548042E9;
+ Mon, 15 Nov 2021 12:41:33 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.157])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D0DBD17A82;
+ Mon, 15 Nov 2021 12:40:56 +0000 (UTC)
+Date: Mon, 15 Nov 2021 13:40:55 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: yadong.qi@intel.com
+Subject: Re: [PATCH 1/2] block:hdev: support BLKSECDISCARD
+Message-ID: <YZJVVzott+zsoLqN@redhat.com>
+References: <20211115045200.3567293-1-yadong.qi@intel.com>
+ <20211115045200.3567293-2-yadong.qi@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] qmp: Stabilize preconfig
-To: Markus Armbruster <armbru@redhat.com>
-References: <b31f442d28920447690a6b8cee865bdbacde1283.1635160056.git.mprivozn@redhat.com>
- <87bl3dfg9v.fsf@dusky.pond.sub.org>
- <bb896561-9d0c-6c6c-4bdb-5e7ef5ed71d5@redhat.com>
- <YYAATW1JQmzpDPhu@redhat.com> <87zgqlzmxi.fsf@dusky.pond.sub.org>
- <c4ac9bcc-90ae-302f-d5d4-b95f1419a7a0@redhat.com>
- <87pmr7rzls.fsf@dusky.pond.sub.org>
- <bc437ccb-0487-a5ff-8e6a-50067715c4d4@redhat.com>
- <87mtman4h1.fsf@dusky.pond.sub.org>
- <13efddef-cc30-9a6a-a700-060d6fca57e3@redhat.com>
- <87ee7lh9x2.fsf@dusky.pond.sub.org>
- <e1411df1-696c-ceec-ef77-8cc4d538de70@redhat.com>
- <87wnlcsd9q.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <87wnlcsd9q.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20211115045200.3567293-2-yadong.qi@intel.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.278, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,84 +76,441 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
+Cc: fam@euphon.net, qemu-block@nongnu.org, mst@redhat.com, luhai.chen@intel.com,
+ qemu-devel@nongnu.org, kai.z.wang@intel.com, hreitz@redhat.com,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/13/21 08:52, Markus Armbruster wrote:
-> I'm not asking what to do "if it hurts", or "if you want a cold-plugged
-> device".  I'm asking whether there's a reason for ever wanting hot plug
-> instead of cold plug.  Or in other words, what can hot plug possibly
-> gain us over cold plug?
+Am 15.11.2021 um 05:51 hat yadong.qi@intel.com geschrieben:
+> From: Yadong Qi <yadong.qi@intel.com>
 > 
-> As far as I know, the answer is "nothing but trouble".
-
-Yes, I agree.
-
-> If that's true, then what we should tell users is to stick to -device
-> for initial configuration, and stay away from device_add.
-
-Yes, which is one issue with stabilizing -preconfig.  It's not clear 
-what exactly it is solving.
-
->>>> The boat for this has sailed.  The only sane way to do this is a new binary.
->>>
->>> "Ideally" still applies to any new binary.
->>
->> Well, "ideally" any new binary would only have a few command line
->> options, and ordering would be mostly irrelevant.  For example I'd
->> expect a QMP binary to only have a few options, mostly for
->> debugging/development (-L, -trace) and for process-wide settings (such
->> as -name).
+> Add a new option "secdiscard" for block drive. Parse it and
+> record it in bs->open_flags as bit(BDRV_O_SECDISCARD).
 > 
-> This is where we disagree.  For me, a new, alternative qemu-system-FOO binary
-> should be able to replace the warty one we have.
+> Add a new BDRV_REQ_SECDISCARD bit for secure discard request
+> from virtual device.
 > 
-> One important kind of user is management applications.  Libvirt
-> developers tell us that they'd like to configure as much as possible via
-> QMP.  Another kind of user dear to me is me^H^Hdevelopers.  For ad hoc
-> testing, having to configure via QMP is a pain we'd rathe do without.  I
-> don't want to remain stuck on the traditional binary, I want to do this
-> with the new one.
-
-Why do you care?  For another example, you can use "reboot" or 
-"systemctl isolate reboot.target" and they end up doing the same thing.
-
-As long as qemu_init invokes qmp_machine_set, qmp_accel_set, 
-qmp_device_add, qmp_plugin_add, qmp_cont, etc. to do its job, the 
-difference between qemu-system-* and qemu-qmp-* is a couple thousands 
-lines of boring code that all but disappears once the VM is up and 
-running.  IOW, with the right design (e.g. shortcut options for QOM 
-properties good; dozens of global variables bad), there's absolutely no 
-issue with some people using qemu-system-* and some using qemu-qmp-*.
-
->>>>> Likewise, we'd fail QMP commands that are "out of phase".
->>>>> @allow-preconfig is a crutch that only exists because we're afraid (with
->>>>> reason) of hidden assumptions in QMP commands.
->>>>
->>>> At this point, it's not even like that anymore (except for block devices
->>>> because my patches haven't been applied).
->>>
->>> My point is that we still have quite a few commands without
->>> 'allow-preconfig' mostly because we are afraid of allowing them in
->>> preconfig state, not because of true phase dependencies.
->>
->> I think there's very few of them, if any (outside the block layer for
->> which patches exist), and those are due to distraction more than fear.
+> For host_device backend: implement by ioctl(BLKSECDISCARD) on
+> real host block device.
+> For other backend, no implementation.
 > 
-> qapi/*.json has 216 commands, of which 26 carry 'allow-preconfig'.
+> E.g.:
+>     qemu-system-x86_64 \
+>     ... \
+>     -drive file=/dev/mmcblk0p2,if=none,format=raw,discard=on,secdiscard=on,id=sd0 \
+>     -device virtio-blk-pci,drive=sd0,id=sd0_vblk \
+>     ...
+> 
+> Signed-off-by: Yadong Qi <yadong.qi@intel.com>
+> ---
+>  block.c                          | 46 +++++++++++++++++++++++++++++
+>  block/blkdebug.c                 |  5 ++--
+>  block/blklogwrites.c             |  6 ++--
+>  block/blkreplay.c                |  5 ++--
+>  block/block-backend.c            | 15 ++++++----
+>  block/copy-before-write.c        |  5 ++--
+>  block/copy-on-read.c             |  5 ++--
+>  block/coroutines.h               |  6 ++--
+>  block/file-posix.c               | 50 ++++++++++++++++++++++++++++----
+>  block/filter-compress.c          |  5 ++--
+>  block/io.c                       |  5 ++--
+>  block/mirror.c                   |  5 ++--
+>  block/nbd.c                      |  3 +-
+>  block/nvme.c                     |  3 +-
+>  block/preallocate.c              |  5 ++--
+>  block/qcow2-refcount.c           |  4 +--
+>  block/qcow2.c                    |  3 +-
+>  block/raw-format.c               |  5 ++--
+>  block/throttle.c                 |  5 ++--
+>  hw/block/virtio-blk.c            |  2 +-
+>  hw/ide/core.c                    |  1 +
+>  hw/nvme/ctrl.c                   |  3 +-
+>  hw/scsi/scsi-disk.c              |  2 +-
+>  include/block/block.h            | 13 +++++++--
+>  include/block/block_int.h        |  2 +-
+>  include/block/raw-aio.h          |  4 ++-
+>  include/sysemu/block-backend.h   |  1 +
+>  tests/unit/test-block-iothread.c |  9 +++---
+>  28 files changed, 171 insertions(+), 52 deletions(-)
 
-Well, 
-https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg01597.html 
-alone would more than double that. :)
+Notably absent: qapi/block-core.json. Without changing this, the option
+can't be available in -blockdev, which is the primary option to configure
+block device backends.
 
-Places like machine.json, machine-target.json, migration.json, 
-replay.json have a lot of commands that are, obviously, almost entirely 
-not suitable for preconfig.  I don't think there are many commands left, 
-I'd guess maybe 30 (meaning that ~60% are done).
+This patch seems to contain multiple logical changes that should be
+split into separate patches:
 
-Paolo
+* Adding a flags parameter to .bdrv_co_pdiscard
+
+* Support for the new feature in the core block layer (should be done
+  with -blockdev)
+
+* Convenience magic for -drive (BDRV_O_SECDISCARD). It's not clear that
+  this should be done at all because the option is really specific to
+  one single block driver (file-posix). I think in your patch, all
+  other block drivers silently ignore the option, which is not what we
+  want.
+
+> diff --git a/block.c b/block.c
+> index 580cb77a70..4f05e96d12 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -1128,6 +1128,32 @@ int bdrv_parse_discard_flags(const char *mode, int *flags)
+>      return 0;
+>  }
+>  
+> +/**
+> + * Set open flags for a given secdiscard mode
+> + *
+> + * Return 0 on success, -1 if the secdiscard mode was invalid.
+> + */
+> +int bdrv_parse_secdiscard_flags(const char *mode, int *flags, Error **errp)
+> +{
+> +    *flags &= ~BDRV_O_SECDISCARD;
+> +
+> +    if (!strcmp(mode, "off")) {
+> +        /* do nothing */
+> +    } else if (!strcmp(mode, "on")) {
+> +        if (!(*flags & BDRV_O_UNMAP)) {
+> +            error_setg(errp, "cannot enable secdiscard when discard is "
+> +                             "disabled!");
+> +            return -1;
+> +        }
+
+This check has nothing to do with parsing the option, it's validating
+its value.
+
+You don't even need a new function to parse it, because there is already
+qemu_opt_get_bool(). Duplicating it means only that you're inconsistent
+with other boolean options, which alternatively accept "yes"/"no",
+"true"/"false", "y/n".
+
+> +
+> +        *flags |= BDRV_O_SECDISCARD;
+> +    } else {
+> +        return -1;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>  /**
+>   * Set open flags for a given cache mode
+>   *
+> @@ -1695,6 +1721,11 @@ QemuOptsList bdrv_runtime_opts = {
+>              .type = QEMU_OPT_STRING,
+>              .help = "discard operation (ignore/off, unmap/on)",
+>          },
+> +        {
+> +            .name = BDRV_OPT_SECDISCARD,
+> +            .type = QEMU_OPT_STRING,
+> +            .help = "secure discard operation (off, on)",
+> +        },
+>          {
+>              .name = BDRV_OPT_FORCE_SHARE,
+>              .type = QEMU_OPT_BOOL,
+> @@ -1735,6 +1766,7 @@ static int bdrv_open_common(BlockDriverState *bs, BlockBackend *file,
+>      const char *driver_name = NULL;
+>      const char *node_name = NULL;
+>      const char *discard;
+> +    const char *secdiscard;
+>      QemuOpts *opts;
+>      BlockDriver *drv;
+>      Error *local_err = NULL;
+> @@ -1829,6 +1861,16 @@ static int bdrv_open_common(BlockDriverState *bs, BlockBackend *file,
+>          }
+>      }
+>  
+> +
+> +    secdiscard = qemu_opt_get(opts, BDRV_OPT_SECDISCARD);
+> +    if (secdiscard != NULL) {
+> +        if (bdrv_parse_secdiscard_flags(secdiscard, &bs->open_flags,
+> +                                        errp) != 0) {
+> +            ret = -EINVAL;
+> +            goto fail_opts;
+> +        }
+> +    }
+> +
+>      bs->detect_zeroes =
+>          bdrv_parse_detect_zeroes(opts, bs->open_flags, &local_err);
+>      if (local_err) {
+> @@ -3685,6 +3727,10 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
+>                                 &flags, options, flags, options);
+>      }
+>  
+> +    if (g_strcmp0(qdict_get_try_str(options, BDRV_OPT_SECDISCARD), "on")) {
+> +            flags |= BDRV_O_SECDISCARD;
+
+Indentation is off.
+
+> +    }
+> +
+>      bs->open_flags = flags;
+>      bs->options = options;
+>      options = qdict_clone_shallow(options);
+> diff --git a/block/blkdebug.c b/block/blkdebug.c
+> index bbf2948703..b49bb6a3e9 100644
+> --- a/block/blkdebug.c
+> +++ b/block/blkdebug.c
+> @@ -717,7 +717,8 @@ static int coroutine_fn blkdebug_co_pwrite_zeroes(BlockDriverState *bs,
+>  }
+>  
+>  static int coroutine_fn blkdebug_co_pdiscard(BlockDriverState *bs,
+> -                                             int64_t offset, int64_t bytes)
+> +                                             int64_t offset, int64_t bytes,
+> +                                             BdrvRequestFlags flags)
+>  {
+>      uint32_t align = bs->bl.pdiscard_alignment;
+>      int err;
+> @@ -747,7 +748,7 @@ static int coroutine_fn blkdebug_co_pdiscard(BlockDriverState *bs,
+>          return err;
+>      }
+>  
+> -    return bdrv_co_pdiscard(bs->file, offset, bytes);
+> +    return bdrv_co_pdiscard(bs->file, offset, bytes, 0);
+>  }
+>  
+>  static int coroutine_fn blkdebug_co_block_status(BlockDriverState *bs,
+> diff --git a/block/blklogwrites.c b/block/blklogwrites.c
+> index f7a251e91f..d8d81a40ae 100644
+> --- a/block/blklogwrites.c
+> +++ b/block/blklogwrites.c
+> @@ -456,7 +456,8 @@ static int coroutine_fn blk_log_writes_co_do_file_flush(BlkLogWritesFileReq *fr)
+>  static int coroutine_fn
+>  blk_log_writes_co_do_file_pdiscard(BlkLogWritesFileReq *fr)
+>  {
+> -    return bdrv_co_pdiscard(fr->bs->file, fr->offset, fr->bytes);
+> +    return bdrv_co_pdiscard(fr->bs->file, fr->offset, fr->bytes,
+> +                            fr->file_flags);
+>  }
+>  
+>  static int coroutine_fn
+> @@ -484,7 +485,8 @@ static int coroutine_fn blk_log_writes_co_flush_to_disk(BlockDriverState *bs)
+>  }
+>  
+>  static int coroutine_fn
+> -blk_log_writes_co_pdiscard(BlockDriverState *bs, int64_t offset, int64_t bytes)
+> +blk_log_writes_co_pdiscard(BlockDriverState *bs, int64_t offset, int64_t bytes,
+> +                                       BdrvRequestFlags flags)
+>  {
+>      return blk_log_writes_co_log(bs, offset, bytes, NULL, 0,
+>                                   blk_log_writes_co_do_file_pdiscard,
+> diff --git a/block/blkreplay.c b/block/blkreplay.c
+> index dcbe780ddb..65e66d0766 100644
+> --- a/block/blkreplay.c
+> +++ b/block/blkreplay.c
+> @@ -105,10 +105,11 @@ static int coroutine_fn blkreplay_co_pwrite_zeroes(BlockDriverState *bs,
+>  }
+>  
+>  static int coroutine_fn blkreplay_co_pdiscard(BlockDriverState *bs,
+> -                                              int64_t offset, int64_t bytes)
+> +                                              int64_t offset, int64_t bytes,
+> +                                              BdrvRequestFlags flags)
+>  {
+>      uint64_t reqid = blkreplay_next_id();
+> -    int ret = bdrv_co_pdiscard(bs->file, offset, bytes);
+> +    int ret = bdrv_co_pdiscard(bs->file, offset, bytes, flags);
+>      block_request_create(reqid, bs, qemu_coroutine_self());
+>      qemu_coroutine_yield();
+>  
+> diff --git a/block/block-backend.c b/block/block-backend.c
+> index 12ef80ea17..f2c5776172 100644
+> --- a/block/block-backend.c
+> +++ b/block/block-backend.c
+> @@ -1597,7 +1597,8 @@ BlockAIOCB *blk_aio_ioctl(BlockBackend *blk, unsigned long int req, void *buf,
+>  
+>  /* To be called between exactly one pair of blk_inc/dec_in_flight() */
+>  int coroutine_fn
+> -blk_co_do_pdiscard(BlockBackend *blk, int64_t offset, int64_t bytes)
+> +blk_co_do_pdiscard(BlockBackend *blk, int64_t offset, int64_t bytes,
+> +                   BdrvRequestFlags flags)
+>  {
+>      int ret;
+>  
+> @@ -1608,7 +1609,7 @@ blk_co_do_pdiscard(BlockBackend *blk, int64_t offset, int64_t bytes)
+>          return ret;
+>      }
+>  
+> -    return bdrv_co_pdiscard(blk->root, offset, bytes);
+> +    return bdrv_co_pdiscard(blk->root, offset, bytes, flags);
+>  }
+>  
+>  static void blk_aio_pdiscard_entry(void *opaque)
+> @@ -1616,15 +1617,17 @@ static void blk_aio_pdiscard_entry(void *opaque)
+>      BlkAioEmAIOCB *acb = opaque;
+>      BlkRwCo *rwco = &acb->rwco;
+>  
+> -    rwco->ret = blk_co_do_pdiscard(rwco->blk, rwco->offset, acb->bytes);
+> +    rwco->ret = blk_co_do_pdiscard(rwco->blk, rwco->offset, acb->bytes,
+> +                                   rwco->flags);
+>      blk_aio_complete(acb);
+>  }
+>  
+>  BlockAIOCB *blk_aio_pdiscard(BlockBackend *blk,
+>                               int64_t offset, int64_t bytes,
+> +                             BdrvRequestFlags flags,
+>                               BlockCompletionFunc *cb, void *opaque)
+>  {
+> -    return blk_aio_prwv(blk, offset, bytes, NULL, blk_aio_pdiscard_entry, 0,
+> +    return blk_aio_prwv(blk, offset, bytes, NULL, blk_aio_pdiscard_entry, flags,
+>                          cb, opaque);
+>  }
+>  
+> @@ -1634,7 +1637,7 @@ int coroutine_fn blk_co_pdiscard(BlockBackend *blk, int64_t offset,
+>      int ret;
+>  
+>      blk_inc_in_flight(blk);
+> -    ret = blk_co_do_pdiscard(blk, offset, bytes);
+> +    ret = blk_co_do_pdiscard(blk, offset, bytes, 0);
+>      blk_dec_in_flight(blk);
+>  
+>      return ret;
+> @@ -1645,7 +1648,7 @@ int blk_pdiscard(BlockBackend *blk, int64_t offset, int64_t bytes)
+>      int ret;
+>  
+>      blk_inc_in_flight(blk);
+> -    ret = blk_do_pdiscard(blk, offset, bytes);
+> +    ret = blk_do_pdiscard(blk, offset, bytes, 0);
+>      blk_dec_in_flight(blk);
+>  
+>      return ret;
+> diff --git a/block/copy-before-write.c b/block/copy-before-write.c
+> index c30a5ff8de..8d60a3028f 100644
+> --- a/block/copy-before-write.c
+> +++ b/block/copy-before-write.c
+> @@ -64,14 +64,15 @@ static coroutine_fn int cbw_do_copy_before_write(BlockDriverState *bs,
+>  }
+>  
+>  static int coroutine_fn cbw_co_pdiscard(BlockDriverState *bs,
+> -                                        int64_t offset, int64_t bytes)
+> +                                        int64_t offset, int64_t bytes,
+> +                                       BdrvRequestFlags flags)
+>  {
+>      int ret = cbw_do_copy_before_write(bs, offset, bytes, 0);
+>      if (ret < 0) {
+>          return ret;
+>      }
+>  
+> -    return bdrv_co_pdiscard(bs->file, offset, bytes);
+> +    return bdrv_co_pdiscard(bs->file, offset, bytes, 0);
+>  }
+>  
+>  static int coroutine_fn cbw_co_pwrite_zeroes(BlockDriverState *bs,
+> diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+> index 1fc7fb3333..52183cc9a2 100644
+> --- a/block/copy-on-read.c
+> +++ b/block/copy-on-read.c
+> @@ -201,9 +201,10 @@ static int coroutine_fn cor_co_pwrite_zeroes(BlockDriverState *bs,
+>  
+>  
+>  static int coroutine_fn cor_co_pdiscard(BlockDriverState *bs,
+> -                                        int64_t offset, int64_t bytes)
+> +                                        int64_t offset, int64_t bytes,
+> +                                       BdrvRequestFlags flags)
+>  {
+> -    return bdrv_co_pdiscard(bs->file, offset, bytes);
+> +    return bdrv_co_pdiscard(bs->file, offset, bytes, 0);
+>  }
+>  
+>  
+> diff --git a/block/coroutines.h b/block/coroutines.h
+> index c8c14a29c8..b0ba771bef 100644
+> --- a/block/coroutines.h
+> +++ b/block/coroutines.h
+> @@ -98,9 +98,11 @@ int coroutine_fn
+>  blk_co_do_ioctl(BlockBackend *blk, unsigned long int req, void *buf);
+>  
+>  int generated_co_wrapper
+> -blk_do_pdiscard(BlockBackend *blk, int64_t offset, int64_t bytes);
+> +blk_do_pdiscard(BlockBackend *blk, int64_t offset, int64_t bytes,
+> +                BdrvRequestFlags flags);
+>  int coroutine_fn
+> -blk_co_do_pdiscard(BlockBackend *blk, int64_t offset, int64_t bytes);
+> +blk_co_do_pdiscard(BlockBackend *blk, int64_t offset, int64_t bytes,
+> +                   BdrvRequestFlags flags);
+>  
+>  int generated_co_wrapper blk_do_flush(BlockBackend *blk);
+>  int coroutine_fn blk_co_do_flush(BlockBackend *blk);
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index 7a27c83060..caa406e429 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -160,6 +160,7 @@ typedef struct BDRVRawState {
+>      bool is_xfs:1;
+>  #endif
+>      bool has_discard:1;
+> +    bool has_secdiscard:1;
+>      bool has_write_zeroes:1;
+>      bool discard_zeroes:1;
+>      bool use_linux_aio:1;
+
+has_secdiscard is only set to false in raw_open_common() and never
+changed or used.
+
+> @@ -727,6 +728,7 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+>  #endif /* !defined(CONFIG_LINUX_IO_URING) */
+>  
+>      s->has_discard = true;
+> +    s->has_secdiscard = false;
+>      s->has_write_zeroes = true;
+>      if ((bs->open_flags & BDRV_O_NOCACHE) != 0 && !dio_byte_aligned(s->fd)) {
+>          s->needs_alignment = true;
+> @@ -765,6 +767,7 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+>              s->discard_zeroes = true;
+>          }
+>  #endif
+> +
+>  #ifdef __linux__
+>          /* On Linux 3.10, BLKDISCARD leaves stale data in the page cache.  Do
+>           * not rely on the contents of discarded blocks unless using O_DIRECT.
+
+Unrelated hunk.
+
+> @@ -1859,6 +1862,35 @@ static int handle_aiocb_discard(void *opaque)
+>      return ret;
+>  }
+>  
+> +static int handle_aiocb_secdiscard(void *opaque)
+> +{
+> +    RawPosixAIOData *aiocb = opaque;
+> +    int ret = -ENOTSUP;
+> +    BlockDriverState *bs = aiocb->bs;
+> +
+> +    if (!(bs->open_flags & BDRV_O_SECDISCARD)) {
+> +        return -ENOTSUP;
+> +    }
+> +
+> +    if (aiocb->aio_type & QEMU_AIO_BLKDEV) {
+> +#ifdef BLKSECDISCARD
+> +        do {
+> +            uint64_t range[2] = { aiocb->aio_offset, aiocb->aio_nbytes };
+> +            if (ioctl(aiocb->aio_fildes, BLKSECDISCARD, range) == 0) {
+> +                return 0;
+> +            }
+> +        } while (errno == EINTR);
+> +
+> +        ret = translate_err(-errno);
+> +#endif
+> +    }
+> +
+> +    if (ret == -ENOTSUP) {
+> +        bs->open_flags &= ~BDRV_O_SECDISCARD;
+
+I'd rather avoid changing bs->open_flags. This is user input and I would
+preserve it in its original state.
+
+We already know when opening the image whether it is a block device. Why
+do we even open the image instead of erroring out there?
+
+> +    }
+> +    return ret;
+> +}
+> +
+>  /*
+>   * Help alignment probing by allocating the first block.
+>   *
+
+Kevin
 
 
