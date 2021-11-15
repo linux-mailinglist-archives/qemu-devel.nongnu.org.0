@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BCF7450BC8
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 18:27:01 +0100 (CET)
-Received: from localhost ([::1]:35082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2906F450CDB
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 18:42:07 +0100 (CET)
+Received: from localhost ([::1]:44370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmfkx-0002bt-6E
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 12:26:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39956)
+	id 1mmfzZ-0001EQ-RA
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 12:42:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mmfjp-0001lW-BD
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 12:25:49 -0500
-Received: from [2a00:1450:4864:20::432] (port=42578
- helo=mail-wr1-x432.google.com)
+ id 1mmfyC-0000AY-99
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 12:40:40 -0500
+Received: from [2a00:1450:4864:20::32b] (port=37806
+ helo=mail-wm1-x32b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mmfjn-00040D-06
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 12:25:48 -0500
-Received: by mail-wr1-x432.google.com with SMTP id c4so32119871wrd.9
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 09:25:45 -0800 (PST)
+ id 1mmfyA-0006Ck-Mq
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 12:40:39 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ k37-20020a05600c1ca500b00330cb84834fso709073wms.2
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 09:40:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=VRszg9AmCD+ZTcNzNKGPTNFBHIr6MQ+7dyhq2wHglto=;
- b=ftq/MpGJAsNDdBtiKxYMNHrkI4Dzc3ddjhOCufskWbd20Ir4euVXzBsNyOxWRb6Kzm
- GPcoZHJILmSM1HzyuDASd8Kb99zdnmHMyxbNKWbfoMxJGVZp78/2z57WWkutHG6nUzZc
- wsQ/asK5mT6iJZnpS/m0gDlxJh1cV2uW+dGBt8Kovl+1lGuFChksZ6jcD72S4RE66jpY
- pm7403i7ieCFEAGYJ0EU7D4lF3iG0zdyFvQxtC1nY+STLBna2stQZg/MIKBK3aOXRGPC
- 7kBzCfVBh0xHQn7zfzJ2QtBb9XFQS1kf3Vz+K1bM3lU/+XY4m33Ak7qHdOma448HHCNz
- 7KyQ==
+ :cc; bh=UgArtFSsKfuNgvE4Dj7MuprYCDpTclYdEeCfODPLHww=;
+ b=u0rqKK4874ee4Czh/apfDjLHU28IIHjO4oO5wYZa83yIzSTiiiaNa2zB756NVW6ww+
+ LjaP6Xk51ZCJYkLt2Q4Z3ofm/aCTBY7qwUQud7O6nciueEi4SkWBLgZBmrvZsXNqd1RA
+ UnVKHHGboqLdRxjpEm9zKj9SGPfiTeuke1sm0oyHiRsQPD4nnJ711PLzI98WBxqkEQ4V
+ xFSd6BBfA5I6bvWDxGIhtuWRi0wPjL1J1wEnbk7egTr2lxqn9ex49/doJTkmZ1/pikRn
+ FuZSpqd98bvtGddvxpXmGUw0R3AhSHMrIWAqG+RHWpdruJ5gARifuXZtFqMqQ6PKIDW8
+ pwNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=VRszg9AmCD+ZTcNzNKGPTNFBHIr6MQ+7dyhq2wHglto=;
- b=LOYQCl0sOrVbONtYp8YWMPlQcR6m9ryGD+vTnfWmm8X6womCQnyI3pY8+xabqwraO5
- 4aNqyb7E0m8wcL9QsHigNDpxOaNclOtHE+Z5J9jq83DMU5R4MQK9L5NXT249ub4EHfVx
- irmyYkuNnTCD8L/T3aWOL0RLOMBYP3EAgf5FQnLakSrCiz/RGJpRnnVF8Q29vELnfnEa
- +jdMUH3qVrY2F90B5mzdW3SzpN1MvLaKwwoVdCHEyxzKRSC0GxJZVwojkYwCuP57YvVc
- ekIaZTH/GkR81o3H6FEvvjit4XjhIWBXDNE5/bPu9/ZF8xqFMRb6ACj7iT8Jm+4mDn2o
- UYaQ==
-X-Gm-Message-State: AOAM530UtTtYtfhAECLX39NyvBLBjpLuhnh43gTmZ5J/Arki/HoajuCM
- Wtfy1myBC0g9l2b2qE9MiuGhZPuWrSFTXYF9jzZjRg==
-X-Google-Smtp-Source: ABdhPJzZ8qRgFiqp3B7ZiIltB+JNZUtP9o0M+rjflrQR37drkgkcDVMO/bMqhzUC/n9skkoHE7SIytWQyndJdTCCJ3M=
-X-Received: by 2002:adf:e984:: with SMTP id h4mr810866wrm.149.1636997144880;
- Mon, 15 Nov 2021 09:25:44 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=UgArtFSsKfuNgvE4Dj7MuprYCDpTclYdEeCfODPLHww=;
+ b=GqdLz9rGNmVfXItMFl+LdeVIsqYs44qFm2ewrum26N6rKT++GsFA53GTJd5qZRo1A/
+ QtMr55UI17lh/s68YOzn0js5VJWdZuIwtozhFKJxdJiUrIAgcq4uNgwITGHvdHAugGN3
+ UXTnomYh4a/R5h1Ydc3cGuHlUao3igAvEzb5+B6o8e46K2xlkfIwuzHoW1EVJcSwhqF5
+ 8s1I55/hQl8WDXguiCc8Mo8lDWk1Z73PIsuUwmK8D4TH5i9hIm2zPZe4N22kJtfcpQrh
+ oKxVMPhA7cx8KzoYvTlgVC7hdKi6bS5PrFUEigluTSHVDCjOVAPKeRETsqmeYGeJ57fG
+ EGfQ==
+X-Gm-Message-State: AOAM532oI4MK83Vs6LJNzsGQ/LxaKt8dp49j30eEOl1G52mVLRXaKgTr
+ AQocDJvRqlM65Mtns2p/xE4CjI6dnn3IccoSbKOUIg==
+X-Google-Smtp-Source: ABdhPJy9Z5+imOxHIIcDiqgjNg9jXd3+pa4ZKSS1CULRFBiCdPCvddER5mvDkkpfxMDYZbYhkm40NLX4wyWCTfSVDgs=
+X-Received: by 2002:a05:600c:22d0:: with SMTP id
+ 16mr22448875wmg.37.1636998027427; 
+ Mon, 15 Nov 2021 09:40:27 -0800 (PST)
 MIME-Version: 1.0
-References: <20211014162938.430211-1-pbonzini@redhat.com>
- <20211014162938.430211-16-pbonzini@redhat.com>
- <YZKVuz5VJN6e9zjo@redhat.com>
-In-Reply-To: <YZKVuz5VJN6e9zjo@redhat.com>
+References: <20210920122535.269988-1-eric.auger@redhat.com>
+ <CAFEAcA-8497+XS0PU3RAkGsrf7PGVm=oGymuHznE3iuopMHbKg@mail.gmail.com>
+ <CAFEAcA8tbJ3jbHghvqk3hmUOZmQEzYva2Qqbq49i4dC93bQXCA@mail.gmail.com>
+ <3c241757-eea9-90ce-4c86-19391efbba7a@redhat.com>
+In-Reply-To: <3c241757-eea9-90ce-4c86-19391efbba7a@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 15 Nov 2021 17:25:34 +0000
-Message-ID: <CAFEAcA9Qz03E5aRG3S=LuUEXaMhmndtbxok6FK0+tN8CV2DfQw@mail.gmail.com>
-Subject: Re: [PULL 15/26] configure,
- meson: move pthread_setname_np checks to Meson
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Date: Mon, 15 Nov 2021 17:40:16 +0000
+Message-ID: <CAFEAcA_yQZpDH2mut2ThhpqUSfO7irL3bLWSd1WtKjSQ_zQ_ow@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/rtc/pl031: Send RTC_CHANGE QMP event
+To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -84,57 +84,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Cc: Andrew Jones <drjones@redhat.com>, Gavin Shan <gshan@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eric Auger <eric.auger@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Eric Auger <eric.auger.pro@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 15 Nov 2021 at 17:16, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
- wrote:
+On Mon, 15 Nov 2021 at 12:49, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> On Thu, Oct 14, 2021 at 06:29:27PM +0200, Paolo Bonzini wrote:
-> > This makes the pthreads check dead in configure, so remove it
-> > as well.
+> On 11/1/21 17:04, Peter Maydell wrote:
+> > On Thu, 23 Sept 2021 at 14:29, Peter Maydell <peter.maydell@linaro.org> wrote:
+> >>
+> >> On Mon, 20 Sept 2021 at 13:25, Eric Auger <eric.auger@redhat.com> wrote:
+> >>>
+> >>> The PL031 currently is not able to report guest RTC change to the QMP
+> >>> monitor as opposed to mc146818 or spapr RTCs. This patch adds the call
+> >>> to qapi_event_send_rtc_change() when the Load Register is written. The
+> >>> value which is reported corresponds to the difference between the guest
+> >>> reference time and the reference time kept in softmmu/rtc.c.
+> >>>
+> >>> For instance adding 20s to the guest RTC value will report 20. Adding
+> >>> an extra 20s to the guest RTC value will report 20 + 20 = 40.
+> >>>
+> >>> The inclusion of qapi/qapi-types-misc-target.h in hw/rtl/pl031.c
+> >>> require to compile the PL031 with specific_ss.add() to avoid
+> >>> ./qapi/qapi-types-misc-target.h:18:13: error: attempt to use poisoned
+> >>> "TARGET_<ARCH>".
+> >>>
+> >>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> >>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> >>
+> >> Thanks. This looks plausible to me (well, it would ;-)) but
+> >> I would appreciate review from Paolo or somebody else who
+> >> understands the rtc_change feature and handling.
+> >
+> > Ping? Review from somebody who understands rtc_change would
+> > still be nice...
 >
-> This change appears broken
->
-> On v6.1.0
->
-> $ grep SETNAME_NP build/config-host.h
-> #define CONFIG_PTHREAD_SETNAME_NP_W_TID 1
->
-> While on git master
->
-> $ grep SETNAME_NP build/config-host.h
-> #define CONFIG_PTHREAD_SETNAME_NP_WO_TID
-> #define CONFIG_PTHREAD_SETNAME_NP_W_TID
->
->
-> it shoudn't be possible to have both these configs
-> satisfied as they're 2 completely different impls.
->
-> In the meson-log.txt we can see both tests passing, but with
-> warnings
->
->   /home/berrange/src/virt/qemu/build/meson-private/tmpt191k3q1/testfile.c=
-:9:5: warning: implicit declaration of function 'pthread_setname_np'; did y=
-ou mean 'pthread_setcanceltype'? [-Wimplicit-function-declaration]
->
-> So it isn't actually validating the function parameter
-> signature, and then link is succeeding because the linker
-> doesn't care about the incompatible function signatures.
->
-> Peter meanwhile reports that he gets no pthread_Setname_np
-> at all, and his meson-build.log shows -Werror set. This
-> causes the missing fnuction signature to cause tests to
-> fail in both cases.
+> The change looks good to me (sorry I missed this v2).  x86 also has some
+> logic in the migration post-load, that might end up sending the event.
+> However, that's best done separately after understanding and documenting
+> exactly what x86 is doing.
 
-More specifically, these tests get run with
-"-Werror=3Dimplicit-function-declaration" (and this is not
-because I've passed any kind of -Werror option in --extra-cflags;
-I have passed --enable-werror but that is supposed to be the
-default anyway...)
+Thanks; I've applied this to target-arm.next for 6.2.
 
 -- PMM
 
