@@ -2,81 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3674C4517B2
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 23:40:02 +0100 (CET)
-Received: from localhost ([::1]:37070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BA174517B4
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 23:41:28 +0100 (CET)
+Received: from localhost ([::1]:39436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmkds-0006xD-VO
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 17:40:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54848)
+	id 1mmkfH-0000Ar-CD
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 17:41:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mmkad-0002QX-Gk
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 17:36:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32128)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mmkdk-0007Io-Qw
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 17:39:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32952)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mmkab-0002lb-KH
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 17:36:38 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mmkdj-00034E-2J
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 17:39:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637015792;
+ s=mimecast20190719; t=1637015990;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=A6cf7aB4+QDSTk3uAaJrNRUpmepplRJF45y+7KCnkr4=;
- b=YDmQpI1PSRSpN9g1tlw29p3t5ANFweP06FNo938qeJY0SBy6cVzYjkHDfMx8hz8DUKjHaB
- 5m6lmQhfdX8KHdEDQd/7KHlW2xBc/Qnzzp9IDWj7yOfFDgLHFLSr9q52F4R8t4XV4Bwoxf
- jYhbDPwXlOIPfCoQkCCCYXtrK4SlgTQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-S-cNtD4BNRSwaVRPLoV4Vg-1; Mon, 15 Nov 2021 17:36:31 -0500
-X-MC-Unique: S-cNtD4BNRSwaVRPLoV4Vg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- b133-20020a1c808b000000b0032cdd691994so239755wmd.1
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 14:36:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=A6cf7aB4+QDSTk3uAaJrNRUpmepplRJF45y+7KCnkr4=;
- b=d6NsJWKcbBNqaIlHSTJiL0aqgq4rj/IG7vfofJKXco5udMU1vsQDUfXs7xVOrRzQWe
- pRivQFRNf1U3yZ8/FUPrwwj+2TECR3RDQyDTy6wY+sLvFK3KQq89W0riZCvFTorCE5UE
- BoAOIpzPK1/4xB4hVNNoVtP9yEvOqHIzhC/D4SdyeL6Xe++pH9wyeXqBzM5eIt9xtR5c
- 54qYdaGtqi5ekL8uqvYyUfZPpUmruOeuEIh7cKrxmmHxfzxtseKE0jgmtwEOji4r41l0
- fhhQNKNOsdpEVcI8Tyg1rnf79esb/fml46WYceFCIhSVaBtuY/3Q2ypYSPS1P/IZuOLy
- owRA==
-X-Gm-Message-State: AOAM5300x7xQOXZRpPk18X3Q3U1lElWbDx3Z3IFOAMJxLwgBAcxBkAwn
- KRWcHhw0azxNPJEnARzdxgApqeI1YYhZwIkMk+H6UvUOcTi9usCrk6dcxgJkrg3fgJV7X4nOVYO
- iGGV9yunRUshuFEK0iB+8MoqEVD8sGiLuT3fZfmuzts2zdfB6RsRnfmU+uXUburay
-X-Received: by 2002:a05:6000:143:: with SMTP id
- r3mr3347020wrx.236.1637015789706; 
- Mon, 15 Nov 2021 14:36:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxp0THh9QS5GhBlJIpP31oH7Lqvfk+SrHdf+46T7qGWHnOiBhQYHEg/b6dNN/bTl4AZ+fKEwA==
-X-Received: by 2002:a05:6000:143:: with SMTP id
- r3mr3346989wrx.236.1637015789471; 
- Mon, 15 Nov 2021 14:36:29 -0800 (PST)
-Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id
- i17sm627846wmq.48.2021.11.15.14.36.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Nov 2021 14:36:29 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/A6PQvKS7Qjxo0EjasRHuFb0dkWFWTM912+tsj8k/+0=;
+ b=TLt7qdUzfA8jflrN8o2N+mvPzguuybop6pobRLmrgqna+lsm1ABSDDXi0E3CBC3lZPDv35
+ 0jii+fad3fXCscv5aP89TNG1guEW1uQlkLi90FqXRIJiIIxo5zlzhNuAzfPQW894OaAqQW
+ JlPwhI/t3OZlSKk75QpE7zM2ikGdVyo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-428-xDHcbEpiPfmBACP06ivkPw-1; Mon, 15 Nov 2021 17:39:47 -0500
+X-MC-Unique: xDHcbEpiPfmBACP06ivkPw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C2D61006AA0;
+ Mon, 15 Nov 2021 22:39:46 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-114-146.phx2.redhat.com [10.3.114.146])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A4D82ADCD;
+ Mon, 15 Nov 2021 22:39:45 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.2? 2/2] hw/intc/arm_gicv3: Introduce CONFIG_ARM_GIC_TCG
- Kconfig selector
-Date: Mon, 15 Nov 2021 23:36:19 +0100
-Message-Id: <20211115223619.2599282-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211115223619.2599282-1-philmd@redhat.com>
-References: <20211115223619.2599282-1-philmd@redhat.com>
+Subject: [PATCH for 6.2] nbd/server: Silence clang sanitizer warning
+Date: Mon, 15 Nov 2021 16:39:43 -0600
+Message-Id: <20211115223943.626416-1-eblake@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -98,91 +74,70 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Miroslav Rezanina <mrezanin@redhat.com>, qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Shashi Mallela <shashi.mallela@linaro.org>
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The TYPE_ARM_GICV3 device is an emulated one.  When using
-KVM, it is recommended to use the TYPE_KVM_ARM_GICV3 device
-(which uses in-kernel support).
+clang's sanitizer is picky: memset(NULL, x, 0) is technically
+undefined behavior, even though no sane implementation of memset()
+deferences the NULL.  Caught by the nbd-qemu-allocation iotest.
 
-When using --with-devices-FOO, it is possible to build a
-binary with a specific set of devices. When this binary is
-restricted to KVM accelerator, the TYPE_ARM_GICV3 device is
-irrelevant, and it is desirable to remove it from the binary.
+The alternative to checking before each memset is to instead force an
+allocation of 1 element instead of g_new0(type, 0)'s behavior of
+returning NULL for a 0-length array.
 
-Therefore introduce the CONFIG_ARM_GIC_TCG Kconfig selector
-which select the files required to have the TYPE_ARM_GICV3
-device, but also allowing to de-select this device.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Fixes: 3b1f244c59 (nbd: Allow export of multiple bitmaps for one device)
+Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- hw/intc/arm_gicv3.c |  2 +-
- hw/intc/Kconfig     |  5 +++++
- hw/intc/meson.build | 10 ++++++----
- 3 files changed, 12 insertions(+), 5 deletions(-)
+ nbd/server.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/hw/intc/arm_gicv3.c b/hw/intc/arm_gicv3.c
-index c6282984b1e..76950c6f724 100644
---- a/hw/intc/arm_gicv3.c
-+++ b/hw/intc/arm_gicv3.c
+diff --git a/nbd/server.c b/nbd/server.c
+index 6d03e8a4b436..d9164ee6d0da 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
 @@ -1,5 +1,5 @@
  /*
-- * ARM Generic Interrupt Controller v3
-+ * ARM Generic Interrupt Controller v3 (emulation)
+- *  Copyright (C) 2016-2020 Red Hat, Inc.
++ *  Copyright (C) 2016-2021 Red Hat, Inc.
+  *  Copyright (C) 2005  Anthony Liguori <anthony@codemonkey.ws>
   *
-  * Copyright (c) 2015 Huawei.
-  * Copyright (c) 2016 Linaro Limited
-diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
-index 78aed93c454..010ded7eae0 100644
---- a/hw/intc/Kconfig
-+++ b/hw/intc/Kconfig
-@@ -25,6 +25,11 @@ config APIC
-     select MSI_NONBROKEN
-     select I8259
- 
-+config ARM_GIC_TCG
-+    bool
-+    default y
-+    depends on ARM_GIC && TCG
-+
- config ARM_GIC_KVM
-     bool
-     default y
-diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-index 11352806db2..70080bc161c 100644
---- a/hw/intc/meson.build
-+++ b/hw/intc/meson.build
-@@ -3,12 +3,14 @@
-   'arm_gic.c',
-   'arm_gic_common.c',
-   'arm_gicv2m.c',
--  'arm_gicv3.c',
-   'arm_gicv3_common.c',
--  'arm_gicv3_dist.c',
-   'arm_gicv3_its_common.c',
--  'arm_gicv3_redist.c',
-+))
-+softmmu_ss.add(when: 'CONFIG_ARM_GIC_TCG', if_true: files(
-+  'arm_gicv3.c',
-+  'arm_gicv3_dist.c',
-   'arm_gicv3_its.c',
-+  'arm_gicv3_redist.c',
- ))
- softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true: files('etraxfs_pic.c'))
- softmmu_ss.add(when: 'CONFIG_HEATHROW_PIC', if_true: files('heathrow_pic.c'))
-@@ -26,7 +28,7 @@
- specific_ss.add(when: 'CONFIG_ALLWINNER_A10_PIC', if_true: files('allwinner-a10-pic.c'))
- specific_ss.add(when: 'CONFIG_APIC', if_true: files('apic.c', 'apic_common.c'))
- specific_ss.add(when: 'CONFIG_ARM_GIC', if_true: files('arm_gicv3_cpuif_common.c'))
--specific_ss.add(when: 'CONFIG_ARM_GIC', if_true: files('arm_gicv3_cpuif.c'))
-+specific_ss.add(when: 'CONFIG_ARM_GIC_TCG', if_true: files('arm_gicv3_cpuif.c'))
- specific_ss.add(when: 'CONFIG_ARM_GIC_KVM', if_true: files('arm_gic_kvm.c'))
- specific_ss.add(when: ['CONFIG_ARM_GIC_KVM', 'TARGET_AARCH64'], if_true: files('arm_gicv3_kvm.c', 'arm_gicv3_its_kvm.c'))
- specific_ss.add(when: 'CONFIG_ARM_V7M', if_true: files('armv7m_nvic.c'))
+  *  Network Block Device Server Side
+@@ -879,7 +879,9 @@ static bool nbd_meta_qemu_query(NBDClient *client, NBDExportMetaContexts *meta,
+     if (!*query) {
+         if (client->opt == NBD_OPT_LIST_META_CONTEXT) {
+             meta->allocation_depth = meta->exp->allocation_depth;
+-            memset(meta->bitmaps, 1, meta->exp->nr_export_bitmaps);
++            if (meta->exp->nr_export_bitmaps) {
++                memset(meta->bitmaps, 1, meta->exp->nr_export_bitmaps);
++            }
+         }
+         trace_nbd_negotiate_meta_query_parse("empty");
+         return true;
+@@ -894,7 +896,8 @@ static bool nbd_meta_qemu_query(NBDClient *client, NBDExportMetaContexts *meta,
+     if (nbd_strshift(&query, "dirty-bitmap:")) {
+         trace_nbd_negotiate_meta_query_parse("dirty-bitmap:");
+         if (!*query) {
+-            if (client->opt == NBD_OPT_LIST_META_CONTEXT) {
++            if (client->opt == NBD_OPT_LIST_META_CONTEXT &&
++                meta->exp->nr_export_bitmaps) {
+                 memset(meta->bitmaps, 1, meta->exp->nr_export_bitmaps);
+             }
+             trace_nbd_negotiate_meta_query_parse("empty");
+@@ -1024,7 +1027,9 @@ static int nbd_negotiate_meta_queries(NBDClient *client,
+         /* enable all known contexts */
+         meta->base_allocation = true;
+         meta->allocation_depth = meta->exp->allocation_depth;
+-        memset(meta->bitmaps, 1, meta->exp->nr_export_bitmaps);
++        if (meta->exp->nr_export_bitmaps) {
++            memset(meta->bitmaps, 1, meta->exp->nr_export_bitmaps);
++        }
+     } else {
+         for (i = 0; i < nb_queries; ++i) {
+             ret = nbd_negotiate_meta_query(client, meta, errp);
 -- 
-2.31.1
+2.33.1
 
 
