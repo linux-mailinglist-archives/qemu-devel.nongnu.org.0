@@ -2,81 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6E48450204
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 11:08:57 +0100 (CET)
-Received: from localhost ([::1]:40216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22C3D450236
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 11:17:25 +0100 (CET)
+Received: from localhost ([::1]:45132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmYv2-0007DT-SX
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 05:08:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42774)
+	id 1mmZ3D-0002X3-Vp
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 05:17:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mmYrN-0004Eb-Ai
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 05:05:09 -0500
-Received: from [2607:f8b0:4864:20::629] (port=40857
- helo=mail-pl1-x629.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mmYrL-0006C1-08
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 05:05:08 -0500
-Received: by mail-pl1-x629.google.com with SMTP id v19so3291566plo.7
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 02:05:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=kAc8473QvrYi5CIWhViW+9iK0775TnP6ZYYzkx04OsY=;
- b=5YZAtWJ9LE0dyHNoBHyMEmxi6krpBBrWK3VS8PJ4FqsdUiwFAKrHLcms94oJPHzaRC
- qBimdJUXoOcvqas+s8EHYETCS3L49UuHAk8zKbbxaq3aJeccRUckA+GxhG3C74doYO5b
- hR+BFZeFlCtf3/dWkY+ywB8gdgnIh7g3VoIOv/SdsagPTMBK2WD27JBNmBL6zh8wWjZm
- HcSobroVIpWlBf+NbkhOVPHVzc7BcYVjbor3P8dFSa+l1BThSQdLdqSbHs/sPrdOQUz0
- eKI1tDQpr6K8Df4ErFHQJva+moIKfwI1uZRAay3yo4fYETkXJmQfPEkV/2MfcEjHYAXW
- 7z9w==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mmZ2K-0001gL-4u
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 05:16:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49769)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mmZ2H-00083k-3E
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 05:16:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636971383;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=s2Df9YwZzqBBlev2jaRrZN6GE1RvRQbaBq7e44F9wvo=;
+ b=CrZ7W17BOEKGq3c69PEcFha47qp3D5/PIQ4jGKVOoOSAavgSESQ41Cdbwq4b+N0dOMCNx8
+ bunCDDIZkdhPdwcVRXyFLb/k6QHo+qUPnD8+c5BB9Q2xMHngjYs/0dJkFPL/AfwoIGIHNr
+ PUR2ocojKk8z8j0+0SjA1mtCteM/E40=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-269-JI9YIIMAOE686GBA1MZ38A-1; Mon, 15 Nov 2021 05:16:21 -0500
+X-MC-Unique: JI9YIIMAOE686GBA1MZ38A-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ y4-20020adfd084000000b00186b16950f3so3358796wrh.14
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 02:16:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=kAc8473QvrYi5CIWhViW+9iK0775TnP6ZYYzkx04OsY=;
- b=Nq1nU6boO57sjEOoicI9DtvPbeqhGCopM/k9gMuGNqMl3k2VdqNsSBggsLUmKL+3BX
- Yv/4JqR6Nf9fwz1iwftQ905hgBSytG/mtGPvR0nMuKB6hJveI7eiruMDnNv087SwQsbe
- Om0GQMXa5V36sPkR2oJmHWJpSCB2Mk+evGtxpp7J8Pzx3ZqCZXTUl30s2vLEi99AKfFl
- cmMqkPrBrIE4PXR+l9xj/EXHbR7jREWtb78ckoGp1pGQDJt7OstdCINjPF6dfOMbLdKR
- MBIEYdw49LazObINXHE8RA5+m0yWyHPgNpMhhHkAFc/wAP8jYJkhM5niZGkr1lGqFUcw
- Myfw==
-X-Gm-Message-State: AOAM533v8kgU7EZtmRy9twvIdgWgNa7ibv2elrfWJn8h5E61cp/Tmgge
- 44kzPqh99Kcs4Nu+h6dthDpQRA==
-X-Google-Smtp-Source: ABdhPJyizFc5UUir1/EaCEOlI63JPGrQXrGKUYoTP0TX+P9M9akccYhyZkwE+sVXGZ+xfYRGZNhT/g==
-X-Received: by 2002:a17:90b:1c8d:: with SMTP id
- oo13mr19644309pjb.239.1636970705507; 
- Mon, 15 Nov 2021 02:05:05 -0800 (PST)
-Received: from anisinha-lenovo ([49.207.202.156])
- by smtp.googlemail.com with ESMTPSA id i5sm11662939pgo.36.2021.11.15.02.05.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Nov 2021 02:05:05 -0800 (PST)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Mon, 15 Nov 2021 15:35:00 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH for 6.2 v2 2/5] hw/acpi/ich9: Add compat prop to keep
- HPC bit set for 6.1 machine type
-In-Reply-To: <20211110211140.3057199-3-imammedo@redhat.com>
-Message-ID: <alpine.DEB.2.22.394.2111151532540.505682@anisinha-lenovo>
-References: <20211110211140.3057199-1-imammedo@redhat.com>
- <20211110211140.3057199-3-imammedo@redhat.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=s2Df9YwZzqBBlev2jaRrZN6GE1RvRQbaBq7e44F9wvo=;
+ b=EVHt6RyYa0AfD+iXUqBIOIlHONXfA8vNw/v7L6aFQhi1dkkKZEn69+qqfStX9n1tIQ
+ nI/rluf+W/JlQAwGpNCrIhCzPvUWkPMT4pOzT7Z9/otsr/RvxAJSsR+f50Z2eCPUgZNl
+ Fkiop7mlv+RjP+ucN5cuix/gjGxM6uoAE2RgqXYoVzWtyyF24WFsKbMSGFySk7DagB8p
+ UQM2UdQiQCiR/ci9F4W7KKMBQ7Pb3Nzd2MRh2a8QnsOr2XznNrGUtGb4zJR/DjWUS4Wy
+ IadVhaAFXTxcVtMFRstv8/UCAZb2hpZlVCcmkdX3gaf6XfPBirQRPm7xZR5+SsOpUfyz
+ OSIA==
+X-Gm-Message-State: AOAM532OpvWtx4g5g2yGH3poHmLwyS4O0uJygebW6mYJWPti7KkT28Y+
+ knlCjZuqeQdY7gC3wFS14U5oJmYxRA8u2fgxwhvZpVd6zEpt4g8fv1O8wFyEhx+m3ME/db5pjvY
+ CeH9zJwMF5q2XXaI=
+X-Received: by 2002:a5d:6e82:: with SMTP id k2mr46304299wrz.147.1636971380780; 
+ Mon, 15 Nov 2021 02:16:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxizHx8xGpunp0F+lJ6/3DM9soP6nL5vhVBxFcmAi0EvNNL/5AJ1M9v90LE+zGr/3vNMCEvFA==
+X-Received: by 2002:a5d:6e82:: with SMTP id k2mr46304254wrz.147.1636971380551; 
+ Mon, 15 Nov 2021 02:16:20 -0800 (PST)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id 4sm17944354wrz.90.2021.11.15.02.16.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Nov 2021 02:16:20 -0800 (PST)
+Message-ID: <2d5bb4d9-b34c-65dc-f0de-0f1c7af28c83@redhat.com>
+Date: Mon, 15 Nov 2021 11:16:18 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::629;
- envelope-from=ani@anisinha.ca; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH-for-6.2 v3 3/6] tests/unit/test-smp-parse: Explicit
+ MachineClass name
+To: "wangyanan (Y)" <wangyanan55@huawei.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+References: <20211111100351.2153662-1-philmd@redhat.com>
+ <20211111100351.2153662-4-philmd@redhat.com>
+ <fee6d60b-9070-7fbb-3275-cdd4aa7ee144@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <fee6d60b-9070-7fbb-3275-cdd4aa7ee144@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -57
+X-Spam_score: -5.8
+X-Spam_bar: -----
+X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.278, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,150 +102,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mapfelba@redhat.com, mst@redhat.com, jusual@redhat.com,
- qemu-devel@nongnu.org, kraxel@redhat.com, ani@anisinha.ca
+Cc: Thomas Huth <thuth@redhat.com>, Andrew Jones <drjones@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 11/12/21 03:28, wangyanan (Y) wrote:
+> On 2021/11/11 18:03, Philippe Mathieu-Daudé wrote:
+>> If the MachineClass::name pointer is not explicitly set, it is NULL.
+>> Per the C standard, passing a NULL pointer to printf "%s" format is
+>> undefined. Some implementations display it as 'NULL', other as 'null'.
+>> Since we are comparing the formatted output, we need a stable value.
+>> The easiest is to explicit a machine name string.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>   tests/unit/test-smp-parse.c | 8 ++++++--
+>>   1 file changed, 6 insertions(+), 2 deletions(-)
 
+>>   @@ -481,6 +483,8 @@ static void machine_class_init(ObjectClass *oc,
+>> void *data)
+>>         mc->smp_props.prefer_sockets = true;
+>>       mc->smp_props.dies_supported = false;
+>> +
+>> +    mc->name = g_strdup(SMP_MACHINE_NAME);
+> I'm not very familiar with Qom code, so it may be a stupid question.
+> The mc->name will be automatically freed elsewhere when all the
+> testing is finished and exits, right? :)
 
-On Wed, 10 Nov 2021, Igor Mammedov wrote:
+I'll defer that to Eduardo / Markus, but meanwhile my understanding
+is QOM classes are loaded once (the first time an instance requires
+it) and never unloaded. Only instances can be unloaded, their resources
+being released.
+The machine life time is tied to the process one, when we are done
+using a machine, it is simpler to exit() the process -- the kernel
+releases the resources for us -- and create another process for a new
+machine, rather than re-creating a different machine within the same
+process.
+If there is a need for it (like releasing class resources), it is doable
+but it seems we never worried about it.
 
-> From: Julia Suvorova <jusual@redhat.com>
->
-> To solve issues [1-2] the Hot Plug Capable bit in PCIe Slots will be
-> turned on, while the switch to ACPI Hot-plug will be done in the
-> DSDT table.
->
-> Introducing 'x-keep-native-hpc' property disables the HPC bit only
-> in 6.1 and as a result keeps the forced 'reserve-io' on
-> pcie-root-ports in 6.1 too.
->
-> [1] https://gitlab.com/qemu-project/qemu/-/issues/641
-> [2] https://bugzilla.redhat.com/show_bug.cgi?id=2006409
->
-> Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-
-This patch is a little bit hard to read ... but ...
-
-> ---
-> v2:
->    * s/native-hpc-bit/x-native-hotplug/ to fix conflict
-> ---
->  include/hw/acpi/ich9.h |  1 +
->  hw/acpi/ich9.c         | 18 ++++++++++++++++++
->  hw/i386/pc.c           |  2 ++
->  hw/i386/pc_q35.c       |  7 ++++++-
->  4 files changed, 27 insertions(+), 1 deletion(-)
->
-> diff --git a/include/hw/acpi/ich9.h b/include/hw/acpi/ich9.h
-> index f04f1791bd..7ca92843c6 100644
-> --- a/include/hw/acpi/ich9.h
-> +++ b/include/hw/acpi/ich9.h
-> @@ -56,6 +56,7 @@ typedef struct ICH9LPCPMRegs {
->      AcpiCpuHotplug gpe_cpu;
->      CPUHotplugState cpuhp_state;
->
-> +    bool keep_pci_slot_hpc;
->      bool use_acpi_hotplug_bridge;
->      AcpiPciHpState acpi_pci_hotplug;
->      MemHotplugState acpi_memory_hotplug;
-> diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-> index 1ee2ba2c50..ebe08ed831 100644
-> --- a/hw/acpi/ich9.c
-> +++ b/hw/acpi/ich9.c
-> @@ -419,6 +419,20 @@ static void ich9_pm_set_acpi_pci_hotplug(Object *obj, bool value, Error **errp)
->      s->pm.use_acpi_hotplug_bridge = value;
->  }
->
-> +static bool ich9_pm_get_keep_pci_slot_hpc(Object *obj, Error **errp)
-> +{
-> +    ICH9LPCState *s = ICH9_LPC_DEVICE(obj);
-> +
-> +    return s->pm.keep_pci_slot_hpc;
-> +}
-> +
-> +static void ich9_pm_set_keep_pci_slot_hpc(Object *obj, bool value, Error **errp)
-> +{
-> +    ICH9LPCState *s = ICH9_LPC_DEVICE(obj);
-> +
-> +    s->pm.keep_pci_slot_hpc = value;
-> +}
-> +
->  void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
->  {
->      static const uint32_t gpe0_len = ICH9_PMIO_GPE0_LEN;
-> @@ -428,6 +442,7 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
->      pm->disable_s4 = 0;
->      pm->s4_val = 2;
->      pm->use_acpi_hotplug_bridge = true;
-> +    pm->keep_pci_slot_hpc = true;
->
->      object_property_add_uint32_ptr(obj, ACPI_PM_PROP_PM_IO_BASE,
->                                     &pm->pm_io_base, OBJ_PROP_FLAG_READ);
-> @@ -454,6 +469,9 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
->      object_property_add_bool(obj, ACPI_PM_PROP_ACPI_PCIHP_BRIDGE,
->                               ich9_pm_get_acpi_pci_hotplug,
->                               ich9_pm_set_acpi_pci_hotplug);
-> +    object_property_add_bool(obj, "x-keep-pci-slot-hpc",
-> +                             ich9_pm_get_keep_pci_slot_hpc,
-> +                             ich9_pm_set_keep_pci_slot_hpc);
->  }
->
->  void ich9_pm_device_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 2592a82148..a2ef40ecbc 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -98,6 +98,7 @@ GlobalProperty pc_compat_6_1[] = {
->      { TYPE_X86_CPU, "hv-version-id-build", "0x1bbc" },
->      { TYPE_X86_CPU, "hv-version-id-major", "0x0006" },
->      { TYPE_X86_CPU, "hv-version-id-minor", "0x0001" },
-> +    { "ICH9-LPC", "x-keep-pci-slot-hpc", "false" },
->  };
->  const size_t pc_compat_6_1_len = G_N_ELEMENTS(pc_compat_6_1);
->
-> @@ -107,6 +108,7 @@ GlobalProperty pc_compat_6_0[] = {
->      { "qemu64" "-" TYPE_X86_CPU, "stepping", "3" },
->      { TYPE_X86_CPU, "x-vendor-cpuid-only", "off" },
->      { "ICH9-LPC", ACPI_PM_PROP_ACPI_PCIHP_BRIDGE, "off" },
-> +    { "ICH9-LPC", "x-keep-pci-slot-hpc", "true" },
->  };
->  const size_t pc_compat_6_0_len = G_N_ELEMENTS(pc_compat_6_0);
->
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index fc34b905ee..e1e100316d 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -137,6 +137,7 @@ static void pc_q35_init(MachineState *machine)
->      DriveInfo *hd[MAX_SATA_PORTS];
->      MachineClass *mc = MACHINE_GET_CLASS(machine);
->      bool acpi_pcihp;
-> +    bool keep_pci_slot_hpc;
->
->      /* Check whether RAM fits below 4G (leaving 1/2 GByte for IO memory
->       * and 256 Mbytes for PCI Express Enhanced Configuration Access Mapping
-> @@ -242,7 +243,11 @@ static void pc_q35_init(MachineState *machine)
->                                            ACPI_PM_PROP_ACPI_PCIHP_BRIDGE,
->                                            NULL);
->
-> -    if (acpi_pcihp) {
-> +    keep_pci_slot_hpc = object_property_get_bool(OBJECT(lpc),
-> +                                                 "x-keep-pci-slot-hpc",
-> +                                                 NULL);
-> +
-> +    if (!keep_pci_slot_hpc && acpi_pcihp) {
-
-Does this mean we are adding "x-native-hotplug" property for pcie
-slots only for 6.1 by default unless users pass x-keep-pci-slot-hpc =
-false manually?
-
->          object_register_sugar_prop(TYPE_PCIE_SLOT, "x-native-hotplug",
->                                     "false", true);
->      }
-> --
-> 2.27.0
->
->
 
