@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AC5C44FFC4
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 09:08:44 +0100 (CET)
-Received: from localhost ([::1]:36500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9298644FFB6
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 09:06:22 +0100 (CET)
+Received: from localhost ([::1]:59610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmX2h-0000Ug-62
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 03:08:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45840)
+	id 1mmX0P-0005Nc-Mo
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 03:06:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mmWxp-0003jJ-Qe
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 03:03:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60524)
+ id 1mmWxj-0003Vg-Rh
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 03:03:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mmWxo-0007fr-7D
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 03:03:41 -0500
+ id 1mmWxh-0007fQ-1P
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 03:03:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636963419;
+ s=mimecast20190719; t=1636963411;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=M5scYZGPAWwiUZomtLzFgF/1Qwk95VrUl8Q/sJyYlX0=;
- b=aQpiyNWpBwY153CqCUx9KcdyY3UIXTyIp7BRhpwz7wo6FfUSl7X8xZUL++N5vVPfXNiux/
- xW3kD2wTn2cEMOl0eg71j4phB9g+Nm1MAoagU1Qcnfwdr8tdsGbZOKPRJOK4NL+eV68Vtw
- iUfBPxk+7HvXhTk+VW7mQkeSbF51SpA=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=b+l1iK01Q/eySmpoZ8LkIdoLvLK8uTUqZR1R++yzoL8=;
+ b=WCnqoC8ezhE49hHH1eOXRs4Z4TnSPUWmOhh4p4n06QLIKyfQfvBIkl9MhCjtwK2uGUbHOa
+ WVsHn+S6I1SMPJ5FuWywk/VgX8aaX6U5wqSsEKirRUWaFZkiqfU/m0Q1HFw0uuKB+5P/he
+ H6LGghsEQ0Gs4ZQxuyOc9V+4eiFB4PY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-585-3bFBoWD-PeCdYxz0aBsKTw-1; Mon, 15 Nov 2021 03:03:25 -0500
-X-MC-Unique: 3bFBoWD-PeCdYxz0aBsKTw-1
+ us-mta-188-RQhqFzN8O_uU27JDp14FVw-1; Mon, 15 Nov 2021 03:03:29 -0500
+X-MC-Unique: RQhqFzN8O_uU27JDp14FVw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 378BF824F8D
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 08:03:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00A3C1006AA2
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 08:03:29 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 004515C1BB;
- Mon, 15 Nov 2021 08:03:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 302BE5C22B;
+ Mon, 15 Nov 2021 08:03:27 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] qemu-options: define -spice only #ifdef CONFIG_SPICE
-Date: Mon, 15 Nov 2021 12:03:10 +0400
-Message-Id: <20211115080312.64692-1-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 1/2] qemu-options: define -spice only #ifdef CONFIG_SPICE
+Date: Mon, 15 Nov 2021 12:03:11 +0400
+Message-Id: <20211115080312.64692-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20211115080312.64692-1-marcandre.lureau@redhat.com>
+References: <20211115080312.64692-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -81,24 +84,58 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, berrange@redhat.com, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Hi,=0D
-=0D
-This is v2 of "[PATCH] qemu-options.hx: remove -spice options from --help",=
-=0D
-after Markus comment on patch title.=0D
-=0D
-Marc-Andr=C3=A9 Lureau (2):=0D
-  qemu-options: define -spice only #ifdef CONFIG_SPICE=0D
-  vl: typo fix in a comment=0D
-=0D
- softmmu/vl.c    | 4 +++-=0D
- qemu-options.hx | 2 ++=0D
- 2 files changed, 5 insertions(+), 1 deletion(-)=0D
-=0D
---=20=0D
-2.33.0.721.g106298f7f9=0D
-=0D
+Fixes:
+https://bugzilla.redhat.com/show_bug.cgi?id=1982600
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ softmmu/vl.c    | 2 ++
+ qemu-options.hx | 2 ++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 1159a64bce4e..385465fbeb6d 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3538,6 +3538,7 @@ void qemu_init(int argc, char **argv, char **envp)
+             case QEMU_OPTION_readconfig:
+                 qemu_read_config_file(optarg, qemu_parse_config_group, &error_fatal);
+                 break;
++#ifdef CONFIG_SPICE
+             case QEMU_OPTION_spice:
+                 olist = qemu_find_opts_err("spice", NULL);
+                 if (!olist) {
+@@ -3550,6 +3551,7 @@ void qemu_init(int argc, char **argv, char **envp)
+                 }
+                 display_remote++;
+                 break;
++#endif
+             case QEMU_OPTION_writeconfig:
+                 {
+                     FILE *fp;
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 7749f59300b5..323913945a5d 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -2017,6 +2017,7 @@ SRST
+     Enable SDL.
+ ERST
+ 
++#ifdef CONFIG_SPICE
+ DEF("spice", HAS_ARG, QEMU_OPTION_spice,
+     "-spice [port=port][,tls-port=secured-port][,x509-dir=<dir>]\n"
+     "       [,x509-key-file=<file>][,x509-key-password=<file>]\n"
+@@ -2038,6 +2039,7 @@ DEF("spice", HAS_ARG, QEMU_OPTION_spice,
+     "   enable spice\n"
+     "   at least one of {port, tls-port} is mandatory\n",
+     QEMU_ARCH_ALL)
++#endif
+ SRST
+ ``-spice option[,option[,...]]``
+     Enable the spice remote desktop protocol. Valid options are
+-- 
+2.33.0.721.g106298f7f9
 
 
