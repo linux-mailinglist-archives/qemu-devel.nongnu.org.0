@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51AF4508CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 16:42:01 +0100 (CET)
-Received: from localhost ([::1]:54022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8DAB450917
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 16:58:58 +0100 (CET)
+Received: from localhost ([::1]:60614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mme7M-00083h-EI
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 10:42:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39052)
+	id 1mmeNl-0004yo-Kv
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 10:58:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mme5l-0007Kq-1K
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 10:40:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44278)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mmeMl-0003u0-R3
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 10:57:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27471)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mme5h-0005XA-LN
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 10:40:19 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mmeMi-00085F-Jn
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 10:57:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636990816;
+ s=mimecast20190719; t=1636991871;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J6SmHSiQcVGVE6u6gAUp1Eh5+NxY1A1D04eE8rg/IzU=;
- b=BUG8DqcejtA5KpqZxa82OMZC/yyrzcDeXDAvaRg55r8PbhjJCIdHvrKVqf//CYhjuYMLvc
- 7HtS6P6NE/dvK4nntNoEIHfrdAV4bKrLdY3sG95+XZhdgiAbLkHhRlFbg9Q+GiegT+APHK
- i5nFUPyG/6h/B7niV9Mrn3WVKlqTsZc=
+ bh=3gi4j7Q0fmlkvxwVBhmxnE3e8X2pmiSjeAHke/jDw6s=;
+ b=eRwYRdiIXmyXTWfoK45pHOUqvL3UjiMHFHbW7SQ0GJaRxmmS/SDsJKOHr/4ZOVnsdn2wDJ
+ +nk+5IWJzFSnEZitbMSsLRqUentOXLXrpxbcT+evojiiunMpwia395sk9EEOwIlzcLrwQz
+ NO+MMUzCdzb7LEp3JjFVbm06h+3lF0g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-293-VD1aRpHpMzib094YdpBlzQ-1; Mon, 15 Nov 2021 10:40:13 -0500
-X-MC-Unique: VD1aRpHpMzib094YdpBlzQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-229-sgyDoI81O0SMi5sFZTYf_w-1; Mon, 15 Nov 2021 10:57:48 -0500
+X-MC-Unique: sgyDoI81O0SMi5sFZTYf_w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03E6118414A0
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 15:40:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 837EE19253C7;
+ Mon, 15 Nov 2021 15:57:44 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9BDC767843;
- Mon, 15 Nov 2021 15:40:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FAE519D9F;
+ Mon, 15 Nov 2021 15:57:42 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AB91E11380A7; Mon, 15 Nov 2021 16:40:10 +0100 (CET)
+ id 7BF1811380A7; Mon, 15 Nov 2021 16:57:40 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] qmp: Stabilize preconfig
-References: <b31f442d28920447690a6b8cee865bdbacde1283.1635160056.git.mprivozn@redhat.com>
- <87bl3dfg9v.fsf@dusky.pond.sub.org>
- <bb896561-9d0c-6c6c-4bdb-5e7ef5ed71d5@redhat.com>
- <YYAATW1JQmzpDPhu@redhat.com> <87zgqlzmxi.fsf@dusky.pond.sub.org>
- <c4ac9bcc-90ae-302f-d5d4-b95f1419a7a0@redhat.com>
- <87pmr7rzls.fsf@dusky.pond.sub.org>
- <bc437ccb-0487-a5ff-8e6a-50067715c4d4@redhat.com>
- <87mtman4h1.fsf@dusky.pond.sub.org>
- <13efddef-cc30-9a6a-a700-060d6fca57e3@redhat.com>
- <87ee7lh9x2.fsf@dusky.pond.sub.org>
- <e1411df1-696c-ceec-ef77-8cc4d538de70@redhat.com>
- <87wnlcsd9q.fsf@dusky.pond.sub.org>
- <0fba39ee-4a1a-b388-82d3-4dc44cf3b9fb@redhat.com>
-Date: Mon, 15 Nov 2021 16:40:10 +0100
-In-Reply-To: <0fba39ee-4a1a-b388-82d3-4dc44cf3b9fb@redhat.com> (Paolo
- Bonzini's message of "Mon, 15 Nov 2021 13:37:33 +0100")
-Message-ID: <87tugdh1gl.fsf@dusky.pond.sub.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH RFC 2/2] hw: Replace drive_get_next() by drive_get()
+References: <20211115125536.3341681-1-armbru@redhat.com>
+ <20211115125536.3341681-3-armbru@redhat.com>
+ <5b799ad5-a552-454f-dcc7-1ea6de22b397@amsat.org>
+Date: Mon, 15 Nov 2021 16:57:40 +0100
+In-Reply-To: <5b799ad5-a552-454f-dcc7-1ea6de22b397@amsat.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 15 Nov 2021 14:59:51
+ +0100")
+Message-ID: <87lf1pfm2z.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -90,94 +83,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michal =?utf-8?B?UHLDrXZvem7DrWs=?= <mprivozn@redhat.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
+Cc: peter.maydell@linaro.org, bin.meng@windriver.com,
+ mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org, jcd@tribudubois.net,
+ qemu-block@nongnu.org, andrew.smirnov@gmail.com, hskinnemoen@google.com,
+ joel@jms.id.au, atar4qemu@gmail.com, alistair@alistair23.me,
+ b.galvani@gmail.com, nieklinnenbank@gmail.com, qemu-arm@nongnu.org,
+ clg@kaod.org, kwolf@redhat.com, qemu-riscv@nongnu.org, andrew@aj.id.au,
+ Andrew.Baumann@microsoft.com, sundeep.lkml@gmail.com, kfting@nuvoton.com,
+ hreitz@redhat.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
-> On 11/13/21 08:52, Markus Armbruster wrote:
->> I'm not asking what to do "if it hurts", or "if you want a cold-plugged
->> device".  I'm asking whether there's a reason for ever wanting hot plug
->> instead of cold plug.  Or in other words, what can hot plug possibly
->> gain us over cold plug?
->> 
->> As far as I know, the answer is "nothing but trouble".
+> On 11/15/21 13:55, Markus Armbruster wrote:
+>> drive_get_next() is basically a bad idea.  It returns the "next" block
+>> backend of a certain interface type.  "Next" means bus=3D0,unit=3DN, whe=
+re
+>> subsequent calls count N up from zero, per interface type.
+>>=20
+>> This lets you define unit numbers implicitly by execution order.  If the
+>> order changes, or new calls appear "in the middle", unit numbers change.
+>> ABI break.  Hard to spot in review.
+>>=20
+>> Explicit is better than implicit: use drive_get() directly.
+>>=20
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>>  include/sysemu/blockdev.h           |  1 -
+>>  blockdev.c                          | 10 ----------
+>>  hw/arm/aspeed.c                     | 21 +++++++++++++--------
+>>  hw/arm/cubieboard.c                 |  2 +-
+>>  hw/arm/imx25_pdk.c                  |  2 +-
+>>  hw/arm/integratorcp.c               |  2 +-
+>>  hw/arm/mcimx6ul-evk.c               |  2 +-
+>>  hw/arm/mcimx7d-sabre.c              |  2 +-
+>>  hw/arm/msf2-som.c                   |  2 +-
+>>  hw/arm/npcm7xx_boards.c             |  6 +++---
+>>  hw/arm/orangepi.c                   |  2 +-
+>>  hw/arm/raspi.c                      |  2 +-
+>>  hw/arm/realview.c                   |  2 +-
+>>  hw/arm/sabrelite.c                  |  2 +-
+>>  hw/arm/versatilepb.c                |  4 ++--
+>>  hw/arm/vexpress.c                   |  6 +++---
+>>  hw/arm/xilinx_zynq.c                | 16 +++++++++-------
+>>  hw/arm/xlnx-versal-virt.c           |  3 ++-
+>>  hw/arm/xlnx-zcu102.c                |  6 +++---
+>>  hw/microblaze/petalogix_ml605_mmu.c |  2 +-
+>>  hw/misc/sifive_u_otp.c              |  2 +-
+>>  hw/riscv/microchip_pfsoc.c          |  2 +-
+>>  hw/sparc64/niagara.c                |  2 +-
+>>  23 files changed, 49 insertions(+), 52 deletions(-)
 >
-> Yes, I agree.
+>> @@ -435,11 +438,13 @@ static void aspeed_machine_init(MachineState *mach=
+ine)
+>>      }
+>> =20
+>>      for (i =3D 0; i < bmc->soc.sdhci.num_slots; i++) {
+>> -        sdhci_attach_drive(&bmc->soc.sdhci.slots[i], drive_get_next(IF_=
+SD));
+>> +        sdhci_attach_drive(&bmc->soc.sdhci.slots[i],
+>> +                           drive_get(IF_SD, 0, i));
 >
->> If that's true, then what we should tell users is to stick to -device
->> for initial configuration, and stay away from device_add.
+> If we put SD on bus #0, ...
 >
-> Yes, which is one issue with stabilizing -preconfig.  It's not clear 
-> what exactly it is solving.
+>>      }
+>> =20
+>>      if (bmc->soc.emmc.num_slots) {
+>> -        sdhci_attach_drive(&bmc->soc.emmc.slots[0], drive_get_next(IF_S=
+D));
+>> +        sdhci_attach_drive(&bmc->soc.emmc.slots[0],
+>> +                           drive_get(IF_SD, 0, bmc->soc.sdhci.num_slots=
+));
 >
->>>>> The boat for this has sailed.  The only sane way to do this is a new binary.
->>>>
->>>> "Ideally" still applies to any new binary.
->>>
->>> Well, "ideally" any new binary would only have a few command line
->>> options, and ordering would be mostly irrelevant.  For example I'd
->>> expect a QMP binary to only have a few options, mostly for
->>> debugging/development (-L, -trace) and for process-wide settings (such
->>> as -name).
->> 
->> This is where we disagree.  For me, a new, alternative qemu-system-FOO binary
->> should be able to replace the warty one we have.
->> 
->> One important kind of user is management applications.  Libvirt
->> developers tell us that they'd like to configure as much as possible via
->> QMP.  Another kind of user dear to me is me^H^Hdevelopers.  For ad hoc
->> testing, having to configure via QMP is a pain we'd rathe do without.  I
->> don't want to remain stuck on the traditional binary, I want to do this
->> with the new one.
->
-> Why do you care?  For another example, you can use "reboot" or 
-> "systemctl isolate reboot.target" and they end up doing the same thing.
->
-> As long as qemu_init invokes qmp_machine_set, qmp_accel_set, 
-> qmp_device_add, qmp_plugin_add, qmp_cont, etc. to do its job, the 
-> difference between qemu-system-* and qemu-qmp-* is a couple thousands 
-> lines of boring code that all but disappears once the VM is up and 
-> running.  IOW, with the right design (e.g. shortcut options for QOM 
-> properties good; dozens of global variables bad), there's absolutely no 
-> issue with some people using qemu-system-* and some using qemu-qmp-*.
+> ... we'd want to put eMMC on bus #1
 
-I think maintaining two binaries forever is madness.  I want the old one
-to wither away.
+Using separate buses for different kinds of devices would be neater, but
+it also would be an incompatible change.  This patch keeps existing
+bus/unit numbers working.  drive_get_next() can only use bus 0.
 
-Making the new binary capable of serving all use cases should not be
-hard, just work (see my design sketch).  I expect the result to serve
-*better* than the mess we have now.
+>                                      but I see having eMMC cards on a
+> IF_SD bus as a bug, since these cards are soldered on the board.
 
->>>>>> Likewise, we'd fail QMP commands that are "out of phase".
->>>>>> @allow-preconfig is a crutch that only exists because we're afraid (with
->>>>>> reason) of hidden assumptions in QMP commands.
->>>>>
->>>>> At this point, it's not even like that anymore (except for block devices
->>>>> because my patches haven't been applied).
->>>>
->>>> My point is that we still have quite a few commands without
->>>> 'allow-preconfig' mostly because we are afraid of allowing them in
->>>> preconfig state, not because of true phase dependencies.
->>>
->>> I think there's very few of them, if any (outside the block layer for
->>> which patches exist), and those are due to distraction more than fear.
->> 
->> qapi/*.json has 216 commands, of which 26 carry 'allow-preconfig'.
+IF_SD is not a bus, it's an "block interface type", which is really just
+a user interface thing.
+
+>> --- a/hw/arm/vexpress.c
+>> +++ b/hw/arm/vexpress.c
+>> @@ -625,7 +625,7 @@ static void vexpress_common_init(MachineState *machi=
+ne)
+>>                            qdev_get_gpio_in(sysctl, ARM_SYSCTL_GPIO_MMC_=
+WPROT));
+>>      qdev_connect_gpio_out_named(dev, "card-inserted", 0,
+>>                            qdev_get_gpio_in(sysctl, ARM_SYSCTL_GPIO_MMC_=
+CARDIN));
+>> -    dinfo =3D drive_get_next(IF_SD);
+>> +    dinfo =3D drive_get(IF_SD, 0, 0);
 >
-> Well, 
-> https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg01597.html 
-> alone would more than double that. :)
->
-> Places like machine.json, machine-target.json, migration.json, 
-> replay.json have a lot of commands that are, obviously, almost entirely 
-> not suitable for preconfig.  I don't think there are many commands left, 
-> I'd guess maybe 30 (meaning that ~60% are done).
+> Can we have one interface refactor per patch (IF_SD, IF_PFLASH, IF_MTD...=
+)?
 
-My point is that "very few" is not literally true, and I think you just
-confirmed it ;)
+Peter asked for one patch per "board/SoC model".  I'll do whatever helps
+reviewers.
+
+>> @@ -657,7 +657,7 @@ static void vexpress_common_init(MachineState *machi=
+ne)
+>> =20
+>>      sysbus_create_simple("pl111", map[VE_CLCD], pic[14]);
+>> =20
+>> -    dinfo =3D drive_get_next(IF_PFLASH);
+>> +    dinfo =3D drive_get(IF_PFLASH, 0, 0);
+>
+>> -static inline void zynq_init_spi_flashes(uint32_t base_addr, qemu_irq i=
+rq,
+>> -                                         bool is_qspi)
+>> +static inline int zynq_init_spi_flashes(uint32_t base_addr, qemu_irq ir=
+q,
+>> +                                        bool is_qspi, int unit0)
+>>  {
+>> +    int unit =3D unit0;
+>>      DeviceState *dev;
+>>      SysBusDevice *busdev;
+>>      SSIBus *spi;
+>> @@ -156,7 +157,7 @@ static inline void zynq_init_spi_flashes(uint32_t ba=
+se_addr, qemu_irq irq,
+>>          spi =3D (SSIBus *)qdev_get_child_bus(dev, bus_name);
+>> =20
+>>          for (j =3D 0; j < num_ss; ++j) {
+>> -            DriveInfo *dinfo =3D drive_get_next(IF_MTD);
+>> +            DriveInfo *dinfo =3D drive_get(IF_MTD, 0, unit++);
+>
+>> diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
+>> index 3dc2b5e8ca..45eb19ab3b 100644
+>> --- a/hw/arm/xlnx-zcu102.c
+>> +++ b/hw/arm/xlnx-zcu102.c
+>> @@ -190,7 +190,7 @@ static void xlnx_zcu102_init(MachineState *machine)
+>>          BusState *spi_bus;
+>>          DeviceState *flash_dev;
+>>          qemu_irq cs_line;
+>> -        DriveInfo *dinfo =3D drive_get_next(IF_MTD);
+>> +        DriveInfo *dinfo =3D drive_get(IF_MTD, 0, i);
+>
+> If this is bus #0, ...
+>
+>>          gchar *bus_name =3D g_strdup_printf("spi%d", i);
+>> =20
+>>          spi_bus =3D qdev_get_child_bus(DEVICE(&s->soc), bus_name);
+>> @@ -212,7 +212,7 @@ static void xlnx_zcu102_init(MachineState *machine)
+>>          BusState *spi_bus;
+>>          DeviceState *flash_dev;
+>>          qemu_irq cs_line;
+>> -        DriveInfo *dinfo =3D drive_get_next(IF_MTD);
+>> +        DriveInfo *dinfo =3D drive_get(IF_MTD, 0, XLNX_ZYNQMP_NUM_SPIS =
++ i);
+>
+> ... I'd expect we use bus #1 here (different connector on the board).
+
+See above.
+
+>>          int bus =3D i / XLNX_ZYNQMP_NUM_QSPI_BUS_CS;
+>>          gchar *bus_name =3D g_strdup_printf("qspi%d", bus);
 
 
