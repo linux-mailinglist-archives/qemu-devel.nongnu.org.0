@@ -2,85 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A68450709
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 15:32:36 +0100 (CET)
-Received: from localhost ([::1]:56104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C29CC450737
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 15:38:44 +0100 (CET)
+Received: from localhost ([::1]:48790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmd2B-0004Yx-4K
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 09:32:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48962)
+	id 1mmd87-0001vD-Un
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 09:38:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mmczO-0001ZF-1l
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:29:42 -0500
-Received: from [2a00:1450:4864:20::431] (port=46764
- helo=mail-wr1-x431.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mmczL-0004Q9-Eg
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:29:41 -0500
-Received: by mail-wr1-x431.google.com with SMTP id u1so31101047wru.13
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 06:29:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=N21rXShm/YwCKeG/aTaeRxJKtdVChZE0KnWPtj4HEK0=;
- b=fx32E7LStIh0dl3OCIqqmRgOWYPX2njlRK4/9fTQlG9LkoHMZAcFTzH8PSmfuRs2Iw
- Vm9433mKCDB1ScHsep7UxNi3CoR2h7MgnFK9kJ2S/GYekJwKpC0VgV7bWHxVgeQpPk7e
- 5qk7N77XNwsfZSU84/y3g3ItIH+ZM3WVdjRafXe9GhluRYa1HNXJkAmmFd3KcA+0nMru
- ZFhenoZGPDX7osHqIzT4dnFgtBXX1TK4KaF/dd0w1XMK6hBE0OZ8fDU2DLLi4GCNpV3R
- HY2Fcqtj8YOwfQ2U/ZQmKETN/nqsEp0H/xNRV3gtiTvaAWMuIYjmO3scokGf4l47ewc0
- oggg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=N21rXShm/YwCKeG/aTaeRxJKtdVChZE0KnWPtj4HEK0=;
- b=Ec+KRWijoDt1BJnUtHnPe46AoUKPIvveLlnNA2YbliRyJ/W1fOo1iso3snUXn6hzNL
- 2d6DaC/sAx+XMacbliQtE1Zj/mnCxaTGH7mGHXFMju7b7kDM5dQtcE8LIZE4a+haxrm4
- 2tO5C4Hi7D3uZROjeAnxd4ow47RIFpv38OySaPvQmXkPKt/bJ5a5xPb3nUFE5JrZ3nP8
- OApnIEIWgfYDxMH7jgKFdHaSRGtmK/mi1t1JE3ylpjCXMrobmHiXV+DJfEU9kcz5FyjN
- JEhS1IOnazpR16hrvHaKqxpXa3MnYOADV3VxFLj4OnhT9d3KTKPXXXdD0lfJdv2NnmBp
- uYww==
-X-Gm-Message-State: AOAM530UaxyjSGFb4p1TEsjQONGhLpvkA8gnKzkyBzuacx/92kuxVrIy
- 9GWuubV3Yn5ipWWqT0lgYKc=
-X-Google-Smtp-Source: ABdhPJxIT8LxpAUa0q2z0gJwn8x/osb6GyAntkUNySMKP4Mm67KaSoSfYmjp0BuwNRQPmCg/+qXXng==
-X-Received: by 2002:a5d:6447:: with SMTP id d7mr48984436wrw.118.1636986576642; 
- Mon, 15 Nov 2021 06:29:36 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id r62sm2125347wmr.35.2021.11.15.06.29.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Nov 2021 06:29:36 -0800 (PST)
-Message-ID: <cba3524e-00d2-08b1-582f-1f31163fecf0@amsat.org>
-Date: Mon, 15 Nov 2021 15:29:35 +0100
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mmd1A-0004dw-HF
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:31:32 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:52070)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mmd18-0004lQ-8q
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:31:32 -0500
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-385-89-95D1NPEqBcw5Dy8UCJQ-1; Mon, 15 Nov 2021 09:31:19 -0500
+X-MC-Unique: 89-95D1NPEqBcw5Dy8UCJQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03B0D10247A6;
+ Mon, 15 Nov 2021 14:30:59 +0000 (UTC)
+Received: from bahia (unknown [10.39.192.173])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 39A315D9CA;
+ Mon, 15 Nov 2021 14:30:13 +0000 (UTC)
+Date: Mon, 15 Nov 2021 15:30:11 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [for-6.1 v3 0/3] virtiofsd: Add support for FUSE_SYNCFS request
+Message-ID: <20211115153011.06b9f08e@bahia>
+In-Reply-To: <YYwiGN7pfdyH9543@redhat.com>
+References: <20210510155539.998747-1-groug@kaod.org>
+ <YYwiGN7pfdyH9543@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] gitlab-ci: Test compilation on Windows with MSYS2
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20211115140623.104116-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211115140623.104116-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.278,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,93 +65,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yonggang Luo <luoyonggang@gmail.com>
+Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ virtio-fs@redhat.com, Miklos Szeredi <miklos@szeredi.hu>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/15/21 15:06, Thomas Huth wrote:
-> Gitlab also provides runners with Windows, we can use them to
-> test compilation with MSYS2, in both, 64-bit and 32-bit.
-> 
-> However, it takes quite a long time to set up the VM, so to
-> stay in the 1h time frame, we can only compile and check one
-> target here.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  "make check" recently broke on MSYS2, and nobody noticed since apparently
->  hardly anybody looks at the cirrus-CI output ... so here's another try
->  to get some more test coverage in this area in the gitlab-CI instead.
->  Patch needs to be applied after the "tests/unit/test-smp-parse:
->  Make an unified name for the tested machine" patch to get "make check"
->  fixed first.
-> 
->  RFC -> v1:
->  - Use cache to speed up installation a little bit
->  - Add a 32-bit builder, too
-> 
->  .gitlab-ci.d/qemu-project.yml |  1 +
->  .gitlab-ci.d/windows.yml      | 98 +++++++++++++++++++++++++++++++++++
->  2 files changed, 99 insertions(+)
->  create mode 100644 .gitlab-ci.d/windows.yml
-> 
-> diff --git a/.gitlab-ci.d/qemu-project.yml b/.gitlab-ci.d/qemu-project.yml
-> index b3d79bc429..871262fe0e 100644
-> --- a/.gitlab-ci.d/qemu-project.yml
-> +++ b/.gitlab-ci.d/qemu-project.yml
-> @@ -11,3 +11,4 @@ include:
->    - local: '/.gitlab-ci.d/static_checks.yml'
->    - local: '/.gitlab-ci.d/custom-runners.yml'
->    - local: '/.gitlab-ci.d/cirrus.yml'
-> +  - local: '/.gitlab-ci.d/windows.yml'
-> diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
-> new file mode 100644
-> index 0000000000..309f7e7fb8
-> --- /dev/null
-> +++ b/.gitlab-ci.d/windows.yml
-> @@ -0,0 +1,98 @@
-> +.shared_msys2_builder:
-> +  tags:
-> +  - shared-windows
-> +  - windows
-> +  - windows-1809
-> +  cache:
-> +    key: "${CI_JOB_NAME}-cache"
+On Wed, 10 Nov 2021 14:48:40 -0500
+Vivek Goyal <vgoyal@redhat.com> wrote:
 
-It would be nice to cache the shared 'before_script' part,
-but it doesn't seems trivial; meanwhile this patch works and
-is KISS, so:
+> Hi Greg,
+>=20
+> I don't see FUSE_SYNCFS support in virtiofsd. I see that kernel=20
+> patches got merged. Did you post another version of patches?
+>=20
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Hi Vivek,
 
-> +    paths:
-> +      - ${CI_PROJECT_DIR}/msys64/var/cache
-> +  needs: []
-> +  stage: build
-> +  timeout: 70m
-> +  before_script:
-> +  - If ( !(Test-Path -Path msys64\var\cache ) ) {
-> +      mkdir msys64\var\cache
-> +    }
-> +  - If ( !(Test-Path -Path msys64\var\cache\msys2.exe ) ) {
-> +      Invoke-WebRequest
-> +      "https://github.com/msys2/msys2-installer/releases/download/2021-07-25/msys2-base-x86_64-20210725.sfx.exe"
-> +      -outfile "msys64\var\cache\msys2.exe"
-> +    }
-> +  - msys64\var\cache\msys2.exe -y
-> +  - ((Get-Content -path .\msys64\etc\\post-install\\07-pacman-key.post -Raw)
-> +      -replace '--refresh-keys', '--version') |
-> +     Set-Content -Path ${CI_PROJECT_DIR}\msys64\etc\\post-install\\07-pacman-key.post
-> +  - .\msys64\usr\bin\bash -lc "sed -i 's/^CheckSpace/#CheckSpace/g' /etc/pacman.conf"
-> +  - .\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Core update
-> +  - .\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Normal update
-> +  - taskkill /F /FI "MODULES eq msys-2.0.dll"
-> +
-> +msys2-64bit:
-> +  extends: .shared_msys2_builder
-> +  script:
-> +  - .\msys64\usr\bin\bash -lc "pacman -Sy --noconfirm --needed
-> +      diffutils git grep make sed
-> +      mingw-w64-x86_64-capstone
-[...]
+Unfortunately no and I'm really not sure I can get time to do
+so. Sorry for that... :-\
+
+Please feel free to take over.
+
+Cheers,
+
+--
+Greg
+
+> Will be nice to add syncfs support in virtiofsd/virtiofsd_rs as well.=20
+>=20
+> Thanks
+> Vivek
+>=20
+> On Mon, May 10, 2021 at 05:55:36PM +0200, Greg Kurz wrote:
+> > FUSE_SYNCFS allows the client to flush the host page cache.
+> > This isn't available in upstream linux yet, but the following
+> > tree can be used to test:
+> >=20
+> > https://gitlab.com/gkurz/linux/-/tree/virtio-fs-sync
+> >=20
+> > v3: - track submounts and do per-submount syncfs() (Vivek)
+> >     - based on new version of FUSE_SYNCFS (still not upstream)
+> >       https://listman.redhat.com/archives/virtio-fs/2021-May/msg00025.h=
+tml
+> >=20
+> > v2: - based on new version of FUSE_SYNCFS
+> >       https://listman.redhat.com/archives/virtio-fs/2021-April/msg00166=
+.html
+> >     - propagate syncfs() errors to client (Vivek)
+> >=20
+> > Greg Kurz (3):
+> >   Update linux headers to 5.13-rc1 + FUSE_SYNCFS
+> >   virtiofsd: Track mounts
+> >   virtiofsd: Add support for FUSE_SYNCFS request
+> >=20
+> >  .../infiniband/hw/vmw_pvrdma/pvrdma_verbs.h   |  35 -
+> >  include/standard-headers/drm/drm_fourcc.h     |  23 +-
+> >  include/standard-headers/linux/ethtool.h      | 109 ++-
+> >  include/standard-headers/linux/fuse.h         |  27 +-
+> >  include/standard-headers/linux/input.h        |   2 +-
+> >  include/standard-headers/linux/virtio_ids.h   |   2 +
+> >  .../standard-headers/rdma/vmw_pvrdma-abi.h    |   7 +
+> >  linux-headers/asm-generic/unistd.h            |  13 +-
+> >  linux-headers/asm-mips/unistd_n32.h           | 752 +++++++--------
+> >  linux-headers/asm-mips/unistd_n64.h           | 704 +++++++-------
+> >  linux-headers/asm-mips/unistd_o32.h           | 844 ++++++++---------
+> >  linux-headers/asm-powerpc/kvm.h               |   2 +
+> >  linux-headers/asm-powerpc/unistd_32.h         | 857 +++++++++---------
+> >  linux-headers/asm-powerpc/unistd_64.h         | 801 ++++++++--------
+> >  linux-headers/asm-s390/unistd_32.h            |   5 +
+> >  linux-headers/asm-s390/unistd_64.h            |   5 +
+> >  linux-headers/asm-x86/kvm.h                   |   1 +
+> >  linux-headers/asm-x86/unistd_32.h             |   5 +
+> >  linux-headers/asm-x86/unistd_64.h             |   5 +
+> >  linux-headers/asm-x86/unistd_x32.h            |   5 +
+> >  linux-headers/linux/kvm.h                     | 134 +++
+> >  linux-headers/linux/userfaultfd.h             |  36 +-
+> >  linux-headers/linux/vfio.h                    |  35 +
+> >  tools/virtiofsd/fuse_lowlevel.c               |  11 +
+> >  tools/virtiofsd/fuse_lowlevel.h               |  12 +
+> >  tools/virtiofsd/passthrough_ll.c              |  80 +-
+> >  tools/virtiofsd/passthrough_seccomp.c         |   1 +
+> >  27 files changed, 2465 insertions(+), 2048 deletions(-)
+> >=20
+> > --=20
+> > 2.26.3
+> >=20
+> >=20
+>=20
+
 
