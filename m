@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77B2E45087F
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 16:32:03 +0100 (CET)
-Received: from localhost ([::1]:46300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C230F450881
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 16:32:16 +0100 (CET)
+Received: from localhost ([::1]:47290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmdxi-00028u-8J
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 10:32:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36054)
+	id 1mmdxv-0002wX-Rm
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 10:32:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mmdub-0008SS-3l
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 10:28:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39077)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mmduj-00005Q-4h
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 10:28:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38304)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mmduU-00044X-M9
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 10:28:47 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mmdud-00045x-Bv
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 10:28:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636990121;
+ s=mimecast20190719; t=1636990130;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=crVDgUFmpmZO9nTQH6bGuGTZLTK4QCeBv9bNIsWhg5c=;
- b=Q48iZ0h9BGhgvruHlOuqK8eUaXfkVeQ5/2hyGqEXlWPf6+6vwtmLcBREcsRBgwSmgW4lx7
- 4zmPoRbMtBaed7V+5tLvJTJmShrYQKo7wHTcS1ZZEvRmnSuFgfzq3P8L2dOJ9eNfGp58SI
- OdFttu0No7wylZOCfIE4sISfe0Q665Q=
+ bh=BVHhsCw9O2ggnExrr14rJCasOF9R2+/mOEEL5419+pE=;
+ b=S7McskutVlT44w2hvxIR8s+PE/gXBUJcBd98bWwV8K0Whg2RICnaANkY+3fWcl7MZdXooe
+ z5CaoOCo1/0dGL06Kpb9ejYRRy5PAE+tnHRTl8av5po45Kc6mZENWgMKmmjMNhIh40u/2C
+ 2VyFmK5GxsORwj4iVInqzSzp0LVnreo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-qo0B8a7mOSyRLIftShn8Ng-1; Mon, 15 Nov 2021 10:28:37 -0500
-X-MC-Unique: qo0B8a7mOSyRLIftShn8Ng-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-125-HJJUrw8RPqaLt6-cZYX46w-1; Mon, 15 Nov 2021 10:28:47 -0500
+X-MC-Unique: HJJUrw8RPqaLt6-cZYX46w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9C8F18414A0;
- Mon, 15 Nov 2021 15:28:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84679EC1A0;
+ Mon, 15 Nov 2021 15:28:45 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CE0F160BE5;
- Mon, 15 Nov 2021 15:28:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 19A425BAF0;
+ Mon, 15 Nov 2021 15:28:41 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 498DE11380A7; Mon, 15 Nov 2021 16:28:33 +0100 (CET)
+ id AE12611380A7; Mon, 15 Nov 2021 16:28:39 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: On configuring onboard block devices with -blockdev (was: [PATCH v4
- 6/7] hw/nvram: Update at24c EEPROM init function in NPCM7xx boards)
-References: <20211103220133.1422879-1-wuhaotsh@google.com>
- <20211103220133.1422879-4-wuhaotsh@google.com>
- <YZJeU5fCxR07hmJQ@redhat.com>
-Date: Mon, 15 Nov 2021 16:28:33 +0100
-In-Reply-To: <YZJeU5fCxR07hmJQ@redhat.com> (Kevin Wolf's message of "Mon, 15
- Nov 2021 14:19:15 +0100")
-Message-ID: <875ystigke.fsf_-_@dusky.pond.sub.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: does drive_get_next(IF_NONE) make sense?
+References: <CAFEAcA9zmPds0+jHm8VY465XEhK6bbVPd+nDob1ruRPaHOua_Q@mail.gmail.com>
+ <87r1bxzl5c.fsf@dusky.pond.sub.org>
+ <e7ec3afc-6db9-822e-5a5e-dee7c4db8f34@redhat.com>
+ <87pmr5cxbt.fsf@dusky.pond.sub.org>
+ <CAFEAcA8sNjLsknea5Nt-tANEniFF2FYmjiV0xz=pr+vFwkX-gw@mail.gmail.com>
+ <875ysunfwz.fsf@dusky.pond.sub.org> <YZJffhlo7I3sOqFs@redhat.com>
+ <CAFEAcA_N6r81-0K6Y-qCdzyx67jzsSZnh-R8vYh2ZGZtAHpAAQ@mail.gmail.com>
+Date: Mon, 15 Nov 2021 16:28:39 +0100
+In-Reply-To: <CAFEAcA_N6r81-0K6Y-qCdzyx67jzsSZnh-R8vYh2ZGZtAHpAAQ@mail.gmail.com>
+ (Peter Maydell's message of "Mon, 15 Nov 2021 13:31:52 +0000")
+Message-ID: <874k8digk8.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,150 +84,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, qemu-block@nongnu.org,
- venture@google.com, bin.meng@windriver.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, hskinnemoen@google.com, Hao Wu <wuhaotsh@google.com>,
- kfting@nuvoton.com, qemu-arm@nongnu.org, Avi.Fishman@nuvoton.com,
- armbru@redhat.com, f4bug@amsat.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Hao Wu <wuhaotsh@google.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-> Am 03.11.2021 um 23:01 hat Hao Wu geschrieben:
->> We made 3 changes to the at24c_eeprom_init function in
->> npcm7xx_boards.c:
->> 
->> 1. We allow the function to take a I2CBus* as parameter. This allows
->>    us to attach an EEPROM device behind an I2C mux which is not
->>    possible with the old method.
->> 
->> 2. We make at24c EEPROMs are backed by drives so that we can
->>    specify the content of the EEPROMs.
->> 
->> 3. Instead of using i2c address as unit number, This patch assigns
->>    unique unit numbers for each eeproms in each board. This avoids
->>    conflict in providing multiple eeprom contents with the same address.
->>    In the old method if we specify two drives with the same unit number,
->>    the following error will occur: `Device with id 'none85' exists`.
->> 
->> Signed-off-by: Hao Wu <wuhaotsh@google.com>
->> ---
->>  hw/arm/npcm7xx_boards.c | 14 +++++++++-----
->>  1 file changed, 9 insertions(+), 5 deletions(-)
->> 
->> diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
->> index dec7d16ae5..9121e081fa 100644
->> --- a/hw/arm/npcm7xx_boards.c
->> +++ b/hw/arm/npcm7xx_boards.c
->> @@ -126,13 +126,17 @@ static I2CBus *npcm7xx_i2c_get_bus(NPCM7xxState *soc, uint32_t num)
->>      return I2C_BUS(qdev_get_child_bus(DEVICE(&soc->smbus[num]), "i2c-bus"));
->>  }
->>  
->> -static void at24c_eeprom_init(NPCM7xxState *soc, int bus, uint8_t addr,
->> -                              uint32_t rsize)
->> +static void at24c_eeprom_init(I2CBus *i2c_bus, int bus, uint8_t addr,
->> +                              uint32_t rsize, int unit_number)
->>  {
->> -    I2CBus *i2c_bus = npcm7xx_i2c_get_bus(soc, bus);
->>      I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", addr);
->>      DeviceState *dev = DEVICE(i2c_dev);
->> +    DriveInfo *dinfo;
->>  
->> +    dinfo = drive_get(IF_OTHER, bus, unit_number);
->> +    if (dinfo) {
->> +        qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo));
->> +    }
+> On Mon, 15 Nov 2021 at 13:24, Kevin Wolf <kwolf@redhat.com> wrote:
+>> Same question as for Hao Wu's series: Wouldn't the proper solution be to
+>> add a drive property to the machine type?
+>>
+>> If you can't use -blockdev, it's not done right.
 >
-> I may be missing the history of this series, but why do we have to use a
-> legacy DriveInfo here instead of adding a drive property to the board to
-> make this configurable with -blockdev?
+> Is there an example of "doing it right" for built-in-to-the-machine
+> devices?
 >
-> Adding even more devices that can only be configured with -drive feels
-> like a step backwards to me.
+> (My experience with the new-style options is that almost
+> always they're designed for x86 where the device they're attached
+> to is also created on the command line, and then handling of boards
+> where the device is builtin is either an afterthought or forgotten.
+> See also -netdev, where it took forever for built-in-ethernet to
+> be usable.)
 
-More like sideways.
+I'm afraid the situation for onboard block devices is far worse than it
+ever was for NICs.  See my reply "On configuring onboard block devices
+with -blockdev" to Kevin's other message on the topic.
 
-The big unfinished part of -blockdev is configuring onboard devices with
-it.
-
-I took a stab at one instance in commit ebc29e1bea "pc: Support firmware
-configuration with -blockdev", 2019-03-11.  Quoting from the commit
-message:
-
-    Mapping -drive if=none,... to -blockdev is a solved problem.  With
-    if=T other than if=none, -drive additionally configures a block device
-    frontend.  For non-onboard devices, that part maps to -device.  Also a
-    solved problem.  For onboard devices such as PC flash memory, we have
-    an unsolved problem.
-
-    This is actually an instance of a wider problem: our general device
-    configuration interface doesn't cover onboard devices.  Instead, we have
-    a zoo of ad hoc interfaces that are much more limited.  One of them is
-    -drive, which we'd rather deprecate, but can't until we have suitable
-    replacements for all its uses.
-
-    Sadly, I can't attack the wider problem today.  So back to the narrow
-    problem.
-
-    My first idea was to reduce it to its solved buddy by using pluggable
-    instead of onboard devices for the flash memory.  Workable, but it
-    requires some extra smarts in firmware descriptors and libvirt.  Paolo
-    had an idea that is simpler for libvirt: keep the devices onboard, and
-    add machine properties for their block backends.
-
-    The implementation is less than straightforward, I'm afraid.
-
-    First, block backend properties are *qdev* properties.  Machines can't
-    have those, as they're not devices.  I could duplicate these qdev
-    properties as QOM properties, but I hate that.
-
-    More seriously, the properties do not belong to the machine, they
-    belong to the onboard flash devices.  Adding them to the machine would
-    then require bad magic to somehow transfer them to the flash devices.
-    Fortunately, QOM provides the means to handle exactly this case: add
-    alias properties to the machine that forward to the onboard devices'
-    properties.
-
-    Properties need to be created in .instance_init() methods.  For PC
-    machines, that's pc_machine_initfn().  To make alias properties work,
-    we need to create the onboard flash devices there, too.  Requires
-    several bug fixes, in the previous commits.  We also have to realize
-    the devices.  More on that below.
-
-The need to create onboard devices differently results in a non-trivial
-refactoring.  The need for keeping -drive working complicates things
-further.
-
-The "several bug fixes" took me 26 preparatory patches, plus at least
-three more to fix regressions caused by one of them.
-
-I then did the same for ARM virt in commit e0561e60f1 "hw/arm/virt:
-Support firmware configuration with -blockdev", 2019-05-07.  Only a few
-preparatory patches, but the patch again includes non-trivial
-refactoring.
-
-Two new machines (ARM sbsa-ref and RISC-V virt) have since done it this
-way from the start, both in 2019.  Definitely easier than the
-refactoring I did for PC machines and ARM virt.
-
-More than a hundred drive_get() remain in some 70 files hw/.  These
-should all be for onboard block devices.  I'm not aware of progress
-since 2019.
-
-If "replace them all by machine properties" is the way forward, we need
-to get going.  At the current rate of one file a year (measured
-charitably), we'll be done around 2090, provided we don't add more
-(we've added quite a few since I did the first replacement).
-
-If it isn't a practical way forward, then what is?
-
-And this is what makes me go "more like sideways".  Hao Wu is doing what
-the vast majority of the code does.  Yes, that's not moving us forward
-on this thorny set of problems.  But it's hardly setting us back,
-either.
-
-Before we can ask people to help us move forward, we need to find the
-way forward.  I'm not sure we have.
+To be fair, improving onboard device configuration is *hard*.  Our
+general device configuration interface doesn't cover them, and we've so
+far failed finding a general solution.  Without one, we're drowning in
+the sheer number of boards and onboard devices.  Which is ever growing.
 
 
