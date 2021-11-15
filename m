@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79216450594
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 14:35:19 +0100 (CET)
-Received: from localhost ([::1]:48616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58D674505BB
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 14:41:19 +0100 (CET)
+Received: from localhost ([::1]:54146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmc8k-0000HX-2q
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 08:35:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32884)
+	id 1mmcEY-0004KN-6C
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 08:41:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mmc5i-0006Mp-Rv
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 08:32:12 -0500
-Received: from [2a00:1450:4864:20::333] (port=55996
- helo=mail-wm1-x333.google.com)
+ id 1mmcCJ-0003Fx-Gu
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 08:38:59 -0500
+Received: from [2a00:1450:4864:20::32e] (port=56047
+ helo=mail-wm1-x32e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mmc5d-0003Sm-JR
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 08:32:10 -0500
-Received: by mail-wm1-x333.google.com with SMTP id p18so4612306wmq.5
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 05:32:05 -0800 (PST)
+ id 1mmcCG-0004MH-Oh
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 08:38:59 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id p18so4635942wmq.5
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 05:38:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qAIu1sF2o7DWx63KEZD2x7VcB5cgh9kgZUBmhlZkTUg=;
- b=u7EizrwXb4zEaqRimQxqKbZjOPiWzYI4JGNoEZUMH7XHfgWUg/0DzbEuYbpNYWn/NG
- sZDP+meFEhfIMktgt5oz2O+gYFfNq4Y2F6uoSwVahFCGHxArUy6tMJbkBHuUC8+lEYo0
- wt+XlmzWMd26HtYHLOOvAIo491cZm846wlR4h0AbneydHwcgHhesCoPcI86nG2Vm5aqk
- k+hz9pMEonrl3/pv3vvmLpl5H4OvAbvzpu6ggGjff/vk6r+TkwZmsJAkydC5kb01Qp6k
- iumZ2XqHFWezn1U5oFH2bCxUPJfE4yayQiWHGM+o6zz51wpPClec69vcIPsTcHagcRnG
- bFYQ==
+ :cc; bh=NJeT81Ln08sVnOvClQx7gZy/obIymPr4zWjhEVgsEjA=;
+ b=qZRH7NGmp1PMciSQoyUMYVXlFymS4BExsXAseBK1B8gjNV7fhXTfSBMzGWpMUvhW33
+ ObFcgmCeoLByoNeaNhtvBwJ254GuzHATVvjBBtZHYMjgrlIklX0TiqCeCvXo/HJQFgZT
+ RtDmcu0GZJQ1korC7xr1allEf3AuqyaF7yAjb5tfS7wQzCCqwtHXotneub2OtKC/tSat
+ slvDZ6PurEUAZqLTuziK0JygPkdx7tGK4Hmt/24//NdaHnG9FTWR0P2nFJajVIpgJ93a
+ rYONTU+dCi82DRk3il1SExHOH6ouF2YbXBB8iGPL0DE8fg26aWUaN1VWZQejgimbBX0F
+ LzqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=qAIu1sF2o7DWx63KEZD2x7VcB5cgh9kgZUBmhlZkTUg=;
- b=fFsotOauNTWtCd/uJ0EG77ac2PMcHw9Q66VrOBLBAOSZGvYRa0ZCP5KEBLbIwLLwR4
- 3k5iUvjMyESL2aMct6dGkUnJ+5bzG8BiXThfZqRZPQts8XcxYx/LDyjncA8uZRxuSkjN
- YVcieohQro8ogV5N3QZevR5osqMra41YpwoH7Iyioy2kZ2kxdg4jQ44Qhhtm0VqDYRxd
- C1aHLpUQfowXKRgJ/RdZvGRu9KU/lQILsCJ+08/fa8Hc8dmtFIk/1x4kQ5fxKX9VhcIY
- N/QXyOFI5bTEwBxpJ+Dgm6s/wcSuLKn/MkMNcrSli52E95KFyk02BGqhdaSoTIVOHvBg
- t2XQ==
-X-Gm-Message-State: AOAM531M76hK8brw4K4yp0cqFuIuNw+cfoRpTDuv3JVKf5vqm8AW/okd
- bDxRzKDIJScQDESL3PxB+ol+hvfLpWK83MJCWbjsIg==
-X-Google-Smtp-Source: ABdhPJwkvFDsMrjOsy+eB3Es7iB2xF0VeUKLOQY3BvwqoJf+D5BoLEDCnbwrJvuKJ827w0B3J44LcqRC1jsHDJNiJbw=
-X-Received: by 2002:a1c:96:: with SMTP id 144mr6827596wma.126.1636983123838;
- Mon, 15 Nov 2021 05:32:03 -0800 (PST)
+ bh=NJeT81Ln08sVnOvClQx7gZy/obIymPr4zWjhEVgsEjA=;
+ b=QMpT5kmYoToALnsIrrY67dr/t3iDWwhoOz3yWIa/W/JmVki0wSweQ02Rdrn5R8l10I
+ a8EGSrL9FQwA1tNwvPe6xCtbzySAstbWNNMM4tao+j9PuDlP8Lb8ML1ZzDLpAeLaM4Eg
+ MpGvfivxFxYvvmwqySXpmlehRYPndq9pKV9XHTdszPAzLm3yLrkk+9T9RCwcR1AdVz6L
+ 9pIuglFpNIzFEfD1URzxJRsgfqXMHhGxqhSCqnNLIQmAiFwIyqNeXTrssZiX8izxeGvk
+ QlHp1MYqIM/lcpQIyL/rZ3IYILm/dpYAr7fKOubOYxCtdgPg9lyxpjWnkjeDNIJWjmcX
+ MWJA==
+X-Gm-Message-State: AOAM530EcwWsHg833Y26KjT2x8bUPe+baUJjY9YLgYMsliYV6f26rioZ
+ gUh9WGnG/TTz1A6/soAuQssWGJD+mXfJQjWprrpQPw==
+X-Google-Smtp-Source: ABdhPJz4odgPhu4JFqUnTGqDJoTamgtr7UTskdt2Lr52NbabZ8CaJDn/HYHHfTJu77HHUwTODqDR4EJy5QAjLypMu2E=
+X-Received: by 2002:a05:600c:3486:: with SMTP id
+ a6mr26357463wmq.32.1636983535036; 
+ Mon, 15 Nov 2021 05:38:55 -0800 (PST)
 MIME-Version: 1.0
-References: <CAFEAcA9zmPds0+jHm8VY465XEhK6bbVPd+nDob1ruRPaHOua_Q@mail.gmail.com>
- <87r1bxzl5c.fsf@dusky.pond.sub.org>
- <e7ec3afc-6db9-822e-5a5e-dee7c4db8f34@redhat.com>
- <87pmr5cxbt.fsf@dusky.pond.sub.org>
- <CAFEAcA8sNjLsknea5Nt-tANEniFF2FYmjiV0xz=pr+vFwkX-gw@mail.gmail.com>
- <875ysunfwz.fsf@dusky.pond.sub.org> <YZJffhlo7I3sOqFs@redhat.com>
-In-Reply-To: <YZJffhlo7I3sOqFs@redhat.com>
+References: <20211115125536.3341681-1-armbru@redhat.com>
+ <20211115125536.3341681-3-armbru@redhat.com>
+In-Reply-To: <20211115125536.3341681-3-armbru@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 15 Nov 2021 13:31:52 +0000
-Message-ID: <CAFEAcA_N6r81-0K6Y-qCdzyx67jzsSZnh-R8vYh2ZGZtAHpAAQ@mail.gmail.com>
-Subject: Re: does drive_get_next(IF_NONE) make sense?
-To: Kevin Wolf <kwolf@redhat.com>
+Date: Mon, 15 Nov 2021 13:38:43 +0000
+Message-ID: <CAFEAcA-dxXdsaKP5G7nhSROqwsRS9=r44G7rvNpEKbjgX8BbGQ@mail.gmail.com>
+Subject: Re: [PATCH RFC 2/2] hw: Replace drive_get_next() by drive_get()
+To: Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -84,28 +81,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Markus Armbruster <armbru@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Hao Wu <wuhaotsh@google.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: bin.meng@windriver.com, mark.cave-ayland@ilande.co.uk,
+ qemu-devel@nongnu.org, edgar.iglesias@gmail.com, sundeep.lkml@gmail.com,
+ qemu-block@nongnu.org, andrew.smirnov@gmail.com, hskinnemoen@google.com,
+ joel@jms.id.au, atar4qemu@gmail.com, alistair@alistair23.me,
+ b.galvani@gmail.com, nieklinnenbank@gmail.com, qemu-arm@nongnu.org,
+ clg@kaod.org, kwolf@redhat.com, qemu-riscv@nongnu.org, andrew@aj.id.au,
+ f4bug@amsat.org, Andrew.Baumann@microsoft.com, jcd@tribudubois.net,
+ kfting@nuvoton.com, hreitz@redhat.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 15 Nov 2021 at 13:24, Kevin Wolf <kwolf@redhat.com> wrote:
-> Same question as for Hao Wu's series: Wouldn't the proper solution be to
-> add a drive property to the machine type?
+On Mon, 15 Nov 2021 at 12:55, Markus Armbruster <armbru@redhat.com> wrote:
 >
-> If you can't use -blockdev, it's not done right.
+> drive_get_next() is basically a bad idea.  It returns the "next" block
+> backend of a certain interface type.  "Next" means bus=0,unit=N, where
+> subsequent calls count N up from zero, per interface type.
+>
+> This lets you define unit numbers implicitly by execution order.  If the
+> order changes, or new calls appear "in the middle", unit numbers change.
+> ABI break.  Hard to spot in review.
+>
+> Explicit is better than implicit: use drive_get() directly.
+>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  include/sysemu/blockdev.h           |  1 -
+>  blockdev.c                          | 10 ----------
+>  hw/arm/aspeed.c                     | 21 +++++++++++++--------
+>  hw/arm/cubieboard.c                 |  2 +-
+>  hw/arm/imx25_pdk.c                  |  2 +-
+>  hw/arm/integratorcp.c               |  2 +-
+>  hw/arm/mcimx6ul-evk.c               |  2 +-
+>  hw/arm/mcimx7d-sabre.c              |  2 +-
+>  hw/arm/msf2-som.c                   |  2 +-
+>  hw/arm/npcm7xx_boards.c             |  6 +++---
+>  hw/arm/orangepi.c                   |  2 +-
+>  hw/arm/raspi.c                      |  2 +-
+>  hw/arm/realview.c                   |  2 +-
+>  hw/arm/sabrelite.c                  |  2 +-
+>  hw/arm/versatilepb.c                |  4 ++--
+>  hw/arm/vexpress.c                   |  6 +++---
+>  hw/arm/xilinx_zynq.c                | 16 +++++++++-------
+>  hw/arm/xlnx-versal-virt.c           |  3 ++-
+>  hw/arm/xlnx-zcu102.c                |  6 +++---
+>  hw/microblaze/petalogix_ml605_mmu.c |  2 +-
+>  hw/misc/sifive_u_otp.c              |  2 +-
+>  hw/riscv/microchip_pfsoc.c          |  2 +-
+>  hw/sparc64/niagara.c                |  2 +-
+>  23 files changed, 49 insertions(+), 52 deletions(-)
 
-Is there an example of "doing it right" for built-in-to-the-machine
-devices?
-
-(My experience with the new-style options is that almost
-always they're designed for x86 where the device they're attached
-to is also created on the command line, and then handling of boards
-where the device is builtin is either an afterthought or forgotten.
-See also -netdev, where it took forever for built-in-ethernet to
-be usable.)
+This would be easier to review if it didn't try to change all of
+these board/SoC models at once. Each one of them is entirely
+separate review work.
 
 -- PMM
 
