@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC677450725
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 15:35:51 +0100 (CET)
-Received: from localhost ([::1]:39424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C87E1450711
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 15:33:38 +0100 (CET)
+Received: from localhost ([::1]:59636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmd5K-0003rt-UO
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 09:35:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48880)
+	id 1mmd3B-0006vU-Tu
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 09:33:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mmczB-0001Js-Eo
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:29:29 -0500
-Received: from [2a00:1450:4864:20::435] (port=45611
- helo=mail-wr1-x435.google.com)
+ id 1mmcz8-0001De-VD
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:29:27 -0500
+Received: from [2a00:1450:4864:20::429] (port=34344
+ helo=mail-wr1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mmcz3-0004MJ-K5
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:29:29 -0500
-Received: by mail-wr1-x435.google.com with SMTP id w29so31037081wra.12
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 06:29:21 -0800 (PST)
+ id 1mmcz4-0004Mb-NX
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:29:26 -0500
+Received: by mail-wr1-x429.google.com with SMTP id d5so31117274wrc.1
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 06:29:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/jjIcKTHMUGABYMVYgopB5JbBaDExrshx7tpKvigeAQ=;
- b=UsYbhtAzH7LD89h4Ehvjpx3gHOeP6s7UyL/CjuUoNSzeF0+V3SHWskhXkSTl7tAKG/
- goTcniiB4nCIruXvAYHCoJFiVqZyj/rzeNcoU54D8Vt/R9PsT2Z4OdiPxveAnPJrUM/2
- ZGT7diweBT8AirPKevmEp2gkxaMTnDdrt5wpsHRxKUkBwLY4C9rV/oY7CDw4tiPOagr0
- XFcqRlB4xklDcoa6XMyp8NQnwEetLwqlz+rliMOJTQeH8f5MFAL5rYqqp02214ZNNJ7d
- Pfp8oGf1xSMPVrw7JGn8TkbjkN0Y7RjE8U2OBsK8EWqGzFBJPVNxHQ8HHVsZC/v/NUaU
- D0Fw==
+ bh=KyWAPp1xuJA1TgR/nKiRs9GzqMMIIWAboE5PWMbSQ2g=;
+ b=RDLre2ndy2SVTVDKA5yZwm4p7ZstDWAHXlg+gnnaAbhyC8prfjxsdVO17kQZnpNRKQ
+ uaLcvjmyznd2iGzHOm9Xrqj/urNbSgtO0a6BbyBa95DbYe0jg6wnoNOFmjukpwdCDPbe
+ k+bbbzHTrYZ1g6f4Eqh7yAyjY9b1MTeUAqA8y5ocTNFgkVMoiTXK3OJjGIa37LBYYiOK
+ Wi/FaKN8PGDlpGzOU70gJdlAyh57UJ7AzMYNPExkKg7u0xBomh+9xD+5qQlqGZ0hlgnT
+ WVck+M5JQJsyOFYIY9RwrHH/YrRjh6ng24Jb9+1pwhZONVZj7QFm0BDcbuWYt5C+e6r7
+ NPYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/jjIcKTHMUGABYMVYgopB5JbBaDExrshx7tpKvigeAQ=;
- b=PA7Y72ZNRq/KLfgtclUCUfcnfwcG3rlm44SRFgqcokm0hbutG+6OxCz184n4PPNXk2
- SxS7/3ZriPoEXkhJsTS8FcM0+0fQRxRmvE6oc0kcyk+PupfwEH0FP3/KpxMsfWh/SJpv
- X6HyyldPtO+NJy/N0JD2HVLNYirvz/wsKTuwNzGMpB5d5uODfdKYnZ4opPWAykqIeb8u
- Z5O8RlJVoiiQ/Az4183qB12/STdOrXUyBAoNExBEZW2Qbe/1G3ejWYc9a+ui8arSOEVG
- 6Dr+ih4OZyRGh0AU6GjNBqZBB0WM7VD3wRH4utEYs+15SQAX5OZrQuiM+lqJVs/1XQvv
- zeeA==
-X-Gm-Message-State: AOAM532NpxP9fIxxbwx71eN/PE04OuVmfwLuZ+gTe+QXaslxUBxLkNZk
- HPYz10UMrqV09+RcsDmpsO1UvA==
-X-Google-Smtp-Source: ABdhPJyoDA6Ol1Kfxt+laCsYSfZLjFJrcjLfKLLAPZ5ikr41WLsuKJ0Uh1dhL5UXaTEblJFIVBDHCg==
-X-Received: by 2002:a05:6000:1aca:: with SMTP id
- i10mr47754041wry.407.1636986559206; 
- Mon, 15 Nov 2021 06:29:19 -0800 (PST)
+ bh=KyWAPp1xuJA1TgR/nKiRs9GzqMMIIWAboE5PWMbSQ2g=;
+ b=VmFO52h530lhpdIMN8h7SYB4yVHy+gAKWtruDnixkJZ5Ws4jKD0NyVYSpeO2i4OBap
+ 8cFIt6FK0uIUpsdqtOvA4EYdgedO2EkZ+mhBB/d500d/eYj2tAjcRGg7b4AXDCKMpSBa
+ pM92ewCELHW9ioTv1NXptfzHuBTJYvbvzdCIHENTWB9Pa/SJig/rysB3XPFERzFVIOXy
+ dRa1clZO4bt19UWjHRYguC0p8dfIejB5cSB9EG+y2H7QuQvT+WKTQCbAEVN1MFNXeIOF
+ ETwC+q2PyJEGU8oRiHOkxkNNXAWc9CsniozDZygVk0fEbSzumOuGWI+cpgiweV61HuxW
+ Sjeg==
+X-Gm-Message-State: AOAM533PXGidRMKEjgxm+ACae1vGxyC8Eh+OeljS2d/S6T8gkVk/7yu1
+ RyxigJOmmbfKaAHEcHGvZKwluPNZn0Q11g==
+X-Google-Smtp-Source: ABdhPJwB46kdMxJGqXhB3VLIkD5uupFh6MvRw2PL+EZfRfBYQ/LVsbWfjnx95J2XppHaa3znbX88AQ==
+X-Received: by 2002:adf:e882:: with SMTP id d2mr48183741wrm.389.1636986561295; 
+ Mon, 15 Nov 2021 06:29:21 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e7sm17610763wrg.31.2021.11.15.06.29.16
+ by smtp.gmail.com with ESMTPSA id 8sm12292077wmg.24.2021.11.15.06.29.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 15 Nov 2021 06:29:17 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 20A871FF98;
+ by zen.linaroharston (Postfix) with ESMTP id 372D31FF99;
  Mon, 15 Nov 2021 14:29:16 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 1/6] tests/docker: force NOUSER=1 for base images
-Date: Mon, 15 Nov 2021 14:29:10 +0000
-Message-Id: <20211115142915.3797652-2-alex.bennee@linaro.org>
+Subject: [PATCH  v1 2/6] tests/vm: sort the special variable list
+Date: Mon, 15 Nov 2021 14:29:11 +0000
+Message-Id: <20211115142915.3797652-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211115142915.3797652-1-alex.bennee@linaro.org>
 References: <20211115142915.3797652-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,40 +90,53 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, f4bug@amsat.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ f4bug@amsat.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
  pbonzini@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As base images are often used to build further images like toolchains
-ensure we don't add the local user by accident. The local user should
-only exist on local images and not anything that gets pushed up to the
-public registry.
+Making the list alphabetical makes it easier to find the config option
+you are looking for.
 
-Reported-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20211103171339.721910-1-alex.bennee@linaro.org>
 ---
- tests/docker/Makefile.include | 3 +++
- 1 file changed, 3 insertions(+)
+ tests/vm/Makefile.include | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 7a63a3b7f7..f1a0c5db7a 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -150,6 +150,9 @@ docker-image-debian-sparc64-cross: docker-image-debian10
- # The native build should never use the registry
- docker-image-debian-native: DOCKER_REGISTRY=
+diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
+index f3a3a1c751..f8ca619cf2 100644
+--- a/tests/vm/Makefile.include
++++ b/tests/vm/Makefile.include
+@@ -52,21 +52,21 @@ endif
+ 	@echo
+ 	@echo "Special variables:"
+ 	@echo "    BUILD_TARGET=foo		 - Override the build target"
+-	@echo "    TARGET_LIST=a,b,c    	 - Override target list in builds"
+-	@echo '    EXTRA_CONFIGURE_OPTS="..."'
+-	@echo "    J=[0..9]*            	 - Override the -jN parameter for make commands"
+ 	@echo "    DEBUG=1              	 - Enable verbose output on host and interactive debugging"
++	@echo '    EXTRA_CONFIGURE_OPTS="..."   - Pass to configure step'
++	@echo "    J=[0..9]*            	 - Override the -jN parameter for make commands"
+ 	@echo "    LOG_CONSOLE=1        	 - Log console to file in: ~/.cache/qemu-vm "
+-	@echo "    V=1				 - Enable verbose ouput on host and guest commands"
+-	@echo "    QEMU_LOCAL=1                 - Use QEMU binary local to this build."
+ 	@echo "    QEMU=/path/to/qemu		 - Change path to QEMU binary"
+-	@echo "    QEMU_IMG=/path/to/qemu-img	 - Change path to qemu-img tool"
+ ifeq ($(HAVE_PYTHON_YAML),yes)
+ 	@echo "    QEMU_CONFIG=/path/conf.yml   - Change path to VM configuration .yml file."
+ else
+ 	@echo "    (install python3-yaml to enable support for yaml file to configure a VM.)"
+ endif
+ 	@echo "                                   See conf_example_*.yml for file format details."
++	@echo "    QEMU_IMG=/path/to/qemu-img	 - Change path to qemu-img tool"
++	@echo "    QEMU_LOCAL=1                 - Use QEMU binary local to this build."
++	@echo "    TARGET_LIST=a,b,c    	 - Override target list in builds"
++	@echo "    V=1				 - Enable verbose ouput on host and guest commands"
  
-+# base images should not add a local user
-+docker-image-debian10: NOUSER=1
-+docker-image-debian11: NOUSER=1
+ vm-build-all: $(addprefix vm-build-, $(IMAGES))
  
- #
- # The build rule for hexagon-cross is special in so far for most of
 -- 
 2.30.2
 
