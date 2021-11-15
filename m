@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E58F4507B8
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 15:58:40 +0100 (CET)
-Received: from localhost ([::1]:59168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B52D4507BB
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 15:58:55 +0100 (CET)
+Received: from localhost ([::1]:60894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmdRP-0003CJ-Ej
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 09:58:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54862)
+	id 1mmdRe-0004Jj-P9
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 09:58:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mmdNJ-0003Hq-HB
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:54:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42766)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mmdNQ-0003jl-FJ
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:54:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48956)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mmdNG-0007m7-OS
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:54:25 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mmdNO-0007oY-FE
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:54:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636988062;
+ s=mimecast20190719; t=1636988069;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q9i98B6FfifASQ8YRx9sl+umM4N4n2zAtTX381Z51PI=;
- b=MoM+m3ThC9q4EUaDkK5NQt1PIqkM0vgeB14+TEo51OYo6zZjQuUT1Ef73JbyVvhfVcMDdB
- M5NHtb2F3OnrzjkDA+cchhgEw+uqnP9O2WcVMEAwESyWYR2RIOqOSX8LEacypiWo97jBER
- i1NuLFuJyxrSRbeNhefGdhZwZ2qHfjI=
+ bh=HZbA7jCkJgVavSq/jrLn/d6y1EMRVC2aA/ZkAdFVjag=;
+ b=K4smNN/vIkg0VXTH+eARQX4C6R6XTWDy/4QEEWlh0z0RmDaOf+8M9zyh//V0tobRUoTDnE
+ WYmnVrBhRTRlkkBuvLLiwA6d17DDCIivikT13XD9dYnAfUZJAixQzPXv7i2JIwFfD7QPeU
+ IJDNdRaJ+ALIIUMuWWNSb4zj36I5rCM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-433-MJpWrEZgP6KDfnA3puobuw-1; Mon, 15 Nov 2021 09:54:21 -0500
-X-MC-Unique: MJpWrEZgP6KDfnA3puobuw-1
+ us-mta-429-aPYI7xw4Oves6dNZgfkUcg-1; Mon, 15 Nov 2021 09:54:26 -0500
+X-MC-Unique: aPYI7xw4Oves6dNZgfkUcg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF28F1015DA4;
- Mon, 15 Nov 2021 14:54:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E71F15721;
+ Mon, 15 Nov 2021 14:54:25 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.193.157])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D215E19723;
- Mon, 15 Nov 2021 14:54:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 33C4819D9F;
+ Mon, 15 Nov 2021 14:54:24 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 04/13] block: Drop detached child from ignore list
-Date: Mon, 15 Nov 2021 15:54:00 +0100
-Message-Id: <20211115145409.176785-5-kwolf@redhat.com>
+Subject: [PULL 08/13] block: Let replace_child_tran keep indirect pointer
+Date: Mon, 15 Nov 2021 15:54:04 +0100
+Message-Id: <20211115145409.176785-9-kwolf@redhat.com>
 In-Reply-To: <20211115145409.176785-1-kwolf@redhat.com>
 References: <20211115145409.176785-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,53 +82,234 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hanna Reitz <hreitz@redhat.com>
 
-bdrv_attach_child_common_abort() restores the parent's AioContext.  To
-do so, the child (which was supposed to be attached, but is now detached
-again by this abort handler) is added to the ignore list for the
-AioContext changing functions.
+As of a future commit, bdrv_replace_child_noperm() will clear the
+indirect BdrvChild pointer passed to it if the new child BDS is NULL.
+bdrv_replace_child_tran() will want to let it do that, but revert this
+change in its abort handler.  For that, we need to have it receive a
+BdrvChild ** pointer, too, and keep it stored in the
+BdrvReplaceChildState object that we attach to the transaction.
 
-However, since we modify a BDS's children list in the BdrvChildClass's
-.attach and .detach handlers, the child is already effectively detached
-from the parent by this point.  We do not need to put it into the ignore
-list.
+Note that we do not need to store it in the BdrvReplaceChildState when
+new_bs is not NULL, because then there is nothing to revert.  This is
+important so that bdrv_replace_node_noperm() can pass a pointer to a
+loop-local variable to bdrv_replace_child_tran() without worrying that
+this pointer will outlive one loop iteration.
 
-Use this opportunity to clean up the empty line structure: Keep setting
-the ignore list, invoking the AioContext function, and freeing the
-ignore list in blocks separated by empty lines.
+(Of course, for that to work, bdrv_replace_node_noperm() and in turn
+bdrv_replace_node() and its relatives may not be called with a NULL @to
+node.  Luckily, they already are not, but now we should assert this.)
+
+bdrv_remove_file_or_backing_child() on the other hand needs to ensure
+that the indirect pointer it passes will stay valid for the duration of
+the transaction.  Ensure this by keeping a strong reference to the BDS
+whose &bs->backing or &bs->file it passes to bdrv_replace_child_tran(),
+and giving up that reference only in the transaction .clean() handler.
 
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20211111120829.81329-9-hreitz@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20211111120829.81329-5-hreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ block.c | 83 ++++++++++++++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 73 insertions(+), 10 deletions(-)
 
 diff --git a/block.c b/block.c
-index 19bff4f95c..c7d5aa5254 100644
+index 8da057f800..a40027161c 100644
 --- a/block.c
 +++ b/block.c
-@@ -2774,14 +2774,16 @@ static void bdrv_attach_child_common_abort(void *opaque)
+@@ -2254,6 +2254,7 @@ static int bdrv_drv_set_perm(BlockDriverState *bs, uint64_t perm,
+ 
+ typedef struct BdrvReplaceChildState {
+     BdrvChild *child;
++    BdrvChild **childp;
+     BlockDriverState *old_bs;
+ } BdrvReplaceChildState;
+ 
+@@ -2269,7 +2270,29 @@ static void bdrv_replace_child_abort(void *opaque)
+     BdrvReplaceChildState *s = opaque;
+     BlockDriverState *new_bs = s->child->bs;
+ 
+-    /* old_bs reference is transparently moved from @s to @s->child */
++    /*
++     * old_bs reference is transparently moved from @s to s->child.
++     *
++     * Pass &s->child here instead of s->childp, because:
++     * (1) s->old_bs must be non-NULL, so bdrv_replace_child_noperm() will not
++     *     modify the BdrvChild * pointer we indirectly pass to it, i.e. it
++     *     will not modify s->child.  From that perspective, it does not matter
++     *     whether we pass s->childp or &s->child.
++     *     (TODO: Right now, bdrv_replace_child_noperm() never modifies that
++     *     pointer anyway (though it will in the future), so at this point it
++     *     absolutely does not matter whether we pass s->childp or &s->child.)
++     * (2) If new_bs is not NULL, s->childp will be NULL.  We then cannot use
++     *     it here.
++     * (3) If new_bs is NULL, *s->childp will have been NULLed by
++     *     bdrv_replace_child_tran()'s bdrv_replace_child_noperm() call, and we
++     *     must not pass a NULL *s->childp here.
++     *     (TODO: In its current state, bdrv_replace_child_noperm() will not
++     *     have NULLed *s->childp, so this does not apply yet.  It will in the
++     *     future.)
++     *
++     * So whether new_bs was NULL or not, we cannot pass s->childp here; and in
++     * any case, there is no reason to pass it anyway.
++     */
+     bdrv_replace_child_noperm(&s->child, s->old_bs);
+     bdrv_unref(new_bs);
+ }
+@@ -2286,22 +2309,32 @@ static TransactionActionDrv bdrv_replace_child_drv = {
+  * Note: real unref of old_bs is done only on commit.
+  *
+  * The function doesn't update permissions, caller is responsible for this.
++ *
++ * Note that if new_bs == NULL, @childp is stored in a state object attached
++ * to @tran, so that the old child can be reinstated in the abort handler.
++ * Therefore, if @new_bs can be NULL, @childp must stay valid until the
++ * transaction is committed or aborted.
++ *
++ * (TODO: The reinstating does not happen yet, but it will once
++ * bdrv_replace_child_noperm() NULLs *childp when new_bs is NULL.)
+  */
+-static void bdrv_replace_child_tran(BdrvChild *child, BlockDriverState *new_bs,
++static void bdrv_replace_child_tran(BdrvChild **childp,
++                                    BlockDriverState *new_bs,
+                                     Transaction *tran)
+ {
+     BdrvReplaceChildState *s = g_new(BdrvReplaceChildState, 1);
+     *s = (BdrvReplaceChildState) {
+-        .child = child,
+-        .old_bs = child->bs,
++        .child = *childp,
++        .childp = new_bs == NULL ? childp : NULL,
++        .old_bs = (*childp)->bs,
+     };
+     tran_add(tran, &bdrv_replace_child_drv, s);
+ 
+     if (new_bs) {
+         bdrv_ref(new_bs);
+     }
+-    bdrv_replace_child_noperm(&child, new_bs);
+-    /* old_bs reference is transparently moved from @child to @s */
++    bdrv_replace_child_noperm(childp, new_bs);
++    /* old_bs reference is transparently moved from *childp to @s */
+ }
+ 
+ /*
+@@ -4844,6 +4877,7 @@ static bool should_update_child(BdrvChild *c, BlockDriverState *to)
+ 
+ typedef struct BdrvRemoveFilterOrCowChild {
+     BdrvChild *child;
++    BlockDriverState *bs;
+     bool is_backing;
+ } BdrvRemoveFilterOrCowChild;
+ 
+@@ -4873,10 +4907,19 @@ static void bdrv_remove_filter_or_cow_child_commit(void *opaque)
+     bdrv_child_free(s->child);
+ }
+ 
++static void bdrv_remove_filter_or_cow_child_clean(void *opaque)
++{
++    BdrvRemoveFilterOrCowChild *s = opaque;
++
++    /* Drop the bs reference after the transaction is done */
++    bdrv_unref(s->bs);
++    g_free(s);
++}
++
+ static TransactionActionDrv bdrv_remove_filter_or_cow_child_drv = {
+     .abort = bdrv_remove_filter_or_cow_child_abort,
+     .commit = bdrv_remove_filter_or_cow_child_commit,
+-    .clean = g_free,
++    .clean = bdrv_remove_filter_or_cow_child_clean,
+ };
+ 
+ /*
+@@ -4894,6 +4937,11 @@ static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
+         return;
      }
  
-     if (bdrv_child_get_parent_aio_context(child) != s->old_parent_ctx) {
--        GSList *ignore = g_slist_prepend(NULL, child);
-+        GSList *ignore;
- 
-+        /* No need to ignore `child`, because it has been detached already */
-+        ignore = NULL;
-         child->klass->can_set_aio_ctx(child, s->old_parent_ctx, &ignore,
-                                       &error_abort);
-         g_slist_free(ignore);
--        ignore = g_slist_prepend(NULL, child);
--        child->klass->set_aio_ctx(child, s->old_parent_ctx, &ignore);
- 
-+        ignore = NULL;
-+        child->klass->set_aio_ctx(child, s->old_parent_ctx, &ignore);
-         g_slist_free(ignore);
++    /*
++     * Keep a reference to @bs so @childp will stay valid throughout the
++     * transaction (required by bdrv_replace_child_tran())
++     */
++    bdrv_ref(bs);
+     if (child == bs->backing) {
+         childp = &bs->backing;
+     } else if (child == bs->file) {
+@@ -4903,12 +4951,13 @@ static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
      }
  
+     if (child->bs) {
+-        bdrv_replace_child_tran(*childp, NULL, tran);
++        bdrv_replace_child_tran(childp, NULL, tran);
+     }
+ 
+     s = g_new(BdrvRemoveFilterOrCowChild, 1);
+     *s = (BdrvRemoveFilterOrCowChild) {
+         .child = child,
++        .bs = bs,
+         .is_backing = (childp == &bs->backing),
+     };
+     tran_add(tran, &bdrv_remove_filter_or_cow_child_drv, s);
+@@ -4934,6 +4983,8 @@ static int bdrv_replace_node_noperm(BlockDriverState *from,
+ {
+     BdrvChild *c, *next;
+ 
++    assert(to != NULL);
++
+     QLIST_FOREACH_SAFE(c, &from->parents, next_parent, next) {
+         assert(c->bs == from);
+         if (!should_update_child(c, to)) {
+@@ -4949,7 +5000,12 @@ static int bdrv_replace_node_noperm(BlockDriverState *from,
+                        c->name, from->node_name);
+             return -EPERM;
+         }
+-        bdrv_replace_child_tran(c, to, tran);
++
++        /*
++         * Passing a pointer to the local variable @c is fine here, because
++         * @to is not NULL, and so &c will not be attached to the transaction.
++         */
++        bdrv_replace_child_tran(&c, to, tran);
+     }
+ 
+     return 0;
+@@ -4964,6 +5020,8 @@ static int bdrv_replace_node_noperm(BlockDriverState *from,
+  *
+  * With @detach_subchain=true @to must be in a backing chain of @from. In this
+  * case backing link of the cow-parent of @to is removed.
++ *
++ * @to must not be NULL.
+  */
+ static int bdrv_replace_node_common(BlockDriverState *from,
+                                     BlockDriverState *to,
+@@ -4976,6 +5034,8 @@ static int bdrv_replace_node_common(BlockDriverState *from,
+     BlockDriverState *to_cow_parent = NULL;
+     int ret;
+ 
++    assert(to != NULL);
++
+     if (detach_subchain) {
+         assert(bdrv_chain_contains(from, to));
+         assert(from != to);
+@@ -5031,6 +5091,9 @@ out:
+     return ret;
+ }
+ 
++/**
++ * Replace node @from by @to (where neither may be NULL).
++ */
+ int bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
+                       Error **errp)
+ {
+@@ -5098,7 +5161,7 @@ int bdrv_replace_child_bs(BdrvChild *child, BlockDriverState *new_bs,
+     bdrv_drained_begin(old_bs);
+     bdrv_drained_begin(new_bs);
+ 
+-    bdrv_replace_child_tran(child, new_bs, tran);
++    bdrv_replace_child_tran(&child, new_bs, tran);
+ 
+     found = g_hash_table_new(NULL, NULL);
+     refresh_list = bdrv_topological_dfs(refresh_list, found, old_bs);
 -- 
 2.31.1
 
