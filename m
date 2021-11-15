@@ -2,85 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EF8D45042F
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 13:12:57 +0100 (CET)
-Received: from localhost ([::1]:56526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37B18450424
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 13:10:35 +0100 (CET)
+Received: from localhost ([::1]:54068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmar2-0001zJ-8X
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 07:12:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42940)
+	id 1mmaok-0000If-2U
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 07:10:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mmapD-00016F-Fr
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 07:11:03 -0500
-Received: from [2a00:1450:4864:20::32e] (port=39444
- helo=mail-wm1-x32e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mmapB-0007IR-DC
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 07:11:03 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- n33-20020a05600c502100b0032fb900951eso10333321wmr.4
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 04:10:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=1FZmQ73FoYa5LvMzkym7OKz+hMfjOcDJNQAXhP/Wxns=;
- b=LHBcar5Di62Wj91sX2AV+BPoxqkyjiw8Io5Z9sDldTsjB5DZFBqF5wNPNgWVFLqYhg
- mneeAHZUDTMFkt4d1ymDljfP6MPFUjtyFVILbNV7+FBEYR0OuQvH2ue6891YAPn+Ry00
- JW1zCn+1DuKI0ZYqSi/t8xOr61tk7oPUWvLm1NfPSFbQmstsTlsTQwUooajPWG8tLJ73
- dkRRnblKMCDh3U1Hvd0NcwGuO9b852EayvnYcA2lrDO0Lz4LqOAGL+qJgGzrI4vGfVRU
- GZcw2xHcSC5aN02sFumj4pXAsVtrX1N4utcEfwmmKU4irUhdVZxd+ymo32NDVMNcnYkO
- eLaw==
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mmanJ-0007a2-Vv
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 07:09:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28829)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mmanH-0006df-LJ
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 07:09:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636978141;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kl9lkZye9JWcEHvyaZT7gPsl+YesQWWkCyoCPI6Hn5k=;
+ b=WChX8C5aQbgnm+R0vG+4ccLpRNLKdJSAZIhiFXqPcuwQ6pqDEdyui2to7bLT6wTliROCDc
+ unof/khX/rizsQ40ucAlxEm7jAJvmzOY7bLA5mqP3suJnSD9eGxz5joi9rLyZa+0G659rg
+ rfwSH6/j1XOO4ZoEstxkQRr3X4SR+9I=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-544-zwAC1Pz-OsK9hUs9O1eewg-1; Mon, 15 Nov 2021 07:09:00 -0500
+X-MC-Unique: zwAC1Pz-OsK9hUs9O1eewg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ d11-20020a50cd4b000000b003da63711a8aso13728285edj.20
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 04:08:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=1FZmQ73FoYa5LvMzkym7OKz+hMfjOcDJNQAXhP/Wxns=;
- b=Up9UnjMyKvHkFIs2Ipk3Ba6nKJlm+GEEGr2Awuft7DX+14xxlYu+PFzu/n37ISW+Ww
- pq84FR5Z4T4DUF25BpbAJ/vI+tLCbLaHTybdpu5jma/OHIt6MkSUlmhbKpuBC7YM8gXx
- VLziLZA8HTmodthP4xu0S+WvJMOdh3jtVRuXI2Nu9Gme4pMIrrSR7zOLBLvgz3YBfNmV
- wLmM1cJkJCgQXZXwl6o6O4rDJj/bCB3XuOQwXcDPB3bbetdAhZi+j12whx3PlbDBE+qk
- MBOBHsIUf3Pk9DkZJP/490Vb+I/I1fO0CW5jaJe/StuD4HlsptBHk6Bz11p8+S6ITXCz
- N8rA==
-X-Gm-Message-State: AOAM533lMsnk0DhW4FBkKDUU0nqyztpPkKut7z+qHkBgBBXwwBfmq+8l
- V42Xl3zoPUq3CdedR6LC+zbA7w==
-X-Google-Smtp-Source: ABdhPJyQtfaIC9p+PgZYH6rIpNWrPy8hHse6HSIFGcOowiyPCy/B0dFtYlgpvAUJmxKM23rGToMNRg==
-X-Received: by 2002:a1c:43c2:: with SMTP id q185mr58571248wma.30.1636978256974; 
- Mon, 15 Nov 2021 04:10:56 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o12sm15678020wmq.12.2021.11.15.04.10.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Nov 2021 04:10:56 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7A1611FF96;
- Mon, 15 Nov 2021 12:10:55 +0000 (GMT)
-References: <CAFEAcA8vRNC8RTAAxgYzZsGdqGfzDSr3m0UXmeZoF115z=6N3Q@mail.gmail.com>
- <8639608F-1685-48B8-B965-255D30B213F8@csgraf.de>
- <CAFEAcA_SzCtyDJfnJLLT57Xuf-TdJHRLEW00E7tQkdresxokMg@mail.gmail.com>
- <67c00a6a-e50a-3ea6-ef1d-98494fdbd729@csgraf.de>
-User-agent: mu4e 1.7.5; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Alexander Graf <agraf@csgraf.de>
-Subject: Re: [PATCH] arm: Don't remove EL3 exposure for SMC conduit
-Date: Mon, 15 Nov 2021 12:08:29 +0000
-In-reply-to: <67c00a6a-e50a-3ea6-ef1d-98494fdbd729@csgraf.de>
-Message-ID: <875ysty5yo.fsf@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=kl9lkZye9JWcEHvyaZT7gPsl+YesQWWkCyoCPI6Hn5k=;
+ b=pR0XHbyf1NZE7E2ktsgo2MSy3gI1tbAN0y7HoNQlrbKFlEkMVaFeMgBiK+PZOSawOb
+ cY+1b7aV+Y8o8c5WCLhXt5GO3TNo4JxrwW6pz7M9JSLRhqMmyh4LS604b6OnDHEvQE5g
+ IvWYmpBTAMye+xt4Pbh/d6XQgGHSn87hO0kpLcogbY6CZ5SpGWtFqqqFb9nxkeBfUzqc
+ C8mDG0RHmWL4F0nMP1NwTv1TWyIUk7n0Y4d9X8GM0bxJxbxdY6i4SvLsBPxJBYqoqOab
+ LPwv+ba16nBgH3ZxiwpzoZwx8WnnM027adKMgTztvMmoGyGjLKuUGQODqRe4A6no0YBr
+ lHXw==
+X-Gm-Message-State: AOAM533WNxFlsfnxv0RSj0R4ey4yIpKFWb2t/ZLfmMDkUUmWr7dVJ39Z
+ D2sb9wupGtMk/RkbUvc8cpsPLSJLPSdZ6E8ljtzGPNt0Xf03oe5eh5wWRVYTZSATP7skObVNVVK
+ Yoe2kxRakrDNrpj0=
+X-Received: by 2002:a05:6402:268d:: with SMTP id
+ w13mr5381853edd.257.1636978138890; 
+ Mon, 15 Nov 2021 04:08:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxZYXZ9DhazMsGZGWG+6V1I4Q7LPPOx3M0hpysbtYv8GOL28yNqSrj53/4R+59pnGoobAlySg==
+X-Received: by 2002:a05:6402:268d:: with SMTP id
+ w13mr5381786edd.257.1636978138625; 
+ Mon, 15 Nov 2021 04:08:58 -0800 (PST)
+Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
+ ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id m11sm7585362edd.58.2021.11.15.04.08.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Nov 2021 04:08:58 -0800 (PST)
+Message-ID: <3d5e9341-d4b5-9e89-83f7-09932163bf05@redhat.com>
+Date: Mon, 15 Nov 2021 13:08:56 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v4 02/25] include/block/block: split header into I/O and
+ global state API
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
+References: <20211025101735.2060852-1-eesposit@redhat.com>
+ <20211025101735.2060852-3-eesposit@redhat.com>
+ <7cf8a28a-5765-cff8-192e-0fe92fc1ac45@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <7cf8a28a-5765-cff8-192e-0fe92fc1ac45@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -57
+X-Spam_score: -5.8
+X-Spam_bar: -----
+X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.278, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,47 +104,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Andrei Warkentin <andrey.warkentin@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+>> +/*
+>> + * I/O API functions. These functions are thread-safe, and therefore
+>> + * can run in any thread as long as the thread has called
+>> + * aio_context_acquire/release().
+>> + */
+>> +
+>> +int bdrv_replace_child_bs(BdrvChild *child, BlockDriverState *new_bs,
+>> +                          Error **errp);
+> 
+> Why is this function here?  Naïvely, I would’ve assumed as a 
+> graph-modifying function it should be in block-global-state.h.
+> 
+> I mean, perhaps it’s thread-safe and then it can fit here, too. Still, 
+> it surprises me a bit to find this here.
+> 
+> Hanna
+> 
 
-Alexander Graf <agraf@csgraf.de> writes:
+Agree, I also tested this, it can go in global state. Will fix that.
 
-> On 15.11.21 11:46, Peter Maydell wrote:
->> On Sun, 14 Nov 2021 at 17:41, Alexander Graf <agraf@csgraf.de> wrote:
->>>
->>>
->>>> Am 14.11.2021 um 18:20 schrieb Peter Maydell <peter.maydell@linaro.org=
->:
->>>> This is tricky, because we use the cpu->isar values to determine wheth=
-er
->>>> we should be emulating things. So this change means we now create an
->>>> inconsistent CPU which in some ways claims to have EL3 (the ISAR ID
->>>> bits say so) and in some ways does not (the ARM_FEATURE_EL3 flag is
->>>> unset), and depending on which of the two "do we have EL3?" methods
->>>> any bit of the TCG code is using will give different results...
->>> Do you think it would be sufficient to go through all readers of
->>> the isar bits and guard them behind an ARM_FEATURE_EL3 check in
->>> addition? I'll be happy to do so then! :)
->> That would be a big reverse-course on a design choice we made that
->> the preference is to look at the ID registers and phase out the
->> use of ARM_FEATURE bits where possible.
->
->
-> I'm open to alternatives. As it stands, we're lying to the guest
-> because we tell it "SMC is not available" but ask it to call SMC for
-> PSCI, which is bad too.
+Thank you,
+Emanuele
 
-Is testing the ISAR bits actually telling a guest that SMC exists or
-just the CPU is capable of handling it? I guess -kernel only is a weird
-case because otherwise if EL3 is available some sort of firmware has to
-have gotten the CPU into a state a kernel can boot. It doesn't imply
-that firmware knows how to do a PSCI call though - surely there is some
-firmware configuration/probing mechanism you need to rely on for that?
-
---=20
-Alex Benn=C3=A9e
 
