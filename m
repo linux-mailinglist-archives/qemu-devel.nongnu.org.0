@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A17745151E
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 21:23:22 +0100 (CET)
-Received: from localhost ([::1]:52844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C454B45150A
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 21:21:55 +0100 (CET)
+Received: from localhost ([::1]:47488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmiVd-0003jE-BA
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 15:23:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54468)
+	id 1mmiUE-00007g-DM
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 15:21:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mmiSW-0006RR-0l
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 15:20:10 -0500
-Received: from [2a00:1450:4864:20::42c] (port=38784
- helo=mail-wr1-x42c.google.com)
+ id 1mmiSI-0006Oy-1V
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 15:19:55 -0500
+Received: from [2a00:1450:4864:20::42b] (port=43701
+ helo=mail-wr1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mmiSF-0001wQ-14
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 15:19:57 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id u18so33055813wrg.5
+ id 1mmiSF-0001wU-1I
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 15:19:53 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id t30so32984124wra.10
  for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 12:19:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6hHm5zHM1YZpAUWKhAsNGPmxiocxuJTjbIRYCCBQcsw=;
- b=ni+iAUBbBX8bW+QW6gYqpuiqQvwXaKWT8O76v1ZqETFePgzzWf2GQT80kbcuxDn/b9
- R5kOy26AVfDepduSkxYbhS0f1fwqE1OQuIE9TDXhriN/B4ZvQyz8k1MLbQ5EcmApAnRc
- kFjXqMZ4lR/yxq1rZ4v1mpqrpXDokHLDdodNbmyPSMqFiirOz02cuhD8zAdRxfGifN32
- +rZxIQi+Jsh8YQ8APeSswNJtuNpDSK7041hweGcnBTibYozk78qmmnp1UO8yZqgeLs+6
- 22Z8qYuI+iookgpSTqYbaVVffxy/ItzYAkwVc548JTr3XVTg6PGAr0TgE60knDumgVCG
- zMCw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=f4haQNMdKffh7OjKsAsA/oYe151uxHGwe0eJSkXUzfg=;
+ b=Rvis4gDxILf1UZPj1gNRar/m44O6hbE4gdlPMj8wvvIxvdxnYW9kGvLI9+1r/h2/3R
+ vlmiW030zacaPc8cmuvpmPIAqBmW3x2L5+lss7swn7RzWseVwIgoeRvTEA0ZErwjWp54
+ dYIQqKm9dCMVD4OkDqUdx4BB6enmGN7FxRkfISoFyQkoTOeZr8knejFhh+G5bhbRIq5f
+ 7gtE3KSHD62B7W77eC8MDL5Rm8/3HcB5XWRuTVtdXDduaSEB9d9HSxh6Pa2AFhHwV4AM
+ Ddpa7wZhT33G8PeIr0FuDdpA2GfQQvShyHvrwTCJNby3ebsUO8V6wmwX3Zrox3ZxiGqw
+ 266g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6hHm5zHM1YZpAUWKhAsNGPmxiocxuJTjbIRYCCBQcsw=;
- b=nvc5Gz6wk93GktD+ToLsB8KgY5FXEmeI0WYT5yoXnJ2a3fLLkMOOxZakEicv9Z0T+E
- 6mit0zIAgQEE5kKvlY1h3EPYBqtjOFzY7+gUS6jgoruuCY62+G2WFlDFRzfGTBO4mBqi
- 6wqwqGjgT0t7yHHTpLqQeP50gIHnE2cfnVQfm4vEdNcd2JNutah28A3Hoc5XPyhJ2Z92
- g/lZtad6UkXxsaEtmWRwpdYoJuOjjFlKdIAVBZ9Wv6oyHVuV9J7q1GYSOPKfVUnKjAzZ
- IkvwykyAUgl6sgXTl83lFyAA9Xtg7HTnivuX6qcmbK65RewNWKWKC2ZRoMq82xsmIWeK
- ZUaA==
-X-Gm-Message-State: AOAM530+RmDI6jf5/VH4wLZwDMeUCEErNzEE43uDSAHyjbIEQHCEMCeR
- xoQFLRshT6XSDFF/7mnWUTWHx9fArkfPAQ==
-X-Google-Smtp-Source: ABdhPJzT6Mss88/a+Q8V8BzJ08em9xOYMcow+cSwzUQ/SOJaP9qb0lZ3NpmHLJBW+kUEo3Mf7YbbGg==
-X-Received: by 2002:a05:6000:1544:: with SMTP id
- 4mr2269182wry.358.1637007588341; 
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=f4haQNMdKffh7OjKsAsA/oYe151uxHGwe0eJSkXUzfg=;
+ b=TlIY6as/S2tQKQ+7HRWNiwHrXjHwseITbqzlNfiLtSg8Jy+2HTJM1rilfHDfpMwj0X
+ UOjfIfA0kHfMgM6hvBoB/5/qlv/cEt5jlHoB3Sno7H1pSh03J1VLPnRrHtSVuvI9+kGt
+ apD8eff8+1HOI1YU88xElN0j8iveb/t6Wmkee78K3+LWNos+pfDVVenD0cZ8DMEbWzau
+ EiWDOh11jZrGkNbc/7TgLjd2deLecrobAasFsmsbW9Yv0fTFdZO3HoTpa4dzLXXlUfiP
+ NoETzERNGAU/yKJ3EoQm8RzxJfPz26HysLwcG0mhkC1LMDCpLyBZR2+zO3pVs7oqxhxJ
+ fNrA==
+X-Gm-Message-State: AOAM531jriz2JdgVu6j/8BjIy1gwxeHY+PxzIdUGBwpe+a6MdmMXrQyz
+ wk7kDvXrac+qr1jNoFvl6jb0VfMVd1sEAw==
+X-Google-Smtp-Source: ABdhPJzKYTOBCDWTVGptwlRKeFUhXJ8A/1MREBGCmAj2MRLXoaTePmrh1xZY5RQAiCumsmT+vn5sAw==
+X-Received: by 2002:a5d:64ed:: with SMTP id g13mr2282432wri.222.1637007588874; 
  Mon, 15 Nov 2021 12:19:48 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id e18sm15419033wrs.48.2021.11.15.12.19.47
+ by smtp.gmail.com with ESMTPSA id e18sm15419033wrs.48.2021.11.15.12.19.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 15 Nov 2021 12:19:48 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/4] target-arm queue
-Date: Mon, 15 Nov 2021 20:19:42 +0000
-Message-Id: <20211115201946.327770-1-peter.maydell@linaro.org>
+Subject: [PULL 1/4] hw/intc/arm_gicv3: Move checking of redist-region-count to
+ arm_gicv3_common_realize
+Date: Mon, 15 Nov 2021 20:19:43 +0000
+Message-Id: <20211115201946.327770-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211115201946.327770-1-peter.maydell@linaro.org>
+References: <20211115201946.327770-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -88,44 +90,134 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi; some minor changes for 6.2, which I think can be classified
-as bug fixes and are OK for this point in the release cycle.
-(Wouldn't be the end of the world if they slipped to 7.0.)
+The GICv3 devices have an array property redist-region-count.
+Currently we check this for errors (bad values) in
+gicv3_init_irqs_and_mmio(), just before we use it.  Move this error
+checking to the arm_gicv3_common_realize() function, where we
+sanity-check all of the other base-class properties. (This will
+always be before gicv3_init_irqs_and_mmio() is called, because
+that function is called in the subclass realize methods, after
+they have called the parent-class realize.)
 
--- PMM
+The motivation for this refactor is:
+ * we would like to use the redist_region_count[] values in
+   arm_gicv3_common_realize() in a subsequent patch, so we need
+   to have already done the sanity-checking first
+ * this removes the only use of the Error** argument to
+   gicv3_init_irqs_and_mmio(), so we can remove some error-handling
+   boilerplate
 
-The following changes since commit 42f6c9179be4401974dd3a75ee72defd16b5092d:
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/hw/intc/arm_gicv3_common.h |  2 +-
+ hw/intc/arm_gicv3.c                |  6 +-----
+ hw/intc/arm_gicv3_common.c         | 26 +++++++++++++-------------
+ hw/intc/arm_gicv3_kvm.c            |  6 +-----
+ 4 files changed, 16 insertions(+), 24 deletions(-)
 
-  Merge tag 'pull-ppc-20211112' of https://github.com/legoater/qemu into staging (2021-11-12 12:28:25 +0100)
+diff --git a/include/hw/intc/arm_gicv3_common.h b/include/hw/intc/arm_gicv3_common.h
+index aa4f0d67703..cb2b0d0ad45 100644
+--- a/include/hw/intc/arm_gicv3_common.h
++++ b/include/hw/intc/arm_gicv3_common.h
+@@ -306,6 +306,6 @@ struct ARMGICv3CommonClass {
+ };
+ 
+ void gicv3_init_irqs_and_mmio(GICv3State *s, qemu_irq_handler handler,
+-                              const MemoryRegionOps *ops, Error **errp);
++                              const MemoryRegionOps *ops);
+ 
+ #endif
+diff --git a/hw/intc/arm_gicv3.c b/hw/intc/arm_gicv3.c
+index 3f24707838c..bcf54a5f0a5 100644
+--- a/hw/intc/arm_gicv3.c
++++ b/hw/intc/arm_gicv3.c
+@@ -393,11 +393,7 @@ static void arm_gic_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
+-    gicv3_init_irqs_and_mmio(s, gicv3_set_irq, gic_ops, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
+-        return;
+-    }
++    gicv3_init_irqs_and_mmio(s, gicv3_set_irq, gic_ops);
+ 
+     gicv3_init_cpuif(s);
+ }
+diff --git a/hw/intc/arm_gicv3_common.c b/hw/intc/arm_gicv3_common.c
+index 223db16feca..8e47809398b 100644
+--- a/hw/intc/arm_gicv3_common.c
++++ b/hw/intc/arm_gicv3_common.c
+@@ -250,22 +250,11 @@ static const VMStateDescription vmstate_gicv3 = {
+ };
+ 
+ void gicv3_init_irqs_and_mmio(GICv3State *s, qemu_irq_handler handler,
+-                              const MemoryRegionOps *ops, Error **errp)
++                              const MemoryRegionOps *ops)
+ {
+     SysBusDevice *sbd = SYS_BUS_DEVICE(s);
+-    int rdist_capacity = 0;
+     int i;
+ 
+-    for (i = 0; i < s->nb_redist_regions; i++) {
+-        rdist_capacity += s->redist_region_count[i];
+-    }
+-    if (rdist_capacity < s->num_cpu) {
+-        error_setg(errp, "Capacity of the redist regions(%d) "
+-                   "is less than number of vcpus(%d)",
+-                   rdist_capacity, s->num_cpu);
+-        return;
+-    }
+-
+     /* For the GIC, also expose incoming GPIO lines for PPIs for each CPU.
+      * GPIO array layout is thus:
+      *  [0..N-1] spi
+@@ -308,7 +297,7 @@ void gicv3_init_irqs_and_mmio(GICv3State *s, qemu_irq_handler handler,
+ static void arm_gicv3_common_realize(DeviceState *dev, Error **errp)
+ {
+     GICv3State *s = ARM_GICV3_COMMON(dev);
+-    int i;
++    int i, rdist_capacity;
+ 
+     /* revision property is actually reserved and currently used only in order
+      * to keep the interface compatible with GICv2 code, avoiding extra
+@@ -350,6 +339,17 @@ static void arm_gicv3_common_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
++    rdist_capacity = 0;
++    for (i = 0; i < s->nb_redist_regions; i++) {
++        rdist_capacity += s->redist_region_count[i];
++    }
++    if (rdist_capacity < s->num_cpu) {
++        error_setg(errp, "Capacity of the redist regions(%d) "
++                   "is less than number of vcpus(%d)",
++                   rdist_capacity, s->num_cpu);
++        return;
++    }
++
+     s->cpu = g_new0(GICv3CPUState, s->num_cpu);
+ 
+     for (i = 0; i < s->num_cpu; i++) {
+diff --git a/hw/intc/arm_gicv3_kvm.c b/hw/intc/arm_gicv3_kvm.c
+index 5c09f00dec2..ab58c73306d 100644
+--- a/hw/intc/arm_gicv3_kvm.c
++++ b/hw/intc/arm_gicv3_kvm.c
+@@ -787,11 +787,7 @@ static void kvm_arm_gicv3_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
+-    gicv3_init_irqs_and_mmio(s, kvm_arm_gicv3_set_irq, NULL, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
+-        return;
+-    }
++    gicv3_init_irqs_and_mmio(s, kvm_arm_gicv3_set_irq, NULL);
+ 
+     for (i = 0; i < s->num_cpu; i++) {
+         ARMCPU *cpu = ARM_CPU(qemu_get_cpu(i));
+-- 
+2.25.1
 
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20211115-1
-
-for you to fetch changes up to 1adf528ec3bdf62ea3b580b7ad562534a3676ff5:
-
-  hw/rtc/pl031: Send RTC_CHANGE QMP event (2021-11-15 18:53:00 +0000)
-
-----------------------------------------------------------------
-target-arm queue:
- * Support multiple redistributor regions for TCG GICv3
- * Send RTC_CHANGE QMP event from pl031
-
-----------------------------------------------------------------
-Eric Auger (1):
-      hw/rtc/pl031: Send RTC_CHANGE QMP event
-
-Peter Maydell (3):
-      hw/intc/arm_gicv3: Move checking of redist-region-count to arm_gicv3_common_realize
-      hw/intc/arm_gicv3: Set GICR_TYPER.Last correctly when nb_redist_regions > 1
-      hw/intc/arm_gicv3: Support multiple redistributor regions
-
- include/hw/intc/arm_gicv3_common.h | 14 ++++++++--
- hw/intc/arm_gicv3.c                | 12 +-------
- hw/intc/arm_gicv3_common.c         | 56 ++++++++++++++++++++++++--------------
- hw/intc/arm_gicv3_kvm.c            | 10 ++-----
- hw/intc/arm_gicv3_redist.c         | 40 +++++++++++++++------------
- hw/rtc/pl031.c                     | 10 ++++++-
- hw/rtc/meson.build                 |  2 +-
- 7 files changed, 83 insertions(+), 61 deletions(-)
 
