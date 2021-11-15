@@ -2,87 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC4924507E9
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 16:10:36 +0100 (CET)
-Received: from localhost ([::1]:38252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52C3E4507EA
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 16:10:42 +0100 (CET)
+Received: from localhost ([::1]:38998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmdcy-0001sy-0o
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 10:10:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56690)
+	id 1mmdd3-0002ND-F0
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 10:10:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mmdSj-00085s-9j
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 10:00:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51686)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mmdTz-0002ZC-Ns
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 10:01:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50111)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mmdSg-00009c-Tw
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 10:00:01 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mmdTw-0000KJ-7t
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 10:01:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636988394;
+ s=mimecast20190719; t=1636988475;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yztInNsLIu7QfwRSSpxpOx1pYZAWme74L6OF+WOPa2U=;
- b=czzeCmOYeZgVB+OIteWAilpYgM2dwifo6SNZKC6X4d/l6DSEo0s5Kislst+F/4zFk18uxs
- UpuzEuTgRtxqxFnF5PhXXog+AZH53fXPEkF71LG8UT3u3vDQGEhb+J6KBMXas7jKCxYqOD
- Wo0Qh2HYIUKYDq/vYERgWRQoq7V0dmk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-A1KH5rYPNdy6oxzC31rLGg-1; Mon, 15 Nov 2021 09:59:53 -0500
-X-MC-Unique: A1KH5rYPNdy6oxzC31rLGg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- ay34-20020a05600c1e2200b00337fd217772so15104wmb.4
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 06:59:52 -0800 (PST)
+ bh=jqfAsHCWK9n2PSwrSeEI9kwcNYNiTTFNLqv+J7M8LUI=;
+ b=C2u/FEpTLWZbQdivZQzh0g9j8t4xwqwmvuuk+6My21a3/5NdkI/Eb1DD2gOj0AL2GKuwPy
+ 2eVrwVgKWjxcjlrpaWowav5Ofer3wwP69RzgImdP/PlVDTMfL+HRsXR0l95jm+6HlaDE1O
+ 2yyMTRh0s4JE0965g/B3sqJtDMFTqi0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-388-I59JnNyzNd6y_85wi47gmg-1; Mon, 15 Nov 2021 10:01:13 -0500
+X-MC-Unique: I59JnNyzNd6y_85wi47gmg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ k25-20020a05600c1c9900b00332f798ba1dso9755727wms.4
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 07:01:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=yztInNsLIu7QfwRSSpxpOx1pYZAWme74L6OF+WOPa2U=;
- b=WeBOc3m2/MztOeCmD5+paVgv9gyBfDeFOmlj5TH05ZUIyuUnNMUT1Na2Rtk+TSG2oY
- nAlozcVGraS/wv4DZLKGlZda13mqIlsGodOhkjETP3kHgpV+DJUpLm0E6EYKSOL7LppU
- VKJdmdORApbHNRKJgwOXKegrtd3of+6IUA/lBFUdgdAOrYEzLQHnxLLaesvr2e5bZNp4
- yhWe1QaTRs0yxHF4RPafp2LxTiFaSeHuhPPCO9PkZC/8l3QhDe1XEsvLGW8ASlmcR2Mh
- GpqAPglgPiYXbI7t4FOp6a9ogrt/499irXdfi9xxXPsaIUO8x++ZrS5RqhnJ0hPLebUY
- kCcQ==
-X-Gm-Message-State: AOAM533frKDEGJwrRTBBhINvJvWYRAO25OCn0ZAkfRhpws1pK07aZD03
- LMLvympUTRxEqJMqi6u3ImN0My68yvKJ5RCyIPDSHAN8ULTU8KhmcQyRS7BSFYSMU3ev/cecWsa
- VDdUM0lIeyBkuVKHh5TlYBim5M3XNdzUIISBTwgMMcDCCEEgbEFi/PJaA1wqgnRd9
-X-Received: by 2002:a5d:4582:: with SMTP id p2mr48488339wrq.364.1636988390728; 
- Mon, 15 Nov 2021 06:59:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwIoKRUnjRgOgfAroUSLRHpDuDgLBussq3AjSBId67KMcnGz8tMSA1Y3CIZq7AyxOb0lKUIOw==
-X-Received: by 2002:a5d:4582:: with SMTP id p2mr48488287wrq.364.1636988390476; 
- Mon, 15 Nov 2021 06:59:50 -0800 (PST)
-Received: from x1w.redhat.com (62.red-83-57-168.dynamicip.rima-tde.net.
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jqfAsHCWK9n2PSwrSeEI9kwcNYNiTTFNLqv+J7M8LUI=;
+ b=sgbpPa1zqzMGtGm4rAs/8uuMtqio6onDGhYtHyHjFpUmh0S7cTW6J/u/dVETJV/084
+ dRYfTlHCjir6Bs+GvJEsuXE2lfqOwsHnQE3IPx73Jbi4h2QYJUkE4ATpdJMKpTTVlI02
+ 1slC2h2LMzJ1HCD2d743gtmyyTbFI0rkeE5LlDNti0vzRc9E9D6rqECidp9Go2W6cte2
+ 34LkROGqR8LFIkqbGiZksyoRfwhp7U9DD4WL0PtXx2aKni+PTtPtTErxbvHLjUgxXGbZ
+ YZhdhnqesDk4Y6l7EKzQz5ZqnEhJqC155mUDowztl1k8hlskwg6tAFK7wWIf1OlOZifG
+ Z0Rg==
+X-Gm-Message-State: AOAM530auzJ7B0waj6II7K2uqSbfnN5iPswLTIrfX1MYWpumjibhvtMf
+ mlkIEmBa/eiMmsUIeeqPuJVng88+twIyDSDTgz+jAIFrTqM4xlHYWrQd/1xKOqPdY4DbIrV/lcI
+ dz7cDR4jN4LtEG5A=
+X-Received: by 2002:adf:9bcd:: with SMTP id e13mr47767191wrc.165.1636988471773; 
+ Mon, 15 Nov 2021 07:01:11 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxuBvOnDg/FTlTot3MF5y/buo54Gzx4uMv08EnR2bEasaVDgcc2jX7t9LaY7oshAmQ6LWqnzg==
+X-Received: by 2002:adf:9bcd:: with SMTP id e13mr47767153wrc.165.1636988471586; 
+ Mon, 15 Nov 2021 07:01:11 -0800 (PST)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id l8sm22753146wmc.40.2021.11.15.06.59.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Nov 2021 06:59:50 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-7.0 v4 11/11] hw/core: Rename smp_parse() ->
- machine_parse_smp_config()
-Date: Mon, 15 Nov 2021 15:59:00 +0100
-Message-Id: <20211115145900.2531865-12-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211115145900.2531865-1-philmd@redhat.com>
-References: <20211115145900.2531865-1-philmd@redhat.com>
+ by smtp.gmail.com with ESMTPSA id c6sm24599849wmq.46.2021.11.15.07.01.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Nov 2021 07:01:11 -0800 (PST)
+Message-ID: <e89ee030-6739-97c3-d228-e4b8fea399c0@redhat.com>
+Date: Mon, 15 Nov 2021 16:01:10 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] gitlab-ci: Split custom-runners.yml in one file per runner
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20211115095608.2436223-1-philmd@redhat.com>
+ <7fb209d4-0d3c-af8f-f08d-d051d3b73e09@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <7fb209d4-0d3c-af8f-f08d-d051d3b73e09@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -57
+X-Spam_score: -5.8
+X-Spam_bar: -----
+X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.278, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,116 +98,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Yanan Wang <wangyanan55@huawei.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Willian Rampazzo <willianr@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All methods related to MachineState are prefixed with "machine_".
-smp_parse() does not need to be an exception. Rename it and
-const'ify the SMPConfiguration argument, since it doesn't need
-to be modified.
+On 11/15/21 15:33, Thomas Huth wrote:
+> On 15/11/2021 10.56, Philippe Mathieu-Daudé wrote:
+>> To ease maintenance, add the custom-runners/ directory and
+>> split custom-runners.yml in 3 files, all included by the
+>> current custom-runners.yml:
+>>   - ubuntu-18.04-s390x.yml
+>>   - ubuntu-20.04-aarch64.yml
+>>   - centos-stream-8-x86_64.yml
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>> Based-on: <20211111160501.862396-1-crosa@redhat.com>
+>> https://gitlab.com/stsquad/qemu/-/tree/for-6.2/misc-fixes
+>> ---
+>>   .gitlab-ci.d/custom-runners.yml               | 268 +-----------------
+>>   .../custom-runners/centos-stream-8-x86_64.yml |  28 ++
+>>   .../custom-runners/ubuntu-18.04-s390x.yml     | 118 ++++++++
+>>   .../custom-runners/ubuntu-20.04-aarch64.yml   | 118 ++++++++
+>>   4 files changed, 268 insertions(+), 264 deletions(-)
+>>   create mode 100644
+>> .gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml
+>>   create mode 100644 .gitlab-ci.d/custom-runners/ubuntu-18.04-s390x.yml
+>>   create mode 100644 .gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
+> 
+> Should there maybe be entries in MAINTAINERS for these new files, so
+> that it is clear who takes care of the external runners?
 
-Reviewed-by: Andrew Jones <drjones@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
-Tested-by: Yanan Wang <wangyanan55@huawei.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- include/hw/boards.h         | 3 ++-
- hw/core/machine-smp.c       | 6 ++++--
- hw/core/machine.c           | 2 +-
- tests/unit/test-smp-parse.c | 8 ++++----
- 4 files changed, 11 insertions(+), 8 deletions(-)
+Yes, this is the principal motivation behind this series.
 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 9c1c1901046..7597cec4400 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -34,7 +34,8 @@ HotpluggableCPUList *machine_query_hotpluggable_cpus(MachineState *machine);
- void machine_set_cpu_numa_node(MachineState *machine,
-                                const CpuInstanceProperties *props,
-                                Error **errp);
--void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp);
-+void machine_parse_smp_config(MachineState *ms,
-+                              const SMPConfiguration *config, Error **errp);
- 
- /**
-  * machine_class_allow_dynamic_sysbus_dev: Add type to list of valid devices
-diff --git a/hw/core/machine-smp.c b/hw/core/machine-smp.c
-index 116a0cbbfab..2cbfd574293 100644
---- a/hw/core/machine-smp.c
-+++ b/hw/core/machine-smp.c
-@@ -44,7 +44,8 @@ static char *cpu_hierarchy_to_string(MachineState *ms)
- }
- 
- /*
-- * smp_parse - Generic function used to parse the given SMP configuration
-+ * machine_parse_smp_config: Generic function used to parse the given
-+ *                           SMP configuration
-  *
-  * Any missing parameter in "cpus/maxcpus/sockets/cores/threads" will be
-  * automatically computed based on the provided ones.
-@@ -63,7 +64,8 @@ static char *cpu_hierarchy_to_string(MachineState *ms)
-  * introduced topology members which are likely to be target specific should
-  * be directly set as 1 if they are omitted (e.g. dies for PC since 4.1).
-  */
--void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-+void machine_parse_smp_config(MachineState *ms,
-+                              const SMPConfiguration *config, Error **errp)
- {
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
-     unsigned cpus    = config->has_cpus ? config->cpus : 0;
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 26ec54e7261..a2d3c9969d9 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -760,7 +760,7 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
-         return;
-     }
- 
--    smp_parse(ms, config, errp);
-+    machine_parse_smp_config(ms, config, errp);
- }
- 
- static void machine_class_init(ObjectClass *oc, void *data)
-diff --git a/tests/unit/test-smp-parse.c b/tests/unit/test-smp-parse.c
-index 8f47a2e65f6..8e488e95145 100644
---- a/tests/unit/test-smp-parse.c
-+++ b/tests/unit/test-smp-parse.c
-@@ -337,7 +337,7 @@ static const struct SMPTestData data_with_dies_invalid[] = {
-     },
- };
- 
--static char *smp_config_to_string(SMPConfiguration *config)
-+static char *smp_config_to_string(const SMPConfiguration *config)
- {
-     return g_strdup_printf(
-         "(SMPConfiguration) {\n"
-@@ -371,7 +371,7 @@ static char *cpu_topology_to_string(const CpuTopology *topo)
-         topo->cores, topo->threads, topo->max_cpus);
- }
- 
--static void check_parse(MachineState *ms, SMPConfiguration *config,
-+static void check_parse(MachineState *ms, const SMPConfiguration *config,
-                         const CpuTopology *expect_topo, const char *expect_err,
-                         bool is_valid)
- {
-@@ -380,8 +380,8 @@ static void check_parse(MachineState *ms, SMPConfiguration *config,
-     g_autofree char *output_topo_str = NULL;
-     Error *err = NULL;
- 
--    /* call the generic parser smp_parse() */
--    smp_parse(ms, config, &err);
-+    /* call the generic parser */
-+    machine_parse_smp_config(ms, config, &err);
- 
-     output_topo_str = cpu_topology_to_string(&ms->smp);
- 
--- 
-2.31.1
+I expect each maintainer to send their patch.
 
 
