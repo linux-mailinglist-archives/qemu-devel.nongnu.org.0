@@ -2,75 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7064C4504B7
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 13:52:17 +0100 (CET)
-Received: from localhost ([::1]:53554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDA674504BB
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 13:55:39 +0100 (CET)
+Received: from localhost ([::1]:60236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmbT6-0004Yo-J2
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 07:52:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51054)
+	id 1mmbWM-0000nE-Tl
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 07:55:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mmbPz-0007va-UN
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 07:49:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54047)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mmbPx-0004Cp-VZ
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 07:49:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636980540;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=m14S1J2qicA5TmCBCcBBLInqB50gvC/KVeGN4CJDIKU=;
- b=LZLm63DWXmuHV+ICTK3bTTk2NSn7RrvkoBQlvJpoPjDPdNLSXl9KBXTfHUnX3EGGjEtF+b
- LCE3s1QT7EnS7HXjNE6rp83esxfNu6tNpZFTSVE6mlz1/H4bIy3Sh7yNo4crTU8nr/TXJA
- K77PHPSM5D2GkTYjCHQQctynt1H2od0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-545-XDhgru-AMaCV0Z0VpgFl6A-1; Mon, 15 Nov 2021 07:48:57 -0500
-X-MC-Unique: XDhgru-AMaCV0Z0VpgFl6A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 779F018D6A25;
- Mon, 15 Nov 2021 12:48:56 +0000 (UTC)
-Received: from [10.39.195.133] (unknown [10.39.195.133])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D4D915DF21;
- Mon, 15 Nov 2021 12:48:51 +0000 (UTC)
-Message-ID: <3c241757-eea9-90ce-4c86-19391efbba7a@redhat.com>
-Date: Mon, 15 Nov 2021 13:48:50 +0100
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1mmbV3-00085B-Uc; Mon, 15 Nov 2021 07:54:17 -0500
+Received: from mail.csgraf.de ([85.25.223.15]:39712 helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1mmbV2-0005ER-3k; Mon, 15 Nov 2021 07:54:17 -0500
+Received: from [10.95.147.162]
+ (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com [3.122.114.9])
+ by csgraf.de (Postfix) with ESMTPSA id 7749A6080381;
+ Mon, 15 Nov 2021 13:54:13 +0100 (CET)
+Message-ID: <2acb8b24-d0aa-d9c7-0af9-5814819c875b@csgraf.de>
+Date: Mon, 15 Nov 2021 13:54:11 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2] hw/rtc/pl031: Send RTC_CHANGE QMP event
-To: Peter Maydell <peter.maydell@linaro.org>,
- Eric Auger <eric.auger@redhat.com>
-References: <20210920122535.269988-1-eric.auger@redhat.com>
- <CAFEAcA-8497+XS0PU3RAkGsrf7PGVm=oGymuHznE3iuopMHbKg@mail.gmail.com>
- <CAFEAcA8tbJ3jbHghvqk3hmUOZmQEzYva2Qqbq49i4dC93bQXCA@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAFEAcA8tbJ3jbHghvqk3hmUOZmQEzYva2Qqbq49i4dC93bQXCA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.3.0
+Subject: Re: [PATCH] arm: Don't remove EL3 exposure for SMC conduit
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <CAFEAcA8vRNC8RTAAxgYzZsGdqGfzDSr3m0UXmeZoF115z=6N3Q@mail.gmail.com>
+ <8639608F-1685-48B8-B965-255D30B213F8@csgraf.de>
+ <CAFEAcA_SzCtyDJfnJLLT57Xuf-TdJHRLEW00E7tQkdresxokMg@mail.gmail.com>
+ <67c00a6a-e50a-3ea6-ef1d-98494fdbd729@csgraf.de> <875ysty5yo.fsf@linaro.org>
+From: Alexander Graf <agraf@csgraf.de>
+In-Reply-To: <875ysty5yo.fsf@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.278, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.278,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,46 +55,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- Gavin Shan <gshan@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Eric Auger <eric.auger.pro@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Andrei Warkentin <andrey.warkentin@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/1/21 17:04, Peter Maydell wrote:
-> On Thu, 23 Sept 2021 at 14:29, Peter Maydell <peter.maydell@linaro.org> wrote:
->>
->> On Mon, 20 Sept 2021 at 13:25, Eric Auger <eric.auger@redhat.com> wrote:
->>>
->>> The PL031 currently is not able to report guest RTC change to the QMP
->>> monitor as opposed to mc146818 or spapr RTCs. This patch adds the call
->>> to qapi_event_send_rtc_change() when the Load Register is written. The
->>> value which is reported corresponds to the difference between the guest
->>> reference time and the reference time kept in softmmu/rtc.c.
->>>
->>> For instance adding 20s to the guest RTC value will report 20. Adding
->>> an extra 20s to the guest RTC value will report 20 + 20 = 40.
->>>
->>> The inclusion of qapi/qapi-types-misc-target.h in hw/rtl/pl031.c
->>> require to compile the PL031 with specific_ss.add() to avoid
->>> ./qapi/qapi-types-misc-target.h:18:13: error: attempt to use poisoned
->>> "TARGET_<ARCH>".
->>>
->>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
->>
->> Thanks. This looks plausible to me (well, it would ;-)) but
->> I would appreciate review from Paolo or somebody else who
->> understands the rtc_change feature and handling.
-> 
-> Ping? Review from somebody who understands rtc_change would
-> still be nice...
 
-The change looks good to me (sorry I missed this v2).  x86 also has some 
-logic in the migration post-load, that might end up sending the event. 
-However, that's best done separately after understanding and documenting 
-exactly what x86 is doing.
+On 15.11.21 13:08, Alex Bennée wrote:
+> Alexander Graf <agraf@csgraf.de> writes:
+>
+>> On 15.11.21 11:46, Peter Maydell wrote:
+>>> On Sun, 14 Nov 2021 at 17:41, Alexander Graf <agraf@csgraf.de> wrote:
+>>>>
+>>>>> Am 14.11.2021 um 18:20 schrieb Peter Maydell <peter.maydell@linaro.org>:
+>>>>> This is tricky, because we use the cpu->isar values to determine whether
+>>>>> we should be emulating things. So this change means we now create an
+>>>>> inconsistent CPU which in some ways claims to have EL3 (the ISAR ID
+>>>>> bits say so) and in some ways does not (the ARM_FEATURE_EL3 flag is
+>>>>> unset), and depending on which of the two "do we have EL3?" methods
+>>>>> any bit of the TCG code is using will give different results...
+>>>> Do you think it would be sufficient to go through all readers of
+>>>> the isar bits and guard them behind an ARM_FEATURE_EL3 check in
+>>>> addition? I'll be happy to do so then! :)
+>>> That would be a big reverse-course on a design choice we made that
+>>> the preference is to look at the ID registers and phase out the
+>>> use of ARM_FEATURE bits where possible.
+>>
+>> I'm open to alternatives. As it stands, we're lying to the guest
+>> because we tell it "SMC is not available" but ask it to call SMC for
+>> PSCI, which is bad too.
+> Is testing the ISAR bits actually telling a guest that SMC exists or
+> just the CPU is capable of handling it? I guess -kernel only is a weird
 
-Paolo
+
+The way I understand it, it tells you whether SMC is a #UD or not. 
+Whether that SMC call goes into happy PSCI land or into nirvana is a 
+different question - but there's nothing you can do from EL<3 to figure 
+that out I believe?
+
+
+> case because otherwise if EL3 is available some sort of firmware has to
+> have gotten the CPU into a state a kernel can boot. It doesn't imply
+> that firmware knows how to do a PSCI call though - surely there is some
+> firmware configuration/probing mechanism you need to rely on for that?
+
+
+Oh, absolutely! As an OS, you should look up in ACPI or DT whether to do 
+an SMC call for PSCI operations or not.
+
+The problem here is that we tell the OS in ACPI to do an SMC call, yet 
+we tell it in AA64PFR0 that SMC is not implemented and thus would 
+trigger a #UD.
+
+
+Alex
 
 
