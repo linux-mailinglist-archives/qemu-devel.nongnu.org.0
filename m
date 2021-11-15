@@ -2,85 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A293A44FDEB
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 05:26:14 +0100 (CET)
-Received: from localhost ([::1]:38900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67A5C44FDEC
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 05:27:18 +0100 (CET)
+Received: from localhost ([::1]:41628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmTZN-0007l1-QZ
-	for lists+qemu-devel@lfdr.de; Sun, 14 Nov 2021 23:26:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36294)
+	id 1mmTaP-0001C2-Ir
+	for lists+qemu-devel@lfdr.de; Sun, 14 Nov 2021 23:27:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mmTYH-00069h-DY
- for qemu-devel@nongnu.org; Sun, 14 Nov 2021 23:25:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44389)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mmTYF-0004aq-IW
- for qemu-devel@nongnu.org; Sun, 14 Nov 2021 23:25:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636950303;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9zxDZXS/cxBLKNjZ8UbDGljJ3IyACTHH16hzvtSyZaE=;
- b=YOO0K1P8Q66qxoi5oraqm82qY8DTgtsUt9lCTq6voVoK/62W0DJubav6Bb1fjmHoLLpAVh
- dG/i7TVoC5SwWi9dU9+JEpbcj6jr7/xQR8qLjslVjoaSuM2j6KRieB6MmCDb9o1eZ2rKxb
- kghYHVrYrNp1HxEI3M407OTk/nJW4a4=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-wVEDYIS9PnmrLTPcGYftIg-1; Sun, 14 Nov 2021 23:25:02 -0500
-X-MC-Unique: wVEDYIS9PnmrLTPcGYftIg-1
-Received: by mail-lf1-f72.google.com with SMTP id
- g38-20020a0565123ba600b004036147023bso6221682lfv.10
- for <qemu-devel@nongnu.org>; Sun, 14 Nov 2021 20:25:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mmTZ2-0007mZ-K7; Sun, 14 Nov 2021 23:25:52 -0500
+Received: from [2607:f8b0:4864:20::132] (port=38815
+ helo=mail-il1-x132.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mmTZ0-0004eg-6n; Sun, 14 Nov 2021 23:25:52 -0500
+Received: by mail-il1-x132.google.com with SMTP id m11so15182462ilh.5;
+ Sun, 14 Nov 2021 20:25:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eCiVvl8KuezBsrlKMIplRFvandxy1CQUR1kdN7sM44M=;
+ b=E6cR2l8Fj3vJ00ftgF5/xEYe+ioAamJDppt/G2Tia8sv0Zjt2i/Bi9JFHh/s82Jq8e
+ kwcJ9cTXBg5gaAR4+O5RmT6fyPcqYMnjIypszzypWdSij+ZP9ow3BcQ2mj7LhhHVf8th
+ vOQR9KzXU11aHZyIBYcg8rQ4UkJ2kND8NG2tRvRDSO+nFJURW+PxaGTx+Uke7g1nBGp6
+ nb2XQfV8GfN/bSzWbusjO+PdVeOjTPABLTKMQVdJukXgN6RrfWmwSRP5GmEHEUeNsBwN
+ tOUrizlBNbHcFw5UkvSkdrNY9qVPP920Ji6C74/Usg2ToOUbpOXv+Htg07V7tR0TEeNm
+ iEGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=9zxDZXS/cxBLKNjZ8UbDGljJ3IyACTHH16hzvtSyZaE=;
- b=JmjG3sdp4telsjPgNYloVTFL49EyJo20AdYXHBzEupDeVdJ9lJxU7rOfSLo3N3x0R7
- kAXo7hWW7q7EGm/+YRNOcrF5f3oPccn/E8kcExt51h0NR56GzqRfYZul7Qul1/30nXWw
- wGLE/m801lUZsgNIoBafJ7MA75UVfwVlM3BfQkNzUw7v9rxMWK8ybY3U50ZEve3SpETM
- WZ8dBhmKK1Ng6R7+lEAnaOxlR25y4aLpqUJiWXhWDN+YzO9nerK9i/e+6h2h2kgXPwrb
- 8aW0SaDt+69D4VLlTYbJQEkkczU1kqiWUpqFYGS0m+8GKDQiXUlbV25p/wP9Ao1PdFSs
- BGZQ==
-X-Gm-Message-State: AOAM533Tfndpj7CuBZEas701PIqxfdV2L2T9tG2qWCcUN95UWDgQvcfL
- Wu/8IY2xD1AgHmFOv3WvBrNeo+sqhOi7Fzu0NiDsIMHgBGg0rph91Cjf7Bx/NSKVlO3F/YAhdRj
- XQ2NHpAw/m1lmbvA6ST5GjpRDChxOkVM=
-X-Received: by 2002:a05:6512:3b2b:: with SMTP id
- f43mr32393665lfv.629.1636950300420; 
- Sun, 14 Nov 2021 20:25:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzgdbzeMenrikB9Dh0sRiJGDUD/mSmat44/IKd7a1cGJ5oa5xsN/fsMBt8smok1eE5Ov9yC/uBcn2nPHzcEEeE=
-X-Received: by 2002:a05:6512:3b2b:: with SMTP id
- f43mr32393660lfv.629.1636950300286; 
- Sun, 14 Nov 2021 20:25:00 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=eCiVvl8KuezBsrlKMIplRFvandxy1CQUR1kdN7sM44M=;
+ b=Vbd7Dyxl1M3ArPpkJBWtj8HOcleVuXtjUncI3416g1toKHetNS4S8uYz0kXl2VFJEl
+ cYC9bF2wBQWHYwSlD7H3ykbPd8Nkk0u0oOytgeXSemJjGtBDYslbM0huyrMavRg+JdIS
+ FF6QG6ZBFA5Y+AS5MNwnaJGX4VJKxb1/VpBWs+y5ri/Ny1l5K6ng2YMnf6aBlYx27Gxl
+ CjuoVkNHo8NXHEqwWTyEnea5ZvSIITPjLqoE60KmrzEgZED4hDJEtSB6QZ/hA0hVIgDL
+ LdnhHTHlqyG5xCgli+SzfxhA0rnyaV6GpJnw99oTd6b/KmOpJaq4H35nkBsyMXzp98Dl
+ W3LQ==
+X-Gm-Message-State: AOAM532SarhoD/yWgGIL5bYe0wioztnV8yvABbdFS+WxvyalsxEkEgIP
+ DVH9KOsHJdmloM2D3CJgugQp5Zd61B45N36y0KH57ksKe/+5yA==
+X-Google-Smtp-Source: ABdhPJy+KTowM5zQA5cezS8JKAiFHtNuwV7/teYcKfCFFTzX4gIsPKfX/0RD+PJ+FXmrrUeZS7hBXUvQG4H5FZ3dQQ8=
+X-Received: by 2002:a05:6e02:1bec:: with SMTP id
+ y12mr18508239ilv.74.1636950348889; 
+ Sun, 14 Nov 2021 20:25:48 -0800 (PST)
 MIME-Version: 1.0
-References: <20211112193431.2379298-1-eperezma@redhat.com>
- <20211112193431.2379298-3-eperezma@redhat.com>
-In-Reply-To: <20211112193431.2379298-3-eperezma@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 15 Nov 2021 12:24:49 +0800
-Message-ID: <CACGkMEu737cb0UFgm3txQ6jbBJ-xwCphppFYz78BeSFMPGdeOA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] vdpa: Check for existence of opts.vhostdev
-To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20211111155149.58172-1-zhiwei_liu@c-sky.com>
+ <20211111155149.58172-2-zhiwei_liu@c-sky.com>
+In-Reply-To: <20211111155149.58172-2-zhiwei_liu@c-sky.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 15 Nov 2021 14:25:22 +1000
+Message-ID: <CAKmqyKO7P4aA23veee-WRQQQebDS76jURV8JiAXgPvDaXAJhQQ@mail.gmail.com>
+Subject: Re: [PATCH v4 01/20] target/riscv: Don't save pc when exception return
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.695,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::132
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::132;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x132.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,46 +80,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Cindy Lu <lulu@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Nov 13, 2021 at 3:35 AM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
-ote:
+On Fri, Nov 12, 2021 at 1:54 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
 >
-> Since net_init_vhost_vdpa is trying to open it. Not specifying it in the
-> command line crash qemu.
+> As pc will be written by the xepc in exception return, just ignore
+> pc in translation.
 >
-> Fixes: 7327813d17 ("vhost-vdpa: open device fd in net_init_vhost_vdpa()")
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Acked-by: Jason Wang <jasowang@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
 
 > ---
->  net/vhost-vdpa.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>  target/riscv/helper.h                          | 4 ++--
+>  target/riscv/insn_trans/trans_privileged.c.inc | 7 ++-----
+>  target/riscv/op_helper.c                       | 4 ++--
+>  3 files changed, 6 insertions(+), 9 deletions(-)
 >
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index 6ffb29f4da..bbd3576f23 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -260,6 +260,10 @@ int net_init_vhost_vdpa(const Netdev *netdev, const =
-char *name,
+> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+> index c7a5376227..c5098380dd 100644
+> --- a/target/riscv/helper.h
+> +++ b/target/riscv/helper.h
+> @@ -67,8 +67,8 @@ DEF_HELPER_2(csrr, tl, env, int)
+>  DEF_HELPER_3(csrw, void, env, int, tl)
+>  DEF_HELPER_4(csrrw, tl, env, int, tl, tl)
+>  #ifndef CONFIG_USER_ONLY
+> -DEF_HELPER_2(sret, tl, env, tl)
+> -DEF_HELPER_2(mret, tl, env, tl)
+> +DEF_HELPER_1(sret, tl, env)
+> +DEF_HELPER_1(mret, tl, env)
+>  DEF_HELPER_1(wfi, void, env)
+>  DEF_HELPER_1(tlb_flush, void, env)
+>  #endif
+> diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/riscv/insn_trans/trans_privileged.c.inc
+> index 75c6ef80a6..6077bbbf11 100644
+> --- a/target/riscv/insn_trans/trans_privileged.c.inc
+> +++ b/target/riscv/insn_trans/trans_privileged.c.inc
+> @@ -74,10 +74,8 @@ static bool trans_uret(DisasContext *ctx, arg_uret *a)
+>  static bool trans_sret(DisasContext *ctx, arg_sret *a)
+>  {
+>  #ifndef CONFIG_USER_ONLY
+> -    tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
+> -
+>      if (has_ext(ctx, RVS)) {
+> -        gen_helper_sret(cpu_pc, cpu_env, cpu_pc);
+> +        gen_helper_sret(cpu_pc, cpu_env);
+>          tcg_gen_exit_tb(NULL, 0); /* no chaining */
+>          ctx->base.is_jmp = DISAS_NORETURN;
+>      } else {
+> @@ -92,8 +90,7 @@ static bool trans_sret(DisasContext *ctx, arg_sret *a)
+>  static bool trans_mret(DisasContext *ctx, arg_mret *a)
+>  {
+>  #ifndef CONFIG_USER_ONLY
+> -    tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
+> -    gen_helper_mret(cpu_pc, cpu_env, cpu_pc);
+> +    gen_helper_mret(cpu_pc, cpu_env);
+>      tcg_gen_exit_tb(NULL, 0); /* no chaining */
+>      ctx->base.is_jmp = DISAS_NORETURN;
+>      return true;
+> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+> index ee7c24efe7..095d39671b 100644
+> --- a/target/riscv/op_helper.c
+> +++ b/target/riscv/op_helper.c
+> @@ -71,7 +71,7 @@ target_ulong helper_csrrw(CPURISCVState *env, int csr,
 >
->      assert(netdev->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
->      opts =3D &netdev->u.vhost_vdpa;
-> +    if (!opts->vhostdev) {
-> +        error_setg(errp, "vdpa character device not specified with vhost=
-dev");
-> +        return -1;
-> +    }
+>  #ifndef CONFIG_USER_ONLY
 >
->      vdpa_device_fd =3D qemu_open(opts->vhostdev, O_RDWR, errp);
->      if (vdpa_device_fd =3D=3D -1) {
+> -target_ulong helper_sret(CPURISCVState *env, target_ulong cpu_pc_deb)
+> +target_ulong helper_sret(CPURISCVState *env)
+>  {
+>      uint64_t mstatus;
+>      target_ulong prev_priv, prev_virt;
+> @@ -132,7 +132,7 @@ target_ulong helper_sret(CPURISCVState *env, target_ulong cpu_pc_deb)
+>      return retpc;
+>  }
+>
+> -target_ulong helper_mret(CPURISCVState *env, target_ulong cpu_pc_deb)
+> +target_ulong helper_mret(CPURISCVState *env)
+>  {
+>      if (!(env->priv >= PRV_M)) {
+>          riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
 > --
-> 2.27.0
+> 2.25.1
 >
-
+>
 
