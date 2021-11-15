@@ -2,85 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2525544FFA4
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 09:03:32 +0100 (CET)
-Received: from localhost ([::1]:55800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AC5C44FFC4
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 09:08:44 +0100 (CET)
+Received: from localhost ([::1]:36500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmWxe-0002lN-Ps
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 03:03:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45352)
+	id 1mmX2h-0000Ug-62
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 03:08:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mmWwG-0001uE-1f
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 03:02:04 -0500
-Received: from [2a00:1450:4864:20::433] (port=39552
- helo=mail-wr1-x433.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mmWwD-0007U2-TU
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 03:02:03 -0500
-Received: by mail-wr1-x433.google.com with SMTP id d27so28843891wrb.6
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 00:02:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=GbpP/8KAioO/YRtL4rx7xGjmagDxShnhsARaSYnQBmA=;
- b=EjWHLAPUYpTI39hZCwI/0jzic4v890SQb9c40U0ss3urDTnIEM1J5/NOUAueyPHAZZ
- jZyMDAS97O3nDnlFlXk26wt9qYbEzwrF6K98/ZADv7a0/oGiwo9q7d8Q6VsUwWXW66p7
- D+OEIOyRaNdxOHJX+re9iMTSWrOke14UbhgxNUgENwVIs98sr9GAcXOua8S5wnKuO2Z9
- 8uZzCP/GGc9b9pRzV63g/wSYuULFZEW0M1lZuaYuLoUyn87IaHHBDb9dTbbJKj2zIHVz
- /058FXBRK61Z7PZV2SXNwYhJQS2rra9ssqOHueyTZaKc2bOPCGWhLxgkvpZ386T0XpcJ
- xk/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GbpP/8KAioO/YRtL4rx7xGjmagDxShnhsARaSYnQBmA=;
- b=noQUhtq7jQ6ArhbyNMeVZqyMShwW7AK5ESm8GKheJ+huuykDYK0CQ84Q7DJEJbt5JN
- 43E2j5SqkEXlvHjs1IMBdmbbJRcFq5f1CzcAGrDdttNXNPr6+HzvjkEa2voSO1eU5KFh
- ezMxiAx64aPRrUnAWosUXv/G3FfyY1NBPEEf+WgG0MystK0LZ+aGcXE0nQvl/xkLxsGQ
- Swk6Tbj01q6PHU5ZB/eAPGX7Z491fusbHyUoDLQCozNWt5DFPBt01+23YFGdNz1SewJa
- 9zLfqmwwU/ZHsqvPyLE0qNF3DsV4B3GiaEvudCGrImVQDgf2rPRNbJ1UYw4L9cCrXHkF
- brUg==
-X-Gm-Message-State: AOAM533NVbACKYFrwLmpA7Jz1rpnE1qkmG9qe5mvwCdCEyLBh5WMxmsz
- r4lFwEFsFitl9VfwFTey7LCNVQ==
-X-Google-Smtp-Source: ABdhPJxGP1sBWgz1fUXwlGhKFIGGRR0BSwOavlVjs4ws9Biskq2Wl3nNXK3zN9c6fcDzMESuNj4npg==
-X-Received: by 2002:adf:d852:: with SMTP id k18mr42029970wrl.391.1636963319292; 
- Mon, 15 Nov 2021 00:01:59 -0800 (PST)
-Received: from [192.168.8.105] (137.red-176-80-46.dynamicip.rima-tde.net.
- [176.80.46.137])
- by smtp.gmail.com with ESMTPSA id n32sm22316799wms.1.2021.11.15.00.01.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Nov 2021 00:01:58 -0800 (PST)
-Subject: Re: [PATCH v5 02/18] exec/memop: Adding signed quad and octo defines
-To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211112145902.205131-1-frederic.petrot@univ-grenoble-alpes.fr>
- <20211112145902.205131-3-frederic.petrot@univ-grenoble-alpes.fr>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <334343ea-77e6-431b-4dfc-433fd1986ede@linaro.org>
-Date: Mon, 15 Nov 2021 09:01:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1mmWxp-0003jJ-Qe
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 03:03:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60524)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1mmWxo-0007fr-7D
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 03:03:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636963419;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=M5scYZGPAWwiUZomtLzFgF/1Qwk95VrUl8Q/sJyYlX0=;
+ b=aQpiyNWpBwY153CqCUx9KcdyY3UIXTyIp7BRhpwz7wo6FfUSl7X8xZUL++N5vVPfXNiux/
+ xW3kD2wTn2cEMOl0eg71j4phB9g+Nm1MAoagU1Qcnfwdr8tdsGbZOKPRJOK4NL+eV68Vtw
+ iUfBPxk+7HvXhTk+VW7mQkeSbF51SpA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-585-3bFBoWD-PeCdYxz0aBsKTw-1; Mon, 15 Nov 2021 03:03:25 -0500
+X-MC-Unique: 3bFBoWD-PeCdYxz0aBsKTw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 378BF824F8D
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 08:03:24 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 004515C1BB;
+ Mon, 15 Nov 2021 08:03:15 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] qemu-options: define -spice only #ifdef CONFIG_SPICE
+Date: Mon, 15 Nov 2021 12:03:10 +0400
+Message-Id: <20211115080312.64692-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211112145902.205131-3-frederic.petrot@univ-grenoble-alpes.fr>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.278,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,21 +76,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
- palmer@dabbelt.com, fabien.portas@grenoble-inp.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, berrange@redhat.com, armbru@redhat.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/12/21 3:58 PM, Frédéric Pétrot wrote:
-> Adding defines to handle signed 64-bit and unsigned 128-bit quantities in
-> memory accesses.
-> 
-> Signed-off-by: Frédéric Pétrot<frederic.petrot@univ-grenoble-alpes.fr>
-> ---
->   include/exec/memop.h | 7 +++++++
->   1 file changed, 7 insertions(+)
+From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Hi,=0D
+=0D
+This is v2 of "[PATCH] qemu-options.hx: remove -spice options from --help",=
+=0D
+after Markus comment on patch title.=0D
+=0D
+Marc-Andr=C3=A9 Lureau (2):=0D
+  qemu-options: define -spice only #ifdef CONFIG_SPICE=0D
+  vl: typo fix in a comment=0D
+=0D
+ softmmu/vl.c    | 4 +++-=0D
+ qemu-options.hx | 2 ++=0D
+ 2 files changed, 5 insertions(+), 1 deletion(-)=0D
+=0D
+--=20=0D
+2.33.0.721.g106298f7f9=0D
+=0D
 
-r~
 
