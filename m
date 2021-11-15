@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 846004509F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 17:46:44 +0100 (CET)
-Received: from localhost ([::1]:55848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE8BA450A49
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 17:56:06 +0100 (CET)
+Received: from localhost ([::1]:55696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmf7z-0008WR-LA
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 11:46:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54138)
+	id 1mmfH3-00025m-RN
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 11:56:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmezK-0001PI-Oc
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:37:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22118)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmf1h-0006R6-4o
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:40:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46528)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmezH-00059q-RH
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:37:45 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmf1f-0005Qv-8b
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:40:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636994263;
+ s=mimecast20190719; t=1636994410;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/UAC8cFjmevmjKiAFrG4ySzRdHBE4bsHOmnhcPVqLlc=;
- b=hNo/NKxH0HyiGj1LctUOBDF4nrKRwNKAwinkcJlzYXukw6lAPUvMgBj98fWSlfYiekUOXt
- b9KUyPo+NwW1m1ZINJ9K7nsLqrr1URpRgx6B4zjGgYTqhbguokaQuQWyq4hGK+egrKlEdZ
- +riDZN+rUwr/hhEyCpK5B8L7U2C57PA=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-qihW5Gp3NACG2sCIjmvrTg-1; Mon, 15 Nov 2021 11:37:41 -0500
-X-MC-Unique: qihW5Gp3NACG2sCIjmvrTg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- q17-20020aa7da91000000b003e7c0641b9cso2909885eds.12
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 08:37:41 -0800 (PST)
+ bh=R01BxX4l5C5eaCov7FEv3t7wD4gp/yqC3ffLI+K8L7g=;
+ b=Zg5wRL8Nmqcx9/zLqkWJvG4fKLH0RKidtHJvxEmD8zwcpVwWHj1WFcUaH9UbZqCiVJ3MZe
+ FKNYneB/PcHWvqqPmBWF77mwMvCDU0ZCm72WJZCOieClEq/p7xO9ghr+eeGRi+4XAGhzBF
+ WuOpXsw9hwM5IHZHYMR9obMMinRiqR4=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-529-RrbbeYIUPtOKDgnbNmq8Wg-1; Mon, 15 Nov 2021 11:37:47 -0500
+X-MC-Unique: RrbbeYIUPtOKDgnbNmq8Wg-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ b15-20020aa7c6cf000000b003e7cf0f73daso2197113eds.22
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 08:37:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=/UAC8cFjmevmjKiAFrG4ySzRdHBE4bsHOmnhcPVqLlc=;
- b=ijnjoZCkwqW+RC+AYX0BlYSIlmHZzbT9pQ7mU4Q2hoS2TGqX4Cpb9Fc5Tkxam4WxBY
- yahYDJ0QgNFIFwQ0sxNZFryav5dGMrACkrh9/DwR2yFE8R/agm/BoRFnFcv8g9xNKI3F
- zzmkyXkqOyAj/kBUm445e0pDkMy7TBUiN8cbT4o1CzO8kzTClOWnljgkfuuV+HZugM3f
- DkI+6dNpOKEJjNFcQkzdKRAqm7KctZXeh73Apg1Z9TioXZEufU7wv5Cu7FMjqzhci2H/
- YQjYUVc/xNBpwmMPtB/i5G6vF2cLZfx5GCAM1+Fi/OcYldzHScvLwQ0WgNVRJBTUT6T9
- NOvA==
-X-Gm-Message-State: AOAM5302FbFCg3mXFpIMwcniDSQlHgABHbkceKPp+QScCoRgWSsUlxyV
- uVNhnddnxEoXQqVBM/AaQylnZ2u7YM0EvDVVDxk40V3RENU9ggvPgDh/hqBKgKEMdbe+fnc7pz/
- 4nXczFFU41aDv2xzkw3Z5aQTKYX8mkg4oMY3+BVj2RlSYzb3UO72EikpjR+fi
-X-Received: by 2002:aa7:ca4f:: with SMTP id j15mr58348edt.178.1636994260367;
- Mon, 15 Nov 2021 08:37:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzniA2cpbt0IMK5WJx6QNAtOwRwd86q2E+XFtFyyID09hJbjGm2C6gz8Q8nvfcjBN/GDpYuyQ==
-X-Received: by 2002:aa7:ca4f:: with SMTP id j15mr58309edt.178.1636994260208;
- Mon, 15 Nov 2021 08:37:40 -0800 (PST)
+ bh=R01BxX4l5C5eaCov7FEv3t7wD4gp/yqC3ffLI+K8L7g=;
+ b=qr4kk5UapLATOrUdpne2lUTLI4zSFxZ2pVXi3X+4GOinyYIyZX+RRVOdgzFgeBovhV
+ hV52QzEeKTsKP0gD90KE8IynBwiVqPqOVReacVPivQG3tkR3j7FRV61RrKJpcSAQnd81
+ q3BsT3+0cSYa3TdHw2cSWba00q6qZTt+vJ1+1CIWiLmoslEvhWMVhRMNY0rdC08mR+6L
+ ZWFnvAXdUlR7vBCepOdUaSve0BF0e1jzkw/Dt9EGK1XcVo87I56rhdeBXSsl5F8bCdBc
+ 1XcXDMMXRZY2NKn/L7a0AKFFKcLlAg3Pf4XysooRW5mTM9Ri1aJm+D1b1d772gBc06le
+ w3zw==
+X-Gm-Message-State: AOAM531P6TAiUguCdys+tSS7ou1bljjMeoomg9DQG/IToIzV+SLLJIKe
+ 1Kle2WMOJxjolttKM6K2PR3hb3PJbNy+V08eZiasa8kZH4bDqjo5klZKp2ro21H9uXbDtVzak2X
+ RAHfX+Quz+cMmoYKyC/W+14BILN7E3PM5zuDli7eOe1/XajR4KHtLIRIy/u9Q
+X-Received: by 2002:a17:906:608:: with SMTP id s8mr320964ejb.405.1636994265822; 
+ Mon, 15 Nov 2021 08:37:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxiF0n5b+00BhpsJb9KilgdOrcFfAH8saZZW6AvLsqG442RZGW2VU3WgMydYM7dr20iP9QKfg==
+X-Received: by 2002:a17:906:608:: with SMTP id s8mr320937ejb.405.1636994265662; 
+ Mon, 15 Nov 2021 08:37:45 -0800 (PST)
 Received: from redhat.com ([2a03:c5c0:207e:9a71:d0b:1947:b534:3230])
- by smtp.gmail.com with ESMTPSA id u16sm7704302edr.43.2021.11.15.08.37.28
+ by smtp.gmail.com with ESMTPSA id s3sm6739305ejm.49.2021.11.15.08.37.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Nov 2021 08:37:39 -0800 (PST)
-Date: Mon, 15 Nov 2021 11:37:25 -0500
+ Mon, 15 Nov 2021 08:37:44 -0800 (PST)
+Date: Mon, 15 Nov 2021 11:37:40 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/20] softmmu/qdev-monitor: fix use-after-free in qdev_set_id()
-Message-ID: <20211115163607.177432-3-mst@redhat.com>
+Subject: [PULL 03/20] vhost: Rename last_index to vq_index_end
+Message-ID: <20211115163607.177432-4-mst@redhat.com>
 References: <20211115163607.177432-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211115163607.177432-1-mst@redhat.com>
@@ -75,15 +75,15 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,52 +96,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Eugenio Pérez <eperezma@redhat.com>
 
-Reported by Coverity (CID 1465222).
+The doc of this field pointed out that last_index is the last vq index.
+This is misleading, since it's actually one past the end of the vqs.
 
-Fixes: 4a1d937796de0fecd8b22d7dbebf87f38e8282fd ("softmmu/qdev-monitor: add error handling in qdev_set_id")
-Cc: Damien Hedde <damien.hedde@greensocs.com>
-Cc: Kevin Wolf <kwolf@redhat.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20211102163342.31162-1-stefanha@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Renaming and modifying comment.
+
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
+Message-Id: <20211104085625.2054959-2-eperezma@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
- softmmu/qdev-monitor.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/hw/virtio/vhost.h | 4 ++--
+ hw/net/vhost_net.c        | 4 ++--
+ hw/virtio/vhost-vdpa.c    | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index f8b3a4cd82..588a62b88d 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -593,8 +593,8 @@ const char *qdev_set_id(DeviceState *dev, char *id, Error **errp)
-         if (prop) {
-             dev->id = id;
-         } else {
--            g_free(id);
-             error_setg(errp, "Duplicate device ID '%s'", id);
-+            g_free(id);
-             return NULL;
-         }
-     } else {
+diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+index 3fa0b554ef..58a73e7b7a 100644
+--- a/include/hw/virtio/vhost.h
++++ b/include/hw/virtio/vhost.h
+@@ -74,8 +74,8 @@ struct vhost_dev {
+     unsigned int nvqs;
+     /* the first virtqueue which would be used by this vhost dev */
+     int vq_index;
+-    /* the last vq index for the virtio device (not vhost) */
+-    int last_index;
++    /* one past the last vq index for the virtio device (not vhost) */
++    int vq_index_end;
+     /* if non-zero, minimum required value for max_queues */
+     int num_queues;
+     uint64_t features;
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index 0d888f29a6..29f2c4212f 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -232,10 +232,10 @@ fail:
+ }
+ 
+ static void vhost_net_set_vq_index(struct vhost_net *net, int vq_index,
+-                                   int last_index)
++                                   int vq_index_end)
+ {
+     net->dev.vq_index = vq_index;
+-    net->dev.last_index = last_index;
++    net->dev.vq_index_end = vq_index_end;
+ }
+ 
+ static int vhost_net_start_one(struct vhost_net *net,
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 0d8051426c..bcaf00e09f 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -645,7 +645,7 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+         vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
+     }
+ 
+-    if (dev->vq_index + dev->nvqs != dev->last_index) {
++    if (dev->vq_index + dev->nvqs != dev->vq_index_end) {
+         return 0;
+     }
+ 
 -- 
 MST
 
