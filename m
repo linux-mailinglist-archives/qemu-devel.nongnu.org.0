@@ -2,83 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A792D4501E0
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 10:57:55 +0100 (CET)
-Received: from localhost ([::1]:51016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 870344501F0
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 11:04:10 +0100 (CET)
+Received: from localhost ([::1]:59972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmYkM-0003Fi-G1
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 04:57:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40958)
+	id 1mmYqP-0001Ki-DD
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 05:04:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mmYiv-0000vH-0J
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 04:56:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53511)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mmYnG-0007W8-Th
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 05:00:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mmYin-0005A9-D1
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 04:56:20 -0500
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mmYn1-0005aT-AF
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 05:00:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636970175;
+ s=mimecast20190719; t=1636970437;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=lAMNm1iBwkczRjsK7T7x3lFBeAkZS8ZT+Tr/++lByhg=;
- b=hoSYm6Iw8WpRQ3R+jlZjnk3xxfir0ZRbmgDo3QeKGU//h1PhO9AEe+OYbj/71wq8Vsxnu2
- 6PV7tkIQTBDpoMD+CGR0VMyahPPp3N2QLcarKwWdl6e47+OyMtiExzOvDCpA62kP3y5U4A
- pmRcpE12cxXOTersEKfZFq92cHbkms0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-189-yiDBF1BXNfaM566epHCYvw-1; Mon, 15 Nov 2021 04:56:12 -0500
-X-MC-Unique: yiDBF1BXNfaM566epHCYvw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- l4-20020a05600c1d0400b00332f47a0fa3so7597367wms.8
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 01:56:12 -0800 (PST)
+ in-reply-to:in-reply-to:references:references;
+ bh=aS1YLIBNNa0zGcJuCAp0XowPdpeiHM/ZzvNCtqV0tgc=;
+ b=IG2Pok08NKbwqjHbuh4ajbCPUTlEI4jpDK8nXA/PjUSLeJ0efnAoMq6+qPHQnbC7b/rZ3Y
+ eO7Y+3eWVYEka/UIreJE0sylTf3uQ0zYYJqiLrlIX1CQRkSo+qtTC0L5OV7I61rPeCct+R
+ hCcz6eDSw8pYob/lpULEERI9OTxA8xg=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-597-fK1vFeJdPcK5LnwT3g14-g-1; Mon, 15 Nov 2021 05:00:36 -0500
+X-MC-Unique: fK1vFeJdPcK5LnwT3g14-g-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ a3-20020a05640213c300b003e7d12bb925so1075438edx.9
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 02:00:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lAMNm1iBwkczRjsK7T7x3lFBeAkZS8ZT+Tr/++lByhg=;
- b=kCQkieHohvXWU35fqScV4gpEor12OScvqirmCdWFGIBSU/B2TifEhlsmhoBgdTejYQ
- 2Bwa4w0WTQhYVc1chfZObyiMnpUFGazlNqqTMXnQ+Emk4BvgJZXHYy+/ZIKKnweMPMOx
- ZSY0b+yjX9s7fo09wHSnCBTqSnpaTiJtuJftcTc+lxd3SMvxKQglqR9sSByk/yv0VsYa
- DAwuttTWRn+DYuRn7LpgHSChINOdYokxR2enSzYHgzhqFkuvEXv9aICKbv/L6NHtdff7
- 8qyhe2oaSt6xK0Y1Td8cl9NyGt96OQvjLC75qY/e001jbL/NlL/9ZjqEohAE+jIqNcc3
- Sx5Q==
-X-Gm-Message-State: AOAM530JchVwgGg8UcD/apF2/sv9nvChcQu+AnSS1CcWMYrf35h24+BF
- MhOjYG28MsQPmVfKhFieJ7AzCdFxsBrR+Jt/A3c0UroCM9T7fPqGDRRf9jlWCw6HjDmGoF1qzqU
- 5Vrg3MGz/xyyFQT4LmpdLZ1ASDYZRGeRpYuURWM9mL8ysZpOiGHqdCXAGFQGFBDJk
-X-Received: by 2002:a5d:6508:: with SMTP id x8mr45634747wru.388.1636970170761; 
- Mon, 15 Nov 2021 01:56:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwayg1esYHofnlR5teUkUTnWq17ilE2/KtpKrroMFy2VSEe/mF7OXwihHCkZR3EH7eDUvZ9kA==
-X-Received: by 2002:a5d:6508:: with SMTP id x8mr45634683wru.388.1636970170319; 
- Mon, 15 Nov 2021 01:56:10 -0800 (PST)
-Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id
- s8sm8991404wro.19.2021.11.15.01.56.09
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=aS1YLIBNNa0zGcJuCAp0XowPdpeiHM/ZzvNCtqV0tgc=;
+ b=Sz76nVLRZ+XBp5Dq/3CRa6Rfj8trOk2P8QLdgwwjiA/6qyFKcktRPc+vT3c2RA0Kng
+ uc4mGISAzuh0wVAKnTjtSa7rSs4IzttxKJvy6Db7Rb/WH9zBTYP8h7Xy5PfA40j2OIcB
+ c+7He/qyyjo6kkvyJ8jjIHO1ljoP+2LWEiMo06JssVs0YkBrWDw1JaxGLFaHIVkJukIE
+ 0bEeNN03+ZXlo7bSKUIOJbgVRS53dZAjCxDM6Kj6I6EW/pkmByNUR8WUAZ1LYf886pCI
+ QHGrNOyXw4eFPb6LgxSEPOv7pFIlSimJvrhT4vFk2YORHITxH9s65/p+LhURbYFGufuD
+ GKVg==
+X-Gm-Message-State: AOAM530U0QpT7YbUTKjGsYpvDV6JSsW4qCtzzaOHUua0vvqAdcKQRs7N
+ lezeDlwLFpnp7JJsH/82fU1l54EqQoiKC8tcgoBk6soaaVGfEgzPBq+k0n/pIu8F61EctPD+j80
+ 39YSUltHgwsDSwes=
+X-Received: by 2002:a50:fb09:: with SMTP id d9mr19131357edq.283.1636970434974; 
+ Mon, 15 Nov 2021 02:00:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyIYDo0HnwORDkA7e6HJUlkYSsCnQGMfPCbAszG0X8iu8kYwAuhluGwUqNQaKApYAi0S6Ovow==
+X-Received: by 2002:a50:fb09:: with SMTP id d9mr19131328edq.283.1636970434816; 
+ Mon, 15 Nov 2021 02:00:34 -0800 (PST)
+Received: from steredhat (host-87-10-72-39.retail.telecomitalia.it.
+ [87.10.72.39])
+ by smtp.gmail.com with ESMTPSA id k9sm7099513edo.87.2021.11.15.02.00.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Nov 2021 01:56:09 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] gitlab-ci: Split custom-runners.yml in one file per runner
-Date: Mon, 15 Nov 2021 10:56:08 +0100
-Message-Id: <20211115095608.2436223-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
+ Mon, 15 Nov 2021 02:00:34 -0800 (PST)
+Date: Mon, 15 Nov 2021 11:00:31 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: yadong.qi@intel.com
+Subject: Re: [PATCH 2/2] virtio-blk: support BLKSECDISCARD
+Message-ID: <20211115100031.x2qmoi7f5e2rrtbl@steredhat>
+References: <20211115045200.3567293-1-yadong.qi@intel.com>
+ <20211115045200.3567293-3-yadong.qi@intel.com>
 MIME-Version: 1.0
+In-Reply-To: <20211115045200.3567293-3-yadong.qi@intel.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,595 +95,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: kwolf@redhat.com, fam@euphon.net, qemu-block@nongnu.org, mst@redhat.com,
+ luhai.chen@intel.com, qemu-devel@nongnu.org, kai.z.wang@intel.com,
+ hreitz@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To ease maintenance, add the custom-runners/ directory and
-split custom-runners.yml in 3 files, all included by the
-current custom-runners.yml:
- - ubuntu-18.04-s390x.yml
- - ubuntu-20.04-aarch64.yml
- - centos-stream-8-x86_64.yml
+On Mon, Nov 15, 2021 at 12:52:00PM +0800, yadong.qi@intel.com wrote:
+>From: Yadong Qi <yadong.qi@intel.com>
+>
+>Add new virtio feature: VIRTIO_BLK_F_SECDISCARD.
+>Add new virtio command: VIRTIO_BLK_T_SECDISCARD.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
-Based-on: <20211111160501.862396-1-crosa@redhat.com>
-https://gitlab.com/stsquad/qemu/-/tree/for-6.2/misc-fixes
----
- .gitlab-ci.d/custom-runners.yml               | 268 +-----------------
- .../custom-runners/centos-stream-8-x86_64.yml |  28 ++
- .../custom-runners/ubuntu-18.04-s390x.yml     | 118 ++++++++
- .../custom-runners/ubuntu-20.04-aarch64.yml   | 118 ++++++++
- 4 files changed, 268 insertions(+), 264 deletions(-)
- create mode 100644 .gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml
- create mode 100644 .gitlab-ci.d/custom-runners/ubuntu-18.04-s390x.yml
- create mode 100644 .gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
+Has a proposal been sent out yet to virtio-comment mailing list for 
+discussing these specification changes?
 
-diff --git a/.gitlab-ci.d/custom-runners.yml b/.gitlab-ci.d/custom-runners.yml
-index 1f56297dfa1..056c374619b 100644
---- a/.gitlab-ci.d/custom-runners.yml
-+++ b/.gitlab-ci.d/custom-runners.yml
-@@ -13,267 +13,7 @@
- variables:
-   GIT_STRATEGY: clone
- 
--# All ubuntu-18.04 jobs should run successfully in an environment
--# setup by the scripts/ci/setup/build-environment.yml task
--# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
--ubuntu-18.04-s390x-all-linux-static:
-- needs: []
-- stage: build
-- tags:
-- - ubuntu_18.04
-- - s390x
-- rules:
-- - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-- - if: "$S390X_RUNNER_AVAILABLE"
-- script:
-- # --disable-libssh is needed because of https://bugs.launchpad.net/qemu/+bug/1838763
-- # --disable-glusterfs is needed because there's no static version of those libs in distro supplied packages
-- - mkdir build
-- - cd build
-- - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
-- - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
-- - make --output-sync -j`nproc` check-tcg V=1
--
--ubuntu-18.04-s390x-all:
-- needs: []
-- stage: build
-- tags:
-- - ubuntu_18.04
-- - s390x
-- rules:
-- - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-- - if: "$S390X_RUNNER_AVAILABLE"
-- script:
-- - mkdir build
-- - cd build
-- - ../configure --disable-libssh
-- - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
--
--ubuntu-18.04-s390x-alldbg:
-- needs: []
-- stage: build
-- tags:
-- - ubuntu_18.04
-- - s390x
-- rules:
-- - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
--   when: manual
--   allow_failure: true
-- - if: "$S390X_RUNNER_AVAILABLE"
--   when: manual
--   allow_failure: true
-- script:
-- - mkdir build
-- - cd build
-- - ../configure --enable-debug --disable-libssh
-- - make clean
-- - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
--
--ubuntu-18.04-s390x-clang:
-- needs: []
-- stage: build
-- tags:
-- - ubuntu_18.04
-- - s390x
-- rules:
-- - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
--   when: manual
--   allow_failure: true
-- - if: "$S390X_RUNNER_AVAILABLE"
--   when: manual
--   allow_failure: true
-- script:
-- - mkdir build
-- - cd build
-- - ../configure --disable-libssh --cc=clang --cxx=clang++ --enable-sanitizers
-- - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
--
--ubuntu-18.04-s390x-tci:
-- needs: []
-- stage: build
-- tags:
-- - ubuntu_18.04
-- - s390x
-- rules:
-- - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
--   when: manual
--   allow_failure: true
-- - if: "$S390X_RUNNER_AVAILABLE"
--   when: manual
--   allow_failure: true
-- script:
-- - mkdir build
-- - cd build
-- - ../configure --disable-libssh --enable-tcg-interpreter
-- - make --output-sync -j`nproc`
--
--ubuntu-18.04-s390x-notcg:
-- needs: []
-- stage: build
-- tags:
-- - ubuntu_18.04
-- - s390x
-- rules:
-- - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
--   when: manual
--   allow_failure: true
-- - if: "$S390X_RUNNER_AVAILABLE"
--   when: manual
--   allow_failure: true
-- script:
-- - mkdir build
-- - cd build
-- - ../configure --disable-libssh --disable-tcg
-- - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
--
--# All ubuntu-20.04 jobs should run successfully in an environment
--# setup by the scripts/ci/setup/qemu/build-environment.yml task
--# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
--ubuntu-20.04-aarch64-all-linux-static:
-- needs: []
-- stage: build
-- tags:
-- - ubuntu_20.04
-- - aarch64
-- rules:
-- - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-- - if: "$AARCH64_RUNNER_AVAILABLE"
-- script:
-- # --disable-libssh is needed because of https://bugs.launchpad.net/qemu/+bug/1838763
-- # --disable-glusterfs is needed because there's no static version of those libs in distro supplied packages
-- - mkdir build
-- - cd build
-- - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
-- - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
-- - make --output-sync -j`nproc` check-tcg V=1
--
--ubuntu-20.04-aarch64-all:
-- needs: []
-- stage: build
-- tags:
-- - ubuntu_20.04
-- - aarch64
-- rules:
-- - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
--   when: manual
--   allow_failure: true
-- - if: "$AARCH64_RUNNER_AVAILABLE"
--   when: manual
--   allow_failure: true
-- script:
-- - mkdir build
-- - cd build
-- - ../configure --disable-libssh
-- - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
--
--ubuntu-20.04-aarch64-alldbg:
-- needs: []
-- stage: build
-- tags:
-- - ubuntu_20.04
-- - aarch64
-- rules:
-- - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-- - if: "$AARCH64_RUNNER_AVAILABLE"
-- script:
-- - mkdir build
-- - cd build
-- - ../configure --enable-debug --disable-libssh
-- - make clean
-- - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
--
--ubuntu-20.04-aarch64-clang:
-- needs: []
-- stage: build
-- tags:
-- - ubuntu_20.04
-- - aarch64
-- rules:
-- - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
--   when: manual
--   allow_failure: true
-- - if: "$AARCH64_RUNNER_AVAILABLE"
--   when: manual
--   allow_failure: true
-- script:
-- - mkdir build
-- - cd build
-- - ../configure --disable-libssh --cc=clang-10 --cxx=clang++-10 --enable-sanitizers
-- - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
--
--ubuntu-20.04-aarch64-tci:
-- needs: []
-- stage: build
-- tags:
-- - ubuntu_20.04
-- - aarch64
-- rules:
-- - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
--   when: manual
--   allow_failure: true
-- - if: "$AARCH64_RUNNER_AVAILABLE"
--   when: manual
--   allow_failure: true
-- script:
-- - mkdir build
-- - cd build
-- - ../configure --disable-libssh --enable-tcg-interpreter
-- - make --output-sync -j`nproc`
--
--ubuntu-20.04-aarch64-notcg:
-- needs: []
-- stage: build
-- tags:
-- - ubuntu_20.04
-- - aarch64
-- rules:
-- - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
--   when: manual
--   allow_failure: true
-- - if: "$AARCH64_RUNNER_AVAILABLE"
--   when: manual
--   allow_failure: true
-- script:
-- - mkdir build
-- - cd build
-- - ../configure --disable-libssh --disable-tcg
-- - make --output-sync -j`nproc`
-- - make --output-sync -j`nproc` check V=1
--
--centos-stream-8-x86_64:
-- allow_failure: true
-- needs: []
-- stage: build
-- tags:
-- - centos_stream_8
-- - x86_64
-- rules:
-- - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-- - if: "$CENTOS_STREAM_8_x86_64_RUNNER_AVAILABLE"
-- artifacts:
--   name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
--   when: on_failure
--   expire_in: 7 days
--   paths:
--     - build/tests/results/latest/results.xml
--     - build/tests/results/latest/test-results
--   reports:
--     junit: build/tests/results/latest/results.xml
-- before_script:
-- - JOBS=$(expr $(nproc) + 1)
-- script:
-- - mkdir build
-- - cd build
-- - ../scripts/ci/org.centos/stream/8/x86_64/configure
-- - make -j"$JOBS"
-- - make NINJA=":" check
-- - ../scripts/ci/org.centos/stream/8/x86_64/test-avocado
-+include:
-+  - local: '/.gitlab-ci.d/custom-runners/ubuntu-18.04-s390x.yml'
-+  - local: '/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml'
-+  - local: '/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml'
-diff --git a/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml b/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml
-new file mode 100644
-index 00000000000..49aa703f55c
---- /dev/null
-+++ b/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml
-@@ -0,0 +1,28 @@
-+centos-stream-8-x86_64:
-+ allow_failure: true
-+ needs: []
-+ stage: build
-+ tags:
-+ - centos_stream_8
-+ - x86_64
-+ rules:
-+ - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-+ - if: "$CENTOS_STREAM_8_x86_64_RUNNER_AVAILABLE"
-+ artifacts:
-+   name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
-+   when: on_failure
-+   expire_in: 7 days
-+   paths:
-+     - build/tests/results/latest/results.xml
-+     - build/tests/results/latest/test-results
-+   reports:
-+     junit: build/tests/results/latest/results.xml
-+ before_script:
-+ - JOBS=$(expr $(nproc) + 1)
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../scripts/ci/org.centos/stream/8/x86_64/configure
-+ - make -j"$JOBS"
-+ - make NINJA=":" check
-+ - ../scripts/ci/org.centos/stream/8/x86_64/test-avocado
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-18.04-s390x.yml b/.gitlab-ci.d/custom-runners/ubuntu-18.04-s390x.yml
-new file mode 100644
-index 00000000000..f39d874a1e1
---- /dev/null
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-18.04-s390x.yml
-@@ -0,0 +1,118 @@
-+# All ubuntu-18.04 jobs should run successfully in an environment
-+# setup by the scripts/ci/setup/build-environment.yml task
-+# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
-+
-+ubuntu-18.04-s390x-all-linux-static:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_18.04
-+ - s390x
-+ rules:
-+ - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-+ - if: "$S390X_RUNNER_AVAILABLE"
-+ script:
-+ # --disable-libssh is needed because of https://bugs.launchpad.net/qemu/+bug/1838763
-+ # --disable-glusterfs is needed because there's no static version of those libs in distro supplied packages
-+ - mkdir build
-+ - cd build
-+ - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+ - make --output-sync -j`nproc` check-tcg V=1
-+
-+ubuntu-18.04-s390x-all:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_18.04
-+ - s390x
-+ rules:
-+ - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-+ - if: "$S390X_RUNNER_AVAILABLE"
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+
-+ubuntu-18.04-s390x-alldbg:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_18.04
-+ - s390x
-+ rules:
-+ - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-+   when: manual
-+   allow_failure: true
-+ - if: "$S390X_RUNNER_AVAILABLE"
-+   when: manual
-+   allow_failure: true
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --enable-debug --disable-libssh
-+ - make clean
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+
-+ubuntu-18.04-s390x-clang:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_18.04
-+ - s390x
-+ rules:
-+ - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-+   when: manual
-+   allow_failure: true
-+ - if: "$S390X_RUNNER_AVAILABLE"
-+   when: manual
-+   allow_failure: true
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh --cc=clang --cxx=clang++ --enable-sanitizers
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+
-+ubuntu-18.04-s390x-tci:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_18.04
-+ - s390x
-+ rules:
-+ - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-+   when: manual
-+   allow_failure: true
-+ - if: "$S390X_RUNNER_AVAILABLE"
-+   when: manual
-+   allow_failure: true
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh --enable-tcg-interpreter
-+ - make --output-sync -j`nproc`
-+
-+ubuntu-18.04-s390x-notcg:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_18.04
-+ - s390x
-+ rules:
-+ - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-+   when: manual
-+   allow_failure: true
-+ - if: "$S390X_RUNNER_AVAILABLE"
-+   when: manual
-+   allow_failure: true
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh --disable-tcg
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
-new file mode 100644
-index 00000000000..920e388bd05
---- /dev/null
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
-@@ -0,0 +1,118 @@
-+# All ubuntu-20.04 jobs should run successfully in an environment
-+# setup by the scripts/ci/setup/qemu/build-environment.yml task
-+# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
-+
-+ubuntu-20.04-aarch64-all-linux-static:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_20.04
-+ - aarch64
-+ rules:
-+ - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-+ - if: "$AARCH64_RUNNER_AVAILABLE"
-+ script:
-+ # --disable-libssh is needed because of https://bugs.launchpad.net/qemu/+bug/1838763
-+ # --disable-glusterfs is needed because there's no static version of those libs in distro supplied packages
-+ - mkdir build
-+ - cd build
-+ - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+ - make --output-sync -j`nproc` check-tcg V=1
-+
-+ubuntu-20.04-aarch64-all:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_20.04
-+ - aarch64
-+ rules:
-+ - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-+   when: manual
-+   allow_failure: true
-+ - if: "$AARCH64_RUNNER_AVAILABLE"
-+   when: manual
-+   allow_failure: true
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+
-+ubuntu-20.04-aarch64-alldbg:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_20.04
-+ - aarch64
-+ rules:
-+ - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-+ - if: "$AARCH64_RUNNER_AVAILABLE"
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --enable-debug --disable-libssh
-+ - make clean
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+
-+ubuntu-20.04-aarch64-clang:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_20.04
-+ - aarch64
-+ rules:
-+ - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-+   when: manual
-+   allow_failure: true
-+ - if: "$AARCH64_RUNNER_AVAILABLE"
-+   when: manual
-+   allow_failure: true
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh --cc=clang-10 --cxx=clang++-10 --enable-sanitizers
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+
-+ubuntu-20.04-aarch64-tci:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_20.04
-+ - aarch64
-+ rules:
-+ - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-+   when: manual
-+   allow_failure: true
-+ - if: "$AARCH64_RUNNER_AVAILABLE"
-+   when: manual
-+   allow_failure: true
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh --enable-tcg-interpreter
-+ - make --output-sync -j`nproc`
-+
-+ubuntu-20.04-aarch64-notcg:
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_20.04
-+ - aarch64
-+ rules:
-+ - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-+   when: manual
-+   allow_failure: true
-+ - if: "$AARCH64_RUNNER_AVAILABLE"
-+   when: manual
-+   allow_failure: true
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh --disable-tcg
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
--- 
-2.31.1
+>
+>This feature is disabled by default, it will check the backend
+>bs->open_flags & BDRV_O_SECDISCARD, enable it if BDRV_O_SECDISCARD
+>is supported.
+>
+>Signed-off-by: Yadong Qi <yadong.qi@intel.com>
+>---
+> hw/block/virtio-blk.c                       | 26 +++++++++++++++++----
+> include/standard-headers/linux/virtio_blk.h |  4 ++++
+> 2 files changed, 26 insertions(+), 4 deletions(-)
+>
+>diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+>index dbc4c5a3cd..7bc3484521 100644
+>--- a/hw/block/virtio-blk.c
+>+++ b/hw/block/virtio-blk.c
+>@@ -536,7 +536,8 @@ static bool virtio_blk_sect_range_ok(VirtIOBlock *dev,
+> }
+>
+> static uint8_t virtio_blk_handle_discard_write_zeroes(VirtIOBlockReq *req,
+>-    struct virtio_blk_discard_write_zeroes *dwz_hdr, bool is_write_zeroes)
+>+    struct virtio_blk_discard_write_zeroes *dwz_hdr, bool is_write_zeroes,
+>+    bool is_secdiscard)
+
+Since the function now handles 3 commands, I'm thinking if it's better 
+to pass the command directly and then make a switch instead of using 2 
+booleans.
+
+> {
+>     VirtIOBlock *s = req->dev;
+>     VirtIODevice *vdev = VIRTIO_DEVICE(s);
+>@@ -577,8 +578,8 @@ static uint8_t virtio_blk_handle_discard_write_zeroes(VirtIOBlockReq *req,
+>         goto err;
+>     }
+>
+>+    int blk_aio_flags = 0;
+
+Maybe better to move it to the beginning of the function.
+
+>     if (is_write_zeroes) { /* VIRTIO_BLK_T_WRITE_ZEROES */
+>-        int blk_aio_flags = 0;
+>
+>         if (flags & VIRTIO_BLK_WRITE_ZEROES_FLAG_UNMAP) {
+>             blk_aio_flags |= BDRV_REQ_MAY_UNMAP;
+>@@ -600,7 +601,12 @@ static uint8_t virtio_blk_handle_discard_write_zeroes(VirtIOBlockReq *req,
+>             goto err;
+>         }
+>
+>-        blk_aio_pdiscard(s->blk, sector << BDRV_SECTOR_BITS, bytes, 0,
+>+        if (is_secdiscard) {
+>+            blk_aio_flags |= BDRV_REQ_SECDISCARD;
+>+        }
+>+
+>+        blk_aio_pdiscard(s->blk, sector << BDRV_SECTOR_BITS, bytes,
+>+                         blk_aio_flags,
+>                          virtio_blk_discard_write_zeroes_complete, req);
+>     }
+>
+>@@ -622,6 +628,7 @@ static int virtio_blk_handle_request(VirtIOBlockReq *req, MultiReqBuffer *mrb)
+>     unsigned out_num = req->elem.out_num;
+>     VirtIOBlock *s = req->dev;
+>     VirtIODevice *vdev = VIRTIO_DEVICE(s);
+>+    bool is_secdiscard = false;
+>
+>     if (req->elem.out_num < 1 || req->elem.in_num < 1) {
+>         virtio_error(vdev, "virtio-blk missing headers");
+>@@ -722,6 +729,9 @@ static int virtio_blk_handle_request(VirtIOBlockReq *req, MultiReqBuffer *mrb)
+>      * VIRTIO_BLK_T_OUT flag set. We masked this flag in the switch statement,
+>      * so we must mask it for these requests, then we will check if it is set.
+>      */
+>+    case VIRTIO_BLK_T_SECDISCARD & ~VIRTIO_BLK_T_OUT:
+>+        is_secdiscard = true;
+>+        __attribute__((fallthrough));
+
+We can use QEMU_FALLTHROUGH here.
+
+>     case VIRTIO_BLK_T_DISCARD & ~VIRTIO_BLK_T_OUT:
+>     case VIRTIO_BLK_T_WRITE_ZEROES & ~VIRTIO_BLK_T_OUT:
+>     {
+>@@ -752,7 +762,8 @@ static int virtio_blk_handle_request(VirtIOBlockReq 
+>*req, MultiReqBuffer *mrb)
+>         }
+>
+>         err_status = virtio_blk_handle_discard_write_zeroes(req, &dwz_hdr,
+>-                                                            is_write_zeroes);
+>+                                                            is_write_zeroes,
+>+                                                            is_secdiscard);
+>         if (err_status != VIRTIO_BLK_S_OK) {
+>             virtio_blk_req_complete(req, err_status);
+>             virtio_blk_free_request(req);
+>@@ -1201,6 +1212,11 @@ static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
+>         return;
+>     }
+>
+>+    if (blk_get_flags(conf->conf.blk) & BDRV_O_SECDISCARD)
+>+        virtio_add_feature(&s->host_features, 
+>VIRTIO_BLK_F_SECDISCARD);
+>+    else
+>+        virtio_clear_feature(&s->host_features, VIRTIO_BLK_F_SECDISCARD);
+>+
+
+IIUC here we set or not the feature if BDRV_O_SECDISCARD is set.
+
+Should we keep it disabled if "secdiscard" is false? (e.g. to avoid 
+migration problems)
+
+Otherwise what is the purpose of the "secdiscard" property?
+
+Thanks,
+Stefano
 
 
