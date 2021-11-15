@@ -2,71 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8D6F45091D
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 17:02:53 +0100 (CET)
-Received: from localhost ([::1]:35402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 893CD45092E
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 17:04:53 +0100 (CET)
+Received: from localhost ([::1]:39954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmeRY-0007DY-J6
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 11:02:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44416)
+	id 1mmeTU-0001vm-BT
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 11:04:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mmeQA-00065z-LR
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:01:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24298)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mmeSF-0000ZQ-S3
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:03:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44371)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mmeQ8-0000BY-JF
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:01:26 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mmeSD-0000Pm-L1
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:03:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636992084;
+ s=mimecast20190719; t=1636992212;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=84H5Q4BoQIAfTyarkILBkOQn7xhp7BjF6T+UxyIUUHw=;
- b=LI7pmm4SKCry4hJQxn9TREtM6DietLgKvPODTP1BAL6rDBaZHgp77OoU8u6DN4yOggopyO
- X/9OS9UnIoDm1KqKT+4o6TsJ6geuCSPVpBYzANaEdcPkDzi0RVQXwUldxGBSTuCou1ewWt
- WXpoKDn4oFFqTwA48zNIjjOdYEjG+s0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-249-d3HtzfBJPISmC4xQiXS2RQ-1; Mon, 15 Nov 2021 11:01:20 -0500
-X-MC-Unique: d3HtzfBJPISmC4xQiXS2RQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76737804141;
- Mon, 15 Nov 2021 16:01:17 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CB7F5C1BB;
- Mon, 15 Nov 2021 16:01:17 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9AA4211380A7; Mon, 15 Nov 2021 17:01:15 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH RFC 0/2] Eliminate drive_get_next()
-References: <20211115125536.3341681-1-armbru@redhat.com>
- <CAFEAcA9gQCQv7XENgT-ap+2qhiggZTt-yEHQ1WJ6__5hHRRU1A@mail.gmail.com>
-Date: Mon, 15 Nov 2021 17:01:15 +0100
-In-Reply-To: <CAFEAcA9gQCQv7XENgT-ap+2qhiggZTt-yEHQ1WJ6__5hHRRU1A@mail.gmail.com>
- (Peter Maydell's message of "Mon, 15 Nov 2021 14:05:50 +0000")
-Message-ID: <87fsrxflx0.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=zHouYsaEr9YNAl02J0ArRA9Zr2FQAMN6eH022ace+OI=;
+ b=BnVuqe3T32WByisjxOeFhbimWpGR2ANIAFIHmJo4U45/iwBOjisZ3sW+2V2FjslmEBwwSl
+ 74NxJNfS3Wpfx4QsAVBf1eZj43MC3bYDEW44iCsP9B+dccBAtawWILTRKgKGErsyk/foJq
+ 5PaIt1QJECwM5S5kRnYuuh++QD4Z/xI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-381-ShjFvfcVOAi51E6Y52_fUg-1; Mon, 15 Nov 2021 11:03:31 -0500
+X-MC-Unique: ShjFvfcVOAi51E6Y52_fUg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 145-20020a1c0197000000b0032efc3eb9bcso9850619wmb.0
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 08:03:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=zHouYsaEr9YNAl02J0ArRA9Zr2FQAMN6eH022ace+OI=;
+ b=UOxzX9FR4dAO7Cn9QJjdT/SsrZ3ggn3lPy/rbJT5/xq6KnmQWicLRtfOij2Ck6bDls
+ N4OrYuvvaHCX6n92cF6zPcPU75K3pwm65qblWpQaPknjvHh1qmaQ/8GhAQNAM87nKLYn
+ vOCVlynJgD5eIkfYlUvaDxmJjDpHKUObar2TuDb/W4a1kLwuJ1pfEPG230yG5VX5jDDO
+ GKPkApNHJr7nNy7Mw6vyU/nNDeXvhEHO3takFJuLYCwF7QyoMoEXWjKkg30r35N2hold
+ d4gEZdJYxmWovfQ5Y884lx+aDB/p2GsQESo7WPLOHeHYVC6kEdQ2MFyG0a2OvbFUGCts
+ t9Vw==
+X-Gm-Message-State: AOAM530m0CJJRTGx6DRUamfPb3EhQvIOT5/I8Ox4OoFeaX9DksToSNuz
+ 7m3IJNAAj4b5bJae3UqaBTToXmWQDbvgftlOLatyKO/vX/1byJzS2lRiTCkI0VERAdqi7C5fcf/
+ 00+Oly0yptZF5DOk=
+X-Received: by 2002:a05:600c:4108:: with SMTP id
+ j8mr43509883wmi.139.1636992210037; 
+ Mon, 15 Nov 2021 08:03:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw339aAAvYfznxT3zxuMx1ghMGJdcMyOh6oWZQiQ/Pl4igNQP/7pZ22c7zYbpYZVNjikyaIWA==
+X-Received: by 2002:a05:600c:4108:: with SMTP id
+ j8mr43509837wmi.139.1636992209753; 
+ Mon, 15 Nov 2021 08:03:29 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id v15sm11057459wro.35.2021.11.15.08.03.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Nov 2021 08:03:29 -0800 (PST)
+Message-ID: <93821bd8-2ac0-a19e-7029-900e6a6d9be1@redhat.com>
+Date: Mon, 15 Nov 2021 17:03:28 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v4 00/25] block layer: split block APIs in global state
+ and I/O
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20211025101735.2060852-1-eesposit@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20211025101735.2060852-1-eesposit@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -57
+X-Spam_score: -5.8
+X-Spam_bar: -----
+X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.278, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,68 +101,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bin.meng@windriver.com, mark.cave-ayland@ilande.co.uk,
- qemu-devel@nongnu.org, edgar.iglesias@gmail.com, sundeep.lkml@gmail.com,
- qemu-block@nongnu.org, andrew.smirnov@gmail.com, hskinnemoen@google.com,
- joel@jms.id.au, atar4qemu@gmail.com, alistair@alistair23.me,
- b.galvani@gmail.com, nieklinnenbank@gmail.com, qemu-arm@nongnu.org,
- clg@kaod.org, kwolf@redhat.com, qemu-riscv@nongnu.org, andrew@aj.id.au,
- f4bug@amsat.org, Andrew.Baumann@microsoft.com, jcd@tribudubois.net,
- kfting@nuvoton.com, hreitz@redhat.com, palmer@dabbelt.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> On Mon, 15 Nov 2021 at 12:55, Markus Armbruster <armbru@redhat.com> wrote:
->>
->> This is RFC because I'm unsure about the removal of
->>
->>     /* Reason: init() method uses drive_get_next() */
->>     dc->user_creatable = false;
->>
->> in PATCH 1.  Both users appear to wire up some GPIO.  If that's
->> necessary for the thing to work, we should just replace the comment.
+On 25.10.21 12:17, Emanuele Giuseppe Esposito wrote:
+> Currently, block layer APIs like block-backend.h contain a mix of
+> functions that are either running in the main loop and under the
+> BQL, or are thread-safe functions and run in iothreads performing I/O.
+> The functions running under BQL also take care of modifying the
+> block graph, by using drain and/or aio_context_acquire/release.
+> This makes it very confusing to understand where each function
+> runs, and what assumptions it provided with regards to thread
+> safety.
 >
-> Looking at the code, it sort of is and sort of isn't. The GPIO line
-> is the chip-select line. If you don't connect it then (because the
-> ssi-sd device configures cs_polarity to SSI_CS_LOW, requesting an
-> active-low chip-select) the device will always be selected. If
-> the machine created an SSI bus with no SSI device attached to it
-> then in theory the user could create an ssi-sd device and connect
-> it there and have it work. But in practice it's really unlikely:
-> machines create SSI buses with specific wired-in devices on them,
-> and the guest OS knows what it has to do to enable the chip select
-> for the device it wants to talk to (often some known GPIO pin on
-> a GPIO controller).
+> We call the functions running under BQL "global state (GS) API", and
+> distinguish them from the thread-safe "I/O API".
 >
-> So I would keep the user_creatable = false, with a reason of
-> "user should wire up GPIO chip-select line". But see below for
+> The aim of this series is to split the relevant block headers in
+> global state and I/O sub-headers.
 
-I'll do it this way.
+Despite leaving quite some comments, the series and the split seem 
+reasonable to me overall.  (This is a pretty big series, after all, so 
+those “some comments” stack up against a majority of changes that seem 
+OK to me. :))
 
-> a pile of contrary precedent.
->
-> (The chip-select GPIO is created in the parent class, incidentally.)
->
->> Aside: there may be devices that need manual wiring to work, yet don't
->> have user_creatable unset.  Bugs if you ask me.  I don't have smart
->> ideas on how to track them down.
->
-> Me neither. I notice that the TYPE_M25P80 is also an SSI peripheral
-> with an active-low chipselect but that one doesn't set user_creatable
-> to false. TYPE_SSD0323 also is user-creatable and that one has an
-> active-high chipselect, which means the user can create a device but
-> it will then never be usable because it will ignore all transactions.
-> (More generally, looks like most subclasses of TYPE_SSI_PERIPHERAL
-> don't set user_creatable = false.)
+One thing I noticed while reviewing is that it’s really hard to verify 
+that no I/O function calls a GS function.  What would be wonderful is 
+some function marker like coroutine_fn that marks GS functions (or I/O 
+functions) and that we could then verify the call paths.  But AFAIU 
+we’ve always wanted precisely that for coroutine_fn and still don’t have 
+it, so this seems like extremely wishful thinking... :(
 
-For sysbus devices, we clear user_creatable by default, because sysbus
-devices pretty much always[*] need wiring.  Is this the case for SSI bus
-devices, too?
+I think most of the issues I found can be fixed (or are even 
+irrelevant), the only thing that really worries me are the two places 
+that are clearly I/O paths that call permission functions: Namely first 
+block_crypto_amend_options_generic_luks() (part of the luks block 
+driver’s .bdrv_co_amend implementation), which calls 
+bdrv_child_refresh_perms(); and second fuse_do_truncate(), which calls 
+blk_set_perm().
+
+In the first case, we need this call so that we don’t permanently hog 
+the WRITE permission for the luks file, which used to be a problem, I 
+believe.  We want to unshare the WRITE permission (and apparently also 
+CONSISTENT_READ) during the key update, so we need some way to 
+temporarily update the permissions.
+
+I only really see four solutions for this:
+(1) We somehow make the amend job run in the main context under the BQL 
+and have it prevent all concurrent I/O access (seems bad)
+(2) We can make the permission functions part of the I/O path (seems 
+wrong and probably impossible?)
+(3) We can drop the permissions update and permanently require the 
+permissions that we need when updating keys (I think this might break 
+existing use cases)
+(4) We can acquire the BQL around the permission update call and perhaps 
+that works?
+
+I don’t know how (4) would work but it’s basically the only reasonable 
+solution I can come up with.  Would this be a way to call a BQL function 
+from an I/O function?
+
+As for the second case, the same applies as above, with the differences 
+that we have no jobs, so this code must always run in the block device’s 
+AioContext (I think), which rules out (1); but (3) would become easier 
+(i.e. require the RESIZE permission all the time), although that too 
+might have an impact on existing users (don’t think so, though).  In any 
+case, if we could do (4), that would solve the problem here, too.
 
 
-[*] The most prominent exception is "dynamic sysbus", which I believe
-was a mistake.
+And finally, another notable thing I noticed is that the way how 
+create-related functions are handled is inconsistent.  I believe they 
+should all be GS functions; qmp_blockdev_create() seems to agree with me 
+on this, but we currently seem to have some bugs there.  It’s possible 
+to invoke blockdev-create on a block device that’s in an I/O thread, and 
+then qemu crashes.  Oops.  (The comment in qmp_blockdev_create() says 
+that the block drivers’ implementations should prevent this, but 
+apparently they don’t...?) In any case, that’s a pre-existing bug, of 
+course, that doesn’t concern this series (other than that it suggests 
+that “create” functions should be classified as GS).
+
+Hanna
 
 
