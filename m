@@ -2,66 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C8BE44FDCA
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 05:01:14 +0100 (CET)
-Received: from localhost ([::1]:57740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 490E144FDE6
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 05:22:48 +0100 (CET)
+Received: from localhost ([::1]:60654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmTBA-00008G-T1
-	for lists+qemu-devel@lfdr.de; Sun, 14 Nov 2021 23:01:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33496)
+	id 1mmTW2-0003Ga-Rd
+	for lists+qemu-devel@lfdr.de; Sun, 14 Nov 2021 23:22:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mmT9y-0007sF-VA
- for qemu-devel@nongnu.org; Sun, 14 Nov 2021 22:59:58 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:43842 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mmT9t-00024R-Dg
- for qemu-devel@nongnu.org; Sun, 14 Nov 2021 22:59:58 -0500
-Received: from [10.20.42.193] (unknown [10.20.42.193])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxmuQS25FhbQgAAA--.281S3;
- Mon, 15 Nov 2021 11:59:14 +0800 (CST)
-Subject: Re: [PATCH v10 04/26] target/loongarch: Add fixed point arithmetic
- instruction translation
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <1636700049-24381-1-git-send-email-gaosong@loongson.cn>
- <1636700049-24381-5-git-send-email-gaosong@loongson.cn>
- <7e6e5c26-2c1a-e4b5-a724-c2db33a36180@linaro.org>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <5c3c3107-da7f-7e13-189e-866c7ff1acde@loongson.cn>
-Date: Mon, 15 Nov 2021 11:59:14 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mmTUY-0002O3-UO
+ for qemu-devel@nongnu.org; Sun, 14 Nov 2021 23:21:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21265)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mmTUW-0004IQ-28
+ for qemu-devel@nongnu.org; Sun, 14 Nov 2021 23:21:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636950070;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=U6FfuNVeTH2gvoa5FPxf5T9VSle3YRZ981VB3GU0tao=;
+ b=e/mb3xS6zJIpeZ8yRM8MW01q5KOdPtZFttEhLUUlE2uGpXTQalCJfk74nEKlnkZzghmm5A
+ U9bXfvVcZKVEWx5/OfsYhrjRYXBfYDZrS3yqgbc9F8TeKG/UmTe4Z4nCFRed9xSoWuVMU+
+ OCrSg8L1jY5YiGMeRZlEQsfRNSf/sfQ=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-64-ZqBhMDQ3OxuM07jKTcvRew-1; Sun, 14 Nov 2021 23:21:08 -0500
+X-MC-Unique: ZqBhMDQ3OxuM07jKTcvRew-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ x7-20020a056512130700b003fd1a7424a8so6166484lfu.5
+ for <qemu-devel@nongnu.org>; Sun, 14 Nov 2021 20:21:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=U6FfuNVeTH2gvoa5FPxf5T9VSle3YRZ981VB3GU0tao=;
+ b=eE9uC4p7HFZcpNgwVsd537TA5Jj86ZS5rZBqGfERFlfHnXCDyiJ/DiLfrWl/KM+xn3
+ qsEo0NUAkxkynjovwTesUPmL/Rz6+aBUN/cFTK1+yuT9AoNJ9ae+uG8a7wp9lT2kbgNw
+ LCayG7mA93cbWjsAPjNsy1PoPRGZl/D7pmjOBf9qOdtUgiblKSYcBguagKISawE1u+Sl
+ wfMl0ca0gbaa/4mF4+hyWs+kkWoPv1fzEjpc+JwHtdrb4zCvu66jjfbE7uAgDJow15H3
+ yG2h+X6pBdFDbWmxpBOTDuDWYWGDWhZJYLB0DNRLADmrTpkCI3qI9WHxetPsZ/AcQd/8
+ ObbQ==
+X-Gm-Message-State: AOAM531MMbNDSUwbw9AloOjDRYtHlpcS+Wz4xsSj3srd3ZKHd+MM1kbG
+ l3SaSJ7xPfl2o7uT8ZoibGxOBHTjOflDybCzw60P9gBPKePng7kVzoIPM0u9HjsgNEruJkpABDe
+ UlX5dpyrKbQjH4PtQXFrZjPZIDzltYXE=
+X-Received: by 2002:a2e:b742:: with SMTP id k2mr35962313ljo.107.1636950067282; 
+ Sun, 14 Nov 2021 20:21:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwh5JRaN8jFYQ+cSC208B/OqgUgDXfUuMCua6um2KQN9cm2fo5n4W2ePWTRn3B7z3NUaNUtBn6SRO0WZGKy++I=
+X-Received: by 2002:a2e:b742:: with SMTP id k2mr35962293ljo.107.1636950067022; 
+ Sun, 14 Nov 2021 20:21:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <7e6e5c26-2c1a-e4b5-a724-c2db33a36180@linaro.org>
-Content-Type: multipart/alternative;
- boundary="------------36DBB13C8EDA14317D441ED6"
-Content-Language: en-US
-X-CM-TRANSID: AQAAf9DxmuQS25FhbQgAAA--.281S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxZFyfKry3WFWUWryDtF17trb_yoW5Gr18pr
- 10kryxGrW0yr18J3WrtF45W345tr15Xa43J3s8C3WvqF15J3Wjv3W3X3yYgr42yrs7GF1Y
- qFW5XryqvF9Yg3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvE1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2
- jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS0I0E0xvYzx
- vE52x082IY62kv0487McIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8
- JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYx
- C7Mx8GjcxK6IxK0xIIj40E5I8CrwCYjI0SjxkI62AI1cAE67vIY487MxkIecxEwVCm-wCF
- 04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26ryrJr1UJwCFx2IqxVCFs4IE7xkEbV
- WUJVW8JwC20s026c02F40E14v26r106r1rMI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
- 67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
- IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1l
- IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWI
- evJa73UjIFyTuYvjfUwYFCUUUUU
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-3.402, SPF_HELO_PASS=-0.001,
+References: <20211111063854.29060-1-jasowang@redhat.com>
+ <20211111032649-mutt-send-email-mst@kernel.org>
+ <CACGkMEv1LVXBV2Pq00jWCbxnr18Ar=df7Lirw2j973Q-hM2MRw@mail.gmail.com>
+ <20211112045035-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20211112045035-mutt-send-email-mst@kernel.org>
+From: Jason Wang <jasowang@redhat.com>
+Date: Mon, 15 Nov 2021 12:20:55 +0800
+Message-ID: <CACGkMEtSjErzVqa=MYN7MyTBae9H3xs4BbPsP3qU4kZpveg+7w@mail.gmail.com>
+Subject: Re: [PATCH 1/2] virtio: use virtio accessor to access packed
+ descriptor flags
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.695,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,262 +92,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, laurent@vivier.eu
+Cc: eperezma <eperezma@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------36DBB13C8EDA14317D441ED6
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-
-Hi Richard,
-
-On 2021/11/12 下午10:05, Richard Henderson wrote:
-> On 11/12/21 7:53 AM, Song Gao wrote:
->> +#
->> +# Fields
->> +#
->> +%rd      0:5
->> +%rj      5:5
->> +%rk      10:5
->> +%sa2     15:2
->> +%si12    10:s12
->> +%ui12    10:12
->> +%si16    10:s16
->> +%si20    5:s20
+On Fri, Nov 12, 2021 at 6:04 PM Michael S. Tsirkin <mst@redhat.com> wrote:
 >
-> You should only create separate field definitions like this when they 
-> are complex: e.g. the logical field is disjoint or there's a need for 
-> !function.
+> On Fri, Nov 12, 2021 at 10:23:12AM +0800, Jason Wang wrote:
+> > On Thu, Nov 11, 2021 at 4:27 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > >
+> > > On Thu, Nov 11, 2021 at 02:38:53PM +0800, Jason Wang wrote:
+> > > > We used to access packed descriptor flags via
+> > > > address_space_{write|read}_cached(). When we hit the cache, memcpy()
+> > > > is used which is not an atomic operation which may lead a wrong value
+> > > > is read or wrote.
+> > >
+> > > Could you clarify where's the memcpy that you see?
+> > > Thanks!
+> >
+> > In the address_space_{write|read}_cached it self:
+> >
+> > static inline MemTxResult
+> > =>dress_space_write_cached(MemoryRegionCache *cache, hwaddr addr,
+> >                            const void *buf, hwaddr len)
+> > {
+> >     assert(addr < cache->len && len <= cache->len - addr);
+> >     if (likely(cache->ptr)) {
+> >         memcpy(cache->ptr + addr, buf, len);
+> >         return MEMTX_OK;
+> >     } else {
+> >         return address_space_write_cached_slow(cache, addr, buf, len);
+> >     }
+> > }
+> >
+> > Thanks
 >
->> +
->> +#
->> +# Argument sets
->> +#
->> +&fmt_rdrjrk         rd rj rk
->> +&fmt_rdrjsi12       rd rj si12
->> +&fmt_rdrjrksa2      rd rj rk sa2
->> +&fmt_rdrjsi16       rd rj si16
->> +&fmt_rdrjui12       rd rj ui12
->> +&fmt_rdsi20         rd si20
+> But that's a copy from the cache, not from guest memory.
+
+I may miss something but it looks to me the cache is the cache of
+address translation not the cache from guest memory:
+
+See address_space_cache_init():
+
+        cache->ptr = qemu_ram_ptr_length(mr->ram_block, cache->xlat, &l, true);
+
+> I don't see how it can change so I don't see why it needs
+> to be atomic. Was there an actual issue you observed or
+> is this theoretical?
+
+During code review.
+
+Thanks
+
 >
-> Some of these should be combined.  The width of the immediate is a 
-> detail of the format, not the decoded argument set.  Thus you should have
 >
-> &fmt_rdimm     rd imm
-> &fmt_rdrjimm   rd rj imm
-> &fmt_rdrjrk    rd rj rk
-> &fmt_rdrjrksa  rd rj rk sa
+> > >
+> > > > So this patch switches to use virito_{stw|lduw}_phys_cached() to make
+> > > > sure the aceess is atomic.
+> > > >
+> > > > Fixes: 86044b24e865f ("virtio: basic packed virtqueue support")
+> > > > Cc: qemu-stable@nongnu.org
+> > > > Signed-off-by: Jason Wang <jasowang@redhat.com>
+> > > > ---
+> > > >  hw/virtio/virtio.c | 11 ++++-------
+> > > >  1 file changed, 4 insertions(+), 7 deletions(-)
+> > > >
+> > > > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> > > > index cc69a9b881..939bcbfeb9 100644
+> > > > --- a/hw/virtio/virtio.c
+> > > > +++ b/hw/virtio/virtio.c
+> > > > @@ -507,11 +507,9 @@ static void vring_packed_desc_read_flags(VirtIODevice *vdev,
+> > > >                                           MemoryRegionCache *cache,
+> > > >                                           int i)
+> > > >  {
+> > > > -    address_space_read_cached(cache,
+> > > > -                              i * sizeof(VRingPackedDesc) +
+> > > > -                              offsetof(VRingPackedDesc, flags),
+> > > > -                              flags, sizeof(*flags));
+> > > > -    virtio_tswap16s(vdev, flags);
+> > > > +    hwaddr off = i * sizeof(VRingPackedDesc) + offsetof(VRingPackedDesc, flags);
+> > > > +
+> > > > +    *flags = virtio_lduw_phys_cached(vdev, cache, off);
+> > > >  }
+> > > >
+> > > >  static void vring_packed_desc_read(VirtIODevice *vdev,
+> > > > @@ -564,8 +562,7 @@ static void vring_packed_desc_write_flags(VirtIODevice *vdev,
+> > > >  {
+> > > >      hwaddr off = i * sizeof(VRingPackedDesc) + offsetof(VRingPackedDesc, flags);
+> > > >
+> > > > -    virtio_tswap16s(vdev, &desc->flags);
+> > > > -    address_space_write_cached(cache, off, &desc->flags, sizeof(desc->flags));
+> > > > +    virtio_stw_phys_cached(vdev, cache, off, desc->flags);
+> > > >      address_space_cache_invalidate(cache, off, sizeof(desc->flags));
+> > > >  }
+> > > >
+> > > > --
+> > > > 2.25.1
+> > >
 >
-'The width of the immediate is a detail of the format'  means:
-
-&fmt_rdrjimm         rd  rj imm
-
-@fmt_rdrjimm         .... ...... imm:12  rj:5 rd:5     &fmt_rdrjimm
-@fmt_rdrjimm14         .... .... imm:14  rj:5 rd:5     &fmt_rdrjimm
-@fmt_rdrjimm16           .... .. imm:16  rj:5 rd:5     &fmt_rdrjimm
-
-and we print in the disassembly, liks this
-
-output_rdrjimm(DisasContext *ctx, arg_fmt_rdrjimm * a,  const char *mnemonic)
-{
-     output(ctx, mnemonic, "%s, %s, 0x%x", regnames[a->rd], regnames[a->rj], a->imm);
-}
-
-is that right?
-
->> +alsl_w           0000 00000000 010 .. ..... ..... .....   
->> @fmt_rdrjrksa2
->> +alsl_wu          0000 00000000 011 .. ..... ..... .....   
->> @fmt_rdrjrksa2
->> +alsl_d           0000 00000010 110 .. ..... ..... .....   
->> @fmt_rdrjrksa2
->
-> The encoding of these insns is that the shift is sa+1.
->
-> While you compensate for this in gen_alsl_*, we print the "wrong" 
-> number in the disassembly.  I think it would be better to do
->
-> %sa2p1     15:2 !function=plus_1
-> @fmt_rdrjrksa2p1  .... ........ ... .. rk:5 rj:5 rd:5 \
->                   &fmt_rdrjrksa sa=%sa2p1
->
-1. We print sa in disassembly output_rdrjrksa(DisasContext *ctx, 
-arg_fmt_rdrjsa* a, const char *memonic) { output(ctx, memonic, "%s, %s, 
-%s, 0x0x", regnames[a->rd], regnames[a->rj], a->sa) } 2. We use sa on 
-gen_alsl_* not (sa2+1). 3 bytepick_w use the same print functions. but 
-the Field/Argurment/Format is %sa2 15:2 &fmt_rdrjrksa rd rj sa 
-@fmt_rdrjrk sa2 .... ........ ... sa:2 rk:5 rj:5 rd:5 &fmt_rdrjrksa Is 
-my understanding right? Thanks. Song Gao
-
-
---------------36DBB13C8EDA14317D441ED6
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix"><tt><br>
-      </tt></div>
-    <div class="moz-cite-prefix"><tt>Hi Richard,</tt></div>
-    <div class="moz-cite-prefix"><tt><br>
-      </tt></div>
-    <div class="moz-cite-prefix"><tt>On 2021/11/12 下午10:05, Richard
-        Henderson wrote:</tt><tt><br>
-      </tt></div>
-    <blockquote type="cite"
-      cite="mid:7e6e5c26-2c1a-e4b5-a724-c2db33a36180@linaro.org"><tt>On
-        11/12/21 7:53 AM, Song Gao wrote:
-      </tt><tt><br>
-      </tt>
-      <blockquote type="cite"><tt>+#
-        </tt><tt><br>
-        </tt><tt>+# Fields
-        </tt><tt><br>
-        </tt><tt>+#
-        </tt><tt><br>
-        </tt><tt>+%rd      0:5
-        </tt><tt><br>
-        </tt><tt>+%rj      5:5
-        </tt><tt><br>
-        </tt><tt>+%rk      10:5
-        </tt><tt><br>
-        </tt><tt>+%sa2     15:2
-        </tt><tt><br>
-        </tt><tt>+%si12    10:s12
-        </tt><tt><br>
-        </tt><tt>+%ui12    10:12
-        </tt><tt><br>
-        </tt><tt>+%si16    10:s16
-        </tt><tt><br>
-        </tt><tt>+%si20    5:s20
-        </tt><tt><br>
-        </tt></blockquote>
-      <tt><br>
-      </tt><tt>You should only create separate field definitions like
-        this when they are complex: e.g. the logical field is disjoint
-        or there's a need for !function.
-      </tt><tt><br>
-      </tt>
-      <tt><br>
-      </tt></blockquote>
-    <blockquote type="cite"
-      cite="mid:7e6e5c26-2c1a-e4b5-a724-c2db33a36180@linaro.org">
-      <blockquote type="cite"><tt>+
-        </tt><tt><br>
-        </tt><tt>+#
-        </tt><tt><br>
-        </tt><tt>+# Argument sets
-        </tt><tt><br>
-        </tt><tt>+#
-        </tt><tt><br>
-        </tt><tt>+&amp;fmt_rdrjrk         rd rj rk
-        </tt><tt><br>
-        </tt><tt>+&amp;fmt_rdrjsi12       rd rj si12
-        </tt><tt><br>
-        </tt><tt>+&amp;fmt_rdrjrksa2      rd rj rk sa2
-        </tt><tt><br>
-        </tt><tt>+&amp;fmt_rdrjsi16       rd rj si16
-        </tt><tt><br>
-        </tt><tt>+&amp;fmt_rdrjui12       rd rj ui12
-        </tt><tt><br>
-        </tt><tt>+&amp;fmt_rdsi20         rd si20
-        </tt><tt><br>
-        </tt></blockquote>
-      <tt><br>
-      </tt><tt>Some of these should be combined.  The width of the
-        immediate is a detail of the format, not the decoded argument
-        set.  Thus you should have
-      </tt><tt><br>
-      </tt>
-      <tt><br>
-      </tt><tt>&amp;fmt_rdimm     rd imm
-      </tt><tt><br>
-      </tt><tt>&amp;fmt_rdrjimm   rd rj imm
-      </tt><tt><br>
-      </tt><tt>&amp;fmt_rdrjrk    rd rj rk
-      </tt><tt><br>
-      </tt><tt>&amp;fmt_rdrjrksa  rd rj rk sa
-      </tt><tt><br>
-      </tt>
-      <br>
-    </blockquote>
-    <pre>'<tt>The width of the immediate is a detail of the format</tt>'  means:
-
-&amp;fmt_rdrjimm         rd  rj imm 
-
-@fmt_rdrjimm         .... ...... imm:12  rj:5 rd:5     &amp;fmt_rdrjimm
-@fmt_rdrjimm14         .... .... imm:14  rj:5 rd:5     &amp;fmt_rdrjimm 
-@fmt_rdrjimm16           .... .. imm:16  rj:5 rd:5     &amp;fmt_rdrjimm
-
-and we print in the disassembly, liks this 
-
-output_rdrjimm(DisasContext *ctx, arg_fmt_rdrjimm * a,  const char *mnemonic)
-{
-    output(ctx, mnemonic, "%s, %s, 0x%x", regnames[a-&gt;rd], regnames[a-&gt;rj], a-&gt;imm);
-}
-
-is that right? 
-</pre>
-    <blockquote type="cite"
-      cite="mid:7e6e5c26-2c1a-e4b5-a724-c2db33a36180@linaro.org">
-      <blockquote type="cite"><tt>+alsl_w           0000 00000000 010 ..
-          ..... ..... .....   @fmt_rdrjrksa2
-        </tt><tt><br>
-        </tt><tt>+alsl_wu          0000 00000000 011 .. ..... .....
-          .....   @fmt_rdrjrksa2
-        </tt><tt><br>
-        </tt><tt>+alsl_d           0000 00000010 110 .. ..... .....
-          .....   @fmt_rdrjrksa2
-        </tt><tt><br>
-        </tt></blockquote>
-      <tt><br>
-      </tt><tt>The encoding of these insns is that the shift is sa+1.
-      </tt><tt><br>
-      </tt>
-      <tt><br>
-      </tt><tt>While you compensate for this in gen_alsl_*, we print the
-        "wrong" number in the disassembly.  I think it would be better
-        to do
-      </tt><tt><br>
-      </tt>
-      <tt><br>
-      </tt><tt>%sa2p1     15:2 !function=plus_1
-      </tt><tt><br>
-      </tt><tt>@fmt_rdrjrksa2p1  .... ........ ... .. rk:5 rj:5 rd:5 \
-      </tt><tt><br>
-      </tt><tt>                  &amp;fmt_rdrjrksa sa=%sa2p1
-      </tt><tt><br>
-      </tt>
-      <tt></tt><br>
-    </blockquote>
-    <pre><tt>1. We print sa in disassembly 
-output_rdrjrksa(DisasContext *ctx, arg_fmt_rdrjsa* a, const char *memonic)
-{
-    output(ctx, memonic, "%s, %s, %s, 0x0x", regnames[a-&gt;rd], regnames[a-&gt;rj], a-&gt;sa)
-}
-
-2. We use sa on gen_alsl_*  not  (sa2+1). 
-
-3 bytepick_w use the same print functions. but the Field/Argurment/Format is 
-%sa2      15:2
-&amp;fmt_rdrjrksa   rd rj sa
-@fmt_rdrjrk sa2  .... ........ ...  sa:2  rk:5 rj:5 rd:5  &amp;fmt_rdrjrksa
-
-Is my understanding right?
-
-Thanks.
-Song Gao
-
-</tt></pre>
-  </body>
-</html>
-
---------------36DBB13C8EDA14317D441ED6--
 
 
