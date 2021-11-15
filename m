@@ -2,87 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F57F4512AE
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 20:41:11 +0100 (CET)
-Received: from localhost ([::1]:33078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A17745151E
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 21:23:22 +0100 (CET)
+Received: from localhost ([::1]:52844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmhqo-0005KB-7Q
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 14:41:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46292)
+	id 1mmiVd-0003jE-BA
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 15:23:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tfanelli@redhat.com>)
- id 1mmhp5-0004OD-DI
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 14:39:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52546)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tfanelli@redhat.com>)
- id 1mmhp2-0005Vj-D6
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 14:39:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637005159;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=jvsTDbSkpArzLNDx9ej91qEx5bE3E1FzwXhbMgPLJjE=;
- b=KPBMVRHqYRyiP/urSzMkYE5I+FAk9CXPwR1B0HowhQt36IGzihc/+eyoTxBXR/Mpiw1gK8
- quR0q79eeVRQgPjMoUDrfnXJ86cBfqr+tHJgReMNBfPWi1IZCVZuduf4KCBD2XLX8Kj1f9
- s2ZNb6id6/qlHiICBCdpsqyc9FyXnvc=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-294-fbaw6Mu3NmirAFU8bkrfKg-1; Mon, 15 Nov 2021 14:38:13 -0500
-X-MC-Unique: fbaw6Mu3NmirAFU8bkrfKg-1
-Received: by mail-qk1-f200.google.com with SMTP id
- w13-20020a05620a0e8d00b0045fad6245e8so11952375qkm.8
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 11:38:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mmiSW-0006RR-0l
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 15:20:10 -0500
+Received: from [2a00:1450:4864:20::42c] (port=38784
+ helo=mail-wr1-x42c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mmiSF-0001wQ-14
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 15:19:57 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id u18so33055813wrg.5
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 12:19:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6hHm5zHM1YZpAUWKhAsNGPmxiocxuJTjbIRYCCBQcsw=;
+ b=ni+iAUBbBX8bW+QW6gYqpuiqQvwXaKWT8O76v1ZqETFePgzzWf2GQT80kbcuxDn/b9
+ R5kOy26AVfDepduSkxYbhS0f1fwqE1OQuIE9TDXhriN/B4ZvQyz8k1MLbQ5EcmApAnRc
+ kFjXqMZ4lR/yxq1rZ4v1mpqrpXDokHLDdodNbmyPSMqFiirOz02cuhD8zAdRxfGifN32
+ +rZxIQi+Jsh8YQ8APeSswNJtuNpDSK7041hweGcnBTibYozk78qmmnp1UO8yZqgeLs+6
+ 22Z8qYuI+iookgpSTqYbaVVffxy/ItzYAkwVc548JTr3XVTg6PGAr0TgE60knDumgVCG
+ zMCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=jvsTDbSkpArzLNDx9ej91qEx5bE3E1FzwXhbMgPLJjE=;
- b=wm30qac8dXCYEtspsU3YYu73Jig/T4OiU2Q7YfPVRse2n+/1oids1Yq/PhjAGi2D3H
- Bvn7GBaByg5UVYyOnhOggT7+01+k/vOAV8csgNZ59FPE+4LwCElwCgDWRaHzDrjkq2sn
- D6UBvHpMadBvxpyr0pDAqyMBiZ7GJ6zNDW5odWZGczsmUzOCyfBEIYNksBy86aV/W/FO
- f4RgXoDCOyTetO8TKKEZiCXbwwzwdWW3vr3+oR9i1zZwM48mmyLpL8uikNxGpIjq5MgB
- 6WdfrNrW4osVsPXfSaZy5LU/YaKkgWhV/A67CB4Npl6yUfM78IBv9V2GNuNMDMQozclY
- HDTQ==
-X-Gm-Message-State: AOAM533Lh1f+I/zgAbFenmzaArHRnA/Ftk/vbv7L2dIwcQtyIQXW9hFY
- ryiL/LcQ+XnAJmWUsnxYE95UTZVdj/9Pt31FiWsQ3wIyM8fGLs2m7aIhutoCO4y6QhWInAkNuZw
- ZOS3NwQ0xB6N8CQZUIyofmLa4cEaHF0g0iowK3EshQnL57yf3uTMrB6qgePTVLrXnaKs=
-X-Received: by 2002:a05:622a:1050:: with SMTP id
- f16mr1438626qte.311.1637005092330; 
- Mon, 15 Nov 2021 11:38:12 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwQTZIZ+FxFZ6dwOuu7ePVqgoQBxNcWiErRyPXiahT0HGiP6naPvYDQlT4HNQYMJuPyVLoOSw==
-X-Received: by 2002:a05:622a:1050:: with SMTP id
- f16mr1438591qte.311.1637005092057; 
- Mon, 15 Nov 2021 11:38:12 -0800 (PST)
-Received: from fedora.myfiosgateway.com
- (pool-71-175-3-221.phlapa.fios.verizon.net. [71.175.3.221])
- by smtp.gmail.com with ESMTPSA id l1sm2929724qkp.125.2021.11.15.11.38.11
+ bh=6hHm5zHM1YZpAUWKhAsNGPmxiocxuJTjbIRYCCBQcsw=;
+ b=nvc5Gz6wk93GktD+ToLsB8KgY5FXEmeI0WYT5yoXnJ2a3fLLkMOOxZakEicv9Z0T+E
+ 6mit0zIAgQEE5kKvlY1h3EPYBqtjOFzY7+gUS6jgoruuCY62+G2WFlDFRzfGTBO4mBqi
+ 6wqwqGjgT0t7yHHTpLqQeP50gIHnE2cfnVQfm4vEdNcd2JNutah28A3Hoc5XPyhJ2Z92
+ g/lZtad6UkXxsaEtmWRwpdYoJuOjjFlKdIAVBZ9Wv6oyHVuV9J7q1GYSOPKfVUnKjAzZ
+ IkvwykyAUgl6sgXTl83lFyAA9Xtg7HTnivuX6qcmbK65RewNWKWKC2ZRoMq82xsmIWeK
+ ZUaA==
+X-Gm-Message-State: AOAM530+RmDI6jf5/VH4wLZwDMeUCEErNzEE43uDSAHyjbIEQHCEMCeR
+ xoQFLRshT6XSDFF/7mnWUTWHx9fArkfPAQ==
+X-Google-Smtp-Source: ABdhPJzT6Mss88/a+Q8V8BzJ08em9xOYMcow+cSwzUQ/SOJaP9qb0lZ3NpmHLJBW+kUEo3Mf7YbbGg==
+X-Received: by 2002:a05:6000:1544:: with SMTP id
+ 4mr2269182wry.358.1637007588341; 
+ Mon, 15 Nov 2021 12:19:48 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id e18sm15419033wrs.48.2021.11.15.12.19.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Nov 2021 11:38:11 -0800 (PST)
-From: Tyler Fanelli <tfanelli@redhat.com>
+ Mon, 15 Nov 2021 12:19:48 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] sev: allow capabilities to check for SEV-ES support
-Date: Mon, 15 Nov 2021 14:38:04 -0500
-Message-Id: <20211115193804.294529-1-tfanelli@redhat.com>
-X-Mailer: git-send-email 2.31.1
+Subject: [PULL 0/4] target-arm queue
+Date: Mon, 15 Nov 2021 20:19:42 +0000
+Message-Id: <20211115201946.327770-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=tfanelli@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=tfanelli@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,83 +84,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, mtosatti@redhat.com, armbru@redhat.com,
- Tyler Fanelli <tfanelli@redhat.com>, pbonzini@redhat.com, eblake@redhat.com
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Probe for SEV-ES and SEV-SNP capabilities to distinguish between Rome,
-Naples, and Milan processors. Use the CPUID function to probe if a
-processor is capable of running SEV-ES or SEV-SNP, rather than if it
-actually is running SEV-ES or SEV-SNP.
+Hi; some minor changes for 6.2, which I think can be classified
+as bug fixes and are OK for this point in the release cycle.
+(Wouldn't be the end of the world if they slipped to 7.0.)
 
-Signed-off-by: Tyler Fanelli <tfanelli@redhat.com>
----
- qapi/misc-target.json | 11 +++++++++--
- target/i386/sev.c     |  6 ++++--
- 2 files changed, 13 insertions(+), 4 deletions(-)
+-- PMM
 
-diff --git a/qapi/misc-target.json b/qapi/misc-target.json
-index 5aa2b95b7d..c3e9bce12b 100644
---- a/qapi/misc-target.json
-+++ b/qapi/misc-target.json
-@@ -182,13 +182,19 @@
- # @reduced-phys-bits: Number of physical Address bit reduction when SEV is
- #                     enabled
- #
-+# @es: SEV-ES capability of the machine.
-+#
-+# @snp: SEV-SNP capability of the machine.
-+#
- # Since: 2.12
- ##
- { 'struct': 'SevCapability',
-   'data': { 'pdh': 'str',
-             'cert-chain': 'str',
-             'cbitpos': 'int',
--            'reduced-phys-bits': 'int'},
-+            'reduced-phys-bits': 'int',
-+            'es': 'bool',
-+            'snp': 'bool'},
-   'if': 'TARGET_I386' }
- 
- ##
-@@ -205,7 +211,8 @@
- #
- # -> { "execute": "query-sev-capabilities" }
- # <- { "return": { "pdh": "8CCDD8DDD", "cert-chain": "888CCCDDDEE",
--#                  "cbitpos": 47, "reduced-phys-bits": 5}}
-+#                  "cbitpos": 47, "reduced-phys-bits": 5
-+#                  "es": false, "snp": false}}
- #
- ##
- { 'command': 'query-sev-capabilities', 'returns': 'SevCapability',
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index eede07f11d..6d78dcd744 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -506,7 +506,7 @@ static SevCapability *sev_get_capabilities(Error **errp)
-     guchar *pdh_data = NULL;
-     guchar *cert_chain_data = NULL;
-     size_t pdh_len = 0, cert_chain_len = 0;
--    uint32_t ebx;
-+    uint32_t eax, ebx;
-     int fd;
- 
-     if (!kvm_enabled()) {
-@@ -534,8 +534,10 @@ static SevCapability *sev_get_capabilities(Error **errp)
-     cap->pdh = g_base64_encode(pdh_data, pdh_len);
-     cap->cert_chain = g_base64_encode(cert_chain_data, cert_chain_len);
- 
--    host_cpuid(0x8000001F, 0, NULL, &ebx, NULL, NULL);
-+    host_cpuid(0x8000001F, 0, &eax, &ebx, NULL, NULL);
-     cap->cbitpos = ebx & 0x3f;
-+    cap->es = (eax & 0x8) ? true : false;
-+    cap->snp = (eax & 0x10) ? true : false;
- 
-     /*
-      * When SEV feature is enabled, we loose one bit in guest physical
--- 
-2.31.1
+The following changes since commit 42f6c9179be4401974dd3a75ee72defd16b5092d:
 
+  Merge tag 'pull-ppc-20211112' of https://github.com/legoater/qemu into staging (2021-11-12 12:28:25 +0100)
+
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20211115-1
+
+for you to fetch changes up to 1adf528ec3bdf62ea3b580b7ad562534a3676ff5:
+
+  hw/rtc/pl031: Send RTC_CHANGE QMP event (2021-11-15 18:53:00 +0000)
+
+----------------------------------------------------------------
+target-arm queue:
+ * Support multiple redistributor regions for TCG GICv3
+ * Send RTC_CHANGE QMP event from pl031
+
+----------------------------------------------------------------
+Eric Auger (1):
+      hw/rtc/pl031: Send RTC_CHANGE QMP event
+
+Peter Maydell (3):
+      hw/intc/arm_gicv3: Move checking of redist-region-count to arm_gicv3_common_realize
+      hw/intc/arm_gicv3: Set GICR_TYPER.Last correctly when nb_redist_regions > 1
+      hw/intc/arm_gicv3: Support multiple redistributor regions
+
+ include/hw/intc/arm_gicv3_common.h | 14 ++++++++--
+ hw/intc/arm_gicv3.c                | 12 +-------
+ hw/intc/arm_gicv3_common.c         | 56 ++++++++++++++++++++++++--------------
+ hw/intc/arm_gicv3_kvm.c            | 10 ++-----
+ hw/intc/arm_gicv3_redist.c         | 40 +++++++++++++++------------
+ hw/rtc/pl031.c                     | 10 ++++++-
+ hw/rtc/meson.build                 |  2 +-
+ 7 files changed, 83 insertions(+), 61 deletions(-)
 
