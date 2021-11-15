@@ -2,70 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D09A4504C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 13:57:29 +0100 (CET)
-Received: from localhost ([::1]:36404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D7D4504EE
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 14:06:34 +0100 (CET)
+Received: from localhost ([::1]:52048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmbY8-0003pA-0b
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 07:57:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52560)
+	id 1mmbgu-0006QB-Jz
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 08:06:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mmbWX-0001Tx-DG
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 07:55:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58002)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mmbfW-0005P0-U4
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 08:05:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59117)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mmbWU-0005WH-Nt
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 07:55:49 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mmbfH-0007C5-LZ
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 08:04:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636980945;
+ s=mimecast20190719; t=1636981489;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J/pCA7skLcr9WEwcKryZbz5+ImrW/pvg5mtnTXT6J9M=;
- b=WNAj9p1pjw/cez0l30hkPAc/SShbOca06jp0d0Fp9FcaptLZSL0/49cwiRYehE+JvkhKMv
- AELss0PVakyHetQHyC/Z/tqXmXBwO9kxjs3VooRpLuneHJSjrzsHgsJdHQJZl1F5gO69VB
- ZY6Vbhx6sfT+LgQg69rf2iDv4NneqcA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-jNMhG5HtOUKLuP2_WCbsag-1; Mon, 15 Nov 2021 07:55:42 -0500
-X-MC-Unique: jNMhG5HtOUKLuP2_WCbsag-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C77A18D6A34;
- Mon, 15 Nov 2021 12:55:39 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 03FE460C7F;
- Mon, 15 Nov 2021 12:55:37 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7D63E11380B8; Mon, 15 Nov 2021 13:55:36 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 2/2] hw: Replace drive_get_next() by drive_get()
-Date: Mon, 15 Nov 2021 13:55:36 +0100
-Message-Id: <20211115125536.3341681-3-armbru@redhat.com>
-In-Reply-To: <20211115125536.3341681-1-armbru@redhat.com>
-References: <20211115125536.3341681-1-armbru@redhat.com>
+ bh=qXvqtQNLqH6St0bjZDnV4pPMlNTSk+M5HGqXJ7FPsR0=;
+ b=OsBzrqkS2EDqgkQCooZNimECwsOmKOatEXIsqeTnIL38CDdAyTN9Ad7APEa0D54I5RGNmm
+ Q4AnbkR5WsLoWOLrO/AUCzSEJKl5ZYUfjMDk51U9S5WfakO9p5VaA5iMi8DnDcJ7Xf3i+7
+ X1/SibeS6pxOElD1iiOIAc735zu2vM4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-565-0pLmgzICP4Slwx-N81l4-A-1; Mon, 15 Nov 2021 08:04:48 -0500
+X-MC-Unique: 0pLmgzICP4Slwx-N81l4-A-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ q17-20020adfcd91000000b0017bcb12ad4fso3523675wrj.12
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 05:04:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=qXvqtQNLqH6St0bjZDnV4pPMlNTSk+M5HGqXJ7FPsR0=;
+ b=qKjwcXCUlyt7VsdbeLC/A3ToWOph0vljUAB2/zN7rXWgNZraCQI9v9kFQa4FfogUEn
+ vjKzNcStoqBmkQ9RNBJG/nG6+WHft0Do9EeU0Vh5TOGm+Qbg5ZSxtizQvwGqXwHdbiiH
+ COqKI2J0uI4xbJOLp8dKU24dP3YHfzY03RR2xEVdG8N3JhHmFvFXW7+/9ggqhBGaXNPs
+ XjXyk4WsV2HVLglqgOWZNP08+SnV+ePrFBR309h79eP0GE2RLUqMJSZb82TAYzFOXThu
+ fgxSo+z93skfXjY0ChHXm0Jhr7NwBmvNHqRPk8GypmeVLoehET9lB/Id6YK1udXLcHgj
+ LWhA==
+X-Gm-Message-State: AOAM5339cruM+ZE9o4D2F7R3iNsNmbDKg50FKHKS/lDwBGVmBByYrzzB
+ 0cFkA/w2qzAnv4Mq7UdVAVxage0DpUuEkgaxf4pqL8hdwxEqiRxj99QtyprZrGcXls6INbdjYJd
+ h5IPzAygDWnTp49k=
+X-Received: by 2002:a05:600c:1d01:: with SMTP id
+ l1mr61076915wms.44.1636981486624; 
+ Mon, 15 Nov 2021 05:04:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxyVOt6z+N8qhibm9/5SuvqA7Fj9PV4D9y54Lgukigk5zX3H2+SyQENuC+W1cQqjZ2OQijzFA==
+X-Received: by 2002:a05:600c:1d01:: with SMTP id
+ l1mr61076855wms.44.1636981486283; 
+ Mon, 15 Nov 2021 05:04:46 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id g13sm13393742wmk.37.2021.11.15.05.04.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Nov 2021 05:04:45 -0800 (PST)
+Message-ID: <74992b21-77cc-5d34-6ccb-d5a4fa5fc59f@redhat.com>
+Date: Mon, 15 Nov 2021 14:04:45 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2 09/10] block: Let replace_child_noperm free children
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20211111120829.81329-1-hreitz@redhat.com>
+ <20211111120829.81329-10-hreitz@redhat.com>
+ <c631468b-2e2d-f5d9-6afb-6868ce00d2f9@virtuozzo.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <c631468b-2e2d-f5d9-6afb-6868ce00d2f9@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -57
+X-Spam_score: -5.8
+X-Spam_bar: -----
+X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.278, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,502 +102,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, bin.meng@windriver.com,
- mark.cave-ayland@ilande.co.uk, edgar.iglesias@gmail.com,
- sundeep.lkml@gmail.com, qemu-block@nongnu.org, andrew.smirnov@gmail.com,
- hskinnemoen@google.com, joel@jms.id.au, atar4qemu@gmail.com,
- alistair@alistair23.me, b.galvani@gmail.com, nieklinnenbank@gmail.com,
- qemu-arm@nongnu.org, clg@kaod.org, kwolf@redhat.com, qemu-riscv@nongnu.org,
- andrew@aj.id.au, f4bug@amsat.org, Andrew.Baumann@microsoft.com,
- jcd@tribudubois.net, kfting@nuvoton.com, hreitz@redhat.com, palmer@dabbelt.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-drive_get_next() is basically a bad idea.  It returns the "next" block
-backend of a certain interface type.  "Next" means bus=0,unit=N, where
-subsequent calls count N up from zero, per interface type.
+On 12.11.21 17:10, Vladimir Sementsov-Ogievskiy wrote:
+> 11.11.2021 15:08, Hanna Reitz wrote:
+>> In most of the block layer, especially when traversing down from other
+>> BlockDriverStates, we assume that BdrvChild.bs can never be NULL.  When
+>> it becomes NULL, it is expected that the corresponding BdrvChild pointer
+>> also becomes NULL and the BdrvChild object is freed.
+>>
+>> Therefore, once bdrv_replace_child_noperm() sets the BdrvChild.bs
+>> pointer to NULL, it should also immediately set the corresponding
+>> BdrvChild pointer (like bs->file or bs->backing) to NULL.
+>>
+>> In that context, it also makes sense for this function to free the
+>> child.  Sometimes we cannot do so, though, because it is called in a
+>> transactional context where the caller might still want to reinstate the
+>> child in the abort branch (and free it only on commit), so this behavior
+>> has to remain optional.
+>>
+>> In bdrv_replace_child_tran()'s abort handler, we now rely on the fact
+>> that the BdrvChild passed to bdrv_replace_child_tran() must have had a
+>> non-NULL .bs pointer initially.  Make a note of that and assert it.
+>>
+>> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+>> ---
+>>   block.c | 102 +++++++++++++++++++++++++++++++++++++++++++-------------
+>>   1 file changed, 79 insertions(+), 23 deletions(-)
+>>
+>> diff --git a/block.c b/block.c
+>> index a40027161c..0ac5b163d2 100644
+>> --- a/block.c
+>> +++ b/block.c
+>> @@ -87,8 +87,10 @@ static BlockDriverState *bdrv_open_inherit(const 
+>> char *filename,
+>>   static bool bdrv_recurse_has_child(BlockDriverState *bs,
+>>                                      BlockDriverState *child);
+>>   +static void bdrv_child_free(BdrvChild *child);
+>>   static void bdrv_replace_child_noperm(BdrvChild **child,
+>> -                                      BlockDriverState *new_bs);
+>> +                                      BlockDriverState *new_bs,
+>> +                                      bool free_empty_child);
+>>   static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
+>>                                                 BdrvChild *child,
+>>                                                 Transaction *tran);
+>> @@ -2256,12 +2258,16 @@ typedef struct BdrvReplaceChildState {
+>>       BdrvChild *child;
+>>       BdrvChild **childp;
+>>       BlockDriverState *old_bs;
+>> +    bool free_empty_child;
+>>   } BdrvReplaceChildState;
+>>     static void bdrv_replace_child_commit(void *opaque)
+>>   {
+>>       BdrvReplaceChildState *s = opaque;
+>>   +    if (s->free_empty_child && !s->child->bs) {
+>> +        bdrv_child_free(s->child);
+>> +    }
+>>       bdrv_unref(s->old_bs);
+>>   }
+>>   @@ -2278,22 +2284,26 @@ static void bdrv_replace_child_abort(void 
+>> *opaque)
+>>        *     modify the BdrvChild * pointer we indirectly pass to it, 
+>> i.e. it
+>>        *     will not modify s->child.  From that perspective, it 
+>> does not matter
+>>        *     whether we pass s->childp or &s->child.
+>> -     *     (TODO: Right now, bdrv_replace_child_noperm() never 
+>> modifies that
+>> -     *     pointer anyway (though it will in the future), so at this 
+>> point it
+>> -     *     absolutely does not matter whether we pass s->childp or 
+>> &s->child.)
+>>        * (2) If new_bs is not NULL, s->childp will be NULL. We then 
+>> cannot use
+>>        *     it here.
+>>        * (3) If new_bs is NULL, *s->childp will have been NULLed by
+>>        *     bdrv_replace_child_tran()'s bdrv_replace_child_noperm() 
+>> call, and we
+>>        *     must not pass a NULL *s->childp here.
+>> -     *     (TODO: In its current state, bdrv_replace_child_noperm() 
+>> will not
+>> -     *     have NULLed *s->childp, so this does not apply yet.  It 
+>> will in the
+>> -     *     future.)
+>
+> What I don't like about this patch is that it does two different 
+> things: zeroing the pointer and clearing the object. And if we look at 
+> the latter in separate, it seems that it's not needed:
+>
+> Look: bdrv_replace_child_tran(): new parameter is set to true in two 
+> places, in both of them we are sure (and do assertion and comment) 
+> that new bs is not NULL and nothing will be freed.
+>
+> Similarly, bdrv_replace_child_noperm() is called with true in two 
+> places where we sure that new bs is not NULL.
+>
+> and only one place where new parameter set to true really do something:
+>
+>> @@ -2960,8 +3013,7 @@ static void bdrv_detach_child(BdrvChild **childp)
+>>   {
+>>       BlockDriverState *old_bs = (*childp)->bs;
+>>   -    bdrv_replace_child_noperm(childp, NULL);
+>> -    bdrv_child_free(*childp);
+>> +    bdrv_replace_child_noperm(childp, NULL, true);
+>>         if (old_bs) {
+>>           /*
+>
+> And it doesn't worth the whole complexity of new parameters for two 
+> functions.
+>
+> In this place we can simply do something like
+>
+> BdrvChild *child = *childp;
+>
+> bdrv_replace_child_noperm(childp, NULL);
+>
+> bdrv_child_free(child);
+>
+>
+> I understand the idea: it seems good and intuitive to do zeroing the 
+> pointer and clearing the object in one shot. But this patch itself 
+> shows that we just can't do it in 90% of cases. So, I think better is 
+> not do it and live with only "zeroing the pointer" part of this patch.
 
-This lets you define unit numbers implicitly by execution order.  If the
-order changes, or new calls appear "in the middle", unit numbers change.
-ABI break.  Hard to spot in review.
+I see your point, but I don’t find it too complex.  Passing `true` is 
+the default and then calling the function is easy.  Passing `false` 
+means there’s a catch, and then the caller is already complex anyway, so 
+it doesn’t really make things worse.
 
-Explicit is better than implicit: use drive_get() directly.
+I find the condition on when to pass `true` and when to pass `false` 
+simple: Always pass true, unless the child cannot be deleted yet.
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- include/sysemu/blockdev.h           |  1 -
- blockdev.c                          | 10 ----------
- hw/arm/aspeed.c                     | 21 +++++++++++++--------
- hw/arm/cubieboard.c                 |  2 +-
- hw/arm/imx25_pdk.c                  |  2 +-
- hw/arm/integratorcp.c               |  2 +-
- hw/arm/mcimx6ul-evk.c               |  2 +-
- hw/arm/mcimx7d-sabre.c              |  2 +-
- hw/arm/msf2-som.c                   |  2 +-
- hw/arm/npcm7xx_boards.c             |  6 +++---
- hw/arm/orangepi.c                   |  2 +-
- hw/arm/raspi.c                      |  2 +-
- hw/arm/realview.c                   |  2 +-
- hw/arm/sabrelite.c                  |  2 +-
- hw/arm/versatilepb.c                |  4 ++--
- hw/arm/vexpress.c                   |  6 +++---
- hw/arm/xilinx_zynq.c                | 16 +++++++++-------
- hw/arm/xlnx-versal-virt.c           |  3 ++-
- hw/arm/xlnx-zcu102.c                |  6 +++---
- hw/microblaze/petalogix_ml605_mmu.c |  2 +-
- hw/misc/sifive_u_otp.c              |  2 +-
- hw/riscv/microchip_pfsoc.c          |  2 +-
- hw/sparc64/niagara.c                |  2 +-
- 23 files changed, 49 insertions(+), 52 deletions(-)
+There are two reasons why I’d rather keep the parameter:
+(1) That’s how it’s already merged, and I’m biased against respinning 
+given that Kevin will be on PTO beginning tomorrow, and that we’re in 
+freeze, so I’d rather not miss an RC.
+(2) I really dislike a function that takes a pointer, NULLs it, and then 
+doesn’t free the object it belongs to.  I find that a bad interface.  
+Unfortunately we sometimes need this behavior, though, hence the 
+additional parameter.  And this parameter basically asks the caller 
+whether they want the reasonable interface (`true`) or the weird one 
+where the pointer is NULLed but the object isn’t freed (`false`).  I 
+find this makes the interface palatable to me.
 
-diff --git a/include/sysemu/blockdev.h b/include/sysemu/blockdev.h
-index 32c2d6023c..a750f99b79 100644
---- a/include/sysemu/blockdev.h
-+++ b/include/sysemu/blockdev.h
-@@ -50,7 +50,6 @@ void drive_check_orphaned(void);
- DriveInfo *drive_get_by_index(BlockInterfaceType type, int index);
- int drive_get_max_bus(BlockInterfaceType type);
- int drive_get_max_devs(BlockInterfaceType type);
--DriveInfo *drive_get_next(BlockInterfaceType type);
- 
- QemuOpts *drive_def(const char *optstr);
- QemuOpts *drive_add(BlockInterfaceType type, int index, const char *file,
-diff --git a/blockdev.c b/blockdev.c
-index b35072644e..0eb2823b1b 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -303,16 +303,6 @@ int drive_get_max_bus(BlockInterfaceType type)
-     return max_bus;
- }
- 
--/* Get a block device.  This should only be used for single-drive devices
--   (e.g. SD/Floppy/MTD).  Multi-disk devices (scsi/ide) should use the
--   appropriate bus.  */
--DriveInfo *drive_get_next(BlockInterfaceType type)
--{
--    static int next_block_unit[IF_COUNT];
--
--    return drive_get(type, 0, next_block_unit[type]++);
--}
--
- static void bdrv_format_print(void *opaque, const char *name)
- {
-     qemu_printf(" %s", name);
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index a77f46b3ad..cf20ae0db5 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -284,12 +284,13 @@ static void write_boot_rom(DriveInfo *dinfo, hwaddr addr, size_t rom_size,
- }
- 
- static void aspeed_board_init_flashes(AspeedSMCState *s,
--                                      const char *flashtype)
-+                                      const char *flashtype,
-+                                      int unit0)
- {
-     int i ;
- 
-     for (i = 0; i < s->num_cs; ++i) {
--        DriveInfo *dinfo = drive_get_next(IF_MTD);
-+        DriveInfo *dinfo = drive_get(IF_MTD, 0, unit0 + i);
-         qemu_irq cs_line;
-         DeviceState *dev;
- 
-@@ -382,10 +383,12 @@ static void aspeed_machine_init(MachineState *machine)
-                           "max_ram", max_ram_size  - machine->ram_size);
-     memory_region_add_subregion(&bmc->ram_container, machine->ram_size, &bmc->max_ram);
- 
--    aspeed_board_init_flashes(&bmc->soc.fmc, bmc->fmc_model ?
--                              bmc->fmc_model : amc->fmc_model);
--    aspeed_board_init_flashes(&bmc->soc.spi[0], bmc->spi_model ?
--                              bmc->spi_model : amc->spi_model);
-+    aspeed_board_init_flashes(&bmc->soc.fmc,
-+                              bmc->fmc_model ? bmc->fmc_model : amc->fmc_model,
-+                              0);
-+    aspeed_board_init_flashes(&bmc->soc.spi[0],
-+                              bmc->spi_model ? bmc->spi_model : amc->spi_model,
-+                              bmc->soc.fmc.num_cs);
- 
-     /* Install first FMC flash content as a boot rom. */
-     if (drive0) {
-@@ -435,11 +438,13 @@ static void aspeed_machine_init(MachineState *machine)
-     }
- 
-     for (i = 0; i < bmc->soc.sdhci.num_slots; i++) {
--        sdhci_attach_drive(&bmc->soc.sdhci.slots[i], drive_get_next(IF_SD));
-+        sdhci_attach_drive(&bmc->soc.sdhci.slots[i],
-+                           drive_get(IF_SD, 0, i));
-     }
- 
-     if (bmc->soc.emmc.num_slots) {
--        sdhci_attach_drive(&bmc->soc.emmc.slots[0], drive_get_next(IF_SD));
-+        sdhci_attach_drive(&bmc->soc.emmc.slots[0],
-+                           drive_get(IF_SD, 0, bmc->soc.sdhci.num_slots));
-     }
- 
-     arm_load_kernel(ARM_CPU(first_cpu), machine, &aspeed_board_binfo);
-diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c
-index 294ba5de6e..5e3372a3c7 100644
---- a/hw/arm/cubieboard.c
-+++ b/hw/arm/cubieboard.c
-@@ -81,7 +81,7 @@ static void cubieboard_init(MachineState *machine)
-     }
- 
-     /* Retrieve SD bus */
--    di = drive_get_next(IF_SD);
-+    di = drive_get(IF_SD, 0, 0);
-     blk = di ? blk_by_legacy_dinfo(di) : NULL;
-     bus = qdev_get_child_bus(DEVICE(a10), "sd-bus");
- 
-diff --git a/hw/arm/imx25_pdk.c b/hw/arm/imx25_pdk.c
-index bd16acd4d9..6dff000163 100644
---- a/hw/arm/imx25_pdk.c
-+++ b/hw/arm/imx25_pdk.c
-@@ -123,7 +123,7 @@ static void imx25_pdk_init(MachineState *machine)
-         DriveInfo *di;
-         BlockBackend *blk;
- 
--        di = drive_get_next(IF_SD);
-+        di = drive_get(IF_SD, 0, i);
-         blk = di ? blk_by_legacy_dinfo(di) : NULL;
-         bus = qdev_get_child_bus(DEVICE(&s->soc.esdhc[i]), "sd-bus");
-         carddev = qdev_new(TYPE_SD_CARD);
-diff --git a/hw/arm/integratorcp.c b/hw/arm/integratorcp.c
-index 16e8985953..b109ece3ae 100644
---- a/hw/arm/integratorcp.c
-+++ b/hw/arm/integratorcp.c
-@@ -649,7 +649,7 @@ static void integratorcp_init(MachineState *machine)
-                           qdev_get_gpio_in_named(icp, ICP_GPIO_MMC_WPROT, 0));
-     qdev_connect_gpio_out_named(dev, "card-inserted", 0,
-                           qdev_get_gpio_in_named(icp, ICP_GPIO_MMC_CARDIN, 0));
--    dinfo = drive_get_next(IF_SD);
-+    dinfo = drive_get(IF_SD, 0, 0);
-     if (dinfo) {
-         DeviceState *card;
- 
-diff --git a/hw/arm/mcimx6ul-evk.c b/hw/arm/mcimx6ul-evk.c
-index 77fae874b1..28b4886f48 100644
---- a/hw/arm/mcimx6ul-evk.c
-+++ b/hw/arm/mcimx6ul-evk.c
-@@ -52,7 +52,7 @@ static void mcimx6ul_evk_init(MachineState *machine)
-         DriveInfo *di;
-         BlockBackend *blk;
- 
--        di = drive_get_next(IF_SD);
-+        di = drive_get(IF_SD, 0, i);
-         blk = di ? blk_by_legacy_dinfo(di) : NULL;
-         bus = qdev_get_child_bus(DEVICE(&s->usdhc[i]), "sd-bus");
-         carddev = qdev_new(TYPE_SD_CARD);
-diff --git a/hw/arm/mcimx7d-sabre.c b/hw/arm/mcimx7d-sabre.c
-index 935d4b0f1c..50a5ecde31 100644
---- a/hw/arm/mcimx7d-sabre.c
-+++ b/hw/arm/mcimx7d-sabre.c
-@@ -52,7 +52,7 @@ static void mcimx7d_sabre_init(MachineState *machine)
-         DriveInfo *di;
-         BlockBackend *blk;
- 
--        di = drive_get_next(IF_SD);
-+        di = drive_get(IF_SD, 0, i);
-         blk = di ? blk_by_legacy_dinfo(di) : NULL;
-         bus = qdev_get_child_bus(DEVICE(&s->usdhc[i]), "sd-bus");
-         carddev = qdev_new(TYPE_SD_CARD);
-diff --git a/hw/arm/msf2-som.c b/hw/arm/msf2-som.c
-index 396e8b9913..d9f881690e 100644
---- a/hw/arm/msf2-som.c
-+++ b/hw/arm/msf2-som.c
-@@ -45,7 +45,7 @@ static void emcraft_sf2_s2s010_init(MachineState *machine)
-     DeviceState *spi_flash;
-     MSF2State *soc;
-     MachineClass *mc = MACHINE_GET_CLASS(machine);
--    DriveInfo *dinfo = drive_get_next(IF_MTD);
-+    DriveInfo *dinfo = drive_get(IF_MTD, 0, 0);
-     qemu_irq cs_line;
-     BusState *spi_bus;
-     MemoryRegion *sysmem = get_system_memory();
-diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
-index dec7d16ae5..d8a49e4e85 100644
---- a/hw/arm/npcm7xx_boards.c
-+++ b/hw/arm/npcm7xx_boards.c
-@@ -84,9 +84,9 @@ static void npcm7xx_connect_dram(NPCM7xxState *soc, MemoryRegion *dram)
-                              &error_abort);
- }
- 
--static void sdhci_attach_drive(SDHCIState *sdhci)
-+static void sdhci_attach_drive(SDHCIState *sdhci, int unit)
- {
--        DriveInfo *di = drive_get_next(IF_SD);
-+        DriveInfo *di = drive_get(IF_SD, 0, unit);
-         BlockBackend *blk = di ? blk_by_legacy_dinfo(di) : NULL;
- 
-         BusState *bus = qdev_get_child_bus(DEVICE(sdhci), "sd-bus");
-@@ -374,7 +374,7 @@ static void quanta_gbs_init(MachineState *machine)
-                           drive_get(IF_MTD, 0, 0));
- 
-     quanta_gbs_i2c_init(soc);
--    sdhci_attach_drive(&soc->mmc.sdhci);
-+    sdhci_attach_drive(&soc->mmc.sdhci, 0);
-     npcm7xx_load_kernel(machine, soc);
- }
- 
-diff --git a/hw/arm/orangepi.c b/hw/arm/orangepi.c
-index 0cf9895ce7..e796382236 100644
---- a/hw/arm/orangepi.c
-+++ b/hw/arm/orangepi.c
-@@ -85,7 +85,7 @@ static void orangepi_init(MachineState *machine)
-     qdev_realize(DEVICE(h3), NULL, &error_abort);
- 
-     /* Retrieve SD bus */
--    di = drive_get_next(IF_SD);
-+    di = drive_get(IF_SD, 0, 0);
-     blk = di ? blk_by_legacy_dinfo(di) : NULL;
-     bus = qdev_get_child_bus(DEVICE(h3), "sd-bus");
- 
-diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index 146d35382b..b4dd6c1e99 100644
---- a/hw/arm/raspi.c
-+++ b/hw/arm/raspi.c
-@@ -284,7 +284,7 @@ static void raspi_machine_init(MachineState *machine)
-     qdev_realize(DEVICE(&s->soc), NULL, &error_fatal);
- 
-     /* Create and plug in the SD cards */
--    di = drive_get_next(IF_SD);
-+    di = drive_get(IF_SD, 0, 0);
-     blk = di ? blk_by_legacy_dinfo(di) : NULL;
-     bus = qdev_get_child_bus(DEVICE(&s->soc), "sd-bus");
-     if (bus == NULL) {
-diff --git a/hw/arm/realview.c b/hw/arm/realview.c
-index 1c54316ba3..ddc70b54a5 100644
---- a/hw/arm/realview.c
-+++ b/hw/arm/realview.c
-@@ -237,7 +237,7 @@ static void realview_init(MachineState *machine,
-         qemu_irq_invert(qdev_get_gpio_in(gpio2, 0)));
-     qdev_connect_gpio_out_named(dev, "card-read-only", 0, mmc_irq[0]);
-     qdev_connect_gpio_out_named(dev, "card-inserted", 0, mmc_irq[1]);
--    dinfo = drive_get_next(IF_SD);
-+    dinfo = drive_get(IF_SD, 0, 0);
-     if (dinfo) {
-         DeviceState *card;
- 
-diff --git a/hw/arm/sabrelite.c b/hw/arm/sabrelite.c
-index 553608e583..cce49aa25c 100644
---- a/hw/arm/sabrelite.c
-+++ b/hw/arm/sabrelite.c
-@@ -76,7 +76,7 @@ static void sabrelite_init(MachineState *machine)
-             if (spi_bus) {
-                 DeviceState *flash_dev;
-                 qemu_irq cs_line;
--                DriveInfo *dinfo = drive_get_next(IF_MTD);
-+                DriveInfo *dinfo = drive_get(IF_MTD, 0, 0);
- 
-                 flash_dev = qdev_new("sst25vf016b");
-                 if (dinfo) {
-diff --git a/hw/arm/versatilepb.c b/hw/arm/versatilepb.c
-index 575399c4fc..ecc1f6cf74 100644
---- a/hw/arm/versatilepb.c
-+++ b/hw/arm/versatilepb.c
-@@ -310,7 +310,7 @@ static void versatile_init(MachineState *machine, int board_id)
-     qdev_connect_gpio_out(sysctl, 0, qdev_get_gpio_in(dev, 0));
- 
-     dev = sysbus_create_varargs("pl181", 0x10005000, sic[22], sic[1], NULL);
--    dinfo = drive_get_next(IF_SD);
-+    dinfo = drive_get(IF_SD, 0, 0);
-     if (dinfo) {
-         DeviceState *card;
- 
-@@ -322,7 +322,7 @@ static void versatile_init(MachineState *machine, int board_id)
-     }
- 
-     dev = sysbus_create_varargs("pl181", 0x1000b000, sic[23], sic[2], NULL);
--    dinfo = drive_get_next(IF_SD);
-+    dinfo = drive_get(IF_SD, 0, 1);
-     if (dinfo) {
-         DeviceState *card;
- 
-diff --git a/hw/arm/vexpress.c b/hw/arm/vexpress.c
-index 58481c0762..966758cf82 100644
---- a/hw/arm/vexpress.c
-+++ b/hw/arm/vexpress.c
-@@ -625,7 +625,7 @@ static void vexpress_common_init(MachineState *machine)
-                           qdev_get_gpio_in(sysctl, ARM_SYSCTL_GPIO_MMC_WPROT));
-     qdev_connect_gpio_out_named(dev, "card-inserted", 0,
-                           qdev_get_gpio_in(sysctl, ARM_SYSCTL_GPIO_MMC_CARDIN));
--    dinfo = drive_get_next(IF_SD);
-+    dinfo = drive_get(IF_SD, 0, 0);
-     if (dinfo) {
-         DeviceState *card;
- 
-@@ -657,7 +657,7 @@ static void vexpress_common_init(MachineState *machine)
- 
-     sysbus_create_simple("pl111", map[VE_CLCD], pic[14]);
- 
--    dinfo = drive_get_next(IF_PFLASH);
-+    dinfo = drive_get(IF_PFLASH, 0, 0);
-     pflash0 = ve_pflash_cfi01_register(map[VE_NORFLASH0], "vexpress.flash0",
-                                        dinfo);
-     if (!pflash0) {
-@@ -673,7 +673,7 @@ static void vexpress_common_init(MachineState *machine)
-         memory_region_add_subregion(sysmem, map[VE_NORFLASHALIAS], flashalias);
-     }
- 
--    dinfo = drive_get_next(IF_PFLASH);
-+    dinfo = drive_get(IF_PFLASH, 0, 1);
-     if (!ve_pflash_cfi01_register(map[VE_NORFLASH1], "vexpress.flash1",
-                                   dinfo)) {
-         error_report("vexpress: error registering flash 1");
-diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-index 69c333e91b..50e7268396 100644
---- a/hw/arm/xilinx_zynq.c
-+++ b/hw/arm/xilinx_zynq.c
-@@ -125,9 +125,10 @@ static void gem_init(NICInfo *nd, uint32_t base, qemu_irq irq)
-     sysbus_connect_irq(s, 0, irq);
- }
- 
--static inline void zynq_init_spi_flashes(uint32_t base_addr, qemu_irq irq,
--                                         bool is_qspi)
-+static inline int zynq_init_spi_flashes(uint32_t base_addr, qemu_irq irq,
-+                                        bool is_qspi, int unit0)
- {
-+    int unit = unit0;
-     DeviceState *dev;
-     SysBusDevice *busdev;
-     SSIBus *spi;
-@@ -156,7 +157,7 @@ static inline void zynq_init_spi_flashes(uint32_t base_addr, qemu_irq irq,
-         spi = (SSIBus *)qdev_get_child_bus(dev, bus_name);
- 
-         for (j = 0; j < num_ss; ++j) {
--            DriveInfo *dinfo = drive_get_next(IF_MTD);
-+            DriveInfo *dinfo = drive_get(IF_MTD, 0, unit++);
-             flash_dev = qdev_new("n25q128");
-             if (dinfo) {
-                 qdev_prop_set_drive_err(flash_dev, "drive",
-@@ -170,6 +171,7 @@ static inline void zynq_init_spi_flashes(uint32_t base_addr, qemu_irq irq,
-         }
-     }
- 
-+    return unit;
- }
- 
- static void zynq_init(MachineState *machine)
-@@ -247,9 +249,9 @@ static void zynq_init(MachineState *machine)
-         pic[n] = qdev_get_gpio_in(dev, n);
-     }
- 
--    zynq_init_spi_flashes(0xE0006000, pic[58-IRQ_OFFSET], false);
--    zynq_init_spi_flashes(0xE0007000, pic[81-IRQ_OFFSET], false);
--    zynq_init_spi_flashes(0xE000D000, pic[51-IRQ_OFFSET], true);
-+    n = zynq_init_spi_flashes(0xE0006000, pic[58 - IRQ_OFFSET], false, 0);
-+    n = zynq_init_spi_flashes(0xE0007000, pic[81 - IRQ_OFFSET], false, n);
-+    n = zynq_init_spi_flashes(0xE000D000, pic[51 - IRQ_OFFSET], true, n);
- 
-     sysbus_create_simple(TYPE_CHIPIDEA, 0xE0002000, pic[53 - IRQ_OFFSET]);
-     sysbus_create_simple(TYPE_CHIPIDEA, 0xE0003000, pic[76 - IRQ_OFFSET]);
-@@ -298,7 +300,7 @@ static void zynq_init(MachineState *machine)
-         sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, hci_addr);
-         sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, pic[hci_irq - IRQ_OFFSET]);
- 
--        di = drive_get_next(IF_SD);
-+        di = drive_get(IF_SD, 0, n);
-         blk = di ? blk_by_legacy_dinfo(di) : NULL;
-         carddev = qdev_new(TYPE_SD_CARD);
-         qdev_prop_set_drive_err(carddev, "drive", blk, &error_fatal);
-diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
-index d2f55e29b6..0c5edc898e 100644
---- a/hw/arm/xlnx-versal-virt.c
-+++ b/hw/arm/xlnx-versal-virt.c
-@@ -669,7 +669,8 @@ static void versal_virt_init(MachineState *machine)
- 
-     /* Plugin SD cards.  */
-     for (i = 0; i < ARRAY_SIZE(s->soc.pmc.iou.sd); i++) {
--        sd_plugin_card(&s->soc.pmc.iou.sd[i], drive_get_next(IF_SD));
-+        sd_plugin_card(&s->soc.pmc.iou.sd[i],
-+                       drive_get(IF_SD, 0, i));
-     }
- 
-     s->binfo.ram_size = machine->ram_size;
-diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
-index 3dc2b5e8ca..45eb19ab3b 100644
---- a/hw/arm/xlnx-zcu102.c
-+++ b/hw/arm/xlnx-zcu102.c
-@@ -169,7 +169,7 @@ static void xlnx_zcu102_init(MachineState *machine)
-     /* Create and plug in the SD cards */
-     for (i = 0; i < XLNX_ZYNQMP_NUM_SDHCI; i++) {
-         BusState *bus;
--        DriveInfo *di = drive_get_next(IF_SD);
-+        DriveInfo *di = drive_get(IF_SD, 0, i);
-         BlockBackend *blk = di ? blk_by_legacy_dinfo(di) : NULL;
-         DeviceState *carddev;
-         char *bus_name;
-@@ -190,7 +190,7 @@ static void xlnx_zcu102_init(MachineState *machine)
-         BusState *spi_bus;
-         DeviceState *flash_dev;
-         qemu_irq cs_line;
--        DriveInfo *dinfo = drive_get_next(IF_MTD);
-+        DriveInfo *dinfo = drive_get(IF_MTD, 0, i);
-         gchar *bus_name = g_strdup_printf("spi%d", i);
- 
-         spi_bus = qdev_get_child_bus(DEVICE(&s->soc), bus_name);
-@@ -212,7 +212,7 @@ static void xlnx_zcu102_init(MachineState *machine)
-         BusState *spi_bus;
-         DeviceState *flash_dev;
-         qemu_irq cs_line;
--        DriveInfo *dinfo = drive_get_next(IF_MTD);
-+        DriveInfo *dinfo = drive_get(IF_MTD, 0, XLNX_ZYNQMP_NUM_SPIS + i);
-         int bus = i / XLNX_ZYNQMP_NUM_QSPI_BUS_CS;
-         gchar *bus_name = g_strdup_printf("qspi%d", bus);
- 
-diff --git a/hw/microblaze/petalogix_ml605_mmu.c b/hw/microblaze/petalogix_ml605_mmu.c
-index 159db6cbe2..a24fadddca 100644
---- a/hw/microblaze/petalogix_ml605_mmu.c
-+++ b/hw/microblaze/petalogix_ml605_mmu.c
-@@ -183,7 +183,7 @@ petalogix_ml605_init(MachineState *machine)
-         spi = (SSIBus *)qdev_get_child_bus(dev, "spi");
- 
-         for (i = 0; i < NUM_SPI_FLASHES; i++) {
--            DriveInfo *dinfo = drive_get_next(IF_MTD);
-+            DriveInfo *dinfo = drive_get(IF_MTD, 0, i);
-             qemu_irq cs_line;
- 
-             dev = qdev_new("n25q128");
-diff --git a/hw/misc/sifive_u_otp.c b/hw/misc/sifive_u_otp.c
-index 18aa0bd55d..5d5a8c8a90 100644
---- a/hw/misc/sifive_u_otp.c
-+++ b/hw/misc/sifive_u_otp.c
-@@ -209,7 +209,7 @@ static void sifive_u_otp_realize(DeviceState *dev, Error **errp)
-                           TYPE_SIFIVE_U_OTP, SIFIVE_U_OTP_REG_SIZE);
-     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
- 
--    dinfo = drive_get_next(IF_NONE);
-+    dinfo = drive_get(IF_NONE, 0, 0);
-     if (dinfo) {
-         int ret;
-         uint64_t perm;
-diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-index 57d779fb55..d1d065efbc 100644
---- a/hw/riscv/microchip_pfsoc.c
-+++ b/hw/riscv/microchip_pfsoc.c
-@@ -458,7 +458,7 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
-     target_ulong firmware_end_addr, kernel_start_addr;
-     uint64_t kernel_entry;
-     uint32_t fdt_load_addr;
--    DriveInfo *dinfo = drive_get_next(IF_SD);
-+    DriveInfo *dinfo = drive_get(IF_SD, 0, 0);
- 
-     /* Sanity check on RAM size */
-     if (machine->ram_size < mc->default_ram_size) {
-diff --git a/hw/sparc64/niagara.c b/hw/sparc64/niagara.c
-index f3e42d0326..ccad2c43a3 100644
---- a/hw/sparc64/niagara.c
-+++ b/hw/sparc64/niagara.c
-@@ -98,7 +98,7 @@ static void add_rom_or_fail(const char *file, const hwaddr addr)
- static void niagara_init(MachineState *machine)
- {
-     NiagaraBoardState *s = g_new(NiagaraBoardState, 1);
--    DriveInfo *dinfo = drive_get_next(IF_PFLASH);
-+    DriveInfo *dinfo = drive_get(IF_PFLASH, 0, 0);
-     MemoryRegion *sysmem = get_system_memory();
- 
-     /* init CPUs */
--- 
-2.31.1
+>
+> Another idea that come to my mind while reviewing this series: did you 
+> consider zeroing bs->file / bs->backing in .detach, like you do with 
+> bs->children list at start of the series?  We can argue the same way 
+> that file and backing pointers are property of parent, and they should 
+> be zeroed in .detach, where element is removed from bs->children.
+
+Yes, I did.  The problem is that to make this right, .attach() would 
+symmetrically need to put the child into bs->file or bs->backing (e.g. 
+when the removal transaction is aborted).  That would not only be more 
+invasive (we’d have to deal with and modify the places where bs->file or 
+bs->backing is set), you’re then also facing the problem of giving 
+.attach() this information.
+
+Perhaps we could let .detach() clear the pointer and not set it in 
+.attach(), but that seemed sufficiently wrong to me that I didn’t 
+consider it further.
+
+Hanna
 
 
