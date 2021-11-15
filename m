@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 150AC450A0B
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 17:48:46 +0100 (CET)
-Received: from localhost ([::1]:35110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF1B450A35
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 17:53:58 +0100 (CET)
+Received: from localhost ([::1]:49564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmf9x-00053X-4X
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 11:48:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54604)
+	id 1mmfEz-0006P5-9n
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 11:53:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmf0S-0003XJ-1S
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:38:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44719)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmf0Y-0003Zh-QM
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:39:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24058)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmf0Q-0005I9-1I
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:38:55 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmf0X-0005Ig-BV
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 11:39:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636994333;
+ s=mimecast20190719; t=1636994340;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=g++bwUMm88irLRB02LM9vDTYphSEUI2sCRSx57kjueo=;
- b=KaID4/BK2If2VwX3JNocG7d+GacEldqCW75MVIgimyu8JXVGledcG6xCU3Qy1dmKbla6DR
- zX3z9m26JrhjwcWGRBvUt72snoECrSAylZ0FMaFWABVoqkiWQx7pFwr2I9SIWyABqPdTQO
- 9JXsDgMqVL1pYPxf9i04ZwHk3Po/l10=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-xFH6HxUjP_Wbw_5n0vPvZA-1; Mon, 15 Nov 2021 11:38:52 -0500
-X-MC-Unique: xFH6HxUjP_Wbw_5n0vPvZA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- a3-20020a05640213c300b003e7d12bb925so2099026edx.9
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 08:38:51 -0800 (PST)
+ bh=PBTLwx0PHeZdiY6CH6544AuYOzCiwI2d3fclfLXX6Uk=;
+ b=IiK34ZbKQNTyI0d/z8IXeLtD6wseTnqJN/8vy1kFbzSVVSEXZLBH89M3Nr4Fz01uC5crkT
+ fhELF6kIiU+/6D+H2KjtYM0rdtecaLOdG+WR5SgEp/RsfjbH8k9g4ldYmMTqioUP5TtpRE
+ 5pIUZrrqIks8HGynaufbiueB2Kki4vI=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-233-lGwNEqk9PWqZIHLqAQ4Aqw-1; Mon, 15 Nov 2021 11:38:57 -0500
+X-MC-Unique: lGwNEqk9PWqZIHLqAQ4Aqw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ v9-20020a50d849000000b003dcb31eabaaso14599413edj.13
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 08:38:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=g++bwUMm88irLRB02LM9vDTYphSEUI2sCRSx57kjueo=;
- b=Ahhr7nlCOaBaGGgz6v9QDDw67d6aPs6lSth6fZ8EoCRbsgAXfZuX1lAnnNu7s7YoFz
- JVIPxCgQA3AKb3S9n7kNvrAz/cLs21cxBJg4E+g/H4BS1BvT1pK2I7y9vve7O467ECE7
- RMLFF9m00U45Vz7kn4mnii3pCoeIAz8bdqlyr96dZ7LeqB6nhoev8EVeFoXdXIG6Dxae
- cQxwgVaVJGz50YOm12WR3Cbfv+kKDUQH8okYBHn7+X7faTnk5l4A2XcQ25z6asCGpdZY
- BZ/ksXtsWytWD3Jw0ALEsuawVW7QT3qPsRJQWxiVyDw4sdtA7+ISZ8dZN2ssPaxmli5L
- mUEw==
-X-Gm-Message-State: AOAM53288jjlzBoLJ8cdAMJ40fkTJGiKmVnUu/KH6mDD5OP/i7dsfeKX
- fvP8EbC12nGU15WktDjwzeI+N5h/fFjpH5A5813SjK+e/++cBMiaSgeU80e1se/0LWn2ybR1KDS
- VZJVQ+ZWoSDd2fYqGp7GnX0etqUByHwQBvw3ytMeGZVvJuS5fLUzxyxtPiDM/
-X-Received: by 2002:a17:907:1dd5:: with SMTP id
- og21mr364193ejc.233.1636994330434; 
- Mon, 15 Nov 2021 08:38:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzvY6oFQ88VFmJXUHFvzbhSE3Q68o6rjieDAwV8hECAMCiPb6BMQDFfpipW6TQrMUleHpSylQ==
-X-Received: by 2002:a17:907:1dd5:: with SMTP id
- og21mr364153ejc.233.1636994330173; 
- Mon, 15 Nov 2021 08:38:50 -0800 (PST)
+ bh=PBTLwx0PHeZdiY6CH6544AuYOzCiwI2d3fclfLXX6Uk=;
+ b=5Xzlj1AT1b6OicfpeYbCcYXT2ilze5QKxSydp+tluatNF03sitsnlLnOOQygNa4AXO
+ UAZuwvVc9z2rvqVpiBHaJOgxIg4RAciy2He/53y1q7yudmpBf/kNhYExhE1JV0aeOEgu
+ vmHG+0sAunQ8w0qYhz2Ch1cesIkDHZS91TSzXvOg5txdN20/L/VJGnkXowBdRwzeME3f
+ NRwBBhsSiWd7o66OuAOOH/Kp+eXggO6MoXfeDPiOFvJ0nb9BJlNqLlKjxxHAWDkzA7ub
+ jB4YqaZoLI+60ysQoTzAcSskL777+8BcwrGFxYobPC9X8/G4CeuGmzF/VaaNbiR0jsWE
+ Cpew==
+X-Gm-Message-State: AOAM530+dfUZ3y5uPQlro2S9rIEh3D3ZQ0bWINETCk0W1ovmInGLYILe
+ UHZh6lJQvs33ZEiPLQUmR1T+irkj+stQSK8JMYXdyO9p8ksox1M/0tHihg/cMJwCf/fOEfosR14
+ hs7hJ1veEWbr+veOROAkFULcOZN7DxeBpTwo/75j+2kqBsZnC4bLlQ+lGaLdl
+X-Received: by 2002:a05:6402:41a:: with SMTP id
+ q26mr58873034edv.387.1636994336113; 
+ Mon, 15 Nov 2021 08:38:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz31qq8/UPOH1DsalKos3c7zxAGveuEa2ELgA1mht3SLRoczilwzlMmGzLMnlNS/5Bu9pBRrg==
+X-Received: by 2002:a05:6402:41a:: with SMTP id
+ q26mr58872996edv.387.1636994335920; 
+ Mon, 15 Nov 2021 08:38:55 -0800 (PST)
 Received: from redhat.com ([2a03:c5c0:207e:9a71:d0b:1947:b534:3230])
- by smtp.gmail.com with ESMTPSA id yc16sm1943720ejb.122.2021.11.15.08.38.47
+ by smtp.gmail.com with ESMTPSA id u16sm7706666edr.43.2021.11.15.08.38.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Nov 2021 08:38:49 -0800 (PST)
-Date: Mon, 15 Nov 2021 11:38:46 -0500
+ Mon, 15 Nov 2021 08:38:55 -0800 (PST)
+Date: Mon, 15 Nov 2021 11:38:51 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/20] pci: implement power state
-Message-ID: <20211115163607.177432-16-mst@redhat.com>
+Subject: [PULL 16/20] pcie: implement slot power control for pcie root ports
+Message-ID: <20211115163607.177432-17-mst@redhat.com>
 References: <20211115163607.177432-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211115163607.177432-1-mst@redhat.com>
@@ -74,15 +74,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,124 +101,94 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-This allows to power off pci devices.  In "off" state the devices will
-not be visible.  No pci config space access, no pci bar access, no dma.
+With this patch hot-plugged pci devices will only be visible to the
+guest if the guests hotplug driver has enabled slot power.
 
-Default state is "on", so this patch (alone) should not change behavior.
-
-Use case:  Allows hotplug controllers implement slot power.  Hotplug
-controllers doing so should set the inital power state for devices in
-the ->plug callback.
+This should fix the hot-plug race which one can hit when hot-plugging
+a pci device at boot, while the guest is in the middle of the pci bus
+scan.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20211111130859.1171890-2-kraxel@redhat.com>
+Message-Id: <20211111130859.1171890-3-kraxel@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/pci/pci.h |  2 ++
- hw/pci/pci.c         | 25 +++++++++++++++++++++++--
- hw/pci/pci_host.c    |  6 ++++--
- 3 files changed, 29 insertions(+), 4 deletions(-)
+ hw/pci/pcie.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 5c4016b995..e7cdf2d5ec 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -268,6 +268,7 @@ typedef struct PCIReqIDCache PCIReqIDCache;
- struct PCIDevice {
-     DeviceState qdev;
-     bool partially_hotplugged;
-+    bool has_power;
- 
-     /* PCI config space */
-     uint8_t *config;
-@@ -908,5 +909,6 @@ extern const VMStateDescription vmstate_pci_device;
- }
- 
- MSIMessage pci_get_msi_message(PCIDevice *dev, int vector);
-+void pci_set_power(PCIDevice *pci_dev, bool state);
- 
- #endif
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 4a84e478ce..e5993c1ef5 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -1380,6 +1380,9 @@ static void pci_update_mappings(PCIDevice *d)
-             continue;
- 
-         new_addr = pci_bar_address(d, i, r->type, r->size);
-+        if (!d->has_power) {
-+            new_addr = PCI_BAR_UNMAPPED;
-+        }
- 
-         /* This bar isn't changed */
-         if (new_addr == r->addr)
-@@ -1464,8 +1467,8 @@ void pci_default_write_config(PCIDevice *d, uint32_t addr, uint32_t val_in, int
-     if (range_covers_byte(addr, l, PCI_COMMAND)) {
-         pci_update_irq_disabled(d, was_irq_disabled);
-         memory_region_set_enabled(&d->bus_master_enable_region,
--                                  pci_get_word(d->config + PCI_COMMAND)
--                                    & PCI_COMMAND_MASTER);
-+                                  (pci_get_word(d->config + PCI_COMMAND)
-+                                   & PCI_COMMAND_MASTER) && d->has_power);
+diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+index 914a9bf3d1..13d11a57c7 100644
+--- a/hw/pci/pcie.c
++++ b/hw/pci/pcie.c
+@@ -366,6 +366,29 @@ static void hotplug_event_clear(PCIDevice *dev)
      }
- 
-     msi_write_config(d, addr, val_in, l);
-@@ -2182,6 +2185,8 @@ static void pci_qdev_realize(DeviceState *qdev, Error **errp)
-         pci_qdev_unrealize(DEVICE(pci_dev));
-         return;
-     }
-+
-+    pci_set_power(pci_dev, true);
  }
  
- PCIDevice *pci_new_multifunction(int devfn, bool multifunction,
-@@ -2853,6 +2858,22 @@ MSIMessage pci_get_msi_message(PCIDevice *dev, int vector)
-     return msg;
- }
- 
-+void pci_set_power(PCIDevice *d, bool state)
++static void pcie_set_power_device(PCIBus *bus, PCIDevice *dev, void *opaque)
 +{
-+    if (d->has_power == state) {
-+        return;
-+    }
++    bool *power = opaque;
 +
-+    d->has_power = state;
-+    pci_update_mappings(d);
-+    memory_region_set_enabled(&d->bus_master_enable_region,
-+                              (pci_get_word(d->config + PCI_COMMAND)
-+                               & PCI_COMMAND_MASTER) && d->has_power);
-+    if (!d->has_power) {
-+        pci_device_reset(d);
-+    }
++    pci_set_power(dev, *power);
 +}
 +
- static const TypeInfo pci_device_type_info = {
-     .name = TYPE_PCI_DEVICE,
-     .parent = TYPE_DEVICE,
-diff --git a/hw/pci/pci_host.c b/hw/pci/pci_host.c
-index cf02f0d6a5..7beafd40a8 100644
---- a/hw/pci/pci_host.c
-+++ b/hw/pci/pci_host.c
-@@ -74,7 +74,8 @@ void pci_host_config_write_common(PCIDevice *pci_dev, uint32_t addr,
-     /* non-zero functions are only exposed when function 0 is present,
-      * allowing direct removal of unexposed functions.
-      */
--    if (pci_dev->qdev.hotplugged && !pci_get_function_0(pci_dev)) {
-+    if ((pci_dev->qdev.hotplugged && !pci_get_function_0(pci_dev)) ||
-+        !pci_dev->has_power) {
++static void pcie_cap_update_power(PCIDevice *hotplug_dev)
++{
++    uint8_t *exp_cap = hotplug_dev->config + hotplug_dev->exp.exp_cap;
++    PCIBus *sec_bus = pci_bridge_get_sec_bus(PCI_BRIDGE(hotplug_dev));
++    uint32_t sltcap = pci_get_long(exp_cap + PCI_EXP_SLTCAP);
++    uint16_t sltctl = pci_get_word(exp_cap + PCI_EXP_SLTCTL);
++    bool power = true;
++
++    if (sltcap & PCI_EXP_SLTCAP_PCP) {
++        power = (sltctl & PCI_EXP_SLTCTL_PCC) == PCI_EXP_SLTCTL_PWR_ON;
++    }
++
++    pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
++                        pcie_set_power_device, &power);
++}
++
+ /*
+  * A PCI Express Hot-Plug Event has occurred, so update slot status register
+  * and notify OS of the event if necessary.
+@@ -434,6 +457,7 @@ void pcie_cap_slot_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+             pci_word_test_and_set_mask(exp_cap + PCI_EXP_LNKSTA,
+                                        PCI_EXP_LNKSTA_DLLLA);
+         }
++        pcie_cap_update_power(hotplug_pdev);
          return;
      }
  
-@@ -97,7 +98,8 @@ uint32_t pci_host_config_read_common(PCIDevice *pci_dev, uint32_t addr,
-     /* non-zero functions are only exposed when function 0 is present,
-      * allowing direct removal of unexposed functions.
-      */
--    if (pci_dev->qdev.hotplugged && !pci_get_function_0(pci_dev)) {
-+    if ((pci_dev->qdev.hotplugged && !pci_get_function_0(pci_dev)) ||
-+        !pci_dev->has_power) {
-         return ~0x0;
+@@ -451,6 +475,7 @@ void pcie_cap_slot_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+         }
+         pcie_cap_slot_event(hotplug_pdev,
+                             PCI_EXP_HP_EV_PDC | PCI_EXP_HP_EV_ABP);
++        pcie_cap_update_power(hotplug_pdev);
      }
+ }
+ 
+@@ -625,6 +650,7 @@ void pcie_cap_slot_reset(PCIDevice *dev)
+                                  PCI_EXP_SLTSTA_PDC |
+                                  PCI_EXP_SLTSTA_ABP);
+ 
++    pcie_cap_update_power(dev);
+     hotplug_event_update_event_status(dev);
+ }
+ 
+@@ -705,6 +731,7 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
+         pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTSTA,
+                                        PCI_EXP_SLTSTA_PDC);
+     }
++    pcie_cap_update_power(dev);
+ 
+     hotplug_event_notify(dev);
+ 
+@@ -731,6 +758,7 @@ int pcie_cap_slot_post_load(void *opaque, int version_id)
+ {
+     PCIDevice *dev = opaque;
+     hotplug_event_update_event_status(dev);
++    pcie_cap_update_power(dev);
+     return 0;
+ }
  
 -- 
 MST
