@@ -2,86 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 577A145163E
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 22:16:44 +0100 (CET)
-Received: from localhost ([::1]:50702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D5B045177A
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 23:29:59 +0100 (CET)
+Received: from localhost ([::1]:51860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmjLG-0007Sy-Uc
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 16:16:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39134)
+	id 1mmkU9-0005si-26
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 17:29:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mmjJw-0006CE-77; Mon, 15 Nov 2021 16:15:22 -0500
-Received: from [2a00:1450:4864:20::333] (port=37657
- helo=mail-wm1-x333.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mmjJu-0000xS-BZ; Mon, 15 Nov 2021 16:15:19 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- k37-20020a05600c1ca500b00330cb84834fso299144wms.2; 
- Mon, 15 Nov 2021 13:15:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=gLBB7GvS8taID4QM2gxUg/JMlAdr4wytikovWMtKvYw=;
- b=dZiVR8qR5cOST21bBhpa97EXFRAY13N6VVIo7Gece4f1XIyEiFQ/BZzJpjmZSsPAtP
- 8o4nQGIiLG1TgSwn+WFVUDdAYr3Qvi2tSygk0s2g2jgw/t5fKCwoZBrw+NGxLXVYW2J9
- FHYjztsTiLZ5pTcm+jE+oFVMNOSv3UPEw7fwFZPuygeqBP8Pnqm6ToAwFOFNRpdHcK8W
- LlNQT/1vKJqdP/xt8lTs2Y7CN2vCK0oM1eKgbDrkLPgtDB9BKFKpuFp83BX53CTS3WQF
- 9EjjfOxhrhyhav9mPk9pVOHUdYVnkwA61pYxoacxc1iB8s3DzOPstP+ci1ckAbArTLyZ
- 83HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=gLBB7GvS8taID4QM2gxUg/JMlAdr4wytikovWMtKvYw=;
- b=ry6A4OBPvpv8wmNz9+72AIGg6l/EOZ8xM5mOhMC5BTvpyNG6DROeCifSghF/dIUfbQ
- J46XD5rRGcXN2A4hnaCaS3pxSBHxaChyiUO59Lbek1lbcmO3sebwOzEJYd/IFQsRPYX3
- e8bSltUxGwXXFCeXz7Q5QykfFVNI7jhWdqbtDptQqwjKBxkqqMzXvCaNgeaI9MrdWo1y
- vkBPM1s2XyJzoQKC6bIJqEauuAFgnKLXxmZeyoFWsb7KLvojbz2rL+vt2JPQzmugMkU2
- L638rbtgDPLkdKo1DY5kq+VnfrRKrsZQUTNX6KvgwjPuAiZn8iwIip78ZhF5HC4WIJMz
- 2ggQ==
-X-Gm-Message-State: AOAM532Pgbwlpzn1YrX7cBj0GMsJ7Fw5ynh+874c+rXNxdSiUQD5R2IK
- bIxpD9OhQDRyrPji+sk97Fg=
-X-Google-Smtp-Source: ABdhPJzTc1s7attfuMYNbHc3hTvn29T23PY0kWp6EvxkRgoKMdP843ZaMacIDm1rCrRScK35n2L0qA==
-X-Received: by 2002:a1c:a301:: with SMTP id m1mr5903433wme.118.1637010915563; 
- Mon, 15 Nov 2021 13:15:15 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id n4sm18195894wri.41.2021.11.15.13.15.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Nov 2021 13:15:14 -0800 (PST)
-Message-ID: <b18519f7-7198-0965-a528-2d1a45c7c93c@amsat.org>
-Date: Mon, 15 Nov 2021 22:15:12 +0100
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mmkTD-0005CG-Da
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 17:28:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26924)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mmkTA-0001cv-PI
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 17:28:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637015330;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=z8a58Jy/FLh5y4bWxb0zY7UAJ0bhjn9sg5jlk+OwKH8=;
+ b=E9e5OLHzOUNZoOD94nE6C9YS+rN9xZGedtHSJq4/FjaOj1cq7dvSA7yxvl4HAexPJkTw7Y
+ dBaetJgrCczQdhoEz6pX55MxSfjd5oCK+USfWQ1sIGclR++gHaGFeJuAC5aU+BqZ/uwpMN
+ 8UPgzvjI3zaIxhPp78xYE7BxN47zhRg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-487-ZrCNG16dOaWUDm7eE95t-g-1; Mon, 15 Nov 2021 17:28:46 -0500
+X-MC-Unique: ZrCNG16dOaWUDm7eE95t-g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C8FE1019982;
+ Mon, 15 Nov 2021 22:28:45 +0000 (UTC)
+Received: from redhat.com (ovpn-114-146.phx2.redhat.com [10.3.114.146])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 353DD5C1A1;
+ Mon, 15 Nov 2021 22:28:45 +0000 (UTC)
+Date: Mon, 15 Nov 2021 16:28:43 -0600
+From: Eric Blake <eblake@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: "make check" fails in a clang sanitizer build on
+ "nbd-qemu-allocation" iotest
+Message-ID: <20211115222843.kvzun266pgav2zqo@redhat.com>
+References: <CAFEAcA-8jo5SmV41CP6aquyWWvrQQo5OoXbac=knD4z6A3fHxw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH RFC 2/2] hw: Replace drive_get_next() by drive_get()
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-References: <20211115125536.3341681-1-armbru@redhat.com>
- <20211115125536.3341681-3-armbru@redhat.com>
- <5b799ad5-a552-454f-dcc7-1ea6de22b397@amsat.org>
- <87lf1pfm2z.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <87lf1pfm2z.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+In-Reply-To: <CAFEAcA-8jo5SmV41CP6aquyWWvrQQo5OoXbac=knD4z6A3fHxw@mail.gmail.com>
+User-Agent: NeoMutt/20211029-16-b680fe
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.278,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,72 +77,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, bin.meng@windriver.com,
- mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org, sundeep.lkml@gmail.com,
- qemu-block@nongnu.org, andrew.smirnov@gmail.com, hskinnemoen@google.com,
- joel@jms.id.au, atar4qemu@gmail.com, alistair@alistair23.me,
- b.galvani@gmail.com, nieklinnenbank@gmail.com, qemu-arm@nongnu.org,
- clg@kaod.org, kwolf@redhat.com, qemu-riscv@nongnu.org, andrew@aj.id.au,
- Andrew.Baumann@microsoft.com, jcd@tribudubois.net, kfting@nuvoton.com,
- hreitz@redhat.com, palmer@dabbelt.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/15/21 16:57, Markus Armbruster wrote:
-> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
->> On 11/15/21 13:55, Markus Armbruster wrote:
->>> drive_get_next() is basically a bad idea.  It returns the "next" block
->>> backend of a certain interface type.  "Next" means bus=0,unit=N, where
->>> subsequent calls count N up from zero, per interface type.
->>>
->>> This lets you define unit numbers implicitly by execution order.  If the
->>> order changes, or new calls appear "in the middle", unit numbers change.
->>> ABI break.  Hard to spot in review.
->>>
->>> Explicit is better than implicit: use drive_get() directly.
->>>
->>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->>> ---
-
->>> @@ -435,11 +438,13 @@ static void aspeed_machine_init(MachineState *machine)
->>>      }
->>>  
->>>      for (i = 0; i < bmc->soc.sdhci.num_slots; i++) {
->>> -        sdhci_attach_drive(&bmc->soc.sdhci.slots[i], drive_get_next(IF_SD));
->>> +        sdhci_attach_drive(&bmc->soc.sdhci.slots[i],
->>> +                           drive_get(IF_SD, 0, i));
->>
->> If we put SD on bus #0, ...
->>
->>>      }
->>>  
->>>      if (bmc->soc.emmc.num_slots) {
->>> -        sdhci_attach_drive(&bmc->soc.emmc.slots[0], drive_get_next(IF_SD));
->>> +        sdhci_attach_drive(&bmc->soc.emmc.slots[0],
->>> +                           drive_get(IF_SD, 0, bmc->soc.sdhci.num_slots));
->>
->> ... we'd want to put eMMC on bus #1
+On Mon, Nov 15, 2021 at 05:11:54PM +0000, Peter Maydell wrote:
+> Hi; running a 'make check' on a clang sanitizer build one of
+> the iotests falls over due to a NULL pointer being passed to
+> memset():
 > 
-> Using separate buses for different kinds of devices would be neater, but
-> it also would be an incompatible change.  This patch keeps existing
-> bus/unit numbers working.  drive_get_next() can only use bus 0.
 > 
->>                                      but I see having eMMC cards on a
->> IF_SD bus as a bug, since these cards are soldered on the board.
+>   TEST   iotest-qcow2: nbd-qemu-allocation [fail]
+
+> +../../nbd/server.c:1027:16: runtime error: null pointer passed as
+> argument 1, which is declared to never be null
+
+The code in question:
+
+    if (client->opt == NBD_OPT_LIST_META_CONTEXT && !nb_queries) {
+        /* enable all known contexts */
+        meta->base_allocation = true;
+        meta->allocation_depth = meta->exp->allocation_depth;
+        memset(meta->bitmaps, 1, meta->exp->nr_export_bitmaps);
+
+I suspect what is happening is that meta->bitmaps is NULL when
+meta->exp->nr_export_bitmaps is 0. It's annoying that clang's
+sanitizer whines even for a 0-length memset, but a strict reading of
+POSIX says that we really are in the technically undefined behavior
+when passing NULL (even with 0 length), so such whiny behavior is
+permitted.  So I'll post a patch.
+
 > 
-> IF_SD is not a bus, it's an "block interface type", which is really just
-> a user interface thing.
+> Does this look familiar ?
 
-Why are we discriminating by "block interface type" then?
+First I've heard of it; thanks for alerting me.
 
-What is the difference between "block interfaces"? I see a block drive
-as a generic unit, usable on multiple hardware devices.
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
-I never really understood how this "block interface type" helps
-developers and users. I thought BlockInterfaceType and DriveInfo
-were legacy / deprecated APIs we want to get rid of; and we would
-come up with a replacement API using BlockDeviceInfo or providing
-a BlockFrontend state of the art object.
-Anyway, I suppose the explanation is buried in the git history
-before the last 8 years. I need to keep reading.
 
