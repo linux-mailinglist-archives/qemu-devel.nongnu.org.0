@@ -2,71 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51FC744FDEE
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 05:29:34 +0100 (CET)
-Received: from localhost ([::1]:46428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7390A44FE02
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 05:57:01 +0100 (CET)
+Received: from localhost ([::1]:35134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmTcb-0004P6-Fc
-	for lists+qemu-devel@lfdr.de; Sun, 14 Nov 2021 23:29:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36800)
+	id 1mmU3A-0000KQ-Ig
+	for lists+qemu-devel@lfdr.de; Sun, 14 Nov 2021 23:57:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mmTbI-0002x3-6x; Sun, 14 Nov 2021 23:28:12 -0500
-Received: from [2607:f8b0:4864:20::d2a] (port=36763
- helo=mail-io1-xd2a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mmTbG-0004y2-CJ; Sun, 14 Nov 2021 23:28:11 -0500
-Received: by mail-io1-xd2a.google.com with SMTP id e144so19523945iof.3;
- Sun, 14 Nov 2021 20:28:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=R89Ni0G7INrK1R6F/KXxYYXIUazS58/T8c4vB0XqYOk=;
- b=VA2BxBKndHO/MuMs/8fjctBSvbylxuUH/b3e0+FKJ7M4WkH/+dvj7DGs7nhZmq5I4p
- fN0NkItxwaW+qhpNlobBEsuXRTHsWNivhpNd+sInyMeq5rDz3e65HMD4EB3TL7q7Z1qI
- 9+DClY9fzHkl8YtJw+iJgnBCBK0opGa5/MJ4wSEqndCTV2Rp7P+o5rj5zJtuBlo0QT/5
- Xu9+mApoOBtbDHh7p2rTf18Y3HOXB1WFyhT4RRn8GWVZ1J7hto+SLaGY7/863/bBs7Ww
- tTaCIMXLU31HYJcsq1A9XTKGCsWv4V2oyd8J68appPphoKYxuHUcHeZ5tOp21cjeR/Z4
- r1Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=R89Ni0G7INrK1R6F/KXxYYXIUazS58/T8c4vB0XqYOk=;
- b=EtnqhAM73KX3m5T+XWeinF4nlvZSvjVVuI/xAKQdql7gi/PWhmz+LHBuGqxc+awL/g
- +0yJbVF2Sg0jFZmy6/tkuPOxjWxmFefQbwN0EOwSMU1g/7XlBr4sWEm3eTKlSEBiVA7X
- 5up7rJ/auxiM2RZ1o++3E17j/YAnEnQZRhvCKcsEF0JjF25nMtOcnyOIkLnPWzedgxj7
- LyOAHn0KN/LQ5RYbUAw307nJljafrNh05MLVE4MCZwh4UdOPnKpXnl++86L9x5KNoRaZ
- RzyZp62JLasFsZqoJ8IY5kHDqOAVxjFhQv0WUCDO399fviW5saOft243xpKdyNFhK62L
- aIWw==
-X-Gm-Message-State: AOAM5328gBm6kZuC250fUZjOrgpkpjF8UT9oVyORPrcA1Q6Gn3LL+tMW
- ZTjjf91n3S3G0AGeIMvOkQSCr6GwYaW7ffAFFxk=
-X-Google-Smtp-Source: ABdhPJynpuFhOGv3+YqHGL5clyXEQMMEv5fvfYwA3zu8oT/IsVuZKcbXA+wLMN9Dyy10CnBYqUyp6OExLrEI/wEfPtA=
-X-Received: by 2002:a02:a601:: with SMTP id c1mr26960016jam.114.1636950489080; 
- Sun, 14 Nov 2021 20:28:09 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <yadong.qi@intel.com>)
+ id 1mmU0Z-0004uU-I3; Sun, 14 Nov 2021 23:54:19 -0500
+Received: from mga17.intel.com ([192.55.52.151]:4456)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yadong.qi@intel.com>)
+ id 1mmU0T-0008Nv-Pf; Sun, 14 Nov 2021 23:54:18 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10168"; a="214101230"
+X-IronPort-AV: E=Sophos;i="5.87,235,1631602800"; d="scan'208";a="214101230"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Nov 2021 20:54:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,235,1631602800"; d="scan'208";a="644710424"
+Received: from yadong-antec.sh.intel.com ([10.239.158.125])
+ by fmsmga001.fm.intel.com with ESMTP; 14 Nov 2021 20:54:07 -0800
+From: yadong.qi@intel.com
+To: qemu-block@nongnu.org, kwolf@redhat.com, hreitz@redhat.com,
+ stefanha@redhat.com, fam@euphon.net, mst@redhat.com
+Subject: [PATCH 0/2] support BLKSECDISCARD
+Date: Mon, 15 Nov 2021 12:51:58 +0800
+Message-Id: <20211115045200.3567293-1-yadong.qi@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20211111155149.58172-1-zhiwei_liu@c-sky.com>
- <20211111155149.58172-4-zhiwei_liu@c-sky.com>
-In-Reply-To: <20211111155149.58172-4-zhiwei_liu@c-sky.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 15 Nov 2021 14:27:43 +1000
-Message-ID: <CAKmqyKOyV6R1YFTDsQGDTbU9ggBijGDgyD_2z-CC2jR44Cao-g@mail.gmail.com>
-Subject: Re: [PATCH v4 03/20] target/riscv: Ignore the pc bits above XLEN
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2a
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2a.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=yadong.qi@intel.com;
+ helo=mga17.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,56 +54,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: kai.z.wang@intel.com, yadong.qi@intel.com, luhai.chen@intel.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 12, 2021 at 1:54 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->
-> The read from PC for translation is in cpu_get_tb_cpu_state, before translation.
->
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+From: Yadong Qi <yadong.qi@intel.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Support BLKSECDISCARD passthrough for raw host_device backend.
 
-Alistair
+For virtio-blk device:
+    Add new virtio feature: VIRTIO_BLK_F_SECDISCARD.
+    Add new virtio command: VIRTIO_BLK_T_SECDISCARD.
 
-> ---
->  target/riscv/cpu_helper.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 9eeed38c7e..4c048cc266 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -70,8 +70,9 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
->                            target_ulong *cs_base, uint32_t *pflags)
->  {
->      uint32_t flags = 0;
-> +    RISCVMXL xl = cpu_get_xl(env);
->
-> -    *pc = env->pc;
-> +    *pc = xl == MXL_RV32 ? env->pc & UINT32_MAX : env->pc;
->      *cs_base = 0;
->
->      if (riscv_has_ext(env, RVV)) {
-> @@ -127,7 +128,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
->      }
->  #endif
->
-> -    flags = FIELD_DP32(flags, TB_FLAGS, XL, cpu_get_xl(env));
-> +    flags = FIELD_DP32(flags, TB_FLAGS, XL, xl);
->
->      *pflags = flags;
->  }
-> --
-> 2.25.1
->
->
+Usage:
+    qemu-system-x86_64 \
+    ... \
+    -drive file=/dev/mmcblk0p2,if=none,format=raw,discard=on,secdiscard=on,id=sd0 \
+    -device virtio-blk-pci,drive=sd0,id=sd0_vblk \
+    ...
+
+Yadong Qi (2):
+  block:hdev: support BLKSECDISCARD
+  virtio-blk: support BLKSECDISCARD
+
+ block.c                                     | 46 +++++++++++++++++++
+ block/blkdebug.c                            |  5 ++-
+ block/blklogwrites.c                        |  6 ++-
+ block/blkreplay.c                           |  5 ++-
+ block/block-backend.c                       | 15 ++++---
+ block/copy-before-write.c                   |  5 ++-
+ block/copy-on-read.c                        |  5 ++-
+ block/coroutines.h                          |  6 ++-
+ block/file-posix.c                          | 50 ++++++++++++++++++---
+ block/filter-compress.c                     |  5 ++-
+ block/io.c                                  |  5 ++-
+ block/mirror.c                              |  5 ++-
+ block/nbd.c                                 |  3 +-
+ block/nvme.c                                |  3 +-
+ block/preallocate.c                         |  5 ++-
+ block/qcow2-refcount.c                      |  4 +-
+ block/qcow2.c                               |  3 +-
+ block/raw-format.c                          |  5 ++-
+ block/throttle.c                            |  5 ++-
+ hw/block/virtio-blk.c                       | 24 ++++++++--
+ hw/ide/core.c                               |  1 +
+ hw/nvme/ctrl.c                              |  3 +-
+ hw/scsi/scsi-disk.c                         |  2 +-
+ include/block/block.h                       | 13 +++++-
+ include/block/block_int.h                   |  2 +-
+ include/block/raw-aio.h                     |  4 +-
+ include/standard-headers/linux/virtio_blk.h |  4 ++
+ include/sysemu/block-backend.h              |  1 +
+ tests/unit/test-block-iothread.c            |  9 ++--
+ 29 files changed, 195 insertions(+), 54 deletions(-)
+
+-- 
+2.25.1
+
 
