@@ -2,51 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D10E450348
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 12:19:03 +0100 (CET)
-Received: from localhost ([::1]:49328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1F17450371
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 12:30:44 +0100 (CET)
+Received: from localhost ([::1]:60892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mma0s-00024z-D3
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 06:19:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58676)
+	id 1mmaCB-0008Rw-8d
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 06:30:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>)
- id 1mmZz9-0000O8-SK; Mon, 15 Nov 2021 06:17:15 -0500
-Received: from kerio.kamp.de ([195.62.97.192]:52060)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmaAz-0007lZ-Ga
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 06:29:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45249)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>)
- id 1mmZz5-0007fP-OX; Mon, 15 Nov 2021 06:17:14 -0500
-X-Footer: a2FtcC5kZQ==
-Received: from [172.21.12.60] ([172.21.12.60]) (authenticated user pl@kamp.de)
- by kerio.kamp.de with ESMTPSA
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits));
- Mon, 15 Nov 2021 12:17:01 +0100
-Subject: Re: [PATCH v5 0/6] block/rbd: migrate to coroutines and add write
- zeroes support
-From: Peter Lieven <pl@kamp.de>
-To: Kevin Wolf <kwolf@redhat.com>
-References: <YObtGbd5jlQNUbn0@redhat.com>
- <77F23D4A-18B3-4367-9D4E-9710FA6269B2@kamp.de> <YOgjFRNxUH2GUXyN@redhat.com>
- <2f156d36-52f0-a375-cfe7-f17164b306ad@kamp.de>
- <32b18db2-0a39-2945-1d06-e189273062c2@kamp.de> <YXap8SAOT5Kb41E2@redhat.com>
- <23e2ebe9-b600-cc60-0962-7e7d153a4d4d@kamp.de>
-Message-ID: <40c6e10b-b8e3-bb5c-cde3-b4a4e2261d1f@kamp.de>
-Date: Mon, 15 Nov 2021 12:17:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mmaAv-00014P-VB
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 06:29:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636975764;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=895uTcacAxB0rrHwiAyJZG0VWFGBNp31mRsxXwiKsFE=;
+ b=iZ/JRq1u+jjwCAKe0qK7B9FC89BggxUk0lFpKCK8HI4nZg5wp42g6XcearY0GBUA/nLGV+
+ zvYn8V/lkLBONaTr6u7DPNSS2fnxeOcrp09RTzS4vhat/oolCR5yuEGtDR34LXoNyZuC53
+ YuhEHuqYpzKZK29RMkaB6g0Y6Ik3eWU=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-230-wESFLUANN_azYJLOSXStUg-1; Mon, 15 Nov 2021 06:29:23 -0500
+X-MC-Unique: wESFLUANN_azYJLOSXStUg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ d11-20020a50cd4b000000b003da63711a8aso13645648edj.20
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 03:29:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=895uTcacAxB0rrHwiAyJZG0VWFGBNp31mRsxXwiKsFE=;
+ b=0giIC6y3x4R66DyIxS1lH+BjetRWoNX0vkbX/4zGF1gvOl56Micc5O/Fx3vPNMFaCh
+ m3Ul3mo5+fO77EcAibxQ1hI0wL8IDapGgzmloWG/RqzOfDmNMa0oAcs9M8XVag9Wp8Wq
+ pbufjCWnjT1gZBle/6Po36qh4iuaae2/+VUWeXRgdYla3Xrh71S8azThfaarI3+iaFbA
+ F7dst4OFkACN1+naVkxuNOG9iG2Hwtx04ggFjuxN1iv930t7GUvNwPeQ8tNqSljYjT3C
+ RpcfFsopJ8Vx2581oHa6HjDuUgVEfq5hO89lAy164gEAqudm+9aSL2fZbJ5jsKHuaBvJ
+ MVnw==
+X-Gm-Message-State: AOAM533kKUC3qSOOMadrWlcju+X8B1hXeHuGBC25N4T333cZBL3ncuDp
+ ifpaNN38XoNUGRf6/PC8r8VrCu3CGEFHc5r9J7S+n2Y58tw9XXMY8jh5oBZsQ3L4777Eer1Jv8U
+ +JuUoNkGd0cDvFKI=
+X-Received: by 2002:a05:6402:5190:: with SMTP id
+ q16mr55274350edd.12.1636975762081; 
+ Mon, 15 Nov 2021 03:29:22 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwfqlKcT1h/94wiGZysSFynQyCE0O7B9T5G6kLrBJueat0mduHtWoxqZhlz9T49POfwJjTYPg==
+X-Received: by 2002:a05:6402:5190:: with SMTP id
+ q16mr55274318edd.12.1636975761902; 
+ Mon, 15 Nov 2021 03:29:21 -0800 (PST)
+Received: from redhat.com ([2a03:c5c0:107f:5ef5:cae3:cade:5de7:1613])
+ by smtp.gmail.com with ESMTPSA id gb3sm6466245ejc.81.2021.11.15.03.29.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Nov 2021 03:29:21 -0800 (PST)
+Date: Mon, 15 Nov 2021 06:29:18 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 3/6] pcie: add power indicator blink check
+Message-ID: <20211115062728-mutt-send-email-mst@kernel.org>
+References: <20211011120504.254053-1-kraxel@redhat.com>
+ <20211011120504.254053-4-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <23e2ebe9-b600-cc60-0962-7e7d153a4d4d@kamp.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
- helo=kerio.kamp.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.278,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211011120504.254053-4-kraxel@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,118 +94,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- qemu-block <qemu-block@nongnu.org>, Christian Theune <ct@flyingcircus.io>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Ilya Dryomov <idryomov@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 26.10.21 um 16:53 schrieb Peter Lieven:
-> Am 25.10.21 um 14:58 schrieb Kevin Wolf:
->> Am 25.10.2021 um 13:39 hat Peter Lieven geschrieben:
->>> Am 16.09.21 um 14:34 schrieb Peter Lieven:
->>>> Am 09.07.21 um 12:21 schrieb Kevin Wolf:
->>>>> Am 08.07.2021 um 20:23 hat Peter Lieven geschrieben:
->>>>>> Am 08.07.2021 um 14:18 schrieb Kevin Wolf <kwolf@redhat.com>:
->>>>>>> Am 07.07.2021 um 20:13 hat Peter Lieven geschrieben:
->>>>>>>>> Am 06.07.2021 um 17:25 schrieb Kevin Wolf <kwolf@redhat.com>:
->>>>>>>>> Am 06.07.2021 um 16:55 hat Peter Lieven geschrieben:
->>>>>>>>>> I will have a decent look after my vacation.
->>>>>>>>> Sounds good, thanks. Enjoy your vacation!
->>>>>>>> As I had to fire up my laptop to look into another issue anyway, I
->>>>>>>> have sent two patches for updating MAINTAINERS and to fix the int vs.
->>>>>>>> bool mix for task->complete.
->>>>>>> I think you need to reevaluate your definition of vacation. ;-)
->>>>>> Lets talk about this when the kids are grown up. Sometimes sending
->>>>>> patches can be quite relaxing :-)
->>>>> Heh, fair enough. :-)
->>>>>
->>>>>>> But thanks anyway.
->>>>>>>
->>>>>>>> As Paolos fix (5f50be9b5) is relatively new and there are maybe other
->>>>>>>> non obvious problems when removing the BH indirection and we are close
->>>>>>>> to soft freeze I would leave the BH removal change for 6.2.
->>>>>>> Sure, code cleanups aren't urgent.
->>>>>> Isn’t the indirection also a slight performance drop?
->>>>> Yeah, I guess technically it is, though I doubt it's measurable.
->>>> As promised I was trying to remove the indirection through the BH after Qemu 6.1 release.
->>>>
->>>> However, if I remove the BH I run into the following assertion while running some fio tests:
->>>>
->>>>
->>>> qemu-system-x86_64: ../block/block-backend.c:1197: blk_wait_while_drained: Assertion `blk->in_flight > 0' failed.
->>>>
->>>>
->>>> Any idea?
->>>>
->>>>
->>>> This is what I changed:
->>>>
->>>>
->>>> diff --git a/block/rbd.c b/block/rbd.c
->>>> index 3cb24f9981..bc1dbc20f7 100644
->>>> --- a/block/rbd.c
->>>> +++ b/block/rbd.c
->>>> @@ -1063,13 +1063,6 @@ static int qemu_rbd_resize(BlockDriverState *bs, uint64_t size)
->>>>       return 0;
->>>>   }
->>>>
->>>> -static void qemu_rbd_finish_bh(void *opaque)
->>>> -{
->>>> -    RBDTask *task = opaque;
->>>> -    task->complete = true;
->>>> -    aio_co_wake(task->co);
->>>> -}
->>>> -
->>>>   /*
->>>>    * This is the completion callback function for all rbd aio calls
->>>>    * started from qemu_rbd_start_co().
->>>> @@ -1083,8 +1076,8 @@ static void qemu_rbd_completion_cb(rbd_completion_t c, RBDTask *task)
->>>>   {
->>>>       task->ret = rbd_aio_get_return_value(c);
->>>>       rbd_aio_release(c);
->>>> -    aio_bh_schedule_oneshot(bdrv_get_aio_context(task->bs),
->>>> -                            qemu_rbd_finish_bh, task);
->>>> +    task->complete = true;
->>>> +    aio_co_wake(task->co);
->>>>   }
->>> Kevin, Paolo, any idea?
->> Not really, I don't see the connection between both places.
->>
->> Do you have a stack trace for the crash?
->
-> The crash seems not to be limited to that assertion. I have also seen:
->
->
-> qemu-system-x86_64: ../block/block-backend.c:1497: blk_aio_write_entry: Assertion `!qiov || qiov->size == acb->bytes' failed.
->
->
-> Altough harder to trigger I catch this backtrace in gdb:
->
->
-> qemu-system-x86_64: ../block/block-backend.c:1497: blk_aio_write_entry: Assertion `!qiov || qiov->size == acb->bytes' failed.
-> [Wechseln zu Thread 0x7ffff7fa8f40 (LWP 17852)]
->
-> Thread 1 "qemu-system-x86" hit Breakpoint 1, __GI_abort () at abort.c:49
-> 49    abort.c: Datei oder Verzeichnis nicht gefunden.
-> (gdb) bt
-> #0  0x00007ffff42567e0 in __GI_abort () at abort.c:49
-> #1  0x00007ffff424648a in __assert_fail_base (fmt=0x7ffff43cd750 "%s%s%s:%u: %s%sAssertion `%s' failed.\n%n", assertion=assertion@entry=0x555555e638e0 "!qiov || qiov->size == acb->bytes", file=file@entry=0x555555e634b2 "../block/block-backend.c", line=line@entry=1497, function=function@entry=0x555555e63b20 <__PRETTY_FUNCTION__.32450> "blk_aio_write_entry") at assert.c:92
-> #2  0x00007ffff4246502 in __GI___assert_fail (assertion=assertion@entry=0x555555e638e0 "!qiov || qiov->size == acb->bytes", file=file@entry=0x555555e634b2 "../block/block-backend.c", line=line@entry=1497, function=function@entry=0x555555e63b20 <__PRETTY_FUNCTION__.32450> "blk_aio_write_entry") at assert.c:101
-> #3  0x0000555555becc78 in blk_aio_write_entry (opaque=0x555556b534f0) at ../block/block-backend.c:1497
-> #4  0x0000555555cf0e4c in coroutine_trampoline (i0=<optimized out>, i1=<optimized out>) at ../util/coroutine-ucontext.c:173
-> #5  0x00007ffff426e7b0 in __start_context () at /lib/x86_64-linux-gnu/libc.so.6
-> #6  0x00007fffffffd5a0 in  ()
-> #7  0x0000000000000000 in  ()
->
+On Mon, Oct 11, 2021 at 02:05:01PM +0200, Gerd Hoffmann wrote:
+> Refuse to push the attention button in case the guest is busy with some
+> hotplug operation (as indicated by the power indicator blinking).
+> 
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 
+Can't we do better and press the button later after
+indicator stops blinking?
 
-any ideas? Or should we just abandon the idea of removing the BH?
-
-
-Peter
-
-
+> ---
+>  hw/pci/pcie.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+> index 4a52c250615e..c455f92e16bf 100644
+> --- a/hw/pci/pcie.c
+> +++ b/hw/pci/pcie.c
+> @@ -506,6 +506,7 @@ void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
+>      PCIDevice *hotplug_pdev = PCI_DEVICE(hotplug_dev);
+>      uint8_t *exp_cap = hotplug_pdev->config + hotplug_pdev->exp.exp_cap;
+>      uint32_t sltcap = pci_get_word(exp_cap + PCI_EXP_SLTCAP);
+> +    uint16_t sltctl = pci_get_word(exp_cap + PCI_EXP_SLTCTL);
+>  
+>      /* Check if hot-unplug is disabled on the slot */
+>      if ((sltcap & PCI_EXP_SLTCAP_HPC) == 0) {
+> @@ -521,6 +522,12 @@ void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
+>          return;
+>      }
+>  
+> +    if ((sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_BLINK) {
+> +        error_setg(errp, "Hot-unplug failed: "
+> +                   "guest is busy (power indicator blinking)");
+> +        return;
+> +    }
+> +
+>      dev->pending_deleted_event = true;
+>  
+>      /* In case user cancel the operation of multi-function hot-add,
+> -- 
+> 2.31.1
 
 
