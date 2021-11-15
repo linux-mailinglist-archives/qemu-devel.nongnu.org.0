@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 161E84507DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 16:08:08 +0100 (CET)
-Received: from localhost ([::1]:57996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B70474507D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 16:05:57 +0100 (CET)
+Received: from localhost ([::1]:51854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmdaZ-0004dB-7H
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 10:08:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56246)
+	id 1mmdYS-0000Na-Sk
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 10:05:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mmdS0-0007Ec-SD
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:59:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26588)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mmdS4-0007Gb-IF
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:59:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mmdRy-0008Tv-So
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:59:16 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mmdS2-0008VS-9Y
+ for qemu-devel@nongnu.org; Mon, 15 Nov 2021 09:59:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1636988353;
+ s=mimecast20190719; t=1636988357;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5aBWgeT8dX8n5hQ5ktoKDC7N22O1xIWSsGNqfC8T6cI=;
- b=FgZeXsQzy0dboNcELF4SMmz8l6U7qe7hgBzu36c5A1cKuhBDwysdJ94XYVXWegN9s5zvcd
- jnRvzRZIXB0W3ERNUzt6wwspUkdIypb8pPpO6kI2tUWIhOqSOhRiWXXzp0I/9uLQt7YgML
- uXrfWapT10kiW7bRAkdIqkR2phtAzPw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-34-nvaLh1M_N2GdwIxtHoznvg-1; Mon, 15 Nov 2021 09:59:12 -0500
-X-MC-Unique: nvaLh1M_N2GdwIxtHoznvg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- g11-20020a1c200b000000b003320d092d08so6309160wmg.9
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 06:59:12 -0800 (PST)
+ bh=4KAeBrUilj/ve6Ofp+Ew6cDhrRd6+8AxOgCMLHgLOxQ=;
+ b=WB3tu6iLh5AUt6QpaK5oIxrK3pnsOlbP+21Mzk64KSJ0ueQOMwzQAjCbsN9EocL1MmvoaX
+ DGGdWpf7WFlufjKp4Md0dRv100bjHwMo9fIZgnBXU+XDxorEhtHdwCAPjCLAfdkPwb2GGM
+ xog8vHmDUMhMVKnxksK/gfNspnTI3e0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-477-U4hAGtG8PrmU-qtLlBtxYw-1; Mon, 15 Nov 2021 09:59:16 -0500
+X-MC-Unique: U4hAGtG8PrmU-qtLlBtxYw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ q7-20020adff507000000b0017d160d35a8so3670245wro.4
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 06:59:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5aBWgeT8dX8n5hQ5ktoKDC7N22O1xIWSsGNqfC8T6cI=;
- b=OSV7pFUU/MrRf+QLnXPMdCvowxw0Nf4tVLXmspF2Fn7t7VJA8s49/VfqPl9iMKttdn
- F14kFY6ZzLt854SDjxZcq0IEjvws2oowmGHQZO81uS8OgXXA11MrK37vLjTzrbqDotG0
- Ma2XKDkpZv8OFm3EpY8aYaMZ8f8ZHx9uWBsjAMS8dPrP8lGr9+m2+82nWCfg1rHX+yo6
- lybuAqHAP19C1os463iHefk9hynW0bLPFuHKLoxyR42B/ojlCVQHluWBYxskop1fTGsD
- +H6RKOO1ZVFJvxkIXx3eyn5aIFRaxfpQQw0J60v8XksuPF+baNBofEzlJLq2+jj6abct
- hjYA==
-X-Gm-Message-State: AOAM531hzIh8jcNuEM1uhyDgkkq54uogey1xFIfLOZFKPd+6ZvzRKXrU
- A5B46q6O7KjYJZLZbUinh0fKpfVhJsvU0zMytTjCSM2lG1MJ1KXFxD4LLRoTv65sPfy2CLCo27U
- JuEGCv/FDiVSI05mPqwUYK5IPT0JhiE/n+sgY9VEpqh2W+GR6WlHy2+EquHKGRnre
-X-Received: by 2002:a5d:4704:: with SMTP id y4mr46850775wrq.85.1636988350799; 
- Mon, 15 Nov 2021 06:59:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy5Sfp5AM6+xO0tVEMe/4po5R+MIwLeW8l/RmHHIhz5RGCmDJZPaa/VBr0hQVulmXgq8Vrr/A==
-X-Received: by 2002:a5d:4704:: with SMTP id y4mr46850721wrq.85.1636988350453; 
- Mon, 15 Nov 2021 06:59:10 -0800 (PST)
+ bh=4KAeBrUilj/ve6Ofp+Ew6cDhrRd6+8AxOgCMLHgLOxQ=;
+ b=fz22r1FqnuwbyGcR1GBNxumJTOaKWB903y/ceSeySiR9hZq8bVP3VKUc9c4RE8w+Ts
+ qGHBr4o60bcPjcEyTI4HB7wrNeeb9QobIeeXSRZMNVyLsigjL8kLzK/Ss3i7ZYYR5Sts
+ /eau/b1xH9lL2wgRyLaxpbXmbUbVoZ+F2U48Sgb7hHN2MWziFfhDP0HrJiTpjT1CUpeU
+ 5pQlIlLSBiKq8MnquhcPLFpVqF0F/yJY3LR+uqG9iafaFi1PpJdGlVK8gHkXkYGZs+R2
+ wH5uPiSvCIqbjb8SgxiIOkdtFr96ReK74CHXJLiH049x0Np1Q0mVRbC/KIQt4DL6gaN/
+ EDLQ==
+X-Gm-Message-State: AOAM5335biwah3gPP+n+o0jqoiybjRDDpnd6Sc0NmLSeH8aiYKgRqTRl
+ rE5P3IMRyQyTWdFCzhrUWmw9QK+4VW1Vm1aJvaIm0414nGdzJQxDFItgvtQb8va82sVgB3PC2OG
+ +OhKmaTZ8b+8y8emWvt5adwCucGwZkuCwUsqyDF0HLP0uPJGW+bo97soV/wwMokO0
+X-Received: by 2002:a5d:6e8c:: with SMTP id k12mr47514707wrz.401.1636988355139; 
+ Mon, 15 Nov 2021 06:59:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyCMKRZjDDT6BXi0z8cGLwmCLsGou+twN0aKM1cAra2VHjcM269z3ycWuB/R3sbQ2VfrV4Wog==
+X-Received: by 2002:a5d:6e8c:: with SMTP id k12mr47514660wrz.401.1636988354923; 
+ Mon, 15 Nov 2021 06:59:14 -0800 (PST)
 Received: from x1w.redhat.com (62.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id l5sm13007464wml.20.2021.11.15.06.59.09
+ by smtp.gmail.com with ESMTPSA id k37sm15906619wms.21.2021.11.15.06.59.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Nov 2021 06:59:10 -0800 (PST)
+ Mon, 15 Nov 2021 06:59:14 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.2 v4 02/11] tests/unit/test-smp-parse: QOM'ify
- smp_machine_class_init()
-Date: Mon, 15 Nov 2021 15:58:51 +0100
-Message-Id: <20211115145900.2531865-3-philmd@redhat.com>
+Subject: [PATCH-for-6.2 v4 03/11] tests/unit/test-smp-parse: Explicit
+ MachineClass name
+Date: Mon, 15 Nov 2021 15:58:52 +0100
+Message-Id: <20211115145900.2531865-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211115145900.2531865-1-philmd@redhat.com>
 References: <20211115145900.2531865-1-philmd@redhat.com>
@@ -74,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -103,10 +103,11 @@ Cc: Andrew Jones <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-smp_machine_class_init() is the actual TypeInfo::class_init().
-Declare it as such in smp_machine_info, and avoid to call it
-manually in each test. Move smp_machine_info definition just
-before we register the type to avoid a forward declaration.
+If the MachineClass::name pointer is not explicitly set, it is NULL.
+Per the C standard, passing a NULL pointer to printf "%s" format is
+undefined. Some implementations display it as 'NULL', other as 'null'.
+Since we are comparing the formatted output, we need a stable value.
+The easiest is to explicit a machine name string.
 
 Reviewed-by: Andrew Jones <drjones@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
@@ -114,86 +115,47 @@ Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
 Tested-by: Yanan Wang <wangyanan55@huawei.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/unit/test-smp-parse.c | 34 ++++++++++++++++++----------------
- 1 file changed, 18 insertions(+), 16 deletions(-)
+ tests/unit/test-smp-parse.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/tests/unit/test-smp-parse.c b/tests/unit/test-smp-parse.c
-index 47774c1ee2a..3fff2af4e27 100644
+index 3fff2af4e27..b02450e25a3 100644
 --- a/tests/unit/test-smp-parse.c
 +++ b/tests/unit/test-smp-parse.c
-@@ -75,14 +75,6 @@ typedef struct SMPTestData {
-     const char *expect_error;
- } SMPTestData;
+@@ -23,6 +23,8 @@
+ #define MIN_CPUS 1   /* set the min CPUs supported by the machine as 1 */
+ #define MAX_CPUS 512 /* set the max CPUs supported by the machine as 512 */
  
--/* Type info of the tested machine */
--static const TypeInfo smp_machine_info = {
--    .name = TYPE_MACHINE,
--    .parent = TYPE_OBJECT,
--    .class_size = sizeof(MachineClass),
--    .instance_size = sizeof(MachineState),
--};
--
++#define SMP_MACHINE_NAME "TEST-SMP"
++
  /*
-  * List all the possible valid sub-collections of the generic 5
-  * topology parameters (i.e. cpus/maxcpus/sockets/cores/threads),
-@@ -480,9 +472,10 @@ static void unsupported_params_init(MachineClass *mc, SMPTestData *data)
-     }
+  * Used to define the generic 3-level CPU topology hierarchy
+  *  -sockets/cores/threads
+@@ -307,13 +309,13 @@ static struct SMPTestData data_generic_invalid[] = {
+          * should tweak the supported min CPUs to 2 for testing */
+         .config = SMP_CONFIG_GENERIC(T, 1, F, 0, F, 0, F, 0, F, 0),
+         .expect_error = "Invalid SMP CPUs 1. The min CPUs supported "
+-                        "by machine '(null)' is 2",
++                        "by machine '" SMP_MACHINE_NAME "' is 2",
+     }, {
+         /* config: -smp 512
+          * should tweak the supported max CPUs to 511 for testing */
+         .config = SMP_CONFIG_GENERIC(T, 512, F, 0, F, 0, F, 0, F, 0),
+         .expect_error = "Invalid SMP CPUs 512. The max CPUs supported "
+-                        "by machine '(null)' is 511",
++                        "by machine '" SMP_MACHINE_NAME "' is 511",
+     },
+ };
+ 
+@@ -481,6 +483,8 @@ static void machine_base_class_init(ObjectClass *oc, void *data)
+ 
+     mc->smp_props.prefer_sockets = true;
+     mc->smp_props.dies_supported = false;
++
++    mc->name = g_strdup(SMP_MACHINE_NAME);
  }
  
--/* Reset the related machine properties before each sub-test */
--static void smp_machine_class_init(MachineClass *mc)
-+static void machine_base_class_init(ObjectClass *oc, void *data)
- {
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+
-     mc->min_cpus = MIN_CPUS;
-     mc->max_cpus = MAX_CPUS;
- 
-@@ -498,8 +491,6 @@ static void test_generic(void)
-     SMPTestData *data = &(SMPTestData){{ }};
-     int i;
- 
--    smp_machine_class_init(mc);
--
-     for (i = 0; i < ARRAY_SIZE(data_generic_valid); i++) {
-         *data = data_generic_valid[i];
-         unsupported_params_init(mc, data);
-@@ -539,7 +530,6 @@ static void test_with_dies(void)
-     unsigned int num_dies = 2;
-     int i;
- 
--    smp_machine_class_init(mc);
-     /* Force the SMP compat properties */
-     mc->smp_props.dies_supported = true;
- 
-@@ -586,12 +576,24 @@ static void test_with_dies(void)
-     object_unref(obj);
- }
- 
-+/* Type info of the tested machine */
-+static const TypeInfo smp_machine_types[] = {
-+    {
-+        .name           = TYPE_MACHINE,
-+        .parent         = TYPE_OBJECT,
-+        .class_init     = machine_base_class_init,
-+        .class_size     = sizeof(MachineClass),
-+        .instance_size  = sizeof(MachineState),
-+    }
-+};
-+
-+DEFINE_TYPES(smp_machine_types)
-+
- int main(int argc, char *argv[])
- {
--    g_test_init(&argc, &argv, NULL);
--
-     module_call_init(MODULE_INIT_QOM);
--    type_register_static(&smp_machine_info);
-+
-+    g_test_init(&argc, &argv, NULL);
- 
-     g_test_add_func("/test-smp-parse/generic", test_generic);
-     g_test_add_func("/test-smp-parse/with_dies", test_with_dies);
+ static void test_generic(void)
 -- 
 2.31.1
 
