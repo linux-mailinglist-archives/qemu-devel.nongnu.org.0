@@ -2,48 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0A9E44FE00
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 05:56:56 +0100 (CET)
-Received: from localhost ([::1]:34528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 273F044FDFD
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Nov 2021 05:54:30 +0100 (CET)
+Received: from localhost ([::1]:56412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmU36-0008MK-4W
-	for lists+qemu-devel@lfdr.de; Sun, 14 Nov 2021 23:56:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41212)
+	id 1mmU0i-00041R-Mo
+	for lists+qemu-devel@lfdr.de; Sun, 14 Nov 2021 23:54:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yadong.qi@intel.com>)
- id 1mmU0b-00050E-Gz; Sun, 14 Nov 2021 23:54:21 -0500
-Received: from mga17.intel.com ([192.55.52.151]:4467)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mmTzX-0003FI-ST
+ for qemu-devel@nongnu.org; Sun, 14 Nov 2021 23:53:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20493)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yadong.qi@intel.com>)
- id 1mmU0Y-0008Ol-Rm; Sun, 14 Nov 2021 23:54:20 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10168"; a="214101235"
-X-IronPort-AV: E=Sophos;i="5.87,235,1631602800"; d="scan'208";a="214101235"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Nov 2021 20:54:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,235,1631602800"; d="scan'208";a="644710452"
-Received: from yadong-antec.sh.intel.com ([10.239.158.125])
- by fmsmga001.fm.intel.com with ESMTP; 14 Nov 2021 20:54:14 -0800
-From: yadong.qi@intel.com
-To: qemu-block@nongnu.org, kwolf@redhat.com, hreitz@redhat.com,
- stefanha@redhat.com, fam@euphon.net, mst@redhat.com
-Subject: [PATCH 2/2] virtio-blk: support BLKSECDISCARD
-Date: Mon, 15 Nov 2021 12:52:00 +0800
-Message-Id: <20211115045200.3567293-3-yadong.qi@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211115045200.3567293-1-yadong.qi@intel.com>
-References: <20211115045200.3567293-1-yadong.qi@intel.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mmTzU-0008Ct-HS
+ for qemu-devel@nongnu.org; Sun, 14 Nov 2021 23:53:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1636951991;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yi/7Ef8b3kVw6IbOU7UosCbz6nF+wlFzP6kNlN1jGMA=;
+ b=BQznIxtAhn66Kw/KWEHq7MSX1OvUn3/nSASVvgTFesWnONrG7uYIt5SwzPPrCbbum/xxwv
+ I6vhe+VZhFCnkKaMi1KOblCfrt87o87nmxR/qNblCx1dWkOvbONOo7XyLkKmgteirdtW8v
+ jLi8PrXCYaSHHOrJ7TyqJ9YHzlL4/Pg=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-316-TqSazgzBMryHIgVKQScOlA-1; Sun, 14 Nov 2021 23:53:07 -0500
+X-MC-Unique: TqSazgzBMryHIgVKQScOlA-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ f15-20020a056512228f00b004037c0ab223so6236764lfu.16
+ for <qemu-devel@nongnu.org>; Sun, 14 Nov 2021 20:53:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Yi/7Ef8b3kVw6IbOU7UosCbz6nF+wlFzP6kNlN1jGMA=;
+ b=wu07l7G62pm2CUeOpb6+i/aPZBU/dJbt3NpyGTW2eKpiCiHsBuNcyAt41dXPdUpz0L
+ uVTT6bETwwbe3PnD5Bwimd9RmWhby837d+kOYKCXXTgkh/gdBJ6eM+nov6WsryQnt5ay
+ akvZojc5G9TUK1jkWaQ2J4cYSZcFo2Rqv1wdCD2w4cXkS1fGeJJuQrdIaCVYBisT3vgx
+ X9tXqlGqnStLTucFlhg0TOEjljwYbnAPCP0pN/qhGvihYkjf/RmzjbhPkIGaZJDNYEUA
+ pEJD6F4GkuWw093MVSjbjQABbBo7mS582Zx4JFkraN8OKa5GfaZwqfz0nHymvYACM9/c
+ Lccg==
+X-Gm-Message-State: AOAM532JZxfr0sBT2BidKkTCrRKHyocOHK1nPGn8ipHfchwwczJGFnYp
+ itpxbnI+GCqjMcKtXrOrY30lh2GVkAlp45xydiWrqrgChYEuGWMWFH7hM9v07/AEe6E0Wu7hhOx
+ XCw1O28INKeKixM6tXdLUaZKCNh/Tpws=
+X-Received: by 2002:a2e:b88d:: with SMTP id r13mr35195818ljp.362.1636951985765; 
+ Sun, 14 Nov 2021 20:53:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzb2Poo7E0mn6F2jPRoLHaIJ87IKDcjla5/lS9qCqGR7DFXfQ/A2bSXrMmIs1jZiACs3RofgITquEyDmCeSHyA=
+X-Received: by 2002:a2e:b88d:: with SMTP id r13mr35195785ljp.362.1636951985500; 
+ Sun, 14 Nov 2021 20:53:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.151; envelope-from=yadong.qi@intel.com;
- helo=mga17.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211112091414.34223-1-yaroshchuk2000@gmail.com>
+In-Reply-To: <20211112091414.34223-1-yaroshchuk2000@gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Mon, 15 Nov 2021 12:52:54 +0800
+Message-ID: <CACGkMEuiXy+OhGxq0aR=f0HuvFAbN427m=HL035WuJLsOsGpSg@mail.gmail.com>
+Subject: Re: [PATCH v5 0/6] Add vmnet.framework based network backend
+To: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.695,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -56,136 +88,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kai.z.wang@intel.com, yadong.qi@intel.com, luhai.chen@intel.com,
- qemu-devel@nongnu.org
+Cc: phillip.ennen@gmail.com, qemu-devel <qemu-devel@nongnu.org>, "Armbruster,
+ Markus" <armbru@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Phillip Tennen <phillip@axleos.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
+ hsp.cat7@gmail.com, hello@adns.io, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yadong Qi <yadong.qi@intel.com>
+On Fri, Nov 12, 2021 at 5:14 PM Vladislav Yaroshchuk
+<yaroshchuk2000@gmail.com> wrote:
+>
+> macOS provides networking API for VMs called 'vmnet.framework':
+> https://developer.apple.com/documentation/vmnet
+>
+> We can provide its support as the new QEMU network backends which
+> represent three different vmnet.framework interface usage modes:
+>
+>   * `vmnet-shared`:
+>     allows the guest to communicate with other guests in shared mode and
+>     also with external network (Internet) via NAT. Has (macOS-provided)
+>     DHCP server; subnet mask and IP range can be configured;
+>
+>   * `vmnet-host`:
+>     allows the guest to communicate with other guests in host mode.
+>     By default has enabled DHCP as `vmnet-shared`, but providing
+>     network unique id (uuid) can make `vmnet-host` interfaces isolated
+>     from each other and also disables DHCP.
+>
+>   * `vmnet-bridged`:
+>     bridges the guest with a physical network interface.
+>
+> This backends cannot work on macOS Catalina 10.15 cause we use
+> vmnet.framework API provided only with macOS 11 and newer. Seems
+> that it is not a problem, because QEMU guarantees to work on two most
+> recent versions of macOS which now are Big Sur (11) and Monterey (12).
+>
+> Also, we have one inconvenient restriction: vmnet.framework interfaces
+> can create only privileged user:
+> `$ sudo qemu-system-x86_64 -nic vmnet-shared`
+>
+> Attempt of `vmnet-*` netdev creation being unprivileged user fails with
+> vmnet's 'general failure'.
+>
+> This happens because vmnet.framework requires `com.apple.vm.networking`
+> entitlement which is: "restricted to developers of virtualization software.
+> To request this entitlement, contact your Apple representative." as Apple
+> documentation says:
+> https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_vm_networking
 
-Add new virtio feature: VIRTIO_BLK_F_SECDISCARD.
-Add new virtio command: VIRTIO_BLK_T_SECDISCARD.
+Do you know how multipass work? Looks like it uses vmnet without privileges.
 
-This feature is disabled by default, it will check the backend
-bs->open_flags & BDRV_O_SECDISCARD, enable it if BDRV_O_SECDISCARD
-is supported.
+Thanks
 
-Signed-off-by: Yadong Qi <yadong.qi@intel.com>
----
- hw/block/virtio-blk.c                       | 26 +++++++++++++++++----
- include/standard-headers/linux/virtio_blk.h |  4 ++++
- 2 files changed, 26 insertions(+), 4 deletions(-)
-
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index dbc4c5a3cd..7bc3484521 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -536,7 +536,8 @@ static bool virtio_blk_sect_range_ok(VirtIOBlock *dev,
- }
- 
- static uint8_t virtio_blk_handle_discard_write_zeroes(VirtIOBlockReq *req,
--    struct virtio_blk_discard_write_zeroes *dwz_hdr, bool is_write_zeroes)
-+    struct virtio_blk_discard_write_zeroes *dwz_hdr, bool is_write_zeroes,
-+    bool is_secdiscard)
- {
-     VirtIOBlock *s = req->dev;
-     VirtIODevice *vdev = VIRTIO_DEVICE(s);
-@@ -577,8 +578,8 @@ static uint8_t virtio_blk_handle_discard_write_zeroes(VirtIOBlockReq *req,
-         goto err;
-     }
- 
-+    int blk_aio_flags = 0;
-     if (is_write_zeroes) { /* VIRTIO_BLK_T_WRITE_ZEROES */
--        int blk_aio_flags = 0;
- 
-         if (flags & VIRTIO_BLK_WRITE_ZEROES_FLAG_UNMAP) {
-             blk_aio_flags |= BDRV_REQ_MAY_UNMAP;
-@@ -600,7 +601,12 @@ static uint8_t virtio_blk_handle_discard_write_zeroes(VirtIOBlockReq *req,
-             goto err;
-         }
- 
--        blk_aio_pdiscard(s->blk, sector << BDRV_SECTOR_BITS, bytes, 0,
-+        if (is_secdiscard) {
-+            blk_aio_flags |= BDRV_REQ_SECDISCARD;
-+        }
-+
-+        blk_aio_pdiscard(s->blk, sector << BDRV_SECTOR_BITS, bytes,
-+                         blk_aio_flags,
-                          virtio_blk_discard_write_zeroes_complete, req);
-     }
- 
-@@ -622,6 +628,7 @@ static int virtio_blk_handle_request(VirtIOBlockReq *req, MultiReqBuffer *mrb)
-     unsigned out_num = req->elem.out_num;
-     VirtIOBlock *s = req->dev;
-     VirtIODevice *vdev = VIRTIO_DEVICE(s);
-+    bool is_secdiscard = false;
- 
-     if (req->elem.out_num < 1 || req->elem.in_num < 1) {
-         virtio_error(vdev, "virtio-blk missing headers");
-@@ -722,6 +729,9 @@ static int virtio_blk_handle_request(VirtIOBlockReq *req, MultiReqBuffer *mrb)
-      * VIRTIO_BLK_T_OUT flag set. We masked this flag in the switch statement,
-      * so we must mask it for these requests, then we will check if it is set.
-      */
-+    case VIRTIO_BLK_T_SECDISCARD & ~VIRTIO_BLK_T_OUT:
-+        is_secdiscard = true;
-+        __attribute__((fallthrough));
-     case VIRTIO_BLK_T_DISCARD & ~VIRTIO_BLK_T_OUT:
-     case VIRTIO_BLK_T_WRITE_ZEROES & ~VIRTIO_BLK_T_OUT:
-     {
-@@ -752,7 +762,8 @@ static int virtio_blk_handle_request(VirtIOBlockReq *req, MultiReqBuffer *mrb)
-         }
- 
-         err_status = virtio_blk_handle_discard_write_zeroes(req, &dwz_hdr,
--                                                            is_write_zeroes);
-+                                                            is_write_zeroes,
-+                                                            is_secdiscard);
-         if (err_status != VIRTIO_BLK_S_OK) {
-             virtio_blk_req_complete(req, err_status);
-             virtio_blk_free_request(req);
-@@ -1201,6 +1212,11 @@ static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
-+    if (blk_get_flags(conf->conf.blk) & BDRV_O_SECDISCARD)
-+        virtio_add_feature(&s->host_features, VIRTIO_BLK_F_SECDISCARD);
-+    else
-+        virtio_clear_feature(&s->host_features, VIRTIO_BLK_F_SECDISCARD);
-+
-     if (virtio_has_feature(s->host_features, VIRTIO_BLK_F_WRITE_ZEROES) &&
-         (!conf->max_write_zeroes_sectors ||
-          conf->max_write_zeroes_sectors > BDRV_REQUEST_MAX_SECTORS)) {
-@@ -1307,6 +1323,8 @@ static Property virtio_blk_properties[] = {
-                      conf.report_discard_granularity, true),
-     DEFINE_PROP_BIT64("write-zeroes", VirtIOBlock, host_features,
-                       VIRTIO_BLK_F_WRITE_ZEROES, true),
-+    DEFINE_PROP_BIT64("secdiscard", VirtIOBlock, host_features,
-+                      VIRTIO_BLK_F_SECDISCARD, false),
-     DEFINE_PROP_UINT32("max-discard-sectors", VirtIOBlock,
-                        conf.max_discard_sectors, BDRV_REQUEST_MAX_SECTORS),
-     DEFINE_PROP_UINT32("max-write-zeroes-sectors", VirtIOBlock,
-diff --git a/include/standard-headers/linux/virtio_blk.h b/include/standard-headers/linux/virtio_blk.h
-index 2dcc90826a..c55a07840c 100644
---- a/include/standard-headers/linux/virtio_blk.h
-+++ b/include/standard-headers/linux/virtio_blk.h
-@@ -40,6 +40,7 @@
- #define VIRTIO_BLK_F_MQ		12	/* support more than one vq */
- #define VIRTIO_BLK_F_DISCARD	13	/* DISCARD is supported */
- #define VIRTIO_BLK_F_WRITE_ZEROES	14	/* WRITE ZEROES is supported */
-+#define VIRTIO_BLK_F_SECDISCARD	15	/* WRITE ZEROES is supported */
- 
- /* Legacy feature bits */
- #ifndef VIRTIO_BLK_NO_LEGACY
-@@ -153,6 +154,9 @@ struct virtio_blk_config {
- /* Write zeroes command */
- #define VIRTIO_BLK_T_WRITE_ZEROES	13
- 
-+/* Secure discard command */
-+#define VIRTIO_BLK_T_SECDISCARD	14
-+
- #ifndef VIRTIO_BLK_NO_LEGACY
- /* Barrier before this op. */
- #define VIRTIO_BLK_T_BARRIER	0x80000000
--- 
-2.25.1
+>
+> One more note: we still have quite useful but not supported
+> 'vmnet.framework' features as creating port forwarding rules, IPv6
+> NAT prefix specifying and so on.
+>
+> Nevertheless, new backends work fine and tested within `qemu-system-x86-64`
+> on macOS Bir Sur 11.5.2 host with such nic models:
+>   * e1000-82545em
+>   * virtio-net-pci
+>   * vmxnet3
+>
+> The guests were:
+>   * macOS 10.15.7
+>   * Ubuntu Bionic (server cloudimg)
+>
+>
+> This series partially reuses patches by Phillip Tennen:
+> https://patchew.org/QEMU/20210218134947.1860-1-phillip.ennen@gmail.com/
+> So I included his signed-off line into one of the commit messages and
+> also here.
+>
+> v1 -> v2:
+>  Since v1 minor typos were fixed, patches rebased onto latest master,
+>  redundant changes removed (small commits squashed)
+>
+> v2 -> v3:
+>  - QAPI style fixes
+>  - Typos fixes in comments
+>  - `#include`'s updated to be in sync with recent master
+> v3 -> v4:
+>  - Support vmnet interfaces isolation feature
+>  - Support vmnet-host network uuid setting feature
+>  - Refactored sources a bit
+> v4 -> v5:
+>  - Missed 6.2 boat, now 7.0 candidate
+>  - Fix qapi netdev descriptions and styles
+>    (@subnetmask -> @subnet-mask)
+>  - Support vmnet-shared IPv6 prefix setting feature
+>
+> Signed-off-by: Phillip Tennen <phillip@axleos.com>
+> Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+>
+> Vladislav Yaroshchuk (6):
+>   net/vmnet: add vmnet dependency and customizable option
+>   net/vmnet: add vmnet backends to qapi/net
+>   net/vmnet: implement shared mode (vmnet-shared)
+>   net/vmnet: implement host mode (vmnet-host)
+>   net/vmnet: implement bridged mode (vmnet-bridged)
+>   net/vmnet: update qemu-options.hx
+>
+>  meson.build                   |   4 +
+>  meson_options.txt             |   2 +
+>  net/clients.h                 |  11 ++
+>  net/meson.build               |   7 +
+>  net/net.c                     |  10 ++
+>  net/vmnet-bridged.m           | 111 ++++++++++++
+>  net/vmnet-common.m            | 325 ++++++++++++++++++++++++++++++++++
+>  net/vmnet-host.c              | 111 ++++++++++++
+>  net/vmnet-shared.c            |  92 ++++++++++
+>  net/vmnet_int.h               |  48 +++++
+>  qapi/net.json                 | 127 ++++++++++++-
+>  qemu-options.hx               |  25 +++
+>  scripts/meson-buildoptions.sh |   3 +
+>  13 files changed, 874 insertions(+), 2 deletions(-)
+>  create mode 100644 net/vmnet-bridged.m
+>  create mode 100644 net/vmnet-common.m
+>  create mode 100644 net/vmnet-host.c
+>  create mode 100644 net/vmnet-shared.c
+>  create mode 100644 net/vmnet_int.h
+>
+> --
+> 2.23.0
+>
 
 
