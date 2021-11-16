@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77376453BCB
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 22:42:31 +0100 (CET)
-Received: from localhost ([::1]:57670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99F25453BCF
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 22:44:45 +0100 (CET)
+Received: from localhost ([::1]:59824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mn6Dm-0001uq-1t
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 16:42:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42610)
+	id 1mn6Fw-0003Nx-G3
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 16:44:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tfanelli@redhat.com>)
- id 1mn6Cp-0001G8-Kn
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 16:41:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52637)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tfanelli@redhat.com>)
- id 1mn6Cm-000454-7x
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 16:41:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637098886;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=c1XcR1lgQisttXwWaF7KjLI8WftPbhuxF3FmagGOsqA=;
- b=PRPdaOl+u5OR0g+SqcHLB2uWoLRUxiHuyuPOdf2r8SWDomRJzibUX9l1e4ymWFD6KCzXMt
- qDUQzZo+iP92lf9tKoRe6ZX4fM7rQTHOC/UW8fD0LsDC4ze/FrXOkFRVNcpq5h1OqdBOCp
- gesW045MG3fNJSzsp7dmReao/V7Fy0o=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-502-l96DCQe9MrqPkmjFGJd_Cg-1; Tue, 16 Nov 2021 16:41:25 -0500
-X-MC-Unique: l96DCQe9MrqPkmjFGJd_Cg-1
-Received: by mail-qk1-f197.google.com with SMTP id
- v13-20020a05620a440d00b00468380f4407so219020qkp.17
- for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 13:41:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mn6Et-0002jC-Rw
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 16:43:39 -0500
+Received: from [2a00:1450:4864:20::32c] (port=39656
+ helo=mail-wm1-x32c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mn6Er-0004Cr-TQ
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 16:43:39 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ n33-20020a05600c502100b0032fb900951eso3122312wmr.4
+ for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 13:43:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=unlJY+vcQqwyR4SCwQyLVP/Rd3Jn+IOW7Ln9HmTlMWg=;
+ b=g1fUKdQ778kHrEuaHsiRdFbDl+lW64c+B64hqFS1bPXHWaocVC8HnLD3L2InCvWrcI
+ kaqckrieCcytI3CaduT5IZanMdOVZgpiqkzCqFmZFoKTe+B1ns5hrDkaxSQY74HNR3EK
+ te8gHd6YBSzBj7+qiFZaRDiguKYo9Oy2dzB+mzZ/RYWg3cX90oSZ+rKUeoUqgx/T2cPZ
+ QMudcgpi13hTuwaSbDP06hYH0y/CWWlV4KRAW7Cqukq6UnfJrzIPj/QXfb6fXaJ1CeOg
+ 2Vvr1jehmTtvR2t4jy9r8hsNUGnZKO7rS8tCaw1yj1F588n1scwD+I/Cs3/vvfApY/QW
+ LUuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=c1XcR1lgQisttXwWaF7KjLI8WftPbhuxF3FmagGOsqA=;
- b=YpcpOIfHp7AOu5B9vEBNvUX4lyE95zlS2cAVoxCTY6ohm6YPoZ3omp7/ZT6ZIeJki/
- uoaB8y1Zm7hyk+YmmxOjCorgRsTHMY8pQRirPjtdXaVW5Gk8lT9YJfsJt++x1Cq1/sYP
- iYZZ0lF8ggx4cNez4yU2TBl6GBjnyZDrAm+qrCBbaqE3Jh4vz/YaG7uEjq9TS8Dkz+f7
- mfKS2cXexH3tbfZiUKB0gNoiytDi6xqG10P0zEFI8Ipoa4pqcLV8V4CO3MrXRW/Eo8FB
- PJY/EXMj/p56ybycjh9MfVqsQGb78lrrk62JFMLp4yyzWcVDqzWCMy7Gm45ipoUsOF86
- IT6Q==
-X-Gm-Message-State: AOAM532JIHhR/knHiQEfzX5nA0J4XK6aggDVrqlcsv/YlIaJKeZWzZHC
- o/QjyP5QR64ywTUSLaw5ytRMH9lgnVqqDwUHgw1C6polYh4Sn/0FCXo3XXt8wCt381/GCGygZS3
- 7Eg+TAZrELkViiURNa0IkbsBRAxGR86wLulIYoYas9mmzIJ6xjiHLlp63rYoGaAoDoPo=
-X-Received: by 2002:a05:620a:2589:: with SMTP id
- x9mr9064305qko.454.1637098884503; 
- Tue, 16 Nov 2021 13:41:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwoK77BQgdC+mkfcZYlYgHvo0X/I00SgFa12PkUpKpwiadMtlERa/KaqLqPLXryzH0FchpoIg==
-X-Received: by 2002:a05:620a:2589:: with SMTP id
- x9mr9064261qko.454.1637098884153; 
- Tue, 16 Nov 2021 13:41:24 -0800 (PST)
-Received: from fedora.myfiosgateway.com
- (pool-71-175-3-221.phlapa.fios.verizon.net. [71.175.3.221])
- by smtp.gmail.com with ESMTPSA id q185sm8885891qke.64.2021.11.16.13.41.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Nov 2021 13:41:23 -0800 (PST)
-From: Tyler Fanelli <tfanelli@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] sev: check which processor the ASK/ARK chain should match
-Date: Tue, 16 Nov 2021 16:38:59 -0500
-Message-Id: <20211116213858.363583-1-tfanelli@redhat.com>
-X-Mailer: git-send-email 2.31.1
+ bh=unlJY+vcQqwyR4SCwQyLVP/Rd3Jn+IOW7Ln9HmTlMWg=;
+ b=fb6KAC35rag0RXngWj6dqOnPZ2LgEnoh9Psoci5hUKpLJsqz/k6J2EJfSQYwSRToGQ
+ UBoMYtPDqreYX4HBceCj84HnL/iZUDPX0bnk32Q0lRuGBi0RjCQj7wV0pKlhduOKU91i
+ A/5CCxBJ52EaG8t2eS++YT4BB21A1UdvQMMYzjrWmWKtMX+A6dHm9PmKvSivSxzUrg9+
+ JKLcTObA/qqKpjjX4vzxJSdBQO2eNaqosdwWRmvzaZ6z6xniZKWkyFv0ktkhYAYPl2KC
+ hmdXzQ9nDCWjQW6JgfPRmKyxq8LjLJgpqBE3q/OskFHnu0F98ay6IqjAxyWIrMVCSmXx
+ SauA==
+X-Gm-Message-State: AOAM533j3lUCi6YQgdsL/7/8lTaiPr8OE5SvsGidqL/jI4AeGDdIkXyB
+ q9+HIOmejK94KF/ZYraXHolL1g==
+X-Google-Smtp-Source: ABdhPJz2VUm9a7FseORTSkG0BkYRwoSn/JDqaNVo8XeQjg02+N8/ihdDq7dL8Q21rwUt/P/56WIyiw==
+X-Received: by 2002:a05:600c:3586:: with SMTP id
+ p6mr73758772wmq.34.1637099015487; 
+ Tue, 16 Nov 2021 13:43:35 -0800 (PST)
+Received: from [192.168.8.105] (145.red-37-158-173.dynamicip.rima-tde.net.
+ [37.158.173.145])
+ by smtp.gmail.com with ESMTPSA id l11sm18267374wrp.61.2021.11.16.13.43.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Nov 2021 13:43:35 -0800 (PST)
+Subject: Re: [PATCH v4 8/9] common-user: Adjust system call return on FreeBSD
+To: Warner Losh <imp@bsdimp.com>
+References: <20211116110256.365484-1-richard.henderson@linaro.org>
+ <20211116110256.365484-9-richard.henderson@linaro.org>
+ <CANCZdfrVjYazmNBLhVMnKsOqcbnYA1=mP2MhrhumEcVwdJnwKQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <8a994325-998d-7b1d-a38c-26c381513776@linaro.org>
+Date: Tue, 16 Nov 2021 22:43:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=tfanelli@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <CANCZdfrVjYazmNBLhVMnKsOqcbnYA1=mP2MhrhumEcVwdJnwKQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=tfanelli@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.446,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,120 +94,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, kvm@vger.kernel.org, mtosatti@redhat.com,
- armbru@redhat.com, Tyler Fanelli <tfanelli@redhat.com>, pbonzini@redhat.com,
- eblake@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AMD ASK/ARK certificate chain differs between AMD SEV
-processor generations. SEV capabilities should provide
-which ASK/ARK certificate should be used based on the host
-processor.
+On 11/16/21 9:58 PM, Warner Losh wrote:
+>     +#elif defined(__FreeBSD__)
+>     +       /* FreeBSD kernel returns positive errno and C bit set. */
+>     +       jcs     1f
+> 
+> 
+> I needed to change this to 'jc' and that's all google found for Intel.
 
-Signed-off-by: Tyler Fanelli <tfanelli@redhat.com>
----
- qapi/misc-target.json | 28 ++++++++++++++++++++++++++--
- target/i386/sev.c     | 17 ++++++++++++++---
- 2 files changed, 40 insertions(+), 5 deletions(-)
+Yep, that's me jumping between too many arches in one day.  It's jc/jnc for intel.
 
-diff --git a/qapi/misc-target.json b/qapi/misc-target.json
-index 5aa2b95b7d..c64aa3ff57 100644
---- a/qapi/misc-target.json
-+++ b/qapi/misc-target.json
-@@ -166,6 +166,24 @@
- { 'command': 'query-sev-launch-measure', 'returns': 'SevLaunchMeasureInfo',
-   'if': 'TARGET_I386' }
- 
-+##
-+# @SevAskArkCertName:
-+#
-+# This enum describes which ASK/ARK certificate should be
-+# used based on the generation of an AMD Secure Encrypted
-+# Virtualization processor.
-+#
-+# @naples: AMD Naples processor (SEV 1st generation)
-+#
-+# @rome: AMD Rome processor (SEV 2nd generation)
-+#
-+# @milan: AMD Milan processor (SEV 3rd generation)
-+#
-+# Since: 7.0
-+##
-+{ 'enum': 'SevAskArkCertName',
-+  'data': ['naples', 'rome', 'milan'],
-+  'if': 'TARGET_I386' }
- 
- ##
- # @SevCapability:
-@@ -182,13 +200,18 @@
- # @reduced-phys-bits: Number of physical Address bit reduction when SEV is
- #                     enabled
- #
-+# @ask-ark-cert-name: The generation in which the AMD
-+#                     ARK/ASK should be derived from
-+#                     (since 7.0)
-+#
- # Since: 2.12
- ##
- { 'struct': 'SevCapability',
-   'data': { 'pdh': 'str',
-             'cert-chain': 'str',
-             'cbitpos': 'int',
--            'reduced-phys-bits': 'int'},
-+            'reduced-phys-bits': 'int',
-+            'ask-ark-cert-name': 'SevAskArkCertName'},
-   'if': 'TARGET_I386' }
- 
- ##
-@@ -205,7 +228,8 @@
- #
- # -> { "execute": "query-sev-capabilities" }
- # <- { "return": { "pdh": "8CCDD8DDD", "cert-chain": "888CCCDDDEE",
--#                  "cbitpos": 47, "reduced-phys-bits": 5}}
-+#                  "cbitpos": 47, "reduced-phys-bits": 5,
-+#                  "ask-ark-cert-name": "naples"}}
- #
- ##
- { 'command': 'query-sev-capabilities', 'returns': 'SevCapability',
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index eede07f11d..f30171e5ba 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -506,8 +506,9 @@ static SevCapability *sev_get_capabilities(Error **errp)
-     guchar *pdh_data = NULL;
-     guchar *cert_chain_data = NULL;
-     size_t pdh_len = 0, cert_chain_len = 0;
--    uint32_t ebx;
--    int fd;
-+    uint32_t eax, ebx;
-+    int fd, es, snp;
-+
- 
-     if (!kvm_enabled()) {
-         error_setg(errp, "KVM not enabled");
-@@ -534,9 +535,19 @@ static SevCapability *sev_get_capabilities(Error **errp)
-     cap->pdh = g_base64_encode(pdh_data, pdh_len);
-     cap->cert_chain = g_base64_encode(cert_chain_data, cert_chain_len);
- 
--    host_cpuid(0x8000001F, 0, NULL, &ebx, NULL, NULL);
-+    host_cpuid(0x8000001F, 0, &eax, &ebx, NULL, NULL);
-     cap->cbitpos = ebx & 0x3f;
- 
-+    es = eax & 0x8;
-+    snp = eax & 0x10;
-+    if (!es && !snp) {
-+	cap->ask_ark_cert_name = SEV_ASK_ARK_CERT_NAME_NAPLES;
-+    } else if (es && !snp) {
-+	cap->ask_ark_cert_name = SEV_ASK_ARK_CERT_NAME_ROME;
-+    } else {
-+	cap->ask_ark_cert_name = SEV_ASK_ARK_CERT_NAME_MILAN;
-+    }
-+
-     /*
-      * When SEV feature is enabled, we loose one bit in guest physical
-      * addressing.
--- 
-2.31.1
 
+r~
 
