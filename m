@@ -2,83 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28776452FF6
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 12:11:27 +0100 (CET)
-Received: from localhost ([::1]:38316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAC81452FF5
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 12:11:23 +0100 (CET)
+Received: from localhost ([::1]:38196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmwN4-0000hm-9u
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 06:11:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60686)
+	id 1mmwN0-0000ci-RW
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 06:11:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mmwIB-000152-05
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 06:06:23 -0500
-Received: from [2a00:1450:4864:20::434] (port=34467
- helo=mail-wr1-x434.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mmwI9-0005E5-2z
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 06:06:22 -0500
-Received: by mail-wr1-x434.google.com with SMTP id d5so36774514wrc.1
- for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 03:06:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=YVf1tPDQPknmRSR7gDWNr9vucM+qonf4Ycx9pfm5Zro=;
- b=kWuQg9gDlicraqXV0XRVbK/E28Cbqup4RNxtLxwNI2V9JnIW2x5NUwtO9gORsQQecw
- xpiNrHIzf58ASnwWjlpog/YHwv5txTbaMs4Ca0BSheRbrh8FR/cufvi/4XLSRF0RDK87
- z/jhAWeBy30jY3y3WF3Rz+JFq6QVsdnhIb5CUGQrKPMftEVGL6WSrRUVfc9BrdL4OWtW
- md+oTgeLmugpSho/h6urA6sDGuXINslm6t+N8YG+a9owZr0rU2SnvRzCrskUoJp1PXEd
- sGNX+leNFT//wKH7z1MRnxDW9aIdyfITzXOidcDYtc6PEXlrV7pG7X4hHdWX4ofXJIYk
- kOww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=YVf1tPDQPknmRSR7gDWNr9vucM+qonf4Ycx9pfm5Zro=;
- b=fcZ6PVo/g1jKHuCBnkX4oNu7I05Mp6k9Smbk/ybZz8ocs0qlbLG5og8aEpfYZHKlZj
- ks/78dQdHzvuf3nsQMAIpoAAtRqVY33Xhb/2C8SaClzhOKXV2EOyjA9epo2TG1bXHEPz
- TGS3fttQl7dTyjZYKeBxB837XWG1llOmq7ylrj9LOCKlFLWbkAadKrL0nyAYNWUU3iKo
- 73l281dxF/e7rnJhXLPJgNjSqkC+bOyc0fiIHxnjEzYsGTYdADFcxjsUBFlzDbk++b58
- EhXAShY2xhFid8cKSOG/efCa7j7hDuN7oYI7S5Fc5FGZg4Jf+cqVMi32rRXU7JVfw1NU
- INoQ==
-X-Gm-Message-State: AOAM532fn3TiVTv3wbtyuLijL276L4NQOqkAZlJcwyCgqOdb/XkssL4n
- COVwjKo8jP9Ai+VlZ2Lv6Anpfw==
-X-Google-Smtp-Source: ABdhPJyeRNkUCMpnS5wWabKJVY7GASfoBYvKq5b/hLBVnoqEBpGnu8sU1eS54UPKNVDrqKFpAkskqQ==
-X-Received: by 2002:adf:8293:: with SMTP id 19mr8509648wrc.167.1637060778818; 
- Tue, 16 Nov 2021 03:06:18 -0800 (PST)
-Received: from [192.168.8.105] (145.red-37-158-173.dynamicip.rima-tde.net.
- [37.158.173.145])
- by smtp.gmail.com with ESMTPSA id r17sm2517745wmq.5.2021.11.16.03.06.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Nov 2021 03:06:18 -0800 (PST)
-Subject: Re: [PATCH for-6.2] meson.build: Merge riscv32 and riscv64 cpu family
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20211116095042.335224-1-richard.henderson@linaro.org>
- <CAFEAcA9-BfaXq=3pH2PM58TrmW=sOhA2EgG+V=eYTDpnY6AiXA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <bbc810f9-03d2-51ba-d1a9-4f04379cd1e1@linaro.org>
-Date: Tue, 16 Nov 2021 12:06:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mmwJ2-0002ZL-6z
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 06:07:17 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:3199)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mmwIy-0005Lw-B5
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 06:07:15 -0500
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Htjrj4nJJz8vQB;
+ Tue, 16 Nov 2021 19:05:09 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 16 Nov 2021 19:06:50 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.20; Tue, 16 Nov 2021 19:06:50 +0800
+Subject: Re: [PATCH-for-6.2 v3 1/6] tests/unit/test-smp-parse: Restore
+ MachineClass fields after modifying
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ <qemu-devel@nongnu.org>
+References: <20211111100351.2153662-1-philmd@redhat.com>
+ <20211111100351.2153662-2-philmd@redhat.com>
+ <df6a0315-6b94-51c4-9854-96c6ba08f3db@huawei.com>
+ <87120304-dc9d-ff4b-5973-85362c89f34f@redhat.com>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <7df37842-abd5-ee0a-d440-9aaf7fe044b6@huawei.com>
+Date: Tue, 16 Nov 2021 19:06:49 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9-BfaXq=3pH2PM58TrmW=sOhA2EgG+V=eYTDpnY6AiXA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <87120304-dc9d-ff4b-5973-85362c89f34f@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.446,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme713-chm.china.huawei.com (10.1.199.109) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=wangyanan55@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -55
+X-Spam_score: -5.6
+X-Spam_bar: -----
+X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.446,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,25 +72,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, alistair.francis@wdc.com, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Andrew Jones <drjones@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/16/21 11:53 AM, Peter Maydell wrote:
->>   cpu = host_machine.cpu_family()
->> +
->> +# Unify riscv* to a single family.
->> +if cpu in ['riscv32', 'riscv64']
->> +  cpu = 'riscv'
->> +endif
-> 
-> Needing to do this seems kinda awkward :-(
 
-Yeah, well.  It's either once here, or multiple times later.
+On 2021/11/15 18:24, Philippe Mathieu-Daudé wrote:
+> On 11/12/21 03:04, wangyanan (Y) wrote:
+>> On 2021/11/11 18:03, Philippe Mathieu-Daudé wrote:
+>>> There is a single MachineClass object, registered with
+>>> type_register_static(&smp_machine_info). Since the same
+>>> object is used multiple times (an MachineState object
+>>> is instantiated in both test_generic and test_with_dies),
+>>> we should restore its internal state after modifying for
+>>> the test purpose.
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> ---
+>>>    tests/unit/test-smp-parse.c | 6 +++++-
+>>>    1 file changed, 5 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/tests/unit/test-smp-parse.c b/tests/unit/test-smp-parse.c
+>>> index cbe0c990494..bd11fbe91de 100644
+>>> --- a/tests/unit/test-smp-parse.c
+>>> +++ b/tests/unit/test-smp-parse.c
+>>> @@ -512,7 +512,7 @@ static void test_generic(void)
+>>>            smp_parse_test(ms, data, true);
+>>>        }
+>>>    -    /* Reset the supported min CPUs and max CPUs */
+>>> +    /* Force invalid min CPUs and max CPUs */
+>>>        mc->min_cpus = 2;
+>>>        mc->max_cpus = 511;
+>>>    @@ -523,6 +523,10 @@ static void test_generic(void)
+>>>            smp_parse_test(ms, data, false);
+>>>        }
+>>>    +    /* Reset the supported min CPUs and max CPUs */
+>>> +    mc->min_cpus = MIN_CPUS;
+>>> +    mc->max_cpus = MAX_CPUS;
+>>> +
+>>>        object_unref(obj);
+>>>    }
+>>>    
+>> Just want to have a note:
+>> Besides the supported min/max CPUs, mc->smp_props is dirtied
+>> too for test purpose in each sub-test function. But for now, it is
+>> not functionally necessary to also restore them at the final of each
+>> sub-test function. We need to do this when new specific parameters
+>> are tested in separate tests.
+> What we ought do is have an abstract TestMachineClass and have
+> a specific TestCaseMachineClass for each of your test cases.
+> This way we don't need to modify the class internal state at
+> runtime. I chose to not do it now because this is a more invasive
+> change past hard-freeze,
+Yes, we can do that as an optimization for 7.0. I also have noticed
+those for-7.0 patches submitted. I will have a look.
+> and I just want to fix the Cirrus-CI
+> jobs here.
+And keep the fix for 6.2.
+>> At that time, for example, we will need
+>> to at least add:
+>>
+>> /* Restore the SMP compat properties */
+>> mc->smp_props.dies_supported = false;
+>>
+>> at the bottom of test_with_dies()
+> OK, I'll add that.
 
-Or, we admit that riscv32 will never be supported as a host and rename all of our other 
-bits (tcg/riscv and */host/riscv/) to riscv64.
+Thanks!
+Yanan
+>
+>> Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
+>> Tested-by: Yanan Wang <wangyanan55@huawei.com>
+>>
+>> Thanks,
+>> Yanan
+>>
+> .
 
-
-r~
 
