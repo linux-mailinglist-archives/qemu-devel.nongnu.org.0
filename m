@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1140845368D
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 16:59:26 +0100 (CET)
-Received: from localhost ([::1]:53460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D6AB4536CD
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 17:06:00 +0100 (CET)
+Received: from localhost ([::1]:44804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mn0rk-0000LS-Ss
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 10:59:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43126)
+	id 1mn0y7-0005JA-6w
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 11:05:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasz.gieryk@linux.intel.com>)
- id 1mn0mL-0006jH-4D; Tue, 16 Nov 2021 10:53:49 -0500
-Received: from mga04.intel.com ([192.55.52.120]:64391)
+ id 1mn0mN-0006qW-2n; Tue, 16 Nov 2021 10:53:51 -0500
+Received: from mga04.intel.com ([192.55.52.120]:64383)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasz.gieryk@linux.intel.com>)
- id 1mn0mG-0007fn-7k; Tue, 16 Nov 2021 10:53:48 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10169"; a="232438911"
-X-IronPort-AV: E=Sophos;i="5.87,239,1631602800"; d="scan'208";a="232438911"
+ id 1mn0mJ-0007ek-36; Tue, 16 Nov 2021 10:53:50 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10169"; a="232438918"
+X-IronPort-AV: E=Sophos;i="5.87,239,1631602800"; d="scan'208";a="232438918"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2021 07:53:23 -0800
-X-IronPort-AV: E=Sophos;i="5.87,239,1631602800"; d="scan'208";a="454494486"
+ 16 Nov 2021 07:53:25 -0800
+X-IronPort-AV: E=Sophos;i="5.87,239,1631602800"; d="scan'208";a="454494490"
 Received: from lgieryk-lnx.igk.intel.com ([172.22.230.153])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2021 07:53:20 -0800
+ 16 Nov 2021 07:53:23 -0800
 From: =?UTF-8?q?=C5=81ukasz=20Gieryk?= <lukasz.gieryk@linux.intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 12/15] hw/nvme: Initialize capability structures for
- primary/secondary controllers
-Date: Tue, 16 Nov 2021 16:34:43 +0100
-Message-Id: <20211116153446.317143-13-lukasz.gieryk@linux.intel.com>
+Subject: [PATCH v2 13/15] hw/nvme: Add support for the Virtualization
+ Management command
+Date: Tue, 16 Nov 2021 16:34:44 +0100
+Message-Id: <20211116153446.317143-14-lukasz.gieryk@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211116153446.317143-1-lukasz.gieryk@linux.intel.com>
 References: <20211116153446.317143-1-lukasz.gieryk@linux.intel.com>
@@ -69,283 +69,403 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With four new properties:
- - sriov_v{i,q}_flexible,
- - sriov_max_v{i,q}_per_vf,
-one can configure the number of available flexible resources, as well as
-the limits. The primary and secondary controller capability structures
-are initialized accordingly.
-
-Since the number of available queues (interrupts) now varies between
-VF/PF, BAR size calculation is also adjusted.
+With the new Virtualization Management command one can:
+ - assign flexible resources (queues, interrupts) to primary and
+   secondary controllers,
+ - toggle the online/offline state of given controller.
 
 Signed-off-by: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
 ---
- hw/nvme/ctrl.c       | 138 ++++++++++++++++++++++++++++++++++++++++---
- hw/nvme/nvme.h       |   4 ++
- include/block/nvme.h |   5 ++
- 3 files changed, 140 insertions(+), 7 deletions(-)
+ hw/nvme/ctrl.c       | 204 +++++++++++++++++++++++++++++++++++++++++++
+ hw/nvme/nvme.h       |  16 ++++
+ hw/nvme/trace-events |   3 +
+ include/block/nvme.h |  17 ++++
+ 4 files changed, 240 insertions(+)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index f8f5dfe204..f589ffde59 100644
+index f589ffde59..9d0432a2e5 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -36,6 +36,10 @@
-  *              zoned.zasl=<N[optional]>, \
-  *              zoned.auto_transition=<on|off[optional]>, \
-  *              sriov_max_vfs=<N[optional]> \
-+ *              sriov_vq_flexible=<N[optional]> \
-+ *              sriov_vi_flexible=<N[optional]> \
-+ *              sriov_max_vi_per_vf=<N[optional]> \
-+ *              sriov_max_vq_per_vf=<N[optional]> \
-  *              subsys=<subsys_id>
-  *      -device nvme-ns,drive=<drive_id>,bus=<bus_name>,nsid=<nsid>,\
-  *              zoned=<true|false[optional]>, \
-@@ -113,6 +117,26 @@
-  *   enables reporting of both SR-IOV and ARI capabilities by the NVMe device.
-  *   Virtual function controllers will not report SR-IOV capability.
-  *
-+ * - `sriov_vq_flexible`
-+ *   Indicates the total number of flexible queue resources assignable to all
-+ *   the secondary controllers. Implicitly sets the number of PF-private
-+ *   resources to (max_ioqpairs - sriov_vq_flexible).
-+ *
-+ * - `sriov_vi_flexible`
-+ *   Indicates the total number of flexible interrupt resources assignable to
-+ *   all the secondary controllers. Implicitly sets the number of PF-private
-+ *   resources to (msix_qsize - sriov_vi_flexible).
-+ *
-+ * - `sriov_max_vi_per_vf`
-+ *   Indicates the maximum number of virtual interrupt resources assignable
-+ *   to a secondary controller. The default 0 resolves to the number of private
-+ *   interrupt resources configured for PF.
-+ *
-+ * - `sriov_max_vq_per_vf`
-+ *   Indicates the maximum number of virtual queue resources assignable to
-+ *   a secondary controller. The default 0 resolves to the number of private
-+ *   queue resources configured for PF.
-+ *
-  * nvme namespace device parameters
-  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  * - `shared`
-@@ -185,6 +209,7 @@
- #define NVME_NUM_FW_SLOTS 1
- #define NVME_DEFAULT_MAX_ZA_SIZE (128 * KiB)
- #define NVME_MAX_VFS 127
-+#define NVME_VF_RES_GRANULARITY 1
- #define NVME_VF_OFFSET 0x1
- #define NVME_VF_STRIDE 1
+@@ -257,6 +257,7 @@ static const uint32_t nvme_cse_acs[256] = {
+     [NVME_ADM_CMD_GET_FEATURES]     = NVME_CMD_EFF_CSUPP,
+     [NVME_ADM_CMD_ASYNC_EV_REQ]     = NVME_CMD_EFF_CSUPP,
+     [NVME_ADM_CMD_NS_ATTACHMENT]    = NVME_CMD_EFF_CSUPP | NVME_CMD_EFF_NIC,
++    [NVME_ADM_CMD_VIRT_MNGMT]       = NVME_CMD_EFF_CSUPP,
+     [NVME_ADM_CMD_FORMAT_NVM]       = NVME_CMD_EFF_CSUPP | NVME_CMD_EFF_LBCC,
+ };
  
-@@ -6338,6 +6363,58 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
-             error_setg(errp, "PMR is not supported with SR-IOV");
-             return;
-         }
-+
-+        if (!params->sriov_vq_flexible || !params->sriov_vi_flexible) {
-+            error_setg(errp, "both sriov_vq_flexible and sriov_vi_flexible"
-+                       " must be set for the use of SR-IOV");
-+            return;
-+        }
-+
-+        if (params->sriov_vq_flexible < params->sriov_max_vfs * 2) {
-+            error_setg(errp, "sriov_vq_flexible must be greater than or equal"
-+                       " to %d (sriov_max_vfs * 2) and be a multiple of %d"
-+                       " (sriov_max_vfs)", params->sriov_max_vfs * 2,
-+                       params->sriov_max_vfs);
-+            return;
-+        }
-+
-+        if (params->max_ioqpairs < params->sriov_vq_flexible + 2) {
-+            error_setg(errp, "sriov_vq_flexible - max_ioqpairs (PF-private"
-+                       " queue resources) must be greater than or equal to 2");
-+            return;
-+        }
-+
-+        if (params->sriov_vi_flexible < params->sriov_max_vfs) {
-+            error_setg(errp, "sriov_vi_flexible must be greater than or equal"
-+                       " to %d (sriov_max_vfs) and be a multiple of %d"
-+                       " (sriov_max_vfs)", params->sriov_max_vfs,
-+                       params->sriov_max_vfs);
-+            return;
-+        }
-+
-+        if (params->msix_qsize < params->sriov_vi_flexible + 1) {
-+            error_setg(errp, "sriov_vi_flexible - msix_qsize (PF-private"
-+                       " interrupt resources) must be greater than or equal"
-+                       " to 1");
-+            return;
-+        }
-+
-+        if (params->sriov_max_vi_per_vf &&
-+            (params->sriov_max_vi_per_vf - 1) % NVME_VF_RES_GRANULARITY) {
-+            error_setg(errp, "sriov_max_vi_per_vf must meet:"
-+                       " (X - 1) %% %d == 0 and X >= 1",
-+                       NVME_VF_RES_GRANULARITY);
-+            return;
-+        }
-+
-+        if (params->sriov_max_vq_per_vf &&
-+            (params->sriov_max_vq_per_vf < 2 ||
-+             (params->sriov_max_vq_per_vf - 1) % NVME_VF_RES_GRANULARITY)) {
-+            error_setg(errp, "sriov_max_vq_per_vf must meet:"
-+                       " (X - 1) %% %d == 0 and X >= 2",
-+                       NVME_VF_RES_GRANULARITY);
-+            return;
-+        }
-     }
+@@ -288,6 +289,7 @@ static const uint32_t nvme_cse_iocs_zoned[256] = {
+ };
+ 
+ static void nvme_process_sq(void *opaque);
++static void nvme_ctrl_reset(NvmeCtrl *n, NvmeResetType rst);
+ 
+ static uint16_t nvme_sqid(NvmeRequest *req)
+ {
+@@ -5517,6 +5519,167 @@ out:
+     return status;
  }
  
-@@ -6346,10 +6423,19 @@ static void nvme_init_state(NvmeCtrl *n)
-     NvmePriCtrlCap *cap = &n->pri_ctrl_cap;
-     NvmeSecCtrlList *list = &n->sec_ctrl_list;
-     NvmeSecCtrlEntry *sctrl;
-+    uint8_t max_vfs;
++static void nvme_get_virt_res_num(NvmeCtrl *n, uint8_t rt, int *num_total,
++                                  int *num_prim, int *num_sec)
++{
++    *num_total = le32_to_cpu(rt ? n->pri_ctrl_cap.vifrt : n->pri_ctrl_cap.vqfrt);
++    *num_prim = le16_to_cpu(rt ? n->pri_ctrl_cap.virfap : n->pri_ctrl_cap.vqrfap);
++    *num_sec = le16_to_cpu(rt ? n->pri_ctrl_cap.virfa : n->pri_ctrl_cap.vqrfa);
++}
++
++static uint16_t nvme_assign_virt_res_to_prim(NvmeCtrl *n, NvmeRequest *req,
++                                             uint16_t cntlid, uint8_t rt, int nr)
++{
++    int num_total, num_prim, num_sec;
++
++    if (cntlid != n->cntlid) {
++        return NVME_INVALID_CTRL_ID | NVME_DNR;
++    }
++
++    nvme_get_virt_res_num(n, rt, &num_total, &num_prim, &num_sec);
++
++    if (nr > num_total) {
++        return NVME_INVALID_NUM_RESOURCES | NVME_DNR;
++    }
++
++    if (nr > num_total - num_sec) {
++        return NVME_INVALID_RESOURCE_ID | NVME_DNR;
++    }
++
++    if (rt) {
++        n->pri_ctrl_cap.virfap = cpu_to_le16(nr);
++    } else {
++        n->pri_ctrl_cap.vqrfap = cpu_to_le16(nr);
++    }
++
++    req->cqe.result = cpu_to_le32(nr);
++    return req->status;
++}
++
++static void nvme_update_virt_res(NvmeCtrl *n, NvmeSecCtrlEntry *sctrl,
++                                 uint8_t rt, int nr)
++{
++    int prev_nr, prev_total;
++
++    if (rt) {
++        prev_nr = le16_to_cpu(sctrl->nvi);
++        prev_total = le32_to_cpu(n->pri_ctrl_cap.virfa);
++        sctrl->nvi = cpu_to_le16(nr);
++        n->pri_ctrl_cap.virfa = cpu_to_le32(prev_total + nr - prev_nr);
++    } else {
++        prev_nr = le16_to_cpu(sctrl->nvq);
++        prev_total = le32_to_cpu(n->pri_ctrl_cap.vqrfa);
++        sctrl->nvq = cpu_to_le16(nr);
++        n->pri_ctrl_cap.vqrfa = cpu_to_le32(prev_total + nr - prev_nr);
++    }
++}
++
++static uint16_t nvme_assign_virt_res_to_sec(NvmeCtrl *n, NvmeRequest *req,
++                                            uint16_t cntlid, uint8_t rt, int nr)
++{
++    int limit = rt ? n->params.sriov_max_vi_per_vf :
++                     n->params.sriov_max_vq_per_vf;
++    int num_total, num_prim, num_sec, num_free, diff;
++    NvmeSecCtrlEntry *sctrl;
++
++    sctrl = nvme_sctrl_for_cntlid(n, cntlid);
++    if (!sctrl) {
++        return NVME_INVALID_CTRL_ID | NVME_DNR;
++    }
++
++    if (sctrl->scs) {
++        return NVME_INVALID_SEC_CTRL_STATE | NVME_DNR;
++    }
++
++    if (nr > limit) {
++        return NVME_INVALID_NUM_RESOURCES | NVME_DNR;
++    }
++
++    nvme_get_virt_res_num(n, rt, &num_total, &num_prim, &num_sec);
++    num_free = num_total - num_prim - num_sec;
++    diff = nr - le16_to_cpu(rt ? sctrl->nvi : sctrl->nvq);
++
++    if (diff > num_free) {
++        return NVME_INVALID_RESOURCE_ID | NVME_DNR;
++    }
++
++    nvme_update_virt_res(n, sctrl, rt, nr);
++    req->cqe.result = cpu_to_le32(nr);
++
++    return req->status;
++}
++
++static uint16_t nvme_virt_set_state(NvmeCtrl *n, uint16_t cntlid, bool online)
++{
++    NvmeCtrl *sn = NULL;
++    NvmeSecCtrlEntry *sctrl;
++
++    sctrl = nvme_sctrl_for_cntlid(n, cntlid);
++    if (!sctrl) {
++        return NVME_INVALID_CTRL_ID | NVME_DNR;
++    }
++
++    if (sctrl->vfn) {
++        sn = NVME(pcie_sriov_get_vf_at_index(&n->parent_obj,
++                                             le16_to_cpu(sctrl->vfn) - 1));
++    }
++
++    if (online) {
++        if (!NVME_CC_EN(ldl_le_p(&n->bar.cc)) || !sctrl->nvi ||
++            (le16_to_cpu(sctrl->nvq) < 2)) {
++            return NVME_INVALID_SEC_CTRL_STATE | NVME_DNR;
++        }
++
++        if (!sctrl->scs) {
++            sctrl->scs = 0x1;
++            if (sn) {
++                nvme_ctrl_reset(sn, NVME_RESET_CONTROLLER);
++            }
++        }
++    } else {
++        if (sctrl->scs) {
++            sctrl->scs = 0x0;
++            if (sn) {
++                nvme_ctrl_reset(sn, NVME_RESET_CONTROLLER);
++            }
++        }
++
++        nvme_update_virt_res(n, sctrl, NVME_VIRT_RES_INTERRUPT, 0);
++        nvme_update_virt_res(n, sctrl, NVME_VIRT_RES_QUEUE, 0);
++    }
++
++    return NVME_SUCCESS;
++}
++
++static uint16_t nvme_virt_mngmt(NvmeCtrl *n, NvmeRequest *req)
++{
++    uint32_t dw10 = le32_to_cpu(req->cmd.cdw10);
++    uint32_t dw11 = le32_to_cpu(req->cmd.cdw11);
++    uint8_t act = dw10 & 0xf;
++    uint8_t rt = (dw10 >> 8) & 0x7;
++    uint16_t cntlid = (dw10 >> 16) & 0xffff;
++    int nr = dw11 & 0xffff;
++
++    trace_pci_nvme_virt_mngmt(nvme_cid(req), act, cntlid, rt ? "VI" : "VQ", nr);
++
++    if (rt != NVME_VIRT_RES_QUEUE && rt != NVME_VIRT_RES_INTERRUPT) {
++        return NVME_INVALID_RESOURCE_ID | NVME_DNR;
++    }
++
++    switch (act) {
++    case NVME_VIRT_MNGMT_ACTION_SEC_ASSIGN:
++        return nvme_assign_virt_res_to_sec(n, req, cntlid, rt, nr);
++    case NVME_VIRT_MNGMT_ACTION_PRM_ALLOC:
++        return nvme_assign_virt_res_to_prim(n, req, cntlid, rt, nr);
++    case NVME_VIRT_MNGMT_ACTION_SEC_ONLINE:
++        return nvme_virt_set_state(n, cntlid, true);
++    case NVME_VIRT_MNGMT_ACTION_SEC_OFFLINE:
++        return nvme_virt_set_state(n, cntlid, false);
++    default:
++        return NVME_INVALID_FIELD | NVME_DNR;
++    }
++}
++
+ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
+ {
+     trace_pci_nvme_admin_cmd(nvme_cid(req), nvme_sqid(req), req->cmd.opcode,
+@@ -5559,6 +5722,8 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
+         return nvme_aer(n, req);
+     case NVME_ADM_CMD_NS_ATTACHMENT:
+         return nvme_ns_attachment(n, req);
++    case NVME_ADM_CMD_VIRT_MNGMT:
++        return nvme_virt_mngmt(n, req);
+     case NVME_ADM_CMD_FORMAT_NVM:
+         return nvme_format(n, req);
+     default:
+@@ -5623,6 +5788,7 @@ static void nvme_update_msixcap_ts(PCIDevice *pci_dev, uint32_t table_size)
+ static void nvme_ctrl_reset(NvmeCtrl *n, NvmeResetType rst)
+ {
+     PCIDevice *pci_dev = &n->parent_obj;
++    NvmeSecCtrlEntry *sctrl;
+     NvmeNamespace *ns;
      int i;
  
--    n->conf_ioqpairs = n->params.max_ioqpairs;
--    n->conf_msix_qsize = n->params.msix_qsize;
-+    if (pci_is_vf(&n->parent_obj)) {
-+        sctrl = nvme_sctrl(n);
-+        max_vfs = 0;
-+        n->conf_ioqpairs = sctrl->nvq ? le16_to_cpu(sctrl->nvq) - 1 : 0;
-+        n->conf_msix_qsize = sctrl->nvi ? le16_to_cpu(sctrl->nvi) : 1;
-+    } else {
-+        max_vfs = n->params.sriov_max_vfs;
-+        n->conf_ioqpairs = n->params.max_ioqpairs;
-+        n->conf_msix_qsize = n->params.msix_qsize;
-+    }
- 
-     n->sq = g_new0(NvmeSQueue *, n->params.max_ioqpairs + 1);
-     n->cq = g_new0(NvmeCQueue *, n->params.max_ioqpairs + 1);
-@@ -6358,13 +6444,40 @@ static void nvme_init_state(NvmeCtrl *n)
-     n->starttime_ms = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
-     n->aer_reqs = g_new0(NvmeRequest *, n->params.aerl + 1);
- 
--    list->numcntl = cpu_to_le16(n->params.sriov_max_vfs);
--    for (i = 0; i < n->params.sriov_max_vfs; i++) {
-+    list->numcntl = cpu_to_le16(max_vfs);
-+    for (i = 0; i < max_vfs; i++) {
-         sctrl = &list->sec[i];
-         sctrl->pcid = cpu_to_le16(n->cntlid);
-     }
- 
-     cap->cntlid = cpu_to_le16(n->cntlid);
-+    cap->crt = NVME_CRT_VQ | NVME_CRT_VI;
-+
-+    if (pci_is_vf(&n->parent_obj)) {
-+        cap->vqprt = cpu_to_le16(1 + n->conf_ioqpairs);
-+    } else {
-+        cap->vqprt = cpu_to_le16(1 + n->params.max_ioqpairs -
-+                                 n->params.sriov_vq_flexible);
-+        cap->vqfrt = cpu_to_le32(n->params.sriov_vq_flexible);
-+        cap->vqrfap = cap->vqfrt;
-+        cap->vqgran = cpu_to_le16(NVME_VF_RES_GRANULARITY);
-+        cap->vqfrsm = n->params.sriov_max_vq_per_vf ?
-+                        cpu_to_le16(n->params.sriov_max_vq_per_vf) :
-+                        cap->vqprt;
-+    }
-+
-+    if (pci_is_vf(&n->parent_obj)) {
-+        cap->viprt = cpu_to_le16(n->conf_msix_qsize);
-+    } else {
-+        cap->viprt = cpu_to_le16(n->params.msix_qsize -
-+                                 n->params.sriov_vi_flexible);
-+        cap->vifrt = cpu_to_le32(n->params.sriov_vi_flexible);
-+        cap->virfap = cap->vifrt;
-+        cap->vigran = cpu_to_le16(NVME_VF_RES_GRANULARITY);
-+        cap->vifrsm = n->params.sriov_max_vi_per_vf ?
-+                        cpu_to_le16(n->params.sriov_max_vi_per_vf) :
-+                        cap->viprt;
-+    }
- }
- 
- static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
-@@ -6437,11 +6550,13 @@ static uint64_t nvme_bar_size(unsigned total_queues, unsigned total_irqs,
-     return bar_size;
- }
- 
--static void nvme_init_sriov(NvmeCtrl *n, PCIDevice *pci_dev, uint16_t offset,
--                            uint64_t bar_size)
-+static void nvme_init_sriov(NvmeCtrl *n, PCIDevice *pci_dev, uint16_t offset)
- {
-     uint16_t vf_dev_id = n->params.use_intel_id ?
-                          PCI_DEVICE_ID_INTEL_NVME : PCI_DEVICE_ID_REDHAT_NVME;
-+    uint64_t bar_size = nvme_bar_size(n->params.sriov_max_vq_per_vf,
-+                                      n->params.sriov_max_vi_per_vf,
-+                                      NULL, NULL);
- 
-     pcie_sriov_pf_init(pci_dev, offset, "nvme", vf_dev_id,
-                        n->params.sriov_max_vfs, n->params.sriov_max_vfs,
-@@ -6539,7 +6654,7 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
+@@ -5653,6 +5819,11 @@ static void nvme_ctrl_reset(NvmeCtrl *n, NvmeResetType rst)
      }
  
      if (!pci_is_vf(pci_dev) && n->params.sriov_max_vfs) {
--        nvme_init_sriov(n, pci_dev, 0x120, bar_size);
-+        nvme_init_sriov(n, pci_dev, 0x120);
-     }
- 
-     return 0;
-@@ -6563,6 +6678,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     NvmeIdCtrl *id = &n->id_ctrl;
-     uint8_t *pci_conf = pci_dev->config;
-     uint64_t cap = ldq_le_p(&n->bar.cap);
-+    NvmeSecCtrlEntry *sctrl = nvme_sctrl(n);
- 
-     id->vid = cpu_to_le16(pci_get_word(pci_conf + PCI_VENDOR_ID));
-     id->ssvid = cpu_to_le16(pci_get_word(pci_conf + PCI_SUBSYSTEM_VENDOR_ID));
-@@ -6654,6 +6770,10 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
- 
-     stl_le_p(&n->bar.vs, NVME_SPEC_VER);
-     n->bar.intmc = n->bar.intms = 0;
++        for (i = 0; i < n->sec_ctrl_list.numcntl; i++) {
++            sctrl = &n->sec_ctrl_list.sec[i];
++            nvme_virt_set_state(n, le16_to_cpu(sctrl->scid), false);
++        }
 +
-+    if (pci_is_vf(&n->parent_obj) && !sctrl->scs) {
-+        stl_le_p(&n->bar.csts, NVME_CSTS_FAILED);
+         if (rst != NVME_RESET_CONTROLLER) {
+             pcie_sriov_pf_disable_vfs(pci_dev);
+         }
+@@ -5662,6 +5833,19 @@ static void nvme_ctrl_reset(NvmeCtrl *n, NvmeResetType rst)
+     n->outstanding_aers = 0;
+     n->qs_created = false;
+ 
++    if (pci_is_vf(pci_dev)) {
++        sctrl = nvme_sctrl(n);
++        n->conf_ioqpairs = sctrl->nvq ? le16_to_cpu(sctrl->nvq) - 1 : 0;
++        n->conf_msix_qsize = sctrl->nvi ? le16_to_cpu(sctrl->nvi) : 1;
++        stl_le_p(&n->bar.csts, sctrl->scs ? 0 : NVME_CSTS_FAILED);
++    } else {
++        n->conf_ioqpairs = le16_to_cpu(n->pri_ctrl_cap.vqprt) +
++                           le16_to_cpu(n->pri_ctrl_cap.vqrfap) - 1;
++        n->conf_msix_qsize = le16_to_cpu(n->pri_ctrl_cap.viprt) +
++                             le16_to_cpu(n->pri_ctrl_cap.virfap);
++        stl_le_p(&n->bar.csts, 0);
 +    }
++
+     nvme_update_msixcap_ts(pci_dev, n->conf_msix_qsize);
  }
  
- static int nvme_init_subsys(NvmeCtrl *n, Error **errp)
-@@ -6793,6 +6913,10 @@ static Property nvme_props[] = {
-     DEFINE_PROP_BOOL("zoned.auto_transition", NvmeCtrl,
-                      params.auto_transition_zones, true),
-     DEFINE_PROP_UINT8("sriov_max_vfs", NvmeCtrl, params.sriov_max_vfs, 0),
-+    DEFINE_PROP_UINT16("sriov_vq_flexible", NvmeCtrl, params.sriov_vq_flexible, 0),
-+    DEFINE_PROP_UINT16("sriov_vi_flexible", NvmeCtrl, params.sriov_vi_flexible, 0),
-+    DEFINE_PROP_UINT8("sriov_max_vi_per_vf", NvmeCtrl, params.sriov_max_vi_per_vf, 0),
-+    DEFINE_PROP_UINT8("sriov_max_vq_per_vf", NvmeCtrl, params.sriov_max_vq_per_vf, 0),
-     DEFINE_PROP_END_OF_LIST(),
- };
+@@ -5708,7 +5892,14 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+     uint64_t acq = ldq_le_p(&n->bar.acq);
+     uint32_t page_bits = NVME_CC_MPS(cc) + 12;
+     uint32_t page_size = 1 << page_bits;
++    NvmeSecCtrlEntry *sctrl = nvme_sctrl(n);
  
++    if (pci_is_vf(&n->parent_obj) && !sctrl->scs) {
++        trace_pci_nvme_err_startfail_virt_state(le16_to_cpu(sctrl->nvi),
++                                                le16_to_cpu(sctrl->nvq),
++                                                sctrl->scs ? "ONLINE" : "OFFLINE");
++        return -1;
++    }
+     if (unlikely(n->cq[0])) {
+         trace_pci_nvme_err_startfail_cq();
+         return -1;
+@@ -6091,6 +6282,12 @@ static uint64_t nvme_mmio_read(void *opaque, hwaddr addr, unsigned size)
+         return 0;
+     }
+ 
++    if (pci_is_vf(&n->parent_obj) && !nvme_sctrl(n)->scs &&
++        addr != NVME_REG_CSTS) {
++        trace_pci_nvme_err_ignored_mmio_vf_offline(addr, size);
++        return 0;
++    }
++
+     /*
+      * When PMRWBM bit 1 is set then read from
+      * from PMRSTS should ensure prior writes
+@@ -6240,6 +6437,12 @@ static void nvme_mmio_write(void *opaque, hwaddr addr, uint64_t data,
+ 
+     trace_pci_nvme_mmio_write(addr, data, size);
+ 
++    if (pci_is_vf(&n->parent_obj) && !nvme_sctrl(n)->scs &&
++        addr != NVME_REG_CSTS) {
++        trace_pci_nvme_err_ignored_mmio_vf_offline(addr, size);
++        return;
++    }
++
+     if (addr < sizeof(n->bar)) {
+         nvme_write_bar(n, addr, data, size);
+     } else {
+@@ -6994,6 +7197,7 @@ static void nvme_sriov_pre_write_ctrl(PCIDevice *dev, uint32_t address,
+                 sctrl->vfn = cpu_to_le16(i + 1);
+             } else {
+                 sctrl->vfn = 0;
++                nvme_virt_set_state(n, le16_to_cpu(sctrl->scid), false);
+             }
+         }
+     }
 diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index 1401ac3904..bec56b01dd 100644
+index bec56b01dd..6e06d52e1e 100644
 --- a/hw/nvme/nvme.h
 +++ b/hw/nvme/nvme.h
-@@ -397,6 +397,10 @@ typedef struct NvmeParams {
-     bool     auto_transition_zones;
-     bool     legacy_cmb;
-     uint8_t  sriov_max_vfs;
-+    uint16_t sriov_vq_flexible;
-+    uint16_t sriov_vi_flexible;
-+    uint8_t  sriov_max_vq_per_vf;
-+    uint8_t  sriov_max_vi_per_vf;
- } NvmeParams;
+@@ -325,6 +325,7 @@ static inline const char *nvme_adm_opc_str(uint8_t opc)
+     case NVME_ADM_CMD_GET_FEATURES:     return "NVME_ADM_CMD_GET_FEATURES";
+     case NVME_ADM_CMD_ASYNC_EV_REQ:     return "NVME_ADM_CMD_ASYNC_EV_REQ";
+     case NVME_ADM_CMD_NS_ATTACHMENT:    return "NVME_ADM_CMD_NS_ATTACHMENT";
++    case NVME_ADM_CMD_VIRT_MNGMT:       return "NVME_ADM_CMD_VIRT_MNGMT";
+     case NVME_ADM_CMD_FORMAT_NVM:       return "NVME_ADM_CMD_FORMAT_NVM";
+     default:                            return "NVME_ADM_CMD_UNKNOWN";
+     }
+@@ -525,6 +526,21 @@ static inline NvmeSecCtrlEntry *nvme_sctrl(NvmeCtrl *n)
+     return NULL;
+ }
  
- typedef struct NvmeCtrl {
++static inline NvmeSecCtrlEntry *nvme_sctrl_for_cntlid(NvmeCtrl *n,
++                                                      uint16_t cntlid)
++{
++    NvmeSecCtrlList *list = &n->sec_ctrl_list;
++    uint8_t i;
++
++    for (i = 0; i < list->numcntl; i++) {
++        if (le16_to_cpu(list->sec[i].scid) == cntlid) {
++            return &list->sec[i];
++        }
++    }
++
++    return NULL;
++}
++
+ void nvme_attach_ns(NvmeCtrl *n, NvmeNamespace *ns);
+ uint16_t nvme_bounce_data(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
+                           NvmeTxDirection dir, NvmeRequest *req);
+diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
+index 88678fc21e..aab70cc5bd 100644
+--- a/hw/nvme/trace-events
++++ b/hw/nvme/trace-events
+@@ -106,6 +106,7 @@ pci_nvme_zd_extension_set(uint32_t zone_idx) "set descriptor extension for zone_
+ pci_nvme_clear_ns_close(uint32_t state, uint64_t slba) "zone state=%"PRIu32", slba=%"PRIu64" transitioned to Closed state"
+ pci_nvme_clear_ns_reset(uint32_t state, uint64_t slba) "zone state=%"PRIu32", slba=%"PRIu64" transitioned to Empty state"
+ pci_nvme_pci_reset(void) "PCI Function Level Reset"
++pci_nvme_virt_mngmt(uint16_t cid, uint16_t act, uint16_t cntlid, const char* rt, uint16_t nr) "cid %"PRIu16", act=0x%"PRIx16", ctrlid=%"PRIu16" %s nr=%"PRIu16""
+ 
+ # error conditions
+ pci_nvme_err_mdts(size_t len) "len %zu"
+@@ -175,7 +176,9 @@ pci_nvme_err_startfail_asqent_sz_zero(void) "nvme_start_ctrl failed because the
+ pci_nvme_err_startfail_acqent_sz_zero(void) "nvme_start_ctrl failed because the admin completion queue size is zero"
+ pci_nvme_err_startfail_zasl_too_small(uint32_t zasl, uint32_t pagesz) "nvme_start_ctrl failed because zone append size limit %"PRIu32" is too small, needs to be >= %"PRIu32""
+ pci_nvme_err_startfail(void) "setting controller enable bit failed"
++pci_nvme_err_startfail_virt_state(uint16_t vq, uint16_t vi, const char *state) "nvme_start_ctrl failed due to ctrl state: vi=%u vq=%u %s"
+ pci_nvme_err_invalid_mgmt_action(uint8_t action) "action=0x%"PRIx8""
++pci_nvme_err_ignored_mmio_vf_offline(uint64_t addr, unsigned size) "addr 0x%"PRIx64" size %d"
+ 
+ # undefined behavior
+ pci_nvme_ub_mmiowr_misaligned32(uint64_t offset) "MMIO write not 32-bit aligned, offset=0x%"PRIx64""
 diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 96595ea8f1..26672d0a31 100644
+index 26672d0a31..6ba242a386 100644
 --- a/include/block/nvme.h
 +++ b/include/block/nvme.h
-@@ -1488,6 +1488,11 @@ typedef struct QEMU_PACKED NvmePriCtrlCap {
-     uint8_t     rsvd80[4016];
- } NvmePriCtrlCap;
+@@ -595,6 +595,7 @@ enum NvmeAdminCommands {
+     NVME_ADM_CMD_ACTIVATE_FW    = 0x10,
+     NVME_ADM_CMD_DOWNLOAD_FW    = 0x11,
+     NVME_ADM_CMD_NS_ATTACHMENT  = 0x15,
++    NVME_ADM_CMD_VIRT_MNGMT     = 0x1c,
+     NVME_ADM_CMD_FORMAT_NVM     = 0x80,
+     NVME_ADM_CMD_SECURITY_SEND  = 0x81,
+     NVME_ADM_CMD_SECURITY_RECV  = 0x82,
+@@ -886,6 +887,10 @@ enum NvmeStatusCodes {
+     NVME_NS_PRIVATE             = 0x0119,
+     NVME_NS_NOT_ATTACHED        = 0x011a,
+     NVME_NS_CTRL_LIST_INVALID   = 0x011c,
++    NVME_INVALID_CTRL_ID        = 0x011f,
++    NVME_INVALID_SEC_CTRL_STATE = 0x0120,
++    NVME_INVALID_NUM_RESOURCES  = 0x0121,
++    NVME_INVALID_RESOURCE_ID    = 0x0122,
+     NVME_CONFLICTING_ATTRS      = 0x0180,
+     NVME_INVALID_PROT_INFO      = 0x0181,
+     NVME_WRITE_TO_RO            = 0x0182,
+@@ -1510,6 +1515,18 @@ typedef struct QEMU_PACKED NvmeSecCtrlList {
+     NvmeSecCtrlEntry    sec[127];
+ } NvmeSecCtrlList;
  
-+typedef enum NvmePriCtrlCapCrt {
-+    NVME_CRT_VQ             = 1 << 0,
-+    NVME_CRT_VI             = 1 << 1,
-+} NvmePriCtrlCapCrt;
++typedef enum NvmeVirtMngmtAction {
++    NVME_VIRT_MNGMT_ACTION_PRM_ALLOC    = 0x01,
++    NVME_VIRT_MNGMT_ACTION_SEC_OFFLINE  = 0x07,
++    NVME_VIRT_MNGMT_ACTION_SEC_ASSIGN   = 0x08,
++    NVME_VIRT_MNGMT_ACTION_SEC_ONLINE   = 0x09,
++} NvmeVirtMngmtAction;
 +
- typedef struct QEMU_PACKED NvmeSecCtrlEntry {
-     uint16_t    scid;
-     uint16_t    pcid;
++typedef enum NvmeVirtualResourceType {
++    NVME_VIRT_RES_QUEUE         = 0x00,
++    NVME_VIRT_RES_INTERRUPT     = 0x01,
++} NvmeVirtualResourceType;
++
+ static inline void _nvme_check_size(void)
+ {
+     QEMU_BUILD_BUG_ON(sizeof(NvmeBar) != 4096);
 -- 
 2.25.1
 
