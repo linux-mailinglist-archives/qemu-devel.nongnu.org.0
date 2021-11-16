@@ -2,78 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A4FC4537A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 17:35:34 +0100 (CET)
-Received: from localhost ([::1]:59564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8B584537C4
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 17:37:58 +0100 (CET)
+Received: from localhost ([::1]:37796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mn1Qj-0001JK-L4
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 11:35:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53560)
+	id 1mn1T3-0005jZ-Uu
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 11:37:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mn1Nq-0007Ts-KV
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 11:32:35 -0500
-Received: from [2a00:1450:4864:20::431] (port=40659
- helo=mail-wr1-x431.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mn1Nn-0005DM-OW
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 11:32:34 -0500
-Received: by mail-wr1-x431.google.com with SMTP id r8so38663945wra.7
- for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 08:32:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=meR3HTWCSYW2lfsBTs1Qo625nRMPuZz6UFeuiNja+Nc=;
- b=ju59t5quYmyFR1tk7Qso7gRj7sJB9Fv9+B/Oxdj/xgD4yhlL7P4TlcSmMqY7jPnA9p
- A6lbMuc99/iEZv9TNMfD8u2kTfV4tCl/rFxqYhIiKx4RvwvKSvbLRheOK8SFxUMMfcel
- CpnZzwP/KIWTyFVexQIR+v7dVEvdt4FxH1Ctq57PgvsRrOv4FRI4uQmo6eybcGz+tslV
- QwTyoRvK6k8q8VHPMokD/nESKK8C2AoqITT/L09G56dQtIz5KL8SkOt9H0BTwQ6yy+l/
- RwXf0u3cIoHBCxXd116xonPDyg0209RlEY+O/vZJrrQSra/iockk2Rcd9SiJ48aGlveD
- X3PQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=meR3HTWCSYW2lfsBTs1Qo625nRMPuZz6UFeuiNja+Nc=;
- b=tjcIAwwAkxpb1zndGBhqg3EYyUfWl3Yg48Iu3TnJZ3xbxDUXrOZaOFBvJo5zqjUIY+
- ucGVrcqwkDN4cchFLQDmE1l07kM7rutd8j+MO8RZg8QBK94n3JDdKA28okETdyLybpDJ
- zBUzSaqIU9jQ+m5MZ8zOFalot+SZYciAPxGl5UR4hPiihwSukc9LNfLTvxd2+w7qK3H+
- OgKaN8/rKFgoCp6pC5vprOoWzbaCipqcc1KBwFHIWH2p5uFtpRQD8+VYKNizCWnjLOeb
- KKApa+GKpsOcM4nymEofxM5feb+phSImEE7hpwG2b5ia+n1N7cew6rI4BQ6UZQYqI/vz
- r48Q==
-X-Gm-Message-State: AOAM531zguhHguJxaUFizpQA6Z6R3wnoC3DuUYGlACy+uH2q2nNPZ530
- FtxnRvfzgU2xsr2oHFF7+5YvmcjMM18=
-X-Google-Smtp-Source: ABdhPJwv+na6cOSLDPwSX0rsovwYFuSFqwV6FpXT5wz8D0e/HZ8nFgaifXdEYDrHV0mLe3z47qdzHQ==
-X-Received: by 2002:adf:e904:: with SMTP id f4mr11125630wrm.245.1637080348666; 
- Tue, 16 Nov 2021 08:32:28 -0800 (PST)
-Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id
- l16sm3426825wmq.46.2021.11.16.08.32.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Nov 2021 08:32:28 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] MAINTAINERS: Add section for Aarch64 GitLab custom runner
-Date: Tue, 16 Nov 2021 17:32:26 +0100
-Message-Id: <20211116163226.2719320-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mn1On-0008E3-Kt
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 11:33:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24263)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mn1Ol-0005IP-Ne
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 11:33:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637080410;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=AFf4e9uwcL6KAYN6rOnsh6ez55Vb1M3vm/XIOYtSAfk=;
+ b=ffQ924yv2CjVGV12aYgIBgvxUlA3DYznE6Ojn0sPZBSrnZBz2P6YRIetwElV1mVuwXDxlY
+ nfkiB3Few6NLkJJgePlH/sM9OsZlQMUZa9MPKm4c4wySOk2+7vxt9Ztsgc2n/l6ZZ9P2gg
+ jAwU7c/ONYGHz3LxAaXssM1fpAzUu7g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-275-JU27zfb_MXe56LgpMiEdUg-1; Tue, 16 Nov 2021 11:33:27 -0500
+X-MC-Unique: JU27zfb_MXe56LgpMiEdUg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A1D91023F4F;
+ Tue, 16 Nov 2021 16:33:26 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.194.244])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3474519D9B;
+ Tue, 16 Nov 2021 16:33:12 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH] gitlab-ci/cirrus: Increase timeout to 80 minutes
+Date: Tue, 16 Nov 2021 17:33:09 +0100
+Message-Id: <20211116163309.246602-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,44 +75,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a MAINTAINERS section to cover the GitLab YAML config file
-containing the jobs run on the custom runner sponsored by the
-Works On Arm project [*].
+The jobs on Cirrus-CI sometimes get delayed quite a bit, waiting to
+be scheduled, so while the build test itself finishes within 60 minutes,
+the total run time of the jobs can be longer due to this waiting time.
+Thus let's increase the timeout on the gitlab side a little bit, so
+that these jobs are not marked as failing just because of the delay.
 
-[*] https://developer.arm.com/solutions/infrastructure/works-on-arm
-
-Suggested-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
-Based-on: <20211116162515.4100231-1-alex.bennee@linaro.org>
----
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .gitlab-ci.d/cirrus.yml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d3879aa3c12..f215e50f502 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3511,6 +3511,12 @@ R: Willian Rampazzo <willianr@redhat.com>
- S: Odd Fixes
- F: tests/avocado/
- 
-+GitLab custom runner (Works On Arm Sponsored)
-+M: Alex Bennée <alex.bennee@linaro.org>
-+M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+S: Maintained
-+F: .gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
-+
- Documentation
- -------------
- Build system architecture
+diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
+index e7b25e7427..22d42585e4 100644
+--- a/.gitlab-ci.d/cirrus.yml
++++ b/.gitlab-ci.d/cirrus.yml
+@@ -14,6 +14,7 @@
+   stage: build
+   image: registry.gitlab.com/libvirt/libvirt-ci/cirrus-run:master
+   needs: []
++  timeout: 80m
+   allow_failure: true
+   script:
+     - source .gitlab-ci.d/cirrus/$NAME.vars
 -- 
-2.31.1
+2.27.0
 
 
