@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7627F4532B2
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 14:15:29 +0100 (CET)
-Received: from localhost ([::1]:58904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 763154532C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 14:21:38 +0100 (CET)
+Received: from localhost ([::1]:39176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmyJ6-0004dq-IY
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 08:15:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59354)
+	id 1mmyP2-0002Qa-DW
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 08:21:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mmyAe-0003rC-94
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 08:06:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44344)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mmyAk-0003xT-5I
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 08:06:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mmyAb-00076r-Il
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 08:06:43 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mmyAe-000777-1K
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 08:06:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637068001;
+ s=mimecast20190719; t=1637068003;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FQDWW0RKqsk+qI9wr1TmBYBITzstAr7wCMu1aTIzFQQ=;
- b=PJn9wZeIU1RX0YrnZHeDMB5rNNqtEd4gM5MsTCIGuAmB7rcaFLtzN7TTAfXPw5YCVYhubz
- yaVRIEebeXuIXNYREt1ibqsA9a/vFNJWhazUTDY/l30KTOZ8pgHBWCBtsiYcoItLF6cqDZ
- TNHqJvB6fBi9e8ZR2Ef084pIGz6wP+U=
+ bh=78dbJyI736fdJGWkf5REWFBHsbj3usllaO5KgY231Qo=;
+ b=isJDCkXUMJXHFwadasMJ4gu220AI61DOoyWMh+S8pAkdkla0ngnszutgGz8Mpcm7sAByhH
+ F4J4l4gRqUAguaMkKUA8Uz7jNvaxnK5w51NFDtqhQE1SEfP7kQbE1iUK7WD/qVvpkJIYaY
+ pp4r8AWZExsnVTlgqzCrhAFdaGaRF8M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-133-s4nyxMx0Of-7LkvDQeAPBA-1; Tue, 16 Nov 2021 08:06:37 -0500
-X-MC-Unique: s4nyxMx0Of-7LkvDQeAPBA-1
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-563-5DJeUTb9PAW8vEfUr4NACw-1; Tue, 16 Nov 2021 08:06:40 -0500
+X-MC-Unique: 5DJeUTb9PAW8vEfUr4NACw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98A79CC621;
- Tue, 16 Nov 2021 13:06:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C08EE83DC12;
+ Tue, 16 Nov 2021 13:06:38 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.139])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7CA171F41E;
- Tue, 16 Nov 2021 13:06:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 62FC81970E;
+ Tue, 16 Nov 2021 13:06:38 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL v2 05/13] block: Pass BdrvChild ** to replace_child_noperm
-Date: Tue, 16 Nov 2021 14:06:10 +0100
-Message-Id: <20211116130618.700441-6-hreitz@redhat.com>
+Subject: [PULL v2 06/13] block: Restructure remove_file_or_backing_child()
+Date: Tue, 16 Nov 2021 14:06:11 +0100
+Message-Id: <20211116130618.700441-7-hreitz@redhat.com>
 In-Reply-To: <20211116130618.700441-1-hreitz@redhat.com>
 References: <20211116130618.700441-1-hreitz@redhat.com>
 MIME-Version: 1.0
@@ -56,15 +55,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,115 +82,68 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bdrv_replace_child_noperm() modifies BdrvChild.bs, and can potentially
-set it to NULL.  That is dangerous, because BDS parents generally assume
-that their children's .bs pointer is never NULL.  We therefore want to
-let bdrv_replace_child_noperm() set the corresponding BdrvChild pointer
-to NULL, too.
-
-This patch lays the foundation for it by passing a BdrvChild ** pointer
-to bdrv_replace_child_noperm() so that it can later use it to NULL the
-BdrvChild pointer immediately after setting BdrvChild.bs to NULL.
-
-(We will still need to undertake some intermediate steps, though.)
+As of a future patch, bdrv_replace_child_tran() will take a BdrvChild **
+pointer.  Prepare for that by getting such a pointer and using it where
+applicable, and (dereferenced) as a parameter for
+bdrv_replace_child_tran().
 
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20211111120829.81329-6-hreitz@redhat.com>
+Message-Id: <20211111120829.81329-7-hreitz@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20211115145409.176785-6-kwolf@redhat.com>
+Message-Id: <20211115145409.176785-7-kwolf@redhat.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- block.c | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+ block.c | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
 
 diff --git a/block.c b/block.c
-index c7d5aa5254..d668156eca 100644
+index d668156eca..8da057f800 100644
 --- a/block.c
 +++ b/block.c
-@@ -87,7 +87,7 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
- static bool bdrv_recurse_has_child(BlockDriverState *bs,
-                                    BlockDriverState *child);
- 
--static void bdrv_replace_child_noperm(BdrvChild *child,
-+static void bdrv_replace_child_noperm(BdrvChild **child,
-                                       BlockDriverState *new_bs);
- static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
+@@ -4887,30 +4887,33 @@ static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
                                                BdrvChild *child,
-@@ -2270,7 +2270,7 @@ static void bdrv_replace_child_abort(void *opaque)
-     BlockDriverState *new_bs = s->child->bs;
- 
-     /* old_bs reference is transparently moved from @s to @s->child */
--    bdrv_replace_child_noperm(s->child, s->old_bs);
-+    bdrv_replace_child_noperm(&s->child, s->old_bs);
-     bdrv_unref(new_bs);
- }
- 
-@@ -2300,7 +2300,7 @@ static void bdrv_replace_child_tran(BdrvChild *child, BlockDriverState *new_bs,
-     if (new_bs) {
-         bdrv_ref(new_bs);
-     }
--    bdrv_replace_child_noperm(child, new_bs);
-+    bdrv_replace_child_noperm(&child, new_bs);
-     /* old_bs reference is transparently moved from @child to @s */
- }
- 
-@@ -2672,9 +2672,10 @@ uint64_t bdrv_qapi_perm_to_blk_perm(BlockPermission qapi_perm)
-     return permissions[qapi_perm];
- }
- 
--static void bdrv_replace_child_noperm(BdrvChild *child,
-+static void bdrv_replace_child_noperm(BdrvChild **childp,
-                                       BlockDriverState *new_bs)
+                                               Transaction *tran)
  {
-+    BdrvChild *child = *childp;
-     BlockDriverState *old_bs = child->bs;
-     int new_bs_quiesce_counter;
-     int drain_saldo;
-@@ -2767,7 +2768,7 @@ static void bdrv_attach_child_common_abort(void *opaque)
-     BdrvChild *child = *s->child;
-     BlockDriverState *bs = child->bs;
++    BdrvChild **childp;
+     BdrvRemoveFilterOrCowChild *s;
  
--    bdrv_replace_child_noperm(child, NULL);
-+    bdrv_replace_child_noperm(s->child, NULL);
- 
-     if (bdrv_get_aio_context(bs) != s->old_child_ctx) {
-         bdrv_try_set_aio_context(bs, s->old_child_ctx, &error_abort);
-@@ -2867,7 +2868,7 @@ static int bdrv_attach_child_common(BlockDriverState *child_bs,
+-    assert(child == bs->backing || child == bs->file);
+-
+     if (!child) {
+         return;
      }
  
-     bdrv_ref(child_bs);
--    bdrv_replace_child_noperm(new_child, child_bs);
-+    bdrv_replace_child_noperm(&new_child, child_bs);
++    if (child == bs->backing) {
++        childp = &bs->backing;
++    } else if (child == bs->file) {
++        childp = &bs->file;
++    } else {
++        g_assert_not_reached();
++    }
++
+     if (child->bs) {
+-        bdrv_replace_child_tran(child, NULL, tran);
++        bdrv_replace_child_tran(*childp, NULL, tran);
+     }
  
-     *child = new_child;
+     s = g_new(BdrvRemoveFilterOrCowChild, 1);
+     *s = (BdrvRemoveFilterOrCowChild) {
+         .child = child,
+-        .is_backing = (child == bs->backing),
++        .is_backing = (childp == &bs->backing),
+     };
+     tran_add(tran, &bdrv_remove_filter_or_cow_child_drv, s);
  
-@@ -2922,12 +2923,12 @@ static int bdrv_attach_child_noperm(BlockDriverState *parent_bs,
-     return 0;
+-    if (s->is_backing) {
+-        bs->backing = NULL;
+-    } else {
+-        bs->file = NULL;
+-    }
++    *childp = NULL;
  }
  
--static void bdrv_detach_child(BdrvChild *child)
-+static void bdrv_detach_child(BdrvChild **childp)
- {
--    BlockDriverState *old_bs = child->bs;
-+    BlockDriverState *old_bs = (*childp)->bs;
- 
--    bdrv_replace_child_noperm(child, NULL);
--    bdrv_child_free(child);
-+    bdrv_replace_child_noperm(childp, NULL);
-+    bdrv_child_free(*childp);
- 
-     if (old_bs) {
-         /*
-@@ -3033,7 +3034,7 @@ void bdrv_root_unref_child(BdrvChild *child)
-     BlockDriverState *child_bs;
- 
-     child_bs = child->bs;
--    bdrv_detach_child(child);
-+    bdrv_detach_child(&child);
-     bdrv_unref(child_bs);
- }
- 
+ /*
 -- 
 2.33.1
 
