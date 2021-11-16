@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8588145317F
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 12:54:18 +0100 (CET)
-Received: from localhost ([::1]:53780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B064452FC0
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 12:04:38 +0100 (CET)
+Received: from localhost ([::1]:45850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmx2X-0006iw-9q
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 06:54:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42162)
+	id 1mmwGT-0003pX-IG
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 06:04:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mmx0m-0004w7-HN
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 06:52:28 -0500
-Received: from [2a00:1450:4864:20::429] (port=39444
- helo=mail-wr1-x429.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mmwEw-0001PE-Mt
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 06:03:02 -0500
+Received: from [2a00:1450:4864:20::431] (port=33349
+ helo=mail-wr1-x431.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mmx0k-0003HL-Ny
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 06:52:28 -0500
-Received: by mail-wr1-x429.google.com with SMTP id d27so37057396wrb.6
- for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 03:52:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mmwEu-0004uY-OP
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 06:03:02 -0500
+Received: by mail-wr1-x431.google.com with SMTP id d24so36809605wra.0
+ for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 03:03:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=GpApgx8b9AgUNFAkG6kc5llRRqd5ul9pizwxe3QSaYk=;
- b=zyj+ZeSTkTPWb3VnLdnK4lat9pI//fPO27qV7sZwkhv1t8IZbO/vcqyfmGFGnApxoa
- V8geg4/0QETflQ6CEmgG1GVQyHAnW54HTNMtlZUL8P7kJISr0qmn/qWmN2Tz/O9hG2E5
- F7dq9WMeYO0qGH39lgCV7Hpqj23TYSTW6e3VpZ7AacsBSqsIVeq+SDi82MXwLDj3eoqr
- fyJ/G1zsRQVU2+dw8DaR74/pH73qto4SH/R+knPBgfmXzbTTIXZOei3EkLo75ZvcNmv0
- 1PK/qUKBydTBQkDDK8Yy76G5o/leVCFleI2N7ujSlWxtcUEHqau+Q+ZDtdOuoX77XviS
- cmtQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ADldwaXpsEjJ+HVJ8aUHNQHrxCDyb358evbW8YQ1vUY=;
+ b=phK6lXw6toeA/6BwBK8IIqaSJyDh48TrVLXJlSH/9kCvgfvWj0dKaaBXNe2J+HB1lC
+ ClhXbq/ejw6mlGU2axTZ7viyaVf//4OaeEBawoXWd5qNND0eoXvXk1AkTKsYyVtV22pH
+ L4IvjQQanB7Euv+amdONZPKryMG+c0Ck4CtJg7n8iFrjOJ0L/5JfkITXTzrAikgBKMx4
+ 06pJg5tsOzAt+lI2vzK1YTKt5O3WEB6j6VdJBo1Wq9rHG84alVMwjkcMz3f1NlpMHc5u
+ mL6k9uexpMa2BIRqbMF7JPK0dsacgwFZiFPcTP0Dn+pcrgMkm3DslJblcDYvZxxMo/Ma
+ 9Gnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=GpApgx8b9AgUNFAkG6kc5llRRqd5ul9pizwxe3QSaYk=;
- b=pbqbcGnAaRJ6A70K0Sl4mYIs+sGyTZsQDqrz/tUlsgN1/5ZkanC+XbEYqChgU8ziWn
- wxa8uyPDIpWHHJIjW4dcyUmtTHycDHcQqO2aEk/Ic8vz78FQLeCPTOEtRmIH7PxZHLUp
- idK0lQ825DOYc5Gtsgx3zgo3FZlDW1siNPVzfr3nVWo+l4SVT7w4hL+vQlUbWMjgwZCG
- JJxrk08EiJ/SMZm7nCj4WpdtHdFBQ1PubqOuuM8l+2ysPGaXFrjRVo00iVjd4C2+PSS3
- OD8ZdNT9YDc330zLPMvQ5MpMYamG8HHmkvE3Gf4Z497rNKk6rmgIFSi8QnFiiMoXQGuF
- kmjQ==
-X-Gm-Message-State: AOAM530J4+whePxoisIxCpaO5j9dJl8N3HUY56yEXATrTSL3LDtZAUiL
- +ZjfMKs5fn+W6SFOYDXOr5tnJg==
-X-Google-Smtp-Source: ABdhPJzpdVadqwzrdRzCMj6bpm65x4O5fh4GT5JKas1veZamJrU4N8PwpEn0SfNNAt6AnWVmngySvw==
-X-Received: by 2002:adf:d091:: with SMTP id y17mr8400229wrh.418.1637063545086; 
- Tue, 16 Nov 2021 03:52:25 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z6sm2948660wmp.1.2021.11.16.03.52.24
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ADldwaXpsEjJ+HVJ8aUHNQHrxCDyb358evbW8YQ1vUY=;
+ b=UEEctjx9N14sexkKjrd2FuhBrg2mD4j7CBYyTQdoSmGCqpqrfQqWTxrbIu/BLBGxKF
+ Y4olQKEuc5MLcq9o2ktPuPvsHAaEyTI196G1bE8Rb+Eq11alXIk5p5pIqMBsxb/72Wjy
+ l9zuKoDoLvIw0mLcpuaT1UFJgRzwaaEaiHUycDSnjsKjHy6Ko7VyzWz5ZzxP66x9uQTX
+ uJOzWoHT3fFXXJ6/zJbraFnY/qKAXRGrQaRTElr7hosI0flGztj5FiYNmYC9CA/ddPlr
+ N9aXRSGqFfKuhINkrJPliB7xzg4PPkxVanWZfL4nSOKbsY0Zr/5k8e5tZOsjxYOSAz+x
+ UUWw==
+X-Gm-Message-State: AOAM533Xv42lfSfLUUz3XbRjUvKyIzw3u7zeyjLhe4bZd8tFL61nF7tc
+ OVtSLoCMCn9pnh2Q+vV/yDpv5A0fPnuDq7orAiM=
+X-Google-Smtp-Source: ABdhPJx6HW/ezMRidQ953tRaFaNVCT4owyb1GyXbSQ3IUTT0f4tU1WkNEgaV+recF4QopMpPMB0vpQ==
+X-Received: by 2002:a5d:668f:: with SMTP id l15mr8303523wru.182.1637060579044; 
+ Tue, 16 Nov 2021 03:02:59 -0800 (PST)
+Received: from localhost.localdomain
+ (145.red-37-158-173.dynamicip.rima-tde.net. [37.158.173.145])
+ by smtp.gmail.com with ESMTPSA id f15sm2639779wmg.30.2021.11.16.03.02.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Nov 2021 03:52:24 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8CBE31FF96;
- Tue, 16 Nov 2021 11:52:23 +0000 (GMT)
-References: <163662450348.125458.5494710452733592356.stgit@pasha-ThinkPad-X280>
- <163662450891.125458.6706022775465303586.stgit@pasha-ThinkPad-X280>
- <87pmr6j0w6.fsf@linaro.org>
- <b7bcea58-0f1f-d641-06ae-72d47e8f2318@ispras.ru>
-User-agent: mu4e 1.7.5; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Subject: Re: [PATCH v2 1/3] icount: preserve cflags when custom tb is about
- to execute
-Date: Tue, 16 Nov 2021 10:57:12 +0000
-In-reply-to: <b7bcea58-0f1f-d641-06ae-72d47e8f2318@ispras.ru>
-Message-ID: <87pmr0wc5k.fsf@linaro.org>
+ Tue, 16 Nov 2021 03:02:58 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/9] linux-user: simplify safe signal handling
+Date: Tue, 16 Nov 2021 12:02:47 +0100
+Message-Id: <20211116110256.365484-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -93,110 +85,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- peterx@redhat.com, david@redhat.com
+Cc: laurent@vivier.eu, imp@bsdimp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Warner's v3:
+https://patchew.org/QEMU/20211113045603.60391-1-imp@bsdimp.com/
 
-Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
+Changes for v4:
+  * Move errno handling into the assembly.  While returning the
+    raw -errno is handy for x86 linux (and a few others), it is
+    in fact more complex for other hosts that return a separate
+    error indicator.  At which point we wind up jumping through
+    hoops to return -errno, only to have the caller put it right
+    back into +errno with -1 result, just like syscall(3).
 
-> On 11.11.2021 15:20, Alex Benn=C3=A9e wrote:
->> Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
->>=20
->>> When debugging with the watchpoints, qemu may need to create
->>> TB with single instruction. This is achieved by setting cpu->cflags_nex=
-t_tb.
->>> But when this block is about to execute, it may be interrupted by anoth=
-er
->>> thread. In this case cflags will be lost and next executed TB will not
->>> be the special one.
->>> This patch checks TB exit reason and restores cflags_next_tb to allow
->>> finding the interrupted block.
->>>
->>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
->>> ---
->>>   accel/tcg/cpu-exec.c |   10 ++++++++++
->>>   1 file changed, 10 insertions(+)
->>>
->>> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
->>> index 2d14d02f6c..df12452b8f 100644
->>> --- a/accel/tcg/cpu-exec.c
->>> +++ b/accel/tcg/cpu-exec.c
->>> @@ -846,6 +846,16 @@ static inline void cpu_loop_exec_tb(CPUState *cpu,=
- TranslationBlock *tb,
->>>            * cpu_handle_interrupt.  cpu_handle_interrupt will also
->>>            * clear cpu->icount_decr.u16.high.
->>>            */
->>> +        if (cpu->cflags_next_tb =3D=3D -1
+    Pass in &errno, because the method of calculating this
+    varies wildly between glibc, musl, etc.  This means that
+    the assembly need only store to a provided pointer.
 
-Can cpu->cflags_next_tb ever be anything else? It is consumed in
-cpu_exec() and it can only be reset if we have executed some
-instructions which resulted in some sort of helper call that set it for
-the next TB.
+  * Add mips and sparc safe-syscall implementations.
+    Both of which, btw, have separate error indicators.  ;-)
 
->>> +            && (!use_icount || !(tb->cflags & CF_USE_ICOUNT)
->> Why check use_icount here? The cflags should always have
->> CF_USE_ICOUNT
->> set when icount is enabled. Lets not over complicate the inverted ||
->> tests we have here.
->
-> Not really.
+  * All hosts now have it, so remove HAVE_SAFE_SYSCALL.
 
-Right this is were the logic gets complicated to follow. Are we dealing
-with icount cases or non-icount cases or some mixture of both?
+  * Add meson.build rules for common-user/safe-syscall.S, so
+    that we don't have to have weird includes from *-user.
 
-> Sometimes we use non-icount blocks in icount mode.
-> But AFAIR they are used only for triggering the exeptions, but not for
-> real execution.
+    I'll note that this last patch will at present break bsd-user,
+    because TARGET_ERESTARTSYS and the header from whence it comes
+    is currently missing there.
 
-Right so tcg_cpu_init_cflags ensures CF_USE_ICOUNT is set for all blocks
-when use_icount() in enabled except the one special case during
-exception replay where we suppress it:
+    In addition, I think that this should be reorganized further
+    so that TARGET_ERESTARTSYS is (1) renamed because in *this*
+    context it is pretending to be a host errno, and (2) placed
+    in a file of its own under include/user/.  At which point,
+    meson.build could be simplified further so that safe-syscall.S
+    is compiled once, not per target.
 
-  #ifndef CONFIG_USER_ONLY
-          if (replay_has_exception()
-              && cpu_neg(cpu)->icount_decr.u16.low + cpu->icount_extra =3D=
-=3D 0) {
-              /* Execute just one insn to trigger exception pending in the =
-log */
-              cpu->cflags_next_tb =3D (curr_cflags(cpu) & ~CF_USE_ICOUNT) |=
- 1;
-          }
-  #endif
+    Anyway, the final patch needs some bsd-user changes sorted first.
 
-which still slightly scrambles my brain because does that affect the
-final updating of icount_get_executed() or do we "loose" the instruction
-in that case.
 
->
->>=20
->>> +                || cpu_neg(cpu)->icount_decr.u16.low >=3D tb->icount))
->>> {
->> Is u16.low ever set when icount isn't enabled?
->
-> This condition is checked for icount mode only.
-> u16.low is not used without icount.
->
->>=20
->>> +            /*
->>> +             * icount is disabled or there are enough instructions
->>> +             * in the budget, do not retranslate this block with
->>> +             * different parameters.
->>> +             */
->>> +            cpu->cflags_next_tb =3D tb->cflags;
+r~
 
-Technically this isn't what cpu->cflags_next_tb used to be because the
-eventual tb->cflags might get tweaked by various conditions in
-tb_gen_code().
 
-It seems to me what we really need is a clear unambiguous indication from
-cpu_tb_exec() that the we have executed nothing apart from the initial
-preamble generated by gen_tb_start(). If we have advanced beyond that
-point it would never be valid to restore the cflag state form the TB.
+Richard Henderson (4):
+  common-user: Move syscall error detection into safe_syscall_base
+  common-user/host/mips: Add safe-syscall.inc.S
+  common-user/host/sparc64: Add safe-syscall.inc.S
+  linux-user: Remove HAVE_SAFE_SYSCALL and hostdep.h
 
-Richard, what do you think?
+Warner Losh (5):
+  linux-user: Add host_signal_set_pc to set pc in mcontext
+  linux-user/signal.c: Create a common rewind_if_in_safe_syscall
+  linux-user/safe-syscall.inc.S: Move to common-user
+  common-user: Adjust system call return on FreeBSD
+  common-user: Move safe-syscall.* from *-user
 
---=20
-Alex Benn=C3=A9e
+ meson.build                                   |   9 +-
+ {linux-user => include/user}/safe-syscall.h   |  31 ++--
+ linux-user/host/aarch64/host-signal.h         |   5 +
+ linux-user/host/aarch64/hostdep.h             |  38 -----
+ linux-user/host/alpha/host-signal.h           |   5 +
+ linux-user/host/arm/host-signal.h             |   5 +
+ linux-user/host/arm/hostdep.h                 |  38 -----
+ linux-user/host/i386/host-signal.h            |   5 +
+ linux-user/host/i386/hostdep.h                |  38 -----
+ linux-user/host/ia64/hostdep.h                |  15 --
+ linux-user/host/mips/host-signal.h            |   5 +
+ linux-user/host/mips/hostdep.h                |  15 --
+ linux-user/host/ppc/host-signal.h             |   5 +
+ linux-user/host/ppc/hostdep.h                 |  15 --
+ linux-user/host/ppc64/hostdep.h               |  38 -----
+ linux-user/host/riscv/host-signal.h           |   5 +
+ linux-user/host/riscv/hostdep.h               |  34 -----
+ linux-user/host/s390/host-signal.h            |   5 +
+ linux-user/host/s390/hostdep.h                |  15 --
+ linux-user/host/s390x/hostdep.h               |  38 -----
+ linux-user/host/sparc/host-signal.h           |   9 ++
+ linux-user/host/sparc/hostdep.h               |  15 --
+ linux-user/host/sparc64/hostdep.h             |  15 --
+ linux-user/host/x32/hostdep.h                 |  15 --
+ linux-user/host/x86_64/host-signal.h          |   5 +
+ linux-user/host/x86_64/hostdep.h              |  38 -----
+ linux-user/user-internals.h                   |   1 -
+ linux-user/signal.c                           |  13 +-
+ linux-user/syscall.c                          |   2 +-
+ .../host/aarch64/safe-syscall.inc.S           |  65 ++++++---
+ .../host/arm/safe-syscall.inc.S               |  69 ++++++---
+ .../host/i386/safe-syscall.inc.S              |  61 +++++---
+ common-user/host/mips/safe-syscall.inc.S      | 135 ++++++++++++++++++
+ .../host/ppc64/safe-syscall.inc.S             |  63 ++++----
+ .../host/riscv/safe-syscall.inc.S             |  50 ++++---
+ .../host/s390x/safe-syscall.inc.S             |  50 ++++---
+ common-user/host/sparc64/safe-syscall.inc.S   |  91 ++++++++++++
+ .../host/x86_64/safe-syscall.inc.S            |  80 +++++++----
+ common-user/meson.build                       |   2 +
+ {linux-user => common-user}/safe-syscall.S    |   3 -
+ linux-user/meson.build                        |   1 -
+ 41 files changed, 585 insertions(+), 562 deletions(-)
+ rename {linux-user => include/user}/safe-syscall.h (85%)
+ delete mode 100644 linux-user/host/aarch64/hostdep.h
+ delete mode 100644 linux-user/host/arm/hostdep.h
+ delete mode 100644 linux-user/host/i386/hostdep.h
+ delete mode 100644 linux-user/host/ia64/hostdep.h
+ delete mode 100644 linux-user/host/mips/hostdep.h
+ delete mode 100644 linux-user/host/ppc/hostdep.h
+ delete mode 100644 linux-user/host/ppc64/hostdep.h
+ delete mode 100644 linux-user/host/riscv/hostdep.h
+ delete mode 100644 linux-user/host/s390/hostdep.h
+ delete mode 100644 linux-user/host/s390x/hostdep.h
+ delete mode 100644 linux-user/host/sparc/hostdep.h
+ delete mode 100644 linux-user/host/sparc64/hostdep.h
+ delete mode 100644 linux-user/host/x32/hostdep.h
+ delete mode 100644 linux-user/host/x86_64/hostdep.h
+ rename {linux-user => common-user}/host/aarch64/safe-syscall.inc.S (64%)
+ rename {linux-user => common-user}/host/arm/safe-syscall.inc.S (64%)
+ rename {linux-user => common-user}/host/i386/safe-syscall.inc.S (71%)
+ create mode 100644 common-user/host/mips/safe-syscall.inc.S
+ rename {linux-user => common-user}/host/ppc64/safe-syscall.inc.S (68%)
+ rename {linux-user => common-user}/host/riscv/safe-syscall.inc.S (77%)
+ rename {linux-user => common-user}/host/s390x/safe-syscall.inc.S (71%)
+ create mode 100644 common-user/host/sparc64/safe-syscall.inc.S
+ rename {linux-user => common-user}/host/x86_64/safe-syscall.inc.S (64%)
+ create mode 100644 common-user/meson.build
+ rename {linux-user => common-user}/safe-syscall.S (94%)
+
+-- 
+2.25.1
+
 
