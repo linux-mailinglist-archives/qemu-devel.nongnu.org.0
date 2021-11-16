@@ -2,91 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE150453652
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 16:48:02 +0100 (CET)
-Received: from localhost ([::1]:33776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C81B44536B1
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 17:03:33 +0100 (CET)
+Received: from localhost ([::1]:35456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mn0gj-0003UC-MZ
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 10:48:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40600)
+	id 1mn0vj-0007LA-Ti
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 11:03:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mn0dU-0000th-Rc
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 10:44:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57728)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mn0ln-0005x2-EW
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 10:53:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mn0dS-0006RJ-MX
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 10:44:40 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mn0lk-0007gA-SU
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 10:53:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637077478;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1637077990;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0jaS5NnLU2y2rH+Akjnuy87QudZHC1HNtZsAd79WgF0=;
- b=HVxL9WSsh+G4T73oO30H1qn08dZq1w7m7+nPqxs9Hs5dRjW+G/lNPKK616MPdsQVrW5ZGK
- 5BKRb9TlfNW/F55mGrvwEVseJfM9Ag49H9vRy86WOIzkG0C2yx8TFfpLvIsO3INonuMhLs
- 8hj38xXyfrnidcUrIhepJDTj2PL8idc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-1-Odblm0gdPbGXbybaG1gl5w-1; Tue, 16 Nov 2021 10:44:36 -0500
-X-MC-Unique: Odblm0gdPbGXbybaG1gl5w-1
-Received: by mail-wm1-f72.google.com with SMTP id
- k25-20020a05600c1c9900b00332f798ba1dso1381179wms.4
- for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 07:44:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=0jaS5NnLU2y2rH+Akjnuy87QudZHC1HNtZsAd79WgF0=;
- b=CWvg4UG9YOwM9xT7a1EI+5tQa8Ok5JRLS5YSwaW4bdMbNfVaDBuGRH8QGBSWJaEAyl
- S4rdCxf/sfC4WIhqQ1JfLcivoHFEKlWLq6OIQ2LclAO3bZAA/JDQMThJdc6nG1PF4pqH
- AScAVg3PKPZJ/TUKu/9Cq6EV/GF9qWZ/u/AXbOexfobBofgBPAyEtl8xtbnIcCJUmqs5
- V6Oytlk8w08MMMMY/mDf4DWlac9pemV8HmKRbSb1nP14FPex80tPlz91/pL5qXTJ7hhO
- w0Gxre6FyJ+uKPYD8siNsmSuWC4vd6cgdsnE5fNxlRk0ZiztNMSdx1sMi3z+4Pc0koVa
- tR0A==
-X-Gm-Message-State: AOAM531fLwUQ7cTYNINHI315EmqFlicHgQz/hE2WK4uBoT+DrMa6DxHb
- yP749VSUjkTLhq5dB/JWBynZUMSersSrn4B2UaWg6Ps291Fa8kNyjMMP78xpYCP9OhqcvL0nxzZ
- CPvatuNgQhJpYPGo=
-X-Received: by 2002:a1c:9a4f:: with SMTP id c76mr68760959wme.162.1637077475348; 
- Tue, 16 Nov 2021 07:44:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyspmeiKKEZh/HtDB91hgjruiM66Tostnm5O3AKEUj0MjOeAOGgrj8uCb6jKh/I31M+ahQyIw==
-X-Received: by 2002:a1c:9a4f:: with SMTP id c76mr68760934wme.162.1637077475142; 
- Tue, 16 Nov 2021 07:44:35 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id t9sm18804873wrx.72.2021.11.16.07.44.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Nov 2021 07:44:34 -0800 (PST)
-Message-ID: <b0ad5a1f-3f5e-7252-5e4d-d7b4b5ea3aa8@redhat.com>
-Date: Tue, 16 Nov 2021 16:44:33 +0100
+ bh=8FaFGs8nf3xBlk5dpJT8caEOeoHk5nOorg1mQkaa9f8=;
+ b=N0ZhwWzZ1fMt3/dUIQ71gFR6SI4H5iUH21je9RNyyS2c5SK5BGrj7GVWoN6PQqB4qMO1+3
+ WMnfUmk8IjONm1tZxlgFiuHIwwH1R/aB5k9AuaqRrB0PAhe1KGIa4WrGBz9l3l8K71C7pm
+ RvGn2WDc2yzP6FKNSu8OQdAFec2BZI8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-425-Smg062Q2OvOtMCQaSioZZA-1; Tue, 16 Nov 2021 10:53:09 -0500
+X-MC-Unique: Smg062Q2OvOtMCQaSioZZA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CAC91DE1D;
+ Tue, 16 Nov 2021 15:53:08 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A28035D9DE;
+ Tue, 16 Nov 2021 15:53:05 +0000 (UTC)
+Date: Tue, 16 Nov 2021 15:53:02 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Tyler Fanelli <tfanelli@redhat.com>
+Subject: Re: [PATCH] sev: allow capabilities to check for SEV-ES support
+Message-ID: <YZPT3ojgzdmH3lkq@redhat.com>
+References: <20211115193804.294529-1-tfanelli@redhat.com>
+ <YZN3OECfHBXd55M5@redhat.com>
+ <26204690-493f-67a8-1791-c9c9d38c0240@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] pmu: fix pmu vmstate subsection list
-To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
-References: <20211116150837.169291-1-lvivier@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211116150837.169291-1-lvivier@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+In-Reply-To: <26204690-493f-67a8-1791-c9c9d38c0240@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.446, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,41 +79,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-ppc@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: kvm@vger.kernel.org, mtosatti@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, pbonzini@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/16/21 16:08, Laurent Vivier wrote:
-> The subsection is not closed by a NULL marker so this can trigger
-> a segfault when the pmu vmstate is saved.
+On Tue, Nov 16, 2021 at 10:29:35AM -0500, Tyler Fanelli wrote:
+> On 11/16/21 4:17 AM, Daniel P. Berrangé wrote:
+> > On Mon, Nov 15, 2021 at 02:38:04PM -0500, Tyler Fanelli wrote:
+> > > Probe for SEV-ES and SEV-SNP capabilities to distinguish between Rome,
+> > > Naples, and Milan processors. Use the CPUID function to probe if a
+> > > processor is capable of running SEV-ES or SEV-SNP, rather than if it
+> > > actually is running SEV-ES or SEV-SNP.
+> > > 
+> > > Signed-off-by: Tyler Fanelli <tfanelli@redhat.com>
+> > > ---
+> > >   qapi/misc-target.json | 11 +++++++++--
+> > >   target/i386/sev.c     |  6 ++++--
+> > >   2 files changed, 13 insertions(+), 4 deletions(-)
+> > > 
+> > > diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+> > > index 5aa2b95b7d..c3e9bce12b 100644
+> > > --- a/qapi/misc-target.json
+> > > +++ b/qapi/misc-target.json
+> > > @@ -182,13 +182,19 @@
+> > >   # @reduced-phys-bits: Number of physical Address bit reduction when SEV is
+> > >   #                     enabled
+> > >   #
+> > > +# @es: SEV-ES capability of the machine.
+> > > +#
+> > > +# @snp: SEV-SNP capability of the machine.
+> > > +#
+> > >   # Since: 2.12
+> > >   ##
+> > >   { 'struct': 'SevCapability',
+> > >     'data': { 'pdh': 'str',
+> > >               'cert-chain': 'str',
+> > >               'cbitpos': 'int',
+> > > -            'reduced-phys-bits': 'int'},
+> > > +            'reduced-phys-bits': 'int',
+> > > +            'es': 'bool',
+> > > +            'snp': 'bool'},
+> > >     'if': 'TARGET_I386' }
+> > >   ##
+> > > @@ -205,7 +211,8 @@
+> > >   #
+> > >   # -> { "execute": "query-sev-capabilities" }
+> > >   # <- { "return": { "pdh": "8CCDD8DDD", "cert-chain": "888CCCDDDEE",
+> > > -#                  "cbitpos": 47, "reduced-phys-bits": 5}}
+> > > +#                  "cbitpos": 47, "reduced-phys-bits": 5
+> > > +#                  "es": false, "snp": false}}
+> > We've previously had patches posted to support SNP in QEMU
+> > 
+> >    https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg04761.html
+> > 
+> > and this included an update to query-sev for reporting info
+> > about the VM instance.
+> > 
+> > Your patch is updating query-sev-capabilities, which is a
+> > counterpart for detecting host capabilities separate from
+> > a guest instance.
 > 
-> This can be easily shown with:
-> 
->   $ ./qemu-system-ppc64  -dump-vmstate vmstate.json
->   Segmentation fault (core dumped)
-> 
-> Fixes: d811d61fbc6c ("mac_newworld: add PMU device")
-> Cc: mark.cave-ayland@ilande.co.uk
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> ---
->  hw/misc/macio/pmu.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/hw/misc/macio/pmu.c b/hw/misc/macio/pmu.c
-> index 4ad4f50e08c3..eb39c64694aa 100644
-> --- a/hw/misc/macio/pmu.c
-> +++ b/hw/misc/macio/pmu.c
-> @@ -718,6 +718,7 @@ static const VMStateDescription vmstate_pmu = {
->      },
->      .subsections = (const VMStateDescription * []) {
->          &vmstate_pmu_adb,
-> +        NULL
->      }
->  };
+> Yes, that's because with this patch, I'm more interested in determining
+> which AMD processor is running on a host, and less if ES or SNP is actually
+> running on a guest instance or not.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> > None the less I wonder if the same design questions from
+> > query-sev apply. ie do we need to have the ability to
+> > report any SNP specific information fields, if so we need
+> > to use a discriminated union of structs, not just bool
+> > flags.
+> > 
+> > More generally I'm some what wary of adding this to
+> > query-sev-capabilities at all, unless it is part of the
+> > main SEV-SNP series.
+> > 
+> > Also what's the intended usage for the mgmt app from just
+> > having these boolean fields ? Are they other more explicit
+> > feature flags we should be reporting, instead of what are
+> > essentially SEV generation codenames.
+> 
+> If by "mgmt app" you're referring to sevctl, in order to determine which
+> certificate chain to use (Naples vs Rome vs Milan ARK/ASK) we must query
+> which processor we are running on. Although sevctl has a feature which can
+> do this already, we cannot guarantee that sevctl is running on the same host
+> that a VM is running on, so we must query this capability from QEMU. My
+> logic was determining the processor would have been the following:
 
-BTW I ran 'git grep -W -F .subsections' and couldn't find other
-occurrence.
+I'm not really talking about a specific, rather any tool which wants
+to deal with SEV and QEMU, whether libvirt or an app using libvirt,
+or something else using QEMU directly.
+
+Where does the actual cert chain payload come from ? Is that something
+the app has to acquire out of band, or can the full cert chain be
+acquired from the hardware itself ? 
+
+> !es && !snp --> Naples
+> 
+> es && !snp --> Rome
+> 
+> es && snp --> Milan
+
+This approach isn't future proof if subsequent generations introduce
+new certs. It feels like we should be explicitly reporting something
+about the certs rather than relying on every app to re-implement tihs
+logic.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
