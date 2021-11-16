@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF23B45331E
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 14:46:21 +0100 (CET)
-Received: from localhost ([::1]:46954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5599F453355
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 14:56:13 +0100 (CET)
+Received: from localhost ([::1]:55938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmymy-0003dJ-7f
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 08:46:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34512)
+	id 1mmywW-0001zb-2s
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 08:56:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mmyNJ-0002V1-Ju
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 08:19:50 -0500
-Received: from [2a00:1450:4864:20::32b] (port=39548
- helo=mail-wm1-x32b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mmyNC-0000WH-P2
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 08:19:45 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- n33-20020a05600c502100b0032fb900951eso1935837wmr.4
- for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 05:19:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Ce4YYK1rySsPFZ1Q2jrgIYYU2v34iwHX3m8vTdIP6Ew=;
- b=dXdnRpsQCt+AzjU5ayXhwKrkASlXi9qRCw1etufkPCmqXTo/uAfucnJc1FpujbB8D1
- h/TagV7EetecIxQyiJl49OMaw2MX//LoQd6xt1SuCqNnXQrnilOa4OQnueUSrVutachv
- 4M+7WFbzjK0XwcDF/zPjhy0+gq67V15ynHLBf0JqR2vMNHZh9/Y/VyMwGggkiQlBn3K7
- GnFaCnYJrBSDp5UgAR0m62CJd2gqatGmrvIYPEit8wdlXEDeKg3Tw5mUm6tu1yIQedvB
- mIPDfJ3jN5v0KMM7ACKvtN2Sr6oKE0hIO7+sF91jF16dkyyftvRtmHV4xKYoDDsXy+hb
- z7RQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mmyvH-00016H-AG
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 08:54:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51735)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mmyvE-00071D-Mb
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 08:54:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637070891;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mH02FWyjYKDrnKAeTjz5O4J9GpJqyQpQaMeQnB7IO1A=;
+ b=XiqAqYWXbZv1ln8AbfNFyfJypWW0c1ytDUtuPfBlS9mR4SC+B8Xf7h6RETsLFbuI0O9f0z
+ HatxZeVWiWFO4lmSndSrr6hEdliPmHdqrMd75LZEAY6FbDiD6vNB7bomIyV4u/nPRpRuCJ
+ 8KSopten1BqTsFt+QAj8HUIC0TeuHCU=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-515-pHdSzHXZNCyQ1TRoy3ERzQ-1; Tue, 16 Nov 2021 08:54:50 -0500
+X-MC-Unique: pHdSzHXZNCyQ1TRoy3ERzQ-1
+Received: by mail-pg1-f199.google.com with SMTP id
+ r7-20020a63ce47000000b002a5cadd2f25so10672684pgi.9
+ for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 05:54:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Ce4YYK1rySsPFZ1Q2jrgIYYU2v34iwHX3m8vTdIP6Ew=;
- b=VJJTx4V6a0m2uAcg/4zzwQqbAMnzB3hy7rfyRXdLk6lOyaRxFzGATy9k1R6m28dnT+
- l/n2/XV2RpUHaeFrkuhq2dG5AOwnZcPeZVfzoCZfDeYj5UWbHapSkuDpps090E+fDfjK
- iZgXjq7jDulODwfcYm9Z6NkgCsz2DuHba+0gM6LrS6DooV5iVmWHHfgC64BhAMrIgriV
- h4fy7KvgAXikzRfrHhhVJOBG/GHkd0mRMzO66lLXOW5+GLLlNrOWCXYtk+V+TNqythsr
- GAEBMVCfyUWUTQDOrjjrtOfuy2lyp55fSbEImY/FvM7dEOPFOk590L472cx5nmjHYyyh
- Ulrw==
-X-Gm-Message-State: AOAM530xpYZ67As1zCTyJGoMD2UZJP9t5gacoVINQGr8qj2yeNr4WF12
- yA+ShyedQ57Ie+CR6SaCtjE8AA==
-X-Google-Smtp-Source: ABdhPJx1RZu0MBhafalEe7fOn733LO59fu0OMtHZDEmX+3H7eD9kqFxRoqlTS2eiy0NLflkCv17ebg==
-X-Received: by 2002:a05:600c:1d28:: with SMTP id
- l40mr7821267wms.192.1637068781201; 
- Tue, 16 Nov 2021 05:19:41 -0800 (PST)
-Received: from [192.168.8.105] (145.red-37-158-173.dynamicip.rima-tde.net.
- [37.158.173.145])
- by smtp.gmail.com with ESMTPSA id o12sm23793318wrc.85.2021.11.16.05.19.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Nov 2021 05:19:40 -0800 (PST)
-Subject: Re: [PULL 0/3] Machine-next patches for 2021-11-15
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20211115224802.2602894-1-philmd@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <31de6047-0f47-e195-9f84-5f11866ce90a@linaro.org>
-Date: Tue, 16 Nov 2021 14:19:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ bh=mH02FWyjYKDrnKAeTjz5O4J9GpJqyQpQaMeQnB7IO1A=;
+ b=fl1u3bZkNNQN1sVjOlEuHWBn9JQXyZq7MdvQenXvWsq2GaKueBVD1b4MpSPxjkfCHn
+ Dab4DbrbromSErb6RIl5COMz6YbHQstTB2cq1Y5GgcDUVu0hDRsmtRnG1hRs9KxoUDXZ
+ hsPU2rncspUqufLM/wb6SKFk+9JEaRGepDHwslnl0q+5NNE26/YUh3R8Fr2IVqaKPahO
+ VLqaA232eeecaLCJm5ALvupKHOp1HEtwRtDo4pdAEa0cOe1qQf2OYXw+ttyuEVonPzGT
+ YhUD3+gWVu0m3Z1Dyjb566H/FIRTJDIG/8lNkVdpgov92hFCJUnFEQOBNFxGmA5N9zwV
+ hiyw==
+X-Gm-Message-State: AOAM531cJFermYt7jwoVZdL0zaodCcTPXm7UD6SZgGc/NXTKFbH/qFzn
+ biNfoHHeH2a7DFXc/QMzUGaGH8ZwJb8EKWMRWFUnZe4UsuMX7Smhan3ESzE47Iy0YFclp93G/QG
+ 5GoUiwZdg/iu8fGnRx1ZzUx/Ef0dCPvaq9h8o1FIRqq+Ea6SrmE3OwqlYUTX6/04U
+X-Received: by 2002:a17:902:e548:b0:141:f4ae:d2bd with SMTP id
+ n8-20020a170902e54800b00141f4aed2bdmr46127496plf.41.1637070888916; 
+ Tue, 16 Nov 2021 05:54:48 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxUQ7/u/Gv/CcGWs5KCpb1XyV0cIcqXJQEWPHmqBW+x17J/kXyJ3VjpN85hdx0UHmk7Sk1DNA==
+X-Received: by 2002:a17:902:e548:b0:141:f4ae:d2bd with SMTP id
+ n8-20020a170902e54800b00141f4aed2bdmr46127455plf.41.1637070888489; 
+ Tue, 16 Nov 2021 05:54:48 -0800 (PST)
+Received: from localhost.localdomain ([191.101.132.59])
+ by smtp.gmail.com with ESMTPSA id c3sm18674170pfm.177.2021.11.16.05.54.46
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 16 Nov 2021 05:54:47 -0800 (PST)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] dump-guest-memory: Use BQL to protect dump finalize process
+Date: Tue, 16 Nov 2021 21:54:41 +0800
+Message-Id: <20211116135441.7711-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <20211115224802.2602894-1-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.446,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,48 +92,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/15/21 11:47 PM, Philippe Mathieu-Daudé wrote:
-> The following changes since commit 42f6c9179be4401974dd3a75ee72defd16b5092d:
-> 
->    Merge tag 'pull-ppc-20211112' of https://github.com/legoater/qemu into staging (2021-11-12 12:28:25 +0100)
-> 
-> are available in the Git repository at:
-> 
->    https://github.com/philmd/qemu.git tags/machine-core-20211115
-> 
-> for you to fetch changes up to 7b6d1bc9629f3dd45647ec3418e0606a92dddd48:
-> 
->    tests/unit/test-smp-parse: Explicit MachineClass name (2021-11-15 21:49:16 +0100)
-> 
-> ----------------------------------------------------------------
-> Machine core patches
-> 
-> - Rework SMP parsing unit test to work on WinGW:
-> 
->    https://github.com/qemu/qemu/runs/4078386652
-> 
->    This fixes:
-> 
->      Test smp_parse failed!
->      Expected error report: Invalid SMP CPUs 1. The min CPUs supported by machine '(null)' is 2
->        Output error report: Invalid SMP CPUs 1. The min CPUs supported by machine '(NULL)' is 2
-> 
-> ----------------------------------------------------------------
-> 
-> Philippe Mathieu-Daudé (3):
->    tests/unit/test-smp-parse: Restore MachineClass fields after modifying
->    tests/unit/test-smp-parse: QOM'ify smp_machine_class_init()
->    tests/unit/test-smp-parse: Explicit MachineClass name
-> 
->   tests/unit/test-smp-parse.c | 52 +++++++++++++++++++++++--------------
->   1 file changed, 33 insertions(+), 19 deletions(-)
+When finalizing the dump-guest-memory with detached mode, we'll first set dump
+status to either FAIL or COMPLETE before doing the cleanup, however right after
+the dump status change it's possible that another dump-guest-memory qmp command
+is sent so both the main thread and dump thread (which is during cleanup) could
+be accessing dump state in parallel.  That's racy.
 
-Applied, thanks.
+Fix it by protecting the finalizing phase of dump-guest-memory using BQL as
+well, as qmp_dump_guest_memory() (which is the QEMU main thread) requires BQL.
+To do that, we expand the BQL from dump_cleanup() into dump_process(), so we
+will take the BQL longer than before.  The critical section must cover the
+status switch from ACTIVE->{FAIL|COMPLETE} so as to make sure there's no race
+any more.
 
-r~
+We can also just introduce a specific mutex to serialize the dump process, but
+BQL should be enough for now so far, not to mention vm_start() in dump_cleanup
+will need BQL anyway, so maybe easier to just use the same mutex.
+
+Reported-by: Laszlo Ersek <lersek@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+v2:
+- Fix parallel spelling [Marc-Andre]
+- Add r-b for Marc-Andre
+- Mention that qmp_dump_guest_memory() is with BQL held [Laszlo]
+---
+ dump/dump.c | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
+
+diff --git a/dump/dump.c b/dump/dump.c
+index 662d0a62cd..196b7b8ab9 100644
+--- a/dump/dump.c
++++ b/dump/dump.c
+@@ -96,13 +96,7 @@ static int dump_cleanup(DumpState *s)
+     g_free(s->guest_note);
+     s->guest_note = NULL;
+     if (s->resume) {
+-        if (s->detached) {
+-            qemu_mutex_lock_iothread();
+-        }
+         vm_start();
+-        if (s->detached) {
+-            qemu_mutex_unlock_iothread();
+-        }
+     }
+     migrate_del_blocker(dump_migration_blocker);
+ 
+@@ -1873,6 +1867,11 @@ static void dump_process(DumpState *s, Error **errp)
+     Error *local_err = NULL;
+     DumpQueryResult *result = NULL;
+ 
++    /*
++     * When running with detached mode, these operations are not run with BQL.
++     * It's still safe, because it's protected by setting s->state to ACTIVE,
++     * so dump_in_progress() check will block yet another dump-guest-memory.
++     */
+     if (s->has_format && s->format == DUMP_GUEST_MEMORY_FORMAT_WIN_DMP) {
+ #ifdef TARGET_X86_64
+         create_win_dump(s, &local_err);
+@@ -1883,6 +1882,15 @@ static void dump_process(DumpState *s, Error **errp)
+         create_vmcore(s, &local_err);
+     }
+ 
++    /*
++     * Serialize the finalizing of dump process using BQL to make sure no
++     * concurrent access to DumpState is allowed.  BQL is also required for
++     * dump_cleanup as vm_start() needs it.
++     */
++    if (s->detached) {
++        qemu_mutex_lock_iothread();
++    }
++
+     /* make sure status is written after written_size updates */
+     smp_wmb();
+     qatomic_set(&s->status,
+@@ -1898,6 +1906,10 @@ static void dump_process(DumpState *s, Error **errp)
+ 
+     error_propagate(errp, local_err);
+     dump_cleanup(s);
++
++    if (s->detached) {
++        qemu_mutex_unlock_iothread();
++    }
+ }
+ 
+ static void *dump_thread(void *data)
+-- 
+2.32.0
 
 
