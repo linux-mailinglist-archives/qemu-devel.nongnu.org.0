@@ -2,73 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A908A452C60
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 09:05:07 +0100 (CET)
-Received: from localhost ([::1]:51562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DC4D452C71
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 09:10:19 +0100 (CET)
+Received: from localhost ([::1]:58766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmtSk-0005Qg-9X
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 03:05:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59610)
+	id 1mmtXm-00024m-4r
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 03:10:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mmtQ9-0003eE-3O
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 03:02:26 -0500
-Received: from [2a00:1450:4864:20::531] (port=45743
- helo=mail-ed1-x531.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mmtQ6-0002bo-UT
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 03:02:24 -0500
-Received: by mail-ed1-x531.google.com with SMTP id y12so27379479eda.12
- for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 00:02:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IKbBzrIRRVbOs7VSpL7rHEZbz6qnW9O2IxorNQRWD74=;
- b=pkJ8quEkkqhbDw7fj07vbm9zxTVaIjHaypr2z0C/e+bn148oUJ0JHZqFEDjj/vs66r
- FfSUP8R3wxsm4Fs6zJMVFV1pn9FpYOx8yuBAFbQjyhRW9TG28aZmCGMDmKhdi7ubySIF
- kECkQKPYzxC3LEsCzfQyMfUDfMta1227lu+A6Dv1EDKszbvOEnnJ4qy2xRcbXNVDf8BG
- nCl6XseRJ/35H1ciETnDAO41VkMSHDYTuqfmH/RxucRVK+s2FbLntMPgn/EzEFTbtYuY
- e1TMGq15iWZ39LGNqzRu1Evu648qurQD2WN3AUmbsQvaya1022mItA2hhRsSIOIUfFxp
- wolg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IKbBzrIRRVbOs7VSpL7rHEZbz6qnW9O2IxorNQRWD74=;
- b=dKLR49Zcsc25mgAP2GJcYpp6rE00xbuWZw6t8qk7FeNIq2G+QVhqjL+BDMyQ5+Un9U
- ov4NWAMrtDb/vDKZrL9Kj/VsSIzf/+KmUtRkNqL/HVBeotzySBsW6pHRKbd3I64HJT2o
- v0HVpI+T5hQ4PulzQrXPov7A5hSGmzUubQsXg4M+Nu1khan6u48y040yMzHMMe1dX4mW
- W719Mgwy5eAk6TMJoH3Qx8+gLWfp3eC2KMOkCzwCREup9WQnILtNKPPYa0jb76igT6jW
- CwwVv+gUezZe2h3Nd7VAoqEtXrq41O1dMCDe/NonUZ4nl8duSE0aEmR0wt0OI5xck47P
- FuWg==
-X-Gm-Message-State: AOAM53388UHGVJ7fKfvrwaFvjw4a+h2eTZmXqVyRtTlBt8/tpl50fbdM
- nbDvUDFQZ+7d6Tn44kccskZl2PSNXLgLWSa4TRub1w==
-X-Google-Smtp-Source: ABdhPJzFcPO0/XfWrEWbR73jOUOU+RDQDVMViFhPziZps87oabPsoiqwcabcQGEgzYsf8kcCPRtzbybA4yAaqLAPHEQ=
-X-Received: by 2002:a50:ab4b:: with SMTP id t11mr7683354edc.11.1637049740909; 
- Tue, 16 Nov 2021 00:02:20 -0800 (PST)
-MIME-Version: 1.0
-References: <20211110211140.3057199-1-imammedo@redhat.com>
- <20211110211140.3057199-3-imammedo@redhat.com>
- <alpine.DEB.2.22.394.2111151532540.505682@anisinha-lenovo>
-In-Reply-To: <alpine.DEB.2.22.394.2111151532540.505682@anisinha-lenovo>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 16 Nov 2021 13:32:10 +0530
-Message-ID: <CAARzgwxyZe-_=Pbo3VVLW3Z_YNj6ZWXJ8pOWqUgmDZbcZBZpJg@mail.gmail.com>
-Subject: Re: [PATCH for 6.2 v2 2/5] hw/acpi/ich9: Add compat prop to keep HPC
- bit set for 6.1 machine type
-To: Igor Mammedov <imammedo@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::531
- (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::531;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1mmtUp-00079x-Ov; Tue, 16 Nov 2021 03:07:19 -0500
+Received: from smtp25.cstnet.cn ([159.226.251.25]:54550 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1mmtUm-00039l-1l; Tue, 16 Nov 2021 03:07:15 -0500
+Received: from localhost.localdomain (unknown [180.156.147.178])
+ by APP-05 (Coremail) with SMTP id zQCowAC3mO2hZpNhU9VmBw--.50016S2;
+ Tue, 16 Nov 2021 16:06:58 +0800 (CST)
+From: liweiwei <liweiwei@iscas.ac.cn>
+To: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Subject: [RFC PATCH v2 0/7] support subsets of scalar crypto extension
+Date: Tue, 16 Nov 2021 16:06:14 +0800
+Message-Id: <20211116080621.2521-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: zQCowAC3mO2hZpNhU9VmBw--.50016S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cr4DAr45Cr1UJFyDuw1kuFg_yoW8tw4UpF
+ 4rG3y3Gry5Ja9Fkw4ftF18Ar15Xr4rur43Jws3Awn7J3y3ArWfJrsakw13CFnrXF18Wr12
+ g3WUCw1fuw4UAFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvY14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+ n2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
+ 0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
+ IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
+ AFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v2
+ 6r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0J
+ UZa9-UUUUU=
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,163 +65,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mapfelba@redhat.com, kraxel@redhat.com, jusual@redhat.com,
- qemu-devel@nongnu.org, mst@redhat.com
+Cc: wangjunqiang@iscas.ac.cn, liweiwei <liweiwei@iscas.ac.cn>,
+ lazyparser@gmail.com, luruibo2000@163.com, lustrew@foxmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 15, 2021 at 3:35 PM Ani Sinha <ani@anisinha.ca> wrote:
->
->
->
-> On Wed, 10 Nov 2021, Igor Mammedov wrote:
->
-> > From: Julia Suvorova <jusual@redhat.com>
-> >
-> > To solve issues [1-2] the Hot Plug Capable bit in PCIe Slots will be
-> > turned on, while the switch to ACPI Hot-plug will be done in the
-> > DSDT table.
-> >
-> > Introducing 'x-keep-native-hpc' property disables the HPC bit only
-> > in 6.1 and as a result keeps the forced 'reserve-io' on
-> > pcie-root-ports in 6.1 too.
-> >
-> > [1] https://gitlab.com/qemu-project/qemu/-/issues/641
-> > [2] https://bugzilla.redhat.com/show_bug.cgi?id=2006409
-> >
-> > Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
->
-> This patch is a little bit hard to read ... but ...
->
-> > ---
-> > v2:
-> >    * s/native-hpc-bit/x-native-hotplug/ to fix conflict
-> > ---
-> >  include/hw/acpi/ich9.h |  1 +
-> >  hw/acpi/ich9.c         | 18 ++++++++++++++++++
-> >  hw/i386/pc.c           |  2 ++
-> >  hw/i386/pc_q35.c       |  7 ++++++-
-> >  4 files changed, 27 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/include/hw/acpi/ich9.h b/include/hw/acpi/ich9.h
-> > index f04f1791bd..7ca92843c6 100644
-> > --- a/include/hw/acpi/ich9.h
-> > +++ b/include/hw/acpi/ich9.h
-> > @@ -56,6 +56,7 @@ typedef struct ICH9LPCPMRegs {
-> >      AcpiCpuHotplug gpe_cpu;
-> >      CPUHotplugState cpuhp_state;
-> >
-> > +    bool keep_pci_slot_hpc;
-> >      bool use_acpi_hotplug_bridge;
-> >      AcpiPciHpState acpi_pci_hotplug;
-> >      MemHotplugState acpi_memory_hotplug;
-> > diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-> > index 1ee2ba2c50..ebe08ed831 100644
-> > --- a/hw/acpi/ich9.c
-> > +++ b/hw/acpi/ich9.c
-> > @@ -419,6 +419,20 @@ static void ich9_pm_set_acpi_pci_hotplug(Object *obj, bool value, Error **errp)
-> >      s->pm.use_acpi_hotplug_bridge = value;
-> >  }
-> >
-> > +static bool ich9_pm_get_keep_pci_slot_hpc(Object *obj, Error **errp)
-> > +{
-> > +    ICH9LPCState *s = ICH9_LPC_DEVICE(obj);
-> > +
-> > +    return s->pm.keep_pci_slot_hpc;
-> > +}
-> > +
-> > +static void ich9_pm_set_keep_pci_slot_hpc(Object *obj, bool value, Error **errp)
-> > +{
-> > +    ICH9LPCState *s = ICH9_LPC_DEVICE(obj);
-> > +
-> > +    s->pm.keep_pci_slot_hpc = value;
-> > +}
-> > +
-> >  void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
-> >  {
-> >      static const uint32_t gpe0_len = ICH9_PMIO_GPE0_LEN;
-> > @@ -428,6 +442,7 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
-> >      pm->disable_s4 = 0;
-> >      pm->s4_val = 2;
-> >      pm->use_acpi_hotplug_bridge = true;
-> > +    pm->keep_pci_slot_hpc = true;
-> >
-> >      object_property_add_uint32_ptr(obj, ACPI_PM_PROP_PM_IO_BASE,
-> >                                     &pm->pm_io_base, OBJ_PROP_FLAG_READ);
-> > @@ -454,6 +469,9 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
-> >      object_property_add_bool(obj, ACPI_PM_PROP_ACPI_PCIHP_BRIDGE,
-> >                               ich9_pm_get_acpi_pci_hotplug,
-> >                               ich9_pm_set_acpi_pci_hotplug);
-> > +    object_property_add_bool(obj, "x-keep-pci-slot-hpc",
-> > +                             ich9_pm_get_keep_pci_slot_hpc,
-> > +                             ich9_pm_set_keep_pci_slot_hpc);
-> >  }
-> >
-> >  void ich9_pm_device_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-> > diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> > index 2592a82148..a2ef40ecbc 100644
-> > --- a/hw/i386/pc.c
-> > +++ b/hw/i386/pc.c
-> > @@ -98,6 +98,7 @@ GlobalProperty pc_compat_6_1[] = {
-> >      { TYPE_X86_CPU, "hv-version-id-build", "0x1bbc" },
-> >      { TYPE_X86_CPU, "hv-version-id-major", "0x0006" },
-> >      { TYPE_X86_CPU, "hv-version-id-minor", "0x0001" },
-> > +    { "ICH9-LPC", "x-keep-pci-slot-hpc", "false" },
-> >  };
-> >  const size_t pc_compat_6_1_len = G_N_ELEMENTS(pc_compat_6_1);
-> >
-> > @@ -107,6 +108,7 @@ GlobalProperty pc_compat_6_0[] = {
-> >      { "qemu64" "-" TYPE_X86_CPU, "stepping", "3" },
-> >      { TYPE_X86_CPU, "x-vendor-cpuid-only", "off" },
-> >      { "ICH9-LPC", ACPI_PM_PROP_ACPI_PCIHP_BRIDGE, "off" },
-> > +    { "ICH9-LPC", "x-keep-pci-slot-hpc", "true" },
-> >  };
-> >  const size_t pc_compat_6_0_len = G_N_ELEMENTS(pc_compat_6_0);
-> >
-> > diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> > index fc34b905ee..e1e100316d 100644
-> > --- a/hw/i386/pc_q35.c
-> > +++ b/hw/i386/pc_q35.c
-> > @@ -137,6 +137,7 @@ static void pc_q35_init(MachineState *machine)
-> >      DriveInfo *hd[MAX_SATA_PORTS];
-> >      MachineClass *mc = MACHINE_GET_CLASS(machine);
-> >      bool acpi_pcihp;
-> > +    bool keep_pci_slot_hpc;
-> >
-> >      /* Check whether RAM fits below 4G (leaving 1/2 GByte for IO memory
-> >       * and 256 Mbytes for PCI Express Enhanced Configuration Access Mapping
-> > @@ -242,7 +243,11 @@ static void pc_q35_init(MachineState *machine)
-> >                                            ACPI_PM_PROP_ACPI_PCIHP_BRIDGE,
-> >                                            NULL);
-> >
-> > -    if (acpi_pcihp) {
-> > +    keep_pci_slot_hpc = object_property_get_bool(OBJECT(lpc),
-> > +                                                 "x-keep-pci-slot-hpc",
-> > +                                                 NULL);
-> > +
-> > +    if (!keep_pci_slot_hpc && acpi_pcihp) {
->
-> Does this mean we are adding "x-native-hotplug" property for pcie
-> slots only for 6.1 by default unless users pass x-keep-pci-slot-hpc =
-> false manually?
+This patchset implements RISC-V K-extension v1.0.0.rc6 version instructions. 
+Partial instructions are reused from B-extension.
 
-Ok I get this now. Previously, we were disabling Hot-plug capable
-(HPC) bit for PCIE slots unconditionally when ACPI hotplug was
-enabled. Now, we do this only for 6.1. For 6.0 and 6.2 and above, we
-keep HPC bit ON *but* disable native hotplug advertisement from ACPI
-OSC method. The OSC advertisement change is only for 6.2 and above. So
-basically if I am not mistaken, we keep 6.1 behavior unchanged.
+Specification:
+https://github.com/riscv/riscv-crypto
 
-Am I getting all the parts right?
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-k-upstream-v2
 
+To test rvk implementation,  specify cpu argument with 'x-zks=true,x-zkn=true'  
+or 
+"x-zbkb=true,x-zbkc=true,x-zbkx=true,x-zknd=true,x-zkne=true,x-zknh=true,x-zksed=true,x-zksh=true,x-zkr=true"
+ to enable  K-extension support.  This implementation can pass the ACT tests 
+for K with our extended act support for qemu (available at 
+https://github.com/plctlab/plct-qemu/tree/plct-k-upstream-v2-with-act)
 
->
-> >          object_register_sugar_prop(TYPE_PCIE_SLOT, "x-native-hotplug",
-> >                                     "false", true);
-> >      }
-> > --
-> > 2.27.0
-> >
-> >
+v2:
+* optimize implementation for brev8, xperm, zip, unzip
+* use aes related sbox array from crypto/aes.h
+* move sm4_sbox to crypto/sm4.c, and share it with target/arm
+
+liweiwei (7):
+  target/riscv: rvk: add cfg properties for zbk* and zk*
+  target/riscv: rvk: add implementation of instructions for Zbk*
+  crypto include/crypto target/arm: move sm4_sbox to crypto
+  target/riscv: rvk: add implementation of instructions for Zk*
+  target/riscv: rvk: add CSR support for Zkr
+  disas/riscv.c: rvk: add disas support for Zbk* and Zk* instructions
+  target/riscv: rvk: expose zbk* and zk* properties
+
+ crypto/meson.build                      |   1 +
+ crypto/sm4.c                            |  37 ++
+ disas/riscv.c                           | 171 ++++++++-
+ include/crypto/sm4.h                    |   6 +
+ meson                                   |   2 +-
+ target/arm/crypto_helper.c              |  36 +-
+ target/riscv/bitmanip_helper.c          |  74 ++++
+ target/riscv/cpu.c                      |  36 ++
+ target/riscv/cpu.h                      |  13 +
+ target/riscv/cpu_bits.h                 |   9 +
+ target/riscv/crypto_helper.c            | 446 ++++++++++++++++++++++
+ target/riscv/csr.c                      |  70 ++++
+ target/riscv/helper.h                   |  48 +++
+ target/riscv/insn32.decode              |  94 ++++-
+ target/riscv/insn_trans/trans_rvb.c.inc | 127 ++++++-
+ target/riscv/insn_trans/trans_rvk.c.inc | 467 ++++++++++++++++++++++++
+ target/riscv/meson.build                |   1 +
+ target/riscv/pmp.h                      |   8 +-
+ target/riscv/translate.c                |   8 +
+ 19 files changed, 1583 insertions(+), 71 deletions(-)
+ create mode 100644 crypto/sm4.c
+ create mode 100644 include/crypto/sm4.h
+ create mode 100644 target/riscv/crypto_helper.c
+ create mode 100644 target/riscv/insn_trans/trans_rvk.c.inc
+
+-- 
+2.17.1
+
 
