@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87049453448
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 15:35:07 +0100 (CET)
-Received: from localhost ([::1]:56616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 222C7453493
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 15:46:49 +0100 (CET)
+Received: from localhost ([::1]:34880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmzYA-0000Om-MT
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 09:35:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52070)
+	id 1mmzjT-0005Y5-P9
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 09:46:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mmzUt-00058Z-2K
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 09:31:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34521)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mmzgQ-0003eM-5t
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 09:43:38 -0500
+Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25]:54681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mmzUr-00050A-Ch
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 09:31:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637073100;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sW/O/vuyyo57WeMpnI8zBcDt67n+oNVtYFNuiQXPEyA=;
- b=Om4lo9cPIdGekmiPTymwLujIBRB7Ye8puVHJEnqTrK6dZREcwM1YUlf7i42e+HqbkXRvri
- hRQDgnOJ0EeSh0BHbe6m4GBXhPT25rzuYFqBDcFdR72RRBTD+puYEBJDzbu/fqIkKc9/rA
- 6iNHYfMEgMU2N0e1anmeCBDjqentVuY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281-xTWKOfYiOMWaYYMHfWmRrw-1; Tue, 16 Nov 2021 09:31:37 -0500
-X-MC-Unique: xTWKOfYiOMWaYYMHfWmRrw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8724987D542;
- Tue, 16 Nov 2021 14:31:36 +0000 (UTC)
-Received: from [10.39.192.245] (unknown [10.39.192.245])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD44A5D6D5;
- Tue, 16 Nov 2021 14:31:35 +0000 (UTC)
-Message-ID: <268647d0-725f-8c8c-82bc-f26c7f8cdeb0@redhat.com>
-Date: Tue, 16 Nov 2021 15:31:34 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mmzgN-0006TI-9U
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 09:43:37 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.148])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id DC5B62052C;
+ Tue, 16 Nov 2021 14:43:32 +0000 (UTC)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Tue, 16 Nov
+ 2021 15:43:25 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G0013bd5ed31-ae31-4889-9e13-71fb28bc7bf8,
+ BFAEB7FE3C4E2C4D96001007C3BA12B7689A693E) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 129.41.46.1
+Message-ID: <8bd22f7c-b491-55b6-9879-5035dfe5de22@kaod.org>
+Date: Tue, 16 Nov 2021 15:43:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH] meson: fix botched compile check conversions
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20211116093834.76615-1-pbonzini@redhat.com>
- <CAFEAcA8=RsA37ErttuGKKfrb8Ooy9NJs=F4o4agQbgu=On9P5w@mail.gmail.com>
- <YZOdRHZn9h9Rdjlr@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <YZOdRHZn9h9Rdjlr@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH 1/2] target/ppc: Fixed call to deferred exception
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>,
+ <qemu-ppc@nongnu.org>
+References: <20211020125724.78028-1-lucas.araujo@eldorado.org.br>
+ <20211020125724.78028-2-lucas.araujo@eldorado.org.br>
+ <2458d27b-75eb-e4f8-c588-efd8c50df5fc@gmail.com>
+ <db132b26-0025-f573-1006-8a8c7aa2a656@kaod.org>
+ <1686a574-311f-90e5-1420-bba529be89fe@eldorado.org.br>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <1686a574-311f-90e5-1420-bba529be89fe@eldorado.org.br>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.446, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 25b47d9a-e59b-420e-87da-deb1adbbfc51
+X-Ovh-Tracer-Id: 14091200286566353769
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrfedvgdeiiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuveelvdejteegteefieevfeetffefvddvieekteevleefgeelgfeutedvfedvfeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
+Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
+ helo=7.mo548.mail-out.ovh.net
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.446,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,43 +75,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: "Lucas Mateus Castro \(alqotel\)" <lucas.castro@eldorado.org.br>,
+ richard.henderson@linaro.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/16/21 13:00, Daniel P. Berrangé wrote:
-> I wonder if the problem is more fundamental than that. Passing
-> stuff in --extra-cflags is done to influence the flags used to
-> compile the QEMU end user binaries. Unfortunately --extra-cflags
-> is also getting applied to all the meson.build feature checks.
+On 11/10/21 18:29, Lucas Mateus Martins Araujo e Castro wrote:
 > 
-> IMHO we would get a more reliable result if the meson.build
-> checks were fully isolated from the cflags we used for building
-> everything else, so the checks get a well understood, predictable
-> environment.
+> On 10/11/2021 03:56, Cédric Le Goater wrote:
+>> On 11/9/21 17:37, Daniel Henrique Barboza wrote:
+>>>
+>>>
+>>> On 10/20/21 09:57, Lucas Mateus Castro (alqotel) wrote:
+>>>> From: "Lucas Mateus Castro (alqotel)" <lucas.castro@eldorado.org.br>
+>>>>
+>>>> mtfsf, mtfsfi and mtfsb1 instructions call helper_float_check_status
+>>>> after updating the value of FPSCR, but helper_float_check_status
+>>>> checks fp_status and fp_status isn't updated based on FPSCR and
+>>>> since the value of fp_status is reset earlier in the instruction,
+>>>> it's always 0.
+>>>>
+>>>> Because of this helper_float_check_status would change the FI bit to 0
+>>>> as this bit checks if the last operation was inexact and
+>>>> float_flag_inexact is always 0.
+>>>>
+>>>> These instructions also don't throw exceptions correctly since
+>>>> helper_float_check_status throw exceptions based on fp_status.
+>>>>
+>>>> This commit created a new helper, helper_fpscr_check_status that checks
+>>>> FPSCR value instead of fp_status and checks for a larger variety of
+>>>> exceptions than do_float_check_status.
+>>>>
+>>>> The hardware used to compare QEMU's behavior to, was a Power9.
+>>
+>> Do you have a test case for this ? If so, are you collecting them
+>> on some repo ?
+>>
+>> Thanks,
+>>
+>> C.
 > 
-> IIUC, this current behaviour is a result of us adding cflags
-> using  add_global_arguments / add_project_arguments.
+> Just created a test, currently on the branch https://github.com/PPC64/qemu/tree/alqotel_bug_mtfsf commit c8a852bcdf7bdc239711679f00af2450c51d57c6
+> 
+> This test if FI is being set correctly and if the deferred exception is being called correctly (by enabling VE and VXSOFT bits)
 
-No, it's not using add_global_arguments/add_project_arguments for 
---extra-cflags.
+Nice ! May be include in the v2 ?
 
-The --extra-cflags (aka the CFLAGS envvar, or "meson setup -Dc_args") is 
-messy: on one hand it's kinda legacy (we have configure flags to set 
--O2, -g, -Werror, etc.), on the other hand not really possible to kill 
-it because it's how distros expect to set flags such as -O2.
+Thanks,
 
-But it's full of pitfalls, and the only good use of it seems to be for 
--I and -L flags.  We already saw issues with it last week with distros 
-adding "-Wall" to CFLAGS or --extra-cflags and that gives you bogus 
-warnings.  Unfortunately you certainly want flags such as -g to override 
-earlier flags, and you might even want -Wall to override earlier -Wno-* 
-flags *unless -Werror is in use*.
-
-Apart from this, the sizeof() issue (which by the way I didn't see with 
-GCC) has to be fixed in Meson and is probably visible also in e.g. 
-has_members.
-
-Paolo
-
+C.
 
