@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 660EF453A42
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 20:35:18 +0100 (CET)
-Received: from localhost ([::1]:32910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B939453A55
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 20:42:19 +0100 (CET)
+Received: from localhost ([::1]:41060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mn4Ef-0007Zc-Aq
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 14:35:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42340)
+	id 1mn4LR-00055n-Mm
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 14:42:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mn4Be-0005ZU-6V
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 14:32:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40790)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mn4Ij-0002PR-Q6
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 14:39:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21843)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mn4Bb-0004Bv-FB
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 14:32:08 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mn4Ih-0004yk-M6
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 14:39:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637091125;
+ s=mimecast20190719; t=1637091565;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sGHinHfIb+ijQ1yzYI87boYgDvLIZNd/UokJcdgxnj8=;
- b=HvhkrX2v9My0og+hg6p+xhtnCA2T4YeCsEI5WIUZWQLLI1by+zTQGFwhsCpMxpqbO5AFAU
- tFf6Ef3wzttpVVxIlDRfL3+Rip/YhdpBzEYZdozU5kyryBQNHizzR4lW8zPKEw9s1G6tkn
- RwFOWInSx0wV8KK7Z+mwHCyguDoIYY8=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-cd35-RGBPd-xyownHtuLJg-1; Tue, 16 Nov 2021 14:32:04 -0500
-X-MC-Unique: cd35-RGBPd-xyownHtuLJg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- v10-20020aa7d9ca000000b003e7bed57968so6912328eds.23
- for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 11:32:03 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=GIpUvbEKDGJYwbOfsTk6d6DEwisEvrspb/CuiSeCHVA=;
+ b=IH+KXMUdxS/l6YmhrU9OwL9ngMUDKF9fy95NxPfr75GJw285E4XfjSTx0/zUGDEUOxZWrz
+ DJm9w66XjQnajoovWMamUQvSlPZuJrrJ8iKH6judLK+YypU9X/4ud7E9ytTkpMHqpVbA1d
+ WEcxNRs7aMdryNYQG5f1lWUsGyI8bc0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-258-_d8OkTj2NpW8spw4634T_A-1; Tue, 16 Nov 2021 14:39:18 -0500
+X-MC-Unique: _d8OkTj2NpW8spw4634T_A-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ j25-20020a05600c1c1900b00332372c252dso185597wms.1
+ for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 11:39:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=sGHinHfIb+ijQ1yzYI87boYgDvLIZNd/UokJcdgxnj8=;
- b=77OOYhxzW/YKmhExenJzq26GGrU4Hqy+e/iKO29HUBeKcxPwvbbxwDJHUFyrSIZGSt
- uvF9Knknw7LnX7XaM30CjC871y3InvZeHCrb6OkHLck8miM2FXwh0ikCVnGv5s7s3oEU
- lJeI3xRxe0vbnt2Ero2k33O7gXfU/E/YcWM/G3hxctnu6HPKndM0R9kHus/wbr6OmN9C
- K7MRXOql5qkysWm3ll49mXicUp7YTcdlvF7ZeGwan00754R/vwDoF24HNpHzp1x1DshI
- 7wxJcBClZ8GjS0PLmltJcN/AT0HMDSe2PprL+GMBg+cFwuLCRcTVN45oWZAa6+6iNubp
- kARA==
-X-Gm-Message-State: AOAM533El5y74vlR/Dik/xsTblbjTkYzH1UWoshctEKGx20eDfvFxg4g
- 9wHaVUy9SuR+fQEx7JSutOvMt4LJHI68ELSVcND4R3OMaZ8qQcxqKPO3cxNb3lUJELFAAyaPFLk
- dGpYVdOuxWUADSsI=
-X-Received: by 2002:a05:6402:d05:: with SMTP id
- eb5mr12393001edb.345.1637091122824; 
- Tue, 16 Nov 2021 11:32:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxIREV+jl6W3uZCXpfNZq921Pb1ztt3FIqpS2t+xf7tnDANNq402AN0VCPWNBUOvg4Nk0j9jQ==
-X-Received: by 2002:a05:6402:d05:: with SMTP id
- eb5mr12392970edb.345.1637091122623; 
- Tue, 16 Nov 2021 11:32:02 -0800 (PST)
-Received: from localhost ([185.140.112.229])
- by smtp.gmail.com with ESMTPSA id h7sm4702259ede.40.2021.11.16.11.32.01
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GIpUvbEKDGJYwbOfsTk6d6DEwisEvrspb/CuiSeCHVA=;
+ b=dEiJohBS3JtaE9TAJLebyk0397GpDMFc80t3Qf4KYnnVvu8S1DzYQcpbQhPa5jucY9
+ yUPmPyhOsNd4l/ToRuF7PJu4xKZpix9UuDw1fqPxYZuKTDy22Z7g5aovEbPQoFSkgBiF
+ RQzWYU90DpYTq9MR4Q5HH9BDHhZ3FKstqOd1uwxEIfo/tjIlDB35oTXlLrtuErb6hsSE
+ rK1ERzECr6eTY3FLRmOXvm/uR7EaGdpo+3jxxaFa3bu+ZSXWhI0PgNPZqo8WpDchIAqH
+ IsAUcW9xKBtTkeiQ9wkZ7EDsFdA1mvjdtGof7Qp0Cn5OkHLR1awAEMFXqKQ8oNSW9ddg
+ h2ag==
+X-Gm-Message-State: AOAM530KOP6+ImwO8SOa5/NovrAMUgmbf6B1R6FzkN5wgOG44sayokm2
+ qUufxOebydu8GdGVet5woH17xrot+t0/L3jTdQPDcgZWwth113rIGlK85/p8BdvEySNfg3CI8DV
+ KnefVpfwLf+BP3eNGPAtVZdFPjlJ17mP4mJ5aAbUqIQmv6sjC7QjlLlOAtV42D/3G
+X-Received: by 2002:a05:600c:3516:: with SMTP id
+ h22mr10605726wmq.62.1637091557340; 
+ Tue, 16 Nov 2021 11:39:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzxYZhdZbg6ZIVKy9F0viwLO8PKJrjjd0VFOyKVlcPGxVOZf9ya4tZ8iiMYdQfdMqieJIQE+Q==
+X-Received: by 2002:a05:600c:3516:: with SMTP id
+ h22mr10605693wmq.62.1637091557098; 
+ Tue, 16 Nov 2021 11:39:17 -0800 (PST)
+Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id
+ x1sm18388004wru.40.2021.11.16.11.39.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Nov 2021 11:32:02 -0800 (PST)
-Date: Tue, 16 Nov 2021 20:32:00 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PULL 20/20] pcie: expire pending delete
-Message-ID: <20211116203200.02fda064@redhat.com>
-In-Reply-To: <20211115163607.177432-21-mst@redhat.com>
-References: <20211115163607.177432-1-mst@redhat.com>
- <20211115163607.177432-21-mst@redhat.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ Tue, 16 Nov 2021 11:39:16 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-7.0] hw/net/rocker: Remove unused definitions
+Date: Tue, 16 Nov 2021 20:39:15 +0100
+Message-Id: <20211116193915.2792721-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -98,78 +93,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, "Daniel
- P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Jiri Pirko <jiri@resnulli.us>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 15 Nov 2021 11:39:09 -0500
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ hw/net/rocker/rocker.h | 5 -----
+ 1 file changed, 5 deletions(-)
 
-> From: Gerd Hoffmann <kraxel@redhat.com>
-> 
-> Add an expire time for pending delete, once the time is over allow
-> pressing the attention button again.
-> 
-> This makes pcie hotplug behave more like acpi hotplug, where one can
-> try sending an 'device_del' monitor command again in case the guest
-> didn't respond to the first attempt.
-> 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> Message-Id: <20211111130859.1171890-7-kraxel@redhat.com>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> ---
->  include/hw/qdev-core.h | 1 +
->  hw/pci/pcie.c          | 2 ++
->  softmmu/qdev-monitor.c | 4 +++-
->  3 files changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> index 72622bd337..20d3066595 100644
-> --- a/include/hw/qdev-core.h
-> +++ b/include/hw/qdev-core.h
-> @@ -181,6 +181,7 @@ struct DeviceState {
->      char *canonical_path;
->      bool realized;
->      bool pending_deleted_event;
-> +    int64_t pending_deleted_expires_ms;
->      QDict *opts;
->      int hotplugged;
->      bool allow_unplug_during_migration;
-> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> index a930ac738a..c5ed266337 100644
-> --- a/hw/pci/pcie.c
-> +++ b/hw/pci/pcie.c
-> @@ -548,6 +548,8 @@ void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
->      }
->  
->      dev->pending_deleted_event = true;
-> +    dev->pending_deleted_expires_ms =
-> +        qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 5000; /* 5 secs */
-
-do we block migration if unplug was requested?
-(if not we might loose this state on destionatio, do we care about it?)
-
->  
->      /* In case user cancel the operation of multi-function hot-add,
->       * remove the function that is unexposed to guest individually,
-> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-> index 588a62b88d..5925f1ae5f 100644
-> --- a/softmmu/qdev-monitor.c
-> +++ b/softmmu/qdev-monitor.c
-> @@ -943,7 +943,9 @@ void qmp_device_del(const char *id, Error **errp)
->  {
->      DeviceState *dev = find_device_state(id, errp);
->      if (dev != NULL) {
-> -        if (dev->pending_deleted_event) {
-> +        if (dev->pending_deleted_event &&
-> +            (dev->pending_deleted_expires_ms == 0 ||
-> +             dev->pending_deleted_expires_ms > qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL))) {
->              error_setg(errp, "Device %s is already in the "
->                               "process of unplug", id);
->              return;
+diff --git a/hw/net/rocker/rocker.h b/hw/net/rocker/rocker.h
+index 412fa44d017..d22bbd2bf80 100644
+--- a/hw/net/rocker/rocker.h
++++ b/hw/net/rocker/rocker.h
+@@ -36,13 +36,8 @@ static inline GCC_FMT_ATTR(1, 2) int DPRINTF(const char *fmt, ...)
+ }
+ #endif
+ 
+-#define __le16 uint16_t
+-#define __le32 uint32_t
+-#define __le64 uint64_t
+-
+ #define __be16 uint16_t
+ #define __be32 uint32_t
+-#define __be64 uint64_t
+ 
+ static inline bool ipv4_addr_is_multicast(__be32 addr)
+ {
+-- 
+2.31.1
 
 
