@@ -2,58 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78D884530A1
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 12:29:40 +0100 (CET)
-Received: from localhost ([::1]:34484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 923414530A5
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 12:31:44 +0100 (CET)
+Received: from localhost ([::1]:36784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmweh-00018A-Ex
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 06:29:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36918)
+	id 1mmwgh-0002qM-LW
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 06:31:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mmwdU-0000Sh-RP
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 06:28:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36959)
+ id 1mmwfL-0001xQ-Jm
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 06:30:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mmwdS-0008O3-Bg
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 06:28:23 -0500
+ id 1mmwfG-00007B-8J
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 06:30:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637062101;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+PJQfT9tvcCYTPThPACEX8tFEfD07sON/R8IiER/dHc=;
- b=XXdgKdG2VRmyCl8BogoQHf1Ls6HgvNVKdgvQvz/czsANw9AnR6ksG8muVKW777tmP4dFQw
- 6MycViDt5vKVtVQg4SE4XOmMrXJP1lupBDQw9soVUDlJkvvXIh1PF5ZOuPGXcvatb7kilT
- bk7WhNesa4IRN2yeknX6h8G+c0WF4/8=
+ s=mimecast20190719; t=1637062213;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4TBl6b48HbI/wjpa47tUhSID7LCCCo2abCeOyEfCxAk=;
+ b=Bg4Qb2S2UvCDBVTn8fCjHJsBHdXaDS+vFcbxRGFslo+J7lrTBNE6e0Sw8Pwjj8Fr6mLa/6
+ IPZJwpjwgs4I5Rjdse6oDnmRVM+T41PRfGrn1UZ9IQQcasUEmKRDMGGfNCYOhuEYTkMrNJ
+ 58gsx9ltOTQBNFJFO81IZlUsDKI5T4k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-51-cQsTcMNmPSaJZlsMIiEnLw-1; Tue, 16 Nov 2021 06:28:18 -0500
-X-MC-Unique: cQsTcMNmPSaJZlsMIiEnLw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-359-SpCCSIboMGyPO0BiWRjezA-1; Tue, 16 Nov 2021 06:30:10 -0500
+X-MC-Unique: SpCCSIboMGyPO0BiWRjezA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6656715721;
- Tue, 16 Nov 2021 11:28:17 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.33.36.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 343E1ADCD;
- Tue, 16 Nov 2021 11:27:57 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] gitlab: skip cirrus jobs on master and stable branches
-Date: Tue, 16 Nov 2021 11:27:57 +0000
-Message-Id: <20211116112757.1909176-1-berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DB801006AA4;
+ Tue, 16 Nov 2021 11:30:09 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.159])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 745D15BAE5;
+ Tue, 16 Nov 2021 11:30:02 +0000 (UTC)
+Date: Tue, 16 Nov 2021 11:30:00 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Yonggang Luo <luoyonggang@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>
+Subject: Re: Cirrus-CI all red
+Message-ID: <YZOWOPxgQvALIC/+@redhat.com>
+References: <701011ce-8bc1-9e93-82ed-a4d72c70b2da@redhat.com>
+ <4e540821-9bc2-77b5-ad70-ebc5df53e039@redhat.com>
+ <YYpF4coXvnStffD5@redhat.com> <87fss5k1lv.fsf@linaro.org>
+ <YYpcR/SBHNlqj5CV@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <YYpcR/SBHNlqj5CV@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -76,50 +88,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On the primary QEMU repository we want the CI jobs to run on the staging
-branch as a gating CI test.
+On Tue, Nov 09, 2021 at 11:32:23AM +0000, Daniel P. Berrangé wrote:
+> On Tue, Nov 09, 2021 at 11:27:42AM +0000, Alex Bennée wrote:
+> > 
+> > Daniel P. Berrangé <berrange@redhat.com> writes:
+> > 
+> > > On Tue, Nov 09, 2021 at 10:45:18AM +0100, Thomas Huth wrote:
+> > >> On 09/11/2021 10.39, Philippe Mathieu-Daudé wrote:
+> > >> > FYI, as of today, the latest merge history is red (last 10 days):
+> > >> > https://cirrus-ci.com/github/qemu/qemu
+> > >> > 
+> > >> > If we want to keep using this, we should somehow plug it to
+> > >> > GitLab-CI (i.e. Travis-CI is run as an external job there) so
+> > >> > the project maintainer can notice job failures.
+> > >> 
+> > >> Well, considering that all the cirrus-run based jobs are currently failing
+> > >> due to the non-working API token, that does not seem to work very well
+> > >> either.
+> > >
+> > > Who owns the API token ? For other projects, this was addressed a while
+> > > ago by refreshing the token. I would have tried this myself for QEMU
+> > > but I don't have privileges on the QEMU projects in github/gitlab.
+> > 
+> > OK I've updated the token (after I figured out the path to it):
+> > 
+> >   - top right, Settings
+> >   - scroll to bottom "Your GitHub Organizations"
+> >   - click gear icon
+> >   - scroll to API settings, click Generate New Token
+> > 
+> > It seems to be triggering the builds now although GitLab still reports
+> > failures for some other reason now.
+> 
+> The cirrus-run image we're using is lockde to version 0.3.0. I'm
+> testing an update to version 0.5.0 which has various reliability
+> fixes, essentially around making it retry on transient errors.
 
-Cirrus CI has very limited job concurrency, so if there are too many
-jobs triggered they'll queue up and hit the GitLab CI job timeout before
-they complete on Cirrus.
+Forgot to respond that I did get this updated to 0.5.0 in the end
 
-If we let Cirrus jobs run again on the master branch immediately after
-merging from staging, that just increases the chances jobs will get
-queued and subsequently timeout.
+  https://gitlab.com/libvirt/libvirt-ci/-/merge_requests/190
 
-The same applies for merges to the stable branches.
+and QEMU is automatically using the newly published docker image
+generated from this merge request with cirrus 0.5.0.
 
-User forks meanwhile should be allowed to run Cirrus CI jobs freely.
+I've also just sent a change to block cirrus jobs from master and
+stable branches, which will cut the number of jobs in 1/2 and
+thus reduce chances of jobs being queued for so long that they
+reach timeout.
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- .gitlab-ci.d/cirrus.yml | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
-index e7b25e7427..cc2f2e8906 100644
---- a/.gitlab-ci.d/cirrus.yml
-+++ b/.gitlab-ci.d/cirrus.yml
-@@ -40,6 +40,9 @@
-     - cat .gitlab-ci.d/cirrus/$NAME.yml
-     - cirrus-run -v --show-build-log always .gitlab-ci.d/cirrus/$NAME.yml
-   rules:
-+    # Allow on 'staging' branch and 'stable-X.Y-staging' branches only
-+    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH !~ /staging/'
-+      when: never
-     - if: "$CIRRUS_GITHUB_REPO && $CIRRUS_API_TOKEN"
- 
- x64-freebsd-12-build:
+Regards,
+Daniel
 -- 
-2.31.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
