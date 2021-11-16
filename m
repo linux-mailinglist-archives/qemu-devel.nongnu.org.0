@@ -2,77 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 479E245395A
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 19:22:22 +0100 (CET)
-Received: from localhost ([::1]:45304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 665224539B9
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 20:03:38 +0100 (CET)
+Received: from localhost ([::1]:37512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mn364-0007W7-TQ
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 13:22:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54734)
+	id 1mn3k1-0006g1-37
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 14:03:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mn35C-0006Uh-05
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 13:21:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24767)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1mn3iZ-0005Hc-Bj
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 14:02:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49912)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mn358-0003OI-AO
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 13:21:24 -0500
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1mn3iW-0000Mx-DV
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 14:02:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637086880;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1637089323;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oiswYZEWQK1T15l6I6SDmYviAUGssW1/QY7SBlz24gE=;
- b=EkYtxinTUsh3/rjC2onmArITDItBGD4QPksP+lXGl1Hfmi5g6BqZDj4f6GkO6UmbpB0wn+
- EEMVqnVasiKDGT/q2P/LOwNwKkVoTZADkrcfrYzoRsI7UfB0vtBZG+uezEWhGE6g9lxALU
- ro08VN+0hmxQUQA79fWHHMjA0JGh3TI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-5oDtGLCQOfS9XVrVVbrInA-1; Tue, 16 Nov 2021 13:21:02 -0500
-X-MC-Unique: 5oDtGLCQOfS9XVrVVbrInA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 726B71023F4D;
- Tue, 16 Nov 2021 18:21:01 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.48])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D5B773AEA;
- Tue, 16 Nov 2021 18:20:44 +0000 (UTC)
-Date: Tue, 16 Nov 2021 18:20:42 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH] gitlab-ci/cirrus: Increase timeout to 80 minutes
-Message-ID: <YZP2esl/18WDQHlQ@redhat.com>
-References: <20211116163309.246602-1-thuth@redhat.com>
- <YZPhHt4JFcz41YFJ@redhat.com>
- <3b48a20f-c8db-9ebf-f179-f1843782c229@redhat.com>
- <632a5f2e-3e5d-1ed7-e27f-82571e374043@redhat.com>
- <a97f6776-aaef-b4da-04ec-dcb1fcd25902@linaro.org>
+ bh=8nTDxsYAbBNKYWMH4xo9aEtZhUvWIKhU5nvhUf2VtV0=;
+ b=YKi2i366NM//G5lATcJHeo6lvjA/YjpS3QmFJQ0dqkCCPm2XBoD9hZ2hhwhb0kQNerr8AX
+ f6Ni9F0u+62CMOGLknQV1K0i8XtQon03llX+Zy6IPsZDmUSMfVdHBZP7KR/Wsmrz+r1HP6
+ ljk9ZpVL9L37vhw5+ZCoy7mg5PNZyCQ=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-441-8yufOQvBNPKGe0oA3hiyjg-1; Tue, 16 Nov 2021 14:02:01 -0500
+X-MC-Unique: 8yufOQvBNPKGe0oA3hiyjg-1
+Received: by mail-ot1-f70.google.com with SMTP id
+ h15-20020a9d554f000000b0055c93007430so45517oti.2
+ for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 11:02:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=8nTDxsYAbBNKYWMH4xo9aEtZhUvWIKhU5nvhUf2VtV0=;
+ b=NfVAqBIlWvgCRoolc/FKjXvlMA26ToAEcnkDzHMe2CfOhNO43ANS6F+1f/OarlVRyq
+ E/DPxassrYyY43vG4/a63Ue/TQtyCdoOYR+ECoCE5TZfUX+ZmlGuM0RxIvs7IQeCUbeT
+ vzxxFkESOAZt/AdOVI12nfikkRbaTFKt9AtUedR6QZ6ciJTf1lX+FN01zYt0MFGFIZYg
+ odwIykUMVCdGA4/p7Nu75FeYEYI0/ZQ6FybQQHM4glgx7IURPtQG0+xSVoZiH0IQy9Yg
+ 6ngjIPdNY9tMEkyCOS8l/if6GiQf1Y/JazOdNx/Cj2lU99DL+AC/SkA1FTVqc/THpxvx
+ pSSA==
+X-Gm-Message-State: AOAM5323KpiQUW8Nv41dhVOzDwhYMQQk9u1o5fCLJp1oHfq9GF6n6u9e
+ 3bxzs8fqoI1xPJiM+85gpTn/xtRKIp8N6Ev3jkmQ6j7b7dR4OFL/zE9kb+LQ66z/Izd3dDazURV
+ cSFmqTKIRV44ZBfA=
+X-Received: by 2002:a05:6808:22a6:: with SMTP id
+ bo38mr17449423oib.78.1637089318708; 
+ Tue, 16 Nov 2021 11:01:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwg/yLVSO2/fs0HbQDUALTy6MQ6nrCSt30+38EYQwJFljvZK+XwjNr15RkWQmBMW0ofL5mmWg==
+X-Received: by 2002:a05:6808:22a6:: with SMTP id
+ bo38mr17449204oib.78.1637089317007; 
+ Tue, 16 Nov 2021 11:01:57 -0800 (PST)
+Received: from redhat.com ([38.15.36.239])
+ by smtp.gmail.com with ESMTPSA id e14sm3993497oie.7.2021.11.16.11.01.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Nov 2021 11:01:56 -0800 (PST)
+Date: Tue, 16 Nov 2021 12:01:55 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Peng Liang <liangpeng10@huawei.com>
+Subject: Re: [PATCH] vfio: Fix memory leak of hostwin
+Message-ID: <20211116120155.109cfd0d.alex.williamson@redhat.com>
+In-Reply-To: <20211116115626.1627186-1-liangpeng10@huawei.com>
+References: <20211116115626.1627186-1-liangpeng10@huawei.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <a97f6776-aaef-b4da-04ec-dcb1fcd25902@linaro.org>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,75 +98,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: zhengchuan@huawei.com, wanghao232@huawei.com, qemu-devel@nongnu.org,
+ xiexiangyou@huawei.com, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 16, 2021 at 06:36:50PM +0100, Richard Henderson wrote:
-> On 11/16/21 6:22 PM, Thomas Huth wrote:
-> > On 16/11/2021 18.09, Philippe Mathieu-Daudé wrote:
-> > > On 11/16/21 17:49, Daniel P. Berrangé wrote:
-> > > > On Tue, Nov 16, 2021 at 05:33:09PM +0100, Thomas Huth wrote:
-> > > > > The jobs on Cirrus-CI sometimes get delayed quite a bit, waiting to
-> > > > > be scheduled, so while the build test itself finishes within 60 minutes,
-> > > > > the total run time of the jobs can be longer due to this waiting time.
-> > > > > Thus let's increase the timeout on the gitlab side a little bit, so
-> > > > > that these jobs are not marked as failing just because of the delay.
-> > ...>>> diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
-> > > > > index e7b25e7427..22d42585e4 100644
-> > > > > --- a/.gitlab-ci.d/cirrus.yml
-> > > > > +++ b/.gitlab-ci.d/cirrus.yml
-> > > > > @@ -14,6 +14,7 @@
-> > > > >     stage: build
-> > > > >     image: registry.gitlab.com/libvirt/libvirt-ci/cirrus-run:master
-> > > > >     needs: []
-> > > > > +  timeout: 80m
-> > > > >     allow_failure: true
-> > > > >     script:
-> > > > >       - source .gitlab-ci.d/cirrus/$NAME.vars
-> > > > 
-> > > > Whether 80 or 100 minute, consider it
-> > > > 
-> > > > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> > > 
-> > > This pipeline took 1h51m09s:
-> > > https://gitlab.com/qemu-project/qemu/-/pipelines/409666733/builds
-> > > But Richard restarted unstable jobs, which probably added time
-> > > to the total.
-> > > 
-> > > IIRC from a maintainer perspective 1h15 is the upper limit.
-> > > 80m fits, 100m is over.
-> > 
-> > I think I agree ... I normally don't want to wait more than a little bit
-> > more than one hour, so 100 minutes feels too long already. We already
-> > have some 70m timeouts in other jobs, and one 80 minute timeout in
-> > .gitlab-ci.d/crossbuild-template.yml, so I'd say 80 minutes are really
-> > the upper boundary that we should use.
+On Tue, 16 Nov 2021 19:56:26 +0800
+Peng Liang <liangpeng10@huawei.com> wrote:
+
+> hostwin is allocated and added to hostwin_list in vfio_host_win_add, but
+> it is only deleted from hostwin_list in vfio_host_win_del, which causes
+> a memory leak.  Also, freeing all elements in hostwin_list is missing in
+> vfio_disconnect_container.
 > 
-> We are also talking apples and oranges:
-> Gitlab timeouts are on the amount of time the job runs.
-> Cirrus timeouts appear to be on the amount of time the job is queued.
+> Fix: 2e4109de8e58 ("vfio/spapr: Create DMA window dynamically (SPAPR IOMMU v2)")
+> CC: qemu-stable@nongnu.org
+> Signed-off-by: Peng Liang <liangpeng10@huawei.com>
+> ---
+>  hw/vfio/common.c | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
 > 
-> If cirrus would just not start accounting until the thing runs we'd be fine.
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index dd387b0d3959..2cce60c5fac3 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -546,11 +546,12 @@ static void vfio_host_win_add(VFIOContainer *container,
+>  static int vfio_host_win_del(VFIOContainer *container, hwaddr min_iova,
+>                               hwaddr max_iova)
+>  {
+> -    VFIOHostDMAWindow *hostwin;
+> +    VFIOHostDMAWindow *hostwin, *next;
+>  
+> -    QLIST_FOREACH(hostwin, &container->hostwin_list, hostwin_next) {
+> +    QLIST_FOREACH_SAFE(hostwin, &container->hostwin_list, hostwin_next, next) {
 
-Unfortunately it isn't that easy. Our cirrus CI jobs are launched using
-the cirrus-run tool, from a gitlab job. The timeouts we're usually
-hitting are from the gitlab job which is sitting around waiting for
-the cirrus job it launched to finish, so it can report back stats.
+Unnecessary conversion to _SAFE variant here, we don't continue to walk
+the list after removing an object.
 
-Cirrus CI does itself have a job timeout, but I'm not aware of us
-hitting that typically, unless i'm misinterpreting something.
+>          if (hostwin->min_iova == min_iova && hostwin->max_iova == max_iova) {
+>              QLIST_REMOVE(hostwin, hostwin_next);
+> +            g_free(hostwin);
+>              return 0;
+>          }
+>      }
+> @@ -2239,6 +2240,7 @@ static void vfio_disconnect_container(VFIOGroup *group)
+>      if (QLIST_EMPTY(&container->group_list)) {
+>          VFIOAddressSpace *space = container->space;
+>          VFIOGuestIOMMU *giommu, *tmp;
+> +        VFIOHostDMAWindow *hostwin, *next;
+>  
+>          QLIST_REMOVE(container, next);
+>  
+> @@ -2249,6 +2251,12 @@ static void vfio_disconnect_container(VFIOGroup *group)
+>              g_free(giommu);
+>          }
+>  
+> +        QLIST_FOREACH_SAFE(hostwin, &container->hostwin_list, hostwin_next,
+> +                           next) {
+> +            QLIST_REMOVE(hostwin, hostwin_next);
+> +            g_free(hostwin);
+> +        }
+> +
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+This usage looks good.  Thanks,
+
+Alex
+
+>          trace_vfio_disconnect_container(container->fd);
+>          close(container->fd);
+>          g_free(container);
 
 
