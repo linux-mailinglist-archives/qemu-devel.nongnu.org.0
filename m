@@ -2,76 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD424532D7
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 14:27:49 +0100 (CET)
-Received: from localhost ([::1]:49820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF23B45331E
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 14:46:21 +0100 (CET)
+Received: from localhost ([::1]:46954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmyV2-0001d1-L1
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 08:27:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33298)
+	id 1mmymy-0003dJ-7f
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 08:46:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mmyJA-0006wa-24
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 08:15:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35980)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mmyJ7-0008SC-MJ
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 08:15:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637068528;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rLKZ+aa/sy2B24DednoQ6PDfzS4Mt2y1l6AUiUYmIUY=;
- b=ZDB2lj/3sxD99GvUIHfK26uXkUu8B/XcH+wlZHD9LwR4lcftW/hQdjOXJ/RBu5gW37nTLW
- aOz389P6OmKaCPUvl/9HtGGCzF37AkCDx5uKoi98TOcg9obfW3JHCGW8ytO9obbm57RJE3
- +lGKaWBo8dGu/YQoQWxzZytvyjnHfmU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-25-cFIdcmzdNYyIpUkYitk53A-1; Tue, 16 Nov 2021 08:15:23 -0500
-X-MC-Unique: cFIdcmzdNYyIpUkYitk53A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F87E15723;
- Tue, 16 Nov 2021 13:15:22 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.48])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 369CC5C1D5;
- Tue, 16 Nov 2021 13:15:15 +0000 (UTC)
-Date: Tue, 16 Nov 2021 13:15:12 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] meson: fix botched compile check conversions
-Message-ID: <YZOu4IQOf6nTtoZq@redhat.com>
-References: <20211116093834.76615-1-pbonzini@redhat.com>
- <CAFEAcA8=RsA37ErttuGKKfrb8Ooy9NJs=F4o4agQbgu=On9P5w@mail.gmail.com>
- <YZOdRHZn9h9Rdjlr@redhat.com>
- <CAFEAcA_PKATU93e2UuoiJB2xbt_y5WKtYY_D5t+SaozcDKQcyg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mmyNJ-0002V1-Ju
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 08:19:50 -0500
+Received: from [2a00:1450:4864:20::32b] (port=39548
+ helo=mail-wm1-x32b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mmyNC-0000WH-P2
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 08:19:45 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ n33-20020a05600c502100b0032fb900951eso1935837wmr.4
+ for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 05:19:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Ce4YYK1rySsPFZ1Q2jrgIYYU2v34iwHX3m8vTdIP6Ew=;
+ b=dXdnRpsQCt+AzjU5ayXhwKrkASlXi9qRCw1etufkPCmqXTo/uAfucnJc1FpujbB8D1
+ h/TagV7EetecIxQyiJl49OMaw2MX//LoQd6xt1SuCqNnXQrnilOa4OQnueUSrVutachv
+ 4M+7WFbzjK0XwcDF/zPjhy0+gq67V15ynHLBf0JqR2vMNHZh9/Y/VyMwGggkiQlBn3K7
+ GnFaCnYJrBSDp5UgAR0m62CJd2gqatGmrvIYPEit8wdlXEDeKg3Tw5mUm6tu1yIQedvB
+ mIPDfJ3jN5v0KMM7ACKvtN2Sr6oKE0hIO7+sF91jF16dkyyftvRtmHV4xKYoDDsXy+hb
+ z7RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Ce4YYK1rySsPFZ1Q2jrgIYYU2v34iwHX3m8vTdIP6Ew=;
+ b=VJJTx4V6a0m2uAcg/4zzwQqbAMnzB3hy7rfyRXdLk6lOyaRxFzGATy9k1R6m28dnT+
+ l/n2/XV2RpUHaeFrkuhq2dG5AOwnZcPeZVfzoCZfDeYj5UWbHapSkuDpps090E+fDfjK
+ iZgXjq7jDulODwfcYm9Z6NkgCsz2DuHba+0gM6LrS6DooV5iVmWHHfgC64BhAMrIgriV
+ h4fy7KvgAXikzRfrHhhVJOBG/GHkd0mRMzO66lLXOW5+GLLlNrOWCXYtk+V+TNqythsr
+ GAEBMVCfyUWUTQDOrjjrtOfuy2lyp55fSbEImY/FvM7dEOPFOk590L472cx5nmjHYyyh
+ Ulrw==
+X-Gm-Message-State: AOAM530xpYZ67As1zCTyJGoMD2UZJP9t5gacoVINQGr8qj2yeNr4WF12
+ yA+ShyedQ57Ie+CR6SaCtjE8AA==
+X-Google-Smtp-Source: ABdhPJx1RZu0MBhafalEe7fOn733LO59fu0OMtHZDEmX+3H7eD9kqFxRoqlTS2eiy0NLflkCv17ebg==
+X-Received: by 2002:a05:600c:1d28:: with SMTP id
+ l40mr7821267wms.192.1637068781201; 
+ Tue, 16 Nov 2021 05:19:41 -0800 (PST)
+Received: from [192.168.8.105] (145.red-37-158-173.dynamicip.rima-tde.net.
+ [37.158.173.145])
+ by smtp.gmail.com with ESMTPSA id o12sm23793318wrc.85.2021.11.16.05.19.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Nov 2021 05:19:40 -0800 (PST)
+Subject: Re: [PULL 0/3] Machine-next patches for 2021-11-15
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20211115224802.2602894-1-philmd@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <31de6047-0f47-e195-9f84-5f11866ce90a@linaro.org>
+Date: Tue, 16 Nov 2021 14:19:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_PKATU93e2UuoiJB2xbt_y5WKtYY_D5t+SaozcDKQcyg@mail.gmail.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <20211115224802.2602894-1-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.446,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,40 +93,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 16, 2021 at 01:10:04PM +0000, Peter Maydell wrote:
-> On Tue, 16 Nov 2021 at 12:00, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > I wonder if the problem is more fundamental than that. Passing
-> > stuff in --extra-cflags is done to influence the flags used to
-> > compile the QEMU end user binaries. Unfortunately --extra-cflags
-> > is also getting applied to all the meson.build feature checks.
-> >
-> > IMHO we would get a more reliable result if the meson.build
-> > checks were fully isolated from the cflags we used for building
-> > everything else, so the checks get a well understood, predictable
-> > environment.
+On 11/15/21 11:47 PM, Philippe Mathieu-Daudé wrote:
+> The following changes since commit 42f6c9179be4401974dd3a75ee72defd16b5092d:
 > 
-> If you're using --extra-cflags to pass in "-I/path/to/libfoo/headers"
-> then you do want that to be used in the meson check for "do we have
-> libfoo", though...
+>    Merge tag 'pull-ppc-20211112' of https://github.com/legoater/qemu into staging (2021-11-12 12:28:25 +0100)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/philmd/qemu.git tags/machine-core-20211115
+> 
+> for you to fetch changes up to 7b6d1bc9629f3dd45647ec3418e0606a92dddd48:
+> 
+>    tests/unit/test-smp-parse: Explicit MachineClass name (2021-11-15 21:49:16 +0100)
+> 
+> ----------------------------------------------------------------
+> Machine core patches
+> 
+> - Rework SMP parsing unit test to work on WinGW:
+> 
+>    https://github.com/qemu/qemu/runs/4078386652
+> 
+>    This fixes:
+> 
+>      Test smp_parse failed!
+>      Expected error report: Invalid SMP CPUs 1. The min CPUs supported by machine '(null)' is 2
+>        Output error report: Invalid SMP CPUs 1. The min CPUs supported by machine '(NULL)' is 2
+> 
+> ----------------------------------------------------------------
+> 
+> Philippe Mathieu-Daudé (3):
+>    tests/unit/test-smp-parse: Restore MachineClass fields after modifying
+>    tests/unit/test-smp-parse: QOM'ify smp_machine_class_init()
+>    tests/unit/test-smp-parse: Explicit MachineClass name
+> 
+>   tests/unit/test-smp-parse.c | 52 +++++++++++++++++++++++--------------
+>   1 file changed, 33 insertions(+), 19 deletions(-)
 
-For pkg-config-ized things meson lets you override those paths
-per-library IIRC.
+Applied, thanks.
 
-For the non-pkg-config-izied case, that could be an argument for
-specialized --extra-header-dir=PATH and --extra-lib-dir=$PATH args.
-
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+r~
 
 
