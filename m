@@ -2,83 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CEC845314B
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 12:51:18 +0100 (CET)
-Received: from localhost ([::1]:46134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A58C45316D
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 12:52:01 +0100 (CET)
+Received: from localhost ([::1]:47822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmwzc-0001aN-TO
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 06:51:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41304)
+	id 1mmx0K-0002iv-GP
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 06:52:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mmwxv-0000VD-I6
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 06:49:31 -0500
-Received: from [2a00:1450:4864:20::32f] (port=46030
- helo=mail-wm1-x32f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mmwxt-0002go-Cd
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 06:49:31 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- g191-20020a1c9dc8000000b0032fbf912885so2158430wme.4
- for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 03:49:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=BJrJfxnJ/KU6BBoNr7DAjB9FE/ABAsT+sDfrkNC55UU=;
- b=ncc3mm8Igng9gpasSzRW1QPIzIp//Vi3g2svmMlXc1/Goe2WE1X8p7rXturJye7yDd
- NYFIM92tvPm9qIrfAvuKQhi7ycq36wSjMVSaAwRGGuX4YEIhzWWuNYuM8waBWMuWG8up
- Qi5s/PYC1NcH84kRpi2bqOptbhwRttbqKfwVoH8EM3AknLuXr/vHB1dsvEFlgEM1PdlZ
- tULha4AZZTCpVyiJdHy7EkaQ4eG/zOQt/VcUXijrqfyMUoXYDgjA+GV4LTU6VxrvnnIa
- mpV0q5jMCIClC4TehyG+yy+YDGMQnA1ocdsC/u3hVW6w5coqjoD6hOqlAPFuA5FWqiYI
- mLyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BJrJfxnJ/KU6BBoNr7DAjB9FE/ABAsT+sDfrkNC55UU=;
- b=r++l50I3fXNkj4pqWoLGM6LMFJ2A1fYJQgNTl8EZnPVDxn1irVdjjKGJc77Qpdgkj4
- 1nHHrt3eygXqSQ7UqHj10NvbJTE1qjb8gzToPGF5W48qnr0uaxdLt1EvptV55P0mk3wL
- Hp7RBG8O3RuW5p1tIg/GjPxP37ViHMcb2IGHfzbzYItT5gTM7Tt1mQlOv6OCtv6+5oWk
- vL6xBh55dhaztKeoRVol2EKkhbmkH/vaMKEf/MWdLeYfsTCW8LP9n1nj6CjnZ86ARJCX
- DPU0LxscxGhOcmKpw20B//hH8Oea5NBNNMpbtWVJ5bTENhY/YWImikf+4ZzraN9ruPDE
- VLmw==
-X-Gm-Message-State: AOAM530oRXQw1BU7ZZPwTXJWgbLx9GmFc7ESktyIatRjL2wO62mV5W6g
- syX/tD4zSIgTfkL1eCc5vYGAeYuD4etyowy7K2w=
-X-Google-Smtp-Source: ABdhPJyuhRVKdwABmw1klU2eeUQsdWx6jdy7v6oBls66rBCsH4Oy93+SDu7Le3DWZ+4MuW2xhIdO0g==
-X-Received: by 2002:a1c:19c5:: with SMTP id 188mr7227114wmz.145.1637063367015; 
- Tue, 16 Nov 2021 03:49:27 -0800 (PST)
-Received: from [192.168.8.105] (145.red-37-158-173.dynamicip.rima-tde.net.
- [37.158.173.145])
- by smtp.gmail.com with ESMTPSA id 9sm22453945wry.0.2021.11.16.03.49.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Nov 2021 03:49:26 -0800 (PST)
-Subject: Re: [PULL 0/4] target-arm queue
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20211115201946.327770-1-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <45740150-98bf-e4b0-9ffb-5ce06a42c0d4@linaro.org>
-Date: Tue, 16 Nov 2021 12:49:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1mmwyd-0001Bn-SY
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 06:50:16 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:47104 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1mmwya-0002mm-To
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 06:50:15 -0500
+Received: from [10.20.42.193] (unknown [10.20.42.193])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxv7PsmpNh64MAAA--.3196S3;
+ Tue, 16 Nov 2021 19:50:04 +0800 (CST)
+Subject: Re: [PATCH v10 17/26] linux-user: Add LoongArch generic header files
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <1636700049-24381-1-git-send-email-gaosong@loongson.cn>
+ <1636700049-24381-18-git-send-email-gaosong@loongson.cn>
+ <a9eaf4a6-4b2e-51c5-67d6-46210fef03c3@amsat.org>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <0f1b0a56-f1f7-81ac-8dee-755c894b0910@loongson.cn>
+Date: Tue, 16 Nov 2021 19:50:04 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20211115201946.327770-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <a9eaf4a6-4b2e-51c5-67d6-46210fef03c3@amsat.org>
+Content-Type: multipart/alternative;
+ boundary="------------75C978D262CB88FC084B45E1"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.446,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CM-TRANSID: AQAAf9Dxv7PsmpNh64MAAA--.3196S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zw4xCw4DXF1rWrykJF45GFg_yoW8Zr47pF
+ Wrur1xGr48GrZrJ34qq343XF1fZw4j9F47ua4fWryUArWrC348Zwn3Kry5Wa43Z3WYkFW0
+ qFyDWa1UKF4DXFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvC1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+ w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+ IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2
+ jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+ 8Ij28IcVAaY2xG8wAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1l
+ Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxw
+ Cjr7xvwVCIw2I0I7xG6c02F41lc7I2V7IY0VAS07AlzVAYIcxG8wCY02Avz4vE-syl42xK
+ 82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW5Wr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr
+ 0_Gr1lx2IqxVAqx4xG67AKxVWUGVWUWwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY
+ 17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcV
+ C0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF
+ 0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2Kf
+ nxnUUI43ZEXa7VU1g4S7UUUUU==
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-1.446, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,53 +74,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/15/21 9:19 PM, Peter Maydell wrote:
-> Hi; some minor changes for 6.2, which I think can be classified
-> as bug fixes and are OK for this point in the release cycle.
-> (Wouldn't be the end of the world if they slipped to 7.0.)
-> 
-> -- PMM
-> 
-> The following changes since commit 42f6c9179be4401974dd3a75ee72defd16b5092d:
-> 
->    Merge tag 'pull-ppc-20211112' of https://github.com/legoater/qemu into staging (2021-11-12 12:28:25 +0100)
-> 
-> are available in the Git repository at:
-> 
->    https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20211115-1
-> 
-> for you to fetch changes up to 1adf528ec3bdf62ea3b580b7ad562534a3676ff5:
-> 
->    hw/rtc/pl031: Send RTC_CHANGE QMP event (2021-11-15 18:53:00 +0000)
-> 
-> ----------------------------------------------------------------
-> target-arm queue:
->   * Support multiple redistributor regions for TCG GICv3
->   * Send RTC_CHANGE QMP event from pl031
-> 
-> ----------------------------------------------------------------
-> Eric Auger (1):
->        hw/rtc/pl031: Send RTC_CHANGE QMP event
-> 
-> Peter Maydell (3):
->        hw/intc/arm_gicv3: Move checking of redist-region-count to arm_gicv3_common_realize
->        hw/intc/arm_gicv3: Set GICR_TYPER.Last correctly when nb_redist_regions > 1
->        hw/intc/arm_gicv3: Support multiple redistributor regions
-> 
->   include/hw/intc/arm_gicv3_common.h | 14 ++++++++--
->   hw/intc/arm_gicv3.c                | 12 +-------
->   hw/intc/arm_gicv3_common.c         | 56 ++++++++++++++++++++++++--------------
->   hw/intc/arm_gicv3_kvm.c            | 10 ++-----
->   hw/intc/arm_gicv3_redist.c         | 40 +++++++++++++++------------
->   hw/rtc/pl031.c                     | 10 ++++++-
->   hw/rtc/meson.build                 |  2 +-
->   7 files changed, 83 insertions(+), 61 deletions(-)
+This is a multi-part message in MIME format.
+--------------75C978D262CB88FC084B45E1
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Applied, thanks.
+Hi Philippe,
+
+On 2021/11/16 下午4:33, Philippe Mathieu-Daudé wrote:
+> Hi,
+>
+> On 11/12/21 07:54, Song Gao wrote:
+>> This includes:
+>> - sockbits.h
+>> - target_errno_defs.h
+>> - target_fcntl.h
+>> - termbits.h
+>>
+>> Signed-off-by: Song Gao <gaosong@loongson.cn>
+>> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+>> ---
+>>   linux-user/loongarch64/sockbits.h          | 1 +
+>>   linux-user/loongarch64/target_errno_defs.h | 7 +++++++
+>>   linux-user/loongarch64/target_fcntl.h      | 6 ++++++
+>>   linux-user/loongarch64/termbits.h          | 1 +
+>>   4 files changed, 15 insertions(+)
+>>   create mode 100644 linux-user/loongarch64/sockbits.h
+>>   create mode 100644 linux-user/loongarch64/target_errno_defs.h
+>>   create mode 100644 linux-user/loongarch64/target_fcntl.h
+>>   create mode 100644 linux-user/loongarch64/termbits.h
+>>
+>> diff --git a/linux-user/loongarch64/sockbits.h b/linux-user/loongarch64/sockbits.h
+>> new file mode 100644
+>> index 0000000..0e4c8f0
+>> --- /dev/null
+>> +++ b/linux-user/loongarch64/sockbits.h
+>> @@ -0,0 +1 @@
+> Why not guarding the header here, ...
+>
+>> +#include "../generic/sockbits.h"
+>> diff --git a/linux-user/loongarch64/target_errno_defs.h b/linux-user/loongarch64/target_errno_defs.h
+>> new file mode 100644
+>> index 0000000..17165c1
+>> --- /dev/null
+>> +++ b/linux-user/loongarch64/target_errno_defs.h
+>> @@ -0,0 +1,7 @@
+>> +#ifndef LOONGARCH_TARGET_ERRNO_DEFS_H
+>> +#define LOONGARCH_TARGET_ERRNO_DEFS_H
+> ... but guard this one?
+>> +
+>> +/* Target uses generic errno */
+>> +#include "../generic/target_errno_defs.h"
+>> +
+>> +#endif
+> New files require a license. I'd recommend adding a SPDX
+> tag in the first line. For example with GPLv2+:
+>
+> /* SPDX-License-Identifier: GPL-2.0-or-later */
+
+Yes, except for sockbits.h and target_errno_defs.h, other files are in this format.
+Sould we need to unify al files formats like this?  I see that the most of linux-user/ARCH/ sockets.h and target_errno_defs,h are the same.
+
+Thanks
+Song Gao
 
 
-r~
+
+--------------75C978D262CB88FC084B45E1
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <pre>Hi Philippe,
+</pre>
+    <div class="moz-cite-prefix">On 2021/11/16 下午4:33, Philippe
+      Mathieu-Daudé wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:a9eaf4a6-4b2e-51c5-67d6-46210fef03c3@amsat.org">
+      <pre class="moz-quote-pre" wrap="">Hi,
+
+On 11/12/21 07:54, Song Gao wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">This includes:
+- sockbits.h
+- target_errno_defs.h
+- target_fcntl.h
+- termbits.h
+
+Signed-off-by: Song Gao <a class="moz-txt-link-rfc2396E" href="mailto:gaosong@loongson.cn">&lt;gaosong@loongson.cn&gt;</a>
+Signed-off-by: Xiaojuan Yang <a class="moz-txt-link-rfc2396E" href="mailto:yangxiaojuan@loongson.cn">&lt;yangxiaojuan@loongson.cn&gt;</a>
+---
+ linux-user/loongarch64/sockbits.h          | 1 +
+ linux-user/loongarch64/target_errno_defs.h | 7 +++++++
+ linux-user/loongarch64/target_fcntl.h      | 6 ++++++
+ linux-user/loongarch64/termbits.h          | 1 +
+ 4 files changed, 15 insertions(+)
+ create mode 100644 linux-user/loongarch64/sockbits.h
+ create mode 100644 linux-user/loongarch64/target_errno_defs.h
+ create mode 100644 linux-user/loongarch64/target_fcntl.h
+ create mode 100644 linux-user/loongarch64/termbits.h
+
+diff --git a/linux-user/loongarch64/sockbits.h b/linux-user/loongarch64/sockbits.h
+new file mode 100644
+index 0000000..0e4c8f0
+--- /dev/null
++++ b/linux-user/loongarch64/sockbits.h
+@@ -0,0 +1 @@
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Why not guarding the header here, ...
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">+#include "../generic/sockbits.h"
+diff --git a/linux-user/loongarch64/target_errno_defs.h b/linux-user/loongarch64/target_errno_defs.h
+new file mode 100644
+index 0000000..17165c1
+--- /dev/null
++++ b/linux-user/loongarch64/target_errno_defs.h
+@@ -0,0 +1,7 @@
++#ifndef LOONGARCH_TARGET_ERRNO_DEFS_H
++#define LOONGARCH_TARGET_ERRNO_DEFS_H
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+... but guard this one?
+</pre>
+    </blockquote>
+    <blockquote type="cite"
+      cite="mid:a9eaf4a6-4b2e-51c5-67d6-46210fef03c3@amsat.org">
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">+
++/* Target uses generic errno */
++#include "../generic/target_errno_defs.h"
++
++#endif
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+New files require a license. I'd recommend adding a SPDX
+tag in the first line. For example with GPLv2+:
+
+/* SPDX-License-Identifier: GPL-2.0-or-later */</pre>
+    </blockquote>
+    <pre>Yes, except for sockbits.h and target_errno_defs.h, other files are in this format.
+Sould we need to unify al files formats like this?  I see that the most of linux-user/ARCH/ sockets.h and target_errno_defs,h are the same.
+
+Thanks
+Song Gao
+</pre>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------75C978D262CB88FC084B45E1--
+
 
