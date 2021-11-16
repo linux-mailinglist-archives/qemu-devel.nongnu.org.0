@@ -2,67 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DF15452B95
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 08:30:46 +0100 (CET)
-Received: from localhost ([::1]:45304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D89B9452BDC
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 08:43:22 +0100 (CET)
+Received: from localhost ([::1]:60566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmsvU-0005zO-PD
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 02:30:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52852)
+	id 1mmt7h-0008Qs-HK
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 02:43:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mmsto-0004fA-Eb
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 02:29:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32398)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mmstm-0006K6-V7
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 02:29:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637047730;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=gbvL5iPLbbPZ4G1xr6o2oUnu7UgVl4JL4wHopW4RHQI=;
- b=iAYuY2Hj1+wSz8kbyna8nWlejgTTc6CMcGQt/83nVvVMDaT9Kl7JaLragvOAFpqsM0uFOc
- W+J4DwGsx/k5GIHsv34Ok5Jzg4VLJUXm7Gsj8rXh/qVqdnPxhRo4LsKQ4a8a4gntkOlwwG
- V/vVy2sP8tgSQWL1rpYo9v3n68pdIF8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-89-SqwA6LwqN5KUXfvqYnCIWg-1; Tue, 16 Nov 2021 02:28:47 -0500
-X-MC-Unique: SqwA6LwqN5KUXfvqYnCIWg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 010D31023F4E
- for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 07:28:47 +0000 (UTC)
-Received: from thinkpad.redhat.com (unknown [10.39.192.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8247F60C13;
- Tue, 16 Nov 2021 07:28:41 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] migration: fix dump-vmstate with modules
-Date: Tue, 16 Nov 2021 08:28:40 +0100
-Message-Id: <20211116072840.132731-1-lvivier@redhat.com>
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1mmt5P-0007LK-N1
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 02:40:59 -0500
+Received: from mail.ispras.ru ([83.149.199.84]:34272)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1mmt5N-000853-Hw
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 02:40:59 -0500
+Received: from [10.12.102.111] (unknown [85.142.117.226])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 53E2F40A2BC7;
+ Tue, 16 Nov 2021 07:40:50 +0000 (UTC)
+Subject: Re: [PATCH v2 1/3] icount: preserve cflags when custom tb is about to
+ execute
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <163662450348.125458.5494710452733592356.stgit@pasha-ThinkPad-X280>
+ <163662450891.125458.6706022775465303586.stgit@pasha-ThinkPad-X280>
+ <87pmr6j0w6.fsf@linaro.org>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Message-ID: <b7bcea58-0f1f-d641-06ae-72d47e8f2318@ispras.ru>
+Date: Tue, 16 Nov 2021 10:40:50 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <87pmr6j0w6.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.446,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,38 +57,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- kraxel@redhat.com
+Cc: pbonzini@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ peterx@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To work correctly -dump-vmstate and vmstate-static-checker.py need to
-dump all the supported vmstates.
+On 11.11.2021 15:20, Alex Bennée wrote:
+> 
+> Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
+> 
+>> When debugging with the watchpoints, qemu may need to create
+>> TB with single instruction. This is achieved by setting cpu->cflags_next_tb.
+>> But when this block is about to execute, it may be interrupted by another
+>> thread. In this case cflags will be lost and next executed TB will not
+>> be the special one.
+>> This patch checks TB exit reason and restores cflags_next_tb to allow
+>> finding the interrupted block.
+>>
+>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+>> ---
+>>   accel/tcg/cpu-exec.c |   10 ++++++++++
+>>   1 file changed, 10 insertions(+)
+>>
+>> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+>> index 2d14d02f6c..df12452b8f 100644
+>> --- a/accel/tcg/cpu-exec.c
+>> +++ b/accel/tcg/cpu-exec.c
+>> @@ -846,6 +846,16 @@ static inline void cpu_loop_exec_tb(CPUState *cpu, TranslationBlock *tb,
+>>            * cpu_handle_interrupt.  cpu_handle_interrupt will also
+>>            * clear cpu->icount_decr.u16.high.
+>>            */
+>> +        if (cpu->cflags_next_tb == -1
+>> +            && (!use_icount || !(tb->cflags & CF_USE_ICOUNT)
+> 
+> Why check use_icount here? The cflags should always have CF_USE_ICOUNT
+> set when icount is enabled. Lets not over complicate the inverted ||
+> tests we have here.
 
-But as some devices can be modules, they are not loaded at startup and not
-dumped. Fix that by loading all available modules before dumping the
-machine vmstate.
+Not really. Sometimes we use non-icount blocks in icount mode.
+But AFAIR they are used only for triggering the exeptions, but not for 
+real execution.
 
-Fixes: 7ab6e7fcce97 ("qdev: device module support")
-Cc: kraxel@redhat.com
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
----
- softmmu/vl.c | 1 +
- 1 file changed, 1 insertion(+)
+> 
+>> +                || cpu_neg(cpu)->icount_decr.u16.low >= tb->icount))
+>> {
+> 
+> Is u16.low ever set when icount isn't enabled?
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 1159a64bce4e..620a1f1367e2 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -3766,6 +3766,7 @@ void qemu_init(int argc, char **argv, char **envp)
- 
-     if (vmstate_dump_file) {
-         /* dump and exit */
-+        module_load_qom_all();
-         dump_vmstate_json_to_file(vmstate_dump_file);
-         exit(0);
-     }
--- 
-2.33.1
+This condition is checked for icount mode only.
+u16.low is not used without icount.
+
+> 
+>> +            /*
+>> +             * icount is disabled or there are enough instructions
+>> +             * in the budget, do not retranslate this block with
+>> +             * different parameters.
+>> +             */
+>> +            cpu->cflags_next_tb = tb->cflags;
+>> +        }
+>>           return;
+>>       }
+>>   
+> 
+> 
 
 
