@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A150C452C2C
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 08:48:49 +0100 (CET)
-Received: from localhost ([::1]:38744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 156D0452C31
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 08:51:42 +0100 (CET)
+Received: from localhost ([::1]:43546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmtCy-0004UB-AF
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 02:48:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55846)
+	id 1mmtFk-0007l6-Uh
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 02:51:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1mmt83-00017q-FR
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 02:43:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45836)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mmtBm-0004Rc-Ix
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 02:47:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49213)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1mmt7p-0008O8-I0
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 02:43:31 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mmtBk-0000id-Sd
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 02:47:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637048608;
+ s=mimecast20190719; t=1637048851;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uSuss4UGCko6lF5nP4W2WfmXg7udn+RoG13bDWVqL7Y=;
- b=eAx1ga9ZrqudTfacGZHfK3KcYHpCOtdUaHqEI6F7CZqK58JR+6Gjpiw/GKwsfiR1ghdBPA
- voYurzE/76sQX41oxNkw9NtqKuim4eWz2I8arE+EpW1vof/ERrHxoZsv1CF6LBJCB/h2/2
- K7FCE9edRHOeWTK9E4DPGLAZNfet2/M=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-47-SmOYI5W9P2GhVVHIfq1hUw-1; Tue, 16 Nov 2021 02:43:26 -0500
-X-MC-Unique: SmOYI5W9P2GhVVHIfq1hUw-1
-Received: by mail-pl1-f200.google.com with SMTP id
- e4-20020a170902b78400b00143c2e300ddso2069213pls.17
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 23:43:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=uSuss4UGCko6lF5nP4W2WfmXg7udn+RoG13bDWVqL7Y=;
- b=2d/BaZCWZguhHHGOgdSmPFaskHIblxkandumZb0FPsmyygpZPYpLluyTDe9yiRLpFe
- aXnD0EVuPT+0YiBRF0L4GcP5m21ECCjaD6pWsQ3L/FFmZQTFjKlc9WoJA3uB/2avaW8o
- auHTKsp41JV2IPa24BZnezCJarTUyKppjJw1TXTC5QMmqZrGWSJt3EjLAj0hfK0eINNI
- 7EmeZVGroJQJcNboK9WD87oa/nk6zsKO0oV2s4JJqrxASAdTGq8iCYVSj6TMsEozhNSN
- HROkUhP+eAj2Nl3bAK2vPphRN8DoxN/rG7KZhlEtOc8428xpm+kQ0VoyH7AP1QGrY0p6
- N7ew==
-X-Gm-Message-State: AOAM531gBQphV6DfXLM+FAoiKUNwdu4bHXW878DKSwLKTFRQjRPUd2Sa
- B0gh30UOLWF1zMiXmRRk1O+e7clYZkoDU602UAcLyWI76dQ2jz9T3j2e5dJxuxVWBsRwnK4z5Dh
- iPsd/Iv1Ax8Kt8+v8GQZZds/I0noE5uY=
-X-Received: by 2002:a63:2c51:: with SMTP id s78mr3564784pgs.312.1637048605704; 
- Mon, 15 Nov 2021 23:43:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJytnqVwKOt4W+Xc6VX6+8RPoR/r7Fj/eHFOcfGpM6DhhMVtSVBvYVxgBVgyaFX8BcIb9iZvuTCP1ctuLjvfHAI=
-X-Received: by 2002:a63:2c51:: with SMTP id s78mr3564771pgs.312.1637048605441; 
- Mon, 15 Nov 2021 23:43:25 -0800 (PST)
+ bh=Pej0BvoWZ3cp9gwa8IVAvA5/kRkXJWghrp9vqCi+qjM=;
+ b=LowvzrSsRT64jO4R8qBZj6OsPKS0eHVmYW7IXVU8YVFPHxmpPULXAWzMI3RZQONcR5O1+O
+ eFl2/pTcF8NvqnLT9KawC0AJR1mPzKWppCG01U/zgmd27t5RghJOPqdF48ntZ6IHoXxtyQ
+ dzl5RLh/AC7ctk1fjw79/JulhsNYl9w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-351-_GEhH1P2NLmUV_UA_vjWtQ-1; Tue, 16 Nov 2021 02:47:28 -0500
+X-MC-Unique: _GEhH1P2NLmUV_UA_vjWtQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DAD510168C6;
+ Tue, 16 Nov 2021 07:47:25 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C00E75C1A1;
+ Tue, 16 Nov 2021 07:47:23 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2790811380A7; Tue, 16 Nov 2021 08:47:22 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH RFC 2/2] hw: Replace drive_get_next() by drive_get()
+References: <20211115125536.3341681-1-armbru@redhat.com>
+ <20211115125536.3341681-3-armbru@redhat.com>
+ <5b799ad5-a552-454f-dcc7-1ea6de22b397@amsat.org>
+ <87lf1pfm2z.fsf@dusky.pond.sub.org>
+ <b18519f7-7198-0965-a528-2d1a45c7c93c@amsat.org>
+Date: Tue, 16 Nov 2021 08:47:22 +0100
+In-Reply-To: <b18519f7-7198-0965-a528-2d1a45c7c93c@amsat.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 15 Nov 2021 22:15:12
+ +0100")
+Message-ID: <878rxoczjp.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20211116032234.1775-1-peterx@redhat.com>
-In-Reply-To: <20211116032234.1775-1-peterx@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 16 Nov 2021 11:43:14 +0400
-Message-ID: <CAMxuvazMTD50=r9tab5sKMFLr07dDinmnNf64-VTtt7gntg6Gg@mail.gmail.com>
-Subject: Re: [PATCH] dump-guest-memory: Use BQL to protect dump finalize
- process
-To: Peter Xu <peterx@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -92,120 +85,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laszlo Ersek <lersek@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, bin.meng@windriver.com,
+ mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org, sundeep.lkml@gmail.com,
+ qemu-block@nongnu.org, andrew.smirnov@gmail.com, hskinnemoen@google.com,
+ joel@jms.id.au, atar4qemu@gmail.com, alistair@alistair23.me,
+ b.galvani@gmail.com, nieklinnenbank@gmail.com, qemu-arm@nongnu.org,
+ clg@kaod.org, kwolf@redhat.com, qemu-riscv@nongnu.org, andrew@aj.id.au,
+ Andrew.Baumann@microsoft.com, jcd@tribudubois.net, kfting@nuvoton.com,
+ hreitz@redhat.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
-On Tue, Nov 16, 2021 at 7:22 AM Peter Xu <peterx@redhat.com> wrote:
+> On 11/15/21 16:57, Markus Armbruster wrote:
+>> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+>>> On 11/15/21 13:55, Markus Armbruster wrote:
+>>>> drive_get_next() is basically a bad idea.  It returns the "next" block
+>>>> backend of a certain interface type.  "Next" means bus=3D0,unit=3DN, w=
+here
+>>>> subsequent calls count N up from zero, per interface type.
+>>>>
+>>>> This lets you define unit numbers implicitly by execution order.  If t=
+he
+>>>> order changes, or new calls appear "in the middle", unit numbers chang=
+e.
+>>>> ABI break.  Hard to spot in review.
+>>>>
+>>>> Explicit is better than implicit: use drive_get() directly.
+>>>>
+>>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>>>> ---
 >
-> When finalizing the dump-guest-memory with detached mode, we'll first set=
- dump
-> status to either FAIL or COMPLETE before doing the cleanup, however right=
- after
-> the dump status change it's possible that another dump-guest-memory qmp c=
-ommand
-> is sent so both the main thread and dump thread (which is during cleanup)=
- could
-> be accessing dump state in paralell.  That's racy.
+>>>> @@ -435,11 +438,13 @@ static void aspeed_machine_init(MachineState *ma=
+chine)
+>>>>      }
+>>>> =20
+>>>>      for (i =3D 0; i < bmc->soc.sdhci.num_slots; i++) {
+>>>> -        sdhci_attach_drive(&bmc->soc.sdhci.slots[i], drive_get_next(I=
+F_SD));
+>>>> +        sdhci_attach_drive(&bmc->soc.sdhci.slots[i],
+>>>> +                           drive_get(IF_SD, 0, i));
+>>>
+>>> If we put SD on bus #0, ...
+>>>
+>>>>      }
+>>>> =20
+>>>>      if (bmc->soc.emmc.num_slots) {
+>>>> -        sdhci_attach_drive(&bmc->soc.emmc.slots[0], drive_get_next(IF=
+_SD));
+>>>> +        sdhci_attach_drive(&bmc->soc.emmc.slots[0],
+>>>> +                           drive_get(IF_SD, 0, bmc->soc.sdhci.num_slo=
+ts));
+>>>
+>>> ... we'd want to put eMMC on bus #1
+>>=20
+>> Using separate buses for different kinds of devices would be neater, but
+>> it also would be an incompatible change.  This patch keeps existing
+>> bus/unit numbers working.  drive_get_next() can only use bus 0.
+>>=20
+>>>                                      but I see having eMMC cards on a
+>>> IF_SD bus as a bug, since these cards are soldered on the board.
+>>=20
+>> IF_SD is not a bus, it's an "block interface type", which is really just
+>> a user interface thing.
+>
+> Why are we discriminating by "block interface type" then?
+>
+> What is the difference between "block interfaces"? I see a block drive
+> as a generic unit, usable on multiple hardware devices.
+>
+> I never really understood how this "block interface type" helps
+> developers and users. I thought BlockInterfaceType and DriveInfo
+> were legacy / deprecated APIs we want to get rid of; and we would
+> come up with a replacement API using BlockDeviceInfo or providing
+> a BlockFrontend state of the art object.
+> Anyway, I suppose the explanation is buried in the git history
+> before the last 8 years. I need to keep reading.
 
-parallel
+In the beginning (v0.4.2), there was -hda and -hdb, and life was simple.
 
->
-> Fix it by protecting the finalizing phase of dump-guest-memory using BQL =
-as
-> well.  To do that, we expand the BQL from dump_cleanup() into dump_proces=
-s(),
-> so we will take the BQL longer than before.  The critical section must co=
-ver
-> the status switch from ACTIVE->{FAIL|COMPLETE} so as to make sure there's=
- no
-> race any more.
->
-> We can also just introduce a specific mutex to serialize the dump process=
-, but
-> BQL should be enough for now so far, not to mention vm_start() in dump_cl=
-eanup
-> will need BQL anyway, so maybe easier to just use the same mutex.
->
-> Reported-by: Laszlo Ersek <lersek@redhat.com>
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+Then there was -hdc, -hdd, -cdrom (v0.5.1), -fda, -fdb (v0.6.0),
+-mtdblock, -sd, -pflash (v0.9.1).
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+All these options do two things: they create a block backend, and they
+request the board to create a certain block frontend for it, similar to
+other options of this vintage, like -serial, -parallel, and -net.
+Boards generally ignore requests they don't understand, but that's just
+sloppiness.
 
-> ---
->  dump/dump.c | 24 ++++++++++++++++++------
->  1 file changed, 18 insertions(+), 6 deletions(-)
->
-> diff --git a/dump/dump.c b/dump/dump.c
-> index 662d0a62cd..196b7b8ab9 100644
-> --- a/dump/dump.c
-> +++ b/dump/dump.c
-> @@ -96,13 +96,7 @@ static int dump_cleanup(DumpState *s)
->      g_free(s->guest_note);
->      s->guest_note =3D NULL;
->      if (s->resume) {
-> -        if (s->detached) {
-> -            qemu_mutex_lock_iothread();
-> -        }
->          vm_start();
-> -        if (s->detached) {
-> -            qemu_mutex_unlock_iothread();
-> -        }
->      }
->      migrate_del_blocker(dump_migration_blocker);
->
-> @@ -1873,6 +1867,11 @@ static void dump_process(DumpState *s, Error **err=
-p)
->      Error *local_err =3D NULL;
->      DumpQueryResult *result =3D NULL;
->
-> +    /*
-> +     * When running with detached mode, these operations are not run wit=
-h BQL.
-> +     * It's still safe, because it's protected by setting s->state to AC=
-TIVE,
-> +     * so dump_in_progress() check will block yet another dump-guest-mem=
-ory.
-> +     */
->      if (s->has_format && s->format =3D=3D DUMP_GUEST_MEMORY_FORMAT_WIN_D=
-MP) {
->  #ifdef TARGET_X86_64
->          create_win_dump(s, &local_err);
-> @@ -1883,6 +1882,15 @@ static void dump_process(DumpState *s, Error **err=
-p)
->          create_vmcore(s, &local_err);
->      }
->
-> +    /*
-> +     * Serialize the finalizing of dump process using BQL to make sure n=
-o
-> +     * concurrent access to DumpState is allowed.  BQL is also required =
-for
-> +     * dump_cleanup as vm_start() needs it.
-> +     */
-> +    if (s->detached) {
-> +        qemu_mutex_lock_iothread();
-> +    }
-> +
->      /* make sure status is written after written_size updates */
->      smp_wmb();
->      qatomic_set(&s->status,
-> @@ -1898,6 +1906,10 @@ static void dump_process(DumpState *s, Error **err=
-p)
->
->      error_propagate(errp, local_err);
->      dump_cleanup(s);
-> +
-> +    if (s->detached) {
-> +        qemu_mutex_unlock_iothread();
-> +    }
->  }
->
->  static void *dump_thread(void *data)
-> --
-> 2.32.0
->
+For each set of related options, there was a global variable holding the
+requests: bs_table[] for -hda, -hdb, -hdc, -hdd, -cdrom; fd_table[]
+-fda, -fdb; mtd_bdrv for -mtd; sd_drv for -ds; pflash_table[] for
+-pflash.
+
+The options replaced prior ones, except for -pflash, which appended to
+its table.
+
+bs_table[]'s index had a peculiar meaning: it's bus * MAX_IDE_DEVS +
+unit.  This ensures that -hda (index 0) goes on IDE bus 0 as unit 0;
+-hdb on bus 0, unit 1; -hdc on 1, 0; -hdc on 1, 1.
+
+Life was now complicated enough for a generalization (v0.9.1), so there
+was -drive (v0.9.1).  All the variables holding requests were fused into
+drives_table[].  Table elements are identified by (type, bus, unit),
+where type is an enum whose members correspond to the old global
+variables: IF_IDE for bs_table[], IF_FLOPPY for fd_table[], and so
+forth.  So:
+
+    -hda becomes type =3D IF_IDE, bus =3D 0, unit =3D 0
+    -hdb becomes type =3D IF_IDE, bus =3D 0, unit =3D 1
+    ...
+    -sd becomes type =3D IF_SD, bus =3D 0, unit =3D 0
+    1st -pflash becomes type =3D IF_PFLASH, bus =3D 0, unit =3D 0
+    2nd -pflash becomes type =3D IF_PFLASH, bus =3D 0, unit =3D 1
+    ...
+
+Other mappings from old to new global variables would have been
+possible.  I figure this one was chosen because it comes with a
+reasonable user interface.  Identifying block devices by (interface
+type, bus, unit) is certainly nicer than by index in bs_table[].  Since
+bus and/or unit make sense only with some interface types, they are
+optional.
+
+Things calmed down for a couple of years, until -device appeared
+(v0.12).  Now we needed a way to define just a backend, without
+requesting a frontend from the board.  Instead of inventing a new
+option, this became IF_NONE, with meaningless bus and unit.
+
+Over the next years, the block layer outgrew -drive's limited
+capabilities to define frontends.  -blockdev appeard (v1.7.0) and
+matured over several releases.  I don't remember exactly when it became
+stable, relegating -drive if=3Dnone to legacy status.
+
+What's *not* legacy is -drive with other interface types, simply because
+there is no replacement.  Yet.  We clearly want one.
+
+Questions?
 
 
