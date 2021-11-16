@@ -2,85 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C4E9453880
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 18:28:29 +0100 (CET)
-Received: from localhost ([::1]:34520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E02F453889
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 18:29:47 +0100 (CET)
+Received: from localhost ([::1]:36926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mn2Fw-0003GP-EN
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 12:28:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40962)
+	id 1mn2HC-00055p-8z
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 12:29:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mn2Eb-0002PA-1n
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 12:27:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54141)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mn2EX-0004kt-VT
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 12:27:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637083621;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=HqZnPDrp1xIa4GdFRINL3GzOA88hthFW+13YOjEUpHI=;
- b=YwYz6D+v34XyfB9cIMCiEIHc0127vObR1P2YTvC+bTRAA/yPl7LZayXiSFaZ+Qm923rCNA
- 29qKsNBlV93Qcds4L3TbQK20kjN0dd78NUcXBbuw3hfT4hrez0V30CCnr6eVLB6SvVuWRr
- CieUohdA8d+1ebvJplKMEefGMaZEkps=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-456-b6u20NNbNMCHpbLf9rsNYg-1; Tue, 16 Nov 2021 12:27:00 -0500
-X-MC-Unique: b6u20NNbNMCHpbLf9rsNYg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o10-20020a05600c4fca00b0033312e1ed8bso17877wmq.2
- for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 09:27:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mn2Ft-0003qy-Cn
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 12:28:25 -0500
+Received: from [2a00:1450:4864:20::433] (port=36755
+ helo=mail-wr1-x433.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mn2Fr-0004tv-Rz
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 12:28:25 -0500
+Received: by mail-wr1-x433.google.com with SMTP id s13so39122870wrb.3
+ for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 09:28:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=YRydQ9nejDm7X90ZltLhYxKD9kPB2Yfk48m8AchSCFc=;
+ b=H+N4Fb2fcD49vLDZMLsq/6rUS/WIufA3naex7FAFkE16TT5HpL/xe7Q5vGCYDBnaPj
+ xKBep1Mv8fPu7eT6hGXbt32Ln9VqgsUkCHvxR4Tv/8DvpHzJXM2KPTbmwzUkPFTGskma
+ 8kmm+FniXF1J7j51slfcInwG+OMVltGF3au87EvZs1Wn3075hza3XQnL+MKckN0u41it
+ bnU66qSvXOr/eMJuEF+iZgrPdYuXK1n8ZtrneRp2L7J9a0wVQjg6xgEplEA/V7dGBY3T
+ Gv1Ech7YpUrv8p0eE7fvGnhwQk1wX9DWTN6oTL3BaEiiEo0xQ1PuRCR+P/IHuuYvq7yE
+ EZMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=HqZnPDrp1xIa4GdFRINL3GzOA88hthFW+13YOjEUpHI=;
- b=J9zAle+7CfFWo8HtZN8Ak5SW6/jWun2vdzSlo0n5ukaujVBR+q7e0lwvGOOK6AGUZL
- oHPPBfON5+k0LeZl/NWaO7K1pZw4u0c9j/IMXug5kxjr8bzBQO9/H8jK6AwNATy9bWBV
- 3mP5l5jB7QpIt1rIbPmBAIGyUlczZOCDAcnKvYPBCzICd5yv1wceIPXPf4jKW9omvYEW
- aBCCaMUaseTvE4ycGdKWhO+zBrgBhWt+GIIwBYrBS2BILiIfFPH947mTyw+RHx2rdhHV
- Cv6tSIzBw/1OU9nub3WJ0152btToxYD5sinwdBSPiNm7qOspCExeWCafLBcAP5TeJzZj
- Pv7A==
-X-Gm-Message-State: AOAM532/sa1t/1Ex74iQqdYcEQB4RZ5ZxDCSOM/OZcig0WpIhqr/JxU8
- yCQX9L9pUlUXdOLPB8CiyyvRP55FeYTuADk6vbn3RZp1PgSq7TLyuEzztIomnKaFFNjKWnzn79G
- JFQA995Sy9TSpZsGWPCF1JqzFH3yc6BvPm2Qb5tPWHxMrJrGq8wkTTSHvoNfymdwV
-X-Received: by 2002:a05:600c:19cc:: with SMTP id
- u12mr72022568wmq.24.1637083618291; 
- Tue, 16 Nov 2021 09:26:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzYED4VJKHOibXGZzcDumNop9s29r0K02kI47PZkUP6G5maLM7aaQdmBnRH/h/Oevtg7q/cqw==
-X-Received: by 2002:a05:600c:19cc:: with SMTP id
- u12mr72022518wmq.24.1637083617959; 
- Tue, 16 Nov 2021 09:26:57 -0800 (PST)
-Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id
- q8sm17707960wrx.71.2021.11.16.09.26.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Nov 2021 09:26:57 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-7.0] hw/pci: Don't open-code pci_intx()
-Date: Tue, 16 Nov 2021 18:26:55 +0100
-Message-Id: <20211116172655.2752742-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
+ bh=YRydQ9nejDm7X90ZltLhYxKD9kPB2Yfk48m8AchSCFc=;
+ b=0/2iUXPwIpXIJOxB/edfyXcdDNFNLXBRRPEQ+VzEzFDHZ9pgqvWixO0v4Lx3/3p80L
+ eVtAQC9tfr2ItutFQoREpcmw0K2LHRsOxw16aICdm6GkruWjAd6hrZV4TuPHcRlKPSYf
+ C5C2ppz/QcgmBDQTSUR4ymk6DCc0tBXTATnbf61uN7fLYbwbl3U7I4NWfC5MdO0RFSZz
+ DmeUTgBS0j0FgJOHc+W0w09fslRBRj1pwOJholvhyHAzB/5Ic98oPgto6F7zchSKjoSE
+ zdzSypY9wyp3GLB/ieAiqahMx3sQLs/PkGxfPGnX7dVa/a+KNATAftIFfXrCC+sweOZP
+ XuPg==
+X-Gm-Message-State: AOAM532q88gU7mKI7r4GHleh6k0izfvQmJ0gN52TtAt9mKM/M5tZ7jf4
+ i+A0/NKYmCL8T35Id+Rf0k1tYgOgL9FTnZ3CyNc=
+X-Google-Smtp-Source: ABdhPJzjSg2uQFvXzlyuKq+nR+fnoaqQ0PXLA1n2fDP1E9auhCH5o14fzxJQAFaAWhzsh2DJVIibkg==
+X-Received: by 2002:a5d:604b:: with SMTP id j11mr11737215wrt.22.1637083702265; 
+ Tue, 16 Nov 2021 09:28:22 -0800 (PST)
+Received: from [192.168.8.105] (145.red-37-158-173.dynamicip.rima-tde.net.
+ [37.158.173.145])
+ by smtp.gmail.com with ESMTPSA id z12sm18074012wrv.78.2021.11.16.09.28.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Nov 2021 09:28:21 -0800 (PST)
+Subject: Re: [PULL SUBSYSTEM qemu-pseries] pseries: Update SLOF firmware image
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Alexey Kardashevskiy <aik@ozlabs.ru>
+References: <20211114005111.515543-1-aik@ozlabs.ru>
+ <735870db-c919-5f85-859a-eddbf507005b@kaod.org>
+ <e0d2a9bd-1c63-7033-7daf-271fea702d66@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <5ac387fa-8b6e-7d77-d425-a26f453bcc94@linaro.org>
+Date: Tue, 16 Nov 2021 18:28:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <e0d2a9bd-1c63-7033-7daf-271fea702d66@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.446,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,78 +94,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Jagannathan Raman <jag.raman@oracle.com>, qemu-trivial@nongnu.org,
- Jason Wang <jasowang@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the pci_intx() helper instead of open-coding it.
+On 11/16/21 6:12 PM, Philippe Mathieu-Daudé wrote:
+> On 11/16/21 17:46, Cédric Le Goater wrote:
+>> On 11/14/21 01:51, Alexey Kardashevskiy wrote:
+>>> The following changes since commit
+>>> d139786e1b3d67991e6cb49a8a59bb2182350285:
+>>>
+>>>     ppc/mmu_helper.c: do not truncate 'ea' in
+>>> booke206_invalidate_ea_tlb() (2021-11-11 11:35:13 +0100)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>     git@github.com:aik/qemu.git tags/qemu-slof-20211112
+>>>
+>>> for you to fetch changes up to 73944a4bf4ab259b489af8128b4aec525484d642:
+>>>
+>>>     pseries: Update SLOF firmware image (2021-11-13 14:47:56 +1100)
+>>>
+>>> ----------------------------------------------------------------
+>>> Alexey Kardashevskiy (1):
+>>>         pseries: Update SLOF firmware image
+>>>
+>>>    pc-bios/README   |   2 +-
+>>>    pc-bios/slof.bin | Bin 991744 -> 991920 bytes
+>>>    roms/SLOF        |   2 +-
+>>>    3 files changed, 2 insertions(+), 2 deletions(-)
+>>
+>> Queued for 7.0.
+> 
+> I am not sure this is a good idea, as this will make bisection
+> painful over the release tag.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
-Based-on: <20211116170133.724751-3-fbarrat@linux.ibm.com>
----
- hw/net/vmxnet3.c  | 2 +-
- hw/remote/iohub.c | 6 ++----
- hw/remote/proxy.c | 3 +--
- 3 files changed, 4 insertions(+), 7 deletions(-)
+It is my understanding that Cedric will rebase for the mainline PR.  At least that's how 
+David was handling subsystem pulls.
 
-diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
-index 41f796a247d..c7fc5f44d8f 100644
---- a/hw/net/vmxnet3.c
-+++ b/hw/net/vmxnet3.c
-@@ -1350,7 +1350,7 @@ static void vmxnet3_update_features(VMXNET3State *s)
- static bool vmxnet3_verify_intx(VMXNET3State *s, int intx)
- {
-     return s->msix_used || msi_enabled(PCI_DEVICE(s))
--        || intx == pci_get_byte(s->parent_obj.config + PCI_INTERRUPT_PIN) - 1;
-+                        || intx == pci_intx(PCI_DEVICE(s));
- }
- 
- static void vmxnet3_validate_interrupt_idx(bool is_msix, int idx)
-diff --git a/hw/remote/iohub.c b/hw/remote/iohub.c
-index 547d597f0fe..0e0bb651d1a 100644
---- a/hw/remote/iohub.c
-+++ b/hw/remote/iohub.c
-@@ -93,11 +93,9 @@ void process_set_irqfd_msg(PCIDevice *pci_dev, MPQemuMsg *msg)
- {
-     RemoteMachineState *machine = REMOTE_MACHINE(current_machine);
-     RemoteIOHubState *iohub = &machine->iohub;
--    int pirq, intx;
-+    int pirq;
- 
--    intx = pci_get_byte(pci_dev->config + PCI_INTERRUPT_PIN) - 1;
--
--    pirq = remote_iohub_map_irq(pci_dev, intx);
-+    pirq = remote_iohub_map_irq(pci_dev, pci_intx(pci_dev));
- 
-     if (event_notifier_get_fd(&iohub->irqfds[pirq]) != -1) {
-         qemu_set_fd_handler(event_notifier_get_fd(&iohub->resamplefds[pirq]),
-diff --git a/hw/remote/proxy.c b/hw/remote/proxy.c
-index bad164299dd..22f32a5930b 100644
---- a/hw/remote/proxy.c
-+++ b/hw/remote/proxy.c
-@@ -32,14 +32,13 @@ static void proxy_intx_update(PCIDevice *pci_dev)
- {
-     PCIProxyDev *dev = PCI_PROXY_DEV(pci_dev);
-     PCIINTxRoute route;
--    int pin = pci_get_byte(pci_dev->config + PCI_INTERRUPT_PIN) - 1;
- 
-     if (dev->virq != -1) {
-         kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state, &dev->intr, dev->virq);
-         dev->virq = -1;
-     }
- 
--    route = pci_device_route_intx_to_irq(pci_dev, pin);
-+    route = pci_device_route_intx_to_irq(pci_dev, pci_intx(pci_dev));
- 
-     dev->virq = route.irq;
- 
--- 
-2.31.1
 
+r~
 
