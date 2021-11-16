@@ -2,65 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EE61452D3A
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 09:54:12 +0100 (CET)
-Received: from localhost ([::1]:51958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08D40452D5D
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 09:57:04 +0100 (CET)
+Received: from localhost ([::1]:54454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmuEF-000421-NN
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 03:54:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57396)
+	id 1mmuH1-0005s2-5L
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 03:57:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mmuCz-0002N2-OR
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 03:52:53 -0500
-Received: from 5.mo552.mail-out.ovh.net ([188.165.45.220]:57105)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mmuCv-0004NQ-Eg
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 03:52:53 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.83])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 8676E21164;
- Tue, 16 Nov 2021 08:52:36 +0000 (UTC)
-Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Tue, 16 Nov
- 2021 09:52:35 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002438fb881-263f-4874-bd42-dc49b64a6641,
- 310E1383184C0BED186E98051F63AF21DB481FBB) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <39b908d3-57aa-ab1e-f10a-87afd887a341@kaod.org>
-Date: Tue, 16 Nov 2021 09:52:35 +0100
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mmuG4-00051f-Q3
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 03:56:04 -0500
+Received: from [2a00:1450:4864:20::433] (port=43690
+ helo=mail-wr1-x433.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mmuG2-0004tx-Dt
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 03:56:04 -0500
+Received: by mail-wr1-x433.google.com with SMTP id t30so35989539wra.10
+ for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 00:56:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=OgpS53R0OL6+WH5T61FYD+Dpv1PGomir5A1iEvOAObU=;
+ b=KXpmZS5jcKKIjCnIu+MIGr1dJTrkad36SL/2KDDO505wn4Hj+3wSZQZhyc63UKTBv4
+ 0RQ/yRXE/ugmAPnZBauGnMaPYdwy7jWfpcYVUoscCzOGEkgvdyaK0pZAuC7BWO2oY2H+
+ Jue8y5xoz+rGZaPfHXHRHidZ4dufRQ/Rt7ryAx4IDOr5PUbUN6VnUBiBby+ok6TJ5ELx
+ bv2usUHabbfvDu5SbrVxAJmYjMCb7h7RdPaaR3502q37QeYPtCRW0iL1jJkcQ1Royn8t
+ KFPIUxPcgYLtw64fsBxup3EvZUYUWXnrHhZkfGZD/GpqPMRLHislr+kposYv2IV3ltVm
+ ihoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=OgpS53R0OL6+WH5T61FYD+Dpv1PGomir5A1iEvOAObU=;
+ b=ch9CALoi2/D4kSY/YhRR7X0ScCC7y2Gw4ZNp2gfMgMQpDs+daC9O1AT4inV3wibIAt
+ tc2hkGIjB3QdkGCNsVBa47MNPF5yKh89rHRTg70Fsh6s/Gb1hthf72Yvr6udorNxqPui
+ gZUMVFpBVXJ4sHm5IqaJGI56ayVVEyRQroRg2oiJLHLUPkKlu6XdYWJfbxzUeY/BMfj1
+ elSreyg/IGAVrMBj3ajweI/c++jpjctAbeRot2ToZKZmEXCGQqy/jySdpD4kWivz5UZw
+ HaS1Wjm3oga4b4QImkH6E6AtQpmYHtzb645eAl8TCwrVwGTXGVHvfFg0LivUt7fPyq1l
+ s7iA==
+X-Gm-Message-State: AOAM5305pjK/jVF1iIQLKIk/D/WNXenKEFZp3dbODpheee4BVvJHYwXV
+ G59NCFWTJoCUYUe537LP04O95w==
+X-Google-Smtp-Source: ABdhPJyWT2hqZkUy0ksL6xvkKlFGBOYqx18St8B7D96KS76mekZbzn3EKz8/fljjQYrIAz5kmoMX3A==
+X-Received: by 2002:a05:6000:15c8:: with SMTP id
+ y8mr7471184wry.101.1637052960732; 
+ Tue, 16 Nov 2021 00:56:00 -0800 (PST)
+Received: from [192.168.8.105] (145.red-37-158-173.dynamicip.rima-tde.net.
+ [37.158.173.145])
+ by smtp.gmail.com with ESMTPSA id j19sm16840243wra.5.2021.11.16.00.55.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Nov 2021 00:56:00 -0800 (PST)
+Subject: Re: [PULL 00/20] pci,pc,virtio: bugfixes
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+References: <20211115163607.177432-1-mst@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <3f87ec65-5ccf-52d1-3230-b2287ca95c9c@linaro.org>
+Date: Tue, 16 Nov 2021 09:55:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH RFC 2/2] hw: Replace drive_get_next() by drive_get()
+In-Reply-To: <20211115163607.177432-1-mst@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20211115125536.3341681-1-armbru@redhat.com>
- <20211115125536.3341681-3-armbru@redhat.com>
- <5b799ad5-a552-454f-dcc7-1ea6de22b397@amsat.org>
- <87lf1pfm2z.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <87lf1pfm2z.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 0d4e6971-ec72-4ec5-92df-7c74c3da06dd
-X-Ovh-Tracer-Id: 8166152024786176924
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrfedugdduvdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehprghlmhgvrhesuggrsggsvghlthdrtghomh
-Received-SPF: pass client-ip=188.165.45.220; envelope-from=clg@kaod.org;
- helo=5.mo552.mail-out.ovh.net
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.446,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.446,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,170 +91,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, bin.meng@windriver.com,
- mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org, jcd@tribudubois.net,
- qemu-block@nongnu.org, andrew.smirnov@gmail.com, hskinnemoen@google.com,
- joel@jms.id.au, atar4qemu@gmail.com, alistair@alistair23.me,
- b.galvani@gmail.com, nieklinnenbank@gmail.com, qemu-arm@nongnu.org,
- kwolf@redhat.com, qemu-riscv@nongnu.org, andrew@aj.id.au,
- Andrew.Baumann@microsoft.com, sundeep.lkml@gmail.com, kfting@nuvoton.com,
- hreitz@redhat.com, palmer@dabbelt.com
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/15/21 16:57, Markus Armbruster wrote:
-> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
+On 11/15/21 5:37 PM, Michael S. Tsirkin wrote:
+> The following changes since commit 0a70bcf18caf7a61d480f8448723c15209d128ef:
 > 
->> On 11/15/21 13:55, Markus Armbruster wrote:
->>> drive_get_next() is basically a bad idea.  It returns the "next" block
->>> backend of a certain interface type.  "Next" means bus=0,unit=N, where
->>> subsequent calls count N up from zero, per interface type.
->>>
->>> This lets you define unit numbers implicitly by execution order.  If the
->>> order changes, or new calls appear "in the middle", unit numbers change.
->>> ABI break.  Hard to spot in review.
->>>
->>> Explicit is better than implicit: use drive_get() directly.
->>>
->>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->>> ---
->>>   include/sysemu/blockdev.h           |  1 -
->>>   blockdev.c                          | 10 ----------
->>>   hw/arm/aspeed.c                     | 21 +++++++++++++--------
->>>   hw/arm/cubieboard.c                 |  2 +-
->>>   hw/arm/imx25_pdk.c                  |  2 +-
->>>   hw/arm/integratorcp.c               |  2 +-
->>>   hw/arm/mcimx6ul-evk.c               |  2 +-
->>>   hw/arm/mcimx7d-sabre.c              |  2 +-
->>>   hw/arm/msf2-som.c                   |  2 +-
->>>   hw/arm/npcm7xx_boards.c             |  6 +++---
->>>   hw/arm/orangepi.c                   |  2 +-
->>>   hw/arm/raspi.c                      |  2 +-
->>>   hw/arm/realview.c                   |  2 +-
->>>   hw/arm/sabrelite.c                  |  2 +-
->>>   hw/arm/versatilepb.c                |  4 ++--
->>>   hw/arm/vexpress.c                   |  6 +++---
->>>   hw/arm/xilinx_zynq.c                | 16 +++++++++-------
->>>   hw/arm/xlnx-versal-virt.c           |  3 ++-
->>>   hw/arm/xlnx-zcu102.c                |  6 +++---
->>>   hw/microblaze/petalogix_ml605_mmu.c |  2 +-
->>>   hw/misc/sifive_u_otp.c              |  2 +-
->>>   hw/riscv/microchip_pfsoc.c          |  2 +-
->>>   hw/sparc64/niagara.c                |  2 +-
->>>   23 files changed, 49 insertions(+), 52 deletions(-)
->>
->>> @@ -435,11 +438,13 @@ static void aspeed_machine_init(MachineState *machine)
->>>       }
->>>   
->>>       for (i = 0; i < bmc->soc.sdhci.num_slots; i++) {
->>> -        sdhci_attach_drive(&bmc->soc.sdhci.slots[i], drive_get_next(IF_SD));
->>> +        sdhci_attach_drive(&bmc->soc.sdhci.slots[i],
->>> +                           drive_get(IF_SD, 0, i));
->>
->> If we put SD on bus #0, ...
->>
->>>       }
->>>   
->>>       if (bmc->soc.emmc.num_slots) {
->>> -        sdhci_attach_drive(&bmc->soc.emmc.slots[0], drive_get_next(IF_SD));
->>> +        sdhci_attach_drive(&bmc->soc.emmc.slots[0],
->>> +                           drive_get(IF_SD, 0, bmc->soc.sdhci.num_slots));
->>
->> ... we'd want to put eMMC on bus #1
+>    Update version for v6.2.0-rc0 release (2021-11-09 18:22:57 +0100)
 > 
-> Using separate buses for different kinds of devices would be neater, but
-> it also would be an incompatible change.  This patch keeps existing
-> bus/unit numbers working.  drive_get_next() can only use bus 0.
+> are available in the Git repository at:
+> 
+>    git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+> 
+> for you to fetch changes up to 18416c62e36a79823a9e28f6b2260aa13c25e1d9:
+> 
+>    pcie: expire pending delete (2021-11-15 11:10:11 -0500)
+> 
+> ----------------------------------------------------------------
+> pci,pc,virtio: bugfixes
+> 
+> pci power management fixes
+> acpi hotplug fixes
+> misc other fixes
+> 
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> 
+> ----------------------------------------------------------------
+> Eugenio Pérez (4):
+>        vhost: Rename last_index to vq_index_end
+>        vhost: Fix last vq queue index of devices with no cvq
+>        vdpa: Replace qemu_open_old by qemu_open at
+>        vdpa: Check for existence of opts.vhostdev
+> 
+> Gerd Hoffmann (6):
+>        pci: implement power state
+>        pcie: implement slot power control for pcie root ports
+>        pcie: add power indicator blink check
+>        pcie: factor out pcie_cap_slot_unplug()
+>        pcie: fast unplug when slot power is off
+>        pcie: expire pending delete
+> 
+> Igor Mammedov (2):
+>        pcie: rename 'native-hotplug' to 'x-native-hotplug'
+>        tests: bios-tables-test update expected blobs
+> 
+> Jason Wang (2):
+>        virtio: use virtio accessor to access packed descriptor flags
+>        virtio: use virtio accessor to access packed event
+> 
+> Julia Suvorova (3):
+>        hw/acpi/ich9: Add compat prop to keep HPC bit set for 6.1 machine type
+>        bios-tables-test: Allow changes in DSDT ACPI tables
+>        hw/i386/acpi-build: Deny control on PCIe Native Hot-plug in _OSC
+> 
+> Philippe Mathieu-Daudé (1):
+>        hw/mem/pc-dimm: Restrict NUMA-specific code to NUMA machines
+> 
+> Stefan Hajnoczi (1):
+>        softmmu/qdev-monitor: fix use-after-free in qdev_set_id()
+> 
+> Stefano Garzarella (1):
+>        net/vhost-vdpa: fix memory leak in vhost_vdpa_get_max_queue_pairs()
+> 
+>   include/hw/acpi/ich9.h                |   1 +
+>   include/hw/pci/pci.h                  |   2 +
+>   include/hw/qdev-core.h                |   1 +
+>   include/hw/virtio/vhost.h             |   4 +-
+>   hw/acpi/ich9.c                        |  18 ++++++++
+>   hw/i386/acpi-build.c                  |  12 ++++--
+>   hw/i386/pc.c                          |   2 +
+>   hw/i386/pc_q35.c                      |   9 +++-
+>   hw/mem/pc-dimm.c                      |  23 ++++++----
+>   hw/net/vhost_net.c                    |  12 +++---
+>   hw/pci/pci.c                          |  25 ++++++++++-
+>   hw/pci/pci_host.c                     |   6 ++-
+>   hw/pci/pcie.c                         |  79 ++++++++++++++++++++++++++++------
+>   hw/pci/pcie_port.c                    |   2 +-
+>   hw/virtio/vhost-vdpa.c                |   2 +-
+>   hw/virtio/virtio.c                    |  24 ++++-------
+>   net/vhost-vdpa.c                      |   8 +++-
+>   softmmu/qdev-monitor.c                |   6 ++-
+>   tests/data/acpi/q35/DSDT              | Bin 8289 -> 8289 bytes
+>   tests/data/acpi/q35/DSDT.acpihmat     | Bin 9614 -> 9614 bytes
+>   tests/data/acpi/q35/DSDT.bridge       | Bin 11003 -> 11003 bytes
+>   tests/data/acpi/q35/DSDT.cphp         | Bin 8753 -> 8753 bytes
+>   tests/data/acpi/q35/DSDT.dimmpxm      | Bin 9943 -> 9943 bytes
+>   tests/data/acpi/q35/DSDT.ipmibt       | Bin 8364 -> 8364 bytes
+>   tests/data/acpi/q35/DSDT.ivrs         | Bin 8306 -> 8306 bytes
+>   tests/data/acpi/q35/DSDT.memhp        | Bin 9648 -> 9648 bytes
+>   tests/data/acpi/q35/DSDT.mmio64       | Bin 9419 -> 9419 bytes
+>   tests/data/acpi/q35/DSDT.multi-bridge | Bin 8583 -> 8583 bytes
+>   tests/data/acpi/q35/DSDT.nohpet       | Bin 8147 -> 8147 bytes
+>   tests/data/acpi/q35/DSDT.numamem      | Bin 8295 -> 8295 bytes
+>   tests/data/acpi/q35/DSDT.tis.tpm12    | Bin 8894 -> 8894 bytes
+>   tests/data/acpi/q35/DSDT.tis.tpm2     | Bin 8894 -> 8894 bytes
+>   tests/data/acpi/q35/DSDT.xapic        | Bin 35652 -> 35652 bytes
+>   33 files changed, 176 insertions(+), 60 deletions(-)
 
-All Aspeed SoCs have 3 SPI busses, each with multiple CS, and also multiple
-sdhci controllers with multiple slots.
+Applied, thanks.
 
-How drives are defined for the aspeed machines can/should be improved.
-The machine init iterates on the command line drives, attaches the
-DriveInfo, in the order found, to a m25p80 device model first and then
-follows on with the SD devices. This is fragile clearly and a bus+id
-would be most welcome to identify the drive backend.
-
-May be this is a prereq for this patchset ?
-
-Thanks,
-
-C.
-
-
-> 
->>                                       but I see having eMMC cards on a
->> IF_SD bus as a bug, since these cards are soldered on the board.
-> 
-> IF_SD is not a bus, it's an "block interface type", which is really just
-> a user interface thing.
-> 
->>> --- a/hw/arm/vexpress.c
->>> +++ b/hw/arm/vexpress.c
->>> @@ -625,7 +625,7 @@ static void vexpress_common_init(MachineState *machine)
->>>                             qdev_get_gpio_in(sysctl, ARM_SYSCTL_GPIO_MMC_WPROT));
->>>       qdev_connect_gpio_out_named(dev, "card-inserted", 0,
->>>                             qdev_get_gpio_in(sysctl, ARM_SYSCTL_GPIO_MMC_CARDIN));
->>> -    dinfo = drive_get_next(IF_SD);
->>> +    dinfo = drive_get(IF_SD, 0, 0);
->>
->> Can we have one interface refactor per patch (IF_SD, IF_PFLASH, IF_MTD...)?
-> 
-> Peter asked for one patch per "board/SoC model".  I'll do whatever helps
-> reviewers.
-> 
->>> @@ -657,7 +657,7 @@ static void vexpress_common_init(MachineState *machine)
->>>   
->>>       sysbus_create_simple("pl111", map[VE_CLCD], pic[14]);
->>>   
->>> -    dinfo = drive_get_next(IF_PFLASH);
->>> +    dinfo = drive_get(IF_PFLASH, 0, 0);
->>
->>> -static inline void zynq_init_spi_flashes(uint32_t base_addr, qemu_irq irq,
->>> -                                         bool is_qspi)
->>> +static inline int zynq_init_spi_flashes(uint32_t base_addr, qemu_irq irq,
->>> +                                        bool is_qspi, int unit0)
->>>   {
->>> +    int unit = unit0;
->>>       DeviceState *dev;
->>>       SysBusDevice *busdev;
->>>       SSIBus *spi;
->>> @@ -156,7 +157,7 @@ static inline void zynq_init_spi_flashes(uint32_t base_addr, qemu_irq irq,
->>>           spi = (SSIBus *)qdev_get_child_bus(dev, bus_name);
->>>   
->>>           for (j = 0; j < num_ss; ++j) {
->>> -            DriveInfo *dinfo = drive_get_next(IF_MTD);
->>> +            DriveInfo *dinfo = drive_get(IF_MTD, 0, unit++);
->>
->>> diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
->>> index 3dc2b5e8ca..45eb19ab3b 100644
->>> --- a/hw/arm/xlnx-zcu102.c
->>> +++ b/hw/arm/xlnx-zcu102.c
->>> @@ -190,7 +190,7 @@ static void xlnx_zcu102_init(MachineState *machine)
->>>           BusState *spi_bus;
->>>           DeviceState *flash_dev;
->>>           qemu_irq cs_line;
->>> -        DriveInfo *dinfo = drive_get_next(IF_MTD);
->>> +        DriveInfo *dinfo = drive_get(IF_MTD, 0, i);
->>
->> If this is bus #0, ...
->>
->>>           gchar *bus_name = g_strdup_printf("spi%d", i);
->>>   
->>>           spi_bus = qdev_get_child_bus(DEVICE(&s->soc), bus_name);
->>> @@ -212,7 +212,7 @@ static void xlnx_zcu102_init(MachineState *machine)
->>>           BusState *spi_bus;
->>>           DeviceState *flash_dev;
->>>           qemu_irq cs_line;
->>> -        DriveInfo *dinfo = drive_get_next(IF_MTD);
->>> +        DriveInfo *dinfo = drive_get(IF_MTD, 0, XLNX_ZYNQMP_NUM_SPIS + i);
->>
->> ... I'd expect we use bus #1 here (different connector on the board).
-> 
-> See above.
-> 
->>>           int bus = i / XLNX_ZYNQMP_NUM_QSPI_BUS_CS;
->>>           gchar *bus_name = g_strdup_printf("qspi%d", bus);
-> 
-
+r~
 
