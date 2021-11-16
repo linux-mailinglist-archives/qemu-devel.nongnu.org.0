@@ -2,91 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A2C453789
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 17:32:42 +0100 (CET)
-Received: from localhost ([::1]:53828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A4FC4537A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 17:35:34 +0100 (CET)
+Received: from localhost ([::1]:59564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mn1Ny-0005mR-3v
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 11:32:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53126)
+	id 1mn1Qj-0001JK-L4
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 11:35:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mn1Lb-0003jP-8O
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 11:30:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23812)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mn1LY-0004qX-Ce
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 11:30:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637080211;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=ZbuDUcabzPfJgBYqHrTl4V9EUnwAZW6oB7LlwLyBr4o=;
- b=AWD+mFrohou2Q/EAbJfoZX5y4TVUohy+xQCYOLVpBoqjKQWYh+UA7BwV17yyt67kjt83QF
- plIrATjVCll/TcAiNwsFqe9RY+yfR94PqTceSziQSKjyoAAYw1scEk6XM9+C1Q+nu2sa1R
- t46/oMmxXKcRM8ogh4/JJ07vAw1NlsU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-98-YZs99jMTMQS96Cfpfhaa4w-1; Tue, 16 Nov 2021 11:30:09 -0500
-X-MC-Unique: YZs99jMTMQS96Cfpfhaa4w-1
-Received: by mail-wr1-f69.google.com with SMTP id
- q17-20020adff791000000b00183e734ba48so4646674wrp.8
- for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 08:30:09 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mn1Nq-0007Ts-KV
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 11:32:35 -0500
+Received: from [2a00:1450:4864:20::431] (port=40659
+ helo=mail-wr1-x431.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mn1Nn-0005DM-OW
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 11:32:34 -0500
+Received: by mail-wr1-x431.google.com with SMTP id r8so38663945wra.7
+ for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 08:32:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=meR3HTWCSYW2lfsBTs1Qo625nRMPuZz6UFeuiNja+Nc=;
+ b=ju59t5quYmyFR1tk7Qso7gRj7sJB9Fv9+B/Oxdj/xgD4yhlL7P4TlcSmMqY7jPnA9p
+ A6lbMuc99/iEZv9TNMfD8u2kTfV4tCl/rFxqYhIiKx4RvwvKSvbLRheOK8SFxUMMfcel
+ CpnZzwP/KIWTyFVexQIR+v7dVEvdt4FxH1Ctq57PgvsRrOv4FRI4uQmo6eybcGz+tslV
+ QwTyoRvK6k8q8VHPMokD/nESKK8C2AoqITT/L09G56dQtIz5KL8SkOt9H0BTwQ6yy+l/
+ RwXf0u3cIoHBCxXd116xonPDyg0209RlEY+O/vZJrrQSra/iockk2Rcd9SiJ48aGlveD
+ X3PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=ZbuDUcabzPfJgBYqHrTl4V9EUnwAZW6oB7LlwLyBr4o=;
- b=mjGSVs76n5IlEqOOCYOsqPf3cc2tNLL9kOo4Xtzxz4pH5n75oH+aunZLGpCnF8+Ds1
- 5k8rcG2Wld/71dQaXpGmMfg2RmxXqvD8OI1PdB9zP9lQl9lAp6CHJgo1aISb/7/nCPIm
- btW7Nqbwll1xbq8dLGe1e8l4UPqSUyD8vaRGm7wb8+FH/Ve0k00rk7lNwX63196c6GPl
- 07RM99CdA2796qD7Jl+4bOnmnf57J0ooVVM4jopiVfCm6Ga32IcEiaKk4mCJ4b7RxB8S
- /vB8pjQ0EM1nLwIkN9YRlFwMM+rXWtCAE9N+xNpVLJ4jLeIIUi+eZ+j2Fz7a73ue6nPf
- 4d3w==
-X-Gm-Message-State: AOAM532VDmaeneqMhw4F/DhZkX2dM1BmOS39c0gCbaz2wlm1k7biEa0z
- OMpvFK/QA+ziMT9rHG/GBFaLjuBWCizQrH/jpn0hL3vEKmL0t+0fgTDqxOaHtGOq2tZ1q5r8LXh
- WDuLJ0tKlLtjIZ/s=
-X-Received: by 2002:a05:600c:296:: with SMTP id
- 22mr9465345wmk.135.1637080208191; 
- Tue, 16 Nov 2021 08:30:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzTMXlJ2DExEjEclwmq5XXoesJCkjgJ8JHY1V1cWYjs/82l7svl5b1ERRGlZRPQPGogGKoAVQ==
-X-Received: by 2002:a05:600c:296:: with SMTP id
- 22mr9465315wmk.135.1637080207994; 
- Tue, 16 Nov 2021 08:30:07 -0800 (PST)
-Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
- [188.86.86.233])
- by smtp.gmail.com with ESMTPSA id z5sm3491465wmp.26.2021.11.16.08.30.07
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=meR3HTWCSYW2lfsBTs1Qo625nRMPuZz6UFeuiNja+Nc=;
+ b=tjcIAwwAkxpb1zndGBhqg3EYyUfWl3Yg48Iu3TnJZ3xbxDUXrOZaOFBvJo5zqjUIY+
+ ucGVrcqwkDN4cchFLQDmE1l07kM7rutd8j+MO8RZg8QBK94n3JDdKA28okETdyLybpDJ
+ zBUzSaqIU9jQ+m5MZ8zOFalot+SZYciAPxGl5UR4hPiihwSukc9LNfLTvxd2+w7qK3H+
+ OgKaN8/rKFgoCp6pC5vprOoWzbaCipqcc1KBwFHIWH2p5uFtpRQD8+VYKNizCWnjLOeb
+ KKApa+GKpsOcM4nymEofxM5feb+phSImEE7hpwG2b5ia+n1N7cew6rI4BQ6UZQYqI/vz
+ r48Q==
+X-Gm-Message-State: AOAM531zguhHguJxaUFizpQA6Z6R3wnoC3DuUYGlACy+uH2q2nNPZ530
+ FtxnRvfzgU2xsr2oHFF7+5YvmcjMM18=
+X-Google-Smtp-Source: ABdhPJwv+na6cOSLDPwSX0rsovwYFuSFqwV6FpXT5wz8D0e/HZ8nFgaifXdEYDrHV0mLe3z47qdzHQ==
+X-Received: by 2002:adf:e904:: with SMTP id f4mr11125630wrm.245.1637080348666; 
+ Tue, 16 Nov 2021 08:32:28 -0800 (PST)
+Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id
+ l16sm3426825wmq.46.2021.11.16.08.32.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Nov 2021 08:30:07 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Zhang Chen <chen.zhang@intel.com>
-Subject: Re: [PATCH 2/2] migration/colo: More accurate update checkpoint time
-In-Reply-To: <20211110174156.3834330-2-chen.zhang@intel.com> (Zhang Chen's
- message of "Thu, 11 Nov 2021 01:41:56 +0800")
-References: <20211110174156.3834330-1-chen.zhang@intel.com>
- <20211110174156.3834330-2-chen.zhang@intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Tue, 16 Nov 2021 17:30:06 +0100
-Message-ID: <87h7ccukq9.fsf@secure.mitica>
+ Tue, 16 Nov 2021 08:32:28 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] MAINTAINERS: Add section for Aarch64 GitLab custom runner
+Date: Tue, 16 Nov 2021 17:32:26 +0100
+Message-Id: <20211116163226.2719320-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,21 +86,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: qemu-dev <qemu-devel@nongnu.org>,
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>, "Dr . David Alan
- Gilbert" <dgilbert@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Zhang Chen <chen.zhang@intel.com> wrote:
-> Previous operation(like vm_start and replication_start_all) will consume
-> extra time before update the timer, so reduce time in this patch.
->
-> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+Add a MAINTAINERS section to cover the GitLab YAML config file
+containing the jobs run on the custom runner sponsored by the
+Works On Arm project [*].
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+[*] https://developer.arm.com/solutions/infrastructure/works-on-arm
 
-Queued for 7.0.
+Suggested-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+Based-on: <20211116162515.4100231-1-alex.bennee@linaro.org>
+---
+ MAINTAINERS | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d3879aa3c12..f215e50f502 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3511,6 +3511,12 @@ R: Willian Rampazzo <willianr@redhat.com>
+ S: Odd Fixes
+ F: tests/avocado/
+ 
++GitLab custom runner (Works On Arm Sponsored)
++M: Alex Bennée <alex.bennee@linaro.org>
++M: Philippe Mathieu-Daudé <f4bug@amsat.org>
++S: Maintained
++F: .gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
++
+ Documentation
+ -------------
+ Build system architecture
+-- 
+2.31.1
 
 
