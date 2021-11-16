@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67705453A29
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 20:28:30 +0100 (CET)
-Received: from localhost ([::1]:55186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 660EF453A42
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 20:35:18 +0100 (CET)
+Received: from localhost ([::1]:32910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mn485-0003A1-2W
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 14:28:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41510)
+	id 1mn4Ef-0007Zc-Aq
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 14:35:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mn46V-0002SR-SF
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 14:26:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39411)
+ id 1mn4Be-0005ZU-6V
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 14:32:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mn46R-0003aH-P4
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 14:26:49 -0500
+ id 1mn4Bb-0004Bv-FB
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 14:32:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637090806;
+ s=mimecast20190719; t=1637091125;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AjTUQUvYFIZrBseCxbvqYZ8rT7pnNQNFMcq8gYLBJvg=;
- b=hnM/6sn3Q4trIhDE0o6GIpQb1OLdSnqB33U52v8MQm1YhtWurj1b/E/L8ubOFU/jyFWyTj
- vXde6y1b9zG9DX7Q5qEmXdgj6ggiXmOpv+7Q8ma/t5QmpXNS0DIh2THztrZrrFrtTScO7A
- 2AxBgMvvDT8OnOlE08xiKpWkw810Nz4=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-xTTq2XFkOwy1NPPETJvNqA-1; Tue, 16 Nov 2021 14:26:44 -0500
-X-MC-Unique: xTTq2XFkOwy1NPPETJvNqA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- m8-20020a056402510800b003e29de5badbso18124102edd.18
- for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 11:26:44 -0800 (PST)
+ bh=sGHinHfIb+ijQ1yzYI87boYgDvLIZNd/UokJcdgxnj8=;
+ b=HvhkrX2v9My0og+hg6p+xhtnCA2T4YeCsEI5WIUZWQLLI1by+zTQGFwhsCpMxpqbO5AFAU
+ tFf6Ef3wzttpVVxIlDRfL3+Rip/YhdpBzEYZdozU5kyryBQNHizzR4lW8zPKEw9s1G6tkn
+ RwFOWInSx0wV8KK7Z+mwHCyguDoIYY8=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-212-cd35-RGBPd-xyownHtuLJg-1; Tue, 16 Nov 2021 14:32:04 -0500
+X-MC-Unique: cd35-RGBPd-xyownHtuLJg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ v10-20020aa7d9ca000000b003e7bed57968so6912328eds.23
+ for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 11:32:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AjTUQUvYFIZrBseCxbvqYZ8rT7pnNQNFMcq8gYLBJvg=;
- b=TYHSKZoAMPhckg5dWwwOo+v5jLRwsivLKOIF1Ufk/FBV8AE40W8T0Ex7bA/Nd59iro
- cqKDaQ3huA9tTUmAI3EytnNaNHmMyEN59Dtg33NuCr8LiEjVxTir46E5vsqTSdtOnKjJ
- vsbaNBQYCGUeX/xsuQXf25xab2Q2LUPiTToj115fCiG6kqofU5OGOtmhenqS1+pEXmgE
- m9wrDxkIr8JOxcWtsyCmQTFX0TWsjyFgTttqfjR9yYDFoAuT0iztATw5CLymW3lqsAda
- KircH+J9JRS2+x+I9+h7XkESDP0ipF0p5uET5hp65iw8Fu/4uJFB2csjdC7DhM5mT4Bx
- xb/Q==
-X-Gm-Message-State: AOAM532jEnaMG1ZVCSqVUoosb586qTfapR+w+bVftHPS36b9/lgfWI0G
- JvnweZ2wcWgSIUiXfpqV1G441JEKzAwxkNxKxqeqW0wjk1T5Rr49HiDOkMycl3M9KtqgiEFowjd
- NpUg0GSzllCaSwPA=
-X-Received: by 2002:aa7:c347:: with SMTP id j7mr13406342edr.272.1637090803336; 
- Tue, 16 Nov 2021 11:26:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxeqFNsOPhLoyiF3hZeJU38AcG2/RnkULxbFdQy2ReXpaqnTufD4cRGVRrgz53Br/tUhFWtoQ==
-X-Received: by 2002:aa7:c347:: with SMTP id j7mr13406302edr.272.1637090803139; 
- Tue, 16 Nov 2021 11:26:43 -0800 (PST)
+ bh=sGHinHfIb+ijQ1yzYI87boYgDvLIZNd/UokJcdgxnj8=;
+ b=77OOYhxzW/YKmhExenJzq26GGrU4Hqy+e/iKO29HUBeKcxPwvbbxwDJHUFyrSIZGSt
+ uvF9Knknw7LnX7XaM30CjC871y3InvZeHCrb6OkHLck8miM2FXwh0ikCVnGv5s7s3oEU
+ lJeI3xRxe0vbnt2Ero2k33O7gXfU/E/YcWM/G3hxctnu6HPKndM0R9kHus/wbr6OmN9C
+ K7MRXOql5qkysWm3ll49mXicUp7YTcdlvF7ZeGwan00754R/vwDoF24HNpHzp1x1DshI
+ 7wxJcBClZ8GjS0PLmltJcN/AT0HMDSe2PprL+GMBg+cFwuLCRcTVN45oWZAa6+6iNubp
+ kARA==
+X-Gm-Message-State: AOAM533El5y74vlR/Dik/xsTblbjTkYzH1UWoshctEKGx20eDfvFxg4g
+ 9wHaVUy9SuR+fQEx7JSutOvMt4LJHI68ELSVcND4R3OMaZ8qQcxqKPO3cxNb3lUJELFAAyaPFLk
+ dGpYVdOuxWUADSsI=
+X-Received: by 2002:a05:6402:d05:: with SMTP id
+ eb5mr12393001edb.345.1637091122824; 
+ Tue, 16 Nov 2021 11:32:02 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxIREV+jl6W3uZCXpfNZq921Pb1ztt3FIqpS2t+xf7tnDANNq402AN0VCPWNBUOvg4Nk0j9jQ==
+X-Received: by 2002:a05:6402:d05:: with SMTP id
+ eb5mr12392970edb.345.1637091122623; 
+ Tue, 16 Nov 2021 11:32:02 -0800 (PST)
 Received: from localhost ([185.140.112.229])
- by smtp.gmail.com with ESMTPSA id my2sm5566871ejc.109.2021.11.16.11.26.42
+ by smtp.gmail.com with ESMTPSA id h7sm4702259ede.40.2021.11.16.11.32.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Nov 2021 11:26:42 -0800 (PST)
-Date: Tue, 16 Nov 2021 20:26:41 +0100
+ Tue, 16 Nov 2021 11:32:02 -0800 (PST)
+Date: Tue, 16 Nov 2021 20:32:00 +0100
 From: Igor Mammedov <imammedo@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH] q35: turn off power_controller_present when acpi
- hotplug is enabled
-Message-ID: <20211116202641.463bd07a@redhat.com>
-In-Reply-To: <20211116090433.3212549-1-kraxel@redhat.com>
-References: <20211116090433.3212549-1-kraxel@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PULL 20/20] pcie: expire pending delete
+Message-ID: <20211116203200.02fda064@redhat.com>
+In-Reply-To: <20211115163607.177432-21-mst@redhat.com>
+References: <20211115163607.177432-1-mst@redhat.com>
+ <20211115163607.177432-21-mst@redhat.com>
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
@@ -96,54 +98,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, "Daniel
+ P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Nov 2021 10:04:33 +0100
-Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Mon, 15 Nov 2021 11:39:09 -0500
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-> Disable power control for pcie slots in case acpi hotplug is enabled
-> (6.2+ only for compatibility reasons).  This makes sure we don't get
-> unpleasant surprises with pci devices not being functional due to slot
-> power being turned off.
+> From: Gerd Hoffmann <kraxel@redhat.com>
+> 
+> Add an expire time for pending delete, once the time is over allow
+> pressing the attention button again.
+> 
+> This makes pcie hotplug behave more like acpi hotplug, where one can
+> try sending an 'device_del' monitor command again in case the guest
+> didn't respond to the first attempt.
 > 
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> Message-Id: <20211111130859.1171890-7-kraxel@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 > ---
->  hw/i386/pc_q35.c | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
+>  include/hw/qdev-core.h | 1 +
+>  hw/pci/pcie.c          | 2 ++
+>  softmmu/qdev-monitor.c | 4 +++-
+>  3 files changed, 6 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index e1e100316d93..869ca4c130f0 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -247,9 +247,16 @@ static void pc_q35_init(MachineState *machine)
->                                                   "x-keep-pci-slot-hpc",
->                                                   NULL);
->  
-> -    if (!keep_pci_slot_hpc && acpi_pcihp) {
-> -        object_register_sugar_prop(TYPE_PCIE_SLOT, "x-native-hotplug",
-> -                                   "false", true);
-> +    if (acpi_pcihp) {
-> +        if (keep_pci_slot_hpc) {
-> +            /* 6.2+ default: acpi-hotplug=on native-hotplug=on power-ctrl=off */
-> +            object_register_sugar_prop(TYPE_PCIE_SLOT, COMPAT_PROP_PCP,
-> +                                       "false", true);
-
-that will also turn off COMPAT_PROP_PCP on ports attached to PXBs,
-where ACPI hotplug is not used and native one is active.
-So question is if it's expected behavior?
-
-> +        } else {
-> +            /* 6.1 default: acpi-hotplug=on native-hotplug=off */
-> +            object_register_sugar_prop(TYPE_PCIE_SLOT, "x-native-hotplug",
-> +                                       "false", true);
-> +        }
+> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+> index 72622bd337..20d3066595 100644
+> --- a/include/hw/qdev-core.h
+> +++ b/include/hw/qdev-core.h
+> @@ -181,6 +181,7 @@ struct DeviceState {
+>      char *canonical_path;
+>      bool realized;
+>      bool pending_deleted_event;
+> +    int64_t pending_deleted_expires_ms;
+>      QDict *opts;
+>      int hotplugged;
+>      bool allow_unplug_during_migration;
+> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+> index a930ac738a..c5ed266337 100644
+> --- a/hw/pci/pcie.c
+> +++ b/hw/pci/pcie.c
+> @@ -548,6 +548,8 @@ void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
 >      }
 >  
->      /* irq lines */
+>      dev->pending_deleted_event = true;
+> +    dev->pending_deleted_expires_ms =
+> +        qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 5000; /* 5 secs */
+
+do we block migration if unplug was requested?
+(if not we might loose this state on destionatio, do we care about it?)
+
+>  
+>      /* In case user cancel the operation of multi-function hot-add,
+>       * remove the function that is unexposed to guest individually,
+> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+> index 588a62b88d..5925f1ae5f 100644
+> --- a/softmmu/qdev-monitor.c
+> +++ b/softmmu/qdev-monitor.c
+> @@ -943,7 +943,9 @@ void qmp_device_del(const char *id, Error **errp)
+>  {
+>      DeviceState *dev = find_device_state(id, errp);
+>      if (dev != NULL) {
+> -        if (dev->pending_deleted_event) {
+> +        if (dev->pending_deleted_event &&
+> +            (dev->pending_deleted_expires_ms == 0 ||
+> +             dev->pending_deleted_expires_ms > qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL))) {
+>              error_setg(errp, "Device %s is already in the "
+>                               "process of unplug", id);
+>              return;
 
 
