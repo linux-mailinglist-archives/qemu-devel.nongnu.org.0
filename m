@@ -2,69 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 211CC453828
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 17:58:30 +0100 (CET)
-Received: from localhost ([::1]:47074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34F4545382C
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 17:59:32 +0100 (CET)
+Received: from localhost ([::1]:49224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mn1mv-0006Vv-8m
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 11:58:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60382)
+	id 1mn1nv-0007wa-Bd
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 11:59:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mn1jP-0002xV-Ge
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 11:54:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45997)
+ (Exim 4.90_1) (envelope-from <tfanelli@redhat.com>)
+ id 1mn1mk-0006pQ-BP
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 11:58:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mn1jH-0000Fr-QU
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 11:54:46 -0500
+ (Exim 4.90_1) (envelope-from <tfanelli@redhat.com>)
+ id 1mn1mi-0000fv-KH
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 11:58:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637081683;
+ s=mimecast20190719; t=1637081895;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sbkXkWwBgv3fMCj8AFErpK/J39o4GEKSzoSUCtIP5dM=;
- b=EL7U2fotpVduC7fbqShxt32TGVylh7EoNH1ctte2cUWIQHxYGcTaAUJfENwqOkySGRX/QH
- lRPglX7rYR89civ5vzUdWsvZ/YXWx+fkYw8TPVDQYFouH96uY9qxcGP4gGYL8vpkvJvJov
- zJfeyfFWh1HSLBHFDbK9qa5cuYs+l/4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/hd7T/jg4QlM/dTl0BZIXMVWjWWVvd+3iW1T4KK1VXw=;
+ b=Lvn/eOC/n05D+2tuW4r60agirvG0Cs+cr04c8L3RAruSYZ19/zA7uqjmgjyl3K4Vdzfx0m
+ jrUvFiQck1K3TBsoLj2eFaPXXvOBIbWtVUOFF+lZfgd71oYUeOOufmwcXBZx9oBbL3t6rj
+ 9pVs/k8HtYPx62sUwq30WznZJvjpiys=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-97-VCkL3ITJNCqNpMK_ODJY7g-1; Tue, 16 Nov 2021 11:54:39 -0500
-X-MC-Unique: VCkL3ITJNCqNpMK_ODJY7g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23B76804143;
- Tue, 16 Nov 2021 16:54:38 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-114-146.phx2.redhat.com [10.3.114.146])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C952E1981F;
- Tue, 16 Nov 2021 16:54:15 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 2/2] nbd/server: Add --selinux-label option
-Date: Tue, 16 Nov 2021 10:54:08 -0600
-Message-Id: <20211116165408.751417-3-eblake@redhat.com>
-In-Reply-To: <20211116165408.751417-1-eblake@redhat.com>
-References: <20211116165408.751417-1-eblake@redhat.com>
+ us-mta-99-iheKRhm1PGuqIYR4ijsaeg-1; Tue, 16 Nov 2021 11:58:13 -0500
+X-MC-Unique: iheKRhm1PGuqIYR4ijsaeg-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ jn10-20020ad45dea000000b003bd74c93df4so19707326qvb.15
+ for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 08:58:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=/hd7T/jg4QlM/dTl0BZIXMVWjWWVvd+3iW1T4KK1VXw=;
+ b=HtAhKwNmHcX4Nd/76CT+iSqejXDa+icNMP9ucchy9VmIkKIBfLOh5Arwv1tOQu5vEu
+ 1vMJNa6oXZixXAzH+W5gf4wcVCCuHk3BXqNLGWKtnlmY3+GbIiUYuApk0DSjvFGpHh+Z
+ nr2f8WQdWBF5E/Wfe86UoMMERXIqUDGJelueP/WAFYdFHKDIoz3wQBRTfE+iaIkEtGNk
+ ZPtE6D1jb9dFVhMakzfFZo9Ap0QIWXBBrbBvB1URVxxuRZxeRSdIhsRmI1wwqdY7Odhz
+ jJ2Og7XoV/kD1lSMRPJjY/7hPzIQMb6xs3WoKe3AaQ84Pcy9oTXbjYbK9Zn/0GSAYsTE
+ aslA==
+X-Gm-Message-State: AOAM530b+FjIKV4Y1BKB4GGev6/uIHoZ2hXjPfOGMFf3JGhjjz2vZJ8y
+ EbDa3W7EPduqb9pJhdDOKOmKrGlff4WNOrDEx50n4XNpvqvOsAqtl7m9X3b1gQzt+HDGegq6+qd
+ Mt2f1le1DDFdNRd8=
+X-Received: by 2002:a0c:fb47:: with SMTP id b7mr46465238qvq.12.1637081893409; 
+ Tue, 16 Nov 2021 08:58:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzueEXYTzxPyrkueqraDyRt6Tx3Us13LhsaiiPNJ+PDqKYtXEqpzduI5iGP/XakbjNymNsUyg==
+X-Received: by 2002:a0c:fb47:: with SMTP id b7mr46465208qvq.12.1637081893200; 
+ Tue, 16 Nov 2021 08:58:13 -0800 (PST)
+Received: from [192.168.1.234] (pool-71-175-3-221.phlapa.fios.verizon.net.
+ [71.175.3.221])
+ by smtp.gmail.com with ESMTPSA id t11sm8645198qkm.96.2021.11.16.08.58.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Nov 2021 08:58:13 -0800 (PST)
+Message-ID: <02e72302-8cb3-9268-32bd-57e9423f1590@redhat.com>
+Date: Tue, 16 Nov 2021 11:58:12 -0500
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] sev: allow capabilities to check for SEV-ES support
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20211115193804.294529-1-tfanelli@redhat.com>
+ <YZN3OECfHBXd55M5@redhat.com>
+ <26204690-493f-67a8-1791-c9c9d38c0240@redhat.com>
+ <YZPT3ojgzdmH3lkq@redhat.com>
+From: Tyler Fanelli <tfanelli@redhat.com>
+In-Reply-To: <YZPT3ojgzdmH3lkq@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=tfanelli@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=tfanelli@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-1.446, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,347 +104,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- "Richard W.M. Jones" <rjones@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: kvm@vger.kernel.org, mtosatti@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, pbonzini@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Richard W.M. Jones" <rjones@redhat.com>
+On 11/16/21 10:53 AM, Daniel P. Berrangé wrote:
+> On Tue, Nov 16, 2021 at 10:29:35AM -0500, Tyler Fanelli wrote:
+>> On 11/16/21 4:17 AM, Daniel P. Berrangé wrote:
+>>> On Mon, Nov 15, 2021 at 02:38:04PM -0500, Tyler Fanelli wrote:
+>>>> Probe for SEV-ES and SEV-SNP capabilities to distinguish between Rome,
+>>>> Naples, and Milan processors. Use the CPUID function to probe if a
+>>>> processor is capable of running SEV-ES or SEV-SNP, rather than if it
+>>>> actually is running SEV-ES or SEV-SNP.
+>>>>
+>>>> Signed-off-by: Tyler Fanelli <tfanelli@redhat.com>
+>>>> ---
+>>>>    qapi/misc-target.json | 11 +++++++++--
+>>>>    target/i386/sev.c     |  6 ++++--
+>>>>    2 files changed, 13 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+>>>> index 5aa2b95b7d..c3e9bce12b 100644
+>>>> --- a/qapi/misc-target.json
+>>>> +++ b/qapi/misc-target.json
+>>>> @@ -182,13 +182,19 @@
+>>>>    # @reduced-phys-bits: Number of physical Address bit reduction when SEV is
+>>>>    #                     enabled
+>>>>    #
+>>>> +# @es: SEV-ES capability of the machine.
+>>>> +#
+>>>> +# @snp: SEV-SNP capability of the machine.
+>>>> +#
+>>>>    # Since: 2.12
+>>>>    ##
+>>>>    { 'struct': 'SevCapability',
+>>>>      'data': { 'pdh': 'str',
+>>>>                'cert-chain': 'str',
+>>>>                'cbitpos': 'int',
+>>>> -            'reduced-phys-bits': 'int'},
+>>>> +            'reduced-phys-bits': 'int',
+>>>> +            'es': 'bool',
+>>>> +            'snp': 'bool'},
+>>>>      'if': 'TARGET_I386' }
+>>>>    ##
+>>>> @@ -205,7 +211,8 @@
+>>>>    #
+>>>>    # -> { "execute": "query-sev-capabilities" }
+>>>>    # <- { "return": { "pdh": "8CCDD8DDD", "cert-chain": "888CCCDDDEE",
+>>>> -#                  "cbitpos": 47, "reduced-phys-bits": 5}}
+>>>> +#                  "cbitpos": 47, "reduced-phys-bits": 5
+>>>> +#                  "es": false, "snp": false}}
+>>> We've previously had patches posted to support SNP in QEMU
+>>>
+>>>     https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg04761.html
+>>>
+>>> and this included an update to query-sev for reporting info
+>>> about the VM instance.
+>>>
+>>> Your patch is updating query-sev-capabilities, which is a
+>>> counterpart for detecting host capabilities separate from
+>>> a guest instance.
+>> Yes, that's because with this patch, I'm more interested in determining
+>> which AMD processor is running on a host, and less if ES or SNP is actually
+>> running on a guest instance or not.
+>>> None the less I wonder if the same design questions from
+>>> query-sev apply. ie do we need to have the ability to
+>>> report any SNP specific information fields, if so we need
+>>> to use a discriminated union of structs, not just bool
+>>> flags.
+>>>
+>>> More generally I'm some what wary of adding this to
+>>> query-sev-capabilities at all, unless it is part of the
+>>> main SEV-SNP series.
+>>>
+>>> Also what's the intended usage for the mgmt app from just
+>>> having these boolean fields ? Are they other more explicit
+>>> feature flags we should be reporting, instead of what are
+>>> essentially SEV generation codenames.
+>> If by "mgmt app" you're referring to sevctl, in order to determine which
+>> certificate chain to use (Naples vs Rome vs Milan ARK/ASK) we must query
+>> which processor we are running on. Although sevctl has a feature which can
+>> do this already, we cannot guarantee that sevctl is running on the same host
+>> that a VM is running on, so we must query this capability from QEMU. My
+>> logic was determining the processor would have been the following:
+> I'm not really talking about a specific, rather any tool which wants
+> to deal with SEV and QEMU, whether libvirt or an app using libvirt,
+> or something else using QEMU directly.
 
-Under SELinux, Unix domain sockets have two labels.  One is on the
-disk and can be set with commands such as chcon(1).  There is a
-different label stored in memory (called the process label).  This can
-only be set by the process creating the socket.  When using SELinux +
-SVirt and wanting qemu to be able to connect to a qemu-nbd instance,
-you must set both labels correctly first.
+Ah, my mistake.
 
-For qemu-nbd the options to set the second label are awkward.  You can
-create the socket in a wrapper program and then exec into qemu-nbd.
-Or you could try something with LD_PRELOAD.
+> Where does the actual cert chain payload come from ? Is that something
+> the app has to acquire out of band, or can the full cert chain be
+> acquired from the hardware itself ?
 
-This commit adds the ability to set the label straightforwardly on the
-command line, via the new --selinux-label flag.  (The name of the flag
-is the same as the equivalent nbdkit option.)
+The cert chain (or the ARK/ASK specifically) comes from AMD's KDS, yet 
+sevctl is able to cache the values, and has them on-hand when needed. 
+This patch would tell sevctl *which* of the cert chains to use (Naples 
+vs Rome vs Milan chain). If need be, I could just focus on Naples and 
+Rome processors for now and bring support for SNP (Milan processors) 
+later on when it is more mature.
 
-A worked example showing how to use the new option can be found in
-this bug: https://bugzilla.redhat.com/show_bug.cgi?id=1984938
+>> !es && !snp --> Naples
+>>
+>> es && !snp --> Rome
+>>
+>> es && snp --> Milan
+> This approach isn't future proof if subsequent generations introduce
+> new certs. It feels like we should be explicitly reporting something
+> about the certs rather than relying on every app to re-implement tihs
+> logic.
 
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1984938
-Signed-off-by: Richard W.M. Jones <rjones@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Alright, like an encoding of which processor generation the host is 
+running on?
 
-[eblake: rebase to configure changes, reject --selinux-label if it is
-not compiled in or not used on a Unix socket]
-Note that we may relax some of these restrictions at a later date,
-such as making it possible to label a TCP socket, although it may be
-smarter to do so as a generic QMP action rather than more one-off
-command lines in qemu-nbd.
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20211115202944.615966-1-eblake@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-[eblake: adjust meson output as suggested by thuth]
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- meson.build                                   | 10 +++-
- qemu-nbd.c                                    | 46 +++++++++++++++++++
- meson_options.txt                             |  3 ++
- scripts/meson-buildoptions.sh                 |  3 ++
- tests/docker/dockerfiles/centos8.docker       |  1 +
- .../dockerfiles/fedora-i386-cross.docker      |  1 +
- tests/docker/dockerfiles/fedora.docker        |  1 +
- tests/docker/dockerfiles/opensuse-leap.docker |  1 +
- tests/docker/dockerfiles/ubuntu1804.docker    |  1 +
- tests/docker/dockerfiles/ubuntu2004.docker    |  1 +
- 10 files changed, 67 insertions(+), 1 deletion(-)
+>
+> Regards,
+> Daniel
 
-diff --git a/meson.build b/meson.build
-index 2ece4fe0889a..084806a9415c 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1201,6 +1201,11 @@ keyutils = dependency('libkeyutils', required: false,
+Tyler.
 
- has_gettid = cc.has_function('gettid')
-
-+# libselinux
-+selinux = dependency('libselinux',
-+                     required: get_option('selinux'),
-+                     method: 'pkg-config', kwargs: static_kwargs)
-+
- # Malloc tests
-
- malloc = []
-@@ -1479,6 +1484,7 @@ config_host_data.set('CONFIG_SPICE_PROTOCOL', spice_protocol.found())
- config_host_data.set('CONFIG_SPICE', spice.found())
- config_host_data.set('CONFIG_X11', x11.found())
- config_host_data.set('CONFIG_CFI', get_option('cfi'))
-+config_host_data.set('CONFIG_SELINUX', selinux.found())
- config_host_data.set('QEMU_VERSION', '"@0@"'.format(meson.project_version()))
- config_host_data.set('QEMU_VERSION_MAJOR', meson.project_version().split('.')[0])
- config_host_data.set('QEMU_VERSION_MINOR', meson.project_version().split('.')[1])
-@@ -3054,7 +3060,8 @@ if have_tools
-   qemu_io = executable('qemu-io', files('qemu-io.c'),
-              dependencies: [block, qemuutil], install: true)
-   qemu_nbd = executable('qemu-nbd', files('qemu-nbd.c'),
--               dependencies: [blockdev, qemuutil, gnutls], install: true)
-+               dependencies: [blockdev, qemuutil, gnutls, selinux],
-+               install: true)
-
-   subdir('storage-daemon')
-   subdir('contrib/rdmacm-mux')
-@@ -3430,6 +3437,7 @@ summary_info += {'libdaxctl support': libdaxctl}
- summary_info += {'libudev':           libudev}
- # Dummy dependency, keep .found()
- summary_info += {'FUSE lseek':        fuse_lseek.found()}
-+summary_info += {'selinux':           selinux}
- summary(summary_info, bool_yn: true, section: 'Dependencies')
-
- if not supported_cpus.contains(cpu)
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index 9d895ba24b1e..c6c20df68a4d 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -47,6 +47,10 @@
- #include "trace/control.h"
- #include "qemu-version.h"
-
-+#ifdef CONFIG_SELINUX
-+#include <selinux/selinux.h>
-+#endif
-+
- #ifdef __linux__
- #define HAVE_NBD_DEVICE 1
- #else
-@@ -64,6 +68,7 @@
- #define QEMU_NBD_OPT_FORK          263
- #define QEMU_NBD_OPT_TLSAUTHZ      264
- #define QEMU_NBD_OPT_PID_FILE      265
-+#define QEMU_NBD_OPT_SELINUX_LABEL 266
-
- #define MBR_SIZE 512
-
-@@ -116,6 +121,9 @@ static void usage(const char *name)
- "  --fork                    fork off the server process and exit the parent\n"
- "                            once the server is running\n"
- "  --pid-file=PATH           store the server's process ID in the given file\n"
-+#ifdef CONFIG_SELINUX
-+"  --selinux-label=LABEL     set SELinux process label on listening socket\n"
-+#endif
- #if HAVE_NBD_DEVICE
- "\n"
- "Kernel NBD client support:\n"
-@@ -454,6 +462,7 @@ static const char *socket_activation_validate_opts(const char *device,
-                                                    const char *sockpath,
-                                                    const char *address,
-                                                    const char *port,
-+                                                   const char *selinux,
-                                                    bool list)
- {
-     if (device != NULL) {
-@@ -472,6 +481,10 @@ static const char *socket_activation_validate_opts(const char *device,
-         return "TCP port number can't be set when using socket activation";
-     }
-
-+    if (selinux != NULL) {
-+        return "SELinux label can't be set when using socket activation";
-+    }
-+
-     if (list) {
-         return "List mode is incompatible with socket activation";
-     }
-@@ -534,6 +547,8 @@ int main(int argc, char **argv)
-         { "trace", required_argument, NULL, 'T' },
-         { "fork", no_argument, NULL, QEMU_NBD_OPT_FORK },
-         { "pid-file", required_argument, NULL, QEMU_NBD_OPT_PID_FILE },
-+        { "selinux-label", required_argument, NULL,
-+          QEMU_NBD_OPT_SELINUX_LABEL },
-         { NULL, 0, NULL, 0 }
-     };
-     int ch;
-@@ -560,6 +575,7 @@ int main(int argc, char **argv)
-     int old_stderr = -1;
-     unsigned socket_activation;
-     const char *pid_file_name = NULL;
-+    const char *selinux_label = NULL;
-     BlockExportOptions *export_opts;
-
- #ifdef CONFIG_POSIX
-@@ -749,6 +765,9 @@ int main(int argc, char **argv)
-         case QEMU_NBD_OPT_PID_FILE:
-             pid_file_name = optarg;
-             break;
-+        case QEMU_NBD_OPT_SELINUX_LABEL:
-+            selinux_label = optarg;
-+            break;
-         }
-     }
-
-@@ -788,6 +807,7 @@ int main(int argc, char **argv)
-         /* Using socket activation - check user didn't use -p etc. */
-         const char *err_msg = socket_activation_validate_opts(device, sockpath,
-                                                               bindto, port,
-+                                                              selinux_label,
-                                                               list);
-         if (err_msg != NULL) {
-             error_report("%s", err_msg);
-@@ -827,6 +847,18 @@ int main(int argc, char **argv)
-         }
-     }
-
-+    if (selinux_label) {
-+#ifdef CONFIG_SELINUX
-+        if (sockpath == NULL && device == NULL) {
-+            error_report("--selinux-label is not permitted without --socket");
-+            exit(EXIT_FAILURE);
-+        }
-+#else
-+        error_report("SELinux support not enabled in this binary");
-+        exit(EXIT_FAILURE);
-+#endif
-+    }
-+
-     if (list) {
-         saddr = nbd_build_socket_address(sockpath, bindto, port);
-         return qemu_nbd_client_list(saddr, tlscreds, bindto);
-@@ -940,6 +972,13 @@ int main(int argc, char **argv)
-         } else {
-             backlog = MIN(shared, SOMAXCONN);
-         }
-+#ifdef CONFIG_SELINUX
-+        if (selinux_label && setsockcreatecon_raw(selinux_label) == -1) {
-+            error_report("Cannot set SELinux socket create context to %s: %s",
-+                         selinux_label, strerror(errno));
-+            exit(EXIT_FAILURE);
-+        }
-+#endif
-         saddr = nbd_build_socket_address(sockpath, bindto, port);
-         if (qio_net_listener_open_sync(server, saddr, backlog,
-                                        &local_err) < 0) {
-@@ -947,6 +986,13 @@ int main(int argc, char **argv)
-             error_report_err(local_err);
-             exit(EXIT_FAILURE);
-         }
-+#ifdef CONFIG_SELINUX
-+        if (selinux_label && setsockcreatecon_raw(NULL) == -1) {
-+            error_report("Cannot clear SELinux socket create context: %s",
-+                         strerror(errno));
-+            exit(EXIT_FAILURE);
-+        }
-+#endif
-     } else {
-         size_t i;
-         /* See comment in check_socket_activation above. */
-diff --git a/meson_options.txt b/meson_options.txt
-index 411952bc91af..e3923237322a 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -201,3 +201,6 @@ option('slirp', type: 'combo', value: 'auto',
- option('fdt', type: 'combo', value: 'auto',
-        choices: ['disabled', 'enabled', 'auto', 'system', 'internal'],
-        description: 'Whether and how to find the libfdt library')
-+
-+option('selinux', type: 'feature', value: 'auto',
-+       description: 'SELinux support in qemu-nbd')
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index 45e1f2e20daa..7a17ff42182f 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -72,6 +72,7 @@ meson_options_help() {
-   printf "%s\n" '  sdl             SDL user interface'
-   printf "%s\n" '  sdl-image       SDL Image support for icons'
-   printf "%s\n" '  seccomp         seccomp support'
-+  printf "%s\n" '  selinux         SELinux support in qemu-nbd'
-   printf "%s\n" '  smartcard       CA smartcard emulation support'
-   printf "%s\n" '  snappy          snappy compression support'
-   printf "%s\n" '  sparse          sparse checker'
-@@ -215,6 +216,8 @@ _meson_option_parse() {
-     --disable-sdl-image) printf "%s" -Dsdl_image=disabled ;;
-     --enable-seccomp) printf "%s" -Dseccomp=enabled ;;
-     --disable-seccomp) printf "%s" -Dseccomp=disabled ;;
-+    --enable-selinux) printf "%s" -Dselinux=enabled ;;
-+    --disable-selinux) printf "%s" -Dselinux=disabled ;;
-     --enable-slirp) printf "%s" -Dslirp=enabled ;;
-     --disable-slirp) printf "%s" -Dslirp=disabled ;;
-     --enable-slirp=*) quote_sh "-Dslirp=$2" ;;
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index 46398c61eea9..7f135f8e8c00 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -51,6 +51,7 @@ ENV PACKAGES \
-     libpng-devel \
-     librbd-devel \
-     libseccomp-devel \
-+    libselinux-devel \
-     libslirp-devel \
-     libssh-devel \
-     libtasn1-devel \
-diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/docker/dockerfiles/fedora-i386-cross.docker
-index f62a71ce2296..13328e6081f9 100644
---- a/tests/docker/dockerfiles/fedora-i386-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
-@@ -8,6 +8,7 @@ ENV PACKAGES \
-     gcc \
-     git \
-     libffi-devel.i686 \
-+    libselinux-devel.i686 \
-     libtasn1-devel.i686 \
-     libzstd-devel.i686 \
-     make \
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index eec1add7f620..c6fd7e1113d4 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -53,6 +53,7 @@ ENV PACKAGES \
-     libpng-devel \
-     librbd-devel \
-     libseccomp-devel \
-+    libselinux-devel \
-     libslirp-devel \
-     libssh-devel \
-     libtasn1-devel \
-diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
-index 5a8bee028951..3bbdb67f4fad 100644
---- a/tests/docker/dockerfiles/opensuse-leap.docker
-+++ b/tests/docker/dockerfiles/opensuse-leap.docker
-@@ -55,6 +55,7 @@ ENV PACKAGES \
-     libpulse-devel \
-     librbd-devel \
-     libseccomp-devel \
-+    libselinux-devel \
-     libspice-server-devel \
-     libssh-devel \
-     libtasn1-devel \
-diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-index 0880bf3e2928..450fd06d0d57 100644
---- a/tests/docker/dockerfiles/ubuntu1804.docker
-+++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -60,6 +60,7 @@ ENV PACKAGES \
-     libsdl2-dev \
-     libsdl2-image-dev \
-     libseccomp-dev \
-+    libselinux-dev \
-     libsnappy-dev \
-     libspice-protocol-dev \
-     libspice-server-dev \
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index 39de63d0129f..15a026be0913 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -60,6 +60,7 @@ ENV PACKAGES \
-     libsdl2-dev \
-     libsdl2-image-dev \
-     libseccomp-dev \
-+    libselinux-dev \
-     libslirp-dev \
-     libsnappy-dev \
-     libspice-protocol-dev \
 -- 
-2.33.1
+Tyler Fanelli (tfanelli)
 
 
