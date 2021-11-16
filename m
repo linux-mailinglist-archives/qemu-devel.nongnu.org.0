@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7D24532E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 14:30:34 +0100 (CET)
-Received: from localhost ([::1]:54262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BD424532D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 14:27:49 +0100 (CET)
+Received: from localhost ([::1]:49820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmyXh-0004wf-O5
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 08:30:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32872)
+	id 1mmyV2-0001d1-L1
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 08:27:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mmyHg-0005jd-Dw
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 08:14:04 -0500
-Received: from [2a00:1450:4864:20::42a] (port=33350
- helo=mail-wr1-x42a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mmyHe-00083h-Eo
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 08:14:00 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id d24so37572480wra.0
- for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 05:13:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=625k46KUpJ/yuqlwKdiHzC5NkapHa651jbVFHV7lTHM=;
- b=qqlyVsWDH9IZO+RZwybHL/5rB5ymFcx1CELpxjmkAv1Mt0HPvLwW8iUBxPUbxhGId0
- U0Ok3c7GlJm1A7mBHhxWUWhy8Sz8SDyh0Cb5hz9/fI38hKKRVmthrVnhkTQ0H/W7gc2l
- 5SX0sa02H25z847YvRKybfyt27Se5aJwXIKJY81CnZSvCecZVly+DcA972ruNUp6plzd
- VQf6Utkj0xYk8ijBiU2JQMGY8vmjcWiv3cZvWlAKyGeiEC4+Ul0wBWR2lGgm8DyynLLd
- 3YZcGQn6uhGeResnl8aaX2PlVP37FFolk7YO/xVAXWk/OPrLYeHZ3tMn9EcDViZVs0Qh
- LwRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=625k46KUpJ/yuqlwKdiHzC5NkapHa651jbVFHV7lTHM=;
- b=7w4PwX/toGVEYV9N5Zg4Dj2jevO1yUCuyzvhCJZkirNLbSW6a8JUpm1qWt2jMKXYGX
- jVN91rrwY6y0++ki8tP9ZXqEe9iFOxWRstAcubIZTcp8iXcc/CVmtN3sI+g7E3EQ4vRR
- 2OUGSYl5SVc81j1pHci4e6zZv2obsBx9i+pP8+5sW5MrqomFzrPAbRZzNA1BYmDo3Y6R
- qaSKOkXMMrLOemQhA+OwTXlV7fHeQRo/+5CkeDzvDGJanS5vbFPe3XdYVgfTLisNivVf
- sI+c+9rf1hxQmlVhpJyVXGAxwT/yC1tnG2sV840TDqM2D76nw3y+uV8mfGaxzw0R6phs
- DD9Q==
-X-Gm-Message-State: AOAM530vRgM6IaFIgUZFgzm7lX324w0N+nSwYFL24s/94U3iJekLZIJp
- md2GW/yE+iIwZ4dNpgMPfMFlGe6q3CN+2qADJ274gg==
-X-Google-Smtp-Source: ABdhPJyfaBXuIIZfzkXc0m8DpNPAgvBu5wrjQNLMH7zNAnUC9PggS/AdQQNz6VPSbWP8pKaqZgS8XESLX5TiPFIL7Vg=
-X-Received: by 2002:a05:6000:186e:: with SMTP id
- d14mr9168440wri.376.1637068436268; 
- Tue, 16 Nov 2021 05:13:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mmyJA-0006wa-24
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 08:15:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35980)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mmyJ7-0008SC-MJ
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 08:15:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637068528;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rLKZ+aa/sy2B24DednoQ6PDfzS4Mt2y1l6AUiUYmIUY=;
+ b=ZDB2lj/3sxD99GvUIHfK26uXkUu8B/XcH+wlZHD9LwR4lcftW/hQdjOXJ/RBu5gW37nTLW
+ aOz389P6OmKaCPUvl/9HtGGCzF37AkCDx5uKoi98TOcg9obfW3JHCGW8ytO9obbm57RJE3
+ +lGKaWBo8dGu/YQoQWxzZytvyjnHfmU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-25-cFIdcmzdNYyIpUkYitk53A-1; Tue, 16 Nov 2021 08:15:23 -0500
+X-MC-Unique: cFIdcmzdNYyIpUkYitk53A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F87E15723;
+ Tue, 16 Nov 2021 13:15:22 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 369CC5C1D5;
+ Tue, 16 Nov 2021 13:15:15 +0000 (UTC)
+Date: Tue, 16 Nov 2021 13:15:12 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] meson: fix botched compile check conversions
+Message-ID: <YZOu4IQOf6nTtoZq@redhat.com>
+References: <20211116093834.76615-1-pbonzini@redhat.com>
+ <CAFEAcA8=RsA37ErttuGKKfrb8Ooy9NJs=F4o4agQbgu=On9P5w@mail.gmail.com>
+ <YZOdRHZn9h9Rdjlr@redhat.com>
+ <CAFEAcA_PKATU93e2UuoiJB2xbt_y5WKtYY_D5t+SaozcDKQcyg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20211014162938.430211-1-pbonzini@redhat.com>
- <20211014162938.430211-22-pbonzini@redhat.com>
- <CAFEAcA8dxLqx4uXGRmhdWmP2aRXChk6gqO3t_RY54UVMHPEjWQ@mail.gmail.com>
- <CAFEAcA9HoX9riUjU_N6erkLu0r5gRawDTKSJgwjNb+2Mcn+0=g@mail.gmail.com>
-In-Reply-To: <CAFEAcA9HoX9riUjU_N6erkLu0r5gRawDTKSJgwjNb+2Mcn+0=g@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 16 Nov 2021 13:13:45 +0000
-Message-ID: <CAFEAcA8NfccCPsTHZXX-48Gk+9=Bo6RYr2iDeGe=Nr80qHzbRg@mail.gmail.com>
-Subject: Re: [PULL 21/26] configure, meson: move more compiler checks to Meson
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <CAFEAcA_PKATU93e2UuoiJB2xbt_y5WKtYY_D5t+SaozcDKQcyg@mail.gmail.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,28 +85,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 15 Nov 2021 at 16:42, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Mon, 15 Nov 2021 at 16:36, Peter Maydell <peter.maydell@linaro.org> wrote:
+On Tue, Nov 16, 2021 at 01:10:04PM +0000, Peter Maydell wrote:
+> On Tue, 16 Nov 2021 at 12:00, Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > I wonder if the problem is more fundamental than that. Passing
+> > stuff in --extra-cflags is done to influence the flags used to
+> > compile the QEMU end user binaries. Unfortunately --extra-cflags
+> > is also getting applied to all the meson.build feature checks.
 > >
-> > On Thu, 14 Oct 2021 at 17:49, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> > > +config_host_data.set('CONFIG_IOVEC',
-> > > +                     cc.has_header_symbol('sys/uio.h', 'struct iovec'))
+> > IMHO we would get a more reliable result if the meson.build
+> > checks were fully isolated from the cflags we used for building
+> > everything else, so the checks get a well understood, predictable
+> > environment.
+> 
+> If you're using --extra-cflags to pass in "-I/path/to/libfoo/headers"
+> then you do want that to be used in the meson check for "do we have
+> libfoo", though...
 
-> https://github.com/mesonbuild/meson/issues/1975 says that for gcc
-> it's actually going to be wrong the other way (always setting CONFIG_IOVEC
-> whether the system header has the struct or not), because "struct wombat;"
-> is syntactically OK as a *declaration*, not a use.
+For pkg-config-ized things meson lets you override those paths
+per-library IIRC.
 
-In case anybody's interested in an easy-ish meson contribution,
-meson upstream indicated in that issue that they'd be open to a patch
-which made whitespace in the has_header_symbol argument be an error,
-which would have caught this bug earlier.
+For the non-pkg-config-izied case, that could be an argument for
+specialized --extra-header-dir=PATH and --extra-lib-dir=$PATH args.
 
--- PMM
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
