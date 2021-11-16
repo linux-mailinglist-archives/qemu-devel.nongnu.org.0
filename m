@@ -2,84 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E032E452883
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 04:24:21 +0100 (CET)
-Received: from localhost ([::1]:40624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F8C7452A69
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 07:18:05 +0100 (CET)
+Received: from localhost ([::1]:44236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmp52-0002sH-Pb
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 22:24:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45698)
+	id 1mmrnA-00082o-16
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 01:18:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mmp3a-0002Bx-J9
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 22:22:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39628)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mmp3X-0002z7-3K
- for qemu-devel@nongnu.org; Mon, 15 Nov 2021 22:22:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637032965;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=giOEaXwe1lZOzIA8dqAnnSeaKLmIIk+jcOcD2sf8AwI=;
- b=DA9QYlESgxE9Pb9AD0uZN3NxAWr4noZMVVQHMKt8ubn0jLRL83vAP719ZpO9hJV4/o3KTf
- Pgysq3sL/c/HQT/AUsYx7BgaRWosvmzq8RD+6CD5OwrQcxCxXvYOjrm/8zdIiNSaS160ei
- yJpHlJOYaIVOveOZDw0dvf+5vS/qxVo=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390--Z2uvUtwO3KFSNGQviiKMg-1; Mon, 15 Nov 2021 22:22:44 -0500
-X-MC-Unique: -Z2uvUtwO3KFSNGQviiKMg-1
-Received: by mail-pj1-f70.google.com with SMTP id
- lt10-20020a17090b354a00b001a649326aedso606649pjb.5
- for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 19:22:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mmrjt-0007CJ-FR
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 01:14:41 -0500
+Received: from [2607:f8b0:4864:20::52a] (port=39644
+ helo=mail-pg1-x52a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mmrjo-00060O-BP
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 01:14:41 -0500
+Received: by mail-pg1-x52a.google.com with SMTP id r5so10774611pgi.6
+ for <qemu-devel@nongnu.org>; Mon, 15 Nov 2021 22:14:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=/TJxax5aLJYqKlTDvtWlnM+hYxAUYHR/zBmmE1vhjCs=;
+ b=VHg6qjtNuZwLkF5owqKIiIdNOwtf3GvpCMoPvys+5n+b594l5PQVNMlVptF2G8dcJK
+ 9krUNi5TP62rPvnXGsMVFZhD6my8P2AZIvLfBm+5MFQhTYub9ESFGuhKiAvCx45S6aZC
+ V2JE2xOfQfjt4Msb8P9BCOzEof8STzhCw8KifMA0h5J4AmaBA7yKYPWtBAy6shMDLyrf
+ BXzuNgsvabgqal0n5A3coZgut2RIXKRNlgPohuMaXcKE8J2M6IJ+Z3wXdOQ0nk4wB3AU
+ 3E9WrwWfQJRCSTCnZ5c5RAeUJ0njqbUNaOfDFV80kumTZQEyY9IK14uqie6pw8suTyUo
+ hFcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=giOEaXwe1lZOzIA8dqAnnSeaKLmIIk+jcOcD2sf8AwI=;
- b=QXiZtnNB38xE/5Jw04Dm2/eMDyEg1u3lvNN9bFPAyBq0QaCRdZ11xz2AJsP5MVoRg9
- kPsQJMuFhHH+BvJ+g/AmrsowA4hyYnoFk42k+Memm4KeFzrCkdh0bHbLvh3m50QxImLX
- pcky6NFJR+qBlJvJVjOsvP62XIZFzjvGpbm9eTvtr2v+ah2QcnXRRMaQddzPoTjtbyX8
- LBCpzHfvR9LJe+qcma1jwxYjJY+8ZDW+v9RzH9DDYquVpx2dSu1W/t1ZzaeWXW7GNtoO
- 9Ov/iecJ/AYz4Dp0I85yo1ljfay6xFxP3TC5cX8wIQo3V9jz3Ly0y3jEvetI21AifMoV
- P2Wg==
-X-Gm-Message-State: AOAM533KwFC11Bf1Qnyw3o8zensXUrlnV2bVDXMUk8m4DIQylqtAIdq4
- NnePIgVy4E2BhUyuCirfNcI3cHiMyRd6OIXu3TNVh+aCePlCmgQmE541qCFxinU2TMAjhcNTngP
- miWU/+qxWbRMsbK08mOmpMdRJf6YMiN8n7jI0TKsUcaaWIwcCvqEclY3n2MJfkRW8
-X-Received: by 2002:a62:8cc2:0:b0:480:ffe3:9eeb with SMTP id
- m185-20020a628cc2000000b00480ffe39eebmr36608462pfd.82.1637032962761; 
- Mon, 15 Nov 2021 19:22:42 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzI984kcKDey1GMCIIW4aZY+ueai1JXlOu6G4iiy9tbRIdEU5+Xr8TDeZnZNR8ybE7XmzbTmQ==
-X-Received: by 2002:a62:8cc2:0:b0:480:ffe3:9eeb with SMTP id
- m185-20020a628cc2000000b00480ffe39eebmr36608431pfd.82.1637032962328; 
- Mon, 15 Nov 2021 19:22:42 -0800 (PST)
-Received: from localhost.localdomain ([191.101.132.59])
- by smtp.gmail.com with ESMTPSA id p43sm6443407pfw.4.2021.11.15.19.22.39
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 15 Nov 2021 19:22:41 -0800 (PST)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] dump-guest-memory: Use BQL to protect dump finalize process
-Date: Tue, 16 Nov 2021 11:22:34 +0800
-Message-Id: <20211116032234.1775-1-peterx@redhat.com>
-X-Mailer: git-send-email 2.32.0
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=/TJxax5aLJYqKlTDvtWlnM+hYxAUYHR/zBmmE1vhjCs=;
+ b=qBmUKStfbZEWgRDVENdVAKLDIMJAl6FxhWotOKArKiOF5efM7sRJ+PlRkE2bFkWitx
+ Hj4feEFGbjpZ8r5hns62K9+JZ3pBqxWdKLPvWKyUOuhbiJZ57KZt1GpDLZ6gx78H056K
+ lQW3/4dZqYB8t8q3zUS6IlQ5RhIgrgF+efVyNeTgnlZhupangdY2Ge3zTUhS+x3Itvg3
+ 9gwdCxAhuINZKesGFURFNi+DXPD4XQxngK540oSvEpNTOS/tJzJ/+wYHJO8g7eR0AnU4
+ ehh9w6VSJKyfdFIOdRuId6IjkAZd9gmHEK2v3iImXl4+zcV57NRCt9L99AmF/2i3FqGG
+ jKXA==
+X-Gm-Message-State: AOAM530I1UL0Nb0OeBa0zX8tfQz35OVGbKhQYdgFZ0Wr8LQwnEl8hLZJ
+ n4ZTYYD/WVoKR05rC9N6wsmKfQ==
+X-Google-Smtp-Source: ABdhPJxx8JXbcqv1a2nEmd+irid0uVnH9C5w61NTXGCyro1aKbZqLZlOFAgFPO6eoMMaFA3iMg9tbw==
+X-Received: by 2002:a62:760a:0:b0:494:6fa0:60a2 with SMTP id
+ r10-20020a62760a000000b004946fa060a2mr38241075pfc.39.1637043274540; 
+ Mon, 15 Nov 2021 22:14:34 -0800 (PST)
+Received: from anisinha-lenovo ([49.207.215.112])
+ by smtp.googlemail.com with ESMTPSA id z16sm13242843pgl.29.2021.11.15.22.14.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Nov 2021 22:14:33 -0800 (PST)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Tue, 16 Nov 2021 11:44:27 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH] q35: flip acpi-pci-hotplug-with-bridge-support default
+ back to off
+In-Reply-To: <20211111095203.961122-1-kraxel@redhat.com>
+Message-ID: <alpine.DEB.2.22.394.2111161143020.543876@anisinha-lenovo>
+References: <20211111095203.961122-1-kraxel@redhat.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52a
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=ani@anisinha.ca; helo=mail-pg1-x52a.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,91 +88,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, peterx@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When finalizing the dump-guest-memory with detached mode, we'll first set dump
-status to either FAIL or COMPLETE before doing the cleanup, however right after
-the dump status change it's possible that another dump-guest-memory qmp command
-is sent so both the main thread and dump thread (which is during cleanup) could
-be accessing dump state in paralell.  That's racy.
 
-Fix it by protecting the finalizing phase of dump-guest-memory using BQL as
-well.  To do that, we expand the BQL from dump_cleanup() into dump_process(),
-so we will take the BQL longer than before.  The critical section must cover
-the status switch from ACTIVE->{FAIL|COMPLETE} so as to make sure there's no
-race any more.
 
-We can also just introduce a specific mutex to serialize the dump process, but
-BQL should be enough for now so far, not to mention vm_start() in dump_cleanup
-will need BQL anyway, so maybe easier to just use the same mutex.
+On Thu, 11 Nov 2021, Gerd Hoffmann wrote:
 
-Reported-by: Laszlo Ersek <lersek@redhat.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- dump/dump.c | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
+> Switch qemu 6.2 back to 6.0 behavior (aka native pcie hotplug) because
+> acpi hotplug for pcie ports caused all kinds of regressions and a fix
+> for those is not in sight.
+>
+> Add compat property for 6.1 to keep it enabled there.  Use a separate
+> compat property list so we can apply it to 6.1 only.
 
-diff --git a/dump/dump.c b/dump/dump.c
-index 662d0a62cd..196b7b8ab9 100644
---- a/dump/dump.c
-+++ b/dump/dump.c
-@@ -96,13 +96,7 @@ static int dump_cleanup(DumpState *s)
-     g_free(s->guest_note);
-     s->guest_note = NULL;
-     if (s->resume) {
--        if (s->detached) {
--            qemu_mutex_lock_iothread();
--        }
-         vm_start();
--        if (s->detached) {
--            qemu_mutex_unlock_iothread();
--        }
-     }
-     migrate_del_blocker(dump_migration_blocker);
- 
-@@ -1873,6 +1867,11 @@ static void dump_process(DumpState *s, Error **errp)
-     Error *local_err = NULL;
-     DumpQueryResult *result = NULL;
- 
-+    /*
-+     * When running with detached mode, these operations are not run with BQL.
-+     * It's still safe, because it's protected by setting s->state to ACTIVE,
-+     * so dump_in_progress() check will block yet another dump-guest-memory.
-+     */
-     if (s->has_format && s->format == DUMP_GUEST_MEMORY_FORMAT_WIN_DMP) {
- #ifdef TARGET_X86_64
-         create_win_dump(s, &local_err);
-@@ -1883,6 +1882,15 @@ static void dump_process(DumpState *s, Error **errp)
-         create_vmcore(s, &local_err);
-     }
- 
-+    /*
-+     * Serialize the finalizing of dump process using BQL to make sure no
-+     * concurrent access to DumpState is allowed.  BQL is also required for
-+     * dump_cleanup as vm_start() needs it.
-+     */
-+    if (s->detached) {
-+        qemu_mutex_lock_iothread();
-+    }
-+
-     /* make sure status is written after written_size updates */
-     smp_wmb();
-     qatomic_set(&s->status,
-@@ -1898,6 +1906,10 @@ static void dump_process(DumpState *s, Error **errp)
- 
-     error_propagate(errp, local_err);
-     dump_cleanup(s);
-+
-+    if (s->detached) {
-+        qemu_mutex_unlock_iothread();
-+    }
- }
- 
- static void *dump_thread(void *data)
--- 
-2.32.0
+I think we are not going this route anymore. ACPI will continue to be the
+default for 6.2 and future and we will continue to fix the issues on the
+ACPI hotplug side. I see Michael sent PRs for some of the fixes from Igor
+and Julia.
 
+>
+> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/641
+> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=2006409
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  hw/acpi/ich9.c   |  2 +-
+>  hw/i386/pc.c     |  1 -
+>  hw/i386/pc_q35.c | 14 +++++++++++++-
+>  3 files changed, 14 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
+> index 1ee2ba2c508c..6e7d4c9eb54a 100644
+> --- a/hw/acpi/ich9.c
+> +++ b/hw/acpi/ich9.c
+> @@ -427,7 +427,7 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
+>      pm->disable_s3 = 0;
+>      pm->disable_s4 = 0;
+>      pm->s4_val = 2;
+> -    pm->use_acpi_hotplug_bridge = true;
+> +    pm->use_acpi_hotplug_bridge = false;
+>
+>      object_property_add_uint32_ptr(obj, ACPI_PM_PROP_PM_IO_BASE,
+>                                     &pm->pm_io_base, OBJ_PROP_FLAG_READ);
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 2592a821486f..4fed82dafcf0 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -106,7 +106,6 @@ GlobalProperty pc_compat_6_0[] = {
+>      { "qemu64" "-" TYPE_X86_CPU, "model", "6" },
+>      { "qemu64" "-" TYPE_X86_CPU, "stepping", "3" },
+>      { TYPE_X86_CPU, "x-vendor-cpuid-only", "off" },
+> -    { "ICH9-LPC", ACPI_PM_PROP_ACPI_PCIHP_BRIDGE, "off" },
+>  };
+>  const size_t pc_compat_6_0_len = G_N_ELEMENTS(pc_compat_6_0);
+>
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index 797e09500b15..735dd3cff4ed 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -375,8 +375,20 @@ static void pc_q35_6_1_machine_options(MachineClass *m)
+>      m->smp_props.prefer_sockets = true;
+>  }
+>
+> +/* 6.1 only compat property (not applied to 6.0 + older) */
+> +static GlobalProperty pc_compat_6_1_only[] = {
+> +    { "ICH9-LPC", ACPI_PM_PROP_ACPI_PCIHP_BRIDGE, "on" },
+> +};
+> +static const size_t pc_compat_6_1_only_len = G_N_ELEMENTS(pc_compat_6_1_only);
+> +
+> +static void pc_q35_6_1_only_machine_options(MachineClass *m)
+> +{
+> +    pc_q35_6_1_machine_options(m);
+> +    compat_props_add(m->compat_props, pc_compat_6_1_only, pc_compat_6_1_only_len);
+> +}
+> +
+>  DEFINE_Q35_MACHINE(v6_1, "pc-q35-6.1", NULL,
+> -                   pc_q35_6_1_machine_options);
+> +                   pc_q35_6_1_only_machine_options);
+>
+>  static void pc_q35_6_0_machine_options(MachineClass *m)
+>  {
+> --
+> 2.33.1
+>
+>
 
