@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7BFA45343C
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 15:33:22 +0100 (CET)
-Received: from localhost ([::1]:54128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87049453448
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 15:35:07 +0100 (CET)
+Received: from localhost ([::1]:56616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmzWT-00072V-Mz
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 09:33:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51736)
+	id 1mmzYA-0000Om-MT
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 09:35:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mmzTv-0003HN-Sp
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 09:30:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47275)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mmzUt-00058Z-2K
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 09:31:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34521)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mmzTs-0004pN-6J
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 09:30:42 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mmzUr-00050A-Ch
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 09:31:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637073039;
+ s=mimecast20190719; t=1637073100;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Dlp0AiUUgRRqP7Y8HuawjyhioZt7MOA4SC8dXUe7KgE=;
- b=SInrppA6jyc+XuTYMsXeQJVqQY2IpXy2cdp+bgwDCxaSE78cDjfbszURr46WVhJvws7TNF
- +eWmpsgwUcNFDUHNm7nmQ75xA9v4avzezx1G9QzfqOGM85IhoHvn0YMh9QeIxzQUksmGGC
- J+gUyIW9k40G63CEDA1tlchHgDUjUwA=
+ bh=sW/O/vuyyo57WeMpnI8zBcDt67n+oNVtYFNuiQXPEyA=;
+ b=Om4lo9cPIdGekmiPTymwLujIBRB7Ye8puVHJEnqTrK6dZREcwM1YUlf7i42e+HqbkXRvri
+ hRQDgnOJ0EeSh0BHbe6m4GBXhPT25rzuYFqBDcFdR72RRBTD+puYEBJDzbu/fqIkKc9/rA
+ 6iNHYfMEgMU2N0e1anmeCBDjqentVuY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-ucQbTHCUMdya6kO4QTR4nQ-1; Tue, 16 Nov 2021 09:30:36 -0500
-X-MC-Unique: ucQbTHCUMdya6kO4QTR4nQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-281-xTWKOfYiOMWaYYMHfWmRrw-1; Tue, 16 Nov 2021 09:31:37 -0500
+X-MC-Unique: xTWKOfYiOMWaYYMHfWmRrw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDC811851722;
- Tue, 16 Nov 2021 14:30:35 +0000 (UTC)
-Received: from redhat.com (ovpn-114-146.phx2.redhat.com [10.3.114.146])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E1345C1D5;
- Tue, 16 Nov 2021 14:30:35 +0000 (UTC)
-Date: Tue, 16 Nov 2021 08:30:33 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v2 for-6.2] file-posix: Fix alignment after reopen
- changing O_DIRECT
-Message-ID: <20211116143033.zfot2n4ormmg7aiv@redhat.com>
-References: <20211116101431.105252-1-hreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8724987D542;
+ Tue, 16 Nov 2021 14:31:36 +0000 (UTC)
+Received: from [10.39.192.245] (unknown [10.39.192.245])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BD44A5D6D5;
+ Tue, 16 Nov 2021 14:31:35 +0000 (UTC)
+Message-ID: <268647d0-725f-8c8c-82bc-f26c7f8cdeb0@redhat.com>
+Date: Tue, 16 Nov 2021 15:31:34 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211116101431.105252-1-hreitz@redhat.com>
-User-Agent: NeoMutt/20211029-16-b680fe
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] meson: fix botched compile check conversions
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20211116093834.76615-1-pbonzini@redhat.com>
+ <CAFEAcA8=RsA37ErttuGKKfrb8Ooy9NJs=F4o4agQbgu=On9P5w@mail.gmail.com>
+ <YZOdRHZn9h9Rdjlr@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <YZOdRHZn9h9Rdjlr@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-1.446, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,86 +85,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 16, 2021 at 11:14:31AM +0100, Hanna Reitz wrote:
-> From: Kevin Wolf <kwolf@redhat.com>
+On 11/16/21 13:00, Daniel P. Berrangé wrote:
+> I wonder if the problem is more fundamental than that. Passing
+> stuff in --extra-cflags is done to influence the flags used to
+> compile the QEMU end user binaries. Unfortunately --extra-cflags
+> is also getting applied to all the meson.build feature checks.
 > 
-> At the end of a reopen, we already call bdrv_refresh_limits(), which
-> should update bs->request_alignment according to the new file
-> descriptor. However, raw_probe_alignment() relies on s->needs_alignment
-> and just uses 1 if it isn't set. We neglected to update this field, so
-> starting with cache=writeback and then reopening with cache=none means
-> that we get an incorrect bs->request_alignment == 1 and unaligned
-> requests fail instead of being automatically aligned.
+> IMHO we would get a more reliable result if the meson.build
+> checks were fully isolated from the cflags we used for building
+> everything else, so the checks get a well understood, predictable
+> environment.
 > 
+> IIUC, this current behaviour is a result of us adding cflags
+> using  add_global_arguments / add_project_arguments.
 
-> v2:
-> Don't continue operating on a qcow2 file with an effectively random
-> size, but create a new 1 MB file to run our O_DIRECT reopen read tests
-> on.  Otherwise, we'll get into permission trouble because qemu-io does
-> not take the RESIZE permission by default, which it would need to
-> auto-align the file size to the sector size.
-> 
-> Note that the qcow2 file is not even aligned to 512 byte sectors before
-> the test case (its size is 196616), but the error message doesn't appear
-> then because qemu internally calculates file sizes in multiples of 512
-> bytes (BDRV_SECTOR_SIZE), so a misalignment can only become visible when
-> the physical sector size exceeds 512 bytes.
-> (That's "OK" because qemu only counts sizes in multiples of 512, so any
-> resize below that granularity is not visible as a resize to qemu, and so
-> does not need the RESIZE permission.)
-> 
-> Another way we could solve this problem is by having qemu-io take the
-> RESIZE permission, but I believe it would need to retain it not only
-> through the reopen, but until the image size is aligned to the sector
-> size; that is, we would need to resize the image anyway to be able to
-> drop the permission and not keep it constantly.  So it's simpler to just
-> create an aligned image from the start.
+No, it's not using add_global_arguments/add_project_arguments for 
+--extra-cflags.
 
-I concur that your patch is simpler, and since we are in rc phase,
-simpler is better.
+The --extra-cflags (aka the CFLAGS envvar, or "meson setup -Dc_args") is 
+messy: on one hand it's kinda legacy (we have configure flags to set 
+-O2, -g, -Werror, etc.), on the other hand not really possible to kill 
+it because it's how distros expect to set flags such as -O2.
 
-> +++ b/tests/qemu-iotests/142
-> @@ -350,6 +350,35 @@ info block backing-file"
->  
->  echo "$hmp_cmds" | run_qemu -drive "$files","$ids" | grep "Cache"
->  
-> +echo
-> +echo "--- Alignment after changing O_DIRECT ---"
-> +echo
-> +
-> +# Directly test the protocol level: Can unaligned requests succeed even if
-> +# O_DIRECT was only enabled through a reopen and vice versa?
-> +
-> +# Ensure image size is a multiple of the sector size (required for O_DIRECT)
-> +$QEMU_IMG create -f file "$TEST_IMG" 1M | _filter_img_create
-> +
-> +# And write some data (not strictly necessary, but it feels better to actually
-> +# have something to be read)
-> +$QEMU_IO -f file -c 'write 0 4096' "$TEST_IMG" | _filter_qemu_io
+But it's full of pitfalls, and the only good use of it seems to be for 
+-I and -L flags.  We already saw issues with it last week with distros 
+adding "-Wall" to CFLAGS or --extra-cflags and that gives you bogus 
+warnings.  Unfortunately you certainly want flags such as -g to override 
+earlier flags, and you might even want -Wall to override earlier -Wno-* 
+flags *unless -Werror is in use*.
 
-Looks nice.
+Apart from this, the sizeof() issue (which by the way I didn't see with 
+GCC) has to be fixed in Meson and is probably visible also in e.g. 
+has_members.
 
-> +
-> +$QEMU_IO --cache=writeback -f file $TEST_IMG <<EOF | _filter_qemu_io
-> +read 42 42
-> +reopen -o cache.direct=on
-> +read 42 42
-
-This particular region of the disk is a sub-sector, but completely
-contained within one sector.  Is it also worth testing the case of an
-unaligned read that crosses a 4096-byte boundary?  But we could do
-that on top, your patch is already an improvement and catches the
-particular problem you set out to solve.
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+Paolo
 
 
