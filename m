@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5FE5452E04
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 10:32:22 +0100 (CET)
-Received: from localhost ([::1]:51456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43374452E38
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 10:40:30 +0100 (CET)
+Received: from localhost ([::1]:55958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmupC-0007K5-0o
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 04:32:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38220)
+	id 1mmux2-0002Dr-W1
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 04:40:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mmumw-0005eV-1G
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 04:30:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45587)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mmumu-00013T-BD
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 04:30:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637054999;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LCl8U/D/Pa48qIvfVxZX4rYcYvDhz3Xjr1zYmbJqQjc=;
- b=WIyr2dhxV6Emkzq9mKQNaZ18NAOj8FLay/LYoAAENNDtlQDtQZqsGwuvCU9NHCszmD7iMG
- AjCbWKMsnuNvVnDS5AP42EBt9ZozWaQoHOkEuiwjMWmclm9iWYudHI4yhabF1fDxG98jr1
- CiE5tpdRGyC2jLb4tA0+Ygx4nBivdsI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-243-4yDtXnA-PsayCco88Ft6cQ-1; Tue, 16 Nov 2021 04:29:56 -0500
-X-MC-Unique: 4yDtXnA-PsayCco88Ft6cQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DF911023F55;
- Tue, 16 Nov 2021 09:29:53 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E6DA05D6BA;
- Tue, 16 Nov 2021 09:29:51 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A7AFA11380A7; Tue, 16 Nov 2021 10:29:49 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH RFC 2/2] hw: Replace drive_get_next() by drive_get()
-References: <20211115125536.3341681-1-armbru@redhat.com>
- <20211115125536.3341681-3-armbru@redhat.com>
- <5b799ad5-a552-454f-dcc7-1ea6de22b397@amsat.org>
- <87lf1pfm2z.fsf@dusky.pond.sub.org>
- <39b908d3-57aa-ab1e-f10a-87afd887a341@kaod.org>
-Date: Tue, 16 Nov 2021 10:29:49 +0100
-In-Reply-To: <39b908d3-57aa-ab1e-f10a-87afd887a341@kaod.org>
- (=?utf-8?Q?=22C=C3=A9dric?= Le
- Goater"'s message of "Tue, 16 Nov 2021 09:52:35 +0100")
-Message-ID: <87h7ccbg8i.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mmuvZ-00015o-N8
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 04:38:58 -0500
+Received: from [2a00:1450:4864:20::52f] (port=46737
+ helo=mail-ed1-x52f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mmuvX-0002jw-ON
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 04:38:57 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id y13so10030295edd.13
+ for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 01:38:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=S4WcyNcg5hoULtV70DvWKqOAgeFCc06Rzhg1frdIwHA=;
+ b=blbBfPaue5A4Cwbg33XrIeCR+dU0QBFqCvPbo+JG0p0Lns0kl1J6WYk0sRcyXEyNxI
+ NfluJh+wCCVhFawD9bj/920sKDFlAktFMR+CBGQkWzs+C29fodQIZcAbRtaEl4/GI0qp
+ RGOma2RDSeNcl84WD0mvbSAi1oGZ3pgQMZMkp0d78jeHhurHjwzO0E6WpBr9AHv+8+Ur
+ 6cayTTMS1gxjekDr0t4PcFu+ZXcH1uDNrWgINo3aihj+cOb3kfDGyKxxEaqGLsgfeZyf
+ rKqa4VFdW5wI+YGGFX2m5jCRqW+b8v5QMz4WC9uiZJTMZ/goR5gO07zZMGQZJ6PPXe2T
+ Rsiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=S4WcyNcg5hoULtV70DvWKqOAgeFCc06Rzhg1frdIwHA=;
+ b=XFebKeEmyX09VDSEX89/Je6/10UnZEwIpxnTLoO0GpVWfDbjjsHVtcRNleEtI4TPhw
+ aO+MvYUKUNLiSis9sqK4AZxj5ACUk4EE8QGRVthdZmJKalxelZer+cI+fn8R3ZxnYKPI
+ tTUBv1DeSRzDtD51xWL+6fy+oPsvadt9BccipZk+7P7gkjkrKGFYWjNJN7EPrQCnKA/c
+ zxiyzXbobbA6EwDjWOhGXdWQd1ba5ZItHr4bTxfRILdtV8dk29KcThh1vlWjALrb8vrn
+ cIAWL9Z/qOjPwUu41RNC1z/dYZGrWzTau+mnO8XoUGpzz+IVAviYb7/TVLl3u1W5ei7b
+ xRVw==
+X-Gm-Message-State: AOAM532DnLa4iw3IcaUAjq4cp8iz4ESDy4cfi7ygv3UrIAvyIZ6egUOC
+ 6fWxqI11LN/99CayHE+FDGIPu24P6EY=
+X-Google-Smtp-Source: ABdhPJxL5WQYXFk07HjU9t+jvkhubC76Ysc4KfKYEQ8Z7qG+wgNILesXYyzbExCGFAtTJfA3Cva30Q==
+X-Received: by 2002:a17:907:1b25:: with SMTP id
+ mp37mr7782447ejc.140.1637055519850; 
+ Tue, 16 Nov 2021 01:38:39 -0800 (PST)
+Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id
+ gn16sm8111827ejc.67.2021.11.16.01.38.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Nov 2021 01:38:39 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] meson: fix botched compile check conversions
+Date: Tue, 16 Nov 2021 10:38:34 +0100
+Message-Id: <20211116093834.76615-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52f
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,105 +86,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, bin.meng@windriver.com,
- mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org, jcd@tribudubois.net,
- qemu-block@nongnu.org, andrew.smirnov@gmail.com, hskinnemoen@google.com,
- joel@jms.id.au, atar4qemu@gmail.com, alistair@alistair23.me,
- b.galvani@gmail.com, nieklinnenbank@gmail.com, qemu-arm@nongnu.org,
- kwolf@redhat.com, qemu-riscv@nongnu.org, andrew@aj.id.au,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew.Baumann@microsoft.com, sundeep.lkml@gmail.com, kfting@nuvoton.com,
- hreitz@redhat.com, palmer@dabbelt.com
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-C=C3=A9dric Le Goater <clg@kaod.org> writes:
+Fix a bunch of incorrect conversions from configure to Meson, which result
+in different outcomes with --extra-cflags=-Werror.
 
-> On 11/15/21 16:57, Markus Armbruster wrote:
->> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
->>=20
->>> On 11/15/21 13:55, Markus Armbruster wrote:
->>>> drive_get_next() is basically a bad idea.  It returns the "next" block
->>>> backend of a certain interface type.  "Next" means bus=3D0,unit=3DN, w=
-here
->>>> subsequent calls count N up from zero, per interface type.
->>>>
->>>> This lets you define unit numbers implicitly by execution order.  If t=
-he
->>>> order changes, or new calls appear "in the middle", unit numbers chang=
-e.
->>>> ABI break.  Hard to spot in review.
->>>>
->>>> Explicit is better than implicit: use drive_get() directly.
->>>>
->>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->>>> ---
->>>>   include/sysemu/blockdev.h           |  1 -
->>>>   blockdev.c                          | 10 ----------
->>>>   hw/arm/aspeed.c                     | 21 +++++++++++++--------
->>>>   hw/arm/cubieboard.c                 |  2 +-
->>>>   hw/arm/imx25_pdk.c                  |  2 +-
->>>>   hw/arm/integratorcp.c               |  2 +-
->>>>   hw/arm/mcimx6ul-evk.c               |  2 +-
->>>>   hw/arm/mcimx7d-sabre.c              |  2 +-
->>>>   hw/arm/msf2-som.c                   |  2 +-
->>>>   hw/arm/npcm7xx_boards.c             |  6 +++---
->>>>   hw/arm/orangepi.c                   |  2 +-
->>>>   hw/arm/raspi.c                      |  2 +-
->>>>   hw/arm/realview.c                   |  2 +-
->>>>   hw/arm/sabrelite.c                  |  2 +-
->>>>   hw/arm/versatilepb.c                |  4 ++--
->>>>   hw/arm/vexpress.c                   |  6 +++---
->>>>   hw/arm/xilinx_zynq.c                | 16 +++++++++-------
->>>>   hw/arm/xlnx-versal-virt.c           |  3 ++-
->>>>   hw/arm/xlnx-zcu102.c                |  6 +++---
->>>>   hw/microblaze/petalogix_ml605_mmu.c |  2 +-
->>>>   hw/misc/sifive_u_otp.c              |  2 +-
->>>>   hw/riscv/microchip_pfsoc.c          |  2 +-
->>>>   hw/sparc64/niagara.c                |  2 +-
->>>>   23 files changed, 49 insertions(+), 52 deletions(-)
->>>
->>>> @@ -435,11 +438,13 @@ static void aspeed_machine_init(MachineState *ma=
-chine)
->>>>       }
->>>>         for (i =3D 0; i < bmc->soc.sdhci.num_slots; i++) {
->>>> -        sdhci_attach_drive(&bmc->soc.sdhci.slots[i], drive_get_next(I=
-F_SD));
->>>> +        sdhci_attach_drive(&bmc->soc.sdhci.slots[i],
->>>> +                           drive_get(IF_SD, 0, i));
->>>
->>> If we put SD on bus #0, ...
->>>
->>>>       }
->>>>         if (bmc->soc.emmc.num_slots) {
->>>> -        sdhci_attach_drive(&bmc->soc.emmc.slots[0], drive_get_next(IF=
-_SD));
->>>> +        sdhci_attach_drive(&bmc->soc.emmc.slots[0],
->>>> +                           drive_get(IF_SD, 0, bmc->soc.sdhci.num_slo=
-ts));
->>>
->>> ... we'd want to put eMMC on bus #1
->>
->> Using separate buses for different kinds of devices would be neater, but
->> it also would be an incompatible change.  This patch keeps existing
->> bus/unit numbers working.  drive_get_next() can only use bus 0.
->
-> All Aspeed SoCs have 3 SPI busses, each with multiple CS, and also multip=
-le
-> sdhci controllers with multiple slots.
->
-> How drives are defined for the aspeed machines can/should be improved.
-> The machine init iterates on the command line drives, attaches the
-> DriveInfo, in the order found, to a m25p80 device model first and then
-> follows on with the SD devices. This is fragile clearly and a bus+id
-> would be most welcome to identify the drive backend.
->
-> May be this is a prereq for this patchset ?
+pthread_setname_np needs "#define _GNU_SOURCE" on Linux (which I am using
+also for the non-Linux check, so that it correctly fails with an error
+about having too few parameters).
 
-Such a change will probably be easier to review after this patch,
-because then it's just a matter of changing / dumbing down parameters to
-drive_get().
+Fix struct checks to use has_type instead of has_symbol, and "#define
+_GNU_SOURCE" too in the case of struct mmsghdr.
 
-I can't judge whether incompatible change is okay here.
+Remove an apostrophe that ended up at the end of a #include line.
+
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ meson.build | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
+
+diff --git a/meson.build b/meson.build
+index 2ece4fe088..93a5e50a16 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1547,8 +1547,6 @@ config_host_data.set('CONFIG_INOTIFY',
+                      cc.has_header_symbol('sys/inotify.h', 'inotify_init'))
+ config_host_data.set('CONFIG_INOTIFY1',
+                      cc.has_header_symbol('sys/inotify.h', 'inotify_init1'))
+-config_host_data.set('CONFIG_IOVEC',
+-                     cc.has_header_symbol('sys/uio.h', 'struct iovec'))
+ config_host_data.set('CONFIG_MACHINE_BSWAP_H',
+                      cc.has_header_symbol('machine/bswap.h', 'bswap32',
+                                           prefix: '''#include <sys/endian.h>
+@@ -1561,8 +1559,6 @@ config_host_data.set('CONFIG_SYSMACROS',
+                      cc.has_header_symbol('sys/sysmacros.h', 'makedev'))
+ config_host_data.set('HAVE_OPTRESET',
+                      cc.has_header_symbol('getopt.h', 'optreset'))
+-config_host_data.set('HAVE_UTMPX',
+-                     cc.has_header_symbol('utmpx.h', 'struct utmpx'))
+ config_host_data.set('HAVE_IPPROTO_MPTCP',
+                      cc.has_header_symbol('netinet/in.h', 'IPPROTO_MPTCP'))
+ 
+@@ -1574,6 +1570,14 @@ config_host_data.set('HAVE_STRUCT_STAT_ST_ATIM',
+                      cc.has_member('struct stat', 'st_atim',
+                                    prefix: '#include <sys/stat.h>'))
+ 
++# has_type
++config_host_data.set('CONFIG_IOVEC',
++                     cc.has_type('struct iovec',
++                                 prefix: '#include <sys/uio.h>'))
++config_host_data.set('HAVE_UTMPX',
++                     cc.has_type('struct utmpx',
++                                 prefix: '#include <utmpx.h>'))
++
+ config_host_data.set('CONFIG_EVENTFD', cc.links('''
+   #include <sys/eventfd.h>
+   int main(void) { return eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC); }'''))
+@@ -1615,7 +1619,7 @@ config_host_data.set('CONFIG_POSIX_MADVISE', cc.links(gnu_source_prefix + '''
+   #include <stddef.h>
+   int main(void) { return posix_madvise(NULL, 0, POSIX_MADV_DONTNEED); }'''))
+ 
+-config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_W_TID', cc.links('''
++config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_W_TID', cc.links(gnu_source_prefix + '''
+   #include <pthread.h>
+ 
+   static void *f(void *p) { return NULL; }
+@@ -1626,7 +1630,7 @@ config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_W_TID', cc.links('''
+     pthread_setname_np(thread, "QEMU");
+     return 0;
+   }''', dependencies: threads))
+-config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_WO_TID', cc.links('''
++config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_WO_TID', cc.links(gnu_source_prefix + '''
+   #include <pthread.h>
+ 
+   static void *f(void *p) { pthread_setname_np("QEMU"); return NULL; }
+@@ -1662,8 +1666,10 @@ config_host_data.set('HAVE_MLOCKALL', cc.links(gnu_source_prefix + '''
+ 
+ have_l2tpv3 = false
+ if not get_option('l2tpv3').disabled() and have_system
+-  have_l2tpv3 = (cc.has_header_symbol('sys/socket.h', 'struct mmsghdr')
+-                 and cc.has_header('linux/ip.h'))
++  have_l2tpv3 = cc.has_type('struct mmsghdr',
++    prefix: gnu_source_prefix + '''
++      #include <sys/socket.h>
++      #include <linux/ip.h>''')
+ endif
+ config_host_data.set('CONFIG_L2TPV3', have_l2tpv3)
+ 
+@@ -1689,7 +1695,7 @@ config_host_data.set('CONFIG_NETMAP', have_netmap)
+ # xfs headers will not try to redefine structs from linux headers
+ # if this macro is set.
+ config_host_data.set('HAVE_FSXATTR', cc.links('''
+-  #include <linux/fs.h>'
++  #include <linux/fs.h>
+   struct fsxattr foo;
+   int main(void) {
+     return 0;
+-- 
+2.33.1
 
 
