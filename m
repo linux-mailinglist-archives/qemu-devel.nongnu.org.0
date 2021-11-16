@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B181453709
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 17:12:12 +0100 (CET)
-Received: from localhost ([::1]:57696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 149DD453732
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 17:20:04 +0100 (CET)
+Received: from localhost ([::1]:35082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mn147-0005ay-PX
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 11:12:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47748)
+	id 1mn1Bh-0001HB-0f
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 11:20:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mn10r-0001qK-DI; Tue, 16 Nov 2021 11:08:49 -0500
-Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:40760)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mn1A1-0008Mc-Jf
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 11:18:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22546)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mn10p-0001r9-9N; Tue, 16 Nov 2021 11:08:49 -0500
-Received: from mailhost.u-ga.fr (mailhost2.u-ga.fr [129.88.177.242])
- by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id E078441BE8;
- Tue, 16 Nov 2021 17:08:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=univ-grenoble-alpes.fr; s=2020; t=1637078922;
- bh=DL4zxXrRJux0eW+Y/dDFR7LVrm6ayBtVjJHL6TsV/I8=;
- h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
- b=fCo0LAGATe8+KDTW1wpdf/Hi223m3H6tcYsl1EaztWkUrVHqZRLtRSV4QQnJB6xqk
- F8DE+aKl5YveMBjQOhaISIU1tTuR0/zOJ3Eq99B8xw+f0MkSvEnJd16NVxMUNZbesH
- nUK7lawY3enpXzxagOdYHmyTGedarr51ahn8Q2yQWYTP+5iGy42RU2vFNZu6rwYmZ8
- rPdlRKxM7NGm9i3xLtPqxfERn6jg33qmXKE+1WxqyIdzHEifAPmgVqh1aEKl3jmrDZ
- w/unBgYPZkNR9EEzsockTpSBpAvDHi0pFLC8/5ZA0zSkkOwAQ3pFT6eHXY5ik5Jm48
- tzjH6GAr1z1gQ==
-Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
- by mailhost.u-ga.fr (Postfix) with ESMTP id CFED46006B;
- Tue, 16 Nov 2021 17:08:42 +0100 (CET)
-Received: from [147.171.185.230] (pers-185-230.vpn-inp.grenoble-inp.fr
- [147.171.185.230])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mn19y-0003Jr-Ju
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 11:18:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637079493;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=P3dAy1j8Bnn2Dg6Ul9yRwjIINUA8XqHm0lZrORYjRyQ=;
+ b=hULVw9A+dLq46veD5uAYecvlgtxUzTFx2XcFIDNe/TA93YzORfQY0jq2Z+x7p5xxEds1/K
+ WfPjkpCq4GCceVdSAVoTJPRSv56GlNwM+rbnc9wJnv+3wkH8yoQ5WaO0Zf+Zg4ioKTcJyv
+ W4+hZpC3/A4qJSrzO/SkMa389JwBcRI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-365-AJUWI8-iOB2i-alxPV1pBw-1; Tue, 16 Nov 2021 11:18:05 -0500
+X-MC-Unique: AJUWI8-iOB2i-alxPV1pBw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
- by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 048B714005C;
- Tue, 16 Nov 2021 17:08:41 +0100 (CET)
-Message-ID: <fd6f35d6-6e13-a8b3-d47e-94fb8100ab32@univ-grenoble-alpes.fr>
-Date: Tue, 16 Nov 2021 17:08:41 +0100
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D26F9804150
+ for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 16:18:04 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 608E65DF56;
+ Tue, 16 Nov 2021 16:17:50 +0000 (UTC)
+Date: Tue, 16 Nov 2021 16:17:47 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH v5 6/6] multifd: Implement zerocopy write in multifd
+ migration (multifd-zerocopy)
+Message-ID: <YZPZq5sC8F1x+TXE@redhat.com>
+References: <20211112051040.923746-1-leobras@redhat.com>
+ <20211112051040.923746-7-leobras@redhat.com>
+ <87pmr0ulqx.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20211112145902.205131-1-frederic.petrot@univ-grenoble-alpes.fr>
- <20211112145902.205131-10-frederic.petrot@univ-grenoble-alpes.fr>
- <e3ab42c2-3c29-76bd-65e6-5c5b748b743b@linaro.org>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>
-Subject: Re: [PATCH v5 09/18] target/riscv: accessors to registers upper part
- and 128-bit load/store
-In-Reply-To: <e3ab42c2-3c29-76bd-65e6-5c5b748b743b@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
- via submission-587 ACL (41)
-X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 152.77.18.2
-Received-SPF: pass client-ip=152.77.200.56;
- envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
- helo=zm-mta-out-3.u-ga.fr
+In-Reply-To: <87pmr0ulqx.fsf@secure.mitica>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.446,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,37 +81,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, bin.meng@windriver.com, alistair.francis@wdc.com,
- palmer@dabbelt.com, fabien.portas@grenoble-inp.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Leonardo Bras <leobras@redhat.com>,
+ Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/11/2021 09:29, Richard Henderson wrote:
-> On 11/12/21 3:58 PM, Frédéric Pétrot wrote:
->> +        tcg_gen_qemu_ld_tl(memop & MO_BSWAP ? desth : destl, addrl,
->> +                           ctx->mem_idx, MO_TEUQ);
+On Tue, Nov 16, 2021 at 05:08:06PM +0100, Juan Quintela wrote:
+> Leonardo Bras <leobras@redhat.com> wrote:
+> > Implement zerocopy on nocomp_send_write(), by making use of QIOChannel
+> > zerocopy interface.
+> >
+> > Change multifd_send_sync_main() so it can distinguish each iteration sync from
+> > the setup and the completion, so a flush_zerocopy() can be called
+> > at the after each iteration in order to make sure all dirty pages are sent
+> > before a new iteration is started.
+> >
+> > Also make it return -1 if flush_zerocopy() fails, in order to cancel
+> > the migration process, and avoid resuming the guest in the target host
+> > without receiving all current RAM.
+> >
+> > This will work fine on RAM migration because the RAM pages are not usually freed,
+> > and there is no problem on changing the pages content between async_send() and
+> > the actual sending of the buffer, because this change will dirty the page and
+> > cause it to be re-sent on a next iteration anyway.
+> >
+> > Given a lot of locked memory may be needed in order to use multid migration
+> > with zerocopy enabled, make it optional by creating a new migration parameter
+> > "zerocopy" on qapi, so low-privileged users can still perform multifd
+> > migrations.
 > 
-> This isn't correct.  MO_BSWAP is related to the host, not the guest.
-
-   Argh! Thx for pointing out my misunderstanding.
-> You want
+> How much memory can a non-root program use by default?
 > 
->      (memop & MO_BSWAP) == MO_LE ? destl : desth
 > 
-> Are there any big-endian RISC-V though?
+> >  static void *multifd_send_thread(void *opaque)
+> > @@ -853,6 +875,10 @@ static void multifd_new_send_channel_async(QIOTask *task, gpointer opaque)
+> >          goto cleanup;
+> >      }
+> >  
+> > +    if (migrate_use_zerocopy()) {
+> > +        p->write_flags = QIO_CHANNEL_WRITE_FLAG_ZEROCOPY;
+> > +    }
+> 
+> This belongs
+> 
+> 
+> >      p->c = QIO_CHANNEL(sioc);
+> >      qio_channel_set_delay(p->c, false);
+> >      p->running = true;
+> > @@ -918,6 +944,7 @@ int multifd_save_setup(Error **errp)
+> >          p->packet->version = cpu_to_be32(MULTIFD_VERSION);
+> >          p->name = g_strdup_printf("multifdsend_%d", i);
+> >          p->tls_hostname = g_strdup(s->hostname);
+> > +        p->write_flags = 0;
+> 
+> here?
+> 
+> >          socket_send_channel_create(multifd_new_send_channel_async, p);
+> >      }
+> > diff --git a/migration/socket.c b/migration/socket.c
+> > index e26e94aa0c..8e40e0a3fd 100644
+> > --- a/migration/socket.c
+> > +++ b/migration/socket.c
+> > @@ -78,8 +78,13 @@ static void socket_outgoing_migration(QIOTask *task,
+> >          trace_migration_socket_outgoing_connected(data->hostname);
+> >      }
+> >  
+> > -    if (migrate_use_zerocopy()) {
+> > -        error_setg(&err, "Zerocopy not available in migration");
+> > +    if (migrate_use_zerocopy() &&
+> > +        (!migrate_use_multifd() ||
+> > +         !qio_channel_has_feature(sioc, QIO_CHANNEL_FEATURE_WRITE_ZEROCOPY) ||
+> > +          migrate_multifd_compression() != MULTIFD_COMPRESSION_NONE ||
+> > +          migrate_use_tls())) {
+> > +        error_setg(&err,
+> > +                   "Zerocopy only available for non-compressed non-TLS multifd migration");
+> >      }
+> >  
+> >      migration_channel_connect(data->s, sioc, data->hostname, err);
+> 
+> Do we really want to do this check here?  I think this is really too
+> late.
+> 
+> You are not patching migrate_params_check().
+> 
+> I think that the proper way of doing this is something like:
+> 
+>     if (params->zerocopy &&
+>         (params->parameters.multifd_compression != MULTIFD_COMPRESSION_NONE ||
+>          migrate_use_tls())) {
+>            error_setg(&err,
+>                      "Zerocopy only available for non-compressed non-TLS multifd migration");
+>         return false;
+>     }
+> 
+> You have to do the equivalent of multifd_compression and tls enablement,
+> to see that zerocopy is not enabled, of course.
+> 
+> I would prefer to check for QIO_CHANNEL_FEATUR_WRITE_ZEROCPY there, but
+> I can't see a way of doing that without a qio.
 
-   Not that I know of, but the spec defines it since V2.0 (bitfields MBE/SBE/UBE
-   in mstatus), gcc supports it, and there is a check for it in get_dump_info
-   for the riscv, so I opted for adding that (wrong) line.
-   Since we can expect in the future endianness to be dynamic, you are probably
-   right that we should assume litte-endian accesses for now, as handling both
-   will anyway require many other changes.
+I don't think you need to check that feature flag.
 
-   Frédéric
+The combination of zerocopy and compression is simply illogical
+and can be rejected unconditionally.
+
+The combination of zerocopy and TLS is somewhat questionable.
+You're always going to have a copy between the plain text and
+cipher text. Avoiding an extra copy for the cipher text will
+require kerenl work which has no ETA. If it does ever arise,
+QEMU will need more work again to actually support it. So
+today we can just reject it unconditonally again.
+
+Regards,
+Daniel
 -- 
-+---------------------------------------------------------------------------+
-| Frédéric Pétrot, Pr. Grenoble INP-Ensimag/TIMA,   Ensimag deputy director |
-| Mob/Pho: +33 6 74 57 99 65/+33 4 76 57 48 70      Ad augusta  per angusta |
-| http://tima.univ-grenoble-alpes.fr frederic.petrot@univ-grenoble-alpes.fr |
-+---------------------------------------------------------------------------+
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
