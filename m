@@ -2,66 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904294531F3
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 13:16:22 +0100 (CET)
-Received: from localhost ([::1]:46928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84634453210
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 13:22:49 +0100 (CET)
+Received: from localhost ([::1]:53264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmxNt-0005zI-Nv
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 07:16:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48248)
+	id 1mmxU8-0002ED-En
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 07:22:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mmxLr-0004nF-KK; Tue, 16 Nov 2021 07:14:15 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:55397)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1mmxS2-00015h-Rd
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 07:20:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49822)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mmxLp-0007Hm-Mh; Tue, 16 Nov 2021 07:14:15 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.129])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id A2903CBD4E58;
- Tue, 16 Nov 2021 13:14:08 +0100 (CET)
-Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Tue, 16 Nov
- 2021 13:14:06 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G001aa53b0e9-be97-48a3-aa81-70644c80001f,
- BFAEB7FE3C4E2C4D96001007C3BA12B7689A693E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 129.41.46.1
-Message-ID: <f5336551-b29c-393f-4047-ed36a1b98f6f@kaod.org>
-Date: Tue, 16 Nov 2021 13:14:05 +0100
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1mmxS0-0008FT-1V
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 07:20:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637065233;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oVrKeaaVU2N3G4/JoQTR/yNqtrSqi6c9JmYNHMNF/cU=;
+ b=bE5PGNvwQLZTxX8I9/zXMU14JeCPcFBFBKA55Av23QKYqN16YuU685zMhvKzJGudSPdPGo
+ xHmoEFfsKDqLmR5n7k1VG4X+ANb3rd4A3nVUqcRKn1QDd1iiI2xpO+XLgxEC5Opy6OMtp4
+ ORJ4EKX6bNjU0H8by5WNAjJcB+aSBVo=
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-596-pJJ9NO8_ND2ax4jLpdwRHA-1; Tue, 16 Nov 2021 07:20:32 -0500
+X-MC-Unique: pJJ9NO8_ND2ax4jLpdwRHA-1
+Received: by mail-pg1-f198.google.com with SMTP id
+ p13-20020a63c14d000000b002da483902b1so10577564pgi.12
+ for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 04:20:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=oVrKeaaVU2N3G4/JoQTR/yNqtrSqi6c9JmYNHMNF/cU=;
+ b=8LIFTJtvSyDRgOQN6P2lYuZ5nRDRJdf17v6Z5V/EzzPkZQUdioOnLrflbFjND4KbxA
+ O3d8XJqhwTf2BlUA6xuU6Vp+4wHWPutMRoKtTCl2NNMurd8iHaqSvobUsOjRBy4obp/y
+ GAHIk0R2Ttjv8vO6H4naoEuuer1rQAs5aitA5TYtk5VBY41K/I5LE7WA++WeRsb0vnAH
+ vlbsphEiQ6/9A+aCJJV65KQ2nQCvu+WwP3nfL0LlSYd1QBYa3yZjLdpmKy4/3PVmfolW
+ c1VgucNoYggdPT6ZVFkrvZy+UDfth01AyNQIF/+ADbvYdPPt988bKRFnpSZ1NYlRbGjF
+ H9Bg==
+X-Gm-Message-State: AOAM530Z0+NIxFjbkc0PQ73yT/+5hV3Ovjsh7Wr75NkBrh5bC1inbXRo
+ bgEGk5orn3kJW3ZyS8SapJp+auuGDa0Hi4rBpaIsbrTupjYvTw9rRV7YPbvgGDt1KUMbqFTc3FY
+ JvXokn5RQR91CqapXxEuUKECHBOMCLfk=
+X-Received: by 2002:a17:90a:d515:: with SMTP id
+ t21mr75607719pju.123.1637065231394; 
+ Tue, 16 Nov 2021 04:20:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwFY2ICpjN+mrlmFYiTHNAPC0vdOEV5GkDSXSmG0+o/cPZiYDddkv0rRo3aUrZsVMjLRDc09cIV5SPZHImwqK0=
+X-Received: by 2002:a17:90a:d515:: with SMTP id
+ t21mr75607694pju.123.1637065231153; 
+ Tue, 16 Nov 2021 04:20:31 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH RFC 2/2] hw: Replace drive_get_next() by drive_get()
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-References: <20211115125536.3341681-1-armbru@redhat.com>
- <20211115125536.3341681-3-armbru@redhat.com>
- <5b799ad5-a552-454f-dcc7-1ea6de22b397@amsat.org>
- <87lf1pfm2z.fsf@dusky.pond.sub.org>
- <39b908d3-57aa-ab1e-f10a-87afd887a341@kaod.org>
- <87h7ccbg8i.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <87h7ccbg8i.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: adf773a4-d0ae-418d-9518-bf619d4e356b
-X-Ovh-Tracer-Id: 11569747445414136732
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrfedvgdefiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepphgrlhhmvghrsegurggssggvlhhtrdgtohhm
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -32
-X-Spam_score: -3.3
+References: <20211116112757.1909176-1-berrange@redhat.com>
+In-Reply-To: <20211116112757.1909176-1-berrange@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Tue, 16 Nov 2021 09:20:04 -0300
+Message-ID: <CAKJDGDaPS_Z_suyj-dR1nTadCP=jdv9UdK7Ptd7VFUaAP0tYhw@mail.gmail.com>
+Subject: Re: [PATCH] gitlab: skip cirrus jobs on master and stable branches
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.446,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,106 +92,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, bin.meng@windriver.com,
- mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org, jcd@tribudubois.net,
- qemu-block@nongnu.org, andrew.smirnov@gmail.com, hskinnemoen@google.com,
- joel@jms.id.au, atar4qemu@gmail.com, alistair@alistair23.me,
- b.galvani@gmail.com, nieklinnenbank@gmail.com, qemu-arm@nongnu.org,
- kwolf@redhat.com, qemu-riscv@nongnu.org, andrew@aj.id.au,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Andrew.Baumann@microsoft.com, sundeep.lkml@gmail.com, kfting@nuvoton.com,
- hreitz@redhat.com, palmer@dabbelt.com
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/16/21 10:29, Markus Armbruster wrote:
-> Cédric Le Goater <clg@kaod.org> writes:
-> 
->> On 11/15/21 16:57, Markus Armbruster wrote:
->>> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
->>>
->>>> On 11/15/21 13:55, Markus Armbruster wrote:
->>>>> drive_get_next() is basically a bad idea.  It returns the "next" block
->>>>> backend of a certain interface type.  "Next" means bus=0,unit=N, where
->>>>> subsequent calls count N up from zero, per interface type.
->>>>>
->>>>> This lets you define unit numbers implicitly by execution order.  If the
->>>>> order changes, or new calls appear "in the middle", unit numbers change.
->>>>> ABI break.  Hard to spot in review.
->>>>>
->>>>> Explicit is better than implicit: use drive_get() directly.
->>>>>
->>>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->>>>> ---
->>>>>    include/sysemu/blockdev.h           |  1 -
->>>>>    blockdev.c                          | 10 ----------
->>>>>    hw/arm/aspeed.c                     | 21 +++++++++++++--------
->>>>>    hw/arm/cubieboard.c                 |  2 +-
->>>>>    hw/arm/imx25_pdk.c                  |  2 +-
->>>>>    hw/arm/integratorcp.c               |  2 +-
->>>>>    hw/arm/mcimx6ul-evk.c               |  2 +-
->>>>>    hw/arm/mcimx7d-sabre.c              |  2 +-
->>>>>    hw/arm/msf2-som.c                   |  2 +-
->>>>>    hw/arm/npcm7xx_boards.c             |  6 +++---
->>>>>    hw/arm/orangepi.c                   |  2 +-
->>>>>    hw/arm/raspi.c                      |  2 +-
->>>>>    hw/arm/realview.c                   |  2 +-
->>>>>    hw/arm/sabrelite.c                  |  2 +-
->>>>>    hw/arm/versatilepb.c                |  4 ++--
->>>>>    hw/arm/vexpress.c                   |  6 +++---
->>>>>    hw/arm/xilinx_zynq.c                | 16 +++++++++-------
->>>>>    hw/arm/xlnx-versal-virt.c           |  3 ++-
->>>>>    hw/arm/xlnx-zcu102.c                |  6 +++---
->>>>>    hw/microblaze/petalogix_ml605_mmu.c |  2 +-
->>>>>    hw/misc/sifive_u_otp.c              |  2 +-
->>>>>    hw/riscv/microchip_pfsoc.c          |  2 +-
->>>>>    hw/sparc64/niagara.c                |  2 +-
->>>>>    23 files changed, 49 insertions(+), 52 deletions(-)
->>>>
->>>>> @@ -435,11 +438,13 @@ static void aspeed_machine_init(MachineState *machine)
->>>>>        }
->>>>>          for (i = 0; i < bmc->soc.sdhci.num_slots; i++) {
->>>>> -        sdhci_attach_drive(&bmc->soc.sdhci.slots[i], drive_get_next(IF_SD));
->>>>> +        sdhci_attach_drive(&bmc->soc.sdhci.slots[i],
->>>>> +                           drive_get(IF_SD, 0, i));
->>>>
->>>> If we put SD on bus #0, ...
->>>>
->>>>>        }
->>>>>          if (bmc->soc.emmc.num_slots) {
->>>>> -        sdhci_attach_drive(&bmc->soc.emmc.slots[0], drive_get_next(IF_SD));
->>>>> +        sdhci_attach_drive(&bmc->soc.emmc.slots[0],
->>>>> +                           drive_get(IF_SD, 0, bmc->soc.sdhci.num_slots));
->>>>
->>>> ... we'd want to put eMMC on bus #1
->>>
->>> Using separate buses for different kinds of devices would be neater, but
->>> it also would be an incompatible change.  This patch keeps existing
->>> bus/unit numbers working.  drive_get_next() can only use bus 0.
->>
->> All Aspeed SoCs have 3 SPI busses, each with multiple CS, and also multiple
->> sdhci controllers with multiple slots.
->>
->> How drives are defined for the aspeed machines can/should be improved.
->> The machine init iterates on the command line drives, attaches the
->> DriveInfo, in the order found, to a m25p80 device model first and then
->> follows on with the SD devices. This is fragile clearly and a bus+id
->> would be most welcome to identify the drive backend.
->>
->> May be this is a prereq for this patchset ?
-> 
-> Such a change will probably be easier to review after this patch,
-> because then it's just a matter of changing / dumbing down parameters to
-> drive_get().
+On Tue, Nov 16, 2021 at 8:28 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> On the primary QEMU repository we want the CI jobs to run on the staging
+> branch as a gating CI test.
+>
+> Cirrus CI has very limited job concurrency, so if there are too many
+> jobs triggered they'll queue up and hit the GitLab CI job timeout before
+> they complete on Cirrus.
+>
+> If we let Cirrus jobs run again on the master branch immediately after
+> merging from staging, that just increases the chances jobs will get
+> queued and subsequently timeout.
+>
+> The same applies for merges to the stable branches.
+>
+> User forks meanwhile should be allowed to run Cirrus CI jobs freely.
+>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>  .gitlab-ci.d/cirrus.yml | 3 +++
+>  1 file changed, 3 insertions(+)
+>
 
-ok.
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
-> I can't judge whether incompatible change is okay here.
-
-It looks ok to me since you are using the number of possible devices
-of the previous controller as an offset for drive_get().
-
-Thanks,
-
-C.
 
