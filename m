@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D40452D5D
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 09:57:04 +0100 (CET)
-Received: from localhost ([::1]:54454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85262452D81
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 10:03:40 +0100 (CET)
+Received: from localhost ([::1]:57354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmuH1-0005s2-5L
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 03:57:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58394)
+	id 1mmuNP-0008Bw-DB
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 04:03:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mmuG4-00051f-Q3
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 03:56:04 -0500
-Received: from [2a00:1450:4864:20::433] (port=43690
- helo=mail-wr1-x433.google.com)
+ id 1mmuMU-0007MS-6D
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 04:02:42 -0500
+Received: from [2a00:1450:4864:20::32e] (port=42513
+ helo=mail-wm1-x32e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mmuG2-0004tx-Dt
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 03:56:04 -0500
-Received: by mail-wr1-x433.google.com with SMTP id t30so35989539wra.10
- for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 00:56:01 -0800 (PST)
+ id 1mmuMS-0005yi-9q
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 04:02:41 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ d72-20020a1c1d4b000000b00331140f3dc8so1797869wmd.1
+ for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 01:02:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OgpS53R0OL6+WH5T61FYD+Dpv1PGomir5A1iEvOAObU=;
- b=KXpmZS5jcKKIjCnIu+MIGr1dJTrkad36SL/2KDDO505wn4Hj+3wSZQZhyc63UKTBv4
- 0RQ/yRXE/ugmAPnZBauGnMaPYdwy7jWfpcYVUoscCzOGEkgvdyaK0pZAuC7BWO2oY2H+
- Jue8y5xoz+rGZaPfHXHRHidZ4dufRQ/Rt7ryAx4IDOr5PUbUN6VnUBiBby+ok6TJ5ELx
- bv2usUHabbfvDu5SbrVxAJmYjMCb7h7RdPaaR3502q37QeYPtCRW0iL1jJkcQ1Royn8t
- KFPIUxPcgYLtw64fsBxup3EvZUYUWXnrHhZkfGZD/GpqPMRLHislr+kposYv2IV3ltVm
- ihoQ==
+ bh=de2aOMuZV18D3Rjk+Wy7CAs3yPedh+sJo73bnlCoe6U=;
+ b=Xm/VethmhwnPRHDwQ5FY2ty/YHfRH5ru8Wxrx5h+6iNlVpZAjSf9sIt5WmIUKkzMTo
+ kIjxGZOvZNCXgaTZmOicQ1/ao1gUTFO6uNiCWrz2+ag+H6w2d/+GGqtsEtV9ZLWBBzMW
+ 8rVcGne8/UV3TDJLxVA0PwI4uDuFJeoFF5YePy89Km4rdS+fVpXH/qNw7Mj4/Ngfwaw2
+ BOdv6gFaXjpzEPtMqBySVvQ8KTnTh3+VTRc2WvN2QWgd2ZDIflPdtIJb42UZjqeeloZJ
+ +t+7oLsBoCuslSHdSuqatjCPw7oQ6+mgz9rFS181VmCJ74vTAclxZwM5b6HQFJAorUf6
+ p18Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=OgpS53R0OL6+WH5T61FYD+Dpv1PGomir5A1iEvOAObU=;
- b=ch9CALoi2/D4kSY/YhRR7X0ScCC7y2Gw4ZNp2gfMgMQpDs+daC9O1AT4inV3wibIAt
- tc2hkGIjB3QdkGCNsVBa47MNPF5yKh89rHRTg70Fsh6s/Gb1hthf72Yvr6udorNxqPui
- gZUMVFpBVXJ4sHm5IqaJGI56ayVVEyRQroRg2oiJLHLUPkKlu6XdYWJfbxzUeY/BMfj1
- elSreyg/IGAVrMBj3ajweI/c++jpjctAbeRot2ToZKZmEXCGQqy/jySdpD4kWivz5UZw
- HaS1Wjm3oga4b4QImkH6E6AtQpmYHtzb645eAl8TCwrVwGTXGVHvfFg0LivUt7fPyq1l
- s7iA==
-X-Gm-Message-State: AOAM5305pjK/jVF1iIQLKIk/D/WNXenKEFZp3dbODpheee4BVvJHYwXV
- G59NCFWTJoCUYUe537LP04O95w==
-X-Google-Smtp-Source: ABdhPJyWT2hqZkUy0ksL6xvkKlFGBOYqx18St8B7D96KS76mekZbzn3EKz8/fljjQYrIAz5kmoMX3A==
-X-Received: by 2002:a05:6000:15c8:: with SMTP id
- y8mr7471184wry.101.1637052960732; 
- Tue, 16 Nov 2021 00:56:00 -0800 (PST)
+ bh=de2aOMuZV18D3Rjk+Wy7CAs3yPedh+sJo73bnlCoe6U=;
+ b=uGSZvFj9ThaxqSAZwFtAHswduDIzts7bD1iWagZ61ogEaKkg6J+Q8yeBg93qaN+FZD
+ r++RbX4bme7OdL8dfeotAvZKV42cmwQJJycqHtppRwxmOGpyLwlV3nkk151oKpeKlUP/
+ k+wN35afAlkv1YZDPNsyIV2vH9aPu9XGg6Qd9YwfehRhePnZac9GMff7yxj/SnKyhUI0
+ rcOWFLthV5gUqWd4bdaCxcLpH9+zq61/VWmEibywKYvSd85+ZnvqFTK3oNBIaTq8vvoY
+ MGHCPQ78OuW7i5f65cH55/t3yfUDYx2+N2zewW8oiHuFXwyngiH88qhlqod5yYU6+OZs
+ g6OA==
+X-Gm-Message-State: AOAM5309gJp0ruf+ivThgIZOEZZFY1PjAE8iG2TYJAeWKMYN5hKP/BOg
+ NnGAqjiOjI1pgllyxl67PzgLLA==
+X-Google-Smtp-Source: ABdhPJwrG0RL/e7v3VXH4Q7TSVUFW1W57cM143Y+LdY1/A/ojeh0SeLz5H3/6oglAi6nhJzCD0gEwg==
+X-Received: by 2002:a05:600c:21cd:: with SMTP id
+ x13mr68576288wmj.52.1637053358899; 
+ Tue, 16 Nov 2021 01:02:38 -0800 (PST)
 Received: from [192.168.8.105] (145.red-37-158-173.dynamicip.rima-tde.net.
  [37.158.173.145])
- by smtp.gmail.com with ESMTPSA id j19sm16840243wra.5.2021.11.16.00.55.59
+ by smtp.gmail.com with ESMTPSA id f7sm19191700wri.74.2021.11.16.01.02.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Nov 2021 00:56:00 -0800 (PST)
-Subject: Re: [PULL 00/20] pci,pc,virtio: bugfixes
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-References: <20211115163607.177432-1-mst@redhat.com>
+ Tue, 16 Nov 2021 01:02:38 -0800 (PST)
+Subject: Re: [PATCH v1 1/6] tests/docker: force NOUSER=1 for base images
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20211115142915.3797652-1-alex.bennee@linaro.org>
+ <20211115142915.3797652-2-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <3f87ec65-5ccf-52d1-3230-b2287ca95c9c@linaro.org>
-Date: Tue, 16 Nov 2021 09:55:57 +0100
+Message-ID: <556a34aa-5473-c285-f35c-24de789d2f8d@linaro.org>
+Date: Tue, 16 Nov 2021 10:02:34 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211115163607.177432-1-mst@redhat.com>
+In-Reply-To: <20211115142915.3797652-2-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -91,105 +94,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ f4bug@amsat.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/15/21 5:37 PM, Michael S. Tsirkin wrote:
-> The following changes since commit 0a70bcf18caf7a61d480f8448723c15209d128ef:
+On 11/15/21 3:29 PM, Alex Bennée wrote:
+> As base images are often used to build further images like toolchains
+> ensure we don't add the local user by accident. The local user should
+> only exist on local images and not anything that gets pushed up to the
+> public registry.
 > 
->    Update version for v6.2.0-rc0 release (2021-11-09 18:22:57 +0100)
-> 
-> are available in the Git repository at:
-> 
->    git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> 
-> for you to fetch changes up to 18416c62e36a79823a9e28f6b2260aa13c25e1d9:
-> 
->    pcie: expire pending delete (2021-11-15 11:10:11 -0500)
-> 
-> ----------------------------------------------------------------
-> pci,pc,virtio: bugfixes
-> 
-> pci power management fixes
-> acpi hotplug fixes
-> misc other fixes
-> 
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> 
-> ----------------------------------------------------------------
-> Eugenio Pérez (4):
->        vhost: Rename last_index to vq_index_end
->        vhost: Fix last vq queue index of devices with no cvq
->        vdpa: Replace qemu_open_old by qemu_open at
->        vdpa: Check for existence of opts.vhostdev
-> 
-> Gerd Hoffmann (6):
->        pci: implement power state
->        pcie: implement slot power control for pcie root ports
->        pcie: add power indicator blink check
->        pcie: factor out pcie_cap_slot_unplug()
->        pcie: fast unplug when slot power is off
->        pcie: expire pending delete
-> 
-> Igor Mammedov (2):
->        pcie: rename 'native-hotplug' to 'x-native-hotplug'
->        tests: bios-tables-test update expected blobs
-> 
-> Jason Wang (2):
->        virtio: use virtio accessor to access packed descriptor flags
->        virtio: use virtio accessor to access packed event
-> 
-> Julia Suvorova (3):
->        hw/acpi/ich9: Add compat prop to keep HPC bit set for 6.1 machine type
->        bios-tables-test: Allow changes in DSDT ACPI tables
->        hw/i386/acpi-build: Deny control on PCIe Native Hot-plug in _OSC
-> 
-> Philippe Mathieu-Daudé (1):
->        hw/mem/pc-dimm: Restrict NUMA-specific code to NUMA machines
-> 
-> Stefan Hajnoczi (1):
->        softmmu/qdev-monitor: fix use-after-free in qdev_set_id()
-> 
-> Stefano Garzarella (1):
->        net/vhost-vdpa: fix memory leak in vhost_vdpa_get_max_queue_pairs()
-> 
->   include/hw/acpi/ich9.h                |   1 +
->   include/hw/pci/pci.h                  |   2 +
->   include/hw/qdev-core.h                |   1 +
->   include/hw/virtio/vhost.h             |   4 +-
->   hw/acpi/ich9.c                        |  18 ++++++++
->   hw/i386/acpi-build.c                  |  12 ++++--
->   hw/i386/pc.c                          |   2 +
->   hw/i386/pc_q35.c                      |   9 +++-
->   hw/mem/pc-dimm.c                      |  23 ++++++----
->   hw/net/vhost_net.c                    |  12 +++---
->   hw/pci/pci.c                          |  25 ++++++++++-
->   hw/pci/pci_host.c                     |   6 ++-
->   hw/pci/pcie.c                         |  79 ++++++++++++++++++++++++++++------
->   hw/pci/pcie_port.c                    |   2 +-
->   hw/virtio/vhost-vdpa.c                |   2 +-
->   hw/virtio/virtio.c                    |  24 ++++-------
->   net/vhost-vdpa.c                      |   8 +++-
->   softmmu/qdev-monitor.c                |   6 ++-
->   tests/data/acpi/q35/DSDT              | Bin 8289 -> 8289 bytes
->   tests/data/acpi/q35/DSDT.acpihmat     | Bin 9614 -> 9614 bytes
->   tests/data/acpi/q35/DSDT.bridge       | Bin 11003 -> 11003 bytes
->   tests/data/acpi/q35/DSDT.cphp         | Bin 8753 -> 8753 bytes
->   tests/data/acpi/q35/DSDT.dimmpxm      | Bin 9943 -> 9943 bytes
->   tests/data/acpi/q35/DSDT.ipmibt       | Bin 8364 -> 8364 bytes
->   tests/data/acpi/q35/DSDT.ivrs         | Bin 8306 -> 8306 bytes
->   tests/data/acpi/q35/DSDT.memhp        | Bin 9648 -> 9648 bytes
->   tests/data/acpi/q35/DSDT.mmio64       | Bin 9419 -> 9419 bytes
->   tests/data/acpi/q35/DSDT.multi-bridge | Bin 8583 -> 8583 bytes
->   tests/data/acpi/q35/DSDT.nohpet       | Bin 8147 -> 8147 bytes
->   tests/data/acpi/q35/DSDT.numamem      | Bin 8295 -> 8295 bytes
->   tests/data/acpi/q35/DSDT.tis.tpm12    | Bin 8894 -> 8894 bytes
->   tests/data/acpi/q35/DSDT.tis.tpm2     | Bin 8894 -> 8894 bytes
->   tests/data/acpi/q35/DSDT.xapic        | Bin 35652 -> 35652 bytes
->   33 files changed, 176 insertions(+), 60 deletions(-)
+> Reported-by: Richard Henderson<richard.henderson@linaro.org>
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> Message-Id:<20211103171339.721910-1-alex.bennee@linaro.org>
+> ---
+>   tests/docker/Makefile.include | 3 +++
+>   1 file changed, 3 insertions(+)
 
-Applied, thanks.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
