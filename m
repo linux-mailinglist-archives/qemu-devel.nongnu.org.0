@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4546A4532AD
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 14:14:07 +0100 (CET)
-Received: from localhost ([::1]:57380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E1844532D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 14:26:57 +0100 (CET)
+Received: from localhost ([::1]:47356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmyHm-0003cP-DO
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 08:14:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59440)
+	id 1mmyUC-0008D4-2q
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 08:26:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mmyAl-0003yG-O4
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 08:06:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56270)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mmyAn-00041q-DP
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 08:06:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25930)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mmyAj-00077W-S7
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 08:06:51 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mmyAj-00077e-TE
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 08:06:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637068006;
+ s=mimecast20190719; t=1637068007;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MJP7KIvtqJaCF1/Mw86jeH0x28kT1oIRgTt6YiuAKqg=;
- b=jDKDBWCCDLhj8w85GKDtFZaFtNzaiFgqXOSzC+8ykzSWuMzp25DJ7juiSNZTbvPQbfxEH2
- wbhz0BMqzc+2xkiRRvSbu9FXK7PGGQ3e2fv3sHjKljgv6xD0VJAmBY4SZG9sxWVNYPHaru
- RMHy6pW0tMb/3O9R56Id755dF4zac88=
+ bh=wgPktgCJM3GSFV/L7eNu90q9s8R+/85RJFoJyB8TAoM=;
+ b=ZhRI7CrjmIacIcRskTjkgFlHXXJ846xlaTH0/BWqr/TVpuPTg6qmpkomYzSwq8Yywq/Peb
+ J9eY372tyDlIrz9Ug4tl1w4i47rGtk+rZqwozG+w+s8ttUDm+lmQPZkjXidWUFnYM0anqr
+ gBrjSntZynUf4kW9N/Bo/9w77Kipg8I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-5NKx_gfhPdqSk5SOA5rprA-1; Tue, 16 Nov 2021 08:06:42 -0500
-X-MC-Unique: 5NKx_gfhPdqSk5SOA5rprA-1
+ us-mta-465-7Mefl0kvNFae-yopfcTd0A-1; Tue, 16 Nov 2021 08:06:44 -0500
+X-MC-Unique: 7Mefl0kvNFae-yopfcTd0A-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CD4ACC621;
- Tue, 16 Nov 2021 13:06:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56C221054F90;
+ Tue, 16 Nov 2021 13:06:43 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.139])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A4FD21816A;
- Tue, 16 Nov 2021 13:06:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C5F1D5DEFB;
+ Tue, 16 Nov 2021 13:06:42 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL v2 07/13] transactions: Invoke clean() after everything else
-Date: Tue, 16 Nov 2021 14:06:12 +0100
-Message-Id: <20211116130618.700441-8-hreitz@redhat.com>
+Subject: [PULL v2 08/13] block: Let replace_child_tran keep indirect pointer
+Date: Tue, 16 Nov 2021 14:06:13 +0100
+Message-Id: <20211116130618.700441-9-hreitz@redhat.com>
 In-Reply-To: <20211116130618.700441-1-hreitz@redhat.com>
 References: <20211116130618.700441-1-hreitz@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -82,78 +82,236 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Invoke the transaction drivers' .clean() methods only after all
-.commit() or .abort() handlers are done.
+As of a future commit, bdrv_replace_child_noperm() will clear the
+indirect BdrvChild pointer passed to it if the new child BDS is NULL.
+bdrv_replace_child_tran() will want to let it do that, but revert this
+change in its abort handler.  For that, we need to have it receive a
+BdrvChild ** pointer, too, and keep it stored in the
+BdrvReplaceChildState object that we attach to the transaction.
 
-This makes it easier to have nested transactions where the top-level
-transactions pass objects to lower transactions that the latter can
-still use throughout their commit/abort phases, while the top-level
-transaction keeps a reference that is released in its .clean() method.
+Note that we do not need to store it in the BdrvReplaceChildState when
+new_bs is not NULL, because then there is nothing to revert.  This is
+important so that bdrv_replace_node_noperm() can pass a pointer to a
+loop-local variable to bdrv_replace_child_tran() without worrying that
+this pointer will outlive one loop iteration.
 
-(Before this commit, that is also possible, but the top-level
-transaction would need to take care to invoke tran_add() before the
-lower-level transaction does.  This commit makes the ordering
-irrelevant, which is just a bit nicer.)
+(Of course, for that to work, bdrv_replace_node_noperm() and in turn
+bdrv_replace_node() and its relatives may not be called with a NULL @to
+node.  Luckily, they already are not, but now we should assert this.)
+
+bdrv_remove_file_or_backing_child() on the other hand needs to ensure
+that the indirect pointer it passes will stay valid for the duration of
+the transaction.  Ensure this by keeping a strong reference to the BDS
+whose &bs->backing or &bs->file it passes to bdrv_replace_child_tran(),
+and giving up that reference only in the transaction .clean() handler.
 
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20211111120829.81329-8-hreitz@redhat.com>
+Message-Id: <20211111120829.81329-9-hreitz@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20211115145409.176785-8-kwolf@redhat.com>
+Message-Id: <20211115145409.176785-9-kwolf@redhat.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- include/qemu/transactions.h | 3 +++
- util/transactions.c         | 8 ++++++--
- 2 files changed, 9 insertions(+), 2 deletions(-)
+ block.c | 83 ++++++++++++++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 73 insertions(+), 10 deletions(-)
 
-diff --git a/include/qemu/transactions.h b/include/qemu/transactions.h
-index 92c5965235..2f2060acd9 100644
---- a/include/qemu/transactions.h
-+++ b/include/qemu/transactions.h
-@@ -31,6 +31,9 @@
-  * tran_create(), call your "prepare" functions on it, and finally call
-  * tran_abort() or tran_commit() to finalize the transaction by corresponding
-  * finalization actions in reverse order.
+diff --git a/block.c b/block.c
+index 8da057f800..a40027161c 100644
+--- a/block.c
++++ b/block.c
+@@ -2254,6 +2254,7 @@ static int bdrv_drv_set_perm(BlockDriverState *bs, uint64_t perm,
+ 
+ typedef struct BdrvReplaceChildState {
+     BdrvChild *child;
++    BdrvChild **childp;
+     BlockDriverState *old_bs;
+ } BdrvReplaceChildState;
+ 
+@@ -2269,7 +2270,29 @@ static void bdrv_replace_child_abort(void *opaque)
+     BdrvReplaceChildState *s = opaque;
+     BlockDriverState *new_bs = s->child->bs;
+ 
+-    /* old_bs reference is transparently moved from @s to @s->child */
++    /*
++     * old_bs reference is transparently moved from @s to s->child.
++     *
++     * Pass &s->child here instead of s->childp, because:
++     * (1) s->old_bs must be non-NULL, so bdrv_replace_child_noperm() will not
++     *     modify the BdrvChild * pointer we indirectly pass to it, i.e. it
++     *     will not modify s->child.  From that perspective, it does not matter
++     *     whether we pass s->childp or &s->child.
++     *     (TODO: Right now, bdrv_replace_child_noperm() never modifies that
++     *     pointer anyway (though it will in the future), so at this point it
++     *     absolutely does not matter whether we pass s->childp or &s->child.)
++     * (2) If new_bs is not NULL, s->childp will be NULL.  We then cannot use
++     *     it here.
++     * (3) If new_bs is NULL, *s->childp will have been NULLed by
++     *     bdrv_replace_child_tran()'s bdrv_replace_child_noperm() call, and we
++     *     must not pass a NULL *s->childp here.
++     *     (TODO: In its current state, bdrv_replace_child_noperm() will not
++     *     have NULLed *s->childp, so this does not apply yet.  It will in the
++     *     future.)
++     *
++     * So whether new_bs was NULL or not, we cannot pass s->childp here; and in
++     * any case, there is no reason to pass it anyway.
++     */
+     bdrv_replace_child_noperm(&s->child, s->old_bs);
+     bdrv_unref(new_bs);
+ }
+@@ -2286,22 +2309,32 @@ static TransactionActionDrv bdrv_replace_child_drv = {
+  * Note: real unref of old_bs is done only on commit.
+  *
+  * The function doesn't update permissions, caller is responsible for this.
 + *
-+ * The clean() functions registered by the drivers in a transaction are called
-+ * last, after all abort() or commit() functions have been called.
++ * Note that if new_bs == NULL, @childp is stored in a state object attached
++ * to @tran, so that the old child can be reinstated in the abort handler.
++ * Therefore, if @new_bs can be NULL, @childp must stay valid until the
++ * transaction is committed or aborted.
++ *
++ * (TODO: The reinstating does not happen yet, but it will once
++ * bdrv_replace_child_noperm() NULLs *childp when new_bs is NULL.)
   */
- 
- #ifndef QEMU_TRANSACTIONS_H
-diff --git a/util/transactions.c b/util/transactions.c
-index d0bc9a3e73..2dbdedce95 100644
---- a/util/transactions.c
-+++ b/util/transactions.c
-@@ -61,11 +61,13 @@ void tran_abort(Transaction *tran)
+-static void bdrv_replace_child_tran(BdrvChild *child, BlockDriverState *new_bs,
++static void bdrv_replace_child_tran(BdrvChild **childp,
++                                    BlockDriverState *new_bs,
+                                     Transaction *tran)
  {
-     TransactionAction *act, *next;
+     BdrvReplaceChildState *s = g_new(BdrvReplaceChildState, 1);
+     *s = (BdrvReplaceChildState) {
+-        .child = child,
+-        .old_bs = child->bs,
++        .child = *childp,
++        .childp = new_bs == NULL ? childp : NULL,
++        .old_bs = (*childp)->bs,
+     };
+     tran_add(tran, &bdrv_replace_child_drv, s);
  
--    QSLIST_FOREACH_SAFE(act, &tran->actions, entry, next) {
-+    QSLIST_FOREACH(act, &tran->actions, entry) {
-         if (act->drv->abort) {
-             act->drv->abort(act->opaque);
-         }
-+    }
+     if (new_bs) {
+         bdrv_ref(new_bs);
+     }
+-    bdrv_replace_child_noperm(&child, new_bs);
+-    /* old_bs reference is transparently moved from @child to @s */
++    bdrv_replace_child_noperm(childp, new_bs);
++    /* old_bs reference is transparently moved from *childp to @s */
+ }
  
-+    QSLIST_FOREACH_SAFE(act, &tran->actions, entry, next) {
-         if (act->drv->clean) {
-             act->drv->clean(act->opaque);
-         }
-@@ -80,11 +82,13 @@ void tran_commit(Transaction *tran)
+ /*
+@@ -4844,6 +4877,7 @@ static bool should_update_child(BdrvChild *c, BlockDriverState *to)
+ 
+ typedef struct BdrvRemoveFilterOrCowChild {
+     BdrvChild *child;
++    BlockDriverState *bs;
+     bool is_backing;
+ } BdrvRemoveFilterOrCowChild;
+ 
+@@ -4873,10 +4907,19 @@ static void bdrv_remove_filter_or_cow_child_commit(void *opaque)
+     bdrv_child_free(s->child);
+ }
+ 
++static void bdrv_remove_filter_or_cow_child_clean(void *opaque)
++{
++    BdrvRemoveFilterOrCowChild *s = opaque;
++
++    /* Drop the bs reference after the transaction is done */
++    bdrv_unref(s->bs);
++    g_free(s);
++}
++
+ static TransactionActionDrv bdrv_remove_filter_or_cow_child_drv = {
+     .abort = bdrv_remove_filter_or_cow_child_abort,
+     .commit = bdrv_remove_filter_or_cow_child_commit,
+-    .clean = g_free,
++    .clean = bdrv_remove_filter_or_cow_child_clean,
+ };
+ 
+ /*
+@@ -4894,6 +4937,11 @@ static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
+         return;
+     }
+ 
++    /*
++     * Keep a reference to @bs so @childp will stay valid throughout the
++     * transaction (required by bdrv_replace_child_tran())
++     */
++    bdrv_ref(bs);
+     if (child == bs->backing) {
+         childp = &bs->backing;
+     } else if (child == bs->file) {
+@@ -4903,12 +4951,13 @@ static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
+     }
+ 
+     if (child->bs) {
+-        bdrv_replace_child_tran(*childp, NULL, tran);
++        bdrv_replace_child_tran(childp, NULL, tran);
+     }
+ 
+     s = g_new(BdrvRemoveFilterOrCowChild, 1);
+     *s = (BdrvRemoveFilterOrCowChild) {
+         .child = child,
++        .bs = bs,
+         .is_backing = (childp == &bs->backing),
+     };
+     tran_add(tran, &bdrv_remove_filter_or_cow_child_drv, s);
+@@ -4934,6 +4983,8 @@ static int bdrv_replace_node_noperm(BlockDriverState *from,
  {
-     TransactionAction *act, *next;
+     BdrvChild *c, *next;
  
--    QSLIST_FOREACH_SAFE(act, &tran->actions, entry, next) {
-+    QSLIST_FOREACH(act, &tran->actions, entry) {
-         if (act->drv->commit) {
-             act->drv->commit(act->opaque);
++    assert(to != NULL);
++
+     QLIST_FOREACH_SAFE(c, &from->parents, next_parent, next) {
+         assert(c->bs == from);
+         if (!should_update_child(c, to)) {
+@@ -4949,7 +5000,12 @@ static int bdrv_replace_node_noperm(BlockDriverState *from,
+                        c->name, from->node_name);
+             return -EPERM;
          }
-+    }
+-        bdrv_replace_child_tran(c, to, tran);
++
++        /*
++         * Passing a pointer to the local variable @c is fine here, because
++         * @to is not NULL, and so &c will not be attached to the transaction.
++         */
++        bdrv_replace_child_tran(&c, to, tran);
+     }
  
-+    QSLIST_FOREACH_SAFE(act, &tran->actions, entry, next) {
-         if (act->drv->clean) {
-             act->drv->clean(act->opaque);
-         }
+     return 0;
+@@ -4964,6 +5020,8 @@ static int bdrv_replace_node_noperm(BlockDriverState *from,
+  *
+  * With @detach_subchain=true @to must be in a backing chain of @from. In this
+  * case backing link of the cow-parent of @to is removed.
++ *
++ * @to must not be NULL.
+  */
+ static int bdrv_replace_node_common(BlockDriverState *from,
+                                     BlockDriverState *to,
+@@ -4976,6 +5034,8 @@ static int bdrv_replace_node_common(BlockDriverState *from,
+     BlockDriverState *to_cow_parent = NULL;
+     int ret;
+ 
++    assert(to != NULL);
++
+     if (detach_subchain) {
+         assert(bdrv_chain_contains(from, to));
+         assert(from != to);
+@@ -5031,6 +5091,9 @@ out:
+     return ret;
+ }
+ 
++/**
++ * Replace node @from by @to (where neither may be NULL).
++ */
+ int bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
+                       Error **errp)
+ {
+@@ -5098,7 +5161,7 @@ int bdrv_replace_child_bs(BdrvChild *child, BlockDriverState *new_bs,
+     bdrv_drained_begin(old_bs);
+     bdrv_drained_begin(new_bs);
+ 
+-    bdrv_replace_child_tran(child, new_bs, tran);
++    bdrv_replace_child_tran(&child, new_bs, tran);
+ 
+     found = g_hash_table_new(NULL, NULL);
+     refresh_list = bdrv_topological_dfs(refresh_list, found, old_bs);
 -- 
 2.33.1
 
