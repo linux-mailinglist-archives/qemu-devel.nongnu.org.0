@@ -2,102 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF89453846
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 18:07:48 +0100 (CET)
-Received: from localhost ([::1]:38928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03D54453856
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 18:11:28 +0100 (CET)
+Received: from localhost ([::1]:46926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mn1vv-0003Bo-HB
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 12:07:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34120)
+	id 1mn1zS-0000Dg-T1
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 12:11:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1mn1q9-0002Pq-QV; Tue, 16 Nov 2021 12:01:51 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46742
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mn1xW-0007GR-OI
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 12:09:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22257)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1mn1q5-00018e-Mg; Tue, 16 Nov 2021 12:01:49 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AGGHhRV011251; 
- Tue, 16 Nov 2021 17:01:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : subject :
- date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=QS2k3Wv8Aw71MIEWq6KRvGeTCGVQ6z8Y/5vYgqNoq/Y=;
- b=PoTCg3cNbUvvsOYF3HPzHvKtTEsClt86WqC4ItnDgeUUpMRqYldwHbtwoIKonwujhfjR
- AEX+X004eX77Ve9EHgfdT6TKfK0KsmOTjzmLCQxwCHKDTDj+2M1sqPuryAhdrmNcSogm
- dy6mFouFopdthNnEIJb75IUM2M9pQeXsDDzxh1eHrGiDGDEPPmefsl77NXY7JXOZnl7Z
- 09YaEPJQT7ihFGdVxYSfgUSrly9uZnyytFPDW+xyp6f+9DBj0Sf482zF1aILDJ6D169n
- NyCAY1ZuyZWUjrqcr/wW8gpIjbwbwJIa4hT00d1FjCeekzZGSfQ4GnGwgfQz52qWyG8L nw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ccg1rs27g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Nov 2021 17:01:40 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AGGxfji016052;
- Tue, 16 Nov 2021 17:01:40 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ccg1rs26w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Nov 2021 17:01:40 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AGGr0M3006921;
- Tue, 16 Nov 2021 17:01:38 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma06fra.de.ibm.com with ESMTP id 3ca4mk12jn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Nov 2021 17:01:38 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 1AGGsdBN47710472
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 16 Nov 2021 16:54:39 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3B1D5AE063;
- Tue, 16 Nov 2021 17:01:35 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E3AACAE045;
- Tue, 16 Nov 2021 17:01:34 +0000 (GMT)
-Received: from localhost.ibm.com (unknown [9.101.4.17])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 16 Nov 2021 17:01:34 +0000 (GMT)
-From: Frederic Barrat <fbarrat@linux.ibm.com>
-To: clg@kaod.org, mst@redhat.com, marcel.apfelbaum@gmail.com,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH 3/3] pcie_aer: Don't trigger a LSI if none are defined
-Date: Tue, 16 Nov 2021 18:01:33 +0100
-Message-Id: <20211116170133.724751-4-fbarrat@linux.ibm.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211116170133.724751-1-fbarrat@linux.ibm.com>
-References: <20211116170133.724751-1-fbarrat@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mn1xT-00028S-9Q
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 12:09:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637082562;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/tksoeZ18iFXQIaMb2lEcun62QWijgtS4Ywh1WCiCbw=;
+ b=Iq5sOGQv4MytDqjAcZBc9YP33VnmctoS4MLr3Pwa2tRP6AzQt1Xeken4d09tjcWsWNq8Wt
+ qcko3YjxztWPZNrZBN9/Io9hFrs1WhM+VW1gvHyaGW6gBKIHzVxXTMczsvi79ruMfPVsOQ
+ +Vkd8uX1Y6mQU9bP5jWcGLwiJ5VUlD8=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-364-Y6YaAbWzMxayC1xXzZeHSQ-1; Tue, 16 Nov 2021 12:09:18 -0500
+X-MC-Unique: Y6YaAbWzMxayC1xXzZeHSQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ o4-20020adfca04000000b0018f07ad171aso4546210wrh.20
+ for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 09:09:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=/tksoeZ18iFXQIaMb2lEcun62QWijgtS4Ywh1WCiCbw=;
+ b=P6xnsBXlv4wzSfj1S9infHJYv4ouSh903HakWeCg+JUCcofr1YirBmRLmIcPwraUrP
+ LKKG8M7eehfox2V5O3AfXAzrkHwfVSv46xmCjpgjFiuDhiZkpM8B1EJSaPJIftkGhZRS
+ rS+9tzvBSMj9SeW+OwlWbV2me7jOAMdoVerCBS8W7NMTSITaG3azxBMiqrB82Wbq+GR7
+ Ojty383osxyXkElb9ZUpHI4eUeIiqsJrRie8Fn668LegRhqTeMTz8j1y/++u3tcItzXd
+ iJNFqt75dd3g1+slMlUUEtX+6+2Rc55c7yN3Uwz/y6MTiqoq29JX3U3GoAg/oouFjjdv
+ Qp9g==
+X-Gm-Message-State: AOAM531YitzEuEKugI9skw03VueUX9sCOGuBVdlUpA5JJU9Mr3E2ldMo
+ AvjeniRh3kjbHSfjHwxDhNO1Dt/VddcRJ2MxUaC/exbsZaIsfmXwIrwQPcV+XT0CBIR9suYA6XZ
+ Kq0h39p1X6QHVQ94=
+X-Received: by 2002:a1c:4d13:: with SMTP id o19mr9539840wmh.164.1637082557305; 
+ Tue, 16 Nov 2021 09:09:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyEzBRiJArAmYqal5dCsxfdX25xboUudStvmzLzTfXOc1LG+3BpXDLdylbCeSKIXDkMokoN6g==
+X-Received: by 2002:a1c:4d13:: with SMTP id o19mr9539792wmh.164.1637082557005; 
+ Tue, 16 Nov 2021 09:09:17 -0800 (PST)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id 8sm2857153wmg.24.2021.11.16.09.09.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Nov 2021 09:09:16 -0800 (PST)
+Message-ID: <3b48a20f-c8db-9ebf-f179-f1843782c229@redhat.com>
+Date: Tue, 16 Nov 2021 18:09:15 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] gitlab-ci/cirrus: Increase timeout to 80 minutes
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20211116163309.246602-1-thuth@redhat.com>
+ <YZPhHt4JFcz41YFJ@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <YZPhHt4JFcz41YFJ@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: hq6wcUsmk8Z7CZc3jY9S9O2IachMkK6w
-X-Proofpoint-ORIG-GUID: tF2U1rJKwGmU_uQkPKq2Yq3N2UHE421k
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-16_03,2021-11-16_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0
- priorityscore=1501 suspectscore=0 impostorscore=0 adultscore=0
- clxscore=1015 malwarescore=0 mlxlogscore=999 lowpriorityscore=0 mlxscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111160084
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=fbarrat@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.446, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,34 +100,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Skip triggering an LSI when the AER root error status is updated if no
-LSI is defined for the device. We can have a root bridge with no LSI,
-MSI and MSI-X defined, for example on POWER systems.
+On 11/16/21 17:49, Daniel P. Berrangé wrote:
+> On Tue, Nov 16, 2021 at 05:33:09PM +0100, Thomas Huth wrote:
+>> The jobs on Cirrus-CI sometimes get delayed quite a bit, waiting to
+>> be scheduled, so while the build test itself finishes within 60 minutes,
+>> the total run time of the jobs can be longer due to this waiting time.
+>> Thus let's increase the timeout on the gitlab side a little bit, so
+>> that these jobs are not marked as failing just because of the delay.
+> 
+> On a successful pipeline I see
+> 
+>  freebsd-11  - 28 minutes
+>  freebsd-12  - 57 minutes
+>  macos       - 30 minutes
+> 
+> We know cirrus allows 2 concurrent jobs, so from that I infer
+> that the freebsd-12 job was queued for ~30 minutes waiting for
+> either the freebsd-11 or macos job to finish, and then it
+> ran in 30 minutes, giving the ~60 minute total.
+> 
+> That's too close to the 60 minute gitlab default job timeout
+> for comfort - it can easily slip over 60 minutes by just a
+> small amount.
+> 
+> 80 minutes will certainly help in the case where we
+> randomly take a little longer than 30 minutes to build,
+> and have 1 of the 3 jobs queued.
+> 
+> When we're running jobs on both master + staging, we can
+> have 2 jobs running and 4 more queued - 2 of those queued
+> might just finish in time, but 2 will definitely fail.
+> My patch will cut these extra jobs on master, so in common
+> case we only ever get 1 queued, which should work well in
+> combo with your patch here. That should be good enough
+> for the qemu-project namespace, unless someone is triggering
+> pipelines for stable branch staging at the same time as
+> the master branch staging.
+> 
+> If we do want to worry about more than 2 queued jobs
+> again for that reason, we might consider putting
+> it upto 100 minutes. That would give us enough slack to
+> have 4 queued jobs behind two running jobs and have
+> them all succeed
+> 
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>  .gitlab-ci.d/cirrus.yml | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
+>> index e7b25e7427..22d42585e4 100644
+>> --- a/.gitlab-ci.d/cirrus.yml
+>> +++ b/.gitlab-ci.d/cirrus.yml
+>> @@ -14,6 +14,7 @@
+>>    stage: build
+>>    image: registry.gitlab.com/libvirt/libvirt-ci/cirrus-run:master
+>>    needs: []
+>> +  timeout: 80m
+>>    allow_failure: true
+>>    script:
+>>      - source .gitlab-ci.d/cirrus/$NAME.vars
+> 
+> Whether 80 or 100 minute, consider it
+> 
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
----
- hw/pci/pcie_aer.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+This pipeline took 1h51m09s:
+https://gitlab.com/qemu-project/qemu/-/pipelines/409666733/builds
+But Richard restarted unstable jobs, which probably added time
+to the total.
 
-diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
-index 27f9cc56af..e1a8a88c8c 100644
---- a/hw/pci/pcie_aer.c
-+++ b/hw/pci/pcie_aer.c
-@@ -774,7 +774,9 @@ void pcie_aer_root_write_config(PCIDevice *dev,
-     uint32_t root_cmd = pci_get_long(aer_cap + PCI_ERR_ROOT_COMMAND);
-     /* 6.2.4.1.2 Interrupt Generation */
-     if (!msix_enabled(dev) && !msi_enabled(dev)) {
--        pci_set_irq(dev, !!(root_cmd & enabled_cmd));
-+        if (pci_intx(dev) != -1) {
-+            pci_set_irq(dev, !!(root_cmd & enabled_cmd));
-+        }
-         return;
-     }
- 
--- 
-2.33.1
+IIRC from a maintainer perspective 1h15 is the upper limit.
+80m fits, 100m is over. Up to the project maintainers
+(personally I don't have any objection, in particular if
+this reduces the failures rate).
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
