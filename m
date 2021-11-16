@@ -2,70 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8969545342B
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 15:28:52 +0100 (CET)
-Received: from localhost ([::1]:43862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8297545341B
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 15:25:20 +0100 (CET)
+Received: from localhost ([::1]:37000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmzS7-0008FW-NC
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 09:28:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49432)
+	id 1mmzOh-0003WO-L5
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 09:25:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mmzKh-0005Jz-Qh
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 09:21:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60981)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mmzKb-0003Gp-R9
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 09:21:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637072463;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=x7wjfvnS3z6S87UWZiDHbuGPMGteBwUNqKI7HtSbBIs=;
- b=MOhT/4PtCAC0jkacAN4g3G1vnI/8MVzjzPXdnEo4UoPKJqjAKL/SwIt8X8YaHDnGdIwMpc
- yFSUhxhSAEa1CvKx1OOmMgEMPA1NnSxdgbYay7pX49u+nVdVxrUuQFr8RmGRsFl8Ol9S3M
- YDQS8Z5P+TybU1AHtykekcxcfxzacBs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-95-t52TSfDrPsqLbgshc3qTfQ-1; Tue, 16 Nov 2021 09:21:00 -0500
-X-MC-Unique: t52TSfDrPsqLbgshc3qTfQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5344804142;
- Tue, 16 Nov 2021 14:20:58 +0000 (UTC)
-Received: from redhat.com (ovpn-114-146.phx2.redhat.com [10.3.114.146])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F0175DF56;
- Tue, 16 Nov 2021 14:20:42 +0000 (UTC)
-Date: Tue, 16 Nov 2021 08:20:40 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH for 6.2 v4] nbd/server: Add --selinux-label option
-Message-ID: <20211116142040.u7yanlmliymwvx5v@redhat.com>
-References: <20211115202944.615966-1-eblake@redhat.com>
- <9ea4ede4-f1aa-c430-9e94-cb2db9b1d372@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mmzMX-0007em-Dc
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 09:23:05 -0500
+Received: from [2a00:1450:4864:20::435] (port=36646
+ helo=mail-wr1-x435.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mmzMP-0003cN-CB
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 09:23:04 -0500
+Received: by mail-wr1-x435.google.com with SMTP id s13so37987258wrb.3
+ for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 06:22:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=PrgG+NAE011F02KcbMASwDRvuBWgpALJ8MkUSEuTA5w=;
+ b=mWb9XOZb7LDNlDmU0xfkRit33U0rTDeo8LBZ52wm5yvIDlIwCJ9f5cXl5g8r2rYOAe
+ Mc2AbY3JNaRAwDKGV2xPjWLYIGKQywRbnrFKvaRMAWDWDHdpXsWCU5pytFCPBOVrAFnZ
+ 8o4VQus0Man0oUdxATG0cc/F4HJ93kmg9sL/z0yeULQon7PvaN7jpjHJXduJoXmZVJ/k
+ ThFvmmlQP8kOoCe5s27xO3/Mpy5s5Az91fZbHpkt8/w6L+/HVcMKXjtkEYJgQIiS+Qoz
+ 4kczfUsjKyA4t3nvLRHyiSuHc3Kq1+nMEpvKX7xlyPsioHTKplO4f0zKF5NBVEOCPOIf
+ YKkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PrgG+NAE011F02KcbMASwDRvuBWgpALJ8MkUSEuTA5w=;
+ b=l/vghqVAVuHeb0aG4eXO3xs0kAiPgvSjbgEXi9PUnVYQ0Z+M8BnRPNXzhTE9Cnac/Q
+ zIwzFN7/7WcImCegELjrBfDd3nFcSQPTG40HiMlyuv/gBZ6EAPYRdiMCE5De5vMjbwXm
+ LdY9RfFTgwQSg3tKDuKVsB7SSk/38ziH5bBz2hu8TwNiHljW5eAUqu+LdSvC+YPslgj8
+ r/NvMHA9gM2qKuyFtvJGMwwniO3lA/AmOIEn9iUOJYC3ZDxi2ej03Jk/j6uP27b0EbtT
+ K3G+IPkJz1sarnqVcBKNNyKNDZO5vQOnMugyYRKNwCWqjBsA0FJylgL0bkAPpUERjWSs
+ 3Krg==
+X-Gm-Message-State: AOAM531LdpWX2CYeon3DCuUbfPiRZMcuAK9rlyNDR+BTgrZVVzM8KUzn
+ Jg4gv5HtWKlSeWbsEiunrRomNQ==
+X-Google-Smtp-Source: ABdhPJzG1KM0UOG9KiWS1axgEyrGgvinLZwtwJHhpE8Es5ytLA/oAUG2n/XMsDoDE+1QGyPWoakCZg==
+X-Received: by 2002:adf:f60e:: with SMTP id t14mr9838774wrp.112.1637072575617; 
+ Tue, 16 Nov 2021 06:22:55 -0800 (PST)
+Received: from [192.168.8.105] (145.red-37-158-173.dynamicip.rima-tde.net.
+ [37.158.173.145])
+ by smtp.gmail.com with ESMTPSA id e18sm17763888wrs.48.2021.11.16.06.22.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Nov 2021 06:22:55 -0800 (PST)
+Subject: Re: [PATCH-for-7.0 v4 05/11] tests/unit/test-smp-parse: Split the
+ 'generic' test in valid / invalid
+To: "wangyanan (Y)" <wangyanan55@huawei.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20211115145900.2531865-1-philmd@redhat.com>
+ <20211115145900.2531865-6-philmd@redhat.com>
+ <0d3fa53c-ae1f-abfe-1418-46f96ca75015@huawei.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <a1cfcb19-d493-719f-3e34-01b7e41dc2dd@linaro.org>
+Date: Tue, 16 Nov 2021 15:22:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <9ea4ede4-f1aa-c430-9e94-cb2db9b1d372@redhat.com>
-User-Agent: NeoMutt/20211029-16-b680fe
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <0d3fa53c-ae1f-abfe-1418-46f96ca75015@huawei.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.446,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,58 +95,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, berrange@redhat.com,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, wainersm@redhat.com,
- rjones@redhat.com, willianr@redhat.com, pbonzini@redhat.com,
- alex.bennee@linaro.org, f4bug@amsat.org
+Cc: Thomas Huth <thuth@redhat.com>, Andrew Jones <drjones@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 16, 2021 at 08:06:03AM +0100, Thomas Huth wrote:
-> On 15/11/2021 21.29, Eric Blake wrote:
-> > From: "Richard W.M. Jones" <rjones@redhat.com>
-> > 
-> > Under SELinux, Unix domain sockets have two labels.  One is on the
-> > disk and can be set with commands such as chcon(1).  There is a
-> > different label stored in memory (called the process label).  This can
-> > only be set by the process creating the socket.  When using SELinux +
-> > SVirt and wanting qemu to be able to connect to a qemu-nbd instance,
-> > you must set both labels correctly first.
-> > 
-> > For qemu-nbd the options to set the second label are awkward.  You can
-> > create the socket in a wrapper program and then exec into qemu-nbd.
-> > Or you could try something with LD_PRELOAD.
-> > 
-> > This commit adds the ability to set the label straightforwardly on the
-> > command line, via the new --selinux-label flag.  (The name of the flag
-> > is the same as the equivalent nbdkit option.)
-> ...
-> > @@ -3430,6 +3437,7 @@ summary_info += {'libdaxctl support': libdaxctl}
-> >   summary_info += {'libudev':           libudev}
-> >   # Dummy dependency, keep .found()
-> >   summary_info += {'FUSE lseek':        fuse_lseek.found()}
-> > +summary_info += {'selinux':           selinux.found()}
-> 
-> It's nicer if you do it like this (i.e. without the .found()):
-> 
-> summary_info += {'selinux':           selinux}
-> 
-> ... then meson prints out the version of the library, too.
+On 11/16/21 3:07 PM, wangyanan (Y) wrote:
+>> +    int i;
+>> +
+>> +
+> Ah, there is an extra empty line which should be deleted.
 
-Will tweak on the pull request.
+I noticed that too, but it gets deleted in patch 7, so I let it be.  ;-)
 
-> 
-> Apart from that, patch looks fine to me:
-> 
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
->
 
-Thanks. I'll send a pull request through my NBD tree soon.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+r~
 
