@@ -2,73 +2,153 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E73451C70
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 01:15:12 +0100 (CET)
-Received: from localhost ([::1]:58236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73EAC4523D6
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 02:28:38 +0100 (CET)
+Received: from localhost ([::1]:37766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmm7z-0000jC-5H
-	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 19:15:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43450)
+	id 1mmnH3-0000mR-3L
+	for lists+qemu-devel@lfdr.de; Mon, 15 Nov 2021 20:28:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mmm5r-0008Ll-QS; Mon, 15 Nov 2021 19:13:03 -0500
-Received: from [2607:f8b0:4864:20::12d] (port=42803
- helo=mail-il1-x12d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mmm5m-0005nH-L1; Mon, 15 Nov 2021 19:12:59 -0500
-Received: by mail-il1-x12d.google.com with SMTP id s15so18467977ild.9;
- Mon, 15 Nov 2021 16:12:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Fo5LekwQB5T3ewAOSIvxuurpoRTJgge4oe9PLXRPKXw=;
- b=aiVNYcnpZpbKpN7nDICQ1oMEpfaWcjSoL7F87phs1AME7zA7lBKnI+7BuOyMHerPYC
- UXFQy14ApTF4x2Z19MgaoBnFE0cYzsq+SWA8eGc5XMem6aYJvdZDfCvGD+CG4hrkawbT
- FzY3WxOLchDSwEtvCriEX5AbfEC6vygw0ysmqGE0NBIS6FmOWFQj+IykLkadwnAG51MR
- Jbkj7bCaf4zcL2Vz/iEVLN6M9ph72K0ykeVbPak5kwebblUXnnu/pMyLNyC/1Tk8n3It
- abo79j373FUHOreOYq0s4XhuD+zcZHs+WXFSehpfgrnldeWwqZbWx5SE9D9KeJJn+OKv
- zwFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Fo5LekwQB5T3ewAOSIvxuurpoRTJgge4oe9PLXRPKXw=;
- b=EgTDe1rYQ3cbxVSH5pVu95w42bcAqUKdbpmJRRT0sX2GYH6vYJ9LrYWp6j5ps2f5wR
- umXA3SJb5/72erRUJnA/k+AP///k31qVFNbrrSy0lAJXXS/CTx7gMHIiloYIU/tOHBWm
- 0GYHPfdcQnVZonWDSZ87W3CuxoWIn0Ei8Wk2Q8fteIQKJ+j7kOoduG12lBlrMlVzw4wy
- UpmxQhcIBy9BucgBfuIuOHPVpH/R/j6mVwkC9EmYdm7ZiJFSnraKgKtNBG3c92pmqpaf
- XynMoj2kKNl4fb4+Y6xxTPuee5PIU5NoAjJh88cbfRqDFrj1KoZWZxire1grLF7zJkwe
- ogMw==
-X-Gm-Message-State: AOAM531Yg9Qk1yksmizOdJdguX7GHsd1JxXoiXYPcYNVM+LT9QZQQztF
- fAAPZSvKTJ0M58x8Pg6byQW06719RNx2wXmJEeg=
-X-Google-Smtp-Source: ABdhPJznOA2EEuW5qBrgnOWIWpQK+H7c30KT22AEmU5UUwDhoklL+F4L4IdOMbJ2BqPuAHe/3Um2+JObmjCjh9wxoZI=
-X-Received: by 2002:a05:6e02:2149:: with SMTP id
- d9mr1793627ilv.221.1637021573190; 
- Mon, 15 Nov 2021 16:12:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <yadong.qi@intel.com>)
+ id 1mmnFg-00005C-Id; Mon, 15 Nov 2021 20:27:12 -0500
+Received: from mga12.intel.com ([192.55.52.136]:57226)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yadong.qi@intel.com>)
+ id 1mmnFd-0005eP-Qn; Mon, 15 Nov 2021 20:27:11 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10169"; a="213629604"
+X-IronPort-AV: E=Sophos;i="5.87,237,1631602800"; d="scan'208";a="213629604"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2021 17:26:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,237,1631602800"; d="scan'208";a="604115689"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by orsmga004.jf.intel.com with ESMTP; 15 Nov 2021 17:26:41 -0800
+Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 15 Nov 2021 17:26:41 -0800
+Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
+ fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 15 Nov 2021 17:26:40 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12 via Frontend Transport; Mon, 15 Nov 2021 17:26:40 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.104)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.12; Mon, 15 Nov 2021 17:26:40 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Oh0xRbhI8E8ZXzjtWV9sgNVEQt7+ykFDS92AbDqkeGF9LVonwBkEatEbR+Xt+t1/2wDKxKeZp6RNYls9gFHz/UlWM8+AodWSbk/53NwLvYEDYkjK07slgJ5n1W5qhMXghOE1rFQE+XpzUgwWNAPhG99rU6Te7VMaGjeCSPysoqkTUviU+qe07B7zFI1EH0eZJ9ejg8FUTTBsi8igwbDH9oaMy63Z3dokcqQzapQMWzjdi4bZgRDp30Eu+zlMPSA1gQIDpR2VwS86GMuPVMDv8gWmkLf+7F1E9N8YSzbpcezZ7/e9ZBrHRAkCdg9Pyh5EMBIN0cLaxAXRBx5OH6T37A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aKWvNAsKRUPhIKLPSrc8bnPT4uMX7s7EUeS6UzHOjfk=;
+ b=cBtgw6EPfAN/FGxYOfujDNKj8NF5haiFxo6L9CFicqhqpFmDLrTsoZt49ax1FKJZYwSVQYEfcs8nq37GPMVG6asXehFzhHvP0CStRcObwHWj/AIYirKlrs8hipzrXk6xT75fvj+HwHZ2qOUwp5zv4zXO7sZ/h+Jwvu8zV+boHAb6tkbTwqHdgaHLMIiyKtEy8u3PVplDmOoQFPpwAOrsLBdLYccolu4I1lS+8pJWxr/IU7E0BlUfTYSg27IAE3BqeT3EslrYf0Fle1XcGi5kltgSLaqQWxCSsDI9qu7vJWXkjA2ZUdlIiPRKSc7f9bl9hGSHO5ULUP2rnbUjPr1aUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aKWvNAsKRUPhIKLPSrc8bnPT4uMX7s7EUeS6UzHOjfk=;
+ b=sTGyA55qs6JRBGR5kh20Vv/gPSH5BjRBzfsjzMrJcy0KArtBPQDFaM/Vo6L+y4v2bx7fEzZfKZ3ilRmVFBcn2Xe1VVXmK1q6At+PJNxCNtlzNuyPzPzCSGIvJsLBDyizbHAcVdDd6cjok051WyMEGFSbPU6QTqXz9zpv+StE8CY=
+Received: from BL1PR11MB5479.namprd11.prod.outlook.com (2603:10b6:208:317::18)
+ by MN2PR11MB3966.namprd11.prod.outlook.com (2603:10b6:208:13f::29)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.26; Tue, 16 Nov
+ 2021 01:26:39 +0000
+Received: from BL1PR11MB5479.namprd11.prod.outlook.com
+ ([fe80::fc12:a79b:c5db:a9d3]) by BL1PR11MB5479.namprd11.prod.outlook.com
+ ([fe80::fc12:a79b:c5db:a9d3%7]) with mapi id 15.20.4690.027; Tue, 16 Nov 2021
+ 01:26:39 +0000
+From: "Qi, Yadong" <yadong.qi@intel.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+Subject: RE: [PATCH 2/2] virtio-blk: support BLKSECDISCARD
+Thread-Topic: [PATCH 2/2] virtio-blk: support BLKSECDISCARD
+Thread-Index: AQHX2dzbzzrtmm1d0kC8epzjRyQo16wEW4WAgAD8ZhA=
+Date: Tue, 16 Nov 2021 01:26:39 +0000
+Message-ID: <BL1PR11MB5479F9C7E368DF3A8A8D15FCE3999@BL1PR11MB5479.namprd11.prod.outlook.com>
+References: <20211115045200.3567293-1-yadong.qi@intel.com>
+ <20211115045200.3567293-3-yadong.qi@intel.com>
+ <20211115100031.x2qmoi7f5e2rrtbl@steredhat>
+In-Reply-To: <20211115100031.x2qmoi7f5e2rrtbl@steredhat>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.200.16
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 046cb9c1-d2df-4691-1d73-08d9a8a0239a
+x-ms-traffictypediagnostic: MN2PR11MB3966:
+x-microsoft-antispam-prvs: <MN2PR11MB3966DB08C78F5E2209919310E3999@MN2PR11MB3966.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4941;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: oQgwqJPEYcL/p/lV7uXZkxzmRrYdZCWOCLxGmUtCxe7DRBtuhLBe+sbrQmEX7qP8SRtmNd8nwdTizk8PNA3SFQDOOZgSnYZZUpB6MytIcQPpdkR5BWB+8piM8q/CNrmtwg8Y0ZBREwfFoEVzXoC2V5gGnFIBM3Oz23QyauxGCDuAzCjZfIF02okqGfoIaz4hT60ovjIn16xStUQAS0oEPaf8KjfCqxdzR4VwFjRdH9atJ24m4KdY1PFgQtxeNqkRG7OEiqQ7GyLE4sP2l688XI3aaClIVJDKXp70csKyk5dRsxobu21j/p5WYpi3kr3s+mgHz+n7D3dizLV8Sv/ZocvJhi6UWmUjOyKDjZS0D+EtflvOGvPkmjWu4IyeSdRkatVIUSDSEZV/sI6kOE0/jpWyHRbXeMbtrG2xZKlM8NfE4/v8vJjAhALY2ZxziVcU9mfqrlZztBimF10BEuBrjrnrzxt77xQBAoi8TGADoHZzLkbzmh1tX58QHAyPx7WiBOg0/xLmaxLlDhp2fRJKGTaQf89VGhOa5YKG67+2/qElaTYZ/5l/QQcnhuG2ZHbdv3pOZb3/fLDPpbXbSW8t8nyfNkji91P3K0ylrOgaFZBa0hgIxRAOIfo9Xu6d0OyfSodTVH7jH2ecsAbJ/hk3QCJIcJhXRcHaP0pgikJsJwJiWGA//Dx/HgoFpXq9h2KSOmbzPOKijEUn1uV5R3KodA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL1PR11MB5479.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(316002)(66946007)(66556008)(66476007)(66446008)(64756008)(6506007)(83380400001)(2906002)(38100700002)(122000001)(55016002)(5660300002)(82960400001)(38070700005)(33656002)(26005)(76116006)(8936002)(71200400001)(6916009)(186003)(508600001)(8676002)(7696005)(86362001)(52536014)(9686003)(54906003)(4326008);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?PFRNDvh9G4y1TGtKbeAG/Ewb62pnKb0p8kXBjRvcHo8xDRm0EtRuGL1yK0g5?=
+ =?us-ascii?Q?Sn2SG4e2t+IF9oW40O81fLcaJ72jJeBfiBzoL1sRTWW/PgPXVIl1w6ieldhO?=
+ =?us-ascii?Q?Rt3FVqoa/17a+YDdlFrXOS7WDC+qLZc0FWCvR4zH0JIQ/RNfHqNkVyr4EAp8?=
+ =?us-ascii?Q?fvHGzUB4yhXqWfMhw7wnAIzYj2WrFH3Oinq5LNMFBfsvhTETkUdAs/zq1Zfh?=
+ =?us-ascii?Q?U0s8OEnrDJ4GJwXCE9S4v/vVHUndET3JReKYJRPI2JAvqFHxS+Ga7ROVRmoh?=
+ =?us-ascii?Q?UNbFWRoKP0BslaRDoGsi5ifX3gubBNsAO07Q6ZD9Pf6Pkb33fV9IW+CR8LW7?=
+ =?us-ascii?Q?okhexAIEPC5Jr5yq9GYD/Zzm9A4g1jV3Yjvq90CtPvqrb/0LFgoirS8b35xh?=
+ =?us-ascii?Q?ax4aI5QIyDmzcYnl/zkB+mn9bbVVw27bfFGUOzeyAPMMdxDYfARL7v3wXzX8?=
+ =?us-ascii?Q?YJN4+gTYyWPUbRaEuzLIGp2ddGwcaM0EkvR4wuWjAOsKVF7zR+CeYne+db7S?=
+ =?us-ascii?Q?hZOk1B+i5X9oVzyi6cdV2lZ/Z8CVNCWsAQjA/5JGGXjqWojFrqdMYlJGnDJ8?=
+ =?us-ascii?Q?sUIgvO1DWexfFZNEwbOsodDVZ99cqFcCoiJ8xBOH32u9b8IN1l2onC5qNnaV?=
+ =?us-ascii?Q?5ZZdutQUFSWHHXtdfFvSUQAhvZ8LVARn9B6bDKY5RVp8vHIL7thDnwRbmr/W?=
+ =?us-ascii?Q?KEqyg638lPnLoMjEWwJriiBZ782OIwra+XpEhJADNhRT/HC+FZywo2W6mLfh?=
+ =?us-ascii?Q?S5feS7ojreGPy66n9Mher74JfKYoYHnDiHFXtOHNtVtp0s/OVabrUs6xP9+F?=
+ =?us-ascii?Q?D67FURUmAHpNAAvX6ypFQIWHeRax7l4YyMtfDagFkbn62494pt/BbaEAffYU?=
+ =?us-ascii?Q?Fm32AKMwYI5Z55v01qBqMf/e6HN1vc4wNIGhxayRZHJlY6DZ9loIJ8QT1aNF?=
+ =?us-ascii?Q?iBPZ/rJ05TCftU59Z08KbC1OjVTc7HXRLjsBDBJ2PBtMhc4BBuZmBiqSdufY?=
+ =?us-ascii?Q?E7rrzaAg118yhJ67D3QuFba9EJ4h8AWsWmx1tITiaCc/r9MlrwykI4AbB7Ps?=
+ =?us-ascii?Q?QNguX4Zor/Flf5hTzuc0xtm2zMgIDc6pBcwrGnoH2AdcvjUqnPk28sh1pTpY?=
+ =?us-ascii?Q?HZ/nRD8tY5NMbIW1yb6nvrg+AMPWaacYEK4hWMhEVUIdsFIDJw5+AQtePVZg?=
+ =?us-ascii?Q?5bgTkH5gWTezqszwtjNFWI7dWBgxXWIo+gVI9R9soyrQouP1vystZoyb7JP8?=
+ =?us-ascii?Q?cM/Ml3Zn/cxWZ9zt3ZztU3uQg6HHW2hPS0EiVJnWRYohKc8Bq5LQHSFk5Iuv?=
+ =?us-ascii?Q?bXhdTRGIcp2/76vG7GYbbvQxAfBoIRasKctHifwWMmmV+d7Q0R35SaBySakU?=
+ =?us-ascii?Q?ccdACo+5cXoL5gw+al6CSfsGfe/dETNAYRRDmhLyH7l4BWVSmA2uP5e9FXhQ?=
+ =?us-ascii?Q?RL7nh3TGIru8QVyEIpnAjturYk50XJuvoUSz3/qXkKtTcthgd1mKeJfCtZb/?=
+ =?us-ascii?Q?/1Rr+u2NOolW7iFKLPLq+mXmefywkb6UJjZGKpySO+GPUSNJs4A38ZveUcZc?=
+ =?us-ascii?Q?bTa2GqoQ+qyw8PtCRG2ddrGmKa1ZLU8Dp+wKzb9ldfdePCvcfpjF8dsGXc2S?=
+ =?us-ascii?Q?RQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20211029085922.255197-1-frank.chang@sifive.com>
- <20211029085922.255197-69-frank.chang@sifive.com>
-In-Reply-To: <20211029085922.255197-69-frank.chang@sifive.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 16 Nov 2021 10:12:26 +1000
-Message-ID: <CAKmqyKMYLuv=-S63Tj5SZJX3RmMzp_wm4X=v7H2FAPH2PimNnw@mail.gmail.com>
-Subject: Re: [PATCH v9 68/76] target/riscv: gdb: support vector registers for
- rv64 & rv32
-To: Frank Chang <frank.chang@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12d;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12d.google.com
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR11MB5479.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 046cb9c1-d2df-4691-1d73-08d9a8a0239a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Nov 2021 01:26:39.4086 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: hGmV+aO8sFrfGyO2NZFD3D9nwLKprZlyjOCfQ2Lh0nyFQGsgbvzLN8tNHAEDu22UZ8on3b3cZHiuAHUdSMYnZA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB3966
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.136; envelope-from=yadong.qi@intel.com;
+ helo=mga12.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,275 +161,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Hsiangkai Wang <kai.wang@sifive.com>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Greentime Hu <greentime.hu@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>, "fam@euphon.net" <fam@euphon.net>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "mst@redhat.com" <mst@redhat.com>, "Chen, Luhai" <luhai.chen@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Wang,
+ Kai Z" <kai.z.wang@intel.com>, "hreitz@redhat.com" <hreitz@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 29, 2021 at 8:24 PM <frank.chang@sifive.com> wrote:
->
-> From: Hsiangkai Wang <kai.wang@sifive.com>
->
-> Signed-off-by: Hsiangkai Wang <kai.wang@sifive.com>
-> Signed-off-by: Greentime Hu <greentime.hu@sifive.com>
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+> >Add new virtio feature: VIRTIO_BLK_F_SECDISCARD.
+> >Add new virtio command: VIRTIO_BLK_T_SECDISCARD.
+>=20
+> Has a proposal been sent out yet to virtio-comment mailing list for discu=
+ssing
+> these specification changes?
+>=20
+Not yet. I will draft a proposal to virtio-comment if no big concern of thi=
+s patch
+From maintainer.
+> >
+> >diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c index
+> >dbc4c5a3cd..7bc3484521 100644
+> >--- a/hw/block/virtio-blk.c
+> >+++ b/hw/block/virtio-blk.c
+> >@@ -536,7 +536,8 @@ static bool virtio_blk_sect_range_ok(VirtIOBlock
+> >*dev,  }
+> >
+> > static uint8_t virtio_blk_handle_discard_write_zeroes(VirtIOBlockReq *r=
+eq,
+> >-    struct virtio_blk_discard_write_zeroes *dwz_hdr, bool is_write_zero=
+es)
+> >+    struct virtio_blk_discard_write_zeroes *dwz_hdr, bool is_write_zero=
+es,
+> >+    bool is_secdiscard)
+>=20
+> Since the function now handles 3 commands, I'm thinking if it's better to=
+ pass
+> the command directly and then make a switch instead of using 2 booleans.
+>=20
+Make sense.
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+> > {
+> >     VirtIOBlock *s =3D req->dev;
+> >     VirtIODevice *vdev =3D VIRTIO_DEVICE(s); @@ -577,8 +578,8 @@ static
+> >uint8_t virtio_blk_handle_discard_write_zeroes(VirtIOBlockReq *req,
+> >         goto err;
+> >     }
+> >
+> >+    int blk_aio_flags =3D 0;
+>=20
+> Maybe better to move it to the beginning of the function.
+Sure.
 
-Alistair
+>=20
+> >
+> >-        blk_aio_pdiscard(s->blk, sector << BDRV_SECTOR_BITS, bytes, 0,
+> >+        if (is_secdiscard) {
+> >+            blk_aio_flags |=3D BDRV_REQ_SECDISCARD;
+> >+        }
+> >+
+> >+        blk_aio_pdiscard(s->blk, sector << BDRV_SECTOR_BITS, bytes,
+> >+                         blk_aio_flags,
+> >                          virtio_blk_discard_write_zeroes_complete, req)=
+;
+> >     }
+> >
+> >@@ -622,6 +628,7 @@ static int virtio_blk_handle_request(VirtIOBlockReq
+> *req, MultiReqBuffer *mrb)
+> >     unsigned out_num =3D req->elem.out_num;
+> >     VirtIOBlock *s =3D req->dev;
+> >     VirtIODevice *vdev =3D VIRTIO_DEVICE(s);
+> >+    bool is_secdiscard =3D false;
+> >
+> >     if (req->elem.out_num < 1 || req->elem.in_num < 1) {
+> >         virtio_error(vdev, "virtio-blk missing headers"); @@ -722,6
+> >+729,9 @@ static int virtio_blk_handle_request(VirtIOBlockReq *req,
+> MultiReqBuffer *mrb)
+> >      * VIRTIO_BLK_T_OUT flag set. We masked this flag in the switch sta=
+tement,
+> >      * so we must mask it for these requests, then we will check if it =
+is set.
+> >      */
+> >+    case VIRTIO_BLK_T_SECDISCARD & ~VIRTIO_BLK_T_OUT:
+> >+        is_secdiscard =3D true;
+> >+        __attribute__((fallthrough));
+>=20
+> We can use QEMU_FALLTHROUGH here.
+Sure.
 
-> ---
->  target/riscv/cpu.c     |   2 +
->  target/riscv/cpu.h     |   1 +
->  target/riscv/gdbstub.c | 184 +++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 187 insertions(+)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index c760ea08621..860f356bd99 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -675,6 +675,8 @@ static const char *riscv_gdb_get_dynamic_xml(CPUState *cs, const char *xmlname)
->
->      if (strcmp(xmlname, "riscv-csr.xml") == 0) {
->          return cpu->dyn_csr_xml;
-> +    } else if (strcmp(xmlname, "riscv-vector.xml") == 0) {
-> +        return cpu->dyn_vreg_xml;
->      }
->
->      return NULL;
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 5d93ccdfa71..dc10f27093b 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -291,6 +291,7 @@ struct RISCVCPU {
->      CPURISCVState env;
->
->      char *dyn_csr_xml;
-> +    char *dyn_vreg_xml;
->
->      /* Configuration Settings */
->      struct {
-> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-> index 23429179e2e..881ab333924 100644
-> --- a/target/riscv/gdbstub.c
-> +++ b/target/riscv/gdbstub.c
-> @@ -20,6 +20,32 @@
->  #include "exec/gdbstub.h"
->  #include "cpu.h"
->
-> +struct TypeSize {
-> +    const char *gdb_type;
-> +    const char *id;
-> +    int size;
-> +    const char suffix;
-> +};
-> +
-> +static const struct TypeSize vec_lanes[] = {
-> +    /* quads */
-> +    { "uint128", "quads", 128, 'q' },
-> +    /* 64 bit */
-> +    { "uint64", "longs", 64, 'l' },
-> +    /* 32 bit */
-> +    { "uint32", "words", 32, 'w' },
-> +    /* 16 bit */
-> +    { "uint16", "shorts", 16, 's' },
-> +    /*
-> +     * TODO: currently there is no reliable way of telling
-> +     * if the remote gdb actually understands ieee_half so
-> +     * we don't expose it in the target description for now.
-> +     * { "ieee_half", 16, 'h', 'f' },
-> +     */
-> +    /* bytes */
-> +    { "uint8", "bytes", 8, 'b' },
-> +};
-> +
->  int riscv_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
->  {
->      RISCVCPU *cpu = RISCV_CPU(cs);
-> @@ -101,6 +127,96 @@ static int riscv_gdb_set_fpu(CPURISCVState *env, uint8_t *mem_buf, int n)
->      return 0;
->  }
->
-> +/*
-> + * Convert register index number passed by GDB to the correspond
-> + * vector CSR number. Vector CSRs are defined after vector registers
-> + * in dynamic generated riscv-vector.xml, thus the starting register index
-> + * of vector CSRs is 32.
-> + * Return 0 if register index number is out of range.
-> + */
-> +static int riscv_gdb_vector_csrno(int num_regs)
-> +{
-> +    /*
-> +     * The order of vector CSRs in the switch case
-> +     * should match with the order defined in csr_ops[].
-> +     */
-> +    switch (num_regs) {
-> +    case 32:
-> +        return CSR_VSTART;
-> +    case 33:
-> +        return CSR_VXSAT;
-> +    case 34:
-> +        return CSR_VXRM;
-> +    case 35:
-> +        return CSR_VCSR;
-> +    case 36:
-> +        return CSR_VL;
-> +    case 37:
-> +        return CSR_VTYPE;
-> +    case 38:
-> +        return CSR_VLENB;
-> +    default:
-> +        /* Unknown register. */
-> +        return 0;
-> +    }
-> +}
-> +
-> +static int riscv_gdb_get_vector(CPURISCVState *env, GByteArray *buf, int n)
-> +{
-> +    uint16_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
-> +    if (n < 32) {
-> +        int i;
-> +        int cnt = 0;
-> +        for (i = 0; i < vlenb; i += 8) {
-> +            cnt += gdb_get_reg64(buf,
-> +                                 env->vreg[(n * vlenb + i) / 8]);
-> +        }
-> +        return cnt;
-> +    }
-> +
-> +    int csrno = riscv_gdb_vector_csrno(n);
-> +
-> +    if (!csrno) {
-> +        return 0;
-> +    }
-> +
-> +    target_ulong val = 0;
-> +    int result = riscv_csrrw_debug(env, csrno, &val, 0, 0);
-> +
-> +    if (result == 0) {
-> +        return gdb_get_regl(buf, val);
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +static int riscv_gdb_set_vector(CPURISCVState *env, uint8_t *mem_buf, int n)
-> +{
-> +    uint16_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
-> +    if (n < 32) {
-> +        int i;
-> +        for (i = 0; i < vlenb; i += 8) {
-> +            env->vreg[(n * vlenb + i) / 8] = ldq_p(mem_buf + i);
-> +        }
-> +        return vlenb;
-> +    }
-> +
-> +    int csrno = riscv_gdb_vector_csrno(n);
-> +
-> +    if (!csrno) {
-> +        return 0;
-> +    }
-> +
-> +    target_ulong val = ldtul_p(mem_buf);
-> +    int result = riscv_csrrw_debug(env, csrno, NULL, val, -1);
-> +
-> +    if (result == 0) {
-> +        return sizeof(target_ulong);
-> +    }
-> +
-> +    return 0;
-> +}
-> +
->  static int riscv_gdb_get_csr(CPURISCVState *env, GByteArray *buf, int n)
->  {
->      if (n < CSR_TABLE_SIZE) {
-> @@ -187,6 +303,68 @@ static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
->      return CSR_TABLE_SIZE;
->  }
->
-> +static int ricsv_gen_dynamic_vector_xml(CPUState *cs, int base_reg)
-> +{
-> +    RISCVCPU *cpu = RISCV_CPU(cs);
-> +    GString *s = g_string_new(NULL);
-> +    g_autoptr(GString) ts = g_string_new("");
-> +    int reg_width = cpu->cfg.vlen;
-> +    int num_regs = 0;
-> +    int i;
-> +
-> +    g_string_printf(s, "<?xml version=\"1.0\"?>");
-> +    g_string_append_printf(s, "<!DOCTYPE target SYSTEM \"gdb-target.dtd\">");
-> +    g_string_append_printf(s, "<feature name=\"org.gnu.gdb.riscv.vector\">");
-> +
-> +    /* First define types and totals in a whole VL */
-> +    for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
-> +        int count = reg_width / vec_lanes[i].size;
-> +        g_string_printf(ts, "%s", vec_lanes[i].id);
-> +        g_string_append_printf(s,
-> +                               "<vector id=\"%s\" type=\"%s\" count=\"%d\"/>",
-> +                               ts->str, vec_lanes[i].gdb_type, count);
-> +    }
-> +
-> +    /* Define unions */
-> +    g_string_append_printf(s, "<union id=\"riscv_vector\">");
-> +    for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
-> +        g_string_append_printf(s, "<field name=\"%c\" type=\"%s\"/>",
-> +                               vec_lanes[i].suffix,
-> +                               vec_lanes[i].id);
-> +    }
-> +    g_string_append(s, "</union>");
-> +
-> +    /* Define vector registers */
-> +    for (i = 0; i < 32; i++) {
-> +        g_string_append_printf(s,
-> +                               "<reg name=\"v%d\" bitsize=\"%d\""
-> +                               " regnum=\"%d\" group=\"vector\""
-> +                               " type=\"riscv_vector\"/>",
-> +                               i, reg_width, base_reg++);
-> +        num_regs++;
-> +    }
-> +
-> +    /* Define vector CSRs */
-> +    const char *vector_csrs[7] = {
-> +        "vstart", "vxsat", "vxrm", "vcsr",
-> +        "vl", "vtype", "vlenb"
-> +    };
-> +
-> +    for (i = 0; i < 7; i++) {
-> +        g_string_append_printf(s,
-> +                               "<reg name=\"%s\" bitsize=\"%d\""
-> +                               " regnum=\"%d\" group=\"vector\""
-> +                               " type=\"int\"/>",
-> +                               vector_csrs[i], TARGET_LONG_BITS, base_reg++);
-> +        num_regs++;
-> +    }
-> +
-> +    g_string_append_printf(s, "</feature>");
-> +
-> +    cpu->dyn_vreg_xml = g_string_free(s, false);
-> +    return num_regs;
-> +}
-> +
->  void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
->  {
->      RISCVCPU *cpu = RISCV_CPU(cs);
-> @@ -198,6 +376,12 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
->          gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fpu,
->                                   36, "riscv-32bit-fpu.xml", 0);
->      }
-> +    if (env->misa_ext & RVV) {
-> +        gdb_register_coprocessor(cs, riscv_gdb_get_vector, riscv_gdb_set_vector,
-> +                                 ricsv_gen_dynamic_vector_xml(cs,
-> +                                                              cs->gdb_num_regs),
-> +                                 "riscv-vector.xml", 0);
-> +    }
->  #if defined(TARGET_RISCV32)
->      gdb_register_coprocessor(cs, riscv_gdb_get_virtual, riscv_gdb_set_virtual,
->                               1, "riscv-32bit-virtual.xml", 0);
-> --
-> 2.25.1
->
->
+>=20
+> >
+> >         err_status =3D virtio_blk_handle_discard_write_zeroes(req, &dwz=
+_hdr,
+> >-                                                            is_write_ze=
+roes);
+> >+                                                            is_write_ze=
+roes,
+> >+
+> >+ is_secdiscard);
+
+
+> >
+> >+    if (blk_get_flags(conf->conf.blk) & BDRV_O_SECDISCARD)
+> >+        virtio_add_feature(&s->host_features,
+> >VIRTIO_BLK_F_SECDISCARD);
+> >+    else
+> >+        virtio_clear_feature(&s->host_features,
+> >+ VIRTIO_BLK_F_SECDISCARD);
+> >+
+>=20
+> IIUC here we set or not the feature if BDRV_O_SECDISCARD is set.
+>=20
+> Should we keep it disabled if "secdiscard" is false? (e.g. to avoid migra=
+tion
+> problems)
+Yes, BDRV_O_SECDISCARD=3D(secdiscard=3D=3D"on") ? 1 : 0;
+
+>=20
+> Otherwise what is the purpose of the "secdiscard" property?
+I cannot find a good method to detect whether host device support BLKSECDIS=
+CARD.
+So I add this "secdiscard" property to explicitly enable this feature.
+
+Best Regard
+Yadong
+>=20
+> Thanks,
+> Stefano
+
 
