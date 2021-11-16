@@ -2,72 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96526453016
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 12:17:28 +0100 (CET)
-Received: from localhost ([::1]:49288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 594DE453034
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 12:21:06 +0100 (CET)
+Received: from localhost ([::1]:57222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmwSt-0008Lb-NB
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 06:17:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33828)
+	id 1mmwWP-0005GC-Gf
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 06:21:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mmwPf-0004s7-W2
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 06:14:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54478)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mmwRU-0007Mq-Ce
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 06:16:00 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:3200)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mmwPd-000688-16
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 06:14:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637061241;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1/g+6y4Mk5wEAw6pde4LyINaXOao/Dal7vUv8ol+5eM=;
- b=BeZlAtAxT38orI04w/bBaUtDjpbggUnLS9VXeJqY6NqWMXmf96mqyinrPcQteHNMyXuL27
- j5Tw9FQEDvy0fuMGdKC//5arjBx1jxS6tJUXff8iMISRzxQLEt9mqyGa8CfeyL2Ge+yjU+
- UQo68YdOlUXP1uI3XYHkUK0ldVmKa7Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-C1xf3LlCNEat1AkQZCSGLA-1; Tue, 16 Nov 2021 06:13:54 -0500
-X-MC-Unique: C1xf3LlCNEat1AkQZCSGLA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93EBE8042E5;
- Tue, 16 Nov 2021 11:13:53 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.159])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C664E5D6BA;
- Tue, 16 Nov 2021 11:13:52 +0000 (UTC)
-Date: Tue, 16 Nov 2021 11:13:50 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] meson: fix botched compile check conversions
-Message-ID: <YZOSboL0YCFKYFh3@redhat.com>
-References: <20211116093834.76615-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mmwRQ-0006VL-2d
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 06:15:59 -0500
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Htk2d0JfGz8vQp;
+ Tue, 16 Nov 2021 19:13:45 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 16 Nov 2021 19:15:27 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.20; Tue, 16 Nov 2021 19:15:27 +0800
+Subject: Re: [PATCH-for-6.2 v3 3/6] tests/unit/test-smp-parse: Explicit
+ MachineClass name
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>, "Markus
+ Armbruster" <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+References: <20211111100351.2153662-1-philmd@redhat.com>
+ <20211111100351.2153662-4-philmd@redhat.com>
+ <fee6d60b-9070-7fbb-3275-cdd4aa7ee144@huawei.com>
+ <2d5bb4d9-b34c-65dc-f0de-0f1c7af28c83@redhat.com>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <3eb356ff-b770-08fe-e738-a6ecb4937a3c@huawei.com>
+Date: Tue, 16 Nov 2021 19:15:26 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20211116093834.76615-1-pbonzini@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <2d5bb4d9-b34c-65dc-f0de-0f1c7af28c83@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme707-chm.china.huawei.com (10.1.199.103) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=wangyanan55@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -55
+X-Spam_score: -5.6
+X-Spam_bar: -----
+X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.446,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,134 +72,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Andrew Jones <drjones@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 16, 2021 at 10:38:34AM +0100, Paolo Bonzini wrote:
-> Fix a bunch of incorrect conversions from configure to Meson, which result
-> in different outcomes with --extra-cflags=-Werror.
-> 
-> pthread_setname_np needs "#define _GNU_SOURCE" on Linux (which I am using
-> also for the non-Linux check, so that it correctly fails with an error
-> about having too few parameters).
-> 
-> Fix struct checks to use has_type instead of has_symbol, and "#define
-> _GNU_SOURCE" too in the case of struct mmsghdr.
 
-Ok, so relies on fact that passing an incorrect number of arguments
-is a fatal error, when function prototypes are available, even
-without -Werror being set.
+On 2021/11/15 18:16, Philippe Mathieu-Daudé wrote:
+> On 11/12/21 03:28, wangyanan (Y) wrote:
+>> On 2021/11/11 18:03, Philippe Mathieu-Daudé wrote:
+>>> If the MachineClass::name pointer is not explicitly set, it is NULL.
+>>> Per the C standard, passing a NULL pointer to printf "%s" format is
+>>> undefined. Some implementations display it as 'NULL', other as 'null'.
+>>> Since we are comparing the formatted output, we need a stable value.
+>>> The easiest is to explicit a machine name string.
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> ---
+>>>    tests/unit/test-smp-parse.c | 8 ++++++--
+>>>    1 file changed, 6 insertions(+), 2 deletions(-)
+>>>    @@ -481,6 +483,8 @@ static void machine_class_init(ObjectClass *oc,
+>>> void *data)
+>>>          mc->smp_props.prefer_sockets = true;
+>>>        mc->smp_props.dies_supported = false;
+>>> +
+>>> +    mc->name = g_strdup(SMP_MACHINE_NAME);
+>> I'm not very familiar with Qom code, so it may be a stupid question.
+>> The mc->name will be automatically freed elsewhere when all the
+>> testing is finished and exits, right? :)
+> I'll defer that to Eduardo / Markus, but meanwhile my understanding
+> is QOM classes are loaded once (the first time an instance requires
+> it) and never unloaded. Only instances can be unloaded, their resources
+> being released.
+Yes, this is also how I found about "classes" when reading the code and
+playing with tests in test-smp-parse.c
+> The machine life time is tied to the process one, when we are done
+> using a machine, it is simpler to exit() the process -- the kernel
+> releases the resources for us -- and create another process for a new
+> machine, rather than re-creating a different machine within the same
+> process.
+> If there is a need for it (like releasing class resources), it is doable
+> but it seems we never worried about it.
+Ok, I see. Thank you for the explanations. :)
 
-Side note, GCC looks to be trying to make explicit function prototypes
-mandatory at last
-
-  https://linuxplumbersconf.org/event/11/contributions/1014/
-
-> Remove an apostrophe that ended up at the end of a #include line.
-> 
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-And the setname_np stuff, I've tested on Fedora 34 and FreebSD 12.2
-
-Tested-by: Daniel P. Berrangé <berrange@redhat.com>
-
-
-> ---
->  meson.build | 24 +++++++++++++++---------
->  1 file changed, 15 insertions(+), 9 deletions(-)
-> 
-> diff --git a/meson.build b/meson.build
-> index 2ece4fe088..93a5e50a16 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1547,8 +1547,6 @@ config_host_data.set('CONFIG_INOTIFY',
->                       cc.has_header_symbol('sys/inotify.h', 'inotify_init'))
->  config_host_data.set('CONFIG_INOTIFY1',
->                       cc.has_header_symbol('sys/inotify.h', 'inotify_init1'))
-> -config_host_data.set('CONFIG_IOVEC',
-> -                     cc.has_header_symbol('sys/uio.h', 'struct iovec'))
->  config_host_data.set('CONFIG_MACHINE_BSWAP_H',
->                       cc.has_header_symbol('machine/bswap.h', 'bswap32',
->                                            prefix: '''#include <sys/endian.h>
-> @@ -1561,8 +1559,6 @@ config_host_data.set('CONFIG_SYSMACROS',
->                       cc.has_header_symbol('sys/sysmacros.h', 'makedev'))
->  config_host_data.set('HAVE_OPTRESET',
->                       cc.has_header_symbol('getopt.h', 'optreset'))
-> -config_host_data.set('HAVE_UTMPX',
-> -                     cc.has_header_symbol('utmpx.h', 'struct utmpx'))
->  config_host_data.set('HAVE_IPPROTO_MPTCP',
->                       cc.has_header_symbol('netinet/in.h', 'IPPROTO_MPTCP'))
->  
-> @@ -1574,6 +1570,14 @@ config_host_data.set('HAVE_STRUCT_STAT_ST_ATIM',
->                       cc.has_member('struct stat', 'st_atim',
->                                     prefix: '#include <sys/stat.h>'))
->  
-> +# has_type
-> +config_host_data.set('CONFIG_IOVEC',
-> +                     cc.has_type('struct iovec',
-> +                                 prefix: '#include <sys/uio.h>'))
-> +config_host_data.set('HAVE_UTMPX',
-> +                     cc.has_type('struct utmpx',
-> +                                 prefix: '#include <utmpx.h>'))
-> +
->  config_host_data.set('CONFIG_EVENTFD', cc.links('''
->    #include <sys/eventfd.h>
->    int main(void) { return eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC); }'''))
-> @@ -1615,7 +1619,7 @@ config_host_data.set('CONFIG_POSIX_MADVISE', cc.links(gnu_source_prefix + '''
->    #include <stddef.h>
->    int main(void) { return posix_madvise(NULL, 0, POSIX_MADV_DONTNEED); }'''))
->  
-> -config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_W_TID', cc.links('''
-> +config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_W_TID', cc.links(gnu_source_prefix + '''
->    #include <pthread.h>
->  
->    static void *f(void *p) { return NULL; }
-> @@ -1626,7 +1630,7 @@ config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_W_TID', cc.links('''
->      pthread_setname_np(thread, "QEMU");
->      return 0;
->    }''', dependencies: threads))
-> -config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_WO_TID', cc.links('''
-> +config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_WO_TID', cc.links(gnu_source_prefix + '''
->    #include <pthread.h>
->  
->    static void *f(void *p) { pthread_setname_np("QEMU"); return NULL; }
-> @@ -1662,8 +1666,10 @@ config_host_data.set('HAVE_MLOCKALL', cc.links(gnu_source_prefix + '''
->  
->  have_l2tpv3 = false
->  if not get_option('l2tpv3').disabled() and have_system
-> -  have_l2tpv3 = (cc.has_header_symbol('sys/socket.h', 'struct mmsghdr')
-> -                 and cc.has_header('linux/ip.h'))
-> +  have_l2tpv3 = cc.has_type('struct mmsghdr',
-> +    prefix: gnu_source_prefix + '''
-> +      #include <sys/socket.h>
-> +      #include <linux/ip.h>''')
->  endif
->  config_host_data.set('CONFIG_L2TPV3', have_l2tpv3)
->  
-> @@ -1689,7 +1695,7 @@ config_host_data.set('CONFIG_NETMAP', have_netmap)
->  # xfs headers will not try to redefine structs from linux headers
->  # if this macro is set.
->  config_host_data.set('HAVE_FSXATTR', cc.links('''
-> -  #include <linux/fs.h>'
-> +  #include <linux/fs.h>
->    struct fsxattr foo;
->    int main(void) {
->      return 0;
-> -- 
-> 2.33.1
-> 
-> 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Thanks,
+Yanan
+> .
 
 
