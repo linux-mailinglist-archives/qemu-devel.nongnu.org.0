@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C249C453228
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 13:28:23 +0100 (CET)
-Received: from localhost ([::1]:58656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06A7645322F
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 13:28:38 +0100 (CET)
+Received: from localhost ([::1]:59472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mmxZW-0006US-UH
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 07:28:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50204)
+	id 1mmxZl-00071e-50
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 07:28:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mmxVg-00049X-P3
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 07:24:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47831)
+ id 1mmxXL-00051c-EM
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 07:26:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45570)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mmxVZ-0000QG-HD
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 07:24:20 -0500
+ id 1mmxXJ-0000pA-Ka
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 07:26:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637065453;
+ s=mimecast20190719; t=1637065563;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bRvp0Oy4NKo9fBtKQy196BNevnup1FxpCp+7UyScbkU=;
- b=GpsisM6u7FNURrLvOygv/7ege1NwzWNsC6Rz1UuNLpyyxxUFGB4PmddAHFBGp+tu++rAzO
- WlcmljPvWBmDaoN4qngW40AyGBjY4Fek6kZF3l9JG2LP/o7wehj/wOq2wf09DnJJX5IHhv
- 2R+MU6IQY21Hy1kiwliWQnaBhjG1idk=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-NKveICRFNJaBRgk2h7N6pg-1; Tue, 16 Nov 2021 07:24:12 -0500
-X-MC-Unique: NKveICRFNJaBRgk2h7N6pg-1
-Received: by mail-pf1-f198.google.com with SMTP id
- g142-20020a625294000000b004946d789d14so11716406pfb.3
- for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 04:24:12 -0800 (PST)
+ bh=8k1WdqJw6ikURBWShdTsa/R4SO0t+9GAtLNRHR9Cjiw=;
+ b=EWUzYI/Ph+RIxGrHbDrVoAZZylX9474nYnR8mo3gvuCD5U5sZDr3jyeSbKWuwwyO65d6Tf
+ MrBUzu4UfqUcemJxDzCbjvZqoWQeUyawhvzqCuJk5uwSSyBqY2lCVmkW7leGYajkgYgLq8
+ cEzqUUayXCAG/EJeBUKmRhghzCSDvkw=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-414-0Gdeyl0WMKiluF36xvUZMg-1; Tue, 16 Nov 2021 07:26:02 -0500
+X-MC-Unique: 0Gdeyl0WMKiluF36xvUZMg-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ lt10-20020a17090b354a00b001a649326aedso1213126pjb.5
+ for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 04:26:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=bRvp0Oy4NKo9fBtKQy196BNevnup1FxpCp+7UyScbkU=;
- b=YdoKQBEaFdWFwlf1f2H4M+2WpjsUVhJdSCTzTrqWES7wvugluwZQvANz52eAtidQcv
- I0C6zHQuh31ttB8aAP83fFOgdUUeReFoN2fkK+4plPvnbrGRzXOwy8JVsELFysWTQ2eI
- 1QWeQOmpj1ZvCGokEK5k6RX1OG6FRro4F24OCQqGudikHzDq0SUAz3Y5Q7OjQDnBH6rt
- SqMj9LHMDJeqt5rGT+i318jat9NGQ2f3PJk3ELvLKU5SRNRsM4ZzyS6/Zep8zvyQZKo1
- PafuQ1AzYKLgW6gGbFEptp1UIVmUmfIwdDM43TBNZ7aE+qkVWw+STFYn8Z264fN37IT6
- AuWQ==
-X-Gm-Message-State: AOAM532L46R+m3f267N11McpKMCG6n3ddjMdM4U8QDiqKcniEZJkVDgF
- N2DYfHjl0gV7tAnmouIUprbc0QzS1P0GnrAcG4xEOyghx5KNlHe1Zw8fn0PVBCADEyLoebmBBdJ
- vmlPga6iLte2HoNysa0mWmvv0fix6ksQ=
-X-Received: by 2002:a17:90a:d515:: with SMTP id
- t21mr75634930pju.123.1637065451389; 
- Tue, 16 Nov 2021 04:24:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxMITy0UIX3/uFqRRNkX7k2pamO7MdGR09CA3LjVOz4H3IHs8YLs4exVkVZGJYPVPH2Y58+d14yfnhL+uX2g+s=
-X-Received: by 2002:a17:90a:d515:: with SMTP id
- t21mr75634896pju.123.1637065451155; 
- Tue, 16 Nov 2021 04:24:11 -0800 (PST)
+ bh=8k1WdqJw6ikURBWShdTsa/R4SO0t+9GAtLNRHR9Cjiw=;
+ b=g4N/AC9U53qodo40oIatQu3LxpzSDaQ4o6b+RELmueuvA6Om4MnJB9uyEI9lNtB1df
+ 7OmqxZiz5082MtQYSM9J0GELc5x2VkMKWcSgKvdhnR03MfjtzI7yJR6tJ67nLjoE6P1q
+ IE2bWxmw+KPU2GqJOB/8TlEMm8Onahip3+CcLn0oBgYe+S09HRPQKVCgVKVbK5W2WkU/
+ 2MlfIGiGY9FNs2EsXrJMVHao9PYhb0l8m9Mjz+eAhs/dUERA4FEe6ydw6Mhn2p4v+1rl
+ vZEllOgyXwregBahKRye/Hfv1STSnPOkAUA8Y2tvn1k2iH4KPodbvNeWdfv3DvyIXzrb
+ M/OA==
+X-Gm-Message-State: AOAM531pEza9Bq/aaSojKUEz7/9QNipM/duyuOpcQ1pDxyi24F881DgG
+ P9mKuNGc4j6YFI01cP2OeiP9AZOukYvysyqy1mM6WDCdETtZG63h54RmVeeYyRCR85fBDADGunK
+ AR5nPGUZ8XNFeD7N7DVu08zhaqNqUYrM=
+X-Received: by 2002:a17:90b:615:: with SMTP id
+ gb21mr8307221pjb.10.1637065561253; 
+ Tue, 16 Nov 2021 04:26:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwdVkV5O6bAt0FL9ldAILrvbmpPIO3j+LGiE7I9P3+t3mwsHlxEtY4VQP9KezeiTNzuyJiaseL+LiEyqbiJCOI=
+X-Received: by 2002:a17:90b:615:: with SMTP id
+ gb21mr8307180pjb.10.1637065561000; 
+ Tue, 16 Nov 2021 04:26:01 -0800 (PST)
 MIME-Version: 1.0
 References: <20211115142915.3797652-1-alex.bennee@linaro.org>
- <20211115142915.3797652-4-alex.bennee@linaro.org>
-In-Reply-To: <20211115142915.3797652-4-alex.bennee@linaro.org>
+ <20211115142915.3797652-7-alex.bennee@linaro.org>
+In-Reply-To: <20211115142915.3797652-7-alex.bennee@linaro.org>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Tue, 16 Nov 2021 09:23:44 -0300
-Message-ID: <CAKJDGDavU3NPBpTBJ+Ns-B8QfyOxwDdBUqd_Lqy5pSfvUEr5Ww@mail.gmail.com>
-Subject: Re: [PATCH v1 3/6] tests/vm: don't build using TCG by default
+Date: Tue, 16 Nov 2021 09:25:34 -0300
+Message-ID: <CAKJDGDYdGCYCRuPCpvjbF64twwAAM1gQM0T=4wqzxbCCwMLHFQ@mail.gmail.com>
+Subject: Re: [PATCH v1 6/6] gitlab-ci: Split custom-runners.yml in one file
+ per runner
 To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
@@ -98,21 +99,37 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
  Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa Junior <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Mon, Nov 15, 2021 at 11:29 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
 wrote:
 >
-> While it is useful to run these images using TCG their performance
-> will not be anything like the native guests. Don't do it by default.
+> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 >
-> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/393
+> To ease maintenance, add the custom-runners/ directory and
+> split custom-runners.yml in 3 files, all included by the
+> current custom-runners.yml:
+>  - ubuntu-18.04-s390x.yml
+>  - ubuntu-20.04-aarch64.yml
+>  - centos-stream-8-x86_64.yml
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Message-Id: <20211115095608.2436223-1-philmd@redhat.com>
 > ---
->  tests/vm/Makefile.include | 17 +++++++++++++----
->  1 file changed, 13 insertions(+), 4 deletions(-)
+>  .gitlab-ci.d/custom-runners.yml               | 268 +-----------------
+>  .../custom-runners/centos-stream-8-x86_64.yml |  28 ++
+>  .../custom-runners/ubuntu-18.04-s390x.yml     | 118 ++++++++
+>  .../custom-runners/ubuntu-20.04-aarch64.yml   | 118 ++++++++
+>  4 files changed, 268 insertions(+), 264 deletions(-)
+>  create mode 100644 .gitlab-ci.d/custom-runners/centos-stream-8-x86_64.ym=
+l
+>  create mode 100644 .gitlab-ci.d/custom-runners/ubuntu-18.04-s390x.yml
+>  create mode 100644 .gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
