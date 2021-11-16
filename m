@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1810E453580
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 16:17:55 +0100 (CET)
-Received: from localhost ([::1]:57938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B1F7453577
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 16:15:48 +0100 (CET)
+Received: from localhost ([::1]:54296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mn0Da-0005k4-0m
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 10:17:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32984)
+	id 1mn0BW-00039q-Pn
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 10:15:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mn09E-0001S5-JB
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 10:13:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28891)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mn09M-0001es-0u
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 10:13:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30953)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mn09C-0001ra-QV
- for qemu-devel@nongnu.org; Tue, 16 Nov 2021 10:13:23 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mn09J-0001sa-4j
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 10:13:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637075602;
+ s=mimecast20190719; t=1637075607;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Nsq6/n4lX4xNs0bVyjw+TlQFC7QjuL5614QM9zuC1s0=;
- b=Z8gF7bKjY8R4SdC+gJsV8DryVWhDAiNIqXI+HzoH6tN+nR2fVIdhZJrfxLm0ULpPLdp0M+
- Nb4sKY8GvHcmEJvmV1glR53fNyLLAhN1+2IQI0fS+2ZQFuFFYF+dNdvB05xd2VevJbkx2+
- UrI1rpmqXmT8e57FTmF+OL5Mud7IzQE=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-3tp7nsltN6i8LOc9nNaiag-1; Tue, 16 Nov 2021 10:13:21 -0500
-X-MC-Unique: 3tp7nsltN6i8LOc9nNaiag-1
-Received: by mail-wr1-f70.google.com with SMTP id
- h7-20020adfaa87000000b001885269a937so4596292wrc.17
- for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 07:13:21 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=I9uHr78Bd1hAdWgud7dJDANsSM/mJBoe5Km+LIqe2vI=;
+ b=OxsSelj4K15+rhT4qq5KQUNqEtsfvqeY2P9+0Hl9738GxZkQxCm5ta/4SrzNuzKczpgVEn
+ sjHYXPqjMeCiCYQS9wQpWUj85ghqwIgLc9oNMppOzaeVzT2rxr4MhiPYXEv8kdHmlmx1O9
+ iEnWJw71Zgdz24SCDzx24MojACGGxbg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-50-Yysr90BpPUWw8Pz9s17E-A-1; Tue, 16 Nov 2021 10:13:26 -0500
+X-MC-Unique: Yysr90BpPUWw8Pz9s17E-A-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ y10-20020adffa4a000000b0017eea6cb05dso4570720wrr.6
+ for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 07:13:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+0DQjMgj89MBJT/x5ZC/TK5ytYR4msC99knx5KQf85I=;
- b=Ufl+CW7V32azWWhc73Ln8vdw67yyNq+RN8ZtmWSn/bMP7JozPGZFVd03KyXrrXENBh
- xc9oEY4dc2Qd8GHLHLG0bUlMmHMQtBtfalUEzZjZK8rKhezffZjqg0FJmNLwfza5HZpT
- IIOP7+VBQV+JQsqONDdLWBgPVwPcUF9chynaW440HnwxhlWH92RIATl7uuRuMtOs4w+A
- AZQoMwGn2IOA9u+ACP7qRuk4eTSzW7Nsvrdi2HxKXIZzkqWmf7WsuHuPXoiP1rkRXGTQ
- /V8MNfwazw16BrdcEMj0kyoOTYBjXOeBnhfwLwiCGO8vGklgEjII7YY3oE3nv5TApqTc
- +u6A==
-X-Gm-Message-State: AOAM533tvJjmXvXM+6PHsKZiojeXCztfZ2Iv8/KbIpRJw49uMvG9th3I
- COxZVAMxoVD2lpp3hJtj/zkc0yeuBkYXnPRLdeGfPP/OsDGRhPkJ9XoiN+aVW7QtnhRsm54DlSs
- 8OsXdKSH9urSKG8Ir5sQjMHbmycx/iBcKPOQOh+3lNEPARTygm0xaaTKYj90JrfqZ
-X-Received: by 2002:adf:fa0b:: with SMTP id m11mr10159080wrr.152.1637075599589; 
- Tue, 16 Nov 2021 07:13:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyl+5uEx95GvojYL4dMVjhSggvYSUfZDC+LEr6k1Eli1jzWVi3/J5Y0n5S9uhkLLHkp/vxnCA==
-X-Received: by 2002:adf:fa0b:: with SMTP id m11mr10159034wrr.152.1637075599334; 
- Tue, 16 Nov 2021 07:13:19 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=I9uHr78Bd1hAdWgud7dJDANsSM/mJBoe5Km+LIqe2vI=;
+ b=LZAxfzuAAhfL5tcGKHguzx0WMOGyj5oF724wBf7tKGmWB3O14N9zDJfvr1ivHybXRj
+ 9f0lpE4L9Nn7ZJEqILAZfTvPiojy8+vHEBVurSKhXWQ7ZDBU0aWCmvESQP+8RZIgEdJZ
+ mjvMft45b4iqvQz4/epmUaEyJkNpC4ph0WVuZ76PmaZNRlxls1Jn0XNDWINY0mYQi16l
+ g6GCar5hhVWlQm4XiCxGAK0mpMX5mJDzc+E6M7EyCceNx/cvZm3a+YHZFTWSk/7auJDN
+ Wl7hytR5LD9/4B6uoHbMA3+NyaUnUTSYfzChxbZMNc0ZI6j15i98XIiAvYDICHaI4PE6
+ 1Fvg==
+X-Gm-Message-State: AOAM530tF1IFS7gfUSsahkj81LSDUaGs6/kdtu8AxkdoVY+gkKGCAfwC
+ 1QmJGalROysbpiAPT+FAUGGvXW64Yy1pvrZJmrItj04QTC3UVyuoORzSo7cT7WJ52x/4IQmwD8+
+ irau5qjv8AAXA+AWKQ+57S1PgUgDSkIO5/7fQFo6gum5qy8h4nswTHJ3WXepudZRa
+X-Received: by 2002:a1c:7714:: with SMTP id t20mr60375357wmi.139.1637075604738; 
+ Tue, 16 Nov 2021 07:13:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwQYAhFyLdU4iFhA7VfEwTgn75yNRIJwDNqnRdl+aOTf1vwgs7GNXm8/DtcNIOrpkLojnQBIg==
+X-Received: by 2002:a1c:7714:: with SMTP id t20mr60375296wmi.139.1637075604394; 
+ Tue, 16 Nov 2021 07:13:24 -0800 (PST)
 Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
  by smtp.gmail.com with ESMTPSA id
- f81sm2977993wmf.22.2021.11.16.07.13.18
+ ay21sm2876646wmb.7.2021.11.16.07.13.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Nov 2021 07:13:18 -0800 (PST)
+ Tue, 16 Nov 2021 07:13:23 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.2? 0/3] docs/devel/style: Improve rST rendering
-Date: Tue, 16 Nov 2021 16:13:14 +0100
-Message-Id: <20211116151317.2691125-1-philmd@redhat.com>
+Subject: [PATCH-for-6.2? 1/3] docs/devel/style: Improve GLib functions rST
+ rendering
+Date: Tue, 16 Nov 2021 16:13:15 +0100
+Message-Id: <20211116151317.2691125-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211116151317.2691125-1-philmd@redhat.com>
+References: <20211116151317.2691125-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -98,21 +103,103 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Various changes in docs/devel/style.rst to improve its=0D
-rST rendering (around C types/qualifiers/functions).=0D
-I split it in 3 patches to ease reviewing, but feel free=0D
-to squash if it makes life easier.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (3):=0D
-  docs/devel/style: Improve GLib functions rST rendering=0D
-  docs/devel/style: Improve Error** functions rST rendering=0D
-  docs/devel/style: Improve types/qualifiers rST rendering=0D
-=0D
- docs/devel/style.rst | 172 ++++++++++++++++++++++---------------------=0D
- 1 file changed, 87 insertions(+), 85 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ docs/devel/style.rst | 31 ++++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 15 deletions(-)
+
+diff --git a/docs/devel/style.rst b/docs/devel/style.rst
+index 260e3263fa0..415a6b9d700 100644
+--- a/docs/devel/style.rst
++++ b/docs/devel/style.rst
+@@ -413,13 +413,14 @@ multiple exist paths you can also improve the readability of the code
+ by using ``g_autofree`` and related annotations. See :ref:`autofree-ref`
+ for more details.
+ 
+-Calling ``g_malloc`` with a zero size is valid and will return NULL.
++Calling ``g_malloc`` with a zero size is valid and will return ``NULL``.
+ 
+ Prefer ``g_new(T, n)`` instead of ``g_malloc(sizeof(T) * n)`` for the following
+ reasons:
+ 
+-* It catches multiplication overflowing size_t;
+-* It returns T ``*`` instead of void ``*``, letting compiler catch more type errors.
++* It catches multiplication overflowing ``size_t``;
++* It returns ``T *`` instead of ``void *``, letting compiler catch more type
++  errors.
+ 
+ Declarations like
+ 
+@@ -444,14 +445,14 @@ use this similar function when possible, but note its different signature:
+ 
+     void pstrcpy(char *dest, int dest_buf_size, const char *src)
+ 
+-Don't use strcat because it can't check for buffer overflows, but:
++Don't use ``strcat`` because it can't check for buffer overflows, but:
+ 
+ .. code-block:: c
+ 
+     char *pstrcat(char *buf, int buf_size, const char *s)
+ 
+-The same limitation exists with sprintf and vsprintf, so use snprintf and
+-vsnprintf.
++The same limitation exists with ``sprintf`` and ``vsprintf``, so use
++``snprintf`` and ``vsnprintf``.
+ 
+ QEMU provides other useful string functions:
+ 
+@@ -464,8 +465,8 @@ QEMU provides other useful string functions:
+ There are also replacement character processing macros for isxyz and toxyz,
+ so instead of e.g. isalnum you should use qemu_isalnum.
+ 
+-Because of the memory management rules, you must use g_strdup/g_strndup
+-instead of plain strdup/strndup.
++Because of the memory management rules, you must use ``g_strdup/g_strndup``
++instead of plain ``strdup/strndup``.
+ 
+ Printf-style functions
+ ======================
+@@ -524,10 +525,10 @@ automatic cleanup:
+ 
+ Most notably:
+ 
+-* g_autofree - will invoke g_free() on the variable going out of scope
++* ``g_autofree`` - will invoke ``g_free()`` on the variable going out of scope
+ 
+-* g_autoptr - for structs / objects, will invoke the cleanup func created
+-  by a previous use of G_DEFINE_AUTOPTR_CLEANUP_FUNC. This is
++* ``g_autoptr`` - for structs / objects, will invoke the cleanup func created
++  by a previous use of ``G_DEFINE_AUTOPTR_CLEANUP_FUNC``. This is
+   supported for most GLib data types and GObjects
+ 
+ For example, instead of
+@@ -551,7 +552,7 @@ For example, instead of
+         return ret;
+     }
+ 
+-Using g_autofree/g_autoptr enables the code to be written as:
++Using ``g_autofree/g_autoptr`` enables the code to be written as:
+ 
+ .. code-block:: c
+ 
+@@ -569,13 +570,13 @@ Using g_autofree/g_autoptr enables the code to be written as:
+ While this generally results in simpler, less leak-prone code, there
+ are still some caveats to beware of
+ 
+-* Variables declared with g_auto* MUST always be initialized,
++* Variables declared with ``g_auto*`` MUST always be initialized,
+   otherwise the cleanup function will use uninitialized stack memory
+ 
+-* If a variable declared with g_auto* holds a value which must
++* If a variable declared with ``g_auto*`` holds a value which must
+   live beyond the life of the function, that value must be saved
+   and the original variable NULL'd out. This can be simpler using
+-  g_steal_pointer
++  ``g_steal_pointer``
+ 
+ 
+ .. code-block:: c
+-- 
+2.31.1
 
 
