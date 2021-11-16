@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AB764536B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 17:04:16 +0100 (CET)
-Received: from localhost ([::1]:38356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B04C04536B0
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Nov 2021 17:03:31 +0100 (CET)
+Received: from localhost ([::1]:35356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mn0wR-0000tP-Ds
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 11:04:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43158)
+	id 1mn0vi-0007Hw-Qx
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 11:03:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasz.gieryk@linux.intel.com>)
- id 1mn0mM-0006mq-5N; Tue, 16 Nov 2021 10:53:50 -0500
-Received: from mga04.intel.com ([192.55.52.120]:64395)
+ id 1mn0mN-0006sp-M6; Tue, 16 Nov 2021 10:53:51 -0500
+Received: from mga04.intel.com ([192.55.52.120]:64391)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasz.gieryk@linux.intel.com>)
- id 1mn0mH-0007fw-Ry; Tue, 16 Nov 2021 10:53:49 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10169"; a="232438921"
-X-IronPort-AV: E=Sophos;i="5.87,239,1631602800"; d="scan'208";a="232438921"
+ id 1mn0mL-0007fn-PX; Tue, 16 Nov 2021 10:53:51 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10169"; a="232438929"
+X-IronPort-AV: E=Sophos;i="5.87,239,1631602800"; d="scan'208";a="232438929"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2021 07:53:27 -0800
-X-IronPort-AV: E=Sophos;i="5.87,239,1631602800"; d="scan'208";a="454494492"
+ 16 Nov 2021 07:53:29 -0800
+X-IronPort-AV: E=Sophos;i="5.87,239,1631602800"; d="scan'208";a="454494497"
 Received: from lgieryk-lnx.igk.intel.com ([172.22.230.153])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2021 07:53:26 -0800
+ 16 Nov 2021 07:53:27 -0800
 From: =?UTF-8?q?=C5=81ukasz=20Gieryk?= <lukasz.gieryk@linux.intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/15] docs: Add documentation for SR-IOV and
- Virtualization Enhancements
-Date: Tue, 16 Nov 2021 16:34:45 +0100
-Message-Id: <20211116153446.317143-15-lukasz.gieryk@linux.intel.com>
+Subject: [PATCH v2 15/15] hw/nvme: Update the initalization place for the AER
+ queue
+Date: Tue, 16 Nov 2021 16:34:46 +0100
+Message-Id: <20211116153446.317143-16-lukasz.gieryk@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211116153446.317143-1-lukasz.gieryk@linux.intel.com>
 References: <20211116153446.317143-1-lukasz.gieryk@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
  80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
 Content-Transfer-Encoding: 8bit
@@ -58,61 +59,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?=C5=81ukasz=20Gieryk?= <lukasz.gieryk@linux.intel.com>,
+Cc: Keith Busch <kbusch@kernel.org>,
+ =?UTF-8?q?=C5=81ukasz=20Gieryk?= <lukasz.gieryk@linux.intel.com>,
+ Klaus Jensen <its@irrelevant.dk>,
  Lukasz Maniak <lukasz.maniak@linux.intel.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+This patch updates the initialization place for the AER queue, so it’s
+initialized once, at controller initialization, and not every time
+controller is enabled.
 
-Signed-off-by: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+While the original version works for a non-SR-IOV device, as it’s hard
+to interact with the controller if it’s not enabled, the multiple
+reinitialization is not necessarily correct.
+
+With the SR/IOV feature enabled a segfault can happen: a VF can have its
+controller disabled, while a namespace can still be attached to the
+controller through the parent PF. An event generated in such case ends
+up on an uninitialized queue.
+
+While it’s an interesting question whether a VF should support AER in
+the first place, I don’t think it must be answered today.
+
+Signed-off-by: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
 ---
- docs/system/devices/nvme.rst | 35 +++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ hw/nvme/ctrl.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/docs/system/devices/nvme.rst b/docs/system/devices/nvme.rst
-index bff72d1c24..29fe2565b5 100644
---- a/docs/system/devices/nvme.rst
-+++ b/docs/system/devices/nvme.rst
-@@ -235,3 +235,38 @@ The virtual namespace device supports DIF- and DIX-based protection information
-   to ``1`` to transfer protection information as the first eight bytes of
-   metadata. Otherwise, the protection information is transferred as the last
-   eight bytes.
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 9d0432a2e5..7d41318961 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -5980,8 +5980,6 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+ 
+     nvme_set_timestamp(n, 0ULL);
+ 
+-    QTAILQ_INIT(&n->aer_queue);
+-
+     nvme_select_iocs(n);
+ 
+     return 0;
+@@ -6960,6 +6958,8 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+         id->cmic |= NVME_CMIC_MULTI_CTRL;
+     }
+ 
++    QTAILQ_INIT(&n->aer_queue);
 +
-+Virtualization Enhancements and SR-IOV
-+--------------------------------------
-+
-+The ``nvme`` device supports Single Root I/O Virtualization and Sharing
-+along with Virtualization Enhancements. The controller has to be linked to
-+an NVM Subsystem device (``nvme-subsys``) for use with SR-IOV.
-+
-+A number of parameters are present:
-+
-+``sriov_max_vfs`` (default: ``0``)
-+  Indicates the maximum number of PCIe virtual functions supported
-+  by the controller. Specifying a non-zero value enables reporting of both
-+  SR-IOV and ARI (Alternative Routing-ID Interpretation) capabilities
-+  by the NVMe device. Virtual function controllers will not report SR-IOV.
-+
-+``sriov_vq_flexible``
-+  Indicates the total number of flexible queue resources assignable to all
-+  the secondary controllers. Implicitly sets the number of PF-private
-+  resources to (max_ioqpairs - sriov_vq_flexible).
-+
-+``sriov_vi_flexible``
-+  Indicates the total number of flexible interrupt resources assignable to
-+  all the secondary controllers. Implicitly sets the number of PF-private
-+  resources to (msix_qsize - sriov_vi_flexible).
-+
-+``sriov_max_vi_per_vf``
-+  Indicates the maximum number of virtual interrupt resources assignable
-+  to a secondary controller. The default 0 resolves to the number of private
-+  interrupt resources configured for PF.
-+
-+``sriov_max_vq_per_vf``
-+  Indicates the maximum number of virtual queue resources assignable to
-+  a secondary controller. The default 0 resolves to the number of private
-+  queue resources configured for PF.
+     NVME_CAP_SET_MQES(cap, 0x7ff);
+     NVME_CAP_SET_CQR(cap, 1);
+     NVME_CAP_SET_TO(cap, 0xf);
 -- 
 2.25.1
 
