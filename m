@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEBA5453D8C
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 02:14:51 +0100 (CET)
-Received: from localhost ([::1]:50644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E98C453DAE
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 02:22:51 +0100 (CET)
+Received: from localhost ([::1]:56314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mn9XG-0006Sv-7m
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 20:14:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48278)
+	id 1mn9f0-0002AQ-G7
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 20:22:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1mn9Si-0003fv-GC; Tue, 16 Nov 2021 20:10:08 -0500
-Received: from [2607:f8b0:4864:20::42d] (port=38531
- helo=mail-pf1-x42d.google.com)
+ id 1mn9aG-0000hT-WF; Tue, 16 Nov 2021 20:17:57 -0500
+Received: from [2607:f8b0:4864:20::22e] (port=33584
+ helo=mail-oi1-x22e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1mn9Sf-0002hg-9z; Tue, 16 Nov 2021 20:10:08 -0500
-Received: by mail-pf1-x42d.google.com with SMTP id g18so1039400pfk.5;
- Tue, 16 Nov 2021 17:10:04 -0800 (PST)
+ id 1mn9aE-0003wC-VZ; Tue, 16 Nov 2021 20:17:56 -0500
+Received: by mail-oi1-x22e.google.com with SMTP id q25so2751551oiw.0;
+ Tue, 16 Nov 2021 17:17:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=T94hNqM/dX6rkSEP2mqASB2IXztGyjR5lNdq+2drn1c=;
- b=Qqw+gdCVvyYmA6g+i0bM24gL/DVpUlDG/TaEZDJe35EeItjhseLVnXMQwpcoJ0y7FP
- Nxs4re3LMpxp76jfC82zmrQovEmnG87OU+tHbf2d3geNjCXLK0wrzkmVty0O4Dmi7sFg
- gM5woRpdi8vaSMNkOqAipKib4zPsPWGyY/tY8RFejhoE+8/5qH4oG5+Y0yn2ePlHsXWL
- HCWb76JWolm37ctcKnjBu6DP6z6s7jNlKPqz2AEYJHolml9YfPKPoWMOydu/4Gun98uG
- tGSl+Dq+bwDPWOtBF2GRl68GeGrnDJhpqdXHSWrGPjjfXbSXpe2NCmDLvQZtddsHvkYT
- fdzw==
+ bh=ROWwkMOO28CndFbZEJPlwLlrvfFh2YqGYg7uXNY07Do=;
+ b=BNzQJKaPiRtfK3S7VgF9DShGfWOWmsgniyULMr+Pd3v89znB85vgp5P5NvhahV9g0Y
+ WH8f8UUBP7RD2SBXyELoreKRVfJix/B4lD+Z+zX4eMtL6jmsAGlIQPtTV8PwlCDUTKmq
+ +rWJwLxD+3UnBIiOfodFJtO/Xe0gz6yM22n/wUEsqRUc+UpfR9bMvU07ioqqP7hMdPuO
+ QaZAI+wi/cHuJlbCwdkTcnh/CPaB/A6oA13WGj5Tu52DBGxZxc9cCTQP92cwKj9FIOvc
+ ElUSph561ggoUFhW3f2r5TqbRyHgslE6U2NffiQaN4UvDmkX0CTd+8vaG63b+QI2rgR5
+ kL4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=T94hNqM/dX6rkSEP2mqASB2IXztGyjR5lNdq+2drn1c=;
- b=b1+oJjuzGHXnmTnYb40KQDVZ7OYI3ZNMB1yx1/JolupYuDqHZV/6ojEPd26a1xwNjg
- /CZeZ5XRJ16Z1UTh8NC2emQm608bUUuyG4gsjUHwrslUrF26b6g0SvBjExNErdGwCRsf
- MOT3CqioMpuL7FSi9PhACzYlnOm6o4YPO8vr9mtxHqDGhKMEy1MFgWw/lcICYNH9XaW3
- eX8iD6QBd4RNjUPy4KDdNfPvLPQa/oOM83vwnzKqRZVmfJ+Pgypl82MorqPDaoX+A8yY
- bhF3NCWQtqjDXVcQbC2F3hzarVt0FrWDny/a8RHzYgtdIQZofsGg7LU8I6afE5COsuBz
- QD0w==
-X-Gm-Message-State: AOAM531GJM80/vDWXAwkyNY/E0NPO/StVgzZvxxeexDBPs8Syh2D+QTP
- I2rq4YaFzDpbDvsL9RENpOQ=
-X-Google-Smtp-Source: ABdhPJw2xeMK9J0q6t7ICeaG+ebXB5c7OIFMqS61z+LTusVRDj3ECIvAEu1dfru+2ak2hH/NZVzKPQ==
-X-Received: by 2002:a05:6a00:13a4:b0:49f:add2:3c83 with SMTP id
- t36-20020a056a0013a400b0049fadd23c83mr3460251pfg.28.1637111403377; 
- Tue, 16 Nov 2021 17:10:03 -0800 (PST)
+ bh=ROWwkMOO28CndFbZEJPlwLlrvfFh2YqGYg7uXNY07Do=;
+ b=dp9gOX30UzOTCirTKOJAYVP0nhGspdxHtpRnl56J2IiONNT2I8OAorPac2uNgUr37R
+ aY8phO8nORRsT25q9OjDFyX/8vDWJ4oFJyxJxJnF3ntFVbV+lEeoxWukm4SEgXNKj+Sc
+ /NUYEr+2bWeIAIjhUyyahOn9Q3r/8jA18AQNzrb8Gqdh7WXT9aXwkCvQXtNwmLMLccXn
+ /bEhu/9QW6OkQNdfAu7KvYpbKzKUCQJYzzJzZq4RqHZ/3PhnQ9Nr7orF0c0t765IJ7HO
+ HNXR8BTphOyRhu3LCrChkOzkxPdR9ET9fTV6NsoXOJUK2WFfnN+1V/dnc/x8+E6VHyiF
+ FNtw==
+X-Gm-Message-State: AOAM531S51j3b5T9SE0z/pwvJ5BWzjTqaeq/FO/svdGDuVXe7OaGbiEF
+ wa3E6i2leW1vJnbvWQUj/XJWITQAZdfko38+
+X-Google-Smtp-Source: ABdhPJyDAv3rNc9AS20IgmmkY7yaLLKJQalhELQfjKJX4fLlcjezL01dtmrdcDAH7/Tst2q7MxltOg==
+X-Received: by 2002:a17:90a:c58f:: with SMTP id
+ l15mr4272858pjt.168.1637111406831; 
+ Tue, 16 Nov 2021 17:10:06 -0800 (PST)
 Received: from voyager.guest.fluxperth.local
  (210-10-213-150.per.static-ipl.aapt.com.au. [210.10.213.150])
- by smtp.gmail.com with ESMTPSA id z16sm15211376pgl.29.2021.11.16.17.09.59
+ by smtp.gmail.com with ESMTPSA id z16sm15211376pgl.29.2021.11.16.17.10.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Nov 2021 17:10:02 -0800 (PST)
+ Tue, 16 Nov 2021 17:10:06 -0800 (PST)
 From: Joel Stanley <joel@jms.id.au>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [RESEND PATCH 1/3] docs: aspeed: Add new boards
-Date: Wed, 17 Nov 2021 09:09:45 +0800
-Message-Id: <20211117010947.297540-2-joel@jms.id.au>
+Subject: [RESEND PATCH 2/3] docs: aspeed: Update OpenBMC image URL
+Date: Wed, 17 Nov 2021 09:09:46 +0800
+Message-Id: <20211117010947.297540-3-joel@jms.id.au>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211117010947.297540-1-joel@jms.id.au>
 References: <20211117010947.297540-1-joel@jms.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=joel.stan@gmail.com; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=joel.stan@gmail.com; helo=mail-oi1-x22e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -91,38 +91,27 @@ Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is the latest URL for the OpenBMC CI. The old URL still works, but
+redirects.
+
 Signed-off-by: Joel Stanley <joel@jms.id.au>
 ---
- docs/system/arm/aspeed.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+ docs/system/arm/aspeed.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
-index cec87e3743d0..b091c0c61dec 100644
+index b091c0c61dec..4bed7b5221b4 100644
 --- a/docs/system/arm/aspeed.rst
 +++ b/docs/system/arm/aspeed.rst
-@@ -14,6 +14,7 @@ AST2400 SoC based machines :
+@@ -81,7 +81,7 @@ The Aspeed machines can be started using the ``-kernel`` option to
+ load a Linux kernel or from a firmware. Images can be downloaded from
+ the OpenBMC jenkins :
  
- - ``palmetto-bmc``         OpenPOWER Palmetto POWER8 BMC
- - ``quanta-q71l-bmc``      OpenBMC Quanta BMC
-+- ``supermicrox11-bmc``    Supermicro X11 BMC
+-   https://jenkins.openbmc.org/job/ci-openbmc/lastSuccessfulBuild/distro=ubuntu,label=docker-builder
++   https://jenkins.openbmc.org/job/ci-openbmc/lastSuccessfulBuild/
  
- AST2500 SoC based machines :
+ or directly from the OpenBMC GitHub release repository :
  
-@@ -22,11 +23,14 @@ AST2500 SoC based machines :
- - ``witherspoon-bmc``      OpenPOWER Witherspoon POWER9 BMC
- - ``sonorapass-bmc``       OCP SonoraPass BMC
- - ``swift-bmc``            OpenPOWER Swift BMC POWER9
-+- ``fp5280g2-bmc``         Inspur FP5280G2 BMC
-+- ``g220a-bmc``            Bytedance G220A BMC
- 
- AST2600 SoC based machines :
- 
- - ``ast2600-evb``          Aspeed AST2600 Evaluation board (Cortex-A7)
- - ``tacoma-bmc``           OpenPOWER Witherspoon POWER9 AST2600 BMC
-+- ``rainier-bmc``          IBM Rainier BMC
- 
- Supported devices
- -----------------
 -- 
 2.33.0
 
