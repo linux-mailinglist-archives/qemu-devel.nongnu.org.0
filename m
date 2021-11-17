@@ -2,92 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 291004546AD
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 13:53:07 +0100 (CET)
-Received: from localhost ([::1]:49646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEB354546EE
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 14:08:36 +0100 (CET)
+Received: from localhost ([::1]:56968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnKQz-0007Z2-Vx
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 07:53:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55968)
+	id 1mnKfv-0004v9-DR
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 08:08:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mnKPS-0005NT-0Z
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 07:51:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25120)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mnKPQ-00073X-3I
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 07:51:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637153486;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1jXyaGsieylKGj9xbqb0Dbcdb7+/iWV16rsTXdzOMj0=;
- b=Re4bnzbBxORngnxdOONtqr5c6ZQOrl/C3tSBIncnwC33uPfH5Eb/Fj9olsTbrJ0kTWp0nc
- /wESRyAzGYlLJ/X970u53ZBjw9MTT8brwYAq/XzRKvcfhrZvQjh/n2lnuiwvLAhyvxs/Ih
- Jsy3BR1XsLaoT4bJHGrGnbS9byOhkYs=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-589-AfUCjuBRMBeMqB4zPx2jUg-1; Wed, 17 Nov 2021 07:51:25 -0500
-X-MC-Unique: AfUCjuBRMBeMqB4zPx2jUg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- b1-20020a5d6341000000b001901ddd352eso349782wrw.7
- for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 04:51:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mnKdx-0003K5-OC
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 08:06:30 -0500
+Received: from [2a00:1450:4864:20::330] (port=39803
+ helo=mail-wm1-x330.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mnKdv-0000oR-Bw
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 08:06:29 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ n33-20020a05600c502100b0032fb900951eso4733154wmr.4
+ for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 05:06:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=JsYBZ/hrxd2PpCka0fA30gSmznK0nWVmIhCCA/bVIE0=;
+ b=Wf0H2g2MuspNbv+cT5jXi54PvdxKsp8KrPPmEXIIqy2lCeHUKTplDFv4GeZl3vY3iY
+ 5ex28vmYy9IpNjMZZBDnojyI8Fxai7gJx/oDi1tWHZi0O7rLAzlhhRYkfp4+sjNXzdUV
+ x8keY5t7XXY9p26K6kaO/aIJRHcDYvAkQT8w2kWTGUSQ9DAkahbYdBIMm4H5Hw6WoFk8
+ zt6s4oRguj9JuwyqVnEzB7ZjmKWc0WkPwk4TUwM8+rV3U/c7zhZfWLji4OHTZr5QFPIe
+ gA/CQ6+o/HapDu7zxfGjxZXBfbauC/VANV7jK15V0KQtbRmo9WuST/5Otc7KX1gOiEes
+ c99g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=1jXyaGsieylKGj9xbqb0Dbcdb7+/iWV16rsTXdzOMj0=;
- b=75ipDQea+qMsfmhZum2QR5oL+EXPclblQjF3VsJVxzUzaI+JZPsVDXM9d1IR6v0pGE
- 930V7FrEsJbgwitq2CQoHrBlXAVkeco7BSAQaEjfRcWA/JUOlM4jEfRP5vDlLkhL9+KV
- us846OfslT1y3c8GaaKeANbnebzUjvdYns4R45K/RUEBXhNbd2y9/Kv+Jtw1R7DesAlf
- 9YH2Nzr/7k+//cpIylXd4IiPcx4r1YvcYaU96PGBRbs8+4KL4UA6o6fdeXA4qT1DHglm
- AlkUeIqZ3OsYW8lGBj6SpCS1e18pGWXRsUuEDAaOUQaPNxToV/NT3r9viYLQSoCFFXMO
- Lxhw==
-X-Gm-Message-State: AOAM530q7iDuh9fovAAo7RgN4O4mqwOtnqVxMStHFS6knbf3tJvFezYc
- p/lYoaORxokWyEVSiwI8iJ90J+akVRSNyIQuuuWRDIs68q2oEs7dSoSUS8+ur2braOUn/e5W8a/
- NQ1x7YYs7h2HUznE=
-X-Received: by 2002:adf:d84c:: with SMTP id k12mr19909700wrl.24.1637153484691; 
- Wed, 17 Nov 2021 04:51:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyZiR1qhJ/014oLk13M7k5nzGx9xxgL3xtgQnS/fUtRVpuc0tqJCrwQgm2j4REMwPpYHJRdtw==
-X-Received: by 2002:adf:d84c:: with SMTP id k12mr19909674wrl.24.1637153484474; 
- Wed, 17 Nov 2021 04:51:24 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:ca91:ec4d:49ff:d0d1?
- ([2a02:8071:5055:3f20:ca91:ec4d:49ff:d0d1])
- by smtp.gmail.com with ESMTPSA id p2sm6036238wmq.23.2021.11.17.04.51.23
+ bh=JsYBZ/hrxd2PpCka0fA30gSmznK0nWVmIhCCA/bVIE0=;
+ b=u01K3i4AqddmiXjAuMKJfivbG1I+SOf2qGNiqvkvblfHua7RRfYgTPau+DuJ1h5Z7A
+ KgepCUrzyhWYAlqGGOny6p8OCXxfaPSY1go5/TS1xQJfi6+s9ptKAOGAZgzrrukFpbn6
+ HS8holGcwKT7P4F5UXT5ruOwHVdvc/0DFuAo1quvpAjeCZ3HBCy4kXa/b8WbhtCa2gzL
+ WP98XOFGEMd5dd6dCkql4TrEAKshpjVqxhlQDyafTEy+qrRP8avhjPVevEEbD/n2GByX
+ JcEjkPZAKPv/N5VomuJ/HFrS2x8VMe5sAwJctTdwrQQ5BH9yw947CgDJ1HNLf1PfQ2+Q
+ O86g==
+X-Gm-Message-State: AOAM533EkfjyE2gHH7eabFPSnaDcCnQasgnntMqcS3+dQ2bhHSvIMn9L
+ Gm+HocUnV5YSZi1rfy2WicXP3L1eqDzADCTERnc=
+X-Google-Smtp-Source: ABdhPJyTiXQSaSKNT8CVwPUvj5kbCJEyKIKDxldNsrXDixSV47Rv2ZtkbV6VbANdZ5d2WbVfVjsAOQ==
+X-Received: by 2002:a05:600c:4e51:: with SMTP id
+ e17mr18250581wmq.127.1637154385727; 
+ Wed, 17 Nov 2021 05:06:25 -0800 (PST)
+Received: from [192.168.8.105] (101.red-176-80-44.dynamicip.rima-tde.net.
+ [176.80.44.101])
+ by smtp.gmail.com with ESMTPSA id g5sm30677358wri.45.2021.11.17.05.06.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Nov 2021 04:51:24 -0800 (PST)
-Message-ID: <01dabd9f-9443-2482-431d-51055f99885d@redhat.com>
-Date: Wed, 17 Nov 2021 13:51:23 +0100
+ Wed, 17 Nov 2021 05:06:25 -0800 (PST)
+Subject: Re: [PULL 0/6] Misc patches for 6.2-rc2
+To: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
+ qemu-devel <qemu-devel@nongnu.org>
+References: <20211117101921.622242-1-thuth@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <10ec19c2-9319-aad3-53e9-495476f1d114@linaro.org>
+Date: Wed, 17 Nov 2021 14:06:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v4 20/25] block_int-common.h: assertion in the callers of
- BlockDriver function pointers
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20211025101735.2060852-1-eesposit@redhat.com>
- <20211025101735.2060852-21-eesposit@redhat.com>
- <83cf9336-e37d-bf48-961c-8103b5c7bc62@redhat.com>
- <197a79f6-c9c2-d73b-7e38-e88ccc2e0a57@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <197a79f6-c9c2-d73b-7e38-e88ccc2e0a57@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20211117101921.622242-1-thuth@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.009, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.009,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,109 +93,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17.11.21 12:33, Emanuele Giuseppe Esposito wrote:
->
->
-> On 15/11/2021 13:48, Hanna Reitz wrote:
->> On 25.10.21 12:17, Emanuele Giuseppe Esposito wrote:
->>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->>> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
->>> ---
->>>   block.c | 17 +++++++++++++++++
->>>   1 file changed, 17 insertions(+)
->>>
->>> diff --git a/block.c b/block.c
->>> index 94bff5c757..40c4729b8d 100644
->>> --- a/block.c
->>> +++ b/block.c
->>
->> [...]
->>
->>> @@ -2148,6 +2152,7 @@ static void bdrv_child_perm(BlockDriverState 
->>> *bs, BlockDriverState *child_bs,
->>>                               uint64_t *nperm, uint64_t *nshared)
->>>   {
->>>       assert(bs->drv && bs->drv->bdrv_child_perm);
->>> +    assert(qemu_in_main_thread());
->>>       bs->drv->bdrv_child_perm(bs, c, role, reopen_queue,
->>>                                parent_perm, parent_shared,
->>>                                nperm, nshared);
->>
->> (Should’ve noticed earlier, but only did now...)
->>
->> First, this function is indirectly called by bdrv_refresh_perms(). I 
->> understand that all perm-related functions are classified as GS.
->>
->> However, bdrv_co_invalidate_cache() invokes bdrv_refresh_perms. Being 
->> declared in block/coroutine.h, it’s an I/O function, so it mustn’t 
->> call such a GS function. BlockDriver.bdrv_co_invalidate_cache(), 
->> bdrv_invalidate_cache(), and blk_invalidate_cache() are also 
->> classified as I/O functions. Perhaps all of these functions should be 
->> classified as GS functions?  I believe their callers and their 
->> purpose would allow for this.
->
-> I think that the *_invalidate_cache functions are I/O.
-> First of all, test-block-iothread.c calls bdrv_invalidate_cache in 
-> test_sync_op_invalidate_cache, which is purposefully called in an 
-> iothread. So that hints that we want it as I/O.
+On 11/17/21 11:19 AM, Thomas Huth wrote:
+>   Hi Richard!
+>   
+> The following changes since commit 8d5fcb1990bc64b62c0bc12121fe510940be5664:
+> 
+>    Merge tag 'python-pull-request' of https://gitlab.com/jsnow/qemu into staging (2021-11-17 07:41:08 +0100)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/thuth/qemu.git tags/pull-request-2021-11-17
+> 
+> for you to fetch changes up to d06f3bf922679d89815fde9eac9264ba44e37954:
+> 
+>    gitlab-ci/cirrus: Increase timeout to 80 minutes (2021-11-17 10:20:38 +0100)
+> 
+> ----------------------------------------------------------------
+> * Remove some unused #defines in s390x code
+> * rSTify some of the development process pages from the Wiki
+> * Revert a useless patch in the device-crash-test script
+> * Bump timeout of the Cirrus-CI jobs to 80 minutes
+> 
+> ----------------------------------------------------------------
+> Kashyap Chamarthy (3):
+>        docs: rSTify the "TrivialPatches" wiki
+>        docs: rSTify the "SubmitAPullRequest" wiki
+>        docs: rSTify the "SubmitAPatch" wiki
+> 
+> Thomas Huth (3):
+>        target/s390x/cpu.h: Remove unused SIGP_MODE defines
+>        Revert "device-crash-test: Ignore errors about a bus not being available"
+>        gitlab-ci/cirrus: Increase timeout to 80 minutes
+> 
+>   .gitlab-ci.d/cirrus.yml                  |   1 +
+>   docs/devel/index.rst                     |   3 +
+>   docs/devel/submitting-a-patch.rst        | 456 +++++++++++++++++++++++++++++++
+>   docs/devel/submitting-a-pull-request.rst |  76 ++++++
+>   docs/devel/trivial-patches.rst           |  50 ++++
+>   scripts/device-crash-test                |   1 -
+>   target/s390x/cpu.h                       |   5 -
+>   7 files changed, 586 insertions(+), 6 deletions(-)
+>   create mode 100644 docs/devel/submitting-a-patch.rst
+>   create mode 100644 docs/devel/submitting-a-pull-request.rst
+>   create mode 100644 docs/devel/trivial-patches.rst
+> 
 
-Hm, OK, but bdrv_co_invalidate_cache() calls bdrv_refresh_perms(), which 
-is a GS function, so that shouldn’t work, right?
+Applied, thanks.
 
-> (Small mistake I just noticed: blk_invalidate_cache has the BQL 
-> assertion even though it is rightly put in block-backend-io.h
->
->>
->> Second, it’s called by bdrv_child_refresh_perms(), which is called by 
->> block_crypto_amend_options_generic_luks().  This function is called 
->> by block_crypto_co_amend_luks(), which is a BlockDriver.bdrv_co_amend 
->> implementation, which is classified as an I/O function.
->>
->> Honestly, I don’t know how to fix that mess.  The best would be if we 
->> could make the perm functions thread-safe and classify them as I/O, 
->> but it seems to me like that’s impossible (I sure hope I’m wrong).  
->> On the other hand, .bdrv_co_amend very much strikes me like a GS 
->> function, but it isn’t.  I’m afraid it must work on nodes that are 
->> not in the main context, and it launches a job, so AFAIU we 
->> absolutely cannot run it under the BQL.
->>
->> It almost seems to me like we’d need a thread-safe variant of the 
->> perm functions that’s allowed to fail when it cannot guarantee thread 
->> safety or something.  Or perhaps I’m wrong and the perm functions can 
->> actually be classified as thread-safe and I/O, that’d be great…
->
-> I think that since we are currently only splitting and not taking care 
-> of the actual I/O thread safety, we can move the _perm functions in 
-> I/O, and add a nice TODO to double check their thread safety.
-
-:/
-
-I would really, really like to avoid that unless it’s clear that we can 
-make them thread-safe, or that there’s a way to take the BQL in I/O 
-functions to call GS functions.  But the latter still wouldn’t make the 
-perm functions I/O functions.  At most, I’d sort them under common 
-functions.
-
-> I mean, if they are not thread-safe after the split it means they are 
-> not thread safe also right now.
-
-Yes, sorry I wasn’t clear, I think there’s a pre-existing problem that 
-your series only unveils.  I don’t know whether it has implications in 
-practice yet.
-
-Hanna
-
+r~
 
