@@ -2,86 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E2EE454B96
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 18:05:06 +0100 (CET)
-Received: from localhost ([::1]:53904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 125F1454B9E
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 18:08:01 +0100 (CET)
+Received: from localhost ([::1]:60516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnOMr-0000Td-GQ
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 12:05:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37358)
+	id 1mnOPg-00054F-5u
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 12:08:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mnO9j-0005su-Le
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 11:51:34 -0500
-Received: from [2a00:1450:4864:20::431] (port=44737
- helo=mail-wr1-x431.google.com)
+ (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
+ id 1mnOCK-00086q-SV
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 11:54:13 -0500
+Received: from [2607:f8b0:4864:20::d2a] (port=42499
+ helo=mail-io1-xd2a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mnO9g-0002TL-Dq
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 11:51:31 -0500
-Received: by mail-wr1-x431.google.com with SMTP id n29so5901578wra.11
- for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 08:51:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=WPY1ltiJ9J4tA/h64zdVlgNdDR4PiYOPFoBy3eYGs+c=;
- b=pHUngudgR/RsNPrGpWopv7iBUwhQRZDqEXdhnoBUD8gNyxLfR4WZqFvi2RDieWyJEf
- pyd2AthtM3sfej9A+/AUOtuUNyKbWMivYEU1KlHvysNWrMYn1tQl/EiY87OiN0lPXvkz
- jlv+J1jZemTJux80cf/2HP7+fJBR7I6UKA4LZE8x303F3owyy6jiZm6VhXaa2AgFaTWl
- Rbq8X7OHJcGzwMfJgdGD7g/uKxJ1FzDUPrUmAzZJj3llcLMqyxnkVoECLSCoCSde3iGJ
- 9yUKUnR6ujjXlPosPrDb1KA+5UHZjAms/ErmOJWCpJFa3N8Fpa2Tq8sCPxTe2cALVZW6
- 8XXA==
+ (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
+ id 1mnOCJ-0002rE-Bd
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 11:54:12 -0500
+Received: by mail-io1-xd2a.google.com with SMTP id x10so4054699ioj.9
+ for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 08:54:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=b/6f3fFZxbRQPFp/pJwCtHLi7hso+hflJYH3IdFBjk0=;
+ b=DbiZDapZlIwh/hQ7Fua3cyFrPaDf42WcoiCs1hoD2qhRpNcGfygIskLrJ55DSAMe83
+ NmtAG0yP96TMKNPw5Lx3uMZKCMAbZmGKSFsTBbwONFTvzOeCHtpUignoVgYsBGGolZt8
+ pRSkXp2NuJHVg8E3vRp/AT8+DzWk1VCZK2JlJ/xeYFU2MBZ1Q5WTsF054/GL+8QSRUHw
+ 8ViWlPeo+sP4NQ8OwQOuJKYouxIlsss77l2PmcppLwuU/P7RKNG1sdq/Ky7b7FvsNbZi
+ YP17RSbRlbtI58DIOEdocKBI0tyF3pLB+Yi5AQNFYG835WdJsJyOsCEttIxHBYgW2kWP
+ VUVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=WPY1ltiJ9J4tA/h64zdVlgNdDR4PiYOPFoBy3eYGs+c=;
- b=CasWRpVj1mqH1Mx711QfiXrVMnRDOrhMr3vX9TKoqJyuCFtwe9TVJKozgc99bUFyRx
- zveDMfo5nRyTuc/2l1GgXiD5ObQEZRfzPZvTbxI8Vrea30hX9HbwRvqGrvLgdohiZHte
- qhK9mhof3yWR32KNQenZv9DBJuPOMGZtXTWFT5AWj0mggE8WQidb014UGla/zcbU243A
- qdrqZAz1m6Tt7pDqBPKRrIOU5jKpciyTOtHB2bszmqgo8Vm5sBC5FaZlzGiQiGM/jrTv
- XkQBrwjoXKXTrX+GEU1E1m6gNP4n3k1RfNYvO7+ss79UpZQw7VFLHHKIB3Zn2HE3G/f4
- ebVA==
-X-Gm-Message-State: AOAM533Tek851ffCcylK8Gk2IhBSTOB7HIUCmYe0kwbPPAqMXMYP8j5i
- o94Or1DJgtvNJhm69r3Wlo8=
-X-Google-Smtp-Source: ABdhPJx54fKgseWiRjXdnWyrzk4K0kGGj+tkbzZwi1yKzSiLCIqc5z+khMgSoTHM+Tz7l1AinzARzw==
-X-Received: by 2002:a5d:59ae:: with SMTP id p14mr22233442wrr.365.1637167886963; 
- Wed, 17 Nov 2021 08:51:26 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id t9sm420850wrx.72.2021.11.17.08.51.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Nov 2021 08:51:26 -0800 (PST)
-Message-ID: <cf7f0c38-124c-7d57-513d-225feaa181e9@amsat.org>
-Date: Wed, 17 Nov 2021 17:51:25 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=b/6f3fFZxbRQPFp/pJwCtHLi7hso+hflJYH3IdFBjk0=;
+ b=YZY4HaJmpNWmCJUPtPOZmcMB4JMIqaookizvAh58NuE6h/wt/6WDveSKyyX4pmnoCH
+ jxb1b4YDmXK8of1UwX5oxiJkqdqbqWRN4iuykc7NwGJEKP/Du23dfoXdUfeTXI0naaoF
+ TZbGH8CA5Lr7vd8Ze09fSLlN6+UfsabIo40EZAW1mJ8i8PMMDPiubZgC4YwPmd5EmBNN
+ r1VZlHZXI9R5OX49awkTBXuHAZTkmvSv4SGF1tiDRtaEoo04pucXl7mrjWVpTFvkMfUM
+ fHJQQf4E6q6X7WmiXlOO+i/KIYEqG+lKyfDk0CCCCfu2LdPQyoFFDIL7soL+rkFqPZQh
+ 2pVg==
+X-Gm-Message-State: AOAM531lXu++ENqv4VoEC89CPNh7alGHWkNkviW7ktStWX9sSja905lm
+ GVwVRCfyt1+DyTs3DgPSSGK6rb+2/f3Qek4/RwfVJw==
+X-Google-Smtp-Source: ABdhPJzjepVpxEJtzMfHq1jvFPtPZqVjPHKwC6IKyBVcdT7hv+CJFcxIGUpc1C412R1EF4ReD/eHE0JfRwcYpCsRNKs=
+X-Received: by 2002:a05:6638:d0e:: with SMTP id
+ q14mr14463471jaj.12.1637168049113; 
+ Wed, 17 Nov 2021 08:54:09 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v5 09/17] *-user: Rename TARGET_ERESTARTSYS to
- QEMU_ERESTARTSYS
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211117160412.71563-1-richard.henderson@linaro.org>
- <20211117160412.71563-10-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211117160412.71563-10-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+References: <20211117163409.3587705-1-armbru@redhat.com>
+ <20211117163409.3587705-4-armbru@redhat.com>
+In-Reply-To: <20211117163409.3587705-4-armbru@redhat.com>
+From: Havard Skinnemoen <hskinnemoen@google.com>
+Date: Wed, 17 Nov 2021 08:53:57 -0800
+Message-ID: <CAFQmdRaz9aa22KVHup15oquDrt+HviqqNtGvt9tb21=spTKHog@mail.gmail.com>
+Subject: Re: [PATCH v2 03/13] hw/arm/npcm7xx_boards: Replace drive_get_next()
+ by drive_get()
+To: Markus Armbruster <armbru@redhat.com>, Hao Wu <wuhaotsh@google.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, 
+ Tyrone Ting <KFTING@nuvoton.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.009,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
+ envelope-from=hskinnemoen@google.com; helo=mail-io1-xd2a.google.com
+X-Spam_score_int: -167
+X-Spam_score: -16.8
+X-Spam_bar: ----------------
+X-Spam_report: (-16.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,51 +87,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu, imp@bsdimp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/17/21 17:04, Richard Henderson wrote:
-> This value is fully internal to qemu, and so is not a TARGET define.
-> We use this as an extra marker for both host and target errno.
-
-Thanks for this cleanup, I often wondered what was it really.
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On Wed, Nov 17, 2021 at 8:34 AM Markus Armbruster <armbru@redhat.com> wrote:
+>
+> drive_get_next() is basically a bad idea.  It returns the "next" block
+> backend of a certain interface type.  "Next" means bus=0,unit=N, where
+> subsequent calls count N up from zero, per interface type.
+>
+> This lets you define unit numbers implicitly by execution order.  If the
+> order changes, or new calls appear "in the middle", unit numbers change.
+> ABI break.  Hard to spot in review.
+>
+> Machine "quanta-gbs-bmc" connects just one backend with
+> drive_get_next(), but with a helper function.  Change it to use
+> drive_get() directly.  This makes the unit numbers explicit in the
+> code.
+>
+> Cc: Havard Skinnemoen <hskinnemoen@google.com>
+> Cc: Tyrone Ting <kfting@nuvoton.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: qemu-arm@nongnu.org
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  bsd-user/errno_defs.h                       |  2 +-
->  linux-user/generic/target_errno_defs.h      |  2 +-
->  linux-user/safe-syscall.h                   |  8 ++++----
->  linux-user/signal-common.h                  |  2 +-
->  linux-user/aarch64/cpu_loop.c               |  2 +-
->  linux-user/alpha/cpu_loop.c                 |  2 +-
->  linux-user/arm/cpu_loop.c                   |  2 +-
->  linux-user/cris/cpu_loop.c                  |  2 +-
->  linux-user/hexagon/cpu_loop.c               |  2 +-
->  linux-user/hppa/cpu_loop.c                  |  2 +-
->  linux-user/i386/cpu_loop.c                  |  6 +++---
->  linux-user/m68k/cpu_loop.c                  |  2 +-
->  linux-user/microblaze/cpu_loop.c            |  2 +-
->  linux-user/mips/cpu_loop.c                  |  2 +-
->  linux-user/openrisc/cpu_loop.c              |  2 +-
->  linux-user/ppc/cpu_loop.c                   |  2 +-
->  linux-user/riscv/cpu_loop.c                 |  2 +-
->  linux-user/s390x/cpu_loop.c                 |  2 +-
->  linux-user/sh4/cpu_loop.c                   |  2 +-
->  linux-user/signal.c                         |  6 +++---
->  linux-user/sparc/cpu_loop.c                 |  2 +-
->  linux-user/syscall.c                        | 16 ++++++++--------
->  linux-user/xtensa/cpu_loop.c                |  2 +-
->  common-user/host/aarch64/safe-syscall.inc.S |  2 +-
->  common-user/host/arm/safe-syscall.inc.S     |  2 +-
->  common-user/host/i386/safe-syscall.inc.S    |  2 +-
->  common-user/host/mips/safe-syscall.inc.S    |  2 +-
->  common-user/host/ppc64/safe-syscall.inc.S   |  2 +-
->  common-user/host/riscv/safe-syscall.inc.S   |  2 +-
->  common-user/host/s390x/safe-syscall.inc.S   |  2 +-
->  common-user/host/sparc64/safe-syscall.inc.S |  2 +-
->  common-user/host/x86_64/safe-syscall.inc.S  |  2 +-
->  32 files changed, 46 insertions(+), 46 deletions(-)
+>  hw/arm/npcm7xx_boards.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
+> index dec7d16ae5..d8a49e4e85 100644
+> --- a/hw/arm/npcm7xx_boards.c
+> +++ b/hw/arm/npcm7xx_boards.c
+> @@ -84,9 +84,9 @@ static void npcm7xx_connect_dram(NPCM7xxState *soc, MemoryRegion *dram)
+>                               &error_abort);
+>  }
+>
+> -static void sdhci_attach_drive(SDHCIState *sdhci)
+> +static void sdhci_attach_drive(SDHCIState *sdhci, int unit)
+>  {
+> -        DriveInfo *di = drive_get_next(IF_SD);
+> +        DriveInfo *di = drive_get(IF_SD, 0, unit);
+
++Hao Wu IIRC the chip has separate SD and eMMC buses. Would it make
+sense to take the bus number as a parameter as well? Is bus 0 the
+right one to use in this case?
+
+The existing code always uses bus 0, so this is an improvement either way.
+
+Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
+
+>          BlockBackend *blk = di ? blk_by_legacy_dinfo(di) : NULL;
+>
+>          BusState *bus = qdev_get_child_bus(DEVICE(sdhci), "sd-bus");
+> @@ -374,7 +374,7 @@ static void quanta_gbs_init(MachineState *machine)
+>                            drive_get(IF_MTD, 0, 0));
+>
+>      quanta_gbs_i2c_init(soc);
+> -    sdhci_attach_drive(&soc->mmc.sdhci);
+> +    sdhci_attach_drive(&soc->mmc.sdhci, 0);
+>      npcm7xx_load_kernel(machine, soc);
+>  }
+>
+> --
+> 2.31.1
+>
 
