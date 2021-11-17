@@ -2,81 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC95B454C84
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 18:52:34 +0100 (CET)
-Received: from localhost ([::1]:60386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5161454CEE
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 19:17:47 +0100 (CET)
+Received: from localhost ([::1]:40998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnP6o-0005S2-47
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 12:52:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51608)
+	id 1mnPVC-00067T-QN
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 13:17:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
- id 1mnP4x-0003Li-Oo
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:50:39 -0500
-Received: from [2a00:1450:4864:20::131] (port=37700
- helo=mail-lf1-x131.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
- id 1mnP4v-0002hu-BE
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:50:39 -0500
-Received: by mail-lf1-x131.google.com with SMTP id c32so12459678lfv.4
- for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 09:50:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HoSgA3Rjjgl4hCl3T+4qtK0fiyAYACj89eTCuIOkpIM=;
- b=mWINr3R1u5WQRz1eUNvkk8KXzKxhtbdtlgucqMo1YWhdrt2dFVVPYYBK2z4lC/n5xs
- aiHGXSNHdBF4kYYPReEpzt9WWgxiFo2TZpdUpj/YhOxeY1yeR7kvYSTSGmdgFhwh0Qaz
- 0omW+ON0K61U/A1vOkmIrU/jo9fvFTXbk4LHZuNjMDnR9AWt6cVfkcPgI/hDqnDCNqz6
- 2URACEu34K6X1KlLDrrFjaVQrqCmMdRYABbMAAy9du10jrfQhZPQ6IZpMKeOHkE9cNnd
- f0J4BuGWeFNW8PV66F9HwVODWHnixKiA0Xple3RMtTlXc9u3Iy6rxtdDL5B3EOzXZKjr
- 0wnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HoSgA3Rjjgl4hCl3T+4qtK0fiyAYACj89eTCuIOkpIM=;
- b=6rmm7N30Ux5/kI9yBABGxuVS67umYjSmRX5/hVA772rbradoOTiC6OeQ/HHU3QFsaQ
- 2VBoQfxdhRQKixIeWgDr1t7PqU4pvDQKFTE1Nq9cjhKICutcM/VdJqj5XxOxtmL7vV/p
- xkeOqB1JmifKpHa3SxjgaBquLQIbqSKsvlQ8/h7MwY6opUuTT9P+oQmh1jxS4XZf5cRU
- qIg9pnY2tdd/m8d6CThlVCCfnymNcI/P+8XaLDnNR/2Bi1ZdOCUG26iphLWdmQaBOTzp
- yh0CJDUvU8piwyg0qoAnrJBHf58/LNwPbUpIEDa4PrqE23lOc/bB3mxJX0fk4lviOAcP
- aCVQ==
-X-Gm-Message-State: AOAM533cAUinxN24HYyWDkPrnVrTsJzumucm/KH4brS34WGU9RZbwTi2
- UtLNtWK35eu6fKWN118OHABI6HBaXhO8MMvWKDHh1g==
-X-Google-Smtp-Source: ABdhPJwzMeciXMd/5U1S5KWEiHghMOh2vJpRefedoi9UUB/bXhlmt0XxWIjjb7HErnADpspotHw43vg2/cW1q1LQ7pM=
-X-Received: by 2002:a05:6512:368c:: with SMTP id
- d12mr16625478lfs.538.1637171434629; 
- Wed, 17 Nov 2021 09:50:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1mnPTg-0004LN-A3
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 13:16:12 -0500
+Received: from mail-dm6nam11on2047.outbound.protection.outlook.com
+ ([40.107.223.47]:53281 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1mnPTc-0005rb-5m
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 13:16:11 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=blFe9OuPYmuUAVOkNAhQQTQhmIZPK6D4OkiN9X2rOaP3r3AYTME+8jGJtzdnpXzdm/JWDS7zuB1yFFWjuIYsfC4uf6B32dK2utVvc1XgIAdfz0c++oiL+naxcl0H9m3ClX9NFusHkrF7p9vm6uN/dicU4zvMs2Lixb8BWi/e7rLHc1kMJpcmwIKHMAljxnjdL8HjtuUxj2GRiW1BJcDHRfayZIpU58R2PkLiqps221cNkZO/4d+OtE39yNX6dtpigHKH9KMLgtya9ykNZLb/rMHJkQJ80xV7Pd9BtG3l+8mt1Nsl6R7ZhqRvHAhpI0KSnD8pkFfZKD12TelAUtN3hA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NFIsfhjiyozyXlZJ9fdJuBF89aK9d2cARutVL74G5xQ=;
+ b=oSnYhInsB7TDmUJHrRzO50ZQrVJMOlHg575bQF1qUU73rAvdcv44sIekZGDM2dPsuP4oRFdGj/kh6SznqNMzLGhf8nRuHV3LwE5njPFzaydfm4+g6/qPGYUludp+2+iUU56gOaTG5NWE53fXN9YEHqrAMpmQAZwP66FSeuWcXJTT0un9w7jCUEpHrfmfpcm1BSvMSG+1yvMMF/XtijsQfmz9HQy2pTfL+fpov/G5gw6dmUoaxSiWWir3xnzwpLA8Y2QZYW9a+tNPguxj2A0RWB7FOF6Iryoo4r96X4zZmP2EpojAS4oCYSm6YEKLtk5dVX6LxPtcjBcf1hTyqvG7EQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NFIsfhjiyozyXlZJ9fdJuBF89aK9d2cARutVL74G5xQ=;
+ b=iJ5kbhZMET3vwysDcsNhyfacJXhm4MgYFto16Aiy94Do/FyxDcPfctQvp5QnKOtAE3ux6PDEoBxCftopaWU2DWrFc64bqHGAQwfC30RDw0OZHK2PANnAUDVdyWDQqoSYGZyUnkmETn3OLN5lwe9N8aIZ3QJfmTMwiiaX+n229qc=
+Received: from DM6PR14CA0070.namprd14.prod.outlook.com (2603:10b6:5:18f::47)
+ by DM6PR12MB4218.namprd12.prod.outlook.com (2603:10b6:5:21b::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.20; Wed, 17 Nov
+ 2021 17:55:28 +0000
+Received: from DM6NAM11FT010.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:18f:cafe::6c) by DM6PR14CA0070.outlook.office365.com
+ (2603:10b6:5:18f::47) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19 via Frontend
+ Transport; Wed, 17 Nov 2021 17:55:28 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT010.mail.protection.outlook.com (10.13.172.222) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4713.20 via Frontend Transport; Wed, 17 Nov 2021 17:55:27 +0000
+Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Wed, 17 Nov
+ 2021 11:55:26 -0600
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20211117163409.3587705-1-armbru@redhat.com>
- <20211117163409.3587705-4-armbru@redhat.com>
- <CAFQmdRaz9aa22KVHup15oquDrt+HviqqNtGvt9tb21=spTKHog@mail.gmail.com>
-In-Reply-To: <CAFQmdRaz9aa22KVHup15oquDrt+HviqqNtGvt9tb21=spTKHog@mail.gmail.com>
-From: Hao Wu <wuhaotsh@google.com>
-Date: Wed, 17 Nov 2021 09:50:13 -0800
-Message-ID: <CAGcCb12zYiTcO5t_6872ueNeoj-ggBwnUPCiR+MDAMOjf_N_Fw@mail.gmail.com>
-Subject: Re: [PATCH v2 03/13] hw/arm/npcm7xx_boards: Replace drive_get_next()
- by drive_get()
-To: Havard Skinnemoen <hskinnemoen@google.com>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, 
- Tyrone Ting <KFTING@nuvoton.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000cccdb605d0ffadee"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::131
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::131;
- envelope-from=wuhaotsh@google.com; helo=mail-lf1-x131.google.com
-X-Spam_score_int: -167
-X-Spam_score: -16.8
-X-Spam_bar: ----------------
-X-Spam_report: (-16.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Subject: [ANNOUNCE] QEMU 6.2.0-rc1 is now available
+From: Michael Roth <michael.roth@amd.com>
+To: <qemu-devel@nongnu.org>
+CC: <richard.henderson@linaro.org>
+Date: Wed, 17 Nov 2021 11:54:51 -0600
+Message-ID: <163717169138.293410.2201239539111762928@amd.com>
+User-Agent: alot/0.9
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: fcf0e850-1de7-429f-814b-08d9a9f3705d
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4218:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB4218DE97E66919743290AFB3959A9@DM6PR12MB4218.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wfYJcBxqYgJlGyM59kscLPfCh/CJuSCEa8D/WgVldgefTEj5w+MC5/Bey1S+xBadjVuPdlgR6V3NQXVrrEBh19vTlUafdGlZacOTqWTvCX6gQvZHpgh/2aqaIgndFlD3VdvoAjVo1OLAbrPQBjAvd6E36S0SbYh0inVMNLjqajZ7gND7Jk7WAWxmp7O8XHuKTYwhXOLcPmu46nUWfaz+WgLnnFjegA/h4lqldTXUGPyhsbGl/3KBW7y4fa+zOXSPrd3qaqrpAv1iTNpPqAl0TpgrXWl7mVDGBxMVBfSvaO2y0QvvrFTO/d0J+PRjoMeB8XVdgfKpZ20I5jMNVdj2ypjJHjZQptmTdDwROhE16ZFNQpvq5KbMRUtGTUsalOr0/ku6Yf1k/MeozB1Xb73kjSB3yDGn0j0/opOuyLd8IlSPa5zV86IlA1g3TVLXQpQeL5oI/z7jviWbA8b2ky8iuYdqdBLoLTFumpqZcKYtjUTAzSQu1auBODp0rYq5MK27dTH0o7OYtzI/3u6OYpLAiI+nIZKSqCz2nl6vfvzcZVL1rpcv4+AIew9NZth6pP9dMoDk032kdjiFyTjtV8okxdz1nH8X/zSmTyXTh/ycOM2vA+pz4W/3RWPO9Q9W7YTM7l6OUMNbUr/lhCd0ITZdEZx7wuXL/09+8JO4sveENjiAKY2wbNuR/6cAhPU26SvpDRKk6RVm2HgDFN4zjnnxVm+o3KIOQwBH3UIpC01W1UGAJf9jg1DqnJEi3B+wrWIFcElENl0OZG/WWPfgXqSL7En05u3gehtUYTH/Ny1FRfqok1LaI3s4TWNEkli9+11utJw5qvt9f8KHn46BHhjT/aTOJEVfOW3OWWV/LGwULcA=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(46966006)(36840700001)(66574015)(36860700001)(2906002)(5660300002)(83380400001)(47076005)(6666004)(26005)(508600001)(8676002)(356005)(16526019)(70586007)(70206006)(186003)(336012)(6916009)(426003)(82310400003)(36756003)(81166007)(4326008)(966005)(44832011)(8936002)(316002)(2616005)(86362001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2021 17:55:27.6079 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fcf0e850-1de7-429f-814b-08d9a9f3705d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT010.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4218
+Received-SPF: softfail client-ip=40.107.223.47;
+ envelope-from=Michael.Roth@amd.com;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,181 +121,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000cccdb605d0ffadee
-Content-Type: text/plain; charset="UTF-8"
+Hello,
 
-Yes, there's SD and MMC buses. It looks like the current code only supports
-mmc ("soc->mmc.sdhci") but not the sd ("soc->sd.sdhci").
+On behalf of the QEMU Team, I'd like to announce the availability of the
+second release candidate for the QEMU 6.2 release. This release is meant
+for testing purposes and should not be used in a production environment.
 
-It's probably good to make the bus number a parameter as well and use them
-to distinguish. We might need a separate patch to do that.
+  http://download.qemu-project.org/qemu-6.2.0-rc1.tar.xz
+  http://download.qemu-project.org/qemu-6.2.0-rc1.tar.xz.sig
 
-On Wed, Nov 17, 2021 at 8:54 AM Havard Skinnemoen <hskinnemoen@google.com>
-wrote:
+You can help improve the quality of the QEMU 6.2 release by testing this
+release and reporting bugs using our GitLab issue tracker:
 
-> On Wed, Nov 17, 2021 at 8:34 AM Markus Armbruster <armbru@redhat.com>
-> wrote:
-> >
-> > drive_get_next() is basically a bad idea.  It returns the "next" block
-> > backend of a certain interface type.  "Next" means bus=0,unit=N, where
-> > subsequent calls count N up from zero, per interface type.
-> >
-> > This lets you define unit numbers implicitly by execution order.  If the
-> > order changes, or new calls appear "in the middle", unit numbers change.
-> > ABI break.  Hard to spot in review.
-> >
-> > Machine "quanta-gbs-bmc" connects just one backend with
-> > drive_get_next(), but with a helper function.  Change it to use
-> > drive_get() directly.  This makes the unit numbers explicit in the
-> > code.
-> >
-> > Cc: Havard Skinnemoen <hskinnemoen@google.com>
-> > Cc: Tyrone Ting <kfting@nuvoton.com>
-> > Cc: Peter Maydell <peter.maydell@linaro.org>
-> > Cc: qemu-arm@nongnu.org
-> > Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> > ---
-> >  hw/arm/npcm7xx_boards.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
-> > index dec7d16ae5..d8a49e4e85 100644
-> > --- a/hw/arm/npcm7xx_boards.c
-> > +++ b/hw/arm/npcm7xx_boards.c
-> > @@ -84,9 +84,9 @@ static void npcm7xx_connect_dram(NPCM7xxState *soc,
-> MemoryRegion *dram)
-> >                               &error_abort);
-> >  }
-> >
-> > -static void sdhci_attach_drive(SDHCIState *sdhci)
-> > +static void sdhci_attach_drive(SDHCIState *sdhci, int unit)
-> >  {
-> > -        DriveInfo *di = drive_get_next(IF_SD);
-> > +        DriveInfo *di = drive_get(IF_SD, 0, unit);
->
-> +Hao Wu IIRC the chip has separate SD and eMMC buses. Would it make
-> sense to take the bus number as a parameter as well? Is bus 0 the
-> right one to use in this case?
->
-> The existing code always uses bus 0, so this is an improvement either way.
->
-> Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
->
-> >          BlockBackend *blk = di ? blk_by_legacy_dinfo(di) : NULL;
-> >
-> >          BusState *bus = qdev_get_child_bus(DEVICE(sdhci), "sd-bus");
-> > @@ -374,7 +374,7 @@ static void quanta_gbs_init(MachineState *machine)
-> >                            drive_get(IF_MTD, 0, 0));
-> >
-> >      quanta_gbs_i2c_init(soc);
-> > -    sdhci_attach_drive(&soc->mmc.sdhci);
-> > +    sdhci_attach_drive(&soc->mmc.sdhci, 0);
-> >      npcm7xx_load_kernel(machine, soc);
-> >  }
-> >
-> > --
-> > 2.31.1
-> >
->
+  https://gitlab.com/qemu-project/qemu/-/issues
 
---000000000000cccdb605d0ffadee
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The release plan, as well a documented known issues for release
+candidates, are available at:
 
-<div dir=3D"ltr">Yes, there&#39;s SD and MMC buses. It looks like the curre=
-nt code only supports mmc (&quot;soc-&gt;mmc.sdhci&quot;) but not the sd (&=
-quot;soc-&gt;sd.sdhci&quot;).<div><br></div><div>It&#39;s probably good to =
-make the bus number a parameter as well and use them to distinguish. We mig=
-ht need a separate patch to do that.</div></div><br><div class=3D"gmail_quo=
-te"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 17, 2021 at 8:54 AM H=
-avard Skinnemoen &lt;<a href=3D"mailto:hskinnemoen@google.com">hskinnemoen@=
-google.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">On Wed, Nov 17, 2021 at 8:34 AM Markus Armbruster &lt;<a href=3D=
-"mailto:armbru@redhat.com" target=3D"_blank">armbru@redhat.com</a>&gt; wrot=
-e:<br>
-&gt;<br>
-&gt; drive_get_next() is basically a bad idea.=C2=A0 It returns the &quot;n=
-ext&quot; block<br>
-&gt; backend of a certain interface type.=C2=A0 &quot;Next&quot; means bus=
-=3D0,unit=3DN, where<br>
-&gt; subsequent calls count N up from zero, per interface type.<br>
-&gt;<br>
-&gt; This lets you define unit numbers implicitly by execution order.=C2=A0=
- If the<br>
-&gt; order changes, or new calls appear &quot;in the middle&quot;, unit num=
-bers change.<br>
-&gt; ABI break.=C2=A0 Hard to spot in review.<br>
-&gt;<br>
-&gt; Machine &quot;quanta-gbs-bmc&quot; connects just one backend with<br>
-&gt; drive_get_next(), but with a helper function.=C2=A0 Change it to use<b=
-r>
-&gt; drive_get() directly.=C2=A0 This makes the unit numbers explicit in th=
-e<br>
-&gt; code.<br>
-&gt;<br>
-&gt; Cc: Havard Skinnemoen &lt;<a href=3D"mailto:hskinnemoen@google.com" ta=
-rget=3D"_blank">hskinnemoen@google.com</a>&gt;<br>
-&gt; Cc: Tyrone Ting &lt;<a href=3D"mailto:kfting@nuvoton.com" target=3D"_b=
-lank">kfting@nuvoton.com</a>&gt;<br>
-&gt; Cc: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" targ=
-et=3D"_blank">peter.maydell@linaro.org</a>&gt;<br>
-&gt; Cc: <a href=3D"mailto:qemu-arm@nongnu.org" target=3D"_blank">qemu-arm@=
-nongnu.org</a><br>
-&gt; Signed-off-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.c=
-om" target=3D"_blank">armbru@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 hw/arm/npcm7xx_boards.c | 6 +++---<br>
-&gt;=C2=A0 1 file changed, 3 insertions(+), 3 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c<br>
-&gt; index dec7d16ae5..d8a49e4e85 100644<br>
-&gt; --- a/hw/arm/npcm7xx_boards.c<br>
-&gt; +++ b/hw/arm/npcm7xx_boards.c<br>
-&gt; @@ -84,9 +84,9 @@ static void npcm7xx_connect_dram(NPCM7xxState *soc, =
-MemoryRegion *dram)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;error_abort);<br>
-&gt;=C2=A0 }<br>
-&gt;<br>
-&gt; -static void sdhci_attach_drive(SDHCIState *sdhci)<br>
-&gt; +static void sdhci_attach_drive(SDHCIState *sdhci, int unit)<br>
-&gt;=C2=A0 {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 DriveInfo *di =3D drive_get_next(IF_SD);<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 DriveInfo *di =3D drive_get(IF_SD, 0, uni=
-t);<br>
-<br>
-+Hao Wu IIRC the chip has separate SD and eMMC buses. Would it make<br>
-sense to take the bus number as a parameter as well? Is bus 0 the<br>
-right one to use in this case?<br>
-<br>
-The existing code always uses bus 0, so this is an improvement either way.<=
-br>
-<br>
-Reviewed-by: Havard Skinnemoen &lt;<a href=3D"mailto:hskinnemoen@google.com=
-" target=3D"_blank">hskinnemoen@google.com</a>&gt;<br>
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 BlockBackend *blk =3D di ? blk_by_le=
-gacy_dinfo(di) : NULL;<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 BusState *bus =3D qdev_get_child_bus=
-(DEVICE(sdhci), &quot;sd-bus&quot;);<br>
-&gt; @@ -374,7 +374,7 @@ static void quanta_gbs_init(MachineState *machine)=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 drive_get(IF_MTD, 0, 0));<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 quanta_gbs_i2c_init(soc);<br>
-&gt; -=C2=A0 =C2=A0 sdhci_attach_drive(&amp;soc-&gt;mmc.sdhci);<br>
-&gt; +=C2=A0 =C2=A0 sdhci_attach_drive(&amp;soc-&gt;mmc.sdhci, 0);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 npcm7xx_load_kernel(machine, soc);<br>
-&gt;=C2=A0 }<br>
-&gt;<br>
-&gt; --<br>
-&gt; 2.31.1<br>
-&gt;<br>
-</blockquote></div>
+  http://wiki.qemu.org/Planning/6.2
 
---000000000000cccdb605d0ffadee--
+Please add entries to the ChangeLog for the 6.2 release below:
+
+  http://wiki.qemu.org/ChangeLog/6.2
+
+Thank you to everyone involved!
+
+Changes since rc0:
+
+67f9968ce3: Update version for v6.2.0-rc1 release (Richard Henderson)
+9968de0a4a: gitlab: skip cirrus jobs on master and stable branches (Daniel =
+P. Berrang=C3=A9)
+60bec83e8a: gitlab-ci: Split custom-runners.yml in one file per runner (Phi=
+lippe Mathieu-Daud=C3=A9)
+d7c2e2b3f4: Jobs based on custom runners: add CentOS Stream 8 (Cleber Rosa)
+a399f9143e: meson: remove useless libdl test (Paolo Bonzini)
+ebd654aabc: tests/vm: don't build using TCG by default (Alex Benn=C3=A9e)
+81c9b06ea0: tests/vm: sort the special variable list (Alex Benn=C3=A9e)
+d47e3751b5: tests/docker: force NOUSER=3D1 for base images (Alex Benn=C3=A9=
+e)
+3d212b41e9: nbd/server: Add --selinux-label option (Richard W.M. Jones)
+76df2b8d69: nbd/server: Silence clang sanitizer warning (Eric Blake)
+5dbd0ce115: file-posix: Fix alignment after reopen changing O_DIRECT (Kevin=
+ Wolf)
+c9d4e42a8f: softmmu/qdev-monitor: fix use-after-free in qdev_set_id() (Stef=
+an Hajnoczi)
+4d8b0f0a95: docs: Deprecate incorrectly typed device_add arguments (Kevin W=
+olf)
+16e29cc050: iotests/030: Unthrottle parallel jobs in reverse (Hanna Reitz)
+b0a9f6fed3: block: Let replace_child_noperm free children (Hanna Reitz)
+82b54cf516: block: Let replace_child_tran keep indirect pointer (Hanna Reit=
+z)
+079bff693b: transactions: Invoke clean() after everything else (Hanna Reitz)
+562bda8bb4: block: Restructure remove_file_or_backing_child() (Hanna Reitz)
+be64bbb014: block: Pass BdrvChild ** to replace_child_noperm (Hanna Reitz)
+2651806141: block: Drop detached child from ignore list (Hanna Reitz)
+04c9c3a52c: block: Unite remove_empty_child and child_free (Hanna Reitz)
+a225369bce: block: Manipulate children list in .attach/.detach (Hanna Reitz)
+8d3dd037d9: stream: Traverse graph after modification (Hanna Reitz)
+7b6d1bc962: tests/unit/test-smp-parse: Explicit MachineClass name (Philippe=
+ Mathieu-Daud=C3=A9)
+c3440eff4c: tests/unit/test-smp-parse: QOM'ify smp_machine_class_init() (Ph=
+ilippe Mathieu-Daud=C3=A9)
+2523a79565: tests/unit/test-smp-parse: Restore MachineClass fields after mo=
+difying (Philippe Mathieu-Daud=C3=A9)
+1adf528ec3: hw/rtc/pl031: Send RTC_CHANGE QMP event (Eric Auger)
+e5cba10ee1: hw/intc/arm_gicv3: Support multiple redistributor regions (Pete=
+r Maydell)
+046164155a: hw/intc/arm_gicv3: Set GICR_TYPER.Last correctly when nb_redist=
+_regions > 1 (Peter Maydell)
+01b5ab8cc0: hw/intc/arm_gicv3: Move checking of redist-region-count to arm_=
+gicv3_common_realize (Peter Maydell)
+18416c62e3: pcie: expire pending delete (Gerd Hoffmann)
+0d33415a4e: pcie: fast unplug when slot power is off (Gerd Hoffmann)
+44242d4d3d: pcie: factor out pcie_cap_slot_unplug() (Gerd Hoffmann)
+81124b3c7a: pcie: add power indicator blink check (Gerd Hoffmann)
+d5daff7d31: pcie: implement slot power control for pcie root ports (Gerd Ho=
+ffmann)
+23786d1344: pci: implement power state (Gerd Hoffmann)
+c829540401: vdpa: Check for existence of opts.vhostdev (Eugenio P=C3=A9rez)
+0351152b6f: vdpa: Replace qemu_open_old by qemu_open at (Eugenio P=C3=A9rez)
+d152cdd6f6: virtio: use virtio accessor to access packed event (Jason Wang)
+f463e761a4: virtio: use virtio accessor to access packed descriptor flags (=
+Jason Wang)
+7e6055c99f: tests: bios-tables-test update expected blobs (Igor Mammedov)
+211afe5c69: hw/i386/acpi-build: Deny control on PCIe Native Hot-plug in _OS=
+C (Julia Suvorova)
+be12e3a016: bios-tables-test: Allow changes in DSDT ACPI tables (Julia Suvo=
+rova)
+c318bef762: hw/acpi/ich9: Add compat prop to keep HPC bit set for 6.1 machi=
+ne type (Julia Suvorova)
+2aa1842d6d: pcie: rename 'native-hotplug' to 'x-native-hotplug' (Igor Mamme=
+dov)
+d58f01733b: tcg/s390x: Fix tcg_out_vec_op argument type (Miroslav Rezanina)
+8d30f0473e: tcg: Document ctpop opcodes (Richard Henderson)
+f1f727ac8a: tcg: Remove TCI experimental status (Philippe Mathieu-Daud=C3=
+=A9)
+225bec0c0e: tcg/optimize: Add an extra cast to fold_extract2 (Richard Hende=
+rson)
+d139786e1b: ppc/mmu_helper.c: do not truncate 'ea' in booke206_invalidate_e=
+a_tlb() (Daniel Henrique Barboza)
+be81ba6042: hw/mem/pc-dimm: Restrict NUMA-specific code to NUMA machines (P=
+hilippe Mathieu-Daud=C3=A9)
+14c81b2191: vhost: Fix last vq queue index of devices with no cvq (Eugenio =
+P=C3=A9rez)
+245cf2c24e: vhost: Rename last_index to vq_index_end (Eugenio P=C3=A9rez)
+b66cecb238: softmmu/qdev-monitor: fix use-after-free in qdev_set_id() (Stef=
+an Hajnoczi)
+cd523a4181: net/vhost-vdpa: fix memory leak in vhost_vdpa_get_max_queue_pai=
+rs() (Stefano Garzarella)
+2c3132279b: sgx: Reset the vEPC regions during VM reboot (Yang Zhong)
+1fde73bcd7: spapr_numa.c: fix FORM1 distance-less nodes (Daniel Henrique Ba=
+rboza)
+bd989ed44f: numa: avoid crash with SGX and "info numa" (Paolo Bonzini)
+dd47a8f654: accel/tcg: Register a force_rcu notifier (Greg Kurz)
+ef149763a8: rcu: Introduce force_rcu notifier (Greg Kurz)
+3620328f78: target/ppc: Fix register update on lf[sd]u[x]/stf[sd]u[x] (Math=
+eus Ferst)
+1bf4d3294b: monitor: Fix find_device_state() for IDs containing slashes (Ma=
+rkus Armbruster)
+8c0bae5a19: qapi: Belatedly mark unstable QMP parts with feature 'unstable'=
+ (Markus Armbruster)
+53e9e547d2: docs/devel/qapi-code-gen: Belatedly document feature documentat=
+ion (Markus Armbruster)
+13b86cbd2c: docs/devel/qapi-code-gen: Drop a duplicate paragraph (Markus Ar=
+mbruster)
+a0b9c5f75c: target/i386: sgx: mark device not user creatable (Paolo Bonzini)
+1084159b31: qapi: deprecate drive-backup (Vladimir Sementsov-Ogievskiy)
+24d6cc1fa1: docs/interop/bitmaps: use blockdev-backup (Vladimir Sementsov-O=
+gievskiy)
+9a599217a4: docs/block-replication: use blockdev-backup (Vladimir Sementsov=
+-Ogievskiy)
 
