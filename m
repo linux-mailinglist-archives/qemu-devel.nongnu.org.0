@@ -2,66 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54A4D454A4C
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 16:49:25 +0100 (CET)
-Received: from localhost ([::1]:55272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E67ED454A4A
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 16:48:39 +0100 (CET)
+Received: from localhost ([::1]:53384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnNBc-0002JD-Fa
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 10:49:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45460)
+	id 1mnNAs-0000zs-PN
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 10:48:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mnN9W-0007j1-20
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 10:47:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26370)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mnN9v-000827-M1
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 10:47:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mnN9U-0000Vj-Hv
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 10:47:13 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mnN9u-0000X5-68
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 10:47:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637164031;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1637164057;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=KHimRn8lr8cq0OCxyYlBMS3kSemnAmwD62DesEo8zNg=;
- b=GGcdvNUBfslBmcNNKeaGoayl/fAqgHsNHpRUVvSa1qE7sCwOrd6yMmLghP6f4wU6cO0/Re
- ATTJuXi2M0tAJlGsmim0+fjXaguyCPlj7nCnnGhiEfUM8GRrbbKyV29n9ZOr5ZY//rUOxG
- y+xPp/a8P5/ofpOhmeX9XuWTvyen/Ho=
+ bh=jH2THDhVXvjqel53XsXar0Zk5qCytaSmt4PB9y5eC9I=;
+ b=TOfraAaTlZrxGztVU23LspGyZLNlcUErG6azqaYlyxuyKYQdF3snvOAq2gBKvmPTe8cdRE
+ 0IELTVuSPAMv5llAMuOSya+4CfXXn5tGxnQOkbYUysd2CYduHu3ZJFkWKwS9nhaMSSs/Hn
+ 5CzSrA3LPF0jIZskSx1z6lcP0DO9ZPA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-554-A1VJO_IJMimNRIF9X-bAQw-1; Wed, 17 Nov 2021 10:47:10 -0500
-X-MC-Unique: A1VJO_IJMimNRIF9X-bAQw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-392-gIlvzSihOWeLdiaZgZhktw-1; Wed, 17 Nov 2021 10:47:34 -0500
+X-MC-Unique: gIlvzSihOWeLdiaZgZhktw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73D6C100CD04;
- Wed, 17 Nov 2021 15:47:09 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 79D35101E7F4;
- Wed, 17 Nov 2021 15:47:07 +0000 (UTC)
-Date: Wed, 17 Nov 2021 15:47:04 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v2 1/2] iotests: Use aes-128-cbc
-Message-ID: <YZUj+C/4/jmqJ0UB@redhat.com>
-References: <20211117151707.52549-1-hreitz@redhat.com>
- <20211117151707.52549-2-hreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 186D3100D68D;
+ Wed, 17 Nov 2021 15:47:33 +0000 (UTC)
+Received: from redhat.com (ovpn-114-146.phx2.redhat.com [10.3.114.146])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 015A75BB06;
+ Wed, 17 Nov 2021 15:47:29 +0000 (UTC)
+Date: Wed, 17 Nov 2021 09:47:28 -0600
+From: Eric Blake <eblake@redhat.com>
+To: "Richard W.M. Jones" <rjones@redhat.com>
+Subject: Re: [PATCH v2] nbd/server: Suppress Broken pipe errors on abrupt
+ disconnection
+Message-ID: <20211117154728.6bd6uo622zoentur@redhat.com>
+References: <20210913151936.392705-1-rjones@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211117151707.52549-2-hreitz@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210913151936.392705-1-rjones@redhat.com>
+User-Agent: NeoMutt/20211029-16-b680fe
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -82,41 +77,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 17, 2021 at 04:17:06PM +0100, Hanna Reitz wrote:
-> Our gnutls crypto backend (which is the default as of 8bd0931f6)
-> supports neither twofish-128 nor the CTR mode.  CBC and aes-128 are
-> supported by all of our backends (as far as I can tell), so use
-> aes-128-cbc in our iotests.
+Revisiting an older thread
 
-Yes, AES is guarnateed by all backends, as is ECB,CBC & XTS modes.
+On Mon, Sep 13, 2021 at 04:19:36PM +0100, Richard W.M. Jones wrote:
+> $ rm -f /tmp/sock /tmp/pid
+> $ qemu-img create -f qcow2 /tmp/disk.qcow2 1M
+> $ qemu-nbd -t --format=qcow2 --socket=/tmp/sock --pid-file=/tmp/pid /tmp/disk.qcow2 &
+> $ nbdsh -u 'nbd+unix:///?socket=/tmp/sock' -c 'h.get_size()'
+> qemu-nbd: Disconnect client, due to: Failed to send reply: Unable to write to socket: Broken pipe
+> $ killall qemu-nbd
+> 
+> nbdsh is abruptly dropping the NBD connection here which is a valid
+> way to close the connection.  It seems unnecessary to print an error
+> in this case so this commit suppresses it.
+
+I've investigated this a bit further, and found that we have a
+regression in 6.0 when the abrupt disconnect occurs over TCP instead
+of Unix sockets.  Prior to that point, if a client does a hard
+disconnect with no pending message, a 5.2 server reports:
+
+$ qemu-nbd -f raw file &
+[1] 1059670
+$ nbdsh -u nbd://localhost:10809 -c 'h.trim(1,0)'
+qemu-nbd: Disconnect client, due to: Failed to read request: Unexpected end-of-file before all bytes were read
+[1]+  Done                    qemu-nbd -f raw file
+
+but in 6.0, we started reporting:
+
+qemu-nbd: Disconnect client, due to: Request handling failed in intermediate state
+
+and looking further, I discovered that if you also use --trace=nbd_\*,
+qemu-nbd ends up tracing uninitialized memory; it is now failing
+because it sees an unexpected magic number from the uninitialized
+memory, rather than its earlier detection of early EOF.
+
+It's interesting that a Unix socket sees EPIPE when a TCP socket does
+not, but it also means that your patch in isolation won't solve the
+TCP issue, so I'm trying to come up with something today.
 
 > 
-> (We could also use e.g. aes-256-cbc, but the different key sizes would
-> lead to different key slot offsets and so change the reference output
-> more, which is why I went with aes-128.)
+> Note that if you call the nbdsh h.shutdown() method then the message
+> was not printed:
 > 
-> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> $ nbdsh -u 'nbd+unix:///?socket=/tmp/sock' -c 'h.get_size()' -c 'h.shutdown()'
+> 
+> Signed-off-by: Richard W.M. Jones <rjones@redhat.com>
 > ---
->  tests/qemu-iotests/206     | 4 ++--
->  tests/qemu-iotests/206.out | 6 +++---
->  tests/qemu-iotests/210     | 4 ++--
->  tests/qemu-iotests/210.out | 6 +++---
->  4 files changed, 10 insertions(+), 10 deletions(-)
+>  nbd/server.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/nbd/server.c b/nbd/server.c
+> index 3927f7789d..e0a43802b2 100644
+> --- a/nbd/server.c
+> +++ b/nbd/server.c
+> @@ -2669,7 +2669,12 @@ static coroutine_fn void nbd_trip(void *opaque)
+>          ret = nbd_handle_request(client, &request, req->data, &local_err);
+>      }
+>      if (ret < 0) {
+> -        error_prepend(&local_err, "Failed to send reply: ");
+> +        if (errno != EPIPE) {
+> +            error_prepend(&local_err, "Failed to send reply: ");
+> +        } else {
+> +            error_free(local_err);
+> +            local_err = NULL;
+> +        }
+>          goto disconnect;
+>      }
+>  
+> -- 
+> 2.32.0
+> 
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-
-Regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
