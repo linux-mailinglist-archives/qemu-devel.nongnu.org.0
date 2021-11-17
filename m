@@ -2,120 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95FE145489E
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 15:23:55 +0100 (CET)
-Received: from localhost ([::1]:43354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5128A4548C9
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 15:31:37 +0100 (CET)
+Received: from localhost ([::1]:35852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnLqs-0007mQ-ME
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 09:23:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49824)
+	id 1mnLyK-0005De-E6
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 09:31:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
- id 1mnLmM-0000Dd-Fz
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:19:14 -0500
-Received: from mail-mw2nam08on2041.outbound.protection.outlook.com
- ([40.107.101.41]:18241 helo=NAM04-MW2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
+ id 1mnLrE-0002Fh-H6
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:24:16 -0500
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:56466)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
- id 1mnLmK-0004Xg-EM
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:19:14 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e1mCPQ68UDpJXHuuuLS3Gaknc2Cxlg4pTMpkJcwi/J+GByOYy8n0aZ0s56SCiWJBaq9bV/fqudFS0PriHh/oMkA8at9EeBDchKNq9ZFjTGHEWk9ZerCzCN6WaSEYiEdcvG+JWj1P/CJC39JZU6HIa4QXLQ0zd6551j2o5WOJDErhnnMhUGns1nPnnGsGFwYt+UkQAXYFvao1x9GOEWUIjgvlk6xBft3BBfiqm0T5xhDchGQNA+amTXHzfDxmBOMH9N7nUr2e4Izwu38EXIkQ5IyxO7RAUtm7IZxBb8GMQrm83Pg1YDYTEEAUy3y75ysK5mnnRRfndWc7LoAQeF0oQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AaOdW0sVufK+quuYKn6R6lgN3GtB7S5RuRdQHS7QHlE=;
- b=eyh0tepqLUg+2IVaGKq73yxNwO4mH8blGHjZCrlzs6xj9PcTyRKIqJF3lU0zt9S+YweggQdiLaHjhSklYFtmk6VJ7NMTkcJvKDYOncbKFeTPzmjr3vjq3jpI1g+m/cC922jYdcKPikU6OH65r6XsFKm8TtbSIfCGPQFxY6KvmMqoRfvtUeBytxCsbErOkp9kpjP0X4Vv8KbgQ9acyoIBwUHVuXykKOFzNcXEklagBYbiU91v9pmtzOcA8Nsef+9lagNeuoSwF8cHMovbT/aPjVW3wJ/c0dJ5qq7MZO84GCzm9Foax7aH0ZFzbKYOqOoeJLpoCRqP6TKH4lzVdE0Kng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AaOdW0sVufK+quuYKn6R6lgN3GtB7S5RuRdQHS7QHlE=;
- b=WeTvm0LPItqfRftqrOza18e+Rh2+nQVHjsOu3iCYStTQgua8y09s9XqWpjpp8VbP6iMNwrHpaSWDMl0YpNgaPHGplBMg3sDjatuKQGtz3cFrmXfRhGlGx7O+FOU6QiI0LyLke6khEupKN3yAwhkhAK8lfcl+E2m+CIKm61r5rOw=
-Received: from SA9PR03CA0022.namprd03.prod.outlook.com (2603:10b6:806:20::27)
- by SN1PR02MB3728.namprd02.prod.outlook.com (2603:10b6:802:31::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.26; Wed, 17 Nov
- 2021 14:19:09 +0000
-Received: from SN1NAM02FT0052.eop-nam02.prod.protection.outlook.com
- (2603:10b6:806:20:cafe::b2) by SA9PR03CA0022.outlook.office365.com
- (2603:10b6:806:20::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.26 via Frontend
- Transport; Wed, 17 Nov 2021 14:19:07 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
-Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
- SN1NAM02FT0052.mail.protection.outlook.com (10.97.5.70) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4690.19 via Frontend Transport; Wed, 17 Nov 2021 14:19:07 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Wed, 17 Nov 2021 06:18:59 -0800
-Received: from smtp.xilinx.com (172.19.127.96) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.2176.14 via Frontend Transport; Wed, 17 Nov 2021 06:18:59 -0800
-Received: from [10.23.121.164] (port=52602 helo=debian.xilinx.com)
- by smtp.xilinx.com with esmtp (Exim 4.90)
- (envelope-from <francisco.iglesias@xilinx.com>)
- id 1mnLm6-000Dy8-Uj; Wed, 17 Nov 2021 06:18:59 -0800
-From: Francisco Iglesias <francisco.iglesias@xilinx.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v1 9/9] hw/arm/xlnx-versal-virt: Connect mt35xu01g flashes to
- the OSPI
-Date: Wed, 17 Nov 2021 14:18:41 +0000
-Message-ID: <20211117141841.4696-10-francisco.iglesias@xilinx.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20211117141841.4696-1-francisco.iglesias@xilinx.com>
-References: <20211117141841.4696-1-francisco.iglesias@xilinx.com>
+ (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
+ id 1mnLrA-0005SF-Jt
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:24:14 -0500
+Received: from sas1-4cbebe29391b.qloud-c.yandex.net
+ (sas1-4cbebe29391b.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:789:0:640:4cbe:be29])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 660BE2E118F;
+ Wed, 17 Nov 2021 17:24:02 +0300 (MSK)
+Received: from sas1-7470331623bb.qloud-c.yandex.net
+ (sas1-7470331623bb.qloud-c.yandex.net [2a02:6b8:c08:bd1e:0:640:7470:3316])
+ by sas1-4cbebe29391b.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ oI4st4dfbl-O2saRT2v; Wed, 17 Nov 2021 17:24:02 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1637159042; bh=utI+FRRQYv+DmOIJBnobtD+CxTBXwM/jnUkObeIXypE=;
+ h=Message-Id:Date:Subject:To:From:Cc;
+ b=zOKLPbFtU7RTmSOvhd25EYNISP7KoMQdSlywYU4Wi0uH/cpxC9qP61w17Fxih+T1b
+ FmcuLEFoqbj1aUSRi2mp+xnSGMP6bsCIjc88Tv01DVLRlMZt0CH6H15Xd7Niq25qFK
+ la97aLrwgTMmQnKQcR9AneDG+U2WJ5bpMuc7wir4=
+Authentication-Results: sas1-4cbebe29391b.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from d-tatianin-nix.yandex-team.ru (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:201::1:27])
+ by sas1-7470331623bb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPS id
+ boklLck2Jj-O1wC3gx5; Wed, 17 Nov 2021 17:24:02 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 2
+From: Daniil Tatianin <d-tatianin@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1] chardev/wctable: don't free the instance in
+ wctablet_chr_finalize
+Date: Wed, 17 Nov 2021 17:23:49 +0300
+Message-Id: <20211117142349.836279-1-d-tatianin@yandex-team.ru>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c66c7486-7946-42c4-965a-08d9a9d53780
-X-MS-TrafficTypeDiagnostic: SN1PR02MB3728:
-X-Microsoft-Antispam-PRVS: <SN1PR02MB37284D51C4203D439535B595AD9A9@SN1PR02MB3728.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:130;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 89AS0P/asFr3tn4E69JnCF5fONomZnL0Row1MgTTTZbbZgJgbelgSRzZ/Fmc5FOk85qAobria+sNWmVoSt4jFCvAYivMioTt9H0u9zwupVxXTXXj2yRNas3s9vU6ClqfzyOm6o4I8kK5T9D2oe2mtvy/rUv2YU42tYI034O8nNAjB/dVht2uIpwXqVDqtHP+t286SGNyNREEeb/MXJBV4nVh3PeeCY7GvesdAbGB55RBW20DFF5Z2sdR5+IU5T6jGLHRRbiTTcFwKya+TdBcM1Y/oGaHyh64JwAA4zj/Xso/zvLXGSBOdABWNro0C5rJvruhaiJhBfFSDjsSeGykjZbhIX0QISftAcMWTjrRDIH7IOKFlIfYGc0+X4lXPQaRwh+rQscM+YNq6LvEmSZh4LrvgRYvDrSRNtFbWhXLGf6q6PWfYtkH+iPKTmaPcef5p8UAhFUdLWeF+f1iqWlOQWj43kabRgqo6QniYKUtQVwk+FFpEtvcHEn5Tq+99SjY5ZgSmuhxlNgzm/pTMWEaDy+WBp1p/Or4GhT3qO2pjSpJ+e/mZoYDRa5jIw9MweA4CuIgJRtgIEe9L/KtWcq54iG93FOo3m+QTyw0yIfGrnY4ZsTZWMeTUPDv8h9fAM/0hOIdwxkkzuFhiIdg8hkItFGX7kPOXDXusxh0qolQAjNaijj1MX82JYOEbnO0Sx3idg+5kzu9G30CL/Uxz+eFuo7d2ETX1CBf4WgSZRtqHXY=
-X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
- PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(36840700001)(46966006)(316002)(426003)(508600001)(36906005)(8936002)(83380400001)(8676002)(186003)(7636003)(9786002)(336012)(2616005)(44832011)(36756003)(26005)(70586007)(356005)(70206006)(1076003)(4326008)(7696005)(47076005)(6666004)(54906003)(82310400003)(2906002)(6916009)(5660300002)(36860700001)(102446001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2021 14:19:07.3128 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c66c7486-7946-42c4-965a-08d9a9d53780
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch01.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT0052.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR02MB3728
-Received-SPF: pass client-ip=40.107.101.41; envelope-from=figlesia@xilinx.com;
- helo=NAM04-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=d-tatianin@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 17 Nov 2021 09:29:13 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -124,61 +75,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, frasse.iglesias@gmail.com,
- alistair@alistair23.me, peter.maydell@linaro.org, alistair23@gmail.com
+Cc: marcandre.lureau@redhat.com, yc-core@yandex-team.ru, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Connect Micron Xccela mt35xu01g flashes to the OSPI flash memory
-controller.
+Object is supposed to be freed by invoking obj->free, and not
+obj->instance_finalize. This would lead to use-after-free followed by
+double free in object_unref/object_finalize.
 
-Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
+Signed-off-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
 ---
- hw/arm/xlnx-versal-virt.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ chardev/wctablet.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
-index d2f55e29b6..f2f12a781e 100644
---- a/hw/arm/xlnx-versal-virt.c
-+++ b/hw/arm/xlnx-versal-virt.c
-@@ -25,6 +25,8 @@
- #define TYPE_XLNX_VERSAL_VIRT_MACHINE MACHINE_TYPE_NAME("xlnx-versal-virt")
- OBJECT_DECLARE_SIMPLE_TYPE(VersalVirt, XLNX_VERSAL_VIRT_MACHINE)
+diff --git a/chardev/wctablet.c b/chardev/wctablet.c
+index e9cb7ca710..fa3c9be04e 100644
+--- a/chardev/wctablet.c
++++ b/chardev/wctablet.c
+@@ -318,7 +318,6 @@ static void wctablet_chr_finalize(Object *obj)
+     TabletChardev *tablet = WCTABLET_CHARDEV(obj);
  
-+#define XLNX_VERSAL_NUM_OSPI_FLASH 4
-+
- struct VersalVirt {
-     MachineState parent_obj;
- 
-@@ -690,6 +692,27 @@ static void versal_virt_init(MachineState *machine)
-             exit(EXIT_FAILURE);
-         }
-     }
-+
-+    for (i = 0; i < XLNX_VERSAL_NUM_OSPI_FLASH; i++) {
-+        BusState *spi_bus;
-+        DeviceState *flash_dev;
-+        qemu_irq cs_line;
-+        DriveInfo *dinfo = drive_get_next(IF_MTD);
-+
-+        spi_bus = qdev_get_child_bus(DEVICE(&s->soc.pmc.iou.ospi), "spi0");
-+
-+        flash_dev = qdev_new("mt35xu01g");
-+        if (dinfo) {
-+            qdev_prop_set_drive_err(flash_dev, "drive",
-+                                    blk_by_legacy_dinfo(dinfo), &error_fatal);
-+        }
-+        qdev_realize_and_unref(flash_dev, spi_bus, &error_fatal);
-+
-+        cs_line = qdev_get_gpio_in_named(flash_dev, SSI_GPIO_CS, 0);
-+
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->soc.pmc.iou.ospi),
-+                           i + 1, cs_line);
-+    }
+     qemu_input_handler_unregister(tablet->hs);
+-    g_free(tablet);
  }
  
- static void versal_virt_machine_instance_init(Object *obj)
+ static void wctablet_chr_open(Chardev *chr,
 -- 
-2.11.0
+2.25.1
 
 
