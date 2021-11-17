@@ -2,85 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEB354546EE
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 14:08:36 +0100 (CET)
-Received: from localhost ([::1]:56968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA0EE4546EC
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 14:08:01 +0100 (CET)
+Received: from localhost ([::1]:55830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnKfv-0004v9-DR
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 08:08:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58766)
+	id 1mnKfQ-000468-CG
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 08:08:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mnKdx-0003K5-OC
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 08:06:30 -0500
-Received: from [2a00:1450:4864:20::330] (port=39803
- helo=mail-wm1-x330.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mnKdv-0000oR-Bw
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 08:06:29 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- n33-20020a05600c502100b0032fb900951eso4733154wmr.4
- for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 05:06:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=JsYBZ/hrxd2PpCka0fA30gSmznK0nWVmIhCCA/bVIE0=;
- b=Wf0H2g2MuspNbv+cT5jXi54PvdxKsp8KrPPmEXIIqy2lCeHUKTplDFv4GeZl3vY3iY
- 5ex28vmYy9IpNjMZZBDnojyI8Fxai7gJx/oDi1tWHZi0O7rLAzlhhRYkfp4+sjNXzdUV
- x8keY5t7XXY9p26K6kaO/aIJRHcDYvAkQT8w2kWTGUSQ9DAkahbYdBIMm4H5Hw6WoFk8
- zt6s4oRguj9JuwyqVnEzB7ZjmKWc0WkPwk4TUwM8+rV3U/c7zhZfWLji4OHTZr5QFPIe
- gA/CQ6+o/HapDu7zxfGjxZXBfbauC/VANV7jK15V0KQtbRmo9WuST/5Otc7KX1gOiEes
- c99g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JsYBZ/hrxd2PpCka0fA30gSmznK0nWVmIhCCA/bVIE0=;
- b=u01K3i4AqddmiXjAuMKJfivbG1I+SOf2qGNiqvkvblfHua7RRfYgTPau+DuJ1h5Z7A
- KgepCUrzyhWYAlqGGOny6p8OCXxfaPSY1go5/TS1xQJfi6+s9ptKAOGAZgzrrukFpbn6
- HS8holGcwKT7P4F5UXT5ruOwHVdvc/0DFuAo1quvpAjeCZ3HBCy4kXa/b8WbhtCa2gzL
- WP98XOFGEMd5dd6dCkql4TrEAKshpjVqxhlQDyafTEy+qrRP8avhjPVevEEbD/n2GByX
- JcEjkPZAKPv/N5VomuJ/HFrS2x8VMe5sAwJctTdwrQQ5BH9yw947CgDJ1HNLf1PfQ2+Q
- O86g==
-X-Gm-Message-State: AOAM533EkfjyE2gHH7eabFPSnaDcCnQasgnntMqcS3+dQ2bhHSvIMn9L
- Gm+HocUnV5YSZi1rfy2WicXP3L1eqDzADCTERnc=
-X-Google-Smtp-Source: ABdhPJyTiXQSaSKNT8CVwPUvj5kbCJEyKIKDxldNsrXDixSV47Rv2ZtkbV6VbANdZ5d2WbVfVjsAOQ==
-X-Received: by 2002:a05:600c:4e51:: with SMTP id
- e17mr18250581wmq.127.1637154385727; 
- Wed, 17 Nov 2021 05:06:25 -0800 (PST)
-Received: from [192.168.8.105] (101.red-176-80-44.dynamicip.rima-tde.net.
- [176.80.44.101])
- by smtp.gmail.com with ESMTPSA id g5sm30677358wri.45.2021.11.17.05.06.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Nov 2021 05:06:25 -0800 (PST)
-Subject: Re: [PULL 0/6] Misc patches for 6.2-rc2
-To: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
- qemu-devel <qemu-devel@nongnu.org>
-References: <20211117101921.622242-1-thuth@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <10ec19c2-9319-aad3-53e9-495476f1d114@linaro.org>
-Date: Wed, 17 Nov 2021 14:06:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1mnKda-0002u4-RT; Wed, 17 Nov 2021 08:06:06 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:61492
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1mnKdX-0000hh-Ic; Wed, 17 Nov 2021 08:06:06 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AHClUNA017314; 
+ Wed, 17 Nov 2021 13:06:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=Cp5uHnUGvsUfuIGCAsuFs/4XncuOovLVHp2wm/dto8k=;
+ b=fgehtUZA/FQSsgB6uvTlos/mIW0oXTYmehKHWFumDPUsm7ogAGvQURibO3lcaIJSuOUb
+ QhaXD6e7U0AEI7Na4qoqHK42Zlp4K54QNYRLwS3t7yRyc2ah39YF+zliCYthUr/L4brY
+ UZoqmG2ZM4bVyULpZZ6GDkVIlmWQGLaXAlX1miJ/m7ZBocj1We67eIP6YQ7xLHvA/D7K
+ Ivjq+X7SV7NtUB5epQsjjmQ9x2/ne2f6IBoaEGK/oVCrs1VqYoVNZItb1ZjspdUIqYXp
+ iFXHvEjzaKD5hrX06zaYfVhY4PPOHAcgqK39N8YtORyECjhMUNh4U9NAzaqbDWprYgZ3 tw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cd2278b7e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Nov 2021 13:05:59 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AHD5xDm017125;
+ Wed, 17 Nov 2021 13:05:59 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cd2278b6x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Nov 2021 13:05:59 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AHCwreC005594;
+ Wed, 17 Nov 2021 13:05:57 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma06ams.nl.ibm.com with ESMTP id 3ca4mk27ym-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Nov 2021 13:05:57 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 1AHCwxpA64160198
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 17 Nov 2021 12:58:59 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4C8D352063;
+ Wed, 17 Nov 2021 13:05:54 +0000 (GMT)
+Received: from [9.171.38.237] (unknown [9.171.38.237])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id D42775204F;
+ Wed, 17 Nov 2021 13:05:53 +0000 (GMT)
+Message-ID: <c5ecaf42-3eac-85a3-b6c1-66bfab9f6f3e@linux.ibm.com>
+Date: Wed, 17 Nov 2021 14:06:28 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211117101921.622242-1-thuth@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v3 2/4] s390x: kvm: topology: interception of PTF
+ instruction
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.009,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+References: <1631800254-25762-1-git-send-email-pmorel@linux.ibm.com>
+ <1631800254-25762-3-git-send-email-pmorel@linux.ibm.com>
+ <ae0cf5c1-b0b8-0758-7c38-35c1845201ba@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <ae0cf5c1-b0b8-0758-7c38-35c1845201ba@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: BxET_qsiXYVrlhSTC5U3jXkNKfyDaoT4
+X-Proofpoint-ORIG-GUID: CelkQoujUTF-5O8r8cHlnoy9L5z0jdF3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-17_04,2021-11-17_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 suspectscore=0
+ impostorscore=0 adultscore=0 mlxlogscore=999 phishscore=0 clxscore=1011
+ mlxscore=0 malwarescore=0 lowpriorityscore=0 priorityscore=1501
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2111170067
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.009,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,55 +112,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: david@redhat.com, cohuck@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/17/21 11:19 AM, Thomas Huth wrote:
->   Hi Richard!
->   
-> The following changes since commit 8d5fcb1990bc64b62c0bc12121fe510940be5664:
-> 
->    Merge tag 'python-pull-request' of https://gitlab.com/jsnow/qemu into staging (2021-11-17 07:41:08 +0100)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/thuth/qemu.git tags/pull-request-2021-11-17
-> 
-> for you to fetch changes up to d06f3bf922679d89815fde9eac9264ba44e37954:
-> 
->    gitlab-ci/cirrus: Increase timeout to 80 minutes (2021-11-17 10:20:38 +0100)
-> 
-> ----------------------------------------------------------------
-> * Remove some unused #defines in s390x code
-> * rSTify some of the development process pages from the Wiki
-> * Revert a useless patch in the device-crash-test script
-> * Bump timeout of the Cirrus-CI jobs to 80 minutes
-> 
-> ----------------------------------------------------------------
-> Kashyap Chamarthy (3):
->        docs: rSTify the "TrivialPatches" wiki
->        docs: rSTify the "SubmitAPullRequest" wiki
->        docs: rSTify the "SubmitAPatch" wiki
-> 
-> Thomas Huth (3):
->        target/s390x/cpu.h: Remove unused SIGP_MODE defines
->        Revert "device-crash-test: Ignore errors about a bus not being available"
->        gitlab-ci/cirrus: Increase timeout to 80 minutes
-> 
->   .gitlab-ci.d/cirrus.yml                  |   1 +
->   docs/devel/index.rst                     |   3 +
->   docs/devel/submitting-a-patch.rst        | 456 +++++++++++++++++++++++++++++++
->   docs/devel/submitting-a-pull-request.rst |  76 ++++++
->   docs/devel/trivial-patches.rst           |  50 ++++
->   scripts/device-crash-test                |   1 -
->   target/s390x/cpu.h                       |   5 -
->   7 files changed, 586 insertions(+), 6 deletions(-)
->   create mode 100644 docs/devel/submitting-a-patch.rst
->   create mode 100644 docs/devel/submitting-a-pull-request.rst
->   create mode 100644 docs/devel/trivial-patches.rst
-> 
 
-Applied, thanks.
 
-r~
+On 10/13/21 09:25, Thomas Huth wrote:
+> On 16/09/2021 15.50, Pierre Morel wrote:
+>> When the host supports the CPU topology facility, the PTF
+>> instruction with function code 2 is interpreted by the SIE,
+>> provided that the userland hypervizor activates the interpretation
+>> by using the KVM_CAP_S390_CPU_TOPOLOGY KVM extension.
+>>
+>> The PTF instructions with function code 0 and 1 are intercepted
+>> and must be emulated by the userland hypervizor.
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+>>   hw/s390x/s390-virtio-ccw.c         | 36 ++++++++++++++++++++++++++++++
+>>   include/hw/s390x/s390-virtio-ccw.h |  6 +++++
+>>   target/s390x/kvm/kvm.c             | 15 +++++++++++++
+>>   3 files changed, 57 insertions(+)
+>>
+>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+>> index 61aeccb163..894f013139 100644
+>> --- a/hw/s390x/s390-virtio-ccw.c
+>> +++ b/hw/s390x/s390-virtio-ccw.c
+>> @@ -404,6 +404,42 @@ static void 
+>> s390_pv_prepare_reset(S390CcwMachineState *ms)
+>>       s390_pv_prep_reset();
+>>   }
+> 
+> Could you please add a comment in front of this function, with some 
+> explanations? If I've got that right, it's currently rather only a 
+> "dummy" function, rejecting FC 0 and 1, and FC 2 is always handled by 
+> the SIE, right?
+
+I just saw I did not answer this question.
+
+Yes function code 2 is handled by the SIE but it is not really a dummy 
+function as without it PTF 0 or 1 would trigger a program check.
+
+I will add a comment basically:
+
+"We assume horizontal topology, the only one supported currently by 
+Linux consequently we answer to function code 0 requesting horizontal 
+polarization that it is already the current polarization and reject 
+vertical polarization request without further explanation."
+
+
+regards,
+Pierre
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
