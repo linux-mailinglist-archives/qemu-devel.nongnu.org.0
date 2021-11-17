@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE4845489D
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 15:23:54 +0100 (CET)
-Received: from localhost ([::1]:43004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A3CA4548A1
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 15:24:12 +0100 (CET)
+Received: from localhost ([::1]:44184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnLqq-0007Y9-C3
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 09:23:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49792)
+	id 1mnLr9-0008M8-OD
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 09:24:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
- id 1mnLmF-0008IO-W5
+ id 1mnLmG-0008JA-CK
  for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:19:08 -0500
-Received: from mail-mw2nam12on2047.outbound.protection.outlook.com
- ([40.107.244.47]:58592 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+Received: from mail-bn8nam11on2081.outbound.protection.outlook.com
+ ([40.107.236.81]:28128 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
- id 1mnLmD-0004Wg-OP
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:19:07 -0500
+ id 1mnLmE-0004Wu-6P
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:19:08 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HAWUZCYL9ACIV7GItJ3q+4s188ySvJbCavYiUamOglMOnKRm4sh8Zr5Dg9cHfkgJDW+KLG0XDo11xoaGqhOIE5mxhAP6uOZ681Zvm4ttYOYQ/01Wn3Cd7nqPG7qRlsbyKbH68F0hsV5Zdd33IGEsivhK9IqD/qR9v8xJWikkLvVxyE1WjWEJlO+R2sPUiFpF4hd0WTNcSKJjnoWKhAuPUd8l/wYWZ2w3V+ke7vekmBBihV9R2CSKc4CdID/bivyJGchSddEQJo5ld6jIiHH56IzMjhwEGT6K+dJrh8NJqGAOjO74RFDycgLvsg4iwddY7dslok/Sda6JPQ/mRHFjVg==
+ b=oRlSjawLG3xiEc6NI+1tSpsAibFJ938ezBlPZD9a3AKgAGR7CM3YPK6sWr4U/A+KM+k1czP42d4h1juPARM3+8a3AkL1rG/07Jy7TS7h8ZQHN75PZFqaI3C7CwI6OQBF8A9EZA47yqpkvkSeFonsAb3spmI/b62bJPOPEQLHzsg/YFDRSvXuYwPVCcwOq2lmetEx1EFVfAB5wOyLDbjfILQtlM/RYYcStYdiTdKYqVZA2kk/khKQXPkyEPl7oONNLqJt00l3V+A5Z95v4dVmDLPm8alf5bw2mtvGTrMLaabhhaiCyneEnrUE0ndnUoy2aO+KtJPrki8xD6NkxhBlLg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8nqRu9hAriGCDY8wXrJ2ZR8F9wDDPQuQ30VcoOLDeos=;
- b=NmW27Vbq3Yc/cCqVQ9uxyIRjDYD/Ff8E5yQjg/yoABAsXekXrfT8njPy8+yXDadsv9fcB9VHb/4Dk2E7gwnN91tZa6DtO16dmIT2BYfmOhGgaSWup1gb1Ww0sYm80ab32DqglnPf8liElYnamY7w6BJWSma65+CS+o78pJhZ2obfk2myCjOCQds70ucnCSt/mYm4+r0HC2WsJhq7XKTAgA3w2iAefS2EdacecmVKQiucr5v5pRi35pPofb1dsGB5RkT+zwLlKXdUj+uhEOV8PrqXdDJ+x4F/zmaOplKW0h0jWnnCQk6pjrNdY4I3c+Y94Fbkz1pnt8solzgZW3CByg==
+ bh=T3bKyWmG9rYEEkJrNsL8UqbG9n72GI/jmPeH4xqMl3U=;
+ b=Lk5jn2lJeSJJnvlNiYE7qLs1xQDpkMuV5QyGvzfYHe3XpSJ4lsYAl2b5g95rP7NdcjJkQ/5vYr5L8bxrrZm0GaNbIpVULN89ZbZu7wYT9JG1F44Sz27vgbqFQYohgDsLm2RwL5lHnl54Qu0Shr3LXg9M2PaNBtVQotEjsKcQR31gfOtPcNxx1RT8Y6Qn2qC//Y4uGK01yG6oxWd7DcQwKHcktPrVfnunI6SXcxDzAI0e5BAVxY2I32kzezwq4xpYFRsEGRJ7Mmhz0vT4iVhHckLONIaRsPRVDZj6F4BvzDaNINoOJOc2cYrUYYJT0vbCT3yFXGis5fOxFaUJ8u83Qw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
@@ -34,18 +34,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8nqRu9hAriGCDY8wXrJ2ZR8F9wDDPQuQ30VcoOLDeos=;
- b=YH1bChFIF9zT7U7ti2MoDdJSZ8aLzTx2i2Np2rDtcFIemtCq19/dLEb1ka3BZnwA2jfjKgzpeIRdm1ZDFDKyzUG0j+dEj7m6+s/jtatuoAWXieRowOiWzg70TOfnDUrnzOvH38zeg94Rko5Cful4gMZ70TBJSgBQO/tfkTteQxo=
-Received: from BN7PR06CA0063.namprd06.prod.outlook.com (2603:10b6:408:34::40)
- by SJ0PR02MB7520.namprd02.prod.outlook.com (2603:10b6:a03:324::16)
+ bh=T3bKyWmG9rYEEkJrNsL8UqbG9n72GI/jmPeH4xqMl3U=;
+ b=QslA+hoXiv/mGEF4dTH2uBFPZlEARtYXtuUeAj1NomQ0s8ezEJmPQrWZ9LyZC2mjpW0d1D4OG+Bgu5OhpXbFJa1ag1PJ+wc4KwDRjnIIBPYyCI89x1RF5Kb3EWcrB8UL0igPKDKaDFRywId6nm3B4Eq79qJtCC3V5lNGTTCm9Bk=
+Received: from BN7PR06CA0056.namprd06.prod.outlook.com (2603:10b6:408:34::33)
+ by BN7PR02MB5027.namprd02.prod.outlook.com (2603:10b6:408:2c::20)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19; Wed, 17 Nov
- 2021 14:19:02 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.16; Wed, 17 Nov
+ 2021 14:19:03 +0000
 Received: from BN1NAM02FT064.eop-nam02.prod.protection.outlook.com
- (2603:10b6:408:34:cafe::10) by BN7PR06CA0063.outlook.office365.com
- (2603:10b6:408:34::40) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19 via Frontend
- Transport; Wed, 17 Nov 2021 14:19:02 +0000
+ (2603:10b6:408:34:cafe::c2) by BN7PR06CA0056.outlook.office365.com
+ (2603:10b6:408:34::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.27 via Frontend
+ Transport; Wed, 17 Nov 2021 14:19:03 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
  smtp.mailfrom=xilinx.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=xilinx.com;
@@ -55,24 +55,23 @@ Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
 Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
  BN1NAM02FT064.mail.protection.outlook.com (10.13.2.170) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4690.19 via Frontend Transport; Wed, 17 Nov 2021 14:19:01 +0000
+ 15.20.4690.19 via Frontend Transport; Wed, 17 Nov 2021 14:19:03 +0000
 Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
  xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Wed, 17 Nov 2021 06:18:49 -0800
+ 15.1.2176.14; Wed, 17 Nov 2021 06:18:50 -0800
 Received: from smtp.xilinx.com (172.19.127.96) by
  xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.2176.14 via Frontend Transport; Wed, 17 Nov 2021 06:18:49 -0800
+ 15.1.2176.14 via Frontend Transport; Wed, 17 Nov 2021 06:18:50 -0800
 Received: from [10.23.121.164] (port=52602 helo=debian.xilinx.com)
  by smtp.xilinx.com with esmtp (Exim 4.90)
  (envelope-from <francisco.iglesias@xilinx.com>)
- id 1mnLlw-000Dy8-Uv; Wed, 17 Nov 2021 06:18:49 -0800
+ id 1mnLly-000Dy8-I6; Wed, 17 Nov 2021 06:18:50 -0800
 From: Francisco Iglesias <francisco.iglesias@xilinx.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v1 3/9] include/hw/dma/xlnx_csu_dma: Include ptimer.h and
- stream.h in the header
-Date: Wed, 17 Nov 2021 14:18:35 +0000
-Message-ID: <20211117141841.4696-4-francisco.iglesias@xilinx.com>
+Subject: [PATCH v1 4/9] hw/dma: Add the DMA control interface
+Date: Wed, 17 Nov 2021 14:18:36 +0000
+Message-ID: <20211117141841.4696-5-francisco.iglesias@xilinx.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20211117141841.4696-1-francisco.iglesias@xilinx.com>
 References: <20211117141841.4696-1-francisco.iglesias@xilinx.com>
@@ -80,32 +79,32 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cab1e3e8-fb37-48d7-48d8-08d9a9d5345c
-X-MS-TrafficTypeDiagnostic: SJ0PR02MB7520:
-X-Microsoft-Antispam-PRVS: <SJ0PR02MB752079E89A1D2D7A0AF8D525AD9A9@SJ0PR02MB7520.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 8387379b-fa82-4efd-b718-08d9a9d5354f
+X-MS-TrafficTypeDiagnostic: BN7PR02MB5027:
+X-Microsoft-Antispam-PRVS: <BN7PR02MB5027643788837089220A79E9AD9A9@BN7PR02MB5027.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cZOfkQTrgivAUQwQFkfa+6pm7uhqRpad6Nq6nYGMqR6BuTL5cQYkXR8FnfC4bVrx5azZE7rIZ7Z7ETzqMKF/f4DkORfnHx/ZjsCn/SWqQUw52DmGhdJ8ceh4C7eoSdBcS49LJ2BdSzz2r0yT39qDBRg7xI5glSirPEaV4iOoTR92ZKG9bYOZKut2Ut8228+lZJQniLHeeV2RNfR3MwNtQu1DiFs/vmIanCAWwBdyzK6j1Qkznvb1gDNblJhx7CI/8X6HaGNuIf27CT4ccICU2MdeEcLPx+fcDgDAXv5HTlUICYzgg7r+5wiN2hvkQD0kq//4aX5OZeUxT0dQnrjceFSogS15AbiSoT9MpH5LkmNmQeHL7AUZLV6Xxfgre98vEHgW/F9/ofMjZBiuc0yJcMj4BNFC5UVzT70xW4oEAgHihoccaVTR2hHoMiHOLQK7Z8SnbQor9VhQAvv4Rcz8mOJVi8W3yG3K3YTs5vFXmwjZqnYpL8MKzfNdL9oHWItPS4fHZ0dFCGBH9hpWFLQP5Hl/LRZp8Z6llZuvpgfW/n8jaGSb4urU8ubI5pknx4M9ra2p0tHOD36/PJGX2p6adSPq6eA4DS2Yvz06aql6Jl53UCHX6O5xtiiVMYpg8cVCum7dbgwqBD9kRtkVrcq/DtV8jp5jtIJXUllnquCEYKcvviEoGqid+QW6aZiY2oM9TrQ5UztA3r3j6cTLKfqpQf4+Es/ITMbOWN0KG4vMs3g=
+X-Microsoft-Antispam-Message-Info: 9SX2YoEsWxDpOp+nUnZqg4QdNa14lZLYsnovwZ3xWGrF5I/aOsKSYz4sYqfwKk0UpIeL4KbgsZxUYY6faxv5YTaTCZD0tjuBMvr9SCqp60SWFrYPN3AFOOs4/sAM6taYA3AlprUIv0d4EoefgYlleU8GhgI09Mt+SQIh18z4AIdslRi5YInTM5rgLfK3OnMSp7xm7FJjYguNtJ7/uMEYQJca7pXTOFhN9F/ZkAQEZYpEOXLBirhxzJOgjz3u1x2BGMZacQQB2p9IbYGxFN6+lBP+rGw3UFS7MMTZZWYkg1uERp6opuONwqfolpSu/4t/FlxRW5XKe3sGEQJbza77QVQ4VNt0EtOogGSfGdEOcOn7ITYJRpIcUqE6oH/WpoovwBMJU51573Uh1Y3fWsP9sAfnRLF8IT9H/SPHqK/7fXO2fs3eXXZCmu4TeQwGgVKePPm1NanEV1KLT/OAn06Gz7ytqUCv9V4aEXqRRbua8tl1ZwQTmK4sB4puGsk4dKz3eYboYdYd9Wkn5E6xI/BIvrHU4sfLa9P5bcgohAN4Y6PiiKkaIwW9vHGO5C22J7M6qYNrBc1w3t1UT/4e0L8BkrVEB2rw8qYPSR5Cr3TERjDAbSdqUgg1jKSc8X3vS88pcLyx2+6tnB7wTg0Uqtc+b/KTc9zS7+NxKL0zL/ZkJH4A6Zdf1uj9xefc2tfQBeQdss+uOj9GGMNtGQm7SMgUFVi+tX1R2TeIf//0zxjJ3rw=
 X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
  PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(46966006)(36840700001)(8676002)(2616005)(8936002)(6666004)(7696005)(356005)(44832011)(6916009)(186003)(47076005)(7636003)(82310400003)(36860700001)(54906003)(70206006)(4744005)(336012)(26005)(9786002)(2906002)(426003)(316002)(508600001)(1076003)(36906005)(5660300002)(4326008)(70586007)(36756003)(102446001);
+ SFS:(46966006)(36840700001)(8676002)(7696005)(36756003)(26005)(2906002)(9786002)(82310400003)(5660300002)(7636003)(186003)(2616005)(1076003)(44832011)(36860700001)(508600001)(70586007)(70206006)(8936002)(336012)(356005)(426003)(4326008)(6916009)(36906005)(316002)(54906003)(6666004)(47076005)(102446001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2021 14:19:01.9827 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cab1e3e8-fb37-48d7-48d8-08d9a9d5345c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2021 14:19:03.5771 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8387379b-fa82-4efd-b718-08d9a9d5354f
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
  Helo=[xsj-pvapexch02.xlnx.xilinx.com]
 X-MS-Exchange-CrossTenant-AuthSource: BN1NAM02FT064.eop-nam02.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR02MB7520
-Received-SPF: pass client-ip=40.107.244.47; envelope-from=figlesia@xilinx.com;
- helo=NAM12-MW2-obe.outbound.protection.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR02MB5027
+Received-SPF: pass client-ip=40.107.236.81; envelope-from=figlesia@xilinx.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -129,29 +128,146 @@ Cc: edgar.iglesias@xilinx.com, frasse.iglesias@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Include ptimer.h and stream.h in the header for being able to build and
-reuse the DMA model (the first usage of StreamSink, StreamCanPushNotifyFn
-and ptimer_state is in the header).
+Add an interface for controlling DMA models that are reused with other
+models. This allows a controlling model to start transfers through the
+DMA while reusing the DMA's handling of transfer state and completion
+signaling.
 
 Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
 ---
- include/hw/dma/xlnx_csu_dma.h | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/dma/dma-ctrl.c         | 31 ++++++++++++++++++++
+ hw/dma/meson.build        |  1 +
+ include/hw/dma/dma-ctrl.h | 74 +++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 106 insertions(+)
+ create mode 100644 hw/dma/dma-ctrl.c
+ create mode 100644 include/hw/dma/dma-ctrl.h
 
-diff --git a/include/hw/dma/xlnx_csu_dma.h b/include/hw/dma/xlnx_csu_dma.h
-index 9e9dc551e9..8c39e46f58 100644
---- a/include/hw/dma/xlnx_csu_dma.h
-+++ b/include/hw/dma/xlnx_csu_dma.h
-@@ -21,6 +21,9 @@
- #ifndef XLNX_CSU_DMA_H
- #define XLNX_CSU_DMA_H
- 
-+#include "hw/ptimer.h"
-+#include "hw/stream.h"
+diff --git a/hw/dma/dma-ctrl.c b/hw/dma/dma-ctrl.c
+new file mode 100644
+index 0000000000..4a9b68dac1
+--- /dev/null
++++ b/hw/dma/dma-ctrl.c
+@@ -0,0 +1,31 @@
++/*
++ * DMA control interface.
++ *
++ * Copyright (c) 2021 Xilinx Inc.
++ * Written by Francisco Iglesias <francisco.iglesias@xilinx.com>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++#include "qemu/osdep.h"
++#include "exec/hwaddr.h"
++#include "hw/dma/dma-ctrl.h"
 +
- #define TYPE_XLNX_CSU_DMA "xlnx.csu_dma"
- 
- #define XLNX_CSU_DMA_R_MAX (0x2c / 4)
++void dma_ctrl_read_with_notify(DmaCtrl *dma_ctrl, hwaddr addr, uint32_t len,
++                               DmaCtrlNotify *notify, bool start_dma)
++{
++    DmaCtrlClass *dcc =  DMA_CTRL_GET_CLASS(dma_ctrl);
++    dcc->read(dma_ctrl, addr, len, notify, start_dma);
++}
++
++static const TypeInfo dma_ctrl_info = {
++    .name          = TYPE_DMA_CTRL,
++    .parent        = TYPE_INTERFACE,
++    .class_size = sizeof(DmaCtrlClass),
++};
++
++static void dma_ctrl_register_types(void)
++{
++    type_register_static(&dma_ctrl_info);
++}
++
++type_init(dma_ctrl_register_types)
+diff --git a/hw/dma/meson.build b/hw/dma/meson.build
+index f3f0661bc3..c0bc134046 100644
+--- a/hw/dma/meson.build
++++ b/hw/dma/meson.build
+@@ -14,3 +14,4 @@ softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_dma.c'))
+ softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_dma.c'))
+ softmmu_ss.add(when: 'CONFIG_SIFIVE_PDMA', if_true: files('sifive_pdma.c'))
+ softmmu_ss.add(when: 'CONFIG_XLNX_CSU_DMA', if_true: files('xlnx_csu_dma.c'))
++common_ss.add(when: 'CONFIG_XILINX_AXI', if_true: files('dma-ctrl.c'))
+diff --git a/include/hw/dma/dma-ctrl.h b/include/hw/dma/dma-ctrl.h
+new file mode 100644
+index 0000000000..498469395f
+--- /dev/null
++++ b/include/hw/dma/dma-ctrl.h
+@@ -0,0 +1,74 @@
++/*
++ * DMA control interface.
++ *
++ * Copyright (c) 2021 Xilinx Inc.
++ * Written by Francisco Iglesias <francisco.iglesias@xilinx.com>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++#ifndef HW_DMA_CTRL_H
++#define HW_DMA_CTRL_H
++
++#include "qemu-common.h"
++#include "hw/hw.h"
++#include "qom/object.h"
++
++#define TYPE_DMA_CTRL "dma-ctrl"
++
++#define DMA_CTRL_CLASS(klass) \
++     OBJECT_CLASS_CHECK(DmaCtrlClass, (klass), TYPE_DMA_CTRL)
++#define DMA_CTRL_GET_CLASS(obj) \
++    OBJECT_GET_CLASS(DmaCtrlClass, (obj), TYPE_DMA_CTRL)
++#define DMA_CTRL(obj) \
++     INTERFACE_CHECK(DmaCtrl, (obj), TYPE_DMA_CTRL)
++
++typedef void (*dmactrl_notify_fn)(void *opaque);
++
++typedef struct DmaCtrlNotify {
++    void *opaque;
++    dmactrl_notify_fn cb;
++} DmaCtrlNotify;
++
++typedef struct DmaCtrl {
++    Object Parent;
++} DmaCtrl;
++
++typedef struct DmaCtrlClass {
++    InterfaceClass parent;
++
++    /*
++     * read: Start a read transfer on the DMA implementing the DMA control
++     * interface
++     *
++     * @dma_ctrl: the DMA implementing this interface
++     * @addr: the address to read
++     * @len: the amount of bytes to read at 'addr'
++     * @notify: the structure containg a callback to call and opaque pointer
++     * to pass the callback when the transfer has been completed
++     * @start_dma: true for starting the DMA transfer and false for just
++     * refilling and proceding an already started transfer
++     */
++    void (*read)(DmaCtrl *dma_ctrl, hwaddr addr, uint32_t len,
++                 DmaCtrlNotify *notify, bool start_dma);
++} DmaCtrlClass;
++
++/*
++ * Start a read transfer on a DMA implementing the DMA control interface.
++ * The DMA will notify the caller that 'len' bytes have been read at 'addr'
++ * through the callback in the DmaCtrlNotify structure. For allowing refilling
++ * an already started transfer the DMA notifies the caller before considering
++ * the transfer done (e.g. before setting done flags, generating IRQs and
++ * modifying other relevant internal device state).
++ *
++ * @dma_ctrl: the DMA implementing this interface
++ * @addr: the address to read
++ * @len: the amount of bytes to read at 'addr'
++ * @notify: the structure containing a callback to call and opaque pointer
++ * to pass the callback when the transfer has been completed
++ * @start_dma: true for starting the DMA transfer and false for just
++ * refilling and proceding an already started transfer
++ */
++void dma_ctrl_read_with_notify(DmaCtrl *dma_ctrl, hwaddr addr, uint32_t len,
++                   DmaCtrlNotify *notify, bool start_dma);
++
++#endif /* HW_DMA_CTRL_H */
 -- 
 2.11.0
 
