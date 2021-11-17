@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC3C8454306
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 09:55:08 +0100 (CET)
-Received: from localhost ([::1]:55632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59D60454347
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 10:06:38 +0100 (CET)
+Received: from localhost ([::1]:60182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnGii-00076p-2u
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 03:55:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59664)
+	id 1mnGto-0002br-Uw
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 04:06:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1mnGhk-0006Om-48
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 03:54:08 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:37934 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1mnGhf-0005xx-Uo
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 03:54:07 -0500
-Received: from localhost.localdomain (unknown [10.20.42.11])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxSLInw5RhvdMAAA--.1821S3;
- Wed, 17 Nov 2021 16:53:59 +0800 (CST)
-Subject: Re: [RFC PATCH v2 09/30] target/loongarch: Add TLB instruction support
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <1636594528-8175-1-git-send-email-yangxiaojuan@loongson.cn>
- <1636594528-8175-10-git-send-email-yangxiaojuan@loongson.cn>
- <f1059243-06e9-d9d8-673a-55fc6e31b5cc@linaro.org>
- <a268c269-7a3d-b8c6-5e69-786fbd238b05@loongson.cn>
- <22096fc3-859c-a795-16f4-e5c7dbe00e8d@linaro.org>
-From: yangxiaojuan <yangxiaojuan@loongson.cn>
-Message-ID: <4d7643ed-e52b-401f-b091-934fa252a399@loongson.cn>
-Date: Wed, 17 Nov 2021 16:53:59 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
- Thunderbird/45.4.0
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mnGsN-0001fN-RZ
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 04:05:07 -0500
+Received: from 9.mo552.mail-out.ovh.net ([87.98.180.222]:41673)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mnGsC-0007JJ-Ek
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 04:04:59 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.58])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id CCF712135B;
+ Wed, 17 Nov 2021 09:04:45 +0000 (UTC)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Wed, 17 Nov
+ 2021 10:04:45 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G0014d8ec1ff-d525-4cb4-9a17-7b9ab9950e56,
+ 6BDA4A3F9269C8E5581A3C4EE5F64AFAFECCD473) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <595c68ab-cd7b-ab62-0d5b-d2246cc67c45@kaod.org>
+Date: Wed, 17 Nov 2021 10:04:43 +0100
 MIME-Version: 1.0
-In-Reply-To: <22096fc3-859c-a795-16f4-e5c7dbe00e8d@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf9DxSLInw5RhvdMAAA--.1821S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7KFWfAryrtr1kXFWxWw4fGrg_yoW8try3p3
- 4rGFWUKa1Uuw1vqwnFqw1qkw13tw4rKr4rGw1rt395ArsrWFZa9rn3K3429Fy8ursrXa1a
- vr4Yvayv9ay3tFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBj14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
- JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
- xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 64x0Y40En7xvr7AKxVWUJVW8JwAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI
- 0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8v
- x2IErcIFxwCYjI0SjxkI62AI1cAE67vIY487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrw
- CFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE
- 14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2
- IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxK
- x2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxV
- AFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUsJ5rUUUUU=
-X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] pci-host: Allow extended config space access for PowerNV
+ PHB4 model
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>, Christophe
+ Lombard <clombard@linux.vnet.ibm.com>, Ben Widawsky <ben.widawsky@intel.com>
+References: <20211109145053.43524-1-clombard@linux.vnet.ibm.com>
+ <67182075-8e5b-08ad-d17f-405b720a6fb5@linux.ibm.com>
+ <1419c2a2-8e19-d9d6-d9aa-b6b7abccfb99@kaod.org>
+ <085729f8-3e15-1a62-1b13-6214f0da2806@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <085729f8-3e15-1a62-1b13-6214f0da2806@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 2a2b0d87-cbf4-4420-8515-e95aa981a088
+X-Ovh-Tracer-Id: 14244041196878400434
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrfeefgdduvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeekvdfgudevkeefkeeltdejteekvdegffegudetgeettdffjeefheekfeelffdtnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepjhhonhgrthhhrghnrdgtrghmvghrohhnsehhuhgrfigvihdrtghomh
+Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
+ helo=9.mo552.mail-out.ovh.net
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.009,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,81 +74,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Song Gao <gaosong@loongson.cn>
+Cc: Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ Frederic Barrat <fbarrat@linux.ibm.com>,
+ Huai-Cheng Kuo <hchkuo@avery-design.com.tw>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 11/17/2021 04:22 PM, Richard Henderson wrote:
-> On 11/17/21 8:29 AM, yangxiaojuan wrote:
->> On 11/12/2021 02:14 AM, Richard Henderson wrote:
->>> On 11/11/21 2:35 AM, Xiaojuan Yang wrote:
->>>> +static bool trans_tlbwr(DisasContext *ctx, arg_tlbwr *a)
->>>> +{
->>>> +    gen_helper_check_plv(cpu_env);
->>>> +    gen_helper_tlbwr(cpu_env);
->>>> +    tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next + 4);
->>>> +    ctx->base.is_jmp = DISAS_EXIT;
->>>> +    return true;
->>>> +}
+On 11/17/21 08:59, Philippe Mathieu-Daudé wrote:
+> On 11/9/21 17:04, Cédric Le Goater wrote:
+>> On 11/9/21 16:51, Frederic Barrat wrote:
 >>>
->>> I think you can skip the EXIT if paging is disabled, which it usually will be in the software tlb handler.  You'd be able to tell with the mmu_idx being the one you use for paging disabled.
+>>>
+>>> On 09/11/2021 15:50, Christophe Lombard wrote:
+>>>> The PCIe extended configuration space on the device is not currently
+>>>> accessible to the host. if by default,  it is still inaccessible for
+>>>> conventional for PCIe buses, add the current flag
+>>>> PCI_BUS_EXTENDED_CONFIG_SPACE on the root bus permits PCI-E extended
+>>>> config space access.
 >>
->> The paging disabled only enabled at the bios startup, we can get the phys address directly, tlbwr instruction will not be used when paging enabled.
+>> For the record, this is coming from an experiment of plugging a
+>> CXL device on a QEMU PowerNV POWER10 machine (baremetal). Only
+>> minor changes (64 bits ops) were required to get it working.
 > 
-> Paging is also disabled during TLBRENTRY exception (see section 6.2.4 Hardware Exception Handling of TLB Refil Exception).  It is this routine that will usually use tlbwr most often (although the kernel at PRV 0 is not prevented from doing so).
+> Since this note could be helpful when having future retrospective,
+> do you mind amending this note to the commit description?
 
-Sorry, I forgot this situation.
+Yes. I agree. Please do.
+  
+>> I wonder where we are with the CXL models ?
+> 
+> IIRC Ben worked actively, asked help to the community but received
+> very few, basically because there is not enough man power IMHO.
+> 
+> Last thing I remember is Igor suggested a different design approach:
+> https://lore.kernel.org/qemu-devel/20210319180705.6ede9091@redhat.com/
 
-> 
->>>> +    default:
->>>> +        do_raise_exception(env, EXCP_INE, GETPC());
->>>
->>> You can detect this during translation, and dispatch to the appropriate invtlb sub-function.
->>>
->> oh, sorry, I don't quiet understand this. detect during the translation sees more complicated.
-> 
-> It is not more complex at all.  Less complex, I would say.
-> 
-> static bool trans_invtlb(DisasContext *ctx, arg_invtlb *a)
-> {
->     TCGv rj = gpr_src(ctx, a->rj, EXT_NONE);
->     TCGv rk = gpr_src(ctx, a->rk, EXT_NONE);
-> 
->     if (check_plv(ctx)) {
->         return false;
->     }
-> 
->     switch (a->invop) {
->     case 0:
->     case 1:
->         gen_helper_invtlb_all(cpu_env);
->         break;
->     case 2:
->         gen_helper_invtlb_all_g(cpu_env, tcg_constant_i32(1));
->         break;
->     case 3:
->         gen_helper_invtlb_all_g(cpu_env, tcg_constant_i32(0));
->         break;
->     case 4:
->         gen_helper_invtlb_all_asid(cpu_env, rj);
->         break;
->     case 5:
->         gen_helper_invtlb_page_asid(cpu_env, rj, rk);
->         break;
->     case 6:
->         gen_helper_invtlb_page_asid_or_g(cpu_env, rj, rk);
->         break;
->     default:
->         return false;
->     }
->     ctx->base.is_jmp = DISAS_STOP;
->     return true;
-> }
-> 
-Thank you. I get it.
-> 
-> r~
+Well, the CXL Linux driver seemed to work fine on QEMU machines, Intel
+and POWER.
 
+Thanks for the info,
+
+C.
+  
 
