@@ -2,72 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F4E454C03
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 18:32:54 +0100 (CET)
-Received: from localhost ([::1]:32772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B010454C07
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 18:34:06 +0100 (CET)
+Received: from localhost ([::1]:34982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnOnm-0002WP-0z
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 12:32:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47950)
+	id 1mnOov-00044d-F0
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 12:34:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mnOmY-0001pA-5m
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:31:38 -0500
-Received: from [2607:f8b0:4864:20::936] (port=44714
- helo=mail-ua1-x936.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mnOmV-000053-VL
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:31:37 -0500
-Received: by mail-ua1-x936.google.com with SMTP id p2so7515099uad.11
- for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 09:31:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GyXVyur1a00feaEjplWIbOCfHvI3BRFHi0gZNaBqeiI=;
- b=1c6vxExzwf9tQVrAzzLNlBDUwn7KXdgplG+SaxibxNngdldSZPLN64hRtOo3N7LgvV
- 7FZf8QDxbuNyNCV8wlS9ZzPvMMbZPmjlnSFZc5PVpWZawmz3psQ4hp+7GbmRkRHC7WIr
- 1WVOfuYWTxMkGRF3AlH+i/Fd+4XgDYrIaFrtcAocg7FqyaxHd0JwXHSXSe7VrWxJjmrC
- G/5fh9rVemUD/DE+m44sz1hBVmO/8bjzY4rnZ03bc1v+NoU72M0NK/56ELJtFsw5S0Nr
- rtPAyiLuXn9AWGJsHnim8p2VEfwIR2CRRx4JMUPBPfoAkwE9KR7SK9ztxaUQXS10+KW1
- 1FYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GyXVyur1a00feaEjplWIbOCfHvI3BRFHi0gZNaBqeiI=;
- b=5F9NjKTSt1/QjFNfPneSATkCv8vTnT+nborbz3m6+wuF8xWJWtaUwaffkfnOFaa9cT
- IpMYxJN+9gja0uNv+Ov4lj+qhH2bi762RfRayrNMRX4LOvkU+d2KGifNe6UUgz85gebA
- 7Jfe/hzc5n7tRc18XGMyF95ZwhExvrcT8Uckq3lqZ2AH0EWkkcY+B2K1cYAIdfY1R7br
- oOEqu/V046PK4uxL1RtrFfia2cf/sbiyTjFJUAwwifBUbzYA8DU6SdCpnO8AmJ0W150D
- B6Sw+s3/LlexJgL5hLGyxD89fFrNwyqnYwFKCN0mDvbskeWM17XGq4L30QrWEeuXCLN6
- lA5w==
-X-Gm-Message-State: AOAM53040VyWvIHRA6PKLVz917vwwe5r1gJ+BpC7O5vV/9onUyFYrrLg
- bI6jpNHCKjSSUu/NkKsOb4eyO3SBTuH3egAqiGy6bQ==
-X-Google-Smtp-Source: ABdhPJzanW8ULaNEXeepSXScJM+CiF9kGhPuJIk4lzo1C+hvPxpdINTp6Szjdt5VNP8TIDZ35oHc6YZPYa5hDaEy3f4=
-X-Received: by 2002:a05:6102:d94:: with SMTP id
- d20mr72798091vst.12.1637170294915; 
- Wed, 17 Nov 2021 09:31:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1mnOn6-0002Yw-Q2
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:32:13 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2153)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1mnOn2-00008N-Oz
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:32:11 -0500
+Received: from fraeml712-chm.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4HvVNV1r9Xz67KQL;
+ Thu, 18 Nov 2021 01:31:54 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml712-chm.china.huawei.com (10.206.15.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 17 Nov 2021 18:32:04 +0100
+Received: from localhost (10.52.126.160) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Wed, 17 Nov
+ 2021 17:32:04 +0000
+Date: Wed, 17 Nov 2021 17:32:01 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Ben Widawsky <ben.widawsky@intel.com>
+Subject: Re: Follow-up on the CXL discussion at OFTC
+Message-ID: <20211117173201.00002513@Huawei.com>
+In-Reply-To: <20211117165719.pqig62t5z2grgjvv@intel.com>
+References: <OF255704A1.78FEF164-ON0025878E.00821084-0025878F.00015560@ibm.com>
+ <20211117165719.pqig62t5z2grgjvv@intel.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-References: <20211117160412.71563-1-richard.henderson@linaro.org>
- <20211117160412.71563-17-richard.henderson@linaro.org>
-In-Reply-To: <20211117160412.71563-17-richard.henderson@linaro.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Wed, 17 Nov 2021 10:31:24 -0700
-Message-ID: <CANCZdfo7FU1h8bhZd38NZzxshQudLCQJJjw3OJ-Mv9XJE3MVww@mail.gmail.com>
-Subject: Re: [PATCH v5 16/17] meson: Move linux_user_ss to linux-user/
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000dd938905d0ff6910"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::936
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::936;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x936.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.52.126.160]
+X-ClientProxiedBy: lhreml719-chm.china.huawei.com (10.201.108.70) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,153 +67,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: linux-cxl@vger.kernel.org, Saransh Gupta1 <saransh@ibm.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000dd938905d0ff6910
-Content-Type: text/plain; charset="UTF-8"
+On Wed, 17 Nov 2021 08:57:19 -0800
+Ben Widawsky <ben.widawsky@intel.com> wrote:
 
-On Wed, Nov 17, 2021 at 9:04 AM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+> Hi Saransh. Please add the list for these kind of questions. I've converted your
+> HTML mail, but going forward, the list will eat it, so please use text only.
+> 
+> On 21-11-16 00:14:33, Saransh Gupta1 wrote:
+> >    Hi Ben,
+> > 
+> >    This is Saransh from IBM. Sorry to have (unintentionally) dropped out
+> >    of the conversion on OFTC, I'm new to IRC.
+> >    Just wanted to follow-up on the discussion there. We discussed about
+> >    helping with linux patches reviews. On that front, I have identified
+> >    some colleague(s) who can help me with this. Let me know if/how you
+> >    want to proceed with that.  
+> 
+> Currently the ball is in my court to re-roll the RFC v2 patches [1] based on
+> feedback from Dan. I've implemented all/most of it, but I'm still debugging some
+> issues with the result.
+> 
+> > 
+> >    Maybe not urgently, but my team would also like to get an understanding
+> >    of the missing pieces in QEMU. Initially our focus is on type3 memory
+> >    access and hotplug support. Most of the work that my team does is
+> >    open-source, so contributing to the QEMU effort is another possible
+> >    line of collaboration.  
+> 
+> If you haven't seen it already, check out my LPC talk [2]. The QEMU patches
+> could use a lot of love. Mostly, I have little/no motivation until upstream
+> shows an interest because I don't have time currently to make sure I don't break
+> vs. upstream. If you want more details here, I can provide them, and I will Cc
+> the qemu-devel mailing list; the end of the LPC talk [2] does have a list.
+Hi Ben, Saransh
 
-> We have no need to reference linux_user_ss outside of linux-user.
-> Go ahead and merge it directly into specific_ss.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  meson.build            | 3 ---
->  linux-user/meson.build | 4 ++++
->  2 files changed, 4 insertions(+), 3 deletions(-)
->
+I have a forward port of the series + DOE etc to near current QEMU that is lightly tested,
+and can look to push that out publicly later this week.
 
-Reviewed-by: Warner Losh <imp@bsdimp.com>
+I'd also like to push QEMU support forwards and to start getting this upstream in QEMU
++ fill in some of the missing parts.
 
-BTW, I don't think I have anything meaningful to add to the discussions to
-date on this bug, and I'm
-agnostic as to the final decision...
+Was aiming to make progress on this a few weeks ago, but as ever other stuff
+got in the way.
+
++CC qemu-devel in case anyone else also looking at this.
+
+Jonathan
 
 
-> diff --git a/meson.build b/meson.build
-> index 9f59c57909..ecc181ea13 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -2363,7 +2363,6 @@ common_user_ss = ss.source_set()
->  crypto_ss = ss.source_set()
->  hwcore_ss = ss.source_set()
->  io_ss = ss.source_set()
-> -linux_user_ss = ss.source_set()
->  qmp_ss = ss.source_set()
->  qom_ss = ss.source_set()
->  softmmu_ss = ss.source_set()
-> @@ -2614,8 +2613,6 @@ subdir('linux-user')
->
->  specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
->
-> -specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss)
-> -
->  common_user_ss = common_user_ss.apply(config_all, strict: false)
->  common_user = static_library('common-user',
->                               sources: common_user_ss.sources(),
-> diff --git a/linux-user/meson.build b/linux-user/meson.build
-> index fcf7d40f23..b89534c49c 100644
-> --- a/linux-user/meson.build
-> +++ b/linux-user/meson.build
-> @@ -2,6 +2,8 @@ if not have_linux_user
->     subdir_done()
->  endif
->
-> +linux_user_ss = ss.source_set()
-> +
->  common_user_inc += include_directories('host/' / config_host['ARCH'])
->  common_user_inc += include_directories('.')
->
-> @@ -42,3 +44,5 @@ subdir('sh4')
->  subdir('sparc')
->  subdir('x86_64')
->  subdir('xtensa')
-> +
-> +specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss)
-> --
-> 2.25.1
->
->
 
---000000000000dd938905d0ff6910
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> 
+> > 
+> >    Thanks for your help and guidance!
+> > 
+> >    Best,
+> >    Saransh Gupta
+> >    Research Staff Member, IBM Research  
+> 
+> [1]: https://lore.kernel.org/linux-cxl/20211022183709.1199701-1-ben.widawsky@intel.com/T/#t
+> [2]: https://www.youtube.com/watch?v=g89SLjt5Bd4&list=PLVsQ_xZBEyN3wA8Ej4BUjudXFbXuxhnfc&index=49
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 17, 2021 at 9:04 AM Richa=
-rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
-nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">We have no need to reference linux_user_ss outside of lin=
-ux-user.<br>
-Go ahead and merge it directly into specific_ss.<br>
-<br>
-Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
-naro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
----<br>
-=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 3 ---<br>
-=C2=A0linux-user/meson.build | 4 ++++<br>
-=C2=A02 files changed, 4 insertions(+), 3 deletions(-)<br></blockquote><div=
-><br></div><div>Reviewed-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.c=
-om">imp@bsdimp.com</a>&gt;</div><div><br></div><div>BTW, I don&#39;t think =
-I have anything meaningful to add to the discussions to date on this bug, a=
-nd I&#39;m</div><div>agnostic as to the final decision...</div><div>=C2=A0<=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">
-diff --git a/meson.build b/meson.build<br>
-index 9f59c57909..ecc181ea13 100644<br>
---- a/meson.build<br>
-+++ b/meson.build<br>
-@@ -2363,7 +2363,6 @@ common_user_ss =3D ss.source_set()<br>
-=C2=A0crypto_ss =3D ss.source_set()<br>
-=C2=A0hwcore_ss =3D ss.source_set()<br>
-=C2=A0io_ss =3D ss.source_set()<br>
--linux_user_ss =3D ss.source_set()<br>
-=C2=A0qmp_ss =3D ss.source_set()<br>
-=C2=A0qom_ss =3D ss.source_set()<br>
-=C2=A0softmmu_ss =3D ss.source_set()<br>
-@@ -2614,8 +2613,6 @@ subdir(&#39;linux-user&#39;)<br>
-<br>
-=C2=A0specific_ss.add_all(when: &#39;CONFIG_BSD_USER&#39;, if_true: bsd_use=
-r_ss)<br>
-<br>
--specific_ss.add_all(when: &#39;CONFIG_LINUX_USER&#39;, if_true: linux_user=
-_ss)<br>
--<br>
-=C2=A0common_user_ss =3D common_user_ss.apply(config_all, strict: false)<br=
->
-=C2=A0common_user =3D static_library(&#39;common-user&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sources: common_user_ss.sources(),<br>
-diff --git a/linux-user/meson.build b/linux-user/meson.build<br>
-index fcf7d40f23..b89534c49c 100644<br>
---- a/linux-user/meson.build<br>
-+++ b/linux-user/meson.build<br>
-@@ -2,6 +2,8 @@ if not have_linux_user<br>
-=C2=A0 =C2=A0 subdir_done()<br>
-=C2=A0endif<br>
-<br>
-+linux_user_ss =3D ss.source_set()<br>
-+<br>
-=C2=A0common_user_inc +=3D include_directories(&#39;host/&#39; / config_hos=
-t[&#39;ARCH&#39;])<br>
-=C2=A0common_user_inc +=3D include_directories(&#39;.&#39;)<br>
-<br>
-@@ -42,3 +44,5 @@ subdir(&#39;sh4&#39;)<br>
-=C2=A0subdir(&#39;sparc&#39;)<br>
-=C2=A0subdir(&#39;x86_64&#39;)<br>
-=C2=A0subdir(&#39;xtensa&#39;)<br>
-+<br>
-+specific_ss.add_all(when: &#39;CONFIG_LINUX_USER&#39;, if_true: linux_user=
-_ss)<br>
--- <br>
-2.25.1<br>
-<br>
-</blockquote></div></div>
-
---000000000000dd938905d0ff6910--
 
