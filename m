@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 776AE45495F
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 15:56:13 +0100 (CET)
-Received: from localhost ([::1]:40968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58DE245495D
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 15:56:10 +0100 (CET)
+Received: from localhost ([::1]:40892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnMM8-0003ZJ-Hj
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 09:56:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57544)
+	id 1mnMM5-0003Uy-De
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 09:56:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mnME2-0004kN-37
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:47:50 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:53892)
+ id 1mnME3-0004nR-6H
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:47:51 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:53912)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mnME0-0000p3-4j
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:47:49 -0500
+ id 1mnME1-0000pV-Cv
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:47:50 -0500
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id 1A68421EB6;
- Wed, 17 Nov 2021 14:47:46 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 624AF21EB7;
+ Wed, 17 Nov 2021 14:47:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1637160466;
+ s=mail; t=1637160468;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3KQLb65SkXZKtlxt5HOSASbo+9p09N+teG3AW4qf7rg=;
- b=m3tRPgYE7MEeIm0hyszCO4DCkW3avU27gWyDY3GkAZI3cWs8jS57jXwW3jDj3ChRp/RfmW
- VwtgQbAEC1R5+ag7b+gliI8N9nsQ/cSmLnLTgbYGD8GWa0vCJjjOOJdhz4XsaqTjdmJYJb
- SAyQEFWsp3wgsrcfco5yRsxp446E6I4=
+ bh=JBsdMz226FRzvgeaZm+rQwc/P25DSmwFqWH2z4XEGQY=;
+ b=dUbzycmYQkLmTewH5wPv2cxiDIZ4UXtD/OY00lrUx32XKdO0PhCXTiiMBLR1L8TsZ0u7hs
+ geXd2rbe2ow8plJy62fvQkfVde4EAInrZmxjsKf7ih7z1JYx87XwAkK3q9UP6H0mZmqy53
+ tKRA8nFt2Im6S8su5LRm+cME/fUKNFw=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v3 4/5] qapi: Allow device_add to execute in machine
- initialized phase
-Date: Wed, 17 Nov 2021 15:47:02 +0100
-Message-Id: <20211117144703.16305-5-damien.hedde@greensocs.com>
+Subject: [RFC PATCH v3 5/5] docs/system: improve doc about preconfig
+Date: Wed, 17 Nov 2021 15:47:03 +0100
+Message-Id: <20211117144703.16305-6-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211117144703.16305-1-damien.hedde@greensocs.com>
 References: <20211117144703.16305-1-damien.hedde@greensocs.com>
@@ -77,71 +76,57 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>, edgar.iglesias@xilinx.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mirela Grujic <mirela.grujic@greensocs.com>
+Separate -S / -preconfig sections and improve a bit the preconfig part.
 
-This commit allows to use the QMP command to add a cold-plugged
-device like we can do with the CLI option -device.
-
-Note: for device_add command in qdev.json adding the 'allow-preconfig'
-option has no effect because the command appears to bypass QAPI (see
-TODO at qapi/qdev.json:61). The option is added there solely to
-document the intent.
-For the same reason, the flags have to be explicitly set in
-monitor_init_qmp_commands() when the device_add command is registered.
-
-Signed-off-by: Mirela Grujic <mirela.grujic@greensocs.com>
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Mirela Grujic <mirela.grujic@greensocs.com>
 ---
- qapi/qdev.json         | 3 ++-
- monitor/misc.c         | 2 +-
- softmmu/qdev-monitor.c | 6 ++++++
- 3 files changed, 9 insertions(+), 2 deletions(-)
+ docs/system/managed-startup.rst | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/qapi/qdev.json b/qapi/qdev.json
-index 69656b14df..51c5b2fbcf 100644
---- a/qapi/qdev.json
-+++ b/qapi/qdev.json
-@@ -74,7 +74,8 @@
- { 'command': 'device_add',
-   'data': {'driver': 'str', '*bus': 'str', '*id': 'str'},
-   'gen': false, # so we can get the additional arguments
--  'features': ['json-cli'] }
-+  'features': ['json-cli'],
-+  'allow-preconfig': true }
+diff --git a/docs/system/managed-startup.rst b/docs/system/managed-startup.rst
+index 9bcf98ea79..e1cdbb79b1 100644
+--- a/docs/system/managed-startup.rst
++++ b/docs/system/managed-startup.rst
+@@ -1,6 +1,9 @@
+ Managed start up options
+ ========================
  
- ##
- # @device_del:
-diff --git a/monitor/misc.c b/monitor/misc.c
-index a3a6e47844..fd56dd8f08 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -233,7 +233,7 @@ static void monitor_init_qmp_commands(void)
-     qmp_init_marshal(&qmp_commands);
- 
-     qmp_register_command(&qmp_commands, "device_add",
--                         qmp_device_add, 0, 0);
-+                         qmp_device_add, QCO_ALLOW_PRECONFIG, 0);
- 
-     QTAILQ_INIT(&qmp_cap_negotiation_commands);
-     qmp_register_command(&qmp_cap_negotiation_commands, "qmp_capabilities",
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index 1d6a1c4716..06729145b7 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -842,6 +842,12 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp)
-     QemuOpts *opts;
-     DeviceState *dev;
- 
-+    if (!phase_check(MACHINE_INIT_PHASE_INITIALIZED)) {
-+        error_setg(errp, "The command is permitted only after "
-+                         "the machine is initialized");
-+        return;
-+    }
++CPU Frezee start
++----------------
 +
-     opts = qemu_opts_from_qdict(qemu_find_opts("device"), qdict, errp);
-     if (!opts) {
-         return;
+ In system mode emulation, it's possible to create a VM in a paused
+ state using the ``-S`` command line option. In this state the machine
+ is completely initialized according to command line options and ready
+@@ -20,7 +23,12 @@ allowing VM code to run.
+ 
+ However, at the ``-S`` pause point, it's impossible to configure options
+ that affect initial VM creation (like: ``-smp``/``-m``/``-numa`` ...) or
+-cold plug devices. The experimental ``--preconfig`` command line option
++cold plug devices.
++
++Preconfig (experimental)
++------------------------
++
++The experimental ``--preconfig`` command line option
+ allows pausing QEMU before the initial VM creation, in a "preconfig" state,
+ where additional queries and configuration can be performed via QMP
+ before moving on to the resulting configuration startup. In the
+@@ -32,4 +40,14 @@ machine, including but not limited to:
+ - ``query-qmp-schema``
+ - ``query-commands``
+ - ``query-status``
++- ``query-machine-phase``
++- ``x-machine-init``
+ - ``x-exit-preconfig``
++
++Some commands make QEMU to progress along the VM creation procedure:
++
++- ``x-machine-init`` initializes the machine. Devices can be added only after
++  this command has been issued.
++
++- ``x-exit-preconfig`` leaves the preconfig state. It can be issued at any time
++  during preconfig and it will finish the VM creation.
 -- 
 2.33.0
 
