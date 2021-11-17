@@ -2,93 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C18F455127
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 00:29:31 +0100 (CET)
-Received: from localhost ([::1]:37744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55C9D455180
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 01:09:52 +0100 (CET)
+Received: from localhost ([::1]:46948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnUMs-0001CR-Kq
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 18:29:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35488)
+	id 1mnUzu-0000A4-Hw
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 19:09:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mnULE-0008GF-0w
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 18:27:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58367)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mnUwJ-0007Ke-KZ; Wed, 17 Nov 2021 19:06:07 -0500
+Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=45267
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mnULC-0002Zh-H4
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 18:27:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637191665;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=leNpANgltyxYJPMUqt1+geBHH/ivz/dbIwOHTsPE4Y0=;
- b=GvNIiVcoix0/qByT65Rcyc6pPL/seBGbY+pQdbEDWqdgDaer7reQw6tO82RE6B1wrhqkIL
- kSOXSVa3dAp7b5pHC9zKsZlYMWcaRefn9yO/OuvdVaAXurxN9YAD0wtT+KZIY+V8bbtTxC
- Q0ItsLQ+TD7JVUSIgITQCMBnS8BNeyo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-97-6Apng43dMHSdYGQOL2tXYQ-1; Wed, 17 Nov 2021 18:27:44 -0500
-X-MC-Unique: 6Apng43dMHSdYGQOL2tXYQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- v10-20020a1cf70a000000b00318203a6bd1so2100219wmh.6
- for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 15:27:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=leNpANgltyxYJPMUqt1+geBHH/ivz/dbIwOHTsPE4Y0=;
- b=g6YQnxzoUJPjpYV43IY7nOd6bOy7qmnnXe2Ge1uK1y3zc3zLpW/clokpTW6e3pmuLI
- 4RcqfgrgP82Yvn/jF5vd4qrDAPzc5xPXE+s/8yjyCblVZRx3LIE4AgtGMnPeL2omyGKb
- UD8vM8yWLxPtLEkXnl0kzZ/sTlqiSlJdhaVXuYrMBi2UJ9vBdFG1M4+DdUm8A7Zvkna3
- mif4S1Cas35fVVc4z5kPHYQekq2B0X5gZJTGOG1EAs0k/BrBoeqHEfkFiS8sb+KrodIU
- 3eAcNP4Z/vcHfhs5eTMKHeooScPWJgzW6L5LwqK0fj74ZbZuOJQeYP/96ozCdSC5vzkG
- dTCw==
-X-Gm-Message-State: AOAM532X37XgAjybapDCrFIrKovF+jiQAitO1CcVytZv1ezBCkkvIp83
- LTaFpdQ3V9MX6DnW6ABmfz/XUwt6cg//DrQCtdaeRWjHBwH7TJZCI8Wyp05sZuLxaZ1l1kTDcZC
- NMp0g/NuZf2UoYRg=
-X-Received: by 2002:a05:600c:2308:: with SMTP id
- 8mr4135277wmo.179.1637191663662; 
- Wed, 17 Nov 2021 15:27:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxUHbpThZhI5UF+LfQ9l5ncwLMAL7HHubx5ZfhrjCqRI7cTTZsYBFqp/QOkNmPhR4RfwHfwUg==
-X-Received: by 2002:a05:600c:2308:: with SMTP id
- 8mr4135244wmo.179.1637191663464; 
- Wed, 17 Nov 2021 15:27:43 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id n13sm1242121wrt.44.2021.11.17.15.27.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Nov 2021 15:27:42 -0800 (PST)
-Message-ID: <2130deed-8f14-05fb-5da1-3c86744bbffb@redhat.com>
-Date: Thu, 18 Nov 2021 00:27:41 +0100
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mnUwD-0005ys-PB; Wed, 17 Nov 2021 19:06:07 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4Hvg7436tcz4xdX; Thu, 18 Nov 2021 11:05:52 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1637193952;
+ bh=aT7kl5keXap2lESCe6exW0IbqBdR9tcVztWYXYVM67w=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hH93eDupQqM8rrXclw9XRYNi33wHKPEtj7N6B25/H5k4it8EyfqVZuriGj2t1mYuX
+ sAZH2JHt81HfPbt0p/Nw9etIfObcpTWH6FfBpYgUNbC7RaknPhNMMpJ/HA+9vsQik1
+ HNFLoeu+ks8YbDHcJVaeAqEszFUe+FO+n7dbKniM=
+Date: Thu, 18 Nov 2021 10:30:55 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: lagarcia@linux.ibm.com
+Subject: Re: [PATCH] docs: Introducing pseries documentation.
+Message-ID: <YZWQr7QqZoGXDWjZ@yekko>
+References: <26442e7dd425bb4feca0adb54d3787fd135fffb7.1637180039.git.lagarcia@br.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH for-6.2] Fix some typos in documentation (found by
- codespell)
-To: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
-References: <20211117210702.1393570-1-sw@weilnetz.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211117210702.1393570-1-sw@weilnetz.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.009, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="DSOC8Njuq9HLMgt8"
+Content-Disposition: inline
+In-Reply-To: <26442e7dd425bb4feca0adb54d3787fd135fffb7.1637180039.git.lagarcia@br.ibm.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for
+ 2404:9400:2:0:216:3eff:fee2:21ea (failed)
+Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,50 +61,359 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>, Thomas Huth <thuth@redhat.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: danielhb413@gmail.com, groug@kaod.org, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, Leonardo Garcia <lagarcia@br.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/17/21 22:07, Stefan Weil wrote:
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+
+--DSOC8Njuq9HLMgt8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Nov 17, 2021 at 05:14:30PM -0300, lagarcia@linux.ibm.com wrote:
+> From: Leonardo Garcia <lagarcia@br.ibm.com>
+>=20
+> The purpose of this document is to substitute the content currently
+> available in the QEMU wiki at [0]. This initial version does contain
+> some additional content as well. Whenever this documentation gets
+> upstream and is reflected in [1], the QEMU wiki will be edited to point
+> to this documentation, so that we only need to keep it updated in one
+> place.
+>=20
+> 0. https://wiki.qemu.org/Documentation/Platforms/POWER
+> 1. https://qemu.readthedocs.io/en/latest/system/ppc/pseries.html
+>=20
+> Signed-off-by: Leonardo Garcia <lagarcia@br.ibm.com>
+
+LGTM,
+
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+
+Couple of minor points below.
+
 > ---
->  docs/devel/multi-process.rst            | 2 +-
->  docs/devel/qgraph.rst                   | 2 +-
->  docs/devel/writing-monitor-commands.rst | 2 +-
->  docs/hyperv.txt                         | 2 +-
->  docs/system/cpu-models-x86.rst.inc      | 2 +-
->  docs/system/devices/nvme.rst            | 2 +-
->  docs/system/gdb.rst                     | 2 +-
->  docs/system/ppc/ppce500.rst             | 2 +-
->  docs/system/riscv/shakti-c.rst          | 2 +-
->  9 files changed, 9 insertions(+), 9 deletions(-)
+>  docs/system/ppc/pseries.rst | 185 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 185 insertions(+)
+>=20
+> diff --git a/docs/system/ppc/pseries.rst b/docs/system/ppc/pseries.rst
+> index 932d4dd17d..2de3fb4d51 100644
+> --- a/docs/system/ppc/pseries.rst
+> +++ b/docs/system/ppc/pseries.rst
+> @@ -1,12 +1,197 @@
+>  pSeries family boards (``pseries``)
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+> +The Power machine virtualized environment described by the `Linux on Pow=
+er
+> +Architecture Reference document (LoPAR)
+> +<https://openpowerfoundation.org/wp-content/uploads/2020/07/LoPAR-202006=
+11.pdf>`_
+> +is called pseries. This environment is also known as sPAPR, System p gue=
+sts, or
+> +simply Power Linux guests (although it is capable of running other opera=
+ting
+> +systems, such as AIX).
+> +
+> +Even though pseries is designed to behave as a guest environment, it is =
+also
+> +capable of acting as a hypervisor OS, providing, on that role, nested
+> +virtualization capabilities.
+> +
+>  Supported devices
+>  -----------------
+> =20
+> + * Multi processor support for many Power processors generations: POWER5=
++,
+> +   POWER7, POWER7+, POWER8, POWER8NVL, Power9, and Power10 (there is no =
+support
+> +   for POWER6 processors).
 
-> diff --git a/docs/system/cpu-models-x86.rst.inc b/docs/system/cpu-models-x86.rst.inc
-> index 6e8be7d79b..884b6d20fb 100644
-> --- a/docs/system/cpu-models-x86.rst.inc
-> +++ b/docs/system/cpu-models-x86.rst.inc
-> @@ -49,7 +49,7 @@ future OS and toolchains are likely to target newer ABIs. The
->  table that follows illustrates which ABI compatibility levels
->  can be satisfied by the QEMU CPU models. Note that the table only
->  lists the long term stable CPU model versions (eg Haswell-v4).
-> -In addition to whats listed, there are also many CPU model
-> +In addition to what's listed, there are also many CPU model
->  aliases which resolve to a different CPU model version,
->  depending on the machine type is in use.
+I wouldn't trust the POWER5+ cpu emulation with pseries; only POWER7
+and later has been tested at all.  Actually.. I wouldn't trust the
+POWER5+ CPU emulation much at all, if it's been tested, it's not for a
+long, long time.
 
-For a non-native English speaker, this is clearer:
+> + * Interrupt Controller, XICS (POWER8) and XIVE (Power9 and Power10)
+> + * vPHB PCIe Host bridge.
+> + * vscsi and vnet devices, compatible with the same devices available on=
+ a
+> +   PowerVM hypervisor with VIOS managing LPARs.
+> + * Virtio based devices.
+> + * PCIe device pass through.
+> +
+>  Missing devices
+>  ---------------
+> =20
+> + * SPICE support.
+> =20
+>  Firmware
+>  --------
+> +
+> +`SLOF <https://github.com/aik/SLOF>`_ (Slimline Open Firmware) is an
+> +implementation of the `IEEE 1275-1994, Standard for Boot (Initialization
+> +Configuration) Firmware: Core Requirements and Practices
+> +<https://standards.ieee.org/standard/1275-1994.html>`_.
+> +
+> +QEMU includes a prebuilt image of SLOF which is updated when a more rece=
+nt
+> +version is required.
+> +
+> +Build directions
+> +----------------
+> +
+> +.. code-block:: bash
+> +
+> +  ./configure --target-list=3Dppc64-softmmu && make
+> +
+> +Running instructions
+> +--------------------
+> +
+> +Someone can select the pseries machine type by running QEMU with the fol=
+lowing
+> +options:
+> +
+> +.. code-block:: bash
+> +
+> +  qemu-system-ppc64 -M pseries <other QEMU arguments>
+> +
+> +sPAPR devices
+> +-------------
+> +
+> +The sPAPR specification defines a set of para-virtualized devices, which=
+ are
+> +also supported by the pseries machine in QEMU and can be instantiated wi=
+th the
+> +`-device` option:
+> +
+> +* spapr-vlan : A virtual network interface.
+> +* spapr-vscsi : A virtual SCSI disk interface.
+> +* spapr-rng : A pseudo-device for passing random number generator data t=
+o the
+> +  guest (see the `H_RANDOM hypercall feature
+> +  <https://wiki.qemu.org/Features/HRandomHypercall>`_ for details).
+> +
+> +These are compatible with the devices historically available for use when
+> +running the IBM PowerVM hypervisor with LPARs.
+> +
+> +However, since these devices have originally been specified with another
+> +hypervisor and non-Linux guests in mind, you should use the virtio count=
+erparts
+> +(virtio-net, virtio-blk/scsi and virtio-rng) if possible instead, since =
+they
+> +will most probably give you better performance with Linux guests in a QE=
+MU
+> +environment.
+> +
+> +The pseries machine in QEMU is always instantiated with a NVRAM device
+> +(``spapr-nvram``), so it is not needed to add this manually. However, if=
+ someone
+> +wants to make the contents of the NVRAM device persistent, they will nee=
+d to
+> +specify a PFLASH device when starting QEMU, i.e. either use
+> +``-drive if=3Dpflash,file=3D<filename>,format=3Draw`` to set the default=
+ PFLASH
+> +device, or specify one with an ID
+> +(``-drive if=3Dnone,file=3D<filename>,format=3Draw,id=3Dpfid``) and pass=
+ that ID to the
+> +NVRAM device with ``-global spapr-nvram.drive=3Dpfid``.
+> +
+> +Switching between the KVM-PR and KVM-HV kernel module
+> +-----------------------------------------------------
+> +
+> +Currently, there are two implementations of KVM on Power, ``kvm_hv.ko`` =
+and
+> +``kvm_pr.ko``.
+> +
+> +
+> +If a host supports both KVM modes, and both KVM kernel modules are loade=
+d, it is
+> +possible to switch between the two modes with the ``kvm-type`` parameter:
+> +
+> +* Use ``qemu-system-ppc64 -M pseries,accel=3Dkvm,kvm-type=3DPR`` to use =
+the
+> +  ``kvm_pr.ko`` kernel module.
+> +* Use ``qemu-system-ppc64 -M pseries,accel=3Dkvm,kvm-type=3DHV`` to use =
+``kvm_hv.ko``
+> +  instead.
+> +
+> +KVM-PR
+> +^^^^^^
+> +
+> +KVM-PR uses the so-called **PR**\ oblem state of the PPC CPUs to run the=
+ guests,
+> +i.e. the virtual machine is run in user mode and all privileged instruct=
+ions
+> +trap and have to be emulated by the host. That means you can run KVM-PR =
+inside
+> +a pseries guest (or a PowerVM LPAR for that matter), and that is where i=
+t has
+> +originated, as historically (prior to POWER7) it was not possible to run=
+ Linux
+> +on hypervisor mode on a Power processor (this function was restricted to
+> +PowerVM, the IBM proprietary hypervisor).
+> +
+> +Because all privileged instructions are trapped, guests that use a lot of
+> +privileged instructions run quite slow with KVM-PR. On the other hand, b=
+ecause
+> +of that, this kernel module can run on pretty much every PPC hardware, a=
+nd is
+> +able to emulate a lot of guests CPUs. This module can even be used to ru=
+n other
+> +PowerPC guests like an emulated PowerMac.
+> +
+> +As KVM-PR can be run inside a pseries guest, it can also provide nested
+> +virtualization capabilities (i.e. running a guest from within a guest).
 
-"In addition to what is listed"
+Might be worth mentioning that KVM-PR is barely maintained now, and it
+doesn't support all the privileged instructions of the later
+processors (I'm pretty sure POWER9 doesn't work there, for example).
 
-Otherwise:
+> +KVM-HV
+> +^^^^^^
+> +
+> +KVM-HV uses the hypervisor mode of more recent Power processors, that al=
+low
+> +access to the bare metal hardware directly. Although POWER7 had this cap=
+ability,
+> +it was only starting with POWER8 that this was officially supported by I=
+BM.
+> +
+> +Originally, KVM-HV was only available when running on a powernv platform=
+ (a.k.a.
+> +Power bare metal). Although it runs on a powernv platform, it can only b=
+e used
+> +to start pseries guests. As the pseries guest doesn't have access to the
+> +hypervisor mode of the Power CPU, it wasn't possible to run KVM-HV on a =
+guest.
+> +This limitation has been lifted, and now it is possible to run KVM-HV in=
+side
+> +pseries guests as well, making nested virtualization possible with KVM-H=
+V.
+> +
+> +As KVM-HV has access to privileged instructions, guests that use a lot o=
+f these
+> +can run much faster than with KVM-PR. On the other hand, the guest CPU h=
+as to be
+> +of the same type as the host CPU this way, e.g. it is not possible to sp=
+ecify an
+> +embedded PPC CPU for the guest with KVM-HV. However, there is at least t=
+he
+> +possibility to run the guest in a backward-compatibility mode of the pre=
+vious
+> +CPUs generations, e.g. you can run a POWER7 guest on a POWER8 host by us=
+ing
+> +``-cpu POWER8,compat=3Dpower7`` as parameter to QEMU.
+> +
+> +Modules support
+> +---------------
+> +
+> +As noticed in the sections above, each module can run in a different
+> +environment. The following table shows with which environment each modul=
+e can
+> +run. As long as you are in a supported environment, you can run KVM-PR o=
+r KVM-HV
+> +nested. Combinations not shown in the table are not available.
+> +
+> ++--------------+------------+------+-------------------+----------+-----=
+---+
+> +| Platform     | Host type  | Bits | Page table format | KVM-HV   | KVM-=
+PR |
+> ++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D+=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D+
+> +| powernv      | bare metal | 32   | hash              | no       | yes =
+   |
+> +|              |            |      +-------------------+----------+-----=
+---+
+> +|              |            |      | radix             | N/A      | N/A =
+   |
+> +|              |            +------+-------------------+----------+-----=
+---+
+> +|              |            | 64   | hash              | yes      | yes =
+   |
+> +|              |            |      +-------------------+----------+-----=
+---+
+> +|              |            |      | radix             | yes      | no  =
+   |
+> ++--------------+------------+------+-------------------+----------+-----=
+---+
+> +| pseries [*]_ | powernv    | 32   | hash              | no       | yes =
+   |
+> +|              |            |      +-------------------+----------+-----=
+---+
+> +|              |            |      | radix             | N/A      | N/A =
+   |
+> +|              |            +------+-------------------+----------+-----=
+---+
+> +|              |            | 64   | hash              | no       | yes =
+   |
+> +|              |            |      +-------------------+----------+-----=
+---+
+> +|              |            |      | radix             | yes [*]_ | no  =
+   |
+> +|              +------------+------+-------------------+----------+-----=
+---+
+> +|              | PowerVM    | 32   | hash              | no       | yes =
+   |
+> +|              |            |      +-------------------+----------+-----=
+---+
+> +|              |            |      | radix             | N/A      | N/A =
+   |
+> +|              |            +------+-------------------+----------+-----=
+---+
+> +|              |            | 64   | hash              | no       | yes =
+   |
+> +|              |            |      +-------------------+----------+-----=
+---+
+> +|              |            |      | radix [*]_        | no       | yes =
+   |
+> ++--------------+------------+------+-------------------+----------+-----=
+---+
+> +
+> +.. [*] On POWER9 DD2.1 processors, the page table format on the host and=
+ guest
+> +   must be the same.
+> +
+> +.. [*] KVM-HV cannot run nested on POWER8 machines.
+> +
+> +.. [*] Introduced on Power10 machines.
+> +
+> +Maintainer contact information
+> +------------------------------
+> +
+> +C=E9dric Le Goater <clg@kaod.org>
+> +
+> +Daniel Henrique Barboza <danielhb413@gmail.com>
+> \ No newline at end of file
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Thanks!
+--DSOC8Njuq9HLMgt8
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmGVkK0ACgkQbDjKyiDZ
+s5KmMxAA2cmRGUVw2hDH0cC3mswoKp6YpqUQ7eZ27W0d04EEYlieAAUXnqDfNYFU
+B/9E2O2splNaiRe4RBGfZquSFF5w+VCBMSKNwOzsTu9/uynSisXvhK0nQCFt05wz
+5M2ZpR9mL2VZEHixm1leepXIPPk4wE9HtTY+p1/m7H/ghYUO0Bpms9OQ6vGIlHkj
+QDO9KPDdedCeTMUUTYXv3Dleq7BtpI/dW8VKksa60IkCrvLbmyZAYigFspN9wKKE
+VETdsa5O7HpOzwaapCEjgQkf82wJ0Idx62aqms4TOcS/amI9Z9yi3dWC6v/O/YeH
+7+EpCKok8TlEy3LyHWa+VsfQEaELXBa1MTOAvar+VoACOyQ6Aa7cynb1NHdy7YW6
+YepXYIDbIMDd05R1U7FKYdRMzmTOzXU0+JxTPalW1oHqrscy+3VSXrqx7KsWMj0V
+AcEbjDMlzQdxtQzCX5qod4MneokX2HREJlVWtkFZyhOnYDE/2oYqF7JusWRVWf58
+zP7mw8o86C7r2ZxaLxyfTJozcwOyu2ukM9GRx1KX9Ll285YzB/3tQf9cfG8YDT+m
+7h9ZjjjKWIEbyvhZqa8oJrgOpU5bfaPKbgCRCMPIp22ypXIeVaRdYPFo9JfhcFCs
+Sd+dP8CXYwpVio/O+z8WDL0R3L8mV91ar1KGNFEN0byaVQPO2Ng=
+=GFKB
+-----END PGP SIGNATURE-----
+
+--DSOC8Njuq9HLMgt8--
 
