@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94C464548A4
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 15:24:26 +0100 (CET)
-Received: from localhost ([::1]:45762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B08C4548AD
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 15:27:09 +0100 (CET)
+Received: from localhost ([::1]:53426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnLrN-0000xq-Ni
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 09:24:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49866)
+	id 1mnLu0-0006Ae-7X
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 09:27:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
- id 1mnLmQ-0000TI-DQ
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:19:18 -0500
-Received: from mail-mw2nam10on2058.outbound.protection.outlook.com
- ([40.107.94.58]:55136 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ id 1mnLmZ-00010F-5C
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:19:27 -0500
+Received: from mail-bn7nam10on2052.outbound.protection.outlook.com
+ ([40.107.92.52]:46304 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
- id 1mnLmO-0004Y9-J6
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:19:18 -0500
+ id 1mnLmU-0004ZB-FE
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:19:26 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PMGKcHGQmtQsW9/d6VrFYdaTH56I/WKOMeJqGV5HECLo2S4otMXtRmkgyVni397Q35caaIrgqTMKAOYNnlbvxggP9BOdFuCxA2uHepBx9tEFHJwtkU1i8z1+79OQebNA3k8bom8YWbQHy8nmxrF5Vj8PetvYetR/djfu+VxoBlJuuF7KcmegMgrgtkdFyeGZtBUeZmorQqg7+2rRybIkwLhnZjJsotEtDHpOBW+2EkuIuqNq6TqCLieGUe4IhZklkKQPazbUsxsnnoHOHKJ7VVgmD2MRU5MnmrotsHXZ1QWMKAo3NoenL+F9nOxjU2wk7pdgIsoZ2X18zLrJ7rm0zQ==
+ b=HDqcMeWp7fj6lwiT6N2I/kHHRx1ZKy3xqSt0jjlS3uzz1ewlzUYKTwAki2zTa8a5HWo8GnZQouO8Y/037RTrWJltrE6JNyrpXI2zb4Q2DfhctHDqctnzHpqDuw6oKEGhKagdPTkLZbc6N0gZWfYMhJl9bcCKGPAFoKm1B01gk5n5K04GI5NJ1ZotCD9tWg9OV8tis7gbSBsAWWZ2yo1q2/UrzSrT10QDHAbiePFP1uWf6lzQaEKzx+exPjbZDaaQfWt3G6u5UjwVePQJi4w2B2+ZZKQU3yPYPSEVn/lveYIf8dMun4tOF+GTD6OZnJuxKzpDCKV/O0Jo9doszVst/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1nqx2GnWPGS0k9Bml3XdA8OAbRd8tbY23BzVFbF9e9U=;
- b=gZYbP6mVq8mQRGzykvKwcfgGoq8N7SuQ7//Gi0is/FpSTub3zdeAGEAJz8oRyFj4lzWscFCIlHiSQ2OSrxWgoOMKdisW9dx3zHYQp6g4nA8DbfjcDSqOppll+1GM4twm3iAwboFV9vJVCMo7fBH5ZNeJQnxOt6MYTo8s2poHfjntGwogS2wThxkViqpE4OQ0gZvWRKbBXTc8XLLpX/m/nXWDZXdMEb3+GfmikQOfxS7jAe7H8vESlhzMgqWY+sp5YlVI21AdhG3eOogbLtP+1S4yZshSEeDiAROR83ZAAmwWyg/iYzEYvVZLtZW4mSznto7LFqbh7hkdmQtNMDAKqg==
+ bh=b0AyKHD9QAVG6zix7vjZqdGXS7F7y4MLOu3flALFBQE=;
+ b=UCe15gAoKv2l7sstZLfjjyG34YZu0VuOV7S+RyygtAeGj4kW440GZVO8hGRWA/VhSCTIMHbwMC2nNRYRYIYlCRSCOymQa4hSB6iGo5gZn5HDpBmTc9t+1GU/Esr/kaEDrlrjc9HOyYlwmoRocjc2JOTCb2dVFG1hxPzKKrWDS2ELPwTH4014mbB9AQETJhrNVgPfMsrTogSO5Q0bPXMXVsYZ1xQmpqOEUNJcvYu+Ed94nFLmj3dXmNQQXpAt4uc0ZAHZ7nbSIEDW50G75DP4oEcS7YUCLprqopknbgGWkDkKaTPiJ+49AXQ9mgRgGHSe40nMMb+34SO/7pLnbU9aNQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
@@ -34,18 +34,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1nqx2GnWPGS0k9Bml3XdA8OAbRd8tbY23BzVFbF9e9U=;
- b=jwreSiAVZgBwczwboIzL8CB2CRBk7Dedeuf0nDBB+edHzjTSGK9KyaidMScwIMgveTS8/BmbRSXgIfaEiiXKlV+35px1R1Mlv57bzqUT+jXdRYVqg8gwgC0ER8m0wfsYkq57Z17UtE2FMmxDN4BkMxI1QlKUvxNmKJpHulpArxg=
-Received: from BN9PR03CA0801.namprd03.prod.outlook.com (2603:10b6:408:13f::26)
- by SJ0PR02MB7392.namprd02.prod.outlook.com (2603:10b6:a03:295::13)
+ bh=b0AyKHD9QAVG6zix7vjZqdGXS7F7y4MLOu3flALFBQE=;
+ b=PsunbF7PNMfsrw/LUvzhMKcqJ+wTfXHSspD44tqEmF/ti3CGTMxBbRSQwTtmdwELKeJW2Sl/1VWvcYOhb9yHWmjxHOTzxBJjp+aMaBUG2KPhQNu9l1owHweqX1hZ83EhufB82N4Ns+umxrBr3mkIPlAJrIorF1T/umzlwUe4KYs=
+Received: from BN9PR03CA0795.namprd03.prod.outlook.com (2603:10b6:408:13f::20)
+ by BN6PR02MB3282.namprd02.prod.outlook.com (2603:10b6:405:63::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.27; Wed, 17 Nov
- 2021 14:19:13 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.26; Wed, 17 Nov
+ 2021 14:19:14 +0000
 Received: from BN1NAM02FT048.eop-nam02.prod.protection.outlook.com
- (2603:10b6:408:13f:cafe::e9) by BN9PR03CA0801.outlook.office365.com
- (2603:10b6:408:13f::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19 via Frontend
- Transport; Wed, 17 Nov 2021 14:19:13 +0000
+ (2603:10b6:408:13f:cafe::88) by BN9PR03CA0795.outlook.office365.com
+ (2603:10b6:408:13f::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.20 via Frontend
+ Transport; Wed, 17 Nov 2021 14:19:14 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
  smtp.mailfrom=xilinx.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=xilinx.com;
@@ -55,24 +55,24 @@ Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
 Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
  BN1NAM02FT048.mail.protection.outlook.com (10.13.2.157) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4690.19 via Frontend Transport; Wed, 17 Nov 2021 14:19:13 +0000
+ 15.20.4690.19 via Frontend Transport; Wed, 17 Nov 2021 14:19:14 +0000
 Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
  xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Wed, 17 Nov 2021 06:18:52 -0800
+ 15.1.2176.14; Wed, 17 Nov 2021 06:18:54 -0800
 Received: from smtp.xilinx.com (172.19.127.96) by
  xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.2176.14 via Frontend Transport; Wed, 17 Nov 2021 06:18:52 -0800
+ 15.1.2176.14 via Frontend Transport; Wed, 17 Nov 2021 06:18:54 -0800
 Received: from [10.23.121.164] (port=52602 helo=debian.xilinx.com)
  by smtp.xilinx.com with esmtp (Exim 4.90)
  (envelope-from <francisco.iglesias@xilinx.com>)
- id 1mnLm0-000Dy8-7M; Wed, 17 Nov 2021 06:18:52 -0800
+ id 1mnLm1-000Dy8-Rs; Wed, 17 Nov 2021 06:18:54 -0800
 From: Francisco Iglesias <francisco.iglesias@xilinx.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v1 5/9] hw/dma/xlnx_csu_dma: Implement the DMA control
- interface
-Date: Wed, 17 Nov 2021 14:18:37 +0000
-Message-ID: <20211117141841.4696-6-francisco.iglesias@xilinx.com>
+Subject: [PATCH v1 6/9] hw/ssi: Add a model of Xilinx Versal's OSPI flash
+ memory controller
+Date: Wed, 17 Nov 2021 14:18:38 +0000
+Message-ID: <20211117141841.4696-7-francisco.iglesias@xilinx.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20211117141841.4696-1-francisco.iglesias@xilinx.com>
 References: <20211117141841.4696-1-francisco.iglesias@xilinx.com>
@@ -80,32 +80,32 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: aeec565e-913d-4065-1681-08d9a9d53b03
-X-MS-TrafficTypeDiagnostic: SJ0PR02MB7392:
-X-Microsoft-Antispam-PRVS: <SJ0PR02MB73928DA941DEC0770A078DD1AD9A9@SJ0PR02MB7392.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: f33613c2-0093-423a-ea30-08d9a9d53bea
+X-MS-TrafficTypeDiagnostic: BN6PR02MB3282:
+X-Microsoft-Antispam-PRVS: <BN6PR02MB328269CFB02F0C45F91E6118AD9A9@BN6PR02MB3282.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:751;
+X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7FkKVUE00KvRKghMe/K5/KlCMETWavsK3HvZylmfiDF7Evd2HUgWks1o1uWW6P5QpnZEwA2GSxFujU1g6Yult/EArRl0AnZnSDyTKzQIcLF9y0daTYZCYxEunSq/+bIe9YakHnf/TwuE9lnEKCd3CKpzcxEIqMxtLd/BeSAD9bl8YURUUxtMoVdfn5Y/GvkfbBtVzN2ksQMMID071AqGsmZqnF3LLRT+4xhwEo20o3JGfKQgEnW2HH67f/PHdnztl6CFxjtCjyUY24k+ejJsp11/ovkNrovdk1pWk9tWuSdOLRcawur0+MPmrByLAUTeDtj+mq6Ff267z9rE/Rse0r9JanI6d30UuCrgVRn6XPmK+2LLS2sIv0Etx5MLtez1SqMunpxByPDDYjYa1Tv2i0raiE2cWtSrUgtwgiHz+Xrs3xdDjjJSdcyLnS2fokjRV+T+3QLoHn9cpXuWVrf5DQ6iNe1Vn7xH090kFqbBmtMMejbIfQH9x5zCayYBgwyjwMz+kMc21JKRx5GAR9oRTHduDFfP8Uij7BWIcZ1IMwWxj0Wq5pV0P0emVwus9Qyia6xL3kpfKL17ilMiVvVVR5wCCLbpmnTwyDPU5dDS27wCtQufPCvZwMeulFuCgzKzREtv5+GHAXzvlm8tooeVK10HIpmCbY6DAdGA5btbhSqtTeCxCsYTLQTPmY+3JMK8KT/Ui244coTQenIczkNfPTR6VzE1wFrp8UmOOYsnCz0=
+X-Microsoft-Antispam-Message-Info: S4AR6VP6Hz1Sp2So12qAvKMSSi3q1QBbzygpLIhKA1UkSak1aBMle8WOD+g24txfNxT7RaMzfnXavJ6UD+oR+V+2C8jsOQfCpJUeaEJaYIgY9gBfmL0EZKFOsnrIN1cIXgFTpRALWHTpaHP48gl8VRCHqWOKzjdrgbb4fMn6J3VOiZYD9Nw7O6AQPZ0kHOaZ8t2FvSGdTv9eEiQTsWvxECB8uZYpNnCyXFvadTEdnhA0fwXCW7cCHl9PWNql/g6krsuPqc99YMunMjYOVPoTogB9OwQ+OqmJqMbwrr7BTkxdsXpqIl7KNnIDzQpTO7lyBdH9G6WsSKnkulGw8ad4r2KQNM9yILIEdhCQ3ajoY5kjODLG8naMU1wrSqdOVMCmDwW8e8Kopv4DFGot5Ou5SBUH9bLsJk2B9z/pwd90P36JUb3pqH+jSA6Sx5FxJYy/hMGeKO41TTS+raGM5XW/OdKUOhBz4OQO8CUmxv+l5mumuUwE236T8a86Sz/qH6nGLJTGxVi8vkR7PCMYm4xlh0IDKnIrcjajZt9leKZea0aGE7FzeNUoIyh+rs4g/Bgr3EvW+gAfKDaH8rH4ewTPLqcSykHTGH2bsKYjArPwMwv9ODsiGNnB92DXcNnuta+/bEViSh6wErGoUGpM4Z0GL0o3wR5sC00x9+bbezd0jN2xA1FdMqlSn9X2ybaK2xHcKXZB6V/Cs1FvpsGcUyO7OGnBGCeV7kzZ9UHTk35sKpw=
 X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
  PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(46966006)(36840700001)(47076005)(54906003)(9786002)(36860700001)(8676002)(6916009)(26005)(6666004)(83380400001)(2906002)(508600001)(316002)(8936002)(5660300002)(7636003)(186003)(36906005)(356005)(426003)(82310400003)(1076003)(2616005)(36756003)(44832011)(4326008)(70206006)(70586007)(7696005)(336012)(102446001);
+ SFS:(46966006)(36840700001)(70586007)(508600001)(47076005)(36756003)(7696005)(30864003)(1076003)(70206006)(426003)(356005)(5660300002)(44832011)(2906002)(83380400001)(186003)(82310400003)(36906005)(4326008)(36860700001)(316002)(6916009)(26005)(8936002)(336012)(54906003)(6666004)(9786002)(2616005)(7636003)(8676002)(102446001)(559001)(579004);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2021 14:19:13.1332 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: aeec565e-913d-4065-1681-08d9a9d53b03
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2021 14:19:14.6525 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f33613c2-0093-423a-ea30-08d9a9d53bea
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
  Helo=[xsj-pvapexch02.xlnx.xilinx.com]
 X-MS-Exchange-CrossTenant-AuthSource: BN1NAM02FT048.eop-nam02.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR02MB7392
-Received-SPF: pass client-ip=40.107.94.58; envelope-from=figlesia@xilinx.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR02MB3282
+Received-SPF: pass client-ip=40.107.92.52; envelope-from=figlesia@xilinx.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -129,109 +129,2018 @@ Cc: edgar.iglesias@xilinx.com, frasse.iglesias@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the DMA control interface for allowing control of DMA operations
-from inside models that contain instances of (and reuse) the Xilinx CSU
-DMA.
+Add a model of Xilinx Versal's OSPI flash memory controller.
 
 Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
 ---
- hw/dma/xlnx_csu_dma.c         | 32 ++++++++++++++++++++++++++++++++
- include/hw/dma/xlnx_csu_dma.h |  4 ++++
- 2 files changed, 36 insertions(+)
+ hw/ssi/meson.build                |    1 +
+ hw/ssi/xlnx-versal-ospi.c         | 1892 +++++++++++++++++++++++++++++++++++++
+ include/hw/ssi/xlnx-versal-ospi.h |   86 ++
+ 3 files changed, 1979 insertions(+)
+ create mode 100644 hw/ssi/xlnx-versal-ospi.c
+ create mode 100644 include/hw/ssi/xlnx-versal-ospi.h
 
-diff --git a/hw/dma/xlnx_csu_dma.c b/hw/dma/xlnx_csu_dma.c
-index 896bb3574d..9ed6e82225 100644
---- a/hw/dma/xlnx_csu_dma.c
-+++ b/hw/dma/xlnx_csu_dma.c
-@@ -277,6 +277,11 @@ static uint32_t xlnx_csu_dma_advance(XlnxCSUDMA *s, uint32_t len)
-         s->regs[R_ADDR_MSB] = dst >> 32;
-     }
- 
-+    /* Notify dma-ctrl clients when the transfer has been completed */
-+    if (size == 0 && s->dma_ctrl_notify) {
-+        s->dma_ctrl_notify(s->dma_ctrl_opaque);
-+    }
+diff --git a/hw/ssi/meson.build b/hw/ssi/meson.build
+index 3d6bc82ab1..0ded9cd092 100644
+--- a/hw/ssi/meson.build
++++ b/hw/ssi/meson.build
+@@ -7,5 +7,6 @@ softmmu_ss.add(when: 'CONFIG_SSI', if_true: files('ssi.c'))
+ softmmu_ss.add(when: 'CONFIG_STM32F2XX_SPI', if_true: files('stm32f2xx_spi.c'))
+ softmmu_ss.add(when: 'CONFIG_XILINX_SPI', if_true: files('xilinx_spi.c'))
+ softmmu_ss.add(when: 'CONFIG_XILINX_SPIPS', if_true: files('xilinx_spips.c'))
++softmmu_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files('xlnx-versal-ospi.c'))
+ softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('imx_spi.c'))
+ softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_spi.c'))
+diff --git a/hw/ssi/xlnx-versal-ospi.c b/hw/ssi/xlnx-versal-ospi.c
+new file mode 100644
+index 0000000000..c02fc143de
+--- /dev/null
++++ b/hw/ssi/xlnx-versal-ospi.c
+@@ -0,0 +1,1892 @@
++/*
++ * QEMU model of Xilinx Versal's OSPI controller.
++ *
++ * Copyright (c) 2021 Xilinx Inc.
++ * Written by Francisco Iglesias <francisco.iglesias@xilinx.com>
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++#include "qemu/osdep.h"
++#include "hw/sysbus.h"
++#include "migration/vmstate.h"
++#include "hw/qdev-properties.h"
++#include "qemu/bitops.h"
++#include "qemu/log.h"
++#include "hw/irq.h"
++#include "hw/ssi/xlnx-versal-ospi.h"
 +
-     if (size == 0) {
-         xlnx_csu_dma_done(s);
-     }
-@@ -472,6 +477,29 @@ static uint64_t addr_msb_pre_write(RegisterInfo *reg, uint64_t val)
-     return val & R_ADDR_MSB_ADDR_MSB_MASK;
- }
- 
-+static void xlnx_csu_dma_dma_ctrl_read(DmaCtrl *dma_ctrl, hwaddr addr,
-+                                         uint32_t len, DmaCtrlNotify *notify,
-+                                         bool start_dma)
++#ifndef XILINX_VERSAL_OSPI_ERR_DEBUG
++#define XILINX_VERSAL_OSPI_ERR_DEBUG 0
++#endif
++
++REG32(CONFIG_REG, 0x0)
++    FIELD(CONFIG_REG, IDLE_FLD, 31, 1)
++    FIELD(CONFIG_REG, DUAL_BYTE_OPCODE_EN_FLD, 30, 1)
++    FIELD(CONFIG_REG, CRC_ENABLE_FLD, 29, 1)
++    FIELD(CONFIG_REG, CONFIG_RESV2_FLD, 26, 3)
++    FIELD(CONFIG_REG, PIPELINE_PHY_FLD, 25, 1)
++    FIELD(CONFIG_REG, ENABLE_DTR_PROTOCOL_FLD, 24, 1)
++    FIELD(CONFIG_REG, ENABLE_AHB_DECODER_FLD, 23, 1)
++    FIELD(CONFIG_REG, MSTR_BAUD_DIV_FLD, 19, 4)
++    FIELD(CONFIG_REG, ENTER_XIP_MODE_IMM_FLD, 18, 1)
++    FIELD(CONFIG_REG, ENTER_XIP_MODE_FLD, 17, 1)
++    FIELD(CONFIG_REG, ENB_AHB_ADDR_REMAP_FLD, 16, 1)
++    FIELD(CONFIG_REG, ENB_DMA_IF_FLD, 15, 1)
++    FIELD(CONFIG_REG, WR_PROT_FLASH_FLD, 14, 1)
++    FIELD(CONFIG_REG, PERIPH_CS_LINES_FLD, 10, 4)
++    FIELD(CONFIG_REG, PERIPH_SEL_DEC_FLD, 9, 1)
++    FIELD(CONFIG_REG, ENB_LEGACY_IP_MODE_FLD, 8, 1)
++    FIELD(CONFIG_REG, ENB_DIR_ACC_CTLR_FLD, 7, 1)
++    FIELD(CONFIG_REG, RESET_CFG_FLD, 6, 1)
++    FIELD(CONFIG_REG, RESET_PIN_FLD, 5, 1)
++    FIELD(CONFIG_REG, HOLD_PIN_FLD, 4, 1)
++    FIELD(CONFIG_REG, PHY_MODE_ENABLE_FLD, 3, 1)
++    FIELD(CONFIG_REG, SEL_CLK_PHASE_FLD, 2, 1)
++    FIELD(CONFIG_REG, SEL_CLK_POL_FLD, 1, 1)
++    FIELD(CONFIG_REG, ENB_SPI_FLD, 0, 1)
++REG32(DEV_INSTR_RD_CONFIG_REG, 0x4)
++    FIELD(DEV_INSTR_RD_CONFIG_REG, RD_INSTR_RESV5_FLD, 29, 3)
++    FIELD(DEV_INSTR_RD_CONFIG_REG, DUMMY_RD_CLK_CYCLES_FLD, 24, 5)
++    FIELD(DEV_INSTR_RD_CONFIG_REG, RD_INSTR_RESV4_FLD, 21, 3)
++    FIELD(DEV_INSTR_RD_CONFIG_REG, MODE_BIT_ENABLE_FLD, 20, 1)
++    FIELD(DEV_INSTR_RD_CONFIG_REG, RD_INSTR_RESV3_FLD, 18, 2)
++    FIELD(DEV_INSTR_RD_CONFIG_REG, DATA_XFER_TYPE_EXT_MODE_FLD, 16, 2)
++    FIELD(DEV_INSTR_RD_CONFIG_REG, RD_INSTR_RESV2_FLD, 14, 2)
++    FIELD(DEV_INSTR_RD_CONFIG_REG, ADDR_XFER_TYPE_STD_MODE_FLD, 12, 2)
++    FIELD(DEV_INSTR_RD_CONFIG_REG, PRED_DIS_FLD, 11, 1)
++    FIELD(DEV_INSTR_RD_CONFIG_REG, DDR_EN_FLD, 10, 1)
++    FIELD(DEV_INSTR_RD_CONFIG_REG, INSTR_TYPE_FLD, 8, 2)
++    FIELD(DEV_INSTR_RD_CONFIG_REG, RD_OPCODE_NON_XIP_FLD, 0, 8)
++REG32(DEV_INSTR_WR_CONFIG_REG, 0x8)
++    FIELD(DEV_INSTR_WR_CONFIG_REG, WR_INSTR_RESV4_FLD, 29, 3)
++    FIELD(DEV_INSTR_WR_CONFIG_REG, DUMMY_WR_CLK_CYCLES_FLD, 24, 5)
++    FIELD(DEV_INSTR_WR_CONFIG_REG, WR_INSTR_RESV3_FLD, 18, 6)
++    FIELD(DEV_INSTR_WR_CONFIG_REG, DATA_XFER_TYPE_EXT_MODE_FLD, 16, 2)
++    FIELD(DEV_INSTR_WR_CONFIG_REG, WR_INSTR_RESV2_FLD, 14, 2)
++    FIELD(DEV_INSTR_WR_CONFIG_REG, ADDR_XFER_TYPE_STD_MODE_FLD, 12, 2)
++    FIELD(DEV_INSTR_WR_CONFIG_REG, WR_INSTR_RESV1_FLD, 9, 3)
++    FIELD(DEV_INSTR_WR_CONFIG_REG, WEL_DIS_FLD, 8, 1)
++    FIELD(DEV_INSTR_WR_CONFIG_REG, WR_OPCODE_FLD, 0, 8)
++REG32(DEV_DELAY_REG, 0xc)
++    FIELD(DEV_DELAY_REG, D_NSS_FLD, 24, 8)
++    FIELD(DEV_DELAY_REG, D_BTWN_FLD, 16, 8)
++    FIELD(DEV_DELAY_REG, D_AFTER_FLD, 8, 8)
++    FIELD(DEV_DELAY_REG, D_INIT_FLD, 0, 8)
++REG32(RD_DATA_CAPTURE_REG, 0x10)
++    FIELD(RD_DATA_CAPTURE_REG, RD_DATA_RESV3_FLD, 20, 12)
++    FIELD(RD_DATA_CAPTURE_REG, DDR_READ_DELAY_FLD, 16, 4)
++    FIELD(RD_DATA_CAPTURE_REG, RD_DATA_RESV2_FLD, 9, 7)
++    FIELD(RD_DATA_CAPTURE_REG, DQS_ENABLE_FLD, 8, 1)
++    FIELD(RD_DATA_CAPTURE_REG, RD_DATA_RESV1_FLD, 6, 2)
++    FIELD(RD_DATA_CAPTURE_REG, SAMPLE_EDGE_SEL_FLD, 5, 1)
++    FIELD(RD_DATA_CAPTURE_REG, DELAY_FLD, 1, 4)
++    FIELD(RD_DATA_CAPTURE_REG, BYPASS_FLD, 0, 1)
++REG32(DEV_SIZE_CONFIG_REG, 0x14)
++    FIELD(DEV_SIZE_CONFIG_REG, DEV_SIZE_RESV_FLD, 29, 3)
++    FIELD(DEV_SIZE_CONFIG_REG, MEM_SIZE_ON_CS3_FLD, 27, 2)
++    FIELD(DEV_SIZE_CONFIG_REG, MEM_SIZE_ON_CS2_FLD, 25, 2)
++    FIELD(DEV_SIZE_CONFIG_REG, MEM_SIZE_ON_CS1_FLD, 23, 2)
++    FIELD(DEV_SIZE_CONFIG_REG, MEM_SIZE_ON_CS0_FLD, 21, 2)
++    FIELD(DEV_SIZE_CONFIG_REG, BYTES_PER_SUBSECTOR_FLD, 16, 5)
++    FIELD(DEV_SIZE_CONFIG_REG, BYTES_PER_DEVICE_PAGE_FLD, 4, 12)
++    FIELD(DEV_SIZE_CONFIG_REG, NUM_ADDR_BYTES_FLD, 0, 4)
++REG32(SRAM_PARTITION_CFG_REG, 0x18)
++    FIELD(SRAM_PARTITION_CFG_REG, SRAM_PARTITION_RESV_FLD, 8, 24)
++    FIELD(SRAM_PARTITION_CFG_REG, ADDR_FLD, 0, 8)
++REG32(IND_AHB_ADDR_TRIGGER_REG, 0x1c)
++REG32(DMA_PERIPH_CONFIG_REG, 0x20)
++    FIELD(DMA_PERIPH_CONFIG_REG, DMA_PERIPH_RESV2_FLD, 12, 20)
++    FIELD(DMA_PERIPH_CONFIG_REG, NUM_BURST_REQ_BYTES_FLD, 8, 4)
++    FIELD(DMA_PERIPH_CONFIG_REG, DMA_PERIPH_RESV1_FLD, 4, 4)
++    FIELD(DMA_PERIPH_CONFIG_REG, NUM_SINGLE_REQ_BYTES_FLD, 0, 4)
++REG32(REMAP_ADDR_REG, 0x24)
++REG32(MODE_BIT_CONFIG_REG, 0x28)
++    FIELD(MODE_BIT_CONFIG_REG, RX_CRC_DATA_LOW_FLD, 24, 8)
++    FIELD(MODE_BIT_CONFIG_REG, RX_CRC_DATA_UP_FLD, 16, 8)
++    FIELD(MODE_BIT_CONFIG_REG, CRC_OUT_ENABLE_FLD, 15, 1)
++    FIELD(MODE_BIT_CONFIG_REG, MODE_BIT_RESV1_FLD, 11, 4)
++    FIELD(MODE_BIT_CONFIG_REG, CHUNK_SIZE_FLD, 8, 3)
++    FIELD(MODE_BIT_CONFIG_REG, MODE_FLD, 0, 8)
++REG32(SRAM_FILL_REG, 0x2c)
++    FIELD(SRAM_FILL_REG, SRAM_FILL_INDAC_WRITE_FLD, 16, 16)
++    FIELD(SRAM_FILL_REG, SRAM_FILL_INDAC_READ_FLD, 0, 16)
++REG32(TX_THRESH_REG, 0x30)
++    FIELD(TX_THRESH_REG, TX_THRESH_RESV_FLD, 5, 27)
++    FIELD(TX_THRESH_REG, LEVEL_FLD, 0, 5)
++REG32(RX_THRESH_REG, 0x34)
++    FIELD(RX_THRESH_REG, RX_THRESH_RESV_FLD, 5, 27)
++    FIELD(RX_THRESH_REG, LEVEL_FLD, 0, 5)
++REG32(WRITE_COMPLETION_CTRL_REG, 0x38)
++    FIELD(WRITE_COMPLETION_CTRL_REG, POLL_REP_DELAY_FLD, 24, 8)
++    FIELD(WRITE_COMPLETION_CTRL_REG, POLL_COUNT_FLD, 16, 8)
++    FIELD(WRITE_COMPLETION_CTRL_REG, ENABLE_POLLING_EXP_FLD, 15, 1)
++    FIELD(WRITE_COMPLETION_CTRL_REG, DISABLE_POLLING_FLD, 14, 1)
++    FIELD(WRITE_COMPLETION_CTRL_REG, POLLING_POLARITY_FLD, 13, 1)
++    FIELD(WRITE_COMPLETION_CTRL_REG, WR_COMP_CTRL_RESV1_FLD, 12, 1)
++    FIELD(WRITE_COMPLETION_CTRL_REG, POLLING_ADDR_EN_FLD, 11, 1)
++    FIELD(WRITE_COMPLETION_CTRL_REG, POLLING_BIT_INDEX_FLD, 8, 3)
++    FIELD(WRITE_COMPLETION_CTRL_REG, OPCODE_FLD, 0, 8)
++REG32(NO_OF_POLLS_BEF_EXP_REG, 0x3c)
++REG32(IRQ_STATUS_REG, 0x40)
++    FIELD(IRQ_STATUS_REG, IRQ_STAT_RESV_FLD, 20, 12)
++    FIELD(IRQ_STATUS_REG, ECC_FAIL_FLD, 19, 1)
++    FIELD(IRQ_STATUS_REG, TX_CRC_CHUNK_BRK_FLD, 18, 1)
++    FIELD(IRQ_STATUS_REG, RX_CRC_DATA_VAL_FLD, 17, 1)
++    FIELD(IRQ_STATUS_REG, RX_CRC_DATA_ERR_FLD, 16, 1)
++    FIELD(IRQ_STATUS_REG, IRQ_STAT_RESV1_FLD, 15, 1)
++    FIELD(IRQ_STATUS_REG, STIG_REQ_INT_FLD, 14, 1)
++    FIELD(IRQ_STATUS_REG, POLL_EXP_INT_FLD, 13, 1)
++    FIELD(IRQ_STATUS_REG, INDRD_SRAM_FULL_FLD, 12, 1)
++    FIELD(IRQ_STATUS_REG, RX_FIFO_FULL_FLD, 11, 1)
++    FIELD(IRQ_STATUS_REG, RX_FIFO_NOT_EMPTY_FLD, 10, 1)
++    FIELD(IRQ_STATUS_REG, TX_FIFO_FULL_FLD, 9, 1)
++    FIELD(IRQ_STATUS_REG, TX_FIFO_NOT_FULL_FLD, 8, 1)
++    FIELD(IRQ_STATUS_REG, RECV_OVERFLOW_FLD, 7, 1)
++    FIELD(IRQ_STATUS_REG, INDIRECT_XFER_LEVEL_BREACH_FLD, 6, 1)
++    FIELD(IRQ_STATUS_REG, ILLEGAL_ACCESS_DET_FLD, 5, 1)
++    FIELD(IRQ_STATUS_REG, PROT_WR_ATTEMPT_FLD, 4, 1)
++    FIELD(IRQ_STATUS_REG, INDIRECT_TRANSFER_REJECT_FLD, 3, 1)
++    FIELD(IRQ_STATUS_REG, INDIRECT_OP_DONE_FLD, 2, 1)
++    FIELD(IRQ_STATUS_REG, UNDERFLOW_DET_FLD, 1, 1)
++    FIELD(IRQ_STATUS_REG, MODE_M_FAIL_FLD, 0, 1)
++REG32(IRQ_MASK_REG, 0x44)
++    FIELD(IRQ_MASK_REG, IRQ_MASK_RESV_FLD, 20, 12)
++    FIELD(IRQ_MASK_REG, ECC_FAIL_MASK_FLD, 19, 1)
++    FIELD(IRQ_MASK_REG, TX_CRC_CHUNK_BRK_MASK_FLD, 18, 1)
++    FIELD(IRQ_MASK_REG, RX_CRC_DATA_VAL_MASK_FLD, 17, 1)
++    FIELD(IRQ_MASK_REG, RX_CRC_DATA_ERR_MASK_FLD, 16, 1)
++    FIELD(IRQ_MASK_REG, IRQ_MASK_RESV1_FLD, 15, 1)
++    FIELD(IRQ_MASK_REG, STIG_REQ_MASK_FLD, 14, 1)
++    FIELD(IRQ_MASK_REG, POLL_EXP_INT_MASK_FLD, 13, 1)
++    FIELD(IRQ_MASK_REG, INDRD_SRAM_FULL_MASK_FLD, 12, 1)
++    FIELD(IRQ_MASK_REG, RX_FIFO_FULL_MASK_FLD, 11, 1)
++    FIELD(IRQ_MASK_REG, RX_FIFO_NOT_EMPTY_MASK_FLD, 10, 1)
++    FIELD(IRQ_MASK_REG, TX_FIFO_FULL_MASK_FLD, 9, 1)
++    FIELD(IRQ_MASK_REG, TX_FIFO_NOT_FULL_MASK_FLD, 8, 1)
++    FIELD(IRQ_MASK_REG, RECV_OVERFLOW_MASK_FLD, 7, 1)
++    FIELD(IRQ_MASK_REG, INDIRECT_XFER_LEVEL_BREACH_MASK_FLD, 6, 1)
++    FIELD(IRQ_MASK_REG, ILLEGAL_ACCESS_DET_MASK_FLD, 5, 1)
++    FIELD(IRQ_MASK_REG, PROT_WR_ATTEMPT_MASK_FLD, 4, 1)
++    FIELD(IRQ_MASK_REG, INDIRECT_TRANSFER_REJECT_MASK_FLD, 3, 1)
++    FIELD(IRQ_MASK_REG, INDIRECT_OP_DONE_MASK_FLD, 2, 1)
++    FIELD(IRQ_MASK_REG, UNDERFLOW_DET_MASK_FLD, 1, 1)
++    FIELD(IRQ_MASK_REG, MODE_M_FAIL_MASK_FLD, 0, 1)
++REG32(LOWER_WR_PROT_REG, 0x50)
++REG32(UPPER_WR_PROT_REG, 0x54)
++REG32(WR_PROT_CTRL_REG, 0x58)
++    FIELD(WR_PROT_CTRL_REG, WR_PROT_CTRL_RESV_FLD, 2, 30)
++    FIELD(WR_PROT_CTRL_REG, ENB_FLD, 1, 1)
++    FIELD(WR_PROT_CTRL_REG, INV_FLD, 0, 1)
++REG32(INDIRECT_READ_XFER_CTRL_REG, 0x60)
++    FIELD(INDIRECT_READ_XFER_CTRL_REG, INDIR_RD_XFER_RESV_FLD, 8, 24)
++    FIELD(INDIRECT_READ_XFER_CTRL_REG, NUM_IND_OPS_DONE_FLD, 6, 2)
++    FIELD(INDIRECT_READ_XFER_CTRL_REG, IND_OPS_DONE_STATUS_FLD, 5, 1)
++    FIELD(INDIRECT_READ_XFER_CTRL_REG, RD_QUEUED_FLD, 4, 1)
++    FIELD(INDIRECT_READ_XFER_CTRL_REG, SRAM_FULL_FLD, 3, 1)
++    FIELD(INDIRECT_READ_XFER_CTRL_REG, RD_STATUS_FLD, 2, 1)
++    FIELD(INDIRECT_READ_XFER_CTRL_REG, CANCEL_FLD, 1, 1)
++    FIELD(INDIRECT_READ_XFER_CTRL_REG, START_FLD, 0, 1)
++REG32(INDIRECT_READ_XFER_WATERMARK_REG, 0x64)
++REG32(INDIRECT_READ_XFER_START_REG, 0x68)
++REG32(INDIRECT_READ_XFER_NUM_BYTES_REG, 0x6c)
++REG32(INDIRECT_WRITE_XFER_CTRL_REG, 0x70)
++    FIELD(INDIRECT_WRITE_XFER_CTRL_REG, INDIR_WR_XFER_RESV2_FLD, 8, 24)
++    FIELD(INDIRECT_WRITE_XFER_CTRL_REG, NUM_IND_OPS_DONE_FLD, 6, 2)
++    FIELD(INDIRECT_WRITE_XFER_CTRL_REG, IND_OPS_DONE_STATUS_FLD, 5, 1)
++    FIELD(INDIRECT_WRITE_XFER_CTRL_REG, WR_QUEUED_FLD, 4, 1)
++    FIELD(INDIRECT_WRITE_XFER_CTRL_REG, INDIR_WR_XFER_RESV1_FLD, 3, 1)
++    FIELD(INDIRECT_WRITE_XFER_CTRL_REG, WR_STATUS_FLD, 2, 1)
++    FIELD(INDIRECT_WRITE_XFER_CTRL_REG, CANCEL_FLD, 1, 1)
++    FIELD(INDIRECT_WRITE_XFER_CTRL_REG, START_FLD, 0, 1)
++REG32(INDIRECT_WRITE_XFER_WATERMARK_REG, 0x74)
++REG32(INDIRECT_WRITE_XFER_START_REG, 0x78)
++REG32(INDIRECT_WRITE_XFER_NUM_BYTES_REG, 0x7c)
++REG32(INDIRECT_TRIGGER_ADDR_RANGE_REG, 0x80)
++    FIELD(INDIRECT_TRIGGER_ADDR_RANGE_REG, IND_RANGE_RESV1_FLD, 4, 28)
++    FIELD(INDIRECT_TRIGGER_ADDR_RANGE_REG, IND_RANGE_WIDTH_FLD, 0, 4)
++REG32(FLASH_COMMAND_CTRL_MEM_REG, 0x8c)
++    FIELD(FLASH_COMMAND_CTRL_MEM_REG, FLASH_COMMAND_CTRL_MEM_RESV1_FLD, 29, 3)
++    FIELD(FLASH_COMMAND_CTRL_MEM_REG, MEM_BANK_ADDR_FLD, 20, 9)
++    FIELD(FLASH_COMMAND_CTRL_MEM_REG, FLASH_COMMAND_CTRL_MEM_RESV2_FLD, 19, 1)
++    FIELD(FLASH_COMMAND_CTRL_MEM_REG, NB_OF_STIG_READ_BYTES_FLD, 16, 3)
++    FIELD(FLASH_COMMAND_CTRL_MEM_REG, MEM_BANK_READ_DATA_FLD, 8, 8)
++    FIELD(FLASH_COMMAND_CTRL_MEM_REG, FLASH_COMMAND_CTRL_MEM_RESV3_FLD, 2, 6)
++    FIELD(FLASH_COMMAND_CTRL_MEM_REG, MEM_BANK_REQ_IN_PROGRESS_FLD, 1, 1)
++    FIELD(FLASH_COMMAND_CTRL_MEM_REG, TRIGGER_MEM_BANK_REQ_FLD, 0, 1)
++REG32(FLASH_CMD_CTRL_REG, 0x90)
++    FIELD(FLASH_CMD_CTRL_REG, CMD_OPCODE_FLD, 24, 8)
++    FIELD(FLASH_CMD_CTRL_REG, ENB_READ_DATA_FLD, 23, 1)
++    FIELD(FLASH_CMD_CTRL_REG, NUM_RD_DATA_BYTES_FLD, 20, 3)
++    FIELD(FLASH_CMD_CTRL_REG, ENB_COMD_ADDR_FLD, 19, 1)
++    FIELD(FLASH_CMD_CTRL_REG, ENB_MODE_BIT_FLD, 18, 1)
++    FIELD(FLASH_CMD_CTRL_REG, NUM_ADDR_BYTES_FLD, 16, 2)
++    FIELD(FLASH_CMD_CTRL_REG, ENB_WRITE_DATA_FLD, 15, 1)
++    FIELD(FLASH_CMD_CTRL_REG, NUM_WR_DATA_BYTES_FLD, 12, 3)
++    FIELD(FLASH_CMD_CTRL_REG, NUM_DUMMY_CYCLES_FLD, 7, 5)
++    FIELD(FLASH_CMD_CTRL_REG, FLASH_CMD_CTRL_RESV1_FLD, 3, 4)
++    FIELD(FLASH_CMD_CTRL_REG, STIG_MEM_BANK_EN_FLD, 2, 1)
++    FIELD(FLASH_CMD_CTRL_REG, CMD_EXEC_STATUS_FLD, 1, 1)
++    FIELD(FLASH_CMD_CTRL_REG, CMD_EXEC_FLD, 0, 1)
++REG32(FLASH_CMD_ADDR_REG, 0x94)
++REG32(FLASH_RD_DATA_LOWER_REG, 0xa0)
++REG32(FLASH_RD_DATA_UPPER_REG, 0xa4)
++REG32(FLASH_WR_DATA_LOWER_REG, 0xa8)
++REG32(FLASH_WR_DATA_UPPER_REG, 0xac)
++REG32(POLLING_FLASH_STATUS_REG, 0xb0)
++    FIELD(POLLING_FLASH_STATUS_REG, DEVICE_STATUS_RSVD_FLD2, 21, 11)
++    FIELD(POLLING_FLASH_STATUS_REG, DEVICE_STATUS_NB_DUMMY, 16, 5)
++    FIELD(POLLING_FLASH_STATUS_REG, DEVICE_STATUS_RSVD_FLD1, 9, 7)
++    FIELD(POLLING_FLASH_STATUS_REG, DEVICE_STATUS_VALID_FLD, 8, 1)
++    FIELD(POLLING_FLASH_STATUS_REG, DEVICE_STATUS_FLD, 0, 8)
++REG32(PHY_CONFIGURATION_REG, 0xb4)
++    FIELD(PHY_CONFIGURATION_REG, PHY_CONFIG_RESYNC_FLD, 31, 1)
++    FIELD(PHY_CONFIGURATION_REG, PHY_CONFIG_RESET_FLD, 30, 1)
++    FIELD(PHY_CONFIGURATION_REG, PHY_CONFIG_RX_DLL_BYPASS_FLD, 29, 1)
++    FIELD(PHY_CONFIGURATION_REG, PHY_CONFIG_RESV2_FLD, 23, 6)
++    FIELD(PHY_CONFIGURATION_REG, PHY_CONFIG_TX_DLL_DELAY_FLD, 16, 7)
++    FIELD(PHY_CONFIGURATION_REG, PHY_CONFIG_RESV1_FLD, 7, 9)
++    FIELD(PHY_CONFIGURATION_REG, PHY_CONFIG_RX_DLL_DELAY_FLD, 0, 7)
++REG32(PHY_MASTER_CONTROL_REG, 0xb8)
++    FIELD(PHY_MASTER_CONTROL_REG, PHY_MASTER_CONTROL_RESV3_FLD, 25, 7)
++    FIELD(PHY_MASTER_CONTROL_REG, PHY_MASTER_LOCK_MODE_FLD, 24, 1)
++    FIELD(PHY_MASTER_CONTROL_REG, PHY_MASTER_BYPASS_MODE_FLD, 23, 1)
++    FIELD(PHY_MASTER_CONTROL_REG, PHY_MASTER_PHASE_DETECT_SELECTOR_FLD, 20, 3)
++    FIELD(PHY_MASTER_CONTROL_REG, PHY_MASTER_CONTROL_RESV2_FLD, 19, 1)
++    FIELD(PHY_MASTER_CONTROL_REG, PHY_MASTER_NB_INDICATIONS_FLD, 16, 3)
++    FIELD(PHY_MASTER_CONTROL_REG, PHY_MASTER_CONTROL_RESV1_FLD, 7, 9)
++    FIELD(PHY_MASTER_CONTROL_REG, PHY_MASTER_INITIAL_DELAY_FLD, 0, 7)
++REG32(DLL_OBSERVABLE_LOWER_REG, 0xbc)
++    FIELD(DLL_OBSERVABLE_LOWER_REG,
++          DLL_OBSERVABLE_LOWER_DLL_LOCK_INC_FLD, 24, 8)
++    FIELD(DLL_OBSERVABLE_LOWER_REG,
++          DLL_OBSERVABLE_LOWER_DLL_LOCK_DEC_FLD, 16, 8)
++    FIELD(DLL_OBSERVABLE_LOWER_REG,
++          DLL_OBSERVABLE_LOWER_LOOPBACK_LOCK_FLD, 15, 1)
++    FIELD(DLL_OBSERVABLE_LOWER_REG,
++          DLL_OBSERVABLE_LOWER_LOCK_VALUE_FLD, 8, 7)
++    FIELD(DLL_OBSERVABLE_LOWER_REG,
++          DLL_OBSERVABLE_LOWER_UNLOCK_COUNTER_FLD, 3, 5)
++    FIELD(DLL_OBSERVABLE_LOWER_REG,
++          DLL_OBSERVABLE_LOWER_LOCK_MODE_FLD, 1, 2)
++    FIELD(DLL_OBSERVABLE_LOWER_REG,
++          DLL_OBSERVABLE_LOWER_DLL_LOCK_FLD, 0, 1)
++REG32(DLL_OBSERVABLE_UPPER_REG, 0xc0)
++    FIELD(DLL_OBSERVABLE_UPPER_REG,
++          DLL_OBSERVABLE_UPPER_RESV2_FLD, 23, 9)
++    FIELD(DLL_OBSERVABLE_UPPER_REG,
++          DLL_OBSERVABLE_UPPER_TX_DECODER_OUTPUT_FLD, 16, 7)
++    FIELD(DLL_OBSERVABLE_UPPER_REG,
++          DLL_OBSERVABLE_UPPER_RESV1_FLD, 7, 9)
++    FIELD(DLL_OBSERVABLE_UPPER_REG,
++          DLL_OBSERVABLE__UPPER_RX_DECODER_OUTPUT_FLD, 0, 7)
++REG32(OPCODE_EXT_LOWER_REG, 0xe0)
++    FIELD(OPCODE_EXT_LOWER_REG, EXT_READ_OPCODE_FLD, 24, 8)
++    FIELD(OPCODE_EXT_LOWER_REG, EXT_WRITE_OPCODE_FLD, 16, 8)
++    FIELD(OPCODE_EXT_LOWER_REG, EXT_POLL_OPCODE_FLD, 8, 8)
++    FIELD(OPCODE_EXT_LOWER_REG, EXT_STIG_OPCODE_FLD, 0, 8)
++REG32(OPCODE_EXT_UPPER_REG, 0xe4)
++    FIELD(OPCODE_EXT_UPPER_REG, WEL_OPCODE_FLD, 24, 8)
++    FIELD(OPCODE_EXT_UPPER_REG, EXT_WEL_OPCODE_FLD, 16, 8)
++    FIELD(OPCODE_EXT_UPPER_REG, OPCODE_EXT_UPPER_RESV1_FLD, 0, 16)
++REG32(MODULE_ID_REG, 0xfc)
++    FIELD(MODULE_ID_REG, FIX_PATCH_FLD, 24, 8)
++    FIELD(MODULE_ID_REG, MODULE_ID_FLD, 8, 16)
++    FIELD(MODULE_ID_REG, MODULE_ID_RESV_FLD, 2, 6)
++    FIELD(MODULE_ID_REG, CONF_FLD, 0, 2)
++
++#define RXFF_SZ 1024
++#define TXFF_SZ 1024
++
++#define MAX_RX_DEC_OUT 8
++
++#define SZ_512MBIT (512 * 1024 * 1024)
++#define SZ_1GBIT   (1024 * 1024 * 1024)
++#define SZ_2GBIT   (2ULL * SZ_1GBIT)
++#define SZ_4GBIT   (4ULL * SZ_1GBIT)
++
++#define IS_IND_DMA_START(op) (op->done_bytes == 0)
++/*
++ * Bit field size of R_INDIRECT_WRITE_XFER_CTRL_REG_NUM_IND_OPS_DONE_FLD
++ * is 2 bits, which can record max of 3 indac operations.
++ */
++#define IND_OPS_DONE_MAX 3
++
++typedef enum {
++    WREN = 0x6,
++} FlashCMD;
++
++/* Type to avoid cpu endian byte swaps */
++typedef union {
++    uint64_t u64;
++    uint8_t u8[8];
++} OSPIRdData;
++
++static unsigned int ospi_stig_addr_len(XlnxVersalOspi *s)
 +{
-+    XlnxCSUDMA *s = XLNX_CSU_DMA(dma_ctrl);
-+    RegisterInfo *reg = &s->regs_info[R_SIZE];
-+    uint64_t we = MAKE_64BIT_MASK(0, 4 * 8);
++    /* Num address bytes is NUM_ADDR_BYTES_FLD + 1 */
++    return ARRAY_FIELD_EX32(s->regs,
++                            FLASH_CMD_CTRL_REG, NUM_ADDR_BYTES_FLD) + 1;
++}
 +
-+    s->regs[R_ADDR] = addr;
-+    s->regs[R_ADDR_MSB] = (uint64_t)addr >> 32;
++static unsigned int ospi_stig_wr_data_len(XlnxVersalOspi *s)
++{
++    /* Num write data bytes is NUM_WR_DATA_BYTES_FLD + 1 */
++    return ARRAY_FIELD_EX32(s->regs,
++                            FLASH_CMD_CTRL_REG, NUM_WR_DATA_BYTES_FLD) + 1;
++}
 +
-+    if (notify) {
-+        s->dma_ctrl_notify = notify->cb;
-+        s->dma_ctrl_opaque = notify->opaque;
-+    }
++static unsigned int ospi_stig_rd_data_len(XlnxVersalOspi *s)
++{
++    /* Num read data bytes is NUM_RD_DATA_BYTES_FLD + 1 */
++    return ARRAY_FIELD_EX32(s->regs,
++                            FLASH_CMD_CTRL_REG, NUM_RD_DATA_BYTES_FLD) + 1;
++}
 +
-+    if (start_dma) {
-+        register_write(reg, len, we, object_get_typename(OBJECT(s)), false);
-+    } else {
-+        s->regs[R_SIZE] = len;
++/*
++ * Status bits in R_IRQ_STATUS_REG are set when the event occurs and the
++ * interrupt is enabled in the mask register ([1] Section 2.3.17)
++ */
++static void set_irq(XlnxVersalOspi *s, uint32_t set_mask)
++{
++    s->regs[R_IRQ_STATUS_REG] |= s->regs[R_IRQ_MASK_REG] & set_mask;
++}
++
++static void ospi_update_irq_line(XlnxVersalOspi *s)
++{
++    qemu_set_irq(s->irq, !!(s->regs[R_IRQ_STATUS_REG] &
++                            s->regs[R_IRQ_MASK_REG]));
++}
++
++static uint8_t ospi_get_wr_opcode(XlnxVersalOspi *s)
++{
++    return ARRAY_FIELD_EX32(s->regs,
++                            DEV_INSTR_WR_CONFIG_REG, WR_OPCODE_FLD);
++}
++
++static uint8_t ospi_get_rd_opcode(XlnxVersalOspi *s)
++{
++    return ARRAY_FIELD_EX32(s->regs,
++                            DEV_INSTR_RD_CONFIG_REG, RD_OPCODE_NON_XIP_FLD);
++}
++
++static uint32_t ospi_get_num_addr_bytes(XlnxVersalOspi *s)
++{
++    /* Num address bytes is NUM_ADDR_BYTES_FLD + 1 */
++    return ARRAY_FIELD_EX32(s->regs,
++                            DEV_SIZE_CONFIG_REG, NUM_ADDR_BYTES_FLD) + 1;
++}
++
++static void ospi_stig_membank_req(XlnxVersalOspi *s)
++{
++    int idx = ARRAY_FIELD_EX32(s->regs,
++                               FLASH_COMMAND_CTRL_MEM_REG, MEM_BANK_ADDR_FLD);
++
++    ARRAY_FIELD_DP32(s->regs, FLASH_COMMAND_CTRL_MEM_REG,
++                     MEM_BANK_READ_DATA_FLD, s->stig_membank[idx]);
++}
++
++static int ospi_stig_membank_rd_bytes(XlnxVersalOspi *s)
++{
++    int rd_data_fld = ARRAY_FIELD_EX32(s->regs, FLASH_COMMAND_CTRL_MEM_REG,
++                                       NB_OF_STIG_READ_BYTES_FLD);
++    int sizes[6] = { 16, 32, 64, 128, 256, 512 };
++    return (rd_data_fld < 6) ? sizes[rd_data_fld] : 0;
++}
++
++static uint32_t ospi_get_page_sz(XlnxVersalOspi *s)
++{
++    return ARRAY_FIELD_EX32(s->regs,
++                            DEV_SIZE_CONFIG_REG, BYTES_PER_DEVICE_PAGE_FLD);
++}
++
++static bool ospi_ind_rd_watermark_enabled(XlnxVersalOspi *s)
++{
++    return s->regs[R_INDIRECT_READ_XFER_WATERMARK_REG];
++}
++
++static void ind_op_advance(IndOp *op, unsigned int len)
++{
++    op->done_bytes += len;
++    assert(op->done_bytes <= op->num_bytes);
++    if (op->done_bytes == op->num_bytes) {
++        op->completed = true;
 +    }
 +}
 +
- static const RegisterAccessInfo *xlnx_csu_dma_regs_info[] = {
- #define DMACH_REGINFO(NAME, snd)                                              \
-     (const RegisterAccessInfo []) {                                           \
-@@ -696,6 +724,7 @@ static void xlnx_csu_dma_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     StreamSinkClass *ssc = STREAM_SINK_CLASS(klass);
-+    DmaCtrlClass *dcc = DMA_CTRL_CLASS(klass);
- 
-     dc->reset = xlnx_csu_dma_reset;
-     dc->realize = xlnx_csu_dma_realize;
-@@ -704,6 +733,8 @@ static void xlnx_csu_dma_class_init(ObjectClass *klass, void *data)
- 
-     ssc->push = xlnx_csu_dma_stream_push;
-     ssc->can_push = xlnx_csu_dma_stream_can_push;
++static uint32_t ind_op_next_byte(IndOp *op)
++{
++    return op->flash_addr + op->done_bytes;
++}
 +
-+    dcc->read = xlnx_csu_dma_dma_ctrl_read;
- }
- 
- static void xlnx_csu_dma_init(Object *obj)
-@@ -731,6 +762,7 @@ static const TypeInfo xlnx_csu_dma_info = {
-     .instance_init = xlnx_csu_dma_init,
-     .interfaces = (InterfaceInfo[]) {
-         { TYPE_STREAM_SINK },
-+        { TYPE_DMA_CTRL },
-         { }
-     }
- };
-diff --git a/include/hw/dma/xlnx_csu_dma.h b/include/hw/dma/xlnx_csu_dma.h
-index 8c39e46f58..f7f086593c 100644
---- a/include/hw/dma/xlnx_csu_dma.h
-+++ b/include/hw/dma/xlnx_csu_dma.h
-@@ -23,6 +23,7 @@
- 
- #include "hw/ptimer.h"
- #include "hw/stream.h"
++static uint32_t ind_op_end_byte(IndOp *op)
++{
++    return op->flash_addr + op->num_bytes;
++}
++
++static void ospi_ind_op_next(IndOp *op)
++{
++    op[0] = op[1];
++    op[1].completed = true;
++}
++
++static void ind_op_setup(IndOp *op, uint32_t flash_addr, uint32_t num_bytes)
++{
++    if (num_bytes & 0x3) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "OSPI indirect op num bytes not word aligned\n");
++    }
++    op->flash_addr = flash_addr;
++    op->num_bytes = num_bytes;
++    op->done_bytes = 0;
++    op->completed = false;
++}
++
++static bool ospi_ind_op_completed(IndOp *op)
++{
++    return op->completed;
++}
++
++static bool ospi_ind_op_all_completed(XlnxVersalOspi *s)
++{
++    return s->rd_ind_op[0].completed && s->wr_ind_op[0].completed;
++}
++
++static void ospi_ind_op_cancel(IndOp *op)
++{
++    op[0].completed = true;
++    op[1].completed = true;
++}
++
++static bool ospi_ind_op_add(IndOp *op, Fifo8 *fifo,
++                            uint32_t flash_addr, uint32_t num_bytes)
++{
++    /* Check if first indirect op has been completed */
++    if (op->completed) {
++        fifo8_reset(fifo);
++        ind_op_setup(op, flash_addr, num_bytes);
++        return false;
++    }
++
++    /* Check if second indirect op has been completed */
++    op++;
++    if (op->completed) {
++        ind_op_setup(op, flash_addr, num_bytes);
++        return false;
++    }
++    return true;
++}
++
++static void ospi_ind_op_queue_up_rd(XlnxVersalOspi *s)
++{
++    uint32_t num_bytes = s->regs[R_INDIRECT_READ_XFER_NUM_BYTES_REG];
++    uint32_t flash_addr = s->regs[R_INDIRECT_READ_XFER_START_REG];
++    bool failed;
++
++    failed = ospi_ind_op_add(s->rd_ind_op, &s->rx_sram, flash_addr, num_bytes);
++    /* If two already queued set rd reject interrupt */
++    if (failed) {
++        set_irq(s, R_IRQ_STATUS_REG_INDIRECT_TRANSFER_REJECT_FLD_MASK);
++    }
++}
++
++static void ospi_ind_op_queue_up_wr(XlnxVersalOspi *s)
++{
++    uint32_t num_bytes = s->regs[R_INDIRECT_WRITE_XFER_NUM_BYTES_REG];
++    uint32_t flash_addr = s->regs[R_INDIRECT_WRITE_XFER_START_REG];
++    bool failed;
++
++    failed = ospi_ind_op_add(s->wr_ind_op, &s->tx_sram, flash_addr, num_bytes);
++    /* If two already queued set rd reject interrupt */
++    if (failed) {
++        set_irq(s, R_IRQ_STATUS_REG_INDIRECT_TRANSFER_REJECT_FLD_MASK);
++    }
++}
++
++static uint64_t flash_sz(XlnxVersalOspi *s, unsigned int cs)
++{
++    /* Flash sizes in MB */
++    static const uint64_t sizes[4] = { SZ_512MBIT / 8, SZ_1GBIT / 8,
++                                       SZ_2GBIT / 8, SZ_4GBIT / 8 };
++    uint32_t v = s->regs[R_DEV_SIZE_CONFIG_REG];
++
++    v >>= cs * R_DEV_SIZE_CONFIG_REG_MEM_SIZE_ON_CS0_FLD_LENGTH;
++    return sizes[FIELD_EX32(v, DEV_SIZE_CONFIG_REG, MEM_SIZE_ON_CS0_FLD)];
++}
++
++static unsigned int ospi_get_block_sz(XlnxVersalOspi *s)
++{
++    unsigned int block_fld = ARRAY_FIELD_EX32(s->regs,
++                                              DEV_SIZE_CONFIG_REG,
++                                              BYTES_PER_SUBSECTOR_FLD);
++    return 1 << block_fld;
++}
++
++static unsigned int flash_blocks(XlnxVersalOspi *s, unsigned int cs)
++{
++    unsigned int b_sz = ospi_get_block_sz(s);
++    unsigned int f_sz = flash_sz(s, cs);
++
++    return f_sz / b_sz;
++}
++
++static int ospi_ahb_decoder_cs(XlnxVersalOspi *s, hwaddr addr)
++{
++    uint64_t end_addr = 0;
++    int cs;
++
++    for (cs = 0; cs < s->num_cs; cs++) {
++        end_addr += flash_sz(s, cs);
++        if (addr < end_addr) {
++            break;
++        }
++    }
++
++    if (cs == s->num_cs) {
++        /* Address is out of range */
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "OSPI flash address does not fit in configuraton\n");
++        return -1;
++    }
++    return cs;
++}
++
++static void ospi_ahb_decoder_enable_cs(XlnxVersalOspi *s, hwaddr addr)
++{
++    int cs = ospi_ahb_decoder_cs(s, addr);
++
++    if (cs >= 0) {
++        for (int i = 0; i < s->num_cs; i++) {
++            if (cs == i) {
++                qemu_set_irq(s->cs_lines[i], 0);
++            } else {
++                qemu_set_irq(s->cs_lines[i], 1);
++            }
++        }
++    }
++}
++
++static unsigned int single_cs(XlnxVersalOspi *s)
++{
++    unsigned int field = ARRAY_FIELD_EX32(s->regs,
++                                          CONFIG_REG, PERIPH_CS_LINES_FLD);
++    int i;
++
++    /*
++     * 4'bXXX0 -> 4'b1110
++     * 4'bXX0X -> 4'b1101
++     * 4'bX0XX -> 4'b1011
++     * 4'b0XXX -> 4'b0111
++     * 4'b1111 -> 4'b1111
++     */
++    for (i = 0; i < 4; i++) {
++        if ((field & (1 << i)) == 0) {
++            return (~(1 << i)) & 0xF;
++        }
++    }
++    return 0;
++}
++
++static void ospi_update_cs_lines(XlnxVersalOspi *s)
++{
++    unsigned int all_cs;
++    int i;
++
++    if (ARRAY_FIELD_EX32(s->regs, CONFIG_REG, PERIPH_SEL_DEC_FLD)) {
++        all_cs = ARRAY_FIELD_EX32(s->regs, CONFIG_REG, PERIPH_CS_LINES_FLD);
++    } else {
++        all_cs = single_cs(s);
++    }
++
++    for (i = 0; i < s->num_cs; i++) {
++        bool cs = (all_cs >> i) & 1;
++
++        qemu_set_irq(s->cs_lines[i], cs);
++    }
++}
++
++static void ospi_dac_cs(XlnxVersalOspi *s, hwaddr addr)
++{
++    if (ARRAY_FIELD_EX32(s->regs, CONFIG_REG, ENABLE_AHB_DECODER_FLD)) {
++        ospi_ahb_decoder_enable_cs(s, addr);
++    } else {
++        ospi_update_cs_lines(s);
++    }
++}
++
++static void ospi_disable_cs(XlnxVersalOspi *s)
++{
++    int i;
++
++    for (i = 0; i < s->num_cs; i++) {
++        qemu_set_irq(s->cs_lines[i], 1);
++    }
++}
++
++static void ospi_flush_txfifo(XlnxVersalOspi *s)
++{
++    while (!fifo8_is_empty(&s->tx_fifo)) {
++        uint32_t tx_rx = fifo8_pop(&s->tx_fifo);
++
++        tx_rx = ssi_transfer(s->spi, tx_rx);
++        fifo8_push(&s->rx_fifo, tx_rx);
++    }
++}
++
++static void ospi_tx_fifo_push_address_raw(XlnxVersalOspi *s,
++                                          uint32_t flash_addr,
++                                          unsigned int addr_bytes)
++{
++    /* Push write address */
++    if (addr_bytes == 4) {
++        fifo8_push(&s->tx_fifo, flash_addr >> 24);
++    }
++    if (addr_bytes >= 3) {
++        fifo8_push(&s->tx_fifo, flash_addr >> 16);
++    }
++    if (addr_bytes >= 2) {
++        fifo8_push(&s->tx_fifo, flash_addr >> 8);
++    }
++    fifo8_push(&s->tx_fifo, flash_addr);
++}
++
++static void ospi_tx_fifo_push_address(XlnxVersalOspi *s, uint32_t flash_addr)
++{
++    /* Push write address */
++    int addr_bytes = ospi_get_num_addr_bytes(s);
++
++    ospi_tx_fifo_push_address_raw(s, flash_addr, addr_bytes);
++}
++
++static void ospi_tx_fifo_push_stig_addr(XlnxVersalOspi *s)
++{
++    uint32_t flash_addr = s->regs[R_FLASH_CMD_ADDR_REG];
++    unsigned int addr_bytes = ospi_stig_addr_len(s);
++
++    ospi_tx_fifo_push_address_raw(s, flash_addr, addr_bytes);
++}
++
++static void ospi_tx_fifo_push_rd_op_addr(XlnxVersalOspi *s, uint32_t flash_addr)
++{
++    uint8_t inst_code = ospi_get_rd_opcode(s);
++
++    fifo8_reset(&s->tx_fifo);
++
++    /* Push read opcode */
++    fifo8_push(&s->tx_fifo, inst_code);
++
++    /* Push read address */
++    ospi_tx_fifo_push_address(s, flash_addr);
++}
++
++static void ospi_tx_fifo_push_stig_wr_data(XlnxVersalOspi *s)
++{
++    uint64_t data = s->regs[R_FLASH_WR_DATA_LOWER_REG];
++    int wr_data_len = ospi_stig_wr_data_len(s);
++    int i;
++
++    data |= (uint64_t) s->regs[R_FLASH_WR_DATA_UPPER_REG] << 32;
++    for (i = 0; i < wr_data_len; i++) {
++        int shift = i * 8;
++        fifo8_push(&s->tx_fifo, data >> shift);
++    }
++}
++
++static void ospi_tx_fifo_push_stig_rd_data(XlnxVersalOspi *s)
++{
++    int rd_data_len;
++    int i;
++
++    if (ARRAY_FIELD_EX32(s->regs, FLASH_CMD_CTRL_REG, STIG_MEM_BANK_EN_FLD)) {
++        rd_data_len = ospi_stig_membank_rd_bytes(s);
++    } else {
++        rd_data_len = ospi_stig_rd_data_len(s);
++    }
++
++    /* transmit second part (data) */
++    for (i = 0; i < rd_data_len; ++i) {
++        fifo8_push(&s->tx_fifo, 0);
++    }
++}
++
++static void ospi_rx_fifo_pop_stig_rd_data(XlnxVersalOspi *s)
++{
++    int size = ospi_stig_rd_data_len(s);
++    OSPIRdData res = {};
++    int i;
++
++    size = MIN(fifo8_num_used(&s->rx_fifo), size);
++    for (i = 0; i < size; i++) {
++        res.u8[i] = fifo8_pop(&s->rx_fifo);
++    }
++
++    s->regs[R_FLASH_RD_DATA_LOWER_REG] = res.u64 & 0xFFFFFFFF;
++    s->regs[R_FLASH_RD_DATA_UPPER_REG] = (res.u64 >> 32) & 0xFFFFFFFF;
++}
++
++static void ospi_ind_read(XlnxVersalOspi *s, uint32_t flash_addr, uint32_t len)
++{
++    int i;
++
++    /* Create first section of read cmd */
++    ospi_tx_fifo_push_rd_op_addr(s, flash_addr);
++
++    /* transmit first part */
++    ospi_update_cs_lines(s);
++    ospi_flush_txfifo(s);
++
++    fifo8_reset(&s->rx_fifo);
++
++    /* transmit second part (data) */
++    for (i = 0; i < len; ++i) {
++        fifo8_push(&s->tx_fifo, 0);
++    }
++    ospi_flush_txfifo(s);
++
++    for (i = 0; i < len; ++i) {
++        fifo8_push(&s->rx_sram, fifo8_pop(&s->rx_fifo));
++    }
++
++    /* done */
++    ospi_disable_cs(s);
++}
++
++static unsigned int ospi_dma_burst_size(XlnxVersalOspi *s)
++{
++    return 1 << ARRAY_FIELD_EX32(s->regs,
++                                 DMA_PERIPH_CONFIG_REG,
++                                 NUM_BURST_REQ_BYTES_FLD);
++}
++
++static unsigned int ospi_dma_single_size(XlnxVersalOspi *s)
++{
++    return 1 << ARRAY_FIELD_EX32(s->regs,
++                                 DMA_PERIPH_CONFIG_REG,
++                                 NUM_SINGLE_REQ_BYTES_FLD);
++}
++
++static void ind_rd_inc_num_done(XlnxVersalOspi *s)
++{
++    unsigned int done = ARRAY_FIELD_EX32(s->regs,
++                                         INDIRECT_READ_XFER_CTRL_REG,
++                                         NUM_IND_OPS_DONE_FLD);
++    if (done < IND_OPS_DONE_MAX) {
++        done++;
++    }
++    done &= 0x3;
++    ARRAY_FIELD_DP32(s->regs, INDIRECT_READ_XFER_CTRL_REG,
++                     NUM_IND_OPS_DONE_FLD, done);
++}
++
++static void ospi_ind_rd_completed(XlnxVersalOspi *s)
++{
++    ARRAY_FIELD_DP32(s->regs, INDIRECT_READ_XFER_CTRL_REG,
++                     IND_OPS_DONE_STATUS_FLD, 1);
++
++    ind_rd_inc_num_done(s);
++    ospi_ind_op_next(s->rd_ind_op);
++    if (ospi_ind_op_all_completed(s)) {
++        set_irq(s, R_IRQ_STATUS_REG_INDIRECT_OP_DONE_FLD_MASK);
++    }
++}
++
++static uint32_t get_ind_rd_dma_len(XlnxVersalOspi *s, IndOp *op)
++{
++    uint32_t len = 0;
++    if (ARRAY_FIELD_EX32(s->regs, CONFIG_REG, ENB_DMA_IF_FLD)) {
++        if (fifo8_num_used(&s->rx_sram) <
++            ospi_dma_burst_size(s)) {
++            len = ospi_dma_single_size(s);
++        } else {
++            len = ospi_dma_burst_size(s);
++        }
++    }
++    return len;
++}
++
++static void ospi_notify(void *opaque);
++
++static void ospi_dma_read(XlnxVersalOspi *s, bool start_dma)
++{
++    IndOp *op = s->rd_ind_op;
++    uint32_t dma_len;
++    uint32_t flush_bytes = fifo8_num_used(&s->rx_sram);
++    DmaCtrlNotify notify = { .cb = ospi_notify,
++                             .opaque = (void *)s,
++                           };
++
++    if (flush_bytes && !s->src_dma_inprog) {
++        dma_len = get_ind_rd_dma_len(s, op);
++        /*
++         * Source dma accesses SRAM at address 0 (at its own addresss space).
++         */
++        dma_ctrl_read_with_notify(s->dma_src, 0, dma_len, &notify, start_dma);
++
++        /*
++         * ospi_dma_read is called for every call of ospi_notify
++         * in that case, by the time we are here, if flush_bytes is not zero
++         * then we have pending dma transactions.
++         */
++        flush_bytes = fifo8_num_used(&s->rx_sram);
++        if (flush_bytes) {
++            s->src_dma_inprog = true;
++        }
++    }
++}
++
++static void ospi_do_ind_read(XlnxVersalOspi *s)
++{
++    IndOp *op = s->rd_ind_op;
++    uint32_t next_b;
++    uint32_t end_b;
++    uint32_t len;
++    bool start_dma = IS_IND_DMA_START(op);
++
++    /* Continue to read flash until we run out of space in sram */
++    while (!ospi_ind_op_completed(op) &&
++           !fifo8_is_full(&s->rx_sram)) {
++        /* Read reqested number of bytes, max bytes limited to size of sram */
++        next_b = ind_op_next_byte(op);
++        end_b = next_b + fifo8_num_free(&s->rx_sram);
++        end_b = MIN(end_b, ind_op_end_byte(op));
++
++        len = end_b - next_b;
++        ospi_ind_read(s, next_b, len);
++        ind_op_advance(op, len);
++
++        if (ospi_ind_rd_watermark_enabled(s)) {
++            ARRAY_FIELD_DP32(s->regs, IRQ_STATUS_REG,
++                             INDIRECT_XFER_LEVEL_BREACH_FLD, 1);
++            set_irq(s,
++                    R_IRQ_STATUS_REG_INDIRECT_XFER_LEVEL_BREACH_FLD_MASK);
++        }
++
++        if (!s->src_dma_inprog &&
++            ARRAY_FIELD_EX32(s->regs, CONFIG_REG, ENB_DMA_IF_FLD)) {
++            ospi_dma_read(s, start_dma);
++        }
++    }
++
++    /* Set sram full */
++    if (fifo8_num_used(&s->rx_sram) == RXFF_SZ) {
++        ARRAY_FIELD_DP32(s->regs,
++                         INDIRECT_READ_XFER_CTRL_REG, SRAM_FULL_FLD, 1);
++        set_irq(s, R_IRQ_STATUS_REG_INDRD_SRAM_FULL_FLD_MASK);
++    }
++
++    /* Signal completion if done, unless inside recursion via ospi_dma_read */
++    if (!ARRAY_FIELD_EX32(s->regs, CONFIG_REG, ENB_DMA_IF_FLD) || start_dma) {
++        if (ospi_ind_op_completed(op)) {
++            ospi_ind_rd_completed(s);
++        }
++    }
++}
++
++static void ospi_notify(void *opaque)
++{
++    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(opaque);
++
++    s->src_dma_inprog = false;
++    ospi_dma_read(s, false);
++    if (!ospi_ind_op_completed(s->rd_ind_op)) {
++        ospi_do_ind_read(s);
++    }
++}
++
++/* Transmit write enable instruction */
++static void ospi_transmit_wel(XlnxVersalOspi *s, bool ahb_decoder_cs,
++                              hwaddr addr)
++{
++    fifo8_reset(&s->tx_fifo);
++    fifo8_push(&s->tx_fifo, WREN);
++
++    if (ahb_decoder_cs) {
++        ospi_ahb_decoder_enable_cs(s, addr);
++    } else {
++        ospi_update_cs_lines(s);
++    }
++
++    ospi_flush_txfifo(s);
++    ospi_disable_cs(s);
++
++    fifo8_reset(&s->rx_fifo);
++}
++
++static void ospi_ind_write(XlnxVersalOspi *s, uint32_t flash_addr, uint32_t len)
++{
++    bool ahb_decoder_cs = false;
++    uint8_t inst_code;
++    int i;
++
++    assert(fifo8_num_used(&s->tx_sram) >= len);
++
++    if (!ARRAY_FIELD_EX32(s->regs, DEV_INSTR_WR_CONFIG_REG, WEL_DIS_FLD)) {
++        ospi_transmit_wel(s, ahb_decoder_cs, 0);
++    }
++
++    /* reset fifos */
++    fifo8_reset(&s->tx_fifo);
++    fifo8_reset(&s->rx_fifo);
++
++    /* Push write opcode */
++    inst_code = ospi_get_wr_opcode(s);
++    fifo8_push(&s->tx_fifo, inst_code);
++
++    /* Push write address */
++    ospi_tx_fifo_push_address(s, flash_addr);
++
++    /* data */
++    for (i = 0; i < len; i++) {
++        fifo8_push(&s->tx_fifo, fifo8_pop(&s->tx_sram));
++    }
++
++    /* transmit */
++    ospi_update_cs_lines(s);
++    ospi_flush_txfifo(s);
++
++    /* done */
++    ospi_disable_cs(s);
++    fifo8_reset(&s->rx_fifo);
++}
++
++static void ind_wr_inc_num_done(XlnxVersalOspi *s)
++{
++    unsigned int done = ARRAY_FIELD_EX32(s->regs, INDIRECT_WRITE_XFER_CTRL_REG,
++                                         NUM_IND_OPS_DONE_FLD);
++    if (done < IND_OPS_DONE_MAX) {
++        done++;
++    }
++    done &= 0x3;
++    ARRAY_FIELD_DP32(s->regs, INDIRECT_WRITE_XFER_CTRL_REG,
++                     NUM_IND_OPS_DONE_FLD, done);
++}
++
++static void ospi_ind_wr_completed(XlnxVersalOspi *s)
++{
++    ARRAY_FIELD_DP32(s->regs, INDIRECT_WRITE_XFER_CTRL_REG,
++                     IND_OPS_DONE_STATUS_FLD, 1);
++    ind_wr_inc_num_done(s);
++    ospi_ind_op_next(s->wr_ind_op);
++    /* Set indirect op done interrupt if enabled */
++    if (ospi_ind_op_all_completed(s)) {
++        set_irq(s, R_IRQ_STATUS_REG_INDIRECT_OP_DONE_FLD_MASK);
++    }
++}
++
++static void ospi_do_indirect_write(XlnxVersalOspi *s)
++{
++    uint32_t write_watermark = s->regs[R_INDIRECT_WRITE_XFER_WATERMARK_REG];
++    uint32_t pagesz = ospi_get_page_sz(s);
++    uint32_t page_mask = ~(pagesz - 1);
++    IndOp *op = s->wr_ind_op;
++    uint32_t next_b;
++    uint32_t end_b;
++    uint32_t len;
++
++    /* Write out tx_fifo in maximum page sz chunks */
++    while (!ospi_ind_op_completed(op) && fifo8_num_used(&s->tx_sram) > 0) {
++        next_b = ind_op_next_byte(op);
++        end_b = next_b +  MIN(fifo8_num_used(&s->tx_sram), pagesz);
++
++        /* Dont cross page boundery */
++        if ((end_b & page_mask) > next_b) {
++            end_b &= page_mask;
++        }
++
++        len = end_b - next_b;
++        len = MIN(len, op->num_bytes - op->done_bytes);
++        ospi_ind_write(s, next_b, len);
++        ind_op_advance(op, len);
++    }
++
++    /*
++     * Always set indirect transfer level breached interrupt if enabled
++     * (write watermark > 0) since the tx_sram always will be emptied
++     */
++    if (write_watermark > 0) {
++        set_irq(s, R_IRQ_STATUS_REG_INDIRECT_XFER_LEVEL_BREACH_FLD_MASK);
++    }
++
++    /* Signal completions if done */
++    if (ospi_ind_op_completed(op)) {
++        ospi_ind_wr_completed(s);
++    }
++}
++
++static void ospi_stig_fill_membank(XlnxVersalOspi *s)
++{
++    int num_rd_bytes = ospi_stig_membank_rd_bytes(s);
++    int idx = num_rd_bytes - 8; /* first of last 8 */
++    uint32_t lower = 0;
++    uint32_t upper = 0;
++    int i;
++
++    for (i = 0; i < num_rd_bytes; i++) {
++        s->stig_membank[i] = fifo8_pop(&s->rx_fifo);
++    }
++
++    /* Fill in lower upper regs */
++    for (i = 0; i < 4; i++) {
++        lower |= ((uint32_t)s->stig_membank[idx++]) << 8 * i;
++    }
++
++    for (i = 0; i < 4; i++) {
++        upper |= ((uint32_t)s->stig_membank[idx++]) << 8 * i;
++    }
++
++    s->regs[R_FLASH_RD_DATA_LOWER_REG] = lower;
++    s->regs[R_FLASH_RD_DATA_UPPER_REG] = upper;
++}
++
++static void ospi_stig_cmd_exec(XlnxVersalOspi *s)
++{
++    uint8_t inst_code;
++
++    /* Reset fifos */
++    fifo8_reset(&s->tx_fifo);
++    fifo8_reset(&s->rx_fifo);
++
++    /* Push write opcode */
++    inst_code = ARRAY_FIELD_EX32(s->regs, FLASH_CMD_CTRL_REG, CMD_OPCODE_FLD);
++    fifo8_push(&s->tx_fifo, inst_code);
++
++    /* Push address if enabled */
++    if (ARRAY_FIELD_EX32(s->regs, FLASH_CMD_CTRL_REG, ENB_COMD_ADDR_FLD)) {
++        ospi_tx_fifo_push_stig_addr(s);
++    }
++
++    /* Enable cs */
++    ospi_update_cs_lines(s);
++
++    /* Data */
++    if (ARRAY_FIELD_EX32(s->regs, FLASH_CMD_CTRL_REG, ENB_WRITE_DATA_FLD)) {
++        ospi_tx_fifo_push_stig_wr_data(s);
++    } else if (ARRAY_FIELD_EX32(s->regs,
++                                FLASH_CMD_CTRL_REG, ENB_READ_DATA_FLD)) {
++        /* transmit first part */
++        ospi_flush_txfifo(s);
++        fifo8_reset(&s->rx_fifo);
++        ospi_tx_fifo_push_stig_rd_data(s);
++    }
++
++    /* Transmit */
++    ospi_flush_txfifo(s);
++    ospi_disable_cs(s);
++
++    if (ARRAY_FIELD_EX32(s->regs, FLASH_CMD_CTRL_REG, ENB_READ_DATA_FLD)) {
++        if (ARRAY_FIELD_EX32(s->regs,
++                             FLASH_CMD_CTRL_REG, STIG_MEM_BANK_EN_FLD)) {
++            ospi_stig_fill_membank(s);
++        } else {
++            ospi_rx_fifo_pop_stig_rd_data(s);
++        }
++    }
++}
++
++static uint32_t ospi_block_address(XlnxVersalOspi *s, unsigned int block)
++{
++    unsigned int block_sz = ospi_get_block_sz(s);
++    unsigned int cs = 0;
++    uint32_t addr = 0;
++
++    while (cs < s->num_cs && block >= flash_blocks(s, cs)) {
++        block -= flash_blocks(s, 0);
++        addr += flash_sz(s, cs);
++    }
++    addr += block * block_sz;
++    return addr;
++}
++
++static uint32_t ospi_get_wr_prot_addr_low(XlnxVersalOspi *s)
++{
++    unsigned int block = s->regs[R_LOWER_WR_PROT_REG];
++
++    return ospi_block_address(s, block);
++}
++
++static uint32_t ospi_get_wr_prot_addr_upper(XlnxVersalOspi *s)
++{
++    unsigned int block = s->regs[R_UPPER_WR_PROT_REG];
++
++    /* Get address of first block out of defined range */
++    return ospi_block_address(s, block + 1);
++}
++
++static bool ospi_is_write_protected(XlnxVersalOspi *s, hwaddr addr)
++{
++    uint32_t wr_prot_addr_upper = ospi_get_wr_prot_addr_upper(s);
++    uint32_t wr_prot_addr_low = ospi_get_wr_prot_addr_low(s);
++    bool in_range = false;
++
++    if (addr >= wr_prot_addr_low && addr < wr_prot_addr_upper) {
++        in_range = true;
++    }
++
++    if (ARRAY_FIELD_EX32(s->regs, WR_PROT_CTRL_REG, INV_FLD)) {
++        in_range = !in_range;
++    }
++    return in_range;
++}
++
++static uint64_t ospi_rx_sram_read(XlnxVersalOspi *s, unsigned int size)
++{
++    OSPIRdData ret = {};
++    int i;
++
++    if (size < 4 && fifo8_num_used(&s->rx_sram) >= 4) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "OSPI only last read of internal "
++                      "sram is allowed to be < 32 bits\n");
++    }
++
++    size = MIN(fifo8_num_used(&s->rx_sram), size);
++    for (i = 0; i < size; i++) {
++        ret.u8[i] = fifo8_pop(&s->rx_sram);
++    }
++    return ret.u64;
++}
++
++static void ospi_tx_sram_write(XlnxVersalOspi *s, uint64_t value,
++                               unsigned int size)
++{
++    int i;
++    for (i = 0; i < size; i++) {
++        fifo8_push(&s->tx_sram, value >> 8 * i);
++    }
++}
++
++static uint64_t ospi_do_dac_read(void *opaque, hwaddr addr, unsigned int size)
++{
++    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(opaque);
++    OSPIRdData ret = {};
++    int i;
++
++    /* Create first section of read cmd */
++    ospi_tx_fifo_push_rd_op_addr(s, (uint32_t) addr);
++
++    /* Enable cs and transmit first part */
++    ospi_dac_cs(s, addr);
++    ospi_flush_txfifo(s);
++
++    fifo8_reset(&s->rx_fifo);
++
++    /* transmit second part (data) */
++    for (i = 0; i < size; ++i) {
++        fifo8_push(&s->tx_fifo, 0);
++    }
++    ospi_flush_txfifo(s);
++
++    /* fill in result */
++    size = MIN(fifo8_num_used(&s->rx_fifo), size);
++
++    for (i = 0; i < size; i++) {
++        ret.u8[i] = fifo8_pop(&s->rx_fifo);
++    }
++
++    /* done */
++    ospi_disable_cs(s);
++
++    return ret.u64;
++}
++
++static void ospi_do_dac_write(void *opaque,
++                              hwaddr addr,
++                              uint64_t value,
++                              unsigned int size)
++{
++    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(opaque);
++    bool ahb_decoder_cs = ARRAY_FIELD_EX32(s->regs, CONFIG_REG,
++                                           ENABLE_AHB_DECODER_FLD);
++    uint8_t inst_code;
++    unsigned int i;
++
++    if (!ARRAY_FIELD_EX32(s->regs, DEV_INSTR_WR_CONFIG_REG, WEL_DIS_FLD)) {
++        ospi_transmit_wel(s, ahb_decoder_cs, addr);
++    }
++
++    /* reset fifos */
++    fifo8_reset(&s->tx_fifo);
++    fifo8_reset(&s->rx_fifo);
++
++    /* Push write opcode */
++    inst_code = ospi_get_wr_opcode(s);
++    fifo8_push(&s->tx_fifo, inst_code);
++
++    /* Push write address */
++    ospi_tx_fifo_push_address(s, addr);
++
++    /* data */
++    for (i = 0; i < size; i++) {
++        fifo8_push(&s->tx_fifo, value >> 8 * i);
++    }
++
++    /* Enable cs and transmit */
++    ospi_dac_cs(s, addr);
++    ospi_flush_txfifo(s);
++    ospi_disable_cs(s);
++
++    fifo8_reset(&s->rx_fifo);
++}
++
++static void flash_cmd_ctrl_mem_reg_post_write(RegisterInfo *reg,
++                                              uint64_t val)
++{
++    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(reg->opaque);
++    if (ARRAY_FIELD_EX32(s->regs, CONFIG_REG, ENB_SPI_FLD)) {
++        if (ARRAY_FIELD_EX32(s->regs,
++                             FLASH_COMMAND_CTRL_MEM_REG,
++                             TRIGGER_MEM_BANK_REQ_FLD)) {
++            ospi_stig_membank_req(s);
++            ARRAY_FIELD_DP32(s->regs, FLASH_COMMAND_CTRL_MEM_REG,
++                             TRIGGER_MEM_BANK_REQ_FLD, 0);
++        }
++    }
++}
++
++static void flash_cmd_ctrl_reg_post_write(RegisterInfo *reg, uint64_t val)
++{
++    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(reg->opaque);
++
++    if (ARRAY_FIELD_EX32(s->regs, CONFIG_REG, ENB_SPI_FLD) &&
++        ARRAY_FIELD_EX32(s->regs, FLASH_CMD_CTRL_REG, CMD_EXEC_FLD)) {
++        ospi_stig_cmd_exec(s);
++        set_irq(s, R_IRQ_STATUS_REG_STIG_REQ_INT_FLD_MASK);
++        ARRAY_FIELD_DP32(s->regs, FLASH_CMD_CTRL_REG, CMD_EXEC_FLD, 0);
++    }
++}
++
++static uint64_t ind_wr_dec_num_done(XlnxVersalOspi *s, uint64_t val)
++{
++    unsigned int done = ARRAY_FIELD_EX32(s->regs, INDIRECT_WRITE_XFER_CTRL_REG,
++                                         NUM_IND_OPS_DONE_FLD);
++    done--;
++    done &= 0x3;
++    val = FIELD_DP32(val, INDIRECT_WRITE_XFER_CTRL_REG,
++                     NUM_IND_OPS_DONE_FLD, done);
++    return val;
++}
++
++static bool ind_wr_clearing_op_done(XlnxVersalOspi *s, uint64_t new_val)
++{
++    bool set_in_reg = ARRAY_FIELD_EX32(s->regs, INDIRECT_WRITE_XFER_CTRL_REG,
++                                       IND_OPS_DONE_STATUS_FLD);
++    bool set_in_new_val = FIELD_EX32(new_val, INDIRECT_WRITE_XFER_CTRL_REG,
++                                     IND_OPS_DONE_STATUS_FLD);
++    /* return true if clearing bit */
++    return set_in_reg && !set_in_new_val;
++}
++
++static uint64_t ind_wr_xfer_ctrl_reg_pre_write(RegisterInfo *reg,
++                                               uint64_t val)
++{
++    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(reg->opaque);
++
++    if (ind_wr_clearing_op_done(s, val)) {
++        val = ind_wr_dec_num_done(s, val);
++    }
++    return val;
++}
++
++static void ind_wr_xfer_ctrl_reg_post_write(RegisterInfo *reg, uint64_t val)
++{
++    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(reg->opaque);
++
++    if (s->ind_write_disabled) {
++        return;
++    }
++
++    if (ARRAY_FIELD_EX32(s->regs, INDIRECT_WRITE_XFER_CTRL_REG, START_FLD)) {
++        ospi_ind_op_queue_up_wr(s);
++        ospi_do_indirect_write(s);
++        ARRAY_FIELD_DP32(s->regs, INDIRECT_WRITE_XFER_CTRL_REG, START_FLD, 0);
++    }
++
++    if (ARRAY_FIELD_EX32(s->regs, INDIRECT_WRITE_XFER_CTRL_REG, CANCEL_FLD)) {
++        ospi_ind_op_cancel(s->wr_ind_op);
++        fifo8_reset(&s->tx_sram);
++        ARRAY_FIELD_DP32(s->regs, INDIRECT_WRITE_XFER_CTRL_REG, CANCEL_FLD, 0);
++    }
++}
++
++static uint64_t ind_wr_xfer_ctrl_reg_post_read(RegisterInfo *reg,
++                                               uint64_t val)
++{
++    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(reg->opaque);
++    IndOp *op = s->wr_ind_op;
++
++    /* Check if ind ops is ongoing */
++    if (!ospi_ind_op_completed(&op[0])) {
++        /* Check if two ind ops are queued */
++        if (!ospi_ind_op_completed(&op[1])) {
++            val = FIELD_DP32(val, INDIRECT_WRITE_XFER_CTRL_REG,
++                             WR_QUEUED_FLD, 1);
++        }
++        val = FIELD_DP32(val, INDIRECT_WRITE_XFER_CTRL_REG, WR_STATUS_FLD, 1);
++    }
++    return val;
++}
++
++static uint64_t ind_rd_dec_num_done(XlnxVersalOspi *s, uint64_t val)
++{
++    unsigned int done = ARRAY_FIELD_EX32(s->regs, INDIRECT_READ_XFER_CTRL_REG,
++                                         NUM_IND_OPS_DONE_FLD);
++    done--;
++    done &= 0x3;
++    val = FIELD_DP32(val, INDIRECT_READ_XFER_CTRL_REG,
++                     NUM_IND_OPS_DONE_FLD, done);
++    return val;
++}
++
++static uint64_t ind_rd_xfer_ctrl_reg_pre_write(RegisterInfo *reg,
++                                               uint64_t val)
++{
++    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(reg->opaque);
++
++    if (FIELD_EX32(val, INDIRECT_READ_XFER_CTRL_REG,
++                   IND_OPS_DONE_STATUS_FLD)) {
++        val = ind_rd_dec_num_done(s, val);
++        val &= ~R_INDIRECT_READ_XFER_CTRL_REG_IND_OPS_DONE_STATUS_FLD_MASK;
++    }
++    return val;
++}
++
++static void ind_rd_xfer_ctrl_reg_post_write(RegisterInfo *reg, uint64_t val)
++{
++    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(reg->opaque);
++
++    if (ARRAY_FIELD_EX32(s->regs, INDIRECT_READ_XFER_CTRL_REG, START_FLD)) {
++        ospi_ind_op_queue_up_rd(s);
++        ospi_do_ind_read(s);
++        ARRAY_FIELD_DP32(s->regs, INDIRECT_READ_XFER_CTRL_REG, START_FLD, 0);
++    }
++
++    if (ARRAY_FIELD_EX32(s->regs, INDIRECT_READ_XFER_CTRL_REG, CANCEL_FLD)) {
++        ospi_ind_op_cancel(s->rd_ind_op);
++        fifo8_reset(&s->rx_sram);
++        ARRAY_FIELD_DP32(s->regs, INDIRECT_READ_XFER_CTRL_REG, CANCEL_FLD, 0);
++    }
++}
++
++static uint64_t ind_rd_xfer_ctrl_reg_post_read(RegisterInfo *reg,
++                                               uint64_t val)
++{
++    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(reg->opaque);
++    IndOp *op = s->rd_ind_op;
++
++    /* Check if ind ops is ongoing */
++    if (!ospi_ind_op_completed(&op[0])) {
++        /* Check if two ind ops are queued */
++        if (!ospi_ind_op_completed(&op[1])) {
++            val = FIELD_DP32(val, INDIRECT_READ_XFER_CTRL_REG,
++                             RD_QUEUED_FLD, 1);
++        }
++        val = FIELD_DP32(val, INDIRECT_READ_XFER_CTRL_REG, RD_STATUS_FLD, 1);
++    }
++    return val;
++}
++
++static uint64_t sram_fill_reg_post_read(RegisterInfo *reg, uint64_t val)
++{
++    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(reg->opaque);
++    val = ((fifo8_num_used(&s->tx_sram) & 0xFFFF) << 16) |
++          (fifo8_num_used(&s->rx_sram) & 0xFFFF);
++    return val;
++}
++
++static uint64_t dll_obs_upper_reg_post_read(RegisterInfo *reg, uint64_t val)
++{
++    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(reg->opaque);
++    uint32_t rx_dec_out;
++
++    rx_dec_out = FIELD_EX32(val, DLL_OBSERVABLE_UPPER_REG,
++                            DLL_OBSERVABLE__UPPER_RX_DECODER_OUTPUT_FLD);
++
++    if (rx_dec_out < MAX_RX_DEC_OUT) {
++        ARRAY_FIELD_DP32(s->regs, DLL_OBSERVABLE_UPPER_REG,
++                         DLL_OBSERVABLE__UPPER_RX_DECODER_OUTPUT_FLD,
++                         rx_dec_out + 1);
++    }
++
++    return val;
++}
++
++
++static void xlnx_versal_ospi_reset(DeviceState *dev)
++{
++    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(dev);
++    unsigned int i;
++
++    for (i = 0; i < ARRAY_SIZE(s->regs_info); ++i) {
++        register_reset(&s->regs_info[i]);
++    }
++
++    fifo8_reset(&s->rx_fifo);
++    fifo8_reset(&s->tx_fifo);
++    fifo8_reset(&s->rx_sram);
++    fifo8_reset(&s->tx_sram);
++
++    s->rd_ind_op[0].completed = true;
++    s->rd_ind_op[1].completed = true;
++    s->wr_ind_op[0].completed = true;
++    s->wr_ind_op[1].completed = true;
++    ARRAY_FIELD_DP32(s->regs, DLL_OBSERVABLE_LOWER_REG,
++                     DLL_OBSERVABLE_LOWER_DLL_LOCK_FLD, 1);
++    ARRAY_FIELD_DP32(s->regs, DLL_OBSERVABLE_LOWER_REG,
++                     DLL_OBSERVABLE_LOWER_LOOPBACK_LOCK_FLD, 1);
++}
++
++static RegisterAccessInfo ospi_regs_info[] = {
++    {   .name = "CONFIG_REG",
++        .addr = A_CONFIG_REG,
++        .reset = 0x80780081,
++        .ro = 0x9c000000,
++    },{ .name = "DEV_INSTR_RD_CONFIG_REG",
++        .addr = A_DEV_INSTR_RD_CONFIG_REG,
++        .reset = 0x3,
++        .ro = 0xe0ecc800,
++    },{ .name = "DEV_INSTR_WR_CONFIG_REG",
++        .addr = A_DEV_INSTR_WR_CONFIG_REG,
++        .reset = 0x2,
++        .ro = 0xe0fcce00,
++    },{ .name = "DEV_DELAY_REG",
++        .addr = A_DEV_DELAY_REG,
++    },{ .name = "RD_DATA_CAPTURE_REG",
++        .addr = A_RD_DATA_CAPTURE_REG,
++        .reset = 0x1,
++        .ro = 0xfff0fec0,
++    },{ .name = "DEV_SIZE_CONFIG_REG",
++        .addr = A_DEV_SIZE_CONFIG_REG,
++        .reset = 0x101002,
++        .ro = 0xe0000000,
++    },{ .name = "SRAM_PARTITION_CFG_REG",
++        .addr = A_SRAM_PARTITION_CFG_REG,
++        .reset = 0x80,
++        .ro = 0xffffff00,
++    },{ .name = "IND_AHB_ADDR_TRIGGER_REG",
++        .addr = A_IND_AHB_ADDR_TRIGGER_REG,
++    },{ .name = "DMA_PERIPH_CONFIG_REG",
++        .addr = A_DMA_PERIPH_CONFIG_REG,
++        .ro = 0xfffff0f0,
++    },{ .name = "REMAP_ADDR_REG",
++        .addr = A_REMAP_ADDR_REG,
++    },{ .name = "MODE_BIT_CONFIG_REG",
++        .addr = A_MODE_BIT_CONFIG_REG,
++        .reset = 0x200,
++        .ro = 0xffff7800,
++    },{ .name = "SRAM_FILL_REG",
++        .addr = A_SRAM_FILL_REG,
++        .ro = 0xffffffff,
++        .post_read = sram_fill_reg_post_read,
++    },{ .name = "TX_THRESH_REG",
++        .addr = A_TX_THRESH_REG,
++        .reset = 0x1,
++        .ro = 0xffffffe0,
++    },{ .name = "RX_THRESH_REG",
++        .addr = A_RX_THRESH_REG,
++        .reset = 0x1,
++        .ro = 0xffffffe0,
++    },{ .name = "WRITE_COMPLETION_CTRL_REG",
++        .addr = A_WRITE_COMPLETION_CTRL_REG,
++        .reset = 0x10005,
++        .ro = 0x1800,
++    },{ .name = "NO_OF_POLLS_BEF_EXP_REG",
++        .addr = A_NO_OF_POLLS_BEF_EXP_REG,
++        .reset = 0xffffffff,
++    },{ .name = "IRQ_STATUS_REG",
++        .addr = A_IRQ_STATUS_REG,
++        .ro = 0xfff08000,
++        .w1c = 0xf7fff,
++    },{ .name = "IRQ_MASK_REG",
++        .addr = A_IRQ_MASK_REG,
++        .ro = 0xfff08000,
++    },{ .name = "LOWER_WR_PROT_REG",
++        .addr = A_LOWER_WR_PROT_REG,
++    },{ .name = "UPPER_WR_PROT_REG",
++        .addr = A_UPPER_WR_PROT_REG,
++    },{ .name = "WR_PROT_CTRL_REG",
++        .addr = A_WR_PROT_CTRL_REG,
++        .ro = 0xfffffffc,
++    },{ .name = "INDIRECT_READ_XFER_CTRL_REG",
++        .addr = A_INDIRECT_READ_XFER_CTRL_REG,
++        .ro = 0xffffffd4,
++        .w1c = 0x08,
++        .pre_write = ind_rd_xfer_ctrl_reg_pre_write,
++        .post_write = ind_rd_xfer_ctrl_reg_post_write,
++        .post_read = ind_rd_xfer_ctrl_reg_post_read,
++    },{ .name = "INDIRECT_READ_XFER_WATERMARK_REG",
++        .addr = A_INDIRECT_READ_XFER_WATERMARK_REG,
++    },{ .name = "INDIRECT_READ_XFER_START_REG",
++        .addr = A_INDIRECT_READ_XFER_START_REG,
++    },{ .name = "INDIRECT_READ_XFER_NUM_BYTES_REG",
++        .addr = A_INDIRECT_READ_XFER_NUM_BYTES_REG,
++    },{ .name = "INDIRECT_WRITE_XFER_CTRL_REG",
++        .addr = A_INDIRECT_WRITE_XFER_CTRL_REG,
++        .ro = 0xffffffdc,
++        .w1c = 0x20,
++        .pre_write = ind_wr_xfer_ctrl_reg_pre_write,
++        .post_write = ind_wr_xfer_ctrl_reg_post_write,
++        .post_read = ind_wr_xfer_ctrl_reg_post_read,
++    },{ .name = "INDIRECT_WRITE_XFER_WATERMARK_REG",
++        .addr = A_INDIRECT_WRITE_XFER_WATERMARK_REG,
++        .reset = 0xffffffff,
++    },{ .name = "INDIRECT_WRITE_XFER_START_REG",
++        .addr = A_INDIRECT_WRITE_XFER_START_REG,
++    },{ .name = "INDIRECT_WRITE_XFER_NUM_BYTES_REG",
++        .addr = A_INDIRECT_WRITE_XFER_NUM_BYTES_REG,
++    },{ .name = "INDIRECT_TRIGGER_ADDR_RANGE_REG",
++        .addr = A_INDIRECT_TRIGGER_ADDR_RANGE_REG,
++        .reset = 0x4,
++        .ro = 0xfffffff0,
++    },{ .name = "FLASH_COMMAND_CTRL_MEM_REG",
++        .addr = A_FLASH_COMMAND_CTRL_MEM_REG,
++        .ro = 0xe008fffe,
++        .post_write = flash_cmd_ctrl_mem_reg_post_write,
++    },{ .name = "FLASH_CMD_CTRL_REG",
++        .addr = A_FLASH_CMD_CTRL_REG,
++        .ro = 0x7a,
++        .post_write = flash_cmd_ctrl_reg_post_write,
++    },{ .name = "FLASH_CMD_ADDR_REG",
++        .addr = A_FLASH_CMD_ADDR_REG,
++    },{ .name = "FLASH_RD_DATA_LOWER_REG",
++        .addr = A_FLASH_RD_DATA_LOWER_REG,
++        .ro = 0xffffffff,
++    },{ .name = "FLASH_RD_DATA_UPPER_REG",
++        .addr = A_FLASH_RD_DATA_UPPER_REG,
++        .ro = 0xffffffff,
++    },{ .name = "FLASH_WR_DATA_LOWER_REG",
++        .addr = A_FLASH_WR_DATA_LOWER_REG,
++    },{ .name = "FLASH_WR_DATA_UPPER_REG",
++        .addr = A_FLASH_WR_DATA_UPPER_REG,
++    },{ .name = "POLLING_FLASH_STATUS_REG",
++        .addr = A_POLLING_FLASH_STATUS_REG,
++        .ro = 0xfff0ffff,
++    },{ .name = "PHY_CONFIGURATION_REG",
++        .addr = A_PHY_CONFIGURATION_REG,
++        .reset = 0x40000000,
++        .ro = 0x1f80ff80,
++    },{ .name = "PHY_MASTER_CONTROL_REG",
++        .addr = A_PHY_MASTER_CONTROL_REG,
++        .reset = 0x800000,
++        .ro = 0xfe08ff80,
++    },{ .name = "DLL_OBSERVABLE_LOWER_REG",
++        .addr = A_DLL_OBSERVABLE_LOWER_REG,
++        .ro = 0xffffffff,
++    },{ .name = "DLL_OBSERVABLE_UPPER_REG",
++        .addr = A_DLL_OBSERVABLE_UPPER_REG,
++        .ro = 0xffffffff,
++        .post_read = dll_obs_upper_reg_post_read,
++    },{ .name = "OPCODE_EXT_LOWER_REG",
++        .addr = A_OPCODE_EXT_LOWER_REG,
++        .reset = 0x13edfa00,
++    },{ .name = "OPCODE_EXT_UPPER_REG",
++        .addr = A_OPCODE_EXT_UPPER_REG,
++        .reset = 0x6f90000,
++        .ro = 0xffff,
++    },{ .name = "MODULE_ID_REG",
++        .addr = A_MODULE_ID_REG,
++        .reset = 0x300,
++        .ro = 0xffffffff,
++    }
++};
++
++/* Return dev-obj from reg-region created by register_init_block32 */
++static XlnxVersalOspi *xilinx_ospi_of_mr(void *mr_accessor)
++{
++    RegisterInfoArray *reg_array = mr_accessor;
++    Object *dev;
++
++    assert(reg_array != NULL);
++
++    dev = reg_array->mem.owner;
++    assert(dev);
++
++    return XILINX_VERSAL_OSPI(dev);
++}
++
++static void ospi_write(void *opaque, hwaddr addr, uint64_t value,
++        unsigned int size)
++{
++    XlnxVersalOspi *s = xilinx_ospi_of_mr(opaque);
++
++    register_write_memory(opaque, addr, value, size);
++    ospi_update_irq_line(s);
++}
++
++static const MemoryRegionOps ospi_ops = {
++    .read = register_read_memory,
++    .write = ospi_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .valid = {
++        .min_access_size = 4,
++        .max_access_size = 4,
++    },
++};
++
++static uint64_t ospi_indac_read(void *opaque, unsigned int size)
++{
++    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(opaque);
++    uint64_t ret = ospi_rx_sram_read(s, size);
++
++    if (!ARRAY_FIELD_EX32(s->regs, CONFIG_REG, ENB_DMA_IF_FLD) &&
++        !ospi_ind_op_completed(s->rd_ind_op)) {
++        ospi_do_ind_read(s);
++    }
++    return ret;
++}
++
++static void ospi_indac_write(void *opaque, uint64_t value, unsigned int size)
++{
++    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(opaque);
++
++    if (s->ind_write_disabled) {
++        g_assert_not_reached();
++    }
++
++    if (!ospi_ind_op_completed(s->wr_ind_op)) {
++        ospi_tx_sram_write(s, value, size);
++        ospi_do_indirect_write(s);
++    } else {
++        qemu_log_mask(LOG_GUEST_ERROR,
++            "OSPI wr into indac area while no ongoing indac wr\n");
++    }
++}
++
++static bool is_inside_indac_range(XlnxVersalOspi *s, hwaddr addr)
++{
++    uint32_t range_start = s->regs[R_IND_AHB_ADDR_TRIGGER_REG];
++    uint32_t range_end = range_start +
++                         (1 << ARRAY_FIELD_EX32(s->regs,
++                                                INDIRECT_TRIGGER_ADDR_RANGE_REG,
++                                                IND_RANGE_WIDTH_FLD));
++
++    if (ARRAY_FIELD_EX32(s->regs, CONFIG_REG, ENB_DMA_IF_FLD)) {
++        addr += s->regs[R_IND_AHB_ADDR_TRIGGER_REG];
++    } else {
++        addr += s->regs[R_IND_AHB_ADDR_TRIGGER_REG] & 0xF0000000;
++    }
++
++    return addr >= range_start && addr < range_end;
++}
++
++static bool ospi_is_indac_active(XlnxVersalOspi *s)
++{
++    /*
++     * When dac and indac cannot be active at the same time,
++     * return true when dac is disabled.
++     */
++    return s->dac_with_indac || !s->dac_enable;
++}
++
++static uint64_t ospi_dac_read(void *opaque, hwaddr addr, unsigned int size)
++{
++    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(opaque);
++
++    if (ARRAY_FIELD_EX32(s->regs, CONFIG_REG, ENB_SPI_FLD)) {
++        if (ospi_is_indac_active(s) &&
++            is_inside_indac_range(s, addr)) {
++            return ospi_indac_read(s, size);
++        }
++        if (ARRAY_FIELD_EX32(s->regs, CONFIG_REG, ENB_DIR_ACC_CTLR_FLD)
++            && s->dac_enable) {
++            if (ARRAY_FIELD_EX32(s->regs,
++                                 CONFIG_REG, ENB_AHB_ADDR_REMAP_FLD)) {
++                addr += s->regs[R_REMAP_ADDR_REG];
++            }
++            return ospi_do_dac_read(opaque, addr, size);
++        } else {
++            qemu_log_mask(LOG_GUEST_ERROR, "OSPI AHB rd while DAC disabled\n");
++        }
++    } else {
++        qemu_log_mask(LOG_GUEST_ERROR, "OSPI AHB rd while OSPI disabled\n");
++    }
++
++    return 0;
++}
++
++static void ospi_dac_write(void *opaque, hwaddr addr, uint64_t value,
++                           unsigned int size)
++{
++    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(opaque);
++
++    if (ARRAY_FIELD_EX32(s->regs, CONFIG_REG, ENB_SPI_FLD)) {
++        if (ospi_is_indac_active(s) &&
++            !s->ind_write_disabled &&
++            is_inside_indac_range(s, addr)) {
++            return ospi_indac_write(s, value, size);
++        }
++        if (ARRAY_FIELD_EX32(s->regs, CONFIG_REG, ENB_DIR_ACC_CTLR_FLD) &&
++            s->dac_enable) {
++            if (ARRAY_FIELD_EX32(s->regs,
++                                 CONFIG_REG, ENB_AHB_ADDR_REMAP_FLD)) {
++                addr += s->regs[R_REMAP_ADDR_REG];
++            }
++            /* Check if addr is write protected */
++            if (ARRAY_FIELD_EX32(s->regs, WR_PROT_CTRL_REG, ENB_FLD) &&
++                ospi_is_write_protected(s, addr)) {
++                set_irq(s, R_IRQ_STATUS_REG_PROT_WR_ATTEMPT_FLD_MASK);
++                ospi_update_irq_line(s);
++                qemu_log_mask(LOG_GUEST_ERROR,
++                              "OSPI writing into write protected area\n");
++                return;
++            }
++            ospi_do_dac_write(opaque, addr, value, size);
++        } else {
++            qemu_log_mask(LOG_GUEST_ERROR, "OSPI AHB wr while DAC disabled\n");
++        }
++    } else {
++        qemu_log_mask(LOG_GUEST_ERROR, "OSPI AHB wr while OSPI disabled\n");
++    }
++}
++
++static const MemoryRegionOps ospi_dac_ops = {
++    .read = ospi_dac_read,
++    .write = ospi_dac_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .valid = {
++        .min_access_size = 4,
++        .max_access_size = 4,
++    },
++};
++
++static void ospi_update_dac_status(void *opaque, int n, int level)
++{
++    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(opaque);
++
++    s->dac_enable = level;
++}
++
++static void xlnx_versal_ospi_realize(DeviceState *dev, Error **errp)
++{
++    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(dev);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
++
++    s->num_cs = 4;
++    s->spi = ssi_create_bus(dev, "spi0");
++    s->cs_lines = g_new0(qemu_irq, s->num_cs);
++    for (int i = 0; i < s->num_cs; ++i) {
++        sysbus_init_irq(sbd, &s->cs_lines[i]);
++    }
++
++    fifo8_create(&s->rx_fifo, RXFF_SZ);
++    fifo8_create(&s->tx_fifo, TXFF_SZ);
++    fifo8_create(&s->rx_sram, RXFF_SZ);
++    fifo8_create(&s->tx_sram, TXFF_SZ);
++}
++
++static void xlnx_versal_ospi_init(Object *obj)
++{
++    XlnxVersalOspi *s = XILINX_VERSAL_OSPI(obj);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++    DeviceState *dev = DEVICE(obj);
++    RegisterInfoArray *reg_array;
++
++    memory_region_init(&s->iomem, obj, TYPE_XILINX_VERSAL_OSPI,
++                       XILINX_VERSAL_OSPI_R_MAX * 4);
++    reg_array =
++        register_init_block32(DEVICE(obj), ospi_regs_info,
++                              ARRAY_SIZE(ospi_regs_info),
++                              s->regs_info, s->regs,
++                              &ospi_ops,
++                              XILINX_VERSAL_OSPI_ERR_DEBUG,
++                              XILINX_VERSAL_OSPI_R_MAX * 4);
++    memory_region_add_subregion(&s->iomem, 0x0, &reg_array->mem);
++    sysbus_init_mmio(sbd, &s->iomem);
++
++    memory_region_init_io(&s->iomem_dac, obj, &ospi_dac_ops, s,
++                          TYPE_XILINX_VERSAL_OSPI "-dac", 0x20000000);
++    sysbus_init_mmio(sbd, &s->iomem_dac);
++
++    sysbus_init_irq(sbd, &s->irq);
++
++    object_property_add_link(obj, "dma-src", TYPE_DMA_CTRL,
++                             (Object **)&s->dma_src,
++                             object_property_allow_set_link,
++                             OBJ_PROP_LINK_STRONG);
++
++    qdev_init_gpio_in(dev, ospi_update_dac_status, 1);
++}
++
++static const VMStateDescription vmstate_ind_op = {
++    .name = "OSPIIndOp",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32(flash_addr, IndOp),
++        VMSTATE_UINT32(num_bytes, IndOp),
++        VMSTATE_UINT32(done_bytes, IndOp),
++        VMSTATE_BOOL(completed, IndOp),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static const VMStateDescription vmstate_xlnx_versal_ospi = {
++    .name = TYPE_XILINX_VERSAL_OSPI,
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .minimum_version_id_old = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_FIFO8(rx_fifo, XlnxVersalOspi),
++        VMSTATE_FIFO8(tx_fifo, XlnxVersalOspi),
++        VMSTATE_FIFO8(rx_sram, XlnxVersalOspi),
++        VMSTATE_FIFO8(tx_sram, XlnxVersalOspi),
++        VMSTATE_BOOL(ind_write_disabled, XlnxVersalOspi),
++        VMSTATE_BOOL(dac_with_indac, XlnxVersalOspi),
++        VMSTATE_BOOL(dac_enable, XlnxVersalOspi),
++        VMSTATE_BOOL(src_dma_inprog, XlnxVersalOspi),
++        VMSTATE_STRUCT_ARRAY(rd_ind_op, XlnxVersalOspi, 2, 1,
++                             vmstate_ind_op, IndOp),
++        VMSTATE_STRUCT_ARRAY(wr_ind_op, XlnxVersalOspi, 2, 1,
++                             vmstate_ind_op, IndOp),
++        VMSTATE_UINT32_ARRAY(regs, XlnxVersalOspi, XILINX_VERSAL_OSPI_R_MAX),
++        VMSTATE_UINT8_ARRAY(stig_membank, XlnxVersalOspi, 512),
++        VMSTATE_END_OF_LIST(),
++    }
++};
++
++static Property xlnx_versal_ospi_properties[] = {
++    DEFINE_PROP_BOOL("dac-with-indac", XlnxVersalOspi, dac_with_indac, false),
++    DEFINE_PROP_BOOL("indac-write-disabled", XlnxVersalOspi,
++                     ind_write_disabled, true),
++    DEFINE_PROP_UINT8("num-cs", XlnxVersalOspi, num_cs, 4),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void xlnx_versal_ospi_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->reset = xlnx_versal_ospi_reset;
++    dc->realize = xlnx_versal_ospi_realize;
++    dc->vmsd = &vmstate_xlnx_versal_ospi;
++    device_class_set_props(dc, xlnx_versal_ospi_properties);
++}
++
++static const TypeInfo xlnx_versal_ospi_info = {
++    .name          = TYPE_XILINX_VERSAL_OSPI,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(XlnxVersalOspi),
++    .class_init    = xlnx_versal_ospi_class_init,
++    .instance_init = xlnx_versal_ospi_init,
++};
++
++static void xlnx_versal_ospi_register_types(void)
++{
++    type_register_static(&xlnx_versal_ospi_info);
++}
++
++type_init(xlnx_versal_ospi_register_types)
+diff --git a/include/hw/ssi/xlnx-versal-ospi.h b/include/hw/ssi/xlnx-versal-ospi.h
+new file mode 100644
+index 0000000000..cc2602b300
+--- /dev/null
++++ b/include/hw/ssi/xlnx-versal-ospi.h
+@@ -0,0 +1,86 @@
++/*
++ * Header file for the Xilinx Versal's OSPI controller
++ *
++ * Copyright (C) 2021 Xilinx Inc
++ * Written by Francisco Iglesias <francisco.iglesias@xilinx.com>
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#ifndef XILINX_VERSAL_OSPI_H
++#define XILINX_VERSAL_OSPI_H
++
++#include "hw/register.h"
++#include "hw/ssi/ssi.h"
++#include "qemu/fifo32.h"
 +#include "hw/dma/dma-ctrl.h"
- 
- #define TYPE_XLNX_CSU_DMA "xlnx.csu_dma"
- 
-@@ -45,6 +46,9 @@ typedef struct XlnxCSUDMA {
-     StreamCanPushNotifyFn notify;
-     void *notify_opaque;
- 
-+    dmactrl_notify_fn dma_ctrl_notify;
-+    void *dma_ctrl_opaque;
 +
-     uint32_t regs[XLNX_CSU_DMA_R_MAX];
-     RegisterInfo regs_info[XLNX_CSU_DMA_R_MAX];
- } XlnxCSUDMA;
++#define TYPE_XILINX_VERSAL_OSPI "xlnx.versal-ospi"
++
++#define XILINX_VERSAL_OSPI(obj) \
++     OBJECT_CHECK(XlnxVersalOspi, (obj), TYPE_XILINX_VERSAL_OSPI)
++
++#define XILINX_VERSAL_OSPI_R_MAX (0xfc / 4 + 1)
++
++/*
++ * Indirect operations
++ */
++typedef struct IndOp {
++    uint32_t flash_addr;
++    uint32_t num_bytes;
++    uint32_t done_bytes;
++    bool completed;
++} IndOp;
++
++typedef struct XlnxVersalOspi {
++    SysBusDevice parent_obj;
++
++    MemoryRegion iomem;
++    MemoryRegion iomem_dac;
++
++    uint8_t num_cs;
++    qemu_irq *cs_lines;
++
++    SSIBus *spi;
++
++    Fifo8 rx_fifo;
++    Fifo8 tx_fifo;
++
++    Fifo8 rx_sram;
++    Fifo8 tx_sram;
++
++    qemu_irq irq;
++
++    DmaCtrl *dma_src;
++    bool ind_write_disabled;
++    bool dac_with_indac;
++    bool dac_enable;
++    bool src_dma_inprog;
++
++    IndOp rd_ind_op[2];
++    IndOp wr_ind_op[2];
++
++    uint32_t regs[XILINX_VERSAL_OSPI_R_MAX];
++    RegisterInfo regs_info[XILINX_VERSAL_OSPI_R_MAX];
++
++    /* Maximum inferred membank size is 512 bytes */
++    uint8_t stig_membank[512];
++} XlnxVersalOspi;
++
++#endif /* XILINX_VERSAL_OSPI_H */
 -- 
 2.11.0
 
