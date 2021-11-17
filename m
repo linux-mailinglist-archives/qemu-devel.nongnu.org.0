@@ -2,153 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B495C454D07
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 19:22:21 +0100 (CET)
-Received: from localhost ([::1]:45796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C012454D33
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 19:28:11 +0100 (CET)
+Received: from localhost ([::1]:49234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnPZc-00011R-Jk
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 13:22:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58102)
+	id 1mnPfG-0003lV-C3
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 13:28:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mnPXz-0000C6-FQ; Wed, 17 Nov 2021 13:20:39 -0500
-Received: from mail-eopbgr70097.outbound.protection.outlook.com
- ([40.107.7.97]:11352 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mnPe7-0002mu-80
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 13:27:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24414)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mnPXt-0006NS-5n; Wed, 17 Nov 2021 13:20:38 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I/7FtQYEWjeqh0BGtMviDNEyp5PWDeTLkZzasaVFG5jrDI+UtlhSl7XRQ85iA2mm/oqL7Sfn6gxsf8HFcTm/rvS/2MYHiza/+qXwVVHOBn8muSajuMN010HBdBn5zQgWw98bQV68LDWQTrdfU8rwZuyf3s1hb3tc4j9pxIZPX6GDLEhpUygfWX/+9R/T/Qgarn8mvgxTfU1vyAGWRj/crIE7QLL83XQ7M51Mpnw/thhlNeUv+QNMJeYmapSoZzjSSQ+bfKSayJogurZP030jxz771dXwZ/1xLKrcGuNjml8rMGRWyCpinSnlQk9yCEx8lO7vVr/WPO4uXkNub5modA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LB4mcasz05vZlJMdQAkguYmLpurlQCVi8tV4b1EI3a8=;
- b=l2EXiXVjiIq/5Tx+A1Xu+PArJD7nAaQ9/HYMhgGELqH4qlm4n0CTqtx3Nu7aWXZNqvPDoYxK0HYAZLrAezMvC+EZccDEk32ys4aor+4wI+i4BKDmq2UK8YoPuQyRLzYxW6pEsv+KEY6nOYYVf5YhXt08wDZrREKA5bS2nyEqCOSNIzMl9t7J6DciOYltmlcxyHzliD3ziyBze4kSYsOe5WMFT9vk+oNYUdXmz4n67EuAsOnWqpBoha1M7Q+Nft9OYvPuy27/vDyWZMjQiYvXjTXE7F6n27SX19C4rVAHFIgTxhW665RS0Cc1UlUstgfeFzBQGBgCM2CLRBOPU9iqZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LB4mcasz05vZlJMdQAkguYmLpurlQCVi8tV4b1EI3a8=;
- b=QzSCeFuNB5f7syjGp4EOHv/HgmMrYNo+NXBKcXysjWhv0Bwlq5yU7AS5IbOkVT9nOKW36yPEqyLSphB/6vz1wADzZLLsace4jXnjHFEtHhhCoI/mCrmO1cYl3+LH6Tj024HlN8w7VWPpDP2wEm3Z3mW6pO0wYarth2GSvfEA2Mk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
- by AM4PR08MB2850.eurprd08.prod.outlook.com (2603:10a6:205:3::27) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.26; Wed, 17 Nov
- 2021 18:20:28 +0000
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::2078:5a2:1898:d83a]) by AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::2078:5a2:1898:d83a%7]) with mapi id 15.20.4669.022; Wed, 17 Nov 2021
- 18:20:28 +0000
-Message-ID: <92fb55dd-1f0c-bf23-2b6f-dfb46c40b3f4@virtuozzo.com>
-Date: Wed, 17 Nov 2021 21:20:26 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PULL 0/5] Python patches
-Content-Language: en-US
-To: John Snow <jsnow@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Daniel Berrange <berrange@redhat.com>, Eduardo Habkost
- <ehabkost@redhat.com>, qemu-block@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Willian Rampazzo
- <willianr@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
-References: <20211117003317.2844087-1-jsnow@redhat.com>
- <20211117094157.cef4x5jdsddd3hfy@sirius.home.kraxel.org>
- <CAFn=p-Y-dxRLrvEwz1M=HgPumQqwzUSHe1UTy-H_9D8PuCv0xg@mail.gmail.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-In-Reply-To: <CAFn=p-Y-dxRLrvEwz1M=HgPumQqwzUSHe1UTy-H_9D8PuCv0xg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM6PR10CA0040.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:209:80::17) To AM9PR08MB6737.eurprd08.prod.outlook.com
- (2603:10a6:20b:304::18)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mnPdx-00076J-AH
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 13:26:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637173606;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yx3erGkbgf2c8Sm+xNDYAPLJRAbN/TckQ2bVLRRVkZw=;
+ b=XbOp/DW0yCHBb4LYMA8ABjCbAdcFJ+hF0aG5RsE3FckuH8h8E/ck7HdqrXJ98zeQsSbolZ
+ dFZPPhpg1/bFgfL0uyd8uIBhsyhwui4eaTEcwGFB8swNN3IFCdHGxV6I4KbnCnAZaJstYr
+ uHxok7skMLDJ3xS87laIskO2kBLEPNA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-518-TsaTXZe7NTyMv01Vf8nH-g-1; Wed, 17 Nov 2021 13:26:43 -0500
+X-MC-Unique: TsaTXZe7NTyMv01Vf8nH-g-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ j193-20020a1c23ca000000b003306ae8bfb7so1441938wmj.7
+ for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 10:26:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=Yx3erGkbgf2c8Sm+xNDYAPLJRAbN/TckQ2bVLRRVkZw=;
+ b=kMKIg9PxrZSLWiElWFNu1D7muIdewJHVeWpB1TsQUresVYkekPFL8dGf68xA6mCy/f
+ t8y/iK4xq7qlPrOPRdZFvyibha0hLtV1Pbvps7htjFw8+iVaSWq18HV+8rmkY6e6aFTr
+ /JAlbx/MVCwdW1R4XXGMmqShtv/wThyJ+YBwZiXOqRwU5Ba4mPidh0vk3e+HKFtIwGkd
+ aUAWePsCMHPi/cvMIH06H2oneSZCFcvS+GMO8hcCwjQm/hBaeCk1AeHsakm2fSOv1R8f
+ m/ay4wPyJu63gm66uv+1Yy1YlgImNy/isuhosn1kGS8H8gB7JWuzCvzLuaDe+CobLL1U
+ Hwrw==
+X-Gm-Message-State: AOAM533Ul9avu0v8am3ODwEPP6gIV8IjjGuV9BhLxTHSCW5uHWhJnC7p
+ RtH4REemaZxbDfwIA5xxHXdDUd5Gr9agQlOb1YOVp6LM0b+s/8Y/FbFfszrKjDcjpxtjn4yRPBI
+ kEYUic3yf52XRsfs=
+X-Received: by 2002:a5d:6a4d:: with SMTP id t13mr22802638wrw.104.1637173601722; 
+ Wed, 17 Nov 2021 10:26:41 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyw4FnGCn2kNP8T1wfvfP5RXYKkmoJvKppIKld+2wp+ivVYqYiDE3Sl/uSpwfPZqOErCprHzA==
+X-Received: by 2002:a5d:6a4d:: with SMTP id t13mr22802596wrw.104.1637173601487; 
+ Wed, 17 Nov 2021 10:26:41 -0800 (PST)
+Received: from [192.168.3.132] (p5b0c6882.dip0.t-ipconnect.de. [91.12.104.130])
+ by smtp.gmail.com with ESMTPSA id e3sm579086wrp.8.2021.11.17.10.26.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Nov 2021 10:26:41 -0800 (PST)
+Message-ID: <4dfd5b40-df90-6987-d2e9-0d39b7d6a0a3@redhat.com>
+Date: Wed, 17 Nov 2021 19:26:39 +0100
 MIME-Version: 1.0
-Received: from [192.168.100.10] (185.215.60.233) by
- AM6PR10CA0040.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:209:80::17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4713.21 via Frontend Transport; Wed, 17 Nov 2021 18:20:26 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 35c8209b-7a11-4b3e-9dfe-08d9a9f6ee74
-X-MS-TrafficTypeDiagnostic: AM4PR08MB2850:
-X-Microsoft-Antispam-PRVS: <AM4PR08MB2850078D7BBFE4040E5F24F5C19A9@AM4PR08MB2850.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dbGV0ZWL54GjcXsv6QqIHEWSMRtZvv4vF5yeaRbdoqDkcBD0juV3xZxoG/iKble+oIhFk6PPd1P7pr+dVsX7w/UFdAvJaFY5ILAqncASkeMA54yDkNtyeYRHwtxQ8mxbH6t/ZJwW988GgssyyD7y3RCfumTiEhaR3UVnz/HzOwVEF38UlJPFXmauEaf1QOWKNo/A0MUwbSu3IEEKm3xtPhY3AhTcIhg5grL+iEBYM5J5LfLATYwkJGBZZYITyx+f4B6TAh+oNQoIUc4SI3HEfy04EzwcBCU30OBKfLN/Tmo5sbKF2Hlx86pmfP3J/fw27S18r2rQbiUWryl77fJAiWbqeISfo4o+qRWN73joFhk8GTMXRaSL33DUuEMvH5CWsGsm8BSsD/i1pI+1AUbpGCN4uPEkLRpvSu8EvZGqLHpptvqRLQXD4zn9L1e0xc1UQVWpRQDyAyl0ny0SNYywYKleShtauKGrDfo1QZ/B0qA+nlOjObw1wHPymDZ8AHpoFJ8pCcjDIKXBsOip11haorTxgc7wCmc/M8sWh7CJDC0E4Zr2slMjsXfIuXEkGPh9CPBwfQXK9TLaKfIC8Tp26hDnOi5XWwznbbiPjMRoL4md0efZn1LYFX6R0jkCTOUR+SZ+hKHP6nbIQHVAP9vtnixRLjbyRy84zItu/bj78c8k3G3KiCEgUaqzrGejYcwrLNDmHklvw3FV0dnVqVlrJJVL4gDNRLb0s4hU8AnZ84THPJTYsjyr15d7UKbnX9eW5wrO/Uxqa6zBAyqh2lJ55uixIB74IIClmgNE1QMwWZinulMRCMETEaKT10BIdvKk5dLcPhJRXBVxk/G5LoCYn/4BElgiy9Vi562uOlrVquc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(4326008)(186003)(66476007)(66556008)(316002)(83380400001)(508600001)(8936002)(54906003)(956004)(52116002)(26005)(2906002)(5660300002)(31686004)(2616005)(36756003)(38350700002)(7416002)(110136005)(66946007)(8676002)(966005)(31696002)(16576012)(86362001)(6486002)(38100700002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TUtMTUl0VDRJRmRRZWU4SjA0Q2FobkliUUZZcTJvRyt5N3p1R2VkVmc3emVK?=
- =?utf-8?B?aWYraGxMTWFPaW1nQkJ2SUw1cVpvNFV4R0JOOWxqOXVyMFkyY0duajNvVS9G?=
- =?utf-8?B?T2pMaHVoYVhreGRVWFk5R3k3ZCtoSHFXYWZUS2hDcG5UMUNmc3lRMFRjN2VL?=
- =?utf-8?B?OXhzaHpNRXloTkJHbGl4Q09MYWRLalRSU0YrVHBKSTZrSFZneUlpYVRidzNY?=
- =?utf-8?B?bWdsSkR5YzZDUWkxTXVhUVpTcnAvakkrTUVtUWRZKytPcjVvbHd5dDJtUWFQ?=
- =?utf-8?B?d0hJU1k5c0FSMWY1WUJPUmtDWnNrR0NGaU9VSG9KV2ZjRmxITSs2SnNoNXlU?=
- =?utf-8?B?UFhOdDZCalhJWDd3WW1jeGFyRmVIT0RhY3B5T3JwMW5wd1JBSVB2OE9adjV4?=
- =?utf-8?B?bCtSb1IxS0hEaVZ2YU5OMjNENTYvamRqV3FHckRTbGZUMVpoOG1lTU95S05Z?=
- =?utf-8?B?M25zWmExVHN3cVVGS0NiOHVoQjdlMXBCQ3k0cExnMWsvRHdTL2pkZEFKYm1J?=
- =?utf-8?B?T0pIeUhDaVlUbXR5NExsVFEwdjB2OGtlcWE2NHNUV1h2MEU0QkZweGF3aThM?=
- =?utf-8?B?WE9jeXU0QWRYZ0JML0tTdmErTndHM0F6akpFV2FsanFBM1M4OHpJVUpkejFq?=
- =?utf-8?B?cWdZMUpRZFQyek9HakZQT2I2YzJuODRTL2wvQUxEQnhZYU5DeHpMNjhVbFFK?=
- =?utf-8?B?cDJOWGpaY3YzY3dib29oeUtQYVVCd0lySGF0VWh5d0FrY0tEUzJjamFUQUNI?=
- =?utf-8?B?OGhpRm5mSkN4d1dETXNrUTRzUlFMRjV6c1VuL0F0UVBvZ2Z2Ny9YYXFRS2dL?=
- =?utf-8?B?TDJvK3hLWERPN2p0V3RXQUk4cDFCaGRaaFZEZDdJc0pSSFI5d3BnRkJNYjBB?=
- =?utf-8?B?cnoySWVKVy9BanVac01zRks3TFdjeWlnYTV1WXo1ZCs1WjVoNnh4RURlZVVE?=
- =?utf-8?B?MktERDl0Q0w5RXp1QlJkYzJtVTJ4UWxUT294cDZHVVR1U21ReGJ1b0FKejZK?=
- =?utf-8?B?bnV5Ty9KNzU5RnBOUGJ5enIzMUFlVlVaeTFPVG9xQjVmalJkYmVwamRWMUVr?=
- =?utf-8?B?UnExdWdFSTFIUitnaVhkbCtFS0FtQmJnT3ZQZFFtVFVRYlRlTzdUWTM1eU1q?=
- =?utf-8?B?V1p5TnVsTmJLaUN5TFJPVGdHTTMvS3Q1aWR1SWNKd2QxMUpaWVZMb2w5UVdQ?=
- =?utf-8?B?bkJNekpWZWFOSHp4K3o5QndsUW1oSUEzTmlJNU9DK01INFpGSXdWcTlTb0o2?=
- =?utf-8?B?cVVYOFZRZG1nU3l4QW1JM2VzSXIweFl4ZUROS3dlS1Y0REdMZGg4ckhTa3g5?=
- =?utf-8?B?b3pEZi80d3ZRWVBTc3NGOTBGVm00ajU1QkhIZk1XdHpuNUZ0cTRTcHdMVlkv?=
- =?utf-8?B?eXFGVk1rdlRmUjlCcld0eWNpYnVWUk42cWNuK29aU0xtY3dlN3VpQ1hCZXRE?=
- =?utf-8?B?WjZoYUdoT29jZmJ0VEhEeVdJeG01bUk1MVVyVSsvNzVPNDJIYzlJbjhYYnJ4?=
- =?utf-8?B?SStqb3FHbGNtYUNraGlQSUtPZjVrbmh6TXBvK2JCQVVaWWw1U2l0RHlmYzNm?=
- =?utf-8?B?aExsWFE3dTVNL3dXc09XZjZmOVd1QUcwSmFUZFpHWlFZUUtKMWFseXZmdnZ4?=
- =?utf-8?B?alpRTlVsaFd2WTdrQmhhbnJhbUQxclRYeXhXMEFwdnk2UnpQM1h4WW1PUUF0?=
- =?utf-8?B?TzBMN0NhaisxS0loa2hybzhhbW9aa1RLU1pRZDVrVzRoQlJxZm1JejZnay9L?=
- =?utf-8?B?Q0xFdDZ6N05CYWt6dFY2SGpGUlJqRnl3TlA2amI5Q25NVEpCNTcybDNVOGhk?=
- =?utf-8?B?cEs4UndRWW5OaW5sekw3ckQ4b2pHcityaFdnaVNoZUxPbzF0YWM0OU9BalRz?=
- =?utf-8?B?Tk1DaE82emZiVUhZcFlUVHlQNGtiemVxQXdDRHgySGR5ZHFKRjluMXphVzNI?=
- =?utf-8?B?emJyeWE1dkluWEdUQnBaOGtHeHZFNUJ5QldrdzJMV3l6UHNsWFRsV25XM2h0?=
- =?utf-8?B?MDRNVEVneGtmZkJoUTkySmRhUS81SHhwL0VDd25PeU1XMXdCWGNzZ0thTDVo?=
- =?utf-8?B?VS9NVG1XOU5iYzkxc2ppZ2NhZ1oxdXVLdTZrNmFTVERWTzdwQWp2ZDMzUGkz?=
- =?utf-8?B?TUpXU1B3WU93Ny9NVkFxY2ViY1NxRStZLzhmb3BtMU4wYkcwNmtCTnJ2bW5a?=
- =?utf-8?B?b0lSUkhIZFMzWlM4ZXR0aWt5R2J6OVdRUFpBcVAzSlgrS2d4cGFlU2V3SVo2?=
- =?utf-8?Q?UIlT5U5pqI36gKYhPopZ2y9TS54jFBTfzzxEeWXrs8=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 35c8209b-7a11-4b3e-9dfe-08d9a9f6ee74
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2021 18:20:27.9495 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xQhKh+MYuy+bAhc/i5m7EymE3U/V51gSoiLXuF7a+D4Jn95wVLH5/QzxzmvsfW11OXAxRVHZWqsCQtqZimHFeR/KCRFvSJUsITA6qS030xU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4PR08MB2850
-Received-SPF: pass client-ip=40.107.7.97;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-1.009, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2] hw/arm/virt: Expose empty NUMA nodes through ACPI
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20211027052958.280741-1-gshan@redhat.com>
+ <20211027174028.1f16fcfb@redhat.com>
+ <fecb9351-ae78-8fcd-e377-623243ef80df@redhat.com>
+ <20211101094431.71e1a50a@redhat.com>
+ <47dc3a95-ed77-6c0e-d024-27cb22c338eb@redhat.com>
+ <20211102073948.am3p3hcqqd3cfvru@gator.home>
+ <b8ed4687-e30a-d70f-0816-bd8ba490ceb7@redhat.com>
+ <20211110113304.2d713d4a@redhat.com>
+ <5180ecee-62e2-cd6f-d595-c7c29eff6039@redhat.com>
+ <20211112142751.4807ab50@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20211112142751.4807ab50@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.009, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -161,57 +106,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, Andrew Jones <drjones@redhat.com>,
+ Gavin Shan <gshan@redhat.com>, ehabkost@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ shan.gavin@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-17.11.2021 20:56, John Snow wrote:
+On 12.11.21 14:27, Igor Mammedov wrote:
+> On Wed, 10 Nov 2021 12:01:11 +0100
+> David Hildenbrand <david@redhat.com> wrote:
 > 
-> On Wed, Nov 17, 2021 at 4:42 AM Gerd Hoffmann <kraxel@redhat.com <mailto:kraxel@redhat.com>> wrote:
+>> On 10.11.21 11:33, Igor Mammedov wrote:
+>>> On Fri, 5 Nov 2021 23:47:37 +1100
+>>> Gavin Shan <gshan@redhat.com> wrote:
+>>>   
+>>>> Hi Drew and Igor,
+>>>>
+>>>> On 11/2/21 6:39 PM, Andrew Jones wrote:  
+>>>>> On Tue, Nov 02, 2021 at 10:44:08AM +1100, Gavin Shan wrote:    
+>>>>>>
+>>>>>> Yeah, I agree. I don't have strong sense to expose these empty nodes
+>>>>>> for now. Please ignore the patch.
+>>>>>>    
+>>>>>
+>>>>> So were describing empty numa nodes on the command line ever a reasonable
+>>>>> thing to do? What happens on x86 machine types when describing empty numa
+>>>>> nodes? I'm starting to think that the solution all along was just to
+>>>>> error out when a numa node has memory size = 0...  
+>>>
+>>> memory less nodes are fine as long as there is another type of device
+>>> that describes  a node (apic/gic/...).
+>>> But there is no way in spec to describe completely empty nodes,
+>>> and I dislike adding out of spec entries just to fake an empty node.
+>>>   
+>>
+>> There are reasonable *upcoming* use cases for initially completely empty
+>> NUMA nodes with virtio-mem: being able to expose a dynamic amount of
+>> performance-differentiated memory to a VM. I don't know of any existing
+>> use cases that would require that as of now.
+>>
+>> Examples include exposing HBM or PMEM to the VM. Just like on real HW,
+>> this memory is exposed via cpu-less, special nodes. In contrast to real
+>> HW, the memory is hotplugged later (I don't think HW supports hotplug
+>> like that yet, but it might just be a matter of time).
 > 
->        Hi,
-> 
->      > https://gitlab.com/jsnow/qemu.git <https://gitlab.com/jsnow/qemu.git> tags/python-pull-request
-> 
->     What is the status of the plan to upload this to pypi eventually?
+> I suppose some of that maybe covered by GENERIC_AFFINITY entries in SRAT
+> some by MEMORY entries. Or nodes created dynamically like with normal
+> hotplug memory.
 > 
 > 
-> Thanks for asking!
+>> The same should be true when using DIMMs instead of virtio-mem in this
+>> example.
+>>
+>>>   
+>>>> Sorry for the delay as I spent a few days looking into linux virtio-mem
+>>>> driver. I'm afraid we still need this patch for ARM64. I don't think x86  
+>>>
+>>> does it behave the same way is using pc-dimm hotplug instead of virtio-mem?
+>>>
+>>> CCing David
+>>> as it might be virtio-mem issue.  
+>>
+>> Can someone share the details why it's a problem on arm64 but not on
+>> x86-64? I assume this really only applies when having a dedicated, empty
+>> node -- correct?
+>>
+>>>
+>>> PS:
+>>> maybe for virtio-mem-pci, we need to add GENERIC_AFFINITY entry into SRAT
+>>> and describe it as PCI device (we don't do that yet if I'm no mistaken).  
+>>
+>> virtio-mem exposes the PXM itself, and avoids exposing it memory via any
+>> kind of platform specific firmware maps. The PXM gets translated in the
+>> guest accordingly. For now there was no need to expose this in SRAT --
+>> the SRAT is really only used to expose the maximum possible PFN to the
+>> VM, just like it would have to be used to expose "this is a possible node".
+>>
+>> Of course, we could use any other paravirtualized interface to expose
+>> both information. For example, on s390x, I'll have to introduce a new
+>> hypercall to query the "device memory region" to detect the maximum
+>> possible PFN, because existing interfaces don't allow for that. For now
+>> we're ruinning SRAT to expose "maximum possible PFN" simply because it's
+>> easy to re-use.
+>>
+>> But I assume that hotplugging a DIMM to an empty node will have similar
+>> issues on arm64.
+>>
+>>>   
+>>>> has this issue even though I didn't experiment on X86. For example, I
+>>>> have the following command lines. The hot added memory is put into node#0
+>>>> instead of node#2, which is wrong.  
+>>
+>> I assume Linux will always fallback to node 0 if node X is not possible
+>> when translating the PXM.
 > 
-> The honest answer is "I'm not exactly sure", but there are a few things to work out still. Let me use this as an opportunity to try and give you an honest answer.
-> We've got four packages right now: qmp, aqmp, machine and utils.
+> I tested how x86 behaves, with pc-dimm, and it seems that
+> fc43 guest works only sometimes.
+> cmd:
+>   -numa node,memdev=mem,cpus=0 -numa node,cpus=1 -numa node -numa node
 > 
-> - I don't intend to *ever* upload utils, I created that one specifically as an in-tree package for "low quality" code that we just need as glue.
-> - aqmp is brand new. It was moved as the default provider for the QMP protocol in the tree (being used by machine.py) only two weeks ago. I am using this current RC testing phase to find any problems with it.
-> - qmp is something I want to deprecate, I don't intend to upload it to PyPI. I intend to rename aqmp -> qmp and have just the one qmp package. I can't do this until next release, and only after we are confident and happy that aqmp is stable enough.
-> - machine has a few problems with it. I am reluctant to upload it in its current form. I am actively developing a new version of it that uses the new Async QMP module. However, this might take a bit of time, I fear.
-> 
-> So, I think I have this timeline for myself:
-> 
-> - Fix bugs in AQMP package revealed during RC testing
-> - Introduce sync wrapper for AQMP that resembles the native AQMP interface more than it resembles the "legacy QMP" interface.
-> - Remove all QEMU source tree uses of qemu.qmp and qemu.aqmp.legacy.
-> - Delete qemu.qmp and rename qemu.aqmp to qemu.qmp.
-> - Split python/qemu/qmp out into its own repository and begin uploading it to PyPI, as a test. (Do not delete python/qemu/qmp yet at this phase.)
-> - Transition any users of the Python packages in the QEMU source tree to installing the QMP dependency from PyPI instead of grabbing it from the tree.
-> - Delete python/qemu/qmp from the QEMU source tree at this moment; "re-fork" the package if necessary to collect any commits since the "test split" procedure.
-> 
+> 1: hotplug into the empty last node creates a new node dynamically 
+> 2: hotplug into intermediate empty node (last-1) is broken, memory goes into the first node
 
-That all sounds great!
-
-> 
-> Some questions to work out:
-> - What tools should be uploaded with qemu.qmp? a version of qmp-shell is high on the list for me. qom, qom-set, qom-get, qom-list, qom-tree, qom-fuse etc I am suspecting might be better left behind in qemu.utils instead, though. I am not sure I want to support those more broadly. They weren't designed for "external consumption".
-> - qemu-ga-client should be moved over into utils, or possibly even deleted -- it hasn't seen a lot of love and I doubt there are any users. I don't have the bandwidth to refurbish it for no users. Maybe if there's a demand in the future ...
-> 
-> 
-> ... This might be being overcautious, though. Perhaps I can upload a version of "qemu.aqmp" even this week just as a demonstration of how it would work.
-> 
-
-Why do we need wait for next release for renaming aqmp -> qmp? Or what next release do you mean? I think you can rename it as soon as 6.3 development phase is open.
-
-I'm not sure that's a good idea to upload qemu.aqmp to public and than rename it to qemu.qmp.. Maybe, you can upload it now as qemu.qmp? So, first, create a separate repo with aqmp (already renamed to qmp), upload it to PyPI (as qmp) - this all as a first step. And then gradually move Qemu to use this new repo instead its own qmp/aqmp.
+See my other reply: Reason is that we (QEMU) indicate all hotpluggable
+memory as belonging to the last NUMA node. When processing that SRAT
+entry, Linux maps that PXM to an actual node.
 
 -- 
-Best regards,
-Vladimir
+Thanks,
+
+David / dhildenb
+
 
