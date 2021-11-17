@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDCE54549F5
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 16:36:53 +0100 (CET)
-Received: from localhost ([::1]:41548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0371A454A48
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 16:48:01 +0100 (CET)
+Received: from localhost ([::1]:51228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnMzU-0000hZ-D8
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 10:36:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42882)
+	id 1mnNAF-0007wy-Ia
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 10:47:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mnMyd-0008Nl-A7
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 10:35:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59698)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mnN8l-0006jx-Pq
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 10:46:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26103)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mnMyZ-0007Xd-Qi
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 10:35:58 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mnN8h-0000Kx-0J
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 10:46:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637163354;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1637163980;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gSmdjeEPqEKjZnuoxXtsYnTWm0yjj2p36cBUKXhqpnU=;
- b=HwSPTRp8txE+YEvwpa1QpDac3Viu4JfYMK1AOGJd1tJoZWY4fc+ku+zpgFwxkYJs8PaGdl
- Y9B7k52e9ydsi0P4bfVkewtIM9CRzFj7TnjQrpQcJQgt7NfN0Dz68s4rH44XldnBmbhAee
- nBti9dy05jGeylHD2jIehBtsVjUxo6o=
+ bh=cn2/Kd/LXaRKxCYbKibQHi0WDjrid1X91aULAertQNg=;
+ b=ds2mxgdJ+UHd2Ypycem1/ijJxecq6Th/vSOPU9gTCf7VuHlqxfdFsBA0l5Sj7aTdocMdz9
+ 1QGgM9Y8CVc888J7CQodxp32lnmoNYvNiS4BcNfrVpeC6pNocbWc8cf5aeZJ/OyoJPjYSM
+ vn1fz2RQEETgUh9H8FF87Vw0ES2iUqo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-225-T1gDHJIlMueIYDtF_uwlLg-1; Wed, 17 Nov 2021 10:35:49 -0500
-X-MC-Unique: T1gDHJIlMueIYDtF_uwlLg-1
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-599-e6YxyVi9NBuRcDUsgmdLNw-1; Wed, 17 Nov 2021 10:46:16 -0500
+X-MC-Unique: e6YxyVi9NBuRcDUsgmdLNw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3EA318799E0;
- Wed, 17 Nov 2021 15:35:48 +0000 (UTC)
-Received: from paraplu (unknown [10.39.194.88])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 374EA60C81;
- Wed, 17 Nov 2021 15:35:18 +0000 (UTC)
-Date: Wed, 17 Nov 2021 16:35:15 +0100
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v3 3/3] docs: rSTify the "SubmitAPatch" wiki
-Message-ID: <YZUhM1Dum+ad8waz@paraplu>
-References: <20211110144902.388183-1-kchamart@redhat.com>
- <20211110144902.388183-4-kchamart@redhat.com>
- <e0229a36-b8bd-3822-9994-46279bfa138c@redhat.com>
- <YZTYo3H6TZheGbrj@paraplu>
- <cd1b4dcd-01c3-33e0-6525-cbcbcc24a165@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79D71100CCC0;
+ Wed, 17 Nov 2021 15:46:15 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9675760C4A;
+ Wed, 17 Nov 2021 15:46:12 +0000 (UTC)
+Date: Wed, 17 Nov 2021 15:46:09 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v2 2/2] iotests/149: Skip on unsupported ciphers
+Message-ID: <YZUjwQ8BzU+fIPUC@redhat.com>
+References: <20211117151707.52549-1-hreitz@redhat.com>
+ <20211117151707.52549-3-hreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <cd1b4dcd-01c3-33e0-6525-cbcbcc24a165@redhat.com>
+In-Reply-To: <20211117151707.52549-3-hreitz@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kchamart@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,70 +82,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 17, 2021 at 03:43:56PM +0100, Thomas Huth wrote:
-> On 17/11/2021 11.25, Kashyap Chamarthy wrote:
-
-[...]
-
-> > > That ".". looks a little bit weird in the output ... maybe we should replace
-> > > it with "does not end with a dot." ?
-> > 
-> > Re-looking the output, yes it does look odd.  And yes, your amendment
-> > is good.
+On Wed, Nov 17, 2021 at 04:17:07PM +0100, Hanna Reitz wrote:
+> Whenever qemu-img or qemu-io report that some cipher is unsupported,
+> skip the whole test, because that is probably because qemu has been
+> configured with the gnutls crypto backend.
 > 
-> I haven't updated that one while picking up the patch - so we might want to
-> fix it with an additional patch on top.
+> We could taylor the algorithm list to what gnutls supports, but this is
+> a test that is run rather rarely anyway (because it requires
+> password-less sudo), and so it seems better and easier to skip it.  When
+> this test is intentionally run to check LUKS compatibility, it seems
+> better not to limit the algorithms but keep the list extensive.
 
-Sure, no prob.
+I'd really like to figure out a way to be able to partially run
+this test. When I have hit problems in the past, I needed to
+run specific tests, but then the expected output always contains
+everything.  I've thought of a few options
 
-[...]
+ - Split it into many stanadlone tests - eg
+     tests/qemu-iotests/tests/luks-host-$ALG
 
-> > Thanks for the careful review and submitting the PR.  I'm assuming I
-> > don't need to respin a v4.
+ - Split only the expected output eg
+ 
+     149-$SUBTEST
+
+  and have a way to indicate which of expected output files
+  we need to concatenate for the set of subtests that we
+  run.
+
+ - Introduce some template syntax in expected output
+   tha can be used to munge the output.
+
+ - Stop comparing expected output entirely and just
+   then this into a normal python unit test.
+
+ - Insert your idea here ?
+
 > 
-> Right, patches have been merged now.
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> ---
+>  tests/qemu-iotests/149 | 23 ++++++++++++++++++-----
+>  1 file changed, 18 insertions(+), 5 deletions(-)
 
-Thanks!
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-> Something I just noticed afterwards, after looking at the pages online:
-> https://www.qemu.org/docs/master/devel/submitting-a-pull-request.html uses
-> "Submit" in the heading, while
-> https://www.qemu.org/docs/master/devel/submitting-a-patch.html uses
-> "Submitting" ... looks a little bit inconsequent ... should we change it to
-> use one form only? The Wiki used "submit", not "submitting", so maybe use
-> that one?
 
-Right, I generally also prefer the imperative mood ("submit").  I went
-with "submitting" to keep things a bit consistent with the existing
-convention: 'writing-qmp-commands.rst", "testing.rst", "tracing.rst",
-"secure-coding-practises.rst", etc.  And as discussed on #qemu, OFTC,
-I'll update the heading in submitting-a-pull-request.rst from "submit"
-to "submitting".
-
-Also, thanks for reminding on IRC of updating 'qemu-web' links to update
-from Wiki to the in-tree docs.
-
-    https://www.qemu.org/contribute/
-
-I'll send a follow-up for that.  I see a three occurrences in the
-'qemu-web' repo:
-
-    $> git grep SubmitAPatch
-    CONTRIBUTING.md:https://wiki.qemu.org/Contribute/SubmitAPatch
-    contribute.md:Please do not submit merge requests on GitLab; patches are sent to the mailing list according to QEMU's [patch submissions guidelines](https://wiki.qemu.org/Contribute/SubmitAPatch).
-    contribute/report-a-bug.md:QEMU does not use GitLab merge requests; patches are sent to the mailing list according to QEMU's [patch submissions guidelines](https://wiki.qemu.org/Contribute/SubmitAPatch).
-
+Regards,
+Daniel
 -- 
-/kashyap
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
