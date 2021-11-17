@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98503454B5E
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 17:49:59 +0100 (CET)
-Received: from localhost ([::1]:46720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18474454B6F
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 17:54:03 +0100 (CET)
+Received: from localhost ([::1]:53016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnO8E-0001UB-Fk
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 11:49:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33962)
+	id 1mnOC9-0005xD-LP
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 11:54:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mnNwX-0003Uf-1W
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 11:37:53 -0500
-Received: from [2a00:1450:4864:20::431] (port=35380
- helo=mail-wr1-x431.google.com)
+ id 1mnNx8-0004om-I7
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 11:38:30 -0500
+Received: from [2a00:1450:4864:20::42f] (port=41768
+ helo=mail-wr1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mnNwV-0000Jd-9d
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 11:37:52 -0500
-Received: by mail-wr1-x431.google.com with SMTP id i5so5888332wrb.2
- for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 08:37:50 -0800 (PST)
+ id 1mnNx7-0000MH-7B
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 11:38:30 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id a9so5856582wrr.8
+ for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 08:38:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=lsENNgJfI1/vdwL8ZzrQhewfLKYLxjOc+zylP966m/M=;
- b=smZqyhuRpeVfEwUumWppOxenVQehw+hBek7zp61IgUhjJxwvtoymCb6HkGymripRq6
- B7gcwZKu0JGp2UYRXMuJxGU8JFaBWUCvZnth96K1kk0vwJv+gA/oZas0JqY4AS6YoqKM
- cfG+xTuHbpaRQYb5tvdJtH8vxeO4J39F74qJeftvcqXGADgikKm5vKAfd8Lu8MyxAtut
- gB0Z+2R/eJk4afkIvPpp/5Fdo3vTxL3wo51yNZy2yHvjfpI7dGujhU3B27ps1xIXvHFW
- Jv8y8Trh+E/89if9RLZPbpwq45SAXBUqMJCjpLgrYiSUDGzW0qd5aMmXKBfckvoTSY6Z
- cBTA==
+ bh=VQFQ038jdH/oC2CnellSUdw7imFiXXvh1PbS8yIQtx4=;
+ b=QOEDhtrlci8wB9Z6Wj42Xkviu9aOiW/iMx6TEjTa+nPfOvbv+BqTUtvs5xWIVC2bcJ
+ yY+vpf2bu+hnRB+bPlnVcufg4C7BBHRTW7rprl+V0DbyOvbQz/sZ6RAxUGGnKnz6kJr7
+ 1R8vtYXZ1mrItu/EVRQqiouDg1lAbM6aS2k0xK+DCG7uxPM3orTBaocacGGzOxjXVPXq
+ WwWrGwZ90d8JFW8MipQBrufsOMl/xwgaXi9EEV9wvXleE4USBM66MTeDJXUv25J5ZfYW
+ dyxo/fDvFBNncSZtFtQubnh3Anytv5WXsISatr0NWM7TMBPPw4Vr9afHLqKx7b/2HO9j
+ FwCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=lsENNgJfI1/vdwL8ZzrQhewfLKYLxjOc+zylP966m/M=;
- b=OsMcprYcc3mX33JM3LvF9CIpoXsGdoq7Yi+5NQgV9wf9GYyXCdBQ2k5unVnVgkROQb
- 2hWc/EGfRxdnHfXj6qtY5UTjhvynxxZtXWGntibcu2oEagllDeHfzogMl/MWkEe45vxq
- +3gRTjCx/FAYLh3wxLgddLRk9KEP2Adof0DK37sv7tNW7SK/EQlyfwqIMMb1yJOHJKAV
- JEVoDcFI1jqaW2BvkMl0iNabpCkQ6uLjecjNjhH6lKhkL0ykwWzfucDCOvDU+xRnYorK
- e8RmdjPEB3weWB9q0qdnnztPd4Dp0sV4TnZc2tJJrJejt4rVVCgQgEgOTOs5zQxdZpWD
- zyHA==
-X-Gm-Message-State: AOAM531UuUo/URzkLe9zjcdDjGnxT7hr/4hvtU63mBNP7rMbXqujxqM6
- YEX/NgmFd1YN4kFr5vPVINaB9A==
-X-Google-Smtp-Source: ABdhPJyKYAu3bwv4W2rGPL493tKmjl6yKbT3xNOLXpvADkp+0NjCWUjFvMlCsnXQ1kKignaj26rTog==
-X-Received: by 2002:a5d:65c7:: with SMTP id e7mr21688343wrw.319.1637167069917; 
- Wed, 17 Nov 2021 08:37:49 -0800 (PST)
+ bh=VQFQ038jdH/oC2CnellSUdw7imFiXXvh1PbS8yIQtx4=;
+ b=w0c+eWzGtBpY7IECG1pt/nf/guSEX8DwNIkI/x1dUiDWpeHADVHs830jL/Sz0pSk1B
+ mGFF7JxU/PHKat/Zgj27y7SGeaNqLMEnTJJTW/+gMd3tqjQ5zwykE+vOlADbWoVWphLl
+ 7Hc2Ttf6KWECw+q6SIvOkdlnJ3WhYTT1c4OHDcYlIO6quocEzD+tEhdcwE7bOkMTZ2tf
+ wAF0Jc0jwE9jQND0azn5YwQiZibyp3hhUuTVJkPSUXgb10tCLZDpw7QBqUVI+6Ng2lwP
+ Zxr92h9GF24/Wjly3pkaPbjkDT6Tn/dIlI0ShW9X8FgvRwiJnDIZRvtp1su068+Tjq75
+ DTxA==
+X-Gm-Message-State: AOAM5319BMRxuy2tL/6oa7gqBvNwPJnpQAxbRrM0GzDsB4qIt+sKre/Z
+ bbGVdaTKAUMzvmGmjXzGD+OgWQ==
+X-Google-Smtp-Source: ABdhPJwHErSrlHi/ngigRjJYgw6b3u9DUufZ7Jt7bZQeMiD8NdStGb4SZ/wZAfrazTLSrQqMeTjCGw==
+X-Received: by 2002:a5d:5850:: with SMTP id i16mr20912833wrf.410.1637167107917; 
+ Wed, 17 Nov 2021 08:38:27 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p62sm198451wmp.10.2021.11.17.08.37.48
+ by smtp.gmail.com with ESMTPSA id s63sm65418wme.22.2021.11.17.08.38.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Nov 2021 08:37:48 -0800 (PST)
+ Wed, 17 Nov 2021 08:38:26 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5CB021FF96;
- Wed, 17 Nov 2021 16:37:48 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 58D841FF96;
+ Wed, 17 Nov 2021 16:38:26 +0000 (GMT)
 References: <20211117160412.71563-1-richard.henderson@linaro.org>
- <20211117160412.71563-3-richard.henderson@linaro.org>
+ <20211117160412.71563-4-richard.henderson@linaro.org>
 User-agent: mu4e 1.7.5; emacs 28.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v5 02/17] linux-user/signal.c: Create a common
- rewind_if_in_safe_syscall
-Date: Wed, 17 Nov 2021 16:37:43 +0000
-In-reply-to: <20211117160412.71563-3-richard.henderson@linaro.org>
-Message-ID: <87v90qviub.fsf@linaro.org>
+Subject: Re: [PATCH v5 03/17] linux-user/safe-syscall.inc.S: Move to
+ common-user
+Date: Wed, 17 Nov 2021 16:38:21 +0000
+In-reply-to: <20211117160412.71563-4-richard.henderson@linaro.org>
+Message-ID: <87r1bevit9.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -101,17 +101,13 @@ Richard Henderson <richard.henderson@linaro.org> writes:
 
 > From: Warner Losh <imp@bsdimp.com>
 >
-> All instances of rewind_if_in_safe_syscall are the same, differing only
-> in how the instruction point is fetched from the ucontext and the size
-> of the registers. Use host_signal_pc and new host_signal_set_pc
-> interfaces to fetch the pointer to the PC and adjust if needed. Delete
-> all the old copies of rewind_if_in_safe_syscall.
+> Move all the safe_syscall.inc.S files to common-user. They are almost
+> identical between linux-user and bsd-user to re-use.
 >
 > Signed-off-by: Warner Losh <imp@bsdimp.com>
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Message-Id: <20211113045603.60391-3-imp@bsdimp.com>
-> [rth: include safe-syscall.h, simplify ifdefs]
+> Message-Id: <20211113045603.60391-4-imp@bsdimp.com>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
