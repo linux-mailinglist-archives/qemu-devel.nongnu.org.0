@@ -2,80 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35EC45444A
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 10:56:09 +0100 (CET)
-Received: from localhost ([::1]:35240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77EF0454471
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 10:57:53 +0100 (CET)
+Received: from localhost ([::1]:37426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnHfl-0001hw-0n
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 04:56:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43086)
+	id 1mnHhQ-0003DU-KU
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 04:57:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mnHec-0000uu-Vx
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 04:54:59 -0500
-Received: from [2a00:1450:4864:20::331] (port=38460
- helo=mail-wm1-x331.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mnHfL-0001el-Nd
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 04:55:44 -0500
+Received: from [2a00:1450:4864:20::32b] (port=51148
+ helo=mail-wm1-x32b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mnHeb-0005ZR-JQ
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 04:54:58 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- p3-20020a05600c1d8300b003334fab53afso4263227wms.3
- for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 01:54:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mnHfK-0005iZ-1N
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 04:55:43 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id 133so1651551wme.0
+ for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 01:55:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=005IHjqRWRJJaQave6epZYUIKBv/Z2a1tVz3K5hRNcs=;
- b=cW7SzRhaaaTvVQlfluA8TtpFKrluJMShKsjH/KbbF0k31giSW1lqSSjN8FHF3y+xV5
- 0ViMA2ZWKTzckvjdTALMscDQT2/ZggRYWeRoe3g4rz0sFCfu7gfsz9Ewg3f04dK4Vk4D
- OTW0ej62F2IgE1x6atbvgmAzdgb0wO7E4rdN3NXDpTzWMcSR3VkImR9TCFoFbkqSDT8X
- /X0pU0mE01d7qUIj6jbqkSolpg4bIYktfX1W6bJ17e30Ro+QVx0s0z7pjdzWqsgmPCts
- lRzi7tyj5W6qHTn3XFDAwlggzX1qM0ApSrpCo3EGta1xje8mLEB/mtXI9CFNZCJ3p454
- 4mjg==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=eSbbstaznvudQeKDDESXSvkpYrkq/kqiBQtMHYKRB3I=;
+ b=cLw8usFGH9hiAPJq3W24xREzfySJu0dOUx27hadoR5eUeItNFNL4DXNrH4V+5BzWKO
+ 49q1wMUnIEDJ3pxWl1qQ3FOzegGZ2liIB5cY9PaUATYpfQtiWxWcJkFf2Gfzcrdj3eNE
+ EqeiaZdPpaoi7sH3VXMrj7H9/voHYfRhC59vntTXd430VPGgA9RqPVnByenGBLCChS/+
+ FWrRCUXYG9yKYGxJHPqVmxfmvE5Xtr9p4cWPGytAh435KCYbd5DoFfwB2/4Vvaio07HA
+ BLV7DVx+7i8I3bxIsytEwOvRdoL2ZnR24j3xOUqqP9S7k6e5nub1/kRglUuId87+bEV1
+ gnkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=005IHjqRWRJJaQave6epZYUIKBv/Z2a1tVz3K5hRNcs=;
- b=yHyL9ZOJgG6r/KofNFAm0OepQxpFTA4RqTUtyqgXE0XedNv88myHtijXLk3az2TC6O
- uFhH0M/yg8wlKmrUmNJ+gAhEc6XzPDH0VKxQ8Ci2nRFmMQNweEqEFqqRwJNkAcRfta4n
- wADxD3VwCeL5Xq9DWLn/aEljehWlxOowyan+5YBj/3nGdJr0niWrHX/DTgL3pVYgF8tw
- 7CvMmu+2MujFQkQtfScpqihWmyJBlowYN2ejrle6B8kB61ryjIaQH+UXYY1zx7Vfz/JT
- EVPOJ7lO+JHHea3+sBve9gHXUwxVplpjkv0EHkgUrYGxhJT2fqFmQjJcVYHRn0O9OJ+0
- 38Rg==
-X-Gm-Message-State: AOAM531uZVAcPJFRFV5EoOhF/XgqTTwrPYscpuZ2PxDdrGayIVKR4NFv
- IwUh+sZq4EYV9wWyZPg/ZI1Ljw==
-X-Google-Smtp-Source: ABdhPJx48Y87Hlee/yq71PJMxAixMXsZta2YWF6TrmZ3s80gp8vNUV7cONgEIOFlup8Jmt+azVPwcQ==
-X-Received: by 2002:a1c:488:: with SMTP id 130mr16351953wme.157.1637142896000; 
- Wed, 17 Nov 2021 01:54:56 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 4sm26189370wrz.90.2021.11.17.01.54.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Nov 2021 01:54:55 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6C6721FF96;
- Wed, 17 Nov 2021 09:54:54 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] tests/avocado: fix tcg_plugin mem access count test
-Date: Wed, 17 Nov 2021 09:54:48 +0000
-Message-Id: <20211117095448.136558-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ bh=eSbbstaznvudQeKDDESXSvkpYrkq/kqiBQtMHYKRB3I=;
+ b=dy54qOD2XisaZDVYlATw3P6G7yMPWKue2gOD0mki/cpBQqfLT5WraynXrqSwO55zI2
+ ZELGMzUC1okeQkwnGBmG0taucLu23BbWGz0ku/+LBq5IPm9AXq9tlxgEPUlpPcxgAUNR
+ loubtx8KMdABMO069Z5d++C12EXXY4qt1sPieA2jjkQbvRFkZ82AhNrtwoPIvyFDu3Hu
+ g0NKqQFbShhceUr39ptHdieeJf2xVv4cs2Vv+Q2AVR33AoAaQPXHqFbpxIMS8Ka7vlZ2
+ tCI3ITDv49PINz/z69YwTClcxR1gRdYeqilijd32OSfFCPN0zKJdZaaifAP/LuBOj/ec
+ XAow==
+X-Gm-Message-State: AOAM5325pT+wdfoj6qwcroYEm1meckdrwmcJOK55JJGiMOVmgfC3EN7C
+ YUP3XHtr18IpSvw3d9YvP2GbZw==
+X-Google-Smtp-Source: ABdhPJyWeiHEIMaG5KBis72EYSSMPeUfIC7e6H34/5WPh0EZcFhyLKSz+7KluSy9KCXTG5MKRbUxEg==
+X-Received: by 2002:a1c:a9c6:: with SMTP id s189mr16371949wme.38.1637142940274; 
+ Wed, 17 Nov 2021 01:55:40 -0800 (PST)
+Received: from [192.168.8.105] (101.red-176-80-44.dynamicip.rima-tde.net.
+ [176.80.44.101])
+ by smtp.gmail.com with ESMTPSA id b10sm20597729wrt.36.2021.11.17.01.55.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Nov 2021 01:55:39 -0800 (PST)
+Subject: Re: [PATCH v10 04/26] target/loongarch: Add fixed point arithmetic
+ instruction translation
+To: gaosong <gaosong@loongson.cn>
+References: <1636700049-24381-1-git-send-email-gaosong@loongson.cn>
+ <1636700049-24381-5-git-send-email-gaosong@loongson.cn>
+ <7e6e5c26-2c1a-e4b5-a724-c2db33a36180@linaro.org>
+ <5c3c3107-da7f-7e13-189e-866c7ff1acde@loongson.cn>
+ <f1e1b0fd-b34e-1403-1851-35c783a12237@linaro.org>
+ <6e225d21-c2e4-69d0-c4f9-d2018096ec70@loongson.cn>
+ <e26b8243-2797-cde9-3833-a7c4cd3b6a65@linaro.org>
+ <a46e8df8-ccb9-52d0-2e73-33a49e92bfd8@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <75e1049b-b09c-7b6d-990f-d2c341ca12c8@linaro.org>
+Date: Wed, 17 Nov 2021 10:55:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <a46e8df8-ccb9-52d0-2e73-33a49e92bfd8@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.009,
  PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,36 +98,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Alexandre Iooss <erdnaxe@crans.org>, Mahmoud Mandour <ma.mandourr@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org,
+ laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When we cleaned up argument handling the test was missed.
+On 11/17/21 10:29 AM, gaosong wrote:
+>> gen_rr_i ?
+> 
+> The code is not written completely,  like this:
+> 
+> gen_rr_i12:
+> 
+> @fmt_rr_i12               .... ...... imm:s12 rj:5 rd:5 &rr_i
+> slti         0000 001000 ............ ..... .....     @fmt_rr_i12
+> sltui        0000 001001 ............ ..... .....     @fmt_rr_i12
+> ...
+> 
+> gen_rr_ui12:
+> 
+> @fmt_rr_ui12               .... ...... imm:12 rj:5 rd:5 &rr_i
+> andi         0000 001101 ............ ..... .....     @fmt_rr_ui12
+> ori          0000 001110 ............ ..... .....     @fmt_rr_ui12
+> xori         0000 001111 ............ ..... .....     @fmt_rr_ui12
+> ...
+> 
+> @fmt_rr_i12 and @fmt_rr_ui12 are two 'Formats',  but they use the same 'Argument sets'(rr_i).
 
-Fixes: 5ae589faad ("tests/plugins/mem: introduce "track" arg and make args not positional")
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/avocado/tcg_plugins.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+What I meant is that there would be a single gen_rr_i function handing the argument set 
+rr_i; no need for two gen_rr_i* functions.
 
-diff --git a/tests/avocado/tcg_plugins.py b/tests/avocado/tcg_plugins.py
-index 9ca1515c3b..642d2e49e3 100644
---- a/tests/avocado/tcg_plugins.py
-+++ b/tests/avocado/tcg_plugins.py
-@@ -131,7 +131,7 @@ def test_aarch64_virt_mem_icount(self):
-                                                  suffix=".log")
- 
-         self.run_vm(kernel_path, kernel_command_line,
--                    "tests/plugin/libmem.so,arg=both", plugin_log.name,
-+                    "tests/plugin/libmem.so,inline=true,callback=true", plugin_log.name,
-                     console_pattern,
-                     args=('-icount', 'shift=1'))
- 
--- 
-2.30.2
+> gen_rrr_sa2p1:
+> 
+> @fmt_rrr_sa2p1        .... ........ ... .. rk:5 rj:5 rd:5   &fmt_rr_sa  sa=%sa2p1
+> lsl_w           0000 00000000 010 .. ..... ..... .....    @fmt_rrr_sa2p1
+> alsl_wu          0000 00000000 011 .. ..... ..... .....   @fmt_rrr_sa2p1
+> alsl_d           0000 00000010 110 .. ..... ..... .....   @fmt_rrr_sa2p1
+> ...
+> 
+> gen_rrr_sa2:
+> @fmt_rrr_sa2        .... ........ ... sa:2 rk:5 rj:5 rd:5   &fmt_rr_sa
+> bytepick_w       0000 00000000 100 .. ..... ..... .....   @fmt_rrr_sa3
+> ...
+> 
+> gen_rrr_sa3:
+> @fmt_rrr_sa3         .... ........ .. sa:3 rk:5 rj:5 rd:5   &fmt_rr_sa
+> bytepick_d       0000 00000000 11 ... ..... ..... .....   @fmt_rrr_sa3
+> ...
 
+Likewise a single gen_rrr_sa function.
+
+
+r~
 
