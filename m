@@ -2,72 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAAFC454355
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 10:10:52 +0100 (CET)
-Received: from localhost ([::1]:34102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CD6145438E
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 10:23:03 +0100 (CET)
+Received: from localhost ([::1]:38284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnGxu-00049L-1R
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 04:10:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34384)
+	id 1mnH9h-0007u5-SU
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 04:23:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mnGwe-0003TJ-1b
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 04:09:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30708)
+ (Exim 4.90_1)
+ (envelope-from <prvs=9488079f4=alistair.francis@opensource.wdc.com>)
+ id 1mnH7a-00061b-9e
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 04:20:50 -0500
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:42785)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mnGwY-0007kZ-6q
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 04:09:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637140164;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eHCUqR9BrseW+uuf2Y421x/5EuAlcOKc1BOh4XUvbKE=;
- b=YdaAqEZjjbS9zCVVFBGLuibr7hJqApB/ZgvuyyGoN2pE1HNmt7k5GAkBRLCBNkcyc60ldS
- OnZEhAJIbSCY5ysExo+9ADl0EWGmq1V5MmtyGvzUkTwCq895l5MzQ0RiuAdw+b4fjqVeFL
- q9sS5qQeyByNk0lGhZvVeEUjM/sB+jQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-265-7PygOPLxNcG7lygouqWyeQ-1; Wed, 17 Nov 2021 04:09:18 -0500
-X-MC-Unique: 7PygOPLxNcG7lygouqWyeQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE12D804141;
- Wed, 17 Nov 2021 09:09:15 +0000 (UTC)
-Received: from [10.33.192.183] (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3E06B57CD3;
- Wed, 17 Nov 2021 09:08:53 +0000 (UTC)
-Message-ID: <e0229a36-b8bd-3822-9994-46279bfa138c@redhat.com>
-Date: Wed, 17 Nov 2021 10:08:52 +0100
+ (Exim 4.90_1)
+ (envelope-from <prvs=9488079f4=alistair.francis@opensource.wdc.com>)
+ id 1mnH7X-0000eR-9T
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 04:20:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1637140847; x=1668676847;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=kugED11/4MZD61ZPMdB1j8rH4CSGFeTG3jPua8fszkw=;
+ b=Xg3uDNdx9pV1GRurixrLc2ckVGv8pPctivGapc2LYG909Hu6pwde5RP3
+ TQvYnsos52R5ZigZctsCsdEHPFUhnDZrKWnkgQiQEuT7RRPcq4rJ9JVup
+ vqZdHflK7wkQSytHzlfLDudiF0koVCf9SbOMEabKShPdMN/FNBk8vLLCk
+ w9ol0nNfInpjrmykiwW/I5Gnnf5kOsd2YFvTFzNCTQn/mVcx/jzigAAND
+ uWc3WsgrHTa7lr5oIewsdRbDwNPwJCs7bAr2EpdIXggCAymSQhXdeDteC
+ AGbx1bgFZlWBgb5uEzJgkq782JhvwzykexFv+tNengC9YBg67vvR6xNTF A==;
+X-IronPort-AV: E=Sophos;i="5.87,241,1631548800"; d="scan'208";a="184819101"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 17 Nov 2021 17:20:41 +0800
+IronPort-SDR: BU/WzMurJTVIUx2pS3EQ1lVkB+T1hTZ7vj4xaLtovW+rK2tM3mpbSsf9LK1L4mjRKXPr9B50C5
+ xt9nNDDoH7v4YmC4htVYlO+MCHTJKLZiRBprDUHW69kk7eaD6PhxjYwwGe8fuW3wEGX5ebnDC+
+ 23erMm5Q/fUfFMBG9FwaqT5IfRT01NWS9GKTaIpVcBv69+OdNeGTppktpvF+atu54mfidWg6vD
+ OW4cJMdFWCAp6rUsImNuqEyXO3MBeY4jn2seWYUOdtXdFx5UyM4t4K+rbb40IqLgb94U9Z+T2T
+ 3leA76NShI4GvSpW5wV9Tbcs
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2021 00:54:10 -0800
+IronPort-SDR: 7iQ83M9XoOVjNJIcFADBmBcRrdy7gTa7lMVTlKe7UIVm9Cx2gpQ6/TVWtDSmfNGWvuRswrRqp4
+ sq6BcowEamfM8J/3qlsE0GpYS/dmv9ptE4lUrxADjervci1Kfa3CE0wnq5UkepcWqlNOF9gfOW
+ j3CBFoWEImZd05qeQJpI8P9vJhX+ZRP1mjSBdtDlDCdXC4V+bV4N6SjB+y2srFnBpSxw7rzEnu
+ BXv6GjWy6DlIQma6HNdwPNz35UukGZLSMpVsE7EMRfRurrQl0IdJwMjyqeZCKXyMqzIqnOovIU
+ mu8=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2021 01:20:42 -0800
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HvHTh631fz1RtVp
+ for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 01:20:40 -0800 (PST)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:x-mailer:message-id:date:subject:to:from; s=dkim;
+ t=1637140840; x=1639732841; bh=kugED11/4MZD61ZPMdB1j8rH4CSGFeTG
+ 3jPua8fszkw=; b=KE1jKkZzDpzjUokNV9vh4fpJ4NZuSC/XC9KyDWxnTgwinZcJ
+ 6TwjqHFQu36EFPezx8XbEOsabQeCOMNxXbPEeBASuI2baQYf/o4Q4xrRMpfRzmX7
+ TTIkEe11kWhu5CX9vztC8I8hj6Uz6zHQ93SNsgE2J5IoI/ncfu0+Xe+77onFvQ8o
+ pD8V0UxeyHzRsg1aZXQMOemhDUQ6onhwSTMJdDZr9i7rcPOi/tAFGOAxreDm6HMu
+ WxK6mUvzvMz3G9w+W7Sjo/XSxhm7kf7IZ3SRshL49c84MNqI00rL0hdhPjEpRPZX
+ bDpQxdwOJEseURmo7IxYB+0ij5nHh5LLlKRORQ==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id 1YUuaC2lv9Gq for <qemu-devel@nongnu.org>;
+ Wed, 17 Nov 2021 01:20:40 -0800 (PST)
+Received: from toolbox.wdc.com (unknown [10.225.165.57])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HvHTd6bshz1RtVl;
+ Wed, 17 Nov 2021 01:20:37 -0800 (PST)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-devel@nongnu.org
+Cc: alistair23@gmail.com,
+	Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 0/2] riscv-to-apply queue
+Date: Wed, 17 Nov 2021 19:20:29 +1000
+Message-Id: <20211117092031.99019-1-alistair.francis@opensource.wdc.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-To: Kashyap Chamarthy <kchamart@redhat.com>, qemu-devel@nongnu.org
-References: <20211110144902.388183-1-kchamart@redhat.com>
- <20211110144902.388183-4-kchamart@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v3 3/3] docs: rSTify the "SubmitAPatch" wiki
-In-Reply-To: <20211110144902.388183-4-kchamart@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.71.154.42;
+ envelope-from=prvs=9488079f4=alistair.francis@opensource.wdc.com;
+ helo=esa4.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.009, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,115 +111,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Eric Blake <eblake@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/11/2021 15.49, Kashyap Chamarthy wrote:
-> - The original wiki is here[1]. I copied the wiki source[2] into a .wiki
->    file, and used `pandoc` to convert it to rST:
-> 
->      $> pandoc -f Mediawiki -t rst submitting-a-patch.wiki -o
->         submitting-a-patch.rst
-> 
-> - The only minor touch-ups I did was to fix URLs.  But 99%, it is a 1-1
->    conversion.
-> 
->    (An example of a "touch-up": under the section "Patch emails must
->    include a Signed-off-by: line", I updated the "see SubmittingPatches
->    1.12"  to "1.12) Sign your work")
-> 
-> - I have also converted a couple other related wiki pages (included in
->    this patch series) that were hyperlinked within the SubmitAPatch page,
->    or a page that it refers to:
-> 
->    - SubmitAPullRequest: https://wiki.qemu.org/Contribute/SubmitAPullRequest
->    - TrivialPatches: https://wiki.qemu.org/Contribute/TrivialPatches
-> 
-> - Over time, many people contributed to this wiki page; you can find all
->    the authors in the wiki history[3].
-> 
-> [1] https://wiki.qemu.org/Contribute/SubmitAPatch
-> [2] http://wiki.qemu.org/index.php?title=Contribute/SubmitAPatch&action=edit
-> [3] http://wiki.qemu.org/index.php?title=Contribute/SubmitAPatch&action=history
-> 
-> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
-> ---
->   docs/devel/index.rst              |   1 +
->   docs/devel/submitting-a-patch.rst | 456 ++++++++++++++++++++++++++++++
->   2 files changed, 457 insertions(+)
->   create mode 100644 docs/devel/submitting-a-patch.rst
-> 
-> diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-> index 816eb7b7b0..c3cfa9e41f 100644
-> --- a/docs/devel/index.rst
-> +++ b/docs/devel/index.rst
-> @@ -47,3 +47,4 @@ modifying QEMU's source code.
->      writing-qmp-commands
->      trivial-patches
->      submitting-a-pull-request
-> +   submitting-a-patch
+From: Alistair Francis <alistair.francis@wdc.com>
 
-I'd suggest to insert this before the pull-request entry, in case anybody 
-reads the manual sequentially, it might be better to learn about the patch 
-submission process first before reading about pull requests.
-(I can fix this up when picking up the patch, no need to resend)
+The following changes since commit 8d5fcb1990bc64b62c0bc12121fe510940be56=
+64:
 
-> diff --git a/docs/devel/submitting-a-patch.rst b/docs/devel/submitting-a-patch.rst
-> new file mode 100644
-> index 0000000000..c80dad47fa
-> --- /dev/null
-> +++ b/docs/devel/submitting-a-patch.rst
-...
-> +Split up long patches
-> +~~~~~~~~~~~~~~~~~~~~~
-> +
-> +Split up longer patches into a patch series of logical code changes.
-> +Each change should compile and execute successfully. For instance, don't
-> +add a file to the makefile in patch one and then add the file itself in
-> +patch two. (This rule is here so that people can later use tools like
-> +```git bisect`` <http://git-scm.com/docs/git-bisect>`__ without hitting
+  Merge tag 'python-pull-request' of https://gitlab.com/jsnow/qemu into s=
+taging (2021-11-17 07:41:08 +0100)
 
-That hyperlink showed up in the rendered output. I'll fix it up by removing 
-the "``" quotes.
+are available in the Git repository at:
 
-> +.. _write_a_meaningful_commit_message:
-> +
-> +Write a meaningful commit message
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +Commit messages should be meaningful and should stand on their own as a
-> +historical record of why the changes you applied were necessary or
-> +useful.
-> +
-> +QEMU follows the usual standard for git commit messages: the first line
-> +(which becomes the email subject line) is "subsystem: single line
-> +summary of change". Whether the "single line summary of change" starts
-> +with a capital is a matter of taste, but we prefer that the summary does
-> +not end in ".".
+  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20211117-1
 
-That ".". looks a little bit weird in the output ... maybe we should replace 
-it with "does not end with a dot." ?
+for you to fetch changes up to c94c239496256f1f1cb589825d052c2f3e26ebf6:
 
-> Look at ``git shortlog -30`` for an idea of sample
-> +subject lines. Then there is a blank line and a more detailed
-> +description of the patch, another blank and your Signed-off-by: line.
-> +Please do not use lines that are longer than 76 characters in your
-> +commit message (so that the text still shows up nicely with "git show"
-> +in a 80-columns terminal window).
-> +
-> +The body of the commit message is a good place to document why your
-> +change is important. Don't include comments like "This is a suggestion
-> +for fixing this bug" (they can go below the "---" line in the email so
+  meson.build: Merge riscv32 and riscv64 cpu family (2021-11-17 19:18:22 =
++1000)
 
-That --- gets translated into a — character ... I'll replace the "---" with 
-``---`` to fix it.
+----------------------------------------------------------------
+Sixth RISC-V PR for QEMU 6.2
 
-  Thomas
+ - Fix build for riscv hosts
+ - Soft code alphabetically
 
+----------------------------------------------------------------
+Bin Meng (1):
+      target/riscv: machine: Sort the .subsections
+
+Richard Henderson (1):
+      meson.build: Merge riscv32 and riscv64 cpu family
+
+ meson.build            |  6 ++++
+ target/riscv/machine.c | 92 +++++++++++++++++++++++++-------------------=
+------
+ 2 files changed, 52 insertions(+), 46 deletions(-)
 
