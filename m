@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB3E74549C8
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 16:19:51 +0100 (CET)
-Received: from localhost ([::1]:53492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAE2E4549D2
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 16:21:32 +0100 (CET)
+Received: from localhost ([::1]:56954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnMj0-0005QI-AN
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 10:19:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37994)
+	id 1mnMkd-0007wa-I5
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 10:21:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mnMgX-0003DB-0l
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 10:17:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43356)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mnMgY-0003Il-Sm
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 10:17:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mnMgU-0004tp-BM
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 10:17:16 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mnMgX-0004uL-Ai
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 10:17:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637162233;
+ s=mimecast20190719; t=1637162236;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=YVP9mZFOm/YTBwAZxwTR4gH9Io/ojC0HCVsTTHvBT18=;
- b=FbG06lHvn2HtmXX9xrpsPErGWX5lUC+8anPepq7YRqDOJdzNCjvs7flFtyPFAPC5UIIYqB
- FO1smozWK52SactfS0VOhiSzXV3qufSZ8Om3RCa6Ur2Z9SY9TSeUwms6yKt5p/iA+ljJ2c
- sN+CRGIpJBfmWgASZz+XIAzRasnFT14=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5n4qF2HbQ+YEnXxwp0jd86iHwmna9cL67Byg/xWP7Mc=;
+ b=dIHS6QjXPO4CN4NWYOHw3ANw1+aCq6AGzPwVcViZUUoPDzkM5WdQT2oXkpxVLOyDQnPZi8
+ T7Acz/Ce8zljAGnb46v3VxElryVNPwn9mCSNZP7b33zj7nT/NnUanJUM4JSA4oMJ+3wMRm
+ 7NFwna1PAeOshZKsw11yEDni4aS8Omc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-521-rV7E03tDObeg393V3JD0Lw-1; Wed, 17 Nov 2021 10:17:10 -0500
-X-MC-Unique: rV7E03tDObeg393V3JD0Lw-1
+ us-mta-485-Ptx-60d6PBKLkLskAY3zQA-1; Wed, 17 Nov 2021 10:17:13 -0500
+X-MC-Unique: Ptx-60d6PBKLkLskAY3zQA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 818E4804140;
- Wed, 17 Nov 2021 15:17:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C57A19200C1;
+ Wed, 17 Nov 2021 15:17:12 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.120])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 26C1919D9B;
- Wed, 17 Nov 2021 15:17:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D02319D9B;
+ Wed, 17 Nov 2021 15:17:12 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 0/2] iotests: Fix crypto algorithm failures
-Date: Wed, 17 Nov 2021 16:17:05 +0100
-Message-Id: <20211117151707.52549-1-hreitz@redhat.com>
+Subject: [PATCH v2 1/2] iotests: Use aes-128-cbc
+Date: Wed, 17 Nov 2021 16:17:06 +0100
+Message-Id: <20211117151707.52549-2-hreitz@redhat.com>
+In-Reply-To: <20211117151707.52549-1-hreitz@redhat.com>
+References: <20211117151707.52549-1-hreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
@@ -52,15 +55,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,47 +82,104 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Our gnutls crypto backend (which is the default as of 8bd0931f6)
+supports neither twofish-128 nor the CTR mode.  CBC and aes-128 are
+supported by all of our backends (as far as I can tell), so use
+aes-128-cbc in our iotests.
 
-iotests 149, 206, and 210 fail when qemu uses the gnutls crypto backend
-(which is the default as of 8bd0931f6) because they try to use
-algorithms that this backend does not support.
+(We could also use e.g. aes-256-cbc, but the different key sizes would
+lead to different key slot offsets and so change the reference output
+more, which is why I went with aes-128.)
 
-Have 206 and 210 use different algorithms instead (patch 1), and let 149
-be skipped when it encounters an unsupported algorithm (patch 2).
+Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+---
+ tests/qemu-iotests/206     | 4 ++--
+ tests/qemu-iotests/206.out | 6 +++---
+ tests/qemu-iotests/210     | 4 ++--
+ tests/qemu-iotests/210.out | 6 +++---
+ 4 files changed, 10 insertions(+), 10 deletions(-)
 
-
-v2:
-- Fixed the `check_cipher_support()` function introduced in patch 2
-  (forgot to pass `config`, though it worked even without, apparently
-  because `config` is a global-scope variable....)
-
-- Also a good opportunity to CC Dan, who I forgot on v1
-
-
-git-backport-diff against v1:
-
-Key:
-[----] : patches are identical
-[####] : number of functional differences between upstream/downstream patch
-[down] : patch is downstream-only
-The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
-
-001/2:[----] [--] 'iotests: Use aes-128-cbc'
-002/2:[0008] [FC] 'iotests/149: Skip on unsupported ciphers'
-
-
-Hanna Reitz (2):
-  iotests: Use aes-128-cbc
-  iotests/149: Skip on unsupported ciphers
-
- tests/qemu-iotests/149     | 23 ++++++++++++++++++-----
- tests/qemu-iotests/206     |  4 ++--
- tests/qemu-iotests/206.out |  6 +++---
- tests/qemu-iotests/210     |  4 ++--
- tests/qemu-iotests/210.out |  6 +++---
- 5 files changed, 28 insertions(+), 15 deletions(-)
-
+diff --git a/tests/qemu-iotests/206 b/tests/qemu-iotests/206
+index c3cdad4ce4..10eff343f7 100755
+--- a/tests/qemu-iotests/206
++++ b/tests/qemu-iotests/206
+@@ -162,8 +162,8 @@ with iotests.FilePath('t.qcow2') as disk_path, \
+                          'encrypt': {
+                              'format': 'luks',
+                              'key-secret': 'keysec0',
+-                             'cipher-alg': 'twofish-128',
+-                             'cipher-mode': 'ctr',
++                             'cipher-alg': 'aes-128',
++                             'cipher-mode': 'cbc',
+                              'ivgen-alg': 'plain64',
+                              'ivgen-hash-alg': 'md5',
+                              'hash-alg': 'sha1',
+diff --git a/tests/qemu-iotests/206.out b/tests/qemu-iotests/206.out
+index 3593e8e9c2..80cd274223 100644
+--- a/tests/qemu-iotests/206.out
++++ b/tests/qemu-iotests/206.out
+@@ -97,7 +97,7 @@ Format specific information:
+ 
+ === Successful image creation (encrypted) ===
+ 
+-{"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "qcow2", "encrypt": {"cipher-alg": "twofish-128", "cipher-mode": "ctr", "format": "luks", "hash-alg": "sha1", "iter-time": 10, "ivgen-alg": "plain64", "ivgen-hash-alg": "md5", "key-secret": "keysec0"}, "file": {"driver": "file", "filename": "TEST_DIR/PID-t.qcow2"}, "size": 33554432}}}
++{"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "qcow2", "encrypt": {"cipher-alg": "aes-128", "cipher-mode": "cbc", "format": "luks", "hash-alg": "sha1", "iter-time": 10, "ivgen-alg": "plain64", "ivgen-hash-alg": "md5", "key-secret": "keysec0"}, "file": {"driver": "file", "filename": "TEST_DIR/PID-t.qcow2"}, "size": 33554432}}}
+ {"return": {}}
+ {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+ {"return": {}}
+@@ -115,10 +115,10 @@ Format specific information:
+     encrypt:
+         ivgen alg: plain64
+         hash alg: sha1
+-        cipher alg: twofish-128
++        cipher alg: aes-128
+         uuid: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+         format: luks
+-        cipher mode: ctr
++        cipher mode: cbc
+         slots:
+             [0]:
+                 active: true
+diff --git a/tests/qemu-iotests/210 b/tests/qemu-iotests/210
+index 5a62ed4dd1..a4dcc5fe59 100755
+--- a/tests/qemu-iotests/210
++++ b/tests/qemu-iotests/210
+@@ -83,8 +83,8 @@ with iotests.FilePath('t.luks') as disk_path, \
+                          },
+                          'size': size,
+                          'key-secret': 'keysec0',
+-                         'cipher-alg': 'twofish-128',
+-                         'cipher-mode': 'ctr',
++                         'cipher-alg': 'aes-128',
++                         'cipher-mode': 'cbc',
+                          'ivgen-alg': 'plain64',
+                          'ivgen-hash-alg': 'md5',
+                          'hash-alg': 'sha1',
+diff --git a/tests/qemu-iotests/210.out b/tests/qemu-iotests/210.out
+index 55c0844370..96d9f749dd 100644
+--- a/tests/qemu-iotests/210.out
++++ b/tests/qemu-iotests/210.out
+@@ -59,7 +59,7 @@ Format specific information:
+ {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+ {"return": {}}
+ 
+-{"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"cipher-alg": "twofish-128", "cipher-mode": "ctr", "driver": "luks", "file": {"driver": "file", "filename": "TEST_DIR/PID-t.luks"}, "hash-alg": "sha1", "iter-time": 10, "ivgen-alg": "plain64", "ivgen-hash-alg": "md5", "key-secret": "keysec0", "size": 67108864}}}
++{"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"cipher-alg": "aes-128", "cipher-mode": "cbc", "driver": "luks", "file": {"driver": "file", "filename": "TEST_DIR/PID-t.luks"}, "hash-alg": "sha1", "iter-time": 10, "ivgen-alg": "plain64", "ivgen-hash-alg": "md5", "key-secret": "keysec0", "size": 67108864}}}
+ {"return": {}}
+ {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+ {"return": {}}
+@@ -71,9 +71,9 @@ encrypted: yes
+ Format specific information:
+     ivgen alg: plain64
+     hash alg: sha1
+-    cipher alg: twofish-128
++    cipher alg: aes-128
+     uuid: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+-    cipher mode: ctr
++    cipher mode: cbc
+     slots:
+         [0]:
+             active: true
 -- 
 2.33.1
 
