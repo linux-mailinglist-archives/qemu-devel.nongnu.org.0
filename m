@@ -2,65 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76B3F4546A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 13:52:04 +0100 (CET)
-Received: from localhost ([::1]:46450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 291004546AD
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 13:53:07 +0100 (CET)
+Received: from localhost ([::1]:49646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnKPz-0005Ih-30
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 07:52:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55678)
+	id 1mnKQz-0007Z2-Vx
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 07:53:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mnKOU-0003Sv-B0
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 07:50:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33112)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mnKPS-0005NT-0Z
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 07:51:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mnKOR-0006d7-Vc
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 07:50:29 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mnKPQ-00073X-3I
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 07:51:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637153427;
+ s=mimecast20190719; t=1637153486;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=29ziVhPIMCqph+dahxIapM+saDrMhu3sazO7rktjM/I=;
- b=QElwAoYAPmQK2BvYrU9BDXWRlwi/wJCe2qrcflQ6CaJSikxK7iLdINUTecxiYBg+NRc4XF
- ucbizH9MGLjXdM99XBFkFfuSVSNEtljYh6VCyJu5nY3rki0quXsafmD4LPwaGYr9oalCAE
- uYuf8AtE5+oHU0jgMQqvdUMsV9YXx+Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-518-tMQGRPvBO-mc0pbTpK4Ftw-1; Wed, 17 Nov 2021 07:50:20 -0500
-X-MC-Unique: tMQGRPvBO-mc0pbTpK4Ftw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0D4F1851722;
- Wed, 17 Nov 2021 12:50:19 +0000 (UTC)
-Received: from [10.39.195.37] (unknown [10.39.195.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E0B113AEA;
- Wed, 17 Nov 2021 12:50:13 +0000 (UTC)
-Message-ID: <fc5a6743-8d0b-58a0-00d1-169bb87691f7@redhat.com>
-Date: Wed, 17 Nov 2021 13:50:12 +0100
+ bh=1jXyaGsieylKGj9xbqb0Dbcdb7+/iWV16rsTXdzOMj0=;
+ b=Re4bnzbBxORngnxdOONtqr5c6ZQOrl/C3tSBIncnwC33uPfH5Eb/Fj9olsTbrJ0kTWp0nc
+ /wESRyAzGYlLJ/X970u53ZBjw9MTT8brwYAq/XzRKvcfhrZvQjh/n2lnuiwvLAhyvxs/Ih
+ Jsy3BR1XsLaoT4bJHGrGnbS9byOhkYs=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-589-AfUCjuBRMBeMqB4zPx2jUg-1; Wed, 17 Nov 2021 07:51:25 -0500
+X-MC-Unique: AfUCjuBRMBeMqB4zPx2jUg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ b1-20020a5d6341000000b001901ddd352eso349782wrw.7
+ for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 04:51:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=1jXyaGsieylKGj9xbqb0Dbcdb7+/iWV16rsTXdzOMj0=;
+ b=75ipDQea+qMsfmhZum2QR5oL+EXPclblQjF3VsJVxzUzaI+JZPsVDXM9d1IR6v0pGE
+ 930V7FrEsJbgwitq2CQoHrBlXAVkeco7BSAQaEjfRcWA/JUOlM4jEfRP5vDlLkhL9+KV
+ us846OfslT1y3c8GaaKeANbnebzUjvdYns4R45K/RUEBXhNbd2y9/Kv+Jtw1R7DesAlf
+ 9YH2Nzr/7k+//cpIylXd4IiPcx4r1YvcYaU96PGBRbs8+4KL4UA6o6fdeXA4qT1DHglm
+ AlkUeIqZ3OsYW8lGBj6SpCS1e18pGWXRsUuEDAaOUQaPNxToV/NT3r9viYLQSoCFFXMO
+ Lxhw==
+X-Gm-Message-State: AOAM530q7iDuh9fovAAo7RgN4O4mqwOtnqVxMStHFS6knbf3tJvFezYc
+ p/lYoaORxokWyEVSiwI8iJ90J+akVRSNyIQuuuWRDIs68q2oEs7dSoSUS8+ur2braOUn/e5W8a/
+ NQ1x7YYs7h2HUznE=
+X-Received: by 2002:adf:d84c:: with SMTP id k12mr19909700wrl.24.1637153484691; 
+ Wed, 17 Nov 2021 04:51:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyZiR1qhJ/014oLk13M7k5nzGx9xxgL3xtgQnS/fUtRVpuc0tqJCrwQgm2j4REMwPpYHJRdtw==
+X-Received: by 2002:adf:d84c:: with SMTP id k12mr19909674wrl.24.1637153484474; 
+ Wed, 17 Nov 2021 04:51:24 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:ca91:ec4d:49ff:d0d1?
+ ([2a02:8071:5055:3f20:ca91:ec4d:49ff:d0d1])
+ by smtp.gmail.com with ESMTPSA id p2sm6036238wmq.23.2021.11.17.04.51.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Nov 2021 04:51:24 -0800 (PST)
+Message-ID: <01dabd9f-9443-2482-431d-51055f99885d@redhat.com>
+Date: Wed, 17 Nov 2021 13:51:23 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: Failing QEMU iotests
-To: Hanna Reitz <hreitz@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>, 
- Qemu-block <qemu-block@nongnu.org>
-References: <a3273a3c-c294-6340-7ea7-73e5696c7b2e@redhat.com>
- <fabb0f91-48d4-47f7-562e-395f0acf4b81@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <fabb0f91-48d4-47f7-562e-395f0acf4b81@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Subject: Re: [PATCH v4 20/25] block_int-common.h: assertion in the callers of
+ BlockDriver function pointers
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20211025101735.2060852-1-eesposit@redhat.com>
+ <20211025101735.2060852-21-eesposit@redhat.com>
+ <83cf9336-e37d-bf48-961c-8103b5c7bc62@redhat.com>
+ <197a79f6-c9c2-d73b-7e38-e88ccc2e0a57@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <197a79f6-c9c2-d73b-7e38-e88ccc2e0a57@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -44
 X-Spam_score: -4.5
@@ -81,129 +101,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/11/2021 11.59, Hanna Reitz wrote:
-> On 17.11.21 11:07, Thomas Huth wrote:
+On 17.11.21 12:33, Emanuele Giuseppe Esposito wrote:
+>
+>
+> On 15/11/2021 13:48, Hanna Reitz wrote:
+>> On 25.10.21 12:17, Emanuele Giuseppe Esposito wrote:
+>>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>>> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+>>> ---
+>>>   block.c | 17 +++++++++++++++++
+>>>   1 file changed, 17 insertions(+)
+>>>
+>>> diff --git a/block.c b/block.c
+>>> index 94bff5c757..40c4729b8d 100644
+>>> --- a/block.c
+>>> +++ b/block.c
 >>
->>  Hi!
+>> [...]
 >>
->> I think it has been working fine for me a couple of weeks ago,
->> but when I now run:
+>>> @@ -2148,6 +2152,7 @@ static void bdrv_child_perm(BlockDriverState 
+>>> *bs, BlockDriverState *child_bs,
+>>>                               uint64_t *nperm, uint64_t *nshared)
+>>>   {
+>>>       assert(bs->drv && bs->drv->bdrv_child_perm);
+>>> +    assert(qemu_in_main_thread());
+>>>       bs->drv->bdrv_child_perm(bs, c, role, reopen_queue,
+>>>                                parent_perm, parent_shared,
+>>>                                nperm, nshared);
 >>
->>  make check SPEED=slow
+>> (Should’ve noticed earlier, but only did now...)
 >>
->> I'm getting a couple of failing iotests... not sure whether
->> these are known issues already, so I thought I'd summarize them
->> here:
-...
->> --- /home/thuth/devel/qemu/tests/qemu-iotests/206.out
->> +++ 206.out.bad
->> @@ -99,55 +99,19 @@
+>> First, this function is indirectly called by bdrv_refresh_perms(). I 
+>> understand that all perm-related functions are classified as GS.
 >>
->>  {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": 
->> {"driver": "qcow2", "encrypt": {"cipher-alg": "twofish-128", 
->> "cipher-mode": "ctr", "format": "luks", "hash-alg": "sha1", "iter-time": 
->> 10, "ivgen-alg": "plain64", "ivgen-hash-alg": "md5", "key-secret": 
->> "keysec0"}, "file": {"driver": "file", "filename": 
->> "TEST_DIR/PID-t.qcow2"}, "size": 33554432}}}
->>  {"return": {}}
->> +Job failed: Unsupported cipher algorithm twofish-128 with ctr mode
->>  {"execute": "job-dismiss", "arguments": {"id": "job0"}}
->>  {"return": {}}
+>> However, bdrv_co_invalidate_cache() invokes bdrv_refresh_perms. Being 
+>> declared in block/coroutine.h, it’s an I/O function, so it mustn’t 
+>> call such a GS function. BlockDriver.bdrv_co_invalidate_cache(), 
+>> bdrv_invalidate_cache(), and blk_invalidate_cache() are also 
+>> classified as I/O functions. Perhaps all of these functions should be 
+>> classified as GS functions?  I believe their callers and their 
+>> purpose would allow for this.
+>
+> I think that the *_invalidate_cache functions are I/O.
+> First of all, test-block-iothread.c calls bdrv_invalidate_cache in 
+> test_sync_op_invalidate_cache, which is purposefully called in an 
+> iothread. So that hints that we want it as I/O.
+
+Hm, OK, but bdrv_co_invalidate_cache() calls bdrv_refresh_perms(), which 
+is a GS function, so that shouldn’t work, right?
+
+> (Small mistake I just noticed: blk_invalidate_cache has the BQL 
+> assertion even though it is rightly put in block-backend-io.h
+>
 >>
->>  image: TEST_IMG
->>  file format: IMGFMT
->>  virtual size: 32 MiB (33554432 bytes)
->> -encrypted: yes
->>  cluster_size: 65536
->>  Format specific information:
->>      compat: 1.1
->>      compression type: zlib
->>      lazy refcounts: false
->>      refcount bits: 16
->> -    encrypt:
->> -        ivgen alg: plain64
->> -        hash alg: sha1
->> -        cipher alg: twofish-128
->> -        uuid: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
->> -        format: luks
->> -        cipher mode: ctr
->> -        slots:
->> -            [0]:
->> -                active: true
->> -                iters: XXX
->> -                key offset: 4096
->> -                stripes: 4000
->> -            [1]:
->> -                active: false
->> -                key offset: 69632
->> -            [2]:
->> -                active: false
->> -                key offset: 135168
->> -            [3]:
->> -                active: false
->> -                key offset: 200704
->> -            [4]:
->> -                active: false
->> -                key offset: 266240
->> -            [5]:
->> -                active: false
->> -                key offset: 331776
->> -            [6]:
->> -                active: false
->> -                key offset: 397312
->> -            [7]:
->> -                active: false
->> -                key offset: 462848
->> -        payload offset: 528384
->> -        master key iters: XXX
->>      corrupt: false
->>      extended l2: false
-> 
-> I doubt this worked a couple of weeks ago, but it’s definitely one that we 
-> should just get around to fixing. :/
+>> Second, it’s called by bdrv_child_refresh_perms(), which is called by 
+>> block_crypto_amend_options_generic_luks().  This function is called 
+>> by block_crypto_co_amend_luks(), which is a BlockDriver.bdrv_co_amend 
+>> implementation, which is classified as an I/O function.
+>>
+>> Honestly, I don’t know how to fix that mess.  The best would be if we 
+>> could make the perm functions thread-safe and classify them as I/O, 
+>> but it seems to me like that’s impossible (I sure hope I’m wrong).  
+>> On the other hand, .bdrv_co_amend very much strikes me like a GS 
+>> function, but it isn’t.  I’m afraid it must work on nodes that are 
+>> not in the main context, and it launches a job, so AFAIU we 
+>> absolutely cannot run it under the BQL.
+>>
+>> It almost seems to me like we’d need a thread-safe variant of the 
+>> perm functions that’s allowed to fail when it cannot guarantee thread 
+>> safety or something.  Or perhaps I’m wrong and the perm functions can 
+>> actually be classified as thread-safe and I/O, that’d be great…
+>
+> I think that since we are currently only splitting and not taking care 
+> of the actual I/O thread safety, we can move the _perm functions in 
+> I/O, and add a nice TODO to double check their thread safety.
 
-Hm, maybe I've did the successful run on a different system last time ... I 
-even slightly remember now having seen this before in the past on my current 
-system, so yes, likely not something new.
+:/
 
+I would really, really like to avoid that unless it’s clear that we can 
+make them thread-safe, or that there’s a way to take the BQL in I/O 
+functions to call GS functions.  But the latter still wouldn’t make the 
+perm functions I/O functions.  At most, I’d sort them under common 
+functions.
 
->> +++ 297.out.bad
->> @@ -1,2 +1,21 @@
->>  === pylint ===
->> +************* Module image-fleecing
->> +tests/image-fleecing:34:24: C0326: Exactly one space required after comma
->> +patterns = [('0x5d', '0',         '64k'),
->> +                        ^ (bad-whitespace)
->> +tests/image-fleecing:35:25: C0326: Exactly one space required after comma
->> +            ('0xd5', '1M',        '64k'),
->> +                         ^ (bad-whitespace)
->> +tests/image-fleecing:36:26: C0326: Exactly one space required after comma
->> +            ('0xdc', '32M',       '64k'),
->> +                          ^ (bad-whitespace)
->> +tests/image-fleecing:39:25: C0326: Exactly one space required after comma
->> +overwrite = [('0xab', '0',         '64k'), # Full overwrite
->> +                         ^ (bad-whitespace)
->> +tests/image-fleecing:48:32: C0326: Exactly one space required after comma
->> +remainder = [('0xd5', '0x108000',  '32k'), # Right-end of partial-left [1]
->> +                                ^ (bad-whitespace)
->> +tests/image-fleecing:49:27: C0326: Exactly one space required after comma
->> +             ('0xdc', '32M',       '32k'), # Left-end of partial-right [2]
->> +                           ^ (bad-whitespace)
-> 
-> This could be because your pylint is too old.  At least for the python/ 
-> tests we at least require 2.8.0 
-> (https://lists.nongnu.org/archive/html/qemu-block/2021-10/msg00768.html) and 
-> bad-whitespace was removed in 2.6.
+> I mean, if they are not thread-safe after the split it means they are 
+> not thread safe also right now.
 
-Thanks, updating pylint fixed this problem, indeed!
+Yes, sorry I wasn’t clear, I think there’s a pre-existing problem that 
+your series only unveils.  I don’t know whether it has implications in 
+practice yet.
 
-But maybe the iotests should check the pylint version before using it?
-
-  Thomas
+Hanna
 
 
