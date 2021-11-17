@@ -2,102 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B4BA454B95
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 18:04:59 +0100 (CET)
-Received: from localhost ([::1]:53142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB6BA454B84
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 18:02:47 +0100 (CET)
+Received: from localhost ([::1]:45500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnOMk-0008Ns-Et
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 12:04:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36624)
+	id 1mnOKc-00035L-Cs
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 12:02:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1mnO6n-0007uR-L5; Wed, 17 Nov 2021 11:48:29 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:9204
- helo=mx0a-001b2d01.pphosted.com)
+ id 1mnO6n-0007rw-0c; Wed, 17 Nov 2021 11:48:29 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1mnO6h-00021g-Jz; Wed, 17 Nov 2021 11:48:29 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AHFIWvG010514; 
- Wed, 17 Nov 2021 16:48:21 GMT
+ id 1mnO6j-000229-L1; Wed, 17 Nov 2021 11:48:28 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AHGgKqv018791; 
+ Wed, 17 Nov 2021 16:48:23 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=UsdiHjoRY7bJeSYL5zooRVCYbQ7q3zkwIdOzVLGqRwE=;
- b=o2PEfUBfs0mCwWMvGqOTaUgFFecY9jNdx7HwiF3HmCYwDseOQ9xT5pYApqrWte0WDCde
- 0KF/rx72TAjndnOx4AthJvnj6MF/Mn7ogNnB8e3dOHqGrt1EG9/UNPE+sytt1H/Fy+lb
- 7rYflF/5v8yEkSLSlsBEI5sCBFLE871l/7UiUgdrN1aq9tpufdsMjzamRSG3xzStDcPL
- lewkSkZycGx15vNWjpRpsLcNb7kp1vvSIziQiNzfGhCGnk05KKnw62oGYytK+GBIstRi
- blCHl6nse01qm4C+8so4l6ocNGPVMqJ5IC1tkPETH2Wwh53z/a5Qv3i4wOc5W9rIq+4f XA== 
+ bh=yy8DaN9cAtsPqO9KsE0rQVGqnb7oloCiQi+H9yqlOM0=;
+ b=Ft5ls59/kiORUHIVqs/oLbgMIR3aRNtVCYqjNfLbiRHAf/kV3tWCWaSRPKlrLXPSRx8P
+ BkTqudQvo+UFpJw5KFKBxeqLK0aIDSx+bfBfyHW42BcVBelRKYjcyGg+NO13P+T4RsKu
+ KujS3YK0pP4u3UjPQzDJchjo3ZxrjQoZ2C/8C8u91xe6N2QfDFlNNoIMQU6tddLv+bvQ
+ U2CS6nbVv6XVHzZNDwlgO+DOO6TbnRVuiD1VnDCP0UkyIF30ydttmryRHrlsh4uT5ZdH
+ VcpZr2hDhK6BTooo89KXVSmhx2WTiYP0H9xuPnAfzZeQMATeK18/FdW08IC3YRzRp3dt sA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3cd48yt3g7-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cd5ga83sw-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Nov 2021 16:48:21 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AHFIjHT010824;
- Wed, 17 Nov 2021 16:48:21 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3cd48yt3fn-1
+ Wed, 17 Nov 2021 16:48:23 +0000
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AHGjAoj025814;
+ Wed, 17 Nov 2021 16:48:22 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cd5ga83s3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Nov 2021 16:48:20 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AHGRAUb023763;
- Wed, 17 Nov 2021 16:48:19 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma06ams.nl.ibm.com with ESMTP id 3ca4mk4e52-1
+ Wed, 17 Nov 2021 16:48:22 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AHGR9Uc018638;
+ Wed, 17 Nov 2021 16:48:20 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma06fra.de.ibm.com with ESMTP id 3ca4mkava1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Nov 2021 16:48:18 +0000
+ Wed, 17 Nov 2021 16:48:19 +0000
 Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
  [9.149.105.60])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 1AHGfKpm55574980
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1AHGmGd055968118
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 17 Nov 2021 16:41:20 GMT
+ Wed, 17 Nov 2021 16:48:17 GMT
 Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C8DF44204D;
- Wed, 17 Nov 2021 16:48:15 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id DEA8D4204C;
+ Wed, 17 Nov 2021 16:48:16 +0000 (GMT)
 Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4E8A742045;
- Wed, 17 Nov 2021 16:48:15 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 6D57B42045;
+ Wed, 17 Nov 2021 16:48:16 +0000 (GMT)
 Received: from li-c6ac47cc-293c-11b2-a85c-d421c8e4747b.ibm.com.com (unknown
  [9.171.38.237])
  by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 17 Nov 2021 16:48:15 +0000 (GMT)
+ Wed, 17 Nov 2021 16:48:16 +0000 (GMT)
 From: Pierre Morel <pmorel@linux.ibm.com>
 To: qemu-s390x@nongnu.org
-Subject: [PATCH v4 2/5] s390x: topology: CPU topology objects and structures
-Date: Wed, 17 Nov 2021 17:48:45 +0100
-Message-Id: <20211117164848.310952-3-pmorel@linux.ibm.com>
+Subject: [PATCH v4 4/5] s390x: CPU topology: CPU topology migration
+Date: Wed, 17 Nov 2021 17:48:47 +0100
+Message-Id: <20211117164848.310952-5-pmorel@linux.ibm.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20211117164848.310952-1-pmorel@linux.ibm.com>
 References: <20211117164848.310952-1-pmorel@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: uGwDBssb0cYbC1APitiqQyDMVpQbvt8S
-X-Proofpoint-ORIG-GUID: mPKMu4UAoJlQWdOEUwtldEVhQQfAFDJ0
+X-Proofpoint-ORIG-GUID: 50etPL_8XrGkJw8h_k9hcqO3nI-OHlkw
+X-Proofpoint-GUID: tg_Iitn9HLu1vKn9qBv0FezY51suSrgF
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
  definitions=2021-11-17_05,2021-11-17_01,2020-04-07_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxlogscore=999
- impostorscore=0 suspectscore=0 spamscore=0 malwarescore=0 bulkscore=0
- mlxscore=0 phishscore=0 lowpriorityscore=0 priorityscore=1501
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111170077
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ spamscore=0
+ lowpriorityscore=0 suspectscore=0 malwarescore=0 adultscore=0
+ priorityscore=1501 mlxlogscore=999 clxscore=1015 bulkscore=0 mlxscore=0
+ impostorscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2111170077
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,577 +114,183 @@ Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We use new objects to have a dynamic administration of the CPU topology.
-The highest level object in this implementation is the s390 book and
-in this first implementation of CPU topology for S390 we have a single
-book.
-The book is built as a SYSBUS bridge during the CPU initialization.
-
-Every object under this single book will be build dynamically
-immediately after a CPU has be realized if it is needed.
-The CPU will fill the sockets once after the other, according to the
-number of core per socket defined during the smp parsing.
-
-Each CPU inside a socket will be represented by a bit in a 64bit
-unsigned long. Set on plug and clear on unplug of a CPU.
+Both source and target must have the same configuration
+regarding the activation of Perform Topology Function
+and Store Topology System Information.
 
 Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 ---
- hw/s390x/cpu-topology.c         | 361 ++++++++++++++++++++++++++++++++
- hw/s390x/meson.build            |   1 +
- hw/s390x/s390-virtio-ccw.c      |   4 +
- include/hw/s390x/cpu-topology.h |  74 +++++++
- target/s390x/cpu.h              |  47 +++++
- 5 files changed, 487 insertions(+)
- create mode 100644 hw/s390x/cpu-topology.c
- create mode 100644 include/hw/s390x/cpu-topology.h
+ target/s390x/cpu.h                  |  2 ++
+ target/s390x/cpu_features_def.h.inc |  1 +
+ target/s390x/cpu_models.c           |  2 ++
+ target/s390x/gen-features.c         |  3 ++
+ target/s390x/kvm/kvm.c              |  6 ++++
+ target/s390x/machine.c              | 48 +++++++++++++++++++++++++++++
+ 6 files changed, 62 insertions(+)
 
-diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-new file mode 100644
-index 0000000000..9120af843a
---- /dev/null
-+++ b/hw/s390x/cpu-topology.c
-@@ -0,0 +1,361 @@
-+/*
-+ * CPU Topology
-+ *
-+ * Copyright 2021 IBM Corp.
-+ * Author(s): Pierre Morel <pmorel@linux.ibm.com>
-+
-+ * This work is licensed under the terms of the GNU GPL, version 2 or (at
-+ * your option) any later version. See the COPYING file in the top-level
-+ * directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qemu/error-report.h"
-+#include "hw/sysbus.h"
-+#include "hw/s390x/cpu-topology.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/boards.h"
-+#include "qemu/typedefs.h"
-+#include "target/s390x/cpu.h"
-+#include "hw/s390x/s390-virtio-ccw.h"
-+
-+static S390TopologyCores *s390_create_cores(S390TopologySocket *socket,
-+                                            int origin)
-+{
-+    DeviceState *dev;
-+    S390TopologyCores *cores;
-+    const MachineState *ms = MACHINE(qdev_get_machine());
-+
-+    if (socket->bus->num_children >= ms->smp.cores) {
-+        return NULL;
-+    }
-+
-+    dev = qdev_new(TYPE_S390_TOPOLOGY_CORES);
-+    qdev_realize_and_unref(dev, socket->bus, &error_fatal);
-+
-+    cores = S390_TOPOLOGY_CORES(dev);
-+    cores->origin = origin;
-+    socket->cnt += 1;
-+
-+    return cores;
-+}
-+
-+static S390TopologySocket *s390_create_socket(S390TopologyBook *book, int id)
-+{
-+    DeviceState *dev;
-+    S390TopologySocket *socket;
-+    const MachineState *ms = MACHINE(qdev_get_machine());
-+
-+    if (book->bus->num_children >= ms->smp.sockets) {
-+        return NULL;
-+    }
-+
-+    dev = qdev_new(TYPE_S390_TOPOLOGY_SOCKET);
-+    qdev_realize_and_unref(dev, book->bus, &error_fatal);
-+
-+    socket = S390_TOPOLOGY_SOCKET(dev);
-+    socket->socket_id = id;
-+    book->cnt++;
-+
-+    return socket;
-+}
-+
-+/*
-+ * s390_get_cores:
-+ * @socket: the socket to search into
-+ * @origin: the origin specified for the S390TopologyCores
-+ *
-+ * returns a pointer to a S390TopologyCores structure within a socket having
-+ * the specified origin.
-+ * First search if the socket is already containing the S390TopologyCores
-+ * structure and if not create one with this origin.
-+ */
-+static S390TopologyCores *s390_get_cores(S390TopologySocket *socket, int origin)
-+{
-+    S390TopologyCores *cores;
-+    BusChild *kid;
-+
-+    QTAILQ_FOREACH(kid, &socket->bus->children, sibling) {
-+        cores = S390_TOPOLOGY_CORES(kid->child);
-+        if (cores->origin == origin) {
-+            return cores;
-+        }
-+    }
-+    return s390_create_cores(socket, origin);
-+}
-+
-+/*
-+ * s390_get_socket:
-+ * @book: The book to search into
-+ * @socket_id: the identifier of the socket to search for
-+ *
-+ * returns a pointer to a S390TopologySocket structure within a book having
-+ * the specified socket_id.
-+ * First search if the book is already containing the S390TopologySocket
-+ * structure and if not create one with this socket_id.
-+ */
-+static S390TopologySocket *s390_get_socket(S390TopologyBook *book,
-+                                           int socket_id)
-+{
-+    S390TopologySocket *socket;
-+    BusChild *kid;
-+
-+    QTAILQ_FOREACH(kid, &book->bus->children, sibling) {
-+        socket = S390_TOPOLOGY_SOCKET(kid->child);
-+        if (socket->socket_id == socket_id) {
-+            return socket;
-+        }
-+    }
-+    return s390_create_socket(book, socket_id);
-+}
-+
-+/*
-+ * s390_topology_new_cpu:
-+ * @core_id: the core ID is machine wide
-+ *
-+ * We have a single book returned by s390_get_topology(),
-+ * then we build the hierarchy on demand.
-+ * Note that we do not destroy the hierarchy on error creating
-+ * an entry in the topology, we just keep it empty.
-+ * We do not need to worry about not finding a topology level
-+ * entry this would have been caught during smp parsing.
-+ */
-+void s390_topology_new_cpu(int core_id)
-+{
-+    const MachineState *ms = MACHINE(qdev_get_machine());
-+    S390TopologyBook *book;
-+    S390TopologySocket *socket;
-+    S390TopologyCores *cores;
-+    int cores_per_socket, sock_idx;
-+    int origin, bit;
-+
-+    book = s390_get_topology();
-+
-+    cores_per_socket = ms->smp.max_cpus / ms->smp.sockets;
-+
-+    sock_idx = (core_id / cores_per_socket);
-+    socket = s390_get_socket(book, sock_idx);
-+
-+    /*
-+     * At the core level, each CPU is represented by a bit in a 64bit
-+     * unsigned long. Set on plug and clear on unplug of a CPU.
-+     * The firmware assume that all CPU in the core description have the same
-+     * type, polarization and are all dedicated or shared.
-+     * In the case a socket contains CPU with different type, polarization
-+     * or dedication then they will be defined in different CPU containers.
-+     * Currently we assume all CPU are identical and the only reason to have
-+     * several S390TopologyCores inside a socket is to have more than 64 CPUs
-+     * in that case the origin field, representing the offset of the first CPU
-+     * in the CPU container allows to represent up to the maximal number of
-+     * CPU inside several CPU containers inside the socket container.
-+     */
-+    origin = 64 * (core_id / 64);
-+
-+    cores = s390_get_cores(socket, origin);
-+
-+    bit = 63 - (core_id - origin);
-+    set_bit(bit, &cores->mask);
-+    cores->origin = origin;
-+}
-+
-+/*
-+ * Setting the first topology: 1 book, 1 socket
-+ * This is enough for 64 cores if the topology is flat (single socket)
-+ */
-+void s390_topology_setup(MachineState *ms)
-+{
-+    DeviceState *dev;
-+
-+    /* Create BOOK bridge device */
-+    dev = qdev_new(TYPE_S390_TOPOLOGY_BOOK);
-+    object_property_add_child(qdev_get_machine(),
-+                              TYPE_S390_TOPOLOGY_BOOK, OBJECT(dev));
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-+}
-+
-+S390TopologyBook *s390_get_topology(void)
-+{
-+    static S390TopologyBook *book;
-+
-+    if (!book) {
-+        book = S390_TOPOLOGY_BOOK(
-+            object_resolve_path(TYPE_S390_TOPOLOGY_BOOK, NULL));
-+        assert(book != NULL);
-+    }
-+
-+    return book;
-+}
-+
-+/* --- CORES Definitions --- */
-+
-+static Property s390_topology_cores_properties[] = {
-+    DEFINE_PROP_BOOL("dedicated", S390TopologyCores, dedicated, false),
-+    DEFINE_PROP_UINT8("polarity", S390TopologyCores, polarity,
-+                      S390_TOPOLOGY_POLARITY_H),
-+    DEFINE_PROP_UINT8("cputype", S390TopologyCores, cputype,
-+                      S390_TOPOLOGY_CPU_TYPE),
-+    DEFINE_PROP_UINT16("origin", S390TopologyCores, origin, 0),
-+    DEFINE_PROP_UINT64("mask", S390TopologyCores, mask, 0),
-+    DEFINE_PROP_UINT8("id", S390TopologyCores, id, 0),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void cpu_cores_class_init(ObjectClass *oc, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(oc);
-+    HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(oc);
-+
-+    device_class_set_props(dc, s390_topology_cores_properties);
-+    hc->unplug = qdev_simple_device_unplug_cb;
-+    dc->bus_type = TYPE_S390_TOPOLOGY_SOCKET_BUS;
-+    dc->desc = "topology cpu entry";
-+}
-+
-+static const TypeInfo cpu_cores_info = {
-+    .name          = TYPE_S390_TOPOLOGY_CORES,
-+    .parent        = TYPE_DEVICE,
-+    .instance_size = sizeof(S390TopologyCores),
-+    .class_init    = cpu_cores_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { TYPE_HOTPLUG_HANDLER },
-+        { }
-+    }
-+};
-+
-+/* --- SOCKETS Definitions --- */
-+static Property s390_topology_socket_properties[] = {
-+    DEFINE_PROP_UINT8("socket_id", S390TopologySocket, socket_id, 0),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static char *socket_bus_get_dev_path(DeviceState *dev)
-+{
-+    S390TopologySocket *socket = S390_TOPOLOGY_SOCKET(dev);
-+    DeviceState *book = dev->parent_bus->parent;
-+    char *id = qdev_get_dev_path(book);
-+    char *ret;
-+
-+    if (id) {
-+        ret = g_strdup_printf("%s:%02d", id, socket->socket_id);
-+        g_free(id);
-+    } else {
-+        ret = g_strdup_printf("_:%02d", socket->socket_id);
-+    }
-+
-+    return ret;
-+}
-+
-+static void socket_bus_class_init(ObjectClass *oc, void *data)
-+{
-+    BusClass *k = BUS_CLASS(oc);
-+
-+    k->get_dev_path = socket_bus_get_dev_path;
-+    k->max_dev = S390_MAX_SOCKETS;
-+}
-+
-+static const TypeInfo socket_bus_info = {
-+    .name = TYPE_S390_TOPOLOGY_SOCKET_BUS,
-+    .parent = TYPE_BUS,
-+    .instance_size = 0,
-+    .class_init = socket_bus_class_init,
-+};
-+
-+static void s390_socket_device_realize(DeviceState *dev, Error **errp)
-+{
-+    S390TopologySocket *socket = S390_TOPOLOGY_SOCKET(dev);
-+    BusState *bus;
-+
-+    bus = qbus_new(TYPE_S390_TOPOLOGY_SOCKET_BUS, dev,
-+                   TYPE_S390_TOPOLOGY_SOCKET_BUS);
-+    qbus_set_hotplug_handler(bus, OBJECT(dev));
-+    socket->bus = bus;
-+}
-+
-+static void socket_class_init(ObjectClass *oc, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(oc);
-+    HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(oc);
-+
-+    hc->unplug = qdev_simple_device_unplug_cb;
-+    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-+    dc->bus_type = TYPE_S390_TOPOLOGY_BOOK_BUS;
-+    dc->realize = s390_socket_device_realize;
-+    device_class_set_props(dc, s390_topology_socket_properties);
-+    dc->desc = "topology socket";
-+}
-+
-+static const TypeInfo socket_info = {
-+    .name          = TYPE_S390_TOPOLOGY_SOCKET,
-+    .parent        = TYPE_DEVICE,
-+    .instance_size = sizeof(S390TopologySocket),
-+    .class_init    = socket_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { TYPE_HOTPLUG_HANDLER },
-+        { }
-+    }
-+};
-+
-+static char *book_bus_get_dev_path(DeviceState *dev)
-+{
-+    return g_strdup_printf("00");
-+}
-+
-+static void book_bus_class_init(ObjectClass *oc, void *data)
-+{
-+    BusClass *k = BUS_CLASS(oc);
-+
-+    k->get_dev_path = book_bus_get_dev_path;
-+    k->max_dev = S390_MAX_BOOKS;
-+}
-+
-+static const TypeInfo book_bus_info = {
-+    .name = TYPE_S390_TOPOLOGY_BOOK_BUS,
-+    .parent = TYPE_BUS,
-+    .instance_size = 0,
-+    .class_init = book_bus_class_init,
-+};
-+
-+static void s390_book_device_realize(DeviceState *dev, Error **errp)
-+{
-+    S390TopologyBook *book = S390_TOPOLOGY_BOOK(dev);
-+    BusState *bus;
-+
-+    bus = qbus_new(TYPE_S390_TOPOLOGY_BOOK_BUS, dev,
-+                   TYPE_S390_TOPOLOGY_BOOK_BUS);
-+    qbus_set_hotplug_handler(bus, OBJECT(dev));
-+    book->bus = bus;
-+}
-+
-+static void book_class_init(ObjectClass *oc, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(oc);
-+    HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(oc);
-+
-+    hc->unplug = qdev_simple_device_unplug_cb;
-+    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-+    dc->realize = s390_book_device_realize;
-+    dc->desc = "topology book";
-+}
-+
-+static const TypeInfo book_info = {
-+    .name          = TYPE_S390_TOPOLOGY_BOOK,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(S390TopologyBook),
-+    .class_init    = book_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { TYPE_HOTPLUG_HANDLER },
-+        { }
-+    }
-+};
-+
-+static void topology_register(void)
-+{
-+    type_register_static(&cpu_cores_info);
-+    type_register_static(&socket_bus_info);
-+    type_register_static(&socket_info);
-+    type_register_static(&book_bus_info);
-+    type_register_static(&book_info);
-+}
-+
-+type_init(topology_register);
-diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
-index 28484256ec..74678861cf 100644
---- a/hw/s390x/meson.build
-+++ b/hw/s390x/meson.build
-@@ -2,6 +2,7 @@ s390x_ss = ss.source_set()
- s390x_ss.add(files(
-   'ap-bridge.c',
-   'ap-device.c',
-+  'cpu-topology.c',
-   'ccw-device.c',
-   'css-bridge.c',
-   'css.c',
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 653587ea62..8b624c2e0c 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -42,6 +42,7 @@
- #include "sysemu/sysemu.h"
- #include "hw/s390x/pv.h"
- #include "migration/blocker.h"
-+#include "hw/s390x/cpu-topology.h"
- 
- static Error *pv_mig_blocker;
- 
-@@ -88,6 +89,7 @@ static void s390_init_cpus(MachineState *machine)
-     /* initialize possible_cpus */
-     mc->possible_cpu_arch_ids(machine);
- 
-+    s390_topology_setup(machine);
-     for (i = 0; i < machine->smp.cpus; i++) {
-         s390x_new_cpu(machine->cpu_type, i, &error_fatal);
-     }
-@@ -305,6 +307,8 @@ static void s390_cpu_plug(HotplugHandler *hotplug_dev,
-     g_assert(!ms->possible_cpus->cpus[cpu->env.core_id].cpu);
-     ms->possible_cpus->cpus[cpu->env.core_id].cpu = OBJECT(dev);
- 
-+    s390_topology_new_cpu(cpu->env.core_id);
-+
-     if (dev->hotplugged) {
-         raise_irq_cpu_hotplug();
-     }
-diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
-new file mode 100644
-index 0000000000..e6e013a8b8
---- /dev/null
-+++ b/include/hw/s390x/cpu-topology.h
-@@ -0,0 +1,74 @@
-+/*
-+ * CPU Topology
-+ *
-+ * Copyright 2021 IBM Corp.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or (at
-+ * your option) any later version. See the COPYING file in the top-level
-+ * directory.
-+ */
-+#ifndef HW_S390X_CPU_TOPOLOGY_H
-+#define HW_S390X_CPU_TOPOLOGY_H
-+
-+#include "hw/qdev-core.h"
-+#include "qom/object.h"
-+
-+#define S390_TOPOLOGY_CPU_TYPE    0x03
-+
-+#define S390_TOPOLOGY_POLARITY_H  0x00
-+#define S390_TOPOLOGY_POLARITY_VL 0x01
-+#define S390_TOPOLOGY_POLARITY_VM 0x02
-+#define S390_TOPOLOGY_POLARITY_VH 0x03
-+
-+#define TYPE_S390_TOPOLOGY_CORES "topology cores"
-+    /*
-+     * Each CPU inside a socket will be represented by a bit in a 64bit
-+     * unsigned long. Set on plug and clear on unplug of a CPU.
-+     * All CPU inside a mask share the same dedicated, polarity and
-+     * cputype values.
-+     * The origin is the offset of the first CPU in a mask.
-+     */
-+struct S390TopologyCores {
-+    DeviceState parent_obj;
-+    uint8_t id;
-+    bool dedicated;
-+    uint8_t polarity;
-+    uint8_t cputype;
-+    uint16_t origin;
-+    uint64_t mask;
-+    int cnt;
-+};
-+typedef struct S390TopologyCores S390TopologyCores;
-+OBJECT_DECLARE_SIMPLE_TYPE(S390TopologyCores, S390_TOPOLOGY_CORES)
-+
-+#define TYPE_S390_TOPOLOGY_SOCKET "topology socket"
-+#define TYPE_S390_TOPOLOGY_SOCKET_BUS "socket-bus"
-+struct S390TopologySocket {
-+    DeviceState parent_obj;
-+    BusState *bus;
-+    uint8_t socket_id;
-+    int cnt;
-+};
-+typedef struct S390TopologySocket S390TopologySocket;
-+OBJECT_DECLARE_SIMPLE_TYPE(S390TopologySocket, S390_TOPOLOGY_SOCKET)
-+#define S390_MAX_SOCKETS 4
-+
-+#define TYPE_S390_TOPOLOGY_BOOK "topology book"
-+#define TYPE_S390_TOPOLOGY_BOOK_BUS "book-bus"
-+struct S390TopologyBook {
-+    SysBusDevice parent_obj;
-+    BusState *bus;
-+    uint8_t book_id;
-+    int cnt;
-+};
-+typedef struct S390TopologyBook S390TopologyBook;
-+OBJECT_DECLARE_SIMPLE_TYPE(S390TopologyBook, S390_TOPOLOGY_BOOK)
-+#define S390_MAX_BOOKS 1
-+
-+S390TopologyBook *s390_init_topology(void);
-+
-+S390TopologyBook *s390_get_topology(void);
-+void s390_topology_setup(MachineState *ms);
-+void s390_topology_new_cpu(int core_id);
-+
-+#endif
 diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index 3153d053e9..9dfe183b89 100644
+index de05cc48cc..e3ca549774 100644
 --- a/target/s390x/cpu.h
 +++ b/target/s390x/cpu.h
-@@ -564,6 +564,53 @@ typedef union SysIB {
- } SysIB;
- QEMU_BUILD_BUG_ON(sizeof(SysIB) != 4096);
+@@ -150,6 +150,8 @@ struct CPUS390XState {
+     /* currently processed sigp order */
+     uint8_t sigp_order;
  
-+/* CPU type Topology List Entry */
-+typedef struct SysIBTl_cpu {
-+        uint8_t nl;
-+        uint8_t reserved0[3];
-+        uint8_t reserved1:5;
-+        uint8_t dedicated:1;
-+        uint8_t polarity:2;
-+        uint8_t type;
-+        uint16_t origin;
-+        uint64_t mask;
-+} SysIBTl_cpu;
-+QEMU_BUILD_BUG_ON(sizeof(SysIBTl_cpu) != 16);
++    /* Using Perform CPU Topology Function*/
++    bool using_ptf;
+ };
+ 
+ static inline uint64_t *get_freg(CPUS390XState *cs, int nr)
+diff --git a/target/s390x/cpu_features_def.h.inc b/target/s390x/cpu_features_def.h.inc
+index e86662bb3b..27e8904978 100644
+--- a/target/s390x/cpu_features_def.h.inc
++++ b/target/s390x/cpu_features_def.h.inc
+@@ -146,6 +146,7 @@ DEF_FEAT(SIE_CEI, "cei", SCLP_CPU, 43, "SIE: Conditional-external-interception f
+ DEF_FEAT(DAT_ENH_2, "dateh2", MISC, 0, "DAT-enhancement facility 2")
+ DEF_FEAT(CMM, "cmm", MISC, 0, "Collaborative-memory-management facility")
+ DEF_FEAT(AP, "ap", MISC, 0, "AP instructions installed")
++DEF_FEAT(CPU_TOPOLOGY, "cpu_topology", MISC, 0, "CPU Topology available")
+ 
+ /* Features exposed via the PLO instruction. */
+ DEF_FEAT(PLO_CL, "plo-cl", PLO, 0, "PLO Compare and load (32 bit in general registers)")
+diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
+index 11e06cc51f..1f9ea6479d 100644
+--- a/target/s390x/cpu_models.c
++++ b/target/s390x/cpu_models.c
+@@ -238,6 +238,7 @@ bool s390_has_feat(S390Feat feat)
+ 
+     if (s390_is_pv()) {
+         switch (feat) {
++        case S390_FEAT_CPU_TOPOLOGY:
+         case S390_FEAT_DIAG_318:
+         case S390_FEAT_HPMA2:
+         case S390_FEAT_SIE_F2:
+@@ -467,6 +468,7 @@ static void check_consistency(const S390CPUModel *model)
+         { S390_FEAT_DIAG_318, S390_FEAT_EXTENDED_LENGTH_SCCB },
+         { S390_FEAT_NNPA, S390_FEAT_VECTOR },
+         { S390_FEAT_RDP, S390_FEAT_LOCAL_TLB_CLEARING },
++        { S390_FEAT_CPU_TOPOLOGY, S390_FEAT_CONFIGURATION_TOPOLOGY },
+     };
+     int i;
+ 
+diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
+index 7cb1a6ec10..377d8aad90 100644
+--- a/target/s390x/gen-features.c
++++ b/target/s390x/gen-features.c
+@@ -488,6 +488,7 @@ static uint16_t full_GEN9_GA3[] = {
+ static uint16_t full_GEN10_GA1[] = {
+     S390_FEAT_EDAT,
+     S390_FEAT_CONFIGURATION_TOPOLOGY,
++    S390_FEAT_CPU_TOPOLOGY,
+     S390_FEAT_GROUP_MSA_EXT_2,
+     S390_FEAT_ESOP,
+     S390_FEAT_SIE_PFMFI,
+@@ -604,6 +605,8 @@ static uint16_t default_GEN9_GA1[] = {
+ static uint16_t default_GEN10_GA1[] = {
+     S390_FEAT_EDAT,
+     S390_FEAT_GROUP_MSA_EXT_2,
++    S390_FEAT_CONFIGURATION_TOPOLOGY,
++    S390_FEAT_CPU_TOPOLOGY,
+ };
+ 
+ #define default_GEN10_GA2 EmptyFeat
+diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+index c17e92fc9c..6ffc697b51 100644
+--- a/target/s390x/kvm/kvm.c
++++ b/target/s390x/kvm/kvm.c
+@@ -612,6 +612,7 @@ int kvm_arch_put_registers(CPUState *cs, int level)
+     } else {
+         /* prefix is only supported via sync regs */
+     }
 +
-+/* Container type Topology List Entry */
-+typedef struct SysIBTl_container {
-+        uint8_t nl;
-+        uint8_t reserved[6];
-+        uint8_t id;
-+} QEMU_PACKED SysIBTl_container;
-+QEMU_BUILD_BUG_ON(sizeof(SysIBTl_container) != 8);
+     return 0;
+ }
+ 
+@@ -2427,6 +2428,10 @@ void kvm_s390_get_host_cpu_model(S390CPUModel *model, Error **errp)
+         clear_bit(S390_FEAT_CMM_NT, model->features);
+     }
+ 
++    if (kvm_check_extension(kvm_state, KVM_CAP_S390_CPU_TOPOLOGY)) {
++        set_bit(S390_FEAT_CPU_TOPOLOGY, model->features);
++    }
 +
-+/* Generic Topology List Entry */
-+typedef union SysIBTl_entry {
-+        uint8_t nl;
-+        SysIBTl_container container;
-+        SysIBTl_cpu cpu;
-+} SysIBTl_entry;
+     /* bpb needs kernel support for migration, VSIE and reset */
+     if (!kvm_check_extension(kvm_state, KVM_CAP_S390_BPB)) {
+         clear_bit(S390_FEAT_BPB, model->features);
+@@ -2535,6 +2540,7 @@ void kvm_s390_apply_cpu_model(const S390CPUModel *model, Error **errp)
+         error_setg(errp, "KVM: Error configuring CPU subfunctions: %d", rc);
+         return;
+     }
 +
-+#define TOPOLOGY_NR_MAG  6
-+#define TOPOLOGY_NR_MAG6 0
-+#define TOPOLOGY_NR_MAG5 1
-+#define TOPOLOGY_NR_MAG4 2
-+#define TOPOLOGY_NR_MAG3 3
-+#define TOPOLOGY_NR_MAG2 4
-+#define TOPOLOGY_NR_MAG1 5
-+/* Configuration topology */
-+typedef struct SysIB_151x {
-+    uint8_t  res0[2];
-+    uint16_t length;
-+    uint8_t  mag[TOPOLOGY_NR_MAG];
-+    uint8_t  res1;
-+    uint8_t  mnest;
-+    uint32_t res2;
-+    SysIBTl_entry tle[0];
-+} SysIB_151x;
-+QEMU_BUILD_BUG_ON(sizeof(SysIB_151x) != 16);
+     /* enable CMM via CMMA */
+     if (test_bit(S390_FEAT_CMM, model->features)) {
+         kvm_s390_enable_cmma();
+diff --git a/target/s390x/machine.c b/target/s390x/machine.c
+index 37a076858c..6036e8e856 100644
+--- a/target/s390x/machine.c
++++ b/target/s390x/machine.c
+@@ -250,6 +250,53 @@ const VMStateDescription vmstate_diag318 = {
+     }
+ };
+ 
++static int cpu_topology_presave(void *opaque)
++{
++    S390CPU *cpu = opaque;
 +
- /* MMU defines */
- #define ASCE_ORIGIN           (~0xfffULL) /* segment table origin             */
- #define ASCE_SUBSPACE         0x200       /* subspace group control           */
++    cpu->env.using_ptf = s390_has_feat(S390_FEAT_CPU_TOPOLOGY);
++    return 0;
++}
++
++static int cpu_topology_postload(void *opaque, int version_id)
++{
++    S390CPU *cpu = opaque;
++
++    if ((cpu->env.using_ptf == s390_has_feat(S390_FEAT_CPU_TOPOLOGY)) &&
++        (cpu->env.using_ptf == s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY))) {
++        return 0;
++    }
++    if (cpu->env.using_ptf) {
++        error_report("Target needs CPU Topology enabled");
++    } else {
++        if (s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
++            error_report("Target is not allowed to enable configuration Topology");
++        }
++        if (s390_has_feat(S390_FEAT_CPU_TOPOLOGY)) {
++            error_report("Target is not allowed to enable CPU Topology");
++        }
++    }
++    return -EINVAL;
++}
++
++static bool cpu_topology_needed(void *opaque)
++{
++    return 1;
++}
++
++const VMStateDescription vmstate_cpu_topology = {
++    .name = "cpu/cpu_topology",
++    .version_id = 1,
++    .pre_save = cpu_topology_presave,
++    .post_load = cpu_topology_postload,
++    .minimum_version_id = 1,
++    .needed = cpu_topology_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_BOOL(env.using_ptf, S390CPU),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ const VMStateDescription vmstate_s390_cpu = {
+     .name = "cpu",
+     .post_load = cpu_post_load,
+@@ -287,6 +334,7 @@ const VMStateDescription vmstate_s390_cpu = {
+         &vmstate_bpbc,
+         &vmstate_etoken,
+         &vmstate_diag318,
++        &vmstate_cpu_topology,
+         NULL
+     },
+ };
 -- 
 2.27.0
 
