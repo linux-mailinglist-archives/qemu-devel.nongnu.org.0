@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59B1E454AC1
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 17:15:49 +0100 (CET)
-Received: from localhost ([::1]:36450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2882454AC4
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 17:16:41 +0100 (CET)
+Received: from localhost ([::1]:39200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnNbA-0003Nh-Dq
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 11:15:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50538)
+	id 1mnNc0-0005FC-RX
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 11:16:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mnNQL-0000QM-Q5
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 11:04:37 -0500
-Received: from [2a00:1450:4864:20::32c] (port=46628
- helo=mail-wm1-x32c.google.com)
+ id 1mnNQN-0000Rf-AZ
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 11:04:39 -0500
+Received: from [2a00:1450:4864:20::335] (port=55038
+ helo=mail-wm1-x335.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mnNQK-000344-CJ
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 11:04:37 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- b184-20020a1c1bc1000000b0033140bf8dd5so2496089wmb.5
- for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 08:04:35 -0800 (PST)
+ id 1mnNQL-00034E-Ec
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 11:04:39 -0500
+Received: by mail-wm1-x335.google.com with SMTP id i12so2689834wmq.4
+ for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 08:04:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lsz0dSeS3alNSK0Y33VjA4yL9Dqu5Jd7cft81LB0Bvs=;
- b=NY/aLkbrk5LYkJJaJOUy0lm3PB4Wg+KW8Uv5KDve0MKEH/QzBaoDbJm/z1wzR6soYW
- UycKIV4v+/tn7oknBI+UiFj4BtwkoIAu7E00FzKEj8qG2/RKkwXNsgaDmC61J2IKETK1
- pvUEbma8GCD6a+UBE8lET8QLP/0kpjjG+87UwW04BP52EQMqu937p4qXUgevREjree6F
- /NXldAdx0AsyE/FM5r+vYH4o8ffnLPVZSKdi2xL0B5ixs1GP6vO28RJMF61cMiZn/VFr
- RqFnfBx8VRdtqk4QHg8Ic58q0qjxJypa7Qwn+yhJAZ6ne4RLCa2ZKQHVmgwH3KlX8lB3
- UGvw==
+ bh=Wbb3ncUX0WysUh86/9pbKJFhgP0odAzb0iOBlu9YhRQ=;
+ b=Y9ouor3Z+tHq5R/Dzg91eEQM0gojlx/R8p/dMoW7KPoDx9Jelti18DFeZx2d3Z7j00
+ DJyQ+Jlzv1MW245qfp04zQzZan/fmto4LTor6xbylQEip9Yw3a06BtJxf3hQK3VLpGIq
+ t9vchfxhheTwJzDdF++xf8hz5emGr6iCdrJ9S1oY/zc1OM6uhukqhMKwGpv4jYfrd44G
+ pZVnulWWP2FIliqwbwIJe8zTJlkZ8HlJp56LJE46uin3GiHds3+VLKAwCppeT0CRG6Qe
+ CYFfG2iIc8+SQDZ+xwrXv5H2mo4RxlcUw3U3TNSImKHA93LvrdreUbtGT0fRIJoG4zR3
+ mF1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lsz0dSeS3alNSK0Y33VjA4yL9Dqu5Jd7cft81LB0Bvs=;
- b=3AkbbVpSUmY8F3sBxuzk8ZTaGkmjOvKputfH4Z+dq2QXXTRftA2qYxe+DwyM2y22Hq
- Xgvnmc2kxMdz6IxomBA4s30+SjBrCMaUysVGZkpcOy/Upc9z0OQXhSnsVhSobNYNId9W
- zw5UnCvYwXdHATckL/rljd9Av8YQlZwnLeRwcJIYw9/ESc819k4pE/L8vesOBSyAsDcF
- u6ZalCn2UGxS6hAT3S5shmJRNAyZu/+FOXU0lbLvD75gLnM/7bxUyJMFX2Xrm6QPjb4L
- Lfwo44bD+tBwEjmg8L78GmqxzQNLxkm2mogH2pRjkDMftvEAUc1bElUPucAudFirD7hV
- eLqQ==
-X-Gm-Message-State: AOAM531AzaARSFu89StJeD1baFPiGWUKaTrwzF9sjQJMQQjXUzaVgTz8
- NdD5+bFcqJjUEC3iyDbARHql5LuGqwuzwPasTgU=
-X-Google-Smtp-Source: ABdhPJwA07lGGwUad5UDlgVfSxs8HSw0sCCn5j3GFBADoSBMTU1T20UDdvm/XgYsRJFp3mP8TxdG8A==
-X-Received: by 2002:a05:600c:22d9:: with SMTP id
- 25mr843725wmg.71.1637165074548; 
- Wed, 17 Nov 2021 08:04:34 -0800 (PST)
+ bh=Wbb3ncUX0WysUh86/9pbKJFhgP0odAzb0iOBlu9YhRQ=;
+ b=f0x5HJZ0Uz9I9jbtuCnARXzuNWB8FclDaIzDGACLdp8bZT4TIlHzoVPD60XdRWyiIz
+ p2Rv4RV+lU1L1fjYaXk+GhABQJXgMLZeKMkrm9IFFQiy+JicA+PhorKFYAd7bpgic9pv
+ sArRC31gFZzLXYKEZNHU10hIXBUnxESFWPgKOXxoZ0ZrKUli6kl4JP4xSDXsJYCob8sU
+ bqCEZB7WINwHFJLEPK98qA3nu3dMlNcg3HpTXWd9fORPhIyOEMwpxsTdHwqowPXv2QCi
+ C/SK0DxSfg+zfwsWSl18HQYUcmejSVJu9yHuhltVFhBa+VzJECDoB75jUVzITdN+c7kB
+ u2nA==
+X-Gm-Message-State: AOAM531yuxVDf0+p0w2WwuGXn5q9JOtHFO3uwxE/TBGK3/CmHbDhKz20
+ 59gVD6gMaZJqBkwx/5izdqs1FFkfEuhqoQxoDlc=
+X-Google-Smtp-Source: ABdhPJwHz/zVe5vK+0j1ZAQCqFKctmHm3Bz7e+jMyZ5h6cDfwba6d3Rh4QHh0AFs7D9Jh0SdvzBUmA==
+X-Received: by 2002:a7b:c388:: with SMTP id s8mr891565wmj.170.1637165076084;
+ Wed, 17 Nov 2021 08:04:36 -0800 (PST)
 Received: from localhost.localdomain
  (101.red-176-80-44.dynamicip.rima-tde.net. [176.80.44.101])
- by smtp.gmail.com with ESMTPSA id m2sm5826742wml.15.2021.11.17.08.04.33
+ by smtp.gmail.com with ESMTPSA id m2sm5826742wml.15.2021.11.17.08.04.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Nov 2021 08:04:34 -0800 (PST)
+ Wed, 17 Nov 2021 08:04:35 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 11/17] bsd-user: Create special-errno.h
-Date: Wed, 17 Nov 2021 17:04:06 +0100
-Message-Id: <20211117160412.71563-12-richard.henderson@linaro.org>
+Subject: [PATCH v5 12/17] linux-user: Create special-errno.h
+Date: Wed, 17 Nov 2021 17:04:07 +0100
+Message-Id: <20211117160412.71563-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211117160412.71563-1-richard.henderson@linaro.org>
 References: <20211117160412.71563-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,42 +90,82 @@ Cc: laurent@vivier.eu, imp@bsdimp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pull the internal errno used by qemu internally its own
-header file, for use by safe-syscall.S.
+Pull the two internal errno used by qemu internally into their own
+header file.  This includes the one define required by safe-syscall.S.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/errno_defs.h    |  6 +++++-
- bsd-user/special-errno.h | 24 ++++++++++++++++++++++++
- 2 files changed, 29 insertions(+), 1 deletion(-)
- create mode 100644 bsd-user/special-errno.h
+ linux-user/cpu_loop-common.h           |  1 +
+ linux-user/generic/target_errno_defs.h | 17 --------------
+ linux-user/signal-common.h             |  2 ++
+ linux-user/special-errno.h             | 32 ++++++++++++++++++++++++++
+ linux-user/syscall.c                   |  1 +
+ linux-user/safe-syscall.S              |  2 +-
+ 6 files changed, 37 insertions(+), 18 deletions(-)
+ create mode 100644 linux-user/special-errno.h
 
-diff --git a/bsd-user/errno_defs.h b/bsd-user/errno_defs.h
-index 583ebe8cee..73cfa24b7f 100644
---- a/bsd-user/errno_defs.h
-+++ b/bsd-user/errno_defs.h
-@@ -151,6 +151,10 @@
- /* Internal errors: */
- #define TARGET_EJUSTRETURN      254             /* Just return without modifing regs */
- #define TARGET_ERESTART         255             /* Restart syscall */
--#define QEMU_ERESTARTSYS        TARGET_ERESTART /* compat */
-+
+diff --git a/linux-user/cpu_loop-common.h b/linux-user/cpu_loop-common.h
+index 8828af28a4..dc0042e4de 100644
+--- a/linux-user/cpu_loop-common.h
++++ b/linux-user/cpu_loop-common.h
+@@ -21,6 +21,7 @@
+ #define CPU_LOOP_COMMON_H
+ 
+ #include "exec/log.h"
++#include "special-errno.h"
+ 
+ #define EXCP_DUMP(env, fmt, ...)                                        \
+ do {                                                                    \
+diff --git a/linux-user/generic/target_errno_defs.h b/linux-user/generic/target_errno_defs.h
+index bb37d88be9..c2f9d403e7 100644
+--- a/linux-user/generic/target_errno_defs.h
++++ b/linux-user/generic/target_errno_defs.h
+@@ -147,21 +147,4 @@
+ #define TARGET_ERFKILL         132     /* Operation not possible due to RF-kill */
+ #define TARGET_EHWPOISON       133     /* Memory page has hardware error */
+ 
+-/* QEMU internal, not visible to the guest. This is returned when a
+- * system call should be restarted, to tell the main loop that it
+- * should wind the guest PC backwards so it will re-execute the syscall
+- * after handling any pending signals. They match with the ones the guest
+- * kernel uses for the same purpose.
+- */
+-#define QEMU_ERESTARTSYS     512     /* Restart system call (if SA_RESTART) */
+-
+-/* QEMU internal, not visible to the guest. This is returned by the
+- * do_sigreturn() code after a successful sigreturn syscall, to indicate
+- * that it has correctly set the guest registers and so the main loop
+- * should not touch them. We use the value the guest would use for
+- * ERESTART_NOINTR (which is kernel internal) to guarantee that we won't
+- * clash with a valid guest errno now or in the future.
+- */
+-#define QEMU_ESIGRETURN 513     /* Return from signal */
+-
+ #endif
+diff --git a/linux-user/signal-common.h b/linux-user/signal-common.h
+index b9f33bb44f..42aa479080 100644
+--- a/linux-user/signal-common.h
++++ b/linux-user/signal-common.h
+@@ -20,6 +20,8 @@
+ #ifndef SIGNAL_COMMON_H
+ #define SIGNAL_COMMON_H
+ 
 +#include "special-errno.h"
 +
-+_Static_assert(TARGET_ERESTART == QEMU_ERESTARTSYS,
-+               "TARGET_ERESTART and QEMU_ERESTARTSYS expected to match");
- 
- #endif /* !  _ERRNO_DEFS_H_ */
-diff --git a/bsd-user/special-errno.h b/bsd-user/special-errno.h
+ /* Fallback addresses into sigtramp page. */
+ extern abi_ulong default_sigreturn;
+ extern abi_ulong default_rt_sigreturn;
+diff --git a/linux-user/special-errno.h b/linux-user/special-errno.h
 new file mode 100644
-index 0000000000..03599d9b5a
+index 0000000000..4120455baa
 --- /dev/null
-+++ b/bsd-user/special-errno.h
-@@ -0,0 +1,24 @@
-+/* SPDX-License-Identifier: BSD-3-Clause */
++++ b/linux-user/special-errno.h
+@@ -0,0 +1,32 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
 + * QEMU internal errno values for implementing user-only POSIX.
 + *
++ *  Copyright (c) 2003 Fabrice Bellard
 + *  Copyright (c) 2021 Linaro, Ltd.
 + */
 +
@@ -145,9 +183,41 @@ index 0000000000..03599d9b5a
 + * main loop that it should wind the guest PC backwards so it will
 + * re-execute the syscall after handling any pending signals.
 + */
-+#define QEMU_ERESTARTSYS  255
++#define QEMU_ERESTARTSYS  512
++
++/*
++ * This is returned after a successful sigreturn syscall, to indicate
++ * that it has correctly set the guest registers and so the main loop
++ * should not touch them.
++ */
++#define QEMU_ESIGRETURN   513
 +
 +#endif /* SPECIAL_ERRNO_H */
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 1ef6abb776..33d342157d 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -136,6 +136,7 @@
+ #include "qemu/guest-random.h"
+ #include "qemu/selfmap.h"
+ #include "user/syscall-trace.h"
++#include "special-errno.h"
+ #include "qapi/error.h"
+ #include "fd-trans.h"
+ #include "tcg/tcg.h"
+diff --git a/linux-user/safe-syscall.S b/linux-user/safe-syscall.S
+index 7ddc997801..74f7e35694 100644
+--- a/linux-user/safe-syscall.S
++++ b/linux-user/safe-syscall.S
+@@ -10,7 +10,7 @@
+  * See the COPYING file in the top-level directory.
+  */
+ 
+-#include "target_errno_defs.h"
++#include "special-errno.h"
+ 
+ /* We have the correct host directory on our include path
+  * so that this will pull in the right fragment for the architecture.
 -- 
 2.25.1
 
