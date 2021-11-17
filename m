@@ -2,77 +2,150 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 859CF453EC4
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 04:05:10 +0100 (CET)
-Received: from localhost ([::1]:44612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5F4F453EE1
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 04:23:23 +0100 (CET)
+Received: from localhost ([::1]:50626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnBG0-0002g5-TX
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 22:05:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45330)
+	id 1mnBXe-0007dT-9J
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 22:23:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1mnBEk-0001Mv-Pn; Tue, 16 Nov 2021 22:03:52 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:45527)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1mnBWD-0006s5-CK
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 22:21:53 -0500
+Received: from mga05.intel.com ([192.55.52.43]:50184)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1mnBEh-0001Ou-Dh; Tue, 16 Nov 2021 22:03:50 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 8858E5C0197;
- Tue, 16 Nov 2021 22:03:43 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Tue, 16 Nov 2021 22:03:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=XM0L9T
- LbyByXdyFwkbEwmHrPEoqrN119IvsVijDzDKw=; b=l3axoOnofV5WHdt+/4SOJG
- 6AQ+KmbJJ/QMmhXr3cOHC2gmTk6u6kz1b1K1wqY5QawNGRXXCau+Bac8xTfmjjQ6
- KvqIqCcmFipYQsYHMG79OyNp45i4mfdydA3DXVr29GwLCuch1TamNif1kPSTeJZo
- 7tGYVtCZVsd4fjO/UFw6YPshZWrTn+yAfyhHcLZjqxtdLrDuffv33vmOIMGfn6Ia
- M2pstuo4nGt1ypjcfviV/zm9YmlQq18XgzPQKa2r3UpGX6DahaZZ9vSxwGfJlv2G
- xw0BIJ3KD6iKh5x1eOCCigXNJAH6a91BIFe7IxeqffgkU6UMXVfv9fPWMWzTNHFA
- ==
-X-ME-Sender: <xms:D3GUYfGR1LDLZbbcO2EP2T0cHE_lVlvcOhPMe7LcWIPXpx4AAK4EJA>
- <xme:D3GUYcXFwhU0rcvieCGVdOwO_5aUO8dujleTvDz2-rrxqdee7kuasSWmNxNXIXPgL
- 4d0XKoDwFGTUtHpPWw>
-X-ME-Received: <xmr:D3GUYRKLmWD6mbDzyLbLr-Lth8uBVaOQOtwAondq2cbqnZxnxgtcLn0PwtxWjpMasZJD4O3ab07cX3DGQ2VhkxsZspB_xA2LxNI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeefgdehfecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvufgjkfhfgggtsehttdertddttddvnecuhfhrohhmpefhihhnnhcuvfhh
- rghinhcuoehfthhhrghinheslhhinhhugidqmheikehkrdhorhhgqeenucggtffrrghtth
- gvrhhnpefftdeiuddugfdvfeevhfdttddvleeiveeggfffgeevvdevtefgteeugffggeel
- teenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhgihhthhhusgdrtghomhenucevlh
- hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehfthhhrghinhes
- lhhinhhugidqmheikehkrdhorhhg
-X-ME-Proxy: <xmx:D3GUYdHOzSmF3m7WXIWDQBzcZGbdQ_ToZhQE9MazotLXjityJTLpjA>
- <xmx:D3GUYVWZYNcwcobaQZarDo_-BScpiAiri5Jv1VnJpfz__rLEMSpLBA>
- <xmx:D3GUYYNDJg9ZkO3l_q4VuisMBwHr-mWqsz67A6ZHHiq8j7J2VhPT3A>
- <xmx:D3GUYYR2dLyXF5Z-qx9B-3d4YB5veL6EkVArjGwdS31xhqKk9UHXcQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 16 Nov 2021 22:03:40 -0500 (EST)
-Date: Wed, 17 Nov 2021 14:03:36 +1100 (AEDT)
-From: Finn Thain <fthain@linux-m68k.org>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, 
- Laurent Vivier <laurent@vivier.eu>, 
- =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v1 0/9] hw/mos6522: VIA timer emulation fixes and
- improvements
-In-Reply-To: <cover.1632437396.git.fthain@linux-m68k.org>
-Message-ID: <e0411348-abd7-3db9-b5bd-8f1d52c1226f@linux-m68k.org>
-References: <cover.1632437396.git.fthain@linux-m68k.org>
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1mnBW6-0003yZ-Ib
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 22:21:52 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10170"; a="320085582"
+X-IronPort-AV: E=Sophos;i="5.87,240,1631602800"; d="scan'208";a="320085582"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2021 19:21:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,240,1631602800"; d="scan'208";a="735903132"
+Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
+ by fmsmga005.fm.intel.com with ESMTP; 16 Nov 2021 19:21:42 -0800
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 16 Nov 2021 19:21:42 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12 via Frontend Transport; Tue, 16 Nov 2021 19:21:42 -0800
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.45) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.12; Tue, 16 Nov 2021 19:21:41 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FhX3yoYrQHpTpZ2Upag3sEOSOfAoN9gNvdPs/3DxpNE8hylXSRu9rM2/ufuzeH3WgzlH8fu8kqfFW57mT5VSO5BSvYaMtCsKy/p3fU2pIfK3uMzue0cCnWXwHkpnXxWIjqbP3cMpXF2MLQ9FH6KbVoSEwmwKfIWx3Va6cK+lFza5nKLtcgMOWlC0j0WTFeWRViWmxgEQVXjwEv/ACA/pzL1GZ5ZaSLuPTs4RhsUMBvw8D/HxsW1Gl0mDjoP6NHsLkQ7A5QKxOxGbb80nIcwOE39jjjpFu6MOga2JW6qMZUc1zcSOPnfhHSMRRPBReXXCIOaelmtrUrf3+miL7FfhhA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jp6Bw6j2c6WPUz8BnQi8JDAtreRhRGi7lCw03nUsKPA=;
+ b=DcTNKhlxcxR2Ko3I31oJ71v1knAFYG//GQqNw17WvEv6dPnoNVIeqCY8FCv4eVKV6v1KYxqApq0QFOBB7ZYUOFqcze4ptHaJZFBKkLpaEWoHhjL8cTzb3hciGbgv4rsQxeMgCqXRBv1mZr4xd67fChghbk3eFNjgJngh5r8z7KMMehWivlLPFhEzxfKAXNBpOBY/+P2V7SmKki6xs2E9ZDzi9r186R+JVSNKE3rJlz9xCZX4sAt1lttCgyL8RWnXj1C2ZVjOSQmTgSl/lXUxdllOm0qDOV3HYn1b2L7xVUyBtvP7HAbxQNPpVd4i25GSuPwe2ld1oZ9jXnikl73MAQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jp6Bw6j2c6WPUz8BnQi8JDAtreRhRGi7lCw03nUsKPA=;
+ b=fI7dO6Hmd7X4hklS1wyO4Ditn+kCMzx9kGHh7ddgzqfiFnErzprRTbp4ZvJOsxsengU4XcDlWeVvvVFLI5cjaxYvzXhPpjXx1YQuN/NDCsTzFuL9E41YCkkxUqhzNOnCoNmCpNCAmfPJRiiTgxG4BUxLnQipowupIDEXPufamzo=
+Received: from MWHPR11MB0031.namprd11.prod.outlook.com (2603:10b6:301:69::37)
+ by CO1PR11MB5139.namprd11.prod.outlook.com (2603:10b6:303:95::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.16; Wed, 17 Nov
+ 2021 03:21:40 +0000
+Received: from MWHPR11MB0031.namprd11.prod.outlook.com
+ ([fe80::3827:2f36:f344:e814]) by MWHPR11MB0031.namprd11.prod.outlook.com
+ ([fe80::3827:2f36:f344:e814%3]) with mapi id 15.20.4690.027; Wed, 17 Nov 2021
+ 03:21:40 +0000
+From: "Zhang, Chen" <chen.zhang@intel.com>
+To: "quintela@redhat.com" <quintela@redhat.com>
+Subject: RE: [PATCH 1/2] migration/colo: Optimize COLO start code path
+Thread-Topic: [PATCH 1/2] migration/colo: Optimize COLO start code path
+Thread-Index: AQHX1lugwlMKwlpaZUygNIvcC1c+EawGYUofgACm4GA=
+Date: Wed, 17 Nov 2021 03:21:40 +0000
+Message-ID: <MWHPR11MB003171BA9C71FFC191FD86B39B9A9@MWHPR11MB0031.namprd11.prod.outlook.com>
+References: <20211110174156.3834330-1-chen.zhang@intel.com>
+ <87lf1ouku8.fsf@secure.mitica>
+In-Reply-To: <87lf1ouku8.fsf@secure.mitica>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.6.200.16
+dlp-reaction: no-action
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 8a786e47-955a-4657-46db-08d9a9795f68
+x-ms-traffictypediagnostic: CO1PR11MB5139:
+x-microsoft-antispam-prvs: <CO1PR11MB51396BE563155038614FB8DC9B9A9@CO1PR11MB5139.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:139;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: bct7jcmdk0cQXfV2ezuJ+Uhuc/pXbln66hpUdbSZ8mJwsVpI+591ENKfK65bmlt0AGWMshXU94SXVxB0B7LpycU4smh5s2UGjWkfevnAl0WzdrmYeFcDW25xKGNQhDAkP4vWUyBPZ20IY1jO3J1ob7V7/iK+WDsBJJLn4IE12w8LVpNjZNuOwqxrrOojCmgD/r4+adQfrHYH/7pHvdTQpna/kT1ihLom0oiX3zqPN5EeLqDUa6pciGhGAUbEy9t8pQchRjYQAnibgNWc6PxrOWMyJ8bnJBmGpneWOdHVf9EjcYPLeLCBsOU3PWtMHhtKT6objxHPMsmHwkMzzmL/cAduU/ZLr7BHyGslw/08ddtRP/wj/AX1Zll1CN2UABEpv1UPfQePpEsagsudaCjCOs45J7vhvW7OhiJRvu/q4GPBsRZnarEnQOzyJEhRtWaqAEEq0xsklq1AG5FpIC5SoojX9ed8zEVccDJkBvxc/Dh5Zh56tbMQ4KfATNrbDVYFMqDgOiukojP7sE6TnzDf2+jevRhlFMbmNY2Vcox1f3R7aknkJndu134WUgktRl4QiOmBDhIWe5TlpbwVIBguY+I3svTuRs+5QJW/1HQTD5gPL0esjeQ4pn/wsNHBzNiMQ9jp9O3fyJEV2Tl27Q/W6ZBy4wlO/VhuxiViiWjqigXBkHgkkpv5OmCaxHEXfouK0mJi9BKhcQ+0HleEWfINMc04jjRGFdxanf1uAbfMFb8=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR11MB0031.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(76116006)(66476007)(26005)(71200400001)(66946007)(53546011)(66446008)(55016002)(54906003)(6916009)(66556008)(2906002)(82960400001)(64756008)(33656002)(4326008)(186003)(38070700005)(6506007)(86362001)(83380400001)(8936002)(38100700002)(8676002)(508600001)(9686003)(5660300002)(122000001)(316002)(7696005)(52536014)(21314003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?C4svQpMzU8K4YnKo/GqsUGoTI4cXB/22jNs5d8KK88rTRcZmpnHf1/c4cwaW?=
+ =?us-ascii?Q?gb3b7oNo9AcQwLWz00R2p7D/Amy0E8RkTWpQGnMn2lazuMizjJ7eoUL0xiB9?=
+ =?us-ascii?Q?0q0pVHxIG8jcnLePxCtJ6zZbLcNcVl4cyhZrtj0kYGWQFN6nc8DlljG2tsTa?=
+ =?us-ascii?Q?boBdB1j604ZbGl5MRZQAWqW3cUb0NV33j6FFLiVwZKOxr0Ohq2hXvGjuA/Oe?=
+ =?us-ascii?Q?WBBejupBh+rTwwxShEXerx2xcj1QOV7/pJaxoaaFnEEtLarCzFnXKQeaY450?=
+ =?us-ascii?Q?1QvMXQmqjE6y/IkAur15sUsA+jZI20xQ6tAtUB0nOY4IUUeNC9OkqJugejxf?=
+ =?us-ascii?Q?X7FFw6X6aU6S9C77JVX50Dx2B75lcLG1Ye/sV5tLGBx84ykPgdHRykRxcx4t?=
+ =?us-ascii?Q?n86t7xzMJ4mj9XOV2ypTpOH089WogAzaQU7yz2HBLBqdbp/fq2e/MsKO6WEe?=
+ =?us-ascii?Q?uGr09zdbIkhwqpKs8EaMTCaLVVDEeTpK1M8xU7lIFYKawL5ITpaCvqNU7xno?=
+ =?us-ascii?Q?akQD/h7CnGEFXSyU2oNbtg9qYWauluHy+Zq4FL43hZBGxpxd8QfQte0hcfW0?=
+ =?us-ascii?Q?vX8nl3ikswOs+/Q5uBQqvsQin3gDoGs+fv5q4/Nc1Q1ggdQXSg0CZTtdvgdv?=
+ =?us-ascii?Q?tRNae1uY4caaibQvdXRds+Tp4ZQSll7iGvsL4EuqY3YUGhRwh0ExfeYmQVky?=
+ =?us-ascii?Q?P6vEHlb7S1H2D8XcPRwJcoxLBOI1C9xmeZDYzTKCUEQPOvCeQtEgM2HT5BcM?=
+ =?us-ascii?Q?EqWfzx0ChLcip5YePfXQ9uNV+mJD3EErHT/LkMgWEqVcxaPi9vT+SL7YS1Bb?=
+ =?us-ascii?Q?IkkgfxRJXNmcHcC6jHwy12e4QLj/AleCKfEVOl7qjCojkoSwnvc/y8iKx8TR?=
+ =?us-ascii?Q?Lq7g53KCRDLYzI4kMQL+mVWgtEHcR0JRarqL42YZYbntuRvY3Wd7lgq3AMfx?=
+ =?us-ascii?Q?KS5WE68w6q+o6lxSE5k5YI5rft1MmUe666ombui55VQJsY7ZwARsd0XPUs0J?=
+ =?us-ascii?Q?zluDnaEKFngbKg4I7vVZgCtSwE1tTpYzlts755SE3Yl6zb4MM1KWqwc//2Za?=
+ =?us-ascii?Q?JbZNJNAb86/uv7cDN9HG1rJ0Qz2nuEYAj7VjMkmFRlntLu95Aqfj2tS/anSk?=
+ =?us-ascii?Q?Dty5EeZCb88IkJsUTmpKkWjD68NKX4Tja9p0rHw77ewuOZJ0/PQ2nNhSCggQ?=
+ =?us-ascii?Q?zz2cUkQ7cf3LV1UKZbKZJaY0m1yH5u5VyImh2jm0cyr4+ybc/dCmFy+unHQz?=
+ =?us-ascii?Q?mqzMuAeuJlO9y1HKCjrZ6dvsM7xCErz19VQHocLaAAp75XZCHItCKtO1e1YL?=
+ =?us-ascii?Q?5JIamqSF/si1gB6Ve7wXp5+BWUg61ji9UIsvkJz1kBOH7+QGOZlINjz/2Oz8?=
+ =?us-ascii?Q?gQN5KqmMLZ+bieC6MoP1RGmRwJGpsnTgR7ex2Zndh0c3nZB0p5jHgI60/97C?=
+ =?us-ascii?Q?Og4lDeVjqSBY76Odc7hkAaqMNAYNqMzBNi83iluNNPqOqsIkl3wFTULCsVRO?=
+ =?us-ascii?Q?BskyZnTydDwAfSGRlXQnZvLGoDSHF66NfAVtrqu8rzVCGHADdgZz+pbcI/tf?=
+ =?us-ascii?Q?2n8o2BOSkm51G5kTSsA797i71cuFz0HnXmWxViBeUSErjOwAD+ec027y+i8A?=
+ =?us-ascii?Q?hw9S+A6vR2K7uH9Ki/mcm14=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=66.111.4.25; envelope-from=fthain@linux-m68k.org;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB0031.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8a786e47-955a-4657-46db-08d9a9795f68
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Nov 2021 03:21:40.5003 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ekxrJknIbSdwn1ftNRgHaAHgoz4R/oTMuSTwNSO+eDbGX/EOvyaWtzGrcN1YXuacjmQ60Iuqyj001ZDfVA+29g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5139
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.43; envelope-from=chen.zhang@intel.com;
+ helo=mga05.intel.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,220 +158,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: qemu-dev <qemu-devel@nongnu.org>,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On Fri, 24 Sep 2021, I wrote:
 
-> This is a patch series for QEMU that I started last year. The aim was to 
-> try to get a monotonic clocksource for Linux/m68k guests. That hasn't 
-> been achieved yet (for q800 machines). I'm submitting the patch series 
-> because,
-> 
->  - it improves 6522 emulation fidelity, although slightly slower, and
-> 
+> -----Original Message-----
+> From: Juan Quintela <quintela@redhat.com>
+> Sent: Wednesday, November 17, 2021 12:28 AM
+> To: Zhang, Chen <chen.zhang@intel.com>
+> Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>; Dr . David Alan
+> Gilbert <dgilbert@redhat.com>; qemu-dev <qemu-devel@nongnu.org>
+> Subject: Re: [PATCH 1/2] migration/colo: Optimize COLO start code path
+>=20
+> Zhang Chen <chen.zhang@intel.com> wrote:
+> > There is no need to start COLO through MIGRATION_STATUS_ACTIVE.
+>=20
+> Hi
+>=20
+> I don't understand what you are trying to do.  In my reading, at least th=
+e
+> commit message is wrong:
+>=20
+> void migrate_start_colo_process(MigrationState *s) {
+>     ...
+>     migrate_set_state(&s->state, MIGRATION_STATUS_ACTIVE,
+>                       MIGRATION_STATUS_COLO);
+>     ...
+> }
+>=20
+> and
+>=20
+> void *colo_process_incoming_thread(void *opaque) {
+>     ...
+>     migrate_set_state(&mis->state, MIGRATION_STATUS_ACTIVE,
+>                       MIGRATION_STATUS_COLO);
+>=20
+> So colo starts with MIGRATION_STATUS_ACTIVE.
 
-I did some more benchmarking to examine the performance implications.
+Yes, this patch just optimized COLO primary code path(migrate_start_colo_pr=
+ocess()).
+We can see this patch removed the=20
+ migrate_set_state(&s->state, MIGRATION_STATUS_ACTIVE,
+                      MIGRATION_STATUS_COLO);
+In the migrate_start_colo_process().
 
-I measured a performance improvement with this patch series. For a 
-Linux/m68k guest, the execution time for a gettimeofday syscall dropped 
-from 9 us to 5 us. (This is a fairly common syscall.)
+Current COLO status path:
+ MIGRATION_STATUS_XXX   --->   MIGRATION_STATUS_ACTIVE ---> MIGRATION_STATU=
+S_COLO ---> MIGRATION_STATUS_COMPLETED
 
-The host CPU time consumed by qemu in starting the guest kernel and 
-executing a benchmark involving 20 million gettimeofday calls was as 
-follows.
+This patch try to remove redundant " MIGRATION_STATUS_ACTIVE " in COLO star=
+t.=20
+MIGRATION_STATUS_XXX   ---> MIGRATION_STATUS_COLO ---> MIGRATION_STATUS_COM=
+PLETED
 
-qemu-system-m68k mainline (42f6c9179b):
-    real     198 s
-    sys      123 s
-    user     73 s
-    sys/user 1.68
+Actually COLO primary code did nothing when running on "MIGRATION_STATUS_AC=
+TIVE".
+But for COLO secondary (void *colo_process_incoming_thread()), it shared so=
+me code with normal migration. No need to do this.
 
-qemu-system-m68k patched (0a0bca4711):
-    real     112 s
-    sys      63 s
-    user     47 s
-    sys/user 1.34
+So, I will fix commit message to:
+Optimize COLO primary start path to:
+MIGRATION_STATUS_XXX   ---> MIGRATION_STATUS_COLO ---> MIGRATION_STATUS_COM=
+PLETED
+No need to start primary COLO through "MIGRATION_STATUS_ACTIVE".
 
-As with any microbenchmark, this workload is not a real-world one. For 
-comparison, here are measurements of the time to fully startup and 
-immediately shut down Debian Linux/m68k SID (systemd):
+How about it?
 
-qemu-system-m68k mainline (42f6c9179b)
-    real     31.5 s
-    sys      1.59 s
-    user     27.4 s
-    sys/user 0.06
+>=20
+>=20
+> > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> > ---
+> >  migration/colo.c      |  2 --
+> >  migration/migration.c | 18 +++++++++++-------
+> >  2 files changed, 11 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/migration/colo.c b/migration/colo.c index
+> > 2415325262..ad1a4426b3 100644
+> > --- a/migration/colo.c
+> > +++ b/migration/colo.c
+> > @@ -667,8 +667,6 @@ void migrate_start_colo_process(MigrationState *s)
+> >                                  colo_checkpoint_notify, s);
+> >
+> >      qemu_sem_init(&s->colo_exit_sem, 0);
+> > -    migrate_set_state(&s->state, MIGRATION_STATUS_ACTIVE,
+> > -                      MIGRATION_STATUS_COLO);
+> >      colo_process_checkpoint(s);
+> >      qemu_mutex_lock_iothread();
+> >  }
+> > diff --git a/migration/migration.c b/migration/migration.c index
+> > abaf6f9e3d..4c8662a839 100644
+> > --- a/migration/migration.c
+> > +++ b/migration/migration.c
+> > @@ -3222,7 +3222,10 @@ static void migration_completion(MigrationState
+> *s)
+> >          goto fail_invalidate;
+> >      }
+> >
+> > -    if (!migrate_colo_enabled()) {
+> > +    if (migrate_colo_enabled()) {
+> > +        migrate_set_state(&s->state, current_active_state,
+> > +                          MIGRATION_STATUS_COLO);
+> > +    } else {
+> >          migrate_set_state(&s->state, current_active_state,
+> >                            MIGRATION_STATUS_COMPLETED);
+> >      }
+>=20
+> This moves the setup to MIGRATION_STATUS_COLO to completion time
+> instead of the beggining of the process.  I have no clue why.  I guess yo=
+u can
+> put a comment/commit message to say what you ar.e trynig to do.
 
-qemu-system-m68k patched (0a0bca4711)
-    real     31.2 s
-    sys      1.17 s
-    user     27.6 s
-    sys/user 0.04
+You are right, no need to setup here.
+I will remove this in next version.
 
-The decrease in sys/user ratio reflects the small cost that has to be paid 
-for the improvement in 6522 emulation fidelity and timer accuracy. But 
-note that in both benchmarks wallclock execution time dropped, meaning 
-that the system is faster overall.
+>=20
+> > @@ -3607,12 +3610,7 @@ static void
+> migration_iteration_finish(MigrationState *s)
+> >          migration_calculate_complete(s);
+> >          runstate_set(RUN_STATE_POSTMIGRATE);
+> >          break;
+> > -
+> > -    case MIGRATION_STATUS_ACTIVE:
+> > -        /*
+> > -         * We should really assert here, but since it's during
+> > -         * migration, let's try to reduce the usage of assertions.
+> > -         */
+> > +    case MIGRATION_STATUS_COLO:
+> >          if (!migrate_colo_enabled()) {
+> >              error_report("%s: critical error: calling COLO code withou=
+t "
+> >                           "COLO enabled", __func__); @@ -3622,6
+> > +3620,12 @@ static void migration_iteration_finish(MigrationState *s)
+> >           * Fixme: we will run VM in COLO no matter its old running sta=
+te.
+> >           * After exited COLO, we will keep running.
+> >           */
+> > +         /* Fallthrough */
+> > +    case MIGRATION_STATUS_ACTIVE:
+> > +        /*
+> > +         * We should really assert here, but since it's during
+> > +         * migration, let's try to reduce the usage of assertions.
+> > +         */
+> >          s->vm_was_running =3D true;
+> >          /* Fallthrough */
+> >      case MIGRATION_STATUS_FAILED:
+>=20
+> I guess this change is related to the previous one, but I don't understan=
+d colo
+> enough to review it.
 
-The gettimeofday testing revealed that the Linux kernel does not properly 
-protect userland from pathological hardware timers, and the gettimeofday 
-result was seen to jump backwards (that was unexpected, though Mark did 
-predict it).
+I think this patch is the general code, little background needed.
+You can simple understand COLO is two VMs(primary node and secondary node) =
+entered a state of cyclic migration.
+Thanks your comments.
 
-This backwards jump was often observed in the mainline build during the 
-gettimeofday benchmark and is result of bugs in mos6522.c. The patched 
-build did not exhibit this problem (as yet).
+Thanks
+Chen
+=20
 
-The two benefits described here are offered in addition to all of the 
-other benefits described in the patches themselves. Please consider 
-merging this series.
+>=20
+> Later, Juan.
 
->  - it allows Linux/m68k to make use of the additional timer that the 
->    hardware indeed offers, but which QEMU omits, and which may be of 
->    benefit to Linux guests [1], and
-> 
->  - I see that Mark has been working on timer emulation issues in his 
->    github repo [2] and it seems likely that MacOS, NetBSD or A/UX guests 
->    will also require better 6522 emulation.
-> 
-> To make collaboration easier these patches can also be fetched from 
-> github [3].
-> 
-> On a real Quadra, accesses to the SY6522 chips are slow because they are 
-> synchronous with the 783360 Hz "phase 2" clock. In QEMU, they are slow 
-> because of the division operation in the timer count calculation. This 
-> patch series improves the fidelity of the emulated chip, but the price 
-> is more division ops.
-> 
-> The emulated 6522 still deviates from the behaviour of the real thing, 
-> however. For example, two consecutive accesses to a real 6522 timer 
-> counter can never yield the same value. This is not true of the emulated 
-> 6522 in QEMU 6, wherein two consecutive accesses to a timer count 
-> register have been observed to yield the same value.
-> 
-> Two problems presently affecting a Linux guest are clock drift and 
-> monotonicity failure in the 'via' clocksource. That is, the clocksource 
-> counter can jump backwards. This can be observed by patching Linux like 
-> so,
-> 
-> diff --git a/arch/m68k/mac/via.c b/arch/m68k/mac/via.c
-> --- a/arch/m68k/mac/via.c
-> +++ b/arch/m68k/mac/via.c
-> @@ -606,6 +606,8 @@ void __init via_init_clock(void)
->  	clocksource_register_hz(&mac_clk, VIA_CLOCK_FREQ);
->  }
->  
-> +static u32 prev_ticks;
-> +
->  static u64 mac_read_clk(struct clocksource *cs)
->  {
->  	unsigned long flags;
-> @@ -631,6 +633,8 @@ static u64 mac_read_clk(struct clocksource *cs)
->  	count = count_high << 8;
->  	ticks = VIA_TIMER_CYCLES - count;
->  	ticks += clk_offset + clk_total;
-> +	if (ticks < prev_ticks) pr_warn("%s: %u < %u\n", __func__, ticks, prev_ticks);
-> +	prev_ticks = ticks;
->  	local_irq_restore(flags);
->  
->  	return ticks;
-> 
-> 
-> Or just enable CONFIG_DEBUG_TIMEKEEPING:
-> 
-> [ 1872.720000] INFO: timekeeping: Cycle offset (4294966426) is larger than the 'via1' clock's 50% safety margin (2147483647)
-> [ 1872.720000] timekeeping: Your kernel is still fine, but is feeling a bit nervous 
-> [ 1907.510000] INFO: timekeeping: Cycle offset (4294962989) is larger than the 'via1' clock's 50% safety margin (2147483647) 
-> [ 1907.510000] timekeeping: Your kernel is still fine, but is feeling a bit nervous 
-> [ 1907.900000] INFO: timekeeping: Cycle offset (4294963248) is larger than the 'via1' clock's 50% safety margin (2147483647) 
-> [ 1907.900000] timekeeping: Your kernel is still fine, but is feeling a bit nervous
-> 
-> 
-> This problem can be partly blamed on a 6522 design limitation, which is 
-> that the timer counter has no overflow register. Hence, if a timer 
-> counter wraps around and the kernel is late to handle the subsequent 
-> interrupt, the kernel can't account for any missed ticks.
-> 
-> On a real Quadra, the kernel mitigates this limitation by minimizing 
-> interrupt latency. But on QEMU, interrupt latency is unbounded. This 
-> can't be mitigated by the guest kernel and leads to clock drift.
-> 
-> This latency can be observed by patching QEMU like so:
-> 
-> diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-> --- a/hw/misc/mos6522.c
-> +++ b/hw/misc/mos6522.c
-> @@ -379,6 +379,12 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
->          s->pcr = val;
->          break;
->      case VIA_REG_IFR:
-> +        if (val & T1_INT) {
-> +            static int64_t last_t1_int_cleared;
-> +            int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-> +            if (now - last_t1_int_cleared > 20000000) printf("\t%s: t1 int clear is late\n", __func__);
-> +            last_t1_int_cleared = now;
-> +        }
->          /* reset bits */
->          s->ifr &= ~val;
->          mos6522_update_irq(s);
-> 
-> 
-> This logic asserts that, given that Linux/m68k sets CONFIG_HZ to 100, 
-> the emulator will theoretically see each timer 1 interrupt cleared 
-> within 20 ms of the previous one. But that deadline is often missed on 
-> my QEMU host [4].
-> 
-> On real Mac hardware you could observe the same scenario if a high 
-> priority interrupt were to sufficiently delay the timer interrupt 
-> handler. (This is the reason why the VIA1 interrupt priority gets 
-> increased from level 1 to level 6 when running on Quadras.)
-> 
-> Anyway, for now, the clocksource monotonicity problem in Linux/mac68k 
-> guests is still unresolved. Nonetheless, I think this patch series does 
-> improve the situation.
-> 
-> [1] I've also been working on some improvements to Linux/m68k based on 
-> Arnd Bergman's clockevent RFC patch, 
-> https://lore.kernel.org/linux-m68k/20201008154651.1901126-14-arnd@arndb.de/ 
-> The idea is to add a oneshot clockevent device by making use of the 
-> second VIA1 timer. This approach should help mitigate the clock drift 
-> problem as well as assist with CONFIG_GENERIC_CLOCKEVENTS adoption, 
-> which would enable CONFIG_NO_HZ_IDLE etc.
-> 
-> [2] https://github.com/mcayland/qemu/commits/q800.upstream
-> 
-> [3] https://github.com/fthain/qemu/commits/via-timer
-> 
-> [4] This theoretical 20 ms deadline is not missed prior to every 
-> backwards jump in the clocksource counter. AFAICT, that's because the 
-> true deadline is somewhat shorter than 20 ms.
-> 
-> --- 
-> Changed since RFC:
->  - Added Reviewed-by tags.
->  - Re-ordered some patches to make fixes available earlier in the series.
->  - Dropped patch 5/10 "Don't clear T1 interrupt flag on latch write".
->  - Rebased on v6.1.0 release.
-> 
-> 
-> Finn Thain (9):
->   hw/mos6522: Remove get_load_time() methods and functions
->   hw/mos6522: Remove get_counter_value() methods and functions
->   hw/mos6522: Remove redundant mos6522_timer1_update() calls
->   hw/mos6522: Rename timer callback functions
->   hw/mos6522: Fix initial timer counter reload
->   hw/mos6522: Call mos6522_update_irq() when appropriate
->   hw/mos6522: Avoid using discrepant QEMU clock values
->   hw/mos6522: Synchronize timer interrupt and timer counter
->   hw/mos6522: Implement oneshot mode
-> 
->  hw/misc/mos6522.c         | 245 ++++++++++++++++++--------------------
->  hw/misc/trace-events      |   2 +-
->  include/hw/misc/mos6522.h |   9 ++
->  3 files changed, 123 insertions(+), 133 deletions(-)
-> 
-> 
 
