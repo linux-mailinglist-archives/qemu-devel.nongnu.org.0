@@ -2,85 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 948B1454B72
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 17:55:47 +0100 (CET)
-Received: from localhost ([::1]:57824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D99454B87
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 18:02:56 +0100 (CET)
+Received: from localhost ([::1]:46084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnODq-0000uv-K9
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 11:55:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37738)
+	id 1mnOKl-0003YN-D3
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 12:02:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mnOAp-0006NT-2E
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 11:52:39 -0500
-Received: from [2a00:1450:4864:20::42f] (port=40903
- helo=mail-wr1-x42f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mnOAn-0002gM-9z
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 11:52:38 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id r8so5929040wra.7
- for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 08:52:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Eqs0Qj4+GHTnj15coarmRkvkcAMSye+Ymq2S9yAumyU=;
- b=PhdCgHmSoO0R+r9ZOgBm4K6fQDNPvC63680Pam93BMTLnWaqjJiMdGpIB0CHTm2oSx
- EHYnd6Octwjsb5femguR2KoMdC6G6SuAVu9osWrKWiYxhYYDRNMJUAh65cT5NwYPO8cv
- xDfrSfQgQGpwpK0a+k4Gn+9MRdCDoWIcufz4t/Q2H9SDO6+sWeAS0gH5voPHsuf6/T1e
- 2rtfi8IkW7E5e1xxvT5+GG65MkwdkTt/1fzGe73Q4RSUcQZiOhNk7+7wRU7WS/JixIp0
- RFDuimcBnBX9Z39VZAuHGa2l6CldppM8PYFtB30vBwBzzQv5DOzafG1HbcbRVFRK0tvY
- cZkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Eqs0Qj4+GHTnj15coarmRkvkcAMSye+Ymq2S9yAumyU=;
- b=trYSd+IY08d3OukvnXh8tEWsAMDwKd1yx5Anfo43Fp9iRGgV9sxCIzQPTpNN8kux6C
- O0+iJHZvJzqyE38eV3KvkqcnkLYO6ew5uH7K8sEe3Qd+Uk42m+V0ADgitjcdcie2UooD
- llAiQoV8Sn1kocQYz5yhBjp0RUY5/3oHivGlVQBxtV9UdYwcG6j8bQgWR3OxhxZ+Holo
- GT53JonMDsqvPa8gChZYRi5xd3DdDeVbFJvrF0v9lx2QE8nBnSf2+LyihvrGhZW3ek7z
- vJd0kuv+IlKuM5uldoPW2YxSdIBWiK+olQsAqIpDVCCrUzHj/OvfgrU4Ay3il8RGnJ26
- WI+w==
-X-Gm-Message-State: AOAM533tmeJvIHlkyOCyEsSNBfkAT1d0x5CjcDEmdICTgL7YfT64twkx
- Eou+EBOvLOpeLpbn7LppI3tiR2dnx6I=
-X-Google-Smtp-Source: ABdhPJznmWK0RwqHi43jwR/wqNSkehwaIk5bnX0LSpzhbdJJNW2qpCFe6ONNramgEBi8jcc3nZtLRQ==
-X-Received: by 2002:a5d:648e:: with SMTP id o14mr21606728wri.141.1637167955925; 
- Wed, 17 Nov 2021 08:52:35 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id n32sm242564wms.42.2021.11.17.08.52.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Nov 2021 08:52:35 -0800 (PST)
-Message-ID: <6944398a-57ad-2a84-42da-f30031b290f9@amsat.org>
-Date: Wed, 17 Nov 2021 17:52:34 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v5 15/17] linux-user: Move thunk.c from top-level
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211117160412.71563-1-richard.henderson@linaro.org>
- <20211117160412.71563-16-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211117160412.71563-16-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1mnO6m-0007rj-SY; Wed, 17 Nov 2021 11:48:28 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38614)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1mnO6j-000227-Ia; Wed, 17 Nov 2021 11:48:27 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AHF4QwI015637; 
+ Wed, 17 Nov 2021 16:48:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=ztCjKhvnzlhbT2Ek1ctpJowMu5Do5hIGy+OEOzkONHI=;
+ b=NDAR8xg7xl3bBUhEwL4HltPJL/6QfOHekZniZ4dG6W2hqY/oKeIeSm4fhXiSfHgeEsgi
+ bT3rkMMiDe8ar+StCwLFpOpQlRssfQ/+UqiEIyZY55E08hDZ7kIOogmAriFx7ImkhvVe
+ xgugwswdetc6zLUVx7jBnGV3bkj7w1caKVYbommVfEUJmusYzcCD+v3nlhwY9cHAtYNd
+ ea6lcWt7R8ndi1ZabYLfE86y5K2ewETikbj+JEIqlabp+pQbmWaxjYjt2pSIKgcNhKBU
+ OPmYLujK11j9ddwqgn64wZtM2XLUxk8VYCtd6oDOtHbAYurUmmlRdCniHuFIUppqDNXO Vw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cd3qmk6mq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Nov 2021 16:48:22 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AHGTfA2014236;
+ Wed, 17 Nov 2021 16:48:21 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cd3qmk6ky-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Nov 2021 16:48:21 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AHGSRJr012990;
+ Wed, 17 Nov 2021 16:48:19 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma01fra.de.ibm.com with ESMTP id 3ca50a2u0r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Nov 2021 16:48:19 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 1AHGfGnb61931968
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 17 Nov 2021 16:41:16 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A150C42041;
+ Wed, 17 Nov 2021 16:48:14 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2EA634204B;
+ Wed, 17 Nov 2021 16:48:14 +0000 (GMT)
+Received: from li-c6ac47cc-293c-11b2-a85c-d421c8e4747b.ibm.com.com (unknown
+ [9.171.38.237])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 17 Nov 2021 16:48:14 +0000 (GMT)
+From: Pierre Morel <pmorel@linux.ibm.com>
+To: qemu-s390x@nongnu.org
+Subject: [PATCH v4 0/5] s390x: CPU Topology
+Date: Wed, 17 Nov 2021 17:48:43 +0100
+Message-Id: <20211117164848.310952-1-pmorel@linux.ibm.com>
+X-Mailer: git-send-email 2.27.0
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: gC_dQ_9vNKQ7Gj2rXhoB5HgtzlIbUidY
+X-Proofpoint-ORIG-GUID: gsRrzBZkyPkG3EeH8B9jcpMjQa6ZIimC
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.009,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-17_05,2021-11-17_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 clxscore=1015
+ mlxscore=0 phishscore=0 impostorscore=0 bulkscore=0 malwarescore=0
+ spamscore=0 adultscore=0 lowpriorityscore=0 priorityscore=1501
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2111170077
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,21 +105,234 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu, imp@bsdimp.com
+Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/17/21 17:04, Richard Henderson wrote:
-> So far, linux-user is the only user of these functions.
-> Clean up the build machinery by restricting it to linux-user.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  meson.build                   | 1 -
->  thunk.c => linux-user/thunk.c | 0
->  linux-user/meson.build        | 1 +
->  3 files changed, 1 insertion(+), 1 deletion(-)
->  rename thunk.c => linux-user/thunk.c (100%)
+Hi,
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+This series is a first part of the implementation of CPU topology
+for S390 greatly reduced from the first spin.
+
+In particular, we reduced the scope to the S390x specificities, removing
+all code touching to SMP or NUMA, with the goal to:
+- facilitate review and acceptance
+- let for later the SMP part currently actively discussed in mainline
+- be able despite the reduction of code to handle CPU topology for S390
+  using the current S390 topology provided by QEMU with cores and sockets
+  only.
+
+To use these patches, you will need the Linux series version 4.
+You find it there:
+https://lkml.org/lkml/2021/9/16/576
+
+Currently this code is for KVM only, I have no idea if it is interesting
+to provide a TCG patch. If ever it will be done in another series.
+
+A short introduction
+====================
+
+CPU Topology is described in the S390 POP with essentially the description
+of two instructions:
+
+PTF Perform Topology function used to poll for topology change
+    and used to set the polarization but this part is not part of this item.
+
+STSI Store System Information and the SYSIB 15.1.x providing the Topology
+    configuration.
+
+S390 Topology is a 6 levels hierarchical topology with up to 5 level
+    of containers. The last topology level, specifying the CPU cores.
+
+    This patch series only uses the two lower levels sockets and cores.
+    
+    To get the information on the topology, S390 provides the STSI
+    instruction, which stores a structures providing the list of the
+    containers used in the Machine topology: the SYSIB.
+    A selector within the STSI instruction allow to chose how many topology
+    levels will be provide in the SYSIB.
+
+    Using the Topology List Entries (TLE) provided inside the SYSIB we
+    the Linux kernel is able to compute the information about the cache
+    distance between two cores and can use this information to take
+    scheduling decisions.
+
+Note:
+-----
+     Z15 reports 3 levels of containers, drawers, book, sockets as
+     Container-TLEs above the core description inside CPU-TLEs.
+
+The Topology can be seen at several places inside zLinux:
+    - sysfs: /sys/devices/system/cpu/cpuX/topology
+    - procfs: /proc/sysinfo and /proc/cpuinfo
+    - lscpu -e : gives toplogy information
+
+The different Topology levels have names:
+    - Node - Drawer - Book - sockets or physical package - core
+
+Threads:
+    Multithreading, is not part of the topology as described by the
+    SYSIB 15.1.x
+
+The interest of the guest to know the CPU topology is obviously to be
+able to optimise the load balancing and the migration of threads.
+KVM will have the same interest concerning vCPUs scheduling and cache
+optimisation.
+
+
+The design
+==========
+
+1) To be ready for hotplug, I chose an Object oriented design
+of the topology containers:
+- A node is a bridge on the SYSBUS and defines a "node bus"
+- A drawer is hotplug on the "node bus"
+- A book on the "drawer bus"
+- A socket on the "book bus"
+- And the CPU Topology List Entry (CPU-TLE)sits on the socket bus.
+These objects will be enhanced with the cache information when
+NUMA is implemented.
+
+This also allows for easy retrieval when building the different SYSIB
+for Store Topology System Information (STSI)
+
+2) Perform Topology Function (PTF) instruction is made available to the
+guest with a new KVM capability and intercepted in QEMU, allowing the
+guest to pool for topology changes.
+
+
+Features and TBD list
+=====================
+
+- There is no direct match between IDs shown by:
+    - lscpu (unrelated numbered list),
+    - SYSIB 15.1.x (topology ID)
+
+- The CPU number, left column of lscpu, is used to reference a CPU
+    by Linux tools
+    While the CPU address is used by QEMU for hotplug.
+
+- Effect of -smp parsing on the topology with an example:
+    -smp 9,sockets=4,cores=4,maxcpus=16
+
+    We have 4 socket each holding 4 cores so that we have a maximum 
+    of 16 CPU, 9 of them are active on boot. (Should be obvious)
+
+# lscpu -e
+CPU NODE DRAWER BOOK SOCKET CORE L1d:L1i:L2d:L2i ONLINE CONFIGURED POLARIZATION ADDRESS
+  0    0      0    0      0    0 0:0:0:0            yes yes        horizontal   0
+  1    0      0    0      0    1 1:1:1:1            yes yes        horizontal   1
+  2    0      0    0      0    2 2:2:2:2            yes yes        horizontal   2
+  3    0      0    0      0    3 3:3:3:3            yes yes        horizontal   3
+  4    0      0    0      1    4 4:4:4:4            yes yes        horizontal   4
+  5    0      0    0      1    5 5:5:5:5            yes yes        horizontal   5
+  6    0      0    0      1    6 6:6:6:6            yes yes        horizontal   6
+  7    0      0    0      1    7 7:7:7:7            yes yes        horizontal   7
+  8    0      0    0      2    8 8:8:8:8            yes yes        horizontal   8
+# 
+
+
+- To plug a new CPU inside the topology one can simply use the CPU
+    address like in:
+  
+(qemu) device_add host-s390x-cpu,core-id=12
+# lscpu -e
+CPU NODE DRAWER BOOK SOCKET CORE L1d:L1i:L2d:L2i ONLINE CONFIGURED POLARIZATION ADDRESS
+  0    0      0    0      0    0 0:0:0:0            yes yes        horizontal   0
+  1    0      0    0      0    1 1:1:1:1            yes yes        horizontal   1
+  2    0      0    0      0    2 2:2:2:2            yes yes        horizontal   2
+  3    0      0    0      0    3 3:3:3:3            yes yes        horizontal   3
+  4    0      0    0      1    4 4:4:4:4            yes yes        horizontal   4
+  5    0      0    0      1    5 5:5:5:5            yes yes        horizontal   5
+  6    0      0    0      1    6 6:6:6:6            yes yes        horizontal   6
+  7    0      0    0      1    7 7:7:7:7            yes yes        horizontal   7
+  8    0      0    0      2    8 8:8:8:8            yes yes        horizontal   8
+  9    -      -    -      -    - :::                 no yes        horizontal   12
+# chcpu -e 9
+CPU 9 enabled
+# lscpu -e
+CPU NODE DRAWER BOOK SOCKET CORE L1d:L1i:L2d:L2i ONLINE CONFIGURED POLARIZATION ADDRESS
+  0    0      0    0      0    0 0:0:0:0            yes yes        horizontal   0
+  1    0      0    0      0    1 1:1:1:1            yes yes        horizontal   1
+  2    0      0    0      0    2 2:2:2:2            yes yes        horizontal   2
+  3    0      0    0      0    3 3:3:3:3            yes yes        horizontal   3
+  4    0      0    0      1    4 4:4:4:4            yes yes        horizontal   4
+  5    0      0    0      1    5 5:5:5:5            yes yes        horizontal   5
+  6    0      0    0      1    6 6:6:6:6            yes yes        horizontal   6
+  7    0      0    0      1    7 7:7:7:7            yes yes        horizontal   7
+  8    0      0    0      2    8 8:8:8:8            yes yes        horizontal   8
+  9    0      0    0      3    9 9:9:9:9            yes yes        horizontal   12
+#
+
+It is up to the admin level, Libvirt for example, to pin the righ CPU to the right
+vCPU, but as we can see without NUMA, chosing separate sockets for CPUs is not easy
+without hotplug because without information the code will assign the vCPU and fill
+the sockets one after the other.
+Note that this is also the default behavior on the LPAR.
+
+Conclusion
+==========
+
+This patch, together with the associated KVM patch allows to provide CPU topology
+information to the guest.
+Currently, only dedicated vCPU and CPU are supported and a NUMA topology can only
+be handled using CPU hotplug inside the guest.
+
+Next extensions are to provide:
+- adding books and drawers levels
+- NUMA using the -numa QEMU parameter.
+- Topology information change for shared CPU
+
+Regards,
+Pierre
+
+Pierre Morel (5):
+  linux-headers update
+  s390x: topology: CPU topology objects and structures
+  s390x: topology: implementating Store Topology System Information
+  s390x: CPU topology: CPU topology migration
+  s390x: kvm: topology: interception of PTF instruction
+
+ hw/s390x/cpu-topology.c             | 361 ++++++++++++++++++++++++++++
+ hw/s390x/meson.build                |   1 +
+ hw/s390x/s390-virtio-ccw.c          |  54 +++++
+ include/hw/s390x/cpu-topology.h     |  74 ++++++
+ include/hw/s390x/s390-virtio-ccw.h  |   6 +
+ linux-headers/linux/kvm.h           |   1 +
+ target/s390x/cpu.h                  |  50 ++++
+ target/s390x/cpu_features_def.h.inc |   1 +
+ target/s390x/cpu_models.c           |   2 +
+ target/s390x/cpu_topology.c         | 113 +++++++++
+ target/s390x/gen-features.c         |   3 +
+ target/s390x/kvm/kvm.c              |  26 ++
+ target/s390x/machine.c              |  48 ++++
+ target/s390x/meson.build            |   1 +
+ 14 files changed, 741 insertions(+)
+ create mode 100644 hw/s390x/cpu-topology.c
+ create mode 100644 include/hw/s390x/cpu-topology.h
+ create mode 100644 target/s390x/cpu_topology.c
+
+-- 
+2.27.0
+
+Changelog:
+
+- since v3
+
+- Added migration
+  (Thomas)
+
+- Separated STSI instruction from KVM to prepare TCG
+  (Thomas)
+
+- Take care of endianess to prepare TCG
+  (Thomas)
+
+- Added comments on STSI CPU container and PFT instruction
+  (Thomas)
+
+- Moved enabling the instructions as the last patch
+  (Thomas)
 
