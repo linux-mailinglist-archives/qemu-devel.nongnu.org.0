@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D048F454B3F
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 17:44:07 +0100 (CET)
-Received: from localhost ([::1]:58730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC88454B30
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 17:41:22 +0100 (CET)
+Received: from localhost ([::1]:48846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnO2Y-00073l-Us
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 11:44:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32976)
+	id 1mnNzt-0000Lc-EV
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 11:41:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mnNtL-0003Ww-Ah
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mnNtM-0003X3-4o
  for qemu-devel@nongnu.org; Wed, 17 Nov 2021 11:34:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52635)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mnNtD-0008AS-Jw
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 11:34:34 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mnNtD-00089q-MF
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 11:34:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637166865;
+ s=mimecast20190719; t=1637166864;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qy/be1AOUE7Ms2lbtbLyXpcwHOrPuiAjrY96KknfdPQ=;
- b=PyXRqMNvpo5Wwbf2pwdchXj40OeTp2JSbdBRMKR4YHlETnvYaUNwmZZnA02ApBdiQCDj8h
- HP+iSdVcmY+0ag+xnpdizlkP9mQfaJcGeJW5m6ao6W1ks3STtjMGMe2UqijT8mRMeQ22im
- l6AFaviV/okF1XSicPh4GKv39eenscg=
+ bh=aXR06R6xzJI3KAPToNPIsvnoPM1tdfEZjAqK89BERnc=;
+ b=UtnOpquA8+HfyAZc0j7rbObO/M4uFnVcjYcjKahkMHiJAzjNFV7kvzX/g/ztnz/cWY73xl
+ k0yxIpKaaBrlQB5HBRhog1z/yvkM2knWIEughd0rTvPH/4PBa+u9EyL3QwRKOknB+pbV1Z
+ KRIgxVh8FV732LeEkuldNqPYSNmj2fo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-287-gwWkTUUUPMSA-jwxnir80Q-1; Wed, 17 Nov 2021 11:34:20 -0500
-X-MC-Unique: gwWkTUUUPMSA-jwxnir80Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-449-suNczjPHOiGvpwrbgMFXHg-1; Wed, 17 Nov 2021 11:34:20 -0500
+X-MC-Unique: suNczjPHOiGvpwrbgMFXHg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B584A8799EB;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 000A110168C6;
  Wed, 17 Nov 2021 16:34:18 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 828945C1BB;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A08057CAA;
  Wed, 17 Nov 2021 16:34:18 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9A8F91132996; Wed, 17 Nov 2021 17:34:09 +0100 (CET)
+ id 9E9861132999; Wed, 17 Nov 2021 17:34:09 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 11/13] hw/arm/xilinx_zynq: Replace drive_get_next() by
+Subject: [PATCH v2 12/13] hw/arm/aspeed: Replace drive_get_next() by
  drive_get()
-Date: Wed, 17 Nov 2021 17:34:07 +0100
-Message-Id: <20211117163409.3587705-12-armbru@redhat.com>
+Date: Wed, 17 Nov 2021 17:34:08 +0100
+Message-Id: <20211117163409.3587705-13-armbru@redhat.com>
 In-Reply-To: <20211117163409.3587705-1-armbru@redhat.com>
 References: <20211117163409.3587705-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -80,9 +79,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
- qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -94,76 +94,74 @@ This lets you define unit numbers implicitly by execution order.  If the
 order changes, or new calls appear "in the middle", unit numbers change.
 ABI break.  Hard to spot in review.
 
-Machine "xlnx-zcu102" connects backends with drive_get_next() in two
-counting loops, one of them in a helper function.  Change it to use
-drive_get() directly.  This makes the unit numbers explicit in the
-code.
+The aspeed machines connects backends with drive_get_next() in several
+counting loops, one of them in a helper function, and a conditional.
+Change it to use drive_get() directly.  This makes the unit numbers
+explicit in the code.
 
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Cc: Alistair Francis <alistair@alistair23.me>
+Cc: "Cédric Le Goater" <clg@kaod.org>
 Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Andrew Jeffery <andrew@aj.id.au>
+Cc: Joel Stanley <joel@jms.id.au>
 Cc: qemu-arm@nongnu.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/arm/xilinx_zynq.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ hw/arm/aspeed.c | 21 +++++++++++++--------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
 
-diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-index 69c333e91b..50e7268396 100644
---- a/hw/arm/xilinx_zynq.c
-+++ b/hw/arm/xilinx_zynq.c
-@@ -125,9 +125,10 @@ static void gem_init(NICInfo *nd, uint32_t base, qemu_irq irq)
-     sysbus_connect_irq(s, 0, irq);
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index a77f46b3ad..cf20ae0db5 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -284,12 +284,13 @@ static void write_boot_rom(DriveInfo *dinfo, hwaddr addr, size_t rom_size,
  }
  
--static inline void zynq_init_spi_flashes(uint32_t base_addr, qemu_irq irq,
--                                         bool is_qspi)
-+static inline int zynq_init_spi_flashes(uint32_t base_addr, qemu_irq irq,
-+                                        bool is_qspi, int unit0)
+ static void aspeed_board_init_flashes(AspeedSMCState *s,
+-                                      const char *flashtype)
++                                      const char *flashtype,
++                                      int unit0)
  {
-+    int unit = unit0;
-     DeviceState *dev;
-     SysBusDevice *busdev;
-     SSIBus *spi;
-@@ -156,7 +157,7 @@ static inline void zynq_init_spi_flashes(uint32_t base_addr, qemu_irq irq,
-         spi = (SSIBus *)qdev_get_child_bus(dev, bus_name);
+     int i ;
  
-         for (j = 0; j < num_ss; ++j) {
--            DriveInfo *dinfo = drive_get_next(IF_MTD);
-+            DriveInfo *dinfo = drive_get(IF_MTD, 0, unit++);
-             flash_dev = qdev_new("n25q128");
-             if (dinfo) {
-                 qdev_prop_set_drive_err(flash_dev, "drive",
-@@ -170,6 +171,7 @@ static inline void zynq_init_spi_flashes(uint32_t base_addr, qemu_irq irq,
-         }
+     for (i = 0; i < s->num_cs; ++i) {
+-        DriveInfo *dinfo = drive_get_next(IF_MTD);
++        DriveInfo *dinfo = drive_get(IF_MTD, 0, unit0 + i);
+         qemu_irq cs_line;
+         DeviceState *dev;
+ 
+@@ -382,10 +383,12 @@ static void aspeed_machine_init(MachineState *machine)
+                           "max_ram", max_ram_size  - machine->ram_size);
+     memory_region_add_subregion(&bmc->ram_container, machine->ram_size, &bmc->max_ram);
+ 
+-    aspeed_board_init_flashes(&bmc->soc.fmc, bmc->fmc_model ?
+-                              bmc->fmc_model : amc->fmc_model);
+-    aspeed_board_init_flashes(&bmc->soc.spi[0], bmc->spi_model ?
+-                              bmc->spi_model : amc->spi_model);
++    aspeed_board_init_flashes(&bmc->soc.fmc,
++                              bmc->fmc_model ? bmc->fmc_model : amc->fmc_model,
++                              0);
++    aspeed_board_init_flashes(&bmc->soc.spi[0],
++                              bmc->spi_model ? bmc->spi_model : amc->spi_model,
++                              bmc->soc.fmc.num_cs);
+ 
+     /* Install first FMC flash content as a boot rom. */
+     if (drive0) {
+@@ -435,11 +438,13 @@ static void aspeed_machine_init(MachineState *machine)
      }
  
-+    return unit;
- }
- 
- static void zynq_init(MachineState *machine)
-@@ -247,9 +249,9 @@ static void zynq_init(MachineState *machine)
-         pic[n] = qdev_get_gpio_in(dev, n);
+     for (i = 0; i < bmc->soc.sdhci.num_slots; i++) {
+-        sdhci_attach_drive(&bmc->soc.sdhci.slots[i], drive_get_next(IF_SD));
++        sdhci_attach_drive(&bmc->soc.sdhci.slots[i],
++                           drive_get(IF_SD, 0, i));
      }
  
--    zynq_init_spi_flashes(0xE0006000, pic[58-IRQ_OFFSET], false);
--    zynq_init_spi_flashes(0xE0007000, pic[81-IRQ_OFFSET], false);
--    zynq_init_spi_flashes(0xE000D000, pic[51-IRQ_OFFSET], true);
-+    n = zynq_init_spi_flashes(0xE0006000, pic[58 - IRQ_OFFSET], false, 0);
-+    n = zynq_init_spi_flashes(0xE0007000, pic[81 - IRQ_OFFSET], false, n);
-+    n = zynq_init_spi_flashes(0xE000D000, pic[51 - IRQ_OFFSET], true, n);
+     if (bmc->soc.emmc.num_slots) {
+-        sdhci_attach_drive(&bmc->soc.emmc.slots[0], drive_get_next(IF_SD));
++        sdhci_attach_drive(&bmc->soc.emmc.slots[0],
++                           drive_get(IF_SD, 0, bmc->soc.sdhci.num_slots));
+     }
  
-     sysbus_create_simple(TYPE_CHIPIDEA, 0xE0002000, pic[53 - IRQ_OFFSET]);
-     sysbus_create_simple(TYPE_CHIPIDEA, 0xE0003000, pic[76 - IRQ_OFFSET]);
-@@ -298,7 +300,7 @@ static void zynq_init(MachineState *machine)
-         sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, hci_addr);
-         sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, pic[hci_irq - IRQ_OFFSET]);
- 
--        di = drive_get_next(IF_SD);
-+        di = drive_get(IF_SD, 0, n);
-         blk = di ? blk_by_legacy_dinfo(di) : NULL;
-         carddev = qdev_new(TYPE_SD_CARD);
-         qdev_prop_set_drive_err(carddev, "drive", blk, &error_fatal);
+     arm_load_kernel(ARM_CPU(first_cpu), machine, &aspeed_board_binfo);
 -- 
 2.31.1
 
