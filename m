@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E9AE454197
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 08:06:42 +0100 (CET)
-Received: from localhost ([::1]:60718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5C6F45418F
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 08:02:54 +0100 (CET)
+Received: from localhost ([::1]:55050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnF1l-00047K-KX
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 02:06:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57308)
+	id 1mnEy5-0000BB-Uu
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 02:02:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1mnEtY-0004t8-Tp; Wed, 17 Nov 2021 01:58:12 -0500
-Received: from [2607:f8b0:4864:20::531] (port=45854
- helo=mail-pg1-x531.google.com)
+ id 1mnEtb-0004wC-9G; Wed, 17 Nov 2021 01:58:15 -0500
+Received: from [2607:f8b0:4864:20::435] (port=34652
+ helo=mail-pf1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1mnEtU-0005av-D4; Wed, 17 Nov 2021 01:58:10 -0500
-Received: by mail-pg1-x531.google.com with SMTP id h63so1393695pgc.12;
- Tue, 16 Nov 2021 22:58:07 -0800 (PST)
+ id 1mnEtX-0005bC-PD; Wed, 17 Nov 2021 01:58:15 -0500
+Received: by mail-pf1-x435.google.com with SMTP id r130so1780497pfc.1;
+ Tue, 16 Nov 2021 22:58:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Tt9YzbsEWtPuG5Ge5rnyBeLs7tuX8ZxfIZJWS1cdf10=;
- b=OgU1m2Igrr9CkwYTtIMW4qpxnAuAki2FWjBFJrlquvhJzz4hMFGgLqSl6F4CrGLLup
- xVzIj04I7lDdXjPr6tBqeUV3ZF3T9uT4TSsn7kKDKa4bNGAKPA85WUG5fZ+2+xmW/qAi
- nB49qMnWXICVgGoxiKQiWCNXnLcS5umYbCOwckGtIDcY+gK0QPTNaot0S6MSnWX1ZCKH
- EToWEGcAFcCWqz61mN8qKeqscXac2vMEOTKwxZCb2WgbcEF8aQQeGfFy0bBB87C7c64Q
- sH3RR9wD3ffsTe5p4B+V91LGDkSfxLjL8uiDrRVvyTOLPBmFMidpg4Fnm2whafzDbJKT
- LQ/Q==
+ bh=SnefBrylWy8QEKCC1c48fL6Ne7IkZGFtlVNbY45TI+w=;
+ b=lnv/aa94No7ZzBhe6/kPVopKD9ueGhvP+5sHNuc6qIRU3/5U9MyZe+BXRPQroab5XI
+ aqkeoZR3fvTfopcWdlw5TXC6VSPOCM7xi+s812Och+l1Hr1Ux9DTwZkDhXyQsWBPcxHR
+ EZz0CMvVJputaYZfLBX3Lssg/7NMD/tYD+j2N1vj483OaTNakhi4TI3ig5OJOVrMaOnI
+ Nt0UoMl6anAfFhBd64Uvr22RBYrnGWdJORWAoLnvQW1hbSlH6PGLyzDvkdFMqKMFfiSg
+ gxWjN2+h//7Tz/DTTKxyY+3RM7+E+HXN3cznElYDsmYnvY49KTTAIxMJrBNhJNRGXVFb
+ J5gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Tt9YzbsEWtPuG5Ge5rnyBeLs7tuX8ZxfIZJWS1cdf10=;
- b=dP2Nznq686HwIU8qjlZSu+yRJz5eNxPNVqYDgwpQL2aj2UMXvSyJtJGw8DCPQlKgAh
- xavYyduutApbyABFjt9ztlx9jpOZ3/xVWELGaqlCU2i7pMEQnp3B+2StVjsSvbYm54tf
- gSGOaQBMqKHydEtQgTqo/bY5njITBXzgmx86FV8OmC6MZBruVRdY4Tpp55TsPqdoMKDr
- JmMqzQsnTEhLL9V9IoszP6WMIRm9xyhI3Npg3M2HJyEyZSUDZY4REzgA6IcmLCtc35FD
- JxnaUdD2WsN+irvI6x1nN4AMz/x5+yG1DXZwUF+BjSiy55Hwayi+xqsSgtB3Ucz1Dkte
- gqYw==
-X-Gm-Message-State: AOAM532qUAdY9TZIue+cNVi5jq6CXwfm8sjv4FWQrZH9mg2FEkuVI6dS
- yj0FnI6bK1dCQsgTCt/4K5E=
-X-Google-Smtp-Source: ABdhPJzAy20UCsHFAlmqwW0vh51PRwpD6+ZTpMZamY1zZlNzEuzSBxisc4vIOitn0ezrtr0qFqtgFg==
-X-Received: by 2002:a05:6a00:17a4:b0:49f:c0c0:3263 with SMTP id
- s36-20020a056a0017a400b0049fc0c03263mr46683270pfg.81.1637132286665; 
- Tue, 16 Nov 2021 22:58:06 -0800 (PST)
+ bh=SnefBrylWy8QEKCC1c48fL6Ne7IkZGFtlVNbY45TI+w=;
+ b=hUvBFfXPBUFbM59EWlmeNAXxoRgwCoDiB6969N0IAXoyJve/52rdzgLGpA9i3/9kOZ
+ TZJ5n0TwfGW7BCQyQis/2npAWUDpEj647Pg2kzqeoFCZwLXgva6vfIBbmLGTnKSozYSy
+ CZNVfS0x4ThEziJbgPM7OFuOB7RWO4UdscLE+6YQiX54J1nN1PgyWQytAp+anU5CmrPo
+ usSurQmxrRid24qGcqA8gJt+NcsCxduAB+rh3ceymyqFYyvYoQYu00kBSqkcHLeEWbdx
+ BvGO1tj7rj40uUcnv8zYXapDdd+D+mjNvMpzCbeGTxAP9c1H7UWy/Y8Gp1UVjQzHifSF
+ Uu7A==
+X-Gm-Message-State: AOAM530WltRUcky7HCEJV0MK85qqO9gS5eKvCJ5M4+xH//zdzH+y37+p
+ U7Q711uInrMDXYawAb5U9ZiIZZriryz+9RNx
+X-Google-Smtp-Source: ABdhPJz+ZKc5okS5eFiDjXiqSMWPMwPIrqz9Sd4ixlO78FzV+jq4AU2wlfweMyBxNVCocFUF7le9Zw==
+X-Received: by 2002:a62:7802:0:b0:49f:d21e:1dc9 with SMTP id
+ t2-20020a627802000000b0049fd21e1dc9mr45816508pfc.18.1637132290107; 
+ Tue, 16 Nov 2021 22:58:10 -0800 (PST)
 Received: from voyager.guest.fluxperth.local
  (210-10-213-150.per.static-ipl.aapt.com.au. [210.10.213.150])
- by smtp.gmail.com with ESMTPSA id d13sm21914618pfu.196.2021.11.16.22.58.03
+ by smtp.gmail.com with ESMTPSA id d13sm21914618pfu.196.2021.11.16.22.58.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Nov 2021 22:58:05 -0800 (PST)
+ Tue, 16 Nov 2021 22:58:09 -0800 (PST)
 From: Joel Stanley <joel@jms.id.au>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 2/4] docs: aspeed: Update OpenBMC image URL
-Date: Wed, 17 Nov 2021 14:57:50 +0800
-Message-Id: <20211117065752.330632-3-joel@jms.id.au>
+Subject: [PATCH v2 3/4] docs: aspeed: Give an example of booting a kernel
+Date: Wed, 17 Nov 2021 14:57:51 +0800
+Message-Id: <20211117065752.330632-4-joel@jms.id.au>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211117065752.330632-1-joel@jms.id.au>
 References: <20211117065752.330632-1-joel@jms.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::531
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=joel.stan@gmail.com; helo=mail-pg1-x531.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=joel.stan@gmail.com; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,28 +92,48 @@ Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the latest URL for the OpenBMC CI. The old URL still works, but
-redirects.
+A common use case for the ASPEED machine is to boot a Linux kernel.
+Provide a full example command line.
 
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Joel Stanley <joel@jms.id.au>
 ---
- docs/system/arm/aspeed.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ docs/system/arm/aspeed.rst | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
 diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
-index 41a9bd5608e8..b87697fcf0b1 100644
+index b87697fcf0b1..6aafd611e9a5 100644
 --- a/docs/system/arm/aspeed.rst
 +++ b/docs/system/arm/aspeed.rst
-@@ -82,7 +82,7 @@ The Aspeed machines can be started using the ``-kernel`` option to
- load a Linux kernel or from a firmware. Images can be downloaded from
- the OpenBMC jenkins :
+@@ -78,9 +78,9 @@ Missing devices
+ Boot options
+ ------------
  
--   https://jenkins.openbmc.org/job/ci-openbmc/lastSuccessfulBuild/distro=ubuntu,label=docker-builder
-+   https://jenkins.openbmc.org/job/ci-openbmc/lastSuccessfulBuild/
+-The Aspeed machines can be started using the ``-kernel`` option to
+-load a Linux kernel or from a firmware. Images can be downloaded from
+-the OpenBMC jenkins :
++The Aspeed machines can be started using the ``-kernel`` and ``-dtb`` options
++to load a Linux kernel or from a firmware. Images can be downloaded from the
++OpenBMC jenkins :
  
- or directly from the OpenBMC GitHub release repository :
+    https://jenkins.openbmc.org/job/ci-openbmc/lastSuccessfulBuild/
  
+@@ -88,6 +88,15 @@ or directly from the OpenBMC GitHub release repository :
+ 
+    https://github.com/openbmc/openbmc/releases
+ 
++To boot a kernel directly from a Linux build tree:
++
++.. code-block:: bash
++
++  $ qemu-system-arm -M ast2600-evb -nographic \
++        -kernel arch/arm/boot/zImage \
++        -dtb arch/arm/boot/dts/aspeed-ast2600-evb.dtb \
++        -initrd rootfs.cpio
++
+ The image should be attached as an MTD drive. Run :
+ 
+ .. code-block:: bash
 -- 
 2.33.0
 
