@@ -2,103 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA0EE4546EC
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 14:08:01 +0100 (CET)
-Received: from localhost ([::1]:55830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E88F454708
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 14:17:51 +0100 (CET)
+Received: from localhost ([::1]:33908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnKfQ-000468-CG
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 08:08:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58682)
+	id 1mnKos-0000LY-4C
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 08:17:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1mnKda-0002u4-RT; Wed, 17 Nov 2021 08:06:06 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:61492
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mnKgE-00061x-SZ; Wed, 17 Nov 2021 08:08:51 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:37001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1mnKdX-0000hh-Ic; Wed, 17 Nov 2021 08:06:06 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AHClUNA017314; 
- Wed, 17 Nov 2021 13:06:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=Cp5uHnUGvsUfuIGCAsuFs/4XncuOovLVHp2wm/dto8k=;
- b=fgehtUZA/FQSsgB6uvTlos/mIW0oXTYmehKHWFumDPUsm7ogAGvQURibO3lcaIJSuOUb
- QhaXD6e7U0AEI7Na4qoqHK42Zlp4K54QNYRLwS3t7yRyc2ah39YF+zliCYthUr/L4brY
- UZoqmG2ZM4bVyULpZZ6GDkVIlmWQGLaXAlX1miJ/m7ZBocj1We67eIP6YQ7xLHvA/D7K
- Ivjq+X7SV7NtUB5epQsjjmQ9x2/ne2f6IBoaEGK/oVCrs1VqYoVNZItb1ZjspdUIqYXp
- iFXHvEjzaKD5hrX06zaYfVhY4PPOHAcgqK39N8YtORyECjhMUNh4U9NAzaqbDWprYgZ3 tw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3cd2278b7e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Nov 2021 13:05:59 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AHD5xDm017125;
- Wed, 17 Nov 2021 13:05:59 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3cd2278b6x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Nov 2021 13:05:59 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AHCwreC005594;
- Wed, 17 Nov 2021 13:05:57 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma06ams.nl.ibm.com with ESMTP id 3ca4mk27ym-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Nov 2021 13:05:57 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 1AHCwxpA64160198
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 17 Nov 2021 12:58:59 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4C8D352063;
- Wed, 17 Nov 2021 13:05:54 +0000 (GMT)
-Received: from [9.171.38.237] (unknown [9.171.38.237])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id D42775204F;
- Wed, 17 Nov 2021 13:05:53 +0000 (GMT)
-Message-ID: <c5ecaf42-3eac-85a3-b6c1-66bfab9f6f3e@linux.ibm.com>
-Date: Wed, 17 Nov 2021 14:06:28 +0100
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mnKg6-0000w7-SN; Wed, 17 Nov 2021 08:08:50 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 3BF865C0213;
+ Wed, 17 Nov 2021 08:08:38 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Wed, 17 Nov 2021 08:08:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=On09XTpGNE/xjDB7ez4i6FVvL1w
+ wVWs8TJRbUD7caLU=; b=QF9b7RXcebnH2vkl+oStYWAvxkcUVb8JW4aRos5GNG3
+ cn8od6gFc/G/ifu7uV0S0SfwAiSRiqc9xza21noIjnBh9jRdCj3Kqx+bTCdkyS67
+ 1wmrjN/VuXqecRmQkZ4g9wbgJIPgdOduf7yc4L3HbwiNbOBThQ+0nzt7rJawVVZj
+ b9ryk7FIkTWzB67r+sGYwDFq2WXUk7jjw0oFEUz/CXyr7o88C3OBK3saZsdLAEDe
+ GJZjEx1LDgkbpB6tPQoUED9rIopFH1E3edAGUSTBDoaTTr2pQtqPK/5+DC+iK0sp
+ cY9Y+ZqrZy8LlYWt1WtwEbm7NBqlgkzteDOnEKitNFw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=On09XT
+ pGNE/xjDB7ez4i6FVvL1wwVWs8TJRbUD7caLU=; b=L/eQBybWF+Sxx/Rt+7M5HY
+ 3ujOUQNSanx5rFjjvh4apuD/jb/Q/bAzDWECoqGemF6VvsKHRlbpLQoE6Zti/W4N
+ Iqrl1agu8abNpB3UuKAI/BjmtA+XGMSFCWZJ+T7Re5DZTrOIGJxjEM8IkQJ7re4t
+ pyUCIyVv5kgw2UzoP4EQyENBa9se9F7/0VSiqXz6GocdZRCzY60j+O0haSh/F0OM
+ m3I6pLS+a78w/fnVQns9i3u1DP0Te8AszxX5+nBj8pQK9/KBLzuo+jsJSk7TpuKr
+ hU/Nud91onFpGOQ8fio1cq8/hp4gB7ayyYb3XQPAidVtDyIAK1rCg3B1siv15qHg
+ ==
+X-ME-Sender: <xms:1f6UYTnX0cUu9C28lEFJBuZUn9k4h-YKbJ5uq358Ni5aNgXu-MIr0w>
+ <xme:1f6UYW31N-C8SzvK7xSK9e-rHHc--tKdAGa1gPBvdB85EBOyBcZZk9NyftccOwGlN
+ dtPCItFoVSBt0GCB5A>
+X-ME-Received: <xmr:1f6UYZrFL3xRGnQcxCIJtEt9dh5sJcJblIMgp9dTPYW42trbFbuNN49aJ9TpHizAvubOiIn0BD5jQdR4p2E2Yl6X4we8wsdpR-MiFcDjx9P_hgwACQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeeggdegfecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
+ esihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:1f6UYbnqusYv4IEgnKJORW-hw5waoS2mfjG418qvgpXJwjEbnv1pdg>
+ <xmx:1f6UYR3rR5nVV9YH16VGgJjqxG41MTp72NgRF049xDVaidykMO6NMw>
+ <xmx:1f6UYavFfUYziL4xlnliNSm2MXBdLgdTSj5TBIyxerezYCmGcaV8VA>
+ <xmx:1v6UYbp8N2-k7KAijVNS_G9SO94TPD89ZC6wH0J7g1jc0ifnvdg43w>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 17 Nov 2021 08:08:36 -0500 (EST)
+Date: Wed, 17 Nov 2021 14:08:34 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-6.2 v2 1/2] hw/nvme/ctrl: Fix buffer overrun in
+ nvme_changed_nslist (CVE-2021-3947)
+Message-ID: <YZT+0uJ//3zX7vvv@apples.localdomain>
+References: <20211117123534.2900334-1-philmd@redhat.com>
+ <20211117123534.2900334-2-philmd@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v3 2/4] s390x: kvm: topology: interception of PTF
- instruction
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
-References: <1631800254-25762-1-git-send-email-pmorel@linux.ibm.com>
- <1631800254-25762-3-git-send-email-pmorel@linux.ibm.com>
- <ae0cf5c1-b0b8-0758-7c38-35c1845201ba@redhat.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <ae0cf5c1-b0b8-0758-7c38-35c1845201ba@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: BxET_qsiXYVrlhSTC5U3jXkNKfyDaoT4
-X-Proofpoint-ORIG-GUID: CelkQoujUTF-5O8r8cHlnoy9L5z0jdF3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-17_04,2021-11-17_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=0
- impostorscore=0 adultscore=0 mlxlogscore=999 phishscore=0 clxscore=1011
- mlxscore=0 malwarescore=0 lowpriorityscore=0 priorityscore=1501
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111170067
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.009,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="voez05PM5+8jqKlB"
+Content-Disposition: inline
+In-Reply-To: <20211117123534.2900334-2-philmd@redhat.com>
+Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
+ helo=out5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,61 +94,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@redhat.com, cohuck@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com
+Cc: Gaurav Kamathe <gkamathe@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ qemu-block@nongnu.org, qemu-stable@nongnu.org, qemu-devel@nongnu.org,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+--voez05PM5+8jqKlB
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 10/13/21 09:25, Thomas Huth wrote:
-> On 16/09/2021 15.50, Pierre Morel wrote:
->> When the host supports the CPU topology facility, the PTF
->> instruction with function code 2 is interpreted by the SIE,
->> provided that the userland hypervizor activates the interpretation
->> by using the KVM_CAP_S390_CPU_TOPOLOGY KVM extension.
->>
->> The PTF instructions with function code 0 and 1 are intercepted
->> and must be emulated by the userland hypervizor.
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   hw/s390x/s390-virtio-ccw.c         | 36 ++++++++++++++++++++++++++++++
->>   include/hw/s390x/s390-virtio-ccw.h |  6 +++++
->>   target/s390x/kvm/kvm.c             | 15 +++++++++++++
->>   3 files changed, 57 insertions(+)
->>
->> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
->> index 61aeccb163..894f013139 100644
->> --- a/hw/s390x/s390-virtio-ccw.c
->> +++ b/hw/s390x/s390-virtio-ccw.c
->> @@ -404,6 +404,42 @@ static void 
->> s390_pv_prepare_reset(S390CcwMachineState *ms)
->>       s390_pv_prep_reset();
->>   }
-> 
-> Could you please add a comment in front of this function, with some 
-> explanations? If I've got that right, it's currently rather only a 
-> "dummy" function, rejecting FC 0 and 1, and FC 2 is always handled by 
-> the SIE, right?
+On Nov 17 13:35, Philippe Mathieu-Daud=C3=A9 wrote:
+> Both 'buf_len' and 'off' arguments are under guest control.
+> Since nvme_c2h() doesn't check out of boundary access, the
+> caller must check for eventual buffer overrun on 'trans_len'.
+>=20
+> Cc: qemu-stable@nongnu.org
+> Reported-by: Qiuhao Li <Qiuhao.Li@outlook.com>
+> Fixes: f432fdfa121 ("support changed namespace asynchronous event")
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  hw/nvme/ctrl.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> index 6a571d18cfa..93a24464647 100644
+> --- a/hw/nvme/ctrl.c
+> +++ b/hw/nvme/ctrl.c
+> @@ -4168,8 +4168,11 @@ static uint16_t nvme_changed_nslist(NvmeCtrl *n, u=
+int8_t rae, uint32_t buf_len,
+>      int i =3D 0;
+>      uint32_t nsid;
+> =20
+> -    memset(nslist, 0x0, sizeof(nslist));
+>      trans_len =3D MIN(sizeof(nslist) - off, buf_len);
+> +    if (trans_len >=3D sizeof(nslist)) {
+> +        return NVME_INVALID_FIELD | NVME_DNR;
+> +    }
+> +    memset(nslist, 0x0, sizeof(nslist));
+> =20
+>      while ((nsid =3D find_first_bit(n->changed_nsids, NVME_CHANGED_NSID_=
+SIZE)) !=3D
+>              NVME_CHANGED_NSID_SIZE) {
 
-I just saw I did not answer this question.
+The issue I mentioned with off > sizeof(nslist). I'll send a fix that
+just deals with it like all the other log pages.
 
-Yes function code 2 is handled by the SIE but it is not really a dummy 
-function as without it PTF 0 or 1 would trigger a program check.
+There is probably a better way to do these checks, but I'm not sure how
+right now.
 
-I will add a comment basically:
+--voez05PM5+8jqKlB
+Content-Type: application/pgp-signature; name="signature.asc"
 
-"We assume horizontal topology, the only one supported currently by 
-Linux consequently we answer to function code 0 requesting horizontal 
-polarization that it is already the current polarization and reject 
-vertical polarization request without further explanation."
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmGU/s4ACgkQTeGvMW1P
+DekWTgf+JM0/sALZE4Nean/iU4xGrNj4WSBBp79nIWfd0TTArnjgX1YrDbcMHaeg
+d6ycpdmHeAiw9cXj7jYcxJGFLNWW136e3rbGmlJMEquGlkgfPTXWbJdITYadA733
+ODP+xYOOk0TMA+6Vi0EeQK2di87yayn6b8vEy/q55wg+1h/RzAp2HdxIKQvx8YSD
+ZKW5SimcJ6QfoZy3V3A654yuydH9S0e0fpCBlknORV+IQn9tPrAhsp8A+Bp1UFw+
+lsQx/d+NyI0j7H3rQTR6wEarbF5tiXm1b2MyHXDBLf4FwuGI2piSuxp66bEeBJY9
+FKSszdcq+7UXNcynZech36n4Ss/eMg==
+=UJOz
+-----END PGP SIGNATURE-----
 
-regards,
-Pierre
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
+--voez05PM5+8jqKlB--
 
