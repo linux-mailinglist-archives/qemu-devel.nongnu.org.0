@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0C8F453D05
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 01:05:17 +0100 (CET)
-Received: from localhost ([::1]:36632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76646453D2E
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 01:36:41 +0100 (CET)
+Received: from localhost ([::1]:47148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mn8Rv-00083J-0I
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 19:05:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37646)
+	id 1mn8wK-0008Ql-49
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 19:36:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mn8QN-0007DY-F7; Tue, 16 Nov 2021 19:03:39 -0500
-Received: from [2607:f8b0:4864:20::d35] (port=42890
- helo=mail-io1-xd35.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mn8QL-0003T1-L5; Tue, 16 Nov 2021 19:03:39 -0500
-Received: by mail-io1-xd35.google.com with SMTP id x10so781381ioj.9;
- Tue, 16 Nov 2021 16:03:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=O8cGFq4ydty2yWe5+6EyLzcP72kskIVeKQM8JJewVqo=;
- b=lQJ+wMixhF5ShBJUkn32RSjmg12ahlzTf983ZT5KnHH1EXPmkxvn19bNG+K5J1tJhe
- qZ4Wwi3P2Keg+vo/1p9hxT5AFU0i1k2/G1jvVH21nInTbTZkjnMfcMm3sW2T632OfLk4
- no1lN4Omx7Yn7ggj0X6R7dgpJvuKLEoe1XNJdl1B3A7kU/PdbcihpTA8+vDmL0Gu+up3
- JyGjrzaVD+oRXJGzOug9pIT5atu9L14Aw9cckD3Xtk5krzz63ai8wTxzB6YvZDcR/oZ4
- mRLORInOVjoJ3mIPI5MAfcau6QXS6QMTVqYhkwIGCBJgd8ZjKPofZmG0AAPVKgowdbpc
- H5Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=O8cGFq4ydty2yWe5+6EyLzcP72kskIVeKQM8JJewVqo=;
- b=T/itaOoFeSX1gkdff/wRdvJkEq7hMT/s0exuB7K1CUVcyuvZWPKSlVU3ij08Nvc0En
- BT0kbBiySdBpLIWEgQTRYgU8ec3WXvfCta40KGz53J33hdVbG4QImJ2qsRV3OCfDSkMt
- 0up03Sis96CgdGmhajcUHOop2/2arDcz+EFy3CfxJGtrEgwDw4lot4umQQGgF68LgMqa
- J/MJI2LwE+FGZP2qL0u8dIvTh21Hf/xbhNbbpUvHKT0o/syx7BU+yLpUTvN1VeQblkF9
- 12jD3tGxNt5JKWzKXZ+xzw9tYWYHfbvSgTpnkzZDZAoqiLPasv4DbZKzFe9xw9OAQj5S
- WdAw==
-X-Gm-Message-State: AOAM533njaslGnd50kNxMLik4SAVoy30W0hQpbf/mIAeR4a5kAd4IuoU
- HHdiP23zZRKoPWVKVEHkrOwj3cmhwpZc/5ut2L8=
-X-Google-Smtp-Source: ABdhPJzWmwp/ro5em5q107Ph2Zn+ZCGzZcZ+KywPhJ58lSvOk1TUTQ954+puJmx8sLcGkU7hwSfNAKgnrmMBF3WCWIA=
-X-Received: by 2002:a02:9f0c:: with SMTP id z12mr8945778jal.117.1637107416374; 
- Tue, 16 Nov 2021 16:03:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mn8u2-0006M9-2n
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 19:34:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43319)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mn8tw-0006vx-Jh
+ for qemu-devel@nongnu.org; Tue, 16 Nov 2021 19:34:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637109252;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+vwj6neMkyEdiKyr3BLuWwxy3Hv6s1hDTnC2YrQfA64=;
+ b=XDzOIbczHE+2rptIqWy8riJP77j7WGMxArNZBIOXRCwOt6iWAzaS7O64DD9GStXubWIUiK
+ 7R5l5GiJRe4iDut8JJP5GFb6PT0ATeWf8OCtE9QxaTlb/JizSf5fsdqlPOgfqxndUUQhIs
+ IVDbcxafDV5BHP+a9N4lHzIT/pItRdY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-289-dATW3haqPN-NuzRF_GZjJw-1; Tue, 16 Nov 2021 19:34:08 -0500
+X-MC-Unique: dATW3haqPN-NuzRF_GZjJw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F7BF8799E0;
+ Wed, 17 Nov 2021 00:34:07 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.32.108])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 698CD1980E;
+ Wed, 17 Nov 2021 00:33:18 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/5] Python patches
+Date: Tue, 16 Nov 2021 19:33:12 -0500
+Message-Id: <20211117003317.2844087-1-jsnow@redhat.com>
 MIME-Version: 1.0
-References: <20211116151138.81209-1-zhiwei_liu@c-sky.com>
-In-Reply-To: <20211116151138.81209-1-zhiwei_liu@c-sky.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 17 Nov 2021 10:03:10 +1000
-Message-ID: <CAKmqyKMAzzV=6pWY2V9r1UmCFGG__JBuFGhTQ19Uo=VwiD2eww@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Check PMP rules num before propagation
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d35
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,45 +73,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel Berrange <berrange@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Willian Rampazzo <willianr@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 17, 2021 at 1:12 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->
-> If PMP rules number is zero, it should not influence the TLB entry for
-> M-mode program.
+The following changes since commit 2b22e7540d6ab4efe82d442363e3fc900cea6584=
+:=0D
+=0D
+  Merge tag 'm68k-for-6.2-pull-request' of git://github.com/vivier/qemu-m68=
+k into staging (2021-11-09 13:16:56 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  https://gitlab.com/jsnow/qemu.git tags/python-pull-request=0D
+=0D
+for you to fetch changes up to c398a241ec4138e0b995a0215dea84ca93b0384f:=0D
+=0D
+  scripts/device-crash-test: hide tracebacks for QMP connect errors (2021-1=
+1-16 14:26:36 -0500)=0D
+=0D
+----------------------------------------------------------------=0D
+Pull request=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+John Snow (5):=0D
+  python/aqmp: Fix disconnect during capabilities negotiation=0D
+  python/aqmp: fix ConnectError string method=0D
+  scripts/device-crash-test: simplify Exception handling=0D
+  scripts/device-crash-test: don't emit AQMP connection errors to stdout=0D
+  scripts/device-crash-test: hide tracebacks for QMP connect errors=0D
+=0D
+ python/qemu/aqmp/protocol.py | 24 ++++++++++++++++++------=0D
+ scripts/device-crash-test    | 33 +++++++++++++++++++++++++--------=0D
+ 2 files changed, 43 insertions(+), 14 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
-This doesn't sound right. From what I can tell if we have no rules
-pmp_is_range_in_tlb() shouldn't have an effect on the tlb_size. What
-error are you seeing?
-
-Alistair
-
->
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> ---
->  target/riscv/cpu_helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 9eeed38c7e..48da872d39 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -376,7 +376,7 @@ static int get_physical_address_pmp(CPURISCVState *env, int *prot,
->      }
->
->      *prot = pmp_priv_to_page_prot(pmp_priv);
-> -    if (tlb_size != NULL) {
-> +    if ((tlb_size != NULL) && pmp_get_num_rules(env)) {
->          if (pmp_is_range_in_tlb(env, addr & ~(*tlb_size - 1), &tlb_size_pmp)) {
->              *tlb_size = tlb_size_pmp;
->          }
-> --
-> 2.25.1
->
->
 
