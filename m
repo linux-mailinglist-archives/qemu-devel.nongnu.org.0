@@ -2,74 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4589D4544F7
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 11:28:05 +0100 (CET)
-Received: from localhost ([::1]:55608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 782E9454503
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 11:32:06 +0100 (CET)
+Received: from localhost ([::1]:59136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnIAd-0000do-U9
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 05:28:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50658)
+	id 1mnIEX-0003Cz-EP
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 05:32:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mnI8f-0007Nn-3c
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 05:26:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29018)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mnI8c-0001bM-UB
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 05:26:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637144757;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=P5M7gRgupDUlyWG0HgWyUYbsDpE58Xh85aHyM1z0L5Q=;
- b=DcBL+unCrE2F6cZed1sTtSu67dhbNlCNYyIEdcqxDM/12KftzCzH2YRBY+SSP/VvinSVWq
- jEM243Pw0YolAoUB4Md8pqK1BdJkmBkfwX3rgMZH9LsjCd/Ruty4N6fcQ8ppob/24ZlkoJ
- dkvw27DTH0zCZBx2OzjeAIKOUdJFti8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-28-0whdeBtINXWeGjMAzmZLag-1; Wed, 17 Nov 2021 05:25:54 -0500
-X-MC-Unique: 0whdeBtINXWeGjMAzmZLag-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 829871023F4E;
- Wed, 17 Nov 2021 10:25:53 +0000 (UTC)
-Received: from paraplu (unknown [10.39.193.223])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 926575C1BB;
- Wed, 17 Nov 2021 10:25:42 +0000 (UTC)
-Date: Wed, 17 Nov 2021 11:25:39 +0100
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v3 3/3] docs: rSTify the "SubmitAPatch" wiki
-Message-ID: <YZTYo3H6TZheGbrj@paraplu>
-References: <20211110144902.388183-1-kchamart@redhat.com>
- <20211110144902.388183-4-kchamart@redhat.com>
- <e0229a36-b8bd-3822-9994-46279bfa138c@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mnICn-0002R6-JG
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 05:30:17 -0500
+Received: from [2a00:1450:4864:20::32e] (port=37531
+ helo=mail-wm1-x32e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mnICl-00020J-IJ
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 05:30:17 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ k37-20020a05600c1ca500b00330cb84834fso4340105wms.2
+ for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 02:30:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=xn9KT/7h8qTRrsGBRM+fWtURYB3i4EyzYFaszKILkfk=;
+ b=ED4IaIJvOAcdzJiSRvXVC/5XLFjpCpXvKoZ/5rbOKZ/ULLrSXq3A4I8SqzwcAvbxeO
+ xJmb1niFA10TyCdMtw5gV6Aa5FSTTKz4sz+kqpRMCSm9/ol/LE8snLYF504dF2Dv99rj
+ dnP9ezMF/gaifADQcR/CCCC2zfWPQphvvTLWh8LbWvT8MHUzeUt1AIDj5Ia5XpvSAx4l
+ iR9PcS2jiXv3P5sUaQHvnYrbSgU0SyQNv+sgDvOGNYEs5AGU9JMpDRezs9kxsFOpeu7L
+ FV/HavqtzzWwX5xlOG/FHbDTiQlTSuQPYotf7do0jQNGMq86vot8+MeiUR0JBUsGmL/y
+ Ob8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=xn9KT/7h8qTRrsGBRM+fWtURYB3i4EyzYFaszKILkfk=;
+ b=ujqHBluBH57xpzEYBwRq31AHfLSDNQKbf7UZ5UiCEBrhf3IIgrr7QIJsCvp8+I8JXz
+ Svn5fzipSREzTbCKepdZimBPDTRl8+KU/zXfirUchFzcf4G0rtf/ngnXN4qaBhMhWFAl
+ 7GN5xoGEj6OJP1Af4+mLhV7yEIw57b8TxdIzg6iFnQaOtOtKzU5PQgZCfheT8ynUg/5C
+ CVfP1gn9fR/A7BE/qScHoDKgvQWO0uE+nxHArPqlBlPPGTm1fWxZcHZ2js/UPXteJLqj
+ s4JjF15XVSsRejT08QNgShyKQGFr3rELZgISMtcC/FGft/MKLyivRJDdM43HmYfsGZMv
+ EP+g==
+X-Gm-Message-State: AOAM532OckidtEONq8GxYb3YYaXD+F6fAsNPY3WqkBZw7WHvgk+OP486
+ 9kZ8HKsSrG/GTHxZTNN1E7AJwA==
+X-Google-Smtp-Source: ABdhPJyGmp84VaI8oqaXD8+SYmQAN8OLob8c9rMpLXgzTAFQDCpzCTAvncPtgMW9LV/bYKxYs6LAUA==
+X-Received: by 2002:a1c:9842:: with SMTP id a63mr78142326wme.102.1637145013873; 
+ Wed, 17 Nov 2021 02:30:13 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id c11sm7266626wmq.27.2021.11.17.02.30.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Nov 2021 02:30:13 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 789F11FF96;
+ Wed, 17 Nov 2021 10:30:12 +0000 (GMT)
+References: <163662450348.125458.5494710452733592356.stgit@pasha-ThinkPad-X280>
+ <163662450891.125458.6706022775465303586.stgit@pasha-ThinkPad-X280>
+ <87h7cbw1tx.fsf@linaro.org>
+ <207105cf-bb82-55c5-ff30-e29517c970f5@linaro.org>
+User-agent: mu4e 1.7.5; emacs 28.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 1/3] icount: preserve cflags when custom tb is about
+ to execute
+Date: Wed, 17 Nov 2021 10:29:37 +0000
+In-reply-to: <207105cf-bb82-55c5-ff30-e29517c970f5@linaro.org>
+Message-ID: <87czmzvzuz.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <e0229a36-b8bd-3822-9994-46279bfa138c@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kchamart@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,83 +94,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: pbonzini@redhat.com, Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
+ qemu-devel@nongnu.org, peterx@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 17, 2021 at 10:08:52AM +0100, Thomas Huth wrote:
-> On 10/11/2021 15.49, Kashyap Chamarthy wrote:
 
-[...]
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-> >      writing-qmp-commands
-> >      trivial-patches
-> >      submitting-a-pull-request
-> > +   submitting-a-patch
-> 
-> I'd suggest to insert this before the pull-request entry, in case anybody
-> reads the manual sequentially, it might be better to learn about the patch
-> submission process first before reading about pull requests.
+> On 11/17/21 10:47 AM, Alex Benn=C3=A9e wrote:
+>> -    gen_set_label(tcg_ctx->exitreq_label);
+>> +    if (tcg_ctx->exitreq_label) {
+>> +        gen_set_label(tcg_ctx->exitreq_label);
+>> +    }
+>>       tcg_gen_exit_tb(tb, TB_EXIT_REQUESTED);
+>
+> The exit_tb is also not reachable, and should go in with the label.
 
-I did notice it when looking at the rendered output, and still missed to
-fix it; bad me.
+ok
 
-> (I can fix this up when picking up the patch, no need to resend)
+>
+>>   }
+>>   modified   accel/tcg/cpu-exec.c
+>> @@ -954,11 +954,16 @@ int cpu_exec(CPUState *cpu)
+>>                * after-access watchpoints.  Since this request should ne=
+ver
+>>                * have CF_INVALID set, -1 is a convenient invalid value t=
+hat
+>>                * does not require tcg headers for cpu_common_reset.
+>> +             *
+>> +             * As we don't want this special TB being interrupted by
+>> +             * some sort of asynchronous event we apply CF_NOIRQ to
+>> +             * disable the usual event checking.
+>>                */
+>>               cflags =3D cpu->cflags_next_tb;
+>>               if (cflags =3D=3D -1) {
+>>                   cflags =3D curr_cflags(cpu);
+>>               } else {
+>> +                cflags |=3D CF_NOIRQ;
+>>                   cpu->cflags_next_tb =3D -1;
+>>               }
+>
+> Still missing something to avoid cpu_handle_interrupt firing?
 
-Thank you.
+Something as simple as:
 
-[...]
+--8<---------------cut here---------------start------------->8---
+modified   accel/tcg/cpu-exec.c
+@@ -721,6 +721,15 @@ static inline bool need_replay_interrupt(int interrupt=
+_request)
+ static inline bool cpu_handle_interrupt(CPUState *cpu,
+                                         TranslationBlock **last_tb)
+ {
++    /*
++     * If we have special cflags lets not get distracted with IRQs. We
++     * shall exit the loop as soon as the next TB completes what it
++     * needs to do.
++     */
++    if (cpu->cflags_next_tb !=3D -1) {
++        return false;
++    }
++
+     /* Clear the interrupt flag now since we're processing
+      * cpu->interrupt_request and cpu->exit_request.
+--8<---------------cut here---------------end--------------->8---
 
-> > +Split up longer patches into a patch series of logical code changes.
-> > +Each change should compile and execute successfully. For instance, don't
-> > +add a file to the makefile in patch one and then add the file itself in
-> > +patch two. (This rule is here so that people can later use tools like
-> > +```git bisect`` <http://git-scm.com/docs/git-bisect>`__ without hitting
-> 
-> That hyperlink showed up in the rendered output. I'll fix it up by removing
-> the "``" quotes.
+?
 
-Oops, good catch.
+>
+>
+> r~
 
-[...]
 
-> > +QEMU follows the usual standard for git commit messages: the first line
-> > +(which becomes the email subject line) is "subsystem: single line
-> > +summary of change". Whether the "single line summary of change" starts
-> > +with a capital is a matter of taste, but we prefer that the summary does
-> > +not end in ".".
-> 
-> That ".". looks a little bit weird in the output ... maybe we should replace
-> it with "does not end with a dot." ?
-
-Re-looking the output, yes it does look odd.  And yes, your amendment
-is good.
-
-[...]
-
-> > +The body of the commit message is a good place to document why your
-> > +change is important. Don't include comments like "This is a suggestion
-> > +for fixing this bug" (they can go below the "---" line in the email so
-> 
-> That --- gets translated into a — character ... I'll replace the "---" with
-> ``---`` to fix it.
-
-Ah, when I locally ran `rst2html5 submitting-a-patch.rst
-submitting-a-patch.html` it retained the "---", but when I built QEMU
-(`configure --target-list=x86_64-softmmu --enable-docs`), Sphinx does
-turn it into an em-dash (—), and missed to notice it.
-
-Thanks for the careful review and submitting the PR.  I'm assuming I
-don't need to respin a v4.
- 
-
--- 
-/kashyap
-
+--=20
+Alex Benn=C3=A9e
 
