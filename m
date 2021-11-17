@@ -2,87 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA5F1454BD4
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 18:20:01 +0100 (CET)
-Received: from localhost ([::1]:60500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2CE2454BBE
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 18:13:23 +0100 (CET)
+Received: from localhost ([::1]:45700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnObI-0007xR-GH
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 12:20:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40864)
+	id 1mnOUs-00064P-WE
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 12:13:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mnOMT-00011g-Pw
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:04:41 -0500
-Received: from [2a00:1450:4864:20::32f] (port=46007
- helo=mail-wm1-x32f.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mnOTU-00040I-AV
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:11:56 -0500
+Received: from mail-ot1-f47.google.com ([209.85.210.47]:44550)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mnOMP-0004Lb-BS
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:04:41 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- g191-20020a1c9dc8000000b0032fbf912885so2651067wme.4
- for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 09:04:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=pCBF/HHLC+l6tBmCNIRJtnDQ7QjXlcdMZ6lpXZcl2wc=;
- b=GPNChEjBU87rvhyPhHsyG+BG/Ll5Nn2a1CsGS3GYQRa5JNkkD81nLUviXKWg8jWZGQ
- o0zQq70L6kLCkR8zwAPAJZNMLzSDQKXJ7mIR62o4qYMX2mGhDDc3ErHibEQ4VVe9Yxly
- TwD1XXIra/eQTBxNpyqqhcmER/C+dC5fiSw6Xnd/YJg65GqCgWpC3pJUJi4TKsCxHPld
- sfLeWSwNRDVStpyk9d8/kNpD0VaUvC5J0btLxqEiQCibsiIZxJXh71eQYzBhzdlyzYL2
- vmM105eIcl0Jkear5GjFKB4pVT7GkLLFbtGbVQGWadilju4CIEcm5z0XvCN//nS7p7d/
- g2vw==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mnOTC-0005Qv-R6
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:11:55 -0500
+Received: by mail-ot1-f47.google.com with SMTP id
+ u18-20020a9d7212000000b00560cb1dc10bso5837685otj.11
+ for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 09:11:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pCBF/HHLC+l6tBmCNIRJtnDQ7QjXlcdMZ6lpXZcl2wc=;
- b=rfnomXHV1xrGPxg2jglXj/khUlUs27sdQ/3yuWH1FZWKe0asuQzJk4R9fKbwv9brOL
- XhSQgRcYPvyvBmKI5I1DQaMHw3N+PiA7F/KL5Tzdqp3L33fF523Oal4i/i74XBHPtFaU
- LxO83FcJ8FD+cvNwWNWF0oeY/3YVcIHOmQiu2c66qehu6KWK02Nkimsenz7C0Za7JI2J
- 4Zlv0gapE1tPrgeVgzOqSJrHPxxjstPTRJv6o6jApQIVyHbDFMlZoFICAVXWppkJ3DVa
- VojIm4lq2KbIBlarKOXpLxjZcg9sdzPK8KNVA459LY19jvTmc9zC7zbvCLAEeBYHradz
- MI4w==
-X-Gm-Message-State: AOAM532GKCE02iqf6Vf/7bD8weR0Vou0rCH6bEw0qn+VvO7wOrw+n4BY
- CWJmC044ZYoOcijlmkBAfC3eoQ==
-X-Google-Smtp-Source: ABdhPJyknHIch0gs+DRFEm62QkgsUdnsHL5SbNWlzODA92b8cu3UqcoEEE3jhuSh2D6TeSMPUXYpfw==
-X-Received: by 2002:a05:600c:1914:: with SMTP id
- j20mr1468883wmq.26.1637168675056; 
- Wed, 17 Nov 2021 09:04:35 -0800 (PST)
-Received: from [192.168.8.105] (101.red-176-80-44.dynamicip.rima-tde.net.
- [176.80.44.101])
- by smtp.gmail.com with ESMTPSA id n1sm341666wmq.6.2021.11.17.09.04.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Nov 2021 09:04:34 -0800 (PST)
-Subject: Re: [PATCH v5 16/17] meson: Move linux_user_ss to linux-user/
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nIfxXp+JQ14qv1QWPAzi4+SggF1pk+wHghwsmrz9WqY=;
+ b=a2GVX5BK+C14ubksHAm4ovakCxqMdI9xqsrscG1LVLEPjPraJmtiiZgf4GwGx3kCb4
+ C4hRQwWhxFll3/Wwx0Bmh6zGrRdQkIFiiO4KVBsbcP6KxXWTqaeQynZqGf54VMGETzhL
+ ljHQYHxGp9p0Z344dWuJW8/WcyfM9ebrk3enAI3w6E0COR26IXwi4Ar5BQ+tl3xYbfEI
+ EIMsCdb3/4bcxdREXiBjmLMcFfhH3J5ORyhmY9ZEn8M4o+M9ZBFQ1vVyLpBoOC7CHHRZ
+ Zq8WuNwLat1Xg69dV6cOiD/HtXJet8mLQVpiuhqY46PB9mq3/rsapjiTs4vHEFJFggbg
+ ITxA==
+X-Gm-Message-State: AOAM532H+IlwHMpa8V+nmuoUezDLTi7Rs8rfM68FwNuyI/7q+Hj/uODm
+ VIVRfWorEplXkx6SbarjSgLceAuWvhLDu2MG1M0=
+X-Google-Smtp-Source: ABdhPJwfmpqy00+0K7/LdhhnMVUe4Baq/2BUxNjmY7nX0sbTTrZXcSQT9ZfO1Zd9tWu9uV8Pud7lWWRRUF0m9X3Spng=
+X-Received: by 2002:a9d:6752:: with SMTP id w18mr14283586otm.13.1637169084726; 
+ Wed, 17 Nov 2021 09:11:24 -0800 (PST)
+MIME-Version: 1.0
 References: <20211117160412.71563-1-richard.henderson@linaro.org>
  <20211117160412.71563-17-richard.henderson@linaro.org>
  <375dc57d-419a-8098-bb65-049ca6b0a781@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c2ac30ca-06c0-ba30-19aa-10e8fcdde1cb@linaro.org>
-Date: Wed, 17 Nov 2021 18:04:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-MIME-Version: 1.0
-In-Reply-To: <375dc57d-419a-8098-bb65-049ca6b0a781@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.009,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ <c2ac30ca-06c0-ba30-19aa-10e8fcdde1cb@linaro.org>
+In-Reply-To: <c2ac30ca-06c0-ba30-19aa-10e8fcdde1cb@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Wed, 17 Nov 2021 18:11:11 +0100
+Message-ID: <CAAdtpL5VmRCAhsD5_9GgF-jZtVd5nJPAKWo=-Yf8XWHnodNyaw@mail.gmail.com>
+Subject: Re: [PATCH v5 16/17] meson: Move linux_user_ss to linux-user/
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.210.47;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ot1-f47.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,71 +72,81 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- laurent@vivier.eu, imp@bsdimp.com
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Warner Losh <imp@bsdimp.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/17/21 5:56 PM, Philippe Mathieu-Daudé wrote:
-> +Thomas/Paolo
-> 
-> On 11/17/21 17:04, Richard Henderson wrote:
->> We have no need to reference linux_user_ss outside of linux-user.
->> Go ahead and merge it directly into specific_ss.
-> 
-> The patch is correct, so:
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> 
-> But ...
-> 
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   meson.build            | 3 ---
->>   linux-user/meson.build | 4 ++++
->>   2 files changed, 4 insertions(+), 3 deletions(-)
->>
->> diff --git a/meson.build b/meson.build
->> index 9f59c57909..ecc181ea13 100644
->> --- a/meson.build
->> +++ b/meson.build
->> @@ -2363,7 +2363,6 @@ common_user_ss = ss.source_set()
->>   crypto_ss = ss.source_set()
->>   hwcore_ss = ss.source_set()
->>   io_ss = ss.source_set()
->> -linux_user_ss = ss.source_set()
->>   qmp_ss = ss.source_set()
->>   qom_ss = ss.source_set()
->>   softmmu_ss = ss.source_set()
->> @@ -2614,8 +2613,6 @@
-> 
-> ... shouldn't it be cheaper for the build system to
-> avoid parsing linux-user machinery when we linux-user
-> is disabled, ...
-> 
-> + if have_linux_user
-> 
-> subdir('linux-user')
-> 
-> + endif
+On Wed, Nov 17, 2021 at 6:04 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+> On 11/17/21 5:56 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> > +Thomas/Paolo
+> >
+> > On 11/17/21 17:04, Richard Henderson wrote:
+> >> We have no need to reference linux_user_ss outside of linux-user.
+> >> Go ahead and merge it directly into specific_ss.
+> >
+> > The patch is correct, so:
+> >
+> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> >
+> > But ...
+> >
+> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> >> ---
+> >>   meson.build            | 3 ---
+> >>   linux-user/meson.build | 4 ++++
+> >>   2 files changed, 4 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/meson.build b/meson.build
+> >> index 9f59c57909..ecc181ea13 100644
+> >> --- a/meson.build
+> >> +++ b/meson.build
+> >> @@ -2363,7 +2363,6 @@ common_user_ss =3D ss.source_set()
+> >>   crypto_ss =3D ss.source_set()
+> >>   hwcore_ss =3D ss.source_set()
+> >>   io_ss =3D ss.source_set()
+> >> -linux_user_ss =3D ss.source_set()
+> >>   qmp_ss =3D ss.source_set()
+> >>   qom_ss =3D ss.source_set()
+> >>   softmmu_ss =3D ss.source_set()
+> >> @@ -2614,8 +2613,6 @@
+> >
+> > ... shouldn't it be cheaper for the build system to
+> > avoid parsing linux-user machinery when we linux-user
+> > is disabled, ...
+> >
+> > + if have_linux_user
+> >
+> > subdir('linux-user')
+> >
+> > + endif
+>
+> We had this discussion before, and settled on
+>
+> if not have_linux_user
+>     subdir_done()
+> endif
+>
+> within linux-user/meson.build.
 
-We had this discussion before, and settled on
+Indeed sorry. Too much context switching.
 
-if not have_linux_user
-    subdir_done()
-endif
+> >> +specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss=
+)
+> >
+> > ... and add here unconditionally?
+>
+> Can't do it unconditionally.  We still need to distinguish specific_ss fi=
+les that are
+> CONFIG_USER_ONLY, when building both user-only and sysemu binaries.
 
-within linux-user/meson.build.
+Indeed.
 
->> +specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss)
-> 
-> ... and add here unconditionally?
-
-Can't do it unconditionally.  We still need to distinguish specific_ss files that are 
-CONFIG_USER_ONLY, when building both user-only and sysemu binaries.
-
-I thought about changing this to CONFIG_USER_ONLY, but thought that would just be a step 
-too far for this patch.
-
-
-r~
+> I thought about changing this to CONFIG_USER_ONLY, but thought that would=
+ just be a step
+> too far for this patch.
+>
+>
+> r~
 
