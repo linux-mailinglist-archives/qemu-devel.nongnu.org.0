@@ -2,79 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDEC5453D8D
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 02:16:11 +0100 (CET)
-Received: from localhost ([::1]:51388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6CAE453DD9
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 02:46:50 +0100 (CET)
+Received: from localhost ([::1]:33356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mn9YY-0006z4-7j
-	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 20:16:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48312)
+	id 1mnA2C-0007Aa-N9
+	for lists+qemu-devel@lfdr.de; Tue, 16 Nov 2021 20:46:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1mn9So-0003j8-Tb; Tue, 16 Nov 2021 20:10:14 -0500
-Received: from [2607:f8b0:4864:20::1033] (port=39610
- helo=mail-pj1-x1033.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1mn9Sn-0002iX-8P; Tue, 16 Nov 2021 20:10:14 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id
- y14-20020a17090a2b4e00b001a5824f4918so3754217pjc.4; 
- Tue, 16 Nov 2021 17:10:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=tVvt6Vwz3dPYOBwiwhjknVbHvlBgY8b56em/D6WrUlA=;
- b=X0sax2EtfvR5orcSy3LNm/34FErVNxrL40PePTG08EuVCga/+83+1WZ+Pa1hkFsb5e
- WpQMUtJFY3buG6kOKQaF3NUhECICll96MfHZk2ts4r/D0lvHHKsNGpOeafc4OIax4Fym
- y++5aAWa/P7bQxfd9RE335dIcwmP2mst93UEB1Lbb0P/EBo6S/dUI53oRm0INR6Nr2XU
- bUNHbjh+DxogMdjyDGGwQgsn+9Vt6IZ0mXolEkCFq5hXW60rrB+aIQr+oE8C/WkDfaYU
- hBAVn5xv2sw/MFNsDyfxF97sJC6VyK9ElICQ7AbDpCwH1WDs1+09moXZxhXW9CPAayS0
- vbIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=tVvt6Vwz3dPYOBwiwhjknVbHvlBgY8b56em/D6WrUlA=;
- b=DWPwK+YdvPmIqa28TxYXLKToRs+epoU0rbZZuWyIQCYtvY9LyM44torAPqBbsLxmNd
- fyo/rjRhtrtGN8eut6F4dlZJ8fJy58rvDyvwBkEhp6tAvWuKdiKVPm0yjXggCafiILQm
- 0+chibzVAWkTQnT3CrQHvGX1mwXvBq3dXhV/Xa/+De5J/CB+HzyWwksIIayJf9+gkyP6
- MRqzi4iuVPkJ9NdR3+QG7Hu5uH3Mr/DnBPwAlaWibmetG6VAl97c+ON5gdxWnlp3GIGU
- Mf5Fd0fXr7lhgyjjvsLvQ4dwD1fMy2es7sIa0RcZP/PvV01cKrLl5PyVCPIhJQgK7IOq
- dPZw==
-X-Gm-Message-State: AOAM533ZPkuUcI7H91tASD8CznHeJMAdLJPsd0mJ+cmkbL2ty4L1AX5x
- SszkY9WQc+1gZX7CHNQrG8c=
-X-Google-Smtp-Source: ABdhPJwBvizPYHBHHhoeDYBu8vrKBoeLwVnMFD+qQjavzK+hdueaWhOgPdr0yuaCDvFpufueW/diaw==
-X-Received: by 2002:a17:90a:ca11:: with SMTP id
- x17mr4503750pjt.61.1637111410165; 
- Tue, 16 Nov 2021 17:10:10 -0800 (PST)
-Received: from voyager.guest.fluxperth.local
- (210-10-213-150.per.static-ipl.aapt.com.au. [210.10.213.150])
- by smtp.gmail.com with ESMTPSA id z16sm15211376pgl.29.2021.11.16.17.10.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Nov 2021 17:10:09 -0800 (PST)
-From: Joel Stanley <joel@jms.id.au>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [RESEND PATCH 3/3] docs: aspeed: Give an example of booting a kernel
-Date: Wed, 17 Nov 2021 09:09:47 +0800
-Message-Id: <20211117010947.297540-4-joel@jms.id.au>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211117010947.297540-1-joel@jms.id.au>
-References: <20211117010947.297540-1-joel@jms.id.au>
+ (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
+ id 1mn9zI-0006Ai-RW; Tue, 16 Nov 2021 20:43:48 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:3202)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
+ id 1mn9zF-0006f5-29; Tue, 16 Nov 2021 20:43:48 -0500
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Hv5JM26V3z8vRJ;
+ Wed, 17 Nov 2021 09:41:55 +0800 (CST)
+Received: from kwepemm600002.china.huawei.com (7.193.23.29) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 17 Nov 2021 09:43:38 +0800
+Received: from [10.174.185.187] (10.174.185.187) by
+ kwepemm600002.china.huawei.com (7.193.23.29) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.15; Wed, 17 Nov 2021 09:43:37 +0800
+Message-ID: <ef504fe3-fdf7-117d-d163-8183dc52e7e9@huawei.com>
+Date: Wed, 17 Nov 2021 09:43:36 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=joel.stan@gmail.com; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] vfio: Fix memory leak of hostwin
+Content-Language: en-US
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <20211116115626.1627186-1-liangpeng10@huawei.com>
+ <20211116120155.109cfd0d.alex.williamson@redhat.com>
+From: Peng Liang <liangpeng10@huawei.com>
+In-Reply-To: <20211116120155.109cfd0d.alex.williamson@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.185.187]
+X-ClientProxiedBy: dggeme706-chm.china.huawei.com (10.1.199.102) To
+ kwepemm600002.china.huawei.com (7.193.23.29)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=liangpeng10@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -55
+X-Spam_score: -5.6
+X-Spam_bar: -----
+X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.446,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,53 +66,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: zhengchuan@huawei.com, wanghao232@huawei.com, qemu-devel@nongnu.org,
+ xiexiangyou@huawei.com, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A common use case for the ASPEED machine is to boot a Linux kernel.
-Provide a full example command line.
+On 11/17/2021 3:01 AM, Alex Williamson wrote:
+> On Tue, 16 Nov 2021 19:56:26 +0800
+> Peng Liang <liangpeng10@huawei.com> wrote:
+> 
+>> hostwin is allocated and added to hostwin_list in vfio_host_win_add, but
+>> it is only deleted from hostwin_list in vfio_host_win_del, which causes
+>> a memory leak.  Also, freeing all elements in hostwin_list is missing in
+>> vfio_disconnect_container.
+>>
+>> Fix: 2e4109de8e58 ("vfio/spapr: Create DMA window dynamically (SPAPR IOMMU v2)")
+>> CC: qemu-stable@nongnu.org
+>> Signed-off-by: Peng Liang <liangpeng10@huawei.com>
+>> ---
+>>  hw/vfio/common.c | 12 ++++++++++--
+>>  1 file changed, 10 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+>> index dd387b0d3959..2cce60c5fac3 100644
+>> --- a/hw/vfio/common.c
+>> +++ b/hw/vfio/common.c
+>> @@ -546,11 +546,12 @@ static void vfio_host_win_add(VFIOContainer *container,
+>>  static int vfio_host_win_del(VFIOContainer *container, hwaddr min_iova,
+>>                               hwaddr max_iova)
+>>  {
+>> -    VFIOHostDMAWindow *hostwin;
+>> +    VFIOHostDMAWindow *hostwin, *next;
+>>  
+>> -    QLIST_FOREACH(hostwin, &container->hostwin_list, hostwin_next) {
+>> +    QLIST_FOREACH_SAFE(hostwin, &container->hostwin_list, hostwin_next, next) {
+> 
+> Unnecessary conversion to _SAFE variant here, we don't continue to walk
+> the list after removing an object.
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
- docs/system/arm/aspeed.rst | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+Ok, I'll remove it in the next version.
 
-diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
-index 4bed7b5221b4..de408b0364ea 100644
---- a/docs/system/arm/aspeed.rst
-+++ b/docs/system/arm/aspeed.rst
-@@ -77,9 +77,9 @@ Missing devices
- Boot options
- ------------
- 
--The Aspeed machines can be started using the ``-kernel`` option to
--load a Linux kernel or from a firmware. Images can be downloaded from
--the OpenBMC jenkins :
-+The Aspeed machines can be started using the ``-kernel`` and ``-dtb`` options
-+to load a Linux kernel or from a firmware. Images can be downloaded from the
-+OpenBMC jenkins :
- 
-    https://jenkins.openbmc.org/job/ci-openbmc/lastSuccessfulBuild/
- 
-@@ -87,6 +87,15 @@ or directly from the OpenBMC GitHub release repository :
- 
-    https://github.com/openbmc/openbmc/releases
- 
-+To boot a kernel directly from a Linux build tree:
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-arm -M ast2600-evb -nographic \
-+        -kernel arch/arm/boot/zImage \
-+        -dtb arch/arm/boot/dts/aspeed-ast2600-evb.dtb \
-+        -initrd rootfs.cpio
-+
- The image should be attached as an MTD drive. Run :
- 
- .. code-block:: bash
--- 
-2.33.0
+
+Thanks,
+Peng
+
+> 
+>>          if (hostwin->min_iova == min_iova && hostwin->max_iova == max_iova) {
+>>              QLIST_REMOVE(hostwin, hostwin_next);
+>> +            g_free(hostwin);
+>>              return 0;
+>>          }
+>>      }
+>> @@ -2239,6 +2240,7 @@ static void vfio_disconnect_container(VFIOGroup *group)
+>>      if (QLIST_EMPTY(&container->group_list)) {
+>>          VFIOAddressSpace *space = container->space;
+>>          VFIOGuestIOMMU *giommu, *tmp;
+>> +        VFIOHostDMAWindow *hostwin, *next;
+>>  
+>>          QLIST_REMOVE(container, next);
+>>  
+>> @@ -2249,6 +2251,12 @@ static void vfio_disconnect_container(VFIOGroup *group)
+>>              g_free(giommu);
+>>          }
+>>  
+>> +        QLIST_FOREACH_SAFE(hostwin, &container->hostwin_list, hostwin_next,
+>> +                           next) {
+>> +            QLIST_REMOVE(hostwin, hostwin_next);
+>> +            g_free(hostwin);
+>> +        }
+>> +
+> 
+> This usage looks good.  Thanks,
+> 
+> Alex
+> 
+>>          trace_vfio_disconnect_container(container->fd);
+>>          close(container->fd);
+>>          g_free(container);
+> 
+> .
+> 
 
 
