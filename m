@@ -2,59 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B010454C07
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 18:34:06 +0100 (CET)
-Received: from localhost ([::1]:34982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFD3C454C0D
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 18:35:08 +0100 (CET)
+Received: from localhost ([::1]:37594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnOov-00044d-F0
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 12:34:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47976)
+	id 1mnOpv-0005pg-UV
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 12:35:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1mnOn6-0002Yw-Q2
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:32:13 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2153)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1mnOn2-00008N-Oz
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:32:11 -0500
-Received: from fraeml712-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4HvVNV1r9Xz67KQL;
- Thu, 18 Nov 2021 01:31:54 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml712-chm.china.huawei.com (10.206.15.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 17 Nov 2021 18:32:04 +0100
-Received: from localhost (10.52.126.160) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Wed, 17 Nov
- 2021 17:32:04 +0000
-Date: Wed, 17 Nov 2021 17:32:01 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Ben Widawsky <ben.widawsky@intel.com>
-Subject: Re: Follow-up on the CXL discussion at OFTC
-Message-ID: <20211117173201.00002513@Huawei.com>
-In-Reply-To: <20211117165719.pqig62t5z2grgjvv@intel.com>
-References: <OF255704A1.78FEF164-ON0025878E.00821084-0025878F.00015560@ibm.com>
- <20211117165719.pqig62t5z2grgjvv@intel.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mnOos-0004Z1-Bh
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:34:02 -0500
+Received: from [2a00:1450:4864:20::32e] (port=43572
+ helo=mail-wm1-x32e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mnOop-0000GN-EO
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:34:02 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 67-20020a1c1946000000b0030d4c90fa87so2741171wmz.2
+ for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 09:33:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=txr3kNCnf3BThmhXGPDRkUo9QlkHGmxBs7MGRqQEnO0=;
+ b=O53t0a2KrsPpz0i6A5CV5qeuc1BGq2EKthmR3ACmSONvJVwMxeXA9HjClPJ3/qzSW5
+ GK2xHHuI03nHyTIzfF3chU6p98/D2YcRvKpyWJh5abWvOpoBTPk9LbCLY7elGlzug8J8
+ Dwg8AyEqO7mBKsbScPvirGMxR6MtAw9cykUW06CTAxhQjF84IXQvRc2PeDthV8S4N0Ij
+ +vmNY5tEuKS55OhEp0S/QEdRiBweM+OxV2h/dL3s8xCMpYdR86zlTteoP81TNHcSGahs
+ OG5/k/xv5q0Ppi9fzyxsjYlIdYk/ncle1mnXWprbm/Fn8wPLBSqxDJ8Z9gg5daW+Q2Rs
+ pHFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=txr3kNCnf3BThmhXGPDRkUo9QlkHGmxBs7MGRqQEnO0=;
+ b=bcnQ+MIZ65ENbHLkD0cNosBEfORQRmPDpFuBd0bGVPdtqs0LrGEDQUjPKk8UwnAXnn
+ xxoqOF7Wz3FKHKw3+OMmstqXeYpnz4Oie/yh15HvhG9c8+z4B/8MWKKrIO59g4QTunVe
+ /pJJCO+1W83bZxFllCAnIeVy+3GpwoNmsL6lDmuWdWEeAXfkb6QwXNRtcun7O3dE1rou
+ snbPSBCqgEiebaafUK+c59+2AMEJRNolUWwmWuw4U1UmnOw+7fowuc9+mWDvvWe9ZsFy
+ 7bPyq0gmbIwpCf/+Hl6/RRtWZDSuQxwmRIai4B1fTb2IPuYP6o+w7/BXm5Xyje6oMFfh
+ eJBQ==
+X-Gm-Message-State: AOAM532J7ChIJxVwWRyXHRPuPPJNv7j/vjvL3rNatdQLbnxrig5hDSPC
+ Cdg/zEdw/QtUGS022fK0QUmasptbxX0+Fv8LogQ=
+X-Google-Smtp-Source: ABdhPJy1tEGtfEYZ/T08U5DFEoI0ukgYNSEg74f8YyzkKFBWk9z30Cv5LmGRqCqz3sxNw8GBMO1XBw==
+X-Received: by 2002:a05:600c:3647:: with SMTP id
+ y7mr1646979wmq.39.1637170436669; 
+ Wed, 17 Nov 2021 09:33:56 -0800 (PST)
+Received: from localhost.localdomain
+ (101.red-176-80-44.dynamicip.rima-tde.net. [176.80.44.101])
+ by smtp.gmail.com with ESMTPSA id e3sm461030wrp.8.2021.11.17.09.33.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Nov 2021 09:33:56 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-6.2] tests/tcg/ppc64le: Fix compile flags for byte_reverse
+Date: Wed, 17 Nov 2021 18:33:53 +0100
+Message-Id: <20211117173353.7623-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.52.126.160]
-X-ClientProxiedBy: lhreml719-chm.china.huawei.com (10.201.108.70) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,69 +86,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linux-cxl@vger.kernel.org, Saransh Gupta1 <saransh@ibm.com>,
- qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+ clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 17 Nov 2021 08:57:19 -0800
-Ben Widawsky <ben.widawsky@intel.com> wrote:
+With a host compiler new enough to recognize power10 insns,
+CROSS_CC_HAS_POWER10 is true, but we do not supply the -cpu
+option to the compiler, resulting in
 
-> Hi Saransh. Please add the list for these kind of questions. I've converted your
-> HTML mail, but going forward, the list will eat it, so please use text only.
-> 
-> On 21-11-16 00:14:33, Saransh Gupta1 wrote:
-> >    Hi Ben,
-> > 
-> >    This is Saransh from IBM. Sorry to have (unintentionally) dropped out
-> >    of the conversion on OFTC, I'm new to IRC.
-> >    Just wanted to follow-up on the discussion there. We discussed about
-> >    helping with linux patches reviews. On that front, I have identified
-> >    some colleague(s) who can help me with this. Let me know if/how you
-> >    want to proceed with that.  
-> 
-> Currently the ball is in my court to re-roll the RFC v2 patches [1] based on
-> feedback from Dan. I've implemented all/most of it, but I'm still debugging some
-> issues with the result.
-> 
-> > 
-> >    Maybe not urgently, but my team would also like to get an understanding
-> >    of the missing pieces in QEMU. Initially our focus is on type3 memory
-> >    access and hotplug support. Most of the work that my team does is
-> >    open-source, so contributing to the QEMU effort is another possible
-> >    line of collaboration.  
-> 
-> If you haven't seen it already, check out my LPC talk [2]. The QEMU patches
-> could use a lot of love. Mostly, I have little/no motivation until upstream
-> shows an interest because I don't have time currently to make sure I don't break
-> vs. upstream. If you want more details here, I can provide them, and I will Cc
-> the qemu-devel mailing list; the end of the LPC talk [2] does have a list.
-Hi Ben, Saransh
+/tmp/ccAVdYJd.s: Assembler messages:
+/tmp/ccAVdYJd.s:49: Error: unrecognized opcode: `brh'
+/tmp/ccAVdYJd.s:78: Error: unrecognized opcode: `brw'
+/tmp/ccAVdYJd.s:107: Error: unrecognized opcode: `brd'
+make[2]: *** [byte_reverse] Error 1
 
-I have a forward port of the series + DOE etc to near current QEMU that is lightly tested,
-and can look to push that out publicly later this week.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tests/tcg/ppc64le/Makefile.target | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-I'd also like to push QEMU support forwards and to start getting this upstream in QEMU
-+ fill in some of the missing parts.
-
-Was aiming to make progress on this a few weeks ago, but as ever other stuff
-got in the way.
-
-+CC qemu-devel in case anyone else also looking at this.
-
-Jonathan
-
-
-
-> 
-> > 
-> >    Thanks for your help and guidance!
-> > 
-> >    Best,
-> >    Saransh Gupta
-> >    Research Staff Member, IBM Research  
-> 
-> [1]: https://lore.kernel.org/linux-cxl/20211022183709.1199701-1-ben.widawsky@intel.com/T/#t
-> [2]: https://www.youtube.com/watch?v=g89SLjt5Bd4&list=PLVsQ_xZBEyN3wA8Ej4BUjudXFbXuxhnfc&index=49
+diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
+index 5e65b1590d..ba2fde5ff1 100644
+--- a/tests/tcg/ppc64le/Makefile.target
++++ b/tests/tcg/ppc64le/Makefile.target
+@@ -9,18 +9,12 @@ PPC64LE_TESTS=bcdsub
+ endif
+ bcdsub: CFLAGS += -mpower8-vector
+ 
+-PPC64LE_TESTS += byte_reverse
+ ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
++PPC64LE_TESTS += byte_reverse
++endif
++byte_reverse: CFLAGS += -mcpu=power10
+ run-byte_reverse: QEMU_OPTS+=-cpu POWER10
+ run-plugin-byte_reverse-with-%: QEMU_OPTS+=-cpu POWER10
+-else
+-byte_reverse:
+-	$(call skip-test, "BUILD of $@", "missing compiler support")
+-run-byte_reverse:
+-	$(call skip-test, "RUN of byte_reverse", "not built")
+-run-plugin-byte_reverse-with-%:
+-	$(call skip-test, "RUN of byte_reverse ($*)", "not built")
+-endif
+ 
+ PPC64LE_TESTS += signal_save_restore_xer
+ 
+-- 
+2.25.1
 
 
