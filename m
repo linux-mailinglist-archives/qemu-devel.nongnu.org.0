@@ -2,60 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17668454918
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 15:46:16 +0100 (CET)
-Received: from localhost ([::1]:54036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C9D4454920
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 15:47:44 +0100 (CET)
+Received: from localhost ([::1]:56734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnMCV-0001cI-0z
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 09:46:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56898)
+	id 1mnMDv-0003RG-Dw
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 09:47:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mnMBU-0000IS-56
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:45:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53827)
+ id 1mnMCm-0002N1-0c
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:46:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25051)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mnMBS-0000Re-5Y
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:45:11 -0500
+ id 1mnMCi-0000d5-LP
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:46:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637160309;
+ s=mimecast20190719; t=1637160388;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/0XLOW0QC4qT3ntY5uax6xSs9kKITAy61cnwyLEQCUw=;
- b=XRuzEg2XdoI2LPOypVE7LQBw2Dr/Mzdfea5moh/U1FlgFUyusVX9xE76u0BNi99cLwFXVV
- XiIxDW7Ru/Fh8GE9l53IlaGGywjuxUTV3E2N1vlZnw7hJTyBLyBsyfifdOCI487zxAbB6G
- ewUWADRT5jdjM93+c+xip4glwmjuO7w=
+ bh=smEZ1/pdrC6k4DK218s69AL6Y2CI25CKISa/c8K4aS4=;
+ b=DYAAEUvbNSF7S+yNwT0dJi+mF/0l/YLeSeQMAtzP0rWEnFLlIosS/DLaQhimJWAwsn06sl
+ +PpfaDpBv1lsyHXNdD+R6GaeHO3BfDQFrBI5kJo331Id+4eqW94gEmpGR3TZx0mei0nxeq
+ vJXSGs0ehRqSvEBxRkGWllFNK6zTeCY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-159-8miuuK9nN5qeopLiuQjPWw-1; Wed, 17 Nov 2021 09:44:56 -0500
-X-MC-Unique: 8miuuK9nN5qeopLiuQjPWw-1
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-447-Zkz37Gb-OhupnCjiklPsjw-1; Wed, 17 Nov 2021 09:46:26 -0500
+X-MC-Unique: Zkz37Gb-OhupnCjiklPsjw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9ADB280D6BD;
- Wed, 17 Nov 2021 14:44:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9EBD87D542;
+ Wed, 17 Nov 2021 14:46:25 +0000 (UTC)
 Received: from redhat.com (unknown [10.22.16.147])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 37B6A60BF1;
- Wed, 17 Nov 2021 14:44:54 +0000 (UTC)
-Date: Wed, 17 Nov 2021 14:44:51 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 95F1E60BF1;
+ Wed, 17 Nov 2021 14:46:24 +0000 (UTC)
+Date: Wed, 17 Nov 2021 14:46:22 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH] gitlab-ci: Test compilation on Windows with MSYS2
-Message-ID: <YZUVY/kzy7uH0KDn@redhat.com>
-References: <20211115140623.104116-1-thuth@redhat.com>
- <cba3524e-00d2-08b1-582f-1f31163fecf0@amsat.org>
- <CAJ+F1C+kTL_thUHtaQ1pxPN360E39aYA81m=8efaYrKhzXyaFw@mail.gmail.com>
- <623c1883-4ac9-e615-7a58-b0d781e19aeb@amsat.org>
- <874k8ax504.fsf@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: Failing QEMU iotests
+Message-ID: <YZUVvs9/iWzJtEQ/@redhat.com>
+References: <a3273a3c-c294-6340-7ea7-73e5696c7b2e@redhat.com>
+ <fabb0f91-48d4-47f7-562e-395f0acf4b81@redhat.com>
+ <fc5a6743-8d0b-58a0-00d1-169bb87691f7@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <874k8ax504.fsf@linaro.org>
+In-Reply-To: <fc5a6743-8d0b-58a0-00d1-169bb87691f7@redhat.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
@@ -87,48 +84,102 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- QEMU <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 17, 2021 at 01:52:57PM +0000, Alex Bennée wrote:
+On Wed, Nov 17, 2021 at 01:50:12PM +0100, Thomas Huth wrote:
+> On 17/11/2021 11.59, Hanna Reitz wrote:
+> > On 17.11.21 11:07, Thomas Huth wrote:
+> > > 
+> > >  Hi!
+> > > 
+> > > I think it has been working fine for me a couple of weeks ago,
+> > > but when I now run:
+> > > 
+> > >  make check SPEED=slow
+> > > 
+> > > I'm getting a couple of failing iotests... not sure whether
+> > > these are known issues already, so I thought I'd summarize them
+> > > here:
+> ...
+> > > --- /home/thuth/devel/qemu/tests/qemu-iotests/206.out
+> > > +++ 206.out.bad
+> > > @@ -99,55 +99,19 @@
+> > > 
+> > >  {"execute": "blockdev-create", "arguments": {"job-id": "job0",
+> > > "options": {"driver": "qcow2", "encrypt": {"cipher-alg":
+> > > "twofish-128", "cipher-mode": "ctr", "format": "luks", "hash-alg":
+> > > "sha1", "iter-time": 10, "ivgen-alg": "plain64", "ivgen-hash-alg":
+> > > "md5", "key-secret": "keysec0"}, "file": {"driver": "file",
+> > > "filename": "TEST_DIR/PID-t.qcow2"}, "size": 33554432}}}
+> > >  {"return": {}}
+> > > +Job failed: Unsupported cipher algorithm twofish-128 with ctr mode
+> > >  {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+> > >  {"return": {}}
+> > > 
+> > >  image: TEST_IMG
+> > >  file format: IMGFMT
+> > >  virtual size: 32 MiB (33554432 bytes)
+> > > -encrypted: yes
+> > >  cluster_size: 65536
+> > >  Format specific information:
+> > >      compat: 1.1
+> > >      compression type: zlib
+> > >      lazy refcounts: false
+> > >      refcount bits: 16
+> > > -    encrypt:
+> > > -        ivgen alg: plain64
+> > > -        hash alg: sha1
+> > > -        cipher alg: twofish-128
+> > > -        uuid: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+> > > -        format: luks
+> > > -        cipher mode: ctr
+> > > -        slots:
+> > > -            [0]:
+> > > -                active: true
+> > > -                iters: XXX
+> > > -                key offset: 4096
+> > > -                stripes: 4000
+> > > -            [1]:
+> > > -                active: false
+> > > -                key offset: 69632
+> > > -            [2]:
+> > > -                active: false
+> > > -                key offset: 135168
+> > > -            [3]:
+> > > -                active: false
+> > > -                key offset: 200704
+> > > -            [4]:
+> > > -                active: false
+> > > -                key offset: 266240
+> > > -            [5]:
+> > > -                active: false
+> > > -                key offset: 331776
+> > > -            [6]:
+> > > -                active: false
+> > > -                key offset: 397312
+> > > -            [7]:
+> > > -                active: false
+> > > -                key offset: 462848
+> > > -        payload offset: 528384
+> > > -        master key iters: XXX
+> > >      corrupt: false
+> > >      extended l2: false
+> > 
+> > I doubt this worked a couple of weeks ago, but it’s definitely one that
+> > we should just get around to fixing. :/
 > 
-> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
-> 
-> > On 11/16/21 08:05, Marc-André Lureau wrote:
-> >> Hi
-> >> 
-> >> On Mon, Nov 15, 2021 at 6:31 PM Philippe Mathieu-Daudé <f4bug@amsat.org
-> >> <mailto:f4bug@amsat.org>> wrote:
-> >> 
-> >>     On 11/15/21 15:06, Thomas Huth wrote:
-> >>     > Gitlab also provides runners with Windows, we can use them to
-> >>     > test compilation with MSYS2, in both, 64-bit and 32-bit.
-> >>     >
-> >>     > However, it takes quite a long time to set up the VM, so to
-> >>     > stay in the 1h time frame, we can only compile and check one
-> >>     > target here.
-> >> 
-> >> 
-> >> I wonder why gitlab does not offer the docker executor. On the
-> >> freedesktop gitlab instance, they have windows docker executor, which
-> >> speeds up the build time. Maybe we could also have our own Windows
-> >> runner for qemu?
-> >
-> > We could, foss.org provides the QEMU project with x86 VMs resources
-> > we are not using. What we miss is a sysadmin willing to setup &
-> > maintain a such runner.
-> 
-> I think we might also have Azure credits from MS, but the same issues
-> about admin and setup probably exist.
+> Hm, maybe I've did the successful run on a different system last time ... I
+> even slightly remember now having seen this before in the past on my current
+> system, so yes, likely not something new.
 
-I've never explored this in any way, but IIUC, Azure should have
-ability to run *windows* containers. If that's possible, then we
-could avoid the admin burden of a VM and just use throwaway windows
-containers as we do for Linux.
+Triggered by me switching QEMU to prefer GNUTLS for crypto by default
+in 6.1, as it doesn't bother to support obscure crypto algs that no
+one uses in practice for LUKS.
+
 
 Regards,
 Daniel
