@@ -2,55 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2E9B4548B9
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 15:31:11 +0100 (CET)
-Received: from localhost ([::1]:35072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4B3B4548DD
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 15:33:50 +0100 (CET)
+Received: from localhost ([::1]:42288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnLxu-0004dK-9T
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 09:31:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51566)
+	id 1mnM0U-0001Nu-21
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 09:33:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mnLrJ-0002ez-JS
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:24:21 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:36749)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1mnLxJ-0005XP-A1; Wed, 17 Nov 2021 09:30:33 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2152)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mnLr7-0005SH-JB
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:24:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=eZazGPxSLUoEA0gFxlbyzaZVrKmJv+WVVpLtdZGsKmI=; b=PVv1CoZUOiAAGpE9s9uYBJDbft
- +4SPv05VDIhXG4gZZVPr+kwbXz6KFVHFx0PoRX3Es69YivzmCEa6JhcXpGkOns1qyF4Z7h5TY3H/N
- T+DdvK8ca2Fj3EPCu3QpIpL6UvnehLX1nUXwaknFfe8pyvr8tKUVkM0B/qf3q/OVDUkjPWHOp9OTK
- RXLQ09I99WGATRGobbZ1XiAOyuDHuY7bU2GCXglGmPgU1iYhT8VxBohUmFYjHc1+DRnkIPRPDxqAC
- ZThb0FzUaQhLqwBU8mr1zoM7mG2jwVtqDrtbDA4lvnu4fIXOxTRqfBn5QaTRnh4E+EszGCg/g0MiZ
- uZ9z+bXKe26+VDlbez5IvfHKjIH7dlrUNh+MfFqgJLA9SJIZ1RM3xKloezjx3d1SXby2HFS1PiR+Z
- KgYM8cDruPJIeACaOAUz1mX3ttX5cVwk++z5g4IeJGoBq1gAUYEb82hU9YY6ENuOuhrg4ww8yPdRB
- qf/OtGzk54+sQvL2ai1QOwngx4xzVwbpYzqrT5/YjpWu2uSOztcM0D0krwDIvEHN9WbFdmDbHko9l
- xuwikXdkx7xlXuuoyR4Lvw85FuyBiY9U3bx8QWK9L1fvVLig2XzpvHk5YqAyHHE6/Vky1uu5lRcjr
- JhbYBxWccpa2UdbdyGTGnnuf3Y1XNuDjtB9x3j0Wk=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] tests/9pfs: use g_autofree where possible
-Date: Wed, 17 Nov 2021 15:24:06 +0100
-Message-ID: <8354180.QfA1WaD6YU@silver>
-In-Reply-To: <E1mn1fA-0005qZ-TM@lizzy.crudebyte.com>
-References: <E1mn1fA-0005qZ-TM@lizzy.crudebyte.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1mnLxE-0006Ru-Ix; Wed, 17 Nov 2021 09:30:33 -0500
+Received: from fraeml742-chm.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4HvQL92yfYz67mnw;
+ Wed, 17 Nov 2021 22:29:37 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml742-chm.china.huawei.com (10.206.15.223) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 17 Nov 2021 15:30:19 +0100
+Received: from localhost (10.52.126.160) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Wed, 17 Nov
+ 2021 14:30:17 +0000
+Date: Wed, 17 Nov 2021 14:30:15 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v2] hw/arm/virt: Expose empty NUMA nodes through ACPI
+Message-ID: <20211117143015.00002e0a@Huawei.com>
+In-Reply-To: <188faab7-1e57-2bc1-846f-9457433c2f9d@redhat.com>
+References: <20211027052958.280741-1-gshan@redhat.com>
+ <20211027174028.1f16fcfb@redhat.com>
+ <fecb9351-ae78-8fcd-e377-623243ef80df@redhat.com>
+ <20211101094431.71e1a50a@redhat.com>
+ <47dc3a95-ed77-6c0e-d024-27cb22c338eb@redhat.com>
+ <20211102073948.am3p3hcqqd3cfvru@gator.home>
+ <b8ed4687-e30a-d70f-0816-bd8ba490ceb7@redhat.com>
+ <20211110113304.2d713d4a@redhat.com>
+ <5180ecee-62e2-cd6f-d595-c7c29eff6039@redhat.com>
+ <20211112142751.4807ab50@redhat.com>
+ <188faab7-1e57-2bc1-846f-9457433c2f9d@redhat.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.52.126.160]
+X-ClientProxiedBy: lhreml719-chm.china.huawei.com (10.201.108.70) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,25 +74,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, Andrew
+ Jones <drjones@redhat.com>, Gavin Shan <gshan@redhat.com>, ehabkost@redhat.com,
+ alison.schofield@intel.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, shan.gavin@gmail.com,
+ Igor Mammedov <imammedo@redhat.com>, Dan
+ Williams <dan.j.williams@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 16. November 2021 17:40:08 CET Christian Schoenebeck wrote:
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> ---
->  tests/qtest/virtio-9p-test.c | 86 +++++++++++-------------------------
->  1 file changed, 25 insertions(+), 61 deletions(-)
+On Tue, 16 Nov 2021 12:11:29 +0100
+David Hildenbrand <david@redhat.com> wrote:
+
+> >>
+> >> Examples include exposing HBM or PMEM to the VM. Just like on real HW,
+> >> this memory is exposed via cpu-less, special nodes. In contrast to real
+> >> HW, the memory is hotplugged later (I don't think HW supports hotplug
+> >> like that yet, but it might just be a matter of time).  
+> > 
+> > I suppose some of that maybe covered by GENERIC_AFFINITY entries in SRAT
+> > some by MEMORY entries. Or nodes created dynamically like with normal
+> > hotplug memory.
+> >   
+
+The naming of the define is unhelpful.  GENERIC_AFFINITY here corresponds
+to Generic Initiator Affinity.  So no good for memory. This is meant for
+representation of accelerators / network cards etc so you can get the NUMA
+characteristics for them accessing Memory in other nodes.
+
+My understanding of 'traditional' memory hotplug is that typically the
+PA into which memory is hotplugged is known at boot time whether or not
+the memory is physically present.  As such, you present that in SRAT and rely
+on the EFI memory map / other information sources to know the memory isn't
+there.  When it is hotplugged later the address is looked up in SRAT to identify
+the NUMA node.
+
+That model is less useful for more flexible entities like virtio-mem or
+indeed physical hardware such as CXL type 3 memory devices which typically
+need their own nodes.
+
+For the CXL type 3 option, currently proposal is to use the CXL table entries
+representing Physical Address space regions to work out how many NUMA nodes
+are needed and just create extra ones at boot.
+https://lore.kernel.org/linux-cxl/163553711933.2509508.2203471175679990.stgit@dwillia2-desk3.amr.corp.intel.com
+
+It's a heuristic as we might need more nodes to represent things well kernel
+side, but it's better than nothing and less effort that true dynamic node creation.
+If you chase through the earlier versions of Alison's patch you will find some
+discussion of that.
+
+I wonder if virtio-mem should just grow a CDAT instance via a DOE?
+
+That would make all this stuff discoverable via PCI config space rather than ACPI
+CDAT is at:
+https://uefi.org/sites/default/files/resources/Coherent%20Device%20Attribute%20Table_1.01.pdf
+but the table access protocol over PCI DOE is currently in the CXL 2.0 spec
+(nothing stops others using it though AFAIK).
+
+However, then we'd actually need either dynamic node creation in the OS, or
+some sort of reserved pool of extra nodes.  Long term it may be the most
+flexible option.
+
+Jonathan
+
 > 
-> diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-> index 41fed41de1..11861aaf7d 100644
-
-Queued on 9p.next, along with Greg's suggested additional hunk:
-https://github.com/cschoenebeck/qemu/commits/9p.next
-
-Thanks!
-
-Best regards,
-Christian Schoenebeck
-
+> I'm certainly no SRAT expert, but seems like under VMWare something
+> similar can happen:
+> 
+> https://lkml.kernel.org/r/BAE95F0C-FAA7-40C6-A0D6-5049B1207A27@vmware.com
+> 
+> "VM was powered on with 4 vCPUs (4 NUMA nodes) and 4GB memory.
+> ACPI SRAT reports 128 possible CPUs and 128 possible NUMA nodes."
+> 
+> Note that that discussion is about hotplugging CPUs to memory-less,
+> hotplugged nodes.
+> 
+> But there seems to be some way to expose possible NUMA nodes. Maybe
+> that's via GENERIC_AFFINITY.
+> 
 
 
