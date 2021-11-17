@@ -2,52 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F1EC454B16
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 17:37:12 +0100 (CET)
-Received: from localhost ([::1]:33854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA942454B13
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 17:36:45 +0100 (CET)
+Received: from localhost ([::1]:32850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnNvr-0007DJ-3E
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 11:37:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60982)
+	id 1mnNvQ-0006Xn-85
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 11:36:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mnNtF-0003Od-PT
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 11:34:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29115)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mnNt9-00088b-TL
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mnNtE-0003MK-0m
  for qemu-devel@nongnu.org; Wed, 17 Nov 2021 11:34:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54755)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mnNt7-00087x-D1
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 11:34:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637166861;
+ s=mimecast20190719; t=1637166859;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=X96q9n+sZpTtoPm5jSUiHim0WQZTmGjmtwZn3wXnHCE=;
- b=OxhLx1fXihO3csdH3n2pLcQCmnTPaSTUWp3Pdg/XLrK2YG97I//3H/S31URgqlgbtf/0vS
- juoCEN4KdWiuYjTe0np642Cy7LZ2UatuyDe9aj/2p7BMzikNvrj42y1Kfomk7Wz9+mD9yi
- jF0KUvpJ1MUhEU2zRZevJP3t358vPVQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=n71huKi+yk6NL30jm1M2LsU8+cBgcad2WusbapSISfE=;
+ b=EQmMHnoEyQG4xYxe86V4wSFRREeDCCgycPPnqfMSKFgc9X7Zcw4xPdJLO+AeE/fA0BydM+
+ P43Pz5khHWbBDJvQMH0/AqsFExCmcG2TB2EMtLkiNRqTd5cMP6xiYiSB9uqf+ff/Q6xmai
+ XPw8ZaOm6KHzaqTnUpKNYXBmzhbErdk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-F82ui1WmM0SpT7m4evLsrA-1; Wed, 17 Nov 2021 11:34:18 -0500
-X-MC-Unique: F82ui1WmM0SpT7m4evLsrA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-3-gpDRdBhPNaKBye0I5OYPcw-1; Wed, 17 Nov 2021 11:34:18 -0500
+X-MC-Unique: gpDRdBhPNaKBye0I5OYPcw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35A34804141;
- Wed, 17 Nov 2021 16:34:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74C0019251A0;
+ Wed, 17 Nov 2021 16:34:16 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 054E55C1D5;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0731E60657;
  Wed, 17 Nov 2021 16:34:16 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 73E6711380A7; Wed, 17 Nov 2021 17:34:09 +0100 (CET)
+ id 76B3711380AA; Wed, 17 Nov 2021 17:34:09 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/13] Eliminate drive_get_next()
-Date: Wed, 17 Nov 2021 17:33:56 +0100
-Message-Id: <20211117163409.3587705-1-armbru@redhat.com>
+Subject: [PATCH v2 01/13] hw/sd/ssi-sd: Do not create SD card within
+ controller's realize
+Date: Wed, 17 Nov 2021 17:33:57 +0100
+Message-Id: <20211117163409.3587705-2-armbru@redhat.com>
+In-Reply-To: <20211117163409.3587705-1-armbru@redhat.com>
+References: <20211117163409.3587705-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -62,7 +67,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,63 +80,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
+ qemu-block@nongnu.org, Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-arm@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-drive_get_next() is basically a bad idea.  It returns the "next" block
-backend of a certain interface type.  "Next" means bus=0,unit=N, where
-subsequent calls count N up from zero, per interface type.
+ssi_sd_realize() creates an "sd-card" device.  This is inappropriate,
+and marked FIXME.
 
-This lets you define unit numbers implicitly by execution order.  If
-the order changes, or new calls appear "in the middle", unit numbers
-change.  ABI break.  Hard to spot in review.  Replace its uses by
-drive_get(), then delete it.
+Move it to the boards that create these devices.  Prior art: commit
+eb4f566bbb for device "generic-sdhci", and commit 26c607b86b for
+device "pl181".
 
-Markus Armbruster (13):
-  hw/sd/ssi-sd: Do not create SD card within controller's realize
-  hw: Replace trivial drive_get_next() by drive_get()
-  hw/arm/npcm7xx_boards: Replace drive_get_next() by drive_get()
-  hw/arm/versatilepb hw/arm/vexpress: Replace drive_get_next() by
-    drive_get()
-  hw/arm/imx25_pdk: Replace drive_get_next() by drive_get()
-  hw/arm/mcimx6ul-evk: Replace drive_get_next() by drive_get()
-  hw/arm/mcimx7d-sabre: Replace drive_get_next() by drive_get()
-  hw/arm/xlnx-versal-virt: Replace drive_get_next() by drive_get()
-  hw/microblaze: Replace drive_get_next() by drive_get()
-  hw/arm/xlnx-zcu102: Replace drive_get_next() by drive_get()
-  hw/arm/xilinx_zynq: Replace drive_get_next() by drive_get()
-  hw/arm/aspeed: Replace drive_get_next() by drive_get()
-  blockdev: Drop unused drive_get_next()
+The device remains not user-creatable, because its users should (and
+do) wire up its GPIO chip-select line.
 
- include/sysemu/blockdev.h           |  1 -
- blockdev.c                          | 10 ----------
- hw/arm/aspeed.c                     | 21 +++++++++++++--------
- hw/arm/cubieboard.c                 |  2 +-
- hw/arm/imx25_pdk.c                  |  2 +-
- hw/arm/integratorcp.c               |  2 +-
- hw/arm/mcimx6ul-evk.c               |  2 +-
- hw/arm/mcimx7d-sabre.c              |  2 +-
- hw/arm/msf2-som.c                   |  2 +-
- hw/arm/npcm7xx_boards.c             |  6 +++---
- hw/arm/orangepi.c                   |  2 +-
- hw/arm/raspi.c                      |  2 +-
- hw/arm/realview.c                   |  2 +-
- hw/arm/sabrelite.c                  |  2 +-
- hw/arm/stellaris.c                  | 15 ++++++++++++++-
- hw/arm/versatilepb.c                |  4 ++--
- hw/arm/vexpress.c                   |  6 +++---
- hw/arm/xilinx_zynq.c                | 16 +++++++++-------
- hw/arm/xlnx-versal-virt.c           |  3 ++-
- hw/arm/xlnx-zcu102.c                |  6 +++---
- hw/microblaze/petalogix_ml605_mmu.c |  2 +-
- hw/misc/sifive_u_otp.c              |  2 +-
- hw/riscv/microchip_pfsoc.c          |  2 +-
- hw/riscv/sifive_u.c                 | 15 +++++++++++++--
- hw/sd/ssi-sd.c                      | 29 +----------------------------
- hw/sparc64/niagara.c                |  2 +-
- 26 files changed, 77 insertions(+), 83 deletions(-)
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>
+Cc: Bin Meng <bin.meng@windriver.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: "Philippe Mathieu-Daudé" <f4bug@amsat.org>
+Cc: qemu-arm@nongnu.org
+Cc: qemu-riscv@nongnu.org
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ hw/arm/stellaris.c  | 15 ++++++++++++++-
+ hw/riscv/sifive_u.c | 13 ++++++++++++-
+ hw/sd/ssi-sd.c      | 29 +----------------------------
+ 3 files changed, 27 insertions(+), 30 deletions(-)
 
+diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
+index 78827ace6b..b6c8a5d609 100644
+--- a/hw/arm/stellaris.c
++++ b/hw/arm/stellaris.c
+@@ -10,6 +10,7 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "hw/sysbus.h"
++#include "hw/sd/sd.h"
+ #include "hw/ssi/ssi.h"
+ #include "hw/arm/boot.h"
+ #include "qemu/timer.h"
+@@ -1157,6 +1158,9 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
+             void *bus;
+             DeviceState *sddev;
+             DeviceState *ssddev;
++            DriveInfo *dinfo;
++            DeviceState *carddev;
++            BlockBackend *blk;
+ 
+             /*
+              * Some boards have both an OLED controller and SD card connected to
+@@ -1221,8 +1225,17 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
+              *  - Make the ssd0323 OLED controller chipselect active-low
+              */
+             bus = qdev_get_child_bus(dev, "ssi");
+-
+             sddev = ssi_create_peripheral(bus, "ssi-sd");
++
++            dinfo = drive_get(IF_SD, 0, 0);
++            blk = dinfo ? blk_by_legacy_dinfo(dinfo) : NULL;
++            carddev = qdev_new(TYPE_SD_CARD);
++            qdev_prop_set_drive_err(carddev, "drive", blk, &error_fatal);
++            qdev_prop_set_bit(carddev, "spi", true);
++            qdev_realize_and_unref(carddev,
++                                   qdev_get_child_bus(sddev, "sd-bus"),
++                                   &error_fatal);
++
+             ssddev = ssi_create_peripheral(bus, "ssd0323");
+             gpio_out[GPIO_D][0] = qemu_irq_split(
+                     qdev_get_gpio_in_named(sddev, SSI_GPIO_CS, 0),
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 589ae72a59..a4ecadaf12 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -46,6 +46,7 @@
+ #include "hw/char/serial.h"
+ #include "hw/cpu/cluster.h"
+ #include "hw/misc/unimp.h"
++#include "hw/sd/sd.h"
+ #include "hw/ssi/ssi.h"
+ #include "target/riscv/cpu.h"
+ #include "hw/riscv/riscv_hart.h"
+@@ -536,7 +537,8 @@ static void sifive_u_machine_init(MachineState *machine)
+     uint32_t fdt_load_addr;
+     uint64_t kernel_entry;
+     DriveInfo *dinfo;
+-    DeviceState *flash_dev, *sd_dev;
++    BlockBackend *blk;
++    DeviceState *flash_dev, *sd_dev, *card_dev;
+     qemu_irq flash_cs, sd_cs;
+ 
+     /* Initialize SoC */
+@@ -686,6 +688,15 @@ static void sifive_u_machine_init(MachineState *machine)
+ 
+     sd_cs = qdev_get_gpio_in_named(sd_dev, SSI_GPIO_CS, 0);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->soc.spi2), 1, sd_cs);
++
++    dinfo = drive_get(IF_SD, 0, 0);
++    blk = dinfo ? blk_by_legacy_dinfo(dinfo) : NULL;
++    card_dev = qdev_new(TYPE_SD_CARD);
++    qdev_prop_set_drive_err(card_dev, "drive", blk, &error_fatal);
++    qdev_prop_set_bit(card_dev, "spi", true);
++    qdev_realize_and_unref(card_dev,
++                           qdev_get_child_bus(sd_dev, "sd-bus"),
++                           &error_fatal);
+ }
+ 
+ static bool sifive_u_machine_get_start_in_flash(Object *obj, Error **errp)
+diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
+index e60854eeef..167c03b780 100644
+--- a/hw/sd/ssi-sd.c
++++ b/hw/sd/ssi-sd.c
+@@ -368,36 +368,9 @@ static const VMStateDescription vmstate_ssi_sd = {
+ 
+ static void ssi_sd_realize(SSIPeripheral *d, Error **errp)
+ {
+-    ERRP_GUARD();
+     ssi_sd_state *s = SSI_SD(d);
+-    DeviceState *carddev;
+-    DriveInfo *dinfo;
+ 
+     qbus_init(&s->sdbus, sizeof(s->sdbus), TYPE_SD_BUS, DEVICE(d), "sd-bus");
+-
+-    /* Create and plug in the sd card */
+-    /* FIXME use a qdev drive property instead of drive_get_next() */
+-    dinfo = drive_get_next(IF_SD);
+-    carddev = qdev_new(TYPE_SD_CARD);
+-    if (dinfo) {
+-        if (!qdev_prop_set_drive_err(carddev, "drive",
+-                                     blk_by_legacy_dinfo(dinfo), errp)) {
+-            goto fail;
+-        }
+-    }
+-
+-    if (!object_property_set_bool(OBJECT(carddev), "spi", true, errp)) {
+-        goto fail;
+-    }
+-
+-    if (!qdev_realize_and_unref(carddev, BUS(&s->sdbus), errp)) {
+-        goto fail;
+-    }
+-
+-    return;
+-
+-fail:
+-    error_prepend(errp, "failed to init SD card: ");
+ }
+ 
+ static void ssi_sd_reset(DeviceState *dev)
+@@ -426,7 +399,7 @@ static void ssi_sd_class_init(ObjectClass *klass, void *data)
+     k->cs_polarity = SSI_CS_LOW;
+     dc->vmsd = &vmstate_ssi_sd;
+     dc->reset = ssi_sd_reset;
+-    /* Reason: init() method uses drive_get_next() */
++    /* Reason: GPIO chip-select line should be wired up */
+     dc->user_creatable = false;
+ }
+ 
 -- 
 2.31.1
 
