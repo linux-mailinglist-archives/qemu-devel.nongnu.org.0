@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F11F3454C67
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 18:47:03 +0100 (CET)
-Received: from localhost ([::1]:49130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5739E454C7D
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 18:49:44 +0100 (CET)
+Received: from localhost ([::1]:55070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnP1T-0005rZ-4B
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 12:47:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50606)
+	id 1mnP43-0001br-8z
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 12:49:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mnP0F-0003oU-H6
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:45:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43821)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mnP0C-0001ss-C8
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:45:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637171138;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=f37MSGK414Wbp3NDgsIaQJYzTojVO4QmSmz21ap/IRQ=;
- b=YqMAGzTg56cujddgpUd1MXU1R5/v8mB5EwpCLgnXUMETFf6siK006IXS2znxnc6gs7au3C
- OK+Oxai44cjjGBKiG3M4cDN5Hq3UoCm262+PKzPOCrHVC5U8ZlDepFhld4MsYKsAH9k897
- gtRkzj9aNCWVtaXqqPWL9W2CSZ07Zic=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-313-6SiPLR9fNDe0460Erxa28A-1; Wed, 17 Nov 2021 12:45:37 -0500
-X-MC-Unique: 6SiPLR9fNDe0460Erxa28A-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v62-20020a1cac41000000b0033719a1a714so1393140wme.6
- for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 09:45:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mnP2X-0008Jd-Mz
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:48:09 -0500
+Received: from [2607:f8b0:4864:20::930] (port=39617
+ helo=mail-ua1-x930.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mnP2V-0002P9-7S
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:48:09 -0500
+Received: by mail-ua1-x930.google.com with SMTP id i6so7696410uae.6
+ for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 09:48:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HVbvaOfquLKncGFDBe2M/Y4YwsUkfp4WGF45bjWhFDE=;
+ b=TUbesez10FKPI+NxYv8Z6IODYMFJYVFU2JodEa8bg3rmYrDM69TVKFdWS+VoQ0yZND
+ kg82+f5r9u7+Wyzmi296Z89ifa9WFU7XfAutxAyEaGakz0Cx6JHM3QSvLL8bnjj3+mH0
+ UtMUlA0dFake3sgfAYPfGj3rr2n8uZZCFwUaeB9uXusC2TJJcQ2GsE49ybbtH66DXnJS
+ bUzwvhPZ/NkP+IgWyTeqGVdkdpi8sMHNePHhLXUk5/lpketMnawCT+NBd7GpyMUdJfNL
+ /2s1cLo9QYx5cxLEtUpDsgOxWrVYywFhkG550zgmJC057GEyd5NFCxpwLLWs6z6IFXOB
+ WD9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=f37MSGK414Wbp3NDgsIaQJYzTojVO4QmSmz21ap/IRQ=;
- b=cTqiFvQR+xkxrLnJxxQFwfatBOcwrt556h9GUNpZfcRaYuFNUWUWdDF5OORRuzpOuO
- g+FN/KirkyHcszwX29JBVeLAtoISTiJcoe+oysNaDjYDa2/n7QigDevUtUn6TppwznLE
- b0RFRPeYHuKt0Nz8E51/LOakbFlsHNhS6ZVJFvFq1pAgmfJon0/a6AAQiosNQ3yYxk5b
- TvRDyU/OBvmB22f0PxrcbIBcxVHpcEUk6orS00hAuv0xbozMnyN9M0jGH2L4pigZ1x6e
- G2zbUgPPd2BJGv9UsHqQu8gXXCu55+r61jWictNXaHRGoatbirpDWRtg0O5sz/GtZHxh
- k/6w==
-X-Gm-Message-State: AOAM531S0HghxhPPXTQCnmWJTzAjFvnjF9FjjGayuiXFbKp82Uqvl2ck
- TA9rjRIs7aW+rHszkPa7FCKykou8ptkDbKuCOXtkfTXye8kXwK3tHS944eQdbUmcRGLpd7R1Oid
- gEjbkFhTloilQvOQLbkvwd4axKCxCQ7mAicdkpPUdKVlpSRsgwGubaT9KXI3GG3vA
-X-Received: by 2002:a5d:6707:: with SMTP id o7mr21988309wru.172.1637171135566; 
- Wed, 17 Nov 2021 09:45:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw8jSP9keXvkPmwPAT+gJTNQyihBWcUgH4e0/M8rCDVn30KsECPXExJf2iYrt2lZmxktKIXlQ==
-X-Received: by 2002:a5d:6707:: with SMTP id o7mr21988277wru.172.1637171135359; 
- Wed, 17 Nov 2021 09:45:35 -0800 (PST)
-Received: from x1w.redhat.com (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id z6sm638964wmp.1.2021.11.17.09.45.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Nov 2021 09:45:34 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qemu-keymap: Add license in generated files
-Date: Wed, 17 Nov 2021 18:45:33 +0100
-Message-Id: <20211117174533.1900570-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HVbvaOfquLKncGFDBe2M/Y4YwsUkfp4WGF45bjWhFDE=;
+ b=jx3MR/44S4BeULGxfRg3XbNLOM50YyQNfBY/gdD9VRePLitaPAsTCF1LmwZxxeEEfo
+ cXZt2jgNfX51LepoXAD9Kr+LQHt9VnCRS4QjaT7dAix7XbR4hLjAEEnT+pusbvDFmTXY
+ xWifvkWGxulM1I308SvxkUH55+4x5hBjqya35STp76JtNCRIOtg+F4tLP9osyjpQ7ZsM
+ VXpIn3zZ5SdHgIRI3lNsHAbciHvehcgquGcMNIkwkzZt0mscL8hpLE1+0zHeWdOxDLYh
+ HgEXkaWSbq/cMqxY7RbXMYrKTdpWwjB+y7ik70BsaIL4ZaTw/ppBQIbpGJfhkDUEPcWg
+ qv3Q==
+X-Gm-Message-State: AOAM530iTyjiGSu64pzf7Bulx8ZjBPWkCmwwX49lp8ETlR3FlTZDGGeA
+ zbd3O9QxMYCBZuF1+auhabi2q6U4OaUva/R03v9szA==
+X-Google-Smtp-Source: ABdhPJyRrldZrO+e3+QZwYQxWux3ytnBK41n0qAydYwEL0lJi3U3IsexIWLyWonqQr58cVKpvpgnLpoj+ej9ogzDWVg=
+X-Received: by 2002:a67:e050:: with SMTP id n16mr70652383vsl.44.1637171286138; 
+ Wed, 17 Nov 2021 09:48:06 -0800 (PST)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20211117174533.1900570-1-philmd@redhat.com>
+In-Reply-To: <20211117174533.1900570-1-philmd@redhat.com>
+From: Warner Losh <imp@bsdimp.com>
+Date: Wed, 17 Nov 2021 10:47:56 -0700
+Message-ID: <CANCZdfpVDcddF5n2qhbTV6UU78y2VckH0KFyz5aY-ozj0XEEKA@mail.gmail.com>
+Subject: Re: [PATCH] qemu-keymap: Add license in generated files
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000f277a405d0ffa49b"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::930
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::930;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x930.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,30 +78,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- qemu-keymap.c | 1 +
- 1 file changed, 1 insertion(+)
+--000000000000f277a405d0ffa49b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/qemu-keymap.c b/qemu-keymap.c
-index 536e8f2385d..4095b654a60 100644
---- a/qemu-keymap.c
-+++ b/qemu-keymap.c
-@@ -187,6 +187,7 @@ int main(int argc, char *argv[])
-     }
- 
-     fprintf(outfile,
-+            "# SPDX-License-Identifier: GPL-2.0-or-later\n"
-             "#\n"
-             "# generated by qemu-keymap\n"
-             "#    model   : %s\n"
--- 
-2.31.1
+On Wed, Nov 17, 2021 at 10:46 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
+.com>
+wrote:
 
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  qemu-keymap.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+
+Reviewed-by: Warner Losh <imp@bsdimp.com>
+
+
+> diff --git a/qemu-keymap.c b/qemu-keymap.c
+> index 536e8f2385d..4095b654a60 100644
+> --- a/qemu-keymap.c
+> +++ b/qemu-keymap.c
+> @@ -187,6 +187,7 @@ int main(int argc, char *argv[])
+>      }
+>
+>      fprintf(outfile,
+> +            "# SPDX-License-Identifier: GPL-2.0-or-later\n"
+>              "#\n"
+>              "# generated by qemu-keymap\n"
+>              "#    model   : %s\n"
+> --
+> 2.31.1
+>
+>
+>
+
+--000000000000f277a405d0ffa49b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 17, 2021 at 10:46 AM Phil=
+ippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@red=
+hat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:phi=
+lmd@redhat.com" target=3D"_blank">philmd@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0qemu-keymap.c | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br></blockquote><div><br></div><div>Re=
+viewed-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com">imp@bsdimp.com=
+</a>&gt;</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">
+diff --git a/qemu-keymap.c b/qemu-keymap.c<br>
+index 536e8f2385d..4095b654a60 100644<br>
+--- a/qemu-keymap.c<br>
++++ b/qemu-keymap.c<br>
+@@ -187,6 +187,7 @@ int main(int argc, char *argv[])<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0fprintf(outfile,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;# SPDX-License-Identifier:=
+ GPL-2.0-or-later\n&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;#\n&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;# generated by qemu-k=
+eymap\n&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;#=C2=A0 =C2=A0 model=
+=C2=A0 =C2=A0: %s\n&quot;<br>
+-- <br>
+2.31.1<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--000000000000f277a405d0ffa49b--
 
