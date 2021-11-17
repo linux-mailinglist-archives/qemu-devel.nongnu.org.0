@@ -2,69 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22A76454272
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 09:11:06 +0100 (CET)
-Received: from localhost ([::1]:53660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DC9B454244
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 09:01:48 +0100 (CET)
+Received: from localhost ([::1]:46384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnG25-0007n1-6R
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 03:11:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48370)
+	id 1mnFt4-0002NZ-Qb
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 03:01:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mnG0c-0006Fp-Ci
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 03:09:34 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:55470 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mnG0Z-0007gG-FQ
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 03:09:34 -0500
-Received: from [10.20.42.193] (unknown [10.20.42.193])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxWLLntZRh688AAA--.2608S3;
- Wed, 17 Nov 2021 15:57:27 +0800 (CST)
-Subject: Re: [PATCH v10 04/26] target/loongarch: Add fixed point arithmetic
- instruction translation
-To: Richard Henderson <richard.henderson@linaro.org>
-References: <1636700049-24381-1-git-send-email-gaosong@loongson.cn>
- <1636700049-24381-5-git-send-email-gaosong@loongson.cn>
- <7e6e5c26-2c1a-e4b5-a724-c2db33a36180@linaro.org>
- <5c3c3107-da7f-7e13-189e-866c7ff1acde@loongson.cn>
- <f1e1b0fd-b34e-1403-1851-35c783a12237@linaro.org>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <6e225d21-c2e4-69d0-c4f9-d2018096ec70@loongson.cn>
-Date: Wed, 17 Nov 2021 15:57:27 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mnFrH-0001Ty-4z
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 02:59:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33635)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mnFrE-0005fp-KD
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 02:59:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637135991;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=d/A2O37IHAc/fYR/SZ70Sc12eUECIgZ0B7U83D6iG7k=;
+ b=ed2BeLw/lidIfkDWMG+7xnSLO91wDQIs546wP2BiLNGqrvWqqBiW6NsXAojyKZ+l5jmQw0
+ N17l8Uk1HM4KRIlpj6wtlEX8q/zb2Q50N8yU5sT3+WrGCjKjFQ0mlDAJQWgaLeKpRNKX8M
+ y0seScEKXDT4omWPWilHQ0sjRUqwMxE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-385-bI6HF5O5Oi-q1C4FC43VjA-1; Wed, 17 Nov 2021 02:59:48 -0500
+X-MC-Unique: bI6HF5O5Oi-q1C4FC43VjA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ o18-20020a05600c511200b00332fa17a02eso1068852wms.5
+ for <qemu-devel@nongnu.org>; Tue, 16 Nov 2021 23:59:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:cc:from:in-reply-to
+ :content-transfer-encoding;
+ bh=d/A2O37IHAc/fYR/SZ70Sc12eUECIgZ0B7U83D6iG7k=;
+ b=wyqLVrYmgYBjNNjxV2ycWZ4fMVomRXZeH9JvpqiNq1R2FSqghBbrExEepoLMvWCxNd
+ E27CUXfi+UFG8teAv8K5urPu1Qfp8bARUmYfV3cY7fD3YD7d6FfpxzgkDk4lN5Pal4V7
+ nATeA0zvwulDgko+FsfpBU0Sn22rwUr+1GP+hWp9RvbhuZZ632XmTjByWEj8l7yMCvp/
+ Q7+jee8m9xm+eMCERON0snH4GzBLCLuL4U6PM3XgbkkAeQqJyOt301QRu6r26xn9yCHO
+ wABqOz4QMApMA5ab2lLwvB4o6JC4SwfRbiOlI29A8iHrvS9yOguz/nsP1Sz27VbhUsaz
+ xzjA==
+X-Gm-Message-State: AOAM5318GEBi0OX0lninxCg5k0tykUg7Y5+RFs2vQLfBUDN7gRlTmZMd
+ uPqovQpnZPeNXajEWguPWUMdHscD2KMR+18QRT+BYEj/GKZ5jg4w6dktu4WguHnwloGlX5Ruh73
+ 1TX9M8umy6ecX7/A=
+X-Received: by 2002:a05:600c:34d6:: with SMTP id
+ d22mr15081717wmq.160.1637135986852; 
+ Tue, 16 Nov 2021 23:59:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzj2KV1c2MmUDT5GfoMYrQk5I2xD0hzZsCP5qBkGbGSoOQhLSu8cZhg8HZ47TCifyIEtPkA3A==
+X-Received: by 2002:a05:600c:34d6:: with SMTP id
+ d22mr15081672wmq.160.1637135986505; 
+ Tue, 16 Nov 2021 23:59:46 -0800 (PST)
+Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id a1sm23100917wri.89.2021.11.16.23.59.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Nov 2021 23:59:46 -0800 (PST)
+Message-ID: <085729f8-3e15-1a62-1b13-6214f0da2806@redhat.com>
+Date: Wed, 17 Nov 2021 08:59:45 +0100
 MIME-Version: 1.0
-In-Reply-To: <f1e1b0fd-b34e-1403-1851-35c783a12237@linaro.org>
-Content-Type: multipart/alternative;
- boundary="------------36C324D7237E68E7E8BC7F4B"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] pci-host: Allow extended config space access for PowerNV
+ PHB4 model
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Christophe Lombard <clombard@linux.vnet.ibm.com>,
+ Ben Widawsky <ben.widawsky@intel.com>
+References: <20211109145053.43524-1-clombard@linux.vnet.ibm.com>
+ <67182075-8e5b-08ad-d17f-405b720a6fb5@linux.ibm.com>
+ <1419c2a2-8e19-d9d6-d9aa-b6b7abccfb99@kaod.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <1419c2a2-8e19-d9d6-d9aa-b6b7abccfb99@kaod.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-X-CM-TRANSID: AQAAf9DxWLLntZRh688AAA--.2608S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxAF1DJF18KryUZF1UCFyDWrg_yoW5Zw13pF
- 18tr1UGrW8Xr18Jw1Utr15X345Jr1UA3W3Jr1rJF4UJF1UJF1jqF1UXryjgrWUXr4kJr1j
- yr15JryjvrWDJw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvK1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E
- 87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
- Aq07x20xvEncxIr21lYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4U
- McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I
- 1l7480Y4vEI4kI2Ix0rVAqx4xJMxk0xIA0c2IEe2xFo4CEbIxvr21lc2xSY4AK6svPMxAI
- w28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_XrWUJr1UMxC20s026xCaFVCjc4AY6r
- 1j6r4UMI8I3I0E5I8CrVAFwI0_JrI_JrWlx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
- b7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
- vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI
- 42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxh
- VjvjDU0xZFpf9x0JUtkuxUUUUU=
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-1.009, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.009, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,264 +105,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org,
- laurent@vivier.eu
+Cc: Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ Frederic Barrat <fbarrat@linux.ibm.com>,
+ Huai-Cheng Kuo <hchkuo@avery-design.com.tw>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------36C324D7237E68E7E8BC7F4B
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-Hi Richard,
-
-On 2021/11/15 下午4:42, Richard Henderson wrote:
-> On 11/15/21 4:59 AM, gaosong wrote:
->> 'The width of the immediate is a detail of the format'  means:
+On 11/9/21 17:04, Cédric Le Goater wrote:
+> On 11/9/21 16:51, Frederic Barrat wrote:
 >>
->> &fmt_rdrjimm         rd  rj imm
 >>
->> @fmt_rdrjimm         .... ...... imm:12  rj:5 rd:5 &fmt_rdrjimm
->> @fmt_rdrjimm14         .... .... imm:14  rj:5 rd:5 &fmt_rdrjimm
->> @fmt_rdrjimm16           .... .. imm:16  rj:5 rd:5 &fmt_rdrjimm
+>> On 09/11/2021 15:50, Christophe Lombard wrote:
+>>> The PCIe extended configuration space on the device is not currently
+>>> accessible to the host. if by default,  it is still inaccessible for
+>>> conventional for PCIe buses, add the current flag
+>>> PCI_BUS_EXTENDED_CONFIG_SPACE on the root bus permits PCI-E extended
+>>> config space access.
+> 
+> For the record, this is coming from an experiment of plugging a
+> CXL device on a QEMU PowerNV POWER10 machine (baremetal). Only
+> minor changes (64 bits ops) were required to get it working.
+
+Since this note could be helpful when having future retrospective,
+do you mind amending this note to the commit description?
+
+> I wonder where are with the CXL models ?
+
+IIRC Ben worked actively, asked help to the community but received
+very few, basically because there is not enough man power IMHO.
+
+Last thing I remember is Igor suggested a different design approach:
+https://lore.kernel.org/qemu-devel/20210319180705.6ede9091@redhat.com/
+
+>>> Signed-off-by: Christophe Lombard <clombard@linux.vnet.ibm.com>
+>>> ---
 >>
->> and we print in the disassembly, liks this
 >>
->> output_rdrjimm(DisasContext *ctx, arg_fmt_rdrjimm * a,  const char 
->> *mnemonic)
->> {
->>      output(ctx, mnemonic, "%s, %s, 0x%x", regnames[a->rd], 
->> regnames[a->rj], a->imm);
->> }
+>> FWIW, looks good to me
+>> Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
+> 
+> 
+> 
+> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+> 
+> Thanks,
+> 
+> C.
+> 
+> 
 >>
->> is that right?
->
-> Yes.
->
-> I'll note that regnames[] is defined in target/loongarch/cpu.c, which 
-> is not available when we want to use this disassembler for 
-> tcg/loongarch64/.  I think it would be easier to print this as
->
->     "r%d", a->rd
->
-> so that you do not need to rely on the external strings.
->
-> I also think you should print signed numbers, "%d", because 0xfffffff8 
-> (truncated to 32 bits) is not really the correct representation of -8 
-> for a 64-bit operand.
->
->
->> 1. We print sa in disassembly...
->> 2. We use sa on gen_alsl_* not (sa2+1).
->> 3. bytepick_w use the same print functions.
->> Is my understanding right?
->
-> Yes, that is the issue I am describing.
->
-I see that  insns.decode format is not very consistent with other 
-architectures, such ARM/RISCV
-
-I'll correct it , like this:
-
-# Fields
-#
-%sa2p1     15:2         !function=plus_1
-
-#
-# Argument sets
-#
-&r_i          rd imm
-&rrr          rd rj rk
-&rr_i         rd rj imm
-&rrr_sa     rd rj rk sa
-
-#
-# Formats
-#
-@fmt_rrr             .... ........ ..... rk:5 rj:5 rd:5 &rrr
-@fmt_r_i20                        .... ... imm:s20 rd:5 &r_i
-@fmt_rr_i12               .... ...... imm:s12 rj:5 rd:5 &rr_i
-@fmt_rr_ui12               .... ...... imm:12 rj:5 rd:5 &rr_i
-@fmt_rr_i16                   .... .. imm:s16 rj:5 rd:5 &rr_i
-@fmt_rrr_sa2p1      .... ........ ... .. rk:5 rj:5 rd:5 &rrr_sa  sa=%sa2p1
-
-#
-# Fixed point arithmetic operation instruction
-#
-add_w            0000 00000001 00000 ..... ..... .....    @fmt_rrr
-add_d            0000 00000001 00001 ..... ..... .....    @fmt_rrr
-sub_w            0000 00000001 00010 ..... ..... .....    @fmt_rrr
-sub_d            0000 00000001 00011 ..... ..... .....    @fmt_rrr
-slt              0000 00000001 00100 ..... ..... ..... @fmt_rrr
-sltu             0000 00000001 00101 ..... ..... ..... @fmt_rrr
-slti             0000 001000 ............ ..... .....               
-@fmt_rr_i12
-
-
-and trans_xxx.c.inc
-
-static bool gen_rrr(DisasContext *ctx, arg_rrr *a, ...) {}
-static bool gen_rr_i12(DisasContext *ctx, arg_rr_i *a, ) {}
-static bool gen_rrr_sa2p1(DisasContext *ctx, arg_rrr_sa *a, ...) {}
-...
-
-Richard, is that OK?
-
-Thanks,
-Song Gao
-
-
---------------36C324D7237E68E7E8BC7F4B
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>Hi Richard,<br>
-    </p>
-    <div class="moz-cite-prefix">On 2021/11/15 下午4:42, Richard Henderson
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:f1e1b0fd-b34e-1403-1851-35c783a12237@linaro.org">On
-      11/15/21 4:59 AM, gaosong wrote:
-      <br>
-      <blockquote type="cite">'The width of the immediate is a detail of
-        the format'  means:
-        <br>
-        <br>
-        &amp;fmt_rdrjimm         rd  rj imm
-        <br>
-        <br>
-        @fmt_rdrjimm         .... ...... imm:12  rj:5 rd:5    
-        &amp;fmt_rdrjimm
-        <br>
-        @fmt_rdrjimm14         .... .... imm:14  rj:5 rd:5    
-        &amp;fmt_rdrjimm
-        <br>
-        @fmt_rdrjimm16           .... .. imm:16  rj:5 rd:5    
-        &amp;fmt_rdrjimm
-        <br>
-        <br>
-        and we print in the disassembly, liks this
-        <br>
-        <br>
-        output_rdrjimm(DisasContext *ctx, arg_fmt_rdrjimm * a,  const
-        char *mnemonic)
-        <br>
-        {
-        <br>
-             output(ctx, mnemonic, "%s, %s, 0x%x", regnames[a-&gt;rd],
-        regnames[a-&gt;rj], a-&gt;imm);
-        <br>
-        }
-        <br>
-        <br>
-        is that right?
-        <br>
-      </blockquote>
-      <br>
-      Yes.
-      <br>
-      <br>
-      I'll note that regnames[] is defined in target/loongarch/cpu.c,
-      which is not available when we want to use this disassembler for
-      tcg/loongarch64/.  I think it would be easier to print this as
-      <br>
-      <br>
-          "r%d", a-&gt;rd
-      <br>
-      <br>
-      so that you do not need to rely on the external strings.
-      <br>
-      <br>
-      I also think you should print signed numbers, "%d", because
-      0xfffffff8 (truncated to 32 bits) is not really the correct
-      representation of -8 for a 64-bit operand.
-      <br>
-      <br>
-      <br>
-      <blockquote type="cite">1. We print sa in disassembly...
-        <br>
-        2. We use sa on gen_alsl_* not (sa2+1).
-        <br>
-        3. bytepick_w use the same print functions.
-        <br>
-        Is my understanding right?
-        <br>
-      </blockquote>
-      <br>
-      Yes, that is the issue I am describing.
-      <br>
-      <br>
-    </blockquote>
-    <p>I see that  insns.decode format is not very consistent with other
-      architectures, such ARM/RISCV</p>
-    <p>I'll correct it , like this:</p>
-    <p># Fields<br>
-      #<br>
-      %sa2p1     15:2         !function=plus_1<br>
-      <br>
-      #<br>
-      # Argument sets<br>
-      #<br>
-      &amp;r_i          rd imm<br>
-      &amp;rrr          rd rj rk<br>
-      &amp;rr_i         rd rj imm<br>
-      &amp;rrr_sa     rd rj rk sa<br>
-      <br>
-      #<br>
-      # Formats<br>
-      #<br>
-      @fmt_rrr             .... ........ ..... rk:5 rj:5 rd:5         
-      &amp;rrr<br>
-      @fmt_r_i20                        .... ... imm:s20 rd:5   
-      &amp;r_i<br>
-      @fmt_rr_i12               .... ...... imm:s12 rj:5 rd:5  
-      &amp;rr_i<br>
-      @fmt_rr_ui12               .... ...... imm:12 rj:5 rd:5  
-      &amp;rr_i<br>
-      @fmt_rr_i16                   .... .. imm:s16 rj:5 rd:5  
-      &amp;rr_i<br>
-      @fmt_rrr_sa2p1      .... ........ ... .. rk:5 rj:5 rd:5    
-      &amp;rrr_sa  sa=%sa2p1<br>
-      <br>
-      #<br>
-      # Fixed point arithmetic operation instruction<br>
-      #<br>
-      add_w            0000 00000001 00000 ..... ..... .....    @fmt_rrr<br>
-      add_d            0000 00000001 00001 ..... ..... .....    @fmt_rrr<br>
-      sub_w            0000 00000001 00010 ..... ..... .....    @fmt_rrr<br>
-      sub_d            0000 00000001 00011 ..... ..... .....    @fmt_rrr<br>
-      slt              0000 00000001 00100 ..... ..... .....      
-      @fmt_rrr<br>
-      sltu             0000 00000001 00101 ..... ..... .....     
-      @fmt_rrr<br>
-      slti             0000 001000 ............ .....
-      .....               @fmt_rr_i12<br>
-    </p>
-    <p><br>
-    </p>
-    <p>and trans_xxx.c.inc<br>
-    </p>
-    <pre>static bool gen_rrr(DisasContext *ctx, arg_rrr *a, ...) {}
-static bool gen_rr_i12(DisasContext *ctx, arg_rr_i *a, ) {}
-static bool gen_rrr_sa2p1(DisasContext *ctx, arg_rrr_sa *a, ...) {}
-...
-
-Richard, is that OK?
-
-Thanks,
-Song Gao
-
-</pre>
-  </body>
-</html>
-
---------------36C324D7237E68E7E8BC7F4B--
+>>
+>>
+>>>   hw/pci-host/pnv_phb4.c | 1 +
+>>>   1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+>>> index 5c375a9f28..40b793201a 100644
+>>> --- a/hw/pci-host/pnv_phb4.c
+>>> +++ b/hw/pci-host/pnv_phb4.c
+>>> @@ -1205,6 +1205,7 @@ static void pnv_phb4_realize(DeviceState *dev,
+>>> Error **errp)
+>>>                                        &phb->pci_mmio, &phb->pci_io,
+>>>                                        0, 4, TYPE_PNV_PHB4_ROOT_BUS);
+>>>       pci_setup_iommu(pci->bus, pnv_phb4_dma_iommu, phb);
+>>> +    pci->bus->flags |= PCI_BUS_EXTENDED_CONFIG_SPACE;
+>>>       /* Add a single Root port */
+>>>       qdev_prop_set_uint8(DEVICE(&phb->root), "chassis", phb->chip_id);
+>>>
+> 
+> 
 
 
