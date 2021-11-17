@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CBDB454BF7
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 18:29:47 +0100 (CET)
-Received: from localhost ([::1]:55382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D92F8454BF8
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 18:31:10 +0100 (CET)
+Received: from localhost ([::1]:57786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnOkk-000741-Ne
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 12:29:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47234)
+	id 1mnOm5-0000F1-W6
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 12:31:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mnOjF-0005eA-KK
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:28:14 -0500
-Received: from [2607:f8b0:4864:20::92a] (port=33621
- helo=mail-ua1-x92a.google.com)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mnOkf-0007bw-DK
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:29:41 -0500
+Received: from [2607:f8b0:4864:20::935] (port=42837
+ helo=mail-ua1-x935.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mnOjD-00083U-Of
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:28:13 -0500
-Received: by mail-ua1-x92a.google.com with SMTP id b17so7704031uas.0
- for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 09:28:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mnOkd-0008AF-Go
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:29:41 -0500
+Received: by mail-ua1-x935.google.com with SMTP id t13so7539988uad.9
+ for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 09:29:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/BH3/ncDWQ1Lp6ctF8tJqwHq1bcbOJ7aDEC9JGDmtLs=;
- b=Ylh1tYR6UBDCCamwAAVJu0ygIFhIzEPfUZHqEo7WFOa0nMlnMI7M82MEM7qmlLscx+
- 0t/iGQfs+/WLb8WNaiQFIx0xlQZ0ZgInFPvUSMOz1O4FfU1ZX+TqSZ0TSiGafzEFxpJy
- s+K1uYvAqwrC56+k7Mfv5HI37tgsjQ1tEepubVqz5z9Fbwp85efEJ7lw2pGcVby/fgB9
- lmA10kRNndHJh8pYmFnucMtY9RIc6u/WMgls91v8VzAJkSTJA3mQqDIaS22SRUcaeJgX
- m/gnB6NfWxAKQ45Pv42CCm4MFHxnvrUS52WQOPkMI9IfJZlCeFg9bRh28U63SorVUc0a
- 0kfA==
+ :cc; bh=S4ZTrZXEeslWDpvZ/qotCf3BJrlUYZDVVjbfXxZ0hyU=;
+ b=sd9pdB5TEt+3iGRqj0lJBsGZQYOCrFUYDu2qolCibIIBRjecejQFCmC2eBBFXrqNP7
+ rPdVHnYYPbPFQK7EquPQPCLVnMWutsvsdfopFe/gvQrMXU0i5fec6MR4oQJm0JILPMVw
+ Cc5jr9kC8PgC07rYQZPTuMmU2/flnXgCjZHZplvui71pUcuaHRb7u3LCQ0ZwYzfRySVA
+ vcldzO8jWdXeWteMbZq083doA0Hnrcxu0s6Dnp1DUo9LPqFUbaDfxzGau5fF5GpA2WjI
+ TDbu+7K5FsDpkezrCiM2zH7xkUfptrySvNi+q1dQM2GyCXpAMQ2eFAW3WuNPabBFEbCe
+ w1Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=/BH3/ncDWQ1Lp6ctF8tJqwHq1bcbOJ7aDEC9JGDmtLs=;
- b=6Mn/eQbzleYG0L9xXO8yGCezMD3kLLkdCLkziMHxRfc3zujccQU1BCg8yd4oUUtvDB
- gnzCKH71X7sUjgfbzlFQBEo8i03iVoUsjXwgHN+Y5Et+qoWXw6o71t4Bz6S364JTBn0I
- 3bPcYvKurumueh+J1JjMBOuFYtyB8V2Dit0HmB07n/SEnP+uTDI6wPt0y204iIneW+xm
- YFBtReBitWLIUu2Ft2TGC7wardGnx3uNCUPFeClArqzU5DPuYoV0KurGoZNgh5AqEQ35
- K4xzCdvshGAjsLIp2qM+ia8IDzq6D8LVUCBdeIhkpSef2ue3BbnbK4A+tS42TOpww2pR
- 5w6g==
-X-Gm-Message-State: AOAM533Xa16ktgLSC244Y8wyEv1paYsT5qDcM4hYxbnifPz+Ptxao2f/
- pkONkK20rhw6z+17/eqZ5TbaLSTnoyJiOO0LZNgrZg==
-X-Google-Smtp-Source: ABdhPJwm9dOxPkIa1tMlvaMPlZ/6opeAM8jd4GhjQqWhbB/zdgJdzbInusUxYJhr/N+IyLVe+vpawsq1yeH9F6XqsUs=
-X-Received: by 2002:a67:fdc3:: with SMTP id l3mr69716419vsq.42.1637170088259; 
- Wed, 17 Nov 2021 09:28:08 -0800 (PST)
+ bh=S4ZTrZXEeslWDpvZ/qotCf3BJrlUYZDVVjbfXxZ0hyU=;
+ b=dqsWVXiGUxDz3KBy6eWvzX2TR79NH1UiB512AYfZe3ZAoyfaQYLn1CgIjw/XUztDgO
+ Is9lSnYhEeFYw4bz3jD1btKUHNcmWP3wGXL33VErupth5ZOrCyo6KVvhmNogod6jRMzn
+ ALsymnrp5OhNkWL1uOkv26w4OoPMAJuEjXociNqgYozY8stfLZY/YLXFfCFNZrwg5FD5
+ o79bN0OR9wxXiBwCQT0JME0AIXofhaTLPZoAJQMfT2oOlNoSlMmAoWjYNGYqH1bmBdkq
+ x7TgmPk+pzfYKXLUw+Edaj1muELBOayjz2g5qoIreLY7o/+/Ui4abKD9F4nrO/WZkQPn
+ JrTw==
+X-Gm-Message-State: AOAM5335qFSnV25Xh6NbllJPCNgZjfO4LzpWRbg/JBvntv3aAMYmTUB6
+ vPxCVlr4EREpJlAN0ofY0IMZfseenlgL8PNJKqg+mQ==
+X-Google-Smtp-Source: ABdhPJzvxltSYUMv3Ng9VxSsdOe93kp7c5LVGmw48XY/JaCQpq6Lz0d/WMudjFOdO6Lct09vhFfTx93IHMDh2gemc7I=
+X-Received: by 2002:ab0:6f47:: with SMTP id r7mr26064465uat.85.1637170178484; 
+ Wed, 17 Nov 2021 09:29:38 -0800 (PST)
 MIME-Version: 1.0
 References: <20211117160412.71563-1-richard.henderson@linaro.org>
- <20211117160412.71563-16-richard.henderson@linaro.org>
-In-Reply-To: <20211117160412.71563-16-richard.henderson@linaro.org>
+ <20211117160412.71563-18-richard.henderson@linaro.org>
+In-Reply-To: <20211117160412.71563-18-richard.henderson@linaro.org>
 From: Warner Losh <imp@bsdimp.com>
-Date: Wed, 17 Nov 2021 10:27:58 -0700
-Message-ID: <CANCZdfqqg=2hCT6Wpo0OVjRVx3mxCGrQ4_3SpNq-34r2McP=Sg@mail.gmail.com>
-Subject: Re: [PATCH v5 15/17] linux-user: Move thunk.c from top-level
+Date: Wed, 17 Nov 2021 10:29:28 -0700
+Message-ID: <CANCZdfp-mMAAhCmSCP2cnUODEgAAsSPZXoCEcDdwgfotwzkbmA@mail.gmail.com>
+Subject: Re: [PATCH v5 17/17] meson: Move bsd_user_ss to bsd-user/
 To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000008db55605d0ff5d2a"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92a
+Content-Type: multipart/alternative; boundary="000000000000ecff6e05d0ff62ef"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::935
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::92a;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92a.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::935;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x935.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -83,61 +83,71 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000008db55605d0ff5d2a
+--000000000000ecff6e05d0ff62ef
 Content-Type: text/plain; charset="UTF-8"
 
 On Wed, Nov 17, 2021 at 9:04 AM Richard Henderson <
 richard.henderson@linaro.org> wrote:
 
-> So far, linux-user is the only user of these functions.
-> Clean up the build machinery by restricting it to linux-user.
+> We have no need to reference bsd_user_ss outside of bsd-user.
+> Go ahead and merge it directly into specific_ss.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  meson.build                   | 1 -
->  thunk.c => linux-user/thunk.c | 0
->  linux-user/meson.build        | 1 +
->  3 files changed, 1 insertion(+), 1 deletion(-)
->  rename thunk.c => linux-user/thunk.c (100%)
+>  meson.build          | 3 ---
+>  bsd-user/meson.build | 4 ++++
+>  2 files changed, 4 insertions(+), 3 deletions(-)
 >
 
 Reviewed-by: Warner Losh <imp@bsdimp.com>
 
 
 > diff --git a/meson.build b/meson.build
-> index 387f7fe1c9..9f59c57909 100644
+> index ecc181ea13..9f7756a805 100644
 > --- a/meson.build
 > +++ b/meson.build
-> @@ -2614,7 +2614,6 @@ subdir('linux-user')
+> @@ -2356,7 +2356,6 @@ genh += hxdep
+>  authz_ss = ss.source_set()
+>  blockdev_ss = ss.source_set()
+>  block_ss = ss.source_set()
+> -bsd_user_ss = ss.source_set()
+>  chardev_ss = ss.source_set()
+>  common_ss = ss.source_set()
+>  common_user_ss = ss.source_set()
+> @@ -2611,8 +2610,6 @@ subdir('common-user')
+>  subdir('bsd-user')
+>  subdir('linux-user')
 >
->  specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
->
-> -linux_user_ss.add(files('thunk.c'))
->  specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss)
->
+> -specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
+> -
 >  common_user_ss = common_user_ss.apply(config_all, strict: false)
-> diff --git a/thunk.c b/linux-user/thunk.c
-> similarity index 100%
-> rename from thunk.c
-> rename to linux-user/thunk.c
-> diff --git a/linux-user/meson.build b/linux-user/meson.build
-> index bf9d945504..fcf7d40f23 100644
-> --- a/linux-user/meson.build
-> +++ b/linux-user/meson.build
-> @@ -15,6 +15,7 @@ linux_user_ss.add(files(
->    'signal.c',
->    'strace.c',
->    'syscall.c',
-> +  'thunk.c',
->    'uaccess.c',
->    'uname.c',
->  ))
+>  common_user = static_library('common-user',
+>                               sources: common_user_ss.sources(),
+> diff --git a/bsd-user/meson.build b/bsd-user/meson.build
+> index 25c3976ead..9fcb80c3fa 100644
+> --- a/bsd-user/meson.build
+> +++ b/bsd-user/meson.build
+> @@ -2,6 +2,8 @@ if not have_bsd_user
+>     subdir_done()
+>  endif
+>
+> +bsd_user_ss = ss.source_set()
+> +
+>  common_user_inc += include_directories('.')
+>
+>  bsd_user_ss.add(files(
+> @@ -17,3 +19,5 @@ bsd_user_ss.add(files(
+>
+>  # Pull in the OS-specific build glue, if any
+>  subdir(targetos)
+> +
+> +specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
 > --
 > 2.25.1
 >
 >
 
---0000000000008db55605d0ff5d2a
+--000000000000ecff6e05d0ff62ef
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -146,58 +156,68 @@ Content-Transfer-Encoding: quoted-printable
 rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
 nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
 " style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">So far, linux-user is the only user of these functions.<b=
-r>
-Clean up the build machinery by restricting it to linux-user.<br>
+padding-left:1ex">We have no need to reference bsd_user_ss outside of bsd-u=
+ser.<br>
+Go ahead and merge it directly into specific_ss.<br>
 <br>
 Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
 naro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
 ---<br>
-=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0| 1 -<br>
-=C2=A0thunk.c =3D&gt; linux-user/thunk.c | 0<br>
-=C2=A0linux-user/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 1 +<br>
-=C2=A03 files changed, 1 insertion(+), 1 deletion(-)<br>
-=C2=A0rename thunk.c =3D&gt; linux-user/thunk.c (100%)<br></blockquote><div=
+=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 3 ---<br>
+=C2=A0bsd-user/meson.build | 4 ++++<br>
+=C2=A02 files changed, 4 insertions(+), 3 deletions(-)<br></blockquote><div=
 ><br></div><div>Reviewed-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.c=
 om">imp@bsdimp.com</a>&gt;</div><div>=C2=A0</div><blockquote class=3D"gmail=
 _quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
 ,204);padding-left:1ex">
 diff --git a/meson.build b/meson.build<br>
-index 387f7fe1c9..9f59c57909 100644<br>
+index ecc181ea13..9f7756a805 100644<br>
 --- a/meson.build<br>
 +++ b/meson.build<br>
-@@ -2614,7 +2614,6 @@ subdir(&#39;linux-user&#39;)<br>
+@@ -2356,7 +2356,6 @@ genh +=3D hxdep<br>
+=C2=A0authz_ss =3D ss.source_set()<br>
+=C2=A0blockdev_ss =3D ss.source_set()<br>
+=C2=A0block_ss =3D ss.source_set()<br>
+-bsd_user_ss =3D ss.source_set()<br>
+=C2=A0chardev_ss =3D ss.source_set()<br>
+=C2=A0common_ss =3D ss.source_set()<br>
+=C2=A0common_user_ss =3D ss.source_set()<br>
+@@ -2611,8 +2610,6 @@ subdir(&#39;common-user&#39;)<br>
+=C2=A0subdir(&#39;bsd-user&#39;)<br>
+=C2=A0subdir(&#39;linux-user&#39;)<br>
 <br>
-=C2=A0specific_ss.add_all(when: &#39;CONFIG_BSD_USER&#39;, if_true: bsd_use=
-r_ss)<br>
+-specific_ss.add_all(when: &#39;CONFIG_BSD_USER&#39;, if_true: bsd_user_ss)=
 <br>
--linux_user_ss.add(files(&#39;thunk.c&#39;))<br>
-=C2=A0specific_ss.add_all(when: &#39;CONFIG_LINUX_USER&#39;, if_true: linux=
-_user_ss)<br>
-<br>
+-<br>
 =C2=A0common_user_ss =3D common_user_ss.apply(config_all, strict: false)<br=
 >
-diff --git a/thunk.c b/linux-user/thunk.c<br>
-similarity index 100%<br>
-rename from thunk.c<br>
-rename to linux-user/thunk.c<br>
-diff --git a/linux-user/meson.build b/linux-user/meson.build<br>
-index bf9d945504..fcf7d40f23 100644<br>
---- a/linux-user/meson.build<br>
-+++ b/linux-user/meson.build<br>
-@@ -15,6 +15,7 @@ linux_user_ss.add(files(<br>
-=C2=A0 =C2=A0&#39;signal.c&#39;,<br>
-=C2=A0 =C2=A0&#39;strace.c&#39;,<br>
-=C2=A0 =C2=A0&#39;syscall.c&#39;,<br>
-+=C2=A0 &#39;thunk.c&#39;,<br>
-=C2=A0 =C2=A0&#39;uaccess.c&#39;,<br>
-=C2=A0 =C2=A0&#39;uname.c&#39;,<br>
-=C2=A0))<br>
+=C2=A0common_user =3D static_library(&#39;common-user&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sources: common_user_ss.sources(),<br>
+diff --git a/bsd-user/meson.build b/bsd-user/meson.build<br>
+index 25c3976ead..9fcb80c3fa 100644<br>
+--- a/bsd-user/meson.build<br>
++++ b/bsd-user/meson.build<br>
+@@ -2,6 +2,8 @@ if not have_bsd_user<br>
+=C2=A0 =C2=A0 subdir_done()<br>
+=C2=A0endif<br>
+<br>
++bsd_user_ss =3D ss.source_set()<br>
++<br>
+=C2=A0common_user_inc +=3D include_directories(&#39;.&#39;)<br>
+<br>
+=C2=A0bsd_user_ss.add(files(<br>
+@@ -17,3 +19,5 @@ bsd_user_ss.add(files(<br>
+<br>
+=C2=A0# Pull in the OS-specific build glue, if any<br>
+=C2=A0subdir(targetos)<br>
++<br>
++specific_ss.add_all(when: &#39;CONFIG_BSD_USER&#39;, if_true: bsd_user_ss)=
+<br>
 -- <br>
 2.25.1<br>
 <br>
 </blockquote></div></div>
 
---0000000000008db55605d0ff5d2a--
+--000000000000ecff6e05d0ff62ef--
 
