@@ -2,93 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92647454DD0
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 20:23:43 +0100 (CET)
-Received: from localhost ([::1]:48818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61FBD454E30
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 20:53:57 +0100 (CET)
+Received: from localhost ([::1]:48382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnQX0-0000R2-Kf
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 14:23:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43236)
+	id 1mnR0F-0001BC-WA
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 14:53:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1mnQT3-0006VP-4D
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 14:19:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52094)
+ (Exim 4.90_1) (envelope-from <valesini@yandex-team.ru>)
+ id 1mnQTK-0006ny-34
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 14:19:54 -0500
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:43972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1mnQSx-0005bq-9V
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 14:19:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637176769;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ssGri1qnh68f2H9BKMGkpeD9WyXeA/tRhviPQ9uItHo=;
- b=T7llAyAPT6O2/lhhRJHgKmCBUyvayvnkBd1rxxcMgKS1jjhKCBkFy2QNMWV+/HFZ7rumdh
- f5JKtqie5QRS+BtN5u0XrytXcan2Yct1UAPmXLGyD2/3+U356bLptbfeNZITWfQMu8u/nU
- dlw37se4UZ4u3B83NgWp61oaLS+rOAc=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-212-w9YIy8aDOp-EeiKHcur6mw-1; Wed, 17 Nov 2021 14:19:28 -0500
-X-MC-Unique: w9YIy8aDOp-EeiKHcur6mw-1
-Received: by mail-ot1-f70.google.com with SMTP id
- f3-20020a9d6c03000000b0055c9d337de8so2408680otq.13
- for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 11:19:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ssGri1qnh68f2H9BKMGkpeD9WyXeA/tRhviPQ9uItHo=;
- b=LGmw13KP1qwkIIZEFSMDQxmt9bBCtiHrUkQeGqwZrB+5wVRFPljcQwHUcRyeE9lhcl
- 52otNNeP9MwSLWMGBAVeFjsc5rPDDTLk9HITFnP3WKeaWpmMw/bh8ua9rghupde/o2fF
- e4tBatr/3wmXFnsSV1QsE1aiEQpQKISYnmogdUnCmR9W5dCaSoYyHUdjUvuMCPPzKuK0
- rA8NVetX1adDkQXLcsAAV4ffvLwrQgDgeQncsmi3kW5xg9p+BkXWpD518aYXBFuwmEp1
- U5vF2Qg4plykCuarkg6gN1dknJ4oXjiyixQcOxpzCBJoKa+pzQtFKefeMbhIZJE5gR9Z
- mMSA==
-X-Gm-Message-State: AOAM5336waO4f8JqpwkVqhrHeeTXRz3unS6sJJEINR523NkgN9TWG9Do
- oYZ//J9n9sI4C6h+V2tZTKT2Lj3t4hzg+ese2rC0vcf3H8DLSX6FCxNJtGIu4ASHSumQBQgr1t9
- 9YE/rK+y9++xMSlk=
-X-Received: by 2002:aca:ac8a:: with SMTP id v132mr2137766oie.44.1637176767883; 
- Wed, 17 Nov 2021 11:19:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzCw6vNjnVrQpIcJFYS8GNT5EKykQydGD9CApLQVhtpkXDmO3SjChR2FFE7lZk+3F2iUM89FA==
-X-Received: by 2002:aca:ac8a:: with SMTP id v132mr2137745oie.44.1637176767647; 
- Wed, 17 Nov 2021 11:19:27 -0800 (PST)
-Received: from redhat.com ([38.15.36.239])
- by smtp.gmail.com with ESMTPSA id y192sm149767oie.21.2021.11.17.11.19.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Nov 2021 11:19:27 -0800 (PST)
-Date: Wed, 17 Nov 2021 12:19:26 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Peng Liang <liangpeng10@huawei.com>
-Subject: Re: [PATCH v2] vfio: Fix memory leak of hostwin
-Message-ID: <20211117121926.458aad95.alex.williamson@redhat.com>
-In-Reply-To: <20211117014739.1839263-1-liangpeng10@huawei.com>
-References: <20211117014739.1839263-1-liangpeng10@huawei.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <valesini@yandex-team.ru>)
+ id 1mnQTF-0005dg-Qu
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 14:19:52 -0500
+Received: from vla1-a78d115f8d22.qloud-c.yandex.net
+ (vla1-a78d115f8d22.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0d:2906:0:640:a78d:115f])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 44A582E0485;
+ Wed, 17 Nov 2021 22:19:42 +0300 (MSK)
+Received: from myt6-10e59078d438.qloud-c.yandex.net
+ (myt6-10e59078d438.qloud-c.yandex.net [2a02:6b8:c12:5209:0:640:10e5:9078])
+ by vla1-a78d115f8d22.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ 1KzRZx59Je-JfsGfBMg; Wed, 17 Nov 2021 22:19:42 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1637176782; bh=ezKxR1lc6XlpU3/vP0HkG+INM9MlyjQzsrvmkdgciD0=;
+ h=In-Reply-To:References:Date:From:To:Subject:Message-ID;
+ b=Q1kKp2VZiLRd6R5ykDP8bzUM8AGZxwphzHiMRLRO3Niz4QKZiRR1XMdfFOs4spEVq
+ uV/6mY0lTumZs3VyAnioLlPyYBpp4q5MzXmwT/k9dPYvl4wIygWpGtvSwhgUWQ7oeb
+ m5jkc3BCQd4uoi1KwbyWDxHoKE/2tYksnjSwjYnk=
+Authentication-Results: vla1-a78d115f8d22.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from [IPv6:2a02:6b8:b081:1306::1:16] (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:1306::1:16])
+ by myt6-10e59078d438.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPS id
+ 7NjxFLSI33-Jfw4Y4ig; Wed, 17 Nov 2021 22:19:41 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 2
+Subject: Re: [PATCH v1] hw/i386/amd_iommu: clean up broken event logging
+To: Roman Kagan <rvkagan@yandex-team.ru>,
+ Daniil Tatianin <d-tatianin@yandex-team.ru>, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, rth@twiddle.net, ehabkost@redhat.com,
+ marcel.apfelbaum@gmail.com, yc-core@yandex-team.ru
+References: <20211117144641.837227-1-d-tatianin@yandex-team.ru>
+ <76c294d0-37fb-cdbb-98e4-9363ba5f66ee@yandex-team.ru>
+ <YZVR9bJG0tuW1gai@rvkaganb.lan>
+From: Valentin Sinitsyn <valesini@yandex-team.ru>
+Message-ID: <abd4d295-baf6-c34f-170d-cbba071a14b4@yandex-team.ru>
+Date: Thu, 18 Nov 2021 00:19:40 +0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <YZVR9bJG0tuW1gai@rvkaganb.lan>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=valesini@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.009,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 17 Nov 2021 14:51:08 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -97,66 +84,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhengchuan@huawei.com, wanghao232@huawei.com, qemu-devel@nongnu.org,
- xiexiangyou@huawei.com, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 17 Nov 2021 09:47:39 +0800
-Peng Liang <liangpeng10@huawei.com> wrote:
-
-> hostwin is allocated and added to hostwin_list in vfio_host_win_add, but
-> it is only deleted from hostwin_list in vfio_host_win_del, which causes
-> a memory leak.  Also, freeing all elements in hostwin_list is missing in
-> vfio_disconnect_container.
+On 18.11.2021 00:03, Roman Kagan wrote:
+> On Wed, Nov 17, 2021 at 11:13:27PM +0500, Valentin Sinitsyn wrote:
+>> On 17.11.2021 19:46, Daniil Tatianin wrote:
+>>> -/*
+>>> - * AMDVi event structure
+>>> - *    0:15   -> DeviceID
+>>> - *    55:63  -> event type + miscellaneous info
+>>> - *    63:127 -> related address
+>> Did you mean 64:127? Fields shouldn't overlap, and 65-bit address looks
+>> suspicious.
 > 
-> Fix: 2e4109de8e58 ("vfio/spapr: Create DMA window dynamically (SPAPR IOMMU v2)")
-> CC: qemu-stable@nongnu.org
-> Signed-off-by: Peng Liang <liangpeng10@huawei.com>
-> ---
-> v1 -> v2:
-> - Don't change to _SAFE variant in vfio_host_win_del. [Alex]
-> ---
->  hw/vfio/common.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> These lines are being removed by this patch.  And yes, they were wrong
+> WRT the spec.
+Oops I missed a minus. Sorry for that.
 
-Thanks, pull request sent to include this in 6.2.
-
-Alex
-
-> 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index dd387b0d3959..080046e3f511 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -551,6 +551,7 @@ static int vfio_host_win_del(VFIOContainer *container, hwaddr min_iova,
->      QLIST_FOREACH(hostwin, &container->hostwin_list, hostwin_next) {
->          if (hostwin->min_iova == min_iova && hostwin->max_iova == max_iova) {
->              QLIST_REMOVE(hostwin, hostwin_next);
-> +            g_free(hostwin);
->              return 0;
->          }
->      }
-> @@ -2239,6 +2240,7 @@ static void vfio_disconnect_container(VFIOGroup *group)
->      if (QLIST_EMPTY(&container->group_list)) {
->          VFIOAddressSpace *space = container->space;
->          VFIOGuestIOMMU *giommu, *tmp;
-> +        VFIOHostDMAWindow *hostwin, *next;
->  
->          QLIST_REMOVE(container, next);
->  
-> @@ -2249,6 +2251,12 @@ static void vfio_disconnect_container(VFIOGroup *group)
->              g_free(giommu);
->          }
->  
-> +        QLIST_FOREACH_SAFE(hostwin, &container->hostwin_list, hostwin_next,
-> +                           next) {
-> +            QLIST_REMOVE(hostwin, hostwin_next);
-> +            g_free(hostwin);
-> +        }
-> +
->          trace_vfio_disconnect_container(container->fd);
->          close(container->fd);
->          g_free(container);
-
+Valentin
 
