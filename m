@@ -2,59 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1202E454921
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 15:48:24 +0100 (CET)
-Received: from localhost ([::1]:58042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A3AF454942
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 15:52:34 +0100 (CET)
+Received: from localhost ([::1]:34426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnMEZ-0004If-6Y
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 09:48:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57352)
+	id 1mnMIb-0007ai-DY
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 09:52:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
- id 1mnMDM-0002uO-Kg
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:47:08 -0500
-Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:44660)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1mnMDz-0004cv-FS
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:47:47 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:53804)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
- id 1mnMDA-0000kt-A6
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:47:07 -0500
-Received: from iva8-d2cd82b7433e.qloud-c.yandex.net
- (iva8-d2cd82b7433e.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:a88e:0:640:d2cd:82b7])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 0CE1F2E124F;
- Wed, 17 Nov 2021 17:46:47 +0300 (MSK)
-Received: from iva8-3a65cceff156.qloud-c.yandex.net
- (iva8-3a65cceff156.qloud-c.yandex.net [2a02:6b8:c0c:2d80:0:640:3a65:ccef])
- by iva8-d2cd82b7433e.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- G4XyEu0eTm-kksmndAh; Wed, 17 Nov 2021 17:46:46 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1637160406; bh=bLVhRXDAq01g/HqrZ08hzTCu+nUYGomZgurx9nkJ8Vc=;
- h=Message-Id:Date:Subject:To:From:Cc;
- b=u6K24LgEItY/uyDuJ2Mrhs0xWEYIxtr3KyrTilxM2Pj0rAsjAnYkV9SOnx1hTQnji
- ZJ3Dp0RJmBm3AbcL7NWQT/o7jXT+081dLWv7KTCFFzI36EcG1eSdV+XW+9NBS53x4p
- 2FxjlJsqBLUzbfgjJYy+H5L+JVO8+QYpCTSBkQWA=
-Authentication-Results: iva8-d2cd82b7433e.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from d-tatianin-nix.yandex-team.ru (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b081:201::1:27])
- by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPS id
- 74vRRRoIYc-kkw4PD5C; Wed, 17 Nov 2021 17:46:46 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-X-Yandex-Fwd: 2
-From: Daniil Tatianin <d-tatianin@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1mnMDx-0000nS-0B
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:47:47 -0500
+Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
+ by beetle.greensocs.com (Postfix) with ESMTPS id 4FDAC20777;
+ Wed, 17 Nov 2021 14:47:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1637160461;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mPQvtnVZ+1pJAT+v9E6WdPoA6ioe/Nirtpc3BY4lIGA=;
+ b=saFdDy7H/e+Up5V6KTiTJ0SH9FuEupRDahM9s6i57Yys/s6yCTXq0zIW2VGgkcgMr8GpTY
+ iqHuUPffD4qlcjtsf//+961hyA1P97JaKCmIxy8cJfPtdJ9jhNtJtjNq84Ig5XkGK11kz5
+ /b8TepFrSNYP0bF1O/dziJ1awIhPUpI=
+From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1] hw/i386/amd_iommu: clean up broken event logging
-Date: Wed, 17 Nov 2021 17:46:41 +0300
-Message-Id: <20211117144641.837227-1-d-tatianin@yandex-team.ru>
-X-Mailer: git-send-email 2.25.1
+Subject: [RFC PATCH v3 0/5] QMP support for cold-plugging devices
+Date: Wed, 17 Nov 2021 15:46:58 +0100
+Message-Id: <20211117144703.16305-1-damien.hedde@greensocs.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=77.88.29.217;
- envelope-from=d-tatianin@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -64,6 +51,7 @@ X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,160 +60,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, yc-core@yandex-team.ru, ehabkost@redhat.com,
- rth@twiddle.net
+Cc: Damien Hedde <damien.hedde@greensocs.com>, edgar.iglesias@xilinx.com,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Mark Burton <mark.burton@greensocs.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ Mirela Grujic <mirela.grujic@greensocs.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- Don't create evt buffer in every function where we want to log,
-  instead make amdvi_log_event construct the buffer in-place using the
-  arguments it was given.
+Hi all,
 
-- Correctly place address & info in the event buffer. Previously both
-  would get shifted to incorrect bit offsets leading to evt containing
-  uninitialized event type and address.
+This series adds support for cold-plugging devices using QMP
+commands. It is a step towards machine configuration using QMP, but
+it does not allow the user to add more devices than he could do with
+the CLI options before.
 
-- Reduce buffer size from 32 to 16 bytes, which is the amount of bytes
-  actually needed for event storage.
+Right now we can add a device using 2 ways:
++ giving "-device" CLI option. In that case the device is
+  cold-plugged: it is created before the machine becomes ready.
++ issuing device_add QMP command. In that case the device is
+  hot-plugged (the command can not be issued before the machine is
+  ready).
 
-- Remove amdvi_encode_event & amdvi_setevent_bits, as they are no longer
-  needed.
+This series allows to issue device_add QMP to cold-plug a device
+like we do with "-device" CLI option. All added QMP commands are
+marked as 'unstable' in qapi as they are part of preconfig.
+We achieve this by introducing a new 'x-machine-init' command to
+stop the VM creation at a point where we can cold-plug devices.
 
-Signed-off-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
+We are aware of the ongoing discussion about preconfig future (see
+[1]). This patchset includes no major modifications from the v2 (but
+the scope is reduced) and "x-machine-init" simply stops the
+configuration between qemu_board_init() and qemu_create_cli_devices()
+function calls.
+
+As a consequence, in the current state, the timeline is:
++ "x-machine-init" command
++ "device_add" cold-plug commands (no fw_cfg legacy order support)
++ "x-exit-preconfig" command will then trigger the following
++ "-soundhw" CLI options
++ "-fw_cfg" CLI options
++ usb devices creation
++ "-device" CLI options (with fw_cfg legacy order support)
++ some other devices creation (with fw_cfg legacy order support)
+
+We don't know if the differences between -device/device_add are
+acceptable or not. To reduce/remove them we could move the
+"x-machine-init" stopping point. What do you think ?
+
+Patches 1, 3 and 5 miss a review.
+
+The series is organized as follow:
+
++ Patches 1 and 2 converts the MachinePhase enum to a qapi definition
+  and add the 'query-machine-phase'. It allows to introspect the
+  current machine phase during preconfig as we will now be able to
+  reach several machine phases using QMP.
++ Patch 3 adds the 'x-machine-init' QMP command to stop QEMU at
+  machine-initialized phase during preconfig.
++ Patch 4 allows issuing device_add QMP command during the
+  machine-initialized phase.
++ Patch 5 improves the doc about preconfig in consequence. 
+
+[1]: https://lore.kernel.org/qemu-devel/b31f442d28920447690a6b8cee865bdbacde1283.1635160056.git.mprivozn@redhat.com
+
+Thanks for your feedback.
+
 ---
- hw/i386/amd_iommu.c | 62 ++++++++++-----------------------------------
- 1 file changed, 14 insertions(+), 48 deletions(-)
+Damien
 
-diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
-index fd75cae024..44b995be91 100644
---- a/hw/i386/amd_iommu.c
-+++ b/hw/i386/amd_iommu.c
-@@ -164,8 +164,14 @@ static void amdvi_generate_msi_interrupt(AMDVIState *s)
-     }
- }
- 
--static void amdvi_log_event(AMDVIState *s, uint64_t *evt)
-+static void amdvi_log_event(AMDVIState *s, uint16_t devid,
-+                            hwaddr addr, uint16_t info)
- {
-+    uint64_t evt[2] = {
-+        devid | ((uint64_t)info << 48),
-+        addr
-+    };
-+
-     /* event logging not enabled */
-     if (!s->evtlog_enabled || amdvi_test_mask(s, AMDVI_MMIO_STATUS,
-         AMDVI_MMIO_STATUS_EVT_OVF)) {
-@@ -190,27 +196,6 @@ static void amdvi_log_event(AMDVIState *s, uint64_t *evt)
-     amdvi_generate_msi_interrupt(s);
- }
- 
--static void amdvi_setevent_bits(uint64_t *buffer, uint64_t value, int start,
--                                int length)
--{
--    int index = start / 64, bitpos = start % 64;
--    uint64_t mask = MAKE_64BIT_MASK(start, length);
--    buffer[index] &= ~mask;
--    buffer[index] |= (value << bitpos) & mask;
--}
--/*
-- * AMDVi event structure
-- *    0:15   -> DeviceID
-- *    55:63  -> event type + miscellaneous info
-- *    63:127 -> related address
-- */
--static void amdvi_encode_event(uint64_t *evt, uint16_t devid, uint64_t addr,
--                               uint16_t info)
--{
--    amdvi_setevent_bits(evt, devid, 0, 16);
--    amdvi_setevent_bits(evt, info, 55, 8);
--    amdvi_setevent_bits(evt, addr, 63, 64);
--}
- /* log an error encountered during a page walk
-  *
-  * @addr: virtual address in translation request
-@@ -218,11 +203,8 @@ static void amdvi_encode_event(uint64_t *evt, uint16_t devid, uint64_t addr,
- static void amdvi_page_fault(AMDVIState *s, uint16_t devid,
-                              hwaddr addr, uint16_t info)
- {
--    uint64_t evt[4];
--
-     info |= AMDVI_EVENT_IOPF_I | AMDVI_EVENT_IOPF;
--    amdvi_encode_event(evt, devid, addr, info);
--    amdvi_log_event(s, evt);
-+    amdvi_log_event(s, devid, addr, info);
-     pci_word_test_and_set_mask(s->pci.dev.config + PCI_STATUS,
-             PCI_STATUS_SIG_TARGET_ABORT);
- }
-@@ -232,14 +214,10 @@ static void amdvi_page_fault(AMDVIState *s, uint16_t devid,
-  *  @info : error flags
-  */
- static void amdvi_log_devtab_error(AMDVIState *s, uint16_t devid,
--                                   hwaddr devtab, uint16_t info)
-+                                   hwaddr addr, uint16_t info)
- {
--    uint64_t evt[4];
--
-     info |= AMDVI_EVENT_DEV_TAB_HW_ERROR;
--
--    amdvi_encode_event(evt, devid, devtab, info);
--    amdvi_log_event(s, evt);
-+    amdvi_log_event(s, devid, addr, info);
-     pci_word_test_and_set_mask(s->pci.dev.config + PCI_STATUS,
-             PCI_STATUS_SIG_TARGET_ABORT);
- }
-@@ -248,10 +226,7 @@ static void amdvi_log_devtab_error(AMDVIState *s, uint16_t devid,
-  */
- static void amdvi_log_command_error(AMDVIState *s, hwaddr addr)
- {
--    uint64_t evt[4], info = AMDVI_EVENT_COMMAND_HW_ERROR;
--
--    amdvi_encode_event(evt, 0, addr, info);
--    amdvi_log_event(s, evt);
-+    amdvi_log_event(s, 0, addr, AMDVI_EVENT_COMMAND_HW_ERROR);
-     pci_word_test_and_set_mask(s->pci.dev.config + PCI_STATUS,
-             PCI_STATUS_SIG_TARGET_ABORT);
- }
-@@ -261,11 +236,8 @@ static void amdvi_log_command_error(AMDVIState *s, hwaddr addr)
- static void amdvi_log_illegalcom_error(AMDVIState *s, uint16_t info,
-                                        hwaddr addr)
- {
--    uint64_t evt[4];
--
-     info |= AMDVI_EVENT_ILLEGAL_COMMAND_ERROR;
--    amdvi_encode_event(evt, 0, addr, info);
--    amdvi_log_event(s, evt);
-+    amdvi_log_event(s, 0, addr, info);
- }
- /* log an error accessing device table
-  *
-@@ -276,11 +248,8 @@ static void amdvi_log_illegalcom_error(AMDVIState *s, uint16_t info,
- static void amdvi_log_illegaldevtab_error(AMDVIState *s, uint16_t devid,
-                                           hwaddr addr, uint16_t info)
- {
--    uint64_t evt[4];
--
-     info |= AMDVI_EVENT_ILLEGAL_DEVTAB_ENTRY;
--    amdvi_encode_event(evt, devid, addr, info);
--    amdvi_log_event(s, evt);
-+    amdvi_log_event(s, devid, addr, info);
- }
- /* log an error accessing a PTE entry
-  * @addr : address that couldn't be accessed
-@@ -288,11 +257,8 @@ static void amdvi_log_illegaldevtab_error(AMDVIState *s, uint16_t devid,
- static void amdvi_log_pagetab_error(AMDVIState *s, uint16_t devid,
-                                     hwaddr addr, uint16_t info)
- {
--    uint64_t evt[4];
--
-     info |= AMDVI_EVENT_PAGE_TAB_HW_ERROR;
--    amdvi_encode_event(evt, devid, addr, info);
--    amdvi_log_event(s, evt);
-+    amdvi_log_event(s, devid, addr, info);
-     pci_word_test_and_set_mask(s->pci.dev.config + PCI_STATUS,
-              PCI_STATUS_SIG_TARGET_ABORT);
- }
+v3:
+ + extracted patches related to cold-plugging devices from the v2 rfc
+ + updated for rebase (qapi 'unstable' feature addition and 7.0 version bump)
+ + fix check for x-machine-init command (and drop Alistair's ack-by on
+   patch 4)
+ + extracted only a bit of the doc patch
+ + drop qdev_set_id patch because it was merged in Kevin's
+   "qdev: Add JSON -device" series which did a lot of cleanups in
+   device_add related functions:
+   https://lore.kernel.org/qemu-devel/20211008133442.141332-1-kwolf@redhat.com
+
+v2 was part of this rfc:
+https://lore.kernel.org/qemu-devel/20210922161405.140018-1-damien.hedde@greensocs.com
+
+Damien Hedde (1):
+  docs/system: improve doc about preconfig
+
+Mirela Grujic (4):
+  rename MachineInitPhase enum constants for QAPI compatibility
+  qapi: Implement query-machine-phase QMP command
+  qapi: Implement x-machine-init QMP command
+  qapi: Allow device_add to execute in machine initialized phase
+
+ docs/system/managed-startup.rst | 20 +++++++-
+ qapi/machine.json               | 87 +++++++++++++++++++++++++++++++++
+ qapi/qdev.json                  |  3 +-
+ include/hw/qdev-core.h          | 30 +-----------
+ hw/core/machine-qmp-cmds.c      | 11 ++++-
+ hw/core/machine.c               |  6 +--
+ hw/core/qdev.c                  |  7 ++-
+ hw/pci/pci.c                    |  2 +-
+ hw/usb/core.c                   |  2 +-
+ hw/virtio/virtio-iommu.c        |  2 +-
+ monitor/hmp.c                   |  2 +-
+ monitor/misc.c                  |  2 +-
+ softmmu/qdev-monitor.c          | 15 ++++--
+ softmmu/vl.c                    | 23 ++++++---
+ ui/console.c                    |  3 +-
+ 15 files changed, 164 insertions(+), 51 deletions(-)
+
 -- 
-2.25.1
+2.33.0
 
 
