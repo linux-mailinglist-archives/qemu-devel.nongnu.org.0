@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4956454BEC
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 18:25:05 +0100 (CET)
-Received: from localhost ([::1]:44216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77E41454BE2
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 18:24:08 +0100 (CET)
+Received: from localhost ([::1]:41302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnOgC-0007kc-HI
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 12:25:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45548)
+	id 1mnOfG-0005n2-B4
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 12:24:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mnOcf-00034y-AC
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:21:26 -0500
-Received: from [2607:f8b0:4864:20::92e] (port=33523
- helo=mail-ua1-x92e.google.com)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mnOdF-0003oq-Re
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:22:03 -0500
+Received: from [2607:f8b0:4864:20::92a] (port=41542
+ helo=mail-ua1-x92a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mnOcc-00072d-HT
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:21:25 -0500
-Received: by mail-ua1-x92e.google.com with SMTP id b17so7659223uas.0
- for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 09:21:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mnOdC-0007BK-GY
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:22:00 -0500
+Received: by mail-ua1-x92a.google.com with SMTP id p37so7502413uae.8
+ for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 09:21:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NfK8JGMgCQotusN9QdWXEAcrpBd9tC7umzRKw1uIE5U=;
- b=nrzm8xg18mXUKWOxue9bpC6lOM9Q1n6M6GJXgEwZEpV4rOTX7l298PR7sGXhyX4SQP
- oMgyfl9qSl+7vwvyO+kh1B53PtLoedTdvrMxRz3sLbFFYwzS4jnfb2dZEmXIZCv2cqPs
- pnLOJfMmEBFuNNaSucg7J8RpT60V6CATCsXv7JF85HcXNmHxZ2GN0cYjXoFO3nxim8Vk
- TEy1yloikBCzxQlXluOBFYKGjBwX3pldA3ldr6v7RJSFDi+I2saKhIWkg1gLrQdRNHIw
- fNhk+/Sb92xMlhnQ1JxmzI4Pr5ftazsnAdN0b8XybiJWAS0nUUGpr5A5dJlDdtkIdRHD
- CbfQ==
+ :cc; bh=k1ZFxCEQB2AcA/tIvHdh+M4Bo+shzCF6XY4aE+mD34Y=;
+ b=h/A/VrJydCv4fxdncRRSU8EwGFQVU5KQknm8eiO39bpGaAN8rMAP/gm4sp9boKRcSd
+ MDp/pFzJKTbgrKxzlxcfimL8yDHo9I+bni+mk6/uYOga7kFJvgxpNurluUvwh/pgT58X
+ tM34fsTl9x14+VNGBSfaeTwd9xSPb2a96A1KvE7jjniX3cR7li7F+TRTEtfhTKqVg4mB
+ Sm2ROqli+ZoWXXbZfdEepHaqSmpRecBcLb0usQiacjSmOAlP20D5mdXJLcVF8K1644Wi
+ v7Tq3t5YFBW9OB7oAcLn0tf0x3VxT446zPAzzF+QPUGfdIcfaOO2XLnDh1lWhvSHrHXR
+ 123Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=NfK8JGMgCQotusN9QdWXEAcrpBd9tC7umzRKw1uIE5U=;
- b=AzKVIiWSHzioHGCpaVohw3kcjc97ceCjm5xFSY2mZYVpzJGirwVZk25MpSov7isEb0
- i+vC/jWYxiM0WJHp0wViY8LkzB8I7eFhmMuGk/NozKyCNi0Ptq9eK+6lnECQyEcAK3FL
- l7XL+zf/OfpPVCk8qaqzWbv4pje78ePOvSiqyVPD8AwELQEzORsaqLgkY6RKQ4cLsuMd
- 80SUUpMSOAZe1jGJH4oPS2bBD9FMsJXl4kLlXLmREA7LWSR7rEEoDN9cMx13zhRvf6Rr
- YYw4UpbVV+VJqFhdeIokkqRSluvG9J7mIJz9Q6FbtBMwsl4RSTi24GMhMlTq8PyJYbMl
- LPSA==
-X-Gm-Message-State: AOAM530IiMBKN/b9a3QQZV7C2NGHAW326qum+fksoTDtWJZHz+F3JGoh
- NNRBnAKOs8TiSME7MADOH1EZWxQ74IT9L8R/Oz5AgQ==
-X-Google-Smtp-Source: ABdhPJwMQ3+AEOEyIE4blYL7BfMiZSXBU+RXQ7Atm7bKmONtnrMnfUaIFhZywRD92oS2mfS6XTqRc6r4kxPWE27+3xI=
-X-Received: by 2002:a67:ab48:: with SMTP id k8mr70968423vsh.30.1637169681216; 
- Wed, 17 Nov 2021 09:21:21 -0800 (PST)
+ bh=k1ZFxCEQB2AcA/tIvHdh+M4Bo+shzCF6XY4aE+mD34Y=;
+ b=6NQh9UAm8+sTBJsOXaQi5PkfUIOwdC+aDgHD5qvi/ObqSQAvsI+N4kg/FBYJo1F0Sp
+ sZ/ZHEQymHtSpcAQyVBDDyxS/rvt4eXFLc3AjyuSTG9UmD+uQSXp2L8pkpEDbuq0Mq4U
+ F6J7OrvblJH9ctAyVTziQINwOta7nTx0FFHl1h66x+d481Wdc+ovKxZj2M5Xilq7fHwF
+ 9ueoPCI958LS6dsyipN/ygitQj+qxeNTck313nquqn7tmcO8HEKFtEb0BQLsVOdoGisG
+ yEYoUqmKqh+KxbkeZ1WosXJYVcAQQDEIOEN48sqUCBX5+A8PxEUIk2fzwZotHeVqsNs5
+ UFFQ==
+X-Gm-Message-State: AOAM5305LFpAXBK1XJjSQIZNAcwT+8tSWKZKBzl+HJP0PJzPI7ene770
+ hUCWU+PS7FtU7jG/BULUIQNsykiKV4oy5TAde16bAw==
+X-Google-Smtp-Source: ABdhPJxihlPWToXRTw1d3lonvztDe+3gAb0f1LhFTDYxd2BSprrWEHd6JRh0+oPfrYfLMIGRxuLLNX/z2nlH1mbaQBA=
+X-Received: by 2002:a67:e050:: with SMTP id n16mr70380758vsl.44.1637169717524; 
+ Wed, 17 Nov 2021 09:21:57 -0800 (PST)
 MIME-Version: 1.0
 References: <20211117160412.71563-1-richard.henderson@linaro.org>
- <20211117160412.71563-12-richard.henderson@linaro.org>
-In-Reply-To: <20211117160412.71563-12-richard.henderson@linaro.org>
+ <20211117160412.71563-13-richard.henderson@linaro.org>
+In-Reply-To: <20211117160412.71563-13-richard.henderson@linaro.org>
 From: Warner Losh <imp@bsdimp.com>
-Date: Wed, 17 Nov 2021 10:21:05 -0700
-Message-ID: <CANCZdfoiR8ATeYv1xEtBqcJS=rLTpJ-JqEEqi39Bd5i6=WrvhQ@mail.gmail.com>
-Subject: Re: [PATCH v5 11/17] bsd-user: Create special-errno.h
+Date: Wed, 17 Nov 2021 10:21:47 -0700
+Message-ID: <CANCZdfrt0Nr-7M_SwTRO3m7zZ3WqxQdOPAEfyMemyTJYG-COCQ@mail.gmail.com>
+Subject: Re: [PATCH v5 12/17] linux-user: Create special-errno.h
 To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000494df405d0ff4562"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92e
+Content-Type: multipart/alternative; boundary="0000000000007350d305d0ff4745"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92a
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::92e;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92e.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::92a;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92a.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -83,54 +83,96 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000494df405d0ff4562
+--0000000000007350d305d0ff4745
 Content-Type: text/plain; charset="UTF-8"
 
 On Wed, Nov 17, 2021 at 9:04 AM Richard Henderson <
 richard.henderson@linaro.org> wrote:
 
-> Pull the internal errno used by qemu internally its own
-> header file, for use by safe-syscall.S.
+> Pull the two internal errno used by qemu internally into their own
+> header file.  This includes the one define required by safe-syscall.S.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  bsd-user/errno_defs.h    |  6 +++++-
->  bsd-user/special-errno.h | 24 ++++++++++++++++++++++++
->  2 files changed, 29 insertions(+), 1 deletion(-)
->  create mode 100644 bsd-user/special-errno.h
+>  linux-user/cpu_loop-common.h           |  1 +
+>  linux-user/generic/target_errno_defs.h | 17 --------------
+>  linux-user/signal-common.h             |  2 ++
+>  linux-user/special-errno.h             | 32 ++++++++++++++++++++++++++
+>  linux-user/syscall.c                   |  1 +
+>  linux-user/safe-syscall.S              |  2 +-
+>  6 files changed, 37 insertions(+), 18 deletions(-)
+>  create mode 100644 linux-user/special-errno.h
 >
 
-Reviewed by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Warner Losh <imp@bsdimp.com>
 
 
-
-> diff --git a/bsd-user/errno_defs.h b/bsd-user/errno_defs.h
-> index 583ebe8cee..73cfa24b7f 100644
-> --- a/bsd-user/errno_defs.h
-> +++ b/bsd-user/errno_defs.h
-> @@ -151,6 +151,10 @@
->  /* Internal errors: */
->  #define TARGET_EJUSTRETURN      254             /* Just return without
-> modifing regs */
->  #define TARGET_ERESTART         255             /* Restart syscall */
-> -#define QEMU_ERESTARTSYS        TARGET_ERESTART /* compat */
-> +
+> diff --git a/linux-user/cpu_loop-common.h b/linux-user/cpu_loop-common.h
+> index 8828af28a4..dc0042e4de 100644
+> --- a/linux-user/cpu_loop-common.h
+> +++ b/linux-user/cpu_loop-common.h
+> @@ -21,6 +21,7 @@
+>  #define CPU_LOOP_COMMON_H
+>
+>  #include "exec/log.h"
+> +#include "special-errno.h"
+>
+>  #define EXCP_DUMP(env, fmt, ...)                                        \
+>  do {                                                                    \
+> diff --git a/linux-user/generic/target_errno_defs.h
+> b/linux-user/generic/target_errno_defs.h
+> index bb37d88be9..c2f9d403e7 100644
+> --- a/linux-user/generic/target_errno_defs.h
+> +++ b/linux-user/generic/target_errno_defs.h
+> @@ -147,21 +147,4 @@
+>  #define TARGET_ERFKILL         132     /* Operation not possible due to
+> RF-kill */
+>  #define TARGET_EHWPOISON       133     /* Memory page has hardware error
+> */
+>
+> -/* QEMU internal, not visible to the guest. This is returned when a
+> - * system call should be restarted, to tell the main loop that it
+> - * should wind the guest PC backwards so it will re-execute the syscall
+> - * after handling any pending signals. They match with the ones the guest
+> - * kernel uses for the same purpose.
+> - */
+> -#define QEMU_ERESTARTSYS     512     /* Restart system call (if
+> SA_RESTART) */
+> -
+> -/* QEMU internal, not visible to the guest. This is returned by the
+> - * do_sigreturn() code after a successful sigreturn syscall, to indicate
+> - * that it has correctly set the guest registers and so the main loop
+> - * should not touch them. We use the value the guest would use for
+> - * ERESTART_NOINTR (which is kernel internal) to guarantee that we won't
+> - * clash with a valid guest errno now or in the future.
+> - */
+> -#define QEMU_ESIGRETURN 513     /* Return from signal */
+> -
+>  #endif
+> diff --git a/linux-user/signal-common.h b/linux-user/signal-common.h
+> index b9f33bb44f..42aa479080 100644
+> --- a/linux-user/signal-common.h
+> +++ b/linux-user/signal-common.h
+> @@ -20,6 +20,8 @@
+>  #ifndef SIGNAL_COMMON_H
+>  #define SIGNAL_COMMON_H
+>
 > +#include "special-errno.h"
 > +
-> +_Static_assert(TARGET_ERESTART == QEMU_ERESTARTSYS,
-> +               "TARGET_ERESTART and QEMU_ERESTARTSYS expected to match");
->
->  #endif /* !  _ERRNO_DEFS_H_ */
-> diff --git a/bsd-user/special-errno.h b/bsd-user/special-errno.h
+>  /* Fallback addresses into sigtramp page. */
+>  extern abi_ulong default_sigreturn;
+>  extern abi_ulong default_rt_sigreturn;
+> diff --git a/linux-user/special-errno.h b/linux-user/special-errno.h
 > new file mode 100644
-> index 0000000000..03599d9b5a
+> index 0000000000..4120455baa
 > --- /dev/null
-> +++ b/bsd-user/special-errno.h
-> @@ -0,0 +1,24 @@
-> +/* SPDX-License-Identifier: BSD-3-Clause */
+> +++ b/linux-user/special-errno.h
+> @@ -0,0 +1,32 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
 > +/*
 > + * QEMU internal errno values for implementing user-only POSIX.
 > + *
+> + *  Copyright (c) 2003 Fabrice Bellard
 > + *  Copyright (c) 2021 Linaro, Ltd.
 > + */
 > +
@@ -148,15 +190,47 @@ Reviewed by: Warner Losh <imp@bsdimp.com>
 > + * main loop that it should wind the guest PC backwards so it will
 > + * re-execute the syscall after handling any pending signals.
 > + */
-> +#define QEMU_ERESTARTSYS  255
+> +#define QEMU_ERESTARTSYS  512
+> +
+> +/*
+> + * This is returned after a successful sigreturn syscall, to indicate
+> + * that it has correctly set the guest registers and so the main loop
+> + * should not touch them.
+> + */
+> +#define QEMU_ESIGRETURN   513
 > +
 > +#endif /* SPECIAL_ERRNO_H */
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 1ef6abb776..33d342157d 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -136,6 +136,7 @@
+>  #include "qemu/guest-random.h"
+>  #include "qemu/selfmap.h"
+>  #include "user/syscall-trace.h"
+> +#include "special-errno.h"
+>  #include "qapi/error.h"
+>  #include "fd-trans.h"
+>  #include "tcg/tcg.h"
+> diff --git a/linux-user/safe-syscall.S b/linux-user/safe-syscall.S
+> index 7ddc997801..74f7e35694 100644
+> --- a/linux-user/safe-syscall.S
+> +++ b/linux-user/safe-syscall.S
+> @@ -10,7 +10,7 @@
+>   * See the COPYING file in the top-level directory.
+>   */
+>
+> -#include "target_errno_defs.h"
+> +#include "special-errno.h"
+>
+>  /* We have the correct host directory on our include path
+>   * so that this will pull in the right fragment for the architecture.
 > --
 > 2.25.1
 >
 >
 
---000000000000494df405d0ff4562
+--0000000000007350d305d0ff4745
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -165,51 +239,108 @@ Content-Transfer-Encoding: quoted-printable
 rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
 nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
 " style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">Pull the internal errno used by qemu internally its own<b=
-r>
-header file, for use by safe-syscall.S.<br>
+padding-left:1ex">Pull the two internal errno used by qemu internally into =
+their own<br>
+header file.=C2=A0 This includes the one define required by safe-syscall.S.=
+<br>
 <br>
 Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
 naro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
 ---<br>
-=C2=A0bsd-user/errno_defs.h=C2=A0 =C2=A0 |=C2=A0 6 +++++-<br>
-=C2=A0bsd-user/special-errno.h | 24 ++++++++++++++++++++++++<br>
-=C2=A02 files changed, 29 insertions(+), 1 deletion(-)<br>
-=C2=A0create mode 100644 bsd-user/special-errno.h<br></blockquote><div><br>=
-</div><div>Reviewed by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com">i=
-mp@bsdimp.com</a>&gt;</div><div><br></div><div>=C2=A0</div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">
-diff --git a/bsd-user/errno_defs.h b/bsd-user/errno_defs.h<br>
-index 583ebe8cee..73cfa24b7f 100644<br>
---- a/bsd-user/errno_defs.h<br>
-+++ b/bsd-user/errno_defs.h<br>
-@@ -151,6 +151,10 @@<br>
-=C2=A0/* Internal errors: */<br>
-=C2=A0#define TARGET_EJUSTRETURN=C2=A0 =C2=A0 =C2=A0 254=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Just return without modifing regs */<br>
-=C2=A0#define TARGET_ERESTART=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0255=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Restart syscall */<br>
--#define QEMU_ERESTARTSYS=C2=A0 =C2=A0 =C2=A0 =C2=A0 TARGET_ERESTART /* com=
-pat */<br>
-+<br>
+=C2=A0linux-user/cpu_loop-common.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+|=C2=A0 1 +<br>
+=C2=A0linux-user/generic/target_errno_defs.h | 17 --------------<br>
+=C2=A0linux-user/signal-common.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0|=C2=A0 2 ++<br>
+=C2=A0linux-user/special-errno.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0| 32 ++++++++++++++++++++++++++<br>
+=C2=A0linux-user/syscall.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
+=C2=A0linux-user/safe-syscall.S=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 2 +-<br>
+=C2=A06 files changed, 37 insertions(+), 18 deletions(-)<br>
+=C2=A0create mode 100644 linux-user/special-errno.h<br></blockquote><div><b=
+r></div><div>Reviewed-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com"=
+>imp@bsdimp.com</a>&gt;</div><div>=C2=A0<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">
+diff --git a/linux-user/cpu_loop-common.h b/linux-user/cpu_loop-common.h<br=
+>
+index 8828af28a4..dc0042e4de 100644<br>
+--- a/linux-user/cpu_loop-common.h<br>
++++ b/linux-user/cpu_loop-common.h<br>
+@@ -21,6 +21,7 @@<br>
+=C2=A0#define CPU_LOOP_COMMON_H<br>
+<br>
+=C2=A0#include &quot;exec/log.h&quot;<br>
++#include &quot;special-errno.h&quot;<br>
+<br>
+=C2=A0#define EXCP_DUMP(env, fmt, ...)=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+=C2=A0do {=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+diff --git a/linux-user/generic/target_errno_defs.h b/linux-user/generic/ta=
+rget_errno_defs.h<br>
+index bb37d88be9..c2f9d403e7 100644<br>
+--- a/linux-user/generic/target_errno_defs.h<br>
++++ b/linux-user/generic/target_errno_defs.h<br>
+@@ -147,21 +147,4 @@<br>
+=C2=A0#define TARGET_ERFKILL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0132=C2=A0 =C2=
+=A0 =C2=A0/* Operation not possible due to RF-kill */<br>
+=C2=A0#define TARGET_EHWPOISON=C2=A0 =C2=A0 =C2=A0 =C2=A0133=C2=A0 =C2=A0 =
+=C2=A0/* Memory page has hardware error */<br>
+<br>
+-/* QEMU internal, not visible to the guest. This is returned when a<br>
+- * system call should be restarted, to tell the main loop that it<br>
+- * should wind the guest PC backwards so it will re-execute the syscall<br=
+>
+- * after handling any pending signals. They match with the ones the guest<=
+br>
+- * kernel uses for the same purpose.<br>
+- */<br>
+-#define QEMU_ERESTARTSYS=C2=A0 =C2=A0 =C2=A0512=C2=A0 =C2=A0 =C2=A0/* Rest=
+art system call (if SA_RESTART) */<br>
+-<br>
+-/* QEMU internal, not visible to the guest. This is returned by the<br>
+- * do_sigreturn() code after a successful sigreturn syscall, to indicate<b=
+r>
+- * that it has correctly set the guest registers and so the main loop<br>
+- * should not touch them. We use the value the guest would use for<br>
+- * ERESTART_NOINTR (which is kernel internal) to guarantee that we won&#39=
+;t<br>
+- * clash with a valid guest errno now or in the future.<br>
+- */<br>
+-#define QEMU_ESIGRETURN 513=C2=A0 =C2=A0 =C2=A0/* Return from signal */<br=
+>
+-<br>
+=C2=A0#endif<br>
+diff --git a/linux-user/signal-common.h b/linux-user/signal-common.h<br>
+index b9f33bb44f..42aa479080 100644<br>
+--- a/linux-user/signal-common.h<br>
++++ b/linux-user/signal-common.h<br>
+@@ -20,6 +20,8 @@<br>
+=C2=A0#ifndef SIGNAL_COMMON_H<br>
+=C2=A0#define SIGNAL_COMMON_H<br>
+<br>
 +#include &quot;special-errno.h&quot;<br>
 +<br>
-+_Static_assert(TARGET_ERESTART =3D=3D QEMU_ERESTARTSYS,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;TARGET_ERESTA=
-RT and QEMU_ERESTARTSYS expected to match&quot;);<br>
-<br>
-=C2=A0#endif /* !=C2=A0 _ERRNO_DEFS_H_ */<br>
-diff --git a/bsd-user/special-errno.h b/bsd-user/special-errno.h<br>
+=C2=A0/* Fallback addresses into sigtramp page. */<br>
+=C2=A0extern abi_ulong default_sigreturn;<br>
+=C2=A0extern abi_ulong default_rt_sigreturn;<br>
+diff --git a/linux-user/special-errno.h b/linux-user/special-errno.h<br>
 new file mode 100644<br>
-index 0000000000..03599d9b5a<br>
+index 0000000000..4120455baa<br>
 --- /dev/null<br>
-+++ b/bsd-user/special-errno.h<br>
-@@ -0,0 +1,24 @@<br>
-+/* SPDX-License-Identifier: BSD-3-Clause */<br>
++++ b/linux-user/special-errno.h<br>
+@@ -0,0 +1,32 @@<br>
++/* SPDX-License-Identifier: GPL-2.0-or-later */<br>
 +/*<br>
 + * QEMU internal errno values for implementing user-only POSIX.<br>
 + *<br>
++ *=C2=A0 Copyright (c) 2003 Fabrice Bellard<br>
 + *=C2=A0 Copyright (c) 2021 Linaro, Ltd.<br>
 + */<br>
 +<br>
@@ -228,13 +359,46 @@ index 0000000000..03599d9b5a<br>
 + * main loop that it should wind the guest PC backwards so it will<br>
 + * re-execute the syscall after handling any pending signals.<br>
 + */<br>
-+#define QEMU_ERESTARTSYS=C2=A0 255<br>
++#define QEMU_ERESTARTSYS=C2=A0 512<br>
++<br>
++/*<br>
++ * This is returned after a successful sigreturn syscall, to indicate<br>
++ * that it has correctly set the guest registers and so the main loop<br>
++ * should not touch them.<br>
++ */<br>
++#define QEMU_ESIGRETURN=C2=A0 =C2=A0513<br>
 +<br>
 +#endif /* SPECIAL_ERRNO_H */<br>
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c<br>
+index 1ef6abb776..33d342157d 100644<br>
+--- a/linux-user/syscall.c<br>
++++ b/linux-user/syscall.c<br>
+@@ -136,6 +136,7 @@<br>
+=C2=A0#include &quot;qemu/guest-random.h&quot;<br>
+=C2=A0#include &quot;qemu/selfmap.h&quot;<br>
+=C2=A0#include &quot;user/syscall-trace.h&quot;<br>
++#include &quot;special-errno.h&quot;<br>
+=C2=A0#include &quot;qapi/error.h&quot;<br>
+=C2=A0#include &quot;fd-trans.h&quot;<br>
+=C2=A0#include &quot;tcg/tcg.h&quot;<br>
+diff --git a/linux-user/safe-syscall.S b/linux-user/safe-syscall.S<br>
+index 7ddc997801..74f7e35694 100644<br>
+--- a/linux-user/safe-syscall.S<br>
++++ b/linux-user/safe-syscall.S<br>
+@@ -10,7 +10,7 @@<br>
+=C2=A0 * See the COPYING file in the top-level directory.<br>
+=C2=A0 */<br>
+<br>
+-#include &quot;target_errno_defs.h&quot;<br>
++#include &quot;special-errno.h&quot;<br>
+<br>
+=C2=A0/* We have the correct host directory on our include path<br>
+=C2=A0 * so that this will pull in the right fragment for the architecture.=
+<br>
 -- <br>
 2.25.1<br>
 <br>
 </blockquote></div></div>
 
---000000000000494df405d0ff4562--
+--0000000000007350d305d0ff4745--
 
