@@ -2,63 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 070DA45413C
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 07:49:58 +0100 (CET)
-Received: from localhost ([::1]:42752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AD1145418E
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 08:01:47 +0100 (CET)
+Received: from localhost ([::1]:53454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnElZ-0007z1-41
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 01:49:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53896)
+	id 1mnEx0-0007Qk-4p
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 02:01:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mnEjW-0006JP-En
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 01:47:50 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:60931)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mnEjT-0003yY-BG
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 01:47:50 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.114])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 93984CC006EC;
- Wed, 17 Nov 2021 07:47:44 +0100 (CET)
-Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Wed, 17 Nov
- 2021 07:47:43 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G001c79d167c-1d6d-4ac3-8f0a-a189194091bf,
- 6BDA4A3F9269C8E5581A3C4EE5F64AFAFECCD473) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <662d5a80-967d-fbb5-2ea9-a750036f7fd0@kaod.org>
-Date: Wed, 17 Nov 2021 07:47:43 +0100
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1mnEtQ-0004o8-Rb; Wed, 17 Nov 2021 01:58:04 -0500
+Received: from [2607:f8b0:4864:20::52c] (port=33462
+ helo=mail-pg1-x52c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1mnEtN-0005a1-TN; Wed, 17 Nov 2021 01:58:04 -0500
+Received: by mail-pg1-x52c.google.com with SMTP id 136so1469598pgc.0;
+ Tue, 16 Nov 2021 22:58:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jj2TxrYIZkkNgjx/8vtmRWzq2ea9PiKONmxpwxgAhDY=;
+ b=BnVr06S4ERMIxYe1cRfE3MtTo13gktvHZew95IKpT1/VcYvNZvSMUIr7GUTnXrVEiq
+ yE8PYF86ZcRKHQTUjcYYkhhWqn9qfa00JDGvy5SDKQ2qJs+YoAyjuvVvuawvNSNFSsZV
+ vsgeQKurZQbWMDN5S1U4WKpyizz34xQPRS38qQNFaVs7t/kzH39rfkE5E/KWJeJkiZ6a
+ ErbgeWKmC9zdrzSUYrBHDpY7Cwtu7QGoYBsc8lbDUy/YYv2S092agA2+ydTDLMBLQwes
+ XHHMqdO8TjiOy93h1CwNEaD88VPY3wK8mbU+WU+gv7DRk4k4De7vISVNcMvETOic+m6j
+ p0bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=jj2TxrYIZkkNgjx/8vtmRWzq2ea9PiKONmxpwxgAhDY=;
+ b=JrVmTNKiTpy6gUEMRNcSMJFSHgsrG3PKEeBN5D8jncU3mQ9VbaQybajpCdAkUyTGl1
+ W0yp1/xdm/thmNhRMrt6+9wfkhXFh7g18flkszSoU/o1TzT39QSUW1qdROP1ZOFpAplk
+ UYyfTIUD7VJ9zyOVpwS/dFVBNg0hrG14GEUuRnH1U9d1KD/NdGLeMkPJsDeBg5KlMva3
+ fweHotbtM7W/urXEPLMy+8u377vgLltSIZjsuQSAYtvYyoQr5OkDERpqn/BCBlTQPy09
+ z/3T+1XE5wKxhcAj7VoN5KLOsPfJMvy/szOnDcHAOkIqBgIb9iY1Yq1Y+Cf/6GWiPeZw
+ YVPg==
+X-Gm-Message-State: AOAM530tSfYeLectUhEZQbdzZU2YvnKC4+vH220jiCWTARqCH1Jy9DKD
+ C4CDrLhPrHJrIuJnsgMIZxw=
+X-Google-Smtp-Source: ABdhPJw7KvsJIfolSzLWx3JBIgijBi3MvNAOsB353g8C6eIUZ2c3PNJuNJYGNs8yz0YD06lwvQSSdw==
+X-Received: by 2002:a05:6a00:99b:b0:49f:eab4:4e7e with SMTP id
+ u27-20020a056a00099b00b0049feab44e7emr5031478pfg.63.1637132280099; 
+ Tue, 16 Nov 2021 22:58:00 -0800 (PST)
+Received: from voyager.guest.fluxperth.local
+ (210-10-213-150.per.static-ipl.aapt.com.au. [210.10.213.150])
+ by smtp.gmail.com with ESMTPSA id d13sm21914618pfu.196.2021.11.16.22.57.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Nov 2021 22:57:59 -0800 (PST)
+From: Joel Stanley <joel@jms.id.au>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v2 0/4] docs: aspeed: Minor updates
+Date: Wed, 17 Nov 2021 14:57:48 +0800
+Message-Id: <20211117065752.330632-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [SPAM] [RESEND PATCH 3/3] docs: aspeed: Give an example of
- booting a kernel
-Content-Language: en-US
-To: Joel Stanley <joel@jms.id.au>, Peter Maydell <peter.maydell@linaro.org>
-References: <20211117010947.297540-1-joel@jms.id.au>
- <20211117010947.297540-4-joel@jms.id.au>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20211117010947.297540-4-joel@jms.id.au>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: be29c3b7-fdfc-456d-b93b-e116a56c57fe
-X-Ovh-Tracer-Id: 11930035413495483299
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrfeefgdelkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehgfehvdfhteekuddtfeefffeihfeihfevjeevtddttdehvdehteekgeegkedtjeenucffohhmrghinhepohhpvghnsghmtgdrohhrghdpghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.009,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52c
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=joel.stan@gmail.com; helo=mail-pg1-x52c.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,60 +86,24 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/17/21 02:09, Joel Stanley wrote:
-> A common use case for the ASPEED machine is to boot a Linux kernel.
-> Provide a full example command line.
-> 
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
+Here are some small updates to the aspeed docs.
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+v2: Tweak board changes, add patch to move ADC to the supported list
 
-Thanks
+Joel Stanley (4):
+  docs: aspeed: Add new boards
+  docs: aspeed: Update OpenBMC image URL
+  docs: aspeed: Give an example of booting a kernel
+  docs: aspeed: ADC is now modelled
 
-C.
+ docs/system/arm/aspeed.rst | 26 ++++++++++++++++++++------
+ 1 file changed, 20 insertions(+), 6 deletions(-)
 
-
-> ---
->   docs/system/arm/aspeed.rst | 15 ++++++++++++---
->   1 file changed, 12 insertions(+), 3 deletions(-)
-> 
-> diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
-> index 4bed7b5221b4..de408b0364ea 100644
-> --- a/docs/system/arm/aspeed.rst
-> +++ b/docs/system/arm/aspeed.rst
-> @@ -77,9 +77,9 @@ Missing devices
->   Boot options
->   ------------
->   
-> -The Aspeed machines can be started using the ``-kernel`` option to
-> -load a Linux kernel or from a firmware. Images can be downloaded from
-> -the OpenBMC jenkins :
-> +The Aspeed machines can be started using the ``-kernel`` and ``-dtb`` options
-> +to load a Linux kernel or from a firmware. Images can be downloaded from the
-> +OpenBMC jenkins :
->   
->      https://jenkins.openbmc.org/job/ci-openbmc/lastSuccessfulBuild/
->   
-> @@ -87,6 +87,15 @@ or directly from the OpenBMC GitHub release repository :
->   
->      https://github.com/openbmc/openbmc/releases
->   
-> +To boot a kernel directly from a Linux build tree:
-> +
-> +.. code-block:: bash
-> +
-> +  $ qemu-system-arm -M ast2600-evb -nographic \
-> +        -kernel arch/arm/boot/zImage \
-> +        -dtb arch/arm/boot/dts/aspeed-ast2600-evb.dtb \
-> +        -initrd rootfs.cpio
-> +
->   The image should be attached as an MTD drive. Run :
->   
->   .. code-block:: bash
-> 
+-- 
+2.33.0
 
 
