@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4B3B4548DD
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 15:33:50 +0100 (CET)
-Received: from localhost ([::1]:42288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99493454912
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 15:45:36 +0100 (CET)
+Received: from localhost ([::1]:51646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnM0U-0001Nu-21
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 09:33:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53116)
+	id 1mnMBr-0008My-OO
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 09:45:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1mnLxJ-0005XP-A1; Wed, 17 Nov 2021 09:30:33 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2152)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mnMAW-0007gi-40
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:44:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59953)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1mnLxE-0006Ru-Ix; Wed, 17 Nov 2021 09:30:33 -0500
-Received: from fraeml742-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4HvQL92yfYz67mnw;
- Wed, 17 Nov 2021 22:29:37 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml742-chm.china.huawei.com (10.206.15.223) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 17 Nov 2021 15:30:19 +0100
-Received: from localhost (10.52.126.160) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Wed, 17 Nov
- 2021 14:30:17 +0000
-Date: Wed, 17 Nov 2021 14:30:15 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v2] hw/arm/virt: Expose empty NUMA nodes through ACPI
-Message-ID: <20211117143015.00002e0a@Huawei.com>
-In-Reply-To: <188faab7-1e57-2bc1-846f-9457433c2f9d@redhat.com>
-References: <20211027052958.280741-1-gshan@redhat.com>
- <20211027174028.1f16fcfb@redhat.com>
- <fecb9351-ae78-8fcd-e377-623243ef80df@redhat.com>
- <20211101094431.71e1a50a@redhat.com>
- <47dc3a95-ed77-6c0e-d024-27cb22c338eb@redhat.com>
- <20211102073948.am3p3hcqqd3cfvru@gator.home>
- <b8ed4687-e30a-d70f-0816-bd8ba490ceb7@redhat.com>
- <20211110113304.2d713d4a@redhat.com>
- <5180ecee-62e2-cd6f-d595-c7c29eff6039@redhat.com>
- <20211112142751.4807ab50@redhat.com>
- <188faab7-1e57-2bc1-846f-9457433c2f9d@redhat.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mnMAS-0000JQ-Bz
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:44:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637160246;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FT9oiPnbhJHTNI13Qz4HBR6YUgfP+HBUgdAHEXGS6NM=;
+ b=Yz6rL/8DarSdh3uEqBkQvfvn8dmI0fQ9cGiUxR7mg/OxPKeNTa3sU9d5uy/IPIBMqsxsAC
+ bQFpAd8mGWr+8l7kIZe7VRqlSYZvVQvu6l879R8H8pE3iOcyY5Ni6k6Yy5V30UKsasAdeu
+ qOQ8ePjJ4Bv/+MLeK918RbwEWYRavsI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-436-puJgkb1HMASKfaiIR1ganA-1; Wed, 17 Nov 2021 09:44:02 -0500
+X-MC-Unique: puJgkb1HMASKfaiIR1ganA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D43419251A2;
+ Wed, 17 Nov 2021 14:44:01 +0000 (UTC)
+Received: from [10.39.195.37] (unknown [10.39.195.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F293860BF1;
+ Wed, 17 Nov 2021 14:43:57 +0000 (UTC)
+Message-ID: <cd1b4dcd-01c3-33e0-6525-cbcbcc24a165@redhat.com>
+Date: Wed, 17 Nov 2021 15:43:56 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.52.126.160]
-X-ClientProxiedBy: lhreml719-chm.china.huawei.com (10.201.108.70) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v3 3/3] docs: rSTify the "SubmitAPatch" wiki
+To: Kashyap Chamarthy <kchamart@redhat.com>
+References: <20211110144902.388183-1-kchamart@redhat.com>
+ <20211110144902.388183-4-kchamart@redhat.com>
+ <e0229a36-b8bd-3822-9994-46279bfa138c@redhat.com> <YZTYo3H6TZheGbrj@paraplu>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <YZTYo3H6TZheGbrj@paraplu>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.009, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,83 +81,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Andrew
- Jones <drjones@redhat.com>, Gavin Shan <gshan@redhat.com>, ehabkost@redhat.com,
- alison.schofield@intel.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, shan.gavin@gmail.com,
- Igor Mammedov <imammedo@redhat.com>, Dan
- Williams <dan.j.williams@intel.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Nov 2021 12:11:29 +0100
-David Hildenbrand <david@redhat.com> wrote:
-
-> >>
-> >> Examples include exposing HBM or PMEM to the VM. Just like on real HW,
-> >> this memory is exposed via cpu-less, special nodes. In contrast to real
-> >> HW, the memory is hotplugged later (I don't think HW supports hotplug
-> >> like that yet, but it might just be a matter of time).  
-> > 
-> > I suppose some of that maybe covered by GENERIC_AFFINITY entries in SRAT
-> > some by MEMORY entries. Or nodes created dynamically like with normal
-> > hotplug memory.
-> >   
-
-The naming of the define is unhelpful.  GENERIC_AFFINITY here corresponds
-to Generic Initiator Affinity.  So no good for memory. This is meant for
-representation of accelerators / network cards etc so you can get the NUMA
-characteristics for them accessing Memory in other nodes.
-
-My understanding of 'traditional' memory hotplug is that typically the
-PA into which memory is hotplugged is known at boot time whether or not
-the memory is physically present.  As such, you present that in SRAT and rely
-on the EFI memory map / other information sources to know the memory isn't
-there.  When it is hotplugged later the address is looked up in SRAT to identify
-the NUMA node.
-
-That model is less useful for more flexible entities like virtio-mem or
-indeed physical hardware such as CXL type 3 memory devices which typically
-need their own nodes.
-
-For the CXL type 3 option, currently proposal is to use the CXL table entries
-representing Physical Address space regions to work out how many NUMA nodes
-are needed and just create extra ones at boot.
-https://lore.kernel.org/linux-cxl/163553711933.2509508.2203471175679990.stgit@dwillia2-desk3.amr.corp.intel.com
-
-It's a heuristic as we might need more nodes to represent things well kernel
-side, but it's better than nothing and less effort that true dynamic node creation.
-If you chase through the earlier versions of Alison's patch you will find some
-discussion of that.
-
-I wonder if virtio-mem should just grow a CDAT instance via a DOE?
-
-That would make all this stuff discoverable via PCI config space rather than ACPI
-CDAT is at:
-https://uefi.org/sites/default/files/resources/Coherent%20Device%20Attribute%20Table_1.01.pdf
-but the table access protocol over PCI DOE is currently in the CXL 2.0 spec
-(nothing stops others using it though AFAIK).
-
-However, then we'd actually need either dynamic node creation in the OS, or
-some sort of reserved pool of extra nodes.  Long term it may be the most
-flexible option.
-
-Jonathan
-
+On 17/11/2021 11.25, Kashyap Chamarthy wrote:
+...
+>>> +QEMU follows the usual standard for git commit messages: the first line
+>>> +(which becomes the email subject line) is "subsystem: single line
+>>> +summary of change". Whether the "single line summary of change" starts
+>>> +with a capital is a matter of taste, but we prefer that the summary does
+>>> +not end in ".".
+>>
+>> That ".". looks a little bit weird in the output ... maybe we should replace
+>> it with "does not end with a dot." ?
 > 
-> I'm certainly no SRAT expert, but seems like under VMWare something
-> similar can happen:
+> Re-looking the output, yes it does look odd.  And yes, your amendment
+> is good.
+
+I haven't updated that one while picking up the patch - so we might want to 
+fix it with an additional patch on top.
+
+>>> +The body of the commit message is a good place to document why your
+>>> +change is important. Don't include comments like "This is a suggestion
+>>> +for fixing this bug" (they can go below the "---" line in the email so
+>>
+>> That --- gets translated into a — character ... I'll replace the "---" with
+>> ``---`` to fix it.
 > 
-> https://lkml.kernel.org/r/BAE95F0C-FAA7-40C6-A0D6-5049B1207A27@vmware.com
+> Ah, when I locally ran `rst2html5 submitting-a-patch.rst
+> submitting-a-patch.html` it retained the "---", but when I built QEMU
+> (`configure --target-list=x86_64-softmmu --enable-docs`), Sphinx does
+> turn it into an em-dash (—), and missed to notice it.
 > 
-> "VM was powered on with 4 vCPUs (4 NUMA nodes) and 4GB memory.
-> ACPI SRAT reports 128 possible CPUs and 128 possible NUMA nodes."
-> 
-> Note that that discussion is about hotplugging CPUs to memory-less,
-> hotplugged nodes.
-> 
-> But there seems to be some way to expose possible NUMA nodes. Maybe
-> that's via GENERIC_AFFINITY.
-> 
+> Thanks for the careful review and submitting the PR.  I'm assuming I
+> don't need to respin a v4.
+
+Right, patches have been merged now.
+
+Something I just noticed afterwards, after looking at the pages online: 
+https://www.qemu.org/docs/master/devel/submitting-a-pull-request.html uses 
+"Submit" in the heading, while 
+https://www.qemu.org/docs/master/devel/submitting-a-patch.html uses 
+"Submitting" ... looks a little bit inconsequent ... should we change it to 
+use one form only? The Wiki used "submit", not "submitting", so maybe use 
+that one?
+
+  Thomas
 
 
