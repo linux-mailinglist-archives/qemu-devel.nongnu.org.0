@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E88D7454BED
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 18:25:14 +0100 (CET)
-Received: from localhost ([::1]:44658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0B20454BF1
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 18:27:16 +0100 (CET)
+Received: from localhost ([::1]:49822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnOgM-000833-1t
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 12:25:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45968)
+	id 1mnOiI-0003D0-Pz
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 12:27:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mnOeK-0005yw-Td
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:23:08 -0500
-Received: from [2607:f8b0:4864:20::92a] (port=43824
- helo=mail-ua1-x92a.google.com)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mnOfF-0007RI-LZ
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:24:05 -0500
+Received: from [2607:f8b0:4864:20::a33] (port=39582
+ helo=mail-vk1-xa33.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mnOeI-0007MG-G6
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:23:08 -0500
-Received: by mail-ua1-x92a.google.com with SMTP id v3so7479910uam.10
- for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 09:23:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mnOfD-0007Rc-4U
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 12:24:05 -0500
+Received: by mail-vk1-xa33.google.com with SMTP id 84so2102307vkc.6
+ for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 09:24:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cDh/9Ps5xmCX0SztBCecwni7ZK3boq9655ER6pE3aqw=;
- b=i9AHYsZFiMfngbGznnpKaLbebGzY+LxI0b3mALar8Iu72O1K+Y7wQrg/V0uscm+2wi
- 62LH/H3hSYBRbTOOj14JnJ44ZytcLBjseYzjNUsX3vwRdAQSSQjxTtM9EDorFvByrv42
- WUbf5cpMA/fxv//0On9B5kUZI9j/jl5aYExjIZxHwi7zQOJdtjVaj04QaqNXwiO56+7B
- RjDKfKGuvPvlrqjiRA046UQlJjMeklZrEKbNukoz/JSJuFXMGwS6AnqI/eZWyQVL7X0A
- 768GcIjMOEyHFMDZdNSzcgGuz1JEbsZctUx47JU1pRCVUD2LUreKBWte61OKDZiuq38I
- c2/A==
+ :cc; bh=E8ROAbyxBQ7HhFlJ3EVCuw5TdKYaoqOln6a2ZTjiKTI=;
+ b=CD9XkgHBp/FAJqRSG+eI6FghvbrtnaOETuhAy9FiRIJ4DVDhBJXsZsJwrFSsIuqy45
+ 8Is5M4xfub8QJOKmGaCKjN4v15QxIxOfhH6+uXYFZxEuLOB3AVN/ZYpiLahGx+kb+ozA
+ 7orrREfMddK7iopZyDQi4oQtBuYdUbEapiN6vbXvJgq4lgXWCgIJjSKcBYpMWidOxAJ7
+ ZN4nw8o54qQu4uBr5QqxPbkdYsZsGu0ukJHAJaHSd073e0fP5iaRF50vMDJCyjYuVFIE
+ cnjf13nxgx2xaxlt9zY7+AtUVb/NATDe8f2YBpz0jpjIc/+V4q0gEcP7GwKvv15d3bmY
+ FGOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=cDh/9Ps5xmCX0SztBCecwni7ZK3boq9655ER6pE3aqw=;
- b=BSv0+jRKY2JfI0SgWBwNdH7glr0ZXPPCKnkwbX1rZ6xLieW1o2Yf8e/y7gmpp5KIf0
- aPjKoJNXZKQJ1qhB9lkseGdB5/aGUoxsPjJ6+sy3bUk0qmnusl+52xg0+eCNZ/9waesJ
- rsARA/5kjH31b+C573fgKvJNGyuL7a2z/kzoKNuXAoJfCBUtVPaw7D7LZ2pGlQsLOsL/
- +dA0zmvSAaL6KoXpRAkac+76KAnXZUR0yQAmBcRtfKTQLxCMSOQ0T5JOKym/Dcmx5zju
- 1VKdfHPUQoEsOUaQ4lJR3cuQqc5GbvdR907gt9wQ4HZT+cLeYzQPo+CRUi23+f+v0oJ2
- caVg==
-X-Gm-Message-State: AOAM530lD9Jh2hwUETuCSD6z+IfMlsCnos8GQgoyFXnwXjvToZy+56YM
- oUFodCcRF2rLGuZJwG6dj5gGerOzFQwVGUu9E/uTwQ==
-X-Google-Smtp-Source: ABdhPJx1TmBRKLZrtdvo2Y7WMe8fEZGiSCX4kBWqqK8Npc8ofFi6r7V5pTYM5qNJXQiM5V7RZQz24FhT+WQudbLa9mU=
-X-Received: by 2002:a05:6102:5f2:: with SMTP id
- w18mr73331271vsf.6.1637169784488; 
- Wed, 17 Nov 2021 09:23:04 -0800 (PST)
+ bh=E8ROAbyxBQ7HhFlJ3EVCuw5TdKYaoqOln6a2ZTjiKTI=;
+ b=u0TCSxeuj+baHcVpoE09VPw59u7WIkuGCoJhtG5hyjSFFBXRevNq+vnU9MzNuqGz7m
+ w5NggHtK+dtmHy7SwJzCN03Ags5opuxokMXWBggESqxX1JxWr4QVHoKIYR4TR62pUe3v
+ +1GNhcqXhSMwR3zIrFUkcM3Y+B6KX4t+r6BXddFMf7UirR4nQT2NY/Y426A5Pqn2+BXf
+ o2+2+pIhgTkLk4c5DRGqrjpfQyL4Autk2xlQ6jOUxEWG/mFLIRNu4YXloWtRsesQ3HnP
+ jpDAEVsQ9qp2fQy+PtIbqfjywmaKwX57GxmY7SakCx/B8UvfiKDh7gCzj0l17IzFt44y
+ Wv6Q==
+X-Gm-Message-State: AOAM530X6oE6ZZiyDPUQaCiJppTF3+m0c50xMLR1kb2TXpF/eGryiKhh
+ 7un2zN84/STftfUlnLOWfOKxQgs6J1BzAXMuSR0xfA==
+X-Google-Smtp-Source: ABdhPJylzyBOcSpfQSGsMDGkFWDAt64B/zI0BAMJqD8I5+p+S/TtHSO2VxhO+1Rfmm/xbvAHnL/3Jwj7S+lZm04RLVA=
+X-Received: by 2002:a05:6122:114c:: with SMTP id
+ p12mr91255505vko.21.1637169842092; 
+ Wed, 17 Nov 2021 09:24:02 -0800 (PST)
 MIME-Version: 1.0
 References: <20211117160412.71563-1-richard.henderson@linaro.org>
- <20211117160412.71563-14-richard.henderson@linaro.org>
-In-Reply-To: <20211117160412.71563-14-richard.henderson@linaro.org>
+ <20211117160412.71563-15-richard.henderson@linaro.org>
+In-Reply-To: <20211117160412.71563-15-richard.henderson@linaro.org>
 From: Warner Losh <imp@bsdimp.com>
-Date: Wed, 17 Nov 2021 10:22:54 -0700
-Message-ID: <CANCZdfrKhaD3mROd+G_q-HM_nJFm8fQmnRDy43gsM1Ec8Rzz9w@mail.gmail.com>
-Subject: Re: [PATCH v5 13/17] meson: Add build infrastructure for common-user
+Date: Wed, 17 Nov 2021 10:23:52 -0700
+Message-ID: <CANCZdfrprQmrSg-n+SRihVJXs=n8PR1PYtZRSr21Joc7f8S=6g@mail.gmail.com>
+Subject: Re: [PATCH v5 14/17] common-user: Move safe-syscall.* from linux-user
 To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000007114d705d0ff4b0d"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92a
+Content-Type: multipart/alternative; boundary="000000000000e019c305d0ff4e71"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a33
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::92a;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92a.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::a33;
+ envelope-from=wlosh@bsdimp.com; helo=mail-vk1-xa33.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -84,110 +84,93 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000007114d705d0ff4b0d
+--000000000000e019c305d0ff4e71
 Content-Type: text/plain; charset="UTF-8"
 
 On Wed, Nov 17, 2021 at 9:04 AM Richard Henderson <
 richard.henderson@linaro.org> wrote:
 
-> The first objects to be added will be target-independent,
-> and so built once for the host.
+> Move linux-user/safe-syscall.S to common-user so that bsd-user
+> can also use it.  Also move safe-syscall.h to include/user/.
+> Since there is nothing here that is related to the guest, as
+> opposed to the host, build it once.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  meson.build             | 16 +++++++++++++++-
->  bsd-user/meson.build    |  2 ++
->  common-user/meson.build |  1 +
->  linux-user/meson.build  |  3 +++
->  4 files changed, 21 insertions(+), 1 deletion(-)
->  create mode 100644 common-user/meson.build
+>  {linux-user => include/user}/safe-syscall.h | 0
+>  linux-user/signal.c                         | 2 +-
+>  linux-user/syscall.c                        | 2 +-
+>  common-user/meson.build                     | 2 ++
+>  {linux-user => common-user}/safe-syscall.S  | 0
+>  linux-user/meson.build                      | 1 -
+>  6 files changed, 4 insertions(+), 3 deletions(-)
+>  rename {linux-user => include/user}/safe-syscall.h (100%)
+>  rename {linux-user => common-user}/safe-syscall.S (100%)
 >
 
 Reviewed-by: Warner Losh <imp@bsdimp.com>
 
 
-> diff --git a/meson.build b/meson.build
-> index c58abf0d0d..387f7fe1c9 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -2359,6 +2359,7 @@ block_ss = ss.source_set()
->  bsd_user_ss = ss.source_set()
->  chardev_ss = ss.source_set()
->  common_ss = ss.source_set()
-> +common_user_ss = ss.source_set()
->  crypto_ss = ss.source_set()
->  hwcore_ss = ss.source_set()
->  io_ss = ss.source_set()
-> @@ -2603,15 +2604,28 @@ subdir('tcg')
->  subdir('fpu')
->  subdir('accel')
->  subdir('plugins')
-> +subdir('ebpf')
-> +
-> +common_user_inc = []
-> +
-> +subdir('common-user')
->  subdir('bsd-user')
->  subdir('linux-user')
-> -subdir('ebpf')
+> diff --git a/linux-user/safe-syscall.h b/include/user/safe-syscall.h
+> similarity index 100%
+> rename from linux-user/safe-syscall.h
+> rename to include/user/safe-syscall.h
+> diff --git a/linux-user/signal.c b/linux-user/signal.c
+> index 12b1705287..510db73c34 100644
+> --- a/linux-user/signal.c
+> +++ b/linux-user/signal.c
+> @@ -31,7 +31,7 @@
+>  #include "trace.h"
+>  #include "signal-common.h"
+>  #include "host-signal.h"
+> -#include "safe-syscall.h"
+> +#include "user/safe-syscall.h"
 >
->  specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
+>  static struct target_sigaction sigact_table[TARGET_NSIG];
 >
->  linux_user_ss.add(files('thunk.c'))
->  specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss)
->
-> +common_user_ss = common_user_ss.apply(config_all, strict: false)
-> +common_user = static_library('common-user',
-> +                             sources: common_user_ss.sources(),
-> +                             dependencies: common_user_ss.dependencies(),
-> +                             include_directories: common_user_inc)
-> +common_user = declare_dependency(link_with: common_user)
-> +
-> +user_ss.add(common_user)
-> +
->  # needed for fuzzing binaries
->  subdir('tests/qtest/libqos')
->  subdir('tests/qtest/fuzz')
-> diff --git a/bsd-user/meson.build b/bsd-user/meson.build
-> index 87885d91ed..25c3976ead 100644
-> --- a/bsd-user/meson.build
-> +++ b/bsd-user/meson.build
-> @@ -2,6 +2,8 @@ if not have_bsd_user
->     subdir_done()
->  endif
->
-> +common_user_inc += include_directories('.')
-> +
->  bsd_user_ss.add(files(
->    'bsdload.c',
->    'elfload.c',
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 33d342157d..53deb887ca 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -132,7 +132,7 @@
+>  #include "signal-common.h"
+>  #include "loader.h"
+>  #include "user-mmap.h"
+> -#include "safe-syscall.h"
+> +#include "user/safe-syscall.h"
+>  #include "qemu/guest-random.h"
+>  #include "qemu/selfmap.h"
+>  #include "user/syscall-trace.h"
 > diff --git a/common-user/meson.build b/common-user/meson.build
-> new file mode 100644
-> index 0000000000..4f5c0f2f88
-> --- /dev/null
+> index 4f5c0f2f88..c02b5d9cc2 100644
+> --- a/common-user/meson.build
 > +++ b/common-user/meson.build
-> @@ -0,0 +1 @@
-> +common_user_inc += include_directories('host/' / config_host['ARCH'])
+> @@ -1 +1,3 @@
+>  common_user_inc += include_directories('host/' / config_host['ARCH'])
+> +
+> +common_user_ss.add(files('safe-syscall.S'))
+> diff --git a/linux-user/safe-syscall.S b/common-user/safe-syscall.S
+> similarity index 100%
+> rename from linux-user/safe-syscall.S
+> rename to common-user/safe-syscall.S
 > diff --git a/linux-user/meson.build b/linux-user/meson.build
-> index bf62c13e37..d6fa4f4d74 100644
+> index d6fa4f4d74..bf9d945504 100644
 > --- a/linux-user/meson.build
 > +++ b/linux-user/meson.build
-> @@ -2,6 +2,9 @@ if not have_linux_user
->     subdir_done()
->  endif
->
-> +common_user_inc += include_directories('host/' / config_host['ARCH'])
-> +common_user_inc += include_directories('.')
-> +
->  linux_user_ss.add(files(
->    'elfload.c',
->    'exit.c',
+> @@ -12,7 +12,6 @@ linux_user_ss.add(files(
+>    'linuxload.c',
+>    'main.c',
+>    'mmap.c',
+> -  'safe-syscall.S',
+>    'signal.c',
+>    'strace.c',
+>    'syscall.c',
 > --
 > 2.25.1
 >
 >
 
---0000000000007114d705d0ff4b0d
+--000000000000e019c305d0ff4e71
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -196,112 +179,91 @@ Content-Transfer-Encoding: quoted-printable
 rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
 nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
 " style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">The first objects to be added will be target-independent,=
-<br>
-and so built once for the host.<br>
+padding-left:1ex">Move linux-user/safe-syscall.S to common-user so that bsd=
+-user<br>
+can also use it.=C2=A0 Also move safe-syscall.h to include/user/.<br>
+Since there is nothing here that is related to the guest, as<br>
+opposed to the host, build it once.<br>
 <br>
 Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
 naro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
 ---<br>
-=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 16 +++++=
-++++++++++-<br>
-=C2=A0bsd-user/meson.build=C2=A0 =C2=A0 |=C2=A0 2 ++<br>
-=C2=A0common-user/meson.build |=C2=A0 1 +<br>
-=C2=A0linux-user/meson.build=C2=A0 |=C2=A0 3 +++<br>
-=C2=A04 files changed, 21 insertions(+), 1 deletion(-)<br>
-=C2=A0create mode 100644 common-user/meson.build<br></blockquote><div><br><=
-/div><div>Reviewed-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com">im=
-p@bsdimp.com</a>&gt;</div><div>=C2=A0</div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">
-diff --git a/meson.build b/meson.build<br>
-index c58abf0d0d..387f7fe1c9 100644<br>
---- a/meson.build<br>
-+++ b/meson.build<br>
-@@ -2359,6 +2359,7 @@ block_ss =3D ss.source_set()<br>
-=C2=A0bsd_user_ss =3D ss.source_set()<br>
-=C2=A0chardev_ss =3D ss.source_set()<br>
-=C2=A0common_ss =3D ss.source_set()<br>
-+common_user_ss =3D ss.source_set()<br>
-=C2=A0crypto_ss =3D ss.source_set()<br>
-=C2=A0hwcore_ss =3D ss.source_set()<br>
-=C2=A0io_ss =3D ss.source_set()<br>
-@@ -2603,15 +2604,28 @@ subdir(&#39;tcg&#39;)<br>
-=C2=A0subdir(&#39;fpu&#39;)<br>
-=C2=A0subdir(&#39;accel&#39;)<br>
-=C2=A0subdir(&#39;plugins&#39;)<br>
-+subdir(&#39;ebpf&#39;)<br>
-+<br>
-+common_user_inc =3D []<br>
-+<br>
-+subdir(&#39;common-user&#39;)<br>
-=C2=A0subdir(&#39;bsd-user&#39;)<br>
-=C2=A0subdir(&#39;linux-user&#39;)<br>
--subdir(&#39;ebpf&#39;)<br>
+=C2=A0{linux-user =3D&gt; include/user}/safe-syscall.h | 0<br>
+=C2=A0linux-user/signal.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
+=C2=A0linux-user/syscall.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
+=C2=A0common-user/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 ++<br>
+=C2=A0{linux-user =3D&gt; common-user}/safe-syscall.S=C2=A0 | 0<br>
+=C2=A0linux-user/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 1 -<br>
+=C2=A06 files changed, 4 insertions(+), 3 deletions(-)<br>
+=C2=A0rename {linux-user =3D&gt; include/user}/safe-syscall.h (100%)<br>
+=C2=A0rename {linux-user =3D&gt; common-user}/safe-syscall.S (100%)<br></bl=
+ockquote><div><br></div><div>Reviewed-by: Warner Losh &lt;<a href=3D"mailto=
+:imp@bsdimp.com">imp@bsdimp.com</a>&gt;</div><div>=C2=A0</div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex">
+diff --git a/linux-user/safe-syscall.h b/include/user/safe-syscall.h<br>
+similarity index 100%<br>
+rename from linux-user/safe-syscall.h<br>
+rename to include/user/safe-syscall.h<br>
+diff --git a/linux-user/signal.c b/linux-user/signal.c<br>
+index 12b1705287..510db73c34 100644<br>
+--- a/linux-user/signal.c<br>
++++ b/linux-user/signal.c<br>
+@@ -31,7 +31,7 @@<br>
+=C2=A0#include &quot;trace.h&quot;<br>
+=C2=A0#include &quot;signal-common.h&quot;<br>
+=C2=A0#include &quot;host-signal.h&quot;<br>
+-#include &quot;safe-syscall.h&quot;<br>
++#include &quot;user/safe-syscall.h&quot;<br>
 <br>
-=C2=A0specific_ss.add_all(when: &#39;CONFIG_BSD_USER&#39;, if_true: bsd_use=
-r_ss)<br>
+=C2=A0static struct target_sigaction sigact_table[TARGET_NSIG];<br>
 <br>
-=C2=A0linux_user_ss.add(files(&#39;thunk.c&#39;))<br>
-=C2=A0specific_ss.add_all(when: &#39;CONFIG_LINUX_USER&#39;, if_true: linux=
-_user_ss)<br>
-<br>
-+common_user_ss =3D common_user_ss.apply(config_all, strict: false)<br>
-+common_user =3D static_library(&#39;common-user&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sources: common_user_ss.sources(),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dependencies: common_user_ss.dependencies(),=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0include_directories: common_user_inc)<br>
-+common_user =3D declare_dependency(link_with: common_user)<br>
-+<br>
-+user_ss.add(common_user)<br>
-+<br>
-=C2=A0# needed for fuzzing binaries<br>
-=C2=A0subdir(&#39;tests/qtest/libqos&#39;)<br>
-=C2=A0subdir(&#39;tests/qtest/fuzz&#39;)<br>
-diff --git a/bsd-user/meson.build b/bsd-user/meson.build<br>
-index 87885d91ed..25c3976ead 100644<br>
---- a/bsd-user/meson.build<br>
-+++ b/bsd-user/meson.build<br>
-@@ -2,6 +2,8 @@ if not have_bsd_user<br>
-=C2=A0 =C2=A0 subdir_done()<br>
-=C2=A0endif<br>
-<br>
-+common_user_inc +=3D include_directories(&#39;.&#39;)<br>
-+<br>
-=C2=A0bsd_user_ss.add(files(<br>
-=C2=A0 =C2=A0&#39;bsdload.c&#39;,<br>
-=C2=A0 =C2=A0&#39;elfload.c&#39;,<br>
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c<br>
+index 33d342157d..53deb887ca 100644<br>
+--- a/linux-user/syscall.c<br>
++++ b/linux-user/syscall.c<br>
+@@ -132,7 +132,7 @@<br>
+=C2=A0#include &quot;signal-common.h&quot;<br>
+=C2=A0#include &quot;loader.h&quot;<br>
+=C2=A0#include &quot;user-mmap.h&quot;<br>
+-#include &quot;safe-syscall.h&quot;<br>
++#include &quot;user/safe-syscall.h&quot;<br>
+=C2=A0#include &quot;qemu/guest-random.h&quot;<br>
+=C2=A0#include &quot;qemu/selfmap.h&quot;<br>
+=C2=A0#include &quot;user/syscall-trace.h&quot;<br>
 diff --git a/common-user/meson.build b/common-user/meson.build<br>
-new file mode 100644<br>
-index 0000000000..4f5c0f2f88<br>
---- /dev/null<br>
+index 4f5c0f2f88..c02b5d9cc2 100644<br>
+--- a/common-user/meson.build<br>
 +++ b/common-user/meson.build<br>
-@@ -0,0 +1 @@<br>
-+common_user_inc +=3D include_directories(&#39;host/&#39; / config_host[&#3=
-9;ARCH&#39;])<br>
+@@ -1 +1,3 @@<br>
+=C2=A0common_user_inc +=3D include_directories(&#39;host/&#39; / config_hos=
+t[&#39;ARCH&#39;])<br>
++<br>
++common_user_ss.add(files(&#39;safe-syscall.S&#39;))<br>
+diff --git a/linux-user/safe-syscall.S b/common-user/safe-syscall.S<br>
+similarity index 100%<br>
+rename from linux-user/safe-syscall.S<br>
+rename to common-user/safe-syscall.S<br>
 diff --git a/linux-user/meson.build b/linux-user/meson.build<br>
-index bf62c13e37..d6fa4f4d74 100644<br>
+index d6fa4f4d74..bf9d945504 100644<br>
 --- a/linux-user/meson.build<br>
 +++ b/linux-user/meson.build<br>
-@@ -2,6 +2,9 @@ if not have_linux_user<br>
-=C2=A0 =C2=A0 subdir_done()<br>
-=C2=A0endif<br>
-<br>
-+common_user_inc +=3D include_directories(&#39;host/&#39; / config_host[&#3=
-9;ARCH&#39;])<br>
-+common_user_inc +=3D include_directories(&#39;.&#39;)<br>
-+<br>
-=C2=A0linux_user_ss.add(files(<br>
-=C2=A0 =C2=A0&#39;elfload.c&#39;,<br>
-=C2=A0 =C2=A0&#39;exit.c&#39;,<br>
+@@ -12,7 +12,6 @@ linux_user_ss.add(files(<br>
+=C2=A0 =C2=A0&#39;linuxload.c&#39;,<br>
+=C2=A0 =C2=A0&#39;main.c&#39;,<br>
+=C2=A0 =C2=A0&#39;mmap.c&#39;,<br>
+-=C2=A0 &#39;safe-syscall.S&#39;,<br>
+=C2=A0 =C2=A0&#39;signal.c&#39;,<br>
+=C2=A0 =C2=A0&#39;strace.c&#39;,<br>
+=C2=A0 =C2=A0&#39;syscall.c&#39;,<br>
 -- <br>
 2.25.1<br>
 <br>
 </blockquote></div></div>
 
---0000000000007114d705d0ff4b0d--
+--000000000000e019c305d0ff4e71--
 
