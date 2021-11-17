@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AD1145418E
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B74345418D
 	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 08:01:47 +0100 (CET)
-Received: from localhost ([::1]:53454 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:53420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnEx0-0007Qk-4p
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 02:01:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57258)
+	id 1mnEwz-0007PK-ED
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 02:01:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1mnEtQ-0004o8-Rb; Wed, 17 Nov 2021 01:58:04 -0500
-Received: from [2607:f8b0:4864:20::52c] (port=33462
- helo=mail-pg1-x52c.google.com)
+ id 1mnEtT-0004pA-4W; Wed, 17 Nov 2021 01:58:07 -0500
+Received: from [2607:f8b0:4864:20::434] (port=35507
+ helo=mail-pf1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1mnEtN-0005a1-TN; Wed, 17 Nov 2021 01:58:04 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id 136so1469598pgc.0;
- Tue, 16 Nov 2021 22:58:01 -0800 (PST)
+ id 1mnEtQ-0005aP-U9; Wed, 17 Nov 2021 01:58:06 -0500
+Received: by mail-pf1-x434.google.com with SMTP id c4so1779548pfj.2;
+ Tue, 16 Nov 2021 22:58:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jj2TxrYIZkkNgjx/8vtmRWzq2ea9PiKONmxpwxgAhDY=;
- b=BnVr06S4ERMIxYe1cRfE3MtTo13gktvHZew95IKpT1/VcYvNZvSMUIr7GUTnXrVEiq
- yE8PYF86ZcRKHQTUjcYYkhhWqn9qfa00JDGvy5SDKQ2qJs+YoAyjuvVvuawvNSNFSsZV
- vsgeQKurZQbWMDN5S1U4WKpyizz34xQPRS38qQNFaVs7t/kzH39rfkE5E/KWJeJkiZ6a
- ErbgeWKmC9zdrzSUYrBHDpY7Cwtu7QGoYBsc8lbDUy/YYv2S092agA2+ydTDLMBLQwes
- XHHMqdO8TjiOy93h1CwNEaD88VPY3wK8mbU+WU+gv7DRk4k4De7vISVNcMvETOic+m6j
- p0bA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Rm42Lk94YomucCdJ+zK88nEj8TVK864syUAadVvPAHg=;
+ b=OGWVeIT5FrMCKQSOE3hASEvw8yee3NPdXGIcyOwBzVdTnaGE5epV1iTPgDRr/TcjoT
+ y1kkMxrnp4qJs9FeowDudtvFWSrzLvKUI1fnM8XT6pheKsXDB9y9fSHzRE1PcfKaHPI7
+ VXR+U4Egyl0AH/nbURVDwCwpdYOHj0gHw3XrqSDZosV8W9XTtqBGaaJdMfVin09R96FM
+ iyDECxTcPkvr8k9UUtAj/RAVshX0wLt0c/G1Q1vrp3Ic2pDXLNim6xtKj82dwKfgjPQU
+ VrBOIhxKmPBKbrjxkqjS4NFE45cNs9CciJXpdpuPlphDWXfYXr7kNWi3qJk/Mulf22IW
+ H8Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=jj2TxrYIZkkNgjx/8vtmRWzq2ea9PiKONmxpwxgAhDY=;
- b=JrVmTNKiTpy6gUEMRNcSMJFSHgsrG3PKEeBN5D8jncU3mQ9VbaQybajpCdAkUyTGl1
- W0yp1/xdm/thmNhRMrt6+9wfkhXFh7g18flkszSoU/o1TzT39QSUW1qdROP1ZOFpAplk
- UYyfTIUD7VJ9zyOVpwS/dFVBNg0hrG14GEUuRnH1U9d1KD/NdGLeMkPJsDeBg5KlMva3
- fweHotbtM7W/urXEPLMy+8u377vgLltSIZjsuQSAYtvYyoQr5OkDERpqn/BCBlTQPy09
- z/3T+1XE5wKxhcAj7VoN5KLOsPfJMvy/szOnDcHAOkIqBgIb9iY1Yq1Y+Cf/6GWiPeZw
- YVPg==
-X-Gm-Message-State: AOAM530tSfYeLectUhEZQbdzZU2YvnKC4+vH220jiCWTARqCH1Jy9DKD
- C4CDrLhPrHJrIuJnsgMIZxw=
-X-Google-Smtp-Source: ABdhPJw7KvsJIfolSzLWx3JBIgijBi3MvNAOsB353g8C6eIUZ2c3PNJuNJYGNs8yz0YD06lwvQSSdw==
-X-Received: by 2002:a05:6a00:99b:b0:49f:eab4:4e7e with SMTP id
- u27-20020a056a00099b00b0049feab44e7emr5031478pfg.63.1637132280099; 
- Tue, 16 Nov 2021 22:58:00 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=Rm42Lk94YomucCdJ+zK88nEj8TVK864syUAadVvPAHg=;
+ b=AJVS1TIiQ+q8+RxIX8MSzNQhjAwCWEgzbgwtL4BemCiOMBA58PwQ8/eGNFwv+BMkea
+ /sEm1MLrXao56nDqN5XVz3qux+fKq+bsCRI2A2G4liw05Kn3tjRpuCa5poEJTA/hWHd+
+ 4Eemk3fvRmQIYbCLqL0AybEFV/OvYP3KXT5u4SuQy1mUx4gtZOBkxH1GfZU8dRZyiEaT
+ EAw2JyDFjdAElCFkbOnqQMc3ow0hsbRfavRnsjmYDLAitqvrbt75wFLZiw94PeKbY6wB
+ xHxWx7dZZCjTnBT2An8Pv9nZjxbw+V9kOecv2MvES1baFSA8XZLl5tbnGI4R2IkYwluV
+ ujuA==
+X-Gm-Message-State: AOAM531im33ucUUrp9RPssFeo0GfqmtYL/MXWws2tqdBLKZACKpb302v
+ K+KnuZQuvS1AQGNI2973OS3GQYZJad4fRw2P
+X-Google-Smtp-Source: ABdhPJwNfA9K8SFhILGax2jBY08oT6ubCWqPVSWSRmjpWKEaaBQ8YBCTWM3uCv8lcEVDoapVj8D+wg==
+X-Received: by 2002:a65:40c2:: with SMTP id u2mr3595892pgp.309.1637132283392; 
+ Tue, 16 Nov 2021 22:58:03 -0800 (PST)
 Received: from voyager.guest.fluxperth.local
  (210-10-213-150.per.static-ipl.aapt.com.au. [210.10.213.150])
- by smtp.gmail.com with ESMTPSA id d13sm21914618pfu.196.2021.11.16.22.57.56
+ by smtp.gmail.com with ESMTPSA id d13sm21914618pfu.196.2021.11.16.22.58.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Nov 2021 22:57:59 -0800 (PST)
+ Tue, 16 Nov 2021 22:58:02 -0800 (PST)
 From: Joel Stanley <joel@jms.id.au>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 0/4] docs: aspeed: Minor updates
-Date: Wed, 17 Nov 2021 14:57:48 +0800
-Message-Id: <20211117065752.330632-1-joel@jms.id.au>
+Subject: [PATCH v2 1/4] docs: aspeed: Add new boards
+Date: Wed, 17 Nov 2021 14:57:49 +0800
+Message-Id: <20211117065752.330632-2-joel@jms.id.au>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211117065752.330632-1-joel@jms.id.au>
+References: <20211117065752.330632-1-joel@jms.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=joel.stan@gmail.com; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=joel.stan@gmail.com; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -90,19 +90,49 @@ Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Here are some small updates to the aspeed docs.
+Add X11, FP5280G2, G220A, Rainier and Fuji. Mention that Swift will be
+removed in v7.0.
 
-v2: Tweak board changes, add patch to move ADC to the supported list
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+v2:
+ - Add POWER10 to Rainier description
+ - Include Fuji
+ - Mention Swift to be removed
+---
+ docs/system/arm/aspeed.rst | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Joel Stanley (4):
-  docs: aspeed: Add new boards
-  docs: aspeed: Update OpenBMC image URL
-  docs: aspeed: Give an example of booting a kernel
-  docs: aspeed: ADC is now modelled
-
- docs/system/arm/aspeed.rst | 26 ++++++++++++++++++++------
- 1 file changed, 20 insertions(+), 6 deletions(-)
-
+diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
+index cec87e3743d0..41a9bd5608e8 100644
+--- a/docs/system/arm/aspeed.rst
++++ b/docs/system/arm/aspeed.rst
+@@ -14,6 +14,7 @@ AST2400 SoC based machines :
+ 
+ - ``palmetto-bmc``         OpenPOWER Palmetto POWER8 BMC
+ - ``quanta-q71l-bmc``      OpenBMC Quanta BMC
++- ``supermicrox11-bmc``    Supermicro X11 BMC
+ 
+ AST2500 SoC based machines :
+ 
+@@ -21,12 +22,16 @@ AST2500 SoC based machines :
+ - ``romulus-bmc``          OpenPOWER Romulus POWER9 BMC
+ - ``witherspoon-bmc``      OpenPOWER Witherspoon POWER9 BMC
+ - ``sonorapass-bmc``       OCP SonoraPass BMC
+-- ``swift-bmc``            OpenPOWER Swift BMC POWER9
++- ``swift-bmc``            OpenPOWER Swift BMC POWER9 (to be removed in v7.0)
++- ``fp5280g2-bmc``         Inspur FP5280G2 BMC
++- ``g220a-bmc``            Bytedance G220A BMC
+ 
+ AST2600 SoC based machines :
+ 
+ - ``ast2600-evb``          Aspeed AST2600 Evaluation board (Cortex-A7)
+ - ``tacoma-bmc``           OpenPOWER Witherspoon POWER9 AST2600 BMC
++- ``rainier-bmc``          IBM Rainier POWER10 BMC
++- ``fuji-bmc``             Facebook Fuji BMC
+ 
+ Supported devices
+ -----------------
 -- 
 2.33.0
 
