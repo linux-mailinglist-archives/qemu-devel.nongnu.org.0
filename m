@@ -2,55 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58DE245495D
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 15:56:10 +0100 (CET)
-Received: from localhost ([::1]:40892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF23445498E
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Nov 2021 16:05:00 +0100 (CET)
+Received: from localhost ([::1]:58748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnMM5-0003Uy-De
-	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 09:56:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57554)
+	id 1mnMUd-00063l-T1
+	for lists+qemu-devel@lfdr.de; Wed, 17 Nov 2021 10:04:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mnME3-0004nR-6H
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:47:51 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:53912)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1mnMHY-00084k-LW
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:51:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mnME1-0000pV-Cv
- for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:47:50 -0500
-Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id 624AF21EB7;
- Wed, 17 Nov 2021 14:47:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1637160468;
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1mnMHW-0001KQ-SB
+ for qemu-devel@nongnu.org; Wed, 17 Nov 2021 09:51:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637160686;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JBsdMz226FRzvgeaZm+rQwc/P25DSmwFqWH2z4XEGQY=;
- b=dUbzycmYQkLmTewH5wPv2cxiDIZ4UXtD/OY00lrUx32XKdO0PhCXTiiMBLR1L8TsZ0u7hs
- geXd2rbe2ow8plJy62fvQkfVde4EAInrZmxjsKf7ih7z1JYx87XwAkK3q9UP6H0mZmqy53
- tKRA8nFt2Im6S8su5LRm+cME/fUKNFw=
-From: Damien Hedde <damien.hedde@greensocs.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v3 5/5] docs/system: improve doc about preconfig
-Date: Wed, 17 Nov 2021 15:47:03 +0100
-Message-Id: <20211117144703.16305-6-damien.hedde@greensocs.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211117144703.16305-1-damien.hedde@greensocs.com>
-References: <20211117144703.16305-1-damien.hedde@greensocs.com>
+ bh=gjRJ6lldJemyZgZOtiYGs3pK+XjAHeyoYXvEdaIeYgQ=;
+ b=ZnTt9VrNSvA6zN13s+ijGmGoJMN+i28tcEChzacln2vkQAwVuIC3DUmw+evZmUbs2BRrEF
+ gusaTSefvFtLmLR70sYAfoLRUsB1jT3XTmC51T0LPk9u4YkQ/GZr94e9Ab7kvRSIbf8urV
+ i5FSy1k3/JFYwOTBeSpz9KSK8mosX8Y=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-457-sBb6-mX2OoyCzyOXtTeumA-1; Wed, 17 Nov 2021 09:51:24 -0500
+X-MC-Unique: sBb6-mX2OoyCzyOXtTeumA-1
+Received: by mail-pj1-f71.google.com with SMTP id
+ p8-20020a17090a748800b001a6cceee8afso1187819pjk.4
+ for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 06:51:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=gjRJ6lldJemyZgZOtiYGs3pK+XjAHeyoYXvEdaIeYgQ=;
+ b=QLx3hcgWmlbpj6XtdLJWa1NZsqsukFd44yA+CriPrNAFDIk9Ue727HYktn7Ef0MF4C
+ dLOdZDHbnEvjIy3F0cv99S/ygARw1KBITg9158AXRGnhPyh9Swy/gs63nXDenMCLKGKF
+ IQB7MsHJp8Fh1WTwJja7ghB9KmZPAWsGP0RuSE3A2XTlz4egVoPR4Dkhow37hLVeRp9e
+ SFwti0FRPzDEZ128onOebCWYIq7r8nIihc4WW/O5eFE2gNMprPwStpwvOWzXlY8anOg/
+ odzBrSl9Q1AaQKZl+b1Qh9ouPu2lKEDIlyUuFJLAvrhRZZfvY4MIq5HsPToCtSTVJ6Q8
+ M94w==
+X-Gm-Message-State: AOAM530cfZdDYP2uOTzn/Ohceeu6p7cOIexYfAMh+ut+NllayV2e5P71
+ Sxw6RgNEl43XJwFpG7z1oaYW4hdZ35UHnHq4/crMiccfVswtnPsDz+a9giuEnVT+SSOdsV+msGj
+ uO/wbatdazhOtFeQDuUcvzFSh6zjWNHQ=
+X-Received: by 2002:aa7:83cd:0:b0:480:9e79:fae5 with SMTP id
+ j13-20020aa783cd000000b004809e79fae5mr7560573pfn.42.1637160683772; 
+ Wed, 17 Nov 2021 06:51:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxlm14Rs+ebQYDnqEeaQOy0iAKsq68yAMjGAqHtLE0H60hVmkjFcvAo58VoBK+m7JfshUvWgnL/Ztpm7xDYSP4=
+X-Received: by 2002:aa7:83cd:0:b0:480:9e79:fae5 with SMTP id
+ j13-20020aa783cd000000b004809e79fae5mr7560547pfn.42.1637160683526; Wed, 17
+ Nov 2021 06:51:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam: Yes
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211117142349.836279-1-d-tatianin@yandex-team.ru>
+In-Reply-To: <20211117142349.836279-1-d-tatianin@yandex-team.ru>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Wed, 17 Nov 2021 18:51:11 +0400
+Message-ID: <CAMxuvaxp0x805rOPA8YsQfGEPHBz=pTVvwiHot5UGVwdbEOKFw@mail.gmail.com>
+Subject: Re: [PATCH v1] chardev/wctable: don't free the instance in
+ wctablet_chr_finalize
+To: Daniil Tatianin <d-tatianin@yandex-team.ru>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,71 +93,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, edgar.iglesias@xilinx.com,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Eric Blake <eblake@redhat.com>, Mark Burton <mark.burton@greensocs.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- Mirela Grujic <mirela.grujic@greensocs.com>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: "Bonzini, Paolo" <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ yc-core@yandex-team.ru, qemu-stable <qemu-stable@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Separate -S / -preconfig sections and improve a bit the preconfig part.
+Hi
 
-Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-Signed-off-by: Mirela Grujic <mirela.grujic@greensocs.com>
----
- docs/system/managed-startup.rst | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+On Wed, Nov 17, 2021 at 6:25 PM Daniil Tatianin
+<d-tatianin@yandex-team.ru> wrote:
+>
+> Object is supposed to be freed by invoking obj->free, and not
+> obj->instance_finalize. This would lead to use-after-free followed by
+> double free in object_unref/object_finalize.
+>
+> Signed-off-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
 
-diff --git a/docs/system/managed-startup.rst b/docs/system/managed-startup.rst
-index 9bcf98ea79..e1cdbb79b1 100644
---- a/docs/system/managed-startup.rst
-+++ b/docs/system/managed-startup.rst
-@@ -1,6 +1,9 @@
- Managed start up options
- ========================
- 
-+CPU Frezee start
-+----------------
-+
- In system mode emulation, it's possible to create a VM in a paused
- state using the ``-S`` command line option. In this state the machine
- is completely initialized according to command line options and ready
-@@ -20,7 +23,12 @@ allowing VM code to run.
- 
- However, at the ``-S`` pause point, it's impossible to configure options
- that affect initial VM creation (like: ``-smp``/``-m``/``-numa`` ...) or
--cold plug devices. The experimental ``--preconfig`` command line option
-+cold plug devices.
-+
-+Preconfig (experimental)
-+------------------------
-+
-+The experimental ``--preconfig`` command line option
- allows pausing QEMU before the initial VM creation, in a "preconfig" state,
- where additional queries and configuration can be performed via QMP
- before moving on to the resulting configuration startup. In the
-@@ -32,4 +40,14 @@ machine, including but not limited to:
- - ``query-qmp-schema``
- - ``query-commands``
- - ``query-status``
-+- ``query-machine-phase``
-+- ``x-machine-init``
- - ``x-exit-preconfig``
-+
-+Some commands make QEMU to progress along the VM creation procedure:
-+
-+- ``x-machine-init`` initializes the machine. Devices can be added only after
-+  this command has been issued.
-+
-+- ``x-exit-preconfig`` leaves the preconfig state. It can be issued at any time
-+  during preconfig and it will finish the VM creation.
--- 
-2.33.0
+Fixes: 378af96155d62 ("Add wctablet device")
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+> ---
+>  chardev/wctablet.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/chardev/wctablet.c b/chardev/wctablet.c
+> index e9cb7ca710..fa3c9be04e 100644
+> --- a/chardev/wctablet.c
+> +++ b/chardev/wctablet.c
+> @@ -318,7 +318,6 @@ static void wctablet_chr_finalize(Object *obj)
+>      TabletChardev *tablet =3D WCTABLET_CHARDEV(obj);
+>
+>      qemu_input_handler_unregister(tablet->hs);
+> -    g_free(tablet);
+>  }
+>
+>  static void wctablet_chr_open(Chardev *chr,
+> --
+> 2.25.1
+>
 
 
