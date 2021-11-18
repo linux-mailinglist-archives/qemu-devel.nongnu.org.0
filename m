@@ -2,93 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E724557FB
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 10:28:09 +0100 (CET)
-Received: from localhost ([::1]:33916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9FCD45586A
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 10:57:48 +0100 (CET)
+Received: from localhost ([::1]:42842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mndiC-0005qD-7c
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 04:28:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46602)
+	id 1mneAt-0005Qp-Gz
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 04:57:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mndh8-0004YM-6D
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 04:27:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40644)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mne9C-0004bO-8t
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 04:56:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31757)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mndh3-000474-QC
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 04:27:00 -0500
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mne98-00008p-GB
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 04:56:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637227615;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1637229355;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yoMlMbjOLou7oWY05JOs5t/+3A/OE0/XrWc6UJLPEeo=;
- b=TOSQgAGq8csyM1EwdJ+xTrF83mOr62osS0RYiPxaSrlY7CyGJ+EGQsaidai1czmrICDmh9
- DxLeZs1A+NSqY0b/TTyJnZmPcY0l9JrEjbG0nUUnq2AlNwsJQah5YUev2tdFt8hshg1qgJ
- SX5AXVbIkVzIkOfk23TmI8J+QF1K7P0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-544-N4cR7ip5NoyAQKf72rTpTA-1; Thu, 18 Nov 2021 04:26:50 -0500
-X-MC-Unique: N4cR7ip5NoyAQKf72rTpTA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- k8-20020a5d5248000000b001763e7c9ce5so916125wrc.22
- for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 01:26:50 -0800 (PST)
+ bh=GgtS2qtEPtxWdGSRN9DUq/i1FFQwam8T+4l41ksykJg=;
+ b=cvMnxpyiwHMSGhvg7dqCAYinNfDMYvVCwU8Sh3xsqyypIwX+vyvKnxHFVmR0iyJZ1zO1Ht
+ FEs/YvQVBgfj1nPNA7CWXOdDEnzU47wBwkjiVlbRCrKcKJLLVnMq/bW5aFpSW0zTu6Kd7y
+ KO1ef0NRwefuD7kyoG/v15S442+P+38=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-427-Bv7TlfErMbSHYX_b-auzUg-1; Thu, 18 Nov 2021 04:55:53 -0500
+X-MC-Unique: Bv7TlfErMbSHYX_b-auzUg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ q17-20020aa7da91000000b003e7c0641b9cso4795590eds.12
+ for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 01:55:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=yoMlMbjOLou7oWY05JOs5t/+3A/OE0/XrWc6UJLPEeo=;
- b=NXwA0n0y06Uq6oBCtGHqtxPQMdYwOm4vqV9eWjAyLixhQ/wXRK2cnuMaB+ig85EfnA
- 91GGGE/J2nrt8rwH7MrHA6FyrHJHV1JomhNyESd4WN+ODDgt+YCrCdtKvsMEoYz5wjh7
- RjVhVLle3UaU6Cz/U+aMCWQO93sNi4akc3jBF6PMVpUWTp1p0eYmbTbihmvyiR6NJhLJ
- LtlvLcmoVbEtbS8kjsDPj4iQCiC9mhHEQEi7F+x0g+eOhDDVEavsvUVorEl4AqCXFw1P
- FFkBfH8F7T+/UR+E8i+goc7hE8pPh0Zy9idHtpSnO6xTmjKZiRGJyd0DrEjAC5ZL5ASu
- jl/g==
-X-Gm-Message-State: AOAM533bchLniJsjCyoFrqf9T9ZUbiuOXTInnlpzOtrfWS+li0Zw33U8
- ZZdkLRAAgfhluSjMxD6x5QLon6VPjPBSJorbJ1JTBwWgCUsBsuN+2H92wiW4GxV7SiXBSzKIpUd
- ta58XsipJ7uYlZbk=
-X-Received: by 2002:a1c:158:: with SMTP id 85mr8136594wmb.182.1637227609065;
- Thu, 18 Nov 2021 01:26:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxa2dBfMALigBiCZfMy9jB2psa0L2wg93WTeGPOfEzmc7dh/x402YcCfAVbViM+0KR9iuAdxw==
-X-Received: by 2002:a1c:158:: with SMTP id 85mr8136566wmb.182.1637227608818;
- Thu, 18 Nov 2021 01:26:48 -0800 (PST)
-Received: from localhost (static-233-86-86-188.ipcom.comunitel.net.
- [188.86.86.233])
- by smtp.gmail.com with ESMTPSA id p62sm2410722wmp.10.2021.11.18.01.26.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Nov 2021 01:26:48 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v1 1/3] migration/dirtyrate: implement vCPU dirtyrate
- calculation periodically
-In-Reply-To: <499bdfeea4b19ef44a36e0fbb5be3e0d51765430.1637214721.git.huangy81@chinatelecom.cn>
- (huangy's message of "Thu, 18 Nov 2021 14:07:20 +0800")
-References: <cover.1637214721.git.huangy81@chinatelecom.cn>
- <cover.1637214721.git.huangy81@chinatelecom.cn>
- <499bdfeea4b19ef44a36e0fbb5be3e0d51765430.1637214721.git.huangy81@chinatelecom.cn>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Thu, 18 Nov 2021 10:26:47 +0100
-Message-ID: <87tug9rezs.fsf@secure.mitica>
+ bh=GgtS2qtEPtxWdGSRN9DUq/i1FFQwam8T+4l41ksykJg=;
+ b=zImcPoxvXnPy+t/j7KZa4ycDvh5Ny7FahQF3pBuMhK9tmwZ5K3i4Q4ZsG6MEMej7RB
+ BC2xN21d5u+0l2aPu0zA2OOfDr0WYGGDIK5T3RM+AjRmLaj2U4xQ0sC7jNMQ7dwU9Y6d
+ 61Pmjjxzi2FVAmkxVqJOgzAunrtHIXt69Tndz9nJ/Yli7WcwzRpOf4LrQ8P7qXRSD+Hi
+ t6OuKnUOl0CVRiFRlT1d2gxAbH6ALQVRHpK7XlWRjYQbCKJl6DKhfAtxST/smNlvq9B3
+ uTGni/15VQ1ScWefWGyxJc0UZ5G59Wd5m6XxSD9sFPVo9EjCZ8Be/C2SlRjpAMoERGDq
+ ZzKg==
+X-Gm-Message-State: AOAM531bItYngws50//H/m9xYnd+b6j1UsE3yUQ/XB5FgXr1z9GucVOn
+ 8SIaJwI7vfq6MjKwuRA9VOlb8XoX/5B9sgjH217vRB9DjExCDkedfMTlJW7YeB3xh6/KUqIHe+f
+ wC9Vnn4eCm7ZKg9U=
+X-Received: by 2002:a50:cd87:: with SMTP id p7mr9343790edi.205.1637229352249; 
+ Thu, 18 Nov 2021 01:55:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyBG+fsJjzwkNtu4VO86Qu/yeu41wamt0n2xNuEmEmpUwIQARdOjCjM8EKfmU/mbBUE8QGe6A==
+X-Received: by 2002:a50:cd87:: with SMTP id p7mr9343717edi.205.1637229351839; 
+ Thu, 18 Nov 2021 01:55:51 -0800 (PST)
+Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
+ ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id sb19sm1136164ejc.120.2021.11.18.01.55.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Nov 2021 01:55:51 -0800 (PST)
+Message-ID: <ff4a4c8e-93c3-2954-27ef-68587f3868ec@redhat.com>
+Date: Thu, 18 Nov 2021 10:55:49 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v4 08/25] block: introduce assert_bdrv_graph_writable
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
+References: <20211025101735.2060852-1-eesposit@redhat.com>
+ <20211025101735.2060852-9-eesposit@redhat.com>
+ <734073bb-80e6-3caf-d6b5-c8f2ade86044@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <734073bb-80e6-3caf-d6b5-c8f2ade86044@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-1.084, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,124 +103,223 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: David Hildenbrand <david@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-huangy81@chinatelecom.cn wrote:
-> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
->
-> introduce the third method GLOBAL_DIRTY_RESTRAINT of dirty
-> tracking for calculate dirtyrate periodly for dirty restraint.
->
-> implement thread for calculate dirtyrate periodly, which will
-> be used for dirty restraint.
->
-> add dirtyrestraint.h to introduce the util function for dirty
-> restrain.
->
-> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
 
-Some comentes:
+On 12/11/2021 15:40, Hanna Reitz wrote:
+> On 25.10.21 12:17, Emanuele Giuseppe Esposito wrote:
+>> We want to be sure that the functions that write the child and
+>> parent list of a bs are under BQL and drain.
+>>
+>> BQL prevents from concurrent writings from the GS API, while
+>> drains protect from I/O.
+>>
+>> TODO: drains are missing in some functions using this assert.
+>> Therefore a proper assertion will fail. Because adding drains
+>> requires additional discussions, they will be added in future
+>> series.
+>>
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+>> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+>> ---
+>>   block.c                                |  5 +++++
+>>   block/io.c                             | 11 +++++++++++
+>>   include/block/block_int-global-state.h | 10 +++++++++-
+>>   3 files changed, 25 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/block.c b/block.c
+>> index 41c5883c5c..94bff5c757 100644
+>> --- a/block.c
+>> +++ b/block.c
+>> @@ -2734,12 +2734,14 @@ static void 
+>> bdrv_replace_child_noperm(BdrvChild *child,
+>>           if (child->klass->detach) {
+>>               child->klass->detach(child);
+>>           }
+>> +        assert_bdrv_graph_writable(old_bs);
+>>           QLIST_REMOVE(child, next_parent);
+> 
+> I think this belongs above the .detach() call (and the QLIST_REMOVE() 
+> belongs into the .detach() implementation, as done in 
+> https://lists.nongnu.org/archive/html/qemu-block/2021-11/msg00240.html, 
+> which has been merged to Kevin’s block branch).
 
-> +void dirtyrestraint_calc_start(void);
-> +
-> +void dirtyrestraint_calc_state_init(int max_cpus);
+Yes, I rebased on kwolf/block branch. Thank you for pointing that out.
+> 
+>>       }
+>>       child->bs = new_bs;
+>>       if (new_bs) {
+>> +        assert_bdrv_graph_writable(new_bs);
+>>           QLIST_INSERT_HEAD(&new_bs->parents, child, next_parent);
+> 
+> In both these places it’s a bit strange that the assertion is done on 
+> the child nodes.  The subgraph starting from them isn’t modified after 
+> all, so their subgraph technically doesn’t need to be writable.  I think 
+> a single assertion on the parent node would be preferable.
+> 
+> I presume the problem with that is that we don’t have the parent node 
+> here?  Do we need a new BdrvChildClass method that performs this 
+> assertion on the parent node?
+> 
 
-dirtylimit_? instead of restraint.
+Uhm I am not sure what you mean here.
 
-We have a start function, but I can't see a finish/end/stop functions.
+Just to recap on how I see this: the assertion 
+assert_bdrv_graph_writable(bs) is basically used to make sure we are 
+protecting the write on some fields (childrens and parents lists in this 
+patch) of a given @bs. It should work like a rwlock: reading is allowed 
+to be concurrent, but a write should stop all readers to prevent 
+concurrency issues. This is achieved by draining.
 
-> +#define DIRTYRESTRAINT_CALC_TIME_MS         1000    /* 1000ms */
-> +
-> +struct {
-> +    DirtyRatesData data;
-> +    int64_t period;
-> +    bool enable;
+Let's use the first case that you point out, old_bs (it's specular for 
+new_bs):
 
-Related to previous comment.  I can't see where we set enable to 1, but
-nowhere were we set it back to 0, so this never finish.
+ >> +        assert_bdrv_graph_writable(old_bs);
+ >>           QLIST_REMOVE(child, next_parent);
 
-> +    QemuCond ready_cond;
-> +    QemuMutex ready_mtx;
+So old_bs should be the child "son" (child->bs), meaning old_bs->parents 
+contains the child. Therefore when a child is removed by old_bs, we need 
+to be sure we are doing it safely.
 
-This is a question of style, but when you only have a mutex and a cond
-in one struct, you can use the "cond" and "mutex" names.
+So we should check that if old_bs exists, old_bs should be drained, to 
+prevent any other iothread from reading the ->parents list that is being 
+updated.
 
-But as said, it is a question of style, if you preffer do it this way.
+The only thing to keep in mind in this case is that just wrapping a 
+drain around that won't be enough, because then the child won't be 
+included in the drain_end(old_bs). Therefore the right way to cover this 
+drain-wise once the assertion also checks for drains is:
 
-> +static inline void record_dirtypages(DirtyPageRecord *dirty_pages,
-> +                                     CPUState *cpu, bool start);
+drain_begin(old_bs)
+assert_bdrv_graph_writable(old_bs)
+QLIST_REMOVE(child, next_parent)
+/* old_bs will be under drain_end, but not the child */
+bdrv_parent_drained_end_single(child);
+bdrv_drained_end(old_bs);
 
-You have put the code at the beggining of the file, if you put it at the
-end of it, I think you can avoid this forward declaration.
+I think you agree on this so far.
 
-> +static void dirtyrestraint_calc_func(void)
-> +{
-> +    CPUState *cpu;
-> +    DirtyPageRecord *dirty_pages;
-> +    int64_t start_time, end_time, calc_time;
-> +    DirtyRateVcpu rate;
-> +    int i =3D 0;
-> +
-> +    dirty_pages =3D g_malloc0(sizeof(*dirty_pages) *
-> +        dirtyrestraint_calc_state->data.nvcpu);
-> +
-> +    dirtyrestraint_global_dirty_log_start();
-> +
-> +    CPU_FOREACH(cpu) {
-> +        record_dirtypages(dirty_pages, cpu, true);
-> +    }
-> +
-> +    start_time =3D qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-> +    g_usleep(DIRTYRESTRAINT_CALC_TIME_MS * 1000);
-> +    end_time =3D qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-> +    calc_time =3D end_time - start_time;
-> +
-> +    dirtyrestraint_global_dirty_log_stop();
-> +
-> +    CPU_FOREACH(cpu) {
-> +        record_dirtypages(dirty_pages, cpu, false);
-> +    }
-> +
-> +    for (i =3D 0; i < dirtyrestraint_calc_state->data.nvcpu; i++) {
-> +        uint64_t increased_dirty_pages =3D
-> +            dirty_pages[i].end_pages - dirty_pages[i].start_pages;
-> +        uint64_t memory_size_MB =3D
-> +            (increased_dirty_pages * TARGET_PAGE_SIZE) >> 20;
-> +        int64_t dirtyrate =3D (memory_size_MB * 1000) / calc_time;
-> +
-> +        rate.id =3D i;
-> +        rate.dirty_rate  =3D dirtyrate;
-> +        dirtyrestraint_calc_state->data.rates[i] =3D rate;
-> +
-> +        trace_dirtyrate_do_calculate_vcpu(i,
-> +            dirtyrestraint_calc_state->data.rates[i].dirty_rate);
-> +    }
-> +
-> +    return;
+Now I think your concern is related to the child "parent", namely 
+child->opaque. The problem is that in the .detach and .attach callbacks 
+we are firstly adding/removing the child from the list, and then calling 
+drain on the subtree. We would ideally need to do the opposite:
 
-unnecesary return;
+assert_bdrv_graph_writable(bs);
+QLIST_REMOVE(child, next);
+bdrv_unapply_subtree_drain(child, bs);
 
-> +}
-> +
-> +static void *dirtyrestraint_calc_thread(void *opaque)
-> +{
-> +    rcu_register_thread();
-> +
-> +    while (qatomic_read(&dirtyrestraint_calc_state->enable)) {
-> +        dirtyrestraint_calc_func();
-> +        dirtyrestraint_calc_state->ready =3D true;
+In this case I think this would actually work, because removing/adding 
+the child from the ->children list beforehand just prevents an 
+additional recursion call (I think, and the fact that tests are passing 
+seems to confirm my theory).
 
-           You really need this to be a global variable?  You can pass
-           it on the opaque, no?
+Of course you know this stuff better than me, so let me know if 
+something here is wrong.
 
-Later, Juan.
+>>           /*
+>> @@ -2940,6 +2942,7 @@ static int 
+>> bdrv_attach_child_noperm(BlockDriverState *parent_bs,
+>>           return ret;
+>>       }
+>> +    assert_bdrv_graph_writable(parent_bs);
+>>       QLIST_INSERT_HEAD(&parent_bs->children, *child, next);
+>>       /*
+>>        * child is removed in bdrv_attach_child_common_abort(), so 
+>> don't care to
+>> @@ -3140,6 +3143,7 @@ static void 
+>> bdrv_unset_inherits_from(BlockDriverState *root, BdrvChild *child,
+>>   void bdrv_unref_child(BlockDriverState *parent, BdrvChild *child)
+>>   {
+>>       assert(qemu_in_main_thread());
+>> +    assert_bdrv_graph_writable(parent);
+> 
+> It looks to me like we have this assertion mainly because 
+> bdrv_replace_child_noperm() doesn’t have a pointer to this parent node. 
+> It’s a workaround, but we should have this in every path that eventually 
+> ends up at bdrv_replace_child_noperm(), and that seems rather difficult 
+> for the bdrv_replace_node() family of functions. That to me sounds like 
+> it’d be good to have this as a BdrvChildClass function.
+
+I think this assertion is wrong. There is no ->childrens or ->parents 
+manipulation here, it used to be in one of the function that it calls 
+internally, but now as you pointed out is moved to .attach and .detach. 
+So I will remove this.
+
+Not sure about the BdrvChildClass function, feel free to elaborate more 
+if what I wrote above is wrong/does not make sense to you.
+
+Thank you,
+Emanuele
+> 
+>>       if (child == NULL) {
+>>           return;
+>>       }
+>> @@ -4903,6 +4907,7 @@ static void 
+>> bdrv_remove_filter_or_cow_child_abort(void *opaque)
+>>       BdrvRemoveFilterOrCowChild *s = opaque;
+>>       BlockDriverState *parent_bs = s->child->opaque;
+>> +    assert_bdrv_graph_writable(parent_bs);
+>>       QLIST_INSERT_HEAD(&parent_bs->children, s->child, next);
+>>       if (s->is_backing) {
+>>           parent_bs->backing = s->child;
+>> diff --git a/block/io.c b/block/io.c
+>> index f271ab3684..1c71e354d6 100644
+>> --- a/block/io.c
+>> +++ b/block/io.c
+>> @@ -740,6 +740,17 @@ void bdrv_drain_all(void)
+>>       bdrv_drain_all_end();
+>>   }
+>> +void assert_bdrv_graph_writable(BlockDriverState *bs)
+>> +{
+>> +    /*
+>> +     * TODO: this function is incomplete. Because the users of this
+>> +     * assert lack the necessary drains, check only for BQL.
+>> +     * Once the necessary drains are added,
+>> +     * assert also for qatomic_read(&bs->quiesce_counter) > 0
+>> +     */
+>> +    assert(qemu_in_main_thread());
+>> +}
+>> +
+>>   /**
+>>    * Remove an active request from the tracked requests list
+>>    *
+>> diff --git a/include/block/block_int-global-state.h 
+>> b/include/block/block_int-global-state.h
+>> index d08e80222c..6bd7746409 100644
+>> --- a/include/block/block_int-global-state.h
+>> +++ b/include/block/block_int-global-state.h
+>> @@ -316,4 +316,12 @@ void 
+>> bdrv_remove_aio_context_notifier(BlockDriverState *bs,
+>>    */
+>>   void bdrv_drain_all_end_quiesce(BlockDriverState *bs);
+>> -#endif /* BLOCK_INT_GLOBAL_STATE*/
+>> +/**
+>> + * Make sure that the function is either running under
+>> + * drain and BQL. The latter protects from concurrent writings
+> 
+> “either ... and” sounds wrong to me.  I’d drop the “either” or say 
+> “running under both drain and BQL”.
+> 
+> Hanna
+> 
+>> + * from the GS API, while the former prevents concurrent reads
+>> + * from I/O.
+>> + */
+>> +void assert_bdrv_graph_writable(BlockDriverState *bs);
+>> +
+>> +#endif /* BLOCK_INT_GLOBAL_STATE */
+> 
 
 
