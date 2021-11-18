@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4777E455B4E
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 13:11:56 +0100 (CET)
-Received: from localhost ([::1]:40372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED00455B55
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 13:14:02 +0100 (CET)
+Received: from localhost ([::1]:46498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mngGh-0006Mc-1i
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 07:11:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34032)
+	id 1mngIj-0002Er-2o
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 07:14:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mngBo-0001f4-CO
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 07:06:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49536)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mngCC-0001vJ-GJ
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 07:07:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28677)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mngBi-00043S-Ff
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 07:06:48 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mngBo-00044h-4H
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 07:07:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637237205;
+ s=mimecast20190719; t=1637237211;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jQgJq8UQRrsSz2LTJWEcm7fv7ub6tAHvzmzHdQGoASg=;
- b=HBpSKoYeAVv4UOhO1wV2xr44PzlnKcNpZdeYn2l6S5bUboVFWrmpyZaO+y+Fa3XnecWD0h
- 3MKay3xcduaE4f+DOb6HRV76UvKsniqxS1ZWBUWa/+YUV3MZW1N1+uT9i/AxwmoJDxlm9i
- y+lrsTXhQ9y6GxEFmhon2vfO/5BB0WA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=r59luPWtxRlKzSRSIEGfjHStklJXogUMIUpFeVyWk9E=;
+ b=JdqrpLv9i4w5lCoW9KHtEcZYNmDDLu2cRqMZeITtGA4TraRlqyno+6QQWQdiK2LjgM8ZnS
+ 6r0yEt18STNbaEUxLM1R89p8MAGVqfDRC8IZpw7wI8NLSDKP6WmQMOUl8wHmBelW8lqpy0
+ NWPOwpHKkrMogqymO1+IMQdyMEC20VA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-324-WaUsdVmcNQ6h--U64nvE0Q-1; Thu, 18 Nov 2021 07:06:44 -0500
-X-MC-Unique: WaUsdVmcNQ6h--U64nvE0Q-1
-Received: by mail-wr1-f70.google.com with SMTP id
- b1-20020a5d6341000000b001901ddd352eso1028851wrw.7
- for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 04:06:44 -0800 (PST)
+ us-mta-575-motRABa4OsKtYqW5pgvx2A-1; Thu, 18 Nov 2021 07:06:49 -0500
+X-MC-Unique: motRABa4OsKtYqW5pgvx2A-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 201-20020a1c04d2000000b003335bf8075fso2533929wme.0
+ for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 04:06:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jQgJq8UQRrsSz2LTJWEcm7fv7ub6tAHvzmzHdQGoASg=;
- b=bERJQnxHZoe44RJFOnjNTagUC633NGr6AYUjmRMGsHIpxg4+v0adbtxs3TYRRQSj6q
- bBNFPY9exftejt6LgtkyqMOlJNhmESA+FLD5W1HPXNQw02dTkjVhe8L2xsdY2vo3Tt0K
- rmU+AqdLnXNIoe4TNG7i28TxE0XIx+3xCsOYQoXBr0JUGPjxPozzcDFAkOYaO96RD0OF
- hbT5LEpdCBE+G1XTjz0uX12NhUhT/Lsg2e5K/buPqmz8eog80yNNqGJ7WAEBuO42S28J
- McX0TkT/gGPfX4RNbkpb6nRj4Jis5J4aC4uExzuVgEwHSoyYZvoDXR5AZueZbnPdxyDX
- HjKQ==
-X-Gm-Message-State: AOAM531qTiKEFk/r9CjOx4cMhh5nsJik4EsK4gYzZYrdvY3HoJzDO0yP
- +J8U+QXqDA7L0W7P9AaP5KmsQekc/6+S8yLPNh/l5jQNo039AMd7CaYh60EzF5LtKTN3QzMwuaH
- 90WZYvnSMK3CjH9DZm3OhHkT7SzZL45Ta0byptjaqih+dWdkvov3EZntOJ8vpf+JN
-X-Received: by 2002:a1c:1941:: with SMTP id 62mr9058020wmz.131.1637237203360; 
- Thu, 18 Nov 2021 04:06:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzFsojgTDTDS9qD2uxJc1zleNYE1KqNYZH/RRs2s/DwoXu+ACYb3IKpxcewDzjG9ew7G3vzGA==
-X-Received: by 2002:a1c:1941:: with SMTP id 62mr9057932wmz.131.1637237202796; 
- Thu, 18 Nov 2021 04:06:42 -0800 (PST)
+ bh=r59luPWtxRlKzSRSIEGfjHStklJXogUMIUpFeVyWk9E=;
+ b=S5mLwobH5r4Nq5bpq6vrqwIybf85LpF3xZ1eJ010aZ6AIbhKhs62/cUvW/SUXvnINr
+ c0LYr3QiZq2pRlHSQ9S8ZWA8slpzkZ8dmNha9BlRd+vDoJ76+tSzdq75CpPCEGBanO7h
+ n5ZQTxXfgoQc0+SZkaXqwbwY6Z1IFMWVh01xB7V65BA1D9wB/Sgl6KHaqmSurJM+xflS
+ EsFvpMdCMV/v6kg67GN/LhbKur/JGV9HCh/fv3DGP/GetBwm5c1S/2gZp8yB99NjWB3M
+ BDWOFuZ5+1IYvZPaAFMA3UzX5W2njbwutcGy9TsLhM6ngm9Sei04WNhJddvqNVM0eOY6
+ W3kw==
+X-Gm-Message-State: AOAM532o9mkWqS34D+KfZlngHfcu6sbqAbW9gQ1UsWB/omfxWsgHeVAg
+ ZHg0Zax9ufU1A7c8+n8YkP7uTR4IOzwGP8q2i/BGk8zf4G50TfbVQgJR4pJKJlOnRBh0kl5FIMU
+ kLaBkxzZcFNsZtzfeDp2KnghQ32yliwvheUeICWTFZG4NtyiwxbhpZ8T2tRJ5A/1O
+X-Received: by 2002:a5d:4ecd:: with SMTP id s13mr31232848wrv.400.1637237207913; 
+ Thu, 18 Nov 2021 04:06:47 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz02O8jhQFKBJ2/C66qdQ5YNObQuuEFiySs1in+N4oAqJxslJlPT8ziyIXH+bxhAKN10bScRQ==
+X-Received: by 2002:a5d:4ecd:: with SMTP id s13mr31232792wrv.400.1637237207681; 
+ Thu, 18 Nov 2021 04:06:47 -0800 (PST)
 Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
  by smtp.gmail.com with ESMTPSA id
- z8sm3004513wrh.54.2021.11.18.04.06.41
+ a22sm2855997wme.19.2021.11.18.04.06.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Nov 2021 04:06:42 -0800 (PST)
+ Thu, 18 Nov 2021 04:06:47 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.2 v3 1/2] hw/block/fdc: Kludge missing floppy drive to
- fix CVE-2021-20196
-Date: Thu, 18 Nov 2021 13:06:34 +0100
-Message-Id: <20211118120635.4043197-2-philmd@redhat.com>
+Subject: [PATCH-for-6.2 v3 2/2] tests/qtest/fdc-test: Add a regression test
+ for CVE-2021-20196
+Date: Thu, 18 Nov 2021 13:06:35 +0100
+Message-Id: <20211118120635.4043197-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211118120635.4043197-1-philmd@redhat.com>
 References: <20211118120635.4043197-1-philmd@redhat.com>
@@ -75,15 +75,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,58 +99,81 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Prasad J Pandit <pjp@fedoraproject.org>,
  qemu-block@nongnu.org, Darren Kenny <darren.kenny@oracle.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-stable@nongnu.org,
- Alexander Bulekov <alxndr@bu.edu>, Hanna Reitz <hreitz@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Hanna Reitz <hreitz@redhat.com>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Gaoning Pan <pgn@zju.edu.cn>,
  John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Guest might select another drive on the bus by setting the
-DRIVE_SEL bit of the DIGITAL OUTPUT REGISTER (DOR).
-The current controller model doesn't expect a BlockBackend
-to be NULL. A simple way to fix CVE-2021-20196 is to create
-an empty BlockBackend when it is missing. All further
-accesses will be safely handled, and the controller state
-machines keep behaving correctly.
+From: Alexander Bulekov <alxndr@bu.edu>
 
-Cc: qemu-stable@nongnu.org
-Fixes: CVE-2021-20196
-Reported-by: Gaoning Pan (Ant Security Light-Year Lab) <pgn@zju.edu.cn>
-BugLink: https://bugs.launchpad.net/qemu/+bug/1912780
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/338
+Without the previous commit, when running 'make check-qtest-i386'
+with QEMU configured with '--enable-sanitizers' we get:
+
+  AddressSanitizer:DEADLYSIGNAL
+  =================================================================
+  ==287878==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000344
+  ==287878==The signal is caused by a WRITE memory access.
+  ==287878==Hint: address points to the zero page.
+      #0 0x564b2e5bac27 in blk_inc_in_flight block/block-backend.c:1346:5
+      #1 0x564b2e5bb228 in blk_pwritev_part block/block-backend.c:1317:5
+      #2 0x564b2e5bcd57 in blk_pwrite block/block-backend.c:1498:11
+      #3 0x564b2ca1cdd3 in fdctrl_write_data hw/block/fdc.c:2221:17
+      #4 0x564b2ca1b2f7 in fdctrl_write hw/block/fdc.c:829:9
+      #5 0x564b2dc49503 in portio_write softmmu/ioport.c:201:9
+
+Add the reproducer for CVE-2021-20196.
+
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Message-Id: <20210319050906.14875-2-alxndr@bu.edu>
+[PMD: Rebased, use global test_image]
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/block/fdc.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ tests/qtest/fdc-test.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-index d21b717b7d6..6f94b6a6daa 100644
---- a/hw/block/fdc.c
-+++ b/hw/block/fdc.c
-@@ -1161,7 +1161,19 @@ static FDrive *get_drv(FDCtrl *fdctrl, int unit)
- 
- static FDrive *get_cur_drv(FDCtrl *fdctrl)
- {
--    return get_drv(fdctrl, fdctrl->cur_drv);
-+    FDrive *cur_drv = get_drv(fdctrl, fdctrl->cur_drv);
-+
-+    if (!cur_drv->blk) {
-+        /*
-+         * Kludge: empty drive line selected. Create an anonymous
-+         * BlockBackend to avoid NULL deref with various BlockBackend
-+         * API calls within this model (CVE-2021-20196).
-+         * Due to the controller QOM model limitations, we don't
-+         * attach the created to the controller device.
-+         */
-+        cur_drv->blk = blk_new(qemu_get_aio_context(), 0, BLK_PERM_ALL);
-+    }
-+    return cur_drv;
+diff --git a/tests/qtest/fdc-test.c b/tests/qtest/fdc-test.c
+index f164d972d10..0f8b9b753f4 100644
+--- a/tests/qtest/fdc-test.c
++++ b/tests/qtest/fdc-test.c
+@@ -565,6 +565,26 @@ static void test_cve_2021_3507(void)
+     qtest_quit(s);
  }
  
- /* Status A register : 0x00 (read-only) */
++static void test_cve_2021_20196(void)
++{
++    QTestState *s;
++
++    s = qtest_initf("-nographic -m 32M -nodefaults "
++                    "-drive file=%s,format=raw,if=floppy", test_image);
++    qtest_outw(s, 0x3f2, 0x0004);
++    qtest_outw(s, 0x3f4, 0x0200);
++    qtest_outw(s, 0x3f4, 0x0000);
++    qtest_outw(s, 0x3f4, 0x0000);
++    qtest_outw(s, 0x3f4, 0x0000);
++    qtest_outw(s, 0x3f4, 0x0000);
++    qtest_outw(s, 0x3f4, 0x0000);
++    qtest_outw(s, 0x3f4, 0x0000);
++    qtest_outw(s, 0x3f4, 0x0000);
++    qtest_outw(s, 0x3f4, 0x0000);
++    qtest_outw(s, 0x3f2, 0x0001);
++    qtest_quit(s);
++}
++
+ int main(int argc, char **argv)
+ {
+     int fd;
+@@ -596,6 +616,7 @@ int main(int argc, char **argv)
+     qtest_add_func("/fdc/read_no_dma_19", test_read_no_dma_19);
+     qtest_add_func("/fdc/fuzz-registers", fuzz_registers);
+     qtest_add_func("/fdc/fuzz/cve_2021_3507", test_cve_2021_3507);
++    qtest_add_func("/fdc/fuzz/cve_2021_20196", test_cve_2021_20196);
+ 
+     ret = g_test_run();
+ 
 -- 
 2.31.1
 
