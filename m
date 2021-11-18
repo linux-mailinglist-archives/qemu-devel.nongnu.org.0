@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EF2E455D0F
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 14:55:07 +0100 (CET)
-Received: from localhost ([::1]:58924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E724455CF5
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 14:47:33 +0100 (CET)
+Received: from localhost ([::1]:42458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnhsY-0005Sj-8S
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 08:55:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56672)
+	id 1mnhlE-00026r-AK
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 08:47:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mnha7-0008Bw-UR
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 08:36:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25125)
+ id 1mnhaC-0008FH-BN
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 08:36:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44296)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mnha5-0002mE-IH
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 08:36:03 -0500
+ id 1mnha9-0002mv-TU
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 08:36:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637242560;
+ s=mimecast20190719; t=1637242564;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sC2/GhPsa55zwleyfZCLuH4QLV2IrFnSorCZ7OtK/E8=;
- b=d521wthj1v/hspxOmM+NUS+EP++2lYxEuNcZqrgtLQJYlP+z5yQZhi/b01qndAc2QX6e0a
- G4XNQMXaYHOoWy2QY/SgJGQ9vfFkscfbY0QJRX8cCEVHzgLtGDq9vHXzghDYmVJyEr2ASN
- 8JAaWDJy7QNWgg42RqCQTAwYkiTZxYM=
+ bh=uIRPYc+XbbN/gDdZNFNpMojMoOex7CBq55PiFFzw3r8=;
+ b=DNJAMmpzz3QyXEW2XCBB4qRsx64kbFozComG9iZ6Pxl4QBCojAMRmKNHYS48EZs7JxbGlm
+ 4AUNb4iBazSGTs47u89o9kjmyQocmHbdsc04tgR3mR2/TyedoZeiKpxpvaWNoVE/1boRmH
+ a60mei9azKqH0rvObY0PvYTOabeQ+yw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-474-FbknGE8nP2Wazk_YUFwJSw-1; Thu, 18 Nov 2021 08:35:58 -0500
-X-MC-Unique: FbknGE8nP2Wazk_YUFwJSw-1
+ us-mta-580-3KTXJAtrMM6N6AzudDP1nQ-1; Thu, 18 Nov 2021 08:36:01 -0500
+X-MC-Unique: 3KTXJAtrMM6N6AzudDP1nQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93808E76A;
- Thu, 18 Nov 2021 13:35:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E21E487D545;
+ Thu, 18 Nov 2021 13:35:59 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CA59F62A41;
- Thu, 18 Nov 2021 13:35:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D5FE162A41;
+ Thu, 18 Nov 2021 13:35:57 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/6] qapi/qom,
- target/i386: sev-guest: Introduce kernel-hashes=on|off option
-Date: Thu, 18 Nov 2021 13:35:27 +0000
-Message-Id: <20211118133532.2029166-2-berrange@redhat.com>
+Subject: [PULL 2/6] target/i386/sev: Add kernel hashes only if
+ sev-guest.kernel-hashes=on
+Date: Thu, 18 Nov 2021 13:35:28 +0000
+Message-Id: <20211118133532.2029166-3-berrange@redhat.com>
 In-Reply-To: <20211118133532.2029166-1-berrange@redhat.com>
 References: <20211118133532.2029166-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -76,7 +76,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
  Marcelo Tosatti <mtosatti@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Dov Murik <dovmurik@linux.ibm.com>, Brijesh Singh <brijesh.singh@amd.com>,
@@ -86,114 +87,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Dov Murik <dovmurik@linux.ibm.com>
 
-Introduce new boolean 'kernel-hashes' option on the sev-guest object.
-It will be used to to decide whether to add the hashes of
-kernel/initrd/cmdline to SEV guest memory when booting with -kernel.
-The default value is 'off'.
+Commit cff03145ed3c ("sev/i386: Introduce sev_add_kernel_loader_hashes
+for measured linux boot", 2021-09-30) introduced measured direct boot
+with -kernel, using an OVMF-designated hashes table which QEMU fills.
+
+However, if OVMF doesn't designate such an area, QEMU would completely
+abort the VM launch.  This breaks launching with -kernel using older
+OVMF images which don't publish the SEV_HASH_TABLE_RV_GUID.
+
+Fix that so QEMU will only look for the hashes table if the sev-guest
+kernel-hashes option is set to on.  Otherwise, QEMU won't look for the
+designated area in OVMF and won't fill that area.
+
+To enable addition of kernel hashes, launch the guest with:
+
+    -object sev-guest,...,kernel-hashes=on
 
 Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+Reported-by: Tom Lendacky <thomas.lendacky@amd.com>
 Acked-by: Brijesh Singh <brijesh.singh@amd.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- qapi/qom.json     |  7 ++++++-
- qemu-options.hx   |  6 +++++-
- target/i386/sev.c | 20 ++++++++++++++++++++
- 3 files changed, 31 insertions(+), 2 deletions(-)
+ target/i386/sev.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/qapi/qom.json b/qapi/qom.json
-index ccd1167808..eeb5395ff3 100644
---- a/qapi/qom.json
-+++ b/qapi/qom.json
-@@ -769,6 +769,10 @@
- # @reduced-phys-bits: number of bits in physical addresses that become
- #                     unavailable when SEV is enabled
- #
-+# @kernel-hashes: if true, add hashes of kernel/initrd/cmdline to a
-+#                 designated guest firmware page for measured boot
-+#                 with -kernel (default: false) (since 6.2)
-+#
- # Since: 2.12
- ##
- { 'struct': 'SevGuestProperties',
-@@ -778,7 +782,8 @@
-             '*policy': 'uint32',
-             '*handle': 'uint32',
-             '*cbitpos': 'uint32',
--            'reduced-phys-bits': 'uint32' } }
-+            'reduced-phys-bits': 'uint32',
-+            '*kernel-hashes': 'bool' } }
- 
- ##
- # @ObjectType:
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 7749f59300..ae2c6dbbfc 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -5189,7 +5189,7 @@ SRST
-                  -object secret,id=sec0,keyid=secmaster0,format=base64,\\
-                      data=$SECRET,iv=$(<iv.b64)
- 
--    ``-object sev-guest,id=id,cbitpos=cbitpos,reduced-phys-bits=val,[sev-device=string,policy=policy,handle=handle,dh-cert-file=file,session-file=file]``
-+    ``-object sev-guest,id=id,cbitpos=cbitpos,reduced-phys-bits=val,[sev-device=string,policy=policy,handle=handle,dh-cert-file=file,session-file=file,kernel-hashes=on|off]``
-         Create a Secure Encrypted Virtualization (SEV) guest object,
-         which can be used to provide the guest memory encryption support
-         on AMD processors.
-@@ -5229,6 +5229,10 @@ SRST
-         session with the guest owner to negotiate keys used for
-         attestation. The file must be encoded in base64.
- 
-+        The ``kernel-hashes`` adds the hashes of given kernel/initrd/
-+        cmdline to a designated guest firmware page for measured Linux
-+        boot with -kernel. The default is off. (Since 6.2)
-+
-         e.g to launch a SEV guest
- 
-         .. parsed-literal::
 diff --git a/target/i386/sev.c b/target/i386/sev.c
-index eede07f11d..cad32812f5 100644
+index cad32812f5..e3abbeef68 100644
 --- a/target/i386/sev.c
 +++ b/target/i386/sev.c
-@@ -62,6 +62,7 @@ struct SevGuestState {
-     char *session_file;
-     uint32_t cbitpos;
-     uint32_t reduced_phys_bits;
-+    bool kernel_hashes;
+@@ -1223,6 +1223,14 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
+     size_t hash_len = HASH_SIZE;
+     int aligned_len;
  
-     /* runtime state */
-     uint32_t handle;
-@@ -327,6 +328,20 @@ sev_guest_set_sev_device(Object *obj, const char *value, Error **errp)
-     sev->sev_device = g_strdup(value);
- }
- 
-+static bool sev_guest_get_kernel_hashes(Object *obj, Error **errp)
-+{
-+    SevGuestState *sev = SEV_GUEST(obj);
++    /*
++     * Only add the kernel hashes if the sev-guest configuration explicitly
++     * stated kernel-hashes=on.
++     */
++    if (!sev_guest->kernel_hashes) {
++        return false;
++    }
 +
-+    return sev->kernel_hashes;
-+}
-+
-+static void sev_guest_set_kernel_hashes(Object *obj, bool value, Error **errp)
-+{
-+    SevGuestState *sev = SEV_GUEST(obj);
-+
-+    sev->kernel_hashes = value;
-+}
-+
- static void
- sev_guest_class_init(ObjectClass *oc, void *data)
- {
-@@ -345,6 +360,11 @@ sev_guest_class_init(ObjectClass *oc, void *data)
-                                   sev_guest_set_session_file);
-     object_class_property_set_description(oc, "session-file",
-             "guest owners session parameters (encoded with base64)");
-+    object_class_property_add_bool(oc, "kernel-hashes",
-+                                   sev_guest_get_kernel_hashes,
-+                                   sev_guest_set_kernel_hashes);
-+    object_class_property_set_description(oc, "kernel-hashes",
-+            "add kernel hashes to guest firmware for measured Linux boot");
- }
- 
- static void
+     if (!pc_system_ovmf_table_find(SEV_HASH_TABLE_RV_GUID, &data, NULL)) {
+         error_setg(errp, "SEV: kernel specified but OVMF has no hash table guid");
+         return false;
 -- 
 2.31.1
 
