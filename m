@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC0A545560A
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 08:49:16 +0100 (CET)
-Received: from localhost ([::1]:50322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF0AA455618
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 08:53:04 +0100 (CET)
+Received: from localhost ([::1]:57436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mncAV-0004FD-20
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 02:49:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46160)
+	id 1mncEB-0000iL-R8
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 02:53:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mnc8V-0002na-U6
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 02:47:11 -0500
-Received: from [2a00:1450:4864:20::532] (port=43661
- helo=mail-ed1-x532.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mnc8Q-0005vl-Db
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 02:47:09 -0500
-Received: by mail-ed1-x532.google.com with SMTP id w1so22920816edd.10
- for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 23:47:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=AgKa/CKBUNp66MBNd/qhg7I1CTM9WLa/WnuzI3iXFAo=;
- b=SfggRuIuI4Zl9sWlXVF5t7aCPsqiEka4XlizH7L1ooXZl9D36HOZVrEV2I9etWMybr
- VHFwBZq9453E5axk9Wh6Xl/muwsVawwf8AZwWx8JYIIMDnOE655Rg49vRCie+kvOIc5B
- ttdWBWTRxAWLXMXjwroB8wpAC41UvPUGtqYxVRELPQ98mAEmrNvPCKEwmQY6SxL9OEws
- F2Xwg4PK1Fp9xK4xF8Vnk7urgYo5scBq9zzRd83PEAbZb4Y/5XE8eTs8a5IfQ5/t71cB
- IzlCvCo0DmIi8QuK6TIGSD/XLfGp2cy4xgfyejJj9CH53V7qIBym8g3zZZgPO5fP7Pmo
- d+hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=AgKa/CKBUNp66MBNd/qhg7I1CTM9WLa/WnuzI3iXFAo=;
- b=2V72Nz6IROSGLfzRo3x7p84dk2u721BanTLJYgSp3bdI+k0cntLLGxOjzP8FcvDEp4
- QrYI2kyXpDsbs6KMEdE5HQi/rdot0luBIrQwDiA8CNcz/BuOB1A3/vPETX+cCt9XsNQs
- HLSVKK1n62ckSQB03bBatDLO5uOO3QOuixWuCJFriB7TBEfp/eftventbHneTcCh6b9h
- HvmP+/kOTGSD9X/CDJ0ti0bDkpXsYEk+IV9auifujuRKNWacqQW0LmvOqhEVHqOQPt6O
- 4SzW2/13i/u0dkNzuajU1WFc2bDM/lSa3bnm9Y6uk0Sp4pCbePTO8988ONy/EubcUhv1
- sFwg==
-X-Gm-Message-State: AOAM533rz9TFVKSZe3le7z8+s9LoUPlSRoEAlMESGxGIOdSTkwR7R2uh
- oV6x9dLNBRU0MrsaUwKK6KbWAt8OjQU=
-X-Google-Smtp-Source: ABdhPJwxhGC7+SrIeLMpA/bfDIYGQhksWu1spQSAEbxh3tw0doHxMqnqE52BJwdTj3fn3tJcSEnz2w==
-X-Received: by 2002:a05:6402:26cb:: with SMTP id
- x11mr7061956edd.149.1637221624768; 
- Wed, 17 Nov 2021 23:47:04 -0800 (PST)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id
- z7sm1148876edj.51.2021.11.17.23.47.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Nov 2021 23:47:04 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [qemu-web PATCH] update links to the SubmitAPatch wiki page
-Date: Thu, 18 Nov 2021 08:47:02 +0100
-Message-Id: <20211118074702.216951-2-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.33.1
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mncD8-0007oI-KR
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 02:52:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29662)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mncD5-0006Xs-1p
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 02:51:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637221912;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=n5sFIOiq4YDIuRvciiCpC/x5IcoeaW4uwUt+segLg2Y=;
+ b=ZLByOYBpbYEveBrvjmdACW3Mz1xm94/eeKohSY9iV5uJrgnKqhyy6aymLtvi783qrR9FFR
+ d4l22KGoq8NH/vKDbdQaVOoabZelXub+otrrO9fWqTz8tg0UYFfnsjzCOCsulmrWZqd3zJ
+ HgQK646Z4E6JHSRpTHw74H6/Lv5F9kk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-450-aB9wpLRiN32t4mxwkCIRvQ-1; Thu, 18 Nov 2021 02:51:46 -0500
+X-MC-Unique: aB9wpLRiN32t4mxwkCIRvQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BAAF01808328
+ for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 07:51:45 +0000 (UTC)
+Received: from [10.33.192.183] (dhcp-192-183.str.redhat.com [10.33.192.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 47A07608BA;
+ Thu, 18 Nov 2021 07:51:45 +0000 (UTC)
+Message-ID: <363b5548-513e-8c44-8405-588060c3094e@redhat.com>
+Date: Thu, 18 Nov 2021 08:51:44 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::532
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [qemu-web PATCH] remove deployment phase from CI
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20211118074702.216951-1-pbonzini@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20211118074702.216951-1-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.084, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,60 +79,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The page is now part of the documentation, but it also has a redirect
-in the qemu.org web server to provide a stable URL.  Use it instead
-of linking out to wiki.qemu.org.
+On 18/11/2021 08.47, Paolo Bonzini wrote:
+> qemu.org is now served via a reverse proxy from qemu-project.gitlab.io; it does
+> not need anymore the rsync step to the QEMU project's shell server.
+> Remove it from the CI.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   .gitlab-ci.yml | 24 ------------------------
+>   1 file changed, 24 deletions(-)
+> 
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index 129b2ff..dde0ef3 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -1,7 +1,6 @@
+>   
+>   stages:
+>     - build
+> -  - update
+>   
+>   pages:
+>     image: centos:8
+> @@ -19,26 +18,3 @@ pages:
+>     artifacts:
+>       paths:
+>        - public
+> -
+> -deploy:
+> -  image: centos:8
+> -  stage: update
+> -  needs:
+> -    - job: pages
+> -      artifacts: true
+> -  before_script:
+> -    - dnf install -y openssh-clients rsync
+> -    - eval $(ssh-agent -s)
+> -    - cat "$SSH_PRIVATE_KEY_FILE" | tr -d '\r' | ssh-add -
+> -    - mkdir -m700 -p ~/.ssh
+> -    - - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config'
+> -  script:
+> -    - ssh $SSH_DEPLOY_DESTINATION "cd /var/www/qemu-project.org && mkdir new && rsync -az root/ new"
+> -    - rsync -avz --delete public/ $SSH_DEPLOY_DESTINATION:/var/www/qemu-project.org/new
+> -    - ssh $SSH_DEPLOY_DESTINATION "cd /var/www/qemu-project.org && rm -rf old && mv root old && mv new root"
+> -  only:
+> -    refs:
+> -      - master
+> -    variables:
+> -      - $SSH_PRIVATE_KEY_FILE
+> -      - $SSH_DEPLOY_DESTINATION
+> 
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- CONTRIBUTING.md            | 2 +-
- contribute.md              | 2 +-
- contribute/report-a-bug.md | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
-index d5cbf07..6edc07b 100644
---- a/CONTRIBUTING.md
-+++ b/CONTRIBUTING.md
-@@ -12,7 +12,7 @@ You should also CC the website maintainers:
- 
- For further guidance on sending patches consult:
- 
--https://wiki.qemu.org/Contribute/SubmitAPatch
-+https://qemu.org/contribute/submit-a-patch/
- 
- It is expected that contributors check the rendered website before submitting
- patches. This is possible by either running jekyll locally, or by using the
-diff --git a/contribute.md b/contribute.md
-index 4802452..856e434 100644
---- a/contribute.md
-+++ b/contribute.md
-@@ -17,6 +17,6 @@ permalink: /contribute/
-   &ldquo;[Contributor FAQ](https://wiki.qemu.org/Contribute/FAQ)&rdquo;,
-   &ldquo;[Improve the website](https://www.qemu.org/2017/02/04/the-new-qemu-website-is-up/)&rdquo;
- 
--Please do not submit merge requests on GitLab; patches are sent to the mailing list according to QEMU's [patch submissions guidelines](https://wiki.qemu.org/Contribute/SubmitAPatch).
-+Please do not submit merge requests on GitLab; patches are sent to the mailing list according to QEMU's [patch submissions guidelines](/submit-a-patch/).
- 
- Contributing to QEMU is subject to the [QEMU Code of Conduct](https://qemu.org/docs/master/devel/code-of-conduct.html).
-diff --git a/contribute/report-a-bug.md b/contribute/report-a-bug.md
-index 96b60d8..8d7d371 100644
---- a/contribute/report-a-bug.md
-+++ b/contribute/report-a-bug.md
-@@ -18,7 +18,7 @@ When submitting a bug report, please try to do the following:
- 
- * Include information about the host and guest (operating system, version, 32/64-bit).
- 
--QEMU does not use GitLab merge requests; patches are sent to the mailing list according to QEMU's [patch submissions guidelines](https://wiki.qemu.org/Contribute/SubmitAPatch).
-+QEMU does not use GitLab merge requests; patches are sent to the mailing list according to QEMU's [patch submissions guidelines](../submit-a-patch).
- 
- Do NOT report security issues (or other bugs, too) as "confidential" bugs in the
- bug tracker.  QEMU has a [security process](../security-process) for issues
--- 
-2.33.1
+Acked-by: Thomas Huth <thuth@redhat.com>
 
 
