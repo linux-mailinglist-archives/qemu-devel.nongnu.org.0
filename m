@@ -2,92 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF862455DAD
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 15:12:56 +0100 (CET)
-Received: from localhost ([::1]:41396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65BA3455DC4
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 15:16:10 +0100 (CET)
+Received: from localhost ([::1]:44448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mni9n-0007J5-UZ
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 09:12:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40336)
+	id 1mniCv-00018Q-EM
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 09:16:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mni7x-0005oN-9J
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 09:11:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57907)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1mniBq-0000Rb-DY
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 09:15:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39464)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mni7m-0000fE-8U
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 09:10:58 -0500
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1mniBm-0001Y8-5C
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 09:14:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637244649;
+ s=mimecast20190719; t=1637244897;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E1kX38lSUKy2zjNUru2iLZwOmlvV4w3v/4jAVDpCg5U=;
- b=Y7g3oZboOsanijnlQhKru7gA0lIS1FxKNtxHKcHJVscVd8JHOiFpeFDHBaBjQyTXGQ8DIx
- q2KAi5sHnVo3IvEzKuv7CY+E/EgcG8u72UveV0sc8BX1CY8tSfG3ca33EEEWdxM4xhXoeq
- UFzqXGeB6rdi41BJTFr7vOzC3jlphpQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=RBPFlFc/3T6JfMtasRGJFRCY/+yudPvrxOqVxUvgP3Q=;
+ b=WNs6+JkyYtp639p2AO+FbvuVCb91Rf6AlX5ogwbsCWXmFI4y7u0QAdvuG7llYpojrJS/pG
+ Ad0XCxKs91NzR61044xcBg3n8tfF2BQ76N39T8mDwn3F2xLPB7bwAS60Unahlq4SxBEJu3
+ fzxVfI/Awxg0lXIcgOJTECJbQpgJY7k=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-287-2r91_oQgPQ20hIHml6nr_g-1; Thu, 18 Nov 2021 09:10:47 -0500
-X-MC-Unique: 2r91_oQgPQ20hIHml6nr_g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- b133-20020a1c808b000000b0032cdd691994so4389797wmd.1
- for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 06:10:47 -0800 (PST)
+ us-mta-492-cJ4pZoQIOTys9kQ6Vwz0yw-1; Thu, 18 Nov 2021 09:14:54 -0500
+X-MC-Unique: cJ4pZoQIOTys9kQ6Vwz0yw-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ w2-20020a627b02000000b0049fa951281fso3721325pfc.9
+ for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 06:14:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=E1kX38lSUKy2zjNUru2iLZwOmlvV4w3v/4jAVDpCg5U=;
- b=pKEKENqcxtgD8h/QqeThEzgXtggsDsJN/5SGYtLX+iu3JG72p+7anSjrQjrnhgnhQq
- nxZmSrVxwf60Eqjgzfef7v3kehQEsFDe9+aojvFYamKA665Gjat7zAG+toLS37cahqCV
- tq2eWc/xGhecEoTJoF8d7GSuRBJ/wOudHM5P6WZ9UODSCpsg4Xs/6xlPXcRWam27QhtM
- sH+x4lCBapxwNfvGsvvpN311oFePIZ7PcEtt5r57v0QXbaP0lIO2/aTjXUyySUDvDy9b
- j194GO0iqo9GF4l2o0hsxUMvzYzoM1Uj+nHv8hzUhuW9RdFokR/WnO8gDa9buK9mGrjO
- +Qdw==
-X-Gm-Message-State: AOAM530obWZl0UJdp9T8cWYJOoEGCGIXZNnBblV3jM5khdl11g30hbUH
- P3Xl9IahTasG1cAXR3EAa4yu6yVxw8TR56upDkiLzbq9qGA/aA5KoTOvux8q1BUO4s1ukJTXNXu
- qOZjVJKqVGK05xpbymTjnZhcti3JJr7gVF9PmK0fSC1OiVUw82lTLalQgZuxkKz0e
-X-Received: by 2002:a05:6000:1a41:: with SMTP id
- t1mr31313241wry.261.1637244645830; 
- Thu, 18 Nov 2021 06:10:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwV1CB2YGIIuwUHeT6Xdfdi3M34omeVre83uwfFK/tHs3xEyZok0v+3JYlC80MqTxbumhbghg==
-X-Received: by 2002:a05:6000:1a41:: with SMTP id
- t1mr31313185wry.261.1637244645527; 
- Thu, 18 Nov 2021 06:10:45 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id z7sm8748110wmi.33.2021.11.18.06.10.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Nov 2021 06:10:44 -0800 (PST)
-Message-ID: <02e7e56e-f80d-1e9c-13ec-0ddbe3b5b360@redhat.com>
-Date: Thu, 18 Nov 2021 15:10:44 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=RBPFlFc/3T6JfMtasRGJFRCY/+yudPvrxOqVxUvgP3Q=;
+ b=sqI1bf5kcPyHlTYjdqF+TntQEjhvHqgrI2uwiLYj1WVX3WWtv0Wr2tI1DAPzYqlBlk
+ wCyV1pdvTpzM7hpUA+ZHk5nmegapIcuYnqFVrAF907nYDSgmCAJXM3pJQ7TJi6WMAIsP
+ CgTewqEubuWmt98gkH4FrxCeW1cNiI9jubi1yRjvDzK2rll9im/S21vrrRHLCIEG1TAp
+ DEC1M34F5hnxqM9DVgojtH3IU2W5LAeQjaM7Xo0Gzpoe2comusQ2K6H/UiLmZ4iS477W
+ oidNIy9v5flk04OMqLuixdGWAzba0b2AOYzDSQPggYHa2kIpTaPHjKX5q/NefkSvRHUn
+ Oi3A==
+X-Gm-Message-State: AOAM531iQdmQeoPg72kFs+L+h6jeE+fSXJq5vwb/+srcqkX5fvinM/jc
+ P8+rAr1bRbV4AMHzmXHqa/8tBwiK3fJjQB9QulNEvo17RrVbWnGWlm6rJDWzgfLbcDy2Uw/LnNe
+ if2z0jcGRXecyUujgQMe+Oua6IMce5MI=
+X-Received: by 2002:a63:778c:: with SMTP id s134mr742476pgc.289.1637244892888; 
+ Thu, 18 Nov 2021 06:14:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw4z+KyUmutBUmqR3Nr3+Ee8zUj7Hg9V+vhDxi5UlKFpX09QRZVpfqyB1NFhLxPVvhWPbk0CkKti4FvgoVyIsA=
+X-Received: by 2002:a63:778c:: with SMTP id s134mr742431pgc.289.1637244892467; 
+ Thu, 18 Nov 2021 06:14:52 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [qemu-web PATCH v2] Add Sponsors page
-To: qemu-devel@nongnu.org
-References: <20211118122912.4051779-1-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211118122912.4051779-1-philmd@redhat.com>
+References: <20211115080312.64692-1-marcandre.lureau@redhat.com>
+ <20211115080312.64692-2-marcandre.lureau@redhat.com>
+ <87czmxwu8s.fsf@dusky.pond.sub.org>
+In-Reply-To: <87czmxwu8s.fsf@dusky.pond.sub.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Thu, 18 Nov 2021 18:14:40 +0400
+Message-ID: <CAMxuvazADhGLKeN2aV=RM6wtWEVp4Xw2NuGPzog4ht4YsZ_XTg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] qemu-options: define -spice only #ifdef
+ CONFIG_SPICE
+To: Markus Armbruster <armbru@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.084, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,46 +94,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
- Thomas Markey <admin@fosshost.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, "P. Berrange,
+ Daniel" <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Alistair regarding the RISC-V foundation help:
-https://www.cnx-software.com/2021/05/03/the-risc-v-foundation-to-give-away-1000-risc-v-development-boards/
+Hi
 
-On 11/18/21 13:29, Philippe Mathieu-Daudé wrote:
-> Add a page listing QEMU sponsors.
-> 
-> For now, only mention Fosshost which requested to be listed:
-> https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg05381.html
-> 
-> Cc: Thomas Markey <admin@fosshost.org>
-> Resolves: https://gitlab.com/qemu-project/qemu-web/-/issues/2
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
-> Since v1:
-> - move to footer (Daniel)
-> - only list sponsor who asked to be listed (Stefan)
-> ---
+On Thu, Nov 18, 2021 at 3:58 PM Markus Armbruster <armbru@redhat.com> wrote=
+:
+>
+> marcandre.lureau@redhat.com writes:
+>
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > Fixes:
+> > https://bugzilla.redhat.com/show_bug.cgi?id=3D1982600
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  softmmu/vl.c    | 2 ++
+> >  qemu-options.hx | 2 ++
+> >  2 files changed, 4 insertions(+)
+> >
+> > diff --git a/softmmu/vl.c b/softmmu/vl.c
+> > index 1159a64bce4e..385465fbeb6d 100644
+> > --- a/softmmu/vl.c
+> > +++ b/softmmu/vl.c
+> > @@ -3538,6 +3538,7 @@ void qemu_init(int argc, char **argv, char **envp=
+)
+> >              case QEMU_OPTION_readconfig:
+> >                  qemu_read_config_file(optarg, qemu_parse_config_group,=
+ &error_fatal);
+> >                  break;
+> > +#ifdef CONFIG_SPICE
+> >              case QEMU_OPTION_spice:
+> >                  olist =3D qemu_find_opts_err("spice", NULL);
+> >                  if (!olist) {
+>                        error_report("spice support is disabled");
+>                        exit(1);
+>                    }
+>
+> Is this error still reachable?
 
-> diff --git a/sponsors.md b/sponsors.md
-> new file mode 100644
-> index 0000000..1c097c8
-> --- /dev/null
-> +++ b/sponsors.md
-> @@ -0,0 +1,9 @@
-> +---
-> +title: QEMU sponsors
-> +permalink: /sponsors/
-> +---
-> +
-> +QEMU has sponsors!
-> +
-> +For continuous integration and testing, hardware is provided by:
-> +- [Fosshost](https://fosshost.org/)
-> 
+I wonder if module loading failed, it's non fatal and will report this erro=
+r.
+
+>
+> > @@ -3550,6 +3551,7 @@ void qemu_init(int argc, char **argv, char **envp=
+)
+> >                  }
+> >                  display_remote++;
+> >                  break;
+> > +#endif
+> >              case QEMU_OPTION_writeconfig:
+> >                  {
+> >                      FILE *fp;
+> > diff --git a/qemu-options.hx b/qemu-options.hx
+> > index 7749f59300b5..323913945a5d 100644
+> > --- a/qemu-options.hx
+> > +++ b/qemu-options.hx
+> > @@ -2017,6 +2017,7 @@ SRST
+> >      Enable SDL.
+> >  ERST
+> >
+> > +#ifdef CONFIG_SPICE
+> >  DEF("spice", HAS_ARG, QEMU_OPTION_spice,
+> >      "-spice [port=3Dport][,tls-port=3Dsecured-port][,x509-dir=3D<dir>]=
+\n"
+> >      "       [,x509-key-file=3D<file>][,x509-key-password=3D<file>]\n"
+> > @@ -2038,6 +2039,7 @@ DEF("spice", HAS_ARG, QEMU_OPTION_spice,
+> >      "   enable spice\n"
+> >      "   at least one of {port, tls-port} is mandatory\n",
+> >      QEMU_ARCH_ALL)
+> > +#endif
+> >  SRST
+> >  ``-spice option[,option[,...]]``
+> >      Enable the spice remote desktop protocol. Valid options are
+>
 
 
