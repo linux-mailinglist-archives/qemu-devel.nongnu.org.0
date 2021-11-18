@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FE094554A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 07:13:19 +0100 (CET)
-Received: from localhost ([::1]:42248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ACC74554A3
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 07:13:23 +0100 (CET)
+Received: from localhost ([::1]:42506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnafe-0007tv-Ok
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 01:13:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51390)
+	id 1mnafi-000856-K5
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 01:13:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1mnabA-0005E8-I3
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 01:08:40 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:51661
+ id 1mnabD-0005FV-Qi
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 01:08:44 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:51720
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1mnab7-0000Hg-77
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 01:08:40 -0500
+ (envelope-from <huangy81@chinatelecom.cn>) id 1mnabA-0000Hv-BT
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 01:08:43 -0500
 HMM_SOURCE_IP: 172.18.0.48:38028.1063050567
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-182.150.57.243 (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id CFD7B2800C5;
- Thu, 18 Nov 2021 14:08:23 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id DBD822800C6;
+ Thu, 18 Nov 2021 14:08:27 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.48])
- by app0024 with ESMTP id 2716d12c574f4e6aaa3a1b5680f2890c for
- qemu-devel@nongnu.org; Thu, 18 Nov 2021 14:08:26 CST
-X-Transaction-ID: 2716d12c574f4e6aaa3a1b5680f2890c
+ by app0024 with ESMTP id 0396b9afe5b14eeb95f8bd07ac6c3477 for
+ qemu-devel@nongnu.org; Thu, 18 Nov 2021 14:08:29 CST
+X-Transaction-ID: 0396b9afe5b14eeb95f8bd07ac6c3477
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.48
 X-MEDUSA-Status: 0
 From: huangy81@chinatelecom.cn
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v1 1/3] migration/dirtyrate: implement vCPU dirtyrate
- calculation periodically
-Date: Thu, 18 Nov 2021 14:07:20 +0800
-Message-Id: <499bdfeea4b19ef44a36e0fbb5be3e0d51765430.1637214721.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v1 2/3] cpu-throttle: implement vCPU throttle
+Date: Thu, 18 Nov 2021 14:07:21 +0800
+Message-Id: <0537c7d112932f2d99df3dc0587bb246328e2d9d.1637214721.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1637214721.git.huangy81@chinatelecom.cn>
 References: <cover.1637214721.git.huangy81@chinatelecom.cn>
@@ -76,215 +75,422 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-introduce the third method GLOBAL_DIRTY_RESTRAINT of dirty
-tracking for calculate dirtyrate periodly for dirty restraint.
+implement dirty restraint by kicking each vcpu as the
+auto-converge does during migration, but just kick the
+specified vcpu instead, not all the vcpu of vm.
 
-implement thread for calculate dirtyrate periodly, which will
-be used for dirty restraint.
+start a thread to track the dirty restraint status
+and adjuct the throttle pencentage dynamically depend
+on current and quota dirtyrate .
 
-add dirtyrestraint.h to introduce the util function for dirty
-restrain.
+introduce the util function in the header for the dirty
+restraint implemantataion.
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 ---
- include/exec/memory.h           |   5 +-
- include/sysemu/dirtyrestraint.h |  20 +++++++
- migration/dirtyrate.c           | 118 ++++++++++++++++++++++++++++++++++++++++
- migration/dirtyrate.h           |   2 +
- 4 files changed, 144 insertions(+), 1 deletion(-)
- create mode 100644 include/sysemu/dirtyrestraint.h
+ include/sysemu/cpu-throttle.h   |  21 +++
+ include/sysemu/dirtyrestraint.h |   2 +
+ migration/dirtyrate.c           |   7 +
+ softmmu/cpu-throttle.c          | 304 ++++++++++++++++++++++++++++++++++++++++
+ softmmu/trace-events            |   5 +
+ 5 files changed, 339 insertions(+)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 20f1b27..565d06b 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -69,7 +69,10 @@ static inline void fuzz_dma_read_cb(size_t addr,
- /* Dirty tracking enabled because measuring dirty rate */
- #define GLOBAL_DIRTY_DIRTY_RATE (1U << 1)
+diff --git a/include/sysemu/cpu-throttle.h b/include/sysemu/cpu-throttle.h
+index d65bdef..48215d2 100644
+--- a/include/sysemu/cpu-throttle.h
++++ b/include/sysemu/cpu-throttle.h
+@@ -65,4 +65,25 @@ bool cpu_throttle_active(void);
+  */
+ int cpu_throttle_get_percentage(void);
  
--#define GLOBAL_DIRTY_MASK  (0x3)
-+/* Dirty tracking enabled because dirty restraint */
-+#define GLOBAL_DIRTY_RESTRAINT  (1U << 2)
-+
-+#define GLOBAL_DIRTY_MASK  (0x7)
- 
- extern unsigned int global_dirty_tracking;
- 
-diff --git a/include/sysemu/dirtyrestraint.h b/include/sysemu/dirtyrestraint.h
-new file mode 100644
-index 0000000..ca744af
---- /dev/null
-+++ b/include/sysemu/dirtyrestraint.h
-@@ -0,0 +1,20 @@
-+/*
-+ * dirty restraint helper functions
++/**
++ * dirtyrestraint_state_init:
 + *
-+ * Copyright (c) 2021 CHINA TELECOM CO.,LTD.
-+ *
-+ * Authors:
-+ *  Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
++ * initialize golobal state for dirty restraint
 + */
-+#ifndef QEMU_DIRTYRESTRAINT_H
-+#define QEMU_DIRTYRESTRAINT_H
++void dirtyrestraint_state_init(int max_cpus);
 +
-+#define DIRTYRESTRAINT_CALC_PERIOD_TIME_S   15      /* 15s */
++/**
++ * dirtyrestraint_vcpu:
++ *
++ * impose dirty restraint on vcpu util reaching the quota dirtyrate
++ */
++void dirtyrestraint_vcpu(int cpu_index,
++                         uint64_t quota);
++/**
++ * dirtyrestraint_cancel_vcpu:
++ *
++ * cancel dirty restraint for the specified vcpu
++ */
++void dirtyrestraint_cancel_vcpu(int cpu_index);
 +
-+void dirtyrestraint_calc_start(void);
+ #endif /* SYSEMU_CPU_THROTTLE_H */
+diff --git a/include/sysemu/dirtyrestraint.h b/include/sysemu/dirtyrestraint.h
+index ca744af..b84a5c0 100644
+--- a/include/sysemu/dirtyrestraint.h
++++ b/include/sysemu/dirtyrestraint.h
+@@ -14,6 +14,8 @@
+ 
+ #define DIRTYRESTRAINT_CALC_PERIOD_TIME_S   15      /* 15s */
+ 
++int64_t dirtyrestraint_calc_current(int cpu_index);
 +
-+void dirtyrestraint_calc_state_init(int max_cpus);
-+#endif
+ void dirtyrestraint_calc_start(void);
+ 
+ void dirtyrestraint_calc_state_init(int max_cpus);
 diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index d65e744..b453b3a 100644
+index b453b3a..26919ff 100644
 --- a/migration/dirtyrate.c
 +++ b/migration/dirtyrate.c
-@@ -27,6 +27,7 @@
- #include "qapi/qmp/qdict.h"
- #include "sysemu/kvm.h"
- #include "sysemu/runstate.h"
+@@ -137,6 +137,13 @@ static void *dirtyrestraint_calc_thread(void *opaque)
+     return NULL;
+ }
+ 
++int64_t dirtyrestraint_calc_current(int cpu_index)
++{
++    DirtyRateVcpu *rates = dirtyrestraint_calc_state->data.rates;
++
++    return qatomic_read(&rates[cpu_index].dirty_rate);
++}
++
+ void dirtyrestraint_calc_start(void)
+ {
+     if (likely(!qatomic_read(&dirtyrestraint_calc_state->enable))) {
+diff --git a/softmmu/cpu-throttle.c b/softmmu/cpu-throttle.c
+index 8c2144a..7a127a0 100644
+--- a/softmmu/cpu-throttle.c
++++ b/softmmu/cpu-throttle.c
+@@ -29,6 +29,8 @@
+ #include "qemu/main-loop.h"
+ #include "sysemu/cpus.h"
+ #include "sysemu/cpu-throttle.h"
 +#include "sysemu/dirtyrestraint.h"
- #include "exec/memory.h"
++#include "trace.h"
  
- /*
-@@ -46,6 +47,123 @@ static struct DirtyRateStat DirtyStat;
- static DirtyRateMeasureMode dirtyrate_mode =
-                 DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
+ /* vcpu throttling controls */
+ static QEMUTimer *throttle_timer;
+@@ -38,6 +40,308 @@ static unsigned int throttle_percentage;
+ #define CPU_THROTTLE_PCT_MAX 99
+ #define CPU_THROTTLE_TIMESLICE_NS 10000000
  
-+#define DIRTYRESTRAINT_CALC_TIME_MS         1000    /* 1000ms */
++#define DIRTYRESTRAINT_TOLERANCE_RANGE  15      /* 15MB/s */
++
++#define DIRTYRESTRAINT_THROTTLE_HEAVY_WATERMARK     75
++#define DIRTYRESTRAINT_THROTTLE_SLIGHT_WATERMARK    90
++
++#define DIRTYRESTRAINT_THROTTLE_HEAVY_STEP_SIZE     5
++#define DIRTYRESTRAINT_THROTTLE_SLIGHT_STEP_SIZE    2
++
++typedef enum {
++    RESTRAIN_KEEP,
++    RESTRAIN_RATIO,
++    RESTRAIN_HEAVY,
++    RESTRAIN_SLIGHT,
++} RestrainPolicy;
++
++typedef struct DirtyRestraintState {
++    int cpu_index;
++    bool enabled;
++    uint64_t quota;     /* quota dirtyrate MB/s */
++    QemuThread thread;
++    char *name;         /* thread name */
++} DirtyRestraintState;
 +
 +struct {
-+    DirtyRatesData data;
-+    int64_t period;
-+    bool enable;
-+    QemuCond ready_cond;
-+    QemuMutex ready_mtx;
-+    bool ready;
-+} *dirtyrestraint_calc_state;
++    DirtyRestraintState *states;
++    int max_cpus;
++} *dirtyrestraint_state;
 +
-+static inline void record_dirtypages(DirtyPageRecord *dirty_pages,
-+                                     CPUState *cpu, bool start);
-+
-+static void dirtyrestraint_global_dirty_log_start(void)
++static inline bool dirtyrestraint_enabled(int cpu_index)
 +{
-+    qemu_mutex_lock_iothread();
-+    memory_global_dirty_log_start(GLOBAL_DIRTY_RESTRAINT);
-+    qemu_mutex_unlock_iothread();
++    return qatomic_read(&dirtyrestraint_state->states[cpu_index].enabled);
 +}
 +
-+static void dirtyrestraint_global_dirty_log_stop(void)
++static inline void dirtyrestraint_set_quota(int cpu_index, uint64_t quota)
 +{
-+    qemu_mutex_lock_iothread();
-+    memory_global_dirty_log_sync();
-+    memory_global_dirty_log_stop(GLOBAL_DIRTY_RESTRAINT);
-+    qemu_mutex_unlock_iothread();
++    qatomic_set(&dirtyrestraint_state->states[cpu_index].quota, quota);
 +}
 +
-+static void dirtyrestraint_calc_func(void)
++static inline uint64_t dirtyrestraint_quota(int cpu_index)
++{
++    return qatomic_read(&dirtyrestraint_state->states[cpu_index].quota);
++}
++
++static int64_t dirtyrestraint_current(int cpu_index)
++{
++    return dirtyrestraint_calc_current(cpu_index);
++}
++
++static void dirtyrestraint_vcpu_thread(CPUState *cpu, run_on_cpu_data data)
++{
++    double pct;
++    double throttle_ratio;
++    int64_t sleeptime_ns, endtime_ns;
++    int *percentage = (int *)data.host_ptr;
++
++    pct = (double)(*percentage) / 100;
++    throttle_ratio = pct / (1 - pct);
++    /* Add 1ns to fix double's rounding error (like 0.9999999...) */
++    sleeptime_ns = (int64_t)(throttle_ratio * CPU_THROTTLE_TIMESLICE_NS + 1);
++    endtime_ns = qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + sleeptime_ns;
++    while (sleeptime_ns > 0 && !cpu->stop) {
++        if (sleeptime_ns > SCALE_MS) {
++            qemu_cond_timedwait_iothread(cpu->halt_cond,
++                                         sleeptime_ns / SCALE_MS);
++        } else {
++            qemu_mutex_unlock_iothread();
++            g_usleep(sleeptime_ns / SCALE_US);
++            qemu_mutex_lock_iothread();
++        }
++        sleeptime_ns = endtime_ns - qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
++    }
++    qatomic_set(&cpu->throttle_thread_scheduled, 0);
++
++    free(percentage);
++}
++
++static void do_dirtyrestraint(int cpu_index,
++                              int percentage)
 +{
 +    CPUState *cpu;
-+    DirtyPageRecord *dirty_pages;
-+    int64_t start_time, end_time, calc_time;
-+    DirtyRateVcpu rate;
-+    int i = 0;
++    int64_t sleeptime_ns, starttime_ms, currenttime_ms;
++    int *pct_parameter;
++    double pct;
 +
-+    dirty_pages = g_malloc0(sizeof(*dirty_pages) *
-+        dirtyrestraint_calc_state->data.nvcpu);
++    pct = (double) percentage / 100;
 +
-+    dirtyrestraint_global_dirty_log_start();
++    starttime_ms = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
 +
-+    CPU_FOREACH(cpu) {
-+        record_dirtypages(dirty_pages, cpu, true);
++    while (true) {
++        CPU_FOREACH(cpu) {
++            if ((cpu_index == cpu->cpu_index) &&
++                (!qatomic_xchg(&cpu->throttle_thread_scheduled, 1))) {
++                pct_parameter = malloc(sizeof(*pct_parameter));
++                *pct_parameter = percentage;
++                async_run_on_cpu(cpu, dirtyrestraint_vcpu_thread,
++                                 RUN_ON_CPU_HOST_PTR(pct_parameter));
++                break;
++            }
++        }
++
++        sleeptime_ns = CPU_THROTTLE_TIMESLICE_NS / (1 - pct);
++        g_usleep(sleeptime_ns / SCALE_US);
++
++        currenttime_ms = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
++        if (unlikely((currenttime_ms - starttime_ms) >
++                     (DIRTYRESTRAINT_CALC_PERIOD_TIME_S * 1000))) {
++            break;
++        }
++    }
++}
++
++static uint64_t dirtyrestraint_init_pct(uint64_t quota,
++                                        uint64_t current)
++{
++    uint64_t restraint_pct = 0;
++
++    if (quota >= current || (current == 0) ||
++        ((current - quota) <= DIRTYRESTRAINT_TOLERANCE_RANGE)) {
++        restraint_pct = 0;
++    } else {
++        restraint_pct = (current - quota) * 100 / current;
++
++        restraint_pct = MIN(restraint_pct,
++            DIRTYRESTRAINT_THROTTLE_HEAVY_WATERMARK);
 +    }
 +
-+    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-+    g_usleep(DIRTYRESTRAINT_CALC_TIME_MS * 1000);
-+    end_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-+    calc_time = end_time - start_time;
++    return restraint_pct;
++}
 +
-+    dirtyrestraint_global_dirty_log_stop();
++static RestrainPolicy dirtyrestraint_policy(unsigned int last_pct,
++                                            uint64_t quota,
++                                            uint64_t current)
++{
++    uint64_t max, min;
 +
-+    CPU_FOREACH(cpu) {
-+        record_dirtypages(dirty_pages, cpu, false);
++    max = MAX(quota, current);
++    min = MIN(quota, current);
++    if ((max - min) <= DIRTYRESTRAINT_TOLERANCE_RANGE) {
++        return RESTRAIN_KEEP;
++    }
++    if (last_pct < DIRTYRESTRAINT_THROTTLE_HEAVY_WATERMARK) {
++        /* last percentage locates in [0, 75)*/
++        return RESTRAIN_RATIO;
++    } else if (last_pct < DIRTYRESTRAINT_THROTTLE_SLIGHT_WATERMARK) {
++        /* last percentage locates in [75, 90)*/
++        return RESTRAIN_HEAVY;
++    } else {
++        /* last percentage locates in [90, 99]*/
++        return RESTRAIN_SLIGHT;
++    }
++}
++
++static uint64_t dirtyrestraint_pct(unsigned int last_pct,
++                                   uint64_t quota,
++                                   uint64_t current)
++{
++    uint64_t restraint_pct = 0;
++    RestrainPolicy policy;
++    bool mitigate = (quota > current) ? true : false;
++
++    if (mitigate && ((current == 0) ||
++        (last_pct <= DIRTYRESTRAINT_THROTTLE_SLIGHT_STEP_SIZE))) {
++        return 0;
 +    }
 +
-+    for (i = 0; i < dirtyrestraint_calc_state->data.nvcpu; i++) {
-+        uint64_t increased_dirty_pages =
-+            dirty_pages[i].end_pages - dirty_pages[i].start_pages;
-+        uint64_t memory_size_MB =
-+            (increased_dirty_pages * TARGET_PAGE_SIZE) >> 20;
-+        int64_t dirtyrate = (memory_size_MB * 1000) / calc_time;
++    policy = dirtyrestraint_policy(last_pct, quota, current);
++    switch (policy) {
++    case RESTRAIN_SLIGHT:
++        /* [90, 99] */
++        if (mitigate) {
++            restraint_pct =
++                last_pct - DIRTYRESTRAINT_THROTTLE_SLIGHT_STEP_SIZE;
++        } else {
++            restraint_pct =
++                last_pct + DIRTYRESTRAINT_THROTTLE_SLIGHT_STEP_SIZE;
 +
-+        rate.id = i;
-+        rate.dirty_rate  = dirtyrate;
-+        dirtyrestraint_calc_state->data.rates[i] = rate;
++            restraint_pct = MIN(restraint_pct, CPU_THROTTLE_PCT_MAX);
++        }
++       break;
++    case RESTRAIN_HEAVY:
++        /* [75, 90) */
++        if (mitigate) {
++            restraint_pct =
++                last_pct - DIRTYRESTRAINT_THROTTLE_HEAVY_STEP_SIZE;
++        } else {
++            restraint_pct =
++                last_pct + DIRTYRESTRAINT_THROTTLE_HEAVY_STEP_SIZE;
 +
-+        trace_dirtyrate_do_calculate_vcpu(i,
-+            dirtyrestraint_calc_state->data.rates[i].dirty_rate);
++            restraint_pct = MIN(restraint_pct,
++                DIRTYRESTRAINT_THROTTLE_SLIGHT_WATERMARK);
++        }
++       break;
++    case RESTRAIN_RATIO:
++        /* [0, 75) */
++        if (mitigate) {
++            if (last_pct <= (((quota - current) * 100 / quota) / 2)) {
++                restraint_pct = 0;
++            } else {
++                restraint_pct = last_pct -
++                    ((quota - current) * 100 / quota) / 2;
++                restraint_pct = MAX(restraint_pct, CPU_THROTTLE_PCT_MIN);
++            }
++        } else {
++            /*
++             * increase linearly with dirtyrate
++             * but tune a little by divide it by 2
++             */
++            restraint_pct = last_pct +
++                ((current - quota) * 100 / current) / 2;
++
++            restraint_pct = MIN(restraint_pct,
++                DIRTYRESTRAINT_THROTTLE_HEAVY_WATERMARK);
++        }
++       break;
++    case RESTRAIN_KEEP:
++    default:
++       restraint_pct = last_pct;
++       break;
++    }
++
++    return restraint_pct;
++}
++
++static void *dirtyrestraint_thread(void *opaque)
++{
++    int cpu_index = *(int *)opaque;
++    uint64_t quota_dirtyrate, current_dirtyrate;
++    unsigned int last_pct = 0;
++    unsigned int pct = 0;
++
++    rcu_register_thread();
++
++    quota_dirtyrate = dirtyrestraint_quota(cpu_index);
++    current_dirtyrate = dirtyrestraint_current(cpu_index);
++
++    pct = dirtyrestraint_init_pct(quota_dirtyrate, current_dirtyrate);
++
++    do {
++        trace_dirtyrestraint_impose(cpu_index,
++            quota_dirtyrate, current_dirtyrate, pct);
++        if (pct == 0) {
++            sleep(DIRTYRESTRAINT_CALC_PERIOD_TIME_S);
++        } else {
++            last_pct = pct;
++            do_dirtyrestraint(cpu_index, pct);
++        }
++
++        quota_dirtyrate = dirtyrestraint_quota(cpu_index);
++        current_dirtyrate = dirtyrestraint_current(cpu_index);
++
++        pct = dirtyrestraint_pct(last_pct, quota_dirtyrate, current_dirtyrate);
++    } while (dirtyrestraint_enabled(cpu_index));
++
++    rcu_unregister_thread();
++
++    return NULL;
++}
++
++void dirtyrestraint_cancel_vcpu(int cpu_index)
++{
++    qatomic_set(&dirtyrestraint_state->states[cpu_index].enabled, 0);
++}
++
++void dirtyrestraint_vcpu(int cpu_index,
++                         uint64_t quota)
++{
++    trace_dirtyrestraint_vcpu(cpu_index, quota);
++
++    dirtyrestraint_set_quota(cpu_index, quota);
++
++    if (unlikely(!dirtyrestraint_enabled(cpu_index))) {
++        qatomic_set(&dirtyrestraint_state->states[cpu_index].enabled, 1);
++        dirtyrestraint_state->states[cpu_index].name =
++            g_strdup_printf("dirtyrestraint-%d", cpu_index);
++        qemu_thread_create(&dirtyrestraint_state->states[cpu_index].thread,
++            dirtyrestraint_state->states[cpu_index].name,
++            dirtyrestraint_thread,
++            (void *)&dirtyrestraint_state->states[cpu_index].cpu_index,
++            QEMU_THREAD_DETACHED);
 +    }
 +
 +    return;
 +}
 +
-+static void *dirtyrestraint_calc_thread(void *opaque)
++void dirtyrestraint_state_init(int max_cpus)
 +{
-+    rcu_register_thread();
++    int i;
 +
-+    while (qatomic_read(&dirtyrestraint_calc_state->enable)) {
-+        dirtyrestraint_calc_func();
-+        dirtyrestraint_calc_state->ready = true;
-+        qemu_cond_signal(&dirtyrestraint_calc_state->ready_cond);
-+        sleep(dirtyrestraint_calc_state->period);
++    dirtyrestraint_state = g_malloc0(sizeof(*dirtyrestraint_state));
++
++    dirtyrestraint_state->states =
++            g_malloc0(sizeof(DirtyRestraintState) * max_cpus);
++
++    for (i = 0; i < max_cpus; i++) {
++        dirtyrestraint_state->states[i].cpu_index = i;
 +    }
 +
-+    rcu_unregister_thread();
-+    return NULL;
++    dirtyrestraint_state->max_cpus = max_cpus;
++
++    trace_dirtyrestraint_state_init(max_cpus);
 +}
 +
-+void dirtyrestraint_calc_start(void)
-+{
-+    if (likely(!qatomic_read(&dirtyrestraint_calc_state->enable))) {
-+        qatomic_set(&dirtyrestraint_calc_state->enable, 1);
-+        QemuThread thread;
-+        qemu_thread_create(&thread, "dirtyrestraint-calc",
-+            dirtyrestraint_calc_thread,
-+            NULL, QEMU_THREAD_DETACHED);
-+    }
-+}
-+
-+void dirtyrestraint_calc_state_init(int max_cpus)
-+{
-+    dirtyrestraint_calc_state =
-+        g_malloc0(sizeof(*dirtyrestraint_calc_state));
-+
-+    dirtyrestraint_calc_state->data.nvcpu = max_cpus;
-+    dirtyrestraint_calc_state->data.rates =
-+        g_malloc0(sizeof(DirtyRateVcpu) * max_cpus);
-+
-+    dirtyrestraint_calc_state->period =
-+        DIRTYRESTRAINT_CALC_PERIOD_TIME_S;
-+
-+    qemu_cond_init(&dirtyrestraint_calc_state->ready_cond);
-+    qemu_mutex_init(&dirtyrestraint_calc_state->ready_mtx);
-+}
-+
- static int64_t set_sample_page_period(int64_t msec, int64_t initial_time)
+ static void cpu_throttle_thread(CPUState *cpu, run_on_cpu_data opaque)
  {
-     int64_t current_time;
-diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
-index 69d4c5b..e96acdc 100644
---- a/migration/dirtyrate.h
-+++ b/migration/dirtyrate.h
-@@ -70,6 +70,8 @@ typedef struct VcpuStat {
-     DirtyRateVcpu *rates; /* array of dirty rate for each vcpu */
- } VcpuStat;
- 
-+typedef struct VcpuStat DirtyRatesData;
+     double pct;
+diff --git a/softmmu/trace-events b/softmmu/trace-events
+index 9c88887..0307567 100644
+--- a/softmmu/trace-events
++++ b/softmmu/trace-events
+@@ -31,3 +31,8 @@ runstate_set(int current_state, const char *current_state_str, int new_state, co
+ system_wakeup_request(int reason) "reason=%d"
+ qemu_system_shutdown_request(int reason) "reason=%d"
+ qemu_system_powerdown_request(void) ""
 +
- /*
-  * Store calculation statistics for each measure.
-  */
++#cpu-throttle.c
++dirtyrestraint_state_init(int max_cpus) "dirtyrate restraint init: max cpus %d"
++dirtyrestraint_impose(int cpu_index, uint64_t quota, uint64_t current, int pct) "CPU[%d] impose dirtyrate restraint: quota %" PRIu64 ", current %" PRIu64 ", percentage %d"
++dirtyrestraint_vcpu(int cpu_index, uint64_t quota) "CPU[%d] dirtyrate restraint, quota dirtyrate %"PRIu64
 -- 
 1.8.3.1
 
