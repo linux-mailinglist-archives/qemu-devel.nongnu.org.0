@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8470F456483
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 21:51:15 +0100 (CET)
-Received: from localhost ([::1]:55022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4705456472
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 21:49:00 +0100 (CET)
+Received: from localhost ([::1]:47114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnoNG-0001Tq-Cf
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 15:51:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58772)
+	id 1mnoL5-0004XT-Rl
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 15:48:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mnoIi-0001qH-Ig
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 15:46:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33683)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mnoIh-0001ov-SD
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 15:46:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33775)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mnoIh-0000OR-6a
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 15:46:32 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mnoIg-0000O7-BW
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 15:46:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637268390;
+ s=mimecast20190719; t=1637268389;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uK6BvNr0nSFx88TjfyzcxERx7R9UJc4NK57PTYpit4A=;
- b=B6FGiUJ35upbWIdJbSRsPatjhgItDEf2vWJtWu+WQujnQ2Ynztt+M8MT7N81vFuDqkXjGu
- xun+zM5EZc3IkZ/Q6xlny8yXWn7bS8rHZysGAsY4VUhTnTGEfWhuwwbdZcFFELpUgRy7F6
- AFR7bwCOAydhlBcopXwzq0emKDrEKsM=
+ bh=f3j2XgNV29TROon2KsCm5KyGGCp4QNigpFpnQvIxyw0=;
+ b=bqYRdsKC9a9m2O/6Gh4zLw5Z3TQckYDEkai0Cr65svZjqoXFULkzfW8joAQ+jnEz+xfyCb
+ 47ELUWkL+JGMqhMe60Ni6TJizgC8u3yHd55SSes3FeLks2eGWp/4AXoljz613/ETZ48ueq
+ vLl6W8yxu0C8JFq129WB+lwKWiGTp6s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-152-xPfTBnTSOOGsZ9B6_THCUA-1; Thu, 18 Nov 2021 15:46:26 -0500
-X-MC-Unique: xPfTBnTSOOGsZ9B6_THCUA-1
+ us-mta-22-KResAx11OPyKgQvLRwgmig-1; Thu, 18 Nov 2021 15:46:28 -0500
+X-MC-Unique: KResAx11OPyKgQvLRwgmig-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B04E41927802
- for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 20:46:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FA2987D541
+ for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 20:46:26 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.18.244])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 07D5667842;
- Thu, 18 Nov 2021 20:46:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DBAA867842;
+ Thu, 18 Nov 2021 20:46:25 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/7] python/machine: move more variable initializations to
- _pre_launch
-Date: Thu, 18 Nov 2021 15:46:17 -0500
-Message-Id: <20211118204620.1897674-5-jsnow@redhat.com>
+Subject: [PATCH 5/7] python/machine: handle "fast" QEMU terminations
+Date: Thu, 18 Nov 2021 15:46:18 -0500
+Message-Id: <20211118204620.1897674-6-jsnow@redhat.com>
 In-Reply-To: <20211118204620.1897674-1-jsnow@redhat.com>
 References: <20211118204620.1897674-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,54 +82,84 @@ Cc: Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No need to clear them only to set them later.
+In the case that the QEMU process actually launches -- but then dies so
+quickly that we can't establish a QMP connection to it -- QEMUMachine
+currently calls _post_shutdown() assuming that it never launched the VM
+process.
+
+This isn't true, though: it "merely" may have failed to establish a QMP
+connection and the process is in the middle of its own exit path.
+
+If we don't wait for the subprocess, the caller may get a bogus `None`
+return for .exitcode(). This behavior was observed from
+device-crash-test; after the switch to Async QMP, the timings were
+changed such that it was now seemingly possible to witness the failure
+of "vm.launch()" *prior* to the exitcode becoming available.
+
+The semantic of the `_launched` property is changed in this
+patch. Instead of representing the condition "launch() executed
+successfully", it will now represent "has forked a child process
+successfully". This way, wait() when called in the exit path won't
+become a no-op.
+Signed-off-by: John Snow <jsnow@redhat.com>
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/machine/machine.py | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ python/qemu/machine/machine.py | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
 diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-index ad529fd92a..f92e73de40 100644
+index f92e73de40..67ab06ca2b 100644
 --- a/python/qemu/machine/machine.py
 +++ b/python/qemu/machine/machine.py
-@@ -327,6 +327,14 @@ def _pre_launch(self) -> None:
-         self._qemu_log_path = os.path.join(self.log_dir, self._name + ".log")
-         self._qemu_log_file = open(self._qemu_log_path, 'wb')
+@@ -349,9 +349,6 @@ def _post_shutdown(self) -> None:
+         Called to cleanup the VM instance after the process has exited.
+         May also be called after a failed launch.
+         """
+-        # Comprehensive reset for the failed launch case:
+-        self._early_cleanup()
+-
+         try:
+             self._close_qmp_connection()
+         except Exception as err:  # pylint: disable=broad-except
+@@ -400,9 +397,16 @@ def launch(self) -> None:
  
-+        self._iolog = None
-+        self._qemu_full_args = tuple(chain(
-+            self._wrapper,
-+            [self._binary],
-+            self._base_args,
-+            self._args
-+        ))
-+
-     def _post_launch(self) -> None:
-         if self._qmp_connection:
-             self._qmp.accept(self._qmp_timer)
-@@ -390,8 +398,6 @@ def launch(self) -> None:
-         if self._launched:
-             raise QEMUMachineError('VM already launched')
- 
--        self._iolog = None
--        self._qemu_full_args = ()
          try:
              self._launch()
-             self._launched = True
-@@ -410,12 +416,6 @@ def _launch(self) -> None:
-         Launch the VM and establish a QMP connection
-         """
-         self._pre_launch()
--        self._qemu_full_args = tuple(
--            chain(self._wrapper,
--                  [self._binary],
--                  self._base_args,
--                  self._args)
--        )
-         LOG.debug('VM launch command: %r', ' '.join(self._qemu_full_args))
+-            self._launched = True
+         except:
+-            self._post_shutdown()
++            # We may have launched the process but it may
++            # have exited before we could connect via QMP.
++            # Assume the VM didn't launch or is exiting.
++            # If we don't wait for the process, exitcode() may still be
++            # 'None' by the time control is ceded back to the caller.
++            if self._launched:
++                self.wait()
++            else:
++                self._post_shutdown()
  
-         # Cleaning up of this subprocess is guaranteed by _do_shutdown.
+             LOG.debug('Error launching VM')
+             if self._qemu_full_args:
+@@ -426,6 +430,7 @@ def _launch(self) -> None:
+                                        stderr=subprocess.STDOUT,
+                                        shell=False,
+                                        close_fds=False)
++        self._launched = True
+         self._post_launch()
+ 
+     def _close_qmp_connection(self) -> None:
+@@ -457,8 +462,8 @@ def _early_cleanup(self) -> None:
+         """
+         Perform any cleanup that needs to happen before the VM exits.
+ 
+-        May be invoked by both soft and hard shutdown in failover scenarios.
+-        Called additionally by _post_shutdown for comprehensive cleanup.
++        This method may be called twice upon shutdown, once each by soft
++        and hard shutdown in failover scenarios.
+         """
+         # If we keep the console socket open, we may deadlock waiting
+         # for QEMU to exit, while QEMU is waiting for the socket to
 -- 
 2.31.1
 
