@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCBC1455D1D
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 14:57:34 +0100 (CET)
-Received: from localhost ([::1]:37040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 451B7455D64
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 15:06:13 +0100 (CET)
+Received: from localhost ([::1]:55410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnhuv-0001O2-V8
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 08:57:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56820)
+	id 1mni3I-0005hN-4R
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 09:06:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mnhaR-0008Ms-JR
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 08:36:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57741)
+ id 1mnhaT-0008QO-9A
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 08:36:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43272)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mnhaP-0002py-50
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 08:36:23 -0500
+ id 1mnhaR-0002qQ-AT
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 08:36:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637242580;
+ s=mimecast20190719; t=1637242582;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Uo8I2c5dBIybD98Va+nuEDj8eGhYueQwVlnbeu2P2bM=;
- b=K2CcSQ/7gnSBUnvpfXQ/u/YXXNVCVbEh63JOCHdkjcjdm4ZUsoLTlk9pv/A3kphJM8JZit
- qUU8qZTY8sG4NYK7noJt810TlaYBKlbonwQN8nNxGhJfPyQRp2uOsiEO5dj/yr/Hk3U9p2
- Pl/PLEQYy7vW2ry5iyXWsuMrBUR/HyY=
+ bh=ytnUUif25oYMkqa8jMsmzRzFU3UWIYFhkH5hBybYE+I=;
+ b=YGLCfqWEq5IA8nLRebbM/E4yNw0jamkElBXMh41ufBujzq9njrKwCJpij77umTj7PGkj8J
+ tld4LacAnZRlS/zb0QxMLryWhzkDV5xu0ZDnPIJwhfcwNEg6YgzWTdz+Pb07LEWtu7iy0G
+ aFp0J4O2A6xaHoSghl6uSw8myKZZSCI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-71-BxsWHeKaMvKwOhrraaIk3Q-1; Thu, 18 Nov 2021 08:36:17 -0500
-X-MC-Unique: BxsWHeKaMvKwOhrraaIk3Q-1
+ us-mta-413-fe5sf_YwNa6xoEFepYn9eA-1; Thu, 18 Nov 2021 08:36:19 -0500
+X-MC-Unique: fe5sf_YwNa6xoEFepYn9eA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A80D100E325;
- Thu, 18 Nov 2021 13:36:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 141CD100E320;
+ Thu, 18 Nov 2021 13:36:18 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 476595F4ED;
- Thu, 18 Nov 2021 13:36:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4BB6A62A41;
+ Thu, 18 Nov 2021 13:36:16 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/6] target/i386/sev: Perform padding calculations at
- compile-time
-Date: Thu, 18 Nov 2021 13:35:31 +0000
-Message-Id: <20211118133532.2029166-6-berrange@redhat.com>
+Subject: [PULL 6/6] target/i386/sev: Replace qemu_map_ram_ptr with
+ address_space_map
+Date: Thu, 18 Nov 2021 13:35:32 +0000
+Message-Id: <20211118133532.2029166-7-berrange@redhat.com>
 In-Reply-To: <20211118133532.2029166-1-berrange@redhat.com>
 References: <20211118133532.2029166-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -78,9 +78,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Marcelo Tosatti <mtosatti@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Dov Murik <dovmurik@linux.ibm.com>, Brijesh Singh <brijesh.singh@amd.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -88,95 +86,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Dov Murik <dovmurik@linux.ibm.com>
 
-In sev_add_kernel_loader_hashes, the sizes of structs are known at
-compile-time, so calculate needed padding at compile-time.
-
-No functional change intended.
+Use address_space_map/unmap and check for errors.
 
 Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Acked-by: Brijesh Singh <brijesh.singh@amd.com>
+[Two lines wrapped for length - Daniel]
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- target/i386/sev.c | 28 ++++++++++++++++++----------
- 1 file changed, 18 insertions(+), 10 deletions(-)
+ target/i386/sev.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
 diff --git a/target/i386/sev.c b/target/i386/sev.c
-index d11b512361..4fd258a570 100644
+index 4fd258a570..025ff7a6f8 100644
 --- a/target/i386/sev.c
 +++ b/target/i386/sev.c
-@@ -110,9 +110,19 @@ typedef struct QEMU_PACKED SevHashTable {
-     SevHashTableEntry cmdline;
-     SevHashTableEntry initrd;
-     SevHashTableEntry kernel;
--    uint8_t padding[];
- } SevHashTable;
+@@ -37,6 +37,7 @@
+ #include "qapi/qmp/qerror.h"
+ #include "exec/confidential-guest-support.h"
+ #include "hw/i386/pc.h"
++#include "exec/address-spaces.h"
  
-+/*
-+ * Data encrypted by sev_encrypt_flash() must be padded to a multiple of
-+ * 16 bytes.
-+ */
-+typedef struct QEMU_PACKED PaddedSevHashTable {
-+    SevHashTable ht;
-+    uint8_t padding[ROUND_UP(sizeof(SevHashTable), 16) - sizeof(SevHashTable)];
-+} PaddedSevHashTable;
-+
-+QEMU_BUILD_BUG_ON(sizeof(PaddedSevHashTable) % 16 != 0);
-+
- static SevGuestState *sev_guest;
- static Error *sev_mig_blocker;
- 
-@@ -1216,12 +1226,12 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
-     uint8_t *data;
-     SevHashTableDescriptor *area;
-     SevHashTable *ht;
-+    PaddedSevHashTable *padded_ht;
-     uint8_t cmdline_hash[HASH_SIZE];
-     uint8_t initrd_hash[HASH_SIZE];
+ #define TYPE_SEV_GUEST "sev-guest"
+ OBJECT_DECLARE_SIMPLE_TYPE(SevGuestState, SEV_GUEST)
+@@ -1232,6 +1233,9 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
      uint8_t kernel_hash[HASH_SIZE];
      uint8_t *hashp;
      size_t hash_len = HASH_SIZE;
--    int aligned_len = ROUND_UP(sizeof(SevHashTable), 16);
++    hwaddr mapped_len = sizeof(*padded_ht);
++    MemTxAttrs attrs = { 0 };
++    bool ret = true;
  
      /*
       * Only add the kernel hashes if the sev-guest configuration explicitly
-@@ -1237,7 +1247,7 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
-         return false;
-     }
-     area = (SevHashTableDescriptor *)data;
--    if (!area->base || area->size < aligned_len) {
-+    if (!area->base || area->size < sizeof(PaddedSevHashTable)) {
-         error_setg(errp, "SEV: guest firmware hashes table area is invalid "
-                          "(base=0x%x size=0x%x)", area->base, area->size);
-         return false;
-@@ -1282,7 +1292,8 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
+@@ -1292,7 +1296,12 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
       * Populate the hashes table in the guest's memory at the OVMF-designated
       * area for the SEV hashes table
       */
--    ht = qemu_map_ram_ptr(NULL, area->base);
-+    padded_ht = qemu_map_ram_ptr(NULL, area->base);
-+    ht = &padded_ht->ht;
+-    padded_ht = qemu_map_ram_ptr(NULL, area->base);
++    padded_ht = address_space_map(&address_space_memory, area->base,
++                                  &mapped_len, true, attrs);
++    if (!padded_ht || mapped_len != sizeof(*padded_ht)) {
++        error_setg(errp, "SEV: cannot map hashes table guest memory area");
++        return false;
++    }
+     ht = &padded_ht->ht;
  
      ht->guid = sev_hash_table_header_guid;
-     ht->len = sizeof(*ht);
-@@ -1299,13 +1310,10 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
-     ht->kernel.len = sizeof(ht->kernel);
-     memcpy(ht->kernel.hash, kernel_hash, sizeof(ht->kernel.hash));
+@@ -1314,10 +1323,13 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
+     memset(padded_ht->padding, 0, sizeof(padded_ht->padding));
  
--    /* When calling sev_encrypt_flash, the length has to be 16 byte aligned */
--    if (aligned_len != ht->len) {
--        /* zero the excess data so the measurement can be reliably calculated */
--        memset(ht->padding, 0, aligned_len - ht->len);
--    }
-+    /* zero the excess data so the measurement can be reliably calculated */
-+    memset(padded_ht->padding, 0, sizeof(padded_ht->padding));
- 
--    if (sev_encrypt_flash((uint8_t *)ht, aligned_len, errp) < 0) {
-+    if (sev_encrypt_flash((uint8_t *)padded_ht, sizeof(*padded_ht), errp) < 0) {
-         return false;
+     if (sev_encrypt_flash((uint8_t *)padded_ht, sizeof(*padded_ht), errp) < 0) {
+-        return false;
++        ret = false;
      }
  
+-    return true;
++    address_space_unmap(&address_space_memory, padded_ht,
++                        mapped_len, true, mapped_len);
++
++    return ret;
+ }
+ 
+ static void
 -- 
 2.31.1
 
