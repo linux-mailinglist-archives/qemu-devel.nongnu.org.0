@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5979455B1F
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 13:01:01 +0100 (CET)
-Received: from localhost ([::1]:59516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF47455B42
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 13:10:20 +0100 (CET)
+Received: from localhost ([::1]:37508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mng68-0007C6-K7
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 07:01:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59580)
+	id 1mngF6-00042n-Ob
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 07:10:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mng3m-0003cA-Aa
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 06:58:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54327)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mngBk-0001d6-8V
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 07:06:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44951)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mng3k-0002Pp-Ar
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 06:58:33 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mngBg-00040i-Jh
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 07:06:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637236711;
+ s=mimecast20190719; t=1637237200;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=a6Q20w0hauRVTMRWuZI3AukHVhqyWKhfQ2OupBahNCY=;
- b=aZM4MXfLecAZm3d72xIhNh/rWnN0DqcyXuxZID+rGgpN0SCBeJ9FVthQiH9LVIAtGFnQb0
- GGbgD9wlKo6KMg0rKuD8HWPiOjFxKX8Dj2+Dde4WAbqO0xfy1KEeCWVEAvZSFc+Mw3ha9j
- na0OepA01asA8vh+lVAdeZKNMotmmGA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2nbKYIyyjyXzQWT984PNGWxzqRyVHb+JtaRPE7rlcgI=;
+ b=XqpocqP2OM/ut9KF/kJdYzSGqmtv/ph9MZcTQH3DVC45FpTNFQ0Mx2MvLSBt6xyO5Muhy1
+ VQa87TthMoVuQX3F5CvcGqQlltC93IvNUJqPBUBp173Cb8iDF84TsIFAq2J8dDrNdIGNgK
+ 1BQIAAToVpexeubi9+NBNVi7zouCEQA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-59-Zj3-m5OTNqKGQB7pudGf8Q-1; Thu, 18 Nov 2021 06:58:30 -0500
-X-MC-Unique: Zj3-m5OTNqKGQB7pudGf8Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46D9A1006AA5
- for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 11:58:29 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 11F4960BF1;
- Thu, 18 Nov 2021 11:58:29 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 79D4111380A7; Thu, 18 Nov 2021 12:58:27 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: marcandre.lureau@redhat.com
-Subject: Re: [PATCH v2 1/2] qemu-options: define -spice only #ifdef
- CONFIG_SPICE
-References: <20211115080312.64692-1-marcandre.lureau@redhat.com>
- <20211115080312.64692-2-marcandre.lureau@redhat.com>
-Date: Thu, 18 Nov 2021 12:58:27 +0100
-In-Reply-To: <20211115080312.64692-2-marcandre.lureau@redhat.com> (marcandre
- lureau's message of "Mon, 15 Nov 2021 12:03:11 +0400")
-Message-ID: <87czmxwu8s.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-207-AAEWEWTUMr2rpeTEUUrL9Q-1; Thu, 18 Nov 2021 07:06:39 -0500
+X-MC-Unique: AAEWEWTUMr2rpeTEUUrL9Q-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ l6-20020a05600c4f0600b0033321934a39so2989668wmq.9
+ for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 04:06:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fyYauTP3DLqqw/tUZRA8g5AATc8JYgijTThtiuAXaxc=;
+ b=a1MmrF77Dp2MtvuYNSPWWaE7iY6Dlgj3M9IT7DAK2vygTjfssEP0rCGqux7ZmGYhtY
+ 0o8GLA+ZiDAhsHKmGgIiWFGFvJMV0yowOvrcNWmYvXNSHy4vIhMblmJN2azUYhqoc0qM
+ BrOZxq7mc4n8YhU9oAW5f2iT+uLVZgoRe7FqqKYKPC5GHZsrIL699aWe2MtK9tBTs0mD
+ odeqaf95Zo3qjuyTx3lcB3avebJCSb7K/x/VoZWiCbGhDWyg6tnTqpADOTVfVWeFUpT0
+ RvAA/a2tPEZRki10c9zMOVXfJxx7TY020l49STrOXHq7vStE+yNfVPyW0vKuW9B2H4mm
+ S8sw==
+X-Gm-Message-State: AOAM5314zzPmBgxOur6AZX4X/r+imZ75TCnE6hnk0cclCDpkN2bkVwzF
+ iV70iwpqIpi2Q5SoaWNvvlQgurKDPHhbKjp9laTL1KA+axt/BYVaimeKJ5anhTTdrsLLsCQQQGm
+ YelPRgqwz//Dnk9IbnRnj7MVIKRQiVEESCbch+0P70iCoejj8ysNUF5FJiz9UVPz1
+X-Received: by 2002:a05:6000:184e:: with SMTP id
+ c14mr30216101wri.241.1637237198439; 
+ Thu, 18 Nov 2021 04:06:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy8oe7NXcl1LuSxbOlcHf10a33TM92X03Hihe/IANTJAhcu0EEsauf+fRb9N2qQrIE+ahWGcg==
+X-Received: by 2002:a05:6000:184e:: with SMTP id
+ c14mr30216011wri.241.1637237197954; 
+ Thu, 18 Nov 2021 04:06:37 -0800 (PST)
+Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id
+ l22sm2732048wmp.34.2021.11.18.04.06.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Nov 2021 04:06:37 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-6.2 v3 0/2] hw/block/fdc: Fix CVE-2021-20196
+Date: Thu, 18 Nov 2021 13:06:33 +0100
+Message-Id: <20211118120635.4043197-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -83,71 +94,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, berrange@redhat.com,
- qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Prasad J Pandit <pjp@fedoraproject.org>,
+ qemu-block@nongnu.org, Darren Kenny <darren.kenny@oracle.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Gaoning Pan <pgn@zju.edu.cn>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-marcandre.lureau@redhat.com writes:
-
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Fixes:
-> https://bugzilla.redhat.com/show_bug.cgi?id=3D1982600
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  softmmu/vl.c    | 2 ++
->  qemu-options.hx | 2 ++
->  2 files changed, 4 insertions(+)
->
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 1159a64bce4e..385465fbeb6d 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -3538,6 +3538,7 @@ void qemu_init(int argc, char **argv, char **envp)
->              case QEMU_OPTION_readconfig:
->                  qemu_read_config_file(optarg, qemu_parse_config_group, &=
-error_fatal);
->                  break;
-> +#ifdef CONFIG_SPICE
->              case QEMU_OPTION_spice:
->                  olist =3D qemu_find_opts_err("spice", NULL);
->                  if (!olist) {
-                       error_report("spice support is disabled");
-                       exit(1);
-                   }
-
-Is this error still reachable?
-
-> @@ -3550,6 +3551,7 @@ void qemu_init(int argc, char **argv, char **envp)
->                  }
->                  display_remote++;
->                  break;
-> +#endif
->              case QEMU_OPTION_writeconfig:
->                  {
->                      FILE *fp;
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 7749f59300b5..323913945a5d 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -2017,6 +2017,7 @@ SRST
->      Enable SDL.
->  ERST
-> =20
-> +#ifdef CONFIG_SPICE
->  DEF("spice", HAS_ARG, QEMU_OPTION_spice,
->      "-spice [port=3Dport][,tls-port=3Dsecured-port][,x509-dir=3D<dir>]\n=
-"
->      "       [,x509-key-file=3D<file>][,x509-key-password=3D<file>]\n"
-> @@ -2038,6 +2039,7 @@ DEF("spice", HAS_ARG, QEMU_OPTION_spice,
->      "   enable spice\n"
->      "   at least one of {port, tls-port} is mandatory\n",
->      QEMU_ARCH_ALL)
-> +#endif
->  SRST
->  ``-spice option[,option[,...]]``
->      Enable the spice remote desktop protocol. Valid options are
+I'm not sure what happened to v1 from Prasad, so since we are=0D
+at rc2 I took a simpler approach to fix this CVE: create an=0D
+empty drive to satisfy the BlockBackend API calls.=0D
+=0D
+Added Alexander's reproducer along.=0D
+=0D
+Since v2:=0D
+- Reword comment (Darren)=0D
+- Add Darren R-b tag=0D
+=0D
+v2: https://lore.kernel.org/qemu-devel/20211117232422.1026411-1-philmd@redh=
+at.com/=0D
+v1: https://lore.kernel.org/qemu-devel/20210123100345.642933-1-ppandit@redh=
+at.com/=0D
+Based-on: <20211118115733.4038610-1-philmd@redhat.com>=0D
+=0D
+Alexander Bulekov (1):=0D
+  tests/qtest/fdc-test: Add a regression test for CVE-2021-20196=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (1):=0D
+  hw/block/fdc: Kludge missing floppy drive to fix CVE-2021-20196=0D
+=0D
+ hw/block/fdc.c         | 14 +++++++++++++-=0D
+ tests/qtest/fdc-test.c | 21 +++++++++++++++++++++=0D
+ 2 files changed, 34 insertions(+), 1 deletion(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
