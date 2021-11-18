@@ -2,60 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21DD34557B5
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 10:05:54 +0100 (CET)
-Received: from localhost ([::1]:42882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA914557DB
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 10:17:11 +0100 (CET)
+Received: from localhost ([::1]:50718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mndMe-0008DX-RH
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 04:05:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38454)
+	id 1mndXZ-0005sJ-QJ
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 04:17:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mndKY-0006tK-CL; Thu, 18 Nov 2021 04:03:42 -0500
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:44587)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1mndVw-0004Wd-T5
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 04:15:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mndKW-0000El-6R; Thu, 18 Nov 2021 04:03:42 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.173])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 54D55CC4B5E0;
- Thu, 18 Nov 2021 10:03:37 +0100 (CET)
-Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Thu, 18 Nov
- 2021 10:03:36 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G006e4744019-1143-4cb8-afb2-2ba19f887868,
- 4A6ABDF66DC85A3D00A6C17CB73E494911F6EB6E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 90.55.24.82
-Message-ID: <31614c56-fa15-8407-003b-f44569da7b28@kaod.org>
-Date: Thu, 18 Nov 2021 10:03:35 +0100
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1mndVo-000203-JA
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 04:15:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637226918;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=F1cEvMh4uhS/jEOJ18lnANILZSGPd2bxkBz9vKoKvwg=;
+ b=fwbDMuZc1RtLr8jtnQlLKNkK7Yr+MEFN8gLPyT3IyivXFWHzVa+PAYuhPkYVU9mo6Fhwfs
+ GUdYQ4wjYP34uu0bJQFsjSvHbEL7kUp0HUbUSuSUgyZECN7/s5uph7x7VxS+o4WSawOZxL
+ qeqL3HNAVh7UHJhIZZEeGrFUUJVNxYc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-115-jMqLHXysM9eaopuhKtv0_Q-1; Thu, 18 Nov 2021 04:15:15 -0500
+X-MC-Unique: jMqLHXysM9eaopuhKtv0_Q-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ m14-20020a05600c3b0e00b0033308dcc933so2799480wms.7
+ for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 01:15:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=F1cEvMh4uhS/jEOJ18lnANILZSGPd2bxkBz9vKoKvwg=;
+ b=io1XGovLxZDQkijZgw674tRCcwLHqmgYDEisIjPwZtETYxCu9buyHICqOjjecUuwW5
+ JL+NvOIm3zQGO7REOB1HZmTW4fG0W2ey4J9p5ITfwECtzMbBHoYAYLYdyaA1kNMPmZXS
+ q1BtsvuaXZmqzZFlRdyEPhTOV28Ttscr8eGqftvH5TiS/MKlyurOYuLbKORugVyINZWe
+ qBmvJ42sKAyMGwI9Vi+Ak7+EbONf0G5nmHL7YbGgfW54Bw6LQ08vVKYxpqtS9Np1t5IE
+ oGb/L8sZpbFMLzziEvU+2DIrZk2zehRcrdePyq4yhIfWO6s3DGToS1BHamnqUEOz8gRc
+ 56vg==
+X-Gm-Message-State: AOAM532f0+GWXkwbJ3QXUC+AMnYzJqWtW19mpgBXN9vfjf4htoTmva3O
+ enJ08mC02NeRhWfDKsQ4/1iwNN0dEAFtvdw14u/E3K5QJa8KfQ6galHOTqCNb63E1Fi8W8JXkUM
+ bt9ZjA+bWXqPGGNU=
+X-Received: by 2002:a5d:4107:: with SMTP id l7mr28456249wrp.209.1637226914339; 
+ Thu, 18 Nov 2021 01:15:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxmBrWkL3DJJRM/rXp4lGBJPPwzutLfARFL4c7I75PGcrhL1McxQvqTJIzMGLLZqhv0xFTrhw==
+X-Received: by 2002:a5d:4107:: with SMTP id l7mr28456217wrp.209.1637226914151; 
+ Thu, 18 Nov 2021 01:15:14 -0800 (PST)
+Received: from [192.168.100.42] ([82.142.2.234])
+ by smtp.gmail.com with ESMTPSA id l4sm2384412wrv.94.2021.11.18.01.15.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Nov 2021 01:15:13 -0800 (PST)
+Message-ID: <720581b3-c0ec-0834-7ca4-c18a621853f4@redhat.com>
+Date: Thu, 18 Nov 2021 10:15:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] docs: Minor updates on the powernv documentation.
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v3] failover: fix unplug pending detection
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20211001082502.1342878-1-lvivier@redhat.com>
+ <187a516b-9989-954a-4cab-834379d2a1d8@redhat.com>
+ <20211018041855-mutt-send-email-mst@kernel.org>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <20211018041855-mutt-send-email-mst@kernel.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: <lagarcia@linux.ibm.com>, <qemu-ppc@nongnu.org>
-References: <1c40a43de8b899dccaac137c88007ec72609952a.1637180046.git.lagarcia@br.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <1c40a43de8b899dccaac137c88007ec72609952a.1637180046.git.lagarcia@br.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 2401548d-6440-44c2-a219-d4075f7e3b93
-X-Ovh-Tracer-Id: 1650850741492616160
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrfeehgdduvdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgfeuiedthfdugfegteejhfeitdelheejjeekfeejfeekieegkeetueelhfegtdeunecuffhomhgrihhnpehgihhthhhusgdrtghomhdpkhgrohgurdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheplhgrghgrrhgtihgrsegsrhdrihgsmhdrtghomh
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.084,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.084, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,141 +102,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Garcia <lagarcia@br.ibm.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>, Jens Freimann <jfreimann@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/17/21 21:16, lagarcia@linux.ibm.com wrote:
-> From: Leonardo Garcia <lagarcia@br.ibm.com>
+On 18/10/2021 10:27, Michael S. Tsirkin wrote:
+> On Mon, Oct 18, 2021 at 09:19:16AM +0200, Laurent Vivier wrote:
+>> Hi,
+>>
+>> I don't understand if there are some issues
 > 
-> Signed-off-by: Leonardo Garcia <lagarcia@br.ibm.com>
-> ---
->   docs/system/ppc/powernv.rst | 56 +++++++++++++++++++------------------
->   1 file changed, 29 insertions(+), 27 deletions(-)
+> Gerd did identify some issues, you felt they aren't related to the patch
+> and need to be addressed separately.
 > 
-> diff --git a/docs/system/ppc/powernv.rst b/docs/system/ppc/powernv.rst
-> index 86186b7d2c..907c4ce4f9 100644
-> --- a/docs/system/ppc/powernv.rst
-> +++ b/docs/system/ppc/powernv.rst
-> @@ -1,7 +1,7 @@
-> -PowerNV family boards (``powernv8``, ``powernv9``)
-> +PowerNV family boards (``powernv8``, ``powernv9``, ``power10``)
-
-powernv10.
-
-And I still haven't resent the XIVE2/PHB5 patches to enable full support.
-
->   ==================================================================
->   
-> -PowerNV (as Non-Virtualized) is the "baremetal" platform using the
-> +PowerNV (as Non-Virtualized) is the "bare metal" platform using the
->   OPAL firmware. It runs Linux on IBM and OpenPOWER systems and it can
->   be used as an hypervisor OS, running KVM guests, or simply as a host
->   OS.
-> @@ -15,17 +15,15 @@ beyond the scope of what QEMU addresses today.
->   Supported devices
->   -----------------
->   
-> - * Multi processor support for POWER8, POWER8NVL and POWER9.
-> - * XSCOM, serial communication sideband bus to configure chiplets
-> - * Simple LPC Controller
-> - * Processor Service Interface (PSI) Controller
-> - * Interrupt Controller, XICS (POWER8) and XIVE (POWER9)
-> - * POWER8 PHB3 PCIe Host bridge and POWER9 PHB4 PCIe Host bridge
-> - * Simple OCC is an on-chip microcontroller used for power management
-> -   tasks
-> - * iBT device to handle BMC communication, with the internal BMC
-> -   simulator provided by QEMU or an external BMC such as an Aspeed
-> -   QEMU machine.
-> + * Multi processor support for POWER8, POWER8NVL and Power9.
-
-s/Power9/POWER9/ right ? I am starting to doubt :)
-
-> + * XSCOM, serial communication sideband bus to configure chiplets.
-> + * Simple LPC Controller.
-> + * Processor Service Interface (PSI) Controller.
-> + * Interrupt Controller, XICS (POWER8) and XIVE (Power9) and XIVE2 (Power10).
-> + * POWER8 PHB3 PCIe Host bridge and POWER9 PHB4 PCIe Host bridge.
-> + * Simple OCC is an on-chip micro-controller used for power management tasks.
-> + * iBT device to handle BMC communication, with the internal BMC simulator
-> +   provided by QEMU or an external BMC such as an Aspeed QEMU machine.
->    * PNOR containing the different firmware partitions.
->   
->   Missing devices
-> @@ -33,27 +31,25 @@ Missing devices
->   
->   A lot is missing, among which :
->   
-> - * POWER10 processor
-> - * XIVE2 (POWER10) interrupt controller
-> - * I2C controllers (yet to be merged)
-> - * NPU/NPU2/NPU3 controllers
-> - * EEH support for PCIe Host bridge controllers
-> - * NX controller
-> - * VAS controller
-> - * chipTOD (Time Of Day)
-> + * I2C controllers (yet to be merged).
-> + * NPU/NPU2/NPU3 controllers.
-> + * EEH support for PCIe Host bridge controllers.
-> + * NX controller.
-> + * VAS controller.
-> + * chipTOD (Time Of Day).
->    * Self Boot Engine (SBE).
-> - * FSI bus
-> + * FSI bus.
->   
->   Firmware
->   --------
->   
->   The OPAL firmware (OpenPower Abstraction Layer) for OpenPower systems
->   includes the runtime services ``skiboot`` and the bootloader kernel and
-> -initramfs ``skiroot``. Source code can be found on GitHub:
-> +initramfs ``skiroot``. Source code can be found on the `OpenPOWER account at
-> +GitHub <https://github.com/open-power>`_.
->   
-> -  https://github.com/open-power.
-> -
-> -Prebuilt images of ``skiboot`` and ``skiroot`` are made available on the `OpenPOWER <https://github.com/open-power/op-build/releases/>`__ site.
-> +Prebuilt images of ``skiboot`` and ``skiroot`` are made available on the
-> +`OpenPOWER <https://github.com/open-power/op-build/releases/>`__ site.
->   
->   QEMU includes a prebuilt image of ``skiboot`` which is updated when a
->   more recent version is required by the models.
-> @@ -83,6 +79,7 @@ and a SATA disk :
->   
->   Complex PCIe configuration
->   ~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
->   Six PHBs are defined per chip (POWER9) but no default PCI layout is
->   provided (to be compatible with libvirt). One PCI device can be added
->   on any of the available PCIe slots using command line options such as:
-> @@ -157,7 +154,7 @@ one on the command line :
->   The files `palmetto-SDR.bin <http://www.kaod.org/qemu/powernv/palmetto-SDR.bin>`__
->   and `palmetto-FRU.bin <http://www.kaod.org/qemu/powernv/palmetto-FRU.bin>`__
->   define a Sensor Data Record repository and a Field Replaceable Unit
-> -inventory for a palmetto BMC. They can be used to extend the QEMU BMC
-> +inventory for a Palmetto BMC. They can be used to extend the QEMU BMC
->   simulator.
->   
->   .. code-block:: bash
-> @@ -190,3 +187,8 @@ CAVEATS
->   
->    * No support for multiple HW threads (SMT=1). Same as pseries.
->    * CPU can hang when doing intensive I/Os. Use ``-append powersave=off`` in that case.
-
-The last caveat is not true. I found the issue since in the decrementer
-model.
-
-Thanks
-
-C.
-
-> +
-> +Maintainer contact information
-> +------------------------------
-> +
-> +Cédric Le Goater <clg@kaod.org>
-> \ No newline at end of file
+> Gerd posted patches that are supposed to address them since.
+> "try improve native hotplug for pcie root ports"
+> Could you please either
+> - test and report that your series depend on
+>    Gerd's one to now work without the issues.
+>    preferably by reposting a patch that applies on top.
+> - test and report that the functionality is still partially
+>    broken but explain in the commit log that this is not due
+>    to the patch itself, and not made worse.
 > 
+> in both cases please CC reviewers: Daniel, Gerd.
+>
+
+I'm writing a test in tests/qtest that tests virtio-net failover, and I've added a test 
+that checks the migration doesn't start while the card is not unplugged.
+
+I've run the test on top of current qemu master (where Gerd's series is merged) and the 
+problem still exists.
+
+I will re-send this fix and the test in the same series.
+
+Thanks,
+Laurent
 
 
