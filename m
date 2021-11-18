@@ -2,149 +2,149 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334C7455FAB
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 16:37:30 +0100 (CET)
-Received: from localhost ([::1]:42068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1129455FB5
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 16:40:30 +0100 (CET)
+Received: from localhost ([::1]:46632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnjTc-0004hX-T6
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 10:37:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38548)
+	id 1mnjWX-0007nU-Ou
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 10:40:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1mnjRA-00025v-7R; Thu, 18 Nov 2021 10:34:56 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:32924)
+ id 1mnjSK-0003R5-Mx; Thu, 18 Nov 2021 10:36:08 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:7762)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1mnjR6-0006uL-O3; Thu, 18 Nov 2021 10:34:55 -0500
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AIFKvFI009987; 
- Thu, 18 Nov 2021 15:34:48 GMT
+ id 1mnjSH-0007ER-UE; Thu, 18 Nov 2021 10:36:08 -0500
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AIFDHx7019322; 
+ Thu, 18 Nov 2021 15:36:04 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : in-reply-to : references : date : message-id : content-type :
  content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=74Qb4dot220Gxni+lytSQDXFn3ewqSYOgiDAQZl/8ZE=;
- b=vf+IoczyxNxy4k8UvdnZ7Nbx425gtbGC2onScTxUNVukOPDz4xD3bA6KI7fxnk2PLXMK
- snH24UqmL9ydqyQxRuaSF7tLDPtuQ+cxIpCbWHBVR+VrkPF45tPpbJyRW/mzGJ4NW6YT
- 6zDfoRb8Nbd5X9yu2hCVRrG0+8D03FLRMFHDqvCX08sDWt+pPe5eB/xPZAGD39wcEKCB
- JER8IVvGN5xZceGsXz7dxkjtUzdU7f97MJd6xH4uTfwrY7H2k8mcxo9H9aJGFTe5BROt
- mhWkCEJ6FOx/bZ55PB1hTrzT9cfZ7iYj9CPzCAtoV8KvN37M6cHUDCbfLgUPmQjYNcQm Ag== 
+ bh=NYngq7W4gYMj5IkR8pDqp8GRBff4Uqs6Nh7q+T4x0sI=;
+ b=yuIoP3SP0lMO7t4RsXdKUM2eEhZJ597jh9E3BZVRD2ro2a/Nh8iSgbX4qSWmc1yg/qu0
+ jR9h475NsO3pmxu5RvzLgMI2EL0WPIq9t2KpoQ95bxfK/t2rTjfNOdQD/+PTPlt5clyn
+ LY/d7+2jiFvm5q676CPD5hzzHVfjZPjf8XEMTPKLyqXJ28oCI2JvDHoWaKZNWqVh0OvB
+ T4Uo4AE2wDM39qmecIJ4xraT9LhfS92qC6IM9+jC/qrA3bMQdRO+2UYlwHSsPpCXcvl7
+ IoCT4mY391trnqYc5NBr4ouWHBTvgm66d09p1pJzbUgmWgJdz0oGbKJTrwCQSyirpUGP HA== 
 Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by mx0b-00069f02.pphosted.com with ESMTP id 3cd382gkhv-1
+ by mx0b-00069f02.pphosted.com with ESMTP id 3cd2w8yqmu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 18 Nov 2021 15:34:46 +0000
+ Thu, 18 Nov 2021 15:36:03 +0000
 Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1AIFYQO1048802;
- Thu, 18 Nov 2021 15:34:31 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2176.outbound.protection.outlook.com [104.47.55.176])
- by userp3030.oracle.com with ESMTP id 3ca2g0p4dx-1
+ by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1AIFYST3048927;
+ Thu, 18 Nov 2021 15:35:51 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2171.outbound.protection.outlook.com [104.47.58.171])
+ by userp3030.oracle.com with ESMTP id 3ca2g0p6b9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 18 Nov 2021 15:34:30 +0000
+ Thu, 18 Nov 2021 15:35:50 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZhrMYeNfjBfgVM6WmNtNtxjX0rvSuWWKkqK5x6fqXVFDsTkjTzDlYXNOq754/mLJkhnyddQps9cco7ZpnKa9P5QP6FrZhx8wv2S64oYZFfy+daoKDNmGdVpgBpKDp/uDr8yisB2QyYpw9JWK1KHmVKxZuTsuYiT/YlgLb+o6fnpLLR8piRKuFH92ZE88A3pLiPtHB3TEXxOhdmzqmVnMsEoLSkY1GezCsMalur8DB92keYwjIKRUUpTdCg4jIygwESGHiNdeEXwdJzdZBVVRHcwgDI87xFs26EdPyLyxoTBVsRBcmJdbu6lFDQPIuZM0zNfqdy3NA7EdIn6gRYzC1w==
+ b=oFihSam7kJR+dKXMDDhrJ0TrTPqZSUvIhCg4ooBmkMdicMin6+AF+UBCKnlor/qUulVs3FQSO3VOWM9OTa41LLrUhzU6+BvMbL7f9fkoMyC8sLkQQlTTod9wY22jGWsvJgGPGq9ylsveBV7x0Nu4zP6Lyl+vQ0YSqwtThHhE/Y7gSnjja3M5yIrwzdFOlhWEXXiBjuyDnwRTfiLwbmMk+mcIW4lA4ILJjzjKFsOmSzqEEDuggivWKspAu3P58vVnXJ/gYogcT5RG0W9PXbI2rRb5JMPwSens+Gtpc989dWCptVCGAgfdlBJIXGEZtHOSpuaX74kgpKRsNqAM1jrmUQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=74Qb4dot220Gxni+lytSQDXFn3ewqSYOgiDAQZl/8ZE=;
- b=XW+Lb7QnCAFN/vGc8onUZ5ab0Ikkn43WKXEKH8rss4l0ysqWC1oC2lUZaHgc5ZSnYyzmhjJmv21Np2RozZQNE53ogQVVF/YMJ6H40OVlnrk8PQ0qk9onLdBTNzFBRtFbE5HIMTfU/gSfImFtOpfWIde3u9eHKii20yAZwf/jgoI0yVFooVc5O2dk1MMnDltdqDWylzoplIFO+RzVceCYyazuh5dq4jgPOLnVPAmtPpjZ4AHh3K47njuclp6xfoAiEeam5ezK/PCfLBt6fzFAwZC93kDCw3Qs6ck2qSeP9QkF2H5pv3SX5/Sqj7CXARiJ9s3Pwwbm8uFyXzc837bF+w==
+ bh=NYngq7W4gYMj5IkR8pDqp8GRBff4Uqs6Nh7q+T4x0sI=;
+ b=ZfYXK27ki3jvLVXzY2YWgbuD/JYTEibwvN+E2pqUWZxAiJYJIF/KT+uAIGTtoC67lR4dAqg2eq0pOgBiXsH4NmQw8k4A7AvC3RAqexdwVRlXAl2EFPXR9TqChkRfC06OHuV8QvEX0aZR0d5dT4omvxr2gWVWEfk6y4LG2FBSel6DfTmOvioI6Q7AysO805IhTj5zDvhBLGwxj2KxipYI2JFkXiQ2o/1Ol1lKUSByKWTWbT55mShfYab5c4gPJEqBsLUUgblqlBJKEatTPGYgXeoPIqjkw1PLRn/BlMXFIGV9CznrrIJk5N819NrEDpN+2hhwT8bSSisFAE4K/9XMFQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=74Qb4dot220Gxni+lytSQDXFn3ewqSYOgiDAQZl/8ZE=;
- b=SCcVdA9V49Nison2RLr4droPt4QQ06/KYl1L+ao4/YVP6kop2FC+JJADSVch0S+xEuvwnMNhUgBcd26Jwridk8bpscnAMVi9I78/aj+rR4b2uXi/1vVCqHvEr0rBe5KowsD+9Edx3b463GWJRJGgopVR1/uJqrDM+5lTia0xW3c=
+ bh=NYngq7W4gYMj5IkR8pDqp8GRBff4Uqs6Nh7q+T4x0sI=;
+ b=p1pSlBZqCmAGjAzTU4ph7wXp+X00ObjGo6BEirmzowMsUS+C0wgCFUeSBNgZLuNgn4EHepqzbUKWcPeXYxgtlEafLG1RKFRJq42LHOdaUGk19e2Td74sOo1DYxjzoTjs0ADONeBCI+ST+yudFGkbO94Po7EXnzeH9IGXZawBksk=
 Received: from BLAPR10MB5138.namprd10.prod.outlook.com (2603:10b6:208:322::8)
- by BL0PR10MB2801.namprd10.prod.outlook.com (2603:10b6:208:74::11)
+ by BLAPR10MB4963.namprd10.prod.outlook.com (2603:10b6:208:326::23)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.26; Thu, 18 Nov
- 2021 15:34:27 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19; Thu, 18 Nov
+ 2021 15:35:48 +0000
 Received: from BLAPR10MB5138.namprd10.prod.outlook.com
  ([fe80::9418:7fcf:86ec:e0f4]) by BLAPR10MB5138.namprd10.prod.outlook.com
  ([fe80::9418:7fcf:86ec:e0f4%7]) with mapi id 15.20.4713.019; Thu, 18 Nov 2021
- 15:34:27 +0000
+ 15:35:48 +0000
 From: Darren Kenny <darren.kenny@oracle.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
-Subject: Re: [PATCH-for-6.2?] docs: Render binary names as monospaced text
-In-Reply-To: <20211118144317.4106651-1-philmd@redhat.com>
-References: <20211118144317.4106651-1-philmd@redhat.com>
-Date: Thu, 18 Nov 2021 15:34:22 +0000
-Message-ID: <m2o86h8old.fsf@oracle.com>
+Subject: Re: [PATCH-for-6.2?] docs: Spell QEMU all caps
+In-Reply-To: <20211118143401.4101497-1-philmd@redhat.com>
+References: <20211118143401.4101497-1-philmd@redhat.com>
+Date: Thu, 18 Nov 2021 15:35:43 +0000
+Message-ID: <m2lf1l8oj4.fsf@oracle.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: DB6P192CA0018.EURP192.PROD.OUTLOOK.COM (2603:10a6:4:b8::28)
- To BLAPR10MB5138.namprd10.prod.outlook.com
+X-ClientProxiedBy: DB6PR0301CA0097.eurprd03.prod.outlook.com
+ (2603:10a6:6:30::44) To BLAPR10MB5138.namprd10.prod.outlook.com
  (2603:10b6:208:322::8)
 MIME-Version: 1.0
 Received: from oracle.com (46.7.162.180) by
- DB6P192CA0018.EURP192.PROD.OUTLOOK.COM (2603:10a6:4:b8::28) with Microsoft
+ DB6PR0301CA0097.eurprd03.prod.outlook.com (2603:10a6:6:30::44) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4713.19 via Frontend Transport; Thu, 18 Nov 2021 15:34:26 +0000
+ 15.20.4713.21 via Frontend Transport; Thu, 18 Nov 2021 15:35:47 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c0bf8537-df64-4b87-ccf5-08d9aaa8e7e4
-X-MS-TrafficTypeDiagnostic: BL0PR10MB2801:
-X-Microsoft-Antispam-PRVS: <BL0PR10MB28016F2AD4185CEC6D97AD3AF49B9@BL0PR10MB2801.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: 1990e7eb-d574-48a4-a4e0-08d9aaa9182d
+X-MS-TrafficTypeDiagnostic: BLAPR10MB4963:
+X-Microsoft-Antispam-PRVS: <BLAPR10MB4963D465A2218EFDF7610E15F49B9@BLAPR10MB4963.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XFCg3wE1ykIsBh+GIH8ojr+8IhSywzFdrjOiVO/I8Bdav5n+yf0A65DMnX421juBNWX0wXIIIxTk7+HBkxpWuAyxWsgOauiXEi8tzlUcEpfCMghSGwkm+vmj/R7Rv2mOyvyb4lDfSlIQM63/u0KloZacYy0HD5vaKnGSQOgZMqQw1I85/Fm1BlOfbEzBokfMMnD07Bn+GSdkze/4W08fn+Pmg2M8Jz4Whj/rCQhe7JmdDIUejtfxHG7zJxjNgrYeQqVp+Wz4WQM2jsCJkjrm6VcyEFePIgVEaowxdW3ZdPoHkF4/zr+aafmM9+ibicUcY2uKTLz6C5YQKBlcWX08qHCRUOTbSRoT9hyKJb9W6uLIDJCpLNaIWulBvuLInJRpfEebUK+LAgJWWX449bTxb2n4TX+CaQMqriSgWrdn8E+4Qp5Yj9bZXJIajTEq2QSHpnm1riFLo0/TpH8kQF3upTNFPmug8OUX0K/TZ+ZKqAYLA3o359kcAk+ncmnHzdHGPePYIdESLgZTwY2ZfyXgknHyVb8me4LpvsiRUSGLDuiuLrfVjJuirbHpYV5ewAKi15YUKF2WXH9g/Sl3TRjKkOQSnRKUfDPHDnK+zqE1i7kCPJQ/o2OYYsm/2BIFdba13yJjIvSSzpTrlfaq1YqOJCR1ALF/ovgkL38FP4i27/MbJgYukhO4Et9n5A0GWGAeVvmUwqDH5u+iHRc3JQ65TW2In305gMVlzvQrc9sYwcchibIDJSi4xw+yC92/7Rcz8BsvMpdMbi8sbcyPTnrZkppPDZCLZQYUBbG3aOfK8s3HwktK2rks85S1OpMKjWlP
+X-Microsoft-Antispam-Message-Info: urYXMg6f3Lz2Fkvf8b2ln36XuNPy0gGX9kRqBgPW6NKCTy6fiNox2VVLxsBBXfIC53ewDX/JhDJ78blXHF2X9ova8XTWDvzRV+CgOiM9QDKJ5w/noik5G9iVlHKe1GQX+nGFOt37qAjfN8D3aGDVoB6n7+FPS6Vyipayp2k3PS3KU4fh0ydkVZRcXXq0KUyZBfLpVIGozj8jWRwjjJIhfvZu4qtEEuF5PnBk4FPA4GD79k7QCGFppHUEa78/LYBtA5LdyPxwDCD/YsJrLrpmaDYvU1tmJqPirgAOTxVWj8rsIKgiEk782niM3zVtaMy84ABtGXgwI6tcKTvVKChT3sTXhmuhsIFczpPaZSyn9q/8h7ePUhpOAq25lWIpjBolm9ByfbnkgeEPR0q7rFB5qKelEzvUTGmIpfzXKUOodcc2Atsbu/p1AggFQ624ftrFXW4Oqp2VlZ0RPRs+kZTeyt8L0mcmHVAY/VAsY3wjIvwkm9c2D7N5kO1pZiRIqn1/htKEbFiRrVWjcn76ogYr7MI+ccEe+dhx/1UjM2BJnsl1CBv9al7mPOR270tUSudJpi0cp+rMJAMxRClgj+zTpVk5cnoMLwNJ3pSkfsXtZI2AMTaLxZGTwkwxuTQ+fzGWWX6K6gaHNGdpExkYf5JLJpy6DZ07OCfSN1NnQz5EoKjE1MwLpNkjuOBHuQ6WtqqJSGdv3yHKHuI4WsStQrdG37/F3knzvacZ3rddOqjSp/Mp2VkoYMXaQa1FgMEnGUVoryl+WdVtor0UG0YDR7JsVWPekrZf7Dn+XgKYKfZ2An8=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BLAPR10MB5138.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(26005)(316002)(7416002)(6666004)(66946007)(55016002)(38100700002)(83380400001)(508600001)(38350700002)(8936002)(54906003)(66556008)(66476007)(7696005)(30864003)(86362001)(4001150100001)(44832011)(186003)(956004)(8886007)(966005)(5660300002)(2616005)(52116002)(8676002)(4326008)(36756003)(2906002)(33290500001);
+ SFS:(366004)(86362001)(8886007)(52116002)(54906003)(4326008)(55016002)(2616005)(956004)(8936002)(6666004)(66476007)(7696005)(966005)(66556008)(66946007)(7416002)(44832011)(36756003)(38350700002)(8676002)(5660300002)(186003)(30864003)(508600001)(83380400001)(4001150100001)(316002)(2906002)(26005)(38100700002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R0hZMjB2TlRNWmNNVy9zTFZiZDFXcFhTYzJkK25nTzFrRWYwUEdZVmtXNk5z?=
- =?utf-8?B?bGp3ckVqelY0SnlzYkR2Rzlkcjc2T2d2c2RFMlQwM1VnWmR5WXhieDQzZkl4?=
- =?utf-8?B?VUxySFN5SktwTFNQMktiMEdmQllsODdVQmltMjBtOXE0UTAzQURhaVprbng5?=
- =?utf-8?B?UnZGT3ZnZmFQZVUyeDFrK2hOeHA4aVhSNXZ6THZoK1lPT0FYU2dEVXJJYWZ4?=
- =?utf-8?B?Tk55REhkNHVLdkVDR1FVeVdhcUkrUVQ3emR6cXR3NWhabzFqOFBxZlhteEFu?=
- =?utf-8?B?eloydjVkK0dacXdVRkRsUGNiRG1TVC9PcVB2QTlCMjlnYkRabkFmdmRqUUNr?=
- =?utf-8?B?WEdVcGs3ZFFvWDdqam13Q2dOMWVUOU53dS85cGE4R2lOM2xmZDcxcy9uajR0?=
- =?utf-8?B?V2FDODRLWTZFUmwxRzhTQ1J4c0Z1ZXBIR1FTYnZnY3JXRWhwSXpDL0o1Kzkx?=
- =?utf-8?B?Y3pvUE10WFFWU25MdHhhR2J0NGpVUmZERXdkek1Gb0NLdDBtc3I5eEc4Qkhq?=
- =?utf-8?B?dXFleWN1UnVKK0dTN3NyT0o4aEVXa3pZT2xFdHZXeWJObGVIc3YzRE8vTHZz?=
- =?utf-8?B?YkZqUWl0SjBFbmdpa2RXdDRNcVJBUmc2STJ1MVd2eXk0dE8rSGpxc2l6eEhz?=
- =?utf-8?B?dzZ0bUtWRENnV0RHcjJEbjNJR25lSWNUWlgrSloxeHpaOEt1TkVPblhFdjJw?=
- =?utf-8?B?UlFvdmF6SWxBT0xqQUFwT3dxNzNya3ByTllLT0JBZGdVTWM1ckxwb2M4YW8y?=
- =?utf-8?B?TWVUOTY3Q3daSlFLN3F5b2syWUxvdisvTW1WYzdSSlZlT0tDT3VzNVN1bC9O?=
- =?utf-8?B?aWNBbjE1V1ZLejh2ZzZEN201aERIZVZ3QURFOWxsdjhnKzNFZ3JaZHlya0w5?=
- =?utf-8?B?V0tzV3JZNHNvdHJCMUFZTjVtYTBFMlJ0TVhhRytSVGQ5RHQvRjV6TmxiM0RO?=
- =?utf-8?B?UmU3T09EV2h0VXZFNUNjbE45MENWTGZ4NWZIejdOS1k3bFQ3OTlyTEhueU5u?=
- =?utf-8?B?dGVoTjRhNURxbStMUnR3OFBVVnorVWoxTkVyZlQ1bUxKUUtIMGVQUmhjTE5S?=
- =?utf-8?B?VXA4QXJHZTJESXRZb2pZMllLaUM0OWlyT1BMNERxYzZOMlIzVE54T20vNXRU?=
- =?utf-8?B?OGJEKzdNdnBNV3IyMTBjbFNyZndhdzFhL09tNmRMdXZQcUFKVGNWblNFc0hJ?=
- =?utf-8?B?ZlFnczZwZ0NsZWtuemdGY1hpWkloQlhFVHNzZkpKQmM1UFF3SDl1SFIvU29I?=
- =?utf-8?B?dUlHWDlXVVhrbFhOaWphZEhnVURDQktJTzNOeGF6elBHa09VTldzUFhSd3p6?=
- =?utf-8?B?Y3dRZlVlZk5jL2gxa3krWTFRM0p2VXA2eVNUQlJpb09hK3IwYU9OTFRvbytq?=
- =?utf-8?B?OHl0ZHFLd0FBbUU1cHExeFNId0UwTWc4TlFRSk9xa1pPRDBvT2hybGcxU3Vl?=
- =?utf-8?B?dk9zYlpUQXZVVlZ5OGdjbml5VDNUM2U1dHhFT1BCYkNYNEV6eFB6WWpuRllN?=
- =?utf-8?B?ajcxbnpYZC9xSkJ6bWxzaTY3M1B6VHpqSHpUQzZWRDd6QnM4cXRzYkx2TFdW?=
- =?utf-8?B?UHJ6QXpKTkw4eHlhU3UwcXVTY0t4U3YvVzNBc2ZvTjJlVjVtZzQvcE5xNFlJ?=
- =?utf-8?B?aWxFZVdCOHlsUEVsQmRLT0trTzJHU0xLUnppYW9ZcjhrbXNhaXlkR2lBNnU5?=
- =?utf-8?B?TlVtay9hUzFiVHBRdWJxeUxDOEVZM2ZheDVWNS9YYm13UDlLM3NEcEdLZE0r?=
- =?utf-8?B?QXl2NE9sWjIvSnIwUjhlMlVNeFhqdnZnVjF0VTVod1V0Tm8wMmMyeU9uejlL?=
- =?utf-8?B?dG1vQ2xSKzgrTTlJVVVVbjFXek14OS9ZYzBjWTFVMFZkdUdyRGVzMHROeDBN?=
- =?utf-8?B?QnZZaEZVRjJaNTd2Zk0rWUNhVEw0OUFHYVVGWnlrTE45ZHBNaE9LODJpQ05Q?=
- =?utf-8?B?TTlySGZrNUFtWjN5cUkrYXkzdWQ1ZmFwOGgyUmRUbGk0dmtKZjd2eGxNaGUx?=
- =?utf-8?B?cFZiV3FTdmJ5U2tuYjBLS1hnQ3dZWCtCT3REcVM0STRpdFdmbHg0aEp2YVZx?=
- =?utf-8?B?U3dYWGY1UWtkdXJjVnM4Q3RGTWZvRDFtNHJHNEpMTEd6ZHR2VGc3ZnB6NU1D?=
- =?utf-8?B?ekRNZ1FJdXVpQjcrb1ovdHEweTRTeEo5bWtOeWlCQkhsczY5ZGUwMng2Kzcv?=
- =?utf-8?Q?sFtWQKOIddM2BykQ03gO5PI=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aGtYU1d2SFB4cGxPZ0dCbTU4QThiY29uc2Nub2hjbUtYSE45NUpBNWJHQ3lO?=
+ =?utf-8?B?TVNQUm8rcFBNK0pjbndVZXVEeVZKSktJdE5NM3A1eUNRTmpxTTJwYmtTaXQ5?=
+ =?utf-8?B?K0xJWjB4Vm5GUW5ySVkvN2lCZ3N2RWhicFBoUGh4Z21vZXV4YStRVE1lM0Yw?=
+ =?utf-8?B?SS9ncUkwWDBkemRhSG0wNjNvc0syR1ZIQktyRFlaWnp5c294UmdlVk5YUHNZ?=
+ =?utf-8?B?U0U5ZzFaN3h3Qnd3WC9Od0w3SHpkZXZNSmxHRVVNamlWeVlkVzltTm9mWXNj?=
+ =?utf-8?B?RWhKck96WUQ2eXRYcS9WUUNDN2g1d0JmUWlabmdPaEpVanhTUDdzdDZGRThZ?=
+ =?utf-8?B?SjNBUitFcXp6UjNGbnNBbTNVSmNiTXlOc2dza0lDZk42Z1BmTHpCOGViYW42?=
+ =?utf-8?B?aUtkZ2lFMGNPa3JTd2pCVjFwTUpvV1VPM1pTYkZOTHRsdVErWDFOUW9MbFJj?=
+ =?utf-8?B?WllRQTZ4SFNzN3UvYzFocm4zNHQ2MG1mZThxcmsweEZwK3gyRmcyRlZndWlH?=
+ =?utf-8?B?OE5qZHh3aUpnaEtzcVd0U3dyUmtsZjFteGRxTGZzTTVhcTJqMVVkaHNaMC9i?=
+ =?utf-8?B?cFlnR0dVUXgwY2k1VHNvcmw2eGNMeFEyekcwWjBNaCtkNW41K1lvT1pZMWpj?=
+ =?utf-8?B?eTlMSFdVaTB3VHVZWDEwcjhQL1ZYSFVVOWNib2liSTFUNXpRUUI4WXBGUEts?=
+ =?utf-8?B?SHd3MVNDaFdmRTV3bVFmYTY3RE4xcHhjOXJ5TThiVlBJaUt5T2dTa3JOMCtS?=
+ =?utf-8?B?anFvS2ZyYm9Tb3VZeTBYbkVydlV5QlJ2VFRxbENodk96WGg0K2NQMHBtOWRK?=
+ =?utf-8?B?ZXcycVFBU3o4NkxraG5zWDFSTHVzdXMrcUpIOE5lSkp2dEl1YVc3ZzZPN1V0?=
+ =?utf-8?B?YmM1OTZza1BOVnQzWEdqRGljTEpJZHBnNWo3N21HZzlFM0gyNnhKRWNFd1RH?=
+ =?utf-8?B?UU1JUXhGbUxnZUNSQ3JqVHdxelp2VWJqV0NVMjdoRVZ3Umx1TGpJamYyMGpM?=
+ =?utf-8?B?ckEvSmhnYmZodHJIRUczYVBiZ1NzclBqMGFaMmxCZW9oTlhWRVJLU2JGMkhS?=
+ =?utf-8?B?TUhOdHI5OWhIcHpPTW9VTjRBYWlPUC9oaDJEYjZ1MFY3M2M4dDdpWWFON0lx?=
+ =?utf-8?B?REZMSkdWRzFIQXh5R3FiNExHRkFGRjdXdW1wMThValBWRjMwazViL3BTbEtT?=
+ =?utf-8?B?Ym1JOXRjTW9pS3JzZjNJWS9YY2lLL3c1ZHVtanJhZllmT2tFUDdJZlo1WEdp?=
+ =?utf-8?B?Ti80ZFd2ZUs1YlRQY0puS1pqRE5wWkxVazhkcEo4YVk2ay80cGQ2K1EycGxL?=
+ =?utf-8?B?clgzamdEeXkwdWMyZ2tnVEtMY3EyYVJVb0FWTnZqRkw1WHdyN1VMcEVRWk9O?=
+ =?utf-8?B?QWN5TncrTGVFRlJ4TkExQVh3NWl6cmZSZEczbXZVbmRSZ2FRQTBIbWRkdkdr?=
+ =?utf-8?B?L0Q3NXFFcG4vcFFxRFBLaW50MWxUdkI1Mkh3YWs1N0FDQUFIM3ROaVo1ajJ3?=
+ =?utf-8?B?ZkNpM05DVU1icjJFRmZGWUJ5RTR0VXVaM2ZUY2RrSTVDcXQxVThPN1VMd0Ra?=
+ =?utf-8?B?eERJZEc3YzlmVHZwSVQ0ZDNrQWpTUEZrd0RSNEhyRE9OWWpkYndVQk9GbkZr?=
+ =?utf-8?B?ODVoWUk1RFNRQ1p3cXNKOVhmUFJHZnA2T3pWSld2MXh6blp2UUlteGljL2tU?=
+ =?utf-8?B?ZTh2bGFIWkl6MXcwbWRmbWRzOC83L25GbUdpM1FmSm1OYnNXb0JvUXVFQkpn?=
+ =?utf-8?B?SXo1UXpQTTEzc094UmtLQ0JrQXBKTHZ3Rno0OGpyK0h4dmxiTmNMcmNHNkFK?=
+ =?utf-8?B?YklqdVZQcTJpMExCamtqYmYybUNyYUpNc1p3bnRrWm1YYTVmVHNZbysxRG5j?=
+ =?utf-8?B?OUQxNy9mdlhXMUNRTm1FSlBjWUlhaUhIdEpUR2dSUUFpSFNBa1JrTENBMXND?=
+ =?utf-8?B?UHhEOVl2ZURQN2xNTVF6S2J4OXBFTEpBSGlHc0NCbnJocGxwZUdGRGpBK1ly?=
+ =?utf-8?B?clNKNDhTSlBDSmo0aFpCMU9wQmtVNmJqTnorWjVYdmVFeXFWSkZBd3BBT21n?=
+ =?utf-8?B?WHM4UUQxbmxtbkhaTkdKc3NBME1KTWVxbFZWWTJoekozT2dZT0ZxUTZtVWVG?=
+ =?utf-8?B?MkNDL2NZSnlFNGJuUlk5dnRIZXBnSUV2dXMyZ285YllUTU1ZL2ozcW9BZzdr?=
+ =?utf-8?Q?scB8ZUEXbPKQw0dtyhz1A98=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c0bf8537-df64-4b87-ccf5-08d9aaa8e7e4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1990e7eb-d574-48a4-a4e0-08d9aaa9182d
 X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB5138.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2021 15:34:27.3266 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2021 15:35:48.3476 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jjNjBIpRdRAwZxlax6QEqzJWX1VipRlEScr4L8Qt4gmap/m08mw3SZVMBaW2VPb+xS0QnOy48R9kEAUfPu/3mQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR10MB2801
+X-MS-Exchange-CrossTenant-UserPrincipalName: s1BwUVYliLeNHUqKe8Hr07Cr/rskKxPjyW2TAOdNTZ9/Wg1UkoyiAsY8mRZFKE794FweBOPIIod/eaf0M0MLdg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB4963
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10172
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
@@ -152,18 +152,17 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
  adultscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
  definitions=main-2111180086
-X-Proofpoint-ORIG-GUID: _dUo63RY-lESGqbiuAbb52Ako1MCjcez
-X-Proofpoint-GUID: _dUo63RY-lESGqbiuAbb52Ako1MCjcez
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=darren.kenny@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Proofpoint-GUID: TkL6R2mODkrkMj1PKNSlOLNjXqeuW3s7
+X-Proofpoint-ORIG-GUID: TkL6R2mODkrkMj1PKNSlOLNjXqeuW3s7
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=darren.kenny@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -176,404 +175,345 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John G Johnson <john.g.johnson@oracle.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>, virtio-fs@redhat.com,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
- =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ kvm@vger.kernel.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thursday, 2021-11-18 at 15:43:17 +01, Philippe Mathieu-Daud=C3=A9 wrote:
+On Thursday, 2021-11-18 at 15:34:01 +01, Philippe Mathieu-Daud=C3=A9 wrote:
+> Replace Qemu -> QEMU.
+>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 
 > ---
->  docs/about/removed-features.rst        |  8 ++++----
->  docs/devel/build-system.rst            |  6 +++---
->  docs/devel/multi-process.rst           |  6 +++---
->  docs/devel/testing.rst                 |  8 ++++----
->  docs/image-fuzzer.txt                  |  6 +++---
->  docs/system/arm/orangepi.rst           |  2 +-
->  docs/system/images.rst                 |  2 +-
->  docs/system/qemu-block-drivers.rst.inc |  6 +++---
->  docs/system/tls.rst                    |  2 +-
->  docs/tools/qemu-img.rst                | 18 +++++++++---------
->  docs/tools/qemu-nbd.rst                |  4 ++--
->  docs/tools/qemu-storage-daemon.rst     |  7 ++++---
->  docs/tools/virtiofsd.rst               |  4 ++--
->  13 files changed, 40 insertions(+), 39 deletions(-)
+>  docs/devel/modules.rst                |  2 +-
+>  docs/devel/multi-thread-tcg.rst       |  2 +-
+>  docs/devel/style.rst                  |  2 +-
+>  docs/devel/ui.rst                     |  4 ++--
+>  docs/interop/nbd.txt                  |  6 +++---
+>  docs/interop/qcow2.txt                |  8 ++++----
+>  docs/multiseat.txt                    |  2 +-
+>  docs/system/device-url-syntax.rst.inc |  2 +-
+>  docs/system/i386/sgx.rst              | 26 +++++++++++++-------------
+>  docs/u2f.txt                          |  2 +-
+>  10 files changed, 28 insertions(+), 28 deletions(-)
 >
-> diff --git a/docs/about/removed-features.rst b/docs/about/removed-feature=
-s.rst
-> index 9d0d90c90d9..c02d1f6d494 100644
-> --- a/docs/about/removed-features.rst
-> +++ b/docs/about/removed-features.rst
-> @@ -658,8 +658,8 @@ enforce that any failure to open the backing image (i=
-ncluding if the
->  backing file is missing or an incorrect format was specified) is an
->  error when ``-u`` is not used.
+> diff --git a/docs/devel/modules.rst b/docs/devel/modules.rst
+> index 066f347b89b..8e999c4fa48 100644
+> --- a/docs/devel/modules.rst
+> +++ b/docs/devel/modules.rst
+> @@ -1,5 +1,5 @@
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> -Qemu modules
+> +QEMU modules
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 > =20
-> -qemu-img amend to adjust backing file (removed in 6.1)
-> -''''''''''''''''''''''''''''''''''''''''''''''''''''''
-> +``qemu-img`` amend to adjust backing file (removed in 6.1)
-> +''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+>  .. kernel-doc:: include/qemu/module.h
+> diff --git a/docs/devel/multi-thread-tcg.rst b/docs/devel/multi-thread-tc=
+g.rst
+> index 5b446ee08b6..c9541a7b20a 100644
+> --- a/docs/devel/multi-thread-tcg.rst
+> +++ b/docs/devel/multi-thread-tcg.rst
+> @@ -228,7 +228,7 @@ Emulated hardware state
 > =20
->  The use of ``qemu-img amend`` to modify the name or format of a qcow2
->  backing image was never fully documented or tested, and interferes
-> @@ -670,8 +670,8 @@ backing chain should be performed with ``qemu-img reb=
-ase -u`` either
->  before or after the remaining changes being performed by amend, as
->  appropriate.
+>  Currently thanks to KVM work any access to IO memory is automatically
+>  protected by the global iothread mutex, also known as the BQL (Big
+> -Qemu Lock). Any IO region that doesn't use global mutex is expected to
+> +QEMU Lock). Any IO region that doesn't use global mutex is expected to
+>  do its own locking.
 > =20
-> -qemu-img backing file without format (removed in 6.1)
-> -'''''''''''''''''''''''''''''''''''''''''''''''''''''
-> +``qemu-img`` backing file without format (removed in 6.1)
-> +'''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+>  However IO memory isn't the only way emulated hardware state can be
+> diff --git a/docs/devel/style.rst b/docs/devel/style.rst
+> index 260e3263fa0..e00af62e763 100644
+> --- a/docs/devel/style.rst
+> +++ b/docs/devel/style.rst
+> @@ -686,7 +686,7 @@ Rationale: hex numbers are hard to read in logs when =
+there is no 0x prefix,
+>  especially when (occasionally) the representation doesn't contain any le=
+tters
+>  and especially in one line with other decimal numbers. Number groups are=
+ allowed
+>  to not use '0x' because for some things notations like %x.%x.%x are used=
+ not
+> -only in Qemu. Also dumping raw data bytes with '0x' is less readable.
+> +only in QEMU. Also dumping raw data bytes with '0x' is less readable.
 > =20
->  The use of ``qemu-img create``, ``qemu-img rebase``, or ``qemu-img
->  convert`` to create or modify an image that depends on a backing file
-> diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
-> index 7a83f5fc0db..431caba7aa0 100644
-> --- a/docs/devel/build-system.rst
-> +++ b/docs/devel/build-system.rst
-> @@ -121,11 +121,11 @@ process for:
+>  '#' printf flag
+>  ---------------
+> diff --git a/docs/devel/ui.rst b/docs/devel/ui.rst
+> index 06c7d622ce7..17fb667dec4 100644
+> --- a/docs/devel/ui.rst
+> +++ b/docs/devel/ui.rst
+> @@ -1,8 +1,8 @@
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> -Qemu UI subsystem
+> +QEMU UI subsystem
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 > =20
->  1) executables, which include:
+> -Qemu Clipboard
+> +QEMU Clipboard
+>  --------------
 > =20
-> -   - Tools - qemu-img, qemu-nbd, qga (guest agent), etc
-> +   - Tools - ``qemu-img``, ``qemu-nbd``, ``qga`` (guest agent), etc
+>  .. kernel-doc:: include/ui/clipboard.h
+> diff --git a/docs/interop/nbd.txt b/docs/interop/nbd.txt
+> index 10ce098a29b..bdb0f2a41ac 100644
+> --- a/docs/interop/nbd.txt
+> +++ b/docs/interop/nbd.txt
+> @@ -1,4 +1,4 @@
+> -Qemu supports the NBD protocol, and has an internal NBD client (see
+> +QEMU supports the NBD protocol, and has an internal NBD client (see
+>  block/nbd.c), an internal NBD server (see blockdev-nbd.c), and an
+>  external NBD server tool (see qemu-nbd.c). The common code is placed
+>  in nbd/*.
+> @@ -7,11 +7,11 @@ The NBD protocol is specified here:
+>  https://github.com/NetworkBlockDevice/nbd/blob/master/doc/proto.md
 > =20
-> -   - System emulators - qemu-system-$ARCH
-> +   - System emulators - ``qemu-system-$ARCH``
+>  The following paragraphs describe some specific properties of NBD
+> -protocol realization in Qemu.
+> +protocol realization in QEMU.
 > =20
-> -   - Userspace emulators - qemu-$ARCH
-> +   - Userspace emulators - ``qemu-$ARCH``
+>  =3D Metadata namespaces =3D
 > =20
->     - Unit tests
+> -Qemu supports the "base:allocation" metadata context as defined in the
+> +QEMU supports the "base:allocation" metadata context as defined in the
+>  NBD protocol specification, and also defines an additional metadata
+>  namespace "qemu".
 > =20
-> diff --git a/docs/devel/multi-process.rst b/docs/devel/multi-process.rst
-> index e5758a79aba..2c5ec977df8 100644
-> --- a/docs/devel/multi-process.rst
-> +++ b/docs/devel/multi-process.rst
-> @@ -187,9 +187,9 @@ desired, in which the emulation application should on=
-ly be allowed to
->  access the files or devices the VM it's running on behalf of can access.
->  #### qemu-io model
+> diff --git a/docs/interop/qcow2.txt b/docs/interop/qcow2.txt
+> index 0463f761efb..f7dc304ff69 100644
+> --- a/docs/interop/qcow2.txt
+> +++ b/docs/interop/qcow2.txt
+> @@ -313,7 +313,7 @@ The fields of the bitmaps extension are:
+>                     The number of bitmaps contained in the image. Must be
+>                     greater than or equal to 1.
 > =20
-> -Qemu-io is a test harness used to test changes to the QEMU block backend
-> -object code. (e.g., the code that implements disk images for disk driver
-> -emulation) Qemu-io is not a device emulation application per se, but it
-> +``qemu-io`` is a test harness used to test changes to the QEMU block bac=
-kend
-> +object code (e.g., the code that implements disk images for disk driver
-> +emulation). ``qemu-io`` is not a device emulation application per se, bu=
-t it
->  does compile the QEMU block objects into a separate binary from the main
->  QEMU one. This could be useful for disk device emulation, since its
->  emulation applications will need to include the QEMU block objects.
-> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-> index 60c59023e58..755343c7dd0 100644
-> --- a/docs/devel/testing.rst
-> +++ b/docs/devel/testing.rst
-> @@ -564,11 +564,11 @@ exploiting a QEMU security bug to compromise the ho=
-st.
->  QEMU binaries
->  ~~~~~~~~~~~~~
+> -                   Note: Qemu currently only supports up to 65535 bitmap=
+s per
+> +                   Note: QEMU currently only supports up to 65535 bitmap=
+s per
+>                     image.
 > =20
-> -By default, qemu-system-x86_64 is searched in $PATH to run the guest. If=
- there
-> -isn't one, or if it is older than 2.10, the test won't work. In this cas=
-e,
-> +By default, ``qemu-system-x86_64`` is searched in $PATH to run the guest=
-. If
-> +there isn't one, or if it is older than 2.10, the test won't work. In th=
-is case,
->  provide the QEMU binary in env var: ``QEMU=3D/path/to/qemu-2.10+``.
+>            4 -  7:  Reserved, must be zero.
+> @@ -775,7 +775,7 @@ Structure of a bitmap directory entry:
+>                        2: extra_data_compatible
+>                           This flags is meaningful when the extra data is
+>                           unknown to the software (currently any extra da=
+ta is
+> -                         unknown to Qemu).
+> +                         unknown to QEMU).
+>                           If it is set, the bitmap may be used as expecte=
+d, extra
+>                           data must be left as is.
+>                           If it is not set, the bitmap must not be used, =
+but
+> @@ -793,7 +793,7 @@ Structure of a bitmap directory entry:
+>               17:    granularity_bits
+>                      Granularity bits. Valid values: 0 - 63.
 > =20
-> -Likewise the path to qemu-img can be set in QEMU_IMG environment variabl=
-e.
-> +Likewise the path to ``qemu-img`` can be set in QEMU_IMG environment var=
-iable.
+> -                    Note: Qemu currently supports only values 9 - 31.
+> +                    Note: QEMU currently supports only values 9 - 31.
 > =20
->  Make jobs
->  ~~~~~~~~~
-> @@ -650,7 +650,7 @@ supported. To start the fuzzer, run
+>                      Granularity is calculated as
+>                          granularity =3D 1 << granularity_bits
+> @@ -804,7 +804,7 @@ Structure of a bitmap directory entry:
+>          18 - 19:    name_size
+>                      Size of the bitmap name. Must be non-zero.
 > =20
->    tests/image-fuzzer/runner.py -c '[["qemu-img", "info", "$test_img"]]' =
-/tmp/test qcow2
+> -                    Note: Qemu currently doesn't support values greater =
+than
+> +                    Note: QEMU currently doesn't support values greater =
+than
+>                      1023.
 > =20
-> -Alternatively, some command different from "qemu-img info" can be tested=
-, by
-> +Alternatively, some command different from ``qemu-img info`` can be test=
-ed, by
->  changing the ``-c`` option.
+>          20 - 23:    extra_data_size
+> diff --git a/docs/multiseat.txt b/docs/multiseat.txt
+> index 11850c96ff8..2b297e979d6 100644
+> --- a/docs/multiseat.txt
+> +++ b/docs/multiseat.txt
+> @@ -123,7 +123,7 @@ Background info is here:
+>  guest side with pci-bridge-seat
+>  -------------------------------
 > =20
->  Integration tests using the Avocado Framework
-> diff --git a/docs/image-fuzzer.txt b/docs/image-fuzzer.txt
-> index 3e23ebec331..279cc8c807f 100644
-> --- a/docs/image-fuzzer.txt
-> +++ b/docs/image-fuzzer.txt
-> @@ -51,10 +51,10 @@ assumes that core dumps will be generated in the curr=
-ent working directory.
->  For comprehensive test results, please, set up your test environment
->  properly.
+> -Qemu version 2.4 and newer has a new pci-bridge-seat device which
+> +QEMU version 2.4 and newer has a new pci-bridge-seat device which
+>  can be used instead of pci-bridge.  Just swap the device name in the
+>  qemu command line above.  The only difference between the two devices
+>  is the pci id.  We can match the pci id instead of the device path
+> diff --git a/docs/system/device-url-syntax.rst.inc b/docs/system/device-u=
+rl-syntax.rst.inc
+> index d15a0215087..7dbc525fa80 100644
+> --- a/docs/system/device-url-syntax.rst.inc
+> +++ b/docs/system/device-url-syntax.rst.inc
+> @@ -15,7 +15,7 @@ These are specified using a special URL syntax.
+>     'iqn.2008-11.org.linux-kvm[:<name>]' but this can also be set from
+>     the command line or a configuration file.
 > =20
-> -Paths to binaries under test (SUTs) qemu-img and qemu-io are retrieved f=
-rom
-> -environment variables. If the environment check fails the runner will
-> +Paths to binaries under test (SUTs) ``qemu-img`` and ``qemu-io`` are ret=
-rieved
-> +from environment variables. If the environment check fails the runner wi=
-ll
->  use SUTs installed in system paths.
-> -qemu-img is required for creation of backing files, so it's mandatory to=
- set
-> +``qemu-img`` is required for creation of backing files, so it's mandator=
-y to set
->  the related environment variable if it's not installed in the system pat=
-h.
->  For details about environment variables see qemu-iotests/check.
+> -   Since version Qemu 2.4 it is possible to specify a iSCSI request
+> +   Since version QEMU 2.4 it is possible to specify a iSCSI request
+>     timeout to detect stalled requests and force a reestablishment of the
+>     session. The timeout is specified in seconds. The default is 0 which
+>     means no timeout. Libiscsi 1.15.0 or greater is required for this
+> diff --git a/docs/system/i386/sgx.rst b/docs/system/i386/sgx.rst
+> index 9aa161af1a1..f8fade5ac2d 100644
+> --- a/docs/system/i386/sgx.rst
+> +++ b/docs/system/i386/sgx.rst
+> @@ -20,13 +20,13 @@ report the same CPUID info to guest as on host for mo=
+st of SGX CPUID. With
+>  reporting the same CPUID guest is able to use full capacity of SGX, and =
+KVM
+>  doesn't need to emulate those info.
 > =20
-> diff --git a/docs/system/arm/orangepi.rst b/docs/system/arm/orangepi.rst
-> index c55694dd91b..83c7445197b 100644
-> --- a/docs/system/arm/orangepi.rst
-> +++ b/docs/system/arm/orangepi.rst
-> @@ -128,7 +128,7 @@ Alternatively, you can also choose to build you own i=
-mage with buildroot
->  using the orangepi_pc_defconfig. Also see https://buildroot.org for more=
- information.
+> -The guest's EPC base and size are determined by Qemu, and KVM needs Qemu=
+ to
+> +The guest's EPC base and size are determined by QEMU, and KVM needs QEMU=
+ to
+>  notify such info to it before it can initialize SGX for guest.
 > =20
->  When using an image as an SD card, it must be resized to a power of two.=
- This can be
-> -done with the qemu-img command. It is recommended to only increase the i=
-mage size
-> +done with the ``qemu-img`` command. It is recommended to only increase t=
-he image size
->  instead of shrinking it to a power of two, to avoid loss of data. For ex=
-ample,
->  to prepare a downloaded Armbian image, first extract it and then increas=
-e
->  its size to one gigabyte as follows:
-> diff --git a/docs/system/images.rst b/docs/system/images.rst
-> index 3d9144e6258..d000bd6b6f1 100644
-> --- a/docs/system/images.rst
-> +++ b/docs/system/images.rst
-> @@ -20,7 +20,7 @@ where myimage.img is the disk image filename and mysize=
- is its size in
->  kilobytes. You can add an ``M`` suffix to give the size in megabytes and
->  a ``G`` suffix for gigabytes.
+>  Virtual EPC
+>  ~~~~~~~~~~~
 > =20
-> -See the qemu-img invocation documentation for more information.
-> +See the ``qemu-img`` invocation documentation for more information.
+> -By default, Qemu does not assign EPC to a VM, i.e. fully enabling SGX in=
+ a VM
+> +By default, QEMU does not assign EPC to a VM, i.e. fully enabling SGX in=
+ a VM
+>  requires explicit allocation of EPC to the VM. Similar to other speciali=
+zed
+>  memory types, e.g. hugetlbfs, EPC is exposed as a memory backend.
 > =20
->  .. _disk_005fimages_005fsnapshot_005fmode:
-> =20
-> diff --git a/docs/system/qemu-block-drivers.rst.inc b/docs/system/qemu-bl=
-ock-drivers.rst.inc
-> index 16225710ebb..e313784426d 100644
-> --- a/docs/system/qemu-block-drivers.rst.inc
-> +++ b/docs/system/qemu-block-drivers.rst.inc
-> @@ -511,13 +511,13 @@ of an inet socket:
-> =20
->    |qemu_system| linux.img -hdb nbd+unix://?socket=3D/tmp/my_socket
-> =20
-> -In this case, the block device must be exported using qemu-nbd:
-> +In this case, the block device must be exported using ``qemu-nbd``:
-> =20
->  .. parsed-literal::
-> =20
->    qemu-nbd --socket=3D/tmp/my_socket my_disk.qcow2
-> =20
-> -The use of qemu-nbd allows sharing of a disk between several guests:
-> +The use of ``qemu-nbd`` allows sharing of a disk between several guests:
-> =20
->  .. parsed-literal::
-> =20
-> @@ -530,7 +530,7 @@ and then you can use it with two guests:
->    |qemu_system| linux1.img -hdb nbd+unix://?socket=3D/tmp/my_socket
->    |qemu_system| linux2.img -hdb nbd+unix://?socket=3D/tmp/my_socket
-> =20
-> -If the nbd-server uses named exports (supported since NBD 2.9.18, or wit=
-h QEMU's
-> +If the ``nbd-server`` uses named exports (supported since NBD 2.9.18, or=
- with QEMU's
->  own embedded NBD server), you must specify an export name in the URI:
-> =20
->  .. parsed-literal::
-> diff --git a/docs/system/tls.rst b/docs/system/tls.rst
-> index b0973afe1bf..1a04674362e 100644
-> --- a/docs/system/tls.rst
-> +++ b/docs/system/tls.rst
-> @@ -311,7 +311,7 @@ containing one or more usernames and random keys::
->     mkdir -m 0700 /tmp/keys
->     psktool -u rich -p /tmp/keys/keys.psk
-> =20
-> -TLS-enabled servers such as qemu-nbd can use this directory like so::
-> +TLS-enabled servers such as ``qemu-nbd`` can use this directory like so:=
-:
-> =20
->     qemu-nbd \
->       -t -x / \
-> diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
-> index c0a44431467..d663dd92bd7 100644
-> --- a/docs/tools/qemu-img.rst
-> +++ b/docs/tools/qemu-img.rst
-> @@ -127,9 +127,9 @@ by the used format or see the format descriptions bel=
-ow for details.
->  .. option:: -S SIZE
-> =20
->    Indicates the consecutive number of bytes that must contain only zeros
-> -  for qemu-img to create a sparse image during conversion. This value is=
- rounded
-> -  down to the nearest 512 bytes. You may use the common size suffixes li=
-ke
-> -  ``k`` for kilobytes.
-> +  for ``qemu-img`` to create a sparse image during conversion. This valu=
-e is
-> +  rounded down to the nearest 512 bytes. You may use the common size suf=
-fixes
-> +  like ``k`` for kilobytes.
-> =20
->  .. option:: -t CACHE
-> =20
-> @@ -431,7 +431,7 @@ Command description:
->    suppressed from the destination image.
-> =20
->    *SPARSE_SIZE* indicates the consecutive number of bytes (defaults to 4=
-k)
-> -  that must contain only zeros for qemu-img to create a sparse image dur=
-ing
-> +  that must contain only zeros for ``qemu-img`` to create a sparse image=
- during
->    conversion. If *SPARSE_SIZE* is 0, the source will not be scanned for
->    unallocated or zero sectors, and the destination image will always be
->    fully allocated.
-> @@ -447,7 +447,7 @@ Command description:
->    If the ``-n`` option is specified, the target volume creation will be
->    skipped. This is useful for formats such as ``rbd`` if the target
->    volume has already been created with site specific options that cannot
-> -  be supplied through qemu-img.
-> +  be supplied through ``qemu-img``.
-> =20
->    Out of order writes can be enabled with ``-W`` to improve performance.
->    This is only recommended for preallocated devices like host devices or=
- other
-> @@ -472,7 +472,7 @@ Command description:
->    If the option *BACKING_FILE* is specified, then the image will record
->    only the differences from *BACKING_FILE*. No size needs to be specifie=
-d in
->    this case. *BACKING_FILE* will never be modified unless you use the
-> -  ``commit`` monitor command (or qemu-img commit).
-> +  ``commit`` monitor command (or ``qemu-img commit``).
-> =20
->    If a relative path name is given, the backing file is looked up relati=
-ve to
->    the directory containing *FILENAME*.
-> @@ -684,7 +684,7 @@ Command description:
-> =20
->    Safe mode
->      This is the default mode and performs a real rebase operation. The
-> -    new backing file may differ from the old one and qemu-img rebase
-> +    new backing file may differ from the old one and ``qemu-img rebase``
->      will take care of keeping the guest-visible content of *FILENAME*
->      unchanged.
-> =20
-> @@ -697,7 +697,7 @@ Command description:
->      exists.
-> =20
->    Unsafe mode
-> -    qemu-img uses the unsafe mode if ``-u`` is specified. In this
-> +    ``qemu-img`` uses the unsafe mode if ``-u`` is specified. In this
->      mode, only the backing file name and format of *FILENAME* is changed
->      without any checks on the file contents. The user must take care of
->      specifying the correct new backing file, or the guest-visible
-> @@ -735,7 +735,7 @@ Command description:
->    sizes accordingly.  Failure to do so will result in data loss!
-> =20
->    When shrinking images, the ``--shrink`` option must be given. This inf=
-orms
-> -  qemu-img that the user acknowledges all loss of data beyond the trunca=
-ted
-> +  ``qemu-img`` that the user acknowledges all loss of data beyond the tr=
-uncated
->    image's end.
-> =20
->    After using this command to grow a disk image, you must use file syste=
-m and
-> diff --git a/docs/tools/qemu-nbd.rst b/docs/tools/qemu-nbd.rst
-> index 56e54cd4411..a1eebbce4fa 100644
-> --- a/docs/tools/qemu-nbd.rst
-> +++ b/docs/tools/qemu-nbd.rst
-> @@ -38,7 +38,7 @@ driver options if ``--image-opts`` is specified.
->    supported. The common object types that it makes sense to define are t=
-he
->    ``secret`` object, which is used to supply passwords and/or encryption
->    keys, and the ``tls-creds`` object, which is used to supply TLS
-> -  credentials for the qemu-nbd server or client.
-> +  credentials for the ``qemu-nbd`` server or client.
-> =20
->  .. option:: -p, --port=3DPORT
-> =20
-> @@ -238,7 +238,7 @@ daemon:
->  Expose the guest-visible contents of a qcow2 file via a block device
->  /dev/nbd0 (and possibly creating /dev/nbd0p1 and friends for
->  partitions found within), then disconnect the device when done.
-> -Access to bind qemu-nbd to an /dev/nbd device generally requires root
-> +Access to bind ``qemu-nbd`` to an /dev/nbd device generally requires roo=
+> @@ -35,12 +35,12 @@ prior to realizing the vCPUs themselves, which occurs=
+ long before generic
+>  devices are parsed and realized.  This limitation means that EPC does no=
 t
->  privileges, and may also require the execution of ``modprobe nbd``
->  to enable the kernel NBD client module.  *CAUTION*: Do not use
->  this method to mount filesystems from an untrusted guest image - a
-> diff --git a/docs/tools/qemu-storage-daemon.rst b/docs/tools/qemu-storage=
--daemon.rst
-> index b8ef4486f1e..3e5a9dc0320 100644
-> --- a/docs/tools/qemu-storage-daemon.rst
-> +++ b/docs/tools/qemu-storage-daemon.rst
-> @@ -10,9 +10,10 @@ Synopsis
->  Description
->  -----------
+>  require -maxmem as EPC is not treated as {cold,hot}plugged memory.
 > =20
-> -qemu-storage-daemon provides disk image functionality from QEMU, qemu-im=
-g, and
-> -qemu-nbd in a long-running process controlled via QMP commands without r=
-unning
-> -a virtual machine. It can export disk images, run block job operations, =
-and
-> +``qemu-storage-daemon`` provides disk image functionality from QEMU,
-> +``qemu-img``, and ``qemu-nbd`` in a long-running process controlled via =
-QMP
-> +commands without running a virtual machine.
-> +It can export disk images, run block job operations, and
->  perform other disk-related operations. The daemon is controlled via a QM=
-P
->  monitor and initial configuration from the command-line.
+> -Qemu does not artificially restrict the number of EPC sections exposed t=
+o a
+> -guest, e.g. Qemu will happily allow you to create 64 1M EPC sections. Be=
+ aware
+> +QEMU does not artificially restrict the number of EPC sections exposed t=
+o a
+> +guest, e.g. QEMU will happily allow you to create 64 1M EPC sections. Be=
+ aware
+>  that some kernels may not recognize all EPC sections, e.g. the Linux SGX=
+ driver
+>  is hardwired to support only 8 EPC sections.
 > =20
-> diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-> index cc314028309..07ac0be5511 100644
-> --- a/docs/tools/virtiofsd.rst
-> +++ b/docs/tools/virtiofsd.rst
-> @@ -136,8 +136,8 @@ Extended attribute (xattr) mapping
->  By default the name of xattr's used by the client are passed through to =
-the server
->  file system.  This can be a problem where either those xattr names are u=
-sed
->  by something on the server (e.g. selinux client/server confusion) or if =
-the
-> -virtiofsd is running in a container with restricted privileges where it =
-cannot
-> -access some attributes.
-> +``virtiofsd`` is running in a container with restricted privileges where=
- it
-> +cannot access some attributes.
+> -The following Qemu snippet creates two EPC sections, with 64M pre-alloca=
+ted
+> +The following QEMU snippet creates two EPC sections, with 64M pre-alloca=
+ted
+>  to the VM and an additional 28M mapped but not allocated::
 > =20
->  Mapping syntax
->  ~~~~~~~~~~~~~~
+>   -object memory-backend-epc,id=3Dmem1,size=3D64M,prealloc=3Don \
+> @@ -54,7 +54,7 @@ to physical EPC. Because physical EPC is protected via =
+range registers,
+>  the size of the physical EPC must be a power of two (though software see=
+s
+>  a subset of the full EPC, e.g. 92M or 128M) and the EPC must be naturall=
+y
+>  aligned.  KVM SGX's virtual EPC is purely a software construct and only
+> -requires the size and location to be page aligned. Qemu enforces the EPC
+> +requires the size and location to be page aligned. QEMU enforces the EPC
+>  size is a multiple of 4k and will ensure the base of the EPC is 4k align=
+ed.
+>  To simplify the implementation, EPC is always located above 4g in the gu=
+est
+>  physical address space.
+> @@ -62,7 +62,7 @@ physical address space.
+>  Migration
+>  ~~~~~~~~~
+> =20
+> -Qemu/KVM doesn't prevent live migrating SGX VMs, although from hardware'=
+s
+> +QEMU/KVM doesn't prevent live migrating SGX VMs, although from hardware'=
+s
+>  perspective, SGX doesn't support live migration, since both EPC and the =
+SGX
+>  key hierarchy are bound to the physical platform. However live migration
+>  can be supported in the sense if guest software stack can support recrea=
+ting
+> @@ -76,7 +76,7 @@ CPUID
+>  ~~~~~
+> =20
+>  Due to its myriad dependencies, SGX is currently not listed as supported
+> -in any of Qemu's built-in CPU configuration. To expose SGX (and SGX Laun=
+ch
+> +in any of QEMU's built-in CPU configuration. To expose SGX (and SGX Laun=
+ch
+>  Control) to a guest, you must either use ``-cpu host`` to pass-through t=
+he
+>  host CPU model, or explicitly enable SGX when using a built-in CPU model=
+,
+>  e.g. via ``-cpu <model>,+sgx`` or ``-cpu <model>,+sgx,+sgxlc``.
+> @@ -101,7 +101,7 @@ controlled via -cpu are prefixed with "sgx", e.g.::
+>    sgx2
+>    sgxlc
+> =20
+> -The following Qemu snippet passes through the host CPU but restricts acc=
+ess to
+> +The following QEMU snippet passes through the host CPU but restricts acc=
+ess to
+>  the provision and EINIT token keys::
+> =20
+>   -cpu host,-sgx-provisionkey,-sgx-tokenkey
+> @@ -112,11 +112,11 @@ in hardware cannot be forced on via '-cpu'.
+>  Virtualize SGX Launch Control
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> =20
+> -Qemu SGX support for Launch Control (LC) is passive, in the sense that i=
+t
+> -does not actively change the LC configuration.  Qemu SGX provides the us=
+er
+> +QEMU SGX support for Launch Control (LC) is passive, in the sense that i=
+t
+> +does not actively change the LC configuration.  QEMU SGX provides the us=
+er
+>  the ability to set/clear the CPUID flag (and by extension the associated
+>  IA32_FEATURE_CONTROL MSR bit in fw_cfg) and saves/restores the LE Hash M=
+SRs
+> -when getting/putting guest state, but Qemu does not add new controls to
+> +when getting/putting guest state, but QEMU does not add new controls to
+>  directly modify the LC configuration.  Similar to hardware behavior, loc=
+king
+>  the LC configuration to a non-Intel value is left to guest firmware.  Un=
+like
+>  host bios setting for SGX launch control(LC), there is no special bios s=
+etting
+> @@ -126,7 +126,7 @@ creating VM with SGX.
+>  Feature Control
+>  ~~~~~~~~~~~~~~~
+> =20
+> -Qemu SGX updates the ``etc/msr_feature_control`` fw_cfg entry to set the=
+ SGX
+> +QEMU SGX updates the ``etc/msr_feature_control`` fw_cfg entry to set the=
+ SGX
+>  (bit 18) and SGX LC (bit 17) flags based on their respective CPUID suppo=
+rt,
+>  i.e. existing guest firmware will automatically set SGX and SGX LC accor=
+dingly,
+>  assuming said firmware supports fw_cfg.msr_feature_control.
+> diff --git a/docs/u2f.txt b/docs/u2f.txt
+> index 8f44994818a..7f5813a0b72 100644
+> --- a/docs/u2f.txt
+> +++ b/docs/u2f.txt
+> @@ -21,7 +21,7 @@ The second factor is materialized by a device implement=
+ing the U2F
+>  protocol. In case of a USB U2F security key, it is a USB HID device
+>  that implements the U2F protocol.
+> =20
+> -In Qemu, the USB U2F key device offers a dedicated support of U2F, allow=
+ing
+> +In QEMU, the USB U2F key device offers a dedicated support of U2F, allow=
+ing
+>  guest USB FIDO/U2F security keys operating in two possible modes:
+>  pass-through and emulated.
+> =20
 > --=20
 > 2.31.1
 
