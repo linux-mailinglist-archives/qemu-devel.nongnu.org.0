@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A996455E62
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 15:39:09 +0100 (CET)
-Received: from localhost ([::1]:39018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF1B455E63
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 15:39:44 +0100 (CET)
+Received: from localhost ([::1]:41292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mniZA-00011L-Ju
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 09:39:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46934)
+	id 1mniZj-0002VW-Gv
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 09:39:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mniWO-0004kz-37
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 09:36:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46475)
+ id 1mniWP-0004qc-IM
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 09:36:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30078)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mniWK-0004mR-VJ
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 09:36:15 -0500
+ id 1mniWN-0004mq-T2
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 09:36:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637246172;
+ s=mimecast20190719; t=1637246175;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TqVcZztcI/sVqqYp7S4eoNXMMYvntX6jtEZp9tYZMsg=;
- b=Xqko0TlbalRqWbKqQoQhYyCGVeyBPL/XW5Gbdve7/1T6sHzguGJE/HCZDlq3TbUs4Ou1CD
- vRH24tCXqUYOgy6WwOrN9NxYfB9AwiG3lLooYFNtGw3LVWbwgbA4RG8pXUeqF9RZ9QV54a
- 3IDd/5OwKUKPvKDiuiVpIbCOtGGmWLU=
+ bh=RLvn5axLfKncylepktKIonBhDChuf9AdJ2wVIfSEnAM=;
+ b=a1z81l5+CJg8Ovfnf9Pm/D6rEZSt6O1HPtbzL6WXHc6EdEN33okbDGv763zPsewr2XLlJS
+ vswDStlghRXxihYzKy5qxCpnoUNmUxobHFlVCG4zlIGieMkTkCQBBuIsrMNnWEWXiJL6hY
+ o6V+P/xuDa3Jpx5zqyww9x3bTPqGp7c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-176-Dmp2MQIWM2yFQXaVPq2g5w-1; Thu, 18 Nov 2021 09:36:11 -0500
-X-MC-Unique: Dmp2MQIWM2yFQXaVPq2g5w-1
+ us-mta-436-7KSAYSxrMKeCjGVMI_ByUg-1; Thu, 18 Nov 2021 09:36:13 -0500
+X-MC-Unique: 7KSAYSxrMKeCjGVMI_ByUg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4253804142;
- Thu, 18 Nov 2021 14:36:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 000851B2C981;
+ Thu, 18 Nov 2021 14:36:12 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 783D5604CC;
- Thu, 18 Nov 2021 14:36:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 86D7C179B3;
+ Thu, 18 Nov 2021 14:36:10 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] block: support sha256 fingerprint with pre-blockdev
- options
-Date: Thu, 18 Nov 2021 14:35:46 +0000
-Message-Id: <20211118143547.2045554-3-berrange@redhat.com>
+Subject: [PATCH 3/3] block: print the server key type and fingerprint on
+ failure
+Date: Thu, 18 Nov 2021 14:35:47 +0000
+Message-Id: <20211118143547.2045554-4-berrange@redhat.com>
 In-Reply-To: <20211118143547.2045554-1-berrange@redhat.com>
 References: <20211118143547.2045554-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -86,38 +86,102 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When support for sha256 fingerprint checking was aded in
-
-  commit bf783261f0aee6e81af3916bff7606d71ccdc153
-  Author: Daniel P. Berrangé <berrange@redhat.com>
-  Date:   Tue Jun 22 12:51:56 2021 +0100
-
-    block/ssh: add support for sha256 host key fingerprints
-
-it was only made to work with -blockdev. Getting it working with
--drive requires some extra custom parsing.
+When validating the server key fingerprint fails, it is difficult for
+the user to know what they got wrong. The fingerprint accepted by QEMU
+is received in a different format than openssh displays. There can also
+be keys for multiple different ciphers in known_hosts. It may not be
+obvious which cipher QEMU will use and whether it will be the same
+as openssh. Address this by printing the server key type and its
+corresponding fingerprint in the format QEMU accepts.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- block/ssh.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ block/ssh.c | 37 ++++++++++++++++++++++++++++++-------
+ 1 file changed, 30 insertions(+), 7 deletions(-)
 
 diff --git a/block/ssh.c b/block/ssh.c
-index e0fbb4934b..fcc0ab765a 100644
+index fcc0ab765a..967a2b971e 100644
 --- a/block/ssh.c
 +++ b/block/ssh.c
-@@ -556,6 +556,11 @@ static bool ssh_process_legacy_options(QDict *output_opts,
-             qdict_put_str(output_opts, "host-key-check.type", "sha1");
-             qdict_put_str(output_opts, "host-key-check.hash",
-                           &host_key_check[5]);
-+        } else if (strncmp(host_key_check, "sha256:", 7) == 0) {
-+            qdict_put_str(output_opts, "host-key-check.mode", "hash");
-+            qdict_put_str(output_opts, "host-key-check.type", "sha256");
-+            qdict_put_str(output_opts, "host-key-check.hash",
-+                          &host_key_check[7]);
-         } else if (strcmp(host_key_check, "yes") == 0) {
-             qdict_put_str(output_opts, "host-key-check.mode", "known_hosts");
-         } else {
+@@ -386,14 +386,28 @@ static int compare_fingerprint(const unsigned char *fingerprint, size_t len,
+     return *host_key_check - '\0';
+ }
+ 
++static char *format_fingerprint(const unsigned char *fingerprint, size_t len)
++{
++    static const char *hex = "0123456789abcdef";
++    char *ret = g_new0(char, (len * 2) + 1);
++    for (size_t i = 0; i < len; i++) {
++        ret[i * 2] = hex[((fingerprint[i] >> 4) & 0xf)];
++        ret[(i * 2) + 1] = hex[(fingerprint[i] & 0xf)];
++    }
++    ret[len * 2] = '\0';
++    return ret;
++}
++
+ static int
+ check_host_key_hash(BDRVSSHState *s, const char *hash,
+-                    enum ssh_publickey_hash_type type, Error **errp)
++                    enum ssh_publickey_hash_type type, const char *typestr,
++                    Error **errp)
+ {
+     int r;
+     ssh_key pubkey;
+     unsigned char *server_hash;
+     size_t server_hash_len;
++    const char *keytype;
+ 
+     r = ssh_get_server_publickey(s->session, &pubkey);
+     if (r != SSH_OK) {
+@@ -401,6 +415,8 @@ check_host_key_hash(BDRVSSHState *s, const char *hash,
+         return -EINVAL;
+     }
+ 
++    keytype = ssh_key_type_to_char(ssh_key_type(pubkey));
++
+     r = ssh_get_publickey_hash(pubkey, type, &server_hash, &server_hash_len);
+     ssh_key_free(pubkey);
+     if (r != 0) {
+@@ -410,12 +426,16 @@ check_host_key_hash(BDRVSSHState *s, const char *hash,
+     }
+ 
+     r = compare_fingerprint(server_hash, server_hash_len, hash);
+-    ssh_clean_pubkey_hash(&server_hash);
+     if (r != 0) {
+-        error_setg(errp, "remote host key does not match host_key_check '%s'",
+-                   hash);
++        g_autofree char *server_fp = format_fingerprint(server_hash,
++                                                        server_hash_len);
++        error_setg(errp, "remote host %s key fingerprint '%s:%s' "
++                   "does not match host_key_check '%s:%s'",
++                   keytype, typestr, server_fp, typestr, hash);
++        ssh_clean_pubkey_hash(&server_hash);
+         return -EPERM;
+     }
++    ssh_clean_pubkey_hash(&server_hash);
+ 
+     return 0;
+ }
+@@ -436,13 +456,16 @@ static int check_host_key(BDRVSSHState *s, SshHostKeyCheck *hkc, Error **errp)
+     case SSH_HOST_KEY_CHECK_MODE_HASH:
+         if (hkc->u.hash.type == SSH_HOST_KEY_CHECK_HASH_TYPE_MD5) {
+             return check_host_key_hash(s, hkc->u.hash.hash,
+-                                       SSH_PUBLICKEY_HASH_MD5, errp);
++                                       SSH_PUBLICKEY_HASH_MD5, "md5",
++                                       errp);
+         } else if (hkc->u.hash.type == SSH_HOST_KEY_CHECK_HASH_TYPE_SHA1) {
+             return check_host_key_hash(s, hkc->u.hash.hash,
+-                                       SSH_PUBLICKEY_HASH_SHA1, errp);
++                                       SSH_PUBLICKEY_HASH_SHA1, "sha1",
++                                       errp);
+         } else if (hkc->u.hash.type == SSH_HOST_KEY_CHECK_HASH_TYPE_SHA256) {
+             return check_host_key_hash(s, hkc->u.hash.hash,
+-                                       SSH_PUBLICKEY_HASH_SHA256, errp);
++                                       SSH_PUBLICKEY_HASH_SHA256, "sha256",
++                                       errp);
+         }
+         g_assert_not_reached();
+         break;
 -- 
 2.31.1
 
