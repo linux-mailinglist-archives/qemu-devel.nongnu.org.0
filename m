@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 451B7455D64
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 15:06:13 +0100 (CET)
-Received: from localhost ([::1]:55410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8B01455D31
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 14:59:41 +0100 (CET)
+Received: from localhost ([::1]:43448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mni3I-0005hN-4R
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 09:06:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56830)
+	id 1mnhwy-0005hA-Ub
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 08:59:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mnhaT-0008QO-9A
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 08:36:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43272)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mnhf3-0003Sg-9T
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 08:41:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30751)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mnhaR-0002qQ-AT
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 08:36:24 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mnhf1-0003ar-J8
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 08:41:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637242582;
+ s=mimecast20190719; t=1637242866;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ytnUUif25oYMkqa8jMsmzRzFU3UWIYFhkH5hBybYE+I=;
- b=YGLCfqWEq5IA8nLRebbM/E4yNw0jamkElBXMh41ufBujzq9njrKwCJpij77umTj7PGkj8J
- tld4LacAnZRlS/zb0QxMLryWhzkDV5xu0ZDnPIJwhfcwNEg6YgzWTdz+Pb07LEWtu7iy0G
- aFp0J4O2A6xaHoSghl6uSw8myKZZSCI=
+ bh=H+RygftH/d80H+wOSPVst2Iv1z2maDE3S3UX+qA/Hes=;
+ b=Dy9n+U6H0aPndWbICaB2RxAr3KNmrz4LHZ/AXgbRjlxnnBvtxaWL8tA1MYRCaLpfJwA9ip
+ IarBqOO/PKyfeCX2komS/njby/91X/2BDw1eBr90ZsZVdeWKrxTKOcla8aUZRqTQV2ajt3
+ V9IgzAUUcvm3c1fIl5ulxqo+E0cc1qA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-413-fe5sf_YwNa6xoEFepYn9eA-1; Thu, 18 Nov 2021 08:36:19 -0500
-X-MC-Unique: fe5sf_YwNa6xoEFepYn9eA-1
+ us-mta-260-V6X1qxqqMgeey7vBsAMPmw-1; Thu, 18 Nov 2021 08:41:03 -0500
+X-MC-Unique: V6X1qxqqMgeey7vBsAMPmw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 141CD100E320;
- Thu, 18 Nov 2021 13:36:18 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.33.36.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4BB6A62A41;
- Thu, 18 Nov 2021 13:36:16 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 6/6] target/i386/sev: Replace qemu_map_ram_ptr with
- address_space_map
-Date: Thu, 18 Nov 2021 13:35:32 +0000
-Message-Id: <20211118133532.2029166-7-berrange@redhat.com>
-In-Reply-To: <20211118133532.2029166-1-berrange@redhat.com>
-References: <20211118133532.2029166-1-berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 303FA100F962;
+ Thu, 18 Nov 2021 13:41:02 +0000 (UTC)
+Received: from [10.39.192.245] (unknown [10.39.192.245])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D1F8F5F4ED;
+ Thu, 18 Nov 2021 13:40:58 +0000 (UTC)
+Message-ID: <9dcb90fa-caa5-580f-a272-7eed37be0bf8@redhat.com>
+Date: Thu, 18 Nov 2021 14:40:57 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v3 0/6] SEV: add kernel-hashes=on for measured -kernel
+ launch
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>
+References: <20211111100048.3299424-1-dovmurik@linux.ibm.com>
+ <ea55111b-85d9-c05a-7808-fcdcbe1e8bcc@linux.ibm.com>
+ <81ab2e5c-630f-24e5-d04a-c2fb89e952ae@linux.ibm.com>
+ <YZZO6jEbRISnW/Cv@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <YZZO6jEbRISnW/Cv@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ NICE_REPLY_A=-1.084, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,79 +87,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- Marcelo Tosatti <mtosatti@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>, Brijesh Singh <brijesh.singh@amd.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Dov Murik <dovmurik@linux.ibm.com>
+On 11/18/21 14:02, Daniel P. Berrangé wrote:
+> On Thu, Nov 18, 2021 at 02:21:09PM +0200, Dov Murik wrote:
+>> Pinging again -- Daniel said this should be added to 6.2.
+>>
+>> Is there anything I should do?
+> 
+> I'm going to take care of sending a PULL to relieve Paolo's
+> workload.
 
-Use address_space_map/unmap and check for errors.
+Apologies, I ignored the series last week because it sounded like 7.0 
+material.
 
-Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
-Acked-by: Brijesh Singh <brijesh.singh@amd.com>
-[Two lines wrapped for length - Daniel]
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- target/i386/sev.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
-
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 4fd258a570..025ff7a6f8 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -37,6 +37,7 @@
- #include "qapi/qmp/qerror.h"
- #include "exec/confidential-guest-support.h"
- #include "hw/i386/pc.h"
-+#include "exec/address-spaces.h"
- 
- #define TYPE_SEV_GUEST "sev-guest"
- OBJECT_DECLARE_SIMPLE_TYPE(SevGuestState, SEV_GUEST)
-@@ -1232,6 +1233,9 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
-     uint8_t kernel_hash[HASH_SIZE];
-     uint8_t *hashp;
-     size_t hash_len = HASH_SIZE;
-+    hwaddr mapped_len = sizeof(*padded_ht);
-+    MemTxAttrs attrs = { 0 };
-+    bool ret = true;
- 
-     /*
-      * Only add the kernel hashes if the sev-guest configuration explicitly
-@@ -1292,7 +1296,12 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
-      * Populate the hashes table in the guest's memory at the OVMF-designated
-      * area for the SEV hashes table
-      */
--    padded_ht = qemu_map_ram_ptr(NULL, area->base);
-+    padded_ht = address_space_map(&address_space_memory, area->base,
-+                                  &mapped_len, true, attrs);
-+    if (!padded_ht || mapped_len != sizeof(*padded_ht)) {
-+        error_setg(errp, "SEV: cannot map hashes table guest memory area");
-+        return false;
-+    }
-     ht = &padded_ht->ht;
- 
-     ht->guid = sev_hash_table_header_guid;
-@@ -1314,10 +1323,13 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
-     memset(padded_ht->padding, 0, sizeof(padded_ht->padding));
- 
-     if (sev_encrypt_flash((uint8_t *)padded_ht, sizeof(*padded_ht), errp) < 0) {
--        return false;
-+        ret = false;
-     }
- 
--    return true;
-+    address_space_unmap(&address_space_memory, padded_ht,
-+                        mapped_len, true, mapped_len);
-+
-+    return ret;
- }
- 
- static void
--- 
-2.31.1
+Paolo
 
 
