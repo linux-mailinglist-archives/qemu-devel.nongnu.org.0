@@ -2,96 +2,169 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 085B8455F9C
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 16:33:56 +0100 (CET)
-Received: from localhost ([::1]:36280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B117455FAF
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 16:37:57 +0100 (CET)
+Received: from localhost ([::1]:43754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnjQA-0000eY-KA
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 10:33:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37690)
+	id 1mnjU4-0005oz-7V
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 10:37:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mnjOB-00088i-OJ
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 10:31:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21435)
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1mnjQi-0001qW-Fj
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 10:34:28 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:28302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mnjO9-0006YJ-1F
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 10:31:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637249508;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=drmZPliX8obnOvykgLjgLe7sWLoQvClYxLym+hHICD8=;
- b=HUn3hMAdvKAhLeOqElWiGAW8EJJJ+N9PxVgt+3/GLkDShSW4g+rBVHZPSE8rbMjE/vTSOe
- 4JWcSBVnQQAT5nYZ+QD5yd8/4HOOmeIAJEYmM6LvXd0FW5W6UXe/5mw80QhzVtj6n8TSUH
- Hs9UFHXwH+h7vuWud+Zjy42DPLcapYU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-532-GHTEgAT6NWuYwSgGplgqJQ-1; Thu, 18 Nov 2021 10:31:46 -0500
-X-MC-Unique: GHTEgAT6NWuYwSgGplgqJQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- u4-20020a5d4684000000b0017c8c1de97dso1168828wrq.16
- for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 07:31:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=drmZPliX8obnOvykgLjgLe7sWLoQvClYxLym+hHICD8=;
- b=ad1awGKMrzj/Pmnnm5ammJiYWeZ69ts1QLZRmjlbbeAs0lE6XbEPCg+0nFRMslgLnM
- KOsAQC/mZBFoDxkc8b7OH8kNUZN3WCS5LyABuZgX6DL4WCUsZy2ITTdYh9fLdDo+/6Pe
- 5qu22oaIA6MktKce54jGqH1k/+2w1gCVVHv5xA6A+3CNln4gMm3+LfrUpOT0nkVb7D97
- BJ7z/9B/s4Zdoge1KxerGZ6v7y3FjAeSPLfmFxglG3gcV6/HsMyJ4uOBFyQHfXubtDMW
- bL+HEJyDEdCmrKQaBwAov99Izhs8DtQhwIIj0TgeT8X4349j1+2gBmhEtw7zc8a/ZzjO
- k4wA==
-X-Gm-Message-State: AOAM531lIQOV1rvTt9wmDVUW0uxWeOd11jtmDcXkZcXua2nzANfZYPqm
- feP9OcHupdfuX/NhHL9BO9TP+UugqEN7XF3n7iMZXfkzkBZ60hsBUkVgWUgSS1px2pNNKCdlx16
- KZAgZsGkGSqnCfxk=
-X-Received: by 2002:a05:600c:221a:: with SMTP id
- z26mr11348033wml.20.1637249505418; 
- Thu, 18 Nov 2021 07:31:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxf3gTWy4F7GIuKz0mGuxxXSyN+kmbNTBillCtP2WskXzS+pVop/k/887LrQCFjetRRqMADHQ==
-X-Received: by 2002:a05:600c:221a:: with SMTP id
- z26mr11347983wml.20.1637249505209; 
- Thu, 18 Nov 2021 07:31:45 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id w15sm147623wrk.77.2021.11.18.07.31.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Nov 2021 07:31:44 -0800 (PST)
-Message-ID: <3e55da77-66e1-d9ac-e23a-3fa0beceec8e@redhat.com>
-Date: Thu, 18 Nov 2021 16:31:43 +0100
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1mnjQf-0006sc-TK
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 10:34:28 -0500
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AIEl7VY020982; 
+ Thu, 18 Nov 2021 15:34:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : in-reply-to : references : date : message-id : content-type :
+ content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=/vYfHqv3qrPbq9Tj0VVnuCloVktp6Vjvjg4K2nTCYpg=;
+ b=0zHyIgwzn9URTsrTXjPY5B5sTiefAkQiNyLzMb19UdA2Xuo22qu13MqwN+OCTSHDIUdP
+ cFoVvaTwg34EjTtdWa8N3eMWgKCdi/3e5vR4wLBVwQHS1NHk7XlH5894UmHjMMEm4bWq
+ LHndSOSK2rCA/Z2FLLrvX9S20FzGUb6fdE9x4DgaXzOVijDW8IqdF3nT1HpZBzrA9w/0
+ YRF1OyI10Ukq2HP6+rixV5gJSicaHQk7laxKIEmojzN7k8/CS/RKIUA5k8HmLxhjWKsH
+ jO+rLWxpPQIVEFgrFIl4cWIoXSC86Le1CMtDClvJQR3eDvtF+DAXSZLLmK0difUNQuU/ ng== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3cd4qyq5gs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 18 Nov 2021 15:34:14 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1AIFVU5i122947;
+ Thu, 18 Nov 2021 15:33:07 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com
+ (mail-co1nam11lp2175.outbound.protection.outlook.com [104.47.56.175])
+ by userp3020.oracle.com with ESMTP id 3caq4w76j3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 18 Nov 2021 15:33:06 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OqODD158ENsyEGdWua3ARJvLQZxkB6hZSk5ZmysruNn/M/qSnwI/EBtD7hjt3g2RK8aoEPbtPRcyvMWCP18o0Bo4nXAm6Z5kgbenEjdYwBYiAu00f8Xhn3JsjcRBf8FMQuKOmDhQLmlEye1NMS8bhRno4cIGD0e2Jpp68180VKkMN2af0uEzG4PHhR5ULn2GZs5nLSkErZif8yLocPzMPJughJeeayh5g7I9rIEkUFmv8s1qsIr/5231vA4udoZCTlqKj4s9PRWnRNWzmfiUIicc6C/M+q1+8gn2QWHtmgMEiNuRjZhHvHNNRuPqmy8BZ+aDefEYPLZxrni0totjyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/vYfHqv3qrPbq9Tj0VVnuCloVktp6Vjvjg4K2nTCYpg=;
+ b=ZKV0czHLT+mC7iNM4KkXAT5mVrt0BJiN5+n5omH0RbhWEZfJjGS8y31vAmm4bPUvbJaAL38n1BRNniTHKEyVb0mHdrkd/t7l+krMUd4z4eHPBsUfp8xZTOBprhtgWnops9BsX/Tt8WwyLm8j3sf9kEvUljOA/uCzMKvXj4OKKmX5+BIydQtNkPfRDxzV86beCeoi0CEdtvgs5dlskn71N4qVdmmmiIUXx7GzCiTpBA5bA3vVwX2M3UQnON29nwHpeBuO98PJBO8hTCeDJeX5U2CXd640BJ8wT5lFSq9W4LVm6cUEIFad6VVsjbm+HYunFWKaU8MM4rSb52QJmvh2+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/vYfHqv3qrPbq9Tj0VVnuCloVktp6Vjvjg4K2nTCYpg=;
+ b=joMg2QZZZCFk5AeRjmP9aqnUqsQp67EkBlKatj0tUQadm1h7NdqolhsRdCAAGxQHVg9LvhF93PE54Yltz1WVVPyXi3jHWDRjoJvI9A9HuqVm34eYKNJnVwkTzZR4GugxAL88q7/0PuRExh7LpaUH8ROErH7z0jWtwvljbGfkWUA=
+Received: from BLAPR10MB5138.namprd10.prod.outlook.com (2603:10b6:208:322::8)
+ by BLAPR10MB5204.namprd10.prod.outlook.com (2603:10b6:208:328::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19; Thu, 18 Nov
+ 2021 15:33:04 +0000
+Received: from BLAPR10MB5138.namprd10.prod.outlook.com
+ ([fe80::9418:7fcf:86ec:e0f4]) by BLAPR10MB5138.namprd10.prod.outlook.com
+ ([fe80::9418:7fcf:86ec:e0f4%7]) with mapi id 15.20.4713.019; Thu, 18 Nov 2021
+ 15:33:04 +0000
+From: Darren Kenny <darren.kenny@oracle.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH-for-6.2? v2 0/5] docs/devel/style: Improve rST rendering
+In-Reply-To: <20211118145716.4116731-1-philmd@redhat.com>
+References: <20211118145716.4116731-1-philmd@redhat.com>
+Date: Thu, 18 Nov 2021 15:32:58 +0000
+Message-ID: <m2r1bd8onp.fsf@oracle.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: DB6PR0202CA0011.eurprd02.prod.outlook.com
+ (2603:10a6:4:29::21) To BLAPR10MB5138.namprd10.prod.outlook.com
+ (2603:10b6:208:322::8)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v4 00/25] block layer: split block APIs in global state
- and I/O
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20211025101735.2060852-1-eesposit@redhat.com>
- <93821bd8-2ac0-a19e-7029-900e6a6d9be1@redhat.com>
- <a2891f6d-f383-f252-4b82-da08b2a2c1d7@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <a2891f6d-f383-f252-4b82-da08b2a2c1d7@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.084, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received: from oracle.com (46.7.162.180) by
+ DB6PR0202CA0011.eurprd02.prod.outlook.com (2603:10a6:4:29::21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4713.22 via Frontend Transport; Thu, 18 Nov 2021 15:33:03 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c18f1726-63e4-4190-5e5a-08d9aaa8b64c
+X-MS-TrafficTypeDiagnostic: BLAPR10MB5204:
+X-Microsoft-Antispam-PRVS: <BLAPR10MB5204E8B786DB8FC0B724E4CCF49B9@BLAPR10MB5204.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4lHCF/is8JUUFSJtRV12CeP21qQk/eLCmUEFhmMEF77S5ZAoLB30/XKhtPNH68sUdp3e6Kxd5vSyvgQ3teHyVC0ca1orDIjyUxCDXZboPm8FmVdAcyaBDh5ljG+KaIrSfsPgcstKAyqC602i0UMWwIoMFW5/lQP+kZ0MF4GF72SzWgyhpkOTks6jlayU4FrjfUqQQFdoCMd7RLIef8TH6vKAg59pqEWz5PcmfhSMvIcRKVj0t/FntKVzHrEYuT9MxSILHvCDHL5Mmik9vuyI1MX8aNRcDUrqRglTqdnKS3fVGbKU11DdYl8ErAULaUN5JW8vU3zNZ9shLHdgpI7nvekGZ+RCge2RpnqWz4N89EFBO6h4yorO9VhinNl+/nZW9b35HIcolUXXp/3G44+C0Ao4KO2vZMhdfWEaE3jncTFd8sFBrwCe783OsuSjETa7l3d4tfZG1WbJsBkbN2APwBkCKeSFqWwI5jUjhh0ia/D4aWJCXNfKHlvW7GznDBu5NMC7TE66EJXXe6DkOZVb4B1XqcaxIo50KarPi/rcwL1XAWLF+Q7bbYuwsdDag7HylcYht38qGjggCVZcXradCCowny/ofPBjsz9q/2JqJN3ebLvVYC6D2qgmFx++kv/AYRo7XLrHfGHpjx7ENFXHtE8iGgXfL/yX+UmxNa3W1bJ4Y2QyS4LQInED4HSdS0t5UjCVYxNbIXMZxzgvVDxNcw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BLAPR10MB5138.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(2906002)(2616005)(38100700002)(956004)(4326008)(4744005)(508600001)(316002)(38350700002)(54906003)(86362001)(5660300002)(36756003)(44832011)(66476007)(66946007)(4001150100001)(8676002)(26005)(186003)(66556008)(55016002)(83380400001)(52116002)(7696005)(6666004)(8936002)(8886007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SnNXSFRsNnZqVDc4Vjh2eDVlbTBTYUxqRXdHdU5pbjVWdzFlWEs4Z1lIV2FC?=
+ =?utf-8?B?SFNmZXpTcms4Uk5jRUVSQTlMcU9hd2VkY1g0SlBSQ3J6OVlXSDd4Zk5tTHE2?=
+ =?utf-8?B?VC85QmFKY0pncGlSLzBqdStaQUxLMUZ4eHc4UFVWQXhsZ2l1QURjaGJ4SEow?=
+ =?utf-8?B?ZlZ1am1WZlAyNVdKNWhlLzROdUhyNm5NeWRXOHdqY0ZxMVNnazZ0L3lXSUxZ?=
+ =?utf-8?B?M1lMbjJMcVRjSkI2TVU4eVhKakhQbWxlVnVoUEVxdFJuT2ZRVjRXTWpCVFdZ?=
+ =?utf-8?B?OWx5Z21BaWFQQWhXY0Jra2p2TnVYWlc2ZVdqVy9pdkdFb1ZsTzNjS05MTVkz?=
+ =?utf-8?B?cXFYRnhMOTd6aDllaThxYnRsK05OdExYaHdNZklxRGo0TlVJMDBtM3ZLS2RJ?=
+ =?utf-8?B?SlV5Y2oyV29waVN3YnM2Rm9sdkJqc2I4U1BvckpCVXRWUlJUN2dxNDZLT3lB?=
+ =?utf-8?B?TXdHMGxubmt5WUFkcElBUVhOV1ZwQ0d1TTFHeXhZZXNMdVZlKzFGVVYxL2pl?=
+ =?utf-8?B?ZHhjVTBRTnpVOTcvQUhvQXlOdmk2SmNJc0lSVEJreE9PWWJEZER6WXgwVU9V?=
+ =?utf-8?B?aUpCQnNQZktZQXYzbFJtRHprR2owWkpvbDhqMXZDTVY5aFR6blI1ZzFBVmx5?=
+ =?utf-8?B?MnBaU0w3amVBdzhvbFNMY053S2RXY3ZwbHJyT0pxUkRrdGFPZndqSlZHYUFG?=
+ =?utf-8?B?R2xLSEU1SmRPVWsvUFRnYnZIYU1Fb05TZ3BCOHZ6VHA3Si8xUnBxOHN6ZTNZ?=
+ =?utf-8?B?Q2lKRDBheDhNeWowZFZlWHFqRVFaWDUwc3gxY01lbHBESmE5eTJYendCbC9O?=
+ =?utf-8?B?Smw2d24yYlB0UzNWWEF2aytUNEV6bWNDbTc3NU8wUW1xYXdaS3pCR0V2S0NE?=
+ =?utf-8?B?cmVtS01tZmdZZTJxTUhkWGpFdTlyZUhpckpvcHBndzFiT0RCY3hKeDFtdFl1?=
+ =?utf-8?B?dGNibmNjZFo0QzlHVHR6enZWblhKdVBLelY1WktFeFdYNkRTVUNhSVdFYjVl?=
+ =?utf-8?B?Wk9pYnZMYmF2K09jdlp1bVN3MHorMjVXYXNQN0xDakNQeGlpVXpDNHJHRzJY?=
+ =?utf-8?B?Uk9qYnc0WHdUbWRpM2RGRWxlK0Fyc2c5TTJOSzREL2owUE9DbWpFNWltQUFq?=
+ =?utf-8?B?czZjQ2poMzJ6RFFPRGtHdzl6NWlPSE5PVXBaeEpKd1oyMWFlTkNvcDU5MnZ3?=
+ =?utf-8?B?ZXU5WE1LNE9BZHRDRXpodWZiSzJaMUZsTDFiQmpVYWRScktTbVl4YU1RZkRz?=
+ =?utf-8?B?QVVDNnV2Um92UCtFbkpDejhqc3lPbHhmbDROZDV4Z3BVQ1gxTTFFWXlxcm0y?=
+ =?utf-8?B?T1lGWjZDejRhamVpTXcyMVRqUi9Mbk55M0t4c0grYmNCNWluK1hMVllPYS9p?=
+ =?utf-8?B?dG5EUXo2eVloVGxrcTFKcG05L2xiSVF1VTNyNTdNUTl0MzRRNXNXc0gwYm03?=
+ =?utf-8?B?L0VlbVUxUWZFdlAza1hYZTZDRkpoODllOXRzMkJWZUp3eFRKYXpmRnlVTnZn?=
+ =?utf-8?B?VVlCQXNoeFNVcjN0elI0a3d5UTlWdjNSSnRpMmZxZjVNbUVrWHdDMFROZkdK?=
+ =?utf-8?B?R1RSd3BCdGp5ckdPNGZheHAxd0F3L0JmaU5mb3JybHNWKzNBRW5nbXpyNVFv?=
+ =?utf-8?B?aUxjT3ZjZUVDN0NrdHkwOXk2c09QZEpqWXkydVZDMHJYWVduY1Q5cUZ0NE5Y?=
+ =?utf-8?B?ZzBoaWMvaERFTHgyWkozQTA3V1pzMnlCeW9EVzdRV1BMUlZvQjRkTzE3TEs3?=
+ =?utf-8?B?Q0tmemdlckdXNGwydXZ1bCtaSFk1bThZZ2JvUDVkWFV5WU9PVlhYNnNxNmZU?=
+ =?utf-8?B?eDJiaDRML2NqY1MxOUw5VUxKUGdWa0NLOTlrd21ac3RLT25POWFyaStlSGlO?=
+ =?utf-8?B?OXdoZjBsMG03aWZZbXU3ZHJVTHNzM0VMdTU5eVJEUWpyNzNRV01LeEhlVTJX?=
+ =?utf-8?B?TUhRcXY4TmhKV3krY2ZsK2VxSWNHT2VBSEtiekZIZEhLMW9MRk5xdmxTYUs1?=
+ =?utf-8?B?bnVxTlRHZ1h3aE1xODFIMFZoQlh1QUx2NkprSW8wN2dieGNKaWQ2TFdtbGxs?=
+ =?utf-8?B?emszK3g3T1pFNkFFY0ZHQjJQalBxckpvZnFWb3E5VU5BcXZCc3ZubEk1a0lq?=
+ =?utf-8?B?aWNRL0NZalBpQitqM252MlUvRkdOZHgwWm1uNGpxaHJ6eXlFTjAyU1pIQzBI?=
+ =?utf-8?Q?b4DDCj+tSMxYz21Kzm4ChvQ=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c18f1726-63e4-4190-5e5a-08d9aaa8b64c
+X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB5138.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2021 15:33:04.1432 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gRdF5iRYHRG0GdojkUB1d1zz7s5NJLuEwk6Jfi0LRFxcs3nfCGxZQaWxEVE6e42D1t+e1VR54QDqo84LDeOfSw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5204
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10171
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ suspectscore=0 mlxscore=0
+ phishscore=0 bulkscore=0 mlxlogscore=975 adultscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2111180086
+X-Proofpoint-ORIG-GUID: 1__nvEPUQ0cYJxleBQ0gSp73IkxYlhfj
+X-Proofpoint-GUID: 1__nvEPUQ0cYJxleBQ0gSp73IkxYlhfj
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=darren.kenny@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,71 +177,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- John Snow <jsnow@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18.11.21 14:50, Paolo Bonzini wrote:
-> On 11/15/21 17:03, Hanna Reitz wrote:
->>
->> I only really see four solutions for this:
->> (1) We somehow make the amend job run in the main context under the 
->> BQL and have it prevent all concurrent I/O access (seems bad)
->> (2) We can make the permission functions part of the I/O path (seems 
->> wrong and probably impossible?)
->> (3) We can drop the permissions update and permanently require the 
->> permissions that we need when updating keys (I think this might break 
->> existing use cases)
->> (4) We can acquire the BQL around the permission update call and 
->> perhaps that works?
->>
->> I don’t know how (4) would work but it’s basically the only 
->> reasonable solution I can come up with.  Would this be a way to call 
->> a BQL function from an I/O function?
+Looks good Philippe, thanks.
+
+So for the series:
+
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+
+Thanks,
+
+Darren.
+
+On Thursday, 2021-11-18 at 15:57:11 +01, Philippe Mathieu-Daud=C3=A9 wrote:
+> Various changes in docs/devel/style.rst to improve its
+> rST rendering (around C types/qualifiers/functions).
 >
-> I think that would deadlock:
+> Since v1:
+> - Addressed Darren Kenny comments on function names
 >
->     main                I/O thread
->     --------            -----
->     start bdrv_co_amend
->                     take BQL
->     bdrv_drain
->     ... hangs ...
-
-:/
-
-Is there really nothing we can do?  Forgive me if I’m talking complete 
-nonsense here (because frankly I don’t even really know what a bottom 
-half is exactly), but can’t we schedule some coroutine in the main 
-thread to do the perm notifications and wait for them in the I/O thread?
-
-> (2) is definitely wrong.
+> Based-on: <20211118144317.4106651-1-philmd@redhat.com>
 >
-> (3) I have no idea.
+> Philippe Mathieu-Daud=C3=A9 (5):
+>   docs/devel/style: Render C types as monospaced text
+>   docs/devel/style: Improve Error** functions rST rendering
+>   docs/devel/style: Improve string format rST rendering
+>   docs/devel/style: Render C function names as monospaced text
+>   docs/devel/style: Misc rST rendering improvements
 >
-> Would it be possible or meaningful to do the bdrv_child_refresh_perms 
-> in qmp_x_blockdev_amend?  It seems that all users need it, and in 
-> general it seems weird to amend a qcow2 or luks header (and thus the 
-> meaning of parts of the file) while others can write to the same file.
-
-Hmm...  Perhaps.  We would need to undo the permission change when the 
-job finishes, though, i.e. in JobDriver.prepare() or JobDriver.clean().  
-Doing the change in qmp_x_blockdev_amend() would be asymmetric then, so 
-we’d probably want a new JobDriver method that runs in the main thread 
-before .run() is invoked. (Unfortunately, “.prepare()” is now taken 
-already...)
-
-Doesn’t solve the FUSE problem, but there we could try to just take the 
-RESIZE permission permanently and if that fails, we just don’t allow 
-truncates for that export.  Not nice, but should work for common cases.
-
-Hanna
-
+>  docs/devel/style.rst | 222 ++++++++++++++++++++++---------------------
+>  1 file changed, 113 insertions(+), 109 deletions(-)
+>
+> --=20
+> 2.31.1
 
