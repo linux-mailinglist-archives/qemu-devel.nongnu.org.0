@@ -2,83 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E88744558D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 11:15:31 +0100 (CET)
-Received: from localhost ([::1]:58786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B24CA4558DF
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 11:20:27 +0100 (CET)
+Received: from localhost ([::1]:34574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mneS2-0000GL-Dl
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 05:15:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58234)
+	id 1mneWo-0003Of-JJ
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 05:20:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mneQD-0007Hs-GN
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 05:13:38 -0500
-Received: from [2a00:1450:4864:20::32f] (port=40579
- helo=mail-wm1-x32f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mneQB-0002Dt-6F
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 05:13:37 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- az33-20020a05600c602100b00333472fef04so7144854wmb.5
- for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 02:13:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=b3w93Dn7lz63BdxbIaPxsUMqawYiezuTbOO1o28gH8k=;
- b=g998Ifa6pTzoZ/aMGTRFEQeROMRlYMmxU1tlEkZeG24VQie0H2rMG39XsEo+bWkhEK
- VFLIyYpA0SqxVKLvne21xyFEKHtVDO0bDvtWqlyoPYmtGh+OdvdO2HbzOvbyvNuRZNbZ
- +QpgagsOR9U64bnTEJ+clhp6o3QIudBfJxFr8DSAV/LH3S6AdIVt26qTIgE7vxXacdpi
- 9qJGFblWUOu2rY7wckQXWGczDk22UOI5Z3siG+wi0FVsVpQSAyO5wTJheHtp984hhfX9
- sNmIj9tavC/LNvZqz9iQA6n/zOUqRym/KUz/McyhOcHOlofgJsG17I+y+IhW09bdc2L1
- +e4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=b3w93Dn7lz63BdxbIaPxsUMqawYiezuTbOO1o28gH8k=;
- b=QVVVuxwQHResX58hsjELvg8mwa5lcbx/liDObODUfVfVdZ+oKCdAnEPeSzLQcOlCht
- 6qeh/eguNEa3ddE9TtFfHvCOJFelMVrIcGPc1n3bmLZAW5Jmiwq1lkKBrH17qywboWmX
- FkLW4ZL88WQiLQdWGt6e8CsjagHlBXKOrlMZQClKiawPiihf6hKt80bAaEvu8/wTORdn
- YVnMyxfeFBEb7iGdkYxrIlO90QDrZZpulUsgACdhwxYPrGbacZUwBd0DyL6JvGdsgg1t
- pfCofQfn6cGczt0J/7H6OZWMzD7kE+qpk3b00u8S89IZuWxhFEt+Wa4xECO6x3cCEX5d
- ZemA==
-X-Gm-Message-State: AOAM530ieDQXZbvD/jp8Belni7BMkftej4iEJYZgpQ+5J6752hxYpPwY
- NwuRDwwO+AIhF/XxRzjdXAovlw==
-X-Google-Smtp-Source: ABdhPJz6V3CtYV+9xyCUIUwQh5l0HyCYoyUT0KE8WEbKg4n/UPjExH9R135glfhCArmg1IgTDf8yqg==
-X-Received: by 2002:a05:600c:1f0e:: with SMTP id
- bd14mr8689347wmb.3.1637230413327; 
- Thu, 18 Nov 2021 02:13:33 -0800 (PST)
-Received: from [192.168.8.105] (30.red-95-126-207.staticip.rima-tde.net.
- [95.126.207.30])
- by smtp.gmail.com with ESMTPSA id q26sm2669223wrc.39.2021.11.18.02.13.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Nov 2021 02:13:32 -0800 (PST)
-Subject: Re: [PULL 0/1] VFIO fixes 2021-11-17 (for v6.2)
-To: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org
-References: <163717652748.2560806.10593927801828190496.stgit@omen>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8fb77b26-2a96-28d2-dc98-d1561b2b5848@linaro.org>
-Date: Thu, 18 Nov 2021 11:13:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mneVr-0002iL-3h
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 05:19:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47366)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mneVn-00033A-Uu
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 05:19:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637230763;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6pSNA9T0f3yX0g6lo44AIKstrDCNBTiJIjgySkdgLMU=;
+ b=Dg5HGg9RrUO1AZvRHpnP8fr06q3WUnzW+AZlcMIpFRObzkKLCYsXVpEKwOZppM2xLYj7NA
+ uifslH8DCFZ5cmghzpeCHFnqT/cJEcOMtteK+cJMwjWZAIyQ9m5V6hjIziEnPV4xj8gcmY
+ PA0CNuV3XlE/zWzNwkCuinBIIR4OON4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-140-fR2a-tNyMvKpQSQB2wj3pw-1; Thu, 18 Nov 2021 05:19:20 -0500
+X-MC-Unique: fR2a-tNyMvKpQSQB2wj3pw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B468101796A;
+ Thu, 18 Nov 2021 10:19:18 +0000 (UTC)
+Received: from [10.33.192.183] (dhcp-192-183.str.redhat.com [10.33.192.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E8C4D1000324;
+ Thu, 18 Nov 2021 10:19:16 +0000 (UTC)
+Message-ID: <abdcffc5-3e82-700b-3b14-3674764f3bce@redhat.com>
+Date: Thu, 18 Nov 2021 11:19:16 +0100
 MIME-Version: 1.0
-In-Reply-To: <163717652748.2560806.10593927801828190496.stgit@omen>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH for-6.2 2/2] qtest/am53c974-test: add test for reset
+ before transfer
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, pbonzini@redhat.com,
+ fam@euphon.net, lvivier@redhat.com, qemu-devel@nongnu.org
+References: <20211118100327.29061-1-mark.cave-ayland@ilande.co.uk>
+ <20211118100327.29061-3-mark.cave-ayland@ilande.co.uk>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20211118100327.29061-3-mark.cave-ayland@ilande.co.uk>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.084,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.084, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,36 +83,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: liangpeng10@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/17/21 8:17 PM, Alex Williamson wrote:
-> The following changes since commit 3bb87484e77d22cf4e580a78856529c982195d32:
+On 18/11/2021 11.03, Mark Cave-Ayland wrote:
+> Based upon the qtest reproducer posted to Gitlab issue #724 at
+> https://gitlab.com/qemu-project/qemu/-/issues/724.
 > 
->    Merge tag 'pull-request-2021-11-17' of https://gitlab.com/thuth/qemu into staging (2021-11-17 12:35:51 +0100)
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>   tests/qtest/am53c974-test.c | 30 ++++++++++++++++++++++++++++++
+>   1 file changed, 30 insertions(+)
 > 
-> are available in the Git repository at:
+> diff --git a/tests/qtest/am53c974-test.c b/tests/qtest/am53c974-test.c
+> index 9b1e4211bd..d214a912b3 100644
+> --- a/tests/qtest/am53c974-test.c
+> +++ b/tests/qtest/am53c974-test.c
+> @@ -223,6 +223,34 @@ static void test_inflight_cancel_ok(void)
+>       qtest_quit(s);
+>   }
+>   
+> +static void test_reset_before_transfer_ok(void)
+> +{
+> +    QTestState *s = qtest_init(
+> +        "-device am53c974,id=scsi "
+> +        "-device scsi-hd,drive=disk0 -drive "
+> +        "id=disk0,if=none,file=null-co://,format=raw -nodefaults");
+> +
+> +    qtest_outl(s, 0xcf8, 0x80001010);
+> +    qtest_outl(s, 0xcfc, 0xc000);
+> +    qtest_outl(s, 0xcf8, 0x80001004);
+> +    qtest_outw(s, 0xcfc, 0x01);
+> +    qtest_outl(s, 0xc007, 0x2500);
+> +    qtest_outl(s, 0xc00a, 0x410000);
+> +    qtest_outl(s, 0xc00a, 0x410000);
+> +    qtest_outw(s, 0xc00b, 0x0200);
+> +    qtest_outw(s, 0xc040, 0x03);
+> +    qtest_outw(s, 0xc009, 0x00);
+> +    qtest_outw(s, 0xc00b, 0x00);
+> +    qtest_outw(s, 0xc009, 0x00);
+> +    qtest_outw(s, 0xc00b, 0x00);
+> +    qtest_outw(s, 0xc009, 0x00);
+> +    qtest_outw(s, 0xc003, 0x1000);
+> +    qtest_outw(s, 0xc00b, 0x1000);
+> +    qtest_outl(s, 0xc00b, 0x9000);
+> +    qtest_outw(s, 0xc00b, 0x1000);
+> +    qtest_quit(s);
+> +}
+> +
+>   int main(int argc, char **argv)
+>   {
+>       const char *arch = qtest_get_arch();
+> @@ -248,6 +276,8 @@ int main(int argc, char **argv)
+>                          test_cancelled_request_ok);
+>           qtest_add_func("am53c974/test_inflight_cancel_ok",
+>                          test_inflight_cancel_ok);
+> +        qtest_add_func("am53c974/test_reset_before_transfer_ok",
+> +                       test_reset_before_transfer_ok);
+>       }
+>   
+>       return g_test_run();
 > 
->    git://github.com/awilliam/qemu-vfio.git tags/vfio-fixes-20211117.0
-> 
-> for you to fetch changes up to f3bc3a73c908df15966e66f88d5a633bd42fd029:
-> 
->    vfio: Fix memory leak of hostwin (2021-11-17 11:25:55 -0700)
-> 
-> ----------------------------------------------------------------
-> VFIO fixes 2021-11-17
-> 
->   * Fix hostwin memory leak (Peng Liang)
-> 
-> ----------------------------------------------------------------
-> Peng Liang (1):
->        vfio: Fix memory leak of hostwin
-> 
->   hw/vfio/common.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
 
-Applied, thanks.
+Acked-by: Thomas Huth <thuth@redhat.com>
 
-r~
 
