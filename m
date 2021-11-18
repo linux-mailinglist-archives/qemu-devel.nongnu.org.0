@@ -2,172 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF2D45599E
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 12:07:43 +0100 (CET)
-Received: from localhost ([::1]:38386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 256C04559BE
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 12:11:51 +0100 (CET)
+Received: from localhost ([::1]:46696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnfGX-0004Qg-Me
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 06:07:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43904)
+	id 1mnfKY-0001qI-6p
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 06:11:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1mnfDZ-0002wp-MK
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 06:04:37 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:10882)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1mnfDW-0001Ia-Pf
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 06:04:37 -0500
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AIAVW67025625; 
- Thu, 18 Nov 2021 11:04:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : in-reply-to : references : date : message-id : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=CRCpa3wKTyIQw7gEX7S42Pc+DOzTlHl7m5QJ8YDQ/2U=;
- b=hAjLh7tuHHZ6odDR5gwzKvWaqB656s+gamkfwe9ek8kyUFhxRCZ5y5mhtjsZMf6aiLwa
- XzYXNAEc97B6YcIfhNIwMF4JQPxLvUqk5I9Qk9BRXK6exIUL+rM8dw4GfilLVlWIZXwo
- bl+hFBN6uylWnBLZv2Eym6diLJbrOEf3SC94D2Fyfg9Fivmdo2SYvpZi7YWD07GwbjfO
- BxyhWoDX3yZIkxQ8MxGE8nQ6PQ870FcBxh6ndPae5PdD1pLvtSu7o1g41Lkn2eBRDPza
- 9DjDg6j0NFB9sNI2zzay4E5R5Pc0A3lNEwnO7t/wpZ5fssl1f3G4UHZyKF8OeXhvEx+6 Gw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by mx0b-00069f02.pphosted.com with ESMTP id 3cd1w86uwy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 18 Nov 2021 11:04:31 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1AIB0K6m010096;
- Thu, 18 Nov 2021 11:04:30 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2107.outbound.protection.outlook.com [104.47.55.107])
- by userp3030.oracle.com with ESMTP id 3ca2g0anaf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 18 Nov 2021 11:04:29 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Rs60QMlAL8Iow8vGd4Bu93KGVBf78WgDQXnO7/Fz4v1GL7dzzsXYTVGjLPk58kh5OAHn3wSMKz2zVO+PPuTXe2tyyi4uiBZ4txI+m7BIjkJCKjf+A8cg0qrYlZxv2WH/g7m19hueh0Shc63F9mtpdOv0AghNlf+nT3aeAJmOsIh7EY2VzIhoMLQXj6Bw8VhkxG5ARR+o1B8FhwX8gmpWIf5ZojywuDJ5NZcPJOPmV3WVPVpf035Zq9cxtSqbot+TYSnIQD/Nc9ZbcE8hqgBBdG2RZ9nsZje77AzbpY4RD2Kzhg0NwoFDQe5JmENUmKjfBDzm2EI6GeRI8sd2+ly91Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CRCpa3wKTyIQw7gEX7S42Pc+DOzTlHl7m5QJ8YDQ/2U=;
- b=EdsPND7oLXcQPokuxu31XTb28OkUnwC/nirQumKGCZWRPBO+lfoN4Y/5rZFvG3Z5Mubrqe++dN8g6VWZPwYaKMTf6C2q3on8M5vWSW8sCmUhH1eoQExdXof1LrYt53PcFO6Ol/6jDkvQwdg9oZFgL7XFzh+jN8TdGdc0DTMcCjisfbuqkXYKnKLpH6e4YSOP1BIHG+aIqPAbI9S3ZJk9rFWfLTzwSWnM4isOhwGbuHwec8ZzClqoRg08GJtD/4zM0WdgT5kGi9RgNIoTQzUiosc2YtWSZufpnBya+cVrAN4SRXZF6Wg2cQvsANcGfQRoyO2GJVTQHE6ahPUc8uBcow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CRCpa3wKTyIQw7gEX7S42Pc+DOzTlHl7m5QJ8YDQ/2U=;
- b=u6DQdNApQrZpDF0cWElBmO6Hp5v/9A9zYcp1EHlrnM6FwX5BtoUWeEcDfX7hvL+ocGK/XipafYEOIFcvfdiSlQ9dyYeIMS8aoeSMB0xeB5SBVgL892cQgqCT71OUETKeU8iehQsh/xi1WPNOPBLKfFzUodASXIOuQuNCfJdgFZ0=
-Received: from BLAPR10MB5138.namprd10.prod.outlook.com (2603:10b6:208:322::8)
- by MN2PR10MB3903.namprd10.prod.outlook.com (2603:10b6:208:181::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19; Thu, 18 Nov
- 2021 11:04:26 +0000
-Received: from BLAPR10MB5138.namprd10.prod.outlook.com
- ([fe80::9418:7fcf:86ec:e0f4]) by BLAPR10MB5138.namprd10.prod.outlook.com
- ([fe80::9418:7fcf:86ec:e0f4%7]) with mapi id 15.20.4713.019; Thu, 18 Nov 2021
- 11:04:26 +0000
-From: Darren Kenny <darren.kenny@oracle.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH-for-6.2? 3/3] docs/devel/style: Improve types/qualifiers
- rST rendering
-In-Reply-To: <20211116151317.2691125-4-philmd@redhat.com>
-References: <20211116151317.2691125-1-philmd@redhat.com>
- <20211116151317.2691125-4-philmd@redhat.com>
-Date: Thu, 18 Nov 2021 11:04:21 +0000
-Message-ID: <m2ee7dn2ru.fsf@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: DB8PR06CA0065.eurprd06.prod.outlook.com
- (2603:10a6:10:120::39) To BLAPR10MB5138.namprd10.prod.outlook.com
- (2603:10b6:208:322::8)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1mnfF7-0004CI-Ga
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 06:06:13 -0500
+Received: from mail.ispras.ru ([83.149.199.84]:40282)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1mnfF2-0001aX-HF
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 06:06:13 -0500
+Received: from [10.12.102.111] (unknown [85.142.117.226])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 99CE840D4004;
+ Thu, 18 Nov 2021 11:05:59 +0000 (UTC)
+Subject: Re: [PATCH v2 1/3] icount: preserve cflags when custom tb is about to
+ execute
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <163662450348.125458.5494710452733592356.stgit@pasha-ThinkPad-X280>
+ <163662450891.125458.6706022775465303586.stgit@pasha-ThinkPad-X280>
+ <87h7cbw1tx.fsf@linaro.org>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Message-ID: <f1149f61-b753-52b5-c95c-a6ded11c5ede@ispras.ru>
+Date: Thu, 18 Nov 2021 14:05:59 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Received: from oracle.com (46.7.162.180) by
- DB8PR06CA0065.eurprd06.prod.outlook.com (2603:10a6:10:120::39) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4713.22 via Frontend Transport; Thu, 18 Nov 2021 11:04:26 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d676d210-cb20-4023-cd11-08d9aa832f9f
-X-MS-TrafficTypeDiagnostic: MN2PR10MB3903:
-X-Microsoft-Antispam-PRVS: <MN2PR10MB390347FB73E7A1AD3AEF0D32F49B9@MN2PR10MB3903.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: W9Opn7alyxvSxscJ7Kh2JO5Rb85MHU70nyutysXfBd1u6KgzTO6IsKwGEaME4XSpHsBy/EGMf3kc/gGKiKEVdfJvxJYmUrQzUXzKvGf2p1Gpe9NNG0CXgYbzV9J1FFg/M91XI1Btyoxfgy6EeRqeVNrDYpneFZerl4wwghGJQkITDG3Ffal9m9XMK5pp1IXLFjB75Sf3cJNPS6YeLp+6EOjz1lRPjw9H2xNVY2jtkI1TvJunJJurb/Tw6eIUKNGfus7fdPsMCfjsm0q85EQ1ZIPwHT2XOLxptZLsH3oJU5Bi/JI+lJXd7E90knGLeG8wSCp4jc+IayHrN813Q6fbcyHnJz4sLs3nbFanHkhaYYLKo+3D8TxS68JJ1cr1HzvdXDYYkT5DfEPXY9+G/C0tzbHXMoVSQvKZPjvdPpZZJMUR4ZqyK4rdt4kq6a/wiqj8Qg+I4xn/z+GUgYleRN1y9wP8FCruYD0cbS6GbYc1UOL3CdRX6LmoMwNlks38w19kBNHEf3fDZ1U4/Kb1G4uVbOZm39Ecje3EEhqjJ+dFQPwJCcoilIdXqcBlDWd6aFl2ZXmrXKL0Gnr0LieCMxP+qGhS3v/kLhzd4u8voklJj8a9bMcVDflpZMCkGT6srEtd77qdAwQnqF9q+mJzDaLZQzTmWHJ//OmV/G3bUn5Cd4Q46xfOu0C+Kpp4KtTdDZkM64ZBNMgroRH6dCAj1qeE7A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BLAPR10MB5138.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(2616005)(5660300002)(66556008)(956004)(83380400001)(316002)(66476007)(66946007)(44832011)(2906002)(508600001)(8936002)(8886007)(36756003)(4326008)(4001150100001)(186003)(52116002)(7696005)(8676002)(26005)(54906003)(6666004)(55016002)(38100700002)(38350700002)(86362001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aG1mc0ZFdGNvTlQyRy8wV1JXSlFacWdjUmlrcXRVazhxQkVuQitBUnNucUxT?=
- =?utf-8?B?V3VnQjZtZXJSNFU3Z3VvNWFMQ01leTlyNU1kbFFLYU9kMGZnNVhtS2dIRENw?=
- =?utf-8?B?SGRiVlIraXgzUWlEVmtla3N0TVJzK2RnRGJTckNTd2tLaisyTXIyWldjOFNz?=
- =?utf-8?B?aHZmNU81OEpWNzFvdFFjOFJKQzVjRjY1TElwdzh0eXY5TkhLenlsdEFiQk1x?=
- =?utf-8?B?VmZ3RjhySGo5cFZzOFBJNENuRFZkV3RibzlUdWdtRVkzekt1ZmtGRS9YRDlP?=
- =?utf-8?B?QnhqOWp0RWFRTmhNR25FWHl6YS9tTVFxdVVUOFRrTWZwQitRWURyUjF3TXZU?=
- =?utf-8?B?RFhHR1ZwZDRwNGtjK3FQeVZWdDRvVUVnY0pXeTB1VlVKaEZ0NTY1NDBJVEZv?=
- =?utf-8?B?U3ZIRUM1Szd1bnBneHBYbWFVMmZPNVNxYUY3SFkzNmt4MVYzNUVFSGlpblpj?=
- =?utf-8?B?azVMQWhlRzFxSU5OS2JNa0U4M1VvMFQzSWhxczI0UkRTd2RWeHVrR1NBbUhy?=
- =?utf-8?B?UjFESVZpTjNpOG5DNzMzWmpOYlpsTFBFSng3Q0lpTzdLRUlKK2UzdnNIZ0pS?=
- =?utf-8?B?SHN1Nm8xTmpXZjhYcFRKRlAzYXJGVzNKR2FXeS9nUDVFbVJNdEE0WDA1SHFo?=
- =?utf-8?B?dnBXMzRUd1NXSldTTnRkMFV2bmNaclVGZkZSSm9YcmxoSUdHNTNEOGgwMHpC?=
- =?utf-8?B?TVZiZ3hPcGN6VFAxVEVYZVRMeVRjd0h5eUlhQkdlalZoeHNyS0JVa1pDZ2g4?=
- =?utf-8?B?Tk01YVV4RXFBSHNuVFg2TjdzeFhjazlmNkI5a0t4T1FZQXpnKzh6MGd3Z21x?=
- =?utf-8?B?M3hlNnlabzdKWWFZTmx1NWlPR2ZISHduNW5vOWJQZU9EY0E1bkhOZGUyUGdO?=
- =?utf-8?B?aUlLc0pUQVJwZ2x0MXJxVERyVkxmNVZpZW43RFJLQzV3cG9VWHF1MjdmRGho?=
- =?utf-8?B?dWJuV0NmUC9iM2xxYUVtUVlmNzBGMFJHY1RjaEo5cDZxcHNyZWhkVE5zdERH?=
- =?utf-8?B?NDkyTjBGcDYrY25wL2hmeFRHY3pWUENBbXR0anRCY2JYWm9hMjJ0SDgrNXFG?=
- =?utf-8?B?MHNwSCswNXRRT3dCNFJCY3JqWnF4cnVIQU85NGFSMy83NnozMUN6SU1QUWJQ?=
- =?utf-8?B?Z3JQMEtodDlFT1owQTQ4YjdHUjdZcEs5U1E0VTZxWTJrbkZ3MnRaTkREVnA2?=
- =?utf-8?B?RWxSSklVS0xIV29qU2tyODNIcEdycnRibTJySkxBYUN0cnNIUDRsV0pMVlB1?=
- =?utf-8?B?UGZzZHR2T2lINE9hZitBN0JhZWhsZGpkTWdTZ0lncXBUcmFkUEVVZ1F6YmQy?=
- =?utf-8?B?d3QwbERGdkFNdTZQVm96azJzVjRwNjlBM3ZRc1h4NmRxZm5iMW1QVzN0STl4?=
- =?utf-8?B?eUhaRGovZDBKRG1PMzBLTXJEVXFlV3JxUjh1UGJ2M0NGcXgvV1M2QncwdElZ?=
- =?utf-8?B?V1JrWTRBRktRbTJhV0Z1N0lrbnVxaitsVmtLcFd3aThxcFQ4U2hrUFpoVURs?=
- =?utf-8?B?TWpTYndwUEZlcUVVUE1iRk5Ob1I0MHBmOXh4QzdQZVkzV2tHTjhoQ2psczI3?=
- =?utf-8?B?UTlqWHI2akg3TDM4TlJtU2crMGRBRXlaV25MYjJVc2ZDMmZLNjI4Y2l5UzVp?=
- =?utf-8?B?b0lyTVBZZk0rU0JGOHJHRjAxQWNYQ1RJMktTcE5GQWd2RkJ5MUJITmNXVThr?=
- =?utf-8?B?K0NJZWtncnNBZUdUaGk3M1JwbWFTMEpjdm9NR3BDMnhZUHY2cEdDYXFVWDNQ?=
- =?utf-8?B?dGtYUTV1MDJIZkppYzhmbDZ3TXVCQm1FMmFLNW8xbVhhNEhKTzd3a2ZvVll0?=
- =?utf-8?B?YWVzbmpvOWFIZjdOMlFOUXdaanBFT25LZGJwbHhHb3FtZmlvbTFlNTNyZ2Ft?=
- =?utf-8?B?S1BxNlJzVmZ3TFNReWN2MWdDTEZJVE1QUXBZVEE5aFk3U0RvaTg5czFiU1Jv?=
- =?utf-8?B?eEpJaXcya2NXWG5HNXc0MzVseXcrZmJ0WUxGRWIvV2JRNzBWMXFGTUlxTS9N?=
- =?utf-8?B?OGg5bW5veEZ6YUpyb0o4K0t3TmRReVlhSUtzajM3MGRWUXpJZ2p6UlJ0N1VK?=
- =?utf-8?B?UTdFSWhibnVXeFhtVlRLZVp4VENzblN2bStoNDZtZ1hnSmdoMVZJbUh5aWxX?=
- =?utf-8?B?Y29lKzBmalYvcU1LZkFvUHRyT1pVazdqNkF1L1l5VXIzY1hUMGhuS0NRYlJi?=
- =?utf-8?Q?knQ+1Mg+MqXv8753uTq3f+8=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d676d210-cb20-4023-cd11-08d9aa832f9f
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB5138.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2021 11:04:26.8245 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ie8o7p0YzCGddPm0u50BwHE92CpA6oDWwtZ1DLhMhRpb2ajKXcXhy/nLjVXCjANUM4VmLf96fPoUvXkxl+Ww4w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB3903
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10171
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- phishscore=0 bulkscore=0
- adultscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2111180065
-X-Proofpoint-GUID: tT5NDllmlaiWx9eSOuZQcfl0WnczxK3Y
-X-Proofpoint-ORIG-GUID: tT5NDllmlaiWx9eSOuZQcfl0WnczxK3Y
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=darren.kenny@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <87h7cbw1tx.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.084,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -180,219 +57,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: pbonzini@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ peterx@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
+On 17.11.2021 12:47, Alex Bennée wrote:
+> 
+> Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
+> 
+>> When debugging with the watchpoints, qemu may need to create
+>> TB with single instruction. This is achieved by setting cpu->cflags_next_tb.
+>> But when this block is about to execute, it may be interrupted by another
+>> thread. In this case cflags will be lost and next executed TB will not
+>> be the special one.
+>> This patch checks TB exit reason and restores cflags_next_tb to allow
+>> finding the interrupted block.
+> 
+> How about this alternative?
 
-A couple here too w.r.t. function/macros...
+I checked all cflags_next_tb assignments.
+Looks that this variant should work.
 
-On Tuesday, 2021-11-16 at 16:13:17 +01, Philippe Mathieu-Daud=C3=A9 wrote:
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  docs/devel/style.rst | 111 ++++++++++++++++++++++---------------------
->  1 file changed, 56 insertions(+), 55 deletions(-)
->
-> diff --git a/docs/devel/style.rst b/docs/devel/style.rst
-> index 21f0f213193..f9f063ed8cb 100644
-> --- a/docs/devel/style.rst
-> +++ b/docs/devel/style.rst
-> @@ -111,7 +111,7 @@ Variables are lower_case_with_underscores; easy to ty=
-pe and read.  Structured
->  type names are in CamelCase; harder to type but standing out.  Enum type
->  names and function type names should also be in CamelCase.  Scalar type
->  names are lower_case_with_underscores_ending_with_a_t, like the POSIX
-> -uint64_t and family.  Note that this last convention contradicts POSIX
-> +``uint64_t`` and family.  Note that this last convention contradicts POS=
-IX
->  and is therefore likely to be changed.
-> =20
->  Variable Naming Conventions
-> @@ -195,9 +195,9 @@ blocks) are generally not allowed; declarations shoul=
-d be at the beginning
->  of blocks.
-> =20
->  Every now and then, an exception is made for declarations inside a
-> -#ifdef or #ifndef block: if the code looks nicer, such declarations can
-> +``#ifdef`` or ``#ifndef`` block: if the code looks nicer, such declarati=
-ons can
->  be placed at the top of the block even if there are statements above.
-> -On the other hand, however, it's often best to move that #ifdef/#ifndef
-> +On the other hand, however, it's often best to move that ``#ifdef/#ifnde=
-f``
->  block to a separate function altogether.
-> =20
->  Conditional statements
-> @@ -220,13 +220,13 @@ even when the constant is on the right.
->  Comment style
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =20
-> -We use traditional C-style /``*`` ``*``/ comments and avoid // comments.
-> +We use traditional C-style ``/*`` ``*/`` comments and avoid ``//`` comme=
-nts.
-> =20
-> -Rationale: The // form is valid in C99, so this is purely a matter of
-> +Rationale: The ``//`` form is valid in C99, so this is purely a matter o=
-f
->  consistency of style. The checkpatch script will warn you about this.
-> =20
->  Multiline comment blocks should have a row of stars on the left,
-> -and the initial /``*`` and terminating ``*``/ both on their own lines:
-> +and the initial ``/*`` and terminating ``*/`` both on their own lines:
-> =20
->  .. code-block:: c
-> =20
-> @@ -290,57 +290,57 @@ a few useful guidelines here.
->  Scalars
->  -------
-> =20
-> -If you're using "int" or "long", odds are good that there's a better typ=
-e.
-> -If a variable is counting something, it should be declared with an
-> -unsigned type.
-> +If you're using '``int``' or '``long``', odds are good that there's a be=
-tter
-> +type.  If a variable is counting something, it should be declared with a=
-n
-> +*unsigned* type.
-> =20
-> -If it's host memory-size related, size_t should be a good choice (use
-> -ssize_t only if required). Guest RAM memory offsets must use ram_addr_t,
-> +If it's host memory-size related, ``size_t`` should be a good choice (us=
-e
-> +``ssize_t`` only if required). Guest RAM memory offsets must use ``ram_a=
-ddr_t``,
->  but only for RAM, it may not cover whole guest address space.
-> =20
-> -If it's file-size related, use off_t.
-> -If it's file-offset related (i.e., signed), use off_t.
-> -If it's just counting small numbers use "unsigned int";
-> +If it's file-size related, use ``off_t``.
-> +If it's file-offset related (i.e., signed), use ``off_t``.
-> +If it's just counting small numbers use '``unsigned int``';
->  (on all but oddball embedded systems, you can assume that that
->  type is at least four bytes wide).
-> =20
->  In the event that you require a specific width, use a standard type
-> -like int32_t, uint32_t, uint64_t, etc.  The specific types are
-> +like ``int32_t``, ``uint32_t``, ``uint64_t``, etc.  The specific types a=
-re
->  mandatory for VMState fields.
-> =20
-> -Don't use Linux kernel internal types like u32, __u32 or __le32.
-> +Don't use Linux kernel internal types like ``u32``, ``__u32`` or ``__le3=
-2``.
-> =20
-> -Use hwaddr for guest physical addresses except pcibus_t
-> -for PCI addresses.  In addition, ram_addr_t is a QEMU internal address
-> +Use ``hwaddr`` for guest physical addresses except ``pcibus_t``
-> +for PCI addresses.  In addition, ``ram_addr_t`` is a QEMU internal addre=
-ss
->  space that maps guest RAM physical addresses into an intermediate
->  address space that can map to host virtual address spaces.  Generally
-> -speaking, the size of guest memory can always fit into ram_addr_t but
-> +speaking, the size of guest memory can always fit into ``ram_addr_t`` bu=
-t
->  it would not be correct to store an actual guest physical address in a
-> -ram_addr_t.
-> +``ram_addr_t``.
-> =20
->  For CPU virtual addresses there are several possible types.
-> -vaddr is the best type to use to hold a CPU virtual address in
-> +``vaddr`` is the best type to use to hold a CPU virtual address in
->  target-independent code. It is guaranteed to be large enough to hold a
->  virtual address for any target, and it does not change size from target
->  to target. It is always unsigned.
-> -target_ulong is a type the size of a virtual address on the CPU; this me=
-ans
-> +``target_ulong`` is a type the size of a virtual address on the CPU; thi=
-s means
->  it may be 32 or 64 bits depending on which target is being built. It sho=
-uld
->  therefore be used only in target-specific code, and in some
->  performance-critical built-per-target core code such as the TLB code.
-> -There is also a signed version, target_long.
-> -abi_ulong is for the ``*``-user targets, and represents a type the size =
-of
-> -'void ``*``' in that target's ABI. (This may not be the same as the size=
- of a
-> +There is also a signed version, ``target_long``.
-> +``abi_ulong`` is for the ``*-user`` targets, and represents a type the s=
-ize of
-> +'``void *``' in that target's ABI. (This may not be the same as the size=
- of a
->  full CPU virtual address in the case of target ABIs which use 32 bit poi=
-nters
-> -on 64 bit CPUs, like sparc32plus.) Definitions of structures that must m=
-atch
-> +on 64 bit CPUs, like *sparc32plus*.) Definitions of structures that must=
- match
->  the target's ABI must use this type for anything that on the target is d=
-efined
-> -to be an 'unsigned long' or a pointer type.
-> -There is also a signed version, abi_long.
-> +to be an '``unsigned long``' or a pointer type.
-> +There is also a signed version, ``abi_long``.
-> =20
->  Of course, take all of the above with a grain of salt.  If you're about
-> -to use some system interface that requires a type like size_t, pid_t or
-> -off_t, use matching types for any corresponding variables.
-> +to use some system interface that requires a type like ``size_t``, ``pid=
-_t`` or
-> +``off_t``, use matching types for any corresponding variables.
-> =20
-> -Also, if you try to use e.g., "unsigned int" as a type, and that
-> +Also, if you try to use e.g., '``unsigned int``' as a type, and that
->  conflicts with the signedness of a related variable, sometimes
->  it's best just to use the *wrong* type, if "pulling the thread"
->  and fixing all related variables would be too invasive.
-> @@ -352,9 +352,9 @@ casts, then reconsider or ask for help.
->  Pointers
->  --------
-> =20
-> -Ensure that all of your pointers are "const-correct".
-> +Ensure that all of your pointers are "``const``-correct".
->  Unless a pointer is used to modify the pointed-to storage,
-> -give it the "const" attribute.  That way, the reader knows
-> +give it the '``const``' attribute.  That way, the reader knows
->  up-front that this is a read-only pointer.  Perhaps more
->  importantly, if we're diligent about this, when you see a non-const
->  pointer, you're guaranteed that it is used to modify the storage
-> @@ -363,7 +363,7 @@ it points to, or it is aliased to another pointer tha=
-t is.
->  Typedefs
->  --------
-> =20
-> -Typedefs are used to eliminate the redundant 'struct' keyword, since typ=
-e
-> +Typedefs are used to eliminate the redundant '``struct``' keyword, since=
- type
->  names have a different style than other identifiers ("CamelCase" versus
->  "snake_case").  Each named struct type should have a CamelCase name and =
-a
->  corresponding typedef.
-> @@ -462,8 +462,8 @@ QEMU provides other useful string functions:
->      int stristart(const char *str, const char *val, const char **ptr)
->      int qemu_strnlen(const char *s, int max_len)
-> =20
-> -There are also replacement character processing macros for isxyz and tox=
-yz,
-> -so instead of e.g. isalnum you should use qemu_isalnum.
-> +There are also replacement character processing macros for ``isxyz`` and
-> +``toxyz``, so instead of e.g. ``isalnum`` you should use ``qemu_isalnum`=
-`.
->
+> 
+> --8<---------------cut here---------------start------------->8---
+> accel/tcg: suppress IRQ check for special TBs
+> 
+> Generally when we set cpu->cflags_next_tb it is because we want to
+> carefully control the execution of the next TB. Currently there is a
+> race that causes cflags_next_tb to get ignored if an IRQ is processed
+> before we execute any actual instructions.
+> 
+> To avoid this we introduce a new compiler flag: CF_NOIRQ to suppress
+> this check in the generated code so we know we will definitely execute
+> the next block.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/245
+> 
+> 3 files changed, 22 insertions(+), 3 deletions(-)
+> include/exec/exec-all.h   |  1 +
+> include/exec/gen-icount.h | 19 ++++++++++++++++---
+> accel/tcg/cpu-exec.c      |  5 +++++
+> 
+> modified   include/exec/exec-all.h
+> @@ -503,6 +503,7 @@ struct TranslationBlock {
+>   #define CF_USE_ICOUNT    0x00020000
+>   #define CF_INVALID       0x00040000 /* TB is stale. Set with @jmp_lock held */
+>   #define CF_PARALLEL      0x00080000 /* Generate code for a parallel context */
+> +#define CF_NOIRQ         0x00100000 /* Generate an uninterruptible TB */
+>   #define CF_CLUSTER_MASK  0xff000000 /* Top 8 bits are cluster ID */
+>   #define CF_CLUSTER_SHIFT 24
+>   
+> modified   include/exec/gen-icount.h
+> @@ -21,7 +21,6 @@ static inline void gen_tb_start(const TranslationBlock *tb)
+>   {
+>       TCGv_i32 count;
+>   
+> -    tcg_ctx->exitreq_label = gen_new_label();
+>       if (tb_cflags(tb) & CF_USE_ICOUNT) {
+>           count = tcg_temp_local_new_i32();
+>       } else {
+> @@ -42,7 +41,19 @@ static inline void gen_tb_start(const TranslationBlock *tb)
+>           icount_start_insn = tcg_last_op();
+>       }
+>   
+> -    tcg_gen_brcondi_i32(TCG_COND_LT, count, 0, tcg_ctx->exitreq_label);
+> +    /*
+> +     * Emit the check against icount_decr.u32 to see if we should exit
+> +     * unless we suppress the check with CF_NOIRQ. If we are using
+> +     * icount and have suppressed interruption the higher level code
+> +     * should have ensured we don't run more instructions than the
+> +     * budget.
+> +     */
+> +    if (tb_cflags(tb) & CF_NOIRQ) {
+> +        tcg_ctx->exitreq_label = NULL;
+> +    } else {
+> +        tcg_ctx->exitreq_label = gen_new_label();
+> +        tcg_gen_brcondi_i32(TCG_COND_LT, count, 0, tcg_ctx->exitreq_label);
+> +    }
+>   
+>       if (tb_cflags(tb) & CF_USE_ICOUNT) {
+>           tcg_gen_st16_i32(count, cpu_env,
+> @@ -74,7 +85,9 @@ static inline void gen_tb_end(const TranslationBlock *tb, int num_insns)
+>                              tcgv_i32_arg(tcg_constant_i32(num_insns)));
+>       }
+>   
+> -    gen_set_label(tcg_ctx->exitreq_label);
+> +    if (tcg_ctx->exitreq_label) {
+> +        gen_set_label(tcg_ctx->exitreq_label);
+> +    }
+>       tcg_gen_exit_tb(tb, TB_EXIT_REQUESTED);
+>   }
+>   
+> modified   accel/tcg/cpu-exec.c
+> @@ -954,11 +954,16 @@ int cpu_exec(CPUState *cpu)
+>                * after-access watchpoints.  Since this request should never
+>                * have CF_INVALID set, -1 is a convenient invalid value that
+>                * does not require tcg headers for cpu_common_reset.
+> +             *
+> +             * As we don't want this special TB being interrupted by
+> +             * some sort of asynchronous event we apply CF_NOIRQ to
+> +             * disable the usual event checking.
+>                */
+>               cflags = cpu->cflags_next_tb;
+>               if (cflags == -1) {
+>                   cflags = curr_cflags(cpu);
+>               } else {
+> +                cflags |= CF_NOIRQ;
+>                   cpu->cflags_next_tb = -1;
+>               }
+>   
+> --8<---------------cut here---------------end--------------->8---
+> 
+>>
+>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+>> ---
+>>   accel/tcg/cpu-exec.c |   10 ++++++++++
+>>   1 file changed, 10 insertions(+)
+>>
+>> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+>> index 2d14d02f6c..df12452b8f 100644
+>> --- a/accel/tcg/cpu-exec.c
+>> +++ b/accel/tcg/cpu-exec.c
+>> @@ -846,6 +846,16 @@ static inline void cpu_loop_exec_tb(CPUState *cpu, TranslationBlock *tb,
+>>            * cpu_handle_interrupt.  cpu_handle_interrupt will also
+>>            * clear cpu->icount_decr.u16.high.
+>>            */
+>> +        if (cpu->cflags_next_tb == -1
+>> +            && (!use_icount || !(tb->cflags & CF_USE_ICOUNT)
+>> +                || cpu_neg(cpu)->icount_decr.u16.low >= tb->icount)) {
+>> +            /*
+>> +             * icount is disabled or there are enough instructions
+>> +             * in the budget, do not retranslate this block with
+>> +             * different parameters.
+>> +             */
+>> +            cpu->cflags_next_tb = tb->cflags;
+>> +        }
+>>           return;
+>>       }
+>>   
+> 
+> 
 
-(Looks like a repeat of a change in patch 1, but possibly a different locat=
-ion)
-
-isalnum() and qemu_isalnum()?
-
-Thanks,
-
-Darren.
 
