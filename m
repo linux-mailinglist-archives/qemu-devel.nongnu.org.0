@@ -2,91 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DBFB456271
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 19:32:57 +0100 (CET)
-Received: from localhost ([::1]:43014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A985B456372
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 20:23:29 +0100 (CET)
+Received: from localhost ([::1]:59568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnmDQ-0007xK-Ky
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 13:32:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58316)
+	id 1mnn0K-0004Yj-AI
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 14:23:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mnmC0-0007Ga-KR
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 13:31:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27946)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mnmxR-0002cE-Tn
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 14:20:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mnmBy-000852-0u
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 13:31:27 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mnmxO-00069m-AF
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 14:20:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637260283;
+ s=mimecast20190719; t=1637263225;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FXf6YwBXmOYbYc6JSEunqqADiPxXPPMsUGMq2N8WaMg=;
- b=B/Mnj7clWX1lgHt4rTrz9eym8rYAqs87QkMpeHhSAcj54booXYxmyN4fxkdq4zXefIfN79
- MySha5c3gKFUnF29k/OJY63Zq9m+QW6nYmPpvC9sH1uGzBNLhbAjpm21vynhYZXdRHDvrU
- aVC3lGwTjHB61UnNGjZntzBNzvexZGw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6dS0brA8+30QqRm5zKm6fxcs1rYR6OuQADqB4TDp/Ac=;
+ b=XZX0zgRVHOtqVvf7EJlgZMpnKpP6f95xERM50i2lNTp6JXteUR1fBqBDD3T5lUVILh5QIG
+ 3BISrCi2lIc/ghgv/GkvJP+V5ggBVtusesjcbebwpW87SmyBIXobc0rIHRsoCrmfs+JuMC
+ mPJLQwLurK/ztV1LafrVN8uxJ23VvtA=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-34-X_3NtDouPk2t1uqJfdvC7w-1; Thu, 18 Nov 2021 13:31:22 -0500
-X-MC-Unique: X_3NtDouPk2t1uqJfdvC7w-1
-Received: by mail-wr1-f70.google.com with SMTP id
- y10-20020adffa4a000000b0017eea6cb05dso1281709wrr.6
- for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 10:31:22 -0800 (PST)
+ us-mta-219-awp1ydn3P3a07Kbe3V7hrQ-1; Thu, 18 Nov 2021 14:20:24 -0500
+X-MC-Unique: awp1ydn3P3a07Kbe3V7hrQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ z126-20020a1c7e84000000b003335e5dc26bso3005014wmc.8
+ for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 11:20:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=FXf6YwBXmOYbYc6JSEunqqADiPxXPPMsUGMq2N8WaMg=;
- b=q0orvI6VOVphjto/WWB0FJbTegx7K9nJnFz0K1P/7hn3BWN2Cms+ny4vBOIxWfFOum
- N3gl+eb+xC6h1WxqRE6WCJQ1+s/5uFOSVf/kM8KBFJs2UQYjp3suSRG4PhmzihELcGgq
- Upww32SD1vC9BA+bawGCIuXehXQ0HGbyc690swDFD5RXtv2CMvaQYxPRA1B/VVnXnsRq
- DTTwe51hqC+6zh3k7e5fugVM3UQOnr92NBrMSFgMfnSC2WTHIuMu9A7/FavIXbdsROdr
- zz4inKOXYqqIYZ/1+Oo81tlXVsdmEGIaNum1noE48pq9VXmJR8VKZvGLhf5CMGIOk/k7
- eW7Q==
-X-Gm-Message-State: AOAM532XKWT57k4SuehDGcavitYtt3q5RFFgNbN5t744FDzth6BhF5zC
- DJz4keiksANYg/jVHMT2U6Oic/qHKpifaojDkl/3jNnnkS6pmHNdPaI3nZMY2FM2DBIjRU42sAn
- U1XGJfZqVwN6/Cs0=
-X-Received: by 2002:a05:6000:1568:: with SMTP id
- 8mr33739811wrz.76.1637260281110; 
- Thu, 18 Nov 2021 10:31:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz6sH0p/4kUx1Av/KPBYdOnfQnepgaT1UCpFASoKiVkTym9dcbtKZIjjy5eSx2Ymnjrem3ICg==
-X-Received: by 2002:a05:6000:1568:: with SMTP id
- 8mr33739769wrz.76.1637260280874; 
- Thu, 18 Nov 2021 10:31:20 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id k187sm9366932wme.0.2021.11.18.10.31.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Nov 2021 10:31:20 -0800 (PST)
-Message-ID: <25ca79c9-b08b-741d-43ae-cfe80f6ce588@redhat.com>
-Date: Thu, 18 Nov 2021 19:31:19 +0100
+ bh=cf8pLZJQ/JJRwTaBWdMPx2aAKabWUBHBRVzCl0/kMXc=;
+ b=k6F86EvgwyYezhK8SlqxjuhdHYKt7DOqYP4rINJP7O6gRjg1t6zx/4B86BbbDC5HAI
+ AcP34N4ghPH3cRE55sbCObTpLkjEBLHxpHi9OCByPutmDTRsZn6MEFPf3Z6iMLbadx1F
+ 0/JQivfhshVnxacR4KEkjyEHaBTDBEciAOxxzWDqcrwE5Schr4BaneshXL0efnEhygI1
+ a8cd8up2gG2m4U+B+81uoBMYf8qeuvz6ZH+Lawr5bJynTNgZz+1MQDMk5YII2w4BsIw3
+ 6WeI0YBb6S68wVkFli9NvaMUfZKxp+POPTK/+ERmsrFgqSnkAU3yQMWm0uVurLemPL9A
+ XFkg==
+X-Gm-Message-State: AOAM532B3Tf+9xtV1nqsD0DiaPOivzMbApRjDo/hpIWutBzJV2WkyDhV
+ 3MyJgYKjZq1TUy4wj8lS6cjtkIcRlvvwLapuZ9BLXJkixZrW6gn2Fl/mj6xr0xAoNCFc2kGGCJL
+ FZj0R7deOKxUa4W3xLpwvqxhGqGVs8cXFGiR5CeuKW5yxvoJSq/M/WUeK93Ljwpvb
+X-Received: by 2002:a05:600c:3b83:: with SMTP id
+ n3mr12583954wms.116.1637263222739; 
+ Thu, 18 Nov 2021 11:20:22 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJytN87yCT/fEFjEzQ4Kq78C77GckmKlYYX5OM4zdKlezUHX/KRpiHMUTE0vdWdMUPEgCgLJGQ==
+X-Received: by 2002:a05:600c:3b83:: with SMTP id
+ n3mr12583908wms.116.1637263222502; 
+ Thu, 18 Nov 2021 11:20:22 -0800 (PST)
+Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id
+ b188sm517556wmd.45.2021.11.18.11.20.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Nov 2021 11:20:21 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-6.2 0/2] hw/display: Do not allow multiple (identical) VGA
+ devices
+Date: Thu, 18 Nov 2021 20:20:18 +0100
+Message-Id: <20211118192020.61245-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: device-crash-test
-To: John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>
-References: <CAFn=p-Z+mfnVdit=0ECS-Gc1tExHvR2X4Pr26b0bGtXxyaCPAQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <CAFn=p-Z+mfnVdit=0ECS-Gc1tExHvR2X4Pr26b0bGtXxyaCPAQ@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.084, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,115 +95,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ John Snow <jsnow@redhat.com>, "Jose R . Ziviani" <jziviani@suse.de>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/18/21 18:55, John Snow wrote:
-> I finally squashed all of the bugs and got a clean run of
-> device-crash-test with a full build of QEMU, over 182,000 individual
-> test cases.
-> 
-> Here's all of the legitimate failures I saw:
-> 
-> CRITICAL: failed: binary=./qemu-system-x86_64 accel=kvm machine=none
-> device=sgx-epc
-> CRITICAL: cmdline: ./qemu-system-x86_64 -S -machine none,accel=kvm
-> -device sgx-epc
-> CRITICAL: log: /home/jsnow/src/qemu/include/hw/i386/pc.h:128:PC_MACHINE:
-> Object 0x55b1c9dcad90 is not an instance of type generic-pc-machine
-> CRITICAL: exit code: -6
-> 
-> CRITICAL: failed: binary=./qemu-system-x86_64 accel=kvm machine=x-remote
-> device=sgx-epc
-> CRITICAL: cmdline: ./qemu-system-x86_64 -S -machine x-remote,accel=kvm
-> -device sgx-epc
-> CRITICAL: log: /home/jsnow/src/qemu/include/hw/i386/pc.h:128:PC_MACHINE:
-> Object 0x559b43269d40 is not an instance of type generic-pc-machine
-> CRITICAL: exit code: -6
-> 
-> CRITICAL: failed: binary=./qemu-system-x86_64 accel=kvm machine=microvm
-> device=sgx-epc
-> CRITICAL: cmdline: ./qemu-system-x86_64 -S -machine microvm,accel=kvm
-> -device sgx-epc
-> CRITICAL: log: /home/jsnow/src/qemu/include/hw/i386/pc.h:128:PC_MACHINE:
-> Object 0x55760ca941b0 is not an instance of type generic-pc-machine
-> CRITICAL: exit code: -6
-> 
-> CRITICAL: failed: binary=./qemu-system-x86_64 accel=tcg machine=none
-> device=sgx-epc
-> CRITICAL: cmdline: ./qemu-system-x86_64 -S -machine none,accel=tcg
-> -device sgx-epc
-> CRITICAL: log: /home/jsnow/src/qemu/include/hw/i386/pc.h:128:PC_MACHINE:
-> Object 0x557a52333d90 is not an instance of type generic-pc-machine
-> CRITICAL: exit code: -6
-> 
-> CRITICAL: failed: binary=./qemu-system-x86_64 accel=tcg machine=x-remote
-> device=sgx-epc
-> CRITICAL: cmdline: ./qemu-system-x86_64 -S -machine x-remote,accel=tcg
-> -device sgx-epc
-> CRITICAL: log: /home/jsnow/src/qemu/include/hw/i386/pc.h:128:PC_MACHINE:
-> Object 0x55bbcd596d40 is not an instance of type generic-pc-machine
-> CRITICAL: exit code: -6
-> 
-> CRITICAL: failed: binary=./qemu-system-x86_64 accel=tcg machine=microvm
-> device=sgx-epc
-> CRITICAL: cmdline: ./qemu-system-x86_64 -S -machine microvm,accel=tcg
-> -device sgx-epc
-> CRITICAL: log: /home/jsnow/src/qemu/include/hw/i386/pc.h:128:PC_MACHINE:
-> Object 0x55ca35c081b0 is not an instance of type generic-pc-machine
-> CRITICAL: exit code: -6
-> 
-> CRITICAL: failed: binary=./qemu-system-i386 accel=kvm machine=none
-> device=sgx-epc
-> CRITICAL: cmdline: ./qemu-system-i386 -S -machine none,accel=kvm -device
-> sgx-epc
-> CRITICAL: log: /home/jsnow/src/qemu/include/hw/i386/pc.h:128:PC_MACHINE:
-> Object 0x55d0e0a03d90 is not an instance of type generic-pc-machine
-> CRITICAL: exit code: -6
-> 
-> CRITICAL: failed: binary=./qemu-system-i386 accel=kvm machine=x-remote
-> device=sgx-epc
-> CRITICAL: cmdline: ./qemu-system-i386 -S -machine x-remote,accel=kvm
-> -device sgx-epc
-> CRITICAL: log: /home/jsnow/src/qemu/include/hw/i386/pc.h:128:PC_MACHINE:
-> Object 0x564648250b30 is not an instance of type generic-pc-machine
-> CRITICAL: exit code: -6
-> 
-> CRITICAL: failed: binary=./qemu-system-i386 accel=kvm machine=microvm
-> device=sgx-epc
-> CRITICAL: cmdline: ./qemu-system-i386 -S -machine microvm,accel=kvm
-> -device sgx-epc
-> CRITICAL: log: /home/jsnow/src/qemu/include/hw/i386/pc.h:128:PC_MACHINE:
-> Object 0x55bef7a235b0 is not an instance of type generic-pc-machine
-> CRITICAL: exit code: -6
-> 
-> CRITICAL: failed: binary=./qemu-system-i386 accel=tcg machine=none
-> device=sgx-epc
-> CRITICAL: cmdline: ./qemu-system-i386 -S -machine none,accel=tcg -device
-> sgx-epc
-> CRITICAL: log: /home/jsnow/src/qemu/include/hw/i386/pc.h:128:PC_MACHINE:
-> Object 0x5608b9fecd90 is not an instance of type generic-pc-machine
-> CRITICAL: exit code: -6
-> 
-> CRITICAL: failed: binary=./qemu-system-i386 accel=tcg machine=x-remote
-> device=sgx-epc
-> CRITICAL: cmdline: ./qemu-system-i386 -S -machine x-remote,accel=tcg
-> -device sgx-epc
-> CRITICAL: log: /home/jsnow/src/qemu/include/hw/i386/pc.h:128:PC_MACHINE:
-> Object 0x558306c9cb30 is not an instance of type generic-pc-machine
-> CRITICAL: exit code: -6
-> 
-> CRITICAL: failed: binary=./qemu-system-i386 accel=tcg machine=microvm
-> device=sgx-epc
-> CRITICAL: cmdline: ./qemu-system-i386 -S -machine microvm,accel=tcg
-> -device sgx-epc
-> CRITICAL: log: /home/jsnow/src/qemu/include/hw/i386/pc.h:128:PC_MACHINE:
-> Object 0x55e041f465b0 is not an instance of type generic-pc-machine
-> CRITICAL: exit code: -6
-
-Aren't these fixed by
-https://lore.kernel.org/qemu-devel/20211109175021.17813-1-pbonzini@redhat.com/
-?
+Commit 7852a77f598 fixed creating multiple TYPE_ISA_VGA devices,=0D
+generalize the fix to all VGA devices.=0D
+=0D
+See https://gitlab.com/qemu-project/qemu/-/issues/44=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  hw/display: Add Error* handle to vga_common_init()=0D
+  hw/display: Do not allow multiple identical VGA devices=0D
+=0D
+ hw/display/vga_int.h        |  2 +-=0D
+ hw/display/ati.c            |  4 +++-=0D
+ hw/display/cirrus_vga.c     |  4 +++-=0D
+ hw/display/cirrus_vga_isa.c |  4 +++-=0D
+ hw/display/qxl.c            |  4 +++-=0D
+ hw/display/vga-isa-mm.c     |  3 ++-=0D
+ hw/display/vga-isa.c        | 11 ++---------=0D
+ hw/display/vga-pci.c        |  8 ++++++--=0D
+ hw/display/vga.c            | 17 ++++++++++++++++-=0D
+ hw/display/virtio-vga.c     |  4 +++-=0D
+ hw/display/vmware_vga.c     |  2 +-=0D
+ 11 files changed, 43 insertions(+), 20 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
