@@ -2,84 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5854455F6E
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 16:26:23 +0100 (CET)
-Received: from localhost ([::1]:59576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 085B8455F9C
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 16:33:56 +0100 (CET)
+Received: from localhost ([::1]:36280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnjIs-0004vc-Qz
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 10:26:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34472)
+	id 1mnjQA-0000eY-KA
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 10:33:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mnjGo-00039m-4l; Thu, 18 Nov 2021 10:24:14 -0500
-Received: from [2a00:1450:4864:20::330] (port=56138
- helo=mail-wm1-x330.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mnjGm-0004om-CC; Thu, 18 Nov 2021 10:24:13 -0500
-Received: by mail-wm1-x330.google.com with SMTP id p18so5665079wmq.5;
- Thu, 18 Nov 2021 07:24:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=fUEVQKR6L4zAdyD+oFPmawM4+m6owiyS9CmmsyLYvP8=;
- b=KRqnc9dXeYRUV+kdMAn+XnBb/Hz5sozUAGo2y6KFhbwEm8XHmDNKIntd+WRCwGE305
- kSS2f5KSqGn8XmMqiTocmYctq57ZCRBGcHNkhlCxNruMcRLbYj97Z8gt5+5yy14srxWx
- dbCSzS64zLGly414nA8A4l6RwU0zdybbFGqIvB9Kis7ehQHTUNfU7DdjuCjaZBff2fq2
- xagfWMXqOXo4QkcXeCHPAxzPIfGTektt8lVC94goZ9I4gLRLBhmmmdjSaA+aEUsl3Ajf
- d3EZd+24HkKFXX6WMmuGPky/hrlkHpfsVLJt//zcA7WQNMBZjeQcZhrkk0SLrlfm23Yq
- rCMA==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mnjOB-00088i-OJ
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 10:31:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21435)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mnjO9-0006YJ-1F
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 10:31:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637249508;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=drmZPliX8obnOvykgLjgLe7sWLoQvClYxLym+hHICD8=;
+ b=HUn3hMAdvKAhLeOqElWiGAW8EJJJ+N9PxVgt+3/GLkDShSW4g+rBVHZPSE8rbMjE/vTSOe
+ 4JWcSBVnQQAT5nYZ+QD5yd8/4HOOmeIAJEYmM6LvXd0FW5W6UXe/5mw80QhzVtj6n8TSUH
+ Hs9UFHXwH+h7vuWud+Zjy42DPLcapYU=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-532-GHTEgAT6NWuYwSgGplgqJQ-1; Thu, 18 Nov 2021 10:31:46 -0500
+X-MC-Unique: GHTEgAT6NWuYwSgGplgqJQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ u4-20020a5d4684000000b0017c8c1de97dso1168828wrq.16
+ for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 07:31:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=fUEVQKR6L4zAdyD+oFPmawM4+m6owiyS9CmmsyLYvP8=;
- b=0s5//9KWA+zPgeYQhHbOcvki3hSsw1STdUQDCitl0JKba0654lPAiXGMvQGiupsC0Z
- xqIf00N4BX2z7MXL5vb3aQh3NX0i6EmSeLhB7FxdqPg5ldbVSMwmLsanEBiKGnkjMuPD
- 8x1Bpfj/vMmpG8OFdSU+/7+W5ru3rflXhM/G3B474JgOwS7Uts0nEpcE+WXDmw3DUIvD
- bt/1vLUTYtErlQ6mEasvhv7YaMbxixtspgtudoFvJTua1REN4uHgq+ZXGBesj4Iy3r6f
- rqwbWBJuEn1lSU7ORN+Q72xD1E0XLxKHePVngJIdTYN65+NqAcxbQw3KmNX+m+s8cYIe
- hE3A==
-X-Gm-Message-State: AOAM532eYCv5JbZ4yjTPHrY9AckvZ8cBLD+dnHHsyRXz9n7x4fAR9/6k
- Dxci7aoFp4B34Pc5zlx6QSGQJF3mAxE=
-X-Google-Smtp-Source: ABdhPJzRnLUpsHqkHt+/wjENHFl6k+aLNXzR4r8rlbf5WBqLV7fABEh0XtVXQuND13xtCWCtpLbiog==
-X-Received: by 2002:a05:600c:3586:: with SMTP id
- p6mr11203154wmq.34.1637249049927; 
- Thu, 18 Nov 2021 07:24:09 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id m14sm278574wrp.28.2021.11.18.07.24.09
+ bh=drmZPliX8obnOvykgLjgLe7sWLoQvClYxLym+hHICD8=;
+ b=ad1awGKMrzj/Pmnnm5ammJiYWeZ69ts1QLZRmjlbbeAs0lE6XbEPCg+0nFRMslgLnM
+ KOsAQC/mZBFoDxkc8b7OH8kNUZN3WCS5LyABuZgX6DL4WCUsZy2ITTdYh9fLdDo+/6Pe
+ 5qu22oaIA6MktKce54jGqH1k/+2w1gCVVHv5xA6A+3CNln4gMm3+LfrUpOT0nkVb7D97
+ BJ7z/9B/s4Zdoge1KxerGZ6v7y3FjAeSPLfmFxglG3gcV6/HsMyJ4uOBFyQHfXubtDMW
+ bL+HEJyDEdCmrKQaBwAov99Izhs8DtQhwIIj0TgeT8X4349j1+2gBmhEtw7zc8a/ZzjO
+ k4wA==
+X-Gm-Message-State: AOAM531lIQOV1rvTt9wmDVUW0uxWeOd11jtmDcXkZcXua2nzANfZYPqm
+ feP9OcHupdfuX/NhHL9BO9TP+UugqEN7XF3n7iMZXfkzkBZ60hsBUkVgWUgSS1px2pNNKCdlx16
+ KZAgZsGkGSqnCfxk=
+X-Received: by 2002:a05:600c:221a:: with SMTP id
+ z26mr11348033wml.20.1637249505418; 
+ Thu, 18 Nov 2021 07:31:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxf3gTWy4F7GIuKz0mGuxxXSyN+kmbNTBillCtP2WskXzS+pVop/k/887LrQCFjetRRqMADHQ==
+X-Received: by 2002:a05:600c:221a:: with SMTP id
+ z26mr11347983wml.20.1637249505209; 
+ Thu, 18 Nov 2021 07:31:45 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id w15sm147623wrk.77.2021.11.18.07.31.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Nov 2021 07:24:09 -0800 (PST)
-Message-ID: <382dac41-0075-8c12-52a7-996a9b044d1e@amsat.org>
-Date: Thu, 18 Nov 2021 16:24:08 +0100
+ Thu, 18 Nov 2021 07:31:44 -0800 (PST)
+Message-ID: <3e55da77-66e1-d9ac-e23a-3fa0beceec8e@redhat.com>
+Date: Thu, 18 Nov 2021 16:31:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 2/2] hw/misc/bcm2835_property: Add dummy Get/Set GPIO virt
- buf messages
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v4 00/25] block layer: split block APIs in global state
+ and I/O
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20211025101735.2060852-1-eesposit@redhat.com>
+ <93821bd8-2ac0-a19e-7029-900e6a6d9be1@redhat.com>
+ <a2891f6d-f383-f252-4b82-da08b2a2c1d7@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <a2891f6d-f383-f252-4b82-da08b2a2c1d7@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Benjamin Herrenschmidt <benh@kernel.crashing.org>, qemu-devel@nongnu.org
-References: <436e3f7b8f6d989a01ad0d8b9b226cbcbe0208c0.camel@kernel.crashing.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <436e3f7b8f6d989a01ad0d8b9b226cbcbe0208c0.camel@kernel.crashing.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-1.084,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.084, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,47 +104,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Eric Blake <eblake@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ John Snow <jsnow@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Benjamin,
+On 18.11.21 14:50, Paolo Bonzini wrote:
+> On 11/15/21 17:03, Hanna Reitz wrote:
+>>
+>> I only really see four solutions for this:
+>> (1) We somehow make the amend job run in the main context under the 
+>> BQL and have it prevent all concurrent I/O access (seems bad)
+>> (2) We can make the permission functions part of the I/O path (seems 
+>> wrong and probably impossible?)
+>> (3) We can drop the permissions update and permanently require the 
+>> permissions that we need when updating keys (I think this might break 
+>> existing use cases)
+>> (4) We can acquire the BQL around the permission update call and 
+>> perhaps that works?
+>>
+>> I don’t know how (4) would work but it’s basically the only 
+>> reasonable solution I can come up with.  Would this be a way to call 
+>> a BQL function from an I/O function?
+>
+> I think that would deadlock:
+>
+>     main                I/O thread
+>     --------            -----
+>     start bdrv_co_amend
+>                     take BQL
+>     bdrv_drain
+>     ... hangs ...
 
-On 10/17/21 09:48, Benjamin Herrenschmidt wrote:
-> Without these the RaspiOS kernel tries to ioremap some bogus address
-> and dumps a backtrace in the console at boot. These work around it.
-> 
-> The virt-gpio driver still fails to initialize but much more cleanly
-> 
-> Signed-off-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> ---
->  hw/misc/bcm2835_property.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/hw/misc/bcm2835_property.c b/hw/misc/bcm2835_property.c
-> index b958fa6a5c..62037c0630 100644
-> --- a/hw/misc/bcm2835_property.c
-> +++ b/hw/misc/bcm2835_property.c
-> @@ -274,6 +274,13 @@ static void bcm2835_property_mbox_push(BCM2835PropertyState *s, uint32_t value)
->              resplen = 4;
->              break;
->  
-> +        case 0x00048020: /* Set GPIO virt buf */
-> +            /* fall through */
-> +        case 0x00040010: /* Get GPIO virt buf */
-> +            stl_le_phys(&s->dma_as, value + 12, 0);
+:/
 
-This is not correct. You tell the kernel it can access the virtbuf
-at 0x0000.0000, but the raspi_smpboot code and raspi_spintables are
-stored there.
+Is there really nothing we can do?  Forgive me if I’m talking complete 
+nonsense here (because frankly I don’t even really know what a bottom 
+half is exactly), but can’t we schedule some coroutine in the main 
+thread to do the perm notifications and wait for them in the I/O thread?
 
-You need to store the uint32_t value in BCM2835PropertyState on SET
-and return it on GET.
+> (2) is definitely wrong.
+>
+> (3) I have no idea.
+>
+> Would it be possible or meaningful to do the bdrv_child_refresh_perms 
+> in qmp_x_blockdev_amend?  It seems that all users need it, and in 
+> general it seems weird to amend a qcow2 or luks header (and thus the 
+> meaning of parts of the file) while others can write to the same file.
 
-> +            resplen = 4;
-> +            break;
+Hmm...  Perhaps.  We would need to undo the permission change when the 
+job finishes, though, i.e. in JobDriver.prepare() or JobDriver.clean().  
+Doing the change in qmp_x_blockdev_amend() would be asymmetric then, so 
+we’d probably want a new JobDriver method that runs in the main thread 
+before .run() is invoked. (Unfortunately, “.prepare()” is now taken 
+already...)
 
-Regards,
+Doesn’t solve the FUSE problem, but there we could try to just take the 
+RESIZE permission permanently and if that fails, we just don’t allow 
+truncates for that export.  Not nice, but should work for common cases.
 
-Phil.
+Hanna
+
 
