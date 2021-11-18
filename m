@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6062456381
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 20:28:12 +0100 (CET)
-Received: from localhost ([::1]:36110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 852E4456382
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 20:30:08 +0100 (CET)
+Received: from localhost ([::1]:38814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnn4t-00082k-QQ
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 14:28:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42442)
+	id 1mnn6l-0001bp-LQ
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 14:30:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1mnn2h-0007Em-7y
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 14:25:55 -0500
-Received: from [2607:f938:3000:8::2] (port=9872 helo=mail.comstyle.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1mnn2e-0006r7-Sq
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 14:25:54 -0500
-Received: from mail.comstyle.com (localhost [127.0.0.1])
- by mail.comstyle.com (Postfix) with ESMTP id 4Hw8sM0PwCz8PbN;
- Thu, 18 Nov 2021 14:25:43 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=message-id
- :date:mime-version:from:subject:to:cc:references:in-reply-to
- :content-type:content-transfer-encoding; s=default; bh=ib+ugQACK
- g5PMO6pYloejCZPyWI=; b=pYjbk/s7j1DbCj0cAq4MABVQxkGgMbOl77rqfvU7r
- zA3LBEKCl7qT7IZn4XJvAomHYiK0OhpTp+aDfCt+nStrfUiB4le6ZHyjLtQVzNPv
- dLx0U5i3KrSX2WtjcUQCxTv6AnihJDFu3Hyb9P1YYBDTHFHSNfRbjwud9+VGDoOm
- wM=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=message-id
- :date:mime-version:from:subject:to:cc:references:in-reply-to
- :content-type:content-transfer-encoding; q=dns; s=default; b=lnL
- BlFPYF8E3YAF/JASz+TKhkOpW8B6LPFGUSbF51KqJwfNO0HfCd1yNvlW4FHTrHqm
- JO9oPcA3aLZou9fbO9DPHhFMk487Gax8g496yoPkyyu31rr+/fLMw8eT9Fk7N/o1
- ewyXBWe87Ecbqtf+WPmoNXFoqJVkA6/C7pVh0Z0A=
-Received: from [IPV6:2001:470:b0db:100:f4cb:80ab:ca92:6f9a] (unknown
- [IPv6:2001:470:b0db:100:f4cb:80ab:ca92:6f9a])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: brad)
- by mail.comstyle.com (Postfix) with ESMTPSA id 4Hw8sL4RgPz8PbK;
- Thu, 18 Nov 2021 14:25:42 -0500 (EST)
-Message-ID: <8a4d3f94-8be4-a8ba-cd4c-3af5af4fa8b4@comstyle.com>
-Date: Thu, 18 Nov 2021 14:25:41 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mnn52-0000TI-IL
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 14:28:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57910)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mnn4t-0007Cj-2R
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 14:28:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637263690;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=onQzSf5POREpUX9e4aWGOLccXTbzTIctz5gjtxaTXRY=;
+ b=Af0NR3qud2eP7Blgfp0bkAkwoI2MQfI5X3sK+K9KFIfk+1BNyEF3A8+8wi0ADNg18J+kpP
+ osnpEPpzhCakMk66SXYOkhda+3saahdJFmd/H9DrUFwfRDsDKEwK/JDI+UFwbLktmmqYxa
+ 4P+xkm0aTKmolV/sBp3uof62T8MJE+U=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-564-ftNiKPtdNsS1NVfwip1ubQ-1; Thu, 18 Nov 2021 14:27:49 -0500
+X-MC-Unique: ftNiKPtdNsS1NVfwip1ubQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ k25-20020a05600c1c9900b00332f798ba1dso4785163wms.4
+ for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 11:27:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=onQzSf5POREpUX9e4aWGOLccXTbzTIctz5gjtxaTXRY=;
+ b=4VXyjq6jPk8nNzRFLR+9LlQmG4pGxgTxs1PUtpcJOj14JWFfNPBdI4J7FEM3snhPoV
+ fjWKdCf/KJIUsExZNadliVdiSsXUB5dSIMCH1ddhWSR1LPgMKPyUFvZW1EEgEwLom1MT
+ xnF2eIY7D0rkeGRmqlwEFgFA4mOdSkYzATxJ1eNAr6CHd0bkfoIbuFAVQeuUTWclFx0d
+ 9NrDwGsmfKTKenF7J+6B+K9GbnCJYbIClhNCh+OKe2ZLgO/j3aZOYFoBYcR696+zXp7/
+ IkUlnEE5yiUbI9dPB3FONKp9eqdQLm8Xj2w53icoLsWIm7URmKjUOmxN2BmrPbWxS5DI
+ OTDA==
+X-Gm-Message-State: AOAM533J+Diu2UkCB4X86F7gWpRGi9zGzuNCdkpMoWt3xh4N06cIwAV9
+ w4/Fvp9zzlPKUvm6VOotYNZsfhcAR4L9F/kcE8pNBtWvwXyS0kXSBWgIN59UblWyoqIN8nTd6/5
+ Bp235PQsczWT+Lk+DorE1Q28yQ2CkZIM9fRcboX4qt2IiQjNmPTVbo0R9g546vqU3
+X-Received: by 2002:a05:600c:378b:: with SMTP id
+ o11mr12912111wmr.157.1637263667170; 
+ Thu, 18 Nov 2021 11:27:47 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwsc0virqKg5xKRs0HmiLac2buNTNghh22UVjfYIYamWWHMqcGf1Kt4+r4TkdP4S1EUUdQDww==
+X-Received: by 2002:a05:600c:378b:: with SMTP id
+ o11mr12912007wmr.157.1637263666458; 
+ Thu, 18 Nov 2021 11:27:46 -0800 (PST)
+Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
+ by smtp.gmail.com with ESMTPSA id
+ az4sm10019966wmb.20.2021.11.18.11.27.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Nov 2021 11:27:46 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-6.2? v2] docs: Render binary names as monospaced text
+Date: Thu, 18 Nov 2021 20:27:44 +0100
+Message-Id: <20211118192744.64325-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:95.0) Gecko/20100101
- Thunderbird/95.0
-From: Brad Smith <brad@comstyle.com>
-Subject: Re: [PATCH] audio: Add sndio backend
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Alexandre Ratchov <alex@caoua.org>
-References: <YYdh3l1HTh+kpONa@humpty.home.comstyle.com>
- <2813395.O5pCCIcrDs@silver>
- <73252f43-1e30-7c0b-bcc7-1df399290e10@comstyle.com>
- <1891902.ENMEkzpEdO@silver>
-Content-Language: en-US
-In-Reply-To: <1891902.ENMEkzpEdO@silver>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f938:3000:8::2
- (failed)
-Received-SPF: pass client-ip=2607:f938:3000:8::2;
- envelope-from=brad@comstyle.com; helo=mail.comstyle.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.084,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,187 +94,343 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, John G Johnson <john.g.johnson@oracle.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>, virtio-fs@redhat.com,
+ Darren Kenny <darren.kenny@oracle.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/14/2021 8:18 AM, Christian Schoenebeck wrote:
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+v2: Addressed Eric comments
+---
+ docs/about/removed-features.rst        |  8 ++++----
+ docs/devel/build-system.rst            |  6 +++---
+ docs/devel/multi-process.rst           |  6 +++---
+ docs/devel/testing.rst                 |  8 ++++----
+ docs/image-fuzzer.txt                  |  6 +++---
+ docs/system/arm/orangepi.rst           |  2 +-
+ docs/system/images.rst                 |  2 +-
+ docs/system/qemu-block-drivers.rst.inc |  6 +++---
+ docs/system/tls.rst                    |  2 +-
+ docs/tools/qemu-img.rst                | 18 +++++++++---------
+ docs/tools/qemu-nbd.rst                |  4 ++--
+ docs/tools/qemu-storage-daemon.rst     |  7 ++++---
+ docs/tools/virtiofsd.rst               |  4 ++--
+ 13 files changed, 40 insertions(+), 39 deletions(-)
 
-> On Samstag, 13. November 2021 21:40:39 CET Brad Smith wrote:
->> On 11/8/2021 8:03 AM, Christian Schoenebeck wrote:
->>> On Sonntag, 7. November 2021 06:19:26 CET Brad Smith wrote:
->>>> audio: Add sndio backend
->>>>
->>>> Add a sndio backend.
->>> Hi Brad!
->>>
->>>> sndio is the native API used by OpenBSD, although it has been ported to
->>>> other *BSD's and Linux (packages for Ubuntu, Debian, Void, Arch, etc.).
->>>>
->>>> The C code is from Alexandre Ratchov<alex@caoua.org>  and the rest of
->>>> the bits are from me.
->>> A Signed-off-by: line is mandatory for all QEMU patches:
->>> https://wiki.qemu.org/Contribute/SubmitAPatch
->> Ah, I was not aware of that. I usually include it but it was an
->> oversight this time.
->>
->>> Also, it should be clear from the patches who did what exactly, either by
->>> splitting the patches up and assigning the respective authors accordingly,
->>> or by making the person with the most relevant work the patch author and
->>> describing in the commit log additional authors and what they have added/
->>> changed, along with their Signed-off-by: line:
->>>
->>> Signed-off-by: Alexandre Ratchov<alex@caoua.org>
->>> [Brad Smith: - Added foo
->>>
->>>                - Some other change]
->>>
->>> Signed-off-by: Brad Smith<brad@comstyle.com>
->> I think I'll go with this.
->>
->>> http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/
->>> Documentation/SubmittingPatches?
->>> id=f6f94e2ab1b33f0082ac22d71f66385a60d8157f#n297
->>>
->>> Please CC those involved authors.
->> Will do.
-> I added Alexandre Ratchov on CC as he seems to be the primary author of this
-> patch series.
->
->>>> ---
->>>>
->>>>    audio/audio.c          |   1 +
->>>>    audio/audio_template.h |   2 +
->>>>    audio/meson.build      |   1 +
->>>>    audio/sndioaudio.c     | 555 +++++++++++++++++++++++++++++++++++++++++
->>>>    meson.build            |   7 +
->>>>    meson_options.txt      |   4 +-
->>>>    qapi/audio.json        |  25 +-
->>>>    qemu-options.hx        |   8 +
->>>>    tests/vm/freebsd       |   3 +
->>>>    9 files changed, 604 insertions(+), 2 deletions(-)
->>> An additional subsection for this backend should be added to MAINTAINERS.
->> I did not add anything here as I figured it implies a certain level of
->> obligation. His time
->> available varies quite a bit (especially at the current time) and I
->> wasn't sure if it's
->> appropriate listing him.
-> Yes, that's an unpleasant but legitimate question: will there be anybody
-> caring for this sndio backend in QEMU or would it go orphaned right from the
-> start?
+diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
+index 9d0d90c90d9..d42c3341dee 100644
+--- a/docs/about/removed-features.rst
++++ b/docs/about/removed-features.rst
+@@ -658,8 +658,8 @@ enforce that any failure to open the backing image (including if the
+ backing file is missing or an incorrect format was specified) is an
+ error when ``-u`` is not used.
+ 
+-qemu-img amend to adjust backing file (removed in 6.1)
+-''''''''''''''''''''''''''''''''''''''''''''''''''''''
++``qemu-img amend`` to adjust backing file (removed in 6.1)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ 
+ The use of ``qemu-img amend`` to modify the name or format of a qcow2
+ backing image was never fully documented or tested, and interferes
+@@ -670,8 +670,8 @@ backing chain should be performed with ``qemu-img rebase -u`` either
+ before or after the remaining changes being performed by amend, as
+ appropriate.
+ 
+-qemu-img backing file without format (removed in 6.1)
+-'''''''''''''''''''''''''''''''''''''''''''''''''''''
++``qemu-img`` backing file without format (removed in 6.1)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ 
+ The use of ``qemu-img create``, ``qemu-img rebase``, or ``qemu-img
+ convert`` to create or modify an image that depends on a backing file
+diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
+index 7a83f5fc0db..431caba7aa0 100644
+--- a/docs/devel/build-system.rst
++++ b/docs/devel/build-system.rst
+@@ -121,11 +121,11 @@ process for:
+ 
+ 1) executables, which include:
+ 
+-   - Tools - qemu-img, qemu-nbd, qga (guest agent), etc
++   - Tools - ``qemu-img``, ``qemu-nbd``, ``qga`` (guest agent), etc
+ 
+-   - System emulators - qemu-system-$ARCH
++   - System emulators - ``qemu-system-$ARCH``
+ 
+-   - Userspace emulators - qemu-$ARCH
++   - Userspace emulators - ``qemu-$ARCH``
+ 
+    - Unit tests
+ 
+diff --git a/docs/devel/multi-process.rst b/docs/devel/multi-process.rst
+index e5758a79aba..2c5ec977df8 100644
+--- a/docs/devel/multi-process.rst
++++ b/docs/devel/multi-process.rst
+@@ -187,9 +187,9 @@ desired, in which the emulation application should only be allowed to
+ access the files or devices the VM it's running on behalf of can access.
+ #### qemu-io model
+ 
+-Qemu-io is a test harness used to test changes to the QEMU block backend
+-object code. (e.g., the code that implements disk images for disk driver
+-emulation) Qemu-io is not a device emulation application per se, but it
++``qemu-io`` is a test harness used to test changes to the QEMU block backend
++object code (e.g., the code that implements disk images for disk driver
++emulation). ``qemu-io`` is not a device emulation application per se, but it
+ does compile the QEMU block objects into a separate binary from the main
+ QEMU one. This could be useful for disk device emulation, since its
+ emulation applications will need to include the QEMU block objects.
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index 60c59023e58..755343c7dd0 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -564,11 +564,11 @@ exploiting a QEMU security bug to compromise the host.
+ QEMU binaries
+ ~~~~~~~~~~~~~
+ 
+-By default, qemu-system-x86_64 is searched in $PATH to run the guest. If there
+-isn't one, or if it is older than 2.10, the test won't work. In this case,
++By default, ``qemu-system-x86_64`` is searched in $PATH to run the guest. If
++there isn't one, or if it is older than 2.10, the test won't work. In this case,
+ provide the QEMU binary in env var: ``QEMU=/path/to/qemu-2.10+``.
+ 
+-Likewise the path to qemu-img can be set in QEMU_IMG environment variable.
++Likewise the path to ``qemu-img`` can be set in QEMU_IMG environment variable.
+ 
+ Make jobs
+ ~~~~~~~~~
+@@ -650,7 +650,7 @@ supported. To start the fuzzer, run
+ 
+   tests/image-fuzzer/runner.py -c '[["qemu-img", "info", "$test_img"]]' /tmp/test qcow2
+ 
+-Alternatively, some command different from "qemu-img info" can be tested, by
++Alternatively, some command different from ``qemu-img info`` can be tested, by
+ changing the ``-c`` option.
+ 
+ Integration tests using the Avocado Framework
+diff --git a/docs/image-fuzzer.txt b/docs/image-fuzzer.txt
+index 3e23ebec331..279cc8c807f 100644
+--- a/docs/image-fuzzer.txt
++++ b/docs/image-fuzzer.txt
+@@ -51,10 +51,10 @@ assumes that core dumps will be generated in the current working directory.
+ For comprehensive test results, please, set up your test environment
+ properly.
+ 
+-Paths to binaries under test (SUTs) qemu-img and qemu-io are retrieved from
+-environment variables. If the environment check fails the runner will
++Paths to binaries under test (SUTs) ``qemu-img`` and ``qemu-io`` are retrieved
++from environment variables. If the environment check fails the runner will
+ use SUTs installed in system paths.
+-qemu-img is required for creation of backing files, so it's mandatory to set
++``qemu-img`` is required for creation of backing files, so it's mandatory to set
+ the related environment variable if it's not installed in the system path.
+ For details about environment variables see qemu-iotests/check.
+ 
+diff --git a/docs/system/arm/orangepi.rst b/docs/system/arm/orangepi.rst
+index c55694dd91b..83c7445197b 100644
+--- a/docs/system/arm/orangepi.rst
++++ b/docs/system/arm/orangepi.rst
+@@ -128,7 +128,7 @@ Alternatively, you can also choose to build you own image with buildroot
+ using the orangepi_pc_defconfig. Also see https://buildroot.org for more information.
+ 
+ When using an image as an SD card, it must be resized to a power of two. This can be
+-done with the qemu-img command. It is recommended to only increase the image size
++done with the ``qemu-img`` command. It is recommended to only increase the image size
+ instead of shrinking it to a power of two, to avoid loss of data. For example,
+ to prepare a downloaded Armbian image, first extract it and then increase
+ its size to one gigabyte as follows:
+diff --git a/docs/system/images.rst b/docs/system/images.rst
+index 3d9144e6258..d000bd6b6f1 100644
+--- a/docs/system/images.rst
++++ b/docs/system/images.rst
+@@ -20,7 +20,7 @@ where myimage.img is the disk image filename and mysize is its size in
+ kilobytes. You can add an ``M`` suffix to give the size in megabytes and
+ a ``G`` suffix for gigabytes.
+ 
+-See the qemu-img invocation documentation for more information.
++See the ``qemu-img`` invocation documentation for more information.
+ 
+ .. _disk_005fimages_005fsnapshot_005fmode:
+ 
+diff --git a/docs/system/qemu-block-drivers.rst.inc b/docs/system/qemu-block-drivers.rst.inc
+index 16225710ebb..e313784426d 100644
+--- a/docs/system/qemu-block-drivers.rst.inc
++++ b/docs/system/qemu-block-drivers.rst.inc
+@@ -511,13 +511,13 @@ of an inet socket:
+ 
+   |qemu_system| linux.img -hdb nbd+unix://?socket=/tmp/my_socket
+ 
+-In this case, the block device must be exported using qemu-nbd:
++In this case, the block device must be exported using ``qemu-nbd``:
+ 
+ .. parsed-literal::
+ 
+   qemu-nbd --socket=/tmp/my_socket my_disk.qcow2
+ 
+-The use of qemu-nbd allows sharing of a disk between several guests:
++The use of ``qemu-nbd`` allows sharing of a disk between several guests:
+ 
+ .. parsed-literal::
+ 
+@@ -530,7 +530,7 @@ and then you can use it with two guests:
+   |qemu_system| linux1.img -hdb nbd+unix://?socket=/tmp/my_socket
+   |qemu_system| linux2.img -hdb nbd+unix://?socket=/tmp/my_socket
+ 
+-If the nbd-server uses named exports (supported since NBD 2.9.18, or with QEMU's
++If the ``nbd-server`` uses named exports (supported since NBD 2.9.18, or with QEMU's
+ own embedded NBD server), you must specify an export name in the URI:
+ 
+ .. parsed-literal::
+diff --git a/docs/system/tls.rst b/docs/system/tls.rst
+index b0973afe1bf..1a04674362e 100644
+--- a/docs/system/tls.rst
++++ b/docs/system/tls.rst
+@@ -311,7 +311,7 @@ containing one or more usernames and random keys::
+    mkdir -m 0700 /tmp/keys
+    psktool -u rich -p /tmp/keys/keys.psk
+ 
+-TLS-enabled servers such as qemu-nbd can use this directory like so::
++TLS-enabled servers such as ``qemu-nbd`` can use this directory like so::
+ 
+    qemu-nbd \
+      -t -x / \
+diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
+index c0a44431467..d663dd92bd7 100644
+--- a/docs/tools/qemu-img.rst
++++ b/docs/tools/qemu-img.rst
+@@ -127,9 +127,9 @@ by the used format or see the format descriptions below for details.
+ .. option:: -S SIZE
+ 
+   Indicates the consecutive number of bytes that must contain only zeros
+-  for qemu-img to create a sparse image during conversion. This value is rounded
+-  down to the nearest 512 bytes. You may use the common size suffixes like
+-  ``k`` for kilobytes.
++  for ``qemu-img`` to create a sparse image during conversion. This value is
++  rounded down to the nearest 512 bytes. You may use the common size suffixes
++  like ``k`` for kilobytes.
+ 
+ .. option:: -t CACHE
+ 
+@@ -431,7 +431,7 @@ Command description:
+   suppressed from the destination image.
+ 
+   *SPARSE_SIZE* indicates the consecutive number of bytes (defaults to 4k)
+-  that must contain only zeros for qemu-img to create a sparse image during
++  that must contain only zeros for ``qemu-img`` to create a sparse image during
+   conversion. If *SPARSE_SIZE* is 0, the source will not be scanned for
+   unallocated or zero sectors, and the destination image will always be
+   fully allocated.
+@@ -447,7 +447,7 @@ Command description:
+   If the ``-n`` option is specified, the target volume creation will be
+   skipped. This is useful for formats such as ``rbd`` if the target
+   volume has already been created with site specific options that cannot
+-  be supplied through qemu-img.
++  be supplied through ``qemu-img``.
+ 
+   Out of order writes can be enabled with ``-W`` to improve performance.
+   This is only recommended for preallocated devices like host devices or other
+@@ -472,7 +472,7 @@ Command description:
+   If the option *BACKING_FILE* is specified, then the image will record
+   only the differences from *BACKING_FILE*. No size needs to be specified in
+   this case. *BACKING_FILE* will never be modified unless you use the
+-  ``commit`` monitor command (or qemu-img commit).
++  ``commit`` monitor command (or ``qemu-img commit``).
+ 
+   If a relative path name is given, the backing file is looked up relative to
+   the directory containing *FILENAME*.
+@@ -684,7 +684,7 @@ Command description:
+ 
+   Safe mode
+     This is the default mode and performs a real rebase operation. The
+-    new backing file may differ from the old one and qemu-img rebase
++    new backing file may differ from the old one and ``qemu-img rebase``
+     will take care of keeping the guest-visible content of *FILENAME*
+     unchanged.
+ 
+@@ -697,7 +697,7 @@ Command description:
+     exists.
+ 
+   Unsafe mode
+-    qemu-img uses the unsafe mode if ``-u`` is specified. In this
++    ``qemu-img`` uses the unsafe mode if ``-u`` is specified. In this
+     mode, only the backing file name and format of *FILENAME* is changed
+     without any checks on the file contents. The user must take care of
+     specifying the correct new backing file, or the guest-visible
+@@ -735,7 +735,7 @@ Command description:
+   sizes accordingly.  Failure to do so will result in data loss!
+ 
+   When shrinking images, the ``--shrink`` option must be given. This informs
+-  qemu-img that the user acknowledges all loss of data beyond the truncated
++  ``qemu-img`` that the user acknowledges all loss of data beyond the truncated
+   image's end.
+ 
+   After using this command to grow a disk image, you must use file system and
+diff --git a/docs/tools/qemu-nbd.rst b/docs/tools/qemu-nbd.rst
+index 56e54cd4411..fdcee0244af 100644
+--- a/docs/tools/qemu-nbd.rst
++++ b/docs/tools/qemu-nbd.rst
+@@ -38,7 +38,7 @@ driver options if ``--image-opts`` is specified.
+   supported. The common object types that it makes sense to define are the
+   ``secret`` object, which is used to supply passwords and/or encryption
+   keys, and the ``tls-creds`` object, which is used to supply TLS
+-  credentials for the qemu-nbd server or client.
++  credentials for the ``qemu-nbd`` server or client.
+ 
+ .. option:: -p, --port=PORT
+ 
+@@ -238,7 +238,7 @@ daemon:
+ Expose the guest-visible contents of a qcow2 file via a block device
+ /dev/nbd0 (and possibly creating /dev/nbd0p1 and friends for
+ partitions found within), then disconnect the device when done.
+-Access to bind qemu-nbd to an /dev/nbd device generally requires root
++Access to bind ``qemu-nbd`` to a /dev/nbd device generally requires root
+ privileges, and may also require the execution of ``modprobe nbd``
+ to enable the kernel NBD client module.  *CAUTION*: Do not use
+ this method to mount filesystems from an untrusted guest image - a
+diff --git a/docs/tools/qemu-storage-daemon.rst b/docs/tools/qemu-storage-daemon.rst
+index b8ef4486f1e..3e5a9dc0320 100644
+--- a/docs/tools/qemu-storage-daemon.rst
++++ b/docs/tools/qemu-storage-daemon.rst
+@@ -10,9 +10,10 @@ Synopsis
+ Description
+ -----------
+ 
+-qemu-storage-daemon provides disk image functionality from QEMU, qemu-img, and
+-qemu-nbd in a long-running process controlled via QMP commands without running
+-a virtual machine. It can export disk images, run block job operations, and
++``qemu-storage-daemon`` provides disk image functionality from QEMU,
++``qemu-img``, and ``qemu-nbd`` in a long-running process controlled via QMP
++commands without running a virtual machine.
++It can export disk images, run block job operations, and
+ perform other disk-related operations. The daemon is controlled via a QMP
+ monitor and initial configuration from the command-line.
+ 
+diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
+index cc314028309..07ac0be5511 100644
+--- a/docs/tools/virtiofsd.rst
++++ b/docs/tools/virtiofsd.rst
+@@ -136,8 +136,8 @@ Extended attribute (xattr) mapping
+ By default the name of xattr's used by the client are passed through to the server
+ file system.  This can be a problem where either those xattr names are used
+ by something on the server (e.g. selinux client/server confusion) or if the
+-virtiofsd is running in a container with restricted privileges where it cannot
+-access some attributes.
++``virtiofsd`` is running in a container with restricted privileges where it
++cannot access some attributes.
+ 
+ Mapping syntax
+ ~~~~~~~~~~~~~~
+-- 
+2.31.1
 
-Orphaned from the start makes it sound like we're dumping code and 
-walking away.
-When I say obligation I mean say responding withing say 3 - 4 days for 
-some sort of
-an issue vs say maybe taking 1.5 - 2 weeks to respond.
-
-> It would be good to have at least somebody familiar with this code to
-> volunteer as reviewer(s) ("R:" line(s) in MAINTAINERS file). Reviewers are
-> automatically CCed, so that they can (optionally) give their feedback on
-> future changes to the sndio backend, i.e. when somebody sends sndio patches to
-> qemu-devel. This is voluntary and can be revoked at any time, and I do not
-> expect that you would frequently get emailed for this either.
-That sounds reasonable. I'll prod Alexandre further about responding.
-> As this is a BSD-specific audio backend, it is not likely that an active QEMU
-> developer would be able to care for it.
-
-I would not say it is BSD-specific. sndio is also packaged and available 
-on a good
-number of Linux OS's (Alpine, Arch, Gentoo, Magia, Manjaro and some 
-others). I
-know I have seen some Gentoo users around testing and contributing to sndio
-backends. Some use it as their default sound API (Void Linux for 
-example). There
-are older packages for Debian / Ubuntu that unfortunately don't have the
-pkg-config file.
-
->>>>    create mode 100644 audio/sndioaudio.c
->>>>
->>>> diff --git a/audio/audio.c b/audio/audio.c
->>>> index 54a153c0ef..bad1ceb69e 100644
->>>> --- a/audio/audio.c
->>>> +++ b/audio/audio.c
->>>> @@ -2005,6 +2005,7 @@ void audio_create_pdos(Audiodev *dev)
->>>>
->>>>            CASE(OSS, oss, Oss);
->>>>            CASE(PA, pa, Pa);
->>>>            CASE(SDL, sdl, Sdl);
->>>>
->>>> +        CASE(SNDIO, sndio, );
->>>>
->>>>            CASE(SPICE, spice, );
->>>>            CASE(WAV, wav, );
->>>>
->>>> diff --git a/audio/audio_template.h b/audio/audio_template.h
->>>> index c6714946aa..ecc5a0bc6d 100644
->>>> --- a/audio/audio_template.h
->>>> +++ b/audio/audio_template.h
->>>> @@ -337,6 +337,8 @@ AudiodevPerDirectionOptions *glue(audio_get_pdo_,
->>>> TYPE)(Audiodev *dev) return
->>>> qapi_AudiodevPaPerDirectionOptions_base(dev->u.pa.TYPE); case
->>>>
->>>> AUDIODEV_DRIVER_SDL:
->>>>            return
->>>>            qapi_AudiodevSdlPerDirectionOptions_base(dev->u.sdl.TYPE);
->>>>
->>>> +    case AUDIODEV_DRIVER_SNDIO:
->>>> +        return dev->u.sndio.TYPE;
->>>>
->>>>        case AUDIODEV_DRIVER_SPICE:
->>>>            return dev->u.spice.TYPE;
->>>>        
->>>>        case AUDIODEV_DRIVER_WAV:
->>>> diff --git a/audio/meson.build b/audio/meson.build
->>>> index 462533bb8c..e24c86e7e6 100644
->>>> --- a/audio/meson.build
->>>> +++ b/audio/meson.build
->>>> @@ -17,6 +17,7 @@ foreach m : [
->>>>
->>>>      ['pa', pulse, files('paaudio.c')],
->>>>      ['sdl', sdl, files('sdlaudio.c')],
->>>>      ['jack', jack, files('jackaudio.c')],
->>>>
->>>> +  ['sndio', sndio, files('sndioaudio.c')],
->>>>
->>>>      ['spice', spice, files('spiceaudio.c')]
->>>>    
->>>>    ]
->>>>    
->>>>      if m[1].found()
->>>>
->>>> diff --git a/audio/sndioaudio.c b/audio/sndioaudio.c
->>>> new file mode 100644
->>>> index 0000000000..204af07781
->>>> --- /dev/null
->>>> +++ b/audio/sndioaudio.c
->>>> @@ -0,0 +1,555 @@
->>>> +/*
->>>> + * Copyright (c) 2019 Alexandre Ratchov<alex@caoua.org>
->>>> + *
->>> It is quite common for new source files in QEMU to have an authors list
->>>
->>> section in the header here like:
->>>     * Autors:
->>>     *  Alexandre Ratchov<alex@caoua.org>
->> I was looking through the tree and all of the examples I came across
->> were using this
->> with a Copyright for a company as opposed to an individual. What would
->> be the
->> format?
-> There was nothing wrong with the copyright line. If it was an individual, then
-> the copyright line is an individual. And like I said, it does not seem to be
-> required in QEMU to have an "Authors:" block in the file header at all. So on
-> doubt just ignore this.
->
-> Deflating the file header by using SPDX license identifier as suggested would
-> make sense though.
-I have substituted the ISC license with the SPDX identifier.
->>> That way scripts/get_maintainer.pl can suggest those people as well in
->>> case
->>> they are not explicitly listed in MAINTAINERS. Does not seem to be
->>> mandatory for QEMU though. Just saying.
-> Best regards,
-> Christian Schoenebeck
->
->
 
