@@ -2,91 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBFB1455688
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 09:11:44 +0100 (CET)
-Received: from localhost ([::1]:46210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFB5045571B
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 09:36:24 +0100 (CET)
+Received: from localhost ([::1]:57788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mncWF-0004jA-5L
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 03:11:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51376)
+	id 1mncu7-0005iP-Kk
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 03:36:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mncSR-0001NM-Cb
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 03:07:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46406)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mncsW-0004jM-Je
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 03:34:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34197)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mncSO-0000AG-I9
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 03:07:47 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mncsT-0003rK-Gd
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 03:34:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637222856;
+ s=mimecast20190719; t=1637224480;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=St7EjzF3zsHYHz9CCAnm6psqKMGnFtRlpuP1S4TIvDo=;
- b=b9V+cAVcTlTb5nZZ19zkELRazhMvV5cOgvwsPRokviyqrAERI+cz5ujreGTE9BYIgyFNq6
- s6r+JNHEIj81oc0lilpY/N5AMgJtqVAWtxz/Mz77t6BIQOakCQqEEOjaI7ZcOGunJpX/YK
- pZtcAuVzn9gZC4kW1hObXh0IEE3GAx4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-425-xLD7SZxGPOCKuwROnpy-lQ-1; Thu, 18 Nov 2021 03:07:34 -0500
-X-MC-Unique: xLD7SZxGPOCKuwROnpy-lQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 201-20020a1c04d2000000b003335bf8075fso2269493wme.0
- for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 00:07:34 -0800 (PST)
+ bh=0gdHPtbLa3W0QmIVi/8X4k+2sU5F3r29M0ba0pGXxUA=;
+ b=iEzzXh+KGLj6is0nX38Zw6YkV1QBaXZwpIwUvbAQyQArYvk/tkU4tX3jfdQR0rrSmx4nrM
+ P3xAIHOv7L3K9d7Ba6I0dmyeqQQ+Bmri5s3BDB5xcNKOm01+9x6c2anonnJcg9rdF6r/Kw
+ Jw+hqXIciP/ysr9p4oOEVeyY7n5sVMQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-542-Y_3wzKxlMaaS94ZdK2NGow-1; Thu, 18 Nov 2021 03:34:37 -0500
+X-MC-Unique: Y_3wzKxlMaaS94ZdK2NGow-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ p3-20020a056000018300b00186b195d4ddso879393wrx.15
+ for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 00:34:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=St7EjzF3zsHYHz9CCAnm6psqKMGnFtRlpuP1S4TIvDo=;
- b=P48f7MJ4zh0f+TLmswCAwjxjMPypoYwsb8oVr57Q95H4G+w7Lox9BFKmStQ0B98FiZ
- T2CJ22dgQEWnvtDLEvf1mYxl0pA1kEE+XQJMonLEbZgttiGWjJG9pvfIR8HQWCY2bO9f
- 94KJOk0AiCoAcybcdmuqx2g77xaCKSn1FjsD6FTeT5D04C/D/e7rE2fUSd5gOYPTsBnI
- WER7YBJ+7nJZXzCUCgtp51D1W2bRf0TYLk3RXT2QYOreXhvTA9ayJBqwlQ6adthbCVIC
- 2doaYBkSljnmqAd/1U3beoeisCkAxx5fAw4uaKD353Tgs962SND202XvBVqYiDVpfiA/
- zOUw==
-X-Gm-Message-State: AOAM5312LH9F4v5MhrImWWJ+aAa8IKNsncSfVqC9XUEIkmWs6P1JlpzN
- fFVJs87PdcOyIRCCAlyuWvI5uyLJZA8dqW9eYYAdRJ3E+iE2pM8xb8WZRnmcpKhFrDxdFoQQE6g
- PsitnNd5PGY+udcc=
-X-Received: by 2002:adf:d091:: with SMTP id y17mr28021789wrh.418.1637222853573; 
- Thu, 18 Nov 2021 00:07:33 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzpHinS5iFdYRBdEl/6KCre1uOwyat88g2d9JQFQDsPBKjhf6kEMlnqwRU921GymmQXNN5B/Q==
-X-Received: by 2002:adf:d091:: with SMTP id y17mr28021747wrh.418.1637222853263; 
- Thu, 18 Nov 2021 00:07:33 -0800 (PST)
+ bh=0gdHPtbLa3W0QmIVi/8X4k+2sU5F3r29M0ba0pGXxUA=;
+ b=MSINCRo4ork6Gi2XpWVoL583g0Qy8zchhA5XfBMHnVFoOeRd7cQxQe30y9FI1hE0jL
+ 7OdBslihZJ9g2C9gikcSyJxN+wyjMXJCsn+B84+ui5M8QZPk+tyz2NqmAlvMbQGAZMkT
+ MmVwAIo+LqNWSqFxrfPT9uJZBOxh9xSXiwGpTT5MfsoRl9xNMlFVdwzY+8JlF4Aq0hUU
+ 414NF5LmddL+ecNHbn9jh3wnYFmNU5E2eQr7O7rvghAwTO9hm8QtgNXBYvSVpN5T2gvF
+ sLhI7kcBa3KlHy+rmvYQhSKrolEqG/9TTV1QPM4pbt9msUsHFqeg0uah/y2Nv9Zs1ljb
+ Z8BA==
+X-Gm-Message-State: AOAM532Kdm3XPKA2RRLlh7zIHLyH4R2fdqxRpxEzcxBtMMQznoTJ/ql4
+ PNvLRIelscDgAoV7rgxleFYnqObVXw4fbKUCmVq/Jg5tsnbXwkE40nC4i3lK6bjGtkf6AX1PQQY
+ sGJpunMq7dkfZZa4=
+X-Received: by 2002:a5d:6447:: with SMTP id d7mr29786156wrw.118.1637224476411; 
+ Thu, 18 Nov 2021 00:34:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzLlqVajdQqPTzo0VpkKRl/h0BaSnAVk7LWgGC0a7XfFJSlNwemQqyjLyUubUvrl9qv4wk46g==
+X-Received: by 2002:a5d:6447:: with SMTP id d7mr29786129wrw.118.1637224476170; 
+ Thu, 18 Nov 2021 00:34:36 -0800 (PST)
 Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
  ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id d6sm2227983wrx.60.2021.11.18.00.07.32
+ by smtp.gmail.com with ESMTPSA id b6sm8612504wmq.45.2021.11.18.00.34.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Nov 2021 00:07:33 -0800 (PST)
-Message-ID: <073cbf85-e231-a113-5da4-e2028c48c44a@redhat.com>
-Date: Thu, 18 Nov 2021 09:07:32 +0100
+ Thu, 18 Nov 2021 00:34:35 -0800 (PST)
+Message-ID: <6077174b-c7e9-99a9-fb03-e0b27e97d39f@redhat.com>
+Date: Thu, 18 Nov 2021 09:34:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH v2 13/13] blockdev: Drop unused drive_get_next()
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20211117163409.3587705-1-armbru@redhat.com>
- <20211117163409.3587705-14-armbru@redhat.com>
+Subject: Re: [PATCH] block/vvfat.c fix leak when failure occurs
+To: Daniella Lee <daniellalee111@gmail.com>, kwolf@redhat.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <20211116125718.2922980-1-daniellalee111@gmail.com>
 From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20211117163409.3587705-14-armbru@redhat.com>
+In-Reply-To: <20211116125718.2922980-1-daniellalee111@gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -45
 X-Spam_score: -4.6
 X-Spam_bar: ----
 X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.084, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-1.084, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,29 +98,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: pai.po.sec@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17.11.21 17:34, Markus Armbruster wrote:
-> drive_get_next() is basically a bad idea.  It returns the "next" block
-> backend of a certain interface type.  "Next" means bus=0,unit=N, where
-> subsequent calls count N up from zero, per interface type.
+On 16.11.21 13:57, Daniella Lee wrote:
+> Function vvfat_open called function enable_write_target and init_directories,
+> and these functions malloc new memory for BDRVVVFATState::qcow_filename,
+> BDRVVVFATState::used_clusters, and BDRVVVFATState::cluster_buff.
 >
-> This lets you define unit numbers implicitly by execution order.  If the
-> order changes, or new calls appear "in the middle", unit numbers change.
-> ABI break.  Hard to spot in review.
+> When the specified folder does not exist ,it may contains memory leak.
+> After init_directories function is executed, the vvfat_open return -EIO,
+> and bdrv_open_driver goto label open_failed,
+> the program use g_free(bs->opaque) to release BDRVVVFATState struct
+> without members mentioned.
 >
-> The previous commits eliminated all uses.  Drop the function.
+> command line:
+> qemu-system-x86_64 -hdb <vdisk qcow file>  -usb -device usb-storage,drive=fat16
+> -drive file=fat:rw:fat-type=16:"<path of a host folder does not exist>",
+> id=fat16,format=raw,if=none
 >
-> Cc: Kevin Wolf <kwolf@redhat.com>
-> Cc: Hanna Reitz <hreitz@redhat.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> enable_write_target called:
+> (gdb) bt
+> #0  enable_write_target (bs=0x555556f9f000, errp=0x7fffffffd780)
+>      at ../block/vvfat.c:3114
+> #1  vvfat_open (bs=0x555556f9f000, options=0x555556fa45d0,
+>      flags=155650, errp=0x7fffffffd780) at ../block/vvfat.c:1236
+> #2  bdrv_open_driver (bs=0x555556f9f000, drv=0x555556c47920 <bdrv_vvfat>,
+>      node_name=0x0, options=0x555556fa45d0, open_flags=155650,
+>      errp=0x7fffffffd890) at ../block.c:1558
+> #3  bdrv_open_common (bs=0x555556f9f000, file=0x0, options=0x555556fa45d0,
+>      errp=0x7fffffffd890) at ../block.c:1852
+> #4  bdrv_open_inherit (filename=0x555556f73310 "fat:rw:<dirNone>",
+>      reference=0x0, options=0x555556fa45d0, flags=40962, parent=0x555556f98cd0,
+>      child_class=0x555556b1d6a0 <child_of_bds>, child_role=19,
+>      errp=0x7fffffffda90) at ../block.c:3779
+> #5  bdrv_open_child_bs (filename=0x555556f73310 "fat:rw:<dirNone>",
+>      options=0x555556f9cfc0, bdref_key=0x555556239bb8 "file",
+>      parent=0x555556f98cd0, child_class=0x555556b1d6a0 <child_of_bds>,
+>      child_role=19, allow_none=true, errp=0x7fffffffda90) at ../block.c:3419
+> #6  bdrv_open_inherit (filename=0x555556f73310 "fat:rw:<dirNone>",
+>      reference=0x0, options=0x555556f9cfc0, flags=8194, parent=0x0,
+>      child_class=0x0, child_role=0, errp=0x555556c98c40 <error_fatal>)
+>      at ../block.c:3726
+> #7  bdrv_open (filename=0x555556f73310 "fat:rw:<dirNone>", reference=0x0,
+>      options=0x555556f757b0, flags=0, errp=0x555556c98c40 <error_fatal>)
+>      at ../block.c:3872
+> #8  blk_new_open (filename=0x555556f73310 "fat:rw:<dirNone>", reference=0x0,
+>      options=0x555556f757b0, flags=0, errp=0x555556c98c40 <error_fatal>)
+>      at ../block/block-backend.c:436
+> #9  blockdev_init (file=0x555556f73310 "fat:rw:<dirNone>",
+>      bs_opts=0x555556f757b0, errp=0x555556c98c40 <error_fatal>)
+>      at ../blockdev.c:608
+> #10 drive_new (all_opts=0x555556d2b700, block_default_type=IF_IDE,
+>      errp=0x555556c98c40 <error_fatal>) at ../blockdev.c:992
+> ......
+>
+> Signed-off-by: Daniella Lee <daniellalee111@gmail.com>
 > ---
->   include/sysemu/blockdev.h |  1 -
->   blockdev.c                | 10 ----------
->   2 files changed, 11 deletions(-)
+>   block/vvfat.c | 15 +++++++++++++++
+>   1 file changed, 15 insertions(+)
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+Hi,
+
+Thanks for your patch!  Yes, that makes sense.
+
+I believe there are some issues that should be addressed, though:
+
+> diff --git a/block/vvfat.c b/block/vvfat.c
+> index 05e78e3c27..454a74c5d5 100644
+> --- a/block/vvfat.c
+> +++ b/block/vvfat.c
+> @@ -1280,7 +1280,22 @@ static int vvfat_open(BlockDriverState *bs, QDict *options, int flags,
+>       qemu_co_mutex_init(&s->lock);
+>   
+>       ret = 0;
+> +
+> +    qemu_opts_del(opts);
+> +    return ret;
+
+Optional: I’d drop the `ret = 0;` line and just `return 0;` here.
+
+>   fail:
+> +    if(s->qcow_filename) {
+
+Our coding style requires a space between `if` and the opening parenthesis.
+
+> +        g_free(s->qcow_filename);
+
+`g_free()` checks whether the parameter given to it is `NULL`, and if 
+so, performs a no-op.  So checking whether `s->qcow_filename != NULL` 
+before calling `g_free()` is not necessary.
+
+We have a script under scripts/checkpatch.pl that takes patch files as 
+input and checks whether they conform to our coding style.  It’s really 
+helpful, for example in these two cases it does report the issues.
+
+> +        s->qcow_filename = NULL;
+> +    }
+> +    if(s->cluster_buffer) {
+> +        g_free(s->cluster_buffer);
+> +        s->cluster_buffer = NULL;
+> +    }
+> +    if(s->used_clusters) {
+> +        g_free(s->used_clusters);
+
+`s->used_clusters` is allocated with `calloc()`, so it can’t be freed 
+with `g_free()`.  But you’re right, it should be `g_free()`-able, so the 
+fix is to have `enable_write_target()` allocate it with `g_malloc0(size)`.
+
+(And this made me notice that we free neither `s->used_clusters` nor 
+`s->qcow_filename` in vvfat_close()...  Oops.)
+
+> +        s->used_clusters = NULL;
+> +    }
+>       qemu_opts_del(opts);
+>       return ret;
+>   }
+
+Finally, `enable_write_target()` frees `s->qcow_filename` on error.  
+That seems unnecessary now, though not wrong.  (It’s just weird that it 
+frees that one, but not `s->used_clusters`...)
+
+Hanna
 
 
