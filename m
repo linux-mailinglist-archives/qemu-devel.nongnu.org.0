@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B0C34554FF
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 07:58:21 +0100 (CET)
-Received: from localhost ([::1]:33178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 222C4455610
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 08:49:59 +0100 (CET)
+Received: from localhost ([::1]:52930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnbNE-0006dq-BF
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 01:58:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60922)
+	id 1mncBB-00061W-WD
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 02:49:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mnbLk-0005cX-8j
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 01:56:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36818)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mnbLg-0006ev-Lz
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 01:56:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637218599;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RQh2nPzLZ0bpcJKCbWKLD+G2mdW+RE9UfMD39mUoAj0=;
- b=TE3dBwLh4774LkpUepujhGQ6aAdO3lleN0+VQW0X4pV/b6xOnAHPFwU29NONX2DmURXKhT
- bEgRK7VNkH8CPjJprRMy0mps+Oe4RSHbhxO1FjgopVUXLqzwT9mz0UNm5fg9sgUp0a9v7c
- CVjWym9rPzBGI7WMUxdGYIYMg/28Z9o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-586-QP_jtTXnNsSW3ygJtVcDFg-1; Thu, 18 Nov 2021 01:56:36 -0500
-X-MC-Unique: QP_jtTXnNsSW3ygJtVcDFg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F64687D541;
- Thu, 18 Nov 2021 06:56:35 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 81D0A604CC;
- Thu, 18 Nov 2021 06:56:34 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DB13311380A7; Thu, 18 Nov 2021 07:56:32 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Havard Skinnemoen <hskinnemoen@google.com>
-Subject: Re: [PATCH v2 03/13] hw/arm/npcm7xx_boards: Replace
- drive_get_next() by drive_get()
-References: <20211117163409.3587705-1-armbru@redhat.com>
- <20211117163409.3587705-4-armbru@redhat.com>
- <CAFQmdRaz9aa22KVHup15oquDrt+HviqqNtGvt9tb21=spTKHog@mail.gmail.com>
-Date: Thu, 18 Nov 2021 07:56:32 +0100
-In-Reply-To: <CAFQmdRaz9aa22KVHup15oquDrt+HviqqNtGvt9tb21=spTKHog@mail.gmail.com>
- (Havard Skinnemoen's message of "Wed, 17 Nov 2021 08:53:57 -0800")
-Message-ID: <874k8ax87z.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mnc8V-0002nb-U6
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 02:47:11 -0500
+Received: from [2a00:1450:4864:20::52b] (port=38471
+ helo=mail-ed1-x52b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mnc8Q-0005vj-DC
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 02:47:08 -0500
+Received: by mail-ed1-x52b.google.com with SMTP id x6so11319227edr.5
+ for <qemu-devel@nongnu.org>; Wed, 17 Nov 2021 23:47:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7UVO6nmtqghMNegvr+9gfU0IIXPheSUBG4vh7TGbeF4=;
+ b=A+X93NeNbDUtLg0dCjgftLG/ncLNc7r0TND0kP4QOLxcO3j9lUCvikjVLSW205AqoD
+ Mq9szAsDNzr6S+yat9za+5r8vynu4jeWP+8A+6XJf2c+VzlN2e965Z+LIwUpTGRgXYGD
+ RF2b8b8Wt9kM05hRxYfnviP8D961RMIKodizrE/X+y/90FfXq721jqDRyJSdFG+C0NGq
+ jkptjD7IhOgQZREIisxnIUm5jOza37TUg+FxtunGBPFLBLsvAEk4dBwj7Cu71xDhgqm2
+ eicdDu68XAvIIm9rdcEdvVEQ5rJO1qGeBYOgg4DfKCGwv4QCvgp/v+sX+w2xNZWzsYHb
+ p/Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=7UVO6nmtqghMNegvr+9gfU0IIXPheSUBG4vh7TGbeF4=;
+ b=OvUkrQ9d3f+easD6gNR5oe49Y9hhIpg2biYPgYLNYojOeG15tGKEbeapQoa29XT3Ke
+ rq9HiGo4iyuFuS6BN333LhaImh33f0lVi4Ti2jooz6fB56AE8ugCpGF3hCsJGdj7/swa
+ 6QE7BEQBUorOWRAqFGfNz3u0xhuuUstLYrK0JJIFaa3r3ox3mWWRpMCmqVkJwm94eRZA
+ x6w3ULxtFXEb/mapDj5gQVhVGqaxGaPEX2d3B0ptZhKLoYxSz+AahaszEb7NgORG7kx+
+ jxUs+UrSaKJpRkO1ICc62j9f2M4jxqf5OWmRh2gsDQv2dv+iZtgZLHHGVMk22mbTjMZ1
+ A36A==
+X-Gm-Message-State: AOAM533q7Pi8dODCM/yEiFbnJVBu2IvRUXFb0nYSOb6TVFDyE2Y8NTGb
+ 8BYR7zFgtApCsxbJEBd0BercvHqokVE=
+X-Google-Smtp-Source: ABdhPJwRax7FqMAEbxumbOwEOuBZ4iE7gpPoWxukwD7MQr6pJOq3ccWlmvSYGwGENao2X2h29PGDNg==
+X-Received: by 2002:a05:6402:3488:: with SMTP id
+ v8mr8124540edc.398.1637221624191; 
+ Wed, 17 Nov 2021 23:47:04 -0800 (PST)
+Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id
+ z7sm1148876edj.51.2021.11.17.23.47.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Nov 2021 23:47:03 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [qemu-web PATCH] remove deployment phase from CI
+Date: Thu, 18 Nov 2021 08:47:01 +0100
+Message-Id: <20211118074702.216951-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,84 +86,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Hao Wu <wuhaotsh@google.com>,
- Tyrone Ting <KFTING@nuvoton.com>, qemu-arm@nongnu.org
+Cc: thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Havard Skinnemoen <hskinnemoen@google.com> writes:
+qemu.org is now served via a reverse proxy from qemu-project.gitlab.io; it does
+not need anymore the rsync step to the QEMU project's shell server.
+Remove it from the CI.
 
-> On Wed, Nov 17, 2021 at 8:34 AM Markus Armbruster <armbru@redhat.com> wrote:
->>
->> drive_get_next() is basically a bad idea.  It returns the "next" block
->> backend of a certain interface type.  "Next" means bus=0,unit=N, where
->> subsequent calls count N up from zero, per interface type.
->>
->> This lets you define unit numbers implicitly by execution order.  If the
->> order changes, or new calls appear "in the middle", unit numbers change.
->> ABI break.  Hard to spot in review.
->>
->> Machine "quanta-gbs-bmc" connects just one backend with
->> drive_get_next(), but with a helper function.  Change it to use
->> drive_get() directly.  This makes the unit numbers explicit in the
->> code.
->>
->> Cc: Havard Skinnemoen <hskinnemoen@google.com>
->> Cc: Tyrone Ting <kfting@nuvoton.com>
->> Cc: Peter Maydell <peter.maydell@linaro.org>
->> Cc: qemu-arm@nongnu.org
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>  hw/arm/npcm7xx_boards.c | 6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
->> index dec7d16ae5..d8a49e4e85 100644
->> --- a/hw/arm/npcm7xx_boards.c
->> +++ b/hw/arm/npcm7xx_boards.c
->> @@ -84,9 +84,9 @@ static void npcm7xx_connect_dram(NPCM7xxState *soc, MemoryRegion *dram)
->>                               &error_abort);
->>  }
->>
->> -static void sdhci_attach_drive(SDHCIState *sdhci)
->> +static void sdhci_attach_drive(SDHCIState *sdhci, int unit)
->>  {
->> -        DriveInfo *di = drive_get_next(IF_SD);
->> +        DriveInfo *di = drive_get(IF_SD, 0, unit);
->
-> +Hao Wu IIRC the chip has separate SD and eMMC buses. Would it make
-> sense to take the bus number as a parameter as well? Is bus 0 the
-> right one to use in this case?
->
-> The existing code always uses bus 0, so this is an improvement either way.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ .gitlab-ci.yml | 24 ------------------------
+ 1 file changed, 24 deletions(-)
 
-Using separate buses for different kinds of devices would be neater, but
-it also would be an incompatible change.  I can't judge whether
-incompatible change is okay here.
-
-This patch is just refactoring code.  An interface change, if desired,
-should be a separate patch.
-
-> Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
-
-Thanks!
-
->
->>          BlockBackend *blk = di ? blk_by_legacy_dinfo(di) : NULL;
->>
->>          BusState *bus = qdev_get_child_bus(DEVICE(sdhci), "sd-bus");
->> @@ -374,7 +374,7 @@ static void quanta_gbs_init(MachineState *machine)
->>                            drive_get(IF_MTD, 0, 0));
->>
->>      quanta_gbs_i2c_init(soc);
->> -    sdhci_attach_drive(&soc->mmc.sdhci);
->> +    sdhci_attach_drive(&soc->mmc.sdhci, 0);
->>      npcm7xx_load_kernel(machine, soc);
->>  }
->>
->> --
->> 2.31.1
->>
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 129b2ff..dde0ef3 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -1,7 +1,6 @@
+ 
+ stages:
+   - build
+-  - update
+ 
+ pages:
+   image: centos:8
+@@ -19,26 +18,3 @@ pages:
+   artifacts:
+     paths:
+      - public
+-
+-deploy:
+-  image: centos:8
+-  stage: update
+-  needs:
+-    - job: pages
+-      artifacts: true
+-  before_script:
+-    - dnf install -y openssh-clients rsync
+-    - eval $(ssh-agent -s)
+-    - cat "$SSH_PRIVATE_KEY_FILE" | tr -d '\r' | ssh-add -
+-    - mkdir -m700 -p ~/.ssh
+-    - - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config'
+-  script:
+-    - ssh $SSH_DEPLOY_DESTINATION "cd /var/www/qemu-project.org && mkdir new && rsync -az root/ new"
+-    - rsync -avz --delete public/ $SSH_DEPLOY_DESTINATION:/var/www/qemu-project.org/new
+-    - ssh $SSH_DEPLOY_DESTINATION "cd /var/www/qemu-project.org && rm -rf old && mv root old && mv new root"
+-  only:
+-    refs:
+-      - master
+-    variables:
+-      - $SSH_PRIVATE_KEY_FILE
+-      - $SSH_DEPLOY_DESTINATION
+-- 
+2.33.1
 
 
