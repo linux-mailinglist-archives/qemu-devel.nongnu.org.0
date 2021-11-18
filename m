@@ -2,71 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DF1B455E63
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 15:39:44 +0100 (CET)
-Received: from localhost ([::1]:41292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D876455E69
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 15:43:11 +0100 (CET)
+Received: from localhost ([::1]:44234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mniZj-0002VW-Gv
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 09:39:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46960)
+	id 1mnid4-0004fB-Fr
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 09:43:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mniWP-0004qc-IM
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 09:36:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30078)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mnic3-0003nQ-Al; Thu, 18 Nov 2021 09:42:07 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:39401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mniWN-0004mq-T2
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 09:36:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637246175;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RLvn5axLfKncylepktKIonBhDChuf9AdJ2wVIfSEnAM=;
- b=a1z81l5+CJg8Ovfnf9Pm/D6rEZSt6O1HPtbzL6WXHc6EdEN33okbDGv763zPsewr2XLlJS
- vswDStlghRXxihYzKy5qxCpnoUNmUxobHFlVCG4zlIGieMkTkCQBBuIsrMNnWEWXiJL6hY
- o6V+P/xuDa3Jpx5zqyww9x3bTPqGp7c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-436-7KSAYSxrMKeCjGVMI_ByUg-1; Thu, 18 Nov 2021 09:36:13 -0500
-X-MC-Unique: 7KSAYSxrMKeCjGVMI_ByUg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 000851B2C981;
- Thu, 18 Nov 2021 14:36:12 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.33.36.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 86D7C179B3;
- Thu, 18 Nov 2021 14:36:10 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] block: print the server key type and fingerprint on
- failure
-Date: Thu, 18 Nov 2021 14:35:47 +0000
-Message-Id: <20211118143547.2045554-4-berrange@redhat.com>
-In-Reply-To: <20211118143547.2045554-1-berrange@redhat.com>
-References: <20211118143547.2045554-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mnic0-0005ZY-SK; Thu, 18 Nov 2021 09:42:07 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.132])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id CCDF0CC642FC;
+ Thu, 18 Nov 2021 15:41:58 +0100 (CET)
+Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Thu, 18 Nov
+ 2021 15:41:57 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G002ffd21ca9-e706-40ea-8dcf-22e4bb212975,
+ 4A6ABDF66DC85A3D00A6C17CB73E494911F6EB6E) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.55.24.82
+Message-ID: <a092fc06-66e5-44b1-4e95-7b4a7325c140@kaod.org>
+Date: Thu, 18 Nov 2021 15:41:56 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2 12/13] hw/arm/aspeed: Replace drive_get_next() by
+ drive_get()
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>, <qemu-devel@nongnu.org>
+References: <20211117163409.3587705-1-armbru@redhat.com>
+ <20211117163409.3587705-13-armbru@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20211117163409.3587705-13-armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 6cb04726-a525-4d45-9888-7bcf4e3ceef2
+X-Ovh-Tracer-Id: 7365074242974878569
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrfeeigdeigecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.084,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,109 +71,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Richard W.M. Jones" <rjones@redhat.com>, qemu-block@nongnu.org
+Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When validating the server key fingerprint fails, it is difficult for
-the user to know what they got wrong. The fingerprint accepted by QEMU
-is received in a different format than openssh displays. There can also
-be keys for multiple different ciphers in known_hosts. It may not be
-obvious which cipher QEMU will use and whether it will be the same
-as openssh. Address this by printing the server key type and its
-corresponding fingerprint in the format QEMU accepts.
+On 11/17/21 17:34, Markus Armbruster wrote:
+> drive_get_next() is basically a bad idea.  It returns the "next" block
+> backend of a certain interface type.  "Next" means bus=0,unit=N, where
+> subsequent calls count N up from zero, per interface type.
+> 
+> This lets you define unit numbers implicitly by execution order.  If the
+> order changes, or new calls appear "in the middle", unit numbers change.
+> ABI break.  Hard to spot in review.
+>
+> The aspeed machines connects backends with drive_get_next() in several
+> counting loops, one of them in a helper function, and a conditional.
+> Change it to use drive_get() directly.  This makes the unit numbers
+> explicit in the code.
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- block/ssh.c | 37 ++++++++++++++++++++++++++++++-------
- 1 file changed, 30 insertions(+), 7 deletions(-)
+I hope we can introduce some bus id. At least for the SPI controllers.
+  
+> Cc: "Cédric Le Goater" <clg@kaod.org>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Andrew Jeffery <andrew@aj.id.au>
+> Cc: Joel Stanley <joel@jms.id.au>
+> Cc: qemu-arm@nongnu.org
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
 
-diff --git a/block/ssh.c b/block/ssh.c
-index fcc0ab765a..967a2b971e 100644
---- a/block/ssh.c
-+++ b/block/ssh.c
-@@ -386,14 +386,28 @@ static int compare_fingerprint(const unsigned char *fingerprint, size_t len,
-     return *host_key_check - '\0';
- }
- 
-+static char *format_fingerprint(const unsigned char *fingerprint, size_t len)
-+{
-+    static const char *hex = "0123456789abcdef";
-+    char *ret = g_new0(char, (len * 2) + 1);
-+    for (size_t i = 0; i < len; i++) {
-+        ret[i * 2] = hex[((fingerprint[i] >> 4) & 0xf)];
-+        ret[(i * 2) + 1] = hex[(fingerprint[i] & 0xf)];
-+    }
-+    ret[len * 2] = '\0';
-+    return ret;
-+}
-+
- static int
- check_host_key_hash(BDRVSSHState *s, const char *hash,
--                    enum ssh_publickey_hash_type type, Error **errp)
-+                    enum ssh_publickey_hash_type type, const char *typestr,
-+                    Error **errp)
- {
-     int r;
-     ssh_key pubkey;
-     unsigned char *server_hash;
-     size_t server_hash_len;
-+    const char *keytype;
- 
-     r = ssh_get_server_publickey(s->session, &pubkey);
-     if (r != SSH_OK) {
-@@ -401,6 +415,8 @@ check_host_key_hash(BDRVSSHState *s, const char *hash,
-         return -EINVAL;
-     }
- 
-+    keytype = ssh_key_type_to_char(ssh_key_type(pubkey));
-+
-     r = ssh_get_publickey_hash(pubkey, type, &server_hash, &server_hash_len);
-     ssh_key_free(pubkey);
-     if (r != 0) {
-@@ -410,12 +426,16 @@ check_host_key_hash(BDRVSSHState *s, const char *hash,
-     }
- 
-     r = compare_fingerprint(server_hash, server_hash_len, hash);
--    ssh_clean_pubkey_hash(&server_hash);
-     if (r != 0) {
--        error_setg(errp, "remote host key does not match host_key_check '%s'",
--                   hash);
-+        g_autofree char *server_fp = format_fingerprint(server_hash,
-+                                                        server_hash_len);
-+        error_setg(errp, "remote host %s key fingerprint '%s:%s' "
-+                   "does not match host_key_check '%s:%s'",
-+                   keytype, typestr, server_fp, typestr, hash);
-+        ssh_clean_pubkey_hash(&server_hash);
-         return -EPERM;
-     }
-+    ssh_clean_pubkey_hash(&server_hash);
- 
-     return 0;
- }
-@@ -436,13 +456,16 @@ static int check_host_key(BDRVSSHState *s, SshHostKeyCheck *hkc, Error **errp)
-     case SSH_HOST_KEY_CHECK_MODE_HASH:
-         if (hkc->u.hash.type == SSH_HOST_KEY_CHECK_HASH_TYPE_MD5) {
-             return check_host_key_hash(s, hkc->u.hash.hash,
--                                       SSH_PUBLICKEY_HASH_MD5, errp);
-+                                       SSH_PUBLICKEY_HASH_MD5, "md5",
-+                                       errp);
-         } else if (hkc->u.hash.type == SSH_HOST_KEY_CHECK_HASH_TYPE_SHA1) {
-             return check_host_key_hash(s, hkc->u.hash.hash,
--                                       SSH_PUBLICKEY_HASH_SHA1, errp);
-+                                       SSH_PUBLICKEY_HASH_SHA1, "sha1",
-+                                       errp);
-         } else if (hkc->u.hash.type == SSH_HOST_KEY_CHECK_HASH_TYPE_SHA256) {
-             return check_host_key_hash(s, hkc->u.hash.hash,
--                                       SSH_PUBLICKEY_HASH_SHA256, errp);
-+                                       SSH_PUBLICKEY_HASH_SHA256, "sha256",
-+                                       errp);
-         }
-         g_assert_not_reached();
-         break;
--- 
-2.31.1
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+
+Thanks,
+
+C.
+
+>   hw/arm/aspeed.c | 21 +++++++++++++--------
+>   1 file changed, 13 insertions(+), 8 deletions(-)
+> 
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index a77f46b3ad..cf20ae0db5 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -284,12 +284,13 @@ static void write_boot_rom(DriveInfo *dinfo, hwaddr addr, size_t rom_size,
+>   }
+>   
+>   static void aspeed_board_init_flashes(AspeedSMCState *s,
+> -                                      const char *flashtype)
+> +                                      const char *flashtype,
+> +                                      int unit0)
+>   {
+>       int i ;
+>   
+>       for (i = 0; i < s->num_cs; ++i) {
+> -        DriveInfo *dinfo = drive_get_next(IF_MTD);
+> +        DriveInfo *dinfo = drive_get(IF_MTD, 0, unit0 + i);
+>           qemu_irq cs_line;
+>           DeviceState *dev;
+>   
+> @@ -382,10 +383,12 @@ static void aspeed_machine_init(MachineState *machine)
+>                             "max_ram", max_ram_size  - machine->ram_size);
+>       memory_region_add_subregion(&bmc->ram_container, machine->ram_size, &bmc->max_ram);
+>   
+> -    aspeed_board_init_flashes(&bmc->soc.fmc, bmc->fmc_model ?
+> -                              bmc->fmc_model : amc->fmc_model);
+> -    aspeed_board_init_flashes(&bmc->soc.spi[0], bmc->spi_model ?
+> -                              bmc->spi_model : amc->spi_model);
+> +    aspeed_board_init_flashes(&bmc->soc.fmc,
+> +                              bmc->fmc_model ? bmc->fmc_model : amc->fmc_model,
+> +                              0);
+> +    aspeed_board_init_flashes(&bmc->soc.spi[0],
+> +                              bmc->spi_model ? bmc->spi_model : amc->spi_model,
+> +                              bmc->soc.fmc.num_cs);
+>   
+>       /* Install first FMC flash content as a boot rom. */
+>       if (drive0) {
+> @@ -435,11 +438,13 @@ static void aspeed_machine_init(MachineState *machine)
+>       }
+>   
+>       for (i = 0; i < bmc->soc.sdhci.num_slots; i++) {
+> -        sdhci_attach_drive(&bmc->soc.sdhci.slots[i], drive_get_next(IF_SD));
+> +        sdhci_attach_drive(&bmc->soc.sdhci.slots[i],
+> +                           drive_get(IF_SD, 0, i));
+>       }
+>   
+>       if (bmc->soc.emmc.num_slots) {
+> -        sdhci_attach_drive(&bmc->soc.emmc.slots[0], drive_get_next(IF_SD));
+> +        sdhci_attach_drive(&bmc->soc.emmc.slots[0],
+> +                           drive_get(IF_SD, 0, bmc->soc.sdhci.num_slots));
+>       }
+>   
+>       arm_load_kernel(ARM_CPU(first_cpu), machine, &aspeed_board_binfo);
+> 
 
 
