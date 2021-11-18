@@ -2,56 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 203A7456238
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 19:19:12 +0100 (CET)
-Received: from localhost ([::1]:49282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 978F9456247
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 19:22:09 +0100 (CET)
+Received: from localhost ([::1]:55754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnm05-000103-Db
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 13:19:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55112)
+	id 1mnm2y-0005QU-OY
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 13:22:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1mnlyT-0006uo-F2
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 13:17:29 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:34692
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1mnlyP-0006J0-9o
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 13:17:29 -0500
-HMM_SOURCE_IP: 172.18.0.218:59574.644898278
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-171.223.99.79 (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 06059280095;
- Fri, 19 Nov 2021 02:17:11 +0800 (CST)
-X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
-Received: from  ([172.18.0.218])
- by app0025 with ESMTP id 85ed266c323d40fa969ffd09a4ae8cfb for
- qemu-devel@nongnu.org; Fri, 19 Nov 2021 02:17:18 CST
-X-Transaction-ID: 85ed266c323d40fa969ffd09a4ae8cfb
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.218
-X-MEDUSA-Status: 0
-From: huangy81@chinatelecom.cn
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v2 3/3] cpus-common: implement dirty limit on vCPU
-Date: Fri, 19 Nov 2021 02:17:03 +0800
-Message-Id: <1d7b72b34a97fcd8ece586a4671abc0916fc67ee.1637258578.git.huangy81@chinatelecom.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1637256224.git.huangy81@chinatelecom.cn>
-References: <cover.1637256224.git.huangy81@chinatelecom.cn>
-In-Reply-To: <cover.1637258578.git.huangy81@chinatelecom.cn>
-References: <cover.1637258578.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mnlzk-0002B1-3X
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 13:18:48 -0500
+Received: from [2001:41c9:1:41f::167] (port=45156
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mnlzh-0006S1-E3
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 13:18:47 -0500
+Received: from [2a00:23c4:8b9e:9b00:2535:46c:7466:70fe] (helo=kentang.home)
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mnlzW-0001qH-5b; Thu, 18 Nov 2021 18:18:38 +0000
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Date: Thu, 18 Nov 2021 18:18:33 +0000
+Message-Id: <20211118181835.18497-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.222;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+X-SA-Exim-Connect-IP: 2a00:23c4:8b9e:9b00:2535:46c:7466:70fe
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PATCH for-6.2 0/2] escc: fixes for STATUS_TXEMPTY and SPEC_ALLSENT
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+ (failed)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,170 +60,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Hyman <huangy81@chinatelecom.cn>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+This is another attempt to fix booting 32-bit QEMU SPARC machines in
+qemu-system-sparc using a real Sun PROM based upon further experiments and
+re-reading of the ESCC datasheet from a previous patch posted at
+https://lists.gnu.org/archive/html/qemu-devel/2021-11/msg00324.html.
 
-implement dirtyrate calculation periodically basing on
-dirty-ring and throttle vCPU until it reachs the quota
-dirtyrate given by user.
+It appears that both the Sun PROM and OpenBSD with OpenBIOS fail to send an
+explicit reset command as recommended in the ESCC datasheet, which causes
+hangs during serial port enumeration since the introduction of the recent
+ESCC reset changes.
 
-introduce qmp commands set-dirty-limit/cancel-dirty-limit to
-set/cancel dirty limit on vCPU.
+The first patch always sets STATUS_TXEMPTY in R_STATUS on hardware reset
+which wasn't documented in the "Reset" section(s) but is documented in the
+"Transmit Interrupts and Transmit Buffer Empty Bit" section, whilst the
+second patch updates SPEC_ALLSENT when writing to W_TXCTRL1.
 
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
----
- cpus-common.c         | 41 +++++++++++++++++++++++++++++++++++++++++
- include/hw/core/cpu.h |  7 +++++++
- qapi/misc.json        | 44 ++++++++++++++++++++++++++++++++++++++++++++
- softmmu/vl.c          |  1 +
- 4 files changed, 93 insertions(+)
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-diff --git a/cpus-common.c b/cpus-common.c
-index 6e73d3e..e32612b 100644
---- a/cpus-common.c
-+++ b/cpus-common.c
-@@ -23,6 +23,11 @@
- #include "hw/core/cpu.h"
- #include "sysemu/cpus.h"
- #include "qemu/lockable.h"
-+#include "sysemu/dirtylimit.h"
-+#include "sysemu/cpu-throttle.h"
-+#include "sysemu/kvm.h"
-+#include "qapi/error.h"
-+#include "qapi/qapi-commands-misc.h"
- 
- static QemuMutex qemu_cpu_list_lock;
- static QemuCond exclusive_cond;
-@@ -352,3 +357,39 @@ void process_queued_cpu_work(CPUState *cpu)
-     qemu_mutex_unlock(&cpu->work_mutex);
-     qemu_cond_broadcast(&qemu_work_cond);
- }
-+
-+void qmp_set_dirty_limit(int64_t idx,
-+                         uint64_t dirtyrate,
-+                         Error **errp)
-+{
-+    if (!kvm_dirty_ring_enabled()) {
-+        error_setg(errp, "dirty ring not enable, needed by dirty restraint!");
-+        return;
-+    }
-+
-+    dirtylimit_calc();
-+    dirtylimit_vcpu(idx, dirtyrate);
-+}
-+
-+void qmp_cancel_dirty_limit(int64_t idx,
-+                            Error **errp)
-+{
-+    if (!kvm_dirty_ring_enabled()) {
-+        error_setg(errp, "dirty ring not enable, needed by dirty restraint!");
-+        return;
-+    }
-+
-+    if (unlikely(!dirtylimit_cancel_vcpu(idx))) {
-+        dirtylimit_calc_quit();
-+    }
-+}
-+
-+void dirtylimit_setup(int max_cpus)
-+{
-+    if (!kvm_dirty_ring_enabled()) {
-+        return;
-+    }
-+
-+    dirtylimit_calc_state_init(max_cpus);
-+    dirtylimit_state_init(max_cpus);
-+}
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index e948e81..dd65e9e 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -881,6 +881,13 @@ void end_exclusive(void);
-  */
- void qemu_init_vcpu(CPUState *cpu);
- 
-+/**
-+ * dirtylimit_setup:
-+ *
-+ * dirtylimit setup.
-+ */
-+void dirtylimit_setup(int max_cpus);
-+
- #define SSTEP_ENABLE  0x1  /* Enable simulated HW single stepping */
- #define SSTEP_NOIRQ   0x2  /* Do not use IRQ while single stepping */
- #define SSTEP_NOTIMER 0x4  /* Do not Timers while single stepping */
-diff --git a/qapi/misc.json b/qapi/misc.json
-index 358548a..7f6da34 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -527,3 +527,47 @@
-  'data': { '*option': 'str' },
-  'returns': ['CommandLineOptionInfo'],
-  'allow-preconfig': true }
-+
-+##
-+# @DirtyRateQuotaVcpu:
-+#
-+# Dirty rate of vcpu.
-+#
-+# @idx: vcpu index.
-+#
-+# @dirtyrate: dirty rate.
-+#
-+# Since: 6.3
-+#
-+##
-+{ 'struct': 'DirtyRateQuotaVcpu',
-+  'data': { 'idx': 'int', 'dirtyrate': 'uint64' } }
-+
-+##
-+# @set-dirty-limit:
-+#
-+# Since: 6.3
-+#
-+# Example:
-+#   {"execute": "set-dirty-limit"}
-+#    "arguments": { "idx": "cpu-index",
-+#                   "dirtyrate": "quota-dirtyrate" } }
-+#
-+##
-+{ 'command': 'set-dirty-limit',
-+  'data': 'DirtyRateQuotaVcpu' }
-+
-+##
-+# @cancel-dirty-limit:
-+#
-+# @idx: index of vCPU to be canceled
-+#
-+# Since: 6.3
-+#
-+# Example:
-+#   {"execute": "cancel-dirty-limit"}
-+#    "arguments": { "idx": "cpu-index" } }
-+#
-+##
-+{ 'command': 'cancel-dirty-limit',
-+  'data': { 'idx': 'int' } }
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 1159a64..170ee23 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -3776,5 +3776,6 @@ void qemu_init(int argc, char **argv, char **envp)
-     qemu_init_displays();
-     accel_setup_post(current_machine);
-     os_setup_post();
-+    dirtylimit_setup(current_machine->smp.max_cpus);
-     resume_mux_open();
- }
+
+Mark Cave-Ayland (2):
+  escc: always set STATUS_TXEMPTY in R_STATUS on device reset
+  escc: update the R_SPEC register SPEC_ALLSENT bit when writing to
+    W_TXCTRL1
+
+ hw/char/escc.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
 -- 
-1.8.3.1
+2.20.1
 
 
