@@ -2,97 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53EFE455907
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 11:26:52 +0100 (CET)
-Received: from localhost ([::1]:42502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 601B6455911
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 11:30:47 +0100 (CET)
+Received: from localhost ([::1]:50184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mned0-0000XM-Ty
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 05:26:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32854)
+	id 1mnegm-00063r-6k
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 05:30:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mnebM-0007w3-Dg
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 05:25:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60164)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1mneev-0003uq-1u; Thu, 18 Nov 2021 05:28:49 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mnebI-0003ts-Nw
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 05:25:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637231103;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6gL5u5mNIhD41K5wGbz1q1dUISLddKIVjUF0lh6SRWs=;
- b=hqc8VrvFQMCEC1/zBl5LOxNhn+1V+TZdD1cV+lyHIP9FX3FbU4gziomqFdfi6Vb2IPdY8F
- eIIK/8PJIBNxE7onDS/G1hNBs0+29Aragk+Yvrf2sPxpXzbNNXNsCuWNMEUQsHdrlLUf1w
- SV2LX96buhX6zrCL2gu6Rvh32U39LRc=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-303-zNwE0f57PPOxmvAfMGCE9A-1; Thu, 18 Nov 2021 05:25:02 -0500
-X-MC-Unique: zNwE0f57PPOxmvAfMGCE9A-1
-Received: by mail-ed1-f69.google.com with SMTP id
- i19-20020a05640242d300b003e7d13ebeedso4863655edc.7
- for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 02:25:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=6gL5u5mNIhD41K5wGbz1q1dUISLddKIVjUF0lh6SRWs=;
- b=uZTAI1dXpazrjkWoDal2z/WOwn04i/7nGTxiHzaSlFhnzFQirk7hg5nqPOpXqs4a/6
- VzmK01LE8FImENFolrEStS+IfCEl4PM5BegiyIbICgWWEJRRHMl9EYL/xq79NnbHNh+/
- WU2cP24gx18Vc4CbtE0UGxIw3xPkseSFGFvjkcy/Y6yDSXqOFMujgOl1mjei5HflxejX
- l4XohrfZ8lZDTEyN7ht7S+KA0hVKsDKc83br60cNIusl1wJ2aak/vJUDGonXScHqiNkZ
- FGIagZa9aPECaK3jIm97mS1yCqTTXwQSAhDbVKuBSuooIqO7K8NH8CqVdzPY9OuCxMM+
- yO5w==
-X-Gm-Message-State: AOAM531rDo6zT6ayp3ik4YWRkz7sd/fKK6DIQ9MqQ9Z3cBwuaqZv2ena
- Mtq8z3jFwtV3gv43Dz/JTOKyisbZdZ2JVBLMExXxQu7vKckQT0TNVfeG81CoAr3X3SJqWEMPMBh
- DaArERIe3oRfUcg0=
-X-Received: by 2002:a05:6402:1d50:: with SMTP id
- dz16mr9383597edb.125.1637231100826; 
- Thu, 18 Nov 2021 02:25:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzA37RBBifKwsnoOaWU5ZatJjHHpIcCAKRAv6HcLCBp3AEXNXXzVpaQr22Q6kg86Dq3G7Spwg==
-X-Received: by 2002:a05:6402:1d50:: with SMTP id
- dz16mr9383544edb.125.1637231100537; 
- Thu, 18 Nov 2021 02:25:00 -0800 (PST)
-Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
- ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id ne33sm1143210ejc.6.2021.11.18.02.24.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Nov 2021 02:25:00 -0800 (PST)
-Message-ID: <d6d90f61-ce98-a86c-1919-0b527b8e5c9e@redhat.com>
-Date: Thu, 18 Nov 2021 11:24:59 +0100
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1mneer-0004RD-1w; Thu, 18 Nov 2021 05:28:48 -0500
+Received: from fraeml705-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4HvwxS40rCz67rNM;
+ Thu, 18 Nov 2021 18:28:28 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml705-chm.china.huawei.com (10.206.15.54) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.20; Thu, 18 Nov 2021 11:28:41 +0100
+Received: from localhost (10.52.127.148) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Thu, 18 Nov
+ 2021 10:28:40 +0000
+Date: Thu, 18 Nov 2021 10:28:37 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v2] hw/arm/virt: Expose empty NUMA nodes through ACPI
+Message-ID: <20211118102837.00002069@Huawei.com>
+In-Reply-To: <8576e0e8-aa06-1c05-9849-806c2bce4141@redhat.com>
+References: <20211027052958.280741-1-gshan@redhat.com>
+ <20211027174028.1f16fcfb@redhat.com>
+ <fecb9351-ae78-8fcd-e377-623243ef80df@redhat.com>
+ <20211101094431.71e1a50a@redhat.com>
+ <47dc3a95-ed77-6c0e-d024-27cb22c338eb@redhat.com>
+ <20211102073948.am3p3hcqqd3cfvru@gator.home>
+ <b8ed4687-e30a-d70f-0816-bd8ba490ceb7@redhat.com>
+ <20211110113304.2d713d4a@redhat.com>
+ <5180ecee-62e2-cd6f-d595-c7c29eff6039@redhat.com>
+ <20211112142751.4807ab50@redhat.com>
+ <188faab7-1e57-2bc1-846f-9457433c2f9d@redhat.com>
+ <20211117143015.00002e0a@Huawei.com>
+ <8576e0e8-aa06-1c05-9849-806c2bce4141@redhat.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v4 08/25] block: introduce assert_bdrv_graph_writable
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
-References: <20211025101735.2060852-1-eesposit@redhat.com>
- <20211025101735.2060852-9-eesposit@redhat.com>
- <734073bb-80e6-3caf-d6b5-c8f2ade86044@redhat.com>
- <ff4a4c8e-93c3-2954-27ef-68587f3868ec@redhat.com>
-In-Reply-To: <ff4a4c8e-93c3-2954-27ef-68587f3868ec@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.52.127.148]
+X-ClientProxiedBy: lhreml749-chm.china.huawei.com (10.201.108.199) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.084, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,237 +76,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: peter.maydell@linaro.org, Andrew Jones <drjones@redhat.com>,
+ Gavin Shan <gshan@redhat.com>, ehabkost@redhat.com,
+ richard.henderson@linaro.org, alison.schofield@intel.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, shan.gavin@gmail.com,
+ Igor Mammedov <imammedo@redhat.com>, Dan Williams <dan.j.williams@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 17 Nov 2021 19:08:28 +0100
+David Hildenbrand <david@redhat.com> wrote:
+
+> On 17.11.21 15:30, Jonathan Cameron wrote:
+> > On Tue, 16 Nov 2021 12:11:29 +0100
+> > David Hildenbrand <david@redhat.com> wrote:
+> >   
+> >>>>
+> >>>> Examples include exposing HBM or PMEM to the VM. Just like on real HW,
+> >>>> this memory is exposed via cpu-less, special nodes. In contrast to real
+> >>>> HW, the memory is hotplugged later (I don't think HW supports hotplug
+> >>>> like that yet, but it might just be a matter of time).    
+> >>>
+> >>> I suppose some of that maybe covered by GENERIC_AFFINITY entries in SRAT
+> >>> some by MEMORY entries. Or nodes created dynamically like with normal
+> >>> hotplug memory.
+> >>>     
+> >   
+> 
+> Hi Jonathan,
+> 
+> > The naming of the define is unhelpful.  GENERIC_AFFINITY here corresponds
+> > to Generic Initiator Affinity.  So no good for memory. This is meant for
+> > representation of accelerators / network cards etc so you can get the NUMA
+> > characteristics for them accessing Memory in other nodes.
+> > 
+> > My understanding of 'traditional' memory hotplug is that typically the
+> > PA into which memory is hotplugged is known at boot time whether or not
+> > the memory is physically present.  As such, you present that in SRAT and rely
+> > on the EFI memory map / other information sources to know the memory isn't
+> > there.  When it is hotplugged later the address is looked up in SRAT to identify
+> > the NUMA node.  
+> 
+> in virtualized environments we use the SRAT only to indicate the hotpluggable
+> region (-> indicate maximum possible PFN to the guest OS), the actual present
+> memory+PXM assignment is not done via SRAT. We differ quite a lot here from
+> actual hardware I think.
+> 
+> > 
+> > That model is less useful for more flexible entities like virtio-mem or
+> > indeed physical hardware such as CXL type 3 memory devices which typically
+> > need their own nodes.
+> > 
+> > For the CXL type 3 option, currently proposal is to use the CXL table entries
+> > representing Physical Address space regions to work out how many NUMA nodes
+> > are needed and just create extra ones at boot.
+> > https://lore.kernel.org/linux-cxl/163553711933.2509508.2203471175679990.stgit@dwillia2-desk3.amr.corp.intel.com
+> > 
+> > It's a heuristic as we might need more nodes to represent things well kernel
+> > side, but it's better than nothing and less effort that true dynamic node creation.
+> > If you chase through the earlier versions of Alison's patch you will find some
+> > discussion of that.
+> > 
+> > I wonder if virtio-mem should just grow a CDAT instance via a DOE?
+> > 
+> > That would make all this stuff discoverable via PCI config space rather than ACPI
+> > CDAT is at:
+> > https://uefi.org/sites/default/files/resources/Coherent%20Device%20Attribute%20Table_1.01.pdf
+> > but the table access protocol over PCI DOE is currently in the CXL 2.0 spec
+> > (nothing stops others using it though AFAIK).
+> > 
+> > However, then we'd actually need either dynamic node creation in the OS, or
+> > some sort of reserved pool of extra nodes.  Long term it may be the most
+> > flexible option.  
+> 
+> 
+> I think for virtio-mem it's actually a bit simpler:
+> 
+> a) The user defined on the QEMU cmdline an empty node
+> b) The user assigned a virtio-mem device to a node, either when 
+>    coldplugging or hotplugging the device.
+> 
+> So we don't actually "hotplug" a new node, the (possible) node is already known
+> to QEMU right when starting up. It's just a matter of exposing that fact to the
+> guest OS -- similar to how we expose the maximum possible PFN to the guest OS.
+> It's seems to boild down to an ACPI limitation.
+> 
+> Conceptually, virtio-mem on an empty node in QEMU is not that different from
+> hot/coldplugging a CPU to an empty node or hot/coldplugging a DIMM/NVDIMM to
+> an empty node. But I guess it all just doesn't work with QEMU as of now.
+
+A side distraction perhaps, but there is a code first acpi proposal to add
+a 'softer' form of CPU hotplug 
+https://bugzilla.tianocore.org/show_bug.cgi?id=3706
+
+Whilst the reason for that proposal was for arm64 systems where there is no architected
+physical hotplug, it might partly solve the empty node question for CPUs.  They won't
+be empty, there will simply be CPUs that are marked as 'Online capable'.
+
+> 
+> In current x86-64 code, we define the "hotpluggable region" in hw/i386/acpi-build.c via
+> 
+> 	build_srat_memory(table_data, machine->device_memory->base,
+> 			  hotpluggable_address_space_size, nb_numa_nodes - 1,
+> 			  MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
+> 
+> So we tell the guest OS "this range is hotpluggable" and "it contains to
+> this node unless the device says something different". From both values we
+> can -- when under QEMU -- conclude the maximum possible PFN and the maximum
+> possible node. But the latter is not what Linux does: it simply maps the last
+> numa node (indicated in the memory entry) to a PXM
+> (-> drivers/acpi/numa/srat.c:acpi_numa_memory_affinity_init()).
+yeah.  There is nothing in ACPI that says there can't be holes in the node numbering
+so Linux does a remapping as you point out.
+
+> 
+> 
+> I do wonder if we could simply expose the same hotpluggable range via multiple nodes:
+
+Fairly sure the answer to this is no.  You'd have to indicate different ranges and
+then put the virtio-mem in the right one.  Now I can't actually find anywhere in the
+ACPI spec that says that but I'm 99% sure Linux won't like and I'm fairly sure if we
+query it with ACPI folks the answer will be a no you can't don't that.
 
 
-On 18/11/2021 10:55, Emanuele Giuseppe Esposito wrote:
 > 
-> On 12/11/2021 15:40, Hanna Reitz wrote:
->> On 25.10.21 12:17, Emanuele Giuseppe Esposito wrote:
->>> We want to be sure that the functions that write the child and
->>> parent list of a bs are under BQL and drain.
->>>
->>> BQL prevents from concurrent writings from the GS API, while
->>> drains protect from I/O.
->>>
->>> TODO: drains are missing in some functions using this assert.
->>> Therefore a proper assertion will fail. Because adding drains
->>> requires additional discussions, they will be added in future
->>> series.
->>>
->>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->>> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
->>> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
->>> ---
->>>   block.c                                |  5 +++++
->>>   block/io.c                             | 11 +++++++++++
->>>   include/block/block_int-global-state.h | 10 +++++++++-
->>>   3 files changed, 25 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/block.c b/block.c
->>> index 41c5883c5c..94bff5c757 100644
->>> --- a/block.c
->>> +++ b/block.c
->>> @@ -2734,12 +2734,14 @@ static void 
->>> bdrv_replace_child_noperm(BdrvChild *child,
->>>           if (child->klass->detach) {
->>>               child->klass->detach(child);
->>>           }
->>> +        assert_bdrv_graph_writable(old_bs);
->>>           QLIST_REMOVE(child, next_parent);
->>
->> I think this belongs above the .detach() call (and the QLIST_REMOVE() 
->> belongs into the .detach() implementation, as done in 
->> https://lists.nongnu.org/archive/html/qemu-block/2021-11/msg00240.html, which 
->> has been merged to Kevin’s block branch).
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index a3ad6abd33..6c0ab442ea 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -2084,6 +2084,22 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+>       * providing _PXM method if necessary.
+>       */
+>      if (hotpluggable_address_space_size) {
+> +        /*
+> +         * For the guest to "know" about possible nodes, we'll indicate the
+> +         * same hotpluggable region to all empty nodes.
+> +         */
+> +        for (i = 0; i < nb_numa_nodes - 1; i++) {
+> +            if (machine->numa_state->nodes[i].node_mem > 0) {
+> +                continue;
+> +            }
+> +            build_srat_memory(table_data, machine->device_memory->base,
+> +                              hotpluggable_address_space_size, i,
+> +                              MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
+> +        }
+> +        /*
+> +         * Historically, we always indicated all hotpluggable memory to the
+> +         * last node -- if it was empty or not.
+> +         */
+>          build_srat_memory(table_data, machine->device_memory->base,
+>                            hotpluggable_address_space_size, nb_numa_nodes - 1,
+>                            MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
 > 
-> Yes, I rebased on kwolf/block branch. Thank you for pointing that out.
->>
->>>       }
->>>       child->bs = new_bs;
->>>       if (new_bs) {
->>> +        assert_bdrv_graph_writable(new_bs);
->>>           QLIST_INSERT_HEAD(&new_bs->parents, child, next_parent);
->>
->> In both these places it’s a bit strange that the assertion is done on 
->> the child nodes.  The subgraph starting from them isn’t modified after 
->> all, so their subgraph technically doesn’t need to be writable.  I 
->> think a single assertion on the parent node would be preferable.
->>
->> I presume the problem with that is that we don’t have the parent node 
->> here?  Do we need a new BdrvChildClass method that performs this 
->> assertion on the parent node?
->>
 > 
-> Uhm I am not sure what you mean here.
+> Of course, this won't make CPU hotplug to empty nodes happy if we don't have
+> mempory hotplug enabled for a VM. I did not check in detail if that is valid
+> according to ACPI -- Linux might eat it (did not try yet, though).
 > 
-> Just to recap on how I see this: the assertion 
-> assert_bdrv_graph_writable(bs) is basically used to make sure we are 
-> protecting the write on some fields (childrens and parents lists in this 
-> patch) of a given @bs. It should work like a rwlock: reading is allowed 
-> to be concurrent, but a write should stop all readers to prevent 
-> concurrency issues. This is achieved by draining.
-
-I am thinking to add an additional explanation to 
-assert_bdrv_graph_writable header comment by saying
-"Drains act as a rwlock: while reading is allowed to be concurrent from 
-all iothreads, when a write needs to be performed we need to stop 
-(drain) all involved iothreads from reading the graph, to avoid race 
-conditions."
-
-Somethink like that.
-
-Emanuele
 > 
-> Let's use the first case that you point out, old_bs (it's specular for 
-> new_bs):
-> 
->  >> +        assert_bdrv_graph_writable(old_bs);
->  >>           QLIST_REMOVE(child, next_parent);
-> 
-> So old_bs should be the child "son" (child->bs), meaning old_bs->parents 
-> contains the child. Therefore when a child is removed by old_bs, we need 
-> to be sure we are doing it safely.
-> 
-> So we should check that if old_bs exists, old_bs should be drained, to 
-> prevent any other iothread from reading the ->parents list that is being 
-> updated.
-> 
-> The only thing to keep in mind in this case is that just wrapping a 
-> drain around that won't be enough, because then the child won't be 
-> included in the drain_end(old_bs). Therefore the right way to cover this 
-> drain-wise once the assertion also checks for drains is:
-> 
-> drain_begin(old_bs)
-> assert_bdrv_graph_writable(old_bs)
-> QLIST_REMOVE(child, next_parent)
-> /* old_bs will be under drain_end, but not the child */
-> bdrv_parent_drained_end_single(child);
-> bdrv_drained_end(old_bs);
-> 
-> I think you agree on this so far.
-> 
-> Now I think your concern is related to the child "parent", namely 
-> child->opaque. The problem is that in the .detach and .attach callbacks 
-> we are firstly adding/removing the child from the list, and then calling 
-> drain on the subtree. We would ideally need to do the opposite:
-> 
-> assert_bdrv_graph_writable(bs);
-> QLIST_REMOVE(child, next);
-> bdrv_unapply_subtree_drain(child, bs);
-> 
-> In this case I think this would actually work, because removing/adding 
-> the child from the ->children list beforehand just prevents an 
-> additional recursion call (I think, and the fact that tests are passing 
-> seems to confirm my theory).
-> 
-> Of course you know this stuff better than me, so let me know if 
-> something here is wrong.
-> 
->>>           /*
->>> @@ -2940,6 +2942,7 @@ static int 
->>> bdrv_attach_child_noperm(BlockDriverState *parent_bs,
->>>           return ret;
->>>       }
->>> +    assert_bdrv_graph_writable(parent_bs);
->>>       QLIST_INSERT_HEAD(&parent_bs->children, *child, next);
->>>       /*
->>>        * child is removed in bdrv_attach_child_common_abort(), so 
->>> don't care to
->>> @@ -3140,6 +3143,7 @@ static void 
->>> bdrv_unset_inherits_from(BlockDriverState *root, BdrvChild *child,
->>>   void bdrv_unref_child(BlockDriverState *parent, BdrvChild *child)
->>>   {
->>>       assert(qemu_in_main_thread());
->>> +    assert_bdrv_graph_writable(parent);
->>
->> It looks to me like we have this assertion mainly because 
->> bdrv_replace_child_noperm() doesn’t have a pointer to this parent 
->> node. It’s a workaround, but we should have this in every path that 
->> eventually ends up at bdrv_replace_child_noperm(), and that seems 
->> rather difficult for the bdrv_replace_node() family of functions. That 
->> to me sounds like it’d be good to have this as a BdrvChildClass function.
-> 
-> I think this assertion is wrong. There is no ->childrens or ->parents 
-> manipulation here, it used to be in one of the function that it calls 
-> internally, but now as you pointed out is moved to .attach and .detach. 
-> So I will remove this.
-> 
-> Not sure about the BdrvChildClass function, feel free to elaborate more 
-> if what I wrote above is wrong/does not make sense to you.
-> 
-> Thank you,
-> Emanuele
->>
->>>       if (child == NULL) {
->>>           return;
->>>       }
->>> @@ -4903,6 +4907,7 @@ static void 
->>> bdrv_remove_filter_or_cow_child_abort(void *opaque)
->>>       BdrvRemoveFilterOrCowChild *s = opaque;
->>>       BlockDriverState *parent_bs = s->child->opaque;
->>> +    assert_bdrv_graph_writable(parent_bs);
->>>       QLIST_INSERT_HEAD(&parent_bs->children, s->child, next);
->>>       if (s->is_backing) {
->>>           parent_bs->backing = s->child;
->>> diff --git a/block/io.c b/block/io.c
->>> index f271ab3684..1c71e354d6 100644
->>> --- a/block/io.c
->>> +++ b/block/io.c
->>> @@ -740,6 +740,17 @@ void bdrv_drain_all(void)
->>>       bdrv_drain_all_end();
->>>   }
->>> +void assert_bdrv_graph_writable(BlockDriverState *bs)
->>> +{
->>> +    /*
->>> +     * TODO: this function is incomplete. Because the users of this
->>> +     * assert lack the necessary drains, check only for BQL.
->>> +     * Once the necessary drains are added,
->>> +     * assert also for qatomic_read(&bs->quiesce_counter) > 0
->>> +     */
->>> +    assert(qemu_in_main_thread());
->>> +}
->>> +
->>>   /**
->>>    * Remove an active request from the tracked requests list
->>>    *
->>> diff --git a/include/block/block_int-global-state.h 
->>> b/include/block/block_int-global-state.h
->>> index d08e80222c..6bd7746409 100644
->>> --- a/include/block/block_int-global-state.h
->>> +++ b/include/block/block_int-global-state.h
->>> @@ -316,4 +316,12 @@ void 
->>> bdrv_remove_aio_context_notifier(BlockDriverState *bs,
->>>    */
->>>   void bdrv_drain_all_end_quiesce(BlockDriverState *bs);
->>> -#endif /* BLOCK_INT_GLOBAL_STATE*/
->>> +/**
->>> + * Make sure that the function is either running under
->>> + * drain and BQL. The latter protects from concurrent writings
->>
->> “either ... and” sounds wrong to me.  I’d drop the “either” or say 
->> “running under both drain and BQL”.
->>
->> Hanna
->>
->>> + * from the GS API, while the former prevents concurrent reads
->>> + * from I/O.
->>> + */
->>> +void assert_bdrv_graph_writable(BlockDriverState *bs);
->>> +
->>> +#endif /* BLOCK_INT_GLOBAL_STATE */
->>
 
 
