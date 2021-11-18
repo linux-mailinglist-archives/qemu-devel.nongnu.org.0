@@ -2,40 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 978F9456247
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 19:22:09 +0100 (CET)
-Received: from localhost ([::1]:55754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7477045624C
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 19:24:10 +0100 (CET)
+Received: from localhost ([::1]:58334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnm2y-0005QU-OY
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 13:22:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55502)
+	id 1mnm4v-0007Gd-BZ
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 13:24:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mnlzk-0002B1-3X
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 13:18:48 -0500
-Received: from [2001:41c9:1:41f::167] (port=45156
+ id 1mnlzn-0002FO-3H
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 13:18:52 -0500
+Received: from [2001:41c9:1:41f::167] (port=45160
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mnlzh-0006S1-E3
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 13:18:47 -0500
+ id 1mnlzl-0006SQ-PP
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 13:18:50 -0500
 Received: from [2a00:23c4:8b9e:9b00:2535:46c:7466:70fe] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mnlzW-0001qH-5b; Thu, 18 Nov 2021 18:18:38 +0000
+ id 1mnlza-0001qH-H5; Thu, 18 Nov 2021 18:18:42 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Date: Thu, 18 Nov 2021 18:18:33 +0000
-Message-Id: <20211118181835.18497-1-mark.cave-ayland@ilande.co.uk>
+Date: Thu, 18 Nov 2021 18:18:34 +0000
+Message-Id: <20211118181835.18497-2-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20211118181835.18497-1-mark.cave-ayland@ilande.co.uk>
+References: <20211118181835.18497-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8b9e:9b00:2535:46c:7466:70fe
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH for-6.2 0/2] escc: fixes for STATUS_TXEMPTY and SPEC_ALLSENT
+Subject: [PATCH for-6.2 1/2] escc: always set STATUS_TXEMPTY in R_STATUS on
+ device reset
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
@@ -63,32 +66,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is another attempt to fix booting 32-bit QEMU SPARC machines in
-qemu-system-sparc using a real Sun PROM based upon further experiments and
-re-reading of the ESCC datasheet from a previous patch posted at
-https://lists.gnu.org/archive/html/qemu-devel/2021-11/msg00324.html.
+The "Transmit Interrupts and Transmit Buffer Empty Bit" section of the ESCC
+datasheet states the following about the STATUS_TXEMPTY bit: "After a hardware
+reset (including a hardware reset by software), or a channel reset, this bit
+is set to 1".
 
-It appears that both the Sun PROM and OpenBSD with OpenBIOS fail to send an
-explicit reset command as recommended in the ESCC datasheet, which causes
-hangs during serial port enumeration since the introduction of the recent
-ESCC reset changes.
-
-The first patch always sets STATUS_TXEMPTY in R_STATUS on hardware reset
-which wasn't documented in the "Reset" section(s) but is documented in the
-"Transmit Interrupts and Transmit Buffer Empty Bit" section, whilst the
-second patch updates SPEC_ALLSENT when writing to W_TXCTRL1.
+Update escc_reset() to set the STATUS_TXEMPTY bit in the R_STATUS register
+on device reset as described which fixes a regression whereby the Sun PROM
+checks this bit early on startup and gets stuck in an infinite loop if it is
+not set.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+---
+ hw/char/escc.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-
-Mark Cave-Ayland (2):
-  escc: always set STATUS_TXEMPTY in R_STATUS on device reset
-  escc: update the R_SPEC register SPEC_ALLSENT bit when writing to
-    W_TXCTRL1
-
- hw/char/escc.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
-
+diff --git a/hw/char/escc.c b/hw/char/escc.c
+index 0fce4f6324..a7d9050c83 100644
+--- a/hw/char/escc.c
++++ b/hw/char/escc.c
+@@ -354,6 +354,17 @@ static void escc_reset(DeviceState *d)
+             cs->rregs[j] = 0;
+             cs->wregs[j] = 0;
+         }
++
++        /*
++         * ...but there is an exception. The "Transmit Interrupts and Transmit
++         * Buffer Empty Bit" section on page 50 of the ESCC datasheet says of
++         * the STATUS_TXEMPTY bit in R_STATUS: "After a hardware reset
++         * (including a hardware reset by software), or a channel reset, this
++         * bit is set to 1". The Sun PROM checks this bit early on startup and
++         * gets stuck in an infinite loop if it is not set.
++         */
++        cs->rregs[R_STATUS] |= STATUS_TXEMPTY;
++
+         escc_reset_chn(cs);
+     }
+ }
 -- 
 2.20.1
 
