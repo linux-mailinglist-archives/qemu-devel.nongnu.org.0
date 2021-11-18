@@ -2,44 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 886F7456015
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 17:05:03 +0100 (CET)
-Received: from localhost ([::1]:39584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D04455FEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Nov 2021 16:51:44 +0100 (CET)
+Received: from localhost ([::1]:59302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnjuI-0006Vw-2L
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 11:05:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46904)
+	id 1mnjhP-00008R-4X
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 10:51:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nia@netbsd.org>) id 1mnjp2-0004bC-9i
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 10:59:36 -0500
-Received: from [2001:470:a085:999::25] (port=55988 helo=mail.netbsd.org)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mnjgX-0007Qd-5T
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 10:50:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nia@netbsd.org>) id 1mnjoz-0002lh-Uh
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 10:59:35 -0500
-Received: by mail.netbsd.org (Postfix, from userid 1524)
- id 408C984ED3; Thu, 18 Nov 2021 15:50:12 +0000 (UTC)
-Date: Thu, 18 Nov 2021 15:50:12 +0000
-From: nia <nia@NetBSD.org>
-To: Kamil Rytarowski <kamil@netbsd.org>
-Subject: Re: [PATCH] nvmm: Fix support for stable version
-Message-ID: <YZZ2NBRs8udySgr4@homeworld.netbsd.org>
-References: <YWblCe2J8GwCaV9U@homeworld.netbsd.org>
- <e0e46321-86d8-349a-2850-b82cd8e716a2@netbsd.org>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mnjgV-0001Jt-JZ
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 10:50:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637250646;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=He7ksKjjXS0a4BtXsOZZMWgGYhJCaxAmAcdQYoJXr74=;
+ b=K2ZMyYOtFfcKho58c5VelG98X4K2rNyCPRrcjI750xAIh1YY5VYfq8RXFD/HVa/QUgWDVZ
+ Ui4iiHiQ4eGAIjqDgFA4E/Qyh/TRxiy7puBaK2k+El8mOtKuYrV+4fNa0l6JRPa3W42cQS
+ 07PHcoNfcmJcgmyDpSmLoPjyGVdEzuE=
+Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
+ [209.85.221.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-102-VAA6tPTYMw6zraCV76gBuA-1; Thu, 18 Nov 2021 10:50:43 -0500
+X-MC-Unique: VAA6tPTYMw6zraCV76gBuA-1
+Received: by mail-vk1-f198.google.com with SMTP id
+ m190-20020a1feec7000000b002fa5912bcd7so3155999vkh.21
+ for <qemu-devel@nongnu.org>; Thu, 18 Nov 2021 07:50:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=He7ksKjjXS0a4BtXsOZZMWgGYhJCaxAmAcdQYoJXr74=;
+ b=oh0ycQNO/LcQTagDnk/wDvJjSKO88ek3j/P0U2ir/CC5g3D4WWdj9GlFS07e08Omuh
+ gWB26xtj4il5dMNe4vKf9F1zVQS3rON1P3NR0B5dqj3U7m4IyfXIIB7Suqf7zfc2/03e
+ i0EJxy6bja6by8RS8NKhFvASPdJtsZQeBv7G57F7QQ15/a+crPCD5RuCstK7MqKAeN/M
+ 9TPJu1q3wFrQd66Gr0uqyQ7VhvkwHJfcnyp7Fsug+PI2B/HBXT1saJaXN3pp19vo5gcq
+ tjjg4LTeI0l6VyY5YGXr1wYE4SIvUuClUkD6O/rlzMiZSlbB28MaphG0iyuxFzwnztfy
+ hPIQ==
+X-Gm-Message-State: AOAM533vqoF/tt3PodUY0r4WG0kRhd+4LUlpFZfm6Myt2hl4RQ9htfe/
+ yFvXIn3bXaEWolxEP1vDGiHSxxF4mLQfmjv9leFohvILYHmOHJSiMD3t+G90uKmxTjDru2v38ue
+ edO4b1AfLa0ze6WqMS/HBfWVAjxnSIL4=
+X-Received: by 2002:a67:cb0c:: with SMTP id b12mr84692933vsl.13.1637250642705; 
+ Thu, 18 Nov 2021 07:50:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzpC9TF40EWGYqfhTwoUM+OypzPjaeGcOTElmJD6ZYYgPz05ck9D/MSeKD19PsxRh6MWa05Rv+uKhvO+pRtG7o=
+X-Received: by 2002:a67:cb0c:: with SMTP id b12mr84692887vsl.13.1637250642492; 
+ Thu, 18 Nov 2021 07:50:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e0e46321-86d8-349a-2850-b82cd8e716a2@netbsd.org>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:470:a085:999::25
- (failed)
-Received-SPF: pass client-ip=2001:470:a085:999::25;
- envelope-from=nia@netbsd.org; helo=mail.netbsd.org
-X-Spam_score_int: -33
-X-Spam_score: -3.4
+References: <20211117003317.2844087-1-jsnow@redhat.com>
+ <20211117094157.cef4x5jdsddd3hfy@sirius.home.kraxel.org>
+ <CAFn=p-Y-dxRLrvEwz1M=HgPumQqwzUSHe1UTy-H_9D8PuCv0xg@mail.gmail.com>
+ <20211118064534.vbamk7ky2b5hawqm@sirius.home.kraxel.org>
+In-Reply-To: <20211118064534.vbamk7ky2b5hawqm@sirius.home.kraxel.org>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 18 Nov 2021 10:50:31 -0500
+Message-ID: <CAFn=p-adBsoLYCEX0UM8PyHW0QcGKBQXUPeFBez8yZ-0AHMaDw@mail.gmail.com>
+Subject: Re: [PULL 0/5] Python patches
+To: Gerd Hoffmann <kraxel@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000f44f4105d1121ed2"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -52,93 +90,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, reinoud@netbsd.org,
- qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel Berrange <berrange@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping? It would be very nice if this could make it into 6.2
-so we don't have to continue patching around this.
+--000000000000f44f4105d1121ed2
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Nov 02, 2021 at 10:12:28AM +0100, Kamil Rytarowski wrote:
-> Reviewed-by: Kamil Rytarowski <kamil@netbsd.org>
-> 
-> Paolo, could you please merge it?
-> 
-> On 13.10.2021 15:54, nia wrote:
-> > NVMM user version 1 is the version being shipped with netbsd-9,
-> > which is the most recent stable branch of NetBSD. This makes it
-> > possible to use the NVMM accelerator on the most recent NetBSD
-> > release, 9.2, which lacks nvmm_cpu_stop.
-> > 
-> > (CC'ing maintainers)
-> > 
-> > Signed-off-by: Nia Alarie <nia@NetBSD.org>
-> > ---
-> >  meson.build                 |  4 +---
-> >  target/i386/nvmm/nvmm-all.c | 10 ++++++++++
-> >  2 files changed, 11 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/meson.build b/meson.build
-> > index 15ef4d3c41..6e4d9b919a 100644
-> > --- a/meson.build
-> > +++ b/meson.build
-> > @@ -244,9 +244,7 @@ if not get_option('hax').disabled()
-> >    endif
-> >  endif
-> >  if targetos == 'netbsd'
-> > -  if cc.has_header_symbol('nvmm.h', 'nvmm_cpu_stop', required: get_option('nvmm'))
-> > -    nvmm = cc.find_library('nvmm', required: get_option('nvmm'))
-> > -  endif
-> > +  nvmm = cc.find_library('nvmm', required: get_option('nvmm'))
-> >    if nvmm.found()
-> >      accelerators += 'CONFIG_NVMM'
-> >    endif
-> > diff --git a/target/i386/nvmm/nvmm-all.c b/target/i386/nvmm/nvmm-all.c
-> > index a488b00e90..4a10412427 100644
-> > --- a/target/i386/nvmm/nvmm-all.c
-> > +++ b/target/i386/nvmm/nvmm-all.c
-> > @@ -750,7 +750,11 @@ nvmm_vcpu_loop(CPUState *cpu)
-> >          nvmm_vcpu_pre_run(cpu);
-> >  
-> >          if (qatomic_read(&cpu->exit_request)) {
-> > +#if NVMM_USER_VERSION >= 2
-> >              nvmm_vcpu_stop(vcpu);
-> > +#else
-> > +            qemu_cpu_kick_self();
-> > +#endif
-> >          }
-> >  
-> >          /* Read exit_request before the kernel reads the immediate exit flag */
-> > @@ -767,6 +771,7 @@ nvmm_vcpu_loop(CPUState *cpu)
-> >          switch (exit->reason) {
-> >          case NVMM_VCPU_EXIT_NONE:
-> >              break;
-> > +#if NVMM_USER_VERSION >= 2
-> >          case NVMM_VCPU_EXIT_STOPPED:
-> >              /*
-> >               * The kernel cleared the immediate exit flag; cpu->exit_request
-> > @@ -775,6 +780,7 @@ nvmm_vcpu_loop(CPUState *cpu)
-> >              smp_wmb();
-> >              qcpu->stop = true;
-> >              break;
-> > +#endif
-> >          case NVMM_VCPU_EXIT_MEMORY:
-> >              ret = nvmm_handle_mem(mach, vcpu);
-> >              break;
-> > @@ -888,8 +894,12 @@ nvmm_ipi_signal(int sigcpu)
-> >  {
-> >      if (current_cpu) {
-> >          struct qemu_vcpu *qcpu = get_qemu_vcpu(current_cpu);
-> > +#if NVMM_USER_VERSION >= 2
-> >          struct nvmm_vcpu *vcpu = &qcpu->vcpu;
-> >          nvmm_vcpu_stop(vcpu);
-> > +#else
-> > +        qcpu->stop = true;
-> > +#endif
-> >      }
-> >  }
-> >  
-> > 
-> 
+On Thu, Nov 18, 2021 at 1:46 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+
+>   Hi,
+>
+> > - Split python/qemu/qmp out into its own repository and begin uploading
+> it
+> > to PyPI, as a test. (Do not delete python/qemu/qmp yet at this phase.)
+>
+> I think you can do that as two separate steps.
+>
+> pip can install from vcs too, i.e. when splitted to a separate repo but
+> not yet uploaded to pypi you can simply drop something like ...
+>
+>         git+https://gitlab.com/qemu/qemu-python.git@master
+>
+> ... into pip-requirements.txt.  That way you can easily test things
+> before actually uploading to pypi.
+>
+>
+Indeed - a limitation here however is that pip will not install from this
+source unless explicitly asked to, so you couldn't use this package as a
+requirement for another one, for example -- but it works as a testing step.
+but that's the rough outline of where I am headed and what I think needs to
+be done to get there. It's just taking me a while to get everything put in
+order exactly the right way to be able to flip the switch. Hopefully soon,
+though.
+
+I realized when re-reading my mails last night that I said I wouldn't be
+able to do it until "next release" but what I really meant was "until the
+next development window".
+
+--js
+
+--000000000000f44f4105d1121ed2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Nov 18, 2021 at 1:46 AM Gerd =
+Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=C2=A0 H=
+i,<br>
+<br>
+&gt; - Split python/qemu/qmp out into its own repository and begin uploadin=
+g it<br>
+&gt; to PyPI, as a test. (Do not delete python/qemu/qmp yet at this phase.)=
+<br>
+<br>
+I think you can do that as two separate steps.<br>
+<br>
+pip can install from vcs too, i.e. when splitted to a separate repo but<br>
+not yet uploaded to pypi you can simply drop something like ...<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 git+<a href=3D"https://gitlab.com/qemu/qemu-pyt=
+hon.git@master" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/qem=
+u/qemu-python.git@master</a><br>
+<br>
+... into pip-requirements.txt.=C2=A0 That way you can easily test things<br=
+>
+before actually uploading to pypi.<br>
+<br></blockquote><div><br></div><div>Indeed - a limitation here however is =
+that pip will not install from this source unless explicitly asked to, so y=
+ou couldn&#39;t use this package as a requirement for another one, for exam=
+ple -- but it works as a testing step. but that&#39;s the rough outline of =
+where I am headed and what I think needs to be done to get there. It&#39;s =
+just taking me a while to get everything put in order exactly the right way=
+ to be able to flip the switch. Hopefully soon, though.<br><br></div><div>I=
+ realized when re-reading my mails last night that I said I wouldn&#39;t be=
+ able to do it until &quot;next release&quot; but what I really meant was &=
+quot;until the next development window&quot;.<br></div><div><br></div><div>=
+--js<br></div></div></div>
+
+--000000000000f44f4105d1121ed2--
+
 
