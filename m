@@ -2,94 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6858B456DF2
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 12:05:55 +0100 (CET)
-Received: from localhost ([::1]:48382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90D6B456E09
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 12:12:35 +0100 (CET)
+Received: from localhost ([::1]:52130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo1iM-0003UT-Fa
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 06:05:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41584)
+	id 1mo1oo-0006OR-8q
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 06:12:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mo1gO-0002fD-AT
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 06:03:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.151.124]:47179)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mo1mu-0005cb-Nc
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 06:10:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38389)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mo1gM-0003hZ-Hv
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 06:03:52 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mo1ms-0005Jk-8i
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 06:10:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637319829;
+ s=mimecast20190719; t=1637320232;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bp4wN2AZ3JpBiQ02Qg4P2ZC1FxhTxgHFv3gNsqqtcVw=;
- b=hiQs/plfIpFfLJZnFnIDfgw5AYhDFuDyuNqwTFPv2sUyXmr1frP0tJMChBfX1aJ68d+GLf
- gdUT/YT7pb1TBvsAlqItclfvqJwJ80k2K0IJh6q0X0UaARZ+YlWvezf4wS1WLOwgBXJgGJ
- g3O1f5Ws43bwIVOxqpHwF2KwT++yC08=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=bp1iwj2YQk4L6D6SUpVdz5mojZME9d9CpESu4EYAtp0=;
+ b=QtylLyVXX+9NAJHGE62u3mYqBTyGtppJv1Q9dmoSJxo/xlk3X8qvdyym93q/9erkaToAOr
+ y5sy70LQ18maHpTwjO8sfTaGklN0UgwSUI00VD9ue8gWMdFTqxFTKHtsUPaoGlz3Zr5ed1
+ J684cKPCgDcoAZmHtECIdvz8aJTAmjA=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-2--Qtr5uKOMUOcMkRbDn0a9g-1; Fri, 19 Nov 2021 06:03:48 -0500
-X-MC-Unique: -Qtr5uKOMUOcMkRbDn0a9g-1
-Received: by mail-wr1-f72.google.com with SMTP id
- y4-20020adfd084000000b00186b16950f3so1715285wrh.14
- for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 03:03:48 -0800 (PST)
+ us-mta-269-x6erwJSwPam_G2s0OMb1Aw-1; Fri, 19 Nov 2021 06:10:31 -0500
+X-MC-Unique: x6erwJSwPam_G2s0OMb1Aw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ p4-20020aa7d304000000b003e7ef120a37so8079236edq.16
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 03:10:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=bp4wN2AZ3JpBiQ02Qg4P2ZC1FxhTxgHFv3gNsqqtcVw=;
- b=jWbhZr2qBLilkQg14gdPUsQnqSFlf6+o3C4mqWPUnjR1WQ7gia6vkjoPCXGVfp0zf5
- rir9IQU+I0QNTsh/4nLiL+Uh3OqCVRUwVJGn6qKoXv2Zjmm8XcPAWy2qiUuKAjPl0mM9
- Ie5caue0/90xgXoXeVD7yMBwdkOAihdONPQEXpVfu8QSyjPJUl3R1p5s3yreMVqUfv1w
- 7RWh7jORQwELciWwd9hfyb8PSVDAe7Sn3TCQ/PVnRM8XXhlvSV0Fy0OCEJyHc+yD064a
- 2O7yXcu6qX8M9ppUT/ehMrnelVft6HlBlSZTMx1sdJN4TxAW0rgCSb6sE6YuYugMmmQ5
- XFOw==
-X-Gm-Message-State: AOAM532UG4TFXbLzrMONg8wOBGFlTWb1LNrIQH0a0MbRhUJDqNqXaLmy
- rKsOvEBDl0EcfHXCGbvWA9NbvSpdI/tJsUOw1uOhbg+We2KefYR21woYkoyJEPgrgUymdcsTXQc
- ntCGq/aAG4yrGc+8=
-X-Received: by 2002:adf:e686:: with SMTP id r6mr6241345wrm.379.1637319827264; 
- Fri, 19 Nov 2021 03:03:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzDShv9PGU9vGhuIftBNMtD81l2D3Qu927ngRsQsadiSnJYfDc3/YIbBZP9vY8h/qLQNm6l8g==
-X-Received: by 2002:adf:e686:: with SMTP id r6mr6241308wrm.379.1637319827005; 
- Fri, 19 Nov 2021 03:03:47 -0800 (PST)
-Received: from [192.168.1.36] (62.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id o8sm2638804wrm.67.2021.11.19.03.03.45
+ bh=bp1iwj2YQk4L6D6SUpVdz5mojZME9d9CpESu4EYAtp0=;
+ b=veR3K4hKmOVRLl+igcf+N4UpHGmI8rYty87pCiMyALFfFGC4ZWi0GNycdL6sD5Y5Yu
+ t1WoniELTOXNyvqpdGDpvtu4XQwK5fTR4HZ1BhdE39SYT8DKSjEiyvdGpdqc4Bqg2cPN
+ NH1+HL0zql6cUwnFaiTA4CQTEb4A9UM3MsHKncYn6NHa5/MVMu7jf9NVZ+WO51DNE0mW
+ g4pR3cjWqRkBMjzPitoH8aMdmGYs5bozpWXHtCNxHoLa0IH94jvH1iyu+q6YXXq5lKb8
+ w2/6Z1bA+dBomB/cuXqn3f0M2zjYTi9i5ZVmjS30ze4o3/f8zRAopKYc3D2R0gdh0AuI
+ BpwQ==
+X-Gm-Message-State: AOAM5329lFEoA5rY+iclrLvztAtW8OduDALwNCqIpbqVlhDMqfc+jPtf
+ MO5xaTBbcOWAGl9kWf0Wo6KyfbwfRgDFS3e3BJq9XrMhTcAAS1lqvJBi5JSDhnT/rM5zyCK/4ch
+ ndzQln+mW854x+ns=
+X-Received: by 2002:a17:907:6291:: with SMTP id
+ nd17mr6742880ejc.194.1637320230335; 
+ Fri, 19 Nov 2021 03:10:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwu1hHag91cRhwoE7hE5iCcGtoSnlOoG3OF+QBrzK4CoED0kIGSosevvrnwNg1j+l/zWupkkA==
+X-Received: by 2002:a17:907:6291:: with SMTP id
+ nd17mr6742832ejc.194.1637320230066; 
+ Fri, 19 Nov 2021 03:10:30 -0800 (PST)
+Received: from [192.168.8.100] (tmo-097-143.customers.d1-online.com.
+ [80.187.97.143])
+ by smtp.gmail.com with ESMTPSA id t7sm1283215edi.90.2021.11.19.03.10.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Nov 2021 03:03:46 -0800 (PST)
-Message-ID: <45ffa010-7c93-1020-46b2-84c0f2060c20@redhat.com>
-Date: Fri, 19 Nov 2021 12:03:45 +0100
+ Fri, 19 Nov 2021 03:10:29 -0800 (PST)
+Message-ID: <031e8bff-5140-a3ee-99ae-da3136b5954f@redhat.com>
+Date: Fri, 19 Nov 2021 12:10:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH for-6.2] hw/misc/sifive_u_otp: Use IF_PFLASH for the OTP
- device instead of IF_NONE
-To: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
- Markus Armbruster <armbru@redhat.com>
-References: <20211119102549.217755-1-thuth@redhat.com>
- <f2de8ec7-3157-0f87-cfc8-70633e0f8658@redhat.com>
- <4a4c5223-905f-9974-3e54-e4ccd133c359@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <4a4c5223-905f-9974-3e54-e4ccd133c359@redhat.com>
+ Thunderbird/91.3.0
+Subject: Re: [PATCH-for-6.2 0/2] hw/display: Do not allow multiple (identical)
+ VGA devices
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>
+References: <20211118192020.61245-1-philmd@redhat.com>
+ <776204b8-22df-555b-1836-425995272fd9@ilande.co.uk>
+ <c7cb668d-1ed4-c9a6-7c27-d8892c625f0c@redhat.com>
+ <a77c94fe-633a-5c33-e6e5-2715f89f2b90@redhat.com>
+ <a77cae42-bedd-8380-f7ab-22bc99c6ccfb@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <a77cae42-bedd-8380-f7ab-22bc99c6ccfb@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.151.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.727, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-1.727, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, RCVD_IN_SORBS_WEB=1.5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,53 +108,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, "Jose R . Ziviani" <jziviani@suse.de>,
+ John Snow <jsnow@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/19/21 12:02, Thomas Huth wrote:
-> On 19/11/2021 11.40, Philippe Mathieu-Daudé wrote:
->> On 11/19/21 11:25, Thomas Huth wrote:
->>> Configuring a drive with "if=none" is meant for creation of a backend
->>> only, it should not get automatically assigned to a device frontend.
->>> Use "if=pflash" for the One-Time-Programmable device instead (like
->>> it is e.g. also done for the efuse device in hw/arm/xlnx-zcu102.c).
+On 19/11/2021 11.17, Philippe Mathieu-Daudé wrote:
+> On 11/19/21 10:58, Thomas Huth wrote:
+>> On 19/11/2021 10.49, Philippe Mathieu-Daudé wrote:
+>>> On 11/19/21 09:21, Mark Cave-Ayland wrote:
+>>>> On 18/11/2021 19:20, Philippe Mathieu-Daudé wrote:
+>>>>
+>>>>> Commit 7852a77f598 fixed creating multiple TYPE_ISA_VGA devices,
+>>>>> generalize the fix to all VGA devices.
+>>>>>
+>>>>> See https://gitlab.com/qemu-project/qemu/-/issues/44
+>>>>>
+>>>>> Philippe Mathieu-Daudé (2):
+>>>>>      hw/display: Add Error* handle to vga_common_init()
+>>>>>      hw/display: Do not allow multiple identical VGA devices
+>>>>>
+>>>>>     hw/display/vga_int.h        |  2 +-
+>>>>>     hw/display/ati.c            |  4 +++-
+>>>>>     hw/display/cirrus_vga.c     |  4 +++-
+>>>>>     hw/display/cirrus_vga_isa.c |  4 +++-
+>>>>>     hw/display/qxl.c            |  4 +++-
+>>>>>     hw/display/vga-isa-mm.c     |  3 ++-
+>>>>>     hw/display/vga-isa.c        | 11 ++---------
+>>>>>     hw/display/vga-pci.c        |  8 ++++++--
+>>>>>     hw/display/vga.c            | 17 ++++++++++++++++-
+>>>>>     hw/display/virtio-vga.c     |  4 +++-
+>>>>>     hw/display/vmware_vga.c     |  2 +-
+>>>>>     11 files changed, 43 insertions(+), 20 deletions(-)
+>>>>
+>>>> Hi Phil,
+>>>>
+>>>> I don't think this is correct for non-ISA devices: for example years ago
+>>>> I had a PC running Windows 98SE with 2 identical PCI graphics cards
+>>>> configured in dual-head mode.
+>>>>
+>>>> IIRC the BIOS would bring up the first graphics card and configure it to
+>>>> use the legacy ISA VGA ioports for compatibility, and then once the main
+>>>> OS drivers loaded both cards were switched to PCI mode and configured
+>>>> using the BARs as normal.
 >>>
->>> Since the old way of configuring the device has already been published
->>> with the previous QEMU versions, we cannot remove this immediately, but
->>> have to deprecate it and support it for at least two more releases.
+>>> The problem here is QEMU technical debt, not the hardware.
 >>>
->>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>> ---
->>>   docs/about/deprecated.rst | 6 ++++++
->>>   hw/misc/sifive_u_otp.c    | 9 ++++++++-
->>>   2 files changed, 14 insertions(+), 1 deletion(-)
+>>> When vga_common_init() calls memory_region_init_ram_nomigrate()
+>>> with obj=NULL, "vga.vram" is registered as a QOM singleton.
+>>>
+>>> Updating it would
+>>> 1/ require non-QOM devices to be QOM'ified
 >>
->>> diff --git a/hw/misc/sifive_u_otp.c b/hw/misc/sifive_u_otp.c
->>> index 18aa0bd55d..cf6098ff2c 100644
->>> --- a/hw/misc/sifive_u_otp.c
->>> +++ b/hw/misc/sifive_u_otp.c
->>> @@ -209,7 +209,14 @@ static void sifive_u_otp_realize(DeviceState
->>> *dev, Error **errp)
->>>                             TYPE_SIFIVE_U_OTP, SIFIVE_U_OTP_REG_SIZE);
->>>       sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
->>>   -    dinfo = drive_get_next(IF_NONE);
->>> +    dinfo = drive_get_next(IF_PFLASH);
->>> +    if (!dinfo) {
->>> +        dinfo = drive_get_next(IF_NONE);
+>> So sounds like that's the right way to go here.
 >>
->> Isn't it a bug to call drive_get_next() from DeviceRealize()?
+>>> and 2/ break migration unless using HPFM which I don't master.
 >>
->> Shouldn't drive_get_next() be restricted to the MachineClass?
+>> What's HPFM?
 > 
-> Yes, that would certainly be better - but considering that we are
-> already past RC1 of the 6.2 release, I'd rather prefer to keep this
-> patch rather as small as possible and do such refactorings during the
-> next development cycle instead.
+> Hocus Pocus Freakin' Magic
 
-OK. For pflash:
-Acked-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+LOL, ok, thanks, TIL.
+
+Anyway, IMHO I'd rather fix this issue by properly QOM'ifying the 
+vga-isa-mm.c code and breaking migration here (who's migrating such old ISA 
+devices anyway?) instead of introducing more kludges
+that might cause other trouble (see also 
+https://gitlab.com/qemu-project/qemu/-/issues/733 ).
+
+  Thomas
 
 
