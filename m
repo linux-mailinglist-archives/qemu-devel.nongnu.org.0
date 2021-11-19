@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1245845756D
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 18:25:27 +0100 (CET)
-Received: from localhost ([::1]:53922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3D4E457503
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 18:06:40 +0100 (CET)
+Received: from localhost ([::1]:43660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo7de-0006Vy-2L
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 12:25:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42476)
+	id 1mo7LT-0004yO-DE
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 12:06:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar@xilinx.com>) id 1mo7FB-0006wv-QR
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 12:00:17 -0500
-Received: from mail-bn7nam10on2055.outbound.protection.outlook.com
- ([40.107.92.55]:58526 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <edgar@xilinx.com>) id 1mo7Gx-0008AJ-C3
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 12:01:59 -0500
+Received: from mail-co1nam11on2078.outbound.protection.outlook.com
+ ([40.107.220.78]:62235 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar@xilinx.com>) id 1mo7F9-0003GO-01
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 12:00:09 -0500
+ (Exim 4.90_1) (envelope-from <edgar@xilinx.com>) id 1mo7Gu-0003ag-3l
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 12:01:58 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LPvDuQjXFexYHjEL2VPZWiVef2xErqVgEZefcb4J5Z5vwh3QE97pd5kxRNxMr5GQ4V57/cZZY+gQF+6OT/v+diRZjJ7LMkzzhGF7Gjsc3Z5r+pJbnVuE9ra3D74E9uAZ541pXTBiP675kxsRQMeGAXihO2FwyTjXPMpbq7SbWKDA9sHmpiHTWohRtEmmlO4y1SAgAy8Vr7B2Sc2eUlCeg65I0ao6SX+3WN1DZLxeNlVDovk4yYc4Up8GhxaXWtFGBf4+GF4QswGs9H7m+dTlEGzv4iiO6pz3i8DQmSvT9wVbMZDZpEPPhKJ8VxdR5F/wq7IqCcBHI7ASoWfrSsu2uA==
+ b=ROdQ8zAgmU4XxpyuA1Cr6GLMXTEZVaO8njcawuNna7xzE2HNkLvqqTg3fOxE7uyXw9lkzHwT86HWckXkxOMS6RJwba3Um+U0a88CzvAimFgkxe7McAdZASCKBJyFb67agxWI3AV4SXO0orudGz2KbYnNpuoE7Gyz5k3Dqplqhoq5IiOxWox5LHtWHYMcZpdxybjQlV4oPSfCFxnCFw8iXEzB5ggQtPGRFImj6QK77YtXJxWptpb6k1aURg9Dr83K9ersDVyYRpHGfiWIzesIPlB5mRfNC+GDKW6yfx5cRj6cIPa0hIg8ASlmCUfQA2QePJDZstjZiRunPI1USsr5rA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kf8S/NlF2SBjv44Qy5izkzKj0QlqFFuNxzwE8HrNDTw=;
- b=dW3sGA+51lmht1ldbyn6cnvPar0Jo+OCfUd4M6uqZScI+MbkmfvqKswsRF4fxUzyGrUu2cKLc1FdWZ9iTXlMpFoR1AOT6H3TBXrR6r2tYF1Cz7OSzu136AoYstJONcxo400IUSc+QlyQWge9XXwlBji9ga0l+E1Avqug2nqnKBy7dm82a1IziMdHm7GfPmcxthreNc0RBZryYedOB2gEpF2q+qy9J22lX1Tg7aEEKIqAOv8N9RLBGoB0dnk9vEDvYuKKKy3nVPLhrA37TlqYFuJP2Jgo1/s1cV3cmGMNZLXnyJZrAqENcsAR7u83za27eYO896p7Klt7Sc0Z5Uvq5A==
+ bh=wlPV9/lEkfjsWC2MaZNx8yV2DSJ9TRo3jNe0VvEEMH4=;
+ b=h1e9wP+7EXWW6GI/5nOcyNqqXN+/2APA39Rp3/PtUf0tTChYOJDceHDHI8vJjsw1/C8TnK+TD0LVNBKJ+/ZnRARSccDCOkc4BT1MPrVAIaco2GZNuzVGRbuG6cOkb7Ld21OQf8c+3z/8Tb62hLOtKCGmOKczU6bdCQ8i6Q3XSKjAd2iQ5w6L+DscHKvz/zrbq0dV2XC6HIZh4s07D+ifS4YqGXxcX64Pru30VngwsN6W7cLY9OJgwi0ihMFGePfWJvrBl6QYgXBqm1H01BIEhmU2ByeimqF0eZdLcVdOyeP133jirpuWbO0umuFZpEI+vWeTj5rlXyhYoOe/RjKhyg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
@@ -32,79 +32,79 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kf8S/NlF2SBjv44Qy5izkzKj0QlqFFuNxzwE8HrNDTw=;
- b=TsflyWnjg95dJG5ODsp440TcmMe3QW2OcXlGCkw4tl2lMPWQIDJpBdFGrfWMBveVLw20C0klX2dH/ZQkCioHllaQgDsjLr6wni3YwKGiubYPKmSL6U85pdL4u7Llino/oMBkvlM/z2foIuQzJBPGe+C+KIRmJaCt85axQ/abOe4=
-Received: from BN6PR1201CA0024.namprd12.prod.outlook.com
- (2603:10b6:405:4c::34) by CY4PR0201MB3539.namprd02.prod.outlook.com
- (2603:10b6:910:94::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.26; Fri, 19 Nov
- 2021 16:59:53 +0000
-Received: from BN1NAM02FT047.eop-nam02.prod.protection.outlook.com
- (2603:10b6:405:4c:cafe::d5) by BN6PR1201CA0024.outlook.office365.com
- (2603:10b6:405:4c::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.21 via Frontend
- Transport; Fri, 19 Nov 2021 16:59:52 +0000
+ bh=wlPV9/lEkfjsWC2MaZNx8yV2DSJ9TRo3jNe0VvEEMH4=;
+ b=Ac7JLfJesxTv6AWWSHYqQndfrPY1808cW4mbeinqY6T2bV1HEF2aPZQLeOjgDu7C6t/nEwF+LzcR4LwGJLhT8zH5iiRaihWkDejtcoQDRRhiQdTNkHuhIIRqLgpSRZx2BxUauRmYnnhJCXl9DbBmozhGmdPWfNbSGkuf2+L1JTc=
+Received: from SN4PR0501CA0100.namprd05.prod.outlook.com
+ (2603:10b6:803:42::17) by BYAPR02MB4757.namprd02.prod.outlook.com
+ (2603:10b6:a03:47::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.22; Fri, 19 Nov
+ 2021 17:01:52 +0000
+Received: from SN1NAM02FT0042.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:803:42::4) by SN4PR0501CA0100.outlook.office365.com
+ (2603:10b6:803:42::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.10 via Frontend
+ Transport; Fri, 19 Nov 2021 17:01:52 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
  smtp.mailfrom=xilinx.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=xilinx.com;
 Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
  149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
-Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
- BN1NAM02FT047.mail.protection.outlook.com (10.13.3.196) with Microsoft SMTP
+ client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
+Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
+ SN1NAM02FT0042.mail.protection.outlook.com (10.97.4.129) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4713.19 via Frontend Transport; Fri, 19 Nov 2021 16:59:52 +0000
+ 15.20.4713.19 via Frontend Transport; Fri, 19 Nov 2021 17:01:52 +0000
 Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Fri, 19 Nov 2021 08:59:50 -0800
+ 15.1.2176.14; Fri, 19 Nov 2021 09:01:52 -0800
 Received: from smtp.xilinx.com (172.19.127.96) by
  xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.2176.14 via Frontend Transport; Fri, 19 Nov 2021 08:59:50 -0800
-Received: from [10.71.118.100] (port=49744 helo=localhost)
+ 15.1.2176.14 via Frontend Transport; Fri, 19 Nov 2021 09:01:52 -0800
+Received: from [10.71.118.100] (port=49790 helo=localhost)
  by smtp.xilinx.com with esmtp (Exim 4.90)
  (envelope-from <edgar@xilinx.com>)
- id 1mo7Er-000AZb-TB; Fri, 19 Nov 2021 08:59:50 -0800
-Date: Fri, 19 Nov 2021 17:59:48 +0100
+ id 1mo7Gp-000BHG-77; Fri, 19 Nov 2021 09:01:52 -0800
+Date: Fri, 19 Nov 2021 18:01:50 +0100
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 To: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Subject: Re: [PATCH v1 2/9] hw/arm/xlnx-versal: Connect Versal's PMC SLCR
-Message-ID: <20211119165948.GB2341@toto>
+Subject: Re: [PATCH v1 4/9] hw/dma: Add the DMA control interface
+Message-ID: <20211119170150.GC2341@toto>
 References: <20211117141841.4696-1-francisco.iglesias@xilinx.com>
- <20211117141841.4696-3-francisco.iglesias@xilinx.com>
+ <20211117141841.4696-5-francisco.iglesias@xilinx.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20211117141841.4696-3-francisco.iglesias@xilinx.com>
+In-Reply-To: <20211117141841.4696-5-francisco.iglesias@xilinx.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9a398a43-8043-423d-1e60-08d9ab7e015b
-X-MS-TrafficTypeDiagnostic: CY4PR0201MB3539:
-X-Microsoft-Antispam-PRVS: <CY4PR0201MB35397DD570EABBFB757F6D1AC29C9@CY4PR0201MB3539.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: af47c5ba-1d2e-457e-7fa5-08d9ab7e48b6
+X-MS-TrafficTypeDiagnostic: BYAPR02MB4757:
+X-Microsoft-Antispam-PRVS: <BYAPR02MB47574C8CC93B9C3F92B7DF43C29C9@BYAPR02MB4757.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:229;
+X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ggsEKiDXKCrN1Lic7lCGnEidCM0FLNo8DYzfUYEuXTkR3qLNmyppkKBjnTWaW0wd8ZZGn/pObLbuyYIlUXTvAqPiCThlH2lPiDLaF2FGnJLlMJnfq1+7/gu+wrD2alW7yt+AV/dc2ojgQuBqHcaJ7WKM+C9PRZ4taIVG2bTOz25daqs/RbYa0MOlWV+bayEFe3EZ6jtzrumoSDn834bp1lwZIN6XkejgKQMOVk6l0AGiKPyXpsz76NSUmSKe6KFud0LOrTplZFILeE95+jWtqxL7RQh4/6iZCUu+9r88/dBNuTwONcTfExz2tie074jZnL/rN21kxSPhXNz9sZ8Xpw6k4DxuwXj763w4/8t/ekFHXDZEbHKBtcEGcErNUtoBgugs4Q/6FP81CzXkP2zlWqNGifu4FFIyn6cRrOMlUG2yAvpHkg73Bw4hPeVSildUW7HvV4H18tQVM2mGyzd29n0f/UuAsQExOMUGNh9omUIP4lEoCY5AjWmeIU0LdTrOA51bENynG0P3za4iN6QUKUZJCZruxfwsBuqYU5pJzLSqEAmBZ2ERw0WNaajjwVOP2B4PFYt4FYur3RWCJz15QGAUrsxWPwdWGs36L6x/pvjhldhRUNVFhxHfL7Z9Ir+SwUL2NoKJptWp+C14JNE2tNyhTteEVqPts5P7mM4y1mfNs/9dNHbgTfaxzD9AIS3GFbzulb0qxyAfLduE8x1UKg==
+X-Microsoft-Antispam-Message-Info: +/795HNw6ahPj0EcoahCT8d6s2AufvYsMt/5tLN3MvPMeL0s//5dcSN32zaoBXr/EHOnxK1NQ2JR95CfzAOZqlD3u8kq4fWxxLI24A2RF+mKj+ZHyIEzUHsTQBqDaA9jgGlLyctssUKpu/rXNc1dm6IKzpTQkins0rsHAhpLMAeWGfeXXdmKMoSoRpRb33A8ZJVH24vc2LPcV0nTzUVjs2XAK/EVGmhpMtUh4r+XD8xRixduPqk/hc+KZjojKaymusvj/1jDQx7MzYa72wJAulJFynI4PGb9dnYiWTa8o8h8CvmPJpd4DjvkvMiA2BHY5+LTOsLG9NkGTvu7AFkInUpL9iJDDoR1TADwFRMPxf4Dg6ZtUeq/arrKRED3pzXHpRB/4l89Ta84zcQO73l0K6GsMjoHUDnUZahmaQ/Hgfl6iPKu+8YaWOZurzfLWgPFhv0qIt+QKKRsukY5ZJIqX2pn4J3E1CwVxXy7fka5iM2ZuDFTm2+9XowJbpCvLtrwpzrR4wdhXP1rQE1hvXLOsb1w1N10Ep8jDQKwoGCG0nRIJVPsSuuqcogqFuQP6Jm5z2v8Qnsy8PKcCHqihu8zbqiCR73r10sFBRCkUJpAzRQEc4jT7JHzKio513rjROcZXsfAyHk7Cq6LzA4HDueUY/Boz5AbL0VK7uKXz3HGaq2QL1D5Nh3aiSzTh9B5oYgp88TwNBaOFl8wKq15DU4DrA==
 X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
  PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(7916004)(46966006)(36840700001)(33716001)(508600001)(6636002)(336012)(36906005)(9786002)(54906003)(33656002)(316002)(36860700001)(4326008)(7636003)(426003)(1076003)(356005)(2906002)(5660300002)(8936002)(6862004)(82310400003)(47076005)(9686003)(26005)(70206006)(8676002)(70586007)(186003);
+ SFS:(7916004)(36840700001)(46966006)(8676002)(70206006)(70586007)(82310400003)(1076003)(426003)(6636002)(186003)(7636003)(8936002)(54906003)(36906005)(316002)(5660300002)(508600001)(356005)(47076005)(26005)(33716001)(9686003)(336012)(33656002)(2906002)(36860700001)(4326008)(6862004)(9786002);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2021 16:59:52.5204 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a398a43-8043-423d-1e60-08d9ab7e015b
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2021 17:01:52.2984 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: af47c5ba-1d2e-457e-7fa5-08d9ab7e48b6
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch01.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN1NAM02FT047.eop-nam02.prod.protection.outlook.com
+ Helo=[xsj-pvapexch02.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT0042.eop-nam02.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR0201MB3539
-Received-SPF: pass client-ip=40.107.92.55; envelope-from=edgar@xilinx.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4757
+Received-SPF: pass client-ip=40.107.220.78; envelope-from=edgar@xilinx.com;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -128,95 +128,152 @@ Cc: peter.maydell@linaro.org, frasse.iglesias@gmail.com, alistair@alistair23.me,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 17, 2021 at 02:18:34PM +0000, Francisco Iglesias wrote:
-> Connect Versal's PMC SLCR (system-level control registers) model.
+On Wed, Nov 17, 2021 at 02:18:36PM +0000, Francisco Iglesias wrote:
+> Add an interface for controlling DMA models that are reused with other
+> models. This allows a controlling model to start transfers through the
+> DMA while reusing the DMA's handling of transfer state and completion
+> signaling.
 
 
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
 
-
 > 
 > Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
 > ---
->  hw/arm/xlnx-versal.c         | 18 ++++++++++++++++++
->  include/hw/arm/xlnx-versal.h |  6 ++++++
->  2 files changed, 24 insertions(+)
+>  hw/dma/dma-ctrl.c         | 31 ++++++++++++++++++++
+>  hw/dma/meson.build        |  1 +
+>  include/hw/dma/dma-ctrl.h | 74 +++++++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 106 insertions(+)
+>  create mode 100644 hw/dma/dma-ctrl.c
+>  create mode 100644 include/hw/dma/dma-ctrl.h
 > 
-> diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-> index b2705b6925..08e250945f 100644
-> --- a/hw/arm/xlnx-versal.c
-> +++ b/hw/arm/xlnx-versal.c
-> @@ -369,6 +369,23 @@ static void versal_create_efuse(Versal *s, qemu_irq *pic)
->      sysbus_connect_irq(SYS_BUS_DEVICE(ctrl), 0, pic[VERSAL_EFUSE_IRQ]);
->  }
->  
-> +static void versal_create_pmc_iou_slcr(Versal *s, qemu_irq *pic)
+> diff --git a/hw/dma/dma-ctrl.c b/hw/dma/dma-ctrl.c
+> new file mode 100644
+> index 0000000000..4a9b68dac1
+> --- /dev/null
+> +++ b/hw/dma/dma-ctrl.c
+> @@ -0,0 +1,31 @@
+> +/*
+> + * DMA control interface.
+> + *
+> + * Copyright (c) 2021 Xilinx Inc.
+> + * Written by Francisco Iglesias <francisco.iglesias@xilinx.com>
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +#include "qemu/osdep.h"
+> +#include "exec/hwaddr.h"
+> +#include "hw/dma/dma-ctrl.h"
+> +
+> +void dma_ctrl_read_with_notify(DmaCtrl *dma_ctrl, hwaddr addr, uint32_t len,
+> +                               DmaCtrlNotify *notify, bool start_dma)
 > +{
-> +    SysBusDevice *sbd;
-> +
-> +    object_initialize_child(OBJECT(s), "versal-pmc-iou-slcr", &s->pmc.iou.slcr,
-> +                            TYPE_XILINX_VERSAL_PMC_IOU_SLCR);
-> +
-> +    sbd = SYS_BUS_DEVICE(&s->pmc.iou.slcr);
-> +    sysbus_realize(sbd, &error_fatal);
-> +
-> +    memory_region_add_subregion(&s->mr_ps, MM_PMC_PMC_IOU_SLCR,
-> +        sysbus_mmio_get_region(sbd, 0));
-> +
-> +    sysbus_connect_irq(sbd, 0, pic[VERSAL_PMC_IOU_SLCR_IRQ]);
+> +    DmaCtrlClass *dcc =  DMA_CTRL_GET_CLASS(dma_ctrl);
+> +    dcc->read(dma_ctrl, addr, len, notify, start_dma);
 > +}
 > +
+> +static const TypeInfo dma_ctrl_info = {
+> +    .name          = TYPE_DMA_CTRL,
+> +    .parent        = TYPE_INTERFACE,
+> +    .class_size = sizeof(DmaCtrlClass),
+> +};
 > +
->  /* This takes the board allocated linear DDR memory and creates aliases
->   * for each split DDR range/aperture on the Versal address map.
->   */
-> @@ -459,6 +476,7 @@ static void versal_realize(DeviceState *dev, Error **errp)
->      versal_create_xrams(s, pic);
->      versal_create_bbram(s, pic);
->      versal_create_efuse(s, pic);
-> +    versal_create_pmc_iou_slcr(s, pic);
->      versal_map_ddr(s);
->      versal_unimp(s);
->  
-> diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
-> index 895ba12c61..729c093dfc 100644
-> --- a/include/hw/arm/xlnx-versal.h
-> +++ b/include/hw/arm/xlnx-versal.h
-> @@ -26,6 +26,7 @@
->  #include "hw/misc/xlnx-versal-xramc.h"
->  #include "hw/nvram/xlnx-bbram.h"
->  #include "hw/nvram/xlnx-versal-efuse.h"
-> +#include "hw/misc/xlnx-versal-pmc-iou-slcr.h"
->  
->  #define TYPE_XLNX_VERSAL "xlnx-versal"
->  OBJECT_DECLARE_SIMPLE_TYPE(Versal, XLNX_VERSAL)
-> @@ -78,6 +79,7 @@ struct Versal {
->      struct {
->          struct {
->              SDHCIState sd[XLNX_VERSAL_NR_SDS];
-> +            XlnxVersalPmcIouSlcr slcr;
->          } iou;
->  
->          XlnxZynqMPRTC rtc;
-> @@ -113,6 +115,7 @@ struct Versal {
->  #define VERSAL_XRAM_IRQ_0          79
->  #define VERSAL_BBRAM_APB_IRQ_0     121
->  #define VERSAL_RTC_APB_ERR_IRQ     121
-> +#define VERSAL_PMC_IOU_SLCR_IRQ    121
->  #define VERSAL_SD0_IRQ_0           126
->  #define VERSAL_EFUSE_IRQ           139
->  #define VERSAL_RTC_ALARM_IRQ       142
-> @@ -178,6 +181,9 @@ struct Versal {
->  #define MM_FPD_FPD_APU              0xfd5c0000
->  #define MM_FPD_FPD_APU_SIZE         0x100
->  
-> +#define MM_PMC_PMC_IOU_SLCR         0xf1060000
-> +#define MM_PMC_PMC_IOU_SLCR_SIZE    0x10000
+> +static void dma_ctrl_register_types(void)
+> +{
+> +    type_register_static(&dma_ctrl_info);
+> +}
 > +
->  #define MM_PMC_SD0                  0xf1040000U
->  #define MM_PMC_SD0_SIZE             0x10000
->  #define MM_PMC_BBRAM_CTRL           0xf11f0000
+> +type_init(dma_ctrl_register_types)
+> diff --git a/hw/dma/meson.build b/hw/dma/meson.build
+> index f3f0661bc3..c0bc134046 100644
+> --- a/hw/dma/meson.build
+> +++ b/hw/dma/meson.build
+> @@ -14,3 +14,4 @@ softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_dma.c'))
+>  softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_dma.c'))
+>  softmmu_ss.add(when: 'CONFIG_SIFIVE_PDMA', if_true: files('sifive_pdma.c'))
+>  softmmu_ss.add(when: 'CONFIG_XLNX_CSU_DMA', if_true: files('xlnx_csu_dma.c'))
+> +common_ss.add(when: 'CONFIG_XILINX_AXI', if_true: files('dma-ctrl.c'))
+> diff --git a/include/hw/dma/dma-ctrl.h b/include/hw/dma/dma-ctrl.h
+> new file mode 100644
+> index 0000000000..498469395f
+> --- /dev/null
+> +++ b/include/hw/dma/dma-ctrl.h
+> @@ -0,0 +1,74 @@
+> +/*
+> + * DMA control interface.
+> + *
+> + * Copyright (c) 2021 Xilinx Inc.
+> + * Written by Francisco Iglesias <francisco.iglesias@xilinx.com>
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +#ifndef HW_DMA_CTRL_H
+> +#define HW_DMA_CTRL_H
+> +
+> +#include "qemu-common.h"
+> +#include "hw/hw.h"
+> +#include "qom/object.h"
+> +
+> +#define TYPE_DMA_CTRL "dma-ctrl"
+> +
+> +#define DMA_CTRL_CLASS(klass) \
+> +     OBJECT_CLASS_CHECK(DmaCtrlClass, (klass), TYPE_DMA_CTRL)
+> +#define DMA_CTRL_GET_CLASS(obj) \
+> +    OBJECT_GET_CLASS(DmaCtrlClass, (obj), TYPE_DMA_CTRL)
+> +#define DMA_CTRL(obj) \
+> +     INTERFACE_CHECK(DmaCtrl, (obj), TYPE_DMA_CTRL)
+> +
+> +typedef void (*dmactrl_notify_fn)(void *opaque);
+> +
+> +typedef struct DmaCtrlNotify {
+> +    void *opaque;
+> +    dmactrl_notify_fn cb;
+> +} DmaCtrlNotify;
+> +
+> +typedef struct DmaCtrl {
+> +    Object Parent;
+> +} DmaCtrl;
+> +
+> +typedef struct DmaCtrlClass {
+> +    InterfaceClass parent;
+> +
+> +    /*
+> +     * read: Start a read transfer on the DMA implementing the DMA control
+> +     * interface
+> +     *
+> +     * @dma_ctrl: the DMA implementing this interface
+> +     * @addr: the address to read
+> +     * @len: the amount of bytes to read at 'addr'
+> +     * @notify: the structure containg a callback to call and opaque pointer
+> +     * to pass the callback when the transfer has been completed
+> +     * @start_dma: true for starting the DMA transfer and false for just
+> +     * refilling and proceding an already started transfer
+> +     */
+> +    void (*read)(DmaCtrl *dma_ctrl, hwaddr addr, uint32_t len,
+> +                 DmaCtrlNotify *notify, bool start_dma);
+> +} DmaCtrlClass;
+> +
+> +/*
+> + * Start a read transfer on a DMA implementing the DMA control interface.
+> + * The DMA will notify the caller that 'len' bytes have been read at 'addr'
+> + * through the callback in the DmaCtrlNotify structure. For allowing refilling
+> + * an already started transfer the DMA notifies the caller before considering
+> + * the transfer done (e.g. before setting done flags, generating IRQs and
+> + * modifying other relevant internal device state).
+> + *
+> + * @dma_ctrl: the DMA implementing this interface
+> + * @addr: the address to read
+> + * @len: the amount of bytes to read at 'addr'
+> + * @notify: the structure containing a callback to call and opaque pointer
+> + * to pass the callback when the transfer has been completed
+> + * @start_dma: true for starting the DMA transfer and false for just
+> + * refilling and proceding an already started transfer
+> + */
+> +void dma_ctrl_read_with_notify(DmaCtrl *dma_ctrl, hwaddr addr, uint32_t len,
+> +                   DmaCtrlNotify *notify, bool start_dma);
+> +
+> +#endif /* HW_DMA_CTRL_H */
 > -- 
 > 2.11.0
 > 
