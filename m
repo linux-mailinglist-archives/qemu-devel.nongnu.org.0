@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB12456EEF
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 13:37:59 +0100 (CET)
-Received: from localhost ([::1]:36672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 629C6456EE6
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 13:36:08 +0100 (CET)
+Received: from localhost ([::1]:32882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo39S-0007ex-S0
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 07:37:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38356)
+	id 1mo37f-000523-9o
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 07:36:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mo36g-00055s-AR
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 07:35:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29210)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mo36d-0002O9-BR
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 07:35:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637325302;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=s3YrcKOizHuprwQRhcLXEdC5i5+8DNje0utXTNzmW7s=;
- b=Ba0HK/1RsKMd2FuClgPBZxR5T0GZpHxIZQ2FuBAGdFhYqOPV3YiUl2V9XmHjQgNQmcW/8L
- TCOUCz+buJEoO0LnkwO75fZRtZFvTMCqd97AMMVpUYucasSSoAPqA5PTJl93LCQnCeIq0+
- kKLQSQvyahHTD2aceQBvarse//MIgD0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-219-2u93OYlSNieZuy8zvVmOOw-1; Fri, 19 Nov 2021 07:34:59 -0500
-X-MC-Unique: 2u93OYlSNieZuy8zvVmOOw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 501B510168D8;
- Fri, 19 Nov 2021 12:34:57 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9CC624ABA6;
- Fri, 19 Nov 2021 12:33:41 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2872D11380AA; Fri, 19 Nov 2021 13:33:40 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Jonah Palmer <jonah.palmer@oracle.com>
-Subject: Re: [PATCH v9 7/8] qmp: add QMP command x-query-virtio-queue-element
-References: <1636539792-20967-1-git-send-email-jonah.palmer@oracle.com>
- <1636539792-20967-8-git-send-email-jonah.palmer@oracle.com>
- <87a6icw227.fsf@dusky.pond.sub.org>
- <4bfacace-2cb4-9df9-8990-dce3a9a2d9ba@oracle.com>
-Date: Fri, 19 Nov 2021 13:33:40 +0100
-In-Reply-To: <4bfacace-2cb4-9df9-8990-dce3a9a2d9ba@oracle.com> (Jonah Palmer's
- message of "Thu, 11 Nov 2021 05:18:48 -0500")
-Message-ID: <87wnl4mijf.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mo35r-0003cM-4J; Fri, 19 Nov 2021 07:34:15 -0500
+Received: from [2607:f8b0:4864:20::134] (port=38544
+ helo=mail-il1-x134.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mo35o-0002HK-4o; Fri, 19 Nov 2021 07:34:14 -0500
+Received: by mail-il1-x134.google.com with SMTP id j21so4508133ila.5;
+ Fri, 19 Nov 2021 04:34:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=e9HQIZ5tw2eucYU0ROWkDDcQl7cKhahjAwNpjWACvNg=;
+ b=fwP6zNZYaN4hV8rzA+mnufiBhoutt1bxOlIIhGVCerL44Htrwh1rfqsGCEr/fOT3Ka
+ fY6y1tLccgyTeFOVb0ixJWNjR0lRw1IEQ5wRh64sK1cR4smkCZfHd2vEudHYJaQG48Cc
+ TnrMxVJvM+yrTSvGzRnfjqRk58FFVIc1RgBYUe7/mn5Z+52FwLBgjhc6oCIJBiZ4sWaa
+ rXZJ+kUtdUhSSpymqQVE9X91wZG26ThW6z3q39K4SSqpkKYr+Zts9MXyYcv9FXkwvX1c
+ EwPWDTY10L4uiKhod/YPWERvI0iZYJIWqGU3bnOkffvNCuvsXjfivzaSlNAMafrvw2VZ
+ DY4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=e9HQIZ5tw2eucYU0ROWkDDcQl7cKhahjAwNpjWACvNg=;
+ b=SucA9PTiZVBAKXs8lclT8GYWY6uTPpLyerSJo3rGh/UcYhv1WcIu5oOyhaX4T3NqCP
+ JLAxeQvZ9dPzLSQrka/mvMvcANgK2nV8lCGzOYG1qMiWK3nTUhtjHfUCu8nGOSnY68cF
+ v9nkt8ZkGdW2rO2hys47K64cXFhQ+WF1d/oM437rONllTUP1UglItJ7HZ/nBC/zvkbhp
+ 3LsYOqAbLjccVeVy+pWURI9TUhPt0dw+q1kQEQfAidlB9ayChHovRZe+R0EqSzmUHDr/
+ b12E/N6xqPRGGZ0d+DTYB9mMh40YQgdDH8v4DFeH1VwhqhJ1A4o4T7kPrJ3UdUyYoIHD
+ /6hg==
+X-Gm-Message-State: AOAM530ek1DNWQFQ+af2KrP0p72nGrrvHPGwZ5ELsi6jDB15M7DvEpEU
+ 5c0aJMbbMZZES2g/L/jgo89WYVOM9om+/IahsXo=
+X-Google-Smtp-Source: ABdhPJwTzdCPGYO+696qCQIkA8ucU7iwsB9OxpGIUEvWkLbM7nXIgVDIbXTqZGwdFUTAwVc4IW2SV4pSlrgzf3do9yE=
+X-Received: by 2002:a05:6e02:1bec:: with SMTP id
+ y12mr4200825ilv.74.1637325250790; 
+ Fri, 19 Nov 2021 04:34:10 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211111155149.58172-1-zhiwei_liu@c-sky.com>
+ <20211111155149.58172-16-zhiwei_liu@c-sky.com>
+In-Reply-To: <20211111155149.58172-16-zhiwei_liu@c-sky.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 19 Nov 2021 22:33:44 +1000
+Message-ID: <CAKmqyKNkJ9WONjBfhb-PNbovvtbRQ3PBm1nUzfFrhWOo8DXXLw@mail.gmail.com>
+Subject: Re: [PATCH v4 15/20] target/riscv: Remove VILL field in VTYPE
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::134
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::134;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x134.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,133 +80,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, qemu_oss@crudebyte.com, qemu-devel@nongnu.org,
- kraxel@redhat.com, si-wei.liu@oracle.com, joao.m.martins@oracle.com,
- eblake@redhat.com, qemu-block@nongnu.org, david@redhat.com,
- arei.gonglei@huawei.com, marcandre.lureau@redhat.com, lvivier@redhat.com,
- thuth@redhat.com, michael.roth@amd.com, groug@kaod.org, dgilbert@redhat.com,
- eric.auger@redhat.com, stefanha@redhat.com, boris.ostrovsky@oracle.com,
- kwolf@redhat.com, mathieu.poirier@linaro.org, raphael.norwitz@nutanix.com,
- pbonzini@redhat.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Jonah Palmer <jonah.palmer@oracle.com> writes:
-
-> On 11/10/21 08:52, Markus Armbruster wrote:
->> Jonah Palmer<jonah.palmer@oracle.com>  writes:
->>
->>> From: Laurent Vivier<lvivier@redhat.com>
->>>
->>> This new command shows the information of a VirtQueue element.
->>>
->>> Signed-off-by: Jonah Palmer<jonah.palmer@oracle.com>
->> [...]
->>
->>> diff --git a/qapi/virtio.json b/qapi/virtio.json
->>> index 0f65044..c57fbc5 100644
->>> --- a/qapi/virtio.json
->>> +++ b/qapi/virtio.json
->>> @@ -1061,3 +1061,180 @@
->>>   { 'command': 'x-query-virtio-vhost-queue-status',
->>>     'data': { 'path': 'str', 'queue': 'uint16' },
->>>     'returns': 'VirtVhostQueueStatus', 'features': [ 'unstable' ] }
->>> +
->>> +##
->>> +# @VirtioRingDescFlags:
->>> +#
->>> +# An enumeration of the virtio ring descriptor flags
->>> +#
->>> +# Since: 6.3
->>> +#
->>> +##
->>> +
->>> +{ 'enum': 'VirtioRingDescFlags',
->>> +  'data': [ 'next', 'write', 'indirect', 'avail', 'used' ]
->>> +}
->>> +
->>> +##
->>> +# @VirtioRingDesc:
->>> +#
->>> +# Information regarding the VRing descriptor area
->>> +#
->>> +# @addr: guest physical address of the descriptor data
->>> +#
->>> +# @len: length of the descriptor data
->>> +#
->>> +# @flags: list of descriptor flags
->>> +#
->>> +# Since: 6.3
->>> +#
->>> +##
->>> +
->>> +{ 'struct': 'VirtioRingDesc',
->>> +  'data': { 'addr': 'uint64',
->>> +            'len': 'uint32',
->>> +            'flags': [ 'VirtioRingDescFlags' ] } }
->>> +
->>> +##
->>> +# @VirtioRingAvail:
->>> +#
->>> +# Information regarding the avail VRing (also known as the driver
->>> +# area)
->>> +#
->>> +# @flags: VRingAvail flags
->>> +#
->>> +# @idx: VRingAvail index
->>> +#
->>> +# @ring: VRingAvail ring[] entry at provided index
->>> +#
->>> +# Since: 6.3
->>> +#
->>> +##
->>> +
->>> +{ 'struct': 'VirtioRingAvail',
->>> +  'data': { 'flags': 'uint16',
->>> +            'idx': 'uint16',
->>> +            'ring': 'uint16' } }
->>> +
->>> +##
->>> +# @VirtioRingUsed:
->>> +#
->>> +# Information regarding the used VRing (also known as the device
->>> +# area)
->>> +#
->>> +# @flags: VRingUsed flags
->>> +#
->>> +# @idx: VRingUsed index
->>> +#
->>> +# Since: 6.3
->>> +#
->>> +##
->>> +
->>> +{ 'struct': 'VirtioRingUsed',
->>> +  'data': { 'flags': 'uint16',
->>> +            'idx': 'uint16' } }
->>> +
->>> +##
->>> +# @VirtioQueueElement:
->>> +#
->>> +# Information regarding a VirtQueue VirtQueueElement including
->>> +# descriptor, driver, and device areas
->>> +#
->>> +# @device-name: name of the VirtIODevice which this VirtQueue belongs
->>> +#               to (for reference)
->>> +#
->>> +# @index: index of the element in the queue
->>> +#
->>> +# @ndescs: number of descriptors
->>> +#
->>> +# @descs: list of the descriptors
->>
->> Can @ndescs ever be not equal to the length of @descs?
->>
->> If no, it's redundant.
+On Fri, Nov 12, 2021 at 2:09 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
 >
-> I don't believe so, no. Should I just remove @ndescs then?
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> Acked-by: Richard Henderson <richard.henderson@linaro.org>
 
-Yes, please.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-[...]
+Alistair
 
+> ---
+>  target/riscv/cpu.h | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index b48c7c346c..5f35217f7d 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -106,7 +106,6 @@ FIELD(VTYPE, VLMUL, 0, 2)
+>  FIELD(VTYPE, VSEW, 2, 3)
+>  FIELD(VTYPE, VEDIV, 5, 2)
+>  FIELD(VTYPE, RESERVED, 7, sizeof(target_ulong) * 8 - 8)
+> -FIELD(VTYPE, VILL, sizeof(target_ulong) * 8 - 1, 1)
+>
+>  struct CPURISCVState {
+>      target_ulong gpr[32];
+> --
+> 2.25.1
+>
+>
 
