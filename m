@@ -2,82 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 886BE45757B
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 18:29:42 +0100 (CET)
-Received: from localhost ([::1]:34074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23184457584
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 18:32:57 +0100 (CET)
+Received: from localhost ([::1]:39266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo7hl-0003mH-IN
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 12:29:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46468)
+	id 1mo7ku-0007Ow-0Q
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 12:32:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mo7RA-0007IK-Qi
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 12:12:32 -0500
-Received: from [2a00:1450:4864:20::32f] (port=33681
- helo=mail-wm1-x32f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mo7R8-0006QO-Ki
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 12:12:32 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- r9-20020a7bc089000000b00332f4abf43fso8139709wmh.0
- for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 09:12:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=yKHiWsNR0W++K0Ck4B1IBleMBkNdeLmDWfP2xP1p/hE=;
- b=PetEfr7DyTFftf2v4UA+fEQWvLKUzirQcNZ+TehjAomflof6vQIRsEQfqohrHwLmYd
- rrt/jvC8FfABvv4X5l3/XqmcSvcyWjVD+Fqm3idPNjqGE7vFi0nvQ6j8tjzL65csfAEi
- SoUyZmD+xRI5tAEVfVPaXvHb9aW71pnbzwaHKon1PLQmsv/2ZmxrBXj8vwtXyykhMQhF
- Y4tc/0FQteeVI4CqSfoKuT0djSbTCM1sVDJKerHiJ3JwxMG9G4649sh18iNBjoA64jUi
- FhJJzmYwlZf8x7ahsKfqRWlF3P7ZzjXl/IqlNFogLsZF6Bukdo6mZBp5MtmxtVCxKfuD
- j3dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=yKHiWsNR0W++K0Ck4B1IBleMBkNdeLmDWfP2xP1p/hE=;
- b=5l5mMARBGoS9fSsSi7c0vgsBZtw1XeQGJFemt3Yf/SHlVWYEqQK9nB+99UzFVeO91p
- CofwnOSdItcDKO5JqDQ9o9Nd32EywCosJ0kwst0wn+8Wjr9dYgNfDcMu6n1fqoxPZ3PS
- Aig364JLT0mtv+O8YPW8qiA+FaYoLrnGfXB18r54IFo63VSFpedE8rge3DgQEZubQx9t
- Ep8ezhQVu81OONsYY7ciOPE7LDMVc7cBo93xDjl4R/T4bebdWxNyxt++t15vSVT/nJpt
- 5eMYJmRgC7O8PTefowaFY22Rm5uM4M9eSWjeoJKRFmzPVIwdT2CG/xcEHzgPMSRYjSTi
- T0yg==
-X-Gm-Message-State: AOAM532bMVJ/OkyoD2qJr9jI2rw1Lb7dSbYJK05dWQtc7nik0h7/zAio
- uFjaMWUQCYGdkzuSzCDNW75ek7gtKtY=
-X-Google-Smtp-Source: ABdhPJx7ak6zBMYzt3QvOzUzjRs1kRST8o1Kt33RKaZVKSLnPNzyDIaGdTyGdJrE5pUKeJkxnp0rXw==
-X-Received: by 2002:a1c:7910:: with SMTP id l16mr1588737wme.36.1637341948803; 
- Fri, 19 Nov 2021 09:12:28 -0800 (PST)
-Received: from x1w.. (62.red-83-57-168.dynamicip.rima-tde.net. [83.57.168.62])
- by smtp.gmail.com with ESMTPSA id
- a12sm303368wrm.62.2021.11.19.09.12.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 09:12:28 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [NOTFORMERGE PATCH 5/5] tests/avocado: Test NetBSD 9.2 on the Jazz
- Magnum machine
-Date: Fri, 19 Nov 2021 18:12:02 +0100
-Message-Id: <20211119171202.458919-6-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211119171202.458919-1-f4bug@amsat.org>
-References: <20211119171202.458919-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <edgar@xilinx.com>) id 1mo7TT-0002V4-GQ
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 12:14:56 -0500
+Received: from mail-bn1nam07on2063.outbound.protection.outlook.com
+ ([40.107.212.63]:6619 helo=NAM02-BN1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <edgar@xilinx.com>) id 1mo7TP-0007IQ-CL
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 12:14:53 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jekU2WFUm1SncDWtbS78VwAXnp2c9x1JM/ECp/hGWGc1TqvUzWBdN9anVD3tCsZhy0zJ3qoDGfjYjS9WGlTjS+8/lygzj9frEJsH6AF8qEnj5/o1SH+XsGpt6Be9uvSuOccC1ZWlGX+X/fRJApUL2tmfUKM0h4MCU1mKhh1uLOH6yjD5oemVoeusul+v4TOZJkTTK8gQ0FbGeFdXlsmnXuTE/37+kP5NlsNx+mGW9eD52NNbtMH09A2mmpXPdgWRiT57D0xaixnKAY/j93QP3Vrk1pS/TyHWVW9aPkJsjWTFD8XsS4SnNELNsSPFG7geHf9t1aa9ETVRpM1rdPg/Eg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TZPFlR567dY4pwIPDy5VY+DNoN3vsz2kE7/ZAqDHUAo=;
+ b=haD0l76VA8ued9OyBjt/0YKi438Jp8xkfL3fPg5B6wTQqMV2fSbTfnHmgqY/V2GAlJufqo7z08tW74Vl2fTWO5PaTXqxpTngYPhGFO7s8gAJlpqSBuSZJQz+XTFKEk8vQaU7ghfNYu5dic9zO7gjWJ2TFJ42tY6CcF90tZKHEWepEkrSQrzbN7IjGWToE5spZ8/IhoEGwBMWlPpZlaeBecRTflv3jRZogjyTVzB2jTZYhdxNox7TCeFr2h0R9Ux90FysR1NJX+IWTW33whecNkNR5leG4LN7GsBn8lrxy9elQHckphguWfheAy5GO4u8D4rxUBswwpSqGe6Qq5WWBw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TZPFlR567dY4pwIPDy5VY+DNoN3vsz2kE7/ZAqDHUAo=;
+ b=nDkXJSn0PccmbBH9bzE9kszf5ZxPURppm0Sm05ZT3W/g4c6hKOc8VetGxTdrNn9K327CXE35rqbSCt0Bg+00kfv9hf3Ky3SGcXLjqNaATwCZS28yFDX2+wAYIqI8snN6ciDxJBAwy/Cj0cmeR4QL5fa2Wt7IADVpU9S6Q9mTiOU=
+Received: from BN6PR18CA0009.namprd18.prod.outlook.com (2603:10b6:404:121::19)
+ by CY4PR02MB2646.namprd02.prod.outlook.com (2603:10b6:903:72::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19; Fri, 19 Nov
+ 2021 17:14:49 +0000
+Received: from BN1NAM02FT029.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:404:121:cafe::65) by BN6PR18CA0009.outlook.office365.com
+ (2603:10b6:404:121::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19 via Frontend
+ Transport; Fri, 19 Nov 2021 17:14:48 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
+Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
+ BN1NAM02FT029.mail.protection.outlook.com (10.13.2.143) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4713.19 via Frontend Transport; Fri, 19 Nov 2021 17:14:48 +0000
+Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.14; Fri, 19 Nov 2021 09:14:46 -0800
+Received: from smtp.xilinx.com (172.19.127.96) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
+ 15.1.2176.14 via Frontend Transport; Fri, 19 Nov 2021 09:14:46 -0800
+Received: from [10.71.118.100] (port=62034 helo=localhost)
+ by smtp.xilinx.com with esmtp (Exim 4.90)
+ (envelope-from <edgar@xilinx.com>)
+ id 1mo7TJ-000Cxb-Q9; Fri, 19 Nov 2021 09:14:46 -0800
+Date: Fri, 19 Nov 2021 18:14:44 +0100
+From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+To: Francisco Iglesias <francisco.iglesias@xilinx.com>
+Subject: Re: [PATCH v1 7/9] hw/arm/xlnx-versal: Connect the OSPI flash memory
+ controller model
+Message-ID: <20211119171436.GG2341@toto>
+References: <20211117141841.4696-1-francisco.iglesias@xilinx.com>
+ <20211117141841.4696-8-francisco.iglesias@xilinx.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20211117141841.4696-8-francisco.iglesias@xilinx.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c8e21c8e-49dc-40a6-3432-08d9ab80177d
+X-MS-TrafficTypeDiagnostic: CY4PR02MB2646:
+X-Microsoft-Antispam-PRVS: <CY4PR02MB2646DCEDADAD6DF94568F03BC29C9@CY4PR02MB2646.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:1060;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qUKEBt9liL/dqyyHu+j1wsLgdTF0hfMBi6vRxLzP9WYh3c3DCz6LlW3+Ykrf6Tjig8Im328tbLQt6HltGzCO/AdwpQKIUa2dWlWC8ZYhKykLZIH823SKPqn14sr+GCOibeBMiBnnrTTrPGrEIPzDp6R9+L79avH+IYdMP5NG5ejrEjWq06n4W67V5hxUYA2rn9tvKfGir3AVfiDrpH5ImyGbIfgSr4Gnev1pLVPUSkywP1x0nb9I/EM+KMd+99MB4gX0y7CfOoIo7UjTIMqMOCCgTPzWK5eauxVez2U8tYbZhSlGWJYHVN4dJGAKx7kYiG3ettxy4KLob2OzI+VUi8NUq0HRdbQPuF2z78jf1jd50Qe8XarIyrnD77kqOOK55QKBS/4Alx4F9Qr7uP41e/58ABLzJdgq3spx//bcPAvnBeq5zirUtZoSP6hxNJA6aZ6AnAC5YOM4HOyPpBybGBvyOo5Evmnr3AeMpn8579FEOn//LPHZPFD92ltg92lPaILIvgoRUk6Z7A5uk+wP+e1EiBCnWTKXQ0nARmWAoQhz95w4kbF/Sa1LzKWqR6hLYBXMMOA5vTmecjxxbGdQQqv4Yh+8f/QvglRZ6PEJkMVs9soVSrfnihgNAE7EA1dfcZtDTX1kGg+qEHisiE9sNPo5o4xytAAKQAn7ER8bWUGMP0t5et1c1Sdvg+hnETR6IdzYiykn4bj7HrQEWmNngA==
+X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
+ PTR:unknown-62-198.xilinx.com; CAT:NONE;
+ SFS:(7916004)(46966006)(36840700001)(36906005)(26005)(8936002)(70206006)(8676002)(70586007)(2906002)(508600001)(9686003)(6862004)(336012)(33656002)(82310400003)(6636002)(426003)(36860700001)(9786002)(1076003)(4326008)(7636003)(47076005)(5660300002)(316002)(186003)(356005)(33716001)(54906003);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2021 17:14:48.6471 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8e21c8e-49dc-40a6-3432-08d9ab80177d
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
+ Helo=[xsj-pvapexch02.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN1NAM02FT029.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR02MB2646
+Received-SPF: pass client-ip=40.107.212.63; envelope-from=edgar@xilinx.com;
+ helo=NAM02-BN1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,266 +124,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Finn Thain <fthain@linux-m68k.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: peter.maydell@linaro.org, frasse.iglesias@gmail.com, alistair@alistair23.me,
+ qemu-devel@nongnu.org, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test NetBSD 9.2 on the Jazz Magnum machine. As the firmware is not
-redistributable, it has to be extracted from the floppy configuration
-disk coming with a Mips Magnum 4000 system, then the NTPROM_BIN_PATH
-environment variable has to be set. For convenience a NVRAM pre-
-initialized to boot NetBSD is included. The test can be run as:
+On Wed, Nov 17, 2021 at 02:18:39PM +0000, Francisco Iglesias wrote:
+> Connect the OSPI flash memory controller model (including the source and
+> destination DMA).
+> 
+> Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
+> ---
+>  hw/arm/xlnx-versal.c         | 89 ++++++++++++++++++++++++++++++++++++++++++++
+>  include/hw/arm/xlnx-versal.h | 18 +++++++++
+>  2 files changed, 107 insertions(+)
+> 
+> diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
+> index 08e250945f..f8e94a50fd 100644
+> --- a/hw/arm/xlnx-versal.c
+> +++ b/hw/arm/xlnx-versal.c
+> @@ -24,6 +24,7 @@
+>  
+>  #define XLNX_VERSAL_ACPU_TYPE ARM_CPU_TYPE_NAME("cortex-a72")
+>  #define GEM_REVISION        0x40070106
+> +#define NUM_OSPI_IRQ_LINES 3
+>  
+>  static void versal_create_apu_cpus(Versal *s)
+>  {
+> @@ -385,6 +386,93 @@ static void versal_create_pmc_iou_slcr(Versal *s, qemu_irq *pic)
+>      sysbus_connect_irq(sbd, 0, pic[VERSAL_PMC_IOU_SLCR_IRQ]);
+>  }
+>  
+> +static void versal_create_ospi(Versal *s, qemu_irq *pic)
+> +{
+> +    SysBusDevice *sbd;
+> +    MemoryRegion *mr_dac;
+> +
+> +    memory_region_init(&s->pmc.iou.lospi_mr, OBJECT(s),
+> +                       "versal-lospi_mr" , MM_PMC_OSPI_DAC_SIZE);
+> +
+> +    object_initialize_child(OBJECT(s), "versal-ospi", &s->pmc.iou.ospi,
+> +                            TYPE_XILINX_VERSAL_OSPI);
+> +
+> +    mr_dac = sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->pmc.iou.ospi), 1);
+> +    memory_region_add_subregion(&s->pmc.iou.lospi_mr, 0x0, mr_dac);
+> +
+> +    /* Create the OSPI destination DMA */
+> +    object_initialize_child(OBJECT(s), "versal-ospi-dma-dst",
+> +                            &s->pmc.iou.ospi_dma_dst,
+> +                            TYPE_XLNX_CSU_DMA);
+> +
+> +    object_property_set_link(OBJECT(&s->pmc.iou.ospi_dma_dst),
+> +                            "dma", OBJECT(get_system_memory()),
+> +                             &error_abort);
+> +
+> +    sbd = SYS_BUS_DEVICE(&s->pmc.iou.ospi_dma_dst);
+> +    sysbus_realize(sbd, &error_fatal);
+> +
+> +    memory_region_add_subregion(&s->mr_ps, MM_PMC_OSPI_DMA_DST,
+> +        sysbus_mmio_get_region(sbd, 0));
+> +
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(sbd), 0, pic[VERSAL_OSPI_IRQ]);
+> +
+> +    /* Create the OSPI source DMA */
+> +    object_initialize_child(OBJECT(s), "versal-ospi-dma-src",
+> +                            &s->pmc.iou.ospi_dma_src,
+> +                            TYPE_XLNX_CSU_DMA);
+> +
+> +    object_property_set_bool(OBJECT(&s->pmc.iou.ospi_dma_src), "is-dst",
+> +                             false, &error_abort);
+> +
+> +    object_property_set_link(OBJECT(&s->pmc.iou.ospi_dma_src),
+> +                            "dma", OBJECT(mr_dac), &error_abort);
+> +
+> +    object_property_set_link(OBJECT(&s->pmc.iou.ospi_dma_src),
+> +                            "stream-connected-dma",
+> +                             OBJECT(&s->pmc.iou.ospi_dma_dst),
+> +                             &error_abort);
+> +
+> +    sbd = SYS_BUS_DEVICE(&s->pmc.iou.ospi_dma_src);
+> +    sysbus_realize(sbd, &error_fatal);
+> +
+> +    memory_region_add_subregion(&s->mr_ps, MM_PMC_OSPI_DMA_SRC,
+> +        sysbus_mmio_get_region(sbd, 0));
+> +
+> +    /* Create the OSPI */
+> +    object_property_set_link(OBJECT(&s->pmc.iou.ospi), "dma-src",
+> +                             OBJECT(&s->pmc.iou.ospi_dma_src), &error_abort);
+> +
+> +    sbd = SYS_BUS_DEVICE(&s->pmc.iou.ospi);
+> +    sysbus_realize(sbd, &error_fatal);
+> +
+> +    memory_region_add_subregion(&s->mr_ps, MM_PMC_OSPI,
+> +        sysbus_mmio_get_region(sbd, 0));
+> +
+> +    memory_region_add_subregion(&s->mr_ps, MM_PMC_OSPI_DAC,
+> +                                &s->pmc.iou.lospi_mr);
+> +
+> +    /* ospi_mux_sel */
+> +    qdev_connect_gpio_out(DEVICE(&s->pmc.iou.slcr), 3,
+> +                          qdev_get_gpio_in(DEVICE(&s->pmc.iou.ospi), 0));
+> +
+> +    /* OSPI irq */
+> +    object_initialize_child(OBJECT(s), "ospi-irq",
+> +                            &s->pmc.iou.ospi_irq, TYPE_OR_IRQ);
+> +    object_property_set_int(OBJECT(&s->pmc.iou.ospi_irq),
+> +                            "num-lines", NUM_OSPI_IRQ_LINES, &error_fatal);
+> +    qdev_realize(DEVICE(&s->pmc.iou.ospi_irq), NULL, &error_fatal);
+> +
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->pmc.iou.ospi), 0,
+> +                       qdev_get_gpio_in(DEVICE(&s->pmc.iou.ospi_irq), 0));
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->pmc.iou.ospi_dma_src), 0,
+> +                       qdev_get_gpio_in(DEVICE(&s->pmc.iou.ospi_irq), 1));
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->pmc.iou.ospi_dma_dst), 0,
+> +                       qdev_get_gpio_in(DEVICE(&s->pmc.iou.ospi_irq), 2));
+> +
+> +    qdev_connect_gpio_out(DEVICE(&s->pmc.iou.ospi_irq), 0,
+> +                          pic[VERSAL_OSPI_IRQ]);
+> +}
+>  
+>  /* This takes the board allocated linear DDR memory and creates aliases
+>   * for each split DDR range/aperture on the Versal address map.
+> @@ -477,6 +565,7 @@ static void versal_realize(DeviceState *dev, Error **errp)
+>      versal_create_bbram(s, pic);
+>      versal_create_efuse(s, pic);
+>      versal_create_pmc_iou_slcr(s, pic);
+> +    versal_create_ospi(s, pic);
+>      versal_map_ddr(s);
+>      versal_unimp(s);
+>  
+> diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
+> index 729c093dfc..dae15db352 100644
+> --- a/include/hw/arm/xlnx-versal.h
+> +++ b/include/hw/arm/xlnx-versal.h
+> @@ -26,6 +26,8 @@
+>  #include "hw/misc/xlnx-versal-xramc.h"
+>  #include "hw/nvram/xlnx-bbram.h"
+>  #include "hw/nvram/xlnx-versal-efuse.h"
+> +#include "hw/ssi/xlnx-versal-ospi.h"
+> +#include "hw/dma/xlnx_csu_dma.h"
+>  #include "hw/misc/xlnx-versal-pmc-iou-slcr.h"
+>  
+>  #define TYPE_XLNX_VERSAL "xlnx-versal"
+> @@ -80,6 +82,12 @@ struct Versal {
+>          struct {
+>              SDHCIState sd[XLNX_VERSAL_NR_SDS];
+>              XlnxVersalPmcIouSlcr slcr;
+> +
+> +            XlnxVersalOspi ospi;
+> +            XlnxCSUDMA ospi_dma_src;
+> +            XlnxCSUDMA ospi_dma_dst;
+> +            MemoryRegion lospi_mr;
+> +            qemu_or_irq ospi_irq;
 
-  $ NTPROM_BIN_PATH=/path/to/ntprom.bin \
-    avocado --show=app,console \
-    run -t machine:magnum tests/avocado/
-  Fetching asset from tests/avocado/machine_mips_jazz.py:MipsJazz.test_magnum_netbsd_9_2
-   (1/1) tests/avocado/machine_mips_jazz.py:MipsJazz.test_magnum_netbsd_9_2:
-  console: EISA Bus 0 Initialization In Progress... Direct Memory Access (DMA) System Control Port B Timer 1 OK.
-  console: ARC Multiboot Version 174 (SGI Version 2.6)
-  console: Copyright (c) 1991,1992  Microsoft Corporation
-  console: Actions:
-  console: Start Windows NT
-  console: Run a program
-  console: Run setup
-  console: Use the arrow keys to select.
-  console: Press Enter to choose.
-  console: Program to run:
-  console: scsi(0)cdrom(2)fdisk(0)boot scsi(0)cdrom(2)fdisk(0)netbsd
-  console: NetBSD/arc Bootstrap, Revision 1.1 (Wed May 12 13:15:55 UTC 2021)
-  console: devopen: scsi(0)cdrom(2)fdisk(0) type disk file netbsd
-  console: NetBSD 9.2 (RAMDISK) #0: Wed May 12 13:15:55 UTC 2021
-  console: MIPS Magnum
-  console: total memory = 128 MB
-  console: avail memory = 117 MB
-  console: mainbus0 (root)
-  console: cpu0 at mainbus0: MIPS R4000 CPU (0x400) Rev. 0.0 with MIPS R4010 FPC Rev. 0.0
-  console: cpu0: 8KB/16B direct-mapped L1 Instruction cache, 48 TLB entries
-  console: cpu0: 8KB/16B direct-mapped write-back L1 Data cache
-  console: jazzio0 at mainbus0
-  console: timer0 at jazzio0 addr 0xe0000228
-  console: mcclock0 at jazzio0 addr 0xe0004000: mc146818 compatible time-of-day clock
-  console: LPT1 at jazzio0 addr 0xe0008000 intr 0 not configured
-  console: fdc0 at jazzio0 addr 0xe0003000 intr 1
-  console: fd0 at fdc0 drive 1: 1.44MB, 80 cyl, 2 head, 18 sec
-  console: MAGNUM at jazzio0 addr 0xe000c000 intr 2 not configured
-  console: VXL at jazzio0 addr 0xe0800000 intr 3 not configured
-  console: sn0 at jazzio0 addr 0xe0001000 intr 4: SONIC Ethernet
-  console: sn0: Ethernet address 00:00:00:00:00:00
-  console: asc0 at jazzio0 addr 0xe0002000 intr 5: NCR53C94, 25MHz, SCSI ID 7
-  console: scsibus0 at asc0: 8 targets, 8 luns per target
-  console: pckbc0 at jazzio0 addr 0xe0005000 intr 6
-  console: pckbd0 at pckbc0 (kbd slot)
-  console: wskbd0 at pckbd0 (mux ignored)
-  console: pms at jazzio0 addr 0xe0005000 intr 7 not configured
-  console: com0 at jazzio0 addr 0xe0006000 intr 8: ns16550a, working fifo
-  console: com0: txfifo disabled
-  console: com0: console
-  console: com1 at jazzio0 addr 0xe0007000 intr 9: ns16550a, working fifo
-  console: com1: txfifo disabled
-  console: jazzisabr0 at mainbus0
-  console: isa0 at jazzisabr0
-  console: isapnp0 at isa0 port 0x279: ISA Plug 'n Play device support
-  console: scsibus0: waiting 2 seconds for devices to settle...
-  console: cd0 at scsibus0 target 2 lun 0: <QEMU, QEMU CD-ROM, 2.5+> cdrom removable
-  console: boot device: <unknown>
-  console: root on md0a dumps on md0b
-  console: root file system type: ffs
-  console: WARNING: preposterous TOD clock time
-  console: WARNING: using filesystem time
-  console: WARNING: CHECK AND RESET THE DATE!
-  console: erase ^H, werase ^W, kill ^U, intr ^C, status ^T
-  console: Terminal type? [vt100]
-  console: Erase is backspace.
-  console: S
-  console: (I)nstall, (S)hell or (H)alt ?
-  console: #
-  console: # ifconfig
-  console: sn0: flags=0x8802<BROADCAST,SIMPLEX,MULTICAST> mtu 1500
-  console: ec_capabilities=1<VLAN_MTU>
-  console: ec_enabled=0
-  console: address: 00:00:00:02:03:04
-  console: lo0: flags=0x8048<LOOPBACK,RUNNING,MULTICAST> mtu 33160
-  console: #
-  console: # ifconfig sn0 10.0.2.3/24
-  console: #
-  console: # ping -c 3 10.0.2.2
-  console: PING 10.0.2.2 (10.0.2.2): 56 data bytes
-  console: 64 bytes from 10.0.2.2: icmp_seq=0 ttl=255 time=12.526 ms
-  console: 64 bytes from 10.0.2.2: icmp_seq=1 ttl=255 time=2.324 ms
-  console: 64 bytes from 10.0.2.2: icmp_seq=2 ttl=255 time=0.608 ms
-  console: ----10.0.2.2 PING Statistics----
-  console: 3 packets transmitted, 3 packets received, 0.0% packet loss
-  console: # shutdown -r now
-  console: round-trip min/avg/max/stddev = 0.608/5.153/12.526/6.443 ms
-  console: # Shutdown NOW!
-  console: shutdown: [pid 14]
-  console: # sh: /usr/bin/wall: not found
-  console: reboot by root:
-  console: System shutdown time has arrived
-  console: About to run shutdown hooks...
-  console: .: Can't open /etc/rc.shutdown
-  console: Done running shutdown hooks.
-  console: syncing disks... done
-  console: unmounting file systems... done
-  console: rebooting...
-  PASS (49.27 s)
-  RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-  JOB TIME   : 49.70 s
 
-Inspired-by: Hervé Poussineau <hpoussin@reactos.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-v2:
-- Test NetBSD 9.2 (Finn, Mark)
-- Drop '-global ds1225y.size=8200' (Mark)
-- Mention "Run a program" option (Mark)
-- Check ARP (Finn)
+I wonder if we should do something like?
 
-Not for merge until nvram.bin is generated.
+struct {
+    XlnxVersalOspi ospi;
+    XlnxCSUDMA dma_src;
+    XlnxCSUDMA dma_dst;
+    MemoryRegion linear_mr;
+    qemu_or_irq irq;
+} ospi;
 
-Cc: Finn Thain <fthain@linux-m68k.org>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
----
- .../avocado/machine_mips_jazz.d/nvram.bin.xz  | Bin 0 -> 700 bytes
- tests/avocado/machine_mips_jazz.py            |  99 ++++++++++++++++++
- 2 files changed, 99 insertions(+)
- create mode 100644 tests/avocado/machine_mips_jazz.d/nvram.bin.xz
- create mode 100644 tests/avocado/machine_mips_jazz.py
 
-diff --git a/tests/avocado/machine_mips_jazz.d/nvram.bin.xz b/tests/avocado/machine_mips_jazz.d/nvram.bin.xz
-new file mode 100644
-index 0000000000000000000000000000000000000000..4648bb31a75bd1a6ee06818a1bf0f2109203ced3
-GIT binary patch
-literal 700
-zcmV;t0z>`%H+ooF000E$*0e?f03iV!0000G&sfah5B~ysT>t=TewJhU2JbgNgw@93
-z9ne@Of$dv11>H(&qfaP~{?QVNDD*)y9o<}llIpWo;zi4K%|O3oZX7;e0I%^w=#ho%
-zm*3>5KcVeDb)hM{s=^@xl3*6CLiEr>=o;i$-UTTwy=`4vF_aQ@AM-}hS_gfV?dXL~
-zr6}Ck7jr0Pd6X49Gycxm@5wylC8aWC%NAZ^DQmjk9v0R)a7u1hsY5)le9~S_G;wnI
-zNEhT-#4+m{FhwCCTK#>itkJ+zGLq(>iH&;ourQ75=5X0GCmKgT34hXv`!lNS@Vv~9
-z#dTZb1?<x%e;6UaEZ?$JT@1SBP5my9l7&XSs?W+Ufr||*z035xw~`at6Ee$`W+96+
-z+GJc@N)TzeY@b#YPn@xQT6#fKq_~pFo)=4ZKP9K_BO1_^7pVTQNp$u}nKgZ>DkCrj
-z^?l-ksd=`Q%7w&-3CkM)A-1nkM@y=-6N=HiA4b<WBKS^=)!oj-ZC_{*DGqZD2VzX1
-zK{*4jgOsj!UPEwQ?*VD-2^<k{1^m(NV;8Ya)p-pwGWqQ7CAgX4w5vWiB095j=yfi%
-zkXq_?C-K4b7)51+8S-t@;sSpTEtU7x1UZ|?WWEp59W6%y5<X+<RS_F7)N!aN8Lm!&
-z-jRJ50VM#t_NLVKQ`#MuEWzq1$^|tn4L1MW?!$H&fc<(y1QHv6-#@=cN*d%QYMaA0
-z+L!W3-k!*7dONwgWwK{?$5Yf5d8TRJIgw7WHR@zI6hLrbArpq|%Ax#6+d)m|&Wh%|
-z!pU{tbl$cCNXE=B0Pf|j?*P-9X*vQHCH?48MX**q?{Zss*9HdGiu@Se*+j_z00023
-i?D;I-mde`z0hR@TAOHX;UY-@P#Ao{g000001X)@jNK0n`
+But either way is OK with me:
 
-literal 0
-HcmV?d00001
-
-diff --git a/tests/avocado/machine_mips_jazz.py b/tests/avocado/machine_mips_jazz.py
-new file mode 100644
-index 00000000000..1441b7fe5bb
---- /dev/null
-+++ b/tests/avocado/machine_mips_jazz.py
-@@ -0,0 +1,99 @@
-+# Functional tests for the Jazz machines.
-+#
-+# Copyright (c) 2021 Philippe Mathieu-Daudé <f4bug@amsat.org>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or later.
-+# See the COPYING file in the top-level directory.
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+import os
-+import lzma
-+import shutil
-+
-+from avocado import skipUnless
-+from avocado_qemu import QemuSystemTest
-+from avocado_qemu import exec_command
-+from avocado_qemu import exec_command_and_wait_for_pattern
-+from avocado_qemu import interrupt_interactive_console_until_pattern
-+from avocado_qemu import wait_for_console_pattern
-+
-+from tesseract_utils import tesseract_available, tesseract_ocr
-+
-+class MipsJazz(QemuSystemTest):
-+
-+    timeout = 60
-+
-+    @skipUnless(os.getenv('NTPROM_BIN_PATH'), 'NTPROM_BIN_PATH not available')
-+    def test_magnum_netbsd_9_2(self):
-+        """
-+        :avocado: tags=arch:mips64el
-+        :avocado: tags=machine:magnum
-+        :avocado: tags=os:netbsd
-+        :avocado: tags=device:sonic
-+        :avocado: tags=device:esp
-+        """
-+        drive_url = ('http://cdn.netbsd.org/pub/NetBSD/'
-+                     'NetBSD-9.2/images/NetBSD-9.2-arc.iso')
-+        drive_hash = '409c61aee5459e762cdb120d2591ed2e'
-+        drive_path = self.fetch_asset(drive_url, asset_hash=drive_hash,
-+                                      algorithm='md5')
-+        ntprom_hash = '316de17820192c89b8ee6d9936ab8364a739ca53'
-+        ntprom_path = self.fetch_asset('file://' + os.getenv('NTPROM_BIN_PATH'),
-+                                       asset_hash=ntprom_hash, algorithm='sha1')
-+        nvram_size = 8200
-+        nvram_path = 'nvram.bin'
-+        nvram_xz_hash = '3d4565124ff2369706b97e1d0ef127a68c23d418'
-+        nvram_xz_path = os.path.dirname(os.path.abspath(__file__)) \
-+                        + '/machine_mips_jazz.d/nvram.bin.xz'
-+        nvram_xz_path = self.fetch_asset('file://' + nvram_xz_path,
-+                                         asset_hash=nvram_xz_hash,
-+                                         algorithm='sha1')
-+        mac = '00:00:00:02:03:04'
-+
-+        with lzma.open(nvram_xz_path, 'rb') as f_in:
-+            with open(nvram_path, 'wb') as f_out:
-+                shutil.copyfileobj(f_in, f_out)
-+                f_out.seek(nvram_size)
-+                f_out.write(b'\0')
-+
-+        self.vm.set_console()
-+        self.vm.add_args('-bios', ntprom_path,
-+                         '-drive', 'if=scsi,unit=2,media=cdrom,format=raw,file='
-+                                   + drive_path,
-+                         '-global', 'ds1225y.filename=' + nvram_path,
-+                         '-nic', 'user,model=dp83932,mac=' + mac)
-+        self.vm.launch()
-+
-+        console_pattern = 'ARC Multiboot Version 174 (SGI Version 2.6)'
-+        wait_for_console_pattern(self, console_pattern)
-+
-+        wait_for_console_pattern(self, 'Use the arrow keys to select.')
-+
-+        # Press cursor control 'Down' to select the "Run a program" menu
-+        exec_command(self, '\x1b[B')
-+
-+        program = 'scsi(0)cdrom(2)fdisk(0)boot scsi(0)cdrom(2)fdisk(0)netbsd'
-+        exec_command(self, program)
-+        wait_for_console_pattern(self, 'NetBSD/arc Bootstrap, Revision 1.1')
-+
-+        # Terminal type? [vt100]
-+        console_pattern = 'erase ^H, werase ^W, kill ^U, intr ^C, status ^T'
-+        wait_for_console_pattern(self, console_pattern)
-+
-+        # (I)nstall, (S)hell or (H)alt
-+        exec_command_and_wait_for_pattern(self, '', 'Erase is backspace.')
-+        exec_command(self, 'S')
-+        interrupt_interactive_console_until_pattern(self, '#')
-+
-+        exec_command_and_wait_for_pattern(self, 'ifconfig', 'address: ' + mac)
-+        interrupt_interactive_console_until_pattern(self, '#')
-+
-+        exec_command(self, 'ifconfig sn0 10.0.2.3/24')
-+        interrupt_interactive_console_until_pattern(self, '#')
-+
-+        exec_command_and_wait_for_pattern(self, 'ping -c 3 10.0.2.2',
-+                '3 packets transmitted, 3 packets received, 0.0% packet loss')
-+
-+        exec_command_and_wait_for_pattern(self, 'shutdown -r now',
-+                                          'rebooting...')
--- 
-2.31.1
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
 
