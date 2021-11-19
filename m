@@ -2,95 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E09B8457068
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 15:13:04 +0100 (CET)
-Received: from localhost ([::1]:47320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13904457056
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 15:09:22 +0100 (CET)
+Received: from localhost ([::1]:39036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo4dT-0006CS-FO
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 09:13:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32908)
+	id 1mo4Zt-0000UN-6c
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 09:09:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mo4IT-0000vM-PD
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 08:51:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36463)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1mo4LB-0001tl-9g; Fri, 19 Nov 2021 08:54:09 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:65072)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mo4IQ-0000wQ-VO
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 08:51:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637329876;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0MQ6EmX5xeBMO7143sm+kmalOXvvH8veZYgNdztafAY=;
- b=Du9s4mAvHjp3HTcNatjhyJ3KkDckrh1zfwF+jr9J7tVTUY1CrL3DfvyXUTHnLQHOe9Rno0
- suBtY3F0jMozvjK2dV6+9taJfE+cvwqxmE/+wdEDYJ80TACvb3c4u2WGCrA7hu6Ypu+1H8
- V3z1nmVNSaNiEo+61RmAq44xQqOo/lo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-553-k9LoLr-YPS2vt7SOLIK5LQ-1; Fri, 19 Nov 2021 08:51:15 -0500
-X-MC-Unique: k9LoLr-YPS2vt7SOLIK5LQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- n16-20020a05600c3b9000b003331973fdbbso4784933wms.0
- for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 05:51:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=0MQ6EmX5xeBMO7143sm+kmalOXvvH8veZYgNdztafAY=;
- b=UbtQ8RZPLrQnFi9GVs47HisxPh6/TaoYPhglWkWY6PqV+vOvilB7vJIcv7qhR87wvs
- +n9kAm0VBqmWL+bSGmTveNCPa9lwTbbvK3r7/TQbv4nl4TTYKh+Elrt4Cax+ypHrF9ty
- yqYlbq/2Ofy2ic4o8lXGxIgw0v0n9X3XZU2w+6UdlBIUitNcl7HJ3UKCKI7GMmTifdft
- YZo7z6FNdqwm+mAN0iVn3lcAeuni7Zl568WCfVq2520OeGfj8CF/n6ZySwjGG0olDoxs
- 4ZZ/WGCNlFrKubOPT4gJ6srHdSSCrY8BUNDz4EUiH7+zbXSYcQNdlEBfwBaHBesbFhCi
- JMnQ==
-X-Gm-Message-State: AOAM5304BaD/ZLnFii2RwaIhZ5LCV88NhJT6fG0d/clORUQhYzr1Afj2
- IXUZKSTVGo6OJlmJNYljQhCLBzsXt4YZsZo7yFgRngiuXHsliBq+74zba5ERbUyTxX3+YSo1HnX
- AhaKw+gXsuBbdRPQ=
-X-Received: by 2002:a05:6000:1a45:: with SMTP id
- t5mr7549048wry.306.1637329874064; 
- Fri, 19 Nov 2021 05:51:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyguzOIQ4dtj/UgUT64libXTpwo03IBVeH470Oj9eTA/dOIJOsebKLkqM9WONqcZosshV46JQ==
-X-Received: by 2002:a05:6000:1a45:: with SMTP id
- t5mr7548995wry.306.1637329873829; 
- Fri, 19 Nov 2021 05:51:13 -0800 (PST)
-Received: from [192.168.3.132] (p5b0c6271.dip0.t-ipconnect.de. [91.12.98.113])
- by smtp.gmail.com with ESMTPSA id
- f15sm3823943wmg.30.2021.11.19.05.51.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Nov 2021 05:51:13 -0800 (PST)
-Message-ID: <942e0dd6-e426-06f6-7b6c-0e80d23c27e6@redhat.com>
-Date: Fri, 19 Nov 2021 14:51:11 +0100
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1mo4L8-0001X9-JW; Fri, 19 Nov 2021 08:54:09 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AJDlTdR015728; 
+ Fri, 19 Nov 2021 13:53:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=gO9X/VhkhH9fxDloiMCcfPELJiXQhMVxRGmltTxPbK4=;
+ b=MwpVdZoJbB71Wh07r5WcXxD1jOHQqhsX8XZvfcoxa9ghZ/67Mk877SqICaOm8y0E1pMR
+ xkJhlD6iEbijqNq8jti4LiYe4m6h+NZpZHm3020VHFU+e773CMtjKK1NQW9Ygr46Okiv
+ fZf7mtLUsx21KY/VX6YK/KOnq2HQw9a8W7UtKBBd18JPgMZBTEmg/P6St911zVw2WvXq
+ m2FpxRWG0oAgjdTZ52WSHytTzVvAZBdmCrz1JnxjY2ajIesHRolOLVCzbvcU6Ua1CJY1
+ ahU8c4wVVMLeX4SUqtOOtqnFpADLYfo42f0zzzfXxp46L/yda8k/2QUXzIYSMKMwCLmX GA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ced49r4m8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Nov 2021 13:53:55 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AJDnGu6021005;
+ Fri, 19 Nov 2021 13:53:54 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ced49r4kq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Nov 2021 13:53:54 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AJDn735002581;
+ Fri, 19 Nov 2021 13:53:53 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma01dal.us.ibm.com with ESMTP id 3ca50eapdu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Nov 2021 13:53:53 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1AJDrqOM33161484
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 19 Nov 2021 13:53:52 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 40E14BE05D;
+ Fri, 19 Nov 2021 13:53:52 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 029C2BE054;
+ Fri, 19 Nov 2021 13:53:49 +0000 (GMT)
+Received: from farosas.linux.ibm.com.com (unknown [9.163.29.60])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Fri, 19 Nov 2021 13:53:49 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests/avocado: ppc: Add smoke tests for MPC7400 and MPC7450
+ families
+Date: Fri, 19 Nov 2021 10:53:48 -0300
+Message-Id: <20211119135348.407679-1-farosas@linux.ibm.com>
+X-Mailer: git-send-email 2.29.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: h4QDKbVpQ3AiEDlgB3YaDopjAwBjF3dd
+X-Proofpoint-GUID: P9lnnZ2YpjOqN9eaOwUIfhukTRX9X-39
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [RFC v2 PATCH 01/13] mm/shmem: Introduce F_SEAL_GUEST
-To: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org
-References: <20211119134739.20218-1-chao.p.peng@linux.intel.com>
- <20211119134739.20218-2-chao.p.peng@linux.intel.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20211119134739.20218-2-chao.p.peng@linux.intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.727, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-19_09,2021-11-17_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0
+ mlxlogscore=999 malwarescore=0 spamscore=0 impostorscore=0
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 adultscore=0 mlxscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2111190075
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,82 +106,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, luto@kernel.org,
- "J . Bruce Fields" <bfields@fieldses.org>, dave.hansen@intel.com,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- jun.nakajima@intel.com, Thomas Gleixner <tglx@linutronix.de>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
- Sean Christopherson <seanjc@google.com>, susie.li@intel.com,
- Jeff Layton <jlayton@kernel.org>, john.ji@intel.com,
- Yu Zhang <yu.c.zhang@linux.intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: danielhb413@gmail.com, mark.cave-ayland@ilande.co.uk, wainersm@redhat.com,
+ willianr@redhat.com, qemu-ppc@nongnu.org, clg@kaod.org, crosa@redhat.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19.11.21 14:47, Chao Peng wrote:
-> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> 
-> The new seal type provides semantics required for KVM guest private
-> memory support. A file descriptor with the seal set is going to be used
-> as source of guest memory in confidential computing environments such as
-> Intel TDX and AMD SEV.
-> 
-> F_SEAL_GUEST can only be set on empty memfd. After the seal is set
-> userspace cannot read, write or mmap the memfd.
-> 
-> Userspace is in charge of guest memory lifecycle: it can allocate the
-> memory with falloc or punch hole to free memory from the guest.
-> 
-> The file descriptor passed down to KVM as guest memory backend. KVM
-> register itself as the owner of the memfd via memfd_register_guest().
-> 
-> KVM provides callback that needed to be called on fallocate and punch
-> hole.
-> 
-> memfd_register_guest() returns callbacks that need be used for
-> requesting a new page from memfd.
-> 
+These tests ensure that our emulation for these cpus is not completely
+broken and we can at least run OpenBIOS on them.
 
-Repeating the feedback I already shared in a private mail thread:
+$ make check-avocado AVOCADO_TESTS=../tests/avocado/ppc_74xx.py
 
+Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 
-As long as page migration / swapping is not supported, these pages
-behave like any longterm pinned pages (e.g., VFIO) or secretmem pages.
+---
+Note that the 7450s are currently broken, depending on the fix for
+https://gitlab.com/qemu-project/qemu/-/issues/86 that is being
+discussed in the thread:
 
-1. These pages are not MOVABLE. They must not end up on ZONE_MOVABLE or
-MIGRATE_CMA.
+https://lists.nongnu.org/archive/html/qemu-ppc/2021-11/msg00289.html
+---
+ tests/avocado/ppc_74xx.py | 134 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 134 insertions(+)
+ create mode 100644 tests/avocado/ppc_74xx.py
 
-That should be easy to handle, you have to adjust the gfp_mask to
-	mapping_set_gfp_mask(inode->i_mapping, GFP_HIGHUSER);
-just as mm/secretmem.c:secretmem_file_create() does.
-
-2. These pages behave like mlocked pages and should be accounted as such.
-
-This is probably where the accounting "fun" starts, but maybe it's
-easier than I think to handle.
-
-See mm/secretmem.c:secretmem_mmap(), where we account the pages as
-VM_LOCKED and will consequently check per-process mlock limits. As we
-don't mmap(), the same approach cannot be reused.
-
-See drivers/vfio/vfio_iommu_type1.c:vfio_pin_map_dma() and
-vfio_pin_pages_remote() on how to manually account via mm->locked_vm .
-
-But it's a bit hairy because these pages are not actually mapped into
-the page tables of the MM, so it might need some thought. Similarly,
-these pages actually behave like "pinned" (as in mm->pinned_vm), but we
-just don't increase the refcount AFAIR. Again, accounting really is a
-bit hairy ...
-
-
-
+diff --git a/tests/avocado/ppc_74xx.py b/tests/avocado/ppc_74xx.py
+new file mode 100644
+index 0000000000..72b99d39c0
+--- /dev/null
++++ b/tests/avocado/ppc_74xx.py
+@@ -0,0 +1,134 @@
++# Smoke tests for 74xx cpus (aka G4).
++#
++# Copyright (c) 2021, IBM Corp.
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
++
++from avocado import skip
++from avocado_qemu import QemuSystemTest
++from avocado_qemu import wait_for_console_pattern
++
++class ppc74xxCpu(QemuSystemTest):
++
++    timeout = 5
++
++    def test_ppc_7400(self):
++        """
++        :avocado: tags=arch:ppc
++        :avocado: tags=cpu:7400
++        """
++        self.vm.set_console()
++        self.vm.launch()
++        wait_for_console_pattern(self, '>> OpenBIOS')
++        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
++
++    def test_ppc_7410(self):
++        """
++        :avocado: tags=arch:ppc
++        :avocado: tags=cpu:7410
++        """
++        self.vm.set_console()
++        self.vm.launch()
++        wait_for_console_pattern(self, '>> OpenBIOS')
++        wait_for_console_pattern(self, '>> CPU type PowerPC,74xx')
++
++    def test_ppc_7441(self):
++        """
++        :avocado: tags=arch:ppc
++        :avocado: tags=cpu:7441
++        """
++        self.vm.set_console()
++        self.vm.launch()
++        wait_for_console_pattern(self, '>> OpenBIOS')
++        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
++
++    def test_ppc_7445(self):
++        """
++        :avocado: tags=arch:ppc
++        :avocado: tags=cpu:7445
++        """
++        self.vm.set_console()
++        self.vm.launch()
++        wait_for_console_pattern(self, '>> OpenBIOS')
++        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
++
++    def test_ppc_7447(self):
++        """
++        :avocado: tags=arch:ppc
++        :avocado: tags=cpu:7447
++        """
++        self.vm.set_console()
++        self.vm.launch()
++        wait_for_console_pattern(self, '>> OpenBIOS')
++        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
++
++    def test_ppc_7447a(self):
++        """
++        :avocado: tags=arch:ppc
++        :avocado: tags=cpu:7447a
++        """
++        self.vm.set_console()
++        self.vm.launch()
++        wait_for_console_pattern(self, '>> OpenBIOS')
++        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
++
++    def test_ppc_7448(self):
++        """
++        :avocado: tags=arch:ppc
++        :avocado: tags=cpu:7448
++        """
++        self.vm.set_console()
++        self.vm.launch()
++        wait_for_console_pattern(self, '>> OpenBIOS')
++        wait_for_console_pattern(self, '>> CPU type PowerPC,MPC86xx')
++
++    def test_ppc_7450(self):
++        """
++        :avocado: tags=arch:ppc
++        :avocado: tags=cpu:7450
++        """
++        self.vm.set_console()
++        self.vm.launch()
++        wait_for_console_pattern(self, '>> OpenBIOS')
++        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
++
++    def test_ppc_7451(self):
++        """
++        :avocado: tags=arch:ppc
++        :avocado: tags=cpu:7451
++        """
++        self.vm.set_console()
++        self.vm.launch()
++        wait_for_console_pattern(self, '>> OpenBIOS')
++        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
++
++    def test_ppc_7455(self):
++        """
++        :avocado: tags=arch:ppc
++        :avocado: tags=cpu:7455
++        """
++        self.vm.set_console()
++        self.vm.launch()
++        wait_for_console_pattern(self, '>> OpenBIOS')
++        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
++
++    def test_ppc_7457(self):
++        """
++        :avocado: tags=arch:ppc
++        :avocado: tags=cpu:7457
++        """
++        self.vm.set_console()
++        self.vm.launch()
++        wait_for_console_pattern(self, '>> OpenBIOS')
++        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
++
++    def test_ppc_7457a(self):
++        """
++        :avocado: tags=arch:ppc
++        :avocado: tags=cpu:7457a
++        """
++        self.vm.set_console()
++        self.vm.launch()
++        wait_for_console_pattern(self, '>> OpenBIOS')
++        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
 -- 
-Thanks,
-
-David / dhildenb
+2.29.2
 
 
