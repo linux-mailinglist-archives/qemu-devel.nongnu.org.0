@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 050B2457297
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 17:16:03 +0100 (CET)
-Received: from localhost ([::1]:48790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D81254572B1
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 17:19:04 +0100 (CET)
+Received: from localhost ([::1]:57786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo6YU-0005nd-3P
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 11:16:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43630)
+	id 1mo6bP-0003is-Ul
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 11:19:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mo6OV-0005O6-Ng
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:05:44 -0500
-Received: from [2a00:1450:4864:20::32b] (port=51804
- helo=mail-wm1-x32b.google.com)
+ id 1mo6OX-0005P1-Cz
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:05:45 -0500
+Received: from [2a00:1450:4864:20::332] (port=53964
+ helo=mail-wm1-x332.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mo6OQ-0004F4-RU
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:05:43 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id 137so5441727wma.1
- for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 08:05:38 -0800 (PST)
+ id 1mo6OU-0004FZ-5v
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:05:45 -0500
+Received: by mail-wm1-x332.google.com with SMTP id y196so8957118wmc.3
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 08:05:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IsAToUwUVLDcozC1pG2ovGOaIzPzHG9E8BtEJFyTiBE=;
- b=qes/w0s+NjS3EdpMtiwDv5Lcyrj8EHFM+q09Ux92C5pqmB3v0H7NniY7+dA2AXoCp0
- w/O2bHdrv8l2V8OeU3XGJUKEwZFUf3mSd3wUQGYcs7ZDxHcQ1UKAcavLiZ3/cTM2ETQM
- IR8FFrC8BngzEpRbnt+AR5YV2L6pNg84POPncKpTXncYLSU2Q3+6f3QtAMEJEco5ddSB
- N1MEB10+vd0KJthFdVW8HuY6bN5JH1LNJTVHZa/gKhlcRxtG0ssf3rUn1OnWyKUajZKI
- Dj6hKkUthmSLbYPH7IO6/KUQW3O64GtDhdmv1u0Iqn2kq4QF8o3/OBEqf+yUXKqKKvNK
- eRGA==
+ bh=ecw3pEDxzdy2sWgykx+6y/yiX4Ql91xUSM5z6uzfGc0=;
+ b=xrp8KzYdjpVI1fqRsKSMUj0eA2IaJpE9/fotN7jlI1ckEhZ+WCvmtjrJ4ndx00htS1
+ o+4MbaI1HT5y4w1s31bOd8pLZ3/IKr23ZQWxkk2sFA3RgJL8vkDBTnOmGfr7MoopxmgS
+ ysVLN92pR0U4XuvHU8H/YMwjtsaGmBe4i1Em9ShG9zUpwXlmNCbu9oNFr4KcepMOXc1G
+ ngO81A/lJCKjYAefkAW4rNt64XiQd+567w3TCoWltwmZZ8AVtVeTHws592HwrefgfRF8
+ H2ukVD17fTVS48z4lO0vhNOd7U0GgMmd1ZebspAFwy8PFMGiqiKy0GmQj5t9Cfaz3PlZ
+ uXGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IsAToUwUVLDcozC1pG2ovGOaIzPzHG9E8BtEJFyTiBE=;
- b=xjtLfyan3cGMf7JwAotd0Y+IGqrwDB0WtbBSC0IBW2toCvVGCWtYnAIe+6yjTvOnKj
- Px8AkKCdLUS9RlB3slr7w4kY1yREuDf6P35QxDhaST7ZEY3NXljYv7nVaw2f7P5O1fN/
- b9QBpm8V4XzlIJec+ZZ8VRwD6dRb6ihjHfN8cmqStB2VFCH+Rf8RBe+Yq80ZE3vu6jgf
- Snfpgxpellsk5wsNJWzGGdSciaNLwS5bcE718Vznv5AQRmGVPi0yMS0KMzTfhHotGjQ2
- EFCD3r5QTX4m00suyKsjsfP8bEtDT6jLsdAb3ke4fmdXMNVwK3UslVf0jXb4UNUTHgq0
- cnAg==
-X-Gm-Message-State: AOAM531iUDPlCeSNPgu7gJpfQEwIuSQj2xpDbt6GYI22UGd97doXMgq6
- f/WwTQwuhxsOFPH3H1LbQYFtcZQKt9z9SRtkGOA=
-X-Google-Smtp-Source: ABdhPJz7FfTGXKW3IiPIBplbeVRoTs4Ot7aEhyPyRQ3ju1rS+dZJvquOOYb8c9b5Ga7RdGfGLy4pZw==
-X-Received: by 2002:a1c:6a13:: with SMTP id f19mr835709wmc.89.1637337936157;
- Fri, 19 Nov 2021 08:05:36 -0800 (PST)
+ bh=ecw3pEDxzdy2sWgykx+6y/yiX4Ql91xUSM5z6uzfGc0=;
+ b=A0nFW7nG0c7ePxNDDndZEN3qCVTqnl4KY2gXYj/+WmqR8b2uHP7iZf2h61UMabDHph
+ NNgqkPVc40MyY/y/i0+Dh2PA8jnCTb0fvYs4BANXZd+TJrr/Fi5tIqI4HSfoPMhWzljJ
+ X0U+5CKZ1i/cDqeNPidcnHzG5953l2RovOw+VX6pmG5sRAS8YX+7CLypKRFXUcgExyRg
+ fPHdwdI2PC29pNt0ns2HMGglqHZUfz41H/ClyvYZkOLpoFCAiEG87zgrGgCSGnReQ7Rr
+ qO1swfoMArGLCgO7AYykt1JgD79HElI6KxcS3ql0x+as+TeRuX7NMruwbbNbw4WM4/Yv
+ VGVQ==
+X-Gm-Message-State: AOAM531E5j+rH4mnooABJM5BG/+F6oLAtwmBTGIk2gcb7u/dwrgOE88T
+ rSrUubCMzaCJvbl//czkW6+FppeVRI/DlGjboVM=
+X-Google-Smtp-Source: ABdhPJyU+8kZGgq00dKEJwIH8G4fMIJAqg78kG6cqRla+GB6B7POODq4CPeVzMc21H+ALzoXY6PjyA==
+X-Received: by 2002:a7b:c197:: with SMTP id y23mr938341wmi.44.1637337939538;
+ Fri, 19 Nov 2021 08:05:39 -0800 (PST)
 Received: from localhost.localdomain
  (165.red-37-158-79.dynamicip.rima-tde.net. [37.158.79.165])
- by smtp.gmail.com with ESMTPSA id q84sm14044877wme.3.2021.11.19.08.05.34
+ by smtp.gmail.com with ESMTPSA id q84sm14044877wme.3.2021.11.19.08.05.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 08:05:35 -0800 (PST)
+ Fri, 19 Nov 2021 08:05:39 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/35] target/ppc: Update float_invalid_cvt for new flags
-Date: Fri, 19 Nov 2021 17:04:39 +0100
-Message-Id: <20211119160502.17432-13-richard.henderson@linaro.org>
+Subject: [PATCH 13/35] target/ppc: Fix VXCVI return value
+Date: Fri, 19 Nov 2021 17:04:40 +0100
+Message-Id: <20211119160502.17432-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211119160502.17432-1-richard.henderson@linaro.org>
 References: <20211119160502.17432-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,71 +91,76 @@ Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, alex.bennee@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that vxsnan is computed directly by softfloat,
-we don't need to recompute it via classes.
+We were returning nanval for any instance of invalid being set,
+but that is an incorrect for VXCVI.  This failure can be seen
+in the float_convs tests.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/fpu_helper.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+ target/ppc/fpu_helper.c | 25 ++++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 0d58fd82a6..6b8367a105 100644
+index 6b8367a105..ee1047d7e5 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -537,11 +537,11 @@ float64 helper_fdiv(CPUPPCState *env, float64 arg1, float64 arg2)
+@@ -537,13 +537,20 @@ float64 helper_fdiv(CPUPPCState *env, float64 arg1, float64 arg2)
      return ret;
  }
  
--static void float_invalid_cvt(CPUPPCState *env, bool set_fprc,
--                              uintptr_t retaddr, int class1)
-+static void float_invalid_cvt(CPUPPCState *env, int flags,
-+                              bool set_fprc, uintptr_t retaddr)
+-static void float_invalid_cvt(CPUPPCState *env, int flags,
+-                              bool set_fprc, uintptr_t retaddr)
++static uint64_t float_invalid_cvt(CPUPPCState *env, int flags,
++                                  uint64_t ret, uint64_t ret_nan,
++                                  bool set_fprc, uintptr_t retaddr)
  {
-     float_invalid_op_vxcvi(env, set_fprc, retaddr);
--    if (class1 & is_snan) {
-+    if (flags & float_flag_invalid_snan) {
-         float_invalid_op_vxsnan(env, retaddr);
+-    float_invalid_op_vxcvi(env, set_fprc, retaddr);
++    /*
++     * VXCVI is different from most in that it sets two exception bits,
++     * VXCVI and VXSNAN for an SNaN input.
++     */
+     if (flags & float_flag_invalid_snan) {
+-        float_invalid_op_vxsnan(env, retaddr);
++        env->fpscr |= FP_VXSNAN;
      }
++    float_invalid_op_vxcvi(env, set_fprc, retaddr);
++
++    return flags & float_flag_invalid_cvti ? ret : ret_nan;
  }
-@@ -550,10 +550,10 @@ static void float_invalid_cvt(CPUPPCState *env, bool set_fprc,
- uint64_t helper_##op(CPUPPCState *env, float64 arg)                    \
+ 
+ #define FPU_FCTI(op, cvt, nanval)                                      \
+@@ -551,10 +558,8 @@ uint64_t helper_##op(CPUPPCState *env, float64 arg)                    \
  {                                                                      \
      uint64_t ret = float64_to_##cvt(arg, &env->fp_status);             \
--    int status = get_float_exception_flags(&env->fp_status);           \
-+    int flags = get_float_exception_flags(&env->fp_status);            \
-                                                                        \
--    if (unlikely(status & float_flag_invalid)) {                       \
--        float_invalid_cvt(env, 1, GETPC(), float64_classify(arg));     \
-+    if (unlikely(flags & float_flag_invalid)) {                        \
-+        float_invalid_cvt(env, flags, 1, GETPC());                     \
-         ret = nanval;                                                  \
+     int flags = get_float_exception_flags(&env->fp_status);            \
+-                                                                       \
+     if (unlikely(flags & float_flag_invalid)) {                        \
+-        float_invalid_cvt(env, flags, 1, GETPC());                     \
+-        ret = nanval;                                                  \
++        ret = float_invalid_cvt(env, flags, ret, nanval, 1, GETPC());  \
      }                                                                  \
      return ret;                                                        \
-@@ -2746,7 +2746,7 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)             \
+ }
+@@ -2746,8 +2751,7 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)             \
          t.tfld = stp##_to_##ttp##_round_to_zero(xb->sfld, &env->fp_status);  \
          flags = env->fp_status.float_exception_flags;                        \
          if (unlikely(flags & float_flag_invalid)) {                          \
--            float_invalid_cvt(env, 0, GETPC(), stp##_classify(xb->sfld));    \
-+            float_invalid_cvt(env, flags, 0, GETPC());                       \
-             t.tfld = rnan;                                                   \
+-            float_invalid_cvt(env, flags, 0, GETPC());                       \
+-            t.tfld = rnan;                                                   \
++            t.tfld = float_invalid_cvt(env, flags, t.tfld, rnan, 0, GETPC());\
          }                                                                    \
          all_flags |= flags;                                                  \
-@@ -2789,10 +2789,12 @@ void helper_##op(CPUPPCState *env, uint32_t opcode,                          \
-                  ppc_vsr_t *xt, ppc_vsr_t *xb)                               \
- {                                                                            \
-     ppc_vsr_t t = { };                                                       \
-+    int flags;                                                               \
-                                                                              \
+     }                                                                        \
+@@ -2794,8 +2798,7 @@ void helper_##op(CPUPPCState *env, uint32_t opcode,                          \
      t.tfld = stp##_to_##ttp##_round_to_zero(xb->sfld, &env->fp_status);      \
--    if (env->fp_status.float_exception_flags & float_flag_invalid) {         \
--        float_invalid_cvt(env, 0, GETPC(), stp##_classify(xb->sfld));        \
-+    flags = get_float_exception_flags(&env->fp_status);                      \
-+    if (flags & float_flag_invalid) {                                        \
-+        float_invalid_cvt(env, flags, 0, GETPC());                           \
-         t.tfld = rnan;                                                       \
+     flags = get_float_exception_flags(&env->fp_status);                      \
+     if (flags & float_flag_invalid) {                                        \
+-        float_invalid_cvt(env, flags, 0, GETPC());                           \
+-        t.tfld = rnan;                                                       \
++        t.tfld = float_invalid_cvt(env, flags, t.tfld, rnan, 0, GETPC());    \
      }                                                                        \
                                                                               \
+     *xt = t;                                                                 \
 -- 
 2.25.1
 
