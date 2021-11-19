@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06BE4457055
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 15:09:17 +0100 (CET)
-Received: from localhost ([::1]:39020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FEA045704F
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 15:08:20 +0100 (CET)
+Received: from localhost ([::1]:36070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo4Zn-0000Ts-V4
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 09:09:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60814)
+	id 1mo4Yt-0006x8-HH
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 09:08:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1mo4HK-0007iT-65
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 08:50:11 -0500
-Received: from mga07.intel.com ([134.134.136.100]:42154)
+ id 1mo4HQ-00081S-Qr
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 08:50:16 -0500
+Received: from mga11.intel.com ([192.55.52.93]:9938)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1mo4HI-0000cm-Cn
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 08:50:09 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10172"; a="297831234"
-X-IronPort-AV: E=Sophos;i="5.87,247,1631602800"; d="scan'208";a="297831234"
+ id 1mo4HP-0000eY-31
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 08:50:16 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10172"; a="231896178"
+X-IronPort-AV: E=Sophos;i="5.87,247,1631602800"; d="scan'208";a="231896178"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Nov 2021 05:50:05 -0800
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Nov 2021 05:50:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,247,1631602800"; d="scan'208";a="507905181"
+X-IronPort-AV: E=Sophos;i="5.87,247,1631602800"; d="scan'208";a="507905238"
 Received: from chaop.bj.intel.com ([10.240.192.101])
- by orsmga008.jf.intel.com with ESMTP; 19 Nov 2021 05:49:57 -0800
+ by orsmga008.jf.intel.com with ESMTP; 19 Nov 2021 05:50:05 -0800
 From: Chao Peng <chao.p.peng@linux.intel.com>
 To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org
-Subject: [RFC v2 PATCH 11/13] KVM: Add kvm_map_gfn_range
-Date: Fri, 19 Nov 2021 21:47:37 +0800
-Message-Id: <20211119134739.20218-12-chao.p.peng@linux.intel.com>
+Subject: [RFC v2 PATCH 12/13] KVM: Introduce kvm_memfd_fallocate_range
+Date: Fri, 19 Nov 2021 21:47:38 +0800
+Message-Id: <20211119134739.20218-13-chao.p.peng@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20211119134739.20218-1-chao.p.peng@linux.intel.com>
 References: <20211119134739.20218-1-chao.p.peng@linux.intel.com>
-Received-SPF: none client-ip=134.134.136.100;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga07.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+Received-SPF: none client-ip=192.55.52.93;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga11.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
  SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,105 +73,88 @@ Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This may be used in the fallocate callback for memfd based memory
-to setup the mapping for KVM second MMU when the pages are allocated
-in the memory backing store.
+It reuses the same code for kvm_memfd_invalidate_range, except using
+kvm_map_gfn_range as its handler.
 
 Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
 Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
 ---
- arch/x86/kvm/mmu/mmu.c   | 47 ++++++++++++++++++++++++++++++++++++++++
  include/linux/kvm_host.h |  2 ++
- virt/kvm/kvm_main.c      |  5 +++++
- 3 files changed, 54 insertions(+)
+ virt/kvm/kvm_main.c      | 28 +++++++++++++++++++++++++---
+ 2 files changed, 27 insertions(+), 3 deletions(-)
 
-diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-index cd5d1f923694..5c475a161a3c 100644
---- a/arch/x86/kvm/mmu/mmu.c
-+++ b/arch/x86/kvm/mmu/mmu.c
-@@ -1951,6 +1951,53 @@ static __always_inline bool kvm_handle_gfn_range(struct kvm *kvm,
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index d841ed877b4b..f1d7856be05b 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -1887,5 +1887,7 @@ static inline void kvm_handle_signal_exit(struct kvm_vcpu *vcpu)
+ 
+ int kvm_memfd_invalidate_range(struct kvm *kvm, struct inode *inode,
+ 			       unsigned long start, unsigned long end);
++int kvm_memfd_fallocate_range(struct kvm *kvm, struct inode *inode,
++			      unsigned long start, unsigned long end);
+ 
+ #endif
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index 492c1a99ec63..7eaafc0ae6ab 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -828,8 +828,10 @@ static int kvm_init_mmu_notifier(struct kvm *kvm)
+ 	return mmu_notifier_register(&kvm->mmu_notifier, current->mm);
+ }
+ 
+-int kvm_memfd_invalidate_range(struct kvm *kvm, struct inode *inode,
+-			       unsigned long start, unsigned long end)
++int kvm_memfd_handle_range(struct kvm *kvm, struct inode *inode,
++			   unsigned long start, unsigned long end,
++			   gfn_handler_t handler)
++
+ {
+ 	int ret;
+ 	const struct kvm_useraddr_range useraddr_range = {
+@@ -837,7 +839,7 @@ int kvm_memfd_invalidate_range(struct kvm *kvm, struct inode *inode,
+ 		.end		= end,
+ 		.inode		= inode,
+ 		.pte		= __pte(0),
+-		.handler	= kvm_unmap_gfn_range,
++		.handler	= handler,
+ 		.on_lock	= (void *)kvm_null_fn,
+ 		.flush_on_ret	= true,
+ 		.may_block	= false,
+@@ -858,6 +860,20 @@ int kvm_memfd_invalidate_range(struct kvm *kvm, struct inode *inode,
  	return ret;
  }
  
-+bool kvm_map_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
++int kvm_memfd_invalidate_range(struct kvm *kvm, struct inode *inode,
++			       unsigned long start, unsigned long end)
 +{
-+	struct kvm_vcpu *vcpu;
-+	kvm_pfn_t pfn;
-+	gfn_t gfn;
-+	int idx;
-+	bool ret = true;
-+
-+	/* Need vcpu context for kvm_mmu_do_page_fault. */
-+	vcpu = kvm_get_vcpu(kvm, 0);
-+	if (mutex_lock_killable(&vcpu->mutex))
-+		return false;
-+
-+	vcpu_load(vcpu);
-+	idx = srcu_read_lock(&kvm->srcu);
-+
-+	kvm_mmu_reload(vcpu);
-+
-+	gfn = range->start;
-+	while (gfn < range->end) {
-+		if (signal_pending(current)) {
-+			ret = false;
-+			break;
-+		}
-+
-+		if (need_resched())
-+			cond_resched();
-+
-+		pfn = kvm_mmu_do_page_fault(vcpu, gfn << PAGE_SHIFT,
-+					PFERR_WRITE_MASK | PFERR_USER_MASK,
-+					false);
-+		if (is_error_noslot_pfn(pfn) || kvm->vm_bugged) {
-+			ret = false;
-+			break;
-+		}
-+
-+		gfn++;
-+	}
-+
-+	srcu_read_unlock(&kvm->srcu, idx);
-+	vcpu_put(vcpu);
-+
-+	mutex_unlock(&vcpu->mutex);
-+
-+	return ret;
++	return kvm_memfd_handle_range(kvm, inode, start, end,
++				      kvm_unmap_gfn_range);
 +}
 +
- bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
- {
- 	bool flush = false;
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index f0fd32f6eab3..d841ed877b4b 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -237,6 +237,8 @@ struct kvm_gfn_range {
- 	pte_t pte;
- 	bool may_block;
- };
++int kvm_memfd_fallocate_range(struct kvm *kvm, struct inode *inode,
++			      unsigned long start, unsigned long end)
++{
++	return kvm_memfd_handle_range(kvm, inode, start, end,
++				      kvm_map_gfn_range);
++}
 +
-+bool kvm_map_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range);
- bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range);
- bool kvm_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range);
- bool kvm_test_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range);
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index 65055ac460eb..492c1a99ec63 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -471,6 +471,11 @@ static void kvm_mmu_notifier_invalidate_range(struct mmu_notifier *mn,
- 	srcu_read_unlock(&kvm->srcu, idx);
+ #else  /* !(CONFIG_MMU_NOTIFIER && KVM_ARCH_WANT_MMU_NOTIFIER) */
+ 
+ static int kvm_init_mmu_notifier(struct kvm *kvm)
+@@ -871,6 +887,12 @@ int kvm_memfd_invalidate_range(struct kvm *kvm, struct inode *inode,
+ 	return 0;
  }
  
-+bool __weak kvm_map_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
++int kvm_memfd_fallocate_range(struct kvm *kvm, struct inode *inode,
++			      unsigned long start, unsigned long end)
 +{
-+	return false;
++	return 0;
 +}
 +
- typedef bool (*gfn_handler_t)(struct kvm *kvm, struct kvm_gfn_range *range);
+ #endif /* CONFIG_MMU_NOTIFIER && KVM_ARCH_WANT_MMU_NOTIFIER */
  
- typedef void (*on_lock_fn_t)(struct kvm *kvm, unsigned long start,
+ #ifdef CONFIG_HAVE_KVM_PM_NOTIFIER
 -- 
 2.17.1
 
