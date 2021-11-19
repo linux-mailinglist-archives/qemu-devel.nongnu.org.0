@@ -2,75 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 855AF456C5E
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 10:33:23 +0100 (CET)
-Received: from localhost ([::1]:36542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC2B456C55
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 10:28:20 +0100 (CET)
+Received: from localhost ([::1]:52712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo0Go-0003La-Dk
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 04:33:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37814)
+	id 1mo0Bv-0003b1-TB
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 04:28:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mo08J-0000CW-KF
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 04:24:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59938)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mo08d-0000lj-IL
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 04:24:55 -0500
+Received: from 6.mo548.mail-out.ovh.net ([188.165.58.48]:54969)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mo08H-0006mP-CH
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 04:24:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637313871;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=e5PgIM7t0ko7eR9oN9zN7gzDRIip4K6lcgtzTyspJ1I=;
- b=DkbYLJ8TlbFjRMaCxZDm17zSeR2NDxU8xFKlpE5Mo6nY6ixMEtmYTyQox7gO2ieM8dBCGR
- /mOTd7ljt0d9YeEe9M07nlHCqhSHiJ+6ziAGJ70qi2Sea7wQdQaJoWWpBXrSOKOq/7sgfv
- Jfu5XqCC5iUfcbAUNGS9GrhCGYS0ya0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-507--p5u7h5UNcO4x63D8wJbnQ-1; Fri, 19 Nov 2021 04:24:28 -0500
-X-MC-Unique: -p5u7h5UNcO4x63D8wJbnQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 891EF1006AA0;
- Fri, 19 Nov 2021 09:24:27 +0000 (UTC)
-Received: from [10.39.194.192] (unknown [10.39.194.192])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 21419604CC;
- Fri, 19 Nov 2021 09:24:08 +0000 (UTC)
-Message-ID: <0457933c-610d-0f78-7ae3-07648280e838@redhat.com>
-Date: Fri, 19 Nov 2021 10:24:08 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mo08b-0006nL-N5
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 04:24:55 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.12])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 5AFEA20BD7;
+ Fri, 19 Nov 2021 09:24:49 +0000 (UTC)
+Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Fri, 19 Nov
+ 2021 10:24:48 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R00161baa7df-8ed0-4b33-8b9d-d0a411705ef3,
+ 2F4386EB293C90CC9D88C9369DD2F5B0E238D1DC) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <2e1e6486-87e9-fade-e443-2e822377f927@kaod.org>
+Date: Fri, 19 Nov 2021 10:24:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH] ui/gtk: mon_num parameter to specify target monitor for
- launching Qemu
-To: Dongwon Kim <dongwon.kim@intel.com>, qemu-devel@nongnu.org
-References: <20211118225127.26147-1-dongwon.kim@intel.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20211118225127.26147-1-dongwon.kim@intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v2 1/3] target/ppc: Fixed call to deferred exception
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.727, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: Richard Henderson <richard.henderson@linaro.org>, "Lucas Mateus Castro
+ (alqotel)" <lucas.araujo@eldorado.org.br>, <qemu-devel@nongnu.org>,
+ <qemu-ppc@nongnu.org>
+References: <20211118132502.984059-1-lucas.araujo@eldorado.org.br>
+ <20211118132502.984059-2-lucas.araujo@eldorado.org.br>
+ <5e723955-68fc-a77c-b131-ca9e29f23423@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <5e723955-68fc-a77c-b131-ca9e29f23423@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 61571ec5-55f0-4ebc-8eb4-9b6e4a6f0f44
+X-Ovh-Tracer-Id: 7881580825488427823
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrfeekgddtfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepmhgrthhhvghushdrfhgvrhhsthesvghlughorhgrughordhorhhgrdgsrh
+Received-SPF: pass client-ip=188.165.58.48; envelope-from=clg@kaod.org;
+ helo=6.mo548.mail-out.ovh.net
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.727,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,45 +73,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sweeaun <swee.aun.khor@intel.com>,
- Khairul Anuar Romli <khairul.anuar.romli@intel.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: matheus.ferst@eldorado.org.br, danielhb413@gmail.com,
+ mark.cave-ayland@ilande.co.uk, pc@us.ibm.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/18/21 23:51, Dongwon Kim wrote:
-> +# @mon-num:     Indicate monitor where Qemu window is lauched. mon-num
-> +#               could be any number from -1 to (total num of monitors - 1).
-> +#               (default: -1: use default monitor)
-> +#               since 6.2
+On 11/19/21 10:18, Richard Henderson wrote:
+> On 11/18/21 2:25 PM, Lucas Mateus Castro (alqotel) wrote:
+>> +    if ((fpscr & FP_VXSOFT) && (fpscr_ve != 0)) {
+>> +        error = POWERPC_EXCP_FP_VXSOFT;
+>> +    } else if ((fpscr & FP_OX) && (fpscr & FP_OE)) {
+>> +        error = POWERPC_EXCP_FP_OX;
+>> +    } else if ((fpscr & FP_UX) && (fpscr & FP_UE)) {
+>> +        error = POWERPC_EXCP_FP_UX;
+>> +    } else if ((fpscr & FP_XX) && (fpscr & FP_XE)) {
+>> +        error = POWERPC_EXCP_FP_XX;
+>> +    } else if ((fpscr & FP_ZX) && (fpscr & FP_ZE)) {
+>> +        error = POWERPC_EXCP_FP_ZX;
+>> +    } else if ((fpscr & FP_VXSNAN) && (fpscr_ve != 0)) {
+>> +        error = POWERPC_EXCP_FP_VXSNAN;
+>> +    } else if ((fpscr & FP_VXISI) && (fpscr_ve != 0)) {
+>> +        error = POWERPC_EXCP_FP_VXISI;
+>> +    } else if ((fpscr & FP_VXIDI) && (fpscr_ve != 0)) {
+>> +        error = POWERPC_EXCP_FP_VXIDI;
+>> +    } else if ((fpscr & FP_VXZDZ) && (fpscr_ve != 0)) {
+>> +        error = POWERPC_EXCP_FP_VXZDZ;
+>> +    } else if ((fpscr & FP_VXIMZ) && (fpscr_ve != 0)) {
+>> +        error = POWERPC_EXCP_FP_VXIMZ;
+>> +    } else if ((fpscr & FP_VXVC) && (fpscr_ve != 0)) {
+>> +        error = POWERPC_EXCP_FP_VXVC;
+>> +    }
+> 
+> Is there a defined order for these in the manual?  I couldn't find it quickly if so.  If there is no defined order, I think you should test VE only once.
+> 
+> Drop the use of fpscr_ve and use fpscr & FP_VE instead. (I think these hidden uses of *env are evil and should be banished, but that's a bit of a job.)
 
-There is no need to accept -1; the opts->u.gtk struct uses a separate 
-boolean field to indicate the default.  Instead, the parameter should be 
-an unsigned integer ("uint32").
-
-Also please use "monitor", not "mon-num".  We usually avoid abbreviations.
-
-> +    if (opts->u.gtk.has_mon_num && opts->u.gtk.mon_num &&
-> +        opts->u.gtk.mon_num >= 0) {
-
-Rejecting 0 ("opts->u.gtk.mon_num") is incorrect.  If you declare it as 
-unsigned, you can just use "if (opts->u.gtk.has_mon_num").
+you mean all the msr_* macros ? I agree. It's huge and I wonder how we could automate parts of it.
 
 Thanks,
 
-Paolo
-
-> +        GdkRectangle mon_dest;
-> +        if (opts->u.gtk.mon_num < gdk_display_get_n_monitors(window_display)) {
-> +            gdk_monitor_get_geometry(
-> +                gdk_display_get_monitor(window_display, opts->u.gtk.mon_num),
-> +                &mon_dest);
-> +            gtk_window_move(GTK_WINDOW(s->window), mon_dest.x, mon_dest.y);
-> +        }
-> +    }
->       if (opts->has_full_screen &&
->           opts->full_screen) {
->           gtk_menu_item_activate(GTK_MENU_ITEM(s->full_screen_item));
-> -- 
+C.
+  
+> 
+> You could say
+> 
+>      } else {
+>          return;
+>      }
+> 
+>> +
+>> +    if (error) {
+> 
+> and then remove this test.
+> 
+> The rest of it looks good.
+> 
+> 
+> r~
 
 
