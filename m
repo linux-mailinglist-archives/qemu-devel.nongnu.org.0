@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FEE7457133
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 15:53:33 +0100 (CET)
-Received: from localhost ([::1]:35950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 471EB457147
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 15:57:18 +0100 (CET)
+Received: from localhost ([::1]:43318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo5Ge-00051z-Et
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 09:53:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48118)
+	id 1mo5KG-0001gU-VE
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 09:57:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mo59F-0002ml-RJ
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 09:45:55 -0500
-Received: from [2a00:1450:4864:20::52c] (port=35683
- helo=mail-ed1-x52c.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mo5Eo-00037M-7S
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 09:51:38 -0500
+Received: from [2a00:1450:4864:20::42d] (port=44982
+ helo=mail-wr1-x42d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mo598-0003cy-Ti
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 09:45:53 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id v1so10296557edx.2
- for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 06:45:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ejfNglUO8k6Fc/DKJDw6PTnm2iPEvk0IjXsaBppK+20=;
- b=FeR+KFkcGUX22x+O5eprElAYSSU9NQ0qM1fSvipgrKM7G5sn7wbdkieRDSkjyFDcqG
- 1I+SSMSt10HB1LQ0vItfH5iITyrjWS7lkKk0Q8LADrGAWiyL8yn0nURIexcghujGQLEN
- 5mcCOESqnAujLGdAILg1up41HyG1fHOW+R3wEdx9Tkt6mLef0BvmEaatChaWrbP2uJ49
- LFIxrsdnQxgjt9fznipGoKFXEokE7W7bL51g4qPVxt/USzslcl90CwvxPrUctL/c/7UC
- h2dJ02zWPHI3GQcfKhcL/JpWPUp+8EQ1qkZNIUI+/OBCB8e9bXTqhZqfTVNrzH4QYHKt
- 6gpQ==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mo5Em-0006Ft-Fl
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 09:51:37 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id n29so18547449wra.11
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 06:51:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=szUAPFGBvZnTdl62g3KF4aXspJL5YUpZ4qjN2UnzAC8=;
+ b=EFVSHhMKHzX7tbibsT5MAdkOBkz9+rcNYeSZ7XNIa5zFGCzMAfABIW616HRv6mEwZE
+ Hn21O3iFR0u/szHUaQcvLXnQT6eNEjdrsHTbpIT6e1AWfRdkfLo3bcDwnqY9LhPClcTN
+ GON5J0bmIjs0HpjSOMQq9QdrG/f18LQiiYIXSx8UvHEPR/6Mq5YhpM1WkQRt7k5Qz5Ac
+ +op9Ewwdwn7/tnr7WC9LEuM440PfNo7FT+jWauSljm7UZE+tjBGfZNpxuf/w00PiUQgi
+ WB9RxepS8eLxRjVPOz04i2/5XrDfGDCnVrgZmBnRYVhUi/LIPu6IS1ckPRPd/NHShrWq
+ DfTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ejfNglUO8k6Fc/DKJDw6PTnm2iPEvk0IjXsaBppK+20=;
- b=vti9SZ2ngTKoe3DnBk0PPbpH5D4ejHC4JgcbPpwtpFP9+Omj0hyYi231ly7mxAjw6H
- KgKvo71eyD79P3tTfXlKW2NDYtLnNJ/Jo5Z8aZNduV13UigdJUim5TP5dQxmE8gRSaAV
- GWoxlCZ2iRYpZmvsnxR96wEQF+uz3xEpLDZkaoZyt2sQYPrMhZf7mNMGzEca+IfZ6sk5
- FduLU8Aem6g3In6wh9S6bFYQNNRyPPiWV51Ny/82/qPQj8VSLnnYXv2fVd2mjyIU3/L6
- PkMux9knK9zMIRBhbrZqZ6Vcu4WNupHyrfCa/cVlCD//XdPFv+kqEf9lNWxkiuEc1KmC
- YxKw==
-X-Gm-Message-State: AOAM530wBFCOo6JjDsKgOQhmuYpGdGXVFhpGT/yYwXq5YPi2ItEwQ1jQ
- xaE0NXSPh/Bxi5TQZSpeTeoE6Gma6b0=
-X-Google-Smtp-Source: ABdhPJywtJHps4oKDgNckE4X9Kf7JGvMKHBL7XrzACJ9o51m8G5OKIPBXUJgPAf/5cxmcKguR+h0qg==
-X-Received: by 2002:a17:906:7305:: with SMTP id
- di5mr8402572ejc.182.1637333145592; 
- Fri, 19 Nov 2021 06:45:45 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id z25sm26934ejd.80.2021.11.19.06.45.44
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=szUAPFGBvZnTdl62g3KF4aXspJL5YUpZ4qjN2UnzAC8=;
+ b=glstiDY5EibLX9C3Jp0jU81FCIdO5ybi/O84gpIUs91wTw3qUyWziTRh3JIcsGbgZ5
+ uPy3rPjiEwizhfFsydKhkui5UwnGbvjD7AV8lkiQ2JqOzNRynId4adIAHutD1NhuqtQf
+ 1EtigqCYM6wWGvgB5zD7Q2KjUYteMuO8rltzbNTmNumICS6bOzSzDFFK+dqM425JOIA2
+ 1KJZ1Zjh7a0F0KkxvgKdctIQMn183EavLZt7YiyN7SjcAHVxsgfR4r0n++gti6MjWxQF
+ bN2o0wLaeiFwShARGkNPVJUSnAYiFx+0RkmdQFInP8JtKDxHAjtl1WBDvojlQBw4V6HO
+ gPeA==
+X-Gm-Message-State: AOAM532g8+rPRQkrRCyMNqFDPeP7VfowB7Ltf/igcj1K/ATCt5pMSN5f
+ 9bE4/0eDhZojrrGvzbJAhuWLsw==
+X-Google-Smtp-Source: ABdhPJzugB7rkp/d9DAlQe95IjdWXdZ165xMkECOpafOXnfH+NMY9Aedtll3WlwTHFGJK0nDcjFbvw==
+X-Received: by 2002:adf:f7d2:: with SMTP id a18mr8277502wrq.354.1637333494737; 
+ Fri, 19 Nov 2021 06:51:34 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u15sm3748122wmq.13.2021.11.19.06.51.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 06:45:45 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ Fri, 19 Nov 2021 06:51:33 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E89091FF96;
+ Fri, 19 Nov 2021 14:51:32 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 7/7] chardev/wctable: don't free the instance in
- wctablet_chr_finalize
-Date: Fri, 19 Nov 2021 15:45:39 +0100
-Message-Id: <20211119144539.285740-8-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211119144539.285740-1-pbonzini@redhat.com>
-References: <20211119144539.285740-1-pbonzini@redhat.com>
+Subject: [RFC PATCH] gdbstub: handle a potentially racing TaskState
+Date: Fri, 19 Nov 2021 14:51:24 +0000
+Message-Id: <20211119145124.942390-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,38 +87,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Daniil Tatianin <d-tatianin@yandex-team.ru>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniil Tatianin <d-tatianin@yandex-team.ru>
+When dealing with multi-threaded userspace programs there is a race
+condition with the addition of cpu->opaque (aka TaskState). This is
+due to cpu_copy calling cpu_create which updates the global vCPU list.
+However the task state isn't set until later. This shouldn't be a
+problem because the new thread can't have executed anything yet but
+the gdbstub code does liberally iterate through the CPU list in
+various places.
 
-Object is supposed to be freed by invoking obj->free, and not
-obj->instance_finalize. This would lead to use-after-free followed by
-double free in object_unref/object_finalize.
+This sticking plaster ensure the not yet fully realized vCPU is given
+an pid of -1 which should be enough to ensure it doesn't show up
+anywhere else.
 
-Signed-off-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20211117142349.836279-1-d-tatianin@yandex-team.ru>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+In the longer term I think the code that manages the association
+between vCPUs and attached GDB processes could do with a clean-up and
+re-factor.
+
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/730
 ---
- chardev/wctablet.c | 1 -
- 1 file changed, 1 deletion(-)
+ gdbstub.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/chardev/wctablet.c b/chardev/wctablet.c
-index 95e005f5a5..e8b292c43c 100644
---- a/chardev/wctablet.c
-+++ b/chardev/wctablet.c
-@@ -320,7 +320,6 @@ static void wctablet_chr_finalize(Object *obj)
-     TabletChardev *tablet = WCTABLET_CHARDEV(obj);
- 
-     qemu_input_handler_unregister(tablet->hs);
--    g_free(tablet);
- }
- 
- static void wctablet_chr_open(Chardev *chr,
+diff --git a/gdbstub.c b/gdbstub.c
+index 23baaef40e..141d7bc4ec 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -94,7 +94,7 @@ static inline int cpu_gdb_index(CPUState *cpu)
+ {
+ #if defined(CONFIG_USER_ONLY)
+     TaskState *ts = (TaskState *) cpu->opaque;
+-    return ts->ts_tid;
++    return ts ? ts->ts_tid : -1;
+ #else
+     return cpu->cpu_index + 1;
+ #endif
 -- 
-2.33.1
+2.30.2
 
 
