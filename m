@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21494456BC8
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 09:41:46 +0100 (CET)
-Received: from localhost ([::1]:36698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14868456BE0
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 09:52:14 +0100 (CET)
+Received: from localhost ([::1]:47220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnzSq-0002iO-UC
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 03:41:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52244)
+	id 1mnzcy-0001tq-P3
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 03:52:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1mnzQY-0001Yk-EU; Fri, 19 Nov 2021 03:39:24 -0500
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:44915)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1mnzbn-0001DL-Id
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 03:51:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24197)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1mnzQV-0005zj-Pp; Fri, 19 Nov 2021 03:39:22 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 700BA3200E5C;
- Fri, 19 Nov 2021 03:39:13 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Fri, 19 Nov 2021 03:39:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=VsqZbW
- WFnp3vYE098x8+5+q+ep0neDV/5ypCxAfPo8k=; b=ngpQj5ahnnJfn0ug9daJ+N
- A5BoaTjUUHei5I0fsCnppHZVUWx0a3tYBQ1gBtY5wulfSs9pCe6EbdsqPTTf+i8b
- lFxqpQHc+f6lLtkfHc+kNaKwGlOHz3fS470qP5XEhvyEQisrTshTpLGNBJ8T5Awx
- iP3wsvqQu6J2N1CqQvKZHAWvOiB5z5kOTqO6xkJHYtAs/mzA84EniJhJR1SWa1we
- 6+ZgJjoK+ut91hhbxawD4YtdrDR+i03dhzJvyzNWZoEgkJ6EateIEdDUo/Y7lG2y
- Zdtj04/VAfYamUxyQrbPR63aql0m9bsJex0//22nu0bry0YtnUfYUoBC98c6s8Ag
- ==
-X-ME-Sender: <xms:sGKXYbpxUSjeUCbGZmf9VTuE4SLsOZujPRvky-k2T6-zdCgONB8qzA>
- <xme:sGKXYVqkSMLHBnoqJtE31E55H1fk3a4oH7_5CqnuPEtRKFBd9g9yyFyz3rlM6xhqW
- 3FdLTXTxDA6RXUaJUw>
-X-ME-Received: <xmr:sGKXYYMu74LzeiBw9LK7O3JIJynyPiUFFeO-W3lsUTVaby41VqlxLzZ4c7YFhPhyn9--dLVq0POGAYnDW-w1bj1p0HdrXTsxD9I>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeejgdduvdduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffujgfkfhggtgesthdtredttddtvdenucfhrhhomhephfhinhhnucfv
- hhgrihhnuceofhhthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgheqnecuggftrfgrth
- htvghrnhephedvuefggeejvdejjeejudfhvdevvdeuteffhfeivdetffejfeekgfdvkeek
- vedtnecuffhomhgrihhnpehgihhthhhusgdrtghomhdpghhithhlrggsrdgtohhmnecuve
- hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepfhhthhgrihhn
- sehlihhnuhigqdhmieekkhdrohhrgh
-X-ME-Proxy: <xmx:sGKXYe7rR2NhOCYaBa8KqpBTiX03FJYECuadDpDSLWpSe5Q__mm0fQ>
- <xmx:sGKXYa4MQwOVBfJWNexwmi-CwqJmCMjkdF0b0kKZbeMCQq8gnpD14g>
- <xmx:sGKXYWhWP7bVtW1wO1JXwDJ5VYyRM88cNTlGsDy2H5eKj_Mb3wQ_Nw>
- <xmx:sWKXYQkhhc9AireEJK2fJ2fhuHW-An6EX0795XTvWhkJfRGmm8CxRQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 19 Nov 2021 03:39:10 -0500 (EST)
-Date: Fri, 19 Nov 2021 19:39:10 +1100 (AEDT)
-From: Finn Thain <fthain@linux-m68k.org>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH v1 0/9] hw/mos6522: VIA timer emulation fixes and
- improvements
-In-Reply-To: <2fb3d9f8-0f20-082d-d9f1-ab2984356866@ilande.co.uk>
-Message-ID: <ad537ce9-ec40-b5e4-bb32-5f53e42db29@linux-m68k.org>
-References: <cover.1632437396.git.fthain@linux-m68k.org>
- <e0411348-abd7-3db9-b5bd-8f1d52c1226f@linux-m68k.org>
- <2fb3d9f8-0f20-082d-d9f1-ab2984356866@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1mnzbj-0000AQ-Ap
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 03:50:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1637311853;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4Diao/a4p9jdFVT00/W3fmuAnQH6aS9nXNBuZhMrjp8=;
+ b=H27UPoERNe+lDWJrgIJdtuWC9ZAUSsEyslQN6LSwtLZG1vHCj+hythl3/kMhyvHZsq98qc
+ 8PSn4IoqOkheSJCc7bgSrcjC6aoTyEzQvMCxS0fJm2LinWtYSKljeIS55vnB7eJHDYjgX7
+ PtAo8n6sLidC63Y9NskdcW/i8Xhth6M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-376-5jlFOpjoOtCxQRkNcmSmeA-1; Fri, 19 Nov 2021 03:50:52 -0500
+X-MC-Unique: 5jlFOpjoOtCxQRkNcmSmeA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFFC319067E6;
+ Fri, 19 Nov 2021 08:50:50 +0000 (UTC)
+Received: from thinkpad.redhat.com (unknown [10.39.194.176])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 431C47621D;
+ Fri, 19 Nov 2021 08:49:50 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/3] tests/qtest: add some tests for virtio-net failover
+Date: Fri, 19 Nov 2021 09:49:45 +0100
+Message-Id: <20211119084948.434680-1-lvivier@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=64.147.123.24; envelope-from=fthain@linux-m68k.org;
- helo=wout1-smtp.messagingengine.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,84 +76,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>, Jens Freimann <jfreimann@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 18 Nov 2021, Mark Cave-Ayland wrote:
+This series adds a qtest entry to test virtio-net failover feature.=0D
+=0D
+We check following error cases:=0D
+=0D
+- check missing id on device with failover_pair_id triggers an error=0D
+- check a primary device plugged on a bus that doesn't support hotplug=0D
+  triggers an error=0D
+=0D
+We check the status of the machine before and after hotplugging cards and=
+=0D
+feature negotiation:=0D
+=0D
+- check we don't see the primary device at boot if failover is on=0D
+- check we see the primary device at boot if failover is off=0D
+- check we don't see the primary device if failover is on=0D
+  but failover_pair_id is not the one with on (I think this should be chang=
+ed)=0D
+- check the primary device is plugged after the feature negotiation=0D
+- check the result if the primary device is plugged before standby device a=
+nd=0D
+  vice-versa=0D
+- check the if the primary device is coldplugged and the standy device=0D
+  hotplugged and vice-versa=0D
+- check the migration triggers the unplug and the hotplug=0D
+=0D
+There is one preliminary patch in the series:=0D
+=0D
+- PATCH 1 introduces a function to enable PCI bridge.=0D
+  Failover needs to be plugged on a pcie-root-port and while=0D
+  the root port is not configured the cards behind it are not=0D
+  available=0D
+=0D
+v4:=0D
+- rely on query-migrate status to know the migration state rather than=0D
+  to wait the STOP event.=0D
+- remove the patch to add time out to qtest_qmp_eventwait()=0D
+=0D
+v3:=0D
+- fix a bug with ACPI unplug and add the related test=0D
+=0D
+v2:=0D
+- remove PATCH 1 that introduced a function that can be replaced by=0D
+  qobject_to_json_pretty() (Markus)=0D
+- Add migration to a file and from the file to check the card is=0D
+  correctly unplugged on the source, and hotplugged on the dest=0D
+- Add an ACPI call to eject the card as the kernel would do=0D
+=0D
+Laurent Vivier (3):=0D
+  qtest/libqos: add a function to initialize secondary PCI buses=0D
+  tests/qtest: add some tests for virtio-net failover=0D
+  failover: fix unplug pending detection=0D
+=0D
+ hw/acpi/pcihp.c                   |  30 +-=0D
+ include/hw/pci/pci_bridge.h       |   8 +=0D
+ tests/qtest/libqos/pci.c          | 118 ++++++=0D
+ tests/qtest/libqos/pci.h          |   1 +=0D
+ tests/qtest/meson.build           |   3 +=0D
+ tests/qtest/virtio-net-failover.c | 658 ++++++++++++++++++++++++++++++=0D
+ 6 files changed, 815 insertions(+), 3 deletions(-)=0D
+ create mode 100644 tests/qtest/virtio-net-failover.c=0D
+=0D
+--=20=0D
+2.33.1=0D
+=0D
 
-> 
-> Hi Finn,
-> 
-> I've not forgotten about this series - we're now in 6.2 freeze, but it's 
-> on my TODO list to revisit in the next development cycle this along with 
-> the ESP stress-ng changes which I've also been looking at. As mentioned 
-> in my previous reviews the patch will need some further analysis: 
-> particularly the logic in mos6522_read() that can generate a spurious 
-> interrupt on a register read needs to be removed,
-
-If mos6522 fails to raise its IRQ then the counter value observed by the 
-guest will not make sense. This relationship was explained in the 
-description of patch 8. If you have a problem with that patch, please 
-reply there so that your misapprehension can be placed in context.
-
-> and also testing is required to ensure that these changes don't affect 
-> the CUDA clock warping which allows OS X to boot under qemu-system-ppc.
-> 
-
-I'm not expecting any issues. What is required in order to confirm this?
-Would it be sufficient to boot a Mac OS X 10.4 installer DVD?
-
-> I'm confident that qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) is monotonic, 
-
-As I mentioned, it is monotonic here.
-
-> since if it were not then there would be huge numbers of complaints from 
-> QEMU users. It appears that Linux can potentially alter the ticks in 
-> mac_read_clk() at 
-> https://github.com/torvalds/linux/blob/master/arch/m68k/mac/via.c#L624 
-> which suggests the issue is related to timer wraparound. I'd like to 
-> confirm exactly which part of your series fixes the specific problem of 
-> the clock jumping backwards before merging these changes.
-> 
-
-You really only need a good datasheet to review these patches. You don't 
-need a deep understanding of any particular guest, and you shouldn't be 
-targetting any particular guest.
-
-One of the purposes of this patch series is to allow the guest to change 
-to better exploit actual, physical hardware. Since QEMU regression testing 
-is part of the kernel development process, regressions need to be avoided.
-
-That means QEMU's shortcomings hinder Linux development.
-
-Therefore, QEMU should not target the via timer driver in Linux v2.6 or 
-the one in v5.15 or the one in NetBSD etc. QEMU should target correctness 
--- especially when that can be had for cheap. Wouldn't you agree?
-
-QEMU deviates in numerous ways from the behaviour of real mos6522 timer. 
-This patch series does not address all of these deviations (see patch 8).  
-Instead, this patch series addresses only the most aggregious ones, and 
-they do impact existing guests.
-
-> I realized that I could easily cross-compile a 5.14 kernel to test this 
-> theory with the test root image and .config you supplied at 
-> https://gitlab.com/qemu-project/qemu/-/issues/611 using the QEMU 
-> docker-m68k-cross image to avoid having to build a complete toolchain by 
-> hand. The kernel builds successfully using this method, but during boot 
-> it hangs sending the first SCSI CDB to the ESP device, failing to send 
-> the last byte using PDMA.
-> 
-> Are there known issues cross-compiling an m68k kernel on an x86 host? 
-
-Not that I'm aware of.
-
-> Or are your current kernels being built from a separate branch outside 
-> of mainline Linux git?
-> 
-
-I use mainline Linux when testing QEMU. I provided a mainline build, 
-attached to the same bug report, so you don't have to build it.
 
