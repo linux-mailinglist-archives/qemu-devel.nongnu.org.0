@@ -2,52 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6C7145764D
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 19:21:27 +0100 (CET)
-Received: from localhost ([::1]:38816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DADDE45765C
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 19:25:44 +0100 (CET)
+Received: from localhost ([::1]:44300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo8Vr-0002tJ-2N
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 13:21:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36954)
+	id 1mo8Zz-0006nY-HB
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 13:25:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mo8V2-0002DA-LF
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 13:20:36 -0500
-Received: from [2001:738:2001:2001::2001] (port=42762 helo=zero.eik.bme.hu)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mo8V0-0001Zc-95
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 13:20:36 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 7268F756041;
- Fri, 19 Nov 2021 19:20:30 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 5169B756040; Fri, 19 Nov 2021 19:20:30 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 4FD7875603A;
- Fri, 19 Nov 2021 19:20:30 +0100 (CET)
-Date: Fri, 19 Nov 2021 19:20:30 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH-for-7.0 2/5] hw/display/vga-mmio: Inline vga_mm_init()
-In-Reply-To: <20211119171202.458919-3-f4bug@amsat.org>
-Message-ID: <e414c4b-11b-86d7-0b3-5f937db07f49@eik.bme.hu>
-References: <20211119171202.458919-1-f4bug@amsat.org>
- <20211119171202.458919-3-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mo8X3-0003zG-OI; Fri, 19 Nov 2021 13:22:41 -0500
+Received: from [2607:f8b0:4864:20::935] (port=36575
+ helo=mail-ua1-x935.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mo8X2-0001mO-6C; Fri, 19 Nov 2021 13:22:41 -0500
+Received: by mail-ua1-x935.google.com with SMTP id r15so23054653uao.3;
+ Fri, 19 Nov 2021 10:22:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=p4R7RlqmOfL95uK+03Ngd9IjIcYwI/i3hxwyXnljgcQ=;
+ b=UtOtt2NsRyMHSscz2DH7LrpiajkmSwmNJQMX5hqJ2farksUe+G636exqvEzkRePZYi
+ W0qM4p9hXAyJ0t79kw9wmI/DOaZ+Z1MvCK4WCJz16hEUV/CA2Sf7Wgh9U0O6OZyywquS
+ 7fxvlvKwbB7YdtpA64XpERlZqj5ejaKWOA3aErtLGlOgOOoN30GJDIUZPv6al3ZaeawB
+ /8B/Pa7gG7ixDAvjHvpdvTHWXgAjWkwOUxgC3cTmpBhpdSwlTjjC0Jg9CgOXw9ERYWI0
+ tgLbJX+KP+/VxyNVBJzNvbd0pUL/OeCe/hpuE2VQvHKMvtmDIf3lOaK4f2xI+chlv5Nb
+ tS5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=p4R7RlqmOfL95uK+03Ngd9IjIcYwI/i3hxwyXnljgcQ=;
+ b=jgbGGAjwbta7Bej6EMboSV6dIev4GLQlDGFGhEv7/CIyNoTWapTTF5g2fNcRIBpOwh
+ yuoqk8Eo4L+h5VCMTtCrjITLYhpykz6WOz61ZRLottclkAPv1eYCHH0m9G4ldsk1vHxo
+ CTacbqa4zrnP+shfsEbCBLqJADHWyZ+eo8b7584rqxbsxkK+97y4WD34I1oN0BCK6DKX
+ 0efYhAfY3UWy7tZxxmXkc9OWyGlL+AHvgVO5KwZlXIcVLcQPGdLHxp+8QFqQup5vXP5L
+ KXUAu4OOwK0XJCMOWW7g+pc7pypnP8/fWZZsUCKO37ao7h2X4ynr0MRVJO+mRcmi63pi
+ bHWQ==
+X-Gm-Message-State: AOAM5319cz7iwKE6gAFn2Ep9FaF4VSMc31jMbBByR8OnW95NtIyIh2i6
+ SdCuLwdlQrlt3hUkj6moqbyrKC6qaohB6g==
+X-Google-Smtp-Source: ABdhPJzdZjyZar9jQ3hvA+OXCsSChKpQTux6CglJMPb5qtl2nGLZkuWBxDTOj7h063H04maAmCEWhw==
+X-Received: by 2002:ab0:6ecf:: with SMTP id c15mr53875673uav.113.1637346157255; 
+ Fri, 19 Nov 2021 10:22:37 -0800 (PST)
+Received: from rekt.ibmuc.com ([152.250.208.89])
+ by smtp.gmail.com with ESMTPSA id x142sm339871vsx.15.2021.11.19.10.22.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Nov 2021 10:22:37 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-7.0 v7 00/10] PMU-EBB support for PPC64 TCG
+Date: Fri, 19 Nov 2021 15:22:06 -0300
+Message-Id: <20211119182216.628676-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-748369311-1637346030=:35384"
-X-Spam-Probability: 9%
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:738:2001:2001::2001
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::935
  (failed)
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+Received-SPF: pass client-ip=2607:f8b0:4864:20::935;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x935.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,84 +82,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: richard.henderson@linaro.org,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hi,
 
---3866299591-748369311-1637346030=:35384
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+This new version contains a change in patch 1 requested by David
+in the v6 review.
 
-On Fri, 19 Nov 2021, Philippe Mathieu-Daudé wrote:
-> Inline vga_mm_init() in vga_mmio_init() to simplify the
-> next patch review. Kind of.
->
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> hw/display/vga-mmio.c | 27 ++++++++++-----------------
-> 1 file changed, 10 insertions(+), 17 deletions(-)
->
-> diff --git a/hw/display/vga-mmio.c b/hw/display/vga-mmio.c
-> index 8aaf44e7b1d..0aefbcf53a0 100644
-> --- a/hw/display/vga-mmio.c
-> +++ b/hw/display/vga-mmio.c
-> @@ -65,12 +65,19 @@ static const MemoryRegionOps vga_mm_ctrl_ops = {
->     .endianness = DEVICE_NATIVE_ENDIAN,
-> };
->
-> -static void vga_mm_init(VGAMmioState *s, hwaddr vram_base,
-> -                        hwaddr ctrl_base, int it_shift,
-> -                        MemoryRegion *address_space)
-> +int vga_mmio_init(hwaddr vram_base,
-> +                    hwaddr ctrl_base, int it_shift,
-> +                    MemoryRegion *address_space)
+Changes from v6:
+- patch 1:
+  * move the PMU overflow timer initialization from spapr_cpu_core.c to
+init_proc_POWER* functions in cpu_init.c
+- v6 link: https://lists.gnu.org/archive/html/qemu-devel/2021-11/msg01968.html
 
-Indentation? (But it's removed later so does not really matter.)
+Daniel Henrique Barboza (9):
+  target/ppc: introduce PMUEventType and PMU overflow timers
+  target/ppc: PMU basic cycle count for pseries TCG
+  target/ppc: enable PMU counter overflow with cycle events
+  target/ppc: enable PMU instruction count
+  target/ppc/power8-pmu.c: add PM_RUN_INST_CMPL (0xFA) event
+  target/ppc: PMU: handle setting of PMCs while running
+  target/ppc/power8-pmu.c: handle overflow bits when PMU is running
+  PPC64/TCG: Implement 'rfebb' instruction
+  target/ppc/excp_helper.c: EBB handling adjustments
 
-> {
-> +    VGAMmioState *s;
->     MemoryRegion *s_ioport_ctrl, *vga_io_memory;
->
-> +    s = g_malloc0(sizeof(*s));
-> +
-> +    s->vga.vram_size_mb = VGA_RAM_SIZE / MiB;
-> +    s->vga.global_vmstate = true;
-> +    vga_common_init(&s->vga, NULL);
-> +
->     s->it_shift = it_shift;
->     s_ioport_ctrl = g_malloc(sizeof(*s_ioport_ctrl));
->     memory_region_init_io(s_ioport_ctrl, NULL, &vga_mm_ctrl_ops, s,
-> @@ -89,20 +96,6 @@ static void vga_mm_init(VGAMmioState *s, hwaddr vram_base,
->     memory_region_add_subregion(address_space,
->                                 vram_base + 0x000a0000, vga_io_memory);
->     memory_region_set_coalescing(vga_io_memory);
-> -}
-> -
-> -int vga_mmio_init(hwaddr vram_base,
-> -                    hwaddr ctrl_base, int it_shift,
-> -                    MemoryRegion *address_space)
-> -{
-> -    VGAMmioState *s;
-> -
-> -    s = g_malloc0(sizeof(*s));
-> -
-> -    s->vga.vram_size_mb = VGA_RAM_SIZE / MiB;
-> -    s->vga.global_vmstate = true;
-> -    vga_common_init(&s->vga, NULL);
-> -    vga_mm_init(s, vram_base, ctrl_base, it_shift, address_space);
+Gustavo Romero (1):
+  target/ppc: PMU Event-Based exception support
 
-Where did this vga_mm_init() go?
+ hw/ppc/spapr_cpu_core.c                |   1 +
+ target/ppc/cpu.h                       |  60 +++-
+ target/ppc/cpu_init.c                  |  44 ++-
+ target/ppc/excp_helper.c               |  93 ++++++
+ target/ppc/helper.h                    |   4 +
+ target/ppc/helper_regs.c               |   4 +
+ target/ppc/insn32.decode               |   5 +
+ target/ppc/meson.build                 |   1 +
+ target/ppc/power8-pmu-regs.c.inc       |  45 ++-
+ target/ppc/power8-pmu.c                | 403 +++++++++++++++++++++++++
+ target/ppc/power8-pmu.h                |  25 ++
+ target/ppc/spr_tcg.h                   |   3 +
+ target/ppc/translate.c                 |  60 ++++
+ target/ppc/translate/branch-impl.c.inc |  33 ++
+ 14 files changed, 768 insertions(+), 13 deletions(-)
+ create mode 100644 target/ppc/power8-pmu.c
+ create mode 100644 target/ppc/power8-pmu.h
+ create mode 100644 target/ppc/translate/branch-impl.c.inc
 
-Regards,
-BALATON Zoltan
+-- 
+2.31.1
 
->     s->vga.con = graphic_console_init(NULL, 0, s->vga.hw_ops, s);
->
->
---3866299591-748369311-1637346030=:35384--
 
