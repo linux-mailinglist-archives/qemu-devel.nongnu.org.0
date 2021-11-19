@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0946845721C
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 16:49:32 +0100 (CET)
-Received: from localhost ([::1]:42906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DB9745734F
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 17:44:03 +0100 (CET)
+Received: from localhost ([::1]:37720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo68o-0006U5-Le
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 10:49:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36592)
+	id 1mo6za-0006Wa-G9
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 11:44:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mo66x-0004xQ-5R
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 10:47:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39043)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mo66v-00086b-2N
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 10:47:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637336852;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=o6Pz+Sg1z2WaZN5GoYDHhZyuK5+vbk2mQu+3aDWlZ/I=;
- b=BPNJ0Hmw2oHAZDeAtYLxQaIfUYfa8XeHiM7M9s1QHZiECwqitMfBmqvf8ikBzbS/DFPJ5V
- NWYznD7MJ76EV+kiFxp8ZlaiNHe5WU+AU+v/XJ6ONMpsvcSiQ4XSfljSe40Ovs2RvcCNID
- 8NkXHukrcQ2dGGCPS2FhrdDWGKDdFwQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-320-PJ_A-BP6M4mT-IiTSoqz4g-1; Fri, 19 Nov 2021 10:47:28 -0500
-X-MC-Unique: PJ_A-BP6M4mT-IiTSoqz4g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA4D418125C1;
- Fri, 19 Nov 2021 15:47:27 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 22DB35E26A;
- Fri, 19 Nov 2021 15:47:25 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B4B0811380A7; Fri, 19 Nov 2021 16:47:23 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Zhang Chen <chen.zhang@intel.com>
-Subject: Re: [PATCH for 7.0 V10 2/6] util/qemu-sockets.c: Add
- inet_parse_base to handle InetSocketAddressBase
-References: <20211112031112.9303-1-chen.zhang@intel.com>
- <20211112031112.9303-3-chen.zhang@intel.com>
-Date: Fri, 19 Nov 2021 16:47:23 +0100
-In-Reply-To: <20211112031112.9303-3-chen.zhang@intel.com> (Zhang Chen's
- message of "Fri, 12 Nov 2021 11:11:08 +0800")
-Message-ID: <87a6i05er8.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <jgg@ziepe.ca>) id 1mo6Pb-0007YY-0W
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:06:51 -0500
+Received: from [2607:f8b0:4864:20::72e] (port=39684
+ helo=mail-qk1-x72e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jgg@ziepe.ca>) id 1mo6PM-0004Zg-Id
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:06:50 -0500
+Received: by mail-qk1-x72e.google.com with SMTP id bk22so10639161qkb.6
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 08:06:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=VtV9HHXd4X5WRhcYz4pKiiL6eAEsTLpENVV+xmm0B1E=;
+ b=gsJUvh5WctLgXnshRJv4wGg2JAgnGdSqNb3S1bmxpaDvTOBEX8LcgLW/+JvwTzVB37
+ v5K7AG9csFvUa4d1e8VMH07tEJ/4GXeXR0y5xTNeGGDEbPPYGPgXDzn7G4nizRSxv1eO
+ ORYsNAAPbkIfEb6NsGnWQ8GCPrvVKrf/49w0ZT27g2F3XOg052ttHxyU5wmveX2QAeR0
+ /CkUMXANh4cDh+HorkLPLoxEa1f7SRa67fSFzDU/E1oWa7A8N6PtOVfUv80pyqxAxqRj
+ YJDGrR6Uf5+iNfe0u7fumnhfivIpDOd+RCAzSsT04BV51dAxqsTNgRzPecBJz4DuF5VH
+ RdEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=VtV9HHXd4X5WRhcYz4pKiiL6eAEsTLpENVV+xmm0B1E=;
+ b=2s50Tug7uDKqa6DXQMYAdrA8qgx9LI4G/gh1sPrCvGS0VVu/iKXaiLRlaAgSrmQMMw
+ 1B34yH8nut7tO2C1z/2RJyDAUIw+fpCGcBW1w82aJpL81q8adk2kUQyghNdpFDVXmQen
+ l8dhpQL1L9KJaDGx+e3j+xX1wm0m/Thi6hFrG6qJ34biaPJ1kDcpWl/fCxXqv5TsCgUf
+ j0rkSwMg9NoWNVaPopq1riafZmjS42kV7lg2BRMfz3nPegibjT6FRItWX28kOkCJ2la+
+ xmuSwH2ONu0LmQuir9X3eDH7GO8Y+Juso1iZ0vgDtN9l1rIGxs/Eg9a1AyTqybRDfxK1
+ dtbw==
+X-Gm-Message-State: AOAM530eHhmf2V+/y46tOCIlsQ885hMEbLycfGSPCcPP1pG/ZTmqSwT/
+ V+rltpxkgCC+Nl9MgqbtU6Ip28Lebcr08A==
+X-Google-Smtp-Source: ABdhPJxKednFIP8LV5fXPBeBBtPHTY7W03I8IO74iFi+Vm9ZxLiGU52DJu0TAbPkEtajZX/lLl8ZnA==
+X-Received: by 2002:a05:622a:349:: with SMTP id
+ r9mr7258679qtw.213.1637337626383; 
+ Fri, 19 Nov 2021 08:00:26 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.113.129])
+ by smtp.gmail.com with ESMTPSA id j20sm54140qko.117.2021.11.19.08.00.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Nov 2021 08:00:25 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1mo6JL-00CHtq-W3; Fri, 19 Nov 2021 12:00:24 -0400
+Date: Fri, 19 Nov 2021 12:00:23 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [RFC v2 PATCH 01/13] mm/shmem: Introduce F_SEAL_GUEST
+Message-ID: <20211119160023.GI876299@ziepe.ca>
+References: <20211119134739.20218-1-chao.p.peng@linux.intel.com>
+ <20211119134739.20218-2-chao.p.peng@linux.intel.com>
+ <20211119151943.GH876299@ziepe.ca>
+ <df11d753-6242-8f7c-cb04-c095f68b41fa@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <df11d753-6242-8f7c-cb04-c095f68b41fa@redhat.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::72e
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72e; envelope-from=jgg@ziepe.ca;
+ helo=mail-qk1-x72e.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,66 +91,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Li Zhijian <lizhijian@cn.fujitsu.com>, Jason Wang <jasowang@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-dev <qemu-devel@nongnu.org>, Eric Blake <eblake@redhat.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org,
+ "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Chao Peng <chao.p.peng@linux.intel.com>,
+ ak@linux.intel.com, Jonathan Corbet <corbet@lwn.net>,
+ Joerg Roedel <joro@8bytes.org>, x86@kernel.org,
+ Hugh Dickins <hughd@google.com>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, luto@kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Jim Mattson <jmattson@google.com>, dave.hansen@intel.com,
+ Sean Christopherson <seanjc@google.com>, susie.li@intel.com,
+ Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
+ john.ji@intel.com, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I normally look only at the QAPI schema changes when I'm not a subject
-matter expert, but today my gaze wandered...
+On Fri, Nov 19, 2021 at 04:39:15PM +0100, David Hildenbrand wrote:
 
-Zhang Chen <chen.zhang@intel.com> writes:
+> > If qmeu can put all the guest memory in a memfd and not map it, then
+> > I'd also like to see that the IOMMU can use this interface too so we
+> > can have VFIO working in this configuration.
+> 
+> In QEMU we usually want to (and must) be able to access guest memory
+> from user space, with the current design we wouldn't even be able to
+> temporarily mmap it -- which makes sense for encrypted memory only. The
+> corner case really is encrypted memory. So I don't think we'll see a
+> broad use of this feature outside of encrypted VMs in QEMU. I might be
+> wrong, most probably I am :)
 
-> No need to carry the flag all the time in many scenarios.
->
-> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-> ---
->  include/qemu/sockets.h |  1 +
->  util/qemu-sockets.c    | 14 ++++++++++++++
->  2 files changed, 15 insertions(+)
->
-> diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
-> index 0c34bf2398..3a0f8fa8f2 100644
-> --- a/include/qemu/sockets.h
-> +++ b/include/qemu/sockets.h
-> @@ -32,6 +32,7 @@ int socket_set_fast_reuse(int fd);
->  int inet_ai_family_from_address(InetSocketAddress *addr,
->                                  Error **errp);
->  int inet_parse(InetSocketAddress *addr, const char *str, Error **errp);
-> +int inet_parse_base(InetSocketAddressBase *addr, const char *str, Error **errp);
->  int inet_connect(const char *str, Error **errp);
->  int inet_connect_saddr(InetSocketAddress *saddr, Error **errp);
->  
-> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-> index 0585e7a629..f444921918 100644
-> --- a/util/qemu-sockets.c
-> +++ b/util/qemu-sockets.c
-> @@ -713,6 +713,20 @@ int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)
->      return 0;
->  }
->  
-> +int inet_parse_base(InetSocketAddressBase *base, const char *str, Error **errp)
-> +{
-> +    InetSocketAddress *addr;
-> +    int ret = 0;
-> +
-> +    addr = g_new0(InetSocketAddress, 1);
-> +    ret = inet_parse(addr, str, errp);
-> +
-> +    base->host = addr->host;
-> +    base->port = addr->port;
-> +
-> +    g_free(addr);
-> +    return ret;
-> +}
+Interesting..
 
-This accepts all the funky flags inet_parse() accepts, then silently
-ignores them.  I seriously doubt we want that.
+The non-encrypted case I had in mind is the horrible flow in VFIO to
+support qemu re-execing itself (VFIO_DMA_UNMAP_FLAG_VADDR).
 
->  
->  /**
->   * Create a blocking socket and connect it to an address.
+Here VFIO is connected to a VA in a mm_struct that will become invalid
+during the kexec period, but VFIO needs to continue to access it. For
+IOMMU cases this is OK because the memory is already pinned, but for
+the 'emulated iommu' used by mdevs pages are pinned dynamically. qemu
+needs to ensure that VFIO can continue to access the pages across the
+kexec, even though there is nothing to pin_user_pages() on.
 
+This flow would work a lot better if VFIO was connected to the memfd
+that is storing the guest memory. Then it naturally doesn't get
+disrupted by exec() and we don't need the mess in the kernel..
+
+I was wondering if we could get here using the direct_io APIs but this
+would do the job too.
+
+> Apart from the special "encrypted memory" semantics, I assume nothing
+> speaks against allowing for mmaping these memfds, for example, for any
+> other VFIO use cases.
+
+We will eventually have VFIO with "encrypted memory". There was a talk
+in LPC about the enabling work for this.
+
+So, if the plan is to put fully encrpyted memory inside a memfd, then
+we still will eventually need a way to pull the pfns it into the
+IOMMU, presumably along with the access control parameters needed to
+pass to the secure monitor to join a PCI device to the secure memory.
+
+Jason
 
