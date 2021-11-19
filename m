@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D65457916
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 23:50:09 +0100 (CET)
-Received: from localhost ([::1]:50006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 899624578F9
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 23:45:41 +0100 (CET)
+Received: from localhost ([::1]:34826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1moChs-0002sx-L6
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 17:50:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55732)
+	id 1moCdY-00018v-LL
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 17:45:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1moCbC-0006mq-8u
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 17:43:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43753)
+ id 1moCb9-0006jU-VT
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 17:43:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37389)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1moCbA-0002kn-Be
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 17:43:14 -0500
+ id 1moCb7-0002jH-SR
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 17:43:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637361791;
+ s=mimecast20190719; t=1637361789;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R0TUB3hMiEah7tnfQm8rie9x1LzAtBP7X3ckckmZryA=;
- b=W3aXkjP1AJtXozNErCgw3mXayVK4akRlQpcsiXz0smZEFwJZzeZs8NfvoukpfSl5Ap/T8w
- keqp8ARZTRVTaLM2c2yR+qAE++Xn1NRWo4kkwZk9h5WciVEeeZotAm/YuzYRVe5JCfqawL
- mLo9iWxbb7ItdGHh8fswdhQykGA8+Ww=
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=lWefMg647tFbLNi1aAwVUcB9jLlUxbDtAWlfUpWOHoA=;
+ b=fJnJzZ2mxy6oKZqJi62DDChcWKePkm4srWzf+snn1cWHp1oHgXRdiYhe2z+zhkBEWMjzx9
+ Br8yPCBwBtn9iQdbkL7aHdKx1eIRKmwiwTi51BuxIZvgChZvQqEZy4rUIPZ1FyrJH2ayFk
+ ARHtfW1Qo2nYI0BOIo1VyHn5ZQ/r1vc=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-313-X8dYUm3GPrqR6m5EGoZjJw-1; Fri, 19 Nov 2021 17:43:10 -0500
-X-MC-Unique: X8dYUm3GPrqR6m5EGoZjJw-1
-Received: by mail-oo1-f72.google.com with SMTP id
- x23-20020a4a4117000000b002c263f22601so7015653ooa.19
- for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 14:43:10 -0800 (PST)
+ us-mta-172-GvqB3i1LN8GCqXWEhEvxGw-1; Fri, 19 Nov 2021 17:43:08 -0500
+X-MC-Unique: GvqB3i1LN8GCqXWEhEvxGw-1
+Received: by mail-oi1-f200.google.com with SMTP id
+ i82-20020acab855000000b002bcea082cf7so3798627oif.22
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 14:43:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=R0TUB3hMiEah7tnfQm8rie9x1LzAtBP7X3ckckmZryA=;
- b=sZjOLslZq7jVYaMB1vkV0ycnbrtCelD+FL1HhPdbaZOJ1Eg0JlEgi2/GUt4K5y8rt4
- 8bD4peS/t66bc2W3THwtfyrXoiShphyQ8klx4FRVoXFRw4fkBwbErfvBlXr4WHjmMu9r
- bjjQazuPFVu8C/RdG0iKEq3HhUGrzSaDZB1CXq83HA/EZ3L2D9VXCQYKLxaBdyazM4VZ
- SCLXlkan290xj1D6D7mx+3o/5sS6jWAZrQ05zxvW+7u8VHOqXsNBz9/j90wz4dDTXM2/
- nnM5rbegFtw+HF3Uaeu4XNYL36iOGDsQyiw75Ltc5hZOwmX72zq9aCtpGmQEgwzukXj0
- SKZg==
-X-Gm-Message-State: AOAM530vMdaBkRQNwl1AZH7NVQwVelg5g5hiWXDpCH6izbbatgL48Y+x
- vGvOGcJQcAp7xUO1m97VQoxeGF8SdvgkZry/5SmG437nitvivtX+BzJpkmZWG9Q+EaGZ0GzwNag
- 9goZaUZslTeQuddM=
-X-Received: by 2002:a05:6808:1a28:: with SMTP id
- bk40mr3114066oib.26.1637361789615; 
- Fri, 19 Nov 2021 14:43:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyPF14lUHTde8czUkyvk6kEfc/QqbWTT6DDa9oyV5lb8iLrBWW0/mXO5TppY1K/2twWo8yb1g==
-X-Received: by 2002:a05:6808:1a28:: with SMTP id
- bk40mr3114056oib.26.1637361789480; 
- Fri, 19 Nov 2021 14:43:09 -0800 (PST)
+ bh=lWefMg647tFbLNi1aAwVUcB9jLlUxbDtAWlfUpWOHoA=;
+ b=ioGKUq67YE5TYZA/g7losOh4yZhydlDjRRmQoBQjBcwAkMq0+z7ZvAnCKaBkMlxq/5
+ Vq8caFsRwwc/XpZ4qL6qHfJlBCfc6QQ6W5jVkkxMMlOhaiL0eDUKr564sS7miq3cFDM6
+ aDJdMYbB1pV+HkeOtxFlDlPE0THDi6kwvSbn5lkWGf29gWakLAQMdilmILZ3PJCYedAO
+ 2Omk87CxN+/oCHo0OYpdrQuBwc3Y3YyGxjiaIhfZSKiS0HScPZF3TRXyC8G3XL8dmQIs
+ obUT1DKKEt2I/LETrrI6d5Dtks2Y60ekCxdQx0zOjlFCc5AggdyNOBd/WqWRIL7qKnIu
+ mZwQ==
+X-Gm-Message-State: AOAM532ZecfZIEKYHuabj5Vhl5uesSyttm0DCFtSnSXMQaZ0s/G67lLq
+ NX7HCf9TueEGiiQtSR1hwhJFo25XIQeD9sBCv6x7htX1qzxYAC9zzKLGkUrGhQFlww+UNOymgPp
+ W0FAdNsjD7qPBHjQ=
+X-Received: by 2002:a05:6830:1db9:: with SMTP id
+ z25mr7623704oti.29.1637361787434; 
+ Fri, 19 Nov 2021 14:43:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw76sWDnerRzYoxcxkNZhm12CtX/j8fyF04VWf+MSwMaakXYqEd34VZzpHGzY0BL2fHvLUE2A==
+X-Received: by 2002:a05:6830:1db9:: with SMTP id
+ z25mr7623690oti.29.1637361787207; 
+ Fri, 19 Nov 2021 14:43:07 -0800 (PST)
 Received: from redhat.com ([38.15.36.239])
- by smtp.gmail.com with ESMTPSA id g26sm239115ots.25.2021.11.19.14.43.09
+ by smtp.gmail.com with ESMTPSA id g26sm239115ots.25.2021.11.19.14.43.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 14:43:09 -0800 (PST)
-Date: Fri, 19 Nov 2021 15:42:19 -0700
+ Fri, 19 Nov 2021 14:43:07 -0800 (PST)
+Date: Fri, 19 Nov 2021 15:42:22 -0700
 From: Alex Williamson <alex.williamson@redhat.com>
 To: John Johnson <john.g.johnson@oracle.com>
-Subject: Re: [RFC v3 05/19] Add validation ops vector
-Message-ID: <20211119154219.65a02f15.alex.williamson@redhat.com>
-In-Reply-To: <327df73b51de7a11657aea61295d735fdd0427fb.1636057885.git.john.g.johnson@oracle.com>
+Subject: Re: [RFC v3 06/19] vfio-user: Define type vfio_user_pci_dev_info
+Message-ID: <20211119154222.525dfb71.alex.williamson@redhat.com>
+In-Reply-To: <28d95a317e70c418dc054a59db307d9c49411ca6.1636057885.git.john.g.johnson@oracle.com>
 References: <cover.1636057885.git.john.g.johnson@oracle.com>
- <327df73b51de7a11657aea61295d735fdd0427fb.1636057885.git.john.g.johnson@oracle.com>
+ <28d95a317e70c418dc054a59db307d9c49411ca6.1636057885.git.john.g.johnson@oracle.com>
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
@@ -78,7 +78,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -86,8 +86,8 @@ X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,161 +104,194 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Add a prefix on Subject: please.  Same for previous in series.
-
-On Mon,  8 Nov 2021 16:46:33 -0800
+On Mon,  8 Nov 2021 16:46:34 -0800
 John Johnson <john.g.johnson@oracle.com> wrote:
 
-> Validates cases where the return values aren't fully trusted
-> (prep work for vfio-user, where the return values from the
-> remote process aren't trusted)
+> New class for vfio-user with its class and instance
+> constructors and destructors, and its pci ops.
 > 
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 > Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 > ---
->  include/hw/vfio/vfio-common.h | 21 ++++++++++++++
->  hw/vfio/pci.c                 | 67 +++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 88 insertions(+)
+>  hw/vfio/pci.h   |  9 ++++++
+>  hw/vfio/pci.c   | 97 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  hw/vfio/Kconfig | 10 ++++++
+>  3 files changed, 116 insertions(+)
 > 
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index 43fa948..c0dbbfb 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -125,6 +125,7 @@ typedef struct VFIOHostDMAWindow {
+> diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
+> index bbc78aa..08ac647 100644
+> --- a/hw/vfio/pci.h
+> +++ b/hw/vfio/pci.h
+> @@ -187,6 +187,15 @@ struct VFIOKernPCIDevice {
+>      VFIOPCIDevice device;
+>  };
 >  
->  typedef struct VFIODeviceOps VFIODeviceOps;
->  typedef struct VFIODevIO VFIODevIO;
-> +typedef struct VFIOValidOps VFIOValidOps;
->  
->  typedef struct VFIODevice {
->      QLIST_ENTRY(VFIODevice) next;
-> @@ -141,6 +142,7 @@ typedef struct VFIODevice {
->      bool enable_migration;
->      VFIODeviceOps *ops;
->      VFIODevIO *io_ops;
-> +    VFIOValidOps *valid_ops;
->      unsigned int num_irqs;
->      unsigned int num_regions;
->      unsigned int flags;
-> @@ -214,6 +216,25 @@ struct VFIOContIO {
->  extern VFIODevIO vfio_dev_io_ioctl;
->  extern VFIOContIO vfio_cont_io_ioctl;
->  
-> +/*
-> + * This ops vector allows for bus-specific verification
-> + * routines in cases where the server may not be fully
-> + * trusted.
-> + */
-> +struct VFIOValidOps {
-> +    int (*validate_get_info)(VFIODevice *vdev, struct vfio_device_info *info);
-> +    int (*validate_get_region_info)(VFIODevice *vdev,
-> +                                    struct vfio_region_info *info, int *fd);
-> +    int (*validate_get_irq_info)(VFIODevice *vdev, struct vfio_irq_info *info);
+> +#define TYPE_VFIO_USER_PCI "vfio-user-pci"
+> +OBJECT_DECLARE_SIMPLE_TYPE(VFIOUserPCIDevice, VFIO_USER_PCI)
+> +
+> +struct VFIOUserPCIDevice {
+> +    VFIOPCIDevice device;
+> +    char *sock_name;
+> +    bool secure_dma; /* disable shared mem for DMA */
 > +};
 > +
-> +#define VDEV_VALID_INFO(vdev, info) \
-> +    ((vdev)->valid_ops->validate_get_info((vdev), (info)))
-> +#define VDEV_VALID_REGION_INFO(vdev, info, fd) \
-> +    ((vdev)->valid_ops->validate_get_region_info((vdev), (info), (fd)))
-> +#define VDEV_VALID_IRQ_INFO(vdev, irq) \
-> +    ((vdev)->valid_ops->validate_get_irq_info((vdev), (irq)))
-> +
->  #endif /* CONFIG_LINUX */
->  
->  typedef struct VFIOGroup {
+>  /* Use uin32_t for vendor & device so PCI_ANY_ID expands and cannot match hw */
+>  static inline bool vfio_pci_is(VFIOPCIDevice *vdev, uint32_t vendor, uint32_t device)
+>  {
 > diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 28f21f8..6e2ce35 100644
+> index 6e2ce35..fa3e028 100644
 > --- a/hw/vfio/pci.c
 > +++ b/hw/vfio/pci.c
-> @@ -3371,3 +3371,70 @@ static void register_vfio_pci_dev_type(void)
->  }
+> @@ -19,6 +19,7 @@
+>   */
 >  
->  type_init(register_vfio_pci_dev_type)
+>  #include "qemu/osdep.h"
+> +#include CONFIG_DEVICES
+>  #include <linux/vfio.h>
+>  #include <sys/ioctl.h>
+>  
+> @@ -3438,3 +3439,99 @@ struct VFIOValidOps vfio_pci_valid_ops = {
+>      .validate_get_region_info = vfio_pci_valid_region_info,
+>      .validate_get_irq_info = vfio_pci_valid_irq_info,
+>  };
 > +
+> +
+> +#ifdef CONFIG_VFIO_USER_PCI
 > +
 > +/*
-> + * PCI validation ops - used when return values need
-> + * validation before use
+> + * vfio-user routines.
 > + */
 > +
-> +static int vfio_pci_valid_info(VFIODevice *vbasedev,
-> +                               struct vfio_device_info *info)
+> +/*
+> + * Emulated devices don't use host hot reset
+> + */
+> +static int vfio_user_pci_no_reset(VFIODevice *vbasedev)
 > +{
-> +    /* must be PCI */
-> +    if ((info->flags & VFIO_DEVICE_FLAGS_PCI) == 0) {
-> +        return -EINVAL;
-> +    }
-> +    /* only other valid flag is reset */
-> +    if (info->flags & ~(VFIO_DEVICE_FLAGS_PCI | VFIO_DEVICE_FLAGS_RESET)) {
-> +        return -EINVAL;
-> +    }
-
-This means QEMU vfio-pci breaks on any extension of the flags field.
-
-> +    /* account for extra migration region */
-> +    if (info->num_regions > VFIO_PCI_NUM_REGIONS + 1) {
-> +        return -EINVAL;
-> +    }
-
-This is also invalid, there can be device specific regions beyond
-migration.
-
-> +    if (info->num_irqs > VFIO_PCI_NUM_IRQS) {
-> +        return -EINVAL;
-> +    }
-
-And device specific IRQs.
-
+> +    error_printf("vfio-user - no hot reset\n");
 > +    return 0;
 > +}
 > +
-> +static int vfio_pci_valid_region_info(VFIODevice *vbasedev,
-> +                                          struct vfio_region_info *info,
-> +                                          int *fd)
+> +static void vfio_user_pci_not_needed(VFIODevice *vbasedev)
 > +{
-> +    if (info->flags & ~(VFIO_REGION_INFO_FLAG_READ |
-> +                        VFIO_REGION_INFO_FLAG_WRITE |
-> +                        VFIO_REGION_INFO_FLAG_MMAP |
-> +                        VFIO_REGION_INFO_FLAG_CAPS)) {
-> +        return -EINVAL;
-> +    }
+> +    vbasedev->needs_reset = false;
+> +}
 
-Similarly, this allows zero future extensions.  Notice for instance how
-the CAPS flag was added later as a backwards compatible extension.
+Seems like we should make some of these optional rather than stubbing
+dummy functions.
 
-> +    if (info->index > vbasedev->num_regions) {
-> +        return -EINVAL;
+> +
+> +static VFIODeviceOps vfio_user_pci_ops = {
+> +    .vfio_compute_needs_reset = vfio_user_pci_not_needed,
+> +    .vfio_hot_reset_multi = vfio_user_pci_no_reset,
+> +    .vfio_eoi = vfio_intx_eoi,
+> +    .vfio_get_object = vfio_pci_get_object,
+> +    .vfio_save_config = vfio_pci_save_config,
+> +    .vfio_load_config = vfio_pci_load_config,
+> +};
+> +
+> +static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
+> +{
+> +    ERRP_GUARD();
+> +    VFIOUserPCIDevice *udev = VFIO_USER_PCI(pdev);
+> +    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
+> +    VFIODevice *vbasedev = &vdev->vbasedev;
+> +
+> +    /*
+> +     * TODO: make option parser understand SocketAddress
+> +     * and use that instead of having scalar options
+> +     * for each socket type.
+> +     */
+> +    if (!udev->sock_name) {
+> +        error_setg(errp, "No socket specified");
+> +        error_append_hint(errp, "Use -device vfio-user-pci,socket=<name>\n");
+> +        return;
 > +    }
-> +    /* cap_offset in valid area */
-> +    if ((info->flags & VFIO_REGION_INFO_FLAG_CAPS) &&
-> +        (info->cap_offset < sizeof(*info) || info->cap_offset > info->argsz)) {
-> +        return -EINVAL;
-> +    }
-> +    return 0;
+> +
+> +    vbasedev->name = g_strdup_printf("VFIO user <%s>", udev->sock_name);
+> +    vbasedev->dev = DEVICE(vdev);
+> +    vbasedev->fd = -1;
+> +    vbasedev->type = VFIO_DEVICE_TYPE_PCI;
+> +    vbasedev->no_mmap = false;
+
+Why hard coded rather than a property?  This is a useful debugging
+feature to be able to trap all device accesses.  The device should work
+either way.
+
+> +    vbasedev->ops = &vfio_user_pci_ops;
+> +    vbasedev->valid_ops = &vfio_pci_valid_ops;
+> +
 > +}
 > +
-> +static int vfio_pci_valid_irq_info(VFIODevice *vbasedev,
-> +                                 struct vfio_irq_info *info)
+> +static void vfio_user_instance_finalize(Object *obj)
 > +{
-> +    if (info->flags & ~(VFIO_IRQ_INFO_EVENTFD | VFIO_IRQ_INFO_MASKABLE |
-> +                        VFIO_IRQ_INFO_AUTOMASKED | VFIO_IRQ_INFO_NORESIZE)) {
-> +        return -EINVAL;
-> +    }
+> +}
+> +
+> +static Property vfio_user_pci_dev_properties[] = {
+> +    DEFINE_PROP_STRING("socket", VFIOUserPCIDevice, sock_name),
+> +    DEFINE_PROP_BOOL("secure-dma", VFIOUserPCIDevice, secure_dma, false),
 
-Similarly, nak.  Thanks,
+Add this when it means something.  Thanks,
 
 Alex
 
-> +    if (info->index > vbasedev->num_irqs) {
-> +        return -EINVAL;
-> +    }
-> +    return 0;
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void vfio_user_pci_dev_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +    PCIDeviceClass *pdc = PCI_DEVICE_CLASS(klass);
+> +
+> +    device_class_set_props(dc, vfio_user_pci_dev_properties);
+> +    dc->desc = "VFIO over socket PCI device assignment";
+> +    pdc->realize = vfio_user_pci_realize;
 > +}
 > +
-> +struct VFIOValidOps vfio_pci_valid_ops = {
-> +    .validate_get_info = vfio_pci_valid_info,
-> +    .validate_get_region_info = vfio_pci_valid_region_info,
-> +    .validate_get_irq_info = vfio_pci_valid_irq_info,
+> +static const TypeInfo vfio_user_pci_dev_info = {
+> +    .name = TYPE_VFIO_USER_PCI,
+> +    .parent = TYPE_VFIO_PCI_BASE,
+> +    .instance_size = sizeof(VFIOUserPCIDevice),
+> +    .class_init = vfio_user_pci_dev_class_init,
+> +    .instance_init = vfio_instance_init,
+> +    .instance_finalize = vfio_user_instance_finalize,
 > +};
+> +
+> +static void register_vfio_user_dev_type(void)
+> +{
+> +    type_register_static(&vfio_user_pci_dev_info);
+> +}
+> +
+> +type_init(register_vfio_user_dev_type)
+> +
+> +#endif /* VFIO_USER_PCI */
+> diff --git a/hw/vfio/Kconfig b/hw/vfio/Kconfig
+> index 7cdba05..301894e 100644
+> --- a/hw/vfio/Kconfig
+> +++ b/hw/vfio/Kconfig
+> @@ -2,6 +2,10 @@ config VFIO
+>      bool
+>      depends on LINUX
+>  
+> +config VFIO_USER
+> +    bool
+> +    depends on VFIO
+> +
+>  config VFIO_PCI
+>      bool
+>      default y
+> @@ -9,6 +13,12 @@ config VFIO_PCI
+>      select EDID
+>      depends on LINUX && PCI
+>  
+> +config VFIO_USER_PCI
+> +    bool
+> +    default y
+> +    select VFIO_USER
+> +    depends on VFIO_PCI
+> +
+>  config VFIO_CCW
+>      bool
+>      default y
 
 
