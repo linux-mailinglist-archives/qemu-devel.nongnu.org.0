@@ -2,53 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9BC4567A2
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 02:53:35 +0100 (CET)
-Received: from localhost ([::1]:47576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE89045681F
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 03:32:13 +0100 (CET)
+Received: from localhost ([::1]:53522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnt5q-0002oS-JS
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 20:53:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56080)
+	id 1mnthA-0000Cb-4I
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 21:32:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1mnt4Y-00027x-6y
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 20:52:14 -0500
-Received: from mga09.intel.com ([134.134.136.24]:53720)
+ (Exim 4.90_1) (envelope-from <shreyas.shah@elastics.cloud>)
+ id 1mntf5-0007l3-Uk
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 21:29:59 -0500
+Received: from mail-mw2nam08on2139.outbound.protection.outlook.com
+ ([40.107.101.139]:60627 helo=NAM04-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1mnt4V-0005XA-UJ
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 20:52:13 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10172"; a="234168156"
-X-IronPort-AV: E=Sophos;i="5.87,246,1631602800"; d="scan'208";a="234168156"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2021 17:52:10 -0800
-X-IronPort-AV: E=Sophos;i="5.87,246,1631602800"; d="scan'208";a="455280881"
-Received: from dmkresin-mobl1.amr.corp.intel.com (HELO intel.com)
- ([10.252.138.155])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2021 17:52:09 -0800
-Date: Thu, 18 Nov 2021 17:52:07 -0800
-From: Ben Widawsky <ben.widawsky@intel.com>
-To: Saransh Gupta1 <saransh@ibm.com>
-Subject: Re: Follow-up on the CXL discussion at OFTC
-Message-ID: <20211119015207.62fhk5mjmvaj5nz4@intel.com>
+ (Exim 4.90_1) (envelope-from <shreyas.shah@elastics.cloud>)
+ id 1mntf2-0002p1-QA
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 21:29:59 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BSdv3gRpHC1U6AWdHTXYq2JdTzjBJE5BqumQKaXN7tlth2vRHCJOPx22pSt27rBjncyEpRlH4/ThAKKjv21gzQxkWhq3WlisN4l9jv0svP8nf24uUgQK5GHiLMCaueLhon7mZzeiK+YpyOG1zEuD71ugNCuzDHmuLVoAKdY9RW2AzLzSrBWIVEzeqCvTuobjI7Fz7axy7EO7AupGUkdqdL6f3xJqcctJZ7G1uEZoE1hBchQvDcA8w0XJdhnIm66jNQPdPCly0LFgIgYsjUhIm1hZ6X4QuFW5DbKcziOw/73lBXGj/7Zt+BEIi5iJLsC0f2apVHjNWyfgir57gQwnzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IVIFbcERLbJ8kGTYsKXbJ8R0lzNPV1qONHnqq8+c2Ho=;
+ b=DfGFggZzAtoWZ3CeUilXixd6Xj0MWdlv/ZcBrpBZGmVpTfUTY/AJhdVT09pcqx7ozzWodpMUG4a89n9snx+IAqyubrHr5N0dXzXiP0vx5eOlxamJaa4PbfsTP3+/PLmbln+13b1T8Y/lOoTxyG7WliVmnwSZITbaR1+EN+2jnOk17pbhUPrULXbp1EnVGc+dTNZgQcG5xK2AOksYwQ3vovMm4uj7BfsIGkjqd1X69jpMZHq45NZtJyoBFJZQ1eoRf6w2pzBVoS5VZBQOJh06AbLDRxLjPySXFmZFMVrSfL6KEqeSEAZ+zY/atibg/wjkklizf/J6WI01260nw9qYIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=elastics.cloud; dmarc=pass action=none
+ header.from=elastics.cloud; dkim=pass header.d=elastics.cloud; arc=none
+Received: from BY5PR12MB4179.namprd12.prod.outlook.com (2603:10b6:a03:211::8)
+ by BYAPR12MB3510.namprd12.prod.outlook.com (2603:10b6:a03:13a::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.26; Fri, 19 Nov
+ 2021 02:29:51 +0000
+Received: from BY5PR12MB4179.namprd12.prod.outlook.com
+ ([fe80::fdcf:4e98:b845:f650]) by BY5PR12MB4179.namprd12.prod.outlook.com
+ ([fe80::fdcf:4e98:b845:f650%6]) with mapi id 15.20.4713.022; Fri, 19 Nov 2021
+ 02:29:51 +0000
+To: Ben Widawsky <ben.widawsky@intel.com>
+CC: Saransh Gupta1 <saransh@ibm.com>, Jonathan Cameron
+ <Jonathan.Cameron@huawei.com>, "linux-cxl@vger.kernel.org"
+ <linux-cxl@vger.kernel.org>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: RE: Follow-up on the CXL discussion at OFTC
+Thread-Topic: Follow-up on the CXL discussion at OFTC
+Thread-Index: AQHX2+CvgZdbGOWQAkmzzqDeTIciUKwJ3UEAgAAI7MCAADEjAIAACybA
+Date: Fri, 19 Nov 2021 02:29:51 +0000
+Message-ID: <BY5PR12MB4179AA1B062AEA75098E15D8E89C9@BY5PR12MB4179.namprd12.prod.outlook.com>
 References: <OF255704A1.78FEF164-ON0025878E.00821084-0025878F.00015560@ibm.com>
  <20211117165719.pqig62t5z2grgjvv@intel.com>
  <20211117173201.00002513@Huawei.com>
  <OF164E5BA6.E927FE73-ON00258791.0078E206-88258791.007ABBAD@ibm.com>
+ <BY5PR12MB4179A47F68A9A15E5888D074E89B9@BY5PR12MB4179.namprd12.prod.outlook.com>
+ <20211119014822.j247ayrsdve4yxyu@intel.com>
+In-Reply-To: <20211119014822.j247ayrsdve4yxyu@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=elastics.cloud;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 3adf511a-ea75-4bd1-4fc6-08d9ab04772e
+x-ms-traffictypediagnostic: BYAPR12MB3510:
+x-microsoft-antispam-prvs: <BYAPR12MB3510B609A91FB0FA86B7E94EE89C9@BYAPR12MB3510.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4303;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: vxnLUFzwE/zucLEn+9/PceTpENb9wqnYbSZmL3QdibYwB822XxIqccmYqrPTDvm2rakCvJqh7oAx4lb6Qb800cXLUUD74L4z85FqmV6O09iEsTwcvEqQGXQeJkH7xJJeeUEhgsKoABuEWitW0+7yYrfk8eOSbSYw7MCvUndf9pQAffa2zkT14coXci9TCv5g2iz6VYrlT20dHJ9ooKUJi2YB9shDh9nTAO35QT9xExDDTWjtK2YlOJjzhQ99+9rthlAH2kUMoW1QRkQQloUFpedMubXIciiy6T0JjlpVPvIl0TFrXYhu8F9AdbrrH3uYTfvN/k9Y9Ut8Mf2zS/RUA/FmXeE6mnE8uGgsVWDVLLdBdVb9sEGNZ8hZbklEp1YZ5/SsRpsrglUCf2fk9ip9eN9UEoHX9Dw1mfOhKegZMgX01ENbiotphG6Of9p17UukSdj9dkgTX/A5vEGzlHLHqytUpJV/m2VH9uj8ovAd8/GzmK/6ko8mEKXoLjoLpdsZYEHezphxdVOsYQBUiEvo9SizL1TLwcEjVKruPYEjU0hsKpkjDdI0d0K9xmXBNz6VPVk4wFKopdLOoBil5P7iWa2yXKzmt7wDafQ/uimOYqXivq4VwY2XDGsdYhpwxu6TyrMLc0D3ujBIOyEeWkB1qy92bdkI3wvDFNE+e+M9CX+6w77jW5YxPAMeW/+XDCkaSdJc18Qz41VsXIne+2U1AN5cUZd/k0VZt7M7TYXAQs8=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR12MB4179.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(396003)(346002)(39830400003)(136003)(366004)(86362001)(9686003)(122000001)(54906003)(66946007)(6506007)(33656002)(66446008)(508600001)(55016002)(38070700005)(186003)(8676002)(71200400001)(6916009)(53546011)(4326008)(5660300002)(316002)(66476007)(64756008)(26005)(66556008)(4744005)(76116006)(38100700002)(83380400001)(8936002)(44832011)(52536014)(7696005)(2906002)(71440200001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?PANbT3fk0eQgFIk9iPX+fITyXrsjMAuMfe9PE4BP++GLWsBL7u0+rqVa7QYu?=
+ =?us-ascii?Q?L/Y3A48yMQJYUxTRqJZIXeefKjyk14H61SGnz6WxcnaqJK3s3JIsQZbxDhZe?=
+ =?us-ascii?Q?/CI1yqFa0IhNtOGKJqRgx/kFH7kQaT0ctK7u8mBbQHPJ2lRJJ0h6j8wwXDPa?=
+ =?us-ascii?Q?JoOyZ0iIxJh0Pbt814zYZYPASoDQXbPoLShmKJTQPBdef0uETdvymjK6ctvi?=
+ =?us-ascii?Q?6GEO/lvjgWzcFll0jgVvkU8e2VQO/iO1aH1f/yY7h+2TdjFywVf8tJRKRTqL?=
+ =?us-ascii?Q?Tidc5GPGgJ5TEGUdnZfiYqqJJWIY8P3WWbbFeWi/6JZCT57BTODouY6n/M67?=
+ =?us-ascii?Q?6XhLyfiOkLwPD9sq5FuGrG/9lmnV8wQ+FaTuTcilkb9LOiaON7MFwZGs3uYq?=
+ =?us-ascii?Q?YHljWzWFsI4zmc2eaLXdSTuMrmx9ddvYQ44DZSjMZsQ4opgrxGxqQDJf2sil?=
+ =?us-ascii?Q?HrMDCn+nD5l7TzWyY1eCVJ7a6trrY1qwBgDbdXFIJ3lssV31ifuYe/WV/U/l?=
+ =?us-ascii?Q?tzYSUaPW0h0jdoIh6XEqToRaTzHJTX6McooHsINNpLqNBZv9TkIjZly907qZ?=
+ =?us-ascii?Q?UTj3yiDv8ohcvqdl/tRpT4ILNM9Mk6Wf1L1pCt5B+B1QBSMPMhyeHE73456R?=
+ =?us-ascii?Q?q8CvHM/AHE9I9ZC0QgxgNLo0kLi3Qrt0ZvUAElkk258T4TUh92ho/bxWa8W7?=
+ =?us-ascii?Q?MemhJ8Nc3zPkoR1COQQidvEUvda5a+IPZYrroOJR4g2jGbm+jHlpQy5+VEiG?=
+ =?us-ascii?Q?sH1hR1u0wa/J7kOkJyIdYEjsSAEnvhhNOU93m+Q2CtMc3E54FJtY2r+H7TX0?=
+ =?us-ascii?Q?KrsGDiyEAGg2IEoVgi08GhfOakJ7CPD9p2l9lz11lnSnlB+Z+Qw7JTS9Fay3?=
+ =?us-ascii?Q?nxc8oRUx8J2VgDmhJjBQQmR6GZpyKZq25Cnj1THnsILKKbkwJLR2cr7S3BDP?=
+ =?us-ascii?Q?ScNd4GC4HuL1e3yj0Rs65fc4RPSe80MfqrA/w+YinVWO+dSa7tPD39snRqX2?=
+ =?us-ascii?Q?jT6+PT0nbi9mJNECkvXe4Av9m3e0SaVPkk9dJ2gH8Oz97OWVc7jh1nvoUphl?=
+ =?us-ascii?Q?T0gpt24rN4/njUV9uatugYv6N29cHvBC7HCzwV7tuF01GXLVIFzqL5e8TC3C?=
+ =?us-ascii?Q?WGbr02IainkcV8QzpfwR1pW0xuiPnpeukD54F+v9UyyEXUUCytMpn4rZONzS?=
+ =?us-ascii?Q?hkWKO79n9rfu6fOTNhyW9Z7/N3AxxF+KTB3QtW50ZHbARgYOVIH0OpMUJmBy?=
+ =?us-ascii?Q?M7pY8FxIudNQgfAa4eBVtPxosdE4uZFrPS9p1WRDRun2vpkxJcJ7DqowuaCL?=
+ =?us-ascii?Q?O7K2g8oidejx2BfhU7nf4rBdXa0GBhYZL/0Snmbc3IF4ejP4Tgi/IzYBMcIj?=
+ =?us-ascii?Q?D9hsccWEW4wEHjctRawl407s6Er72KRQBDptgrCYhnP2pZztp0/IivTTBl3L?=
+ =?us-ascii?Q?iJ7k5t7ZrH4H3jlS3VT4oRfRZNvI5F+/vv/H9qUMDuEH7PAadC6s0Nqpn5ET?=
+ =?us-ascii?Q?pteeSVWwcHPkjNzECBFKnASIM+p186QnaWw1K9AJItmUC9Rg5HM03aaiL13B?=
+ =?us-ascii?Q?pPZCxNY18Edph4odVFmEIwOn8qH36FSM4zAV3+QW6a8evrkBq5YZzlysqySX?=
+ =?us-ascii?Q?vpYjQTrXjjy1+PUWlFe1gH0wSs0b+dbMrO3cXBxgf21kf68YyFZptZa+FwP4?=
+ =?us-ascii?Q?3AmKSw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <OF164E5BA6.E927FE73-ON00258791.0078E206-88258791.007ABBAD@ibm.com>
-Received-SPF: pass client-ip=134.134.136.24;
- envelope-from=ben.widawsky@intel.com; helo=mga09.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-OriginatorOrg: elastics.cloud
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4179.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3adf511a-ea75-4bd1-4fc6-08d9ab04772e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Nov 2021 02:29:51.6701 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 28558b47-528a-463d-9ef1-81068bcc77f9
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5k7iP38mH1A6wuhjL8ljqdsr0MThNIJK75NSEMQBddjZ66Jfq9oUhjtOFV8ueukI73GHhTJzREzPuDGFMZlEQXMEr8XpbLzrhrv6Hku0nLI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3510
+Received-SPF: pass client-ip=40.107.101.139;
+ envelope-from=shreyas.shah@elastics.cloud;
+ helo=NAM04-MW2-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,127 +138,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, linux-cxl@vger.kernel.org,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Shreyas Shah <shreyas.shah@elastics.cloud>
+From:  Shreyas Shah via <qemu-devel@nongnu.org>
 
-On 21-11-18 15:20:34, Saransh Gupta1 wrote:
-> Hi Ben and Jonathan,
-> 
-> Thanks for your replies. I'm looking forward to the patches.
-> 
-> For QEMU, I see hotplug support as an item on the list and would like to 
-> start working on it. It would be great if you can provide some pointers 
-> about how I should go about it.
+Hi Ben
 
-It's been a while, so I can't recall what's actually missing. I think it should
-mostly behave like a normal PCIe endpoint.
+Are you planning to add the CXL2.0 switch inside QEMU or already added in o=
+ne of the version?=20
+=20
+Regards,
+Shreyas
 
-> Also, which version of kernel and QEMU (maybe Jonathan's upcoming version) 
-> would be a good starting point for it?
+-----Original Message-----
+From: Ben Widawsky <ben.widawsky@intel.com>=20
+Sent: Thursday, November 18, 2021 5:48 PM
+To: Shreyas Shah <shreyas.shah@elastics.cloud>
+Cc: Saransh Gupta1 <saransh@ibm.com>; Jonathan Cameron <Jonathan.Cameron@hu=
+awei.com>; linux-cxl@vger.kernel.org; qemu-devel@nongnu.org
+Subject: Re: Follow-up on the CXL discussion at OFTC
 
-If he rebased and claims it works I have no reason to doubt it :-). I have a
-small fix on my v4 branch if you want to use the latest port patches.
+On 21-11-18 22:52:56, Shreyas Shah wrote:
+> Hello Folks,
+>=20
+> Any plan to add CXL2.0 switch ports in QEMU?=20
 
-> 
-> Thanks,
-> Saransh
-> 
-> 
-> 
-> From:   "Jonathan Cameron" <Jonathan.Cameron@Huawei.com>
-> To:     "Ben Widawsky" <ben.widawsky@intel.com>
-> Cc:     "Saransh Gupta1" <saransh@ibm.com>, <linux-cxl@vger.kernel.org>, 
-> <qemu-devel@nongnu.org>
-> Date:   11/17/2021 09:32 AM
-> Subject:        [EXTERNAL] Re: Follow-up on the CXL discussion at OFTC
-> 
-> 
-> 
-> On Wed, 17 Nov 2021 08:57:19 -0800
-> Ben Widawsky <ben.widawsky@intel.com> wrote:
-> 
-> > Hi Saransh. Please add the list for these kind of questions. I've 
-> converted your
-> > HTML mail, but going forward, the list will eat it, so please use text 
-> only.
-> > 
-> > On 21-11-16 00:14:33, Saransh Gupta1 wrote:
-> > >    Hi Ben,
-> > > 
-> > >    This is Saransh from IBM. Sorry to have (unintentionally) dropped 
-> out
-> > >    of the conversion on OFTC, I'm new to IRC.
-> > >    Just wanted to follow-up on the discussion there. We discussed 
-> about
-> > >    helping with linux patches reviews. On that front, I have 
-> identified
-> > >    some colleague(s) who can help me with this. Let me know if/how you
-> > >    want to proceed with that. 
-> > 
-> > Currently the ball is in my court to re-roll the RFC v2 patches [1] 
-> based on
-> > feedback from Dan. I've implemented all/most of it, but I'm still 
-> debugging some
-> > issues with the result.
-> > 
-> > > 
-> > >    Maybe not urgently, but my team would also like to get an 
-> understanding
-> > >    of the missing pieces in QEMU. Initially our focus is on type3 
-> memory
-> > >    access and hotplug support. Most of the work that my team does is
-> > >    open-source, so contributing to the QEMU effort is another possible
-> > >    line of collaboration. 
-> > 
-> > If you haven't seen it already, check out my LPC talk [2]. The QEMU 
-> patches
-> > could use a lot of love. Mostly, I have little/no motivation until 
-> upstream
-> > shows an interest because I don't have time currently to make sure I 
-> don't break
-> > vs. upstream. If you want more details here, I can provide them, and I 
-> will Cc
-> > the qemu-devel mailing list; the end of the LPC talk [2] does have a 
-> list.
-> Hi Ben, Saransh
-> 
-> I have a forward port of the series + DOE etc to near current QEMU that is 
-> lightly tested,
-> and can look to push that out publicly later this week.
-> 
-> I'd also like to push QEMU support forwards and to start getting this 
-> upstream in QEMU
-> + fill in some of the missing parts.
-> 
-> Was aiming to make progress on this a few weeks ago, but as ever other 
-> stuff
-> got in the way.
-> 
-> +CC qemu-devel in case anyone else also looking at this.
-> 
-> Jonathan
-> 
-> 
-> 
-> > 
-> > > 
-> > >    Thanks for your help and guidance!
-> > > 
-> > >    Best,
-> > >    Saransh Gupta
-> > >    Research Staff Member, IBM Research 
-> > 
-> > [1]: 
-> https://lore.kernel.org/linux-cxl/20211022183709.1199701-1-ben.widawsky@intel.com/T/#t 
-> 
-> > [2]: 
-> https://www.youtube.com/watch?v=g89SLjt5Bd4&list=PLVsQ_xZBEyN3wA8Ej4BUjudXFbXuxhnfc&index=49 
-> 
-> 
-> 
-> 
-> 
-> 
+What's your definition of plan?
+
+>=20
+> Regards,
+> Shreyas
+
+[snip]
 
