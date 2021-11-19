@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F29E456C5C
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 10:30:39 +0100 (CET)
-Received: from localhost ([::1]:59490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7869456C8A
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 10:43:54 +0100 (CET)
+Received: from localhost ([::1]:46066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo0EA-00088A-K1
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 04:30:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38744)
+	id 1mo0Qz-00023k-GR
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 04:43:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mo0Bl-0004mE-Gu
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 04:28:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56539)
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1mo0PN-0000s6-HL
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 04:42:13 -0500
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:32796)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mo0Bj-0007KF-QB
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 04:28:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637314087;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GKy5ZaJu1nfCFu8FDsXuYuIHwY4f7uM8rNjfYzVBDWY=;
- b=WDFRz0Ir7UnIh9SVzgED/fdv8sLhNguzp5W0okF3Qfsnq7YiLHGV9EAoE/DiVIk8k54QA3
- la+/1G8/JpPJA6831X5oAip2lYZyqyjJ5+2VnmDiU1bRyroPIRQpbB+Gzehs21aISofFjU
- KHFpNvQp/uXculJjP/xL9U8ql8eLKnc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-34-ZdhTrk02NcmjffjAHQ1-ag-1; Fri, 19 Nov 2021 04:28:03 -0500
-X-MC-Unique: ZdhTrk02NcmjffjAHQ1-ag-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFD521023F4D;
- Fri, 19 Nov 2021 09:28:02 +0000 (UTC)
-Received: from [10.39.194.192] (unknown [10.39.194.192])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 08D3B19D9B;
- Fri, 19 Nov 2021 09:27:58 +0000 (UTC)
-Message-ID: <cc793f13-fb5c-f075-3839-e603d727b557@redhat.com>
-Date: Fri, 19 Nov 2021 10:27:57 +0100
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1mo0PJ-0001tS-1v
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 04:42:11 -0500
+Received: from sas1-4cbebe29391b.qloud-c.yandex.net
+ (sas1-4cbebe29391b.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:789:0:640:4cbe:be29])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id F420C2E0AFF;
+ Fri, 19 Nov 2021 12:42:02 +0300 (MSK)
+Received: from sas2-d40aa8807eff.qloud-c.yandex.net
+ (sas2-d40aa8807eff.qloud-c.yandex.net [2a02:6b8:c08:b921:0:640:d40a:a880])
+ by sas1-4cbebe29391b.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ E2gZnejqVp-g2sOwaER; Fri, 19 Nov 2021 12:42:02 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1637314922; bh=AZsyY6Iw6UarF2jkx5TjKXxwmCMw4bx/NaSglLiZEqE=;
+ h=In-Reply-To:Date:References:To:From:Subject:Message-ID:Cc;
+ b=KSlIg5YZt62Y4Vg+zLE/aKx2vLHL2Ce+EmXfApVLoe2/EvvDrJG2w8vH9aEkZoCtz
+ fwdYrmzr5YjICjR7Ubv2OxQT/ZDFkUIfucd+3Nrtep2B07OrjNIqfDKRMJi63UxNEV
+ WdGv001//vp5PcNhIs/YnCGaSfFJXPwWWTGBUzL8=
+Authentication-Results: sas1-4cbebe29391b.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from [IPv6:2a02:6b8:b081:8014::1:2e] (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:8014::1:2e])
+ by sas2-d40aa8807eff.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPS id
+ GXUJmGbLyS-g2wiC040; Fri, 19 Nov 2021 12:42:02 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 2
+Subject: [Ping] [PATCH v1 0/2] vl: flush all task from rcu queue before exiting
+From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+To: qemu-devel@nongnu.org
+References: <20211115094143.157399-1-den-plotnikov@yandex-team.ru>
+Message-ID: <6d2b4b4f-707f-9d5b-7ffe-c6d8d05ffb06@yandex-team.ru>
+Date: Fri, 19 Nov 2021 12:42:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: Chardev: delete the QemuOpts reserved in vm_config_groups
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?B?44G36aOO6L+H5peg55eVPz8=?= <787738581@qq.com>
-References: <tencent_C7CEA36B3AB3971A278DFD71F2BBCFF88906@qq.com>
- <CAMxuvaw1+x0FmG_0aW2YCL2pUPFuO=VC=0nv0QA43MkKnMM7fQ@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAMxuvaw1+x0FmG_0aW2YCL2pUPFuO=VC=0nv0QA43MkKnMM7fQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20211115094143.157399-1-den-plotnikov@yandex-team.ru>
+Content-Type: multipart/alternative;
+ boundary="------------89151EB8E9969BE07B98CC15"
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.727, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,32 +78,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: pbonzini@redhat.com, dgilbert@redhat.com, yc-core@yandex-team.ru,
+ armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/8/21 09:46, Marc-André Lureau wrote:
->> +   QemuOpts *opts;
->>
->>       chr = qemu_chr_find(id);
->>       if (chr == NULL) {
->> @@ -1175,6 +1177,10 @@ void qmp_chardev_remove(const char *id, Error **errp)
->>           return;
->>       }
->>       object_unparent(OBJECT(chr));
->> +    /* delete the opts reserved in vm_config_groups list.  */
->> +    opts = qemu_opts_find(qemu_find_opts("chardev"), id);
->> +    if (opts)
->> +        qemu_opts_del(opts);
-> That seems reasonable to me,
-> Reviewed-by: Marc-André Lureau<marcandre.lureau@redhat.com>
+This is a multi-part message in MIME format.
+--------------89151EB8E9969BE07B98CC15
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-I think it should be done instead in an unparent function, i.e. with 
-something like "oc->unparent = chr_unparent;" in char_class_init. 
-chr_unparent does the qemu_opts_find/qemu_opts_del.
+Ping!
 
-Thanks,
+On 15.11.2021 12:41, Denis Plotnikov wrote:
+> v1 -> v0:
+>   * move monitor cleanup to the very end of qemu cleanup [Paolo]
+>
+> The goal is to notify management layer about device destruction on qemu shutdown.
+> Without this series DEVICE_DELETED event may not be sent because of stuck tasks
+> in the rcu thread. The rcu tasks may stuck on qemu shutdown because the rcu
+> not always have enough time to run them.
+>
+>
+> Denis Plotnikov (2):
+>    monitor: move monitor destruction to the very end of qemu cleanup
+>    vl: flush all task from rcu queue before exiting
+>
+>   include/qemu/rcu.h |  1 +
+>   monitor/monitor.c  |  6 ++++++
+>   softmmu/runstate.c |  4 +++-
+>   util/rcu.c         | 12 ++++++++++++
+>   4 files changed, 22 insertions(+), 1 deletion(-)
+>
 
-Paolo
+--------------89151EB8E9969BE07B98CC15
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><font size="+1"><font face="monospace">Ping!</font></font><br>
+    </p>
+    <div class="moz-cite-prefix">On 15.11.2021 12:41, Denis Plotnikov
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20211115094143.157399-1-den-plotnikov@yandex-team.ru">
+      <pre class="moz-quote-pre" wrap="">v1 -&gt; v0:
+ * move monitor cleanup to the very end of qemu cleanup [Paolo]
+
+The goal is to notify management layer about device destruction on qemu shutdown.
+Without this series DEVICE_DELETED event may not be sent because of stuck tasks
+in the rcu thread. The rcu tasks may stuck on qemu shutdown because the rcu
+not always have enough time to run them. 
+
+
+Denis Plotnikov (2):
+  monitor: move monitor destruction to the very end of qemu cleanup
+  vl: flush all task from rcu queue before exiting
+
+ include/qemu/rcu.h |  1 +
+ monitor/monitor.c  |  6 ++++++
+ softmmu/runstate.c |  4 +++-
+ util/rcu.c         | 12 ++++++++++++
+ 4 files changed, 22 insertions(+), 1 deletion(-)
+
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------89151EB8E9969BE07B98CC15--
 
