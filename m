@@ -2,49 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 860CC456656
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 00:17:26 +0100 (CET)
-Received: from localhost ([::1]:54362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAE404566E0
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 01:19:01 +0100 (CET)
+Received: from localhost ([::1]:51348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mnqej-0004Qd-5n
-	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 18:17:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60478)
+	id 1mnrcK-0007FM-HH
+	for lists+qemu-devel@lfdr.de; Thu, 18 Nov 2021 19:19:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1mnqco-0002oe-Fk
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 18:15:26 -0500
-Received: from mga18.intel.com ([134.134.136.126]:15303)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1mnqcl-0002bj-Jo
- for qemu-devel@nongnu.org; Thu, 18 Nov 2021 18:15:26 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10172"; a="221191269"
-X-IronPort-AV: E=Sophos;i="5.87,246,1631602800"; d="scan'208";a="221191269"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2021 15:15:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,246,1631602800"; d="scan'208";a="593973590"
-Received: from dongwonk-z390-aorus-ultra-intel-gfx.fm.intel.com
- ([10.105.129.122])
- by fmsmga002.fm.intel.com with ESMTP; 18 Nov 2021 15:15:17 -0800
-From: Dongwon Kim <dongwon.kim@intel.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] ui/gtk: mon_num parameter to specify target monitor for
- launching Qemu
-Date: Thu, 18 Nov 2021 14:51:27 -0800
-Message-Id: <20211118225127.26147-1-dongwon.kim@intel.com>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1mnrbR-0006b6-TP
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 19:18:05 -0500
+Received: from [2607:f938:3000:8::2] (port=37623 helo=mail.comstyle.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1mnrbQ-0001Qi-Fa
+ for qemu-devel@nongnu.org; Thu, 18 Nov 2021 19:18:05 -0500
+Received: from mail.comstyle.com (localhost [127.0.0.1])
+ by mail.comstyle.com (Postfix) with ESMTP id 4HwHLf1Jbgz8PbN;
+ Thu, 18 Nov 2021 19:18:02 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=message-id
+ :date:mime-version:subject:to:cc:references:from:in-reply-to
+ :content-type:content-transfer-encoding; s=default; bh=cRe2QRjfI
+ CrKa2ro2gSfUFz31No=; b=CUjExnavZ6YIbHmjvJI8BS1vnskKQ8q95PqVp2g+O
+ N2axz2KWFHsgCN9Bdn6seat/DPU04u3/9QQUDppQpl2uOkgF+JpGKoJOR2LWMaUF
+ 8kgIu/AeKuWJkW8MkUxHUQYR/IGlqpkiXaDqvTX+j7mJx5+uLarpkBhMlPQV31y/
+ Bk=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=message-id
+ :date:mime-version:subject:to:cc:references:from:in-reply-to
+ :content-type:content-transfer-encoding; q=dns; s=default; b=dlD
+ BcqC69kWCK3XOzH3Azk3a4KzLPqur2BuHxZVA3+COcSJGc363oUww4oYszXwLcyi
+ CwBCykUXfBOV24M9P+A/C2besvgYgzBUIFQ3rNjomQzxig9ynnL2fiiJKJSo+kFA
+ ZyR5/eQO8CxxZ+TT5bK9BQUnUIxjS3yYpA9kA+F0=
+Received: from [IPV6:2001:470:b0db:180::1001] (unknown
+ [IPv6:2001:470:b0db:180::1001])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: brad)
+ by mail.comstyle.com (Postfix) with ESMTPSA id 4HwHLf0JtNz8PbK;
+ Thu, 18 Nov 2021 19:18:02 -0500 (EST)
+Message-ID: <c4a28907-b075-3601-3cf9-e54941dcb6f8@comstyle.com>
+Date: Thu, 18 Nov 2021 19:18:01 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=dongwon.kim@intel.com; helo=mga18.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+Subject: Re: [PATCH v2 for-6.2] meson.build: Support ncurses on MacOS and
+ OpenBSD
+Content-Language: en-US
+To: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20211117205355.1392292-1-sw@weilnetz.de>
+From: Brad Smith <brad@comstyle.com>
+In-Reply-To: <20211117205355.1392292-1-sw@weilnetz.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f938:3000:8::2
+ (failed)
+Received-SPF: pass client-ip=2607:f938:3000:8::2;
+ envelope-from=brad@comstyle.com; helo=mail.comstyle.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.084,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,92 +78,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sweeaun <swee.aun.khor@intel.com>,
- Khairul Anuar Romli <khairul.anuar.romli@intel.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Dongwon Kim <dongwon.kim@intel.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introducing a new integer parameter to specify the monitor where the
-Qemu window is placed upon launching.
+On 11/17/2021 3:53 PM, Stefan Weil wrote:
 
-Monitor index can start from 0 to (total number of monitors - 1).
-Default value for the parameter is -1, which doesn't affect anything.
+> MacOS provides header files for curses 5.7 with support
+> for wide characters, but requires _XOPEN_SOURCE_EXTENDED=3D1
+> to activate that.
+>
+> By default those old header files are used even if there
+> is a newer Homebrew installation of ncurses 6.2 available.
+>
+> Change also the old macro definition of NCURSES_WIDECHAR
+> and set it to 1 like it is done in newer versions of
+> curses.h when _XOPEN_SOURCE_EXTENDED=3D1 is defined.
+>
+> OpenBSD has the same version of ncurses and needs the same fix.
+>
+> Suggested-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+> ---
+>
+> v2:
+> - Only define _XOPEN_SOURCE_EXTENDED when curses.h is used.
+> - Extended to fix OpenBSD, too (untested!)
+>
+>   meson.build | 5 ++++-
+>   ui/curses.c | 4 ++++
+>   2 files changed, 8 insertions(+), 1 deletion(-)
 
-It can be used together with full-screen=on, which will make the Qemu
-window full-screened on the targetted monitor.
-
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Cc: sweeaun <swee.aun.khor@intel.com>
-Cc: Khairul Anuar Romli <khairul.anuar.romli@intel.com>
-Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
----
- qapi/ui.json    |  7 ++++++-
- qemu-options.hx |  2 +-
- ui/gtk.c        | 10 ++++++++++
- 3 files changed, 17 insertions(+), 2 deletions(-)
-
-diff --git a/qapi/ui.json b/qapi/ui.json
-index d7567ac866..7552b503b2 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -1099,13 +1099,18 @@
- #               assuming the guest will resize the display to match
- #               the window size then.  Otherwise it defaults to "off".
- #               Since 3.1
-+# @mon-num:     Indicate monitor where Qemu window is lauched. mon-num
-+#               could be any number from -1 to (total num of monitors - 1).
-+#               (default: -1: use default monitor)
-+#               since 6.2
- #
- # Since: 2.12
- #
- ##
- { 'struct'  : 'DisplayGTK',
-   'data'    : { '*grab-on-hover' : 'bool',
--                '*zoom-to-fit'   : 'bool'  } }
-+                '*zoom-to-fit'   : 'bool',
-+                '*mon-num'       : 'int' } }
- 
- ##
- # @DisplayEGLHeadless:
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 7749f59300..7a888b16b1 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1852,7 +1852,7 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
- #endif
- #if defined(CONFIG_GTK)
-     "-display gtk[,full-screen=on|off][,gl=on|off][,grab-on-hover=on|off]\n"
--    "            [,show-cursor=on|off][,window-close=on|off]\n"
-+    "            [,mon-num=<value>][,show-cursor=on|off][,window-close=on|off]\n"
- #endif
- #if defined(CONFIG_VNC)
-     "-display vnc=<display>[,<optargs>]\n"
-diff --git a/ui/gtk.c b/ui/gtk.c
-index d2892ea6b4..8d8aa55822 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -2314,6 +2314,16 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-                              vc && vc->type == GD_VC_VTE);
- #endif
- 
-+    if (opts->u.gtk.has_mon_num && opts->u.gtk.mon_num &&
-+        opts->u.gtk.mon_num >= 0) {
-+        GdkRectangle mon_dest;
-+        if (opts->u.gtk.mon_num < gdk_display_get_n_monitors(window_display)) {
-+            gdk_monitor_get_geometry(
-+                gdk_display_get_monitor(window_display, opts->u.gtk.mon_num),
-+                &mon_dest);
-+            gtk_window_move(GTK_WINDOW(s->window), mon_dest.x, mon_dest.y);
-+        }
-+    }
-     if (opts->has_full_screen &&
-         opts->full_screen) {
-         gtk_menu_item_activate(GTK_MENU_ITEM(s->full_screen_item));
--- 
-2.30.2
-
+Tested-by: Brad Smith <brad@comstyle.com>
 
