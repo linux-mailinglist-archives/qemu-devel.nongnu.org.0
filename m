@@ -2,98 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13904457056
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 15:09:22 +0100 (CET)
-Received: from localhost ([::1]:39036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF90A457076
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 15:17:45 +0100 (CET)
+Received: from localhost ([::1]:58648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo4Zt-0000UN-6c
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 09:09:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33468)
+	id 1mo4i0-0005eg-CG
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 09:17:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1mo4LB-0001tl-9g; Fri, 19 Nov 2021 08:54:09 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:65072)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1mo4L8-0001X9-JW; Fri, 19 Nov 2021 08:54:09 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AJDlTdR015728; 
- Fri, 19 Nov 2021 13:53:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=gO9X/VhkhH9fxDloiMCcfPELJiXQhMVxRGmltTxPbK4=;
- b=MwpVdZoJbB71Wh07r5WcXxD1jOHQqhsX8XZvfcoxa9ghZ/67Mk877SqICaOm8y0E1pMR
- xkJhlD6iEbijqNq8jti4LiYe4m6h+NZpZHm3020VHFU+e773CMtjKK1NQW9Ygr46Okiv
- fZf7mtLUsx21KY/VX6YK/KOnq2HQw9a8W7UtKBBd18JPgMZBTEmg/P6St911zVw2WvXq
- m2FpxRWG0oAgjdTZ52WSHytTzVvAZBdmCrz1JnxjY2ajIesHRolOLVCzbvcU6Ua1CJY1
- ahU8c4wVVMLeX4SUqtOOtqnFpADLYfo42f0zzzfXxp46L/yda8k/2QUXzIYSMKMwCLmX GA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ced49r4m8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 Nov 2021 13:53:55 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AJDnGu6021005;
- Fri, 19 Nov 2021 13:53:54 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ced49r4kq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 Nov 2021 13:53:54 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AJDn735002581;
- Fri, 19 Nov 2021 13:53:53 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma01dal.us.ibm.com with ESMTP id 3ca50eapdu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 Nov 2021 13:53:53 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1AJDrqOM33161484
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 19 Nov 2021 13:53:52 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 40E14BE05D;
- Fri, 19 Nov 2021 13:53:52 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 029C2BE054;
- Fri, 19 Nov 2021 13:53:49 +0000 (GMT)
-Received: from farosas.linux.ibm.com.com (unknown [9.163.29.60])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri, 19 Nov 2021 13:53:49 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tests/avocado: ppc: Add smoke tests for MPC7400 and MPC7450
- families
-Date: Fri, 19 Nov 2021 10:53:48 -0300
-Message-Id: <20211119135348.407679-1-farosas@linux.ibm.com>
-X-Mailer: git-send-email 2.29.2
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: h4QDKbVpQ3AiEDlgB3YaDopjAwBjF3dd
-X-Proofpoint-GUID: P9lnnZ2YpjOqN9eaOwUIfhukTRX9X-39
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mo4gI-0004N6-5V
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 09:15:58 -0500
+Received: from [2a00:1450:4864:20::433] (port=36431
+ helo=mail-wr1-x433.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mo4g2-0006hs-Ua
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 09:15:57 -0500
+Received: by mail-wr1-x433.google.com with SMTP id s13so18446856wrb.3
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 06:15:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+WH4l/UkWDRIjKFqseBjz9VauxfJmn66a91xGsdpi+s=;
+ b=sSfq/DtSBWihls3rRoimLyyxPZ5fcncVw93pw0GsauliUXZmIHjwIY1UGiXUwPuECh
+ oEynphvH2WSE6aHuW9COrnQc96RbvmDZNMiE9dAkrHM5lE2DcL6GZJwr8sWkUFJgisui
+ Vy22+FPnvZU/jJpbkzgCPZ7/QM3aXKlPWqewYPL4opEKheQ+iCGCjt8Go2a2C9FcDnMD
+ zh3QnpiAtsZOFgilbe4+OgTd/wwhSEClZDLx3EnQeXFgWB3army2ntr0KxxhFsWQOM7g
+ +q2jyyU5JIoGOLhTmxh+oR6f/sjCNOda+I+3zNKG040GUu82FwkALb10dwsI5ZZt2OXw
+ WCGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+WH4l/UkWDRIjKFqseBjz9VauxfJmn66a91xGsdpi+s=;
+ b=wZRcBuq97CyLefRBNi9NDA7R32JnyoX13RFu0Qcv9/GBQj5j1r7z6a5G/nbUBBF8Ln
+ 9ecyxFSdmznMluuSnWYwovWfGyTRef6zRkhHWW/sCQZKRwL1vH6WJbHCpKRu/d6EUYWF
+ FZx8dUgoCZgIN/rIBqrzB0WhkqmszUBm4QeRwNJaiSJbKusTw1QBXNbk45Dc7pYZQgwq
+ WqbRUInsAQHkAGLTcWCl1Yu9e6nxbKBYIMro1GlCLtPgtBHjCpBvnQIx9WU4ub7SqWz1
+ v8DGdLwthaSgxWHiMuQZEDdO6BujA4+DU0Yt3beAmpXpRbF9RZ+5VZPxxQF/6aJUhmNf
+ TJAA==
+X-Gm-Message-State: AOAM533RtESOBQeZFk2PbGPMyXJXTk2xW+dyOPnONjBFs8DV07p/y0h+
+ NCsbXQtZ8zvTemdBtYOZdcVD/1PnUkr1nt4pvS0Zig==
+X-Google-Smtp-Source: ABdhPJx/fu7XOY+JuSkhnuXVP9VXycBVNy+QY/wb65hMGFh0hSiEBJcxmp6R1LpyenichOY87Is+QU8yl1yujuoOygM=
+X-Received: by 2002:a5d:6151:: with SMTP id y17mr7904979wrt.275.1637331339827; 
+ Fri, 19 Nov 2021 06:15:39 -0800 (PST)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-19_09,2021-11-17_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0
- mlxlogscore=999 malwarescore=0 spamscore=0 impostorscore=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 adultscore=0 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111190075
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210930151201.9407-1-peter.maydell@linaro.org>
+ <20210930151201.9407-3-peter.maydell@linaro.org>
+ <CAFEAcA_-V7uJ3hkC88ycXFBEXxV2fiUTBNrh+RDnjDfX2GGNww@mail.gmail.com>
+ <6f83f61e-138d-b8a2-b21c-0dbd2805437d@csgraf.de>
+In-Reply-To: <6f83f61e-138d-b8a2-b21c-0dbd2805437d@csgraf.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 19 Nov 2021 14:15:28 +0000
+Message-ID: <CAFEAcA-gNPGoU5_s8mPreQBn9TO_D6ff+6_iDJJLAXHmUG0teA@mail.gmail.com>
+Subject: Re: [PULL 02/22] arm: tcg: Adhere to SMCCC 1.3 section 5.2
+To: Alexander Graf <agraf@csgraf.de>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,171 +82,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, mark.cave-ayland@ilande.co.uk, wainersm@redhat.com,
- willianr@redhat.com, qemu-ppc@nongnu.org, clg@kaod.org, crosa@redhat.com,
- philmd@redhat.com
+Cc: Andrei Warkentin <andrey.warkentin@gmail.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Jean-Christophe DUBOIS <jcd@tribudubois.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These tests ensure that our emulation for these cpus is not completely
-broken and we can at least run OpenBIOS on them.
+On Fri, 19 Nov 2021 at 10:35, Alexander Graf <agraf@csgraf.de> wrote:
+> Ugh :(. Conceptually, once you tell QEMU to handle PSCI, you're
+> basically giving up that EL to it. It sounds almost as if what these
+> boards (imx6ul + highbank) want is an EL4 they can call into to deflect
+> PSCI calls into from EL3 they own. We would basically have to allocate a
+> currently undefinied/reserved instruction as "QEMU SMC" and make the EL3
+> code call that when it needs to call QEMU for PSCI operations. Or a PV
+> MMIO device. Or a PV sysreg. But at the end of the day, EL3 calling into
+> QEMU differently than on real hardware is paravirtualization.
 
-$ make check-avocado AVOCADO_TESTS=../tests/avocado/ppc_74xx.py
+I think in practice what they're doing is "we want an emulated
+firmware that provides PSCI and also stubs out some other SMCs".
+(My extremely vague recollection is that the SMC in question was
+some kind of "flush cache" operation on the l2x0 cache controller,
+which was secure-mode-access only.) So probably the eventual
+answer is going to be "PSCI setting x0 is OK, get rid of the
+infrastructure for setting up the do-nothing-SMC-handler. But it's
+too complicated and needs too much archaeology on why we added
+this code to be doable for 6.2.
 
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+> Just to double check: Is the broken monitor code that expects QEMU to
+> partially handle SMCs only ever injected into the guest by us or is
+> there existing guest payload code for EL3 that makes the same assumption?
 
----
-Note that the 7450s are currently broken, depending on the fix for
-https://gitlab.com/qemu-project/qemu/-/issues/86 that is being
-discussed in the thread:
+We only write the boot stub code that uses SMC if we're booting a
+Linux kernel (ie not running the guest at EL3). So for guest EL3
+code the highbank board is in the same bucket as the other
+affected boards (mcimx6ul-evk, mcimx7d-sabre, orangepi, xlnx-zcu102,
+plus for EL3 code loaded via -kernel: virt and xlnx-versal-virt):
+maybe somebody had EL3 guest code that was assuming that QEMU
+provided PSCI, but that would be something that could only run
+on QEMU's model, not on the real hardware. So I'm OK with
+breaking that if it exists.
 
-https://lists.nongnu.org/archive/html/qemu-ppc/2021-11/msg00289.html
----
- tests/avocado/ppc_74xx.py | 134 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 134 insertions(+)
- create mode 100644 tests/avocado/ppc_74xx.py
+(In particular to get SMP to work on these boards
+with EL3 guest code we need to model a power controller or some
+other way to get the secondary CPUs to power up, unless the EL3
+code expects the "all cores start the bios code simultaneously"
+pattern.)
 
-diff --git a/tests/avocado/ppc_74xx.py b/tests/avocado/ppc_74xx.py
-new file mode 100644
-index 0000000000..72b99d39c0
---- /dev/null
-+++ b/tests/avocado/ppc_74xx.py
-@@ -0,0 +1,134 @@
-+# Smoke tests for 74xx cpus (aka G4).
-+#
-+# Copyright (c) 2021, IBM Corp.
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+from avocado import skip
-+from avocado_qemu import QemuSystemTest
-+from avocado_qemu import wait_for_console_pattern
-+
-+class ppc74xxCpu(QemuSystemTest):
-+
-+    timeout = 5
-+
-+    def test_ppc_7400(self):
-+        """
-+        :avocado: tags=arch:ppc
-+        :avocado: tags=cpu:7400
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7410(self):
-+        """
-+        :avocado: tags=arch:ppc
-+        :avocado: tags=cpu:7410
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,74xx')
-+
-+    def test_ppc_7441(self):
-+        """
-+        :avocado: tags=arch:ppc
-+        :avocado: tags=cpu:7441
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7445(self):
-+        """
-+        :avocado: tags=arch:ppc
-+        :avocado: tags=cpu:7445
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7447(self):
-+        """
-+        :avocado: tags=arch:ppc
-+        :avocado: tags=cpu:7447
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7447a(self):
-+        """
-+        :avocado: tags=arch:ppc
-+        :avocado: tags=cpu:7447a
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7448(self):
-+        """
-+        :avocado: tags=arch:ppc
-+        :avocado: tags=cpu:7448
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,MPC86xx')
-+
-+    def test_ppc_7450(self):
-+        """
-+        :avocado: tags=arch:ppc
-+        :avocado: tags=cpu:7450
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7451(self):
-+        """
-+        :avocado: tags=arch:ppc
-+        :avocado: tags=cpu:7451
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7455(self):
-+        """
-+        :avocado: tags=arch:ppc
-+        :avocado: tags=cpu:7455
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7457(self):
-+        """
-+        :avocado: tags=arch:ppc
-+        :avocado: tags=cpu:7457
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
-+
-+    def test_ppc_7457a(self):
-+        """
-+        :avocado: tags=arch:ppc
-+        :avocado: tags=cpu:7457a
-+        """
-+        self.vm.set_console()
-+        self.vm.launch()
-+        wait_for_console_pattern(self, '>> OpenBIOS')
-+        wait_for_console_pattern(self, '>> CPU type PowerPC,G4')
--- 
-2.29.2
-
+-- PMM
 
