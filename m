@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 471EB457147
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 15:57:18 +0100 (CET)
-Received: from localhost ([::1]:43318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D2EB457191
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 16:22:50 +0100 (CET)
+Received: from localhost ([::1]:53586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo5KG-0001gU-VE
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 09:57:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49544)
+	id 1mo5iz-0001cv-41
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 10:22:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mo5Eo-00037M-7S
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 09:51:38 -0500
-Received: from [2a00:1450:4864:20::42d] (port=44982
- helo=mail-wr1-x42d.google.com)
+ (Exim 4.90_1) (envelope-from <jgg@ziepe.ca>) id 1mo5g3-0000ai-TX
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 10:19:48 -0500
+Received: from [2607:f8b0:4864:20::829] (port=44858
+ helo=mail-qt1-x829.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mo5Em-0006Ft-Fl
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 09:51:37 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id n29so18547449wra.11
- for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 06:51:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=szUAPFGBvZnTdl62g3KF4aXspJL5YUpZ4qjN2UnzAC8=;
- b=EFVSHhMKHzX7tbibsT5MAdkOBkz9+rcNYeSZ7XNIa5zFGCzMAfABIW616HRv6mEwZE
- Hn21O3iFR0u/szHUaQcvLXnQT6eNEjdrsHTbpIT6e1AWfRdkfLo3bcDwnqY9LhPClcTN
- GON5J0bmIjs0HpjSOMQq9QdrG/f18LQiiYIXSx8UvHEPR/6Mq5YhpM1WkQRt7k5Qz5Ac
- +op9Ewwdwn7/tnr7WC9LEuM440PfNo7FT+jWauSljm7UZE+tjBGfZNpxuf/w00PiUQgi
- WB9RxepS8eLxRjVPOz04i2/5XrDfGDCnVrgZmBnRYVhUi/LIPu6IS1ckPRPd/NHShrWq
- DfTg==
+ (Exim 4.90_1) (envelope-from <jgg@ziepe.ca>) id 1mo5g1-0002hn-Si
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 10:19:47 -0500
+Received: by mail-qt1-x829.google.com with SMTP id a2so9734070qtx.11
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 07:19:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=0+oKCHlqOeL41R0XCrWbPi4i3qyXHn6RmL7MeAl4NL8=;
+ b=lPGpGcid8QXwelr7zzSt5VTkDWstEKhmIVZjDI/gptTZ1XB8fRlCJsY82dS22YEbbI
+ GADEuew95VumLWojAcQF6/3Rj7N9VtmARWHCGzMlbaVOuA5B2Iy8CEcEelQIeeRTPjCb
+ /UriGVwYo5CnjPZCDlOVP8JIARNcJaTQUz01jDwgOeu3eE5FmpCC10B9LQ/D1G1T0tx4
+ iQg2Eg0YoxH/lMrAwoMlca7V5PAbid3j8gMabaFjohga4jUqveMxv4mUiSKJmYsSXZJ9
+ w9340v2YmW88xNRP0Sl+7ZXF9oISeC5mr2uPkE4vqO+Lek1l1/D1zTf+VnU59MujzXzD
+ zgyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=szUAPFGBvZnTdl62g3KF4aXspJL5YUpZ4qjN2UnzAC8=;
- b=glstiDY5EibLX9C3Jp0jU81FCIdO5ybi/O84gpIUs91wTw3qUyWziTRh3JIcsGbgZ5
- uPy3rPjiEwizhfFsydKhkui5UwnGbvjD7AV8lkiQ2JqOzNRynId4adIAHutD1NhuqtQf
- 1EtigqCYM6wWGvgB5zD7Q2KjUYteMuO8rltzbNTmNumICS6bOzSzDFFK+dqM425JOIA2
- 1KJZ1Zjh7a0F0KkxvgKdctIQMn183EavLZt7YiyN7SjcAHVxsgfR4r0n++gti6MjWxQF
- bN2o0wLaeiFwShARGkNPVJUSnAYiFx+0RkmdQFInP8JtKDxHAjtl1WBDvojlQBw4V6HO
- gPeA==
-X-Gm-Message-State: AOAM532g8+rPRQkrRCyMNqFDPeP7VfowB7Ltf/igcj1K/ATCt5pMSN5f
- 9bE4/0eDhZojrrGvzbJAhuWLsw==
-X-Google-Smtp-Source: ABdhPJzugB7rkp/d9DAlQe95IjdWXdZ165xMkECOpafOXnfH+NMY9Aedtll3WlwTHFGJK0nDcjFbvw==
-X-Received: by 2002:adf:f7d2:: with SMTP id a18mr8277502wrq.354.1637333494737; 
- Fri, 19 Nov 2021 06:51:34 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u15sm3748122wmq.13.2021.11.19.06.51.33
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=0+oKCHlqOeL41R0XCrWbPi4i3qyXHn6RmL7MeAl4NL8=;
+ b=jxoE3JpPehSnzV6pvoQwhcHbuLx2yyZZxqOwt4PyzaDMx/eFT90aMm+D9eoDn+k2OV
+ vKmARqY1c0SQLmUmoxO9awD4Hwhm6BlpOcFtKASxFs/hK/FtEfWQSWJoR6ndBYM/6Q9o
+ TtKG2IhAEJcLia7KMXUwMwLpy1vxtULewxo8UUFLP1sPV+SsooOIe7wzBuDG6nHtGJPs
+ dDSihywENSMYQs4u2B3MTH+uoR4vM7XI65qo9dqP5zjI3b84ulOaA5BiN43ZDEuA3lsJ
+ FOMkejmhkliClOztjxw8pqL4ZvNTE/TnwLKHGBxgj4yNsWZj+qGn6CSM3UUIFGG4A3s1
+ mRAw==
+X-Gm-Message-State: AOAM533RrPXi1us7fZl/2CU/FGH/4/3+MiB2Fl3VF1EgPFN1Pcoi4SDC
+ LmjCKj0LgkMjchSClCbRM4yJcw==
+X-Google-Smtp-Source: ABdhPJzBFCjiPUEhMyOCMWRnIUW5f5YGg2HohyzeoXo1q5KwzNya5wlMfrrS3JbWjHX+xZcOYu6I9Q==
+X-Received: by 2002:a05:622a:1a93:: with SMTP id
+ s19mr7169174qtc.291.1637335184307; 
+ Fri, 19 Nov 2021 07:19:44 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.113.129])
+ by smtp.gmail.com with ESMTPSA id o126sm11039qke.11.2021.11.19.07.19.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 06:51:33 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E89091FF96;
- Fri, 19 Nov 2021 14:51:32 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] gdbstub: handle a potentially racing TaskState
-Date: Fri, 19 Nov 2021 14:51:24 +0000
-Message-Id: <20211119145124.942390-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ Fri, 19 Nov 2021 07:19:43 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1mo5fz-00CHGM-Aq; Fri, 19 Nov 2021 11:19:43 -0400
+Date: Fri, 19 Nov 2021 11:19:43 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Subject: Re: [RFC v2 PATCH 01/13] mm/shmem: Introduce F_SEAL_GUEST
+Message-ID: <20211119151943.GH876299@ziepe.ca>
+References: <20211119134739.20218-1-chao.p.peng@linux.intel.com>
+ <20211119134739.20218-2-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211119134739.20218-2-chao.p.peng@linux.intel.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::829
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::829; envelope-from=jgg@ziepe.ca;
+ helo=mail-qt1-x829.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -87,49 +89,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
+ "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
+ "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
+ dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
+ susie.li@intel.com, Jeff Layton <jlayton@kernel.org>,
+ linux-kernel@vger.kernel.org, john.ji@intel.com,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When dealing with multi-threaded userspace programs there is a race
-condition with the addition of cpu->opaque (aka TaskState). This is
-due to cpu_copy calling cpu_create which updates the global vCPU list.
-However the task state isn't set until later. This shouldn't be a
-problem because the new thread can't have executed anything yet but
-the gdbstub code does liberally iterate through the CPU list in
-various places.
+On Fri, Nov 19, 2021 at 09:47:27PM +0800, Chao Peng wrote:
+> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> 
+> The new seal type provides semantics required for KVM guest private
+> memory support. A file descriptor with the seal set is going to be used
+> as source of guest memory in confidential computing environments such as
+> Intel TDX and AMD SEV.
+> 
+> F_SEAL_GUEST can only be set on empty memfd. After the seal is set
+> userspace cannot read, write or mmap the memfd.
+> 
+> Userspace is in charge of guest memory lifecycle: it can allocate the
+> memory with falloc or punch hole to free memory from the guest.
+> 
+> The file descriptor passed down to KVM as guest memory backend. KVM
+> register itself as the owner of the memfd via memfd_register_guest().
+> 
+> KVM provides callback that needed to be called on fallocate and punch
+> hole.
+> 
+> memfd_register_guest() returns callbacks that need be used for
+> requesting a new page from memfd.
+> 
+> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+>  include/linux/memfd.h      |  24 ++++++++
+>  include/linux/shmem_fs.h   |   9 +++
+>  include/uapi/linux/fcntl.h |   1 +
+>  mm/memfd.c                 |  33 +++++++++-
+>  mm/shmem.c                 | 123 ++++++++++++++++++++++++++++++++++++-
+>  5 files changed, 186 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/linux/memfd.h b/include/linux/memfd.h
+> index 4f1600413f91..ff920ef28688 100644
+> +++ b/include/linux/memfd.h
+> @@ -4,13 +4,37 @@
+>  
+>  #include <linux/file.h>
+>  
+> +struct guest_ops {
+> +	void (*invalidate_page_range)(struct inode *inode, void *owner,
+> +				      pgoff_t start, pgoff_t end);
+> +	void (*fallocate)(struct inode *inode, void *owner,
+> +			  pgoff_t start, pgoff_t end);
+> +};
+> +
+> +struct guest_mem_ops {
+> +	unsigned long (*get_lock_pfn)(struct inode *inode, pgoff_t offset,
+> +				      bool alloc, int *order);
+> +	void (*put_unlock_pfn)(unsigned long pfn);
+> +
+> +};
 
-This sticking plaster ensure the not yet fully realized vCPU is given
-an pid of -1 which should be enough to ensure it doesn't show up
-anywhere else.
+Ignoring confidential compute for a moment
 
-In the longer term I think the code that manages the association
-between vCPUs and attached GDB processes could do with a clean-up and
-re-factor.
+If qmeu can put all the guest memory in a memfd and not map it, then
+I'd also like to see that the IOMMU can use this interface too so we
+can have VFIO working in this configuration.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/730
----
- gdbstub.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+As designed the above looks useful to import a memfd to a VFIO
+container but could you consider some more generic naming than calling
+this 'guest' ?
 
-diff --git a/gdbstub.c b/gdbstub.c
-index 23baaef40e..141d7bc4ec 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -94,7 +94,7 @@ static inline int cpu_gdb_index(CPUState *cpu)
- {
- #if defined(CONFIG_USER_ONLY)
-     TaskState *ts = (TaskState *) cpu->opaque;
--    return ts->ts_tid;
-+    return ts ? ts->ts_tid : -1;
- #else
-     return cpu->cpu_index + 1;
- #endif
--- 
-2.30.2
+Along the same lines, to support fast migration, we'd want to be able
+to send these things to the RDMA subsytem as well so we can do data
+xfer. Very similar to VFIO.
 
+Also, shouldn't this be two patches? F_SEAL is not really related to
+these acessors, is it?
+
+> +extern inline int memfd_register_guest(struct inode *inode, void *owner,
+> +				       const struct guest_ops *guest_ops,
+> +				       const struct guest_mem_ops **guest_mem_ops);
+
+Why does this take an inode and not a file *?
+
+> +int shmem_register_guest(struct inode *inode, void *owner,
+> +			 const struct guest_ops *guest_ops,
+> +			 const struct guest_mem_ops **guest_mem_ops)
+> +{
+> +	struct shmem_inode_info *info = SHMEM_I(inode);
+> +
+> +	if (!owner)
+> +		return -EINVAL;
+> +
+> +	if (info->guest_owner && info->guest_owner != owner)
+> +		return -EPERM;
+
+And this looks like it means only a single subsytem can use this API
+at once, not so nice..
+
+Jason
 
