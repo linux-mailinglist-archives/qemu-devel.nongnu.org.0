@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1FE545725B
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 17:05:31 +0100 (CET)
-Received: from localhost ([::1]:50064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5357457268
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Nov 2021 17:08:53 +0100 (CET)
+Received: from localhost ([::1]:58142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mo6OI-000410-7w
-	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 11:05:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41958)
+	id 1mo6RY-0001IA-MH
+	for lists+qemu-devel@lfdr.de; Fri, 19 Nov 2021 11:08:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mo6Lt-0003LQ-OJ
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:03:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21407)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mo6Lr-0003mg-59
- for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:03:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1637337775;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=86jOZtyp2G6oDkoyNFTYRnvpM/aG7tMpSiGzIZsSP5k=;
- b=dKMC3+g/BoQY0zGyqm2mLgctxyAkLdsI6TL+ryJFbEiRx/LGAxdP1JGg05EWELZMFZaxPY
- TOQGi5CDKlGn18z3LacfiqCK/wArNE7b9T08AmwCJi5sYGKBeGbf3l46C7t+s4zDnPFjP/
- /BuczKBMFTo0Mx2Cmx1Y4S2Rip4CHoM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-532-Qhkx2Qk5P9mNIME8W3uqfw-1; Fri, 19 Nov 2021 11:02:54 -0500
-X-MC-Unique: Qhkx2Qk5P9mNIME8W3uqfw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1923880A5C3;
- Fri, 19 Nov 2021 16:02:53 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-7.ams2.redhat.com [10.36.112.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F19C5C1A1;
- Fri, 19 Nov 2021 16:02:52 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id EB7EB11380A7; Fri, 19 Nov 2021 17:02:50 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Zhang Chen <chen.zhang@intel.com>
-Subject: Re: [PATCH for 7.0 V10 6/6] net/net.c: Add handler for passthrough
- filter command
-References: <20211112031112.9303-1-chen.zhang@intel.com>
- <20211112031112.9303-7-chen.zhang@intel.com>
-Date: Fri, 19 Nov 2021 17:02:50 +0100
-In-Reply-To: <20211112031112.9303-7-chen.zhang@intel.com> (Zhang Chen's
- message of "Fri, 12 Nov 2021 11:11:12 +0800")
-Message-ID: <87wnl43zh1.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mo6O6-0004nK-Rr
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:05:19 -0500
+Received: from [2a00:1450:4864:20::434] (port=39534
+ helo=mail-wr1-x434.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mo6O0-000468-HB
+ for qemu-devel@nongnu.org; Fri, 19 Nov 2021 11:05:15 -0500
+Received: by mail-wr1-x434.google.com with SMTP id d27so18980699wrb.6
+ for <qemu-devel@nongnu.org>; Fri, 19 Nov 2021 08:05:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hekveUJCHgxSVmAyozZJTlh9tyG8w9WdIYIXnNAfbFc=;
+ b=iR41ae+e8HJ+E0IKFSaad8goyiKCK0VVxjabxDxETuZQaGlGDIPsImLEKv4zW9nBMe
+ dPp/hWCaGlAtX36fmKQEz7PA4p++xovo5A4gWBFjkEzvAn+b2KNJFKZLeC4V42eSxWQb
+ JtrfiovgF8Aw+V2HZulU8LP+76vM1zzhshUXMWIOg9+1zT1sQLkCROk6woALxBK0VG8e
+ n2cUynPHlp/Y/kj/o0it2i501Tw9LPbREL3IbJkl+kPTTvs5QJ8/8ahrjzUYAVfPJHIK
+ K8Boo9YVcOze6+axtV61NjkGkYxbqPkgwGF1IARxel4q1pGpIZi22G2SddsM3UuaMQVR
+ NEJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hekveUJCHgxSVmAyozZJTlh9tyG8w9WdIYIXnNAfbFc=;
+ b=HxipP1RyHjlZyOptDRleJtF6A+P7ZB3E8IfFTU1CmN7KHHuqfK7oowYr4JrxWCUdtQ
+ ZGtYf6wFI7F+hb3v392DIzkgRG8OYMYTJmaSlu7YsOTVNl3cI0Hwe9oUi9UU14o9m8dY
+ u6EyaZLNpwXfOOvADUdlRDxtNVeh4L6uyF0GdA+kb6fJ0pHAzkErv3r9fZR4Mpg9hp2W
+ kv8RZMiNUV504MZ8AmDYdvn/mCdsb8iIve2TIOKvptpArkWN32jxSetY53DvkiXI5uEB
+ qMdyEJyFJbd42epCjiC+97LgTW7NRf+BhltIfavyHU0vZDVA0RnF2h6HrJju1uiLj1ni
+ 9cHg==
+X-Gm-Message-State: AOAM531sZ85NTE06BkZGojTF0HQWAvHo/v9qOGy/OLpBVcJc78PtiqV4
+ ozm2K+WLf5grSr1kM8mWmfWnIuEZ8ZiJAljBwj4=
+X-Google-Smtp-Source: ABdhPJxUZfS0NjyNfFv4DCnp8Bf1auxWRXo4FYvUPYW+/hRJttY5YN2FqauM98mCwuN89OiYvein7A==
+X-Received: by 2002:adf:fa0b:: with SMTP id m11mr8652687wrr.152.1637337906583; 
+ Fri, 19 Nov 2021 08:05:06 -0800 (PST)
+Received: from localhost.localdomain
+ (165.red-37-158-79.dynamicip.rima-tde.net. [37.158.79.165])
+ by smtp.gmail.com with ESMTPSA id q84sm14044877wme.3.2021.11.19.08.05.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Nov 2021 08:05:06 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH for-7.0 00/35] target/ppc fpu fixes and cleanups
+Date: Fri, 19 Nov 2021 17:04:27 +0100
+Message-Id: <20211119160502.17432-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,147 +84,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Li Zhijian <lizhijian@cn.fujitsu.com>, Jason Wang <jasowang@redhat.com>,
- qemu-dev <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, alex.bennee@linaro.org,
+ clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is not review; I'm merely pointing out errors that caught my eye.
+This is a partial patch set showing the direction I believe
+the cleanups should go, as opposed to a complete conversion.
 
-Zhang Chen <chen.zhang@intel.com> writes:
+I add a bunch of float_flag_* bits that diagnose the reason
+for most float_flag_invalid, as guided by the requirements
+of the PowerPC VX* bits.  I have converted some helpers to
+use these new flags but not all.  A good signal for unconverted
+routines is the use of float*_is_signalling_nan, which should
+now be using float_flag_invalid_snan.
 
-> Use the connection protocol,src port,dst port,src ip,dst ip as the key
-> to passthrough certain network traffic in object with network packet
-> processing function.
->
-> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-> ---
->  net/net.c | 199 +++++++++++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 197 insertions(+), 2 deletions(-)
->
-> diff --git a/net/net.c b/net/net.c
-> index 5d0d5914fb..443e88d396 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -55,6 +55,8 @@
->  #include "net/colo-compare.h"
->  #include "net/filter.h"
->  #include "qapi/string-output-visitor.h"
-> +#include "net/colo-compare.h"
-> +#include "qom/object_interfaces.h"
->  
->  /* Net bridge is currently not supported for W32. */
->  #if !defined(_WIN32)
-> @@ -1215,14 +1217,207 @@ void qmp_netdev_del(const char *id, Error **errp)
->      }
->  }
->  
-> +static int check_addr(InetSocketAddressBase *addr)
-> +{
-> +    if (!addr || (addr->host && !qemu_isdigit(addr->host[0]))) {
-> +        return -1;
-> +    }
-> +
-> +    if (atoi(addr->port) > 65536 || atoi(addr->port) < 0) {
-> +        return -1;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +/* The initial version only supports colo-compare */
-> +static CompareState *passthrough_filter_check(IPFlowSpec *spec, Error **errp)
-> +{
-> +    Object *container;
-> +    Object *obj;
-> +    CompareState *s;
-> +
-> +    if (!spec->object_name) {
+I added float64x32_* arithmetic routines, which take float64
+arguments and round the result to the range and precision of
+float32, while giving the result in float64 form.  This is
+exactly what PowerPC requires for its single-precision math.
+This fixes double-rounding problems that exist in the current
+code, and are visible in the float_madds test.
 
-How can spec->object_name ever be null?  It's not optional in the QAPI
-schema.
+I add test reference files for float_madds and float_convs
+after fixing the bugs required to make the tests pass.
 
-> +        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "object-name",
-> +                   "Need input object name");
-> +        return NULL;
-> +    }
-> +
-> +    container = object_get_objects_root();
-> +    obj = object_resolve_path_component(container, spec->object_name);
 
-As far as I can tell, object_resolve_path_component()'s second argument
-is a property name, *not* a path.  I think you want
+r~
 
-       s = (CompareState *)object_resolve_path_type(spec->object_name,
-                                                    COLO_COMPARE, NULL);
 
-This also takes care of ...
+Richard Henderson (35):
+  softfloat: Extend float_exception_flags to 16 bits
+  softfloat: Add flag specific to Inf - Inf
+  softfloat: Add flag specific to Inf * 0
+  softfloat: Add flags specific to Inf / Inf and 0 / 0
+  softfloat: Add flag specific to sqrt(-x)
+  softfloat: Add flag specific to convert non-nan to int
+  softfloat: Add flag specific to signaling nans
+  target/ppc: Update float_invalid_op_addsub for new flags
+  target/ppc: Update float_invalid_op_mul for new flags
+  target/ppc: Update float_invalid_op_div for new flags
+  target/ppc: Move float_check_status from FPU_FCTI to translate
+  target/ppc: Update float_invalid_cvt for new flags
+  target/ppc: Fix VXCVI return value
+  target/ppc: Remove inline from do_fri
+  target/ppc: Use FloatRoundMode in do_fri
+  target/ppc: Tidy inexact handling in do_fri
+  target/ppc: Clean up do_fri
+  target/ppc: Update fmadd for new flags
+  target/ppc: Split out do_fmadd
+  target/ppc: Do not call do_float_check_status from do_fmadd
+  target/ppc: Split out do_frsp
+  target/ppc: Update do_frsp for new flags
+  target/ppc: Use helper_todouble in do_frsp
+  target/ppc: Update sqrt for new flags
+  target/ppc: Update xsrqpi and xsrqpxp to new flags
+  target/ppc: Update fre to new flags
+  softfloat: Add float64r32 arithmetic routines
+  target/ppc: Add helpers for fmadds et al
+  target/ppc: Add helper for fsqrts
+  target/ppc: Add helpers for fadds, fsubs, fdivs
+  target/ppc: Add helper for fmuls
+  target/ppc: Add helper for frsqrtes
+  target/ppc: Update fres to new flags and float64r32
+  target/ppc: Use helper_todouble/tosingle in helper_xststdcsp
+  test/tcg/ppc64le: Add float reference files
 
-> +    if (!obj) {
-> +        error_setg(errp, "object '%s' not found", spec->object_name);
-> +        return NULL;
-> +    }
-> +
-> +    s = COLO_COMPARE(obj);
+ include/fpu/softfloat-types.h      |  23 +-
+ include/fpu/softfloat.h            |  14 +-
+ target/ppc/helper.h                |  10 +
+ fpu/softfloat.c                    | 114 ++++-
+ target/ppc/fpu_helper.c            | 531 ++++++++++----------
+ fpu/softfloat-parts.c.inc          |  57 ++-
+ fpu/softfloat-specialize.c.inc     |  12 +-
+ target/ppc/translate/fp-impl.c.inc |  44 +-
+ tests/tcg/ppc64le/float_convs.ref  | 748 ++++++++++++++++++++++++++++
+ tests/tcg/ppc64le/float_madds.ref  | 768 +++++++++++++++++++++++++++++
+ 10 files changed, 1996 insertions(+), 325 deletions(-)
+ create mode 100644 tests/tcg/ppc64le/float_convs.ref
+ create mode 100644 tests/tcg/ppc64le/float_madds.ref
 
-... a probable bug here: when the object exists (@obj is not null), but
-isn't a TYPE_COLO_COMPARE object, then @s is null here.  We can then
-return null without setting an error.
-
-> +
-> +    if (!getprotobyname(spec->protocol)) {
-> +        error_setg(errp, "Passthrough filter get wrong protocol");
-> +        return NULL;
-> +    }
-> +
-> +    if (spec->source) {
-> +        if (check_addr(spec->source)) {
-> +            error_setg(errp, "Passthrough filter get wrong source");
-> +            return NULL;
-> +        }
-> +    }
-> +
-> +    if (spec->destination) {
-> +        if (check_addr(spec->destination)) {
-> +            error_setg(errp, "Passthrough filter get wrong destination");
-> +            return NULL;
-> +        }
-> +    }
-> +
-> +    return s;
-> +}
-> +
-> +/* The initial version only supports colo-compare */
-
-Is there another version in the tree?  I guess not.  Recommend
-
-   /* Supports only colo-compare so far */
-
-Such limitations need to be clearly stated in the QAPI schema doc
-comments.
-
-> +static COLOPassthroughEntry *passthrough_filter_find(CompareState *s,
-> +                                                     COLOPassthroughEntry *ent)
-> +{
-> +    COLOPassthroughEntry *next = NULL, *origin = NULL;
-> +
-> +    if (!QLIST_EMPTY(&s->passthroughlist)) {
-> +        QLIST_FOREACH_SAFE(origin, &s->passthroughlist, node, next) {
-> +            if ((ent->l4_protocol.p_proto == origin->l4_protocol.p_proto) &&
-> +                (ent->src_port == origin->src_port) &&
-> +                (ent->dst_port == origin->dst_port) &&
-> +                (ent->src_ip.s_addr == origin->src_ip.s_addr) &&
-> +                (ent->dst_ip.s_addr == origin->dst_ip.s_addr)) {
-> +                return origin;
-> +            }
-> +        }
-> +    }
-> +
-> +    return NULL;
-> +}
-
-[...]
+-- 
+2.25.1
 
 
